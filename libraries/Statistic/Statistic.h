@@ -1,8 +1,8 @@
 #ifndef Statistic_h
 #define Statistic_h
-// 
+//
 //    FILE: Statistic.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com  
+//  AUTHOR: Rob dot Tillaart at gmail dot com
 //          modified at 0.3 by Gil Ross at physics dot org
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See Statistic.cpp
@@ -14,11 +14,11 @@
 // it can be in/excluded by un/commenting next line
 #define STAT_USE_STDEV
 
-#ifdef STAT_USE_STDEV
 #include <math.h>
-#endif
 
-class Statistic 
+#define STATISTIC_LIB_VERSION "0.3.1"
+
+class Statistic
 {
 	public:
 	Statistic();
@@ -29,7 +29,6 @@ class Statistic
 	float average();
 	float minimum();
 	float maximum();
-
 
 #ifdef STAT_USE_STDEV
 	float pop_stdev();	    // population stdev
@@ -49,4 +48,3 @@ protected:
 
 #endif
 // END OF FILE
-

@@ -1,4 +1,4 @@
-// 
+//
 //    FILE: StopWatch.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.03
@@ -7,13 +7,13 @@
 // The library is based upon millis() and therefore
 // has the same restrictions as millis() has wrt overflow.
 //
-// HISTORY: 
+// HISTORY:
 // 0.1.00 - 2011-01-04 initial version
 // 0.1.01 - 2011-01-04 Added better state
 // 0.1.02 - 2011-06-15 Added state() + #defines + lib version
 // 0.1.03 - 2012-01-22 Added several improvements
 //             By mromani & Rob Tillaart
-// 
+//
 // Released to the public domain
 //
 
@@ -32,7 +32,7 @@ StopWatch::StopWatch(enum Resolution res)
         case SECONDS:
             _gettime = seconds;
             break;
-        default:  
+        default:
             _gettime = millis;
             break;
     }

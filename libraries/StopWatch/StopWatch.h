@@ -1,6 +1,6 @@
 #ifndef StopWatch_h
 #define StopWatch_h
-// 
+//
 //    FILE: StopWatch.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple StopWatch library for Arduino
@@ -18,14 +18,14 @@
     #include "WProgram.h"
 #endif
 
-class StopWatch 
+class StopWatch
 {
 public:
     enum State { RESET, RUNNING, STOPPED };
     enum Resolution { MILLIS, MICROS, SECONDS };
     StopWatch(enum Resolution res = MILLIS);
     void start();
-    void stop(); 
+    void stop();
     void reset();
     unsigned long value();
     unsigned long elapsed() { return value(); };

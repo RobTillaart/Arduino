@@ -11,7 +11,7 @@
 // 0.1.01 - 2011-01-04 Added better state
 // 0.1.02 - 2011-06-15 Added state() + #defines + lib version
 // 
-// Released to the public domain 
+// Released to the public domain
 //
 
 #include "StopWatch.h"

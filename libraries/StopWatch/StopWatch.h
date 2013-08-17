@@ -7,7 +7,7 @@
 // HISTORY: See StopWatch.cpp
 //     URL: http://www.arduino.cc/playground/Code/StopWatchClass
 //
-// Released to the public domain 
+// Released to the public domain
 //
 
 

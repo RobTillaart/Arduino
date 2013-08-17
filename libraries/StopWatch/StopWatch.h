@@ -1,45 +1,37 @@
 #ifndef StopWatch_h
 #define StopWatch_h
-//
+// 
 //    FILE: StopWatch.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple StopWatch library for Arduino
 // HISTORY: See StopWatch.cpp
 //     URL: http://www.arduino.cc/playground/Code/StopWatchClass
 //
-// Released to the public domain
+// Released to the public domain 
 //
 
-#define STOPWATCH_LIB_VERSION "0.1.03"
 
-#if ARDUINO >= 100
-    #include "Arduino.h"
-#else
-    #include "WProgram.h"
-#endif
+#define STOPWATCH_LIB_VERSION "0.1.02"
 
-class StopWatch
+#define STOPWATCH_RESET 0
+#define STOPWATCH_RUNNING 1
+#define STOPWATCH_STOPPED 2
+
+class StopWatch 
 {
 public:
-    enum State { RESET, RUNNING, STOPPED };
-    enum Resolution { MILLIS, MICROS, SECONDS };
-    StopWatch(enum Resolution res = MILLIS);
-    void start();
-    void stop();
-    void reset();
-    unsigned long value();
-    unsigned long elapsed() { return value(); };
-    bool isRunning();
-    enum State state();
-    enum Resolution resolution() { return _res; };
+	StopWatch();
+	void start();
+	void stop(); 
+	void reset();
+	unsigned long value();
+	bool isRunning();
+	int state();
 
 private:
-    enum State _state;
-    enum Resolution _res;
-    unsigned long _starttime;
-    unsigned long _stoptime;
-    unsigned long (*_gettime)(void);
-    static unsigned long seconds() { return millis()/1000; };
+	int _state;
+	unsigned long _starttime;
+	unsigned long _stoptime;
 };
 
 #endif

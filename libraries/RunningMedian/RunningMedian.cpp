@@ -1,24 +1,32 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com  
-// VERSION: 0.1
+// VERSION: 0.1.02
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
 // 0.1.00 - 2011-02-16 initial version
 // 0.1.01 - 2011-02-22 added remarks from CodingBadly
+// 0.1.02 - 2012-03-15 added 
 //
 // Released to the public domain
 //
 
 #include "RunningMedian.h"
 
-RunningMedian::RunningMedian()
+RunningMedian::RunningMedian(uint8_t size)
 {
-	// size hardcoded
+	_size = constrain(size, MEDIAN_MIN, MEDIAN_MAX);
+	// array's could be allocated by malloc here, 
+	// but using fixed size is easier.
 	clear();
 }
 
+RunningMedian::RunningMedian()
+{
+	_size = MEDIAN_DEFAULT;
+	clear();
+}
 // resets all counters
 void RunningMedian::clear()
 { 
@@ -28,20 +36,53 @@ void RunningMedian::clear()
 
 // adds a new value to the data-set
 // or overwrites the oldest if full.
-void RunningMedian::add(long value)
+void RunningMedian::add(float value)
 {
 	_ar[_idx++] = value;
-	if ( _idx >= MEDIAN_SIZE ) _idx = 0; // wrap around
-	if (_cnt < MEDIAN_SIZE) _cnt++;
-	return;
+	if (_idx >= _size) _idx = 0; // wrap around
+	if (_cnt < _size) _cnt++;
 }
 
-long RunningMedian::getMedian()
+float RunningMedian::getMedian()
 {
-	sort();
-	return _as[_cnt/2];
+	if (_cnt > 0)
+	{
+		sort();
+		return _as[_cnt/2];
+	}
+	return NAN;
 }
 
+
+float RunningMedian::getHighest()
+{
+	if (_cnt > 0)
+	{
+		sort();
+		return _as[_cnt-1];
+	}
+	return NAN;
+}
+
+float RunningMedian::getLowest()
+{
+	if (_cnt > 0)
+	{	sort();
+		return _as[0];
+	}
+	return NAN;
+}
+
+float RunningMedian::getAverage()
+{
+	if (_cnt > 0)
+	{	float sum = 0;
+		for (uint8_t i=0; i< _cnt; i++) sum += _ar[i];
+		return sum / _cnt;
+
+	}
+	return NAN;
+}
 
 void RunningMedian::sort()
 {

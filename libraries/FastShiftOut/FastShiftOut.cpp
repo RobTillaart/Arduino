@@ -1,8 +1,8 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1
-// PURPOSE: 
+// VERSION: 0.1.03
+// PURPOSE: shiftout that implements the Print interface
 //     URL:
 //
 // Released to the public domain
@@ -10,29 +10,33 @@
 
 #include "FastShiftOut.h"
 
+//
+// Constructor
+// prepares the digitalWrite()
 FastShiftOut::FastShiftOut(uint8_t datapin, uint8_t clockpin, uint8_t bitOrder)
 {
-    _datapin = datapin;
-    _clockpin = clockpin;
     _bitorder = bitOrder;
     _value = -1;
-    pinMode(_datapin, OUTPUT);
-    pinMode(_clockpin, OUTPUT);
+    pinMode(datapin, OUTPUT);
+    pinMode(clockpin, OUTPUT);
     
-    _datatimer  = digitalPinToTimer(_datapin);
-	_databit    = digitalPinToBitMask(_datapin);
-	_dataport   = digitalPinToPort(_datapin);
-    // if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer);
+    // uint8_t _datatimer  = digitalPinToTimer(datapin);
+    // if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer); TODO
+	uint8_t _dataport   = digitalPinToPort(datapin);
     _dataout = portOutputRegister(_dataport);
+	_databit = digitalPinToBitMask(datapin);
     
-    _clocktimer = digitalPinToTimer(_clockpin);
-	_clockbit   = digitalPinToBitMask(_clockpin);
-	_clockport  = digitalPinToPort(_clockpin);
+    // uint8_t _clocktimer = digitalPinToTimer(clockpin);
     // if (_clocktimer != NOT_ON_TIMER) turnOffPWM(_clocktimer);
+	uint8_t _clockport  = digitalPinToPort(clockpin);
     _clockout = portOutputRegister(_clockport);
+	_clockbit   = digitalPinToBitMask(clockpin);
 }
 
-void FastShiftOut::write(uint8_t data)
+//
+// write() must implement the virtual write of Print class
+//
+size_t FastShiftOut::write(uint8_t data)
 {
     _value = data;
     for (uint8_t i = 0; i < 8; i++)  
@@ -49,8 +53,12 @@ void FastShiftOut::write(uint8_t data)
         *_clockout &= ~_clockbit;
         SREG = oldSREG;
     }
+    return 1;
 }
 
+//
+// reads back the last value written.
+//
 int FastShiftOut::read()
 {
     return _value;

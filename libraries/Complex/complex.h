@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: see COMPLEX_LIB_VERSION
 // PURPOSE: library for Complex math for Arduino
-//     URL:
+//     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
@@ -17,7 +17,7 @@
 #include "WProgram.h"
 #endif
 
-#define COMPLEX_LIB_VERSION 0.1.01
+#define COMPLEX_LIB_VERSION "0.1.03"
 
 class Complex
 {
@@ -53,6 +53,7 @@ public:
 	void operator /= (Complex);
 
 	Complex c_sqrt();
+	Complex c_sqr();
 	Complex c_exp();
 	Complex c_log();
 	Complex c_log10();
@@ -90,9 +91,10 @@ public:
 private:
 	double re;
 	double im;
-
+	
 	Complex gonioHelper1(int);
 	Complex gonioHelper2(int);
 };
+
 #endif
 // --- END OF FILE ---

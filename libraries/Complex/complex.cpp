@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: see COMPLEX_LIB_VERSION
 // PURPOSE: library for Complex math for Arduino
-//     URL:
+//     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
@@ -68,9 +68,9 @@ Complex Complex::conjugate()
 
 Complex Complex::reciprocal()
 {
-	double f = re*re + im*im;
-	double r = re/f;
-	double i = -im/f;
+	double f = 1.0/(re*re + im*im);
+	double r = re*f;
+	double i = -im*f;
 	return Complex(r,i);
 }
 
@@ -106,59 +106,62 @@ Complex Complex::operator * (Complex c)
 {
 	double r = re * c.re - im * c.im;
 	double i = re * c.im + im * c.re;
-	return Complex(r,i);
+	return Complex(r, i);	
 }
 
 Complex Complex::operator / (Complex c)
 {
-	double f = c.re*c.re + c.im*c.im;
+	double f = 1.0/(c.re*c.re + c.im*c.im);
 	double r = re * c.re + im * c.im;
-	double i = re * c.im - im * c.re;
-	return Complex(r / f, -i / f);
+	double i = im * c.re - re * c.im;
+	return Complex(r * f, i * f);
 }
 
 void Complex::operator += (Complex c)
 {
-	this->re += c.re;
-	this->im += c.im;
-	return;
+	re += c.re;
+	im += c.im;
 }
 
 void Complex::operator -= (Complex c)
 {
-	this->re -= c.re;
-	this->im -= c.im;
-	return;
+	re -= c.re;
+	im -= c.im;
 }
 
 void Complex::operator *= (Complex c)
 {
 	double r = re * c.re - im * c.im;
 	double i = re * c.im + im * c.re;
-	this->re = r;
-	this->im = i;
-	return;
+	re = r;
+	im = i;
 }
 
 void Complex::operator /= (Complex c)
 {
-	double f = c.re*c.re + c.im*c.im;
+	double f = 1.0/(c.re*c.re + c.im*c.im);
 	double r = re * c.re + im * c.im;
 	double i = re * c.im - im * c.re;
-	this->re = r/f;
-	this->im = -i/f;
-	return;
+	re = r*f;
+	im = -i*f;
 }
 
 //
 // POWER FUNCTIONS
 //
+Complex Complex::c_sqr()
+{
+	double r = re * re - im * im;
+	double i = 2 * re * im;
+	return Complex(r,i);
+}
+
 Complex Complex::c_sqrt()
 {
 	double m = modulus();
-	double r = sqrt(0.5 * (m+this->re));
-	double i = sqrt(0.5 * (m-this->re));
-	if (this->im < 0) i = -i;
+	double r = sqrt(0.5 * (m+re));
+	double i = sqrt(0.5 * (m-re));
+	if (im < 0) i = -i;
 	return Complex(r,i);
 }
 
@@ -170,26 +173,26 @@ Complex Complex::c_exp()
 
 Complex Complex::c_log()
 {
-	double m = this->modulus();
-	double p = this->phase();
+	double m = modulus();
+	double p = phase();
 	if (p > PI) p -= 2*PI;
 	return Complex(log(m), p);
 }
 
 Complex Complex::c_pow(Complex c)
 {
-	Complex t = c * this->c_log();
+	Complex t = c * c_log();
 	return t.c_exp();
 }
 
 Complex Complex::c_logn(Complex c)
 {
-	return this->c_log()/c.c_log();
+	return c_log()/c.c_log();
 }
 
 Complex Complex::c_log10()
 {
-	return this->c_logn(10);
+	return c_logn(10);
 }
 
 //
@@ -207,12 +210,27 @@ Complex Complex::c_cos()
 
 Complex Complex::c_tan()
 {
+	/* faster but 350 bytes longer!!
+	double s = sin(re);
+	double c = cos(re);
+	double sh = sinh(im);
+	double ch = cosh(im);
+	// return Complex(s*ch, c*sh) / Complex(c*ch, -s*sh);
+	double r0 = s*ch;
+	double i0 = c*sh;
+	double cre = c*ch;
+	double cim = -s*sh;
+	double f = 1.0/(cre*cre + cim*cim);
+	double r = r0 * cre + i0 * cim;
+	double i = r0 * cim - i0 * cre;
+	return Complex(r * f, -i * f);
+	*/
 	return c_sin() / c_cos();
 }
 
 Complex Complex::gonioHelper1(int mode)
 {
-	Complex c = (Complex(1,0) - (*this * *this)).c_sqrt();
+	Complex c = (Complex(1,0) - this->c_sqr()).c_sqrt();
 	if (mode==0)
 	{
 		c = c + *this * Complex(0, -1);
@@ -227,17 +245,17 @@ Complex Complex::gonioHelper1(int mode)
 
 Complex Complex::c_asin()
 {
-	return this->gonioHelper1(0);
+	return gonioHelper1(0);
 }
 
 Complex Complex::c_acos()
 {
-	return this->gonioHelper1(1);
+	return gonioHelper1(1);
 }
 
 Complex Complex::c_atan()
 {
-	return (Complex(0,-1) * (Complex(this->re, this->im - 1)/Complex(-this->re, -this->im - 1)).c_log())/2;
+	return (Complex(0,-1) * (Complex(re, im - 1)/Complex(-re, -im - 1)).c_log())/2;
 }
 
 //
@@ -245,17 +263,17 @@ Complex Complex::c_atan()
 //
 Complex Complex::c_csc()
 {
-	return Complex(1,0) / this->c_sin();
+	return Complex(1,0) / c_sin();
 }
 
 Complex Complex::c_sec()
 {
-	return Complex(1,0) / this->c_cos();
+	return Complex(1,0) / c_cos();
 }
 
 Complex Complex::c_cot()
 {
-	return Complex(1,0) / this->c_tan();
+	return Complex(1,0) / c_tan();
 }
 
 Complex Complex::c_acsc()
@@ -278,12 +296,12 @@ Complex Complex::c_acot()
 //
 Complex Complex::c_sinh()
 {
-	return Complex(sinh(this->re) * cos(this->im), cosh(this->re)* sin(this->im));
+	return Complex(sinh(re) * cos(im), cosh(re)* sin(im));
 }
 
 Complex Complex::c_cosh()
 {
-	return Complex(cosh(this->re) * cos(this->im), sinh(this->re)* sin(this->im));
+	return Complex(cosh(re) * cos(im), sinh(re)* sin(im));
 }
 
 Complex Complex::c_tanh()
@@ -293,7 +311,7 @@ Complex Complex::c_tanh()
 
 Complex Complex::gonioHelper2(int mode)
 {
-	Complex c = (*this * *this);
+	Complex c = c_sqr();
 	if (mode==0)
 	{
 		c += 1;
@@ -329,17 +347,17 @@ Complex Complex::c_atanh()
 //
 Complex Complex::c_csch()
 {
-	return Complex(1,0) / this->c_sinh();
+	return Complex(1,0) / c_sinh();
 }
 
 Complex Complex::c_sech()
 {
-	return Complex(1,0) / this->c_cosh();
+	return Complex(1,0) / c_cosh();
 }
 
 Complex Complex::c_coth()
 {
-	return Complex(1,0) / this->c_tanh();
+	return Complex(1,0) / c_tanh();
 }
 
 Complex Complex::c_acsch()

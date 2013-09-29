@@ -44,6 +44,7 @@ double Complex::imag()
     return im;
 }
 
+// polar2cartesian
 void Complex::polar(double modulus, double phase)
 {
     re = modulus * cos(phase);

@@ -17,7 +17,15 @@
 #include "WProgram.h"
 #endif
 
-#define COMPLEX_LIB_VERSION "0.1.03"
+#define COMPLEX_LIB_VERSION "0.1.04"
+
+// five categories of functions can be switched per category
+// by (un)commenting next lines.
+// #define COMPLEX_EXTENDED
+// #define COMPLEX_GONIO_1
+// #define COMPLEX_GONIO_2 
+// #define COMPLEX_GONIO_3 
+// #define COMPLEX_GONIO_4 
 
 class Complex
 {
@@ -47,11 +55,14 @@ public:
 	Complex operator * (Complex);
     Complex operator / (Complex);
 
+// #ifdef COMPLEX_BASIC_II
 	void operator += (Complex);
 	void operator -= (Complex);
 	void operator *= (Complex);
 	void operator /= (Complex);
+// #endif
 
+#ifdef COMPLEX_EXTENDED
 	Complex c_sqrt();
 	Complex c_sqr();
 	Complex c_exp();
@@ -59,34 +70,43 @@ public:
 	Complex c_log10();
 	Complex c_pow(Complex);
 	Complex c_logn(Complex);
+#endif
 
+#ifdef COMPLEX_GONIO_1
 	Complex c_sin();
 	Complex c_cos();
 	Complex c_tan();
 	Complex c_asin();
 	Complex c_acos();
 	Complex c_atan();
+#endif
 
+#ifdef COMPLEX_GONIO_2
 	Complex c_csc();
 	Complex c_sec();
 	Complex c_cot();
 	Complex c_acsc();
 	Complex c_asec();
 	Complex c_acot();
+#endif
 
+#ifdef COMPLEX_GONIO_3
 	Complex c_sinh();
 	Complex c_cosh();
 	Complex c_tanh();
 	Complex c_asinh();
 	Complex c_acosh();
 	Complex c_atanh();
+#endif
 
+#ifdef COMPLEX_GONIO_4
 	Complex c_csch();
 	Complex c_sech();
 	Complex c_coth();
 	Complex c_acsch();
 	Complex c_asech();
 	Complex c_acoth();
+#endif
 
 private:
 	double re;

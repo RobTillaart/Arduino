@@ -146,6 +146,7 @@ void Complex::operator /= (Complex c)
 	im = -i*f;
 }
 
+#ifdef COMPLEX_EXTENDED
 //
 // POWER FUNCTIONS
 //
@@ -194,7 +195,9 @@ Complex Complex::c_log10()
 {
 	return c_logn(10);
 }
+#endif
 
+#ifdef COMPLEX_GONIO_1
 //
 // GONIO I - SIN COS TAN 
 //
@@ -257,7 +260,9 @@ Complex Complex::c_atan()
 {
 	return (Complex(0,-1) * (Complex(re, im - 1)/Complex(-re, -im - 1)).c_log())/2;
 }
+#endif
 
+#ifdef COMPLEX_GONIO_2
 //
 // GONIO II - CSC SEC COT
 //
@@ -290,7 +295,9 @@ Complex Complex::c_acot()
 {
 	return (Complex(1,0) / *this).c_atan();
 }
+#endif
 
+#ifdef COMPLEX_GONIO_3
 //
 // GONIO HYPERBOLICUS I
 //
@@ -341,7 +348,9 @@ Complex Complex::c_atanh()
 	c = c - (-(*this - one)).c_log();
 	return c/2;
 }
+#endif
 
+#ifdef COMPLEX_GONIO_4
 //
 // GONIO HYPERBOLICUS II
 //
@@ -374,5 +383,6 @@ Complex Complex::c_acoth()
 {
 	return (Complex(1,0) / *this).c_atanh();
 }
+#endif
 
 // --- END OF FILE ---

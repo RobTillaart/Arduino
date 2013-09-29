@@ -22,7 +22,7 @@
 
 #include "dht.h"
 
-#define TIMEOUT 10000
+#define TIMEOUT (F_CPU/1600)    // unsigned int in code, for higher CPU speeds this might exceed MAXINT.
 
 /////////////////////////////////////////////////////
 //
@@ -62,29 +62,7 @@ int dht::read11(uint8_t pin)
 // DHTLIB_ERROR_TIMEOUT
 int dht::read21(uint8_t pin)
 {
-	// READ VALUES
-	int rv = read(pin);
-	if (rv != DHTLIB_OK)
-    {
-		humidity    = DHTLIB_INVALID_VALUE;  // invalid value, or is NaN prefered?
-		temperature = DHTLIB_INVALID_VALUE;  // invalid value
-		return rv; // propagate error value
-	}
-
-	// CONVERT AND STORE
-	humidity = bits[0] + bits[1] * 0.00390625;  // == 1/256.0
-    temperature = (bits[2] & 0x7F) + bits[3] * 0.00390625;
-    
-	if (bits[2] & 0x80) // negative temperature
-	{
-		temperature = -temperature;
-	}
-
-	// TEST CHECKSUM
-	uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
-	if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
-
-	return DHTLIB_OK;
+        return read22(pin);  // dataformat identical to DHT22
 }
 
 // return values:

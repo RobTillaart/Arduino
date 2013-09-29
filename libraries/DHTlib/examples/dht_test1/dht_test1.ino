@@ -13,7 +13,8 @@
 dht DHT;
 
 #define DHT11_PIN 4
-#define DHT22_PIN 5
+#define DHT21_PIN 5
+#define DHT22_PIN 6
 
 void setup()
 {
@@ -55,7 +56,7 @@ void loop()
   
     // READ DATA
   Serial.print("DHT21, \t");
-  int chk = DHT.read21(DHT21_PIN);
+  chk = DHT.read21(DHT21_PIN);
   switch (chk)
   {
     case DHTLIB_OK:  

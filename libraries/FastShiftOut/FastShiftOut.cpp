@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.03
 // PURPOSE: shiftout that implements the Print interface
+//    DATE: 2013-08-22
 //     URL:
 //
 // Released to the public domain

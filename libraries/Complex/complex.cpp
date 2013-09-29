@@ -1,16 +1,16 @@
-// 
+//
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: see COMPLEX_LIB_VERSION
 // PURPOSE: library for Complex math for Arduino
-//     URL: 
-// 
+//     URL:
+//
 // Released to the public domain
 //
 
 #include "complex.h"
 
-Complex::Complex(double real, double imag) 
+Complex::Complex(double real, double imag)
 {
 	re = real;
 	im = imag;
@@ -28,43 +28,45 @@ Complex::Complex(double d)
 	im = 0;
 }
 
-double Complex::real() 
-{ 
+void Complex::set(double real, double imag)
+{
+	re = real;
+	im = imag;
+}
+
+double Complex::real()
+{
 	return re;
 }
 
-double Complex::imag() 
-{ 
+double Complex::imag()
+{
 	return im;
 }
 
-double Complex::c_abs() 
-{ 
-	return hypot(re, im);
-}  
+void Complex::polar(double modulus, double phase)
+{
+	re = modulus * cos(phase);
+	im = modulus * sin(phase);
+}
 
-double Complex::phase() 
-{ 
+double Complex::phase()
+{
 	return atan2(im, re);
 }
 
-bool Complex::operator == (Complex c)
+double Complex::modulus()
 {
-	return (re == c.re) && (im == c.im);
-}
-
-bool Complex::operator == (double d)
-{
-	return (re == d) && (im == 0.0);
+	return hypot(re, im);
 }
 
 // conjugate is the number mirrored in x-axis
-Complex Complex::conjugate() 
+Complex Complex::conjugate()
 {
 	return Complex(re,-im);
 }
 
-Complex Complex::reciprocal() 
+Complex Complex::reciprocal()
 {
 	double f = re*re + im*im;
 	double r = re/f;
@@ -72,25 +74,32 @@ Complex Complex::reciprocal()
 	return Complex(r,i);
 }
 
+// EQUALITIES
+bool Complex::operator == (Complex c)
+{
+	return (re == c.re) && (im == c.im);
+}
+
+bool Complex::operator != (Complex c)
+{
+	return (re != c.re) || (im != c.im);
+}
+
+// NEGATE
+Complex Complex::operator - ()
+{
+	return Complex(-re, -im);
+}
+
+// BASIC MATH
 Complex Complex::operator + (Complex c)
 {
 	return Complex(re + c.re, im + c.im);
 }
 
-/*
-Complex Complex::operator + (double d)
-{
-	return Complex(re + d, im);
-}*/
-
 Complex Complex::operator - (Complex c)
 {
 	return Complex(re - c.re, im - c.im);
-}
-
-Complex Complex::operator - (double d)
-{
-	return Complex(re - d, im);
 }
 
 Complex Complex::operator * (Complex c)
@@ -100,282 +109,252 @@ Complex Complex::operator * (Complex c)
 	return Complex(r,i);
 }
 
-Complex Complex::operator * (double d)
-{
-	return Complex(re * d, im * d);
-}
-
 Complex Complex::operator / (Complex c)
 {
 	double f = c.re*c.re + c.im*c.im;
 	double r = re * c.re + im * c.im;
 	double i = re * c.im - im * c.re;
-	return Complex(r / f, i / f);
+	return Complex(r / f, -i / f);
 }
 
-Complex Complex::operator / (double d)
+void Complex::operator += (Complex c)
 {
-	return Complex(re / d, im / d);
+	this->re += c.re;
+	this->im += c.im;
+	return;
 }
 
-Complex Complex::operator += (Complex c)
+void Complex::operator -= (Complex c)
 {
-	return Complex(re + c.re, im + c.im);
+	this->re -= c.re;
+	this->im -= c.im;
+	return;
 }
 
-Complex Complex::operator += (double d)
-{
-	return Complex(re + d, im);
-}
-
-Complex Complex::operator -= (Complex c)
-{
-	return Complex(re - c.re, im - c.im);
-}
-
-Complex Complex::operator -= (double d)
-{
-	return Complex(re - d, im);
-}
-
-Complex Complex::operator *= (Complex c)
+void Complex::operator *= (Complex c)
 {
 	double r = re * c.re - im * c.im;
 	double i = re * c.im + im * c.re;
-	return Complex(r,i);
+	this->re = r;
+	this->im = i;
+	return;
 }
 
-Complex Complex::operator *= (double d)
-{
-	return Complex(re * d, im * d);
-}
-
-Complex Complex::operator /= (Complex c)
+void Complex::operator /= (Complex c)
 {
 	double f = c.re*c.re + c.im*c.im;
 	double r = re * c.re + im * c.im;
 	double i = re * c.im - im * c.re;
-	return Complex(r / f, i / f);
-}
-
-Complex Complex::operator /= (double d)
-{
-	return Complex(re/d, im/d);
+	this->re = r/f;
+	this->im = -i/f;
+	return;
 }
 
 //
-// More functions
+// POWER FUNCTIONS
 //
-Complex Complex::c_exp() 
+Complex Complex::c_sqrt()
 {
-	return Complex(exp(re) * cos(im), exp(re) * sin(im));
+	double m = modulus();
+	double r = sqrt(0.5 * (m+this->re));
+	double i = sqrt(0.5 * (m-this->re));
+	if (this->im < 0) i = -i;
+	return Complex(r,i);
 }
 
-Complex Complex::c_sin() 
+Complex Complex::c_exp()
+{
+	double e = exp(re);
+	return Complex(e * cos(im), e * sin(im));
+}
+
+Complex Complex::c_log()
+{
+	double m = this->modulus();
+	double p = this->phase();
+	if (p > PI) p -= 2*PI;
+	return Complex(log(m), p);
+}
+
+Complex Complex::c_pow(Complex c)
+{
+	Complex t = c * this->c_log();
+	return t.c_exp();
+}
+
+Complex Complex::c_logn(Complex c)
+{
+	return this->c_log()/c.c_log();
+}
+
+Complex Complex::c_log10()
+{
+	return this->c_logn(10);
+}
+
+//
+// GONIO I - SIN COS TAN 
+//
+Complex Complex::c_sin()
 {
 	return Complex(sin(re) * cosh(im), cos(re) * sinh(im));
 }
 
-Complex Complex::c_cos() 
+Complex Complex::c_cos()
 {
 	return Complex(cos(re) * cosh(im), -sin(re) * sinh(im));
 }
 
-Complex Complex::c_tan() 
+Complex Complex::c_tan()
 {
 	return c_sin() / c_cos();
 }
 
+Complex Complex::gonioHelper1(int mode)
+{
+	Complex c = (Complex(1,0) - (*this * *this)).c_sqrt();
+	if (mode==0)
+	{
+		c = c + *this * Complex(0, -1);
+	}
+	else
+	{
+		c = *this + c * Complex(0, -1);
+	}
+	c = c.c_log() * Complex(0,1);
+	return c;
+}
 
+Complex Complex::c_asin()
+{
+	return this->gonioHelper1(0);
+}
 
+Complex Complex::c_acos()
+{
+	return this->gonioHelper1(1);
+}
+
+Complex Complex::c_atan()
+{
+	return (Complex(0,-1) * (Complex(this->re, this->im - 1)/Complex(-this->re, -this->im - 1)).c_log())/2;
+}
+
+//
+// GONIO II - CSC SEC COT
+//
+Complex Complex::c_csc()
+{
+	return Complex(1,0) / this->c_sin();
+}
+
+Complex Complex::c_sec()
+{
+	return Complex(1,0) / this->c_cos();
+}
+
+Complex Complex::c_cot()
+{
+	return Complex(1,0) / this->c_tan();
+}
+
+Complex Complex::c_acsc()
+{
+	return (Complex(1,0) / *this).c_asin();
+}
+
+Complex Complex::c_asec()
+{
+	return (Complex(1,0) / *this).c_acos();
+}
+
+Complex Complex::c_acot()
+{
+	return (Complex(1,0) / *this).c_atan();
+}
+
+//
+// GONIO HYPERBOLICUS I
+//
+Complex Complex::c_sinh()
+{
+	return Complex(sinh(this->re) * cos(this->im), cosh(this->re)* sin(this->im));
+}
+
+Complex Complex::c_cosh()
+{
+	return Complex(cosh(this->re) * cos(this->im), sinh(this->re)* sin(this->im));
+}
+
+Complex Complex::c_tanh()
+{
+	return c_sinh() / c_cosh();
+}
+
+Complex Complex::gonioHelper2(int mode)
+{
+	Complex c = (*this * *this);
+	if (mode==0)
+	{
+		c += 1;
+	}
+	else
+	{
+		c -= 1;
+	}
+	c = (*this + c.c_sqrt()).c_log();
+	return c;
+}
+
+Complex Complex::c_asinh()
+{
+	return gonioHelper2(0);
+}
+
+Complex Complex::c_acosh()
+{
+	return gonioHelper2(1);
+}
+
+Complex Complex::c_atanh()
+{
+	Complex one(1,0);
+	Complex c = (*this + one).c_log();
+	c = c - (-(*this - one)).c_log();
+	return c/2;
+}
+
+//
+// GONIO HYPERBOLICUS II
+//
+Complex Complex::c_csch()
+{
+	return Complex(1,0) / this->c_sinh();
+}
+
+Complex Complex::c_sech()
+{
+	return Complex(1,0) / this->c_cosh();
+}
+
+Complex Complex::c_coth()
+{
+	return Complex(1,0) / this->c_tanh();
+}
+
+Complex Complex::c_acsch()
+{
+	return (Complex(1,0) / *this).c_asinh();
+}
+
+Complex Complex::c_asech()
+{
+	return (Complex(1,0) / *this).c_acosh();
+}
+
+Complex Complex::c_acoth()
+{
+	return (Complex(1,0) / *this).c_atanh();
+}
 
 // --- END OF FILE ---
-
-/*
------ http://www.dreamincode.net/code/snippet75.htm ----
-
-#include <cmath>
-#include <iostream>
-#include <iomanip.h>
-
-using namespace std;
-
-
-class complex
-{
-private:
-float real;               // Real Part
-float imag;      //  Imaginary Part
-
-
-public:
-Complex::Complex(float,float);
-Complex::Complex(complex&);
-complex operator +(complex);
-complex operator -(complex);
-complex operator *(complex);
-complex operator /(complex);
-complex getconjugate();
-complex getreciprocal();
-float getmodulus();
-void setdata(float,float);
-void getdata();
-float getreal();
-float getimaginary();
-bool operator ==(complex);
-void operator =(complex);
-friend ostream& operator <<(ostream &s,complex &c);
-};
-
-//                                        CONSTRUCTOR
-complex::Complex::Complex(float r=0.0f,float im=0.0f)
-{
-real=r;
-imag=im;
-}
-
-//                                 COPY CONSTRUCTOR
-complex::Complex::Complex(complex &c)
-{
-this->real=c.real;
-this->imag=c.imag;
-}
-
-
-void complex::operator =(complex c)
-{
-real=c.real;
-imag=c.imag;
-}
-
-
-complex complex::operator +(complex c)
-{
-complex tmp;
-tmp.real=this->real+c.real;
-tmp.imag=this->imag+c.imag;
-return tmp;
-}
-
-complex complex::operator -(complex c)
-{
-complex tmp;
-tmp.real=this->real - c.real;
-tmp.imag=this->imag - c.imag;
-return tmp;
-}
-
-complex complex::operator *(complex c)
-{
-complex tmp;
-tmp.real=(real*c.real)-(imag*c.imag);
-tmp.imag=(real*c.imag)+(imag*c.real);
-return tmp;
-}
-
-complex complex::operator /(complex c)
-{
-float div=(c.real*c.real) + (c.imag*c.imag);
-complex tmp;
-tmp.real=(real*c.real)+(imag*c.imag);
-tmp.real/=div;
-tmp.imag=(imag*c.real)-(real*c.imag);
-tmp.imag/=div;
-return tmp;
-}
-
-complex complex::getconjugate()
-{
-complex tmp;
-tmp.real=this->real;
-tmp.imag=this->imag * -1;
-return tmp;
-}
-
-complex complex::getreciprocal()
-{
-complex t;
-t.real=real;
-t.imag=imag * -1;
-float div;
-div=(real*real)+(imag*imag);
-t.real/=div;
-t.imag/=div;
-return t;
-}
-
-float complex::getmodulus()
-{
-float z;
-z=(real*real)+(imag*imag);
-z=sqrt(z);
-return z;
-}
-
-void complex::setdata(float r,float i)
-{
-real=r;
-imag=i;
-}
-
-void complex::getdata()
-{
-cout<<"Enter Real:";
-cin>>this->real;
-cout<<"Enter Imaginary:";
-cin>>this->imag;
-
-}
-
-float complex::getreal()
-{
-return real;
-}
-
-float complex::getimaginary()
-{
-return imag;
-}
-
-bool complex::operator ==(complex c)
-{
-return (real==c.real)&&(imag==c.imag) ? 1 : 0;
-}
-
-ostream& operator <<(ostream &s,complex &c)
-{
-s<<"Real Part = "<<c.real<<endl
-	<<"Imaginary Part = "<<c.imag<<endl;
-s<<"z = "<<c.real<<setiosflags(ios::showpos)
-	<<c.imag<<"i"<<endl<<resetiosflags(ios::showpos);
-return s;
-}
-
-int main()
-{
-	complex a(10.0f,-2.f); // Calls Constructor
-cout<<a<<endl;               // Calls the overloaded << operator
-complex b(-2);         // Calls Constructor
-complex c=b;                    // Calls Copy Constructor
-c=a;                                   // calls overloaded = operator
-b.getdata();                    // Calls Getdata()
-c.getdata();
-if(b==c)            // calls overloaded == operator
-	cout<<"b == c";
-	else
-	cout<<"b != c";
-
-
-cout<<endl<<c.getmodulus()<<endl; // calls getmodulus function()
-complex d;
-d=a+b;   // Calls overloaded +
-cout<<d<<endl;
-d=a-b;     // Calls overloaded -
-cout<<d<<endl;
-d=a*b;        // calls overloaded *
-cout<<d<<endl;
-d=a/b;        // calls overloaded /
-cout<<d<<endl;
-
-return 0;
-}*/

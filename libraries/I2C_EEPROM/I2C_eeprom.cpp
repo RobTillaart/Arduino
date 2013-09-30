@@ -6,7 +6,7 @@
 //
 // HISTORY: 
 // 0.1.00 - 2011-01-21 initial version
-// 0.1.01 - 2011-01-04 
+// 0.1.01 - 2011-02-07 added setBlock function
 // 
 // Released to the public domain
 //
@@ -15,7 +15,6 @@
 
 #include "Wstring.h"
 #include "Wiring.h"
-#include "ctype.h"
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -33,34 +32,68 @@ void I2C_eeprom::writeByte(unsigned int address, uint8_t data )
 	_WriteBlock(address, &data, 1);
 }
 
-// WARNING: address is a page address, 6-bit end will wrap around
-// also, data can be maximum of about 30 uint8_ts, because the Wire library has a buffer of 32 uint8_ts
-void I2C_eeprom::writeBlock(unsigned int address, uint8_t* data, int length)
+void I2C_eeprom::writeBlock(unsigned int address, uint8_t* buffer, int length)
 {
-	// TODO while loop that store in blocks of 32 uint8_ts 
-	// something like
-	// while (length > 0)
-	// {
-	// 		_WriteBlock(address, data, min(length, 32));
-	//		address += 32;
-	//		data += 32;
-	// 		length -=32;
-	// }
-	_WriteBlock(address, data, length);
+	// determine length until end of page
+	int le = endOfPage(address);
+	if (le > 0)
+	{
+		_WriteBlock(address, buffer, le);
+		address += le;
+		buffer += le;
+		length -= le;
+	}
+	
+	// write the rest at BLOCKSIZE (16) byte boundaries 
+	while (length > 0)
+	{
+		_WriteBlock(address, buffer, min(length, BLOCKSIZE));
+		address += BLOCKSIZE;
+		buffer += BLOCKSIZE;
+		length -= BLOCKSIZE;
+	}
 }
+
+void I2C_eeprom::setBlock(unsigned int address, uint8_t data, int length)
+{
+	uint8_t buffer[BLOCKSIZE];
+	for (uint8_t i =0; i< BLOCKSIZE; i++) buffer[i] = data;
+	
+	// determine length until end of page
+	int le = endOfPage(address);
+	if (le > 0)
+	{
+		_WriteBlock(address, buffer, le);
+		address += le;
+		length -= le;
+	}
+	
+	while (length > 0)
+	{
+		_WriteBlock(address, buffer, min(length, BLOCKSIZE));
+		address += BLOCKSIZE;
+		length -= BLOCKSIZE;
+	}
+}
+
 
 uint8_t I2C_eeprom::readByte(unsigned int address)
 {
-	uint8_t rdata = 0xFF;
+	uint8_t rdata;
 	_ReadBlock(address, &rdata, 1);
 	return rdata;
-
 }
 
 // maybe let's not read more than 30 or 32 uint8_ts at a time!
-void I2C_eeprom::readBlock(unsigned int address, uint8_t *buffer, int length)
+void I2C_eeprom::readBlock(unsigned int address, uint8_t* buffer, int length)
 {
-	_ReadBlock(address, buffer, length);
+	while (length > 0)
+	{
+		_ReadBlock(address, buffer, min(length, BLOCKSIZE));
+		address += BLOCKSIZE;
+		buffer += BLOCKSIZE;
+		length -= BLOCKSIZE;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -68,18 +101,30 @@ void I2C_eeprom::readBlock(unsigned int address, uint8_t *buffer, int length)
 // PRIVATE
 //
 
-// LENGTH <=32;
+
+// detemines length until first multiple of 16 of an address
+// so writing allways occurs up to 16 byte boundaries
+// this is automatically 64 byte boundaries
+int I2C_eeprom::endOfPage(unsigned int address)
+{
+	const int m = BLOCKSIZE;
+	unsigned int eopAddr = ((address + m - 1) / m) * m;  // "end of page" address
+	return eopAddr - address;  // length until end of page
+}
+
+// pre: length < 32;
 void I2C_eeprom::_WriteBlock(unsigned int address, uint8_t* buffer, uint8_t length)
 {
 	Wire.beginTransmission(_Device);
 	Wire.send((int)(address >> 8)); 
 	Wire.send((int)(address & 0xFF));  
 	for (uint8_t c = 0; c < length; c++)
-		Wire.send(buffer[c]);
+	Wire.send(buffer[c]);
 	Wire.endTransmission();
+	delay(5);
 }
 
-
+// pre: buffer is large enough to hold length bytes
 void I2C_eeprom::_ReadBlock(unsigned int address, uint8_t* buffer, uint8_t length)
 {
 	Wire.beginTransmission(_Device);
@@ -88,7 +133,7 @@ void I2C_eeprom::_ReadBlock(unsigned int address, uint8_t* buffer, uint8_t lengt
 	Wire.endTransmission();
 	Wire.requestFrom(_Device, length);
 	for (int c = 0; c < length; c++ )
-	  if (Wire.available()) buffer[c] = Wire.receive();
+	if (Wire.available()) buffer[c] = Wire.receive();
 }
 //
 // END OF FILE

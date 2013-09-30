@@ -2,21 +2,26 @@
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com  
 // VERSION: see PULSEPATTERN_LIB_VERSION in .h
-// PURPOSE: PulsePatternOut library for Arduino
+// PURPOSE: PulsePattern library for Arduino
 //
 // HISTORY:
 // 0.0.1 - 2012-11-23 initial version
 // 0.0.2 - 2012-11-23 adapted a static PPO
 // 0.0.3 - 2012-12-27 renamed to PulsePattern
-// 0.0.4 - 2012-12-27 code stable enough to publish(?)
+// 0.0.4 - 2012-12-27 code stable(?) enough to publish
+// 0.0.5 - 2012-12-27 code cleanup+comment
 //
 // Released to the public domain
 //
-// TODO 
-// - PRE 1.0 backwards compatibility
+// TODO
+// - fast function iso array to return the next period?
+//   more adaptive to e.g. sensor values. (investigate)
+// - test PRE 1.0 backwards compatibility
 // - move code to .h file so compiler can inline?
 // - optimize timer code
 // - adjust timing to more accurate values -> setTimer()
+// - worker should be private - how???
+// - test invalid array periods
 //
 
 #include "PulsePattern.h"
@@ -27,11 +32,12 @@
 #include "WProgram.h"
 #endif
 
-PulsePattern PPO;
+// Predefined generator (singleton)
+PulsePattern PPGenerator;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PPO.worker();
+  PPGenerator.worker();
 }
 
 PulsePattern::PulsePattern()
@@ -47,6 +53,8 @@ void PulsePattern::init(uint8_t pin, uint16_t * ar, uint8_t size,
 	_pin = pin;
 	_ar = ar;
 	_size = size;
+	// TODO: run over the array to test invalid values? 
+	// constrain them 10-4095?
 	_level = constrain(level, LOW, HIGH);
 	_prescaler = constrain(prescaler, PRESCALE_1, PRESCALE_1024);
 	_cnt = 0;
@@ -82,12 +90,10 @@ void PulsePattern::worker()
 	// set next period & flip signal
 	_level = !_level;
 	digitalWrite(_pin, _level);
-	// TODO small adjustment needed for code overhead?; inline iso call?
-	// for now
+	// TODO: adjustment needed for code overhead when micros?; 
 	// + 5.2 usec for digitalWrite
 	// + 3 usec for settimer call
-	setTimer(_ar[_cnt]-8);
-	
+	OCR1A = (_ar[_cnt]) * (F_CPU/1000000L);
 	_cnt++;
 	if (_cnt >= _size) _cnt = 0;  // repeat
 }
@@ -104,8 +110,10 @@ void PulsePattern::setTimer(uint16_t cc)
 {
 	TCCR1A = 0;
 	TCCR1B = 0;
-	TCNT1 = 0;      	// reset counter
-    OCR1A = cc*16;			// compare A register value;  
+	TCNT1 = 0;      		// reset counter
+    OCR1A = cc*16;			// compare A register value;
+							// *16 makes max period 4095
+							// min period 12?
 	
 	// 4: CTC mode, top = OCR1A
 	TCCR1A = _BV (COM1A1);  	// clear on compare
@@ -113,6 +121,5 @@ void PulsePattern::setTimer(uint16_t cc)
 	TIFR1 |= _BV (OCF1A);    // clear interrupt flag
 	TIMSK1 = _BV (OCIE1A);   // interrupt on Compare A Match   
 }
-
 
 // END OF FILE

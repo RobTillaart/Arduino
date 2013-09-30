@@ -1,18 +1,18 @@
-#ifndef Histogram_h
-#define PulsePatternOut_h
+#ifndef PulsePattern_h
+#define PulsePattern_h
 // 
-//    FILE: PulsePatternOut.h
+//    FILE: PulsePattern.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com  
-// PURPOSE: PulsePatternOut library for Arduino
+// PURPOSE: PulsePattern library for Arduino
 //          sends a pulse pattern to a digital pin (continuously)
-// HISTORY: See PulsePatternOut.cpp
+// HISTORY: See PulsePattern.cpp
 //
 // Released to the public domain
 //
 
 #include <inttypes.h>
 
-#define PULSEPATTERN_LIB_VERSION "0.0.4"
+#define PULSEPATTERN_LIB_VERSION "0.0.5"
 
 #define NOTINIT -1
 #define STOPPED 0
@@ -50,7 +50,7 @@ private:
 	volatile uint8_t _cnt;
 };
 
-extern PulsePattern PPO;
+extern PulsePattern PPGenerator;
 
 #endif
 // END OF FILE

@@ -22,6 +22,8 @@
 // - adjust timing to more accurate values -> setTimer()
 // - worker should be private - how???
 // - test invalid array periods
+// - start en stop index ipv size?
+// - pulsepattern recorder
 //
 
 #include "PulsePattern.h"

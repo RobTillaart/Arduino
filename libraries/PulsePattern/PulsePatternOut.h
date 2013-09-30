@@ -12,7 +12,7 @@
 
 #include <inttypes.h>
 
-#define PULSEPATTERNOUT_LIB_VERSION "0.0.2"
+#define PULSEPATTERNOUT_LIB_VERSION "0.0.3"
 
 #define NOTINIT -1
 #define STOPPED 0

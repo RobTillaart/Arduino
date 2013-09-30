@@ -1,12 +1,13 @@
 //
-//    FILE: PulsePatternOut.cpp
+//    FILE: PulsePattern.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com  
-// VERSION: see PULSEPATTERNOUT_LIB_VERSION in .h
+// VERSION: see PULSEPATTERN_LIB_VERSION in .h
 // PURPOSE: PulsePatternOut library for Arduino
 //
 // HISTORY:
 // 0.0.1 - 2012-11-23 initial version
 // 0.0.2 - 2012-11-23 adapted a static PPO
+// 0.0.3 - 2012-12-27 renamed to PulsePattern
 //
 // Released to the public domain
 //
@@ -17,26 +18,26 @@
 // - adjust timing to more accurate values -> setTimer()
 //
 
-#include "PulsePatternOut.h"
+#include "PulsePattern.h"
 
 #include "Arduino.h"
 
 enum { NO_CLOCK, PRESCALE_1, PRESCALE_8, PRESCALE_64, PRESCALE_256, PRESCALE_1024 };
 
-PulsePatternOut PPO;
+PulsePattern PPO;
 
 ISR(TIMER1_COMPA_vect)
 {
   PPO::worker();
 }
 
-PulsePatternOut::PulsePatternOut()
+PulsePattern::PulsePattern()
 {
 	_size = 0;
 	_state = NOTINIT;
 }
 
-void PulsePatternOut::init(uint8_t pin, uint16_t * ar, uint8_t size, uint8_t level)
+void PulsePattern::init(uint8_t pin, uint16_t * ar, uint8_t size, uint8_t level)
 { 
 	stop();
 	_pin = pin;
@@ -49,7 +50,7 @@ void PulsePatternOut::init(uint8_t pin, uint16_t * ar, uint8_t size, uint8_t lev
 	digitalWrite(_pin, _level);
 }
 
-void PulsePatternOut::start()
+void PulsePattern::start()
 {
 	if (_size == 0) return;  
 	if (_state == RUNNING) return;  // no restart
@@ -57,7 +58,7 @@ void PulsePatternOut::start()
 	_state = RUNNING;
 }
 
-void PulsePatternOut::stop()
+void PulsePattern::stop()
 {
 	stopTimer();
 	_state = STOPPED;
@@ -65,12 +66,12 @@ void PulsePatternOut::stop()
 	digitalWrite(_pin, _level);
 }
 
-bool PulsePatternOut::isRunning()
+bool PulsePattern::isRunning()
 {
 	return (_state == RUNNING);
 }
 
-void PulsePatternOut::worker()
+void PulsePattern::worker()
 {
 	if (_state != RUNNING) return;
 	// set next period & flip signal
@@ -87,14 +88,14 @@ void PulsePatternOut::worker()
 }
 
 // TIMER code based upon - http://www.gammon.com.au/forum/?id=11504
-void PulsePatternOut::stopTimer()
+void PulsePattern::stopTimer()
 {
 	TCCR1A = 0;        // reset timer 1
 	TCCR1B = 0;
 }
 
 // TODO: can be optimized?
-void PulsePatternOut::setTimer(uint16_t cc)
+void PulsePattern::setTimer(uint16_t cc)
 {
 	TCCR1A = 0;
 	TCCR1B = 0;

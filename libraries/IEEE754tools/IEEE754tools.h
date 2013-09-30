@@ -1,7 +1,7 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: IEEE754 tools
 //
 // http://playground.arduino.cc//Main/IEEE754tools
@@ -9,6 +9,8 @@
 // Released to the public domain
 // not tested, use with care
 //
+// 0.1.01 added IEEE_NAN, IEEE_INF tests + version string
+// 0.1.00 initial version
 
 #ifndef IEEE754tools_h
 #define IEEE754tools_h
@@ -20,8 +22,10 @@
 #include "WProgram.h"
 #endif
 
+#define IEEE754_VERSION "0.1.01"
+
 // (un)comment lines to configure functionality / size
-//#define IEEE754_ENABLE_MSB
+//#define IEEE754_ENABLE_MSB   // +78 bytes
 #define IEEE754_ENABLE_DUMP
 
 // IEEE754 float layout; 
@@ -132,11 +136,9 @@ void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)
 #endif
 }
 
-//
 // converts a packed array of bytes into a 32bit float.
 // there can be an exponent overflow
 // the mantisse is truncated to 23 bits.
-//
 float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
 {
     _FLOATCONV fl;
@@ -174,9 +176,55 @@ float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
     return fl.f;
 }
 
+// ~1.7x faster
+int IEEE_NAN(float number)  
+{
+    return (* ((uint16_t*) &number + 1) ) == 0x7FC0; 
+}
+
+// ~3.4x faster
+int IEEE_INF(float number)  
+{
+    uint8_t* x = ((uint8_t*) &number);
+    if (*(x+2) != 0x80) return 0;
+    if (*(x+3) == 0x7F) return 1;
+    if (*(x+3) == 0xFF) return -1;
+    return 0;
+}
+
+// for the real speed freaks, the next two
+bool IEEE_PosINF(float number)  
+{
+    return (* ((uint16_t*) &number + 1) ) == 0x7F80; 
+}
+
+bool IEEE_NegINF(float number)  
+{
+    return (* ((uint16_t*) &number + 1) ) == 0xFF80; 
+}
+
+// WARNING no overflow detection in the SHIFT (factor 3.5)
+float IEEE_SHIFT_LEFT(float number, uint8_t n)
+{
+    _FLOATCONV fl;
+    fl.f = number;
+    fl.p.e += n;
+    return fl.f;
+}
+
+float IEEE_SHIFT_RIGHT(float number, uint8_t n)
+{
+    _FLOATCONV fl;
+    fl.f = number;
+    fl.p.e -= n;
+    return fl.f;
+}
+
+
+
 //
 // NOT TESTED FUNCTIONS
-// 
+//
 uint8_t getSign(float number)
 {
   IEEEfloat* x = (IEEEfloat*) ((void*)&number);

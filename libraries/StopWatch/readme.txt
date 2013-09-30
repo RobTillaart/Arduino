@@ -1,9 +1,4 @@
 
-TODO
-=====================
-add examples 
-- for micros 
-- for seconds
-- multiple SW with different timing
--
+
+0.1.03 has a breaking interface
 

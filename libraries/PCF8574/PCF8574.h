@@ -15,26 +15,29 @@
 #include "WProgram.h"
 #endif
 
-#define PCF8574_LIB_VERSION "0.1.00"
+#define PCF8574_LIB_VERSION "0.1.01"
 
 class PCF8574
 {
   public:
-  PCF8574(uint8_t address); 
+  PCF8574(int address); 
 	 
-  uint8_t read8(); 
-  uint8_t read(uint8_t pin);  
+  int read8(); 
+  int read(int pin); 
+  int value();  
 
-  void write8(uint8_t value); 
-  void write(uint8_t pin, uint8_t value); 
+  void write8(int value); 
+  void write(int pin, int value); 
 
-  void PCF8574::toggle(uint8_t pin);
-  void PCF8574::shiftRight();
-  void PCF8574::shiftLeft();
+  void toggle(int pin);
+  void shiftRight();
+  void shiftLeft();
+  
+  int getStatus();
   
   private:
-  uint8_t _address;
-  uint8_t _data;
+  int _address;
+  int _data;
   int _status;
 };
 

@@ -25,7 +25,7 @@ void setup()
   Serial.print("current output modus");
   Serial.println(Compass.getOutputModus());
   
-  x = Compass.askHeading();
+  int x = Compass.askHeading();
   //Serial.print("Ask returns: ");
   //Serial.println(x);  
 }

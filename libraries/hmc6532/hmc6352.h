@@ -1,7 +1,7 @@
 // 
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: HMC6352 library for Arduino
 //
 // DETAILS: see cpp file
@@ -36,13 +36,14 @@ class hmc6352
     hmc6352(uint8_t device);
 
 	// BASIC CALLS FOR STANDBY MODE
+	int getHeading(void); // just a merge of ask & read
     int askHeading(void);
     int readHeading(void);
 
     int wakeUp(void);
     int sleep(void);
 
-	// REST
+	// EXPERT CALLS
 	int factoryReset();
 
 	int setOperationalModus(hmcMode m, uint8_t freq, bool periodicReset);

@@ -1,13 +1,14 @@
 // 
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: HMC6352 library for Arduino
 //
 // HISTORY: 
 // 0.1.00 - 2011-04-07 initial version
 // 0.1.01 - 2011-04-09 quite a complete redo 
 // 0.1.02 - 2011-04-12 added timing, fixed a bug
+// 0.1.03 - 2011-04-13 fixed small things; added getHeading()
 // 
 // Released to the public domain
 //
@@ -41,6 +42,13 @@ hmc6352::hmc6352(uint8_t device)
 {
 	Wire.begin();
 	_device = constrain(device, 0x10, 0xF6);
+}
+
+int hmc6352::getHeading()
+{
+	int rv = askHeading();
+	if (rv != 0) return rv; 
+	return readHeading();
 }
 
 // Ask the device to make a new reading

@@ -5,6 +5,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 // HISTORY: See I2C_eeprom.cpp
+//     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
 // Released to the public domain
 //
@@ -14,7 +15,7 @@
 // BLOCKSIZE must be 16
 #define BLOCKSIZE 16
 
-#define I2C_EEPROM_VERSION "0.2"
+#define I2C_EEPROM_VERSION "0.2.01"
 
 // interface
 class I2C_eeprom 
@@ -39,7 +40,7 @@ class I2C_eeprom
 	int endOfPage(unsigned int);  
 	// (mem_address, buffer, length)
 	void _WriteBlock(unsigned int, uint8_t*, uint8_t );
-	void _ReadBlock(unsigned int, uint8_t*, uint8_t );
+	int _ReadBlock(unsigned int, uint8_t*, uint8_t );
 };
 
 #endif

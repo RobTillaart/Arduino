@@ -8,6 +8,7 @@
 // 0.0.1 - 2012-11-23 initial version
 // 0.0.2 - 2012-11-23 adapted a static PPO
 // 0.0.3 - 2012-12-27 renamed to PulsePattern
+// 0.0.4 - 2012-12-27 code stable enough to publish(?)
 //
 // Released to the public domain
 //
@@ -20,15 +21,17 @@
 
 #include "PulsePattern.h"
 
+#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-
-enum { NO_CLOCK, PRESCALE_1, PRESCALE_8, PRESCALE_64, PRESCALE_256, PRESCALE_1024 };
+#else
+#include "WProgram.h"
+#endif
 
 PulsePattern PPO;
 
 ISR(TIMER1_COMPA_vect)
 {
-  PPO::worker();
+  PPO.worker();
 }
 
 PulsePattern::PulsePattern()
@@ -37,13 +40,15 @@ PulsePattern::PulsePattern()
 	_state = NOTINIT;
 }
 
-void PulsePattern::init(uint8_t pin, uint16_t * ar, uint8_t size, uint8_t level)
+void PulsePattern::init(uint8_t pin, uint16_t * ar, uint8_t size, 
+						uint8_t level, uint8_t prescaler)
 { 
 	stop();
 	_pin = pin;
 	_ar = ar;
 	_size = size;
-	_level = level;
+	_level = constrain(level, LOW, HIGH);
+	_prescaler = constrain(prescaler, PRESCALE_1, PRESCALE_1024);
 	_cnt = 0;
 
 	pinMode(_pin, OUTPUT);
@@ -100,14 +105,14 @@ void PulsePattern::setTimer(uint16_t cc)
 	TCCR1A = 0;
 	TCCR1B = 0;
 	TCNT1 = 0;      	// reset counter
-    OCR1A = cc*2;		// compare A register value;  
-						// *2 because of 8 prescaler @16mhz;
+    OCR1A = cc*16;			// compare A register value;  
 	
 	// 4: CTC mode, top = OCR1A
 	TCCR1A = _BV (COM1A1);  	// clear on compare
-	TCCR1B = _BV (WGM12) | PRESCALE_1024;  // should be PRESCALE_8 now for testing
+	TCCR1B = _BV (WGM12) | _prescaler;
 	TIFR1 |= _BV (OCF1A);    // clear interrupt flag
 	TIMSK1 = _BV (OCIE1A);   // interrupt on Compare A Match   
 }
+
 
 // END OF FILE

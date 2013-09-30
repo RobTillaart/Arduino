@@ -1,7 +1,7 @@
 // 
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.02
 // PURPOSE: HMC6352 library for Arduino
 //
 // DETAILS: see cpp file
@@ -14,7 +14,7 @@
 
 #include "Wprogram.h"
 
-#define HMC_LIB_VERSION 	"0.1.00"
+#define HMC_LIB_VERSION 	"0.1.01"
 
 #define HMC_GET_DATA		0x41
 #define HMC_WAKE			0x57
@@ -33,39 +33,46 @@ enum hmcMode { STANDBY=0, QUERY=1, CONT=2, ERROR};
 class hmc6352
 {
 	public:
-    hmc6352(uint8_t device);    
+    hmc6352(uint8_t device);
 
-    int direction(void);
-    int qry(void);
+	// BASIC CALLS FOR STANDBY MODE
+    int askHeading(void);
+    int readHeading(void);
+
     int wakeUp(void);
     int sleep(void);
-	
-	int UserCallibrationOn(void);
-	int UserCallibrationOff(void);
 
+	// REST
 	int factoryReset();
-	
+
 	int setOperationalModus(hmcMode m, uint8_t freq, bool periodicReset);
 	int getOperationalModus();
+
 	int setOutputModus(uint8_t om);
 	int getOutputModus();
-	
-	int setI2Caddress(uint8_t address);
-	int getI2Caddress();
 
-	int setTimeDelay(uint8_t msec);
-	int getTimeDelay();
-	
-	int setMeasurementSumming(uint8_t ms);
-	int getMeasurementSumming();
+	int callibrationOn(void);
+	int callibrationOff(void);
 
-	int SaveOpMode(void);
-	int UpdateOffsets(void);
-	
+	int setI2CAddress(uint8_t address);
+	int getI2CAddress();
+
 	int writeEEPROM(uint8_t address, uint8_t data);
 	int readEEPROM(uint8_t address);
+	
 	int writeRAM(uint8_t address, uint8_t data);
 	int readRAM(uint8_t address);
+
+
+	// NOT TESTED / UNKNOWN
+	int setTimeDelay(uint8_t msec);
+	int getTimeDelay();
+	int setMeasurementSumming(uint8_t ms);
+	int getMeasurementSumming();
+	int saveOpMode(void);  
+	int updateOffsets(void);
+
+
 
   private:
 	int cmd(uint8_t c);

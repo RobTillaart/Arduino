@@ -1,7 +1,7 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: IEEE754 tools
 //
 // http://playground.arduino.cc//Main/IEEE754tools
@@ -9,6 +9,7 @@
 // Released to the public domain
 // not tested, use with care
 //
+// 0.1.03 renamed IEEE_Sign IEEE_Exponent
 // 0.1.02 added SHIFT_POW2
 // 0.1.01 added IEEE_NAN, IEEE_INF tests + version string
 // 0.1.00 initial version
@@ -23,7 +24,7 @@
 #include "WProgram.h"
 #endif
 
-#define IEEE754_VERSION "0.1.02"
+#define IEEE754_VERSION "0.1.03"
 
 // (un)comment lines to configure functionality / size
 //#define IEEE754_ENABLE_MSB   // +78 bytes
@@ -47,7 +48,7 @@ struct IEEEdouble
 
 // Arduino UNO double layout: 
 // the UNO has no 64 bit double, it is only able to map 23 bits of the mantisse
-// a filler is added.
+// a filler is added for the remaining bits. These might be useful in future?
 struct _DBL
 {
     uint32_t filler:29;
@@ -57,23 +58,25 @@ struct _DBL
 };
 
 // for packing and unpacking a float
-typedef union _FLOATCONV
+union _FLOATCONV
 {
     IEEEfloat p;
     float f;
     byte b[4];
-} _FLOATCONV;
+};
 
 // for packing and unpacking a double
-typedef union _DBLCONV
+union _DBLCONV
 {
     // IEEEdouble p;
     _DBL p;
     double d;           // !! is a 32bit float for UNO.
-    byte b[4];
-} _DBLCONV;
+    byte b[8];
+};
 
-
+//
+// DEBUG FUNCTIONS
+//
 #ifdef IEEE754_ENABLE_DUMP
 // print float components
 void dumpFloat(float number)
@@ -101,13 +104,13 @@ void dumpDBL(struct _DBL dbl)
 }
 #endif
 
-
 //
+// mapping to/from 64bit double - best effort
+//
+
 // converts a float to a packed array of 8 bytes representing a 64 bit double
 // restriction exponent and mantisse.
-//
 // float;  array of 8 bytes;  LSBFIRST; MSBFIRST
-//
 void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)  
 {
     _FLOATCONV fl;
@@ -164,23 +167,28 @@ float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
     }
 #endif
     
-    int e = dbl.p.e-1023+127;  // exponent adjust 
+    int e = dbl.p.e-1023 +127;  // exponent adjust 
     // TODO check exponent overflow.
     if (e >=0 || e <= 255) 
     {
         fl.p.s = dbl.p.s;
         fl.p.e = e;  
         fl.p.m = dbl.p.m;  // note this one clips the mantisse 
+        return fl.f;
     }
-    else fl.f = NAN;
-    
-    return fl.f;
+    return NAN;  // OR +-INF?
+    // return (fl.p.s) ? -INFINITY : INFINITY;
 }
+
+//
+// TEST FUNCTIONS
+//
 
 // ~1.7x faster
 int IEEE_NAN(float number)  
 {
-    return (* ((uint16_t*) &number + 1) ) == 0x7FC0; 
+    uint16_t* x = ((uint16_t*) &number + 1);
+    return ((*x) == 0x7FC0); 
 }
 
 // ~3.4x faster
@@ -194,17 +202,45 @@ int IEEE_INF(float number)
 }
 
 // for the real speed freaks, the next two
-bool IEEE_PosINF(float number)  
+boolean IEEE_PosINF(float number)  
 {
     return (* ((uint16_t*) &number + 1) ) == 0x7F80; 
 }
 
-bool IEEE_NegINF(float number)  
+boolean IEEE_NegINF(float number)  
 {
     return (* ((uint16_t*) &number + 1) ) == 0xFF80; 
 }
 
-// factor 2.7; but more correct
+
+
+
+//
+// PROPERTIES
+// 
+uint8_t IEEE_Sign(float number)
+{
+  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
+  return x->s;
+}
+
+int IEEE_Exponent(float number)
+{
+  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
+  return x->e - 127;
+}
+
+uint32_t IEEE_Mantisse(float number)
+{
+  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
+  return x->m;
+}
+
+//
+// MATH FUNCTIONS
+//
+
+// factor ~2.7; (tested with *16) more correct than the faster one
 float IEEE_POW2(float number, int n)
 {
     _FLOATCONV fl;
@@ -215,11 +251,10 @@ float IEEE_POW2(float number, int n)
         fl.p.e = e;
         return fl.f;
     }
-    return fl.p.s * INFINITY;
+    return (fl.p.s) ? -INFINITY : INFINITY;
 }
 
-
-// WARNING no overflow detection in the SHIFT (factor 3.5)
+// WARNING no overflow detection in the SHIFT (factor ~3.5)
 float IEEE_POW2fast(float number, int n)
 {
     _FLOATCONV fl;
@@ -229,9 +264,57 @@ float IEEE_POW2fast(float number, int n)
 }
 
 
+
 //
 // NOT TESTED FUNCTIONS
 //
+
+//
+// get truncated part as separate float.
+// 
+void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
+{
+    _FLOATCONV fl;
+    _DBLCONV dbl;
+    
+#ifdef IEEE754_ENABLE_MSB
+    if (byteOrder == LSBFIRST)
+    {
+#endif
+        for (int i=0; i<8; i++)
+        {
+            dbl.b[i] = bar[i];
+        }
+#ifdef IEEE754_ENABLE_MSB
+    }
+    else
+    {
+        for (int i=0; i<8; i++)
+        {
+            dbl.b[i] = bar[7-i];
+        }
+    }
+#endif
+    
+    int e = dbl.p.e-1023 +127;  // exponent adjust 
+    // TODO check exponent overflow.
+    if (e >=0 || e <= 255) 
+    {
+        fl.p.s = dbl.p.s;
+        fl.p.e = e;  
+        fl.p.m = dbl.p.m;  // note this one clips the mantisse 
+        *value = fl.f;
+        
+        fl.p.s = dbl.p.s;
+        fl.p.e = e-23;  
+        fl.p.m = dbl.p.filler;  // note this one clips the mantisse 
+        *error = fl.f;
+    }
+    *value = (dbl.p.s) ? -INFINITY : INFINITY;
+    *error = 0;
+}
+
+
 // what is this???
 float IEEE_FLIP(float number)
 {
@@ -242,23 +325,7 @@ float IEEE_FLIP(float number)
     return fl.f;
 }
 
-uint8_t getSign(float number)
-{
-  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
-  return x->s;
-}
 
-int getExponent(float number)
-{
-  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
-  return x->e - 127;
-}
-
-uint32_t getMantisse(float number)
-{
-  IEEEfloat* x = (IEEEfloat*) ((void*)&number);
-  return x->m;
-}
 
 /*
 // ONELINERS to speed up some specific 32 bit float math
@@ -279,11 +346,38 @@ uint32_t getMantisse(float number)
 // if ( *(((byte*) &number)+3) & 0x80) x=2;     // if (number < 0) x=2;
 // GAIN = factor 5
 
-int getExponent(float number)
+
+// no speed optimize found for 
+
+boolean IEEE_ZERO(float number)
 {
-    uint8_t e = (*(((uint8_t*) &number)+3) & 0x7F) << 1;
-    if (*(((uint8_t*) &number)+2) & 0x80) e++;
-    return e;
+    return (* ((uint32_t*) &number) ) & 0x7FFFFFFF; 
+}
+
+float IEEE_DIV2(float number)
+{
+    IEEEfloat* x = (IEEEfloat*) ((void*)&number);
+     x->e--;
+    return number;
+}
+
+bool IEEE_LESS(float f, float g)
+{
+  IEEEfloat* x = (IEEEfloat*) ((void*)&f);
+  IEEEfloat* y = (IEEEfloat*) ((void*)&g);
+  if (x->s > y->s) return 1;
+  if (x->s < y->s) return 0;
+  if (x->e < y->e) return 1;
+  if (x->e > y->e) return 0;
+  if (x->m < y->m) return 1;
+  return 0;
+}
+
+bool IEEE_EQ(float f, float g)
+{
+  IEEEfloat* x = (IEEEfloat*) ((void*)&f);
+  IEEEfloat* y = (IEEEfloat*) ((void*)&g);
+  return (x->m == y->m) && (x->e == y->e) && (x->s != y->s);
 }
 
 */

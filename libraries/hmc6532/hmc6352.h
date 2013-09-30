@@ -14,7 +14,7 @@
 
 #include "Wprogram.h"
 
-#define HMC_LIB_VERSION 	"0.1.01"
+#define HMC_LIB_VERSION 	"0.1.03"
 
 #define HMC_GET_DATA		0x41
 #define HMC_WAKE			0x57

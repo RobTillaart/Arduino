@@ -29,21 +29,30 @@ int x;
 
 void loop()
 {
-  Compass.wakeup(); // decent wake up from sleep mode
+  Compass.wakeUp(); // decent wake up from sleep mode
   
   // Note that reading a heading is requires two steps, ask() & read()
   // this makes the query and continuous mode more efficient
   // without impact on the footprint of the lib.
-  // a wrapper is an option.
+  // this way one can ask a make a reading and fetch it a bit later.
+  // TODO is it fast enough for IRQ ?
   x = Compass.askHeading();
   //Serial.print("Ask returns: ");
   //Serial.println(x);  
   
   x = Compass.readHeading();
-  Serial.print("Degree : ");
+  Serial.print("ask & read : Degree : ");
   Serial.println(x);
   
   Compass.sleep();  // low energy mode
+  delay(500);
+  
+  // this is the simplest mode to use the library
+  // suitable for 99.9% of all robots :)
+  Compass.wakeUp();
+  Serial.print("getHeading : Degree : ");
+  Serial.println(Compass.getHeading());
+  Compass.sleep();
   delay(500);
 }
 // END OF FILE

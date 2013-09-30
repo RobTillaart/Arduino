@@ -58,7 +58,6 @@ void loop()
   delay(10);
   
   Wire.requestFrom(HMC, 1);      
-  i = 0;
   while(Wire.available()  < 1);
   value = Wire.receive();
   Serial.print("Current Mode: ");

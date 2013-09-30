@@ -334,7 +334,7 @@ float IEEE_FLIP(float number)
 // x = *(((byte*) &number)+3) & 0x7F;           // x = fabs(number);
 // GAIN = factor 2
 
-// *(((byte*) &number)+3) |= 0x80;              // number == fabs(number);
+// *(((byte*) &number)+3) |= 0x80;              // number == -fabs(number);
 // x = *(((byte*) &number)+3) | 0x80;           // x == -fabs(number);
 // GAIN = factor 2
 

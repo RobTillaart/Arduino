@@ -1,7 +1,7 @@
 // 
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.01
+// VERSION: 1.0.00
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 //
 // HISTORY: 
@@ -9,14 +9,12 @@
 // 0.1.01 - 2011-02-07 added setBlock function
 // 0.2.00 - 2011-02-11 fixed 64 bit boundary bug
 // 0.2.01 - 2011-08-13 _readBlock made more robust + return value 
+// 1.0.00 - 2013-06-09 support for Arduino 1.0.x
 // 
 // Released to the public domain
 //
 
 #include <I2C_eeprom.h>
-
-#include "Wstring.h"
-#include "Wiring.h"
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -118,10 +116,19 @@ int I2C_eeprom::endOfPage(unsigned int address)
 void I2C_eeprom::_WriteBlock(unsigned int address, uint8_t* buffer, uint8_t length)
 {
 	Wire.beginTransmission(_Device);
+    
+#if defined(ARDUINO) && ARDUINO >= 100
+	Wire.write((int)(address >> 8)); 
+	Wire.write((int)(address & 0xFF));  
+	for (uint8_t c = 0; c < length; c++)
+        Wire.write(buffer[c]);
+#else
 	Wire.send((int)(address >> 8)); 
 	Wire.send((int)(address & 0xFF));  
 	for (uint8_t c = 0; c < length; c++)
 		Wire.send(buffer[c]);
+#endif
+
 	Wire.endTransmission();
 	delay(5);
 }
@@ -129,6 +136,22 @@ void I2C_eeprom::_WriteBlock(unsigned int address, uint8_t* buffer, uint8_t leng
 // pre: buffer is large enough to hold length bytes
 int I2C_eeprom::_ReadBlock(unsigned int address, uint8_t* buffer, uint8_t length)
 {
+    
+#if defined(ARDUINO) && ARDUINO >= 100
+	Wire.beginTransmission(_Device);
+	Wire.write((int)(address >> 8));
+	Wire.write((int)(address & 0xFF));
+	Wire.endTransmission();
+	Wire.requestFrom(_Device, length);
+    
+	int c = 0;
+	unsigned long before = millis();
+	while ((c < length) && ((millis() - before) < 1000))
+	{
+    	if (Wire.available()) buffer[c++] = Wire.read();
+	}
+	return c;    
+#else
 	Wire.beginTransmission(_Device);
 	Wire.send((int)(address >> 8));
 	Wire.send((int)(address & 0xFF));
@@ -142,7 +165,9 @@ int I2C_eeprom::_ReadBlock(unsigned int address, uint8_t* buffer, uint8_t length
     	if (Wire.available()) buffer[c++] = Wire.receive();
 	}
 	return c;
+#endif
 }
+
 //
 // END OF FILE
 //

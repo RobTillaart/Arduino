@@ -4,18 +4,27 @@
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
+// VERSION: 1.0.00
 // HISTORY: See I2C_eeprom.cpp
 //     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
 // Released to the public domain
 //
 
-#include <Wire.h>
+  #include <Wire.h>
+  
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+  #include "Wstring.h"
+  #include "Wiring.h"
+#endif
 
 // BLOCKSIZE must be 16
 #define BLOCKSIZE 16
 
-#define I2C_EEPROM_VERSION "0.2.01"
+#define I2C_EEPROM_VERSION "1.0"
 
 // interface
 class I2C_eeprom 

@@ -1,10 +1,10 @@
 //
 //    FILE: AD524X_sawtooth.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: AD524X demo program
 //    DATE: 2013-10-12
-//     URL: 
+//     URL:
 //
 // Released to the public domain
 //
@@ -14,23 +14,22 @@
 
 AD524X AD01(0x2C);  // AD0 & AD1 == GND
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Serial.print("\nStart AD524X_sawtooth : ");
   Serial.println(AD524X_VERSION);
 
   Wire.begin();
-  TWBR=72;  // 100KHz
+  TWBR = 72;  // 100KHz
 }
 
-void loop() 
+void loop()
 {
-  for (int i=0; i<255; i++)
+  for (int val = 0; val < 255; val++)
   {
-    AD01.write(1, i);
-    Serial.println(i);
+    AD01.write(1, val);
+    Serial.println(val);
     delay(20);
   }
 }
-

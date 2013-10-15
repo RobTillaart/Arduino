@@ -1,8 +1,8 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
-// PURPOSE: digital PotentioMeter AD5241 AD5242
+// VERSION: see AD524X.h file
+// PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL:
 //
@@ -22,33 +22,37 @@ AD524X::AD524X(uint8_t address)
 {
     // address: 0x01011xx = 0x2C - 0x2F
     _address = address;
-    _lastValue[0] = _lastValue[1] = 0;
-    _O1 = 0;
-    _O2 = 0;
+    _lastValue[0] = _lastValue[1] = 127; // power on reset => mid position
+    _O1 = _O2 = 0;
 }
 
-uint8_t AD524X::write(uint8_t RDAC, uint8_t value)
+uint8_t AD524X::zeroAll()
 {
-    if (RDAC > 1) return AS524X_ERROR;
-    uint8_t cmd = (RDAC == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
-    // remember the O masks
+    write(0, 0, LOW, LOW);
+    return write(1, 0);
+}
+
+uint8_t AD524X::write(uint8_t rdac, uint8_t value)
+{
+    if (rdac > 1) return AS524X_ERROR;
+
+    uint8_t cmd = (rdac == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
+    // apply the output lines
     cmd = cmd | _O1 | _O2;
-    _lastValue[RDAC] = value;
+    _lastValue[rdac] = value;
     return send(cmd, value);
 }
 
-uint8_t AD524X::write(uint8_t RDAC, uint8_t value, uint8_t O1, uint8_t O2)
+uint8_t AD524X::write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)
 {
-    if (RDAC > 1) return AS524X_ERROR;
-    uint8_t cmd = (RDAC == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
-    // remember the O masks
-    cmd = cmd | _O1 | _O2;
+    if (rdac > 1) return AS524X_ERROR;
 
+    uint8_t cmd = (rdac == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
     _O1 = (O1 == LOW) ? 0 : AS524X_O1_HIGH;
     _O2 = (O2 == LOW) ? 0 : AS524X_O2_HIGH;
-
+    // apply the output lines
     cmd = cmd | _O1 | _O2;
-    _lastValue[RDAC] = value;
+    _lastValue[rdac] = value;
     return send(cmd, value);
 }
 
@@ -66,19 +70,30 @@ uint8_t AD524X::setO2(uint8_t v)
     return send(cmd, _lastValue[0]);
 }
 
-uint8_t AD524X::read(uint8_t RDAC)
+uint8_t AD524X::getO1()
 {
-    return _lastValue[RDAC];
+    return (_O1 > 0);
 }
 
-uint8_t AD524X::midScaleReset(uint8_t RDAC)
+uint8_t AD524X::getO2()
 {
-    if (RDAC > 1) return AS524X_ERROR;
+    return (_O2 > 0);
+}
+
+uint8_t AD524X::read(uint8_t rdac)
+{
+    return _lastValue[rdac];
+}
+
+uint8_t AD524X::midScaleReset(uint8_t rdac)
+{
+    if (rdac > 1) return AS524X_ERROR;
+
     uint8_t cmd = AS524X_RESET;
-    if (RDAC == 1) cmd |= AS524X_RDAC1;
+    if (rdac == 1) cmd |= AS524X_RDAC1;
     cmd = cmd | _O1 | _O2;
-    _lastValue[RDAC] = 127;
-    return send(cmd, _lastValue[RDAC]);
+    _lastValue[rdac] = 127;
+    return send(cmd, _lastValue[rdac]);
 }
 
 // TODO read datasheet

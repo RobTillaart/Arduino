@@ -1,8 +1,8 @@
 //
 //    FILE: AD524X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
-// PURPOSE: digital PotentioMeter AD5241 AD5242
+// VERSION: 0.1.01
+// PURPOSE: I2C digital PotentioMeter AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL:
 //
@@ -20,7 +20,7 @@
 
 #include <Wire.h>
 
-#define AD524X_VERSION "0.1.00"
+#define AD524X_VERSION "0.1.01"
 
 #define AS524X_OK       0
 #define AS524X_ERROR    -10
@@ -30,20 +30,24 @@ class AD524X
 public:
     // address
     AD524X(uint8_t);
+    
+    uint8_t zeroAll();
+    // rdac
+    uint8_t read(uint8_t);
     // rdac value
     uint8_t write(uint8_t, uint8_t);
     // rdac value O1 O2
     uint8_t write(uint8_t, uint8_t, uint8_t, uint8_t);
-    // O1
-    uint8_t setO1(uint8_t);
-    // O2
-    uint8_t setO2(uint8_t);
+    
+    uint8_t setO1(uint8_t);  // HIGH / LOW
+    uint8_t setO2(uint8_t);  // HIGH / LOW
+    uint8_t getO1();
+    uint8_t getO2();
+    
     // rdac
     uint8_t midScaleReset(uint8_t);
     //
     // uint8_t shutDown();
-    // rdac
-    uint8_t read(uint8_t);
 
 private:
     uint8_t send(uint8_t, uint8_t);     // cmd value

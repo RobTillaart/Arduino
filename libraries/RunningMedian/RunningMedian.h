@@ -4,7 +4,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
 //
@@ -19,34 +19,41 @@
 
 #include <inttypes.h>
 
-#define RUNNING_MEDIAN_VERSION "0.1.04"
+#define RUNNING_MEDIAN_VERSION "0.1.05"
 
-// should at least be 5 to be practical
-#define MEDIAN_MIN_SIZE     1
-#define MEDIAN_MAX_SIZE     19
-#define MEDIAN_DEF_SIZE     5
+// prepare for dynamic version
+// not tested use at own risk :)
+// #define RUNNING_MEDIAN_USE_MALLOC
 
 // conditional compile to minimize lib
+// by removeing a lot of functions.
 #define RUNNING_MEDIAN_ALL
+
+
+// should at least be 5 to be practical
+// odd size results in a 'real' middle element.
+#define MEDIAN_MIN_SIZE     1
+#define MEDIAN_MAX_SIZE     19          // can be adjusted if needed
+
 
 class RunningMedian
 {
 public:
-    RunningMedian(uint8_t);
-    RunningMedian();
+    RunningMedian(uint8_t size);        // # elements in the internal buffer
+    ~RunningMedian();                   // destructor
 
-    void clear();
-    void add(float);
-    float getMedian();
+    void clear();                       // resets internal buffer and var
+    void add(float value);              // adds a new value to internal buffer, optionally replacing the oldest element.
+    float getMedian();                  // returns the median == middle element
 
 #ifdef RUNNING_MEDIAN_ALL
-    float getAverage();
-    float getAverage(uint8_t);
-    float getHighest();
-    float getLowest();
+    float getAverage();                 // returns average of the values in the internal buffer
+    float getAverage(uint8_t nMedian);  // returns average of the middle nMedian values, removes noise from outliers
+    float getHighest();                 // returns highest element
+    float getLowest();                  // return lowest element
 
-    uint8_t getSize();
-    uint8_t getCount();
+    uint8_t getSize();                  // returns size of internal buffer
+    uint8_t getCount();                 // returns current used elements, getCount() <= getSize()
 #endif
 
 protected:
@@ -54,8 +61,14 @@ protected:
     uint8_t _size;
     uint8_t _cnt;
     uint8_t _idx;
+
+#ifdef RUNNING_MEDIAN_USE_MALLOC
+    float * _ar;
+    float * _as;
+#else
     float _ar[MEDIAN_MAX_SIZE];
     float _as[MEDIAN_MAX_SIZE];
+#endif
     void sort();
 };
 

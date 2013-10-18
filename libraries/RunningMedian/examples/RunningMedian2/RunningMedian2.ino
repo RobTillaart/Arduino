@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian2.ino
 //  AUTHOR: Rob Tillaart ( kudos to Sembazuru)
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: demo
 //    DATE: 2013-10-17
 //     URL:
@@ -11,7 +11,7 @@
 
 #include "RunningMedian.h"
 
-RunningMedian samples = RunningMedian();
+RunningMedian samples = RunningMedian(15);
 
 long count = 0;
 

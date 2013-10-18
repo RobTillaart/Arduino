@@ -1,7 +1,7 @@
 
 #include <RunningMedian.h>
 
-RunningMedian samples = RunningMedian();
+RunningMedian samples = RunningMedian(5);
 RunningMedian samples2 = RunningMedian(9);
 
 void setup()

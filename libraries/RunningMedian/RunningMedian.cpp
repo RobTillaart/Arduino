@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -10,6 +10,7 @@
 // 0.1.02 - 2012-03-15 added
 // 0.1.03 - 2013-09-30 added _sorted flag, minor refactor
 // 0.1.04 - 2013-10-17 added getAverage(uint8_t) - kudo's to Sembazuru
+// 0.1.05 - 2013-10-18 fixed bug in sort; removes default constructor; dynamic memory
 //
 // Released to the public domain
 //
@@ -19,16 +20,24 @@
 RunningMedian::RunningMedian(uint8_t size)
 {
     _size = constrain(size, MEDIAN_MIN_SIZE, MEDIAN_MAX_SIZE);
+#ifdef RUNNING_MEDIAN_USE_MALLOC
+    _ar = (float *) malloc(_size * sizeof(float));
+    _as = (float *) malloc(_size * sizeof(float));
+#endif
+
     // array's could be allocated by malloc here,
     // but using fixed size is easier.
     clear();
 }
 
-RunningMedian::RunningMedian()
+RunningMedian::~RunningMedian()
 {
-    _size = MEDIAN_DEF_SIZE;
-    clear();
+#ifdef RUNNING_MEDIAN_USE_MALLOC
+    free(_ar);
+    free(_as);
+#endif
 }
+
 // resets all counters
 void RunningMedian::clear()
 {
@@ -124,7 +133,7 @@ void RunningMedian::sort()
         }
         if (m != i)
         {
-            long t = _as[m];
+            float t = _as[m];
             _as[m] = _as[i];
             _as[i] = t;
         }

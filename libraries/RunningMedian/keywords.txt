@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map for RunningMedian
+# "traditional" and template variant
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+RunningMedian	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+add	KEYWORD2
+clear	KEYWORD2
+getMedian	KEYWORD2
+getAverage	KEYWORD2
+getHighest	KEYWORD2
+getLowest	KEYWORD2
+getSize	KEYWORD2
+getCount	KEYWORD2
+getStatus	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+OK	KEYWORD1
+NOK	KEYWORD1

@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -11,6 +11,7 @@
 // 0.1.03 - 2013-09-30 added _sorted flag, minor refactor
 // 0.1.04 - 2013-10-17 added getAverage(uint8_t) - kudo's to Sembazuru
 // 0.1.05 - 2013-10-18 fixed bug in sort; removes default constructor; dynamic memory
+// 0.1.06 - 2013-10-19 faster sort? more dyn test.
 //
 // Released to the public domain
 //
@@ -20,13 +21,12 @@
 RunningMedian::RunningMedian(uint8_t size)
 {
     _size = constrain(size, MEDIAN_MIN_SIZE, MEDIAN_MAX_SIZE);
+    
 #ifdef RUNNING_MEDIAN_USE_MALLOC
     _ar = (float *) malloc(_size * sizeof(float));
-    _as = (float *) malloc(_size * sizeof(float));
+    _p = (uint8_t *) malloc(size * sizeof(uint8_t));
 #endif
 
-    // array's could be allocated by malloc here,
-    // but using fixed size is easier.
     clear();
 }
 
@@ -34,7 +34,7 @@ RunningMedian::~RunningMedian()
 {
 #ifdef RUNNING_MEDIAN_USE_MALLOC
     free(_ar);
-    free(_as);
+    free(_p);
 #endif
 }
 
@@ -44,6 +44,8 @@ void RunningMedian::clear()
     _cnt = 0;
     _idx = 0;
     _sorted = false;
+
+    // for (uint8_t i=0; i< _size; i++) _p[i] = i;
 }
 
 // adds a new value to the data-set
@@ -61,7 +63,8 @@ float RunningMedian::getMedian()
     if (_cnt > 0)
     {
         if (_sorted == false) sort();
-        return _as[_cnt/2];
+        return _ar[_p[_cnt/2]];
+        // return _as[_cnt/2];
     }
     return NAN;
 }
@@ -72,7 +75,8 @@ float RunningMedian::getHighest()
     if (_cnt > 0)
     {
         if (_sorted == false) sort();
-        return _as[_cnt-1];
+        return _ar[_p[_cnt-1]];
+        // return _as[_cnt-1];
     }
     return NAN;
 }
@@ -82,7 +86,8 @@ float RunningMedian::getLowest()
     if (_cnt > 0)
     {	
         if (_sorted == false) sort();
-        return _as[0];
+        return _ar[_p[0]];
+        // return _as[0];
     }
     return NAN;
 }
@@ -105,9 +110,9 @@ float RunningMedian::getAverage(uint8_t nMedians)
         if (_cnt < nMedians) nMedians = _cnt;     // when filling the array for first time
         uint8_t start = ((_cnt - nMedians)/2);
         uint8_t stop = start + nMedians;
-        sort();
+        if (_sorted == false) sort();
         float sum = 0;
-        for (uint8_t i = start; i < stop; i++) sum += _as[i];
+        for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];  // _as[i];
         return sum / nMedians;
     }
     return NAN;
@@ -120,25 +125,77 @@ uint8_t RunningMedian::getCount() { return _cnt; };
 
 void RunningMedian::sort()
 {
-    // copy
-    for (uint8_t i=0; i< _cnt; i++) _as[i] = _ar[i];
+    // Serial.print("befor:\t");
+    // for (uint8_t i=0; i< _cnt; i++) 
+    // {
+        // Serial.print(_ar[_p[i]]);
+        // Serial.print('\t');
+    // }
+    // Serial.println();
 
     // sort all
     for (uint8_t i=0; i< _cnt-1; i++)
     {
-        uint8_t m = i;
-        for (uint8_t j=i+1; j< _cnt; j++)
+        bool flag = true;
+        for (uint8_t j=1; j< _cnt-i; j++)
         {
-            if (_as[j] < _as[m]) m = j;
+            if (_ar[_p[j-1]] > _ar[_p[j]])
+            {
+                uint8_t t = _p[j-1];
+                _p[j-1] = _p[j];
+                _p[j] = t;
+                flag = false;
+            }
         }
-        if (m != i)
-        {
-            float t = _as[m];
-            _as[m] = _as[i];
-            _as[i] = t;
-        }
+        if (flag) break;
     }
+    
+    // for (uint8_t i=0; i< _cnt-1; i++)
+    // {
+        // uint8_t m = i;
+        // for (uint8_t j=i+1; j< _cnt; j++)
+        // {
+            // if (_ar[_p[j]] < _ar[_p[m]]) m = j;
+        // }
+        // if ( m != i )
+        // {
+            // uint8_t t = _p[i];
+            // _p[i] = _p[m];
+            // _p[m] = t;
+        // }
+    // }
+    
+    // Serial.print("after:\t");
+    // for (uint8_t i=0; i< _cnt; i++) 
+    // {
+        // Serial.print(_ar[_p[i]]);
+        // Serial.print('\t');
+    // }
+    // Serial.println();
     _sorted = true;
 }
+
+// void RunningMedian::sort()
+// {
+    // // copy
+    // for (uint8_t i=0; i< _cnt; i++) _as[i] = _ar[i];
+
+    // // sort all
+    // for (uint8_t i=0; i< _cnt-1; i++)
+    // {
+        // uint8_t m = i;
+        // for (uint8_t j=i+1; j< _cnt; j++)
+        // {
+            // if (_as[j] < _as[m]) m = j;
+        // }
+        // if (m != i)
+        // {
+            // float t = _as[m];
+            // _as[m] = _as[i];
+            // _as[i] = t;
+        // }
+    // }
+    // _sorted = true;
+// }
 
 // END OF FILE

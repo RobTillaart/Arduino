@@ -4,7 +4,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
 //
@@ -19,7 +19,7 @@
 
 #include <inttypes.h>
 
-#define RUNNING_MEDIAN_VERSION "0.1.05"
+#define RUNNING_MEDIAN_VERSION "0.1.06"
 
 // prepare for dynamic version
 // not tested use at own risk :)
@@ -64,10 +64,12 @@ protected:
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
     float * _ar;
-    float * _as;
+    // float * _as;
+    uint8_t * _p;
 #else
     float _ar[MEDIAN_MAX_SIZE];
-    float _as[MEDIAN_MAX_SIZE];
+    // float _as[MEDIAN_MAX_SIZE];
+    uint8_t _p[MEDIAN_MAX_SIZE];
 #endif
     void sort();
 };

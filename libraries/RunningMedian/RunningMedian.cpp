@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -12,6 +12,7 @@
 // 0.1.04 - 2013-10-17 added getAverage(uint8_t) - kudo's to Sembazuru
 // 0.1.05 - 2013-10-18 fixed bug in sort; removes default constructor; dynamic memory
 // 0.1.06 - 2013-10-19 faster sort, dynamic arrays, replaced sorted float array with indirection array
+// 0.1.07 - 2013-10-19 add correct median if _cnt is even.
 //
 // Released to the public domain
 //
@@ -52,9 +53,8 @@ void RunningMedian::clear()
 // or overwrites the oldest if full.
 void RunningMedian::add(float value)
 {
-    _idx++;
+    _ar[_idx++] = value;
     if (_idx >= _size) _idx = 0; // wrap around
-    _ar[_idx] = value;
     if (_cnt < _size) _cnt++;
     _sorted = false;
 }
@@ -64,7 +64,8 @@ float RunningMedian::getMedian()
     if (_cnt > 0)
     {
         if (_sorted == false) sort();
-        return _ar[_p[_cnt/2]];
+        if (_cnt & 0x01) return _ar[_p[_cnt/2]];
+        else return (_ar[_p[_cnt/2]] + _ar[_p[_cnt/2 - 1]]) / 2.0;
     }
     return NAN;
 }

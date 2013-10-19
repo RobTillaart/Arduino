@@ -11,7 +11,7 @@
 
 #include "RunningMedian.h"
 
-RunningMedian samples = RunningMedian(15);
+RunningMedian samples = RunningMedian(7);
 
 long count = 0;
 
@@ -29,9 +29,9 @@ void loop()
 
 void test1()
 {
-  if (count % 20 == 0) Serial.println(F("\nmsec \tAnR \tSize \tCnt \tLow \tAvg \tAvg(3) \tMed \tHigh"));
+  if (count % 20 == 0) Serial.println(F("\nmsec \tAnR \tSize \tCnt \tLow \tAvg \tAvg(7) \tAvg(3) \tMed \tHigh"));
   count++;
-  
+
   long x = analogRead(A0);
 
   samples.add(x);
@@ -39,6 +39,7 @@ void test1()
   float l = samples.getLowest();
   float m = samples.getMedian();
   float a = samples.getAverage();
+  float a7 = samples.getAverage(7);
   float a3 = samples.getAverage(3);
   float h = samples.getHighest();
   int s = samples.getSize();
@@ -56,6 +57,8 @@ void test1()
   Serial.print('\t');
   Serial.print(a, 2);
   Serial.print('\t');
+  Serial.print(a7, 2);
+  Serial.print('\t');
   Serial.print(a3, 2);
   Serial.print('\t');
   Serial.print(m);
@@ -63,4 +66,5 @@ void test1()
   Serial.println(h);
   delay(100);
 }
+
 

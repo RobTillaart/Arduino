@@ -32,8 +32,9 @@
 
 // should at least be 5 to be practical
 // odd size results in a 'real' middle element.
+// even size takes the lower of the two middle elements (TODO)
 #define MEDIAN_MIN_SIZE     1
-#define MEDIAN_MAX_SIZE     19          // can be adjusted if needed
+#define MEDIAN_MAX_SIZE     19          // adjust if needed
 
 
 class RunningMedian
@@ -64,11 +65,9 @@ protected:
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
     float * _ar;
-    // float * _as;
     uint8_t * _p;
 #else
     float _ar[MEDIAN_MAX_SIZE];
-    // float _as[MEDIAN_MAX_SIZE];
     uint8_t _p[MEDIAN_MAX_SIZE];
 #endif
     void sort();

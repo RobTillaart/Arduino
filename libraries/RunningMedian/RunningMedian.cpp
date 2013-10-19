@@ -11,7 +11,7 @@
 // 0.1.03 - 2013-09-30 added _sorted flag, minor refactor
 // 0.1.04 - 2013-10-17 added getAverage(uint8_t) - kudo's to Sembazuru
 // 0.1.05 - 2013-10-18 fixed bug in sort; removes default constructor; dynamic memory
-// 0.1.06 - 2013-10-19 faster sort? more dyn test.
+// 0.1.06 - 2013-10-19 faster sort, dynamic arrays, replaced sorted float array with indirection array
 //
 // Released to the public domain
 //
@@ -21,10 +21,10 @@
 RunningMedian::RunningMedian(uint8_t size)
 {
     _size = constrain(size, MEDIAN_MIN_SIZE, MEDIAN_MAX_SIZE);
-    
+
 #ifdef RUNNING_MEDIAN_USE_MALLOC
     _ar = (float *) malloc(_size * sizeof(float));
-    _p = (uint8_t *) malloc(size * sizeof(uint8_t));
+    _p = (uint8_t *) malloc(_size * sizeof(uint8_t));
 #endif
 
     clear();
@@ -45,15 +45,16 @@ void RunningMedian::clear()
     _idx = 0;
     _sorted = false;
 
-    // for (uint8_t i=0; i< _size; i++) _p[i] = i;
+    for (uint8_t i=0; i< _size; i++) _p[i] = i;
 }
 
 // adds a new value to the data-set
 // or overwrites the oldest if full.
 void RunningMedian::add(float value)
 {
-    _ar[_idx++] = value;
+    _idx++;
     if (_idx >= _size) _idx = 0; // wrap around
+    _ar[_idx] = value;
     if (_cnt < _size) _cnt++;
     _sorted = false;
 }
@@ -64,7 +65,6 @@ float RunningMedian::getMedian()
     {
         if (_sorted == false) sort();
         return _ar[_p[_cnt/2]];
-        // return _as[_cnt/2];
     }
     return NAN;
 }
@@ -74,9 +74,8 @@ float RunningMedian::getHighest()
 {
     if (_cnt > 0)
     {
-        if (_sorted == false) sort();
+        if (_sorted == false) sort(); // assumes other fields are also retrieved otherwise inefficient
         return _ar[_p[_cnt-1]];
-        // return _as[_cnt-1];
     }
     return NAN;
 }
@@ -87,7 +86,6 @@ float RunningMedian::getLowest()
     {	
         if (_sorted == false) sort();
         return _ar[_p[0]];
-        // return _as[0];
     }
     return NAN;
 }
@@ -110,9 +108,11 @@ float RunningMedian::getAverage(uint8_t nMedians)
         if (_cnt < nMedians) nMedians = _cnt;     // when filling the array for first time
         uint8_t start = ((_cnt - nMedians)/2);
         uint8_t stop = start + nMedians;
+
         if (_sorted == false) sort();
+
         float sum = 0;
-        for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];  // _as[i];
+        for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];
         return sum / nMedians;
     }
     return NAN;
@@ -125,15 +125,7 @@ uint8_t RunningMedian::getCount() { return _cnt; };
 
 void RunningMedian::sort()
 {
-    // Serial.print("befor:\t");
-    // for (uint8_t i=0; i< _cnt; i++) 
-    // {
-        // Serial.print(_ar[_p[i]]);
-        // Serial.print('\t');
-    // }
-    // Serial.println();
-
-    // sort all
+    // bubble sort with flag
     for (uint8_t i=0; i< _cnt-1; i++)
     {
         bool flag = true;
@@ -149,53 +141,8 @@ void RunningMedian::sort()
         }
         if (flag) break;
     }
-    
-    // for (uint8_t i=0; i< _cnt-1; i++)
-    // {
-        // uint8_t m = i;
-        // for (uint8_t j=i+1; j< _cnt; j++)
-        // {
-            // if (_ar[_p[j]] < _ar[_p[m]]) m = j;
-        // }
-        // if ( m != i )
-        // {
-            // uint8_t t = _p[i];
-            // _p[i] = _p[m];
-            // _p[m] = t;
-        // }
-    // }
-    
-    // Serial.print("after:\t");
-    // for (uint8_t i=0; i< _cnt; i++) 
-    // {
-        // Serial.print(_ar[_p[i]]);
-        // Serial.print('\t');
-    // }
-    // Serial.println();
+
     _sorted = true;
 }
-
-// void RunningMedian::sort()
-// {
-    // // copy
-    // for (uint8_t i=0; i< _cnt; i++) _as[i] = _ar[i];
-
-    // // sort all
-    // for (uint8_t i=0; i< _cnt-1; i++)
-    // {
-        // uint8_t m = i;
-        // for (uint8_t j=i+1; j< _cnt; j++)
-        // {
-            // if (_as[j] < _as[m]) m = j;
-        // }
-        // if (m != i)
-        // {
-            // float t = _as[m];
-            // _as[m] = _as[i];
-            // _as[i] = t;
-        // }
-    // }
-    // _sorted = true;
-// }
 
 // END OF FILE

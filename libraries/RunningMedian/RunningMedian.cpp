@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -13,6 +13,7 @@
 // 0.1.05 - 2013-10-18 fixed bug in sort; removes default constructor; dynamic memory
 // 0.1.06 - 2013-10-19 faster sort, dynamic arrays, replaced sorted float array with indirection array
 // 0.1.07 - 2013-10-19 add correct median if _cnt is even.
+// 0.1.08 - 2013-10-20 add getElement(), add getSottedElement() add predict()
 //
 // Released to the public domain
 //
@@ -71,25 +72,9 @@ float RunningMedian::getMedian()
 }
 
 #ifdef RUNNING_MEDIAN_ALL
-float RunningMedian::getHighest()
-{
-    if (_cnt > 0)
-    {
-        if (_sorted == false) sort(); // assumes other fields are also retrieved otherwise inefficient
-        return _ar[_p[_cnt-1]];
-    }
-    return NAN;
-}
+float RunningMedian::getHighest() { return getSortedElement(_cnt-1); }
 
-float RunningMedian::getLowest()
-{
-    if (_cnt > 0)
-    {	
-        if (_sorted == false) sort();
-        return _ar[_p[0]];
-    }
-    return NAN;
-}
+float RunningMedian::getLowest() { return getSortedElement(0); }
 
 float RunningMedian::getAverage()
 {
@@ -115,6 +100,44 @@ float RunningMedian::getAverage(uint8_t nMedians)
         float sum = 0;
         for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];
         return sum / nMedians;
+    }
+    return NAN;
+}
+
+float RunningMedian::getElement(uint8_t n)
+{
+    if ((_cnt > 0) && (n < _cnt))
+    {
+        return _ar[n];
+    }
+    return NAN;
+}
+
+float RunningMedian::getSortedElement(uint8_t n)
+{
+    if ((_cnt > 0) && (n < _cnt))
+    {
+        if (_sorted == false) sort();
+        return _ar[_p[n]];
+    }
+    return NAN;
+}
+
+float RunningMedian::predict(uint8_t n)
+{
+    if ((_cnt > 0) && (n < _cnt/2))
+    {
+        float med = getMedian();  // takes care of sorting !
+        if (_cnt & 0x01)
+        {
+            return max(med - _ar[_p[_cnt/2-n]], _ar[_p[_cnt/2+n]] - med);
+        }
+        else
+        {
+            float f1 = (_ar[_p[_cnt/2 - n]] + _ar[_p[_cnt/2 - n - 1]])/2;
+            float f2 = (_ar[_p[_cnt/2 + n]] + _ar[_p[_cnt/2 + n - 1]])/2;
+            return max(med - f1, f2 - med)/2;
+        }
     }
     return NAN;
 }

@@ -4,7 +4,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
 //
@@ -52,6 +52,10 @@ public:
     float getAverage(uint8_t nMedian);  // returns average of the middle nMedian values, removes noise from outliers
     float getHighest();                 // returns highest element
     float getLowest();                  // return lowest element
+
+    float getElement(uint8_t n);        // get n'th element from the values in time order
+    float getSortedElement(uint8_t n);  // get n'th element from the values in size order
+    float predict(uint8_t n);           // predict the max change of median after n additions
 
     uint8_t getSize();                  // returns size of internal buffer
     uint8_t getCount();                 // returns current used elements, getCount() <= getSize()

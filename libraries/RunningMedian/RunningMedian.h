@@ -19,7 +19,7 @@
 
 #include <inttypes.h>
 
-#define RUNNING_MEDIAN_VERSION "0.1.07"
+#define RUNNING_MEDIAN_VERSION "0.1.08"
 
 // prepare for dynamic version
 // not tested use at own risk :)

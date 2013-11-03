@@ -10,6 +10,7 @@
 // 0.2.00 - 2011-02-11 fixed 64 bit boundary bug
 // 0.2.01 - 2011-08-13 _readBlock made more robust + return value 
 // 1.0.00 - 2013-06-09 support for Arduino 1.0.x
+// 1.0.01 - 2013-11-01 fixed writeBlock bug, refactor 
 // 
 // Released to the public domain
 //
@@ -23,61 +24,30 @@
 
 I2C_eeprom::I2C_eeprom(uint8_t device)
 {
-	_Device = device;
+	_deviceAddress = device;
 	Wire.begin(); 		// initialise the connection
+    // TWBR = 12;          // 12 = 400Khz  72 = 100    FCPU/16+(2*TWBR)
 }
 
-void I2C_eeprom::writeByte(unsigned int address, uint8_t data )
+void I2C_eeprom::writeByte(uint16_t address, uint8_t data )
 {
 	_WriteBlock(address, &data, 1);
 }
 
-void I2C_eeprom::writeBlock(unsigned int address, uint8_t* buffer, int length)
+void I2C_eeprom::setBlock(uint16_t address, uint8_t data, int length)
 {
-	// determine length until end of page
-	int le = endOfPage(address);
-	if (le > 0)
-	{
-		_WriteBlock(address, buffer, le); // todo check return value..
-		address += le;
-		buffer += le;
-		length -= le;
-	}
+	uint8_t buffer[I2C_EEPROM_PAGESIZE];
+	for (uint8_t i =0; i< I2C_EEPROM_PAGESIZE; i++) buffer[i] = data;
 	
-	// write the rest at BLOCKSIZE (16) byte boundaries ///
-	while (length > 0)
-	{
-		_WriteBlock(address, buffer, min(length, BLOCKSIZE));  // todo check return value..
-		address += BLOCKSIZE;
-		buffer += BLOCKSIZE;
-		length -= BLOCKSIZE;
-	}
+    _pageBlock(address, buffer, length, false);
 }
 
-void I2C_eeprom::setBlock(unsigned int address, uint8_t data, int length)
+void I2C_eeprom::writeBlock(uint16_t address, uint8_t* buffer, int length)
 {
-	uint8_t buffer[BLOCKSIZE];
-	for (uint8_t i =0; i< BLOCKSIZE; i++) buffer[i] = data;
-	
-	// determine length until end of page
-	int le = endOfPage(address);
-	if (le > 0)
-	{
-		_WriteBlock(address, buffer, le);
-		address += le;
-		length -= le;
-	}
-	
-	while (length > 0)
-	{
-		_WriteBlock(address, buffer, min(length, BLOCKSIZE)); // // todo check return value..
-		address += BLOCKSIZE;
-		length -= BLOCKSIZE;
-	}
+    _pageBlock(address, buffer, length, true);
 }
 
-
-uint8_t I2C_eeprom::readByte(unsigned int address)
+uint8_t I2C_eeprom::readByte(uint16_t address)
 {
 	uint8_t rdata;
 	_ReadBlock(address, &rdata, 1);  // todo check return value..
@@ -85,14 +55,16 @@ uint8_t I2C_eeprom::readByte(unsigned int address)
 }
 
 // maybe let's not read more than 30 or 32 uint8_ts at a time!
-void I2C_eeprom::readBlock(unsigned int address, uint8_t* buffer, int length)
+void I2C_eeprom::readBlock(uint16_t address, uint8_t* buffer, int length)
 {
-	while (length > 0)
+    int cnt = min(length, I2C_EEPROM_PAGESIZE);
+	while (cnt > 0)
 	{
-		_ReadBlock(address, buffer, min(length, BLOCKSIZE));  // todo check return value..
-		address += BLOCKSIZE;
-		buffer += BLOCKSIZE;
-		length -= BLOCKSIZE;
+		_ReadBlock(address, buffer, cnt);  // todo check return value..
+		address += cnt;
+		buffer += cnt;
+		length -= cnt;
+        cnt = min(length, I2C_EEPROM_PAGESIZE);
 	}
 }
 
@@ -105,66 +77,83 @@ void I2C_eeprom::readBlock(unsigned int address, uint8_t* buffer, int length)
 // detemines length until first multiple of 16 of an address
 // so writing allways occurs up to 16 byte boundaries
 // this is automatically 64 byte boundaries
-int I2C_eeprom::endOfPage(unsigned int address)
+int I2C_eeprom::endOfPage(uint16_t address)
 {
-	const int m = BLOCKSIZE;
-	unsigned int eopAddr = ((address + m - 1) / m) * m;  // "end of page" address
+	uint16_t eopAddr = ((address + I2C_EEPROM_PAGESIZE - 1) / I2C_EEPROM_PAGESIZE) * I2C_EEPROM_PAGESIZE;  // "end of page" address
 	return eopAddr - address;  // length until end of page
 }
 
-// pre: length < 32;
-void I2C_eeprom::_WriteBlock(unsigned int address, uint8_t* buffer, uint8_t length)
+
+// _doBlock aligns buffer to page boundaries
+void I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, int length, bool incrBuffer)
 {
-	Wire.beginTransmission(_Device);
+	// determine length until end of page
+	int le = endOfPage(address);
+    int cnt = 0;
+    if (le > 0) cnt = min(length, le);  // first block till end of page
+    else cnt = min(length, I2C_EEPROM_PAGESIZE);
+	while (cnt > 0)
+	{
+         _WriteBlock(address, buffer, cnt); // todo check return value..
+        address += cnt;
+        if (incrBuffer) buffer += cnt;
+        length -= cnt;
+        cnt = min(length, I2C_EEPROM_PAGESIZE);  // rest with BLOCKSIZE or the remaining last bytes
+	}
+}
+
+
+// pre: length <= I2C_EEPROM_PAGESIZE;
+void I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
+{
+	Wire.beginTransmission(_deviceAddress);
     
 #if defined(ARDUINO) && ARDUINO >= 100
 	Wire.write((int)(address >> 8)); 
 	Wire.write((int)(address & 0xFF));  
-	for (uint8_t c = 0; c < length; c++)
-        Wire.write(buffer[c]);
+	for (uint8_t cnt = 0; cnt < length; cnt++)
+        Wire.write(buffer[cnt]);
 #else
 	Wire.send((int)(address >> 8)); 
 	Wire.send((int)(address & 0xFF));  
-	for (uint8_t c = 0; c < length; c++)
-		Wire.send(buffer[c]);
+	for (uint8_t cnt = 0; cnt < length; cnt++)
+		Wire.send(buffer[cnt]);
 #endif
-
 	Wire.endTransmission();
-	delay(5);
+    delay(5);
 }
 
-// pre: buffer is large enough to hold length bytes
-int I2C_eeprom::_ReadBlock(unsigned int address, uint8_t* buffer, uint8_t length)
+// pre: buffer is large enough to hold length bytes (not tested)
+int I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
-    
 #if defined(ARDUINO) && ARDUINO >= 100
-	Wire.beginTransmission(_Device);
+	Wire.beginTransmission(_deviceAddress);
 	Wire.write((int)(address >> 8));
 	Wire.write((int)(address & 0xFF));
 	Wire.endTransmission();
-	Wire.requestFrom(_Device, length);
+	Wire.requestFrom(_deviceAddress, length);
     
-	int c = 0;
+	int cnt = 0;
 	unsigned long before = millis();
-	while ((c < length) && ((millis() - before) < 1000))
+	while ((cnt < length) && ((millis() - before) < I2C_EEPROM_TIMEOUT))
 	{
-    	if (Wire.available()) buffer[c++] = Wire.read();
+    	if (Wire.available()) buffer[cnt++] = Wire.read();
 	}
-	return c;    
+	return cnt;    
 #else
-	Wire.beginTransmission(_Device);
+	Wire.beginTransmission(_deviceAddress);
 	Wire.send((int)(address >> 8));
 	Wire.send((int)(address & 0xFF));
 	Wire.endTransmission();
-	Wire.requestFrom(_Device, length);
+	Wire.requestFrom(_deviceAddress, length);
 	
-	int c = 0;
+	int cnt = 0;
 	unsigned long before = millis();
-	while ((c < length) && ((millis() - before) < 1000))
+	while ((cnt < length) && ((millis() - before) < I2C_EEPROM_TIMEOUT))
 	{
-    	if (Wire.available()) buffer[c++] = Wire.receive();
+    	if (Wire.available()) buffer[cnt++] = Wire.receive();
 	}
-	return c;
+	return cnt;
 #endif
 }
 

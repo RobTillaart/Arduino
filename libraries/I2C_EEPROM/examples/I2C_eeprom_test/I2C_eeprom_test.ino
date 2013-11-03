@@ -16,8 +16,7 @@ void setup()
   Serial.print("Demo I2C eeprom library ");
   Serial.print(I2C_EEPROM_VERSION);
   Serial.println("\n");
-  
-  
+
   Serial.println("\nTEST: 64 byte page boundary writeBlock");
   ee.setBlock(0,'0',100);
   dumpEEPROM(0, 80);
@@ -51,9 +50,51 @@ void setup()
   for (int i = 0; i<100; i++)
   {
     if (i%10 == 0 ) Serial.println();
+    Serial.print(' ');
     Serial.print(ee.readByte(10+i));
   }
   Serial.println();
+
+
+  Serial.println("\nTEST: check almost endofPage writeBlock");
+  ee.setBlock(0,0,128);
+  char data3[] = "6666666666666"; 
+  ee.writeBlock(60, (uint8_t *) &data3, 2);
+  dumpEEPROM(50, 50);
+
+  Serial.println();
+  Serial.print("\n\tI2C speed:\t");
+  Serial.println(16000/(16+2*TWBR));
+  Serial.print("TWBR:\t");
+  Serial.println(TWBR);
+  Serial.println();
+
+  Serial.print("\nTEST: timing writeByte()\t");
+  uint32_t start = micros();
+  ee.writeByte(10, 1);
+  uint32_t diff = micros() - start;  
+  Serial.println(diff);
+
+  Serial.print("TEST: timing writeBlock(50)\t");
+  start = micros();
+  ee.writeBlock(10, (uint8_t *) &data2, 50);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  Serial.print("TEST: timing readByte()\t\t");
+  start = micros();
+  ee.readByte(10);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  Serial.print("TEST: timing readBlock(50)\t");
+  start = micros();
+  ee.readBlock(10, (uint8_t *) &data2, 50);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  Serial.println("\tDone...");
+
 }
 
 
@@ -62,7 +103,7 @@ void loop()
 }
 
 
-void dumpEEPROM(unsigned int addr, unsigned int length)
+void dumpEEPROM(uint16_t addr, uint16_t length)
 {
   // block to 10
   addr = addr / 10 * 10;
@@ -84,3 +125,4 @@ void dumpEEPROM(unsigned int addr, unsigned int length)
   Serial.println();
 }
 // END OF FILE
+

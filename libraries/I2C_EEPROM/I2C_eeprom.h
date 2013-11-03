@@ -4,7 +4,7 @@
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
-// VERSION: 1.0.00
+// VERSION: 1.0.01
 // HISTORY: See I2C_eeprom.cpp
 //     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
@@ -21,10 +21,14 @@
   #include "Wiring.h"
 #endif
 
-// BLOCKSIZE must be 16
-#define BLOCKSIZE 16
 
-#define I2C_EEPROM_VERSION "1.0"
+#define I2C_EEPROM_VERSION "1.0.01"
+
+// I2C_EEPROM_PAGESIZE must be 16 for the Arduino 
+// as the WIre lib buffer is too small
+#define I2C_EEPROM_PAGESIZE 16
+
+#define I2C_EEPROM_TIMEOUT  1000
 
 // interface
 class I2C_eeprom 
@@ -32,24 +36,32 @@ class I2C_eeprom
 	public:
 	// (I2C address)
 	I2C_eeprom(uint8_t);
+    
 	// (mem_address, value)
-	void writeByte(unsigned int, uint8_t );
+	void writeByte(uint16_t, uint8_t );
 	// (mem_address, buffer, length)
-	void writeBlock(unsigned int, uint8_t*, int ); 
+	void writeBlock(uint16_t, uint8_t*, int );
+    
 	// (mem_address, value, count)
-	void setBlock(unsigned int, uint8_t, int ); 
+	void setBlock(uint16_t, uint8_t, int );
+    
 	// (mem_address)
-	uint8_t readByte(unsigned int );
+	uint8_t readByte(uint16_t);
 	// (mem_address, buffer, length)
-	void readBlock(unsigned int, uint8_t*, int );
+	void readBlock(uint16_t, uint8_t*, int );
 
 	private:
-	uint8_t _Device;
+	uint8_t _deviceAddress;
+    uint8_t _pagesize;
+    
 	// (address)
-	int endOfPage(unsigned int);  
+	int endOfPage(uint16_t);
+	// (mem_address, buffer, length, incrBuffer)
+    void _pageBlock(uint16_t, uint8_t*, int length, bool);
+    
 	// (mem_address, buffer, length)
-	void _WriteBlock(unsigned int, uint8_t*, uint8_t );
-	int _ReadBlock(unsigned int, uint8_t*, uint8_t );
+	void _WriteBlock(uint16_t, uint8_t*, uint8_t );
+	int _ReadBlock(uint16_t, uint8_t*, uint8_t );
 };
 
 #endif

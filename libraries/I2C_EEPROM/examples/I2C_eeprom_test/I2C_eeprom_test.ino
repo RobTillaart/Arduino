@@ -18,23 +18,23 @@ void setup()
   Serial.println("\n");
 
   Serial.println("\nTEST: 64 byte page boundary writeBlock");
-  ee.setBlock(0,'0',100);
-  dumpEEPROM(0, 80);
+  ee.setBlock(0,0,128);
+  dumpEEPROM(0, 128);
   char data[] = "11111111111111111111";
-  ee.writeBlock(61, (uint8_t*) data, 10);
-  dumpEEPROM(0, 80);
+  ee.writeBlock(60, (uint8_t*) data, 10);
+  dumpEEPROM(0, 128);
 
 
   Serial.println("\nTEST: 64 byte page boundary setBlock");
-  ee.setBlock(0,'0',100);
-  dumpEEPROM(0, 80);
-  ee.setBlock(61, '1', 10);
-  dumpEEPROM(0, 80);
+  ee.setBlock(0,0,128);
+  dumpEEPROM(0, 128);
+  ee.setBlock(60, '1', 10);
+  dumpEEPROM(0, 128);
 
 
   Serial.println("\nTEST: 64 byte page boundary readBlock");
-  ee.setBlock(0,'0',64);
-  ee.setBlock(64, '1', 64);
+  ee.setBlock(0,0,128);
+  ee.setBlock(60, '1', 6);
   dumpEEPROM(0, 128);
   char ar[100];
   memset(ar,0,100);
@@ -43,10 +43,10 @@ void setup()
 
 
   Serial.println("\nTEST: write large string readback in small steps");
-  ee.setBlock(0,'X',128);
+  ee.setBlock(0,0,128);
   char data2[] = "0000000000111111111122222222223333333333444444444455555555556666666666777777777788888888889999999999A"; 
   ee.writeBlock(10, (uint8_t *) &data2, 100);
-  dumpEEPROM(0, 256);
+  dumpEEPROM(0, 128);
   for (int i = 0; i<100; i++)
   {
     if (i%10 == 0 ) Serial.println();
@@ -58,9 +58,9 @@ void setup()
 
   Serial.println("\nTEST: check almost endofPage writeBlock");
   ee.setBlock(0,0,128);
-  char data3[] = "6666666666666"; 
+  char data3[] = "6666"; 
   ee.writeBlock(60, (uint8_t *) &data3, 2);
-  dumpEEPROM(50, 50);
+  dumpEEPROM(0, 128);
 
   Serial.println();
   Serial.print("\n\tI2C speed:\t");

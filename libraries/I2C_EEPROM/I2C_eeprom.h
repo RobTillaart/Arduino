@@ -4,7 +4,7 @@
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
-// VERSION: 1.0.02
+// VERSION: 1.0.03
 // HISTORY: See I2C_eeprom.cpp
 //     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define I2C_EEPROM_VERSION "1.0.02"
+#define I2C_EEPROM_VERSION "1.0.03"
 
 // I2C_EEPROM_PAGESIZE must be multiple of 2 e.g. 16, 32 or 64
 // 24LC256 -> 64 bytes
@@ -48,10 +48,11 @@ public:
 private:
     uint8_t _deviceAddress;
 
-    void _pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, bool incrBuffer);
-
+    int _pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, bool incrBuffer);
     int _WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length);
     int _ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length);
+
+    void waitEEReady();
 };
 
 #endif

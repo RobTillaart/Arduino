@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.0.03
+// VERSION: 1.0.04
 // PURPOSE: Simple I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 //
 // HISTORY:
@@ -13,6 +13,7 @@
 // 1.0.01 - 2013-11-01 fixed writeBlock bug, refactor
 // 1.0.02 - 2013-11-03 optimize internal buffers, refactor
 // 1.0.03 - 2013-11-03 refactor 5 millis() write-latency
+// 1.0.04 - 2013-11-03 fix bug in readBlock, moved waitEEReady() -> more efficient.
 //
 // Released to the public domain
 //
@@ -28,7 +29,7 @@ I2C_eeprom::I2C_eeprom(uint8_t device)
 {
     _deviceAddress = device;
     Wire.begin();
-    // TWBR = 12;          // 12 = 400Khz  72 = 100    FCPU/16+(2*TWBR)
+    TWBR = 12;          // 12 = 400Khz  72 = 100    FCPU/16+(2*TWBR)
 }
 
 int I2C_eeprom::writeByte(uint16_t address, uint8_t data)
@@ -46,7 +47,7 @@ int I2C_eeprom::setBlock(uint16_t address, uint8_t data, uint16_t length)
     return rv;
 }
 
-void I2C_eeprom::writeBlock(uint16_t address, uint8_t* buffer, uint16_t length)
+int I2C_eeprom::writeBlock(uint16_t address, uint8_t* buffer, uint16_t length)
 {
     int rv = _pageBlock(address, buffer, length, true); // todo check return value..
     return rv;
@@ -66,9 +67,7 @@ int I2C_eeprom::readBlock(uint16_t address, uint8_t* buffer, uint16_t length)
     while (length > 0)
     {
         uint8_t cnt = min(length, I2C_TWIBUFFERSIZE);
-        rv = _ReadBlock(address, buffer, cnt);  // todo check return value..
-        if (rv != 0) return rv;
-
+        rv += _ReadBlock(address, buffer, cnt);
         address += cnt;
         buffer += cnt;
         length -= cnt;
@@ -105,6 +104,8 @@ int I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, b
 // pre: length <= I2C_EEPROM_PAGESIZE  && length <= I2C_TWIBUFFERSIZE;
 int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
+    waitEEReady();
+
     Wire.beginTransmission(_deviceAddress);
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write((int)(address >> 8));
@@ -119,8 +120,6 @@ int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 #endif
     int rv = Wire.endTransmission();
 
-    waitEEReady();
-
     return rv;
 }
 
@@ -128,6 +127,8 @@ int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 // pre: buffer is large enough to hold length bytes
 int I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
+    waitEEReady();
+
     Wire.beginTransmission(_deviceAddress);
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write((int)(address >> 8));

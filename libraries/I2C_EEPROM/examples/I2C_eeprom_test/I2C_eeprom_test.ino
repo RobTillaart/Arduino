@@ -93,6 +93,41 @@ void setup()
   diff = micros() - start;  
   Serial.println(diff);
 
+  // same tests but now with a 5 millisec delay in between.
+  delay(5);
+
+  Serial.print("\nTEST: timing writeByte()\t");
+  start = micros();
+  ee.writeByte(10, 1);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  delay(5);
+
+  Serial.print("TEST: timing writeBlock(50)\t");
+  start = micros();
+  ee.writeBlock(10, (uint8_t *) &data2, 50);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  delay(5);
+
+  Serial.print("TEST: timing readByte()\t\t");
+  start = micros();
+  ee.readByte(10);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  delay(5);
+
+  Serial.print("TEST: timing readBlock(50)\t");
+  start = micros();
+  int xx = ee.readBlock(10, (uint8_t *) &data2, 50);
+  diff = micros() - start;  
+  Serial.println(diff);
+
+  // does it go well?
+  Serial.println(xx);
   Serial.println("\tDone...");
 
 }
@@ -125,4 +160,6 @@ void dumpEEPROM(uint16_t addr, uint16_t length)
   Serial.println();
 }
 // END OF FILE
+
+
 

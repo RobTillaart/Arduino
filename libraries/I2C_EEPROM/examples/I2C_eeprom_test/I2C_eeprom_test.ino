@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.05
 // PURPOSE: show/test I2C_EEPROM library
 //
 
@@ -63,7 +63,7 @@ void setup()
   dumpEEPROM(0, 128);
 
   Serial.println();
-  Serial.print("\n\tI2C speed:\t");
+  Serial.print("\nI2C speed:\t");
   Serial.println(16000/(16+2*TWBR));
   Serial.print("TWBR:\t");
   Serial.println(TWBR);
@@ -73,24 +73,28 @@ void setup()
   uint32_t start = micros();
   ee.writeByte(10, 1);
   uint32_t diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   Serial.print("TEST: timing writeBlock(50)\t");
   start = micros();
   ee.writeBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   Serial.print("TEST: timing readByte()\t\t");
   start = micros();
   ee.readByte(10);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   Serial.print("TEST: timing readBlock(50)\t");
   start = micros();
   ee.readBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   // same tests but now with a 5 millisec delay in between.
@@ -100,6 +104,7 @@ void setup()
   start = micros();
   ee.writeByte(10, 1);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   delay(5);
@@ -108,6 +113,7 @@ void setup()
   start = micros();
   ee.writeBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   delay(5);
@@ -116,6 +122,7 @@ void setup()
   start = micros();
   ee.readByte(10);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   delay(5);
@@ -124,10 +131,24 @@ void setup()
   start = micros();
   int xx = ee.readBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
+  Serial.print("TIME: ");
   Serial.println(diff);
 
   // does it go well?
   Serial.println(xx);
+
+
+  Serial.println("\nTEST: determine size");
+  start = micros();
+  int size = ee.determineSize();
+  diff = micros() - start;  
+  Serial.print("TIME: ");
+  Serial.println(diff);
+  Serial.print("SIZE: ");
+  Serial.print(size);
+  Serial.println(" KB");
+  
+  
   Serial.println("\tDone...");
 
 }
@@ -160,6 +181,3 @@ void dumpEEPROM(uint16_t addr, uint16_t length)
   Serial.println();
 }
 // END OF FILE
-
-
-

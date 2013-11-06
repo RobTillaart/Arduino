@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map For I2C_EEPROM
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+I2C_eeprom      KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+readByte        KEYWORD2
+writeByte       KEYWORD2
+setBlock        KEYWORD2
+readBlock       KEYWORD2
+writeBlock      KEYWORD2
+determineSize   KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

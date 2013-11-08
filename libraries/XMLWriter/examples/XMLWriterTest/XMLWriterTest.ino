@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: make a simple XML generating lib
 //    DATE: 2013-11-06
 //     URL:
@@ -20,7 +20,7 @@ void setup()
   Serial.begin(115200);
 
   XML.header();
-  XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
+  XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", MULTILINE); // MULTILINE == true.
 
   XML.tagOpen("Arduino", "42");
 
@@ -85,11 +85,8 @@ void DigitalPorts()
   XML.tagClose();
 }
 
-
 void loop()
 {
 }
-
-
 
 

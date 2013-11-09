@@ -30,6 +30,9 @@ void loop()
   Serial.print('\t');
 
   Serial.print(INA.readSmoothed(16));
+  Serial.print('\t');
+
+  Serial.print(INA.readPrevious();
 
   Serial.println();
   delay(100);

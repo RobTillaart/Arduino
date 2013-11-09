@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogPin.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: example sketch
 //     URL:
 //
@@ -30,6 +30,9 @@ void loop()
   Serial.print('\t');
 
   Serial.print(INA.readSmoothed(16));
+  Serial.print('\t');
+
+  Serial.print(INA.readPrevious();
 
   Serial.println();
   delay(100);

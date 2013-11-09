@@ -147,10 +147,8 @@ void setup()
   Serial.print("SIZE: ");
   Serial.print(size);
   Serial.println(" KB");
-  
-  
-  Serial.println("\tDone...");
 
+  Serial.println("\tDone...");
 }
 
 

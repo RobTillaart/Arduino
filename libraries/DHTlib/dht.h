@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -18,7 +18,7 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.07"
+#define DHT_LIB_VERSION "0.1.08"
 
 #define DHTLIB_OK				0
 #define DHTLIB_ERROR_CHECKSUM	-1

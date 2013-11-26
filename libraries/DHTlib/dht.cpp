@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.08 added formula for timeout based upon clockspeed
 // 0.1.07 added support for DHT21
 // 0.1.06 minimize footprint (2012-12-27)
 // 0.1.05 fixed negative temperature bug (thanks to Roseman)
@@ -22,7 +23,11 @@
 
 #include "dht.h"
 
-#define TIMEOUT (F_CPU/1600)    // unsigned int in code, for higher CPU speeds this might exceed MAXINT.
+// #define TIMEOUT 10000 
+// uint16_t for UNO, higher CPU speeds => exceed MAXINT.
+// works for DUE
+#define TIMEOUT (F_CPU/1600)    
+
 
 /////////////////////////////////////////////////////
 //
@@ -45,7 +50,7 @@ int dht::read11(uint8_t pin)
 	}
 
 	// CONVERT AND STORE
-	humidity    = bits[0];  // bit[1] == 0;
+	humidity    = bits[0];  // bits[1] == 0;
 	temperature = bits[2];  // bits[3] == 0;
 
 	// TEST CHECKSUM
@@ -124,6 +129,7 @@ int dht::read(uint8_t pin)
 	delayMicroseconds(40);
 	pinMode(pin, INPUT);
 
+    // TODO rewrite with miros()?
 	// GET ACKNOWLEDGE or TIMEOUT
 	unsigned int loopCnt = TIMEOUT;
 	while(digitalRead(pin) == LOW)

@@ -23,8 +23,8 @@ MCP4725::MCP4725(uint8_t device)
 void MCP4725::begin()
 {
     Wire.begin();
-
     TWBR = 72;
+
     // 0=1000 1=888 2=800 8=500
     // 12=400KHz  24=250 32=200  72=100  152=50
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t

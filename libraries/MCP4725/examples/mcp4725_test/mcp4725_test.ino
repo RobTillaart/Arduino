@@ -81,6 +81,17 @@ void setup()
 
 void loop() 
 {
+  for (int i=0; i< 4096; i++)
+  {
+    DAC.setValue(i);
+    delay(10);
+  }
+  for (int i=0; i< 4096; i++)
+  {
+    DAC.setValue(4096 - i);
+    delay(10);
+  }
 }
+
 
 

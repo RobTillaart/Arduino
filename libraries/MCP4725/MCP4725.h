@@ -4,7 +4,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.00
+// VERSION: 1.0.01
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,14 +21,22 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "1.0.00"
+#define MCP4725_VERSION         "1.0.01"
 
-#define MCP4725_MAXVALUE        4095
-#define MCP4725_VALUE_ERROR     -999
-
+// regisiterMode
 #define MCP4725_DAC             0x40
+#define MCP4725_EEPROM          0x20
 
-// #define MCP4725_EXTENDED
+// constants
+#define MCP4725_MAXVALUE        4095
+#define MCP4725_TIMEOUT         1000
+
+// errors
+#define MCP4725_VALUE_ERROR     -999
+#define MCP4725_REG_ERROR       -998
+
+
+#define MCP4725_EXTENDED
 
 class MCP4725
 {
@@ -36,14 +44,31 @@ public:
     MCP4725(uint8_t deviceAddress);
 
     void begin();
+    // uses writeFastMode
     int setValue(uint16_t value);
+    // returns last value set - cached - much faster than readDAC();
+    uint16_t getValue();  
+    
+#ifdef MCP4725_EXTENDED
     int smooth2Value(uint16_t value, uint8_t steps);
-    uint16_t getValue();
+    int writeDAC(uint16_t value);
+    uint16_t readDAC();
+#endif
 
+    
 private:
-    uint8_t  _deviceAddress;
+    uint8_t _deviceAddress;
+
     int writeFastMode(uint16_t value);
     uint16_t _lastValue;
+ 
+#ifdef MCP4725_EXTENDED
+    int writeRegisterMode(uint16_t value, uint8_t reg);
+    uint8_t readRegister(uint8_t* buffer, uint8_t length);
+    uint8_t _PowerDownMode;      // DATASHEET P15?  
+#endif
+ 
+  
 };
 
 #endif

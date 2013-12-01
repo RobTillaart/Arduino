@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.02
+// VERSION: 1.0.03
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -10,6 +10,7 @@
 // 0.1.00 - 2013-11-24 initial version
 // 0.1.01 - 2013-11-30 added readDAC() & writeDAC (registerwrite)
 // 0.1.02 - 2013-12-01 added readEEPROM() & RDY()
+// 0.1.03 - 2013-12-01 added powerDownMode code
 //
 // Released to the public domain
 //
@@ -30,9 +31,9 @@ void MCP4725::begin()
     // 0=1000 1=888 2=800 8=500
     // 12=400KHz  24=250 32=200  72=100  152=50
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t
-    
+
     _lastValue = readDAC();
-    // _powerDownMode = readPowerDownMode();
+    _powerDownMode = readPowerDownModeEEPROM();
 }
 
 int MCP4725::setValue(uint16_t value)
@@ -51,31 +52,7 @@ uint16_t MCP4725::getValue()
 
 #ifdef MCP4725_EXTENDED
 
-int MCP4725::smooth2Value(uint16_t value, uint8_t steps)
-{
-    // speed optimization
-    if (value == _lastValue) return 0;
-
-    if (value > MCP4725_MAXVALUE) return MCP4725_VALUE_ERROR;
-    if (steps == 0) steps++;
-
-    uint16_t delta = (value - _lastValue)/steps;
-    if (delta > 0)
-    {
-        uint16_t v = _lastValue;
-        for (int i=0; i < steps-1; i++)
-        {
-            v += delta;
-            writeFastMode(v);
-        }
-    }
-    // be sure to get the end value right
-    int rv = writeFastMode(value);
-    _lastValue = value;
-    return rv;
-}
-
-// unfortunately it is not possible to write a different value 
+// unfortunately it is not possible to write a different value
 // to the DAC and EEPROM simultaneously or write EEPROM only.
 int MCP4725::writeDAC(uint16_t value, bool EEPROM)
 {
@@ -110,29 +87,55 @@ uint16_t MCP4725::readEEPROM()
 #endif
 
 #ifdef MCP4725_POWERDOWNMODE
+//
+// PDmode can be written to DAC or to DAC&EEPROM,
+// for now the lib only support DAC&EEPROM
+// this will change after enough experience is gathered how to use
+
+// write to DAC & EEPROM
 int MCP4725::writePowerDownMode(uint8_t PDM)
 {
-    _powerDownMode = PDM;
+    _powerDownMode = (PDM & 0x03); // force only pdm bits
     return writeDAC(_lastValue, true);
 }
 
-// from EEPROM
-uint8_t MCP4725::readPowerDownMode()
+uint8_t MCP4725::readPowerDownModeEEPROM()
 {
+    while(!RDY());
     uint8_t buffer[4];
     readRegister(buffer, 4);
-    uint8_t value = (buffer[3] & 0x60) >> 5;
+    // EEPROM
+    uint8_t value = (buffer[3] >> 5) & 0x03;
+    // DAC
+    // uint8_t value = (buffer[0] >> 1) & 0x03;
     return value;
 }
 
-int MCP4725::powerOnReset()
+uint8_t MCP4725::readPowerDownModeDAC()
 {
-    return command(MCP4725_GENERAL_RESET);
+    while(!RDY());
+    uint8_t buffer[1];
+    readRegister(buffer, 1);
+    uint8_t value = (buffer[0] >> 1) & 0x03;
+    return value;
 }
 
+// PAGE 22
+// experimental
+int MCP4725::powerOnReset()
+{
+    int rv = command(MCP4725_GENERAL_RESET);
+    // what happens to _lastValue and _powerDownMode...
+    return rv;
+}
+
+// PAGE 22
+// experimental
 int MCP4725::powerOnWakeUp()
 {
-    return command(MCP4725_GENERAL_WAKEUP);
+    int rv = command(MCP4725_GENERAL_WAKEUP);
+    // what happens to _lastValue and _powerDownMode...
+    return rv;
 }
 #endif
 
@@ -146,6 +149,7 @@ int MCP4725::writeFastMode(uint16_t value)
 {
     Wire.beginTransmission(_deviceAddress);
     uint8_t h = ((value / 256) & 0x0F);  // set C0 = C1 = 0, no PDmode
+    h = h | (_powerDownMode << 4);
     uint8_t l = value & 0xFF;
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write(h);
@@ -169,13 +173,13 @@ bool MCP4725::RDY()
 }
 
 // PAGE 19 DATASHEET
-// reg = MCP4725_DAC | MCP4725_EEPROM 
+// reg = MCP4725_DAC | MCP4725_EEPROM
 int MCP4725::writeRegisterMode(uint16_t value, uint8_t reg)
 {
     uint8_t h = (value / 16);
     uint8_t l = (value & 0x0F) << 4;
     Wire.beginTransmission(_deviceAddress);
-    reg = reg | _powerDownMode;
+    reg = reg | (_powerDownMode << 1);
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write(reg);
     Wire.write(h);
@@ -195,7 +199,7 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, uint8_t length)
     Wire.beginTransmission(_deviceAddress);
     int rv = Wire.endTransmission();
     if (rv != 0) return 0;  // error
-    
+
     Wire.requestFrom(_deviceAddress, length);
     uint8_t cnt = 0;
     uint32_t before = millis();

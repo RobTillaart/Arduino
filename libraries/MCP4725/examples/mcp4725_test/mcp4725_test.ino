@@ -41,12 +41,6 @@ void setup()
 #ifdef MCP4725_EXTENDED
   Serial.println("\n\nMCP4725_EXTENDED\n\n");
 
-  Serial.println("smooth2Value(2000, 10)");
-  DAC.smooth2Value(2000, 10);
-  Serial.print("Value:\t");
-  Serial.println(DAC.getValue());
-  Serial.println();
-
   for (int i=100; i<500; i+=100)
   {
     Serial.print("writeDAC(");
@@ -86,17 +80,56 @@ void setup()
 #ifdef MCP4725_POWERDOWNMODE
   Serial.println("\n\nMCP4725_POWERDOWNMODE\n\n");
 
-  /*
-    int writePowerDownMode(uint8_t PDM);
-   uint8_t readPowerDownMode();
-   int powerOnReset();
-   int powerOnWakeUp();
-   */
+  for (int i=0; i<4; i++)
+  {
+    Serial.print("DAC.writePowerDownMode(");
+    Serial.print(i);
+    Serial.println(")");
+    DAC.writePowerDownMode(i);
+    Serial.print("EPR PDM Value:\t");
+    Serial.println(DAC.readPowerDownModeEEPROM());
+    Serial.println();
+  }
+
+  Serial.println("EXPERIMENTAL");
+  Serial.println("DAC.writePowerDownMode(3)");
+  DAC.writePowerDownMode(3);
+  Serial.println("DAC.powerOnReset()");
+  Serial.println("Before");
+  Serial.print("DAC PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("EPR PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeEEPROM());
+  DAC.powerOnReset();
+  Serial.println("After");
+  Serial.print("DAC PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("EPR PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.println();
+
+
+  Serial.println("EXPERIMENTAL");
+  Serial.println("DAC.writePowerDownMode(2)");
+  DAC.writePowerDownMode(2);
+  Serial.println("DAC.powerOnWakeUp()");
+  Serial.println("Before");
+  Serial.print("DAC PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("EPR PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeEEPROM());
+  DAC.powerOnWakeUp();
+  Serial.println("after");
+  Serial.print("DAC PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("EPR PDM Value:\t");
+  Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.println();
 
 #endif
 
   //////////////////////////////////////////////////
-  Serial.println("\n\nPERFORMANCE\n");
+  Serial.println("\n\nPERFORMANCE");
   Serial.print("TWBR:\t");
   Serial.println(TWBR);
   Serial.println();
@@ -130,15 +163,6 @@ void setup()
 
 
 #ifdef MCP4725_EXTENDED
-
-  //  start = micros();
-  //  for (int i=0; i< 100; i++)
-  //  {
-  //    DAC.smooth2Value(i*10, 10);
-  //  }
-  //  end = micros();
-  //  Serial.print("100x  DAC.smooth2Value(i*10, 10):\t");
-  //  Serial.println(end - start);
 
   start = micros();
   for (int i=0; i< 1000; i++)
@@ -188,7 +212,34 @@ void setup()
 
 #ifdef MCP4725_POWERDOWNMODE
 
-  // TODO TIMING TEST
+  Serial.println("\nEXPERIMENTAL");
+
+  start = micros();
+  for (int i=0; i< 10; i++)
+  {
+    volatile int x = DAC.readPowerDownModeDAC();
+  }
+  end = micros();
+  Serial.print("10x DAC.readPowerDownModeDAC():\t\t");
+  Serial.println(end - start);
+
+  start = micros();
+  for (int i=0; i< 10; i++)
+  {
+    volatile int x = DAC.readPowerDownModeEEPROM();
+  }
+  end = micros();
+  Serial.print("10x DAC.readPowerDownModeEEPROM():\t");
+  Serial.println(end - start);
+
+  start = micros();
+  for (int i=0; i< 10; i++)
+  {
+    volatile int x = DAC.writePowerDownMode(i & 0x03);
+  }
+  end = micros();
+  Serial.print("10x DAC.writePowerDownMode(i):\t\t");
+  Serial.println(end - start);
 
 #endif
 
@@ -209,8 +260,6 @@ void loop()
     delay(10);
   }
 }
-
-
 
 
 

@@ -4,7 +4,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.02
+// VERSION: 1.0.03
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,10 +21,11 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "1.0.02"
+#define MCP4725_VERSION         "1.0.03"
 
 // regisiterMode
 #define MCP4725_DAC             0x40
+#define MCP4725_EEPROM          0x20
 #define MCP4725_DACEEPROM       0x60
 
 // constants
@@ -39,11 +40,11 @@
 #define MCP4725_GENERAL_RESET   0x06
 #define MCP4725_GENERAL_WAKEUP  0x09
 
-// powerDown Mode
+// powerDown Mode - TODO ENUM?
 #define MCP4725_PDMODE_NORMAL   0x00
-#define MCP4725_PDMODE_1K       0x02
-#define MCP4725_PDMODE_100K     0x04
-#define MCP4725_PDMODE_500K     0x06
+#define MCP4725_PDMODE_1K       0x01
+#define MCP4725_PDMODE_100K     0x02
+#define MCP4725_PDMODE_500K     0x03
 
 // conditional to minimize footprint.
 #define MCP4725_EXTENDED
@@ -58,42 +59,39 @@ public:
     // uses writeFastMode
     int setValue(uint16_t value);
     // returns last value set - cached - much faster than readDAC();
-    uint16_t getValue();  
-    
+    uint16_t getValue();
+
 #ifdef MCP4725_EXTENDED
-    int smooth2Value(uint16_t value, uint8_t steps);
-    
     int writeDAC(uint16_t value, bool EEPROM = false);
     bool RDY();
     uint16_t readDAC();
     uint16_t readEEPROM();
 #endif
-    
+
 #ifdef MCP4725_POWERDOWNMODE
+    // experimental
     int writePowerDownMode(uint8_t PDM);
-    uint8_t readPowerDownMode();
+    uint8_t readPowerDownModeEEPROM();
+    uint8_t readPowerDownModeDAC();
     int powerOnReset();
     int powerOnWakeUp();
 #endif
 
-    
 private:
     uint8_t _deviceAddress;
     uint16_t _lastValue;
-    uint8_t _powerDownMode;      // DATASHEET P15? 
-
+    uint8_t _powerDownMode;      // DATASHEET P15?
     int writeFastMode(uint16_t value);
- 
-#ifdef MCP4725_EXTENDED
 
+#ifdef MCP4725_EXTENDED
     int writeRegisterMode(uint16_t value, uint8_t reg);
     uint8_t readRegister(uint8_t* buffer, uint8_t length);
 #endif
-    
+
 #ifdef MCP4725_POWERDOWNMODE
     int command(uint8_t cmd);
 #endif
- 
+
 };
 
 #endif

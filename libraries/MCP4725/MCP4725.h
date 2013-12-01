@@ -4,7 +4,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.01
+// VERSION: 1.0.02
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,11 +21,11 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "1.0.01"
+#define MCP4725_VERSION         "1.0.02"
 
 // regisiterMode
 #define MCP4725_DAC             0x40
-#define MCP4725_EEPROM          0x20
+#define MCP4725_DACEEPROM       0x60
 
 // constants
 #define MCP4725_MAXVALUE        4095
@@ -35,8 +35,19 @@
 #define MCP4725_VALUE_ERROR     -999
 #define MCP4725_REG_ERROR       -998
 
+// page 22
+#define MCP4725_GENERAL_RESET   0x06
+#define MCP4725_GENERAL_WAKEUP  0x09
 
+// powerDown Mode
+#define MCP4725_PDMODE_NORMAL   0x00
+#define MCP4725_PDMODE_1K       0x02
+#define MCP4725_PDMODE_100K     0x04
+#define MCP4725_PDMODE_500K     0x06
+
+// conditional to minimize footprint.
 #define MCP4725_EXTENDED
+#define MCP4725_POWERDOWNMODE
 
 class MCP4725
 {
@@ -51,24 +62,38 @@ public:
     
 #ifdef MCP4725_EXTENDED
     int smooth2Value(uint16_t value, uint8_t steps);
-    int writeDAC(uint16_t value);
+    
+    int writeDAC(uint16_t value, bool EEPROM = false);
+    bool RDY();
     uint16_t readDAC();
+    uint16_t readEEPROM();
+#endif
+    
+#ifdef MCP4725_POWERDOWNMODE
+    int writePowerDownMode(uint8_t PDM);
+    uint8_t readPowerDownMode();
+    int powerOnReset();
+    int powerOnWakeUp();
 #endif
 
     
 private:
     uint8_t _deviceAddress;
+    uint16_t _lastValue;
+    uint8_t _powerDownMode;      // DATASHEET P15? 
 
     int writeFastMode(uint16_t value);
-    uint16_t _lastValue;
  
 #ifdef MCP4725_EXTENDED
+
     int writeRegisterMode(uint16_t value, uint8_t reg);
     uint8_t readRegister(uint8_t* buffer, uint8_t length);
-    uint8_t _PowerDownMode;      // DATASHEET P15?  
+#endif
+    
+#ifdef MCP4725_POWERDOWNMODE
+    int command(uint8_t cmd);
 #endif
  
-  
 };
 
 #endif

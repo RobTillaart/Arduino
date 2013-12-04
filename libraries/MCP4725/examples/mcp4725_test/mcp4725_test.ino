@@ -1,7 +1,7 @@
 //
 //    FILE: mcp4725_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.04
 // PURPOSE: test mcp4725 lib
 //    DATE: 2013-11-24
 //     URL:
@@ -94,36 +94,62 @@ void setup()
   Serial.println("EXPERIMENTAL");
   Serial.println("DAC.writePowerDownMode(3)");
   DAC.writePowerDownMode(3);
+  DAC.writeDAC(305);
+  Serial.print("Value:\t");
+  Serial.println(DAC.getValue());
   Serial.println("DAC.powerOnReset()");
   Serial.println("Before");
   Serial.print("DAC PDM Value:\t");
   Serial.println(DAC.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
   Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.print("DACValue:\t");
+  Serial.println(DAC.readDAC());
+  Serial.print("EEValue:\t");
+  Serial.println(DAC.readEEPROM());  
   DAC.powerOnReset();
   Serial.println("After");
   Serial.print("DAC PDM Value:\t");
   Serial.println(DAC.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
   Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.print("DACValue:\t");
+  Serial.println(DAC.readDAC());
+  Serial.print("EEValue:\t");
+  Serial.println(DAC.readEEPROM());  
+  Serial.print("Value:\t");
+  Serial.println(DAC.getValue());
   Serial.println();
 
 
   Serial.println("EXPERIMENTAL");
   Serial.println("DAC.writePowerDownMode(2)");
   DAC.writePowerDownMode(2);
+  DAC.writeDAC(405);
+  Serial.print("Value:\t");
+  Serial.println(DAC.getValue());
   Serial.println("DAC.powerOnWakeUp()");
   Serial.println("Before");
   Serial.print("DAC PDM Value:\t");
   Serial.println(DAC.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
   Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.print("DACValue:\t");
+  Serial.println(DAC.readDAC());
+  Serial.print("EEValue:\t");
+  Serial.println(DAC.readEEPROM());  
   DAC.powerOnWakeUp();
   Serial.println("after");
   Serial.print("DAC PDM Value:\t");
   Serial.println(DAC.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
   Serial.println(DAC.readPowerDownModeEEPROM());
+  Serial.print("DACValue:\t");
+  Serial.println(DAC.readDAC());
+  Serial.print("EEValue:\t");
+  Serial.println(DAC.readEEPROM());  
+  Serial.print("Value:\t");
+  Serial.println(DAC.getValue());
   Serial.println();
 
 #endif

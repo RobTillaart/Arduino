@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.03
+// VERSION: 1.0.04
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -11,6 +11,7 @@
 // 0.1.01 - 2013-11-30 added readDAC() & writeDAC (registerwrite)
 // 0.1.02 - 2013-12-01 added readEEPROM() & RDY()
 // 0.1.03 - 2013-12-01 added powerDownMode code
+// 0.1.04 - 2013-12-04 improved the generalCall code (still experimental)
 //
 // Released to the public domain
 //
@@ -32,8 +33,17 @@ void MCP4725::begin()
     // 12=400KHz  24=250 32=200  72=100  152=50
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t
 
+    #ifdef MCP4725_EXTENDED
     _lastValue = readDAC();
-    _powerDownMode = readPowerDownModeEEPROM();
+    #else
+    _lastValue = 0;
+    #endif
+
+    #ifdef MCP4725_POWERDOWNMODE
+    _powerDownMode = readPowerDownModeDAC();
+    #else
+    _powerDownMode = 0;
+    #endif
 }
 
 int MCP4725::setValue(uint16_t value)
@@ -88,15 +98,13 @@ uint16_t MCP4725::readEEPROM()
 
 #ifdef MCP4725_POWERDOWNMODE
 //
-// PDmode can be written to DAC or to DAC&EEPROM,
-// for now the lib only support DAC&EEPROM
-// this will change after enough experience is gathered how to use
-
-// write to DAC & EEPROM
-int MCP4725::writePowerDownMode(uint8_t PDM)
+// depending on bool EEPROM the value of PDM is written to
+// (false) DAC or
+// (true) DAC & EEPROM,
+int MCP4725::writePowerDownMode(uint8_t PDM, bool EEPROM)
 {
-    _powerDownMode = (PDM & 0x03); // force only pdm bits
-    return writeDAC(_lastValue, true);
+    _powerDownMode = (PDM & 0x03); // mask pdm bits only
+    return writeDAC(_lastValue, EEPROM);
 }
 
 uint8_t MCP4725::readPowerDownModeEEPROM()
@@ -104,10 +112,7 @@ uint8_t MCP4725::readPowerDownModeEEPROM()
     while(!RDY());
     uint8_t buffer[4];
     readRegister(buffer, 4);
-    // EEPROM
     uint8_t value = (buffer[3] >> 5) & 0x03;
-    // DAC
-    // uint8_t value = (buffer[0] >> 1) & 0x03;
     return value;
 }
 
@@ -120,21 +125,23 @@ uint8_t MCP4725::readPowerDownModeDAC()
     return value;
 }
 
-// PAGE 22
-// experimental
+// PAGE 22 - experimental
+// DAC value is reset to EEPROM value
+// need to reflect this in cached value
 int MCP4725::powerOnReset()
 {
-    int rv = command(MCP4725_GENERAL_RESET);
-    // what happens to _lastValue and _powerDownMode...
+    int rv = generalCall(MCP4725_GC_RESET);
+    _lastValue = readDAC(); // update cache to actual value;
     return rv;
 }
 
-// PAGE 22
-// experimental
+// PAGE 22 - experimental
+// _powerDownMode DAC resets to 0 -- pdm EEPROM stays same !!!
+// need to reflect this in cached value
 int MCP4725::powerOnWakeUp()
 {
-    int rv = command(MCP4725_GENERAL_WAKEUP);
-    // what happens to _lastValue and _powerDownMode...
+    int rv = generalCall(MCP4725_GC_WAKEUP);
+    _powerDownMode = readPowerDownModeDAC();  // update to actual value;
     return rv;
 }
 #endif
@@ -216,13 +223,13 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, uint8_t length)
 #endif
 
 #ifdef MCP4725_POWERDOWNMODE
-int MCP4725::command(uint8_t cmd)
+int MCP4725::generalCall(uint8_t gc)
 {
-    Wire.beginTransmission(_deviceAddress);
+    Wire.beginTransmission(0);
 #if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(cmd);
+    Wire.write(gc);
 #else
-    Wire.send(cmd);
+    Wire.send(gc);
 #endif
     return Wire.endTransmission();
 }

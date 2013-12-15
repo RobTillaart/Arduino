@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: show/test I2C_EEPROM library
 //
 
@@ -10,8 +10,12 @@
 
 I2C_eeprom ee(0x50);
 
+uint32_t totals = 0;
+
 void setup() 
 {
+  ee.begin();
+
   Serial.begin(115200);
   Serial.print("Demo I2C eeprom library ");
   Serial.print(I2C_EEPROM_VERSION);
@@ -69,12 +73,14 @@ void setup()
   Serial.println(TWBR);
   Serial.println();
 
+  totals = 0;
   Serial.print("\nTEST: timing writeByte()\t");
   uint32_t start = micros();
   ee.writeByte(10, 1);
   uint32_t diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   Serial.print("TEST: timing writeBlock(50)\t");
   start = micros();
@@ -82,6 +88,7 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   Serial.print("TEST: timing readByte()\t\t");
   start = micros();
@@ -89,6 +96,7 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   Serial.print("TEST: timing readBlock(50)\t");
   start = micros();
@@ -96,6 +104,11 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
+
+  Serial.print("TOTALS: ");
+  Serial.println(totals);
+  totals = 0;
 
   // same tests but now with a 5 millisec delay in between.
   delay(5);
@@ -106,6 +119,7 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   delay(5);
 
@@ -115,6 +129,7 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   delay(5);
 
@@ -124,6 +139,7 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
 
   delay(5);
 
@@ -133,10 +149,14 @@ void setup()
   diff = micros() - start;  
   Serial.print("TIME: ");
   Serial.println(diff);
+  totals += diff;
+
+  Serial.print("TOTALS: ");
+  Serial.println(totals);
+  totals = 0;
 
   // does it go well?
   Serial.println(xx);
-
 
   Serial.println("\nTEST: determine size");
   start = micros();
@@ -147,17 +167,13 @@ void setup()
   Serial.print("SIZE: ");
   Serial.print(size);
   Serial.println(" KB");
-  
-  
+
   Serial.println("\tDone...");
-
 }
-
 
 void loop() 
 {
 }
-
 
 void dumpEEPROM(uint16_t addr, uint16_t length)
 {

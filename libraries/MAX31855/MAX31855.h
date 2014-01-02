@@ -3,7 +3,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
@@ -17,14 +17,14 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.00"
+#define MAX31855_VERSION "0.1.01"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
 #define STATUS_SHORT_TO_GND     0x02
 #define STATUS_SHORT_TO_VCC     0x04
 
-class MAX31855 
+class MAX31855
 {
 public:
     MAX31855(uint8_t SCLK, uint8_t CS, uint8_t MISO);
@@ -40,10 +40,12 @@ private:
     float _internal;
     float _temperature;
     uint8_t _status;
-    
+
     uint8_t _sclk;
     uint8_t _miso;
     uint8_t _cs;
 };
 
 #endif
+
+// END OF FILE

@@ -1,10 +1,15 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
+//
+// HISTORY: 
+// 0.1.02 added offset
+// 0.1.01 refactored speed/performance
+// 0.1.00 initial version.
 //
 // Released to the public domain
 //
@@ -16,6 +21,7 @@ MAX31855::MAX31855(uint8_t sclk, uint8_t cs, uint8_t miso)
     _sclk = sclk;
     _cs = cs;
     _miso = miso;
+    _offset = 0;
 }
 
 void MAX31855::begin()
@@ -53,6 +59,7 @@ uint8_t MAX31855::read()
     // process temperature bit 18-31
     _temperature = (value & 0x1FFF) * 0.25;
     if (value & 0x2000) _temperature *= -1;
+    if (_offset != 0) _temperature += _offset;
 
     return _status;
 }
@@ -67,8 +74,10 @@ uint32_t MAX31855::_read(void)
     {
         value <<= 1;
         digitalWrite(_sclk, LOW);
+        // delayMicroseconds(1);  // DUE
         if ( digitalRead(_miso) ) value += 1;
         digitalWrite(_sclk, HIGH);
+        // delayMicroseconds(1);  // DUE
     }
 
     digitalWrite(_cs, HIGH);

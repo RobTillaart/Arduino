@@ -1,7 +1,7 @@
 //
-//    FILE: max31855_demo3.ino
+//    FILE: max31855_demo4.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.00
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
 //     URL:
@@ -20,7 +20,7 @@ MAX31855 tc(clPin, csPin, doPin);
 void setup() 
 {
   Serial.begin(115200);
-  Serial.print("Start max31855_demo3: ");
+  Serial.print("Start max31855_demo4: ");
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
@@ -32,49 +32,45 @@ void setup()
   Serial.print("10x read:\t");
   Serial.println(stop - start);
 
+
   start = micros();
   float t1 = tc.getTemperature();
   stop = micros();
   Serial.print("getTemperature:\t");
   Serial.println(stop - start);
+  Serial.println(t1, 2);
+  Serial.println();
+
+
+  start = micros();
+  tc.setOffset(2.0);
+  stop = micros();
+  Serial.print("setOffset:\t");
+  Serial.println(stop - start);
+
+  tc.read();
+  start = micros();
+  t1 = tc.getTemperature();
+  stop = micros();
+  Serial.print("getTemperature:\t");
+  Serial.println(stop - start);
+  Serial.println(t1, 2);
+  Serial.println();
+
 
   start = micros();
   float t2 = tc.getInternal();
   stop = micros();
   Serial.print("getInternal:\t");
   Serial.println(stop - start);
-
-  Serial.println();
-  Serial.println(t1, 2);
-  Serial.println(t2, 2);
+  Serial.println(t2, 4);
   Serial.println();
 }
 
 void loop() 
 {
-  // this loop returns multiples of about 73mSec (counter multiples of ~143)
-  // so the # measurements per second is about 14?
-  uint32_t counter = 0;
-  float t1 = tc.getTemperature();
-  float t2 = t1;
-
-  uint32_t start = micros();
-  while (t2 == t1)
-  {
-    tc.read();
-    t1 = tc.getTemperature();
-    counter++;
-  }
-  uint32_t stop = micros();
-
-  Serial.print("change:\t");
-  Serial.println(stop - start);
-  Serial.print("counter:\t");
-  Serial.println(counter);
-  Serial.println(t2, 2);
-  Serial.println(t1, 2);
-  Serial.println();
 }
+
 
 
 

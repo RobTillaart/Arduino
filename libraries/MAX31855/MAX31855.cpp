@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
 //
-// HISTORY: 
+// HISTORY:
+// 0.1.03 fixed negative temperature
 // 0.1.02 added offset
 // 0.1.01 refactored speed/performance
 // 0.1.00 initial version.
@@ -46,7 +47,10 @@ uint8_t MAX31855::read()
 
     // process internal bit 4-15
     _internal = (value & 0x07FF) * 0.0625;
-    if (value & 0x0800) _internal *= -1;
+    if (value & 0x0800)
+    {
+        _internal = -128 + _internal;  // fix neg temp
+    }
     value >>= 12;
 
     // Fault bit ignored as we have the 3 status bits
@@ -58,7 +62,10 @@ uint8_t MAX31855::read()
 
     // process temperature bit 18-31
     _temperature = (value & 0x1FFF) * 0.25;
-    if (value & 0x2000) _temperature *= -1;
+    if (value & 0x2000) // negative flag
+    {
+        _temperature = -2048 + _temperature;  // fix neg temp
+    }
     if (_offset != 0) _temperature += _offset;
 
     return _status;

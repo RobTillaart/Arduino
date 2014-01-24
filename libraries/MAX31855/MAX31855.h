@@ -3,7 +3,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.02"
+#define MAX31855_VERSION "0.1.03"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
@@ -34,10 +34,10 @@ public:
     // Celsius
     float getTemperature(void) { return _temperature; };
     uint8_t getStatus(void) {return _status; };
-    
+
     void setOffset(float t) { _offset = t; };
     float getOffset(float t) { return _offset; };
-    
+
 
 private:
     uint32_t _read();

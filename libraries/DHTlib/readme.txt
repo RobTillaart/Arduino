@@ -15,3 +15,4 @@ attiny85 @8MHz
 Digistump Digix @ 84 MHz
 
 More information - http://playground.arduino.cc//Main/DHTLib - 
+

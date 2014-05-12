@@ -26,9 +26,39 @@
 
 #include <I2C_eeprom.h>
 
+#if defined(ARDUINO) && ARDUINO >= 100
+    #define WIRE_WRITE Wire.write
+#else
+    #define WIRE_WRITE Wire.send
+#endif
+
+
 I2C_eeprom::I2C_eeprom(uint8_t device)
 {
     _deviceAddress = device;
+    isAddressSizeTwoWords = true;
+    this->pageSize = I2C_EEPROM_PAGESIZE;
+}
+
+I2C_eeprom::I2C_eeprom(uint8_t device, unsigned int deviceSize) {
+    _deviceAddress = device;
+
+    // Chips 16Kbit (2048KB) or smaller only have one-word addresses.
+    // Also try to guess page size from device size (going by Microchip 24LCXX datasheets here).
+    if (deviceSize > 256 * 8) {
+        this->isAddressSizeTwoWords = true;
+        this->pageSize = 32;
+    }
+    else {
+        this->isAddressSizeTwoWords = false;
+
+        if (deviceSize <= 256) {
+            this->pageSize = 8;
+        }
+        else {
+            this->pageSize = 16;
+        }
+    }
 }
 
 void I2C_eeprom::begin()
@@ -44,6 +74,8 @@ void I2C_eeprom::begin()
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t
 #endif 
 }
+
+
 
 int I2C_eeprom::writeByte(uint16_t address, uint8_t data)
 {
@@ -140,7 +172,7 @@ int I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, b
     int rv = 0;
     while (length > 0)
     {
-        uint8_t bytesUntilPageBoundary = I2C_EEPROM_PAGESIZE - address % I2C_EEPROM_PAGESIZE;
+        uint8_t bytesUntilPageBoundary = this->pageSize - address % this->pageSize;
         uint8_t cnt = min(length, bytesUntilPageBoundary);
         cnt = min(cnt, I2C_TWIBUFFERSIZE);
 
@@ -154,22 +186,27 @@ int I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, b
     return rv;
 }
 
-// pre: length <= I2C_EEPROM_PAGESIZE  && length <= I2C_TWIBUFFERSIZE;
+
+void I2C_eeprom::_beginTransmission(uint16_t eeaddress){
+  Wire.beginTransmission(_deviceAddress);
+
+  if (this->isAddressSizeTwoWords) {
+    WIRE_WRITE((eeaddress >> 8));    // Address High Byte    
+  }
+
+  WIRE_WRITE((eeaddress & 0xFF));  // Address Low Byte (or only byte for chips 16K or smaller that only have one-word addresses)
+}
+
+// pre: length <= this->pageSize  && length <= I2C_TWIBUFFERSIZE;
 // returns 0 = OK otherwise error
 int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 {
     waitEEReady();
 
-    Wire.beginTransmission(_deviceAddress);
-#if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(address >> 8);
-    Wire.write(address & 0xFF);
-    Wire.write(buffer, length);
-#else
-    Wire.send(address >> 8);
-    Wire.send(address & 0xFF);
-    Wire.send(buffer, length);
-#endif
+    this->_beginTransmission(address);
+
+    WIRE_WRITE(buffer, length);
+
     int rv = Wire.endTransmission();
     _lastWrite = micros();
     return rv;
@@ -181,14 +218,8 @@ uint8_t I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length
 {
     waitEEReady();
 
-    Wire.beginTransmission(_deviceAddress);
-#if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(address >> 8);
-    Wire.write(address & 0xFF);
-#else
-    Wire.send(address >> 8);
-    Wire.send(address & 0xFF);
-#endif
+    this->_beginTransmission(address);
+
     int rv = Wire.endTransmission();
     if (rv != 0) return 0;  // error
 

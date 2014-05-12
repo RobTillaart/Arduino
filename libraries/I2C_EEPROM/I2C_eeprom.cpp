@@ -35,10 +35,14 @@ void I2C_eeprom::begin()
 {
     Wire.begin();
     _lastWrite = 0;
+
+// TWBR is not available on Arduino Due
+#ifdef TWBR    
     TWBR = 72;
     // 0=1000 1=888 2=800 8=500
     // 12=400KHz  24=250 32=200  72=100  152=50
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t
+#endif 
 }
 
 int I2C_eeprom::writeByte(uint16_t address, uint8_t data)

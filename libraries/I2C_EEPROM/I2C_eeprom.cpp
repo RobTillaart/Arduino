@@ -20,6 +20,8 @@
 // 1.1.00 - 2013-11-13 added begin() function (Note breaking interface)
 //                     use faster block Wire.write()
 //                     int casting removed
+// 1.2.00 - 2015-05-21 Added support for Arduino DUE ( thanks to Tyler F.)
+// 1.2.01 - 2013-05-21 Refactoring
 //
 // Released to the public domain
 //
@@ -27,37 +29,39 @@
 #include <I2C_eeprom.h>
 
 #if defined(ARDUINO) && ARDUINO >= 100
-    #define WIRE_WRITE Wire.write
+#define WIRE_WRITE Wire.write
+#define WIRE_READ  Wire.read
 #else
-    #define WIRE_WRITE Wire.send
+#define WIRE_WRITE Wire.send
+#define WIRE_READ  Wire.receive
 #endif
 
 
-I2C_eeprom::I2C_eeprom(uint8_t device)
+I2C_eeprom::I2C_eeprom(uint8_t deviceAddress)
 {
-    _deviceAddress = device;
-    isAddressSizeTwoWords = true;
-    this->pageSize = I2C_EEPROM_PAGESIZE;
+    I2C_eeprom(deviceAddress, I2C_EEPROM_PAGESIZE);
 }
 
-I2C_eeprom::I2C_eeprom(uint8_t device, unsigned int deviceSize) {
-    _deviceAddress = device;
+I2C_eeprom::I2C_eeprom(uint8_t deviceAddress, unsigned int deviceSize)
+{
+    _deviceAddress = deviceAddress;
 
     // Chips 16Kbit (2048KB) or smaller only have one-word addresses.
     // Also try to guess page size from device size (going by Microchip 24LCXX datasheets here).
-    if (deviceSize > 256 * 8) {
-        this->isAddressSizeTwoWords = true;
-        this->pageSize = 32;
+    if (deviceSize <= 256)
+    {
+        this->_isAddressSizeTwoWords = false;
+        this->_pageSize = 8;
     }
-    else {
-        this->isAddressSizeTwoWords = false;
-
-        if (deviceSize <= 256) {
-            this->pageSize = 8;
-        }
-        else {
-            this->pageSize = 16;
-        }
+    else if (deviceSize <= 256 * 8)
+    {
+        this->_isAddressSizeTwoWords = false;
+        this->_pageSize = 16;
+    }
+    else
+    {
+        this->_isAddressSizeTwoWords = true;
+        this->_pageSize = 32;
     }
 }
 
@@ -66,53 +70,53 @@ void I2C_eeprom::begin()
     Wire.begin();
     _lastWrite = 0;
 
-// TWBR is not available on Arduino Due
-#ifdef TWBR    
+    // TWBR is not available on Arduino Due
+#ifdef TWBR
     TWBR = 72;
     // 0=1000 1=888 2=800 8=500
     // 12=400KHz  24=250 32=200  72=100  152=50
     // F_CPU/16+(2*TWBR) // TWBR is a uint8_t
-#endif 
+#endif
 }
 
 
 
-int I2C_eeprom::writeByte(uint16_t address, uint8_t data)
+int I2C_eeprom::writeByte(uint16_t memoryAddress, uint8_t data)
 {
-    int rv = _WriteBlock(address, &data, 1);
+    int rv = _WriteBlock(memoryAddress, &data, 1);
     return rv;
 }
 
-int I2C_eeprom::setBlock(uint16_t address, uint8_t data, uint16_t length)
+int I2C_eeprom::setBlock(uint16_t memoryAddress, uint8_t data, uint16_t length)
 {
     uint8_t buffer[I2C_TWIBUFFERSIZE];
-    for (uint8_t i =0; i< I2C_TWIBUFFERSIZE; i++) buffer[i] = data;
+    for (uint8_t i = 0; i< I2C_TWIBUFFERSIZE; i++) buffer[i] = data;
 
-    int rv = _pageBlock(address, buffer, length, false);
+    int rv = _pageBlock(memoryAddress, buffer, length, false);
     return rv;
 }
 
-int I2C_eeprom::writeBlock(uint16_t address, uint8_t* buffer, uint16_t length)
+int I2C_eeprom::writeBlock(uint16_t memoryAddress, uint8_t* buffer, uint16_t length)
 {
-    int rv = _pageBlock(address, buffer, length, true);
+    int rv = _pageBlock(memoryAddress, buffer, length, true);
     return rv;
 }
 
-uint8_t I2C_eeprom::readByte(uint16_t address)
+uint8_t I2C_eeprom::readByte(uint16_t memoryAddress)
 {
     uint8_t rdata;
-    _ReadBlock(address, &rdata, 1);
+    _ReadBlock(memoryAddress, &rdata, 1);
     return rdata;
 }
 
-uint16_t I2C_eeprom::readBlock(uint16_t address, uint8_t* buffer, uint16_t length)
+uint16_t I2C_eeprom::readBlock(uint16_t memoryAddress, uint8_t* buffer, uint16_t length)
 {
     uint16_t rv = 0;
     while (length > 0)
     {
         uint8_t cnt = min(length, I2C_TWIBUFFERSIZE);
-        rv += _ReadBlock(address, buffer, cnt);
-        address += cnt;
+        rv += _ReadBlock(memoryAddress, buffer, cnt);
+        memoryAddress += cnt;
         buffer += cnt;
         length -= cnt;
     }
@@ -172,7 +176,7 @@ int I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, b
     int rv = 0;
     while (length > 0)
     {
-        uint8_t bytesUntilPageBoundary = this->pageSize - address % this->pageSize;
+        uint8_t bytesUntilPageBoundary = this->_pageSize - address % this->_pageSize;
         uint8_t cnt = min(length, bytesUntilPageBoundary);
         cnt = min(cnt, I2C_TWIBUFFERSIZE);
 
@@ -186,24 +190,26 @@ int I2C_eeprom::_pageBlock(uint16_t address, uint8_t* buffer, uint16_t length, b
     return rv;
 }
 
+// supports one and 2 bytes addresses
+void I2C_eeprom::_beginTransmission(uint16_t memoryAddress)
+{
+    Wire.beginTransmission(_deviceAddress);
 
-void I2C_eeprom::_beginTransmission(uint16_t eeaddress){
-  Wire.beginTransmission(_deviceAddress);
+    if (this->_isAddressSizeTwoWords)
+    {
+        WIRE_WRITE((memoryAddress >> 8));    // Address High Byte
+    }
 
-  if (this->isAddressSizeTwoWords) {
-    WIRE_WRITE((eeaddress >> 8));    // Address High Byte    
-  }
-
-  WIRE_WRITE((eeaddress & 0xFF));  // Address Low Byte (or only byte for chips 16K or smaller that only have one-word addresses)
+    WIRE_WRITE((memoryAddress & 0xFF));  // Address Low Byte (or only byte for chips 16K or smaller that only have one-word addresses)
 }
 
-// pre: length <= this->pageSize  && length <= I2C_TWIBUFFERSIZE;
+// pre: length <= this->_pageSize  && length <= I2C_TWIBUFFERSIZE;
 // returns 0 = OK otherwise error
-int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
+int I2C_eeprom::_WriteBlock(uint16_t memoryAddress, uint8_t* buffer, uint8_t length)
 {
     waitEEReady();
 
-    this->_beginTransmission(address);
+    this->_beginTransmission(memoryAddress);
 
     WIRE_WRITE(buffer, length);
 
@@ -214,11 +220,11 @@ int I2C_eeprom::_WriteBlock(uint16_t address, uint8_t* buffer, uint8_t length)
 
 // pre: buffer is large enough to hold length bytes
 // returns bytes read
-uint8_t I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length)
+uint8_t I2C_eeprom::_ReadBlock(uint16_t memoryAddress, uint8_t* buffer, uint8_t length)
 {
     waitEEReady();
 
-    this->_beginTransmission(address);
+    this->_beginTransmission(memoryAddress);
 
     int rv = Wire.endTransmission();
     if (rv != 0) return 0;  // error
@@ -228,11 +234,7 @@ uint8_t I2C_eeprom::_ReadBlock(uint16_t address, uint8_t* buffer, uint8_t length
     uint32_t before = millis();
     while ((cnt < length) && ((millis() - before) < I2C_EEPROM_TIMEOUT))
     {
-#if defined(ARDUINO) && ARDUINO >= 100
-        if (Wire.available()) buffer[cnt++] = Wire.read();
-#else
-        if (Wire.available()) buffer[cnt++] = Wire.receive();
-#endif
+        if (Wire.available()) buffer[cnt++] = WIRE_READ();
     }
     return cnt;
 }

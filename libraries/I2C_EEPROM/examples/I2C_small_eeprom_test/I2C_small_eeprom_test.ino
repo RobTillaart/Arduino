@@ -1,4 +1,9 @@
-
+//
+//    FILE: I2C_small_eeprom_test.ino
+//  AUTHOR: 
+// VERSION: 0.1.00
+// PURPOSE: show/test I2C_EEPROM library with small EEPROMS
+//
 #include <Wire.h>
 #include <I2C_eeprom.h>
 
@@ -87,9 +92,7 @@ void readAndWritePage(unsigned int pageAddress, int bufferLen) {
 void setup()
 {
   SERIAL_DEBUG.begin(57600); 
-  while (!SERIAL_DEBUG) {
-    ; // wait for SERIAL_DEBUG port to connect. Needed for Leonardo only
-  }
+  while (!SERIAL_DEBUG); // wait for SERIAL_DEBUG port to connect. Needed for Leonardo only
 
   SERIAL_DEBUG.println("IT IS BEGINNING"); 
   SERIAL_DEBUG.println("WAIT FOR IT");  
@@ -100,7 +103,7 @@ void setup()
 
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("PAGE:");     
-  SERIAL_DEBUG.print(" writing and retreiving EEPROM Page on I2C at address ");
+  SERIAL_DEBUG.print(" writing and retrieving EEPROM Page on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 
@@ -110,7 +113,7 @@ void setup()
 
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("MULTI-PAGE:");     
-  SERIAL_DEBUG.print("writing and retreiving EEPROM Pages on I2C at address ");
+  SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 
@@ -120,7 +123,7 @@ void setup()
 
   SERIAL_DEBUG.println("----------------------------------------------");     
   SERIAL_DEBUG.println("MULTI-PAGE UNALINGED: ");     
-  SERIAL_DEBUG.print("writing and retreiving EEPROM Pages on I2C at address ");
+  SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
   SERIAL_DEBUG.println("----------------------------------------------");  
 

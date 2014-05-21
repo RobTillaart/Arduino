@@ -33,15 +33,13 @@
 #endif
 
 
-I2C_eeprom::I2C_eeprom(uint8_t device)
+I2C_eeprom::I2C_eeprom(uint8_t deviceAddress)
 {
-    _deviceAddress = device;
-    isAddressSizeTwoWords = true;
-    this->pageSize = I2C_EEPROM_PAGESIZE;
+    I2C_eeprom(deviceAddress, I2C_EEPROM_PAGESIZE);
 }
 
-I2C_eeprom::I2C_eeprom(uint8_t device, unsigned int deviceSize) {
-    _deviceAddress = device;
+I2C_eeprom::I2C_eeprom(uint8_t deviceAddress, unsigned int deviceSize) {
+    this->_deviceAddress = deviceAddress;
 
     // Chips 16Kbit (2048KB) or smaller only have one-word addresses.
     // Also try to guess page size from device size (going by Microchip 24LCXX datasheets here).

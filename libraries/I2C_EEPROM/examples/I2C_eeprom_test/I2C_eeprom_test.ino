@@ -8,6 +8,9 @@
 #include <Wire.h> //I2C library
 #include <I2C_eeprom.h>
 
+
+#define SERIAL_OUT SerialUSB
+
 I2C_eeprom ee(0x50);
 
 uint32_t totals = 0;
@@ -16,12 +19,16 @@ void setup()
 {
   ee.begin();
 
-  Serial.begin(115200);
-  Serial.print("Demo I2C eeprom library ");
-  Serial.print(I2C_EEPROM_VERSION);
-  Serial.println("\n");
+  SERIAL_OUT.begin(57600); 
+  while (!SERIAL_OUT) {
+    ; // wait for SERIAL_OUT port to connect. Needed for Leonardo only
+  }
+  
+  SERIAL_OUT.print("Demo I2C eeprom library ");
+  SERIAL_OUT.print(I2C_EEPROM_VERSION);
+  SERIAL_OUT.println("\n");
 
-  Serial.println("\nTEST: 64 byte page boundary writeBlock");
+  SERIAL_OUT.println("\nTEST: 64 byte page boundary writeBlock");
   ee.setBlock(0,0,128);
   dumpEEPROM(0, 128);
   char data[] = "11111111111111111111";
@@ -29,146 +36,146 @@ void setup()
   dumpEEPROM(0, 128);
 
 
-  Serial.println("\nTEST: 64 byte page boundary setBlock");
+  SERIAL_OUT.println("\nTEST: 64 byte page boundary setBlock");
   ee.setBlock(0,0,128);
   dumpEEPROM(0, 128);
   ee.setBlock(60, '1', 10);
   dumpEEPROM(0, 128);
 
 
-  Serial.println("\nTEST: 64 byte page boundary readBlock");
+  SERIAL_OUT.println("\nTEST: 64 byte page boundary readBlock");
   ee.setBlock(0,0,128);
   ee.setBlock(60, '1', 6);
   dumpEEPROM(0, 128);
   char ar[100];
   memset(ar,0,100);
   ee.readBlock(60, (uint8_t*)ar, 10);
-  Serial.println(ar);
+  SERIAL_OUT.println(ar);
 
 
-  Serial.println("\nTEST: write large string readback in small steps");
+  SERIAL_OUT.println("\nTEST: write large string readback in small steps");
   ee.setBlock(0,0,128);
   char data2[] = "0000000000111111111122222222223333333333444444444455555555556666666666777777777788888888889999999999A"; 
   ee.writeBlock(10, (uint8_t *) &data2, 100);
   dumpEEPROM(0, 128);
   for (int i = 0; i<100; i++)
   {
-    if (i%10 == 0 ) Serial.println();
-    Serial.print(' ');
-    Serial.print(ee.readByte(10+i));
+    if (i%10 == 0 ) SERIAL_OUT.println();
+    SERIAL_OUT.print(' ');
+    SERIAL_OUT.print(ee.readByte(10+i));
   }
-  Serial.println();
+  SERIAL_OUT.println();
 
 
-  Serial.println("\nTEST: check almost endofPage writeBlock");
+  SERIAL_OUT.println("\nTEST: check almost endofPage writeBlock");
   ee.setBlock(0,0,128);
   char data3[] = "6666"; 
   ee.writeBlock(60, (uint8_t *) &data3, 2);
   dumpEEPROM(0, 128);
 
-  Serial.println();
-  Serial.print("\nI2C speed:\t");
-  Serial.println(16000/(16+2*TWBR));
-  Serial.print("TWBR:\t");
-  Serial.println(TWBR);
-  Serial.println();
+  // SERIAL_OUT.println();
+  // SERIAL_OUT.print("\nI2C speed:\t");
+  // SERIAL_OUT.println(16000/(16+2*TWBR));
+  // SERIAL_OUT.print("TWBR:\t");
+  // SERIAL_OUT.println(TWBR);
+  // SERIAL_OUT.println();
 
   totals = 0;
-  Serial.print("\nTEST: timing writeByte()\t");
+  SERIAL_OUT.print("\nTEST: timing writeByte()\t");
   uint32_t start = micros();
   ee.writeByte(10, 1);
   uint32_t diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
-  Serial.print("TEST: timing writeBlock(50)\t");
+  SERIAL_OUT.print("TEST: timing writeBlock(50)\t");
   start = micros();
   ee.writeBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
-  Serial.print("TEST: timing readByte()\t\t");
+  SERIAL_OUT.print("TEST: timing readByte()\t\t");
   start = micros();
   ee.readByte(10);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
-  Serial.print("TEST: timing readBlock(50)\t");
+  SERIAL_OUT.print("TEST: timing readBlock(50)\t");
   start = micros();
   ee.readBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
-  Serial.print("TOTALS: ");
-  Serial.println(totals);
+  SERIAL_OUT.print("TOTALS: ");
+  SERIAL_OUT.println(totals);
   totals = 0;
 
   // same tests but now with a 5 millisec delay in between.
   delay(5);
 
-  Serial.print("\nTEST: timing writeByte()\t");
+  SERIAL_OUT.print("\nTEST: timing writeByte()\t");
   start = micros();
   ee.writeByte(10, 1);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
   delay(5);
 
-  Serial.print("TEST: timing writeBlock(50)\t");
+  SERIAL_OUT.print("TEST: timing writeBlock(50)\t");
   start = micros();
   ee.writeBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
   delay(5);
 
-  Serial.print("TEST: timing readByte()\t\t");
+  SERIAL_OUT.print("TEST: timing readByte()\t\t");
   start = micros();
   ee.readByte(10);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
   delay(5);
 
-  Serial.print("TEST: timing readBlock(50)\t");
+  SERIAL_OUT.print("TEST: timing readBlock(50)\t");
   start = micros();
   int xx = ee.readBlock(10, (uint8_t *) &data2, 50);
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
   totals += diff;
 
-  Serial.print("TOTALS: ");
-  Serial.println(totals);
+  SERIAL_OUT.print("TOTALS: ");
+  SERIAL_OUT.println(totals);
   totals = 0;
 
   // does it go well?
-  Serial.println(xx);
+  SERIAL_OUT.println(xx);
 
-  Serial.println("\nTEST: determine size");
+  SERIAL_OUT.println("\nTEST: determine size");
   start = micros();
   int size = ee.determineSize();
   diff = micros() - start;  
-  Serial.print("TIME: ");
-  Serial.println(diff);
-  Serial.print("SIZE: ");
-  Serial.print(size);
-  Serial.println(" KB");
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
+  SERIAL_OUT.print("SIZE: ");
+  SERIAL_OUT.print(size);
+  SERIAL_OUT.println(" KB");
 
-  Serial.println("\tDone...");
+  SERIAL_OUT.println("\tDone...");
 }
 
 void loop() 
@@ -186,14 +193,14 @@ void dumpEEPROM(uint16_t addr, uint16_t length)
   {
     if (addr % 10 == 0)
     {
-      Serial.println();
-      Serial.print(addr);
-      Serial.print(":\t");
+      SERIAL_OUT.println();
+      SERIAL_OUT.print(addr);
+      SERIAL_OUT.print(":\t");
     }
-    Serial.print(b);
+    SERIAL_OUT.print(b);
     b = ee.readByte(++addr); 
-    Serial.print("  ");
+    SERIAL_OUT.print("  ");
   }
-  Serial.println();
+  SERIAL_OUT.println();
 }
 // END OF FILE

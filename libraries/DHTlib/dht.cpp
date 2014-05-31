@@ -128,7 +128,7 @@ int dht::read(uint8_t pin)
     // REQUEST SAMPLE
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW);
-    delay(20);
+    delay(1);
     digitalWrite(pin, HIGH);
     delayMicroseconds(40);
     pinMode(pin, INPUT);

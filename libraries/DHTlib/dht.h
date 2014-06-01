@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.09
+// VERSION: 0.1.10
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -18,12 +18,16 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.09"
+#define DHT_LIB_VERSION "0.1.10"
 
-#define DHTLIB_OK				0
-#define DHTLIB_ERROR_CHECKSUM	-1
-#define DHTLIB_ERROR_TIMEOUT	-2
-#define DHTLIB_INVALID_VALUE	-999
+#define DHTLIB_OK                0
+#define DHTLIB_ERROR_CHECKSUM   -1
+#define DHTLIB_ERROR_TIMEOUT    -2
+#define DHTLIB_INVALID_VALUE    -999
+
+#define DHTLIB_DHT11_WAKEUP     18
+#define DHTLIB_DHT22_WAKEUP     1
+
 
 class dht
 {
@@ -37,7 +41,7 @@ public:
 
 private:
     uint8_t bits[5];  // buffer to receive data
-    int read(uint8_t pin);
+    int read(uint8_t pin, uint8_t wakeupDelay);
 };
 #endif
 //

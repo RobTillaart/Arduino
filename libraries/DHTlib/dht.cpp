@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.11 renamed DHTLIB_TIMEOUT
 // 0.1.10 optimized faster WAKEUP + TIMEOUT
 // 0.1.09 optimize size: timeout check + use of mask
 // 0.1.08 added formula for timeout based upon clockspeed
@@ -24,14 +25,6 @@
 //
 
 #include "dht.h"
-
-// max timeout is 100usec.
-// For a 16Mhz proc that is max 1600 clock cycles
-// loops using TIMEOUT use at least 4 clock cycli
-// so 100 us takes max 400 loops
-// so by dividing F_CPU by 40000 we "fail" as fast as possible
-#define TIMEOUT (F_CPU/40000)
-
 
 /////////////////////////////////////////////////////
 //
@@ -135,13 +128,13 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
     pinMode(pin, INPUT);
 
     // GET ACKNOWLEDGE or TIMEOUT
-    unsigned int loopCnt = TIMEOUT;
+    unsigned int loopCnt = DHTLIB_TIMEOUT;
     while(digitalRead(pin) == LOW)
     {
         if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
     }
 
-    loopCnt = TIMEOUT;
+    loopCnt = DHTLIB_TIMEOUT;
     while(digitalRead(pin) == HIGH)
     {
         if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
@@ -150,7 +143,7 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
     // READ THE OUTPUT - 40 BITS => 5 BYTES
     for (uint8_t i = 0; i < 40; i++)
     {
-        loopCnt = TIMEOUT;
+        loopCnt = DHTLIB_TIMEOUT;
         while(digitalRead(pin) == LOW)
         {
             if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
@@ -158,7 +151,7 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
 
         unsigned long t = micros();
 
-        loopCnt = TIMEOUT;
+        loopCnt = DHTLIB_TIMEOUT;
         while(digitalRead(pin) == HIGH)
         {
             if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;

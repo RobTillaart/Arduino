@@ -1,7 +1,7 @@
 //
 //    FILE: DHT_simulator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: 
 //    DATE: 2014-06-14
 //     URL:
@@ -12,7 +12,6 @@
 // TODO
 // - robustness
 // - timeout loops
-// - get timing accurate
 
 const int dataPin = 5;
 byte b[5];
@@ -20,7 +19,8 @@ byte b[5];
 void setup() 
 {
   Serial.begin(115200);
-  Serial.println("Start ");
+  Serial.print("Start ");
+  Serial.println(__FILE__);
 
   pinMode(dataPin, INPUT_PULLUP);
 }
@@ -46,30 +46,15 @@ void loop()
   if (digitalRead(dataPin) == LOW)     
   {
     uint32_t start = micros();
-    // wait until signal goes high // todo timeout onblocking loop?
-    while (digitalRead(dataPin) == LOW);
+    // wait until signal goes high 
+    // todo timeout on blocking loop
+    while (digitalRead(dataPin) == LOW)
+    {
+      if (micros() - start > 1500) return;  
+    }
     if (micros() - start > 500) // serious request...
     {
-
-      pinMode(dataPin, OUTPUT);
-      // send ACK    
-      digitalWrite(dataPin, LOW);
-      delayMicroseconds(80);             // overhead digitalwrite (2..4us)
-      digitalWrite(dataPin, HIGH);
-      delayMicroseconds(80);
-
       DHTsend(H, T);
-
-      digitalWrite(dataPin, LOW);
-      delayMicroseconds(50);
-      pinMode(dataPin, INPUT_PULLUP);
-
-      //  for (int i = 0; i < 5; i++)
-      //  {
-      //    Serial.print(b[i]);
-      //    Serial.print(" ");
-      //  }
-      //  Serial.println();
 
       Serial.print(H);
       Serial.print("\t");
@@ -78,51 +63,69 @@ void loop()
   }
 }
 
+
 void DHTsend(int H, int T)
 {
-  // prepare data
+  pinMode(dataPin, OUTPUT); 
+  // SEND ACK
+  digitalWrite(dataPin, LOW);
+  delayMicroseconds(80);                  // 80 us
+  digitalWrite(dataPin, HIGH);
+  delayMicroseconds(80);                  // 80 us
+
+  // PREPARE DATA
   b[0] = H / 256;
   b[1] = H & 255;
 
-  uint16_t t;
-  if (T >= 0) 
+  b[2] = 0;
+  if (T < 0) 
   {
-    t = T;
-    b[2] = 0;
-  }
-  else 
-  {
-    t = -T;
+    T = -T;
     b[2] = 0x80;
   }
-  Serial.println(t);
 
-  b[2] |= (t / 256);
-  b[3] = (t & 255);
+  b[2] |= T / 256;
+  b[3] = T & 255;
+  // CRC
+  b[4] = b[0] + b[1] + b[2] + b[3];
 
-  b[4] = b[0] + b[1] + b[2] + b[3];          // CRC
-
+  // SEND DATA
   for (int i = 0; i < 5; i++)
   {
     DHTsendbyte(b[i]);
   }
+
+  // END OF TRANSMISSION SIGNAL
+  digitalWrite(dataPin, LOW);
+  delayMicroseconds(50);                  // 50 us
+  pinMode(dataPin, INPUT_PULLUP);
+
+  // DEBUG 
+  //  for (int i = 0; i < 5; i++)
+  //  {
+  //    Serial.print(b[i]);
+  //    Serial.print(" ");
+  //  }
+  //  Serial.println();
 }
 
+// timing manual tuned
 void DHTsendbyte(byte b)
 {
   byte mask = 128;
   for(int i = 0; i < 8; i++)
   {
     digitalWrite(dataPin, LOW);
-    delayMicroseconds(45);                // overhead digitalwrite (2..4us)
+    delayMicroseconds(45);                // 50 us
     digitalWrite(dataPin, HIGH);
-
-    if (b & mask) delayMicroseconds(60);  // idem
-    else delayMicroseconds(24);           // idem
-
+    if (b & mask) delayMicroseconds(60);  // 70 us
+    else delayMicroseconds(24);           // 26 us
     mask >>= 1;
   }
 }
+
+
+
 
 
 

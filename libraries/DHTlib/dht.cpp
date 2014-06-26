@@ -1,11 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.13
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.13 fix negative temperature
+// 0.1.12 support DHT33 and DHT44 initial version
 // 0.1.11 renamed DHTLIB_TIMEOUT
 // 0.1.10 optimized faster WAKEUP + TIMEOUT
 // 0.1.09 optimize size: timeout check + use of mask
@@ -38,7 +40,7 @@
 int dht::read11(uint8_t pin)
 {
     // READ VALUES
-    int rv = read(pin, DHTLIB_DHT11_WAKEUP);
+    int rv = _readSensor(pin, DHTLIB_DHT11_WAKEUP);
     if (rv != DHTLIB_OK)
     {
         humidity    = DHTLIB_INVALID_VALUE; // invalid value, or is NaN prefered?
@@ -58,24 +60,15 @@ int dht::read11(uint8_t pin)
     return DHTLIB_OK;
 }
 
-// return values:
-// DHTLIB_OK
-// DHTLIB_ERROR_CHECKSUM
-// DHTLIB_ERROR_TIMEOUT
-int dht::read21(uint8_t pin)
-{
-    // dataformat & wakeup identical to DHT22
-    return read22(pin);
-}
 
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
 // DHTLIB_ERROR_TIMEOUT
-int dht::read22(uint8_t pin)
+int dht::read(uint8_t pin)
 {
     // READ VALUES
-    int rv = read(pin, DHTLIB_DHT22_WAKEUP);
+    int rv = _readSensor(pin, DHTLIB_DHT_WAKEUP);
     if (rv != DHTLIB_OK)
     {
         humidity    = DHTLIB_INVALID_VALUE;  // invalid value, or is NaN prefered?
@@ -85,20 +78,18 @@ int dht::read22(uint8_t pin)
 
     // CONVERT AND STORE
     humidity = word(bits[0], bits[1]) * 0.1;
-
-    if (bits[2] & 0x80) // negative temperature
+    temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
+    if (bits[2] & 0x80)  // negative temperature
     {
-        temperature = -0.1 * word(bits[2] & 0x7F, bits[3]);
-    }
-    else
-    {
-        temperature = 0.1 * word(bits[2], bits[3]);
+        temperature = -temperature;
     }
 
     // TEST CHECKSUM
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
-    if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
-
+    if (bits[4] != sum)
+    {
+        return DHTLIB_ERROR_CHECKSUM;
+    }
     return DHTLIB_OK;
 }
 
@@ -110,7 +101,7 @@ int dht::read22(uint8_t pin)
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_TIMEOUT
-int dht::read(uint8_t pin, uint8_t wakeupDelay)
+int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
 {
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;
@@ -128,7 +119,7 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
     pinMode(pin, INPUT);
 
     // GET ACKNOWLEDGE or TIMEOUT
-    unsigned int loopCnt = DHTLIB_TIMEOUT;
+    uint16_t loopCnt = DHTLIB_TIMEOUT;
     while(digitalRead(pin) == LOW)
     {
         if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
@@ -141,7 +132,7 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
     }
 
     // READ THE OUTPUT - 40 BITS => 5 BYTES
-    for (uint8_t i = 0; i < 40; i++)
+    for (uint8_t i = 40; i != 0; i--)
     {
         loopCnt = DHTLIB_TIMEOUT;
         while(digitalRead(pin) == LOW)
@@ -149,7 +140,7 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
             if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
         }
 
-        unsigned long t = micros();
+        uint32_t t = micros();
 
         loopCnt = DHTLIB_TIMEOUT;
         while(digitalRead(pin) == HIGH)
@@ -157,7 +148,10 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
             if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
         }
 
-        if ((micros() - t) > 40) bits[idx] |= mask;
+        if ((micros() - t) > 40)
+        { 
+            bits[idx] |= mask;
+        }
         mask >>= 1;
         if (mask == 0)   // next byte?
         {
@@ -165,6 +159,9 @@ int dht::read(uint8_t pin, uint8_t wakeupDelay)
             idx++;
         }
     }
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, HIGH);
+
     return DHTLIB_OK;
 }
 //

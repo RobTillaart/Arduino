@@ -16,6 +16,9 @@ clear	KEYWORD2
 addValue	KEYWORD2
 getAverage	KEYWORD2
 fillValue	KEYWORD2
+getElement	KEYWORD2
+getSize	KEYWORD2
+getCount	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

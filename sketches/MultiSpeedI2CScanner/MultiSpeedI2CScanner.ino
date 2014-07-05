@@ -1,10 +1,10 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: I2C scanner @different speeds
 //    DATE: 2013-11-05
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=197360
 //
 // Released to the public domain
 //
@@ -148,7 +148,18 @@ void I2Cscan()
   }
 
   // TEST
-  for (uint8_t address = 0; address < 128; address++)
+  // 0.1.04: tests only address range 8..120
+  // --------------------------------------------
+  // Address	R/W Bit	Description
+  // 0000 000   0	General call address
+  // 0000 000   1	START byte
+  // 0000 001   X	CBUS address
+  // 0000 010   X	reserved - different bus format
+  // 0000 011   X	reserved - future purposes
+  // 0000 1XX   X	High Speed master code
+  // 1111 1XX   X	reserved - future purposes
+  // 1111 0XX   X	10-bit slave addressing
+  for (uint8_t address = 8; address < 120; address++)
   {
     bool printLine = printAll;
     bool found[speeds];

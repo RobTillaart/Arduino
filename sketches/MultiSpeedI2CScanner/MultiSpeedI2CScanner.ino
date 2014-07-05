@@ -114,7 +114,7 @@ char getCommand()
 
 void displayHelp()
 {
-  Serial.println(F("\nArduino I2C Scanner - 0.1.03\n"));
+  Serial.println(F("\nArduino I2C Scanner - 0.1.04\n"));
   Serial.println(F("\ts = single scan"));
   Serial.println(F("\tc = continuous scan - 1 second delay"));
   Serial.println(F("\tq = quit continuous scan"));

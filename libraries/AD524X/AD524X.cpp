@@ -1,10 +1,14 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: see AD524X.h file
+// VERSION: 0.1.02
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL:
+// HISTORY:
+// 0.1.00: initial version
+// 0.1.01:
+// 0.1.02: refactoring
 //
 // Released to the public domain
 //
@@ -56,16 +60,16 @@ uint8_t AD524X::write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)
     return send(cmd, value);
 }
 
-uint8_t AD524X::setO1(uint8_t v)
+uint8_t AD524X::setO1(uint8_t value)
 {
-    _O1 = (v == LOW) ? 0 : AS524X_O1_HIGH;
+    _O1 = (value == LOW) ? 0 : AS524X_O1_HIGH;
     uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
     return send(cmd, _lastValue[0]);
 }
 
-uint8_t AD524X::setO2(uint8_t v)
+uint8_t AD524X::setO2(uint8_t value)
 {
-    _O2 = (v == LOW) ? 0: AS524X_O2_HIGH;
+    _O2 = (value == LOW) ? 0: AS524X_O2_HIGH;
     uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
     return send(cmd, _lastValue[0]);
 }

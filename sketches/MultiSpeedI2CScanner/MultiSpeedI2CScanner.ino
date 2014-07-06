@@ -17,7 +17,7 @@ const char version[] = "0.1.05";
 // scans devices from 50 to 800KHz I2C speeds.
 // lower than 50 is not possible
 // DS3231 RTC works on 800 KHz. TWBR = 2; (?)
-const long allSpeed[] = { 
+const long allSpeed[] = {
   50, 100, 200, 250, 400, 500, 800 };
 long speed[sizeof(allSpeed)/sizeof(allSpeed[0])];
 int speeds;
@@ -41,7 +41,7 @@ states state = STOP;
 uint32_t startScan;
 uint32_t stopScan;
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Wire.begin();
@@ -50,33 +50,33 @@ void setup()
 }
 
 
-void loop() 
+void loop()
 {
   char command = getCommand();
   switch (command)
   {
-  case 's': 
-    state = ONCE; 
+  case 's':
+    state = ONCE;
     break;
-  case 'c': 
-    state = CONT; 
+  case 'c':
+    state = CONT;
     break;
-  case 'd': 
+  case 'd':
     delayFlag = !delayFlag;
     Serial.print(F("<delay="));
     Serial.println(delayFlag?F("5>"):F("0>"));
     break;
 
-  case 'e': 
+  case 'e':
     // eeprom test TODO
     break;
 
-  case 'h': 
+  case 'h':
     header = !header;
     Serial.print(F("<header="));
     Serial.println(header?F("yes>"):F("no>"));
     break;
-  case 'p': 
+  case 'p':
     printAll = !printAll;
     Serial.print(F("<print="));
     Serial.println(printAll?F("all>"):F("found>"));
@@ -94,24 +94,24 @@ void loop()
     setAddress();
     break;
 
-  case 'q': 
+  case 'q':
   case '?':
-    state = HELP; 
-    break; 
+    state = HELP;
+    break;
   default:
     break;
   }
 
   switch(state)
   {
-  case ONCE: 
-    I2Cscan(); 
+  case ONCE:
+    I2Cscan();
     state = HELP;
     break;
   case CONT:
     I2Cscan();
     delay(1000);
-    break;    
+    break;
   case HELP:
     displayHelp();
     state = STOP;

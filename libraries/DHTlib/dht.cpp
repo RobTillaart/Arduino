@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.13
+// VERSION: 0.1.14
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.14 replace digital read with faster (~3x) code => more robust low MHz machines.
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
 // 0.1.11 renamed DHTLIB_TIMEOUT
@@ -19,7 +20,7 @@
 // 0.1.03 added error values for temp and humidity when read failed
 // 0.1.02 added error codes
 // 0.1.01 added support for Arduino 1.0, fixed typos (31/12/2011)
-// 0.1.0 by Rob Tillaart (01/04/2011)
+// 0.1.00 by Rob Tillaart (01/04/2011)
 //
 // inspired by DHT11 library
 //
@@ -107,45 +108,52 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
     uint8_t mask = 128;
     uint8_t idx = 0;
 
+    // replace digitalRead() with Direct Port Reads.
+    // reduces footprint ~100 bytes => portability issue?
+    // direct port read is about 3x faster
+	uint8_t bit = digitalPinToBitMask(pin);
+	uint8_t port = digitalPinToPort(pin);
+    volatile uint8_t *PIR = portInputRegister(port);
+
     // EMPTY BUFFER
     for (uint8_t i = 0; i < 5; i++) bits[i] = 0;
 
     // REQUEST SAMPLE
     pinMode(pin, OUTPUT);
-    digitalWrite(pin, LOW);
+    digitalWrite(pin, LOW); // T-be 
     delay(wakeupDelay);
-    digitalWrite(pin, HIGH);
+    digitalWrite(pin, HIGH);   // T-go
     delayMicroseconds(40);
     pinMode(pin, INPUT);
 
     // GET ACKNOWLEDGE or TIMEOUT
-    uint16_t loopCnt = DHTLIB_TIMEOUT;
-    while(digitalRead(pin) == LOW)
+    uint16_t loopCntLOW = DHTLIB_TIMEOUT;
+    while ((*PIR & bit) == LOW )  // T-rel
     {
-        if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
+        if (--loopCntLOW == 0) return DHTLIB_ERROR_TIMEOUT;
     }
 
-    loopCnt = DHTLIB_TIMEOUT;
-    while(digitalRead(pin) == HIGH)
+    uint16_t loopCntHIGH = DHTLIB_TIMEOUT;
+    while ((*PIR & bit) != LOW )  // T-reh
     {
-        if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
+        if (--loopCntHIGH == 0) return DHTLIB_ERROR_TIMEOUT;
     }
 
     // READ THE OUTPUT - 40 BITS => 5 BYTES
     for (uint8_t i = 40; i != 0; i--)
     {
-        loopCnt = DHTLIB_TIMEOUT;
-        while(digitalRead(pin) == LOW)
+        loopCntLOW = DHTLIB_TIMEOUT;
+        while ((*PIR & bit) == LOW )
         {
-            if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
+            if (--loopCntLOW == 0) return DHTLIB_ERROR_TIMEOUT;
         }
 
         uint32_t t = micros();
-
-        loopCnt = DHTLIB_TIMEOUT;
-        while(digitalRead(pin) == HIGH)
+        
+        loopCntHIGH = DHTLIB_TIMEOUT;
+        while ((*PIR & bit) != LOW )
         {
-            if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
+            if (--loopCntHIGH == 0) return DHTLIB_ERROR_TIMEOUT;
         }
 
         if ((micros() - t) > 40)

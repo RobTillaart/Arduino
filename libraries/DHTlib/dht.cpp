@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.14
+// VERSION: 0.1.15
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.15 reduced # micros calls 2->1 in inner loop.
 // 0.1.14 replace digital read with faster (~3x) code => more robust low MHz machines.
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
@@ -44,8 +45,8 @@ int dht::read11(uint8_t pin)
     int rv = _readSensor(pin, DHTLIB_DHT11_WAKEUP);
     if (rv != DHTLIB_OK)
     {
-        humidity    = DHTLIB_INVALID_VALUE; // invalid value, or is NaN prefered?
-        temperature = DHTLIB_INVALID_VALUE; // invalid value
+        humidity    = DHTLIB_INVALID_VALUE;
+        temperature = DHTLIB_INVALID_VALUE;
         return rv;
     }
 
@@ -56,8 +57,10 @@ int dht::read11(uint8_t pin)
     // TEST CHECKSUM
     // bits[1] && bits[3] both 0
     uint8_t sum = bits[0] + bits[2];
-    if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
-
+    if (bits[4] != sum)
+    {
+        return DHTLIB_ERROR_CHECKSUM;
+    }
     return DHTLIB_OK;
 }
 
@@ -111,8 +114,8 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
     // replace digitalRead() with Direct Port Reads.
     // reduces footprint ~100 bytes => portability issue?
     // direct port read is about 3x faster
-	uint8_t bit = digitalPinToBitMask(pin);
-	uint8_t port = digitalPinToPort(pin);
+    uint8_t bit = digitalPinToBitMask(pin);
+    uint8_t port = digitalPinToPort(pin);
     volatile uint8_t *PIR = portInputRegister(port);
 
     // EMPTY BUFFER
@@ -120,52 +123,66 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
 
     // REQUEST SAMPLE
     pinMode(pin, OUTPUT);
-    digitalWrite(pin, LOW); // T-be 
+    digitalWrite(pin, LOW); // T-be
     delay(wakeupDelay);
-    digitalWrite(pin, HIGH);   // T-go
-    delayMicroseconds(40);
+    digitalWrite(pin, HIGH); // T-go
     pinMode(pin, INPUT);
 
+    uint16_t loopCount = DHTLIB_TIMEOUT*2;  // 200uSec max
+    // while(digitalRead(pin) == HIGH)
+    while ((*PIR & bit) != LOW )
+    {
+        if (--loopCount == 0) return DHTLIB_ERROR_TIMEOUT;
+    }
+
     // GET ACKNOWLEDGE or TIMEOUT
-    uint16_t loopCntLOW = DHTLIB_TIMEOUT;
+    loopCount = DHTLIB_TIMEOUT;
+    // while(digitalRead(pin) == LOW)
     while ((*PIR & bit) == LOW )  // T-rel
     {
-        if (--loopCntLOW == 0) return DHTLIB_ERROR_TIMEOUT;
+        if (--loopCount == 0) return DHTLIB_ERROR_TIMEOUT;
     }
 
-    uint16_t loopCntHIGH = DHTLIB_TIMEOUT;
+    loopCount = DHTLIB_TIMEOUT;
+    // while(digitalRead(pin) == HIGH)
     while ((*PIR & bit) != LOW )  // T-reh
     {
-        if (--loopCntHIGH == 0) return DHTLIB_ERROR_TIMEOUT;
+        if (--loopCount == 0) return DHTLIB_ERROR_TIMEOUT;
     }
 
+    uint8_t state = LOW;
+    uint8_t pstate = LOW;
+    loopCount = DHTLIB_TIMEOUT;
+    uint32_t t1 = micros();
+
     // READ THE OUTPUT - 40 BITS => 5 BYTES
-    for (uint8_t i = 40; i != 0; i--)
+    for (uint8_t i = 40; i != 0; )
     {
-        loopCntLOW = DHTLIB_TIMEOUT;
-        while ((*PIR & bit) == LOW )
+        // WAIT FOR FALLING EDGE
+        state = (*PIR & bit);
+        if (state == LOW && pstate != LOW)
         {
-            if (--loopCntLOW == 0) return DHTLIB_ERROR_TIMEOUT;
+            uint32_t t2 = micros();
+            if ((t2-t1) > 100 ) // long -> one
+            {
+                bits[idx] |= mask;
+            }
+            mask >>= 1;
+            if (mask == 0)   // next byte
+            {
+                mask = 128;
+                idx++;
+            }
+            // next bit
+            --i;
+            // update time admin
+            t1 = t2;
+            // reset timeout flag
+            loopCount = DHTLIB_TIMEOUT;
         }
-
-        uint32_t t = micros();
-        
-        loopCntHIGH = DHTLIB_TIMEOUT;
-        while ((*PIR & bit) != LOW )
-        {
-            if (--loopCntHIGH == 0) return DHTLIB_ERROR_TIMEOUT;
-        }
-
-        if ((micros() - t) > 40)
-        { 
-            bits[idx] |= mask;
-        }
-        mask >>= 1;
-        if (mask == 0)   // next byte?
-        {
-            mask = 128;
-            idx++;
-        }
+        pstate = state;
+        // Check timeout
+        if (--loopCount == 0) return DHTLIB_ERROR_TIMEOUT;
     }
     pinMode(pin, OUTPUT);
     digitalWrite(pin, HIGH);

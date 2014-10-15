@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.16
+// VERSION: 0.1.17
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -14,19 +14,22 @@
 
 #if ARDUINO < 100
 #include <WProgram.h>
+#include <pins_arduino.h>  // fix for broken pre 1.0 version - TODO TEST
 #else
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.16"
+#define DHT_LIB_VERSION "0.1.17"
 
-#define DHTLIB_OK                0
-#define DHTLIB_ERROR_CHECKSUM   -1
-#define DHTLIB_ERROR_TIMEOUT    -2
-#define DHTLIB_INVALID_VALUE    -999
+#define DHTLIB_OK                   0
+#define DHTLIB_ERROR_CHECKSUM       -1
+#define DHTLIB_ERROR_TIMEOUT        -2
+#define DHTLIB_ERROR_CONNECT        -3
+#define DHTLIB_ERROR_ACK_L          -4
+#define DHTLIB_ERROR_ACK_H          -5
 
-#define DHTLIB_DHT11_WAKEUP     18
-#define DHTLIB_DHT_WAKEUP       1
+#define DHTLIB_DHT11_WAKEUP         18
+#define DHTLIB_DHT_WAKEUP           1
 
 // max timeout is 100 usec.
 // For a 16 Mhz proc 100 usec is 1600 clock cycles
@@ -42,6 +45,9 @@ public:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM
     // DHTLIB_ERROR_TIMEOUT
+    // DHTLIB_ERROR_CONNECT
+    // DHTLIB_ERROR_ACK_L
+    // DHTLIB_ERROR_ACK_H
     int read11(uint8_t pin);
     int read(uint8_t pin);
 

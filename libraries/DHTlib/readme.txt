@@ -15,3 +15,6 @@ attiny85 @8MHz
 Digistump Digix @ 84 MHz
 
 More information - http://playground.arduino.cc//Main/DHTLib -
+
+Note: 
+version 0.1.14 and up are not compatible anymore with pre 1.0 Arduino

@@ -1,11 +1,12 @@
 //
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.01 small refactoring
 // 0.1.00 added temperature and Pressure code
 // 0.0.00 initial version by Rob Tillaart (15-okt-2014)
 //
@@ -24,7 +25,6 @@ MS5611::MS5611(uint8_t address)
 {
     _address = address;
     Wire.begin();
-    // TWBR = 12; // 400KHz
 }
 
 void MS5611::init()
@@ -41,12 +41,16 @@ int MS5611::read(uint8_t bits)
 {
     convertD1(bits);
     if (_result) return _result;
+    delay(10);
     int32_t D1 = readADC();
     if (_result) return _result;
+    delay(10);
     convertD2(8);
     if (_result) return _result;
+    delay(10);
     int32_t D2 = readADC();
     if (_result) return _result;
+    delay(10);
 
     // PAGE 7/20 of the datasheet
     int32_t dT = D2 - C[5] * 256L;
@@ -106,16 +110,14 @@ uint16_t MS5611::readProm(uint8_t reg)
 
 int32_t MS5611::readADC()
 {
-    Wire.beginTransmission(_address);
-    Wire.write(0x00);
-    _result = Wire.endTransmission();
+    command(0x00);
     if (_result == 0)
     {
         int nr = Wire.requestFrom(_address, (uint8_t)3);
         if (nr >= 3)
         {
             uint32_t val = Wire.read() * 65536L;
-            val += Wire.read() * 256;
+            val += Wire.read() * 256L;
             val += Wire.read();
             return val;
         }

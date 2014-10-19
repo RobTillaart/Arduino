@@ -1,7 +1,8 @@
 //
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+//          Erni - testing/fixes
+// VERSION: 0.1.03
 // PURPOSE: MS5611 Temperature & Pressure library for Arduino
 //     URL:
 //
@@ -19,7 +20,7 @@
 #include <Arduino.h>
 #endif
 
-#define MS5611_LIB_VERSION "0.1.02"
+#define MS5611_LIB_VERSION "0.1.03"
 
 #define MS5611_READ_OK  0
 
@@ -45,7 +46,7 @@ private:
     int32_t _temperature;
     int32_t _pressure;
     int _result;
-    uint16_t C[8];
+    float C[8];
 };
 #endif
 //

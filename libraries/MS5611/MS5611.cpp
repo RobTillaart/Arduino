@@ -1,11 +1,13 @@
 //
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+//          Erni - testing/fixes
+// VERSION: 0.1.03
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.03 changed math to float [test version]
 // 0.1.02 fixed bug return value read()
 //        fixed bug #bits D2
 //        added MS5611_READ_OK
@@ -56,18 +58,13 @@ int MS5611::read(uint8_t bits)
     int32_t D2 = readADC();
     if (_result) return _result;
 
-    // PAGE 7/20 DATASHEET
-    int32_t dT = D2 - C[5] * 256L;
+    // PAGE 7/20 of the datasheet
+    float dT = D2 - (C[5] * 256L);
     _temperature = 2000 + (dT * C[6])/8388608L;
 
-    // float is faster and smaller footprint (700 bytes).
-    // no substantial loss in accuracy TODO verify
-    int64_t offset = C[2] * 65536L + (C[4] * dT ) / 128L;
-    int64_t sens = C[1] * 32768L + (C[3] * dT ) / 256L;
-    _pressure = ((D1 * sens)/2097152L - offset) / 32768L;
-
-    // TODO second order compensation
-    // PAGE 8/20 DATASHEET
+    float offset =  (C[2] * 65536L) + (C[4] * dT ) / 128L;
+    float sens = C[1] * 32768L + (C[3] * dT ) / 256L;
+    _pressure = (((D1 * sens)/2097152L) - offset) / 32768L;
 
     return 0;
 }

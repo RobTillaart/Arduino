@@ -2,7 +2,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: MS5611 Temperature & Pressure library for Arduino
 //     URL:
 //
@@ -20,7 +20,7 @@
 #include <Arduino.h>
 #endif
 
-#define MS5611_LIB_VERSION "0.1.03"
+#define MS5611_LIB_VERSION "0.1.04"
 
 #define MS5611_READ_OK  0
 
@@ -38,7 +38,7 @@ public:
 private:
     void reset();
     void convert(uint8_t ADDR, uint8_t bits);
-    int32_t  readADC();
+    uint32_t readADC();
     uint16_t readProm(uint8_t reg);
     void command(uint8_t command);
 
@@ -46,7 +46,8 @@ private:
     int32_t _temperature;
     int32_t _pressure;
     int _result;
-    float C[8];
+    double C[7];
+
 };
 #endif
 //

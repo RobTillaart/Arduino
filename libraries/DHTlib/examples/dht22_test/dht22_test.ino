@@ -1,12 +1,13 @@
 //
 //    FILE: dht22_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: DHT library test sketch for DHT22 && Arduino
 //     URL:
-// HISTORY: 
+// HISTORY:
+// 0.1.03 extended stats for all errors
 // 0.1.02 added counters for error-regression testing.
-// 0.1.01 
+// 0.1.01
 // 0.1.00 initial version
 //
 // Released to the public domain
@@ -20,12 +21,15 @@ dht DHT;
 
 struct
 {
-  uint32_t total;
-  uint32_t ok;
-  uint32_t crc_error;
-  uint32_t time_out;
-  uint32_t unknown;
-} stat = { 0,0,0,0,0 };
+    uint32_t total;
+    uint32_t ok;
+    uint32_t crc_error;
+    uint32_t time_out;
+    uint32_t connect;
+    uint32_t ack_l;
+    uint32_t ack_h;
+    uint32_t unknown;
+} stat = { 0,0,0,0,0,0,0,0};
 
 void setup()
 {
@@ -61,6 +65,18 @@ void loop()
         stat.time_out++;
         Serial.print("Time out error,\t");
         break;
+    case DHTLIB_ERROR_CONNECT:
+        stat.connect++;
+        Serial.print("Connect error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_L:
+        stat.ack_l++;
+        Serial.print("Ack Low error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_H:
+        stat.ack_h++;
+        Serial.print("Ack High error,\t");
+        break;
     default:
         stat.unknown++;
         Serial.print("Unknown error,\t");
@@ -76,17 +92,23 @@ void loop()
 
     if (stat.total % 20 == 0)
     {
-      Serial.println("\nTOT\tOK\tCRC\tTO\tUNK");
-      Serial.print(stat.total);
-      Serial.print("\t");
-      Serial.print(stat.ok);
-      Serial.print("\t");
-      Serial.print(stat.crc_error);
-      Serial.print("\t");
-      Serial.print(stat.time_out);
-      Serial.print("\t");
-      Serial.print(stat.unknown);
-      Serial.println("\n");
+        Serial.println("\nTOT\tOK\tCRC\tTO\tUNK");
+        Serial.print(stat.total);
+        Serial.print("\t");
+        Serial.print(stat.ok);
+        Serial.print("\t");
+        Serial.print(stat.crc_error);
+        Serial.print("\t");
+        Serial.print(stat.time_out);
+        Serial.print("\t");
+        Serial.print(stat.connect);
+        Serial.print("\t");
+        Serial.print(stat.ack_l);
+        Serial.print("\t");
+        Serial.print(stat.ack_h);
+        Serial.print("\t");
+        Serial.print(stat.unknown);
+        Serial.println("\n");
     }
     delay(2000);
 }

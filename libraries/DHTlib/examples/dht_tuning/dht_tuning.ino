@@ -48,6 +48,15 @@ void loop()
         Serial.print("Time out error,\t");
         del += 10;
         break;
+    case DHTLIB_ERROR_CONNECT:
+        Serial.print("Connect error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_L:
+        Serial.print("Ack Low error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_H:
+        Serial.print("Ack High error,\t");
+        break;
     default:
         Serial.print("Unknown error,\t");
         break;

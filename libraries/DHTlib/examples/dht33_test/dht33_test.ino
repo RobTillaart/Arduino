@@ -1,7 +1,7 @@
 //
 //    FILE: dht33_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: DHT library test sketch for DHT33 && Arduino
 //     URL:
 //
@@ -44,6 +44,15 @@ void loop()
     case DHTLIB_ERROR_TIMEOUT:
         Serial.print("Time out error,\t");
         break;
+    case DHTLIB_ERROR_CONNECT:
+        Serial.print("Connect error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_L:
+        Serial.print("Ack Low error,\t");
+        break;
+    case DHTLIB_ERROR_ACK_H:
+        Serial.print("Ack High error,\t");
+        break;
     default:
         Serial.print("Unknown error,\t");
         break;
@@ -55,8 +64,8 @@ void loop()
     Serial.print(",\t");
     Serial.print(stop - start);
     Serial.println();
-    
-    // FOR UNO + DHT33 400ms SEEMS TO BE MINIMUM DELAY BETWEEN SENSOR READS, 
+
+    // FOR UNO + DHT33 400ms SEEMS TO BE MINIMUM DELAY BETWEEN SENSOR READS,
     // ADJUST TO YOUR NEEDS
     delay(1000);
 }

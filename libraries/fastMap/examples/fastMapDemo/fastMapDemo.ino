@@ -1,7 +1,7 @@
 //
-//    FILE: fastMapper.ino
+//    FILE: fastMapDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: demo of a faster mapper function
 //    DATE: 2014-11-02
 //     URL:
@@ -23,7 +23,7 @@ fastmap mapper;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start fastmap demo\nlib version: ");
+  Serial.print("Start fastMapDemo\nlib version: ");
   Serial.println(FASTMAP_LIB_VERSION);
   Serial.println();
 

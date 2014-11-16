@@ -1,11 +1,12 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.04 support for + - *, some optimizations
 // 0.1.03 changed &= to *= to follow Pascal conventions
 // 0.1.02 documentation
 // 0.1.01 extending/refactor etc (09/11/2014)
@@ -27,7 +28,7 @@ set::set()
 
 set::set(set &t)
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] = t._mem[i];
     }
@@ -161,12 +162,35 @@ int set::last()
 //
 // OPERATORS
 //
-void set::operator = (set &t)  // assign
+
+set set::operator + (set &t)  // union
 {
+    set s(t);
     for (uint8_t i=0; i<32; i++)
     {
-        _mem[i] = t._mem[i];
+        s._mem[i] |= this->_mem[i];
     }
+    return s;
+}
+
+set set::operator - (set &t)  // union
+{
+    set s(t);
+    for (uint8_t i=0; i<32; i++)
+    {
+        s._mem[i] &= ~(this->_mem[i]);
+    }
+    return s;
+}
+
+set set::operator * (set &t)  // union
+{
+    set s(t);
+    for (uint8_t i=0; i<32; i++)
+    {
+        s._mem[i] &= this->_mem[i];
+    }
+    return s;
 }
 
 void set::operator += (set &t)  // union

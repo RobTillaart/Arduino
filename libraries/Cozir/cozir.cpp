@@ -1,10 +1,11 @@
-// 
+//
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: library for COZIR range of sensors for Arduino
-//     URL: 
-// 
+//          Polling Mode
+//     URL:
+//
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
 // Released to the public domain
@@ -22,8 +23,9 @@
 	COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
 #endif
 {
+  nss.begin(9600);
   // overide default streaming (takes to much perf
-  SetOperatingMode(CZR_POLLING);  
+  SetOperatingMode(CZR_POLLING);
   // delay for initialization
   delay(1200);
 }
@@ -33,7 +35,7 @@
 // OPERATING MODE
 //
 // note: use CZR_COMMAND to minimize power consumption
-// CZR_POLLING and CZR_STREAMING use an equally amount 
+// CZR_POLLING and CZR_STREAMING use an equally amount
 // of power as both sample continuously...
 //
 void COZIR::SetOperatingMode(uint8_t mode)
@@ -42,13 +44,11 @@ void COZIR::SetOperatingMode(uint8_t mode)
   Command(buffer);
 }
 
-
-
 ////////////////////////////////////////////////////////////
 //
 // POLLING MODE
 //
-// you need to set the polling mode explicitely before 
+// you need to set the polling mode explicitely before
 // using these functions. SetOperatingMode(CZR_POLLING);
 // this is the default behaviour of this Class but
 // not of the sensor!!
@@ -61,7 +61,8 @@ float COZIR::Fahrenheit()
 float COZIR::Celsius()
 {
   uint16_t rv = Request("T");
-  return 0.1 * rv;
+  float f = 0.1 * (rv - 1000.0);
+  return f;
 }
 
 float COZIR::Humidity()
@@ -107,7 +108,7 @@ uint16_t COZIR::CalibrateNitrogen()
 uint16_t COZIR::CalibrateKnownGas(uint16_t value)
 {
   sprintf(buffer, "X %u", value);
-  return Request(buffer); 
+  return Request(buffer);
 }
 
 // NOT RECOMMENDED, see datasheet
@@ -115,7 +116,7 @@ uint16_t COZIR::CalibrateManual(uint16_t value)
 {
   return 0;
   //sprintf(buffer, "u %u", value);
-  //return Request(buffer); 
+  //return Request(buffer);
 }
 
 // NOT RECOMMENDED, see datasheet
@@ -147,8 +148,6 @@ uint8_t COZIR::GetDigiFilter()
   return Request("a");
 }
 
-
-
 ////////////////////////////////////////////////////////////
 //
 // STREAMING MODE
@@ -175,20 +174,19 @@ void COZIR::GetRecentFields()
   Command("Q");
 }
 
-
 ////////////////////////////////////////////////////////////
 //
-// EEPROM - USE WITH CARE 
+// EEPROM - USE WITH CARE
 //
 // SEE DATASHEET 7.2 EEPROM FOR DETAILS
 //
-// TODO 
-// - defines for addresses 
+// TODO
+// - defines for addresses
 // - do HILO values in one call
 //
 void COZIR::SetEEPROM(uint8_t address, uint8_t value)
 {
-  sprintf(buffer, "P %u %u", address, value); 
+  sprintf(buffer, "P %u %u", address, value);
   Command(buffer);
 }
 
@@ -197,8 +195,6 @@ uint8_t COZIR::GetEEPROM(uint8_t address)
   sprintf(buffer, "p %u", address);
   return Request(buffer);
 }
-
-
 
 ////////////////////////////////////////////////////////////
 //
@@ -218,26 +214,40 @@ void COZIR::GetConfiguration()
 
 /////////////////////////////////////////////////////////
 // PRIVATE
-  
-void COZIR::Command(char* s)
+
+void COZIR::Command(const char* s)
 {
   CZR_Serial.print(s);
   CZR_Serial.print("\r\n");
 }
 
-uint16_t COZIR::Request(char* s)
+uint16_t COZIR::Request(const char* s)
 {
   Command(s);
   // empty buffer
   buffer[0] = '\0';
   // read answer; there may be a 100ms delay!
   // TODO: PROPER TIMEOUT CODE.
-  delay(100);  
+  delay(200);
   int idx = 0;
   while(CZR_Serial.available())
   {
-	buffer[idx++] = CZR_Serial.read();
+    buffer[idx++] = CZR_Serial.read();
   }
   buffer[idx] = '\0';
-  return atoi(&buffer[1]);
+
+  uint16_t rv = 0;
+  switch(buffer[0])
+  {
+    case 'T' :
+			rv = atoi(&buffer[5]);
+            if (buffer[4] == 1) rv += 1000;
+			// negative values are mapped above 1000..1250 => capture this in Celsius()
+			break;
+	default :
+			rv = atoi(&buffer[2]);
+			break;
+  }
+  return rv;
 }
+// -- END OF FILE --

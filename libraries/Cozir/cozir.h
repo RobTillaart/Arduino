@@ -1,10 +1,11 @@
-// 
+//
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: see COZIR_LIB_VERSION
 // PURPOSE: library for COZIR range of sensors for Arduino
-//     URL: 
-// 
+//          Polling Mode
+//     URL:
+//
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
 // Released to the public domain
@@ -21,9 +22,9 @@
   #include "NewSoftSerial.h"
 #endif
 
-#define COZIR_LIB_VERSION 0.1.02
+#define COZIR_LIB_VERSION "0.1.03"
 
-// OUTPUTFIELDS 
+// OUTPUTFIELDS
 // See datasheet for details.
 // These defines can be OR-ed for the SetOutputFields command
 #define CZR_LIGHT 			0x2000
@@ -44,7 +45,7 @@
 // easy default setting for streaming
 #define CZR_HTC			(CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2)
 // not in datasheet for debug only
-#define CZR_ALL				0x3FFF  
+#define CZR_ALL				0x3FFE
 
 // OPERATING MODES
 #define CZR_COMMAND			0x00
@@ -60,8 +61,6 @@ class COZIR
   	COZIR(NewSoftSerial&);
 #endif
 
-	void SetOperatingMode(uint8_t mode);
-		
 	float Celsius();
 	float Fahrenheit();
 	float Humidity();
@@ -75,28 +74,33 @@ class COZIR
 	uint16_t CalibrateManual(uint16_t );
 	uint16_t SetSpanCalibrate(uint16_t );
 	uint16_t GetSpanCalibrate();
-		
+
 	void SetDigiFilter(uint8_t );
 	uint8_t GetDigiFilter();
-	
+
 	void SetOutputFields(uint16_t );
 	void GetRecentFields();
-	
+
 	void SetEEPROM(uint8_t , uint8_t );
 	uint8_t GetEEPROM(uint8_t );
-	
+
 	void GetVersionSerial();
 	void GetConfiguration();
-  
+
   private:
 #if defined(ARDUINO) && ARDUINO >= 100
 	SoftwareSerial& CZR_Serial;
 #else
   	NewSoftSerial& CZR_Serial;
 #endif
+
+	void SetOperatingMode(uint8_t mode);
+
+	void Command(const char* );
+	uint16_t Request(const char* );
+
     char buffer[20];
-	void Command(char* );
-	uint16_t Request(char* );
 };
 
 #endif
+// -- END OF FILE --

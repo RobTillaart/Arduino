@@ -5,7 +5,7 @@ The DHT11 only returns integers (e.g. 20) and does not support negative values.
 The others are quite similar and provide one decimal digit (e.g. 20.2)
 The hardware pins of the sensors and handshake are identical so ideal to combine in one lib.
 
-The library is confirmed to work on:
+The library (0.1.13 version) is confirmed to work on:
 
 UNO (tested myself)
 2009 (tested myself)
@@ -16,5 +16,14 @@ Digistump Digix @ 84 MHz
 
 More information - http://playground.arduino.cc//Main/DHTLib -
 
-Note: 
+Notes: 
+version 0.1.13 is the last stable version for AVR and ARM
+
 version 0.1.14 and up are not compatible anymore with pre 1.0 Arduino
+version 0.1.14 and up have breaking changes wrt ARM based arduino's e.g DUE.
+
+version 0.1.15 is stable version for AVR only
+
+version 0.1.16 and 0.1.17 have breaking changes for DHT11
+
+

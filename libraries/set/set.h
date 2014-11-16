@@ -1,7 +1,7 @@
 //
 //    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: SET library for Arduino
 //     URL:
 //
@@ -18,46 +18,45 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.01"
+#define SET_LIB_VERSION "0.1.02"
 
 class set
 {
 public:
-    set();
-    set(set&);
+    set();                      // create empty set
+    set(set &t);                // create copy set
 
-    void clr();
-    void invert();
-    uint8_t count();
+    void clr();                 // clear the set
+    void invert();              // flip all elements in the set
+    uint8_t count();            // return the #elements
 
-    void add(uint8_t);
-    void sub(uint8_t);
-    void invert(uint8_t);
-    bool has(uint8_t);
+    void add(uint8_t);          // add element to the set
+    void sub(uint8_t);          // remove element from set
+    void invert(uint8_t);       // flip element in set
+    bool has(uint8_t);          // element is in set
 
-    void operator = (set &t);       // assign
-    void operator += (set &t);
-    void operator -= (set &t);
-    void operator &= (set &t);
+    void operator = (set &t);   // assignment
+    void operator += (set &t);  // union
+    void operator -= (set &t);  // diff
+    void operator &= (set &t);  // intersection
 
-    bool operator == (set&);
-    bool operator != (set&);
-    bool operator <= (set&);
+    bool operator == (set&);    // equal
+    bool operator != (set&);    // not equal
+    bool operator <= (set&);    // is subset
 
-    int first();
-    int next();
-    int prev();
-    int last();
+    // iterating through the set
+    // returns value
+    // or -1 if not exist
+    int first();                // find first element
+    int next();                 // find next element
+    int prev();                 // find previous element
+    int last();                 // find last element
 
-    // TODO
+    // TODO ??
     // set(uint8_t*, uint8_t);      // constructor from uint8_t array
-    // uint8_t size();
-    // iterator - begin, next
-
-    // uint8_t max();
-    // uint8_t min();
+    // inline uint8_t size() { return _size; };
     // inline bool empty() { return count() == 0; };
-    // inline bool full() { return count() == 256; };
+    // inline bool full() { return count() == _size; };
 
 private:
     uint8_t _mem[32];  // can hold 0..255

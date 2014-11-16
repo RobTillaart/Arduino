@@ -1,11 +1,12 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.02 documentation
 // 0.1.01 extending/refactor etc (09/11/2014)
 // 0.1.00 initial version by Rob Tillaart (09/11/2014)
 //
@@ -72,6 +73,18 @@ uint8_t set::count()
         if ( has(i) ) cnt++;
     }
     return cnt;
+    // uint8_t cnt = 0;
+    // for (int i=0; i<32; i++)
+    // {
+    // if (_mem[i] != 0)
+    // {
+    // for (int j=0; j<8; j++)
+    // {
+    // if ( has(i*8+j) ) cnt++;
+    // }
+    // }
+    // }
+    // return cnt;
 }
 
 void set::clr()

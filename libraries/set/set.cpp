@@ -1,11 +1,12 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.03 changed &= to *= to follow Pascal conventions
 // 0.1.02 documentation
 // 0.1.01 extending/refactor etc (09/11/2014)
 // 0.1.00 initial version by Rob Tillaart (09/11/2014)
@@ -19,7 +20,7 @@
 //
 // CONSTRUCTORS
 //
-set::set()  // TODO size param
+set::set()
 {
     clr();
 }
@@ -73,23 +74,11 @@ uint8_t set::count()
         if ( has(i) ) cnt++;
     }
     return cnt;
-    // uint8_t cnt = 0;
-    // for (int i=0; i<32; i++)
-    // {
-    // if (_mem[i] != 0)
-    // {
-    // for (int j=0; j<8; j++)
-    // {
-    // if ( has(i*8+j) ) cnt++;
-    // }
-    // }
-    // }
-    // return cnt;
 }
 
 void set::clr()
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] = 0;
     }
@@ -97,7 +86,7 @@ void set::clr()
 
 void set::invert()
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] ^= 0xFF;
     }
@@ -156,7 +145,7 @@ int set::prev()
 int set::last()
 {
     _current = -1;
-    for (int i = 255; i >-1; --i)
+    for (int i = 255; i >=0; --i)
     {
         if (has(i))
         {
@@ -174,7 +163,7 @@ int set::last()
 //
 void set::operator = (set &t)  // assign
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] = t._mem[i];
     }
@@ -182,7 +171,7 @@ void set::operator = (set &t)  // assign
 
 void set::operator += (set &t)  // union
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] |= t._mem[i];
     }
@@ -190,15 +179,15 @@ void set::operator += (set &t)  // union
 
 void set::operator -= (set &t)  // diff
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] &= ~t._mem[i];
     }
 }
 
-void set::operator &= (set &t)  // intersection
+void set::operator *= (set &t)  // intersection
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         _mem[i] &= t._mem[i];
     }
@@ -206,7 +195,7 @@ void set::operator &= (set &t)  // intersection
 
 bool set::operator == (set &t)  // equal
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         if (_mem[i] != t._mem[i]) return false;
     }
@@ -215,7 +204,7 @@ bool set::operator == (set &t)  // equal
 
 bool set::operator != (set &t)  // not equal
 {
-    for (int i=0; i<32; i++)
+    for (uint8_t i=0; i<32; i++)
     {
         if (_mem[i] != t._mem[i]) return true;
     }

@@ -1,7 +1,7 @@
 //
 //    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: SET library for Arduino
 //     URL:
 //
@@ -18,17 +18,25 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.02"
+#define SET_LIB_VERSION "0.1.03"
 
 class set
 {
 public:
+
     set();                      // create empty set
     set(set &t);                // create copy set
+    // TODO ??
+    // set(uint8_t*, uint8_t);  // constructor from uint8_t array
+    // set(uint8_t size);       // constructor with restricted size
 
     void clr();                 // clear the set
     void invert();              // flip all elements in the set
     uint8_t count();            // return the #elements
+    inline bool isEmpty() { return count() == 0; };
+    // TODO
+    // inline uint8_t size() { return _size; };
+    // inline bool isfull() { return count() == 256; };
 
     void add(uint8_t);          // add element to the set
     void sub(uint8_t);          // remove element from set
@@ -38,7 +46,7 @@ public:
     void operator = (set &t);   // assignment
     void operator += (set &t);  // union
     void operator -= (set &t);  // diff
-    void operator &= (set &t);  // intersection
+    void operator *= (set &t);  // intersection
 
     bool operator == (set&);    // equal
     bool operator != (set&);    // not equal
@@ -52,14 +60,9 @@ public:
     int prev();                 // find previous element
     int last();                 // find last element
 
-    // TODO ??
-    // set(uint8_t*, uint8_t);      // constructor from uint8_t array
-    // inline uint8_t size() { return _size; };
-    // inline bool empty() { return count() == 0; };
-    // inline bool full() { return count() == _size; };
 
 private:
-    uint8_t _mem[32];  // can hold 0..255
+    uint8_t _mem[32];           // can hold 0..255
     // uint8_t _cnt;
     // uint8_t _size;
     int _current;

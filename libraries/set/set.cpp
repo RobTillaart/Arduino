@@ -1,12 +1,13 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
-// 0.1.00 by Rob Tillaart 09/11/2014
+// 0.1.01 extending/refactor etc (09/11/2014)
+// 0.1.00 initial version by Rob Tillaart (09/11/2014)
 //
 // Released to the public domain
 //
@@ -15,11 +16,9 @@
 
 /////////////////////////////////////////////////////
 //
-// PUBLIC
+// CONSTRUCTORS
 //
-
-////////////////////////////
-set::set()
+set::set()  // TODO size param
 {
     clr();
 }
@@ -32,9 +31,10 @@ set::set(set &t)
     }
 }
 
-
-////////////////////////////
-
+/////////////////////////////////////////////////////
+//
+// METHODS
+//
 void set::add(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
@@ -49,13 +49,6 @@ void set::sub(uint8_t v)
     _mem[idx] &= ~mask;
 }
 
-bool set::has(uint8_t v)
-{
-    uint8_t mask = 1 << (v & 7);
-    uint8_t idx = v / 8;
-    return (_mem[idx] & mask) > 0;
-}
-
 void set::invert(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
@@ -63,8 +56,12 @@ void set::invert(uint8_t v)
     _mem[idx] ^= mask;
 }
 
-
-////////////////////////////////////
+bool set::has(uint8_t v)
+{
+    uint8_t mask = 1 << (v & 7);
+    uint8_t idx = v / 8;
+    return (_mem[idx] & mask) > 0;
+}
 
 // TODO OPTIMIZE COUNT
 uint8_t set::count()
@@ -75,11 +72,6 @@ uint8_t set::count()
         if ( has(i) ) cnt++;
     }
     return cnt;
-}
-
-uint8_t set::size()
-{
-    return 256; // TODO _size;
 }
 
 void set::clr()
@@ -98,9 +90,76 @@ void set::invert()
     }
 }
 
+int set::first()
+{
+    for (int i = 0; i < 256; i++)
+    {
+        if (has(i))
+        {
+            _current = i;
+            return _current;
+        }
+    }
+    _current = -1;
+    return _current;
+}
 
-///////////////////////////////////////////////////
-void set::operator = (set &t)
+int set::next()
+{
+    if (_current != -1)
+    {
+        _current++;
+        for (int i = _current; i < 256; i++)
+        {
+            if (has(i))
+            {
+                _current = i;
+                return _current;
+            }
+        }
+    }
+    _current = -1;
+    return _current;
+}
+
+int set::prev()
+{
+    if (_current != -1)
+    {
+        _current--;
+        for (int i = _current; i > -1; --i)
+        {
+            if (has(i))
+            {
+                _current = i;
+                return _current;
+            }
+        }
+    }
+    _current = -1;
+    return _current;
+}
+
+int set::last()
+{
+    _current = -1;
+    for (int i = 255; i >-1; --i)
+    {
+        if (has(i))
+        {
+            _current = i;
+            break;
+        }
+    }
+    return _current;
+}
+
+
+/////////////////////////////////////////////////////
+//
+// OPERATORS
+//
+void set::operator = (set &t)  // assign
 {
     for (int i=0; i<32; i++)
     {
@@ -108,23 +167,7 @@ void set::operator = (set &t)
     }
 }
 
-void set::operator -= (set &t)
-{
-    for (int i=0; i<32; i++)
-    {
-        _mem[i] &= ~t._mem[i];
-    }
-}
-
-void set::operator &= (set &t)
-{
-    for (int i=0; i<32; i++)
-    {
-        _mem[i] &= t._mem[i];
-    }
-}
-
-void set::operator |= (set &t)
+void set::operator += (set &t)  // union
 {
     for (int i=0; i<32; i++)
     {
@@ -132,15 +175,23 @@ void set::operator |= (set &t)
     }
 }
 
-void set::operator ^= (set &t)
+void set::operator -= (set &t)  // diff
 {
     for (int i=0; i<32; i++)
     {
-        _mem[i] ^= t._mem[i];
+        _mem[i] &= ~t._mem[i];
     }
 }
 
-bool set::operator == (set &t)
+void set::operator &= (set &t)  // intersection
+{
+    for (int i=0; i<32; i++)
+    {
+        _mem[i] &= t._mem[i];
+    }
+}
+
+bool set::operator == (set &t)  // equal
 {
     for (int i=0; i<32; i++)
     {
@@ -149,11 +200,20 @@ bool set::operator == (set &t)
     return true;
 }
 
-bool set::operator < (set &t)
+bool set::operator != (set &t)  // not equal
 {
     for (int i=0; i<32; i++)
     {
-        if (_mem[i] ^= t._mem[i]) return false;
+        if (_mem[i] != t._mem[i]) return true;
+    }
+    return false;
+}
+
+bool set::operator <= (set &t)  // subset
+{
+    for (int i=0; i<256; i++)
+    {
+        if ( has(i) && !t.has(i) ) return false;
     }
     return true;
 }

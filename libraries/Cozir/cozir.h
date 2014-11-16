@@ -1,7 +1,7 @@
 // 
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: library for COZIR range of sensors for Arduino
 //     URL: 
 // 
@@ -13,15 +13,15 @@
 #ifndef Cozir_h
 #define Cozir_h
 
-#include "NewSoftSerial.h"
-
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
+  #include "SoftwareSerial.h"
 #else
   #include "WProgram.h"
+  #include "NewSoftSerial.h"
 #endif
 
-#define COZIR_LIB_VERSION 0.1.01
+#define COZIR_LIB_VERSION 0.1.02
 
 // OUTPUTFIELDS 
 // See datasheet for details.
@@ -54,8 +54,12 @@
 class COZIR
 {
   public:
-	COZIR(NewSoftSerial&);
-	
+#if defined(ARDUINO) && ARDUINO >= 100
+	COZIR(SoftwareSerial&);
+#else
+  	COZIR(NewSoftSerial&);
+#endif
+
 	void SetOperatingMode(uint8_t mode);
 		
 	float Celsius();
@@ -85,7 +89,11 @@ class COZIR
 	void GetConfiguration();
   
   private:
-    NewSoftSerial& CZR_Serial;
+#if defined(ARDUINO) && ARDUINO >= 100
+	SoftwareSerial& CZR_Serial;
+#else
+  	NewSoftSerial& CZR_Serial;
+#endif
     char buffer[20];
 	void Command(char* );
 	uint16_t Request(char* );

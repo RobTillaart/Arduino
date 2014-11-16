@@ -1,7 +1,7 @@
 // 
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: library for COZIR range of sensors for Arduino
 //     URL: 
 // 
@@ -11,13 +11,16 @@
 //
 
 #include "Cozir.h"
-#include "NewSoftSerial.h"
 
 ////////////////////////////////////////////////////////////
 //
 // CONSTRUCTOR
 //
-COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
+#if defined(ARDUINO) && ARDUINO >= 100
+	COZIR::COZIR(SoftwareSerial& nss) : CZR_Serial(nss)
+#else
+	COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
+#endif
 {
   // overide default streaming (takes to much perf
   SetOperatingMode(CZR_POLLING);  

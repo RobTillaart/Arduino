@@ -1,10 +1,16 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=91467.0
+//
+// HISTORY:
+// 0.1.04 changed CO2 to support larger values (Rob T)
+// 0.1.03 added setOperatingMode
+// 0.1.02 added support Arduino 1.x
+// 0.1.01 initial version
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
@@ -18,16 +24,16 @@
 // CONSTRUCTOR
 //
 #if defined(ARDUINO) && ARDUINO >= 100
-	COZIR::COZIR(SoftwareSerial& nss) : CZR_Serial(nss)
+COZIR::COZIR(SoftwareSerial& nss) : CZR_Serial(nss)
 #else
-	COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
+COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
 #endif
 {
-  nss.begin(9600);
-  // overide default streaming (takes to much perf
-  SetOperatingMode(CZR_POLLING);
-  // delay for initialization
-  delay(1200);
+    nss.begin(9600);
+    // overide default streaming (takes too much perf
+    SetOperatingMode(CZR_POLLING);
+    // delay for initialization
+    delay(1200);
 }
 
 ////////////////////////////////////////////////////////////
@@ -40,8 +46,8 @@
 //
 void COZIR::SetOperatingMode(uint8_t mode)
 {
-  sprintf(buffer, "K %u", mode);
-  Command(buffer);
+    sprintf(buffer, "K %u", mode);
+    Command(buffer);
 }
 
 ////////////////////////////////////////////////////////////
@@ -55,30 +61,30 @@ void COZIR::SetOperatingMode(uint8_t mode)
 //
 float COZIR::Fahrenheit()
 {
-  return (Celsius() * 1.8) + 32;
+    return (Celsius() * 1.8) + 32;
 }
 
 float COZIR::Celsius()
 {
-  uint16_t rv = Request("T");
-  float f = 0.1 * (rv - 1000.0);
-  return f;
+    uint16_t rv = Request("T");
+    float f = 0.1 * (rv - 1000.0);
+    return f;
 }
 
 float COZIR::Humidity()
 {
-  return 0.1 * Request("H");
+    return 0.1 * Request("H");
 }
 
 // TODO UNITS UNKNOWN
 float COZIR::Light()
 {
-  return 1.0 * Request("L");
+    return 1.0 * Request("L");
 }
 
-uint16_t COZIR::CO2()
+uint32_t COZIR::CO2()
 {
-  return Request("Z");
+    return Request("Z");
 }
 
 // CALLIBRATION - USE THESE WITH CARE
@@ -90,47 +96,47 @@ uint16_t COZIR::CO2()
 // check datasheet for detailed description
 uint16_t COZIR::FineTuneZeroPoint(uint16_t v1, uint16_t v2)
 {
-  sprintf(buffer, "F %u %u", v1, v2);
-  return Request(buffer);
+    sprintf(buffer, "F %u %u", v1, v2);
+    return Request(buffer);
 }
 
 // mostly the default calibrator
 uint16_t COZIR::CalibrateFreshAir()
 {
-  return Request("G");
+    return Request("G");
 }
 
 uint16_t COZIR::CalibrateNitrogen()
 {
-  return Request("U");
+    return Request("U");
 }
 
 uint16_t COZIR::CalibrateKnownGas(uint16_t value)
 {
-  sprintf(buffer, "X %u", value);
-  return Request(buffer);
+    sprintf(buffer, "X %u", value);
+    return Request(buffer);
 }
 
 // NOT RECOMMENDED, see datasheet
 uint16_t COZIR::CalibrateManual(uint16_t value)
 {
-  return 0;
-  //sprintf(buffer, "u %u", value);
-  //return Request(buffer);
+    return 0;
+    //sprintf(buffer, "u %u", value);
+    //return Request(buffer);
 }
 
 // NOT RECOMMENDED, see datasheet
 uint16_t COZIR::SetSpanCalibrate(uint16_t value)
 {
-  return 0;
-  //sprintf(buffer, "S %u", value);
-  //return Request(buffer);
+    return 0;
+    //sprintf(buffer, "S %u", value);
+    //return Request(buffer);
 }
 
 // NOT RECOMMENDED, see datasheet
 uint16_t COZIR::GetSpanCalibrate()
 {
-  return Request("s");
+    return Request("s");
 }
 
 // DIGIFILTER, use with care
@@ -139,13 +145,13 @@ uint16_t COZIR::GetSpanCalibrate()
 // 0 = special. details see datasheet
 void COZIR::SetDigiFilter(uint8_t value)
 {
-  sprintf(buffer, "A %u", value);
-  Command(buffer);
+    sprintf(buffer, "A %u", value);
+    Command(buffer);
 }
 
 uint8_t COZIR::GetDigiFilter()
 {
-  return Request("a");
+    return Request("a");
 }
 
 ////////////////////////////////////////////////////////////
@@ -162,8 +168,8 @@ uint8_t COZIR::GetDigiFilter()
 //
 void COZIR::SetOutputFields(uint16_t fields)
 {
-  sprintf(buffer, "M %u", fields);
-  Command(buffer);
+    sprintf(buffer, "M %u", fields);
+    Command(buffer);
 }
 
 // For Arduino you must read the serial yourself as
@@ -171,7 +177,7 @@ void COZIR::SetOutputFields(uint16_t fields)
 // large output - can be > 100 bytes!!
 void COZIR::GetRecentFields()
 {
-  Command("Q");
+    Command("Q");
 }
 
 ////////////////////////////////////////////////////////////
@@ -186,14 +192,14 @@ void COZIR::GetRecentFields()
 //
 void COZIR::SetEEPROM(uint8_t address, uint8_t value)
 {
-  sprintf(buffer, "P %u %u", address, value);
-  Command(buffer);
+    sprintf(buffer, "P %u %u", address, value);
+    Command(buffer);
 }
 
 uint8_t COZIR::GetEEPROM(uint8_t address)
 {
-  sprintf(buffer, "p %u", address);
-  return Request(buffer);
+    sprintf(buffer, "p %u", address);
+    return Request(buffer);
 }
 
 ////////////////////////////////////////////////////////////
@@ -204,12 +210,12 @@ uint8_t COZIR::GetEEPROM(uint8_t address)
 //
 void COZIR::GetVersionSerial()
 {
-  Command("Y");
+    Command("Y");
 }
 
 void COZIR::GetConfiguration()
 {
-  Command("*");
+    Command("*");
 }
 
 /////////////////////////////////////////////////////////
@@ -217,37 +223,39 @@ void COZIR::GetConfiguration()
 
 void COZIR::Command(const char* s)
 {
-  CZR_Serial.print(s);
-  CZR_Serial.print("\r\n");
+    // TODO
+    // CZR_Serial.println(s);
+    CZR_Serial.print(s);
+    CZR_Serial.print("\r\n");
 }
 
-uint16_t COZIR::Request(const char* s)
+uint32_t COZIR::Request(const char* s)
 {
-  Command(s);
-  // empty buffer
-  buffer[0] = '\0';
-  // read answer; there may be a 100ms delay!
-  // TODO: PROPER TIMEOUT CODE.
-  delay(200);
-  int idx = 0;
-  while(CZR_Serial.available())
-  {
-    buffer[idx++] = CZR_Serial.read();
-  }
-  buffer[idx] = '\0';
+    Command(s);
+    // empty buffer
+    buffer[0] = '\0';
+    // read answer; there may be a 100ms delay!
+    // TODO: PROPER TIMEOUT CODE.
+    delay(200);
+    int idx = 0;
+    while(CZR_Serial.available())
+    {
+        buffer[idx++] = CZR_Serial.read();
+    }
+    buffer[idx] = '\0';
 
-  uint16_t rv = 0;
-  switch(buffer[0])
-  {
+    uint32_t rv = 0;
+    switch(buffer[0])
+    {
     case 'T' :
-			rv = atoi(&buffer[5]);
-            if (buffer[4] == 1) rv += 1000;
-			// negative values are mapped above 1000..1250 => capture this in Celsius()
-			break;
-	default :
-			rv = atoi(&buffer[2]);
-			break;
-  }
-  return rv;
+        rv = atoi(&buffer[5]);
+        if (buffer[4] == 1) rv += 1000;
+        // negative values are mapped above 1000..1250 => capture this in Celsius()
+        break;
+        default :
+        rv = atol(&buffer[2]);
+        break;
+    }
+    return rv;
 }
 // -- END OF FILE --

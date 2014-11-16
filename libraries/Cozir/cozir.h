@@ -1,10 +1,10 @@
 //
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: see COZIR_LIB_VERSION
+// VERSION: 0.1.04
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=91467.0
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
@@ -15,14 +15,14 @@
 #define Cozir_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
-  #include "SoftwareSerial.h"
+#include "Arduino.h"
+#include "SoftwareSerial.h"
 #else
-  #include "WProgram.h"
-  #include "NewSoftSerial.h"
+#include "WProgram.h"
+#include "NewSoftSerial.h"
 #endif
 
-#define COZIR_LIB_VERSION "0.1.03"
+#define COZIR_LIB_VERSION "0.1.04"
 
 // OUTPUTFIELDS
 // See datasheet for details.
@@ -54,50 +54,50 @@
 
 class COZIR
 {
-  public:
+public:
 #if defined(ARDUINO) && ARDUINO >= 100
-	COZIR(SoftwareSerial&);
+    COZIR(SoftwareSerial&);
 #else
-  	COZIR(NewSoftSerial&);
+    COZIR(NewSoftSerial&);
 #endif
 
-	float Celsius();
-	float Fahrenheit();
-	float Humidity();
-	float Light();
-	uint16_t CO2();
+    float Celsius();
+    float Fahrenheit();
+    float Humidity();
+    float Light();
+    uint32_t CO2();
 
-	uint16_t FineTuneZeroPoint(uint16_t , uint16_t);
-	uint16_t CalibrateFreshAir();
-	uint16_t CalibrateNitrogen();
-	uint16_t CalibrateKnownGas(uint16_t );
-	uint16_t CalibrateManual(uint16_t );
-	uint16_t SetSpanCalibrate(uint16_t );
-	uint16_t GetSpanCalibrate();
+    uint16_t FineTuneZeroPoint(uint16_t , uint16_t);
+    uint16_t CalibrateFreshAir();
+    uint16_t CalibrateNitrogen();
+    uint16_t CalibrateKnownGas(uint16_t );
+    uint16_t CalibrateManual(uint16_t );
+    uint16_t SetSpanCalibrate(uint16_t );
+    uint16_t GetSpanCalibrate();
 
-	void SetDigiFilter(uint8_t );
-	uint8_t GetDigiFilter();
+    void SetDigiFilter(uint8_t );
+    uint8_t GetDigiFilter();
 
-	void SetOutputFields(uint16_t );
-	void GetRecentFields();
+    void SetOutputFields(uint16_t );
+    void GetRecentFields();
 
-	void SetEEPROM(uint8_t , uint8_t );
-	uint8_t GetEEPROM(uint8_t );
+    void SetEEPROM(uint8_t , uint8_t );
+    uint8_t GetEEPROM(uint8_t );
 
-	void GetVersionSerial();
-	void GetConfiguration();
+    void GetVersionSerial();
+    void GetConfiguration();
 
-  private:
+private:
 #if defined(ARDUINO) && ARDUINO >= 100
-	SoftwareSerial& CZR_Serial;
+    SoftwareSerial& CZR_Serial;
 #else
-  	NewSoftSerial& CZR_Serial;
+    NewSoftSerial& CZR_Serial;
 #endif
 
-	void SetOperatingMode(uint8_t mode);
+    void SetOperatingMode(uint8_t mode);
 
-	void Command(const char* );
-	uint16_t Request(const char* );
+    void Command(const char* );
+    uint16_t Request(const char* );
 
     char buffer[20];
 };

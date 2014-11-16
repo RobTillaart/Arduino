@@ -1,11 +1,12 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.05 bug fixing + performance a.o. count()
 // 0.1.04 support for + - *, some optimizations
 // 0.1.03 changed &= to *= to follow Pascal conventions
 // 0.1.02 documentation
@@ -70,9 +71,14 @@ bool set::has(uint8_t v)
 uint8_t set::count()
 {
     uint8_t cnt = 0;
-    for (int i=0; i<256; i++)
+    for (uint8_t i=0; i<32; i++)
     {
-        if ( has(i) ) cnt++;
+        // kerningham bit count trick
+        uint8_t b = _mem[i];
+        for (; b; cnt++)
+        {
+            b &= b-1;
+        }
     }
     return cnt;
 }
@@ -165,30 +171,30 @@ int set::last()
 
 set set::operator + (set &t)  // union
 {
-    set s(t);
+    set s;
     for (uint8_t i=0; i<32; i++)
     {
-        s._mem[i] |= this->_mem[i];
+        s._mem[i] = this->_mem[i] | t._mem[i];
     }
     return s;
 }
 
-set set::operator - (set &t)  // union
+set set::operator - (set &t)  // diff
 {
-    set s(t);
+    set s;
     for (uint8_t i=0; i<32; i++)
     {
-        s._mem[i] &= ~(this->_mem[i]);
+        s._mem[i] = this->_mem[i] & ~t._mem[i];
     }
     return s;
 }
 
-set set::operator * (set &t)  // union
+set set::operator * (set &t)  // intersection
 {
-    set s(t);
+    set s;
     for (uint8_t i=0; i<32; i++)
     {
-        s._mem[i] &= this->_mem[i];
+        s._mem[i] = this->_mem[i] & t._mem[i];
     }
     return s;
 }
@@ -237,9 +243,9 @@ bool set::operator != (set &t)  // not equal
 
 bool set::operator <= (set &t)  // subset
 {
-    for (int i=0; i<256; i++)
+    for (uint8_t i=0; i<32; i++)
     {
-        if ( has(i) && !t.has(i) ) return false;
+        if ((_mem[i] & ~t._mem[i]) > 0) return false;
     }
     return true;
 }

@@ -1,16 +1,16 @@
 //
-//    FILE: set.h
+//    FILE: Set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
-// see set.cpp file
+// see Set.cpp file
 //
 
-#ifndef set_h
-#define set_h
+#ifndef Set_h
+#define Set_h
 
 #if ARDUINO < 100
 #include <WProgram.h>
@@ -18,36 +18,36 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.05"
+#define SET_LIB_VERSION "0.1.06"
 
-class set
+class Set
 {
 public:
-    set();                      // create empty set
-    set(set &t);                // create copy set
+    Set(bool clear = true);     // create empty Set
+    Set(Set &t);                // create copy Set
 
-    void clr();                 // clear the set
-    void invert();              // flip all elements in the set
+    void clr();                 // clear the Set
+    void invert();              // flip all elements in the Set
     uint8_t count();            // return the #elements
 
-    void add(uint8_t);          // add element to the set
-    void sub(uint8_t);          // remove element from set
-    void invert(uint8_t);       // flip element in set
-    bool has(uint8_t);          // element is in set
+    void add(uint8_t);          // add element to the Set
+    void sub(uint8_t);          // remove element from Set
+    void invert(uint8_t);       // flip element in Set
+    bool has(uint8_t);          // element is in Set
 
-    set operator + (set &t);    // union
-    set operator - (set &t);    // diff
-    set operator * (set &t);    // intersection
+    Set operator + (Set &t);    // union
+    Set operator - (Set &t);    // diff
+    Set operator * (Set &t);    // intersection
 
-    void operator += (set &t);  // union
-    void operator -= (set &t);  // diff
-    void operator *= (set &t);  // intersection
+    void operator += (Set &t);  // union
+    void operator -= (Set &t);  // diff
+    void operator *= (Set &t);  // intersection
 
-    bool operator == (set&);    // equal
-    bool operator != (set&);    // not equal
-    bool operator <= (set&);    // is subset
+    bool operator == (Set&);    // equal
+    bool operator != (Set&);    // not equal
+    bool operator <= (Set&);    // is subSet
 
-    // iterating through the set
+    // iterating through the Set
     // returns value or -1 if not exist
     int first();                // find first element
     int next();                 // find next element

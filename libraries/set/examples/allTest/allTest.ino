@@ -2,16 +2,16 @@
 //    FILE: allTest.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.00
-// PURPOSE: demo/test set class
+// PURPOSE: demo/test Set class
 //    DATE: 2014-11-16
 //     URL:
 //
 // Released to the public domain
 //
 
-#include "set.h"
+#include "Set.h"
 
-set setA, setB;
+Set setA, setB;
 volatile bool b;
 
 void setup()
@@ -38,7 +38,7 @@ void loop()
 
 void timingTest()
 {
-    set myset;
+    Set myset;
 
     Serial.println("TIMING TEST");
     Serial.print("clr():\t");
@@ -158,6 +158,37 @@ void timingTest()
     Serial.println(stop-start);
 
     Serial.println();
+    Serial.println("iteration 10 elements");
+    Serial.print("first:\t");
+    setA.clr();
+    randomSeed(1);
+    for (int i=0; i<10; i++)
+    {
+        setA.add(random(256));
+    }
+    start = micros();
+    int n = setA.first();
+    stop = micros();
+    Serial.println(stop-start);
+    
+    Serial.print("next:\t");
+    start = micros();
+    n = setA.next();
+    stop = micros();
+    Serial.println(stop-start); 
+    
+    Serial.print("first + next until -1 :\t");
+    start = micros();
+    n = setA.first();
+    while (n != -1)
+    {
+        n = setA.next();
+    }
+    stop = micros();
+    Serial.println(stop-start); 
+    Serial.println();
+    
+    Serial.println();
 }
 
 void equalTest()
@@ -171,11 +202,11 @@ void equalTest()
     Serial.println(setA == setB?"true":"false");
     Serial.println(setA == setA?"true":"false");
 
-    set setC(setB);
+    Set setC(setB);
     Serial.println(setC == setB?"true":"false");
     Serial.println(setC.count());
 
-    set setD = setB;
+    Set setD = setB;
     Serial.println(setD != setB?"unequal":"equal");
     Serial.println(setD == setB?"true":"false");
     Serial.println(setD.count());
@@ -247,7 +278,7 @@ void intersection2Test()
         setA.add(random(256));
         setB.add(random(256));
     }
-    set setC;
+    Set setC;
     setC = setA * setB;
     Serial.println(setA.count());
     Serial.println(setB.count());
@@ -272,10 +303,10 @@ void intersection2Test()
 void subsetTest()
 {
     Serial.println("SUBSET TEST");
-    set setE;
+    Set setE;
     for (int i=0; i<5; i++) setE.add(i);
 
-    set setF(setE);
+    Set setF(setE);
 
     Serial.println(setE.count());
     Serial.println(setF.count());

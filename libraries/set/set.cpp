@@ -1,11 +1,13 @@
 //
-//    FILE: set.cpp
+//    FILE: Set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.06 added flag to constructor to optimize +,-,*,
+//        set -> Set
 // 0.1.05 bug fixing + performance a.o. count()
 // 0.1.04 support for + - *, some optimizations
 // 0.1.03 changed &= to *= to follow Pascal conventions
@@ -16,18 +18,21 @@
 // Released to the public domain
 //
 
-#include "set.h"
+#include "Set.h"
 
 /////////////////////////////////////////////////////
 //
 // CONSTRUCTORS
 //
-set::set()
+Set::Set(bool clear)
 {
-    clr();
+    if (clear)
+    {
+        clr();
+    }
 }
 
-set::set(set &t)
+Set::Set(Set &t)
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -39,28 +44,28 @@ set::set(set &t)
 //
 // METHODS
 //
-void set::add(uint8_t v)
+void Set::add(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
     uint8_t idx = v / 8;
     _mem[idx] |= mask;
 }
 
-void set::sub(uint8_t v)
+void Set::sub(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
     uint8_t idx = v / 8;
     _mem[idx] &= ~mask;
 }
 
-void set::invert(uint8_t v)
+void Set::invert(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
     uint8_t idx = v / 8;
     _mem[idx] ^= mask;
 }
 
-bool set::has(uint8_t v)
+bool Set::has(uint8_t v)
 {
     uint8_t mask = 1 << (v & 7);
     uint8_t idx = v / 8;
@@ -68,7 +73,7 @@ bool set::has(uint8_t v)
 }
 
 // TODO OPTIMIZE COUNT
-uint8_t set::count()
+uint8_t Set::count()
 {
     uint8_t cnt = 0;
     for (uint8_t i=0; i<32; i++)
@@ -83,7 +88,7 @@ uint8_t set::count()
     return cnt;
 }
 
-void set::clr()
+void Set::clr()
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -91,7 +96,7 @@ void set::clr()
     }
 }
 
-void set::invert()
+void Set::invert()
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -99,7 +104,7 @@ void set::invert()
     }
 }
 
-int set::first()
+int Set::first()
 {
     for (int i = 0; i < 256; i++)
     {
@@ -113,7 +118,7 @@ int set::first()
     return _current;
 }
 
-int set::next()
+int Set::next()
 {
     if (_current != -1)
     {
@@ -131,7 +136,7 @@ int set::next()
     return _current;
 }
 
-int set::prev()
+int Set::prev()
 {
     if (_current != -1)
     {
@@ -149,7 +154,7 @@ int set::prev()
     return _current;
 }
 
-int set::last()
+int Set::last()
 {
     _current = -1;
     for (int i = 255; i >=0; --i)
@@ -169,19 +174,19 @@ int set::last()
 // OPERATORS
 //
 
-set set::operator + (set &t)  // union
+Set Set::operator + (Set &t)  // union
 {
-    set s;
-    for (uint8_t i=0; i<32; i++)
+    Set s(false);
+    for (uint8_t  i=0; i<32; i++)
     {
         s._mem[i] = this->_mem[i] | t._mem[i];
     }
     return s;
 }
 
-set set::operator - (set &t)  // diff
+Set Set::operator - (Set &t)  // diff
 {
-    set s;
+    Set s(false);
     for (uint8_t i=0; i<32; i++)
     {
         s._mem[i] = this->_mem[i] & ~t._mem[i];
@@ -189,9 +194,9 @@ set set::operator - (set &t)  // diff
     return s;
 }
 
-set set::operator * (set &t)  // intersection
+Set Set::operator * (Set &t)  // intersection
 {
-    set s;
+    Set s(false);
     for (uint8_t i=0; i<32; i++)
     {
         s._mem[i] = this->_mem[i] & t._mem[i];
@@ -199,7 +204,7 @@ set set::operator * (set &t)  // intersection
     return s;
 }
 
-void set::operator += (set &t)  // union
+void Set::operator += (Set &t)  // union
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -207,7 +212,7 @@ void set::operator += (set &t)  // union
     }
 }
 
-void set::operator -= (set &t)  // diff
+void Set::operator -= (Set &t)  // diff
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -215,7 +220,7 @@ void set::operator -= (set &t)  // diff
     }
 }
 
-void set::operator *= (set &t)  // intersection
+void Set::operator *= (Set &t)  // intersection
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -223,7 +228,7 @@ void set::operator *= (set &t)  // intersection
     }
 }
 
-bool set::operator == (set &t)  // equal
+bool Set::operator == (Set &t)  // equal
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -232,7 +237,7 @@ bool set::operator == (set &t)  // equal
     return true;
 }
 
-bool set::operator != (set &t)  // not equal
+bool Set::operator != (Set &t)  // not equal
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -241,7 +246,7 @@ bool set::operator != (set &t)  // not equal
     return false;
 }
 
-bool set::operator <= (set &t)  // subset
+bool Set::operator <= (Set &t)  // subSet
 {
     for (uint8_t i=0; i<32; i++)
     {

@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.17
+// VERSION: 0.1.18
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.18 version 1.16/17 broke the DHT11 - FIXED
 // 0.1.17 replaced micros() with adaptive loopcount
 //        removed DHTLIB_INVALID_VALUE
 //        added  DHTLIB_ERROR_CONNECT
@@ -43,11 +44,11 @@
 int dht::read11(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT11_WAKEUP);
+    int result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
-    bits[0] &= 0x03;
-    bits[2] &= 0x83;
+    bits[0] &= 0x3F;
+    bits[2] &= 0x3F;
 
     // CONVERT AND STORE
     humidity    = bits[0];  // bits[1] == 0;
@@ -66,7 +67,7 @@ int dht::read11(uint8_t pin)
 int dht::read(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT_WAKEUP);
+    int result = _readSensor(pin, DHTLIB_DHT_WAKEUP, DHTLIB_DHT_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
     bits[0] &= 0x03;
@@ -94,11 +95,19 @@ int dht::read(uint8_t pin)
 // PRIVATE
 //
 
-int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
+int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
 {   
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;
     uint8_t idx = 0;
+
+    uint8_t data = 0;
+    uint8_t state = LOW;
+    uint8_t pstate = LOW;
+    uint16_t zeroLoop = DHTLIB_TIMEOUT;
+    uint16_t delta = 0;
+
+    leadingZeroBits = 40 - leadingZeroBits; // reverse counting...
 
     // replace digitalRead() with Direct Port Reads.
     // reduces footprint ~100 bytes => portability issue?
@@ -136,12 +145,7 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
         if (--loopCount == 0) return DHTLIB_ERROR_ACK_H;
     }
 
-    uint8_t data = 0;
-    uint8_t state = LOW;
-    uint8_t pstate = LOW;
     loopCount = DHTLIB_TIMEOUT;
-    uint16_t zeroLoop = DHTLIB_TIMEOUT;
-    uint16_t delta = 0;
 
     // READ THE OUTPUT - 40 BITS => 5 BYTES
     for (uint8_t i = 40; i != 0; )
@@ -150,7 +154,7 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
         state = (*PIR & bit);
         if (state == LOW && pstate != LOW)
         {
-            if (i > 34) // first 6 bits are all zero !!
+            if (i > leadingZeroBits) // DHT22 first 6 bits are all zero !!   DHT11 only 1
             {
                 zeroLoop = min(zeroLoop, loopCount);
                 delta = (DHTLIB_TIMEOUT - zeroLoop)/4;

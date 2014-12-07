@@ -1,7 +1,8 @@
 //
 //    FILE: AnalogPin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.02
+//    DATE: 2014-10-05
 // PURPOSE: wrapper class for analogRead
 //     URL:
 //
@@ -12,27 +13,29 @@
 #define AnalogPin_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
+#include "Arduino.h"
 #else
-  #include "WProgram.h"
+#include "WProgram.h"
 #endif
 
-#define ANALOGPIN_LIB_VERSION "0.1.00"
+#define ANALOGPIN_LIB_VERSION "0.1.02"
 
 class AnalogPin
 {
-  public:
-	AnalogPin(uint8_t);
-    
-    // noise 0..256; in practice 0..4
-    uint16_t read(uint8_t noise = 0);
-    
-    // alpha 0..32; 
-    uint16_t readSmoothed(uint8_t alpha = 0); 
+public:
+    AnalogPin(uint8_t);
 
-  private:
+    // noise 0..255; in practice 0..4
+    int read(uint8_t noise = 0);
+
+    // alpha 0..31;
+    int readSmoothed(uint8_t alpha = 0);
+
+    int readPrevious();
+
+private:
     uint8_t _pin;
-    uint16_t _prevValue;
+    int _prevValue;
 };
 
 #endif

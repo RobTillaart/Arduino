@@ -22,7 +22,7 @@
 #include "NewSoftSerial.h"
 #endif
 
-#define COZIR_LIB_VERSION "0.1.04"
+#define COZIR_LIB_VERSION "0.1.05"
 
 // OUTPUTFIELDS
 // See datasheet for details.

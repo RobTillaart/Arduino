@@ -1,12 +1,13 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: http://forum.arduino.cc/index.php?topic=91467.0
 //
 // HISTORY:
+// 0.1.05 fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
 // 0.1.04 changed CO2 to support larger values (Rob T)
 // 0.1.03 added setOperatingMode
 // 0.1.02 added support Arduino 1.x

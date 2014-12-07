@@ -1,7 +1,7 @@
 //
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: http://forum.arduino.cc/index.php?topic=91467.0
@@ -22,7 +22,7 @@
 #include "NewSoftSerial.h"
 #endif
 
-#define COZIR_LIB_VERSION "0.1.04"
+#define COZIR_LIB_VERSION "0.1.05"
 
 // OUTPUTFIELDS
 // See datasheet for details.
@@ -97,7 +97,7 @@ private:
     void SetOperatingMode(uint8_t mode);
 
     void Command(const char* );
-    uint16_t Request(const char* );
+    uint32_t Request(const char* );
 
     char buffer[20];
 };

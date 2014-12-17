@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: I2C scanner @different speeds
 //    DATE: 2013-11-05
 //     URL: http://forum.arduino.cc/index.php?topic=197360
@@ -12,14 +12,15 @@
 #include <Wire.h>
 #include <Arduino.h>
 
-const char version[] = "0.1.05";
+const char version[] = "0.1.06";
 
 // scans devices from 50 to 800KHz I2C speeds.
 // lower than 50 is not possible
 // DS3231 RTC works on 800 KHz. TWBR = 2; (?)
 const long allSpeed[] = {
-  50, 100, 200, 250, 400, 500, 800 };
-long speed[sizeof(allSpeed)/sizeof(allSpeed[0])];
+  50, 100, 200, 250, 400, 500, 800
+};
+long speed[sizeof(allSpeed) / sizeof(allSpeed[0])];
 int speeds;
 
 int addressStart = 0;
@@ -35,7 +36,8 @@ bool header = true;
 
 // STATE MACHINE
 enum states {
-  STOP, ONCE, CONT, HELP };
+  STOP, ONCE, CONT, HELP
+};
 states state = STOP;
 
 uint32_t startScan;
@@ -55,71 +57,71 @@ void loop()
   char command = getCommand();
   switch (command)
   {
-  case 's':
-    state = ONCE;
-    break;
-  case 'c':
-    state = CONT;
-    break;
-  case 'd':
-    delayFlag = !delayFlag;
-    Serial.print(F("<delay="));
-    Serial.println(delayFlag?F("5>"):F("0>"));
-    break;
+    case 's':
+      state = ONCE;
+      break;
+    case 'c':
+      state = CONT;
+      break;
+    case 'd':
+      delayFlag = !delayFlag;
+      Serial.print(F("<delay="));
+      Serial.println(delayFlag ? F("5>") : F("0>"));
+      break;
 
-  case 'e':
-    // eeprom test TODO
-    break;
+    case 'e':
+      // eeprom test TODO
+      break;
 
-  case 'h':
-    header = !header;
-    Serial.print(F("<header="));
-    Serial.println(header?F("yes>"):F("no>"));
-    break;
-  case 'p':
-    printAll = !printAll;
-    Serial.print(F("<print="));
-    Serial.println(printAll?F("all>"):F("found>"));
-    break;
+    case 'h':
+      header = !header;
+      Serial.print(F("<header="));
+      Serial.println(header ? F("yes>") : F("no>"));
+      break;
+    case 'p':
+      printAll = !printAll;
+      Serial.print(F("<print="));
+      Serial.println(printAll ? F("all>") : F("found>"));
+      break;
 
-  case '0':
-  case '1':
-  case '2':
-  case '4':
-  case '8':
-    setSpeed(command);
-    break;
+    case '0':
+    case '1':
+    case '2':
+    case '4':
+    case '8':
+      setSpeed(command);
+      break;
 
-  case 'a':
-    setAddress();
-    break;
+    case 'a':
+      setAddress();
+      break;
 
-  case 'q':
-  case '?':
-    state = HELP;
-    break;
-  default:
-    break;
+    case 'q':
+    case '?':
+      state = HELP;
+      break;
+    default:
+      break;
   }
 
-  switch(state)
+  switch (state)
   {
-  case ONCE:
-    I2Cscan();
-    state = HELP;
-    break;
-  case CONT:
-    I2Cscan();
-    delay(1000);
-    break;
-  case HELP:
-    displayHelp();
-    state = STOP;
-    break;
-  case STOP:
-    break;
-  default: // ignore all non commands
-    break;
+    case ONCE:
+      I2Cscan();
+      state = HELP;
+      break;
+    case CONT:
+      I2Cscan();
+      delay(1000);
+      break;
+    case HELP:
+      displayHelp();
+      state = STOP;
+      break;
+    case STOP:
+      break;
+    default: // ignore all non commands
+      break;
   }
 }
 
@@ -146,31 +148,31 @@ void setAddress()
 
 void setSpeed(char sp)
 {
-  switch(sp)
+  switch (sp)
   {
-  case '1':
-    speed[0] = 100;
-    speeds = 1;
-    break;
-  case '2':
-    speed[0] = 200;
-    speeds = 1;
-    break;
-  case '4':
-    speed[0] = 400;
-    speeds = 1;
-    break;
-  case '8':
-    speed[0] = 800;
-    speeds = 1;
-    break;
-  case '0':
-    speeds = sizeof(allSpeed)/sizeof(allSpeed[0]);
-    for (int i=0; i< speeds; i++)
-    {
-      speed[i] = allSpeed[i];
-    }
-    break;
+    case '1':
+      speed[0] = 100;
+      speeds = 1;
+      break;
+    case '2':
+      speed[0] = 200;
+      speeds = 1;
+      break;
+    case '4':
+      speed[0] = 400;
+      speeds = 1;
+      break;
+    case '8':
+      speed[0] = 800;
+      speeds = 1;
+      break;
+    case '0':  // reset
+      speeds = sizeof(allSpeed) / sizeof(allSpeed[0]);
+      for (int i = 0; i < speeds; i++)
+      {
+        speed[i] = allSpeed[i];
+      }
+      break;
   }
 }
 
@@ -250,7 +252,11 @@ void I2Cscan()
 
     for (uint8_t s = 0; s < speeds ; s++)
     {
-      TWBR = (F_CPU/(speed[s]*1000) - 16)/2;
+#if ARDUINO >= 158
+      Wire.setClock(speed[s] * 1000);
+#else
+      TWBR = (F_CPU / (speed[s] * 1000) - 16) / 2;
+#endif
       Wire.beginTransmission (address);
       found[s] = (Wire.endTransmission () == 0);
       fnd |= found[s];
@@ -274,7 +280,7 @@ void I2Cscan()
       for (uint8_t s = 0; s < speeds ; s++)
       {
         Serial.print(F("\t"));
-        Serial.print(found[s]? F("V"):F("."));
+        Serial.print(found[s] ? F("V") : F("."));
       }
       Serial.println();
     }

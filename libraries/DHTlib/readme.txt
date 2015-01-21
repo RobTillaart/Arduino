@@ -24,5 +24,6 @@ version 0.1.14 and up have breaking changes wrt ARM based arduino's e.g DUE.
 version 0.1.15 is stable version for AVR only
 version 0.1.16 and 0.1.17 have breaking changes for DHT11
 version 0.1.18 works again for DHT11 (avr only)
+version 0.1.19 fixed masking bug DHT11 (avr only)
 
 

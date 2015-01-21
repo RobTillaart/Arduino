@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.18
+// VERSION: 0.1.19
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.19 masking error for DHT11 - FIXED (thanks Richard for noticing)
 // 0.1.18 version 1.16/17 broke the DHT11 - FIXED
 // 0.1.17 replaced micros() with adaptive loopcount
 //        removed DHTLIB_INVALID_VALUE
@@ -47,8 +48,8 @@ int dht::read11(uint8_t pin)
     int result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
-    bits[0] &= 0x3F;
-    bits[2] &= 0x3F;
+    bits[0] &= 0x7F;
+    bits[2] &= 0x7F;
 
     // CONVERT AND STORE
     humidity    = bits[0];  // bits[1] == 0;
@@ -96,7 +97,7 @@ int dht::read(uint8_t pin)
 //
 
 int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
-{   
+{
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;
     uint8_t idx = 0;

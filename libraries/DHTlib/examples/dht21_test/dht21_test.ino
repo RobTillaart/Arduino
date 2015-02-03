@@ -2,7 +2,7 @@
 //
 //    FILE: dht21_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: DHT library test sketch for DHT21 && Arduino
 //     URL:
 //
@@ -38,7 +38,7 @@ void loop()
     case DHTLIB_ERROR_CHECKSUM:
         Serial.print("Checksum error,\t");
         break;
-    case DHTLIB_ERROR_CONNECT:
+    case DHTLIB_ERROR_TIMEOUT:
         Serial.print("Time out error,\t");
         break;
     case DHTLIB_ERROR_CONNECT:

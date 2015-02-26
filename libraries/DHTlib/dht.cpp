@@ -6,6 +6,7 @@
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.20 Reduce footprint by using uint8_t as error codes.
 // 0.1.19 masking error for DHT11 - FIXED (thanks Richard for noticing)
 // 0.1.18 version 1.16/17 broke the DHT11 - FIXED
 // 0.1.17 replaced micros() with adaptive loopcount
@@ -42,10 +43,10 @@
 // PUBLIC
 //
 
-int dht::read11(uint8_t pin)
+uint8_t dht::read11(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
+    uint8_t result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
     bits[0] &= 0x7F;
@@ -65,10 +66,10 @@ int dht::read11(uint8_t pin)
     return result;
 }
 
-int dht::read(uint8_t pin)
+uint8_t dht::read(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT_WAKEUP, DHTLIB_DHT_LEADING_ZEROS);
+    uint8_t result = _readSensor(pin, DHTLIB_DHT_WAKEUP, DHTLIB_DHT_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
     bits[0] &= 0x03;
@@ -96,7 +97,7 @@ int dht::read(uint8_t pin)
 // PRIVATE
 //
 
-int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
+uint8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
 {
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;

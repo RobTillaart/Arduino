@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
@@ -12,6 +12,7 @@
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.03 - added toDouble(), tested several fractionize() codes, bug fixes.
 // 0.1.02 - faster fractionize code
 // 0.1.01 - some fixes
 // 0.1.00 - initial version
@@ -145,15 +146,13 @@ Fraction Fraction::operator - ()
 Fraction Fraction::operator + (Fraction c)
 {
     if (d == c.d) return Fraction(n + c.n, d);
-    int32_t dd = d * c.d;
-    return Fraction(n*c.d + c.n*d, dd);
+    return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
 Fraction Fraction::operator - (Fraction c)
 {
     if (d == c.d) return Fraction(n - c.n, d);
-    int32_t dd = d * c.d;
-    return Fraction(n*c.d - c.n*d, dd);
+    return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
 Fraction Fraction::operator * (Fraction c)
@@ -204,7 +203,13 @@ void Fraction::operator /= (Fraction c)
     n *= c.d;
     d *= c.n;
     simplify();
-}   
+}
+
+double Fraction::toDouble()
+{
+    double f = (1.0 * n) / d;
+    return f;
+}
 
 // PRIVATE
 int32_t Fraction::gcd(int32_t a , int32_t b)
@@ -242,15 +247,34 @@ void Fraction::simplify()
     d = q;
 }
 
+//////////////////////////////////////////////////////////////////////////////
 // fractionize() is a core function to find the fraction representation
+// PRE: 0 <= f < 1.0
+//
+// minimalistic is fast and small
+//
 // check for a discussion found later
 // - http://mathforum.org/library/drmath/view/51886.html
 // - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
 //
-// PRE: 0 <= f < 1.0
-// slow but stable version, no divisions
+
+
 /*
-double Fraction::fractionize(double f)  // linear search
+// MINIMALISTIC
+// (100x) micros()=51484
+double Fraction::fractionize(double f)  // simple, small, 2nd fastest
+{
+    n = round(f * 10000);  // why not 1000000 ?
+    d = 10000;
+    simplify();
+    return 0; // abs(f - this.toDouble());
+}
+*/
+
+// LINEAR SEARCH
+// (100x) micros()=51484
+// slow but stable version
+double Fraction::fractionize(double f)
 {
     long nn = 1, dd = 1;
 
@@ -270,15 +294,18 @@ double Fraction::fractionize(double f)  // linear search
     d = dd;
     return delta;
 }
-*/
 
-// PRE: 0 <= f < 1.0
+
 /*
-double Fraction::fractionize(double f)  // linear search, 'mirror' optimized
+// LINEAR SEARCH (mirror optimized)
+// (100x) micros()=51484
+// slow but stable version
+/*
+double Fraction::fractionize(double f)
 {
     long nn = 1, dd = 1;
     bool inverse = false;
-    
+
     if (f > 0.5)
     {
         f = 1-f;
@@ -303,14 +330,14 @@ double Fraction::fractionize(double f)  // linear search, 'mirror' optimized
 }
 */
 
-// substantial faster but it does not find "magic fractions" e.g. pi = 355/113
-// PRE: 0 <= f < 1.0
-// (100x) micros()=392620 - size=10572
+
+// ADD BY DIGIT - does not find "magic fractions" e.g. pi = 355/113
+// (100x) micros()=392620
 /*
 double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2nd fastest
 {
     Fraction t((long)0);
-    for (long dd = 10; dd < 10000001; dd *= 10)
+    for (long dd = 10; dd < 1000001; dd *= 10)
     {
         f *= 10;
         int ff = f;
@@ -323,10 +350,14 @@ double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2n
 }
 */
 
+
+// Dr. Peterson
 // - http://mathforum.org/library/drmath/view/51886.html
-// (100x) micros()=90836  - size=11044
+// (100x) micros()=94504
+// showed errors around 0
 // 4x faster!
-double Fraction::fractionize(double val)  // bigger but good!
+/*
+double Fraction::fractionize(double val)
 {    // find nearest fraction
     double Precision = 0.000001;
     Fraction low(0, 1);             // "A" = 0/1
@@ -345,9 +376,9 @@ double Fraction::fractionize(double val)  // bigger but good!
         if (i & 1)
         {  // odd step: add multiple of low to high
             double test = testHigh / testLow;
-            int count = (int)test;    // "N"
-            int n = (count + 1) * low.n + high.n;
-            int d = (count + 1) * low.d + high.d;
+            int32_t count = (int32_t)test;    // "N"
+            int32_t n = (count + 1) * low.n + high.n;
+            int32_t d = (count + 1) * low.d + high.d;
             if ((n > 0x8000) || (d > 0x10000))
             break;
             high.n = n - low.n;  // new "A"
@@ -358,9 +389,9 @@ double Fraction::fractionize(double val)  // bigger but good!
         else
         {  // even step: add multiple of high to low
             double test = testLow / testHigh;
-            int count = (int)test;     // "N"
-            int n = low.n + (count + 1) * high.n;
-            int d = low.d + (count + 1) * high.d;
+            int32_t count = (int32_t)test;     // "N"
+            int32_t n = low.n + (count + 1) * high.n;
+            int32_t d = low.d + (count + 1) * high.d;
             if ((n > 0x10000) || (d > 0x10000))
             break;
             low.n = n - high.n;  // new "A"
@@ -372,16 +403,17 @@ double Fraction::fractionize(double val)  // bigger but good!
     n = high.n;
     d = high.d;
 }
+*/
 
-
+// BINARY SEARCH
 // - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
-// (100x) micros()=1292452 - size=10590
-// slower 
+// (100x) micros()=1292452
+// slower
 /*
 double Fraction::fractionize(double value)  // size ok, too slow.
 {
     int max_denominator = 10000;
-    
+
     int low_n = 0;
     int low_d = 1;
     int high_n = 1;
@@ -409,7 +441,7 @@ double Fraction::fractionize(double value)  // size ok, too slow.
         }
     } while ( mid_d <= max_denominator );
     return 0;
-} 
+}
 */
 
 //

@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: demo library for fractions for Arduino
 //     URL:
 //
@@ -13,12 +13,11 @@
 
 #include "Arduino.h"
 
-#define FRACTIONLIBVERSION "0.1.02"
+#define FRACTIONLIBVERSION "0.1.03"
 
 class Fraction: public Printable
 {
 public:
-
     Fraction(double);
     Fraction(int32_t, int32_t);
     Fraction(int32_t);
@@ -47,6 +46,8 @@ public:
     void operator *= (Fraction);
     void operator /= (Fraction);
 
+    double toDouble();
+
 private:
     void simplify();
     double fractionize(double);
@@ -58,6 +59,5 @@ private:
 
 #endif
 //
-// END OF FILE
-//
 // -- END OF FILE --
+//

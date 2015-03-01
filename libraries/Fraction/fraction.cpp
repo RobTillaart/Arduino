@@ -1,18 +1,19 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
 // Released to the public domain
 //
 // TODO
-// - get math for negative fractions OK
 // - divide by zero errors
 // - test extensively
 //
-// 0.1.04 - stabilizing code, add simplifies() for some code paths
+// 0.1.05 - tested negative Fractions math, added constructors,
+//          minor refactoring,
+// 0.1.04 - stabilizing code, add simplify() for some code paths.
 // 0.1.03 - added toDouble(), tested several fractionize() codes, bug fixes.
 // 0.1.02 - faster fractionize code
 // 0.1.01 - some fixes
@@ -20,6 +21,7 @@
 
 #include "fraction.h"
 
+// CONSTRUCTORS
 Fraction::Fraction(double f)
 {
     // handle special cases?
@@ -28,7 +30,7 @@ Fraction::Fraction(double f)
     // PI/2 = 335/226;
     // EULER = 2721/1001; // 1.1e-7
     // EULER = 1264/465;  // 2.2e-6
-    
+
     // get robust for small values.
     if (abs(f) < 0.00001)
     {
@@ -36,7 +38,7 @@ Fraction::Fraction(double f)
         d = 1;
         return;
     }
-    // Normalize
+    // Normalize to 0.0 ... 1.0
     bool neg = f < 0;
     if (neg) f = -f;
     bool rec = f > 1;
@@ -45,23 +47,21 @@ Fraction::Fraction(double f)
     fractionize(f);
     simplify();
 
+    // denormalize
     if (rec)
     {
         int32_t t = n;
         n = d;
         d = t;
     }
-    if (neg) n = -n;
+    if (neg) 
+    {
+        n = -n;
+    }
 }
 
 Fraction::Fraction(int32_t p, int32_t q)
 {
-    if (p == 0)
-    {
-        n = 0;
-        d = 1;
-        return;
-    }
     n = p;
     d = q;
     simplify();
@@ -85,6 +85,24 @@ Fraction::Fraction(int8_t p)
     d = 1;
 }
 
+Fraction::Fraction(uint32_t p)
+{
+    n = p;
+    d = 1;
+}
+
+Fraction::Fraction(uint16_t p)
+{
+    n = p;
+    d = 1;
+}
+
+Fraction::Fraction(uint8_t p)
+{
+    n = p;
+    d = 1;
+}
+
 Fraction::Fraction(const Fraction &f)
 {
     n = f.n;
@@ -95,13 +113,12 @@ Fraction::Fraction(const Fraction &f)
 size_t Fraction::printTo(Print& p) const
 {
     size_t s = 0;
+    //  vs 22/7 => 3_1/7
     // if (n >= d)
     // {
-
     // s += p.print(n/d, DEC);
-    // s += p.print(".");
+    // s += p.print("_");
     // }
-
     // s += p.print(n%d, DEC);
     s += p.print(n, DEC);
     s += p.print('/');
@@ -122,25 +139,21 @@ bool Fraction::operator != (Fraction c)
 
 bool Fraction::operator > (Fraction c)
 {
-    // TODO neg values
     return (n * c.d) > (d * c.n);
 }
 
 bool Fraction::operator >= (Fraction c)
 {
-    // TODO neg values
     return (n * c.d) >= (d * c.n);
 }
 
 bool Fraction::operator < (Fraction c)
 {
-    // TODO neg values
     return (n * c.d) < (d * c.n);
 }
 
 bool Fraction::operator <= (Fraction c)
 {
-    // TODO neg values
     return (n * c.d) <= (d * c.n);
 }
 
@@ -153,13 +166,19 @@ Fraction Fraction::operator - ()
 // BASIC MATH
 Fraction Fraction::operator + (Fraction c)
 {
-    if (d == c.d) return Fraction(n + c.n, d);
+    if (d == c.d)
+    {
+        return Fraction(n + c.n, d);
+    }
     return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
 Fraction Fraction::operator - (Fraction c)
 {
-    if (d == c.d) return Fraction(n - c.n, d);
+    if (d == c.d)
+    {
+        return Fraction(n - c.n, d);
+    }
     return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
@@ -170,7 +189,7 @@ Fraction Fraction::operator * (Fraction c)
 
 Fraction Fraction::operator / (Fraction c)
 {
-    // TODO test for zero division
+    // division by zero returns 0
     return Fraction(n * c.d, d * c.n);
 }
 
@@ -211,7 +230,7 @@ void Fraction::operator *= (Fraction c)
 
 void Fraction::operator /= (Fraction c)
 {
-    // TODO test for zero division
+    // division by zero returns 0
     n *= c.d;
     d *= c.n;
     simplify();
@@ -222,6 +241,7 @@ double Fraction::toDouble()
     double f = (1.0 * n) / d;
     return f;
 }
+
 /*
 // Mediant  - http://www.cut-the-knot.org/Curriculum/Arithmetic/FCExercise.shtml
 // operator # ?
@@ -275,8 +295,10 @@ void Fraction::simplify()
     q = q/x;
 
     // denominator max 4 digits keeps mul and div simple
+    // in preventing overflow
     while (q > 10000)
     {
+        // rounding might need improvement
         p = (p + 5)/10;
         q = (q + 5)/10;
         x = gcd(p, q);
@@ -288,7 +310,7 @@ void Fraction::simplify()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// fractionize() is a core function to find the fraction representation
+// fractionize() - finds the fraction representation of a double
 // PRE: 0 <= f < 1.0
 //
 // minimalistic is fast and small
@@ -372,7 +394,7 @@ double Fraction::fractionize(double f)
 */
 
 
-// ADD BY DIGIT 
+// ADD BY DIGIT
 // - does not find "magic fractions" e.g. pi = 355/113
 // (100x) micros()=392620
 /*

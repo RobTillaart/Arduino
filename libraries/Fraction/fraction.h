@@ -23,10 +23,14 @@ public:
     Fraction(int32_t);
     Fraction(int16_t);
     Fraction(int8_t);
+    Fraction(uint32_t);
+    Fraction(uint16_t);
+    Fraction(uint8_t);
     Fraction(const Fraction&);
 
     size_t printTo(Print& p) const;
 
+    // equalities
     bool operator == (Fraction);
     bool operator != (Fraction);
     bool operator >  (Fraction);
@@ -34,7 +38,8 @@ public:
     bool operator <  (Fraction);
     bool operator <= (Fraction);
 
-    Fraction operator - (); // negation
+    // negation
+    Fraction operator - ();
 
     Fraction operator + (Fraction);
     Fraction operator - (Fraction);

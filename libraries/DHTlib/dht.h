@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.19
+// VERSION: 0.1.20
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -19,7 +19,7 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.19"
+#define DHT_LIB_VERSION "0.1.20"
 
 #define DHTLIB_OK                   0
 #define DHTLIB_ERROR_CHECKSUM       -1
@@ -51,20 +51,20 @@ public:
     // DHTLIB_ERROR_CONNECT
     // DHTLIB_ERROR_ACK_L
     // DHTLIB_ERROR_ACK_H
-    int read11(uint8_t pin);
-    int read(uint8_t pin);
+    int8_t read11(uint8_t pin);
+    int8_t read(uint8_t pin);
 
-    inline int read21(uint8_t pin) { return read(pin); };
-    inline int read22(uint8_t pin) { return read(pin); };
-    inline int read33(uint8_t pin) { return read(pin); };
-    inline int read44(uint8_t pin) { return read(pin); };
+    inline int8_t read21(uint8_t pin) { return read(pin); };
+    inline int8_t read22(uint8_t pin) { return read(pin); };
+    inline int8_t read33(uint8_t pin) { return read(pin); };
+    inline int8_t read44(uint8_t pin) { return read(pin); };
 
     double humidity;
     double temperature;
 
 private:
     uint8_t bits[5];  // buffer to receive data
-    int _readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits);
+    int8_t _readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits);
 };
 #endif
 //

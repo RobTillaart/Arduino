@@ -1,11 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.19
+// VERSION: 0.1.20
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.20 Reduce footprint (34 bytes) by using int8_t as error codes.
+//        (thanks to chaveiro)
 // 0.1.19 masking error for DHT11 - FIXED (thanks Richard for noticing)
 // 0.1.18 version 1.16/17 broke the DHT11 - FIXED
 // 0.1.17 replaced micros() with adaptive loopcount
@@ -14,7 +16,9 @@
 //        added  DHTLIB_ERROR_ACK_L  DHTLIB_ERROR_ACK_H
 // 0.1.16 masking unused bits (less errors); refactored bits[]
 // 0.1.15 reduced # micros calls 2->1 in inner loop.
-// 0.1.14 replace digital read with faster (~3x) code => more robust low MHz machines.
+// 0.1.14 replace digital read with faster (~3x) code
+//        => more robust low MHz machines.
+//
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
 // 0.1.11 renamed DHTLIB_TIMEOUT
@@ -42,10 +46,10 @@
 // PUBLIC
 //
 
-int dht::read11(uint8_t pin)
+int8_t dht::read11(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
+    int8_t result = _readSensor(pin, DHTLIB_DHT11_WAKEUP, DHTLIB_DHT11_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
     bits[0] &= 0x7F;
@@ -65,10 +69,10 @@ int dht::read11(uint8_t pin)
     return result;
 }
 
-int dht::read(uint8_t pin)
+int8_t dht::read(uint8_t pin)
 {
     // READ VALUES
-    int result = _readSensor(pin, DHTLIB_DHT_WAKEUP, DHTLIB_DHT_LEADING_ZEROS);
+    int8_t result = _readSensor(pin, DHTLIB_DHT_WAKEUP, DHTLIB_DHT_LEADING_ZEROS);
 
     // these bits are always zero, masking them reduces errors.
     bits[0] &= 0x03;
@@ -96,7 +100,7 @@ int dht::read(uint8_t pin)
 // PRIVATE
 //
 
-int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
+int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits)
 {
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;

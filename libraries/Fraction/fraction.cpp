@@ -1,17 +1,20 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
 // Released to the public domain
 //
 // TODO
-// - negative fractions
+// - get math for negative fractions OK
 // - divide by zero errors
 // - test extensively
-// - better print output for whole numbers?
+//
+// 0.1.02 - faster fractionize code
+// 0.1.01 - some fixes
+// 0.1.00 - initial version
 
 #include "fraction.h"
 
@@ -49,11 +52,9 @@ Fraction::Fraction(int32_t p, int32_t q)
         d = 1;
         return;
     }
-    n = abs(p);
-    d = abs(q);
+    n = p;
+    d = q;
     simplify();
-    // get sign right
-    if ((p < 0) != (q < 0)) n = -n;
 }
 
 Fraction::Fraction(int32_t p)
@@ -85,12 +86,15 @@ Fraction::Fraction(const Fraction &f)
 size_t Fraction::printTo(Print& p) const
 {
     size_t s = 0;
-    if (n >= d)
-    {
-        s += p.print(n/d, DEC);
-        s += p.print(".");
-    }
-    s += p.print(n%d, DEC);
+    // if (n >= d)
+    // {
+
+    // s += p.print(n/d, DEC);
+    // s += p.print(".");
+    // }
+
+    // s += p.print(n%d, DEC);
+    s += p.print(n, DEC);
     s += p.print('/');
     s += p.print(d, DEC);
     return s;
@@ -99,38 +103,42 @@ size_t Fraction::printTo(Print& p) const
 // EQUALITIES
 bool Fraction::operator == (Fraction c)
 {
-    return (n == c.n) && (d == c.d);
+    return (n * c.d) == (d * c.n);
 }
 
 bool Fraction::operator != (Fraction c)
 {
-    return (n != c.n) || (d != c.d);
+    return (n * c.d) != (d * c.n);
 }
 
 bool Fraction::operator > (Fraction c)
 {
+    // TODO neg values
     return (n * c.d) > (d * c.n);
 }
 
 bool Fraction::operator >= (Fraction c)
 {
+    // TODO neg values
     return (n * c.d) >= (d * c.n);
 }
 
 bool Fraction::operator < (Fraction c)
 {
+    // TODO neg values
     return (n * c.d) < (d * c.n);
 }
 
 bool Fraction::operator <= (Fraction c)
 {
+    // TODO neg values
     return (n * c.d) <= (d * c.n);
 }
 
 // NEGATE
 Fraction Fraction::operator - ()
 {
-    return Fraction(-d, n);
+    return Fraction(-n, d);
 }
 
 // BASIC MATH
@@ -150,12 +158,13 @@ Fraction Fraction::operator - (Fraction c)
 
 Fraction Fraction::operator * (Fraction c)
 {
-    return Fraction(n*c.n, d*c.d);	
+    return Fraction(n * c.n, d * c.d);	
 }
 
 Fraction Fraction::operator / (Fraction c)
 {
-    return Fraction(n*c.d, d*c.n);
+    // TODO test for zero division
+    return Fraction(n * c.d, d * c.n);
 }
 
 void Fraction::operator += (Fraction c)
@@ -191,10 +200,11 @@ void Fraction::operator *= (Fraction c)
 
 void Fraction::operator /= (Fraction c)
 {
+    // TODO test for zero division
     n *= c.d;
     d *= c.n;
     simplify();
-}
+}   
 
 // PRIVATE
 int32_t Fraction::gcd(int32_t a , int32_t b)
@@ -212,63 +222,195 @@ int32_t Fraction::gcd(int32_t a , int32_t b)
 // not that simple ...
 void Fraction::simplify()
 {
-    int32_t x = gcd(n, d);
-    n = n/x;
-    d = d/x;
-    // denominator max 4 digits
-    while (d > 10000)
+    bool neg = (n < 0) != (d < 0);
+    int32_t p = abs(n);
+    int32_t q = abs(d);
+    int32_t x = gcd(p,q);
+    p = p/x;
+    q = q/x;
+
+    // denominator max 4 digits keeps mul and div simple
+    while (q > 10000)
     {
-        n = round(n * 0.1);
-        d = round(d * 0.1);
-        x = gcd(n, d);
-        n = n/x;
-        d = d/x;
+        p = (p + 5)/10;
+        q = (q + 5)/10;
+        x = gcd(p, q);
+        p = p/x;
+        q = q/x;
     }
+    n = (neg)?-p:p;
+    d = q;
 }
 
 // fractionize() is a core function to find the fraction representation
 // check for a discussion found later
-// - http://mathforum.org/library/drmath/view/51886.html 
+// - http://mathforum.org/library/drmath/view/51886.html
 // - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
 //
 // PRE: 0 <= f < 1.0
 // slow but stable version, no divisions
-// double Fraction::fractionize(double f)
-// {
-    // long nn = 1, dd = 1;
+/*
+double Fraction::fractionize(double f)  // linear search
+{
+    long nn = 1, dd = 1;
 
-    // float r = 1 / f;
-    // float delta = f * dd - nn;
-    // while (abs(delta) > 0.00001)
-    // {
-        // dd++;
-        // if (delta < 0)
-        // {
-            // nn++;
-            // dd = nn * r;
-        // }
-        // delta = f * dd - nn;
-    // }
-    // n = nn;
-    // d = dd;
-    // return delta;
-// }
+    float r = 1 / f;
+    float delta = f * dd - nn;
+    while (abs(delta) > 0.00001)
+    {
+        dd++;
+        if (delta < 0)
+        {
+            nn++;
+            dd = nn * r;
+        }
+        delta = f * dd - nn;
+    }
+    n = nn;
+    d = dd;
+    return delta;
+}
+*/
 
-double Fraction::fractionize(double f)
+// PRE: 0 <= f < 1.0
+/*
+double Fraction::fractionize(double f)  // linear search, 'mirror' optimized
+{
+    long nn = 1, dd = 1;
+    bool inverse = false;
+    
+    if (f > 0.5)
+    {
+        f = 1-f;
+        inverse = true;
+    }
+
+    float r = 1 / f;
+    float delta = f * dd - nn;
+    while (abs(delta) > 0.00001 && (dd < 10000))
+    {
+        dd++;
+        if (delta < 0)
+        {
+            nn++;
+            dd = nn * r;
+        }
+        delta = f * dd - nn;
+    }
+    n = inverse?(dd - nn):nn;
+    d = dd;
+    return delta;
+}
+*/
+
+// substantial faster but it does not find "magic fractions" e.g. pi = 355/113
+// PRE: 0 <= f < 1.0
+// (100x) micros()=392620 - size=10572
+/*
+double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2nd fastest
 {
     Fraction t((long)0);
-    for (long dd = 10; dd < 1000001; dd *= 10)
+    for (long dd = 10; dd < 10000001; dd *= 10)
     {
         f *= 10;
         int ff = f;
         t += Fraction(ff, dd);
         f -= ff;
     }
-
     n = t.n;
     d = t.d;
-    return 0;
+    return f;
 }
+*/
+
+// - http://mathforum.org/library/drmath/view/51886.html
+// (100x) micros()=90836  - size=11044
+// 4x faster!
+double Fraction::fractionize(double val)  // bigger but good!
+{    // find nearest fraction
+    double Precision = 0.000001;
+    Fraction low(0, 1);             // "A" = 0/1
+    Fraction high(1, 1);            // "B" = 1/1
+    for (int i = 0; i < 100; ++i)
+    {
+        double testLow = low.d * val - low.n;
+        double testHigh = high.n - high.d * val;
+        if (testHigh < Precision * high.d)
+        break; // high is answer
+        if (testLow < Precision * low.d)
+        {  // low is answer
+            high = low;
+            break;
+        }
+        if (i & 1)
+        {  // odd step: add multiple of low to high
+            double test = testHigh / testLow;
+            int count = (int)test;    // "N"
+            int n = (count + 1) * low.n + high.n;
+            int d = (count + 1) * low.d + high.d;
+            if ((n > 0x8000) || (d > 0x10000))
+            break;
+            high.n = n - low.n;  // new "A"
+            high.d = d - low.d;
+            low.n = n;           // new "B"
+            low.d = d;
+        }
+        else
+        {  // even step: add multiple of high to low
+            double test = testLow / testHigh;
+            int count = (int)test;     // "N"
+            int n = low.n + (count + 1) * high.n;
+            int d = low.d + (count + 1) * high.d;
+            if ((n > 0x10000) || (d > 0x10000))
+            break;
+            low.n = n - high.n;  // new "A"
+            low.d = d - high.d;
+            high.n = n;          // new "B"
+            high.d = d;
+        }
+    }
+    n = high.n;
+    d = high.d;
+}
+
+
+// - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
+// (100x) micros()=1292452 - size=10590
+// slower 
+/*
+double Fraction::fractionize(double value)  // size ok, too slow.
+{
+    int max_denominator = 10000;
+    
+    int low_n = 0;
+    int low_d = 1;
+    int high_n = 1;
+    int high_d = 1;
+    int mid_n;
+    int mid_d;
+
+    do
+    {
+        mid_n = low_n + high_n;
+        mid_d = low_d + high_d;
+        if ( mid_n < value * mid_d )
+        {
+            low_n = mid_n;
+            low_d = mid_d;
+            n = high_n;
+            d = high_d;
+        }
+        else
+        {
+            high_n = mid_n;
+            high_d = mid_d;
+            n = low_n;
+            d = low_d;
+        }
+    } while ( mid_d <= max_denominator );
+    return 0;
+} 
+*/
 
 //
 // END OF FILE

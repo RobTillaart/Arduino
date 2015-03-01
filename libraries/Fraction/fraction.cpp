@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
@@ -12,6 +12,7 @@
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.04 - stabilizing code, add simplifies() for some code paths
 // 0.1.03 - added toDouble(), tested several fractionize() codes, bug fixes.
 // 0.1.02 - faster fractionize code
 // 0.1.01 - some fixes
@@ -21,7 +22,15 @@
 
 Fraction::Fraction(double f)
 {
-    if (f == 0.0)
+    // handle special cases?
+    // PI = 355/113;      // 2.7e-7
+    // PI*2 = 710/113;
+    // PI/2 = 335/226;
+    // EULER = 2721/1001; // 1.1e-7
+    // EULER = 1264/465;  // 2.2e-6
+    
+    // get robust for small values.
+    if (abs(f) < 0.00001)
     {
         n = 0;
         d = 1;
@@ -81,7 +90,6 @@ Fraction::Fraction(const Fraction &f)
     n = f.n;
     d = f.d;
 }
-
 
 // PRINTING
 size_t Fraction::printTo(Print& p) const
@@ -171,10 +179,12 @@ void Fraction::operator += (Fraction c)
     if (d == c.d)
     {
         n += c.n;
-        return;
     }
-    n = n * c.d + c.n * d;
-    d *= c.d;
+    else
+    {
+        n = n * c.d + c.n * d;
+        d *= c.d;
+    }
     simplify();
 }
 
@@ -183,10 +193,12 @@ void Fraction::operator -= (Fraction c)
     if (d == c.d)
     {
         n -= c.n;
-        return;
     }
-    n = n * c.d - c.n * d;
-    d *= c.d;
+    else
+    {
+        n = n * c.d - c.n * d;
+        d *= c.d;
+    }
     simplify();
 }
 
@@ -210,8 +222,31 @@ double Fraction::toDouble()
     double f = (1.0 * n) / d;
     return f;
 }
+/*
+// Mediant  - http://www.cut-the-knot.org/Curriculum/Arithmetic/FCExercise.shtml
+// operator # ?
+Fraction Fraction::mediant(Fraction c)
+{
+    return (n + c.n)/(d + c.d);
+}
+
+// wikipedia
+// fraction is proper if abs(fraction) < 1
+bool Fraction::proper()
+{
+    return abs(n) < abs(d);
+}
+
+// visualize franction as an angle
+double Fraction::angle()
+{
+    return arctan(d, n);
+}
+*/
+
 
 // PRIVATE
+// http://en.wikipedia.org/wiki/Binary_GCD_algorithm
 int32_t Fraction::gcd(int32_t a , int32_t b)
 {
     long c;
@@ -227,6 +262,11 @@ int32_t Fraction::gcd(int32_t a , int32_t b)
 // not that simple ...
 void Fraction::simplify()
 {
+    if (n == 0)
+    {
+        d = 1;
+        return;
+    }
     bool neg = (n < 0) != (d < 0);
     int32_t p = abs(n);
     int32_t q = abs(d);
@@ -259,9 +299,9 @@ void Fraction::simplify()
 //
 
 
-/*
 // MINIMALISTIC
 // (100x) micros()=51484
+/*
 double Fraction::fractionize(double f)  // simple, small, 2nd fastest
 {
     n = round(f * 10000);  // why not 1000000 ?
@@ -272,15 +312,16 @@ double Fraction::fractionize(double f)  // simple, small, 2nd fastest
 */
 
 // LINEAR SEARCH
-// (100x) micros()=51484
-// slow but stable version
+// (100x) micros()=18873064
+// slow not stable
+/*
 double Fraction::fractionize(double f)
 {
     long nn = 1, dd = 1;
 
     float r = 1 / f;
     float delta = f * dd - nn;
-    while (abs(delta) > 0.00001)
+    while (abs(delta) > 0.00001 && (dd < 10000))
     {
         dd++;
         if (delta < 0)
@@ -294,11 +335,11 @@ double Fraction::fractionize(double f)
     d = dd;
     return delta;
 }
-
+*/
 
 /*
 // LINEAR SEARCH (mirror optimized)
-// (100x) micros()=51484
+// (100x) micros()=
 // slow but stable version
 /*
 double Fraction::fractionize(double f)
@@ -331,7 +372,8 @@ double Fraction::fractionize(double f)
 */
 
 
-// ADD BY DIGIT - does not find "magic fractions" e.g. pi = 355/113
+// ADD BY DIGIT 
+// - does not find "magic fractions" e.g. pi = 355/113
 // (100x) micros()=392620
 /*
 double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2nd fastest
@@ -353,10 +395,8 @@ double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2n
 
 // Dr. Peterson
 // - http://mathforum.org/library/drmath/view/51886.html
-// (100x) micros()=94504
-// showed errors around 0
-// 4x faster!
-/*
+// (100x) micros()=96048
+// showed errors for very small values around 0
 double Fraction::fractionize(double val)
 {    // find nearest fraction
     double Precision = 0.000001;
@@ -403,7 +443,7 @@ double Fraction::fractionize(double val)
     n = high.n;
     d = high.d;
 }
-*/
+
 
 // BINARY SEARCH
 // - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/

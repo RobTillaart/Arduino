@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
@@ -11,6 +11,7 @@
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.06 - added proper(), mediant(), angle();
 // 0.1.05 - tested negative Fractions math, added constructors,
 //          minor refactoring,
 // 0.1.04 - stabilizing code, add simplify() for some code paths.
@@ -54,7 +55,7 @@ Fraction::Fraction(double f)
         n = d;
         d = t;
     }
-    if (neg) 
+    if (neg)
     {
         n = -n;
     }
@@ -238,33 +239,50 @@ void Fraction::operator /= (Fraction c)
 
 double Fraction::toDouble()
 {
-    double f = (1.0 * n) / d;
-    return f;
-}
-
-/*
-// Mediant  - http://www.cut-the-knot.org/Curriculum/Arithmetic/FCExercise.shtml
-// operator # ?
-Fraction Fraction::mediant(Fraction c)
-{
-    return (n + c.n)/(d + c.d);
+    return (1.0 * n) / d;
 }
 
 // wikipedia
 // fraction is proper if abs(fraction) < 1
-bool Fraction::proper()
+bool Fraction::isProper()
 {
     return abs(n) < abs(d);
 }
 
-// visualize franction as an angle
-double Fraction::angle()
+// visualize fraction as an angle in degrees
+double Fraction::toAngle()
 {
-    return arctan(d, n);
+    return atan2(n, d) * 180.0 / PI;
 }
-*/
+
+////////////////////////////////////////////////////////////
+// STATIC
+// Mediant  - http://www.cut-the-knot.org/Curriculum/Arithmetic/FCExercise.shtml
+// void Fraction::mediant(Fraction c)
+// {
+// n += c.n;
+// d += c.d;
+// simplify();
+// }
+
+// the mediant is a fraction that is always between 2 fractions
+// at least if within precission.
+Fraction Fraction::mediant(Fraction a, Fraction b)
+{
+    return Fraction(a.n + b.n, a.d + b.d);
+}
+
+// approximate a fraction with defined denominator
+// sort of setDenominator(uint16_t den);
+Fraction Fraction::setDenominator(Fraction a, uint16_t b)
+{
+    int32_t n = round((a.n * b * 1.0) / a.d);
+    int32_t d = b;
+    return Fraction(n, d);
+}
 
 
+////////////////////////////////////////////////////////////////
 // PRIVATE
 // http://en.wikipedia.org/wiki/Binary_GCD_algorithm
 int32_t Fraction::gcd(int32_t a , int32_t b)

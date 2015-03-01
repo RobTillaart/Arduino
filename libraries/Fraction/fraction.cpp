@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
@@ -32,13 +32,13 @@ Fraction::Fraction(double f)
     fractionize(f);
     simplify();
 
-    if (neg) n = -n;
     if (rec)
     {
         int32_t t = n;
         n = d;
         d = t;
     }
+    if (neg) n = -n;
 }
 
 Fraction::Fraction(int32_t p, int32_t q)
@@ -53,7 +53,7 @@ Fraction::Fraction(int32_t p, int32_t q)
     d = abs(q);
     simplify();
     // get sign right
-    if ((p<0) != (q<0)) n = -n;
+    if ((p < 0) != (q < 0)) n = -n;
 }
 
 Fraction::Fraction(int32_t p)
@@ -85,7 +85,12 @@ Fraction::Fraction(const Fraction &f)
 size_t Fraction::printTo(Print& p) const
 {
     size_t s = 0;
-    s += p.print(n, DEC);
+    if (n >= d)
+    {
+        s += p.print(n/d, DEC);
+        s += p.print(".");
+    }
+    s += p.print(n%d, DEC);
     s += p.print('/');
     s += p.print(d, DEC);
     return s;
@@ -162,6 +167,7 @@ void Fraction::operator += (Fraction c)
     }
     n = n * c.d + c.n * d;
     d *= c.d;
+    simplify();
 }
 
 void Fraction::operator -= (Fraction c)
@@ -173,18 +179,21 @@ void Fraction::operator -= (Fraction c)
     }
     n = n * c.d - c.n * d;
     d *= c.d;
+    simplify();
 }
 
 void Fraction::operator *= (Fraction c)
 {
     n *= c.n;
     d *= c.d;
+    simplify();
 }
 
 void Fraction::operator /= (Fraction c)
 {
     n *= c.d;
     d *= c.n;
+    simplify();
 }
 
 // PRIVATE
@@ -206,6 +215,7 @@ void Fraction::simplify()
     int32_t x = gcd(n, d);
     n = n/x;
     d = d/x;
+    // denominator max 4 digits
     while (d > 10000)
     {
         n = round(n * 0.1);
@@ -216,26 +226,50 @@ void Fraction::simplify()
     }
 }
 
+// fractionize() is a core function to find the fraction representation
+// check for a discussion found later
+// - http://mathforum.org/library/drmath/view/51886.html 
+// - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
+//
 // PRE: 0 <= f < 1.0
+// slow but stable version, no divisions
+// double Fraction::fractionize(double f)
+// {
+    // long nn = 1, dd = 1;
+
+    // float r = 1 / f;
+    // float delta = f * dd - nn;
+    // while (abs(delta) > 0.00001)
+    // {
+        // dd++;
+        // if (delta < 0)
+        // {
+            // nn++;
+            // dd = nn * r;
+        // }
+        // delta = f * dd - nn;
+    // }
+    // n = nn;
+    // d = dd;
+    // return delta;
+// }
+
 double Fraction::fractionize(double f)
 {
-    long nn = 1, dd = 1;
-
-    float r = 1 / f;
-    float delta = f * dd - nn;
-    float mindelta = 1;
-    while (abs(delta) > 0.00001)
+    Fraction t((long)0);
+    for (long dd = 10; dd < 1000001; dd *= 10)
     {
-        dd++;
-        if (delta < 0)
-        {
-            nn++;
-            dd = nn * r;
-        }
-        delta = f * dd - nn;
+        f *= 10;
+        int ff = f;
+        t += Fraction(ff, dd);
+        f -= ff;
     }
-    n = nn;
-    d = dd;
-    return delta;
+
+    n = t.n;
+    d = t.d;
+    return 0;
 }
-// --- END OF FILE ---
+
+//
+// END OF FILE
+//

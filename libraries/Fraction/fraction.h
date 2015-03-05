@@ -64,7 +64,7 @@ public:
 protected:
     void simplify();
     double fractionize(double);
-    int32_t& gcd(int32_t&, int32_t&);
+    int32_t gcd(int32_t, int32_t);
 
     int32_t n;
     int32_t d;

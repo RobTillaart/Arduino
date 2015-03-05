@@ -245,7 +245,7 @@ Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 ////////////////////////////////////////////////////////////////
 // PRIVATE
 // http://en.wikipedia.org/wiki/Binary_GCD_algorithm
-int32_t& Fraction::gcd(int32_t &a , int32_t &b)
+int32_t Fraction::gcd(int32_t a , int32_t b)
 {
     long c;
     while ( a != 0 )

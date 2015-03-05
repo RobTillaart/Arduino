@@ -61,53 +61,9 @@ Fraction::Fraction(double f)
     }
 }
 
-Fraction::Fraction(int32_t p, int32_t q)
+Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
 {
-    n = p;
-    d = q;
     simplify();
-}
-
-Fraction::Fraction(int32_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(int16_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(int8_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint32_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint16_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint8_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(const Fraction &f)
-{
-    n = f.n;
-    d = f.d;
 }
 
 // PRINTING
@@ -128,32 +84,32 @@ size_t Fraction::printTo(Print& p) const
 };
 
 // EQUALITIES
-bool Fraction::operator == (Fraction c)
+bool Fraction::operator == (const Fraction &c)
 {
     return (n * c.d) == (d * c.n);
 }
 
-bool Fraction::operator != (Fraction c)
+bool Fraction::operator != (const Fraction &c)
 {
     return (n * c.d) != (d * c.n);
 }
 
-bool Fraction::operator > (Fraction c)
+bool Fraction::operator > (const Fraction &c)
 {
     return (n * c.d) > (d * c.n);
 }
 
-bool Fraction::operator >= (Fraction c)
+bool Fraction::operator >= (const Fraction &c)
 {
     return (n * c.d) >= (d * c.n);
 }
 
-bool Fraction::operator < (Fraction c)
+bool Fraction::operator < (const Fraction &c)
 {
     return (n * c.d) < (d * c.n);
 }
 
-bool Fraction::operator <= (Fraction c)
+bool Fraction::operator <= (const Fraction &c)
 {
     return (n * c.d) <= (d * c.n);
 }
@@ -165,7 +121,7 @@ Fraction Fraction::operator - ()
 }
 
 // BASIC MATH
-Fraction Fraction::operator + (Fraction c)
+Fraction Fraction::operator + (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -174,7 +130,7 @@ Fraction Fraction::operator + (Fraction c)
     return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
-Fraction Fraction::operator - (Fraction c)
+Fraction Fraction::operator - (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -183,18 +139,18 @@ Fraction Fraction::operator - (Fraction c)
     return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
-Fraction Fraction::operator * (Fraction c)
+Fraction Fraction::operator * (const Fraction &c)
 {
     return Fraction(n * c.n, d * c.d);	
 }
 
-Fraction Fraction::operator / (Fraction c)
+Fraction Fraction::operator / (const Fraction &c)
 {
     // division by zero returns 0
     return Fraction(n * c.d, d * c.n);
 }
 
-void Fraction::operator += (Fraction c)
+Fraction& Fraction::operator += (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -206,9 +162,10 @@ void Fraction::operator += (Fraction c)
         d *= c.d;
     }
     simplify();
+	return *this;
 }
 
-void Fraction::operator -= (Fraction c)
+Fraction& Fraction::operator -= (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -220,21 +177,24 @@ void Fraction::operator -= (Fraction c)
         d *= c.d;
     }
     simplify();
+	return *this;
 }
 
-void Fraction::operator *= (Fraction c)
+Fraction& Fraction::operator *= (const Fraction &c)
 {
     n *= c.n;
     d *= c.d;
     simplify();
+	return *this;
 }
 
-void Fraction::operator /= (Fraction c)
+Fraction& Fraction::operator /= (const Fraction &c)
 {
     // division by zero returns 0
     n *= c.d;
     d *= c.n;
     simplify();
+	return *this;
 }
 
 double Fraction::toDouble()
@@ -267,14 +227,14 @@ double Fraction::toAngle()
 
 // the mediant is a fraction that is always between 2 fractions
 // at least if within precission.
-Fraction Fraction::mediant(Fraction a, Fraction b)
+Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 {
     return Fraction(a.n + b.n, a.d + b.d);
 }
 
 // approximate a fraction with defined denominator
 // sort of setDenominator(uint16_t den);
-Fraction Fraction::setDenominator(Fraction a, uint16_t b)
+Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 {
     int32_t n = round((a.n * b * 1.0) / a.d);
     int32_t d = b;

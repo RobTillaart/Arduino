@@ -20,48 +20,48 @@ class Fraction: public Printable
 public:
     Fraction(double);
     Fraction(int32_t, int32_t);
-    Fraction(int32_t);
-    Fraction(int16_t);
-    Fraction(int8_t);
-    Fraction(uint32_t);
-    Fraction(uint16_t);
-    Fraction(uint8_t);
-    Fraction(const Fraction&);
+    Fraction(int32_t p)   : n(p), d(1) {}
+    Fraction(int16_t p)   : n(p), d(1) {}
+    Fraction(int8_t p)    : n(p), d(1) {}
+    Fraction(uint32_t p)  : n(p), d(1) {}
+    Fraction(uint16_t p)  : n(p), d(1) {}
+    Fraction(uint8_t p)   : n(p), d(1) {}
+	Fraction(const Fraction &f) : n(f.n), d(f.d) {}
 
     size_t printTo(Print& p) const;
 
     // equalities
-    bool operator == (Fraction);
-    bool operator != (Fraction);
-    bool operator >  (Fraction);
-    bool operator >= (Fraction);
-    bool operator <  (Fraction);
-    bool operator <= (Fraction);
+    bool operator == (const Fraction&);
+    bool operator != (const Fraction&);
+    bool operator >  (const Fraction&);
+    bool operator >= (const Fraction&);
+    bool operator <  (const Fraction&);
+    bool operator <= (const Fraction&);
 
     // negation
     Fraction operator - ();
 
     // basic math
-    Fraction operator + (Fraction);
-    Fraction operator - (Fraction);
-    Fraction operator * (Fraction);
-    Fraction operator / (Fraction);
+    Fraction operator + (const Fraction&);
+    Fraction operator - (const Fraction&);
+    Fraction operator * (const Fraction&);
+    Fraction operator / (const Fraction&);
 
-    void operator += (Fraction);
-    void operator -= (Fraction);
-    void operator *= (Fraction);
-    void operator /= (Fraction);
+    Fraction& operator += (const Fraction&);
+    Fraction& operator -= (const Fraction&);
+    Fraction& operator *= (const Fraction&);
+    Fraction& operator /= (const Fraction&);
 
     double toDouble();
     bool isProper();    // abs(f) < 1
     double toAngle();
 
-    static Fraction mediant(Fraction, Fraction);
+    static Fraction mediant(const Fraction&, const Fraction&);
     // approximate a fraction with defined denominator
-    static Fraction setDenominator(Fraction, uint16_t);
+    static Fraction setDenominator(const Fraction&, uint16_t);
 
 
-private:
+protected:
     void simplify();
     double fractionize(double);
     int32_t gcd(int32_t, int32_t);

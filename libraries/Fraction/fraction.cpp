@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: library for fractions for Arduino
 //     URL:
 //
@@ -11,6 +11,7 @@
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.07 - major refactoring by Chris-A
 // 0.1.06 - added proper(), mediant(), angle();
 // 0.1.05 - tested negative Fractions math, added constructors,
 //          minor refactoring,
@@ -162,7 +163,7 @@ Fraction& Fraction::operator += (const Fraction &c)
         d *= c.d;
     }
     simplify();
-	return *this;
+    return *this;
 }
 
 Fraction& Fraction::operator -= (const Fraction &c)
@@ -177,7 +178,7 @@ Fraction& Fraction::operator -= (const Fraction &c)
         d *= c.d;
     }
     simplify();
-	return *this;
+    return *this;
 }
 
 Fraction& Fraction::operator *= (const Fraction &c)
@@ -185,7 +186,7 @@ Fraction& Fraction::operator *= (const Fraction &c)
     n *= c.n;
     d *= c.d;
     simplify();
-	return *this;
+    return *this;
 }
 
 Fraction& Fraction::operator /= (const Fraction &c)
@@ -194,7 +195,7 @@ Fraction& Fraction::operator /= (const Fraction &c)
     n *= c.d;
     d *= c.n;
     simplify();
-	return *this;
+    return *this;
 }
 
 double Fraction::toDouble()

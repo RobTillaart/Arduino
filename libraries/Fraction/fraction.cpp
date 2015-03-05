@@ -128,32 +128,32 @@ size_t Fraction::printTo(Print& p) const
 };
 
 // EQUALITIES
-bool Fraction::operator == (Fraction c)
+bool Fraction::operator == (const Fraction &c)
 {
     return (n * c.d) == (d * c.n);
 }
 
-bool Fraction::operator != (Fraction c)
+bool Fraction::operator != (const Fraction &c)
 {
     return (n * c.d) != (d * c.n);
 }
 
-bool Fraction::operator > (Fraction c)
+bool Fraction::operator > (const Fraction &c)
 {
     return (n * c.d) > (d * c.n);
 }
 
-bool Fraction::operator >= (Fraction c)
+bool Fraction::operator >= (const Fraction &c)
 {
     return (n * c.d) >= (d * c.n);
 }
 
-bool Fraction::operator < (Fraction c)
+bool Fraction::operator < (const Fraction &c)
 {
     return (n * c.d) < (d * c.n);
 }
 
-bool Fraction::operator <= (Fraction c)
+bool Fraction::operator <= (const Fraction &c)
 {
     return (n * c.d) <= (d * c.n);
 }
@@ -165,7 +165,7 @@ Fraction Fraction::operator - ()
 }
 
 // BASIC MATH
-Fraction Fraction::operator + (Fraction c)
+Fraction Fraction::operator + (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -174,7 +174,7 @@ Fraction Fraction::operator + (Fraction c)
     return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
-Fraction Fraction::operator - (Fraction c)
+Fraction Fraction::operator - (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -183,18 +183,18 @@ Fraction Fraction::operator - (Fraction c)
     return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
-Fraction Fraction::operator * (Fraction c)
+Fraction Fraction::operator * (const Fraction &c)
 {
     return Fraction(n * c.n, d * c.d);	
 }
 
-Fraction Fraction::operator / (Fraction c)
+Fraction Fraction::operator / (const Fraction &c)
 {
     // division by zero returns 0
     return Fraction(n * c.d, d * c.n);
 }
 
-void Fraction::operator += (Fraction c)
+Fraction& Fraction::operator += (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -206,9 +206,10 @@ void Fraction::operator += (Fraction c)
         d *= c.d;
     }
     simplify();
+	return *this;
 }
 
-void Fraction::operator -= (Fraction c)
+Fraction& Fraction::operator -= (const Fraction &c)
 {
     if (d == c.d)
     {
@@ -220,21 +221,24 @@ void Fraction::operator -= (Fraction c)
         d *= c.d;
     }
     simplify();
+	return *this;
 }
 
-void Fraction::operator *= (Fraction c)
+Fraction& Fraction::operator *= (const Fraction &c)
 {
     n *= c.n;
     d *= c.d;
     simplify();
+	return *this;
 }
 
-void Fraction::operator /= (Fraction c)
+Fraction& Fraction::operator /= (const Fraction &c)
 {
     // division by zero returns 0
     n *= c.d;
     d *= c.n;
     simplify();
+	return *this;
 }
 
 double Fraction::toDouble()

@@ -31,26 +31,26 @@ public:
     size_t printTo(Print& p) const;
 
     // equalities
-    bool operator == (Fraction);
-    bool operator != (Fraction);
-    bool operator >  (Fraction);
-    bool operator >= (Fraction);
-    bool operator <  (Fraction);
-    bool operator <= (Fraction);
+    bool operator == (const Fraction&);
+    bool operator != (const Fraction&);
+    bool operator >  (const Fraction&);
+    bool operator >= (const Fraction&);
+    bool operator <  (const Fraction&);
+    bool operator <= (const Fraction&);
 
     // negation
     Fraction operator - ();
 
     // basic math
-    Fraction operator + (Fraction);
-    Fraction operator - (Fraction);
-    Fraction operator * (Fraction);
-    Fraction operator / (Fraction);
+    Fraction operator + (const Fraction&);
+    Fraction operator - (const Fraction&);
+    Fraction operator * (const Fraction&);
+    Fraction operator / (const Fraction&);
 
-    void operator += (Fraction);
-    void operator -= (Fraction);
-    void operator *= (Fraction);
-    void operator /= (Fraction);
+    Fraction& operator += (const Fraction&);
+    Fraction& operator -= (const Fraction&);
+    Fraction& operator *= (const Fraction&);
+    Fraction& operator /= (const Fraction&);
 
     double toDouble();
     bool isProper();    // abs(f) < 1

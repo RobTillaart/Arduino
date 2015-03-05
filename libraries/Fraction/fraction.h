@@ -56,15 +56,15 @@ public:
     bool isProper();    // abs(f) < 1
     double toAngle();
 
-    static Fraction mediant(Fraction, Fraction);
+    static Fraction mediant(const Fraction&, const Fraction&);
     // approximate a fraction with defined denominator
-    static Fraction setDenominator(Fraction, uint16_t);
+    static Fraction setDenominator(const Fraction&, uint16_t);
 
 
-private:
+protected:
     void simplify();
     double fractionize(double);
-    int32_t gcd(int32_t, int32_t);
+    int32_t& gcd(int32_t&, int32_t&);
 
     int32_t n;
     int32_t d;

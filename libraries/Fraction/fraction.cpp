@@ -227,14 +227,14 @@ double Fraction::toAngle()
 
 // the mediant is a fraction that is always between 2 fractions
 // at least if within precission.
-Fraction Fraction::mediant(Fraction a, Fraction b)
+Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 {
     return Fraction(a.n + b.n, a.d + b.d);
 }
 
 // approximate a fraction with defined denominator
 // sort of setDenominator(uint16_t den);
-Fraction Fraction::setDenominator(Fraction a, uint16_t b)
+Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 {
     int32_t n = round((a.n * b * 1.0) / a.d);
     int32_t d = b;
@@ -245,7 +245,7 @@ Fraction Fraction::setDenominator(Fraction a, uint16_t b)
 ////////////////////////////////////////////////////////////////
 // PRIVATE
 // http://en.wikipedia.org/wiki/Binary_GCD_algorithm
-int32_t Fraction::gcd(int32_t a , int32_t b)
+int32_t& Fraction::gcd(int32_t &a , int32_t &b)
 {
     long c;
     while ( a != 0 )

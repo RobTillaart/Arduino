@@ -61,53 +61,9 @@ Fraction::Fraction(double f)
     }
 }
 
-Fraction::Fraction(int32_t p, int32_t q)
+Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
 {
-    n = p;
-    d = q;
     simplify();
-}
-
-Fraction::Fraction(int32_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(int16_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(int8_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint32_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint16_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(uint8_t p)
-{
-    n = p;
-    d = 1;
-}
-
-Fraction::Fraction(const Fraction &f)
-{
-    n = f.n;
-    d = f.d;
 }
 
 // PRINTING

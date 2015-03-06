@@ -18,7 +18,7 @@
 #define AS524X_O1_HIGH  0x10
 #define AS524X_O2_HIGH  0x08
 
-AD524X::AD524X(uint8_t address)
+AD524X::AD524X(const uint8_t address)
 {
     // address: 0x01011xx = 0x2C - 0x2F
     _address = address;
@@ -32,7 +32,7 @@ uint8_t AD524X::zeroAll()
     return write(1, 0);
 }
 
-uint8_t AD524X::write(uint8_t rdac, uint8_t value)
+uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
 {
     if (rdac > 1) return AS524X_ERROR;
 
@@ -43,7 +43,7 @@ uint8_t AD524X::write(uint8_t rdac, uint8_t value)
     return send(cmd, value);
 }
 
-uint8_t AD524X::write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)
+uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
 {
     if (rdac > 1) return AS524X_ERROR;
 
@@ -56,16 +56,16 @@ uint8_t AD524X::write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)
     return send(cmd, value);
 }
 
-uint8_t AD524X::setO1(uint8_t v)
+uint8_t AD524X::setO1(const uint8_t value)
 {
-    _O1 = (v == LOW) ? 0 : AS524X_O1_HIGH;
+    _O1 = (value == LOW) ? 0 : AS524X_O1_HIGH;
     uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
     return send(cmd, _lastValue[0]);
 }
 
-uint8_t AD524X::setO2(uint8_t v)
+uint8_t AD524X::setO2(const uint8_t value)
 {
-    _O2 = (v == LOW) ? 0: AS524X_O2_HIGH;
+    _O2 = (value == LOW) ? 0: AS524X_O2_HIGH;
     uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
     return send(cmd, _lastValue[0]);
 }
@@ -80,12 +80,12 @@ uint8_t AD524X::getO2()
     return (_O2 > 0);
 }
 
-uint8_t AD524X::read(uint8_t rdac)
+uint8_t AD524X::read(const uint8_t rdac)
 {
     return _lastValue[rdac];
 }
 
-uint8_t AD524X::midScaleReset(uint8_t rdac)
+uint8_t AD524X::midScaleReset(const uint8_t rdac)
 {
     if (rdac > 1) return AS524X_ERROR;
 
@@ -107,7 +107,7 @@ uint8_t AD524X::midScaleReset(uint8_t rdac)
 //
 // PRIVATE
 //
-uint8_t AD524X::send(uint8_t cmd, uint8_t value)
+uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 {
     Wire.beginTransmission(_address);
     Wire.write(cmd);

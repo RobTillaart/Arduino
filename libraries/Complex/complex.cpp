@@ -1,13 +1,14 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
 
+// 0.1.08 - refactor
 // 0.1.07 - refactor interfaces
 
 #include "complex.h"
@@ -31,7 +32,7 @@ void Complex::polar(const double modulus, const double phase)
 
 Complex Complex::reciprocal()
 {
-    double f = 1.0/ (re*re + im*im);
+    double f = 1.0/(re*re + im*im);
     double r = re*f;
     double i = -im*f;
     return Complex(r,i);
@@ -75,10 +76,10 @@ Complex Complex::operator * (const Complex &c)
 
 Complex Complex::operator / (const Complex &c)
 {
-    double f = (c.re*c.re + c.im*c.im); 
-    double r = re * c.re + im * c.im;
-    double i = im * c.re - re * c.im;
-    return Complex(r / f, i / f);
+    double f = 1.0/(c.re*c.re + c.im*c.im);
+    double r = (re * c.re + im * c.im) * f;
+    double i = (im * c.re - re * c.im) * f;
+    return Complex(r, i);
 }
 
 Complex& Complex::operator += (const Complex &c)
@@ -107,10 +108,10 @@ Complex& Complex::operator *= (const Complex &c)
 Complex& Complex::operator /= (const Complex &c)
 {
     double f = 1.0/(c.re*c.re + c.im*c.im);
-    double r = re * c.re + im * c.im;
-    double i = re * c.im - im * c.re;
-    re = r*f;
-    im = -i*f;
+    double r = (re * c.re + im * c.im) * f;
+    double i = (im * c.re - re * c.im) * f;
+    re = r;
+    im = i;
     return *this;
 }
 
@@ -122,7 +123,7 @@ Complex Complex::c_sqr()
 {
     double r = re * re - im * im;
     double i = 2 * re * im;
-    return Complex(r,i);
+    return Complex(r, i);
 }
 
 Complex Complex::c_sqrt()
@@ -131,7 +132,7 @@ Complex Complex::c_sqrt()
     double r = sqrt(0.5 * (m+re));
     double i = sqrt(0.5 * (m-re));
     if (im < 0) i = -i;
-    return Complex(r,i);
+    return Complex(r, i);
 }
 
 Complex Complex::c_exp()
@@ -148,15 +149,17 @@ Complex Complex::c_log()
     return Complex(log(m), p);
 }
 
-Complex Complex::c_pow(Complex c)
+Complex Complex::c_pow(const Complex &c)
 {
-    Complex t = c * c_log();
+    Complex t = c_log();
+    t = t * c;
     return t.c_exp();
 }
 
-Complex Complex::c_logn(Complex c)
+Complex Complex::c_logn(const Complex &c)
 {
-    return c_log()/c.c_log();
+    Complex t = c;
+    return c_log()/t.c_log();
 }
 
 Complex Complex::c_log10()

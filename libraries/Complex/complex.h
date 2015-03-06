@@ -1,7 +1,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
@@ -19,7 +19,7 @@
 
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.1.07"
+#define COMPLEX_LIB_VERSION "0.1.08"
 
 // five categories of functions can be switched per category
 // by (un)commenting next lines.
@@ -71,8 +71,8 @@ public:
     Complex c_exp();
     Complex c_log();
     Complex c_log10();
-    Complex c_pow(Complex);
-    Complex c_logn(Complex);
+    Complex c_pow(const Complex &);
+    Complex c_logn(const Complex &);
 #endif
 
 #ifdef COMPLEX_GONIO_1

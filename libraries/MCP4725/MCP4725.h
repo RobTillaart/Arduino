@@ -4,7 +4,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.04
+// VERSION: 0.1.05
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "1.0.04"
+#define MCP4725_VERSION         "0.1.05"
 
 // regisiterMode
 #define MCP4725_DAC             0x40
@@ -52,16 +52,16 @@
 class MCP4725
 {
 public:
-    MCP4725(uint8_t deviceAddress);
+    MCP4725(const uint8_t deviceAddress);
 
     void begin();
     // uses writeFastMode
-    int setValue(uint16_t value);
+    int setValue(const uint16_t value);
     // returns last value set - cached - much faster than readDAC();
     uint16_t getValue();
 
 #ifdef MCP4725_EXTENDED
-    int writeDAC(uint16_t value, bool EEPROM = false);
+    int writeDAC(const uint16_t value, const bool EEPROM = false);
     bool RDY();
     uint16_t readDAC();
     uint16_t readEEPROM();
@@ -69,7 +69,7 @@ public:
 
 #ifdef MCP4725_POWERDOWNMODE
     // experimental
-    int writePowerDownMode(uint8_t PDM, bool EEPROM = false);
+    int writePowerDownMode(const uint8_t PDM, const bool EEPROM = false);
     uint8_t readPowerDownModeEEPROM();
     uint8_t readPowerDownModeDAC();
     int powerOnReset();
@@ -80,15 +80,15 @@ private:
     uint8_t _deviceAddress;
     uint16_t _lastValue;
     uint8_t _powerDownMode;      // DATASHEET P15?
-    int writeFastMode(uint16_t value);
+    int writeFastMode(const uint16_t value);
 
 #ifdef MCP4725_EXTENDED
-    int writeRegisterMode(uint16_t value, uint8_t reg);
-    uint8_t readRegister(uint8_t* buffer, uint8_t length);
+    int writeRegisterMode(const uint16_t value, const uint8_t reg);
+    uint8_t readRegister(uint8_t* buffer, const uint8_t length);
 #endif
 
 #ifdef MCP4725_POWERDOWNMODE
-    int generalCall(uint8_t gc);
+    int generalCall(const uint8_t gc);
 #endif
 
 };

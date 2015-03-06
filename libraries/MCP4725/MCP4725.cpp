@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 1.0.04
+// VERSION: 0.1.05
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -12,15 +12,16 @@
 // 0.1.02 - 2013-12-01 added readEEPROM() & RDY()
 // 0.1.03 - 2013-12-01 added powerDownMode code
 // 0.1.04 - 2013-12-04 improved the generalCall code (still experimental)
+// 0.1.05 - 2015-03-06 refactoring, stricter interfaces
 //
 // Released to the public domain
 //
 
 #include "MCP4725.h"
 
-MCP4725::MCP4725(uint8_t device)
+MCP4725::MCP4725(const uint8_t deviceAddress)
 {
-    _deviceAddress = device;
+    _deviceAddress = deviceAddress;
     _lastValue = 0;
     _powerDownMode = 0;
 }
@@ -46,7 +47,7 @@ void MCP4725::begin()
     #endif
 }
 
-int MCP4725::setValue(uint16_t value)
+int MCP4725::setValue(const uint16_t value)
 {
     if (value == _lastValue) return 0;
     if (value > MCP4725_MAXVALUE) return MCP4725_VALUE_ERROR;
@@ -64,7 +65,7 @@ uint16_t MCP4725::getValue()
 
 // unfortunately it is not possible to write a different value
 // to the DAC and EEPROM simultaneously or write EEPROM only.
-int MCP4725::writeDAC(uint16_t value, bool EEPROM)
+int MCP4725::writeDAC(const uint16_t value, const bool EEPROM)
 {
     if (value > MCP4725_MAXVALUE) return MCP4725_VALUE_ERROR;
     while(!RDY());
@@ -101,7 +102,7 @@ uint16_t MCP4725::readEEPROM()
 // depending on bool EEPROM the value of PDM is written to
 // (false) DAC or
 // (true) DAC & EEPROM,
-int MCP4725::writePowerDownMode(uint8_t PDM, bool EEPROM)
+int MCP4725::writePowerDownMode(const uint8_t PDM, const bool EEPROM)
 {
     _powerDownMode = (PDM & 0x03); // mask pdm bits only
     return writeDAC(_lastValue, EEPROM);
@@ -152,7 +153,7 @@ int MCP4725::powerOnWakeUp()
 //
 
 // PAGE 18 DATASHEET
-int MCP4725::writeFastMode(uint16_t value)
+int MCP4725::writeFastMode(const uint16_t value)
 {
     Wire.beginTransmission(_deviceAddress);
     uint8_t h = ((value / 256) & 0x0F);  // set C0 = C1 = 0, no PDmode
@@ -181,7 +182,7 @@ bool MCP4725::RDY()
 
 // PAGE 19 DATASHEET
 // reg = MCP4725_DAC | MCP4725_EEPROM
-int MCP4725::writeRegisterMode(uint16_t value, uint8_t reg)
+int MCP4725::writeRegisterMode(const uint16_t value, const uint8_t reg)
 {
     uint8_t h = (value / 16);
     uint8_t l = (value & 0x0F) << 4;
@@ -201,7 +202,7 @@ int MCP4725::writeRegisterMode(uint16_t value, uint8_t reg)
 
 // PAGE 20 DATASHEET
 // typical 3 or 5 bytes
-uint8_t MCP4725::readRegister(uint8_t* buffer, uint8_t length)
+uint8_t MCP4725::readRegister(uint8_t* buffer, const uint8_t length)
 {
     Wire.beginTransmission(_deviceAddress);
     int rv = Wire.endTransmission();
@@ -223,7 +224,7 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, uint8_t length)
 #endif
 
 #ifdef MCP4725_POWERDOWNMODE
-int MCP4725::generalCall(uint8_t gc)
+int MCP4725::generalCall(const uint8_t gc)
 {
     Wire.beginTransmission(0);
 #if defined(ARDUINO) && ARDUINO >= 100

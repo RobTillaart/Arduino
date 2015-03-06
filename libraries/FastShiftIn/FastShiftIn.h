@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: shiftin
 //    DATE: 2013-09-29
 //     URL:
@@ -13,27 +13,29 @@
 #define FastShiftIn_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
+#include "Arduino.h"
 #else
-  #include "WProgram.h"
+#include "WProgram.h"
 #endif
 
-#define FASTSHIFTIN_LIB_VERSION "0.1.00"
+#define FASTSHIFTIN_LIB_VERSION "0.1.01"
+
+#define FASTSHIFTIN_NOVALUE -1
 
 class FastShiftIn
 {
-  public:
-	FastShiftIn(uint8_t, uint8_t, uint8_t);
+public:
+    FastShiftIn(const uint8_t, const uint8_t, const uint8_t);
     int read(void);
 
-  private:
+private:
     uint8_t _bitorder;
     int _value;
-    
-	uint8_t _databit;
+
+    uint8_t _databit;
     volatile uint8_t *_datain;
-    
-	uint8_t _clockbit;
+
+    uint8_t _clockbit;
     volatile uint8_t *_clockin;
 };
 

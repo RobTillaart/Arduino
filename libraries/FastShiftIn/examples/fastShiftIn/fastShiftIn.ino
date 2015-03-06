@@ -1,7 +1,7 @@
 //
 //    FILE: fastShiftIn.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: test sketch
 //     URL:
 //
@@ -25,43 +25,51 @@ void setup()
 
   Serial.println("\nPerformance - time in us"); 
   uint32_t start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     x = FSI.read();
   }
-  uint32_t duration = micros() - start;
+  uint32_t duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration/100.0, 1);
+  Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     x = FSI.read();
     x = FSI.read();
   }
-  duration = micros() - start;
+  uint32_t duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration/100.0, 1);
+  Serial.println(duration2 * 0.001);
+  Serial.print("       Delta: ");
+  Serial.println((duration2-duration1)* 0.001);
+  Serial.println();
 
 
   start = micros();
-  for (int i=0; i<10000; i++)
+  for (int i=0; i<1000; i++)
   {
     x = shiftIn(12, 13, LSBFIRST);
   }
-  duration = micros() - start;
+  duration1 = micros() - start;
   Serial.print("Standard shiftIn1: ");
-  Serial.println(duration/10.0, 1);
+  Serial.println(duration1* 0.001);
 
   start = micros();
-  for (int i=0; i<10000; i++)
+  for (int i=0; i<1000; i++)
   {
     x = shiftIn(12, 13, LSBFIRST);
     x = shiftIn(12, 13, LSBFIRST);
   }
-  duration = micros() - start;
+  duration2 = micros() - start;
   Serial.print("Standard shiftIn2: ");
-  Serial.println(duration/10.0, 1);
+  Serial.println(duration2 * 0.001);
+  Serial.print("            Delta: ");
+  Serial.println((duration2-duration1) * 0.001);
+  Serial.println();
+
+  Serial.println("done...");
 }
 
 void loop()

@@ -1,7 +1,7 @@
 //
 //    FILE: fastShiftOut.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: test sketch
 //     URL:
 //
@@ -20,44 +20,48 @@ void setup()
 
   Serial.println("\nPerformance - time in us"); 
   uint32_t start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     FSO.write(0x55);
   }
-  uint32_t duration = micros() - start;
+  uint32_t duration1 = micros() - start;
   Serial.print("FastShiftOut1: ");
-  Serial.println(duration/100.0, 1);
+  Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     FSO.write(0x55);
     FSO.write(0x55);
   }
-  duration = micros() - start;
+  uint32_t duration2 = micros() - start;
   Serial.print("FastShiftOut2: ");
-  Serial.println(duration/100.0, 1);
-
+  Serial.println(duration2 * 0.001);
+  Serial.print("        Delta: ");
+  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println();
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     shiftOut(12, 13, 0x55, LSBFIRST);
   }
-  duration = micros() - start;
+  duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
-  Serial.println(duration/100.0, 1);
+  Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i=0; i<1000; i++)
   {
     shiftOut(12, 13, 0x55, LSBFIRST);
     shiftOut(12, 13, 0x55, LSBFIRST);
   }
-  duration = micros() - start;
+  duration2 = micros() - start;
   Serial.print("Standard shiftOut2: ");
-  Serial.println(duration/100.0, 1);
-
+  Serial.println(duration2 * 0.001);
+  Serial.print("             Delta: ");
+  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println();
 
   Serial.println("\nTest print interface");
   start = micros();
@@ -65,9 +69,9 @@ void setup()
   {
     FSO.println("Hello world");
   }
-  duration = micros() - start;
-  Serial.print("println(\"Hello world\"): ");
-  Serial.println(duration/100.0, 1);
+  duration1 = micros() - start;
+  Serial.print("println(\"Hello world\"): \t");
+  Serial.println(duration1 * 0.01);
 
 
   start = micros();
@@ -75,9 +79,9 @@ void setup()
   {
     FSO.println(1357);
   }
-  duration = micros() - start;
-  Serial.print("println(1357): ");
-  Serial.println(duration/100.0, 1);
+  duration1 = micros() - start;
+  Serial.print("println(1357): \t\t\t");
+  Serial.println(duration1 * 0.01);
 
 
   start = micros();
@@ -85,15 +89,14 @@ void setup()
   {
     FSO.println(3.14159265, 4);
   }
-  duration = micros() - start;
-  Serial.print("println(3.14159265, 4): ");
-  Serial.println(duration/100.0, 1);
+  duration1 = micros() - start;
+  Serial.print("println(3.14159265, 4): \t");
+  Serial.println(duration1 * 0.01);
 
-  Serial.println("\ndone");
+  Serial.println("\ndone ...");
 }
 
 void loop()
 {
 }
-
 

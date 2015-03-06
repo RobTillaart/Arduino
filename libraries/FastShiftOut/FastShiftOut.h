@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
 //     URL:
@@ -13,30 +13,30 @@
 #define FastShiftOut_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
+#include "Arduino.h"
 #else
-  #include "WProgram.h"
+#include "WProgram.h"
 #endif
 
-#define FASTSHIFTOUT_LIB_VERSION "0.1.03"
+#define FASTSHIFTOUT_LIB_VERSION (F("0.1.04"))
 
 #include "Print.h"
 
 class FastShiftOut : public Print
 {
-  public:
-	FastShiftOut(uint8_t, uint8_t, uint8_t);
-    size_t write(uint8_t);
+public:
+    FastShiftOut(const uint8_t, const uint8_t, const uint8_t);
+    size_t write(const uint8_t);
     int read(void);
 
-  private:
+private:
     uint8_t _bitorder;
     int _value;
-    
-	uint8_t _databit;
+
+    uint8_t _databit;
     volatile uint8_t *_dataout;
-    
-	uint8_t _clockbit;
+
+    uint8_t _clockbit;
     volatile uint8_t *_clockout;
 };
 

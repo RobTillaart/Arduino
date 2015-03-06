@@ -20,27 +20,27 @@
 #include "WProgram.h"
 #endif
 
-#define HISTOGRAM_LIB_VERSION "0.1.03"
+#define HISTOGRAM_LIB_VERSION "0.1.04"
 
 class Histogram
 {
 public:
-    Histogram(int len, double *bounds);
+    Histogram(const uint8_t len, double *bounds);
     ~Histogram();
 
     void clear();
-    void add(double val);
-    void sub(double val);
+    void add(const double val);
+    void sub(const double val);
 
     uint8_t size();
     unsigned long count();
-    long bucket(uint8_t idx);
+    long bucket(const uint8_t idx);
 
-    double frequency(uint8_t idx);
-    double PMF(double val);
-    double CDF(double val);
-    double VAL(double prob);
-    uint8_t find(double f);
+    double frequency(const uint8_t idx);
+    double PMF(const double val);
+    double CDF(const double val);
+    double VAL(const double prob);
+    uint8_t find(const double f);
     // void strategy();
 
 protected:

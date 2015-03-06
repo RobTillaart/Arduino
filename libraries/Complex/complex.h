@@ -1,7 +1,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: see COMPLEX_LIB_VERSION
+// VERSION: 0.1.07
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
@@ -19,7 +19,7 @@
 
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.1.05"
+#define COMPLEX_LIB_VERSION "0.1.07"
 
 // five categories of functions can be switched per category
 // by (un)commenting next lines.
@@ -33,37 +33,37 @@
 class Complex: public Printable 
 {
 public:
-    Complex(double, double);
-    Complex(const Complex &);
-    Complex(double);
+    Complex(double r, double i) : re(r), im(i) {};
+    Complex(const Complex &c)   : re(c.re), im(c.im) {};
+    Complex(double d)           : re(d), im(0) {};
+
+    void set(double r, double i ) { re = r; im = i; };
+    double real() { return re; };
+    double imag() { return im; };
 
     size_t printTo(Print& p) const;
-    
-    void set(double, double);
-    double real();
-    double imag();
 
-    void polar(double, double);
-    double phase();
-    double modulus();
-
-    Complex conjugate();
+    void polar(const double, const double);
+    double phase()      { return atan2(im, re); };
+    double modulus()    { return hypot(re, im); };
+    // conjugate is the number mirrored in x-axis
+    Complex conjugate() { return Complex(re,-im); };
     Complex reciprocal();
 
-    bool operator == (Complex);
-    bool operator != (Complex);
+    bool operator == (const Complex&);
+    bool operator != (const Complex&);
 
     Complex operator - (); // negation
 
-    Complex operator + (Complex);
-    Complex operator - (Complex);
-    Complex operator * (Complex);
-    Complex operator / (Complex);
+    Complex operator + (const Complex&);
+    Complex operator - (const Complex&);
+    Complex operator * (const Complex&);
+    Complex operator / (const Complex&);
 
-    void operator += (Complex);
-    void operator -= (Complex);
-    void operator *= (Complex);
-    void operator /= (Complex);
+    Complex& operator += (const Complex&);
+    Complex& operator -= (const Complex&);
+    Complex& operator *= (const Complex&);
+    Complex& operator /= (const Complex&);
 
 #ifdef COMPLEX_EXTENDED
     Complex c_sqrt();
@@ -111,15 +111,15 @@ public:
     Complex c_acoth();
 #endif
 
-private:
+protected:
     double re;
     double im;
-    
-    Complex gonioHelper1(int);
-    Complex gonioHelper2(int);
+
+    Complex gonioHelper1(const byte);
+    Complex gonioHelper2(const byte);
 };
 
-static Complex one(1,0);
+static Complex one(1, 0);
 
 #endif
 // --- END OF FILE ---

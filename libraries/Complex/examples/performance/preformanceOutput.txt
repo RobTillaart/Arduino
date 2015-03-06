@@ -1,0 +1,67 @@
+
+  Complex numbers performance test for Arduino: 0.1.07
+
+5 constructors	8
+set(0,0)	4
+c1 + 1  	2580
+c1 + c2		2392
++= c2		2104
+c5 = -c1	760
+c1 - 3		2464
+c1 - c2		2296
+c5 -= c2	1976
+c1 * 3		5700
+c1 * c2		5560
+c5 *= c2	5152
+c1 / 3		13864
+c1 / c2		13724
+c5 /= c2	12248
+
+real()		4
+imag()		4
+modulus()	68
+phase		204
+polar()		24476
+conjugate()	4
+reciprocal();	8572
+
+c_sqr()		5092
+c_exp()		43100
+c_log()		40144
+c_pow(2)	89248
+c_sqrt()	8616
+c_logn(c4)	70780
+c_pow(c5)	62192
+c_log10()	38220
+
+c_sin()		51772
+c_asin()	76844
+c_cos()		51860
+c_acos()	75248
+c_tan()		118520
+c_atan()	69332
+
+c_csc()		66048
+c_acsc()	85060
+c_sec()		66292
+c_asec()	90756
+c_cot()		132736
+c_acot()	77304
+
+c_sinh()	51764
+c_asinh()	66212
+c_cosh()	51860
+c_acosh()	64388
+c_tanh()	118524
+c_atanh()	92468
+
+c_csch()	66140
+c_acsch()	70128
+c_sech()	66292
+c_asech()	81692
+c_coth()	132664
+c_acoth()	100032
+
+2308648
+
+.. Complex done

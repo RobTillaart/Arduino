@@ -13,31 +13,35 @@
 
 #if defined(ARDUINO) && ARDUINO >= 100
   #include "Arduino.h"
-  #include "SoftwareSerial.h"
 #else
   #include "WProgram.h"
-  #include "NewSoftSerial.h"
 #endif
 
-#define RADAR_LIB_VERSION "0.1.00"
+#define RADAR_LIB_VERSION "0.1.01"
 
-#define PAN_PER_SEC     20      // TODO determine emperically
-#define TILT_PER_SEC    10      // TODO determine emperically
+#define PAN_PER_SEC     25      // TODO determine emperically
+#define TILT_PER_SEC    25      // TODO determine emperically
 
 class RADAR
 {
   public:
-    RADAR(int, int);
+    RADAR(uint8_t, uint8_t);
 
-    void setPan(int pan);
-    int getPan();
-    void setTilt(int tilt);
-    int getTilt();
+    void gotoPan(int pan);
+    int  getPan();
+    void gotoTilt(int tilt);
+    int  getTilt();
+    void gotoPanTilt(int pan, int tilt);
 
+    // memory positions
+    void setPosition(uint8_t idx, int pan, int tilt);
+    bool getPosition(uint8_t idx, int *pan, int *tilt);
+    bool gotoPosition(uint8_t idx);
     void setHomePosition(int pan, int tilt);
-    void home();
+    void gotoHomePosition();
 
-    bool ready();
+    // 
+    bool isMoving();
 
     unsigned long ping();
     unsigned long ping(int pan, int tilt);
@@ -49,12 +53,15 @@ class RADAR
     int _prevPan;
     int _pan;
     int _homePan;
-    unsigned long _lastPanTime 
+    unsigned long _lastPanTime;
     
     int _prevTilt;
     int _tilt;
     int _homeTilt;
-    unsigned long _lastTiltTime 
+    unsigned long _lastTiltTime;
+    
+    int _parray[10];
+    int _tarry[10];
 };
 
 #endif

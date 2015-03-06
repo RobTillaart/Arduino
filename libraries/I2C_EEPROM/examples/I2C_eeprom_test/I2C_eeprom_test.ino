@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: show/test I2C_EEPROM library
 //
 
@@ -15,7 +15,7 @@
 
 I2C_eeprom ee(0x50);
 
-uint32_t totals = 0;
+uint32_t start, diff, totals = 0;
 
 void setup() 
 {
@@ -27,6 +27,27 @@ void setup()
   SERIAL_OUT.print("Demo I2C eeprom library ");
   SERIAL_OUT.print(I2C_EEPROM_VERSION);
   SERIAL_OUT.println("\n");
+
+  SERIAL_OUT.println("\nTEST: determine size");
+  start = micros();
+  int size = ee.determineSize();
+  diff = micros() - start;
+  SERIAL_OUT.print("TIME: ");
+  SERIAL_OUT.println(diff);
+  if (size > 0)
+  {
+    SERIAL_OUT.print("SIZE: ");
+    SERIAL_OUT.print(size);
+    SERIAL_OUT.println(" KB");
+  } else if (size = 0)
+  {
+    SERIAL_OUT.println("WARNING: Can't determine eeprom size");
+  }
+  else
+  {
+    SERIAL_OUT.println("ERROR: Can't find eeprom\nstopped...");
+    while(1);
+  }
 
   SERIAL_OUT.println("\nTEST: 64 byte page boundary writeBlock");
   ee.setBlock(0, 0, 128);
@@ -164,16 +185,6 @@ void setup()
 
   // does it go well?
   SERIAL_OUT.println(xx);
-
-  SERIAL_OUT.println("\nTEST: determine size");
-  start = micros();
-  int size = ee.determineSize();
-  diff = micros() - start;  
-  SERIAL_OUT.print("TIME: ");
-  SERIAL_OUT.println(diff);
-  SERIAL_OUT.print("SIZE: ");
-  SERIAL_OUT.print(size);
-  SERIAL_OUT.println(" KB");
 
   SERIAL_OUT.println("\tDone...");
 }

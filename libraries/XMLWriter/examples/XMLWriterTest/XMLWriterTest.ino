@@ -20,7 +20,7 @@ void setup()
   Serial.begin(115200);
 
   XML.header();
-  XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", MULTILINE); // MULTILINE == true.
+  XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
 
   XML.tagOpen("Arduino", "42");
 
@@ -32,6 +32,7 @@ void setup()
 
   Weather();
   Weather2();
+  DataTypes();
 
   XML.tagClose();
 }
@@ -85,8 +86,33 @@ void DigitalPorts()
   XML.tagClose();
 }
 
+void DataTypes()
+{
+  XML.comment("Testing dataTypes I");
+  XML.tagOpen("Datatypes");
+  XML.writeNode("Bool", 1 == 1);
+  XML.writeNode("Bool", 1 == 0);
+  XML.writeNode("BIN", 42, BIN);
+  XML.writeNode("DEC", 42, DEC);
+  XML.writeNode("HEX", 42, HEX);
+  XML.writeNode("OCT", 42, OCT);
+  XML.tagClose();
+  
+  XML.comment("Testing dataTypes II");
+  for (int i=0; i<3; i++)
+  {
+    XML.tagStart("dataTypes");
+    XML.tagField("Bool", 1 == 1);
+    XML.tagField("Bool", 1 == 0);
+    int x = analogRead(A0);
+    XML.tagField("BIN", x, BIN);
+    XML.tagField("DEC", x, DEC);
+    XML.tagField("HEX", x, HEX);
+    XML.tagField("OCT", x, OCT);
+    XML.tagEnd();
+  }
+}
+
 void loop()
 {
 }
-
-

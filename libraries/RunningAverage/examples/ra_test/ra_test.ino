@@ -1,6 +1,7 @@
 //
 //    FILE: runningAverageTest.pde
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.01
 //    DATE: 2012-12-30
 //
 // PUPROSE: show working of runningAverage
@@ -25,13 +26,15 @@ void loop(void)
   long rn = random(0, 1000);
   myRA.addValue(rn * 0.001);
   samples++;
-  Serial.print("Running Average: ");
+  Serial.print(samples);
+  Serial.print("\t Running Average: ");
   Serial.println(myRA.getAverage(), 3);
   
   if (samples == 300)
   {
     samples = 0;
     myRA.clear();
+    Serial.println();
   }
-  delay(100);
+  delay(10);
 }

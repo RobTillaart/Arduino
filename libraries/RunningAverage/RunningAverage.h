@@ -1,8 +1,8 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.05
-//    DATE: 2014-dec-16
+// VERSION: 0.2.06
+//    DATE: 2015-mar-07
 // PURPOSE: RunningAverage library for Arduino
 //     URL: http://arduino.cc/playground/Main/RunningAverage
 // HISTORY: See RunningAverage.cpp
@@ -17,7 +17,7 @@
 #ifndef RunningAverage_h
 #define RunningAverage_h
 
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.05"
+#define RUNNINGAVERAGE_LIB_VERSION "0.2.06"
 
 #include "Arduino.h"
 
@@ -25,12 +25,12 @@ class RunningAverage
 {
 public:
     RunningAverage(void);
-    RunningAverage(int);
+    RunningAverage(uint8_t);
     ~RunningAverage();
 
     void clear();
     void addValue(double);
-    void fillValue(double, int);
+    void fillValue(double, uint8_t);
 
     double getAverage();
 

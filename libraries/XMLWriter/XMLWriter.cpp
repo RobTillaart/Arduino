@@ -175,21 +175,12 @@ void XMLWriter::writeNode(char* tag, uint8_t value, uint8_t base)
 }
 
 void XMLWriter::writeNode(char* tag, uint16_t value, uint8_t base)
-<<<<<<< HEAD
 {
     writeNode(tag, (uint32_t) value, base);
 }
 
 void XMLWriter::writeNode(char* tag, uint32_t value, uint8_t base)
 {
-=======
-{
-    writeNode(tag, (uint32_t) value, base);
-}
-
-void XMLWriter::writeNode(char* tag, uint32_t value, uint8_t base)
-{
->>>>>>> 35b6713f81bd68c64c2fc4ee7a9607716e0769ba
     tagOpen(tag, "", NONEWLINE);
     _stream->print(value, base);
     tagClose(NOINDENT);

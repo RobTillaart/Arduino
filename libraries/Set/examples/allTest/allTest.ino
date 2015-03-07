@@ -186,6 +186,16 @@ void timingTest()
     }
     stop = micros();
     Serial.println(stop-start); 
+    
+    Serial.print("last + prev until -1 :\t");
+    start = micros();
+    n = setA.last();
+    while (n != -1)
+    {
+        n = setA.prev();
+    }
+    stop = micros();
+    Serial.println(stop-start); 
     Serial.println();
     
     Serial.println();

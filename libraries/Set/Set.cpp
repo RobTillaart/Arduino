@@ -1,11 +1,12 @@
 //
 //    FILE: Set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.07 faster first/next/last/prev; interface
 // 0.1.06 added flag to constructor to optimize +,-,*,
 //        set -> Set
 // 0.1.05 bug fixing + performance a.o. count()
@@ -32,7 +33,7 @@ Set::Set(bool clear)
     }
 }
 
-Set::Set(Set &t)
+Set::Set(const Set &t)
 {
     for (uint8_t i=0; i<32; i++)
     {
@@ -72,7 +73,6 @@ bool Set::has(uint8_t v)
     return (_mem[idx] & mask) > 0;
 }
 
-// TODO OPTIMIZE COUNT
 uint8_t Set::count()
 {
     uint8_t cnt = 0;
@@ -80,9 +80,12 @@ uint8_t Set::count()
     {
         // kerningham bit count trick
         uint8_t b = _mem[i];
+        if (b!=0)
+        {
         for (; b; cnt++)
         {
             b &= b-1;
+        }
         }
     }
     return cnt;
@@ -106,31 +109,37 @@ void Set::invert()
 
 int Set::first()
 {
-    for (int i = 0; i < 256; i++)
-    {
-        if (has(i))
-        {
-            _current = i;
-            return _current;
-        }
-    }
-    _current = -1;
-    return _current;
+    return findNext(0,0);
 }
 
 int Set::next()
 {
-    if (_current != -1)
+    if (_current & 0x8000) return -1;
+    _current++;
+    uint8_t p = (uint8_t)_current / 8;
+    uint8_t q = (uint8_t)_current & 7;
+    return findNext(p, q);
+}
+
+int Set::findNext(uint8_t p, uint8_t q)
+{
+    for (uint8_t i=p; i<32; i++)
     {
-        _current++;
-        for (int i = _current; i < 256; i++)
+        uint8_t b = _mem[i];
+        if (b != 0)
         {
-            if (has(i))
+            uint8_t mask = 1<<q;
+            for (uint8_t j=q; j<8; j++)
             {
-                _current = i;
-                return _current;
+                if (b & mask)
+                {
+                    _current = i*8 + j;
+                    return _current;
+                }
+                mask <<= 1;
             }
         }
+        q = 0;
     }
     _current = -1;
     return _current;
@@ -138,33 +147,41 @@ int Set::next()
 
 int Set::prev()
 {
-    if (_current != -1)
-    {
-        _current--;
-        for (int i = _current; i > -1; --i)
-        {
-            if (has(i))
-            {
-                _current = i;
-                return _current;
-            }
-        }
-    }
-    _current = -1;
-    return _current;
+    if (_current & 0x8000) return -1;
+    _current--;
+    uint8_t p = (uint8_t)_current / 8;
+    uint8_t q = (uint8_t)_current & 7;
+    return findPrev(p, q);
 }
 
 int Set::last()
 {
-    _current = -1;
-    for (int i = 255; i >=0; --i)
+    return findPrev(31, 7);
+}
+
+int Set::findPrev(uint8_t p, uint8_t q)
+{
+    uint8_t m = 1 << q;
+    for (uint8_t i=p; i!=255; --i)
     {
-        if (has(i))
+        uint8_t b = _mem[i];
+        if (b != 0)
         {
-            _current = i;
-            break;
+            uint8_t mask = m;
+            for (uint8_t j=q; j!=255; --j)
+            {
+                if (b & mask)
+                {
+                    _current = i*8 + j;
+                    return _current;
+                }
+                mask >>= 1;
+            }
         }
+        m = 1<<7;
+        q = 7;
     }
+    _current = -1;
     return _current;
 }
 

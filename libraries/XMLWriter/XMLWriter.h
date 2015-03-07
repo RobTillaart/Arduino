@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -11,24 +11,24 @@
 //
 
 #include "Arduino.h"
-// TODO pre 1.0 support ?
+// no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.01"
+#define XMLWRITER_VERSION "0.1.03"
 
 // for comment()
-#define MULTILINE true
+#define MULTILINE   true
 
 // for tagOpen(), tagEnd()
-#define NEWLINE true
-#define NONEWLINE false
-#define NOINDENT false    // for tagClose()
+#define NEWLINE     true
+#define NONEWLINE   false
+#define NOINDENT    false    // for tagClose()
 
 // for tagEnd()
-#define SLASH true
-#define NOSLASH false
+#define SLASH       true
+#define NOSLASH     false
 
 // deepness of XML tree 5..10
-// needed for stack of tagnames
+// needed for stack of tagStack
 #define XMLWRITER_MAXLEVEL 5
 
 // reduce footprint by not using all
@@ -71,12 +71,22 @@ public:
     void setIndentSize(uint8_t size); 
 
 #ifdef XMLWRITER_EXTENDED
-    void tagField(char* field, int value);
-    void tagField(char* field, long value);
-    void tagField(char* field, double value, uint8_t decimals=2);
+    void tagField(char* field, uint8_t  value, uint8_t base=DEC);
+    void tagField(char* field, uint16_t value, uint8_t base=DEC);
+    void tagField(char* field, uint32_t value, uint8_t base=DEC);
+    void tagField(char* field, int8_t   value, uint8_t base=DEC);
+    void tagField(char* field, int16_t  value, uint8_t base=DEC);
+    void tagField(char* field, int32_t  value, uint8_t base=DEC);
+    void tagField(char *field, bool     value);
+    void tagField(char* field, double   value, uint8_t decimals=2);
 
-    void writeNode(char* tag, int value);
-    void writeNode(char* tag, long value);
+    void writeNode(char* tag, uint8_t   value, uint8_t base=DEC);
+    void writeNode(char* tag, uint16_t  value, uint8_t base=DEC);
+    void writeNode(char* tag, uint32_t  value, uint8_t base=DEC);
+    void writeNode(char* tag, int8_t    value, uint8_t base=DEC);
+    void writeNode(char* tag, int16_t   value, uint8_t base=DEC);
+    void writeNode(char* tag, int32_t   value, uint8_t base=DEC);
+    void writeNode(char* tag, bool      value);
     void writeNode(char* tag, double value, uint8_t decimals=2);
 #endif
 
@@ -98,7 +108,7 @@ private:
     // stack - used to remember the current tagname to create 
     // automatic the right close tag.
     uint8_t _idx;
-    char tagNames[XMLWRITER_MAXLEVEL][11];
+    char tagStack[XMLWRITER_MAXLEVEL][11];
 };
 
 #endif

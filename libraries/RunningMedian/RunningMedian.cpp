@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.08
+// VERSION: 0.1.10
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -14,6 +14,8 @@
 // 0.1.06 - 2013-10-19 faster sort, dynamic arrays, replaced sorted float array with indirection array
 // 0.1.07 - 2013-10-19 add correct median if _cnt is even.
 // 0.1.08 - 2013-10-20 add getElement(), add getSottedElement() add predict()
+// 0.1.09 - 2014-11-25 float to double (support ARM)
+// 0.1.10 - 2015-03-07 fix clear
 //
 // Released to the public domain
 //
@@ -25,7 +27,7 @@ RunningMedian::RunningMedian(uint8_t size)
     _size = constrain(size, MEDIAN_MIN_SIZE, MEDIAN_MAX_SIZE);
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
-    _ar = (float *) malloc(_size * sizeof(float));
+    _ar = (double *) malloc(_size * sizeof(double));
     _p = (uint8_t *) malloc(_size * sizeof(uint8_t));
 #endif
 
@@ -47,12 +49,12 @@ void RunningMedian::clear()
     _idx = 0;
     _sorted = false;
 
-    for (uint8_t i=0; i< _size; i++) _p[i] = i;
+    for (uint8_t i=0; i< _size; i++) _p[i] = 0;
 }
 
 // adds a new value to the data-set
 // or overwrites the oldest if full.
-void RunningMedian::add(float value)
+void RunningMedian::add(double value)
 {
     _ar[_idx++] = value;
     if (_idx >= _size) _idx = 0; // wrap around
@@ -60,34 +62,34 @@ void RunningMedian::add(float value)
     _sorted = false;
 }
 
-float RunningMedian::getMedian()
+double RunningMedian::getMedian()
 {
     if (_cnt > 0)
     {
         if (_sorted == false) sort();
         if (_cnt & 0x01) return _ar[_p[_cnt/2]];
-        else return (_ar[_p[_cnt/2]] + _ar[_p[_cnt/2 - 1]]) / 2.0;
+        else return (_ar[_p[_cnt/2]] + _ar[_p[_cnt/2 - 1]]) / 2;
     }
     return NAN;
 }
 
 #ifdef RUNNING_MEDIAN_ALL
-float RunningMedian::getHighest() { return getSortedElement(_cnt-1); }
+double RunningMedian::getHighest() { return getSortedElement(_cnt-1); }
 
-float RunningMedian::getLowest() { return getSortedElement(0); }
+double RunningMedian::getLowest() { return getSortedElement(0); }
 
-float RunningMedian::getAverage()
+double RunningMedian::getAverage()
 {
     if (_cnt > 0)
-    {	
-        float sum = 0;
+    {
+        double sum = 0;
         for (uint8_t i=0; i< _cnt; i++) sum += _ar[i];
         return sum / _cnt;
     }
     return NAN;
 }
 
-float RunningMedian::getAverage(uint8_t nMedians)
+double RunningMedian::getAverage(uint8_t nMedians)
 {
     if ((_cnt > 0) && (nMedians > 0))
     {
@@ -96,15 +98,14 @@ float RunningMedian::getAverage(uint8_t nMedians)
         uint8_t stop = start + nMedians;
 
         if (_sorted == false) sort();
-
-        float sum = 0;
+        double sum = 0;
         for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];
         return sum / nMedians;
     }
     return NAN;
 }
 
-float RunningMedian::getElement(uint8_t n)
+double RunningMedian::getElement(uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt))
     {
@@ -113,7 +114,7 @@ float RunningMedian::getElement(uint8_t n)
     return NAN;
 }
 
-float RunningMedian::getSortedElement(uint8_t n)
+double RunningMedian::getSortedElement(uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt))
     {
@@ -123,28 +124,25 @@ float RunningMedian::getSortedElement(uint8_t n)
     return NAN;
 }
 
-float RunningMedian::predict(uint8_t n)
+// n can be max <= half the (filled) size
+double RunningMedian::predict(uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt/2))
     {
-        float med = getMedian();  // takes care of sorting !
+        double med = getMedian();  // takes care of sorting !
         if (_cnt & 0x01)
         {
             return max(med - _ar[_p[_cnt/2-n]], _ar[_p[_cnt/2+n]] - med);
         }
         else
         {
-            float f1 = (_ar[_p[_cnt/2 - n]] + _ar[_p[_cnt/2 - n - 1]])/2;
-            float f2 = (_ar[_p[_cnt/2 + n]] + _ar[_p[_cnt/2 + n - 1]])/2;
+            double f1 = (_ar[_p[_cnt/2 - n]] + _ar[_p[_cnt/2 - n - 1]])/2;
+            double f2 = (_ar[_p[_cnt/2 + n]] + _ar[_p[_cnt/2 + n - 1]])/2;
             return max(med - f1, f2 - med)/2;
         }
     }
     return NAN;
 }
-
-uint8_t RunningMedian::getSize() { return _size; };
-
-uint8_t RunningMedian::getCount() { return _cnt; };
 #endif
 
 void RunningMedian::sort()

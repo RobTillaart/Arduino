@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
 //
 // HISTORY:
+// 0.1.04 2015-03-09 replaced float -> double (ARM support)
 // 0.1.03 fixed negative temperature
 // 0.1.02 added offset
 // 0.1.01 refactored speed/performance

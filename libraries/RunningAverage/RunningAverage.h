@@ -1,8 +1,8 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.06
-//    DATE: 2015-mar-07
+// VERSION: 0.2.07
+//    DATE: 2015-mar-16
 // PURPOSE: RunningAverage library for Arduino
 //     URL: http://arduino.cc/playground/Main/RunningAverage
 // HISTORY: See RunningAverage.cpp
@@ -17,7 +17,7 @@
 #ifndef RunningAverage_h
 #define RunningAverage_h
 
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.06"
+#define RUNNINGAVERAGE_LIB_VERSION "0.2.07"
 
 #include "Arduino.h"
 
@@ -33,6 +33,8 @@ public:
     void fillValue(double, uint8_t);
 
     double getAverage();
+	double getMin();
+	double getMax();
 
     double getElement(uint8_t idx);
     uint8_t getSize() { return _size; }
@@ -44,6 +46,8 @@ protected:
     uint8_t _idx;
     double   _sum;
     double * _ar;
+	double _min;
+	double _max;
 };
 
 #endif

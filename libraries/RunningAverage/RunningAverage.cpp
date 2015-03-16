@@ -1,8 +1,8 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.06
-//    DATE: 2015-mar-07
+// VERSION: 0.2.07
+//    DATE: 2015-mar-16
 // PURPOSE: RunningAverage library for Arduino
 //
 // The library stores N individual values in a circular buffer,
@@ -19,6 +19,7 @@
 // 0.2.04 - 2014-07-03 added memory protection
 // 0.2.05 - 2014-12-16 changed float -> double
 // 0.2.06 - 2015-03-07 all size uint8_t
+// 0.2.07 - 2015-03-16 added getMin() and getMax() functions
 //
 // Released to the public domain
 //
@@ -32,6 +33,8 @@ RunningAverage::RunningAverage(uint8_t size)
     _ar = (double*) malloc(_size * sizeof(double));
     if (_ar == NULL) _size = 0;
     clear();
+	_min = NAN;
+	_max = NAN;
 }
 
 RunningAverage::~RunningAverage()
@@ -60,6 +63,9 @@ void RunningAverage::addValue(double value)
     _sum += _ar[_idx];
     _idx++;
     if (_idx == _size) _idx = 0;  // faster than %
+	if (f < _min) _min = f;
+	if (f > _max) _max = f;
+	if (_cnt == 0) _min = _max = f;
     if (_cnt < _size) _cnt++;
 }
 
@@ -68,6 +74,20 @@ double RunningAverage::getAverage()
 {
     if (_cnt == 0) return NAN;
     return _sum / _cnt;
+}
+
+// returns the lowest value added to the data-set
+double RunningAverage::getMin()
+{
+    if (_cnt == 0) return NAN;
+    return _min;
+}
+
+// returns the highest value added to the data-set
+double RunningAverage::getMax())
+{
+    if (_cnt == 0) return NAN;
+    return _max;
 }
 
 // returns the value of an element if exist, 0 otherwise

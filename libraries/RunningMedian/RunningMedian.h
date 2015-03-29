@@ -2,7 +2,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.1.10
+// VERSION: 0.1.11 
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
 //
@@ -20,7 +20,7 @@
 
 #include <inttypes.h>
 
-#define RUNNING_MEDIAN_VERSION "0.1.10"
+#define RUNNING_MEDIAN_VERSION "0.1.11"
 
 // prepare for dynamic version
 // not tested use at own risk :)

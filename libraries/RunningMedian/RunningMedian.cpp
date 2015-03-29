@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -16,6 +16,7 @@
 // 0.1.08 - 2013-10-20 add getElement(), add getSottedElement() add predict()
 // 0.1.09 - 2014-11-25 float to double (support ARM)
 // 0.1.10 - 2015-03-07 fix clear
+// 0.1.11 - 2015-03-29 undo 0.1.10 fix clear
 //
 // Released to the public domain
 //
@@ -48,8 +49,7 @@ void RunningMedian::clear()
     _cnt = 0;
     _idx = 0;
     _sorted = false;
-
-    for (uint8_t i=0; i< _size; i++) _p[i] = 0;
+    for (uint8_t i = 0; i< _size; i++) _p[i] = i;
 }
 
 // adds a new value to the data-set
@@ -148,10 +148,10 @@ double RunningMedian::predict(uint8_t n)
 void RunningMedian::sort()
 {
     // bubble sort with flag
-    for (uint8_t i=0; i< _cnt-1; i++)
+    for (uint8_t i = 0; i < _cnt-1; i++)
     {
         bool flag = true;
-        for (uint8_t j=1; j< _cnt-i; j++)
+        for (uint8_t j = 1; j < _cnt-i; j++)
         {
             if (_ar[_p[j-1]] > _ar[_p[j]])
             {
@@ -163,7 +163,6 @@ void RunningMedian::sort()
         }
         if (flag) break;
     }
-
     _sorted = true;
 }
 

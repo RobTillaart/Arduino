@@ -63,9 +63,9 @@ void RunningAverage::addValue(double value)
     _sum += _ar[_idx];
     _idx++;
     if (_idx == _size) _idx = 0;  // faster than %
+	if (_cnt == 0) _min = _max = f;
 	if (f < _min) _min = f;
 	if (f > _max) _max = f;
-	if (_cnt == 0) _min = _max = f;
     if (_cnt < _size) _cnt++;
 }
 

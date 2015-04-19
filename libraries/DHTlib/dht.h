@@ -61,6 +61,9 @@ public:
 
     double humidity;
     double temperature;
+    
+    int16_t humidityInt10;
+    int16_t temperatureInt10;
 
 private:
     uint8_t bits[5];  // buffer to receive data

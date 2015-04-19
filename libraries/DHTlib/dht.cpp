@@ -56,8 +56,10 @@ int8_t dht::read11(uint8_t pin)
     bits[2] &= 0x7F;
 
     // CONVERT AND STORE
-    humidity    = bits[0];  // bits[1] == 0;
-    temperature = bits[2];  // bits[3] == 0;
+    humidity         = bits[0];       // bits[1] == 0;
+    humidityInt10    = bits[0] * 10;  // bits[1] == 0;
+    temperature      = bits[2];       // bits[3] == 0;
+    temperatureInt10 = bits[2] * 10;  // bits[3] == 0;
 
     // TEST CHECKSUM
     // bits[1] && bits[3] both 0
@@ -79,11 +81,14 @@ int8_t dht::read(uint8_t pin)
     bits[2] &= 0x83;
 
     // CONVERT AND STORE
-    humidity = word(bits[0], bits[1]) * 0.1;
-    temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
+    humidityInt10 = word(bits[0], bits[1]);
+    humidity = humidityInt10 * 0.1;
+    temperatureInt10 = word(bits[2] & 0x7F, bits[3]);
+    temperature = temperatureInt10 * 0.1;
     if (bits[2] & 0x80)  // negative temperature
     {
         temperature = -temperature;
+        temperatureInt10 = -temperatureInt10;
     }
 
     // TEST CHECKSUM

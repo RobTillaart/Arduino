@@ -39,7 +39,7 @@ void setup()
     SERIAL_OUT.print("SIZE: ");
     SERIAL_OUT.print(size);
     SERIAL_OUT.println(" KB");
-  } else if (size = 0)
+  } else if (size == 0)
   {
     SERIAL_OUT.println("WARNING: Can't determine eeprom size");
   }

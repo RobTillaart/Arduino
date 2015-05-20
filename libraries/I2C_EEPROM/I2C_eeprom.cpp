@@ -183,7 +183,7 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
     uint16_t addr = memoryAddress;
     uint16_t len = length;
     int rv = 0;
-    while (length > 0)
+    while (len > 0)
     {
         uint8_t bytesUntilPageBoundary = this->_pageSize - addr % this->_pageSize;
         uint8_t cnt = min(len, bytesUntilPageBoundary);

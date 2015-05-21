@@ -41,29 +41,47 @@
 
 I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress)
 {
-    I2C_eeprom(deviceAddress, I2C_EEPROM_PAGESIZE);
+    I2C_eeprom(deviceAddress, I2C_EEPROM_UNKNOWN);
 }
 
-I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const unsigned int deviceSize)
+I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const enum device part)
 {
     _deviceAddress = deviceAddress;
 
     // Chips 16Kbit (2048 Bytes) or smaller only have one-word addresses.
     // Also try to guess page size from device size (going by Microchip 24LCXX datasheets here).
-    if (deviceSize <= 256)
-    {
-        this->_isAddressSizeTwoWords = false;
-        this->_pageSize = 8;
-    }
-    else if (deviceSize <= 256 * 8)
-    {
-        this->_isAddressSizeTwoWords = false;
-        this->_pageSize = 16;
-    }
-    else
-    {
-        this->_isAddressSizeTwoWords = true;
-        this->_pageSize = 32;
+    switch (part) {
+	case I2C_EEPROM_UNKNOWN:
+	case I2C_EEPROM_2402:
+		this->_isAddressSizeTwoWords = false;
+		this->_pageSize = 8;
+		break;
+	case I2C_EEPROM_2404:
+	case I2C_EEPROM_2408:
+		this->_isAddressSizeTwoWords = false;
+		this->_pageSize = 16;
+		break;
+	case I2C_EEPROM_2416:
+		this->_isAddressSizeTwoWords = false;
+		this->_pageSize = 16;
+		break;
+	case I2C_EEPROM_2432:
+		this->_isAddressSizeTwoWords = true;
+		this->_pageSize = 8;
+		break;
+	case I2C_EEPROM_2464:
+		this->_isAddressSizeTwoWords = true;
+		this->_pageSize = 32;
+		break;
+	case I2C_EEPROM_24128:
+	case I2C_EEPROM_24256:
+		this->_isAddressSizeTwoWords = true;
+		this->_pageSize = 64;
+		break;
+	case I2C_EEPROM_24512:
+		this->_isAddressSizeTwoWords = true;
+		this->_pageSize = 128;
+		break;
     }
 }
 
@@ -83,39 +101,39 @@ void I2C_eeprom::begin()
 
 
 
-int I2C_eeprom::writeByte(const uint16_t memoryAddress, const uint8_t data)
+int I2C_eeprom::writeByte(const uint32_t memoryAddress, const uint8_t data)
 {
     int rv = _WriteBlock(memoryAddress, &data, 1);
     return rv;
 }
 
-int I2C_eeprom::setBlock(const uint16_t memoryAddress, const uint8_t data, const uint16_t length)
+int I2C_eeprom::setBlock(const uint32_t memoryAddress, const uint8_t data, const uint32_t length)
 {
     uint8_t buffer[I2C_TWIBUFFERSIZE];
-    for (uint8_t i = 0; i < I2C_TWIBUFFERSIZE; i++) buffer[i] = data;
+    memset(buffer, data, I2C_TWIBUFFERSIZE);
 
     int rv = _pageBlock(memoryAddress, buffer, length, false);
     return rv;
 }
 
-int I2C_eeprom::writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+int I2C_eeprom::writeBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
 {
     int rv = _pageBlock(memoryAddress, buffer, length, true);
     return rv;
 }
 
-uint8_t I2C_eeprom::readByte(const uint16_t memoryAddress)
+uint8_t I2C_eeprom::readByte(const uint32_t memoryAddress)
 {
     uint8_t rdata;
     _ReadBlock(memoryAddress, &rdata, 1);
     return rdata;
 }
 
-uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint16_t length)
+uint16_t I2C_eeprom::readBlock(const uint32_t memoryAddress, uint8_t* buffer, const uint32_t length)
 {
-    uint16_t addr = memoryAddress;
-    uint16_t len = length;
-    uint16_t rv = 0;
+    uint32_t addr = memoryAddress;
+    uint32_t len = length;
+    uint32_t rv = 0;
     while (len > 0)
     {
         uint8_t cnt = min(len, I2C_TWIBUFFERSIZE);
@@ -132,9 +150,9 @@ uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, co
 // 0 is smaller than 1K
 int I2C_eeprom::determineSize()
 {
-    int rv = 0;  // unknown
+    uint32_t rv = 0;  // unknown
     uint8_t orgValues[8];
-    uint16_t addr;
+    uint32_t addr;
 
     // try to read a byte to see if connected
     rv += _ReadBlock(0x00, orgValues, 1);
@@ -179,10 +197,10 @@ int I2C_eeprom::determineSize()
 // _pageBlock aligns buffer to page boundaries for writing.
 // and to TWI buffer size
 // returns 0 = OK otherwise error
-int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer)
+int I2C_eeprom::_pageBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length, const bool incrBuffer)
 {
-    uint16_t addr = memoryAddress;
-    uint16_t len = length;
+    uint32_t addr = memoryAddress;
+    uint32_t len = length;
     int rv = 0;
     while (len > 0)
     {
@@ -201,7 +219,7 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
 }
 
 // supports one and 2 bytes addresses
-void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
+void I2C_eeprom::_beginTransmission(const uint32_t memoryAddress)
 {
   Wire.beginTransmission(_deviceAddress);
 
@@ -215,7 +233,7 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 
 // pre: length <= this->_pageSize  && length <= I2C_TWIBUFFERSIZE;
 // returns 0 = OK otherwise error
-int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length)
+int I2C_eeprom::_WriteBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint8_t length)
 {
     waitEEReady();
 
@@ -230,7 +248,7 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer,
 
 // pre: buffer is large enough to hold length bytes
 // returns bytes read
-uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint8_t length)
+uint8_t I2C_eeprom::_ReadBlock(const uint32_t memoryAddress, uint8_t* buffer, const uint8_t length)
 {
     waitEEReady();
 

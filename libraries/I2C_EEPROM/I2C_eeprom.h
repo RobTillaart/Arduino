@@ -38,6 +38,19 @@
 // comment next line to keep lib small (idea a read only lib?)
 #define I2C_EEPROM_EXTENDED
 
+enum device {
+	I2C_EEPROM_UNKNOWN,
+	I2C_EEPROM_2402,
+	I2C_EEPROM_2404,
+	I2C_EEPROM_2408,
+	I2C_EEPROM_2416,
+	I2C_EEPROM_2432,
+	I2C_EEPROM_2464,
+	I2C_EEPROM_24128,
+	I2C_EEPROM_24256,
+	I2C_EEPROM_24512,
+};
+
 class I2C_eeprom
 {
 public:
@@ -52,17 +65,17 @@ public:
      * It will try to guess page size and address word size based on the size of the device.
      * 
      * @param deviceAddress Byte address of the device.
-     * @param deviceSize    Max size in bytes of the device (divide your device size in Kbits by 8)
+     * @param device        EEPROM_2432 etc.  See enum above.
      */
-    I2C_eeprom(const uint8_t deviceAddress, const unsigned int deviceSize);
+    I2C_eeprom(const uint8_t deviceAddress, const enum device);
 
     void begin();
-    int writeByte(const uint16_t memoryAddress, const uint8_t value);
-    int writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length);
-    int setBlock(const uint16_t memoryAddress, const uint8_t value, const uint16_t length);
+    int writeByte(const uint32_t memoryAddress, const uint8_t value);
+    int writeBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length);
+    int setBlock(const uint32_t memoryAddress, const uint8_t value, const uint32_t length);
 
-    uint8_t readByte(const uint16_t memoryAddress);
-    uint16_t readBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint16_t length);
+    uint8_t readByte(const uint32_t memoryAddress);
+    uint16_t readBlock(const uint32_t memoryAddress, uint8_t* buffer, const uint32_t length);
 
 #ifdef I2C_EEPROM_EXTENDED
     int determineSize();
@@ -81,11 +94,11 @@ private:
      * 
      * @param memoryAddress Address to write/read
      */
-    void _beginTransmission(const uint16_t memoryAddress);
+    void _beginTransmission(const uint32_t memoryAddress);
 
-    int _pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer);
-    int _WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length);
-    uint8_t _ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint8_t length);
+    int _pageBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length, const bool incrBuffer);
+    int _WriteBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint8_t length);
+    uint8_t _ReadBlock(const uint32_t memoryAddress, uint8_t* buffer, const uint8_t length);
 
     void waitEEReady();
 };

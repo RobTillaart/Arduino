@@ -19,6 +19,21 @@ readBlock       KEYWORD2
 writeBlock      KEYWORD2
 determineSize   KEYWORD2
 
+######################################
+# Instances (KEYWORD2)
+#######################################
+
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+I2C_EEPROM_UNKNOWN LITERAL1
+I2C_EEPROM_2402    LITERAL1
+I2C_EEPROM_2404    LITERAL1
+I2C_EEPROM_2408    LITERAL1
+I2C_EEPROM_2416    LITERAL1
+I2C_EEPROM_2432    LITERAL1
+I2C_EEPROM_2464    LITERAL1
+I2C_EEPROM_24128   LITERAL1
+I2C_EEPROM_24256   LITERAL1
+I2C_EEPROM_24512   LITERAL1

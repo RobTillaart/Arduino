@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.08
+// VERSION: 0.1.09
 // PURPOSE: show/test I2C_EEPROM library
 //
 

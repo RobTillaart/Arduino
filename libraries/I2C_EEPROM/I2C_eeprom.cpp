@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.2.02
+// VERSION: 1.2.03
 // PURPOSE: I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 //
 // HISTORY:
@@ -23,6 +23,7 @@
 // 1.2.00 - 2014-05-21 Added support for Arduino DUE ( thanks to Tyler F.)
 // 1.2.01 - 2014-05-21 Refactoring
 // 1.2.02 - 2015-03-06 stricter interface
+// 1.2.03 - 2015-05-15 bugfix in _pageBlock & example (thanks ifreislich )
 //
 // Released to the public domain
 //

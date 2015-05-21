@@ -4,7 +4,7 @@
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
-// VERSION: 1.2.02
+// VERSION: 1.2.03
 // HISTORY: See I2C_eeprom.cpp
 //     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define I2C_EEPROM_VERSION "1.2.02"
+#define I2C_EEPROM_VERSION "1.2.03"
 
 // The DEFAULT page size. This is overriden if you use the second constructor.
 // I2C_EEPROM_PAGESIZE must be multiple of 2 e.g. 16, 32 or 64

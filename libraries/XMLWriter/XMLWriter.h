@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 // no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.03"
+#define XMLWRITER_VERSION "0.1.04"
 
 // for comment()
 #define MULTILINE   true
@@ -42,10 +42,10 @@ public:
     XMLWriter(Print* stream);
 
     void reset();
-    
+
     // standard XML header
     void header();
-    
+
     // if multiline == true it does not indent to allow bigger text blocks
     // <!-- text -->
     void comment(char* text, bool multiLine=false);
@@ -68,7 +68,7 @@ public:
     void writeNode(char* tag, char* value);
 
     // typically 0,2,4; default == 2;
-    void setIndentSize(uint8_t size); 
+    void setIndentSize(uint8_t size);
 
 #ifdef XMLWRITER_EXTENDED
     void tagField(char* field, uint8_t  value, uint8_t base=DEC);
@@ -99,13 +99,13 @@ public:
 private:
     // outputstream
     Print* _stream;
-    
+
     // for indentation
     void spaces();
     uint8_t _indent;
     uint8_t _indentStep;
 
-    // stack - used to remember the current tagname to create 
+    // stack - used to remember the current tagname to create
     // automatic the right close tag.
     uint8_t _idx;
     char tagStack[XMLWRITER_MAXLEVEL][11];

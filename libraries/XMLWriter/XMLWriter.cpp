@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML library
 //
@@ -11,6 +11,7 @@
 // 0.1.02 - 2013-11-07 +setIndentSize(), corrected history, +escape support
 // 0.1.03 - 2015-03-07 refactored - footprint + interface
 // 0.1.04 - 2015-05-21 refactored - reduce RAM -> used F() macro etc.
+// 0.1.05 - 2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
 //
 // Released to the public domain
 //
@@ -54,7 +55,7 @@ void XMLWriter::tagOpen(char* tag, bool newline)
 void XMLWriter::tagOpen(char* tag, char* name, bool newline)
 {
     // TODO STACK GUARD
-    strncpy(tagStack[_idx++], tag, 10);
+    strncpy(tagStack[_idx++], tag, XMLWRITER_MAXTAGSIZE);
     tagStart(tag);
     if (name[0] != 0) tagField("name", name);
     tagEnd(newline, NOSLASH);

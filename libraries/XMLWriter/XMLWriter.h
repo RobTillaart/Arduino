@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 // no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.04"
+#define XMLWRITER_VERSION "0.1.05"
 
 // for comment()
 #define MULTILINE   true
@@ -30,6 +30,7 @@
 // deepness of XML tree 5..10
 // needed for stack of tagStack
 #define XMLWRITER_MAXLEVEL 5
+#define XMLWRITER_MAXTAGSIZE 15
 
 // reduce footprint by not using all
 // possible datatypes
@@ -108,7 +109,7 @@ private:
     // stack - used to remember the current tagname to create
     // automatic the right close tag.
     uint8_t _idx;
-    char tagStack[XMLWRITER_MAXLEVEL][11];
+    char tagStack[XMLWRITER_MAXLEVEL][XMLWRITER_MAXTAGSIZE+1];
 };
 
 #endif

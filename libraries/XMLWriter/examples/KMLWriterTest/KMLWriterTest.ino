@@ -1,7 +1,7 @@
 //
 //    FILE: KMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: simple KML writer
 //    DATE: 2015-05-21
 //     URL:
@@ -30,9 +30,9 @@ void KMLTest()
 {
   KML.setIndentSize(2);
 
+  KML.header();
   KML.comment("KMLWriterTest.ino\nThis is a demo of the XMLWriter lib for Arduino", MULTILINE); // == true (default == false)
 
-  KML.header();
   KML.tagStart("kml");
   KML.tagField("xmlns", "http://earth.google.com/kml/2.0");
   KML.tagEnd(NEWLINE, NOSLASH);

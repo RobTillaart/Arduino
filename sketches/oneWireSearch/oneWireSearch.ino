@@ -1,7 +1,7 @@
 //
 //    FILE: oneWireSearch.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: scan for 1-Wire devices + code snippet generator
 //    DATE: 2015-june-30
 //     URL: http://forum.arduino.cc/index.php?topic=333923
@@ -14,8 +14,9 @@
 // 0.1.01 first published version
 // 0.1.02 small output changes
 // 0.1.03 added more explicit range
+// 0.1.04 added CRC check
 
-// UNO 3..20
+// UNO 2..20
 // MEGA and others have different range
 const int startPin = 2;
 const int endPin = 20;
@@ -61,7 +62,16 @@ uint8_t findDevices(int pin)
         Serial.print(address[i], HEX);
         if (i < 7) Serial.print(", ");
       }
-      Serial.println("  },");
+      Serial.print("  },");
+      // CHECK CRC
+      if (ow.crc8(address, 7) == address[7])
+      {
+        Serial.println("\t\t// CRC OK");
+      }
+      else
+      {
+        Serial.println("\t\t// CRC FAILED");
+      }
     } while (ow.search(address));
 
     Serial.println("};");

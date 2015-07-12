@@ -1,7 +1,7 @@
 //
 //    FILE: oneWireSearch.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: scan for 1-Wire devices + code snippet generator
 //    DATE: 2015-june-30
 //     URL: http://forum.arduino.cc/index.php?topic=333923
@@ -13,6 +13,12 @@
 // 0.1.00 initial version
 // 0.1.01 first published version
 // 0.1.02 small output changes
+// 0.1.03 added more explicit range
+
+// UNO 3..20
+// MEGA and others have different range
+const int startPin = 2;
+const int endPin = 20;
 
 #include <OneWire.h>
 
@@ -21,7 +27,7 @@ void setup()
   Serial.begin(115200);
   Serial.println("//\n// Start oneWireSearch.ino \n//");
 
-  for (uint8_t pin = 2; pin < 13; pin++)
+  for (uint8_t pin = startPin; pin < endPin; pin++)
   {
     findDevices(pin);
   }

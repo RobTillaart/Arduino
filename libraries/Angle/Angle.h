@@ -3,7 +3,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -20,23 +20,23 @@
 
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.00"
+#define ANGLE_LIB_VERSION "0.1.01"
 
 class Angle: public Printable
 {
 public:
     Angle(int dd=0, int mm=0, int ss=0, int tt =0) :
-        d(dd), m(mm), s(ss), t(tt) 
-        {
-            normalize();
-        }
+    d(dd), m(mm), s(ss), t(tt)
+    {
+        normalize();
+    }
 
     Angle(double alpha);
-    
-    int      degree()   { return d; };
-    uint8_t  minute()   { return m; };
-    uint8_t  second()   { return s; };
-    uint16_t thousand() { return t; };
+
+    int degree()   { return d; };
+    int minute()   { return m; };
+    int second()   { return s; };
+    int thousand() { return t; };
 
     size_t printTo(Print& p) const;
     double toDouble();
@@ -54,7 +54,7 @@ public:
 
     Angle operator + (const Angle&);
     Angle& operator += (const Angle&);
-    
+
     Angle operator - (const Angle&);
     Angle& operator -= (const Angle&);
 
@@ -71,13 +71,13 @@ private:
     void normalize();
     int compare(const Angle&, const Angle&);
     int sign(int);
-    void add(const Angle&);
-    void sub(const Angle&);
-    
-    int d;
-    int m;
-    int s;
-    int t;
 
+    Angle addHelper(const Angle &a);
+    Angle subHelper(const Angle &a);
+
+    int d; // whole degrees
+    int m; // minutes
+    int s; // seconds
+    int t; // thousands
 };
 #endif

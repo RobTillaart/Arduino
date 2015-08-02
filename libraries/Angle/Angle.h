@@ -3,7 +3,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -20,7 +20,7 @@
 
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.01"
+#define ANGLE_LIB_VERSION "0.1.02"
 
 class Angle: public Printable
 {
@@ -40,6 +40,7 @@ public:
 
     size_t printTo(Print& p) const;
     double toDouble();
+    double toRadians() { return toDouble() * PI / 180.0; };
 
     // EQUALITIES
     bool operator == (const Angle& a) { return compare(*this, a) == 0; };

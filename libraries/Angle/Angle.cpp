@@ -1,15 +1,23 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: library for Angle math for Arduino
 //     URL:
 //
 // Released to the public domain
 //
 
+// 0.1.02 - added toRadians() + fix compare()
 // 0.1.01 - cleanup a bit
 // 0.1.00 - initial version
+
+// ideas: - http://forum.arduino.cc/index.php?topic=94507.0
+// wind directions
+// bandit at 12 hr
+// more precise sin(a + b) ?
+// a = degrees, b = minutes+sec+thou?
+//
 
 #include "Angle.h"
 
@@ -41,7 +49,7 @@ size_t Angle::printTo(Print& p) const
 {
     size_t n = 0;
     n += p.print(d);
-    n += p.print('°'); // ° = ALT-0176
+    n += p.print('.');
     if (m < 10) n += p.print('0');
     n += p.print(m);
     n += p.print('\'');
@@ -86,7 +94,7 @@ Angle Angle::addHelper(const Angle &a)
     }
     else
     {
-        temp.d = sign(temp.d)* (abs(temp.d) - abs(a.d));
+        temp.d = sign(temp.d) * (abs(temp.d) - abs(a.d));
         temp.m -= a.m;
         temp.s -= a.s;
         temp.t -= a.t;
@@ -97,27 +105,17 @@ Angle Angle::addHelper(const Angle &a)
 
 Angle Angle::operator - (const Angle &a)
 {
-    Angle temp = *this;
-    if (sign(temp.d) == sign(a.d))
-    {
-        temp.d -= a.d;
-        temp.m -= a.m;
-        temp.s -= a.s;
-        temp.t -= a.t;
-    }
-    else
-    {
-        temp.d = sign(temp.d) * (abs(temp.d) + abs(a.d));
-        temp.m += a.m;
-        temp.s += a.s;
-        temp.t += a.t;
-    }
-    temp.normalize();
-    return temp;
+    return subHelper(a);
 }
 
 Angle& Angle::operator -= (const Angle &a)
 {
+    *this = subHelper(a);
+    return *this;
+}
+
+Angle Angle::subHelper(const Angle &a)
+{
     Angle temp = *this;
     if (sign(temp.d) == sign(a.d))
     {
@@ -134,11 +132,7 @@ Angle& Angle::operator -= (const Angle &a)
         temp.t += a.t;
     }
     temp.normalize();
-    *this = temp;
     return temp;
-}
-Angle Angle::subHelper(const Angle &a)
-{
 }
 
 Angle Angle::operator * (const double dd)
@@ -153,23 +147,13 @@ Angle Angle::operator / (const double dd)
 
 Angle& Angle::operator *= (const double dd)
 {
-    double val = this->toDouble() * dd;
-    Angle temp(val);
-    this->d = temp.d;
-    this->m = temp.m;
-    this->s = temp.s;
-    this->t = temp.t;
+    *this = this->toDouble() * dd;
     return *this;
 }
 
 Angle& Angle::operator /= (const double dd)
 {
-    double val = this->toDouble() / dd;
-    Angle temp(val);
-    this->d = temp.d;
-    this->m = temp.m;
-    this->s = temp.s;
-    this->t = temp.t;
+    *this = this->toDouble() / dd;
     return *this;
 }
 
@@ -179,6 +163,7 @@ double Angle::operator / (Angle& a)
     double g = a.toDouble();
     return f/g;
 }
+
 ///////////////////////////////////////////////////////////
 //
 // PRIVATE
@@ -192,6 +177,7 @@ int Angle::compare(const Angle &a, const Angle &b)
     if (a.s > b.s) return 1;
     if (a.s < b.s) return -1;
     if (a.t > b.t) return 1;
+    if (a.t < b.t) return -1;
     return 0;
 }
 

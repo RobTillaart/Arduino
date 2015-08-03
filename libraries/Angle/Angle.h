@@ -22,7 +22,7 @@
 
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.02"
+#define ANGLE_LIB_VERSION "0.1.03"
 
 class Angle;
 

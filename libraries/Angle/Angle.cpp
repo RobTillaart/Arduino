@@ -21,6 +21,14 @@
 
 #include "Angle.h"
 
+AngleFormat::AngleFormat( const Angle &ref, AngleFormatMode format )
+    : angle(ref), mode(format) {}
+
+size_t AngleFormat::printTo(Print& p) const
+{
+    return angle.printTo( p, mode );
+}
+
 Angle::Angle(const double alpha)
 {
     double a = alpha;
@@ -45,21 +53,34 @@ Angle::Angle(const double alpha)
 }
 
 // PRINTING
-size_t Angle::printTo(Print& p) const
+size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 {
+    unsigned char c = mode;
+    
     size_t n = 0;
     n += p.print(d);
     n += p.print('.');
-    if (m < 10) n += p.print('0');
-    n += p.print(m);
-    n += p.print('\'');
-    if (s < 10) n += p.print('0');
-    n += p.print(s);
-    n += p.print('\"');
-    if (t < 100) n += p.print('0');
-    if (t < 10) n += p.print('0');
-    n += p.print(t);
 
+    if( --c )
+    {
+        if (m < 10) n += p.print('0');
+        n += p.print(m);
+        n += p.print('\'');
+        
+        if( --c )
+        {
+            if (s < 10) n += p.print('0');
+            n += p.print(s);
+            n += p.print('\"');
+            
+            if( c == 1 )
+            {
+                if (t < 100) n += p.print('0');
+                if (t < 10) n += p.print('0');
+                n += p.print(t);
+            }
+        }
+    }
     return n;
 };
 
@@ -137,7 +158,7 @@ Angle Angle::subHelper(const Angle &a)
 
 Angle Angle::operator * (const double dd)
 {
-    return Angle(this->toDouble() * dd);	
+    return Angle(this->toDouble() * dd);    
 }
 
 Angle Angle::operator / (const double dd)

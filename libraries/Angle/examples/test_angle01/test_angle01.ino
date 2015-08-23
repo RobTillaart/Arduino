@@ -1,7 +1,7 @@
 //
 //    FILE: test_angle01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.02
 // PURPOSE: demo sketch to test angle class
 //    DATE: 2015-07-30
 //     URL:
@@ -31,7 +31,7 @@ void setup()
   Serial.println(n);
   Serial.println(z);
 
-  Serial.println("\n2. toDouble  -- Angle(double)");
+  Serial.println("\n2. toDouble  -- Angle(double)   toRadians()");
   Serial.println(a.toDouble(), 7);
   Serial.println(b.toDouble(), 7);
   Serial.println(c.toDouble(), 7);
@@ -41,13 +41,16 @@ void setup()
   Serial.println(d);
   Serial.println(c.toDouble(), 7);
   Serial.println(d.toDouble(), 7);
+  Serial.println(c.toRadians(), 7);
+  d = 180;
+  Serial.println(d.toRadians(), 7);
 
   Serial.println("\n3. degrees, minutes, seconds, thousands");
   Serial.println(c);
   Serial.println(c.degree());
   Serial.println(c.minute());
   Serial.println(c.second());
-  Serial.println(c.thousand());
+  Serial.println(c.tenthousand());
 
   Serial.println("\n4. Compare: a op a  op :  ==  !=  <  <=  >  >=  ");
   Serial.print(a == a);
@@ -153,7 +156,30 @@ void setup()
   b = 57.456789;
   Serial.println(a);
   Serial.println(b);
-  Serial.println(b / a, 6);
+  Serial.println(b / a, 7);
+  a = 180;
+  b = 57.295779513082320876798154814105; // one radian
+  Serial.println(a);
+  Serial.println(b);
+  Serial.println(a / b, 7);  // should be PI
+
+  Serial.println("\n12. Constructor(char *)");
+  char str1[] = "179.999999999";
+  Angle s(str1);
+  Angle t = str1;
+  Serial.println(str1);
+  Serial.println(s);
+  Serial.println(s.toDouble(), 9);
+  Serial.println(t);
+  t = s.toDouble();
+  Serial.println(t);
+
+  char str2[] = "-45.987654321";
+  Angle u(str2);
+  Angle v = str2;
+  Serial.println(u);
+  Serial.println(u.toDouble(), 9);
+  Serial.println(v);
 
   Serial.println("\nDone...");
   //
@@ -167,5 +193,3 @@ void setup()
 void loop()
 {
 }
-
-

@@ -3,7 +3,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.02
+// VERSION: 0.1.05
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -22,7 +22,7 @@
 
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.03"
+#define ANGLE_LIB_VERSION "0.1.05"
 
 class Angle;
 
@@ -34,7 +34,7 @@ struct AngleFormat : Printable{
 
     AngleFormat( const Angle &ref, AngleFormatMode format );
     size_t printTo(Print& p) const;
-    
+
     const Angle &angle;
     AngleFormatMode mode;
 };
@@ -49,19 +49,21 @@ public:
     }
 
     Angle(double alpha);
+    Angle(char * str);
 
-    int degree()   { return d; };
-    int minute()   { return m; };
-    int second()   { return s; };
-    int thousand() { return t; };
+    int degree() { return d; };
+    int minute() { return m; };
+    int second() { return s; };
+    int tenthousand() { return t; };
 
     size_t printTo(Print& p) const { return printTo( p, T ); }
     size_t printTo(Print& p, AngleFormatMode mode) const;
-    
+
     AngleFormat format( AngleFormatMode format ) { return AngleFormat( *this, format ); }
-    
+
     double toDouble();
     double toRadians() { return toDouble() * PI / 180.0; };
+    void fromRadians(double rad) { *this = rad * 180.0/PI; };
 
     // EQUALITIES
     bool operator == (const Angle& a) { return compare(*this, a) == 0; };
@@ -100,6 +102,6 @@ private:
     int d; // whole degrees
     int m; // minutes
     int s; // seconds
-    int t; // thousands
+    int t; // tenhousands
 };
 #endif

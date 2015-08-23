@@ -9,7 +9,8 @@
 #include <Angle.h>
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("Start format_angle\n");
 
   Angle angle( 23, 12, 10, 123 );
 
@@ -18,7 +19,7 @@ void setup() {
   Serial.println( angle.format(D) );        // Print only degree value.
   Serial.println( angle.format(M) );        // Output includes minutes.
   Serial.println( angle.format(S) );        // Output includes minutes, seconds.
-  Serial.println( angle.format(T) );        // Output includes minutes, seconds, thousands.
+  Serial.println( angle.format(T) );        // Output includes minutes, seconds, tenthousands.
 }
 
 void loop() {}

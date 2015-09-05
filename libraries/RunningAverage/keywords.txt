@@ -21,6 +21,9 @@ fillValue	KEYWORD2
 getElement	KEYWORD2
 getSize	KEYWORD2
 getCount	KEYWORD2
+getFastAverage	KEYWORD2
+GetMinInBuffer	KEYWORD2
+GetMaxInBuffer	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -30,3 +33,5 @@ getCount	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+RUNNINGAVERAGE_LIB_VERSION  LITERAL1

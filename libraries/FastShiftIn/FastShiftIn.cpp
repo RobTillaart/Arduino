@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: shiftin
 //    DATE: 2013-09-29
 //     URL:
@@ -50,7 +50,7 @@ int FastShiftIn::read()
             else
             _value |= (1 << (7 - i));
         }
-        *_clockin |= _clockbit;
+        *_clockin &= ~_clockbit;
         SREG = oldSREG;
     }
     return _value;

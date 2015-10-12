@@ -1,13 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.20
+// VERSION: 0.1.21
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
-// 0.1.20 Reduce footprint (34 bytes) by using int8_t as error codes.
-//        (thanks to chaveiro)
+// 0.1.21 replace delay with delayMicroseconds() + small fix
+// 0.1.20 Reduce footprint by using uint8_t as error codes. (thanks to chaveiro)
 // 0.1.19 masking error for DHT11 - FIXED (thanks Richard for noticing)
 // 0.1.18 version 1.16/17 broke the DHT11 - FIXED
 // 0.1.17 replaced micros() with adaptive loopcount
@@ -16,8 +16,7 @@
 //        added  DHTLIB_ERROR_ACK_L  DHTLIB_ERROR_ACK_H
 // 0.1.16 masking unused bits (less errors); refactored bits[]
 // 0.1.15 reduced # micros calls 2->1 in inner loop.
-// 0.1.14 replace digital read with faster (~3x) code
-//        => more robust low MHz machines.
+// 0.1.14 replace digital read with faster (~3x) code => more robust low MHz machines.
 //
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
@@ -79,8 +78,8 @@ int8_t dht::read(uint8_t pin)
     bits[2] &= 0x83;
 
     // CONVERT AND STORE
-    humidity = word(bits[0], bits[1]) * 0.1;
-    temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
+    humidity = (bits[0]*256 + bits[1]) * 0.1;
+    temperature = ((bits[2] & 0x7F)*256 + bits[3]) * 0.1;
     if (bits[2] & 0x80)  // negative temperature
     {
         temperature = -temperature;
@@ -124,7 +123,7 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     // REQUEST SAMPLE
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW); // T-be
-    delay(wakeupDelay);
+    delayMicroseconds(wakeupDelay * 1000UL);
     digitalWrite(pin, HIGH); // T-go
     pinMode(pin, INPUT);
 

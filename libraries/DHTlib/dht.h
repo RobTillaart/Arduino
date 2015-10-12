@@ -1,7 +1,7 @@
-//
+    //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.20
+// VERSION: 0.1.21
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -19,7 +19,7 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.20"
+#define DHT_LIB_VERSION "0.1.21"
 
 #define DHTLIB_OK                   0
 #define DHTLIB_ERROR_CHECKSUM       -1
@@ -39,11 +39,16 @@
 // loops using DHTLIB_TIMEOUT use at least 4 clock cycli
 // so 100 us takes max 400 loops
 // so by dividing F_CPU by 40000 we "fail" as fast as possible
-#define DHTLIB_TIMEOUT 400 // (F_CPU/40000)
+#ifndef F_CPU
+#define DHTLIB_TIMEOUT 1000  // ahould be approx. clock/40000
+#else
+#define DHTLIB_TIMEOUT (F_CPU/40000)
+#endif
 
 class dht
 {
 public:
+    dht() {};
     // return values:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM

@@ -26,3 +26,4 @@ version 0.1.16 and 0.1.17 have breaking changes for DHT11
 version 0.1.18 works again for DHT11 (avr only)
 version 0.1.19 fixed masking bug DHT11 (avr only)
 version 0.1.20 Reduce footprint (34 bytes) by using int8_t as error codes. (thanks to chaveiro)
+version 0.1.21 replace delay with delayMicroseconds() + small fix (thanks to codingforfun)

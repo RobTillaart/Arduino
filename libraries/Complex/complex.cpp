@@ -1,13 +1,14 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.08
+// VERSION: 0.1.09
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
 
+// 0.1.09 - added (0,0) constructor
 // 0.1.08 - refactor
 // 0.1.07 - refactor interfaces
 
@@ -115,7 +116,6 @@ Complex& Complex::operator /= (const Complex &c)
     return *this;
 }
 
-#ifdef COMPLEX_EXTENDED
 //
 // POWER FUNCTIONS
 //
@@ -166,11 +166,9 @@ Complex Complex::c_log10()
 {
     return c_logn(10);
 }
-#endif
 
-#ifdef COMPLEX_GONIO_1
 //
-// GONIO I - SIN COS TAN 
+// GONIO I - SIN COS TAN
 //
 Complex Complex::c_sin()
 {
@@ -235,9 +233,7 @@ Complex Complex::c_atan()
 {
     return (Complex(0,-1) * (Complex(re, im - 1)/Complex(-re, -im - 1)).c_log()) * 0.5;
 }
-#endif
 
-#ifdef COMPLEX_GONIO_2
 //
 // GONIO II - CSC SEC COT
 //
@@ -270,9 +266,7 @@ Complex Complex::c_acot()
 {
     return (one / *this).c_atan();
 }
-#endif
 
-#ifdef COMPLEX_GONIO_3
 //
 // GONIO HYPERBOLICUS I
 //
@@ -326,9 +320,7 @@ Complex Complex::c_atanh()
     c = c - (-(*this - one)).c_log();
     return c * 0.5;
 }
-#endif
 
-#ifdef COMPLEX_GONIO_4
 //
 // GONIO HYPERBOLICUS II
 //
@@ -361,6 +353,5 @@ Complex Complex::c_acoth()
 {
     return (one / *this).c_atanh();
 }
-#endif
 
 // --- END OF FILE ---

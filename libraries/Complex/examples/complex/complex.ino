@@ -120,7 +120,6 @@ void setup()
   c5 = c5.reciprocal();
   Serial.println(c5);
 
-#ifdef COMPLEX_EXTENDED
   Serial.println("\n9. power: exp log pow sqrt sqr logn log10");
   c5 = c1.c_sqr();
   Serial.println(c5);
@@ -144,9 +143,7 @@ void setup()
   Serial.println(c5);
   c5 = c5.c_log10();
   Serial.println(c5);
-#endif
 
-#ifdef COMPLEX_GONIO_1
   Serial.println("\n10. gonio: sin cos tan asin acos atan");
   c1.set(0.5, 0.5);
   c5 = c1.c_sin();
@@ -161,9 +158,7 @@ void setup()
   Serial.println(c5);
   c5 = c5.c_atan();
   Serial.println(c5);
-#endif
 
-#ifdef COMPLEX_GONIO_2
   Serial.println("\n11. gonio csc sec cot acsc asec acot");
   c1.set(0.5, 0.5);
   c5 = c1.c_csc();
@@ -178,9 +173,7 @@ void setup()
   Serial.println(c5);
   c5 = c5.c_acot();
   Serial.println(c5);
-#endif
 
-#ifdef COMPLEX_GONIO_3
   Serial.println("\n12. gonio hyperbolicus I ");
   c1.set(0.5, 0.5);
   c5 = c1.c_sinh();
@@ -195,9 +188,7 @@ void setup()
   Serial.println(c5);
   c5 = c5.c_atanh();
   Serial.println(c5);
-#endif
 
-#ifdef COMPLEX_GONIO_4
   Serial.println("\n13. gonio hyperbolicus II ");
   c1.set(0.5, 0.5);
   c5 = c1.c_csch();
@@ -212,7 +203,6 @@ void setup()
   Serial.println(c5);
   c5 = c5.c_acoth();
   Serial.println(c5);
-#endif
 
   Serial.println("\n.. Complex done");
 
@@ -224,7 +214,6 @@ void setup()
   uint32_t dur = micros() - start;
   Serial.println(dur);
   Serial.println(one);
-
 }
 
 void loop()

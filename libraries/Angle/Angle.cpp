@@ -1,13 +1,14 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: library for Angle math for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=339402
 
 //
 // Released to the public domain
 //
+// 0.1.06 - fixed bug negative values.
 // 0.1.05 - added AngleFormat proxy added 03/03/15 by Christoper Andrews.
 // 0.1.04 - changed thousands in tenthousands, string constructor
 // 0.1.03 - added URL, fromRadians [TEST]
@@ -25,10 +26,30 @@ size_t AngleFormat::printTo(Print& p) const
     return angle.printTo( p, mode );
 }
 
+Angle::Angle(int dd, int mm, int ss, int tt) // todo optimize
+{
+    neg = false;
+    d = dd;
+    m = mm;
+    s = ss;
+    t = tt;
+    // TODO
+    // normalize();
+    // assume only one param is neg at most...
+    if (d < 0) { d = -d; neg = true; }
+    if (m < 0) { m = -m; neg = true; }
+    if (s < 0) { s = -s; neg = true; }
+    if (t < 0) { t = -t; neg = true; }
+    while (t >= 10000) { s++; t -= 10000; }
+    while (s >= 60)    { m++; s -= 60; }
+    while (m >= 60)    { d++; m -= 60; }
+    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
+}
+
 Angle::Angle(const double alpha)
 {
     double a = alpha;
-    bool neg = (alpha < 0);
+    neg = (alpha < 0);
     if (neg) a = -a;
 
     d = int(a);
@@ -45,32 +66,32 @@ Angle::Angle(const double alpha)
     p = p / 10000UL;
     s = p % 60UL;
     m = p / 60UL;
-
-    if (neg) d = -d;
 }
 
 Angle::Angle(char * str)
 {
     uint32_t yy = 0;
     uint8_t d_cnt = 0;
-    bool neg = false;
+    neg = false;
     // parse whole degrees
     char *p = str;
     d = 0;
+    // skip crap
     while (!isdigit(*p) && (*p != '-')) p++;
+    // process sign
     if (*p == '-')
     {
         neg = true;
         p++;
     }
-    // parse whole part into degrees; assume +
+    if (*p == '+') p++;
+    // parse whole part into degrees;
     while (isdigit(*p))
     {
         d *= 10;
         d += (*p - '0');
         p++;
     }
-    if (neg) d = -d;
     // parse decimal part into an uint32_t
     if (*p != '\0')
     {
@@ -100,7 +121,6 @@ Angle::Angle(char * str)
     m = yy / 60;
 }
 
-
 // PRINTING
 size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 {
@@ -108,6 +128,7 @@ size_t Angle::printTo(Print& p, AngleFormatMode mode) const
     char separator[4] = ".\'\"";   // "...";  // ALT-0176 = °  179.59.59.9999
 
     size_t n = 0;
+    if (neg) n += p.print('-');
     n += p.print(d);
     n += p.print(separator[0]);
     if( --c )
@@ -134,35 +155,43 @@ size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 
 double Angle::toDouble(void)
 {
-    bool neg = false;
-    if (d < 0)
-    {
-        neg = true;
-        d = -d;
-    }
     long v = t + s * 10000UL + m * 600000UL;
-
     double val = ((1.0 / 140625.0) / 256) * v + d;
     if (neg) val = -val;
     return val;
 }
 
+// NEGATE
+Angle Angle::operator - ()
+{
+    Angle temp = *this;
+    if (temp.d == 0 && temp.m == 0 && temp.s == 0 && temp.t == 0)
+    {
+        temp.neg = false;
+    }
+    else
+    {
+        temp.neg = !neg;
+    }
+    return temp;
+};
+
 // BASIC MATH
-Angle Angle::operator + (const Angle &a)
+Angle Angle::operator + (const Angle &a) // TOCHECK
 {
     return addHelper(a);
 }
 
-Angle& Angle::operator += (const Angle &a)
+Angle& Angle::operator += (const Angle &a) // TOCHECK
 {
     *this = addHelper(a);
     return *this;
 }
 
-Angle Angle::addHelper(const Angle &a)
+Angle Angle::addHelper(const Angle &a) // TOCHECK
 {
     Angle temp = *this;
-    if (sign(temp.d) == sign(a.d))
+    if (temp.neg == a.neg)
     {
         temp.d += a.d;
         temp.m += a.m;
@@ -171,30 +200,31 @@ Angle Angle::addHelper(const Angle &a)
     }
     else
     {
-        temp.d = sign(temp.d) * (abs(temp.d) - abs(a.d));
+        temp.d -= a.d;
         temp.m -= a.m;
         temp.s -= a.s;
         temp.t -= a.t;
     }
     temp.normalize();
+
     return temp;
 }
 
-Angle Angle::operator - (const Angle &a)
+Angle Angle::operator - (const Angle &a) // TOCHECK
 {
     return subHelper(a);
 }
 
-Angle& Angle::operator -= (const Angle &a)
+Angle& Angle::operator -= (const Angle &a) // TOCHECK
 {
     *this = subHelper(a);
     return *this;
 }
 
-Angle Angle::subHelper(const Angle &a)
+Angle Angle::subHelper(const Angle &a) // TOCHECK
 {
     Angle temp = *this;
-    if (sign(temp.d) == sign(a.d))
+    if (temp.neg == a.neg)
     {
         temp.d -= a.d;
         temp.m -= a.m;
@@ -203,7 +233,7 @@ Angle Angle::subHelper(const Angle &a)
     }
     else
     {
-        temp.d = sign(temp.d) * (abs(temp.d) + abs(a.d));
+        temp.d += a.d;
         temp.m += a.m;
         temp.s += a.s;
         temp.t += a.t;
@@ -248,33 +278,55 @@ double Angle::operator / (Angle& a)
 //
 int Angle::compare(const Angle &a, const Angle &b)
 {
-    if (a.d > b.d) return 1;
-    if (a.d < b.d) return -1;
-    if (a.m > b.m) return 1;
-    if (a.m < b.m) return -1;
-    if (a.s > b.s) return 1;
-    if (a.s < b.s) return -1;
-    if (a.t > b.t) return 1;
-    if (a.t < b.t) return -1;
-    return 0;
+    // check sign first
+    if (!a.neg && b.neg) return 1;
+    if (a.neg && !b.neg) return -1;
+    // check abs value
+    int rv = 0;
+    if (a.d > b.d) rv = 1;
+    else if (a.d < b.d) rv = -1;
+    else if (a.m > b.m) rv = 1;
+    else if (a.m < b.m) rv = -1;
+    else if (a.s > b.s) rv = 1;
+    else if (a.s < b.s) rv = -1;
+    else if (a.t > b.t) rv = 1;
+    else if (a.t < b.t) rv = -1;
+
+    if (rv != 0 && a.neg) rv = -rv;
+    return rv;
 }
 
-void Angle::normalize()
+void Angle::normalize()  // TOCHECK
 {
-    bool neg = (d < 0);
-    if (neg) d = -d;
     while (t < 0)      { s--; t += 10000; }
     while (t >= 10000) { s++; t -= 10000; }
     while (s < 0)      { m--; s += 60; }
     while (s >= 60)    { m++; s -= 60; }
     while (m < 0)      { d--; m += 60; }
     while (m >= 60)    { d++; m -= 60; }
-    if (neg) d = -d;
-}
 
-int Angle::sign(int d)
-{
-    return (d < 0?-1:1);
+    if (d < 0)
+    {
+        if (t != 0)
+        {
+            t = 10000 - t;
+            s++;
+        }
+        if (s != 0)
+        {
+            s = (60 - s) % 60;
+            m++;
+        }
+        if (m != 0)
+        {
+            m = (60 - m) % 60;
+            d++;
+        }
+        d = -d;
+        neg = !neg;
+    }
+
+    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
 
 // --- END OF FILE ---

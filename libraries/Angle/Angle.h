@@ -3,7 +3,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -22,7 +22,7 @@
 
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.05"
+#define ANGLE_LIB_VERSION "0.1.06"
 
 class Angle;
 
@@ -42,15 +42,11 @@ struct AngleFormat : Printable{
 class Angle: public Printable
 {
 public:
-    Angle(int dd=0, int mm=0, int ss=0, int tt =0) :
-    d(dd), m(mm), s(ss), t(tt)
-    {
-        normalize();
-    }
-
+    Angle(int dd=0, int mm=0, int ss=0, int tt=0);
     Angle(double alpha);
     Angle(char * str);
 
+    int sign()   { return neg?-1:1; };
     int degree() { return d; };
     int minute() { return m; };
     int second() { return s; };
@@ -74,7 +70,7 @@ public:
     bool operator >= (const Angle& a) { return compare(*this, a) >= 0; };
 
     // NEGATE
-    Angle operator - () { return Angle(-d, m, s, t); };
+    Angle operator - ();
 
     Angle operator + (const Angle&);
     Angle& operator += (const Angle&);
@@ -90,15 +86,14 @@ public:
 
     double operator / (Angle&);   // ratio
 
-
 private:
     void normalize();
     int compare(const Angle&, const Angle&);
-    int sign(int);
 
     Angle addHelper(const Angle &a);
     Angle subHelper(const Angle &a);
 
+    bool neg; // angle is negative
     int d; // whole degrees
     int m; // minutes
     int s; // seconds

@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -17,13 +17,14 @@
 // 0.1.09 - 2014-11-25 float to double (support ARM)
 // 0.1.10 - 2015-03-07 fix clear
 // 0.1.11 - 2015-03-29 undo 0.1.10 fix clear
+// 0.1.12 - 2015-07-12 refactor constructor + const
 //
 // Released to the public domain
 //
 
 #include "RunningMedian.h"
 
-RunningMedian::RunningMedian(uint8_t size)
+RunningMedian::RunningMedian(const uint8_t size)
 {
     _size = constrain(size, MEDIAN_MIN_SIZE, MEDIAN_MAX_SIZE);
 
@@ -78,7 +79,7 @@ double RunningMedian::getHighest() { return getSortedElement(_cnt-1); }
 
 double RunningMedian::getLowest() { return getSortedElement(0); }
 
-double RunningMedian::getAverage()
+double RunningMedian::getAverage() const
 {
     if (_cnt > 0)
     {
@@ -89,7 +90,7 @@ double RunningMedian::getAverage()
     return NAN;
 }
 
-double RunningMedian::getAverage(uint8_t nMedians)
+double RunningMedian::getAverage(const uint8_t nMedians) const
 {
     if ((_cnt > 0) && (nMedians > 0))
     {
@@ -105,7 +106,7 @@ double RunningMedian::getAverage(uint8_t nMedians)
     return NAN;
 }
 
-double RunningMedian::getElement(uint8_t n)
+double RunningMedian::getElement(const uint8_t n) const
 {
     if ((_cnt > 0) && (n < _cnt))
     {
@@ -114,7 +115,7 @@ double RunningMedian::getElement(uint8_t n)
     return NAN;
 }
 
-double RunningMedian::getSortedElement(uint8_t n)
+double RunningMedian::getSortedElement(const uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt))
     {
@@ -125,7 +126,7 @@ double RunningMedian::getSortedElement(uint8_t n)
 }
 
 // n can be max <= half the (filled) size
-double RunningMedian::predict(uint8_t n)
+double RunningMedian::predict(const uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt/2))
     {

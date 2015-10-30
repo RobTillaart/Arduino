@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -18,6 +18,7 @@
 // 0.1.10 - 2015-03-07 fix clear
 // 0.1.11 - 2015-03-29 undo 0.1.10 fix clear
 // 0.1.12 - 2015-07-12 refactor constructor + const
+// 0.1.13 - 2015-10-30 fix getElement(n) - kudos to Gdunge
 //
 // Released to the public domain
 //
@@ -116,7 +117,12 @@ double RunningMedian::getElement(const uint8_t n)
 {
     if ((_cnt > 0) && (n < _cnt))
     {
-        return _ar[n];
+        uint8_t pos = _idx + n;
+        if (pos >= _cnt) // faster than %
+        {
+            pos -= _cnt;
+        }
+        return _ar[pos];
     }
     return NAN;
 }

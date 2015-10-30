@@ -49,10 +49,10 @@ public:
     double getMedian();                  // returns the median == middle element
 
 #ifdef RUNNING_MEDIAN_ALL
-    double getAverage();           // returns average of the values in the internal buffer
+    double getAverage();                 // returns average of the values in the internal buffer
     double getAverage(uint8_t nMedian);  // returns average of the middle nMedian values, removes noise from outliers
-    double getHighest();           // returns highest element
-    double getLowest();            // return lowest element
+    double getHighest();                 // returns highest element
+    double getLowest();                  // return lowest element
 
     double getElement(const uint8_t n);        // get n'th element from the values in time order
     double getSortedElement(const uint8_t n);  // get n'th element from the values in size order

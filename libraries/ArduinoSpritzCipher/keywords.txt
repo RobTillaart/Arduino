@@ -1,0 +1,7 @@
+SpritzCipher	KEYWORD1
+setup	KEYWORD2
+setupIV	KEYWORD2
+wipe_spritz_ctx	KEYWORD2
+spritz_rand_byte	KEYWORD2
+hash	KEYWORD2
+mac	KEYWORD2

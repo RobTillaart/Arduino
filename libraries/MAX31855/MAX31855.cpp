@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
 //
 // HISTORY:
+// 0.1.05 2015-07-12 refactor robust constructor
 // 0.1.04 2015-03-09 replaced float -> double (ARM support)
 // 0.1.03 fixed negative temperature
 // 0.1.02 added offset
@@ -24,6 +25,9 @@ MAX31855::MAX31855(uint8_t sclk, uint8_t cs, uint8_t miso)
     _cs = cs;
     _miso = miso;
     _offset = 0;
+    _status = STATUS_NOREAD;
+    _temperature = -999;
+    _internal = -999;
 }
 
 void MAX31855::begin()

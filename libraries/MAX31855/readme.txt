@@ -20,11 +20,10 @@ bit 0 set = thermocouple open circuit
 bit 1 set = thermocouple short to GND
 bit 2 set = thermocouple short to VCC
 
-
 After a tc.read() you can do tc.getTemperature() and tc.getInternal().
 repeated getTemperature() will give the same value until a new tc.read();
 
-The reason for this is that it allows the object holds its last known temperature.
+The reason for this is that it allows the object to hold its last known temperature.
 Now one can do:
 
 float last = tc.getTemperature();

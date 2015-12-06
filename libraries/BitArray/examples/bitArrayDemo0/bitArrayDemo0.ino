@@ -2,7 +2,7 @@
 //    FILE: bitArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.00
-// PURPOSE: demo - store 4000 dice rolls
+// PURPOSE: demo - store 2000 dice rolls
 //    DATE: 14-11-2015
 //     URL:
 //

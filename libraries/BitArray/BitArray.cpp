@@ -1,13 +1,14 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: BitArray library for Arduino
-//     URL: 
+//     URL: http://forum.arduino.cc/index.php?topic=361167
 
 //
 // Released to the public domain
 //
+// 0.1.04 - improve performance
 // 0.1.03 - refactoring
 // 0.1.02 - first stabile version (at last)
 // 0.1.01 - added clear() + fixed set bug
@@ -21,7 +22,7 @@
 
 BitArray::~BitArray()
 {
-    for (byte i = 0; i < 8; i++)
+    for (byte i = 0; i < BA_MAX_SEGMENTS; i++)
     {
         if (_ar[i]) free(_ar[i]);
     }
@@ -29,14 +30,14 @@ BitArray::~BitArray()
 
 byte BitArray::begin(const byte bits, const uint16_t size)
 {
-    for (byte i = 0; i < 8; i++)
+    for (byte i = 0; i < BA_MAX_SEGMENTS; i++)
     {
         if (_ar[i]) free(_ar[i]);
     }
     _bits = bits;
     _size = size;
     _bytes = (_bits * _size + 7) / 8;
-    if (_bytes > 1600)
+    if (_bytes > (BA_MAX_SEGMENTS * BA_SEGMENT_SIZE))
     {
         _error = BA_NO_MEMORY;
         return _error;
@@ -46,7 +47,7 @@ byte BitArray::begin(const byte bits, const uint16_t size)
     while (b > 0)
     {
         _ar[_segments] = (byte*) malloc(min(b, BA_SEGMENT_SIZE));
-        if (_ar[_segments] == NULL) 
+        if (_ar[_segments] == NULL)
         {
             _error = BA_NO_MEMORY;
             return _error;
@@ -96,34 +97,46 @@ void BitArray::clear()
         byte *p = _ar[s];
         if (p)
         {
-            for (int i = 0; i < min(b, BA_SEGMENT_SIZE); i++) 
-            { 
+            for (int i = 0; i < min(b, BA_SEGMENT_SIZE); i++)
+            {
                 p[i] = 0;
             }
             b -= min(b, BA_SEGMENT_SIZE);
         }
-        if (b == 0) break; 
+        if (b == 0) break;
     }
-}  
+}
 
 // PRIVATE
 byte BitArray::_bitget(uint16_t pos)
 {
-    uint16_t se = pos / (BA_SEGMENT_SIZE * 8);
-    uint16_t re = pos - se * (BA_SEGMENT_SIZE * 8);
-    uint16_t by = re / 8;
-    uint16_t bi = re & 7;
+    uint8_t se = 0;
+    uint16_t re = pos;
+    while (re >= (BA_SEGMENT_SIZE * 8))  // 8 == #bits in byte
+    {
+        se++;
+        re -= (BA_SEGMENT_SIZE * 8);
+    }
+    uint8_t by = re / 8;
+    uint8_t bi = re & 7;
     byte * p = _ar[se];
-    return bitRead(p[by], bi);
+    return (p[by] >> bi) & 0x01; // bitRead(p[by], bi);
 }
 
 void BitArray::_bitset(uint16_t pos, byte value)
 {
-    uint16_t se = pos / (BA_SEGMENT_SIZE * 8);
-    uint16_t re = pos - se * (BA_SEGMENT_SIZE * 8);
-    uint16_t by = re / 8;
-    uint16_t bi = re & 7;
+    uint8_t se = 0;
+    uint16_t re = pos;
+    while (re >= (BA_SEGMENT_SIZE * 8))
+    {
+        se++;
+        re -= (BA_SEGMENT_SIZE * 8);
+    }
+    uint8_t by = re / 8;
+    uint8_t bi = re & 7;
     byte * p = _ar[se];
-    if (value == 0) bitClear(p[by], bi);
-    else bitSet(p[by], bi);
+    if (value == 0) p[by] &= ~(1 << bi); // bitClear(p[by], bi);
+    else p[by] |= (1 << bi);             // bitSet(p[by], bi);
 }
+
+// END OF FILE

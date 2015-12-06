@@ -3,7 +3,7 @@
 //
 //    FILE: BitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.03
+// VERSION: 0.1.04
 // PURPOSE: BitArray library for Arduino
 // HISTORY: See BitArray.cpp
 //
@@ -26,14 +26,16 @@
 #include "WProgram.h"
 #endif
 
-#define BITARRAY_LIB_VERSION "0.1.03"
+#define BITARRAY_LIB_VERSION "0.1.04"
 
+#define BA_MAX_SEGMENTS 8
 #define BA_SEGMENT_SIZE 200
 
 #define BA_ERR          0xFFFFFFFF
 #define BA_OK           0x00
 #define BA_NO_MEMORY    0x01
 #define BA_IDX_RANGE    0x02
+
 
 class BitArray
 {
@@ -61,7 +63,7 @@ private:
     uint16_t _bytes = 0;
     uint16_t _bits = 0;
     uint16_t _segments = 0;
-    byte * _ar[8];
+    byte * _ar[BA_MAX_SEGMENTS];
     byte _error = BA_NO_MEMORY;
 };
 

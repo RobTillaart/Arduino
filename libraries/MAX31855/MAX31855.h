@@ -1,10 +1,10 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=208061
 //
 // Released to the public domain
 //
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.07"
+#define MAX31855_VERSION "0.1.08"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
@@ -28,10 +28,11 @@
 //  Thermocouples working is based upon Seebeck effect.
 //  Different TC have a different Seebeck Coefficient  (µV/°C)
 //  From http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
-//  
+//
 //  As the MAX31855 is designed for K type sensors, one can calculate
 //  the factor needed to convert other sensors measurements.
-//  
+//  note this is only a linear approximation.
+//
 //  E_TC = 61   =>    41/61 = 0.6721311475
 //  J_TC = 52   =>    41/52 = 0.7884615385
 //  K_TC = 41   =>    41/41 = 1
@@ -59,19 +60,15 @@ public:
     uint8_t read();
 
     double getInternal(void) const    { return _internal; };
-    double getTemperature(void) const { return _temperature; };
-    double getTemperatureE(void)const { return _temperature * E_TC; };
-    double getTemperatureJ(void)const { return _temperature * J_TC; };
-    double getTemperatureK(void)const { return _temperature * K_TC; };
-    double getTemperatureN(void)const { return _temperature * N_TC; };
-    double getTemperatureR(void)const { return _temperature * R_TC; };
-    double getTemperatureS(void)const { return _temperature * S_TC; };
-    double getTemperatureT(void)const { return _temperature * T_TC; };
+    double getTemperature(void) const { return _temperature * _TCfactor; }
 
     uint8_t getStatus(void) const     { return _status; };
 
     void setOffset(const double t)    { _offset = t; };
     double getOffset() const          { return _offset; };
+
+    void setTCfactor(const double TCfactor) { _TCfactor = TCfactor; };
+    double getTCfactor() const              { return _TCfactor; };
 
 private:
     uint32_t _read();
@@ -79,6 +76,7 @@ private:
     double  _temperature;
     uint8_t _status;
     double  _offset;
+    double  _TCfactor;
 
     uint8_t _sclk;
     uint8_t _miso;

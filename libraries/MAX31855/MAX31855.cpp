@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
 //
 // HISTORY:
+// 0.1.06 2015-12-05 added support for other types of TC's (experimental)
 // 0.1.05 2015-07-12 refactor robust constructor
 // 0.1.04 2015-03-09 replaced float -> double (ARM support)
 // 0.1.03 fixed negative temperature
@@ -65,7 +66,7 @@ uint8_t MAX31855::read()
     // reserved bit 17
     value >>= 1;
 
-    // process temperature bit 18-31
+    // process temperature bit 18-30 + sign bit = 31
     _temperature = (value & 0x1FFF) * 0.25;
     if (value & 0x2000) // negative flag
     {
@@ -76,6 +77,7 @@ uint8_t MAX31855::read()
     return _status;
 }
 
+// TODO:  optimize performance by direct port manipulation?
 uint32_t MAX31855::_read(void)
 {
     uint32_t value = 0;

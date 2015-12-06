@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
 //
 // HISTORY:
+// 0.1.07 2015-12-06 updated TC factors from the MAX31855 datasheet
 // 0.1.06 2015-12-05 added support for other types of TC's (experimental)
 // 0.1.05 2015-07-12 refactor robust constructor
 // 0.1.04 2015-03-09 replaced float -> double (ARM support)

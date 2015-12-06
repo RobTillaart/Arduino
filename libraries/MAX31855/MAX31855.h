@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL:
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.06"
+#define MAX31855_VERSION "0.1.07"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
@@ -40,13 +40,14 @@
 //  S_TC = 6    =>    41/6  = 6.8333333333
 //  T_TC = 41   =>    41/41 = 1
 
-#define E_TC    0.6721311475
-#define J_TC    0.7884615385
-#define K_TC    1
-#define N_TC    1.5185185185
-#define R_TC    4.5555555556
-#define S_TC    6.8333333333
-#define T_TC    1
+//  0.1.07 updated with numbers from the MAX31855 datasheet
+#define E_TC    (41.276/76.373)
+#define J_TC    (41.276/57.953)
+#define K_TC    (41.276/41.276)
+#define N_TC    (41.276/36.256)
+#define R_TC    (41.276/10.506)
+#define S_TC    (41.276/9.587)
+#define T_TC    (41.276/52.18)
 
 
 class MAX31855

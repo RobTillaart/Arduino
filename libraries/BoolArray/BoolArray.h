@@ -18,12 +18,13 @@
 #include "WProgram.h"
 #endif
 
-#define BOOLARRAY_LIB_VERSION "0.1.00"
+#define BOOLARRAY_LIB_VERSION   "0.1.01"
+#define BOOLARRAY_MAXSIZE       (250*8)
 
 class BoolArray
 {
 public:
-    BoolArray() {};
+    BoolArray();
     ~BoolArray();
 
     uint8_t begin(const uint16_t size);

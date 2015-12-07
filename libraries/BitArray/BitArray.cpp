@@ -1,13 +1,14 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: BitArray library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=361167
 
 //
 // Released to the public domain
 //
+// 0.1.05 - added board dependant max # segments (thanks bricoleau)
 // 0.1.04 - improve performance
 // 0.1.03 - refactoring
 // 0.1.02 - first stabile version (at last)

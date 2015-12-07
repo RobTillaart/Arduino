@@ -3,7 +3,7 @@
 //
 //    FILE: BitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: BitArray library for Arduino
 // HISTORY: See BitArray.cpp
 //
@@ -12,7 +12,7 @@
 // BitArray allows you to make a compact array of objects with a size
 // expressed in bits. typically 1..10.
 // The interface uses uint32_t as that will be enough for most purposes.
-// The main requirement is to optimize storage space 
+// The main requirement is to optimize storage space
 // the total space may not exceed 256 bytes.
 //
 // Originally created to store lot of numbers between 1..6 dice rolls
@@ -26,10 +26,36 @@
 #include "WProgram.h"
 #endif
 
-#define BITARRAY_LIB_VERSION "0.1.04"
-
-#define BA_MAX_SEGMENTS 8
+#define BITARRAY_LIB_VERSION "0.1.05"
 #define BA_SEGMENT_SIZE 200
+
+// max memory is board type dependant
+// note the bitArray does not use all of the RAM
+// 1K - max 600
+#if defined(__AVR_ATmega168__)
+#define BA_MAX_SEGMENTS 3
+// 2K - max 1600
+#elif defined(__AVR_ATmega328P__)
+#define BA_MAX_SEGMENTS 8
+// 8K - max 7000
+#elif defined(__AVR_ATmega1280__)
+#define BA_MAX_SEGMENTS 35
+// 8K - max 7000
+#elif defined(__AVR_ATmega2560__)
+#define BA_MAX_SEGMENTS 35
+// 1.25K - max 800
+#elif defined(__AVR_ATmega16U4__)
+#define BA_MAX_SEGMENTS 4
+// 2.5K - max 2000
+#elif defined(__AVR_ATmega32U4__)
+#define BA_MAX_SEGMENTS 10
+// 96K (64 + 32) DUE...
+#elif defined(__SAM3X8E__)
+#define BA_MAX_SEGMENTS 100
+// default max 1000
+#else
+#define BA_MAX_SEGMENTS 5
+#endif
 
 #define BA_ERR          0xFFFFFFFF
 #define BA_OK           0x00

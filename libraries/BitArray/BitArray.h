@@ -3,7 +3,7 @@
 //
 //    FILE: BitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 // PURPOSE: BitArray library for Arduino
 // HISTORY: See BitArray.cpp
 //
@@ -26,7 +26,7 @@
 #include "WProgram.h"
 #endif
 
-#define BITARRAY_LIB_VERSION "0.1.05"
+#define BITARRAY_LIB_VERSION "0.1.06"
 #define BA_SEGMENT_SIZE 200
 
 // max memory is board type dependant
@@ -57,10 +57,12 @@
 #define BA_MAX_SEGMENTS 5
 #endif
 
-#define BA_ERR          0xFFFFFFFF
-#define BA_OK           0x00
-#define BA_NO_MEMORY    0x01
-#define BA_IDX_RANGE    0x02
+#define BA_ERR              0xFFFFFFFF
+#define BA_OK               0x00
+#define BA_NO_MEMORY_ERR    0x01
+#define BA_IDX_RANGE_ERR    0x02
+#define BA_ELEMENT_SIZE_ERR 0x03
+#define BA_SIZE_ERR         0x04
 
 
 class BitArray
@@ -69,28 +71,27 @@ public:
     BitArray() {};
     ~BitArray();
 
-    byte begin(const byte bits, const uint16_t size);
+    uint8_t  begin(const uint8_t bits, const uint16_t size);
 
     uint16_t capacity() { return _bytes * 8 / _bits; };
     uint16_t memory()   { return _bytes; };
     uint16_t bits()     { return _bits; };
     uint16_t segments() { return _segments; };
-    byte getError()     { return _error; };
-    void clear();
+    uint8_t  getError() { return _error; };
+    void     clear();
 
     uint32_t get(const uint16_t idx);
     uint32_t set(const uint16_t idx, uint32_t value);
 
 private:
-    byte _bitget(const uint16_t idx);
-    void _bitset(const uint16_t idx, const byte value);
+    uint8_t _bitget(const uint16_t idx);
+    void    _bitset(const uint16_t idx, const uint8_t value);
 
-    uint16_t _size = 0;
     uint16_t _bytes = 0;
-    uint16_t _bits = 0;
-    uint16_t _segments = 0;
-    byte * _ar[BA_MAX_SEGMENTS];
-    byte _error = BA_NO_MEMORY;
+    uint8_t  _bits = 0;
+    uint8_t  _segments = 0;
+    uint8_t *_ar[BA_MAX_SEGMENTS];
+    uint8_t  _error = BA_NO_MEMORY_ERR;
 };
 
 #endif

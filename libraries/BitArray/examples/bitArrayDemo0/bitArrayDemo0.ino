@@ -1,7 +1,7 @@
 //
 //    FILE: bitArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: demo - store 2000 dice rolls
 //    DATE: 14-11-2015
 //     URL:
@@ -29,7 +29,7 @@ void setup()
   Serial.println(BITARRAY_LIB_VERSION);
 
   int x = diceRolls.begin(3, SAMPLES);  // 3 bits can hold any value 1..6
-  if (x == BA_NO_MEMORY) Serial.println("no mem");
+  if (x == BA_NO_MEMORY_ERR) Serial.println("no mem");
   diceRolls.clear();
 
   // myheap.followHeap();

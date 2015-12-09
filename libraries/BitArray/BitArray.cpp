@@ -1,13 +1,14 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: BitArray library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=361167
 
 //
 // Released to the public domain
 //
+// 0.1.07 - private calls inline -> performance & footprint
 // 0.1.06 - refactored
 // 0.1.05 - added upper limits
 // 0.1.04 - improve performance
@@ -16,9 +17,6 @@
 // 0.1.01 - added clear() + fixed set bug
 // 0.1.00 - initial version
 //
-// todo
-// - performance optimizations.
-// - max value (#bits != maxValue) ??
 
 #include "BitArray.h"
 
@@ -104,18 +102,19 @@ void BitArray::clear()
         uint8_t *p = _ar[s];
         if (p)
         {
-            for (int i = 0; i < min(b, BA_SEGMENT_SIZE); i++)
+            uint8_t t = min(b, BA_SEGMENT_SIZE);
+            b -= t;
+            while(t--)
             {
-                p[i] = 0;
+                *p++ = 0;
             }
-            b -= min(b, BA_SEGMENT_SIZE);
         }
         if (b == 0) break;
     }
 }
 
 // PRIVATE
-uint8_t BitArray::_bitget(uint16_t pos)
+inline uint8_t BitArray::_bitget(uint16_t pos)
 {
     uint8_t se = 0;
     uint16_t re = pos;
@@ -130,7 +129,7 @@ uint8_t BitArray::_bitget(uint16_t pos)
     return (p[by] >> bi) & 0x01; // bitRead(p[by], bi);
 }
 
-void BitArray::_bitset(uint16_t pos, uint8_t value)
+inline void BitArray::_bitset(uint16_t pos, uint8_t value)
 {
     uint8_t se = 0;
     uint16_t re = pos;

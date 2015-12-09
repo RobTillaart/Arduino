@@ -3,7 +3,7 @@
 //
 //    FILE: BitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.06
+// VERSION: 0.1.07
 // PURPOSE: BitArray library for Arduino
 // HISTORY: See BitArray.cpp
 //
@@ -26,7 +26,7 @@
 #include "WProgram.h"
 #endif
 
-#define BITARRAY_LIB_VERSION "0.1.06"
+#define BITARRAY_LIB_VERSION "0.1.07"
 #define BA_SEGMENT_SIZE 200
 
 // max memory is board type dependant

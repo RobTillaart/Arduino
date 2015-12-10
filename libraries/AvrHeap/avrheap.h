@@ -3,7 +3,7 @@
 //
 //    FILE: Avrheap.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: heap library for Arduino (AVR)
 // HISTORY: See avrheap.cpp
 //
@@ -25,12 +25,14 @@ class Avrheap
 public:
     Avrheap();
     size_t printTo(Print& p) const;
-    
+
     // uint32_t freeRAM();  // should this be in ?
     bool     isFragmented();
     uint16_t freeListCount();
     uint16_t freeListSize();
     void     freeListDump();
+
+    uint16_t startAddress();
     void     dump(uint16_t count);
 private:
 

@@ -1,7 +1,7 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: library for avrheap Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=355660
 //
@@ -9,7 +9,7 @@
 // http://forum.arduino.cc/index.php?topic=27536.15
 //
 // Released to the public domain
-//
+// 0.1.03 - refactoring
 // 0.1.02 - added followHeap()
 // 0.1.01 - refactor, added startAddress()
 // 0.1.00 - initial version
@@ -78,10 +78,9 @@ uint16_t Avrheap::startAddress()
     return (uint16_t) &__heap_start;
 }
 
-// PRINTTO?
-void Avrheap::dump(uint16_t count)
+// WHAT USES
+void Avrheap::dump()
 {
-    /*
     Serial.println((int)__brkval);
     Serial.println((int)RAMEND);
     Serial.println((int)SP);
@@ -92,38 +91,35 @@ void Avrheap::dump(uint16_t count)
     Serial.println((int)__malloc_heap_start);
     Serial.println((int)__malloc_heap_end);
     Serial.println((int)__malloc_margin);
-    */
-
-    for (int i = 0; i < count;)
-    {
-        Serial.print('\t');
-        Serial.print((uint8_t) * ((&__heap_start) + i) );
-        if (++i % 16 == 0) Serial.println();
-    }
-    Serial.println();
 }
 
-// EXPERIMENTAL
 void Avrheap::followHeap()
 {
-    byte* p = (byte*) &__heap_start;
-    struct __freelist* fp = __flp;
-
-    Serial.println("addr\tsize");
-    while ((int)p < (int)__brkval)
+    size_t n = 0;
+    byte* heapNodePtr = (byte*) &__heap_start;
+    n += Serial.println("addr\tsize\tcontent");
+    while ((int)heapNodePtr < (int)__brkval)  // brkval is first free place.
     {
-        Serial.print((uint16_t)p); // p+2 ?
-        Serial.print("\t\t");
-        Serial.print(*p, DEC);
-        // if (inFreeList(p) Serial.print("\t (free)");
-        if ( (fp != NULL) && ((uint16_t)p == (uint16_t)fp))
+        // address of heap-node (- 2)
+        n += Serial.print((uint16_t)heapNodePtr); // p+2 ?
+        n += Serial.print("\t");
+        // size of heap node
+        n += Serial.print(*heapNodePtr, DEC);
+        if (inFreeList((uint16_t)heapNodePtr)) n += Serial.print(":f\t");
+        else n += Serial.print(":\t");
+        // dump content of heap-node
+        for (int i = 0; i < *heapNodePtr; i++)
         {
-            Serial.print("\t (free)");
-            fp = fp->next;
+            uint8_t v = (uint8_t) *( heapNodePtr + 2 + i);
+            if (v < 16) n += Serial.print('0');
+            n += Serial.print(v, HEX);
+            n += Serial.print(" ");
         }
-        Serial.println();
-        p += (byte) *p + 2;
+        n += Serial.println();
+        // goto next heap-node
+        heapNodePtr += (byte) *heapNodePtr + 2;
     }
+    // return n;
 }
 
 bool Avrheap::inFreeList(uint16_t addr)

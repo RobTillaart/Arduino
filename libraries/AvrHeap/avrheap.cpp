@@ -1,56 +1,53 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.02
 // PURPOSE: library for avrheap Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=355660
 //
+// REFERENCES
+// http://forum.arduino.cc/index.php?topic=27536.15
+//
 // Released to the public domain
 //
-// 0.1.01 - refactor, added startAddress
+// 0.1.02 - added followHeap()
+// 0.1.01 - refactor, added startAddress()
 // 0.1.00 - initial version
 
 #include "Avrheap.h"
 
-struct __freelist {
+struct __freelist
+{
     size_t size;
     struct __freelist *next;
 };
 
-extern struct __freelist *__flp;
-extern int __heap_start, *__brkval;
-extern char *__malloc_heap_start;
-extern char *__malloc_heap_end;
+extern struct   __freelist *__flp;
+extern uint16_t __heap_start;
+extern uint16_t *__brkval;
+extern char     *__malloc_heap_start;
+extern char     *__malloc_heap_end;
+extern size_t   __malloc_margin;
+extern uint16_t __data_start;
+extern uint16_t __data_end;
+extern uint16_t __bss_start;
+extern uint16_t __bss_end;
+extern uint16_t __heap_start;
+
 
 Avrheap::Avrheap()
 {
 };
 
-size_t Avrheap::printTo(Print& p) const
-{
-    size_t n = 0;
-    for (int i = 0; i < count; )
-    {
-        n += p.print('\t');
-        n += p.print((uint8_t) * ((&__heap_start) + i) );
-        if (++i % 16 == 0) n += p.println();
-    }
-    n += p.println();
-    return n;
-};
-
 bool Avrheap::isFragmented()
 {
-    return this->freeListCount() > 1;
+    return this->freeListCount() > 0;
 };
 
 uint16_t Avrheap::freeListCount()
 {
     uint16_t count = 0;
-    for (struct __freelist*  p = __flp; p; p = p->next)
-    {
-        count++;
-    }
+    for (struct __freelist*  p = __flp; p; p = p->next) count++;
     return count;
 }
 
@@ -78,13 +75,26 @@ void Avrheap::freeListDump()
 
 uint16_t Avrheap::startAddress()
 {
-    return &__heap_start;
+    return (uint16_t) &__heap_start;
 }
 
-// PRINTTO
+// PRINTTO?
 void Avrheap::dump(uint16_t count)
 {
-    for (int i = 0; i < count; )
+    /*
+    Serial.println((int)__brkval);
+    Serial.println((int)RAMEND);
+    Serial.println((int)SP);
+    Serial.println((int)__data_start);
+    Serial.println((int)__data_end);
+    Serial.println((int)__bss_start);
+    Serial.println((int)__bss_end);
+    Serial.println((int)__malloc_heap_start);
+    Serial.println((int)__malloc_heap_end);
+    Serial.println((int)__malloc_margin);
+    */
+
+    for (int i = 0; i < count;)
     {
         Serial.print('\t');
         Serial.print((uint8_t) * ((&__heap_start) + i) );
@@ -93,21 +103,46 @@ void Avrheap::dump(uint16_t count)
     Serial.println();
 }
 
+// EXPERIMENTAL
+void Avrheap::followHeap()
+{
+    byte* p = (byte*) &__heap_start;
+    struct __freelist* fp = __flp;
 
+    Serial.println("addr\tsize");
+    while ((int)p < (int)__brkval)
+    {
+        Serial.print((uint16_t)p); // p+2 ?
+        Serial.print("\t\t");
+        Serial.print(*p, DEC);
+        // if (inFreeList(p) Serial.print("\t (free)");
+        if ( (fp != NULL) && ((uint16_t)p == (uint16_t)fp))
+        {
+            Serial.print("\t (free)");
+            fp = fp->next;
+        }
+        Serial.println();
+        p += (byte) *p + 2;
+    }
+}
 
-// void followHeap()
-// {
-// Serial.println("followHeap");
-// int *p = (int*)&__heap_start;
-// int x = 0;
-// for (int i = 0; i < 10; i++)
-// {
-// Serial.print(i);
-// Serial.print('\t');
-// Serial.print(*p, DEC);
-// Serial.println();
-// p += (int) * p;
-// }
-// }
+bool Avrheap::inFreeList(uint16_t addr)
+{
+    for (struct __freelist* p = __flp; p; p = p->next)
+    {
+        if (addr == (uint16_t)p) return true;
+    }
+    return false;
+}
+
+uint16_t Avrheap::freeListLargest()
+{
+    uint16_t largest = 0;
+    for (struct __freelist*  p = __flp; p; p = p->next)
+    {
+        largest = max(largest, (uint16_t) p->size);
+    }
+    return largest;
+}
 
 // --- END OF FILE ---

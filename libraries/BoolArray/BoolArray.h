@@ -3,13 +3,13 @@
 //
 //    FILE: BoolArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.00
+// VERSION: 0.1.02
 // PURPOSE: BoolArray library for Arduino
 // HISTORY: See BoolArray.cpp
 //
 // Released to the public domain
 //
-// BoolArray implement a comapct array of booleans of max size 2000
+// BoolArray implement a compact array of booleans of max size 2000
 //
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -18,8 +18,12 @@
 #include "WProgram.h"
 #endif
 
-#define BOOLARRAY_LIB_VERSION   "0.1.01"
+#define BOOLARRAY_LIB_VERSION   "0.1.02"
 #define BOOLARRAY_MAXSIZE       (250*8)
+#define BOOLARRAY_OK            0x00
+#define BOOLARRAY_ERROR         0xFF
+#define BOOLARRAY_SIZE_ERROR    0xFE
+#define BOOLARRAY_INIT_ERROR    0xFD
 
 class BoolArray
 {
@@ -28,12 +32,13 @@ public:
     ~BoolArray();
 
     uint8_t begin(const uint16_t size);
-    void clear();
+    uint8_t clear();
+    uint8_t setAll(const uint8_t value);
     uint8_t get(const uint16_t idx);
-    void set(const uint16_t idx, uint8_t value);
+    uint8_t set(const uint16_t idx, const uint8_t value);
 
 private:
-    byte * _ar;
+    uint8_t * _ar;
     uint16_t _size;
 };
 

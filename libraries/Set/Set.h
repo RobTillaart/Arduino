@@ -1,9 +1,9 @@
 //
 //    FILE: Set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: SET library for Arduino
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=279044.0
 //
 // HISTORY:
 // see Set.cpp file
@@ -18,7 +18,7 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.07"
+#define SET_LIB_VERSION "0.1.08"
 
 class Set
 {
@@ -29,23 +29,27 @@ public:
     void clr();                 // clear the Set
     void invert();              // flip all elements in the Set
     uint8_t count();            // return the #elements
+    // bool isEmpty();
 
     void add(uint8_t);          // add element to the Set
     void sub(uint8_t);          // remove element from Set
     void invert(uint8_t);       // flip element in Set
     bool has(uint8_t);          // element is in Set
 
-    Set operator + (Set &t);    // union
-    Set operator - (Set &t);    // diff
-    Set operator * (Set &t);    // intersection
+    Set operator + (Set &);     // union
+    Set operator - (Set &);     // diff
+    Set operator * (Set &);     // intersection
 
-    void operator += (Set &t);  // union
-    void operator -= (Set &t);  // diff
-    void operator *= (Set &t);  // intersection
+    void operator += (Set &);   // union
+    void operator -= (Set &);   // diff
+    void operator *= (Set &);   // intersection
 
-    bool operator == (Set&);    // equal
-    bool operator != (Set&);    // not equal
-    bool operator <= (Set&);    // is subSet
+    bool operator == (Set &);   // equal
+    bool operator != (Set &);   // not equal
+    bool operator <= (Set &);   // is subSet,
+    // a superSet b is not implemented as one could 
+    // say b subSet a (b <= a)
+    // a <= b  
 
     // iterating through the Set
     // returns value or -1 if not exist

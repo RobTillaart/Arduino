@@ -1,11 +1,12 @@
 //
 //    FILE: Set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: SET library for Arduino
-//     URL:
+//     URL: http://forum.arduino.cc/index.php?topic=279044.0
 //
 // HISTORY:
+// 0.1.08 memset for clr()
 // 0.1.07 faster first/next/last/prev; interface
 // 0.1.06 added flag to constructor to optimize +,-,*,
 //        set -> Set
@@ -80,12 +81,9 @@ uint8_t Set::count()
     {
         // kerningham bit count trick
         uint8_t b = _mem[i];
-        if (b!=0)
-        {
         for (; b; cnt++)
         {
             b &= b-1;
-        }
         }
     }
     return cnt;
@@ -93,10 +91,7 @@ uint8_t Set::count()
 
 void Set::clr()
 {
-    for (uint8_t i=0; i<32; i++)
-    {
-        _mem[i] = 0;
-    }
+    memset(_mem, 0, 32);
 }
 
 void Set::invert()
@@ -107,6 +102,15 @@ void Set::invert()
     }
 }
 
+// bool Set::isEmpty()
+// {
+    // for (uint8_t i=0; i<32; i++)
+    // {
+        // if (_mem[i]) return false;
+    // }
+    // return true;
+// }
+
 int Set::first()
 {
     return findNext(0,0);
@@ -114,7 +118,7 @@ int Set::first()
 
 int Set::next()
 {
-    if (_current & 0x8000) return -1;
+    if (_current & 0x8000) return -1; // if current == -1
     _current++;
     uint8_t p = (uint8_t)_current / 8;
     uint8_t q = (uint8_t)_current & 7;
@@ -162,7 +166,7 @@ int Set::last()
 int Set::findPrev(uint8_t p, uint8_t q)
 {
     uint8_t m = 1 << q;
-    for (uint8_t i=p; i!=255; --i)
+    for (uint8_t i=p; i!=255; --i)  // uint < 0
     {
         uint8_t b = _mem[i];
         if (b != 0)

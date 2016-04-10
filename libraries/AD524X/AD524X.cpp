@@ -85,6 +85,14 @@ uint8_t AD524X::read(const uint8_t rdac)
     return _lastValue[rdac];
 }
 
+uint8_t AD524X::readBackRegister()
+{
+    Wire.beginTransmission(_address);
+    Wire.endTransmission();
+    Wire.requestFrom(_address, (uint8_t)1);
+    return Wire.read();
+}
+
 uint8_t AD524X::midScaleReset(const uint8_t rdac)
 {
     if (rdac > 1) return AS524X_ERROR;

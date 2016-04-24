@@ -2,7 +2,7 @@
 //    FILE: PCA9635_test01.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-APR-2016
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PUPROSE: test PCA9635 library
 //
 
@@ -18,7 +18,40 @@ void setup()
     Serial.println(PCA9635_LIB_VERSION);
     Serial.println();
 
+    testSetLedDriverModeLEDON();
+    testPWMMode();
+    testWrite1();
+    testWrite3();
+    testWriteN();
+    testSetGroupPWM_FREQ();
+    testSetAndReadMode();
+    testSetLedDriverModeLEDOFF();
 
+    Serial.print(millis());
+    Serial.print("\t");
+    Serial.println("done...");
+}
+
+void testSetLedDriverModeLEDON()
+{
+    Serial.print(millis());
+    Serial.print("\t");
+    Serial.println("Test - Switch all on");
+    for (int channel = 0; channel < 16; channel++)
+    {
+        ledArray.setLedDriverMode(channel, PCA9635_LEDON);
+        if (ledArray.getLedDriverMode(channel) != PCA9635_LEDON)
+        {
+            Serial.print(millis());
+            Serial.print("\t");
+            Serial.print("Channel: ");
+            Serial.println(channel);
+        }
+    }
+}
+
+void testPWMMode()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - set pwm mode");
@@ -35,8 +68,10 @@ void setup()
             Serial.println(channel);
         }
     }
+}
 
-
+void testWrite1()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - write1 - I");
@@ -47,8 +82,6 @@ void setup()
             ledArray.write1(channel, pwm);
         }
     }
-
-
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - write 1 - II");
@@ -59,8 +92,10 @@ void setup()
             ledArray.write1(channel, pwm);
         }
     }
+}
 
-
+void testWrite3()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - write3 - random RGB");
@@ -71,15 +106,19 @@ void setup()
         uint8_t B = random(256);
         ledArray.write3(channel, R, G, B);
     }
+}
 
-
+void testWriteN()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - writeN ");
     uint8_t arr[16] = {16,32,48,64,80,96,112,128,144,160,176,192,208,224,240,255};
     ledArray.writeN(0, arr, 16);
+}
 
-
+void testSetGroupPWM_FREQ()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - GroupPWM");
@@ -101,7 +140,6 @@ void setup()
     }
     ledArray.setGroupPWM(127);
 
-
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - groupFRQ");
@@ -121,8 +159,10 @@ void setup()
     {
         ledArray.setLedDriverMode(channel, PCA9635_LEDPWM);
     }
+}
 
-
+void testSetAndReadMode()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - readMode");
@@ -138,8 +178,10 @@ void setup()
     Serial.print("\t");
     Serial.print("PCA9635_MODE2: ");
     Serial.println(regval);
+}
 
-
+void testSetLedDriverModeLEDOFF()
+{
     Serial.print(millis());
     Serial.print("\t");
     Serial.println("Test - Switch all off");
@@ -154,9 +196,6 @@ void setup()
             Serial.println(channel);
         }
     }
-    Serial.print(millis());
-    Serial.print("\t");
-    Serial.println("done...");
 }
 
 void loop()

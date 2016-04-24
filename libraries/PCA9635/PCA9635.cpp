@@ -2,11 +2,12 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: I2C PCA9635 library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.01 set autoincr in constructor
 // 0.1.00 initial BETA version
 //
 
@@ -21,6 +22,7 @@ PCA9635::PCA9635(const uint8_t deviceAddress)
     // TWBR = 12; // 400KHz
     _data = 0;
     _error = 0;
+    writeReg(PCA9685_MODE1, 0x81);  //  AUTOINCR | NOSLEEP | ALLADRR
 }
 
 // write value to single PWM registers

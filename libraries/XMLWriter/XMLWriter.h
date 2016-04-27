@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -13,9 +13,10 @@
 #include "Arduino.h"
 // no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.05"
+#define XMLWRITER_VERSION "0.1.06"
 
 // for comment()
+#define NOMULTILINE false
 #define MULTILINE   true
 
 // for tagOpen(), tagEnd()
@@ -29,12 +30,10 @@
 
 // deepness of XML tree 5..10
 // needed for stack of tagStack
-#define XMLWRITER_MAXLEVEL 5
-#define XMLWRITER_MAXTAGSIZE 15
+#define XMLWRITER_MAXLEVEL 5      // adjust for deeper nested structures
+#define XMLWRITER_MAXTAGSIZE 15   // adjust for longer fields - !! eats memory !!
 
-// reduce footprint by not using all
-// possible datatypes
-#define XMLWRITER_EXTENDED
+// reduce footprint by commenting next line
 #define XMLWRITER_ESCAPE_SUPPORT
 
 class XMLWriter
@@ -56,7 +55,7 @@ public:
     // <tag name="name">
     void tagOpen(char* tag, char* name, bool newline=true);
     // </tag>
-    void tagClose(bool indent=true);
+    void tagClose(bool ind=true);
 
     // <tag
     void tagStart(char* tag);
@@ -69,9 +68,14 @@ public:
     void writeNode(char* tag, char* value);
 
     // typically 0,2,4; default == 2;
-    void setIndentSize(uint8_t size);
+    void setIndentSize(uint8_t size = 2);
 
-#ifdef XMLWRITER_EXTENDED
+    // for manual layout control
+    void incrIndent()       { _indent += _indentStep; };
+    void decrIndent()       { _indent -= _indentStep; };
+    void indent();
+    void raw(char * str)    { _stream->print(str); };       // TODO Q:other types?
+
     void tagField(char* field, uint8_t  value, uint8_t base=DEC);
     void tagField(char* field, uint16_t value, uint8_t base=DEC);
     void tagField(char* field, uint32_t value, uint8_t base=DEC);
@@ -89,8 +93,6 @@ public:
     void writeNode(char* tag, int32_t   value, uint8_t base=DEC);
     void writeNode(char* tag, bool      value);
     void writeNode(char* tag, double value, uint8_t decimals=2);
-#endif
-
 
 #ifdef XMLWRITER_ESCAPE_SUPPORT
     // expands the special xml chars
@@ -102,7 +104,6 @@ private:
     Print* _stream;
 
     // for indentation
-    void spaces();
     uint8_t _indent;
     uint8_t _indentStep;
 

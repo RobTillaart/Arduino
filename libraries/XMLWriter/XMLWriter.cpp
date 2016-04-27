@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.1.06
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML library
 //
@@ -12,6 +12,7 @@
 // 0.1.03 - 2015-03-07 refactored - footprint + interface
 // 0.1.04 - 2015-05-21 refactored - reduce RAM -> used F() macro etc.
 // 0.1.05 - 2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
+// 0.1.06 - 2016-03-16 added incrIndent(), decrIndent(), indent(), raw();
 //
 // Released to the public domain
 //
@@ -39,7 +40,7 @@ void XMLWriter::header()
 void XMLWriter::comment(char* text, bool multiLine)
 {
     _stream->println();
-    if (!multiLine) spaces();
+    if (!multiLine) indent();
     _stream->print(F("<!-- "));
     if (multiLine) _stream->println();
     _stream->print(text);
@@ -62,10 +63,10 @@ void XMLWriter::tagOpen(char* tag, char* name, bool newline)
     _indent += _indentStep;
 }
 
-void XMLWriter::tagClose(bool indent)
+void XMLWriter::tagClose(bool ind)
 {
     _indent -= _indentStep;
-    if (indent) spaces();
+    if (ind) indent();
     _stream->print(F("</"));
     _stream->print(tagStack[--_idx]);
     _stream->println(F(">"));
@@ -73,7 +74,7 @@ void XMLWriter::tagClose(bool indent)
 
 void XMLWriter::tagStart(char *tag)
 {
-    spaces();
+    indent();
     _stream->print('<');
     _stream->print(tag);
 }
@@ -114,7 +115,6 @@ void XMLWriter::setIndentSize(uint8_t size)
     _indentStep = size;
 }
 
-#ifdef XMLWRITER_EXTENDED
 void XMLWriter::tagField(char *field, uint8_t value, uint8_t base)
 {
     tagField(field, (uint32_t) value, base);
@@ -185,7 +185,7 @@ void XMLWriter::writeNode(char* tag, uint16_t value, uint8_t base)
 void XMLWriter::writeNode(char* tag, uint32_t value, uint8_t base)
 {
     tagOpen(tag, "", NONEWLINE);
-    _stream->print(value, base);
+    _stream->print(value, base);  // todo: leading zero's
     tagClose(NOINDENT);
 }
 
@@ -202,7 +202,7 @@ void XMLWriter::writeNode(char* tag, int16_t value, uint8_t base)
 void XMLWriter::writeNode(char* tag, int32_t value, uint8_t base)
 {
     tagOpen(tag, "", NONEWLINE);
-    _stream->print(value, base);
+    _stream->print(value, base);  // todo: leading zero's
     tagClose(NOINDENT);
 }
 
@@ -219,14 +219,13 @@ void XMLWriter::writeNode(char* tag, double value, uint8_t decimals)
     _stream->print(value, decimals);
     tagClose(NOINDENT);
 }
-#endif
 
-////////////////////////////////////////////////////////////////////
-
-void XMLWriter::spaces()
+void XMLWriter::indent()
 {
     for (uint8_t i=_indent; i>0; i--) _stream->print(' ');
 }
+
+////////////////////////////////////////////////////////////////////
 
 #ifdef XMLWRITER_ESCAPE_SUPPORT
 char c[6] = "\"\'<>&";

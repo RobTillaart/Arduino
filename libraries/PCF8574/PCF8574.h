@@ -25,13 +25,19 @@ class PCF8574
 {
 public:
     PCF8574(uint8_t deviceAddress);
+    
+    void begin();
 
     uint8_t read8();
     uint8_t read(uint8_t pin);
     uint8_t value();
+    uint8_t valueOut();
 
     void write8(uint8_t value);
     void write(uint8_t pin, uint8_t value);
+    
+    uint8_t readButton8();
+    uint8_t readButton(uint8_t pin);
 
     void toggle(uint8_t pin);
     void shiftRight(uint8_t n=1);
@@ -42,6 +48,7 @@ public:
 private:
     uint8_t _address;
     uint8_t _data;
+    uint8_t _dataOut = 0xFF;
     int _error;
 };
 

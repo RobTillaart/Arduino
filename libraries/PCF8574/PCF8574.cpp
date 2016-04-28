@@ -7,7 +7,7 @@
 //     URL:
 //
 // HISTORY:
-// 0.1.05 2016-04-28 Septillion
+// 0.1.07 2016-04-28 Septillion
 //        added dataOut so a write() doesn't read first, 
 //        possibly corrupting a input pin;
 //        fixed shift comment, should read 1..7;
@@ -36,7 +36,7 @@ PCF8574::PCF8574(uint8_t deviceAddress)
     // TWBR = 12; // 400KHz
 }
 
-//added 0.1.05
+//added 0.1.07
 void PCF8574::begin()
 {
   PCF8574::write8(0xFF);
@@ -67,7 +67,7 @@ uint8_t PCF8574::value()
     return _data;
 }
 
-//added 0.1.05
+//added 0.1.07
 uint8_t PCF8574::valueOut ()
 {
     return _dataOut;
@@ -104,6 +104,7 @@ void PCF8574::write(uint8_t pin, uint8_t value)
     PCF8574::write8(_dataOut);
 }
 
+//added 0.1.07
 uint8_t PCF8574::readButton8()
 {
   uint8_t temp = _dataOut;
@@ -114,6 +115,7 @@ uint8_t PCF8574::readButton8()
   return rtn;
 }
 
+//added 0.1.07
 uint8_t PCF8574::readButton(uint8_t pin)
 {
   uint8_t temp = _dataOut;

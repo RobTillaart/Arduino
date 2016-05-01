@@ -2,11 +2,12 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.1.04
+// VERSION: 0.1.05
 // PURPOSE: I2C PCF8574 library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.05 2016-04-30 refactor, +toggleMask, +rotLeft, +rotRight
 // 0.1.04 2015-05-09 removed ambiguity in read8()
 // 0.1.03 2015-03-02 address int -> uint8_t
 // 0.1.02 replaced ints with uint8_t to reduce footprint;
@@ -21,11 +22,13 @@
 
 #include <Wire.h>
 
-PCF8574::PCF8574(uint8_t deviceAddress)
+PCF8574::PCF8574(const uint8_t deviceAddress)
 {
     _address = deviceAddress;
     Wire.begin();
     // TWBR = 12; // 400KHz
+    _data = 0;
+    _error = 0;
 }
 
 // removed Wire.beginTransmission(addr);
@@ -48,12 +51,8 @@ uint8_t PCF8574::read8()
     return _data;
 }
 
-uint8_t PCF8574::value()
-{
-    return _data;
-}
 
-void PCF8574::write8(uint8_t value)
+void PCF8574::write8(const uint8_t value)
 {
     _data = value;
     Wire.beginTransmission(_address);
@@ -62,37 +61,44 @@ void PCF8574::write8(uint8_t value)
 }
 
 // pin should be 0..7
-uint8_t PCF8574::read(uint8_t pin)
+uint8_t PCF8574::read(const uint8_t pin)
 {
     PCF8574::read8();
-    return (_data & (1<<pin)) > 0;
+    return (_data & (1 << pin)) > 0;
 }
 
 // pin should be 0..7
-void PCF8574::write(uint8_t pin, uint8_t value)
+void PCF8574::write(const uint8_t pin, const uint8_t value)
 {
     PCF8574::read8();
     if (value == LOW)
     {
-        _data &= ~(1<<pin);
+        _data &= ~(1 << pin);
     }
     else
     {
-        _data |= (1<<pin);
+        _data |= (1 << pin);
     }
     PCF8574::write8(_data);
 }
 
 // pin should be 0..7
-void PCF8574::toggle(uint8_t pin)
+void PCF8574::toggle(const uint8_t pin)
+{
+    if (pin > 7 ) return;
+    toggleMask(1 << pin);
+}
+
+// invert = toggleAll = toggleMask(0xFF)
+void PCF8574::toggleMask(const uint8_t mask)
 {
     PCF8574::read8();
-    _data ^=  (1 << pin);
+    _data ^= mask;
     PCF8574::write8(_data);
 }
 
 // n should be 0..7
-void PCF8574::shiftRight(uint8_t n)
+void PCF8574::shiftRight(const uint8_t n)
 {
     if (n == 0 || n > 7 ) return;
     PCF8574::read8();
@@ -101,7 +107,7 @@ void PCF8574::shiftRight(uint8_t n)
 }
 
 // n should be 0..7
-void PCF8574::shiftLeft(uint8_t n)
+void PCF8574::shiftLeft(const uint8_t n)
 {
     if (n == 0 || n > 7) return;
     PCF8574::read8();
@@ -115,6 +121,23 @@ int PCF8574::lastError()
     _error = 0;
     return e;
 }
+
+// n should be 0..7
+void PCF8574::rotateRight(const uint8_t n)
+{
+    if (n == 0 || n > 7 ) return;
+    PCF8574::read8();
+    _data = (_data >> n) | (_data << (8-n));
+    PCF8574::write8(_data);
+}
+
+// n should be 0..7
+void PCF8574::rotateLeft(const uint8_t n)
+{
+    rotateRight(8-n);
+}
+
+
 //
 // END OF FILE
 //

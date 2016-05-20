@@ -17,6 +17,8 @@ void setup()
     Serial.begin(115200);
     Serial.print("\npcf8574_test2.ino\nlib version: ");
     Serial.println(PCF8574_LIB_VERSION);
+    
+    PCF_39.begin();
 
     PCF_39.write(0, 1);
     for (int i=0; i<7; i++)

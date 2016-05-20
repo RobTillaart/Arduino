@@ -6,5 +6,5 @@ On some platforms (reported on an ESP8266) the PCF8574 constructor is causing pr
 
 Solution is moving the call to Wire.begin() from the constructor to void setup() before any call to an PCF8574 object.
 
-This might be fixed in the future. 
+FIXED in 0.1.08 @ 2016-05-20
 

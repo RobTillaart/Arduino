@@ -38,7 +38,7 @@ PCF8574::PCF8574(const uint8_t deviceAddress)
     // TWBR = 12; // 400KHz
 
     _dataIn = 0;
-    _dataOut = 0;
+    _dataOut = 0xFF;
 
     _error = PCF8574_OK;
 }

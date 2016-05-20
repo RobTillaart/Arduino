@@ -43,6 +43,12 @@ PCF8574::PCF8574(const uint8_t deviceAddress)
     _error = PCF8574_OK;
 }
 
+//added 0.1.07
+void PCF8574::begin()
+{
+  PCF8574::write8(0xFF);
+}
+
 // removed Wire.beginTransmission(addr);
 // with  @100KHz -> 265 micros()
 // without @100KHz -> 132 micros()

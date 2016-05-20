@@ -34,11 +34,12 @@
 PCF8574::PCF8574(const uint8_t deviceAddress)
 {
     _address = deviceAddress;
-    Wire.begin();
+    //Wire.begin();
     // TWBR = 12; // 400KHz
 
     _dataIn = 0;
     _dataOut = 0xFF;
+    _buttonMask = 0xFF;
 
     _error = PCF8574_OK;
 }
@@ -46,6 +47,7 @@ PCF8574::PCF8574(const uint8_t deviceAddress)
 //added 0.1.07
 void PCF8574::begin()
 {
+  Wire.begin();
   PCF8574::write8(0xFF);
 }
 
@@ -155,14 +157,14 @@ void PCF8574::rotateLeft(const uint8_t n)
     rotateRight(8- (n & 7));
 }
 
-//added 0.1.07 Septillion
-uint8_t PCF8574::readButton8()
+//added 0.1.07/08 Septillion
+uint8_t PCF8574::readButton8(const uint8_t mask)
 {
     uint8_t temp = _dataOut;
-    PCF8574::begin();
-    uint8_t rtn = PCF8574::read8();
+    PCF8574::write8(mask | _dataOut); 
+    PCF8574::read8();
     PCF8574::write8(temp);
-    return rtn;
+    return _dataIn;
 }
 
 //added 0.1.07 Septillion
@@ -178,6 +180,11 @@ uint8_t PCF8574::readButton(const uint8_t pin)
     uint8_t rtn = PCF8574::read(pin);
     PCF8574::write8(temp);
     return rtn;
+}
+
+//added 0.1.08 Septillion
+void PCF8574::setButtonMask(uint8_t mask){
+  _buttonMask = mask;
 }
 
 //

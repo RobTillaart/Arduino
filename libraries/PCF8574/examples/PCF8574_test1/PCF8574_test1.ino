@@ -17,6 +17,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("\nTEST PCF8574\n");
+  
+  PCF_38.begin();
+  PCF_39.begin();
    
   uint8_t value = PCF_38.read8();
   Serial.print("#38:\t");

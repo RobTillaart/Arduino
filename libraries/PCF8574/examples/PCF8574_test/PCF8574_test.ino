@@ -17,6 +17,8 @@ void setup()
   Serial.begin(9600);
   Serial.print("PCF8574_test version: ");
   Serial.println(PCF8574_LIB_VERSION);
+  
+  PCF_01.begin();
 
   int x = PCF_01.read8();
   Serial.print("Read ");

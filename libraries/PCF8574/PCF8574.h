@@ -41,9 +41,11 @@ public:
     void write(const uint8_t pin, const uint8_t value);
     uint8_t valueOut() const { return _dataOut; }
 
-    //added 0.1.07 Septillion
-    uint8_t readButton8();
+    //added 0.1.07/08 Septillion
+    inline uint8_t readButton8(){ PCF8574::readButton8(_buttonMask);}
+    uint8_t readButton8(const uint8_t mask);
     uint8_t readButton(const uint8_t pin);
+    void setButtonMask(uint8_t mask);
 
     // rotate, shift, toggle expect all lines are output
     void toggle(const uint8_t pin);
@@ -59,6 +61,7 @@ private:
     uint8_t _address;
     uint8_t _dataIn;
     uint8_t _dataOut;
+    uint8_t _buttonMask;
     int _error;
 };
 

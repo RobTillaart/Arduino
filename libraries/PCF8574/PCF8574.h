@@ -2,7 +2,7 @@
 //    FILE: PCF8574.H
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: I2C PCF8574 library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=184800
 //
@@ -19,7 +19,7 @@
 #include "WProgram.h"
 #endif
 
-#define PCF8574_LIB_VERSION "0.1.07"
+#define PCF8574_LIB_VERSION "0.1.08"
 
 #define PCF8574_OK          0x00
 #define PCF8574_PIN_ERROR   0x81
@@ -31,7 +31,7 @@ class PCF8574
 public:
     explicit PCF8574(const uint8_t deviceAddress);
 
-    void begin();
+    void begin(uint8_t val=0xFF);
 
     uint8_t read8();
     uint8_t read(uint8_t pin);
@@ -43,7 +43,7 @@ public:
 
     //added 0.1.07/08 Septillion
     inline uint8_t readButton8(){ PCF8574::readButton8(_buttonMask);}
-    uint8_t readButton8(const uint8_t mask);
+    uint8_t readButton8(const uint8_t mask=0xFF);
     uint8_t readButton(const uint8_t pin);
     void setButtonMask(uint8_t mask);
 

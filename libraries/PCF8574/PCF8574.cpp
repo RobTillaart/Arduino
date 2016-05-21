@@ -2,11 +2,14 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.1.07
+// VERSION: 0.1.08
 // PURPOSE: I2C PCF8574 library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=184800
 //
 // HISTORY:
+// 0.1.08 2016-05-20 Merged work of Septillion 
+//        Fix/refactor ButtonRead8() - see https://github.com/RobTillaart/Arduino/issues/38
+//        missing begin() => mask parameter
 // 0.1.07 2016-05-02 (manually merged) Septillion
 //        added dataOut so a write() doesn't read first,
 //        possibly corrupting a input pin;
@@ -34,21 +37,16 @@
 PCF8574::PCF8574(const uint8_t deviceAddress)
 {
     _address = deviceAddress;
-    //Wire.begin();
-    // TWBR = 12; // 400KHz
-
     _dataIn = 0;
     _dataOut = 0xFF;
     _buttonMask = 0xFF;
-
     _error = PCF8574_OK;
 }
 
-//added 0.1.07
-void PCF8574::begin()
+void PCF8574::begin(uint8_t val)
 {
   Wire.begin();
-  PCF8574::write8(0xFF);
+  PCF8574::write8(val);
 }
 
 // removed Wire.beginTransmission(addr);

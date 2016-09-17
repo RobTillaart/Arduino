@@ -1,19 +1,20 @@
 //
-//    FILE: dht2pin.ino
+//    FILE: DHT2pin.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.01
 // PURPOSE: demo reading an DHT with 2 pins iso 1
 //    DATE: 2016 sep 5
 //     URL: -
 // HISTORY:
+// 0.1.01 changed name to DHT2pin
 // 0.1.00 initial version
 //
 // Released to the public domain
 //
 
-#include <dht2pin.h>
+#include <DHT2pin.h>
 
-dht2pin DHT(2, 3);
+DHT2pin DHT(2, 3);
 
 struct
 {

@@ -1,7 +1,7 @@
 //
 //    FILE: dht2pin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.0.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -32,16 +32,20 @@
 // loops using TIMEOUT use at least 4 clock cycli
 // so 100 us takes max 400 loops
 // so by dividing F_CPU by 40000 we "fail" as fast as possible
+#ifdef F_CPU
 #define DHTLIB_TIMEOUT (F_CPU/40000)
-
-class dht2pin
+#else
+#define DHTLIB_TIMEOUT (75000000/40000)
+#endif
+    
+class DHT2pin
 {
 public:
     // return values:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM
     // DHTLIB_ERROR_TIMEOUT
-    dht2pin(uint8_t rpin, uint8_t wpin) 
+    DHT2pin(uint8_t rpin, uint8_t wpin) 
     { 
         _rpin = rpin; 
         _wpin = wpin; 

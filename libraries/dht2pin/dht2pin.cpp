@@ -1,17 +1,21 @@
 //
-//    FILE: dht2pin.cpp
+//    FILE: DHT2pin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.0.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
+//          https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // HISTORY:
-// 0.0.1 by Rob Tillaart 2016sep05 (based upon 0.1.13 DHT)
+// 0.0.2 support for non "F_CPU" boards especially Galileo
+//       Tested and verified by Maria Emanuella Moura Silva (thanks)
+//       changed name to DHT2pin
+// 0.0.1 initial version - 2016 SEP 05 (based upon 0.1.13 DHT)
 //
 // Released to the public domain
 //
 
-#include "dht2pin.h"
+#include "DHT2pin.h"
 
 /////////////////////////////////////////////////////
 //
@@ -22,7 +26,7 @@
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
 // DHTLIB_ERROR_TIMEOUT
-int dht2pin::read11()
+int DHT2pin::read11()
 {
     // READ VALUES
     int rv = _readSensor(DHTLIB_DHT11_WAKEUP);
@@ -50,7 +54,7 @@ int dht2pin::read11()
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
 // DHTLIB_ERROR_TIMEOUT
-int dht2pin::read()
+int DHT2pin::read()
 {
     // READ VALUES
     int rv = _readSensor(DHTLIB_DHT_WAKEUP);
@@ -86,7 +90,7 @@ int dht2pin::read()
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_TIMEOUT
-int dht2pin::_readSensor(uint8_t wakeupDelay)
+int DHT2pin::_readSensor(uint8_t wakeupDelay)
 {
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;

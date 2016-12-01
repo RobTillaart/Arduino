@@ -25,12 +25,13 @@
 // 0.2.10 - 2015-09-01 added getFastAverage() and refactored getAverage()
 //                     http://forum.arduino.cc/index.php?topic=50473
 // 0.2.11 - 2015-09-04 added getMaxInBuffer() getMinInBuffer() request (Antoon)
-//
+// 0.2.12 - 2016-12-01 added GetStandardDeviation() GetStandardError() BufferIsFull()  (V0v1kkk)
 // Released to the public domain
 //
 
 #include "RunningAverage.h"
 #include <stdlib.h>
+#include <math.h>
 
 RunningAverage::RunningAverage(const uint8_t size)
 {
@@ -119,11 +120,44 @@ double RunningAverage::GetMaxInBuffer() const
     return max;
 }
 
+// return true if buffer is full
+bool RunningAverage::BufferIsFull() const
+{
+    if (_cnt == _size) return true;
+    return false;
+}
+
 // returns the value of an element if exist, NAN otherwise
 double RunningAverage::getElement(uint8_t idx) const
 {
     if (idx >=_cnt ) return NAN;
     return _ar[idx];
+}
+
+// Return standard deviation of running average. If buffer is empty, return NAN.
+double RunningAverage::GetStandardDeviation() const
+{
+	if (_cnt == 0) return NAN;
+    double temp = 0;
+	double average = getFastAverage();
+    for (uint8_t i = 0; i < _cnt; i++)
+    {
+		temp += pow((_ar[i] - average),2);
+    }
+	temp = sqrt(temp/(_cnt - 1));
+    return temp;
+}
+
+// Return standard error of running average. If buffer is empty, return NAN.
+double RunningAverage::GetStandardError() const //++
+{
+	double temp = GetStandardDeviation();
+	if(temp==NAN) return NAN;
+	double n;
+	if(_cnt>=30) n= _cnt;
+	else n= _cnt - 1;
+	temp = temp/sqrt(n);
+	return temp;
 }
 
 // fill the average with a value

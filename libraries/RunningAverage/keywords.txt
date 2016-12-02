@@ -21,7 +21,10 @@ fillValue	KEYWORD2
 getElement	KEYWORD2
 getSize	KEYWORD2
 getCount	KEYWORD2
+BufferIsFull()	KEYWORD2
 getFastAverage	KEYWORD2
+GetStandardDeviation	KEYWORD2
+GetStandardError	KEYWORD2
 GetMinInBuffer	KEYWORD2
 GetMaxInBuffer	KEYWORD2
 

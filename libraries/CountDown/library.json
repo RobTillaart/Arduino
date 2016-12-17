@@ -1,0 +1,15 @@
+{
+  "name": "CountDown",
+  "keywords": "Count down stopwatch timer, MILLIS, MICROS, SECONDS",
+  "description": "Library to implement a CountDown clock (in SW no HW).",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/CountDown"
+  }
+}

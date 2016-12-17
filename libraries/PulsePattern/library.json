@@ -1,0 +1,15 @@
+{
+  "name": "PulsePattern",
+  "keywords": "Pulse pattern repeating ",
+  "description": "Library to generate repeating pulse patterns. (uses timer1)",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/PulsePattern"
+  }
+}

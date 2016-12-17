@@ -1,0 +1,15 @@
+{
+  "name": "IEEE754tools",
+  "keywords": "IEEE 754 ",
+  "description": "Helper functions for IEEE 754 floating point format.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/IEEE754tools"
+  }
+}

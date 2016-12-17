@@ -1,0 +1,15 @@
+{
+  "name": "Par27979",
+  "keywords": "Parallax 27979 serial display",
+  "description": "Defines for Parallax 27979 serial display.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/Par27979"
+  }
+}

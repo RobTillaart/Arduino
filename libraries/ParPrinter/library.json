@@ -1,0 +1,15 @@
+{
+  "name": "ParPrinter",
+  "keywords": "Parallel printer ",
+  "description": "Experimental (not complete) library to connect a parallel printer to Arduino. Implements printer interface.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/ParPrinter"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "XMLWriter",
+  "keywords": "Write XML node header tag indent field",
+  "description": ".",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/XMLWriter"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Histogram",
+  "keywords": "Histogram VAL CDF PMF frequency",
+  "description": "Library for creating histogram math.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/Histogram"
+  }
+}

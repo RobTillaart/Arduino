@@ -1,0 +1,15 @@
+{
+  "name": "FastShiftIn",
+  "keywords": "Shift in serial ",
+  "description": "Class for up to 2x faster shift in.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/FastShiftIn"
+  }
+}

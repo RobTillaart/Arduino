@@ -1,0 +1,15 @@
+{
+  "name": "DHT2pin",
+  "keywords": "DHT11 DHT22 DHT33 DHT44 AM2301 AM2302 AM2303",
+  "description": "Experimental library of the DHT library that uses 2 pins instead of 3.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/DHT2pin"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "Fraction",
-  "keywords": "Library for using fractions.",
-  "description": ".",
+  "keywords": "Fraction quotient",
+  "description": "Library for using fractions.",
   "repository":
   {
     "type": "git",

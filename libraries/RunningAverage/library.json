@@ -1,0 +1,15 @@
+{
+  "name": "RunningAverage",
+  "keywords": "running average, moving average, average",
+  "description": "The library stores the last N individual values in a circular buffer to calculate the running average.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/RunningAverage"
+  }
+}

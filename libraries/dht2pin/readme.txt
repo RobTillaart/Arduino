@@ -1,5 +1,5 @@
 
-NOTE: THIS LIB IS NOT TESTED EXTENSIVELY YET SO ALL DISCLAIMERS APPLY
+NOTE: THIS LIB IS NOT TESTED EXTENSIVELY YET SO ALL DISCLAIMERS APPLY!
 
 This library is an experimental version of the DHT library that uses 2 pins.
 One pin for all read actions and one pin for write actions.

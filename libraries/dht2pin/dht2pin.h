@@ -16,7 +16,7 @@
 
 #define DHT2PIN_LIB_VERSION "0.0.1"
 
-#define DHTLIB_OK                   0
+#define DHTLIB_OK                    0
 #define DHTLIB_ERROR_CHECKSUM       -1
 #define DHTLIB_ERROR_TIMEOUT        -2
 #define DHTLIB_ERROR_CONNECT        -3

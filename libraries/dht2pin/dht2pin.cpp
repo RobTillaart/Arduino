@@ -10,7 +10,7 @@
 // 0.0.2 support for non "F_CPU" boards especially Galileo
 //       Tested and verified by Maria Emanuella Moura Silva (thanks)
 //       changed name to DHT2pin
-// 0.0.1 initial version - 2016 SEP 05 (based upon 0.1.13 DHT)
+// 0.0.1 initial version - 2016 SEP 05 (based upon 0.1.13 DHT == DHTstable)
 //
 // Released to the public domain
 //

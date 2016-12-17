@@ -1,0 +1,15 @@
+{
+  "name": "Max44009",
+  "keywords": "MAX44009 Lux",
+  "description": "library for MAX44009 lux sensor Arduino.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/Max44009"
+  }
+}

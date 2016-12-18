@@ -2,6 +2,17 @@
   "name": "Statistic",
   "keywords": "Statistic sum min max average variance standard deviation population unbiased",
   "description": "Library with basic statistical functions for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    },
+    {
+      "name": "Gil Ross"
+    }
+  ],
   "repository":
   {
     "type": "git",

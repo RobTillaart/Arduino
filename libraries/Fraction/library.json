@@ -2,6 +2,14 @@
   "name": "Fraction",
   "keywords": "Fraction quotient",
   "description": "Library for using fractions.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

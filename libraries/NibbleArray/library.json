@@ -2,6 +2,14 @@
   "name": "NibbleArray",
   "keywords": "4bit nibble nybble array compact",
   "description": "Library to implement a compact array of nibbles (4 bit).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

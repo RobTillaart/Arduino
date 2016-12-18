@@ -2,6 +2,14 @@
   "name": "HMC6352",
   "keywords": "Compass",
   "description": "Experimental library for digital compass sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

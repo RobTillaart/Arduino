@@ -2,6 +2,14 @@
   "name": "FastShiftIn",
   "keywords": "Shift in serial ",
   "description": "Class for up to 2x faster shift in.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

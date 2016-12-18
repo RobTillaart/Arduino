@@ -2,6 +2,14 @@
   "name": "RunningMedian",
   "keywords": "running median, average, outliers",
   "description": "The library stores the last N individual values in a buffer to select the median. It filters outliers.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

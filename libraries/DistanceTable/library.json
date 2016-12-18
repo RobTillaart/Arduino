@@ -2,6 +2,14 @@
   "name": "DistanceTable",
   "keywords": "Distance triangle matrix lookup efficient",
   "description": "Library for a memory efficient DistanceTable for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

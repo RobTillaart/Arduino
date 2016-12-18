@@ -2,6 +2,14 @@
   "name": "IEEE754tools",
   "keywords": "IEEE 754 ",
   "description": "Helper functions for IEEE 754 floating point format.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

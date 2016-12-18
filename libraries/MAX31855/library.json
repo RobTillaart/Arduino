@@ -2,6 +2,14 @@
   "name": "MAX31855",
   "keywords": "MAX31855 Thermocouple",
   "description": "Library for MAX31855 Thermocouple.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

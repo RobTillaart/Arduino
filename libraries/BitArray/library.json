@@ -2,6 +2,14 @@
   "name": "BitArray",
   "keywords": "Bit Array Boolean ",
   "description": "Library to make a compact array of objects with a size expressed in bits. typically 1..10",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

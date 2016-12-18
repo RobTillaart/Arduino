@@ -2,6 +2,17 @@
   "name": "MS5611",
   "keywords": "MS5611 Temperature Pressure",
   "description": "Experimental library for MS5611 Temperature & Pressure for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    },
+    {
+      "name": "Erni"
+    }
+  ],
   "repository":
   {
     "type": "git",

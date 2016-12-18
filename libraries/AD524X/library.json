@@ -1,7 +1,15 @@
 {
   "name": "AD524X",
   "keywords": "I2C digital PotentioMeter AD5241 AD5242",
-  "description": "The library is to control digital PotentioMeter AD5241 AD5242",
+  "description": "The library controls digital PotentioMeter AD5241 AD5242",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

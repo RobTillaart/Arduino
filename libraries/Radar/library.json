@@ -2,6 +2,14 @@
   "name": "Radar",
   "keywords": "Pan tilt",
   "description": "Experimental library for a pan tilt radar.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

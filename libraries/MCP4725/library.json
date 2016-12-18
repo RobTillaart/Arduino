@@ -1,7 +1,15 @@
 {
   "name": "MCP4725",
   "keywords": "MCP4725 DAC Convertor",
-  "description": "LIbrary for the MCP4725 DAC.",
+  "description": "Library for the MCP4725 DAC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

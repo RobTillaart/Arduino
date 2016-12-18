@@ -2,6 +2,14 @@
   "name": "RunningAverage",
   "keywords": "running average, moving average, average",
   "description": "The library stores the last N individual values in a circular buffer to calculate the running average.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

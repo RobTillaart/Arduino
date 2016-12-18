@@ -2,6 +2,14 @@
   "name": "BoolArray",
   "keywords": "Bool Boolean array compact",
   "description": "Library to implement a compact array of booleans of max size 2000.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

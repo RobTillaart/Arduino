@@ -2,6 +2,14 @@
   "name": "PulsePattern",
   "keywords": "Pulse pattern repeating ",
   "description": "Library to generate repeating pulse patterns. (uses timer1)",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

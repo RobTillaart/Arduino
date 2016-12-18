@@ -2,6 +2,14 @@
   "name": "AnalogPin",
   "keywords": "analogRead, smooth, analog, noise reduction",
   "description": "Class for smoothing analogReads.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",

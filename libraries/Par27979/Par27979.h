@@ -13,6 +13,8 @@
 #ifndef Par27979_h
 #define Par27979_h
 
+#define PAR27929_VERSION  0.1.00
+
 #define DISPLAYOFF	    Serial.print((char)21)
 #define DISPLAYON	    Serial.print((char)22)
 #define DISPLAYCLR	    Serial.print((char)12); delay(10)

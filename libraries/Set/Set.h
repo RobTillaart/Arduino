@@ -1,9 +1,9 @@
 //
 //    FILE: Set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.08
+// VERSION: 0.1.09
 // PURPOSE: SET library for Arduino
-//     URL: http://forum.arduino.cc/index.php?topic=279044.0
+//     URL:
 //
 // HISTORY:
 // see Set.cpp file
@@ -18,35 +18,35 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.08"
+#define SET_LIB_VERSION "0.1.09"
 
 class Set
 {
 public:
-    Set(bool clear = true);     // create empty Set
+    explicit Set(const bool clear = true);     // create empty Set
     Set(const Set &t);          // create copy Set
 
     void clr();                 // clear the Set
     void invert();              // flip all elements in the Set
-    uint8_t count();            // return the #elements
+    uint8_t count() const;      // return the #elements
     // bool isEmpty();
 
-    void add(uint8_t);          // add element to the Set
-    void sub(uint8_t);          // remove element from Set
-    void invert(uint8_t);       // flip element in Set
-    bool has(uint8_t);          // element is in Set
+    void add(const uint8_t);    // add element to the Set
+    void sub(const uint8_t);    // remove element from Set
+    void invert(const uint8_t); // flip element in Set
+    bool has(const uint8_t) const;    // element is in Set
 
-    Set operator + (Set &);     // union
-    Set operator - (Set &);     // diff
-    Set operator * (Set &);     // intersection
+    Set operator + (const Set &);     // union
+    Set operator - (const Set &);     // diff
+    Set operator * (const Set &);     // intersection
 
-    void operator += (Set &);   // union
-    void operator -= (Set &);   // diff
-    void operator *= (Set &);   // intersection
+    void operator += (const Set &);   // union
+    void operator -= (const Set &);   // diff
+    void operator *= (const Set &);   // intersection
 
-    bool operator == (Set &);   // equal
-    bool operator != (Set &);   // not equal
-    bool operator <= (Set &);   // is subSet,
+    bool operator == (const Set &) const;   // equal
+    bool operator != (const Set &) const;   // not equal
+    bool operator <= (const Set &) const;   // is subSet,
     // a superSet b is not implemented as one could 
     // say b subSet a (b <= a)
     // a <= b  
@@ -62,8 +62,8 @@ public:
 private:
     uint8_t _mem[32];           // can hold 0..255
     int _current;
-    int findNext(uint8_t, uint8_t); // helper for first, next
-    int findPrev(uint8_t, uint8_t); // helper for last, prev
+    int findNext(const uint8_t, const uint8_t); // helper for first, next
+    int findPrev(const uint8_t, const uint8_t); // helper for last, prev
 };
 #endif
 //

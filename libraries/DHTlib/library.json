@@ -16,7 +16,7 @@
     "url": "https://github.com/RobTillaart/Arduino.git"
   },
   "frameworks": "arduino",
-  "platforms": "*",
+  "platforms": "atmelavr",
   "export": {
     "include": "libraries/DHTlib"
   }

@@ -14,12 +14,12 @@
 // #define SERIAL_OUT SerialUSB
 
 //for decimal display uncomment below two lines
-//#define DISPLAY_DECIMAL
-//#define BLOCK_TO_LENGTH 10
+#define DISPLAY_DECIMAL
+#define BLOCK_TO_LENGTH 10
 
 //for hex display uncomment below two lines
-#define DISPLAY_HEX
-#define BLOCK_TO_LENGTH 16
+//#define DISPLAY_HEX
+//#define BLOCK_TO_LENGTH 16
 
 #define MEMORY_SIZE 0x2000 //total bytes can be accessed 24LC64 = 0x2000 (maximum address = 0x1FFF)
 
@@ -206,28 +206,28 @@ void loop()
 void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 {
   #ifdef DISPLAY_DECIMAL
-  Serial.print("\t  ");
+  SERIAL_OUT.print("\t  ");
   #endif
   #ifdef DISPLAY_HEX
-  Serial.print("\t ");
+  SERIAL_OUT.print("\t ");
   #endif
   for(int x = 0; x < BLOCK_TO_LENGTH; x++) {
     if(x != 0) {
       #ifdef DISPLAY_DECIMAL
-      Serial.print("    ");
+      SERIAL_OUT.print("    ");
       #endif
       #ifdef DISPLAY_HEX
-      Serial.print("   ");
+      SERIAL_OUT.print("   ");
       #endif
     }
     #ifdef DISPLAY_DECIMAL
-    Serial.print(x);
+    SERIAL_OUT.print(x);
     #endif
     #ifdef DISPLAY_HEX
-    Serial.print(x,HEX);
+    SERIAL_OUT.print(x,HEX);
     #endif
   }
-  Serial.println();
+  SERIAL_OUT.println();
 
   // block to defined length
   memoryAddress = memoryAddress / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;

@@ -13,7 +13,17 @@
 // Due
 // #define SERIAL_OUT SerialUSB
 
-I2C_eeprom ee(0x50);
+//for decimal display uncomment below two lines
+#define DISPLAY_DECIMAL
+#define BLOCK_TO_LENGTH 10
+
+//for hex display uncomment below two lines
+//#define DISPLAY_HEX
+//#define BLOCK_TO_LENGTH 16
+
+#define MEMORY_SIZE 0x2000 //total bytes can be accessed 24LC64 = 0x2000 (maximum address = 0x1FFF)
+
+I2C_eeprom ee(0x50, MEMORY_SIZE);
 
 uint32_t start, diff, totals = 0;
 
@@ -77,7 +87,7 @@ void setup()
   SERIAL_OUT.println("\nTEST: write large string readback in small steps");
   ee.setBlock(0, 0, 128);
   char data2[] = "0000000000111111111122222222223333333333444444444455555555556666666666777777777788888888889999999999A"; 
-  ee.writeBlock(10, (uint8_t *) &data2, 100);
+  ee.writeBlock(10, (uint8_t *) &data2, sizeof(data2));
   dumpEEPROM(0, 128);
   for (int i = 0; i < 100; i++)
   {
@@ -91,7 +101,7 @@ void setup()
   SERIAL_OUT.println("\nTEST: check almost endofPage writeBlock");
   ee.setBlock(0, 0, 128);
   char data3[] = "6666"; 
-  ee.writeBlock(60, (uint8_t *) &data3, 2);
+  ee.writeBlock(60, (uint8_t *) &data3, sizeof(data3));
   dumpEEPROM(0, 128);
 
   // SERIAL_OUT.println();
@@ -195,20 +205,59 @@ void loop()
 
 void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 {
-  // block to 10
-  memoryAddress = memoryAddress / 10 * 10;
-  length = (length + 9) / 10 * 10;
+  #ifdef DISPLAY_DECIMAL
+  SERIAL_OUT.print("\t  ");
+  #endif
+  #ifdef DISPLAY_HEX
+  SERIAL_OUT.print("\t ");
+  #endif
+  for(int x = 0; x < BLOCK_TO_LENGTH; x++) {
+    if(x != 0) {
+      #ifdef DISPLAY_DECIMAL
+      SERIAL_OUT.print("    ");
+      #endif
+      #ifdef DISPLAY_HEX
+      SERIAL_OUT.print("   ");
+      #endif
+    }
+    #ifdef DISPLAY_DECIMAL
+    SERIAL_OUT.print(x);
+    #endif
+    #ifdef DISPLAY_HEX
+    SERIAL_OUT.print(x,HEX);
+    #endif
+  }
+  SERIAL_OUT.println();
+
+  // block to defined length
+  memoryAddress = memoryAddress / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
+  length = (length + BLOCK_TO_LENGTH - 1) / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
 
   byte b = ee.readByte(memoryAddress); 
   for (int i = 0; i < length; i++) 
   {
-    if (memoryAddress % 10 == 0)
+    char buf[6];
+    if (memoryAddress % BLOCK_TO_LENGTH == 0)
     {
-      SERIAL_OUT.println();
-      SERIAL_OUT.print(memoryAddress);
+      if(i != 0) {
+        SERIAL_OUT.println();
+      }
+      #ifdef DISPLAY_DECIMAL
+      sprintf(buf, "%05d", memoryAddress);
+      #endif
+      #ifdef DISPLAY_HEX
+      sprintf(buf, "%04X", memoryAddress);
+      #endif
+      SERIAL_OUT.print(buf);
       SERIAL_OUT.print(":\t");
     }
-    SERIAL_OUT.print(b);
+    #ifdef DISPLAY_DECIMAL
+    sprintf(buf, "%03d", b);
+    #endif
+    #ifdef DISPLAY_HEX
+    sprintf(buf, "%02X", b);
+    #endif
+    SERIAL_OUT.print(buf);
     b = ee.readByte(++memoryAddress); 
     SERIAL_OUT.print("  ");
   }

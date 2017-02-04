@@ -2,11 +2,12 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.1.01
+// VERSION: 0.1.2
 // PURPOSE: I2C PCA9635 library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.2 fix for PCA9635_MODE1
 // 0.1.01 set autoincr in constructor
 // 0.1.00 initial BETA version
 //

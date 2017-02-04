@@ -2,7 +2,7 @@
 //    FILE: PCA9635.H
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.1.01
+// VERSION: 0.1.2
 // PURPOSE: I2C PCA9635 library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //

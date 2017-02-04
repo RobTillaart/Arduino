@@ -22,7 +22,7 @@ PCA9635::PCA9635(const uint8_t deviceAddress)
     // TWBR = 12; // 400KHz
     _data = 0;
     _error = 0;
-    writeReg(PCA9685_MODE1, 0x81);  //  AUTOINCR | NOSLEEP | ALLADRR
+    writeReg(PCA9635_MODE1, 0x81);  //  AUTOINCR | NOSLEEP | ALLADRR
 }
 
 // write value to single PWM registers

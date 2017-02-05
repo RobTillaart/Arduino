@@ -1,7 +1,7 @@
 //
 //    FILE: oneWireSearch.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: scan for 1-Wire devices + code snippet generator
 //    DATE: 2015-june-30
 //     URL: http://forum.arduino.cc/index.php?topic=333923
@@ -15,9 +15,11 @@
 // 0.1.02 small output changes
 // 0.1.03 added more explicit range
 // 0.1.04 added CRC check
+// 0.1.5 fix do while loop (thanks pzygielo)
 
 // UNO 2..20
 // MEGA and others have different range
+
 const int startPin = 2;
 const int endPin = 20;
 

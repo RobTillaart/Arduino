@@ -52,6 +52,7 @@ uint8_t findDevices(int pin)
     Serial.print("\nuint8_t pin");
     Serial.print(pin, DEC);
     Serial.println("[][8] = {");
+    do
     {
       count++;
       Serial.println("  {");

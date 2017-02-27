@@ -2,11 +2,12 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.1.08
+// VERSION: 0.1.9
 // PURPOSE: I2C PCF8574 library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=184800
 //
 // HISTORY:
+// 0.1.9  fix warning about return in readButton8()
 // 0.1.08 2016-05-20 Merged work of Septillion 
 //        Fix/refactor ButtonRead8() - see https://github.com/RobTillaart/Arduino/issues/38
 //        missing begin() => mask parameter

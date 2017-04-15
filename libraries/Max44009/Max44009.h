@@ -61,6 +61,7 @@ public:
     // check datasheet for detailed behavior
     void    setConfiguration(uint8_t);
     uint8_t getConfiguration();
+    void setAutomaticMode();
     void    setContinuousMode();
     // CDR = Current Divisor Ratio
     // CDR = 1 ==> only 1/8th is measured

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.2.03
+// VERSION: 1.2.4
 // PURPOSE: I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 //
 // HISTORY:
@@ -24,6 +24,7 @@
 // 1.2.01 - 2014-05-21 Refactoring
 // 1.2.02 - 2015-03-06 stricter interface
 // 1.2.03 - 2015-05-15 bugfix in _pageBlock & example (thanks ifreislich )
+// 1.2.4 - 2017-04-19 remove timeout - https://github.com/RobTillaart/Arduino/issues/63
 //
 // Released to the public domain
 //
@@ -241,10 +242,10 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, co
 
     Wire.requestFrom(_deviceAddress, length);
     uint8_t cnt = 0;
-    uint32_t before = millis();
-    while ((cnt < length) && ((millis() - before) < I2C_EEPROM_TIMEOUT))
+    uint8_t n = Wire.available();
+    while ((cnt < n) && (cnt < length))
     {
-        if (Wire.available()) buffer[cnt++] = WIRE_READ();
+        buffer[cnt++] = WIRE_READ();
     }
     return cnt;
 }

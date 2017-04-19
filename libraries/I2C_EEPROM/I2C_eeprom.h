@@ -4,14 +4,14 @@
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
-// VERSION: 1.2.03
+// VERSION: 1.2.4
 // HISTORY: See I2C_eeprom.cpp
 //     URL: http://arduino.cc/playground/Main/LibraryForI2CEEPROM
 //
 // Released to the public domain
 //
 
-#include <Wire.h>
+#include "Wire.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define I2C_EEPROM_VERSION "1.2.03"
+#define I2C_EEPROM_VERSION "1.2.4"
 
 // The DEFAULT page size. This is overriden if you use the second constructor.
 // I2C_EEPROM_PAGESIZE must be multiple of 2 e.g. 16, 32 or 64
@@ -31,9 +31,6 @@
 // TWI buffer needs max 2 bytes for eeprom address
 // 1 byte for eeprom register address is available in txbuffer
 #define I2C_TWIBUFFERSIZE  30
-
-// to break blocking read/write after n millis()
-#define I2C_EEPROM_TIMEOUT  1000
 
 // comment next line to keep lib small (idea a read only lib?)
 #define I2C_EEPROM_EXTENDED

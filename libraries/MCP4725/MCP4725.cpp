@@ -1,8 +1,8 @@
 //
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 0.1.05
+// PURPOSE: Simple MCP4725 DAC (12 bit I2C) library for Arduino
+// VERSION: 0.1.6
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -13,11 +13,20 @@
 // 0.1.03 - 2013-12-01 added powerDownMode code
 // 0.1.04 - 2013-12-04 improved the generalCall code (still experimental)
 // 0.1.05 - 2015-03-06 refactoring, stricter interfaces
+// 0.1.6 - 2017-04-19 refactor + remove timeout - https://github.com/RobTillaart/Arduino/issues/63
 //
 // Released to the public domain
 //
 
 #include "MCP4725.h"
+
+#if defined(ARDUINO) && ARDUINO >= 100
+    #define WIRE_WRITE Wire.write
+    #define WIRE_READ  Wire.read
+#else
+    #define WIRE_WRITE Wire.send
+    #define WIRE_READ  Wire.receive
+#endif
 
 MCP4725::MCP4725(const uint8_t deviceAddress)
 {
@@ -159,13 +168,8 @@ int MCP4725::writeFastMode(const uint16_t value)
     uint8_t h = ((value / 256) & 0x0F);  // set C0 = C1 = 0, no PDmode
     h = h | (_powerDownMode << 4);
     uint8_t l = value & 0xFF;
-#if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(h);
-    Wire.write(l);
-#else
-    Wire.send(h);
-    Wire.send(l);
-#endif
+    WIRE_WRITE(h);
+    WIRE_WRITE(l);
     return Wire.endTransmission();
 }
 
@@ -188,15 +192,9 @@ int MCP4725::writeRegisterMode(const uint16_t value, const uint8_t reg)
     uint8_t l = (value & 0x0F) << 4;
     Wire.beginTransmission(_deviceAddress);
     reg = reg | (_powerDownMode << 1);
-#if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(reg);
-    Wire.write(h);
-    Wire.write(l);
-#else
-    Wire.send(reg);
-    Wire.send(h);
-    Wire.send(l);
-#endif
+    WIRE_WRITE(reg);
+    WIRE_WRITE(h);
+    WIRE_WRITE(l);
     return Wire.endTransmission();
 }
 
@@ -210,14 +208,10 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, const uint8_t length)
 
     Wire.requestFrom(_deviceAddress, length);
     uint8_t cnt = 0;
-    uint32_t before = millis();
-    while ((cnt < length) && ((millis() - before) < MCP4725_TIMEOUT))
+    uint8_t n = Wire.available();
+    while ( (cnt < n) && (cnt < length))
     {
-#if defined(ARDUINO) && ARDUINO >= 100
-        if (Wire.available()) buffer[cnt++] = Wire.read();
-#else
-        if (Wire.available()) buffer[cnt++] = Wire.receive();
-#endif
+        buffer[cnt++] = WIRE_READ();
     }
     return cnt;
 }
@@ -227,11 +221,7 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, const uint8_t length)
 int MCP4725::generalCall(const uint8_t gc)
 {
     Wire.beginTransmission(0);
-#if defined(ARDUINO) && ARDUINO >= 100
-    Wire.write(gc);
-#else
-    Wire.send(gc);
-#endif
+    WIRE_WRITE(gc);
     return Wire.endTransmission();
 }
 #endif

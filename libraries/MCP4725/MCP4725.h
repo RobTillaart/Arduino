@@ -3,8 +3,8 @@
 //
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Simple MCP4725 DAC library for Arduino
-// VERSION: 0.1.05
+// PURPOSE: Simple MCP4725 DAC (12 bit I2C) library for Arduino
+// VERSION: 0.1.6
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "0.1.05"
+#define MCP4725_VERSION         "0.1.6"
 
 // regisiterMode
 #define MCP4725_DAC             0x40
@@ -29,7 +29,6 @@
 
 // constants
 #define MCP4725_MAXVALUE        4095
-#define MCP4725_TIMEOUT         1000
 
 // errors
 #define MCP4725_VALUE_ERROR     -999
@@ -52,7 +51,7 @@
 class MCP4725
 {
 public:
-    MCP4725(const uint8_t deviceAddress);
+    explicit MCP4725(const uint8_t deviceAddress);
 
     void begin();
     // uses writeFastMode

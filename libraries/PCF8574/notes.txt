@@ -10,3 +10,10 @@ Solution is moving the call to Wire.begin() from the constructor to void setup()
 
 FIXED in 0.1.08 @ 2016-05-20
 
+2016-07-26 note on adress ranges
+==================================
+from https://github.com/RobTillaart/Arduino/issues/44
+
+- TYPE      ADDRESS-RANGE
+- PCF8574   0x20 to 0x27, 
+- PCF8574A  0x38 to 0x3F

@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -20,7 +20,7 @@
 
 #include "Printable.h"
 
-#define MAX44009_LIB_VERSION "0.1.04"
+#define MAX44009_LIB_VERSION "0.1.5"
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00
@@ -61,7 +61,7 @@ public:
     // check datasheet for detailed behavior
     void    setConfiguration(uint8_t);
     uint8_t getConfiguration();
-    void setAutomaticMode();
+    void    setAutomaticMode();
     void    setContinuousMode();
     // CDR = Current Divisor Ratio
     // CDR = 1 ==> only 1/8th is measured

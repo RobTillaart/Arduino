@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC (12 bit I2C) library for Arduino
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -14,6 +14,7 @@
 // 0.1.04 - 2013-12-04 improved the generalCall code (still experimental)
 // 0.1.05 - 2015-03-06 refactoring, stricter interfaces
 // 0.1.6 - 2017-04-19 refactor + remove timeout - https://github.com/RobTillaart/Arduino/issues/63
+// 0.1.7 - 2017-04-20 refactor the removed timeout (Thanks to Koepel)
 //
 // Released to the public domain
 //
@@ -206,14 +207,14 @@ uint8_t MCP4725::readRegister(uint8_t* buffer, const uint8_t length)
     int rv = Wire.endTransmission();
     if (rv != 0) return 0;  // error
 
-    Wire.requestFrom(_deviceAddress, length);
+    // readbytes will always be equal or smaller to length
+    uint8_t readBytes = Wire.requestFrom(_deviceAddress, length);
     uint8_t cnt = 0;
-    uint8_t n = Wire.available();
-    while ( (cnt < n) && (cnt < length))
+    while (cnt < readBytes)
     {
         buffer[cnt++] = WIRE_READ();
     }
-    return cnt;
+    return readBytes;
 }
 #endif
 

@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
 //     URL:
@@ -18,7 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#define FASTSHIFTOUT_LIB_VERSION (F("0.1.04"))
+#define FASTSHIFTOUT_LIB_VERSION (F("0.1.5"))
 
 #include "Print.h"
 

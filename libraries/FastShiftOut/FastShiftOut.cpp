@@ -1,12 +1,15 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
 //     URL:
 //
 // Released to the public domain
+//
+// HISTORY
+// 0.1.5 - changed masking in inner loop
 //
 
 #include "FastShiftOut.h"
@@ -37,15 +40,15 @@ FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const 
 //
 // write() must implement the virtual write of Print class
 //
-// approx 64us/byte
+// approx 30 us/byte
 size_t FastShiftOut::write(const uint8_t data)
 {
     _value = data;
-    for (uint8_t i = 0; i < 8; i++)
+    for (uint8_t i = 0, m = 1, n = 128; i < 8; i++, m <<= 1, n >>= 1)
     {
         uint8_t v;
-        if (_bitorder == LSBFIRST)   v = (_value & (1 << i));
-        else                         v = (_value & (1 << (7 - i)));
+        if (_bitorder == LSBFIRST)   v = (_value & m);
+        else                         v = (_value & n);
 
         uint8_t oldSREG = SREG;
         cli();
@@ -61,7 +64,7 @@ size_t FastShiftOut::write(const uint8_t data)
 //
 // this version is twice as fast,
 // but it is in CLI() mode
-// approx 32 us / byte
+// approx 32us / byte
 // size_t FastShiftOut::write(uint8_t data)
 // {
 // _value = data;

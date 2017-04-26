@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.3
 // PURPOSE: shiftin
 //    DATE: 2013-09-29
 //     URL:
@@ -18,7 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#define FASTSHIFTIN_LIB_VERSION "0.1.01"
+#define FASTSHIFTIN_LIB_VERSION "0.1.3"
 
 #define FASTSHIFTIN_NOVALUE -1
 

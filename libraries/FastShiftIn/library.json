@@ -1,7 +1,7 @@
 {
   "name": "FastShiftIn",
   "keywords": "Shift in serial ",
-  "description": "Class for up to 2x faster shift in.",
+  "description": "Class for up to 3x faster shift in.",
   "authors":
   [
     {

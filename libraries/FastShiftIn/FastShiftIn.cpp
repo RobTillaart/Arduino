@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.3
 // PURPOSE: shiftin
 //    DATE: 2013-09-29
 //     URL:
@@ -37,7 +37,7 @@ int FastShiftIn::read()
 {
     _value = 0;
 
-    for (uint8_t i = 0; i < 8; i++)
+    for (uint8_t i = 0, m = 1, n = 128; i < 8; i++, m <<=1, n >>= 1)
     {
         uint8_t oldSREG = SREG;
         cli();
@@ -46,9 +46,9 @@ int FastShiftIn::read()
         if ((*_datain & _databit) > 0)
         {
             if (_bitorder == LSBFIRST)
-            _value |= (1 << i);
+            _value |= m;
             else
-            _value |= (1 << (7 - i));
+            _value |= n;
         }
         *_clockin &= ~_clockbit;
         SREG = oldSREG;

@@ -1,13 +1,14 @@
 //
 //    FILE: BoolArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.3
 // PURPOSE: BoolArray library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=361167
 
 //
 // Released to the public domain
 //
+// 0.1.3  - added toggle
 // 0.1.02 - added errorhandling
 // 0.1.01 - fixed constructor - Thanks WPD64 + error handling
 // 0.1.00 - initial version
@@ -41,7 +42,8 @@ uint8_t BoolArray::get(const uint16_t idx)
     if (idx >= _size) return BOOLARRAY_SIZE_ERROR;
     uint8_t by = idx / 8;
     uint8_t bi = idx & 7;
-    return (_ar[by] >> bi) & 0x01;
+    uint8_t mask = 1 << bi;
+    return (_ar[by] & mask) > 0;
 }
 
 uint8_t BoolArray::set(const uint16_t idx, const uint8_t value)
@@ -50,8 +52,20 @@ uint8_t BoolArray::set(const uint16_t idx, const uint8_t value)
     if (idx >= _size) return BOOLARRAY_SIZE_ERROR;
     uint8_t by = idx / 8;
     uint8_t bi = idx & 7;
-    if (value == 0) _ar[by] &= ~(1 << bi);
-    else _ar[by] |= (1 << bi);
+    uint8_t mask = 1 << bi;
+    if (value == 0) _ar[by] &= ~mask;
+    else _ar[by] |= mask;
+    return BOOLARRAY_OK;
+}
+
+uint8_t BoolArray::toggle(const uint16_t idx)
+{
+    if (_ar == NULL) return BOOLARRAY_INIT_ERROR;
+    if (idx >= _size) return BOOLARRAY_SIZE_ERROR;
+    uint8_t by = idx / 8;
+    uint8_t bi = idx & 7;
+    uint8_t mask = 1 << bi;
+    _ar[by] ^= mask;
     return BOOLARRAY_OK;
 }
 

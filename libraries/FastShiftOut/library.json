@@ -16,7 +16,7 @@
     "url": "https://github.com/RobTillaart/Arduino.git"
   },
   "frameworks": "arduino",
-  "platforms": "AVR",
+  "platforms": "atmelavr",
   "export": {
     "include": "libraries/FastShiftOut"
   }

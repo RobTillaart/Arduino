@@ -92,7 +92,7 @@ void loop()
 
     if (stat.total % 20 == 0)
     {
-        Serial.println("\nTOT\tOK\tCRC\tTO\tUNK");
+        Serial.println("\nTOT\tOK\tCRC\tTO\tCON\tACK_L\tACK_H\tUNK");
         Serial.print(stat.total);
         Serial.print("\t");
         Serial.print(stat.ok);

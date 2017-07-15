@@ -1,7 +1,7 @@
 //
 //    FILE: DistanceTable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.2
 // PURPOSE: memory efficient DistanceTable for Arduino
 //     URL: 
 //
@@ -13,12 +13,12 @@
 
 #include "Arduino.h"
 
-#define DISTANCETABLE_LIB_VERSION "0.1.01"
+#define DISTANCETABLE_LIB_VERSION "0.1.2"
 
 class DistanceTable
 {
 public:
-    DistanceTable(uint8_t);
+    explicit DistanceTable(uint8_t);
     ~DistanceTable();
 
     void clear();
@@ -27,8 +27,8 @@ public:
     void dump();
 
 protected:
-    int _error;
     uint8_t _size;
+    uint16_t _store;
     double * _distanceTable;
 };
 

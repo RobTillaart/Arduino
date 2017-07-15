@@ -1,6 +1,6 @@
 //    FILE: fastMapDemo3.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
 //     URL: http://forum.arduino.cc/index.php?topic=276194
@@ -31,13 +31,13 @@ void setup()
   Serial.print(char(176));
   Serial.println('C');
 
-  f = CtoF.map(163, CONSTRAIN_UPPER);
+  f = CtoF.upperConstrainedMap(163);
   Serial.print(f);
   Serial.print(char(176));
   Serial.println('F');
 
-  c = CtoF.back(f, CONSTRAIN_BOTH);
-  Serial.print(c);
+  f = CtoF.lowerConstrainedMap(163);
+  Serial.print(f);
   Serial.print(char(176));
   Serial.println('C');
 
@@ -49,4 +49,3 @@ void loop()
 //
 // END OF FILE
 //
-

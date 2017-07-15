@@ -1,8 +1,8 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
-// PURPOSE: I2C scanner @different speeds
+// VERSION: 0.1.7
+// PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: http://forum.arduino.cc/index.php?topic=197360
 //
@@ -12,13 +12,21 @@
 #include <Wire.h>
 #include <Arduino.h>
 
-const char version[] = "0.1.06";
+TwoWire *wi;
+
+const char version[] = "0.1.7";
+
+
+// INTERFACE COUNT (TESTED TEENSY 3.5 ONLY)
+int wirePortCount = 1;
+int selectedWirePort = 0;
+
 
 // scans devices from 50 to 800KHz I2C speeds.
 // lower than 50 is not possible
 // DS3231 RTC works on 800 KHz. TWBR = 2; (?)
 const long allSpeed[] = {
-  50, 100, 200, 250, 400, 500, 800
+  50, 100, 200, 300, 400, 500, 600, 700, 800
 };
 long speed[sizeof(allSpeed) / sizeof(allSpeed[0])];
 int speeds;
@@ -26,13 +34,16 @@ int speeds;
 int addressStart = 0;
 int addressEnd = 127;
 
+
 // DELAY BETWEEN TESTS
 #define RESTORE_LATENCY  5    // for delay between tests of found devices.
 bool delayFlag = false;
 
+
 // MINIMIZE OUTPUT
 bool printAll = true;
 bool header = true;
+
 
 // STATE MACHINE
 enum states {
@@ -40,13 +51,32 @@ enum states {
 };
 states state = STOP;
 
+
+// TIMING
 uint32_t startScan;
 uint32_t stopScan;
+
 
 void setup()
 {
   Serial.begin(115200);
   Wire.begin();
+
+#ifdef WIRE_IMPLEMENT_WIRE1
+  Wire1.begin();
+  wirePortCount++;
+#endif
+#ifdef WIRE_IMPLEMENT_WIRE2
+  Wire2.begin();
+  wirePortCount++;
+#endif
+#ifdef WIRE_IMPLEMENT_WIRE3
+  Wire3.begin();
+  wirePortCount++;
+#endif
+
+  wi = &Wire;
+
   setSpeed('0');
   displayHelp();
 }
@@ -57,6 +87,33 @@ void loop()
   char command = getCommand();
   switch (command)
   {
+    case '@':
+      selectedWirePort = (selectedWirePort + 1) % wirePortCount;
+      Serial.print(F("I2C PORT=Wire"));
+      Serial.println(selectedWirePort);
+      switch (selectedWirePort)
+      {
+        case 0:
+          wi = &Wire;
+          break;
+        case 1:
+#ifdef WIRE_IMPLEMENT_WIRE1
+          wi = &Wire1;
+#endif
+          break;
+        case 2:
+#ifdef WIRE_IMPLEMENT_WIRE2
+          wi = &Wire2;
+#endif
+          break;
+        case 3:
+#ifdef WIRE_IMPLEMENT_WIRE3
+          wi = &Wire3;
+#endif
+          break;
+      }
+      break;
+
     case 's':
       state = ONCE;
       break;
@@ -188,9 +245,12 @@ char getCommand()
 
 void displayHelp()
 {
-  Serial.print(F("\nArduino I2C Scanner - "));
+  Serial.print(F("\nArduino MultiSpeed I2C Scanner - "));
   Serial.println(version);
   Serial.println();
+  Serial.print(F("I2C ports: "));
+  Serial.println(wirePortCount);
+  Serial.println(F("\t@ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5]"));
   Serial.println(F("Scanmode:"));
   Serial.println(F("\ts = single scan"));
   Serial.println(F("\tc = continuous scan - 1 second delay"));
@@ -253,12 +313,12 @@ void I2Cscan()
     for (uint8_t s = 0; s < speeds ; s++)
     {
 #if ARDUINO >= 158
-      Wire.setClock(speed[s] * 1000);
+      wi->setClock(speed[s] * 1000);
 #else
       TWBR = (F_CPU / (speed[s] * 1000) - 16) / 2;
 #endif
-      Wire.beginTransmission (address);
-      found[s] = (Wire.endTransmission () == 0);
+      wi->beginTransmission (address);
+      found[s] = (wi->endTransmission () == 0);
       fnd |= found[s];
       // give device 5 millis
       if (fnd && delayFlag) delay(RESTORE_LATENCY);

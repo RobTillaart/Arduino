@@ -234,7 +234,7 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
   length = (length + BLOCK_TO_LENGTH - 1) / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
 
   byte b = ee.readByte(memoryAddress); 
-  for (int i = 0; i < length; i++) 
+  for (unsigned int i = 0; i < length; i++)
   {
     char buf[6];
     if (memoryAddress % BLOCK_TO_LENGTH == 0)

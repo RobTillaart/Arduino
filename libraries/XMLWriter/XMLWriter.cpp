@@ -1,18 +1,18 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.6
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML library
 //
 // HISTORY:
-// 0.1.00 - 2013-11-06 initial version
-// 0.1.01 - 2013-11-07 rework interfaces
-// 0.1.02 - 2013-11-07 +setIndentSize(), corrected history, +escape support
-// 0.1.03 - 2015-03-07 refactored - footprint + interface
-// 0.1.04 - 2015-05-21 refactored - reduce RAM -> used F() macro etc.
-// 0.1.05 - 2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
-// 0.1.06 - 2016-03-16 added incrIndent(), decrIndent(), indent(), raw();
+// 0.1.00  2013-11-06 initial version
+// 0.1.01  2013-11-07 rework interfaces
+// 0.1.02  2013-11-07 +setIndentSize(), corrected history, +escape support
+// 0.1.03  2015-03-07 refactored - footprint + interface
+// 0.1.04  2015-05-21 refactored - reduce RAM -> used F() macro etc.
+// 0.1.05  2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
+// 0.1.6   2016-03-16 added incrIndent(), decrIndent(), indent(), raw();
 //
 // Released to the public domain
 //

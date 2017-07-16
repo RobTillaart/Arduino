@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.6
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 // no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.06"
+#define XMLWRITER_VERSION "0.1.6"
 
 // for comment()
 #define NOMULTILINE false

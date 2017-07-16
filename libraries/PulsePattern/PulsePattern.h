@@ -1,8 +1,8 @@
 #ifndef PulsePattern_h
 #define PulsePattern_h
-// 
+//
 //    FILE: PulsePattern.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com  
+//  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: PulsePattern library for Arduino
 //          sends a pulse pattern to a digital pin (continuously)
 // HISTORY: See PulsePattern.cpp
@@ -12,7 +12,7 @@
 
 #include <inttypes.h>
 
-#define PULSEPATTERN_LIB_VERSION "0.0.5"
+#define PULSEPATTERN_LIB_VERSION "0.0.7"
 
 #define NOTINIT -1
 #define STOPPED 0
@@ -28,26 +28,29 @@
 class PulsePattern
 {
 public:
-	PulsePattern();
-	
-	void init(uint8_t pin, uint16_t * ar, uint8_t size, 
-				uint8_t level, uint8_t prescaler);
-	void start();
-	void stop();
-	bool isRunning();
-	void worker();
+  PulsePattern();
+  
+  void init(const uint8_t pin,
+    const uint16_t * ar, const uint8_t size,
+    const uint8_t level, const uint8_t prescaler);
+
+  void start();
+  void stop();
+  bool isRunning() const { return _state == RUNNING; };
+
+  void worker();
 
 private:
-	void stopTimer();
-	void setTimer(uint16_t cc);
-	
-	uint16_t * _ar;
-	uint8_t _size;
-	uint8_t _pin;
-	uint8_t _prescaler;
-	volatile uint8_t _level;
-	volatile int8_t _state;
-	volatile uint8_t _cnt;
+  void stopTimer();
+  void setTimer(const uint16_t cc) const;
+  
+  uint16_t * _ar;
+  uint8_t _size;
+  uint8_t _pin;
+  uint8_t _prescaler;
+  volatile uint8_t _level;
+  volatile int8_t _state;
+  volatile uint8_t _cnt;
 };
 
 extern PulsePattern PPGenerator;

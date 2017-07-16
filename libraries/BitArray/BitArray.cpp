@@ -1,13 +1,14 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.8
 // PURPOSE: BitArray library for Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=361167
 
 //
 // Released to the public domain
 //
+// 0.1.8  - added toggle
 // 0.1.07 - private calls inline -> performance & footprint
 // 0.1.06 - refactored
 // 0.1.05 - added upper limits
@@ -94,6 +95,20 @@ uint32_t BitArray::set(const uint16_t idx, uint32_t value)
     return value;
 }
 
+uint32_t BitArray::toggle(const uint16_t idx)
+{
+    // if (_error != BA_OK) return BA_ERR;
+    // if (idx >= _size) return BA_IDX_RANGE;
+    uint32_t v = 0;
+    uint16_t pos = idx * _bits;
+    for (uint8_t i = _bits; i-- > 0;)
+    {
+        v <<= 1;
+        v += _bittoggle(pos + i);
+    }
+    return v;
+}
+
 void BitArray::clear()
 {
     uint16_t b = _bytes;
@@ -126,6 +141,7 @@ inline uint8_t BitArray::_bitget(uint16_t pos)
     uint8_t by = re / 8;
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
+
     return (p[by] >> bi) & 0x01; // bitRead(p[by], bi);
 }
 
@@ -133,7 +149,7 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
 {
     uint8_t se = 0;
     uint16_t re = pos;
-    while (re >= (BA_SEGMENT_SIZE * 8))
+    while (re >= (BA_SEGMENT_SIZE * 8))  // 8 == #bits in uint8_t
     {
         se++;
         re -= (BA_SEGMENT_SIZE * 8);
@@ -141,8 +157,27 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
     uint8_t by = re / 8;
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
+
     if (value == 0) p[by] &= ~(1 << bi); // bitClear(p[by], bi);
     else p[by] |= (1 << bi);             // bitSet(p[by], bi);
+}
+
+inline uint8_t BitArray::_bittoggle(const uint16_t pos)
+{
+    uint8_t se = 0;
+    uint16_t re = pos;
+    while (re >= (BA_SEGMENT_SIZE * 8))  // 8 == #bits in uint8_t
+    {
+        se++;
+        re -= (BA_SEGMENT_SIZE * 8);
+    }
+    uint8_t by = re / 8;
+    uint8_t bi = re & 7;
+    uint8_t * p = _ar[se];
+
+    uint8_t mask = 1 << bi;
+    p[by] ^= mask;
+    return (mask > 0);
 }
 
 // END OF FILE

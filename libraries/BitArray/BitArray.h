@@ -3,7 +3,7 @@
 //
 //    FILE: BitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.07
+// VERSION: 0.1.8
 // PURPOSE: BitArray library for Arduino
 // HISTORY: See BitArray.cpp
 //
@@ -13,7 +13,9 @@
 // expressed in bits. typically 1..10.
 // The interface uses uint32_t as that will be enough for most purposes.
 // The main requirement is to optimize storage space
-// the total space may not exceed 256 bytes.
+//
+// the bitarray uses an array of segments and the space per segment
+// may not exceed 256 bytes as this is a limit on some processors.
 //
 // Originally created to store lot of numbers between 1..6 dice rolls
 // the storage is also usable to store e.g. raw 10 bit analogReads
@@ -26,7 +28,7 @@
 #include "WProgram.h"
 #endif
 
-#define BITARRAY_LIB_VERSION "0.1.07"
+#define BITARRAY_LIB_VERSION "0.1.8"
 #define BA_SEGMENT_SIZE 200
 
 // max memory is board type dependant
@@ -82,16 +84,18 @@ public:
 
     uint32_t get(const uint16_t idx);
     uint32_t set(const uint16_t idx, uint32_t value);
+    uint32_t toggle(const uint16_t idx);
 
 private:
-    uint8_t _bitget(const uint16_t idx);
-    void    _bitset(const uint16_t idx, const uint8_t value);
+    uint8_t   _bitget(const uint16_t idx);
+    void      _bitset(const uint16_t idx, const uint8_t value);
+    uint8_t   _bittoggle(const uint16_t idx);
 
-    uint16_t _bytes = 0;
-    uint8_t  _bits = 0;
-    uint8_t  _segments = 0;
-    uint8_t *_ar[BA_MAX_SEGMENTS];
-    uint8_t  _error = BA_NO_MEMORY_ERR;
+    uint16_t  _bytes = 0;
+    uint8_t   _bits = 0;
+    uint8_t   _segments = 0;
+    uint8_t * _ar[BA_MAX_SEGMENTS];
+    uint8_t   _error = BA_NO_MEMORY_ERR;
 };
 
 #endif

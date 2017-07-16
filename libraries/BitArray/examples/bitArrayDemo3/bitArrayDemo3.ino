@@ -1,9 +1,9 @@
 //
-//    FILE: bitArrayDemo2.ino
+//    FILE: bitArrayDemo3.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.0
 // PURPOSE: demo performance reading boolean array
-//    DATE: 2015-12-06
+//    DATE: 2017-07-15
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
 //
 // Released to the public domain
@@ -44,6 +44,8 @@ void test(uint8_t bits, uint16_t cnt)
     Serial.println(b.segments());
     delay(100);
 
+
+    Serial.println("\nGET:");
     start = micros();
     for (uint16_t i = 0; i < cnt; i++)
     {
@@ -67,6 +69,7 @@ void test(uint8_t bits, uint16_t cnt)
     Serial.println(x);
     delay(100);
 
+    Serial.println("\nSET:");
     start = micros();
     for (uint16_t i = 0; i < cnt; i++)
     {
@@ -88,12 +91,36 @@ void test(uint8_t bits, uint16_t cnt)
     Serial.println(stop - start);
     delay(100);
 
+    Serial.println("\nCLEAR:");
     start = micros();
     b.clear();
     stop = micros();
     Serial.print("DURATION:\t");
     Serial.println(stop - start);
     delay(100);
+
+    Serial.println("\nTOGGLE:");
+    start = micros();
+    for (uint16_t i = 0; i < cnt; i++)
+    {
+        b.toggle(i);
+    }
+    stop = micros();
+    Serial.print("DURATION:\t");
+    Serial.println(stop - start);
+    delay(100);
+
+    start = micros();
+    for (uint16_t i = 0; i < cnt; i++)
+    {
+        b.toggle(i);
+        b.toggle(i);
+    }
+    stop = micros();
+    Serial.print("DURATION:\t");
+    Serial.println(stop - start);
+    delay(100);
+
 
     Serial.println("Done...");
 }

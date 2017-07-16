@@ -10,7 +10,7 @@
 // Released to the public domain
 //
 
-#define COUNTDOWN_LIB_VERSION "0.1.00"
+#define COUNTDOWN_LIB_VERSION "0.1.2"
 
 #if ARDUINO >= 100
 #include "Arduino.h"
@@ -21,20 +21,24 @@
 class CountDown
 {
 public:
-    enum State { RUNNING, STOPPED };
     enum Resolution { MILLIS, MICROS, SECONDS };
 
     explicit CountDown(const enum Resolution res = MILLIS);
     void setResolution(const enum Resolution res = MILLIS);
 
     void start(uint32_t ticks);
-    // void start(uint16_t h, uint8_t m, uint8_t s);
+    void start(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds);
     void stop();
-    unsigned long remaining();
-    bool isRunning() const             { return _state == CountDown::RUNNING; };
-    enum Resolution resolution() const { return _res; };
+    void cont();
+
+    uint32_t remaining();
+    bool isRunning() const              { return _state == CountDown::RUNNING; };
+    enum Resolution resolution() const  { return _res; };
 
 private:
+    // ??
+    enum State { RUNNING, STOPPED };
+
     uint32_t _ticks;
     uint32_t _remaining;
     enum State _state;

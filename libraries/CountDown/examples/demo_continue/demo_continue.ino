@@ -1,9 +1,9 @@
 //
-//    FILE: countdown_demo2.ino
+//    FILE: demo_continue.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2015-10-28
+//    DATE: 2017-07-16
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //
 // Released to the public domain
@@ -11,7 +11,7 @@
 
 #include "CountDown.h"
 
-CountDown CD[5];
+CountDown CD[2];
 
 void setup()
 {
@@ -19,33 +19,30 @@ void setup()
     Serial.println(__FILE__);
     Serial.print("COUNTDOWN_LIB_VERSION: ");
     Serial.println(COUNTDOWN_LIB_VERSION);
-
-    for (int i = 0; i < 5; i++)
-    {
-        CD[i].start(10000UL * i);
-    }
+    
+    CD[0].start(10000UL);
+    CD[1].start(10000UL);
     delay(1234);
-    CD[3].stop();
+    CD[1].stop();
 }
 
 void loop()
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         Serial.print("\t");
         Serial.print(CD[i].remaining());
     }
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         Serial.print("\t");
         Serial.print(CD[i].isRunning());
     }
     Serial.println();
 
-    if (CD[1].isRunning() == false && CD[3].isRunning() == false)
+    if (CD[0].isRunning() == false && CD[1].isRunning() == false)
     {
-        uint32_t x = CD[3].remaining();
-        CD[3].start(x);
+        CD[1].cont();
     }
 
     delay(250);

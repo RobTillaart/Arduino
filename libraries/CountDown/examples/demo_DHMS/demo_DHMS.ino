@@ -1,9 +1,9 @@
 //
-//    FILE: countdown_demo.ino
+//    FILE: demo_DHMS.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2015-10-28
+//    DATE: 2017-07-16
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //
 // Released to the public domain
@@ -11,7 +11,7 @@
 
 #include "CountDown.h"
 
-CountDown CD(CountDown::SECONDS);
+CountDown CD;
 
 void setup()
 {
@@ -20,17 +20,19 @@ void setup()
     Serial.print("COUNTDOWN_LIB_VERSION: ");
     Serial.println(COUNTDOWN_LIB_VERSION);
 
-    CD.start(5);
-
-    while (CD.remaining() > 0 && CD.isRunning() )
-    {
-        Serial.println(CD.remaining() );
-        if (CD.remaining() < 2) CD.stop();
-    }
-    Serial.println(CD.remaining());
-    Serial.println("done...");
+    // countdown 1 minute
+    CD.start(0, 0, 1, 0);
 }
 
 void loop()
 {
+  static uint32_t last_remaining = 0;
+  if (last_remaining != CD.remaining())
+  {
+    Serial.println();
+    last_remaining = CD.remaining();
+  }
+  Serial.print('\t');
+  Serial.print(CD.remaining());
+  delay(250);
 }

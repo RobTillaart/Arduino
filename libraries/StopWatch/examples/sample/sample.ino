@@ -1,3 +1,14 @@
+//
+//    FILE: sample.ino
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.0
+// PURPOSE: sample demo stopwatch class
+//    DATE: 
+//     URL:
+//
+// Released to the public domain
+//
+
 #include <StopWatch.h>
 
 StopWatch MySW;

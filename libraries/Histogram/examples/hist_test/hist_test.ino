@@ -10,13 +10,14 @@
 
 // double b[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
 
+// boundaries array does not need to be equally distributed.
 double b[] = { 
   0, 100, 200, 300, 325, 350, 375 };
 
 Histogram hist(7, b);
 
-unsigned long lastTime = 0;
-const unsigned long threshold = 50;  // milliseconds, for updating display
+uint32_t lastTime = 0;
+const uint32_t threshold = 25;  // milliseconds, for updating display
 
 void setup()
 {
@@ -59,7 +60,7 @@ void loop()
   hist.add(x);
 
   // update output 
-  unsigned long now = millis();
+  uint32_t now = millis();
   if (now - lastTime > threshold)
   {
     lastTime = now;

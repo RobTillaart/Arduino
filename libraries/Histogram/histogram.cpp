@@ -1,6 +1,5 @@
 //
-//
-//    FILE: Histogram.h
+//    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.5
 // PURPOSE: Histogram library for Arduino

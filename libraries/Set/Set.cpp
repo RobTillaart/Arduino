@@ -1,11 +1,12 @@
 //
 //    FILE: Set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: SET library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.1.11 2017-07-16 fix count() --> 16 bit when set is full !
 // 0.1.10 2017-07-16 performance refactor. isEmpty()
 // 0.1.09 2015-07-12 const + constructor
 // 0.1.08 memset for clr()
@@ -74,9 +75,9 @@ bool Set::has(const uint8_t v)
     return (_mem[idx] & masks[v&7]) > 0;
 }
 
-uint8_t Set::count() const
+uint16_t Set::count() const
 {
-    uint8_t cnt = 0;
+    uint16_t cnt = 0;
     for (uint8_t i=0; i<32; i++)
     {
         // kerningham bit count trick
@@ -104,12 +105,18 @@ void Set::invert()
 
 bool Set::isEmpty()
 {
-  // uint8_t i = 31;
-  // while (!_mem[i--]);
-  // return (i==0);
     for (uint8_t i=0; i<32; i++)
     {
         if (_mem[i]) return false;
+    }
+    return true;
+}
+
+bool Set::isFull()
+{
+    for (uint8_t i=0; i<32; i++)
+    {
+        if (_mem[i] != 255) return false;
     }
     return true;
 }

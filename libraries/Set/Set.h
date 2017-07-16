@@ -1,7 +1,7 @@
 //
 //    FILE: Set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: SET library for Arduino
 //     URL:
 //
@@ -18,7 +18,7 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.10"
+#define SET_LIB_VERSION "0.1.11"
 
 class Set
 {
@@ -28,9 +28,10 @@ public:
 
     void clr();                 // clear the Set
     void invert();              // flip all elements in the Set
-    uint8_t count() const;      // return the #elements
+    uint16_t count() const;     // return the #elements
     bool isEmpty();
-
+    bool isFull();
+    
     void add(const uint8_t);    // add element to the Set
     void sub(const uint8_t);    // remove element from Set
     void invert(const uint8_t); // flip element in Set

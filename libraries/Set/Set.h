@@ -1,7 +1,7 @@
 //
 //    FILE: Set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.09
+// VERSION: 0.1.10
 // PURPOSE: SET library for Arduino
 //     URL:
 //
@@ -18,7 +18,7 @@
 #include <Arduino.h>
 #endif
 
-#define SET_LIB_VERSION "0.1.09"
+#define SET_LIB_VERSION "0.1.10"
 
 class Set
 {
@@ -29,12 +29,12 @@ public:
     void clr();                 // clear the Set
     void invert();              // flip all elements in the Set
     uint8_t count() const;      // return the #elements
-    // bool isEmpty();
+    bool isEmpty();
 
     void add(const uint8_t);    // add element to the Set
     void sub(const uint8_t);    // remove element from Set
     void invert(const uint8_t); // flip element in Set
-    bool has(const uint8_t) const;    // element is in Set
+    bool has(const uint8_t);    // element is in Set
 
     Set operator + (const Set &);     // union
     Set operator - (const Set &);     // diff
@@ -61,6 +61,7 @@ public:
 
 private:
     uint8_t _mem[32];           // can hold 0..255
+    uint8_t masks[8] = {1, 2, 4, 8, 16, 32, 64, 128};
     int _current;
     int findNext(const uint8_t, const uint8_t); // helper for first, next
     int findPrev(const uint8_t, const uint8_t); // helper for last, prev

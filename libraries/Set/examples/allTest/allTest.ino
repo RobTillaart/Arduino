@@ -1,7 +1,7 @@
 //
 //    FILE: allTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: demo/test Set class
 //    DATE: 2014-11-16
 //     URL:
@@ -41,9 +41,9 @@ void timingTest()
     Set myset;
 
     Serial.println("TIMING TEST");
-    Serial.print("clr():\t");
+    Serial.print("100x clr():\t");
     uint32_t start = micros();
-    myset.clr();
+    for (uint8_t i=0; i<100; i++) myset.clr();
     uint32_t stop = micros();
     Serial.println(stop-start);
 
@@ -87,6 +87,14 @@ void timingTest()
     Serial.print("count() full:\t");
     myset.clr();
     myset.invert();
+    start = micros();
+    myset.count();
+    stop = micros();
+    Serial.println(stop-start);
+    Serial.println();
+
+    Serial.print("isEmpty():\t");
+    myset.clr();
     start = micros();
     myset.count();
     stop = micros();

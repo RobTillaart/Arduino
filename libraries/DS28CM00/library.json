@@ -1,0 +1,23 @@
+{
+  "name": "DS28CM00",
+  "keywords": "DS28CM00 identification ID",
+  "description": "Library for the DS28CM00 unique identification chip.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/DS28CM00"
+  }
+}

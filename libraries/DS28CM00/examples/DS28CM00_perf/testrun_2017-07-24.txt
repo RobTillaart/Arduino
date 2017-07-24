@@ -1,0 +1,16 @@
+
+100000
+
+getUID :	1141
+setI2C :	326
+setSMB :	325
+getMode:	453
+
+400000
+
+getUID :	420
+setI2C :	125
+setSMB :	123
+getMode:	173
+
+

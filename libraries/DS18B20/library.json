@@ -1,0 +1,23 @@
+{
+  "name": "DS18B20",
+  "keywords": "DS18B20 Dallas Semiconductor Temperature sensor ",
+  "description": "Library for DS18B20 restricted to a single sensor per pin. Rewritten minimalistic version of Dallas Temperature Control Library of Miles Burton.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/DS18B20"
+  }
+}

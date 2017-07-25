@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map For Ultrasound
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+DS18B20	KEYWORD1
+OneWire	KEYWORD1
+DeviceAddress	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin KEYWORD2
+setResolution	KEYWORD2
+getTempC	KEYWORD2
+requestTemperatures	KEYWORD2
+isConversionComplete	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+DS18B20_LIB_VERSION	LITERAL1

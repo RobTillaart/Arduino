@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.03
 // PURPOSE: make a simple XML generating lib
 //    DATE: 2013-11-06
 //     URL:
@@ -66,7 +66,7 @@ void Weather()
   XML.tagClose();
 }
 
-void AnalogPorts(char* name)
+void AnalogPorts(const char* name)
 {
   XML.comment("The analog ports are multiplexed");
   XML.tagOpen("Analog", name);

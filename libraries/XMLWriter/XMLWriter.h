@@ -3,7 +3,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML writer library
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 // no pre 1.0 support!
 
-#define XMLWRITER_VERSION "0.1.6"
+#define XMLWRITER_VERSION "0.1.7"
 
 // for comment()
 #define NOMULTILINE false
@@ -48,55 +48,55 @@ public:
 
     // if multiline == true it does not indent to allow bigger text blocks
     // <!-- text -->
-    void comment(char* text, bool multiLine=false);
+    void comment(const char* text, const bool multiLine=false);
 
     // <tag>
-    void tagOpen(char* tag, bool newline=true);
+    void tagOpen(const char* tag, const bool newline=true);
     // <tag name="name">
-    void tagOpen(char* tag, char* name, bool newline=true);
+    void tagOpen(const char* tag, const char* name, const bool newline=true);
     // </tag>
-    void tagClose(bool ind=true);
+    void tagClose(const bool ind=true);
 
     // <tag
-    void tagStart(char* tag);
+    void tagStart(const char* tag);
     // field="value"
-    void tagField(char* field, char* value);
+    void tagField(const char* field, const char* value);
     //  />
-    void tagEnd(bool newline=true, bool addSlash=true);
+    void tagEnd(const bool newline=true, const bool addSlash=true);
 
     // <tag>value</tag>
-    void writeNode(char* tag, char* value);
+    void writeNode(const char* tag, const char* value);
 
     // typically 0,2,4; default == 2;
-    void setIndentSize(uint8_t size = 2);
+    void setIndentSize(const uint8_t size = 2);
 
     // for manual layout control
     void incrIndent()       { _indent += _indentStep; };
     void decrIndent()       { _indent -= _indentStep; };
     void indent();
-    void raw(char * str)    { _stream->print(str); };       // TODO Q:other types?
+    void raw(const char * str) { _stream->print(str); };       // TODO Q:other types?
 
-    void tagField(char* field, uint8_t  value, uint8_t base=DEC);
-    void tagField(char* field, uint16_t value, uint8_t base=DEC);
-    void tagField(char* field, uint32_t value, uint8_t base=DEC);
-    void tagField(char* field, int8_t   value, uint8_t base=DEC);
-    void tagField(char* field, int16_t  value, uint8_t base=DEC);
-    void tagField(char* field, int32_t  value, uint8_t base=DEC);
-    void tagField(char *field, bool     value);
-    void tagField(char* field, double   value, uint8_t decimals=2);
+    void tagField(const char* field, const uint8_t  value, const uint8_t base=DEC);
+    void tagField(const char* field, const uint16_t value, const uint8_t base=DEC);
+    void tagField(const char* field, const uint32_t value, const uint8_t base=DEC);
+    void tagField(const char* field, const int8_t   value, const uint8_t base=DEC);
+    void tagField(const char* field, const int16_t  value, const uint8_t base=DEC);
+    void tagField(const char* field, const int32_t  value, const uint8_t base=DEC);
+    void tagField(const char *field, const bool     value); 
+    void tagField(const char* field, const double   value, const uint8_t decimals=2);
 
-    void writeNode(char* tag, uint8_t   value, uint8_t base=DEC);
-    void writeNode(char* tag, uint16_t  value, uint8_t base=DEC);
-    void writeNode(char* tag, uint32_t  value, uint8_t base=DEC);
-    void writeNode(char* tag, int8_t    value, uint8_t base=DEC);
-    void writeNode(char* tag, int16_t   value, uint8_t base=DEC);
-    void writeNode(char* tag, int32_t   value, uint8_t base=DEC);
-    void writeNode(char* tag, bool      value);
-    void writeNode(char* tag, double value, uint8_t decimals=2);
+    void writeNode(const char* tag, const uint8_t   value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const uint16_t  value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const uint32_t  value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const int8_t    value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const int16_t   value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const int32_t   value, const uint8_t base=DEC);
+    void writeNode(const char* tag, const bool      value); 
+    void writeNode(const char* tag, const double    value, const uint8_t decimals=2);
 
 #ifdef XMLWRITER_ESCAPE_SUPPORT
     // expands the special xml chars
-    void escape(char* str);
+    void escape(const char* str);
 #endif
 
 private:

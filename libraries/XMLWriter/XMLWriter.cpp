@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2013-11-06
 // PURPOSE: Simple XML library
 //
@@ -13,6 +13,7 @@
 // 0.1.04  2015-05-21 refactored - reduce RAM -> used F() macro etc.
 // 0.1.05  2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
 // 0.1.6   2016-03-16 added incrIndent(), decrIndent(), indent(), raw();
+// 0.1.7   2017-07-26 added const where possible
 //
 // Released to the public domain
 //
@@ -37,7 +38,7 @@ void XMLWriter::header()
     _stream->println(F("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
 }
 
-void XMLWriter::comment(char* text, bool multiLine)
+void XMLWriter::comment(const char* text, const bool multiLine)
 {
     _stream->println();
     if (!multiLine) indent();
@@ -48,12 +49,12 @@ void XMLWriter::comment(char* text, bool multiLine)
     _stream->println(F(" -->"));
 }
 
-void XMLWriter::tagOpen(char* tag, bool newline)
+void XMLWriter::tagOpen(const char* tag, const bool newline)
 {
     tagOpen(tag, "", newline);
 }
 
-void XMLWriter::tagOpen(char* tag, char* name, bool newline)
+void XMLWriter::tagOpen(const char* tag, const char* name, const bool newline)
 {
     // TODO STACK GUARD
     strncpy(tagStack[_idx++], tag, XMLWRITER_MAXTAGSIZE);
@@ -63,7 +64,7 @@ void XMLWriter::tagOpen(char* tag, char* name, bool newline)
     _indent += _indentStep;
 }
 
-void XMLWriter::tagClose(bool ind)
+void XMLWriter::tagClose(const bool ind)
 {
     _indent -= _indentStep;
     if (ind) indent();
@@ -72,14 +73,14 @@ void XMLWriter::tagClose(bool ind)
     _stream->println(F(">"));
 }
 
-void XMLWriter::tagStart(char *tag)
+void XMLWriter::tagStart(const char *tag)
 {
     indent();
     _stream->print('<');
     _stream->print(tag);
 }
 
-void XMLWriter::tagField(char *field, char* str)
+void XMLWriter::tagField(const char *field, const char* str)
 {
     _stream->print(' ');
     _stream->print(field);
@@ -92,14 +93,14 @@ void XMLWriter::tagField(char *field, char* str)
     _stream->print('"');
 }
 
-void XMLWriter::tagEnd(bool newline, bool addSlash)
+void XMLWriter::tagEnd(const bool newline, const bool addSlash)
 {
     if (addSlash) _stream->print('/');
     _stream->print('>');
     if (newline) _stream->println();
 }
 
-void XMLWriter::writeNode(char* tag, char* str)
+void XMLWriter::writeNode(const char* tag, const char* str)
 {
     tagOpen(tag, "", NONEWLINE);
 #ifdef XMLWRITER_ESCAPE_SUPPORT
@@ -110,22 +111,22 @@ void XMLWriter::writeNode(char* tag, char* str)
     tagClose(NOINDENT);
 }
 
-void XMLWriter::setIndentSize(uint8_t size)
+void XMLWriter::setIndentSize(const uint8_t size)
 {
     _indentStep = size;
 }
 
-void XMLWriter::tagField(char *field, uint8_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const uint8_t value, const uint8_t base)
 {
     tagField(field, (uint32_t) value, base);
 }
 
-void XMLWriter::tagField(char *field, uint16_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const uint16_t value, const uint8_t base)
 {
     tagField(field, (uint32_t) value, base);
 }
 
-void XMLWriter::tagField(char *field, uint32_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const uint32_t value, const uint8_t base)
 {
     _stream->print(' ');
     _stream->print(field);
@@ -134,17 +135,17 @@ void XMLWriter::tagField(char *field, uint32_t value, uint8_t base)
     _stream->print('"');
 }
 
-void XMLWriter::tagField(char *field, int8_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const int8_t value, const uint8_t base)
 {
     tagField(field, (long) value, base);
 }
 
-void XMLWriter::tagField(char *field, int16_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const int16_t value, const uint8_t base)
 {
     tagField(field, (long) value, base);
 }
 
-void XMLWriter::tagField(char *field, int32_t value, uint8_t base)
+void XMLWriter::tagField(const char *field, const int32_t value, const uint8_t base)
 {
     _stream->print(' ');
     _stream->print(field);
@@ -154,7 +155,7 @@ void XMLWriter::tagField(char *field, int32_t value, uint8_t base)
 }
 
 
-void XMLWriter::tagField(char *field, bool value)
+void XMLWriter::tagField(const char *field, const bool value)
 {
     _stream->print(' ');
     _stream->print(field);
@@ -163,7 +164,7 @@ void XMLWriter::tagField(char *field, bool value)
     _stream->print('"');
 }
 
-void XMLWriter::tagField(char *field, double value, uint8_t decimals)
+void XMLWriter::tagField(const char *field, const double value, const uint8_t decimals)
 {
     _stream->print(' ');
     _stream->print(field);
@@ -172,48 +173,48 @@ void XMLWriter::tagField(char *field, double value, uint8_t decimals)
     _stream->print('"');
 }
 
-void XMLWriter::writeNode(char* tag, uint8_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const uint8_t value, const uint8_t base)
 {
     writeNode(tag, (uint32_t) value, base);
 }
 
-void XMLWriter::writeNode(char* tag, uint16_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const uint16_t value, const uint8_t base)
 {
     writeNode(tag, (uint32_t) value, base);
 }
 
-void XMLWriter::writeNode(char* tag, uint32_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const uint32_t value, const uint8_t base)
 {
     tagOpen(tag, "", NONEWLINE);
     _stream->print(value, base);  // todo: leading zero's
     tagClose(NOINDENT);
 }
 
-void XMLWriter::writeNode(char* tag, int8_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const int8_t value, const uint8_t base)
 {
     writeNode(tag, (int32_t) value, base);
 }
 
-void XMLWriter::writeNode(char* tag, int16_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const int16_t value, const uint8_t base)
 {
     writeNode(tag, (int32_t) value, base);
 }
 
-void XMLWriter::writeNode(char* tag, int32_t value, uint8_t base)
+void XMLWriter::writeNode(const char* tag, const int32_t value, const uint8_t base)
 {
     tagOpen(tag, "", NONEWLINE);
     _stream->print(value, base);  // todo: leading zero's
     tagClose(NOINDENT);
 }
 
-void XMLWriter::writeNode(char* tag, bool value)
+void XMLWriter::writeNode(const char* tag, const bool value)
 {
     tagOpen(tag, "", NONEWLINE);
     _stream->print(value?F("true"):F("false"));
     tagClose(NOINDENT);
 }
 
-void XMLWriter::writeNode(char* tag, double value, uint8_t decimals)
+void XMLWriter::writeNode(const char* tag, const double value, const uint8_t decimals)
 {
     tagOpen(tag, "", NONEWLINE);
     _stream->print(value, decimals);
@@ -231,9 +232,9 @@ void XMLWriter::indent()
 char c[6] = "\"\'<>&";
 char expanded[][7] = { "&quot;", "&apos;","&lt;","&gt;","&amp;"}; // todo in flash
 
-void XMLWriter::escape(char* str)
+void XMLWriter::escape(const char* str)
 {
-    char* p = str;
+    char* p = (char *)str;
     while(*p != 0)
     {
         char* q = strchr(c, *p);

@@ -1,0 +1,32 @@
+#######################################
+# Syntax Coloring Map For DHT
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DHT	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+read	KEYWORD2
+read11	KEYWORD2
+read21	KEYWORD2
+read22	KEYWORD2
+read33	KEYWORD2
+read44	KEYWORD2
+humidity	KEYWORD2
+temperature	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

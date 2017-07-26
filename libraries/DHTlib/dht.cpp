@@ -1,11 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.22
+// VERSION: 0.1.24
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.24 2017-07-27 double -> float
+// 0.1.23 2017-07-24 FIX https://github.com/RobTillaart/Arduino/issues/31
 // 0.1.22 undo delayMicroseconds() for wakeups larger than 8
 // 0.1.21 replace delay with delayMicroseconds() + small fix
 // 0.1.20 Reduce footprint by using uint8_t as error codes. (thanks to chaveiro)
@@ -126,7 +128,7 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     digitalWrite(pin, LOW); // T-be
     if (wakeupDelay > 8) delay(wakeupDelay);
     else delayMicroseconds(wakeupDelay * 1000UL);
-    digitalWrite(pin, HIGH); // T-go
+    // digitalWrite(pin, HIGH); // T-go
     pinMode(pin, INPUT);
 
     uint16_t loopCount = DHTLIB_TIMEOUT * 2;  // 200uSec max
@@ -191,8 +193,8 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
         }
 
     }
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
+    // pinMode(pin, OUTPUT);
+    // digitalWrite(pin, HIGH);
 
     return DHTLIB_OK;
 }

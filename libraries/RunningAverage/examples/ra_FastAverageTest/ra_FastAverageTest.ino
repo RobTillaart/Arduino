@@ -1,7 +1,7 @@
 //
 //    FILE: ra_FastAverageTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 //    DATE: 2015-sep-04
 //
 // PUPROSE: demo to see if different average algorithm give different result
@@ -12,7 +12,7 @@
 RunningAverage myRA(10);
 uint32_t samples = 0;
 
-double maxDiff = 0;
+float maxDiff = 0;
 
 void setup(void)
 {
@@ -32,9 +32,9 @@ void loop(void)
   myRA.addValue(rn * 0.001);
   samples++;
   //
-  double avg = myRA.getAverage();
-  double favg = myRA.getFastAverage();
-  double diff = abs(avg - favg);
+  float avg = myRA.getAverage();
+  float favg = myRA.getFastAverage();
+  float diff = abs(avg - favg);
 
   boolean pr = (samples % 10000 == 0);
   if (maxDiff < diff)

@@ -1,13 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL:
 //
 // Released to the public domain
 //
-
+// 0.1.6  - 2017-07-26 revert double to float 
 // 0.1.5  - updated history
 // 0.1.4  - added setAutomaticMode() to max44009.h (thanks debsahu)
 // 0.1.03 - added configuration
@@ -17,7 +17,7 @@
 
 #include "Max44009.h"
 
-Max44009::Max44009(uint8_t address)
+Max44009::Max44009(const uint8_t address)
 {
     _address = address;
     Wire.begin();
@@ -26,13 +26,13 @@ Max44009::Max44009(uint8_t address)
     _error = 0;
 }
 
-double Max44009::getLux(void)
+float Max44009::getLux(void)
 {
     uint16_t data = read(MAX44009_LUX_READING, 2);
     uint8_t e = (data & 0xF000) >> 12;
     uint32_t m = ((data & 0x0F00) >> 4) + (data & 0x000F);
     m <<= e;
-    double val = m * 0.045;
+    float val = m * 0.045;
     return val;
 }
 
@@ -43,27 +43,27 @@ int Max44009::getError()
     return e;
 }
 
-void Max44009::setHighThreshold(double value)
+void Max44009::setHighThreshold(const float value)
 {
     setThreshold(MAX44009_THRESHOLD_HIGH, value);
 }
 
-double Max44009::getHighThreshold(void)
+float Max44009::getHighThreshold(void)
 {
     return getThreshold(MAX44009_THRESHOLD_HIGH);
 }
 
-void Max44009::setLowThreshold(double value)
+void Max44009::setLowThreshold(const float value)
 {
     setThreshold(MAX44009_THRESHOLD_LOW, value);
 }
 
-double Max44009::getLowThreshold(void)
+float Max44009::getLowThreshold(void)
 {
     return getThreshold(MAX44009_THRESHOLD_LOW);
 }
 
-void Max44009::setThresholdTimer(uint8_t value)
+void Max44009::setThresholdTimer(const uint8_t value)
 {
     write(MAX44009_THRESHOLD_TIMER, value);
 }
@@ -73,14 +73,14 @@ uint8_t Max44009::getThresholdTimer()
     return read(MAX44009_THRESHOLD_TIMER, 1);
 }
 
-void Max44009::setConfiguration(uint8_t value)
+void Max44009::setConfiguration(const uint8_t value)
 {
     write(MAX44009_CONFIGURATION, value);
 }
 
 uint8_t Max44009::getConfiguration()
 {
-    read(MAX44009_CONFIGURATION);
+    return read(MAX44009_CONFIGURATION, 1);
 }
 
 void Max44009::setAutomaticMode()
@@ -115,7 +115,7 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 //
 // PRIVATE
 //
-void Max44009::setThreshold(uint8_t reg, double value)
+void Max44009::setThreshold(const uint8_t reg, const float value)
 {
     // TODO CHECK RANGE
     uint32_t m = round(value / 0.045);
@@ -130,13 +130,13 @@ void Max44009::setThreshold(uint8_t reg, double value)
     write(reg, e | m);
 }
 
-double Max44009::getThreshold(uint8_t reg)
+float Max44009::getThreshold(uint8_t reg)
 {
-    uint16_t data = read(MAX44009_THRESHOLD_LOW, 1);
+    uint16_t data = read(reg, 1);
     uint8_t e = (data & 0xF0) >> 4;
-    uint32_t m = (data & 0x0F) << 4 + 0x0F;
+    uint32_t m = ((data & 0x0F) << 4) + 0x0F;
     m <<= e;
-    double val = m * 0.045;
+    float val = m * 0.045;
     return val;
 }
 

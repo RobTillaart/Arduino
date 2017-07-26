@@ -1,0 +1,36 @@
+#######################################
+# Syntax Coloring Map For Max44009
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Max44009	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+getLux	KEYWORD2
+getError	KEYWORD2
+setHighThreshold	KEYWORD2
+getHighThreshold	KEYWORD2
+setLowThreshold	KEYWORD2
+getLowThreshold	KEYWORD2
+setThresholdTimer	KEYWORD2
+getThresholdTimer	KEYWORD2
+setConfiguration	KEYWORD2
+getConfiguration	KEYWORD2
+setAutomaticMode	KEYWORD2
+setContinuousMode	KEYWORD2
+setManualMode	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################

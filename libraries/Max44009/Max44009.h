@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -41,22 +41,22 @@
 class Max44009
 {
 public:
-    Max44009(uint8_t address);
+    Max44009(const uint8_t address);
 
-    double  getLux();
+    float   getLux();
     int     getError();
 
-    void    setHighThreshold(double);
-    double  getHighThreshold(void);
-    void    setLowThreshold(double);
-    double  getLowThreshold(void);
-    void    setThresholdTimer(uint8_t);
+    void    setHighThreshold(const float);
+    float   getHighThreshold(void);
+    void    setLowThreshold(const float);
+    float   getLowThreshold(void);
+    void    setThresholdTimer(const uint8_t);
     uint8_t getThresholdTimer();
 
     void    enableInterrupt()    { write(MAX44009_INTERRUPT_ENABLE, 1); };
     void    disableInterrupt()   { write(MAX44009_INTERRUPT_ENABLE, 0); };
-    bool    interruptEnabled()   { read(MAX44009_INTERRUPT_ENABLE) & 0x01; };
-    uint8_t getInterruptStatus() { read(MAX44009_INTERRUPT_STATUS) & 0x01; };
+    bool    interruptEnabled()   { return read(MAX44009_INTERRUPT_ENABLE) & 0x01; };
+    uint8_t getInterruptStatus() { return read(MAX44009_INTERRUPT_STATUS) & 0x01; };
 
     // check datasheet for detailed behavior
     void    setConfiguration(uint8_t);
@@ -77,8 +77,8 @@ public:
     void    setManualMode(uint8_t CDR, uint8_t TIM);
 
 private:
-    void    setThreshold(uint8_t, double);
-    double  getThreshold(uint8_t);
+    void    setThreshold(uint8_t, float);
+    float   getThreshold(uint8_t);
 
     uint16_t read(uint8_t reg, uint8_t bytes = 1);
     void     write(uint8_t, uint8_t);
@@ -88,3 +88,5 @@ private:
     int     _error;
 };
 #endif
+
+// END OF FILE

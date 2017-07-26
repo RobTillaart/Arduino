@@ -1,10 +1,10 @@
 //
 //    FILE: RunningAverage.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.12
+//  AUTHOR: Rob.Tillaart@gmail.com
+// VERSION: 0.2.13
 //    DATE: 2016-dec-01
 // PURPOSE: RunningAverage library for Arduino
-//     URL: http://arduino.cc/playground/Main/RunningAverage
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/RunningAverage
 // HISTORY: See RunningAverage.cpp
 //
 // Released to the public domain
@@ -17,54 +17,54 @@
 #ifndef RunningAverage_h
 #define RunningAverage_h
 
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.12"
+#define RUNNINGAVERAGE_LIB_VERSION "0.2.13"
 
 #include "Arduino.h"
 
 class RunningAverage
 {
 public:
-    RunningAverage(void);
-    explicit RunningAverage(const uint8_t);
-    ~RunningAverage();
+  RunningAverage(void);
+  explicit RunningAverage(const uint8_t);
+  ~RunningAverage();
 
-    void clear();
-    void addValue(const double);
-    void fillValue(const double, const uint8_t);
+  void    clear();
+  void    addValue(const float);
+  void    fillValue(const float, const uint8_t);
 
-    double getAverage() const;      // does iterate over all elements.
-    double getFastAverage() const;  // reuses previous values.
+  float   getAverage() const;      // does iterate over all elements.
+  float   getFastAverage() const;  // reuses previous values.
 
-	// return statistical characteristics of the running average
-    double GetStandardDeviation() const; 
-	double GetStandardError() const;
-	
-	// returns min/max added to the data-set since last clear
-    double getMin() const { return _min; };
-    double getMax() const { return _max; };
+  // return statistical characteristics of the running average
+  float   getStandardDeviation() const;
+  float   getStandardError() const;
 
-	// returns min/max from the values in the internal buffer
-    double GetMinInBuffer() const;
-    double GetMaxInBuffer() const;
-	
-	// return true if buffer is full
-	bool BufferIsFull() const;
+  // returns min/max added to the data-set since last clear
+  float   getMin() const { return _min; };
+  float   getMax() const { return _max; };
 
-    double getElement(uint8_t idx) const;
+  // returns min/max from the values in the internal buffer
+  float   getMinInBuffer() const;
+  float   getMaxInBuffer() const;
 
-    uint8_t getSize() const { return _size; }
-    uint8_t getCount() const { return _cnt; }
-	
-	
+  // return true if buffer is full
+  bool    bufferIsFull() const { return _cnt == _size; };
+
+  float   getElement(uint8_t idx) const;
+
+  uint8_t getSize() const { return _size; }
+  uint8_t getCount() const { return _cnt; }
+
+
 
 protected:
-    uint8_t _size;
-    uint8_t _cnt;
-    uint8_t _idx;
-    double _sum;
-    double * _ar;
-    double _min;
-    double _max;
+  uint8_t _size;
+  uint8_t _cnt;
+  uint8_t _idx;
+  float   _sum;
+  float*  _ar;
+  float   _min;
+  float   _max;
 };
 
 #endif

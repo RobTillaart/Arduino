@@ -15,18 +15,18 @@ RunningAverage	KEYWORD1
 clear	KEYWORD2
 addValue	KEYWORD2
 getAverage	KEYWORD2
-getMin  KEYWORD2
-getMax  KEYWORD2
+getMin	KEYWORD2
+getMax	KEYWORD2
 fillValue	KEYWORD2
 getElement	KEYWORD2
 getSize	KEYWORD2
 getCount	KEYWORD2
-BufferIsFull()	KEYWORD2
+bufferIsFull()	KEYWORD2
 getFastAverage	KEYWORD2
-GetStandardDeviation	KEYWORD2
-GetStandardError	KEYWORD2
-GetMinInBuffer	KEYWORD2
-GetMaxInBuffer	KEYWORD2
+getStandardDeviation	KEYWORD2
+getStandardError	KEYWORD2
+getMinInBuffer	KEYWORD2
+getMaxInBuffer	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -37,4 +37,4 @@ GetMaxInBuffer	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-RUNNINGAVERAGE_LIB_VERSION  LITERAL1
+RUNNINGAVERAGE_LIB_VERSION	LITERAL1

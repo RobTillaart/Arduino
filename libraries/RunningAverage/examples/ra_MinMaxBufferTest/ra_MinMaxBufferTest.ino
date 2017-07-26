@@ -21,7 +21,7 @@ void setup(void)
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
   myRA.clear(); // explicitly start clean
 
-    Serial.println("\nCNT\tMIN\tMINBUF\tMAX\tMAXBUF");
+  Serial.println("\nCNT\tMIN\tMINBUF\tMAX\tMAXBUF");
 }
 
 void loop(void)
@@ -33,9 +33,9 @@ void loop(void)
   Serial.print("\t");
   Serial.print(myRA.getMin(), 3);
   Serial.print("\t");
-  Serial.print(myRA.GetMinInBuffer(), 3);
+  Serial.print(myRA.getMinInBuffer(), 3);
   Serial.print("\t");
-  Serial.print(myRA.GetMaxInBuffer(), 3);
+  Serial.print(myRA.getMaxInBuffer(), 3);
   Serial.print("\t");
   Serial.print(myRA.getMax(), 3);
   Serial.println();

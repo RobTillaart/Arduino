@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.12
+// VERSION: 0.2.13
 //    DATE: 2015-July-10
 // PURPOSE: RunningAverage library for Arduino
 //
@@ -26,150 +26,162 @@
 //                     http://forum.arduino.cc/index.php?topic=50473
 // 0.2.11 - 2015-09-04 added getMaxInBuffer() getMinInBuffer() request (Antoon)
 // 0.2.12 - 2016-12-01 added GetStandardDeviation() GetStandardError() BufferIsFull()  (V0v1kkk)
+// 0.2.13 - 2017-07-26 revert double to float - issue #33;
+//                     refactored a bit; marked some TODO's; all function names to camelCase
+//
 // Released to the public domain
 //
 
 #include "RunningAverage.h"
+
 #include <stdlib.h>
 #include <math.h>
 
+
 RunningAverage::RunningAverage(const uint8_t size)
 {
-    _size = size;
-    _ar = (double*) malloc(_size * sizeof(double));
-    if (_ar == NULL) _size = 0;
-    clear();
+  _size = size;
+  _ar = (float*) malloc(_size * sizeof(float));
+  if (_ar == NULL) _size = 0;
+  clear();
 }
 
 RunningAverage::~RunningAverage()
 {
-    if (_ar != NULL) free(_ar);
+  if (_ar != NULL) free(_ar);
 }
 
 // resets all counters
 void RunningAverage::clear()
 {
-    _cnt = 0;
-    _idx = 0;
-    _sum = 0.0;
-    _min = NAN;
-    _max = NAN;
-    for (uint8_t i = 0; i < _size; i++)
-    {
-        _ar[i] = 0.0; // keeps addValue simpler
-    }
+  _cnt = 0;
+  _idx = 0;
+  _sum = 0.0;
+  _min = NAN;
+  _max = NAN;
+  for (uint8_t i = 0; i < _size; i++)
+  {
+    _ar[i] = 0.0; // keeps addValue simpler
+  }
 }
 
 // adds a new value to the data-set
-void RunningAverage::addValue(const double value)
+void RunningAverage::addValue(const float value)
 {
-    if (_ar == NULL) return;  // allocation error
-    _sum -= _ar[_idx];
-    _ar[_idx] = value;
-    _sum += _ar[_idx];
-    _idx++;
-    if (_idx == _size) _idx = 0;  // faster than %
+  if (_ar == NULL) return;  // allocation error
 
-    // handle min max
-    if (_cnt == 0) _min = _max = value;
-    else if (value < _min) _min = value;
-    else if (value > _max) _max = value;
+  _sum -= _ar[_idx];
+  _ar[_idx] = value;
+  _sum += _ar[_idx];
+  _idx++;
 
-    // update count as last otherwise if( _cnt == 0) above will fail
-    if (_cnt < _size) _cnt++;
+  if (_idx == _size) _idx = 0;  // faster than %
+
+  // handle min max
+  if (_cnt == 0) _min = _max = value;
+  else if (value < _min) _min = value;
+  else if (value > _max) _max = value;
+
+  // update count as last otherwise if ( _cnt == 0) above will fail
+  if (_cnt < _size) _cnt++;
 }
 
 // returns the average of the data-set added sofar
-double RunningAverage::getAverage() const
+float RunningAverage::getAverage() const
 {
-    if (_cnt == 0) return NAN;
-    double sum = 0;
-    for (uint8_t i = 0; i < _cnt; i++)
-    {
-        sum += _ar[i];
-    }
-    return sum / _cnt;
+  if (_cnt == 0) return NAN;
+
+  float sum = 0;
+  for (uint8_t i = 0; i < _cnt; i++)
+  {
+    sum += _ar[i];
+  }
+  return sum / _cnt;
 }
 
-double RunningAverage::getFastAverage() const
+float RunningAverage::getFastAverage() const
 {
-    if (_cnt == 0) return NAN;
-    return _sum / _cnt;
+  if (_cnt == 0) return NAN;
+
+  return _sum / _cnt;
 }
 
-// returns the max value in the buffer
-double RunningAverage::GetMinInBuffer() const
+// returns the minimum value in the buffer
+float RunningAverage::getMinInBuffer() const
 {
-    if (_cnt == 0) return NAN;
-    double min = _ar[0];
-    for (uint8_t i = 1; i < _cnt; i++)
-    {
-        if (min > _ar[i]) min = _ar[i];
-    }
-    return min;
+  if (_cnt == 0) return NAN;
+
+  float min = _ar[0];
+  for (uint8_t i = 1; i < _cnt; i++)
+  {
+    if (_ar[i] < min) min = _ar[i];
+  }
+  return min;
 }
 
-double RunningAverage::GetMaxInBuffer() const
+// returns the maximum value in the buffer
+float RunningAverage::getMaxInBuffer() const
 {
-    if (_cnt == 0) return NAN;
-    double max = _ar[0];
-    for (uint8_t i = 1; i < _cnt; i++)
-    {
-        if (max < _ar[i]) max = _ar[i];
-    }
-    return max;
+  if (_cnt == 0) return NAN;
+
+  float max = _ar[0];
+  for (uint8_t i = 1; i < _cnt; i++)
+  {
+    if (_ar[i] > max) max = _ar[i];
+  }
+  return max;
 }
 
-// return true if buffer is full
-bool RunningAverage::BufferIsFull() const
-{
-    if (_cnt == _size) return true;
-    return false;
-}
 
 // returns the value of an element if exist, NAN otherwise
-double RunningAverage::getElement(uint8_t idx) const
+float RunningAverage::getElement(uint8_t idx) const
 {
-    if (idx >=_cnt ) return NAN;
-    return _ar[idx];
+  if (idx >=_cnt ) return NAN;
+
+  return _ar[idx];
 }
 
 // Return standard deviation of running average. If buffer is empty, return NAN.
-double RunningAverage::GetStandardDeviation() const
+float RunningAverage::getStandardDeviation() const
 {
-	if (_cnt == 0) return NAN;
-    double temp = 0;
-	double average = getFastAverage();
-    for (uint8_t i = 0; i < _cnt; i++)
-    {
-		temp += pow((_ar[i] - average),2);
-    }
-	temp = sqrt(temp/(_cnt - 1));
-    return temp;
+  if (_cnt == 0) return NAN;
+
+  float temp = 0;
+  float average = getFastAverage();
+  for (uint8_t i = 0; i < _cnt; i++)
+  {
+    temp += pow((_ar[i] - average), 2);
+  }
+  temp = sqrt(temp/(_cnt - 1));     // TODO possible divide by zero ....
+
+  return temp;
 }
 
 // Return standard error of running average. If buffer is empty, return NAN.
-double RunningAverage::GetStandardError() const //++
+float RunningAverage::getStandardError() const //++
 {
-	double temp = GetStandardDeviation();
-	if(temp==NAN) return NAN;
-	double n;
-	if(_cnt>=30) n= _cnt;
-	else n= _cnt - 1;
-	temp = temp/sqrt(n);
-	return temp;
+  float temp = getStandardDeviation();
+
+  if (temp == NAN) return NAN;
+
+  float n;
+  if (_cnt >= 30) n = _cnt;
+  else n = _cnt - 1;                // TODO fails if _cnt == 0
+  temp = temp/sqrt(n);              // TODO fails if _cnt == 1
+
+  return temp;
 }
 
 // fill the average with a value
 // the param number determines how often value is added (weight)
 // number should preferably be between 1 and size
-void RunningAverage::fillValue(const double value, const uint8_t number)
+void RunningAverage::fillValue(const float value, const uint8_t number)
 {
-    clear(); // TODO conditional?  if (clr) clear();
+  clear(); // TODO conditional?  if (clr) clear();
 
-    for (uint8_t i = 0; i < number; i++)
-    {
-        addValue(value);
-    }
+  for (uint8_t i = 0; i < number; i++)
+  {
+    addValue(value);
+  }
 }
 // END OF FILE

@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.08
+// VERSION: 0.1.9
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL: http://forum.arduino.cc/index.php?topic=208061
 //
 // HISTORY:
+// 0.1.9  2017-07-27 reverted double -> float (issue33)
 // 0.1.08 2015-12-06 replaced all temperature calls with one TCfactor + update demos.
 // 0.1.07 2015-12-06 updated TC factors from the MAX31855 datasheet
 // 0.1.06 2015-12-05 added support for other types of TC's (experimental)
@@ -22,13 +23,13 @@
 
 #include "MAX31855.h"
 
-MAX31855::MAX31855(uint8_t sclk, uint8_t cs, uint8_t miso)
+MAX31855::MAX31855(const uint8_t sclk, const uint8_t cs, const uint8_t miso)
 {
     _sclk = sclk;
     _cs = cs;
     _miso = miso;
     _offset = 0;
-    _TCfactor = 1;
+    _TCfactor = K_TC;
     _status = STATUS_NOREAD;
     _temperature = -999;
     _internal = -999;

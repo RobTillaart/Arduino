@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.08
+// VERSION: 0.1.9
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL: http://forum.arduino.cc/index.php?topic=208061
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.08"
+#define MAX31855_VERSION "0.1.9"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
@@ -59,24 +59,24 @@ public:
 
     uint8_t read();
 
-    double getInternal(void) const    { return _internal; };
-    double getTemperature(void) const { return _temperature * _TCfactor; }
+    float   getInternal(void) const     { return _internal; };
+    float   getTemperature(void) const  { return _temperature * _TCfactor; }
 
-    uint8_t getStatus(void) const     { return _status; };
+    uint8_t getStatus(void) const       { return _status; };
 
-    void setOffset(const double t)    { _offset = t; };
-    double getOffset() const          { return _offset; };
+    void    setOffset(const float  t)   { _offset = t; };
+    float   getOffset() const           { return _offset; };
 
-    void setTCfactor(const double TCfactor) { _TCfactor = TCfactor; };
-    double getTCfactor() const              { return _TCfactor; };
+    void    setTCfactor(const float  TCfactor) { _TCfactor = TCfactor; };
+    float   getTCfactor() const         { return _TCfactor; };
 
 private:
     uint32_t _read();
-    double  _internal;
-    double  _temperature;
+    float   _internal;
+    float   _temperature;
     uint8_t _status;
-    double  _offset;
-    double  _TCfactor;
+    float   _offset;
+    float   _TCfactor;
 
     uint8_t _sclk;
     uint8_t _miso;

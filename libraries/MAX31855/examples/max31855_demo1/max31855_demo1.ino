@@ -1,7 +1,7 @@
 //
 //    FILE: max31855_demo1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.3
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
 //     URL:
@@ -36,7 +36,7 @@ void loop()
     Serial.println(status);
   }
 
-  double temp = tc.getTemperature();
+  float temp = tc.getTemperature();
   int m = temp*10 - 200;
   Serial.print(temp);
   Serial.print('\t');

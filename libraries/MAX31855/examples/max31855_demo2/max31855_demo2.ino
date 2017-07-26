@@ -1,7 +1,7 @@
 //
 //    FILE: max31855_demo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
+// VERSION: 0.1.3
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
 //     URL:
@@ -17,7 +17,7 @@ const int clPin = 5;
 
 MAX31855 tc(clPin, csPin, doPin);
 
-double t1, t2;
+float t1, t2;
 
 void setup() 
 {

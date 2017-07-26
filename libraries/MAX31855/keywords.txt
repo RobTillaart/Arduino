@@ -1,0 +1,36 @@
+#######################################
+# Syntax Coloring Map For MAX31855
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MAX31855	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+read	KEYWORD2
+
+getInternal	KEYWORD2
+getTemperature	KEYWORD2
+
+getStatus	KEYWORD2
+
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+setTCfactor	KEYWORD2
+getTCfactor	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################

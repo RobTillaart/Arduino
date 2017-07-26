@@ -1,7 +1,7 @@
 //
 //    FILE: max31855_demo6.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: thermocouple lib demo TCfactor
 //    DATE: 2015-12-06
 //     URL: http://forum.arduino.cc/index.php?topic=208061
@@ -26,11 +26,11 @@ void setup()
 
   tc.begin();
   tc.read();
-  double t1 = tc.getTemperature();
+  float t1 = tc.getTemperature();
   Serial.print("    temp before:\t");
   Serial.println(t1, 2);
 
-  double tcf = tc.getTCfactor();
+  float tcf = tc.getTCfactor();
   Serial.print("TCfactor before:\t");
   Serial.println(tcf, 4);
 
@@ -41,7 +41,7 @@ void setup()
   Serial.println(tcf, 4);
 
   tc.read();
-  double t2 = tc.getTemperature();
+  float t2 = tc.getTemperature();
   Serial.print("     temp after:\t");
   Serial.println(t2, 2);
 

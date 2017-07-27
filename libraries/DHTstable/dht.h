@@ -1,9 +1,9 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.13
+// VERSION: 0.2.0
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
-//     URL: http://arduino.cc/playground/Main/DHTLib
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
 // see dht.cpp file
@@ -18,7 +18,7 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.13"
+#define DHT_LIB_VERSION "0.2.0 - dhtstable"
 
 #define DHTLIB_OK                0
 #define DHTLIB_ERROR_CHECKSUM   -1
@@ -50,8 +50,8 @@ public:
     inline int read33(uint8_t pin) { return read(pin); };
     inline int read44(uint8_t pin) { return read(pin); };
 
-    double humidity;
-    double temperature;
+    float humidity;
+    float temperature;
 
 private:
     uint8_t bits[5];  // buffer to receive data

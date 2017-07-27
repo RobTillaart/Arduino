@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.13
+// VERSION: 0.2.0
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
-//     URL: http://arduino.cc/playground/Main/DHTLib
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
+// 0.2.0  2017-07-24 fix https://github.com/RobTillaart/Arduino/issues/31 + 33
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
 // 0.1.11 renamed DHTLIB_TIMEOUT
@@ -114,9 +115,8 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW);
     delay(wakeupDelay);
-    digitalWrite(pin, HIGH);
-    delayMicroseconds(40);
     pinMode(pin, INPUT);
+    delayMicroseconds(40);
 
     // GET ACKNOWLEDGE or TIMEOUT
     uint16_t loopCnt = DHTLIB_TIMEOUT;
@@ -159,8 +159,6 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
             idx++;
         }
     }
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
 
     return DHTLIB_OK;
 }

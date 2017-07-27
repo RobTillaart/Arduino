@@ -1,6 +1,7 @@
 //
 //    FILE: hist_test_cdf.ino
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2012-11-10
 //
 // PUPROSE: test histogram library
@@ -8,7 +9,7 @@
 
 #include "histogram.h"
 
-double b[] = { 
+float b[] = {
   0, 300, 325, 350, 375, 400, 1000 };
 
 Histogram hist(7, b);

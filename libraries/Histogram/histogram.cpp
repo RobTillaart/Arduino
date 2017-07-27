@@ -1,7 +1,7 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
@@ -14,13 +14,14 @@
 // 0.1.3 - 2013-09-29 testing a lot & refactoring
 // 0.1.4 - 2015-03-06 stricter interface
 // 0.1.5 - 2017-07-16 refactor, support for > 256 buckets; prevent alloc errors
+// 0.1.6 - 2017-07-27 revert double to float (issue #33)
 //
 // Released to the public domain
 //
 
 #include "histogram.h"
 
-Histogram::Histogram(const int16_t len, double *bounds)
+Histogram::Histogram(const int16_t len, float *bounds)
 {
   _bounds = bounds;
   _len = len + 1;
@@ -43,7 +44,7 @@ void Histogram::clear()
 }
 
 // adds a new value to the histogram - increasing
-void Histogram::add(const double f)
+void Histogram::add(const float f)
 {
   if (_len > 0)
   {
@@ -53,14 +54,13 @@ void Histogram::add(const double f)
 }
 
 // adds a new value to the histogram - decreasing
-void Histogram::sub(const double f)
+void Histogram::sub(const float f)
 {
   if (_len > 0)
   {
     _data[find(f)]--;
     _cnt++;
   }
-
 }
 
 // returns the count of a bucket
@@ -71,18 +71,20 @@ int32_t Histogram::bucket(const int16_t idx)
 }
 
 // returns the relative frequency of a bucket
-double Histogram::frequency(const int16_t idx)
+float Histogram::frequency(const int16_t idx)
 {
   if (_cnt == 0 || _len == 0) return NAN;
+
   if (idx > _len) return 0;   // diff with PMF
   return (1.0 * _data[idx]) / _cnt;
 }
 
 // EXPERIMENTAL
 // returns the probability of the bucket of a value
-double Histogram::PMF(const double val)
+float Histogram::PMF(const float val)
 {
   if (_cnt == 0 || _len == 0) return NAN;
+
   int16_t idx = find(val);
   return (1.0 * _data[idx]) / _cnt;
 }
@@ -90,9 +92,10 @@ double Histogram::PMF(const double val)
 // EXPERIMENTAL
 // returns the cummulative probability of
 // values <= value
-double Histogram::CDF(const double val)
+float Histogram::CDF(const float val)
 {
   if (_cnt == 0 || _len == 0) return NAN;
+
   int16_t idx = find(val);
   int32_t sum = 0;
   for (int16_t i = 0; i <= idx; i++)
@@ -105,14 +108,14 @@ double Histogram::CDF(const double val)
 // EXPERIMENTAL
 // returns the value of the original array for
 // which the CDF is at least prob.
-double Histogram::VAL(const double prob)
+float Histogram::VAL(const float prob)
 {
   if (_cnt == 0 || _len == 0) return NAN;
-  double p = prob;
+  float p = prob;
   if (p < 0.0) p = 0.0;
   if (p > 1.0) p = 1.0;
 
-  double probability = p * _cnt;
+  float probability = p * _cnt;
   int32_t sum = 0;
   for (int16_t i = 0; i < _len; i++)
   {
@@ -123,10 +126,10 @@ double Histogram::VAL(const double prob)
 }
 
 // returns the bucket number for value val
-int16_t Histogram::find(const double val)
+int16_t Histogram::find(const float val)
 {
   if (_len <= 0) return -1;
-  
+
   for (int16_t i = 0; i < (_len-1); i++)
   {
     if (_bounds[i] >= val) return i;

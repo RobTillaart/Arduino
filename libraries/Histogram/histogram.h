@@ -20,36 +20,37 @@
 #include "WProgram.h"
 #endif
 
-#define HISTOGRAM_LIB_VERSION "0.1.5"
+#define HISTOGRAM_LIB_VERSION "0.1.6"
 
 class Histogram
 {
 public:
-    Histogram(const int16_t len, double *bounds);
-    ~Histogram();
+  Histogram(const int16_t len, float *bounds);
+  ~Histogram();
 
-    void      clear();
-    void      add(const double val);
-    void      sub(const double val);
+  void  clear();
+  void  add(const float val);
+  void  sub(const float val);
 
-    // number of buckets
-    inline int16_t size() { return _len; };
-    // number of values added to all buckets
-    inline uint32_t count() { return _cnt; };
-    // number of values added to single bucket
-    int32_t   bucket(const int16_t idx);
+  // number of buckets
+  inline int16_t size() { return _len; };
 
-    double    frequency(const int16_t idx);
-    double    PMF(const double val);
-    double    CDF(const double val);
-    double    VAL(const double prob);
-    int16_t   find(const double f);
+  // number of values added to all buckets
+  inline uint32_t count() { return _cnt; };
+  // number of values added to single bucket
+  int32_t bucket(const int16_t idx);
+
+  float   frequency(const int16_t idx);
+  float   PMF(const float val);
+  float   CDF(const float val);
+  float   VAL(const float prob);
+  int16_t find(const float f);
 
 protected:
-    double *  _bounds;
-    int32_t * _data;
-    int16_t   _len;
-    uint32_t  _cnt;
+  float *   _bounds;
+  int32_t * _data;
+  int16_t   _len;
+  uint32_t  _cnt;
 };
 
 #endif

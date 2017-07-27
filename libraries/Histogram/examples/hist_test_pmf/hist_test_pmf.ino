@@ -1,6 +1,7 @@
 //
 //    FILE: hist_test_pmf.ino
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2012-11-10
 //
 // PUPROSE: test histogram library
@@ -8,7 +9,7 @@
 
 #include "histogram.h"
 
-double b[] = { 
+float b[] = { 
   0, 50, 100, 150, 200, 250, 
   300, 350, 400, 450, 500, 
   600, 700, 800, 900, 1000 };
@@ -42,3 +43,4 @@ void loop()
   delay(10);
 }
 
+// END OF FILE

@@ -1,6 +1,7 @@
 //
 //    FILE: hist_test_graph.ino
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2017-07-16
 //
 // PUPROSE: test histogram frequency
@@ -9,7 +10,7 @@
 #include "histogram.h"
 
 // boundaries array does not need to be equally distributed.
-double bounds[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
+float bounds[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
 
 Histogram hist(14, bounds);
 
@@ -48,14 +49,15 @@ void loop()
       Serial.print("\t");
 
       int n = hist.frequency(i) * 50;  // 0..50
-      for (int p = 0; p < n; p++);
+      Serial.print(n);
+      Serial.print("\t");
+      for (int p = 0; p < n; p++)
       {
-        Serial.print(']')
+        Serial.print(']');
       }
       Serial.println();
     }
     if (hist.count() > 1000000UL) hist.clear();
   }
 }
-
 

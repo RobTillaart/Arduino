@@ -1,6 +1,7 @@
 //
 //    FILE: hist_test.pde
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2012-12-23
 //
 // PUPROSE: test histogram frequency
@@ -8,10 +9,10 @@
 
 #include "histogram.h"
 
-// double b[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
+// float b[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
 
-// boundaries array does not need to be equally distributed.
-double b[] = { 
+// boundaries does not need to be equally distributed.
+float b[] = { 
   0, 100, 200, 300, 325, 350, 375 };
 
 Histogram hist(7, b);
@@ -22,6 +23,7 @@ const uint32_t threshold = 25;  // milliseconds, for updating display
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("\nHistogram version: ");
   Serial.println(HISTOGRAM_LIB_VERSION);
 
@@ -89,4 +91,4 @@ void loop()
   }
 }
 
-
+// END OF FILE

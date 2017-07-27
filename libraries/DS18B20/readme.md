@@ -14,18 +14,18 @@ added a number of Arduino examples to help you get started.
 
 The DS18B20 library supports only the DS18B20, only one sensor per pin, no parasite 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
-the asynchrone reading of the temperature by means of three core functions:
+the asynchronous reading of the temperature by means of three core functions:
 
 * requestTemperatures()
 * isConversionComplete()
 * readTempC()
 
 This allowed the class to be both minimal in size and non-blocking. In fact the class
-has no support for a synchronuous read in one call. This choice will learn people 
+has no support for a synchronous read in one call. This choice will teach people
 how to work in a non-blocking way from the start.
 
 Effort has been taken to keep the code, variables and function names compatible with 
-ATCL library mentioned above. This way you can step over to that one with relative 
+ATCL library mentioned above. This way you can step over to that one with relatively
 few problems when you need more functionality like multiple sensors on one pin.
 
 Finally this library will probably make it easier to use a DS18B20 with processing 
@@ -51,5 +51,4 @@ and all people who contributed to that lib.
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
 

@@ -4,7 +4,7 @@
 //    FILE: Statistic.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 //          modified at 0.3 by Gil Ross at physics dot org
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See Statistic.cpp
 //
@@ -12,41 +12,40 @@
 //
 
 // the standard deviation increases the lib (<100 bytes)
-// it can be in/excluded by un/commenting next line
-#define STAT_USE_STDEV
+// it can be in/excluded by un/commenting next line  (compile time)
+#define STAT_USE_STDEV 1
 
 #include <math.h>
 
-#define STATISTIC_LIB_VERSION "0.3.3"
+#define STATISTIC_LIB_VERSION "0.3.4"
 
 class Statistic
 {
 public:
-    Statistic();
-    void clear();
-    void add(double);
+    Statistic();             // "switches on/off" stdev run time
+    void clear();            // "switches on/off" stdev run time
+    void add(const float);
 
     // returns the number of values added
-    unsigned long count()   { return _cnt; }; // zero if empty
-    double sum()            { return _sum; }; // zero if empty
-    double minimum()        { return _min; }; // zero if empty
-    double maximum()        { return _max; }; // zero if empty
-    double average();
+    uint32_t count() const { return _cnt; }; // zero if empty
+    float sum() const      { return _sum; }; // zero if empty
+    float minimum() const  { return _min; }; // zero if empty
+    float maximum() const  { return _max; }; // zero if empty
+    float average() const;                   // NAN if empty
 
 #ifdef STAT_USE_STDEV
-    double variance();
-    double pop_stdev();	    // population stdev
-    double unbiased_stdev();
+    float variance() const;                  // NAN if empty
+    float pop_stdev() const; // population stdev  // NAN if empty
+    float unbiased_stdev() const;            // NAN if empty
 #endif
 
 protected:
-    unsigned long _cnt;
-    double _store;           // store to minimise computation
-    double _sum;
-    double _min;
-    double _max;
+    uint32_t _cnt;
+    float    _sum;
+    float    _min;
+    float    _max;
 #ifdef STAT_USE_STDEV
-    double _ssqdif;		    // sum of squares difference
+    float    _ssqdif;		    // sum of squares difference
 #endif
 };
 

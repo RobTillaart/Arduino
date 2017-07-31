@@ -1,0 +1,236 @@
+C:\Users\Rob\Desktop\WORK\Arduino\libraries\Statistic\examples\Average\Average.ino
+Demo Statistics lib 0.3.4
+        Count: 10000
+          Min: 1.0100
+          Max: 100.9600
+      Average: 50.9408
+     variance: 835.0057
+    pop stdev: 28.8965
+ unbias stdev: 28.8979
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 51.4161
+     variance: 839.9565
+    pop stdev: 28.9820
+ unbias stdev: 28.9835
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.9561
+     variance: 833.2212
+    pop stdev: 28.8656
+ unbias stdev: 28.8670
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9700
+      Average: 51.4648
+     variance: 849.5839
+    pop stdev: 29.1476
+ unbias stdev: 29.1491
+     time(ms): 2549
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.8610
+     variance: 842.0071
+    pop stdev: 29.0174
+ unbias stdev: 29.0188
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 51.2327
+     variance: 816.5170
+    pop stdev: 28.5748
+ unbias stdev: 28.5762
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.8115
+     variance: 835.1608
+    pop stdev: 28.8991
+ unbias stdev: 28.9006
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.7948
+     variance: 842.5279
+    pop stdev: 29.0263
+ unbias stdev: 29.0278
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9500
+      Average: 51.0943
+     variance: 831.8248
+    pop stdev: 28.8414
+ unbias stdev: 28.8428
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9700
+      Average: 50.8915
+     variance: 836.6669
+    pop stdev: 28.9252
+ unbias stdev: 28.9266
+     time(ms): 2546
+=====================================
+        Count: 10000
+          Min: 1.0100
+          Max: 100.9800
+      Average: 50.8437
+     variance: 825.5516
+    pop stdev: 28.7324
+ unbias stdev: 28.7339
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 51.3439
+     variance: 841.3205
+    pop stdev: 29.0055
+ unbias stdev: 29.0070
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0400
+          Max: 100.9800
+      Average: 50.9124
+     variance: 833.6501
+    pop stdev: 28.8730
+ unbias stdev: 28.8744
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9500
+      Average: 50.7144
+     variance: 825.8471
+    pop stdev: 28.7376
+ unbias stdev: 28.7390
+     time(ms): 2545
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.8693
+     variance: 832.8941
+    pop stdev: 28.8599
+ unbias stdev: 28.8613
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0100
+          Max: 100.9800
+      Average: 50.4681
+     variance: 816.6417
+    pop stdev: 28.5769
+ unbias stdev: 28.5784
+     time(ms): 2546
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9700
+      Average: 50.8079
+     variance: 830.4100
+    pop stdev: 28.8168
+ unbias stdev: 28.8183
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.9519
+     variance: 834.7280
+    pop stdev: 28.8917
+ unbias stdev: 28.8931
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0100
+          Max: 100.9500
+      Average: 51.1545
+     variance: 842.0332
+    pop stdev: 29.0178
+ unbias stdev: 29.0193
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 51.2756
+     variance: 838.0289
+    pop stdev: 28.9487
+ unbias stdev: 28.9502
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9600
+      Average: 51.0082
+     variance: 836.6192
+    pop stdev: 28.9244
+ unbias stdev: 28.9258
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9500
+      Average: 51.4703
+     variance: 828.6469
+    pop stdev: 28.7862
+ unbias stdev: 28.7877
+     time(ms): 2548
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9500
+      Average: 51.4059
+     variance: 822.9982
+    pop stdev: 28.6879
+ unbias stdev: 28.6894
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.9745
+     variance: 832.5690
+    pop stdev: 28.8543
+ unbias stdev: 28.8557
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 50.8281
+     variance: 836.5443
+    pop stdev: 28.9231
+ unbias stdev: 28.9245
+     time(ms): 2547
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+      Average: 51.0404
+     variance: 825.2975
+    pop stdev: 28.7280
+ unbias stdev: 28.7294
+     time(ms): 2548
+=====================================

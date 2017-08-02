@@ -17,7 +17,7 @@ TwoWire *wi;
 const char version[] = "0.1.7";
 
 
-// INTERFACE COUNT (TESTED TEENSY 3.5 ONLY)
+// INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
 int wirePortCount = 1;
 int selectedWirePort = 0;
 
@@ -62,15 +62,18 @@ void setup()
   Serial.begin(115200);
   Wire.begin();
 
-#ifdef WIRE_IMPLEMENT_WIRE1
+#if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
+  Serial.println("wire1 implemetned");
   Wire1.begin();
   wirePortCount++;
 #endif
-#ifdef WIRE_IMPLEMENT_WIRE2
+#if defined WIRE_IMPLEMENT_WIRE2 || WIRE_INTERFACES_COUNT > 2
+  Serial.println("wire2 implemetned");
   Wire2.begin();
   wirePortCount++;
 #endif
-#ifdef WIRE_IMPLEMENT_WIRE3
+#if defined WIRE_IMPLEMENT_WIRE3 || WIRE_INTERFACES_COUNT > 3
+  Serial.println("wire2 implemetned");
   Wire3.begin();
   wirePortCount++;
 #endif
@@ -97,17 +100,17 @@ void loop()
           wi = &Wire;
           break;
         case 1:
-#ifdef WIRE_IMPLEMENT_WIRE1
+#if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
           wi = &Wire1;
 #endif
           break;
         case 2:
-#ifdef WIRE_IMPLEMENT_WIRE2
+#if defined WIRE_IMPLEMENT_WIRE2 || WIRE_INTERFACES_COUNT > 2
           wi = &Wire2;
 #endif
           break;
         case 3:
-#ifdef WIRE_IMPLEMENT_WIRE3
+#if defined WIRE_IMPLEMENT_WIRE3 || WIRE_INTERFACES_COUNT > 3
           wi = &Wire3;
 #endif
           break;
@@ -250,7 +253,7 @@ void displayHelp()
   Serial.println();
   Serial.print(F("I2C ports: "));
   Serial.println(wirePortCount);
-  Serial.println(F("\t@ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5]"));
+  Serial.println(F("\t@ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5 or Arduino Due]"));
   Serial.println(F("Scanmode:"));
   Serial.println(F("\ts = single scan"));
   Serial.println(F("\tc = continuous scan - 1 second delay"));
@@ -295,15 +298,15 @@ void I2Cscan()
   // TEST
   // 0.1.04: tests only address range 8..120
   // --------------------------------------------
-  // Address	R/W Bit	Description
-  // 0000 000   0	General call address
-  // 0000 000   1	START byte
-  // 0000 001   X	CBUS address
-  // 0000 010   X	reserved - different bus format
-  // 0000 011   X	reserved - future purposes
-  // 0000 1XX   X	High Speed master code
-  // 1111 1XX   X	reserved - future purposes
-  // 1111 0XX   X	10-bit slave addressing
+  // Address  R/W Bit Description
+  // 0000 000   0 General call address
+  // 0000 000   1 START byte
+  // 0000 001   X CBUS address
+  // 0000 010   X reserved - different bus format
+  // 0000 011   X reserved - future purposes
+  // 0000 1XX   X High Speed master code
+  // 1111 1XX   X reserved - future purposes
+  // 1111 0XX   X 10-bit slave addressing
   for (uint8_t address = addressStart; address <= addressEnd; address++)
   {
     bool printLine = printAll;

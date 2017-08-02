@@ -63,17 +63,14 @@ void setup()
   Wire.begin();
 
 #if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
-  Serial.println("wire1 implemetned");
   Wire1.begin();
   wirePortCount++;
 #endif
 #if defined WIRE_IMPLEMENT_WIRE2 || WIRE_INTERFACES_COUNT > 2
-  Serial.println("wire2 implemetned");
   Wire2.begin();
   wirePortCount++;
 #endif
 #if defined WIRE_IMPLEMENT_WIRE3 || WIRE_INTERFACES_COUNT > 3
-  Serial.println("wire2 implemetned");
   Wire3.begin();
   wirePortCount++;
 #endif

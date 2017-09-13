@@ -17,6 +17,14 @@
 #include <hmc6352.h>
 #include <Wire.h>
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#define WIRE_WRITE Wire.write
+#define WIRE_READ  Wire.read
+#else
+#define WIRE_WRITE Wire.send
+#define WIRE_READ  Wire.receive
+#endif
+
 /* ERROR CODES ALL FUNCTIONS
 //
 // * twi_writeTo codes (== endTransmission  commands)
@@ -64,8 +72,8 @@ int hmc6352::readHeading()
 {
   int rv = Wire.requestFrom(_device, (uint8_t)2);  // remove ambiguity
   if (rv != 2) return -10;
-  rv = Wire.receive() * 256;  // MSB
-  rv += Wire.receive();       // LSB
+  rv = WIRE_READ() * 256;  // MSB
+  rv += WIRE_READ();       // LSB
   return rv;
 }
 
@@ -269,7 +277,7 @@ int hmc6352::readRAM(uint8_t address)
 int hmc6352::cmd(uint8_t c)
 {
   Wire.beginTransmission(_device);
-  Wire.send(c);
+  WIRE_WRITE(c);
   int rv = Wire.endTransmission();
   delay(10);
   return rv;
@@ -278,8 +286,8 @@ int hmc6352::cmd(uint8_t c)
 int hmc6352::readCmd(uint8_t c, uint8_t address)
 {
   Wire.beginTransmission(_device);
-  Wire.send(c);
-  Wire.send(address);
+  WIRE_WRITE(c);
+  WIRE_WRITE(address);
   int rv = Wire.endTransmission();
   if (rv != 0) return -rv;
 
@@ -287,16 +295,16 @@ int hmc6352::readCmd(uint8_t c, uint8_t address)
 
   rv = Wire.requestFrom(_device, (uint8_t)1);
   if (rv != 1) return -10;
-  rv = Wire.receive();
+  rv = WIRE_READ();
   return rv;
 }
 
 int hmc6352::writeCmd(uint8_t c, uint8_t address, uint8_t data)
 {
   Wire.beginTransmission(_device);
-  Wire.send(c);
-  Wire.send(address);
-  Wire.send(data);
+  WIRE_WRITE(c);
+  WIRE_WRITE(address);
+  WIRE_WRITE(data);
   int rv = Wire.endTransmission();
   delayMicroseconds(70);
   return rv;

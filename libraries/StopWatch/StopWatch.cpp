@@ -1,7 +1,7 @@
 //
 //    FILE: StopWatch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Simple StopWatch library for Arduino
 //
 // The library is based upon millis() and therefore
@@ -14,6 +14,7 @@
 // 0.1.03 2012-01-22 Added several improvements
 //             By mromani & Rob Tillaart
 // 0.1.4  2017-07-16 refactored
+// 0.1.5  2017-09-13 removed const from functions
 //
 // Released to the public domain
 //

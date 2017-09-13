@@ -10,7 +10,7 @@
 // Released to the public domain
 //
 
-#define STOPWATCH_LIB_VERSION "0.1.4"
+#define STOPWATCH_LIB_VERSION "0.1.5"
 
 #if ARDUINO >= 100
 #include "Arduino.h"
@@ -30,11 +30,11 @@ public:
   void reset();
 
   uint32_t value();
-  uint32_t elapsed() const           { return value(); };
+  uint32_t elapsed()            { return value(); };
 
-  bool isRunning() const             { return _state == StopWatch::RUNNING; };
-  enum State state() const           { return _state; };
-  enum Resolution resolution() const { return _res; };
+  bool isRunning()              { return _state == StopWatch::RUNNING; };
+  enum State state()            { return _state; };
+  enum Resolution resolution()  { return _res; };
 
 private:
   enum State _state;

@@ -1,8 +1,12 @@
-// 
-//    FILE: hmc6352Config.pde
+//
+//    FILE: hmc6352Config.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: test app HMC6352 library for Arduino
+//
+// HISTORY:
+// 0.1.0  - 2011-04-12 initial version
+// 0.1.1  - 2017-09-13 renamed to .ino;
 //
 // Released to the public domain
 //
@@ -58,71 +62,71 @@ void loop()
   // EXECUTE COMMAND
   switch(cmd)
   {
-  case 'F': 
+  case 'F':
     factoryReset();
     break;
-  case 'E': 
+  case 'E':
     dumpEEPROM();
     break;
-  case 'R': 
+  case 'R':
     dumpRAM();
     break;
-  case 'A': 
+  case 'A':
     askHeading();
     break;
-  case 'Q': 
+  case 'Q':
     readHeading();
     break;
-  case 'W': 
+  case 'W':
     x = Compass.wakeUp();
     Serial.println(x, DEC);
     break;
-  case 'S': 
+  case 'S':
     x = Compass.sleep();
     Serial.println(x, DEC);
     break;
-  case 'O': 
+  case 'O':
     OutPutModusMenu();
     break;
-  case '7': 
+  case '7':
     // mode , freq , reset
     Compass.setOperationalModus(STANDBY, 1, true);  // 10 default val
     Serial.println("Reboot Arduino");
     break;
-  case '8': 
+  case '8':
     Compass.setOperationalModus(QUERY, 1, true);  // 10 default val
     Serial.println("Reboot Arduino");
     break;
-  case '9': 
+  case '9':
     Compass.setOperationalModus(CONT, 20, true);  // 10 default val
     Serial.println("Reboot Arduino");
     break;
-  case 'U': 
+  case 'U':
     Compass.callibrationOn();
     break;
-  case 'X': 
+  case 'X':
     Compass.callibrationOff();
     break;
-  case 'I': 
+  case 'I':
     setI2Caddress();
     break;
-  case '@': 
+  case '@':
     Compass.updateOffsets();
     break;
-  case 'Z': 
+  case 'Z':
     while (1)
     {
       readHeading();
-      if (Serial.available()>0) 
+      if (Serial.available()>0)
       {
         Serial.read();
         break;
       }
       delay(50);  // 20 Hz
-    }     
+    }
     break;
-  default: 
-    break; 
+  default:
+    break;
   }
 }
 
@@ -131,9 +135,9 @@ void OutPutModusMenu()
   Serial.println(Compass.getOutputModus());
   Serial.println("output modus value :");
   Serial.println("0 Heading (default)");
-  Serial.println("1 Raw Magnetometer X"); 
-  Serial.println("2 Raw Magnetometer Y"); 
-  Serial.println("3 Magnetometer X"); 
+  Serial.println("1 Raw Magnetometer X");
+  Serial.println("2 Raw Magnetometer Y");
+  Serial.println("3 Magnetometer X");
   Serial.println("4 Magnetometer Y");
   // WAIT FOR PARAM
   while (Serial.available() == 0);
@@ -142,16 +146,16 @@ void OutPutModusMenu()
   int x = Compass.setOutputModus(cmd);
   Serial.print("Returns: ");
   Serial.println(x);
-} 
+}
 
-void askHeading() 
+void askHeading()
 {
   int x = Compass.askHeading();
   Serial.print("Returns: ");
-  Serial.println(x);  
+  Serial.println(x);
 }
 
-void readHeading() 
+void readHeading()
 {
   int x = Compass.readHeading();
   Serial.print("DEGREE: ");
@@ -217,9 +221,9 @@ void setI2Caddress()
 {
   Serial.print("Current I2C address : ");
   Serial.println(Compass.getI2CAddress());
-  Serial.println(); 
-  Serial.println("Give new value: (decimal, 2 digits)"); 
-  Serial.println("00 to escape"); 
+  Serial.println();
+  Serial.println("Give new value: (decimal, 2 digits)");
+  Serial.println("00 to escape");
 
   while (Serial.available() < 2);
   int v1 = Serial.read();
@@ -235,15 +239,6 @@ void setI2Caddress()
   Serial.print("Current I2C address : ");
   Serial.println(Compass.getI2CAddress());
 
-} 
+}
 
 // END OF FILE
-
-
-
-
-
-
-
-
-

@@ -1,11 +1,12 @@
 // 
-//    FILE: continuousDemo.pde
+//    FILE: continuousDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: demo app HMC6352 library - continuous mode for Arduino
 //
 // HISTORY: 
-// 0.1.00 - 2011-04-12 initial version
+// 0.1.0  - 2011-04-12 initial version
+// 0.1.1  - 2017-09-13 renamed to .ino
 // 
 // Released to the public domain
 //

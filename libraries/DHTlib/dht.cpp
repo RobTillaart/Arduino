@@ -1,12 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.24
+// VERSION: 0.1.25
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
-// 0.1.24 2017-07-27 double -> float
+// 0.1.25 2017-09-20 FIX https://github.com/RobTillaart/Arduino/issues/80
+// 0.1.24 2017-07-27 FIX https://github.com/RobTillaart/Arduino/issues/33  double -> float
 // 0.1.23 2017-07-24 FIX https://github.com/RobTillaart/Arduino/issues/31
 // 0.1.22 undo delayMicroseconds() for wakeups larger than 8
 // 0.1.21 replace delay with delayMicroseconds() + small fix
@@ -62,8 +63,7 @@ int8_t dht::read11(uint8_t pin)
     temperature = bits[2];  // bits[3] == 0;
 
     // TEST CHECKSUM
-    // bits[1] && bits[3] both 0
-    uint8_t sum = bits[0] + bits[2];
+    uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
     if (bits[4] != sum)
     {
         return DHTLIB_ERROR_CHECKSUM;

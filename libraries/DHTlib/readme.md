@@ -43,3 +43,4 @@ TODO pin description
 * version 0.1.22 undo delayMicroseconds() for wakeups larger than 8
 * version 0.1.23 FIX https://github.com/RobTillaart/Arduino/issues/31
 * version 0.1.24 FIX https://github.com/RobTillaart/Arduino/issues/33
+* version 0.1.25 FIX https://github.com/RobTillaart/Arduino/issues/80

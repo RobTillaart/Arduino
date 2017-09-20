@@ -6,6 +6,7 @@
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
+// 0.2.1  2017-09-20 fix https://github.com/RobTillaart/Arduino/issues/80
 // 0.2.0  2017-07-24 fix https://github.com/RobTillaart/Arduino/issues/31 + 33
 // 0.1.13 fix negative temperature
 // 0.1.12 support DHT33 and DHT44 initial version
@@ -54,10 +55,11 @@ int dht::read11(uint8_t pin)
     temperature = bits[2];  // bits[3] == 0;
 
     // TEST CHECKSUM
-    // bits[1] && bits[3] both 0
-    uint8_t sum = bits[0] + bits[2];
-    if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
-
+    uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
+    if (bits[4] != sum)
+    {
+      return DHTLIB_ERROR_CHECKSUM;
+    }
     return DHTLIB_OK;
 }
 

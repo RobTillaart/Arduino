@@ -2,7 +2,7 @@
 //    FILE: Statistic.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 //          modified at 0.3 by Gil Ross at physics dot org
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Recursive statistical library for Arduino
 //
 // NOTE: 2011-01-07 Gill Ross
@@ -48,6 +48,8 @@
 //   Refactored const in many places
 //   [reverted] double to float on request as float is 99.99% of the cases
 //   good enough and float(32 bit) is supported in HW for some processors.
+// 0.3.5 - 2017-09-27
+//   Added #include <Arduino.h> to fix uint32_t bug
 //
 // Released to the public domain
 //

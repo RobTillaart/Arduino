@@ -4,7 +4,7 @@
 //    FILE: Statistic.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 //          modified at 0.3 by Gil Ross at physics dot org
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See Statistic.cpp
 //
@@ -15,9 +15,10 @@
 // it can be in/excluded by un/commenting next line  (compile time)
 #define STAT_USE_STDEV 1
 
+#include <Arduino.h>
 #include <math.h>
 
-#define STATISTIC_LIB_VERSION "0.3.4"
+#define STATISTIC_LIB_VERSION "0.3.5"
 
 class Statistic
 {

@@ -1,0 +1,23 @@
+{
+  "name": "PrintCharArray",
+  "keywords": "Size print buffer stream char array",
+  "description": "Library to capture prints into a char array.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/PrintCharArray"
+  }
+}

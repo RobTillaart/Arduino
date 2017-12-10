@@ -1,0 +1,23 @@
+{
+  "name": "PrintString",
+  "keywords": "Size print buffer stream String",
+  "description": "Library to capture prints into a String.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/PrintString"
+  }
+}

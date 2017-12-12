@@ -12,7 +12,18 @@ AM232X       KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-read         KEYWORD2
+read                KEYWORD2
+getModel            KEYWORD2
+getVersion          KEYWORD2
+getDeviceID         KEYWORD2
+getStatus           KEYWORD2
+getUserRegisterA    KEYWORD2
+getUserRegisterB    KEYWORD2
+setStatus           KEYWORD2
+setUserRegisterA    KEYWORD2
+setUserRegisterB    KEYWORD2
+humidity            KEYWORD2
+temperature         KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

@@ -37,11 +37,9 @@ void loop()
   case AM232X_OK:
     Serial.print("OK,\t");
     break;
-  case AM232X_MISSING_BYTES:
-    Serial.print("Missing Bytes,\t");
-    break;
   default:
-    Serial.print("Unknown error,\t");
+    Serial.print(status);
+    Serial.print("\t");
     break;
   }
   // DISPLAY DATA, sensor only returns one decimal.

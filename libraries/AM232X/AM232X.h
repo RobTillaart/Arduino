@@ -4,7 +4,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X library for Arduino .
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // HISTORY: See AM232X.cpp
 //     URL:
 //
@@ -14,7 +14,7 @@
 #include "Wire.h"
 #include "Arduino.h"
 
-#define AM232X_LIB_VERSION          "0.1.0"
+#define AM232X_LIB_VERSION          "0.1.1"
 
 #define AM232X_OK                    0
 #define AM232X_MISSING_BYTES        -10

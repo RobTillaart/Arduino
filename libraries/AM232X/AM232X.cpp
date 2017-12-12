@@ -6,7 +6,7 @@
 //
 // HISTORY:
 // 0.1.0 - 2017-12-11 initial version
-// 0.1.1 = 2017-12-12 added CRC
+// 0.1.1 = 2017-12-12 added CRC checking
 //
 // Released to the public domain
 //

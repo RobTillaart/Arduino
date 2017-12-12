@@ -1,0 +1,23 @@
+{
+  "name": "DHT12",
+  "keywords": "Temperature Humidity DHT12 I2C",
+  "description": "I2C Library for DHT12",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/DHT12"
+  }
+}

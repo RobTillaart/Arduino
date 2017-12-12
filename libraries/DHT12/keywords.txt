@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring Map For DHT_I2C
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DHT12	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+read	KEYWORD2
+humidity	KEYWORD2
+temperature	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DHT12_VERSION	LITERAL2
+DHT12_OK	LITERAL2
+DHT12_ERROR_CHECKSUM	LITERAL1
+DHT12_ERROR_CONNECT	LITERAL1
+DHT12_MISSING_BYTES	LITERAL1

@@ -44,3 +44,4 @@ TODO pin description
 * version 0.1.23 FIX https://github.com/RobTillaart/Arduino/issues/31
 * version 0.1.24 FIX https://github.com/RobTillaart/Arduino/issues/33
 * version 0.1.25 FIX https://github.com/RobTillaart/Arduino/issues/80
+* version 0.1.26 Explicit support for AM23XX series and DHT12

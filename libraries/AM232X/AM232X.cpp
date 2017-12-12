@@ -1,11 +1,12 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
 // 0.1.0 - 2017-12-11 initial version
+// 0.1.1 = 2017-12-12 added CRC
 //
 // Released to the public domain
 //
@@ -111,7 +112,7 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
   // wake up the sensor - see 8.2
   Wire.beginTransmission(_deviceAddress);
   int rv = Wire.endTransmission();
-  delayMicroseconds(1000);
+  delayMicroseconds(1000);          // TODO tune
 
   // request the data
   Wire.beginTransmission(_deviceAddress);
@@ -170,33 +171,42 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
 
 int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int32_t value)
 {
-  // TODO fix
-  // bool debug = true;
-  
   // wake up the sensor - see 8.2
   Wire.beginTransmission(_deviceAddress);
   int rv = Wire.endTransmission();
-  delayMicroseconds(1000);
+  delayMicroseconds(1000);          // TODO tune
 
   // prepare data to send
-  bits[0] = value & 0xFF;
-  bits[1] = (value >> 8) & 0xFF;
-  bits[2] = (value >> 8) & 0xFF;
-  bits[3] = (value >> 8) & 0xFF;
+  bits[0] = 0x10;
+  bits[1] = reg;
+  bits[2] = cnt;
+
+  if (cnt == 4)
+  {
+    bits[6] = value & 0xFF;
+    bits[5] = (value >> 8) & 0xFF;
+    bits[4] = (value >> 8) & 0xFF;
+    bits[3] = (value >> 8) & 0xFF;
+  }
+  else if (cnt == 2)
+  {
+    bits[4] = value & 0xFF;
+    bits[3] = (value >> 8) & 0xFF;
+  }
+  else if (cnt == 1)
+  {
+    bits[3] = value & 0xFF;
+  }
+  uint16_t crc = crc16(bits, cnt + 3);
   
   // send data
   Wire.beginTransmission(_deviceAddress);
-  Wire.write(0x10);
-  Wire.write(reg);
-  Wire.write(cnt);
-  switch(cnt)
+  for (int i=0; i< cnt+3; i++)
   {
-    case 4: Wire.write(bits[3]);
-    case 3: Wire.write(bits[2]);
-    case 2: Wire.write(bits[1]);
-    case 1: Wire.write(bits[0]);
+    Wire.write(bits[i]);
   }
-  // add CRC ?
+  Wire.write(crc & 0xFF);
+  Wire.write(crc >> 8);
   rv = Wire.endTransmission();
   if (rv < 0) return rv;
 

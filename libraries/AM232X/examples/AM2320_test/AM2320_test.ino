@@ -28,7 +28,7 @@ void setup()
 
   // sensor only returns one decimal.
   Serial.println();
-  Serial.println("Read: \t");
+  Serial.println("Read:\t");
   int status = AM2320.read();
   switch (status)
   {

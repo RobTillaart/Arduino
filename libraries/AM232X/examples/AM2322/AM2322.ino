@@ -30,7 +30,7 @@ void setup()
 void loop()
 {
   // READ DATA
-  Serial.print("AM232X, \t");
+  Serial.print("AM2322, \t");
   int status = AM2322.read();
   switch (status)
   {

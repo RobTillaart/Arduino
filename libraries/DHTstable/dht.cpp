@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
+// 0.2.2  2017-12-12 add support for AM23XX types more explicitly
 // 0.2.1  2017-09-20 fix https://github.com/RobTillaart/Arduino/issues/80
 // 0.2.0  2017-07-24 fix https://github.com/RobTillaart/Arduino/issues/31 + 33
 // 0.1.13 fix negative temperature
@@ -51,8 +52,12 @@ int dht::read11(uint8_t pin)
     }
 
     // CONVERT AND STORE
-    humidity    = bits[0];  // bits[1] == 0;
-    temperature = bits[2];  // bits[3] == 0;
+    humidity = bits[0] + bits[1] * 0.1;
+    temperature = (bits[2] & 0x7F) + bits[3] * 0.1;
+    if (bits[2] & 0x80)  // negative temperature
+    {
+        temperature = -temperature;
+    }
 
     // TEST CHECKSUM
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
@@ -62,7 +67,6 @@ int dht::read11(uint8_t pin)
     }
     return DHTLIB_OK;
 }
-
 
 // return values:
 // DHTLIB_OK
@@ -74,8 +78,8 @@ int dht::read(uint8_t pin)
     int rv = _readSensor(pin, DHTLIB_DHT_WAKEUP);
     if (rv != DHTLIB_OK)
     {
-        humidity    = DHTLIB_INVALID_VALUE;  // invalid value, or is NaN prefered?
-        temperature = DHTLIB_INVALID_VALUE;  // invalid value
+        humidity    = DHTLIB_INVALID_VALUE;  // NaN prefered?
+        temperature = DHTLIB_INVALID_VALUE;  // NaN prefered?
         return rv; // propagate error value
     }
 
@@ -151,7 +155,7 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
         }
 
         if ((micros() - t) > 40)
-        { 
+        {
             bits[idx] |= mask;
         }
         mask >>= 1;

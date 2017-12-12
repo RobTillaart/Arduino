@@ -42,13 +42,18 @@ public:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM
     // DHTLIB_ERROR_TIMEOUT
-    int read11(uint8_t pin);
-    int read(uint8_t pin);
+    int read11(uint8_t pin);      // DHT11 & DHT12
+    int read(uint8_t pin);        // DHT22
 
-    inline int read21(uint8_t pin) { return read(pin); };
-    inline int read22(uint8_t pin) { return read(pin); };
-    inline int read33(uint8_t pin) { return read(pin); };
-    inline int read44(uint8_t pin) { return read(pin); };
+    inline int read12(uint8_t pin) { return read11(pin); };   // ok
+    inline int read21(uint8_t pin) { return read(pin); };     // ok
+    inline int read22(uint8_t pin) { return read(pin); };     // ok
+    inline int read33(uint8_t pin) { return read(pin); };     // ok
+    inline int read44(uint8_t pin) { return read(pin); };     // ok
+    inline int read2301(uint8_t pin) { return read(pin); };   // ok
+    inline int read2302(uint8_t pin) { return read(pin); };   // ok
+    inline int read2320(uint8_t pin) { return read(pin); };   //.ok
+    inline int read2322(uint8_t pin) { return read(pin); };   // ok
 
     float humidity;
     float temperature;

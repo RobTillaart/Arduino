@@ -1,0 +1,23 @@
+{
+  "name": "DAC8554",
+  "keywords": "DAC8554 Digital Analog Convertor",
+  "description": "DAC8554 library for Arduino",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/DAC8554"
+  }
+}

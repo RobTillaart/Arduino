@@ -2,9 +2,9 @@
 //    FILE: DAC8552.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DAC8552 library for Arduino
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // HISTORY: See DAC8552.cpp
-//     URL:
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8552
 //
 // Released to the public domain
 //
@@ -16,7 +16,7 @@
 #define DAC8552_POWERDOWN_100K     2
 #define DAC8552_POWERDOWN_HIGH_IMP 3
 
-#define DAC8552_LIB_VERSION (F("0.1.0 experimental"))
+#define DAC8552_LIB_VERSION (F("0.1.1 experimental"))
 
 class DAC8552
 {

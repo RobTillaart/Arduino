@@ -2,10 +2,11 @@
 //    FILE: DAC8551.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DAC8550 DAC8551 library for Arduino
-// VERSION: 0.1.0
-//     URL:
+// VERSION: 0.1.1
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8551
 // HISTORY:
 //   0.1.0: 2017-12-18 initial version
+//   0.1.1: 2017-12-19 fix begin() bug
 //
 // Released to the public domain
 //
@@ -32,14 +33,16 @@ DAC8551::DAC8551(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 // and sets internal state
 void DAC8551::begin()
 {
-  pinMode(_spiData, OUTPUT);
-  pinMode(_spiClock, OUTPUT);
-  pinMode(_slaveSelect, OUTPUT);
-
   if(_hwSPI)
   {
     SPI.begin();
     delay(1);
+  }
+  else
+  {
+    pinMode(_spiData, OUTPUT);
+    pinMode(_spiClock, OUTPUT);
+    pinMode(_slaveSelect, OUTPUT);
   }
 
   _register = 0;

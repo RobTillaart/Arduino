@@ -1,5 +1,5 @@
 //
-//    FILE: DAC8552.cpp
+//    FILE: DAC8552.cpp 
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DAC8552 library for Arduino
 // VERSION: 0.1.1

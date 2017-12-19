@@ -1,0 +1,55 @@
+//
+//    FILE: DAC8552_same_time_write.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo DAC8552 library Arduino with hardware SPI
+// VERSION: 0.1.0
+// HISTORY:
+//     URL:
+//
+// Released to the public domain
+//
+
+#include <SPI.h>
+#include "DAC8552.h"
+
+// HW SPI
+DAC8552 DAC;
+
+uint32_t lastTime = 0;
+uint16_t state = 0;
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.println(DAC8552_LIB_VERSION);
+  DAC.begin();
+}
+
+void loop()
+{
+  uint8_t chanA = 0;
+  uint8_t chanB = 1;
+
+  // opposite square waves by setting A and B simultaneous
+  // first buffer one value and then set the other.
+  // freq 10 Hz
+  if (millis() - lastTime > 100)
+  {
+    lastTime = millis();
+    if (state == 0)
+    {
+      state = 1;
+      DAC.bufferValue(chanA, 0);
+      DAC.setValue(chanB, 65535);
+    }
+    else
+    {
+      state = 0;
+      DAC.bufferValue(chanB, 0);
+      DAC.setValue(chanA, 65535);
+    }
+  }
+}
+
+// END OF FILE

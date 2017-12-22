@@ -4,7 +4,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X library for Arduino .
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // HISTORY: See AM232X.cpp
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/
 //
@@ -14,7 +14,7 @@
 #include "Wire.h"
 #include "Arduino.h"
 
-#define AM232X_LIB_VERSION          "0.1.2"
+#define AM232X_LIB_VERSION          "0.1.3"
 
 #define AM232X_OK                    0
 #define AM232X_ERROR_UNKNOWN        -10
@@ -36,12 +36,13 @@ from datasheet
 0x84: Write disabled
 */
 
-#define AM232X_ADDRESS        0x5C
-
 class AM232X
 {
 public:
-  AM232X();
+  #ifdef ESP8266
+  void begin(uint8_t sda, uint8_t scl);
+  #endif
+  void begin();
 
   int read();
   int getModel();
@@ -60,7 +61,6 @@ public:
   float temperature;
 
 private:
-  uint8_t _deviceAddress;
   uint8_t bits[8];
 
   int _readRegister(uint8_t reg, uint8_t cnt);

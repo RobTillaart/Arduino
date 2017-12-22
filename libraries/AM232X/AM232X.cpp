@@ -1,26 +1,37 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
-// 0.1.0 - 2017-12-11 initial version
-// 0.1.1 - 2017-12-12 added CRC checking
-// 0.1.2 - 2017-12-12 get and set functions.
+//   0.1.0: 2017-12-11 initial version
+//   0.1.1: 2017-12-12 added CRC checking
+//   0.1.2: 2017-12-12 get and set functions.
+//   0.1.3: 2017-12-19 added ESP8266 - issue #86
+//                     tested by Viktor Balint
 //
 // Released to the public domain
 //
 
 #include <AM232X.h>
 
+#define AM232X_ADDRESS ((uint8_t)0x5C)
+
 ////////////////////////////////////////////////////////////////////
 //
 // PUBLIC
 //
-AM232X::AM232X()
+#ifdef ESP8266
+void AM232X::begin(uint8_t sda, uint8_t scl)
 {
-  _deviceAddress = AM232X_ADDRESS;
+  Wire.begin(sda, scl);
+}
+#endif
+
+void AM232X::begin()
+{
+  Wire.begin();
 }
 
 int AM232X::read()
@@ -122,12 +133,12 @@ int AM232X::setUserRegisterB(int value)
 int AM232X::_readRegister(uint8_t reg, uint8_t count)
 {
   // wake up the sensor - see 8.2
-  Wire.beginTransmission(_deviceAddress);
+  Wire.beginTransmission(AM232X_ADDRESS);
   int rv = Wire.endTransmission();
   delayMicroseconds(1000);          // TODO tune
 
   // request the data
-  Wire.beginTransmission(_deviceAddress);
+  Wire.beginTransmission(AM232X_ADDRESS);
   Wire.write(0x03);
   Wire.write(reg);
   Wire.write(count);
@@ -136,7 +147,7 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
 
   // request 4 extra, 2 for cmd + 2 for CRC
   uint8_t length = count + 4;
-  int bytes = Wire.requestFrom(_deviceAddress, length);
+  int bytes = Wire.requestFrom(AM232X_ADDRESS, length);
 
   for (int i = 0; i < bytes; i++)
   {
@@ -171,7 +182,7 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
 int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 {
   // wake up the sensor - see 8.2
-  Wire.beginTransmission(_deviceAddress);
+  Wire.beginTransmission(AM232X_ADDRESS);
   int rv = Wire.endTransmission();
   delayMicroseconds(1000);          // TODO tune
 
@@ -193,7 +204,7 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 
   // send data
   uint8_t length = cnt + 3;  // 3 = cmd, startReg, #bytes
-  Wire.beginTransmission(_deviceAddress);
+  Wire.beginTransmission(AM232X_ADDRESS);
   for (int i=0; i< length; i++)
   {
     Wire.write(bits[i]);
@@ -207,7 +218,7 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   if (rv < 0) return rv;
 
   // wait for the answer
-  int bytes = Wire.requestFrom(_deviceAddress, length);
+  int bytes = Wire.requestFrom(AM232X_ADDRESS, length);
   for (int i = 0; i < bytes; i++)
   {
     bits[i] = Wire.read();

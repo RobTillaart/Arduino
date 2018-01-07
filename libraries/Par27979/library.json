@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Arduino.git"
   },
+  "version":"0.1.0",
   "frameworks": "arduino",
   "platforms": "*",
   "export": {

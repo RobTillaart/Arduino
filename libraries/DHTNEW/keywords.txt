@@ -1,0 +1,41 @@
+#######################################
+# Syntax Coloring Map For DHTNEW
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DHTNEW	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+getType	KEYWORD2
+read	KEYWORD2
+lastRead	KEYWORD2
+humidity	KEYWORD2
+temperature	KEYWORD2
+setHumOffset	KEYWORD2
+setTempOffset	KEYWORD2
+getHumOffset	KEYWORD2
+getTempOffset	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DHTNEW_LIB_VERSION	LITERAL1
+DHTLIB_OK	LITERAL1
+DHTLIB_ERROR_CHECKSUM	LITERAL1
+DHTLIB_ERROR_TIMEOUT	LITERAL1
+DHTLIB_INVALID_TYPE	LITERAL1
+DHTLIB_INVALID_VALUE	LITERAL1
+DHTLIB_DHT11_WAKEUP	LITERAL1
+DHTLIB_DHT_WAKEUP	LITERAL1
+DHTLIB_TIMEOUT	LITERAL1

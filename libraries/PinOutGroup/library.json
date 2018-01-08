@@ -1,6 +1,6 @@
 {
   "name": "PinOutGroup",
-  "keywords": "PinOutGroup",
+  "keywords": "PinOutGroup,pin,group",
   "description": "A class that groups output pins so they can be updated easier and slightly faster on average",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "Avrheap",
-  "keywords": "heap dump walk free list ",
+  "keywords": "heap,dump,walk,free,list,debug,analyze",
   "description": "Library to runtime analyze the structure of the heap (AVR328).",
   "authors":
   [

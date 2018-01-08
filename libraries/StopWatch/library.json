@@ -1,6 +1,6 @@
 {
   "name": "StopWatch",
-  "keywords": "StopWatch start stop elapsed millis micros seconds",
+  "keywords": "StopWatch,start,stop,elapsed,millis,micros,seconds",
   "description": "Library to implement a stopwatch.",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "PinInGroup",
-  "keywords": "PinInGroup",
+  "keywords": "PinInGroup,pin,group",
   "description": "A class that groups input pins so they can be read in one logical step",
   "authors":
   [

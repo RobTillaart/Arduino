@@ -1,6 +1,6 @@
 {
   "name": "AM232X",
-  "keywords": "Temperature Humidity DHT12 AM2320",
+  "keywords": "Temperature,Humidity,DHT12,AM2320,AM2322",
   "description": "Library for AM232X, like AM2320 and AM2322.",
   "authors":
   [

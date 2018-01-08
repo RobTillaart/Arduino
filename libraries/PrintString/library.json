@@ -1,6 +1,6 @@
 {
   "name": "PrintString",
-  "keywords": "Size print buffer stream String",
+  "keywords": "Size,print,buffer,stream,String,alignment,length",
   "description": "Library to capture prints into a String.",
   "authors":
   [

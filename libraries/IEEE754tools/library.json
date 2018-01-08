@@ -1,6 +1,6 @@
 {
   "name": "IEEE754tools",
-  "keywords": "IEEE 754 ",
+  "keywords": "IEEE,754,float,double,algorithms",
   "description": "Helper functions for IEEE 754 floating point format.",
   "authors":
   [

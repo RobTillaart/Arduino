@@ -1,6 +1,6 @@
 {
   "name": "PrintSize",
-  "keywords": "Size print ",
+  "keywords": "Size,print,length,alignment",
   "description": "Library to determine size of a printed variable.",
   "authors":
   [

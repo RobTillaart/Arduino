@@ -1,6 +1,6 @@
 {
   "name": "MS5611",
-  "keywords": "MS5611 Temperature Pressure",
+  "keywords": "MS5611,temperature,pressure",
   "description": "Experimental library for MS5611 Temperature & Pressure for Arduino.",
   "authors":
   [

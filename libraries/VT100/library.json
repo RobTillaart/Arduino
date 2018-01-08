@@ -1,6 +1,6 @@
 {
   "name": "VT100",
-  "keywords": "VT100 terminal display codes",
+  "keywords": "VT100,terminal,display,codes,escape",
   "description": "Display codes (defines) for VT100 terminal emulators.",
   "authors":
   [

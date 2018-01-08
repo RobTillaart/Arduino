@@ -1,6 +1,6 @@
 {
   "name": "BoolArray",
-  "keywords": "Bool Boolean array compact",
+  "keywords": "Bool,Boolean,array,compact,compressed",
   "description": "Library to implement a compact array of booleans of max size 2000.",
   "authors":
   [

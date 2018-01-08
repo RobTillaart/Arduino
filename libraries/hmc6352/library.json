@@ -1,6 +1,6 @@
 {
   "name": "HMC6352",
-  "keywords": "Compass",
+  "keywords": "Compass,heading",
   "description": "Experimental library for digital compass sensor",
   "authors":
   [

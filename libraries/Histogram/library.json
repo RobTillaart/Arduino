@@ -1,6 +1,6 @@
 {
   "name": "Histogram",
-  "keywords": "Histogram VAL CDF PMF frequency",
+  "keywords": "Histogram,VAL,CDF,PMF,frequency",
   "description": "Library for creating histogram math.",
   "authors":
   [

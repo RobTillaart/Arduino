@@ -1,6 +1,6 @@
 {
   "name": "I2C_EEPROM",
-  "keywords": "EEPROM 24LC256",
+  "keywords": "EEPROM,24LC256",
   "description": "Library for I2C EEPROMS.",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "PrintCharArray",
-  "keywords": "Size print buffer stream char array",
+  "keywords": "Size,print,buffer,stream,char,array,alignment,length",
   "description": "Library to capture prints into a char array.",
   "authors":
   [

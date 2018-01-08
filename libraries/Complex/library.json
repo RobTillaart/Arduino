@@ -1,6 +1,6 @@
 {
   "name": "Complex",
-  "keywords": "Complex numbers Imaginary phase modulus polar conjugate",
+  "keywords": "Complex,numbers,Imaginary,phase,modulus,polar,conjugate,math,sin,cos,tan,exp,pow",
   "description": "Library for Complex math.",
   "authors":
   [

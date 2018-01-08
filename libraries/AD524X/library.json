@@ -1,6 +1,6 @@
 {
   "name": "AD524X",
-  "keywords": "I2C digital PotentioMeter AD5241 AD5242",
+  "keywords": "I2C,digital,PotentioMeter,AD5241,AD5242",
   "description": "The library controls digital PotentioMeter AD5241 AD5242",
   "authors":
   [

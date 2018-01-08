@@ -1,6 +1,6 @@
 {
   "name": "Radar",
-  "keywords": "Pan tilt",
+  "keywords": "Pan,tilt,radar",
   "description": "Experimental library for a pan tilt radar.",
   "authors":
   [

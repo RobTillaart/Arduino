@@ -1,6 +1,6 @@
 {
   "name": "FunctionGenerator",
-  "keywords": "FunctionGenerator sawtooth, sinus, square, stair, triangle",
+  "keywords": "Function,wave,generator,sawtooth,sinus,square,stair,triangle",
   "description": "Experimental library for waveform generation (SW).",
   "authors":
   [

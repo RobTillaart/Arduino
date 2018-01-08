@@ -1,6 +1,6 @@
 {
   "name": "AverageAngle",
-  "keywords": "Angle average RADIANS DEGREES",
+  "keywords": "Angle,average,RADIANS,DEGREES,heading",
   "description": "Library to average angles.",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "Temperature",
-  "keywords": "Temperature Kelvin Celsius Fahrenheit dewPoint humidex heatIndex",
+  "keywords": "Temperature,Kelvin,Celsius,Fahrenheit,dewPoint,humidex,heatIndex",
   "description": "Library with weather related functions.",
   "authors":
   [

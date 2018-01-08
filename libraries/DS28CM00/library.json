@@ -1,6 +1,6 @@
 {
   "name": "DS28CM00",
-  "keywords": "DS28CM00 identification ID",
+  "keywords": "DS28CM00,identification,ID,unique",
   "description": "Library for the DS28CM00 unique identification chip.",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "AnalogPin",
-  "keywords": "analogRead, smooth, analog, noise reduction",
+  "keywords": "analogRead,smooth,analog,pin,noise,reduction",
   "description": "Class for smoothing analogReads.",
   "authors":
   [

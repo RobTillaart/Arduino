@@ -1,6 +1,6 @@
 {
   "name": "NibbleArray",
-  "keywords": "4bit nibble nybble array compact",
+  "keywords": "4bit,nibble,nybble,array,compact,compression",
   "description": "Library to implement a compact array of nibbles (4 bit).",
   "authors":
   [

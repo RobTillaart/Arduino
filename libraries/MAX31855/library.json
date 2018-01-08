@@ -1,6 +1,6 @@
 {
   "name": "MAX31855",
-  "keywords": "MAX31855 Thermocouple",
+  "keywords": "MAX31855,Thermocouple,K,temperature",
   "description": "Library for MAX31855 Thermocouple.",
   "authors":
   [

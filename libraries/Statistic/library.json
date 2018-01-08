@@ -1,6 +1,6 @@
 {
   "name": "Statistic",
-  "keywords": "Statistic sum min max average variance standard deviation population unbiased",
+  "keywords": "Statistic,sum,min,max,average,variance,standard,deviation,population,unbiased",
   "description": "Library with basic statistical functions for Arduino.",
   "authors":
   [

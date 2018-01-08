@@ -1,6 +1,6 @@
 {
   "name": "Fraction",
-  "keywords": "Fraction quotient",
+  "keywords": "Fraction,quotient,math,nominator,denominator",
   "description": "Library for using fractions.",
   "authors":
   [

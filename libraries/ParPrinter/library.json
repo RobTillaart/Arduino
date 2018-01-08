@@ -1,6 +1,6 @@
 {
   "name": "ParPrinter",
-  "keywords": "Parallel printer ",
+  "keywords": "Parallel,printer",
   "description": "Experimental (not complete) library to connect a parallel printer to Arduino. Implements printer interface.",
   "authors":
   [

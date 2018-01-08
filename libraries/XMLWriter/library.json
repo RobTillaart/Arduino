@@ -1,6 +1,6 @@
 {
   "name": "XMLWriter",
-  "keywords": "Write XML node header tag indent field",
+  "keywords": "Write,XML,node,header,tag,indent,field,stream",
   "description": "Library for writing XML files.",
   "authors":
   [

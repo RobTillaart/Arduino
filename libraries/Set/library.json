@@ -1,6 +1,6 @@
 {
   "name": "Set",
-  "keywords": "Set union diff intersection equal subset",
+  "keywords": "Set,union,diff,intersection,equal,subset",
   "description": "Library to implement SET datastructure.",
   "authors":
   [

@@ -1,6 +1,6 @@
 {
   "name": "BitArray",
-  "keywords": "Bit Array Boolean ",
+  "keywords": "Bit,Array,Boolean,bool",
   "description": "Library to make a compact array of objects with a size expressed in bits. typically 1..10",
   "authors":
   [

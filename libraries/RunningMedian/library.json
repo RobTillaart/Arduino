@@ -1,6 +1,6 @@
 {
   "name": "RunningMedian",
-  "keywords": "running median, average, outliers",
+  "keywords": "running,moving,median,average,outliers",
   "description": "The library stores the last N individual values in a buffer to select the median. It filters outliers.",
   "authors":
   [

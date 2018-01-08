@@ -1,6 +1,6 @@
 {
   "name": "DHT12",
-  "keywords": "Temperature Humidity DHT12 I2C",
+  "keywords": "Temperature,Humidity,DHT12,I2C",
   "description": "I2C Library for DHT12",
   "authors":
   [

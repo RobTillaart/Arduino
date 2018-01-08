@@ -1,6 +1,6 @@
 {
   "name": "MultiMap",
-  "keywords": "MultiMap Map interpolation non-linear",
+  "keywords": "MultiMap,Map,interpolation,non-linear,linear",
   "description": "Library for fast non-linear interpolation by means of two arrays.",
   "authors":
   [

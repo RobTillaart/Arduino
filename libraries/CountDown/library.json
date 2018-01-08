@@ -1,6 +1,6 @@
 {
   "name": "CountDown",
-  "keywords": "Count down stopwatch timer, MILLIS, MICROS, SECONDS",
+  "keywords": "Count,down,stopwatch,timer,millis,micros,seconds",
   "description": "Library to implement a CountDown clock (in SW no HW).",
   "authors":
   [

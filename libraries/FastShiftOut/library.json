@@ -1,6 +1,6 @@
 {
   "name": "FastShiftOut",
-  "keywords": "Shift out serial ",
+  "keywords": "Shift,shiftout,out,serial,fast",
   "description": "Class for up to 3x faster shift out. Implements print() interface.",
   "authors":
   [

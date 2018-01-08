@@ -1,7 +1,7 @@
 {
   "name": "Max44009",
-  "keywords": "MAX44009 Lux",
-  "description": "library for MAX44009 lux sensor Arduino.",
+  "keywords": "MAX44009,Lux,light",
+  "description": "library for MAX44009 Lux sensor Arduino.",
   "authors":
   [
     {

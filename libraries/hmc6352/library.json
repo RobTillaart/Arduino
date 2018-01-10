@@ -19,6 +19,6 @@
   "frameworks": "arduino",
   "platforms": "*",
   "export": {
-    "include": "libraries/HMC6352"
+    "include": "libraries/hmc6352"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "FRAM",
+  "keywords": "FRAM,storage",
+  "description": "Library for FRAM for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "version":"0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/FRAM"
+  }
+}

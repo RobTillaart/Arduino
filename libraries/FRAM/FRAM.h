@@ -30,7 +30,7 @@ public:
   void  write8(uint16_t memaddr, uint8_t value);
   void  write16(uint16_t memaddr, uint16_t value);
   void  write32(uint16_t memaddr, uint32_t value);
-  void  write(uint16_t memaddr, uint8_t * obj, uint16_t size);  // size<30?
+  void  write(uint16_t memaddr, uint8_t * obj, uint16_t size);
 
   uint8_t  read8(uint16_t memaddr);
   uint16_t read16(uint16_t memaddr);

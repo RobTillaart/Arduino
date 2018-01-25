@@ -76,7 +76,7 @@ void setup()
     Serial.println();
     Serial.println();
 
-    dicerolls.clear();
+    diceRolls.clear();
 
     Serial.println();
     for (int i = 0; i < SAMPLES; i++)

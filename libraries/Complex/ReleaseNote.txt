@@ -9,8 +9,8 @@ Apparently the name "Complex" is already in use (reserved) by some non-AVR compi
 so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 
 Solution:
-- Make a copy of the Complex Library and name the foldername to CComplex 
-- Rename Complex.h to CComplex.https
+- Make a copy of the Complex Library and rename the folder to CComplex 
+- Rename Complex.h to CComplex.h
 - Rename Complex.cpp to CComplec.cpp
 - change one line in CComplex.cpp to include CComplex.h
 

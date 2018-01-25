@@ -7,7 +7,7 @@
 //
 // Serial.print(Complex) supported since 0.1.05
 
-#include "complex.h"
+#include "Complex.h"
 
 unsigned long start, stop, total;
 double re, im, m, p;

@@ -1,13 +1,13 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.09
+// VERSION: 0.1.10
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
-
+// 0.1.10 - uppercase #define COMPLEX_H
 // 0.1.09 - added (0,0) constructor
 // 0.1.08 - refactor
 // 0.1.07 - refactor interfaces

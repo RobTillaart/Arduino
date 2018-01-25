@@ -1,25 +1,21 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.09
+// VERSION: 0.1.10
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
 
-#ifndef Complex_h
-#define Complex_h
+#ifndef COMPLEX_H
+#define COMPLEX_H
 
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.1.09"
+#define COMPLEX_LIB_VERSION "0.1.10"
 
 class Complex: public Printable
 {

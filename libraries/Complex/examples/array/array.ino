@@ -7,7 +7,7 @@
 // PUPROSE: example complex array
 //
 
-#include "complex.h"
+#include "Complex.h"
 
 Complex samples[100];
 

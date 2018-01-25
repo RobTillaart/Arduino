@@ -1,0 +1,17 @@
+
+ReleaseNote.txt - Complex Library
+
+2018/01/25
+Issue found in version 0.1.9 - https://github.com/RobTillaart/Arduino/issues/90
+Class does not compile for DUE and TEENSY
+
+Apparently the name "Complex" is already in use (reserved) by some non-AVR compilers 
+so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
+
+Solution:
+- Make a copy of the Complex Library and name the foldername to CComplex 
+- Rename Complex.h to CComplex.https
+- Rename Complex.cpp to CComplec.cpp
+- change one line in CComplex.cpp to include CComplex.h
+
+===================================================================================

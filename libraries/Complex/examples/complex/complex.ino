@@ -204,10 +204,19 @@ void setup()
   c5 = c5.c_acoth();
   Serial.println(c5);
 
+  Serial.println("\n14. gonio bug fix (minimal) test");
+  c1.set(3, 4);
+  Serial.println(c1);
+  c2 = c1.c_sin();
+  c2 = c2 * c2;
+  c3 = c1.c_cos();
+  c3 = c3 * c3;
+  Serial.println(c2 + c3);   // should print 1, 0i
+
   Serial.println("\n.. Complex done");
 
   uint32_t start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     c5 = c5.c_csc();
   }

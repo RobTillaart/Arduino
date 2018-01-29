@@ -7,7 +7,7 @@
 //
 // Released to the public domain
 //
-// 0.1.11 - 2018-01-29 - fix sin and cos formula - issue #91
+// 0.1.11 - 2018-01-29 - fix sin cos sinh cosh formula - issue #91
 // 0.1.10 - 2018-01-15 - uppercase #define COMPLEX_H
 // 0.1.09 - 2016-10-15 - added (0,0) constructor
 // 0.1.08 - 2015-06-03 - refactor

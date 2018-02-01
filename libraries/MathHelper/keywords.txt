@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map for Troolean
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+sci	KEYWORD2
+seconds2clock	KEYWORD2
+millis2clock	KEYWORD2
+weeks	KEYWORD2
+days	KEYWORD2
+hours	KEYWORD2
+minutes	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

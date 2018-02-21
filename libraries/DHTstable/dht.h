@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
@@ -18,22 +18,22 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.2.2 - dhtstable"
+#define DHT_LIB_VERSION "0.2.3 - dhtstable"
 
-#define DHTLIB_OK                0
-#define DHTLIB_ERROR_CHECKSUM   -1
-#define DHTLIB_ERROR_TIMEOUT    -2
-#define DHTLIB_INVALID_VALUE    -999
+const int DHTLIB_OK              = 0;
+const int DHTLIB_ERROR_CHECKSUM  = -1;
+const int DHTLIB_ERROR_TIMEOUT   = -2;
+const int DHTLIB_INVALID_VALUE   = -999;
 
-#define DHTLIB_DHT11_WAKEUP     18
-#define DHTLIB_DHT_WAKEUP       1
+const int DHTLIB_DHT11_WAKEUP    = 18;
+const int DHTLIB_DHT_WAKEUP      = 1;
 
 // max timeout is 100usec.
 // For a 16Mhz proc that is max 1600 clock cycles
 // loops using TIMEOUT use at least 4 clock cycli
 // so 100 us takes max 400 loops
 // so by dividing F_CPU by 40000 we "fail" as fast as possible
-#define DHTLIB_TIMEOUT (F_CPU/40000)
+const int DHTLIB_TIMEOUT = (F_CPU/40000);
 
 class dht
 {

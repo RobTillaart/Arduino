@@ -1,11 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
+// 0.2.3  2018-02-21 change #defines in const int to enforce return types.
+//                   https://github.com/RobTillaart/Arduino/issues/94
 // 0.2.2  2017-12-12 add support for AM23XX types more explicitly
 // 0.2.1  2017-09-20 fix https://github.com/RobTillaart/Arduino/issues/80
 // 0.2.0  2017-07-24 fix https://github.com/RobTillaart/Arduino/issues/31 + 33

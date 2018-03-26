@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.26
+// VERSION: 0.1.27
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.27 2018-03-26 added _disableIRQ flag
 // 0.1.26 2017-12-12 explicit support for AM23XX series and DHT12
 // 0.1.25 2017-09-20 FIX https://github.com/RobTillaart/Arduino/issues/80
 // 0.1.24 2017-07-27 FIX https://github.com/RobTillaart/Arduino/issues/33  double -> float
@@ -146,6 +147,7 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     uint8_t port = digitalPinToPort(pin);
     volatile uint8_t *PIR = portInputRegister(port);
 
+    if (_disableIRQ) noInterrupts();
     // REQUEST SAMPLE
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW); // T-be
@@ -158,7 +160,11 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     // while(digitalRead(pin) == HIGH)
     while ((*PIR & bit) != LOW )
     {
-        if (--loopCount == 0) return DHTLIB_ERROR_CONNECT;
+        if (--loopCount == 0)
+        {
+          interrupts();
+          return DHTLIB_ERROR_CONNECT;
+        }
     }
 
     // GET ACKNOWLEDGE or TIMEOUT
@@ -166,14 +172,22 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     // while(digitalRead(pin) == LOW)
     while ((*PIR & bit) == LOW )  // T-rel
     {
-        if (--loopCount == 0) return DHTLIB_ERROR_ACK_L;
+        if (--loopCount == 0)
+        {
+          interrupts();
+          return DHTLIB_ERROR_ACK_L;
+        }
     }
 
     loopCount = DHTLIB_TIMEOUT;
     // while(digitalRead(pin) == HIGH)
     while ((*PIR & bit) != LOW )  // T-reh
     {
-        if (--loopCount == 0) return DHTLIB_ERROR_ACK_H;
+        if (--loopCount == 0)
+        {
+          interrupts();
+          return DHTLIB_ERROR_ACK_H;
+        }
     }
 
     loopCount = DHTLIB_TIMEOUT;
@@ -212,13 +226,14 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
         // Check timeout
         if (--loopCount == 0)
         {
-            return DHTLIB_ERROR_TIMEOUT;
+          interrupts();
+          return DHTLIB_ERROR_TIMEOUT;
         }
 
     }
     // pinMode(pin, OUTPUT);
     // digitalWrite(pin, HIGH);
-
+    interrupts();
     return DHTLIB_OK;
 }
 //

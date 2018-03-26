@@ -1,7 +1,7 @@
     //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.26
+// VERSION: 0.1.27
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
@@ -48,7 +48,7 @@
 class dht
 {
 public:
-    dht() {};
+    dht() { _disableIRQ = false; };
     // return values:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM
@@ -70,12 +70,16 @@ public:
     inline int8_t read2320(uint8_t pin) { return read(pin); };
     inline int8_t read2322(uint8_t pin) { return read(pin); };
 
+    bool getDisableIRQ() { return _disableIRQ; };
+    void setDisableIRQ(bool b ) { _disableIRQ = b; };
+
     float humidity;
     float temperature;
 
 private:
     uint8_t bits[5];  // buffer to receive data
     int8_t _readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBits);
+    bool   _disableIRQ;
 };
 #endif
 //

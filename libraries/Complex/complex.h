@@ -1,7 +1,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
@@ -15,23 +15,23 @@
 
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.1.11"
+#define COMPLEX_LIB_VERSION "0.1.12"
 
 class Complex: public Printable
 {
 public:
-    Complex(const double r=0, const double i=0) : re(r), im(i) {};
+    Complex(const float r=0, const float i=0) : re(r), im(i) {};
     Complex(const Complex &c)   : re(c.re), im(c.im) {};
 
-    void set(const double r, const double i ) { re = r; im = i; };
-    double real() { return re; };
-    double imag() { return im; };
+    void set(const float r, const float i ) { re = r; im = i; };
+    float real() { return re; };
+    float imag() { return im; };
 
     size_t printTo(Print& p) const;
 
-    void polar(const double, const double);
-    double phase()      { return atan2(im, re); };
-    double modulus()    { return hypot(re, im); };
+    void polar(const float, const float);
+    float phase()      { return atan2(im, re); };
+    float modulus()    { return hypot(re, im); };
     // conjugate is the number mirrored in x-axis
     Complex conjugate() { return Complex(re,-im); };
     Complex reciprocal();
@@ -88,8 +88,8 @@ public:
     Complex c_acoth();
 
 protected:
-    double re;
-    double im;
+    float re;
+    float im;
 
     Complex gonioHelper1(const byte);
     Complex gonioHelper2(const byte);

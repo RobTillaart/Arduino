@@ -1,13 +1,14 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: library for Complex math for Arduino
 //     URL: http://arduino.cc/playground/Main/ComplexMath
 //
 // Released to the public domain
 //
-// 0.1.11 - 2018-01-29 - fix sin cos sinh cosh formula - issue #91
+// 0.1.12 - 2018-04-02 - fix issue #33 double -> float
+// 0.1.11 - 2018-01-29 - fix sin and cos formula - issue #91
 // 0.1.10 - 2018-01-15 - uppercase #define COMPLEX_H
 // 0.1.09 - 2016-10-15 - added (0,0) constructor
 // 0.1.08 - 2015-06-03 - refactor
@@ -26,7 +27,7 @@ size_t Complex::printTo(Print& p) const
   return n;
 };
 
-void Complex::polar(const double modulus, const double phase)
+void Complex::polar(const float modulus, const float phase)
 {
   re = modulus * cos(phase);
   im = modulus * sin(phase);
@@ -34,9 +35,9 @@ void Complex::polar(const double modulus, const double phase)
 
 Complex Complex::reciprocal()
 {
-  double f = 1.0/(re*re + im*im);
-  double r = re*f;
-  double i = -im*f;
+  float f = 1.0/(re*re + im*im);
+  float r = re*f;
+  float i = -im*f;
   return Complex(r,i);
 }
 
@@ -71,16 +72,16 @@ Complex Complex::operator - (const Complex &c)
 
 Complex Complex::operator * (const Complex &c)
 {
-  double r = re * c.re - im * c.im;
-  double i = re * c.im + im * c.re;
+  float r = re * c.re - im * c.im;
+  float i = re * c.im + im * c.re;
   return Complex(r, i);
 }
 
 Complex Complex::operator / (const Complex &c)
 {
-  double f = 1.0/(c.re*c.re + c.im*c.im);
-  double r = (re * c.re + im * c.im) * f;
-  double i = (im * c.re - re * c.im) * f;
+  float f = 1.0/(c.re*c.re + c.im*c.im);
+  float r = (re * c.re + im * c.im) * f;
+  float i = (im * c.re - re * c.im) * f;
   return Complex(r, i);
 }
 
@@ -100,8 +101,8 @@ Complex& Complex::operator -= (const Complex &c)
 
 Complex& Complex::operator *= (const Complex &c)
 {
-  double r = re * c.re - im * c.im;
-  double i = re * c.im + im * c.re;
+  float r = re * c.re - im * c.im;
+  float i = re * c.im + im * c.re;
   re = r;
   im = i;
   return *this;
@@ -109,9 +110,9 @@ Complex& Complex::operator *= (const Complex &c)
 
 Complex& Complex::operator /= (const Complex &c)
 {
-  double f = 1.0/(c.re*c.re + c.im*c.im);
-  double r = (re * c.re + im * c.im) * f;
-  double i = (im * c.re - re * c.im) * f;
+  float f = 1.0/(c.re*c.re + c.im*c.im);
+  float r = (re * c.re + im * c.im) * f;
+  float i = (im * c.re - re * c.im) * f;
   re = r;
   im = i;
   return *this;
@@ -122,30 +123,30 @@ Complex& Complex::operator /= (const Complex &c)
 //
 Complex Complex::c_sqr()
 {
-  double r = re * re - im * im;
-  double i = 2 * re * im;
+  float r = re * re - im * im;
+  float i = 2 * re * im;
   return Complex(r, i);
 }
 
 Complex Complex::c_sqrt()
 {
-  double m = modulus();
-  double r = sqrt(0.5 * (m+re));
-  double i = sqrt(0.5 * (m-re));
+  float m = modulus();
+  float r = sqrt(0.5 * (m+re));
+  float i = sqrt(0.5 * (m-re));
   if (im < 0) i = -i;
   return Complex(r, i);
 }
 
 Complex Complex::c_exp()
 {
-  double e = exp(re);
+  float e = exp(re);
   return Complex(e * cos(im), e * sin(im));
 }
 
 Complex Complex::c_log()
 {
-  double m = modulus();
-  double p = phase();
+  float m = modulus();
+  float p = phase();
   if (p > PI) p -= 2*PI;
   return Complex(log(m), p);
 }
@@ -184,18 +185,18 @@ Complex Complex::c_cos()
 Complex Complex::c_tan()
 {
   /* faster but 350 bytes longer!!
-    double s = sin(re);
-    double c = cos(re);
-    double sh = sinh(im);
-    double ch = cosh(im);
+    float s = sin(re);
+    float c = cos(re);
+    float sh = sinh(im);
+    float ch = cosh(im);
     // return Complex(s*ch, c*sh) / Complex(c*ch, -s*sh);
-    double r0 = s*ch;
-    double i0 = c*sh;
-    double cre = c*ch;
-    double cim = -s*sh;
-    double f = 1.0/(cre*cre + cim*cim);
-    double r = r0 * cre + i0 * cim;
-    double i = r0 * cim - i0 * cre;
+    float r0 = s*ch;
+    float i0 = c*sh;
+    float cre = c*ch;
+    float cim = -s*sh;
+    float f = 1.0/(cre*cre + cim*cim);
+    float r = r0 * cre + i0 * cim;
+    float i = r0 * cim - i0 * cre;
     return Complex(r * f, -i * f);
     */
   return c_sin() / c_cos();

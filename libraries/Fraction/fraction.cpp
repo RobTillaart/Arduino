@@ -1,9 +1,9 @@
 //
-//    FILE: fraction.h
+//    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.8
 // PURPOSE: library for fractions for Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/Arduino
 //
 // Released to the public domain
 //
@@ -11,6 +11,7 @@
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.8  - refactor made constructors explicit; fix issue #33 double --> float
 // 0.1.07 - major refactoring by Chris-A
 // 0.1.06 - added proper(), mediant(), angle();
 // 0.1.05 - tested negative Fractions math, added constructors,
@@ -24,7 +25,18 @@
 #include "fraction.h"
 
 // CONSTRUCTORS
-Fraction::Fraction(double f)
+
+Fraction::Fraction(double d)
+{
+  Fraction::split(float(d));
+}
+
+Fraction::Fraction(float f)
+{
+  Fraction::split(f);
+}
+
+void Fraction::split(float f)
 {
     // handle special cases?
     // PI = 355/113;      // 2.7e-7
@@ -41,22 +53,22 @@ Fraction::Fraction(double f)
         return;
     }
     // Normalize to 0.0 ... 1.0
-    bool neg = f < 0;
-    if (neg) f = -f;
-    bool rec = f > 1;
-    if (rec) f = 1/f;
+    bool negative = f < 0;
+    if (negative) f = -f;
+    bool reciproke = f > 1;
+    if (reciproke) f = 1/f;
 
     fractionize(f);
     simplify();
 
     // denormalize
-    if (rec)
+    if (reciproke)
     {
         int32_t t = n;
         n = d;
         d = t;
     }
-    if (neg)
+    if (negative)
     {
         n = -n;
     }
@@ -198,7 +210,7 @@ Fraction& Fraction::operator /= (const Fraction &c)
     return *this;
 }
 
-double Fraction::toDouble()
+float Fraction::toDouble()
 {
     return (1.0 * n) / d;
 }
@@ -211,10 +223,11 @@ bool Fraction::isProper()
 }
 
 // visualize fraction as an angle in degrees
-double Fraction::toAngle()
+float Fraction::toAngle()
 {
     return atan2(n, d) * 180.0 / PI;
 }
+
 
 ////////////////////////////////////////////////////////////
 // STATIC
@@ -248,10 +261,9 @@ Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 // http://en.wikipedia.org/wiki/Binary_GCD_algorithm
 int32_t Fraction::gcd(int32_t a , int32_t b)
 {
-    long c;
     while ( a != 0 )
     {
-        c = a;
+        int32_t c = a;
         a = b % a;
         b = c;
     }
@@ -289,7 +301,7 @@ void Fraction::simplify()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// fractionize() - finds the fraction representation of a double
+// fractionize() - finds the fraction representation of a float
 // PRE: 0 <= f < 1.0
 //
 // minimalistic is fast and small
@@ -303,7 +315,7 @@ void Fraction::simplify()
 // MINIMALISTIC
 // (100x) micros()=51484
 /*
-double Fraction::fractionize(double f)  // simple, small, 2nd fastest
+float Fraction::fractionize(float f)  // simple, small, 2nd fastest
 {
     n = round(f * 10000);  // why not 1000000 ?
     d = 10000;
@@ -316,7 +328,7 @@ double Fraction::fractionize(double f)  // simple, small, 2nd fastest
 // (100x) micros()=18873064
 // slow not stable
 /*
-double Fraction::fractionize(double f)
+float Fraction::fractionize(float f)
 {
     long nn = 1, dd = 1;
 
@@ -342,8 +354,7 @@ double Fraction::fractionize(double f)
 // LINEAR SEARCH (mirror optimized)
 // (100x) micros()=
 // slow but stable version
-/*
-double Fraction::fractionize(double f)
+float Fraction::fractionize(float f)
 {
     long nn = 1, dd = 1;
     bool inverse = false;
@@ -377,7 +388,7 @@ double Fraction::fractionize(double f)
 // - does not find "magic fractions" e.g. pi = 355/113
 // (100x) micros()=392620
 /*
-double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2nd fastest
+float Fraction::fractionize(float f)  // divide and conquer, simple, small, 2nd fastest
 {
     Fraction t((long)0);
     for (long dd = 10; dd < 1000001; dd *= 10)
@@ -398,15 +409,15 @@ double Fraction::fractionize(double f)  // divide and conquer, simple, small, 2n
 // - http://mathforum.org/library/drmath/view/51886.html
 // (100x) micros()=96048
 // showed errors for very small values around 0
-double Fraction::fractionize(double val)
+void Fraction::fractionize(float val)
 {    // find nearest fraction
-    double Precision = 0.000001;
+    float Precision = 0.000001;
     Fraction low(0, 1);             // "A" = 0/1
     Fraction high(1, 1);            // "B" = 1/1
     for (int i = 0; i < 100; ++i)
     {
-        double testLow = low.d * val - low.n;
-        double testHigh = high.n - high.d * val;
+        float testLow = low.d * val - low.n;
+        float testHigh = high.n - high.d * val;
         if (testHigh < Precision * high.d)
         break; // high is answer
         if (testLow < Precision * low.d)
@@ -416,7 +427,7 @@ double Fraction::fractionize(double val)
         }
         if (i & 1)
         {  // odd step: add multiple of low to high
-            double test = testHigh / testLow;
+            float test = testHigh / testLow;
             int32_t count = (int32_t)test;    // "N"
             int32_t n = (count + 1) * low.n + high.n;
             int32_t d = (count + 1) * low.d + high.d;
@@ -429,7 +440,7 @@ double Fraction::fractionize(double val)
         }
         else
         {  // even step: add multiple of high to low
-            double test = testLow / testHigh;
+            float test = testLow / testHigh;
             int32_t count = (int32_t)test;     // "N"
             int32_t n = low.n + (count + 1) * high.n;
             int32_t d = low.d + (count + 1) * high.d;
@@ -451,7 +462,7 @@ double Fraction::fractionize(double val)
 // (100x) micros()=1292452
 // slower
 /*
-double Fraction::fractionize(double value)  // size ok, too slow.
+float Fraction::fractionize(float value)  // size ok, too slow.
 {
     int max_denominator = 10000;
 

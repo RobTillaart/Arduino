@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.07
+// VERSION: 0.1.8
 // PURPOSE: demo library for fractions for Arduino
 //     URL:
 //
@@ -13,19 +13,20 @@
 
 #include "Arduino.h"
 
-#define FRACTIONLIBVERSION "0.1.07"
+#define FRACTIONLIBVERSION "0.1.8"
 
 class Fraction: public Printable
 {
 public:
-    Fraction(double);
+    explicit Fraction(double);
+    explicit Fraction(float);
     Fraction(int32_t, int32_t);
-    Fraction(int32_t p)   : n(p), d(1) {}
-    Fraction(int16_t p)   : n(p), d(1) {}
-    Fraction(int8_t p)    : n(p), d(1) {}
-    Fraction(uint32_t p)  : n(p), d(1) {}
-    Fraction(uint16_t p)  : n(p), d(1) {}
-    Fraction(uint8_t p)   : n(p), d(1) {}
+    explicit Fraction(int32_t p)   : n(p), d(1) {}
+    explicit Fraction(int16_t p)   : n(p), d(1) {}
+    explicit Fraction(int8_t p)    : n(p), d(1) {}
+    explicit Fraction(uint32_t p)  : n(p), d(1) {}
+    explicit Fraction(uint16_t p)  : n(p), d(1) {}
+    explicit Fraction(uint8_t p)   : n(p), d(1) {}
     Fraction(const Fraction &f) : n(f.n), d(f.d) {}
 
     size_t printTo(Print& p) const;
@@ -52,9 +53,10 @@ public:
     Fraction& operator *= (const Fraction&);
     Fraction& operator /= (const Fraction&);
 
-    double toDouble();
-    bool isProper();    // abs(f) < 1
-    double toAngle();
+    float   toDouble();
+    float   toFloat()   { return toDouble(); };
+    bool    isProper();   // abs(f) < 1
+    float   toAngle();
 
     static Fraction mediant(const Fraction&, const Fraction&);
     // approximate a fraction with defined denominator
@@ -62,8 +64,9 @@ public:
 
 
 protected:
-    void simplify();
-    double fractionize(double);
+    void    split(float);
+    void    simplify();
+    void    fractionize(float);
     int32_t gcd(int32_t, int32_t);
 
     int32_t n;

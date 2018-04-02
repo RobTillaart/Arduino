@@ -1,7 +1,7 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: class for averaging angles
 //     URL: https://github.com/RobTillaart/Arduino
 //
@@ -9,7 +9,7 @@
 //
 // 0.1.0 2017-11-21 initial version
 // 0.1.1 2017-12-09 fixed negative values of average
-//
+// 0.1.2 2018-03-30 added getAverageLength, getTotalLength + zero-test
 
 #include "AverageAngle.h"
 
@@ -30,8 +30,8 @@ void AverageAngle::add(float alpha, float length)
   {
     alpha *= (PI / 180.0);
   }
-  _sumx += cos(alpha) * length;
-  _sumy += sin(alpha) * length;
+  _sumx += (cos(alpha) * length);
+  _sumy += (sin(alpha) * length);
   _count++;
 }
 
@@ -53,5 +53,16 @@ float AverageAngle::getAverage()
   return angle;
 }
 
+float AverageAngle::getTotalLength()
+{
+  if (_count == 0) return 0;
+  return hypot(_sumy, _sumx);
+}
+
+float AverageAngle::getAverageLength()
+{
+  if (_count == 0) return 0;
+  return hypot(_sumy, _sumx) / _count;
+}
 
 // END OF FILE

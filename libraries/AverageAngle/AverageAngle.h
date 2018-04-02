@@ -3,7 +3,7 @@
 //
 //    FILE: AverageAngle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: class for averaging angles
 // HISTORY: See AverageAngle.cpp
 //
@@ -18,9 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#include "Printable.h"
-
-#define AVERAGE_ANGLE_LIB_VERSION "0.1.1"
+#define AVERAGE_ANGLE_LIB_VERSION "0.1.2"
 
 class AverageAngle
 {
@@ -33,6 +31,10 @@ public:
     void reset();
     int  count() { return _count; };
     float getAverage();
+
+    float getTotalLength();
+    float getAverageLength();
+
     enum AngleType type() { return _type; };
 
 private:

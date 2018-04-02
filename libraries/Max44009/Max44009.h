@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -18,9 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#include "Printable.h"
-
-#define MAX44009_LIB_VERSION "0.1.5"
+#define MAX44009_LIB_VERSION "0.1.7"
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00
@@ -41,7 +39,9 @@
 class Max44009
 {
 public:
-    Max44009(const uint8_t address);
+    // dataPin and clockPin are only used by ESP8266
+    // for UNO ignore these (and its warning)
+    Max44009(const uint8_t address, const uint8_t dataPin = 5, const uint8_t clockPin = 4);
 
     float   getLux();
     int     getError();

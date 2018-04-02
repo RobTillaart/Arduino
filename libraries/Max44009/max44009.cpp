@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: library for MAX44009 lux sensor Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.1.7  - 2018-04-02 issue #98 extend constructor for ESP8266
 // 0.1.6  - 2017-07-26 revert double to float 
 // 0.1.5  - updated history
 // 0.1.4  - added setAutomaticMode() to max44009.h (thanks debsahu)
@@ -17,11 +18,16 @@
 
 #include "Max44009.h"
 
-Max44009::Max44009(const uint8_t address)
+
+Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
 {
     _address = address;
-    Wire.begin();
-    // TWBR = 12; // 400KHz
+#ifdef ESP8266
+        Wire.begin(dataPin, clockPin);
+#else  // other platforms
+        Wire.begin();
+#endif
+    // TWBR = 12; // Wire.setClock(400000);
     _data = 0;
     _error = 0;
 }
@@ -118,7 +124,7 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 void Max44009::setThreshold(const uint8_t reg, const float value)
 {
     // TODO CHECK RANGE
-    uint32_t m = round(value / 0.045);
+    uint32_t m = round(value / 0.045);  // mulitply * 22.22222222 is faster.
     uint8_t e = 0;
     while (m > 255)
     {

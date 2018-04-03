@@ -1,6 +1,6 @@
 {
   "name": "DHTNEW",
-  "keywords": "DHT11,DHT22,DHT33,DHT44,AM2301,AM2302,AM2303,auto,detect",
+  "keywords": "DHT11,DHT22,DHT33,DHT44,AM2301,AM2302,AM2303,auto,detect,offset",
   "description": "library for DHT Temperature & Humidity Sensor.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Arduino.git"
   },
-  "version":"0.1.3",
+  "version":"0.1.4",
   "frameworks": "arduino",
   "platforms": "atmelavr",
   "export": {

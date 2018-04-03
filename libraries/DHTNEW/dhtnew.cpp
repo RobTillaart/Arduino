@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: New DHT Temperature & Humidity Sensor library for Arduino
 //     URL:
 //
@@ -10,6 +10,7 @@
 // 0.1.1  2017-07-29 add begin() to determine type once and for all instead of every call + refactor
 // 0.1.2  2018-01-08 improved begin() + refactor()
 // 0.1.3  2018-01-08 removed begin() + moved detection to read() function
+// 0.1.4  2018-04-03 add get-/setDisableIRQ(bool b)
 //
 // Released to the public domain
 //
@@ -53,7 +54,10 @@ int DHTNEW::_read()
   _lastRead = millis();
 
   // READ VALUES
+  if (_disableIRQ) noInterrupts();
   int rv = _readSensor();
+  if (_disableIRQ) interrupts();
+
   if (rv != DHTLIB_OK)
   {
     humidity    = DHTLIB_INVALID_VALUE;

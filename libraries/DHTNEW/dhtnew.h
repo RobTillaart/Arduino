@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: --
 //
@@ -54,6 +54,9 @@ public:
     float getHumOffset()              { return _humOffset; };
     float getTempOffset()             { return _tempOffset; };
 
+    bool getDisableIRQ()              { return _disableIRQ; };
+    void setDisableIRQ(bool b )       { _disableIRQ = b; };
+
 private:
     uint8_t  _pin = 0;
     uint8_t  _wakeupDelay = 0;
@@ -61,6 +64,7 @@ private:
     float    _humOffset = 0.0;
     float    _tempOffset = 0.0;
     uint32_t _lastRead = 0;
+    bool     _disableIRQ = false;
 
     uint8_t  _bits[5];  // buffer to receive data
     int      _read();

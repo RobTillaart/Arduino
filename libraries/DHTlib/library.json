@@ -1,13 +1,21 @@
 {
   "name": "DHTlib",
-  "keywords": "DHT11,DHT22,DHT33,DHT44,AM2301,AM2302,AM2303,AM2320,AM2322,temperature,humidity",
+  "keywords": "DHT11 DHT22 DHT33 DHT44 AM2301 AM2302 AM2303 AM2320 AM2322",
   "description": "Optimized Library for DHT Temperature & Humidity Sensor on AVR only.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
   "repository":
   {
     "type": "git",
     "url": "https://github.com/RobTillaart/Arduino.git"
   },
-  "version":"0.1.27",
+  "version":"0.1.28",
   "frameworks": "arduino",
   "platforms": "*",
   "export": {

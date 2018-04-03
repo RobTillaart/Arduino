@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.9
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: http://forum.arduino.cc/index.php?topic=197360
@@ -14,7 +14,7 @@
 
 TwoWire *wi;
 
-const char version[] = "0.1.7";
+const char version[] = "0.1.9";
 
 
 // INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
@@ -77,10 +77,9 @@ void setup()
 
   wi = &Wire;
 
-  setSpeed('0');
+  setSpeed('9');
   displayHelp();
 }
-
 
 void loop()
 {
@@ -146,6 +145,7 @@ void loop()
     case '2':
     case '4':
     case '8':
+    case '9':
       setSpeed(command);
       break;
 
@@ -181,7 +181,6 @@ void loop()
       break;
   }
 }
-
 
 void setAddress()
 {
@@ -223,6 +222,13 @@ void setSpeed(char sp)
       speed[0] = 800;
       speeds = 1;
       break;
+    case '9':  // limited to 400KHz
+      speeds = 5;
+      for (int i = 0; i < speeds; i++)
+      {
+        speed[i] = allSpeed[i];
+      }
+      break;
     case '0':  // reset
       speeds = sizeof(allSpeed) / sizeof(allSpeed[0]);
       for (int i = 0; i < speeds; i++)
@@ -261,15 +267,15 @@ void displayHelp()
   Serial.println(F("\th = toggle header - noHeader."));
   Serial.println(F("\ta = toggle address range, 0..127 - 8..120"));
   Serial.println(F("Speeds:"));
-  Serial.println(F("\t0 = 50 - 800 Khz"));
+  Serial.println(F("\t0 = 50 - 800 Khz  (warning - can block!!)"));
   Serial.println(F("\t1 = 100 KHz only"));
   Serial.println(F("\t2 = 200 KHz only"));
   Serial.println(F("\t4 = 400 KHz only"));
-  Serial.println(F("\t8 = 800 KHz only"));
+  Serial.println(F("\t8 = 800 KHz only  (warning - can block!)"));
+  Serial.println(F("\t9 = 50 - 400 Khz  <<< DEFAULT >>>"));
   Serial.println(F("\n\t? = help - this page"));
   Serial.println();
 }
-
 
 void I2Cscan()
 {

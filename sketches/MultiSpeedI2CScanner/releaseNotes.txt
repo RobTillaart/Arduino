@@ -1,0 +1,36 @@
+
+==============================
+  2018-04-02  version 0.1.9
+==============================
++ '9' command to scan up to 400 KHz only to prevent blocking
++ changed "scan up to 400 KHz" as default at startup
+
+==============================
+  2017-08-03  version 0.1.8
+==============================
++ DUE support
+
+==============================
+  2017-07-17  version 0.1.7
+==============================
++ TEENSY support - multiple I2C ports
++ '@' command to select I2C Port
++ changed # speeds steps of 100
+
+==============================
+  2015-03-29  version 0.1.6
+==============================
++ Wire.setClock as more portable way to set I2C clock
+
+==============================
+  2014-07-06  version 0.1.5
+==============================
++ void setSpeed()   - more control about what is scanned
++ void setAddress() - address range
++ extended help
+
+==============================
+older versions not documented
+==============================
+
+// END OF FILE

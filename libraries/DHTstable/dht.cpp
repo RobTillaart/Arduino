@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
 // HISTORY:
+// 0.2.4  2018-04-03 add get-/setDisableIRQ(bool b)
 // 0.2.3  2018-02-21 change #defines in const int to enforce return types.
 //                   https://github.com/RobTillaart/Arduino/issues/94
 // 0.2.2  2017-12-12 add support for AM23XX types more explicitly
@@ -45,7 +46,9 @@
 int dht::read11(uint8_t pin)
 {
     // READ VALUES
+    if (_disableIRQ) noInterrupts();
     int rv = _readSensor(pin, DHTLIB_DHT11_WAKEUP);
+    if (_disableIRQ) interrupts();
     if (rv != DHTLIB_OK)
     {
         humidity    = DHTLIB_INVALID_VALUE; // invalid value, or is NaN prefered?
@@ -77,7 +80,9 @@ int dht::read11(uint8_t pin)
 int dht::read(uint8_t pin)
 {
     // READ VALUES
+    if (_disableIRQ) noInterrupts();
     int rv = _readSensor(pin, DHTLIB_DHT_WAKEUP);
+    if (_disableIRQ) interrupts();
     if (rv != DHTLIB_OK)
     {
         humidity    = DHTLIB_INVALID_VALUE;  // NaN prefered?

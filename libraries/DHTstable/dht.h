@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
 //
@@ -45,11 +45,11 @@ public:
     int read11(uint8_t pin);      // DHT11 & DHT12
     int read(uint8_t pin);        // DHT22
 
-    inline int read12(uint8_t pin) { return read11(pin); };   // ok
-    inline int read21(uint8_t pin) { return read(pin); };     // ok
-    inline int read22(uint8_t pin) { return read(pin); };     // ok
-    inline int read33(uint8_t pin) { return read(pin); };     // ok
-    inline int read44(uint8_t pin) { return read(pin); };     // ok
+    inline int read12(uint8_t pin)   { return read11(pin); }; // ok
+    inline int read21(uint8_t pin)   { return read(pin); };   // ok
+    inline int read22(uint8_t pin)   { return read(pin); };   // ok
+    inline int read33(uint8_t pin)   { return read(pin); };   // ok
+    inline int read44(uint8_t pin)   { return read(pin); };   // ok
     inline int read2301(uint8_t pin) { return read(pin); };   // ok
     inline int read2302(uint8_t pin) { return read(pin); };   // ok
     inline int read2320(uint8_t pin) { return read(pin); };   //.ok
@@ -58,9 +58,13 @@ public:
     float humidity;
     float temperature;
 
+    bool getDisableIRQ()              { return _disableIRQ; };
+    void setDisableIRQ(bool b )       { _disableIRQ = b; };
+
 private:
     uint8_t bits[5];  // buffer to receive data
-    int _readSensor(uint8_t pin, uint8_t wakeupDelay);
+    int     _readSensor(uint8_t pin, uint8_t wakeupDelay);
+    bool    _disableIRQ = false;
 };
 #endif
 //

@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -18,13 +18,14 @@
 #include "WProgram.h"
 #endif
 
-#define MAX44009_LIB_VERSION "0.1.7"
+#define MAX44009_LIB_VERSION "0.1.8"
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00
 #define MAX44009_INTERRUPT_ENABLE   0x01
 #define MAX44009_CONFIGURATION      0x02
-#define MAX44009_LUX_READING        0x03  // (03 = HIGH BYTE, (04 = LOW BYTE
+#define MAX44009_LUX_READING_HIGH   0x03
+#define MAX44009_LUX_READING_LOW    0x04
 #define MAX44009_THRESHOLD_HIGH     0x05
 #define MAX44009_THRESHOLD_LOW      0x06
 #define MAX44009_THRESHOLD_TIMER    0x07
@@ -80,11 +81,11 @@ private:
     void    setThreshold(uint8_t, float);
     float   getThreshold(uint8_t);
 
-    uint16_t read(uint8_t reg, uint8_t bytes = 1);
-    void     write(uint8_t, uint8_t);
+    uint8_t read(uint8_t reg);
+    void    write(uint8_t, uint8_t);
 
     uint8_t _address;
-    uint16_t _data;
+    uint8_t _data;
     int     _error;
 };
 #endif

@@ -1,12 +1,14 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.1.8  - 2018-05-13 issue #105 Fix read register
+//          (thanks morxGrillmeister)
 // 0.1.7  - 2018-04-02 issue #98 extend constructor for ESP8266
 // 0.1.6  - 2017-07-26 revert double to float 
 // 0.1.5  - updated history
@@ -34,9 +36,10 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
 
 float Max44009::getLux(void)
 {
-    uint16_t data = read(MAX44009_LUX_READING, 2);
-    uint8_t e = (data & 0xF000) >> 12;
-    uint32_t m = ((data & 0x0F00) >> 4) + (data & 0x000F);
+    uint8_t dhi = read(MAX44009_LUX_READING_HIGH);
+    uint8_t dlo = read(MAX44009_LUX_READING_LOW);
+    uint8_t e = dhi >> 4;
+    uint32_t m = (dhi << 4) + (dlo & 0x0F);
     m <<= e;
     float val = m * 0.045;
     return val;
@@ -76,7 +79,7 @@ void Max44009::setThresholdTimer(const uint8_t value)
 
 uint8_t Max44009::getThresholdTimer()
 {
-    return read(MAX44009_THRESHOLD_TIMER, 1);
+    return read(MAX44009_THRESHOLD_TIMER);
 }
 
 void Max44009::setConfiguration(const uint8_t value)
@@ -86,7 +89,7 @@ void Max44009::setConfiguration(const uint8_t value)
 
 uint8_t Max44009::getConfiguration()
 {
-    return read(MAX44009_CONFIGURATION, 1);
+    return read(MAX44009_CONFIGURATION);
 }
 
 void Max44009::setAutomaticMode()
@@ -138,7 +141,7 @@ void Max44009::setThreshold(const uint8_t reg, const float value)
 
 float Max44009::getThreshold(uint8_t reg)
 {
-    uint16_t data = read(reg, 1);
+    uint8_t data = read(reg);
     uint8_t e = (data & 0xF0) >> 4;
     uint32_t m = ((data & 0x0F) << 4) + 0x0F;
     m <<= e;
@@ -146,8 +149,7 @@ float Max44009::getThreshold(uint8_t reg)
     return val;
 }
 
-// bytes is 1 or 2
-uint16_t Max44009::read(uint8_t reg, uint8_t bytes)
+uint8_t Max44009::read(uint8_t reg)
 {
     Wire.beginTransmission(_address);
     Wire.write(reg);
@@ -156,17 +158,15 @@ uint16_t Max44009::read(uint8_t reg, uint8_t bytes)
     {
         return _data; // last value
     }
-    if (Wire.requestFrom(_address, (uint8_t) bytes) != bytes)
+    if (Wire.requestFrom(_address, (uint8_t) 1) != 1)
     {
         _error = 10;
         return _data; // last value
     }
 #if (ARDUINO <  100)
     _data = Wire.receive();
-    if (bytes == 2) _data = _data * 256 + Wire.receive();
 #else
     _data = Wire.read();
-    if (bytes == 2) _data = _data * 256 + Wire.read();
 #endif
     return _data;
 }

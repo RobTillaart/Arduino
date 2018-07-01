@@ -1,12 +1,14 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.1.9  - 2018-07-01 issue #108 Fix shift math
+//          (thanks Roland vandecook)
 // 0.1.8  - 2018-05-13 issue #105 Fix read register
 //          (thanks morxGrillmeister)
 // 0.1.7  - 2018-04-02 issue #98 extend constructor for ESP8266
@@ -39,7 +41,7 @@ float Max44009::getLux(void)
     uint8_t dhi = read(MAX44009_LUX_READING_HIGH);
     uint8_t dlo = read(MAX44009_LUX_READING_LOW);
     uint8_t e = dhi >> 4;
-    uint32_t m = (dhi << 4) + (dlo & 0x0F);
+    uint32_t m = ((dhi & 0x0F) << 4) + (dlo & 0x0F);
     m <<= e;
     float val = m * 0.045;
     return val;

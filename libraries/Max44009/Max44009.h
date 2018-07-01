@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -18,7 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#define MAX44009_LIB_VERSION "0.1.8"
+#define MAX44009_LIB_VERSION "0.1.9"
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00

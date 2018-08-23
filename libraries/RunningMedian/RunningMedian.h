@@ -2,7 +2,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.1.14
+// VERSION: 0.1.15
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
 //
@@ -20,7 +20,7 @@
 
 #include <inttypes.h>
 
-#define RUNNING_MEDIAN_VERSION "0.1.14"
+#define RUNNING_MEDIAN_VERSION "0.1.15"
 
 // prepare for dynamic version
 // not tested use at own risk :)
@@ -28,14 +28,20 @@
 
 // conditional compile to minimize lib
 // by removeing a lot of functions.
+#ifndef RUNNING_MEDIAN_ALL
 #define RUNNING_MEDIAN_ALL
+#endif
 
 
 // should at least be 5 to be practical
 // odd size results in a 'real' middle element.
 // even size takes the lower of the two middle elements
+#ifndef MEDIAN_MIN_SIZE
 #define MEDIAN_MIN_SIZE     1
+#endif
+#ifndef MEDIAN_MAX_SIZE
 #define MEDIAN_MAX_SIZE     19          // adjust if needed
+#endif
 
 
 class RunningMedian

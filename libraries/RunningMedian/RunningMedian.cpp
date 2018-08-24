@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob.Tillaart at gmail.com
-// VERSION: 0.1.14
+// VERSION: 0.1.15
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -20,6 +20,7 @@
 // 0.1.12 - 2015-07-12 refactor constructor + const
 // 0.1.13 - 2015-10-30 fix getElement(n) - kudos to Gdunge
 // 0.1.14 - 2017-07-26 revert double to float - issue #33
+// 0.1.15 - 2018-08-24 make runningMedian Configurable #110
 //
 // Released to the public domain
 //

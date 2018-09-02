@@ -1,13 +1,15 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: I2C library for DHT12 for Arduino.
 //
 // HISTORY:
 //   0.1.0: 2017-12-11 initial version
 //   0.1.1: 2017-12-19 added ESP8266 - issue #86
 //                     Verified by Viktor Balint
+//   0.1.2: 2018-09-02 fix negative temperature DHT12 - issue #111
+//
 //
 // Released to the public domain
 //
@@ -42,8 +44,8 @@ int8_t DHT12::read()
 
   // CONVERT AND STORE
   humidity = bits[0] + bits[1] * 0.1;
-  temperature = (bits[2] & 0x7F) + bits[3] * 0.1;
-  if (bits[2] & 0x80)
+  temperature = bits[2] + (bits[3] & 0x7F) * 0.1;
+  if (bits[3] & 0x80)
   {
     temperature = -temperature;
   }

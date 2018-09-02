@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.28
+// VERSION: 0.1.29
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.29 2018-09-02 fix negative temperature DHT12 - issue #111
 // 0.1.28 2018-04-03 refactor
 // 0.1.27 2018-03-26 added _disableIRQ flag
 // 0.1.26 2017-12-12 explicit support for AM23XX series and DHT12
@@ -85,8 +86,8 @@ int8_t dht::read12(uint8_t pin)
 
     // CONVERT AND STORE
     humidity = bits[0] + bits[1] * 0.1;
-    temperature = (bits[2] & 0x7F) + bits[3] * 0.1;
-    if (bits[2] & 0x80)  // negative temperature
+    temperature = bits[2] + (bits[3] & 0x7F) * 0.1;
+    if (bits[3] & 0x80)  // negative temperature
     {
         temperature = -temperature;
     }

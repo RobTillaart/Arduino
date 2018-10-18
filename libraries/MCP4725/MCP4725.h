@@ -82,7 +82,7 @@ private:
     int writeFastMode(const uint16_t value);
 
 #ifdef MCP4725_EXTENDED
-    int writeRegisterMode(const uint16_t value, const uint8_t reg);
+    int writeRegisterMode(const uint16_t value, uint8_t reg);
     uint8_t readRegister(uint8_t* buffer, const uint8_t length);
 #endif
 

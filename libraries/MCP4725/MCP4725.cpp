@@ -187,7 +187,7 @@ bool MCP4725::RDY()
 
 // PAGE 19 DATASHEET
 // reg = MCP4725_DAC | MCP4725_EEPROM
-int MCP4725::writeRegisterMode(const uint16_t value, const uint8_t reg)
+int MCP4725::writeRegisterMode(const uint16_t value, uint8_t reg)
 {
     uint8_t h = (value / 16);
     uint8_t l = (value & 0x0F) << 4;

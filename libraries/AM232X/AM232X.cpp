@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -10,6 +10,8 @@
 //   0.1.2: 2017-12-12 get and set functions.
 //   0.1.3: 2017-12-19 added ESP8266 - issue #86
 //                     tested by Viktor Balint
+//   0.1.4: 2018-10-24 fixed temperature formula - #114
+//                     thanks to 9a4gl
 //
 // Released to the public domain
 //

@@ -3,7 +3,7 @@
 //
 //    FILE: Avrheap.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: heap library for Arduino (AVR)
 // HISTORY: See avrheap.cpp
 //
@@ -18,7 +18,7 @@
 
 #include "Printable.h"
 
-#define AVRHEAP_LIB_VERSION "0.1.04"
+#define AVRHEAP_LIB_VERSION "0.1.5"
 
 class Avrheap : public Printable
 {

@@ -1,7 +1,7 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.04
+// VERSION: 0.1.5
 // PURPOSE: library for avrheap Arduino
 //     URL: http://forum.arduino.cc/index.php?topic=355660
 
@@ -10,6 +10,7 @@
 // http://forum.arduino.cc/index.php?topic=27536.15
 //
 // Released to the public domain
+// 0.1.5  - fix typo #116 - Thanks to DMNC
 // 0.1.04 - new methods incl PrintTo support - Thanks to Whandall
 //          !! breaking interface
 // 0.1.03 - refactoring
@@ -17,7 +18,7 @@
 // 0.1.01 - refactor, added startAddress()
 // 0.1.00 - initial version
 
-#include "Avrheap.h"
+#include "avrheap.h"
 
 struct __freelist
 {

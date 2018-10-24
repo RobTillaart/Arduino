@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC (12 bit I2C) library for Arduino
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -15,6 +15,7 @@
 // 0.1.05 - 2015-03-06 refactoring, stricter interfaces
 // 0.1.6 - 2017-04-19 refactor + remove timeout - https://github.com/RobTillaart/Arduino/issues/63
 // 0.1.7 - 2017-04-20 refactor the removed timeout (Thanks to Koepel)
+// 0.1.8 - 2018-10-24 fix read only var #115 (kudos to perl1234)
 //
 // Released to the public domain
 //

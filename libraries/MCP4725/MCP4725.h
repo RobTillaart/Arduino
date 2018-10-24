@@ -4,7 +4,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Simple MCP4725 DAC (12 bit I2C) library for Arduino
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // HISTORY: See MCP4725.cpp
 //     URL:
 //
@@ -21,7 +21,7 @@
 #include "Wiring.h"
 #endif
 
-#define MCP4725_VERSION         "0.1.7"
+#define MCP4725_VERSION         "0.1.8"
 
 // regisiterMode
 #define MCP4725_DAC             0x40

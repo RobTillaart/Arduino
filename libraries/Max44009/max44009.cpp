@@ -26,11 +26,12 @@
 Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
 {
     _address = address;
-#ifdef ESP8266
+    if ((dataPin < 255) && (dataPin < 255))
+    {
         Wire.begin(dataPin, clockPin);
-#else  // other platforms
+    } else {
         Wire.begin();
-#endif
+    }
     // TWBR = 12; // Wire.setClock(400000);
     _data = 0;
     _error = 0;

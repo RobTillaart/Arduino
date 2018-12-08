@@ -40,9 +40,9 @@
 class Max44009
 {
 public:
-    // dataPin and clockPin are only used by ESP8266
+    // dataPin and clockPin can be used for ESP8266
     // for UNO ignore these (and its warning)
-    Max44009(const uint8_t address, const uint8_t dataPin = 5, const uint8_t clockPin = 4);
+    Max44009(const uint8_t address, const uint8_t dataPin = 255, const uint8_t clockPin = 255);
 
     float   getLux();
     int     getError();

@@ -1,12 +1,14 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.1.10 - 2018-12-08 issue #118 Fix constructor esp8266
+//          (thanks to Bolukan)
 // 0.1.9  - 2018-07-01 issue #108 Fix shift math
 //          (thanks Roland vandecook)
 // 0.1.8  - 2018-05-13 issue #105 Fix read register

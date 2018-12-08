@@ -26,7 +26,7 @@
 Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
 {
     _address = address;
-    if ((dataPin < 255) && (dataPin < 255))
+    if ((dataPin < 255) && (clockPin < 255))
     {
         Wire.begin(dataPin, clockPin);
     } else {

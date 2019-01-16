@@ -19,7 +19,7 @@
 
 #define PCA9635_MODE1       0x00
 #define PCA9635_MODE2       0x01
-#define PCA9635_PWM(x)      (0x02+(x))
+#define PCA9635_PWM(x)      (0x82+(x))
 
 #define PCA9635_GRPPWM      0x12
 #define PCA9635_GRPFREQ     0x13

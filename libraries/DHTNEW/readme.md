@@ -1,5 +1,5 @@
 
-This is the 0.1.3 version of the DHTNEW. 
+This is the 0.1.5 version of the DHTNEW. 
 This version is stable for both ARM and AVR.
 
 DHTNEW has some new features compared to my DHTlib.
@@ -22,3 +22,6 @@ DHTNEW has some new features compared to my DHTlib.
    In the future this functionality could be inside the library by setting a time threshold
    (e.g. 1 second by default) to give more stable results.
 
+5) Added interrupt enable / disable flag to prevent interrupts disturb timing of DHT protocol.
+
+6)

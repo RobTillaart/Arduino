@@ -1,9 +1,9 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
-//     URL: --
+//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTNEW
 //
 // HISTORY:
 // see dhtnew.cpp file
@@ -14,7 +14,7 @@
 
 #include <Arduino.h>
 
-#define DHTNEW_LIB_VERSION "0.1.3 - dhtnew"
+#define DHTNEW_LIB_VERSION "0.1.5 - dhtnew"
 
 #define DHTLIB_OK                0
 #define DHTLIB_ERROR_CHECKSUM   -1
@@ -48,7 +48,7 @@ public:
     float temperature;
 
     // adding offsets works well in normal range 
-    // but can introduce under- or overflow
+    // but can introduce under- or overflow at the ends of the sensor range
     void  setHumOffset(float offset)  { _humOffset = offset; };
     void  setTempOffset(float offset) { _tempOffset = offset; };
     float getHumOffset()              { return _humOffset; };

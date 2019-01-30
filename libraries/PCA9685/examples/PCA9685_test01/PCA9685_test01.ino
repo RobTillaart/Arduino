@@ -13,6 +13,9 @@ PCA9685 ledArray(0x20);
 
 void setup()
 {
+    Wire.begin();
+    ledArray.begin();
+
     Serial.begin(115200);
     Serial.print("PCA9685 LIB version: ");
     Serial.println(PCA9685_LIB_VERSION);

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.2.5
+// VERSION: 1.2.6
 // PURPOSE: I2C_eeprom library for Arduino with EEPROM 24LC256 et al.
 //
 // HISTORY:
@@ -26,6 +26,7 @@
 // 1.2.03 - 2015-05-15 bugfix in _pageBlock & example (thanks ifreislich )
 // 1.2.4 - 2017-04-19 remove timeout - https://github.com/RobTillaart/Arduino/issues/63
 // 1.2.5 - 2017-04-20 refactor the removed timeout (Thanks to Koepel)
+// 1.2.6 - 2019-02-01 fix issue #121
 //
 // Released to the public domain
 //
@@ -185,7 +186,6 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
 {
     uint16_t addr = memoryAddress;
     uint16_t len = length;
-    int rv = 0;
     while (len > 0)
     {
         uint8_t bytesUntilPageBoundary = this->_pageSize - addr % this->_pageSize;
@@ -199,7 +199,7 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
         if (incrBuffer) buffer += cnt;
         len -= cnt;
     }
-    return rv;
+    return 0;
 }
 
 // supports one and 2 bytes addresses

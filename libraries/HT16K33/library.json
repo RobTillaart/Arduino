@@ -1,0 +1,24 @@
+{
+  "name": "HT16K33",
+  "keywords": "HT16K33, 7 segment",
+  "description": "Class for 7 segment Adafruit I2C",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "version":"0.1.2",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/HT16K33"
+  }
+}

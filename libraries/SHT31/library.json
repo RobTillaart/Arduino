@@ -1,0 +1,24 @@
+{
+  "name": "SHT31",
+  "keywords": "SHT31 Temperature Humidity I2C",
+  "description": "Class for SHT31 sensor, e.g. Adafruit I2C",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "version":"0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/SHT31"
+  }
+}

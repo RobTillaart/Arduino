@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 //    DATE: 2019-02-08
 // PURPOSE: Class for SHT31 I2C temperature humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -16,7 +16,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define SHT31_LIB_VERSION "0.1.0"
+#define SHT31_LIB_VERSION "0.1.2"
 
 class SHT31
 {
@@ -33,11 +33,20 @@ public:
   uint32_t lastRead() { return _lastRead; };
 
   void reset();
+
+  // do not use heater for long periods,
+  // use it for max 3 minutes to heat up
+  // and let it cool down an equal period.
   void heatOn();
   void heatOff();
 
   float humidity;
   float temperature;
+
+  // ASYNC INTERFACE
+  void requestData();
+  bool dataReady();
+  void readData();
 
 private:
   void writeCmd(uint16_t cmd);
@@ -45,6 +54,7 @@ private:
 
   uint8_t   _addr;
   uint32_t  _lastRead;
+  uint32_t  _lastRequest;   // for async interface
 };
 
 #endif

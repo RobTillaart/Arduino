@@ -1,9 +1,9 @@
 
 MultiSpeedI2CScanner is a menu driven I2C scanner, see below.
 
+# Arduino MultiSpeed I2C Scanner - 0.1.9
 
-Arduino MultiSpeed I2C Scanner - 0.1.9
-
+```
 I2C ports: 1
         @ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5 or Arduino Due]
 Scanmode:
@@ -24,7 +24,7 @@ Speeds:
         9 = 50 - 400 Khz  <<< DEFAULT >>>
 
         ? = help - this page
-
+```
 
 TODO: explain menu options in more detail
 

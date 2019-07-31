@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL: http://forum.arduino.cc/index.php?topic=208061
 //
 // HISTORY:
+// 0.1.10 2019-07-31 add 3 inline functions to test errors + demo sketch
 // 0.1.9  2017-07-27 reverted double -> float (issue33)
 // 0.1.08 2015-12-06 replaced all temperature calls with one TCfactor + update demos.
 // 0.1.07 2015-12-06 updated TC factors from the MAX31855 datasheet

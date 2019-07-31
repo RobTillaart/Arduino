@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 // PURPOSE: MAX31855 - Thermocouple
 //    DATE: 2014-01-01
 //     URL: http://forum.arduino.cc/index.php?topic=208061
@@ -17,12 +17,13 @@
 #include "Arduino.h"
 #endif
 
-#define MAX31855_VERSION "0.1.9"
+#define MAX31855_VERSION "0.1.10"
 
 #define STATUS_OK               0x00
 #define STATUS_OPEN_CIRCUIT     0x01
 #define STATUS_SHORT_TO_GND     0x02
 #define STATUS_SHORT_TO_VCC     0x04
+#define STATUS_ERROR            0x07
 #define STATUS_NOREAD           0x80
 
 //  Thermocouples working is based upon Seebeck effect.
@@ -59,10 +60,15 @@ public:
 
     uint8_t read();
 
-    float   getInternal(void) const     { return _internal; };
-    float   getTemperature(void) const  { return _temperature * _TCfactor; }
+    float   getInternal(void) const     { return _internal; }
+    float   getTemperature(void) const  { return _temperature * _TCfactor; };
 
     uint8_t getStatus(void) const       { return _status; };
+    // next 4 applies to last read
+    inline  bool statusError() { return (_status & STATUS_ERROR) != 0; };
+    inline  bool shortToGND()  { return (_status & STATUS_SHORT_TO_GND) != 0; };
+    inline  bool shortToVCC()  { return (_status & STATUS_SHORT_TO_VCC) != 0; };
+    inline  bool openCircuit() { return (_status & STATUS_OPEN_CIRCUIT) != 0; };
 
     void    setOffset(const float  t)   { _offset = t; };
     float   getOffset() const           { return _offset; };

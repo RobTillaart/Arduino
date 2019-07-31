@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Class for FRAM memory
 //     URL:
 //
@@ -15,7 +15,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define FRAM_LIB_VERSION (F("0.1.0"))
+#define FRAM_LIB_VERSION (F("0.1.1"))
 
 #define FRAM_OK               0
 #define FRAM_ERROR_ADDR       -10

@@ -1,13 +1,13 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Class for FRAM memory
 //     URL:
 //
 // HISTORY:
 // 0.1.0 initial version
-//
+// 0.1.1 added suppport for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
 
 #include "FRAM.h"
 

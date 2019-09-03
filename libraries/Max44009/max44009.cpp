@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.2.0
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.2.0  - 2019-08-23 solve #127 == redo #118
 // 0.1.10 - 2018-12-08 issue #118 Fix constructor esp8266
 //          (thanks to Bolukan)
 // 0.1.9  - 2018-07-01 issue #108 Fix shift math
@@ -24,10 +25,13 @@
 
 #include "Max44009.h"
 
-
+#if defined(ESP8266) || defined(ESP32)
 Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
 {
     _address = address;
+    _data = 0;
+    _error = 0;
+
     if ((dataPin < 255) && (clockPin < 255))
     {
         Wire.begin(dataPin, clockPin);
@@ -35,8 +39,17 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
         Wire.begin();
     }
     // TWBR = 12; // Wire.setClock(400000);
+}
+#endif
+
+Max44009::Max44009(const uint8_t address)
+{
+    _address = address;
     _data = 0;
     _error = 0;
+
+    Wire.begin();
+    // TWBR = 12; // Wire.setClock(400000);
 }
 
 float Max44009::getLux(void)
@@ -132,7 +145,7 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 void Max44009::setThreshold(const uint8_t reg, const float value)
 {
     // TODO CHECK RANGE
-    uint32_t m = round(value / 0.045);  // mulitply * 22.22222222 is faster.
+    uint32_t m = round(value * 22.2222222);     // was round(value / 0.045);  mulitply is faster.
     uint8_t e = 0;
     while (m > 255)
     {

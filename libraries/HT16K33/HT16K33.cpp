@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2019-02-07
 // PURPOSE: Class for HT16K33
 //
@@ -9,6 +9,7 @@
 // 0.1.0 - 2019-02-07 initial version
 // 0.1.1 - 2019-02-07 first stable version
 // 0.1.2 - 2019-02-11 optimized performance
+// 0.1.3 - 2019-10-07 fixed clear, added suppressLeadingZeroPlaces();
 //
 // Released to the public domain
 //
@@ -55,6 +56,11 @@ void HT16K33::begin(const uint8_t address)
   _addr = address;
   displayOn();
   displayClear();
+  suppressLeadingZeroPlaces(3);
+  for (uint8_t i = 0; i < 5; i++)
+  {
+    _displayCache[i] = 17;
+  }
 }
 
 void HT16K33::displayOn()
@@ -82,13 +88,17 @@ void HT16K33::brightness(uint8_t val)
   writeCmd(HT16K33_BRIGHTNESS | val);
 }
 
+void HT16K33::suppressLeadingZeroPlaces(uint8_t val)
+{
+  _leadingZeroPlaces = val > 4 ? 4 : val;
+}
 //////////////////////////////////////////
 //
 // display functions
 //
 void HT16K33::displayClear()
 {
-  uint8_t x[4] = {17, 17, 17, 17};
+  uint8_t x[4] = {16, 16, 16, 16};
   display(x);
   displayColon(false);
 }
@@ -181,6 +191,14 @@ void HT16K33::displayTest(uint8_t del)
 
 void HT16K33::display(uint8_t *arr)
 {
+  if (_leadingZeroPlaces)
+  {
+    for (uint8_t i = 0; i < _leadingZeroPlaces; i++)
+    {
+      if (arr[i] != 0) break;
+      arr[i] = 16;
+    }
+  }
   writePos(0, charmap[arr[0]]);
   writePos(1, charmap[arr[1]]);
   writePos(3, charmap[arr[2]]);

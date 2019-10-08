@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2019-02-07
 // PURPOSE: Class for HT16K33 7segment I2C display
 //          http://www.adafruit.com/products/1002
@@ -18,7 +18,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define HT16K33_LIB_VERSION "0.1.2"
+#define HT16K33_LIB_VERSION "0.1.3"
 
 class HT16K33
 {
@@ -30,6 +30,7 @@ public:
   void displayOff();
   void brightness(uint8_t val);             // 0 .. 15
   void blink(uint8_t val);                  // 0 .. 3     0 = off
+  void suppressLeadingZeroPlaces(uint8_t val);  // 0 = off, 1,2,3,4 digits  space iso 0
 
   void displayClear();
   void displayInt(int n);                   // 0000 .. 9999
@@ -50,6 +51,7 @@ private:
 
   uint8_t _addr;
   uint8_t _displayCache[5];                 // for performance
+  uint8_t _leadingZeroPlaces;
 };
 
 #endif

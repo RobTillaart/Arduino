@@ -1,12 +1,15 @@
 //
 //    FILE: 8x7segment_display.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.2
 // PURPOSE: demo 8x7segment display with 74HC595 controllers
 // LICENSE: MIT
 // HISTORY: based upon demo code @ Tinytronics
+// 0.5.1    added PROGMEM
+// 0.5.2    added showRaw(uint8_t ar[8]) showVUvertical() howEqualizer()
 //
 //     TODO: put all in a class?
+
 
 const int datapin = 5;  //DIO
 const int clockpin = 6; //SCK
@@ -22,35 +25,95 @@ const int latchpin = 7; //RCK
 */
 
 // Array with possible values(0 = segment ON, 1 = segment off)
-byte value[] = { B11000000, // 0
-                 B11111001, // 1
-                 B10100100, // 2
-                 B10110000, // 3
-                 B10011001, // 4
-                 B10010010, // 5
-                 B10000010, // 6
-                 B11111000, // 7
-                 B10000000, // 8
-                 B10010000, // 9
-                 B10001000, // A    TODO A..F
-                 B10000011, // b
-                 B11000110, // C
-                 B10100001, // d
-                 B10000110, // E
-                 B10001110, // F
-                 B11111111, // space = display nothing
-                 B10111111, // - sign
-               };
+const byte value[] PROGMEM = {
+  B11000000, // 0
+  B11111001, // 1
+  B10100100, // 2
+  B10110000, // 3
+  B10011001, // 4
+  B10010010, // 5
+  B10000010, // 6
+  B11111000, // 7
+  B10000000, // 8
+  B10010000, // 9
+  B10001000, // A    TODO A..F
+  B10000011, // b
+  B11000110, // C
+  B10100001, // d
+  B10000110, // E
+  B10001110, // F
+  B11111111, // 16  space = display nothing
+  B10111111, // 17  -    sign
+  B11001001, // 18  ||   sign  - VU(2) vertical (value 1 is |)
+  B11111101, // 19  |    sign  - VU(1) vertical stereo left
+  B11011101, // 20  ||   sign  - VU(2) vertical stereo left
+  B11111011, // 21  |    sign  - VU(1) vertical stereo right
+  B11101011, // 22  ||   sign  - VU(2) vertical stereo right
+  B11110111, // 23  |    sign  - equalizer(1) horizontal   equalizer(0) == space   idx=17;
+  B10110111, // 24  ||   sign  - equalizer(2) horizontal
+  B10110110, // 25  |||  sign  - equalizer(3) horizontal
+};
 
-byte digit[] = { B00010000, // left segment
-                 B00100000,
-                 B01000000,
-                 B10000000,
-                 B00000001,
-                 B00000010,
-                 B00000100,
-                 B00001000
-               }; // right segment
+const byte digit[] PROGMEM = {
+  B00010000, // left segment
+  B00100000,
+  B01000000,
+  B10000000,
+  B00000001,
+  B00000010,
+  B00000100,
+  B00001000
+}; // right segment
+
+////////////////////////////////////////////////////////////////////////
+
+void showVUvertical(uint8_t val)
+{
+  for (int i = 7; i > -1; i--)
+  {
+    if (val == 0) return;
+    if (val >= 2)
+    {
+      showDigit(i, 18, false);  // digit 8 also works very well...
+      val -= 2;
+      continue;
+    }
+    if (val == 1)
+    {
+      showDigit(i, 1, false);
+      return;
+    }
+  }
+}
+
+// TODO same values at once would be faster
+void showEqualizer(uint8_t ar[8])  // values 0..3
+{
+  for (int i = 0; i < 8; i++)
+  {
+    switch (ar[i])
+    {
+      case 3: showDigit(i, 25, false); break;
+      case 2: showDigit(i, 24, false); break;
+      case 1: showDigit(i, 23, false); break;
+      case 0: showDigit(i, 16, false); break;
+      default: break;
+    }
+  }
+}
+
+
+
+void showRaw(uint8_t ar[8])
+{
+  for (int i = 0; i < 8; i++)
+  {
+    digitalWrite(latchpin, LOW);
+    shiftOut(datapin, clockpin, MSBFIRST, ar[i]);
+    shiftOut(datapin, clockpin, MSBFIRST, pgm_read_byte_near(digit + i));
+    digitalWrite(latchpin, HIGH);
+  }
+}
 
 
 void showHex(uint32_t value)
@@ -73,7 +136,6 @@ void showHex(uint32_t value)
 void showFloat(float value)
 {
   float v = value;
-  uint32_t val = 1;
   int dpos = 0;
   int start = 0;
   bool neg = (v < 0);
@@ -126,7 +188,7 @@ void showLong(long value)
 }
 
 // clear does write a space to all segments in one step
-// 
+//
 void clear()
 {
   showDigit(0xFF, 16, false);
@@ -134,18 +196,18 @@ void clear()
 
 
 // displaying single digit
-// shiftOut could be replaced by faster implementation 
-// as the datapin and clockpin are allways same and
+// shiftOut could be replaced by faster implementation
+// as the datapin and clockpin are always same and
 // the order is always MSBFIRST
 // see also my FastShiftOut library
 void showDigit(int segmentnum, int number, bool showdecimalpoint)
 {
-  byte value_temp = value[number];
+  byte value_temp = pgm_read_byte_near(value + number);
   if (showdecimalpoint) value_temp &= B01111111;
 
   digitalWrite(latchpin, LOW);
   shiftOut(datapin, clockpin, MSBFIRST, value_temp);
-  shiftOut(datapin, clockpin, MSBFIRST, digit[segmentnum]);
+  shiftOut(datapin, clockpin, MSBFIRST, pgm_read_byte_near(digit + segmentnum));
   digitalWrite(latchpin, HIGH);
 }
 
@@ -171,58 +233,107 @@ void setup()
 
 void loop()
 {
+  //  for (float p = PI / 100000000; p < 100000000; p *= 10)
+  //  {
+  //    for (int j = 0; j < 200; j++)  // keep updating
+  //    {
+  //      showFloat(p);
+  //    }
+  //  }
+  //
+  //  clear();
+  //  delay(1000);
+  //
+  //  for (float p = PI / 100000000; p < 100000000; p *= 10)
+  //  {
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showFloat(-p);
+  //    }
+  //  }
+  //
+  //  clear();
+  //  delay(1000);
+  //
+  //  for (int i = 0; i < 10; i++)
+  //  {
+  //    long r = random(10000000);
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showLong(r);
+  //    }
+  //  }
+  //
+  //  clear();
+  //  delay(1000);
 
-  for (float p = PI / 100000000; p < 100000000; p *= 10)
+  //  for (int i = 0; i < 10; i++)
+  //  {
+  //    long r = -random(10000000);
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showLong(r);
+  //    }
+  //  }
+  //
+  //  clear();
+  //  delay(1000);
+
+  //  for (int i = 0; i < 10; i++)
+  //  {
+  //    uint32_t r = random(0x7FFFFFFF);
+  //    Serial.println(r);
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showHex(r);
+  //    }
+  //  }
+  //  clear();
+  //  delay(1000);
+
+  // "Alien display"
+  //  for (int i = 0; i < 10; i++)
+  //  {
+  //    uint8_t ar[8];
+  //    for (int j = 0; j < 8; j++) ar[j] = random(255);
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showRaw(ar);
+  //    }
+  //  }
+  //  clear();
+  //  delay(1000);
+
+  //  for (int i = 0; i < 255; i++)
+  //  {
+  //    uint8_t ar[8];
+  //    for (int j = 0; j < 8; j++) ar[j] = i;
+  //    for (int j = 0; j < 200; j++)
+  //    {
+  //      showRaw(ar);
+  //    }
+  //  }
+  //  clear();
+  //  delay(1000);
+
+  //  for (int i = 0; i < 1000; i++)
+  //  {
+  //    uint8_t value = 8 + 8 * sin(i / 100.0);
+  //    for (int j = 0; j < 20; j++)
+  //    {
+  //      showVUvertical(value);
+  //    }
+  //  }
+  //  clear();
+  //  delay(1000);
+
+  for (int i = 0; i < 1000; i++)
   {
-    for (int i = 0; i < 200; i++)  // keep updating 
+    uint8_t ar[8];
+    for (int j = 0; j < 8; j++) ar[j] = (i + j) % 4;
+    for (int j = 0; j < 80; j++)
     {
-      showFloat(p);
-    }
-  }
-
-  clear();
-  delay(1000);
-
-  for (float p = PI / 100000000; p < 100000000; p *= 10)
-  {
-    for (int i = 0; i < 200; i++)
-    {
-      showFloat(-p);
-    }
-  }
-
-  clear();
-  delay(1000);
-
-  for (int i = 0; i < 10; i++)
-  {
-    long r = random(10000000);
-    for (int i = 0; i < 400; i++)
-    {
-      showLong(r);
-    }
-  }
-
-  clear();
-  delay(1000);
-  for (int i = 0; i < 10; i++)
-  {
-    long r = -random(10000000);
-    for (int i = 0; i < 400; i++)
-    {
-      showLong(r);
-    }
-  }
-
-  clear();
-  delay(1000);
-
-  for (int i = 0; i < 10; i++)
-  {
-    uint32_t r = random(0xFFFFFFFF);
-    for (int i = 0; i < 400; i++)
-    {
-      showHex(r);
+      showEqualizer(ar);
     }
   }
   clear();

@@ -1,0 +1,24 @@
+{
+  "name": "MCP23017",
+  "keywords": "MCP23017,I2C,16 I/O",
+  "description": "Library for the MCP23017.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "version":"0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/MCP23017"
+  }
+}

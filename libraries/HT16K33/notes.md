@@ -17,7 +17,12 @@ Substantial part of this performance gain is due to an internal cache of the dig
 
 0.1.3
 suppressLeadingZeroPlaces(val); replaces leading zero with space.
-works only correctly for integers (for now).
+Works only correctly for integers (for now).
 
-If you have two (or multiple) displays to display a long integers
-you can suppress 4 zero's in the left one and 3 zero's in the right one.
+If you have two (or multiple) displays to display long integers
+you can suppress 4 zero's in the left display and 3 zero's in the right display.
+
+0.1.4
+displayRaw(ar[4]) added, to be able to display any pattern possible
+displayVULeft(val) and displayVURight(val) added, shows 0..8 vertical bars,
+uses displayRaw().

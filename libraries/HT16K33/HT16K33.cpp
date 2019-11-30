@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2019-02-07
 // PURPOSE: Class for HT16K33
 //
@@ -10,6 +10,7 @@
 // 0.1.1 - 2019-02-07 first stable version
 // 0.1.2 - 2019-02-11 optimized performance
 // 0.1.3 - 2019-10-07 fixed clear, added suppressLeadingZeroPlaces();
+// 0.1.4 - 2019-11-28 added displayRaw(), displayVULeft(), displayVURight()
 //
 // Released to the public domain
 //
@@ -27,6 +28,10 @@
 
 #define HT16K33_BRIGHTNESS      0xE0 // mask to be ored with 0x00 - 0x0F
 
+#define HT16K33_SPACE           16
+#define HT16K33_NONE            17
+
+// TODO PROGMEM ?
 static const uint8_t charmap[] = {
   0x3F, // 0
   0x06, // 1
@@ -47,6 +52,8 @@ static const uint8_t charmap[] = {
   0x00, // space
 };
 
+////////////////////////////////////////////////////
+
 HT16K33::HT16K33()
 {
 }
@@ -59,7 +66,7 @@ void HT16K33::begin(const uint8_t address)
   suppressLeadingZeroPlaces(3);
   for (uint8_t i = 0; i < 5; i++)
   {
-    _displayCache[i] = 17;
+    _displayCache[i] = HT16K33_NONE;
   }
 }
 
@@ -98,7 +105,7 @@ void HT16K33::suppressLeadingZeroPlaces(uint8_t val)
 //
 void HT16K33::displayClear()
 {
-  uint8_t x[4] = {16, 16, 16, 16};
+  uint8_t x[4] = {HT16K33_SPACE, HT16K33_SPACE, HT16K33_SPACE, HT16K33_SPACE};
   display(x);
   displayColon(false);
 }
@@ -189,6 +196,54 @@ void HT16K33::displayTest(uint8_t del)
   }
 }
 
+void HT16K33::displayRaw(uint8_t *arr)
+{
+  writePos(0, arr[0]);
+  writePos(1, arr[1]);
+  writePos(3, arr[2]);
+  writePos(4, arr[3]);
+}
+
+void HT16K33::displayVULeft(uint8_t val)
+{
+  uint8_t ar[4];
+  for (int idx = 3; idx >=0; idx--)
+  {
+    if (val >= 2)
+    {
+      ar[idx] = 0x36;   	//   ||
+      val -= 2;
+    }
+    else if (val == 1)
+    {
+      ar[idx] = 0x06;    	//   _|
+      val = 0;
+    }
+    else ar[idx] = 0x00; 	//   __
+  }
+  displayRaw(ar);
+}
+
+void HT16K33::displayVURight(uint8_t val)
+{
+  uint8_t ar[4];
+  for (uint8_t idx = 0; idx < 4; idx++)
+  {
+    if (val >= 2)
+    {
+      ar[idx] = 0x36;   	//   ||
+      val -= 2;
+    }
+    else if (val == 1)
+    {
+      ar[idx] = 0x30;    	//   |_
+      val = 0;
+    }
+    else ar[idx] = 0x00; 	//   __
+  }
+  displayRaw(ar);
+}
+
 void HT16K33::display(uint8_t *arr)
 {
   if (_leadingZeroPlaces)
@@ -196,7 +251,7 @@ void HT16K33::display(uint8_t *arr)
     for (uint8_t i = 0; i < _leadingZeroPlaces; i++)
     {
       if (arr[i] != 0) break;
-      arr[i] = 16;
+      arr[i] = HT16K33_SPACE;
     }
   }
   writePos(0, charmap[arr[0]]);

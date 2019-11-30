@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2019-02-07
 // PURPOSE: Class for HT16K33 7segment I2C display
 //          http://www.adafruit.com/products/1002
@@ -18,11 +18,11 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define HT16K33_LIB_VERSION "0.1.3"
+#define HT16K33_LIB_VERSION "0.1.4"
 
 class HT16K33
 {
-public:
+  public:
   HT16K33();
 
   void begin(const uint8_t address);        // 0x70 .. 0x77
@@ -42,8 +42,11 @@ public:
   void displayColon(uint8_t on);            // 0 = off
 
   void displayTest(uint8_t del);
+  void displayRaw(uint8_t *arr);			// control
+  void displayVULeft(uint8_t val);			// 0..8
+  void displayVURight(uint8_t val);			// 0..8
 
-private:
+  private:
 
   void writeCmd(uint8_t cmd);
   void writePos(uint8_t pos, uint8_t mask);

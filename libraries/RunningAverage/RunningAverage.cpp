@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.13
+// VERSION: 0.2.14
 //    DATE: 2015-July-10
 // PURPOSE: RunningAverage library for Arduino
 //
@@ -28,6 +28,7 @@
 // 0.2.12 - 2016-12-01 added GetStandardDeviation() GetStandardError() BufferIsFull()  (V0v1kkk)
 // 0.2.13 - 2017-07-26 revert double to float - issue #33;
 //                     refactored a bit; marked some TODO's; all function names to camelCase
+// 0.2.14 - 2020-01-15 added getValue(n) to retrieve elements in order of addition - see issue #132
 //
 // Released to the public domain
 //
@@ -177,11 +178,20 @@ float RunningAverage::getStandardError() const //++
 // number should preferably be between 1 and size
 void RunningAverage::fillValue(const float value, const uint8_t number)
 {
-  clear(); // TODO conditional?  if (clr) clear();
+  clear();
 
   for (uint8_t i = 0; i < number; i++)
   {
     addValue(value);
   }
+}
+
+float RunningAverage::getValue(const uint8_t idx)
+{
+  if (_cnt == 0) return NAN;
+  if (idx >= _cnt) return NAN;  // cannot ask more than is added
+  uint8_t pos = idx + _idx;
+  if (pos >= _cnt) pos -= _cnt;
+  return _ar[pos];
 }
 // END OF FILE

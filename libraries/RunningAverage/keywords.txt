@@ -27,6 +27,7 @@ getStandardDeviation	KEYWORD2
 getStandardError	KEYWORD2
 getMinInBuffer	KEYWORD2
 getMaxInBuffer	KEYWORD2
+getValue	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

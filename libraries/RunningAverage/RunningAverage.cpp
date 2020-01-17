@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.14
+// VERSION: 0.2.15
 //    DATE: 2015-July-10
 // PURPOSE: RunningAverage library for Arduino
 //
@@ -29,6 +29,7 @@
 // 0.2.13 - 2017-07-26 revert double to float - issue #33;
 //                     refactored a bit; marked some TODO's; all function names to camelCase
 // 0.2.14 - 2020-01-15 added getValue(n) to retrieve elements in order of addition - see issue #132
+// 0.2.15 - 2020-01-17 fix overflow in getValue - see issue #139
 //
 // Released to the public domain
 //
@@ -190,7 +191,7 @@ float RunningAverage::getValue(const uint8_t idx)
 {
   if (_cnt == 0) return NAN;
   if (idx >= _cnt) return NAN;  // cannot ask more than is added
-  uint8_t pos = idx + _idx;
+  uint16_t pos = idx + _idx;
   if (pos >= _cnt) pos -= _cnt;
   return _ar[pos];
 }

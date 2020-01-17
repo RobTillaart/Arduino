@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.14
+// VERSION: 0.2.15
 //    DATE: 2016-dec-01
 // PURPOSE: RunningAverage library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/RunningAverage
@@ -17,7 +17,7 @@
 #ifndef RunningAverage_h
 #define RunningAverage_h
 
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.14"
+#define RUNNINGAVERAGE_LIB_VERSION "0.2.15"
 
 #include "Arduino.h"
 

@@ -18,7 +18,9 @@
 #include "WProgram.h"
 #endif
 
-#define MAX44009_LIB_VERSION "0.2.0"
+#define MAX44009_LIB_VERSION     "0.3.0"
+#define MAX44009_DEFAULT_ADDRESS 0x4A
+#define MAX44009_ALT_ADDRESS     0x4B
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00
@@ -40,13 +42,20 @@
 class Max44009
 {
 public:
+    // enum class to prevent bool to be implicitly casted to int
+    enum class Boolean { True, False };
 
 #if defined(ESP8266) || defined(ESP32)
     // dataPin and clockPin can be used for ESP8266
     Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin);
 #endif
+
     // ctor for UNO
-    Max44009(const uint8_t address);
+    Max44009(const uint8_t address, const Boolean begin = Boolean::True);
+    // default ctor with default address 0xCB
+    Max44009(const Boolean begin = Boolean::True);
+    // Change I2C interface and address
+    void configure(const uint8_t address, TwoWire *wire);
 
     float   getLux();
     int     getError();
@@ -91,6 +100,8 @@ private:
     uint8_t _address;
     uint8_t _data;
     int     _error;
+
+    TwoWire* _wire;
 };
 #endif
 

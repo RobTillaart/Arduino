@@ -31,25 +31,46 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
     _address = address;
     _data = 0;
     _error = 0;
+    _wire = &Wire;
 
     if ((dataPin < 255) && (clockPin < 255))
     {
-        Wire.begin(dataPin, clockPin);
+        _wire->begin(dataPin, clockPin);
     } else {
-        Wire.begin();
+        _wire->begin();
     }
-    // TWBR = 12; // Wire.setClock(400000);
+    // TWBR = 12; // _wire->setClock(400000);
 }
 #endif
 
-Max44009::Max44009(const uint8_t address)
+Max44009::Max44009(const uint8_t address, Boolean begin)
 {
     _address = address;
     _data = 0;
     _error = 0;
+    _wire = &Wire;
 
-    Wire.begin();
-    // TWBR = 12; // Wire.setClock(400000);
+    if(begin == Boolean::True) {
+      _wire->begin();
+    }
+    // TWBR = 12; // _wire->setClock(400000);
+}
+
+Max44009::Max44009(const Boolean begin)
+{
+    _address = MAX44009_DEFAULT_ADDRESS;
+    _data = 0;
+    _error = 0;
+    _wire = &Wire;
+
+    if(begin == Boolean::True) {
+      _wire->begin();
+    }
+}
+
+void Max44009::configure(const uint8_t address, TwoWire *wire) {
+    _address = address;
+    _wire = wire;
 }
 
 float Max44009::getLux(void)
@@ -169,32 +190,32 @@ float Max44009::getThreshold(uint8_t reg)
 
 uint8_t Max44009::read(uint8_t reg)
 {
-    Wire.beginTransmission(_address);
-    Wire.write(reg);
-    _error = Wire.endTransmission();
+    _wire->beginTransmission(_address);
+    _wire->write(reg);
+    _error = _wire->endTransmission();
     if (_error != 0)
     {
         return _data; // last value
     }
-    if (Wire.requestFrom(_address, (uint8_t) 1) != 1)
+    if (_wire->requestFrom(_address, (uint8_t) 1) != 1)
     {
         _error = 10;
         return _data; // last value
     }
 #if (ARDUINO <  100)
-    _data = Wire.receive();
+    _data = _wire->receive();
 #else
-    _data = Wire.read();
+    _data = _wire->read();
 #endif
     return _data;
 }
 
 void Max44009::write(uint8_t reg, uint8_t value)
 {
-    Wire.beginTransmission(_address);
-    Wire.write(reg);
-    Wire.write(value);
-    _error = Wire.endTransmission();
+    _wire->beginTransmission(_address);
+    _wire->write(reg);
+    _wire->write(value);
+    _error = _wire->endTransmission();
 }
 
 // --- END OF FILE ---

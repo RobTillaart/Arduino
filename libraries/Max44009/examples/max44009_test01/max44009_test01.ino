@@ -11,7 +11,7 @@
 #include "Wire.h"
 #include "Max44009.h"
 
-Max44009 myLux(0xCB);         // default addr
+Max44009 myLux(MAX44009_DEFAULT_ADDRESS);
 
 uint32_t lastDisplay = 0;
 

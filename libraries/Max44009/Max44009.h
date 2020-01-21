@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.0
+// VERSION: 0.3.1
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -18,9 +18,9 @@
 #include "WProgram.h"
 #endif
 
-#define MAX44009_LIB_VERSION     "0.3.0"
-#define MAX44009_DEFAULT_ADDRESS 0x4A
-#define MAX44009_ALT_ADDRESS     0x4B
+#define MAX44009_LIB_VERSION        "0.3.1"
+#define MAX44009_DEFAULT_ADDRESS    0x4A
+#define MAX44009_ALT_ADDRESS        0x4B
 
 // REGISTERS
 #define MAX44009_INTERRUPT_STATUS   0x00
@@ -37,6 +37,11 @@
 #define MAX44009_CFG_MANUAL         0x40
 #define MAX44009_CFG_CDR            0x08
 #define MAX44009_CFG_TIMER          0x07
+
+// ERROR CODES
+#define MAX44009_OK		                 0
+#define MAX44009_ERROR_WIRE_REQUEST    -10
+#define MAX44009_ERROR_OVERFLOW        -20
 
 
 class Max44009
@@ -84,10 +89,10 @@ public:
     // 001  400ms
     // 010  200ms
     // 011  100ms
-    // 100   50ms
-    // 101   25ms
-    // 110   12.5ms
-    // 111    6.25ms
+    // 100   50ms       manual only
+    // 101   25ms       manual only
+    // 110   12.5ms     manual only
+    // 111    6.25ms    manual only
     void    setManualMode(uint8_t CDR, uint8_t TIM);
 
 private:

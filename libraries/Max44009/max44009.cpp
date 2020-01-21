@@ -1,12 +1,14 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.1
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.3.1  - 2020-01-21 issue #133 overflow of the exponent
+// 0.3.0  - 2020-01-20 issue #141 Kudos to Moritz89
 // 0.2.0  - 2019-08-23 solve #127 == redo #118
 // 0.1.10 - 2018-12-08 issue #118 Fix constructor esp8266
 //          (thanks to Bolukan)
@@ -30,7 +32,7 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
 {
     _address = address;
     _data = 0;
-    _error = 0;
+    _error = MAX44009_OK;
     _wire = &Wire;
 
     if ((dataPin < 255) && (clockPin < 255))
@@ -39,7 +41,6 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
     } else {
         _wire->begin();
     }
-    // TWBR = 12; // _wire->setClock(400000);
 }
 #endif
 
@@ -47,28 +48,30 @@ Max44009::Max44009(const uint8_t address, Boolean begin)
 {
     _address = address;
     _data = 0;
-    _error = 0;
+    _error = MAX44009_OK;
     _wire = &Wire;
 
-    if(begin == Boolean::True) {
+    if (begin == Boolean::True)
+    {
       _wire->begin();
     }
-    // TWBR = 12; // _wire->setClock(400000);
 }
 
 Max44009::Max44009(const Boolean begin)
 {
     _address = MAX44009_DEFAULT_ADDRESS;
     _data = 0;
-    _error = 0;
+    _error = MAX44009_OK;
     _wire = &Wire;
 
-    if(begin == Boolean::True) {
+    if (begin == Boolean::True)
+    {
       _wire->begin();
     }
 }
 
-void Max44009::configure(const uint8_t address, TwoWire *wire) {
+void Max44009::configure(const uint8_t address, TwoWire *wire)
+{
     _address = address;
     _wire = wire;
 }
@@ -78,6 +81,11 @@ float Max44009::getLux(void)
     uint8_t dhi = read(MAX44009_LUX_READING_HIGH);
     uint8_t dlo = read(MAX44009_LUX_READING_LOW);
     uint8_t e = dhi >> 4;
+    if (e == 0x0F)
+    {
+        _error = MAX44009_ERROR_OVERFLOW;
+        return -1;
+    }
     uint32_t m = ((dhi & 0x0F) << 4) + (dlo & 0x0F);
     m <<= e;
     float val = m * 0.045;
@@ -87,7 +95,7 @@ float Max44009::getLux(void)
 int Max44009::getError()
 {
     int e = _error;
-    _error = 0;
+    _error = MAX44009_OK;
     return e;
 }
 
@@ -154,7 +162,7 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
     uint8_t config = read(MAX44009_CONFIGURATION);
     config &= ~MAX44009_CFG_CONTINUOUS; // off
     config |= MAX44009_CFG_MANUAL;      // on
-    config &= 0xF0; // clear CDR & TIM bits
+    config &= 0xF0;                     // clear CDR & TIM bits
     config |= CDR << 3 | TIM;
     write(MAX44009_CONFIGURATION, config);
 }
@@ -193,13 +201,13 @@ uint8_t Max44009::read(uint8_t reg)
     _wire->beginTransmission(_address);
     _wire->write(reg);
     _error = _wire->endTransmission();
-    if (_error != 0)
+    if (_error != MAX44009_OK)
     {
         return _data; // last value
     }
     if (_wire->requestFrom(_address, (uint8_t) 1) != 1)
     {
-        _error = 10;
+        _error = MAX44009_ERROR_WIRE_REQUEST;
         return _data; // last value
     }
 #if (ARDUINO <  100)

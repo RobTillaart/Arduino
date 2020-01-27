@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.3.3  - 2020-01-27 issue #140 refactor constructors / configure
 // 0.3.2  - 2020-01-21 solve #132 cannot read full range in manual mode.
 //                     set automatic mode explicitly in constructors;
 //                     added some error checks
@@ -48,38 +49,29 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
 }
 #endif
 
-Max44009::Max44009(const uint8_t address, Boolean begin)
+Max44009::Max44009(const uint8_t address, const Boolean begin)
 {
-    _address = address;
-    _data = 0;
-    _error = MAX44009_OK;
-    _wire = &Wire;
-
-    if (begin == Boolean::True)
-    {
-        _wire->begin();
-        setAutomaticMode();
-    }
+	Max44009::configure(address, &Wire, begin);
 }
 
 Max44009::Max44009(const Boolean begin)
 {
-    _address = MAX44009_DEFAULT_ADDRESS;
+	Max44009::configure(MAX44009_DEFAULT_ADDRESS, &Wire, begin);
+}
+
+
+void Max44009::configure(const uint8_t address, TwoWire *wire, const Boolean begin)
+{
+    _address = address;
     _data = 0;
     _error = MAX44009_OK;
-    _wire = &Wire;
+    _wire = wire;
 
     if (begin == Boolean::True)
     {
       _wire->begin();
       setAutomaticMode();
     }
-}
-
-void Max44009::configure(const uint8_t address, TwoWire *wire)
-{
-    _address = address;
-    _wire = wire;
 }
 
 float Max44009::getLux(void)

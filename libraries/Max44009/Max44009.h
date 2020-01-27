@@ -3,7 +3,7 @@
 //
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.3.1
+// VERSION: 0.3.3
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 //
@@ -18,7 +18,7 @@
 #include "WProgram.h"
 #endif
 
-#define MAX44009_LIB_VERSION        "0.3.1"
+#define MAX44009_LIB_VERSION        "0.3.3"
 #define MAX44009_DEFAULT_ADDRESS    0x4A
 #define MAX44009_ALT_ADDRESS        0x4B
 
@@ -59,10 +59,10 @@ public:
 
     // ctor for UNO
     Max44009(const uint8_t address, const Boolean begin = Boolean::True);
-    // default ctor with default address 0xCB
+    // default ctor with default address
     Max44009(const Boolean begin = Boolean::True);
     // Change I2C interface and address
-    void configure(const uint8_t address, TwoWire *wire);
+    void configure(const uint8_t address, TwoWire *wire, const Boolean begin = Boolean::True);
 
     float   getLux();
     int     getError();

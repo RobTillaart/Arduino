@@ -1,12 +1,15 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
 //
 // Released to the public domain
 //
+// 0.3.2  - 2020-01-21 solve #132 cannot read full range in manual mode.
+//                     set automatic mode explicitly in constructors;
+//                     added some error checks
 // 0.3.1  - 2020-01-21 issue #133 overflow of the exponent
 // 0.3.0  - 2020-01-20 issue #141 Kudos to Moritz89
 // 0.2.0  - 2019-08-23 solve #127 == redo #118
@@ -41,6 +44,7 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
     } else {
         _wire->begin();
     }
+    setAutomaticMode();
 }
 #endif
 
@@ -53,7 +57,8 @@ Max44009::Max44009(const uint8_t address, Boolean begin)
 
     if (begin == Boolean::True)
     {
-      _wire->begin();
+        _wire->begin();
+        setAutomaticMode();
     }
 }
 
@@ -67,6 +72,7 @@ Max44009::Max44009(const Boolean begin)
     if (begin == Boolean::True)
     {
       _wire->begin();
+      setAutomaticMode();
     }
 }
 
@@ -79,12 +85,22 @@ void Max44009::configure(const uint8_t address, TwoWire *wire)
 float Max44009::getLux(void)
 {
     uint8_t dhi = read(MAX44009_LUX_READING_HIGH);
+    if (_error != MAX44009_OK)
+    {
+        _error = MAX44009_ERROR_HIGH_BYTE;
+        return _error;
+    }
     uint8_t dlo = read(MAX44009_LUX_READING_LOW);
+    if (_error != MAX44009_OK)
+    {
+        _error = MAX44009_ERROR_LOW_BYTE;
+        return _error;
+    }
     uint8_t e = dhi >> 4;
     if (e == 0x0F)
     {
         _error = MAX44009_ERROR_OVERFLOW;
-        return -1;
+        return _error;
     }
     uint32_t m = ((dhi & 0x0F) << 4) + (dlo & 0x0F);
     m <<= e;
@@ -141,6 +157,7 @@ uint8_t Max44009::getConfiguration()
 
 void Max44009::setAutomaticMode()
 {
+    // CDR & TIM cannot be written in automatic mode
     uint8_t config = read(MAX44009_CONFIGURATION);
     config &= ~MAX44009_CFG_CONTINUOUS; // off
     config &= ~MAX44009_CFG_MANUAL;     // off
@@ -162,8 +179,8 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
     uint8_t config = read(MAX44009_CONFIGURATION);
     config &= ~MAX44009_CFG_CONTINUOUS; // off
     config |= MAX44009_CFG_MANUAL;      // on
-    config &= 0xF0;                     // clear CDR & TIM bits
-    config |= CDR << 3 | TIM;
+    config &= 0xF0;                     // clear old CDR & TIM bits
+    config |= CDR << 3 | TIM;           // set new CDR & TIM bits
     write(MAX44009_CONFIGURATION, config);
 }
 
@@ -174,7 +191,7 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 void Max44009::setThreshold(const uint8_t reg, const float value)
 {
     // TODO CHECK RANGE
-    uint32_t m = round(value * 22.2222222);     // was round(value / 0.045);  mulitply is faster.
+    uint32_t m = round(value * 22.2222222);     // was round(value / 0.045);  multiply is faster.
     uint8_t e = 0;
     while (m > 255)
     {

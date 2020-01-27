@@ -1,13 +1,12 @@
 
-MAX44009 I2C LUX sensor
-====
+# MAX44009 I2C LUX sensor
 
-About examples
-----
-__Max44009\examples\max44009_test01__
+## Examples
+
+**Max44009\examples\max44009_test01**
 - use for e.g. UNO
 
-__Max44009\examples\max44009_test02__
+**Max44009\examples\max44009_test02**
 - will not compile for UNO
 - use for e.g. ESP32
 

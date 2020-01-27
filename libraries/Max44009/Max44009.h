@@ -42,6 +42,8 @@
 #define MAX44009_OK		                 0
 #define MAX44009_ERROR_WIRE_REQUEST    -10
 #define MAX44009_ERROR_OVERFLOW        -20
+#define MAX44009_ERROR_HIGH_BYTE       -30
+#define MAX44009_ERROR_LOW_BYTE        -31
 
 
 class Max44009

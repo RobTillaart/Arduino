@@ -26,6 +26,13 @@ setAutomaticMode	KEYWORD2
 setContinuousMode	KEYWORD2
 setManualMode	KEYWORD2
 
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+interruptEnabled	KEYWORD2
+getInterruptStatus	KEYWORD2
+clrContinuousMode	KEYWORD2
+getIntegrationTime	KEYWORD2
+
 #######################################
 # Instances (KEYWORD2)
 #######################################

@@ -11,9 +11,10 @@
 #include "Wire.h"
 #include "Max44009.h"
 
-Max44009 myLux(0xCB);         // default addr
+Max44009 myLux(0x4A);
 
 uint32_t lastDisplay = 0;
+
 
 void setup()
 {
@@ -22,14 +23,17 @@ void setup()
   Serial.println(MAX44009_LIB_VERSION);
 
   Wire.begin();
-
+  Wire.setClock(100000);
 }
+
 
 void loop()
 {
-  if (millis() - lastDisplay >= 1000)
+  uint32_t interval = 1000;
+
+  if (millis() - lastDisplay >= interval)
   {
-    lastDisplay += 1000;
+    lastDisplay += interval;
     float lux = myLux.getLux();
     int err = myLux.getError();
     if (err != 0)
@@ -43,7 +47,6 @@ void loop()
       Serial.println(lux);
     }
   }
-
 }
 
 // END OF FILE

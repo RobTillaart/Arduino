@@ -1,13 +1,14 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2017-07-25
 //
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //
 // HISTORY:
-// 0.1.0 = 2017-07-25 initial version
+// 0.1.0	2017-07-25 initial version
+// 0.1.1 	2020-02-18 added getAddress()
 
 #include "Arduino.h"
 #include "DS18B20.h"
@@ -38,13 +39,16 @@
 DS18B20::DS18B20(OneWire* _oneWire)
 {
   _wire = _oneWire;
+  configured = false;
 }
 
 bool DS18B20::begin(void)
 {
   _wire->reset_search();
   _wire->search(deviceAddress);
-  return (_wire->crc8(deviceAddress, 7) == deviceAddress[7]);
+  configured = _wire->crc8(deviceAddress, 7) == deviceAddress[7]
+	&& deviceAddress[0] != 0x00;
+  return configured;
 }
 
 void DS18B20::readScratchPad(uint8_t *scratchPad, uint8_t fields)
@@ -109,6 +113,18 @@ void DS18B20::setResolution(uint8_t newResolution)
     break;
   }
   _wire->reset();
+}
+
+bool DS18B20::getAddress(uint8_t* buf)
+{
+  if (configured)
+  {
+	  for (uint8_t i = 0; i< 8; i++)
+	  {
+		 buf[i] = deviceAddress[i];
+	  }
+  }
+  return configured;
 }
 
 //  END OF FILE

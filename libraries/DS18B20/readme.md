@@ -20,6 +20,10 @@ the asynchronous reading of the temperature by means of three core functions:
 * isConversionComplete()
 * readTempC()
 
+Version 0.1.1 added getAddress() as this info is available as private data.
+* getAddress(uint8_t*)
+
+
 This allowed the class to be both minimal in size and non-blocking. In fact the class
 has no support for a synchronous read in one call. This choice will teach people
 how to work in a non-blocking way from the start.

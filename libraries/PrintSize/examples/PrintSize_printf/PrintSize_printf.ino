@@ -1,17 +1,20 @@
 //
-//    FILE: PrintSize1.ino
+//    FILE: PrintSize_printf.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
-// PURPOSE: demo printSize
+// PURPOSE: demo printSize printf
+//
+//    NOTE:
+// - UNO does not support printf, - ESP32 does
 //
 // HISTORY:
-// 0.1.0   2017-12-09 initial version
-// 0.1.1   2020-02-19 refactored, simpler printSpaces()
+// 0.1.0   2020-02-16 initial version
 //
 
 #include "PrintSize.h"
 
 PrintSize ps;
+
 
 void setup()
 {
@@ -23,6 +26,7 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
   uint32_t sum = 0;
@@ -30,21 +34,21 @@ void loop()
   for (int i = 0; i < 10; i++)
   {
     uint32_t rn = random(100000000);
-    int length = ps.println(rn);
+    int length = ps.printf("%u\n", rn);
     printSpaces(15 - length);
     sum += rn;
-    Serial.println(rn);
+    Serial.printf("%u\n", rn);
   }
 
   Serial.print("================ +\n");
-  int length = ps.println(sum);
+  int length = ps.printf("%u\n", sum);
   printSpaces(15 - length);
-  Serial.println(sum);
-  Serial.println();
+  Serial.printf("%u\n\n", sum);
+  delay(1000);
 }
+
 
 void printSpaces(uint8_t n)
 {
   while (n--) Serial.print(' ');
 }
-

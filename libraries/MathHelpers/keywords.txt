@@ -17,6 +17,8 @@ weeks	KEYWORD2
 days	KEYWORD2
 hours	KEYWORD2
 minutes	KEYWORD2
+hex	KEYWORD2
+bin	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

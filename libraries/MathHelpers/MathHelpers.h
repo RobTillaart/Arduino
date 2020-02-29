@@ -2,6 +2,7 @@
 //    FILE: MathHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
+// VERSION: 0.1.1
 //
 //
 // PUPROSE: misc functions for math and time
@@ -9,13 +10,13 @@
 #ifndef MATHHELPERS
 #define MATHHELPERS
 
-#define MATHHELPERS_VERSION (F("0.1.0"))
+#define MATHHELPERS_VERSION (F("0.1.1"))
 
 // global buffer used by all functions
 // so we do not need a static buffer in every function
 // not usable in multi-threading environments
 // results need to be printed/copied asap
-char __mathHelperBuffer[16];
+char __mathHelperBuffer[17];
 
 
 //////////////////////////////////////////////////
@@ -202,6 +203,44 @@ float minutes(uint32_t seconds)
 {
   return seconds * 1.666666666667e-2;  //  /60
 }
+
+//////////////////////////////////////////////////
+//
+// HEX BIN HELPERS
+//
+// notes:
+// - d should not exceed 16 otherwise __mathHelperBuffer overflows...
+// - no 64 bit support
+
+char * hex(uint32_t value, uint8_t d = 8)
+{
+	if (d > 16) d = 16;
+	__mathHelperBuffer[d] = '\0';
+	while (d > 0)
+	{
+		uint8_t v = value & 0x0F;
+		value >>= 4;
+		__mathHelperBuffer[--d] = (v < 10) ? '0' + v : 'A' - 10 + v;
+	}
+	return __mathHelperBuffer;
+}
+
+
+char * bin(uint32_t value, uint8_t d = 8)
+{
+    if (d > 16) d = 16;
+	__mathHelperBuffer[d] = '\0';
+	while (d > 0)
+	{
+		uint8_t v = value & 0x01;
+		value >>= 1;
+		__mathHelperBuffer[--d] = '0' + v;
+	}
+	return __mathHelperBuffer;
+}
+
+  
+
 
 #endif  // MATHHELPERS
 

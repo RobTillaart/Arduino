@@ -1,0 +1,24 @@
+{
+  "name": "ACS712",
+  "keywords": "ACS712, Current, 5A, 20A, 30A",
+  "description": "ACS712 library for Arduino. ",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Arduino.git"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "export": {
+    "include": "libraries/ACS712"
+  }
+}

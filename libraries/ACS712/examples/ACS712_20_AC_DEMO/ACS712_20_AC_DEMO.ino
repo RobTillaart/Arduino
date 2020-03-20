@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712_20_AC_DEMO.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo to set midpoint and mVperAmpere for class.
 //    DATE: 2020-03-18
 //    (c) : MIT
@@ -24,21 +24,21 @@ void setup()
 
 void loop()
 {
-  int mA = ACS.mA_DC();
+  int mA = ACS.mA_AC();
   Serial.println(mA);
 
   if (Serial.available() > 0)
   {
     char c = Serial.read();
 
-    if (c == '*') ACS.setmVperAmp(ACS.getmVperAmp() * 1.05);
-    if (c == '/') ACS.setmVperAmp(ACS.getmVperAmp() / 1.05);
+    if (c == '*') ACS.setmVperAmp(ACS.getmVperAmp() + 1);
+    if (c == '/') ACS.setmVperAmp(ACS.getmVperAmp() - 1);
     Serial.print("mVperAmp:\t");
     Serial.println(ACS.getmVperAmp());
 
     if (c == '+') ACS.setFormFactor(ACS.getFormFactor() * 1.05);
     if (c == '-') ACS.setFormFactor(ACS.getFormFactor() / 1.05);
-    Serial.print("mVperAmp:\t");
+    Serial.print("formFactor:\t");
     Serial.println(ACS.getFormFactor());
   }
   delay(1000);

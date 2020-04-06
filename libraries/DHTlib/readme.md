@@ -20,7 +20,7 @@ The library (0.1.13 version) is confirmed to work on:
 
 Later 0.1.xx versions are optimized for AVR.
 
-More information - http://playground.arduino.cc//Main/DHTLib -
+More information - http://playground.arduino.cc/Main/DHTLib -
 
 ## Operational
 

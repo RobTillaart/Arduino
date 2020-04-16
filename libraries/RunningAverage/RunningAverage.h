@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.15
+// VERSION: 0.2.16
 //    DATE: 2016-dec-01
 // PURPOSE: RunningAverage library for Arduino
 //     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/RunningAverage
@@ -17,7 +17,7 @@
 #ifndef RunningAverage_h
 #define RunningAverage_h
 
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.15"
+#define RUNNINGAVERAGE_LIB_VERSION "0.2.16"
 
 #include "Arduino.h"
 
@@ -33,7 +33,7 @@ public:
   void    fillValue(const float, const uint8_t);
   float   getValue(const uint8_t);
 
-  float   getAverage() const;      // iterates over all elements.
+  float   getAverage();      // iterates over all elements.
   float   getFastAverage() const;  // reuses previous values.
 
   // return statistical characteristics of the running average

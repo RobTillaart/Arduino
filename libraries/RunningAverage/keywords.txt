@@ -1,17 +1,9 @@
-#######################################
 # Syntax Coloring Map For RunningAverage
-#######################################
 
-#######################################
 # Datatypes (KEYWORD1)
-#######################################
-
 RunningAverage	KEYWORD1
 
-#######################################
 # Methods and Functions (KEYWORD2)
-#######################################
-
 clear	KEYWORD2
 addValue	KEYWORD2
 getAverage	KEYWORD2
@@ -29,13 +21,7 @@ getMinInBuffer	KEYWORD2
 getMaxInBuffer	KEYWORD2
 getValue	KEYWORD2
 
-#######################################
 # Instances (KEYWORD2)
-#######################################
 
-
-#######################################
 # Constants (LITERAL1)
-#######################################
-
 RUNNINGAVERAGE_LIB_VERSION	LITERAL1

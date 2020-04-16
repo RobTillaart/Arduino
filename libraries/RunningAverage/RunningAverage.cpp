@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.15
+// VERSION: 0.2.16
 //    DATE: 2015-July-10
 // PURPOSE: RunningAverage library for Arduino
 //
@@ -30,6 +30,7 @@
 //                     refactored a bit; marked some TODO's; all function names to camelCase
 // 0.2.14 - 2020-01-15 added getValue(n) to retrieve elements in order of addition - see issue #132
 // 0.2.15 - 2020-01-17 fix overflow in getValue - see issue #139
+// 0.2.16   2020-04-16 improve _sum - see issue #149 (bourkemcrobbo)
 //
 // Released to the public domain
 //
@@ -89,16 +90,16 @@ void RunningAverage::addValue(const float value)
 }
 
 // returns the average of the data-set added sofar
-float RunningAverage::getAverage() const
+float RunningAverage::getAverage()
 {
   if (_cnt == 0) return NAN;
 
-  float sum = 0;
+  _sum = 0;
   for (uint8_t i = 0; i < _cnt; i++)
   {
-    sum += _ar[i];
+    _sum += _ar[i];
   }
-  return sum / _cnt;
+  return _sum / _cnt;
 }
 
 float RunningAverage::getFastAverage() const

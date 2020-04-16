@@ -3,6 +3,9 @@
 
 a.k.a. GY-49
 
+
+Latest version https://github.com/RobTillaart/MAX44009
+
 ## Examples
 
 **Max44009\examples\max44009_test01**

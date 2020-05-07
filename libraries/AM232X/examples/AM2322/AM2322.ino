@@ -1,13 +1,12 @@
 //
 //    FILE: AM2322.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo sketch for AM2322 I2C humidity & temperature sensor
 //
 // HISTORY:
-// 0.1.0 - 2017-12-11 initial version
-//
-// Released to the public domain
+// 0.1.0   2017-12-11 initial version
+// 0.1.1   2020-05-03 updated to 0.2.0 version of lib.
 //
 
 #include <AM232X.h>
@@ -43,13 +42,11 @@ void loop()
     break;
   }
   // DISPLAY DATA, sensor only returns one decimal.
-  Serial.print(AM2322.humidity, 1);
+  Serial.print(AM2322.getHumidity(), 1);
   Serial.print(",\t");
-  Serial.println(AM2322.temperature, 1);
+  Serial.println(AM2322.getTemperature(), 1);
 
   delay(2000);
 }
 
-//
-// END OF FILE
-//
+// -- END OF FILE --

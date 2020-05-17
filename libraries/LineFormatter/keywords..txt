@@ -1,0 +1,25 @@
+# Syntax Coloring Map For LineFormatter
+
+# Datatypes (KEYWORD1)
+LineFormatter	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+write	KEYWORD2
+setMaxLength	KEYWORD2
+gotoPos	KEYWORD2
+getPos	KEYWORD2
+repeat	KEYWORD2
+resetLineCount	KEYWORD2
+getLineCount	KEYWORD2
+setAutoNewLine	KEYWORD2
+addTab	KEYWORD2
+addRelTab	KEYWORD2
+clearTabs	KEYWORD2
+getTabCount	KEYWORD2
+tab	KEYWORD2
+printRuler	KEYWORD2
+
+
+# Constants (LITERAL1)
+

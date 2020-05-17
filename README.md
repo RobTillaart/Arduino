@@ -5,11 +5,17 @@ This repository contains several Arduino libraries I have written to be used in 
 Most of them include example code how the libraries can be used. 
 Furthermore this repository contains a few stand alone applications.
 
+**NOTE** these libraries will all get their own repo, so this repository
+does not have the latest version of all libs anymore. That said I will update
+this bulk repo on request or if time permit.
+
 ### Questions
 For questions about the usage of the libraries, please post a question on the Arduino 
 forum at http://forum.arduino.cc/
 
 ### Bugs and issues
+**Please check if the library has its own repo first and fill an issue there**
+
 For bugs in the libraries, please fill in an issue in Github as that makes it 
 far easier to track them. If possible provide a minimal code snippet that exposes 
 the bug. Also proposals for solutions are welcome.

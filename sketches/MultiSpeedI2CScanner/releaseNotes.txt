@@ -1,5 +1,17 @@
 
 ==============================
+  2018-04-02  version 0.1.10
+==============================
+
+Fix #152
++ improved support for ESP32
++ changed multispeed ranges a bit (option 0 and 9)
++ refactor
++ added experimental high speeds 1000, 3400, 5000 KHz.
+
+verified on UNO and ESP32, note the latter one must adjust the pins in the code.
+
+==============================
   2018-04-02  version 0.1.9
 ==============================
 + '9' command to scan up to 400 KHz only to prevent blocking

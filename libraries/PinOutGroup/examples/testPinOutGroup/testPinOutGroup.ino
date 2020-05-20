@@ -1,20 +1,18 @@
 //    FILE: testPinOutGroup.ino
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo PinOutGroup library for Arduino
-// HISTORY:
-//
-// Released to the public domain
 //
 
 #include "PinOutGroup.h"
 
-int ar[4] = {2, 3, 4, 13};
+uint8_t ar[4] = {2, 3, 4, 13};
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("PINOUTGROUP_LIB_VERSION: ");
+  Serial.println(__FILE__);
+  Serial.print(F("PINOUTGROUP_LIB_VERSION: "));
   Serial.println(PINOUTGROUP_LIB_VERSION);
 
   test0();
@@ -27,16 +25,18 @@ void setup()
   test7();
   test8();
 
-  Serial.println("done...");
+  Serial.println(F("done..."));
 }
 
 void loop()
 {
 }
 
-// TEST1 verifies and times basic working
 void test0()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Time reference functionality.\n"));
+
   int i = 3;
   // CHANGE 1 PINS
   pinMode(2, OUTPUT);
@@ -47,14 +47,17 @@ void test0()
   digitalWrite(2, i++ % 2);
   uint32_t t2 = micros();
 
+  Serial.print(F("Time: "));
   Serial.println(t2 - t1);
-  Serial.println("Test0 done...");
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-
 void test1()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Time to change # pins.\n"));
   uint8_t n1, n2, n3, n4;
   PinOutGroup POG;
   POG.add(2);
@@ -62,31 +65,32 @@ void test1()
   POG.add(5);
   POG.add(13);
 
-  Serial.print("size: ");
+  Serial.print(F("size: "));
   Serial.println(POG.size());
 
+  Serial.println("\n#PINS\tTIME");
   // CHANGE 1 PINS
   uint32_t t1 = micros();
-  n1 = POG.set(B1000);
+  n1 = POG.write(B1000);
   uint32_t t2 = micros();
 
   // CHANGE 2 PINS
   uint32_t t3 = micros();
-  n2 = POG.set(B0100);
+  n2 = POG.write(B0100);
   uint32_t t4 = micros();
 
   // CHANGE 3 PINS
   uint32_t t5 = micros();
-  n3 = POG.set(B1010);
+  n3 = POG.write(B1010);
   uint32_t t6 = micros();
 
   // CHANGE 4 PINS
   uint32_t t7 = micros();
-  n4 = POG.set(B0101);
+  n4 = POG.write(B0101);
   uint32_t t8 = micros();
 
   // RESET ALL
-  POG.set(B0000);
+  POG.write(B0000);
 
   Serial.print(n1);
   Serial.print('\t');
@@ -100,13 +104,18 @@ void test1()
   Serial.print(n4);
   Serial.print('\t');
   Serial.println(t8 - t7);
-  Serial.println("Test1 done...");
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-// TEST2 tests if a set() always matches a subsequent get().
 void test2()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Does write() match subsequent read()."));
+  Serial.println(F("No output is good!\n"));
+
   PinOutGroup POG;
   POG.add(2);
   POG.add(4);
@@ -119,73 +128,94 @@ void test2()
 
   for (int i = 0; i < 256; i++)
   {
-    POG.set(i);
-    int x = POG.get();
-    if (x != i) Serial.println("fail test 2");
+    POG.write(i);
+    int x = POG.read();
+    if (x != i)
+    {
+      Serial.print("failed value: ");
+      Serial.println(i);
+    }
   }
-  Serial.println("Test2 done...");
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-// TEST3 tests the adding of an array of pins
 void test3()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Test adding an array of pins."));
+
   PinOutGroup POG;
   POG.add(4, ar );
-  Serial.print("size: ");
+  Serial.print(F("size: "));
   Serial.println(POG.size());
-  Serial.println("Test3 done...");
+  POG.add(4, ar );
+  Serial.print(F("size: "));
+  Serial.println(POG.size());
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-
-// TEST 4 shows that a pin can be added multiple times
 void test4()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Test adding a pin multiple times.\n"));
+
   PinOutGroup POG;
+  Serial.print(F("size: "));
+  Serial.println(POG.size());
   for (int i = 0; i < 8; i++)
   {
     POG.add(13);
+    Serial.print(F("size: "));
+    Serial.println(POG.size());
   }
-  POG.set(B01010101);
-  Serial.print("size: ");
-  Serial.println(POG.size());
-  Serial.println("Test4 done...");
+  POG.write(B01010101);
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-
-// TEST 5 simulates a LCD display
 void test5()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Simulates a 8 bit channel to LCD display.\n"));
+
   PinOutGroup POG;
   POG.add(4, ar);
   POG.add(4, ar);
-  Serial.print("size: ");
+  Serial.print(F("size: "));
   Serial.println(POG.size());
   int cnt = 0;
   char str[] = "Hello world. This is a test. The quick brown fox jumps over the lazy dog!";
-  for (uint8_t i = 0; i < strlen(str); i++)
+  int len = strlen(str);
+  for (uint8_t i = 0; i < len; i++)
   {
-    cnt += POG.set((uint8_t)str[i]);
+    cnt += POG.write((uint8_t)str[i]);
   }
-  Serial.print(" Printing: ");
+  Serial.print(F("  Printing: "));
   Serial.println(str);
-  Serial.print("     Bits: ");
-  Serial.println(strlen(str) * 8);         
-  Serial.print("  Changed: ");
-  Serial.println(cnt);         
-  Serial.print("      AVG: ");
-  Serial.println(1.0 * cnt / (strlen(str) * 8), 3);
-  Serial.println("Test5 done...");
-  Serial.println("footnote: test 5 uses ascii that only change in 5-6 bits max, which decreases the average");
-  Serial.println("          That said, it is a real life application e.g. updating an LCD screen.");
+  Serial.print(F("Bits total: "));
+  Serial.println(strlen(str) * 8);
+  Serial.print(F("   Changed: "));
+  Serial.println(cnt);
+  Serial.print(F("     ratio: "));
+  Serial.println(1.0 * cnt / (len * 8), 3);
+  Serial.println();
+  Serial.println(F("footnote: test 5 uses ascii that only change in 5-6 bits max, which decreases the average"));
+  Serial.println(F("          That said, it is a real life application e.g. updating an LCD screen."));
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-//
-// wrapper for test 6
-//
+// wrapper for test6()
 void dw(const uint8_t pin, const uint8_t val)
 {
   static uint8_t preVal = -1;
@@ -196,10 +226,11 @@ void dw(const uint8_t pin, const uint8_t val)
   }
 }
 
-
-// TEST6 checks if cache trick works for digitalWrite too
 void test6()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Check if cache trick works for digitalWrite.\n"));
+
   uint8_t a[1000];
   randomSeed(1);
   for (int i = 0; i < 1000; i++) a[i] = random(2);
@@ -219,67 +250,78 @@ void test6()
   }
   uint32_t t4 = micros();
 
-  Serial.println("random: average case");
-  Serial.print("ORG: ");
+  Serial.println(F("random: average case"));
+  Serial.print(F("ORG: "));
   Serial.println(t2 - t1);
-  Serial.print("NEW: ");
+  Serial.print(F("NEW: "));
   Serial.println(t4 - t3);
+  Serial.print(F("  %: "));
+  Serial.println(1.0 * (t4 - t3) / (t2 - t1));
+  Serial.println();
 
-  uint32_t t5 = micros();
+  t1 = micros();
   for (int i = 0; i < 1000; i++)
   {
     digitalWrite(2, LOW);
   }
-  uint32_t t6 = micros();
+  t2 = micros();
 
-  uint32_t t7 = micros();
+  t3 = micros();
   for (int i = 0; i < 1000; i++)
   {
     dw(2, LOW);
   }
-  uint32_t t8 = micros();
+  t4 = micros();
 
-  Serial.println("same: best case");
-  Serial.print("ORG: ");
-  Serial.println(t6 - t5);
-  Serial.print("NEW: ");
-  Serial.println(t8 - t7);
+  Serial.println(F("same: best case"));
+  Serial.print(F("ORG: "));
+  Serial.println(t2 - t1);
+  Serial.print(F("NEW: "));
+  Serial.println(t4 - t3);
+  Serial.print(F("  %: "));
+  Serial.println(1.0 * (t4 - t3) / (t2 - t1));
+  Serial.println();
 
-  t5 = micros();
+  t1 = micros();
   for (int i = 0; i < 1000; i++)
   {
     digitalWrite(2, i % 2);
   }
-  t6 = micros();
+  t2 = micros();
 
-  t7 = micros();
+  t3 = micros();
   for (int i = 0; i < 1000; i++)
   {
     dw(2, i % 2);
   }
-  t8 = micros();
+  t4 = micros();
 
-  Serial.println("toggle: worst case");
-  Serial.print("ORG: ");
-  Serial.println(t6 - t5);
-  Serial.print("NEW: ");
-  Serial.println(t8 - t7);
+  Serial.println(F("toggle: worst case"));
+  Serial.print(F("ORG: "));
+  Serial.println(t2 - t1);
+  Serial.print(F("NEW: "));
+  Serial.println(t4 - t3);
+  Serial.print(F("  %: "));
+  Serial.println(1.0 * (t4 - t3) / (t2 - t1));
+  Serial.println();
 
-  Serial.println("Test6 done...");
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-
-// TEST7 tests average gain
 void test7()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Test average gain indication (simplified).\n"));
+
   PinOutGroup POG;
   // effectively 16 pins...
   POG.add(4, ar);
   POG.add(4, ar);
   POG.add(4, ar);
   POG.add(4, ar);
-  
+
   uint8_t a[1000];
   randomSeed(1);
   for (int i = 0; i < 1000; i++) a[i] = random(32768);
@@ -297,38 +339,45 @@ void test7()
   uint32_t t3 = micros();
   for (int i = 0; i < 1000; i++)
   {
-    POG.set(a[i]);
+    POG.write(a[i]);
   }
   uint32_t t4 = micros();
 
-  Serial.println("1000x random bit: average case");
-  Serial.print("ORG: ");
+  Serial.println(F("1000x random bit: average case"));
+  Serial.print(F("ORG: "));
   Serial.println(t2 - t1);
-  Serial.print("NEW: ");
+  Serial.print(F("NEW: "));
   Serial.println(t4 - t3);
+  Serial.print(F("  %: "));
+  Serial.println(1.0 * (t4 - t3) / (t2 - t1));
+  Serial.println();
 
-  Serial.println("Test7 done...");
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-// TEST8 tests free() 
 void test8()
 {
+  Serial.println(__FUNCTION__);
+  Serial.println(F("Test Free()...\n"));
+
   PinOutGroup POG;
-  Serial.print("size: ");
+  Serial.print(F("size: "));
   Serial.println(POG.size());
-  Serial.print("free: ");
+  Serial.print(F("free: "));
   Serial.println(POG.free());
-  
+
   POG.add(4, ar );
-  
-  Serial.print("size: ");
+
+  Serial.print(F("size: "));
   Serial.println(POG.size());
-  Serial.print("free: ");
+  Serial.print(F("free: "));
   Serial.println(POG.free());
-  
-  Serial.println("Test8 done...");
+
+  Serial.print(__FUNCTION__);
+  Serial.println(F(" done..."));
   Serial.println();
 }
 
-// END OF FILE
+// -- END OF FILE --

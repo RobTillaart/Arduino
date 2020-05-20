@@ -1,6 +1,6 @@
 {
   "name": "PinOutGroup",
-  "keywords": "PinOutGroup,pin,group",
+  "keywords": "PinOutGroup, pin, group, OUTPUT",
   "description": "A class that groups output pins so they can be updated easier and slightly faster on average",
   "authors":
   [
@@ -13,12 +13,12 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/PinOutGroup.git"
   },
-  "version":"0.1.0",
+  "version":"0.1.1",
   "frameworks": "arduino",
   "platforms": "*",
   "export": {
-    "include": "libraries/PinOutGroup
+    "include": "PinOutGroup
   }
 }

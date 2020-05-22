@@ -1,41 +1,55 @@
-#ifndef PININGROUP_H
+#pragma once
 //    FILE: PinInGroup.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
+//    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 // HISTORY: See PinInGroup.cpp
 //
-// Released to the public domain
+// Note: ESP32 has some dedicated IO pins that cannot be used in a group.
+//       FLASH: pin 6 - 11  (maybe more)
 //
+
 #include "Arduino.h"
 
-#define PININGROUP_LIB_VERSION "0.1.0"
-#define PININGROUP_MAXSIZE      16
+#define PININGROUP_LIB_VERSION "0.1.1"
 
-//
-// a PinInGroup is a group of up to sixteen input pins that can be read 
-// by means of one read command and combined into one uint16_t.
-// 
+// smaller MAXSIZE will reduce memory footprint with ditto bytes.
+#ifndef PININGROUP_MAXSIZE
+#define PININGROUP_MAXSIZE    16
+#endif
+
+
 class PinInGroup
 {
-public:
-  PinInGroup();
-  
-  // adds a predefined array of pinnumbers to the PinInGroup
-  bool      add(uint8_t s, int* ar);
-  // adds a single pin to the PinInGroup
-  bool      add(uint8_t pin);
+  public:
+    PinInGroup();
 
-  // read up to 8 pins "simultaneously" into one byte.
-  uint16_t   read();
+    // enables one to reset the pinGroup and repopulate it
+    void      clear();
 
-  // get the current size of the PinInGroup.
-  uint8_t   size() { return _size; };
-  // check how many free slots there are...
-  uint8_t   free() { return PININGROUP_MAXSIZE - _size; };
-  
-private:
-  uint8_t   _pins[PININGROUP_MAXSIZE];    // should be malloced dynamically
-  uint8_t   _size = 0;
+    // adds a predefined array of pin numbers to the PinInGroup
+    // sets all to either INPUT or INPUT_PULLUP.
+    uint8_t    add(uint8_t sz, uint8_t * ar, uint8_t value = INPUT);
+
+    // adds a single pin to the PinInGroup
+    uint8_t    add(uint8_t pin, uint8_t value = INPUT);
+
+    // read up to 16 pins "simultaneously" in one call.
+    uint16_t  read();
+
+    uint8_t   size() {
+      return _size;
+    };
+
+    // check how many free "slots" there are...
+    uint8_t   free() {
+      return PININGROUP_MAXSIZE - _size;
+    };
+
+  private:
+    uint8_t   _pins[PININGROUP_MAXSIZE];
+    uint8_t   _size = 0;
 };
-#endif
+
+// -- END OF FILE --

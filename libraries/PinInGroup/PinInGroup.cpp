@@ -1,55 +1,57 @@
 //
 //    FILE: PinInGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
-//          goal is to easily change a group of pins that logically 
+//          goal is to easily read a group of pins that logically
 //          belong to each other.
 //          The pins can be in any order.
-//     URL: http://forum.arduino.cc/index.php?topic=469599.0
+//     URL: https://github.com/RobTillaart/PinInGroup
+//          http://forum.arduino.cc/index.php?topic=469599.0
 //
-// Released to the public domain
-//
-// 0.1.0 - initial version (based upon pinGroup)
-// 
+// 0.1.0   2017-08-20  initial version (based upon pinGroup)
+// 0.1.1   2020-05-19 refactor; added clear(); added param for INPUT or INPUT_PULLUP
 
 #include "PinInGroup.h"
 
 PinInGroup::PinInGroup()
 {
+  clear();
+}
+
+void PinInGroup::clear()
+{
   _size = 0;
 }
 
-bool PinInGroup::add(uint8_t size, int* ar)
+uint8_t PinInGroup::add(uint8_t sz, uint8_t * ar, uint8_t value)
 {
-  bool b = true;
-  for (uint8_t i = 0; i < size; i++) 
+  int n = 0;
+  for (uint8_t i = 0; i < sz; i++)
   {
-    b = b && add(ar[i]);
+    n += add(ar[i], value);
   }
-  return b;
+  return n;
 }
 
-bool PinInGroup::add(uint8_t pin)
+uint8_t PinInGroup::add(uint8_t pin, uint8_t value)
 {
-  if (_size < PININGROUP_MAXSIZE)
-  {
-    _pins[_size] = pin;
-    pinMode(pin, INPUT);
-    _size++;
-    return true;
-  }
-  return false;
+  if (_size >= PININGROUP_MAXSIZE) return 0;
+  _pins[_size] = pin;
+  pinMode(pin, value);
+  _size++;
+  return 1;
 }
 
 uint16_t PinInGroup::read()
 {
   uint16_t value = 0;
+  uint16_t mask = 0x01;
   for (uint8_t i = 0; i < _size; i++)
   {
-    value <<= 1;
-    value = value | (digitalRead(_pins[i]) > 0 ? 1: 0);
+    if (digitalRead(_pins[i])) value |= mask;
+	mask <<= 1;
   }
   return value;
 }

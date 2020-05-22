@@ -1,6 +1,6 @@
 {
   "name": "PinInGroup",
-  "keywords": "PinInGroup,pin,group",
+  "keywords": "PinInGroup, pin, group, INPUT",
   "description": "A class that groups input pins so they can be read in one logical step",
   "authors":
   [
@@ -13,12 +13,12 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/PinInGroup.git"
   },
-  "version":"0.1.0",
+  "version":"0.1.1",
   "frameworks": "arduino",
   "platforms": "*",
   "export": {
-    "include": "libraries/PinInGroup
+    "include": "PinInGroup
   }
 }

@@ -1,9 +1,9 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.5
-// PURPOSE: New DHT Temperature & Humidity Sensor library for Arduino
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTNEW
+// VERSION: 0.2.0
+// PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
+//     URL: https://github.com/RobTillaart/DHTNEW
 //
 // HISTORY:
 // 0.1.0  2017-07-24 initial version based upon DHTStable
@@ -12,11 +12,27 @@
 // 0.1.3  2018-01-08 removed begin() + moved detection to read() function
 // 0.1.4  2018-04-03 add get-/setDisableIRQ(bool b)
 // 0.1.5  2019-01-20 fix negative temperature DHT22 - issue #120
-//
-// Released to the public domain
-//
+// 0.1.6  2020-04-09 #pragma once, readme.md, own repo
+// 0.1.7  2020-05-01 prevent premature read; add waitForReading flag (Kudo's to Mr-HaleYa), 
+// 0.2.0  2020-05-02 made temperature and humidity private (Kudo's to Mr-HaleYa), 
 
 #include "dhtnew.h"
+
+// these defines are implementation only, not for user
+#define DHTLIB_DHT11_WAKEUP        18
+#define DHTLIB_DHT_WAKEUP          1
+
+// datasheet state 1000 and 2000,// experiments [Mr-HaleYa] indicate a bit larger value to be robust.
+#define DHTLIB_DHT11_READ_DELAY    1250
+#define DHTLIB_DHT22_READ_DELAY    2250
+
+// max timeout is 100usec.
+// For a 16Mhz proc that is max 1600 clock cycles
+// loops using TIMEOUT use at least 4 clock cycli
+// so 100 us takes max 400 loops
+// so by dividing F_CPU by 40000 we "fail" as fast as possible
+
+#define DHTLIB_TIMEOUT (F_CPU/40000)
 
 /////////////////////////////////////////////////////
 //
@@ -30,7 +46,18 @@ DHTNEW::DHTNEW(uint8_t pin) { _pin = pin; };
 // DHTLIB_ERROR_TIMEOUT
 int DHTNEW::read()
 {
-  if (_type != 0) return _read();
+  if (_type != 0)
+  {
+    uint16_t readDelay = DHTLIB_DHT22_READ_DELAY;  	       // assume DHT22 compatible
+    if (_type == 11) readDelay = DHTLIB_DHT11_READ_DELAY;
+
+    while (millis() - _lastRead < readDelay)
+	{
+       if (!_waitForRead) return DHTLIB_OK;
+	   yield();
+	}
+    return _read();
+  }
 
   _type = 22;
   _wakeupDelay = DHTLIB_DHT_WAKEUP;
@@ -52,12 +79,11 @@ int DHTNEW::read()
 // DHTLIB_ERROR_TIMEOUT
 int DHTNEW::_read()
 {
-  _lastRead = millis();
-
   // READ VALUES
   if (_disableIRQ) noInterrupts();
   int rv = _readSensor();
   if (_disableIRQ) interrupts();
+   _lastRead = millis();
 
   if (rv != DHTLIB_OK)
   {
@@ -81,7 +107,7 @@ int DHTNEW::_read()
   {
     temperature = -temperature;
   }
-  humidity += _humOffset;       // check overflow ???
+  humidity = constrain(humidity + _humOffset, 0, 100);
   temperature += _tempOffset;
 
   // TEST CHECKSUM
@@ -154,13 +180,12 @@ int DHTNEW::_readSensor()
     mask >>= 1;
     if (mask == 0)   // next byte?
     {
-      mask = 128;
+      mask = 0x80;
       idx++;
     }
   }
 
   return DHTLIB_OK;
 }
-//
-// END OF FILE
-//
+
+// -- END OF FILE --

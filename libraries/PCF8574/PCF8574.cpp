@@ -2,12 +2,18 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.1.9
-// PURPOSE: I2C PCF8574 library for Arduino
-//     URL: http://forum.arduino.cc/index.php?topic=184800
+// VERSION: 0.2.0
+// PURPOSE: Arduino library for PCF8574 - I2C IO expander
+//     URL: https://github.com/RobTillaart/PCF8574
+//          http://forum.arduino.cc/index.php?topic=184800
 //
 // HISTORY:
-// 0.1.9  fix warning about return in readButton8()
+// 0.2.0  2020-05-22 #pragma once; refactor;
+//        removed pre 1.0 support
+//        added begin(dsa, scl) for ESP32
+//        added reverse()
+//
+// 0.1.9  2017-02-27 fix warning about return in readButton8()
 // 0.1.08 2016-05-20 Merged work of Septillion 
 //        Fix/refactor ButtonRead8() - see https://github.com/RobTillaart/Arduino/issues/38
 //        missing begin() => mask parameter
@@ -35,6 +41,7 @@
 
 #include <Wire.h>
 
+
 PCF8574::PCF8574(const uint8_t deviceAddress)
 {
     _address = deviceAddress;
@@ -43,6 +50,14 @@ PCF8574::PCF8574(const uint8_t deviceAddress)
     _buttonMask = 0xFF;
     _error = PCF8574_OK;
 }
+
+#if defined (ESP8266) || defined(ESP32)
+void PCF8574::begin(uint8_t sda, uint8_t scl, uint8_t val)
+{
+  Wire.begin(sda, scl);
+  PCF8574::write8(val);
+}
+#endif
 
 void PCF8574::begin(uint8_t val)
 {
@@ -62,11 +77,7 @@ uint8_t PCF8574::read8()
         _error = PCF8574_I2C_ERROR;
         return _dataIn; // last value
     }
-#if (ARDUINO <  100)
-    _dataIn = Wire.receive();
-#else
     _dataIn = Wire.read();
-#endif
     return _dataIn;
 }
 
@@ -125,15 +136,17 @@ void PCF8574::toggleMask(const uint8_t mask)
 
 void PCF8574::shiftRight(const uint8_t n)
 {
-    if (n == 0 || n > 7) return;
-    _dataOut >>= n;
+	if ((n == 0) || (_dataOut == 0)) return;
+	if (n > 7)         _dataOut = 0;    // shift 8++ clears all, valid...
+	if (_dataOut != 0) _dataOut >>= n;
     PCF8574::write8(_dataOut);
 }
 
 void PCF8574::shiftLeft(const uint8_t n)
 {
-    if (n == 0 || n > 7) return;
-    _dataOut <<= n;
+	if ((n == 0) || (_dataOut == 0)) return;
+	if (n > 7)         _dataOut = 0;    // shift 8++ clears all, valid...
+	if (_dataOut != 0) _dataOut <<= n;  // only shift if there are bits set
     PCF8574::write8(_dataOut);
 }
 
@@ -146,14 +159,24 @@ int PCF8574::lastError()
 
 void PCF8574::rotateRight(const uint8_t n)
 {
+	if ((n % 8) == 0) return;
     uint8_t r = n & 7;
-    _dataOut = (_dataOut >> r) | (_dataOut << (8-r));
+    _dataOut = (_dataOut >> r) | (_dataOut << (8 - r));
     PCF8574::write8(_dataOut);
 }
 
 void PCF8574::rotateLeft(const uint8_t n)
 {
     rotateRight(8- (n & 7));
+}
+
+void PCF8574::reverse() // quite fast: 14 shifts, 3 or, 3 assignment.
+{
+  uint8_t x = _dataOut;
+  x = (((x & 0xaa) >> 1) | ((x & 0x55) << 1));
+  x = (((x & 0xcc) >> 2) | ((x & 0x33) << 2));
+  x =          ((x >> 4) | (x << 4));
+  PCF8574::write8(x);
 }
 
 //added 0.1.07/08 Septillion
@@ -181,11 +204,4 @@ uint8_t PCF8574::readButton(const uint8_t pin)
     return rtn;
 }
 
-//added 0.1.08 Septillion
-void PCF8574::setButtonMask(uint8_t mask){
-  _buttonMask = mask;
-}
-
-//
-// END OF FILE
-//
+// -- END OF FILE --

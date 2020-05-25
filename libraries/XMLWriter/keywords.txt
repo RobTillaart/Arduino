@@ -1,17 +1,9 @@
-#######################################
 # Syntax Coloring Map For XMLWriter
-#######################################
 
-#######################################
 # Datatypes (KEYWORD1)
-#######################################
-
 XMLWriter	KEYWORD1
 
-#######################################
 # Methods and Functions (KEYWORD2)
-#######################################
-
 reset	KEYWORD2
 header	KEYWORD2
 comment	KEYWORD2
@@ -27,16 +19,12 @@ decrIndent	KEYWORD2
 indent	KEYWORD2
 raw	KEYWORD2
 escape	KEYWORD2
+setConfig	KEYWORD2
+newLine	KEYWORD2
 
-#######################################
 # Instances (KEYWORD2)
-#######################################
 
-
-#######################################
 # Constants (LITERAL1)
-#######################################
-
 NOMULTILINE	LITERAL1
 MULTILINE	LITERAL1
 NEWLINE	LITERAL1
@@ -44,3 +32,6 @@ NONEWLINE	LITERAL1
 NOINDENT	LITERAL1
 SLASH	LITERAL1
 NOSLASH	LITERAL1
+XMLWRITER_NONE	LITERAL1
+XMLWRITER_COMMENT	LITERAL1
+XMLWRITER_INDENT	LITERAL1

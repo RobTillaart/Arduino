@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+XMLWriterTest.ino
+This is a demo of a simple XML lib for Arduino
+ -->
+<Arduino name="42">
+  <Ports>
+
+    <!-- The analog ports are multiplexed -->
+    <Analog name="before">
+      <Analog0>389</Analog0>
+      <Analog1>332</Analog1>
+      <Analog2>1.55</Analog2>
+      <Analog3>1.544</Analog3>
+    </Analog>
+
+    <!-- The digital ports are not multiplexed -->
+    <Digital>
+      <D1>0</D1>
+      <D13>1</D13>
+    </Digital>
+
+    <!-- The analog ports are multiplexed -->
+    <Analog name="after">
+      <Analog0>343</Analog0>
+      <Analog1>366</Analog1>
+      <Analog2>1.94</Analog2>
+      <Analog3>1.926</Analog3>
+    </Analog>
+  </Ports>
+
+  <!-- The weather in Nebraska -->
+  <Weather>
+    <Date>20131106</Date>
+    <Time>11:42</Time>
+    <Temp>23.4</Temp>
+    <Humi>50%</Humi>
+    <Rain>10mm</Rain>
+    <Sun>40</Sun>
+  </Weather>
+
+  <!-- The weather in South Africa -->
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+  <Weather Date="20131106" Time="1:42" Temp="23.4" Humi="50%" Rain="10mm" Sun="40"/>
+
+  <!-- Testing dataTypes I -->
+  <Datatypes>
+    <Bool>true</Bool>
+    <Bool>false</Bool>
+    <BIN>101010</BIN>
+    <DEC>42</DEC>
+    <HEX>2A</HEX>
+    <OCT>52</OCT>
+  </Datatypes>
+
+  <!-- Testing dataTypes II -->
+  <dataTypes Bool="true" Bool="false" BIN="101110111" DEC="375" HEX="177" OCT="567"/>
+  <dataTypes Bool="true" Bool="false" BIN="101010010" DEC="338" HEX="152" OCT="522"/>
+  <dataTypes Bool="true" Bool="false" BIN="101111010" DEC="378" HEX="17A" OCT="572"/>
+</Arduino>

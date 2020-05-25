@@ -1,7 +1,7 @@
 {
   "name": "XMLWriter",
-  "keywords": "Write,XML,node,header,tag,indent,field,stream",
-  "description": "Library for writing XML files.",
+  "keywords": "Write, XML, node, header, tag, indent, field, stream,",
+  "description": "Arduino library for creating XML",
   "authors":
   [
     {
@@ -13,12 +13,12 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/XMLWriter"
   },
-  "version":"0.1.8",
+  "version":"0.2.2",
   "frameworks": "arduino",
   "platforms": "*",
   "export": {
-    "include": "libraries/XMLWriter"
+    "include": "XMLWriter"
   }
 }

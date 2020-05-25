@@ -1,12 +1,10 @@
 //
 //    FILE: XMLWriterDemo01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.2
 // PURPOSE: XML writer demo
 //    DATE: 2016-03-16
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/XMLWriter
 //
 
 #include <XMLWriter.h>
@@ -21,7 +19,11 @@ void setup()
   float y = random(100) * 1.0;
   float r = random(100) * 1.0;
 
+  uint32_t start = micros();
   shoot(p, y, r);
+  uint32_t stop = micros();
+  Serial.println();
+  Serial.println(stop - start);
 }
 
 void shoot(float p, float y, float r)
@@ -80,9 +82,20 @@ void shoot(float p, float y, float r)
   XML.tagStart("/position");
   XML.tagEnd(NEWLINE, NOSLASH);
 
+  XML.comment("test escape() codes");
+  XML.tagOpen("supported");
+  XML.writeNode("ampersand", "&");
+  XML.writeNode("lessthan", "<");
+  XML.writeNode("greaterthan", ">");
+  XML.writeNode("quote", "\"");
+  XML.writeNode("apostrophe", "\'");
+  XML.tagClose();
+
   XML.tagClose();  // shoot
 }
 
 void loop()
 {
 }
+
+// -- END OF FILE --

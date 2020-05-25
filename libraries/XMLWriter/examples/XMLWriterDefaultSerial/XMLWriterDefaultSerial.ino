@@ -1,28 +1,25 @@
 //
-//    FILE: XMLWriterTest.ino
+//    FILE: XMLWriterDefaultSerial.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.1
 // PURPOSE: make a simple XML generating lib
-//    DATE: 2013-11-06
+//    DATE: 2020-04-24
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
 
 #include <XMLWriter.h>
 
-XMLWriter XML(&Serial);
+XMLWriter XML;
 
 char buffer[24];
 
 void setup()
 {
   Serial.begin(115200);
-
   uint32_t start = micros();
-  XML.setConfig(0);  // comment this line to see difference
-
   XML.header();
   XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
-  // XML.newLine(0);
+
   XML.tagOpen("Arduino", "42");
 
   XML.tagOpen("Ports");
@@ -36,9 +33,10 @@ void setup()
   DataTypes();
 
   XML.tagClose();
+
   uint32_t stop = micros();
+  Serial.println();
   Serial.println(stop - start);
-  Serial.println("done...");
 }
 
 void Weather2()
@@ -94,8 +92,8 @@ void DataTypes()
 {
   XML.comment("Testing dataTypes I");
   XML.tagOpen("Datatypes");
-  XML.writeNode("BoolT", 1 == 1);
-  XML.writeNode("BoolF", 1 == 0);
+  XML.writeNode("Bool", 1 == 1);
+  XML.writeNode("Bool", 1 == 0);
   XML.writeNode("BIN", 42, BIN);
   XML.writeNode("DEC", 42, DEC);
   XML.writeNode("HEX", 42, HEX);
@@ -106,8 +104,8 @@ void DataTypes()
   for (int i = 0; i < 3; i++)
   {
     XML.tagStart("dataTypes");
-    XML.tagField("BoolT", 1 == 1);
-    XML.tagField("BoolF", 1 == 0);
+    XML.tagField("Bool", 1 == 1);
+    XML.tagField("Bool", 1 == 0);
     int x = analogRead(A0);
     XML.tagField("BIN", x, BIN);
     XML.tagField("DEC", x, DEC);

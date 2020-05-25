@@ -1,12 +1,10 @@
 //
 //    FILE: KMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.3
 // PURPOSE: simple KML writer
 //    DATE: 2015-05-21
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/XMLWriter
 //
 
 #include <XMLWriter.h>
@@ -19,7 +17,11 @@ void setup()
 {
   Serial.begin(115200);
 
+  uint32_t start = micros();
   KMLTest();
+  uint32_t stop = micros();
+  Serial.println();
+  Serial.println(stop - start);
 }
 
 void loop()
@@ -86,3 +88,6 @@ This is a demo of the XMLWriter lib for Arduino
 </Document>
 </kml>
 */
+
+
+// -- END OF FILE --

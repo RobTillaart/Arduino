@@ -1,15 +1,15 @@
 //
 //    FILE: demo_dual1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.1.0
 // PURPOSE: demo 2 I2C 4x7segment displays one uint32_t unsigned long
 //     URL: http://www.adafruit.com/products/1002
-// HISTORY:
+//     URL: https://github.com/RobTillaart/HT16K33
 
-#include <Wire.h>
 #include "HT16K33.h"
 
-HT16K33 left, right;
+HT16K33 left(0x70);
+HT16K33 right(0x71);
 
 uint32_t counter = 0;
 
@@ -18,8 +18,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  left.begin(0x70);
-  right.begin(0x71);
+  left.begin();
+  right.begin();
   
   Wire.setClock(100000);
 

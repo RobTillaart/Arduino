@@ -1,26 +1,24 @@
 //
 //    FILE: 4x7segmentI2C.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.0.2
 // PURPOSE: demo 2
 //     URL: http://www.adafruit.com/products/1002
-// HISTORY:
+//     URL: https://github.com/RobTillaart/HT16K33
 
-#include <Wire.h>
 #include "HT16K33.h"
 
-HT16K33 seg;
+HT16K33 seg(0x70);
 
 uint32_t start;
 uint32_t stop;
-
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  seg.begin(0x70);
+  seg.begin();
   Wire.setClock(100000);
 
   seg.displayOn();
@@ -141,3 +139,6 @@ void loop()
   seg.suppressLeadingZeroPlaces(0);
   Serial.println("\n -- DONE -- \n");
 }
+
+
+// -- END OF FILE --

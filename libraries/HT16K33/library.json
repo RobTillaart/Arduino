@@ -1,7 +1,7 @@
 {
   "name": "HT16K33",
-  "keywords": "HT16K33, 7 segment",
-  "description": "Class for 7 segment Adafruit I2C",
+  "keywords": "HT16K33, 7 segment, I2C",
+  "description": "Arduino Library for HT16K33 I2C 4x7segment display",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/HT16K33.git"
   },
-  "version":"0.1.4",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/HT16K33"
-  }
+  "platforms": "*"
 }

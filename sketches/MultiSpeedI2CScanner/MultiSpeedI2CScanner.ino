@@ -1,20 +1,19 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
+//     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
 //     URL: http://forum.arduino.cc/index.php?topic=197360
 //
-// Released to the public domain
-//
 
-#include <Wire.h>
 #include <Arduino.h>
+#include <Wire.h>
 
 TwoWire *wi;
 
-const char version[] = "0.1.10";
+const char version[] = "0.1.11";
 
 
 // INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
@@ -23,8 +22,7 @@ int selectedWirePort = 0;
 
 
 // scans devices from 50 to 800KHz I2C speeds.
-// lower than 50 is not possible
-// DS3231 RTC works on 800 KHz. TWBR = 2; (?)
+// speed lower than 50 and above 400 can cause problems
 long speed[10] = { 100, 200, 300, 400 };
 int speeds;
 
@@ -42,7 +40,7 @@ bool delayFlag = false;
 // MINIMIZE OUTPUT
 bool printAll = true;
 bool header = true;
-
+bool disableIRQ = false;
 
 // STATE MACHINE
 enum states {
@@ -61,8 +59,8 @@ void setup()
   Serial.begin(115200);
 
 #if defined (ESP8266) || defined(ESP32)
-  uint8_t sda = 15;
-  uint8_t scl = 2;
+  uint8_t sda = 21;
+  uint8_t scl = 22;
   Wire.begin(sda, scl, 100000);  // ESP32 - change config pins if needed.
 #else
   Wire.begin();
@@ -90,6 +88,7 @@ void setup()
 
 void loop()
 {
+  yield();
   char command = getCommand();
   switch (command)
   {
@@ -146,6 +145,11 @@ void loop()
       printAll = !printAll;
       Serial.print(F("<print="));
       Serial.println(printAll ? F("all>") : F("found>"));
+      break;
+    case 'i':
+      disableIRQ = !disableIRQ;
+      Serial.print(F("<irq="));
+      Serial.println(disableIRQ ? F("diabled>") : F("enabled>"));
       break;
 
     case '0':
@@ -300,6 +304,7 @@ void displayHelp()
   Serial.println(F("\tc = continuous scan - 1 second delay"));
   Serial.println(F("\tq = quit continuous scan"));
   Serial.println(F("\td = toggle latency delay between successful tests. 0 - 5 ms"));
+  Serial.println(F("\ti = toggle enable/disable interrupts"));
 
   Serial.println(F("Output:"));
   Serial.println(F("\tp = toggle printAll - printFound."));
@@ -309,7 +314,7 @@ void displayHelp()
   Serial.println(F("Speeds:"));
   Serial.println(F("\t0 = 100..800 Khz - step 100  (warning - can block!!)"));
   Serial.println(F("\t1 = 100 KHz"));
-  Serial.println(F("\t2 = 200 KH"));
+  Serial.println(F("\t2 = 200 KHz"));
   Serial.println(F("\t4 = 400 KHz"));
   Serial.println(F("\t9 = 50..400 Khz - step 50     < DEFAULT >"));
   Serial.println();
@@ -328,6 +333,8 @@ void I2Cscan()
   startScan = millis();
   uint8_t count = 0;
 
+  if (disableIRQ) noInterrupts();
+
   if (header)
   {
     Serial.print(F("TIME\tDEC\tHEX\t"));
@@ -344,18 +351,6 @@ void I2Cscan()
     Serial.println();
   }
 
-  // TEST
-  // 0.1.04: tests only address range 8..120
-  // --------------------------------------------
-  // Address  R/W Bit Description
-  // 0000 000   0 General call address
-  // 0000 000   1 START byte
-  // 0000 001   X CBUS address
-  // 0000 010   X reserved - different bus format
-  // 0000 011   X reserved - future purposes
-  // 0000 1XX   X High Speed master code
-  // 1111 1XX   X reserved - future purposes
-  // 1111 0XX   X 10-bit slave addressing
   for (uint8_t address = addressStart; address <= addressEnd; address++)
   {
     bool printLine = printAll;
@@ -364,12 +359,15 @@ void I2Cscan()
 
     for (uint8_t s = 0; s < speeds ; s++)
     {
+      yield();    // keep ESP happy 
 
 #if ARDUINO < 158 && defined (TWBR)
+      uint16_t PREV_TWBR = TWBR;
       TWBR = (F_CPU / (speed[s] * 1000) - 16) / 2;
       if (TWBR < 2)
       {
         Serial.println("ERROR: not supported speed");
+        TWBR = PREV_TWBR;
         return; 
       }
 #else
@@ -413,4 +411,8 @@ void I2Cscan()
     Serial.print(stopScan - startScan);
     Serial.println(F(" milliseconds."));
   }
+  
+  interrupts();
 }
+
+// -- END OF FILE --

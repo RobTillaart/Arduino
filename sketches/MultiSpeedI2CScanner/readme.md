@@ -1,5 +1,9 @@
 
-# Arduino MultiSpeed I2C Scanner - 0.1.10
+# Arduino MultiSpeed I2C Scanner
+
+## Version: 0.1.11
+
+## Description
 
 MultiSpeedI2CScanner is a menu driven I2C scanner, see below.
 The scanner is tested on an UNO and an ESP32.
@@ -8,7 +12,7 @@ The scanner provides an overview of which addresses can be found
 at which speed. This allows one to optimize the I2C performance of
 many devices above the standard 100KHz speed.
 
-# Menu dialog
+## Menu dialog
 
 ```
 <speeds = 50 100 150 200 250 300 350 400 >
@@ -22,6 +26,7 @@ Scan mode:
 	c = continuous scan - 1 second delay
 	q = quit continuous scan
 	d = toggle latency delay between successful tests. 0 - 5 ms
+	i = toggle enable/disable interrupts
 Output:
 	p = toggle printAll - printFound.
 	h = toggle header - noHeader.
@@ -46,11 +51,13 @@ Speeds:
 ## Functions
 
 ### I2C ports
+
 **@** selects through the different Wire ports. 
 Note that the current Wire port is given after I2C ports: count
 Wire0 is just Wire but it was easier to program.
 
 ### Scan mode
+
 **s** selects single scan mode, think of it as manual.
 
 **c** selects continuous scanning, think of it as automatic.
@@ -60,7 +67,10 @@ Wire0 is just Wire but it was easier to program.
 **d** toggles the latency between successful scans. 
 Only needed sometimes.
 
+**i** toggles disable/enable interrupts, use with care.
+
 ### Output selection
+
 **p** toggles printAll and  printFound. 
 PrintAll will print also the addresses where nothing is found.
 PrintFound will only generate a line if an I2C device is found on that address.
@@ -74,13 +84,11 @@ but as some addresses are reserved, one can limit this range to 8 .. 120 .
 
 All options here select a single speed or a range of speeds.
 
-Since 0.1.10 experimental speeds of 1000, 3400 and 5000 are added as
-these are part of the I2C standards. 
+Since 0.1.10 version experimental speeds of 1000, 3400 and 5000 are added as
+these are part of the I2C standards.  
+http://i2c.info/i2c-bus-specification
 
-NOTE: not all processors will support these speeds. 
+NOTE: not all processors will support these higher speeds. 
 This can show up as blocking or it can even look like it is working.
 Check your datasheet to see which speeds are applicable for the processor in use.
-
-
-
 

@@ -5,6 +5,11 @@ This repository contains several Arduino libraries I have written to be used in 
 Most of them include example code how the libraries can be used. 
 Furthermore this repository contains a few stand alone applications.
 
+### About Arduino
+Arduino is a very good robotics component(microcontroller) to start with good for begginers
+Arduino is actually a good thing to start with programming languages and enter the world of electronics
+and microcontrollers.
+
 **NOTE** these libraries will all get their own repo, so this repository
 does not have the latest version of all libs anymore. That said I will update
 this bulk repo on request or if time permit.

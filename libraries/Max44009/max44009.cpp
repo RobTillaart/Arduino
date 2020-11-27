@@ -1,35 +1,35 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.2
 // PURPOSE: library for MAX44009 lux sensor Arduino
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
+//     URL: https://github.com/RobTillaart/MAX44009
 //
-// Released to the public domain
-//
-// 0.4.0  - 2020-01-30 remove automatic mode from constructors;
+// 0.4.2    2020-06-19 fix library.json
+// 0.4.1    2020-03-21 #pragma, readme.nd, license.md
+// 0.4.0    2020-01-30 remove automatic mode from constructors;
 //                     added example code
-// 0.3.3  - 2020-01-27 issue #140 refactor constructors / configure
-// 0.3.2  - 2020-01-21 solve #132 cannot read full range in manual mode.
+// 0.3.3    2020-01-27 issue #140 refactor constructors / configure
+// 0.3.2    2020-01-21 solve #132 cannot read full range in manual mode.
 //                     set automatic mode explicitly in constructors;
 //                     added some error checks
-// 0.3.1  - 2020-01-21 issue #133 overflow of the exponent
-// 0.3.0  - 2020-01-20 issue #141 Kudos to Moritz89
-// 0.2.0  - 2019-08-23 solve #127 == redo #118
-// 0.1.10 - 2018-12-08 issue #118 Fix constructor esp8266
+// 0.3.1    2020-01-21 issue #133 overflow of the exponent
+// 0.3.0    2020-01-20 issue #141 Kudos to Moritz89
+// 0.2.0    2019-08-23 solve #127 == redo #118
+// 0.1.10   2018-12-08 issue #118 Fix constructor esp8266
 //          (thanks to Bolukan)
-// 0.1.9  - 2018-07-01 issue #108 Fix shift math
+// 0.1.9    2018-07-01 issue #108 Fix shift math
 //          (thanks Roland vandecook)
-// 0.1.8  - 2018-05-13 issue #105 Fix read register
+// 0.1.8    2018-05-13 issue #105 Fix read register
 //          (thanks morxGrillmeister)
-// 0.1.7  - 2018-04-02 issue #98 extend constructor for ESP8266
-// 0.1.6  - 2017-07-26 revert double to float 
-// 0.1.5  - updated history
-// 0.1.4  - added setAutomaticMode() to max44009.h (thanks debsahu)
-// 0.1.03 - added configuration
-// 0.1.02 - added threshold code
-// 0.1.01 - added interrupt code
-// 0.1.00 - initial version
+// 0.1.7    2018-04-02 issue #98 extend constructor for ESP8266
+// 0.1.6    2017-07-26 revert double to float 
+// 0.1.5    updated history
+// 0.1.4    added setAutomaticMode() to max44009.h (thanks debsahu)
+// 0.1.03   added configuration
+// 0.1.02   added threshold code
+// 0.1.01   added interrupt code
+// 0.1.00   initial version
 
 #include "Max44009.h"
 

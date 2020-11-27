@@ -1,10 +1,11 @@
 
 # MAX44009 I2C LUX sensor
 
+## Description
 a.k.a. GY-49
 
-
-Latest version https://github.com/RobTillaart/MAX44009
+The MAX44009 ambient light sensor is an I2C sensor, that has a 22 bit 
+dynamic range from 0.045 lux to 188,000 lux.
 
 ## Examples
 
@@ -12,9 +13,8 @@ Latest version https://github.com/RobTillaart/MAX44009
 - use for e.g. UNO (use voltage convertor!)
 
 **Max44009\examples\max44009_test02**
-- will not compile for UNO
+- will **not** compile for UNO
 - use for e.g. ESP32
-
 
 
 ## Schema breakout max44009 / GY-49
@@ -47,6 +47,3 @@ solve this.
 Do not forget to connect the address pin as you cannot read the sensor
 in a reliable way. As the line will float it will sometimes have the
 right address and sometimes not. (been there ;)
-
-
-

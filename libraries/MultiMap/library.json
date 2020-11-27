@@ -1,6 +1,6 @@
 {
   "name": "MultiMap",
-  "keywords": "MultiMap,Map,interpolation,non-linear,linear",
+  "keywords": "MultiMap, Map, interpolation, non-linear, linear",
   "description": "Library for fast non-linear interpolation by means of two arrays.",
   "authors":
   [
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/MultiMap.git"
   },
-  "version":"0.1.0",
+  "version":"0.1.2",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/MultiMap"
-  }
+  "platforms": "*"
 }

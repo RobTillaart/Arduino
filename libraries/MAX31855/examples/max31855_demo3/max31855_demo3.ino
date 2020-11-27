@@ -4,9 +4,7 @@
 // VERSION: 0.1.4
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 #include "MAX31855.h"
@@ -39,7 +37,7 @@ void setup()
   Serial.println(stop - start);
 
   start = micros();
-  tc.getInternal();
+  float t2 = tc.getInternal();
   stop = micros();
   Serial.print("getInternal:\t");
   Serial.println(stop - start);

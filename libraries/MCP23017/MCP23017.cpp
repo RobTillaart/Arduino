@@ -1,11 +1,15 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: library for MCP23017 I2C module
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
+//    DATE: 2019-10-12
+//     URL: https://github.com/RobTillaart/MCP23017_RT
 // LICENSE: MIT
+//
 // HISTORY:
-// 2019-10-12: 0.1.0  initial version
+// 0.1.0    2019-10-12 initial version
+// 0.1.1    2020-06-19 refactor; #pragma once
 //
 //    TODO: 
 //  interrupts
@@ -35,7 +39,7 @@ MCP23017::MCP23017(uint8_t addr)
 void MCP23017::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
   Wire.begin(dataPin, clockPin);
-  // Force IPUT_PULLUP
+  // Force INPUT_PULLUP
   writeReg(MCP23017_PUR_A, 0xFF);
   writeReg(MCP23017_PUR_B, 0xFF);
 }
@@ -44,7 +48,7 @@ void MCP23017::begin(const uint8_t dataPin, const uint8_t clockPin)
 void MCP23017::begin()
 {
   Wire.begin();
-  // Force IPUT_PULLUP
+  // Force INPUT_PULLUP
   writeReg(MCP23017_IOCR, 0b00100000); // disable addres increment (datasheet)
   writeReg(MCP23017_PUR_A, 0xFF);
   writeReg(MCP23017_PUR_B, 0xFF);

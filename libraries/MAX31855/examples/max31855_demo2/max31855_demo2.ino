@@ -1,12 +1,10 @@
 //
 //    FILE: max31855_demo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 #include "MAX31855.h"
@@ -19,7 +17,7 @@ MAX31855 tc(clPin, csPin, doPin);
 
 float t1, t2;
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Serial.print("Start max31855_demo2: ");
@@ -32,15 +30,14 @@ void setup()
   delay(1000);
 }
 
-void loop() 
+void loop()
 {
   tc.read();
   t2 = tc.getTemperature();
   Serial.print("delta:\t");
-  Serial.println(t2-t1, 2);
+  Serial.println(t2 - t1, 2);
   t1 = t2;
   delay(1000);
 }
 
-
-
+// -- END OF FILE --

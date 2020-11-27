@@ -4,9 +4,7 @@
 // VERSION: 0.1.3
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-01
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 #include "MAX31855.h"
@@ -42,5 +40,3 @@ void loop()
   Serial.println(temp);
   delay(1000);
 }
-
-

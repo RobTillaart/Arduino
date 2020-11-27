@@ -1,18 +1,19 @@
 //
 //    FILE: max44009_test02.ino
 //  AUTHOR: Moritz Ulmer
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: demo of max44009 library
 //    NOTE: To select the alternative I2C address on the GY-49 breakout board,
 //          the A0 pin has to be set to 3V3. It is soldered to GND by default.
 //          See switch S1 / jp1 in the schematics.
+//          Made for ESP specific; does not work on UNO; 
 //    DATE: 2020-01-19
 //
 // Released to the public domain
 //
 
-#include "Max44009.h"
 #include "Wire.h"
+#include "Max44009.h"
 
 // Don't begin I2C interface (Wire). Will be called in setup()
 Max44009 myLuxA(Max44009::Boolean::False);

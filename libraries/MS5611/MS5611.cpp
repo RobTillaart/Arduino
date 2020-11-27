@@ -2,11 +2,13 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.1.8
+// VERSION: 0.2.1
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL:
 //
 // HISTORY:
+// 0.2.1  2020-06-28 fix #1 min macro compile error
+// 0.2.0  2020-06-21 refactor; #pragma once; 
 // 0.1.8  fix #109 incorrect constants (thanks to flauth)
 // 0.1.7  revert double to float (issue 33)
 // 0.1.6  2015-07-12 refactor
@@ -28,13 +30,17 @@
 // 0.1.01 small refactoring
 // 0.1.00 added temperature and Pressure code
 // 0.0.00 initial version by Rob Tillaart (15-okt-2014)
-//
-// Released to the public domain
-//
 
 #include "MS5611.h"
 
-#include <Wire.h>
+// datasheet page 10
+#define MS5611_CMD_READ_ADC       0x00
+#define MS5611_CMD_READ_PROM      0xA0
+#define MS5611_CMD_RESET          0x1E
+#define MS5611_CMD_CONVERT_D1     0x40
+#define MS5611_CMD_CONVERT_D2     0x50
+
+// TODO more magic numbers?
 
 /////////////////////////////////////////////////////
 //
@@ -43,17 +49,20 @@
 MS5611::MS5611(uint8_t deviceAddress)
 {
   _address = deviceAddress;
-  Wire.begin();
   _temperature = -999;
   _pressure = -999;
   _result = -999;
-  init();
+  _lastRead = 0;
 }
 
-void MS5611::init()
-{
-  reset();
 
+void MS5611::begin()
+{
+  command(MS5611_CMD_RESET);
+  delay(3);
+
+  // constants that were multiplied in read()
+  // do this once and you save CPU cycles
   C[0] = 1;
   C[1] = 32768L;
   C[2] = 65536L;
@@ -61,29 +70,31 @@ void MS5611::init()
   C[4] = 7.8125E-3;
   C[5] = 256;
   C[6] = 1.1920928955E-7;
+  // read factory calibrations from EEPROM.
   for (uint8_t reg = 0; reg < 7; reg++)
   {
-    // C[0] not used; this way indices match datasheet.
-    // C[7] == CRC skipped.
+    // used indices match datasheet.
+    // C[0] == manufacturer - read but not used;
+    // C[7] == CRC - skipped.
     C[reg] *= readProm(reg);
   }
 }
 
+
 int MS5611::read(uint8_t bits)
 {
   // VARIABLES NAMES BASED ON DATASHEET
-  convert(0x40, bits);
+  // ALL MAGIC NUMBERS ARE FROM DATASHEET
+
+  convert(MS5611_CMD_CONVERT_D1, bits);
   if (_result) return _result;
   uint32_t D1 = readADC();
   if (_result) return _result;
 
-  convert(0x50, bits);
+  convert(MS5611_CMD_CONVERT_D2, bits);
   if (_result) return _result;
   uint32_t D2 = readADC();
   if (_result) return _result;
-
-  // TODO the multiplications of these constants can be done in init()
-  // but first they need to be verified.
 
   // TEMP & PRESS MATH - PAGE 7/20
   float dT = D2 - C[5];
@@ -117,7 +128,8 @@ int MS5611::read(uint8_t bits)
 
   _pressure = (D1 * sens * 4.76837158205E-7 - offset) * 3.051757813E-5;
 
-  return 0;
+  _lastRead = millis();
+  return MS5611_READ_OK;
 }
 
 
@@ -125,12 +137,6 @@ int MS5611::read(uint8_t bits)
 //
 // PRIVATE
 //
-void MS5611::reset()
-{
-  command(0x1E);
-  delay(3);
-}
-
 void MS5611::convert(const uint8_t addr, uint8_t bits)
 {
   uint8_t del[5] = {1, 2, 3, 5, 10};
@@ -143,9 +149,12 @@ void MS5611::convert(const uint8_t addr, uint8_t bits)
 
 uint16_t MS5611::readProm(uint8_t reg)
 {
-  reg = min(reg, 7);      // constrain(reg, 0, 7) but reg is an uint so...
+  // last EEPROM register is CRC - Page13 datasheet.
+  uint8_t promCRCRegister = 7;
+  if (reg > promCRCRegister) return 0;
+
   uint8_t offset = reg * 2;
-  command(0xA0 + offset);
+  command(MS5611_CMD_READ_PROM + offset);
   if (_result == 0)
   {
     int nr = Wire.requestFrom(_address, (uint8_t)2);
@@ -162,7 +171,7 @@ uint16_t MS5611::readProm(uint8_t reg)
 
 uint32_t MS5611::readADC()
 {
-  command(0x00);
+  command(MS5611_CMD_READ_ADC);
   if (_result == 0)
   {
     int nr = Wire.requestFrom(_address, (uint8_t)3);
@@ -180,9 +189,10 @@ uint32_t MS5611::readADC()
 
 void MS5611::command(const uint8_t command)
 {
+  yield();
   Wire.beginTransmission(_address);
   Wire.write(command);
   _result = Wire.endTransmission();
 }
 
-// END OF FILE
+// -- END OF FILE --

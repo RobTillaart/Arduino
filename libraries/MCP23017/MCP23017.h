@@ -1,16 +1,17 @@
-#ifndef MCP23017_H
-#define MCP23017_H
+#pragma once
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: library for MCP23017 I2C module
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
+//    DATE: 2019-10-12
+//     URL: https://github.com/RobTillaart/MCP23017_RT
 // LICENSE: MIT
 
 #include "Arduino.h"
 #include "Wire.h"
 
-#define MCP23017_LIB_VERSION "0.1.0"
+#define MCP23017_LIB_VERSION "0.1.1"
 
 class MCP23017
 {
@@ -38,5 +39,4 @@ private:
   uint8_t _addr;
 };
 
-#endif
 // -- END OF FILE --

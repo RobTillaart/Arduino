@@ -1,23 +1,25 @@
+#pragma once
 //
-//    FILE: multiMap.h
+//    FILE: multimap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
-// PURPOSE: MultiMap library for Arduino
+// VERSION: 0.1.2
+//    DATE: 2011-01-26
+// PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
+//     URL: https://github.com/RobTillaart/MultiMap
 //     URL: http://playground.arduino.cc/Main/MultiMap
 //
-// HISTORY: see playground article
+// HISTORY:
+// 0.0.1    2011-01-26 initial version (see forum)
+// .....
+// 0.1.0    2015-03-29
+// 0.1.1    2020-04-09
+// 0.1.2    2020-06-19 fix library.json
+//
 //
 
-#ifndef multimap_h
-#define multimap_h
+#define MULTIMAP_LIB_VERSION "0.1.2"
 
-#define MULTIMAP_LIB_VERSION "0.1.00"
-
-#if ARDUINO < 100
-#include <WProgram.h>
-#else
 #include <Arduino.h>
-#endif
 
 // note: the in array should have increasing values
 template<typename T>
@@ -39,39 +41,50 @@ T multiMap(T val, T* _in, T* _out, uint8_t size)
     return (val - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
 }
 
+
 /*
-#include "multiMap.h"
-
-int in[] = {11,22,33};
-int out[] = {111,222,555};
-
-float fin[] = {11,22,33};
-float fout[] = {111,222,555};
-
-uint32_t start;
-uint32_t stop;
-
-void setup() 
+ * speed optimized version if inputs do not change often e.g.  2 2 2 2 2 3 3 3 3 5 5 5 5 5 5 8 8 8 8 5 5 5 5 5 
+ * 
+// note: the in array should have increasing values
+template<typename T>
+T multiMap(T val, T* _in, T* _out, uint8_t size)
 {
-  Serial.begin(115200);
-  Serial.println("Start ");
+    
+    static T lastvalue = -1;
+    static T cache = -1;	
+	
+	if (val == lastvalue) return cache;
+	lastvalue = val;
 
-  start = micros();
-  float  x = multiMap<int>(12, in, out, 3);  
-  stop = micros();
-  Serial.println(stop-start);  
-  Serial.println(x);
-
-  start = micros();
-  float  y = multiMap<float>(12, fin, fout, 3);
-  stop = micros();
-  Serial.println(stop-start);
-  Serial.println(y);
+    // take care the value is within range
+    // val = constrain(val, _in[0], _in[size-1]);
+    if (val <= _in[0])
+	{
+		cache = _out[0];
+	}
+    else if (val >= _in[size-1])
+	{
+		cache = _out[size-1];
+	}
+    else
+	{
+        // search right interval; index 0 _in[0] already tested
+        uint8_t pos = 1;  
+        while(val > _in[pos]) pos++;
+	    
+        // this will handle all exact "points" in the _in array
+        if (val == _in[pos]) 
+        {
+		    cache = _out[pos];
+        }
+		else
+		{
+		    // interpolate in the right segment for the rest
+            cache = (val - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+		}
+	}
+	return cache;
 }
-
-void loop() {}
 */
-#endif
-//
-// END OF FILE
-//
+
+// -- END OF FILE --

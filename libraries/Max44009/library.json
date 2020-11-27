@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/Max44009"
   },
-  "version": "0.4.0",
+  "version": "0.4.2",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Max44009"
-  }
+  "platforms": "*"
 }

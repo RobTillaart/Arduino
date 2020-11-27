@@ -2,11 +2,9 @@
 //    FILE: max31855_demo6.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
-// PURPOSE: thermocouple lib demo TCfactor
+// PURPOSE: thermocouple lib demo setSeebeckCoefficient()
 //    DATE: 2015-12-06
-//     URL: http://forum.arduino.cc/index.php?topic=208061
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 #include "MAX31855.h"
@@ -30,14 +28,14 @@ void setup()
   Serial.print("    temp before:\t");
   Serial.println(t1, 2);
 
-  float tcf = tc.getTCfactor();
-  Serial.print("TCfactor before:\t");
+  float tcf = tc.getSeebeckCoefficient();
+  Serial.print("SeebeckCoefficient before:\t");
   Serial.println(tcf, 4);
 
-  Serial.println("\nDefault adjust for J-type ThermoCouple");
-  tc.setTCfactor(J_TC);
-  tcf = tc.getTCfactor();
-  Serial.print(" TCfactor after:\t");
+  Serial.println("\nChange default K-type to J-type ThermoCouple");
+  tc.setSeebeckCoefficient(J_TC);
+  tcf = tc.getSeebeckCoefficient();
+  Serial.print(" SeebeckCoefficient after:\t");
   Serial.println(tcf, 4);
 
   tc.read();

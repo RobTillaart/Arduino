@@ -4,9 +4,7 @@
 // VERSION: 0.1.2
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2014-01-02
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 #include "MAX31855.h"
@@ -17,7 +15,7 @@ const int clPin = 5;
 
 MAX31855 tc(clPin, csPin, doPin);
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Serial.print("Start max31855_demo4: ");
@@ -27,7 +25,7 @@ void setup()
   tc.begin();
 
   uint32_t start = micros();
-  for (int i=0; i< 10; i++) tc.read();
+  for (int i = 0; i < 10; i++) tc.read();
   uint32_t stop = micros();
   Serial.print("10x read:\t");
   Serial.println(stop - start);
@@ -72,14 +70,8 @@ void setup()
   Serial.println();
 }
 
-void loop() 
+void loop()
 {
 }
 
-
-
-
-
-
-
-
+// -- END OF FILE --

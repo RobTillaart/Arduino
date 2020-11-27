@@ -2,13 +2,10 @@
 //
 //    FILE: LineFormatter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Simpe positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
-//
-// HISTORY:
-// 0.1.0    2020-05-14 initial version
 //
 
 #include "Arduino.h"

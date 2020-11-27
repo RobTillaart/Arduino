@@ -1,37 +1,31 @@
-#ifndef BitArray_H
-#define BitArray_H
+#pragma once
 //
-//    FILE: BitArray.h
+//    FILE: bitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.8
+// VERSION: 0.2.1
 // PURPOSE: BitArray library for Arduino
-// HISTORY: See BitArray.cpp
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/BitArray
+
+
 // BitArray allows you to make a compact array of objects with a size
 // expressed in bits. typically 1..10.
 // The interface uses uint32_t as that will be enough for most purposes.
 // The main requirement is to optimize storage space
 //
-// the bitarray uses an array of segments and the space per segment
+// the bitarray uses an array of segments and the space per segment 
 // may not exceed 256 bytes as this is a limit on some processors.
 //
 // Originally created to store lot of numbers between 1..6 dice rolls
 // the storage is also usable to store e.g. raw 10 bit analogReads
-// see demo sketches.
 //
 
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-#define BITARRAY_LIB_VERSION "0.1.8"
+#define BITARRAY_LIB_VERSION "0.2.1"
+
 #define BA_SEGMENT_SIZE 200
 
-// max memory is board type dependant
+// max memory is board type dependent
 // note the bitArray does not use all of the RAM
 // 1K - max 600
 #if defined(__AVR_ATmega168__)
@@ -70,7 +64,7 @@
 class BitArray
 {
 public:
-    BitArray() {};
+    BitArray();
     ~BitArray();
 
     uint8_t  begin(const uint8_t bits, const uint16_t size);
@@ -80,8 +74,8 @@ public:
     uint16_t bits()     { return _bits; };
     uint16_t segments() { return _segments; };
     uint8_t  getError() { return _error; };
-    void     clear();
 
+    void     clear();
     uint32_t get(const uint16_t idx);
     uint32_t set(const uint16_t idx, uint32_t value);
     uint32_t toggle(const uint16_t idx);
@@ -98,4 +92,4 @@ private:
     uint8_t   _error = BA_NO_MEMORY_ERR;
 };
 
-#endif
+// -- END OF FILE --

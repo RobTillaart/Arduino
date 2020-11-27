@@ -1,39 +1,40 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.1.05
+// VERSION: 0.2.1
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
-//     URL: http://forum.arduino.cc/index.php?topic=91467.0
+//     URL: https://github.com/RobTillaart/Cozir
+//			http://forum.arduino.cc/index.php?topic=91467.0
 //
 // HISTORY:
-// 0.1.05 fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
-// 0.1.04 changed CO2 to support larger values (Rob T)
-// 0.1.03 added setOperatingMode
-// 0.1.02 added support Arduino 1.x
-// 0.1.01 initial version
+// 0.2.1    2020-06-05 fix library.json
+// 0.2.0    2020-03-30 some refactor and own repo 
+// 0.1.06   added support for HardwareSerial for MEGA (Rob T)
+//          removed support for NewSoftSerial ==> stop pre 1.0 support)
+// 0.1.05   fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
+// 0.1.04   changed CO2 to support larger values (Rob T)
+// 0.1.03   added setOperatingMode
+// 0.1.02   added support Arduino 1.x
+// 0.1.01   initial version
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
-// Released to the public domain
-//
 
-#include "Cozir.h"
+#include "cozir.h"
 
-////////////////////////////////////////////////////////////
-//
-// CONSTRUCTOR
-//
-#if defined(ARDUINO) && ARDUINO >= 100
-COZIR::COZIR(SoftwareSerial& nss) : CZR_Serial(nss)
-#else
-COZIR::COZIR(NewSoftSerial& nss) : CZR_Serial(nss)
-#endif
+COZIR::COZIR(Stream * str)
 {
-    nss.begin(9600);
-    // overide default streaming (takes too much perf
+    ser = str;
+    buffer[0] = '\0';
+}
+
+void COZIR::init()
+{
+    // overide default streaming (takes too much performance)
     SetOperatingMode(CZR_POLLING);
-    // delay for initialization
+    // delay for initialization  TODO should be timestamp based
+	//                           with an isInitialized function. Non blocking.
     delay(1200);
 }
 
@@ -60,16 +61,10 @@ void COZIR::SetOperatingMode(uint8_t mode)
 // this is the default behaviour of this Class but
 // not of the sensor!!
 //
-float COZIR::Fahrenheit()
-{
-    return (Celsius() * 1.8) + 32;
-}
-
 float COZIR::Celsius()
 {
     uint16_t rv = Request("T");
-    float f = 0.1 * (rv - 1000.0);
-    return f;
+    return 0.1 * (rv - 1000.0);		// TODO verify negative values
 }
 
 float COZIR::Humidity()
@@ -77,7 +72,7 @@ float COZIR::Humidity()
     return 0.1 * Request("H");
 }
 
-// TODO UNITS UNKNOWN
+// TODO UNITS UNKNOWN lux??
 float COZIR::Light()
 {
     return 1.0 * Request("L");
@@ -118,32 +113,25 @@ uint16_t COZIR::CalibrateKnownGas(uint16_t value)
     return Request(buffer);
 }
 
-// NOT RECOMMENDED, see datasheet
-uint16_t COZIR::CalibrateManual(uint16_t value)
-{
-    return 0;
+
+//uint16_t COZIR::CalibrateManual(uint16_t value)
+//{
     //sprintf(buffer, "u %u", value);
     //return Request(buffer);
-}
+//}
 
-// NOT RECOMMENDED, see datasheet
-uint16_t COZIR::SetSpanCalibrate(uint16_t value)
-{
-    return 0;
+//uint16_t COZIR::SetSpanCalibrate(uint16_t value)
+//{
     //sprintf(buffer, "S %u", value);
     //return Request(buffer);
-}
+//}
 
-// NOT RECOMMENDED, see datasheet
-uint16_t COZIR::GetSpanCalibrate()
-{
-    return Request("s");
-}
+//uint16_t COZIR::GetSpanCalibrate()
+//{
+//    return Request("s");
+//}
 
-// DIGIFILTER, use with care
-// default value = 32,
-// 1=fast (noisy) 255=slow (smoothed)
-// 0 = special. details see datasheet
+
 void COZIR::SetDigiFilter(uint8_t value)
 {
     sprintf(buffer, "A %u", value);
@@ -154,6 +142,7 @@ uint8_t COZIR::GetDigiFilter()
 {
     return Request("a");
 }
+
 
 ////////////////////////////////////////////////////////////
 //
@@ -219,29 +208,30 @@ void COZIR::GetConfiguration()
     Command("*");
 }
 
-/////////////////////////////////////////////////////////
-// PRIVATE
 
-void COZIR::Command(const char* s)
+/////////////////////////////////////////////////////////
+//
+// PRIVATE
+//
+void COZIR::Command(const char* str)
 {
-    // TODO
-    // CZR_Serial.println(s);
-    CZR_Serial.print(s);
-    CZR_Serial.print("\r\n");
+    ser->print(str);
+    ser->print("\r\n");
 }
 
-uint32_t COZIR::Request(const char* s)
+uint32_t COZIR::Request(const char* str)
 {
-    Command(s);
-    // empty buffer
-    buffer[0] = '\0';
+    Command(str);
+
     // read answer; there may be a 100ms delay!
-    // TODO: PROPER TIMEOUT CODE.
+    // TODO: PROPER TIMEOUT CODE. - what is longest answer possible?
     delay(200);
-    int idx = 0;
-    while(CZR_Serial.available())
+
+    // start with empty buffer
+    uint8_t idx = 0;
+    while(ser->available())
     {
-        buffer[idx++] = CZR_Serial.read();
+        buffer[idx++] = ser->read();
     }
     buffer[idx] = '\0';
 
@@ -249,7 +239,7 @@ uint32_t COZIR::Request(const char* s)
     switch(buffer[0])
     {
     case 'T' :
-        rv = atoi(&buffer[5]);
+        rv = atol(&buffer[5]);
         if (buffer[4] == 1) rv += 1000;
         // negative values are mapped above 1000..1250 => capture this in Celsius()
         break;

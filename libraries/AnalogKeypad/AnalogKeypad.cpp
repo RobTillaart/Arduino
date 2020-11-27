@@ -1,16 +1,16 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.4
 //    DATE: 2019-01-31
-// PURPOSE: Class for analog keypad
+// PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 //
 // HISTORY:
-// 0.1.0 - 2019-01-31 initial version
-// 0.1.1 - 2019-02-01 add pressed() event() last()
-// 0.1.2 - 2019-02-01 refactored rawRead(), first stable version
-//
-// Released to the public domain
+// 0.1.0   2019-01-31 initial version
+// 0.1.1   2019-02-01 add pressed() event() last()
+// 0.1.2   2019-02-01 refactored rawRead(), first stable version
+// 0.1.3   2020-03-25 minor refactoring
+// 0.1.4   2020-05-27 update library.json
 //
 
 #include "AnalogKeypad.h"
@@ -23,6 +23,7 @@
 // build in ADC.
 //
 // Arduino UNO3 build in ==>  10  BITS
+//         so AKP_SHIFT  ==>  2
 //
 #define AKP_BITS    10
 #define AKP_SHIFT   (AKP_BITS - 8)
@@ -46,7 +47,7 @@ uint8_t AnalogKeypad::event()
 
   _lastKey = _key;
 
-  return rv;   // return rv | _key;   ????
+  return rv;
 }
 
 uint8_t AnalogKeypad::pressed()
@@ -90,7 +91,8 @@ uint8_t AnalogKeypad::rawRead()
 
   // handle NOKEY first
   if (val < 57) return 0;
-  // reduce average # compares by 2
+
+  // reduce average # compares by 2  (4x4 keypad)
   if (val < 135)
   {
     if (val < 62) return 16;

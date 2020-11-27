@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/Complex.git"
   },
-  "version":"0.1.12",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Complex"
-  }
+  "platforms": "*"
 }

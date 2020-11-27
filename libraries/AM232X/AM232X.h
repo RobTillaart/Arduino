@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X library for Arduino
-// VERSION: 0.2.1
+// VERSION: 0.2.3
 // HISTORY: See AM232X.cpp
 //     URL: https://github.com/RobTillaart/AM232X
 //
@@ -11,7 +11,7 @@
 #include "Wire.h"
 #include "Arduino.h"
 
-#define AM232X_LIB_VERSION          "0.2.1"
+#define AM232X_LIB_VERSION          "0.2.3"
 
 #define AM232X_OK                    0
 #define AM232X_ERROR_UNKNOWN        -10
@@ -36,9 +36,9 @@
 class AM232X
 {
 public:
-  #ifdef ESP8266
+#if defined (ESP8266) || defined(ESP32)
   void begin(uint8_t sda, uint8_t scl);
-  #endif
+#endif
   void begin();
 
   int read();
@@ -68,4 +68,4 @@ private:
   uint16_t crc16(uint8_t *ptr, uint8_t len);
 };
 
-// END OF FILE
+// -- END OF FILE --

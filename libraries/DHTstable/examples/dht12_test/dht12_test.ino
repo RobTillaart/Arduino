@@ -1,12 +1,12 @@
 //
 //    FILE: dht12_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: DHT library test sketch for DHT12 && Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/DHTstable
 //
-// Released to the public domain
-//
+// HISTORY:
+// 0.1.1  add URL in header
 
 #include <dht.h>
 

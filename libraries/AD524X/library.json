@@ -1,7 +1,7 @@
 {
   "name": "AD524X",
   "keywords": "I2C,digital,PotentioMeter,AD5241,AD5242",
-  "description": "The library controls digital PotentioMeter AD5241 AD5242",
+  "description": "Library to control digital potentiometer AD5241 AD5242",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/AD524X"
   },
-  "version":"0.1.3",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/AD524X"
-  }
+  "platforms": "*"
 }

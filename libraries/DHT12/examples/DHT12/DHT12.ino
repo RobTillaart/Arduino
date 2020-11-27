@@ -1,11 +1,12 @@
 //
 //    FILE: DHT12.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Demo for DHT12 I2C humidity & temperature sensor
 //
 // HISTORY:
 // 0.1.0 - 2017-12-11 initial version
+// 0.1.1   2020-04-11 minor changes
 //
 // Released to the public domain
 //
@@ -16,12 +17,12 @@ DHT12 DHT;
 
 void setup()
 {
-  Wire.begin();
+  DHT.begin();
 
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DHT12 LIBRARY VERSION: ");
-  Serial.println(DHT12_VERSION);
+  Serial.println(DHT12_LIB_VERSION);
   Serial.println();
 
   delay(2000);
@@ -53,11 +54,11 @@ void loop()
     break;
   }
   // DISPLAY DATA, sensor has only one decimal.
-  Serial.print(DHT.humidity, 1);
+  Serial.print(DHT.getHumidity(), 1);
   Serial.print(",\t");
-  Serial.println(DHT.temperature, 1);
+  Serial.println(DHT.getTemperature(), 1);
 
   delay(2000);
 }
 
-// END OF FILE
+// -- END OF FILE --

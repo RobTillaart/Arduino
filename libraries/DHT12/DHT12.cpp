@@ -1,7 +1,7 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: I2C library for DHT12 for Arduino.
 //
 // HISTORY:
@@ -9,32 +9,45 @@
 //   0.1.1: 2017-12-19 added ESP8266 - issue #86
 //                     Verified by Viktor Balint
 //   0.1.2: 2018-09-02 fix negative temperature DHT12 - issue #111
-//
-//
-// Released to the public domain
+//   0.2.0  2020-04-11 explicit constructors, select other Wire interface, #pragma once
+//   0.2.1  2020-06-07 fix library.json
 //
 
-#include <Wire.h>
 #include <DHT12.h>
 
 #define DHT12_ADDRESS  ((uint8_t)0x5C)
 
-////////////////////////////////////////////////////////////////////
-//
-// PUBLIC
-//
 
-#ifdef ESP8266
-void DHT12::begin(uint8_t sda, uint8_t scl)
+DHT12::DHT12()
 {
-  Wire.begin(sda, scl);
+  DHT12(Wire);
 }
-#endif
+
+
+DHT12::DHT12(TwoWire *wire)
+{
+  _wire = wire;
+}
+
 
 void DHT12::begin()
 {
-  Wire.begin();
+  _wire->begin();
 }
+
+
+#if defined(ESP8266) || defined(ESP32)
+void DHT12::begin(const uint8_t dataPin, const uint8_t clockPin)
+{
+  if ((dataPin < 255) && (clockPin < 255))
+  {
+    _wire->begin(dataPin, clockPin);
+  } else {
+    _wire->begin();
+  }
+}
+#endif
+
 
 int8_t DHT12::read()
 {
@@ -60,33 +73,27 @@ int8_t DHT12::read()
   return DHT12_OK;
 }
 
-////////////////////////////////////////////////////////////////////
-//
-// PRIVATE
-//
 
-// negative is error in communication
-// 5 is OK
-// 0..4 is too few bytes.
 int DHT12::_readSensor()
 {
   // GET CONNECTION
-  Wire.beginTransmission(DHT12_ADDRESS);
-  Wire.write(0);
-  int rv = Wire.endTransmission();
+  _wire->beginTransmission(DHT12_ADDRESS);
+  _wire->write(0);
+  int rv = _wire->endTransmission();
   if (rv < 0) return rv;
 
   // GET DATA
   const uint8_t length = 5;
-  int bytes = Wire.requestFrom(DHT12_ADDRESS, length);
+  int bytes = _wire->requestFrom(DHT12_ADDRESS, length);
   if (bytes == 0) return DHT12_ERROR_CONNECT;
   if (bytes < length) return DHT12_MISSING_BYTES;
 
   for (int i = 0; i < bytes; i++)
   {
-    bits[i] = Wire.read();
+    bits[i] = _wire->read();
   }
 
   return bytes;
 }
-// END OF FILE
+
+// -- END OF FILE --

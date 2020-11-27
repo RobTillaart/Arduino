@@ -15,17 +15,28 @@
 // ACS712 30A uses  66 mV per A
 
 ACS712  ACS(A0, 5.0, 1023, 100);
+// ESP 32 example (requires resistors to step down the logic voltage)
+//ACS712  ACS(25, 5.0, 4095, 185);
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+
+  ACS.autoMidPoint();
+  Serial.print("MidPoint: ");
+  Serial.print(ACS.getMidPoint());
+  Serial.print(". Noise mV: ");
+  Serial.println(ACS.getNoisemV());
 }
 
 void loop()
 {
   int mA = ACS.mA_AC();
-  Serial.println(mA);
+  Serial.print("mA: ");
+  Serial.print(mA);
+  Serial.print(". Form factor: ");
+  Serial.println(ACS.getFormFactor());
 }
 
 // END OF FILE

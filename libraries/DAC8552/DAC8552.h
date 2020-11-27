@@ -1,12 +1,11 @@
+#pragma once
 //
-//    FILE: DAC8552.h 
+//    FILE: DAC8552.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DAC8552 library for Arduino
-// VERSION: 0.1.1
+// PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor  
+// VERSION: 0.1.3
 // HISTORY: See DAC8552.cpp
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8552
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/DAC8552
 //
 
 #include <SPI.h>
@@ -16,7 +15,7 @@
 #define DAC8552_POWERDOWN_100K     2
 #define DAC8552_POWERDOWN_HIGH_IMP 3
 
-#define DAC8552_LIB_VERSION (F("0.1.1 experimental"))
+#define DAC8552_LIB_VERSION "0.1.3"
 
 class DAC8552
 {
@@ -47,4 +46,4 @@ private:
   void swSPI_transfer(uint8_t value);
 };
 
-// END OF FILE
+// -- END OF FILE --

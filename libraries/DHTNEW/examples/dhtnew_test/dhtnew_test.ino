@@ -1,21 +1,30 @@
 //
 //    FILE: dhtnew_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.6
 // PURPOSE: DHTNEW library test sketch for Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/DHTNew
+//
 // HISTORY:
+// 0.1.0    2017-07-24 initial version
+// 0.1.1    2017-07-29 added begin();
+// 0.1.2    2018-01-08 removed begin();
+// 0.1.3    2020-04-30 replaced humidity and temperature with functions
+// 0.1.4    2020-06-08 improved error handling
+// 0.1.5    2020-06-15 match 0.3.0 error handling
+// 0.1.6    2020-11-09 wait for read handling
 //
-// 0.1.0 - 2017-07-24 initial version
-// 0.1.1 - 2017-07-29 added begin();
-// 0.1.2 - 2018-01-08 removed begin();
-//
-// Released to the public domain
-//
+// DHT PIN layout from left to right
+// =================================
+// FRONT : DESCRIPTION
+// pin 1 : VCC
+// pin 2 : DATA
+// pin 3 : Not Connected
+// pin 4 : GND
 
 #include <dhtnew.h>
 
-DHTNEW mySensor(6);
+DHTNEW mySensor(16);
 
 void setup()
 {
@@ -63,9 +72,9 @@ void setup()
       mySensor.read();
       Serial.println("actual read");
     }
-    Serial.print(mySensor.humidity, 1);
+    Serial.print(mySensor.getHumidity(), 1);
     Serial.print(",\t");
-    Serial.println(mySensor.temperature, 1);
+    Serial.println(mySensor.getTemperature(), 1);
     delay(250);
   }
 
@@ -92,17 +101,38 @@ void test()
     case DHTLIB_ERROR_CHECKSUM:
       Serial.print("Checksum error,\t");
       break;
-    case DHTLIB_ERROR_TIMEOUT:
-      Serial.print("Time out error,\t");
+    case DHTLIB_ERROR_TIMEOUT_A:
+      Serial.print("Time out A error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_B:
+      Serial.print("Time out B error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_C:
+      Serial.print("Time out C error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_D:
+      Serial.print("Time out D error,\t");
+      break;
+    case DHTLIB_ERROR_SENSOR_NOT_READY:
+      Serial.print("Sensor not ready,\t");
+      break;
+    case DHTLIB_ERROR_BIT_SHIFT:
+      Serial.print("Bit shift error,\t");
+      break;
+    case DHTLIB_WAITING_FOR_READ:
+      Serial.print("Waiting for read,\t");
       break;
     default:
-      Serial.print("Unknown error,\t");
+      Serial.print("Unknown: ");
+      Serial.print(chk);
+      Serial.print(",\t");
       break;
   }
+
   // DISPLAY DATA
-  Serial.print(mySensor.humidity, 1);
+  Serial.print(mySensor.getHumidity(), 1);
   Serial.print(",\t");
-  Serial.print(mySensor.temperature, 1);
+  Serial.print(mySensor.getTemperature(), 1);
   Serial.print(",\t");
   uint32_t duration = stop - start;
   Serial.print(duration);

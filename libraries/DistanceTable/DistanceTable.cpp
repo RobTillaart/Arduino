@@ -1,12 +1,12 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
-// PURPOSE: library for a memory efficient DistanceTable for Arduino
-//     URL:
+// VERSION: 0.1.5
+// PURPOSE: Arduino library to store a symmetrical distance table in less memory
+//     URL: https://github.com/RobTillaart/DistanceTable
 //
-// Released to the public domain
-//
+// 0.1.5  2020-06-07 fix library.json, minor edits
+// 0.1.4  2019-01-10 add size()
 // 0.1.3  2017-07-27 Fix issue #33
 // 0.1.2  - fix overflow;  add some error detection;  revert float to float to memory
 // 0.1.01 - refactor
@@ -43,7 +43,6 @@ void DistanceTable::set(uint8_t x, uint8_t y, float value )
     // comment next line to skip rangecheck (squeeze performance)
     if ( x >= _size || y >= _size) return;
 
-    // uint16_t index = getIndex(uint8_t x, uint8_t y);
     if ( x < y ) 
     {
         uint8_t t = x; x = y; y = t;
@@ -60,7 +59,6 @@ float DistanceTable::get (uint8_t x, uint8_t y)
     // comment next line to skip rangecheck (squeeze performance)
     if ( x >= _size || y >= _size) return -1;
 
-    // uint16_t index = getIndex(uint8_t x, uint8_t y);
     if ( x < y ) 
     {
         uint8_t t = x; x = y; y = t;
@@ -69,18 +67,6 @@ float DistanceTable::get (uint8_t x, uint8_t y)
     index = (index * (index-1))/2 + y;
     return _distanceTable[index];
 };
-
-// TODO remove identical code
-// int DistanceTable::getIndex(uint8_t x, uint8_t y)
-// {
-    // if ( x < y ) 
-    // {
-        // uint8_t t = x; x = y; y = t;
-    // }
-    // uint16_t index = x;
-    // index = (index * (index-1))/2 + y;
-    // return index;
-// }
 
 // triangular dump 
 void DistanceTable::dump()
@@ -97,6 +83,5 @@ void DistanceTable::dump()
     }     
     Serial.println();
 };
-
 
 // --- END OF FILE ---

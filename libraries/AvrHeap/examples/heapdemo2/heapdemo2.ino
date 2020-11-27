@@ -1,7 +1,7 @@
 //
 //    FILE: heapdemo2.ino
-//  AUTHOR: Rob Tillaart (
-// VERSION: 0.1.00
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.0
 // PURPOSE: demo AvrHeap class
 //    DATE: 2015-10-25
 //     URL: http://forum.arduino.cc/index.php?topic=355660

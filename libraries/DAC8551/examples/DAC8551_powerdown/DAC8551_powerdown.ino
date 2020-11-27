@@ -2,11 +2,8 @@
 //    FILE: DAC8551_powerdown.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8551 library Arduino
-// VERSION: 0.1.0
-// HISTORY:
-//     URL:
-//
-// Released to the public domain
+// VERSION: 0.1.1
+//     URL: https://github.com/RobTillaart/DAC8551
 //
 
 #include <SPI.h>
@@ -50,4 +47,4 @@ void loop()
   DAC.setPowerDown(DAC8551_POWERDOWN_NORMAL);
 }
 
-// END OF FILE
+// -- END OF FILE --

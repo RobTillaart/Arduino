@@ -1,36 +1,45 @@
 //
 //    FILE: countdown_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2015-10-28
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //
-// Released to the public domain
-//
 
 #include "CountDown.h"
 
-CountDown CD(CountDown::SECONDS);
+CountDown CD(CountDown::MINUTES);
+
+uint32_t start, stop;
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println(__FILE__);
-    Serial.print("COUNTDOWN_LIB_VERSION: ");
-    Serial.println(COUNTDOWN_LIB_VERSION);
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("COUNTDOWN_LIB_VERSION: ");
+  Serial.println(COUNTDOWN_LIB_VERSION);
 
-    CD.start(5);
+  delay(random(2000));
+  start = millis();
+  CD.start(3);
+  Serial.println(start);
 
-    while (CD.remaining() > 0 && CD.isRunning() )
-    {
-        Serial.println(CD.remaining() );
-        if (CD.remaining() < 2) CD.stop();
-    }
-    Serial.println(CD.remaining());
-    Serial.println("done...");
+  while (CD.remaining() > 0 )
+  {
+    // Serial.print(millis());
+    // Serial.print("\t");
+    // Serial.println(CD.remaining() );
+    // delay(100);
+  }
+  Serial.println(millis() - start);  // SHOULD PRINT 180000
+
+  Serial.println(CD.remaining());
+  Serial.println("done...");
 }
 
 void loop()
 {
 }
+
+// -- END OF FILE --

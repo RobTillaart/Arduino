@@ -1,12 +1,13 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.12
-// PURPOSE: library for Complex math for Arduino
-//     URL: http://arduino.cc/playground/Main/ComplexMath
+// VERSION: 0.2.1
+// PURPOSE: Arduino library for Complex math
+//     URL: https://github.com/RobTillaart/Complex
+//          http://arduino.cc/playground/Main/ComplexMath
 //
-// Released to the public domain
-//
+// 0.2.1    2020-06-05   fix library.json
+// 0.2.0    2020-03-29   #pragma once, own repo
 // 0.1.12 - 2018-04-02 - fix issue #33 double -> float
 // 0.1.11 - 2018-01-29 - fix sin and cos formula - issue #91
 // 0.1.10 - 2018-01-15 - uppercase #define COMPLEX_H
@@ -14,7 +15,7 @@
 // 0.1.08 - 2015-06-03 - refactor
 // 0.1.07 - 2015-06-03 - refactor interfaces
 
-#include "complex.h"
+#include "Complex.h"
 
 // PRINTING
 size_t Complex::printTo(Print& p) const

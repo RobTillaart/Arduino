@@ -1,15 +1,17 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
-// PURPOSE: library for avrheap Arduino
-//     URL: http://forum.arduino.cc/index.php?topic=355660
-
+// VERSION: 0.2.1
+// PURPOSE: experimental library for heap Arduino UNO
+//     URL: https://github.com/RobTillaart/avrheap
 //
 // REFERENCES
 // http://forum.arduino.cc/index.php?topic=27536.15
+// http://forum.arduino.cc/index.php?topic=355660
 //
-// Released to the public domain
+// HISTORY
+// 0.2.1    2020-05-27 update library.json
+// 0.2.0    2020-03-27 Removed support for pre 1.0 version
 // 0.1.5  - fix typo #116 - Thanks to DMNC
 // 0.1.04 - new methods incl PrintTo support - Thanks to Whandall
 //          !! breaking interface
@@ -118,6 +120,7 @@ size_t dumpAlloced(Print& p, byte *ptr, bool withDump)
     }
     return len;
 }
+
 
 
 Avrheap::Avrheap()
@@ -244,7 +247,6 @@ size_t Avrheap::heapWalk(Print& pr, bool withDump) const
     return len;
 }
 
-
 bool Avrheap::inFreeList(uint16_t addr)
 {
     for (struct __freelist* p = __flp; p; p = p->next)
@@ -269,8 +271,5 @@ size_t Avrheap::printTo(Print& p) const
     size_t len = heapWalk(p, true);
     return len;
 }
-
-
-
 
 // --- END OF FILE ---

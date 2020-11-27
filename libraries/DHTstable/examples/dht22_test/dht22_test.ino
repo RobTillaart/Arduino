@@ -1,16 +1,16 @@
 //
 //    FILE: dht22_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.1.4
 // PURPOSE: DHT library test sketch for DHT22 && Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/DHTstable
+//
 // HISTORY:
+// 0.1.4  add URL in header
 // 0.1.03 extended stats for all errors
 // 0.1.02 added counters for error-regression testing.
 // 0.1.01
 // 0.1.00 initial version
-//
-// Released to the public domain
 //
 
 #include <dht.h>

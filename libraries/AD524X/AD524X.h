@@ -1,26 +1,17 @@
+#pragma once
 //
 //    FILE: AD524X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
+// VERSION: 0.2.1
 // PURPOSE: I2C digital PotentioMeter AD5241 AD5242
 //    DATE: 2013-10-12
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/AD524X
 //
 
-#ifndef AD524X_h
-#define AD524X_h
-
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
+#include "Wire.h"
 
-#include <Wire.h>
-
-#define AD524X_VERSION "0.1.03"
+#define AD524X_VERSION "0.2.1"
 
 #define AS524X_OK       0
 #define AS524X_ERROR    100
@@ -60,7 +51,5 @@ private:
     uint8_t _O1;
     uint8_t _O2;
 };
-
-#endif
 
 // -- END OF FILE --

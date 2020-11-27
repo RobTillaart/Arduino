@@ -27,7 +27,7 @@ void setup()
 void loop()
 {
   static uint32_t last_remaining = 0;
-  if (last_remaining != CD.remaining())
+  if (last_remaining != CD.remaining() || CD.remaining() == 0 )
   {
     Serial.println();
     last_remaining = CD.remaining();

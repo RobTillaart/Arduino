@@ -1,15 +1,16 @@
 //
 //    FILE: DAC8552.cpp 
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DAC8552 library for Arduino
-// VERSION: 0.1.1
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8552
+// PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor
+// VERSION: 0.1.3
+//     URL: https://github.com/RobTillaart/DAC8552
+//
 // HISTORY:
 //   0.1.0: 2017-12-14 initial version
 //   0.1.1: 2017-12-19 fix begin() bug
-//
-// Released to the public domain
-//
+//   0.1.2  2020-04-06 minor refactor, readme.md
+//   0.1.3  2020-06-07 fix library.json
+
 
 #include <SPI.h>
 #include <DAC8552.h>
@@ -17,13 +18,11 @@
 #define MAXVOLTAGE  5.0
 #define MAXVALUE    0xFFFF
 
-// 0,1,2,4 resp 8550 8551 8552 8554
 DAC8552::DAC8552()
 {
   _hwSPI = true;
 }
 
-// 0,1,2,4 resp 8550 8551 8552 8554
 DAC8552::DAC8552(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 {
   _hwSPI = false;
@@ -46,6 +45,9 @@ void DAC8552::begin()
     pinMode(_spiData, OUTPUT);
     pinMode(_spiClock, OUTPUT);
     pinMode(_slaveSelect, OUTPUT);
+    digitalWrite(_slaveSelect, HIGH);
+    digitalWrite(_spiData, LOW);
+    digitalWrite(_spiClock, LOW);
   }
 
   for (uint8_t i = 0; i < 2; i++)
@@ -94,7 +96,7 @@ void DAC8552::setPowerDown(uint8_t DAC, uint8_t powerDownMode)
 
 uint8_t DAC8552::getPowerDownMode(uint8_t DAC)
 {
-  return _register[DAC] & 0x03;;
+  return _register[DAC] & 0x03;
 }
 
 // DAC = 0, 1, 2, 3 depending on type
@@ -112,7 +114,7 @@ void DAC8552::updateDevice(uint8_t DAC, bool directWrite)
     SPI.transfer(configRegister);
     SPI.transfer(_value[DAC] >> 8);
     SPI.transfer(_value[DAC] & 0xFF);
-    digitalWrite(_slaveSelect, LOW);
+    digitalWrite(_slaveSelect, HIGH);
     SPI.endTransaction();
   }
   else // Software SPI
@@ -121,7 +123,7 @@ void DAC8552::updateDevice(uint8_t DAC, bool directWrite)
     swSPI_transfer(configRegister);
     swSPI_transfer(_value[DAC] >> 8);
     swSPI_transfer(_value[DAC] & 0xFF);
-    digitalWrite(_slaveSelect, LOW);
+    digitalWrite(_slaveSelect, HIGH);
   }
 }
 
@@ -136,4 +138,4 @@ void DAC8552::swSPI_transfer(uint8_t value)
   }
 }
 
-// END OF FILE
+// -- END OF FILE --

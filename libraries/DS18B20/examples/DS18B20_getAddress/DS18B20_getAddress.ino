@@ -15,8 +15,6 @@
 OneWire oneWire(ONE_WIRE_BUS);
 DS18B20 sensor(&oneWire);
 
-uint32_t start, stop;
-
 DeviceAddress da;
 
 void setup()

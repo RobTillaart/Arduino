@@ -1,22 +1,26 @@
 //
 //    FILE: dhtnew_waitForRead.ino
 //  AUTHOR: Mr-HaleYa
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 // PURPOSE: DHTNEW library waitForRead example sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
+//
 // HISTORY:
-//
 // 0.1.0    2020-05-03 initial version
+// 0.1.1    2020-06-08 updated error handling
+// 0.1.2    2020-06-15 match 0.3.0 error handling
 //
-// FRONT left 2 right
+// DHT PIN layout from left to right
+// =================================
+// FRONT : DESCRIPTION  
 // pin 1 : VCC
 // pin 2 : DATA
-// pin 3 : NC
-// PIN 4 : GND
+// pin 3 : Not Connected
+// pin 4 : GND
 
 #include <dhtnew.h>
 
-DHTNEW mySensor(6);
+DHTNEW mySensor(16);
 
 void setup()
 {
@@ -81,18 +85,36 @@ void test()
   switch (chk)
   {
     case DHTLIB_OK:
-      Serial.println("OK");
+      Serial.print("OK,\t");
       break;
     case DHTLIB_ERROR_CHECKSUM:
-      Serial.println("Checksum error");
+      Serial.print("Checksum error,\t");
       break;
-    case DHTLIB_ERROR_TIMEOUT:
-      Serial.println("Time out error");
+    case DHTLIB_ERROR_TIMEOUT_A:
+      Serial.print("Time out A error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_B:
+      Serial.print("Time out B error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_C:
+      Serial.print("Time out C error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_D:
+      Serial.print("Time out D error,\t");
+      break;
+    case DHTLIB_ERROR_SENSOR_NOT_READY:
+      Serial.print("Sensor not ready,\t");
+      break;
+    case DHTLIB_ERROR_BIT_SHIFT:
+      Serial.print("Bit shift error,\t");
       break;
     default:
-      Serial.println("Unknown error");
+      Serial.print("Unknown: ");
+      Serial.print(chk);
+      Serial.print(",\t");
       break;
   }
+  Serial.println();
   delay(100);
 }
 

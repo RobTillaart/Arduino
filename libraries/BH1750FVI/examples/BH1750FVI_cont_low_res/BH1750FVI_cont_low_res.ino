@@ -1,7 +1,7 @@
 //
 //    FILE: BH1750FVI_cont_low_res.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo of BH1750FVI lux scanner library
 //    DATE: 2020-02-02
 //
@@ -30,7 +30,7 @@ void setup()
 
 void loop()
 {
-  int interval = 100;
+  uint16_t interval = 100;
   if (millis() - lastUpdate >= interval)
   {
     lastUpdate += interval;

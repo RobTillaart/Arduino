@@ -1,26 +1,22 @@
+#pragma once
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.12
-// PURPOSE: library for Complex math for Arduino
-//     URL: http://arduino.cc/playground/Main/ComplexMath
+// VERSION: 0.2.1
+// PURPOSE: Arduino library for Complex math
+//     URL: https://github.com/RobTillaart/Complex
+//          http://arduino.cc/playground/Main/ComplexMath
 //
-// Released to the public domain
-//
-
-#ifndef COMPLEX_H
-#define COMPLEX_H
 
 #include "Arduino.h"
-
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.1.12"
+#define COMPLEX_LIB_VERSION "0.2.1"
 
 class Complex: public Printable
 {
 public:
-    Complex(const float r=0, const float i=0) : re(r), im(i) {};
+    Complex(const float r = 0, const float i = 0) : re(r), im(i) {};
     Complex(const Complex &c)   : re(c.re), im(c.im) {};
 
     void set(const float r, const float i ) { re = r; im = i; };
@@ -97,5 +93,4 @@ protected:
 
 static Complex one(1, 0);
 
-#endif
-// --- END OF FILE ---
+// -- END OF FILE --

@@ -1,13 +1,14 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.06
+// VERSION: 0.1.8
 // PURPOSE: library for Angle math for Arduino
-//     URL: http://forum.arduino.cc/index.php?topic=339402
-
+//     URL: https://github.com/RobTillaart/Angle
+//          http://forum.arduino.cc/index.php?topic=339402
 //
 // Released to the public domain
-//
+// 0.1.8    2020-05-27 update library.json
+// 0.1.7    2020-03-26 refactor #pragma once
 // 0.1.06 - fixed bug negative values.
 // 0.1.05 - added AngleFormat proxy added 03/03/15 by Christoper Andrews.
 // 0.1.04 - changed thousands in tenthousands, string constructor
@@ -35,7 +36,7 @@ Angle::Angle(int dd, int mm, int ss, int tt) // todo optimize
     t = tt;
     // TODO
     // normalize();
-    // assume only one param is neg at most...
+    // assume only one (largest) parameter is negative at most...
     if (d < 0) { d = -d; neg = true; }
     if (m < 0) { m = -m; neg = true; }
     if (s < 0) { s = -s; neg = true; }

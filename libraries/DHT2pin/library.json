@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/DHT2pin"
   },
-  "version":"0.0.3",
+  "version":"0.1.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/DHT2pin"
-  }
+  "platforms": "*"
 }

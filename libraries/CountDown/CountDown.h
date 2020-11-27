@@ -1,33 +1,31 @@
-#ifndef CountDown_h
-#define CountDown_h
+#pragma once
 //
 //    FILE: CountDown.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.2
 // PURPOSE: CountDown library for Arduino
+//     URL: https://github.com/RobTillaart/CountDown
+//
 // HISTORY: See CountDown.cpp
-//     URL:
-//
-// Released to the public domain
 //
 
-#define COUNTDOWN_LIB_VERSION "0.1.2"
-
-#if ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
+
+#define COUNTDOWN_LIB_VERSION "0.2.2"
 
 class CountDown
 {
 public:
-    enum Resolution { MILLIS, MICROS, SECONDS };
+    enum Resolution { MILLIS, MICROS, SECONDS, MINUTES };
 
     explicit CountDown(const enum Resolution res = MILLIS);
     void setResolution(const enum Resolution res = MILLIS);
 
     void start(uint32_t ticks);
-    void start(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds);
+    // Implicit set resolution to SECONDS.
+    void start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds);
+    // Implicit set resolution to MINUTES.
+    void start(uint8_t days, uint16_t hours, uint32_t minutes);
     void stop();
     void cont();
 
@@ -36,19 +34,14 @@ public:
     enum Resolution resolution() const  { return _res; };
 
 private:
-    // ??
     enum State { RUNNING, STOPPED };
 
-    uint32_t _ticks;
-    uint32_t _remaining;
-    enum State _state;
+    uint32_t        _ticks;
+    uint32_t        _remaining;
+    enum State      _state;
     enum Resolution _res;
-    unsigned long _starttime;
-
-    void calcRemaining();
-    unsigned long (*_gettime)(void);
-    static unsigned long seconds() { return millis() / 1000; };
+    uint32_t        _starttime;
+    void            calcRemaining();
 };
 
-#endif
-// END OF FILE
+// -- END OF FILE --

@@ -1,18 +1,18 @@
 //
 //    FILE: DHT2pin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.3
+// VERSION: 0.1.0
 // PURPOSE: Experimental DHT Temperature & Humidity Sensor library for Arduino
-//     URL: 
+//     URL: https://github.com/RobTillaart/DHT2pin
+//          http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.0 2020-06-30 own repository; #pragma once
 // 0.0.3 Fix issue #33
 // 0.0.2 support for non "F_CPU" boards especially Galileo
 //       Tested and verified by Maria Emanuella Moura Silva (thanks)
 //       changed name to DHT2pin
 // 0.0.1 initial version - 2016 SEP 05 (based upon 0.1.13 DHT)
-//
-// Released to the public domain
 //
 
 #include "DHT2pin.h"

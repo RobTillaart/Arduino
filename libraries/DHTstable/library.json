@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/DHTstable
   },
-  "version":"0.2.4",
+  "version":"0.2.6",
   "frameworks": "arduino",
-  "platforms": "atmelavr",
-  "export": {
-    "include": "libraries/DHTstable"
-  }
+  "platforms": "atmelavr"
 }

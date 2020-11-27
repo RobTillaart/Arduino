@@ -1,7 +1,7 @@
 {
   "name": "CountDown",
-  "keywords": "Count,down,stopwatch,timer,millis,micros,seconds",
-  "description": "Library to implement a CountDown clock (in SW no HW).",
+  "keywords": "Count,down,stopwatch,timer,millis,micros,seconds,minutes",
+  "description": "Arduino library to implement a CountDown clock (in SW no HW).",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/CountDown.git"
   },
-  "version":"0.1.2",
+  "version":"0.2.2",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/CountDown"
-  }
+  "platforms": "*"
 }

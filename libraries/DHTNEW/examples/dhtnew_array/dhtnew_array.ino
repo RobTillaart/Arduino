@@ -1,32 +1,37 @@
 //
 //    FILE: dhtnew_array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.4
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
+
 // HISTORY:
-//
 // 0.1.0    2020-04-25 initial version
 // 0.1.1    2020-04-30 replaced humidity and temperature with functions
-//
-// FRONT left to right
+// 0.1.2    2020-06-08 improved error handling
+// 0.1.3    2020-06-15 match 0.3.0 error handling
+// 0.1.4    2020-11-09 wait for read handling
+// 
+// DHT PIN layout from left to right
+// =================================
+// FRONT : DESCRIPTION
 // pin 1 : VCC
 // pin 2 : DATA
-// pin 3 : NC
-// PIN 4 : GND
+// pin 3 : Not Connected
+// pin 4 : GND
 
 #include <dhtnew.h>
 
-DHTNEW kitchen(2);
-DHTNEW living(3);
-DHTNEW outside(4);
+DHTNEW kitchen(4);
+DHTNEW living(5);
+DHTNEW outside(6);
 
 DHTNEW ar[3] = { kitchen, living, outside };
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("dhtnew_test.ino");
+  Serial.println("dhtnew_array.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
@@ -39,6 +44,11 @@ void setup()
 
 void loop()
 {
+  for (int idx = 0; idx < 3; idx++)
+  {
+    test(idx);
+  }
+  Serial.println();
 }
 
 void test(int idx)
@@ -48,6 +58,9 @@ void test(int idx)
   int chk = ar[idx].read();
   uint32_t stop = micros();
 
+  Serial.print(idx);
+  Serial.print(",\t");
+
   switch (chk)
   {
     case DHTLIB_OK:
@@ -56,13 +69,34 @@ void test(int idx)
     case DHTLIB_ERROR_CHECKSUM:
       Serial.print("Checksum error,\t");
       break;
-    case DHTLIB_ERROR_TIMEOUT:
-      Serial.print("Time out error,\t");
+    case DHTLIB_ERROR_TIMEOUT_A:
+      Serial.print("Time out A error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_B:
+      Serial.print("Time out B error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_C:
+      Serial.print("Time out C error,\t");
+      break;
+    case DHTLIB_ERROR_TIMEOUT_D:
+      Serial.print("Time out D error,\t");
+      break;
+    case DHTLIB_ERROR_SENSOR_NOT_READY:
+      Serial.print("Sensor not ready,\t");
+      break;
+    case DHTLIB_ERROR_BIT_SHIFT:
+      Serial.print("Bit shift error,\t");
+      break;
+    case DHTLIB_WAITING_FOR_READ:
+      Serial.print("Waiting for read,\t");
       break;
     default:
-      Serial.print("Unknown error,\t");
+      Serial.print("Unknown: ");
+      Serial.print(chk);
+      Serial.print(",\t");
       break;
   }
+
   // DISPLAY DATA
   Serial.print(ar[idx].getHumidity(), 1);
   Serial.print(",\t");

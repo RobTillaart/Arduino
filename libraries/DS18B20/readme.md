@@ -1,8 +1,12 @@
-# DS18B20 Library
+# DS18B20
+
+Arduino library for the DS18B20 sensor - restricted to one sensor per pin.
 
 ## Arduino Temperature Control Library (ATCL)
 
 This DS18B20 library is not a full featured library for the DS18B20 family.
+This library supports only one DS18B20 per Arduino/ MCU pin.
+
 If you need more functions or control over the DS18B20 family I refer to the library
 of Miles Burton - https://github.com/milesburton/Arduino-Temperature-Control-Library
 
@@ -16,13 +20,14 @@ The DS18B20 library supports only the DS18B20, only one sensor per pin, no paras
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-* requestTemperatures()
-* isConversionComplete()
-* readTempC()
+* void requestTemperatures()
+* bool isConversionComplete()
+* float readTempC()
 
-Version 0.1.1 added getAddress() as this info is available as private data.
-* getAddress(uint8_t*)
-
+The other main functions are
+* bool begin(void);  *// returns true if the sensor is configured (available)*
+* void setResolution(uint8_t);
+* bool getAddress(uint8_t*)  *// returns true if the sensor is configured (available)*
 
 This allowed the class to be both minimal in size and non-blocking. In fact the class
 has no support for a synchronous read in one call. This choice will teach people
@@ -37,22 +42,44 @@ boards or IC's with small memory footprint.
 
 ## Operation
 
+```
+//  BOTTOM VIEW
+//
+//          PIN  MEANING
+//   /---+
+//  /  o |  1    GND
+//  |  o |  2    DATA
+//  \  o |  3    VCC
+//   \---+
+```
+	
 This library supports only one DS18B20 per Arduino/ MCU pin.
-Pin1 = Ground
-Pin2 = Data
-Pin3 = VCC
 
 Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. When the wires are longer 
-this resistor needs to be smaller.
+this resistor needs to be smaller. 
+
+### Pull up resistor
+
+An **indicative** table for pull up resistors, (E12 series), to get started.
+
+Note: thicker wires require smaller resistors (typically 1 step in E12 series) 
+
+
+| Length        | - 5.0 Volt  | - 3.3 Volt |
+|--------------:|------------:|----------:|
+| 10cm (4")     | 10K0  | 6K8 |
+| 20cm (8")     |  8K2  | 4K7 |
+| 50cm (20")    |  4K7  | 3K3 | 
+| 100cm (3'4")  |  3K3  | 2K2 | 
+| 200cm (6'8")  |  2K2  | 1K0 | 
+| 500cm (16'8") |  1K0  | *   |  
+| longer        |    *  | *   |
+
+\* = no info, smaller 
+
 
 ## Credits
 
 Miles Burton who originally developed the Arduino Temperature Control Library.
 and all people who contributed to that lib.
-
-## License
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 

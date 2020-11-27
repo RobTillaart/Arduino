@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.3
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -15,6 +15,8 @@
 //   0.1.5  2020-03-25 refactor, add read() to begin()
 //   0.2.0  2020-05-03 made temperature + humidity private, add wrapper functions.
 //   0.2.1  2020-05-06 fix temperature function (thanks Chade)
+//   0.2.2  2020-05-12 added ESP32 support
+//   0.2.3  2020-05-27 update library.json
 //
 
 #include <AM232X.h>
@@ -25,7 +27,7 @@
 //
 // PUBLIC
 //
-#ifdef ESP8266
+#if defined (ESP8266) || defined(ESP32)
 void AM232X::begin(uint8_t sda, uint8_t scl)
 {
   Wire.begin(sda, scl);
@@ -279,4 +281,4 @@ uint16_t AM232X::crc16(uint8_t *ptr, uint8_t len)
   return crc;
 }
 
-// END OF FILE
+// -- END OF FILE --

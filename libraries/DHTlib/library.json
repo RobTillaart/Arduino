@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/DHTlib.git"
   },
-  "version":"0.1.29",
+  "version":"0.1.30",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/DHTlib"
-  }
+  "platforms": "*"
 }

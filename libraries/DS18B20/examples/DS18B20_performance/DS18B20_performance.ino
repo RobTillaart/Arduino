@@ -34,7 +34,7 @@ void loop()
   float ti[4] = { 94, 188, 375, 750 };
 
   Serial.println();
-  Serial.println("Test takes about 30 seconds for 4 resolutions");
+  Serial.println("Test takes about 30 seconds for 4 resolutions, 20 measurements");
   Serial.println("RES\tTIME\tACTUAL\tGAIN");
   for (int r = 9; r < 13; r++)
   {

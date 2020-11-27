@@ -1,24 +1,16 @@
-#ifndef AVERAGEANGLE_H
-#define AVERAGEANGLE_H
+#pragma once
 //
 //    FILE: AverageAngle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.2
+// VERSION: 0.1.4
 // PURPOSE: class for averaging angles
 // HISTORY: See AverageAngle.cpp
 //
-// Released to the public domain
-//
 
-#include <math.h>
-
-#if defined(ARDUINO) && ARDUINO >= 100
+#include "math.h"
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-#define AVERAGE_ANGLE_LIB_VERSION "0.1.2"
+#define AVERAGE_ANGLE_LIB_VERSION "0.1.4"
 
 class AverageAngle
 {
@@ -27,15 +19,15 @@ public:
 
     AverageAngle(const enum AngleType type = DEGREES);
 
-    void add(float alpha, float length = 1.0);
-    void reset();
-    int  count() { return _count; };
-    float getAverage();
+    void 	 add(float alpha, float length = 1.0);
+    void 	 reset();
+    uint32_t count() { return _count; };
+    float    getAverage();
 
-    float getTotalLength();
-    float getAverageLength();
+    float    getTotalLength();
+    float    getAverageLength();
 
-    enum AngleType type() { return _type; };
+    enum     AngleType type() { return _type; };
 
 private:
     enum AngleType _type;
@@ -43,4 +35,5 @@ private:
     float _sumy;
     uint32_t _count;
 };
-#endif
+
+// -- END OF FILE --

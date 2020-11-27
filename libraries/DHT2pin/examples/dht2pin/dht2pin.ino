@@ -4,7 +4,9 @@
 // VERSION: 0.1.01
 // PURPOSE: demo reading an DHT with 2 pins iso 1
 //    DATE: 2016 sep 5
-//     URL: -
+//     URL: https://github.com/RobTillaart/DHT2pin
+//          http://arduino.cc/playground/Main/DHTLib
+//
 // HISTORY:
 // 0.1.01 changed name to DHT2pin
 // 0.1.00 initial version

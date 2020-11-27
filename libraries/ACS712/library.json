@@ -8,17 +8,20 @@
       "name": "Rob Tillaart",
       "email": "Rob.Tillaart@gmail.com",
       "maintainer": true
+    },
+    {
+      "name": "Pete Thompson",
+      "email": "pete.thompson@yahoo.com",
+      "maintainer": false
     }
+
   ],
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/ACS712"
   },
-  "version":"0.1.1",
+  "version":"0.2.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/ACS712"
-  }
+  "platforms": "*"
 }

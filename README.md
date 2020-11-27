@@ -1,13 +1,15 @@
 # Arduino libraries
 
+**NOTE** these libraries will all get their own repo, so this repository
+does not have the latest version of all libs anymore. That said I will update
+this bulk repo on request or if time permit.
+
+
 ### Introduction
 This repository contains several Arduino libraries I have written to be used in applications. 
 Most of them include example code how the libraries can be used. 
 Furthermore this repository contains a few stand alone applications.
 
-**NOTE** these libraries will all get their own repo, so this repository
-does not have the latest version of all libs anymore. That said I will update
-this bulk repo on request or if time permit.
 
 ### Questions
 For questions about the usage of the libraries, please post a question on the Arduino 

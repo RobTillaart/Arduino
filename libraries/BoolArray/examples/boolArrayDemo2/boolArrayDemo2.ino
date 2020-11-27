@@ -28,6 +28,9 @@ void setup()
 
   b.begin(1000);
 
+  Serial.print("Bool array size:\t");
+  Serial.println(b.size());
+
   Serial.println("\nget");
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -99,6 +102,11 @@ void setup()
   stop = micros();
   Serial.print("DURATION:\t");
   Serial.println(stop - start);
+
+  for (int i = 0; i < 1000; i++)
+  {
+    if (b.get(i) == 0) Serial.println("Error in CLr()");
+  }
 
   start = micros();
   for (int i = 0; i < 1000; i++)

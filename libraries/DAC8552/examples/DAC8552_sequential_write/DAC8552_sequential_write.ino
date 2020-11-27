@@ -2,11 +2,8 @@
 //    FILE: DAC8552_sequential_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8552 library Arduino
-// VERSION: 0.1.0
-// HISTORY:
-//     URL:
-//
-// Released to the public domain
+// VERSION: 0.1.1
+//     URL: https://github.com/RobTillaart/DAC8552
 //
 
 #include <SPI.h>
@@ -52,4 +49,4 @@ void loop()
   }
 }
 
-// END OF FILE
+// -- END OF FILE --

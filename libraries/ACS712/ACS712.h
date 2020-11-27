@@ -2,18 +2,16 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-//    DATE: 2020-03-17
+// VERSION: 0.2.0
+//    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
-//
-// Released to the public domain
 //
 // Tested with a RobotDyn ACS712 20A breakout + UNO.
 //
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION "0.1.1"
+#define ACS712_LIB_VERSION "0.1.3"
 
 
 class ACS712
@@ -31,8 +29,8 @@ class ACS712
     ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100);
 
     // returns mA
-    // blocks 20-21 ms to sample a whole 50 or 60 Hz period.  // TODO HZ as param ??
-    int        mA_AC();
+    // blocks 20-21 ms to sample a whole 50 or 60 Hz period.
+    int        mA_AC(uint8_t freq = 50);
 
     // returns mA
     // blocks < 1 ms
@@ -43,10 +41,16 @@ class ACS712
     inline uint16_t getMidPoint() { return _midPoint; };
     inline void     incMidPoint() { _midPoint++; };
     inline void     decMidPoint() { _midPoint--; };
+    // Auto midPoint, assuming zero DC current or any AC current
+    void autoMidPoint(uint8_t freq = 50);
 
     // also known as crest factor;  affects AC only
     inline void     setFormFactor(float ff) { _formFactor = ff; };
     inline float    getFormFactor() { return _formFactor; };
+
+    // noise
+    inline void     setNoisemV(uint8_t noisemV) { _noisemV = noisemV; };
+    inline uint8_t  getNoisemV() { return _noisemV; };
 
     // AC and DC
     inline void     setmVperAmp(uint8_t mva) { _mVperAmpere = mva; };
@@ -58,6 +62,7 @@ class ACS712
     float     _formFactor;    // P2P -> RMS
     uint8_t   _mVperAmpere;
     uint16_t  _midPoint;
+    uint8_t   _noisemV;
 };
 
 // END OF FILE

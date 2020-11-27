@@ -1,7 +1,7 @@
 {
   "name": "BitArray",
   "keywords": "Bit,Array,Boolean,bool",
-  "description": "Library to make a compact array of objects with a size expressed in bits. typically 1..10",
+  "description": "Arduino library for compact array of objects with a size expressed in bits. typically 1..10",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/BitArray.git"
   },
-  "version":"0.1.8",
+  "version":"0.2.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/BitArray"
-  }
+  "platforms": "*"
 }

@@ -1,0 +1,25 @@
+Start D:\Rob\WORK\Arduino\libraries\BoolArray\examples\boolArrayDemo2\boolArrayDemo2.ino
+BOOLARRAY_LIB_VERSION:	0.2.0
+Bool array size:	1000
+
+get
+DURATION:	5652
+DURATION:	9960
+       X:	0
+
+set
+DURATION:	4180
+DURATION:	7572
+
+clear
+DURATION:	31140
+DURATION:	61844
+
+setAll
+DURATION:	35248
+DURATION:	69916
+
+toggle
+DURATION:	3988
+DURATION:	7320
+Done...

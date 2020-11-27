@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Calculate Correlation from a small dataset.
 // HISTORY: See Correlation.cpp
 //

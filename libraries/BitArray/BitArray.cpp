@@ -1,13 +1,16 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.1
 // PURPOSE: BitArray library for Arduino
-//     URL: http://forum.arduino.cc/index.php?topic=361167
+//     URL: https://github.com/RobTillaart/BitArray
+//          http://forum.arduino.cc/index.php?topic=361167
+//
+// 16 bit clear is faster --> verify correctness
 
-//
-// Released to the public domain
-//
+// 0.2.1    2020-06-05 fix library.json
+// 0.2.0    2020-03-28 #pragma once, readme, fix fibnacci demo
+// 0.1.9  - fix constructor bug
 // 0.1.8  - added toggle
 // 0.1.07 - private calls inline -> performance & footprint
 // 0.1.06 - refactored
@@ -20,6 +23,14 @@
 //
 
 #include "BitArray.h"
+
+BitArray::BitArray()
+{
+    for (uint8_t i = 0; i < BA_MAX_SEGMENTS; i++)
+    {
+        _ar[i] = NULL;
+    }
+}
 
 BitArray::~BitArray()
 {
@@ -72,6 +83,7 @@ uint32_t BitArray::get(const uint16_t idx)
     // if (idx >= _size) return BA_IDX_RANGE;
     uint32_t v = 0;
     uint16_t pos = idx * _bits;
+      
     for (uint8_t i = _bits; i-- > 0;)
     {
         v <<= 1;
@@ -79,6 +91,7 @@ uint32_t BitArray::get(const uint16_t idx)
     }
     return v;
 }
+
 
 uint32_t BitArray::set(const uint16_t idx, uint32_t value)
 {
@@ -109,19 +122,38 @@ uint32_t BitArray::toggle(const uint16_t idx)
     return v;
 }
 
+// void BitArray::clear()
+// {
+    // uint16_t b = _bytes;
+    // for (uint8_t s = 0; s < _segments; s++)
+    // {
+        // uint8_t *p = _ar[s];
+        // if (p)
+        // {
+            // uint8_t t = min(b, BA_SEGMENT_SIZE);
+            // b -= t;
+            // while(t--)
+            // {
+                // *p++ = 0;
+            // }
+        // }
+        // if (b == 0) break;
+    // }
+// }
+
+// 16 bit address usage is faster
 void BitArray::clear()
 {
     uint16_t b = _bytes;
     for (uint8_t s = 0; s < _segments; s++)
     {
-        uint8_t *p = _ar[s];
+        uint8_t *q = _ar[s];
+        uint16_t *p = (uint16_t*)q;
         if (p)
         {
-            uint8_t t = min(b, BA_SEGMENT_SIZE);
-            b -= t;
-            while(t--)
+            for (uint8_t t = 0; t < BA_SEGMENT_SIZE/2; t++) 
             {
-                *p++ = 0;
+              *p++ = 0;
             }
         }
         if (b == 0) break;
@@ -141,7 +173,7 @@ inline uint8_t BitArray::_bitget(uint16_t pos)
     uint8_t by = re / 8;
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
-
+    
     return (p[by] >> bi) & 0x01; // bitRead(p[by], bi);
 }
 
@@ -157,7 +189,7 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
     uint8_t by = re / 8;
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
-
+    
     if (value == 0) p[by] &= ~(1 << bi); // bitClear(p[by], bi);
     else p[by] |= (1 << bi);             // bitSet(p[by], bi);
 }
@@ -174,7 +206,7 @@ inline uint8_t BitArray::_bittoggle(const uint16_t pos)
     uint8_t by = re / 8;
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
-
+    
     uint8_t mask = 1 << bi;
     p[by] ^= mask;
     return (mask > 0);

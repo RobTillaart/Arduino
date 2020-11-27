@@ -1,7 +1,7 @@
 {
   "name": "Cozir",
-  "keywords": "Cozir,CO2,sensor,polling",
-  "description": "Library for COZIR range of CO2 sensors for Arduino. Polling mode only.",
+  "keywords": "Cozir, CO2, sensor, polling",
+  "description": "Arduino library for COZIR range of CO2 sensors. Polling mode only.",
   "authors":
   [
     {
@@ -16,12 +16,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/Cozir.git"
   },
-  "version":"0.1.5",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Cozir"
-  }
+  "platforms": "*"
 }

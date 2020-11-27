@@ -1,4 +1,6 @@
-# DHT Library
+# DHTlib
+
+Arduino library for DHT temperature and humidity sensor. AVR optimized
 
 ## Description
 
@@ -11,20 +13,32 @@ The hardware pins of the sensors and handshake are identical so ideal to combine
 
 The library (0.1.13 version) is confirmed to work on:
 
-*UNO (tested myself)
-*2009 (tested myself)
-*MEGA2560
-*DUE
-*attiny85 @8MHz
-*Digistump Digix @ 84 MHz
+* UNO (tested myself)
+* 2009 (tested myself)
+* MEGA2560
+* DUE
+* attiny85 @8MHz
+* Digistump Digix @ 84 MHz
 
-Later 0.1.xx versions are optimized for AVR.
+Later 0.1.xx versions are optimized for AVR only.
 
 More information - http://playground.arduino.cc/Main/DHTLib -
 
+For latest version for the DHT, check https://github.com/RobTillaart/DHTNEW
+
+## DHT PIN layout from left to right
+
+| FRONT | | DESCRIPTION  |
+|:----|:----:|:----|
+| pin 1 | | VCC           |
+| pin 2 | | DATA          |
+| pin 3 | | Not Connected |
+| pin 4 | | GND           |
+						  |
+
 ## Operational
 
-TODO pin description
+See examples
 
 
 ## Versions:
@@ -32,8 +46,8 @@ TODO pin description
 ==> See DHTStable library for latest stable version for all platforms.
 
 * version 0.1.13 is the last stable version for both AVR and ARM 
-* version 0.1.14 and up are not compatible anymore with pre 1.0 Arduino
-* version 0.1.14 and up have breaking changes wrt ARM based arduino's e.g DUE.
+* version 0.1.14 and up are not compatible anymore with pre 1.0 Arduino. 
+These have breaking changes wrt ARM based arduino's e.g DUE.
 * version 0.1.15 is stable version for AVR only
 * version 0.1.16 and 0.1.17 have breaking changes for DHT11
 * version 0.1.18 works again for DHT11 (avr only)
@@ -41,7 +55,12 @@ TODO pin description
 * version 0.1.20 Reduce footprint (34 bytes) by using int8_t as error codes. (thanks to chaveiro)
 * version 0.1.21 replace delay with delayMicroseconds() + small fix (thanks to codingforfun)
 * version 0.1.22 undo delayMicroseconds() for wakeups larger than 8
-* version 0.1.23 FIX https://github.com/RobTillaart/Arduino/issues/31
-* version 0.1.24 FIX https://github.com/RobTillaart/Arduino/issues/33
-* version 0.1.25 FIX https://github.com/RobTillaart/Arduino/issues/80
+* version 0.1.23 fix https://github.com/RobTillaart/Arduino/issues/31
+* version 0.1.24 fix https://github.com/RobTillaart/Arduino/issues/33
+* version 0.1.25 fix https://github.com/RobTillaart/Arduino/issues/80
 * version 0.1.26 Explicit support for AM23XX series and DHT12
+* version 0.1.27 added _disableIRQ flag
+* version 0.1.28 refactor
+* version 0.1.29 fix negative temperature DHT12 - issue #111
+* version 0.1.30 own repo version
+

@@ -1,12 +1,12 @@
+#pragma once
 //
 //    FILE: DAC8551.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DAC8550 DAC8551 library for Arduino
-// VERSION: 0.1.1
+// PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor  
+//          could work with DAC8550, not tested
+// VERSION: 0.1.3
 // HISTORY: See DAC8551.cpp
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8551
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/DAC8551
 //
 
 #include <SPI.h>
@@ -16,14 +16,13 @@
 #define DAC8551_POWERDOWN_100K     2
 #define DAC8551_POWERDOWN_HIGH_IMP 3
 
-#define DAC8551_LIB_VERSION (F("0.1.1 experimental"))
+#define DAC8551_LIB_VERSION "0.1.3"
 
 class DAC8551
 {
 public:
-  // type = 0,1,2,4  8550, 8551, 8552, 8554
-  DAC8551(); 
-  DAC8551(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect); 
+  DAC8551();
+  DAC8551(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
 
   void begin();
 
@@ -45,4 +44,4 @@ private:
   void swSPI_transfer(uint8_t value);
 };
 
-// END OF FILE
+// -- END OF FILE --

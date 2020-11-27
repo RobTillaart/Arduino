@@ -1,22 +1,21 @@
+#pragma once
 //
 //    FILE: DAC8554.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DAC8554 library for Arduino
-// VERSION: 0.1.0
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DAC8554
+// PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor  
+// VERSION: 0.1.4  experimental
 // HISTORY: See DAC8554.cpp
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/DAC8554
 //
 
-#include <SPI.h>
+#include "SPI.h"
 
 #define DAC8554_POWERDOWN_NORMAL   0x00
 #define DAC8554_POWERDOWN_1K       0x40
 #define DAC8554_POWERDOWN_100K     0x80
 #define DAC8554_POWERDOWN_HIGH_IMP 0xC0
 
-#define DAC8554_LIB_VERSION (F("0.1.0 experimental"))
+#define DAC8554_LIB_VERSION "0.1.4"
 
 class DAC8554
 {
@@ -29,14 +28,11 @@ public:
 
   void begin();
 
-  // writes the value for DAC in a buffer
   void bufferValue(uint8_t DAC, uint16_t value);
-  // writes all values including buffered ones to the DAC's
   void setValue(uint8_t DAC, uint16_t value);
   //writes the value to the DAC but does not affect buffered ones
   void setSingleValue(uint8_t DAC, uint16_t value);
 
-  // same as above but now for power down.
   void bufferPowerDown(uint8_t DAC, uint8_t powerDownMode);
   void setPowerDown(uint8_t DAC, uint8_t powerDownMode);
   void setSinglePowerDown(uint8_t DAC, uint8_t powerDownMode);
@@ -59,4 +55,4 @@ private:
   void swSPI_transfer(uint8_t value);
 };
 
-// END OF FILE
+// -- END OF FILE --

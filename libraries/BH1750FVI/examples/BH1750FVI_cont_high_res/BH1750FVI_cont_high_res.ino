@@ -5,8 +5,9 @@
 // PURPOSE: demo of BH1750FVI lux scanner library
 //    DATE: 2020-02-02
 //
-// Released to the public domain
-//
+// This is a minimal version, which can be optimized by
+// using mylux.getRaw() instead of myLux.getLux();  line38
+// gain on UNO: ~350 bytes smaller
 
 #include "BH1750FVI.h"
 
@@ -30,7 +31,7 @@ void setup()
 
 void loop()
 {
-  int interval = 100;
+  uint16_t interval = 100;
   if (millis() - lastUpdate >= interval)
   {
     lastUpdate += interval;
@@ -40,4 +41,4 @@ void loop()
 
 }
 
-// END OF FILE
+// -- END OF FILE --

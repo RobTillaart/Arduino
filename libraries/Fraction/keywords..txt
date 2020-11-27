@@ -1,0 +1,18 @@
+# Syntax Coloring Map For Fraction
+
+# Datatypes (KEYWORD1)
+Fraction	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+toDouble	KEYWORD2
+toFloat	KEYWORD2
+isProper	KEYWORD2
+toAngle	KEYWORD2
+nominator	KEYWORD2
+denominator	KEYWORD2
+mediant	KEYWORD2
+middle	KEYWORD2
+setDenominator	KEYWORD2
+
+# Constants (LITERAL1)
+

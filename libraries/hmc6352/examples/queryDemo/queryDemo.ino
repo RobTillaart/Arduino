@@ -1,36 +1,37 @@
 //
 //    FILE: queryDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: demo app HMC6352 library - query mode for Arduino
+// VERSION: 0.2.0
+// PURPOSE: demo HMC6352 library - query mode for Arduino
 //
 // HISTORY:
 // 0.1.00 - 2011-04-12 initial version
 // 0.1.1  - 2017-09-13 renamed to .ino
-//
-// Released to the public domain
-//
-// All disclaimers apply use at own risk
+// 0.2.0    2020-06-13 match lib version 0.2.0
 //
 
-#include <Wire.h>
 #include <hmc6352.h>
 
-hmc6352 Compass(0x21);  // 0x21 <==> 33  <==> 66 >> 1
+hmc6352 Compass(0x21);
+
+int heading;
 
 void setup()
 {
-  Serial.begin(19200);
-  Serial.println("HMC6352: Version ");
-  Serial.println(HMC_LIB_VERSION);
-  Serial.print("current output modus");
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.println("LIB: ");
+  Serial.println(HMC6352_LIB_VERSION);
+
+  Compass.begin();
+  
+  Serial.print("Output modus: ");
   Serial.println(Compass.getOutputModus());
 
-  int x = Compass.askHeading();
-  //Serial.print("Ask returns: ");
-  //Serial.println(x);
+  heading = Compass.askHeading();
+  Serial.print("Ask returns: ");
+  Serial.println(heading);
 }
-int x;
 
 void loop()
 {
@@ -38,9 +39,9 @@ void loop()
   // as it will do a new reading directly after the chip is read
   // and waits until it is asked for.
   // Try making a fast turn and smile ...
-  x = Compass.readHeading();
+  heading = Compass.readHeading();
   Serial.print("Degree : ");
-  Serial.println(x);
+  Serial.println(heading);
   delay(1000);
 }
 

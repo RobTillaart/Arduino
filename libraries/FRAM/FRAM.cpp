@@ -1,17 +1,20 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: Class for FRAM memory
-//     URL:
+// VERSION: 0.2.1
+//    DATE: 2018-01-24
+// PURPOSE: Arduino library for I2C FRAM
+//     URL: https://github.com/RobTillaart/FRAM_I2C
 //
 // HISTORY:
-// 0.1.0 initial version
-// 0.1.1 added suppport for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
+// 0.1.0    2018-01-24 initial version
+// 0.1.1    2019-07-31 added suppport for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
+// 0.2.0    2020-04-30 refactor, add writeProtectPin code
+// 0.2.1    2020-06-10 fix library.json
 
 #include "FRAM.h"
 
-#define FRAM_SLAVE_ID_         0x7C
+const uint8_t FRAM_SLAVE_ID_= 0x7C;
 
 /////////////////////////////////////////////////////
 //
@@ -20,7 +23,7 @@
 FRAM::FRAM()
 {}
 
-int FRAM::begin(int address = 0X50)
+int FRAM::begin(uint8_t address, int8_t writeProtectPin)
 {
   if (address < 0x50 || address > 0x57)
   {
@@ -30,18 +33,11 @@ int FRAM::begin(int address = 0X50)
   _address = address;
   Wire.begin();
 
-  uint16_t mid = getManufacturerID();
-  uint16_t pid = getProductID();
-  _size = 0;                          // UNKNOWN
-  if (mid == 0x000A)                  // fujitsu
+  if (writeProtectPin > -1)
   {
-    // note pid's are from fujitsu       SIZE    TYPE
-    if (pid == 0x0358) _size = 8;     // 8KB     MB85RC64T
-    if (pid == 0x0510) _size = 32;    // 32KB    MB85RC256V
-    if (pid == 0x0658) _size = 64;    // 64KB    MB85RC512T
-    if (pid == 0x0758) _size = 128;   // 128KB   MB85RC1MT
+    _writeProtectPin = writeProtectPin;
+    pinMode(_writeProtectPin, OUTPUT);
   }
-
   return FRAM_OK;
 }
 
@@ -104,7 +100,7 @@ uint32_t FRAM::read32(uint16_t memaddr)
 
 void FRAM::read(uint16_t memaddr, uint8_t * obj, uint16_t size)
 {
-  const int blocksize = 24;
+  const uint8_t blocksize = 24;
   uint8_t * p = obj;
   while (size >= blocksize)
   {
@@ -113,44 +109,70 @@ void FRAM::read(uint16_t memaddr, uint8_t * obj, uint16_t size)
     p += blocksize;
     size -= blocksize;
   }
+  // remainder
   if (size > 0)
   {
     readBlock(memaddr, p, size);
   }
 }
 
+bool FRAM::setWriteProtect(bool b)
+{
+  if (_writeProtectPin == -1) return false;
+  digitalWrite(_writeProtectPin, b ? HIGH : LOW);
+  return true;
+}
+
 uint16_t FRAM::getManufacturerID()
 {
-  uint16_t value = 0;
-  Wire.beginTransmission(FRAM_SLAVE_ID_);
-  Wire.write(_address << 1);
-  Wire.endTransmission(false);
-  int x = Wire.requestFrom(FRAM_SLAVE_ID_, 2);
-  if (x != 2) return -1;
-  value = Wire.read() << 4;
-  value |= Wire.read() >> 4;
-  return value;
+  return getMetaData(0);
 }
 
 uint16_t FRAM::getProductID()
 {
-  uint16_t value = 0;
-  Wire.beginTransmission(FRAM_SLAVE_ID_);
-  Wire.write(_address << 1);
-  Wire.endTransmission(false);
-  int x = Wire.requestFrom(FRAM_SLAVE_ID_, 3);
-  if (x != 3) return -1;
-  Wire.read();
-  value = (Wire.read() & 0x0F) << 8;
-  value |= Wire.read();
-  return value;
+  return getMetaData(1);
+}
+
+uint16_t FRAM::getSize()
+{
+  uint16_t val = getMetaData(2);  // density bits
+  if (val > 0) return 1 << val;
+  return 0;
 }
 
 ///////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
-void FRAM::writeBlock(uint16_t memaddr, uint8_t * obj, uint16_t size)
+
+// metadata is packed as  [....MMMM][MMMMDDDD][PPPPPPPP]
+// M = manufacturerID
+// D = density => memsize = 2^D KB
+// P = product ID (together with D)
+uint16_t FRAM::getMetaData(uint8_t field)
+{
+  if (field > 2) return 0;
+
+  Wire.beginTransmission(FRAM_SLAVE_ID_);
+  Wire.write(_address << 1);
+  Wire.endTransmission(false);
+  int x = Wire.requestFrom(FRAM_SLAVE_ID_, (uint8_t)3);
+  if (x != 3) return -1;
+
+  uint32_t value = 0;
+  value = Wire.read();
+  value |= Wire.read();
+  value |= Wire.read();
+  // MANUFACTURER
+  if (field == 0) return (value >> 12) & 0xFF;
+  // PRODUCT ID
+  if (field == 1) return value & 0x0FFF;
+  // DENSITY
+  if (field == 2) return (value >> 8) & 0x0F;
+  return 0;
+}
+
+void FRAM::writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   // TODO constrain size < 30 ??
   Wire.beginTransmission(_address);
@@ -164,7 +186,7 @@ void FRAM::writeBlock(uint16_t memaddr, uint8_t * obj, uint16_t size)
   Wire.endTransmission();
 }
 
-void FRAM::readBlock(uint16_t memaddr, uint8_t * obj, uint16_t size)
+void FRAM::readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   Wire.beginTransmission(_address);
   Wire.write(memaddr >> 8);
@@ -178,4 +200,4 @@ void FRAM::readBlock(uint16_t memaddr, uint8_t * obj, uint16_t size)
   }
 }
 
-// END OF FILE
+// -- END OF FILE --

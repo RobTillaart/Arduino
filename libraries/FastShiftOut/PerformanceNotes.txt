@@ -1,0 +1,179 @@
+
+==============================
+
+tests IDE 1.8.12 - 20-08-2017
+
+example fastShiftOut: 0.2.0
+
+Performance - time in us
+FastShiftOut1: 21.95
+FastShiftOut2: 43.00
+        Delta: 21.04
+
+Standard shiftOut1: 88.27
+Standard shiftOut2: 175.94
+             Delta: 87.68
+
+
+Test print interface
+println("Hello world"): 	313.16
+println(1357): 			304.68
+println(3.14159265, 4): 	705.60
+
+done ...
+
+==============================
+
+tests IDE 1.8.12 - 20-08-2017
+
+
+example fastShiftOut: 0.1.6
+
+Performance - time in us
+FastShiftOut1: 27.68
+FastShiftOut2: 54.44
+        Delta: 26.76
+
+Standard shiftOut1: 88.27
+Standard shiftOut2: 175.94
+             Delta: 87.67
+
+
+Test print interface
+println("Hello world"): 	387.92
+println(1357): 			339.44
+println(3.14159265, 4): 	751.96
+
+done ...
+
+==============================
+tests IDE 1.8.1
+
+20-08-2017
+example fastShiftOut: 0.1.6
+
+Performance - time in us
+FastShiftOut1: 28.69
+FastShiftOut2: 56.46
+        Delta: 27.76
+
+Standard shiftOut1: 90.79
+Standard shiftOut2: 181.00
+             Delta: 90.21
+
+
+Test print interface
+println("Hello world"): 	403.20
+println(1357): 			346.64
+println(3.14159265, 4): 	757.72
+
+done ...
+
+20-08-2017
+example fastShiftOut: 0.1.5
+
+Performance - time in us
+FastShiftOut1: 29.76
+FastShiftOut2: 58.59
+        Delta: 28.83
+
+Standard shiftOut1: 90.80
+Standard shiftOut2: 181.00
+             Delta: 90.20
+
+
+Test print interface
+println("Hello world"): 	417.08
+println(1357): 			353.00
+println(3.14159265, 4): 	766.28
+
+done ...
+
+example fastShiftOut: 0.1.04
+
+Performance - time in us
+FastShiftOut1: 43.66
+FastShiftOut2: 86.38
+        Delta: 42.72
+
+Standard shiftOut1: 90.79
+Standard shiftOut2: 181.00
+             Delta: 90.21
+
+
+Test print interface
+println("Hello world"): 	597.68
+println(1357): 			436.44
+println(3.14159265, 4): 	877.48
+
+done ...
+
+==================================
+
+example fastShiftOut: 0.1.03
+
+Performance - time in us
+FastShiftOut1: 63.9
+FastShiftOut2: 123.0
+Standard shiftOut1: 115.7
+Standard shiftOut2: 230.4
+
+Test print interface
+println("Hello world"): 822.2
+println(1357): 561.2
+println(3.14159265, 4): 1068.6
+done
+
+example fastShiftOut: 0.1.03
+
+Performance - time in us
+FastShiftOut1: 31.9
+FastShiftOut2: 60.8
+Standard shiftOut1: 115.7
+Standard shiftOut2: 230.4
+
+Test print interface
+println("Hello world"): 412.9
+println(1357): 372.0
+println(3.14159265, 4): 815.9
+
+done
+
+
+1.04 - fast print version + normal fastSHiftOut
+example fastShiftOut: 0.1.03
+
+Performance - time in us
+FastShiftOut1: 64.0
+FastShiftOut2: 123.4
+Standard shiftOut1: 115.8
+Standard shiftOut2: 230.5
+
+Test print interface
+println("Hello world"): 816.6
+println(1357): 405.9
+println(3.14159265, 4): 579.8
+
+done
+=======================================
+example fastShiftIn: 0.1.00
+
+Performance - time in us
+FastShiftIn1: 42.8  // 8 bits LOW
+FastShiftIn2: 80.8  // 8 bits LOW
+Standard shiftIn1: 114248.4
+Standard shiftIn2: 228004.8
+
+example fastShiftIn: 0.1.00
+
+Performance - time in us
+FastShiftIn1: 67.7  // 8 bits HIGH
+FastShiftIn2: 130.6 // 8 bits HIGH
+Standard shiftIn1: 114442.4
+Standard shiftIn2: 228440.4
+
+
+
+
+
+

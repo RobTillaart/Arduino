@@ -1,7 +1,7 @@
 {
   "name": "Fraction",
-  "keywords": "Fraction,quotient,math,nominator,denominator",
-  "description": "Library for using fractions.",
+  "keywords": "Fraction, quotient, math, nominator, denominator",
+  "description": "Arduino library to implement a Fraction datatype. Nominator and denominator are limited to 4 digits. Experimental.",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/Fraction.git"
   },
-  "version":"0.1.8",
+  "version":"0.1.10",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Fraction"
-  }
+  "platforms": "*"
 }

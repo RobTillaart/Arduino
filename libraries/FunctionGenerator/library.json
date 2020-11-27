@@ -1,7 +1,7 @@
 {
   "name": "FunctionGenerator",
   "keywords": "Function,wave,generator,sawtooth,sinus,square,stair,triangle",
-  "description": "Experimental library for waveform generation (SW).",
+  "description": "Arduino library to generate wave forms (nummeric) for a DAC",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/FunctionGenerator"
   },
-  "version":"0.1.4",
+  "version":"0.2.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/FunctionGenerator"
-  }
+  "platforms": "*"
 }

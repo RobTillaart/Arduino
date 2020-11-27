@@ -4,10 +4,7 @@
 // VERSION: 0.1.02
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
-//     URL:
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/FastMap
 
 #include "FastMap.h"
 

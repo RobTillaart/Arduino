@@ -1,9 +1,12 @@
 //
 //    FILE: I2C_small_eeprom_test.ino
-//  AUTHOR: 
-// VERSION: 0.1.00
+//  AUTHOR: Tyler Freeman
+// VERSION: 0.1.1
 // PURPOSE: show/test I2C_EEPROM library with small EEPROMS
-//
+// HISTORY
+// 0.1.0    2014-05-xx initial version
+// 0.1.1    2020-07-14 fix #1 compile for ESP; fix author
+
 #include <Wire.h>
 #include <I2C_eeprom.h>
 
@@ -30,7 +33,8 @@
 #define UNALIGNED_BUFFER_LEN 35
 #define UNALIGNED_TEST_PAGE_ADDR (LONG_TEST_PAGE_ADDR + LONG_BUFFER_LEN + 5)
 
-#define SERIAL_DEBUG SerialUSB
+// #define SERIAL_DEBUG SerialUSB
+#define SERIAL_DEBUG Serial
 
 I2C_eeprom eeprom(DEVICEADDRESS, EE24LC01MAXBYTES);
 
@@ -64,7 +68,7 @@ void readAndWritePage(unsigned int pageAddress, int bufferLen) {
     byte testBuffer[LONG_BUFFER_LEN + 1];
 
     // null-terminate for printing!
-    testBuffer[bufferLen] = NULL;
+    testBuffer[bufferLen] = '\0';
 
     eeprom.readBlock(pageAddress, testBuffer, bufferLen);
 
@@ -74,7 +78,9 @@ void readAndWritePage(unsigned int pageAddress, int bufferLen) {
 
     for (int i = 0; i < bufferLen; i++) {
       // use max to init to all AAAA's on first run.
-      testBuffer[i] = max('A', (testBuffer[i] + ((i % 4) + 1) % 'z'));
+      testBuffer[i] = 'A';
+      char c = (testBuffer[i] + ((i % 4) + 1) % 'z');
+      if (testBuffer[i] < c) testBuffer[i] = c;
     }
 
     eeprom.writeBlock(pageAddress, testBuffer, bufferLen);
@@ -128,6 +134,8 @@ void setup()
   SERIAL_DEBUG.println("----------------------------------------------");  
 
   readAndWritePage(UNALIGNED_TEST_PAGE_ADDR, UNALIGNED_BUFFER_LEN);
+
+  SERIAL_DEBUG.println("\nDone...");
 }
 
 void loop()

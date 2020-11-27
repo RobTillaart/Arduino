@@ -1,5 +1,7 @@
 # Histogram Library
 
+Arduino library for creating histograms math.
+
 ## Description
 
 One of the main applications for the Arduino board is reading and logging of sensor data.
@@ -28,7 +30,6 @@ The interface consists of:
 * float PMF(float val);       // Probability Mass Function
 * float CDF(float val);       // Cumulative Distribution Function
 * float VAL(float prob);      // Value
-(:sourceend:)
 
 When the class is initialized an array of the boundaries to define the borders of the
 buckets is passed to the constructor. This array should be declared global as the
@@ -42,8 +43,8 @@ and the buckets counter is increased.
 The sub() function is used to decrease the count of a bucket and it can cause the count
 to become below zero. ALthough seldom used but still depending on the application it can
 be useful. E.g. when you want to compare two value generating streams, you let one stream
-add() and the other sub(). If the histogram is similar they should cancel each other out
-(more or less), and the count of all the buckets should be around 0. [not tried].
+add() and the other sub(). If the histogram of both streams is similar they should cancel 
+each other out (more or less), and the value of all buckets should be around 0. [not tried].
 
 Frequency() may be removed to reduce footprint as it can be calculated quite easily with
 the formula (1.0* bucket(i))/count().

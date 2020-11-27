@@ -1,35 +1,36 @@
-#ifndef HMC6352_H
-#define HMC6352_H
+#pragma once
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: HMC6352 library for Arduino
 //
-// DETAILS: see cpp file
-//
-// Released to the public domain
-//
+// HISTORY: see cpp file
 
-#if ARDUINO >= 100
+#include "Wire.h"
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-#define HMC_LIB_VERSION     "0.1.4"
+#define HMC6352_LIB_VERSION     "0.2.0"
 
-#define HMC_GET_DATA        0x41
-#define HMC_WAKE            0x57
-#define HMC_SLEEP           0x53
-#define HMC_SAVE_OP_MODE    0x4C
-#define HMC_CALLIBRATE_ON   0x43
-#define HMC_CALLIBRATE_OFF  0x45
-#define HMC_UPDATE_OFFSETS  0x4F
-#define HMC_WRITE_RAM       0x47
-#define HMC_READ_RAM        0x67
-#define HMC_WRITE_EEPROM    0x77
-#define HMC_READ_EEPROM     0x72
+/* ERROR CODES ALL FUNCTIONS
+//
+// * twi_writeTo codes (== endTransmission  commands)
+//   0 .. OK
+//  -1 .. length to long for buffer
+//  -2 .. address send, NACK received
+//  -3 .. data send, NACK received
+//  -4 .. other twi error (lost bus arbitration, bus error, ..)
+//
+// * requestFrom
+// -10 .. not enough values returned
+//
+// * function calls
+//   0 .. OK
+// -20 .. error param1
+// -21 .. error param2
+// -22 .. error param3
+//
+*/
 
 enum hmcMode { STANDBY=0, QUERY=1, CONT=2, ERROR};
 
@@ -38,6 +39,11 @@ class hmc6352
 public:
   hmc6352(uint8_t device);
 
+#if defined (ESP8266) || defined(ESP32)
+  void begin(uint8_t sda, uint8_t scl);
+#endif
+  void begin();
+  
   // BASIC CALLS FOR STANDBY MODE
   int getHeading(void); // just a merge of ask & read
   int askHeading(void);
@@ -67,12 +73,14 @@ public:
   int writeRAM(uint8_t address, uint8_t data);
   int readRAM(uint8_t address);
 
+  // allow power users to set operational mode flags
+  int saveOpMode(byte OpMode);
+
   // NOT TESTED / UNKNOWN
   int setTimeDelay(uint8_t msec);
   int getTimeDelay();
   int setMeasurementSumming(uint8_t ms);
   int getMeasurementSumming();
-  int saveOpMode(void);
   int updateOffsets(void);
 
 private:
@@ -83,4 +91,4 @@ private:
   uint8_t _device;
 };
 
-#endif
+// -- END OF FILE -- 

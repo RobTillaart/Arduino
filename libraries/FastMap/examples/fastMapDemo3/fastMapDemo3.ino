@@ -3,10 +3,8 @@
 // VERSION: 0.1.1
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
-//     URL: http://forum.arduino.cc/index.php?topic=276194
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/FastMap
+//          http://forum.arduino.cc/index.php?topic=276194
 
 #include "FastMap.h"
 

@@ -1,15 +1,10 @@
 //
 //    FILE: fastMapDemo4.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.0
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
-//     URL:
-//
-// Released to the public domain
-//
-
-// works only with 0.1.04
+//     URL: https://github.com/RobTillaart/FastMap
 
 #include "FastMap.h"
 

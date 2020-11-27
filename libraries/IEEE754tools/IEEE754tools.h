@@ -1,34 +1,28 @@
+#pragma once
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
-// PURPOSE: IEEE754 tools
+// VERSION: 0.2.0
+// PURPOSE: manipulate IEEE754 float numbers fast
+//     URL: https://github.com/RobTillaart/IEEE754tools.git
 //
-// http://playground.arduino.cc//Main/IEEE754tools
+// EXPERIMENTAL ==> USE WITH CARE
+// not tested extensively,
 //
-// Released to the public domain
-// not tested, use with care
-//
-// 0.1.03 renamed IEEE_Sign IEEE_Exponent
-// 0.1.02 added SHIFT_POW2
-// 0.1.01 added IEEE_NAN, IEEE_INF tests + version string
-// 0.1.00 initial version
+// 0.1.00   2013-09-08 initial version
+// 0.1.01   2013-09-08 added IEEE_NAN, IEEE_INF tests + version string
+// 0.1.02   2013-09-08 added SHIFT_POW2
+// 0.1.03   2013-09-10 renamed IEEE_Sign IEEE_Exponent
+// 0.2.0    2020-06-30 own repo + some refactor...
+// 
 
-#ifndef IEEE754tools_h
-#define IEEE754tools_h
-
-
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-#define IEEE754_VERSION "0.1.03"
+#define IEEE754_VERSION "0.2.0"
 
 // (un)comment lines to configure functionality / size
 //#define IEEE754_ENABLE_MSB   // +78 bytes
-#define IEEE754_ENABLE_DUMP
+
 
 // IEEE754 float layout; 
 struct IEEEfloat
@@ -74,10 +68,10 @@ union _DBLCONV
     byte b[8];
 };
 
+
 //
 // DEBUG FUNCTIONS
 //
-#ifdef IEEE754_ENABLE_DUMP
 // print float components
 void dumpFloat(float number)
 {
@@ -102,7 +96,6 @@ void dumpDBL(struct _DBL dbl)
     Serial.print("\t");
     Serial.println(dbl.m, HEX);
 }
-#endif
 
 //
 // mapping to/from 64bit double - best effort
@@ -111,11 +104,12 @@ void dumpDBL(struct _DBL dbl)
 // converts a float to a packed array of 8 bytes representing a 64 bit double
 // restriction exponent and mantisse.
 // float;  array of 8 bytes;  LSBFIRST; MSBFIRST
-void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)  
+void float2DoublePacked(float number, byte* bar, int byteOrder = LSBFIRST)  
 {
     _FLOATCONV fl;
     fl.f = number;
     _DBLCONV dbl;
+    dbl.p.filler = 0;
     dbl.p.s = fl.p.s;
     dbl.p.e = fl.p.e-127 +1023;  // exponent adjust
     dbl.p.m = fl.p.m;
@@ -124,7 +118,7 @@ void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)
     if (byteOrder == LSBFIRST)
     {
 #endif
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
             bar[i] = dbl.b[i];
         }
@@ -132,7 +126,7 @@ void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)
     }
     else
     {
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
             bar[i] = dbl.b[7-i];
         }
@@ -143,7 +137,7 @@ void float2DoublePacked(float number, byte* bar, int byteOrder=LSBFIRST)
 // converts a packed array of bytes into a 32bit float.
 // there can be an exponent overflow
 // the mantisse is truncated to 23 bits.
-float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
+float doublePacked2Float(byte* bar, int byteOrder = LSBFIRST)
 {
     _FLOATCONV fl;
     _DBLCONV dbl;
@@ -152,7 +146,7 @@ float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
     if (byteOrder == LSBFIRST)
     {
 #endif
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
             dbl.b[i] = bar[i];
         }
@@ -160,14 +154,14 @@ float doublePacked2Float(byte* bar, int byteOrder=LSBFIRST)
     }
     else
     {
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
             dbl.b[i] = bar[7-i];
         }
     }
 #endif
     
-    int e = dbl.p.e-1023 +127;  // exponent adjust 
+    int e = dbl.p.e - 1023 + 127;  // exponent adjust 
     // TODO check exponent overflow.
     if (e >=0 || e <= 255) 
     {
@@ -281,7 +275,7 @@ void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
     if (byteOrder == LSBFIRST)
     {
 #endif
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
             dbl.b[i] = bar[i];
         }
@@ -289,14 +283,14 @@ void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
     }
     else
     {
-        for (int i=0; i<8; i++)
+        for (int i = 0; i < 8; i++)
         {
-            dbl.b[i] = bar[7-i];
+            dbl.b[i] = bar[7 - i];
         }
     }
 #endif
     
-    int e = dbl.p.e-1023 +127;  // exponent adjust 
+    int e = dbl.p.e - 1023 + 127;  // exponent adjust 
     // TODO check exponent overflow.
     if (e >=0 || e <= 255) 
     {
@@ -381,5 +375,5 @@ bool IEEE_EQ(float f, float g)
 }
 
 */
-#endif
-// END OF FILE
+
+// -- END OF FILE --

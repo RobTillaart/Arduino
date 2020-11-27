@@ -1,0 +1,34 @@
+# Syntax Coloring Map For HMC6352
+
+# Datatypes (KEYWORD1)
+HMC6352	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+getHeading KEYWORD2
+askHeading	KEYWORD2
+readHeading	KEYWORD2
+wakeUp	KEYWORD2
+sleep	KEYWORD2
+factoryReset KEYWORD2
+setOperationalModus	KEYWORD2
+getOperationalModus	KEYWORD2
+setOutputModus	KEYWORD2
+getOutputModus	KEYWORD2
+callibrationOn	KEYWORD2
+callibrationOff	KEYWORD2
+setI2CAddress	KEYWORD2
+getI2CAddress	KEYWORD2
+writeEEPROM	KEYWORD2
+readEEPROM	KEYWORD2
+writeRAM	KEYWORD2
+readRAM	KEYWORD2
+
+setTimeDelay	KEYWORD2
+getTimeDelay	KEYWORD2
+setMeasurementSumming	KEYWORD2
+getMeasurementSumming	KEYWORD2
+saveOpMode	KEYWORD2
+updateOffsets	KEYWORD2
+
+# Constants (LITERAL1)
+HMC6352_LIB_VERSION	LITERAL1

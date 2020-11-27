@@ -1,26 +1,15 @@
-#ifndef Histogram_h
-#define Histogram_h
+#pragma once
 //
 //    FILE: Histogram.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
-// Released to the public domain
-//
 
-#include <stdlib.h>
-#include <math.h>
-#include <inttypes.h>
-
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-#define HISTOGRAM_LIB_VERSION "0.1.6"
+#define HISTOGRAM_LIB_VERSION "0.2.0"
 
 class Histogram
 {
@@ -53,5 +42,4 @@ protected:
   uint32_t  _cnt;
 };
 
-#endif
-// END OF FILE
+// -- END OF FILE --

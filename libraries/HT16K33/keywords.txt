@@ -7,15 +7,22 @@ HT16K33	KEYWORD1
 
 HT16K33	KEYWORD2
 begin	KEYWORD2
+reset	KEYWORD2
+clearCache	KEYWORD2
+cacheOn	KEYWORD2
+cacheOff	KEYWORD2
 displayOn	KEYWORD2
 displayOff	KEYWORD2
 brightness	KEYWORD2
 blink	KEYWORD2
+
+setDigits	KEYWORD2
 suppressLeadingZeroPlaces	KEYWORD2
 
 displayClear	KEYWORD2
 displayInt	KEYWORD2
 displayHex	KEYWORD2
+displayDate	KEYWORD2
 displayTime	KEYWORD2
 displayFloat	KEYWORD2
 display	KEYWORD2

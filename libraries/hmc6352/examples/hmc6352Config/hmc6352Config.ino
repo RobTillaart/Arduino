@@ -1,30 +1,30 @@
 //
 //    FILE: hmc6352Config.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: test app HMC6352 library for Arduino
+// VERSION: 0.2.0
+// PURPOSE: test HMC6352 library for Arduino
 //
 // HISTORY:
 // 0.1.0  - 2011-04-12 initial version
 // 0.1.1  - 2017-09-13 renamed to .ino;
-//
-// Released to the public domain
+// 0.2.0    2020-06-13 match lib version 0.2.0
 //
 
-#include <Wire.h>
 #include <hmc6352.h>
 
 hmc6352 Compass(33);
 
 void setup()
 {
-  Serial.begin(19200);
-  Serial.println("HMC6352: Config");
-  Serial.println(HMC_LIB_VERSION);
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.println("LIB: ");
+  Serial.println(HMC6352_LIB_VERSION);
+
+  Compass.begin();
 
   dumpEEPROM();
 }
-int x;
 
 void loop()
 {
@@ -60,73 +60,71 @@ void loop()
   char cmd = Serial.read();
 
   // EXECUTE COMMAND
-  switch(cmd)
+  switch (cmd)
   {
-  case 'F':
-    factoryReset();
-    break;
-  case 'E':
-    dumpEEPROM();
-    break;
-  case 'R':
-    dumpRAM();
-    break;
-  case 'A':
-    askHeading();
-    break;
-  case 'Q':
-    readHeading();
-    break;
-  case 'W':
-    x = Compass.wakeUp();
-    Serial.println(x, DEC);
-    break;
-  case 'S':
-    x = Compass.sleep();
-    Serial.println(x, DEC);
-    break;
-  case 'O':
-    OutPutModusMenu();
-    break;
-  case '7':
-    // mode , freq , reset
-    Compass.setOperationalModus(STANDBY, 1, true);  // 10 default val
-    Serial.println("Reboot Arduino");
-    break;
-  case '8':
-    Compass.setOperationalModus(QUERY, 1, true);  // 10 default val
-    Serial.println("Reboot Arduino");
-    break;
-  case '9':
-    Compass.setOperationalModus(CONT, 20, true);  // 10 default val
-    Serial.println("Reboot Arduino");
-    break;
-  case 'U':
-    Compass.callibrationOn();
-    break;
-  case 'X':
-    Compass.callibrationOff();
-    break;
-  case 'I':
-    setI2Caddress();
-    break;
-  case '@':
-    Compass.updateOffsets();
-    break;
-  case 'Z':
-    while (1)
-    {
+    case 'F':
+      factoryReset();
+      break;
+    case 'E':
+      dumpEEPROM();
+      break;
+    case 'R':
+      dumpRAM();
+      break;
+    case 'A':
+      askHeading();
+      break;
+    case 'Q':
       readHeading();
-      if (Serial.available()>0)
+      break;
+    case 'W':
+      Serial.println(Compass.wakeUp(), DEC);
+      break;
+    case 'S':
+      Serial.println(Compass.sleep(), DEC);
+      break;
+    case 'O':
+      OutPutModusMenu();
+      break;
+    case '7':
+      // mode , freq , reset
+      Compass.setOperationalModus(STANDBY, 1, true);  // 10 default val
+      Serial.println("Reboot Arduino");
+      break;
+    case '8':
+      Compass.setOperationalModus(QUERY, 1, true);  // 10 default val
+      Serial.println("Reboot Arduino");
+      break;
+    case '9':
+      Compass.setOperationalModus(CONT, 20, true);  // 10 default val
+      Serial.println("Reboot Arduino");
+      break;
+    case 'U':
+      Compass.callibrationOn();
+      break;
+    case 'X':
+      Compass.callibrationOff();
+      break;
+    case 'I':
+      setI2Caddress();
+      break;
+    case '@':
+      Compass.updateOffsets();
+      break;
+    case 'Z':
+      while (1)
       {
-        Serial.read();
-        break;
+        readHeading();
+        if (Serial.available() > 0)
+        {
+          Serial.read();
+          break;
+        }
+        delay(50);  // 20 Hz
       }
-      delay(50);  // 20 Hz
-    }
-    break;
-  default:
-    break;
+      break;
+    default:
+      break;
   }
 }
 
@@ -157,9 +155,9 @@ void askHeading()
 
 void readHeading()
 {
-  int x = Compass.readHeading();
+  int heading = Compass.readHeading();
   Serial.print("DEGREE: ");
-  Serial.println(x);
+  Serial.println(heading);
 }
 
 void factoryReset()
@@ -172,15 +170,17 @@ void dumpRAM()
 {
   Serial.println("\nDUMP RAM: (decimal values)");
   Serial.println("Size 256 bytes (?) meaning mostly unknown");
-  for (int i = 0; i< 256; i++)
+  for (int i = 0; i < 256; i++)
   {
     if (i % 16 == 0)
     {
       Serial.println();
       Serial.print(i, HEX);
-      Serial.print(" : ");
+      Serial.print("\t: ");
     }
-    Serial.print(Compass.readRAM(i), HEX);
+    int val = Compass.readRAM(i);
+    if (val < 0x10) Serial.print('0');
+    Serial.print(val, HEX);
     Serial.print("\t ");
   }
   Serial.println();

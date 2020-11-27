@@ -1,7 +1,7 @@
 {
   "name": "HMC6352",
   "keywords": "Compass,heading",
-  "description": "Experimental library for digital compass sensor",
+  "description": "Experimental Arduino library for HMC6352 digital compass sensor",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/HMC6352"
   },
-  "version":"0.1.4",
+  "version":"0.2.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/hmc6352"
-  }
+  "platforms": "*"
 }

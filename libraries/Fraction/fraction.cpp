@@ -1,16 +1,17 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
-// PURPOSE: library for fractions for Arduino
-//     URL: https://github.com/RobTillaart/Arduino
+// VERSION: 0.1.10
+// PURPOSE: Arduino library to implement a Fraction datatype 
+//     URL: https://github.com/RobTillaart/Fraction
 //
-// Released to the public domain
 //
 // TODO
 // - divide by zero errors
 // - test extensively
 //
+// 0.1.10   2020-06-10 fix library.json
+// 0.1.9    refactor
 // 0.1.8  - refactor made constructors explicit; fix issue #33 double --> float
 // 0.1.07 - major refactoring by Chris-A
 // 0.1.06 - added proper(), mediant(), angle();
@@ -24,8 +25,10 @@
 
 #include "fraction.h"
 
+//////////////////////////////////////
+//
 // CONSTRUCTORS
-
+//
 Fraction::Fraction(double d)
 {
   Fraction::split(float(d));
@@ -45,16 +48,29 @@ void Fraction::split(float f)
     // EULER = 2721/1001; // 1.1e-7
     // EULER = 1264/465;  // 2.2e-6
 
-    // get robust for small values.
+    // get robust for small values. (effectively zero)
     if (abs(f) < 0.00001)
     {
         n = 0;
         d = 1;
         return;
     }
+	if (int32_t(f) == f)
+	{
+        n = int32_t(f);
+        d = 1;
+        return;		
+	}
     // Normalize to 0.0 ... 1.0
     bool negative = f < 0;
     if (negative) f = -f;
+	
+	// TODO investigate different strategy: 
+	// intpart = int32_t(f);   // strip of the integer part.
+	// f = f - intpart;        // determine remainder
+	// determine n, d
+	// n += intpart * d;       // add integer part * denominator to fraction.
+	
     bool reciproke = f > 1;
     if (reciproke) f = 1/f;
 
@@ -79,10 +95,16 @@ Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
     simplify();
 }
 
+
+//////////////////////////////////////
+//
 // PRINTING
+//
 size_t Fraction::printTo(Print& p) const
 {
     size_t s = 0;
+	// TODO split of sign first
+	//
     //  vs 22/7 => 3_1/7
     // if (n >= d)
     // {
@@ -96,11 +118,20 @@ size_t Fraction::printTo(Print& p) const
     return s;
 };
 
+//////////////////////////////////////
+//
 // EQUALITIES
+//
 bool Fraction::operator == (const Fraction &c)
 {
     return (n * c.d) == (d * c.n);
 }
+
+// bool Fraction::operator == (const float &f)
+// {
+	// Fraction c(f);
+    // return (n * c.d) == (d * c.n);
+// }
 
 bool Fraction::operator != (const Fraction &c)
 {
@@ -127,13 +158,19 @@ bool Fraction::operator <= (const Fraction &c)
     return (n * c.d) <= (d * c.n);
 }
 
+//////////////////////////////////////
+//
 // NEGATE
+//
 Fraction Fraction::operator - ()
 {
     return Fraction(-n, d);
 }
 
+//////////////////////////////////////
+//
 // BASIC MATH
+//
 Fraction Fraction::operator + (const Fraction &c)
 {
     if (d == c.d)
@@ -215,7 +252,6 @@ float Fraction::toDouble()
     return (1.0 * n) / d;
 }
 
-// wikipedia
 // fraction is proper if abs(fraction) < 1
 bool Fraction::isProper()
 {
@@ -229,21 +265,31 @@ float Fraction::toAngle()
 }
 
 
-////////////////////////////////////////////////////////////
+//////////////////////////////////////
+//
 // STATIC
+//
 // Mediant  - http://www.cut-the-knot.org/Curriculum/Arithmetic/FCExercise.shtml
 // void Fraction::mediant(Fraction c)
 // {
-// n += c.n;
-// d += c.d;
-// simplify();
+//   n += c.n;
+//   d += c.d;
+//   simplify();
 // }
+//
 
 // the mediant is a fraction that is always between 2 fractions
 // at least if within precission.
 Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 {
     return Fraction(a.n + b.n, a.d + b.d);
+}
+
+// the middle is a fraction that is between 2 fractions
+// at least if within precission.
+Fraction Fraction::middle(const Fraction &a, const Fraction &b)
+{
+    return Fraction(a.n*b.d + b.n*a.d, 2 * a.d * b.d);
 }
 
 // approximate a fraction with defined denominator
@@ -256,9 +302,11 @@ Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 }
 
 
-////////////////////////////////////////////////////////////////
+//////////////////////////////////////
+//
 // PRIVATE
 // http://en.wikipedia.org/wiki/Binary_GCD_algorithm
+//
 int32_t Fraction::gcd(int32_t a , int32_t b)
 {
     while ( a != 0 )
@@ -282,8 +330,8 @@ void Fraction::simplify()
     int32_t p = abs(n);
     int32_t q = abs(d);
     int32_t x = gcd(p,q);
-    p = p/x;
-    q = q/x;
+    p = p / x;
+    q = q / x;
 
     // denominator max 4 digits keeps mul and div simple
     // in preventing overflow
@@ -293,14 +341,15 @@ void Fraction::simplify()
         p = (p + 5)/10;
         q = (q + 5)/10;
         x = gcd(p, q);
-        p = p/x;
-        q = q/x;
+        p = p / x;
+        q = q / x;
     }
-    n = (neg)?-p:p;
+    n = (neg) ? -p : p;
     d = q;
 }
 
 //////////////////////////////////////////////////////////////////////////////
+//
 // fractionize() - finds the fraction representation of a float
 // PRE: 0 <= f < 1.0
 //
@@ -312,106 +361,14 @@ void Fraction::simplify()
 //
 
 
-// MINIMALISTIC
-// (100x) micros()=51484
-/*
-float Fraction::fractionize(float f)  // simple, small, 2nd fastest
-{
-    n = round(f * 10000);  // why not 1000000 ?
-    d = 10000;
-    simplify();
-    return 0; // abs(f - this.toDouble());
-}
-*/
-
-// LINEAR SEARCH
-// (100x) micros()=18873064
-// slow not stable
-/*
-float Fraction::fractionize(float f)
-{
-    long nn = 1, dd = 1;
-
-    float r = 1 / f;
-    float delta = f * dd - nn;
-    while (abs(delta) > 0.00001 && (dd < 10000))
-    {
-        dd++;
-        if (delta < 0)
-        {
-            nn++;
-            dd = nn * r;
-        }
-        delta = f * dd - nn;
-    }
-    n = nn;
-    d = dd;
-    return delta;
-}
-*/
-
-/*
-// LINEAR SEARCH (mirror optimized)
-// (100x) micros()=
-// slow but stable version
-float Fraction::fractionize(float f)
-{
-    long nn = 1, dd = 1;
-    bool inverse = false;
-
-    if (f > 0.5)
-    {
-        f = 1-f;
-        inverse = true;
-    }
-
-    float r = 1 / f;
-    float delta = f * dd - nn;
-    while (abs(delta) > 0.00001 && (dd < 10000))
-    {
-        dd++;
-        if (delta < 0)
-        {
-            nn++;
-            dd = nn * r;
-        }
-        delta = f * dd - nn;
-    }
-    n = inverse?(dd - nn):nn;
-    d = dd;
-    return delta;
-}
-*/
-
-
-// ADD BY DIGIT
-// - does not find "magic fractions" e.g. pi = 355/113
-// (100x) micros()=392620
-/*
-float Fraction::fractionize(float f)  // divide and conquer, simple, small, 2nd fastest
-{
-    Fraction t((long)0);
-    for (long dd = 10; dd < 1000001; dd *= 10)
-    {
-        f *= 10;
-        int ff = f;
-        t += Fraction(ff, dd);
-        f -= ff;
-    }
-    n = t.n;
-    d = t.d;
-    return f;
-}
-*/
-
-
 // Dr. Peterson
 // - http://mathforum.org/library/drmath/view/51886.html
 // (100x) micros()=96048
 // showed errors for very small values around 0
 void Fraction::fractionize(float val)
-{    // find nearest fraction
-    float Precision = 0.000001;
+{    
+    // find nearest fraction
+    float Precision = 0.0000001;
     Fraction low(0, 1);             // "A" = 0/1
     Fraction high(1, 1);            // "B" = 1/1
     for (int i = 0; i < 100; ++i)
@@ -456,46 +413,4 @@ void Fraction::fractionize(float val)
     d = high.d;
 }
 
-
-// BINARY SEARCH
-// - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
-// (100x) micros()=1292452
-// slower
-/*
-float Fraction::fractionize(float value)  // size ok, too slow.
-{
-    int max_denominator = 10000;
-
-    int low_n = 0;
-    int low_d = 1;
-    int high_n = 1;
-    int high_d = 1;
-    int mid_n;
-    int mid_d;
-
-    do
-    {
-        mid_n = low_n + high_n;
-        mid_d = low_d + high_d;
-        if ( mid_n < value * mid_d )
-        {
-            low_n = mid_n;
-            low_d = mid_d;
-            n = high_n;
-            d = high_d;
-        }
-        else
-        {
-            high_n = mid_n;
-            high_d = mid_d;
-            n = low_n;
-            d = low_d;
-        }
-    } while ( mid_d <= max_denominator );
-    return 0;
-}
-*/
-
-//
-// END OF FILE
-//
+// -- END OF FILE --

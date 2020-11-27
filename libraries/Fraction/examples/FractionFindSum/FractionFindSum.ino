@@ -1,12 +1,10 @@
 //
 //    FILE: FractionFindSum.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 13-feb-2015
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/Fraction
 //
 
 #include "fraction.h"
@@ -50,7 +48,7 @@ void findSum(Fraction f)
       Serial.print(g);
       Serial.print(" + ");
     }
-    if (f == 0)
+    if (f == Fraction(0))
     {
       break;
     }
@@ -59,8 +57,10 @@ void findSum(Fraction f)
   Serial.println(z);
   Serial.println();
 }
+
+
 void loop()
 {
 }
 
-
+// -- END OF FILE --

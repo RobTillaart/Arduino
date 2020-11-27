@@ -1,31 +1,31 @@
 //
 //    FILE: standbyDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: demo app HMC6352 library - standby mode for Arduino
 //
 // HISTORY:
 // 0.1.00 - 2011-04-12 initial version
 // 0.1.1  - 2017-09-13 renamed to .ino;
-//
-// Released to the public domain
-//
-// All disclaimers apply use at own risk
+// 0.2.0    2020-06-13 refactor
 //
 
-#include <Wire.h>
 #include <hmc6352.h>
 
-hmc6352 Compass(0x21);  // 0x21 <==> 33  <==> 66 >> 1
-int x;
+hmc6352 Compass(0x21);
+int heading;
 
 
 void setup()
 {
-  Serial.begin(19200);
-  Serial.println("HMC6352: Version ");
-  Serial.println(HMC_LIB_VERSION);
-  Serial.print("current output modus");
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.println("LIB: ");
+  Serial.println(HMC6352_LIB_VERSION);
+
+  Compass.begin();
+  
+  Serial.print("Output modus");
   Serial.println(Compass.getOutputModus());
 }
 
@@ -38,13 +38,13 @@ void loop()
   // without impact on the footprint of the lib.
   // this way one can ask a make a reading and fetch it a bit later.
   // TODO is it fast enough for IRQ ?
-  x = Compass.askHeading();
+  int x = Compass.askHeading();
   //Serial.print("Ask returns: ");
   //Serial.println(x);
 
-  x = Compass.readHeading();
-  Serial.print("ask & read : Degree : ");
-  Serial.println(x);
+  heading = Compass.readHeading();
+  Serial.print("ask & read : ");
+  Serial.println(heading);
 
   Compass.sleep();  // low energy mode
   delay(500);
@@ -52,7 +52,7 @@ void loop()
   // this is the simplest mode to use the library
   // suitable for 99.9% of all robots :)
   Compass.wakeUp();
-  Serial.print("getHeading : Degree : ");
+  Serial.print("getHeading : ");
   Serial.println(Compass.getHeading());
   Compass.sleep();
   delay(500);

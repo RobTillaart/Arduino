@@ -1,19 +1,15 @@
+#pragma once
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
-// PURPOSE: demo library for fractions for Arduino
-//     URL:
+// VERSION: 0.1.10
+// PURPOSE: Arduino library to implement a Fraction datatype 
+//     URL: https://github.com/RobTillaart/Fraction
 //
-// Released to the public domain
-//
-
-#ifndef Fraction_h
-#define Fraction_h
 
 #include "Arduino.h"
 
-#define FRACTIONLIBVERSION "0.1.8"
+#define FRACTIONLIBVERSION "0.1.10"
 
 class Fraction: public Printable
 {
@@ -33,6 +29,7 @@ public:
 
     // equalities
     bool operator == (const Fraction&);
+    // bool operator == (const float&);
     bool operator != (const Fraction&);
     bool operator >  (const Fraction&);
     bool operator >= (const Fraction&);
@@ -58,7 +55,12 @@ public:
     bool    isProper();   // abs(f) < 1
     float   toAngle();
 
+    int32_t  nominator() { return n; };
+    int32_t  denominator() { return d; };
+	
     static Fraction mediant(const Fraction&, const Fraction&);
+    static Fraction middle(const Fraction&, const Fraction&);
+
     // approximate a fraction with defined denominator
     static Fraction setDenominator(const Fraction&, uint16_t);
 
@@ -73,7 +75,4 @@ protected:
     int32_t d;
 };
 
-#endif
-//
 // -- END OF FILE --
-//

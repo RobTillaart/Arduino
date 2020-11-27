@@ -1,13 +1,10 @@
 //
 //    FILE: constrainedMap.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.1
 // PURPOSE: demo of FastMap class ==> merge map and constrain functions
 //    DATE: 2014-11-02
-//     URL: 
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/FastMap
 
 #include "FastMap.h"
 

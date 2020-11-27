@@ -1,6 +1,6 @@
 {
-  "name": "FRAM",
-  "keywords": "FRAM,storage",
+  "name": "FRAM_I2C",
+  "keywords": "FRAM, storage",
   "description": "Library for FRAM for Arduino.",
   "authors":
   [
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/FRAM_I2C.git"
   },
-  "version":"0.1.1",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/FRAM"
-  }
+  "platforms": "*"
 }

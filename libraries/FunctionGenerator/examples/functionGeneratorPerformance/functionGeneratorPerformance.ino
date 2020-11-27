@@ -1,12 +1,10 @@
 //
 //    FILE: functionGeneratorPerformance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.2.0
 // PURPOSE: demo function generators
 //    DATE: 2015-01-01
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 
 #include "functionGenerator.h"
@@ -14,46 +12,58 @@
 uint32_t start;
 uint32_t stop;
 
-volatile double t;
-volatile double y;
+volatile float t;
+volatile float y;
+
+funcgen gen;
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Start functionGeneratorPerformance - LIB VERSION: ");
+  Serial.print("Start functionGeneratorPerformance - LIB VERSION: ");
   Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
   
-  Serial.println("func \t usec\t max calls/sec");
+  Serial.println("func \t\tusec\tmax calls/sec");
   y = analogRead(A0) / 1024;
-  test_fgsqr();
+  test_square();
   delay(10);
-  test_fgsaw();
+  test_sawtooth();
   delay(10);
-  test_fgtri();
+  test_triangle();
   delay(10);
-  test_fgsin();
+  test_sinus();
   delay(10);
-  test_fgstr();
+  test_stair();
+  delay(10);
+  test_random();
+  delay(10);
+  test_line();
+  delay(10);
+  test_zero();
   delay(10);
   Serial.println();
 
-  Serial.println("t \t sqr\t saw\t tri\t sin\t str");
+  Serial.println("t \t sqr\t saw\t tri\t sin\t str\t rnd\t line\t zero");
   for (int i = -400; i < 400; i += 2)
   {
-    // func(double t, double period = 1.0, double amplitude = 1.0, double phase = 0.0, double yShift = 0.0)
-    double t = i * 0.01;
+    float t = i * 0.01;
     Serial.print(t);
     Serial.print("\t");
-    Serial.print(fgsqr(t));
+    Serial.print(gen.square(t));
     Serial.print("\t");
-    Serial.print(fgsaw(t));  //, 2.0, 1.0, 0.5));
+    Serial.print(gen.sawtooth(t));
     Serial.print("\t");
-    Serial.print(fgtri(t));  //, 1.0, 0.5, 1.0));
+    Serial.print(gen.triangle(t));
     Serial.print("\t");
-    Serial.print(fgsin(t));  // , TWO_PI, 1.0, PI / 4)); // period 2PI, phase = 45°
-    // Serial.print(fgsin(t, 1.0, 0.5, -0.5, 0.5));
+    Serial.print(gen.sinus(t));
     Serial.print("\t");
-    Serial.print(fgstr(t));
+    Serial.print(gen.stair(t));
+    Serial.print("\t");
+    Serial.print(gen.random());
+    Serial.print("\t");
+    Serial.print(gen.line());
+    Serial.print("\t");
+    Serial.print(gen.zero());
     Serial.println();
   }
   Serial.println("\ndone...");
@@ -62,71 +72,121 @@ void setup()
 
 /******************************************************************/
 
-void test_fgsqr()
+void test_square()
 {
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    t = fgsqr(i);
+    t = gen.square(i);
   }
   stop = micros();
-  Serial.print("fsqr:\t");
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
   Serial.print((stop - start) / 10000.0);
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
-void test_fgsaw()
+void test_sawtooth()
 {
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    t = fgsaw(i);
+    t = gen.sawtooth(i);
   }
   stop = micros();
-  Serial.print("fsaw:\t");
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
   Serial.print((stop - start) / 10000.0);
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
-void test_fgtri()
+void test_triangle()
 {
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    t = fgtri(i);
+    t = gen.triangle(i);
   }
   stop = micros();
-  Serial.print("ftri:\t");
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
   Serial.print((stop - start) / 10000.0);
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
-void test_fgsin()
+void test_sinus()
 {
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    t = fgsin(i);
+    t = gen.sinus(i);
   }
   stop = micros();
-  Serial.print("fsin:\t");
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
   Serial.print((stop - start) / 10000.0);
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
-void test_fgstr()
+void test_stair()
 {
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    t = fgstr(i);
+    t = gen.stair(i);
   }
   stop = micros();
-  Serial.print("fstr:\t");
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
+  Serial.print((stop - start) / 10000.0);
+  Serial.print("\t");
+  Serial.println(1000000.0 / ((stop - start) / 10000.0));
+}
+
+void test_random()
+{
+  start = micros();
+  for (int i = 0; i < 10000; i++)
+  {
+    t = gen.random();
+  }
+  stop = micros();
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
+  Serial.print((stop - start) / 10000.0);
+  Serial.print("\t");
+  Serial.println(1000000.0 / ((stop - start) / 10000.0));
+}
+
+void test_line()
+{
+  start = micros();
+  for (int i = 0; i < 10000; i++)
+  {
+    t = gen.line();
+  }
+  stop = micros();
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
+  Serial.print((stop - start) / 10000.0);
+  Serial.print("\t");
+  Serial.println(1000000.0 / ((stop - start) / 10000.0));
+}
+
+void test_zero()
+{
+  start = micros();
+  for (int i = 0; i < 10000; i++)
+  {
+    t = gen.zero();
+  }
+  stop = micros();
+  Serial.print(__FUNCTION__);
+  Serial.print(":\t");
   Serial.print((stop - start) / 10000.0);
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));

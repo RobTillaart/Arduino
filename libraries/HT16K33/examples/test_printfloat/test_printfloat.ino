@@ -1,7 +1,7 @@
 //
 //    FILE: test_printfloat.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: test decimal point for floats.
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -30,6 +30,12 @@ void loop()
 
 void test_printfloat()
 {
+  for (int i = -2000; i < 2000; i++)
+  {
+    float f = i * 0.001;
+    seg.displayFloat(f);
+    delay(10);
+  }
   for (int i = 9990; i < 10005; i++)
   {
     float f = i * 0.001;

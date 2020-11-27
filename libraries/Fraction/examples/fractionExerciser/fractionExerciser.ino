@@ -1,12 +1,10 @@
 //
 //    FILE: fractionExerciser.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: demo sketch for fraction math
-//    DATE:
-//     URL:
-//
-// Released to the public domain
+//    DATE: 2015-03-29
+//     URL: https://github.com/RobTillaart/Fraction
 //
 
 #include "fraction.h"

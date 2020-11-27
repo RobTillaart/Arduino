@@ -1,7 +1,7 @@
 {
   "name": "FastShiftIn",
-  "keywords": "Shift,shiftin,in,serial,fast",
-  "description": "Class for up to 3x faster shift in.",
+  "keywords": "Shift, shiftIn, in, serial, fast, 74HC165",
+  "description": "Arduino library for (AVR) optimized shiftIn - e.g. for 74HC165",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/FastShiftIn.git"
   },
-  "version":"0.1.3",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/FastShiftIn"
-  }
+  "platforms": "AVR"
 }

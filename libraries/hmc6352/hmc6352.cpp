@@ -1,8 +1,8 @@
 //
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
-// PURPOSE: HMC6352 library for Arduino
+// VERSION: 0.2.0
+// PURPOSE: Arduino library for HMC6352 digital compass sensor
 //
 // HISTORY:
 // 0.1.00 - 2011-04-07 initial version
@@ -10,20 +10,22 @@
 // 0.1.02 - 2011-04-12 added timing, fixed a bug
 // 0.1.03 - 2011-04-13 fixed small things; added getHeading()
 // 0.1.4  - 2017-09-13 minor refactor
-//
-// Released to the public domain
+// 0.2.0    2020-06-12 remove pre1.0 support, main refactor
 //
 
-#include <hmc6352.h>
-#include <Wire.h>
+#include "hmc6352.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#define WIRE_WRITE Wire.write
-#define WIRE_READ  Wire.read
-#else
-#define WIRE_WRITE Wire.send
-#define WIRE_READ  Wire.receive
-#endif
+#define HMC_GET_DATA        0x41
+#define HMC_WAKE            0x57
+#define HMC_SLEEP           0x53
+#define HMC_SAVE_OP_MODE    0x4C
+#define HMC_CALLIBRATE_ON   0x43
+#define HMC_CALLIBRATE_OFF  0x45
+#define HMC_UPDATE_OFFSETS  0x4F
+#define HMC_WRITE_RAM       0x47
+#define HMC_READ_RAM        0x67
+#define HMC_WRITE_EEPROM    0x77
+#define HMC_READ_EEPROM     0x72
 
 /* ERROR CODES ALL FUNCTIONS
 //
@@ -47,8 +49,19 @@
 
 hmc6352::hmc6352(uint8_t device)
 {
-  Wire.begin();
   _device = constrain(device, 0x10, 0xF6);
+}
+
+#if defined (ESP8266) || defined(ESP32)
+void hmc6352::begin(uint8_t sda, uint8_t scl)
+{
+  Wire.begin(sda, scl);
+}
+#endif
+
+void hmc6352::begin()
+{
+  Wire.begin();
 }
 
 int hmc6352::getHeading()
@@ -67,13 +80,13 @@ int hmc6352::askHeading()
   return rv;
 }
 
-// read the last value from the
+// read the last value from the sensor
 int hmc6352::readHeading()
 {
   int rv = Wire.requestFrom(_device, (uint8_t)2);  // remove ambiguity
   if (rv != 2) return -10;
-  rv = WIRE_READ() * 256;  // MSB
-  rv += WIRE_READ();       // LSB
+  rv = Wire.read() * 256;  // MSB
+  rv += Wire.read();       // LSB
   return rv;
 }
 
@@ -118,26 +131,24 @@ int hmc6352::setOperationalModus(hmcMode m, uint8_t freq, bool periodicReset)
   byte omcb = 0;  // Operational Mode Control Byte
   switch(freq)
   {
-  case 1: break;
-  case 5: omcb |= 0x20; break;
-  case 10: omcb |= 0x40; break;
-  case 20: omcb |= 0x60; break;
-  default: return -21;
+    case 1:  break;
+    case 5:  omcb |= 0x20; break;
+    case 10: omcb |= 0x40; break;
+    case 20: omcb |= 0x60; break;
+    default: return -21;
   }
 
   if (periodicReset) omcb |= 0x10;
 
   switch(m)
   {
-  case STANDBY: break;  // omcb |= 0x00;
-  case QUERY: omcb |= 0x01; break;
-  case CONT: omcb |= 0x02; break;
-  default: return -20;
+    case STANDBY: omcb |= 0x00; break;
+    case QUERY:   omcb |= 0x01; break;
+    case CONT:    omcb |= 0x02; break;
+    default: return -20;
   }
 
-  writeCmd(HMC_WRITE_RAM, 0x74, omcb);
-  cmd(HMC_SAVE_OP_MODE);
-  delayMicroseconds(125);
+  saveOpMode(omcb);
   return omcb;
 }
 
@@ -199,7 +210,6 @@ int hmc6352::getI2CAddress()
 
 // NOT TESTED
 // meaning time delay unknown
-// therefore removed from lib for now
 int hmc6352::setTimeDelay(uint8_t msec)
 {
   return writeCmd(HMC_WRITE_EEPROM, 5, msec);
@@ -212,7 +222,6 @@ int hmc6352::getTimeDelay()
 
 // NOT TESTED
 // meaning measurement summing unknown
-// therefore removed from lib for now
 int hmc6352::setMeasurementSumming(uint8_t ms)
 {
   if (ms > 16 ) ms = 16;
@@ -224,10 +233,10 @@ int hmc6352::getMeasurementSumming()
   return readCmd(HMC_READ_EEPROM, 6);
 }
 
-// Makes only sense in setOperationalModus()
-// therefore removed from lib for now
-int hmc6352::saveOpMode()
+// used by setOperationalModus()
+int hmc6352::saveOpMode(byte OpMode)
 {
+  writeCmd(HMC_WRITE_RAM, 0x74, OpMode);
   int rv = cmd(HMC_SAVE_OP_MODE);
   delayMicroseconds(125);
   return rv;
@@ -277,7 +286,7 @@ int hmc6352::readRAM(uint8_t address)
 int hmc6352::cmd(uint8_t c)
 {
   Wire.beginTransmission(_device);
-  WIRE_WRITE(c);
+  Wire.write(c);
   int rv = Wire.endTransmission();
   delay(10);
   return rv;
@@ -286,8 +295,8 @@ int hmc6352::cmd(uint8_t c)
 int hmc6352::readCmd(uint8_t c, uint8_t address)
 {
   Wire.beginTransmission(_device);
-  WIRE_WRITE(c);
-  WIRE_WRITE(address);
+  Wire.write(c);
+  Wire.write(address);
   int rv = Wire.endTransmission();
   if (rv != 0) return -rv;
 
@@ -295,16 +304,16 @@ int hmc6352::readCmd(uint8_t c, uint8_t address)
 
   rv = Wire.requestFrom(_device, (uint8_t)1);
   if (rv != 1) return -10;
-  rv = WIRE_READ();
+  rv = Wire.read();
   return rv;
 }
 
 int hmc6352::writeCmd(uint8_t c, uint8_t address, uint8_t data)
 {
   Wire.beginTransmission(_device);
-  WIRE_WRITE(c);
-  WIRE_WRITE(address);
-  WIRE_WRITE(data);
+  Wire.write(c);
+  Wire.write(address);
+  Wire.write(data);
   int rv = Wire.endTransmission();
   delayMicroseconds(70);
   return rv;

@@ -1,0 +1,119 @@
+
+
+==============================
+
+2020-04-14 - tested IDE 1.8.12
+ factor 5+ faster
+-----------------------------
+
+example fastShiftIn: 0.2.0
+
+ 8 bits HIGH
+
+
+Performance - time in us : read()
+FastShiftIn1: 20.43
+FastShiftIn2: 39.72
+       Delta: 19.29
+
+
+Performance - time in us : readLSBFIRST()
+FastShiftIn1: 19.80
+FastShiftIn2: 38.84
+       Delta: 19.04
+
+
+Performance - time in us : readMSBFIRST()
+FastShiftIn1: 19.80
+FastShiftIn2: 38.84
+       Delta: 19.04
+
+
+Performance - time in us : reference shiftIn()
+Standard shiftIn1: 108.61
+Standard shiftIn2: 216.43
+            Delta: 107.82
+
+done...
+
+==============================
+
+tested IDE 1.8.12
+
+2020-04-14
+
+example fastShiftIn: 0.1.5
+
+ 8 bits HIGH
+
+
+Performance - time in us
+FastShiftIn1: 25.15
+FastShiftIn2: 49.15
+       Delta: 24.00
+
+Standard shiftIn1: 108.51
+Standard shiftIn2: 216.43
+            Delta: 107.92
+
+done...
+
+==============================
+
+tested IDE 1.8.1
+
+20-08-2017
+example fastShiftIn: 0.1.4
+
+ 8 bits HIGH
+
+
+Performance - time in us
+FastShiftIn1: 25.64
+FastShiftIn2: 50.16
+       Delta: 24.52
+
+Standard shiftIn1: 110.53
+Standard shiftIn2: 220.48
+            Delta: 109.95
+
+done...
+
+==============================
+
+2017-4-27
+example fastShiftIn: 0.1.3
+
+ 8 bits HIGH
+
+
+Performance - time in us
+FastShiftIn1: 31.31
+FastShiftIn2: 61.48
+       Delta: 30.18
+
+Standard shiftIn1: 110.54
+Standard shiftIn2: 220.48
+            Delta: 109.94
+
+done...
+
+==============================
+
+example fastShiftIn: 0.1.01
+
+ 8 bits HIGH
+
+
+Performance - time in us
+FastShiftIn1: 44.83
+FastShiftIn2: 88.52
+       Delta: 43.70
+
+Standard shiftIn1: 110.54
+Standard shiftIn2: 220.49
+            Delta: 109.95
+
+done...
+
+

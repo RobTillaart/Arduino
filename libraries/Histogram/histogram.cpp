@@ -1,11 +1,9 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
-//
-// Released to the public domain
 //
 // HISTORY:
 // 0.1.0 - 2012-11-10 initial version
@@ -15,9 +13,7 @@
 // 0.1.4 - 2015-03-06 stricter interface
 // 0.1.5 - 2017-07-16 refactor, support for > 256 buckets; prevent alloc errors
 // 0.1.6 - 2017-07-27 revert double to float (issue #33)
-//
-// Released to the public domain
-//
+// 0.2.0   2020-06-12 #pragma once, removed pre 1.0 support
 
 #include "histogram.h"
 
@@ -140,4 +136,4 @@ int16_t Histogram::find(const float val)
   // return i;
 }
 
-// END OF FILE
+// -- END OF FILE --

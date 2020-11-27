@@ -1,12 +1,10 @@
 //
 //    FILE: fractionTest01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: test sketch for fraction math
-//    DATE:
-//     URL:
-//
-// Released to the public domain
+//    DATE: 2015-01-25
+//     URL: https://github.com/RobTillaart/Fraction
 //
 
 #include "fraction.h"
@@ -18,6 +16,7 @@ Fraction b(1, 4);
 Fraction n(0, 5);
 Fraction p(5);
 Fraction pi(PI);
+Fraction e(EULER);
 
 void setup()
 {
@@ -33,6 +32,9 @@ void setup()
   Serial.println(p);
   Serial.println(q);
   Serial.println(pi);
+  Serial.println(e);
+  Serial.println(Fraction::middle(pi, e));
+  Serial.println(Fraction::mediant(pi, e));
   Serial.println();
 
   testPlus();

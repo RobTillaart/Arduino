@@ -1,44 +1,37 @@
+#pragma once
 //
 //    FILE: FastShiftOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.1
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/FastShiftOut
 //
 
-#ifndef FastShiftOut_h
-#define FastShiftOut_h
-
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
-#define FASTSHIFTOUT_LIB_VERSION (F("0.1.5"))
-
 #include "Print.h"
+
+#define FASTSHIFTOUT_LIB_VERSION (F("0.2.1"))
 
 class FastShiftOut : public Print
 {
 public:
-    FastShiftOut(const uint8_t, const uint8_t, const uint8_t);
-    size_t write(const uint8_t);
-    int read(void);
+  // bitorder = { LSBFIRST, MSBFIRST };
+  FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const uint8_t bitOrder = LSBFIRST);
+  size_t write(const uint8_t data);
+
+  // overrule bitorder (most optimized).
+  size_t writeLSBFIRST(const uint8_t data);
+  size_t writeMSBFIRST(const uint8_t data);
 
 private:
-    uint8_t _bitorder;
-    int _value;
+  uint8_t _bitorder;
 
-    uint8_t _databit;
-    volatile uint8_t *_dataout;
+  uint8_t _databit;
+  volatile uint8_t *_dataout;
 
-    uint8_t _clockbit;
-    volatile uint8_t *_clockout;
+  uint8_t _clockbit;
+  volatile uint8_t *_clockout;
 };
 
-#endif
 // -- END OF FILE --

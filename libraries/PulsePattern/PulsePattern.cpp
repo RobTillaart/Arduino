@@ -1,8 +1,9 @@
 //
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: see PULSEPATTERN_LIB_VERSION in .h
-// PURPOSE: PulsePattern library for Arduino
+// VERSION: 0.1.2
+//    DATE: 2012-11-23
+// PURPOSE: Arduino Library to generate repeating pulse patterns
 //
 // HISTORY:
 // 0.0.1 - 2012-11-23 initial version
@@ -12,29 +13,14 @@
 // 0.0.5 - 2012-12-27 code cleanup+comment
 // 0.0.6 - 2015-04-18 completed the state machine
 // 0.0.7 - 2017-07-16 refactor & review
-//
-// Released to the public domain
-//
-// TODO
-// - fast function iso array to return the next period?
-//   more adaptive to e.g. sensor values. (investigate)
-// - test PRE 1.0 backwards compatibility
-// - move code to .h file so compiler can inline?
-// - optimize timer code
-// - adjust timing to more accurate values -> setTimer()
-// - worker should be private - how???
-// - test invalid array periods
-// - start en stop index ipv size?
-// - pulsepattern recorder
-//
+// 0.0.8 - 2018-12-13 refactor -> remove some warnings
+// 0.1.0   2020-06-19 #pragma once; remove pre 1.0 support; refactor
+// 0.1.1   2020-07-04 add continue function, fix spaces.
+// 0.1.2   2020-08-07 speed up toggle pin + get/setFactor()
+
 
 #include "PulsePattern.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
 // Predefined generator (singleton)
 PulsePattern PPGenerator;
@@ -55,29 +41,39 @@ PulsePattern::PulsePattern()
   _pin = 0;
 }
 
-void PulsePattern::init(uint8_t pin, uint16_t * ar, uint8_t size,
-uint8_t level, uint8_t prescaler)
+void PulsePattern::init(const uint8_t pin, const uint16_t * ar, const uint8_t size,
+const uint8_t level, const uint8_t prescaler)
 {
   _pin = pin;
   pinMode(_pin, OUTPUT);
   stop();
 
-  _ar = ar;
+  _ar = (uint16_t *) ar;
   _size = size;
-  // TODO: run over the array to test invalid values?
-  // constrain them 10-4095?
-  _level = constrain(level, LOW, HIGH);
+  _level = level ? LOW : HIGH;
   _prescaler = constrain(prescaler, PRESCALE_1, PRESCALE_1024);
   _cnt = 0;
 
   digitalWrite(_pin, _level);
   _state = STOPPED;
+
+  // fast low level AVR ports
+  uint8_t _pinport   = digitalPinToPort(_pin);
+  _pinout = portOutputRegister(_pinport);
+  _pinbit = digitalPinToBitMask(_pin);
 }
 
 void PulsePattern::start()
 {
-  if (_size == 0) return;         // no pattern
   if (_state == RUNNING) return;  // no restart
+  _cnt = 0;                       // start from begin
+  cont();
+}
+
+void PulsePattern::cont()
+{
+  if (_state == RUNNING) return;  // no continue
+  if (_size == 0) return;         // no pattern
   setTimer(1);                    // start asap
   _state = RUNNING;
 }
@@ -95,14 +91,21 @@ void PulsePattern::worker()
   if (_state != RUNNING) return;
   // set next period & flip signal
   _level = !_level;
-  // direct port faster
-  digitalWrite(_pin, _level);
-  // TODO: adjustment needed for code overhead when micros?;
-  // + 5.2 usec for digitalWrite
-  // + 3 usec for settimer call
-  OCR1A = (_ar[_cnt]) * (F_CPU/1000000L);
+  // digitalWrite(_pin, _level);
+  // direct port much faster
+  if (_level == 0) *_pinout &= ~_pinbit;
+  else *_pinout |= _pinbit;
+
+  if (_factor != 4096)
+  {
+    OCR1A = _ar[_cnt] * _factor * (F_CPU/1000000UL) / 4096;
+  }
+  else
+  {
+    OCR1A = _ar[_cnt] * (F_CPU/1000000UL);
+  }
   _cnt++;
-  if (_cnt >= _size) _cnt = 0;  // repeat
+  if (_cnt >= _size) _cnt = 0;  // repeat pattern
 }
 
 // TIMER code based upon - http://www.gammon.com.au/forum/?id=11504
@@ -112,21 +115,20 @@ void PulsePattern::stopTimer()
   TCCR1B = 0;
 }
 
-// TODO: can be optimized?
 void PulsePattern::setTimer(const uint16_t cc) const
 {
-  TCCR1A = 0;
+  TCCR1A = 0;               // stop timer first
   TCCR1B = 0;
-  TCNT1 = 0;      		      // reset counter
-  OCR1A = cc * 16;	        // compare A register value;
+  TCNT1 = 0;                // reset counter
+  OCR1A = cc * 16;          // compare A register value;
   // * 16 makes max period 4095
   // min period 12?
 
   // 4: CTC mode, top = OCR1A
-  TCCR1A = _BV (COM1A1);  	// clear on compare
+  TCCR1A = _BV (COM1A1);    // clear on compare
   TCCR1B = _BV (WGM12) | _prescaler;
   TIFR1 |= _BV (OCF1A);     // clear interrupt flag
   TIMSK1 = _BV (OCIE1A);    // interrupt on Compare A Match
 }
 
-// END OF FILE
+// -- END OF FILE --

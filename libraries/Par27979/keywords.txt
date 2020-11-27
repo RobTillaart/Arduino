@@ -1,0 +1,28 @@
+# Syntax Coloring Map For PAR27979
+
+# Datatypes (KEYWORD1)
+PAR27979	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+on	KEYWORD2
+off	KEYWORD2
+clearHome	KEYWORD2
+backlightOn	KEYWORD2
+backlightOff	KEYWORD2
+left	KEYWORD2
+right	KEYWORD2
+down	KEYWORD2
+gotoXY	KEYWORD2
+defineCustomChar	KEYWORD2
+customChar	KEYWORD2
+
+octave	KEYWORD2
+duration	KEYWORD2
+play	KEYWORD2
+noSound	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+
+

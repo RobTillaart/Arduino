@@ -1,7 +1,7 @@
 //
 //    FILE: PinInGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 //          goal is to easily read a group of pins that logically
@@ -10,8 +10,10 @@
 //     URL: https://github.com/RobTillaart/PinInGroup
 //          http://forum.arduino.cc/index.php?topic=469599.0
 //
-// 0.1.0   2017-08-20  initial version (based upon pinGroup)
-// 0.1.1   2020-05-19 refactor; added clear(); added param for INPUT or INPUT_PULLUP
+// 0.1.0   2017-08-20 initial version (based upon pinGroup)
+// 0.1.1   2020-05-19 refactor; added clear(); 
+//                    added param for INPUT or INPUT_PULLUP
+// 0.1.2   2020-06-19 fix library.json
 
 #include "PinInGroup.h"
 

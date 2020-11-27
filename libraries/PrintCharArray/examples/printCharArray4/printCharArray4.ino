@@ -1,16 +1,18 @@
 //
 //    FILE: printCharArray4.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo it takes less time to send data out.
+//     URL: https://github.com/RobTillaart/PrintCharArray
 //
 // HISTORY:
-// 0.1.0 2017-12-09 initial version
+// 0.1.0   2017-12-09 initial version
+// 0.1.1   2020-04-30 minor refactor
 //
 
 #include "PrintCharArray.h"
 
-PrintCharArray ps;
+PrintCharArray ps(200);
 
 uint32_t start, stop;
 
@@ -20,30 +22,36 @@ void setup()
   Serial.println(__FILE__);
 
   Serial.println("Using direct print");
-  start = millis();
-  for (int i=0; i<10; i++)
+  start = micros();
+  for (int i = 0; i < 10; i++)
   {
-    Serial.println(1000+i);
+    Serial.println(1000 + i);
   }
-  stop = millis();
+  stop = micros();
   Serial.println(stop - start);
   Serial.println();
 
   Serial.println("Using printCharArray");
+  start = micros();
   ps.clear();
-  for (int i=0; i<10; i++)
+  for (int i = 0; i < 10; i++)
   {
-    ps.println(1000+i)
+    ps.println(1000 + i);
   }
-  start = millis();
   Serial.println(ps.getBuffer());
-  stop = millis();
+  stop = micros();
   Serial.println(stop - start);
   Serial.println();
 
+  Serial.println("print PrintCharArray again");
+  start = micros();
   Serial.println(ps.getBuffer());
-  Serial.println(ps.free());
+  stop = micros();
+  Serial.println(stop - start);
+  Serial.println();
 
+  Serial.print("FREE: ");
+  Serial.println(ps.free());
 }
 
 void loop()
@@ -51,3 +59,4 @@ void loop()
 
 }
 
+// -- END OF FILE --

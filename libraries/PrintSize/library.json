@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/PrintSize.git"
   },
-  "version":"0.1.0",
+  "version":"0.2.2",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/PrintSize"
-  }
+  "platforms": "*"
 }

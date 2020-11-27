@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: PinOutGroup.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2017-04-26
 // PURPOSE: PinOutGroup library for Arduino
 // HISTORY: See PinOutGroup.cpp
@@ -9,7 +9,7 @@
 
 #include "Arduino.h"
 
-#define PINOUTGROUP_LIB_VERSION "0.1.1"
+#define PINOUTGROUP_LIB_VERSION "0.1.2"
 
 // smaller MAXSIZE will reduce memory footprint with ditto bytes.
 #ifndef PINOUTGROUP_MAXSIZE

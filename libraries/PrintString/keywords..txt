@@ -1,0 +1,13 @@
+# Syntax Coloring Map For PrintString
+
+# Datatypes (KEYWORD1)
+PrintString	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+write	KEYWORD2
+size	KEYWORD2
+clear	KEYWORD2
+getString	KEYWORD2
+
+# Constants (LITERAL1)
+

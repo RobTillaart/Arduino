@@ -15,10 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Prandom.git"
   },
-  "version":"0.1.1",
+  "version":"0.1.2",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "Prandom"
-  }
+  "platforms": "*"
 }

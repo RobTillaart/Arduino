@@ -1,27 +1,27 @@
+#pragma once
 //
 //    FILE: PCA9685.H
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.1.1
-// PURPOSE: I2C PCA9685 library for Arduino
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries
+// VERSION: 0.3.0
+// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM 
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 //
 // HISTORY:
 // see PCA9685.cpp file
 //
 
-#ifndef _PCA9685_H
-#define _PCA9685_H
-
 #include "Arduino.h"
+#include "Wire.h"
 
-#define PCA9685_LIB_VERSION "0.1.1"
+#define PCA9685_LIB_VERSION "0.3.0"
 
 // ERROR CODES
 #define PCA9685_OK          0x00
 #define PCA9685_ERROR       0xFF
 #define PCA9685_ERR_CHANNEL 0xFE
 #define PCA9685_ERR_MODE    0xFD
+#define PCA9685_ERR_I2C     0xFC
 
 
 class PCA9685
@@ -29,41 +29,54 @@ class PCA9685
 public:
   explicit PCA9685(const uint8_t deviceAddress);
 
-  void begin();
+#if defined (ESP8266) || defined(ESP32)
+  void    begin(uint8_t sda, uint8_t scl);
+#endif
+  void    begin();
+  void    reset();
 
   // reg = 1, 2  check datasheet for values
-  void writeMode(uint8_t reg, uint8_t value);
+  void    writeMode(uint8_t reg, uint8_t value);
   uint8_t readMode(uint8_t reg);
 
   // single PWM setting, channel = 0..15,
   // onTime = 0..4095, offTime = 0..4095
   // allows shifted PWM's e.g. 2 servo's that do not start at same time.
-  void setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime);
-  void getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime);
+  void    setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime);
+  void    getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime);
 
-  // single PWM setting, channel = 0..15, offTime = 0..4095
-  void setPWM(uint8_t channel, uint16_t offTime);
+  // single PWM setting, channel = 0..15, offTime = 0..4095  (onTime = 0)
+  void    setPWM(uint8_t channel, uint16_t offTime);
 
   // set update frequency for all channels
-  // freq = 24-1526 Hz
-  void setFrequency(uint16_t freq);
+  // freq = 24 - 1526 Hz
+  // note: as the frequency is converted to an 8 bit prescaler
+  //       the frequency set will seldom be exact, but best effort.
+  void    setFrequency(uint16_t freq, int offset = 0);
+  int     getFrequency(bool cache = true);
 
-  void setON(uint8_t channel);
-  void setOFF(uint8_t channel);
+  // set channel  HIGH or LOW (effectively no PWM)
+  void    digitalWrite(uint8_t channel, uint8_t mode);
 
-  int lastError();
+  // for backwards compatibility; will be removed in future
+  void    setON(uint8_t channel)   { digitalWrite(channel, HIGH); };
+  void    setOFF(uint8_t channel)  { digitalWrite(channel, LOW); };
+
+  // experimental for 0.3.0
+  void    allOFF();
+
+  int     lastError();
 
 private:
+  
   // DIRECT CONTROL
-  void writeReg(uint8_t reg, uint8_t value);
-  void writeReg2(uint8_t reg, uint16_t a, uint16_t b);
+  void    writeReg(uint8_t reg, uint8_t value);
+  void    writeReg2(uint8_t reg, uint16_t a, uint16_t b);
   uint8_t readReg(uint8_t reg);
 
   uint8_t _address;
   int     _error;
+  int     _freq = 200;  // default PWM frequency - P25 datasheet
 };
 
-#endif
-//
-// END OF FILE
-//
+// -- END OF FILE --

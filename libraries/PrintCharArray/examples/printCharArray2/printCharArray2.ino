@@ -2,7 +2,8 @@
 //    FILE: printCharArray2.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
-// PURPOSE: demo
+// PURPOSE: demo right alignment
+//     URL: https://github.com/RobTillaart/PrintCharArray
 //
 // HISTORY:
 // 0.1.0 2017-12-09 initial version
@@ -53,3 +54,4 @@ void printSpaces(int n)
   }
 }
 
+// -- END OF FILE --

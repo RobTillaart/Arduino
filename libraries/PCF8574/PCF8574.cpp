@@ -2,12 +2,13 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for PCF8574 - I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
 //
 // HISTORY:
+// 0.2.1  2020-06-19 fix library.json
 // 0.2.0  2020-05-22 #pragma once; refactor;
 //        removed pre 1.0 support
 //        added begin(dsa, scl) for ESP32

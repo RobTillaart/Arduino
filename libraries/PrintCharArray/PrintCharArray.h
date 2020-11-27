@@ -1,35 +1,35 @@
+#pragma once
 //
 //    FILE: PrintCharArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.1
 // PURPOSE: Class that captures prints into a char array
 //    DATE: 2017-12-07
-//     URL:
-// HISTORY: 0.1.0 2017-12-07 initial version
+//     URL: https://github.com/RobTillaart/PrintCharArray
 //
-// Released to the public domain
-//
-
-#ifndef PrintCharArray_h
-#define PrintCharArray_h
+// 0.1.0    2017-12-07 initial version
+// 0.1.1    2020-04-28 minor optimization
+// 0.2.0    2020-04-30 dynamic memory
+// 0.2.1    2020-06-19 fix library.json
 
 #include "Print.h"
 
-#define PRINTCHARARRAY_VERSION "0.1.0"
-#define BUFFERSIZE      256
+#define PRINTCHARARRAY_VERSION "0.2.1"
 
 class PrintCharArray: public Print
 {
   public:
-    PrintCharArray() {};
+    PrintCharArray(uint8_t size = 100)
+	{
+      _bufSize = constrain(size, 20, 250);
+	  _buffer = (char *) malloc(_bufSize);
+	};
 
     size_t write(uint8_t c)
     {
-      if (index < BUFFERSIZE-1)
+      if (_index < _bufSize - 1)
       {
-        buffer[index] = c;
-        index++;
-        buffer[index] = '\0';
+        _buffer[_index++] = c;
         return 1;
       }
       return 0;
@@ -37,19 +37,23 @@ class PrintCharArray: public Print
 
     void clear()
     {
-      index = 0;
-      buffer[index] = '\0';
+      _index = 0;
     }
 
-    int free() { return (BUFFERSIZE - index); }
+    int free() { return (_bufSize - _index); }
 
-    int size() { return index; }
+    int size() { return _index; }
 
-    char * getBuffer() { return buffer; }
+    char * getBuffer() 
+	{
+      _buffer[_index] = '\0';
+	  return _buffer; 
+	}
 
   private:
-    char buffer[BUFFERSIZE];
-    int index = 0;
+    char*   _buffer;
+	uint8_t _bufSize = 0;
+    uint8_t _index = 0;
 };
-#endif
+
 // -- END OF FILE --

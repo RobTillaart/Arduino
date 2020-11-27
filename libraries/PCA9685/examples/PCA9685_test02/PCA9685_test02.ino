@@ -2,12 +2,11 @@
 //    FILE: PCA9685_test02.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-APR-2016
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 // PUPROSE: test PCA9685 library
 //
 
 #include "PCA9685.h"
-#include <Wire.h>
 
 PCA9685 ledArray(0x40);
 
@@ -22,12 +21,12 @@ void setup()
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 
-  testSetON();
+  testDigitalWrite(HIGH);
   testPWM(0);
   testPWMMode();
   testFrequency();
   delay(2000);
-  testSetOFF();
+  testDigitalWrite(LOW);
 
   Serial.print(millis());
   Serial.print("\t");
@@ -35,26 +34,14 @@ void setup()
 }
 
 
-void testSetON()
+void testDigitalWrite(uint8_t mode)
 {
   Serial.print(millis());
   Serial.print("\t");
   Serial.println(__FUNCTION__);
   for (int channel = 0; channel < 16; channel++)
   {
-    ledArray.setON(channel);
-    delay(100);
-  }
-}
-
-void testSetOFF()
-{
-  Serial.print(millis());
-  Serial.print("\t");
-  Serial.println(__FUNCTION__);
-  for (int channel = 0; channel < 16; channel++)
-  {
-    ledArray.setOFF(channel);
+    ledArray.digitalWrite(channel, mode);
     delay(100);
   }
 }
@@ -105,13 +92,24 @@ void testFrequency()
   Serial.println(__FUNCTION__);
 
   ledArray.setPWM(0, 1000, 3000);
-  for (uint16_t freq = 24; freq < 2000; freq *= 2)
+  for (uint16_t freq = 12; freq < 2000; freq *= 2)
   {
-    Serial.println(freq);
+    Serial.print(freq);
     ledArray.setFrequency(freq);
+    // if freq is out of range => report
+    if (ledArray.getFrequency() != freq)
+    {
+      Serial.print("\tconstrained to : ");
+      Serial.println(ledArray.getFrequency());
+    }
+    else
+    {
+      Serial.println("\tOK");
+    }
     delay(2000);
   }
   ledArray.setOFF(0);
+  Serial.println();
 }
 
 
@@ -119,3 +117,5 @@ void loop()
 {
   //testPWM(0);
 }
+
+// -- END OF FILE --

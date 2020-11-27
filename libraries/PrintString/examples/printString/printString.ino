@@ -1,16 +1,17 @@
 //
 //    FILE: printString.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo experimental
+//     URL: https://github.com/RobTillaart/PrintString
 //
 // HISTORY:
-// 0.1.0 2017-12-09 initial version
+// 0.1.0    2017-12-09 initial version
+// 0.1.1    2020-04-30 align demo with latest XMLWriter lib
 //
 
 #include "PrintString.h"
-
-#include "XMLWriter.h"
+#include "XMLWriter.h"    // https://github.com/RobTillaart/XMLWriter
 
 PrintString ps;
 XMLWriter XML(&ps);
@@ -41,6 +42,7 @@ void setup()
   XML.writeNode("Rain", "10mm");
   XML.writeNode("Sun", "40");
   XML.tagClose();
+  XML.flush();
 
   Serial.println(ps.getString());
   
@@ -50,4 +52,5 @@ void setup()
 void loop()
 {
 }
-// END OF FILE
+
+// -- END OF FILE --

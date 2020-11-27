@@ -15,10 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCF8574.git"
   },
-  "version":"0.2.0",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "*"
-  }
+  "platforms": "*"
 }

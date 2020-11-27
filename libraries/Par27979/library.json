@@ -1,7 +1,7 @@
 {
-  "name": "Par27979",
-  "keywords": "Parallax,27979,serial,display",
-  "description": "Defines for Parallax 27979 serial display.",
+  "name": "PAR27979",
+  "keywords": "Parallax,27979,serial,display,27976,27977",
+  "description": "Arduino library for Parallax 27979 serial LCD display.",
   "authors":
   [
     {
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/PAR27979.git"
   },
-  "version":"0.1.0",
+  "version":"0.2.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Par27979"
-  }
+  "platforms": "*"
 }

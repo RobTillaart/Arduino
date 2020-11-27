@@ -1,18 +1,20 @@
 //
 //    FILE: printCharArray3.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: demo
+// VERSION: 0.1.1
+// PURPOSE: demo with XML writer
+//     URL: https://github.com/RobTillaart/PrintCharArray
 //
 // HISTORY:
-// 0.1.0 2017-12-09 initial version
+// 0.1.0    2017-12-09 initial version
+// 0.1.1    2020-04-30 minor refactor
 //
 
 #include "PrintCharArray.h"
 
-#include "XMLWriter.h"
+#include "XMLWriter.h"    //   https://github.com/RobTillaart/XMLWriter
 
-PrintCharArray ps;
+PrintCharArray ps(250);
 XMLWriter XML(&ps);
 
 void setup()
@@ -32,6 +34,7 @@ void setup()
   XML.writeNode("Rain", "10mm");
   XML.writeNode("Sun", "40");
   XML.tagClose();
+  XML.flush();
 
   // write the XML generated in one call
   Serial.println(ps.getBuffer());
@@ -44,3 +47,4 @@ void loop()
 
 }
 
+// -- END OF FILE --

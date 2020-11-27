@@ -1,24 +1,19 @@
+#pragma once
 //
-//    FILE: Set.h
+//    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.2.1
+//    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
-//     URL:
+//     URL: https://github.com/RobTillaart/SET
 //
 // HISTORY:
 // see Set.cpp file
 //
 
-#ifndef Set_h
-#define Set_h
-
-#if ARDUINO < 100
-#include <WProgram.h>
-#else
 #include <Arduino.h>
-#endif
 
-#define SET_LIB_VERSION "0.1.11"
+#define SET_LIB_VERSION "0.2.1"
 
 class Set
 {
@@ -63,11 +58,10 @@ public:
 private:
     uint8_t _mem[32];           // can hold 0..255
     uint8_t masks[8] = {1, 2, 4, 8, 16, 32, 64, 128};
-    int _current;
+    int _current = -1;
+	
     int findNext(const uint8_t, const uint8_t); // helper for first, next
     int findPrev(const uint8_t, const uint8_t); // helper for last, prev
 };
-#endif
-//
-// END OF FILE
-//
+
+// -- END OF FILE --

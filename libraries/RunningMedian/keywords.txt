@@ -1,21 +1,13 @@
-#######################################
 # Syntax Coloring Map for RunningMedian
-# "traditional" and template variant
-#######################################
 
-#######################################
 # Datatypes (KEYWORD1)
-#######################################
-
 RunningMedian	KEYWORD1
 
-#######################################
 # Methods and Functions (KEYWORD2)
-#######################################
-
 add	KEYWORD2
 clear	KEYWORD2
 getMedian	KEYWORD2
+getQuantile KEYWORD2
 getAverage	KEYWORD2
 getHighest	KEYWORD2
 getLowest	KEYWORD2
@@ -26,8 +18,6 @@ getSortedElement	KEYWORD2
 predict	KEYWORD2
 getStatus	KEYWORD2
 
-#######################################
 # Constants (LITERAL1)
-#######################################
 OK	LITERAL1
 NOK	LITERAL1

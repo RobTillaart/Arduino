@@ -1,6 +1,6 @@
 {
-  "name": "Set",
-  "keywords": "Set,union,diff,intersection,equal,subset",
+  "name": "SET",
+  "keywords": "Set,add,sub,union,diff,intersection,equal,subset",
   "description": "Library to implement SET datastructure.",
   "authors":
   [
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/SET.git"
   },
-  "version":"0.1.11",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/Set"
-  }
+  "platforms": "*"
 }

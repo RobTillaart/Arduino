@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.4
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML 
 //
@@ -19,7 +19,8 @@
 // 0.2.0   2020-04-24 refactor, added examples, #pragma, print as base class
 // 0.2.1   2020-04-26 performance optimized, setconfig() + newLine() added
 // 0.2.2   2020-04-29 dynamic buffer size in constructor
-//
+// 0.2.3   2020-06-19 fix library.json
+// 0.2.4   2020-07-07 fix #6 Print interface made public
 
 #include <XMLWriter.h>
 
@@ -50,6 +51,21 @@ void XMLWriter::header()
 {
   print(F("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
 }
+
+// void XMLWriter::meta()
+// {
+  // print(F("<!-- "));
+  // print('\n');
+  // print(F(" VERSION: "));
+  // println(XMLWRITER_VERSION);
+  // print(F("MAXLEVEL: "));
+  // println(XMLWRITER_MAXLEVEL);
+  // print(F(" TAGSIZE: "));
+  // println(XMLWRITER_MAXTAGSIZE);
+  // print(F("  CONFIG: "));
+  // println(_config);
+  // print(F(" -->\n"));
+// }
 
 void XMLWriter::comment(const char* text, const bool multiLine)
 {
@@ -82,13 +98,20 @@ void XMLWriter::tagOpen(const char* tag, const char* name, const bool newline)
 {
   if (_tidx > XMLWRITER_MAXLEVEL)
   {
-    comment("XMLWRITER_MAXLEVEL exceeded.");
+    comment("MAXLEVEL exceeded.");
     comment(tag);
     comment(name);
+    flush();
     return;
   }
-  // "unsafe" strcpy saves ~20 bytes
-  strncpy(_tagStack[_tidx++], tag, XMLWRITER_MAXTAGSIZE);
+  if (strlen(tag) > XMLWRITER_MAXTAGSIZE)
+  {
+     comment("MAXTAGSIZE exceeded.");
+     comment(tag);
+     flush();
+     return;
+  }
+  strcpy(_tagStack[_tidx++], tag);
   tagStart(tag);
   if (name[0] != 0) tagField("name", name);
   tagEnd(newline, NOSLASH);
@@ -102,7 +125,6 @@ void XMLWriter::tagClose(const bool ind)
   print("</");
   print(_tagStack[--_tidx]);
   print(">\n");
-  delay(10);
 }
 
 void XMLWriter::tagStart(const char *tag)

@@ -1,12 +1,10 @@
 //
 //    FILE: sample.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: sample demo stopwatch class
-//    DATE: 
-//     URL:
-//
-// Released to the public domain
+//    DATE: 2011-01-04
+//     URL: https://github.com/RobTillaart/StopWatch_RT
 //
 
 #include <StopWatch.h>
@@ -35,7 +33,7 @@ void loop()
   for(int i=0; i<5; i++)
   {
     delay(10);
-    Serial.println(MySW.value());
+    Serial.println(MySW.elapsed());
   }
 
   MySW.stop();
@@ -44,7 +42,7 @@ void loop()
   for(int i=0; i<5; i++)
   {
     delay(10);
-    Serial.println(MySW.value());
+    Serial.println(MySW.elapsed());
   }
 
   MySW.start();
@@ -53,7 +51,7 @@ void loop()
   for(int i=0; i<5; i++)
   {
     delay(10);
-    Serial.println(MySW.value());
+    Serial.println(MySW.elapsed());
   }  
   MySW.reset();
   Serial.println(MySW.isRunning());
@@ -65,7 +63,7 @@ void loop()
   for(int i=0; i<5; i++)
   {
     delay(10);
-    Serial.println(MySW.value());
+    Serial.println(MySW.elapsed());
   }
 
   switch(MySW.state())
@@ -88,3 +86,5 @@ void loop()
   Serial.print(" >>>  laptime loop() : ");
   Serial.println(SWarray[0].value());  
 }
+
+// -- END OF FILE --

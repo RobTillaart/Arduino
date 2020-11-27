@@ -1,12 +1,10 @@
 //
 //    FILE: RunningMedian2.ino
 //  AUTHOR: Rob Tillaart ( kudos to Sembazuru)
-// VERSION: 0.1.01
-// PURPOSE: demo
+// VERSION: 0.1.2
+// PURPOSE: demo most functions
 //    DATE: 2013-10-17
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/RunningMedian
 //
 
 #include "RunningMedian.h"
@@ -29,7 +27,10 @@ void loop()
 
 void test1()
 {
-  if (count % 20 == 0) Serial.println(F("\nmsec \tAnR \tSize \tCnt \tLow \tAvg \tAvg(7) \tAvg(3) \tMed \tHigh \tPre(1) \tPre(2)"));
+  if (count % 20 == 0) 
+  {
+    Serial.println(F("\nmsec \tAnR \tSize \tCnt \tLow \tAvg \tAvg(7) \tAvg(3) \tMed \tHigh \tPre(1) \tPre(2)"));
+  }
   count++;
 
   long x = analogRead(A0);

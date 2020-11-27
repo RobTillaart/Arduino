@@ -1,0 +1,28 @@
+
+--------------------------------------
+
+Arduino UNO
+IDE 1.8.12
+
+Performance RunningAverage lib: 0.3.0
+
+	clear 		: 80
+	addValue 	: 24
+	fillValue 	: 1548
+	getValue 	: 4
+	getAverage 	: 512
+	getFastAverage 	: 36
+	getStandardDeviation 	: 1832
+	getStandardError 	: 1896
+	getMin 		: 4
+	getMax 		: 4
+	getMinInBuffer 	: 212
+	getMaxInBuffer 	: 204
+	bufferIsFull 	: 8
+	getElement 	: 4
+	getSize 	: 8
+	getCount 	: 8
+
+done...
+
+--------------------------------------

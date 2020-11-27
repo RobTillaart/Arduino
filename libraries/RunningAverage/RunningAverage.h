@@ -1,23 +1,16 @@
+#pragma once
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.16
+// VERSION: 0.3.1
 //    DATE: 2016-dec-01
-// PURPOSE: RunningAverage library for Arduino
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/RunningAverage
+// PURPOSE: Arduino library to calculate the running average by means of a circular buffer
+//     URL: https://github.com/RobTillaart/RunningAverage
+//
 // HISTORY: See RunningAverage.cpp
 //
-// Released to the public domain
-//
-// backwards compatibility
-// clr()   clear()
-// add(x)  addValue(x)
-// avg()   getAverage()
 
-#ifndef RunningAverage_h
-#define RunningAverage_h
-
-#define RUNNINGAVERAGE_LIB_VERSION "0.2.16"
+#define RUNNINGAVERAGE_LIB_VERSION "0.3.1"
 
 #include "Arduino.h"
 
@@ -25,7 +18,7 @@ class RunningAverage
 {
 public:
   RunningAverage(void);
-  explicit RunningAverage(const uint8_t);
+  explicit RunningAverage(const uint8_t size);
   ~RunningAverage();
 
   void    clear();
@@ -34,7 +27,7 @@ public:
   float   getValue(const uint8_t);
 
   float   getAverage();      // iterates over all elements.
-  float   getFastAverage() const;  // reuses previous values.
+  float   getFastAverage() const;  // reuses previous calculated values.
 
   // return statistical characteristics of the running average
   float   getStandardDeviation() const;
@@ -57,7 +50,6 @@ public:
   uint8_t getCount() const { return _cnt; }
 
 
-
 protected:
   uint8_t _size;
   uint8_t _cnt;
@@ -68,5 +60,4 @@ protected:
   float   _max;
 };
 
-#endif
-// END OF FILE
+// -- END OF FILE --

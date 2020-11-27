@@ -66,4 +66,4 @@ void loop(void)
   delay(1000);
 }
 
-// END OF FILE
+// -- END OF FILE --

@@ -1,15 +1,11 @@
 //
 //    FILE: runningMedianTest1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: test functionality
 //    DATE: 2013-10-28
-//     URL:
+//     URL: https://github.com/RobTillaart/RunningMedian
 //
-// Released to the public domain
-//
-
-// RunningMedianTest1.ino
 
 #include <RunningMedian.h>
 
@@ -32,135 +28,136 @@ void setup()
   delay(1000); // Simply to allow time for the ERW versions of the IDE time to automagically open the Serial Monitor. 1 second chosen arbitrarily.
   Serial.print(F("Running Median Version: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
-#ifdef RUNNING_MEDIAN_ALL
-  Serial.println(F("All methods available"));
-#else
-  Serial.println(F("Only constructor, destructor, clear(), add(), and getMedian() available"));
-#endif
+
+
 #ifdef RUNNING_MEDIAN_USE_MALLOC
   Serial.println(F("Dynamic version using malloc() enabled"));
 #else
   Serial.print(F("Static version, will always allocate an array of "));
-  Serial.print(MEDIAN_MAX_SIZE,DEC);
+  Serial.print(MEDIAN_MAX_SIZE, DEC);
   Serial.println(F(" floats."));
 #endif
+
+  test1();
+
+  Serial.println("\ndone..\n");
 }
 
 void loop()
 {
-  test1();
-  while (1);
 }
 
 void test1()
 {
-  unsigned long timerStart = 0;
-  unsigned long timerStop = 0;
-  float resultFLOAT = 0;
-  byte resultBYTE = 0;
+  uint32_t start = 0;
+  uint32_t stop = 0;
+  float result = 0;
 
   Serial.print(F("Requested median array size = "));
-  Serial.println(sourceSize,DEC);
-  Serial.print(F("Actual allocated size = "));
-  Serial.println(samples.getSize(),DEC);
-
+  Serial.println(sourceSize);
+  Serial.print(F("      Actual allocated size = "));
+  Serial.println(samples.getSize());
   Serial.println();
 
-  for(byte i = 0; i <= (sourceSize - 1); i++)
+  // 50 iterations !!
+  for (uint8_t i = 0; i <= (sourceSize - 1); i++)
   {
-    Serial.print(F("Loop number "));
-    Serial.println((i + 1),DEC);
+    Serial.print(F("Loop number : "));
+    Serial.println(i + 1);
 
-    timerStart = micros();
+    start = micros();
     samples.add(sourceData[i]);
-    timerStop = micros();
+    stop = micros();
     Serial.print(F("Time to add the next element to the array = "));
-    Serial.print(timerStop - timerStart);
-    Serial.println(F(" microseconds."));
+    Serial.println(stop - start);
+
 
     Serial.println(F("Cumulative source data added:"));
     Serial.print(F("    "));
-    for(byte j = 0; j <= i; j++)
+    for (uint8_t j = 0; j <= i; j++)
     {
       Serial.print(sourceData[j]);
       Serial.print(F(" "));
     }
     Serial.println();
 
+
     Serial.println(F("Unsorted accumulated array:"));
     Serial.print(F("    "));
-    for(byte j = 0; j < samples.getCount(); j++)
+    for (uint8_t j = 0; j < samples.getCount(); j++)
     {
       Serial.print(samples.getElement(j));
       Serial.print(F(" "));
     }
     Serial.println();
 
-    timerStart = micros();
-    resultFLOAT = samples.getSortedElement(0);
-    timerStop = micros();
+
+    start = micros();
+    result = samples.getSortedElement(0);
+    stop = micros();
     Serial.print(F("Time to sort array and return element number zero = "));
-    Serial.print(timerStop - timerStart);
-    Serial.println(F(" microseconds."));
+    Serial.println(stop - start);
+
 
     Serial.println(F("Sorted accumulated array:"));
     Serial.print(F("    "));
-    for(byte j = 0; j < samples.getCount(); j++)
+    for (uint8_t j = 0; j < samples.getCount(); j++)
     {
       Serial.print(samples.getSortedElement(j));
       Serial.print(F(" "));
     }
     Serial.println();
 
-    timerStart = micros();
-    resultFLOAT = samples.getMedian();
-    timerStop = micros();
-    Serial.print(F("getMedian() result = "));
-    Serial.println(resultFLOAT);
-    Serial.print(F("Time to execute getMedian() = "));
-    Serial.print(timerStop - timerStart);
-    Serial.println(F(" microseconds."));
 
-    timerStart = micros();
-    resultFLOAT = samples.getAverage();
-    timerStop = micros();
+    start = micros();
+    result = samples.getMedian();
+    stop = micros();
+    Serial.print(F("getMedian() result = "));
+    Serial.println(result);
+    Serial.print(F("Time to execute getMedian() = "));
+    Serial.println(stop - start);
+
+
+    start = micros();
+    result = samples.getAverage();
+    stop = micros();
     Serial.print(F("getAverage() result = "));
-    Serial.println(resultFLOAT);
+    Serial.println(result);
     Serial.print(F("Time to execute getAverage() = "));
-    Serial.print(timerStop - timerStart);
-    Serial.println(F(" microseconds."));
+    Serial.println(stop - start);
+
 
     Serial.println(F("getAverage(x) results where:"));
-    for(byte j = 1; j <= samples.getCount(); j++)
+    for (uint8_t j = 1; j <= samples.getCount(); j++)
     {
-      timerStart = micros();
-      resultFLOAT = samples.getAverage(j);
-      timerStop = micros();
+      start = micros();
+      result = samples.getAverage(j);
+      stop = micros();
       Serial.print(F("  x = "));
       Serial.print(j);
       Serial.print(F(" => "));
-      Serial.print(resultFLOAT);
+      Serial.print(result);
       Serial.print(F(" Time to execute = "));
-      Serial.print(timerStop - timerStart);
-      Serial.println(F(" microseconds."));
+      Serial.println(stop - start);
     }
 
     Serial.println(F("predict(x) results where:"));
-    for(byte j = 1; j <= (samples.getCount() / 2); j++)
+    for (uint8_t j = 1; j <= (samples.getCount() / 2); j++)
     {
-      timerStart = micros();
-      resultFLOAT = samples.predict(j);
-      timerStop = micros();
+      start = micros();
+      result = samples.predict(j);
+      stop = micros();
       Serial.print(F("  x = "));
       Serial.print(j);
       Serial.print(F(" => "));
-      Serial.print(resultFLOAT);
+      Serial.print(result);
       Serial.print(F(" Time to execute = "));
-      Serial.print(timerStop - timerStart);
-      Serial.println(F(" microseconds."));
+      Serial.println(stop - start);
     }
 
     Serial.println();
     Serial.println();
   }
 }
+
+// -- END OF FILE -- 

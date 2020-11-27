@@ -1,14 +1,14 @@
 //
 //    FILE: radar.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
-// PURPOSE: demo pan tilt radar framework
-//     URL:
-//
-// Released to the public domain
+// VERSION: 0.1.3
+// PURPOSE: Arduino library for a pan tilt radar.
+//     URL: https://github.com/RobTillaart/RADAR
 //
 // 0.1.00 - 2013-09-30 (?) outline
 // 0.1.01 - 2015-03-06 updated some code, still not functional
+// 0.1.2  - 2017-07-16 refactor & review
+// 0.1.3    2020-07-06 refactor, clean up and some documentation
 
 #include "radar.h"
 
@@ -16,111 +16,124 @@
 //
 // CONSTRUCTOR
 //
-RADAR::RADAR(uint8_t pinPan, uint8_t pinTilt)
+RADAR::RADAR(const uint8_t pinPan, const uint8_t pinTilt)
 {
-    _pinPan = pinPan;
-    _pinTilt = pinTilt;
-    _homePan = 0;
-    _homeTilt = 0;
-    _pan = _prevPan = 0;
-    _tilt = _prevTilt = 0;
-    _lastPanTime = _lastTiltTime = millis();
-        
+  _pinPan = pinPan;
+  _pinTilt = pinTilt;
+  _homePan = 0;
+  _homeTilt = 0;
+  _pan = _prevPan = 0;
+  _tilt = _prevTilt = 0;
+  _panPerSecond = 15;
+  _tiltPerSecond = 15;
+  _lastPanTime = _lastTiltTime = millis();
+  for (uint8_t i = 0; i < RADAR_POSITIONS; i++)
+  {
+    _panArray[i] = 0;
+    _tiltArray[i] = 0;
+  }
 }
 
 // PUBLIC
-void RADAR::gotoPan(int pan)
+void RADAR::gotoPan(const int16_t pan)
 {
-    if (pan == _pan) return;
-    _prevPan = getPan();
-    _pan = pan;
-    analogWrite(_pinPan, _pan);
-    _lastPanTime = millis();
+  if (pan == _pan) return;
+  _prevPan = getPan();
+  _pan = pan;
+  analogWrite(_pinPan, _pan);
+  _lastPanTime = millis();
 }
 
-int RADAR::getPan()
+int16_t RADAR::getPan()
 {
-    // ESTIMATE current position on time it takes to go from previous to new
-    if (_pan == _prevPan) return _pan;
-    // if (enough time passed to move to new position) return new position
-    unsigned long duration = millis() - _lastPanTime;
-    if ( abs(_pan - _prevPan) <= (duration * PAN_PER_SEC)/1000UL) return _pan;
-    // else estimate by linear interpolation 
-    if (_pan > _prevPan) return _prevPan + (duration * PAN_PER_SEC)/1000UL;
-    return _prevPan - (duration * PAN_PER_SEC)/1000UL;
+  // ESTIMATE current position on time it takes to go from previous to new
+  if (_pan == _prevPan) return _pan;
+
+  // if (enough time passed to move to new position) return new position
+  uint32_t duration = millis() - _lastPanTime;
+  uint32_t movement = round(duration * _panPerSecond * 0.001);
+  if ( abs(_pan - _prevPan) <= movement) return _pan;
+
+  // else estimate PAN by linear interpolation 
+  if (_pan > _prevPan) return _prevPan + movement;
+  return _prevPan - movement;
 }
 
-void RADAR::gotoTilt(int tilt)
+void RADAR::gotoTilt(const int16_t tilt)
 {
-    if (tilt == _tilt) return;
-    _prevTilt = getTilt();
-    _tilt = tilt;
-    analogWrite(_pinTilt, _tilt);
-    _lastTiltTime = millis();
+  if (tilt == _tilt) return;
+
+  _prevTilt = getTilt();
+  _tilt = tilt;
+  analogWrite(_pinTilt, _tilt);  // 0..180
+  _lastTiltTime = millis();
 }
 
-int RADAR::getTilt()
+int16_t RADAR::getTilt()
 {
-    // comments see getPan()
-    if (_tilt == _prevTilt) return _tilt;
-    unsigned long duration = millis() - _lastTiltTime;
-    if (abs(_tilt - _prevTilt) <= (duration * TILT_PER_SEC)/1000UL) return _tilt;
-    if (_tilt > _prevTilt) return _prevTilt + (duration * TILT_PER_SEC)/1000UL;
-    return _prevTilt - (duration * TILT_PER_SEC)/1000UL;
+  // ESTIMATE current position on time it takes to go from previous to new
+  if (_tilt == _prevTilt) return _tilt;
+
+  // if (enough time passed to move to new position) return new position
+  uint32_t duration = millis() - _lastTiltTime;
+  uint32_t movement = round(duration * _tiltPerSecond * 0.001);
+  if (abs(_tilt - _prevTilt) <= movement) return _tilt;
+
+  // estimate TILT by linear interpolation 
+  if (_tilt > _prevTilt) return _prevTilt + movement;  
+  return _prevTilt - movement;
 }
 
-void RADAR::gotoPanTilt(int pan, int tilt)
+void RADAR::gotoPanTilt(const int16_t pan, const int16_t tilt)
 {
-    gotoPan(pan);
-    gotoTilt(tilt);
+  gotoPan(pan);
+  gotoTilt(tilt);
 }
 
-void RADAR::setPosition(uint8_t n, int pan, int tilt)
+bool RADAR::setPosition(const uint8_t n, const int16_t pan, const int16_t tilt)
 {
-    _parray[n] = pan;
-    _tarry[n] = tilt;
+  if (n >= RADAR_POSITIONS) return false;
+  _panArray[n] = pan;
+  _tiltArray[n] = tilt;
+  return true;
 }
 
-bool RADAR::getPosition(uint8_t n, int *pan, int *tilt)
+bool RADAR::getPosition(const uint8_t n, int16_t & pan, int16_t & tilt)
 {
-    if (n > 10) return false;
-    *pan = _parray[n];
-    *tilt = _tarry[n];
-    return true;
+  if (n >= RADAR_POSITIONS) return false;
+  pan = _panArray[n];
+  tilt = _tiltArray[n];
+  return true;
 }
 
-bool RADAR::gotoPosition(uint8_t n)
+bool RADAR::gotoPosition(const uint8_t n)
 {
-    if (n > 10) return false;
-    gotoPan(_parray[n]);
-    gotoTilt(_tarry[n]);
-    return true;
+  if (n >= RADAR_POSITIONS) return false;
+  gotoPan(_panArray[n]);
+  gotoTilt(_tiltArray[n]);
+  return true;
 }
 
-void RADAR::setHomePosition(int pan, int tilt)
+void RADAR::setHomePosition(const int16_t pan, const int16_t tilt)
 {
-    _homePan = pan;
-    _homeTilt = tilt;
+  _homePan = pan;
+  _homeTilt = tilt;
 }
 
 void RADAR::gotoHomePosition()
 {
-    gotoPan(_homePan);
-    gotoTilt(_homeTilt);
+  gotoPan(_homePan);
+  gotoTilt(_homeTilt);
 }
 
-bool RADAR::isMoving()
-{
-    return ((getPan() != _pan) || (getTilt() != _tilt));
-}
 
-unsigned long RADAR::ping()
+uint32_t RADAR::ping()
 {
   // TODO ping code here - playground or teckel's improved ping)))
   return 0;
 }
 
-unsigned long RADAR::ping(int pan, int tilt)
+uint32_t RADAR::ping(const int16_t pan, const int16_t tilt)
 {
   gotoPan(pan);
   gotoTilt(tilt);

@@ -1,10 +1,9 @@
 //
 //    FILE: SHT31_lastRead.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.0.2
 // PURPOSE: demo
-//
-// HISTORY:
+//     URL: https://github.com/RobTillaart/SHT31
 
 #include "Wire.h"
 #include "SHT31.h"
@@ -24,8 +23,10 @@ void setup()
   Wire.begin();
   sht.begin(0x44);
   Wire.setClock(100000);
+
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
+  Serial.println();
 }
 
 void loop()
@@ -34,8 +35,10 @@ void loop()
   Serial.print("\t");
   Serial.print(sht.lastRead());
   Serial.print("\t");
-  Serial.print(sht.temperature, 1);
+  Serial.print(sht.getTemperature(), 1);
   Serial.print("\t");
-  Serial.println(sht.humidity, 1);
+  Serial.println(sht.getHumidity(), 1);
   delay(100);
 }
+
+// -- END OF FILE --

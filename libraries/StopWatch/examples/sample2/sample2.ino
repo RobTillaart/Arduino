@@ -1,12 +1,10 @@
 //
 //    FILE: sample2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: sample demo stopwatch class
-//    DATE: 
-//     URL:
-//
-// Released to the public domain
+//    DATE: 2011-01-04
+//     URL: https://github.com/RobTillaart/StopWatch_RT
 //
 
 #include <StopWatch.h>
@@ -36,3 +34,5 @@ void loop()
    
     delay(1000);
 }
+
+// -- END OF FILE --

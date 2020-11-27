@@ -1,68 +1,72 @@
+#pragma once
 //
 //    FILE: radar.h
 //  AUTHOR: Rob Tillaart
 // VERSION: see RADAR_LIB_VERSION
-// PURPOSE: pan tilt radar framework
-//     URL:
-//
-// Released to the public domain
-//
+// PURPOSE: Arduino library for a pan tilt radar.
+//     URL: https://github.com/RobTillaart/RADAR
 
-#ifndef Radar_h
-#define Radar_h
+#include "Arduino.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
-#else
-  #include "WProgram.h"
+#define RADAR_LIB_VERSION      "0.1.3"
+
+#ifndef RADAR_POSITIONS
+#define RADAR_POSITIONS       10
 #endif
-
-#define RADAR_LIB_VERSION "0.1.01"
-
-#define PAN_PER_SEC     25      // TODO determine emperically
-#define TILT_PER_SEC    25      // TODO determine emperically
 
 class RADAR
 {
-  public:
-    RADAR(uint8_t, uint8_t);
+public:
+    RADAR(const uint8_t, const uint8_t);
 
-    void gotoPan(int pan);
-    int  getPan();
-    void gotoTilt(int tilt);
-    int  getTilt();
-    void gotoPanTilt(int pan, int tilt);
+    // no valid range checking or negative value check.
+    void     setPanPerSecond(float pps) { _panPerSecond = pps; };
+    float    getPanPerSecond() { return _panPerSecond; };
+    void     setTiltPerSecond(float tps) { _tiltPerSecond = tps; };
+    float    getTiltPerSecond() { return _tiltPerSecond; };
 
-    // memory positions
-    void setPosition(uint8_t idx, int pan, int tilt);
-    bool getPosition(uint8_t idx, int *pan, int *tilt);
-    bool gotoPosition(uint8_t idx);
-    void setHomePosition(int pan, int tilt);
-    void gotoHomePosition();
+    // basic moves
+    void     gotoPan(const int16_t pan);
+    int16_t  getPan();
+    void     gotoTilt(const int16_t tilt);
+    int16_t  getTilt();
+    void     gotoPanTilt(const int16_t pan, const int16_t tilt);
 
-    // 
-    bool isMoving();
+    // memory positions - store / recall?
+    uint8_t  getMaxPositions() { return RADAR_POSITIONS; };
+    bool     setPosition(const uint8_t idx, const int16_t pan, const int16_t tilt);
+    bool     getPosition(const uint8_t idx, int16_t & pan, int16_t & tilt);
+    bool     gotoPosition(const uint8_t idx);
+    void     setHomePosition(const int16_t pan, const int16_t tilt);
+    void     gotoHomePosition();
 
-    unsigned long ping();
-    unsigned long ping(int pan, int tilt);
+    // feedback on positions.
+    bool     isMoving() { return isPanMoving() || isTiltMoving(); };
+    bool     isPanMoving() { return getPan() != _pan; };
+    bool     isTiltMoving() { return getTilt() != _tilt; };
+
+    uint32_t ping();
+    uint32_t ping(const int16_t pan, const int16_t tilt);
     
-  private:
-    int _pinPan;
-    int _pinTilt;
+private:
+    int16_t   _pinPan;
+    int16_t   _pinTilt;
     
-    int _prevPan;
-    int _pan;
-    int _homePan;
-    unsigned long _lastPanTime;
+    int16_t   _prevPan;
+    int16_t   _pan;
+    int16_t   _homePan;
+    uint32_t  _lastPanTime;
     
-    int _prevTilt;
-    int _tilt;
-    int _homeTilt;
-    unsigned long _lastTiltTime;
+    int16_t   _prevTilt;
+    int16_t   _tilt;
+    int16_t   _homeTilt;
+    uint32_t  _lastTiltTime;
     
-    int _parray[10];
-    int _tarry[10];
+    int16_t   _panArray[RADAR_POSITIONS];
+    int16_t   _tiltArray[RADAR_POSITIONS];
+
+    float     _panPerSecond = 15;
+    float     _tiltPerSecond = 15;
 };
 
-#endif
 // -- END OF FILE --

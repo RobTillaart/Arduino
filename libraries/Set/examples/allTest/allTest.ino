@@ -9,10 +9,12 @@
 // Released to the public domain
 //
 
-#include "Set.h"
+#include "set.h"
 
 Set setA, setB;
 volatile bool b;
+
+uint32_t start, stop;
 
 void setup()
 {
@@ -42,47 +44,47 @@ void timingTest()
 
     Serial.println("TIMING TEST");
     Serial.print("100x clr():\t");
-    uint32_t start = micros();
-    for (uint8_t i=0; i<100; i++) myset.clr();
-    uint32_t stop = micros();
-    Serial.println(stop-start);
+    start = micros();
+    for (uint8_t i = 0; i < 100; i++) myset.clr();
+    stop = micros();
+    Serial.println(stop - start);
 
     Serial.print("100x add():\t");
     start = micros();
-    for (uint8_t i=0; i<100; i++) myset.add(i);
+    for (uint8_t i = 0; i < 100; i++) myset.add(i);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("100x sub():\t");
     start = micros();
-    for (uint8_t i=0; i<100; i++) myset.sub(i);
+    for (uint8_t i = 0; i < 100; i++) myset.sub(i);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("100x has():\t");
     start = micros();
-    for (uint8_t i=0; i<100; i++) b = myset.has(i);
+    for (uint8_t i = 0; i < 100; i++) b = myset.has(i);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("100x invert(v):\t");
     start = micros();
-    for (uint8_t i=0; i<100; i++) myset.invert(i);
+    for (uint8_t i = 0; i < 100; i++) myset.invert(i);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("invert():\t");
     start = micros();
     myset.invert();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("count() empty:\t");
     myset.clr();
     start = micros();
     myset.count();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("count() full:\t");
     myset.clr();
@@ -90,42 +92,45 @@ void timingTest()
     start = micros();
     myset.count();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
     Serial.println();
 
     Serial.print("100x isEmpty(): empty\t");
     myset.clr();
     start = micros();
-    for (uint8_t i=0; i<100; i++) b = myset.isEmpty();
+    for (uint8_t i = 0; i < 100; i++) b = myset.isEmpty();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
+
     Serial.print("100x isEmpty(): full\t");
     myset.clr();
     myset.invert();
     start = micros();
-    for (uint8_t i=0; i<100; i++) b = myset.isEmpty();
+    for (uint8_t i = 0; i < 100; i++) b = myset.isEmpty();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
+
     Serial.print("100x isFull(): empty\t");
     myset.clr();
     start = micros();
-    for (uint8_t i=0; i<100; i++) b = myset.isFull();
+    for (uint8_t i = 0; i < 100; i++) b = myset.isFull();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
+
     Serial.print("100x isFull(): full\t");
     myset.clr();
     myset.invert();
     start = micros();
-    for (uint8_t i=0; i<100; i++) b = myset.isFull();
+    for (uint8_t i = 0; i < 100; i++) b = myset.isFull();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
     Serial.println();
 
 
     randomSeed(1);
     setA.clr();
     setB.clr();
-    for (int i=0; i<150; i++)
+    for (int i = 0; i<150; i++)
     {
         setA.add(random(256));
         setB.add(random(256));
@@ -135,95 +140,101 @@ void timingTest()
     start = micros();
     myset = setA + setB;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a = b - c:\t");
     start = micros();
     myset = setA - setB;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a = b * c:\t");
     start = micros();
     myset = setA * setB;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a += b:\t");
     start = micros();
     myset += setA;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a -= b:\t");
     start = micros();
     myset -= setA;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a *= b:\t");
     start = micros();
     myset *= setA;
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a == b:\t");
     start = micros();
     b = (setA == setB);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a != b:\t");
     start = micros();
     b = (setA != setB);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.print("a <= b:\t");
     start = micros();
     b = (setA <= setB);
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
 
     Serial.println();
     Serial.println("iteration 10 elements");
     Serial.print("first:\t");
     setA.clr();
     randomSeed(1);
-    for (int i=0; i<10; i++)
+    for (int i = 0; i < 10; i++)
     {
         setA.add(random(256));
     }
     start = micros();
     int n = setA.first();
     stop = micros();
-    Serial.println(stop-start);
+    Serial.println(stop - start);
     
     Serial.print("next:\t");
     start = micros();
     n = setA.next();
     stop = micros();
-    Serial.println(stop-start); 
+    Serial.println(stop - start); 
     
-    Serial.print("first + next until -1 :\t");
+    Serial.print("100x first + next until -1 :\t");
     start = micros();
-    n = setA.first();
-    while (n != -1)
+    for (uint8_t i = 0; i < 100; i++)
     {
-        n = setA.next();
+        n = setA.first();
+        while (n != -1)
+        {
+            n = setA.next();
+        }
     }
     stop = micros();
-    Serial.println(stop-start); 
+    Serial.println(stop - start); 
     
-    Serial.print("last + prev until -1 :\t");
+    Serial.print("100x  last + prev until -1 :\t");
     start = micros();
-    n = setA.last();
-    while (n != -1)
+    for (uint8_t i = 0; i < 100; i++)
     {
-        n = setA.prev();
+        n = setA.last();
+        while (n != -1)
+        {
+            n = setA.prev();
+        }
     }
     stop = micros();
-    Serial.println(stop-start); 
+    Serial.println(stop - start); 
     Serial.println();
     
     Serial.println();
@@ -262,7 +273,7 @@ void intersectionTest()
     randomSeed(1);
     setA.clr();
     setB.clr();
-    for (int i=0; i<150; i++)
+    for (int i = 0; i < 150; i++)
     {
         setA.add(random(256));
         setB.add(random(256));
@@ -277,7 +288,7 @@ void intersectionTest()
     randomSeed(1);
     setA.clr();
     setB.clr();
-    for (int i=0; i<150; i++)
+    for (int i = 0; i < 150; i++)
     {
         setA.add(random(256));
         setB.add(random(256));
@@ -292,7 +303,7 @@ void intersectionTest()
     randomSeed(1);
     setA.clr();
     setB.clr();
-    for (int i=0; i<150; i++)
+    for (int i = 0; i < 150; i++)
     {
         setA.add(random(256));
         setB.add(random(256));
@@ -311,7 +322,7 @@ void intersection2Test()
     randomSeed(1);
     setA.clr();
     setB.clr();
-    for (int i=0; i<150; i++)
+    for (int i = 0; i < 150; i++)
     {
         setA.add(random(256));
         setB.add(random(256));
@@ -342,7 +353,7 @@ void subsetTest()
 {
     Serial.println("SUBSET TEST");
     Set setE;
-    for (int i=0; i<5; i++) setE.add(i);
+    for (int i = 0; i < 5; i++) setE.add(i);
 
     Set setF(setE);
 
@@ -365,33 +376,47 @@ void subsetTest()
 
 void iterationTest()
 {
-    Serial.println("ITERATE OVER SET TEST");
+    Serial.println("10x ITERATE OVER SET TEST");
     randomSeed(1);
     setA.clr();
-    for (int i=0; i<10; i++)
+    for (int i = 0; i < 10; i++)
     {
         setA.add(random(256));
     }
     Serial.println(setA.count());
-    int n = setA.first();
-    while (n != -1)
+    start = micros();
+    for (int i = 0; i < 10; i++)
     {
-        Serial.print(n);
-        Serial.print('\t');
-        n = setA.next();
+        int n = setA.first();
+        while (n != -1)
+        {
+            Serial.print(n);
+            Serial.print('\t');
+            n = setA.next();
+        }
+        Serial.println();
     }
+    stop = micros();
     Serial.println();
-
-    n = setA.last();
-    while (n != -1)
+    Serial.println(stop - start); 
+    Serial.println();
+    
+    start = micros();
+    for (int i = 0; i < 10; i++)
     {
-        Serial.print(n);
-        Serial.print('\t');
-        n = setA.prev();
+        int n = setA.last();
+        while (n != -1)
+        {
+            Serial.print(n);
+            Serial.print('\t');
+            n = setA.prev();
+        }
+        Serial.println();
     }
-
+    stop = micros();
+    Serial.println();
+    Serial.println(stop - start); 
     Serial.println();
 }
-//
-// END OF FILE
-//
+
+// -- END OF FILE --

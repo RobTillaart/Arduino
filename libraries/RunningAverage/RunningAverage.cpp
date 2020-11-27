@@ -1,9 +1,10 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.16
+// VERSION: 0.3.1
 //    DATE: 2015-July-10
-// PURPOSE: RunningAverage library for Arduino
+// PURPOSE: Arduino library to calculate the running average by means of a circular buffer
+//     URL: https://github.com/RobTillaart/RunningAverage
 //
 // The library stores N individual values in a circular buffer,
 // to calculate the running average.
@@ -31,15 +32,10 @@
 // 0.2.14 - 2020-01-15 added getValue(n) to retrieve elements in order of addition - see issue #132
 // 0.2.15 - 2020-01-17 fix overflow in getValue - see issue #139
 // 0.2.16   2020-04-16 improve _sum - see issue #149 (bourkemcrobbo)
-//
-// Released to the public domain
-//
+// 0.3.0    2020-04-16 main refactor
+// 0.3.1    2020-06-19 fix library.json; minor refactor
 
 #include "RunningAverage.h"
-
-#include <stdlib.h>
-#include <math.h>
-
 
 RunningAverage::RunningAverage(const uint8_t size)
 {
@@ -62,9 +58,9 @@ void RunningAverage::clear()
   _sum = 0.0;
   _min = NAN;
   _max = NAN;
-  for (uint8_t i = 0; i < _size; i++)
+  for (uint8_t i = _size; i > 0; )
   {
-    _ar[i] = 0.0; // keeps addValue simpler
+    _ar[--i] = 0.0; // keeps addValue simpler
   }
 }
 
@@ -99,14 +95,15 @@ float RunningAverage::getAverage()
   {
     _sum += _ar[i];
   }
-  return _sum / _cnt;
+  return _sum / _cnt;   // multiplication is faster ==> extra admin
 }
 
+// the larger the size of the internal buffer the greater the gain wrt getAverage()
 float RunningAverage::getFastAverage() const
 {
   if (_cnt == 0) return NAN;
-
-  return _sum / _cnt;
+  
+  return _sum / _cnt;   // multiplication is faster ==> extra admin
 }
 
 // returns the minimum value in the buffer
@@ -147,7 +144,7 @@ float RunningAverage::getElement(uint8_t idx) const
 // Return standard deviation of running average. If buffer is empty, return NAN.
 float RunningAverage::getStandardDeviation() const
 {
-  if (_cnt == 0) return NAN;
+  if (_cnt <= 1) return NAN;
 
   float temp = 0;
   float average = getFastAverage();
@@ -166,26 +163,29 @@ float RunningAverage::getStandardError() const //++
   float temp = getStandardDeviation();
 
   if (temp == NAN) return NAN;
+  if (_cnt <= 1) return NAN;
 
   float n;
   if (_cnt >= 30) n = _cnt;
-  else n = _cnt - 1;                // TODO fails if _cnt == 0
-  temp = temp/sqrt(n);              // TODO fails if _cnt == 1
+  else n = _cnt - 1;
+  temp = temp/sqrt(n);
 
   return temp;
 }
 
-// fill the average with a value
-// the param number determines how often value is added (weight)
-// number should preferably be between 1 and size
+// fill the average with the same value number times. (weight)
+// This is maximized to size times. no need to fill the internal buffer over 100%
 void RunningAverage::fillValue(const float value, const uint8_t number)
 {
   clear();
-
-  for (uint8_t i = 0; i < number; i++)
+  uint8_t s = number;
+  if (s > _size) s = _size;
+  for (uint8_t i = s; i > 0; i--)
   {
     addValue(value);
   }
+  // NOTE: the clear iterates over the buffer, 
+  //       so merging the clear loop could gain some performance.
 }
 
 float RunningAverage::getValue(const uint8_t idx)
@@ -196,4 +196,5 @@ float RunningAverage::getValue(const uint8_t idx)
   if (pos >= _cnt) pos -= _cnt;
   return _ar[pos];
 }
-// END OF FILE
+
+// -- END OF FILE --

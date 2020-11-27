@@ -1,0 +1,21 @@
+# Syntax Coloring Map For Statistic
+
+# Datatypes (KEYWORD1)
+Statistic	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+clear	KEYWORD2
+add	KEYWORD2
+count	KEYWORD2
+sum	KEYWORD2
+minimum	KEYWORD2
+maximum	KEYWORD2
+average	KEYWORD2
+variance	KEYWORD2
+pop_stdev	KEYWORD2
+unbiased_stdev	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+STATISTIC_LIB_VERSION	LITERAL1

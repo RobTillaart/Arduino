@@ -5,8 +5,6 @@
 // PURPOSE: test for troolean (tri state) math library for Arduino
 //     URL:
 //
-// Released to the public domain
-//
 
 #include "Troolean.h"
 

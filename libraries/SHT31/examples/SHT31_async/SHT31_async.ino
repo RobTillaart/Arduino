@@ -1,16 +1,16 @@
 //
-//    FILE: SHT31_I2Cspeed
+//    FILE: SHT31_async.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
-// PURPOSE: demo
-//
-// HISTORY:
+// VERSION: 0.0.2
+// PURPOSE: demo async interface
+//     URL: https://github.com/RobTillaart/SHT31
 
 #include "Wire.h"
 #include "SHT31.h"
 
 uint32_t start;
 uint32_t stop;
+uint32_t cnt;
 
 SHT31 sht;
 
@@ -24,31 +24,42 @@ void setup()
   Wire.begin();
   sht.begin(0x44);
   Wire.setClock(100000);
+
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
+  Serial.println();
+  
+  sht.requestData();
+  cnt = 0;
 }
 
 void loop()
 {
-  for (uint32_t I2Cfreq = 100000; I2Cfreq < 900000; I2Cfreq += 50000)
+  if (sht.dataReady())
   {
-    Serial.print(I2Cfreq/1000);
-    Wire.setClock(I2Cfreq);
-    test();
+    start = micros();
+    bool success  = sht.readData();   // default = true = fast
+    stop = micros();
+    sht.requestData();                // request for next sample
+
+    Serial.print("\t");
+    Serial.print(stop - start);
+    Serial.print("\t");
+    if (success  == false)
+    {
+      Serial.println("Failed read");
+    }
+    else
+    {
+      Serial.print(sht.getTemperature(), 1);
+      Serial.print("\t");
+      Serial.print(sht.getHumidity(), 1);
+      Serial.print("\t");
+      Serial.println(cnt);
+      cnt = 0;
+    }
   }
+  cnt++; // simulate activity
 }
 
-
-void test()
-{
-  start = micros();
-  sht.read(true);         // default = true/fast       slow = false
-  stop = micros();
-  Serial.print("\t");
-  Serial.print(stop - start);
-  Serial.print("\t");
-  Serial.print(sht.temperature, 1);
-  Serial.print("\t");
-  Serial.println(sht.humidity, 1);
-  delay(100);
-}
+// -- END OF FILE --

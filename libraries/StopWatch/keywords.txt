@@ -1,0 +1,22 @@
+# Syntax Coloring Map for StopWatch
+
+# Datatypes (KEYWORD1)
+StopWatch	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+start	KEYWORD2
+stop	KEYWORD2
+reset	KEYWORD2
+elapsed	KEYWORD2
+isRunning	KEYWORD2
+state	KEYWORD2
+setResolution	KEYWORD2
+resolution	KEYWORD2
+
+# Constants (LITERAL1)
+RESET	LITERAL1
+RUNNING	LITERAL1
+STOPPED	LITERAL1
+MILLIS	LITERAL1
+MICROS	LITERAL1
+SECONDS	LITERAL1

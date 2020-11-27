@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob.Tillaart at gmail.com
-// VERSION: 0.1.15
+// VERSION: 0.2.1
 // PURPOSE: RunningMedian library for Arduino
 //
 // HISTORY:
@@ -21,9 +21,8 @@
 // 0.1.13 - 2015-10-30 fix getElement(n) - kudos to Gdunge
 // 0.1.14 - 2017-07-26 revert double to float - issue #33
 // 0.1.15 - 2018-08-24 make runningMedian Configurable #110
-//
-// Released to the public domain
-//
+// 0.2.0    2020-04-16 refactor.
+// 0.2.1    2020-06-19 fix library.json
 
 #include "RunningMedian.h"
 
@@ -53,7 +52,10 @@ void RunningMedian::clear()
   _cnt = 0;
   _idx = 0;
   _sorted = false;
-  for (uint8_t i = 0; i < _size; i++) _p[i] = i;
+  for (uint8_t i = 0; i < _size; i++)
+  {
+    _p[i] = i;
+  }
 }
 
 // adds a new value to the data-set
@@ -72,17 +74,40 @@ float RunningMedian::getMedian()
 
   if (_sorted == false) sort();
 
-  if (_cnt & 0x01) return _ar[_p[_cnt/2]];
-  else return (_ar[_p[_cnt/2]] + _ar[_p[_cnt/2 - 1]]) / 2;
+  if (_cnt & 0x01)  // is it odd sized?
+  {
+    return _ar[_p[_cnt / 2]];
+  }
+  return (_ar[_p[_cnt / 2]] + _ar[_p[_cnt / 2 - 1]]) / 2;
 }
 
-#ifdef RUNNING_MEDIAN_ALL
+float RunningMedian::getQuantile(float q)
+{
+  if (_cnt == 0) return NAN;
+  
+  if ((q < 0) || (q > 1)) return NAN;
+
+  if (_sorted == false) sort();
+  
+	const float id = (_cnt - 1) * q;
+	const uint8_t lo = floor(id);
+	const uint8_t hi = ceil(id);
+	const float qs = _ar[_p[lo]];
+	const float h  = (id - lo);
+
+	return (1.0 - h) * qs + h * _ar[_p[hi]];
+
+}
+
 float RunningMedian::getAverage()
 {
   if (_cnt == 0) return NAN;
 
   float sum = 0;
-  for (uint8_t i=0; i< _cnt; i++) sum += _ar[i];
+  for (uint8_t i = 0; i < _cnt; i++)
+  {
+    sum += _ar[i];
+  }
   return sum / _cnt;
 }
 
@@ -97,7 +122,10 @@ float RunningMedian::getAverage(uint8_t nMedians)
   if (_sorted == false) sort();
 
   float sum = 0;
-  for (uint8_t i = start; i < stop; i++) sum += _ar[_p[i]];
+  for (uint8_t i = start; i < stop; i++)
+  {
+    sum += _ar[_p[i]];
+  }
   return sum / nMedians;
 }
 
@@ -124,34 +152,30 @@ float RunningMedian::getSortedElement(const uint8_t n)
 // n can be max <= half the (filled) size
 float RunningMedian::predict(const uint8_t n)
 {
-  if ((_cnt == 0) || (n >= _cnt/2)) return NAN;
+  if ((_cnt == 0) || (n >= _cnt / 2)) return NAN;
 
   float med = getMedian();  // takes care of sorting !
   if (_cnt & 0x01)
   {
-    return max(med - _ar[_p[_cnt/2-n]], _ar[_p[_cnt/2+n]] - med);
+    return max(med - _ar[_p[_cnt / 2 - n]], _ar[_p[_cnt / 2 + n]] - med);
   }
-  else
-  {
-    float f1 = (_ar[_p[_cnt/2 - n]] + _ar[_p[_cnt/2 - n - 1]])/2;
-    float f2 = (_ar[_p[_cnt/2 + n]] + _ar[_p[_cnt/2 + n - 1]])/2;
-    return max(med - f1, f2 - med)/2;
-  }
+  float f1 = (_ar[_p[_cnt / 2 - n]] + _ar[_p[_cnt / 2 - n - 1]]) / 2;
+  float f2 = (_ar[_p[_cnt / 2 + n]] + _ar[_p[_cnt / 2 + n - 1]]) / 2;
+  return max(med - f1, f2 - med) / 2;
 }
-#endif
 
 void RunningMedian::sort()
 {
   // bubble sort with flag
-  for (uint8_t i = 0; i < _cnt-1; i++)
+  for (uint8_t i = 0; i < _cnt - 1; i++)
   {
     bool flag = true;
-    for (uint8_t j = 1; j < _cnt-i; j++)
+    for (uint8_t j = 1; j < _cnt - i; j++)
     {
-      if (_ar[_p[j-1]] > _ar[_p[j]])
+      if (_ar[_p[j - 1]] > _ar[_p[j]])
       {
-        uint8_t t = _p[j-1];
-        _p[j-1] = _p[j];
+        uint8_t t = _p[j - 1];
+        _p[j - 1] = _p[j];
         _p[j] = t;
         flag = false;
       }
@@ -161,4 +185,4 @@ void RunningMedian::sort()
   _sorted = true;
 }
 
-// END OF FILE
+// -- END OF FILE --

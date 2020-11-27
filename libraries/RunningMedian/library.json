@@ -1,6 +1,6 @@
 {
   "name": "RunningMedian",
-  "keywords": "running,moving,median,average,outliers",
+  "keywords": "running, moving, median, average, outliers",
   "description": "The library stores the last N individual values in a buffer to select the median. It filters outliers.",
   "authors":
   [
@@ -13,12 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Arduino.git"
+    "url": "https://github.com/RobTillaart/RunningMedian.git"
   },
-  "version":"0.1.15",
+  "version":"0.2.1",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/RunningMedian"
-  }
+  "platforms": "*"
 }

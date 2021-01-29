@@ -1,0 +1,64 @@
+# Syntax Coloring Map For Complex
+
+# Datatypes (KEYWORD1)
+Complex	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+set	KEYWORD2
+setReal	KEYWORD2
+setImag	KEYWORD2
+real	KEYWORD2
+imag	KEYWORD2
+polar	KEYWORD2
+phase	KEYWORD2
+modulus	KEYWORD2
+conjugate	KEYWORD2
+reciprocal	KEYWORD2
+
+c_sqrt	KEYWORD2
+c_sqr	KEYWORD2
+c_exp	KEYWORD2
+c_log	KEYWORD2
+c_log10	KEYWORD2
+c_pow	KEYWORD2
+c_logn	KEYWORD2
+
+c_sin	KEYWORD2
+c_cos	KEYWORD2
+c_tan	KEYWORD2
+c_asin	KEYWORD2
+c_acos	KEYWORD2
+c_atan	KEYWORD2
+
+c_csc	KEYWORD2
+c_sec	KEYWORD2
+c_cot	KEYWORD2
+c_acsc	KEYWORD2
+c_asec	KEYWORD2
+c_acot	KEYWORD2
+
+c_sinh	KEYWORD2
+c_cosh	KEYWORD2
+c_tanh	KEYWORD2
+c_asinh	KEYWORD2
+c_acosh	KEYWORD2
+c_atanh	KEYWORD2
+
+c_csch	KEYWORD2
+c_sech	KEYWORD2
+c_coth	KEYWORD2
+c_acsch	KEYWORD2
+c_asech	KEYWORD2
+c_acoth	KEYWORD2
+
+
+# Constants (LITERAL1)
+BITARRAY_LIB_VERSION	LITERAL1
+BA_ERR	LITERAL1
+BA_OK	LITERAL1
+BA_NO_MEMORY_ERR	LITERAL1
+BA_IDX_RANGE_ERR	LITERAL1
+BA_ELEMENT_SIZE_ERR	LITERAL1
+BA_SIZE_ERR	LITERAL1
+

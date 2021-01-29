@@ -8,6 +8,8 @@
 #include "Wire.h"
 #include "SHT31.h"
 
+#define SHT31_ADDRESS   0x44
+
 uint32_t start;
 uint32_t stop;
 
@@ -21,8 +23,9 @@ void setup()
   Serial.println(SHT31_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(0x44);
+  sht.begin(SHT31_ADDRESS);
   Wire.setClock(100000);
+
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
   Serial.println();

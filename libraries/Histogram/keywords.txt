@@ -4,7 +4,7 @@
 Histogram	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
-clear KEYWORD2
+clear	KEYWORD2
 add	KEYWORD2
 sub	KEYWORD2
 size	KEYWORD2

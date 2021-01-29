@@ -1,0 +1,21 @@
+{
+  "name": "BH1750FVI_RT",
+  "keywords": "BH1750FVI, BH1750, Lux, light, GY-30, GY30",
+  "description": "Arduino library for BH1750FVI (GY-30) lux sensor. Includes compensation for angle, temperature and (experimental) wavelength.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/BH1750FVI_RT.git"
+  },
+  "version": "0.2.6",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

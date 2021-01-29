@@ -1,8 +1,14 @@
+
+[![Arduino CI](https://github.com/RobTillaart/PrintSize/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PrintSize/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/PrintSize.svg?maxAge=3600)](https://github.com/RobTillaart/PrintSize/releases)
+
+
 # PrintSize
 
 Arduino library to determine the length of print statements
 
-# Description
+## Description
 
 PrintSize is a minimal library to determine the length of a variable when printed.
 This includes printing of floats, integers in decimal or hex notation.
@@ -12,7 +18,7 @@ Works for  **print()**, **println()** and if supported **printf()** e.g. ESP32.
 Finally since **0.2.0** it has a total counter to add up the characters "printed" since
 the last **reset()** call. (see example)
 
-# Operational
+## Operational
 
 Example shows the right alignment of 10 random numbers
 

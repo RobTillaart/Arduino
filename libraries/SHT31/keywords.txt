@@ -6,13 +6,14 @@ SHT31	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 read	KEYWORD2
+isConnected	KEYWORD2
 readStatus	KEYWORD2
 lastRead	KEYWORD2
 reset	KEYWORD2
 setHeatTimeout	KEYWORD2
 heatOn	KEYWORD2
 heatOff	KEYWORD2
-heatUp	KEYWORD2
+isHeaterOn	KEYWORD2
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
 requestData	KEYWORD2

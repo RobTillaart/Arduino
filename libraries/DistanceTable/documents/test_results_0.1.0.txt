@@ -1,0 +1,9 @@
+Start distanceTable test 20x20
+
+0.1.00
+clear:	372
+set:	3840
+get:	3340
+count:	58
+ram:	7025
+

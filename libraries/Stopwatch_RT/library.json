@@ -1,0 +1,21 @@
+{
+  "name": "StopWatch",
+  "keywords": "StopWatch,start,stop,elapsed,millis,micros,seconds",
+  "description": "Arduino Library implementing a stopwatch including seconds, milliseconds microseconds.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/StopWatch_RT"
+  },
+  "version":"0.3.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,3 +1,9 @@
+
+[![Arduino CI](https://github.com/RobTillaart/DHT2pin/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHT2pin/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/DHT2pin.svg?maxAge=3600)](https://github.com/RobTillaart/DHT2pin/releases)
+
+
 # DHT2pin
 
 Arduino library for experimental 2 pin DHT library

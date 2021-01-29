@@ -1,17 +1,15 @@
 #######################################
 # Syntax Coloring Map For DHTStable
-#######################################
 
 #######################################
 # Datatypes (KEYWORD1)
-#######################################
 
-DHT	KEYWORD1
+dht	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
-#######################################
 
+reset	KEYWORD2
 read	KEYWORD2
 read11	KEYWORD2
 read12	KEYWORD2
@@ -23,15 +21,17 @@ read2301	KEYWORD2
 read2302	KEYWORD2
 read2320	KEYWORD2
 read2322	KEYWORD2
+getHumidity	KEYWORD2
+getTemperature	KEYWORD2
+
+### obsolete in future
 humidity	KEYWORD2
 temperature	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
-#######################################
-
 
 #######################################
 # Constants (LITERAL1)
-#######################################
+
 

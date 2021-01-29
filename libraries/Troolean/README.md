@@ -1,8 +1,15 @@
+
+[![Arduino CI](https://github.com/RobTillaart/Troolean/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Troolean/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/Troolean.svg?maxAge=3600)](https://github.com/RobTillaart/Troolean/releases)
+
+
 # Troolean
 
 Arduino Library for a three state logic datatype supporting {True False Unknown}
 
-# Description
+
+## Description
 
 Troolean is a datatype that implements three state logic with the values 
 {True False Unknown }
@@ -19,7 +26,13 @@ one does not need to resample yet.
 
 See also https://en.wikipedia.org/wiki/Three-valued_logic
 
-# Operation
+
+## Interface
+
+TODO
+
+
+## Operation
 
 See examples
 

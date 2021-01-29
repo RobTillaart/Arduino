@@ -2,12 +2,12 @@
 //
 //    FILE: multimap_distance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-04-09
 //
 
-#include "multimap.h"
+#include "MultiMap.h"
 
 void setup()
 {

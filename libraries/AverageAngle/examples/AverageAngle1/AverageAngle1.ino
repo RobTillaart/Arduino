@@ -17,10 +17,10 @@ void setup()
   test1();
   test2(1000);
   test3(1000);
-  test4(1000);
-  test5(1000);
-  test6(1000);
-  test7(1000);
+  test4();
+  test5();
+  test6();
+  test7();
 }
 
 void loop()
@@ -108,7 +108,7 @@ void test3(int count)
   Serial.println();
 }
 
-void test4(int count)
+void test4()
 {
   AverageAngle AA(AverageAngle::DEGREES);
 
@@ -132,7 +132,7 @@ void test4(int count)
   Serial.println();
 }
 
-void test5(int count)
+void test5()
 {
   AverageAngle AA(AverageAngle::DEGREES);
 
@@ -156,7 +156,7 @@ void test5(int count)
   Serial.println();
 }
 
-void test6(int count)
+void test6()
 {
   AverageAngle AA(AverageAngle::DEGREES);
 
@@ -180,7 +180,7 @@ void test6(int count)
   Serial.println();
 }
 
-void test7(int count)
+void test7()
 {
   AverageAngle AA(AverageAngle::DEGREES);
   AverageAngle BB(AverageAngle::RADIANS);
@@ -192,3 +192,5 @@ void test7(int count)
   Serial.println("EXPECT:\tAA=0 BB=1");
   Serial.println();
 }
+
+// -- END OF FILE --

@@ -1,0 +1,21 @@
+{
+  "name": "timing",
+  "keywords": "seconds, milliSeconds, microSeconds, now, reset, zero",
+  "description": "Arduino library with wrapper classes for seconds millis micros. These wrappers allow to reset the value of the time.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/timing"
+  },
+  "version":"0.2.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

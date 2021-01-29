@@ -1,7 +1,7 @@
 //
 //    FILE: multimap_NTC_int_FAIL.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo of faulty optimizing 
 //    DATE: 2020-04-09
 //    (c) : MIT
@@ -16,7 +16,7 @@
 // 
 
 
-#include "multimap.h"
+#include "MultiMap.h"
 
 uint32_t start;
 uint32_t stop;

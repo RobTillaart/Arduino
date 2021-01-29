@@ -1,11 +1,13 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
 //
+// 0.2.2    2020-12-16   add arduino-ci + unit test (starter)
+//                       setReal, setImag
 // 0.2.1    2020-06-05   fix library.json
 // 0.2.0    2020-03-29   #pragma once, own repo
 // 0.1.12 - 2018-04-02 - fix issue #33 double -> float
@@ -36,10 +38,10 @@ void Complex::polar(const float modulus, const float phase)
 
 Complex Complex::reciprocal()
 {
-  float f = 1.0/(re*re + im*im);
-  float r = re*f;
-  float i = -im*f;
-  return Complex(r,i);
+  float f = 1.0 / (re * re + im * im);
+  float r = re * f;
+  float i = -im * f;
+  return Complex(r, i);
 }
 
 
@@ -80,7 +82,7 @@ Complex Complex::operator * (const Complex &c)
 
 Complex Complex::operator / (const Complex &c)
 {
-  float f = 1.0/(c.re*c.re + c.im*c.im);
+  float f = 1.0/(c.re * c.re + c.im * c.im);
   float r = (re * c.re + im * c.im) * f;
   float i = (im * c.re - re * c.im) * f;
   return Complex(r, i);
@@ -111,7 +113,7 @@ Complex& Complex::operator *= (const Complex &c)
 
 Complex& Complex::operator /= (const Complex &c)
 {
-  float f = 1.0/(c.re*c.re + c.im*c.im);
+  float f = 1.0/(c.re * c.re + c.im * c.im);
   float r = (re * c.re + im * c.im) * f;
   float i = (im * c.re - re * c.im) * f;
   re = r;
@@ -132,8 +134,8 @@ Complex Complex::c_sqr()
 Complex Complex::c_sqrt()
 {
   float m = modulus();
-  float r = sqrt(0.5 * (m+re));
-  float i = sqrt(0.5 * (m-re));
+  float r = sqrt(0.5 * (m + re));
+  float i = sqrt(0.5 * (m - re));
   if (im < 0) i = -i;
   return Complex(r, i);
 }
@@ -148,7 +150,7 @@ Complex Complex::c_log()
 {
   float m = modulus();
   float p = phase();
-  if (p > PI) p -= 2*PI;
+  if (p > PI) p -= 2 * PI;
   return Complex(log(m), p);
 }
 

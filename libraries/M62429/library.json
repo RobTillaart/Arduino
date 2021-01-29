@@ -1,0 +1,21 @@
+{
+  "name": "M62429",
+  "keywords": "M62429, FM62429, volume, stereo, 2 channel, mute",
+  "description": "Arduino library for M62429 volume control IC",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/M62429.git"
+  },
+  "version":"0.2.1",
+  "frameworks": "*",
+  "platforms": "*"
+}

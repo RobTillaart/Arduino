@@ -1,0 +1,21 @@
+{
+  "name": "CRC",
+  "keywords": "CRC8, CRC16, CRC16-CCITT, CRC32, CRC64",
+  "description": "Library for CRC for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/CRC"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

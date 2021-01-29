@@ -2,7 +2,7 @@
 //
 //    FILE: ML8511.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511
 //
@@ -17,7 +17,7 @@
 
 #include <Arduino.h>
 
-#define ML8511_LIB_VERSION "0.1.2"
+#define ML8511_LIB_VERSION "0.1.3"
 
 
 class ML8511
@@ -36,6 +36,7 @@ public:
 
   // voltage must be > 0 otherwise it is not set
   void     setVoltsPerStep(float voltage, uint32_t steps);
+  float    getVoltsPerStep() { return _voltsPerStep; };
 
   // manually enable / disable
   void     enable();

@@ -1,0 +1,450 @@
+{
+	u'merge_commit_sha': u'1c7e60863e134c3ed5b7ddbeabd4e3b1703294f1',
+	u'number': 19,
+	u'assignee': None,
+	u'closed_at': None,
+	u'statuses_url': u'https: //api.github.com/repos/RobTillaart/Arduino/statuses/40a5d6d31b1487ecbf38cf3526208208e2f33651',
+	u'id': 33617755,
+	u'title': u'DHTlib: integerfieldshumidityInt10andtemperatureInt10wereadded.#1...',
+	u'merged_at': None,
+	u'state': u'open',
+	u'_links': {
+		u'review_comment': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/comments{
+				/number
+			}'
+		},
+		u'commits': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19/commits'
+		},
+		u'self': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19'
+		},
+		u'review_comments': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19/comments'
+		},
+		u'html': {
+			u'href': u'https: //github.com/RobTillaart/Arduino/pull/19'
+		},
+		u'comments': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/19/comments'
+		},
+		u'issue': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/19'
+		},
+		u'statuses': {
+			u'href': u'https: //api.github.com/repos/RobTillaart/Arduino/statuses/40a5d6d31b1487ecbf38cf3526208208e2f33651'
+		}
+	},
+	u'diff_url': u'https: //github.com/RobTillaart/Arduino/pull/19.diff',
+	u'issue_url': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/19',
+	u'body': u'humidityInt10isanintegerhumidityvalue*10\r\ntemperatureInt10isanintegertemperaturevalue*10\r\n\r\nTheseintegervaluesareusefulforLEDdisplayoutput.',
+	u'head': {
+		u'repo': {
+			u'issues_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/issues{
+				/number
+			}',
+			u'stargazers_count': 0,
+			u'forks_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/forks',
+			u'mirror_url': None,
+			u'subscription_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/subscription',
+			u'notifications_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/notifications{
+				?since,
+				all,
+				participating
+			}',
+			u'collaborators_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/collaborators{
+				/collaborator
+			}',
+			u'updated_at': u'2015-04-12T17: 44: 06Z',
+			u'private': False,
+			u'pulls_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/pulls{
+				/number
+			}',
+			u'issue_comment_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/issues/comments{
+				/number
+			}',
+			u'labels_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/labels{
+				/name
+			}',
+			u'has_wiki': True,
+			u'full_name': u'DmitryDzz/ArduinoLibraries',
+			u'owner': {
+				u'following_url': u'https: //api.github.com/users/DmitryDzz/following{
+					/other_user
+				}',
+				u'events_url': u'https: //api.github.com/users/DmitryDzz/events{
+					/privacy
+				}',
+				u'organizations_url': u'https: //api.github.com/users/DmitryDzz/orgs',
+				u'url': u'https: //api.github.com/users/DmitryDzz',
+				u'gists_url': u'https: //api.github.com/users/DmitryDzz/gists{
+					/gist_id
+				}',
+				u'html_url': u'https: //github.com/DmitryDzz',
+				u'subscriptions_url': u'https: //api.github.com/users/DmitryDzz/subscriptions',
+				u'avatar_url': u'https: //avatars.githubusercontent.com/u/1957839?v=3',
+				u'repos_url': u'https: //api.github.com/users/DmitryDzz/repos',
+				u'received_events_url': u'https: //api.github.com/users/DmitryDzz/received_events',
+				u'gravatar_id': u'',
+				u'starred_url': u'https: //api.github.com/users/DmitryDzz/starred{
+					/owner
+				}{
+					/repo
+				}',
+				u'site_admin': False,
+				u'login': u'DmitryDzz',
+				u'type': u'User',
+				u'id': 1957839,
+				u'followers_url': u'https: //api.github.com/users/DmitryDzz/followers'
+			},
+			u'statuses_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/statuses/{
+				sha
+			}',
+			u'id': 33820482,
+			u'keys_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/keys{
+				/key_id
+			}',
+			u'description': u'libsandcode',
+			u'tags_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/tags',
+			u'downloads_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/downloads',
+			u'assignees_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/assignees{
+				/user
+			}',
+			u'contents_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/contents/{
+				+path
+			}',
+			u'has_pages': False,
+			u'git_refs_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/git/refs{
+				/sha
+			}',
+			u'open_issues_count': 0,
+			u'clone_url': u'https: //github.com/DmitryDzz/ArduinoLibraries.git',
+			u'watchers_count': 0,
+			u'git_tags_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/git/tags{
+				/sha
+			}',
+			u'milestones_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/milestones{
+				/number
+			}',
+			u'languages_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/languages',
+			u'size': 391,
+			u'homepage': u'',
+			u'fork': True,
+			u'commits_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/commits{
+				/sha
+			}',
+			u'releases_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/releases{
+				/id
+			}',
+			u'issue_events_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/issues/events{
+				/number
+			}',
+			u'archive_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/{
+				archive_format
+			}{
+				/ref
+			}',
+			u'comments_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/comments{
+				/number
+			}',
+			u'events_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/events',
+			u'contributors_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/contributors',
+			u'html_url': u'https: //github.com/DmitryDzz/ArduinoLibraries',
+			u'forks': 0,
+			u'compare_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/compare/{
+				base
+			}...{
+				head
+			}',
+			u'open_issues': 0,
+			u'git_url': u'git: //github.com/DmitryDzz/ArduinoLibraries.git',
+			u'svn_url': u'https: //github.com/DmitryDzz/ArduinoLibraries',
+			u'merges_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/merges',
+			u'has_issues': True,
+			u'ssh_url': u'git@github.com: DmitryDzz/ArduinoLibraries.git',
+			u'blobs_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/git/blobs{
+				/sha
+			}',
+			u'git_commits_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/git/commits{
+				/sha
+			}',
+			u'hooks_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/hooks',
+			u'has_downloads': True,
+			u'watchers': 0,
+			u'name': u'ArduinoLibraries',
+			u'language': u'C++',
+			u'url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries',
+			u'created_at': u'2015-04-12T14: 42: 07Z',
+			u'pushed_at': u'2015-04-12T17: 44: 05Z',
+			u'forks_count': 0,
+			u'default_branch': u'master',
+			u'teams_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/teams',
+			u'trees_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/git/trees{
+				/sha
+			}',
+			u'branches_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/branches{
+				/branch
+			}',
+			u'subscribers_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/subscribers',
+			u'stargazers_url': u'https: //api.github.com/repos/DmitryDzz/ArduinoLibraries/stargazers'
+		},
+		u'sha': u'40a5d6d31b1487ecbf38cf3526208208e2f33651',
+		u'ref': u'master',
+		u'user': {
+			u'following_url': u'https: //api.github.com/users/DmitryDzz/following{
+				/other_user
+			}',
+			u'events_url': u'https: //api.github.com/users/DmitryDzz/events{
+				/privacy
+			}',
+			u'organizations_url': u'https: //api.github.com/users/DmitryDzz/orgs',
+			u'url': u'https: //api.github.com/users/DmitryDzz',
+			u'gists_url': u'https: //api.github.com/users/DmitryDzz/gists{
+				/gist_id
+			}',
+			u'html_url': u'https: //github.com/DmitryDzz',
+			u'subscriptions_url': u'https: //api.github.com/users/DmitryDzz/subscriptions',
+			u'avatar_url': u'https: //avatars.githubusercontent.com/u/1957839?v=3',
+			u'repos_url': u'https: //api.github.com/users/DmitryDzz/repos',
+			u'received_events_url': u'https: //api.github.com/users/DmitryDzz/received_events',
+			u'gravatar_id': u'',
+			u'starred_url': u'https: //api.github.com/users/DmitryDzz/starred{
+				/owner
+			}{
+				/repo
+			}',
+			u'site_admin': False,
+			u'login': u'DmitryDzz',
+			u'type': u'User',
+			u'id': 1957839,
+			u'followers_url': u'https: //api.github.com/users/DmitryDzz/followers'
+		},
+		u'label': u'DmitryDzz: master'
+	},
+	u'commits_url': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19/commits',
+	u'comments_url': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/19/comments',
+	u'html_url': u'https: //github.com/RobTillaart/Arduino/pull/19',
+	u'updated_at': u'2015-04-19T14: 04: 25Z',
+	u'base': {
+		u'repo': {
+			u'issues_url': u'https: //api.github.com/repos/RobTillaart/Arduino/issues{
+				/number
+			}',
+			u'stargazers_count': 212,
+			u'forks_url': u'https: //api.github.com/repos/RobTillaart/Arduino/forks',
+			u'mirror_url': None,
+			u'subscription_url': u'https: //api.github.com/repos/RobTillaart/Arduino/subscription',
+			u'notifications_url': u'https: //api.github.com/repos/RobTillaart/Arduino/notifications{
+				?since,
+				all,
+				participating
+			}',
+			u'collaborators_url': u'https: //api.github.com/repos/RobTillaart/Arduino/collaborators{
+				/collaborator
+			}',
+			u'updated_at': u'2015-04-19T14: 46: 39Z',
+			u'private': False,
+			u'pulls_url': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls{
+				/number
+			}',
+			u'issue_comment_url': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/comments{
+				/number
+			}',
+			u'labels_url': u'https: //api.github.com/repos/RobTillaart/Arduino/labels{
+				/name
+			}',
+			u'has_wiki': True,
+			u'full_name': u'RobTillaart/Arduino',
+			u'owner': {
+				u'following_url': u'https: //api.github.com/users/RobTillaart/following{
+					/other_user
+				}',
+				u'events_url': u'https: //api.github.com/users/RobTillaart/events{
+					/privacy
+				}',
+				u'organizations_url': u'https: //api.github.com/users/RobTillaart/orgs',
+				u'url': u'https: //api.github.com/users/RobTillaart',
+				u'gists_url': u'https: //api.github.com/users/RobTillaart/gists{
+					/gist_id
+				}',
+				u'html_url': u'https: //github.com/RobTillaart',
+				u'subscriptions_url': u'https: //api.github.com/users/RobTillaart/subscriptions',
+				u'avatar_url': u'https: //avatars.githubusercontent.com/u/462844?v=3',
+				u'repos_url': u'https: //api.github.com/users/RobTillaart/repos',
+				u'received_events_url': u'https: //api.github.com/users/RobTillaart/received_events',
+				u'gravatar_id': u'',
+				u'starred_url': u'https: //api.github.com/users/RobTillaart/starred{
+					/owner
+				}{
+					/repo
+				}',
+				u'site_admin': False,
+				u'login': u'RobTillaart',
+				u'type': u'User',
+				u'id': 462844,
+				u'followers_url': u'https: //api.github.com/users/RobTillaart/followers'
+			},
+			u'statuses_url': u'https: //api.github.com/repos/RobTillaart/Arduino/statuses/{
+				sha
+			}',
+			u'id': 2544179,
+			u'keys_url': u'https: //api.github.com/repos/RobTillaart/Arduino/keys{
+				/key_id
+			}',
+			u'description': u'libsandcode',
+			u'tags_url': u'https: //api.github.com/repos/RobTillaart/Arduino/tags',
+			u'downloads_url': u'https: //api.github.com/repos/RobTillaart/Arduino/downloads',
+			u'assignees_url': u'https: //api.github.com/repos/RobTillaart/Arduino/assignees{
+				/user
+			}',
+			u'contents_url': u'https: //api.github.com/repos/RobTillaart/Arduino/contents/{
+				+path
+			}',
+			u'has_pages': False,
+			u'git_refs_url': u'https: //api.github.com/repos/RobTillaart/Arduino/git/refs{
+				/sha
+			}',
+			u'open_issues_count': 2,
+			u'clone_url': u'https: //github.com/RobTillaart/Arduino.git',
+			u'watchers_count': 212,
+			u'git_tags_url': u'https: //api.github.com/repos/RobTillaart/Arduino/git/tags{
+				/sha
+			}',
+			u'milestones_url': u'https: //api.github.com/repos/RobTillaart/Arduino/milestones{
+				/number
+			}',
+			u'languages_url': u'https: //api.github.com/repos/RobTillaart/Arduino/languages',
+			u'size': 998,
+			u'homepage': u'',
+			u'fork': False,
+			u'commits_url': u'https: //api.github.com/repos/RobTillaart/Arduino/commits{
+				/sha
+			}',
+			u'releases_url': u'https: //api.github.com/repos/RobTillaart/Arduino/releases{
+				/id
+			}',
+			u'issue_events_url': u'https: //api.github.com/repos/RobTillaart/Arduino/issues/events{
+				/number
+			}',
+			u'archive_url': u'https: //api.github.com/repos/RobTillaart/Arduino/{
+				archive_format
+			}{
+				/ref
+			}',
+			u'comments_url': u'https: //api.github.com/repos/RobTillaart/Arduino/comments{
+				/number
+			}',
+			u'events_url': u'https: //api.github.com/repos/RobTillaart/Arduino/events',
+			u'contributors_url': u'https: //api.github.com/repos/RobTillaart/Arduino/contributors',
+			u'html_url': u'https: //github.com/RobTillaart/Arduino',
+			u'forks': 587,
+			u'compare_url': u'https: //api.github.com/repos/RobTillaart/Arduino/compare/{
+				base
+			}...{
+				head
+			}',
+			u'open_issues': 2,
+			u'git_url': u'git: //github.com/RobTillaart/Arduino.git',
+			u'svn_url': u'https: //github.com/RobTillaart/Arduino',
+			u'merges_url': u'https: //api.github.com/repos/RobTillaart/Arduino/merges',
+			u'has_issues': True,
+			u'ssh_url': u'git@github.com: RobTillaart/Arduino.git',
+			u'blobs_url': u'https: //api.github.com/repos/RobTillaart/Arduino/git/blobs{
+				/sha
+			}',
+			u'git_commits_url': u'https: //api.github.com/repos/RobTillaart/Arduino/git/commits{
+				/sha
+			}',
+			u'hooks_url': u'https: //api.github.com/repos/RobTillaart/Arduino/hooks',
+			u'has_downloads': True,
+			u'watchers': 212,
+			u'name': u'Arduino',
+			u'language': u'C++',
+			u'url': u'https: //api.github.com/repos/RobTillaart/Arduino',
+			u'created_at': u'2011-10-09T19: 53: 59Z',
+			u'pushed_at': u'2015-04-19T12: 01: 03Z',
+			u'forks_count': 587,
+			u'default_branch': u'master',
+			u'teams_url': u'https: //api.github.com/repos/RobTillaart/Arduino/teams',
+			u'trees_url': u'https: //api.github.com/repos/RobTillaart/Arduino/git/trees{
+				/sha
+			}',
+			u'branches_url': u'https: //api.github.com/repos/RobTillaart/Arduino/branches{
+				/branch
+			}',
+			u'subscribers_url': u'https: //api.github.com/repos/RobTillaart/Arduino/subscribers',
+			u'stargazers_url': u'https: //api.github.com/repos/RobTillaart/Arduino/stargazers'
+		},
+		u'sha': u'b527f06da504eb584f8568c631a92efcd2edea4f',
+		u'ref': u'master',
+		u'user': {
+			u'following_url': u'https: //api.github.com/users/RobTillaart/following{
+				/other_user
+			}',
+			u'events_url': u'https: //api.github.com/users/RobTillaart/events{
+				/privacy
+			}',
+			u'organizations_url': u'https: //api.github.com/users/RobTillaart/orgs',
+			u'url': u'https: //api.github.com/users/RobTillaart',
+			u'gists_url': u'https: //api.github.com/users/RobTillaart/gists{
+				/gist_id
+			}',
+			u'html_url': u'https: //github.com/RobTillaart',
+			u'subscriptions_url': u'https: //api.github.com/users/RobTillaart/subscriptions',
+			u'avatar_url': u'https: //avatars.githubusercontent.com/u/462844?v=3',
+			u'repos_url': u'https: //api.github.com/users/RobTillaart/repos',
+			u'received_events_url': u'https: //api.github.com/users/RobTillaart/received_events',
+			u'gravatar_id': u'',
+			u'starred_url': u'https: //api.github.com/users/RobTillaart/starred{
+				/owner
+			}{
+				/repo
+			}',
+			u'site_admin': False,
+			u'login': u'RobTillaart',
+			u'type': u'User',
+			u'id': 462844,
+			u'followers_url': u'https: //api.github.com/users/RobTillaart/followers'
+		},
+		u'label': u'RobTillaart: master'
+	},
+	u'user': {
+		u'following_url': u'https: //api.github.com/users/DmitryDzz/following{
+			/other_user
+		}',
+		u'events_url': u'https: //api.github.com/users/DmitryDzz/events{
+			/privacy
+		}',
+		u'organizations_url': u'https: //api.github.com/users/DmitryDzz/orgs',
+		u'url': u'https: //api.github.com/users/DmitryDzz',
+		u'gists_url': u'https: //api.github.com/users/DmitryDzz/gists{
+			/gist_id
+		}',
+		u'html_url': u'https: //github.com/DmitryDzz',
+		u'subscriptions_url': u'https: //api.github.com/users/DmitryDzz/subscriptions',
+		u'avatar_url': u'https: //avatars.githubusercontent.com/u/1957839?v=3',
+		u'repos_url': u'https: //api.github.com/users/DmitryDzz/repos',
+		u'received_events_url': u'https: //api.github.com/users/DmitryDzz/received_events',
+		u'gravatar_id': u'',
+		u'starred_url': u'https: //api.github.com/users/DmitryDzz/starred{
+			/owner
+		}{
+			/repo
+		}',
+		u'site_admin': False,
+		u'login': u'DmitryDzz',
+		u'type': u'User',
+		u'id': 1957839,
+		u'followers_url': u'https: //api.github.com/users/DmitryDzz/followers'
+	},
+	u'milestone': None,
+	u'locked': False,
+	u'url': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19',
+	u'created_at': u'2015-04-19T12: 01: 03Z',
+	u'review_comments_url': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/19/comments',
+	u'review_comment_url': u'https: //api.github.com/repos/RobTillaart/Arduino/pulls/comments{
+		/number
+	}',
+	u'patch_url': u'https: //github.com/RobTillaart/Arduino/pull/19.patch'
+}

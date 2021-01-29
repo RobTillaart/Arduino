@@ -1,0 +1,21 @@
+{
+  "name": "SHEX",
+  "keywords": "Stream, Serial, HEX dump",
+  "description": "Arduino library to generate hex dump over Serial.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/SHEX.git"
+  },
+  "version":"0.2.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

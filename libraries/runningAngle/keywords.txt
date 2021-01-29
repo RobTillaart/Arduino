@@ -1,0 +1,16 @@
+# Syntax Coloring Map for runningAngle
+
+# Datatypes (KEYWORD1)
+runningAngle	KEYWORD1
+AngleType	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+add	KEYWORD2
+reset	KEYWORD2
+getAverage	KEYWORD2
+setWeight KEYWORD2
+getWeight	KEYWORD2
+
+
+# Constants (LITERAL1)
+RUNNING_ANGLE_LIB_VERSION	LITERAL1

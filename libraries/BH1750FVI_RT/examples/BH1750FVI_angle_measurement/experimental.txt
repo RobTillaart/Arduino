@@ -1,0 +1,18 @@
+/*
+   BH1750FVI_angle_measurement.ino
+
+   Experimental application
+
+   first take a reference measurement for 5 seconds
+   holding the sensor flat under a light source.
+
+   Then take a second reference for 5 seconds 
+   holding the sensor at 90 degrees.
+
+   Thereafter hold the sensor at any angle and the
+   Arduino will estimate the angle based upon the
+   Lux level compared to the references.
+
+   First trials are not not too bad, roughly within 15° accuracy
+   
+*/

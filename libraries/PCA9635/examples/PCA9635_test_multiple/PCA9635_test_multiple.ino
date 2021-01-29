@@ -2,12 +2,14 @@
 //    FILE: PCA9635_test_multiple.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-02-18
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PUPROSE: test PCA9635 library
 //
 
+
 #include "PCA9635.h"
-#include <Wire.h>
+#include "Wire.h"
+
 
 PCA9635 ledArray(0x20);
 PCA9635 ledArray2(0x21);

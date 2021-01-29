@@ -5,9 +5,20 @@
 // PURPOSE: demo AvrHeap class
 //    DATE: 2015-10-25
 //     URL: http://forum.arduino.cc/index.php?topic=355660
+//          https://github.com/RobTillaart/avrheap
 //
-// Released to the public domain
-//
+
+#if !defined(ARDUINO_ARCH_AVR)
+
+void setup()
+{
+}
+
+void loop()
+{
+}
+
+#else
 
 #include "avrheap.h"
 
@@ -65,4 +76,9 @@ void setup()
 }
 
 void loop()
-{}
+{
+}
+
+#endif
+
+// -- END OF FILE --

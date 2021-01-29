@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.13
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
@@ -13,7 +13,7 @@
 
 TwoWire *wi;
 
-const char version[] = "0.1.11";
+const char version[] = "0.1.13";
 
 
 // INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
@@ -26,14 +26,15 @@ int selectedWirePort = 0;
 long speed[10] = { 100, 200, 300, 400 };
 int speeds;
 
-int addressStart = 0;
-int addressEnd = 127;
+int addressStart = 8;
+int addressEnd = 119;
 
 
 // DELAY BETWEEN TESTS
 #ifndef RESTORE_LATENCY
 #define RESTORE_LATENCY  5    // for delay between tests of found devices.
 #endif
+
 bool delayFlag = false;
 
 
@@ -41,6 +42,7 @@ bool delayFlag = false;
 bool printAll = true;
 bool header = true;
 bool disableIRQ = false;
+
 
 // STATE MACHINE
 enum states {
@@ -54,6 +56,10 @@ uint32_t startScan;
 uint32_t stopScan;
 
 
+///////////////////////////////////////////////////
+//
+// MAIN CODE
+//
 void setup()
 {
   Serial.begin(115200);
@@ -85,6 +91,7 @@ void setup()
   setSpeed('9');
   displayHelp();
 }
+
 
 void loop()
 {
@@ -198,12 +205,13 @@ void loop()
   }
 }
 
+
 void setAddress()
 {
   if (addressStart == 0)
   {
     addressStart = 8;
-    addressEnd = 120;
+    addressEnd = 119;
   }
   else
   {
@@ -217,6 +225,7 @@ void setAddress()
   Serial.println(F(">"));
 
 }
+
 
 void setSpeed(char sp)
 {
@@ -278,6 +287,7 @@ void setSpeed(char sp)
   Serial.println(" >");
 }
 
+
 char getCommand()
 {
   char c = '\0';
@@ -287,6 +297,7 @@ char getCommand()
   }
   return c;
 }
+
 
 void displayHelp()
 {
@@ -309,7 +320,7 @@ void displayHelp()
   Serial.println(F("Output:"));
   Serial.println(F("\tp = toggle printAll - printFound."));
   Serial.println(F("\th = toggle header - noHeader."));
-  Serial.println(F("\ta = toggle address range, 0..127 - 8..120"));
+  Serial.println(F("\ta = toggle address range, 0..127 - 8..119 (default)"));
 
   Serial.println(F("Speeds:"));
   Serial.println(F("\t0 = 100..800 Khz - step 100  (warning - can block!!)"));
@@ -327,6 +338,7 @@ void displayHelp()
   Serial.println(F("\n\t? = help - this page"));
   Serial.println();
 }
+
 
 void I2Cscan()
 {

@@ -1,0 +1,13 @@
+# Syntax Coloring Map for timing
+
+# Datatypes (KEYWORD1)
+microSeconds	KEYWORD1
+milliSeconds	KEYWORD1
+seconds	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+now	KEYWORD2
+set	KEYWORD2
+
+# Constants (LITERAL1)
+

@@ -1,20 +1,21 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.30
+// VERSION: 0.1.31
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino, AVR optimized
 //     URL: https://github.com/RobTillaart/DHTlib
 //          http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
-// 0.1.30   2020-06-30 own repo;
-// 0.1.29   2018-09-02 fix negative temperature DHT12 - issue #111
-// 0.1.28   2018-04-03 refactor
-// 0.1.27   2018-03-26 added _disableIRQ flag
-// 0.1.26   2017-12-12 explicit support for AM23XX series and DHT12
-// 0.1.25   2017-09-20 FIX https://github.com/RobTillaart/Arduino/issues/80
-// 0.1.24   2017-07-27 FIX https://github.com/RobTillaart/Arduino/issues/33  double -> float
-// 0.1.23   2017-07-24 FIX https://github.com/RobTillaart/Arduino/issues/31
+// 0.1.31   2020-12-15  fix negative temperature DHT22 (code from DHTNew)
+// 0.1.30   2020-06-30  own repo;
+// 0.1.29   2018-09-02  fix negative temperature DHT12 - issue #111
+// 0.1.28   2018-04-03  refactor
+// 0.1.27   2018-03-26  added _disableIRQ flag
+// 0.1.26   2017-12-12  explicit support for AM23XX series and DHT12
+// 0.1.25   2017-09-20  FIX https://github.com/RobTillaart/Arduino/issues/80
+// 0.1.24   2017-07-27  FIX https://github.com/RobTillaart/Arduino/issues/33  double -> float
+// 0.1.23   2017-07-24  FIX https://github.com/RobTillaart/Arduino/issues/31
 // 0.1.22   undo delayMicroseconds() for wakeups larger than 8
 // 0.1.21   replace delay with delayMicroseconds() + small fix
 // 0.1.20   Reduce footprint by using uint8_t as error codes. (thanks to chaveiro)
@@ -112,12 +113,36 @@ int8_t dht::read(uint8_t pin)
     bits[2] &= 0x83;
 
     // CONVERT AND STORE
-    humidity = (bits[0]*256 + bits[1]) * 0.1;
-    temperature = ((bits[2] & 0x7F)*256 + bits[3]) * 0.1;
+    humidity = (bits[0] * 256 + bits[1]) * 0.1;
+    temperature = ((bits[2] & 0x7F) * 256 + bits[3]) * 0.1;
     if (bits[2] & 0x80)  // negative temperature
     {
         temperature = -temperature;
     }
+
+    // HEXDUMP DEBUG
+    /*
+    Serial.println();
+    // CHECKSUM
+    if (_bits[4] < 0x10) Serial.print(0);
+    Serial.print(_bits[4], HEX);
+    Serial.print("    ");
+    // TEMPERATURE
+    if (_bits[2] < 0x10) Serial.print(0);
+    Serial.print(_bits[2], HEX);
+    if (_bits[3] < 0x10) Serial.print(0);
+    Serial.print(_bits[3], HEX);
+    Serial.print("    ");
+    Serial.print(temperature, 1);
+    Serial.print("    ");
+    // HUMIDITY
+    if (_bits[0] < 0x10) Serial.print(0);
+    Serial.print(_bits[0], HEX);
+    if (_bits[1] < 0x10) Serial.print(0);
+    Serial.print(_bits[1], HEX);
+    Serial.print("    ");
+    Serial.print(humidity, 1);
+    */
 
     // TEST CHECKSUM
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];

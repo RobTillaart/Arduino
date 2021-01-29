@@ -3,10 +3,15 @@
 # Datatypes (KEYWORD1)
 XMLWriter	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 reset	KEYWORD2
+setConfig	KEYWORD2
 header	KEYWORD2
+version	KEYWORD2
+debug	KEYWORD2
 comment	KEYWORD2
+newLine	KEYWORD2
 tagOpen	KEYWORD2
 tagClose	KEYWORD2
 tagStart	KEYWORD2
@@ -14,13 +19,16 @@ tagField	KEYWORD2
 tagEnd	KEYWORD2
 writeNode	KEYWORD2
 setIndentSize	KEYWORD2
+getIndentSize
 incrIndent	KEYWORD2
 decrIndent	KEYWORD2
 indent	KEYWORD2
 raw	KEYWORD2
 escape	KEYWORD2
-setConfig	KEYWORD2
-newLine	KEYWORD2
+flush	KEYWORD2
+bufferIndex	KEYWORD2
+bytesWritten	KEYWORD2
+
 
 # Instances (KEYWORD2)
 
@@ -35,3 +43,5 @@ NOSLASH	LITERAL1
 XMLWRITER_NONE	LITERAL1
 XMLWRITER_COMMENT	LITERAL1
 XMLWRITER_INDENT	LITERAL1
+XMLWRITER_NEWLINE	LITERAL1
+

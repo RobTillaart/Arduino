@@ -2,20 +2,21 @@
 //
 //    FILE: PrintSize.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Class that determines printSize
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintSize
 //
-// HISTORY:
-// 0.1.0    2017-12-09 initial version
-// 0.2.0    2020-04-30 add total counter to sum multiple print statements
-// 0.2.1    2020-05-26 fix #1 - URLS + centering example
-// 0.2.2    2020-06-19 fix library.json
+//  HISTORY:
+//  0.1.0   2017-12-09  initial version
+//  0.2.0   2020-04-30  add total counter to sum multiple print statements
+//  0.2.1   2020-05-26  fix #1 - URLS + centering example
+//  0.2.2   2020-06-19  fix library.json
+//  0.3.0   2021-01-06  arduino-CI + unit test
 
 #include "Print.h"
 
-#define PRINTSIZE_VERSION "0.2.2"
+#define PRINTSIZE_VERSION     (F("0.3.0"))
 
 class PrintSize: public Print
 {
@@ -32,7 +33,7 @@ public:
     return 1;
   }
 
-  void reset() { _total = 0; }
+  void     reset() { _total = 0; }
 
   uint32_t total() { return _total; };
 

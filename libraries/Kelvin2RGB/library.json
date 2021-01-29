@@ -1,0 +1,21 @@
+{
+  "name": "Kelvin2RGB",
+  "keywords": " ",
+  "description": "Arduino library for converting temperature to RGB values",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Kelvin2RGB.git"
+  },
+  "version":"0.1.1",
+  "frameworks": "*",
+  "platforms": "*"
+}

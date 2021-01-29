@@ -20,7 +20,7 @@ void setup()
 
   Serial.println("\nPerformance - time in us"); 
   uint32_t start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     FSO.write(0x55);
   }
@@ -29,7 +29,7 @@ void setup()
   Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     FSO.write(0x55);
     FSO.write(0x55);
@@ -42,19 +42,19 @@ void setup()
   Serial.println();
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
-    shiftOut(12, 13, 0x55, LSBFIRST);
+    shiftOut(12, 13, LSBFIRST, 0x55);
   }
   duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
   Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
-    shiftOut(12, 13, 0x55, LSBFIRST);
-    shiftOut(12, 13, 0x55, LSBFIRST);
+    shiftOut(12, 13, LSBFIRST, 0x55);
+    shiftOut(12, 13, LSBFIRST, 0x55);
   }
   duration2 = micros() - start;
   Serial.print("Standard shiftOut2: ");
@@ -75,7 +75,7 @@ void setup()
 
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i = 0; i < 100; i++)
   {
     FSO.println(1357);
   }
@@ -85,7 +85,7 @@ void setup()
 
 
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i = 0; i < 100; i++)
   {
     FSO.println(3.14159265, 4);
   }

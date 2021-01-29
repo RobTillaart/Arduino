@@ -14,7 +14,7 @@ Fraction a(1, 3);
 Fraction aa(3, 9);
 Fraction b(1, 4);
 Fraction n(0, 5);
-Fraction p(5);
+Fraction p(5, 1);
 Fraction pi(PI);
 Fraction e(EULER);
 

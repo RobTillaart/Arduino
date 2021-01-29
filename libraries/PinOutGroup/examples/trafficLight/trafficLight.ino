@@ -8,11 +8,11 @@
 
 PinOutGroup trafficLight;
 
-uint8_t lights[] = {11, 12, 13};  // connect 3 leds...
-const int RED    = 4;
-const int YELLOW = 2;
-const int GREEN  = 1;
-const int YELLOWRED = 6;
+uint8_t lights[]    = {11, 12, 13};  // connect 3 leds...
+const int RED       = 4;
+const int YELLOW    = 2;
+const int GREEN     = 1;
+const int YELLOWRED = 6;     // YELLOW | RED 
 
 int state = 0;
 

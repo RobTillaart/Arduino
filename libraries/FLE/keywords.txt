@@ -1,0 +1,19 @@
+# Syntax Coloring Map For FLE
+
+# Datatypes (KEYWORD1)
+FLE	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setDecimals	KEYWORD2
+setSeparator	KEYWORD2
+value	KEYWORD2
+error	KEYWORD2
+relError	KEYWORD2
+high	KEYWORD2
+low	KEYWORD2
+
+
+# Constants (LITERAL1)
+FLE_LIB_VERSION	LITERAL1
+

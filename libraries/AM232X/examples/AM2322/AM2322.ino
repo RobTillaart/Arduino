@@ -9,6 +9,15 @@
 // 0.1.1   2020-05-03 updated to 0.2.0 version of lib.
 //
 
+//  Bottom view 
+//       +---+
+//  VDD  |o  |
+//  SDA  |o  |
+//  GND  |o  |
+//  SCL  |o  |
+//       +---+
+//
+// do not forget pull up resistors between SDA, SCL and VDD.
 #include <AM232X.h>
 
 AM232X AM2322;

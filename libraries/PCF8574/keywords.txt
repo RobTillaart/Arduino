@@ -1,0 +1,37 @@
+# Syntax Coloring Map for PCF8574
+
+
+# Datatypes (KEYWORD1)
+PCF8574	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+read8	KEYWORD2
+read	KEYWORD2
+value	KEYWORD2
+
+write8	KEYWORD2
+write	KEYWORD2
+valueOut	KEYWORD2
+
+readButton8	KEYWORD2
+readButton	KEYWORD2
+setButtonMask	KEYWORD2
+
+toggle	KEYWORD2
+toggleMask	KEYWORD2
+shiftRight	KEYWORD2
+shiftLeft	KEYWORD2
+rotateRight	KEYWORD2
+rotateLeft	KEYWORD2
+reverse	KEYWORD2
+lastError	KEYWORD2
+
+
+# Constants (	LITERAL1)
+PCF8574_LIB_VERSION	LITERAL1
+PCF8574_OK	LITERAL1
+PCF8574_PIN_ERROR	LITERAL1
+PCF8574_I2C_ERROR	LITERAL1

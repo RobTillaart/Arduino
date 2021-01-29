@@ -1,11 +1,20 @@
+
+[![Arduino CI](https://github.com/RobTillaart/AnalogPin/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AnalogPin/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/AnalogPin.svg?maxAge=3600)](https://github.com/RobTillaart/AnalogPin/releases)
+
 # AnalogPin
+
 Arduino library to add functionality on top of analogRead()
 
+
 ## Description
+
 AnalogPin is an Arduino class that adds noise filtering and smoothing
 to analogRead().
 Furthermore it can speed up the analogRead() function by tuning the prescaler.
 This latter is AVR only.
+
 
 ## Operation
 

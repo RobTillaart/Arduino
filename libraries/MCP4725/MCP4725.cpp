@@ -2,27 +2,31 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //     URL: https://github.com/RobTillaart/MCP4725
 //
-// HISTORY:
-// 0.1.00 - 2013-11-24 initial version
-// 0.1.01 - 2013-11-30 added readDAC() & writeDAC (registerwrite)
-// 0.1.02 - 2013-12-01 added readEEPROM() & RDY()
-// 0.1.03 - 2013-12-01 added powerDownMode code
-// 0.1.04 - 2013-12-04 improved the generalCall code (still experimental)
-// 0.1.05 - 2015-03-06 refactoring, stricter interfaces
-// 0.1.6 - 2017-04-19 refactor + remove timeout - https://github.com/RobTillaart/Arduino/issues/63
-// 0.1.7 - 2017-04-20 refactor the removed timeout (Thanks to Koepel)
-// 0.1.8 - 2018-10-24 fix read only var #115 (kudos to perl1234)
-// 0.1.9 - 2019-10-14 replace AVR specific TWBR with Wire.setClock() #131
-// 0.2.0   2020-06-20 #pragma; remove pre 1.0 support; refactor a lot
-//                    RDY() -> ready()
-// 0.2.1   2020-07-04 Add yield(); add getLastWriteEEPROM(); 
-//                    update readme.md + keywords.txt
-// 0.2.2   2020-07-05 add get/setPercentage();
+//  HISTORY:
+//  0.1.00  2013-11-24  initial version
+//  0.1.01  2013-11-30  added readDAC() & writeDAC (registerwrite)
+//  0.1.02  2013-12-01  added readEEPROM() & RDY()
+//  0.1.03  2013-12-01  added powerDownMode code
+//  0.1.04  2013-12-04  improved the generalCall code (still experimental)
+//  0.1.05  2015-03-06  refactoring, stricter interfaces
+//  0.1.6   2017-04-19  refactor + remove timeout - https://github.com/RobTillaart/Arduino/issues/63
+//  0.1.7   2017-04-20  refactor the removed timeout (Thanks to Koepel)
+//  0.1.8   2018-10-24  fix read only var #115 (kudos to perl1234)
+//  0.1.9   2019-10-14  replace AVR specific TWBR with _wire->setClock() #131
+//  0.2.0   2020-06-20  #pragma; remove pre 1.0 support; refactor a lot
+//                      RDY() -> ready()
+//  0.2.1   2020-07-04  Add yield(); add getLastWriteEEPROM(); 
+//                      update readme.md + keywords.txt
+//  0.2.2   2020-07-05  add get/setPercentage();
+//  0.2.3   2020-12-26  arduino-CI, bool isConnected(), bool begin()
+//  0.3.0   2021-01-15  Add WireN support (e.g. teensy)
+
 
 #include "MCP4725.h"
+
 
 // registerMode
 #define MCP4725_DAC             0x40
@@ -33,32 +37,52 @@
 #define MCP4725_GC_WAKEUP       0x09
 
 
-MCP4725::MCP4725(const uint8_t deviceAddress)
+MCP4725::MCP4725(const uint8_t deviceAddress, TwoWire *wire)
 {
-  _deviceAddress = deviceAddress;
-  _lastValue = 0;
-  _powerDownMode = 0;
+  _deviceAddress   = deviceAddress;
+  _wire            = wire;
+  _lastValue       = 0;
+  _powerDownMode   = 0;
   _lastWriteEEPROM = 0;
 }
 
 
 #if defined(ESP8266) || defined(ESP32)
-void MCP4725::begin(const uint8_t dataPin, const uint8_t clockPin)
+bool MCP4725::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
-  Wire.begin(dataPin, clockPin);
-  // Wire.setClock(100000UL);
-  _lastValue = readDAC();
-  _powerDownMode = readPowerDownModeDAC();
+  _wire  = &Wire;
+  if ((dataPin < 255) && (clockPin < 255))
+  {
+    _wire->begin(dataPin, clockPin);
+  } else {
+    _wire->begin();
+  }
+  if (isConnected())
+  {
+    _lastValue = readDAC();
+    _powerDownMode = readPowerDownModeDAC();
+    return true;
+  }
+  return false;
 }
 #endif
 
 
-void MCP4725::begin()
+bool MCP4725::begin()
 {
-  Wire.begin();
-  // Wire.setClock(100000UL);
+  _wire->begin();
+  if (! isConnected()) return false;
+
   _lastValue = readDAC();
   _powerDownMode = readPowerDownModeDAC();
+  return true;
+}
+
+
+bool MCP4725::isConnected()
+{
+  _wire->beginTransmission(_deviceAddress);
+  return (_wire->endTransmission() == 0);
 }
 
 
@@ -168,13 +192,14 @@ int MCP4725::powerOnWakeUp()
 // PAGE 18 DATASHEET
 int MCP4725::_writeFastMode(const uint16_t value)
 {
-  Wire.beginTransmission(_deviceAddress);
+  uint8_t l = value & 0xFF;
   uint8_t h = ((value / 256) & 0x0F);  // set C0 = C1 = 0, no PDmode
   h = h | (_powerDownMode << 4);
-  uint8_t l = value & 0xFF;
-  Wire.write(h);
-  Wire.write(l);
-  return Wire.endTransmission();
+
+  _wire->beginTransmission(_deviceAddress);
+  _wire->write(h);
+  _wire->write(l);
+  return _wire->endTransmission();
 }
 
 
@@ -199,12 +224,12 @@ int MCP4725::_writeRegisterMode(const uint16_t value, uint8_t reg)
   }
   uint8_t h = (value / 16);
   uint8_t l = (value & 0x0F) << 4;
-  Wire.beginTransmission(_deviceAddress);
+  _wire->beginTransmission(_deviceAddress);
   reg = reg | (_powerDownMode << 1);
-  Wire.write(reg);
-  Wire.write(h);
-  Wire.write(l);
-  return Wire.endTransmission();
+  _wire->write(reg);
+  _wire->write(h);
+  _wire->write(l);
+  return _wire->endTransmission();
 }
 
 
@@ -212,16 +237,16 @@ int MCP4725::_writeRegisterMode(const uint16_t value, uint8_t reg)
 // typical 3 or 5 bytes
 uint8_t MCP4725::_readRegister(uint8_t* buffer, const uint8_t length)
 {
-  Wire.beginTransmission(_deviceAddress);
-  int rv = Wire.endTransmission();
+  _wire->beginTransmission(_deviceAddress);
+  int rv = _wire->endTransmission();
   if (rv != 0) return 0;  // error
 
   // readbytes will always be equal or smaller to length
-  uint8_t readBytes = Wire.requestFrom(_deviceAddress, length);
+  uint8_t readBytes = _wire->requestFrom(_deviceAddress, length);
   uint8_t cnt = 0;
   while (cnt < readBytes)
   {
-    buffer[cnt++] = Wire.read();
+    buffer[cnt++] = _wire->read();
   }
   return readBytes;
 }
@@ -230,9 +255,9 @@ uint8_t MCP4725::_readRegister(uint8_t* buffer, const uint8_t length)
 // name comes from datasheet
 int MCP4725::_generalCall(const uint8_t gc)
 {
-  Wire.beginTransmission(0);
-  Wire.write(gc);
-  return Wire.endTransmission();
+  _wire->beginTransmission(0);  // _deviceAddress
+  _wire->write(gc);
+  return _wire->endTransmission();
 }
 
 // -- END OF FILE --

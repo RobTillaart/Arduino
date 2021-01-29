@@ -7,7 +7,6 @@
 //
 
 #include "PCF8574.h"
-#include <Wire.h>
 
 // adjust addresses if needed
 PCF8574 PCF_39(0x39);  // add leds to lines      (used as output)
@@ -15,7 +14,8 @@ PCF8574 PCF_39(0x39);  // add leds to lines      (used as output)
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\npcf8574_test2.ino\nlib version: ");
+  Serial.println(__FILE__);
+  Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
 
   PCF_39.begin();
@@ -64,6 +64,5 @@ void setup()
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+// -- END OF FILE --

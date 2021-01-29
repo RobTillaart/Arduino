@@ -234,7 +234,7 @@ void Weather(XMLWriter* xw)
   xw->tagClose();
 }
 
-
+// casting to keep some compilers happy
 void AnalogPorts(XMLWriter* xw, const char* name)
 {
   char buffer[24];
@@ -242,12 +242,13 @@ void AnalogPorts(XMLWriter* xw, const char* name)
   xw->comment("The analog ports are multiplexed");
   xw->tagOpen("Analog", name);
   xw->writeNode("Analog0", itoa(analogRead(A0), buffer, 10));
-  xw->writeNode("Analog1", analogRead(A1));
-  xw->writeNode("Analog2", (5.0 * analogRead(A2)) / 1023); // default nr decimals = 2
-  xw->writeNode("Analog3", (5.0 * analogRead(A2)) / 1023, 3);
+  xw->writeNode("Analog1", (uint16_t) analogRead(A1));
+  xw->writeNode("Analog2", (double) (5.0 * analogRead(A2)) / 1023); // default nr decimals = 2
+  xw->writeNode("Analog3", (double) (5.0 * analogRead(A2)) / 1023, (uint8_t)3);
   xw->tagClose();
 }
 
+// casting to keep some compilers happy
 void DigitalPorts(XMLWriter* xw)
 {
   char buffer[24];
@@ -255,7 +256,7 @@ void DigitalPorts(XMLWriter* xw)
   xw->comment("The digital ports are not multiplexed");
   xw->tagOpen("Digital");
   xw->writeNode("D1", itoa(digitalRead(1), buffer, 10));
-  xw->writeNode("D13", digitalRead(13));
+  xw->writeNode("D13", (uint8_t) digitalRead(13));
   xw->tagClose();
 }
 

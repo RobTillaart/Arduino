@@ -1,0 +1,21 @@
+{
+  "name": "I2CKeyPad",
+  "keywords": "I2C,KeyPad, 4x4, PCF8574",
+  "description": "Arduino libray for 4x4 KeyPad connected to a PCF8574. 4x4 or smaller only.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2CKeyPad.git"
+  },
+  "version":"0.1.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,0 +1,40 @@
+# Syntax Coloring Map For PID_RT
+
+# Datatypes (KEYWORD1)
+PID_RT	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+reset	KEYWORD2
+setPoint	KEYWORD2
+getSetPoint	KEYWORD2
+compute	KEYWORD2
+getOutput	KEYWORD2
+start	KEYWORD2
+stop	KEYWORD2
+isRunning	KEYWORD2
+setReverse	KEYWORD2
+getReverse	KEYWORD2
+setInterval	KEYWORD2
+getInterval	KEYWORD2
+setOutputRange	KEYWORD2
+getOutputMin	KEYWORD2
+getOutputMax	KEYWORD2
+setK	KEYWORD2
+setKp	KEYWORD2
+setKi	KEYWORD2
+setKd	KEYWORD2
+getKp	KEYWORD2
+getKi	KEYWORD2
+getKd	KEYWORD2
+setPropOnInput	KEYWORD2
+setPropOnError	KEYWORD2
+isPropOnInput	KEYWORD2
+isPropOnError	KEYWORD2
+getInput	KEYWORD2
+getLastError	KEYWORD2
+getLastTime	KEYWORD2
+
+
+# Constants (LITERAL1)
+PRINTCHARARRAY_VERSION	LITERAL1
+

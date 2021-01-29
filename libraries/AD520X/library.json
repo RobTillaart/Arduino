@@ -1,0 +1,21 @@
+{
+  "name": "AD520X",
+  "keywords": "AD520X, SPI, AD5204, AD5206, AD8400, AD8402, AD8403, potentiometers",
+  "description": "Arduino library for SPI AD5204 and AD5206 digital potentiometers",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD520X.git"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

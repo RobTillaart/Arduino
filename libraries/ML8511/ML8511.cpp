@@ -1,13 +1,14 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //
-// HISTORY:
-// 0.1.0  2020-02-03 initial version
-// 0.1.1  2020-02-17 added _voltPerStep() to support more boards
-// 0.1.2  2020-06-21 refactor; add estimateDUVindex()
+//  HISTORY:
+//  0.1.0  2020-02-03  initial version
+//  0.1.1  2020-02-17  added _voltPerStep() to support more boards
+//  0.1.2  2020-06-21  refactor; add estimateDUVindex()
+//  0.1.3  2021-01-01  arduino-ci + unit test
 
 #include "ML8511.h"
 
@@ -19,10 +20,9 @@ ML8511::ML8511(uint8_t analogPin, uint8_t enablePin)
 {
   _analogPin = analogPin;
   _voltsPerStep = 5.0/1023;
-  
+  _enablePin = enablePin;
   if (enablePin != 0xFF)
   {
-    _enablePin = enablePin;
     pinMode(_enablePin, OUTPUT);
     digitalWrite(_enablePin, LOW);
     _enabled = false;
@@ -87,14 +87,14 @@ void  ML8511::setVoltsPerStep(float voltage, uint32_t steps)
 
 void ML8511::enable()
 {
-  digitalWrite(_enablePin, HIGH);
+  if (_enablePin != 0xFF) digitalWrite(_enablePin, HIGH);
   _enabled = true;
 };
 
 
 void ML8511::disable()
 {
-  digitalWrite(_enablePin, LOW);
+  if (_enablePin != 0xFF) digitalWrite(_enablePin, LOW);
   _enabled = false;
 };
 

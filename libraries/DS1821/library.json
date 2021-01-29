@@ -1,0 +1,21 @@
+{
+  "name": "DS1821",
+  "keywords": "DS1821, temperature",
+  "description": "Arduino library for DS1821 temperature sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS1821"
+  },
+  "version":"0.3.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

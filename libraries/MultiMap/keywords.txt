@@ -1,0 +1,11 @@
+# Syntax Coloring Map For multiMap
+
+# Datatypes (KEYWORD1)
+
+
+# Methods and Functions (KEYWORD2)
+multiMap	KEYWORD2
+
+
+# Constants (LITERAL1)
+MULTIMAP_LIB_VERSION	LITERAL1

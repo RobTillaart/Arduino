@@ -1,3 +1,8 @@
+
+[![Arduino CI](https://github.com/RobTillaart/LineFormatter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/LineFormatter/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/LineFormatter.svg?maxAge=3600)](https://github.com/RobTillaart/LineFormatter/releases)
+
 # LineFormatter
 
 Arduino library to enhance the layout of tabular data on serial output,
@@ -38,11 +43,11 @@ Note: the maximum value is 255.
 ### Debugging
 
 For debugging purposes there are the following functions:
-* getPos() - returns current position
-* resetLineCount() - sets internal lineCounter to zero
-* getLineCount() - returns current line number (since last reset)
-* getTabCount() - get the number of tab positions added.
-* printRuler() - prints a dotted line with 5 and 10 markers, and # for tab positions.
+- **getPos()** - returns current position
+- **resetLineCount()** - sets internal lineCounter to zero
+- **getLineCount()** - returns current line number (since last reset)
+- **getTabCount()** - get the number of tab positions added.
+- **printRuler()** - prints a dotted line with 5 and 10 markers, and # for tab positions.
 
 # Operational
 

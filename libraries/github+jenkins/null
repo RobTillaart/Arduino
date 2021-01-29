@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\Rob\Desktop\WORK\GIT\github+jenkins\githubrepo.py", line 84, in <module>
+    main()	
+  File "C:\Users\Rob\Desktop\WORK\GIT\github+jenkins\githubrepo.py", line 34, in main
+    with GitHubRepo(github, user, passwd, org, repo) as ghr:
+NameError: global name 'GitHubRepo' is not defined

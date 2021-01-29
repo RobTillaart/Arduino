@@ -79,8 +79,8 @@ void test1()
 
   Serial.print("size: ");
   Serial.println(PIG.size());
-  Serial.print("free: ");
-  Serial.println(PIG.free());
+  Serial.print("available: ");
+  Serial.println(PIG.available());
   delay(20);
 
   uint32_t t1 = micros();
@@ -119,8 +119,8 @@ void test2()
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
-  Serial.print(F("free: "));
-  Serial.println(PIG.free());
+  Serial.print(F("available: "));
+  Serial.println(PIG.available());
   delay(20);
 
   uint32_t t1 = micros();
@@ -152,15 +152,15 @@ void test3()
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
-  Serial.print(F("free: "));
-  Serial.println(PIG.free());
+  Serial.print(F("available: "));
+  Serial.println(PIG.available());
 
   PIG.add(4, ar, INPUT_PULLUP);  // should not be added
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
-  Serial.print(F("free: "));
-  Serial.println(PIG.free());
+  Serial.print(F("available: "));
+  Serial.println(PIG.available());
   Serial.println();
   delay(20);
   PIG.clear();
@@ -202,16 +202,16 @@ void test4()
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
-  Serial.print(F("free: "));
-  Serial.println(PIG.free());
+  Serial.print(F("available: "));
+  Serial.println(PIG.available());
 
   PIG.clear();
   PIG.add(4, ar, INPUT_PULLUP);  // should not be added
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
-  Serial.print(F("free: "));
-  Serial.println(PIG.free());
+  Serial.print(F("available: "));
+  Serial.println(PIG.available());
   delay(20);
 
   uint32_t t1 = micros();

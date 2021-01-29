@@ -1,0 +1,47 @@
+# Syntax Coloring Map for GY521
+
+# Datatypes (KEYWORD1)
+GY521	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+wakeup	KEYWORD2
+read	KEYWORD2
+setThrottle	KEYWORD2
+getThrottle	KEYWORD2
+setThrottleTime	KEYWORD2
+getThrottleTime	KEYWORD2
+
+setAccelSensitivity	KEYWORD2
+getAccelSensitivity	KEYWORD2
+getAccelX	KEYWORD2
+getAccelY	KEYWORD2
+getAccelZ	KEYWORD2
+getAngleX	KEYWORD2
+getAngleY	KEYWORD2
+getAngleZ	KEYWORD2
+getTemperature	KEYWORD2
+
+setGyroSensitivity	KEYWORD2
+getGyroSensitivity	KEYWORD2
+getGyroX	KEYWORD2
+getGyroY	KEYWORD2
+getGyroZ	KEYWORD2
+getPitch	KEYWORD2
+getRoll	KEYWORD2
+getYaw	KEYWORD2
+
+lastTime	KEYWORD2
+setRegister	KEYWORD2
+getRegister	KEYWORD2
+getError	KEYWORD2
+
+# Constants (LITERAL1)
+GY521_LIB_VERSION	LITERAL1
+GY521_THROTTLE_TIME	LITERAL1
+GY521_OK	LITERAL1
+GY521_THROTTLED	LITERAL1
+GY521_ERROR_READ	LITERAL1
+GY521_ERROR_WRITE	LITERAL1
+GY521_ERROR_NOT_CONNECTED	LITERAL1

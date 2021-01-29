@@ -1,8 +1,14 @@
+
+[![Arduino CI](https://github.com/RobTillaart/FastShiftOut/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastShiftOut/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/FastShiftOut.svg?maxAge=3600)](https://github.com/RobTillaart/FastShiftOut/releases)
+
+
 # FastShiftOut
 
 Arduino library for (AVR) optimized shiftOut - e.g. 74HC595
 
-A library for FastShiftOut also exist.
+A library for FastShiftIn also exist - https://github.com/RobTillaart/FastShiftIn
 
 ## Description
 
@@ -17,7 +23,7 @@ to the default shiftOut() implementation.
 ## Performance
 
 The performance of **write()** is substantially faster than the default Arduino 
-**shiftIn()**, but not as fast as HW SPI. 
+**shiftOut()**, but not as fast as HW SPI. 
 Exact how big the performance gain is can be seen with the example sketch.
 It does a comparison and shows how the class is to be used.
 
@@ -25,16 +31,21 @@ It does a comparison and shows how the class is to be used.
 
 The interface exists of the following functions:
 
-- **size_t write(const uint8_t data);**
+- **size_t write(const uint8_t data);** send a byte, also the workhorse of the **Print** interface
+- **uint8_t lastWritten()** returns last byte writtem
+- **bool setBitOrder(bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
+- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
 - **size_t writeLSBFIRST(const uint8_t data);**  most optimized
 - **size_t writeMSBFIRST(const uint8_t data);**  most optimized
 
-Furthermore an FastShiftOut object implements the Print interface
-so one can also call
+As a FastShiftOut object implements the Print interface, one can also call
 - **FSO.print(any type);** or 
-- **FSO.println(any type);**
+- **FSO.println(any type);** 
 
-to send e.g. a float with 4 digits over the line.
+to send e.g. a float with 4 digits over the line, or some text string. 
+
+Note: **FSO.print()** returns the characters printed, including an optional \\r or \\n.
+
 
 ## Notes
 

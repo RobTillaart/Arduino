@@ -1,0 +1,17 @@
+
+ADD
+10.60
+
+CALCULATE - needed 
+2780
+
+CALCULATE - no new values added
+12
+
+getEstimateX
+44
+
+getEstimateY
+20
+
+Done...

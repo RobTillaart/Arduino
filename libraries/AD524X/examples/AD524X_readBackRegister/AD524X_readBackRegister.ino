@@ -1,27 +1,24 @@
 //
 //    FILE: AD524X_readBackRegister.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.1
 // PURPOSE: AD524X demo program
 //    DATE: 2016-04-10
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/AD524X
 //
 
 #include "AD524X.h"
-#include "Wire.h"
 
 AD524X AD01(0x2C);  // AD0 & AD1 == GND
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.print("\nStart AD524X_readBackRegister : ");
-    Serial.println(AD524X_VERSION);
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.println(AD524X_VERSION);
 
-    Wire.begin();
-    TWBR = 12;  // 400 KHz
+  Wire.begin();
+  Wire.setClock(400000);
 }
 
 void loop()
@@ -49,3 +46,5 @@ void test(uint8_t rdac, uint8_t val)
     Serial.println(y);
     delay(100);
 }
+
+// -- END OF FILE --

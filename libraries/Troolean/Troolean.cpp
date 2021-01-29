@@ -1,18 +1,19 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino Library for a three state logic datatype supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 //
-// HISTORY:
-// 0.1.0    2018-01-10 initial version
-// 0.1.1    2018-01-28 adjust (in)equality so that unknown == unknown
+//  HISTORY:
+//  0.1.0  2018-01-10  initial version
+//  0.1.1  2018-01-28  adjust (in)equality so that unknown == unknown
 //                     although there could be arguments that unknown != unknown
 //                     added isTrue(), isFalse(), isUnknown()
 //                     first public release
-// 0.1.2    2020-06-07 small refactor; updated keywords.txt; metadata
-// 0.1.3    2020-06-19 fix library.json
+//  0.1.2  2020-06-07  small refactor; updated keywords.txt; metadata
+//  0.1.3  2020-06-19  fix library.json
+//  0.1.4  2021-01-09  arduino-CI + unit test
 
 #include "Troolean.h"
 

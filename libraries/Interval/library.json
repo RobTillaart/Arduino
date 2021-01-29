@@ -1,0 +1,21 @@
+{
+  "name": "Interval",
+  "keywords": "Interval, range, value",
+  "description": "Arduino library for Interval datatype",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Interval"
+  },
+  "version":"0.1.0",
+  "frameworks": "*",
+  "platforms": "*"
+}

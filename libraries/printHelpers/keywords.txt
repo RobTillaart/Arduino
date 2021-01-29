@@ -1,0 +1,13 @@
+# Syntax Coloring Map for printHelpers
+
+# Datatypes (KEYWORD1)
+
+# Methods and Functions (KEYWORD2)
+print64	KEYWORD2
+sci	KEYWORD2
+eng	KEYWORD2
+scieng	KEYWORD2
+toBytes	KEYWORD2
+
+# Constants (LITERAL1)
+

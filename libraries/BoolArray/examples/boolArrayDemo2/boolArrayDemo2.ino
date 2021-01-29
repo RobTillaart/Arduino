@@ -10,13 +10,17 @@
 //
 // 0.1.1 - added performance for toggle
 //
+
+
 #include "BoolArray.h"
+
 
 BoolArray b;
 
 uint32_t start;
 uint32_t stop;
 volatile long x = 0;
+
 
 void setup()
 {
@@ -141,6 +145,9 @@ void setup()
   Serial.println("Done...");
 }
 
+
 void loop()
 {
 }
+
+// -- END OF FILE --

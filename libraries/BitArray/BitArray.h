@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -21,7 +21,9 @@
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION "0.2.1"
+#define BITARRAY_LIB_VERSION "0.2.2"
+
+
 
 #define BA_SEGMENT_SIZE 200
 
@@ -64,32 +66,32 @@
 class BitArray
 {
 public:
-    BitArray();
-    ~BitArray();
+  BitArray();
+  ~BitArray();
 
-    uint8_t  begin(const uint8_t bits, const uint16_t size);
+  uint8_t  begin(const uint8_t bits, const uint16_t size);
 
-    uint16_t capacity() { return _bytes * 8 / _bits; };
-    uint16_t memory()   { return _bytes; };
-    uint16_t bits()     { return _bits; };
-    uint16_t segments() { return _segments; };
-    uint8_t  getError() { return _error; };
+  uint16_t capacity() { return _bytes * 8 / _bits; };
+  uint16_t memory()   { return _bytes; };
+  uint16_t bits()     { return _bits; };
+  uint16_t segments() { return _segments; };
+  uint8_t  getError() { return _error; };
 
-    void     clear();
-    uint32_t get(const uint16_t idx);
-    uint32_t set(const uint16_t idx, uint32_t value);
-    uint32_t toggle(const uint16_t idx);
+  void     clear();
+  uint32_t get(const uint16_t idx);
+  uint32_t set(const uint16_t idx, uint32_t value);
+  uint32_t toggle(const uint16_t idx);
 
 private:
-    uint8_t   _bitget(const uint16_t idx);
-    void      _bitset(const uint16_t idx, const uint8_t value);
-    uint8_t   _bittoggle(const uint16_t idx);
+  uint8_t   _bitget(const uint16_t idx);
+  void      _bitset(const uint16_t idx, const uint8_t value);
+  uint8_t   _bittoggle(const uint16_t idx);
 
-    uint16_t  _bytes = 0;
-    uint8_t   _bits = 0;
-    uint8_t   _segments = 0;
-    uint8_t * _ar[BA_MAX_SEGMENTS];
-    uint8_t   _error = BA_NO_MEMORY_ERR;
+  uint16_t  _bytes = 0;
+  uint8_t   _bits = 0;
+  uint8_t   _segments = 0;
+  uint8_t * _ar[BA_MAX_SEGMENTS];
+  uint8_t   _error = BA_NO_MEMORY_ERR;
 };
 
 // -- END OF FILE --

@@ -1,12 +1,10 @@
 //
 //    FILE: DS28CM00_perf.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.2
 // PURPOSE: performance test DS28CM00 lib
 //    DATE: 2017-07-24
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/DS28CM00
 //
 
 #include <Wire.h>
@@ -14,7 +12,7 @@
 
 uint8_t uid[8];
 
-DS28CM00 DS28;
+DS28CM00 DS28(&Wire);
 
 uint32_t start;
 uint32_t stop;

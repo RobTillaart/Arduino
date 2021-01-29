@@ -1,0 +1,21 @@
+{
+  "name": "PCF8591",
+  "keywords": "I2C, PCF8591, ADC, DAC, 8bit",
+  "description": "PCF8591 library for Arduino, 4xADC, 1xDAC 8 bit.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCF8591.git"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

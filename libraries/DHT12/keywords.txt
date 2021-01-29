@@ -4,11 +4,14 @@
 DHT12	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
+begin	KEYWORD2
 read	KEYWORD2
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
-humidity	KEYWORD2
-temperature	KEYWORD2
+setHumOffset	KEYWORD2
+setTempOffset	KEYWORD2
+getHumOffset	KEYWORD2
+getTempOffset	KEYWORD2
 
 # Constants (LITERAL1)
 DHT12_VERSION	LITERAL2

@@ -1,7 +1,12 @@
 
+[![Arduino CI](https://github.com/RobTillaart/MultiSpeedI2CScanner/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/MultiSpeedI2CScanner.svg?maxAge=3600)](https://github.com/RobTillaart/MultiSpeedI2CScanner/releases)
+
+
 # Arduino MultiSpeed I2C Scanner
 
-## Version: 0.1.11
+## Version: 0.1.13
 
 ## Description
 
@@ -17,7 +22,7 @@ many devices above the standard 100KHz speed.
 ```
 <speeds = 50 100 150 200 250 300 350 400 >
 
-Arduino MultiSpeed I2C Scanner - 0.1.10
+Arduino MultiSpeed I2C Scanner - 0.1.13
 
 I2C ports: 1  Current: Wire0
 	@ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5 or Arduino Due]
@@ -30,7 +35,7 @@ Scan mode:
 Output:
 	p = toggle printAll - printFound.
 	h = toggle header - noHeader.
-	a = toggle address range, 0..127 - 8..120
+	a = toggle address range, 0..127 - 8..119 (default)
 Speeds:
 	0 = 100..800 Khz - step 100  (warning - can block!!)
 	1 = 100 KHz
@@ -77,8 +82,8 @@ PrintFound will only generate a line if an I2C device is found on that address.
 
 **h** toggles the printing of a header.
 
-**a** toggles the range of addresses scanned, normally the full range 0 .. 127 is scanned 
-but as some addresses are reserved, one can limit this range to 8 .. 120 .
+**a** toggles the range of addresses scanned, default the range 8 .. 119 is scanned,
+but one can extend this range to 0 .. 127. **Note:** some addresses are reserved.
 
 ### Speeds
 

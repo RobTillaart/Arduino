@@ -1,0 +1,21 @@
+{
+  "name": "MAX31855",
+  "keywords": "MAX31855,Thermocouple,K type,temperature, offset, MAX31855K",
+  "description": "Arduino library for MAX31855 chip for K type thermocouple. Has experimental support for other types of thermocouples.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX31855_RT"
+  },
+  "version":"0.2.4",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

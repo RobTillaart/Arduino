@@ -1,3 +1,8 @@
+
+[![Arduino CI](https://github.com/RobTillaart/FastShiftIn/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastShiftIn/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/FastShiftIn.svg?maxAge=3600)](https://github.com/RobTillaart/FastShiftIn/releases)
+
 # FastShiftIn
 
 Arduino library for (AVR) optimized shiftIn - e.g. for 74HC165
@@ -25,9 +30,12 @@ It does a comparison and shows how the class is to be used.
 
 The interface exists of the following functions:
 
-- **int read(void);**
-- **int readLSBFIRST(void);**  most optimized
-- **int readMSBFIRST(void);**  most optimized
+- **int read(void)** reads a new value
+- **int lastRead()** returns last value read
+- **bool setBitOrder(bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
+- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
+- **int readLSBFIRST(void)**  optimized LSB read()
+- **int readMSBFIRST(void)**  optimized MSB read()
 
 ## Notes
 

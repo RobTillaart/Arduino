@@ -1,0 +1,45 @@
+//
+//    FILE: unit_test_001.cpp
+//  AUTHOR: Rob Tillaart
+//    DATE: 2020-12-13
+// PURPOSE: unit tests for the avrheap library
+//          https://github.com/RobTillaart/avrheap
+//          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
+//
+
+// supported assertions
+// ----------------------------
+// assertEqual(expected, actual)
+// assertNotEqual(expected, actual)
+// assertLess(expected, actual)
+// assertMore(expected, actual)
+// assertLessOrEqual(expected, actual)
+// assertMoreOrEqual(expected, actual)
+// assertTrue(actual)
+// assertFalse(actual)
+// assertNull(actual)
+
+#include <ArduinoUnitTests.h>
+
+#include "Arduino.h"
+#include "avrheap.h"
+
+
+unittest_setup()
+{
+}
+
+unittest_teardown()
+{
+}
+
+unittest(test_constructor)
+{
+  Avrheap myheap;
+  
+  fprintf(stderr, "no unit tests yet");
+}
+
+unittest_main()
+
+// --------

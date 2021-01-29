@@ -1,10 +1,12 @@
 //    FILE: testPinOutGroup.ino
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: demo PinOutGroup library for Arduino
 //
 
+
 #include "PinOutGroup.h"
+
 
 uint8_t ar[4] = {2, 3, 4, 13};
 
@@ -28,9 +30,11 @@ void setup()
   Serial.println(F("done..."));
 }
 
+
 void loop()
 {
 }
+
 
 void test0()
 {
@@ -53,6 +57,7 @@ void test0()
   Serial.println(F(" done..."));
   Serial.println();
 }
+
 
 void test1()
 {
@@ -110,6 +115,7 @@ void test1()
   Serial.println();
 }
 
+
 void test2()
 {
   Serial.println(__FUNCTION__);
@@ -142,6 +148,7 @@ void test2()
   Serial.println();
 }
 
+
 void test3()
 {
   Serial.println(__FUNCTION__);
@@ -159,6 +166,7 @@ void test3()
   Serial.println(F(" done..."));
   Serial.println();
 }
+
 
 void test4()
 {
@@ -180,6 +188,7 @@ void test4()
   Serial.println(F(" done..."));
   Serial.println();
 }
+
 
 void test5()
 {
@@ -215,6 +224,7 @@ void test5()
   Serial.println();
 }
 
+
 // wrapper for test6()
 void dw(const uint8_t pin, const uint8_t val)
 {
@@ -225,6 +235,7 @@ void dw(const uint8_t pin, const uint8_t val)
     digitalWrite(pin, val);
   }
 }
+
 
 void test6()
 {
@@ -310,6 +321,7 @@ void test6()
   Serial.println();
 }
 
+
 void test7()
 {
   Serial.println(__FUNCTION__);
@@ -357,23 +369,24 @@ void test7()
   Serial.println();
 }
 
+
 void test8()
 {
   Serial.println(__FUNCTION__);
-  Serial.println(F("Test Free()...\n"));
+  Serial.println(F("Test available()...\n"));
 
   PinOutGroup POG;
   Serial.print(F("size: "));
   Serial.println(POG.size());
-  Serial.print(F("free: "));
-  Serial.println(POG.free());
+  Serial.print(F("available: "));
+  Serial.println(POG.available());
 
   POG.add(4, ar );
 
   Serial.print(F("size: "));
   Serial.println(POG.size());
-  Serial.print(F("free: "));
-  Serial.println(POG.free());
+  Serial.print(F("available: "));
+  Serial.println(POG.available());
 
   Serial.print(__FUNCTION__);
   Serial.println(F(" done..."));

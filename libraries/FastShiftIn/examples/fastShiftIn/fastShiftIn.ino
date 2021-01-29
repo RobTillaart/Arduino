@@ -1,11 +1,9 @@
 //
 //    FILE: fastShiftIn.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
+// VERSION: 0.1.2
 // PURPOSE: test sketch
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/FastShiftIn
 //
 
 #include "FastShiftIn.h"
@@ -17,7 +15,7 @@ volatile int x = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftIn: "); 
+  Serial.println(__FILE__); 
   Serial.println(FASTSHIFTIN_LIB_VERSION);
 
   digitalWrite(12, HIGH);
@@ -25,7 +23,7 @@ void setup()
 
   Serial.println("\nPerformance - time in us"); 
   uint32_t start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     x = FSI.read();
   }
@@ -34,7 +32,7 @@ void setup()
   Serial.println(duration1 * 0.001);
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     x = FSI.read();
     x = FSI.read();
@@ -43,12 +41,12 @@ void setup()
   Serial.print("FastShiftIn2: ");
   Serial.println(duration2 * 0.001);
   Serial.print("       Delta: ");
-  Serial.println((duration2-duration1)* 0.001);
+  Serial.println((duration2 - duration1)* 0.001);
   Serial.println();
 
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     x = shiftIn(12, 13, LSBFIRST);
   }
@@ -57,7 +55,7 @@ void setup()
   Serial.println(duration1* 0.001);
 
   start = micros();
-  for (int i=0; i<1000; i++)
+  for (int i = 0; i < 1000; i++)
   {
     x = shiftIn(12, 13, LSBFIRST);
     x = shiftIn(12, 13, LSBFIRST);
@@ -66,7 +64,7 @@ void setup()
   Serial.print("Standard shiftIn2: ");
   Serial.println(duration2 * 0.001);
   Serial.print("            Delta: ");
-  Serial.println((duration2-duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001);
   Serial.println();
 
   Serial.println("done...");

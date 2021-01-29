@@ -1,7 +1,7 @@
 //
 //    FILE: fastShiftIn_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftIn
 //
@@ -17,7 +17,7 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftIn: ");
+  Serial.println(__FILE__);
   Serial.println(FASTSHIFTIN_LIB_VERSION);
 
   digitalWrite(12, HIGH);
@@ -139,7 +139,7 @@ void test_reference()
   Serial.print("            Delta: ");
   Serial.println((duration2 - duration1) * 0.001);
   Serial.println();
-
+  delay(100);
 }
 
 void loop()

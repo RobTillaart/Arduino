@@ -1,0 +1,42 @@
+//
+//    FILE: unit_test_001.cpp
+//  AUTHOR: Rob Tillaart
+//    DATE: 2020-12-12
+// PURPOSE: unit tests for the AsyncAnalog
+//          https://github.com/RobTillaart/AsyncAnalog
+//          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
+//
+
+// supported assertions
+// ----------------------------
+// assertEqual(expected, actual)
+// assertNotEqual(expected, actual)
+// assertLess(expected, actual)
+// assertMore(expected, actual)
+// assertLessOrEqual(expected, actual)
+// assertMoreOrEqual(expected, actual)
+// assertTrue(actual)
+// assertFalse(actual)
+// assertNull(actual)
+
+#include <ArduinoUnitTests.h>
+
+#include "Arduino.h"
+#include "AsyncAnalog.h"
+
+unittest_setup()
+{
+}
+
+unittest_teardown()
+{
+}
+
+unittest(test_none)
+{
+  fprintf(stderr, "no unit test defined as library is HW specific");
+}
+
+unittest_main()
+
+// --------

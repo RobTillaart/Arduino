@@ -1,19 +1,17 @@
 //
 //    FILE: DHT12.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.3.0
 // PURPOSE: Demo for DHT12 I2C humidity & temperature sensor
 //
 // HISTORY:
-// 0.1.0 - 2017-12-11 initial version
-// 0.1.1   2020-04-11 minor changes
-//
-// Released to the public domain
-//
+// 0.1.0    2017-12-11  initial version
+// 0.1.1    2020-04-11  minor changes
+// 0.3.0    2020-12-19  compatible new version
 
-#include <DHT12.h>
+#include "DHT12.h"
 
-DHT12 DHT;
+DHT12 DHT(&Wire);
 
 void setup()
 {

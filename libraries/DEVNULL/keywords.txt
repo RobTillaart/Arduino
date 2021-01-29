@@ -1,0 +1,12 @@
+# Syntax Coloring Map For DEVNULL
+
+# Datatypes (KEYWORD1)
+DEVNULL	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+
+

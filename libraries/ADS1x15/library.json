@@ -1,0 +1,21 @@
+{
+  "name": "ADS1X15",
+  "keywords": "ADS1013, ADS1014, ADS1015, ADS1113, ADS1114, ADS1115, I2C, ADC",
+  "description": "Arduino library for ADS1015 - I2C 12 bit ADC and ADS1115 I2C 16 bit ADC",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADS1X15"
+  },
+  "version":"0.2.7",
+  "frameworks": "*",
+  "platforms": "*"
+}

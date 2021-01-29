@@ -1,36 +1,42 @@
 //
 //    FILE: Prandom.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for random number generation with Python random interface
 //     URL: https://github.com/RobTillaart/Prandom
 //
-// HISTORY:
-// 0.1.0    2020-05-13 complete redo based upon python random interface
-//          https://docs.python.org/3/library/random.html
-// 0.1.1    renamed all to Prandom
-// 0.1.2    2020-06-19 fix library.json
+//  HISTORY:
+//  0.1.0   2020-05-13  complete redo based upon python random interface
+//                       https://docs.python.org/3/library/random.html
+//  0.1.1               renamed all to Prandom
+//  0.1.2   2020-06-19  fix library.json
+//  0.1.3   2021-01-06  arduino-CI + unit test
 
-// code nased upon Python implementation although some small optimizations
-// and tweaks were needed to get it working.
+// code based upon Python implementation although some small 
+// optimizations and tweaks were needed to get it working.
+
 
 #include "Prandom.h"
+
 
 Prandom::Prandom()
 {
   seed();
 }
 
+
 Prandom::Prandom(uint32_t s)
 {
   seed(s);
 }
+
 
 void Prandom::seed()
 {
   // no argument ==> time based.
   seed(_rndTime());
 }
+
 
 void Prandom::seed(uint32_t s, uint32_t t)
 {
@@ -41,22 +47,26 @@ void Prandom::seed(uint32_t s, uint32_t t)
   _m_z = t;
 }
 
+
 uint32_t Prandom::getrandbits(uint8_t n)
 {
   uint8_t shift = min(31, n - 1);
   return _rnd(1UL << shift);
 }
 
+
 uint32_t Prandom::randrange(uint32_t stop)
 {
   return _rnd(stop);
 }
+
 
 uint32_t Prandom::randrange(uint32_t start, uint32_t stop, uint32_t step)
 {
   if (step == 1) return start + _rnd(stop - start);
   return start + step * _rnd((stop - start + step - 1) / step);
 }
+
 
 // returns value between 0 and top which defaults to 1.0
 //         the parameter does not exist in Python
@@ -69,11 +79,13 @@ float Prandom::random(const float top)
   return f;
 }
 
+
 float Prandom::uniform(float lo, float hi)
 {
   if (lo == hi) return lo;
   return lo + random(hi - lo);
 }
+
 
 float Prandom::triangular(float lo, float hi, float mid)
 {
@@ -90,6 +102,7 @@ float Prandom::triangular(float lo, float hi, float mid)
   }
   return lo + (hi - lo) * sqrt(val * mid);
 }
+
 
 // minor optimization.
 float Prandom::normalvariate(float mu, float sigma)
@@ -109,10 +122,12 @@ float Prandom::normalvariate(float mu, float sigma)
   return z * sigma + mu;
 }
 
+
 float Prandom::lognormvariate(float mu, float sigma)
 {
   return exp(normalvariate(mu, sigma));
 }
+
 
 // implemented slightly differently 
 float Prandom::gauss(float mu, float sigma)
@@ -136,10 +151,12 @@ float Prandom::gauss(float mu, float sigma)
   return z * sigma + mu;
 };
 
+
 float Prandom::expovariate(float lambda)
 {
   return  -log(1.0 - random()) / lambda;
 }
+
 
 // alpha & beta > 0
 float Prandom::gammavariate(float alpha, float beta)
@@ -206,6 +223,7 @@ float Prandom::gammavariate(float alpha, float beta)
   }
 }
 
+
 float Prandom::betavariate(float alpha, float beta)
 {
   float y = gammavariate(alpha, 1.0);
@@ -213,17 +231,20 @@ float Prandom::betavariate(float alpha, float beta)
   return y / (y + gammavariate(beta, 1.0));
 };
 
+
 float Prandom::paretovariate(float alpha)
 {
   float u = 1 - random();
   return pow(u, (-1.0 / alpha));
 }
 
+
 float Prandom::weibullvariate(float alpha, float beta)
 {
   float u = 1 - random();
   return  alpha * pow(-log(u), 1.0/beta);
 }
+
 
 float Prandom::vonmisesvariate(float mu, float kappa)
 {
@@ -266,15 +287,17 @@ uint32_t Prandom::_rndTime()
   return (micros() + (micros() >> 2) ) ^ (millis());
 }
 
+
 // TODO how to guarantee it uniform between 0 .. n-1
 uint32_t Prandom::_rnd(uint32_t n)
 {
   // float formula works fastest but it looses precision for large values of n
   // as floats have only 23 bit mantissa
   uint32_t val = __random();
-  if (n > 0x003FFFFF) return val % n;  // distribution will fail here
+  if (n > 0x003FFFFF) return val % n;     // distribution will fail here
   return (n * 1.0 * val) / 0xFFFFFFFF;
 }
+
 
 // An example of a simple pseudo-random number generator is the
 // Multiply-with-carry method invented by George Marsaglia.

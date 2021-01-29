@@ -21,7 +21,7 @@ void setup()
   C.setRunningCorrelation(false);
   for (int i = 0; i <= 1000; i++)
   {
-    C.add(i, 10 * sin(i *0.01));
+    C.add(i, 10 * sin(i * 0.01));
 	if (i % 25 == 0) report();
   }
   Serial.println();

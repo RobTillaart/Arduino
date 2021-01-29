@@ -1,0 +1,9 @@
+compile:
+  # Choosing to run compilation tests on 2 different Arduino platforms
+  platforms:
+    # example made for Teensy a.o.
+    #
+    # - uno
+    # - leonardo
+    # - due
+    # - zero

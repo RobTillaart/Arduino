@@ -1,0 +1,21 @@
+{
+  "name": "MT8870",
+  "keywords": "DTMF, DMTF ",
+  "description": "Arduino library for MT8870 DTMF decoder",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MT8870.git"
+  },
+  "version":"0.1.2",
+  "frameworks": "*",
+  "platforms": "*"
+}

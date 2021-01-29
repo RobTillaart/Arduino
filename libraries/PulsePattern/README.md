@@ -1,3 +1,9 @@
+
+[![Arduino CI](https://github.com/RobTillaart/PulsePattern/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PulsePattern/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/PulsePattern.svg?maxAge=3600)](https://github.com/RobTillaart/PulsePattern/releases)
+
+
 # PulsePattern
 
 Arduino Library to generate repeating pulse patterns **AVR ONLY**
@@ -23,11 +29,11 @@ Use with care.
 
 - **PulsePattern()** constructor
 - **init(pin, \*ar, size, level, prescaler)** initializer of the Timer1
-* pin that outputs the pattern
-* array of durations
-* size (or part) of the array to be used
-* starting level HIGH/LOW
-* prescaler, one of the 5 defines from .h file (table below)
+   - pin that outputs the pattern
+   - array of durations
+   - size (or part) of the array to be used
+   - starting level HIGH/LOW
+   - prescaler, one of the 5 defines from .h file (table below)
 - **setFactor(perc)** percentage = factor to correct timing (relative).
 - **getFactor()** get the internal used factor. Due to rounding it can be slightly different.
 - **stop()** stop the pattern generator
@@ -35,9 +41,10 @@ Use with care.
 - **cont()** continue the pattern generator from the last stopped place (approx).
 - **isRunning()** status indicator
 - **worker()** must be public otherwise the ISR cannot call it.
+
 There is some bad understood __vector_11() error when worker() is private.
 
-### Prescaler constants
+## Prescaler constants
 
 | Value | Prescaler | Timer1  | notes |
 |:----:|:----|:----|:----:|
@@ -51,7 +58,12 @@ There is some bad understood __vector_11() error when worker() is private.
 | 7 | EXT_T2_RISING  |            | not tested |
 
 
-### 
+## Future
+
+- ESP32 variant of this class (baseclass -> AVR -> ESP class)
+- pulse recorder class to record / generate patterns
+
+if time permits ...
 
 # Operation
 

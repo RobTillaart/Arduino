@@ -2,18 +2,16 @@
 //    FILE: DAC8554_broadcast.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino with hardware SPI
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/Arduino/DAC8554
 
-// HISTORY:
-//   0.1.0: 2017-12-19 initial version
-//   0.1.1  2020-07-20 fix URL; minor edits
 
 #include "DAC8554.h"
 
+
 // note address as param
-DAC8554 DAC_A(0);
-DAC8554 DAC_B(1);
+DAC8554 DAC_A(10, 0);
+DAC8554 DAC_B(11, 1);
 
 void setup()
 {
@@ -54,6 +52,9 @@ void setup()
   Serial.println("Done...");
 }
 
+
 void loop()
 {
 }
+
+// -- END OF FILE --

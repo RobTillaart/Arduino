@@ -1,11 +1,20 @@
+
+[![Arduino CI](https://github.com/RobTillaart/DHTNew/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTNew/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTNew.svg?maxAge=3600)](https://github.com/RobTillaart/DHTNew/releases)
+
 # DHTNew
 
 Arduino library for DHT11 and DHT22 with automatic sensortype recognition.
+
 
 ## Description
 
 DHTNEW is stable for both ARM and AVR. 
 It is based upon the well tested DHTlib code.
+
+
+## History 
 
 DHTNEW has some new features compared to the DHTlib code.
 
@@ -31,13 +40,13 @@ DHTNEW has some new features compared to the DHTlib code.
 8. (0.2.0) Temperature and humidity are private now, use **getTemperature()** and **getHumidity()**
 9. (0.2.1) Adjusted the bit timing threshold to work around issue #11 
 10. (0.2.2) added **ERROR_SENSOR_NOT_READY** and differentiated timeout errors.
-11. (0.3.0)  
+11. (0.3.0)
 removed interrupt flag, now the library always disables interrupts during 
 the clocking of the bits.
 Added getReadDelay & setReadDelay to tune reading interval. Check the example code.
 Adjusted the timing in the wake-up part of the protocol. 
 Added more comments to describe the protocol.
-12. (0.3.1)  
+12. (0.3.1)
 added **powerDown()** and **powerUp()** for low power applications. Note that after **powerUp()**
 the user must wait for two seconds before doing a read(). Just like after a (re)boot.  
 Note: The lib does not (yet) control the power pin of the sensor. 
@@ -58,6 +67,16 @@ pulling the line HIGH and poiling for the line LOW.
 Added **waitFor(state, timeout)** to more precisely follow the datasheet in terms of timing.
 Reintroduced the **interrupt enable/disable flag** as forced noInterrupts()
 could break the timing of the DHT protocol / micros() - seen on AVR.
+16. (0.4.0)
+Added **DHTLIB_WAITING_FOR_READ** as return value of read => minor break of interface
+17. (0.4.1)
+Added Arduino-CI support + **gettype()** now tries to determine type if not known.
+18. (0.4.2)
+Fix negative temperatures. Tested with DHTNew_debug.ino and hexdump in .cpp and a freezer.  
+Note: testing in a freezer is not so good for humidity readings.
+19. (0.4.3)
+Added **reset()** to reset internal variables when a sensor blocks this might help.
+Added **lastRead()** to return time the sensor is last read. (in millis).
 
 
 ## DHT PIN layout from left to right
@@ -69,23 +88,70 @@ could break the timing of the DHT protocol / micros() - seen on AVR.
 | pin 3 | | Not Connected |
 | pin 4 | | GND           |
 
+
 ## Specification DHT22
 
-| | | |
+| Model                     | DHT22         | Notes |
 |:----|:----|:----|
-| Model | DHT22 |
-| Power supply | 3.3 - 6 V DC | 
-| Output signal | digital signal via single-bus | 
-| Sensing element | Polymer capacitor | 
-| Operating range | humidity 0-100% RH | temperature -40~80 Celsius | 
-| Accuracy humidity | ±2% RH(Max ±5% RH) | temperature < ±0.5 Celsius | 
-| Resolution or sensitivity | humidity 0.1% RH | temperature 0.1 Celsius | 
-| Repeatability humidity | ±1% RH | temperature ±0.2 Celsius | 
-| Humidity hysteresis | ±0.3% RH | 
-| Long-term Stability | ±0.5% RH/year | 
-| Sensing period | Average: 2s | 
-| Interchangeability |  fully interchangeable | 
-| Dimensions | small size 14 x 18 x 5.5 mm;  | big size 22 x 28 x 5 mm | 
+| Power supply              | 3.3 - 6 V DC  | 
+| Output signal             | digital signal via single-bus | 
+| Sensing element           | Polymer capacitor  | 
+| Operating range           | humidity 0-100% RH | temperature -40~80° Celsius | 
+| Accuracy humidity         | ±2% RH(Max ±5% RH) | temperature < ±0.5° Celsius | 
+| Resolution or sensitivity | humidity 0.1% RH   | temperature 0.1° Celsius | 
+| Repeatability humidity    | ±1% RH             | temperature ±0.2° Celsius | 
+| Humidity hysteresis       | ±0.3% RH           | 
+| Long-term Stability       | ±0.5% RH/year      | 
+| Sensing period            | Average: 2s        | 
+| Interchangeability        | fully interchangeable  | 
+| Dimensions                | small 14 x 18 x 5.5 mm | big 22 x 28 x 5 mm | 
+
+
+## Interface
+
+
+### Constructor
+
+- **DHTNEW(uint8_t pin)** defines the datapin of the sensor.
+- **reset()** might help to reset a sensor behaving badly.
+- **getType()**  0 = unknown, 11 or 22. 
+In case of 0, **getType()** will try to determine type.
+- **setType(uint8_t type = 0)** allows to force the type of the sensor. 
+
+
+### Base interface
+
+- **read()** reads a new temperature and humidity from the sensor
+- **lastRead()** returns milliseconds since last **read()**
+- **getHumidity()** returns last read value (float) or -999 in case of error. 
+Note this error value can be suppressed by **setSuppressError(bool)**.
+- **getTemperature()** returns last read value (float) or -999 in case of error. Note this error value can be suppressed by **setSuppressError(bool)**.
+
+
+### Offset 
+
+Adding offsets works well in normal range however they might introduce under- or overflow at the ends of the sensor range.
+
+- **setHumOffset(float offset)** typical < ±5% RH.
+- **setTempOffset(float offset)** typical < ±2°C.
+- **getHumOffset()** idem.
+- **getTempOffset()** idem.
+
+
+### Control
+
+Functions to adjust the communication with the sensor.
+
+- **setDisableIRQ(bool b )** allows or suppresses interrupts during core read function to keep timing as correct as possible. **Note AVR only**
+- **getDisableIRQ()** returns the above setting. Default **false**
+- **setWaitForReading(bool b )** flag to enforce a blocking wait. 
+- **getWaitForReading()** returns the above setting.
+- **setReadDelay(uint16_t rd = 0)** To tune the time it waits before actual read. This reduces the blocking time. Default depends on type. 1000 ms (dht11) or 2000 ms (dht22). set readDelay to 0 will reset to datasheet values AFTER a call to **read()**.
+- **getReadDelay()** returns the above setting.
+- **powerDown()** pulls datapin down to reduce power consumption
+- **powerUp()** restarts the sensor, note one must wait up to two seconds.
+- **setSuppressError(bool b)** suppress error values of -999 => check return value of read() instead.
+- **getSuppressError()**  returns the above setting.
 
 
 ## Operation
@@ -94,3 +160,11 @@ See examples
 
 If consistent problems occur with reading a sensor, one should allow interrupts 
 **DHT.setDisableIRQ(true)**
+
+
+## ESP8266 & DHT22
+
+- The DHT22 sensor has some problems in combination with specific pins of the ESP8266. See more details
+  - https://github.com/RobTillaart/DHTNew/issues/31  (message jan 3, 2021)
+  - https://github.com/arendst/Tasmota/issues/3522
+  

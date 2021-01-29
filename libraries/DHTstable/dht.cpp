@@ -1,33 +1,35 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 // HISTORY:
-// 0.2.6  2020-07-20 update URL in .cpp
-// 0.2.5  2020-06-30 move to own repository; update headers mainly.
-// 0.2.4  2018-04-03 add get-/setDisableIRQ(bool b)
-// 0.2.3  2018-02-21 change #defines in const int to enforce return types.
-//                   https://github.com/RobTillaart/Arduino/issues/94
-// 0.2.2  2017-12-12 add support for AM23XX types more explicitly
-// 0.2.1  2017-09-20 fix https://github.com/RobTillaart/Arduino/issues/80
-// 0.2.0  2017-07-24 fix https://github.com/RobTillaart/Arduino/issues/31 + 33
-// 0.1.13 fix negative temperature
-// 0.1.12 support DHT33 and DHT44 initial version
-// 0.1.11 renamed DHTLIB_TIMEOUT
-// 0.1.10 optimized faster WAKEUP + TIMEOUT
-// 0.1.09 optimize size: timeout check + use of mask
-// 0.1.08 added formula for timeout based upon clockspeed
-// 0.1.07 added support for DHT21
-// 0.1.06 minimize footprint (2012-12-27)
-// 0.1.05 fixed negative temperature bug (thanks to Roseman)
-// 0.1.04 improved readability of code using DHTLIB_OK in code
-// 0.1.03 added error values for temp and humidity when read failed
-// 0.1.02 added error codes
-// 0.1.01 added support for Arduino 1.0, fixed typos (31/12/2011)
-// 0.1.0 by Rob Tillaart (01/04/2011)
+// 0.2.7    2020-12-20  add arduino-CI, unit test, 
+//                      reset(), getTemperature(), getHumidity()
+// 0.2.6    2020-07-20  update URL in .cpp
+// 0.2.5    2020-06-30  move to own repository; update headers mainly.
+// 0.2.4    2018-04-03  add get-/setDisableIRQ(bool b)
+// 0.2.3    2018-02-21  change #defines in const int to enforce return types.
+//                      https://github.com/RobTillaart/Arduino/issues/94
+// 0.2.2    2017-12-12  add support for AM23XX types more explicitly
+// 0.2.1    2017-09-20  fix https://github.com/RobTillaart/Arduino/issues/80
+// 0.2.0    2017-07-24  fix https://github.com/RobTillaart/Arduino/issues/31 + 33
+// 0.1.13  fix negative temperature
+// 0.1.12  support DHT33 and DHT44 initial version
+// 0.1.11  renamed DHTLIB_TIMEOUT
+// 0.1.10  optimized faster WAKEUP + TIMEOUT
+// 0.1.09  optimize size: timeout check + use of mask
+// 0.1.08  added formula for timeout based upon clockspeed
+// 0.1.07  added support for DHT21
+// 0.1.06  minimize footprint (2012-12-27)
+// 0.1.05  fixed negative temperature bug (thanks to Roseman)
+// 0.1.04  improved readability of code using DHTLIB_OK in code
+// 0.1.03  added error values for temp and humidity when read failed
+// 0.1.02  added error codes
+// 0.1.01  added support for Arduino 1.0, fixed typos (31/12/2011)
+// 0.1.0   by Rob Tillaart (01/04/2011)
 //
 // inspired by DHT11 library
 //
@@ -38,6 +40,17 @@
 //
 // PUBLIC
 //
+dht::dht()
+{
+  reset();
+}
+
+void dht::reset()
+{
+  temperature = 0.0;
+  humidity = 0.0;
+  _disableIRQ = false;
+}
 
 // return values:
 // DHTLIB_OK

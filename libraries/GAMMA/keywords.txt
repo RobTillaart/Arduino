@@ -1,0 +1,15 @@
+# Syntax Coloring Map For GAMMA
+
+# Datatypes (KEYWORD1)
+GAMMA	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+setGamma	KEYWORD2
+getGamma	KEYWORD2
+size	KEYWORD2
+distinct	KEYWORD2
+dump	KEYWORD2
+
+
+# Constants (LITERAL1)
+GAMMA_LIB_VERSION

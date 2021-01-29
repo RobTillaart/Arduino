@@ -2,7 +2,7 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: HMC6352 library for Arduino
 //
 // HISTORY: see cpp file
@@ -10,7 +10,7 @@
 #include "Wire.h"
 #include "Arduino.h"
 
-#define HMC6352_LIB_VERSION     "0.2.0"
+#define HMC6352_LIB_VERSION     "0.2.1"
 
 /* ERROR CODES ALL FUNCTIONS
 //

@@ -1,0 +1,21 @@
+{
+  "name": "randomHelpers",
+  "keywords": "getRandom2, getRandom8, getRandom6,getRandom16,getRandom24, getRandom32",
+  "description": "Arduino library with helper function for faster random bits",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/randomHelpers.git"
+  },
+  "version":"0.2.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -15,9 +15,9 @@ void setup()
 {
   Serial.begin(115200);
 
-  float p = random(100) * 1.0;
-  float y = random(100) * 1.0;
-  float r = random(100) * 1.0;
+  double p = random(100) * 1.0;
+  double y = random(100) * 1.0;
+  double r = random(100) * 1.0;
 
   uint32_t start = micros();
   shoot(p, y, r);
@@ -26,15 +26,17 @@ void setup()
   Serial.println(stop - start);
 }
 
-void shoot(float p, float y, float r)
+void shoot(double p, double y, double r)
 {
+  uint8_t ID = 0;
+
   XML.header();
   XML.comment("Demo opening tag with multiple fields");
   XML.tagOpen("shoot");
 
   XML.comment("use nodes for every field");
   XML.tagOpen("position");
-  XML.writeNode("id", 0);
+  XML.writeNode("id", ID++);
   XML.writeNode("pitch", p);
   XML.writeNode("yaw", y);
   XML.writeNode("roll", r);
@@ -44,7 +46,7 @@ void shoot(float p, float y, float r)
 
   XML.comment("use tagfields in tag");
   XML.tagStart("position");
-  XML.tagField("id", 1);
+  XML.tagField("id", ID++);
   XML.tagField("pitch", p);
   XML.tagField("yaw", y);
   XML.tagField("roll", r);
@@ -54,7 +56,7 @@ void shoot(float p, float y, float r)
 
   XML.comment("use manual indent and raw output");
   XML.tagStart("position");
-  XML.tagField("id", 2);
+  XML.tagField("id", ID++);
   XML.tagField("pitch", p);
   XML.tagField("yaw", y);
   XML.tagField("roll", r);
@@ -70,7 +72,7 @@ void shoot(float p, float y, float r)
 
   XML.comment("use manual indent + nodes");
   XML.tagStart("position");
-  XML.tagField("id", 3);
+  XML.tagField("id", ID++);
   XML.tagField("pitch", p);
   XML.tagField("yaw", y);
   XML.tagField("roll", r);

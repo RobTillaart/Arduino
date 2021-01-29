@@ -2,24 +2,23 @@
 //    FILE: DAC8554_hw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino with hardware SPI
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/Arduino/DAC8554
 //
-// HISTORY:
-//   0.1.0: 2017-12-19 initial version
-//   0.1.1  2020-07-20 fix URL; minor edits
+
 
 #include "DAC8554.h"
 
-DAC8554 DAC;
+DAC8554 mydac(10);
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println(DAC8554_LIB_VERSION);
-  DAC.begin();
+  mydac.begin();
 }
+
 
 void loop()
 {
@@ -28,7 +27,7 @@ void loop()
   // minimal sawtooth
   for (uint16_t val = 0; val < 65500; val+= 30)
   {
-    DAC.setValue(channel, val);
+    mydac.setValue(channel, val);
     int av = analogRead(A0);
 
     Serial.print(val);
@@ -40,7 +39,7 @@ void loop()
   for (long i = 0; i < 360; i++ )
   {
     long s = 32768 + 32768 * sin( i * (PI / 180.0));
-    DAC.setValue(channel, s);
+    mydac.setValue(channel, s);
     int av = analogRead(A0);
     Serial.print(i);
     Serial.print("\t ==> \t");
@@ -52,4 +51,4 @@ void loop()
   if (channel >= 4) channel = 0;
 }
 
-// END OF FILE
+// -- END OF FILE --

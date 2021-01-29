@@ -2,20 +2,23 @@
 //
 //    FILE: PrintString.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Class that captures prints into a String 
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintString
 //
-// 0.1.0    2017-12-09 initial version
-// 0.1.1    2020-04-26 added size
-// 0.1.2    2020-06-19 fix library.json
-//
+//  0.1.0   2017-12-09  initial version
+//  0.1.1   2020-04-26  added size
+//  0.1.2   2020-06-19  fix library.json
+//  0.2.0   2021-01-06  add Arduino-CI + unit test
 
+
+#include "Arduino.h"
 #include "Print.h"
-#include "String.h"
 
-#define PRINTSTRING_VERSION "0.1.2"
+
+#define PRINTSTRING_VERSION       (F("0.2.0"))
+
 
 class PrintString: public Print
 {

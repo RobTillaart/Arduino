@@ -1,0 +1,15 @@
+# Syntax Coloring Map For MT8870
+
+# Datatypes (KEYWORD1)
+MT8870	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+available	KEYWORD2
+read	KEYWORD2
+readRaw	KEYWORD2
+lastRead	KEYWORD2
+
+# Constants (LITERAL1)
+

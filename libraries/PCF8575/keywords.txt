@@ -1,0 +1,32 @@
+# Syntax Coloring Map For PCF8575
+
+# Datatypes (KEYWORD1)
+PCF8575	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+read16	KEYWORD2
+read	KEYWORD2
+value	KEYWORD2
+
+write16	KEYWORD2
+write	KEYWORD2
+valueOut	KEYWORD2
+
+readButton16	KEYWORD2
+readButton	KEYWORD2
+setButtonMask	KEYWORD2
+
+toggle	KEYWORD2
+toggleMask	KEYWORD2
+shiftRight	KEYWORD2
+shiftLeft	KEYWORD2
+rotateRight	KEYWORD2
+rotateLeft	KEYWORD2
+reverse	KEYWORD2
+lastError	KEYWORD2
+
+# Constants (LITERAL1)
+

@@ -1,0 +1,21 @@
+{
+  "name": "PCA9685",
+  "keywords": "I2C,PCA9685,PWM,16channel",
+  "description": "Arduino library for I2C PCA9685 16 channel PWM",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9685_RT.git"
+  },
+  "version": "0.3.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,0 +1,19 @@
+# Syntax Coloring Map For AverageAngle
+
+# Datatypes (KEYWORD1)
+AverageAngle	KEYWORD1
+AngleType	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+add	KEYWORD2
+reset	KEYWORD2
+count	KEYWORD2
+getAverage	KEYWORD2
+getTotalLength	KEYWORD2
+getAverageLength	KEYWORD2
+
+
+# Constants (LITERAL1)
+AVERAGE_ANGLE_LIB_VERSION	LITERAL1
+

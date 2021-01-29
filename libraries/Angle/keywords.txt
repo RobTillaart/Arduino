@@ -1,0 +1,21 @@
+# Syntax Coloring Map For Angle
+
+# Datatypes (KEYWORD1)
+Angle	KEYWORD1
+AngleFormatMode	KEYWORD1
+AngleFormat	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+sign	KEYWORD2
+degree	KEYWORD2
+minute	KEYWORD2
+second	KEYWORD2
+tenthousand	KEYWORD2
+toDouble	KEYWORD2
+toRadians	KEYWORD2
+fromRadians	KEYWORD2
+
+
+# Constants (LITERAL1)
+ANGLE_LIB_VERSION	LITERAL1
+

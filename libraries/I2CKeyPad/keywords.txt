@@ -1,0 +1,17 @@
+# Syntax Coloring Map For I2CKeyPad
+
+# Datatypes (KEYWORD1)
+I2CKeyPad	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+getKey	KEYWORD2
+getLastKey	KEYWORD2
+isPressed	KEYWORD2
+isConnected()	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+I2C_KEYPAD_NOKEY	LITERAL1
+I2C_KEYPAD_FAIL	LITERAL1
+

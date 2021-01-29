@@ -6,12 +6,14 @@
 // PURPOSE: Arduino library for Parallax 27979 _serial LCD display
 //     URL: https://github.com/RobTillaart/PAR27979
 //
-// HISTORY:
-// 0.1.0    2010-03-06 - initial version Macro's only
-// 0.2.0    2020-06-23 complete redo as class
-//          also support for 27976, 27977 (not tested)
+//  HISTORY:
+//  0.1.0   2010-03-06  initial version Macro's only
+//  0.2.0   2020-06-23  complete redo as class
+//                      also support for 27976, 27977 (not tested)
+//  0.2.1   2021-01-03  Arduino-CI + unit test
 
-#define PAR27929_VERSION  0.2.0
+
+#define PAR27929_VERSION      (F("0.2.1"))
 
 #include "Arduino.h"
 

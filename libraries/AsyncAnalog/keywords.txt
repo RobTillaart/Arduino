@@ -1,0 +1,15 @@
+# Syntax Coloring Map For AsyncAnalog
+
+# Datatypes (KEYWORD1)
+AsyncAnalog	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+start	KEYWORD2
+ready	KEYWORD2
+value	KEYWORD2
+
+
+# Constants (LITERAL1)
+ASYNCANALOG_LIB_VERSION	LITERAL1
+

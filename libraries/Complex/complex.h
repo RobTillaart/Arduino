@@ -2,7 +2,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.2.1"
+#define COMPLEX_LIB_VERSION "0.2.2"
 
 class Complex: public Printable
 {
@@ -20,16 +20,18 @@ public:
     Complex(const Complex &c)   : re(c.re), im(c.im) {};
 
     void set(const float r, const float i ) { re = r; im = i; };
+    void setReal(const float r)  { re = r; };
+    void setImag(const float i ) { im = i; };
     float real() { return re; };
     float imag() { return im; };
 
     size_t printTo(Print& p) const;
 
-    void polar(const float, const float);
-    float phase()      { return atan2(im, re); };
-    float modulus()    { return hypot(re, im); };
+    void polar(const float modulus, const float phase);
+    float phase()       { return atan2(im, re); };
+    float modulus()     { return hypot(re, im); };
     // conjugate is the number mirrored in x-axis
-    Complex conjugate() { return Complex(re,-im); };
+    Complex conjugate() { return Complex(re, -im); };
     Complex reciprocal();
 
     bool operator == (const Complex&);

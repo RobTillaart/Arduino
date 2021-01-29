@@ -2,23 +2,23 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: manipulate IEEE754 float numbers fast
 //     URL: https://github.com/RobTillaart/IEEE754tools.git
 //
-// EXPERIMENTAL ==> USE WITH CARE
-// not tested extensively,
-//
-// 0.1.00   2013-09-08 initial version
-// 0.1.01   2013-09-08 added IEEE_NAN, IEEE_INF tests + version string
-// 0.1.02   2013-09-08 added SHIFT_POW2
-// 0.1.03   2013-09-10 renamed IEEE_Sign IEEE_Exponent
-// 0.2.0    2020-06-30 own repo + some refactor...
-// 
+//  EXPERIMENTAL ==> USE WITH CARE
+//  not tested extensively,
+//  
+//  0.1.00  2013-09-08  initial version
+//  0.1.01  2013-09-08  added IEEE_NAN, IEEE_INF tests + version string
+//  0.1.02  2013-09-08  added SHIFT_POW2
+//  0.1.03  2013-09-10  renamed IEEE_Sign IEEE_Exponent
+//  0.2.0   2020-06-30  own repo + some refactor...
+//  0.2.1   2020-12-30  arduino-CI
 
 #include "Arduino.h"
 
-#define IEEE754_VERSION "0.2.0"
+#define IEEE754_VERSION "0.2.1"
 
 // (un)comment lines to configure functionality / size
 //#define IEEE754_ENABLE_MSB   // +78 bytes
@@ -111,7 +111,7 @@ void float2DoublePacked(float number, byte* bar, int byteOrder = LSBFIRST)
     _DBLCONV dbl;
     dbl.p.filler = 0;
     dbl.p.s = fl.p.s;
-    dbl.p.e = fl.p.e-127 +1023;  // exponent adjust
+    dbl.p.e = fl.p.e - 127 + 1023;  // exponent adjust
     dbl.p.m = fl.p.m;
     
 #ifdef IEEE754_ENABLE_MSB

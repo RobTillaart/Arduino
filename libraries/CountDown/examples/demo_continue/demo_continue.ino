@@ -5,8 +5,7 @@
 // PURPOSE: demo
 //    DATE: 2017-07-16
 //     URL: http://forum.arduino.cc/index.php?topic=356253
-//
-// Released to the public domain
+//          https://github.com/RobTillaart/CountDown
 //
 
 #include "CountDown.h"

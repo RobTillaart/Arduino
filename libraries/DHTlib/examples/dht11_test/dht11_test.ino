@@ -4,9 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.01
 // PURPOSE: DHT library test sketch for DHT11 && Arduino
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/DHTlib
 //
 
 #include <dht.h>

@@ -1,7 +1,7 @@
 //
 //    FILE: fastShiftIn_readLSBFIRST.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftIn
 //
@@ -15,7 +15,7 @@ volatile int x = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftIn: ");
+  Serial.println(__FILE__);
   Serial.println(FASTSHIFTIN_LIB_VERSION);
 
   digitalWrite(12, HIGH);

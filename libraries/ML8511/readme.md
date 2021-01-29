@@ -1,13 +1,17 @@
+
+[![Arduino CI](https://github.com/RobTillaart/ML8511/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ML8511/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/ML8511.svg?maxAge=3600)](https://github.com/RobTillaart/ML8511/releases)
+
 # ML8511
 
 Arduino library for ML8511 UV sensor
 
 ## Warning
 
-_Always take precautions as UV radiation can give sunburn, eye damage 
-and possible other problems. Do not expose yourself to the sun as UV
-source too long and when using artificial UV light (TL LED etc) use
-appropriate shielding._
+**Always take precautions as UV radiation can give sunburn, eye damage and possible other problems**. 
+Do not expose yourself to the sun as UV source too long and when using artificial UV light 
+(TL LED etc) use appropriate shielding.
 
 ## Description
 
@@ -64,11 +68,11 @@ with an absolute peak at λ = 365 nm.
 
 The formula for the experimental **estimateDUVindex(power)** is based on
 the following facts / assumptions:
-* (fact) The sensor cannot differentiate between wavelengths, 
+- (fact) The sensor cannot differentiate between wavelengths, 
 so integration with different weights is not possible.
-* (assumption) All the UV is radiated at λ = 300 nm. 
+- (assumption) All the UV is radiated at λ = 300 nm. 
 This is the most lethal the sensor can sense > 80%.
-* (choice) All the UV is accounted for 100% for the whole value. 
+- (choice) All the UV is accounted for 100% for the whole value. 
 (Erythemal action spectrum) 
 As we cannot differentiate this is the safest choice.
 
@@ -92,6 +96,6 @@ Table based upon https://en.wikipedia.org/wiki/Ultraviolet_index,
 https://en.wikipedia.org/wiki/Ultraviolet_index
 
 ## Notes
-* 3V3 Sensor so do not connect to 5V directly.
-* do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
-* library does not work with an external ADC 
+- 3V3 Sensor so do not connect to 5V directly.
+- do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
+- library does not work with an external ADC 

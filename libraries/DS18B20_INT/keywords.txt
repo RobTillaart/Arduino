@@ -1,0 +1,14 @@
+# Syntax Coloring Map For DS18B20_INT
+
+# Datatypes (KEYWORD1)
+#######################################
+DS18B20_INT	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin KEYWORD2
+getTempC	KEYWORD2
+requestTemperatures	KEYWORD2
+isConversionComplete	KEYWORD2
+
+# Constants (LITERAL1)
+

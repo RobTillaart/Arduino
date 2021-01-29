@@ -1,0 +1,21 @@
+{
+  "name": "AD985X",
+  "keywords": "AD9850 AD9851",
+  "description": "Arduino library for AD9850 and AD9851 function generators.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD985X.git"
+  },
+  "version":"0.2.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,0 +1,29 @@
+# Syntax Coloring Map For Correlation
+
+# Datatypes (KEYWORD1)
+Correlation	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+add	KEYWORD2
+count	KEYWORD2
+size	KEYWORD2
+clear	KEYWORD2
+
+setRunningCorrelation	KEYWORD2
+calculate	KEYWORD2
+
+getA	KEYWORD2
+getB	KEYWORD2
+getR	KEYWORD2
+getRsquare	KEYWORD2
+getEsquare	KEYWORD2
+
+getAvgX	KEYWORD2
+getAvgY 	KEYWORD2
+getEstimateY	KEYWORD2
+getEstimateX	KEYWORD2
+
+
+# Constants (LITERAL1)
+CORRELATION_LIB_VERSION	LITERAL1
+

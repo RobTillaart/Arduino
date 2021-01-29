@@ -1,0 +1,21 @@
+{
+  "name": "FLE",
+  "keywords": "float, error, ",
+  "description": "Arduino library for FLE = FLoat with Error datatype",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/FLE.git"
+  },
+  "version":"0.1.0",
+  "frameworks": "*",
+  "platforms": "*"
+}

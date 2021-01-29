@@ -1,7 +1,7 @@
 //
 //    FILE: demo_VU.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -68,8 +68,10 @@ void test_VUStereo()
 {
   for (uint8_t run = 0; run < 50; run++)
   {
-    uint8_t left = analogRead(A0) / 240;   // 0..4
-    uint8_t right = analogRead(A1) / 240;  // 0..4
+    // uint8_t left = analogRead(A0) / 240;   // 0..4
+    // uint8_t right = analogRead(A1) / 240;  // 0..4
+    uint8_t left = random(5);
+    uint8_t right = random(5);
     displayVUStereo(left, right);
     delay(100);
   }

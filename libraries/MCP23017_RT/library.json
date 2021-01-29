@@ -1,0 +1,21 @@
+{
+  "name": "MCP23017",
+  "keywords": "MCP23017,I2C,16 I/O",
+  "description": "Arduino library for I2C MCP23017 16 channel port expander",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP23017_RT.git"
+  },
+  "version":"0.2.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

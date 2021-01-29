@@ -1,0 +1,20 @@
+# Syntax Coloring Map For Interval
+
+
+# Datatypes (KEYWORD1)
+Interval	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setDecimals	KEYWORD2
+value	KEYWORD2
+range	KEYWORD2
+high	KEYWORD2
+low	KEYWORD2
+relAccuracy	KEYWORD2
+setRange	KEYWORD2
+
+
+# Constants (LITERAL1)
+INTERVAL_LIB_VERSION	LITERAL1
+

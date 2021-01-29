@@ -1,0 +1,21 @@
+{
+  "name": "Optoma",
+  "keywords": "Trapezium beamer",
+  "description": "Arduino library to control Optoma W305ST beamer over RS232.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Optoma"
+  },
+  "version":"0.1.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

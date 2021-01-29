@@ -1,0 +1,21 @@
+{
+  "name": "DEVNULL",
+  "keywords": "DEVNULL, null,nada,zero,empty",
+  "description": "Arduino library for a /dev/null stream. Useful for debugging",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DEVNULL.git"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

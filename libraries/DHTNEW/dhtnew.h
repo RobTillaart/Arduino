@@ -2,12 +2,13 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
 // HISTORY:
 // see dhtnew.cpp file
+
 
 // DHT PIN layout from left to right
 // =================================
@@ -17,9 +18,12 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include "Arduino.h"
 
-#define DHTNEW_LIB_VERSION          "0.4.0"
+
+#define DHTNEW_LIB_VERSION                (F("0.4.3"))
+
 
 #define DHTLIB_OK                         0
 #define DHTLIB_ERROR_CHECKSUM            -1
@@ -50,6 +54,10 @@ class DHTNEW
 public:
 
   DHTNEW(uint8_t pin);
+
+  // resets all internals to construction time 
+  // might help to reset a sensor behaving badly..
+  void     reset();
 
   // 0 = unknown, 11 or 22
   uint8_t  getType();
@@ -89,19 +97,20 @@ public:
   bool     getSuppressError()            { return _suppressError; };
   void     setSuppressError(bool b)      { _suppressError = b; };
 
+
 private:
-  uint8_t  _dataPin = 0;
-  uint8_t  _wakeupDelay = 0;
-  uint8_t  _type = 0;
-  float    _humOffset = 0.0;
-  float    _tempOffset = 0.0;
-  float    _humidity;
-  float    _temperature;
-  uint32_t _lastRead = 0;
-  bool     _disableIRQ = true;
-  bool     _waitForRead = false;
+  uint8_t  _dataPin       = 0;
+  uint8_t  _wakeupDelay   = 0;
+  uint8_t  _type          = 0;
+  float    _humOffset     = 0.0;
+  float    _tempOffset    = 0.0;
+  float    _humidity      = 0.0;
+  float    _temperature   = 0.0;
+  uint32_t _lastRead      = 0;
+  bool     _disableIRQ    = true;
+  bool     _waitForRead   = false;
   bool     _suppressError = false;
-  uint16_t _readDelay = 0;
+  uint16_t _readDelay     = 0;
 
   uint8_t  _bits[5];  // buffer to receive data
   int      _read();

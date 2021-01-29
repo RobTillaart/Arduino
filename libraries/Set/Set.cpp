@@ -1,28 +1,30 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
 //
-// HISTORY:
-// 0.2.1  2020-06-19 fix library.json
-// 0.2.0  2020-05-02 refactored, removed pre 1.0 support
-// 0.1.11 2017-07-16 fix count() --> 16 bit when set is full !
-// 0.1.10 2017-07-16 performance refactor. isEmpty()
-// 0.1.09 2015-07-12 const + constructor
-// 0.1.08 memset for clr()
-// 0.1.07 faster first/next/last/prev; interface
-// 0.1.06 added flag to constructor to optimize +,-,*,
-//        set -> Set
-// 0.1.05 bug fixing + performance a.o. count()
-// 0.1.04 support for + - *, some optimizations
-// 0.1.03 changed &= to *= to follow Pascal conventions
-// 0.1.02 documentation
-// 0.1.01 extending/refactor etc (09/11/2014)
-// 0.1.00 initial version by Rob Tillaart (09/11/2014)
+//  HISTORY:
+//  0.2.2   2021-01-07  Arduino-CI, unit test
+//  0.2.1   2020-06-19  fix library.json
+//  0.2.0   2020-05-02  refactored, removed pre 1.0 support
+//  0.1.11  2017-07-16  fix count() --> 16 bit when set is full !
+//  0.1.10  2017-07-16  performance refactor. isEmpty()
+//  0.1.09  2015-07-12  const + constructor
+//  0.1.08              memset for clr()
+//  0.1.07  faster first/next/last/prev; interface
+//  0.1.06  added flag to constructor to optimize +,-,*,
+//          set -> Set
+//  0.1.05  bug fixing + performance a.o. count()
+//  0.1.04  support for + - *, some optimizations
+//  0.1.03  changed &= to *= to follow Pascal conventions
+//  0.1.02  documentation
+//  0.1.01  extending/refactor etc (09/11/2014)
+//  0.1.00  initial version by Rob Tillaart (09/11/2014)
 //
+
 
 #include "set.h"
 
@@ -39,6 +41,7 @@ Set::Set(const bool clear)
     _current = -1;
 }
 
+
 Set::Set(const Set &t)
 {
     for (uint8_t i = 0; i < 32; i++)
@@ -47,6 +50,7 @@ Set::Set(const Set &t)
     }
     _current = -1;
 }
+
 
 /////////////////////////////////////////////////////
 //
@@ -58,11 +62,13 @@ void Set::add(const uint8_t v)
     _mem[idx] |= masks[v & 7];
 }
 
+
 void Set::sub(const uint8_t v)
 {
     uint8_t idx = v / 8;
     _mem[idx] &= ~masks[v & 7];
 }
+
 
 void Set::invert(const uint8_t v)
 {
@@ -70,11 +76,13 @@ void Set::invert(const uint8_t v)
     _mem[idx] ^= masks[v & 7];
 }
 
+
 bool Set::has(const uint8_t v)
 {
     uint8_t idx = v / 8;
     return (_mem[idx] & masks[v & 7]) > 0;
 }
+
 
 uint16_t Set::count() const
 {
@@ -94,10 +102,12 @@ uint16_t Set::count() const
     return cnt;
 }
 
-void Set::clr()
+
+void Set::clear()
 {
     memset(_mem, 0, 32);
 }
+
 
 void Set::invert()
 {
@@ -109,6 +119,7 @@ void Set::invert()
     while (i != 0);
 }
 
+
 bool Set::isEmpty()
 {
     uint8_t i = 32;
@@ -119,6 +130,7 @@ bool Set::isEmpty()
     while (i != 0);
     return true;
 }
+
 
 bool Set::isFull()
 {
@@ -135,6 +147,7 @@ bool Set::isFull()
     return true;
 }
 
+
 int Set::first()
 {
     if (has(0))
@@ -144,6 +157,7 @@ int Set::first()
     }
     return findNext(0, 0);
 }
+
 
 int Set::next()
 {
@@ -185,6 +199,7 @@ int Set::next()
     // return _current;
 // }
 
+
 int Set::findNext(const uint8_t p, uint8_t q)
 {
     for (uint8_t i = p; i < 32; i++)
@@ -209,6 +224,7 @@ int Set::findNext(const uint8_t p, uint8_t q)
     return _current;
 }
 
+
 int Set::prev()
 {
     if (_current & 0x8000) return -1;
@@ -217,6 +233,7 @@ int Set::prev()
     uint8_t q = (uint8_t)_current & 7;
     return findPrev(p, q);
 }
+
 
 int Set::last()
 {
@@ -227,6 +244,7 @@ int Set::last()
     }
     return findPrev(31, 7);
 }
+
 
 int Set::findPrev(const uint8_t p, uint8_t q)
 {
@@ -270,6 +288,7 @@ Set Set::operator + (const Set &t)  // union
     return s;
 }
 
+
 Set Set::operator - (const Set &t)  // diff
 {
     Set s(false);
@@ -279,6 +298,7 @@ Set Set::operator - (const Set &t)  // diff
     }
     return s;
 }
+
 
 Set Set::operator * (const Set &t)  // intersection
 {
@@ -290,6 +310,7 @@ Set Set::operator * (const Set &t)  // intersection
     return s;
 }
 
+
 void Set::operator += (const Set &t)  // union
 {
     for (uint8_t i = 0; i < 32; i++)
@@ -297,6 +318,7 @@ void Set::operator += (const Set &t)  // union
         _mem[i] |= t._mem[i];
     }
 }
+
 
 void Set::operator -= (const Set &t)  // diff
 {
@@ -306,6 +328,7 @@ void Set::operator -= (const Set &t)  // diff
     }
 }
 
+
 void Set::operator *= (const Set &t)  // intersection
 {
     for (uint8_t i = 0; i < 32; i++)
@@ -313,6 +336,7 @@ void Set::operator *= (const Set &t)  // intersection
         _mem[i] &= t._mem[i];
     }
 }
+
 
 bool Set::operator == (const Set &t) const // equal
 {
@@ -323,6 +347,7 @@ bool Set::operator == (const Set &t) const // equal
     return true;
 }
 
+
 bool Set::operator != (const Set &t) const // not equal
 {
     for (uint8_t i = 0; i < 32; i++)
@@ -331,6 +356,7 @@ bool Set::operator != (const Set &t) const // not equal
     }
     return false;
 }
+
 
 bool Set::operator <= (const Set &t) const // subSet
 {

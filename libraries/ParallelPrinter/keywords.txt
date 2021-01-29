@@ -1,0 +1,39 @@
+# Syntax Coloring Map For ParallelPrinter
+
+# Datatypes (KEYWORD1)
+ParallelPrinter	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+reset	KEYWORD2
+write	KEYWORD2
+
+setLineLength	KEYWORD2
+getLineLength	KEYWORD2
+setPageLength	KEYWORD2
+getPageLength	KEYWORD2
+
+getLineNumber	KEYWORD2
+getPageNumber	KEYWORD2
+getPosition	KEYWORD2
+
+setTabSize	KEYWORD2
+getTabSize	KEYWORD2
+setLineFeed	KEYWORD2
+getLineFeed	KEYWORD2
+
+printLineNumber	KEYWORD2
+formfeed	KEYWORD2
+linefeed	KEYWORD2
+
+isOutOfPaper	KEYWORD2
+setStrobeDelay	KEYWORD2
+getStrobeDelay	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+PARALLELPRINTER_VERSION	LITERAL1
+FORMFEED	LITERAL1
+LINEFEED	LITERAL1

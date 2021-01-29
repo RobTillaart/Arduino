@@ -1,23 +1,26 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.10
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
 //
-// Released to the public domain
-// 0.1.8    2020-05-27 update library.json
-// 0.1.7    2020-03-26 refactor #pragma once
-// 0.1.06 - fixed bug negative values.
-// 0.1.05 - added AngleFormat proxy added 03/03/15 by Christoper Andrews.
-// 0.1.04 - changed thousands in tenthousands, string constructor
-// 0.1.03 - added URL, fromRadians [TEST]
-// 0.1.02 - added toRadians() + fix compare()
-// 0.1.01 - cleanup a bit
-// 0.1.00 - initial version
+//  0.1.10  2021-01-16  readme.md + minor refactor
+//  0.1.9   2020-12-10  Arduino ci
+//  0.1.8   2020-05-27  update library.json
+//  0.1.7   2020-03-26  refactor #pragma once
+//  0.1.06  fixed bug negative values.
+//  0.1.05  added AngleFormat proxy added 03/03/15 by Christoper Andrews.
+//  0.1.04  changed thousands in tenthousands, string constructor
+//  0.1.03  added URL, fromRadians [TEST]
+//  0.1.02  added toRadians() + fix compare()
+//  0.1.01  cleanup a bit
+//  0.1.00  initial version
+
 
 #include "Angle.h"
+
 
 AngleFormat::AngleFormat( const Angle &ref, AngleFormatMode format )
 : angle(ref), mode(format) {}
@@ -26,6 +29,7 @@ size_t AngleFormat::printTo(Print& p) const
 {
     return angle.printTo( p, mode );
 }
+
 
 Angle::Angle(int dd, int mm, int ss, int tt) // todo optimize
 {
@@ -46,6 +50,7 @@ Angle::Angle(int dd, int mm, int ss, int tt) // todo optimize
     while (m >= 60)    { d++; m -= 60; }
     if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
+
 
 Angle::Angle(const double alpha)
 {
@@ -68,6 +73,7 @@ Angle::Angle(const double alpha)
     s = p % 60UL;
     m = p / 60UL;
 }
+
 
 Angle::Angle(char * str)
 {
@@ -122,6 +128,7 @@ Angle::Angle(char * str)
     m = yy / 60;
 }
 
+
 // PRINTING
 size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 {
@@ -154,6 +161,7 @@ size_t Angle::printTo(Print& p, AngleFormatMode mode) const
     return n;
 };
 
+
 double Angle::toDouble(void)
 {
     long v = t + s * 10000UL + m * 600000UL;
@@ -161,6 +169,7 @@ double Angle::toDouble(void)
     if (neg) val = -val;
     return val;
 }
+
 
 // NEGATE
 Angle Angle::operator - ()
@@ -177,17 +186,20 @@ Angle Angle::operator - ()
     return temp;
 };
 
+
 // BASIC MATH
 Angle Angle::operator + (const Angle &a) // TOCHECK
 {
     return addHelper(a);
 }
 
+
 Angle& Angle::operator += (const Angle &a) // TOCHECK
 {
     *this = addHelper(a);
     return *this;
 }
+
 
 Angle Angle::addHelper(const Angle &a) // TOCHECK
 {
@@ -211,16 +223,19 @@ Angle Angle::addHelper(const Angle &a) // TOCHECK
     return temp;
 }
 
+
 Angle Angle::operator - (const Angle &a) // TOCHECK
 {
     return subHelper(a);
 }
+
 
 Angle& Angle::operator -= (const Angle &a) // TOCHECK
 {
     *this = subHelper(a);
     return *this;
 }
+
 
 Angle Angle::subHelper(const Angle &a) // TOCHECK
 {
@@ -243,15 +258,18 @@ Angle Angle::subHelper(const Angle &a) // TOCHECK
     return temp;
 }
 
+
 Angle Angle::operator * (const double dd)
 {
     return Angle(this->toDouble() * dd);
 }
 
+
 Angle Angle::operator / (const double dd)
 {
     return Angle(this->toDouble() / dd);
 }
+
 
 Angle& Angle::operator *= (const double dd)
 {
@@ -259,11 +277,13 @@ Angle& Angle::operator *= (const double dd)
     return *this;
 }
 
+
 Angle& Angle::operator /= (const double dd)
 {
     *this = this->toDouble() / dd;
     return *this;
 }
+
 
 // !! can divide by zero
 double Angle::operator / (Angle& a)
@@ -272,6 +292,7 @@ double Angle::operator / (Angle& a)
     double g = a.toDouble();
     return f/g;
 }
+
 
 ///////////////////////////////////////////////////////////
 //
@@ -296,6 +317,7 @@ int Angle::compare(const Angle &a, const Angle &b)
     if (rv != 0 && a.neg) rv = -rv;
     return rv;
 }
+
 
 void Angle::normalize()  // TOCHECK
 {

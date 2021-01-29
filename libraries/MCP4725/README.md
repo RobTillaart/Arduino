@@ -1,6 +1,12 @@
+
+[![Arduino CI](https://github.com/RobTillaart/MCP4725/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP4725/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP4725.svg?maxAge=3600)](https://github.com/RobTillaart/MCP4725/releases)
+
 # MCP4725
 
 Arduino library for 12 bit I2C DAC - MCP4725 
+
 
 ## Description
 
@@ -11,10 +17,19 @@ The output of the MCP4725 depends on the voltage supplied, which is in the range
 of 2.7V .. 5.5V. Check datasheet for the details.
 
 
-- **MCP4725(deviceAddress)** Constructor, needs I2C address
-- **begin(dataPin, clockPin)** for ESP32
-- **begin()** for UNO and other boards with hard wired I2C pins.  
+## Interface
+
+### Constructor
+
+- **MCP4725(deviceAddress, TwoWire \*wire = &Wire);)** Constructor, needs I2C address, optional set Wire bus
+- **begin(dataPin, clockPin)** for ESP32. Returns true if connected.
+- **begin()** for UNO and other boards with hard wired I2C pins. Returns true if connected.
 Only suppport for Wire so not for Wire1 or Wire2 etc
+- **isConnected()** returns true if device (address) can be seen on the I2C bus.
+
+
+### base
+
 - **setValue(value)** value = 0 .. 4095  
 Uses writeFastMode and does not write to EEPROM.
 Therfore it does not update the lastWriteEEPROM timestamp.
@@ -36,11 +51,6 @@ When writing to EEPROM with **writeDAC()** one should check it is at least 50 ms
 If one know the specific timing of a sensor one can tune this or even make it adaptive.  
 
 
-### Depreciated
-
-- **RDY()** depreciated, replaced by **ready()**
-
-
 ## Experimental
 
 Check datasheet for these functions, (not tested enough yet).
@@ -57,6 +67,7 @@ checking when and how long the sensor blocks needs to be verified in detail in p
 
 
 ## Address Notes
+
 The address of the MCP4725 in the demo sketches is set to 0x62 as that 
 was the address of the sensor I had during writing. 
 According to the datasheet the address has the following bit pattern: 
@@ -69,14 +80,17 @@ address  011000FFU   (so 0x6?)
 This means you can have at most 8 MCP4725 in one I2C bus (without multiplexing).
 You have to specify the factory bits in your order, but not all shops might
 provide all versions of the MCP4725.
+
 ```
 MCP4725A0T-E/CH:  0110 000U   0x60 - 0x61
 MCP4725A1T-E/CH:  0110 001U   0x62 - 0x63
 MCP4725A2T-E/CH:  0110 010U   0x64 - 0x65
 MCP4725A3T-E/CH:  0110 011U   0x66 - 0x67
 ```
+
 If one need more DAC's one might have a look at the MCP4728
 It has 4 channels per chip (no experience /library yet)
+
 
 ## Operation
 

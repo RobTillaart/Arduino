@@ -10,7 +10,7 @@
 // Note: this sketch needs a MEGA or a Teensy that supports a second
 //       Serial port named Serial1
 
-#include <cozir.h>
+#include "cozir.h"
 
 COZIR czr(&Serial1);
 

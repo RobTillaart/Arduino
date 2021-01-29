@@ -1,18 +1,19 @@
 //
 //    FILE: functionGenerator.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
-// HISTORY:
-// 0.1.00   2015-01-01 initial version
-// 0.1.01   2015-01-01 initial class version
-// 0.1.02   2015-01-01 refactor and research
-// 0.1.03   2015-01-02 added stair, more refactoring
-// 0.1.04   2015-01-03 added integer versions - to be used with 8 bit DAC
-// 0.1.5    2017-07-29 Fix issue #33 (dbl -> float)
-// 0.2.0    2020-06-10 main refactoring and cleanup
+//  HISTORY:
+//  0.1.00  2015-01-01  initial version
+//  0.1.01  2015-01-01  initial class version
+//  0.1.02  2015-01-01  refactor and research
+//  0.1.03  2015-01-02  added stair, more refactoring
+//  0.1.04  2015-01-03  added integer versions - to be used with 8 bit DAC
+//  0.1.5   2017-07-29  Fix issue #33 (dbl -> float)
+//  0.2.0   2020-06-10  main refactoring and cleanup
+//  0.2.1   2020-12-24  Arduino-CI + unit tests
 
 #include "functionGenerator.h"
 

@@ -1,0 +1,55 @@
+# Syntax Coloring Map For ADT7470
+
+# Datatypes (KEYWORD1)
+ADT7470	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+isConnected	KEYWORD2
+getRevision	KEYWORD2
+getDeviceID	KEYWORD2
+getCompanyID	KEYWORD2
+
+startMonitoring	KEYWORD2
+stopMonitoring	KEYWORD2
+powerDown	KEYWORD2
+powerUp	KEYWORD2
+
+getTemperature	KEYWORD2
+getMaxTemperature	KEYWORD2
+setTemperatureLimit	KEYWORD2
+getTemperatureLowLimit	KEYWORD2
+getTemperatureHighLimit	KEYWORD2
+
+setPWM	KEYWORD2
+getPWM	KEYWORD2
+setFanLowFreq	KEYWORD2
+setFanHighFreq	KEYWORD2
+setInvertPWM	KEYWORD2
+getInvertPWM	KEYWORD2
+
+setPulsesPerRevolution	KEYWORD2
+getPulsesPerRevolution	KEYWORD2
+setFastTach	KEYWORD2
+setSlowTach	KEYWORD2
+getTach	KEYWORD2
+getRPM	KEYWORD2
+
+setTachLimits	KEYWORD2
+getTachLowLimits	KEYWORD2
+getTachHighLimits	KEYWORD2
+
+getTemperatureIRQstatus	KEYWORD2
+setTemperatureIRQMask	KEYWORD2
+clrTemperatureIRQMask	KEYWORD2
+getTemperatureIRQMask	KEYWORD2
+getFanIRQstatus	KEYWORD2
+setFanIRQMask	KEYWORD2
+clrFanIRQMask	KEYWORD2
+getFanIRQMask	KEYWORD2
+
+# Constants (LITERAL1)
+ADT7470_LIB_VERSION LITERAL1
+ADT7470_TIMEOUT     LITERAL1
+ADT7470_ADDR_HIGH   LITERAL1
+ADT7470_ADDR_LOW    LITERAL1
+ADT7470_ADDR_FLOAT  LITERAL1

@@ -1,0 +1,23 @@
+# Syntax Coloring Map For ACS712
+
+# Datatypes (KEYWORD1)
+ACS712	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+mA_AC	KEYWORD2
+mA_DC	KEYWORD2
+setMidPoint	KEYWORD2
+getMidPoint	KEYWORD2
+incMidPoint	KEYWORD2
+decMidPoint	KEYWORD2
+setFormFactor	KEYWORD2
+getFormFactor	KEYWORD2
+setNoisemV	KEYWORD2
+getNoisemV	KEYWORD2
+setmVperAmp	KEYWORD2
+getmVperAmp	KEYWORD2
+
+
+# Constants (LITERAL1)
+ACS712_LIB_VERSION	LITERAL1
+

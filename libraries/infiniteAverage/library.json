@@ -1,0 +1,21 @@
+{
+  "name": "infiniteAverage",
+  "keywords": "infinite, average, precision",
+  "description": "Experimental Arduino Library to calculate a high precision average of many samples",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/infiniteAverage"
+  },
+  "version":"0.1.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

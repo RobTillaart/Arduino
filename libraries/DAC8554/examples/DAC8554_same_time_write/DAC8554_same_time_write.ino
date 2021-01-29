@@ -2,17 +2,15 @@
 //    FILE: DAC8554_same_time_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino with hardware SPI
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/Arduino/DAC8554
 //
-// HISTORY:
-//   0.1.0: 2017-12-19 initial version
-//   0.1.1  2020-07-20 fix URL; minor edits
+
 
 #include "DAC8554.h"
 
 // HW SPI
-DAC8554 DAC;
+DAC8554 mydac(10);
 
 uint32_t lastTime = 0;
 uint16_t state = 0;
@@ -22,7 +20,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println(DAC8554_LIB_VERSION);
-  DAC.begin();
+  mydac.begin();
 }
 
 void loop()
@@ -41,18 +39,18 @@ void loop()
     if (state == 0)
     {
       state = 1;
-      DAC.bufferValue(chanA, 0);
-      DAC.bufferValue(chanB, 20000);
-      DAC.bufferValue(chanC, 40000);
-      DAC.setValue(chanD, 60000);
+      mydac.bufferValue(chanA, 0);
+      mydac.bufferValue(chanB, 20000);
+      mydac.bufferValue(chanC, 40000);
+      mydac.setValue(chanD, 60000);
     }
     else
     {
       state = 0;
-      DAC.bufferValue(chanD, 0);
-      DAC.bufferValue(chanC, 20000);
-      DAC.bufferValue(chanB, 40000);
-      DAC.setValue(chanA, 60000);
+      mydac.bufferValue(chanD, 0);
+      mydac.bufferValue(chanC, 20000);
+      mydac.bufferValue(chanB, 40000);
+      mydac.setValue(chanA, 60000);
     }
   }
 }

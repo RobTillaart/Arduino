@@ -1,6 +1,13 @@
+
+[![Arduino CI](https://github.com/RobTillaart/PCA9635/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9635/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9635.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9635/releases)
+
+
 # PCA9635
 
 Arduino library for PCA9635 I2C 8 bit PWM LED driver
+
 
 # Description
 
@@ -9,17 +16,23 @@ The 16 channels are independently configurable is steps of 1/256.
 this allows for better than 1% finetuning of the duty-cycle
 of the PWM signal. 
 
-### interface
 
-**begin()** initializes the library after startup. Mandatory.
+## Interface
 
-**begin(sda, scl)** idem, ESP32 ESP8266 only. Library does not support 
+### Constructor
+
+- **PCA9635(deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address, and optional the Wire interface as parameter.
+- **begin()** initializes the library after startup. Mandatory.
+- **begin(sda, scl)** idem, ESP32 ESP8266 only. Library does not support 
 multiple Wire instances (yet).
+- **reset()** resets the library to start up conditions.
+- **isConnected()** checks if address is available on I2C bus.
 
-**reset()** resets the library to start up conditions.
-----
 
-**setLedDriverMode(channel, mode)** mode is 0..3 See datasheet for full details.
+### LedDriverMode
+
+- **setLedDriverMode(channel, mode)** mode is 0..3 See datasheet for full details.
+- **getLedDriverMode(channel)** returns the current mode of the channel.
 
 | LED mode | Value | Description |
 |:----|:----:|:----|
@@ -31,34 +44,29 @@ multiple Wire instances (yet).
 \* all leds in the group GRPPWM can be set to the same PWM value in one set.
 This is ideal to trigger e.g. multiple LEDS (servo's) at same time.
 
-**getLedDriverMode(channel)** returns the current mode of the channel.
 
-----
-**write1(channel, value)** writes a single 8 bit PWM value.
+### Read and write
 
-**write3(channel, R, G, B)** writes three consecutive PWM registers.
-
-**writeN(channel, array, count)** write count consecutive PWM registers. 
+- **write1(channel, value)** writes a single 8 bit PWM value.
+- **write3(channel, R, G, B)** writes three consecutive PWM registers.
+- **writeN(channel, array, count)** write count consecutive PWM registers. 
 May return **PCA9635_ERR_WRITE** if array has too many elements 
 (including channel as offset)
-
-**writeMode(reg, mode)** configuration of one of the two configuration registers.
+- **writeMode(reg, mode)** configuration of one of the two configuration registers.
 check datasheet for details.
-
-**readMode(reg)** reads back the configured mode, useful to add or remove a 
+- **readMode(reg)** reads back the configured mode, useful to add or remove a 
 single flag (bit masking)
 
-----
+### Group PWM and frequency
 
-**setGroupPWM(uint8_t value)** sets all channels that are part of the PWM group to value.
+- **setGroupPWM(uint8_t value)** sets all channels that are part of the PWM group to value.
+- **getGroupPWM()** get the current PWM setting of the group.
+- **setGroupFREQ(value)** see datasheet for details. 
+- **getGroupFREQ()** returns the freq of the PWM group.
 
-**getGroupPWM()** get the current PWM setting of the group.
+### Misc
 
-**setGroupFREQ(value)** see datasheet for details. 
-
-**getGroupFREQ()** returns the freq of the PWM group.
-
-**lastError()** returns **PCA9635_OK** if all is OK, and other error codes otherwise.
+- **lastError()** returns **PCA9635_OK** if all is OK, and other error codes otherwise.
 
 | Error code | Value | Description |
 |:----|:----:|:----|

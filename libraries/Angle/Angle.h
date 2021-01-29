@@ -2,18 +2,21 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.8
+// VERSION: 0.1.10
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
 // AngleFormat proxy added 03/03/15 by Christoper Andrews.
 //
 
+
 #include "math.h"
 #include "Arduino.h"
 #include "Printable.h"
 
-#define ANGLE_LIB_VERSION "0.1.8"
+
+#define ANGLE_LIB_VERSION 		(F("0.1.10"))
+
 
 class Angle;
 
@@ -37,10 +40,10 @@ public:
     Angle(double alpha);
     Angle(char * str);
 
-    int sign()   { return neg?-1:1; };
-    int degree() { return d; };
-    int minute() { return m; };
-    int second() { return s; };
+    int sign()        { return neg ? -1 : 1; };
+    int degree()      { return d; };
+    int minute()      { return m; };
+    int second()      { return s; };
     int tenthousand() { return t; };
 
     size_t printTo(Print& p) const { return printTo( p, T ); }

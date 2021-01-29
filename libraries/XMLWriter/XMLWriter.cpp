@@ -1,28 +1,32 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.3.0
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML 
 //
-// HISTORY:
-// 0.1.00  2013-11-06 initial version
-// 0.1.01  2013-11-07 rework interfaces
-// 0.1.02  2013-11-07 +setIndentSize(), corrected history, +escape support
-// 0.1.03  2015-03-07 refactored - footprint + interface
-// 0.1.04  2015-05-21 refactored - reduce RAM -> used F() macro etc.
-// 0.1.05  2015-05-23 added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
-// 0.1.6   2016-03-16 added incrIndent(), decrIndent(), indent(), raw();
-// 0.1.7   2017-07-26 added const where possible
-// 0.1.8   2017-12-09 fix casting issue #83 (long -> int32_t);
-// 0.1.9   2017-12-09 add PROGMEM support for escape() strings
-// 0.2.0   2020-04-24 refactor, added examples, #pragma, print as base class
-// 0.2.1   2020-04-26 performance optimized, setconfig() + newLine() added
-// 0.2.2   2020-04-29 dynamic buffer size in constructor
-// 0.2.3   2020-06-19 fix library.json
-// 0.2.4   2020-07-07 fix #6 Print interface made public
+//  HISTORY:
+//  0.1.00 2013-11-06  initial version
+//  0.1.01 2013-11-07  rework interfaces
+//  0.1.02 2013-11-07  +setIndentSize(), corrected history, +escape support
+//  0.1.03 2015-03-07  refactored - footprint + interface
+//  0.1.04 2015-05-21  refactored - reduce RAM -> used F() macro etc.
+//  0.1.05 2015-05-23  added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
+//  0.1.6  2016-03-16  added incrIndent(), decrIndent(), indent(), raw();
+//  0.1.7  2017-07-26  added const where possible
+//  0.1.8  2017-12-09  fix casting issue #83 (long -> int32_t);
+//  0.1.9  2017-12-09  add PROGMEM support for escape() strings
+//  0.2.0  2020-04-24  refactor, added examples, #pragma, print as base class
+//  0.2.1  2020-04-26  performance optimized, setconfig() + newLine() added
+//  0.2.2  2020-04-29  dynamic buffer size in constructor
+//  0.2.3  2020-06-19  fix library.json
+//  0.2.4  2020-07-07  fix #6 Print interface made public
+//  0.3.0  2021-01-09  arduino-ci + unit tests
+//                     add getIndentSize(); version(); debug();
 
-#include <XMLWriter.h>
+
+#include "XMLWriter.h"
+
 
 XMLWriter::XMLWriter(Print* stream, uint8_t bufsize)
 {
@@ -32,40 +36,58 @@ XMLWriter::XMLWriter(Print* stream, uint8_t bufsize)
   reset();
 }
 
+
 XMLWriter::~XMLWriter()
 {
   if (_buffer != NULL) free(_buffer);
 }
 
+
 void XMLWriter::reset()
 {
-  _indent = 0;
+  _indent     = 0;
   _indentStep = 2;
-  _tidx = 0;
-  _bidx = 0;
-  _config = XMLWRITER_COMMENT | XMLWRITER_INDENT | XMLWRITER_NEWLINE;
-  _bytesOut = 0;
+  _tidx       = 0;
+  _bidx       = 0;
+  _config     = XMLWRITER_COMMENT | XMLWRITER_INDENT | XMLWRITER_NEWLINE;
+  _bytesOut   = 0;
 }
+
 
 void XMLWriter::header()
 {
   print(F("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
 }
 
-// void XMLWriter::meta()
-// {
-  // print(F("<!-- "));
-  // print('\n');
-  // print(F(" VERSION: "));
-  // println(XMLWRITER_VERSION);
-  // print(F("MAXLEVEL: "));
-  // println(XMLWRITER_MAXLEVEL);
-  // print(F(" TAGSIZE: "));
-  // println(XMLWRITER_MAXTAGSIZE);
-  // print(F("  CONFIG: "));
-  // println(_config);
-  // print(F(" -->\n"));
-// }
+
+void XMLWriter::version()
+{
+  print(F("<!-- "));
+  print(F(" XMLWRITER_VERSION: "));
+  print(XMLWRITER_VERSION);
+  print(F(" -->\n"));
+}
+
+
+void XMLWriter::debug()
+{
+  print(F("<!-- "));
+  print('\n');
+  print(F(" VERSION: "));
+  println(XMLWRITER_VERSION);
+  print(F("MAXLEVEL: "));
+  println(XMLWRITER_MAXLEVEL);
+  print(F(" TAGSIZE: "));
+  println(XMLWRITER_MAXTAGSIZE);
+  print(F("  CONFIG: "));
+  println(_config, HEX);
+  print(F("  INDENT: "));
+  println(_indent);
+  print(F(" BUFSIZE: "));
+  println(_bufsize);
+  print(F(" -->\n"));
+}
+
 
 void XMLWriter::comment(const char* text, const bool multiLine)
 {
@@ -81,6 +103,7 @@ void XMLWriter::comment(const char* text, const bool multiLine)
   }
 }
 
+
 void XMLWriter::newLine(uint8_t n)
 {
   if (_config & XMLWRITER_NEWLINE)
@@ -88,6 +111,7 @@ void XMLWriter::newLine(uint8_t n)
     while(n--) print('\n');
   }
 }
+
 
 void XMLWriter::tagOpen(const char* tag, const bool newline)
 {
@@ -165,11 +189,11 @@ void XMLWriter::writeNode(const char* tag, const char* str)
   tagClose(NOINDENT);
 }
 
-void XMLWriter::setIndentSize(const uint8_t size)
-{
-  _indentStep = size;
-}
 
+///////////////////////////////////////////////////////////////
+//
+// TAGFIELD
+//
 void XMLWriter::tagField(const char *field, const uint8_t value, const uint8_t base)
 {
   tagField(field, (uint32_t) value, base);
@@ -199,6 +223,11 @@ void XMLWriter::tagField(const char *field, const int16_t value, const uint8_t b
   tagField(field, (int32_t) value, base);
 }
 
+void XMLWriter::tagField(const char *field, const int value, const int base)
+{
+  tagField(field, (int32_t) value, (uint8_t) base);
+}
+
 void XMLWriter::tagField(const char *field, const int32_t value, const uint8_t base)
 {
   print(' ');
@@ -225,6 +254,10 @@ void XMLWriter::tagField(const char *field, const double value, const uint8_t de
   print('"');
 }
 
+///////////////////////////////////////////////////////////////
+//
+// WRITENODE
+//
 void XMLWriter::writeNode(const char* tag, const uint8_t value, const uint8_t base)
 {
   writeNode(tag, (uint32_t) value, base);
@@ -250,6 +283,11 @@ void XMLWriter::writeNode(const char* tag, const int8_t value, const uint8_t bas
 void XMLWriter::writeNode(const char* tag, const int16_t value, const uint8_t base)
 {
   writeNode(tag, (int32_t) value, base);
+}
+
+void XMLWriter::writeNode(const char* tag, const int value, const int base)
+{
+  writeNode(tag, (int32_t) value, (uint8_t) base);
 }
 
 void XMLWriter::writeNode(const char* tag, const int32_t value, const uint8_t base)
@@ -279,7 +317,7 @@ void XMLWriter::indent()
   if (_config & XMLWRITER_INDENT)
   {
     // as indentation is a multiple of 2 
-	// this is nice balance between speed and RAM.
+    // this is nice balance between speed and RAM.
     for (uint8_t i = _indent; i > 0; i-= 2) print("  ");
   }
 }

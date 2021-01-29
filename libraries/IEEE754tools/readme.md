@@ -1,5 +1,10 @@
 
-# IEEE754_tools
+[![Arduino CI](https://github.com/RobTillaart/IEEE754tools/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/IEEE754tools/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/IEEE754tools.svg?maxAge=3600)](https://github.com/RobTillaart/IEEE754tools/releases)
+
+
+# IEEE754tools
 
 Arduino library to manipulate IEEE754 float numbers fast.
 
@@ -15,16 +20,18 @@ http://en.wikipedia.org/wiki/Single-precision_floating-point_format
 
 
 ## WARNING
-* If you don't need micro-second speedups **do not use** these code snippets.
-* code is experimental, so use with care.
-* only tested on UNO
+
+- If you don't need micro-second speedups **do not use** these code snippets.
+- code is experimental, so use with care.
+- only tested on UNO
 
 ## Future
 
-* include https://playground.arduino.cc/Main/IEEE754tools/
-* write examples
-* test on ESP32
-* binary transfer over serial (see playground)
+- investigate other speedups
+- write more examples
+- test on ESP32
+- test with double
+- binary transfer over Serial
 
 ## Operations
 

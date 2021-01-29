@@ -1,0 +1,24 @@
+# Syntax Coloring Map For MCP_ADC
+
+# Datatypes (KEYWORD1)
+MCP3002	KEYWORD1
+MCP3004	KEYWORD1
+MCP3008	KEYWORD1
+MCP3202	KEYWORD1
+MCP3204	KEYWORD1
+MCP3208	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+channels	KEYWORD2
+maxValue	KEYWORD2
+analogRead	KEYWORD2
+differentialRead	KEYWORD2
+deltaRead	KEYWORD2
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+
+
+# Constants (LITERAL1)
+

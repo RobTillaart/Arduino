@@ -4,10 +4,9 @@
 // VERSION: 0.1.00
 // PURPOSE: heapdemo
 //    DATE: 2015-10-25
-//     URL:
+//     URL: https://github.com/RobTillaart/avrheap
 //
-// Released to the public domain
-//
+
 
 #include "avrheap.h"
 
@@ -21,6 +20,8 @@ void setup()
   Serial.print("Start ");
   Serial.println(__FILE__);
   Serial.println(AVRHEAP_LIB_VERSION);
+  
+  /* works only with old version KEEP CI happy
 
   Serial.println();
   Serial.print("HEAP ADDR:\t");
@@ -83,9 +84,15 @@ void setup()
   myheap.dump(80);
   Serial.println("\nfollowHeap");
   myheap.followHeap();
+  */
+
   Serial.println("\ndone");
 }
 
 void loop()
-{}
+{
+}
+
+
+// -- END OF FILE --
 

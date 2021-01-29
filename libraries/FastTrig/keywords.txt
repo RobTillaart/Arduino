@@ -1,0 +1,17 @@
+# Syntax Coloring Map For FastTrig
+
+# Datatypes (KEYWORD1)
+
+# Methods and Functions (KEYWORD2)
+isin	KEYWORD2
+icos	KEYWORD2
+itan	KEYWORD2
+iasin	KEYWORD2
+iacos	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+isinTable16	LITERAL1
+isinTable8	LITERAL1
+

@@ -9,7 +9,9 @@
 // Released to the public domain
 //
 
+
 #include "BoolArray.h"
+
 
 BoolArray b;
 
@@ -18,6 +20,7 @@ uint32_t stop;
 volatile long x = 0;
 
 uint32_t duration1, duration2;
+
 
 void setup()
 {
@@ -45,9 +48,11 @@ void setup()
   Serial.println("Done...");
 }
 
+
 void loop()
 {
 }
+
 
 void test0()
 {
@@ -78,6 +83,7 @@ void test0()
   Serial.println(x);
 }
 
+
 void test1()
 {
   Serial.println();
@@ -106,6 +112,7 @@ void test1()
   Serial.print("       X:\t");
   Serial.println(x);
 }
+
 
 void test2()
 {

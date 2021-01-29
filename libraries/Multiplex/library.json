@@ -1,0 +1,21 @@
+{
+  "name": "Multiplex",
+  "keywords": "Multiplex, stream, print",
+  "description": "Arduino Library implementing a Print stream multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Multiplex"
+  },
+  "version":"0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,0 +1,35 @@
+# Syntax Coloring Map For DS1821
+
+
+# Datatypes (KEYWORD1)
+DS1821	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+requestTemperature	KEYWORD2
+requestContinuous	KEYWORD2
+stopContinuous	KEYWORD2
+conversionReady	KEYWORD2
+readTemperature	KEYWORD2
+error	KEYWORD2
+
+setLow	KEYWORD2
+getLow	KEYWORD2
+setHigh	KEYWORD2
+getHigh	KEYWORD2
+getHighFlag	KEYWORD2
+clrHighFlag	KEYWORD2
+getLowFlag	KEYWORD2
+clrLowFlag	KEYWORD2
+
+setOneWireMode	KEYWORD2
+setPolarity	KEYWORD2
+getPolarity	KEYWORD2
+setThermostatMode	KEYWORD2
+
+
+# Constants (LITERAL1)
+DS1821_H_LIB_VERSION	LITERAL1
+DS1821_RESET_OK	LITERAL1
+DS1821_RESET_ERROR	LITERAL1
+

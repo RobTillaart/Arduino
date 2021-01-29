@@ -2,7 +2,7 @@
 //
 //    FILE: avrheap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: experimental library for heap Arduino UNO
 // HISTORY: See avrheap.cpp
 //
@@ -14,28 +14,28 @@
 #include "Arduino.h"
 #include "Printable.h"
 
-#define AVRHEAP_LIB_VERSION "0.2.1"
+#define AVRHEAP_LIB_VERSION "0.2.2"
 
 class Avrheap : public Printable
 {
 public:
-    Avrheap();
+  Avrheap();
 
-    bool     isFragmented();
-    uint16_t freeListCount();
-    uint16_t freeListSize();
-    void     freeListWalk(bool withDump = true);
-    uint16_t freeListLargest();
+  bool     isFragmented();
+  uint16_t freeListCount();
+  uint16_t freeListSize();
+  void     freeListWalk(bool withDump = true);
+  uint16_t freeListLargest();
 
-    uint16_t startAddress();
+  uint16_t startAddress();
 
-    void     dumpHeap(uint16_t count);
-    size_t   heapWalk(Print& p, bool withDump = true) const;
-    size_t   heapWalk(bool withDump = true);
-    virtual size_t printTo(Print& p) const;
+  void     dumpHeap(uint16_t count);
+  size_t   heapWalk(Print& p, bool withDump = true) const;
+  size_t   heapWalk(bool withDump = true);
+  virtual size_t printTo(Print& p) const;
 
 private:
-    bool     inFreeList(uint16_t addr);
+  bool     inFreeList(uint16_t addr);
 };
 
 size_t hNibble(Print& p, byte val);

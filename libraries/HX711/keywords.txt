@@ -1,0 +1,38 @@
+# Syntax Coloring Map For HX711
+
+# Datatypes (KEYWORD1)
+HX711	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+reset	KEYWORD2
+is_ready	KEYWORD2
+wait_ready	KEYWORD2
+wait_ready_retry	KEYWORD2
+wait_ready_timeout	KEYWORD2
+read	KEYWORD2
+read_average	KEYWORD2
+get_value	KEYWORD2
+get_units	KEYWORD2
+tare	KEYWORD2
+get_tare	KEYWORD2
+tare_set	KEYWORD2
+set_gain	KEYWORD2
+get_gain	KEYWORD2
+set_scale	KEYWORD2
+get_scale	KEYWORD2
+set_offset	KEYWORD2
+get_offset	KEYWORD2
+callibrate_scale	KEYWORD2
+power_down	KEYWORD2
+power_up	KEYWORD2
+last_read	KEYWORD2
+get_price	KEYWORD2
+set_unit_price	KEYWORD2
+get_unit_price	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+HX711_LIB_VERSION	LITERAL1
+

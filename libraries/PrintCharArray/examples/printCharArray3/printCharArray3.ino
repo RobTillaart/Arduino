@@ -5,10 +5,10 @@
 // PURPOSE: demo with XML writer
 //     URL: https://github.com/RobTillaart/PrintCharArray
 //
-// HISTORY:
-// 0.1.0    2017-12-09 initial version
-// 0.1.1    2020-04-30 minor refactor
-//
+//  HISTORY:
+//  0.1.0   2017-12-09  initial version
+//  0.1.1   2020-04-30  minor refactor
+//  0.3.0   2021-01-06  free() -> available()
 
 #include "PrintCharArray.h"
 
@@ -38,7 +38,7 @@ void setup()
 
   // write the XML generated in one call
   Serial.println(ps.getBuffer());
-  Serial.println(ps.free());
+  Serial.println(ps.available());
 
 }
 

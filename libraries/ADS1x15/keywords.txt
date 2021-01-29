@@ -1,0 +1,62 @@
+# Syntax Coloring Map For ADS1X15
+
+# Datatypes (KEYWORD1)
+ADS1X13	KEYWORD1
+ADS1014	KEYWORD1
+ADS1015	KEYWORD1
+ADS1015	KEYWORD1
+ADS1113	KEYWORD1
+ADS1114	KEYWORD1
+ADS1115	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isBusy	KEYWORD2
+isReady()	KEYWORD2
+isConnected	KEYWORD2
+
+setGain	KEYWORD2
+getGain	KEYWORD2
+toVoltage	KEYWORD2
+getMaxVoltage	KEYWORD2
+setMode	KEYWORD2
+getMode	KEYWORD2
+setDataRate	KEYWORD2
+getDataRate	KEYWORD2
+
+readADC	KEYWORD2
+readADC_Differential_0_1	KEYWORD2
+readADC_Differential_0_3	KEYWORD2
+readADC_Differential_1_3	KEYWORD2
+readADC_Differential_2_3	KEYWORD2
+getValue	KEYWORD2
+
+setComparatorMode	KEYWORD2
+getComparatorMode	KEYWORD2
+setComparatorPolarity	KEYWORD2
+getComparatorPolarity	KEYWORD2
+setComparatorLatch	KEYWORD2
+getComparatorLatch	KEYWORD2
+setComparatorQueConvert	KEYWORD2
+getComparatorQueConvert	KEYWORD2
+setComparatorThresholdLow	KEYWORD2
+getComparatorThresholdLow	KEYWORD2
+setComparatorThresholdHigh	KEYWORD2
+getComparatorThresholdHigh	KEYWORD2
+
+getError	KEYWORD2
+
+# ASYNC INTERFACE
+
+requestADC	KEYWORD2
+requestADC_Differential_0_1	KEYWORD2
+requestADC_Differential_0_3	KEYWORD2
+requestADC_Differential_1_3	KEYWORD2
+requestADC_Differential_2_3	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADS1X15_LIB_VERSION	LITERAL1
+ADS1X15_INVALID_VOLTAGE	LITERAL1
+ADS1X15_INVALID_GAIN	LITERAL1

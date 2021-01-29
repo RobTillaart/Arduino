@@ -2,14 +2,14 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: Arduino library to implement a Fraction datatype 
 //     URL: https://github.com/RobTillaart/Fraction
 //
 
 #include "Arduino.h"
 
-#define FRACTIONLIBVERSION "0.1.10"
+#define FRACTIONLIBVERSION "0.1.11"
 
 class Fraction: public Printable
 {
@@ -57,7 +57,7 @@ public:
 
     int32_t  nominator() { return n; };
     int32_t  denominator() { return d; };
-	
+
     static Fraction mediant(const Fraction&, const Fraction&);
     static Fraction middle(const Fraction&, const Fraction&);
 

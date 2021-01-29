@@ -1,15 +1,17 @@
 //
 //    FILE: SHT31_heater.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.1.0
 // PURPOSE: demo heater functions
 //     URL: https://github.com/RobTillaart/SHT31
 
 #include "Wire.h"
 #include "SHT31.h"
 
+#define SHT31_ADDRESS   0x44
+
 SHT31 sht;
-uint16_t stat;
+uint16_t status;
 
 void setup()
 {
@@ -19,20 +21,20 @@ void setup()
   Serial.println(SHT31_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(0x44);
+  sht.begin(SHT31_ADDRESS);
   Wire.setClock(100000);
 
   sht.setHeatTimeout(30);  // heater timeout 30 seconds, just for demo.
 
-  stat = sht.readStatus();
-  printHeaterStatus(stat);
+  status = sht.readStatus();
+  printHeaterStatus(status);
 
   sht.heatOn();
 
-  while (sht.heatUp())
+  while (sht.isHeaterOn())
   {
-    stat = sht.readStatus();
-    printHeaterStatus(stat);
+    status = sht.readStatus();
+    printHeaterStatus(status);
     sht.read();
     Serial.println(sht.getTemperature());
     delay(10000);
@@ -44,15 +46,15 @@ void setup()
 void loop()
 {
   // forced switch off
-  if (stat & SHT31_STATUS_HEATER_ON) sht.heatOff();
+  if (status & SHT31_STATUS_HEATER_ON) sht.heatOff();
 }
 
 
-void printHeaterStatus(uint16_t stat)
+void printHeaterStatus(uint16_t status)
 {
   Serial.print(millis());
   Serial.print("\tHEATER: ");
-  if (stat & SHT31_STATUS_HEATER_ON)
+  if (status & SHT31_STATUS_HEATER_ON)
   {
     Serial.println("ON");
   } else {

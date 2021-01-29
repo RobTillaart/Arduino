@@ -64,7 +64,8 @@ void loop() {
     //buttonRead8()
     //Alternativly the mask could have been set with setButtonMask().
     //Then the mask can be omitted here. See setup()
-    byte inputStates = pcf20.readButton8(_BV(PcfButtonLedPin));
+    // byte inputStates = pcf20.readButton8(_BV(PcfButtonLedPin));
+    byte inputStates = pcf20.readButton8(1 << PcfButtonLedPin);      // Keep Arduino-CI happy
     
     //check the bit of PcfButtonLedPin
     if(state != bitRead(inputStates, PcfButtonLedPin)){

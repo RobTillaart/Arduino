@@ -1,26 +1,27 @@
 //
 //    FILE: FastMap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: class with fast map function - library for Arduino
 //     URL: https://github.com/RobTillaart/FastMap
 //
 // HISTORY:
-// 0.3.1  2020-08-31 updated documentation
-// 0.3.0  2020-07-04 added fastMapDouble + test sketch.
-// 0.2.1  2020-06-10 fix library.json; rename license
-// 0.2.0  2020-03-21 #pragma once; readme.md; license.md
-//
-// 0.1.8  2017-07-27 revert double to float (issue 33)
-// 0.1.7  2017-04-28 cleaned up, get examples working again
-// 0.1.06 2015-03-08 replaced float by double (support ARM)
-// 0.1.05 2014-11-02 stripped of bit mask experimental code
-// 0.1.04 add back() - the inverse map
-//        tested with bit mask for constrain code (Perfomance was killed)
-// 0.1.03 proper name
-// 0.1.02 sqeezed the code (first public version)
-// 0.1.01 refactor
-// 0.1.00 initial version
+//  0.3.2  2020-12-21  add arduino-CI + unit test
+//  0.3.1  2020-08-31  updated documentation
+//  0.3.0  2020-07-04  added fastMapDouble + test sketch.
+//  0.2.1  2020-06-10  fix library.json; rename license
+//  0.2.0  2020-03-21  #pragma once; readme.md; license.md
+//  
+//  0.1.8  2017-07-27  revert double to float (issue 33)
+//  0.1.7  2017-04-28  cleaned up, get examples working again
+//  0.1.06 2015-03-08  replaced float by double (support ARM)
+//  0.1.05 2014-11-02  stripped of bit mask experimental code
+//  0.1.04  add back() - the inverse map
+//          tested with bit mask for constrain code (Perfomance was killed)
+//  0.1.03  proper name
+//  0.1.02  sqeezed the code (first public version)
+//  0.1.01  refactor
+//  0.1.00  initial version
 //
 
 #include "FastMap.h"

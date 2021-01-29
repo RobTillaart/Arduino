@@ -1,3 +1,8 @@
+
+[![Arduino CI](https://github.com/RobTillaart/FastMap/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastMap/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/FastMap.svg?maxAge=3600)](https://github.com/RobTillaart/FastMap/releases)
+
 # FastMap
 
 Fast mapping and constraining
@@ -41,6 +46,7 @@ Note: **init()** does not check for a divide by zero (out_max == out_min) or (in
 - **float map(float value)** maps the parameter.
 - **float back(float value)** does the inverse mapping
 
+### Constrains
 FastMap supports three versions of constraining the map function, based upon the parameters of **init()**
 - **float constrainedMap(float value);** returns a value between outMin .. outMax
 - **float lowerConstrainedMap(float value);** returns a value between outMin .. inf  (No upper limit)
@@ -56,6 +62,7 @@ Note there are **NO** constrain-versions for **back(value)** function.
 Version 3.0 adds **fastMapDouble** which has the same interface.
 This class is meant to support 8 bytes doubles in their native accuracy and precision. 
 To display doubles one might need the **sci()** function of my **printHelpers** class.
+https://github.com/RobTillaart/printHelpers
 
 ## Usage
 

@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION "0.1.3"
+#define ACS712_LIB_VERSION "0.2.1"
 
 
 class ACS712
@@ -37,7 +37,7 @@ class ACS712
     int        mA_DC();
 
     // midpoint ADC for DC only
-    inline void setMidPoint(uint16_t mp) { _midPoint = mp; };
+    inline void     setMidPoint(uint16_t mp) { _midPoint = mp; };
     inline uint16_t getMidPoint() { return _midPoint; };
     inline void     incMidPoint() { _midPoint++; };
     inline void     decMidPoint() { _midPoint--; };
@@ -58,8 +58,8 @@ class ACS712
 
   private:
     uint8_t   _pin;
-    float     _mVpstep;     // millivolt per step
-    float     _formFactor;    // P2P -> RMS
+    float     _mVpstep;       // millivolt per step
+    float     _formFactor;    // point2point -> RMS
     uint8_t   _mVperAmpere;
     uint16_t  _midPoint;
     uint8_t   _noisemV;

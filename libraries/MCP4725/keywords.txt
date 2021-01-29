@@ -5,6 +5,7 @@ MCP4725	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+isConnected	KEYWORD2
 read	KEYWORD2
 setValue	KEYWORD2
 getValue	KEYWORD2

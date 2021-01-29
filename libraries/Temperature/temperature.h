@@ -1,21 +1,22 @@
 #pragma once
 //
 //    FILE: temperature.h
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: temperature functions
 //
-// HISTORY:
-// 0.1.0 - 2015-03-29 initial version
-// 0.1.1 - 2017-07-26 double to float (issue #33)
-// 0.2.0 - 2020-04-04 #pragma once, removed WProgram.h, readme.md, comments
-//                    replaced obsolete links with new ones,
-//                    tested and removed some code
-// 0.2.1   2020-05-26 added windchill formulas
-// 0.2.2   2020-06-19 fix library.json
-// 0.2.3   2020-08-27 fix #5 order of functions, typo, fixed 1 example
+//  HISTORY:
+//  0.1.0   2015-03-29  initial version
+//  0.1.1   2017-07-26  double to float (issue #33)
+//  0.2.0   2020-04-04  #pragma once, removed WProgram.h, readme.md, comments
+//                      replaced obsolete links with new ones,
+//                      tested and removed some code
+//  0.2.1   2020-05-26  added windchill formulas
+//  0.2.2   2020-06-19  fix library.json
+//  0.2.3   2020-08-27  fix #5 order of functions, typo, fixed 1 example
+//  0.2.4   2021-01-08  Arduino-CI + unit tests
 
 
-#define TEMPERATURE_VERSION "0.2.3"
+#define TEMPERATURE_VERSION     (F("0.2.4"))
 
 
 inline float Fahrenheit(float celsius)
@@ -137,6 +138,7 @@ float heatIndexC(float celcius, float humidity)
 // if convert is true => windspeed will be converted to 1.5 meter
 // else ==> formula assumes windspeed @ 1.5 meter
 
+
 // US
 float WindChill_F_mph(const float fahrenheit, const float milesPerHour, const bool convert = true)
 {
@@ -145,6 +147,7 @@ float WindChill_F_mph(const float fahrenheit, const float milesPerHour, const bo
   return 35.74 + 0.6125 * fahrenheit + (0.4275 * fahrenheit - 35.75) * windSpeed;
 }
 
+
 // METRIC
 float WindChill_C_kmph(const float celcius, const float kilometerPerHour, const bool convert = true)
 {
@@ -152,6 +155,7 @@ float WindChill_C_kmph(const float celcius, const float kilometerPerHour, const 
   if (convert) windSpeed = pow(kilometerPerHour, 0.16);
   return 13.12 + 0.6215 * celcius + (0.3965 * celcius - 11.37) * windSpeed;
 }
+
 
 float WindChill_C_mps(const float celcius, const float meterPerSecond, const bool convert = true)
 {

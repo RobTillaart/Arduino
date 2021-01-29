@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HT16K33.git"
   },
-  "version":"0.3.0",
+  "version":"0.3.2",
   "frameworks": "arduino",
   "platforms": "*"
 }

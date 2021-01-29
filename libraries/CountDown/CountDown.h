@@ -2,16 +2,19 @@
 //
 //    FILE: CountDown.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.4
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 //
 // HISTORY: See CountDown.cpp
 //
 
+
 #include "Arduino.h"
 
-#define COUNTDOWN_LIB_VERSION "0.2.2"
+
+#define COUNTDOWN_LIB_VERSION       (F("0.2.4"))
+
 
 class CountDown
 {
@@ -19,19 +22,21 @@ public:
     enum Resolution { MILLIS, MICROS, SECONDS, MINUTES };
 
     explicit CountDown(const enum Resolution res = MILLIS);
-    void setResolution(const enum Resolution res = MILLIS);
 
-    void start(uint32_t ticks);
-    // Implicit set resolution to SECONDS.
-    void start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds);
-    // Implicit set resolution to MINUTES.
-    void start(uint8_t days, uint16_t hours, uint32_t minutes);
-    void stop();
-    void cont();
+    void     setResolution(const enum Resolution res = MILLIS);
+
+    bool     start(uint32_t ticks);
+             // Implicit set resolution to SECONDS.
+    bool     start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds);
+             // Implicit set resolution to MINUTES.
+    bool     start(uint8_t days, uint16_t hours, uint32_t minutes);
+
+    void     stop();
+    void     cont();
 
     uint32_t remaining();
-    bool isRunning() const              { return _state == CountDown::RUNNING; };
-    enum Resolution resolution() const  { return _res; };
+    bool     isRunning();
+    enum     Resolution resolution() const  { return _res; };
 
 private:
     enum State { RUNNING, STOPPED };

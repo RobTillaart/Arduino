@@ -1,0 +1,21 @@
+{
+  "name": "DS18B20",
+  "keywords": "DS18B20,Dallas,Semiconductor,Temperature,sensor,asynchronuous",
+  "description": "Arduino library for the DS18B20 temperature sensor. Restricted to a single sensor per pin. Minimalistic version.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS18B20"
+  },
+  "version":"0.1.7",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

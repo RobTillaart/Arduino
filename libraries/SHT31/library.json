@@ -13,9 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/SHT31",
+    "url": "https://github.com/RobTillaart/SHT31"
   },
-  "version":"0.2.2",
+  "version":"0.3.0",
   "frameworks": "arduino",
   "platforms": "*"
 }

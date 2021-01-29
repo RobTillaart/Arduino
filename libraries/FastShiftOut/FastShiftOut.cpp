@@ -1,11 +1,12 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
 //
+
 
 #include "FastShiftOut.h"
 
@@ -14,6 +15,8 @@ FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const 
   _bitorder = bitOrder;
   pinMode(datapin, OUTPUT);
   pinMode(clockpin, OUTPUT);
+  // https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftout/
+  digitalWrite(clockpin, LOW);  // assume rising pulses from clock 
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -40,6 +43,7 @@ FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const 
 
 size_t FastShiftOut::write(const uint8_t data)
 {
+  _value = data;
   if (_bitorder == LSBFIRST)
   {
     return writeLSBFIRST(data);
@@ -47,10 +51,9 @@ size_t FastShiftOut::write(const uint8_t data)
   return writeMSBFIRST(data);
 }
 
-#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
-
 size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
 {
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
   uint8_t cbmask1 = _clockbit;
   uint8_t cbmask2 = ~_clockbit;
   uint8_t dbmask1 = _databit;
@@ -59,7 +62,7 @@ size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
   for (uint8_t i = 0, m = 1; i < 8; i++)
   {
     uint8_t oldSREG = SREG;
-    cli();
+    noInterrupts();
     if ((data & m) == 0) *_dataout &= dbmask2;
     else                 *_dataout |= dbmask1;
     *_clockout |= cbmask1;
@@ -68,10 +71,15 @@ size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
     m <<= 1;
   }
   return 1;
+#else
+  shiftOut(_databit, _clockbit, LSBFIRST, data);
+  return 1;
+#endif
 }
 
 size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
 {
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
   uint8_t cbmask1 = _clockbit;
   uint8_t cbmask2 = ~_clockbit;
   uint8_t dbmask1 = _databit;
@@ -80,7 +88,7 @@ size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
   for (uint8_t i = 0, n = 128; i < 8; i++)
   {
     uint8_t oldSREG = SREG;
-    cli();
+    noInterrupts();
     if ((data & n) == 0) *_dataout &= dbmask2;
     else                 *_dataout |= dbmask1;
     *_clockout |= cbmask1;
@@ -89,22 +97,20 @@ size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
     n >>= 1;
   }
   return 1;
-}
-
 #else  // reference implementation  // note this has no cli()
-
-size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
-{
-  shiftOut(_databit, _clockbit, LSBFIRST, data);
-    return 1;
-}
-
-size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
-{
   shiftOut(_databit, _clockbit, MSBFIRST, data);
-    return 1;
+  return 1;
+#endif
 }
 
-#endif
+bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
+{
+  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
+  {
+    _bitorder = bitOrder; 
+    return true;
+  };
+  return false;
+}
 
 // -- END OF FILE --

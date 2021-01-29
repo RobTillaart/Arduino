@@ -1,44 +1,51 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.1
+// VERSION: 0.4.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
-// HISTORY:
-// 0.1.0  2017-07-24 initial version based upon DHTStable
-// 0.1.1  2017-07-29 add begin() to determine type once and for all instead of every call + refactor
-// 0.1.2  2018-01-08 improved begin() + refactor()
-// 0.1.3  2018-01-08 removed begin() + moved detection to read() function
-// 0.1.4  2018-04-03 add get-/setDisableIRQ(bool b)
-// 0.1.5  2019-01-20 fix negative temperature DHT22 - issue #120
-// 0.1.6  2020-04-09 #pragma once, readme.md, own repo
-// 0.1.7  2020-05-01 prevent premature read; add waitForReading flag (Kudo's to Mr-HaleYa),
-// 0.2.0  2020-05-02 made temperature and humidity private (Kudo's to Mr-HaleYa),
-// 0.2.1  2020-05-27 Fix #11 - Adjust bit timing threshold
-// 0.2.2  2020-06-08 added ERROR_SENSOR_NOT_READY and differentiate timeout errors
-// 0.3.0  2020-06-12 added getReadDelay & setReadDelay to tune reading interval
-//                   removed get/setDisableIRQ; adjusted wakeup timing; refactor
-// 0.3.1  2020-07-08 added powerUp() powerDown();
-// 0.3.2  2020-07-17 fix #23 added get/setSuppressError(); overrulable DHTLIB_INVALID_VALUE
-// 0.3.3  2020-08-18 fix #29, create explicit delay between pulling line HIGH and 
-//                   waiting for LOW in handshake to trigger the sensor.
-//                   On fast ESP32 this fails because the capacity / voltage of the long wire
-//                   cannot rise fast enough to be read back as HIGH.
-// 0.3.4  2020-09-23 Added **waitFor(state, timeout)** to follow timing from datasheet.
-//                   Restored disableIRQ flag as problems occured on AVR. The default of 
-//                   this flag on AVR is false so interrupts are allowed. 
-//                   This need some investigation
-//                   Fix wake up timing for DHT11 as it does not behave according datasheet.
-//                   fix wakeupDelay bug in setType();
-// 0.4.0  2020-11-10 added DHTLIB_WAITING_FOR_READ as return value of read (minor break of interface)
-// 0.4.1  2020-11-11 getType() attempts to detect sensor type
+//  HISTORY:
+//  0.1.0  2017-07-24  initial version based upon DHTStable
+//  0.1.1  2017-07-29  add begin() to determine type once and for all instead of every call + refactor
+//  0.1.2  2018-01-08  improved begin() + refactor()
+//  0.1.3  2018-01-08  removed begin() + moved detection to read() function
+//  0.1.4  2018-04-03  add get-/setDisableIRQ(bool b)
+//  0.1.5  2019-01-20  fix negative temperature DHT22 - issue #120
+//  0.1.6  2020-04-09  #pragma once, readme.md, own repo
+//  0.1.7  2020-05-01  prevent premature read; add waitForReading flag (Kudo's to Mr-HaleYa),
+//  0.2.0  2020-05-02  made temperature and humidity private (Kudo's to Mr-HaleYa),
+//  0.2.1  2020-05-27  Fix #11 - Adjust bit timing threshold
+//  0.2.2  2020-06-08  added ERROR_SENSOR_NOT_READY and differentiate timeout errors
+//  0.3.0  2020-06-12  added getReadDelay & setReadDelay to tune reading interval
+//                     removed get/setDisableIRQ; adjusted wakeup timing; refactor
+//  0.3.1  2020-07-08  added powerUp() powerDown();
+//  0.3.2  2020-07-17  fix #23 added get/setSuppressError(); overrulable DHTLIB_INVALID_VALUE
+//  0.3.3  2020-08-18  fix #29, create explicit delay between pulling line HIGH and 
+//                     waiting for LOW in handshake to trigger the sensor.
+//                     On fast ESP32 this fails because the capacity / voltage of the long wire
+//                     cannot rise fast enough to be read back as HIGH.
+//  0.3.4  2020-09-23  Added **waitFor(state, timeout)** to follow timing from datasheet.
+//                     Restored disableIRQ flag as problems occured on AVR. The default of 
+//                     this flag on AVR is false so interrupts are allowed. 
+//                     This need some investigation
+//                     Fix wake up timing for DHT11 as it does not behave according datasheet.
+//                     fix wakeupDelay bug in setType();
+//  0.4.0  2020-11-10  added DHTLIB_WAITING_FOR_READ as return value of read (minor break of interface)
+//  0.4.1  2020-11-11  getType() attempts to detect sensor type
+//         2020-12-12  add arduino -CI + readme
+//  0.4.2  2020-12-15  fix negative temperatures
+//  0.4.3  2021-01-13  add reset(), add lastRead()
+
 
 #include "dhtnew.h"
+#include <stdint.h>
+
 
 // these defines are not for user to adjust
 #define DHTLIB_DHT11_WAKEUP        18
 #define DHTLIB_DHT_WAKEUP          1
+
 
 // READ_DELAY for blocking read
 // datasheet: DHT11 = 1000 and DHT22 = 2000
@@ -48,6 +55,7 @@
 #define DHTLIB_DHT11_READ_DELAY    1000
 #define DHTLIB_DHT22_READ_DELAY    2000
 
+
 /////////////////////////////////////////////////////
 //
 // PUBLIC
@@ -55,20 +63,39 @@
 DHTNEW::DHTNEW(uint8_t pin)
 {
   _dataPin = pin;
+  reset();
+};
+
+
+void DHTNEW::reset()
+{
   // Data-bus's free status is high voltage level.
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, HIGH);
-  _readDelay = 0;
-  #if defined(__AVR__)
+
+  _wakeupDelay   = 0;
+  _type          = 0;
+  _humOffset     = 0.0;
+  _tempOffset    = 0.0;
+  _humidity      = 0.0;
+  _temperature   = 0.0;
+  _lastRead      = 0;
+  _disableIRQ    = true;
+  _waitForRead   = false;
+  _suppressError = false;
+  _readDelay     = 0;
+#if defined(__AVR__)
   _disableIRQ = false;
-  #endif
-};
+#endif
+}
+
 
 uint8_t DHTNEW::getType()
 {
   if (_type == 0) read();
   return _type;
 }
+
 
 void DHTNEW::setType(uint8_t type)
 {
@@ -83,6 +110,7 @@ void DHTNEW::setType(uint8_t type)
     _wakeupDelay = DHTLIB_DHT_WAKEUP;
   }
 }
+
 
 // return values:
 // DHTLIB_OK
@@ -125,6 +153,7 @@ int DHTNEW::read()
   return rv;
 }
 
+
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
@@ -159,6 +188,10 @@ int DHTNEW::_read()
   {
     _humidity =    (_bits[0] * 256 + _bits[1]) * 0.1;
     _temperature = ((_bits[2] & 0x7F) * 256 + _bits[3]) * 0.1;
+    if (_bits[2] & 0x80)
+    {
+      _temperature = -_temperature;
+    }
   }
   else // if (_type == 11)  // DHT11, DH12, compatible
   {
@@ -166,10 +199,30 @@ int DHTNEW::_read()
     _temperature = _bits[2] + _bits[3] * 0.1;
   }
 
-  if (_bits[2] & 0x80)  // negative temperature
-  {
-    _temperature = -_temperature;
-  }
+  // HEXDUMP DEBUG
+  /*
+  Serial.println();
+  // CHECKSUM
+  if (_bits[4] < 0x10) Serial.print(0);
+  Serial.print(_bits[4], HEX);
+  Serial.print("    ");
+  // TEMPERATURE
+  if (_bits[2] < 0x10) Serial.print(0);
+  Serial.print(_bits[2], HEX);
+  if (_bits[3] < 0x10) Serial.print(0);
+  Serial.print(_bits[3], HEX);
+  Serial.print("    ");
+  Serial.print(_temperature, 1);
+  Serial.print("    ");
+  // HUMIDITY
+  if (_bits[0] < 0x10) Serial.print(0);
+  Serial.print(_bits[0], HEX);
+  if (_bits[1] < 0x10) Serial.print(0);
+  Serial.print(_bits[1], HEX);
+  Serial.print("    ");
+  Serial.print(_humidity, 1);
+  */
+
   _humidity = constrain(_humidity + _humOffset, 0, 100);
   _temperature += _tempOffset;
 
@@ -182,12 +235,14 @@ int DHTNEW::_read()
   return DHTLIB_OK;
 }
 
+
 void DHTNEW::powerUp()
 {
   digitalWrite(_dataPin, HIGH);
   // do a dummy read to sync the sensor
   read();
 };
+
 
 void DHTNEW::powerDown()
 {

@@ -1,0 +1,21 @@
+{
+  "name": "ParallelPrinter",
+  "keywords": "Parallel,printer",
+  "description": "Experimental (not complete) library to connect a parallel printer to Arduino. Implements printer interface.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ParallelPrinter.git"
+  },
+  "version":"0.2.2",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

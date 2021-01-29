@@ -1,19 +1,21 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
-// HISTORY:
-// 0.1.0 - 2012-11-10 initial version
-// 0.1.1 - 2012-11-10 added PMF() and CDF()
-// 0.1.2 - 2012-12-23 changed float to double; some comments
-// 0.1.3 - 2013-09-29 testing a lot & refactoring
-// 0.1.4 - 2015-03-06 stricter interface
-// 0.1.5 - 2017-07-16 refactor, support for > 256 buckets; prevent alloc errors
-// 0.1.6 - 2017-07-27 revert double to float (issue #33)
-// 0.2.0   2020-06-12 #pragma once, removed pre 1.0 support
+//  HISTORY:
+//  0.1.0   2012-11-10  initial version
+//  0.1.1   2012-11-10  added PMF() and CDF()
+//  0.1.2   2012-12-23  changed float to double; some comments
+//  0.1.3   2013-09-29  testing a lot & refactoring
+//  0.1.4   2015-03-06  stricter interface
+//  0.1.5   2017-07-16  refactor, support for > 256 buckets; prevent alloc errors
+//  0.1.6   2017-07-27  revert double to float (issue #33)
+//  0.2.0   2020-06-12  #pragma once, removed pre 1.0 support
+//  0.2.1   2020-12-24  arduino-ci + unit tests
+
 
 #include "histogram.h"
 

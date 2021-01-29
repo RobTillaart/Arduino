@@ -1,0 +1,10 @@
+compile:
+  # Choosing to run compilation tests on 2 different Arduino platforms
+  platforms:
+    - uno
+    - leonardo
+    - due
+    - zero
+  # Declaring Dependent Arduino Libraries (to be installed via the Arduino Library Manager)
+  libraries:
+    - "XMLWriter"

@@ -1,28 +1,29 @@
 //
 //    FILE: LineFormatter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Simpe positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
 //
-// HISTORY:
-// 0.1.0    2020-05-14 initial version
-// 0.1.1    2020-06-19 fix library.json
-//
+//  HISTORY:
+//  0.1.0   2020-05-14  initial version
+//  0.1.1   2020-06-19  fix library.json
+//  0.1.2   2020-12-30  Arduino-ci + unit tests
 
 
 #include "LineFormatter.h"
 
 LineFormatter::LineFormatter(Print* stream)
 {
-  _stream = stream;
-  _pos = 0;
-  _maxPos = 0;
-  _lineCount = 0;
-  _anl = 0;
+  _stream      = stream;
+  // reset
+  _pos         = 0;
+  _maxPos      = 0;
+  _lineCount   = 0;
+  _anl         = 0;
   _autoNewLine = 0;
-  _tabCount = 0;
+  _tabCount    = 0;
 };
 
 

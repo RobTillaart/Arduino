@@ -1,0 +1,19 @@
+compile:
+  # Choosing to run compilation tests on 2 different Arduino platforms
+  platforms:
+    - uno
+    - leonardo
+    - due
+    - zero
+  # Declaring Dependent Arduino Libraries (to be installed via the Arduino Library Manager)
+  libraries:
+    - "OneWire"
+
+unittest:
+  # These dependent libraries will be installed
+  libraries:
+    - "OneWire"
+    # fix the #include "util/crc16" problem here?
+    
+    
+

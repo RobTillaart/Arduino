@@ -1,5 +1,5 @@
 //
-//    FILE: hist_test.pde
+//    FILE: hist_test.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
 //    DATE: 2012-12-23

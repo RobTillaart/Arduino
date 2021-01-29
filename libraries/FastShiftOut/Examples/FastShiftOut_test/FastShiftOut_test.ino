@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftOut_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastSHiftOut
 //
@@ -58,7 +58,7 @@ void test2()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    shiftOut(12, 13, 0x55, LSBFIRST);
+    shiftOut(12, 13, LSBFIRST, 0x55);
   }
   duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
@@ -67,8 +67,8 @@ void test2()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    shiftOut(12, 13, 0x55, LSBFIRST);
-    shiftOut(12, 13, 0x55, LSBFIRST);
+    shiftOut(12, 13, LSBFIRST, 0x55);
+    shiftOut(12, 13, LSBFIRST, 0x55);
   }
   duration2 = micros() - start;
   Serial.print("Standard shiftOut2: ");

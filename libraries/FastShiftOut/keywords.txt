@@ -1,0 +1,18 @@
+# Syntax Coloring Map For FastShiftOut
+
+# Datatypes (KEYWORD1)
+FastShiftOut	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+write	KEYWORD2
+lastWritten	KEYWORD2
+setBitOrder	KEYWORD2
+getBitOrder	KEYWORD2
+writeLSBFIRST	KEYWORD2
+writeMSBFIRST	KEYWORD2
+
+
+# Constants (LITERAL1)
+FASTSHIFTOUT_LIB_VERSION	LITERAL1
+

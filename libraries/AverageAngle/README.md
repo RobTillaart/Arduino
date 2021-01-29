@@ -1,4 +1,10 @@
+
+[![Arduino CI](https://github.com/RobTillaart/AverageAngle/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AverageAngle/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/AverageAngle.svg?maxAge=3600)](https://github.com/RobTillaart/AverageAngle/releases)
+
 # AverageAngle
+
 Arduino library to calculate correctly the average of multiple angles
 
 ## Description
@@ -14,6 +20,20 @@ as if it is a vector. Default this length is set to 1 so all angles are by defau
 equal weight.
 
 Example: The average angle of 359 (len=2) and 1(len=1) is 359.something not zero.
+
+**See also runningAngle class**.
+
+## Interface
+
+- **enum AngleType { DEGREES, RADIANS } ** idem.
+- **AverageAngle(AngleType type = DEGREES)** constructor defaults to degrees.
+- **add(float alpha, float length = 1.0)** add a new angle, optional with length. **add()** returns the number of elements (count).
+- **reset()** clears internal buffers.
+- **count()** the amount of angles added.
+- **getAverage() ** returns the average.
+- **getTotalLength() ** the length of the resulting 'angle' when we see them as vectors.
+- **getAverageLength()** returns the average length of the angles added.
+- **AngleType type()** returns DEGREES or RADIANS.
 
 
 ## Operation

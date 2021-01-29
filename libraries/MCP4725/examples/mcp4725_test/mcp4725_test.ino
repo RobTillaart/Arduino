@@ -10,7 +10,7 @@
 #include "Wire.h"
 #include "MCP4725.h"
 
-MCP4725 DAC(0x62);  // 0x62 or 0x63
+MCP4725 MCP(0x62);  // 0x62 or 0x63
 
 volatile int x;
 uint32_t start, stop;
@@ -22,7 +22,7 @@ void setup()
   Serial.print("MCP4725 test program: ");
   Serial.println(MCP4725_VERSION);
 
-  DAC.begin();
+  MCP.begin();
   test1();
   test2();
   test3();
@@ -34,7 +34,7 @@ void setup()
 void test1()
 {
   Serial.print("\nValue:\t");
-  Serial.println(DAC.getValue());
+  Serial.println(MCP.getValue());
   Serial.println();
 
   for (int i = 100; i < 500; i += 100)
@@ -42,9 +42,9 @@ void test1()
     Serial.print("setValue(");
     Serial.print(i);
     Serial.print(")\n");
-    DAC.setValue(i);
+    MCP.setValue(i);
     Serial.print("Value:\t");
-    Serial.println(DAC.getValue());
+    Serial.println(MCP.getValue());
   }
   Serial.println();
 }
@@ -58,11 +58,11 @@ void test2()
     Serial.print("writeDAC(");
     Serial.print(i);
     Serial.print(")\n");
-    DAC.writeDAC(i);
-    Serial.print("DACValue:\t");
-    Serial.println(DAC.readDAC());
+    MCP.writeDAC(i);
+    Serial.print("MCPValue:\t");
+    Serial.println(MCP.readDAC());
     Serial.print("EEValue:\t");
-    Serial.println(DAC.readEEPROM());
+    Serial.println(MCP.readEEPROM());
   }
   Serial.println();
 
@@ -71,20 +71,20 @@ void test2()
     Serial.print("writeDAC(");
     Serial.print(i);
     Serial.print(", true)\n");
-    DAC.writeDAC(i, true);
-    Serial.print("DACValue:\t");
-    Serial.println(DAC.readDAC());
+    MCP.writeDAC(i, true);
+    Serial.print("MCPValue:\t");
+    Serial.println(MCP.readDAC());
     Serial.print("EEValue:\t");
-    Serial.println(DAC.readEEPROM());
+    Serial.println(MCP.readEEPROM());
   }
   Serial.println();
 
   Serial.println("writeDAC(200)");
-  DAC.writeDAC(200);
-  Serial.print("DACValue:\t");
-  Serial.println(DAC.readDAC());
+  MCP.writeDAC(200);
+  Serial.print("MCPValue:\t");
+  Serial.println(MCP.readDAC());
   Serial.print("EEValue:\t");
-  Serial.println(DAC.readEEPROM());
+  Serial.println(MCP.readEEPROM());
   Serial.println();
 }
 
@@ -94,77 +94,77 @@ void test3()
 
   for (int i = 0; i < 4; i++)
   {
-    Serial.print("DAC.writePowerDownMode(");
+    Serial.print("MCP.writePowerDownMode(");
     Serial.print(i);
     Serial.println(")");
-    DAC.writePowerDownMode(i);
+    MCP.writePowerDownMode(i);
     Serial.print("EPR PDM Value:\t");
-    Serial.println(DAC.readPowerDownModeEEPROM());
+    Serial.println(MCP.readPowerDownModeEEPROM());
     Serial.println();
   }
 
   Serial.println("\n\nEXPERIMENTAL");
-  Serial.println("DAC.writePowerDownMode(3)");
-  DAC.writePowerDownMode(3);
-  DAC.writeDAC(305);
+  Serial.println("MCP.writePowerDownMode(3)");
+  MCP.writePowerDownMode(3);
+  MCP.writeDAC(305);
   Serial.print("Value:\t");
-  Serial.println(DAC.getValue());
-  Serial.println("DAC.powerOnReset()");
+  Serial.println(MCP.getValue());
+  Serial.println("MCP.powerOnReset()");
   Serial.println("Before");
-  Serial.print("DAC PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("MCP PDM Value:\t");
+  Serial.println(MCP.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeEEPROM());
-  Serial.print("DACValue:\t");
-  Serial.println(DAC.readDAC());
+  Serial.println(MCP.readPowerDownModeEEPROM());
+  Serial.print("MCPValue:\t");
+  Serial.println(MCP.readDAC());
   Serial.print("EEValue:\t");
-  Serial.println(DAC.readEEPROM());
-  DAC.powerOnReset();
+  Serial.println(MCP.readEEPROM());
+  MCP.powerOnReset();
   Serial.println("After");
-  Serial.print("DAC PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("MCP PDM Value:\t");
+  Serial.println(MCP.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeEEPROM());
-  Serial.print("DACValue:\t");
-  Serial.println(DAC.readDAC());
+  Serial.println(MCP.readPowerDownModeEEPROM());
+  Serial.print("MCPValue:\t");
+  Serial.println(MCP.readDAC());
   Serial.print("EEValue:\t");
-  Serial.println(DAC.readEEPROM());
+  Serial.println(MCP.readEEPROM());
   Serial.print("Value:\t");
-  Serial.println(DAC.getValue());
+  Serial.println(MCP.getValue());
   Serial.println();
 }
 
 void test4()
 {
   Serial.println("\n\nEXPERIMENTAL");
-  Serial.println("DAC.writePowerDownMode(2)");
-  DAC.writePowerDownMode(2);
-  DAC.writeDAC(405);
+  Serial.println("MCP.writePowerDownMode(2)");
+  MCP.writePowerDownMode(2);
+  MCP.writeDAC(405);
   Serial.print("Value:\t");
-  Serial.println(DAC.getValue());
-  Serial.println("DAC.powerOnWakeUp()");
+  Serial.println(MCP.getValue());
+  Serial.println("MCP.powerOnWakeUp()");
   Serial.println("Before");
-  Serial.print("DAC PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("MCP PDM Value:\t");
+  Serial.println(MCP.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeEEPROM());
-  Serial.print("DACValue:\t");
-  Serial.println(DAC.readDAC());
+  Serial.println(MCP.readPowerDownModeEEPROM());
+  Serial.print("MCPValue:\t");
+  Serial.println(MCP.readDAC());
   Serial.print("EEValue:\t");
-  Serial.println(DAC.readEEPROM());
+  Serial.println(MCP.readEEPROM());
 
-  DAC.powerOnWakeUp();
+  MCP.powerOnWakeUp();
   Serial.println("after");
-  Serial.print("DAC PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeDAC());
+  Serial.print("MCP PDM Value:\t");
+  Serial.println(MCP.readPowerDownModeDAC());
   Serial.print("EPR PDM Value:\t");
-  Serial.println(DAC.readPowerDownModeEEPROM());
-  Serial.print("DACValue:\t");
-  Serial.println(DAC.readDAC());
+  Serial.println(MCP.readPowerDownModeEEPROM());
+  Serial.print("MCPValue:\t");
+  Serial.println(MCP.readDAC());
   Serial.print("EEValue:\t");
-  Serial.println(DAC.readEEPROM());
+  Serial.println(MCP.readEEPROM());
   Serial.print("Value:\t");
-  Serial.println(DAC.getValue());
+  Serial.println(MCP.getValue());
   Serial.println();
 }
 
@@ -176,70 +176,70 @@ void test5()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = DAC.getValue();
+    x = MCP.getValue();
   }
   stop = micros();
-  Serial.print("1000x DAC.getValue():\t\t");
+  Serial.print("1000x MCP.getValue():\t\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    DAC.setValue(i);
+    MCP.setValue(i);
   }
   stop = micros();
-  Serial.print("1000x DAC.setValue(i):\t\t");
+  Serial.print("1000x MCP.setValue(i):\t\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    DAC.setValue(1000);
+    MCP.setValue(1000);
   }
   stop = micros();
-  Serial.print("1000x DAC.setValue(1000):\t");
+  Serial.print("1000x MCP.setValue(1000):\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = DAC.readDAC();
+    x = MCP.readDAC();
   }
   stop = micros();
-  Serial.print("1000x DAC.readDAC():\t\t");
+  Serial.print("1000x MCP.readDAC():\t\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = DAC.writeDAC(i);
+    x = MCP.writeDAC(i);
   }
   stop = micros();
-  Serial.print("1000x DAC.writeDAC(i):\t\t");
+  Serial.print("1000x MCP.writeDAC(i):\t\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    x = DAC.writeDAC(i, true);
+    x = MCP.writeDAC(i, true);
   }
   stop = micros();
-  Serial.print("10x   DAC.writeDAC(i, true):\t");
+  Serial.print("10x   MCP.writeDAC(i, true):\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = DAC.ready();
+    x = MCP.ready();
   }
   stop = micros();
-  Serial.print("1000x DAC.ready():\t\t");
+  Serial.print("1000x MCP.ready():\t\t");
   Serial.println(stop - start);
 
-  while (!DAC.ready());
-  DAC.writeDAC(0, true);
+  while (!MCP.ready());
+  MCP.writeDAC(0, true);
   start = micros();
-  while (!DAC.ready());
+  while (!MCP.ready());
   stop = micros();
   Serial.print("EEPROM write latency:\t\t");
   Serial.println(stop - start);
@@ -252,28 +252,28 @@ void test6()
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    x = DAC.readPowerDownModeDAC();
+    x = MCP.readPowerDownModeDAC();
   }
   stop = micros();
-  Serial.print("10x DAC.readPowerDownModeDAC():\t\t");
+  Serial.print("10x MCP.readPowerDownModeDAC():\t\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    x = DAC.readPowerDownModeEEPROM();
+    x = MCP.readPowerDownModeEEPROM();
   }
   stop = micros();
-  Serial.print("10x DAC.readPowerDownModeEEPROM():\t");
+  Serial.print("10x MCP.readPowerDownModeEEPROM():\t");
   Serial.println(stop - start);
 
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    x = DAC.writePowerDownMode(i & 0x03);
+    x = MCP.writePowerDownMode(i & 0x03);
   }
   stop = micros();
-  Serial.print("10x DAC.writePowerDownMode(i):\t\t");
+  Serial.print("10x MCP.writePowerDownMode(i):\t\t");
   Serial.println(stop - start);
 
   Serial.print("\nDone... (start triangle mode)");
@@ -283,12 +283,12 @@ void loop()
 {
   for (uint16_t i = 0; i < 4096; i++)
   {
-    DAC.setValue(i);
+    MCP.setValue(i);
     delay(10);
   }
   for (uint16_t i = 0; i < 4096; i++)
   {
-    DAC.setValue(4096 - i);
+    MCP.setValue(4096 - i);
     delay(10);
   }
 }

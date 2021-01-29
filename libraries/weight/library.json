@@ -1,0 +1,21 @@
+{
+  "name": "weight",
+  "keywords": "weight conversion kilo gram stone lbs ounce pound",
+  "description": "Library of weight conversion functions",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/weight"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

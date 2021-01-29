@@ -1,14 +1,14 @@
 //
 //    FILE: multimap_functions.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo (use serial plotter)...
 //    DATE: 2020-04-09
 //    (c) : MIT
 //
 
 
-#include "multimap.h"
+#include "MultiMap.h"
 
 void setup()
 {

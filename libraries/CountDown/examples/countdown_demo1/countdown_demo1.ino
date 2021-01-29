@@ -5,6 +5,7 @@
 // PURPOSE: demo
 //    DATE: 2015-10-28
 //     URL: http://forum.arduino.cc/index.php?topic=356253
+//          https://github.com/RobTillaart/CountDown
 //
 
 #include "CountDown.h"

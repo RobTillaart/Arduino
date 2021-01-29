@@ -1,14 +1,14 @@
 //
 //    FILE: printCharArray4.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.3.0
 // PURPOSE: demo it takes less time to send data out.
 //     URL: https://github.com/RobTillaart/PrintCharArray
 //
-// HISTORY:
-// 0.1.0   2017-12-09 initial version
-// 0.1.1   2020-04-30 minor refactor
-//
+//  HISTORY:
+//  0.1.0  2017-12-09  initial version
+//  0.1.1  2020-04-30  minor refactor
+//  0.3.0  2021-01-06  free() -> available()
 
 #include "PrintCharArray.h"
 
@@ -51,7 +51,7 @@ void setup()
   Serial.println();
 
   Serial.print("FREE: ");
-  Serial.println(ps.free());
+  Serial.println(ps.available());
 }
 
 void loop()

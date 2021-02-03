@@ -2,18 +2,18 @@
 //
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
-//            http://forum.arduino.cc/index.php?topic=91467.0
+//          http://forum.arduino.cc/index.php?topic=91467.0
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
 
 #include "Arduino.h"
 
-#define COZIR_LIB_VERSION "0.2.5"
+#define COZIR_LIB_VERSION   (F("0.2.6"))
 
 // OUTPUTFIELDS
 // See datasheet for details.

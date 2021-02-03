@@ -1,7 +1,9 @@
 # Syntax Coloring Map For DHT_I2C
 
+
 # Datatypes (KEYWORD1)
 AM232X	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
@@ -18,6 +20,7 @@ setUserRegisterA	KEYWORD2
 setUserRegisterB	KEYWORD2
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
+
 
 # Constants (LITERAL1)
 AM232X_LIB_VERSION	LITERAL1

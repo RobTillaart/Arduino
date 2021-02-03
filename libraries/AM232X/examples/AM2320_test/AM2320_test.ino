@@ -1,29 +1,44 @@
 //
 //    FILE: AM2320_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: demo sketch for AM2320 I2C humidity & temperature sensor
 //
 // HISTORY:
 // 0.1.0   2017-12-11 initial version
 // 0.1.1   2017-12-12 added test for set* functions
 // 0.1.2   2020-05-03 updated to 0.2.0 version of lib.
+// 0.1.3   2021-01-28  added begin() ++
+
+//  Bottom view 
+//       +---+
+//  VDD  |o  |
+//  SDA  |o  |
+//  GND  |o  |
+//  SCL  |o  |
+//       +---+
 //
+// do not forget pull up resistors between SDA, SCL and VDD.
+
 
 #include <AM232X.h>
 
 AM232X AM2320;
 
+
 void setup()
 {
-  Wire.begin();
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("LIBRARY VERSION: ");
   Serial.println(AM232X_LIB_VERSION);
   Serial.println();
 
+  if (! AM2320.begin() )
+  {
+    Serial.println("Sensor not found");
+    while (1);
+  }
 
   // sensor only returns one decimal.
   Serial.println();
@@ -75,6 +90,7 @@ void setup()
 
   Serial.println("done...");
 }
+
 
 void loop()
 {

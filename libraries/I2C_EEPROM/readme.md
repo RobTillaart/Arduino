@@ -32,6 +32,7 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 - **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
 - **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, but only if changed. Returns 0 if value was same or write succeeded.
 - **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address. 
+- **int updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address, but only if changed
 - **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.
 - **uint8_t readByte(uint16_t memoryAddress)** read a single byte from a given address
 - **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** read length bytes into buffer starting at specified memory address. Returns the number of bytes read, which should be length.
@@ -69,6 +70,18 @@ Testresults
 The function cannot detect smaller than 128 bit EEPROMS.
 
 
+#### UpdateBlock()
+
+(new since 1.4.2)
+
+The function **updateBlock()** reads the block of data and compares it with the new values to see if it needs rewriting.
+
+As the function reads/writes the data in blocks with a maximum length of **I2C_TWIBUFFERSIZE** (== 30 AVR limitation) it does this comparison in chuncks if the length exceeds this number. The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood. 
+
+If data is changed often between writes, **updateBlock()** is slower than **writeBlock()**.
+So you should verify if your sketch can make use of the advantages of **updateBlock()**
+
+
 ## Limitation
 
 The library does not offer multiple EEPROMS as one continuous storage device.
@@ -79,6 +92,7 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 - improve error handling, write functions should return bytes written or so.
 - what can we do with the print interface? (investigate)
 - investigate multi-EEPROM storage, 
+- investigate smarter strategy for updateBlock() => find first and last changed position would possibly result in less writes. 
 
 
 ## Operational

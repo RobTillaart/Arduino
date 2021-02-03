@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.3.1
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -19,12 +19,14 @@
 //   0.2.3  2020-05-27  update library.json
 //   0.2.4  2020-12-09  arduino-ci
 //   0.3.0  2021-01-12  isConnected() + Wire0..Wire5 support
+//   0.3.1  2021-01-28  fix TODO's in code
 
 
 #include "AM232X.h"
 
 
-#define AM232X_ADDRESS    ((uint8_t)0x5C)
+const uint8_t AM232X_ADDRESS = 0x5C;
+
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -173,67 +175,31 @@ int AM232X::setUserRegisterB(int value)
 //
 int AM232X::_readRegister(uint8_t reg, uint8_t count)
 {
-  // wake up the sensor - see 8.2
-  _wire->beginTransmission(AM232X_ADDRESS);
-  int rv = _wire->endTransmission();
-  delayMicroseconds(1000);          // TODO tune
+  if (! _wakeup() ) return AM232X_ERROR_CONNECT;
 
   // request the data
   _wire->beginTransmission(AM232X_ADDRESS);
   _wire->write(0x03);
   _wire->write(reg);
   _wire->write(count);
-  rv = _wire->endTransmission();
+  int rv = _wire->endTransmission();
   if (rv < 0) return rv;
 
   // request 4 extra, 2 for cmd + 2 for CRC
-  uint8_t length = count + 4;
-  int bytes = _wire->requestFrom(AM232X_ADDRESS, length);
-
-  for (int i = 0; i < bytes; i++)
-  {
-    bits[i] = _wire->read();
-  }
-  // ANALYZE ERRORS
-  // will not detect if we requested 1 byte as that will
-  // return 5 bytes as requested. E.g. getStatus()
-  // TODO: design a fix.
-  if (bytes != length)
-  {
-    switch(bits[3])
-    {
-    case 0x80: return AM232X_ERROR_FUNCTION;
-    case 0x81: return AM232X_ERROR_ADDRESS;
-    case 0x82: return AM232X_ERROR_REGISTER;
-    case 0x83: return AM232X_ERROR_CRC_1;  // prev write had a wrong CRC
-    case 0x84: return AM232X_ERROR_WRITE_DISABLED;
-    default:   return AM232X_ERROR_UNKNOWN;
-    }
-  }
-
-  // CRC is LOW Byte first
-  uint16_t crc = bits[bytes - 1]*256 + bits[bytes - 2];
-  if (crc16(&bits[0], bytes - 2) != crc)
-  {
-    return AM232X_ERROR_CRC_2;  // read itself has wrong CRC
-  }
-  return AM232X_OK;
+  rv = _getData(count + 4);
+  return rv;
 }
 
 
 int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 {
-  // wake up the sensor - see 8.2
-  _wire->beginTransmission(AM232X_ADDRESS);
-  int rv = _wire->endTransmission();
-  delayMicroseconds(1000);          // TODO tune
+  if (! _wakeup() ) return AM232X_ERROR_CONNECT;
 
   // prepare data to send
   bits[0] = 0x10;
   bits[1] = reg;
   bits[2] = cnt;
 
-  // TODO: is the order correct? MSB LSB
   if (cnt == 2)
   {
     bits[4] = value & 0xFF;
@@ -247,20 +213,43 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   // send data
   uint8_t length = cnt + 3;  // 3 = cmd, startReg, #bytes
   _wire->beginTransmission(AM232X_ADDRESS);
-  for (int i=0; i< length; i++)
+  for (int i = 0; i < length; i++)
   {
     _wire->write(bits[i]);
   }
   // send the CRC
-  uint16_t crc = crc16(bits, length);
+  uint16_t crc = _crc16(bits, length);
   _wire->write(crc & 0xFF);
   _wire->write(crc >> 8);
 
-  rv = _wire->endTransmission();
+  int rv = _wire->endTransmission();
   if (rv < 0) return rv;
 
   // wait for the answer
+  rv = _getData(length);
+  return rv;
+}
+
+
+bool AM232X::_wakeup()
+{
+  // wake up the sensor     - see 8.2
+  // min 800 us max 3000 us
+  uint32_t start = micros();
+  while (! isConnected())
+  {
+    if (micros() - start > 3000) return false;
+    yield();
+    delayMicroseconds(100);
+  }
+  return true;
+}
+
+
+int AM232X::_getData(uint8_t length)
+{
   int bytes = _wire->requestFrom(AM232X_ADDRESS, length);
+
   for (int i = 0; i < bytes; i++)
   {
     bits[i] = _wire->read();
@@ -269,23 +258,23 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   // ANALYZE ERRORS
   // will not detect if we requested 1 byte as that will
   // return 5 bytes as requested. E.g. getStatus()
-  // TODO: design a fix.
+  // design a fix if it becomes a problem.
   if (bytes != length)
   {
-    switch(bits[3])
+    switch (bits[3])
     {
-    case 0x80: return AM232X_ERROR_FUNCTION;
-    case 0x81: return AM232X_ERROR_ADDRESS;
-    case 0x82: return AM232X_ERROR_REGISTER;
-    case 0x83: return AM232X_ERROR_CRC_1;  // prev write had a wrong CRC
-    case 0x84: return AM232X_ERROR_WRITE_DISABLED;
-    default: return AM232X_ERROR_UNKNOWN;
+      case 0x80: return AM232X_ERROR_FUNCTION;
+      case 0x81: return AM232X_ERROR_ADDRESS;
+      case 0x82: return AM232X_ERROR_REGISTER;
+      case 0x83: return AM232X_ERROR_CRC_1;  // prev write had a wrong CRC
+      case 0x84: return AM232X_ERROR_WRITE_DISABLED;
+      default:   return AM232X_ERROR_UNKNOWN;
     }
   }
 
   // CRC is LOW Byte first
-  crc = bits[bytes - 1]*256 + bits[bytes - 2];
-  if (crc16(&bits[0], bytes - 2) != crc)
+  uint16_t crc = bits[bytes - 1] * 256 + bits[bytes - 2];
+  if (_crc16(&bits[0], bytes - 2) != crc)
   {
     return AM232X_ERROR_CRC_2;  // read itself has wrong CRC
   }
@@ -294,14 +283,14 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 }
 
 
-uint16_t AM232X::crc16(uint8_t *ptr, uint8_t len)
+uint16_t AM232X::_crc16(uint8_t *ptr, uint8_t len)
 {
-  uint16_t crc =0xFFFF;
+  uint16_t crc = 0xFFFF;
 
   while (len--)
   {
     crc ^= *ptr++;
-    for(int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
       if (crc & 0x01)
       {

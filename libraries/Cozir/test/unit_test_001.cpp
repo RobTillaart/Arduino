@@ -84,13 +84,13 @@ unittest(test_constructor)
   state->serialPort[0].dataIn = "";
   state->serialPort[0].dataOut = "";
   co.GetVersionSerial();
-  assertEqual("Y\r\n", state->serialPort[0].dataOut);
+  assertEqual("K 0\r\nY\r\n", state->serialPort[0].dataOut);
   
   fprintf(stderr, "COZIR.GetConfiguration()\n");
   state->serialPort[0].dataIn = "";
   state->serialPort[0].dataOut = "";
   co.GetConfiguration();
-  assertEqual("*\r\n", state->serialPort[0].dataOut);
+  assertEqual("K 0\r\n*\r\n", state->serialPort[0].dataOut);
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.31
+// VERSION: 0.1.32
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino. AVR optimized
 //     URL: https://github.com/RobTillaart/DHTlib
 //          http://arduino.cc/playground/Main/DHTLib
@@ -20,20 +20,22 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.1.31"
 
-#define DHTLIB_OK                   0
-#define DHTLIB_ERROR_CHECKSUM       -1
-#define DHTLIB_ERROR_TIMEOUT        -2
-#define DHTLIB_ERROR_CONNECT        -3
-#define DHTLIB_ERROR_ACK_L          -4
-#define DHTLIB_ERROR_ACK_H          -5
+#define DHT_LIB_VERSION                 (F("0.1.32"))
 
-#define DHTLIB_DHT11_WAKEUP         18
-#define DHTLIB_DHT_WAKEUP           1
+#define DHTLIB_OK                       0
+#define DHTLIB_ERROR_CHECKSUM           -1
+#define DHTLIB_ERROR_TIMEOUT            -2
+#define DHTLIB_ERROR_CONNECT            -3
+#define DHTLIB_ERROR_ACK_L              -4
+#define DHTLIB_ERROR_ACK_H              -5
 
-#define DHTLIB_DHT11_LEADING_ZEROS  1
-#define DHTLIB_DHT_LEADING_ZEROS    6
+#define DHTLIB_DHT11_WAKEUP             18
+#define DHTLIB_DHT_WAKEUP               1
+
+#define DHTLIB_DHT11_LEADING_ZEROS      1
+#define DHTLIB_DHT_LEADING_ZEROS        6
+
 
 // max timeout is 100 usec.
 // For a 16 Mhz proc 100 usec is 1600 clock cycles
@@ -45,6 +47,7 @@
 #else
 #define DHTLIB_TIMEOUT (F_CPU/40000)
 #endif
+
 
 class dht
 {

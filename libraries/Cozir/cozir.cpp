@@ -1,24 +1,25 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
 // HISTORY:
-// 0.2.5    2020-12-26  fix software Serial + version number (oops)
-// 0.2.2    2020-12-17  add arduino-ci + unit tests
-// 0.2.1    2020-06-05  fix library.json
-// 0.2.0    2020-03-30  some refactor and own repo 
-// 0.1.06   added support for HardwareSerial for MEGA (Rob T)
+//  0.2.6   2021-01-31  fix #4 use Mode0 for versions and configuration
+//  0.2.5   2020-12-26  fix software Serial + version number (oops)
+//  0.2.2   2020-12-17  add arduino-ci + unit tests
+//  0.2.1   2020-06-05  fix library.json
+//  0.2.0   2020-03-30  some refactor and own repo 
+//  0.1.06  added support for HardwareSerial for MEGA (Rob T)
 //          removed support for NewSoftSerial ==> stop pre 1.0 support)
-// 0.1.05   fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
-// 0.1.04   changed CO2 to support larger values (Rob T)
-// 0.1.03   added setOperatingMode
-// 0.1.02   added support Arduino 1.x
-// 0.1.01   initial version
+//  0.1.05  fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
+//  0.1.04  changed CO2 to support larger values (Rob T)
+//  0.1.03  added setOperatingMode
+//  0.1.02  added support Arduino 1.x
+//  0.1.01  initial version
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
@@ -225,12 +226,16 @@ uint8_t COZIR::GetEEPROM(uint8_t address)
 //
 void COZIR::GetVersionSerial()
 {
+    // overide modes to prevent interference in output
+    SetOperatingMode(CZR_COMMAND);
     Command("Y");
 }
 
 
 void COZIR::GetConfiguration()
 {
+    // overide modes to prevent interference in output
+    SetOperatingMode(CZR_COMMAND);
     Command("*");
 }
 

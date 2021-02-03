@@ -1,0 +1,77 @@
+D:\Rob\WORK\Arduino\libraries\I2C_EEPROM\examples\I2C_eeprom_updateBlock\I2C_eeprom_updateBlock.ino
+VERSION: 1.4.1
+
+1
+TEST:	writeBlock()	32840
+TEST:	readBlock()	11792
+TEST:	updateBlock()	44672
+
+2
+TEST:	writeBlock()	65720
+TEST:	readBlock()	23588
+TEST:	updateBlock()	60764
+
+3
+TEST:	writeBlock()	98544
+TEST:	readBlock()	35384
+TEST:	updateBlock()	72628
+
+4
+TEST:	writeBlock()	131348
+TEST:	readBlock()	47172
+TEST:	updateBlock()	84464
+
+5
+TEST:	writeBlock()	164200
+TEST:	readBlock()	58976
+TEST:	updateBlock()	96340
+
+6
+TEST:	writeBlock()	197068
+TEST:	readBlock()	70756
+TEST:	updateBlock()	108236
+
+7
+TEST:	writeBlock()	229872
+TEST:	readBlock()	82576
+TEST:	updateBlock()	120072
+
+8
+TEST:	writeBlock()	262684
+TEST:	readBlock()	94352
+TEST:	updateBlock()	131952
+
+9
+TEST:	writeBlock()	295568
+TEST:	readBlock()	106144
+TEST:	updateBlock()	143808
+
+10
+TEST:	writeBlock()	328388
+TEST:	readBlock()	117928
+TEST:	updateBlock()	155688
+
+
+TEST: 100x writeBlock()
+DUR1: 3284020
+
+00000000	64	63	62	61	60	5F	5E	5D	5C	5B	5A	59	58	57	56	55	
+00000010	54	53	52	51	50	4F	4E	4D	4C	4B	4A	49	48	47	46	45	
+00000020	44	43	42	41	40	3F	3E	3D	3C	3B	3A	39	38	37	36	35	
+00000030	34	33	32	31	30	2F	2E	2D	2C	2B	2A	29	28	27	26	25	
+00000040	24	23	22	21	20	1F	1E	1D	1C	1B	1A	19	18	17	16	15	
+00000050	14	13	12	11	10	0F	0E	0D	0C	0B	0A	09	08	07	06	05	
+00000060	04	03	02	01	
+
+TEST: 100x updateBlock()
+DUR2: 1223896
+
+00000000	64	63	62	61	60	5F	5E	5D	5C	5B	5A	59	58	57	56	55	
+00000010	54	53	52	51	50	4F	4E	4D	4C	4B	4A	49	48	47	46	45	
+00000020	44	43	42	41	40	3F	3E	3D	3C	3B	3A	39	38	37	36	35	
+00000030	34	33	32	31	30	2F	2E	2D	2C	2B	2A	29	28	27	26	25	
+00000040	24	23	22	21	20	1F	1E	1D	1C	1B	1A	19	18	17	16	15	
+00000050	14	13	12	11	10	0F	0E	0D	0C	0B	0A	09	08	07	06	05	
+00000060	04	03	02	01	
+
+done...

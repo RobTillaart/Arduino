@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.4.1
+// VERSION: 1.4.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -36,6 +36,7 @@
 //                      See determineSize for all tested.
 //  1.4.1   2021-01-28  fixed addressing bug 24LC04/08/16 equivalents from ST e.g. m24c08w
 //                      add Wire1..WireN;
+//  1.4.2   2021-01-31  add updateBlock()
 
 
 #include <I2C_eeprom.h>
@@ -167,6 +168,30 @@ int I2C_eeprom::updateByte(const uint16_t memoryAddress, const uint8_t data)
 {
   if (data == readByte(memoryAddress)) return 0;
   return writeByte(memoryAddress, data);
+}
+
+int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+{
+  uint16_t addr = memoryAddress;
+  uint16_t len = length;
+  uint16_t rv = 0;
+  while (len > 0)
+  {
+    uint8_t buf[I2C_TWIBUFFERSIZE];
+    uint8_t cnt = I2C_TWIBUFFERSIZE;
+    
+    if (cnt > len) cnt = len;
+    rv     += _ReadBlock(addr, buf, cnt);
+    if (memcmp(buffer, buf, cnt) != 0)
+    {
+      _pageBlock(addr, buffer, cnt, true);
+    }
+    addr   += cnt;
+    buffer += cnt;
+    len    -= cnt;
+    yield();    // For OS scheduling etc
+  }
+  return rv;
 }
 
 

@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2C_EEPROM.git"
   },
-  "version":"1.4.1",
+  "version":"1.4.2",
   "frameworks": "arduino",
   "platforms": "*"
 }

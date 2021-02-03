@@ -76,13 +76,12 @@ variables temperature and humidity.
 To access these values one must use **getTemperature()** and **getHumidity()**. 
 
 
-## Planned changes
+## Future
 
-Fix several TODO's in the code.
 
 
 ## Warning
 
-The library has several open ends so use at own risk.
+The library has not been tested extensively yet so use at own risk.
 
 See also LICENSE

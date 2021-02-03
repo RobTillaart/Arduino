@@ -1,7 +1,7 @@
 //
 //    FILE: dht.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
@@ -18,7 +18,9 @@
 #include <Arduino.h>
 #endif
 
-#define DHT_LIB_VERSION "0.2.7 - dhtstable"
+
+#define DHT_LIB_VERSION           (F("0.2.8 - dhtstable"))
+
 
 const int DHTLIB_OK              = 0;
 const int DHTLIB_ERROR_CHECKSUM  = -1;
@@ -34,6 +36,7 @@ const int DHTLIB_DHT_WAKEUP      = 1;
 // so 100 us takes max 400 loops
 // so by dividing F_CPU by 40000 we "fail" as fast as possible
 const int DHTLIB_TIMEOUT = (F_CPU/40000);
+
 
 class dht
 {

@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 // HISTORY:
+// 0.2.8    2021-02-01  fix negative temperature (from dhtnew)
 // 0.2.7    2020-12-20  add arduino-CI, unit test, 
 //                      reset(), getTemperature(), getHumidity()
 // 0.2.6    2020-07-20  update URL in .cpp
@@ -34,7 +35,9 @@
 // inspired by DHT11 library
 //
 
+
 #include "dht.h"
+
 
 /////////////////////////////////////////////////////
 //
@@ -104,12 +107,9 @@ int dht::read(uint8_t pin)
     }
 
     // CONVERT AND STORE
-    humidity = word(bits[0], bits[1]) * 0.1;
-    temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
-    if (bits[2] & 0x80)  // negative temperature
-    {
-        temperature = -temperature;
-    }
+    humidity  = word(bits[0], bits[1]) * 0.1;
+    int16_t t = bits[2] * 256 + bits[3];
+    temperature = t * 0.1;
 
     // TEST CHECKSUM
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];

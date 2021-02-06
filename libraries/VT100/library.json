@@ -17,8 +17,5 @@
   },
   "version":"0.1.0",
   "frameworks": "arduino",
-  "platforms": "*",
-  "export": {
-    "include": "libraries/VT100"
-  }
+  "platforms": "*"
 }

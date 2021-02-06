@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP_ADC.git"
   },
-  "version":"0.1.2",
+  "version":"0.1.3",
   "frameworks": "*",
   "platforms": "*"
 }

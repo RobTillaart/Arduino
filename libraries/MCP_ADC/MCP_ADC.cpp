@@ -1,20 +1,22 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
 //
 
+
 #include "MCP_ADC.h"
+
 
 MCP_ADC::MCP_ADC(uint8_t dataIn, uint8_t dataOut,  uint8_t clock)
 {
   _dataIn   = dataIn;
   _dataOut  = dataOut;
   _clock    = clock;
-  _hwSPI    = (dataIn == 255) && (dataOut == 255) && (clock == 255);
+  _hwSPI    = (dataIn == 255) || (dataOut == 255) || (clock == 255);
   if (_hwSPI == false)
   {
     pinMode(_dataIn,  INPUT);
@@ -22,9 +24,13 @@ MCP_ADC::MCP_ADC(uint8_t dataIn, uint8_t dataOut,  uint8_t clock)
     pinMode(_clock,   OUTPUT);
     digitalWrite(_dataOut, LOW);
     digitalWrite(_clock,   LOW);
-    // _SPIspeed = 0;   TODO set to zero if SW SPI
+  }
+  else
+  {
+    SPI.begin();
   }
 }
+
 
 void MCP_ADC::begin(uint8_t select)
 {
@@ -33,17 +39,20 @@ void MCP_ADC::begin(uint8_t select)
   digitalWrite(_select, HIGH);
 }
 
+
 int16_t MCP_ADC::analogRead(uint8_t channel)
 {
   if (channel >= _channels) return 0;
   return readADC(channel, true);
 }
 
+
 int16_t MCP_ADC::differentialRead(uint8_t channel)
 {
   if (channel >= _channels) return 0;
   return readADC(channel, false);
 }
+
 
 int16_t MCP_ADC::deltaRead(uint8_t channel)
 {
@@ -58,16 +67,6 @@ int16_t MCP_ADC::deltaRead(uint8_t channel)
   return val0 - val1;
 }
 
-void MCP_ADC::setSPIspeed(uint32_t speed)
-{
-  _SPIspeed = speed; 
-};
-
-uint32_t MCP_ADC::getSPIspeed()
-{
-  return _SPIspeed;
-};
-
 
 int16_t MCP_ADC::readADC(uint8_t channel, bool single)
 {
@@ -76,32 +75,30 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
   uint8_t  data[3] = { 0,0,0 };
   uint8_t  bytes = buildRequest(channel, single, data);
 
-  // TODO optimize _select handling
+  digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     SPI.beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
-    digitalWrite(_select, LOW);
     for (uint8_t b = 0; b < bytes; b++)
     {
       data[b] = SPI.transfer(data[b]);
     }
-    digitalWrite(_select, HIGH);
     SPI.endTransaction();
   }
   else // Software SPI
   {
-    digitalWrite(_select, LOW);
     for (uint8_t b = 0; b < bytes; b++)
     {
       data[b] = swSPI_transfer(data[b]);
     }
-    digitalWrite(_select, HIGH);
   }
+  digitalWrite(_select, HIGH);
 
   if (bytes == 2) return ((256 * data[0] + data[1]) & _maxValue);
   // data[0]?
   return ((256 * data[1] + data[2]) & _maxValue);
 }
+
 
 // MSBFIRST
 uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)

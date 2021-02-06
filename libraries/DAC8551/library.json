@@ -1,7 +1,7 @@
 {
   "name": "DAC8551",
-  "keywords": "DAC8551, SPI, digital, analog, convertor",
-  "description": "Arduino library for DAC8551 SPI Digital Analog Convertor",
+  "keywords": "DAC8551, DAC8550, DAC8501, DAC8531, SPI, digital, analog, convertor",
+  "description": "Arduino library for DAC8501, DAC8531, DAC8550 and DAC8551 SPI 16-bit Digital Analog Convertor",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DAC8551"
   },
-  "version":"0.2.1",
+  "version":"0.2.2",
   "frameworks": "arduino",
   "platforms": "*"
 }

@@ -25,7 +25,7 @@
 
 // POSITIONING
 #define CLS             "\033[2J"       // Esc[2J Clear entire screen
-#define GOTOXY(x,y)    "\033[x;yH"     // Esc[Line;ColumnH
+#define GOTOXY(x,y)     "\033[x;yH"     // Esc[Line;ColumnH
 #define HOME            "\033[H"
 
 #define CUD(x)          "\033[xB"      // Move cursor up n lines

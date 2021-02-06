@@ -21,6 +21,26 @@ It has three examples
 - test sketch to test get / set values.
 
 
+## Breakout board
+
+left to right
+
+|  pin | pinname | description     |
+|:----:|:--------|:----------------|
+|  0   |  VCC    | +5V             |
+|  1   |  GND    | ground          |
+|  2   |  SCL    | I2C clock       |
+|  3   |  SDA    | I2C data        |
+|  4   |  XDA    | auxiliary data  | see datasheet
+|  5   |  XCL    | auxiliary clock | see datasheet
+|  6   |  AD0    | address         | 
+|  7   |  INT    | interrupt       |
+
+#### Address
+AD0 connected to GND => 0x68 
+AD0 connected to VCC => 0x69
+
+
 ## Calibration (short version for now)
 
 1. load and run calibration example  
@@ -31,7 +51,6 @@ It has three examples
 
 ## Interface
 
-TODO
 
 ### Constructor
 

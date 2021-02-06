@@ -56,9 +56,11 @@
 
 //  TWI buffer needs max 2 bytes for eeprom address
 //  1 byte for eeprom register address is available in txbuffer
-//  NOTE this is typical on an UNO.
-//  TODO investigate
-#define I2C_TWIBUFFERSIZE           30
+#if defined(ESP32) || defined(ESP8266)
+#define I2C_BUFFERSIZE           128
+#else
+#define I2C_BUFFERSIZE           30   //  AVR, STM 
+#endif
 
 
 I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire *wire)
@@ -120,8 +122,8 @@ int I2C_eeprom::writeByte(const uint16_t memoryAddress, const uint8_t data)
 
 int I2C_eeprom::setBlock(const uint16_t memoryAddress, const uint8_t data, const uint16_t length)
 {
-  uint8_t buffer[I2C_TWIBUFFERSIZE];
-  for (uint8_t i = 0; i < I2C_TWIBUFFERSIZE; i++)
+  uint8_t buffer[I2C_BUFFERSIZE];
+  for (uint8_t i = 0; i < I2C_BUFFERSIZE; i++)
   {
     buffer[i] = data;
   }
@@ -152,7 +154,7 @@ uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, co
   uint16_t rv = 0;
   while (len > 0)
   {
-    uint8_t cnt = I2C_TWIBUFFERSIZE;
+    uint8_t cnt = I2C_BUFFERSIZE;
     if (cnt > len) cnt = len;
     rv     += _ReadBlock(addr, buffer, cnt);
     addr   += cnt;
@@ -177,8 +179,8 @@ int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer,
   uint16_t rv = 0;
   while (len > 0)
   {
-    uint8_t buf[I2C_TWIBUFFERSIZE];
-    uint8_t cnt = I2C_TWIBUFFERSIZE;
+    uint8_t buf[I2C_BUFFERSIZE];
+    uint8_t cnt = I2C_BUFFERSIZE;
     
     if (cnt > len) cnt = len;
     rv     += _ReadBlock(addr, buf, cnt);
@@ -281,7 +283,7 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
   {
     uint8_t bytesUntilPageBoundary = this->_pageSize - addr % this->_pageSize;
 
-    uint8_t cnt = I2C_TWIBUFFERSIZE;
+    uint8_t cnt = I2C_BUFFERSIZE;
     if (cnt > len) cnt = len;
     if (cnt > bytesUntilPageBoundary) cnt = bytesUntilPageBoundary;
 
@@ -316,7 +318,7 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 }
 
 
-// pre: length <= this->_pageSize  && length <= I2C_TWIBUFFERSIZE;
+// pre: length <= this->_pageSize  && length <= I2C_BUFFERSIZE;
 // returns 0 = OK otherwise error
 int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length)
 {

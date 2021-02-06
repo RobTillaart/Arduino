@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION (F("0.3.0"))
+#define FRAM_LIB_VERSION              (F("0.3.1"))
 
 
 #define FRAM_OK                       0
@@ -29,7 +29,7 @@ public:
 
 #if defined (ESP8266) || defined(ESP32)
   // address and writeProtectPin is optional
-  int    begin(uint8_t sda, uint8_t scl, const uint8_t address = 0x50, int8_t writeProtectPin = -1);
+  int      begin(uint8_t sda, uint8_t scl, const uint8_t address = 0x50, int8_t writeProtectPin = -1);
 #endif
   // address and writeProtectPin is optional
   int      begin(const uint8_t address = 0x50, int8_t writeProtectPin = -1);

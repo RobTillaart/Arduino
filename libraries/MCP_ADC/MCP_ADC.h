@@ -2,20 +2,24 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
 //
 
+
 #include "Arduino.h"
 #include "SPI.h"
+
+
+#define MCP_ADC_LIB_VERSION       (F("0.1.3"))
+
 
 class MCP_ADC
 {
 public:
   MCP_ADC(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
-  // if only select is given ==> HW SPI
   void     begin(uint8_t select);
 
   uint8_t  channels() { return _channels; };
@@ -23,9 +27,9 @@ public:
   int16_t  analogRead(uint8_t channel);
   int16_t  differentialRead(uint8_t channel);
   int16_t  deltaRead(uint8_t channel);
-  // speed in Hz
-  void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed();
+  //       speed in Hz
+  void     setSPIspeed(uint32_t speed) { _SPIspeed = speed; };
+  uint32_t getSPIspeed()               { return _SPIspeed; };
 
 protected:
   uint8_t  _dataIn;

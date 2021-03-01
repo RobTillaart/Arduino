@@ -1,12 +1,13 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.32
+// VERSION: 0.1.33
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino, AVR optimized
 //     URL: https://github.com/RobTillaart/DHTlib
 //          http://arduino.cc/playground/Main/DHTLib
 //
 // HISTORY:
+// 0.1.33   2021-02-16  fix #6 T-GO signal in handshake. (needed for long wires)
 // 0.1.32   2021-02-01  fix negative temperature DHT22 again (code from DHTNew)
 // 0.1.31   2020-12-15  fix negative temperature DHT22 (code from DHTNew)
 // 0.1.30   2020-06-30  own repo;
@@ -182,7 +183,7 @@ int8_t dht::_readSensor(uint8_t pin, uint8_t wakeupDelay, uint8_t leadingZeroBit
     digitalWrite(pin, LOW); // T-be
     if (wakeupDelay > 8) delay(wakeupDelay);
     else delayMicroseconds(wakeupDelay * 1000UL);
-    // digitalWrite(pin, HIGH); // T-go
+    digitalWrite(pin, HIGH); // T-go
     pinMode(pin, INPUT);
 
     uint16_t loopCount = DHTLIB_TIMEOUT * 2;  // 200uSec max

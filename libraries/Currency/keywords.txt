@@ -1,0 +1,32 @@
+# Syntax Coloring Map for currency
+
+# Datatypes (KEYWORD1)
+
+# Methods and Functions (KEYWORD2)
+currency	KEYWORD2
+currency64	KEYWORD2
+
+bitcoin	KEYWORD2
+dollar	KEYWORD2
+euro	KEYWORD2
+roebel	KEYWORD2
+yen	KEYWORD2
+yuan	KEYWORD2
+
+bitcoin64	KEYWORD2
+dollar64	KEYWORD2
+euro64	KEYWORD2
+roebel64	KEYWORD2
+yen64	KEYWORD2
+yuan64	KEYWORD2
+
+bitcoinf	KEYWORD2
+dollarf	KEYWORD2
+eurof	KEYWORD2
+roebelf	KEYWORD2
+yenf	KEYWORD2
+yuanf	KEYWORD2
+
+
+# Constants (LITERAL1)
+

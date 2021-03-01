@@ -3,23 +3,33 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-03
 // PURPOSE: unit tests for the Cozir CO2 library
-//          https://github.com/RobTillaart/
+//          https://github.com/RobTillaart/Cozir
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
 // supported assertions
 // https://github.com/Arduino-CI/arduino_ci/blob/master/cpp/unittest/Assertion.h#L33-L42
 // ----------------------------
-// assertEqual(expected, actual)
-// assertNotEqual(expected, actual)
-// assertLess(expected, actual)
-// assertMore(expected, actual)
-// assertLessOrEqual(expected, actual)
-// assertMoreOrEqual(expected, actual)
-// assertTrue(actual)
-// assertFalse(actual)
-// assertNull(actual)
-// assertNotNull(actual)
+// assertEqual(expected, actual);               // a == b
+// assertNotEqual(unwanted, actual);            // a != b
+// assertComparativeEquivalent(expected, actual);    // abs(a - b) == 0 or (!(a > b) && !(a < b))
+// assertComparativeNotEquivalent(unwanted, actual); // abs(a - b) > 0  or ((a > b) || (a < b))
+// assertLess(upperBound, actual);              // a < b
+// assertMore(lowerBound, actual);              // a > b
+// assertLessOrEqual(upperBound, actual);       // a <= b
+// assertMoreOrEqual(lowerBound, actual);       // a >= b
+// assertTrue(actual);
+// assertFalse(actual);
+// assertNull(actual);
+
+// // special cases for floats
+// assertEqualFloat(expected, actual, epsilon);    // fabs(a - b) <= epsilon
+// assertNotEqualFloat(unwanted, actual, epsilon); // fabs(a - b) >= epsilon
+// assertInfinity(actual);                         // isinf(a)
+// assertNotInfinity(actual);                      // !isinf(a)
+// assertNAN(arg);                                 // isnan(a)
+// assertNotNAN(arg);                              // !isnan(a)
+
 
 #include <ArduinoUnitTests.h>
 
@@ -59,6 +69,7 @@ unittest(test_software_serial)
   co.init();
   assertEqual("K 2\r\n", state->digitalPin[transmitPin].toAscii(1, bigEndian));
 }
+
 
 unittest(test_constructor)
 {
@@ -274,6 +285,18 @@ unittest(test_streaming_mode)
   state->serialPort[0].dataOut = "";
   co.GetRecentFields();
   assertEqual("Q\r\n", state->serialPort[0].dataOut);
+  
+  fprintf(stderr, "COZIR.ClrOutputFields()\n");
+  state->serialPort[0].dataIn = "";
+  state->serialPort[0].dataOut = "";
+  co.ClrOutputFields();
+  assertEqual("M 1\r\n", state->serialPort[0].dataOut);
+
+  fprintf(stderr, "COZIR.GetRecentFields()\n");
+  state->serialPort[0].dataIn = "";
+  state->serialPort[0].dataOut = "";
+  co.GetRecentFields();
+  assertEqual("Q\r\n", state->serialPort[0].dataOut);
   // USER MUST READ RETURNED DATA AS IT CAN BE QUITE A LOT.
 }
 
@@ -302,6 +325,27 @@ unittest(test_eeprom)
   uint8_t GetEEPROM = co.GetEEPROM(100);
   assertEqual("p 100\r\n", state->serialPort[0].dataOut);
   assertEqual(42, GetEEPROM);
+}
+
+
+
+unittest(test_PPM)
+{
+  GodmodeState* state = GODMODE();
+
+  COZIR co(&Serial);
+
+  fprintf(stderr, "COZIR.init()\n");
+  state->serialPort[0].dataIn = "";
+  state->serialPort[0].dataOut = "";
+  co.init();
+  assertEqual("K 2\r\n", state->serialPort[0].dataOut);
+
+  fprintf(stderr, "COZIR.getPPMFactor()\n");
+  state->serialPort[0].dataIn = "";
+  state->serialPort[0].dataOut = "";
+  co.getPPMFactor();
+  assertEqual(".\r\n", state->serialPort[0].dataOut);
 }
 
 

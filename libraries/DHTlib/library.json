@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DHTlib.git"
   },
-  "version":"0.1.32",
+  "version":"0.1.33",
   "frameworks": "arduino",
   "platforms": "*"
 }

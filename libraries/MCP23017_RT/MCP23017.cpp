@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -12,6 +12,7 @@
 //  0.1.2   2021-01-01  add arduino-ci + unit test
 //  0.2.0   2021-01-11  Multiple Wire support Wire0 .. 5
 //                      error handling
+//  0.2.1   2021-02-17  fix #7 DDR is defined in ESP32
 
 //    TODO: 
 //  interrupts
@@ -92,13 +93,13 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t value)
     return false;
   }
   
-  uint8_t DDR = MCP23017_DDR_A;   // Data Direction Register
+  uint8_t dataDirectionRegister = MCP23017_DDR_A;
   if (pin > 7)
   {
-    DDR = MCP23017_DDR_B;
+    dataDirectionRegister = MCP23017_DDR_B;
     pin -= 8;
   }
-  uint8_t val = readReg(DDR);
+  uint8_t val = readReg(dataDirectionRegister);
   uint8_t mask = 1 << pin;
   // only work with valid
   if (value == INPUT || value == INPUT_PULLUP)
@@ -110,7 +111,7 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t value)
     val &= ~mask;
   }
   // other values won't change val ....
-  writeReg(DDR, val);
+  writeReg(dataDirectionRegister, val);
   _error = MCP23017_OK;
   return true;
 }

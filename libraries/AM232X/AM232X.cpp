@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -20,6 +20,7 @@
 //   0.2.4  2020-12-09  arduino-ci
 //   0.3.0  2021-01-12  isConnected() + Wire0..Wire5 support
 //   0.3.1  2021-01-28  fix TODO's in code
+//   0.3.2  2021-03-30  #13 - timeout to isConnected() + wakeUp() + readme.md
 
 
 #include "AM232X.h"
@@ -60,10 +61,17 @@ bool AM232X::begin()
 }
 
 
-bool AM232X::isConnected()
+bool AM232X::isConnected(uint16_t timeout)
 {
-  _wire->beginTransmission(AM232X_ADDRESS);
-  return ( _wire->endTransmission() == 0);
+  uint32_t start = micros();
+  while (micros() - start < timeout)
+  {
+    _wire->beginTransmission(AM232X_ADDRESS);
+    if ( _wire->endTransmission() == 0) return true;
+    yield();
+    delayMicroseconds(100);
+  }
+  return false;
 }
 
 
@@ -175,7 +183,7 @@ int AM232X::setUserRegisterB(int value)
 //
 int AM232X::_readRegister(uint8_t reg, uint8_t count)
 {
-  if (! _wakeup() ) return AM232X_ERROR_CONNECT;
+  if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
   // request the data
   _wire->beginTransmission(AM232X_ADDRESS);
@@ -193,7 +201,7 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
 
 int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 {
-  if (! _wakeup() ) return AM232X_ERROR_CONNECT;
+  if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
   // prepare data to send
   bits[0] = 0x10;
@@ -228,21 +236,6 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   // wait for the answer
   rv = _getData(length);
   return rv;
-}
-
-
-bool AM232X::_wakeup()
-{
-  // wake up the sensor     - see 8.2
-  // min 800 us max 3000 us
-  uint32_t start = micros();
-  while (! isConnected())
-  {
-    if (micros() - start > 3000) return false;
-    yield();
-    delayMicroseconds(100);
-  }
-  return true;
 }
 
 

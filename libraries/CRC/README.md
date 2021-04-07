@@ -11,12 +11,17 @@ Arduino library with CRC8, CRC16, CRC32 and CRC64 functions
 
 ## Description
 
-Implements the generic CRC functions and classes.
+Goal of this library is to have a flexible and portable set of generic CRC functions and classes.
 
-The added value of the CRCx class is that it allows one to see intermediate CRC values calculated so far, but also 
+The CRCx classes have a number of added values. Most important is that they allow one to verify intermediate CRC values. This is useful if one sends a "train of packets" which include a CRC so far. This detects both errors in one packet but also missing packets, or injected packages.
 
+Another trick one can do is change the polynome or the reverse flag during the process. 
+This makes it harder to imitate.
 
-Goal of this library is to have a flexible and portable set of functions.
+Furthermore the class allows to add values in single steps and continue too.
+
+Finally the class version gives more readable code (imho) as the parameters are explicitly set.
+
 
 **Note** the classes have same names as the static functions, except the class
 is UPPER case. So CRC8 is a class and **crc8()** is the function. 
@@ -34,8 +39,8 @@ Use **\#include "CRC8.h"**
 
 - **CRC8()** Constructor
 - **void reset()** set all internals to constructor defaults.
-- **void restart()** reset CRC and count;  use same parameters again.
-- **void setPolynome(polynome)** set polynome, reset sets a default polynome.
+- **void restart()** reset internal CRC and count only;  reuse values for other e.g polynome, XOR masks and reverse flags.
+- **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
 - **void setStartXOR(start)** set startmask, default 0.
 - **void setEndXOR(end)** set endmask, default 0.
 - **void setReverseIn(bool reverseIn)** reverse the bitpattern of input data (MSB vs LSB).
@@ -52,6 +57,9 @@ A minimal usage only needs
 - the constructor, the add() function and the getCRC() function.
 
 ```cpp
+#include "CRC32.h"
+...
+
 CRC32 crc;
   ...
   while (Serial.available())
@@ -87,6 +95,9 @@ Note these functions are limited to one call per block of data. For more flexibi
 - table versions for performance?  (performance - memory discussion)
 - example showing multiple packages of data linked by their CRC.
 - stream version - 4 classes class?
+- setCRC(value) to be able to pick up where one left ?
+- getters, getPolynome() etc?
+- 
 
 
 #### Exotic CRC's ?

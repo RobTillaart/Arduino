@@ -1,23 +1,24 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.3.0
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
 //
-// HISTORY:
-// 0.0.0   2013-03-24 initial version
-// 0.0.1   2013-03-24 first working version
-// 0.1.0   2017-07-31 removed pre 1.0 support; added getVoltage
-// 0.2.0   2020-04-08 initial release; refactor ad fundum;
-// 0.2.1   2020-08-15 fix issue 2 gain; refactor
-// 0.2.2   2020-08-18 add begin(sda, scl) for ESP32
-// 0.2.3   2020-08-20 add comparator code + async mode
-// 0.2.4   2020-08-26 check readme.md  and minor fixes
-// 0.2.5   2020-08-26 add missing readADC_Differential_X_X()
-// 0.2.6   2020-09-01 fix #12 - fix getMaxVoltage + minor refactor
-// 0.2.7   2020-09-27 redo readRegister() + getValue() + getError()
+//  HISTORY:
+//  0.0.0   2013-03-24  initial version
+//  0.0.1   2013-03-24  first working version
+//  0.1.0   2017-07-31  removed pre 1.0 support; added getVoltage
+//  0.2.0   2020-04-08  initial release; refactor ad fundum;
+//  0.2.1   2020-08-15  fix issue 2 gain; refactor
+//  0.2.2   2020-08-18  add begin(sda, scl) for ESP32
+//  0.2.3   2020-08-20  add comparator code + async mode
+//  0.2.4   2020-08-26  check readme.md  and minor fixes
+//  0.2.5   2020-08-26  add missing readADC_Differential_X_X()
+//  0.2.6   2020-09-01  fix #12 - fix getMaxVoltage + minor refactor
+//  0.2.7   2020-09-27  redo readRegister() + getValue() + getError()
+//  0.3.0   2021-03-29  add Wire parameter to constructors.
 
 
 #include "ADS1X15.h"
@@ -121,35 +122,6 @@ differs for different devices, check datasheet or readme.md
 #define ADS_CONF_COMP    0x20
 
 
-/////////////////////////////////////////////////////////////////////////
-//
-// STATIC MEMBERS
-// 
-static bool writeRegister(uint8_t address, uint8_t reg, uint16_t value)
-{
-  Wire.beginTransmission(address);
-  Wire.write((uint8_t)reg);
-  Wire.write((uint8_t)(value >> 8));
-  Wire.write((uint8_t)(value & 0xFF));
-  return (Wire.endTransmission() == 0);
-}
-
-static uint16_t readRegister(uint8_t address, uint8_t reg)
-{
-  Wire.beginTransmission(address);
-  Wire.write(reg);
-  Wire.endTransmission();
-
-  int rv = Wire.requestFrom(address, (uint8_t) 2);
-  if (rv == 2) 
-  {
-    uint16_t value = Wire.read() << 8;
-    value += Wire.read();
-    return value;
-  }
-  return 0x0000;
-}
-
 //////////////////////////////////////////////////////
 //
 // BASE CONSTRUCTOR
@@ -168,30 +140,33 @@ ADS1X15::ADS1X15()
 #if defined (ESP8266) || defined(ESP32)
 bool ADS1X15::begin(uint8_t sda, uint8_t scl)
 {
-  Wire.begin(sda, scl);
+  _wire = &Wire;
+  _wire->begin(sda, scl);
   if ((_address < 0x48) || (_address > 0x4B)) return false;
+  if (! isConnected()) return false;
   return true;
 }
 #endif
 
 bool ADS1X15::begin()
 {
-  Wire.begin();
+  _wire->begin();
   if ((_address < 0x48) || (_address > 0x4B)) return false;
+  if (! isConnected()) return false;
   return true;
 }
 
 bool ADS1X15::isBusy()
 {
-  uint16_t val = readRegister(_address, ADS1X15_REG_CONFIG);
+  uint16_t val = _readRegister(_address, ADS1X15_REG_CONFIG);
   if ((val & ADS1X15_OS_NOT_BUSY) != 0) return false;
   return true;
 }
 
 bool ADS1X15::isConnected()
 {
-  Wire.beginTransmission(_address);
-  return (Wire.endTransmission() == 0);
+  _wire->beginTransmission(_address);
+  return (_wire->endTransmission() == 0);
 }
 
 void ADS1X15::setGain(uint8_t gain)
@@ -318,29 +293,29 @@ void ADS1X15::requestADC(uint8_t pin)
 
 int16_t ADS1X15::getValue()
 {
-  int16_t raw = readRegister(_address, ADS1X15_REG_CONVERT);
+  int16_t raw = _readRegister(_address, ADS1X15_REG_CONVERT);
   if (_bitShift) raw >>= _bitShift;  // Shift 12-bit results
   return raw;
 }
 
 void ADS1X15::setComparatorThresholdLow(int16_t lo)
 {
-  writeRegister(_address, ADS1X15_REG_LOW_THRESHOLD, lo);
+  _writeRegister(_address, ADS1X15_REG_LOW_THRESHOLD, lo);
 };
 
 int16_t ADS1X15::getComparatorThresholdLow()
 {
-  return readRegister(_address, ADS1X15_REG_LOW_THRESHOLD);
+  return _readRegister(_address, ADS1X15_REG_LOW_THRESHOLD);
 };
 
 void ADS1X15::setComparatorThresholdHigh(int16_t hi)
 {
-  writeRegister(_address, ADS1X15_REG_HIGH_THRESHOLD, hi);
+  _writeRegister(_address, ADS1X15_REG_HIGH_THRESHOLD, hi);
 };
 
 int16_t ADS1X15::getComparatorThresholdHigh()
 {
-  return readRegister(_address, ADS1X15_REG_HIGH_THRESHOLD);
+  return _readRegister(_address, ADS1X15_REG_HIGH_THRESHOLD);
 };
 
 int8_t  ADS1X15::getError()
@@ -352,7 +327,7 @@ int8_t  ADS1X15::getError()
 
 //////////////////////////////////////////////////////
 //
-// PRIVATE
+// PROTECTED
 //
 int16_t ADS1X15::_readADC(uint16_t readmode)
 {
@@ -383,7 +358,32 @@ void ADS1X15::_requestADC(uint16_t readmode)
   if (_compLatch) config |= ADS1X15_COMP_LATCH;
   else            config |= ADS1X15_COMP_NON_LATCH;           // bit 2      ALERT latching
   config |= _compQueConvert;                                  // bit 0..1   ALERT mode
-  writeRegister(_address, ADS1X15_REG_CONFIG, config);
+  _writeRegister(_address, ADS1X15_REG_CONFIG, config);
+}
+
+bool ADS1X15::_writeRegister(uint8_t address, uint8_t reg, uint16_t value)
+{
+  _wire->beginTransmission(address);
+  _wire->write((uint8_t)reg);
+  _wire->write((uint8_t)(value >> 8));
+  _wire->write((uint8_t)(value & 0xFF));
+  return (_wire->endTransmission() == 0);
+}
+
+uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
+{
+  _wire->beginTransmission(address);
+  _wire->write(reg);
+  _wire->endTransmission();
+
+  int rv = _wire->requestFrom(address, (uint8_t) 2);
+  if (rv == 2) 
+  {
+    uint16_t value = _wire->read() << 8;
+    value += _wire->read();
+    return value;
+  }
+  return 0x0000;
 }
 
 
@@ -391,9 +391,10 @@ void ADS1X15::_requestADC(uint16_t readmode)
 //
 // ADS1013
 //
-ADS1013::ADS1013(uint8_t address)
+ADS1013::ADS1013(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_NOCOMP | ADS_CONF_NOGAIN | ADS_CONF_RES_12 | ADS_CONF_CHAN_1;
   _conversionDelay = ADS1015_CONVERSION_DELAY;
   _bitShift = 4;
@@ -405,9 +406,10 @@ ADS1013::ADS1013(uint8_t address)
 //
 // ADS1014
 //
-ADS1014::ADS1014(uint8_t address)
+ADS1014::ADS1014(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_COMP | ADS_CONF_GAIN | ADS_CONF_RES_12 | ADS_CONF_CHAN_1;
   _conversionDelay = ADS1015_CONVERSION_DELAY;
   _bitShift = 4;
@@ -419,9 +421,10 @@ ADS1014::ADS1014(uint8_t address)
 //
 // ADS1015
 //
-ADS1015::ADS1015(uint8_t address)
+ADS1015::ADS1015(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_COMP | ADS_CONF_GAIN | ADS_CONF_RES_12 | ADS_CONF_CHAN_4;
   _conversionDelay = ADS1015_CONVERSION_DELAY;
   _bitShift = 4;
@@ -475,9 +478,10 @@ void ADS1015::requestADC_Differential_2_3()
 //
 // ADS1113
 //
-ADS1113::ADS1113(uint8_t address)
+ADS1113::ADS1113(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_NOCOMP | ADS_CONF_NOGAIN | ADS_CONF_RES_16 | ADS_CONF_CHAN_1;
   _conversionDelay = ADS1115_CONVERSION_DELAY;
   _bitShift = 0;
@@ -489,9 +493,10 @@ ADS1113::ADS1113(uint8_t address)
 //
 // ADS1114
 //
-ADS1114::ADS1114(uint8_t address)
+ADS1114::ADS1114(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_COMP | ADS_CONF_GAIN | ADS_CONF_RES_16 | ADS_CONF_CHAN_1;
   _conversionDelay = ADS1115_CONVERSION_DELAY;
   _bitShift = 0;
@@ -503,9 +508,10 @@ ADS1114::ADS1114(uint8_t address)
 //
 // ADS1115
 //
-ADS1115::ADS1115(uint8_t address)
+ADS1115::ADS1115(uint8_t address, TwoWire *wire)
 {
   _address = address;
+  _wire = wire;
   _config = ADS_CONF_COMP | ADS_CONF_GAIN | ADS_CONF_RES_16 | ADS_CONF_CHAN_4;
   _conversionDelay = ADS1115_CONVERSION_DELAY;
   _bitShift = 0;

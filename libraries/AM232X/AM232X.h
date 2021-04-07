@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X library for Arduino
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // HISTORY: See AM232X.cpp
 //     URL: https://github.com/RobTillaart/AM232X
 //
@@ -21,7 +21,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.3.1"))
+#define AM232X_LIB_VERSION              (F("0.3.2"))
 
 
 
@@ -49,14 +49,15 @@
 
 class AM232X
 {
-  public:
+public:
     explicit AM232X(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
     bool     begin(uint8_t sda, uint8_t scl);
 #endif
     bool     begin();
-    bool     isConnected();
+    // datasheet 8.2 - wake up is min 800 us max 3000 us
+    bool     isConnected(uint16_t timeout = 3000);  
 
     int      read();
     int      getModel();
@@ -74,19 +75,20 @@ class AM232X
     inline float getHumidity()    { return humidity; };
     inline float getTemperature() { return temperature; };
 
-  private:
-    uint8_t   bits[8];
-    float     humidity;
-    float     temperature;
+    bool     wakeUp() { return isConnected(); };
+
+private:
+    uint8_t  bits[8];
+    float    humidity;
+    float    temperature;
 
     int      _readRegister(uint8_t reg, uint8_t cnt);
     int      _writeRegister(uint8_t reg, uint8_t cnt, int16_t value);
-    bool     _wakeup();
     int      _getData(uint8_t length);
 
     uint16_t _crc16(uint8_t *ptr, uint8_t len);
 
-    TwoWire*  _wire;
+    TwoWire* _wire;
 };
 
 // -- END OF FILE --

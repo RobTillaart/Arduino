@@ -66,7 +66,7 @@ uint16_t CRC16::getCRC()
 void CRC16::_update(uint8_t value)
 {
   if (!_started) restart();
-  if (_reverseIn) value = _reverse(value);
+  if (_reverseIn) value = _reverse8(value);
   _crc ^= ((uint16_t)value) << 8;;
   for (uint8_t i = 8; i; i--) 
   {
@@ -90,6 +90,15 @@ uint16_t CRC16::_reverse(uint16_t in)
   x = (((x & 0xCCCC) >> 2) | ((x & 0X3333) << 2));
   x = (((x & 0xF0F0) >> 4) | ((x & 0X0F0F) << 4));
   x = (( x >> 8) | (x << 8));
+  return x;
+}
+
+uint8_t CRC16::_reverse8(uint8_t in)
+{
+  uint8_t x = in;
+  x = (((x & 0xAA) >> 1) | ((x & 0x55) << 1));
+  x = (((x & 0xCC) >> 2) | ((x & 0x33) << 2));
+  x =          ((x >> 4) | (x << 4));
   return x;
 }
 

@@ -43,12 +43,18 @@ is connected to:
 | SCL | 0x4B | |
 
 - **ADS1x15()** constructor, should not be used.
-- **ADS1013(address)** constructor
-- **ADS1014(address)** constructor
-- **ADS1015(address)** constructor
-- **ADS1113(address)** constructor
-- **ADS1114(address)** constructor
-- **ADS1115(address)** constructor
+- **ADS1013(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
+- **ADS1014(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
+- **ADS1015(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
+- **ADS1113(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
+- **ADS1114(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
+- **ADS1115(address, TwoWire \*wire = &Wire)** Constructor with device address, 
+and optional the Wire interface as parameter.
 
 After construction the **ADS.begin()** need to be called. This will return false 
 if an invalid address is used.

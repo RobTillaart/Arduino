@@ -65,7 +65,7 @@ uint64_t CRC64::getCRC()
 void CRC64::_update(uint8_t value)
 {
   if (!_started) restart();
-  if (_reverseIn) value = _reverse(value);
+  if (_reverseIn) value = _reverse8(value);
   _crc ^= ((uint64_t)value) << 56;;
   for (uint8_t i = 8; i; i--) 
   {
@@ -91,6 +91,15 @@ uint64_t CRC64::_reverse(uint64_t in)
   x = (((x & 0xFF00FF00FF00FF00) >> 8)  | ((x & 0x00FF00FF00FF00FF) << 8));
   x = (((x & 0xFFFF0000FFFF0000) >> 16) | ((x & 0x0000FFFF0000FFFF) << 16));
   x = (x >> 32) | (x << 32);
+  return x;
+}
+
+uint8_t CRC64::_reverse8(uint8_t in)
+{
+  uint8_t x = in;
+  x = (((x & 0xAA) >> 1) | ((x & 0x55) << 1));
+  x = (((x & 0xCC) >> 2) | ((x & 0x33) << 2));
+  x =          ((x >> 4) | (x << 4));
   return x;
 }
 

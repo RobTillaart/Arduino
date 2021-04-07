@@ -72,12 +72,37 @@ Differential channel table
 | 7 |  7 | 6 | 3x08 |
 
 
+## About SPI Speed
+
+See https://github.com/RobTillaart/MCP_ADC/issues/3
+
+The default SPI speed is reduced to 1 MHz. 
+This is the value recommended in the datasheet for 2.7V.
+
+In a test with an ESP32 (3.3V) the library showed stable results 
+at 4 Mhz and at 6 Mhz it was almost good.
+ 
+The max value read at 6 MHz was 1020 instead of 1023  (MCP3008) 
+which indicates that the last 2 bits got lost due to signal deformation.
+
+| Proc | Voltage | safe | max  |
+|:----:|:-------:|:----:|:----:|
+| ESP32 | 2.7V |  1 MHz  | 4 Mhz |
+| UNO   | 5.0V |  2 MHz  | 4 Mhz |
+
+
+For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
+
+
 ## Future / ideas / improvements
 
 - testing, a lot ...
-- set SPI-speed in classes directly
 - get / setF(float A, float B) => float readF(channel)   output = A*value + B;
-- analogRead (mask, int array ) read ports (set in mask) in an array in one call.
+  it actually does float mapping. As it implies the same mapping for all it might 
+  not be that useful
+- analogRead (mask, int array\[8\] ) read ports (set in mask) in an array in one call.
+- ESP32 - how to integrate the HSPI interface.
+
 
 ## Operations
 

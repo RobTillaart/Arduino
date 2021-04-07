@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -131,7 +131,7 @@ uint8_t MCP3002::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
     // P17  fig 6.1   MCP3002 
   data[0] = 0x44;                          // start bit + MSB first bit
-  if (single) data[0] = 0x20;              // single read | differential
+  if (single) data[0] |= 0x20;             // single read | differential
   if (channel) data[0] |= (channel << 4);  // channel = 0 or 1;
   return 2;
 }

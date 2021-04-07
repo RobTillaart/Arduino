@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.H
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.3.0
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               "0.2.7"
+#define ADS1X15_LIB_VERSION               "0.3.0"
 
 // allow compile time default address
 // address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -140,10 +140,13 @@ protected:
   uint8_t  _compLatch      = 0;
   uint8_t  _compQueConvert = 3;
 
-  int16_t _readADC(uint16_t readmode);
-  void    _requestADC(uint16_t readmode);
+  int16_t  _readADC(uint16_t readmode);
+  void     _requestADC(uint16_t readmode);
+  bool     _writeRegister(uint8_t address, uint8_t reg, uint16_t value);
+  uint16_t _readRegister(uint8_t address, uint8_t reg);
+  int8_t   _err = ADS1X15_OK;
 
-  int8_t  _err = ADS1X15_OK;
+  TwoWire*  _wire;
 };
 
 ///////////////////////////////////////////////////////////////////////////
@@ -153,19 +156,19 @@ protected:
 class ADS1013 : public ADS1X15
 {
 public:
-  ADS1013(uint8_t Address = ADS1015_ADDRESS);
+  ADS1013(uint8_t Address = ADS1015_ADDRESS, TwoWire *wire = &Wire);
 };
 
 class ADS1014 : public ADS1X15
 {
 public:
-  ADS1014(uint8_t Address = ADS1015_ADDRESS);
+  ADS1014(uint8_t Address = ADS1015_ADDRESS, TwoWire *wire = &Wire);
 };
 
 class ADS1015 : public ADS1X15
 {
 public:
-  ADS1015(uint8_t Address = ADS1015_ADDRESS);
+  ADS1015(uint8_t Address = ADS1015_ADDRESS, TwoWire *wire = &Wire);
   int16_t  readADC_Differential_0_3();
   int16_t  readADC_Differential_1_3();
   int16_t  readADC_Differential_2_3();
@@ -183,19 +186,19 @@ public:
 class ADS1113 : public ADS1X15
 {
 public:
-  ADS1113(uint8_t address = ADS1115_ADDRESS);
+  ADS1113(uint8_t address = ADS1115_ADDRESS, TwoWire *wire = &Wire);
 };
 
 class ADS1114 : public ADS1X15
 {
 public:
-  ADS1114(uint8_t address = ADS1115_ADDRESS);
+  ADS1114(uint8_t address = ADS1115_ADDRESS, TwoWire *wire = &Wire);
 };
 
 class ADS1115 : public ADS1X15
 {
 public:
-  ADS1115(uint8_t address = ADS1115_ADDRESS);
+  ADS1115(uint8_t address = ADS1115_ADDRESS, TwoWire *wire = &Wire);
   int16_t  readADC_Differential_0_3();
   int16_t  readADC_Differential_1_3();
   int16_t  readADC_Differential_2_3();

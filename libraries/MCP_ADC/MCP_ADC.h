@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.3"))
+#define MCP_ADC_LIB_VERSION       (F("0.1.4"))
 
 
 class MCP_ADC
@@ -39,7 +39,7 @@ protected:
   bool     _hwSPI;
   uint8_t  _channels;
   int16_t  _maxValue;
-  uint32_t _SPIspeed = 16000000;
+  uint32_t _SPIspeed = 1000000;   // 1MHz is a safe value (datasheet); in a test 4 MHz worked.
 
   // derived classes must implement this one
   virtual uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data) = 0;

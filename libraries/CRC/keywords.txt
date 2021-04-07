@@ -1,6 +1,10 @@
 # Syntax Coloring Map For CRC
 
 # Datatypes (KEYWORD1)
+CRC8	KEYWORD1
+CRC16	KEYWORD1
+CRC32	KEYWORD1
+CRC64	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 crc8	KEYWORD2
@@ -9,6 +13,16 @@ crc16_CCITT	KEYWORD2
 crc32	KEYWORD2
 crc64	KEYWORD2
 
+reset	KEYWORD2
+restart	KEYWORD2
+setPolynome	KEYWORD2
+setStartXOR	KEYWORD2
+setEndXOR	KEYWORD2
+setReverseIn	KEYWORD2
+setReverseOut	KEYWORD2
+add	KEYWORD2
+getCRC	KEYWORD2
+count	KEYWORD2
 
 # Instances (KEYWORD2)
 

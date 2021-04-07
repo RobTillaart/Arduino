@@ -16,7 +16,7 @@ Some missing functions were added to get more info from the lib.
 
 Another important difference is that this library uses floats. The 23 bits mantisse 
 of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller
-footprint. 
+footprint.
 
 
 ## Main flow
@@ -85,6 +85,17 @@ Use callibrate to find your values.
 |  A+  | white         |
 |  B-  | not connected |
 |  B+  | not connected |
+
+
+### Temperature
+
+Loadcells do have a temperature related error.
+This can be reduced by doing the calibration and take the tare 
+at the temperature one also does the measurements.
+
+Another way to handle this is to add a good temperature sensor
+(e.g. DS18B20, SHT85) and compensate for the temperature
+differences in your code. 
 
 
 ## Operation

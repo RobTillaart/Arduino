@@ -35,6 +35,7 @@ public:
 
 private:
   uint16_t _reverse(uint16_t value);
+  uint8_t  _reverse8(uint8_t value);
   void     _update(uint8_t value);
 
   uint16_t _polynome;

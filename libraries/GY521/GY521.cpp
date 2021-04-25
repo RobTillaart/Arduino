@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -17,7 +17,7 @@
 //  0.2.2   2021-01-24  add interface part to readme.md 
 //                      add GY521_registers.h
 //  0.2.3   2021-01-26  align version numbers (oops)
-//
+//  0.3.0   2021-04-07  fix #18 acceleration error correction (kudo's to Merkxic)
 
 
 #include "GY521.h"
@@ -107,15 +107,15 @@ int16_t GY521::read()
   _ay *= _raw2g;
   _az *= _raw2g;
 
+  // Error correct raw acceleration (in g) measurements  // #18 kudos to Merkxic
+  _ax += axe;
+  _ay += aye;
+  _az += aze;
+
   // prepare for Pitch Roll Yaw
   _aax = atan(_ay / hypot(_ax, _az)) * RAD2DEGREES;
   _aay = atan(-1.0 * _ax / hypot(_ay, _az)) * RAD2DEGREES;
   _aaz = atan(_az / hypot(_ax, _ay)) * RAD2DEGREES;
-
-  // Error correct the angles
-  _aax += axe;
-  _aay += aye;
-  _aaz += aze;
 
   // Convert to Celsius
   _temperature = _temperature * 0.00294117647 + 36.53;  //  == /340.0  + 36.53;

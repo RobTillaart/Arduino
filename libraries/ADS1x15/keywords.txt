@@ -12,6 +12,7 @@ ADS1115	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+reset	KEYWORD2
 isBusy	KEYWORD2
 isReady()	KEYWORD2
 isConnected	KEYWORD2
@@ -46,6 +47,8 @@ setComparatorThresholdHigh	KEYWORD2
 getComparatorThresholdHigh	KEYWORD2
 
 getError	KEYWORD2
+setWireClock	KEYWORD2
+getWireClock	KEYWORD2
 
 # ASYNC INTERFACE
 

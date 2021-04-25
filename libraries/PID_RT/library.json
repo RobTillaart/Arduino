@@ -1,6 +1,6 @@
 {
   "name": "PID_RT",
-  "keywords": "PID Proportional Integral Derived controller ",
+  "keywords": "PID Proportional Integral Derivative controller ",
   "description": "Arduino PID library",
   "authors":
   [
@@ -15,7 +15,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PID_RT"
   },
-  "version":"0.1.0",
+  "version":"0.1.1",
+  "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"
 }

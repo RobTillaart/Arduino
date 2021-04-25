@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.H
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               "0.3.0"
+#define ADS1X15_LIB_VERSION               (F("0.3.1"))
 
 // allow compile time default address
 // address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -33,6 +33,8 @@
 class ADS1X15
 {
 public:
+  void     reset();
+
 #if defined (ESP8266) || defined(ESP32)
   bool     begin(uint8_t sda, uint8_t scl);
 #endif
@@ -61,15 +63,16 @@ public:
   // 0  =  slowest
   // 7  =  fastest
   // 4  =  default
-  void     setDataRate(uint8_t dataRate);// invalid values are mapped on 4 (default)
-  uint8_t  getDataRate();                // actual speed depends on device
+  void     setDataRate(uint8_t dataRate = 4); // invalid values are mapped on 4 (default)
+  uint8_t  getDataRate();                     // actual speed depends on device
 
   int16_t  readADC(uint8_t pin);
   int16_t  readADC_Differential_0_1();
 
   // used by continuous mode and async mode.
-  int16_t  getLastValue() { return getValue(); };  // will be obsolete in future
+  int16_t  getLastValue() { return getValue(); };  // will be obsolete in the future 0.4.0
   int16_t  getValue();
+
 
   // ASYNC INTERFACE
   // requestADC(pin) -> isBusy() or isReady() -> getValue(); 
@@ -108,7 +111,12 @@ public:
   void     setComparatorThresholdHigh(int16_t hi);
   int16_t  getComparatorThresholdHigh();
 
+
   int8_t   getError();
+
+  void     setWireClock(uint32_t clockSpeed);
+  // proto - getWireClock returns the value set by setWireClock not perse the actual value
+  uint32_t getWireClock();
 
 protected:
   ADS1X15();
@@ -133,12 +141,14 @@ protected:
   uint16_t _datarate;
 
   // COMPARATOR vars
-  // TODO merge these into one COMPARATOR MASK?
+  // TODO merge these into one COMPARATOR MASK?  (low prio)
   //      would speed up code in _requestADC() and save 3 bytes RAM.
-  uint8_t  _compMode       = 0;
-  uint8_t  _compPol        = 1;
-  uint8_t  _compLatch      = 0;
-  uint8_t  _compQueConvert = 3;
+  // TODO boolean flags for first three, or make it mask value that 
+  //      can be or-ed.   (low prio)
+  uint8_t  _compMode;
+  uint8_t  _compPol;
+  uint8_t  _compLatch;
+  uint8_t  _compQueConvert;
 
   int16_t  _readADC(uint16_t readmode);
   void     _requestADC(uint16_t readmode);
@@ -147,6 +157,7 @@ protected:
   int8_t   _err = ADS1X15_OK;
 
   TwoWire*  _wire;
+  uint32_t  _clockSpeed = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////

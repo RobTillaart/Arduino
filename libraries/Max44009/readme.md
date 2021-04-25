@@ -48,7 +48,7 @@ dynamic range from 0.045 lux to 188,000 lux.
 ### Constructor 
   
 - **Max44009(address, dataPin, clockPin)** dataPin, clockPin for ESP32, ESP8266
-- **Max44009(address, begin = Boolean::True);
+- **Max44009(address, begin = Boolean::True)**
 - **Max44009(begin = Boolean::True)**
 - **void configure(address, TwoWire \*wire, begin = Boolean::True)** Change I2C interface and address
 - **bool isConnected()** device available on I2C bus.

@@ -56,9 +56,18 @@ and optional the Wire interface as parameter.
 - **ADS1115(address, TwoWire \*wire = &Wire)** Constructor with device address, 
 and optional the Wire interface as parameter.
 
+The function **setWireClock(uint32_t speed)** is used to set the clockspeed of the used 
+I2C interface. 
+
+The function **getWireClock()** is a prototype. It returns the value set by setWireClock().
+This is not perse the actual value. When no value is set **getWireClock()** returns 0.
+Need to implement a read / calculate from low level I2C code (e.g. TWBR on AVR).
+
 After construction the **ADS.begin()** need to be called. This will return false 
 if an invalid address is used.
 The function **isConnected()** can be used to verify the reading of the ADS.
+The function **reset()** is sets the parameters to their initial value as 
+in the constructor.
 
 
 #### Programmable Gain
@@ -195,6 +204,7 @@ Or one can use the **ALERT/RDY** pin to trigger via hardware the readyness of th
 
 See examples.
 
+
 #### Threshold registers ==> mode RDY pin
 
 If the thresholdHigh is set to 0x0100 and the thresholdLow to 0x0000
@@ -204,10 +214,12 @@ the **ALERT/RDY** pin is triggered when a conversion is ready.
 
 See examples.
 
+
 ## Comparator
 
 Please read Page 15 of the datasheet as the behavior of the
 comparator is not trivial.
+
 
 #### Comparator Mode
 
@@ -225,14 +237,17 @@ In **WINDOW** comparator mode, the **ALERT/RDY** pin asserts if conversion data 
 the high threshold register or falls below the low threshold register.
 In this mode the alert is held if the **LATCH** is set. This is similar as above.
 
+
 #### Polarity
 
 Default state of the **ALERT/RDY** pin is **LOW**, can be to set **HIGH**.
+
 
 #### Latch
 
 Holds the **ALERT/RDY** to **HIGH** (or **LOW** depending on polarity) after triggered
 even if actual value has been 'restored to normal' value.
+
 
 #### QueConvert
 
@@ -247,6 +262,7 @@ A value of 3 (or above) effectively disables the comparator. See table below.
 | 1 | trigger alert after 2 conversions | |
 | 2 | trigegr alert after 4 conversions | |
 | 3 | Disable comparator | default |
+
 
 #### Threshold registers comparator mode
 
@@ -265,6 +281,7 @@ mean something different see - Comparator Mode above or datasheet.
 - SMB alert command (00011001) on I2C bus?
 - implement missing Differential reads in software.
 - testing....
+
 
 ## Operation
 

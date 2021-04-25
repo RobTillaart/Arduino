@@ -1,7 +1,7 @@
 //
 //    FILE: PID_RT.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID
 //

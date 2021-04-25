@@ -1,7 +1,7 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //
 //  HISTORY:
@@ -9,8 +9,11 @@
 //  0.1.1  2020-02-17  added _voltPerStep() to support more boards
 //  0.1.2  2020-06-21  refactor; add estimateDUVindex()
 //  0.1.3  2021-01-01  arduino-ci + unit test
+//  0.1.4  2021-04-23  fix for platformIO
+
 
 #include "ML8511.h"
+
 
 /////////////////////////////////////////////////////
 //

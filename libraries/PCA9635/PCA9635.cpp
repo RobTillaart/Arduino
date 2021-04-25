@@ -2,11 +2,12 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
 //  HISTORY:
+//  0.3.1   2021-04-25  fix writeN by aspyra
 //  0.3.0   2021-01-18  support Wire1..WireN
 //  0.2.2   2021-01-13  refactor + fix register index error.
 //  0.2.1   2021-01-05  arduino-CI + unit test
@@ -90,10 +91,10 @@ uint8_t PCA9635::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 
 
 // write count values in consecutive PWM registers
-// checks if [channel + count >= 16]
+// checks if [channel + count - 1 > 15]
 uint8_t PCA9635::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 {
-  if (channel + count > 15)
+  if (channel + count > 16)
   {
     _error = PCA9635_ERR_WRITE;
     return PCA9635_ERROR;

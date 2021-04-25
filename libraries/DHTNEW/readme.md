@@ -5,7 +5,7 @@
 
 # DHTNew
 
-Arduino library for DHT11 and DHT22 with automatic sensortype recognition.
+Arduino library for DHT11 and DHT22 with automatic sensor type recognition.
 
 
 ## Description
@@ -54,15 +54,15 @@ Discussion see https://github.com/RobTillaart/DHTNew/issues/13
 13. (0.3.2)
 Added **setSuppressError()** and **getSuppressError()** so the library will not output -999 
 but the last known valid value for temperature and humidity. 
-This flag is usefull to suppress 'negative spikes' in graphs or logs. 
-Default the error values are not suppressed to be backwards compaible.  
+This flag is useful to suppress 'negative spikes' in graphs or logs. 
+Default the error values are not suppressed to be backwards compatible.  
 Added **#ifndef** around **DHTLIB_INVALID_VALUE** so the default -999 can be overruled
 compile time to set another error value e.g. -127 or -1 whatever suits the project.
 14. (0.3.3)
 Refactored the low level **readSensor()** as the **BIT SHIFT ERROR** issue #29 and issue #11 popped up again.
 It was reproduced "efficiently" with an ESP32 and by using long wires.
 Fixed with an explicit digitalWrite(datapin, HIGH) + delayMicroseconds() to have enough time between
-pulling the line HIGH and poiling for the line LOW.
+pulling the line HIGH and polling for the line LOW.
 15. (0.3.4)
 Added **waitFor(state, timeout)** to more precisely follow the datasheet in terms of timing.
 Reintroduced the **interrupt enable/disable flag** as forced noInterrupts()
@@ -77,6 +77,14 @@ Note: testing in a freezer is not so good for humidity readings.
 19. (0.4.3)
 Added **reset()** to reset internal variables when a sensor blocks this might help.
 Added **lastRead()** to return time the sensor is last read. (in millis).
+20. (0.4.4)
+DO NOT USE incorrect negative temp.
+21. (0.4.5)
+Prevent -0.0 when negative temp is 0;
+DO NOT USE as it maps every negative temp to zero.
+22. (0.4.6) 
+Fixed negative temperature (again).
+
 
 
 ## DHT PIN layout from left to right
@@ -96,7 +104,7 @@ Added **lastRead()** to return time the sensor is last read. (in millis).
 | Power supply              | 3.3 - 6 V DC  | 
 | Output signal             | digital signal via single-bus | 
 | Sensing element           | Polymer capacitor  | 
-| Operating range           | humidity 0-100% RH | temperature -40~80° Celsius | 
+| Operating range           | humidity 0-100% RH | temperature -40° - 80° Celsius | 
 | Accuracy humidity         | ±2% RH(Max ±5% RH) | temperature < ±0.5° Celsius | 
 | Resolution or sensitivity | humidity 0.1% RH   | temperature 0.1° Celsius | 
 | Repeatability humidity    | ±1% RH             | temperature ±0.2° Celsius | 
@@ -113,7 +121,8 @@ Added **lastRead()** to return time the sensor is last read. (in millis).
 ### Constructor
 
 - **DHTNEW(uint8_t pin)** defines the datapin of the sensor.
-- **reset()** might help to reset a sensor behaving badly.
+- **reset()** might help to reset a sensor behaving badly. It does reset the library settings to default, 
+however it does not reset the sensor in a hardware way. 
 - **getType()**  0 = unknown, 11 or 22. 
 In case of 0, **getType()** will try to determine type.
 - **setType(uint8_t type = 0)** allows to force the type of the sensor. 
@@ -150,7 +159,8 @@ Functions to adjust the communication with the sensor.
 - **getReadDelay()** returns the above setting.
 - **powerDown()** pulls datapin down to reduce power consumption
 - **powerUp()** restarts the sensor, note one must wait up to two seconds.
-- **setSuppressError(bool b)** suppress error values of -999 => check return value of read() instead.
+- **setSuppressError(bool b)** suppress error values of -999 => you need to check the return value of read() instead.  
+This is used to keep spikes out of your graphs / logs. 
 - **getSuppressError()**  returns the above setting.
 
 
@@ -165,6 +175,6 @@ If consistent problems occur with reading a sensor, one should allow interrupts
 ## ESP8266 & DHT22
 
 - The DHT22 sensor has some problems in combination with specific pins of the ESP8266. See more details
-  - https://github.com/RobTillaart/DHTNew/issues/31  (message jan 3, 2021)
+  - https://github.com/RobTillaart/DHTNew/issues/31  (message Jan 3, 2021)
   - https://github.com/arendst/Tasmota/issues/3522
   

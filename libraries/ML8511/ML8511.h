@@ -2,7 +2,7 @@
 //
 //    FILE: ML8511.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511
 //
@@ -15,9 +15,10 @@
 //   this includes the ENABLE PIN !!
 //
 
+
 #include <Arduino.h>
 
-#define ML8511_LIB_VERSION "0.1.3"
+#define ML8511_LIB_VERSION (F("0.1.4"))
 
 
 class ML8511

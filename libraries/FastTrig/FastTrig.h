@@ -2,7 +2,7 @@
 //
 //    FILE: FastTrig.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -20,6 +20,8 @@
 //  0.1.4   2020-09-08  rewrite itan() + cleanup + examples
 //  0.1.5   2020-09-11  fixed optimize, new table, added iasin() and iacos()
 //  0.1.6   2020-12-23  arduino-CI + unit tests
+//  0.1.7   2021-04-23  fix for PlatformIO
+
 
 #include "Arduino.h"
 

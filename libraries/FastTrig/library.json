@@ -1,6 +1,6 @@
 {
   "name": "FastTrig",
-  "keywords": "sin, cos, tan, isin, icos, itan(), fast",
+  "keywords": "sin, cos, tan, isin, icos, itan, fast",
   "description": "Arduino library with interpolated lookup for sin() and cos(). Trades speed for accuracy. Check readme for details.",
   "authors":
   [
@@ -15,7 +15,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/FastTrig"
   },
-  "version":"0.1.6",
+  "version":"0.1.7",
+  "license": "MIT",
   "frameworks": "*",
   "platforms": "*"
 }

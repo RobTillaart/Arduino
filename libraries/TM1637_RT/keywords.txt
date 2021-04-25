@@ -1,0 +1,26 @@
+# Syntax Coloring Map for TM1637
+
+
+# Datatypes (KEYWORD1)
+TM1637	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+init	KEYWORD2
+
+displayRaw	KEYWORD2
+displayInt	KEYWORD2
+displayFloat	KEYWORD2
+displayHex	KEYWORD2
+displayClear	KEYWORD2
+
+setBrightness	KEYWORD2
+getBrightness	KEYWORD2
+
+setBitDelay	KEYWORD2
+getBitDelay	KEYWORD2
+
+
+# Constants (LITERAL1)
+TM1637_LIB_VERSION	LITERAL1
+

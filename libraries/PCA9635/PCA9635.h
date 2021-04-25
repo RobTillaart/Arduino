@@ -3,7 +3,7 @@
 //    FILE: PCA9635.H
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.3.0"))
+#define PCA9635_LIB_VERSION         (F("0.3.1"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01

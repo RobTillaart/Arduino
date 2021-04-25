@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.5
+// VERSION: 0.4.7
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -38,6 +38,9 @@
 //  0.4.3  2021-01-13  add reset(), add lastRead()
 //  0.4.4  2021-02-01  fix negative temperatures DHT22 (again)
 //  0.4.5  2021-02-14  fix -0°C encoding of DHT22  ( bit pattern 0x8000 )
+//  0.4.6  2021-04-09  fix #57 negative temperatures DHT22
+//                     Do not use 0.4.5 and 0.4.4 as these are incorrect for negative temperature.
+//  0.4.7  2021-04-09  fix #60 negative temperatures below -25.5°C + readme.md
 
 
 #include "dhtnew.h"
@@ -188,12 +191,20 @@ int DHTNEW::_read()
 
   if (_type == 22) // DHT22, DHT33, DHT44, compatible
   {
-    _humidity    = (_bits[0] * 256 + _bits[1]) * 0.1;
-    int16_t t    = (_bits[2] * 256 + _bits[3]);
-    if(_bits[2] == 0x80)
-        _temperature = 0;
+    _humidity = (_bits[0] * 256 + _bits[1]) * 0.1;
+    int16_t t = ((_bits[2] & 0x7F) * 256 + _bits[3]);
+    if (t == 0)
+    {
+      _temperature = 0.0;     // prevent -0.0;
+    }
     else
-        _temperature = t * 0.1; 
+    {
+      _temperature = t * 0.1;
+      if((_bits[2] & 0x80) == 0x80 )
+      {
+        _temperature = -_temperature;
+      }
+    }
   }
   else // if (_type == 11)  // DHT11, DH12, compatible
   {
@@ -225,6 +236,16 @@ int DHTNEW::_read()
   Serial.print(_humidity, 1);
   */
 
+  // TEST OUT OF RANGE
+  if (_humidity > 100)
+  {
+    return DHTLIB_HUMIDITY_OUT_OF_RANGE;
+  }
+  if ((_temperature < -40) || (_temperature > 80))
+  {
+    return DHTLIB_TEMPERATURE_OUT_OF_RANGE;
+  }
+  
   _humidity = constrain(_humidity + _humOffset, 0, 100);
   _temperature += _tempOffset;
 
@@ -234,6 +255,7 @@ int DHTNEW::_read()
   {
     return DHTLIB_ERROR_CHECKSUM;
   }
+
   return DHTLIB_OK;
 }
 

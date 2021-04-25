@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -19,6 +19,7 @@
 //  0.2.6   2020-09-01  fix #12 - fix getMaxVoltage + minor refactor
 //  0.2.7   2020-09-27  redo readRegister() + getValue() + getError()
 //  0.3.0   2021-03-29  add Wire parameter to constructors.
+//  0.3.1   2021-04-25  #22, add get/setClock() for Wire speed + reset()
 
 
 #include "ADS1X15.h"
@@ -100,6 +101,7 @@ differs for different devices, check datasheet or readme.md
 #define ADS1X15_COMP_QUE_4_CONV         0x0002  // trigger alert after 4 converts
 #define ADS1X15_COMP_QUE_NONE           0x0003  // dosable comparator
 
+
 // _CONFIG masks
 //
 // | bit  | description |
@@ -128,15 +130,28 @@ differs for different devices, check datasheet or readme.md
 //
 ADS1X15::ADS1X15()
 {
-  setGain(0);      // _gain = ADS1X15_PGA_6_144V;
-  setMode(1);      // _mode = ADS1X15_MODE_SINGLE;
-  setDataRate(4);  // middle speed, depends on device.
+  reset();
 }
+
 
 //////////////////////////////////////////////////////
 //
 // PUBLIC
 //
+void ADS1X15::reset()
+{
+  setGain(0);      // _gain = ADS1X15_PGA_6_144V;
+  setMode(1);      // _mode = ADS1X15_MODE_SINGLE;
+  setDataRate(4);  // middle speed, depends on device.
+
+  // COMPARATOR vars   # see notes .h 
+  _compMode       = 0;
+  _compPol        = 1;
+  _compLatch      = 0;
+  _compQueConvert = 3;
+}
+
+
 #if defined (ESP8266) || defined(ESP32)
 bool ADS1X15::begin(uint8_t sda, uint8_t scl)
 {
@@ -148,6 +163,7 @@ bool ADS1X15::begin(uint8_t sda, uint8_t scl)
 }
 #endif
 
+
 bool ADS1X15::begin()
 {
   _wire->begin();
@@ -156,6 +172,7 @@ bool ADS1X15::begin()
   return true;
 }
 
+
 bool ADS1X15::isBusy()
 {
   uint16_t val = _readRegister(_address, ADS1X15_REG_CONFIG);
@@ -163,11 +180,13 @@ bool ADS1X15::isBusy()
   return true;
 }
 
+
 bool ADS1X15::isConnected()
 {
   _wire->beginTransmission(_address);
   return (_wire->endTransmission() == 0);
 }
+
 
 void ADS1X15::setGain(uint8_t gain)
 {
@@ -184,6 +203,7 @@ void ADS1X15::setGain(uint8_t gain)
   }
 }
 
+
 uint8_t ADS1X15::getGain()
 {
   if (!(_config & ADS_CONF_GAIN)) return 0;
@@ -199,6 +219,7 @@ uint8_t ADS1X15::getGain()
   _err = ADS1X15_INVALID_GAIN;
   return _err;
 }
+
 
 float ADS1X15::toVoltage(int16_t val)
 {
@@ -219,6 +240,7 @@ float ADS1X15::toVoltage(int16_t val)
   return volts;
 }
 
+
 float ADS1X15::getMaxVoltage()
 {
   switch (_gain)
@@ -234,6 +256,7 @@ float ADS1X15::getMaxVoltage()
   return _err;
 }
 
+
 void ADS1X15::setMode(uint8_t mode)
 {
   switch (mode)
@@ -243,6 +266,7 @@ void ADS1X15::setMode(uint8_t mode)
     case 1: _mode = ADS1X15_MODE_SINGLE;   break;
   }
 }
+
 
 uint8_t ADS1X15::getMode(void)
 {
@@ -255,6 +279,7 @@ uint8_t ADS1X15::getMode(void)
   return _err;
 }
 
+
 void ADS1X15::setDataRate(uint8_t dataRate)
 {
   _datarate = dataRate;
@@ -262,10 +287,12 @@ void ADS1X15::setDataRate(uint8_t dataRate)
   _datarate <<= 5;      // convert 0..7 to mask needed.
 }
 
+
 uint8_t ADS1X15::getDataRate(void)
 {
-  return (_datarate >> 5);  // convert mask back to 0..7
+  return (_datarate >> 5) & 0x07;  // convert mask back to 0..7
 }
+
 
 int16_t ADS1X15::readADC(uint8_t pin)
 {
@@ -274,15 +301,18 @@ int16_t ADS1X15::readADC(uint8_t pin)
   return _readADC(mode);
 }
 
+
 void  ADS1X15::requestADC_Differential_0_1()
 {
   _requestADC(ADS1X15_MUX_DIFF_0_1);
 }
 
+
 int16_t ADS1X15::readADC_Differential_0_1()
 {
   return _readADC(ADS1X15_MUX_DIFF_0_1);
 }
+
 
 void ADS1X15::requestADC(uint8_t pin)
 {
@@ -291,6 +321,7 @@ void ADS1X15::requestADC(uint8_t pin)
   _requestADC(mode);
 }
 
+
 int16_t ADS1X15::getValue()
 {
   int16_t raw = _readRegister(_address, ADS1X15_REG_CONVERT);
@@ -298,32 +329,67 @@ int16_t ADS1X15::getValue()
   return raw;
 }
 
+
 void ADS1X15::setComparatorThresholdLow(int16_t lo)
 {
   _writeRegister(_address, ADS1X15_REG_LOW_THRESHOLD, lo);
 };
+
 
 int16_t ADS1X15::getComparatorThresholdLow()
 {
   return _readRegister(_address, ADS1X15_REG_LOW_THRESHOLD);
 };
 
+
 void ADS1X15::setComparatorThresholdHigh(int16_t hi)
 {
   _writeRegister(_address, ADS1X15_REG_HIGH_THRESHOLD, hi);
 };
+
 
 int16_t ADS1X15::getComparatorThresholdHigh()
 {
   return _readRegister(_address, ADS1X15_REG_HIGH_THRESHOLD);
 };
 
-int8_t  ADS1X15::getError()
+
+int8_t ADS1X15::getError()
 {
   int8_t rv = _err;
   _err = ADS1X15_OK;
   return rv;
 }
+
+
+void ADS1X15::setWireClock(uint32_t clockSpeed)
+{
+  _clockSpeed = clockSpeed;
+  _wire->setClock(_clockSpeed);
+}
+
+
+// TODO: get the real clock speed from the I2C interface if possible.
+// ESP ==> ??
+uint32_t ADS1X15::getWireClock()
+{
+#if defined(__AVR__)
+  uint32_t speed = F_CPU / ((TWBR * 2) + 16);
+  return speed;
+
+#elif defined(ESP32)
+  return (uint32_t) _wire->getClock();
+
+// #elif defined(ESP8266)
+// core_esp8266_si2c.cpp holds the data see => void Twi::setClock(
+// not supported.
+// return -1;
+
+#else  // best effort ...
+  return _clockSpeed;
+#endif
+}
+
 
 //////////////////////////////////////////////////////
 //

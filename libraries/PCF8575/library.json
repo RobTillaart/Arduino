@@ -1,6 +1,6 @@
 {
   "name": "PCF8575",
-  "keywords": "I2C, PCF8575, 16 channel, IO, I/O, shift, rotate, readButton, toggle, reverse",
+  "keywords": "I2C, PCF8575, 16 channel, IO, shift, rotate, readButton, toggle, reverse",
   "description": "Arduino library for PCF8575 - 16 channel I2C IO expander, implements shift rotate.",
   "authors":
   [
@@ -15,7 +15,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCF8575.git"
   },
-  "version":"0.1.0",
+  "version":"0.1.1",
+  "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"
 }

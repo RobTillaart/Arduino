@@ -5,7 +5,7 @@
 
 # SET
 
-Arduino library to implement simple SET data structure.
+Arduino library to implement a simple SET data structure.
 
 
 ## Description
@@ -20,14 +20,14 @@ datatypes.
 
 ### Set level
 - **clr()** empty the set
-- **invert()** flip all elements in the set.
-- **count()** returns number of elements
+- **invert()** flip all elements in the set
+- **count()** returns the number of elements
 - **isEmpty()** idem
 - **isFull()** idem
 
 ### Element level
-- **add(n)** add element to the Set
-- **sub(n)** emove element from Set
+- **add(n)** add element to Set
+- **sub(n)** remove element from Set
 - **invert(n)** flip element in Set
 - **has(n)** element is in Set
 - **add(n)**
@@ -46,7 +46,7 @@ A superSet B is not implemented as one could say B subSet A (B <= A)
 
 ### Iterators 
 
-all returns value or -1 if not exist
+All return value or -1 if element does not exist.
 
 - **first()** find first element
 - **next()** find next element

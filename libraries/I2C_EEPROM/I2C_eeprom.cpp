@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.4.2
+// VERSION: 1.4.3
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -37,6 +37,7 @@
 //  1.4.1   2021-01-28  fixed addressing bug 24LC04/08/16 equivalents from ST e.g. m24c08w
 //                      add Wire1..WireN;
 //  1.4.2   2021-01-31  add updateBlock()
+//  1.4.3   2021-05-05  adjust buffer size AVR / ESP +rename
 
 
 #include <I2C_eeprom.h>

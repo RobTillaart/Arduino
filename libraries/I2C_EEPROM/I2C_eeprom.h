@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.4.2
+// VERSION: 1.4.3
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.4.2"))
+#define I2C_EEPROM_VERSION          (F("1.4.3"))
 
 
 #define I2C_DEVICESIZE_24LC512      65536

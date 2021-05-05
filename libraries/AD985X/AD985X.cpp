@@ -14,6 +14,7 @@
 //  0.2.2   2021-01-24  add manual updating frequency 
 //                      get- setManualFQ_UD(), update()
 //                      inverted SELECT line as preparation for multidevice.
+//
 
 
 #include "AD985X.h"

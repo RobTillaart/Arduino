@@ -1,19 +1,20 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //
 // HISTORY:
-// 0.1.0    2017-07-25  initial version
-// 0.1.1    2020-02-18  added getAddress()
-// 0.1.2    2020-04-11  #pragma once, refactor
-// 0.1.3    2020-04-22  #1 fix library.json file
-// 0.1.4    2020-04-23  #2 add retry in begin() to support Wemos
-// 0.1.5    2020-04-29  #4 added set/getConfig + DEVICE_CRC_ERROR + example
-// 0.1.6    2020-06-07  fix library.json
-// 0.1.7    2020-12-20  add arduino CI + unit test
+//  0.1.0   2017-07-25  initial version
+//  0.1.1   2020-02-18  added getAddress()
+//  0.1.2   2020-04-11  #pragma once, refactor
+//  0.1.3   2020-04-22  #1 fix library.json file
+//  0.1.4   2020-04-23  #2 add retry in begin() to support Wemos
+//  0.1.5   2020-04-29  #4 added set/getConfig + DEVICE_CRC_ERROR + example
+//  0.1.6   2020-06-07  fix library.json
+//  0.1.7   2020-12-20  add arduino CI + unit test
+//  0.1.8   2021-04-08  clear scratchpad before read + update readme.md
 
 
 #include "DS18B20.h"
@@ -99,6 +100,8 @@ void DS18B20::requestTemperatures(void)
 float DS18B20::getTempC(void)
 {
   ScratchPad scratchPad;
+  for (int i = 0; i < 9; i++) scratchPad[i] = 0;
+
   if (_config & DS18B20_CRC)
   {
     readScratchPad(scratchPad, 9);
@@ -113,7 +116,10 @@ float DS18B20::getTempC(void)
   }
   int16_t rawTemperature = (((int16_t)scratchPad[TEMP_MSB]) << 8) | scratchPad[TEMP_LSB];
   float temp = 0.0625 * rawTemperature;
-  if (temp < -55) return DEVICE_DISCONNECTED;
+  if (temp < -55) 
+  {
+    return DEVICE_DISCONNECTED;
+  }
   return temp;
 }
 

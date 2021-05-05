@@ -7,6 +7,7 @@
 
 Arduino library for the DS18B20 sensor - restricted to one sensor per pin.
 
+
 ## Arduino Temperature Control Library (ATCL)
 
 This DS18B20 library is not a full featured library for the DS18B20 family.
@@ -14,6 +15,7 @@ This library supports only one DS18B20 per Arduino/ MCU pin.
 
 If you need more functions or control over the DS18B20 family I refer to the library
 of Miles Burton - https://github.com/milesburton/Arduino-Temperature-Control-Library
+
 
 ## Description
 
@@ -45,6 +47,7 @@ few problems when you need more functionality like multiple sensors on one pin.
 Finally this library will probably make it easier to use a DS18B20 with processing 
 boards or IC's with small memory footprint.
 
+
 ## Operation
 
 ```
@@ -62,6 +65,7 @@ This library supports only one DS18B20 per Arduino/ MCU pin.
 
 Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. When the wires are longer 
 this resistor needs to be smaller. 
+
 
 ### Pull up resistor
 
@@ -81,6 +85,32 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 | longer        |    *  | \*  |
 
 \* = no info, smaller 
+
+
+### Diagnosis notes
+
+It was noted that the library sometimes give unexpected values, and keep 
+sending these values.
+
+This is due to the fact that by default the CRC is not checked to speed up reading. 
+In fact, default only the two temperature registers are read.
+By setting ```sensor.setConfig(DS18B20_CRC);``` the whole scratchpad is read
+and the CRC can be checked. 
+
+
+table of known "strange values" and actions one could take.
+It is meant to start some diagnosis.
+
+| value   | possible cause | optional action |
+|:--------|:---------------|:----------------|
+|  0.0000 | data line has no pull up            | use pull up |
+| -0.0625 | data line is constantly pulled HIGH | check GND   |
+| -128    | CRC error      | wrong pull up, bad sensor ? | 
+| -127    | DISCONNECTED   | 
+
+If a value occurs only once in a while, wiring is often the cause, 
+or it can be caused by e.g. induction e.g. switching on a motor while 
+sensor is read.
 
 
 ## Credits

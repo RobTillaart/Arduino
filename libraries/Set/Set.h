@@ -2,7 +2,7 @@
 //
 //    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SET_LIB_VERSION         (F("0.2.2"))
+#define SET_LIB_VERSION         (F("0.2.3"))
 
 
 class Set
@@ -20,10 +20,10 @@ public:
     explicit Set(const bool clear = true);     // create empty Set
     Set(const Set &t);                // create copy Set
 
-
     void     clear();                 // clear the Set
-    void     clr() { clear(); };      // will become obsolete
+    void     clr() { clear(); };      // will become obsolete 0.3.0
     void     invert();                // flip all elements in the Set
+    void     addAll();                // add all elements
     uint16_t count() const;           // return the #elements
     bool     isEmpty();
     bool     isFull();
@@ -54,10 +54,11 @@ public:
 
     // iterating through the Set
     // returns value or -1 if not exist
-    int first();                // find first element
-    int next();                 // find next element
-    int prev();                 // find previous element
-    int last();                 // find last element
+    int setCurrent(const uint8_t);  // set element as current
+    int first();                    // find first element
+    int next();                     // find next element
+    int prev();                     // find previous element
+    int last();                     // find last element
 
 
 private:

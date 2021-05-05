@@ -6,6 +6,7 @@ Set	KEYWORD1
 # Methods and Functions (KEYWORD2)
 clear	KEYWORD2
 invert	KEYWORD2
+addAll	KEYWORD2
 count	KEYWORD2
 isEmpty	KEYWORD2
 isFull	KEYWORD2
@@ -14,6 +15,7 @@ sub	KEYWORD2
 invert	KEYWORD2
 has	KEYWORD2
 
+setCurrent	KEYWORD2
 first	KEYWORD2
 next	KEYWORD2
 prev	KEYWORD2

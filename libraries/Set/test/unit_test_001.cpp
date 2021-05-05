@@ -69,6 +69,11 @@ unittest(test_constructor)
   assertFalse(A.isEmpty());
   assertFalse(A.isFull());
   assertEqual(1, A.count());
+
+  A.addAll();
+  assertFalse(A.isEmpty());
+  assertTrue(A.isFull());
+  assertEqual(256, A.count());
 }
 
 

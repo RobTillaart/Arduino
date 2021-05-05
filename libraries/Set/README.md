@@ -5,7 +5,7 @@
 
 # SET
 
-Arduino library to implement simple SET data structure.
+Arduino library to implement a simple SET data structure.
 
 
 ## Description
@@ -18,40 +18,56 @@ datatypes.
 
 ## Interface
 
+
+### Constructor
+
+- **Set(bool clear = true)** creates an empty set, default it is cleared.
+- **Set(&Set)** copies a set.
+
+
 ### Set level
-- **clr()** empty the set
+
+- **clear()** empty the set.
 - **invert()** flip all elements in the set.
-- **count()** returns number of elements
+- **addAll(n)** add all 256 elements to the set.
+- **count()** returns the number of elements.
 - **isEmpty()** idem
 - **isFull()** idem
 
+
 ### Element level
-- **add(n)** add element to the Set
-- **sub(n)** emove element from Set
-- **invert(n)** flip element in Set
-- **has(n)** element is in Set
-- **add(n)**
+
+- **add(n)** add element n to the Set.
+- **sub(n)** remove element n from the Set.
+- **invert(n)** flip element n in the Set.
+- **has(n)** check if element n is in the Set.
+
 
 ### Operators
+
 - union + +=
 - diff - -=
 - intersection * *=
 
+
 ### Equality
+
 - equal ==
 - not equal !=
 - is subSet <=
 
 A superSet B is not implemented as one could say B subSet A (B <= A)
 
+
 ### Iterators 
 
-all returns value or -1 if not exist
+all iterator-functions returns the current element or -1 if not exist.
 
-- **first()** find first element
-- **next()** find next element
-- **prev()** find previous element
-- **last()** find last element
+- **setCurrent(n)** if n is in the Set, n will be the current
+- **first()** find the first element
+- **next()** find the next element. Will not wrap zround when 'end' of the set is reached.
+- **prev()** find the previous element. Will not wrap zround when 'begin' of the set is reached.
+- **last()** find the last element.
 
 
 ## Operational

@@ -1,12 +1,13 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
 //
 //  HISTORY:
+//  0.2.3   2021-05-05  Add addAll (256 elements) + setCurrent
 //  0.2.2   2021-01-07  Arduino-CI, unit test
 //  0.2.1   2020-06-19  fix library.json
 //  0.2.0   2020-05-02  refactored, removed pre 1.0 support
@@ -74,6 +75,12 @@ void Set::invert(const uint8_t v)
 {
     uint8_t idx = v / 8;
     _mem[idx] ^= masks[v & 7];
+}
+
+
+void Set::addAll()
+{
+    memset(_mem, 0xFF, 32);
 }
 
 
@@ -145,6 +152,17 @@ bool Set::isFull()
     } 
     while (i != 0);
     return true;
+}
+
+
+int Set::setCurrent(const uint8_t cur)
+{
+    _current = -1;
+    if (has(cur))
+    {
+      _current = cur;
+    }
+    return _current;
 }
 
 

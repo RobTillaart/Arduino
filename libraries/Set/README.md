@@ -68,7 +68,7 @@ all iterator-functions returns the current element or -1 if not exist.
 - **next()** find the next element. Will not wrap zround when 'end' of the set is reached.
 - **prev()** find the previous element. Will not wrap zround when 'begin' of the set is reached.
 - **last()** find the last element.
-
+- **getNth(n)** find the Nth element in a set if it exist.
 
 ## Operational
 

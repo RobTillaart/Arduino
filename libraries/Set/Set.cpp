@@ -1,12 +1,13 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
 //
 //  HISTORY:
+//  0.2.4   2021-05-06  getNth(n) 
 //  0.2.3   2021-05-05  Add addAll (256 elements) + setCurrent
 //  0.2.2   2021-01-07  Arduino-CI, unit test
 //  0.2.1   2020-06-19  fix library.json
@@ -261,6 +262,21 @@ int Set::last()
       return _current;
     }
     return findPrev(31, 7);
+}
+
+
+int Set::getNth(const uint8_t n)
+{
+    if (n == 0) return -1;
+    if (n == 1) return first();
+    _current = first();
+    int i = 1;
+    while ((_current > -1) && (i < n))
+    {
+      _current = next();
+      i++;
+    }
+    return _current;
 }
 
 

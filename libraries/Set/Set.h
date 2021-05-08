@@ -2,7 +2,7 @@
 //
 //    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SET_LIB_VERSION         (F("0.2.3"))
+#define SET_LIB_VERSION         (F("0.2.4"))
 
 
 class Set
@@ -59,7 +59,7 @@ public:
     int next();                     // find next element
     int prev();                     // find previous element
     int last();                     // find last element
-
+    int getNth(const uint8_t n);    // find Nth element in a set (from start)
 
 private:
     uint8_t _mem[32];           // can hold 0..255

@@ -36,13 +36,15 @@ below. It might take some trying to get the correct pins connected.
 
 ## Interface
 
-**I2CKEYPAD keypad()**
-The constructor does nothing specific. 
+**I2CKEYPAD keypad(const uint8_t deviceAddress, TwoWire \*wire = &Wire)**
+
+The constructor sets the device address and optionally 
+allows to selects the I2C bus to use.
 
 **keyPad.begin()**
 
-First call that needs to be done is **keyPad.begin(address)**. It sets the I2C address of the PCF8574 used. 
-For the ESP32 **begin(sda, scl, address)** is provided.
+First call that needs to be done is **keyPad.begin()**. 
+For the ESP32 **begin(sda, scl)** is provided.
 The return value shows if the PCF8574 with the given address is connected properly.
 
 **keyPad.getKey()**
@@ -74,6 +76,15 @@ however it is not checked if multiple keys are pressed.
 **keyPad.isConnected()**
 
 returns false if the PCF8574 cannot be connected to.
+
+
+## Interrupts
+
+(Note not tested yet)
+
+Since version 0.2.1 the library should be able to generate interrupts 
+on the PCF8574 when a key is pressed. This could make checking the keypad
+far more efficient. 
 
 
 ## Char mapping

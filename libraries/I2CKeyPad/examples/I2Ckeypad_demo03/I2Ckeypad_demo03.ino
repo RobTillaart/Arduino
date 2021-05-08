@@ -1,25 +1,28 @@
 //
 //    FILE: I2CKeyPad_demo03.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: demo reading a larger value from the keyPad
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// HISTORY:
-// 2019-10-01 0.0.1 initial version
-// 2020-06-26 0.1.0 updated with lib
+//  HISTORY:
+//  2019-10-01  0.0.1  initial version
+//  2020-06-26  0.1.0  updated with lib
+//  2021-05-06  0.2.0  updated with lib
+
 
 // PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 colums
 // 4x4 or smaller keypad.
 
+
 #include "Wire.h"
 #include "I2CKeyPad.h"
 
 const uint8_t KEYPAD_ADDRESS = 0x38;
 
-I2CKeyPad keyPad;
+I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
 uint32_t start, stop;
 uint32_t lastKeyPressed = 0;
@@ -32,7 +35,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(400000);
-  if (keyPad.begin(KEYPAD_ADDRESS) == false)
+  if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");
     while(1);

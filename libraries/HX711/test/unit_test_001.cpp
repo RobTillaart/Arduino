@@ -48,8 +48,9 @@ unittest(test_constructor)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
-  assertTrue(scale.is_ready());  // pins are default LOW apparently.
-
+  assertTrue(scale.is_ready()); // pins are default LOW apparently.
+  // default not read
+  assertEqual(0, scale.last_read());
 }
 
 unittest(test_gain)
@@ -57,11 +58,14 @@ unittest(test_gain)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
-  scale.set_gain();
+  // default
   assertEqual(128, scale.get_gain());
 
   scale.set_gain(32);
   assertEqual(32, scale.get_gain());
+
+  scale.set_gain();
+  assertEqual(128, scale.get_gain());
 
   scale.set_gain(64);
   assertEqual(64, scale.get_gain());
@@ -76,6 +80,7 @@ unittest(test_scale)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
+  // default
   assertEqualFloat(1.0, scale.get_scale(), 0.001);
 
   for (float sc = 0.1; sc < 2.0; sc += 0.1)
@@ -93,6 +98,7 @@ unittest(test_offset)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
+  // default offset
   assertEqual(0, scale.get_offset());
 
   for (long of = -100; of < 100; of += 13)
@@ -110,6 +116,7 @@ unittest(test_tare)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
+  // default tare
   assertEqual(0, scale.get_tare());
   assertFalse(scale.tare_set());
 
@@ -125,13 +132,28 @@ unittest(test_unit_price)
 
   assertEqual(0, scale.get_unit_price());
 
-  for (long of = -100; of < 100; of += 13)
+  for (float up = 0.10; up < 10; up += 1.23)
   {
-    scale.set_offset(of);
-    assertEqual(of, scale.get_offset() );
+    scale.set_unit_price(up);
+    assertEqualFloat(up, scale.get_unit_price(), 0.001);
   }
-  scale.set_offset();
-  assertEqual(0, scale.get_offset());
+  scale.set_unit_price();
+  assertEqualFloat(1.0, scale.get_unit_price(), 0.001);
+}
+
+
+unittest(test_operational_mode)
+{
+  HX711 scale;
+  scale.begin(dataPin, clockPin);
+
+  assertEqual(0x00, scale.get_mode());
+  scale.set_medavg_mode();
+  assertEqual(0x02, scale.get_mode());
+  scale.set_median_mode();
+  assertEqual(0x01, scale.get_mode());
+  scale.set_average_mode();
+  assertEqual(0x00, scale.get_mode());
 }
 
 

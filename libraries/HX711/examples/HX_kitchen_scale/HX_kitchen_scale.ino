@@ -39,15 +39,15 @@ void setup()
   Serial.println(scale.get_units(10));
 
 
-  Serial.println("\nPut a 1 kg in the scale, press a key to continue");
+  Serial.println("\nPut 1000 gram in the scale, press a key to continue");
   while(!Serial.available());
   while(Serial.available()) Serial.read();
 
-  scale.callibrate_scale(1000, 5);
+  scale.calibrate_scale(1000, 5);
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));
 
-  Serial.println("\nScale is callibrated, press a key to continue");
+  Serial.println("\nScale is calibrated, press a key to continue");
   while(!Serial.available());
   while(Serial.available()) Serial.read();
 

@@ -23,16 +23,16 @@ footprint.
 
 First action is to call **begin(dataPin, clockPin)** to make connection to the **HX711**.
 
-Second step is callibration for which a number of functions exist.
+Second step is calibration for which a number of functions exist.
 - **tare()** measures zero point
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
-- **callibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
+- **calibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
 
-Steps to take for callibration
+Steps to take for calibration
 1. clear the scale
 1. call tare() to set the zero offset
 1. put a known weight on the scale 
-1. call callibrate_scale(weight) 
+1. call calibrate_scale(weight) 
 1. scale is calculated.
 1. save the offset and scale for later use e.g. EEPROM.
 
@@ -53,7 +53,7 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 ### Scale values for loadcells
 
 These scale values worked pretty well with a set of loadcells, 
-Use callibrate to find your values.
+Use calibrate to find your values.
 
 - 5 KG loadcell   scale.set_scale(420.52); 
 - 20 KG loadcell  scale.set_scale(127.15); 

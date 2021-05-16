@@ -1,0 +1,57 @@
+# Syntax Coloring Map For LTC2991
+
+# Datatypes (KEYWORD1)
+LTC2991	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+
+new_data	KEYWORD2
+new_temperature	KEYWORD2
+new_voltage	KEYWORD2
+is_busy	KEYWORD2
+
+enable	KEYWORD2
+is_enabled	KEYWORD2
+enable_filter	KEYWORD2
+is_enabled_filter	KEYWORD2
+set_Kelvin	KEYWORD2
+set_Celsius	KEYWORD2
+get_temp_scale	KEYWORD2
+set_mode_temperature	KEYWORD2
+set_mode_voltage_differential	KEYWORD2
+set_mode_voltage_normal	KEYWORD2
+get_operational_mode	KEYWORD2
+get_differential_mode	KEYWORD2
+get_value	KEYWORD2
+
+
+set_PWM	KEYWORD2
+get_PWM	KEYWORD2
+invert_PWM	KEYWORD2
+is_inverted_PWM	KEYWORD2
+enable_PWM	KEYWORD2
+is_enabled_PWM	KEYWORD2
+
+
+set_acquisition_repeat	KEYWORD2
+set_acquisition_single	KEYWORD2
+get_acquisition_mode	KEYWORD2
+
+
+enable_Tintern_Vcc	KEYWORD2
+is_enabled_Tintern_Vcc	KEYWORD2
+enable_filter_Tintern	KEYWORD2
+is_enabled_filter_Tintern	KEYWORD2
+set_Kelvin_Tintern	KEYWORD2
+set_Celsius_Tintern	KEYWORD2
+set_temp_scale_Tintern	KEYWORD2
+get_temp_scale_Tintern	KEYWORD2
+get_Tintern	KEYWORD2
+get_VCC	KEYWORD2
+
+
+# Constants (LITERAL1)
+LTC2991_LIB_VERSION	LITERAL1

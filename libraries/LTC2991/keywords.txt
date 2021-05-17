@@ -13,10 +13,15 @@ new_temperature	KEYWORD2
 new_voltage	KEYWORD2
 is_busy	KEYWORD2
 
+
+trigger_conversion	KEYWORD2
+trigger_conversion_all	KEYWORD2
 enable	KEYWORD2
 is_enabled	KEYWORD2
 enable_filter	KEYWORD2
 is_enabled_filter	KEYWORD2
+
+
 set_Kelvin	KEYWORD2
 set_Celsius	KEYWORD2
 get_temp_scale	KEYWORD2
@@ -29,6 +34,7 @@ get_value	KEYWORD2
 
 
 set_PWM	KEYWORD2
+set_PWM_fast	KEYWORD2
 get_PWM	KEYWORD2
 invert_PWM	KEYWORD2
 is_inverted_PWM	KEYWORD2

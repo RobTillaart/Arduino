@@ -1,0 +1,22 @@
+{
+  "name": "rotaryDecoder",
+  "keywords": "rotary encoder PCF8574",
+  "description": "Arduino library to rotary decoder with a PCF8574\nSupports up to 4 RE's",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/rotaryDecoder.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

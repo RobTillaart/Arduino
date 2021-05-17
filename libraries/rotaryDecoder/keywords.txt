@@ -1,0 +1,15 @@
+# Syntax Coloring Map For rotaryDecoder
+
+# Datatypes (KEYWORD1)
+rotaryDecoder	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+readInitialState	KEYWORD2
+checkChange	KEYWORD2
+update	KEYWORD2
+
+# Constants (LITERAL1)
+ROTARY_DECODER_LIB_VERSION	LITERAL1

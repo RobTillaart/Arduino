@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-07
-// PURPOSE: unit tests for the SET library
-//          https://github.com/RobTillaart/SET
+// PURPOSE: unit tests for the rataryDecoderSwitch library
+//          https://github.com/RobTillaart/rotaryDecoderSwitch
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 

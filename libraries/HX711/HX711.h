@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION  (F("0.2.2"))
+#define HX711_LIB_VERSION  (F("0.2.3"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -24,6 +24,8 @@ const uint8_t HX711_MEDIAN_MODE = 0x01;
 // medavg = average of the middle "half" of sorted elements
 // in medavg mode only between 3 and 15 samples are allowed.
 const uint8_t HX711_MEDAVG_MODE = 0x02;
+// runavg = running average
+const uint8_t HX711_RUNAVG_MODE = 0x03;
 
 
 class HX711
@@ -51,6 +53,7 @@ public:
   // raw read
   float    read();
   // get average of multiple raw reads
+  // times = 1 or more
   float    read_average(uint8_t times = 10);
 
   // get median of multiple raw reads  
@@ -61,12 +64,19 @@ public:
   // times = 3..15 - odd numbers preferred
   float    read_medavg(uint8_t times = 7);  
 
+  // get running average over times measurements.
+  // the weight alpha can be set to any value between 0 and 1
+  // times = 1 or more.
+  float    read_runavg(uint8_t times = 7, float alpha = 0.5);  
+
 
   // get set mode for get_value() and indirect get_units().
   // in median and medavg mode only 3..15 samples are allowed.
   void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
   void     set_median_mode()  { _mode = HX711_MEDIAN_MODE; };
   void     set_medavg_mode()  { _mode = HX711_MEDAVG_MODE; };
+  // set_run_avg will use a default alpha of 0.5.
+  void     set_runavg_mode()  { _mode = HX711_RUNAVG_MODE; };
   uint8_t  get_mode()         { return _mode; };
  
   // corrected for offset

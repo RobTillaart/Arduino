@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -11,13 +11,17 @@
 //  0.2.0   2020-06-15  refactor; add price functions;
 //  0.2.1   2020-12-28  add arduino-ci + unit test
 //  0.2.2   2021-05-10  add read_median(), fix typo, add mode operandi
+//  0.2.3   2021-05-26  add running_average() mode
+
 
 #include "HX711.h"
+
 
 HX711::HX711()
 {
   reset();
 }
+
 
 HX711::~HX711() {}
 
@@ -191,6 +195,21 @@ float HX711::read_medavg(uint8_t times)
 }
 
 
+float HX711::read_runavg(uint8_t times, float alpha) 
+{
+  if (times < 1)  times = 1;
+  if (alpha < 0)  alpha = 0;
+  if (alpha > 1)  alpha = 1;
+  float val = read();
+  for (uint8_t i = 1; i < times; i++) 
+  {
+    val += alpha * (read() - val);
+    yield();
+  }
+  return val;
+}
+
+
 void HX711::_insertSort(float * array, uint8_t size)
 {
   uint8_t t, z;
@@ -215,6 +234,9 @@ float HX711::get_value(uint8_t times)
   float raw;
   switch(_mode)
   {
+    case HX711_RUNAVG_MODE:
+      raw = read_runavg(times);
+      break;
     case HX711_MEDAVG_MODE:
       raw = read_medavg(times);
       break;

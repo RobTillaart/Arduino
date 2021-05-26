@@ -39,7 +39,7 @@ void setup()
   Serial.println(scale.get_units(10));
 
 
-  Serial.println("\nPut a 1 kg in the scale, press a key to continue");
+  Serial.println("\nPut 1000 gr in the scale, press a key to continue");
   while(!Serial.available());
   while(Serial.available()) Serial.read();
 

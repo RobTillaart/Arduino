@@ -1,0 +1,21 @@
+{
+  "name": "TCA9548",
+  "keywords": "TCA9548 TCA9548a I2C multiplexer",
+  "description": "Arduino Library for TCA9548 I2C multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA9548"
+  },
+  "version":"0.1.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

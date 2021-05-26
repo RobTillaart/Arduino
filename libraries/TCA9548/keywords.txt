@@ -1,0 +1,26 @@
+# Syntax Coloring Map For TCA9548
+
+# Datatypes (KEYWORD1)
+TCA9548	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+enableChannel	KEYWORD2
+disableChannel	KEYWORD2
+selectChannel	KEYWORD2
+isEnabled	KEYWORD2
+
+setChannelMask	KEYWORD2
+getChannelMask	KEYWORD2
+
+setResetPin	KEYWORD2
+reset	KEYWORD2
+getError	KEYWORD2
+
+
+# Constants (LITERAL1)
+TCA9548_LIB_VERSION	LITERAL1
+

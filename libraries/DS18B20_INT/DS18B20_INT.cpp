@@ -11,6 +11,7 @@
 // 0.1.1    2019-
 // 0.1.2    2020-08-05  refactor / sync with DS18B20 
 // 0.1.3    2020-12-20  add arduino-ci + unit test
+// 0.1.4    2021-05-26  add onewire.reset() to begin()
 
 
 #include "DS18B20_INT.h"
@@ -30,11 +31,13 @@ DS18B20_INT::DS18B20_INT(OneWire* _oneWire)
   _addresFound = false;
 }
 
+
 bool DS18B20_INT::begin(void)
 {
   _addresFound = false;
   for (uint8_t retries = 3; (retries > 0) && (_addresFound == false); retries--)
   {
+    _wire->reset();
     _wire->reset_search();
     _deviceAddress[0] = 0x00;
     _wire->search(_deviceAddress);
@@ -84,5 +87,6 @@ int16_t DS18B20_INT::getTempC(void)
   if (rawTemperature < -55) return DEVICE_DISCONNECTED;
   return rawTemperature;
 }
+
 
 //  -- END OF FILE --

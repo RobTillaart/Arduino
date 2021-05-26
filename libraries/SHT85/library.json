@@ -1,0 +1,21 @@
+{
+  "name": "SHT85",
+  "keywords": "SHT85 Temperature Humidity I2C SHT30, SHT31, SHT35",
+  "description": "Arduino library for the I2C SHT85 temperature and humidity sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/SHT85"
+  },
+  "version": "0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

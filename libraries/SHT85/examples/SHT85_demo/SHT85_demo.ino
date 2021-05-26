@@ -1,0 +1,58 @@
+//
+//    FILE: SHT85_demo.ino
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.0
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/SHT85
+
+
+// TOPVIEW
+//            +-------+
+// +-----\    | SDA 4 -----
+// | +-+  ----+ GND 3 -----
+// | +-+  ----+ +5V 2 -----
+// +-----/    | SCL 1 -----
+//            +-------+
+
+
+#include "SHT85.h"
+
+#define SHT85_ADDRESS   0x44
+
+uint32_t start;
+uint32_t stop;
+
+SHT85 sht;
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("SHT85_LIB_VERSION: \t");
+  Serial.println(SHT85_LIB_VERSION);
+
+  Wire.begin();
+  sht.begin(SHT85_ADDRESS);
+  Wire.setClock(100000);
+
+  uint16_t stat = sht.readStatus();
+  Serial.print(stat, HEX);
+  Serial.println();
+}
+
+void loop()
+{
+  start = micros();
+  sht.read();         // default = true/fast       slow = false
+  stop = micros();
+
+  Serial.print("\t");
+  Serial.print((stop - start) * 0.001);
+  Serial.print("\t");
+  Serial.print(sht.getTemperature(), 1);
+  Serial.print("\t");
+  Serial.println(sht.getHumidity(), 1);
+  delay(100);
+}
+
+// -- END OF FILE --

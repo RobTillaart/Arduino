@@ -1,0 +1,7 @@
+compile:
+  # Choosing to run compilation tests on different Arduino platforms
+  platforms:
+    - uno
+    - leonardo
+    - due
+    - zero

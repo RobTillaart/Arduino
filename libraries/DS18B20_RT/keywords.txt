@@ -1,9 +1,11 @@
 # Syntax Coloring Map For DS18B20
 
+
 # Datatypes (KEYWORD1)
 DS18B20	KEYWORD1
 OneWire	KEYWORD1
 DeviceAddress	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
@@ -14,6 +16,7 @@ isConversionComplete	KEYWORD2
 getAddress	KEYWORD2
 setConfig	KEYWORD2
 getConfig	KEYWORD2
+
 
 # Constants (LITERAL1)
 DS18B20_LIB_VERSION	LITERAL1

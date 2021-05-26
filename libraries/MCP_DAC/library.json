@@ -1,0 +1,21 @@
+{
+  "name": "MCP_DAC",
+  "keywords": "MCP,DAC,digital,analog,convertor,percentage",
+  "description": "Arduino library for Microchip SPI DAC, 8, 10, 12 bit; 1 or 2 channel.\nMCP4801, MCP4802, MCP4811,MCP4812, MCP4821, MCP4822,\n MCP4901, MCP4902, MCP4911, MCP4912, MCP4921, MCP4922\n",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP_DAC"
+  },
+  "version": "0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

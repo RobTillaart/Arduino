@@ -8,11 +8,13 @@
 
 // connect potmeter or so to A0 and A1 for the VU tests
 
+
 #include "HT16K33.h"
 
 HT16K33  seg(0x70);
 uint32_t start, stop;
 uint8_t  ar[4];
+
 
 void setup()
 {
@@ -33,6 +35,7 @@ void setup()
   seg.displayColon(false);
 }
 
+
 void loop()
 {
   test_VULeft();
@@ -42,6 +45,7 @@ void loop()
   test_VUStereo();
   delay(1000);
 }
+
 
 void test_VULeft()
 {
@@ -53,6 +57,7 @@ void test_VULeft()
   }
 }
 
+
 void test_VURight()
 {
   for (uint8_t run = 0; run < 50; run++)
@@ -63,6 +68,7 @@ void test_VURight()
     delay(100);
   }
 }
+
 
 void test_VUStereo()
 {
@@ -76,6 +82,7 @@ void test_VUStereo()
     delay(100);
   }
 }
+
 
 void displayVUStereo(uint8_t left, uint8_t right)
 {
@@ -134,5 +141,6 @@ void displayVUStereo(uint8_t left, uint8_t right)
   seg.displayColon(hb);
   hb = !hb;
 }
+
 
 // -- END OF FILE --

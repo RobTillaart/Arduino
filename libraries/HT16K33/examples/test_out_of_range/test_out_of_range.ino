@@ -6,6 +6,7 @@
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
+
 #include "HT16K33.h"
 
 
@@ -25,9 +26,11 @@ void setup()
   test_out_of_range();
 }
 
+
 void loop()
 {
 }
+
 
 void test_out_of_range()
 {

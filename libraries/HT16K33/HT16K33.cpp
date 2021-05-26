@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -24,8 +24,11 @@
 //                      add refresh(),                  // experimental
 //                      add getOverflow();              // experimental
 //                      add displayFloat(f, decimals);  // experimental
+//  0.3.3   2021-05-26  fix #17 add leadingZero flag in displayTIme() [Kudos to OwenDuffy]
+
 
 #include "HT16K33.h"
+
 
 // Commands
 #define HT16K33_ON              0x21  // 0=off 1=on
@@ -127,7 +130,7 @@ void HT16K33::reset()
 {
   displayOn();
   displayClear();
-  setDigits(1);    
+  setDigits(1);
   clearCache();
   brightness(8);
 }
@@ -255,12 +258,14 @@ bool HT16K33::displayHex(uint16_t n)
 
 
 // 00.00 .. 99.99
-bool HT16K33::displayDate(uint8_t left, uint8_t right)
+bool HT16K33::displayDate(uint8_t left, uint8_t right, bool lz)
 {
   bool inRange = ((left < 100) && (right < 100));
   uint8_t x[4];
   x[0] = left / 10;
   x[1] = left - x[0] * 10;
+  if (!lz && (x[0] == 0)) x[0] = HT16K33_SPACE;
+
   x[2] = right / 10;
   x[3] = right - x[2] * 10;
   display(x, 1);
@@ -270,12 +275,14 @@ bool HT16K33::displayDate(uint8_t left, uint8_t right)
 
 
 // 00:00 .. 99:99
-bool HT16K33::displayTime(uint8_t left, uint8_t right, bool colon)
+bool HT16K33::displayTime(uint8_t left, uint8_t right, bool colon, bool lz)
 {
   bool inRange = ((left < 100) && (right < 100));
   uint8_t x[4];
   x[0] = left / 10;
   x[1] = left - x[0] * 10;
+  if (!lz && (x[0] == 0)) x[0] = HT16K33_SPACE;
+
   x[2] = right / 10;
   x[3] = right - x[2] * 10;
   display(x);
@@ -285,11 +292,11 @@ bool HT16K33::displayTime(uint8_t left, uint8_t right, bool colon)
 
 
 // seconds / minutes max 6039 == 99:99
-bool HT16K33::displaySeconds(uint16_t seconds, bool colon)
+bool HT16K33::displaySeconds(uint16_t seconds, bool colon, bool lz)
 {
   uint8_t left = seconds / 60;
   uint8_t right = seconds - left * 60;
-  return displayTime(left, right, colon);
+  return displayTime(left, right, colon, lz);
 }
 
 

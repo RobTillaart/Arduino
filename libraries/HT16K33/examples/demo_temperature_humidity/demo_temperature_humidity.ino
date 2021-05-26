@@ -19,6 +19,7 @@ DHTNEW dht(10);
 uint32_t lastTime = 0;
 bool flag = true;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -28,6 +29,7 @@ void setup()
   seg.begin();
   seg.displayOn();
 }
+
 
 void loop()
 {
@@ -49,5 +51,6 @@ void loop()
     flag = !flag;
   }
 }
+
 
 // -- END OF FILE --

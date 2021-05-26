@@ -6,9 +6,11 @@
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
+
 #include "HT16K33.h"
 
 HT16K33 seg(0x70);
+
 
 void setup()
 {
@@ -21,12 +23,14 @@ void setup()
   seg.displayOn();
 }
 
+
 void loop()
 {
   test_printfloat();
   Serial.println("---------------");
   delay(1000);
 }
+
 
 void test_printfloat()
 {
@@ -55,5 +59,6 @@ void test_printfloat()
     delay(250);
   }
 }
+
 
 // -- END OF FILE --

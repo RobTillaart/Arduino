@@ -9,8 +9,8 @@
 
 #include "HT16K33.h"
 
-
 HT16K33 seg(0x70);
+
 
 void setup()
 {

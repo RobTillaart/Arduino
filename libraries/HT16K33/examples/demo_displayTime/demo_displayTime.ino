@@ -1,7 +1,7 @@
 //
 //    FILE: demo_displayTime.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: demo
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -12,6 +12,7 @@
 #include "HT16K33.h"
 
 HT16K33 seg(0x70);
+
 
 void setup()
 {
@@ -24,6 +25,7 @@ void setup()
   seg.setDigits(4);
 }
 
+
 void loop()
 {
   static uint32_t last = 0;
@@ -34,9 +36,11 @@ void loop()
     uint32_t s = now / 1000;
     uint32_t t = (now - s * 1000) / 10;
     s = s % 100;
-    seg.displayTime(s, t);
+    // seg.displayTime(s, t);  
+    seg.displayTime(s, t, true, false);  // do not display leading zero.
     seg.displayColon(1);
   }
 }
+
 
 // -- END OF FILE --

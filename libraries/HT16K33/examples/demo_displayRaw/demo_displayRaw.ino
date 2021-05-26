@@ -6,11 +6,13 @@
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
+
 #include "HT16K33.h"
 
 HT16K33 seg(0x70);
 
 uint32_t start, stop, d1, d2;
+
 
 void setup()
 {
@@ -35,6 +37,7 @@ void setup()
   Serial.println(millis() - start);
 }
 
+
 void loop()
 {
   uint8_t x[4] = { 255, 255, 255, 255 };
@@ -53,6 +56,7 @@ void loop()
   delay(1000);
 }
 
+
 void test_elsa()
 {
   uint8_t ar[4];
@@ -62,6 +66,7 @@ void test_elsa()
   ar[3] = 0x77;
   seg.displayRaw(ar);
 }
+
 
 void test_random()
 {

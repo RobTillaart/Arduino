@@ -6,12 +6,14 @@
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
+
 #include "HT16K33.h"
 
 HT16K33 left(0x71);
 HT16K33 right(0x70);
 
 uint32_t counter = 0;
+
 
 void setup()
 {
@@ -29,6 +31,7 @@ void setup()
   Serial.println("dual displayTest");
 }
 
+
 void loop()
 {
   display_ulong(counter);
@@ -36,6 +39,7 @@ void loop()
   delay(1);
   counter++;
 }
+
 
 void display_ulong(uint32_t value)
 {

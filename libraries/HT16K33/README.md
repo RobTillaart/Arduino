@@ -78,14 +78,19 @@ Returns false if device not seen on I2C bus.
 
 The bool return value indicates that the value displayed is in range.
 
-- **void displayClear()** empty display
+- **void displayClear()** fill display with spaces => results in an empty display.
 - **bool displayInt(n)** values -999 .. 9999
 - **bool displayHex(n)** values 0000 .. FFFF
-- **bool displayDate(left, right)** values 00.00..99.99 Date could be {month.day} or {day.hour}           . as separator
-- **bool displayTime(left, right, colon = true)** values 00:00..99:99 Time could be hh:mm or mm:ss or ss:uu (hundreds)  : as separator. 
-Optional the colon is set to false (to simulate blink)
-- **void seconds(seconds, colon)** displays 00:00..99:99 units in seconds (or minutes) - splits % 60 : as separator
-Optional the colon is set to false (to simulate blink).
+- **bool displayDate(left, right, lz = true)** values 00.00..99.99 Date could be {month.day} or {day.hour}  
+It uses **.** as separator. Optional the leading zero (lz) 
+can be replaced by a space to look more natural e.g 1:54  iso  01:54
+- **bool displayTime(left, right, colon = true, lz = true)** values 00:00..99:99 
+Time could be hh:mm or mm:ss or ss:uu (hundreds), it uses **:** as separator. 
+Optional the colon is set to false (e.g. to simulate blink) and optional the leading zero (lz) 
+can be replaced by a space to look more natural e.g 1:54  iso  01:54
+- **void seconds(seconds, colon, lz = true)** displays 00:00..99:99 units in seconds (or minutes) - splits % 60 : as separator
+Optional the colon is set to false (to simulate blink). 
+Optional the leading zero (lz) can be replaced by a space to look more natural e.g 1:54  iso  01:54
 - **bool displayFloat(f, decimals = 3)** values -999..0.000..9999
 The number of decimals = 0,1,2,3 = default. When less decimals are displayed, the number will be right aligned.
 

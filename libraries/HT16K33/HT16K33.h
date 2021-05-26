@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.2"))
+#define HT16K33_LIB_VERSION         (F("0.3.3"))
 
 
 // Characters
@@ -78,9 +78,10 @@ public:
 
   // Date could be {month.day} or {day.hour}           . as separator
   // Time could be hh:mm or mm:ss or ss:uu (hundreds   : as separator
-  bool displayDate(uint8_t left, uint8_t right);    // 00.00 .. 99.99
-  bool displayTime(uint8_t left, uint8_t right, bool colon = true);    // 00:00 .. 99:99
-  bool displaySeconds(uint16_t seconds, bool colon = true);    // 00:00 .. 99:99
+  //    colon displays :   lz = Leading Zero or space
+  bool displayDate(uint8_t left, uint8_t right, bool lz = true);                     // 00.00 .. 99.99
+  bool displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true);  // 00:00 .. 99:99
+  bool displaySeconds(uint16_t seconds, bool colon = true, bool lz = true);          // 00:00 .. 99:99
 
   bool displayFloat(float f, uint8_t decimals = 3); // -999 .. 0.000 .. 9999
 

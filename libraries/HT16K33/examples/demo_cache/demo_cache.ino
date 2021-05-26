@@ -6,11 +6,13 @@
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
+
 #include "HT16K33.h"
 
 HT16K33 seg(0x70);
 
 uint32_t start, stop, d1, d2;
+
 
 void setup()
 {
@@ -25,6 +27,7 @@ void setup()
   seg.blink(0);
 }
 
+
 void loop()
 {
   // Note: UNO fails for speed above 850K
@@ -36,6 +39,7 @@ void loop()
   }
   Serial.println();
 }
+
 
 void test_cache(uint32_t speed)
 {

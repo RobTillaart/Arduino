@@ -26,7 +26,7 @@ update the internal **\_sum**.
 
 ### Constructor
 
-- **RunningAverage(const uint8_t size)** allocates dynamic memory, one float (4 bytes) per element. 
+- **RunningAverage(size)** allocates dynamic memory, one float (4 bytes) per element. 
 No default size (yet).
 - **~RunningAverage()** deconstructor to free the memory allocated.
 
@@ -55,7 +55,7 @@ No default size (yet).
 ### Admin functions
 
 - **bufferIsFull()** returns true if buffer is full.
-- **getElement(uint8_t idx)** get element directly from internal buffer. (debug)
+- **getElement(idx)** get element directly from internal buffer. (debug)
 - **getSize()** idem.
 - **getCount()** idem.
 

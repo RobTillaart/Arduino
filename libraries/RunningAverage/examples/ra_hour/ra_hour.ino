@@ -1,5 +1,5 @@
 //
-//    FILE: runningAverageHour.pde
+//    FILE: runningAverageHour.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
 //

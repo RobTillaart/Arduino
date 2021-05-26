@@ -30,6 +30,7 @@ void setup(void)
   RAH.clear();
 }
 
+
 void loop(void)
 {
   // random function simulates 2 sensors
@@ -59,5 +60,6 @@ void loop(void)
 
   delay(500);
 }
+
 
 // -- END OF FILE --

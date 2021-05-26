@@ -44,6 +44,7 @@ unittest_teardown()
 {
 }
 
+
 unittest(test_zero_elements)
 {
   fprintf(stderr, "VERSION: %s\n", RUNNINGAVERAGE_LIB_VERSION);
@@ -60,6 +61,7 @@ unittest(test_zero_elements)
   float x = myRA.getAverage();
   assertNAN(x);
 }
+
 
 unittest(test_min_max)
 {
@@ -82,6 +84,7 @@ unittest(test_min_max)
   assertEqual(5, ma);
 }
 
+
 unittest(test_buffer_full)
 {
   RunningAverage myRA(10);
@@ -96,6 +99,45 @@ unittest(test_buffer_full)
 
   myRA.addValue(42);
   assertTrue(myRA.bufferIsFull());
+}
+
+
+unittest(test_large)
+{
+  RunningAverage myRA(300);
+  myRA.clear();
+  assertFalse(myRA.bufferIsFull());
+
+  for (int i = 0; i < 299; i++)
+  {
+    myRA.addValue(i);
+    assertFalse(myRA.bufferIsFull());
+  }
+
+  myRA.addValue(42);
+  assertTrue(myRA.bufferIsFull());
+}
+
+
+unittest(test_partial)
+{
+  RunningAverage myRA(100);
+  myRA.clear();
+  assertFalse(myRA.bufferIsFull());
+
+  myRA.setPartial(10);
+  for (int i = 0; i < 100; i++)
+  {
+    myRA.addValue(i);
+  }
+  assertEqualFloat(94.5, myRA.getAverage(), 0.001);
+
+  myRA.setPartial(20);
+  for (int i = 0; i < 100; i++)
+  {
+    myRA.addValue(i);
+  }
+  assertEqualFloat(89.5, myRA.getAverage(), 0.001);
 }
 
 

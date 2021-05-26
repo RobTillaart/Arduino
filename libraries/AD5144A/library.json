@@ -1,0 +1,22 @@
+{
+  "name": "AD5144A",
+  "keywords": "I2C,digital,PotentioMeter, AD5144A",
+  "description": "Library to control 4 channel digital potentiometer AD5144A et al.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5144A"
+  },
+  "version": "0.1.2",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

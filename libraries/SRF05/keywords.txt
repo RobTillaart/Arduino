@@ -1,0 +1,28 @@
+# Syntax Coloring Map For SRF05
+
+# Datatypes (KEYWORD1)
+SRF05	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+setSpeedOfSound	KEYWORD2
+getSpeedOfSound	KEYWORD2
+setCorrectionFactor	KEYWORD2
+getCorrectionFactor	KEYWORD2
+
+setModeSingle	KEYWORD2
+setModeAverage	KEYWORD2
+setModeMedian	KEYWORD2
+setModeRunningAverage	KEYWORD2
+getOperationalMode	KEYWORD2
+
+getTime	KEYWORD2
+getMillimeter	KEYWORD2
+getCentimeter	KEYWORD2
+getMeter	KEYWORD2
+getInch	KEYWORD2
+getFeet	KEYWORD2
+
+determineSpeedOfSound	KEYWORD2
+
+# Constants (LITERAL1)
+SRF05_LIB_VERSION	LITERAL1

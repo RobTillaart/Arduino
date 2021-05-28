@@ -41,6 +41,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -150,7 +151,6 @@ unittest(test_math_basic_2)
 }
 
 
-
 unittest(test_comparisons)
 {
   fprintf(stderr, "VERSION: %s\n", INTERVAL_LIB_VERSION );
@@ -183,11 +183,10 @@ unittest(test_comparisons)
   // assertTrue(x >= x);
   // assertTrue(x >= a);
   // assertFalse(x >= y);
-
 }
 
 
-
 unittest_main()
+
 
 // --------

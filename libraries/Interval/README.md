@@ -23,7 +23,6 @@ It was inspired by the frink language which has an interval datatype.
 Frink itself is not investigated, so semantics are not necessary similar.
 
 
-
 ## Interface
 
 The Interval class implements the public interface of Printable.
@@ -106,6 +105,7 @@ The Probably group will be more like fuzzy logic so a float between 0..100%.
 - **bool >= ** 
 - **bool <  ** 
 - **bool <= ** 
+
 
 ### Set operators
 

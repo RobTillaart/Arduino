@@ -2,15 +2,17 @@
 //    FILE: Interval.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for Interval datatype
 //     URL: https://github.com/RobTillaart/Interval
 //
 //  0.0.1   2020-07-20  initial version (not complete)
 //  0.1.0   2020-12-30  arduino-ci, unit tests, setRange()
+//  0.1.1   2021-05-27  arduino-lint
 
 
 #include "Interval.h"
+
 
 Interval::Interval(float lo, float hi)
 {
@@ -26,11 +28,13 @@ Interval::Interval(float lo, float hi)
   }
 };
 
+
 Interval::Interval(float f)
 {
   _lo = f;
   _hi = f;
 };
+
 
 Interval::Interval()
 {
@@ -38,11 +42,13 @@ Interval::Interval()
   _hi = 0;
 };
 
+
 float Interval::relAccuracy()
 {
   if (value() == 0.0) return -1;
   return abs(range() / value());  // TODO /2 ?
 }
+
 
 void Interval::setRange(float r)
 {
@@ -74,20 +80,24 @@ Interval Interval::operator + (const Interval &in)
   return Interval(_lo + in._lo, _hi + in._hi);
 }
 
+
 Interval Interval::operator - (const Interval &in)
 {
   return Interval(_lo - in._hi, _hi - in._lo);
 }
+
 
 Interval Interval::operator * (const Interval &in)
 {
   return Interval(_lo * in._lo, _hi * in._hi);
 }
 
+
 Interval Interval::operator / (const Interval &in)
 {
   return Interval(_lo / in._hi, _hi / in._lo);
 }
+
 
 Interval Interval::operator += (const Interval &in)
 {
@@ -96,6 +106,7 @@ Interval Interval::operator += (const Interval &in)
   return *this;
 }
 
+
 Interval Interval::operator -= (const Interval &in)
 {
   _lo -= in._hi;
@@ -103,12 +114,14 @@ Interval Interval::operator -= (const Interval &in)
   return *this;
 }
 
+
 Interval Interval::operator *= (const Interval &in)
 {
   _lo *= in._lo;
   _hi *= in._hi;
   return *this;
 }
+
 
 Interval Interval::operator /= (const Interval &in)
 {
@@ -127,6 +140,7 @@ bool Interval::operator == (const Interval &in)
 {
   return ((_lo == in._lo) && (_hi == in._hi));
 }
+
 
 bool Interval::operator != (const Interval &in)
 {
@@ -153,10 +167,6 @@ bool Interval::operator != (const Interval &in)
 // {
 //   return this->value() <= in.value();
 // }
-
-
-
-
 
 
 // -- END OF FILE --

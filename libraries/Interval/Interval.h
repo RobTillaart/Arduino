@@ -3,20 +3,22 @@
 //    FILE: Interval.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for Interval datatype
 //     URL: https://github.com/RobTillaart/Interval
 //
 // HISTORY:
 // see Interval.cpp file
 
+
 #include "Arduino.h"
 
-#define INTERVAL_LIB_VERSION      "0.1.0"
+#define INTERVAL_LIB_VERSION      (F("0.1.1"))
+
  
 class Interval: public Printable
 {
-  public:
+public:
   // CONSTRUCTOR
   Interval();
   Interval(float lo, float hi);
@@ -59,9 +61,7 @@ class Interval: public Printable
   // Interval operator  ^  (const Interval&);  // 
   //   smaller 
 
-
-
-  private:
+private:
   float   _lo;
   float   _hi;
   uint8_t _decimals = 3;

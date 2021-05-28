@@ -6,10 +6,12 @@
 //    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/Interval
 
+
 #include "Interval.h"
 
 Interval x(1, 2);
 Interval y(2, 3);
+
 
 void setup()
 {
@@ -23,9 +25,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_print()
 {

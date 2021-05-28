@@ -43,6 +43,7 @@ That does not affect the minimum and maximum and the average only slightly.
 
 An experiment 
 
+
 #### Conclusion (for now)
 
 The library allows two things
@@ -85,7 +86,6 @@ is a discussion worth taking. Normally the outliers are the most interesting.
 - **float average()** returns the average in float format, or NAN if count == 0
 - **float minimum()** returns the minimum in float format, or NAN if count == 0
 - **float maximum()** returns the maximum in float format, or NAN if count == 0
-
 
 
 ## Operation

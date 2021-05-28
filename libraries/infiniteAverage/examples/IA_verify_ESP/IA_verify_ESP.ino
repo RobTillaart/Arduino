@@ -17,6 +17,7 @@ uint32_t lastTime = 0;
 double sum = 0;
 uint64_t cnt = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -52,9 +53,10 @@ void setup()
   }
 }
 
+
 void loop()
 {
-
 }
+
 
 // -- END OF FILE --

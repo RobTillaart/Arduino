@@ -5,9 +5,11 @@
 // PURPOSE: demo toBytes(double val);
 //    DATE: 2020-07-03
 
+
 #include "printHelpers.h"
 
 volatile uint32_t n = 0;
+
 
 void setup()
 {
@@ -42,12 +44,13 @@ void setup()
     Serial.println();
     n = n * (PI * PI * PI * PI);
   }
-
   Serial.println("\ndone...");
 }
+
 
 void loop()
 {
 }
+
 
 // -- END OF FILE --

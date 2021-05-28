@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.2.0"))
+#define PRINTHELPERS_VERSION      (F("0.2.1"))
 
 // 24 is a pretty safe minimum
 

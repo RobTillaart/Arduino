@@ -4,9 +4,11 @@
 // VERSION: 0.0.1
 // PURPOSE: test different values with sci function
 
+
 #include "printHelpers.h"
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -23,8 +25,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
-{}
+{
+}
+
 
 void test1()
 {
@@ -65,6 +70,7 @@ void test1()
   Serial.println();
 }
 
+
 void test2()
 {
   Serial.println();
@@ -101,6 +107,7 @@ void test2()
   Serial.println();
 }
 
+
 void test3()
 {
   Serial.println();
@@ -113,6 +120,7 @@ void test3()
   }
   Serial.println();
 }
+
 
 void test4()
 {
@@ -128,6 +136,7 @@ void test4()
   Serial.println();
 }
 
+
 void test5()
 {
   Serial.println();
@@ -141,8 +150,6 @@ void test5()
   Serial.println(sci(f, 6));
   // TODO find a -inf
   Serial.println(sci(tan(PI / 2), 6));
-
-
   Serial.println();
 }
 
@@ -185,5 +192,6 @@ void test6()
     delay(10);
   }
 }
+
 
 // -- END OF FILE --

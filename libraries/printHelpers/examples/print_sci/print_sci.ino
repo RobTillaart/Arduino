@@ -3,7 +3,9 @@
 // VERSION: 0.0.1
 // PURPOSE: demo program SCI
 
+
 #include "printHelpers.h"
+
 
 void setup()
 {
@@ -64,8 +66,10 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
+
 
 // -- END OF FILE --

@@ -1,25 +1,30 @@
 # Syntax Coloring Map for runningAngle
 
+
 # Datatypes (KEYWORD1)
 runningAngle	KEYWORD1
 AngleType	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 setPanPerSecond	KEYWORD2
 getPanPerSecond	KEYWORD2
 setTiltPerSecond	KEYWORD2
 getTiltPerSecond KEYWORD2
+
 gotoPan	KEYWORD2
 getPan	KEYWORD2
 gotoTilt	KEYWORD2
 getTilt	KEYWORD2
 gotoPanTilt KEYWORD2
+
 getMaxPositions	KEYWORD2
 setPosition	KEYWORD2
 getPosition	KEYWORD2
 gotoPosition	KEYWORD2
 setHomePosition KEYWORD2
 gotoHomePosition	KEYWORD2
+
 isMoving	KEYWORD2
 isPanMoving KEYWORD2
 isTiltMoving	KEYWORD2

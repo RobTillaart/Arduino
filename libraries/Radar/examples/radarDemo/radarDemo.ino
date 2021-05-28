@@ -6,11 +6,13 @@
 //    DATE: 29-03-2015
 //     URL: https://github.com/RobTillaart/RADAR
 
+
 #include "radar.h"
 
 uint32_t del = 150;
 
 RADAR radar(10, 11);
+
 
 void setup()
 {
@@ -33,9 +35,11 @@ void setup()
   Serial.println("\tdone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test1()
 {
@@ -46,6 +50,7 @@ void test1()
   wait();
 }
 
+
 void test2()
 {
   Serial.print(millis());
@@ -54,6 +59,7 @@ void test2()
   wait();
   Serial.println();
 }
+
 
 void test3()
 {
@@ -64,6 +70,7 @@ void test3()
   Serial.println();
 }
 
+
 void test4()
 {
   Serial.print(millis());
@@ -73,6 +80,7 @@ void test4()
   Serial.println();
 }
 
+
 void test5()
 {
   Serial.print(millis());
@@ -81,6 +89,7 @@ void test5()
   wait();
   Serial.println();
 }
+
 
 void test6()
 {
@@ -92,6 +101,7 @@ void test6()
   }
   Serial.println();
 }
+
 
 void test7()
 {
@@ -115,6 +125,7 @@ void test7()
   }
 }
 
+
 void gohome()
 {
   Serial.print(millis());
@@ -123,6 +134,7 @@ void gohome()
   wait();
   Serial.println();
 }
+
 
 void wait()
 {
@@ -142,5 +154,6 @@ void wait()
   Serial.print("\t");
   Serial.println(radar.getTilt());
 }
+
 
 // -- END OF FILE --

@@ -33,6 +33,7 @@ in which direction a ping is given and which distance belongs to which pair of a
 
 TODO elaborate
 
+
 ### Constructor and config
 
 - **RADAR(pan, tilt)** define pan / tilt pins of the radar. These should be PWM pins.

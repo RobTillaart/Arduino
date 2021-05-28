@@ -10,12 +10,14 @@
 #include "Arduino.h"
 
 
-#define RADAR_LIB_VERSION         (F("0.1.4"))
+#define RADAR_LIB_VERSION         (F("0.1.5"))
+
 
 // TODO # positions in a begin() or constructor?
 #ifndef RADAR_POSITIONS
 #define RADAR_POSITIONS           10
 #endif
+
 
 class RADAR
 {
@@ -72,5 +74,6 @@ private:
     float    _panPerSecond = 15;
     float    _tiltPerSecond = 15;
 };
+
 
 // -- END OF FILE --

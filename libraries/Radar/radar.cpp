@@ -1,7 +1,7 @@
 //
 //    FILE: radar.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for a pan tilt radar.
 //     URL: https://github.com/RobTillaart/RADAR
 //
@@ -10,6 +10,7 @@
 //  0.1.2   2017-07-16  refactor & review
 //  0.1.3   2020-07-06  refactor, clean up and some documentation
 //  0.1.4   2021-01-07  arduino-ci, unit-test
+//  0.1.5   2021-05-27  fix arduino-lint
 
 
 #include "radar.h"
@@ -157,5 +158,6 @@ uint32_t RADAR::ping(const int16_t pan, const int16_t tilt)
 // PRIVATE
 
 // TODO distill private parts (getPan and getTilt share a lot
+
 
 // -- END OF FILE --

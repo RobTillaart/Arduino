@@ -1,7 +1,7 @@
 //
 //    FILE: DS1821.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2014-10-05
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821
@@ -12,9 +12,11 @@
 // 0.2.0    2020-08-05  initial release; refactored ad fundum.
 // 0.3.0    2020-08-07  add continuous mode, alarm level, polarity, thermostat etc
 // 0.3.1    2020-12-20  arduino-CI + unit test (frame)
+// 0.3.2    2021-05-27  arduio-lint fixes
 
 
 #include "DS1821.h"
+
 
 // CONFIG REGISTER MASKS...  P7-8 datasheet
 #define DS1821_CONF_1SHOT    0x01
@@ -49,7 +51,8 @@ DS1821::DS1821(OneWire *ow)
 {
   _ow = ow;
   _err = DS1821_RESET_OK;
-};
+}
+
 
 // P5 - Operation measuring temperature
 int DS1821::requestTemperature()
@@ -57,13 +60,15 @@ int DS1821::requestTemperature()
   if (_reset() != DS1821_RESET_OK) return DS1821_RESET_ERROR;
   _command(START_CONVERT);
   return DS1821_RESET_OK;
-};
+}
+
 
 int DS1821::requestContinuous()
 {
   _clrConfigFlag(DS1821_CONF_1SHOT);
   return requestTemperature();
 }
+
 
 int DS1821::stopContinuous()
 {
@@ -72,10 +77,12 @@ int DS1821::stopContinuous()
   return DS1821_RESET_OK;
 }
 
+
 int DS1821::conversionReady()
 {
   return _getConfigFlag(DS1821_CONF_DONE);
-};
+}
+
 
 // P5 - Operation measuring temperature
 float DS1821::readTemperature()
@@ -104,7 +111,8 @@ float DS1821::readTemperature()
   countPerC += _readByte();
 
   return temperature + 0.5 - (1.0 * countRemain) / countPerC;
-};
+}
+
 
 int DS1821::setLow(int8_t lo)
 {
@@ -114,12 +122,14 @@ int DS1821::setLow(int8_t lo)
   return DS1821_RESET_OK;
 }
 
+
 int DS1821::getLow()
 {
   if (_reset() != DS1821_RESET_OK) return DS1821_RESET_ERROR;
   _command(READ_TL);
   return _readByte();
 }
+
 
 int DS1821::setHigh(int8_t hi)
 {
@@ -129,6 +139,7 @@ int DS1821::setHigh(int8_t hi)
   return DS1821_RESET_OK;
 }
 
+
 int DS1821::getHigh()
 {
   if (_reset() != DS1821_RESET_OK) return DS1821_RESET_ERROR;
@@ -136,20 +147,24 @@ int DS1821::getHigh()
   return _readByte();
 }
 
+
 int DS1821::getHighFlag()
 {
   return _getConfigFlag(DS1821_CONF_THF);
 }
+
 
 int DS1821::clrHighFlag()
 {
   return _clrConfigFlag(DS1821_CONF_THF);
 }
 
+
 int DS1821::getLowFlag()
 {
   return _getConfigFlag(DS1821_CONF_TLF);
 }
+
 
 int DS1821::clrLowFlag()
 {
@@ -184,16 +199,19 @@ int DS1821::setOneWireMode(uint8_t VDD, uint8_t DQ)
   return _clrConfigFlag(DS1821_CONF_TR);
 }
 
+
 int DS1821::setPolarity(int activstate)
 {
   if (activstate == HIGH) return _setConfigFlag(DS1821_CONF_POL);
   return _clrConfigFlag(DS1821_CONF_POL);
 }
 
+
 int DS1821::getPolarity()
 {
   return _getConfigFlag(DS1821_CONF_POL);
 }
+
 
 int DS1821::setThermostatMode()
 {
@@ -215,6 +233,7 @@ int DS1821::_getConfigFlag(uint8_t flag)
   return ((_readConfig() & flag) > 0);  // true = 1 / false = 0
 }
 
+
 // See page 4 datasheet
 uint8_t DS1821::_waitForNVB()
 {
@@ -228,12 +247,14 @@ uint8_t DS1821::_waitForNVB()
   return config;
 }
 
+
 int DS1821::_setConfigFlag(uint8_t flag)
 {
   uint8_t config = _waitForNVB();
   config |= flag;
   return _writeConfig(config);
 }
+
 
 int DS1821::_clrConfigFlag(uint8_t flag)
 {
@@ -242,12 +263,14 @@ int DS1821::_clrConfigFlag(uint8_t flag)
   return _writeConfig(config);
 }
 
+
 int DS1821::_readConfig()
 {
   if (_reset() != DS1821_RESET_OK) return DS1821_RESET_ERROR;
   _command(READ_CONFIG_REG);
   return _readByte();
 }
+
 
 int DS1821::_writeConfig(uint8_t val)
 {

@@ -7,6 +7,7 @@
 
 Arduino library for DS1821 temperature sensor (experimental)
 
+
 ## Description
 
 The DS1821 is a temperature sensor that uses the oneWire protocol.
@@ -14,6 +15,7 @@ This library supports one sensor per pin.
 As this library is tested minimally please consider it experimental.
 
 The sensor is hard to get however still available on internet.
+
 
 ## Interface (temperature sensor)
 
@@ -72,6 +74,7 @@ a fan or a motor. Activstate defines which value is ON and OFF.
 
 The Low / High values set in sensor mode gives the DS1821 the thresholds 
 to toggle the DQ line in the thermostat mode.
+
 
 ## Future
 

@@ -2,7 +2,7 @@
 //
 //    FILE: DS1821.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2014-10-05
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821
@@ -17,10 +17,12 @@
 //  \  o |  3    VCC
 //   \---+
 
+
 #include "Arduino.h"
 #include "OneWire.h"
 
-#define DS1821_H_LIB_VERSION     "0.3.1"
+
+#define DS1821_H_LIB_VERSION     (F("0.3.2"))
 
 #define DS1821_RESET_OK          0
 #define DS1821_RESET_ERROR       -999
@@ -60,7 +62,6 @@ public:
   int        getPolarity();
   int        setThermostatMode();
 
-
 private:
   OneWire * _ow;
   int       _err;
@@ -77,5 +78,6 @@ private:
   uint8_t   _VDD;
   uint8_t   _DQ;
 };
+
 
 // -- END OF FILE --

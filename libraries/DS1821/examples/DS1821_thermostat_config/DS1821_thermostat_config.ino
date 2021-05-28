@@ -66,11 +66,13 @@ void setup()
   Serial.println("\nConfiguration done...");
 }
 
+
 void loop()
 {
   Serial.print("ThermoStat:\t");
   Serial.println(digitalRead(DQ));
   delay(100);
 }
+
 
 // -- END OF FILE --

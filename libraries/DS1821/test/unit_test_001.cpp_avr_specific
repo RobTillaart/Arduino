@@ -28,10 +28,10 @@
 #include "DS1821.h"
 
 
-
 unittest_setup()
 {
 }
+
 
 unittest_teardown()
 {
@@ -48,6 +48,7 @@ unittest(test_constructor)
   int n = ds.requestTemperature();
   assertEqual(1, 1);
 }
+
 
 unittest_main()
 

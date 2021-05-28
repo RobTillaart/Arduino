@@ -10,6 +10,7 @@ Arduino library for (AVR) optimized shiftOut - e.g. 74HC595
 
 A library for FastShiftIn also exist - https://github.com/RobTillaart/FastShiftIn
 
+
 ## Description
 
 FastShiftOut is a class that has optimized code for AVR to shift out data faster 
@@ -20,12 +21,14 @@ in the constructor of the FastShiftOut object.
 If not an **ARDUINO_ARCH_AVR** or **ARDUINO_ARCH_MEGAAVR** the class falls back 
 to the default shiftOut() implementation. 
 
+
 ## Performance
 
 The performance of **write()** is substantially faster than the default Arduino 
 **shiftOut()**, but not as fast as HW SPI. 
 Exact how big the performance gain is can be seen with the example sketch.
 It does a comparison and shows how the class is to be used.
+
 
 ## Interface
 
@@ -52,6 +55,7 @@ Note: **FSO.print()** returns the characters printed, including an optional \\r 
 - The optimizations are AVR only for now, other platforms may follow.
 - The 74HC595 needs 0.1uF caps and the data and clock lines may need  
 pull up resistors, especially if wires are exceeding 10 cm (4").
+
 
 ## Operation
 

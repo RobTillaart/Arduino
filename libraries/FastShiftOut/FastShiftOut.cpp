@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: shiftout that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
@@ -9,6 +9,7 @@
 
 
 #include "FastShiftOut.h"
+
 
 FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const uint8_t bitOrder)
 {
@@ -41,6 +42,7 @@ FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const 
 #endif
 }
 
+
 size_t FastShiftOut::write(const uint8_t data)
 {
   _value = data;
@@ -50,6 +52,7 @@ size_t FastShiftOut::write(const uint8_t data)
   }
   return writeMSBFIRST(data);
 }
+
 
 size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
 {
@@ -77,6 +80,7 @@ size_t FastShiftOut::writeLSBFIRST(const uint8_t data)
 #endif
 }
 
+
 size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -103,6 +107,7 @@ size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
 #endif
 }
 
+
 bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
 {
   if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
@@ -112,5 +117,6 @@ bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
   };
   return false;
 }
+
 
 // -- END OF FILE --

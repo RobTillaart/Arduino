@@ -21,14 +21,17 @@
 // assertNull(actual)
 // assertNotNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
 #include "FastShiftOut.h"
 
+
 unittest_setup()
 {
 }
+
 
 unittest_teardown()
 {

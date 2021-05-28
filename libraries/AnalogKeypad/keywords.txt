@@ -3,6 +3,7 @@
 # Datatypes (KEYWORD1)
 AnalogKeypad	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 read	KEYWORD2
 pressed	KEYWORD2
@@ -11,6 +12,7 @@ key	KEYWORD2
 
 
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 NOKEY	LITERAL1

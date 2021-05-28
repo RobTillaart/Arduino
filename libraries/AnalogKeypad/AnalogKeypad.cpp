@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 //
@@ -12,8 +12,11 @@
 // 0.1.3   2020-03-25  minor refactoring
 // 0.1.4   2020-05-27  update library.json
 // 0.1.5   2020-12-09  add arduino-ci
+// 0.1.6   2021-05-27  fix arduino-lint
+
 
 #include "AnalogKeypad.h"
+
 
 // NOTE the MAGIC NUMBERS in rawRead() are for 8 BIT ADC
 // (8 bit compares are fast)
@@ -28,11 +31,13 @@
 #define AKP_BITS    10
 #define AKP_SHIFT   (AKP_BITS - 8)
 
+
 AnalogKeypad::AnalogKeypad(const uint8_t pin)
 {
   _pin = pin;
   _lastKey = NOKEY;
 }
+
 
 uint8_t AnalogKeypad::event()
 {
@@ -49,6 +54,7 @@ uint8_t AnalogKeypad::event()
 
   return rv;
 }
+
 
 uint8_t AnalogKeypad::pressed()
 {
@@ -77,11 +83,13 @@ uint8_t AnalogKeypad::pressed()
   return rv;
 }
 
+
 uint8_t AnalogKeypad::read()
 {
   _lastKey = rawRead();
   return _lastKey;
 }
+
 
 // Adjust numbers for other than 4x4 keypad
 uint8_t AnalogKeypad::rawRead()

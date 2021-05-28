@@ -7,6 +7,7 @@
 //     URL: https://github.com/RobTillaart/timing
 //
 
+
 #include "timing.h"
 
 
@@ -22,6 +23,7 @@ const uint32_t mx = 15000;
 uint16_t primes[MAXPRIMES];
 uint16_t idx = 0;
 uint32_t x = 1;
+
 
 void setup()
 {
@@ -52,9 +54,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 // sort of sieve.
 int nextPrime()
@@ -77,5 +81,6 @@ int nextPrime()
 
   return x;
 }
+
 
 // -- END OF FILE --

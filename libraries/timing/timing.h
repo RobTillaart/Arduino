@@ -2,7 +2,7 @@
 // 
 //    FILE: timing.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.2
 // PURPOSE: Arduino library with wrapper classes for seconds millis micros 
 //     URL: https://github.com/RobTillaart/timing
 //
@@ -12,9 +12,11 @@
 //  0.1.02  2015-03-02 move all to mymillis.h file so compiler can optimize
 //  0.2.0   2020-07-07 renamed to timing.h
 //  0.2.1   2021-01-09 added Arduino-CI + unit test
+//  0.2.1   2021-05-27 added Arduino-lint
 
 
-#define TIMING_LIB_VERSION        (F("0.2.1"))
+#define TIMING_LIB_VERSION        (F("0.2.2"))
+
 
 class microSeconds
 {
@@ -53,5 +55,6 @@ public:
 private:
     uint32_t _offset = 0UL;
 };
+
 
 // -- END OF FILE --

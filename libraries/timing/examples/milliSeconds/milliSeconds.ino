@@ -7,7 +7,9 @@
 //     URL: https://github.com/RobTillaart/timing
 //
 
+
 #include "timing.h"
+
 
 void setup()
 {
@@ -40,8 +42,10 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 // -- END OF FILE --

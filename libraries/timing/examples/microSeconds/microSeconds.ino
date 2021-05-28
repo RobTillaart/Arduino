@@ -7,8 +7,10 @@
 //     URL: https://github.com/RobTillaart/timing
 //
 
+
 #include "timing.h"
 #include "printHelpers.h"  //  https://github.com/RobTillaart/printHelpers
+
 
 void setup()
 {
@@ -30,9 +32,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 uint64_t fibonaci(uint32_t n)
 {
@@ -52,5 +56,6 @@ uint64_t fibonaci(uint32_t n)
   }
   return q;
 }
+
 
 // -- END OF FILE --

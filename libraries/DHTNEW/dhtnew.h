@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.7
+// VERSION: 0.4.8
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -22,7 +22,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.7"))
+#define DHTNEW_LIB_VERSION                (F("0.4.8 "))
 
 
 #define DHTLIB_OK                         0
@@ -34,8 +34,6 @@
 #define DHTLIB_ERROR_TIMEOUT_D           -6
 #define DHTLIB_ERROR_TIMEOUT_B           -7
 #define DHTLIB_WAITING_FOR_READ          -8
-#define DHTLIB_HUMIDITY_OUT_OF_RANGE     -100
-#define DHTLIB_TEMPERATURE_OUT_OF_RANGE  -101
 
 #ifndef DHTLIB_INVALID_VALUE
 #define DHTLIB_INVALID_VALUE           -999

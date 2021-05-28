@@ -26,6 +26,7 @@ uint32_t last = 0;
 
 SHT85 sht;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -42,6 +43,7 @@ void setup()
   //  Serial.println();
   Serial.println("count\t time\t temp\t hum");
 }
+
 
 void loop()
 {
@@ -63,5 +65,6 @@ void loop()
     count = 0;
   }
 }
+
 
 // -- END OF FILE --

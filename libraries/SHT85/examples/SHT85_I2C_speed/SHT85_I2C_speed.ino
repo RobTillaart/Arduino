@@ -24,6 +24,7 @@ uint32_t stop;
 
 SHT85 sht;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -47,8 +48,10 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
+
 
 // -- END OF FILE --

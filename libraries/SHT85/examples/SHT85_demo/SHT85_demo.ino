@@ -24,6 +24,7 @@ uint32_t stop;
 
 SHT85 sht;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -40,6 +41,7 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
   start = micros();
@@ -54,5 +56,6 @@ void loop()
   Serial.println(sht.getHumidity(), 1);
   delay(100);
 }
+
 
 // -- END OF FILE --

@@ -158,7 +158,6 @@ See async example for usage
 - direct Fahrenheit formula 
 
 
-
 ## Operation
 
 See examples

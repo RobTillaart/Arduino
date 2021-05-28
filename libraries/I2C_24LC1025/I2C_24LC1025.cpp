@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //
 //  HISTORY:
@@ -9,6 +9,7 @@
 //  0.1.1   2021-01-20  major redo 
 //  0.1.2   2021-01-31  fix reading over 64K block border
 //  0.1.3   2021-02-02  add updateBlock();
+//  0.1.4   2021-05-27  fix library.properties;
 
 
 #include "I2C_24LC1025.h"

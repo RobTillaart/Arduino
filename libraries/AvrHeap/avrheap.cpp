@@ -1,7 +1,7 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: experimental library for heap Arduino UNO
 //     URL: https://github.com/RobTillaart/avrheap
 //
@@ -10,6 +10,7 @@
 // http://forum.arduino.cc/index.php?topic=355660
 //
 // HISTORY
+// 0.2.3    2021-05027  add Arduino-CI
 // 0.2.2    2020-12-13  arduino-CI + minimal unit tests
 // 0.2.1    2020-05-27  update library.json
 // 0.2.0    2020-03-27  Removed support for pre 1.0 version
@@ -21,7 +22,9 @@
 // 0.1.01 - refactor, added startAddress()
 // 0.1.00 - initial version
 
+
 #include "avrheap.h"
+
 
 struct __freelist
 {
@@ -46,17 +49,20 @@ size_t hNibble(Print& p, byte val)
   return p.write(val + (val<10 ? '0' : 'A'-10));
 }
 
+
 size_t hByte(Print& p, byte val)
 {
   size_t len = hNibble(p, val >> 4);
   return len + hNibble(p, val & 0x0F);
 }
 
+
 size_t hWord(Print& p, uint16_t val)
 {
   size_t len = hByte(p, (byte)(val >> 8));
   return len + hByte(p, (byte)(val & 0xFF) );
 }
+
 
 size_t dumpR(Print& p, byte* adr, int len)
 {
@@ -91,10 +97,12 @@ size_t dumpR(Print& p, byte* adr, int len)
   return glen;
 }
 
+
 size_t dumpAlloced(byte *ptr, bool withDump)
 {
   return dumpAlloced(Serial, ptr, withDump);
 }
+
 
 size_t dumpAlloced(Print& p, byte *ptr, bool withDump)
 {
@@ -123,15 +131,16 @@ size_t dumpAlloced(Print& p, byte *ptr, bool withDump)
 }
 
 
-
 Avrheap::Avrheap()
 {
 };
+
 
 bool Avrheap::isFragmented()
 {
   return freeListCount() > 0;
 };
+
 
 uint16_t Avrheap::freeListCount()
 {
@@ -139,6 +148,7 @@ uint16_t Avrheap::freeListCount()
   for (struct __freelist*  p = __flp; p; p = p->next) count++;
   return count;
 }
+
 
 uint16_t Avrheap::freeListSize()
 {
@@ -150,6 +160,7 @@ uint16_t Avrheap::freeListSize()
   }
   return total;
 }
+
 
 void Avrheap::freeListWalk(bool withDump)
 {
@@ -182,10 +193,12 @@ void Avrheap::freeListWalk(bool withDump)
   }
 }
 
+
 uint16_t Avrheap::startAddress()
 {
   return (uint16_t) &__heap_start;
 }
+
 
 void Avrheap::dumpHeap(uint16_t count)
 {
@@ -217,9 +230,11 @@ void Avrheap::dumpHeap(uint16_t count)
   dumpR(Serial, (byte*)startAddress(), count);
 }
 
+
 size_t Avrheap::heapWalk(bool withDump) {
   return heapWalk(Serial, withDump);
 }
+
 
 // EXPERIMENTAL
 size_t Avrheap::heapWalk(Print& pr, bool withDump) const
@@ -248,6 +263,7 @@ size_t Avrheap::heapWalk(Print& pr, bool withDump) const
   return len;
 }
 
+
 bool Avrheap::inFreeList(uint16_t addr)
 {
   for (struct __freelist* p = __flp; p; p = p->next)
@@ -256,6 +272,7 @@ bool Avrheap::inFreeList(uint16_t addr)
   }
   return false;
 }
+
 
 uint16_t Avrheap::freeListLargest()
 {
@@ -267,10 +284,12 @@ uint16_t Avrheap::freeListLargest()
   return largest;
 }
 
+
 size_t Avrheap::printTo(Print& p) const
 {
   size_t len = heapWalk(p, true);
   return len;
 }
+
 
 // --- END OF FILE ---

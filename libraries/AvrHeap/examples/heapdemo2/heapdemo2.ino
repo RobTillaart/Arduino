@@ -1,18 +1,21 @@
 //
 //    FILE: heapdemo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo AvrHeap class
 //    DATE: 2015-10-25
 //     URL: http://forum.arduino.cc/index.php?topic=355660
 //          https://github.com/RobTillaart/avrheap
 //
 
+
 #if !defined(ARDUINO_ARCH_AVR)
+
 
 void setup()
 {
 }
+
 
 void loop()
 {
@@ -20,11 +23,13 @@ void loop()
 
 #else
 
+
 #include "avrheap.h"
 
 Avrheap myheap;
 
 int *par[10];
+
 
 void setup()
 {
@@ -35,7 +40,7 @@ void setup()
   Serial.print(F("Start "));
   Serial.print(F(__FILE__));
   Serial.print(F("\nLibVersion "));
-  Serial.println(F(AVRHEAP_LIB_VERSION));
+  Serial.println(AVRHEAP_LIB_VERSION);
 
   Serial.println();
   Serial.print(F("HEAP ADDR: "));
@@ -75,9 +80,11 @@ void setup()
   Serial.println(F("done"));
 }
 
+
 void loop()
 {
 }
+
 
 #endif
 

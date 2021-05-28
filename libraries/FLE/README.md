@@ -7,6 +7,7 @@
 
 Arduino library for Arduino library for float with error datatype
 
+
 ## Description
 
 This experimental library provides basic math when have a quantity with a certain 
@@ -31,6 +32,7 @@ This allows you to print an FLE in human readable form.
 
 When the ± char does not print correctly, one could change the font.
 
+
 ### Functions
 
 - **FLE(val = 0, err = 0)** constructor, with default value and error set to 0.
@@ -47,6 +49,7 @@ Then it return 0. Q: should this be "NaN
 
 furthermore the basic math is implemented, "+, -, *, /, +=, -=, *=, /="
 
+
 ## Todo
 
 - comparison (investigate, what means equal or less than ..)
@@ -59,6 +62,7 @@ furthermore the basic math is implemented, "+, -, *, /, +=, -=, *=, /="
 - test large / small numbers.
 - test other separator
 - more demo sketches...
+
 
 ## Operation
 

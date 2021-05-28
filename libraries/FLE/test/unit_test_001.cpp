@@ -32,6 +32,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -48,6 +49,7 @@ unittest(test_new_operator)
   assertEqualNAN(42);
 }
 */
+
 
 unittest(test_constructor)
 {
@@ -84,10 +86,12 @@ unittest(test_constructor)
   assertEqualFloat(0.3, y.error(), 0.001);
 }
 
+
 unittest(test_basic_math)
 {
 
 }
+
 
 unittest_main()
 

@@ -6,9 +6,11 @@
 //    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/FLE
 
+
 #include "FLE.h"
 
 FLE ar[20];
+
 
 void setup()
 {
@@ -30,6 +32,7 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
@@ -49,7 +52,6 @@ FLE meanAverageError(FLE *, uint8_t len, uint8_t dec)
   x.setDecimals(dec);
   return x;
 }
-
 
 
 FLE meanError(FLE *, uint8_t len, uint8_t dec)
@@ -81,5 +83,6 @@ FLE meanError(FLE *, uint8_t len, uint8_t dec)
   x.setDecimals(dec);
   return x;
 }
+
 
 // -- END OF FILE --

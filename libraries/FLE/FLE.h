@@ -3,7 +3,7 @@
 //    FILE: FLE.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for float with error datatype
 //     URL: https://github.com/RobTillaart/FLE
 //
@@ -14,8 +14,9 @@
 #include "Arduino.h"
 #include "math.h"
 
-#define FLE_LIB_VERSION      "0.1.0"
- 
+#define FLE_LIB_VERSION      (F("0.1.1"))
+
+
 class FLE: public Printable
 {
   public:

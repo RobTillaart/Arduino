@@ -6,6 +6,7 @@
 //    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/FLE
 
+
 #include "FLE.h"
 
 FLE zero;
@@ -17,6 +18,7 @@ FLE EE(EULER);
 
 FLE x(2, 0.1);
 FLE y(7, 0.3);
+
 
 void setup()
 {
@@ -30,9 +32,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_printable()
 {

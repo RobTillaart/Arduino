@@ -22,8 +22,8 @@ void setup()
   test1();
   test2();
   test3();
-
 }
+
 
 void loop()
 {
@@ -101,6 +101,7 @@ void test2()
   delay(10);
 }
 
+
 void test3()
 {
   Serial.println("\nTEST 100x ADD 10000 RANDOM ANGLES");
@@ -119,5 +120,6 @@ void test3()
   Serial.println();
   delay(10);
 }
+
 
 // -- END OF FILE --

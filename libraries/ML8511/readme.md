@@ -7,15 +7,18 @@
 
 Arduino library for ML8511 UV sensor
 
+
 ## Warning
 
 **Always take precautions as UV radiation can give sunburn, eye damage and possible other problems**. 
 Do not expose yourself to the sun as UV source too long and when using artificial UV light 
 (TL LED etc) use appropriate shielding.
 
+
 ## Description
 
 ML8511 - UV sensor - library for Arduino UNO. 
+
 
 ## Breakout
 
@@ -28,6 +31,7 @@ ML8511 - UV sensor - library for Arduino UNO.
 //   EN |o       S |  Sensor
 //      +----------+
 ```
+
 
 ## Operational
 
@@ -51,6 +55,7 @@ When connecting to an Arduino UNO one can use the 3V3 of the Arduino to power
 the sensor. However it is not possible to connect the enablepin directly to the 
 sensor. Use a voltage divider (10K + 20K) to convert the 5 Volts to ~3.3 Volts.
 
+
 ## Sensor sensitivity
 
 Indoors there is very little UV light so use a known UV source like 
@@ -62,6 +67,7 @@ the accuracy is limited. (If you have please contact me)
 
 The sensor has its peak sensitivity ( >80% ) from λ = 300-380 nm 
 with an absolute peak at λ = 365 nm.
+
 
 ## Experimental
 (use at own risk)
@@ -95,7 +101,9 @@ Table based upon https://en.wikipedia.org/wiki/Ultraviolet_index,
 
 https://en.wikipedia.org/wiki/Ultraviolet_index
 
+
 ## Notes
 - 3V3 Sensor so do not connect to 5V directly.
 - do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
 - library does not work with an external ADC 
+

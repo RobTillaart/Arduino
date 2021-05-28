@@ -1,7 +1,7 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //
 //  HISTORY:
@@ -10,6 +10,7 @@
 //  0.1.2  2020-06-21  refactor; add estimateDUVindex()
 //  0.1.3  2021-01-01  arduino-ci + unit test
 //  0.1.4  2021-04-23  fix for platformIO
+//  0.1.5  2021-05-27  fix arduino-lint
 
 
 #include "ML8511.h"
@@ -67,6 +68,7 @@ float ML8511::getUV(uint8_t energyMode)
   return mWcm2;
 }
 
+
 // experimental estimate DUV index  (not calibrated, USE WITH CARE !!)
 // input is power in mW per cm2
 // weight is pretty high 
@@ -80,6 +82,7 @@ float ML8511::estimateDUVindex(float mWcm2)
   float factor = 0.04;  // 1.0/25;  
   return mWm2 * weight * factor;
 };
+
 
 void  ML8511::setVoltsPerStep(float voltage, uint32_t steps)
 {
@@ -100,5 +103,6 @@ void ML8511::disable()
   if (_enablePin != 0xFF) digitalWrite(_enablePin, LOW);
   _enabled = false;
 };
+
 
 // -- END OF FILE --

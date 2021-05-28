@@ -3,6 +3,7 @@
 # Datatypes (KEYWORD1)
 ML8511	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 getUV	KEYWORD2
 enable	KEYWORD2
@@ -11,7 +12,9 @@ setVoltsPerStep	KEYWORD2
 isEnabled	KEYWORD2
 estimateDUVindex	KEYWORD2
 
+
 # Instances (KEYWORD2)
 
 # Constants (LITERAL1)
+ML8511_LIB_VERSION	LITERAL1
 

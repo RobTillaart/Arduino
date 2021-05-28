@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 //  HISTORY:
@@ -23,6 +23,7 @@
 //  0.2.2   2020-07-05  add get/setPercentage();
 //  0.2.3   2020-12-26  arduino-CI, bool isConnected(), bool begin()
 //  0.3.0   2021-01-15  Add WireN support (e.g. teensy)
+//  0.3.1   2021-05-27  Fix arduino-CI / arduino-lint
 
 
 #include "MCP4725.h"

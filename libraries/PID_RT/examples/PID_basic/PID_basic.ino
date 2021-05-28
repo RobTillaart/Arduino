@@ -11,6 +11,7 @@
 // connect a potmeter to A0
 // play :)
 
+
 #include "PID_RT.h"
 
 PID_RT PID;
@@ -19,6 +20,7 @@ const int PWM_PIN = 3;  // UNO PWM pin
 
 int op = 0;;
 float input = 0;
+
 
 void setup()
 {
@@ -34,6 +36,7 @@ void setup()
   op = analogRead(A0);
 }
 
+
 void loop()
 {
   input = analogRead(A0);
@@ -48,4 +51,5 @@ void loop()
   }
 }
 
-// -- END OF FILE -- 
+
+// -- END OF FILE --

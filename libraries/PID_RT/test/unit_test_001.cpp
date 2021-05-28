@@ -28,6 +28,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -97,6 +98,8 @@ unittest(test_compute)
   assertEqual(1, 1);
 }
 
+
 unittest_main()
+
 
 // --------

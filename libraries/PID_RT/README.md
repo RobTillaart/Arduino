@@ -7,9 +7,11 @@
 
 Arduino library for PID controller
 
+
 ## Description
 
 The PID_RT class allows the user to instantiate a PID controller.
+
 
 ## Interface
 
@@ -17,6 +19,7 @@ The PID_RT class allows the user to instantiate a PID controller.
 
 - **PID_RT()** minimal constructor.
 - **PID_RT(float sp, float Kp, float Ki, float Kd)** constructor that sets minimal parameters to get started.
+
 
 ### Core
 
@@ -27,11 +30,13 @@ The PID_RT class allows the user to instantiate a PID controller.
 - **float getOutput()** get the last calculated output value. 
 - **bool  setK(float Kp, float Ki, float Kd)** Set the initial P I D parameters as a group.
 
+
 ### Start Stop
 
 - **void start()** // enable the PID controller to compute new output values.
 - **void stop()**  disable the PID controller **compute()**.
 - **bool isRunning()**
+
 
 ### Additional parameters
 
@@ -53,6 +58,7 @@ The PID_RT class allows the user to instantiate a PID controller.
 - **bool isPropOnInput()** read back setting.
 - **bool isPropOnError()** read back setting.
 
+
 ### debugging calls
 
 Might be obsolete in future.
@@ -60,6 +66,7 @@ Might be obsolete in future.
 - **float getInput()** read last input.
 - **float getLastError()** read the last error.
 - **uint32_t getLastTime()** read the last.
+
 
 ## Operations
 

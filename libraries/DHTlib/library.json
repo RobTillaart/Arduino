@@ -1,6 +1,6 @@
 {
   "name": "DHTlib",
-  "keywords": "DHT11 DHT22 DHT33 DHT44 AM2301 AM2302 AM2303 AM2320 AM2322",
+  "keywords": "DHT11 DHT22 AM2301 AM2302 AM2303 AM2320 AM2322",
   "description": "Optimized Library for DHT Temperature & Humidity Sensor on AVR only.",
   "authors":
   [

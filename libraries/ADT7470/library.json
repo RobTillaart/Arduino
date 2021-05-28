@@ -15,7 +15,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/ADT7470.git"
   },
-  "version":"0.1.2",
+  "version": "0.1.2",
+  "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"
 }

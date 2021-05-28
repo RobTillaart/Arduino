@@ -16,6 +16,7 @@
     "url": "https://github.com/RobTillaart/BH1750FVI_RT.git"
   },
   "version": "0.2.6",
+  "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"
 }

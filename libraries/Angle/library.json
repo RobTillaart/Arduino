@@ -20,7 +20,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Angle.git"
   },
-  "version":"0.1.10",
+  "version": "0.1.10",
+  "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"
 }

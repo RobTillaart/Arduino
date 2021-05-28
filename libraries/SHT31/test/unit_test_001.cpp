@@ -42,9 +42,11 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
+
 
 unittest(test_begin)
 {
@@ -64,6 +66,7 @@ unittest(test_begin)
   assertEqual(0, sht.getTemperature());
   assertEqual(0, sht.getHumidity());
 }
+
 
 unittest(test_read)
 {
@@ -94,6 +97,7 @@ unittest(test_read)
   assertEqual(expect, sht.getError());
 }
 
+
 unittest(test_readStatus)
 {
   SHT31 sht;
@@ -104,6 +108,7 @@ unittest(test_readStatus)
   expect = SHT31_ERR_READBYTES;
   assertEqual(expect, sht.getError());
 }
+
 
 unittest(test_heater)
 {
@@ -123,6 +128,7 @@ unittest(test_heater)
   expect = SHT31_OK;
   assertEqual(expect, sht.getError());
 }
+
 
 unittest(test_async)
 {
@@ -150,6 +156,7 @@ unittest(test_async)
   expect = SHT31_ERR_READBYTES;
   assertEqual(expect, sht.getError());
 }
+
 
 unittest_main()
 

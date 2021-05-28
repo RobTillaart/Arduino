@@ -5,6 +5,7 @@
 // PURPOSE: testing the performance at different I2C speeds
 //     URL: https://github.com/RobTillaart/SHT31
 
+
 #include "Wire.h"
 #include "SHT31.h"
 
@@ -14,6 +15,7 @@ uint32_t start;
 uint32_t stop;
 
 SHT31 sht;
+
 
 void setup()
 {
@@ -30,6 +32,7 @@ void setup()
   Serial.print(stat, HEX);
   Serial.println();
 }
+
 
 void loop()
 {
@@ -55,5 +58,6 @@ void test()
   Serial.println(sht.getHumidity(), 1);
   delay(100);
 }
+
 
 // -- END OF FILE --

@@ -5,6 +5,7 @@
 // PURPOSE: demo  (needs 0.2.4 or up)
 //     URL: https://github.com/RobTillaart/SHT31
 
+
 #include "Wire.h"
 #include "SHT31.h"
 
@@ -15,6 +16,7 @@ uint32_t stop;
 
 SHT31 sht;
 uint32_t connectionFails = 0;
+
 
 void setup()
 {
@@ -31,6 +33,7 @@ void setup()
   Serial.print(stat, HEX);
   Serial.println();
 }
+
 
 void loop()
 {
@@ -58,5 +61,6 @@ void loop()
   Serial.println();
   delay(100);
 }
+
 
 // -- END OF FILE --

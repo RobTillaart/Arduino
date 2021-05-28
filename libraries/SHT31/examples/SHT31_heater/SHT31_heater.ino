@@ -5,6 +5,7 @@
 // PURPOSE: demo heater functions
 //     URL: https://github.com/RobTillaart/SHT31
 
+
 #include "Wire.h"
 #include "SHT31.h"
 
@@ -12,6 +13,7 @@
 
 SHT31 sht;
 uint16_t status;
+
 
 void setup()
 {
@@ -43,6 +45,7 @@ void setup()
   Serial.println("switched off");
 }
 
+
 void loop()
 {
   // forced switch off
@@ -61,5 +64,6 @@ void printHeaterStatus(uint16_t status)
     Serial.println("OFF");
   }
 }
+
 
 // -- END OF FILE --

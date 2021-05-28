@@ -3,6 +3,7 @@
 # Datatypes (KEYWORD1)
 SHT31	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 read	KEYWORD2
@@ -20,7 +21,9 @@ requestData	KEYWORD2
 dataReady	KEYWORD2
 readData	KEYWORD2
 
+
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 SHT31_LIB_VERSION	LITERAL1

@@ -5,6 +5,7 @@
 // PURPOSE: demo async interface
 //     URL: https://github.com/RobTillaart/SHT31
 
+
 #include "Wire.h"
 #include "SHT31.h"
 
@@ -15,6 +16,7 @@ uint32_t stop;
 uint32_t cnt;
 
 SHT31 sht;
+
 
 void setup()
 {
@@ -34,6 +36,7 @@ void setup()
   sht.requestData();
   cnt = 0;
 }
+
 
 void loop()
 {

@@ -5,6 +5,7 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT31
 
+
 #include "Wire.h"
 #include "SHT31.h"
 
@@ -14,6 +15,7 @@ uint32_t start;
 uint32_t stop;
 
 SHT31 sht;
+
 
 void setup()
 {
@@ -31,6 +33,7 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
   start = micros();
@@ -44,5 +47,6 @@ void loop()
   Serial.println(sht.getHumidity(), 1);
   delay(100);
 }
+
 
 // -- END OF FILE --

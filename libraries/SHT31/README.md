@@ -8,6 +8,7 @@
 
 Arduino library for the SHT31 temperature and humidity sensor
 
+
 ## Description
 
 The SHT3x family of sensors should work up to 1 MHz I2C
@@ -24,6 +25,7 @@ not tested yet.
 
 An elaborated library for the SHT31 sensor can be found here
 https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
+
 
 ## Interface
 
@@ -42,6 +44,7 @@ returns false if device address is incorrect or device cannot be reset.
 - **getHumidity()** returns relative humidity in %
 - **getTemperature()** returns temperature in °C
 
+
 #### Error interface
 
 - **getError()** returns last set error flag and clear it. 
@@ -57,7 +60,6 @@ Be sure to clear the error flag by calling **getError()** before calling any com
 | 0x85 | SHT31_ERR_CRC_TEMP    | CRC error in temperature    |
 | 0x86 | SHT31_ERR_CRC_HUM     | CRC error in humidity       |
 | 0x87 | SHT31_ERR_CRC_STATUS  | CRC error in statusfield    |
-
 
 
 #### Heater interface
@@ -76,6 +78,7 @@ This value is truncated to max 180 seconds.
 - **isHeaterOn()** is the sensor still in heating cycle? replaces **heatUp()**.
 Will switch heat off if max heating time has passed. 
 - **heatUp()** will be obsolete in the future.
+
 
 #### Async interface
 
@@ -108,6 +111,7 @@ See async example for usage
 |     |                | '1': last cmd not processed. Invalid or failed checksum |
 | 0   | Write data checksum status | '0': checksum of last write correct |
 |     |                            | '1': checksum of last write transfer failed |
+
 
 ## Operation
 

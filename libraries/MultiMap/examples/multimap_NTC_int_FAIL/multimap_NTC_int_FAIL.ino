@@ -23,6 +23,7 @@ uint32_t stop;
 
 volatile float x, y, z;
 
+
 int in[] = {
   0, 1, 3, 8, 13,  20, 25, 32, 50, 60,  72, 85, 100, 145, 200,  250, 300, 400, 500, 600,  650, 700, 753, 800, 830,  870, 900, 936, 964, 985,  1000, 1017, 1023
 };
@@ -32,6 +33,7 @@ int out[] = {
 };
 
 int sz = 33;
+
 
 void setup()
 {
@@ -67,12 +69,13 @@ void setup()
     Serial.print(z);
     Serial.println();
   }
-
 }
+
 
 void loop()
 {
 }
+
 
 // NTC formula
 float val(int sensorValueA1)
@@ -85,5 +88,6 @@ float val(int sensorValueA1)
 
   return Temp;
 }
+
 
 // -- END OF FILE --

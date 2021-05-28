@@ -2,7 +2,7 @@
 //
 //    FILE: MultiMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2011-01-26
 // PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
 //     URL: https://github.com/RobTillaart/MultiMap
@@ -15,9 +15,11 @@
 //  0.1.1   2020-04-09
 //  0.1.2   2020-06-19  fix library.json
 //  0.1.3   2021-01-02  add arduino-CI 
-//
+//  0.1.4   2021-05-27  fix arduino-lint
 
-#define MULTIMAP_LIB_VERSION "0.1.3"
+
+#define MULTIMAP_LIB_VERSION        (F("0.1.4"))
+
 
 #include "Arduino.h"
 
@@ -89,5 +91,6 @@ T multiMap(T val, T* _in, T* _out, uint8_t size)
   return cache;
 }
 */
+
 
 // -- END OF FILE --

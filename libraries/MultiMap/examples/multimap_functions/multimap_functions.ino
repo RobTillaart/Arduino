@@ -10,6 +10,7 @@
 
 #include "MultiMap.h"
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -27,10 +28,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
+
 
 void test_normal_distribution()
 {
@@ -48,6 +50,7 @@ void test_normal_distribution()
   }
 }
 
+
 void test_sinus()
 {
   // one sinus wave, amplitudo 1023
@@ -63,6 +66,7 @@ void test_sinus()
     delay(10);
   }
 }
+
 
 void lest_log10()
 {
@@ -80,6 +84,7 @@ void lest_log10()
   }
 }
 
+
 void test_exp2()
 {
   // 2^x
@@ -95,6 +100,7 @@ void test_exp2()
     delay(10);
   }
 }
+
 
 void test_exp3()
 {
@@ -112,6 +118,7 @@ void test_exp3()
   }
 }
 
+
 void test_sawtooth()
 {
   long sawtooth[] = { 0, 1000, 0, -1000, 0, 1000, -1000, 0 }; // size 8
@@ -126,5 +133,6 @@ void test_sawtooth()
     delay(10);
   }
 }
+
 
 // -- END OF FILE --

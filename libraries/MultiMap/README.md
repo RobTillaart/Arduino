@@ -7,6 +7,7 @@
 
 Arduino library for fast non-linear mapping or interpolation of values
 
+
 ## Description
 
 In Arduino applications often the value of a sensor is mapped upon a more
@@ -35,11 +36,13 @@ points of the output\[\] array.
 there is no such restriction for the **output\[\]** array.
 - **Multimap()** automatically constrains the output to the first and last value in the **output\[\]** array.
 
+
 ## Operation
 
 See examples
 
 Please note the fail example as this shows that in the intern math overflow can happen.
+
 
 ## TODO
 

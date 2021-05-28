@@ -7,6 +7,7 @@
 //    (c) : MIT
 //
 
+
 #include "MultiMap.h"
 
 uint32_t start;
@@ -17,6 +18,7 @@ volatile float x, y, z;
 // Note this is a bit an extreme example,
 // normally you only make a multimap of the working range
 
+
 float in[] = {
   0, 1, 3, 8, 13,  20, 25, 32, 50, 60,  72, 85, 100, 145, 200,  250, 300, 400, 500, 600,  650, 700, 753, 800, 830,  870, 900, 936, 964, 985,  1000, 1017, 1023
 };
@@ -26,6 +28,7 @@ float out[] = {
 };
 
 int sz = 33;
+
 
 void setup()
 {
@@ -64,9 +67,11 @@ void setup()
 
 }
 
+
 void loop()
 {
 }
+
 
 // NTC formula
 float val(int sensorValueA1)
@@ -79,5 +84,6 @@ float val(int sensorValueA1)
 
   return Temp;
 }
+
 
 // -- END OF FILE --

@@ -39,6 +39,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -55,6 +56,7 @@ unittest(test_new_operator)
   assertEqualNAN(42);
 }
 */
+
 
 unittest(test_all)
 {
@@ -75,6 +77,8 @@ unittest(test_all)
   assertEqualFloat(20.0000, multiMap<float>(600, in, out, 14), 0.001);
 }
 
+
 unittest_main()
+
 
 // --------

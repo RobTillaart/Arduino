@@ -1,4 +1,3 @@
-
 //
 //    FILE: multimap_distance.ino
 //  AUTHOR: Rob Tillaart
@@ -7,7 +6,9 @@
 //    DATE: 2020-04-09
 //
 
+
 #include "MultiMap.h"
+
 
 void setup()
 {
@@ -26,6 +27,7 @@ void setup()
   Serial.println("Done...");
 }
 
+
 void loop()
 {
 }
@@ -43,5 +45,6 @@ float sharp2cm(int val)
   float dist = multiMap<float>(val, in, out, 14);
   return dist;
 }
+
 
 // -- END OF FILE --

@@ -3,6 +3,7 @@
 # Datatypes (KEYWORD1)
 HeartBeat	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 setFrequency	KEYWORD2
@@ -10,6 +11,7 @@ setDutyCycle	KEYWORD2
 enable	KEYWORD2
 disable	KEYWORD2
 beat	KEYWORD2
+
 
 # Constants (LITERAL1)
 HEARTBEAT_LIB_VERSION	LITERAL1

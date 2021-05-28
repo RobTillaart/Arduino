@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -11,6 +11,7 @@
 //  0.1.1   2020-12-24  arduino-CI 
 //  0.1.2   2021-01-15  renamed all to HeartBeat
 //                      added dutyCycle
+//  0.1.3   2021-05-27  fix arduino-lint
 
 
 #include "HeartBeat.h"
@@ -45,6 +46,7 @@ void HeartBeat::setDutyCycle(float dutyCycle)
   _dutyCycle = constrain(dutyCycle, 0, 100);  // percentage
   _setFreqDuty();
 }
+
 
 void HeartBeat::beat()
 {

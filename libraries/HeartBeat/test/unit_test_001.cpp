@@ -41,6 +41,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -76,6 +77,7 @@ unittest(test_constructor)
     assertEqual(expected[i], actual[i]);
   }
 }
+
 
 unittest_main()
 

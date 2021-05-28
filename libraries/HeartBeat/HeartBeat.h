@@ -2,7 +2,7 @@
 //
 //    FILE: HeartBeat.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define HEARTBEAT_LIB_VERSION       (F("0.1.2"))
+#define HEARTBEAT_LIB_VERSION       (F("0.1.3"))
 
 class HeartBeat
 {
@@ -20,7 +20,6 @@ public:
   void  begin(const uint8_t pin, float frequency = 1.0);
   void  setFrequency(float frequency = 1.0);
   void  setDutyCycle(float dutyCycle = 50);
-
 
   inline void enable()  { _running = true;  };
   inline void disable() { _running = false; };
@@ -40,5 +39,6 @@ protected:
   bool     _running;
   uint8_t  _pin;
 };
+
 
 // -- END OF FILE --

@@ -11,6 +11,7 @@ HeartBeat HB;
 
 int frequency = 1;
 
+
 void setup() 
 {
   Serial.begin(115200);
@@ -30,5 +31,6 @@ void loop()
   
   // do other stuff here
 }
+
 
 // -- END OF FILE --

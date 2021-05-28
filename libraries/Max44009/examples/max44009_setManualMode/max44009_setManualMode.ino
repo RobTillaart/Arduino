@@ -1,12 +1,13 @@
 //
 //    FILE: max44009_setManualMode.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo of max44009 library
 //    DATE: 2020-01-30
 //
 // Released to the public domain
 //
+
 
 #include "Wire.h"
 #include "Max44009.h"
@@ -19,6 +20,7 @@ uint32_t lastChangeCDRTIM = 0;
 uint8_t CDR = 0;
 uint8_t TIM = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -29,6 +31,7 @@ void setup()
 
   myLux.setManualMode(CDR, TIM);
 }
+
 
 void loop()
 {
@@ -56,18 +59,19 @@ void loop()
   if (millis() - lastChangeCDRTIM >= 5000)
   {
     lastChangeCDRTIM += 5000;
-	TIM++;
-	if (TIM == 4)
-	{
-		TIM = 0;
-		CDR = (CDR + 1) & 1;
-	}
+    TIM++;
+    if (TIM == 4)
+    {
+      TIM = 0;
+      CDR = (CDR + 1) & 1;
+    }
     myLux.setManualMode(CDR, TIM);
-	Serial.print("CDR:\t");
-	Serial.print((int)CDR);
-	Serial.print("\tTIM:\t");
-	Serial.println((int)TIM);
+    Serial.print("CDR:\t");
+    Serial.print((int)CDR);
+    Serial.print("\tTIM:\t");
+    Serial.println((int)TIM);
   }
 }
+
 
 // END OF FILE

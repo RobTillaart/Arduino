@@ -8,6 +8,7 @@
 // Released to the public domain
 //
 
+
 #include "Wire.h"
 #include "Max44009.h"
 
@@ -48,5 +49,6 @@ void loop()
     }
   }
 }
+
 
 // END OF FILE

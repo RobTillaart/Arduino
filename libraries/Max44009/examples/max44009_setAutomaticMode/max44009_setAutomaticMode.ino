@@ -8,6 +8,7 @@
 // Released to the public domain
 //
 
+
 #include "Wire.h"
 #include "Max44009.h"
 
@@ -27,6 +28,7 @@ void setup()
   myLux.setAutomaticMode();
 }
 
+
 void loop()
 {
   uint32_t interval = 100;
@@ -41,7 +43,7 @@ void loop()
     int conf = myLux.getConfiguration();
     int CDR = (conf & 0x80) >> 3;
     int TIM = (conf & 0x07);
-	int integrationTime = myLux.getIntegrationTime();
+    int integrationTime = myLux.getIntegrationTime();
 
     if (err != 0)
     {
@@ -62,7 +64,6 @@ void loop()
       Serial.println();
     }
   }
-
 }
 
 // END OF FILE

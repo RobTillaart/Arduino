@@ -3,6 +3,7 @@
 # Datatypes (KEYWORD1)
 Max44009	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 configure	KEYWORD2
 isConnected	KEYWORD2
@@ -31,6 +32,7 @@ getIntegrationTime	KEYWORD2
 
 
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 MAX44009_LIB_VERSION	LITERAL1

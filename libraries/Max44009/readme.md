@@ -7,6 +7,7 @@
 
 Library for MAX44009 / GY-49 I2C lux sensor
 
+
 ## Description
 a.k.a. GY-49
 
@@ -47,58 +48,71 @@ dynamic range from 0.045 lux to 188,000 lux.
 
 ### Constructor 
   
-- **Max44009(address, dataPin, clockPin)** dataPin, clockPin for ESP32, ESP8266
-- **Max44009(address, begin = Boolean::True)**
-- **Max44009(begin = Boolean::True)**
-- **void configure(address, TwoWire \*wire, begin = Boolean::True)** Change I2C interface and address
-- **bool isConnected()** device available on I2C bus.
+- **Max44009(address, dataPin, clockPin)** Constructor with dataPin (sda) and clockPin (scl) for ESP32 and ESP8266
+- **Max44009(address, begin = Boolean::True)** Constructor for other boards e.g. UNO.
+- **Max44009(begin = Boolean::True)** Constructor with default I2C address 0x4A == 74.
+- **void configure(address, TwoWire \*wire, begin = Boolean::True)** Change I2C interface and address.
+- **bool isConnected()** returns true if the device address configured is available on I2C bus.
 
 
 ### Basic 
 
-- **float getLux()** read the sensor.
+- **float getLux()** read the sensor and return the value in LUX. If the value is negative, an error has occurred. 
 - **int getError()** returns last error.
+
+```cpp
+// ERROR CODES
+#define MAX44009_OK                     0
+#define MAX44009_ERROR_WIRE_REQUEST    -10
+#define MAX44009_ERROR_OVERFLOW        -20
+#define MAX44009_ERROR_HIGH_BYTE       -30
+#define MAX44009_ERROR_LOW_BYTE        -31
+```
 
 
 ### Configure thresholds
 
 check datasheet for details
 
-- **void setHighThreshold(float)**
-- **float getHighThreshold(void)**
-- **void  setLowThreshold(float)**
-- **float getLowThreshold(void)**
-- **void  setThresholdTimer(uint8_t)** 2 seems practical minimum
-- **uint8_t getThresholdTimer()** returns 
+- **void setHighThreshold(float)** sets the upper threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**.
+- **float getHighThreshold(void)** returns the value set.
+- **void  setLowThreshold(float)** sets the lower threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**.
+- **float getLowThreshold(void)** returns the value set.
+- **void  setThresholdTimer(uint8_t)** Time the threshold needs to be exceeded, defined in steps of 100ms. 2 seems to be a practical minimum.
+- **uint8_t getThresholdTimer()** returns the value set.
 
 
 ### Configure interrupts
 
 check datasheet for details
 
-- **void enableInterrupt()**
-- **void disableInterrupt()**
-- **bool interruptEnabled()**
-- **uint8_t getInterruptStatus()**
+- **void enableInterrupt()** enables the upper and lower threshold interrupts.
+- **void disableInterrupt()** disables the threshold interrupts.
+- **bool interruptEnabled()** returns 1 if the interrupt mode is enabled.
+- **uint8_t getInterruptStatus()** returns 1 if an interrupt has occurred.
 
 
 ### Configure flags
 
 check datasheet for details
 
-- **void setConfiguration(uint8_t)**
-- **uint8_t getConfiguration()**
+- **void setConfiguration(uint8_t)** writes directly to configuration register. **warning** Use with care.
+- **uint8_t getConfiguration()** reads the current configuration register.
 
 
 ### Configure sample mode
 
 check datasheet for details
 
-- **void setAutomaticMode()** 
-- **void setContinuousMode()** uses more power
-- **void clrContinuousMode()** uses less power
-- **void setManualMode(uint8_t CDR, uint8_t TIM)**
-- **int getIntegrationTime()** returns time in milliseconds
+CCR = Current Divisor Ratio.
+
+TIM = Integration time.
+
+- **void setAutomaticMode()** in automatic mode the MAX44009 determines the CDR and TIM parameters.
+- **void setContinuousMode()** continuous mode uses more power than a "single" conversion. Advantage is that the latest data is always available fast.
+- **void clrContinuousMode()** uses less power so better for LOW power configurations. 
+- **void setManualMode(uint8_t CDR, uint8_t TIM)** Set the Current Divisor Ratio and the integration time manually. Effectively disable automatic mode.
+- **int getIntegrationTime()** returns the set integration time in milliseconds
 
 ```
     CDR = Current Divisor Ratio

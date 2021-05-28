@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
 //
 //  HISTORY
 //
+//  0.4.4   2021-05-27  arduino-lint
 //  0.4.3   2020-12-30  arduino-ci, unit test
 //  0.4.2   2020-06-19  fix library.json
 //  0.4.1   2020-03-21  #pragma, readme.nd, license.md
@@ -34,7 +35,9 @@
 //  0.1.01  added interrupt code
 //  0.1.00  initial version
 
+
 #include "Max44009.h"
+
 
 #if defined(ESP8266) || defined(ESP32)
 Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
@@ -53,15 +56,18 @@ Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t c
 }
 #endif
 
+
 Max44009::Max44009(const uint8_t address, const Boolean begin)
 {
   Max44009::configure(address, &Wire, begin);
 }
 
+
 Max44009::Max44009(const Boolean begin)
 {
   Max44009::configure(MAX44009_DEFAULT_ADDRESS, &Wire, begin);
 }
+
 
 void Max44009::configure(const uint8_t address, TwoWire *wire, const Boolean begin)
 {
@@ -195,7 +201,7 @@ void Max44009::clrContinuousMode()
 
 void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 {
-  if (CDR !=0) CDR = 1;
+  if (CDR !=0) CDR = 1;    // only 0 or 1 
   if (TIM > 7) TIM = 7;
   uint8_t config = read(MAX44009_CONFIGURATION);
   config |= MAX44009_CFG_MANUAL;
@@ -262,5 +268,6 @@ void Max44009::write(uint8_t reg, uint8_t value)
   _wire->write(value);
   _error = _wire->endTransmission();
 }
+
 
 // --- END OF FILE ---

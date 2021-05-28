@@ -8,6 +8,7 @@
 // Released to the public domain
 //
 
+
 #include "Wire.h"
 #include "Max44009.h"
 
@@ -38,6 +39,7 @@ void setup()
   myLux.enableInterrupt();
 }
 
+
 void loop()
 {
   uint32_t interval = 1000;
@@ -60,7 +62,7 @@ void loop()
       else Serial.println();
     }
   }
-
 }
+
 
 // END OF FILE

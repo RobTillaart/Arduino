@@ -40,6 +40,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -57,6 +58,7 @@ unittest(test_constructor)
 
   // TODO more tests if WIRE works...
 }
+
 
 unittest_main()
 

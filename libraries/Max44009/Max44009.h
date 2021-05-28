@@ -2,7 +2,7 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 
@@ -31,7 +31,8 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION        (F("0.4.3"))
+#define MAX44009_LIB_VERSION        (F("0.4.4"))
+
 #define MAX44009_DEFAULT_ADDRESS    0x4A
 #define MAX44009_ALT_ADDRESS        0x4B
 
@@ -129,5 +130,6 @@ private:
 
   TwoWire* _wire;
 };
+
 
 // END OF FILE

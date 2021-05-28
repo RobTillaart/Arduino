@@ -14,6 +14,7 @@
 // per integration time.
 // NB the getLux() call takes a bit more than 1 millisecond
 
+
 #include "Wire.h"
 #include "Max44009.h"
 
@@ -23,6 +24,7 @@ uint32_t lastDisplay = 0;
 uint32_t start = 0;
 uint32_t stop = 0;
 int count = 0;
+
 
 void setup()
 {
@@ -34,6 +36,7 @@ void setup()
 
   myLux.setContinuousMode();
 }
+
 
 void loop()
 {
@@ -68,4 +71,5 @@ void loop()
   }
 }
 
-// END OF FILE
+
+// -- END OF FILE --

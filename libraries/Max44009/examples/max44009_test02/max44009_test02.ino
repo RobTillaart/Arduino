@@ -12,6 +12,7 @@
 // Released to the public domain
 //
 
+
 #include "Wire.h"
 #include "Max44009.h"
 
@@ -22,6 +23,7 @@ Max44009 myLuxC(Max44009::Boolean::False);
 Max44009 myLuxD(Max44009::Boolean::False);
 
 uint32_t lastDisplay = 0;
+
 
 void setup()
 {
@@ -37,6 +39,7 @@ void setup()
   myLuxD.configure(MAX44009_ALT_ADDRESS, &Wire1);
 }
 
+
 void loop() {
   if (millis() - lastDisplay >= 1000) {
     lastDisplay += 1000;
@@ -48,5 +51,6 @@ void loop() {
     Serial.printf("D     |%d    |%f\n", myLuxD.getError(), myLuxD.getLux());
   }
 }
+
 
 // END OF FILE

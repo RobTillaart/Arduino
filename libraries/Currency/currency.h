@@ -3,18 +3,19 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
 //  HISTORY
 //  0.1.0   2021-02-27  initial version
+//  0.1.1   2021-05-27  fix library.properties
 
 
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION        (F("0.1.0"))
+#define CURRENCY_VERSION        (F("0.1.1"))
 
 
 // TODO 

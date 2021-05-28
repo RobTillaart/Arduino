@@ -1,30 +1,34 @@
 //
 //    FILE: dht11_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 1.0.0
 // PURPOSE: DHT library test sketch for DHT11 && Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
-// HISTORY:
-// 0.2.0   use getHumidity() and getTemperature()
-// 0.1.2   add URL in header
+//  HISTORY:
+//  1.0.0   2021-05-26  class name changed to DHTStable  (breaking change)
+//
+//  0.2.0   use getHumidity() and getTemperature()
+//  0.1.2   add URL in header
 
 
-#include "dht.h"
+#include "DHTStable.h"
 
-dht DHT;
+DHTStable DHT;
 
 #define DHT11_PIN 5
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("LIBRARY VERSION: ");
-  Serial.println(DHT_LIB_VERSION);
+  Serial.println(DHTSTABLE_LIB_VERSION);
   Serial.println();
   Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)");
 }
+
 
 void loop()
 {
@@ -54,4 +58,4 @@ void loop()
   delay(2000);
 }
 
-// END OF FILE
+// -- END OF FILE --

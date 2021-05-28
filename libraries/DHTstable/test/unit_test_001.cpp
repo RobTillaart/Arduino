@@ -22,7 +22,7 @@
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
-#include "dht.h"
+#include "DHTStable.h"
 
 
 unittest_setup()
@@ -36,9 +36,9 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  dht dht;
+  DHTStable dht;
 
-  fprintf(stderr, "%s\n", DHT_LIB_VERSION);
+  fprintf(stderr, "%s\n", DHTSTABLE_LIB_VERSION);
   assertFalse(dht.getDisableIRQ());
 
   dht.setDisableIRQ(true);
@@ -57,7 +57,7 @@ unittest(test_constructor)
 
 unittest(test_read)
 {
-  dht dht;
+  DHTStable dht;
 
   assertEqual(0, dht.getHumidity());
   assertEqual(0, dht.getTemperature());

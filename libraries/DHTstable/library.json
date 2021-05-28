@@ -13,9 +13,10 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/DHTstable"
+    "url": "https://github.com/RobTillaart/DHTstable.git"
   },
-  "version":"0.2.9",
+  "version": "1.0.0",
+  "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "atmelavr"
+  "platforms": "avr"
 }

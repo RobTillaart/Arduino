@@ -1,14 +1,10 @@
-#######################################
 # Syntax Coloring Map For DHTStable
 
-#######################################
 # Datatypes (KEYWORD1)
+DHTStable	KEYWORD1
 
-dht	KEYWORD1
 
-#######################################
 # Methods and Functions (KEYWORD2)
-
 reset	KEYWORD2
 read	KEYWORD2
 read11	KEYWORD2
@@ -28,10 +24,9 @@ getTemperature	KEYWORD2
 humidity	KEYWORD2
 temperature	KEYWORD2
 
-#######################################
 # Instances (KEYWORD2)
 
-#######################################
-# Constants (LITERAL1)
 
+# Constants (LITERAL1)
+DHTSTABLE_LIB_VERSION	LITERAL1
 

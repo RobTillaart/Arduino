@@ -1,0 +1,46 @@
+# Syntax Coloring Map For INA226
+
+# Datatypes (KEYWORD1)
+INA226	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+getShuntVoltage	KEYWORD2
+getBusVoltage	KEYWORD2
+getPower	KEYWORD2
+getCurrent	KEYWORD2
+
+reset	KEYWORD2
+setAverage	KEYWORD2
+getAverage	KEYWORD2
+setBusVoltageConversionTime	KEYWORD2
+getBusVoltageConversionTime	KEYWORD2
+setShuntVoltageConversionTime	KEYWORD2
+getShuntVoltageConversionTime	KEYWORD2
+
+setMaxCurrentShunt	KEYWORD2
+getCurrentLSB	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+shutDown	KEYWORD2
+setModeShuntTrigger	KEYWORD2
+setModeBusTrigger	KEYWORD2
+setModeShuntBusTrigger	KEYWORD2
+setModeShuntContinuous	KEYWORD2
+setModeBusContinuous	KEYWORD2
+setModeShuntBusContinuous	KEYWORD2
+
+setAlertRegister	KEYWORD2
+getAlertFlag	KEYWORD2
+setAlertLimit	KEYWORD2
+getAlertLimit	KEYWORD2
+
+getManufacturerID	KEYWORD2
+getDieID	KEYWORD2
+
+
+# Constants (LITERAL1)
+INA226_LIB_VERSION	LITERAL1

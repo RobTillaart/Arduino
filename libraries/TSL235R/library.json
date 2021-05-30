@@ -1,0 +1,22 @@
+{
+  "name": "TSL235R",
+  "keywords": "TSL235R, light, frequency, wavelength",
+  "description": "Library for the TSL235R light to frequency convertor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TSL235R.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*"
+}

@@ -11,12 +11,14 @@ gram2kilo	KEYWORD2
 kilo2gram	KEYWORD2
 lbs2ounce	KEYWORD2
 ounce2lbs	KEYWORD2
+
 stone2lbs	KEYWORD2
 lbs2stone	KEYWORD2
 stone2kilo	KEYWORD2
 kilo2stone	KEYWORD2
 US2metric	KEYWORD2
 metric2US	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

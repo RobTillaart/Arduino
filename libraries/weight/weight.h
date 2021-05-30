@@ -2,19 +2,20 @@
 //
 //    FILE: weight.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Collection weight conversion functions
-//     URL: https://github.com/RobTillaart/HX711
+//     URL: https://github.com/RobTillaart/weight
 //
 //  HISTORY:
 //  0.1.0   2020-06-16  initial version
 //  0.1.1   2021-01-09  add uarduino-ci + unit test
+//  0.1.2   2021-01-09  fix URL
 
 
 #include "Arduino.h"
 
 
-#define WEIGHT_LIB_VERSION        (F("0.1.1"))
+#define WEIGHT_LIB_VERSION        (F("0.1.2"))
 
 
 float lbs2kilo(float lbs)     { return lbs   * 0.45359237; };

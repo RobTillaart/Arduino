@@ -1,0 +1,22 @@
+{
+  "name": "ShiftInSlow",
+  "keywords": "Shift, shiftIn, in, serial, slow, 74HC165",
+  "description": "Arduino library for shiftIn with build-in delay - e.g. for 74HC165",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ShiftInSlow.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

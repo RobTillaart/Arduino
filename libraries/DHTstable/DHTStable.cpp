@@ -1,12 +1,13 @@
 //
 //    FILE: DHTStable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 1.0.1
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 //  HISTORY:
 
+//  1.0.1   2021-06-01  change architecture to fix incompatible flag.
 //  1.0.0   2021-05-26  rename files and class to DHTStable to fix incompatible flag.
 //                      changed temperature and humidity to private
 //                      breaking change!

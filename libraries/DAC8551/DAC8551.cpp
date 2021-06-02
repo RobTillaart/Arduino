@@ -2,7 +2,7 @@
 //    FILE: DAC8551.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //     URL: https://github.com/RobTillaart/DAC8551
 //
 //  HISTORY
@@ -13,6 +13,7 @@
 //  0.2.0   2020-12-18  add slaveSelect to hardware SPI
 //  0.2.1   2020-12-18  add arduino-ci + unit tests
 //  0.2.2   2021-02-04  add DAC8550 DAC8501 DAC8501 derived class + minor refactor
+//  0.2.3   2021-06-02  compile ESP32
 
 
 #include "DAC8551.h"
@@ -75,7 +76,7 @@ uint16_t DAC8551::getValue()
 
 void DAC8551::setPowerDown(uint8_t powerDownMode)
 {
-  _register = powerDownMode;
+  _register = (powerDownMode & 0x03);
   updateDevice();
 }
 

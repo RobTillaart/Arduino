@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DAC8554/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DAC8554.svg?maxAge=3600)](https://github.com/RobTillaart/DAC8554/releases)
 
-# DAC8551
+# DAC8554
 
 Arduino library for DAC8554 SPI Digital Analog Convertor
 
@@ -47,7 +47,7 @@ check datasheet for details.
 ### Broadcast
 
 - **void bufferValue(uint8_t channel, uint16_t value)** prepare a new value for a channel. 
-- **void  broadcastBuffer()** write all buffers to all(up to 4) 8554's channel's
+- **void broadcastBuffer()** write all buffers to all(up to 4) 8554's channel's
 - **void broadcastValue(uint16_t value)** write value to all(up to 4) 8554's channel's
 - **void broadcastPowerDown(uint8_t powerDownMode)** write powerDownMode to all 8554's channel's
 

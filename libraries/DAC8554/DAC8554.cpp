@@ -2,7 +2,7 @@
 //    FILE: DAC8554.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //     URL: https://github.com/RobTillaart/DAC8554
 //
 //  HISTORY:
@@ -13,7 +13,7 @@
 //  0.2.0  2020-12-18  add arduino-ci + unit test
 //  0.2.1  2021-01-10  fix slave select hardware SPI + getValue() + getPowerDownMode().
 //                     fix unit test.
-
+//  0.2.2  2021-06-02  compile ESP32
 
 #include "DAC8554.h"
 

@@ -6,7 +6,8 @@
 
 # Kelvin2RGB
 
-Arduino library for converting temperature to RGB values
+Arduino library for converting temperature and brightness to RGB values
+
 
 ## Credentials
 
@@ -17,7 +18,8 @@ http://www.zombieprototypes.com/?p=210
 https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
 
 There are more approximation formulas, some claim to be better, 
-however these are not investigated.
+however these are not investigated. On request these can be added.
+
 
 ## Description
 
@@ -25,11 +27,12 @@ The library converts a temperature in Kelvin and a brightness (0..100%)
  to 3 numbers red, green and blue.
 These numbers are weights can be used to correct a colorimage for virtual white temperature.
 
-There are 2 convert functions where the **convert_NB()** is claimed to be the 
-more accurate one.
+There are 2 convert functions where the **convert_NB()** is claimed to be 
+the more accurate one.
 
-With the numbers R,G,B calculated one can convert images so they will look more like 
-taken with candle light, sunrise or sunset etc. 
+With the numbers R,G,B calculated one can convert images so they will look
+more like taken with candle light, sunrise or sunset etc. 
+
 
 **pseudo code**
 ```cpp
@@ -75,11 +78,20 @@ note this is different from Helland / Bartlett who both use an integer value 0 .
 - **float blue()** returns blue channel weight 0.0 .. 1.0
 - **uint32_t RGB()** retuns a 24 bit RGB value,  
 more efficient than 3 floats for communication. 
+- **uint16_t RGB565()** retuns a 16 bit RGB value, 
+5 bits for R 6 for green and 5 for blue. 
 
-## future
+
+## Future
 
 - separate brightness per color channel to mimic "artificial illumination"
 - define constants like candleLight as parameter.
+- investigate other formulas.
+- investigate usability for RGB ledstrip.
+- remove begin() ?
+- add reset() ?
+- add BGR() ?
+- add CMYK() ?
 
 
 ## Operations

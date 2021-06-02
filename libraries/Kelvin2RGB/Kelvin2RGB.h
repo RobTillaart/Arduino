@@ -2,54 +2,24 @@
 //
 //    FILE: Kelvin2RGB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
+//
+
+
+#define KELVIN2RGB_LIB_VERSION        (F("0.1.2"))
+
+#include "Arduino.h"
+
+
 //
 // Based upon article Tanner Helland  and Neil Bartlett
 // http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
 // http://www.zombieprototypes.com/?p=210  
 // https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
-
-#define KELVIN2RGB_LIB_VERSION "0.1.1"
-
-#include "Arduino.h"
-
-// based on https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
-// TODO a memory efficient storage -> uint8_t 17 .. 255 (factor 100)
-//      how? hash function? parameter settings  convert(dayLightSetting)
-// enum DLS ?
-
-/*
-    NAME              TEMPERATURE
-    =============================
-    dark            = 0;
-    match           = 1700;
-    sodiumLamp      = 1700;
-    candleFlame     = 1850;
-    sunrise         = 1850;
-    sunset          = 1850;
-    bulb            = 2400;
-    bulbSoftWhite   = 2550;
-    LEDlamp         = 2700;
-    warmWhite       = 3000;
-    studioLight     = 3200;
-    studioCPlight   = 3350;
-    daylightHorizon = 5000;
-    flashLight      = 5700;
-    xenonLight      = 6200;
-    dayLightBright  = 6500;
-    normal          = 6500;
-    screenlow       = 6500;
-    screenMed       = 8000;
-    screenHigh      = 9500;
-    polewardSky0    = 15000;
-    polewardSky1    = 19000;
-    polewardSky2    = 23000;
-    polewardSky3    = 27000;
-*/
-
+//
 //
 // based on https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
 //
@@ -86,7 +56,7 @@ class Kelvin2RGB
 {
 public:
   Kelvin2RGB();
-  void begin();
+  void begin();         // empty function - obsolete?
   
   // temp = 0..65500   brightness = 0.0 .. 100.0%
   void convert_TH(float temperature, float brightness = 100);
@@ -94,13 +64,18 @@ public:
 
   float    temperature() { return _temperature; };
   float    brightness()  { return _brightness;  };
-  inline float red()     { return _red;   };
-  inline float green()   { return _green; };
-  inline float blue()    { return _blue;  };
-  uint32_t RGB()         { return _rgb; }
 
-  
+  // returns 0.0 .. 1.0
+  float    red()         { return _red;   };
+  float    green()       { return _green; };
+  float    blue()        { return _blue;  };
+
+  uint32_t RGB()         { return _rgb; };   // 32 bit color
+  uint16_t RGB565();                         // 16 bit color
+
 private:
+  void  _normalize();
+
   float    _temperature;
   float    _brightness;
   float    _red;

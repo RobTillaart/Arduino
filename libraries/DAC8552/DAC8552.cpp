@@ -2,7 +2,7 @@
 //    FILE: DAC8552.cpp 
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //     URL: https://github.com/RobTillaart/DAC8552
 //
 // HISTORY:
@@ -12,6 +12,7 @@
 //  0.1.3  2020-06-07  fix library.json
 //  0.2.0  2020-12-18  add arduino-ci + unit test
 //                     add slave select pin for HW constructor
+//  0.2.1  2021-06-02  compile ESP32 + fix for channel B
 
 
 #include "DAC8552.h"
@@ -56,11 +57,10 @@ void DAC8552::begin()
     digitalWrite(_spiClock, LOW);
   }
 
-  for (uint8_t i = 0; i < 2; i++)
-  {
-    _register[i] = 0;
-    _value[i] = 0;
-  }
+  _value[0] = 0;
+  _value[1] = 0;
+  _register[0] = 0x00;
+  _register[1] = 0x40;
 }
 
 
@@ -93,7 +93,7 @@ uint16_t DAC8552::getValue(uint8_t channel)
 void DAC8552::bufferPowerDown(uint8_t channel, uint8_t powerDownMode)
 {
   _register[channel] &= 0xFC;
-  _register[channel] |= powerDownMode;
+  _register[channel] |= (powerDownMode & 0x03);
   updateDevice(channel, false);
 }
 
@@ -101,7 +101,7 @@ void DAC8552::bufferPowerDown(uint8_t channel, uint8_t powerDownMode)
 void DAC8552::setPowerDown(uint8_t channel, uint8_t powerDownMode)
 {
   _register[channel] &= 0xFC;
-  _register[channel] |= powerDownMode;
+  _register[channel] |= (powerDownMode & 0x03);
   updateDevice(channel, true);
 }
 

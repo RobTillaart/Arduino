@@ -1,0 +1,38 @@
+# Syntax Coloring Map for MAX14661
+
+
+# Datatypes (KEYWORD1)
+MAX14661	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+openChannel	KEYWORD2
+closeChannel	KEYWORD2
+isOpenChannel	KEYWORD2
+
+openAllChannels	KEYWORD2
+closeAllChannels	KEYWORD2
+
+setChannels	KEYWORD2
+getChannels	KEYWORD2
+
+MUXA	KEYWORD2
+getMUXA	KEYWORD2
+MUXB	KEYWORD2
+getMUXB	KEYWORD2
+
+openA	KEYWORD2
+openB	KEYWORD2
+closeA	KEYWORD2
+closeB	KEYWORD2
+
+readRegister	KEYWORD2
+writeRegister	KEYWORD2
+lastError	KEYWORD2
+
+
+# Constants (	LITERAL1)
+MAX14661_LIB_VERSION	LITERAL1

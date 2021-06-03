@@ -1,0 +1,22 @@
+{
+  "name": "MAX14661",
+  "keywords": "I2C, multiplexer",
+  "description": "Arduino library for MAX14661 16 channel I2C multiplexer",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX14661.git"
+  },
+  "version":"0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

@@ -1,11 +1,12 @@
 //
 //    FILE: TSL235R.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: library fot the TSL235R light to frequency convertor
 //
 //  HISTORY:
 //  0.1.0   2020-05-29  initial version
+//  0.1.1   2020-06-03  add irradiance_HS()
 
 
 #include "TSL235R.h"
@@ -27,6 +28,11 @@ float TSL235R::irradiance(uint32_t Hz)
 float TSL235R::irradiance(uint32_t pulses, uint32_t milliseconds)
 {
   return (pulses * 1000.0 * _factor) / milliseconds;
+}
+
+float TSL235R::irradiance_HS(uint32_t pulses, uint32_t microseconds)
+{
+  return (pulses * 1000000.0 * _factor) / microseconds;
 }
 
 

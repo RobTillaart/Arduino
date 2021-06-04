@@ -2,11 +2,11 @@
 //
 //    FILE: TSL235R.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: library fot the TSL235R light to frequency convertor
 
 
-#define TSL235R_LIB_VERSION     (F("0.1.0"))
+#define TSL235R_LIB_VERSION     (F("0.1.1"))
 
 #include "Arduino.h"
 
@@ -18,7 +18,8 @@ public:
   TSL235R(float voltage = 5.0);
 
   float    irradiance(uint32_t Hz);
-  float    irradiance(uint32_t pulses, uint32_t milliseconds);
+  float    irradiance(uint32_t pulses, uint32_t milliseconds);  // obsolete?
+  float    irradiance_HS(uint32_t pulses, uint32_t microseconds);
   float    getFactor()           { return _factor; };
 
   void     setWavelength(uint16_t wavelength = 635);

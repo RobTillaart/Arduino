@@ -1,9 +1,13 @@
 //
 //    FILE: TSL235R_pulses.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
+
+// NOTE
+// This code will work up to ~150 kHz on an Arduino UNO
+// above that pulses come in faster than the code can reliably handle
 
 //
 // Digital Pin layout ARDUINO
@@ -42,9 +46,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  pinMode(2, INPUT);
-  digitalWrite(2, HIGH);
-  attachInterrupt(0, count_irq1, RISING);
+  pinMode(2, INPUT_PULLUP);
+  attachInterrupt(0, count_irq1, FALLING);
 
   mySensor.setWavelength(450);
 }
@@ -59,6 +62,7 @@ void loop()
     t = cnt1;
     uint32_t Hz = t - oldcnt1;
     oldcnt1 = t;
+    
     Serial.print("irradiance(Hz):\t\t");
     Serial.print(mySensor.irradiance(Hz));   // assumption 1 second
     Serial.println(" uW/cm2");

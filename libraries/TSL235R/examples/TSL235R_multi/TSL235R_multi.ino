@@ -5,8 +5,9 @@
 // PURPOSE: demo
 //    DATE: 2021-05-29
 
-// Note the max number of interrupt an Arduino UNO can handle 
-// is in the order of 20000.
+// NOTE
+// the max number of interrupt an Arduino UNO can handle
+// is in the order of 150000 for all interrupts.
 
 
 //
@@ -14,7 +15,7 @@
 // =============================
 //  2     IRQ 0    - to TSL235R
 //  3     IRQ 1    - to TSL235R
-// 
+//
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
@@ -55,8 +56,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  pinMode(2, INPUT);
-  digitalWrite(2, HIGH);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
   attachInterrupt(0, count_irq1, RISING);
   attachInterrupt(1, count_irq2, RISING);
 
@@ -76,14 +77,14 @@ void loop()
     uint32_t Hz = t - oldcnt1;
     oldcnt1 = t;
     Serial.print("irradiance 450 nm:\t");
-    Serial.print(mySensor_450.irradiance(Hz));   // assumption 1 second
+    Serial.print(mySensor_450.irradiance(Hz));
     Serial.println(" uW/cm2");
- 
+
     t = cnt2;
     Hz = t - oldcnt2;
     oldcnt2 = t;
     Serial.print("irradiance 650 nm:\t");
-    Serial.print(mySensor_650.irradiance(Hz));   // assumption 1 second
+    Serial.print(mySensor_650.irradiance(Hz));
     Serial.println(" uW/cm2");
   }
 }

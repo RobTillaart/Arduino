@@ -1,11 +1,16 @@
 //
 //    FILE: TSL235R_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
 
-//
+
+// NOTE
+// This code will work up to ~150KHz on an Arduino UNO
+// above that frequency the interrupt saturate the processor.
+
+
 // Digital Pin layout ARDUINO
 // =============================
 //  2     IRQ 0    - to TSL235R
@@ -13,7 +18,6 @@
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
-//
 
 
 #include "TSL235R.h"
@@ -42,9 +46,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  pinMode(2, INPUT);
-  digitalWrite(2, HIGH);
-  attachInterrupt(0, count_irq, RISING);
+  pinMode(2, INPUT_PULLUP);
+  attachInterrupt(0, count_irq, FALLING);
 
   mySensor.setWavelength(450);
 }
@@ -60,7 +63,9 @@ void loop()
     uint32_t Hz = t - oldcnt;
     oldcnt = t;
     
-    Serial.print("irradiance:\t");
+    Serial.print("Hz: ");
+    Serial.print(Hz);
+    Serial.print("\t");
     Serial.print(mySensor.irradiance(Hz));   // assumption 1 second
     Serial.println(" uW/cm2");
   }

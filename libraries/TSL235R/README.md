@@ -39,10 +39,12 @@ value to Hz, which is the nr of pulses in 1 second.
 - **TSL235R(float voltage = 5.0)** constructor, optionally one can give the operational voltage 
 to add a small correction (< 1.5%)
 - **float irradiance(uint32_t Hz)** returns the irradiance in uW/cm2.
-NOte that Hz implies the measured pulses for 1 second.
+Note that Hz implies the measured pulses for 1 second.
 - **float irradiance(uint32_t pulses, uint32_t milliseconds)** returns the irradiance in uW/cm2
 This formula is used for other duration than 1 second.
 To get irradiance in W/m2 one must divide by 100.
+- **float irradiance_HS(uint32_t pulses, uint32_t microseconds)** returns the irradiance in uW/cm2
+This formula is used when the time is measured in microseconds. This is the most accurate measurement.
 - **float getFactor()** returns the inner conversion factor from Hz to Watt/cm2.
 - **void setWavelength(uint16_t wavelength = 635)** sets the wavelength so the formulas can use a correction factor. At the default wavelength of 635 nm the wavelength correction factor == 1.0
 - **uint16_t getWavelength()** returns the set wavelength. Convenience function.
@@ -62,3 +64,5 @@ See examples for typical usage.
 ## Future
 
 - investigate correction factor for white light and mixed light sources.
+- investigate callibration factor for timing of processor used.
+-

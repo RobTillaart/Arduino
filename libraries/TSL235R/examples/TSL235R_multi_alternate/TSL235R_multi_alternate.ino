@@ -1,11 +1,15 @@
 //
 //    FILE: TSL235R_multi_alternate.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
 
-// Note the max number of interrupt an Arduino UNO can handle
+// NOTE
+// This code will work up to ~150 kHz on an Arduino UNO
+
+// Note
+// the max number of interrupt an Arduino UNO can handle
 // is in the order of 20000.
 // in the demo we alternate the two interrupt pins to be able
 // to have a larger range per sensor.
@@ -51,14 +55,14 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  pinMode(2, INPUT);
-  digitalWrite(2, HIGH);
+  pinMode(2, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
 
   mySensor_450.setWavelength(450);
   mySensor_650.setWavelength(650);
 
   irq_select = 0;
-  attachInterrupt(0, count_irq, RISING);
+  attachInterrupt(0, count_irq, FALLING);
   lastMeasurement = millis();
 }
 
@@ -75,7 +79,7 @@ void loop()
       Serial.println(" uW/cm2");
       pulses = 0;
       irq_select = 1;
-      attachInterrupt(irq_select, count_irq, RISING);
+      attachInterrupt(irq_select, count_irq, FALLING);
     }
     else
     {
@@ -85,7 +89,7 @@ void loop()
       Serial.println(" uW/cm2");
       pulses = 0;
       irq_select = 0;
-      attachInterrupt(irq_select, count_irq, RISING);
+      attachInterrupt(irq_select, count_irq, FALLING);
     }
     lastMeasurement = millis();
   }

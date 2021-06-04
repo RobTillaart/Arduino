@@ -13,9 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/Max44009"
+    "url": "https://github.com/RobTillaart/Max44009.git"
   },
-  "version": "0.4.4",
+  "version": "0.5.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"

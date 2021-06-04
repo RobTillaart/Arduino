@@ -74,11 +74,11 @@ dynamic range from 0.045 lux to 188,000 lux.
 
 check datasheet for details
 
-- **void setHighThreshold(float)** sets the upper threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**.
+- **bool setHighThreshold(float)** sets the upper threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. Function returns false if the value is out of range.
 - **float getHighThreshold(void)** returns the value set.
-- **void  setLowThreshold(float)** sets the lower threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**.
+- **bool setLowThreshold(float)** sets the lower threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. Function returns false if the value is out of range.
 - **float getLowThreshold(void)** returns the value set.
-- **void  setThresholdTimer(uint8_t)** Time the threshold needs to be exceeded, defined in steps of 100ms. 2 seems to be a practical minimum.
+- **void setThresholdTimer(uint8_t)** Time the threshold needs to be exceeded, defined in steps of 100ms. 2 seems to be a practical minimum.
 - **uint8_t getThresholdTimer()** returns the value set.
 
 
@@ -130,6 +130,14 @@ TIM = Integration time.
 ```
 
 
+### Test functions
+
+Function for the conversion math, not meant to be used directly, 
+but by making them public they become testable.
+
+- **float convertToLux(uint8_t datahigh, uint8_t datalow)** convert intern register format to a LUX value. 
+
+
 ## Examples
 
 **Max44009\examples\max44009_test01**
@@ -142,7 +150,7 @@ TIM = Integration time.
 
 ## Notes
 
-Please be aware this is a 3.3 Volt device so it should not be connected
+Please be aware this is a **3.3 Volt device** so it should not be connected
 to an Arduino or other 5 Volt device directly. Use a level convertor to 
 solve this.
 

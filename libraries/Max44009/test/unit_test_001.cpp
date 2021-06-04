@@ -60,6 +60,24 @@ unittest(test_constructor)
 }
 
 
+unittest(test_convertToLux)
+{
+  fprintf(stderr, "VERSION: %s\n", MAX44009_LIB_VERSION);
+
+  Max44009 LuxA(0x4A);
+
+  assertEqualFloat(0.000, LuxA.convertToLux(0x00, 0x00), 0.0001);
+  assertEqualFloat(0.045, LuxA.convertToLux(0x00, 0x01), 0.0001);
+  assertEqualFloat(0.720, LuxA.convertToLux(0x01, 0x00), 0.0001);
+  assertEqualFloat(1.530, LuxA.convertToLux(0x11, 0x01), 0.0001);
+  fprintf(stderr, "\n");
+
+  assertEqualFloat(187269, LuxA.convertToLux(0xEF, 0x0E), 1);
+  assertEqualFloat(188006, LuxA.convertToLux(0xEF, 0x0F), 1);
+  fprintf(stderr, "\ndone...\n");
+}
+
+
 unittest_main()
 
 // --------

@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.5.0
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
 //
 //  HISTORY
 //
+//  0.5.0   2021-06-04  fix exponent math.
 //  0.4.4   2021-05-27  arduino-lint
 //  0.4.3   2020-12-30  arduino-ci, unit test
 //  0.4.2   2020-06-19  fix library.json
@@ -93,42 +94,41 @@ bool Max44009::isConnected()
 
 float Max44009::getLux(void)
 {
-  uint8_t dhi = read(MAX44009_LUX_READING_HIGH);
+  uint8_t datahigh = read(MAX44009_LUX_READING_HIGH);
   if (_error != MAX44009_OK)
   {
     _error = MAX44009_ERROR_HIGH_BYTE;
     return _error;
   }
-  uint8_t dlo = read(MAX44009_LUX_READING_LOW);
+  uint8_t datalow = read(MAX44009_LUX_READING_LOW);
   if (_error != MAX44009_OK)
   {
     _error = MAX44009_ERROR_LOW_BYTE;
     return _error;
   }
-  uint8_t e = dhi >> 4;
-  if (e == 0x0F)
+  uint8_t exponent = datahigh >> 4;
+  if (exponent == 0x0F)
   {
     _error = MAX44009_ERROR_OVERFLOW;
     return _error;
   }
-  uint32_t m = ((dhi & 0x0F) << 4) + (dlo & 0x0F);
-  m <<= e;
-  float val = m * 0.045;
-  return val;
+
+  float lux = convertToLux(datahigh, datalow);
+  return lux;
 }
 
 
 int Max44009::getError()
 {
-  int e = _error;
+  int err = _error;
   _error = MAX44009_OK;
-  return e;
+  return err;
 }
 
 
-void Max44009::setHighThreshold(const float value)
+bool Max44009::setHighThreshold(const float value)
 {
-  setThreshold(MAX44009_THRESHOLD_HIGH, value);
+  return setThreshold(MAX44009_THRESHOLD_HIGH, value);
 }
 
 
@@ -138,9 +138,9 @@ float Max44009::getHighThreshold(void)
 }
 
 
-void Max44009::setLowThreshold(const float value)
+bool Max44009::setLowThreshold(const float value)
 {
-  setThreshold(MAX44009_THRESHOLD_LOW, value);
+  return setThreshold(MAX44009_THRESHOLD_LOW, value);
 }
 
 
@@ -211,34 +211,43 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 }
 
 
+float Max44009::convertToLux(uint8_t datahigh, uint8_t datalow)
+{
+  uint8_t  exponent = datahigh >> 4;
+  uint32_t mantissa = ((datahigh & 0x0F) << 4) + (datalow & 0x0F);
+  float lux = ((0x0001 << exponent) * 0.045) * mantissa;
+  return lux;
+}
+
+
 ///////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
-void Max44009::setThreshold(const uint8_t reg, const float value)
+bool Max44009::setThreshold(const uint8_t reg, const float value)
 {
-  // TODO CHECK RANGE
-  uint32_t m = round(value * 22.2222222);     // was round(value / 0.045);  multiply is faster.
-  uint8_t e = 0;
-  while (m > 255)
+  // CHECK RANGE OF VALUE
+  if ((value < 0.0) || (value > 188006)) return false;
+
+  uint32_t mantissa = round(value * 22.2222222);     // was round(value / 0.045);  multiply is faster.
+  uint8_t exponent = 0;
+  while (mantissa > 255)
   {
-    m >>= 1;                // bits get lost
-    e++;
+    mantissa >>= 1;                // bits get lost
+    exponent++;
   };
-  m = (m >> 4) & 0x0F;
-  e <<= 4;
-  write(reg, e | m);
+  mantissa = (mantissa >> 4) & 0x0F;
+  exponent <<= 4;
+  write(reg, exponent | mantissa);
+  return true;
 }
 
 
 float Max44009::getThreshold(uint8_t reg)
 {
-  uint8_t data = read(reg);
-  uint8_t e = (data & 0xF0) >> 4;
-  uint32_t m = ((data & 0x0F) << 4) + 0x08;   // 0x08 = correction for lost bits 
-  m <<= e;
-  float val = m * 0.045;
-  return val;
+  uint8_t datahigh = read(reg);
+  float lux = convertToLux(datahigh, 0x08);  // 0x08 = correction for lost bits 
+  return lux;
 }
 
 
@@ -270,4 +279,4 @@ void Max44009::write(uint8_t reg, uint8_t value)
 }
 
 
-// --- END OF FILE ---
+// -- END OF FILE --

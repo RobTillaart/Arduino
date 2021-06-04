@@ -2,9 +2,10 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.4.4
+// VERSION: 0.5.0
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
+
 
 //  breakout MAX44009 / GY-49
 //
@@ -31,7 +32,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION        (F("0.4.4"))
+#define MAX44009_LIB_VERSION        (F("0.5.0"))
 
 #define MAX44009_DEFAULT_ADDRESS    0x4A
 #define MAX44009_ALT_ADDRESS        0x4B
@@ -85,9 +86,10 @@ public:
   float   getLux();
   int     getError();
 
-  void    setHighThreshold(const float);
+  // threshold must be between 0 and 188006
+  bool    setHighThreshold(const float);       // returns false if value out of range
   float   getHighThreshold(void);
-  void    setLowThreshold(const float);
+  bool    setLowThreshold(const float);        // returns false if value out of range
   float   getLowThreshold(void);
   void    setThresholdTimer(const uint8_t);    // 2 seems practical minimum
   uint8_t getThresholdTimer();
@@ -117,8 +119,12 @@ public:
   void    setManualMode(uint8_t CDR, uint8_t TIM);
   int     getIntegrationTime() { return 800 >> (getConfiguration() & 0x07); };  // ms
 
+  // TEST the math
+  float   convertToLux(uint8_t datahigh, uint8_t datalow);
+
+
 private:
-  void    setThreshold(uint8_t, float);
+  bool    setThreshold(uint8_t, float);
   float   getThreshold(uint8_t);
 
   uint8_t read(uint8_t reg);
@@ -132,4 +138,4 @@ private:
 };
 
 
-// END OF FILE
+// -- END OF FILE --

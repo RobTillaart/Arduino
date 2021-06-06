@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
@@ -14,7 +14,8 @@
 //  0.2.2   2021-01-24  add manual updating frequency 
 //                      get- setManualFQ_UD(), update()
 //                      inverted SELECT line as preparation for multidevice.
-//
+//  0.3.0   2021-06-06  fix factory bit mask + new examples + some refactor
+//                      added multi device document
 
 
 #include "AD985X.h"
@@ -39,7 +40,7 @@ AD9850::AD9850()
 }
 
 
-void AD9850::begin(int select, int resetPin, int FQUDPin, int dataOut , int clock)
+void AD9850::begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut , uint8_t clock)
 {
   _select = select;
   _reset  = resetPin;
@@ -75,9 +76,11 @@ void AD9850::begin(int select, int resetPin, int FQUDPin, int dataOut , int cloc
 
 void AD9850::reset()
 {
+  digitalWrite(_select, HIGH);      // be sure to select the correct device 
   pulsePin(_reset);
   if (_useHW) pulsePin(SPI_CLOCK);
   else pulsePin(_clock);
+  digitalWrite(_select, LOW);
 
   _config = 0;    // 0 phase   no powerdown
   _freq   = 0;
@@ -135,7 +138,7 @@ void AD9850::writeData()
     data >>= 8;
     SPI.transfer(data & 0xFF);
     SPI.transfer(data >> 8);
-    SPI.transfer(_config & 0xFD);  // mask factory test bit
+    SPI.transfer(_config & 0xFC);  // mask factory test bit
     SPI.endTransaction();
   }
   else
@@ -146,7 +149,7 @@ void AD9850::writeData()
     data >>= 8;
     swSPI_transfer(data & 0xFF);
     swSPI_transfer(data >> 8);
-    swSPI_transfer(_config & 0xFD);  // mask factory test bit
+    swSPI_transfer(_config & 0xFC);  // mask factory test bit
   }
   digitalWrite(_select, LOW);
 
@@ -174,7 +177,7 @@ void AD9850::setFrequency(uint32_t freq)
   // freq OUT = (Δ Phase × CLKIN)/2^32
   // 64 bit math to keep precision to the max
   if (freq > AD9850_MAX_FREQ) freq = AD9850_MAX_FREQ;
-  // _factor = round(freq * 34.359738368); // 4294967296 / 125000000
+  // _factor = round(freq * 34.359738368);             // 4294967296 / 125000000
   _factor = (147573952589ULL * freq) >> 32;
   _freq = freq;
   _factor += _offset;
@@ -188,7 +191,7 @@ void AD9850::setFrequencyF(float freq)
   // freq OUT = (Δ Phase × CLKIN)/2^32
   // 64 bit math to keep precision to the max
   if (freq > AD9850_MAX_FREQ) freq = AD9850_MAX_FREQ;
-  _factor = round(freq * 34.359738368);   // 4294967296 / 125000000
+  _factor = round(freq * 34.359738368);                // 4294967296 / 125000000
   _freq = freq;
   _factor += _offset;
   writeData();

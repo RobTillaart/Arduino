@@ -51,9 +51,10 @@ way more functionality.
 
 ### Multidevice 
 
-**Warning**: this setup needs to be confirmed as it is not actually tested by me yet.
+See Multi_AD985X_devices.pdf
 
-Discussed in detail here - https://github.com/RobTillaart/AD985X/issues/13 
+
+Discussion leading to the document see - https://github.com/RobTillaart/AD985X/issues/13 
 
 The AD985X board can be connected with a SPI bus like interface. 
 However there is **no Chip Select pin (CS)** so one must take other measures to control multiple AD985X devices.
@@ -73,6 +74,37 @@ So extra hardware is needed to prevent this.
 
 A possible solution is to put all needed lines behind an AND port that allows only
 communication when the **SELECT** is HIGH.
+
+```
+     Arduino        AND           AD985X
+--------------------------------------------------
+ 
+                +--------+
+     SELECT ----| A      |
+                |      Y |------- DATA
+     DATA  -----| B      |
+                +--------+
+  
+                +--------+
+     SELECT ----| A      |
+                |      Y |------- CLOCK
+     CLOCK  ----| B      |
+                +--------+
+ 
+                +--------+
+     SELECT ----| A      |
+                |      Y |------- FQ_UD
+     FQ_UD  ----| B      |
+                +--------+
+ 
+                +--------+
+     SELECT ----| A      |
+                |      Y |------- RESET
+     RESET  ----| B      |
+                +--------+
+
+```
+
 
 
 The **DATA** line of the device is connected to the output of an **AND** port.  
@@ -95,11 +127,6 @@ A typical IC to use is the **74HC08** which has 4 AND ports in it.
 In short this setup makes the lines 'switchable' pass through, with the **SELECT** line.
 It allows to have multiple AD985X devices, and even to share the SPI bus **DATA** and **CLOCK** 
 lines with other SPI devices.
-
-
-TODO - picture.
-
-**Note** Other multiplexing solutions are possible of course.
 
 
 ### FQ_UD note

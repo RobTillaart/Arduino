@@ -2,18 +2,19 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
 //     URL: https://github.com/RobTillaart/AD985X
 //
 
+
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION    (F("0.2.2"))
+#define AD985X_LIB_VERSION    (F("0.3.0"))
 
 
 #define AD9850_MAX_FREQ       (40UL * 1000UL * 1000UL)
@@ -26,12 +27,12 @@ public:
   AD9850();
 
   // for HW SPI only use lower 3 parameters.
-  void     begin(int select, int resetPin, int FQUDPin, int dataOut = 0, int clock = 0);
+  void     begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut = 0, uint8_t clock = 0);
   void     reset();
   void     powerDown();
   void     powerUp();
 
-  void     setFrequency(uint32_t freq);        // 0..AD9850_MAX_FREQ
+  void     setFrequency(uint32_t freq);         // 0..AD9850_MAX_FREQ
   void     setFrequencyF(float freq);           // works best for lower frequencies.
   float    getFrequency()    { return _freq; };
   uint32_t getMaxFrequency() { return AD9850_MAX_FREQ; };
@@ -59,15 +60,17 @@ protected:
   void     swSPI_transfer(uint8_t value);
 
   bool     _useHW   = true;
+  // PINS
   uint8_t  _dataOut = 0;
   uint8_t  _clock   = 0;
   uint8_t  _select  = 0;
+  uint8_t  _reset   = 0;
+  uint8_t  _fqud    = 0;  // frequency update
 
+  // SIGNAL
   float    _freq    = 1;
   uint32_t _factor  = 0;
   uint8_t  _config  = 0;
-  uint8_t  _reset   = 0;
-  uint8_t  _fqud    = 0;
   int32_t  _offset  = 0;
   bool     _autoUpdate = true;
 };

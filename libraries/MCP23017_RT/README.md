@@ -50,6 +50,21 @@ This library gives easy control over the 16 pins of a MCP23017 chip.
 | MCP23017_PORT_ERROR   |  0x84 |
 
 
+## Future
+
+#### Must
+- add pinMode16(), write16() and read16()
+- investigate PULL_UP register see begin() => pinMode()  (breaking change)
+
+#### Should
+- investigate caching for performance (readback)
+
+#### Could
+- initial value (16 bit?) as begin parameter (breaking change)
+  - depends on input output pullup etc?
+- investigate auto address increment?
+
+
 ## Operation
 
 See examples

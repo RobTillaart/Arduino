@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MCP23017_LIB_VERSION    (F("0.2.2"))
+#define MCP23017_LIB_VERSION    (F("0.2.3"))
 
 #define MCP23017_OK              0x00
 #define MCP23017_PIN_ERROR       0x81
@@ -21,23 +21,32 @@
 #define MCP23017_PORT_ERROR      0x84
 
 
+#define MCP23017_INVALID_READ    -100
+
+
 class MCP23017
 {
 public:
   MCP23017(uint8_t addr, TwoWire *wire = &Wire);
+
 
 #if defined(ESP8266) || defined(ESP32)
   bool    begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
   bool    begin();
   bool    isConnected();
-  
+
+
   // single pin interface
-  bool    pinMode(uint8_t pin, uint8_t value);
+  // mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  bool    pinMode(uint8_t pin, uint8_t mode);
   bool    digitalWrite(uint8_t pin, uint8_t value);
   uint8_t digitalRead(uint8_t pin);
 
+
   // 8 pins interface
+  // port  = 0..1
+  // value = bitpattern
   bool    pinMode8(uint8_t port, uint8_t value);
   bool    write8(uint8_t port, uint8_t value);
   int     read8(uint8_t port);

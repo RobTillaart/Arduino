@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -14,11 +14,7 @@
 //                      error handling
 //  0.2.1   2021-02-17  fix #7 DDR is defined in ESP32
 //  0.2.2   2021-04-23  fix for plpatformIO compatifbility
-
-//    TODO: 
-//  interrupts
-//  caching for performance?
-//  INPUT_PULLUP
+//  0.2.3   2021-06-06  add lastError() unit test + minor refactor.
 
 
 #include "MCP23017.h"
@@ -78,17 +74,16 @@ bool MCP23017::isConnected()
 
 
 // single pin interface
-// pin 0..15
-// value INPUT, OUTPUT, INPUT_PULLUP  
-// TODO: split INPUT_PULLUP and INPUT, for now they are the same
-bool MCP23017::pinMode(uint8_t pin, uint8_t value)
+// pin  = 0..15
+// mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
   {
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  if ((value != INPUT) && (value != INPUT_PULLUP) && (value != OUTPUT))
+  if ((mode != INPUT) && (mode != INPUT_PULLUP) && (mode != OUTPUT))
   {
     _error = MCP23017_VALUE_ERROR;
     return false;
@@ -103,11 +98,11 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t value)
   uint8_t val = readReg(dataDirectionRegister);
   uint8_t mask = 1 << pin;
   // only work with valid
-  if (value == INPUT || value == INPUT_PULLUP)
+  if (mode == INPUT || mode == INPUT_PULLUP)
   {
     val |= mask;
   }
-  else if (value == OUTPUT)
+  else if (mode == OUTPUT)
   {
     val &= ~mask;
   }
@@ -146,7 +141,7 @@ uint8_t MCP23017::digitalRead(uint8_t pin)
   if (pin > 15)
   {
     _error = MCP23017_PIN_ERROR;
-    return -100;    // TODO magic number
+    return MCP23017_INVALID_READ;
   }
   uint8_t IOR = MCP23017_GPIOA;
   if (pin > 7)
@@ -164,6 +159,8 @@ uint8_t MCP23017::digitalRead(uint8_t pin)
 
 // 8 pins interface
 // whole register at once
+// port  = 0..1
+// value = bit pattern
 bool MCP23017::pinMode8(uint8_t port, uint8_t value)
 {
   if (port > 1)
@@ -197,7 +194,7 @@ int MCP23017::read8(uint8_t port)
   if (port > 1)
   {
     _error = MCP23017_PORT_ERROR;
-    return -100;  // TODO magic number;
+    return MCP23017_INVALID_READ;
   }
   _error = MCP23017_OK;
   if (port == 0) return readReg(MCP23017_GPIOA);

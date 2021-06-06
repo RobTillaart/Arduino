@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for I2C ASDX pressure sensor
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 //
@@ -30,13 +30,28 @@
 #define PSI2BAR            0.0689475729
 #define BAR2PSI            14.503773773
 
+// factors to convert from mBar to different units
+// note: different sources give slightly different values 
+#define MILLIBAR2BAR       0.001
+#define MILLIBAR2ATM       9.872e-4
+#define MILLIBAR2DYNES     1000
+#define MILLIBAR2INHG      2.9539e-2
+#define MILLIBAR2INH2O     0.4018
+#define MILLIBAR2PASCAL    100
+#define MILLIBAR2TORR      0.75028
+#define MILLIBAR2CMHG      0.075028
+#define MILLIBAR2CMH2O     1.02056
+#define MILLIBAR2MSW       100
 
-#define I2C_ASDX_VERSION "0.2.2"
+
+
+#define I2C_ASDX_VERSION        (F("0.2.3"))
 
 #define I2C_ASDX_OK              1
 #define I2C_ASDX_INIT            0
 #define I2C_ASDX_READ_ERROR     -1
 #define I2C_ASDX_C000_ERROR     -2
+
 
 class I2C_ASDX
 {
@@ -44,21 +59,37 @@ public:
   //      psi: 100, 60, 30, 15
   I2C_ASDX(uint8_t address, uint8_t psi);
 
+
 #if defined (ESP8266) || defined(ESP32)
   void     begin(uint8_t sda, uint8_t scl);
 #endif
   void     begin();
   void     reset();
-  bool     available();    // isConnected()
+  bool     isConnected();
+  bool     available()    { return isConnected(); };  // obsolete in future
+
 
   // returns status OK (0) or ERROR ( not 0 )
   int      read();
 
+
   // returns the pressure of last succesfull read in mbar
   int      getPressure()  { return round(_pressure); };
   float    getMilliBar()  { return _pressure; };
-  float    getBar()       { return _pressure * 1000; };
-  float    getPSI()       { return _pressure * MILLIBAR2PSI;  };
+  float    getBar()       { return _pressure * MILLIBAR2BAR; };
+  float    getPSI()       { return _pressure * MILLIBAR2PSI; };
+
+  // conversions added 0.2.3
+  float    getATM()       { return _pressure * MILLIBAR2ATM; }
+  float    getDynes()     { return _pressure * MILLIBAR2DYNES; }
+  float    getInchHg()    { return _pressure * MILLIBAR2INHG; }
+  float    getInchH2O()   { return _pressure * MILLIBAR2INH2O; }
+  float    getPascal()    { return _pressure * MILLIBAR2PASCAL; }
+  float    getTORR()      { return _pressure * MILLIBAR2TORR; }
+  float    getCmHg()      { return _pressure * MILLIBAR2CMHG; }
+  float    getCmH2O()     { return _pressure * MILLIBAR2CMH2O; }
+  float    getMSW()       { return _pressure * MILLIBAR2MSW; }
+
 
   // # errors since last good read
   uint16_t errorCount()   { return _errorCount; };
@@ -67,14 +98,18 @@ public:
   // get the last state
   int      state()        { return _state; };
 
+
 private:
   uint8_t  _address;
+
   float    _maxPressure;
+  float    _pressure;
+  
   uint8_t  _state;
   uint32_t _errorCount;
-  float    _pressure;
   uint32_t _lastRead;
 };
+
 
 // Convertors
 /*

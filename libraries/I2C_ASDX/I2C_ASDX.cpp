@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_ASDX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: I2C_asdx library for Arduino.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 //
@@ -10,6 +10,7 @@
 //  0.2.0   2020-03-18  refactor
 //  0.2.1   2020-07-04  add getBar(), getMilliBar(), getPSI()
 //  0.2.2   2020-12-29  add arduiino-ci + unit test (minimal), keywords update.
+//  0.2.3   2021-06-06  add different units to read pressure
 
 #include "I2C_ASDX.h"
 
@@ -47,7 +48,7 @@ void I2C_ASDX::reset()
   _pressure = 0;
 }
 
-bool I2C_ASDX::available()
+bool I2C_ASDX::isConnected()
 {
   Wire.beginTransmission(_address);
   return (Wire.endTransmission() == 0);

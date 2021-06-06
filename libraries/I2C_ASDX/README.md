@@ -11,30 +11,55 @@ Arduino library for I2C ASDX pressure sensor
 ## Description
 
 The ASDX sensor of Honeywell exist in many variations.
-Check the datasheet for all the details.
+Check the datasheet of your type for all the details.
 
-The I2C_ASDX library can read the sensor and give the pressure in millibar, bar or PSI.
+The I2C_ASDX library can read the sensor and give the pressure in millibar, bar or PSI or many other units. See below.
 
-The interface consists of the following:
+The interface:
 
-- **I2C_ASDX(address, psi)** COnstructor, I2C address and maximum pressure.
-- **begin(sda, scl)** I2C parameters for ESP32
-- **begin()** for UNO and other boards supporting Wire.
-- **reset()** resets internal variables,
-- **available()** tests if ASDX sensor is available (just address check)
-- **read()** reads the sensor, checks for errors, calculates the pressure and set lastRead
-- **getPressure()** retuns an int in milliBar, will return 0 after reset() and no read done.
-- **getMilliBar()** returns a float in milliBar
-- **getBar()** returns a float in bar
-- **getPSI()** returns a float in PSI = Pounds per Square Inch.
-- **errorCount()** total counter for
-- **lastRead()** time in millis since last succesful reading the sensor
-- **state()** last known state of read, also returned by read()
+#### Constructor
+
+- **I2C_ASDX(address, psi)** Constructor, I2C address and maximum pressure.
+- **void begin(sda, scl)** I2C parameters for ESP32 a.o.
+- **void begin()** for UNO and other boards supporting Wire.
+- **void reset()** resets internal variables, incl pressure.
+- **bool isConnected()** tests if address can be found on I2C bus.
+- **bool available()** wrapper around isConnected. Obsolete in the future.
+
+#### Read
+
+Before any call to **getPressure()** one need to call **read()** unless one wants the last value read.
+
+- **int read()** actually reads the sensor, checks for errors, calculates the pressure and set lastRead, Returns **I2C_ASDX_OK** or error code.
+
+
+#### Units
+
+- **int getPressure()** retuns pressure (integer format) in milliBar, will return 0 after reset() and no read done.
+- **float getMilliBar()** returns pressure in milliBar.
+- **float getBar()** returns presure in bar.
+- **float getPSI()** returns pressure in PSI = Pounds per Square Inch.
+- **float getATM()** returns pressure in Atmosphere.
+- **float getDynes()** returns pressure in Dynes.
+- **float getInchHg()** returns pressure in inches mercury.
+- **float getInchH2O()** returns pressure in inches water.
+- **float getPascal()** returns pressure in Pascal. Note this is the SI unit.
+- **float getTORR()** returns pressure in TORR.
+- **float getCmHg()** returns pressure in centimeter mercury.
+- **float getCmH2O()** returns pressure in centimeter water.
+- **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
+
+#### State
+
+- **uint16_t errorCount()** total counter for the number of errors occured.
+- **uint32_t lastRead()** time in millis of last succesful read of the sensor.
+- **int state()** last known state of read, also returned by **read()**
 
 
 ## Testing
 
 The library is tested with only 3 different sensors, all of the PG type.
+
 Code is prepared but not tested for 15, 5 and 1 PSI too.
 
 ```
@@ -70,6 +95,16 @@ more as long as they have the following raw read values.
 ## Testing
 
 TESTED TYPES - type A 10% - 90% only
+
+
+## Future
+
+#### Must
+
+- multiple Wire interface  (breaks interface)
+- test isCOnnected in bool begin(). (breaks interface?)
+- find a good reference for conversion formula constants.
+- 
 
 
 

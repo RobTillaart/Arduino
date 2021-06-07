@@ -50,17 +50,78 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_constructor)
 {
   fprintf(stderr, "VERSION: %s\n", HMC6352_LIB_VERSION);
 
   hmc6352 Compass(0x21);
-  Compass.begin();
-
-  fprintf(stderr, "TODO\n");
-
-  assertEqual(1, 1);
+  assertTrue(Compass.begin());
+  assertTrue(Compass.isConnected());
 }
+
+
+unittest(test_constants)
+{
+  fprintf(stderr, "VERSION: %s\n", HMC6352_LIB_VERSION);
+
+  fprintf(stderr, "\nFunction return values\n");
+  assertEqual(  0, HMC6532_OK);
+  assertEqual(-20, HMC6352_ERROR_PARAM1);
+  assertEqual(-21, HMC6352_ERROR_PARAM2);
+
+  fprintf(stderr, "\nI2C status\n");
+  assertEqual(  0, HMC6532_I2C_OK);
+  assertEqual( -1, HMC6532_I2C_ERROR_BUFFEROVERFLOW);
+  assertEqual( -2, HMC6532_I2C_ERROR_ADDR_NACK);
+  assertEqual( -3, HMC6532_I2C_ERROR_DATA_NACK);
+  assertEqual( -4, HMC6532_I2C_ERROR_OTHER);
+  assertEqual(-10, HMC6352_I2C_ERROR_REQ_FROM);
+}
+
+
+unittest(test_setOperationalModus)
+{
+  hmc6352 Compass(0x21);
+  assertTrue(Compass.begin());
+  assertTrue(Compass.isConnected());
+
+  // mode error
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setOperationalModus((hmcMode)3, 1, true));
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setOperationalModus((hmcMode)255, 1, true));
+
+  // freq error
+  assertEqual(HMC6352_ERROR_PARAM2, Compass.setOperationalModus((hmcMode)0, 0, true));
+  assertEqual(HMC6352_ERROR_PARAM2, Compass.setOperationalModus((hmcMode)0, 9, true));
+  assertEqual(HMC6352_ERROR_PARAM2, Compass.setOperationalModus((hmcMode)0, 11, true));
+  assertEqual(HMC6352_ERROR_PARAM2, Compass.setOperationalModus((hmcMode)0, 21, true));
+}
+
+
+unittest(test_setOutputModus)
+{
+  hmc6352 Compass(0x21);
+  assertTrue(Compass.begin());
+  assertTrue(Compass.isConnected());
+
+  // outputModus error
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setOutputModus(5));
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setOutputModus(255));
+}
+
+
+unittest(test_setI2CAddress)
+{
+  hmc6352 Compass(0x21);
+  assertTrue(Compass.begin());
+  assertTrue(Compass.isConnected());
+
+  // setI2CAddress error
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setI2CAddress(0x00));
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setI2CAddress(0x0F));
+  assertEqual(HMC6352_ERROR_PARAM1, Compass.setI2CAddress(0xF7));
+}
+
 
 unittest_main()
 

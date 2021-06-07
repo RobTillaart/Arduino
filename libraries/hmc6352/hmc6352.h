@@ -2,68 +2,76 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: HMC6352 library for Arduino
-//
-// HISTORY: see cpp file
+
 
 #include "Wire.h"
 #include "Arduino.h"
 
-#define HMC6352_LIB_VERSION     "0.2.1"
 
-/* ERROR CODES ALL FUNCTIONS
-//
-// * twi_writeTo codes (== endTransmission  commands)
-//   0 .. OK
-//  -1 .. length to long for buffer
-//  -2 .. address send, NACK received
-//  -3 .. data send, NACK received
-//  -4 .. other twi error (lost bus arbitration, bus error, ..)
-//
-// * requestFrom
-// -10 .. not enough values returned
-//
-// * function calls
-//   0 .. OK
-// -20 .. error param1
-// -21 .. error param2
-// -22 .. error param3
-//
-*/
+#define HMC6352_LIB_VERSION         (F("0.3.0"))
 
-enum hmcMode { STANDBY=0, QUERY=1, CONT=2, ERROR};
+// status function calls
+#define HMC6532_OK                    0
+#define HMC6352_ERROR_PARAM1        -20
+#define HMC6352_ERROR_PARAM2        -21
+
+// I2C related errors
+#define HMC6532_I2C_OK                     0
+#define HMC6532_I2C_ERROR_BUFFEROVERFLOW  -1
+#define HMC6532_I2C_ERROR_ADDR_NACK       -2
+#define HMC6532_I2C_ERROR_DATA_NACK       -3
+#define HMC6532_I2C_ERROR_OTHER           -4
+#define HMC6352_I2C_ERROR_REQ_FROM        -10
+
+
+enum hmcMode
+{
+  STANDBY = 0, QUERY = 1, CONT = 2, ERROR
+};
+
+enum hmcOutputMode
+{
+  HEADING = 0, RAWMAGX = 1, RAWMAGY= 2, MAGX = 3, MAGY = 4
+};
+
 
 class hmc6352
 {
 public:
-  hmc6352(uint8_t device);
+  hmc6352(uint8_t device, TwoWire *wire = &Wire);
+
 
 #if defined (ESP8266) || defined(ESP32)
-  void begin(uint8_t sda, uint8_t scl);
+  bool begin(uint8_t sda, uint8_t scl);
 #endif
-  void begin();
-  
+  bool begin();
+  bool isConnected();
+
+
   // BASIC CALLS FOR STANDBY MODE
-  int getHeading(void); // just a merge of ask & read
+  int getHeading(void);   // short for askHeading() & readHeading()
   int askHeading(void);
   int readHeading(void);
 
   int wakeUp(void);
   int sleep(void);
 
+
   // EXPERT CALLS
   int factoryReset();
 
-  int setOperationalModus(hmcMode m, uint8_t freq, bool periodicReset);
+  int setOperationalModus(hmcMode mode, uint8_t frequency, bool periodicReset);
   int getOperationalModus();
 
   int setOutputModus(uint8_t om);
   int getOutputModus();
 
-  int callibrationOn(void);
-  int callibrationOff(void);
+  int callibrationOn();
+  int callibrationOff();
 
+  // to change the start up address.
   int setI2CAddress(uint8_t address);
   int getI2CAddress();
 
@@ -76,19 +84,24 @@ public:
   // allow power users to set operational mode flags
   int saveOpMode(byte OpMode);
 
-  // NOT TESTED / UNKNOWN
-  int setTimeDelay(uint8_t msec);
+  // NOT TESTED
+  int setTimeDelay(uint8_t milliSeconds);
   int getTimeDelay();
-  int setMeasurementSumming(uint8_t ms);
+
+  // nosm = NumberOfSummedMeasurements 1..16
+  int setMeasurementSumming(uint8_t nosm);
   int getMeasurementSumming();
-  int updateOffsets(void);
+  int updateOffsets();
+
+  int getSWVersionNumber();
 
 private:
   int cmd(uint8_t c);
   int readCmd(uint8_t c, uint8_t address);
   int writeCmd(uint8_t c, uint8_t address, uint8_t data);
 
-  uint8_t _device;
+  uint8_t   _address;
+  TwoWire*  _wire;
 };
 
 // -- END OF FILE -- 

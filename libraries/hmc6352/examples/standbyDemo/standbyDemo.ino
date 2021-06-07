@@ -10,9 +10,11 @@
 // 0.2.0    2020-06-13 refactor
 //
 
+
 #include <hmc6352.h>
 
 hmc6352 Compass(0x21);
+
 int heading;
 
 
@@ -23,11 +25,13 @@ void setup()
   Serial.println("LIB: ");
   Serial.println(HMC6352_LIB_VERSION);
 
+  Wire.begin();
   Compass.begin();
   
   Serial.print("Output modus");
   Serial.println(Compass.getOutputModus());
 }
+
 
 void loop()
 {
@@ -39,11 +43,11 @@ void loop()
   // this way one can ask a make a reading and fetch it a bit later.
   // TODO is it fast enough for IRQ ?
   int x = Compass.askHeading();
-  //Serial.print("Ask returns: ");
-  //Serial.println(x);
+  Serial.print("Ask returns: ");
+  Serial.print(x);
 
   heading = Compass.readHeading();
-  Serial.print("ask & read : ");
+  Serial.print("\task & read : ");
   Serial.println(heading);
 
   Compass.sleep();  // low energy mode
@@ -55,7 +59,8 @@ void loop()
   Serial.print("getHeading : ");
   Serial.println(Compass.getHeading());
   Compass.sleep();
+
   delay(500);
 }
 
-// END OF FILE
+// -- END OF FILE --

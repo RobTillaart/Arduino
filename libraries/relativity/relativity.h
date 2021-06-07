@@ -2,18 +2,19 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
 //
 //  HISTORY:
 //  0.1.0   2021-05-29  initial version
+//  0.1.1   2021-06-02  fix in tests
 
 
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.0"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.1"))
 
 
 class relativity

@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-29
 // PURPOSE: unit tests for the relativity library
-//          https://github.com/RobTillaart/TSL235R
+//          https://github.com/RobTillaart/relativity
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -32,9 +32,7 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "relativity.h"
-
 
 
 unittest_setup()
@@ -42,11 +40,9 @@ unittest_setup()
 }
 
 
-
 unittest_teardown()
 {
 }
-
 
 
 unittest(test_constructor)

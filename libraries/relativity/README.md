@@ -48,8 +48,10 @@ These functions are the same however the math to calculate a given factor and ga
 - **double gravitationalTime(double time, double speed)** returns time dilation due to gravitational effects.
 - **double diameterEarth(uint8_t longitude = 45)** calculates the diameter of the Earth given it is not a nice circle but more an ellipse, flatter on the poles and thicker on the equator.
 Longitude is in (absolute) degrees.
-- **double getPlanetMass(uint8_t n)** returns planet mass in kg where 0 = Sun, 1 = Mercury etc
-- **double getPlanetRadius(uint8_t n)** returns planet radius in kg where 0 = Sun, 1 = Mercury etc
+- **double getPlanetMass(uint8_t n)** returns planet mass in **kg** 
+where param n: 0 = Sun, 1 = Mercury etc
+- **double getPlanetRadius(uint8_t n)** returns planet radius in **km** 
+where param n: 0 = Sun, 1 = Mercury etc
 
 
 ## Operations

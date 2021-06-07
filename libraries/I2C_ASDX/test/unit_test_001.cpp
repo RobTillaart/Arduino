@@ -63,42 +63,74 @@ unittest(test_constructor)
   fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
 
   I2C_ASDX sensor(0x58, 100);
-  sensor.begin();
-  assertTrue(sensor.available());
-
-  fprintf(stderr, "Test default pressure\n");
-
-  assertEqual(0, sensor.getPressure());
-  assertEqual(0, sensor.getMilliBar());
-  assertEqual(0, sensor.getBar());
-  assertEqual(0, sensor.getPSI());
-
-  fprintf(stderr, "tes state\n");
-  assertEqual(0, sensor.errorCount());
-  assertEqual(0, sensor.lastRead());
   assertEqual(I2C_ASDX_INIT, sensor.state());
 
-  fprintf(stderr, "Test conversion constants\n");
-  assertEqualFloat(68.9475729, PSI2MILLIBAR, 0.0001);
-  assertEqualFloat(0.01450377377, MILLIBAR2PSI, 0.0001);
-  assertEqualFloat(0.0689475729, PSI2BAR, 0.0001);
-  assertEqualFloat(14.503773773, BAR2PSI, 0.0001);
+  assertTrue(sensor.begin());
+  assertTrue(sensor.isConnected());    // incorrect, keep build happy
+  assertTrue(sensor.available());      // obsolete in the future
+
+  fprintf(stderr, "test state\n");
+  assertEqual(0, sensor.errorCount());
+  assertEqual(0, sensor.lastRead());
+  assertEqual(I2C_ASDX_OK, sensor.state());
 }
 
 
-unittest(test_read)
+unittest(test_constants)
+{
+  fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
+
+  fprintf(stderr, "Test conversion constants\n");
+  assertEqualFloat(68.9475729,    PSI2MILLIBAR,    1e-4);
+  assertEqualFloat(0.01450377377, MILLIBAR2PSI,    1e-4);
+  assertEqualFloat(0.0689475729,  PSI2BAR,         1e-4);
+  assertEqualFloat(14.503773773,  BAR2PSI,         1e-4);
+
+  assertEqualFloat(0.001,         MILLIBAR2BAR,    1e-7);
+  assertEqualFloat(9.872e-4,      MILLIBAR2ATM,    1e-7);
+  assertEqualFloat(1000,          MILLIBAR2DYNES,  1);
+  assertEqualFloat(2.9539e-2,     MILLIBAR2INHG,   1e-5);
+
+  assertEqualFloat(0.4018,        MILLIBAR2INH2O,  1e-4);
+  assertEqualFloat(100,           MILLIBAR2PASCAL, 1e-3);
+  assertEqualFloat(0.75028,       MILLIBAR2TORR,   1e-5);
+  assertEqualFloat(0.075028,      MILLIBAR2CMHG,   1e-6);
+
+  assertEqualFloat(1.02056,       MILLIBAR2CMH2O,  1e-5);
+  assertEqualFloat(100,           MILLIBAR2MSW,    1);
+  
+  fprintf(stderr, "Test state constants\n");
+  assertEqual(1,  I2C_ASDX_OK);
+  assertEqual(0,  I2C_ASDX_INIT);
+  assertEqual(-1, I2C_ASDX_READ_ERROR);
+  assertEqual(-2, I2C_ASDX_C000_ERROR);
+  assertEqual(-3, I2C_ASDX_CONNECT_ERROR);
+}
+
+
+unittest(test_read_zero)
 {
   fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
 
   I2C_ASDX sensor(0x58, 100);
-  sensor.begin();
-  assertTrue(sensor.available());
+  assertTrue(sensor.begin());
+  assertTrue(sensor.isConnected());  // incorrect, keep build happy
 
   fprintf(stderr, "Test default pressure\n");
   assertEqual(0, sensor.getPressure());
   assertEqual(0, sensor.getMilliBar());
   assertEqual(0, sensor.getBar());
   assertEqual(0, sensor.getPSI());
+
+  assertEqual(0, sensor.getATM());
+  assertEqual(0, sensor.getDynes());
+  assertEqual(0, sensor.getInchHg());
+  assertEqual(0, sensor.getInchH2O());
+  assertEqual(0, sensor.getPascal());
+  assertEqual(0, sensor.getTORR());
+  assertEqual(0, sensor.getCmHg());
+  assertEqual(0, sensor.getCmH2O());
+  assertEqual(0, sensor.getMSW());
 
   // assertEqual(I2C_ASDX_READ_ERROR, sensor.read());
 

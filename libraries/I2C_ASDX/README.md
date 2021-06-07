@@ -8,6 +8,7 @@
 
 Arduino library for I2C ASDX pressure sensor
 
+
 ## Description
 
 The ASDX sensor of Honeywell exist in many variations.
@@ -17,27 +18,29 @@ The I2C_ASDX library can read the sensor and give the pressure in millibar, bar 
 
 The interface:
 
+
 #### Constructor
 
-- **I2C_ASDX(address, psi)** Constructor, I2C address and maximum pressure.
-- **void begin(sda, scl)** I2C parameters for ESP32 a.o.
-- **void begin()** for UNO and other boards supporting Wire.
-- **void reset()** resets internal variables, incl pressure.
+- **I2C_ASDX(uint8_taddress, uint8_t psi, TwoWire \*wire = &Wire)** Constructor, I2C address and maximum pressure. Optional the wire interface can be defined.
+- **bool begin(uint8_t sda, uint8_t scl)** I2C parameters for ESP32 a.o. Returns true if address can be found  on I2C bus.
+- **bool begin()** for UNO and other boards supporting Wire. Returns true if address can be found  on I2C bus.
+- **void reset()** resets internal variables, including pressure.
 - **bool isConnected()** tests if address can be found on I2C bus.
 - **bool available()** wrapper around isConnected. Obsolete in the future.
+
 
 #### Read
 
 Before any call to **getPressure()** one need to call **read()** unless one wants the last value read.
 
-- **int read()** actually reads the sensor, checks for errors, calculates the pressure and set lastRead, Returns **I2C_ASDX_OK** or error code.
+- **int read()** actually reads the sensor, checks for errors, calculates the pressure and set the lastRead timestamp. Returns **I2C_ASDX_OK** or an error code.
 
 
 #### Units
 
-- **int getPressure()** retuns pressure (integer format) in milliBar, will return 0 after reset() and no read done.
+- **int getPressure()** returns pressure (integer format) in milliBar, will return 0 after reset() and no read done.
 - **float getMilliBar()** returns pressure in milliBar.
-- **float getBar()** returns presure in bar.
+- **float getBar()** returns pressure in bar.
 - **float getPSI()** returns pressure in PSI = Pounds per Square Inch.
 - **float getATM()** returns pressure in Atmosphere.
 - **float getDynes()** returns pressure in Dynes.
@@ -45,15 +48,24 @@ Before any call to **getPressure()** one need to call **read()** unless one want
 - **float getInchH2O()** returns pressure in inches water.
 - **float getPascal()** returns pressure in Pascal. Note this is the SI unit.
 - **float getTORR()** returns pressure in TORR.
-- **float getCmHg()** returns pressure in centimeter mercury.
-- **float getCmH2O()** returns pressure in centimeter water.
+- **float getCmHg()** returns pressure in centimetre mercury.
+- **float getCmH2O()** returns pressure in centimetre water.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
+
 
 #### State
 
-- **uint16_t errorCount()** total counter for the number of errors occured.
-- **uint32_t lastRead()** time in millis of last succesful read of the sensor.
+- **uint16_t errorCount()** total counter for the number of errors occurred.
+- **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
 - **int state()** last known state of read, also returned by **read()**
+
+| state                   | meaning            |
+|:------------------------|:-------------------|
+| I2C_ASDX_OK             | no error           |
+| I2C_ASDX_INIT           | begin() not called |
+| I2C_ASDX_READ_ERROR     | I2C error          |
+| I2C_ASDX_C000_ERROR     | sensor error       |
+| I2C_ASDX_CONNECT_ERROR  | I2C error          |
 
 
 ## Testing
@@ -64,7 +76,7 @@ Code is prepared but not tested for 15, 5 and 1 PSI too.
 
 ```
     ID    UNIT       TYPE   DESCRIPTION
-                              output is porportional to difference
+                              output is proportional to difference
     PG    PSI        Gage   * between applied pressure and atmospheric pressure
     MG    mBar       Gage   * idem
     BG    Bar        Gage   * idem
@@ -84,13 +96,14 @@ Code is prepared but not tested for 15, 5 and 1 PSI too.
     V = voltage (3 volt also supported, not tested)
 ```
 
-That saidm it is expected that the library is modifyable to support many
+That said it is expected that the library is modifiable to support many
 more as long as they have the following raw read values.
 
 ```
     1638  =   0 PSI
     14746 = max PSI
 ```
+
 
 ## Testing
 
@@ -101,8 +114,6 @@ TESTED TYPES - type A 10% - 90% only
 
 #### Must
 
-- multiple Wire interface  (breaks interface)
-- test isCOnnected in bool begin(). (breaks interface?)
 - find a good reference for conversion formula constants.
 - 
 

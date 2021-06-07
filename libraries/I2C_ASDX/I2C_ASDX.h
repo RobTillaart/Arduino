@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for I2C ASDX pressure sensor
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 //
@@ -45,25 +45,26 @@
 
 
 
-#define I2C_ASDX_VERSION        (F("0.2.3"))
+#define I2C_ASDX_VERSION        (F("0.3.0"))
 
 #define I2C_ASDX_OK              1
 #define I2C_ASDX_INIT            0
 #define I2C_ASDX_READ_ERROR     -1
 #define I2C_ASDX_C000_ERROR     -2
+#define I2C_ASDX_CONNECT_ERROR  -3
 
 
 class I2C_ASDX
 {
 public:
-  //      psi: 100, 60, 30, 15
-  I2C_ASDX(uint8_t address, uint8_t psi);
+  //      psi: 100, 60, 30, 15, 5 or 1
+  I2C_ASDX(uint8_t address, uint8_t psi, TwoWire *wire = &Wire);
 
 
 #if defined (ESP8266) || defined(ESP32)
-  void     begin(uint8_t sda, uint8_t scl);
+  bool     begin(uint8_t sda, uint8_t scl);
 #endif
-  void     begin();
+  bool     begin();
   void     reset();
   bool     isConnected();
   bool     available()    { return isConnected(); };  // obsolete in future
@@ -101,6 +102,7 @@ public:
 
 private:
   uint8_t  _address;
+  TwoWire*  _wire;
 
   float    _maxPressure;
   float    _pressure;

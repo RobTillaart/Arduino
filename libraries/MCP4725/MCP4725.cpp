@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 //  HISTORY:
@@ -24,6 +24,7 @@
 //  0.2.3   2020-12-26  arduino-CI, bool isConnected(), bool begin()
 //  0.3.0   2021-01-15  Add WireN support (e.g. teensy)
 //  0.3.1   2021-05-27  Fix arduino-CI / arduino-lint
+//  0.3.2   2021-06-06  Verify input of setPercentage()
 
 
 #include "MCP4725.h"
@@ -101,6 +102,14 @@ uint16_t MCP4725::getValue()
 {
   return _lastValue;
 }
+
+
+int MCP4725::setPercentage(float perc)
+{
+  if ((perc > 100) || (perc < 0)) return MCP4725_VALUE_ERROR;
+  return setValue(round(perc * (0.01 * MCP4725_MAXVALUE)));
+}
+
 
 
 // unfortunately it is not possible to write a different value

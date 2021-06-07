@@ -3,9 +3,8 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //     URL: https://github.com/RobTillaart/MCP4725
-// HISTORY: See MCP4725.cpp
 //
 
 
@@ -13,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MCP4725_VERSION         (F("0.3.1"))
+#define MCP4725_VERSION         (F("0.3.2"))
 
 
 // constants
@@ -24,7 +23,7 @@
 #define MCP4725_OK              0
 #define MCP4725_VALUE_ERROR     -999
 #define MCP4725_REG_ERROR       -998
-#define MCP4725_NOT CONNECTED   -997
+#define MCP4725_NOT_CONNECTED   -997
 
 
 // powerDown Mode - TODO ENUM?
@@ -53,7 +52,7 @@ public:
 
 
   // 0..100.0% - no input check.
-  int      setPercentage(float perc = 0) { return setValue(round(perc * (0.01 * MCP4725_MAXVALUE))); };
+  int      setPercentage(float perc = 0);
   float    getPercentage() { return getValue() * (100.0 / MCP4725_MAXVALUE); };
 
 

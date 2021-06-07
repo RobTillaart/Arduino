@@ -46,6 +46,17 @@ unittest(test_constructor)
 
   fprintf(stderr, "test default values\n");
   assertEqual(MCP4725_MAXVALUE, 4095);
+  assertEqual(MCP4725_OK, 0);
+  assertEqual(MCP4725_VALUE_ERROR, -999);
+  assertEqual(MCP4725_REG_ERROR, -998);
+  assertEqual(MCP4725_NOT_CONNECTED, -997);
+
+  fprintf(stderr, "test mode values\n");
+  assertEqual(MCP4725_PDMODE_NORMAL, 0);
+  assertEqual(MCP4725_PDMODE_1K, 1);
+  assertEqual(MCP4725_PDMODE_100K, 2);
+  assertEqual(MCP4725_PDMODE_500K, 3);
+
   assertEqual(0, MCP.getValue());
   assertEqual(0, MCP.getLastWriteEEPROM());
 
@@ -61,33 +72,27 @@ unittest(test_constructor)
 unittest(test_get_setValue)
 {
   MCP4725 MCP(0x62);
-  Wire.begin();
-  assureTrue(MCP.isConnected());
 
-  // assertTrue(MCP.begin());
-  // assertTrue(MCP.isConnected());
-
-  // fprintf(stderr, "test start\n");
-  // uint16_t last = MCP.getValue();
-  // assertEqual(0, last);
-  // assertEqual(0, MCP.setValue(last));
-  // assertEqual(MCP4725_VALUE_ERROR, MCP.setValue(65535));
-  // assertEqual(MCP4725_VALUE_ERROR, MCP.setValue(4096));
+  assertEqual(MCP4725_VALUE_ERROR, MCP.setValue(65535));
+  assertEqual(MCP4725_VALUE_ERROR, MCP.setValue(4096));
 }
 
 
 unittest(test_get_setPercentage)
 {
   MCP4725 MCP(0x62);
-  assureTrue(MCP.isConnected());
-  
-  // assertTrue(MCP.begin());
-  // assertTrue(MCP.isConnected());
-  // float last = MCP.getPercentage();
-  // assertEqual(0, last);
-  // assertEqual(0, MCP.setPercentage(last));
-  // assertEqual(MCP4725_VALUE_ERROR, MCP.setPercentage(345));
-  // assertEqual(MCP4725_VALUE_ERROR, MCP.setPercentage(100.1));
+
+  assertEqual(MCP4725_VALUE_ERROR, MCP.setPercentage(345));
+  assertEqual(MCP4725_VALUE_ERROR, MCP.setPercentage(100.1));
+}
+
+
+unittest(test_writeDAC)
+{
+  MCP4725 MCP(0x62);
+
+  assertEqual(MCP4725_VALUE_ERROR, MCP.writeDAC(4096, false));
+  assertEqual(MCP4725_VALUE_ERROR, MCP.writeDAC(4096, true));
 }
 
 unittest_main()

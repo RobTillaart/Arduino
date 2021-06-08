@@ -2,7 +2,7 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
 // HISTORY: See BH1750FVI.cpp
 //
@@ -28,7 +28,7 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION       (F("0.2.6"))
+#define BH1750FVI_LIB_VERSION       (F("0.2.7"))
 
 
 #define BH1750FVI_DEFAULT_ADDRESS   0x23
@@ -68,7 +68,8 @@ public:
 #endif
 
   BH1750FVI(const uint8_t address, TwoWire *wire = &Wire);
-  void    begin();       // resets to constructor defaults. (use with care)
+  // retuns true if isConnected()
+  bool    begin();       // resets to constructor defaults. (use with care)
 
   bool    isConnected(); // returns true if address is on I2C bus
 
@@ -99,25 +100,31 @@ public:
   // to be used for very high and very low brightness
   // or to correct for e.g. transparancy
   void    changeTiming(uint8_t val);            // 69 is default = BH1750FVI_REFERENCE_TIME
-  void    setCorrectionFactor(float f);         // 0.45 .. 3.68
+  // returns changeTiming() param
+  uint8_t setCorrectionFactor(float f = 1);     // 0.45 .. 3.68
+  // returns percentage set .
   float   getCorrectionFactor();
 
   // read datasheet P3 and check figure 4 and 5.
   // setAngle is constrained to -89..+89
-  void    setAngle(int degrees);
+  // returns the angle correction factor
+  float   setAngle(int degrees = 0);
   int     getAngle() { return _angle; };
   
   // datasheet P3 figure 7
   // Effect of temperature is about 3% / 60°C ~~ 1% / 20°C
   // to be used if temp is really hot or cold.
-  void    setTemperature(int temp) { _temp = temp; };
+  // returns the temperature correction factor
+  float   setTemperature(int temp = 20);
   int     getTemperature() { return _temp; };
 
 
   // datasheet Page 3 figure 1  (experimental correction)
   // Effect of wavelength can be substantial, 
-  // correctionfactor is calculated by multiple linear approximations.
-  void    setWaveLength(int waveLength);
+  // correction is calculated by multiple linear approximations.
+  // wavelength of 580 ==> correction == 1
+  // returns the wavelength correction factor
+  float   setWaveLength(int waveLength = 580);
   int     getWaveLength() { return _waveLength; };
 
 private:
@@ -132,6 +139,7 @@ private:
   uint32_t  _requestTime        = 0;
   float     _angleFactor        = 1;
   int       _angle              = 0;
+  float     _tempFactor         = 1;
   int       _temp               = 20;
   float     _waveLengthFactor   = 1;
   int       _waveLength         = 580;

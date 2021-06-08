@@ -1,7 +1,7 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI
 //
@@ -18,6 +18,7 @@
 //  0.2.4   2020-11-27  fix #10 rename _sensitivityFactor for ESP32
 //  0.2.5   2020-12-12  add Arduino-CI and unit tests
 //  0.2.6   2021-01-16  add reset()
+//  0.2.7   2021-06-08  add unit tests, improved correction factor code.
 
 
 #include "BH1750FVI.h"
@@ -49,13 +50,13 @@ BH1750FVI::BH1750FVI(const uint8_t address, TwoWire *wire)
 }
 
 
-void BH1750FVI::begin()
+bool BH1750FVI::begin()
 {
   _data               = 0;
   _error              = BH1750FVI_OK;
   _sensitivityFactor  = BH1750FVI_REFERENCE_TIME;
   _mode               = BH1750FVI_MODE_HIGH;
-
+  return isConnected();
 }
 
 
@@ -104,8 +105,7 @@ float BH1750FVI::getLux(void)
   // temperature compensation.
   if (_temp != 20)
   {
-    float tempFactor = 1.0f - (_temp - 20.0f) / 2000.0f;
-    lux *= tempFactor;
+    lux *= _tempFactor;
   }
   // wavelength compensation.
   if (_waveLength != 580)
@@ -116,7 +116,6 @@ float BH1750FVI::getLux(void)
   {
     lux *= 0.5f;  // P11
   }
-
   return lux;
 }
 
@@ -140,12 +139,14 @@ void BH1750FVI::setContHighRes()
   _requestTime = millis();
 };
 
+
 void BH1750FVI::setContHigh2Res()
 {
   _mode = BH1750FVI_MODE_HIGH2;
   command(BH1750FVI_CONT_HIGH2);
   _requestTime = millis();
 };
+
 
 void BH1750FVI::setContLowRes()
 {
@@ -154,6 +155,7 @@ void BH1750FVI::setContLowRes()
   _requestTime = millis();
 };
 
+
 void BH1750FVI::setOnceHighRes()
 {
   _mode = BH1750FVI_MODE_HIGH;
@@ -161,12 +163,14 @@ void BH1750FVI::setOnceHighRes()
   _requestTime = millis();
 };
 
+
 void BH1750FVI::setOnceHigh2Res()
 {
   _mode = BH1750FVI_MODE_HIGH2;
   command(BH1750FVI_ONCE_HIGH2);
   _requestTime = millis();
 };
+
 
 void BH1750FVI::setOnceLowRes()
 {
@@ -192,12 +196,15 @@ void BH1750FVI::changeTiming(uint8_t val)
   command(Lbits);
 }
 
-void BH1750FVI::setCorrectionFactor(float f)
+
+uint8_t BH1750FVI::setCorrectionFactor(float f)
 {
   // 31 .. 254 are range P11 - constrained in changeTIming call
   uint8_t timingValue = round(BH1750FVI_REFERENCE_TIME * f);
   changeTiming(timingValue);
+  return _sensitivityFactor;
 }
+
 
 float BH1750FVI::getCorrectionFactor()
 {
@@ -205,27 +212,42 @@ float BH1750FVI::getCorrectionFactor()
   return _sensitivityFactor * f;
 }
 
-void BH1750FVI::setAngle(int degrees)
+
+float BH1750FVI::setTemperature(int temp)
+{
+  _temp = temp;
+  // _tempFactor = 1.0f - (_temp - 20.0f) / 2000.0f;
+  _tempFactor = 1.0f - (_temp - 20.0f) * 0.0005f;
+  return _tempFactor;
+}
+
+
+float BH1750FVI::setAngle(int degrees)
 {
   _angle = constrain(degrees, -89, 89);
   // Lamberts Law.
   _angleFactor = 1.0f / cos(_angle * (PI / 180.0f));
+  return _angleFactor;
 }
 
+
 // interpolation tables uses more RAM (versus progmem)
-void BH1750FVI::setWaveLength(int waveLength)
+float BH1750FVI::setWaveLength(int waveLength)
 {
   _waveLength = constrain(waveLength, 400, 715);
   float tmp = 1.0f;
-  if      (_waveLength < 440)  tmp = 0.01f + (_waveLength - 400) * 0.09f / 40.0f;
+  if      (_waveLength < 400)  tmp = 0.01f;
+  else if (_waveLength < 440)  tmp = 0.01f + (_waveLength - 400) * 0.09f / 40.0f;
   else if (_waveLength < 510)  tmp = 0.10f + (_waveLength - 440) * 0.80f / 70.0f;
   else if (_waveLength < 545)  tmp = 0.90f - (_waveLength - 510) * 0.10f / 35.0f;
   else if (_waveLength < 580)  tmp = 0.80f + (_waveLength - 545) * 0.20f / 35.0f;
   else if (_waveLength < 700)  tmp = 1.00f - (_waveLength - 580) * 0.93f / 120.0f;
   else if (_waveLength < 715)  tmp = 0.07f - (_waveLength - 700) * 0.07f / 15.0f;
-  else if (_waveLength == 715) tmp = 0.01f;
+  else if (_waveLength >= 715) tmp = 0.01f;
   _waveLengthFactor = 1.0f / tmp;
+  return _waveLengthFactor;
 }
+
 
 ///////////////////////////////////////////////////////////
 //
@@ -243,6 +265,7 @@ uint16_t BH1750FVI::readData()
   _data += _wire->read();
   return _data;
 }
+
 
 void BH1750FVI::command(uint8_t value)
 {

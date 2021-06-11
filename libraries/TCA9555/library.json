@@ -1,0 +1,22 @@
+{
+  "name": "TCA9555",
+  "keywords": "TCA9555,I2C, 16 IO, TCA9535",
+  "description": "Arduino library for I2C TCA9555 16 channel port expander\nShould also work for TCA9535 (not tested)",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA9555.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

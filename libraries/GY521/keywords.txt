@@ -6,7 +6,9 @@ GY521	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+reset	KEYWORD2
 wakeup	KEYWORD2
+
 read	KEYWORD2
 setThrottle	KEYWORD2
 getThrottle	KEYWORD2

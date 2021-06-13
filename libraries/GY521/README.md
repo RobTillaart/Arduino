@@ -55,8 +55,10 @@ AD0 connected to VCC => 0x69
 ### Constructor
 
 - **GY521(uint8_t address = 0x69)** Constructor with default address. 0x68 is also valid.
+- **bool begin(uint8_t sda, uint8_t scl)** begin for ESP32 et al.
 - **bool begin()**
 - **bool isConnected()** device can be found on I2C bus.
+- **void reset()** set all internal values to 0 and throttle time to 10 ms.
 - **bool wakeUp()**
 
 
@@ -115,6 +117,7 @@ Read the register PDF for the specific
 - test test and test ...(ESP too)
 - improve documentation
 - look for math optimizations  (atan, hypot, performance)
+- multi Wire interface (e.g Wire1, Wire2 etc)
 
 **Could**
 - calibrate function in the lib ?  (think not as lib might grow?)

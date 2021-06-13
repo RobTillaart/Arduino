@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -18,6 +18,7 @@
 //                      add GY521_registers.h
 //  0.2.3   2021-01-26  align version numbers (oops)
 //  0.3.0   2021-04-07  fix #18 acceleration error correction (kudo's to Merkxic)
+//  0.3.1   2021-06-13  added more unit test + some initialization
 
 
 #include "GY521.h"
@@ -37,8 +38,9 @@
 GY521::GY521(uint8_t address)
 {
   _address = address;
-  setThrottleTime(GY521_THROTTLE_TIME);
+  reset();
 }
+
 
 #if defined (ESP8266) || defined(ESP32)
 bool GY521::begin(uint8_t sda, uint8_t scl)
@@ -48,17 +50,32 @@ bool GY521::begin(uint8_t sda, uint8_t scl)
 }
 #endif
 
+
 bool GY521::begin()
 {
   Wire.begin();
   return isConnected();
 }
 
+
 bool GY521::isConnected()
 {
   Wire.beginTransmission(_address);
   return (Wire.endTransmission() == 0);
 }
+
+void GY521::reset()
+{
+  setThrottleTime(GY521_THROTTLE_TIME);
+
+  _ax  = _ay  = _az  = 0;
+  _aax = _aay = _aaz = 0;
+  _gx  = _gy  = _gz  = 0;
+  _pitch = 0;
+  _roll  = 0;
+  _yaw   = 0;
+}
+
 
 bool GY521::wakeup()
 {
@@ -67,6 +84,7 @@ bool GY521::wakeup()
   Wire.write(GY521_WAKEUP);
   return (Wire.endTransmission() == 0);
 }
+
 
 int16_t GY521::read()
 {
@@ -141,6 +159,7 @@ int16_t GY521::read()
   return GY521_OK;
 }
 
+
 bool GY521::setAccelSensitivity(uint8_t as)
 {
   _afs = as;
@@ -165,6 +184,7 @@ bool GY521::setAccelSensitivity(uint8_t as)
   return true;
 }
 
+
 uint8_t GY521::getAccelSensitivity()
 {
   uint8_t val = getRegister(GY521_ACCEL_CONFIG);
@@ -175,6 +195,7 @@ uint8_t GY521::getAccelSensitivity()
   _afs = (val >> 3) & 3;
   return _afs;
 }
+
 
 bool GY521::setGyroSensitivity(uint8_t gs)
 {
@@ -200,6 +221,7 @@ bool GY521::setGyroSensitivity(uint8_t gs)
   return true;
 }
 
+
 uint8_t GY521::getGyroSensitivity()
 {
   uint8_t val = getRegister(GY521_GYRO_CONFIG);
@@ -210,6 +232,7 @@ uint8_t GY521::getGyroSensitivity()
   _gfs = (val >> 3) & 3;
   return _gfs;
 }
+
 
 uint8_t GY521::setRegister(uint8_t reg, uint8_t value)
 {
@@ -224,6 +247,7 @@ uint8_t GY521::setRegister(uint8_t reg, uint8_t value)
   }
   return GY521_OK;
 }
+
 
 uint8_t GY521::getRegister(uint8_t reg)
 {
@@ -243,6 +267,7 @@ uint8_t GY521::getRegister(uint8_t reg)
   uint8_t val = Wire.read();
   return val;
 }
+
 
 // to read register of 2 bytes.
 int16_t GY521::_WireRead2()

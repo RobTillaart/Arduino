@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-11
-// PURPOSE: unit tests for the FastShiftIn library
+// PURPOSE: unit tests for the ShiftOutSlow library
 //          https://github.com/RobTillaart/ShiftOutSlow
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

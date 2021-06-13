@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.8
+// VERSION: 0.4.9
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -21,13 +21,13 @@
 //                     removed get/setDisableIRQ; adjusted wakeup timing; refactor
 //  0.3.1  2020-07-08  added powerUp() powerDown();
 //  0.3.2  2020-07-17  fix #23 added get/setSuppressError(); overrulable DHTLIB_INVALID_VALUE
-//  0.3.3  2020-08-18  fix #29, create explicit delay between pulling line HIGH and 
+//  0.3.3  2020-08-18  fix #29, create explicit delay between pulling line HIGH and
 //                     waiting for LOW in handshake to trigger the sensor.
 //                     On fast ESP32 this fails because the capacity / voltage of the long wire
 //                     cannot rise fast enough to be read back as HIGH.
 //  0.3.4  2020-09-23  Added **waitFor(state, timeout)** to follow timing from datasheet.
-//                     Restored disableIRQ flag as problems occured on AVR. The default of 
-//                     this flag on AVR is false so interrupts are allowed. 
+//                     Restored disableIRQ flag as problems occured on AVR. The default of
+//                     this flag on AVR is false so interrupts are allowed.
 //                     This need some investigation
 //                     Fix wake up timing for DHT11 as it does not behave according datasheet.
 //                     fix wakeupDelay bug in setType();
@@ -42,6 +42,7 @@
 //                     Do not use 0.4.5 and 0.4.4 as these are incorrect for negative temperature.
 //  0.4.7  2021-04-09  fix #60 negative temperatures below -25.5°C + readme.md
 //  0.4.8  2021-05-27  fixes to improve Arduino-lint
+//  0.4.9  2021-06-13  add optional flag DHTLIB_VALUE_OUT_OF_RANGE
 
 
 #include "dhtnew.h"
@@ -237,6 +238,18 @@ int DHTNEW::_read()
   Serial.print(_humidity, 1);
   */
 
+  // TEST OUT OF RANGE
+#ifdef DHTLIB_VALUE_OUT_OF_RANGE
+  if (_humidity > 100)
+  {
+    return DHTLIB_HUMIDITY_OUT_OF_RANGE;
+  }
+  if ((_temperature < -40) || (_temperature > 80))
+  {
+    return DHTLIB_TEMPERATURE_OUT_OF_RANGE;
+  }
+#endif
+
   _humidity = constrain(_humidity + _humOffset, 0, 100);
   _temperature += _tempOffset;
 
@@ -246,6 +259,7 @@ int DHTNEW::_read()
   {
     return DHTLIB_ERROR_CHECKSUM;
   }
+
   return DHTLIB_OK;
 }
 
@@ -308,7 +322,7 @@ int DHTNEW::_readSensor()
   // SENSOR PULLS LOW after 20-40 us  => if stays HIGH ==> device not ready
   // timeout is 20 us less due to delay() above
   // DHT11
-  // SENSOR PULLS LOW after 6000-10000 us 
+  // SENSOR PULLS LOW after 6000-10000 us
   uint32_t WAITFORSENSOR = 50;
   if (_type == 11)  WAITFORSENSOR = 15000UL;
   if (_waitFor(LOW, WAITFORSENSOR)) return DHTLIB_ERROR_SENSOR_NOT_READY;

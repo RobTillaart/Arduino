@@ -28,6 +28,7 @@
 #include "DS18B20_INT.h"
 
 
+
 unittest_setup()
 {
 }
@@ -36,10 +37,15 @@ unittest_teardown()
 {
 }
 
+
 unittest(test_constructor)
 {
-  OneWire oneWire(ONE_WIRE_BUS);
+  fprintf(stderr, "DS18B20_INT_LIB_VERSION: %s\n", DS18B20_INT_LIB_VERSION);
+
+  OneWire oneWire(4);
   DS18B20_INT sensor(&oneWire);
+
+  sensor.begin();
 
   sensor.requestTemperatures();
   delay(100);

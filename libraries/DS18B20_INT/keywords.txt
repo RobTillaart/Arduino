@@ -9,9 +9,11 @@ begin KEYWORD2
 getTempC	KEYWORD2
 requestTemperatures	KEYWORD2
 isConversionComplete	KEYWORD2
+getAddress	KEYWORD2
 
 
 # Constants (LITERAL1)
+DS18B20_INT_LIB_VERSION	LITERAL1
 DEVICE_DISCONNECTED	LITERAL1
 
 

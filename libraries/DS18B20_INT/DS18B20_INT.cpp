@@ -1,17 +1,18 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.3
+// VERSION: 0.1.5
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 //
-// HISTORY:
-// 0.1.0    2017-07-25  initial version
-// 0.1.1    2019-
-// 0.1.2    2020-08-05  refactor / sync with DS18B20 
-// 0.1.3    2020-12-20  add arduino-ci + unit test
-// 0.1.4    2021-05-26  add onewire.reset() to begin()
+//  HISTORY:
+//  0.1.0   2017-07-25  initial version
+//  0.1.1   2019-
+//  0.1.2   2020-08-05  refactor / sync with DS18B20 
+//  0.1.3   2020-12-20  add arduino-ci + unit test
+//  0.1.4   2021-05-26  add onewire.reset() to begin()
+//  0.1.5   2021-06-16  add retries param to begin()
 
 
 #include "DS18B20_INT.h"
@@ -20,6 +21,7 @@
 #define STARTCONVO      0x44
 #define READSCRATCH     0xBE
 #define WRITESCRATCH    0x4E
+
 
 // Device resolution
 #define TEMP_9_BIT  0x1F //  9 bit
@@ -32,10 +34,10 @@ DS18B20_INT::DS18B20_INT(OneWire* _oneWire)
 }
 
 
-bool DS18B20_INT::begin(void)
+bool DS18B20_INT::begin(uint8_t retries)
 {
   _addresFound = false;
-  for (uint8_t retries = 3; (retries > 0) && (_addresFound == false); retries--)
+  for (uint8_t rtr = retries; (rtr > 0) && (_addresFound == false); rtr--)
   {
     _wire->reset();
     _wire->reset_search();
@@ -83,9 +85,21 @@ int16_t DS18B20_INT::getTempC(void)
   rawTemperature |= _wire->read();
   _wire->reset();
   rawTemperature >>= 4;
-  
   if (rawTemperature < -55) return DEVICE_DISCONNECTED;
   return rawTemperature;
+}
+
+
+bool  DS18B20_INT::getAddress(uint8_t* buf)
+{
+  if (_addresFound)
+  {
+    for (uint8_t i = 0; i < 8; i++)
+    {
+      buf[i] = _deviceAddress[i];
+    }
+  }
+  return _addresFound;
 }
 
 

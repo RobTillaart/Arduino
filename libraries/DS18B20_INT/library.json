@@ -13,9 +13,9 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/DS18B20_INT"
+    "url": "https://github.com/RobTillaart/DS18B20_INT.git"
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"

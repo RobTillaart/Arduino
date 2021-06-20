@@ -5,13 +5,18 @@ ML8511	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
+reset	KEYWORD2
 getUV	KEYWORD2
+setVoltsPerStep	KEYWORD2
+getVoltsPerStep	KEYWORD2
+
 enable	KEYWORD2
 disable	KEYWORD2
-setVoltsPerStep	KEYWORD2
 isEnabled	KEYWORD2
-estimateDUVindex	KEYWORD2
 
+estimateDUVindex	KEYWORD2
+setDUVfactor	KEYWORD2
+getDUVfactor	KEYWORD2
 
 # Instances (KEYWORD2)
 

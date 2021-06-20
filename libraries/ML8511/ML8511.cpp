@@ -1,16 +1,19 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //
 //  HISTORY:
 //  0.1.0  2020-02-03  initial version
 //  0.1.1  2020-02-17  added _voltPerStep() to support more boards
 //  0.1.2  2020-06-21  refactor; add estimateDUVindex()
-//  0.1.3  2021-01-01  arduino-ci + unit test
+//  0.1.3  2021-01-01  Arduino-ci + unit test
 //  0.1.4  2021-04-23  fix for platformIO
-//  0.1.5  2021-05-27  fix arduino-lint
+//  0.1.5  2021-05-27  fix Arduino-lint
+//  0.1.6  2021-06-19  add get/setDUVfactor(), 
+//                     rewrite estimateDUVindex(),
+//                     add reset();
 
 
 #include "ML8511.h"
@@ -22,9 +25,8 @@
 //
 ML8511::ML8511(uint8_t analogPin, uint8_t enablePin)
 {
-  _analogPin = analogPin;
-  _voltsPerStep = 5.0/1023;
-  _enablePin = enablePin;
+  _analogPin    = analogPin;
+  _enablePin    = enablePin;
   if (enablePin != 0xFF)
   {
     pinMode(_enablePin, OUTPUT);
@@ -36,7 +38,15 @@ ML8511::ML8511(uint8_t analogPin, uint8_t enablePin)
   {
     _enabled = true;
   }
+  reset();
 };
+
+
+void ML8511::reset()
+{
+  _voltsPerStep = 5.0/1023;
+  _DUVfactor    = 1.61;      // https://github.com/RobTillaart/ML8511/issues/4
+}
 
 
 float ML8511::getUV(uint8_t energyMode)
@@ -57,7 +67,7 @@ float ML8511::getUV(uint8_t energyMode)
 
   // see datasheet - page 4
   // mW/cm2 @ 365 nm
-  // @ 25 Celcius
+  // @ 25 Celsius
   // formula estimated on graph
   if (voltage <= 1.0) 
   {
@@ -69,18 +79,23 @@ float ML8511::getUV(uint8_t energyMode)
 }
 
 
-// experimental estimate DUV index  (not calibrated, USE WITH CARE !!)
+// experimental estimate DUV index ( ==> USE WITH CARE !!)
+// use setDUVfactor(float w) to calibrate
+//
 // input is power in mW per cm2
-// weight is pretty high 
 float ML8511::estimateDUVindex(float mWcm2)
 {
-  float weight = 1.0;   // this can be tuned to callibrate
+  // rewrite in 0.1.6
+  // https://github.com/RobTillaart/ML8511/issues/4
+  return mWcm2 * _DUVfactor;
+};
 
-  // convert to mW per m2
-  float mWm2 = mWcm2 * 10000;
-  // factor to normalize to an 0..10 scale see Wikipedia.
-  float factor = 0.04;  // 1.0/25;  
-  return mWm2 * weight * factor;
+
+bool ML8511::setDUVfactor(float f)
+{
+  if (f < 0.01) return false;  // enforce positive values 
+  _DUVfactor = f; 
+  return true;
 };
 
 

@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -46,21 +47,9 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
-
 
 #define ANALOGPIN         0
+
 
 unittest(test_constructor)
 {
@@ -72,6 +61,9 @@ unittest(test_constructor)
   light.setVoltsPerStep(3.3, 4095);
   assertEqualFloat(3.3/4095, light.getVoltsPerStep(), 0.0001);
 
+  light.reset();
+  assertEqualFloat(5.0/1023, light.getVoltsPerStep(), 0.0001);
+
   assertTrue(light.isEnabled());
   light.disable();
   assertFalse(light.isEnabled());
@@ -79,22 +71,104 @@ unittest(test_constructor)
   assertTrue(light.isEnabled());
 }
 
-
+/*
 unittest(test_getUV)
 {
-  ML8511 light(ANALOGPIN);
+  // need god mode to fill the analogRead...
+  // does not work properly
+
+  GodmodeState* state = GODMODE();
+  state->reset();
+  int future[6] = {0, 0, 0, 400, 500, 600};
+  state->analogPin[0].fromArray(future, 6);
+
+  ML8511 light(ANALOGPIN);  // no/default enable pin
+
+  assertEqualFloat(0, light.getUV(), 0.0001);
+  assertTrue(light.isEnabled());
+  assertEqualFloat(0, light.getUV(LOW), 0.0001);
+  assertFalse(light.isEnabled());
+  assertEqualFloat(0, light.getUV(HIGH), 0.0001);
+  assertTrue(light.isEnabled());
 
   assertEqualFloat(0, light.getUV(), 0.0001);
   assertEqualFloat(0, light.getUV(LOW), 0.0001);
+  assertEqualFloat(0, light.getUV(HIGH), 0.0001);
+}
+*/
+
+
+/*
+unittest(test_getUV_2)
+{
+  // need god mode to fill the analogRead...
+  // does not work properly
+
+  GodmodeState* state = GODMODE();
+  state->reset();
+  int future[6] = {0, 0, 0, 0, 0, 0};
+  state->analogPin[0].fromArray(future, 6);
+
+  ML8511 light(ANALOGPIN, 4);  //  set enable pin
+
+  assertEqualFloat(0, light.getUV(), 0.0001);
+  assertTrue(light.isEnabled());
+  assertEqualFloat(0, light.getUV(LOW), 0.0001);
+  assertFalse(light.isEnabled());
+  assertEqualFloat(0, light.getUV(HIGH), 0.0001);
+  assertTrue(light.isEnabled());
+}
+*/
+
+
+unittest(test_setDUVfactor)
+{
+  ML8511 light(ANALOGPIN);
 
   light.enable();
-  assertEqualFloat(0, light.getUV(HIGH), 0.0001);
 
-  for (float uv = 0; uv < 1; uv += 0.1)
+  for (float factor = 0.10; factor < 2.01; factor += 0.1)
   {
-    fprintf(stderr, "%f\t", uv);
-    assertEqualFloat(0, light.estimateDUVindex(0), 0.0001);
+    light.setDUVfactor(factor);
+    assertEqualFloat(factor, light.getDUVfactor(), 0.0001);
   }
+
+  fprintf(stderr, "\nOUT OF RANGE\n");
+  assertTrue(light.setDUVfactor(0.577));
+  assertEqualFloat(0.577, light.getDUVfactor(), 0.0001);
+
+  assertFalse(light.setDUVfactor(0));
+  assertEqualFloat(0.577, light.getDUVfactor(), 0.0001);
+
+  assertFalse(light.setDUVfactor(-1.0));
+  assertEqualFloat(0.577, light.getDUVfactor(), 0.0001);
+  
+  light.reset();
+  assertEqualFloat(1.61, light.getDUVfactor(), 0.0001);
+}
+
+
+unittest(test_estimateDUVindex)
+{
+  ML8511 light(ANALOGPIN);
+
+  light.enable();
+
+  for (float mW = 0; mW < 10; mW += 0.1)
+  {
+    fprintf(stderr, "%f\t", mW);
+    fprintf(stderr, "%f\n", light.estimateDUVindex(mW));
+    assertEqualFloat(1.61 * mW, light.estimateDUVindex(mW), 0.0001);
+  }
+
+  light.setDUVfactor(1.0);
+  for (float mW = 0; mW < 10; mW += 0.1)
+  {
+    fprintf(stderr, "%f\t", mW);
+    fprintf(stderr, "%f\n", light.estimateDUVindex(mW));
+    assertEqualFloat(1.0 * mW, light.estimateDUVindex(mW), 0.0001);
+  }
+
 }
 
 

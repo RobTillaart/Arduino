@@ -1,9 +1,9 @@
 //
-//    FILE: ML8511_DUV_index.ino
+//    FILE: ML8511_determine_DUV_factor.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
-// PURPOSE: demo UV sensor
-//    DATE: 2020-06-21
+// PURPOSE: demo ML8511 UV sensor - to determine DUV factor
+//    DATE: 2021-06-19
 //     URL: https://github.com/RobTillaart/ML8511
 
 //        BREAKOUT
@@ -26,6 +26,10 @@
 
 ML8511 light(ANALOGPIN, ENABLEPIN);
 
+// for calculating the average
+float    sum   = 0;
+uint32_t count = 0;
+
 
 void setup()
 {
@@ -36,8 +40,6 @@ void setup()
   // manually enable / disable the sensor.
   light.enable();
 
-  light.setDUVfactor(1.80);    // calibrate your sensor
-
   Serial.print("\tmW cm^2");
   Serial.print("\tDUV index");
   Serial.println();
@@ -46,14 +48,28 @@ void setup()
 
 void loop()
 {
-  float UV = light.getUV();
-  float DUV = light.estimateDUVindex(UV);
-  Serial.print(UV, 4);
-  Serial.print("\t");
-  Serial.print(DUV, 1);
-  Serial.println();
-  delay(1000);
-}
+  Serial.print("enter reference DUV:\t");
+  // flush all
+  while (Serial.available() > 0) Serial.read();
+  while (Serial.available() == 0);
+  float DUV = Serial.parseFloat();
+  Serial.println(DUV);
 
+  float UV = light.getUV();
+  Serial.print("UV mW cm^2:\t\t");
+  Serial.println(UV, 4);
+
+  Serial.print("DUV factor:\t\t");
+  float factor = DUV / UV;
+  Serial.println(factor, 2);
+
+  // calculate the average
+  count++;
+  sum += factor;
+  Serial.print("DUV factor average:\t");
+  Serial.println(sum / count);
+  Serial.println();
+  Serial.println();
+}
 
 // -- END OF FILE --

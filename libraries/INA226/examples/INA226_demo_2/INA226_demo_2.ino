@@ -1,9 +1,9 @@
 //
-//    FILE: INA226_demo.ino
+//    FILE: INA226_demo_2.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
 // PURPOSE: demo
-//    DATE: 2021-05-18
+//    DATE: 2021-06-21
 //     URL: https://github.com/RobTillaart/INA226
 
 
@@ -35,28 +35,29 @@ void setup()
   Serial.println(INA.getCurrentLSB(), 10);
   Serial.println("\n\n");
 
-  Serial.println("BUS\tSHUNT\tCURRENT\tPOWER");
+  Serial.println("POWER2 = busVoltage x current\n");
+  Serial.println("BUS\tCURRENT\tPOWER\tPOWER2");
 }
 
 
 void loop()
 {
-  //  for (int r = 0; r < 6; r++)
-  //  {
-  //    Serial.print(INA.getRegister(r), HEX);
-  //    Serial.print('\t');
-  //  }
-  //  Serial.println();
+  float bv = INA.getBusVoltage();
+  float sv = INA.getShuntVoltage_mV();
+  float cu = INA.getCurrent_mA();
+  float po = INA.getPower_mW();
 
-  Serial.print(INA.getBusVoltage(), 3);
+  Serial.print(bv, 3);
   Serial.print("\t");
-  Serial.print(INA.getShuntVoltage_mV(), 3);
+  Serial.print(cu, 3);
   Serial.print("\t");
-  Serial.print(INA.getCurrent_mA(), 3);
+  Serial.print(po, 3);
   Serial.print("\t");
-  Serial.print(INA.getPower_mW(), 3);
+  Serial.print(bv * cu, 3);
+  Serial.print("\t");
+  Serial.print((po - bv * cu), 3);
   Serial.println();
-  delay(1000);
+  delay(100);
 }
 
 

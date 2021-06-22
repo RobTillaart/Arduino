@@ -1,13 +1,15 @@
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
 //
 //  HISTORY:
 //  0.1.0   2021-05-18  initial version
-
+//  0.1.1   2021-06-21  improved calibration + added functions
+//  0.1.2   2021-06-22  add paramchecking of several functions + unit tests
+//                      add getShunt() , getMaxCurrent()
 
 
 #include "INA226.h"
@@ -32,7 +34,10 @@ INA226::INA226(const int8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
+  // as these 
   _current_LSB = 0;
+  _maxCurrent  = 0;
+  _shunt       = 0;
 }
 
 
@@ -96,7 +101,7 @@ float INA226::getPower()
 
 float INA226::getCurrent()
 {
-  uint16_t val = _readRegister(INA226_CURRENT);
+  float val = _readRegister(INA226_CURRENT);
   return val * _current_LSB;
 }
 
@@ -110,16 +115,18 @@ void INA226::reset()
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask |= 0x800;
   _writeRegister(INA226_CONFIGURATION, mask);
+  // reset calibration?
 }
 
 
-void INA226::setAverage(uint8_t avg)
+bool INA226::setAverage(uint8_t avg)
 {
-  if (avg > 7) return;
+  if (avg > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask &= 0xF1FF;
   mask |= (avg << 9);
   _writeRegister(INA226_CONFIGURATION, mask);
+  return true;
 }
 
 
@@ -132,13 +139,14 @@ uint8_t INA226::getAverage()
 }
 
 
-void INA226::setBusVoltageConversionTime(uint8_t bvct)
+bool INA226::setBusVoltageConversionTime(uint8_t bvct)
 {
-  if (bvct > 7) return;
+  if (bvct > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask &= 0xFE3F;
   mask |= (bvct << 6);
   _writeRegister(INA226_CONFIGURATION, mask);
+  return true;
 }
 
 
@@ -151,13 +159,14 @@ uint8_t INA226::getBusVoltageConversionTime()
 }
 
 
-void INA226::setShuntVoltageConversionTime(uint8_t svct)
+bool INA226::setShuntVoltageConversionTime(uint8_t svct)
 {
-  if (svct > 7) return;
+  if (svct > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask &= 0xFFC7;
   mask |= (svct << 3);
   _writeRegister(INA226_CONFIGURATION, mask);
+  return true;
 }
 
 
@@ -174,22 +183,38 @@ uint8_t INA226::getShuntVoltageConversionTime()
 //
 // Calibration
 //
-void INA226::setMaxCurrentShunt(float ampere, float ohm)
+bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 {
-  _current_LSB = ampere * (1.0 / 32768.0);
-  // make the LSB a round number
-  float factor = 1;
-  //  Serial.println(_current_LSB, 6);
-  while (_current_LSB < 1)
+  if (maxCurrent > 20 || maxCurrent < 0.001) return false;
+  if (shunt < 0.001) return false;
+  _maxCurrent = maxCurrent;
+  _shunt = shunt;
+
+  _current_LSB = _maxCurrent * 3.0517578125e-005;  // maxCurrent / 32768;
+
+  // normalize the LSB to a round number
+  // not sure is this is more accurate / precise
+  if (normalize)
   {
-    _current_LSB *= 10;
-    factor *= 10;
+    // Serial.print("current_LSB:\t");
+    // Serial.println(_current_LSB, 10);
+    uint32_t factor = 1;
+    while (_current_LSB < 1)
+    {
+        _current_LSB *= 10;
+      factor *= 10;
+    }
+    _current_LSB = 10.0 / factor;
+    // Serial.print("current_LSB:\t");
+    // Serial.println(_current_LSB, 10);
   }
-  _current_LSB = 10.0 / factor;
-  //  Serial.println(_current_LSB, 6);
-  uint16_t calib = round(0.00512 / (_current_LSB * ohm));
-  //  Serial.println(calib);
+
+  uint16_t calib = round(0.00512 / (_current_LSB * _shunt));
   _writeRegister(INA226_CALIBRATION, calib);
+
+  // Serial.print("Calibration:\t");
+  // Serial.println(calib);
+  return true;
 }
 
 
@@ -197,13 +222,14 @@ void INA226::setMaxCurrentShunt(float ampere, float ohm)
 //
 // operating mode
 //
-void INA226::setMode(uint8_t mode)
+bool INA226::setMode(uint8_t mode)
 {
-  if (mode > 7) return;
-  uint16_t m = _readRegister(INA226_CONFIGURATION);
-  m &= 0xFFF8;
-  m |= mode;
-  _writeRegister(INA226_CONFIGURATION, m);
+  if (mode > 7) return false;
+  uint16_t config = _readRegister(INA226_CONFIGURATION);
+  config &= 0xFFF8;
+  config |= mode;
+  _writeRegister(INA226_CONFIGURATION, config);
+  return true;
 }
 
 

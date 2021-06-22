@@ -48,10 +48,101 @@ unittest_teardown()
 unittest(test_constructor)
 {
   fprintf(stderr, "\nVERSION: %s\n", INA226_LIB_VERSION);
-  INA226 INA();
+  INA226 INA(0x40);
   
-  assertTrue(1);
+  assertTrue(INA.begin());
+  assertTrue(INA.isConnected());
 }
+
+
+unittest(test_constants)
+{
+  fprintf(stderr, "\nVERSION: %s\n", INA226_LIB_VERSION);
+
+  assertEqual(0x8000, INA226_SHUNT_OVER_VOLTAGE);
+  assertEqual(0x4000, INA226_SHUNT_UNDER_VOLTAGE);
+  assertEqual(0x2000, INA226_BUS_OVER_VOLTAGE);
+  assertEqual(0x1000, INA226_BUS_UNDER_VOLTAGE);
+  assertEqual(0x0800, INA226_POWER_OVER_LIMIT);
+  assertEqual(0x0400, INA226_CONVERSION_READY);
+
+  assertEqual(0x0010, INA226_ALERT_FUNCTION_FLAG);
+  assertEqual(0x0008, INA226_CONVERSION_READY_FLAG);
+  assertEqual(0x0004, INA226_MATH_OVERFLOW_FLAG);
+  assertEqual(0x0002, INA226_ALERT_POLARITY_FLAG);
+  assertEqual(0x0001, INA226_ALERT_LATCH_ENABLE_FLAG);
+}
+
+
+unittest(test_core_functions)
+{
+  INA226 INA(0x40);
+  // assertTrue(INA.begin());
+
+  fprintf(stderr, "need mock up\n");
+  /*
+  fprintf(stderr, "%f\n", INA.getShuntVoltage());
+  fprintf(stderr, "%f\n", INA.getBusVoltage());
+  fprintf(stderr, "%f\n", INA.getPower());
+  fprintf(stderr, "%f\n", INA.getCurrent());
+  */
+}
+
+
+unittest(test_configuration)
+{
+  INA226 INA(0x40);
+  // assertTrue(INA.begin());
+
+  // only errors can be tested
+  assertFalse(INA.setAverage(8));
+  assertFalse(INA.setAverage(255));
+
+  assertFalse(INA.setBusVoltageConversionTime(8));
+  assertFalse(INA.setBusVoltageConversionTime(255));
+
+  assertFalse(INA.setShuntVoltageConversionTime(8));
+  assertFalse(INA.setShuntVoltageConversionTime(255));
+}
+
+
+unittest(test_calibration)
+{
+  INA226 INA(0x40);
+  // assertTrue(INA.begin());
+
+  // only errors can be tested
+  assertFalse(INA.setMaxCurrentShunt(30));
+  assertFalse(INA.setMaxCurrentShunt(0.0009));
+  assertFalse(INA.setMaxCurrentShunt(0));
+  assertFalse(INA.setMaxCurrentShunt(-1));
+
+  assertFalse(INA.setMaxCurrentShunt(10, 0));
+  assertFalse(INA.setMaxCurrentShunt(10, 0.0009));
+}
+
+
+unittest(test_setMode)
+{
+  INA226 INA(0x40);
+  // assertTrue(INA.begin());
+
+  // only errors can be tested
+  assertFalse(INA.setMode(8));
+  assertFalse(INA.setMode(255));
+  assertFalse(INA.setMode(-1));
+  /*
+  assertTrue(INA.shutDown());
+  assertTrue(INA.setModeShuntTrigger());
+  assertTrue(INA.setModeBusTrigger());
+  assertTrue(INA.setModeShuntBusTrigger());
+  assertTrue(INA.setModeShuntContinuous());
+  assertTrue(INA.setModeBusContinuous());
+  assertTrue(INA.setModeShuntBusContinuous());
+  */
+}
+
+
 
 
 unittest_main()

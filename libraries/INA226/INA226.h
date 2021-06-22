@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION         (F("0.1.0"))
+#define INA226_LIB_VERSION              (F("0.1.2"))
 
 
 // set by setAlertRegister
@@ -42,40 +42,54 @@ public:
 #if defined (ESP8266) || defined(ESP32)
   bool     begin(const uint8_t sda, const uint8_t scl);
 #endif
-
   bool     begin();
   bool     isConnected();
+
 
   // Core functions
   float    getShuntVoltage();
   float    getBusVoltage();
   float    getPower();
   float    getCurrent();
+  // scale
+  float    getShuntVoltage_mV() { return getShuntVoltage() * 1000.0; };
+  float    getPower_mW()        { return getPower() * 1000.0; };
+  float    getCurrent_mA()      { return getCurrent() * 1000.0; };
+
 
   // Configuration
   void     reset();
-  void     setAverage(uint8_t avg = 0);
+  bool     setAverage(uint8_t avg = 0);
   uint8_t  getAverage();
-  void     setBusVoltageConversionTime(uint8_t bvct = 4);
+  bool     setBusVoltageConversionTime(uint8_t bvct = 4);
   uint8_t  getBusVoltageConversionTime();
-  void     setShuntVoltageConversionTime(uint8_t svct = 4);
+  bool     setShuntVoltageConversionTime(uint8_t svct = 4);
   uint8_t  getShuntVoltageConversionTime();
 
+
   // Calibration
-  void     setMaxCurrentShunt(float ampere = 10.0, float ohm = 0.1);
+  // mandatory to set these!
+  // maxCurrent  = 0.001 .. 20
+  // shunt      >= 0.001
+  bool     setMaxCurrentShunt(float macCurrent = 20.0, float shunt = 0.002, 
+                              bool normalize = true);
+
+  // these return zero if not calibrated!
   float    getCurrentLSB() { return _current_LSB; };
+  float    getShunt()      { return _shunt; };
+  float    getMaxCurrent() { return _maxCurrent; };
 
 
   // Operating mode
-  void     setMode(uint8_t mode = 7);
+  bool     setMode(uint8_t mode = 7);
   uint8_t  getMode();
-  void     shutDown()                  { setMode(0); };
-  void     setModeShuntTrigger()       { setMode(1); };
-  void     setModeBusTrigger()         { setMode(2); };
-  void     setModeShuntBusTrigger()    { setMode(3); };
-  void     setModeShuntContinuous()    { setMode(5); };
-  void     setModeBusContinuous()      { setMode(6); };
-  void     setModeShuntBusContinuous() { setMode(7); };  // default.
+  bool     shutDown()                  { return setMode(0); };
+  bool     setModeShuntTrigger()       { return setMode(1); };
+  bool     setModeBusTrigger()         { return setMode(2); };
+  bool     setModeShuntBusTrigger()    { return setMode(3); };
+  bool     setModeShuntContinuous()    { return setMode(5); };
+  bool     setModeBusContinuous()      { return setMode(6); };
+  bool     setModeShuntBusContinuous() { return setMode(7); };  // default.
 
 
   // Alert
@@ -95,11 +109,17 @@ public:
   uint16_t getDieID();            // should return 0x2260
 
 
+  // DEBUG
+  uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
+
+
 private:
 
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
   float    _current_LSB;
+  float    _shunt;
+  float    _maxCurrent;
 
   uint8_t   _address;
   TwoWire * _wire;

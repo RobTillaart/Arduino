@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.1.2"))
+#define INA226_LIB_VERSION              (F("0.1.3"))
 
 
 // set by setAlertRegister
@@ -47,14 +47,18 @@ public:
 
 
   // Core functions
-  float    getShuntVoltage();
   float    getBusVoltage();
-  float    getPower();
+  float    getShuntVoltage();
   float    getCurrent();
-  // scale
-  float    getShuntVoltage_mV() { return getShuntVoltage() * 1000.0; };
-  float    getPower_mW()        { return getPower() * 1000.0; };
-  float    getCurrent_mA()      { return getCurrent() * 1000.0; };
+  float    getPower();
+  // scale helpers
+  float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
+  float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
+  float    getCurrent_mA()      { return getCurrent() * 1e3; };
+  float    getPower_mW()        { return getPower() * 1e3; };
+  float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
+  float    getCurrent_uA()      { return getCurrent() * 1e6; };
+  float    getPower_uW()        { return getPower() * 1e6; };
 
 
   // Configuration
@@ -75,9 +79,11 @@ public:
                               bool normalize = true);
 
   // these return zero if not calibrated!
-  float    getCurrentLSB() { return _current_LSB; };
-  float    getShunt()      { return _shunt; };
-  float    getMaxCurrent() { return _maxCurrent; };
+  float    getCurrentLSB()    { return _current_LSB; };
+  float    getCurrentLSB_mA() { return _current_LSB * 1e3; };
+  float    getCurrentLSB_uA() { return _current_LSB * 1e6; };
+  float    getShunt()         { return _shunt; };
+  float    getMaxCurrent()    { return _maxCurrent; };
 
 
   // Operating mode

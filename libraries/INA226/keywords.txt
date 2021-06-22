@@ -16,6 +16,10 @@ getShuntVoltage_mV	KEYWORD2
 getPower_mW	KEYWORD2
 getCurrent_mA	KEYWORD2
 
+getShuntVoltage_uV	KEYWORD2
+getPower_uW	KEYWORD2
+getCurrent_uA	KEYWORD2
+
 reset	KEYWORD2
 setAverage	KEYWORD2
 getAverage	KEYWORD2
@@ -26,6 +30,8 @@ getShuntVoltageConversionTime	KEYWORD2
 
 setMaxCurrentShunt	KEYWORD2
 getCurrentLSB	KEYWORD2
+getCurrentLSB_mA	KEYWORD2
+getCurrentLSB_uA	KEYWORD2
 getShunt	KEYWORD2
 getMaxCurrent	KEYWORD2
 

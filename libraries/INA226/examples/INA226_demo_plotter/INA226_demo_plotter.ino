@@ -28,7 +28,7 @@ void setup()
   INA.setMaxCurrentShunt(1, 0.002);
 
   Serial.println("POWER2 = busVoltage x current\n");
-  Serial.println("BUS\tCURRENT\tPOWER\tPOWER2\tDIFF");
+  Serial.println("BUS\tCURRENT\tPOWER\tPOWER2\tDELTA");
 }
 
 

@@ -1,10 +1,16 @@
 //
 //    FILE: INA226_BusVoltageConversionTime.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
+
+
+//  run this sketch in the IDE plotter
+//  change the setBusVoltageConversionTime(7)  (line 33)   0..7
+//  change the bus voltage
+//  0 reads fast  ...  7 staircasing, slower reads)
 
 
 #include "INA226.h"
@@ -23,44 +29,19 @@ void setup()
   {
     Serial.println("could not connect. Fix and Reboot");
   }
-
-  Serial.print("SHUNT:\t");
-  Serial.println(INA.getShuntVoltage(), 2);
-  Serial.print("  BUS:\t");
-  Serial.println(INA.getBusVoltage(), 2);
-  Serial.print("POWER:\t");
-  Serial.println(INA.getPower(), 2);
-  Serial.print(" CURR:\t");
-  Serial.println(INA.getCurrent(), 2);
-
-  Serial.println();
-  Serial.print("MAN:\t");
-  Serial.println(INA.getManufacturerID(), HEX);
-  Serial.print("DIE:\t");
-  Serial.println(INA.getDieID(), HEX);
-
-  Serial.println("done...");
+  INA.setMaxCurrentShunt(1, 0.002);
+  INA.setBusVoltageConversionTime(7);    //   <<<<<<<
 }
 
 
 void loop()
 {
-  for (int bvct = 0; bvct < 8; bvct++)
-  {
-    INA.setBusVoltageConversionTime(bvct);
-    Serial.print(bvct);
-    Serial.print(INA.getBusVoltage(), 4);
-    Serial.print("\t");
-    Serial.print(INA.getShuntVoltage(), 4);
-    Serial.print("\t");
-    Serial.print(INA.getCurrent(), 4);
-    Serial.print("\t");
-    Serial.print(INA.getPower(), 4);
-    Serial.println();
-    delay(1000);
-  }
+  Serial.print(INA.getBusVoltageConversionTime());
+  Serial.print("\t");
+  Serial.print(INA.getBusVoltage(), 4);
+  Serial.println();
+  delay(100);
 }
-
 
 
 // -- END OF FILE --

@@ -42,7 +42,7 @@ in line.
 
 Did some measurements with a load of 194 ohm and a shunt of 0.002 ohm that is a factor 10e5
 Being on the edge of the sensitivity of the ADC measurements of current were up to ~9% too low.
-Possible cause is that some math is done in 16 bit so numbers are truncated, not rounded.
+Possible cause is that some maths is done in 16 bit so numbers are truncated, not rounded.
 
 (see issue #2) Sensors may have a different shunt resistor than the 0.002 I have. You should 
 always check and verify what is on the shunt and even verify with a DMM that this value is correct.
@@ -52,6 +52,10 @@ compensate slightly if readings are structural too low or too high.
 I noted that the **getPower()** function does not always equal **getBusVoltage()** times **getCurrent()**
 Cause is rounding/trunking maths and time of measurement.  You might prefer to multiply those values yourself 
 to get extra digits. Please be aware that more digits is not always more exact (think significant digits)
+
+The example sketch **INA226_setMaxCurrentShunt.ino** switches between two calibration modes.
+It shows the **INA266** sensor needs time to accommodate to this change. 
+In practice you should call **setMaxCurrentShunt()** only once in **setup()**
 
 
 ## Interface
@@ -78,14 +82,21 @@ the sensor. Also the value is not meaningful if there is no shunt connected.
 - **float getBusVoltage()** idem. Max 36 Volt.
 - **float getCurrent()** is the current through the shunt in Ampere
 - **float getPower()** is the current x BusVoltage in Watt
+
+Helper functions to get the right scale
+
+- **float getBusVoltage_mV()** idem, in millivolts
 - **float getShuntVoltage_mV()** idem, in millivolts
 - **float getCurrent_mA()** idem in milliAmpere
 - **float getPower_mW()** idem in milliWatt
+- **float getShuntVoltage_uV()** idem microVolt
+- **float getCurrent_uA()** idem in microAmpere
+- **float getPower_uW()** idem, in microWatt
 
 
 ### Configuration
 
-to be tested.
+Note: the conversion time runs in the background and if done value is stored in a register. The core functions read from the registers, so they are not blocked, but just get the same value if no new is ready.
 
 - **void reset()** software power on reset
 - **bool setAverage(uint8_t avg = 0)** see table below
@@ -133,8 +144,15 @@ See datasheet
 
 Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 
-- **bool setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** set the calibration register based upon the shunt and the max ampere. From this the LSB is derived. Note the function will round up the LSB to nearest round value by default. This may cause loss of precision.
+- **bool setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
+set the calibration register based upon the shunt and the max ampere. 
+From this the LSB is derived. 
+Note the function will round up the LSB to nearest round value by default. 
+This may cause loss of precision. The function may force normalization if underflow detected.
 - **float getCurrentLSB()** returns the LSB == precision of the calibration
+- **float getCurrentLSB_uA()** returns the LSB == precision of the calibration
+- **float getShunt()** returns the value set for the shunt
+- **float getMaxCurrent()** returns the value for the maxCurrent which can be corrected.
 
 
 ### Operating mode

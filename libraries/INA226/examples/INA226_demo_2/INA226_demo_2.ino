@@ -30,34 +30,35 @@ void setup()
   Serial.print("DIE:\t");
   Serial.println(INA.getDieID(), HEX);
   delay(100);
-  INA.setMaxCurrentShunt(1, 0.002);
-  Serial.print("LSB:\t");
-  Serial.println(INA.getCurrentLSB(), 10);
-  Serial.println("\n\n");
 
-  Serial.println("POWER2 = busVoltage x current\n");
-  Serial.println("BUS\tCURRENT\tPOWER\tPOWER2");
+  INA.setMaxCurrentShunt(1, 0.002);
+
 }
 
 
 void loop()
 {
-  float bv = INA.getBusVoltage();
-  float sv = INA.getShuntVoltage_mV();
-  float cu = INA.getCurrent_mA();
-  float po = INA.getPower_mW();
+  Serial.println("\nPOWER2 = busVoltage x current");
+  Serial.println("BUS\tCURRENT\tPOWER\tPOWER2\tDELTA");
+  for (int i = 0; i < 20; i++)
+  {
+    float bv = INA.getBusVoltage();
+    float sv = INA.getShuntVoltage_mV();
+    float cu = INA.getCurrent_mA();
+    float po = INA.getPower_mW();
 
-  Serial.print(bv, 3);
-  Serial.print("\t");
-  Serial.print(cu, 3);
-  Serial.print("\t");
-  Serial.print(po, 3);
-  Serial.print("\t");
-  Serial.print(bv * cu, 3);
-  Serial.print("\t");
-  Serial.print((po - bv * cu), 3);
-  Serial.println();
-  delay(100);
+    Serial.print(bv, 3);
+    Serial.print("\t");
+    Serial.print(cu, 3);
+    Serial.print("\t");
+    Serial.print(po, 2);
+    Serial.print("\t");
+    Serial.print(bv * cu, 2);
+    Serial.print("\t");
+    Serial.print((po - bv * cu), 2);
+    Serial.println();
+    delay(500);
+  }
 }
 
 

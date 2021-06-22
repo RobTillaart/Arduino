@@ -1,6 +1,6 @@
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -8,9 +8,11 @@
 //  HISTORY:
 //  0.1.0   2021-05-18  initial version
 //  0.1.1   2021-06-21  improved calibration + added functions
-//  0.1.2   2021-06-22  add paramchecking of several functions + unit tests
+//  0.1.2   2021-06-22  add check of parameters of several functions + unit tests
 //                      add getShunt() , getMaxCurrent()
-
+//  0.1.3   2021-06-    add getCurrentLSB_uA() + improve examples
+//                      fix for calibration
+//
 
 #include "INA226.h"
 
@@ -187,13 +189,11 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 {
   if (maxCurrent > 20 || maxCurrent < 0.001) return false;
   if (shunt < 0.001) return false;
-  _maxCurrent = maxCurrent;
-  _shunt = shunt;
 
-  _current_LSB = _maxCurrent * 3.0517578125e-005;  // maxCurrent / 32768;
+  _current_LSB = maxCurrent * 3.0517578125e-5;      // maxCurrent / 32768;
 
   // normalize the LSB to a round number
-  // not sure is this is more accurate / precise
+  // LSB will increase
   if (normalize)
   {
     // Serial.print("current_LSB:\t");
@@ -201,7 +201,7 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     uint32_t factor = 1;
     while (_current_LSB < 1)
     {
-        _current_LSB *= 10;
+      _current_LSB *= 10;
       factor *= 10;
     }
     _current_LSB = 10.0 / factor;
@@ -209,11 +209,20 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     // Serial.println(_current_LSB, 10);
   }
 
-  uint16_t calib = round(0.00512 / (_current_LSB * _shunt));
+  // auto-scale
+  uint32_t calib = round(0.00512 / (_current_LSB * shunt));
+  while (calib > 65535)
+  {
+    _current_LSB *= 10;
+    calib /= 10;
+  }
   _writeRegister(INA226_CALIBRATION, calib);
 
   // Serial.print("Calibration:\t");
   // Serial.println(calib);
+
+  _maxCurrent = _current_LSB * 32768.0;
+  _shunt = shunt;
   return true;
 }
 

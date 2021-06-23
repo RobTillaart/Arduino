@@ -16,24 +16,25 @@ This library supports only one DS18B20 per Arduino/ MCU pin.
 If you need more functions or control over the DS18B20 family I refer to the library
 of Miles Burton - https://github.com/milesburton/Arduino-Temperature-Control-Library
 
-
-## Description
-
 I'm a great fan of the above library however some time ago I needed to strip it down 
 to save a few dozen bytes. I reworked that minimalistic version into a library and I 
-added a number of Arduino examples to help you get started. 
+added a number of Arduino examples to help you get started.
+
+
+## Interface
 
 The DS18B20 library supports only the DS18B20, only one sensor per pin, no parasite 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-- **void requestTemperatures()**
-- **bool isConversionComplete()**
-- **float readTempC()**
-
-The other main functions are
-- **bool begin()** returns true if the sensor is configured (available)
-- **void setResolution(res)** res = 9..12
+- **DS18B20(onewire)** constructor needs a reference to OneWire object.
+- **bool begin(uint8_t retries = 3)** resets oneWire and set resolution to 9 bit.  
+returns true if all is OK. there will be a number of retries to connect, default 3. 
+- **void requestTemperatures()** trigger temperature comversion
+- **bool isConversionComplete()** check if conversion is complete
+- **float getTempC()** returns temperature
+-127 = DEVICE_DISCONNECTED  
+- **void setResolution(uint8_t res = 9)** res = 9..12 (9 is default)
 - **bool getAddress()** returns true if the sensor is configured (available)
 
 This allowed the class to be both minimal in size and non-blocking. In fact the class
@@ -50,21 +51,24 @@ boards or IC's with small memory footprint.
 
 ## Operation
 
-```
-//  BOTTOM VIEW
-//
-//          PIN  MEANING
-//   /---+
-//  /  o |  1    GND
-//  |  o |  2    DATA
-//  \  o |  3    VCC
-//   \---+
-```
-	
 This library supports only one DS18B20 per Arduino/ MCU pin.
 
-Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. When the wires are longer 
-this resistor needs to be smaller. 
+```
+    //  BOTTOM VIEW
+    //
+    //          PIN  MEANING
+    //   /---+
+    //  /  o |  1    GND
+    //  |  o |  2    DATA
+    //  \  o |  3    VCC
+    //   \---+
+
+```
+
+Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. 
+When the wires are longer this resistor needs to be smaller.
+
+Check examples.
 
 
 ### Pull up resistor

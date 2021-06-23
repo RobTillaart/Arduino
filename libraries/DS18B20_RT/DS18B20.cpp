@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //
@@ -16,6 +16,7 @@
 //  0.1.7   2020-12-20  add arduino CI + unit test
 //  0.1.8   2021-04-08  clear scratchpad before read + update readme.md
 //  0.1.9   2021-05-26  add oneWire.reset() in begin()
+//  0.1.10  2021-06-14  add retries param to begin()
 
 
 #include "DS18B20.h"
@@ -54,11 +55,11 @@ DS18B20::DS18B20(OneWire* _oneWire)
 }
 
 
-bool DS18B20::begin(void)
+bool DS18B20::begin(uint8_t retries)
 {
   _config = DS18B20_CLEAR;
   _addresFound = false;
-  for (uint8_t retries = 3; (retries > 0) && (_addresFound == false); retries--)
+  for (uint8_t rtr = retries; (rtr > 0) && (_addresFound == false); rtr--)
   {
     _wire->reset();
     _wire->reset_search();
@@ -158,12 +159,13 @@ bool DS18B20::getAddress(uint8_t* buf)
 {
   if (_addresFound)
   {
-	  for (uint8_t i = 0; i < 8; i++)
-	  {
-		 buf[i] = _deviceAddress[i];
-	  }
+    for (uint8_t i = 0; i < 8; i++)
+    {
+      buf[i] = _deviceAddress[i];
+    }
   }
   return _addresFound;
 }
+
 
 //  -- END OF FILE --

@@ -57,6 +57,7 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_constructor)
 {
   Wire.resetMocks();
@@ -64,9 +65,47 @@ unittest(test_constructor)
   I2C_eeprom EE(0x50, 0x8000);
 
   assertTrue(EE.begin());
+  assertTrue(EE.isConnected());
 
-  assertEqual(1, 1);
+  assertEqual(0, EE.getLastWrite());
+  assertEqual(64, EE.getPageSize());
 }
+
+
+unittest(test_constants)
+{
+  I2C_eeprom EE(0x50, 0x8000);
+
+  assertEqual(I2C_DEVICESIZE_24LC512, 65536);
+  assertEqual(I2C_DEVICESIZE_24LC256, 32768);
+  assertEqual(I2C_DEVICESIZE_24LC128, 16384);
+  assertEqual(I2C_DEVICESIZE_24LC64,  8192);
+  assertEqual(I2C_DEVICESIZE_24LC32,  4096);
+  assertEqual(I2C_DEVICESIZE_24LC16,  2048);
+  assertEqual(I2C_DEVICESIZE_24LC08,  1024);
+  assertEqual(I2C_DEVICESIZE_24LC04,  512);
+  assertEqual(I2C_DEVICESIZE_24LC02,  256);
+  assertEqual(I2C_DEVICESIZE_24LC01,  128);
+
+}
+
+
+unittest(test_getPageSize)
+{
+  I2C_eeprom EE(0x50, 0x8000);
+
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC512), 128);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC256), 64);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC128), 64);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC64),  32);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC32),  32);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC16),  16);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC08),  16);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC04),  16);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC02),  8);
+  assertEqual(EE.getPageSize(I2C_DEVICESIZE_24LC01),  8);
+}
+
 
 unittest_main()
 

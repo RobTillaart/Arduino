@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -11,7 +11,13 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION "0.2.1"
+#define ACS712_LIB_VERSION        (F("0.2.2"))
+
+//  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
+//  should be smaller in practice 0.5 ?
+#define ACS712_FF_SINUS           (1.0/sqrt(2))
+#define ACS712_FF_SQUARE          (1.0)
+#define ACS712_FF_TRIANGLE        (1.0/sqrt(3))
 
 
 class ACS712
@@ -28,13 +34,17 @@ class ACS712
     //  30A   66
     ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100);
 
+
     // returns mA
     // blocks 20-21 ms to sample a whole 50 or 60 Hz period.
+    // lower frequencies block longer.
     int        mA_AC(uint8_t freq = 50);
+
 
     // returns mA
     // blocks < 1 ms
     int        mA_DC();
+
 
     // midpoint ADC for DC only
     inline void     setMidPoint(uint16_t mp) { _midPoint = mp; };
@@ -44,17 +54,22 @@ class ACS712
     // Auto midPoint, assuming zero DC current or any AC current
     void autoMidPoint(uint8_t freq = 50);
 
-    // also known as crest factor;  affects AC only
-    inline void     setFormFactor(float ff) { _formFactor = ff; };
+
+    // also known as crest factor;  affects mA_AC() only
+    // default sinus.
+    inline void     setFormFactor(float ff = ACS712_FF_SINUS) { _formFactor = ff; };
     inline float    getFormFactor() { return _formFactor; };
 
-    // noise
-    inline void     setNoisemV(uint8_t noisemV) { _noisemV = noisemV; };
+
+    //  noise defaults 21
+    inline void     setNoisemV(uint8_t noisemV = 21) { _noisemV = noisemV; };
     inline uint8_t  getNoisemV() { return _noisemV; };
+
 
     // AC and DC
     inline void     setmVperAmp(uint8_t mva) { _mVperAmpere = mva; };
     inline uint8_t  getmVperAmp() { return _mVperAmpere; };
+
 
   private:
     uint8_t   _pin;
@@ -65,4 +80,4 @@ class ACS712
     uint8_t   _noisemV;
 };
 
-// END OF FILE
+// -- END OF FILE --

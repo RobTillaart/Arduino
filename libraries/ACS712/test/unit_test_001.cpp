@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-12-06
 // PURPOSE: unit tests for the SHT31 temperature and humidity sensor
 //          https://github.com/RobTillaart/SHT31
@@ -69,6 +68,7 @@ unittest(test_mA_AC)
   assertEqual(1, 1);
 }
 
+
 unittest(test_midPoint)
 {
   ACS712  ACS(A0, 5.0, 1023, 100); // analogPin, volts, maxADC, mVperA
@@ -95,6 +95,7 @@ unittest(test_midPoint)
   assertEqual(1000, amp);
 }
 
+
 unittest(test_formFactor)
 {
   ACS712  ACS(A0, 5.0, 1023, 100);
@@ -112,6 +113,7 @@ unittest(test_formFactor)
   assertMoreOrEqual(0.0001, delta);
 }
 
+
 unittest(test_Noise)
 {
   ACS712  ACS(A0, 5.0, 1023, 100);
@@ -123,6 +125,7 @@ unittest(test_Noise)
   nmv = ACS.getNoisemV();
   assertEqual(100, nmv);
 }
+
 
 unittest(test_mVperAmp)
 {
@@ -136,6 +139,8 @@ unittest(test_mVperAmp)
   assertEqual(50, mpa);
 }
 
+
 unittest_main()
 
-// --------
+
+// -- END OF FILE --

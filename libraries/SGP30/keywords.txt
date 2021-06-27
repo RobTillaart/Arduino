@@ -1,0 +1,52 @@
+# Syntax Coloring Map For SGP30
+
+
+# Data types (KEYWORD1)
+SGP30	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+GenericReset	KEYWORD2
+
+getID	KEYWORD2
+getFeatureSet	KEYWORD2
+measureTest	KEYWORD2
+
+lastMeasurement	KEYWORD2
+measure	KEYWORD2
+
+request	KEYWORD2
+read	KEYWORD2
+requestRaw	KEYWORD2
+readRaw	KEYWORD2
+
+getTVOC	KEYWORD2
+getCO2	KEYWORD2
+getH2	KEYWORD2
+getEthanol	KEYWORD2
+getH2_raw	KEYWORD2
+getEthanol_raw	KEYWORD2
+
+setRelHumidity	KEYWORD2
+setAbsHumidity	KEYWORD2
+
+setBaseline	KEYWORD2
+getBaseline	KEYWORD2
+setTVOCBaseline	KEYWORD2
+getTVOCBaseline	KEYWORD2
+
+setSrefH2	KEYWORD2
+getSrefH2	KEYWORD2
+setSrefEthanol	KEYWORD2
+getSrefEthanol	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+SGP30_LIB_VERSION	LITERAL1
+SGP30_OK	LITERAL1
+
+

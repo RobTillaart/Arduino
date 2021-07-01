@@ -55,7 +55,7 @@ The SGP30 sensor has a fixed I2C address so only one sensor per I2C bus can be u
 - **SGP30(TwoWire \*wire = &Wire)** Constructor with optional the Wire interface as parameter.
 - **bool begin()** .
 - **bool begin(sda, scl)** idem, for the ESP32 where one can choose the I2C pins.
-- **bool isConnected()** checks if the address is visable on the I2C bus.
+- **bool isConnected()** checks if the address is visible on the I2C bus.
 
 
 ### Meta
@@ -67,7 +67,7 @@ The SGP30 sensor has a fixed I2C address so only one sensor per I2C bus can be u
 
 ### Synchronous measurements
 
-- **uint32_t lastMeasurement()** timestamp in millis of the last sync measurement made. This convenience function is useful to prevent reading the sensor too often.
+- **uint32_t lastMeasurement()** timestamp in milliseconds of the last sync measurement made. This convenience function is useful to prevent reading the sensor too often.
 - **bool measure(bool all = false)** if all == false, only the TVOC and CO2 are updated (slow due to blocking), if all == true, also the H2 and the Ethanol values are updated (even slower). Note the measurement is slow as there is an active blocking until the sensor is done. If the last measurement is less than a second ago, no measurement is made and the function returns false.
 
 
@@ -76,9 +76,9 @@ The SGP30 sensor has a fixed I2C address so only one sensor per I2C bus can be u
 With the async interface, the user should control that reads are at least one second apart. The user should also take care not to mix up different requests. See examples. 
 
 - **void request()** sends a request to the sensor to read CO2 and TVOC. 
-- **bool read()** returns true if the last request is more than 12 millis ago the CO2 and TVOC are read and updated. Otherwise false is returned.
+- **bool read()** returns true if the last request is more than 12 milliseconds ago the CO2 and TVOC are read and updated. Otherwise false is returned.
 - **void requestRaw()** sends a request to the sensor to read H2 and Ethanol.
-- **bool readRaw()** returns true if the last request is more than 25 millis ago the H2 and Ethanol are read and updated. Otherwise false is returned.
+- **bool readRaw()** returns true if the last request is more than 25 milliseconds ago the H2 and Ethanol are read and updated. Otherwise false is returned.
 
 
 ### Get the data
@@ -127,6 +127,7 @@ use at own risk.
 Since 0.1.2 the library has experimental support for H2 and Ethanol concentration in ppm. 
 
 One should use these functions more as a relative indication than as an absolute measurement as it is definitely not calibrated.
+Runs with different temperature and humidity (different days) give very different values including overflow and infinity.
 
 - **float getH2()** gets the H2 concentration. Units ppm.
 - **float getEthanol()** gets the Ethanol concentration. Units ppm.
@@ -142,10 +143,12 @@ The used references are based upon (1) averaging raw data in outside air at 22°
 ## Todo
 
 - redo **getID()**
-- redo **lastError()**
 - test test test ....
-- CRC handling
-- error handling
+
+
+The CRC checking + error handling (since 0.1.4) adds around 330 bytes PROGMEM on an UNO.
+There might be a need for a minimal class that only reads CO2 and TVOC, no baselines etc.
+for the smallest platforms. 
 
 
 ## Operational

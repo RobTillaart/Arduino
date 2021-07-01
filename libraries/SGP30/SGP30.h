@@ -2,7 +2,7 @@
 //
 //    FILE: SGP30.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-06-24
 // PURPOSE: SGP30 library for Arduino
 //     URL: https://github.com/RobTillaart/SGP30
@@ -12,9 +12,11 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define SGP30_LIB_VERSION         (F("0.1.3"))
+#define SGP30_LIB_VERSION         (F("0.1.4"))
 
 #define SGP30_OK                  0x00
+#define SGP30_ERROR_CRC           0xFF
+#define SGP30_ERROR_I2C           0xFE
 
 
 class SGP30
@@ -56,14 +58,15 @@ public:
   uint16_t getCO2()         { return _co2; };      // PPM
   uint16_t getH2_raw()      { return _h2; };       // UNKNOWN
   uint16_t getEthanol_raw() { return _ethanol; };  // UNKNOWN
-  float getH2();            // experimental        // PPM
-  float getEthanol();       // experimental        // PPM
+  float    getH2();         // experimental        // PPM
+  float    getEthanol();    // experimental        // PPM
 
 
   // CALIBRATION - read datasheet
   // T  in °C
   // RH == 0..100
   float    setRelHumidity(float T, float RH);  // P10
+  // Absolute humidity in grams / m3
   // set Abs Hum to 0 to disables it...
   void     setAbsHumidity(float AbsoluteHumidity);
 

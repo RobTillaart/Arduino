@@ -1,7 +1,7 @@
 //
 //    FILE: SGP30.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-06-24
 // PURPOSE: SGP30 library for Arduino
 //     URL: https://github.com/RobTillaart/SGP30
@@ -12,6 +12,7 @@
 //  0.1.1   2021-06-26  add get/setBaseline ++
 //  0.1.2   2021-06-26  experimental add units  H2 + Ethanol
 //  0.1.3   2021-06-26  add get/setTVOCbaseline()
+//  0.1.4   2021-07-01  add CRC checking
 
 
 #include "SGP30.h"
@@ -79,10 +80,18 @@ bool SGP30::getID()
     {
       _id[j++] = _wire->read();
       _id[j++] = _wire->read();
-      _wire->read();        // skip crc
+      uint8_t crc = _wire->read();
+      uint16_t val = _id[j-2] * 256 + _id[j-1];
+      if (_CRC8(val) != crc)
+      {
+        _error = SGP30_ERROR_CRC;
+        return false;
+      }
     }
+    _error = SGP30_OK;
     return true;
   }
+  _error = SGP30_ERROR_I2C;
   return false;
 }
 
@@ -97,9 +106,17 @@ uint16_t SGP30::getFeatureSet()
   {
     rv = _wire->read() << 8;
     rv  += _wire->read();
-    _wire->read();       // skip crc
+    uint8_t crc = _wire->read();
+    if (_CRC8(rv) != crc)
+    {
+      _error = SGP30_ERROR_CRC;
+      return rv;
+    }
+    _error = SGP30_OK;
+    return rv;
   }
-  return rv;
+  _error = SGP30_ERROR_I2C;
+  return 0xFFFF;
 }
 
 
@@ -120,9 +137,16 @@ bool SGP30::measureTest()
   {
     rv = _wire->read() << 8;
     rv  += _wire->read();
-    _wire->read();       // skip crc
+    uint8_t crc = _wire->read();
+    if (_CRC8(rv) != crc)
+    {
+      _error = SGP30_ERROR_CRC;
+      return false;
+    }
+    _error = SGP30_OK;
     return rv == 0xD400;
   }
+  _error = SGP30_ERROR_I2C;
   return false;
 }
 
@@ -166,19 +190,28 @@ bool SGP30::read()
   if (millis() - _lastRequest < 13) return false;  // P11
   _lastRequest = 0;
 
-  // TODO error handling
-  // TODO CRC
   if (_wire->requestFrom(_address, (uint8_t)6) != 6)
   {
+    _error = SGP30_ERROR_I2C;
     return false;
   }
   _co2  =  _wire->read() << 8;
   _co2  += _wire->read();
-           _wire->read();       // skip crc
-
+  uint8_t crc = _wire->read();
+  if (_CRC8(_co2) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
   _tvoc =  _wire->read() << 8;
   _tvoc += _wire->read();
-           _wire->read();       // skip crc
+  crc = _wire->read();
+  if (_CRC8(_tvoc) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
+  _error = SGP30_OK;
   return true;
 }
 
@@ -196,18 +229,28 @@ bool SGP30::readRaw()
   if (millis() - _lastRequest < 26) return false;  // P11
   _lastRequest = 0;
 
-  // TODO error handling
-  // TODO CRC
   if (_wire->requestFrom(_address, (uint8_t)6) != 6)
   {
+    _error = SGP30_ERROR_I2C;
     return false;
   }
   _h2      =  _wire->read() << 8;
   _h2      += _wire->read();
-              _wire->read();        // skip crc
+  uint8_t crc = _wire->read();
+  if (_CRC8(_h2) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
   _ethanol =  _wire->read() << 8;
   _ethanol += _wire->read();
-              _wire->read();        // skip crc
+  crc = _wire->read();
+  if (_CRC8(_ethanol) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
+  _error = SGP30_OK;
   return true;
 }
 
@@ -268,18 +311,28 @@ void SGP30::setBaseline(uint16_t CO2, uint16_t TVOC)
 bool SGP30::getBaseline(uint16_t *CO2, uint16_t *TVOC)
 {
   _command(0x2015);
-  // TODO error handling
-  // TODO CRC
   if (_wire->requestFrom(_address, (uint8_t)6) != 6)
   {
+    _error = SGP30_ERROR_I2C;
     return false;
   }
   *CO2  =  _wire->read() << 8;
   *CO2  += _wire->read();
-           _wire->read();        // skip crc
+  uint8_t crc = _wire->read();
+  if (_CRC8(*CO2) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
   *TVOC =  _wire->read() << 8;
   *TVOC += _wire->read();
-           _wire->read();        // skip crc
+  crc = _wire->read();
+  if (_CRC8(*TVOC) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
+  _error = SGP30_OK;
   return true;
 }
 
@@ -293,15 +346,20 @@ void SGP30::setTVOCBaseline(uint16_t TVOC)
 bool SGP30::getTVOCBaseline(uint16_t *TVOC)
 {
   _command(0x20B3);
-  // TODO error handling
-  // TODO CRC
   if (_wire->requestFrom(_address, (uint8_t)3) != 3)
   {
+    _error = SGP30_ERROR_I2C;
     return false;
   }
   *TVOC =  _wire->read() << 8;
   *TVOC += _wire->read();
-           _wire->read();        // skip crc
+  uint8_t crc = _wire->read();
+  if (_CRC8(*TVOC) != crc)
+  {
+    _error = SGP30_ERROR_CRC;
+    return false;
+  }
+  _error = SGP30_OK;
   return true;
 }
 

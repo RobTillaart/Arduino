@@ -24,7 +24,7 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 - **I2C_eeprom(uint8_t deviceAddress, uint32_t deviceSize, TwoWire \*wire = &Wire)** constructor, with optional Wire interface.
 - **bool begin()** initializes the I2C bus and checks if the device is available on the I2C bus.
 - **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 and alike.
-- **bool isConnected()** test to see if device is on the bus.
+- **bool isConnected()** test to see if deviceAddress is found on the bus.
 
 
 ### Core functions
@@ -45,13 +45,13 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 - **uint8_t  getPageSize(uint32_t deviceSize)** idem
 - **uint32_t getLastWrite()** idem
 - **uint32_t determineSize(bool debug = false)**  
-function that determins the size of the EEPROM by detecting when a memory address is folded upon memory address 0. 
+function that determines the size of the EEPROM by detecting when a memory address is folded upon memory address 0. 
 It is based upon the observation that memory wraps around. 
 The debug flag gives some output to Serial.
 
 **Warning**: this function has changed (again) in 1.4.0 
 
-Testresults 
+Test results 
 
 | Type    | returns |  Memory  | Page Size | Notes |
 |:--------|:--------|:---------|:-----:|:------|
@@ -76,7 +76,9 @@ The function cannot detect smaller than 128 bit EEPROMS.
 
 The function **updateBlock()** reads the block of data and compares it with the new values to see if it needs rewriting.
 
-As the function reads/writes the data in blocks with a maximum length of **I2C_TWIBUFFERSIZE** (== 30 AVR limitation) it does this comparison in chuncks if the length exceeds this number. The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood. 
+As the function reads/writes the data in blocks with a maximum length of **I2C_BUFFERSIZE** (== 30 on AVR limitation).
+It does this comparison in chunks if the length exceeds this number. 
+The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood. 
 
 If data is changed often between writes, **updateBlock()** is slower than **writeBlock()**.
 So you should verify if your sketch can make use of the advantages of **updateBlock()**
@@ -92,7 +94,7 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 - improve error handling, write functions should return bytes written or so.
 - what can we do with the print interface? (investigate)
 - investigate multi-EEPROM storage, 
-- investigate smarter strategy for updateBlock() => find first and last changed position would possibly result in less writes. 
+- investigate smarter strategy for updateBlock() => find first and last changed position could possibly result in less writes. 
 
 
 ## Operational

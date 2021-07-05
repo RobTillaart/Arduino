@@ -87,6 +87,20 @@ unittest(test_read)
 }
 
 
+unittest(test_address)
+{
+  PCF8574 PCF(0x38);
+
+  // incorrect in test environment.
+  assertTrue(PCF.begin());
+  assertTrue(PCF.isConnected());
+  assertEqual(0x38, PCF.getAddress());
+
+  assertTrue(PCF.setAddress(0x20));
+  assertEqual(0x20, PCF.getAddress());
+}
+
+
 unittest_main()
 
 // --------

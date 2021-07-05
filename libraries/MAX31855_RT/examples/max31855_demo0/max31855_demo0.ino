@@ -33,10 +33,10 @@ void loop()
 
   float internal = tc.getInternal();
   Serial.print("internal:\t");
-  Serial.println(internal);
+  Serial.println(internal, 3);
 
   float temp = tc.getTemperature();
   Serial.print("temperature:\t");
-  Serial.println(temp);
+  Serial.println(temp, 3);
   delay(1000);
 }

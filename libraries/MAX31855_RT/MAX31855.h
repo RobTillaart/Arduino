@@ -2,13 +2,14 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //          http://forum.arduino.cc/index.php?topic=208061
-//
-// Bbreakout board
+
+
+// Breakout board
 //
 //     +---------+
 // Vin | o       |
@@ -19,10 +20,12 @@
 // CLK | o       |
 //     +---------+
 
+
 #include "Arduino.h"
 #include "SPI.h"
 
-#define MAX31855_VERSION           "0.2.4"
+
+#define MAX31855_VERSION              (F("0.2.5"))
 
 #define MAX31855_NO_TEMPERATURE       -999
 
@@ -66,7 +69,7 @@ public:
   MAX31855(uint8_t SCLK, uint8_t CS, uint8_t MISO);
   void begin();
 
-  // returns state - bitfield: 0 = STATUS_OK
+  // returns state - bit field: 0 = STATUS_OK
   uint8_t read();
 
   float   getInternal(void) const { return _internal; }
@@ -80,17 +83,18 @@ public:
   inline  bool noRead()          { return _status == STATUS_NOREAD; };
   inline  bool noCommunication() { return _status == STATUS_NO_COMMUNICATION; };
 
-  // use offset to callibrate the TC.
+  // use offset to calibrate the TC.
   void    setOffset(const float  t)   { _offset = t; };
   float   getOffset() const           { return _offset; };
 
-  //  set the above E_TC (etc) Seebrecht Coefficients
+  //  set the above E_TC (etc) Seebeck Coefficients
   //  one can also set your own optimized values.
   void    setSeebeckCoefficient(const float SC) { _SC = SC; };
   float   getSeebeckCoefficient() const         { return _SC; };
 
   uint32_t lastRead()            { return _lastRead; };
   uint32_t getRawData()          { return _rawData;};
+
 
 private:
   uint32_t _read();
@@ -107,5 +111,6 @@ private:
   uint8_t  _miso;
   uint8_t  _cs;
 };
+
 
 // -- END OF FILE --

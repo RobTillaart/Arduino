@@ -35,10 +35,19 @@ void loop ()
 
   uint32_t value = thermocouple.getRawData();  // Read the raw Data value from the module
   Serial.print("RAW:\t");
-  Serial.println(value, BIN);                  // Display the raw data value in BIN format
+
+  // Display the raw data value in BIN format
+  uint32_t mask = 0x80000000; 
+  for (int i = 0; i < 32; i++) 
+  {
+    if ((i > 0)  && (i % 4 == 0)) Serial.print("-");
+    Serial.print((value & mask) ? 1 : 0);
+    mask >>= 1;
+  }
+  Serial.println();
 
   Serial.print("TMP:\t");
-  Serial.println(thermocouple.getTemperature());
+  Serial.println(thermocouple.getTemperature(), 3);
 
   delay(100);
 }

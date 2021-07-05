@@ -43,15 +43,18 @@ Default pin connections (ESP32 has more options)
  | MISO     |   12  |   19    |
  | MOSI     |   11  |   23    |
 
-Performance read() function, timing in us.
 
-| mode | clock | timng UNO |
-|:----|----:|----:|
-| HWSPI | 16000000 | ~68  |
-| HWSPI |  4000000 | ~72  |
-| HWSPI |  1000000 | ~100 |
-| HWSPI |   500000 | ~128 |
-| SWSPI | bitbang  | ~500 |
+
+Performance read() function, timing in us.  (ESP32 @240MHz)
+
+| mode  | clock    | timing UNO | timing ESP32 |
+|:------|---------:|-----------:|-------------:|
+| HWSPI | 32000000 |     ni     |      ~15     |
+| HWSPI | 16000000 |    ~68     |      ~16     |
+| HWSPI |  4000000 |    ~72     |      ~23     |
+| HWSPI |  1000000 |    ~100    |      ~51     |
+| HWSPI |   500000 |    ~128    |      ~89     |
+| SWSPI | bit bang |    ~500    |      ~17 (!) |
 
 
 
@@ -63,15 +66,15 @@ The function **getStatus()** returns the same status value.
 
 Table: values returned from **read()** and **getStatus()**
 
-| value | Description | Action |
-|:----:|:----|:----|
-| 0 | OK | - |
-| 1 | Thermocouple open circuit | check wiring |
-| 2 | Thermocouple short to GND | check wiring |
-| 4 | Thermocouple short to VCC | check wiring |
-| 7 | Generic error | |
-| 128 | No read done yet | check wiring |
-| 129 | No communication | check wiring |
+| value | Description               | Action       |
+|:-----:|:--------------------------|:-------------|
+|    0  | OK                        |              |
+|    1  | Thermocouple open circuit | check wiring |
+|    2  | Thermocouple short to GND | check wiring |
+|    4  | Thermocouple short to VCC | check wiring |
+|    7  | Generic error             |              |
+|  128  | No read done yet          | check wiring |
+|  129  | No communication          | check wiring |
 
 There are six functions to check the individual error conditions mentioned above.
 These make it easier to check them.
@@ -84,13 +87,13 @@ These make it easier to check them.
 - **noCommunication()**
 
 After a **tc.read()** you can get the temperature with **tc.getTemperature()** 
-and **tc.getInternal()** for the interrnal temperature of the chip / board itself.
+and **tc.getInternal()** for the internal temperature of the chip / board itself.
 
 Repeated calls to **tc.getTemperature()** will give the same value until a new **tc.read()**.
 The latter fetches a new value from the sensor. Note that if the **tc.read()** fails
 the value of **tc.getTemperature()** can become incorrect. 
 
-The library supports a fixed offset to callibrate the thermocouple.
+The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **tc.getOffset()** and **tc.setOffset(offset)** are available.
 This offset is included in the **tc.getTemperature()** function.
 
@@ -189,20 +192,22 @@ The support for other thermocouples is experimental **use at your own risk**.
 
 The MAX31855 is designed for K type sensors. It essentially measures a 
 voltage difference and converts this voltage using the Seebeck Coefficient (SC) 
-to the temperature. As the SC is lineair in its nature it is possible
+to the temperature. As the SC is linear in its nature it is possible
 to replace the K-type TC with one of the other types of TC.
 
-Datasheet Table 1, page 8
 
-| Sensor type | Seebeck Coefficient (µV/°C) | Temp Range (°C) | Material |
-|:----:|:----|:----|:----|
-| E_TC | 76.373 | -270 to +1000 | Constantan Chromel |
-| J_TC | 57.953 | -210 to +1200 | Constantan Iron |
-| K_TC | 41.276 | -270 to +1372 | Alumel Chromel |
-| N_TC | 36.256 | -270 to +1300 | Nisil Nicrosil |
-| R_TC | 10.506 | -50 to +1768 | Platinum Platinum/Rhodium |
-| S_TC | 9.587  | +50 to +1768 | Platinum Platinum/Rhodium |
-| T_TC | 52.18  | -270 to +400 | Constantan Copper |
+Datasheet Table 1, page 8  SC = Seebeck Coefficient
+
+| Sensor type | SC in µV/°C | Temp Range in °C | Material                  |
+|:-----------:|:------------|:-----------------|:--------------------------|
+|   E_TC      |    76.373   |   -270 to +1000  | Constantan Chromel        |
+|   J_TC      |    57.953   |   -210 to +1200  | Constantan Iron           |
+|   K_TC      |    41.276   |   -270 to +1372  | Alumel Chromel            |
+|   N_TC      |    36.256   |   -270 to +1300  | Nisil Nicrosil            |
+|   R_TC      |    10.506   |    -50 to +1768  | Platinum Platinum/Rhodium |
+|   S_TC      |     9.587   |    +50 to +1768  | Platinum Platinum/Rhodium |
+|   T_TC      |    52.18    |   -270 to +400   | Constantan Copper         |
+
 
 The core formula to calculate the temperature is  (Datasheet page 8)
 ```

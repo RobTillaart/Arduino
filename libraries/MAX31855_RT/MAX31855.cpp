@@ -1,28 +1,29 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 //  HISTORY:
-//  0.2.4  2020-12-30  arduinoCI, unit test
-//  0.2.3  2020-08-30  fix #8 support hardware SPI + example
-//  0.2.2  2020-08-30  fix#9 + fix failing examples + minor refactor
-//  0.2.1  2020-08-26  read rawData and STATUS_NO_COMMUNICATION recognition (thanks to FabioBrondo)
-//  0.2.0  2020-06-20  #pragma once; major refactor; removed pre 1.0 support; fix offset
-//  0.1.10 2019-07-31  add 3 inline functions to test errors + demo sketch
-//  0.1.9  2017-07-27  reverted double -> float (issue33)
-//  0.1.08 2015-12-06  replaced all temperature calls with one TCfactor + update demos.
-//  0.1.07 2015-12-06  updated TC factors from the MAX31855 datasheet
-//  0.1.06 2015-12-05  added support for other types of TC's (experimental)
-//  0.1.05 2015-07-12  refactor robust constructor
-//  0.1.04 2015-03-09  replaced float -> double (ARM support)
-//  0.1.03 2014-01-24  fixed negative temperature
-//  0.1.02 2014-01-03  added offset
-//  0.1.01 2014-01-02  refactored speed/performance
-//  0.1.00 2014-01-02  initial version.
+//  0.2.5   2021-07-04  fix #14 CS for STM32
+//  0.2.4   2020-12-30  arduinoCI, unit test
+//  0.2.3   2020-08-30  fix #8 support hardware SPI + example
+//  0.2.2   2020-08-30  fix#9 + fix failing examples + minor refactor
+//  0.2.1   2020-08-26  read rawData and STATUS_NO_COMMUNICATION recognition (thanks to FabioBrondo)
+//  0.2.0   2020-06-20  #pragma once; major refactor; removed pre 1.0 support; fix offset
+//  0.1.10  2019-07-31  add 3 inline functions to test errors + demo sketch
+//  0.1.9   2017-07-27  reverted double -> float (issue33)
+//  0.1.08  2015-12-06  replaced all temperature calls with one TCfactor + update demos.
+//  0.1.07  2015-12-06  updated TC factors from the MAX31855 datasheet
+//  0.1.06  2015-12-05  added support for other types of TC's (experimental)
+//  0.1.05  2015-07-12  refactor robust constructor
+//  0.1.04  2015-03-09  replaced float -> double (ARM support)
+//  0.1.03  2014-01-24  fixed negative temperature
+//  0.1.02  2014-01-03  added offset
+//  0.1.01  2014-01-02  refactored speed/performance
+//  0.1.00  2014-01-02  initial version.
 //
 
 
@@ -42,6 +43,7 @@ MAX31855::MAX31855(const uint8_t cs)
   _rawData     = 0;
 }
 
+
 MAX31855::MAX31855(const uint8_t sclk, const uint8_t cs, const uint8_t miso)
 {
   _sclk        = sclk;
@@ -56,6 +58,7 @@ MAX31855::MAX31855(const uint8_t sclk, const uint8_t cs, const uint8_t miso)
   _internal    = MAX31855_NO_TEMPERATURE;
   _rawData     = 0;
 }
+
 
 void MAX31855::begin()
 {
@@ -139,19 +142,22 @@ uint8_t MAX31855::read()
 uint32_t MAX31855::_read(void)
 {
   _rawData = 0;
-  digitalWrite(_cs, LOW);
+
   if (_hwSPI)
   {
     SPI.beginTransaction(SPISettings(16000000, MSBFIRST, SPI_MODE0));
+    digitalWrite(_cs, LOW);         // must be after SPI.beginTransaction() - see #14 STM32
     for (uint8_t i = 0; i < 4; i++)
     {
       _rawData <<= 8;
       _rawData += SPI.transfer(0);
     }
+    digitalWrite(_cs, HIGH);
     SPI.endTransaction();
   }
   else
   {
+    digitalWrite(_cs, LOW);
     for (int8_t i = 31; i >= 0; i--)
     {
       _rawData <<= 1;
@@ -161,16 +167,18 @@ uint32_t MAX31855::_read(void)
       digitalWrite(_sclk, HIGH);
       // delayMicroseconds(1);  // DUE
     }
+    digitalWrite(_cs, HIGH);
   }
-  digitalWrite(_cs, HIGH);
+
   return _rawData;
 }
+
 
 float MAX31855::getTemperature()
 {
   // offset needs to be added after multiplication TCfactor
   // not before otherwise offset will be larger / smaller
-  // default behavior
+  // default behaviour
   if (_SC == K_TC) return _temperature + _offset;
 
   // EXPERIMENTAL OTHER THERMOCOUPLES
@@ -182,5 +190,6 @@ float MAX31855::getTemperature()
   float _temp = Vout / _SC + _internal;
   return _temp;
 }
+
 
 // -- END OF FILE --

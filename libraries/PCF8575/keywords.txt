@@ -1,11 +1,13 @@
-# Syntax Coloring Map For PCF8575
+# Syntax Colouring Map For PCF8575
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PCF8575	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+setAddress	KEYWORD2
+getAddress	KEYWORD2
 
 read16	KEYWORD2
 read	KEYWORD2

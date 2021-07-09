@@ -2,16 +2,18 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
 //  HISTORY:
-//  0.0.1  2020-07-20  initial version
-//  0.0.2  2020-07-21  fix reverse(); refactor;
-//  0.0.3  2020-07-29  fix #5 reverse() + refactor.
-//  0.1.0  2021-01-03  add Arduino-CI + unit tests
-//  0.1.1  2021-04-23  fix for platformIO compatibility
+//  0.0.1   2020-07-20  initial version
+//  0.0.2   2020-07-21  fix reverse(); refactor;
+//  0.0.3   2020-07-29  fix #5 reverse() + refactor.
+//  0.1.0   2021-01-03  add Arduino-CI + unit tests
+//  0.1.1   2021-04-23  fix for platformIO compatibility
+//  0.1.2   2021-07-09  fix #10 add set/getAddress() function 
+
 
 #include "PCF8575.h"
 
@@ -25,6 +27,7 @@ PCF8575::PCF8575(const uint8_t deviceAddress, TwoWire *wire)
   _buttonMask = 0xFFFF;
   _error      = PCF8575_OK;
 }
+
 
 #if defined (ESP8266) || defined(ESP32)
 bool PCF8575::begin(uint8_t dataPin, uint8_t clockPin, uint16_t val)
@@ -51,11 +54,26 @@ bool PCF8575::begin(uint16_t val)
   return true;
 }
 
+
 bool PCF8575::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
 }
+
+
+bool PCF8575::setAddress(const uint8_t deviceAddress)
+{
+  _address = deviceAddress;
+  return isConnected();
+}
+
+
+uint8_t PCF8575::getAddress()
+{
+  return _address;
+}
+
 
 uint16_t PCF8575::read16()
 {
@@ -69,6 +87,7 @@ uint16_t PCF8575::read16()
   return _dataIn;
 }
 
+
 void PCF8575::write16(const uint16_t value)
 {
   _dataOut = value;
@@ -77,6 +96,7 @@ void PCF8575::write16(const uint16_t value)
   _wire->write(_dataOut >> 8);        // high 8 bits
   _error = _wire->endTransmission();
 }
+
 
 uint8_t PCF8575::read(const uint8_t pin)
 {
@@ -88,6 +108,7 @@ uint8_t PCF8575::read(const uint8_t pin)
   PCF8575::read16();
   return (_dataIn & (1 << pin)) > 0;
 }
+
 
 void PCF8575::write(const uint8_t pin, const uint8_t value)
 {
@@ -107,6 +128,7 @@ void PCF8575::write(const uint8_t pin, const uint8_t value)
   write16(_dataOut);
 }
 
+
 void PCF8575::toggle(const uint8_t pin)
 {
   if (pin > 15)
@@ -117,11 +139,13 @@ void PCF8575::toggle(const uint8_t pin)
   toggleMask(1 << pin);
 }
 
+
 void PCF8575::toggleMask(const uint16_t mask)
 {
   _dataOut ^= mask;
   PCF8575::write16(_dataOut);
 }
+
 
 void PCF8575::shiftRight(const uint8_t n)
 {
@@ -131,6 +155,7 @@ void PCF8575::shiftRight(const uint8_t n)
   PCF8575::write16(_dataOut);
 }
 
+
 void PCF8575::shiftLeft(const uint8_t n)
 {
   if ((n == 0) || (_dataOut == 0)) return;
@@ -139,12 +164,14 @@ void PCF8575::shiftLeft(const uint8_t n)
   PCF8575::write16(_dataOut);
 }
 
+
 int PCF8575::lastError()
 {
   int e = _error;
   _error = PCF8575_OK;  // reset error after read, is this wise?
   return e;
 }
+
 
 void PCF8575::rotateRight(const uint8_t n)
 {
@@ -154,10 +181,12 @@ void PCF8575::rotateRight(const uint8_t n)
   PCF8575::write16(_dataOut);
 }
 
+
 void PCF8575::rotateLeft(const uint8_t n)
 {
   rotateRight(16 - (n & 15));
 }
+
 
 void PCF8575::reverse()   // quite fast
 {                                                     //     1 char === 1 bit
@@ -169,6 +198,7 @@ void PCF8575::reverse()   // quite fast
   PCF8575::write16(x);
 }
 
+
 //added 0.1.07/08 Septillion
 uint16_t PCF8575::readButton16(const uint16_t mask)
 {
@@ -178,6 +208,7 @@ uint16_t PCF8575::readButton16(const uint16_t mask)
   PCF8575::write16(temp);             // restore
   return _dataIn;
 }
+
 
 //added 0.1.07 Septillion
 uint8_t PCF8575::readButton(const uint8_t pin)
@@ -193,5 +224,6 @@ uint8_t PCF8575::readButton(const uint8_t pin)
   PCF8575::write16(temp);
   return rtn;
 }
+
 
 // -- END OF FILE --

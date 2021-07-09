@@ -8,6 +8,7 @@
 
 Arduino library for PCF8575 - 16 channel I2C IO expander
 
+
 ## Description
 
 Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574
@@ -16,10 +17,11 @@ The library gives easy control over the 16 pins of the PCF8575 chips.
 
 Base address = 0x20 + 0..7 depending on address pins A0..A2
 
-| TYPE     | ADDRESS-RANGE | notes |
-|:----|:----:|:----:|
-|PCF8575   | 0x20 to 0x27 | same range as PCF8574 !! |
-|       |     |    |
+| TYPE     | ADDRESS-RANGE | notes                    |
+|:---------|:-------------:|:------------------------:|
+|PCF8575   | 0x20 to 0x27  | same range as PCF8574 !! |
+|          |               |                          |
+
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 
 to 8 x 16 = 128 IO lines. 
@@ -29,19 +31,22 @@ Be sure to have a well dimensioned power supply.
 
 The library allows to read and write both single pins or 16 pins at once.
 Furthermore some additional functions are implemented that are 
-playfull but useful.
+playful but useful.
+
 
 ## I2C Clock
 
 Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
-These values are outside the specs of the datasheet so they are not recommendend.
+These values are outside the specs of the datasheet so they are not recommended.
 However when performance is needed you can try to overclock the chip. 
+
 
 ## Interface
 
 **PCF8575_INITIAL_VALUE** is a define that can be set compile time or before
 the include of "pcf8575.h" to overrule the default value used with the 
 **begin()** call.
+
 
 ### Constructor
 
@@ -51,7 +56,12 @@ and optional the Wire interface as parameter.
 - **begin(sda, scl, val = PCF8575_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins
 What needs to be added in the future is a parameter to choose another Wire interface
 as some processors have multiple hardware Wire interfaces.
-- **isConnected()** checks if the address is visable on the I2C bus
+- **isConnected()** checks if the address is visible on the I2C bus
+- **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
+Can be used to switch between PCF8575 modules runtime. Note this corrupts internal buffered values, 
+so one might need to call **read16()** and/or **write16()**. Returns true if address can be found on I2C bus.
+- **uint8_t getAddress()** returns the device address.
+
 
 ### Read and Write
 
@@ -63,12 +73,14 @@ in the class this is faster than reread the pins.
 - **write(pin, value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0)
 - **valueOut()** returns the last written data.
 
+
 ### Button
 
 - **setButtonMask(mask)** 
 - **readButton16()**
 - **readButton16(mask)**
 - **readButton(pin)**
+
 
 ### Special
 
@@ -83,17 +95,20 @@ Fills the lower lines with zero's.
 - **rotateLeft(n = 1)** rotates output channels to left, moving highest line to lowest line.
 - **reverse()** revers the "bit pattern" of the lines, high to low and vice versa.
 
+
 ### Misc
 
 - **lastError()** returns the last error from the lib. (see .h file)
 
+
 ## Error codes
 
-| name  | value | description |
-|:------|:----:|:----|
-| PCF8574_OK         | 0x00 | no error
-| PCF8574_PIN_ERROR  | 0x81 | pin number out of range |
-| PCF8574_I2C_ERROR  | 0x82 | I2C communication error |
+| name               | value | description             |
+|:-------------------|:-----:|:------------------------|
+| PCF8574_OK         | 0x00  | no error                |
+| PCF8574_PIN_ERROR  | 0x81  | pin number out of range |
+| PCF8574_I2C_ERROR  | 0x82  | I2C communication error |
+
 
 ## Testing
 

@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -21,6 +21,7 @@
 //  0.3.1   2021-06-13  added more unit test + some initialization
 //  0.3.2   2021-07-05  fix #20 support multiWire
 //  0.3.3   2021-07-05  fix #22 improve maths
+//  0.3.4   2021-07-12  fix #24 improve precision
 
 
 #include "GY521.h"
@@ -93,14 +94,16 @@ bool GY521::wakeup()
 
 int16_t GY521::read()
 {
+  uint32_t now = millis();
   if (_throttle)
   {
-    if ((millis() - _lastTime) < _throttleTime)
+    if ((now - _lastTime) < _throttleTime)
     {
       // not an error.
       return GY521_THROTTLED;
     }
   }
+  _lastTime = now;
 
   // Connected ?
   _wire->beginTransmission(_address);
@@ -129,10 +132,11 @@ int16_t GY521::read()
   _gy = _WireRead2();  // GYRO_YOUT_H   GYRO_YOUT_L
   _gz = _WireRead2();  // GYRO_ZOUT_H   GYRO_ZOUT_L
 
-  // time interval
-  uint32_t now = millis();
-  float duration = (now - _lastTime) * 0.001;   // time in seconds.
-  _lastTime = now;
+  // duration interval
+  now = micros();
+  float duration = (now - _lastMicros) * 1e-6;  // duration in seconds.
+  _lastMicros = now;
+
 
   // next lines might be merged per axis.
 

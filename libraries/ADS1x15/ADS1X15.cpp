@@ -71,16 +71,17 @@
 // BIT 5-7      datarate sample per second  // (0..7) << 5
 /*
 differs for different devices, check datasheet or readme.md
-| datarate | ADS101x | ADS 111x |
-|:----:|----:|----:|
-| 0 | 128  | 8   |
-| 1 | 250  | 16  |
-| 2 | 490  | 32  |
-| 3 | 920  | 64  |
-| 4 | 1600 | 128 |
-| 5 | 2400 | 250 |
-| 6 | 3300 | 475 |
-| 7 | 3300 | 860 |
+
+| data rate | ADS101x | ADS 111x | Notes   |
+|:---------:|--------:|---------:|:-------:|
+|     0     |   128   |   8      | slowest |
+|     1     |   250   |   16     |         |
+|     2     |   490   |   32     |         |
+|     3     |   920   |   64     |         |
+|     4     |   1600  |   128    | default |
+|     5     |   2400  |   250    |         |
+|     6     |   3300  |   475    |         |
+|     7     |   3300  |   860    | fastest |
 */
 
 // BIT 4 comparator modi                    // 1 << 4
@@ -105,15 +106,16 @@ differs for different devices, check datasheet or readme.md
 // _CONFIG masks
 //
 // | bit  | description |
-// |:----:|:----|
-// |  0   | # channels |
-// |  1   | -  |
-// |  2   | resolution |
-// |  3   | - |
+// |:----:|:------------|
+// |  0   | # channels  |
+// |  1   | -           |
+// |  2   | resolution  |
+// |  3   | -           |
 // |  4   | GAIN supported |
 // |  5   | COMPARATOR supported |
-// |  6   | - |
-// |  7   | - |
+// |  6   | -           |
+// |  7   | -           |
+//
 #define ADS_CONF_CHAN_1  0x00
 #define ADS_CONF_CHAN_4  0x01
 #define ADS_CONF_RES_12  0x00
@@ -144,7 +146,7 @@ void ADS1X15::reset()
   setMode(1);      // _mode = ADS1X15_MODE_SINGLE;
   setDataRate(4);  // middle speed, depends on device.
 
-  // COMPARATOR vars   # see notes .h 
+  // COMPARATOR variables   # see notes .h 
   _compMode       = 0;
   _compPol        = 1;
   _compLatch      = 0;

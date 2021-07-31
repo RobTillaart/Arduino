@@ -13,12 +13,20 @@ MCP3208	KEYWORD1
 begin	KEYWORD2
 channels	KEYWORD2
 maxValue	KEYWORD2
+
 analogRead	KEYWORD2
 differentialRead	KEYWORD2
 deltaRead	KEYWORD2
+
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
 
+selectHSPI	KEYWORD2
+selectVSPI	KEYWORD2
+usesHSPI	KEYWORD2
+usesVSPI	KEYWORD2
+setGPIOpins	KEYWORD2
 
 # Constants (LITERAL1)
 

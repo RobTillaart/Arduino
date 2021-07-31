@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.4"))
+#define MCP_ADC_LIB_VERSION       (F("0.1.5"))
 
 
 class MCP_ADC
@@ -27,9 +27,23 @@ public:
   int16_t  analogRead(uint8_t channel);
   int16_t  differentialRead(uint8_t channel);
   int16_t  deltaRead(uint8_t channel);
+
   //       speed in Hz
-  void     setSPIspeed(uint32_t speed) { _SPIspeed = speed; };
+  void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed()               { return _SPIspeed; };
+
+  // debugging
+  bool     usesHWSPI() { return _hwSPI; };
+
+  // ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
+  // to overrule ESP32 default hw pins...
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+  #endif
 
 protected:
   uint8_t  _dataIn;
@@ -46,6 +60,13 @@ protected:
 
   int16_t  readADC(uint8_t channel, bool single);
   uint8_t  swSPI_transfer(uint8_t d);
+
+  SPIClass    * mySPI;
+  SPISettings _spi_settings;
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 /////////////////////////////////////////////////////////////////////////////

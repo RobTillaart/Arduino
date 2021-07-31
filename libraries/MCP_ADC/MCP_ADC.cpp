@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -16,19 +16,8 @@ MCP_ADC::MCP_ADC(uint8_t dataIn, uint8_t dataOut,  uint8_t clock)
   _dataIn   = dataIn;
   _dataOut  = dataOut;
   _clock    = clock;
+  _select   = 0;
   _hwSPI    = (dataIn == 255) || (dataOut == 255) || (clock == 255);
-  if (_hwSPI == false)
-  {
-    pinMode(_dataIn,  INPUT);
-    pinMode(_dataOut, OUTPUT);
-    pinMode(_clock,   OUTPUT);
-    digitalWrite(_dataOut, LOW);
-    digitalWrite(_clock,   LOW);
-  }
-  else
-  {
-    SPI.begin();
-  }
 }
 
 
@@ -37,7 +26,48 @@ void MCP_ADC::begin(uint8_t select)
   _select   = select;
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
+
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+
+  if (_hwSPI)
+  {
+    #if defined(ESP32)
+    if (_useHSPI)      // HSPI
+    {
+      mySPI = new SPIClass(HSPI);
+      mySPI->begin(14, 12, 13, _select);   // CLK MISO MOSI SELECT
+    }
+    else               // VSPI
+    {
+      mySPI = new SPIClass(VSPI);
+      mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
+    }
+    #else              // generic SPI
+    mySPI = &SPI;
+    mySPI->begin();
+    #endif
+  }
+  else                 // software SPI
+  {
+    pinMode(_dataIn,  INPUT);
+    pinMode(_dataOut, OUTPUT);
+    pinMode(_clock,   OUTPUT);
+    digitalWrite(_dataOut, LOW);
+    digitalWrite(_clock,   LOW);
+  }
 }
+
+
+#if defined(ESP32)
+void MCP_ADC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataIn  = miso;
+  _dataOut = mosi;
+  _select  = select;
+  mySPI->begin(_clock, miso, _dataOut, _select);  // CLK MISO MOSI SELECT
+}
+#endif
 
 
 int16_t MCP_ADC::analogRead(uint8_t channel)
@@ -68,6 +98,13 @@ int16_t MCP_ADC::deltaRead(uint8_t channel)
 }
 
 
+void MCP_ADC::setSPIspeed(uint32_t speed)
+{
+  _SPIspeed = speed;
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+};
+
+
 int16_t MCP_ADC::readADC(uint8_t channel, bool single)
 {
   if (channel >= _channels) return 0;
@@ -78,12 +115,12 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    SPI.beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
+    mySPI->beginTransaction(_spi_settings);
     for (uint8_t b = 0; b < bytes; b++)
     {
-      data[b] = SPI.transfer(data[b]);
+      data[b] = mySPI->transfer(data[b]);
     }
-    SPI.endTransaction();
+    mySPI->endTransaction();
   }
   else // Software SPI
   {
@@ -103,13 +140,17 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
 // MSBFIRST
 uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
 {
+  uint8_t clk = _clock;
+  uint8_t dao = _dataOut;
+  uint8_t dai = _dataIn;
+  
   uint8_t rv = 0;
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
-    digitalWrite(_dataOut,(val & mask) != 0);
-    digitalWrite(_clock, HIGH);
-    if (digitalRead(_dataIn) == HIGH) rv |= mask;
-    digitalWrite(_clock, LOW);
+    digitalWrite(dao, (val & mask));
+    digitalWrite(clk, HIGH);
+    if (digitalRead(dai) == HIGH) rv |= mask;
+    digitalWrite(clk, LOW);
   }
   return rv;
 }

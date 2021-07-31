@@ -11,16 +11,18 @@ Arduino library for MCP3002 MCP3004 MCP3008 MCP3202 MCP3204 MCP3208
 ## Description
 
 This library reads the ADC ports of the MCP ADC convertors. 
-The chips are comunicates with SPI and support both hardware SPI or optional software SPI.
+The chips are communicates with SPI and support both hardware SPI or optional software SPI.
 
-| type | bits | channels | notes |
-|:----|:----:|:----:|:---|
-| MCP3002 | 10 | 2 |    |
-| MCP3004 | 10 | 4 |    |
-| MCP3008 | 10 | 8 |    |
-| MCP3202 | 12 | 2 |    |
-| MCP3204 | 12 | 4 |    |
-| MCP3208 | 12 | 8 |    |
+
+| type    | bits | channels | notes |
+|:--------|:----:|:--------:|:------|
+| MCP3002 |  10  |    2     |       |
+| MCP3004 |  10  |    4     |       |
+| MCP3008 |  10  |    8     |       |
+| MCP3202 |  12  |    2     |       |
+| MCP3204 |  12  |    4     |       |
+| MCP3208 |  12  |    8     |       |
+
 
 Current version allows manual override of the hardware SPI clock as the speed is not
 optimized per ADC type. 
@@ -36,7 +38,8 @@ This delta mode can return negative values too.
 ## Interface
 
 If the pins are not set in the constructor, the class will automatically
-use the hardware SPI, otherwise it will use a software SPI 
+use the hardware SPI, otherwise it will use a software SPI
+
 - **MCP3002(dataIn, dataOut, clock)** constructor 10 bit ADC 2 channel
 - **MCP3004(dataIn, dataOut, clock)** constructor 10 bit ADC 4 channel
 - **MCP3008(dataIn, dataOut, clock)** constructor 10 bit ADC 8 channel
@@ -61,15 +64,29 @@ of the ADC first to get optimal speed.
 Differential channel table
 
 | Channel | diff IN+ | diff IN- | MCP |
-|:----:|:----:|:----:|----:|
-| 0 |  0 | 1 | 3x02/3x04/3x08 |
-| 1 |  1 | 0 | 3x02/3x04/3x08 |
-| 2 |  2 | 3 | 3x04/3x08 |
-| 3 |  3 | 2 | 3x04/3x08 |
-| 4 |  4 | 5 | 3x08 |
-| 5 |  5 | 4 | 3x08 |
-| 6 |  6 | 7 | 3x08 |
-| 7 |  7 | 6 | 3x08 |
+|:-------:|:--------:|:--------:|----:|
+|   0     |    0     |    1     | 3x02/3x04/3x08 |
+|   1     |    1     |    0     | 3x02/3x04/3x08 |
+|   2     |    2     |    3     | 3x04/3x08 |
+|   3     |    3     |    2     | 3x04/3x08 |
+|   4     |    4     |    5     | 3x08 |
+|   5     |    5     |    4     | 3x08 |
+|   6     |    6     |    7     | 3x08 |
+|   7     |    7     |    6     | 3x08 |
+
+
+### debug
+
+- **bool usesHWSPI()** returns true if HW SPI is used.
+
+
+### ESP32 specific
+
+- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
+- **void selectVSPI()** see above.
+- **bool usesHSPI()** returns true if HSPI is used.
+- **bool usesVSPI()** returns true if VSPI is used.
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI.
 
 
 ## About SPI Speed
@@ -85,10 +102,10 @@ at 4 Mhz and at 6 Mhz it was almost good.
 The max value read at 6 MHz was 1020 instead of 1023  (MCP3008) 
 which indicates that the last 2 bits got lost due to signal deformation.
 
-| Proc | Voltage | safe | max  |
-|:----:|:-------:|:----:|:----:|
-| ESP32 | 2.7V |  1 MHz  | 4 Mhz |
-| UNO   | 5.0V |  2 MHz  | 4 Mhz |
+| Board | Voltage |  safe  |  max  |
+|:-----:|:-------:|:------:|:-----:|
+| ESP32 |  2.7V   |  1 MHz | 4 Mhz |
+| UNO   |  5.0V   |  2 MHz | 4 Mhz |
 
 
 For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).

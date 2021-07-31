@@ -14,8 +14,8 @@
 
 MCP3002 mcp2;
 MCP3004 mcp4;
-// MCP3008 mcp8(11,12,13);  // software spi
-MCP3008 mcp8;               // hardware spi
+MCP3008 mcp8(11,12,13);  // software spi
+// MCP3008 mcp8;               // hardware spi
 MCP3202 mcp22;
 MCP3204 mcp24;
 MCP3208 mcp28;
@@ -79,6 +79,15 @@ void setup()
     Serial.println(s * 1000000UL);
     mcp8.setSPIspeed(s * 1000000UL);
     test_3();
+  }
+
+  // on UNO there is no difference above 8MHz (half CPU clock)
+  Serial.println("***************************************\n");
+  for (int s = 1; s <= 16; s *= 2)
+  {
+    Serial.println(s * 1000000UL);
+    mcp28.setSPIspeed(s * 1000000UL);
+    test_6();
   }
 
   Serial.println("done...");
@@ -191,6 +200,42 @@ void test_3()
   }
   stop = micros();
   Serial.print("mcp8.deltaRead()\t8x: \t");
+  Serial.println(stop - start);
+  Serial.println();
+  delay(10);
+}
+
+void test_6()
+{
+  uint32_t val = 0;
+
+  start = micros();
+  for (int channel = 0; channel < mcp28.channels(); channel++)
+  {
+    val += mcp28.analogRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp28.analogRead()\t8x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp28.channels(); channel++)
+  {
+    val += mcp28.differentialRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp28.differentialRead() 8x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp28.channels(); channel++)
+  {
+    val += mcp28.deltaRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp28.deltaRead()\t8x: \t");
   Serial.println(stop - start);
   Serial.println();
   delay(10);

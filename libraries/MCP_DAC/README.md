@@ -105,12 +105,21 @@ MCP49xxx series only, see page 20 ==> not functional for MCP48xx series.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
+### ESP32 specific
+
+- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
+- **void selectVSPI()** see above.
+- **bool usesHSPI()** returns true if HSPI is used.
+- **bool usesVSPI()** returns true if VSPI is used.
+
+
 ## Future
 
 - test test test and ....
 - **incr(channel)** increases until max value is reached. 
 - **decr(channel)** decreases until 0 is reached. 
-
+- set gpio pins of the ESP32 for hardware SPI
+- ...
 
 
 ## Operation

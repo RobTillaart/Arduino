@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,8 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.1"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.2"))
+
 
 
 ///////////////////////////////////////////////////////////////
@@ -53,8 +54,8 @@ public:
   bool     isActive()  { return _active; };
 
   //       speed in Hz
-  void     setSPIspeed(uint32_t speed) { _SPIspeed = speed; };
-  uint32_t getSPIspeed()               { return _SPIspeed; };
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed() { return _SPIspeed; };
 
   //
   //       MCP49xxx series only
@@ -67,6 +68,15 @@ public:
   void     reset();
   bool     usesHWSPI() { return _hwSPI; };
 
+  // ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
+  // to overrule ESP32 default hw pins...
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+  #endif
 
 protected:
   uint8_t  _dataOut;
@@ -85,6 +95,13 @@ protected:
 
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
+
+  SPIClass    * mySPI;
+  SPISettings _spi_settings;
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 

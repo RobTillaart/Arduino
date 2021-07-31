@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -9,6 +9,10 @@
 //  HISTORY
 //  0.1.0   2021-02-03  initial version
 //  0.1.1   2021-05-26  moved SPI.begin() from constructor to begin()
+//  0.1.2   2021-07-29  VSPI / HSPI support for ESP32 (default pins only
+//                      faster software SPI
+//                      minor optimizations / refactor
+
 
 #include "MCP_DAC.h"
 
@@ -17,17 +21,10 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
 {
   _dataOut  = dataOut;
   _clock    = clock;
+  _select   = 0;
   _hwSPI    = (dataOut == 255) || (clock == 255);
-  if (_hwSPI == false)
-  {
-    pinMode(_dataOut, OUTPUT);
-    pinMode(_clock,   OUTPUT);
-    digitalWrite(_dataOut, LOW);
-    digitalWrite(_clock,   LOW);
-  }
   _channels = 1;
   _maxValue = 255;
-  _select   = 0;
   reset();
 }
 
@@ -47,11 +44,46 @@ void MCP_DAC::begin(uint8_t select)
   _select = select;
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
+
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+
   if (_hwSPI)
   {
-    SPI.begin();
+    #if defined(ESP32)
+    if (_useHSPI)      // HSPI
+    {
+      mySPI = new SPIClass(HSPI);
+      mySPI->begin(14, 12, 13, _select);   // CLK MISO MOSI SELECT
+    }
+    else               // VSPI
+    {
+      mySPI = new SPIClass(VSPI);
+      mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
+    }
+    #else              // generic SPI
+    mySPI = &SPI;
+    mySPI->begin();
+    #endif
+  }
+  else                 // software SPI
+  {
+    pinMode(_dataOut, OUTPUT);
+    pinMode(_clock,   OUTPUT);
+    digitalWrite(_dataOut, LOW);
+    digitalWrite(_clock,   LOW);
   }
 }
+
+
+#if defined(ESP32)
+void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _select  = select;
+  mySPI->begin(_clock, miso, _dataOut, _select);  // CLK MISO MOSI SELECT
+}
+#endif
 
 
 bool MCP_DAC::setGain(uint8_t gain)
@@ -121,9 +153,12 @@ void MCP_DAC::setLatchPin(uint8_t latchPin)
 
 void MCP_DAC::triggerLatch()
 {
-  digitalWrite(_latchPin, HIGH);
-  delayMicroseconds(1);     // 100 ns - Page 7
-  digitalWrite(_latchPin, LOW);
+  if (_latchPin != 255)
+  {
+    digitalWrite(_latchPin, HIGH);
+    delayMicroseconds(1);     // 100 ns - Page 7
+    digitalWrite(_latchPin, LOW);
+  }
 }
 
 
@@ -134,16 +169,27 @@ void MCP_DAC::shutDown()
 }
 
 
+void MCP_DAC::setSPIspeed(uint32_t speed)
+{
+  _SPIspeed = speed;
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+};
+
+
+//////////////////////////////////////////////////////////////////
+
+
 void MCP_DAC::transfer(uint16_t data)
 {
   // DATA TRANSFER 
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    SPI.beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
-    SPI.transfer((uint8_t)(data >> 8));
-    SPI.transfer((uint8_t)(data & 0xFF));
-    SPI.endTransaction();
+    // mySPI->beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
+    mySPI->beginTransaction(_spi_settings);
+    mySPI->transfer((uint8_t)(data >> 8));
+    mySPI->transfer((uint8_t)(data & 0xFF));
+    mySPI->endTransaction();
   }
   else // Software SPI
   {
@@ -155,13 +201,15 @@ void MCP_DAC::transfer(uint16_t data)
 
 
 // MSBFIRST
-uint8_t  MCP_DAC::swSPI_transfer(uint8_t val)
+uint8_t MCP_DAC::swSPI_transfer(uint8_t val)
 {
+  uint8_t clk = _clock;
+  uint8_t dao = _dataOut;
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
-    digitalWrite(_dataOut,(val & mask) != 0);
-    digitalWrite(_clock, HIGH);
-    digitalWrite(_clock, LOW);
+    digitalWrite(dao, (val & mask));
+    digitalWrite(clk, HIGH);
+    digitalWrite(clk, LOW);
   }
   return 0;
 }

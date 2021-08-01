@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.4
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,6 +12,8 @@
 //  0.1.2   2021-07-29  VSPI / HSPI support for ESP32 (default pins only
 //                      faster software SPI
 //                      minor optimizations / refactor
+//  0.1.3   2021-07-31  add incr() and decr()
+//  0.1.4   2021-08-01  fix setGPIOpins() - needs more testing.
 
 
 #include "MCP_DAC.h"
@@ -53,15 +55,18 @@ void MCP_DAC::begin(uint8_t select)
     if (_useHSPI)      // HSPI
     {
       mySPI = new SPIClass(HSPI);
-      mySPI->begin(14, 12, 13, _select);   // CLK MISO MOSI SELECT
+      mySPI->end();
+      mySPI->begin(14, 12, 13, select);   // CLK=14 MISO=12 MOSI=13
     }
     else               // VSPI
     {
       mySPI = new SPIClass(VSPI);
-      mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
+      mySPI->end();
+      mySPI->begin(18, 19, 23, select);   // CLK=18 MISO=19 MOSI=23
     }
-    #else              // generic SPI
+    #else              // generic hardware SPI
     mySPI = &SPI;
+    mySPI->end();
     mySPI->begin();
     #endif
   }
@@ -81,7 +86,11 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   _clock   = clk;
   _dataOut = mosi;
   _select  = select;
-  mySPI->begin(_clock, miso, _dataOut, _select);  // CLK MISO MOSI SELECT
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+
+  mySPI->end();  // disable SPI 
+  mySPI->begin(clk, miso, mosi, select);
 }
 #endif
 
@@ -126,6 +135,22 @@ void MCP_DAC::fastWriteA(uint16_t value)
 void MCP_DAC::fastWriteB(uint16_t value)
 {
   transfer(0xB000 | value);
+}
+
+
+bool MCP_DAC::increment(uint8_t channel)
+{
+  if (channel >= _channels) return false;
+  if (_value[channel] == _maxValue) return false;
+  return analogWrite(_value[channel] + 1,  channel);
+}
+
+
+bool MCP_DAC::decrement(uint8_t channel)
+{
+  if (channel >= _channels) return false;
+  if (_value[channel] == 0) return false;
+  return analogWrite(_value[channel] - 1,  channel);
 }
 
 

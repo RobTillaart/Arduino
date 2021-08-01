@@ -49,6 +49,9 @@ usesHSPI	KEYWORD2
 usesVSPI	KEYWORD2
 setGPIOpins	KEYWORD2
 
+increment	KEYWORD2
+decrement	KEYWORD2
+
 # Instances (KEYWORD2)
 
 # Constants (LITERAL1)

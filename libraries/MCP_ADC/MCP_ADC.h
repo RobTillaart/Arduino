@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.5"))
+#define MCP_ADC_LIB_VERSION       (F("0.1.6"))
 
 
 class MCP_ADC
@@ -41,7 +41,8 @@ public:
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
-  // to overrule ESP32 default hw pins...
+
+  // to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

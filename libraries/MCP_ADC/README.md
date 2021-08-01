@@ -86,7 +86,24 @@ Differential channel table
 - **void selectVSPI()** see above.
 - **bool usesHSPI()** returns true if HSPI is used.
 - **bool usesVSPI()** returns true if VSPI is used.
-- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI.
+
+The **selectVSPI()** or the **selectHSPI()** needs to be called 
+BEFORE the **begin()** function.
+
+
+#### experimental
+
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
+AFTER the **begin()** function.
+
+```cpp
+void setup()
+{
+  MCP.selectVSPI();
+  MCP.begin(15);
+  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
+}
+```
 
 
 ## About SPI Speed
@@ -118,7 +135,6 @@ For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
   it actually does float mapping. As it implies the same mapping for all it might 
   not be that useful
 - analogRead (mask, int array\[8\] ) read ports (set in mask) in an array in one call.
-- ESP32 - how to integrate the HSPI interface.
 
 
 ## Operations

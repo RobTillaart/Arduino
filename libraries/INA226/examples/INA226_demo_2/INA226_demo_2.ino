@@ -55,7 +55,7 @@ void loop()
     Serial.print("\t");
     Serial.print(bv * cu, 2);
     Serial.print("\t");
-    Serial.print((po - bv * cu), 2);
+    Serial.print((bv * cu) - po, 2);
     Serial.println();
     delay(500);
   }

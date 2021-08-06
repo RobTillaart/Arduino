@@ -59,10 +59,10 @@ void setup()
   if ( ans == 'Y')
   {
     start = millis();
-    for (uint32_t i = 0; i < size; i += 128)
+    for (uint32_t address = 0; address < size; address += 128)
     {
-      if (i % 1024 == 0) Serial.print('.');
-      ee.setBlock(0, 0xFF, 128);
+      if (address % 1024 == 0) Serial.print('.');
+      ee.setBlock(address, 0xFF, 128);
     }
     diff = millis() - start;
     Serial.print("\nTIME: ");

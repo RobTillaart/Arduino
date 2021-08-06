@@ -2,7 +2,7 @@
 //
 //    FILE: statHelpers.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define STATHELPERS_LIB_VERSION       (F("0.1.2"))
+#define STATHELPERS_LIB_VERSION       (F("0.1.3"))
 
 
 // TODO
@@ -183,6 +183,55 @@ double stirling(uint8_t n)
 }
 
 
+// SEMIFACTORIAL
+
+// exact ==> 20!!
+uint32_t semiFactorial(uint8_t n)
+{
+  uint32_t f = 1;
+  while(n > 1)
+  {
+    f *= n;
+    n -= 2;
+  }
+  return f;
+}
+
+
+// exact ==> 33!!
+uint64_t semiFactorial64(uint8_t n)
+{
+  uint64_t f = 1;
+  while(n > 1)
+  {
+    f *= n;
+    n -= 2;
+  }
+  return f;
+}
+
+
+
+// float  => 56!!
+// double => 300!!
+double dSemiFactorial(uint16_t n)
+{
+  double f = 1;
+  while (n > 6)  // TODO: test performance gain by integer math. (depends on platform ?)
+  {
+    uint32_t val = n * (n-2) * (n-4);
+    f *= val;
+    n -= 6;
+  }
+  while (n > 1)
+  {
+    f *= n;
+    n -= 2;
+  }
+  return f;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // COMBINATIONS
@@ -197,7 +246,7 @@ uint32_t combinations(uint16_t n, uint16_t k)
   uint8_t p = 2;
   for (uint8_t i = n-1; i > k; i--)
   {
-    // if ((0xFFFFFFFF / i) < rv) return 0;
+    // if ((0xFFFFFFFF / i) < rv) return 0;   // overflow detect...
     rv = (rv * i) / p;
     p++;
   }
@@ -214,6 +263,7 @@ uint64_t combinations64(uint16_t n, uint16_t k)
   uint8_t p = 2;
   for (uint8_t i = n-1; i > k; i--)
   {
+    // overflow detect here ?
     rv = (rv * i) / p;
     p++;
   }
@@ -232,7 +282,8 @@ double dcombinations(uint16_t n, uint16_t k)
   uint16_t p = 2;
   for (uint16_t i = n-1; i > k; i--)
   {
-    rv = (rv * i) / p;
+    rv *= i;
+    rv /= p;
     p++;
   }
   return rv;
@@ -241,6 +292,7 @@ double dcombinations(uint16_t n, uint16_t k)
 
 // recursive (mind your stack)
 // works for n = 0..30 for all k
+// educational purpose
 uint32_t rcombinations(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -251,6 +303,7 @@ uint32_t rcombinations(uint16_t n, uint16_t k)
 
 // recursive
 // works for n = 0..61 for all k
+// educational purpose
 uint64_t rcombinations64(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -259,8 +312,9 @@ uint64_t rcombinations64(uint16_t n, uint16_t k)
 }
 
 
-// very slow recursive way by means of Pascals triangle.
+// very slow double recursive way by means of Pascals triangle.
 // works for n = 0..30 for all k  (but takes a lot of time)
+// educational purpose
 uint32_t combPascal(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -271,5 +325,223 @@ uint32_t combPascal(uint16_t n, uint16_t k)
   rv += combPascal(n-1, k);
   return rv;
 }
+
+
+/////////////////////////////////////////////////
+//
+// EXPERIMENTAL 
+//
+// BIG SECTION
+// 
+// keep track of exponent myself in 32 bit unsigned integer
+// - can be extended to a 64 bit integer
+//   however it already takes hours to calculate with 32 bits
+
+/*
+
+UNO
+n           n!                  millis() from earlier version
+-----------------------------------------
+1           1.00000e0           0
+10          3.62880e6           1
+100         9.33262e157         7
+1000        4.02386e2567        105
+2000        3.31627e5735        231
+4000        1.82880e12673       504
+8000        5.18416e27752       1086
+10000       2.84625e35659       1389
+16000       5.11880e60319       2330
+32000       1.06550e130270      4978
+100000      2.82428e456573      17201
+1000000     8.26379e5565708     206421 (3.5 minutes)
+10000000                        an hour? too long...
+
+ESP32  240MHz
+n           n!                  millis() from earlier version
+-----------------------------------------
+1           1.00000e0           0
+10          3.62880e6           0
+100         9.33262e157         0
+1000        4.02387e2567        8
+10000       2.84626e35659       110
+100000      2.82423e456573      1390
+1000000     8.26393e5565708     16781
+10000000    1.20242e65657059    196573 (3++ minutes)
+100000000   1.61720e756570556   2253211
+1000000000  9.90463e4270738226  25410726 (7++ hrs to detect overflow! :(
+
+
+1           0
+10          0.6
+100         1.57
+1000        2.567
+10000       3.5659
+100000      4.56573
+1000000     5.565708
+10000000    6.5657059
+100000000   7.56570556
+
+// largest found - exponent is approaching max_uint32_t - 4294967296
+518678058!  4.1873547e4294967283  // break condition was hit...
+next one should fit too
+518678059!  2.1718890e4294967292
+
+*/
+
+
+void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)
+{
+  exponent = 0;
+  double f = 1;
+  while (n > 1)
+  {
+    f *= n--;
+    while (f > 1000000000)
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
+
+// Should work full range for n = 518678059, k = { 0..n }
+// and n > 518678059 => max k is definitely smaller ==> expect n+1 ==> k-15 at start
+// performance: low. depends on k.
+//
+//
+// for relative small k and large n (multiple orders of magnitude) one can get an estimate
+// P(n,k) ~  raw = log10(n - k/2) * k;
+//           exponent = int(raw);
+//           mantissa = pow(10, raw - int(raw));
+void bigPermutations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)
+{
+  exponent = 0;
+  double f = 1;
+  for (uint32_t i = n; i > (n - k); i--)
+  {
+    f *= i;
+    while (f > 1000000000)
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
+
+void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)
+{
+  exponent = 0;
+  if ((k == 0) || (k == n)) return;
+  if (k < (n-k)) k = n - k; // symmetry
+
+  double f = n;
+  uint32_t p = 2;
+  for (uint32_t i = n-1; i > k; i--)
+  {
+    f = (f * i) / p;
+    p++;
+    while (f > 1000000000)
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
+
+////////////////////////////////////////////////////////////
+// EXPERIMENTAL 64 BIT
+//
+
+void bigFactorial(uint64_t n, double &mantissa, uint64_t &exponent)
+{
+  exponent = 0;
+  double f = 1;
+  while (n > 1)
+  {
+    f *= n--;
+    while (f > 1000000000)  // optimize - per 1e9 to save divisions.
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
+
+void bigPermutations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)
+{
+  exponent = 0;
+  double f = 1;
+  for (uint64_t i = n; i > (n - k); i--)
+  {
+    f *= i;
+    while (f > 1000000000)
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
+
+void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)
+{
+  exponent = 0;
+  if ((k == 0) || (k == n)) return;
+  if (k < (n-k)) k = n - k; // symmetry
+
+  double f = n;
+  uint64_t p = 2;
+  for (uint64_t i = n-1; i > k; i--)
+  {
+    f = (f * i) / p;
+    p++;
+    while (f > 1000000000)
+    {
+      f /= 1000000000;
+      exponent += 9;
+    }
+  }
+  while (f > 10)  // fix exponent if needed.
+  {
+    f /= 10;
+    exponent++;
+  }
+  mantissa = f;
+}
+
 
 // -- END OF FILE --

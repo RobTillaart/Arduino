@@ -61,10 +61,14 @@ unittest(test_begin)
 
   Serial.println(sht.getTemperature());
   Serial.println(sht.getHumidity());
+  Serial.println(sht.getRawTemperature());
+  Serial.println(sht.getRawHumidity());
 
   // default value == 0
-  assertEqual(0, sht.getTemperature());
+  assertEqual(-45, sht.getTemperature());
   assertEqual(0, sht.getHumidity());
+  assertEqual(0, sht.getRawTemperature());
+  assertEqual(0, sht.getRawHumidity());
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define SHT31_LIB_VERSION             (F("0.3.1"))
+#define SHT31_LIB_VERSION             (F("0.3.2"))
 
 
 // fields readStatus
@@ -71,8 +71,10 @@ public:
   bool isHeaterOn();  // is the sensor still heating up?
   bool heatUp() { return isHeaterOn(); };   // will be obsolete in future
 
-  float getHumidity() { return humidity; };
-  float getTemperature() { return temperature; };
+  float getHumidity() { return rawHumidity * (100.0 / 65535); };
+  float getTemperature() { return rawTemperature * (175.0 / 65535) - 45; };
+  uint16_t getRawHumidity() {return rawHumidity ; };
+  uint16_t getRawTemperature() {return rawTemperature; };
 
   // ASYNC INTERFACE
   bool requestData();
@@ -93,8 +95,8 @@ private:
   uint32_t  _lastRequest;   // for async interface
   uint32_t  _heaterStart;
 
-  float humidity;
-  float temperature;
+  uint16_t rawHumidity;
+  uint16_t rawTemperature;
 
   uint8_t _error;
 };

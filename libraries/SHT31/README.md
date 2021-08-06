@@ -41,8 +41,12 @@ returns false if device address is incorrect or device cannot be reset.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
-- **getHumidity()** returns relative humidity in %
-- **getTemperature()** returns temperature in °C
+- **getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it
+- **getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it
+- **getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor
+- **getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor
+
+Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). If you're worried about the extra cycles, you should make sure to cache these values or only request them after you've performed a new reading.
 
 
 #### Error interface

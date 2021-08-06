@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -25,6 +25,7 @@
 //
 //  0.3.0   2021-01-04  arduino-ci 
 //  0.3.1   2021-05-27  arduino-lint fixes
+//  0.3.2   2021-08-05  expose raw data from sensor
 
 
 #include "SHT31.h"
@@ -46,12 +47,12 @@
 
 SHT31::SHT31()
 {
-  _addr        = 0;
-  _lastRead    = 0;
-  temperature  = 0;
-  humidity     = 0;
-  _heaterStart = 0;
-  _error       = SHT31_OK;
+  _addr           = 0;
+  _lastRead       = 0;
+  rawTemperature  = 0;
+  rawHumidity     = 0;
+  _heaterStart    = 0;
+  _error          = SHT31_OK;
 }
 
 
@@ -266,10 +267,8 @@ bool SHT31::readData(bool fast)
     }
   }
 
-  uint16_t raw = (buffer[0] << 8) + buffer[1];
-  temperature = raw * (175.0 / 65535) - 45;
-  raw = (buffer[3] << 8) + buffer[4];
-  humidity = raw * (100.0 / 65535);
+  rawTemperature = (buffer[0] << 8) + buffer[1];
+  rawHumidity = (buffer[3] << 8) + buffer[4];
 
   _lastRead = millis();
 

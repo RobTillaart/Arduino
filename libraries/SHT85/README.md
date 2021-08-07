@@ -27,8 +27,8 @@ not be used for more than 10% of the time.
 ```
 
 The SHT85 sensors should work up to 1000 KHz, however during tests 
-with an Arduino UNO it stopped at ~500 KHz so to be safe I recommend
-not to use it above 400 KHz. Also the differences in readtime becomes
+with an Arduino UNO it stopped between 500 - 550 KHz so to be safe I recommend
+not to use it above 400 KHz. Also the differences in read time becomes
 quite small. (max 15% gain). See output example sketch.
 
 | I2C speed | read ms | notes |
@@ -51,11 +51,11 @@ This library should also work for SHT30, SHT31 and SHT35 but
 this is not verified yet.
 
 | SENSOR | Temperature accuracy | Humidity accuracy |
-|:----:|:----:|:----:|
-| SHT30 | ~0.3 | 2.0 |
-| SHT31 | ~0.3 | 1.5 |
-| SHT35 | ~0.2 | 1.5 |
-| SHT85 | ~0.2 | 1.5 |
+|:------:|:------:|:-----:|
+| SHT30  |  ~0.3  |  2.0  |
+| SHT31  |  ~0.3  |  1.5  |
+| SHT35  |  ~0.2  |  1.5  |
+| SHT85  |  ~0.2  |  1.5  |
 
 Need to investigate if the interface is identical?
 If so the libraries might  be merged.
@@ -75,15 +75,18 @@ Does read both the temperature and humidity.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
-- **getHumidity()** returns relative humidity in %. Needs a **read()** to update.
-- **getTemperature()** returns temperature in °C. Needs a **read()** to update.
+- **getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it
+- **getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it
+- **getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor
+- **getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor
+
+Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). If you're worried about the extra cycles, you should make sure to cache these values or only request them after you've performed a new reading.
 
 
 #### Error interface
 
 - **getError()** returns last set error flag and clear it. 
-Be sure to clear the error flag by calling **getError()** before calling 
-any command as the error flag could be from a previous command.
+Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
 | Error | Symbolic | Description |
 |:----:|:----|:----|
@@ -95,7 +98,6 @@ any command as the error flag could be from a previous command.
 | 0x85 | SHT_ERR_CRC_TEMP    | CRC error in temperature    |
 | 0x86 | SHT_ERR_CRC_HUM     | CRC error in humidity       |
 | 0x87 | SHT_ERR_CRC_STATUS  | CRC error in statusfield    |
-
 
 
 #### Heater interface
@@ -121,7 +123,7 @@ Will switch heat off if max heating time has passed.
 See async example for usage
 
 - **requestData()** requests a new measurement. Returns false if this fails.
-- **dataReady()** checks if enough time has passed to read the data. (typical 15 millis)
+- **dataReady()** checks if enough time has passed to read the data. (15 milliseconds)
 - **readData(bool fast = true)** fast skips CRC check. Returns false if reading fails or in case of a CRC fail. 
 
 
@@ -129,8 +131,8 @@ See async example for usage
 
 | BIT | Description | values |
 |:----:|:----|:----|
-| 15  | Alert pending status       | '0': no pending alerts|
-|     |                            | '1': at least one pending alert - default |
+| 15  | Alert pending status       | '0' : no pending alerts|
+|     |                            | '1' : at least one pending alert - default |
 | 14  | Reserved                   | '0' |
 | 13  | Heater status              | '0’ : Heater OFF - default |
 |     |                            | '1’ : Heater ON |
@@ -140,22 +142,22 @@ See async example for usage
 | 10  | Temperature tracking alert | '0’ : no alert - default |
 |     |                            | '1’ : alert |
 | 9-5 | Reserved                   | '00000' |
-|  4  | System reset detected      | '0': no reset since last ‘clear status register’ command |
-|     |                            | '1': reset detected (hard or soft reset command or supply fail) - default |
+|  4  | System reset detected      | '0' : no reset since last ‘clear status register’ command |
+|     |                            | '1' : reset detected (hard or soft reset command or supply fail) - default |
 | 3-2 | Reserved                   | '00' |
-|  1  | Command status             | '0': last cmd executed successfully |
-|     |                            | '1': last cmd not processed. Invalid or failed checksum |
-| 0   | Write data checksum status | '0': checksum of last write correct |
-|     |                            | '1': checksum of last write transfer failed |
+|  1  | Command status             | '0' : last command executed successfully |
+|     |                            | '1' : last command not processed. Invalid or failed checksum |
+| 0   | Write data checksum status | '0' : checksum of last write correct |
+|     |                            | '1' : checksum of last write transfer failed |
 
 
 ## Future
 
 - verify working with ESP32
 - merge with other SHT sensors if possible
+- SHT_BASE class ?
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
-- direct Fahrenheit formula 
 
 
 ## Operation

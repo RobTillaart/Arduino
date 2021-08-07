@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -11,7 +11,8 @@
 //  HISTORY:
 //  0.1.0   2021-02-10  initial version
 //  0.1.1   2021-03-13  initial release
-//  0.1.2   2021-05-27  fix arduino-lint
+//  0.1.2   2021-05-27  fix Arduino-lint
+//  0.1.3   2021-08-06  expose raw data from sensor
 
 
 #include "SHT85.h"
@@ -33,12 +34,12 @@
 
 SHT85::SHT85()
 {
-  _addr        = 0;
-  _lastRead    = 0;
-  temperature  = 0;
-  humidity     = 0;
-  _heaterStart = 0;
-  _error       = SHT_OK;
+  _addr           = 0;
+  _lastRead       = 0;
+  _rawTemperature = 0;
+  _rawHumidity    = 0;
+  _heaterStart    = 0;
+  _error          = SHT_OK;
 }
 
 
@@ -118,8 +119,8 @@ bool SHT85::isConnected()
 //    '1': reset detected (hard or soft reset command or supply fail) - default
 // 3:2 Reserved ‘00’
 // 1 Command status
-//    '0': last cmd executed successfully
-//    '1': last cmd not processed. Invalid or failed checksum
+//    '0': last command executed successfully
+//    '1': last command not processed. Invalid or failed checksum
 // 0 Write data checksum status
 //    '0': checksum of last write correct
 //    '1': checksum of last write transfer failed
@@ -247,10 +248,8 @@ bool SHT85::readData(bool fast)
     }
   }
 
-  uint16_t raw = (buffer[0] << 8) + buffer[1];
-  temperature = raw * (175.0 / 65535) - 45;
-  raw = (buffer[3] << 8) + buffer[4];
-  humidity = raw * (100.0 / 65535);
+  _rawTemperature = (buffer[0] << 8) + buffer[1];
+  _rawHumidity    = (buffer[3] << 8) + buffer[4];
 
   _lastRead = millis();
 

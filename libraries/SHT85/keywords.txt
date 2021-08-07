@@ -24,6 +24,8 @@ requestData	KEYWORD2
 dataReady	KEYWORD2
 readData	KEYWORD2
 
+getRawHumidity	KEYWORD2
+getRawTemperature	KEYWORD2
 
 # Instances (KEYWORD2)
 

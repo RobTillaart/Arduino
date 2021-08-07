@@ -29,7 +29,6 @@
   It appears that Wire.write does not fail without sensor...
 */
 
-
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
@@ -38,7 +37,6 @@
 int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
-
 
 unittest_setup()
 {
@@ -63,10 +61,14 @@ unittest(test_begin)
 
   Serial.println(sht.getTemperature());
   Serial.println(sht.getHumidity());
+  Serial.println(sht.getRawTemperature());
+  Serial.println(sht.getRawHumidity());
 
   // default value == 0
-  assertEqual(0, sht.getTemperature());
+  assertEqual(-45, sht.getTemperature());
   assertEqual(0, sht.getHumidity());
+  assertEqual(0, sht.getRawTemperature());
+  assertEqual(0, sht.getRawHumidity());
 }
 
 
@@ -161,6 +163,5 @@ unittest(test_async)
 
 
 unittest_main()
-
 
 // --------

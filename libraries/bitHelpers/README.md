@@ -10,7 +10,7 @@ Arduino library with functions on bit level
 
 ## Description
 
-This library contains functions to manipulate bits and bitpatterns in an 
+This library contains functions to manipulate bits and bit patterns in an 
 efficient way. 
 For most functions a 8 - 64 bit optimized version exist. 
 
@@ -25,34 +25,36 @@ New bit functions can be added or investigated, please post an issue.
 
 ### 0.1.0
 BitCount, several implementations to compare performance.
-- **bitCountReference(uint32_t val)** returns nr of bits set in a value.
-- **bitCountKR(uint32_t val)** Kerningham bitCount
-- **bitCountArray(uint32_t val)** count per nybble with lookup table
-- **bitCountF1(uint32_t val)** SWAG algorithm variant
-- **bitCountF2(uint32_t val)** SWAG algorithm variant
+- **uint8_t bitCountReference(uint32_t val)** returns nr of bits set in a value.
+- **uint8_t bitCountKR(uint32_t val)** Kerningham Ritchie bitCount
+- **uint8_t bitCountArray(uint32_t val)** count per nybble with lookup table
+- **uint8_t bitCountF1(uint32_t val)** SWAG algorithm variant
+- **uint8_t bitCountF2(uint32_t val)** SWAG algorithm variant
 
-BitCount - fastest version: uint8_t .. uint64_t
-- **bitCount(val)**  
+BitCount - fastest version, SWAG algorithm
+- **uint8_t  bitCount(uint8_t val)** available for 16, 32 and 64 bit.
 
 Reverse: uint8_t .. uint64_t
-- **bitReverse()**    reverses bits in a uint8_t .. uint64_t
-- **nybbleReverse()** reverses nybbles (4 bit) in a uint8_t .. uint64_t
-- **byteReverse()**   reverses bytes (8 bit) in a uint16_t .. uint64_t
-- **wordReverse()**   reverses words (16 bit) in uint32_t and uint64_t
+- **T bitReverse(T val)** reverses bits in a uint8_t .. uint64_t
+- **T nybbleReverse(T val)** reverses nibbles (4 bit) in a uint8_t .. uint64_t
+- **T byteReverse(T val)** reverses bytes (8 bit) in a uint16_t .. uint64_t
+- **T wordReverse(T val)** reverses words (16 bit) in uint32_t and uint64_t
 
 Swap upper and lower half: uint8_t .. uint64_t
-- **swap()** 0x12345678 ==> 0x56781234
+- **T swap(T val)** 0x12345678 ==> 0x56781234
 
 Rotate Left / Right: uint8_t .. uint64_t
-- **bitRotateLeft(value, pos)**
-- **bitRotateRight(value, pos)** 
+if pos larger than # bits original value is returned.
+- **T bitRotateLeft(T value, uint8_t pos)**
+- **T bitRotateRight(T value, uint8_t pos)** 
 
 BitFlip: uint8_t .. uint64_t  a.k.a toggle
-- **bitFlip(value, pos)** flips a single bit at pos
+if pos larger than # bits original value is returned.
+- **T bitFlip(T value, uint8_t pos)** flips a single bit at pos
 
 BitRot: uint8_t .. uint64_t
-- **bitRot(value, chance)** random damage to a single bit of a value, chance = float 0.0 .. 1.0 
-that one random bit is toggled. 
+- **T bitRot(T value, float chance = 0.5)** random damage to a single bit of a value,
+chance = float 0.0 .. 1.0 that one random bit is toggled. 
 **bitRot()** is a function that can be used to mimic single bit errors in communication protocols.  
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
@@ -64,11 +66,11 @@ How many bits are needed to store / transmit a number?
 
 The following functions are made as the normal **bitset()** etc do not work for 64 bit.
 These functions are optimized for speed for **AVR**, **ESP32** and **ESP8266**. 
-- **bitSet64(x, bit)** set bit of uint64_t
-- **bitClear64(x, bit)** clear bit of uint64_t
-- **bitToggle64(x, bit)** toggle bit of uint64_t
-- **bitWrite64(x, bit, value)** set bit of uint64_t to 0 or 1
-- **bitRead64(x, bit)** reads bit from uint64_t 
+- **void bitSet64(uint64 & x, uint8_t bit)** set bit of uint64_t
+- **void bitClear64(uint64 & x, uint8_t bit)** clear bit of uint64_t
+- **void bitToggle64(uint64 & x, uint8_t bit)** toggle bit of uint64_t
+- **void bitWrite64(uint64 & x, uint8_t bit, uint8_t value)** set bit of uint64_t to 0 or 1
+- **void bitRead64(uint64 & x, uint8_t bit)** reads bit from uint64_t 
 
 Also added are macro versions of these five functions.
 - **mbitSet64(x, bit)** set bit of uint64_t
@@ -79,7 +81,13 @@ Also added are macro versions of these five functions.
 
 ### 0.1.2 added
 
-Added arduino-ci and unit tests
+Added Arduino-CI and unit tests
+
+
+### 0.1.3 added
+
+- update readme.md
+- update unit tests
 
 
 ## Future

@@ -2,19 +2,23 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
 //
 // 0.0.1    2015-11-07  initial version
-// 0.1.0    2020-07-29  intial release
+// 0.1.0    2020-07-29  initial release
 // 0.1.1    2020-08-10  added BitsNeeded, bitSet64 family
-// 0.1.2    2020-12-14  add Adruino-ci + unit tests 
+// 0.1.2    2020-12-14  add Arduino-CI + unit tests
+// 0.1.3    2021-08-09  update readme.md + unit tests
+
 
 #include "Arduino.h"
 
+
 #define BH_BIG_NR        1000000000
+
 
 ////////////////////////////////////////////////
 //
@@ -130,6 +134,7 @@ uint8_t bitCount(uint64_t value)
   return v & 0x7F;
 };
 
+
 ////////////////////////////////////////////////
 //
 // BIT REVERSE
@@ -175,6 +180,7 @@ uint64_t bitReverse(uint64_t val)
   x = (x >> 32) | (x << 32);
   return x;
 }
+
 
 ////////////////////////////////////////////////
 //
@@ -242,6 +248,7 @@ uint64_t byteReverse(uint64_t val)
   return x;
 }
 
+
 ////////////////////////////////////////////////
 //
 // WORD REVERSE
@@ -260,6 +267,7 @@ uint64_t wordReverse(uint64_t val)
   x = (x >> 32) | (x << 32);
   return x;
 }
+
 
 ////////////////////////////////////////////////
 //
@@ -285,11 +293,12 @@ uint64_t swap(uint64_t val)
   return (val << 32) | (val >> 32);
 }
 
+
 ////////////////////////////////////////////////
 //
 // BIT ROTATE LEFT
 //
-uint8_t  bitRotateLeft(uint8_t value, uint8_t pos)
+uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
 {
   if (pos > 7) return value;
   return (value << pos) | (value >> (8 - pos));
@@ -312,6 +321,7 @@ uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
   if (pos > 63) return value;
   return (value << pos) | (value >> (64 - pos));
 }
+
 
 ////////////////////////////////////////////////
 //
@@ -341,61 +351,64 @@ uint64_t bitRotateRight(uint64_t value, uint8_t pos)
   return (value << (64 - pos)) | (value >> pos);
 }
 
+
 ////////////////////////////////////////////////////
 //
 // BIT FLIP
 //
-uint8_t  bitFlip(uint8_t value, uint8_t pos)
+uint8_t bitFlip(uint8_t value, uint8_t pos)
 {
   if (pos > 7) return value;
   return value ^ (1 << pos);
 }
 
-uint16_t  bitFlip(uint16_t value, uint8_t pos)
+uint16_t bitFlip(uint16_t value, uint8_t pos)
 {
   if (pos > 15) return value;
   return value ^ (1 << pos);
 }
 
-uint32_t  bitFlip(uint32_t value, uint8_t pos)
+uint32_t bitFlip(uint32_t value, uint8_t pos)
 {
   if (pos > 31) return value;
   return value ^ (1UL << pos);
 }
 
-uint64_t  bitFlip(uint64_t value, uint8_t pos)
+uint64_t bitFlip(uint64_t value, uint8_t pos)
 {
   if (pos > 63) return value;
   return value ^ (1ULL << pos);
 }
 
+
 ////////////////////////////////////////////////////
 //
 // BIT ROT
 //
-uint8_t  bitRot(uint8_t value, float chance = 0.5)
+uint8_t bitRot(uint8_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1 << random(8));
 }
 
-uint16_t  bitRot(uint16_t value, float chance = 0.5)
+uint16_t bitRot(uint16_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(16));
 }
 
-uint32_t  bitRot(uint32_t value, float chance = 0.5)
+uint32_t bitRot(uint32_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(32));
 }
 
-uint64_t  bitRot(uint64_t value, float chance = 0.5)
+uint64_t bitRot(uint64_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1ULL << random(64));
 }
+
 
 ////////////////////////////////////////////////////
 //
@@ -410,6 +423,7 @@ uint64_t  bitRot(uint64_t value, float chance = 0.5)
 
 #define mbitRead64(value, bit) ( ((value) & ((sizeof(value)<5?1UL:1ULL) <<(bit))) ? 1 : 0)
 #define mbitWrite64(value, bit, bitvalue) (bitvalue ? mbitSet64(value, bit) : mbitClear64(value, bit))
+
 
 // FUNCTIONS
 #if defined(__AVR__)
@@ -480,6 +494,7 @@ void bitToggle64(uint64_t & x, uint8_t bit)
 
 #endif
 
+
 uint8_t bitRead64(uint64_t & x, uint8_t bit)
 {
   return x & (1ULL << bit);
@@ -541,6 +556,7 @@ uint8_t bitsNeeded(uint64_t x)
   if (x >> 32) return bitsNeeded(y) + 32;
   return bitsNeeded((uint32_t)x);
 }
+
 
 ////////////////////////////////////////////////////
 //

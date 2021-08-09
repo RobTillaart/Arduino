@@ -1,6 +1,6 @@
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -10,9 +10,9 @@
 //  0.1.1   2021-06-21  improved calibration + added functions
 //  0.1.2   2021-06-22  add check of parameters of several functions + unit tests
 //                      add getShunt() , getMaxCurrent()
-//  0.1.3   2021-06-    add getCurrentLSB_uA() + improve examples
+//  0.1.3   2021-06-22  add getCurrentLSB_uA() + improve examples
 //                      fix for calibration
-//
+//  0.1.4   2021-08-07  fix getCurrent()
 
 #include "INA226.h"
 
@@ -103,7 +103,14 @@ float INA226::getPower()
 
 float INA226::getCurrent()
 {
-  float val = _readRegister(INA226_CURRENT);
+  uint16_t val = _readRegister(INA226_CURRENT);
+  if (val & 0x8000)
+  {
+    val = val & 0x7FFF;
+    val = val ^ 0x7FFF;
+    val++;
+    return val * -_current_LSB;
+  }
   return val * _current_LSB;
 }
 

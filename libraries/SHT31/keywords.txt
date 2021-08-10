@@ -1,4 +1,5 @@
-# Syntax Coloring Map For SHT31
+# Syntax Coloring Map For SHT31 temperature and humidity sensor
+
 
 # Datatypes (KEYWORD1)
 SHT31	KEYWORD1
@@ -11,16 +12,21 @@ isConnected	KEYWORD2
 readStatus	KEYWORD2
 lastRead	KEYWORD2
 reset	KEYWORD2
+
 setHeatTimeout	KEYWORD2
 heatOn	KEYWORD2
 heatOff	KEYWORD2
 isHeaterOn	KEYWORD2
+
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
+
 requestData	KEYWORD2
 dataReady	KEYWORD2
 readData	KEYWORD2
 
+getRawHumidity	KEYWORD2
+getRawTemperature	KEYWORD2
 
 # Instances (KEYWORD2)
 

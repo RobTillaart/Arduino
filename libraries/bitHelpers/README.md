@@ -23,7 +23,9 @@ New bit functions can be added or investigated, please post an issue.
 
 ## Interface
 
+
 ### 0.1.0
+
 BitCount, several implementations to compare performance.
 - **uint8_t bitCountReference(uint32_t val)** returns nr of bits set in a value.
 - **uint8_t bitCountKR(uint32_t val)** Kerningham Ritchie bitCount
@@ -58,6 +60,7 @@ chance = float 0.0 .. 1.0 that one random bit is toggled.
 **bitRot()** is a function that can be used to mimic single bit errors in communication protocols.  
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
+
 ### 0.1.1 added
 
 How many bits are needed to store / transmit a number?
@@ -79,6 +82,7 @@ Also added are macro versions of these five functions.
 - **mbitWrite64(x, bit, value)** set bit of uint64_t to 0 or 1
 - **mbitRead64(x, bit)** reads bit from uint64_t 
 
+
 ### 0.1.2 added
 
 Added Arduino-CI and unit tests
@@ -88,6 +92,22 @@ Added Arduino-CI and unit tests
 
 - update readme.md
 - update unit tests
+
+
+## BitReverse n bit number
+
+Trick to reverse a number of n bits  ( 0 < n < 32 ).
+Could also be done similar with 64 bit and or byte / nybble reverse.
+
+not as fast as a dedicated version.
+```cpp
+uint32_t bitReverse(uint32_t x, uint8_t n)
+{
+  uint32_t r = bitReverse(x);
+  return r >> (32 - n);
+}
+```
+Could be added in next release...
 
 
 ## Future
@@ -101,6 +121,9 @@ specific position. e.g.
 - bitNoggle(value, bit) - toggle all but one bit. (why?)
 - bitSort(value) ==> 00101001 ==> 00000111
 - many more :)
+- add **bitReverse(uint32_t x, uint8_t n)**
+- add **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
+- add **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d)
 
 ## Operations
 

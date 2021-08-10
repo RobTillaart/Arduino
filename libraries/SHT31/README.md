@@ -8,6 +8,8 @@
 
 Arduino library for the SHT31 temperature and humidity sensor
 
+Relates to  the SHT85 library - https://github.com/RobTillaart/SHT85
+
 
 ## Description
 
@@ -18,9 +20,10 @@ not tested yet.
 
 | SENSOR | Temperature accuracy | Humidity accuracy |
 |:----:|:----:|:----:|
-| SHT30 | ~0.3 | 2 |
+| SHT30 | ~0.3 | 2.0 |
 | SHT31 | ~0.3 | 1.5 |
 | SHT35 | ~0.2 | 1.5 |
+| SHT85 | ~0.2 | 1.5 |
 
 
 An elaborated library for the SHT31 sensor can be found here
@@ -36,7 +39,8 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 returns false if device address is incorrect or device cannot be reset.
 - **begin(address)** for single I2C bus platforms, e.g UNO.
 - **begin(address,  TwoWire \*wire)** for platforms with multiple I2C busses.
-- **read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math
+- **read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
+Does read both the temperature and humidity.
 - **isConnected()** check sensor is reachable over I2C. Returns false if not connected.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below
 - **uint32_t lastRead()** in milliSeconds since start of program.
@@ -97,25 +101,30 @@ See async example for usage
 
 | BIT | Description | values |
 |:----:|:----|:----|
-| 15  | Alert pending status | '0': no pending alerts|
-|     |                      | '1': at least one pending alert - default |
-| 14  | Reserved | '0' |
-| 13  | Heater status  | '0’ : Heater OFF - default |
-|     |                | '1’ : Heater ON |
-| 12  | Reserved | '0' |
-| 11  | Humidity tracking alert | '0’ : no alert - default |
-|     |                         | '1’ : alert |
+| 15  | Alert pending status       | '0': no pending alerts|
+|     |                            | '1': at least one pending alert - default |
+| 14  | Reserved                   | '0' |
+| 13  | Heater status              | '0’ : Heater OFF - default |
+|     |                            | '1’ : Heater ON |
+| 12  | Reserved                   | '0' |
+| 11  | Humidity tracking alert    | '0’ : no alert - default |
+|     |                            | '1’ : alert |
 | 10  | Temperature tracking alert | '0’ : no alert - default |
 |     |                            | '1’ : alert |
-| 9-5 | Reserved | '00000' |
-|  4  | System reset detected  | '0': no reset since last ‘clear status register’ command |
-|     |                        | '1': reset detected (hard or soft reset command or supply fail) - default |
-| 3-2 | Reserved | '00' |
-|  1  | Command status | '0': last cmd executed successfully |
-|     |                | '1': last cmd not processed. Invalid or failed checksum |
+| 9-5 | Reserved                   | '00000' |
+|  4  | System reset detected      | '0': no reset since last ‘clear status register’ command |
+|     |                            | '1': reset detected (hard or soft reset command or supply fail) - default |
+| 3-2 | Reserved                   | '00' |
+|  1  | Command status             | '0': last cmd executed successfully |
+|     |                            | '1': last cmd not processed. Invalid or failed checksum |
 | 0   | Write data checksum status | '0': checksum of last write correct |
 |     |                            | '1': checksum of last write transfer failed |
 
+
+## Future
+
+- merge with other SHT sensors if possible
+- direct Fahrenheit formula 
 
 ## Operation
 

@@ -3,22 +3,25 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Multiplex/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Multiplex.svg?maxAge=3600)](https://github.com/RobTillaart/Multiplex/releases)
 
-
 # Multiplex
 
 Arduino Library implementing a stream multiplexer.
 
-
 ## Description
 
 Multiplex is a library in which one can add multiple Print streams. 
+
 If one prints to the multiplexer it is sent to all the streams that were added.
-The maximum nr of streams to add is 4 .
+
+The maximum nr of streams to add is 4.
+
 It is possible to disable individual streams.
 
+Streams can be enabled or disabled by calling `enable()/disable()` passing either an index (based on the order 
+in whicbh `add` was called; 0 is first) or a pointer to the `Print` 
+object that was passed to `add(Print *)`;
 
 ## Interface
-
 
 ### Constructor
 
@@ -37,8 +40,11 @@ Returns false if no space left.
 - **uint8_t count()** returns # streams, MAX 4 in initial release
 - **uint8_t size()** returns size which is 4 in the current release.
 - **void enable(uint8_t index)** enable the stream at index.
+- **void enableStream(Stream * stream)** enable the stream.
 - **void disable(uint8_t index)** disable the stream at index.
+- **void disableStream(Stream * stream)** disable the stream.
 - **bool isEnabled(uint8_t index)** checks if the stream at index is enabled.
+- **bool isEnabledStream(Stream * stream)** checks if the stream is enabled.
 
 
 ## Future

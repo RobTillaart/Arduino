@@ -35,7 +35,35 @@
 #include "Arduino.h"
 #include "Multiplex.h"
 
-
+// A simple implementation of Print that outputs
+// to Serial, prefixing each call to write(buffer, size)
+// with an id.
+class FakeStream : public Print
+{
+  public:
+  FakeStream(uint8_t id) : _id(id) { _id = id; };
+  
+  virtual size_t write(uint8_t c) override 
+  { 
+    return Serial.write(c);
+  };
+  
+  virtual size_t write(const uint8_t *buffer, size_t size) 
+  {
+    size_t n = 0;
+    n += Serial.print("stream");
+    n += Serial.print(_id, DEC);
+    n += Serial.print(':');
+        
+    for (uint8_t i = 0 ; i < size ; i++)
+    {
+      n += write(buffer[i]);
+    }
+    return n;
+  }
+  private: 
+  uint8_t _id = 0;
+};
 
 unittest_setup()
 {
@@ -54,8 +82,11 @@ unittest(test_constructor)
   assertEqual(0, mp.count());
   assertEqual(4, mp.size());
 
-  assertTrue(mp.add(&Serial));
-  assertTrue(mp.add(&Serial));
+  FakeStream stream1(1);
+  FakeStream stream2(2);
+
+  assertTrue(mp.add(&stream1));
+  assertTrue(mp.add(&stream2));
   assertEqual(2, mp.count());
   assertEqual(4, mp.size());
   
@@ -69,8 +100,11 @@ unittest(test_enable)
   fprintf(stderr, "VERSION: %s\n", MULTIPLEX_LIB_VERSION);
 
   Multiplex mp;
-  assertTrue(mp.add(&Serial));
-  assertTrue(mp.add(&Serial));
+  FakeStream stream1(1);
+  FakeStream stream2(2);
+
+  assertTrue(mp.add(&stream1));
+  assertTrue(mp.add(&stream2));
 
   for (int i = 0; i < mp.count(); i++)
   {
@@ -81,6 +115,14 @@ unittest(test_enable)
     assertTrue(mp.isEnabled(i));
   }
 
+  assertTrue(mp.isEnabledStream(&stream1));
+  assertTrue(mp.isEnabledStream(&stream2));
+
+  mp.disableStream(&stream1);
+  mp.disableStream(&stream2);
+
+  assertFalse(mp.isEnabledStream(&stream1));
+  assertFalse(mp.isEnabledStream(&stream2));
 }
 
 unittest_main()

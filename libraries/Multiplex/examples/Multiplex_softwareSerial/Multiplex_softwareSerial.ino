@@ -6,7 +6,7 @@
 //    DATE: 2021-01-17
 
 #include "Multiplex.h"
-#include "SoftwareSerial.h"
+#include <SoftwareSerial.h>
 
 // one multiplexer
 Multiplex mp;
@@ -41,7 +41,19 @@ void setup()
   Serial.print("count: ");
   Serial.println(n);
 
-  mp.println("\n Done...\n");
+  mp.disable(&Serial_B);
+
+  for (int i = 0; i < mp.count(); i++)
+  {
+    Serial.print("isEnabled ");
+    Serial.print(i);
+    Serial.print(":\t");
+    Serial.println(mp.isEnabled(i));
+  }
+  
+  mp.println("\nThis should only print on Serial_A and Serial_C\n");
+
+  mp.println("Done...\n");
 
 }
 

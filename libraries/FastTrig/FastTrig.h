@@ -2,7 +2,7 @@
 //
 //    FILE: FastTrig.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -19,8 +19,10 @@
 //  0.1.3   2020-09-07  initial release.
 //  0.1.4   2020-09-08  rewrite itan() + cleanup + examples
 //  0.1.5   2020-09-11  fixed optimize, new table, added iasin() and iacos()
-//  0.1.6   2020-12-23  arduino-CI + unit tests
+//  0.1.6   2020-12-23  Arduino-CI + unit tests
 //  0.1.7   2021-04-23  fix for PlatformIO
+//  0.1.8   2021-08-10  made % 180 conditional in itan() => performance gain
+//                      added icot() cotangent.
 
 
 #include "Arduino.h"
@@ -137,13 +139,14 @@ float itan(float f)
   // so no divide by 65535
   
   // FOLDING
-  bool neg = (f < 0);
   bool mir = false;
+  bool neg = (f < 0);
   if (neg) f = -f;
 
   long x = f;
   float rem = f - x;
-  float v = x % 180 + rem;  // normalised value 0..179.9999
+  if (x >= 180) x %= 180;
+  float v = rem + x;  // normalised value 0..179.9999
   if (v > 90)
   {
     v = 180 - v;
@@ -162,7 +165,7 @@ float itan(float f)
     if (mir) co = isinTable16[p - 1] + rem * delta;
     else     co = isinTable16[p]     - rem * delta;
   }
-  if (co == 0) return 0;
+  else if (co == 0) return 0;
 
   float si = isinTable16[d];
   if (rem != 0) si += rem * (isinTable16[d + 1]  - isinTable16[d]);
@@ -171,6 +174,21 @@ float itan(float f)
   if (neg) return -ta;
   return ta;
 }
+
+// some problem at 0 but at least we have a icot(x) cotangent.
+float icot(float f)
+{
+  float t = itan(f);
+  if (t == 0) return NAN;
+  return 1.0 / t;
+}
+
+
+// missing function...
+// float cot(float f)
+// {
+  // return 1.0/tan(f);
+// }
 
 
 ///////////////////////////////////////////////////////

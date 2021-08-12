@@ -1,17 +1,21 @@
 //
-//    FILE: max31855_hw_SPI.ino
+//    FILE: max31855_ESP32_HSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.0
 // PURPOSE: thermocouple lib demo application
-//    DATE: 2020-08-30
+//    DATE: 2021-08-11
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
+// NOTE:
+// one might to need to disconnect pin 12 during upload of the code
+// when HSPI is used.
 
 #include "MAX31855.h"
 
 
 // read()            timing UNO   timing ESP32 |
+//---------------------------------------------
 // HWSPI  16000000   ~68  us      ~16 us
 // HWSPI   4000000   ~72  us      ~23 us
 // HWSPI   1000000   ~100 us      ~51 us
@@ -19,34 +23,34 @@
 // SWSPI  bitbang    ~500 us      ~17 us
 
 
-//
-// | HW SPI   |  UNO  |  ESP32  |
-// |:---------|:-----:|:-------:|
-// | CLOCKPIN |   13  |   18    |
-// | MISO     |   12  |   19    |
-// | MOSI     |   11  |   23    |  * not used...
+// | HW SPI   |  UNO  |  ESP32  |  ESP32  |
+// |          |       |  VSPI   |  HSPI   |
+// |:---------|:-----:|:-------:|:-------:|
+// | CLOCKPIN |   13  |   18    |   14    |
+// | MISO     |   12  |   19    |   12    |
+// | MOSI     |   11  |   23    |   13    |  * not used...
+// | SELECT   | eg. 4 |    5    |   15    |  * can be others too.
 
-
-const int csPin   = 25;
-const int clkPin  = 18;
-const int dataPin = 19;
+const int csPin   = 15;
 
 uint32_t start, stop;
 
 
 MAX31855 tc(csPin);
-// MAX31855 tc(clkPin, csPin, dataPin);  // sw SPI
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("Start max31855_demo0: ");
+
+  Serial.print("MAX31855_VERSION: ");
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
+  tc.selectHSPI();     // needs to be called before begin()
   tc.begin();
+  tc.setSPIspeed(16000000);
 }
 
 

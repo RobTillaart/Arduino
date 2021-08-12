@@ -2,7 +2,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -13,7 +13,7 @@
 //
 //     +---------+
 // Vin | o       |
-// 3Vo | o       |
+// 3V3 | o       |
 // GND | o     O | Thermocouple
 //  D0 | o     O | Thermocouple
 //  CS | o       |
@@ -25,11 +25,11 @@
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.2.5"))
+#define MAX31855_VERSION              (F("0.3.0"))
 
 #define MAX31855_NO_TEMPERATURE       -999
 
-// STATE constants returnd by read()
+// STATE constants returned by read()
 #define STATUS_OK                     0x00
 #define STATUS_OPEN_CIRCUIT           0x01
 #define STATUS_SHORT_TO_GND           0x02
@@ -64,52 +64,76 @@ class MAX31855
 {
 public:
   // HW SPI
-  MAX31855(uint8_t CS);
+  MAX31855(uint8_t select);
   // SW SPI
-  MAX31855(uint8_t SCLK, uint8_t CS, uint8_t MISO);
-  void begin();
+  MAX31855(uint8_t clock, uint8_t select, uint8_t miso);
+
+  void     begin();
 
   // returns state - bit field: 0 = STATUS_OK
-  uint8_t read();
+  uint8_t  read();
 
-  float   getInternal(void) const { return _internal; }
-  float   getTemperature(void);
+  float    getInternal(void) const { return _internal; }
+  float    getTemperature(void);
 
-  uint8_t getStatus(void) const  { return _status; };
-  inline  bool openCircuit()     { return _status == STATUS_OPEN_CIRCUIT; };
-  inline  bool shortToGND()      { return _status == STATUS_SHORT_TO_GND; };
-  inline  bool shortToVCC()      { return _status == STATUS_SHORT_TO_VCC; };
-  inline  bool genericError()    { return _status == STATUS_ERROR; };
-  inline  bool noRead()          { return _status == STATUS_NOREAD; };
-  inline  bool noCommunication() { return _status == STATUS_NO_COMMUNICATION; };
+  uint8_t  getStatus(void) const  { return _status; };
+  inline   bool openCircuit()     { return _status == STATUS_OPEN_CIRCUIT; };
+  inline   bool shortToGND()      { return _status == STATUS_SHORT_TO_GND; };
+  inline   bool shortToVCC()      { return _status == STATUS_SHORT_TO_VCC; };
+  inline   bool genericError()    { return _status == STATUS_ERROR; };
+  inline   bool noRead()          { return _status == STATUS_NOREAD; };
+  inline   bool noCommunication() { return _status == STATUS_NO_COMMUNICATION; };
 
   // use offset to calibrate the TC.
-  void    setOffset(const float  t)   { _offset = t; };
-  float   getOffset() const           { return _offset; };
+  void     setOffset(const float  t)   { _offset = t; };
+  float    getOffset() const           { return _offset; };
 
-  //  set the above E_TC (etc) Seebeck Coefficients
+  //  set the above E_TC or other Seebeck Coefficients
   //  one can also set your own optimized values.
-  void    setSeebeckCoefficient(const float SC) { _SC = SC; };
-  float   getSeebeckCoefficient() const         { return _SC; };
+  void     setSeebeckCoefficient(const float SC) { _SeebeckC = SC; };
+  float    getSeebeckCoefficient() const         { return _SeebeckC; };
 
-  uint32_t lastRead()            { return _lastRead; };
-  uint32_t getRawData()          { return _rawData;};
+  uint32_t lastRead()    { return _lastTimeRead; };
+  uint32_t getRawData()  { return _rawData;};
+
+  //       speed in Hz
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed() { return _SPIspeed; };
+
+  //       ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
+
+  // to overrule ESP32 default hardware pins
+  void     setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t select);
+  #endif
 
 
 private:
   uint32_t _read();
+
   uint8_t  _status;
   float    _internal;
   float    _temperature;
   float    _offset;
-  float    _SC;
-  uint32_t _lastRead;
+  float    _SeebeckC;
+  uint32_t _lastTimeRead;
   uint32_t _rawData;
   bool     _hwSPI;
 
-  uint8_t  _sclk;
+  uint8_t  _clock;
   uint8_t  _miso;
-  uint8_t  _cs;
+  uint8_t  _select;
+
+  uint32_t    _SPIspeed = 1000000;
+  SPIClass    * mySPI;
+  SPISettings _spi_settings;
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 

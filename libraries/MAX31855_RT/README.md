@@ -5,7 +5,9 @@
 
 # MAX31855_RT
 
-Arduino library for MAX31855 chip for K type thermocouple
+Arduino library for MAX31855 chip for K type thermocouple.
+
+The library has experimental support for other types of thermocouples E, J, N, R, S, T
 
 
 ## Description
@@ -24,7 +26,7 @@ Library tested with breakout board
 ```
      +---------+
  Vin | o       |
- 3Vo | o       |
+ 3V3 | o       |
  GND | o     O | Thermocouple
   D0 | o     O | Thermocouple
   CS | o       |
@@ -35,36 +37,62 @@ Library tested with breakout board
 
 ## Hardware SPI vs software SPI
 
-Default pin connections (ESP32 has more options)
+Default pin connections. ESP32 can overrule with **setGPIOpins()**.
 
- | HW SPI   |  UNO  |  ESP32  |
- |:---------|:-----:|:-------:|
- | CLOCKPIN |   13  |   18    |
- | MISO     |   12  |   19    |
- | MOSI     |   11  |   23    |
-
+ | HW SPI   |  UNO  |  ESP32 VSPI |  ESP32 HSPI | Notes
+ |:---------|:-----:|:-------:|:-------:|:----------|
+ | CLOCKPIN |   13  |   18    |   14    |
+ | MISO     |   12  |   19    |   12    |
+ | MOSI     |   11  |   23    |   13    |  *not used...*
+ | SELECT   | eg. 4 |    5    |   15    |  *can be others too.*
 
 
 Performance read() function, timing in us.  (ESP32 @240MHz)
 
-| mode  | clock    | timing UNO | timing ESP32 |
-|:------|---------:|-----------:|-------------:|
-| HWSPI | 32000000 |     ni     |      ~15     |
-| HWSPI | 16000000 |    ~68     |      ~16     |
-| HWSPI |  4000000 |    ~72     |      ~23     |
-| HWSPI |  1000000 |    ~100    |      ~51     |
-| HWSPI |   500000 |    ~128    |      ~89     |
-| SWSPI | bit bang |    ~500    |      ~17 (!) |
+| mode   | clock    | timing UNO | timing ESP32 | Notes
+|:-------|---------:|-----------:|-------------:|:----------|
+| HW SPI | 32000000 |     ni     |      ~15     | *less reliable*
+| HW SPI | 16000000 |    ~68     |      ~16     |
+| HW SPI |  4000000 |    ~72     |      ~23     |
+| HW SPI |  1000000 |    ~100    |      ~51     |
+| HW SPI |   500000 |    ~128    |      ~89     |
+| SW SPI | bit bang |    ~500    |      ~17 (!) |
 
 
 
 ## Interface
 
-To make a temperature reading call **tc.read()**.
+
+### Constructor
+
+- **MAX31855(const uint8_t select)** create object and set select pin => hardware SPI
+- **MAX31855(const uint8_t sclk, const uint8_t select, const uint8_t miso)** create object, set clock, select and miso pin => software SPI
+
+
+### Hardware SPI
+
+To be used only if one needs a specific speed.
+
+- **void setSPIspeed(uint32_t speed)** set SPI transfer rate
+- **uint32_t getSPIspeed()** returns SPI transfer rate
+
+
+### ESP32 specific
+
+- **void selectHSPI()** must be called before **begin()**
+- **void selectVSPI()** must be called before **begin()**
+- **bool usesHSPI()**
+- **bool usesVSPI()**
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)**  to overrule ESP32 default hardware pins
+
+
+### Reading
+
+To make a temperature reading call **read()**.
 It returns the status of the read which is a value between 0..7
 The function **getStatus()** returns the same status value. 
 
-Table: values returned from **read()** and **getStatus()**
+Table: values returned from **uint8_t read()** and **uint8_t getStatus()**
 
 | value | Description               | Action       |
 |:-----:|:--------------------------|:-------------|
@@ -79,23 +107,33 @@ Table: values returned from **read()** and **getStatus()**
 There are six functions to check the individual error conditions mentioned above.
 These make it easier to check them.
 
-- **openCircuit()**
-- **shortToGND()**
-- **shortToVCC()**
-- **genericError()**
-- **noRead()**
-- **noCommunication()**
+- **bool openCircuit()**
+- **bool shortToGND()**
+- **bool shortToVCC()**
+- **bool genericError()**
+- **bool noRead()**
+- **bool noCommunication()**
 
-After a **tc.read()** you can get the temperature with **tc.getTemperature()** 
-and **tc.getInternal()** for the internal temperature of the chip / board itself.
+After a **uint8_t read()** you can get the temperature with **float getTemperature()** 
+and **float getInternal()** for the internal temperature of the chip / board itself.
+Normally these are (almost) equal.
 
-Repeated calls to **tc.getTemperature()** will give the same value until a new **tc.read()**.
-The latter fetches a new value from the sensor. Note that if the **tc.read()** fails
-the value of **tc.getTemperature()** can become incorrect. 
+Repeated calls to **getTemperature()** will give the same value until a new **read()**.
+The latter fetches a new value from the sensor. Note that if the **read()** fails
+the value of **getTemperature()** can become incorrect. So it is important to check 
+the return value of **read()**.
+
+
+### Offset
 
 The library supports a fixed offset to calibrate the thermocouple.
-For this the functions **tc.getOffset()** and **tc.setOffset(offset)** are available.
-This offset is included in the **tc.getTemperature()** function.
+For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
+This offset is "added" in the **getTemperature()** function.
+
+Note the offset used is a float, so decimals can be used.
+
+
+### Delta analysis
 
 As the **tc** object holds its last known temperature it is easy to determine the delta 
 with the last known temperature, e.g. for trend analysis.
@@ -111,7 +149,10 @@ with the last known temperature, e.g. for trend analysis.
   }
 ```
 
-The **tc** object keeps track of the last time **tc.read()** is called in the function **tc.lastRead()**.
+
+### Last time read
+
+The **tc** object keeps track of the last time **read()** is called in the function **uint32_t lastRead()**.
 The time is tracked in **millis()**. This makes it easy to read the sensor at certain intervals.
 
 ```cpp
@@ -131,10 +172,10 @@ if (millis() - tc.lastRead() >= interval)
 ```
 
 
-## GetRawData 
+### GetRawData 
 
-The function **tc.getRawData()** allows you to get all the 32 bits raw data from the board, 
-after the standard **tc.read()** call.
+The function **uint32_t getRawData()** allows you to get all the 32 bits raw data from the board, 
+after the standard **uint8_t tc.read()** call.
 
 Example code can be found in the examples folder.
 
@@ -142,6 +183,8 @@ Example code can be found in the examples folder.
   int state = thermocouple.read();              
   uint32_t value = thermocouple.getRawData();  // Read the raw Data value from the module
 ```
+
+This allows one to compact the measurement e.g. for storage or sending over a network.
 
 
 ## Pull Up Resistor 
@@ -186,6 +229,8 @@ See examples
 
 ## Experimental part (to be tested)
 
+(to be tested)
+
 **NOTE:** 
 The support for other thermocouples is experimental **use at your own risk**.
 
@@ -219,11 +264,12 @@ thermocouple is connected.
 Having that Vout we can redo the math for the actual thermocouple type and
 calculate the real temperature. 
 
-The library has two functions **tc.setSeebeckCoefficient(factor)** and 
-**tc.getSeebeckCoefficient()**
+The library has two functions **setSeebeckCoefficient(float factor)** and 
+**float getSeebeckCoefficient()**
 to get/set the Seebeck Coefficient (== thermocouple) to be used. 
 One can adjust the values to improve the accuracy of the temperature read. 
 
-The **tc.getTemperature()** has implemented this algorithm, however as long
+The **float getTemperature()** has implemented this algorithm, however as long
 as one does not set the Seebeck Coefficient it will use the K_TC as default.
+
 

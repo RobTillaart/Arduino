@@ -1,0 +1,36 @@
+# Syntax Colouring Map for AGS02MA
+
+
+# Data types (KEYWORD1)
+AGS02MA	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+isHeated	KEYWORD2
+lastRead	KEYWORD2
+
+setAddress	KEYWORD2
+getAddress	KEYWORD2
+
+getSensorVersion	KEYWORD2
+
+setPPBMode	KEYWORD2
+setUGM3Mode	KEYWORD2
+getMode	KEYWORD2
+
+readPPB	KEYWORD2
+readUGM3	KEYWORD2
+
+zeroCalibration	KEYWORD2
+lastError	KEYWORD2
+lastStatus	KEYWORD2
+
+# Constants (	LITERAL1)
+AGS02MA_LIB_VERSION	LITERAL1
+AGS02MA_OK	LITERAL1
+AGS02MA_ERROR	LITERAL1
+
+

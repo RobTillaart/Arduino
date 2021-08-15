@@ -1,31 +1,57 @@
-# Syntax Coloring Map For COZIR
+# Syntax Colouring Map For COZIR
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 COZIR	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 init	KEYWORD2
-SetOperatingMode	KEYWORD2
-Celsius	KEYWORD2
-Fahrenheit	KEYWORD2
-Humidity	KEYWORD2
-Light	KEYWORD2
+
+setOperatingMode	KEYWORD2
+getOperatingMode	KEYWORD2
+
+celsius	KEYWORD2
+fahrenheit	KEYWORD2
+humidity	KEYWORD2
+light	KEYWORD2
 CO2	KEYWORD2
 getPPMFactor	KEYWORD2
-FineTuneZeroPoint	KEYWORD2
-CalibrateFreshAir	KEYWORD2
-CalibrateNitrogen	KEYWORD2
-CalibrateKnownGas	KEYWORD2
-SetDigiFilter	KEYWORD2
-GetDigiFilter	KEYWORD2
-SetOutputFields	KEYWORD2
-ClrOutputFields	KEYWORD2
-GetRecentFields	KEYWORD2
-SetEEPROM	KEYWORD2
-GetEEPROM	KEYWORD2
-GetVersionSerial	KEYWORD2
-GetConfiguration	KEYWORD2
+
+fineTuneZeroPoint	KEYWORD2
+calibrateFreshAir	KEYWORD2
+calibrateNitrogen	KEYWORD2
+calibrateKnownGas	KEYWORD2
+
+setDigiFilter	KEYWORD2
+getDigiFilter	KEYWORD2
+
+setOutputFields	KEYWORD2
+getOutputFields	KEYWORD2
+inOutputFields	KEYWORD2
+clrOutputFields	KEYWORD2
+getRecentFields	KEYWORD2
+
+setAutoCalibrationPreload	KEYWORD2
+getAutoCalibrationPreload	KEYWORD2
+
+setAutoCalibrationInterval	KEYWORD2
+getAutoCalibrationInterval	KEYWORD2
+
+setAutoCalibrationOn	KEYWORD2
+setAutoCalibrationOff	KEYWORD2
+getAutoCalibration	KEYWORD2
+
+setAutoCalibrationBackgroundConcentration	KEYWORD2
+getAutoCalibrationBackgroundConcentration	KEYWORD2
+
+setAmbientConcentration	KEYWORD2
+getAmbientConcentration	KEYWORD2
+
+setBufferClearTime	KEYWORD2
+getBufferClearTime	KEYWORD2
+
+getVersionSerial	KEYWORD2
+getConfiguration	KEYWORD2
 
 
 # Constants (LITERAL1)

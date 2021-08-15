@@ -25,7 +25,7 @@ void setup()
   Serial.println();
 
   delay(100);
-  czr.GetVersionSerial();
+  czr.getVersionSerial();
   delay(5);
   while (Serial1.available())
   {
@@ -33,7 +33,7 @@ void setup()
   }
   delay(100);
 
-  czr.GetConfiguration();
+  czr.getConfiguration();
   delay(5);
   while (Serial1.available())
   {
@@ -42,14 +42,14 @@ void setup()
   delay(1000);
 
   // reset to polling again.
-  czr.SetOperatingMode(CZR_POLLING);
+  czr.setOperatingMode(CZR_POLLING);
 }
 
 void loop()
 {
-  float t = czr.Celsius();
-  float f = czr.Fahrenheit();
-  float h = czr.Humidity();
+  float t = czr.celsius();
+  float f = czr.fahrenheit();
+  float h = czr.humidity();
   uint32_t c = czr.CO2();
 
   Serial.print("Celcius =\t");    Serial.println(t);

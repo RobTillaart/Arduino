@@ -5,6 +5,9 @@
   "authors":
   [
     {
+      "name": "Viktor Balint"
+    },
+    {
       "name": "Rob Tillaart",
       "email": "Rob.Tillaart@gmail.com",
       "maintainer": true
@@ -15,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AGS02MA.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"

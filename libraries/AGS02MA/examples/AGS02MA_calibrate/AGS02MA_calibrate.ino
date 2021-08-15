@@ -26,13 +26,12 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  Wire.setClock(30400);
 
   bool b = AGS.begin();
   Serial.print("BEGIN:\t");
   Serial.println(b);
 
-  Serial.println("Place the device outisde in open air for 6 minutes");
+  Serial.println("Place the device outside in open air for 6 minutes");
   Serial.println("Take a drink and relax ;)");
   Serial.println();
 
@@ -42,11 +41,12 @@ void setup()
     delay(15000);
     Serial.println(millis() - start);
   }
-  
+
+  // returns 1 if successful written
   b = AGS.zeroCalibration();
   Serial.print("CALIB:\t");
   Serial.println(b);
-  
+
   Serial.println("Calibration done");
 }
 

@@ -7,11 +7,8 @@
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 
+
 #include "AGS02MA.h"
-
-
-
-uint32_t start, stop;
 
 
 AGS02MA AGS(26);
@@ -23,16 +20,10 @@ void setup()
   Serial.println(__FILE__);
 
   Wire.begin();
-  Wire.setClock(30400);
-#if defined(__AVR__)
-  Serial.print("TWBR:\t");
-  Serial.println(TWBR);
-#endif
 
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
   Serial.println();
-
 
   bool b = AGS.begin();
   Serial.print("BEGIN:\t");

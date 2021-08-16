@@ -31,7 +31,7 @@
 // PATCH FOR DUE & ZERO FOR UNIT TEST - https://github.com/Arduino-CI/arduino_ci/issues/252
 #if defined(ARDUINO_ARCH_SAM) || defined(ARDUINO_ARCH_SAMD)
 // - due         #  ARDUINO_ARCH_SAM    does not support shiftIn apparently
-// - zero        #  ARDUINO_ARCH_SAMD   
+// - zero        #  ARDUINO_ARCH_SAMD
 #endif
 
 
@@ -52,7 +52,7 @@ unittest(test_constructor)
   assertEqual(1, SOS.write(65));
   assertEqual(65, SOS.lastWritten());
   assertEqual(LSBFIRST, SOS.getBitOrder());
-  
+
   SOS.setBitOrder(MSBFIRST);
   assertEqual(MSBFIRST, SOS.getBitOrder());
 }
@@ -66,7 +66,7 @@ unittest(test_constructor_LSB)
   assertEqual(1, SOS.write(65));
   assertEqual(65, SOS.lastWritten());
   assertEqual(LSBFIRST, SOS.getBitOrder());
-  
+
   SOS.setBitOrder(MSBFIRST);
   assertEqual(MSBFIRST, SOS.getBitOrder());
 }
@@ -80,7 +80,7 @@ unittest(test_constructor_MSB)
   assertEqual(1, SOS.write(65));
   assertEqual(65, SOS.lastWritten());
   assertEqual(MSBFIRST, SOS.getBitOrder());
-  
+
   SOS.setBitOrder(LSBFIRST);
   assertEqual(LSBFIRST, SOS.getBitOrder());
 }
@@ -96,6 +96,24 @@ unittest(test_setDelay)
     SOS.setDelay(d);
     assertEqual(d, SOS.getDelay());
   }
+}
+
+
+unittest(test_print_interface)
+{
+  ShiftOutSlow SOS(12, 13);
+
+  fprintf(stderr, "VERSION:\t%s\n", SHIFTOUTSLOW_LIB_VERSION);
+  int x = SOS.print("hello world");
+  assertEqual(11, x);
+
+  int y = SOS.println("hello world");
+  assertEqual(13, y);
+
+  char str[20] = "hello world";
+  // casting needed for CI environment.
+  int z = SOS.write((const uint8_t*) str, 8);
+  assertEqual(8, z);
 }
 
 unittest_main()

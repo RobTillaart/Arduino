@@ -12,40 +12,54 @@ A library for shiftInSlow also exist.
 ## Description
 
 
-ShiftOutSlow is an experimental library that has a build in delay (in microseconds) that allows tuning the time per bit. 
+ShiftOutSlow is an experimental library that has a build in delay (in microseconds) that allows tuning the time per bit.
 This allows one to improve reliability e.g. when using longer lines.
 
-The datapin and clockpin are set in the constructor, the delay is settable per byte send to be able to optimize runtime.
+The data pin and clock pin are set in the constructor, the delay can be set per byte send to be able to optimize runtime.
 
 ShiftOutSlow implements the print interface.
 
 
 ## Performance
 
-The performance of **write()** with a delay of 0 microseconds is slower than the default Arduino 
-**shiftOut()** due to some overhead. 
+The performance of **write()** with a delay of 0 microseconds is slower than the default Arduino
+**shiftOut()** due to some overhead.
 
-The delay requested is split in two (expect rounding errors) to have "nice" looking pulses.
+The delay requested is divided by two to minimize disruption of the duty cycle of the clock pulse,
+resulting in "better" pulses.
 
 
 ## Interface
 
 The interface exists of the following functions:
-- **ShiftOutSlow(datapin, clockpin, bitorder = LSBFIRST)** constructor.
-- **size_t write(uint8_t data)** writes a new value
-- **uint8_t lastWritten()** returns last value written
-- **void setDelay(uint16_t microseconds)** set delay per bit from 0 .. 65535 microseconds.
+
+- **ShiftOutSlow(dataPin, clockPin, bitOrder = LSBFIRST)** constructor.
+- **size_t write(uint8_t data)** writes a new value. Returns the bytes written.
+- **size_t write(const uint8_t \*buffer, size_t size)** writes an array of size over shift out. Uses **write(uint8_t)** so expect about equal performance. Returns the bytes written.
+- **uint8_t lastWritten()** returns last value written.
+- **void setDelay(uint16_t microSeconds)** set delay per bit from 0 .. 65535 microseconds. 
+Note that the delay is not the time per bit but an additional time per bit.
+Note: the delay can be set runtime per write / print call.
 - **uint16_t getDelay()** returns the set delay in microseconds.
 - **bool setBitOrder(bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
-- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
+Note: bitorder can be changed runtime per write / print call.
+- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST (typical 0 and 1).
 
 
-## Notes
+### Print interface
 
-- to be tested
+As this library implements the print interface one can use:
+
+- **size_t print(any)** print any data type.
+- **size_t println(any)** print any data type followed by a newline "\n".
 
 
 ## Operation
 
-See examples
+See examples.
+
+
+## Future
+
+- Add a select pin to be more SPI alike?
 

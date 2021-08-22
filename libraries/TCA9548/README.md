@@ -18,7 +18,7 @@ The library is not tested extensively.
 
 I2C address is 0x70 .. 0x77.
 
-The library caches the channels enabled, and if a channel is enabled, 
+The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
 
 ## Interface
@@ -34,7 +34,7 @@ it will not be enabled again (low level) to optimize performance.
 ### Find device
 
 - **bool isConnected(uint8_t addr)** retuns true if arbitrary address is found on I2C bus.
-This can be used to verify a certain device is avaiable (or not) on an enabled channel.
+This can be used to verify a certain device is available (or not) on an enabled channel.
 
 
 ### Channel functions

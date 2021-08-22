@@ -20,6 +20,7 @@
 // assertFalse(actual)
 // assertNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
@@ -30,12 +31,15 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
 
+
 unittest(test_begin)
 {
+  fprintf(stderr, "AD520X_LIB_VERSION:\t%s", AD520X_LIB_VERSION);
   AD5204 pot = AD5204(10, 12, 13);  // HW SPI
   pot.begin();
   assertEqual(128, pot.getValue(0));
@@ -43,6 +47,7 @@ unittest(test_begin)
   pot.begin(42);
   assertEqual(42, pot.getValue(0));
 }
+
 
 unittest(test_setValue)
 {
@@ -71,7 +76,10 @@ unittest(test_reset)
   assertEqual(128, pot.getValue(0));
   
   pot.reset(35);
-  assertEqual(35, pot.getValue(0));
+  for (int i = 0; i < pot.pmCount(); i++)
+  {
+    assertEqual(35, pot.getValue(i));
+  }
 }
 
 

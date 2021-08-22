@@ -13,6 +13,10 @@ enable	KEYWORD2
 disable	KEYWORD2
 isEnabled	KEYWORD2
 
+enableStream	KEYWORD2
+disableStream	KEYWORD2
+isEnabledStream	KEYWORD2
+
 
 # Constants (LITERAL1)
 MULTIPLEX_LIB_VERSION	LITERAL1

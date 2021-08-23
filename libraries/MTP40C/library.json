@@ -1,0 +1,22 @@
+{
+  "name": "MTP40C",
+  "keywords": "MTP40C, CO2, air pressure, serial",
+  "description": "Arduino library for MTP40C CO2 + air pressure sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MTP40C.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

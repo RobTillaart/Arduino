@@ -1,7 +1,7 @@
-# Syntax Coloring Map For SHT31 temperature and humidity sensor
+# Syntax Colouring Map For SHT31 temperature and humidity sensor
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 SHT31	KEYWORD1
 
 
@@ -28,6 +28,7 @@ readData	KEYWORD2
 getRawHumidity	KEYWORD2
 getRawTemperature	KEYWORD2
 
+
 # Instances (KEYWORD2)
 
 
@@ -40,3 +41,6 @@ SHT31_STATUS_TEMP_TRACK_ALERT	LITERAL1
 SHT31_STATUS_SYSTEM_RESET	LITERAL1
 SHT31_STATUS_COMMAND_STATUS	LITERAL1
 SHT31_STATUS_WRITE_CRC_STATUS	LITERAL1
+SHT31_ERR_HEATER_COOLDOWN	LITERAL1
+SHT31_ERR_HEATER_ON	LITERAL1
+

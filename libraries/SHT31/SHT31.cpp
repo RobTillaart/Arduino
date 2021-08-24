@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -26,6 +26,8 @@
 //  0.3.0   2021-01-04  arduino-ci 
 //  0.3.1   2021-05-27  arduino-lint fixes
 //  0.3.2   2021-08-05  expose raw data from sensor
+//  0.3.3   2021-08-24  fix #22 prevent heater to switch on too fast.
+//                      update readme
 
 
 #include "SHT31.h"
@@ -43,15 +45,18 @@
 
 #define SHT31_HEAT_ON           0x306D
 #define SHT31_HEAT_OFF          0x3066
-
+#define SHT31_HEATER_TIMEOUT    180000UL  // milliseconds
 
 SHT31::SHT31()
 {
-  _addr           = 0;
+  _address        = 0;
   _lastRead       = 0;
   rawTemperature  = 0;
   rawHumidity     = 0;
+  _heatTimeout    = 0;
   _heaterStart    = 0;
+  _heaterStop     = 0;
+  _heaterOn       = false;
   _error          = SHT31_OK;
 }
 
@@ -63,7 +68,7 @@ bool SHT31::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cl
   {
     return false;
   }
-  _addr = address;
+  _address = address;
 
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
@@ -89,8 +94,8 @@ bool SHT31::begin(const uint8_t address,  TwoWire *wire)
   {
     return false;
   }
-  _addr = address;
-  _wire = wire;
+  _address = address;
+  _wire    = wire;
   _wire->begin();
   return reset();
 }
@@ -109,7 +114,7 @@ bool SHT31::read(bool fast)
 
 bool SHT31::isConnected()
 {
-  _wire->beginTransmission(_addr);
+  _wire->beginTransmission(_address);
   int rv = _wire->endTransmission();
   if (rv != 0) _error = SHT31_ERR_NOT_CONNECT;
   return (rv == 0);
@@ -184,46 +189,56 @@ bool SHT31::reset(bool hard)
 
 void SHT31::setHeatTimeout(uint8_t seconds)
 {
-  _heatTimeOut = seconds;
-  if (_heatTimeOut > 180) _heatTimeOut = 180;
+  _heatTimeout = seconds;
+  if (_heatTimeout > 180) _heatTimeout = 180;
 }
 
 
 bool SHT31::heatOn()
 {
+  if (isHeaterOn()) return true;
+  if ((_heaterStop > 0) && (millis() - _heaterStop < SHT31_HEATER_TIMEOUT))
+  {
+    _error = SHT31_ERR_HEATER_COOLDOWN;
+    return false;
+  }
   if (writeCmd(SHT31_HEAT_ON) == false)
   {
+    _error = SHT31_ERR_HEATER_ON;
     return false;
   }
   _heaterStart = millis();
+  _heaterOn    = true;
   return true;
 }
 
 
 bool SHT31::heatOff()
 {
+  // always switch off the heater - ignore _heaterOn flag.
   if (writeCmd(SHT31_HEAT_OFF) == false)
   {
     _error = SHT31_ERR_HEATER_OFF;  // can be serious!
     return false;
   }
-  _heaterStart = 0;
+  _heaterStop = millis();
+  _heaterOn   = false;
   return true;
 }
 
 
 bool SHT31::isHeaterOn()
 {
-  if (_heaterStart == 0)
+  if (_heaterOn == false)
   {
     return false;
   }
   // did not exceed time out
-  if (millis() - _heaterStart < (_heatTimeOut * 1000UL))
+  if (millis() - _heaterStart < (_heatTimeout * 1000UL))
   {
     return true;
   }
-  heatOff();     // should this be done here?
+  heatOff();
   return false;
 }
 
@@ -268,7 +283,7 @@ bool SHT31::readData(bool fast)
   }
 
   rawTemperature = (buffer[0] << 8) + buffer[1];
-  rawHumidity = (buffer[3] << 8) + buffer[4];
+  rawHumidity    = (buffer[3] << 8) + buffer[4];
 
   _lastRead = millis();
 
@@ -307,7 +322,7 @@ uint8_t SHT31::crc8(const uint8_t *data, uint8_t len)
 
 bool SHT31::writeCmd(uint16_t cmd)
 {
-  _wire->beginTransmission(_addr);
+  _wire->beginTransmission(_address);
   _wire->write(cmd >> 8 );
   _wire->write(cmd & 0xFF);
   if (_wire->endTransmission() != 0)
@@ -321,7 +336,7 @@ bool SHT31::writeCmd(uint16_t cmd)
 
 bool SHT31::readBytes(uint8_t n, uint8_t *val)
 {
-  int rv = _wire->requestFrom(_addr, (uint8_t) n);
+  int rv = _wire->requestFrom(_address, (uint8_t) n);
   if (rv == n)
   {
     for (uint8_t i = 0; i < n; i++)

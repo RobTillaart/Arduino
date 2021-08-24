@@ -2,7 +2,7 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -25,7 +25,8 @@
 #include "Wire.h"
 
 
-#define SHT85_LIB_VERSION           (F("0.1.4"))
+#define SHT_LIB_VERSION             (F("0.2.0"))
+#define SHT85_LIB_VERSION           SHT_LIB_VERSION
 
 
 // fields readStatus
@@ -50,15 +51,17 @@
 #define SHT_ERR_HEATER_ON           0x89
 
 
-class SHT85
+class SHT
 {
 public:
-  SHT85();
+  SHT();
 
 #if defined(ESP8266) || defined(ESP32)
   bool begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
 #endif
   bool begin(const uint8_t address,  TwoWire *wire = &Wire);
+
+  uint8_t getType() { return _type; };
 
   // blocks 15 milliseconds + actual read + math
   bool read(bool fast = true);
@@ -79,14 +82,14 @@ public:
   // and let it cool down at least 3 minutes.
   void setHeatTimeout(uint8_t seconds);
   uint8_t getHeatTimeout() { return _heatTimeout; };
-;
+
   bool heatOn();
   bool heatOff();
-  bool isHeaterOn();  // is the sensor still heating up?
+  bool isHeaterOn();      // is the sensor still heating up?
 
   float getHumidity() { return _rawHumidity * (100.0 / 65535); };
   float getTemperature() { return _rawTemperature * (175.0 / 65535) - 45; };
-  // float getFahrenheit() { return _rawTemperature * (63.0 /13107.0) - 49; };
+  float getFahrenheit() { return _rawTemperature * (63.0 /13107.0) - 49; };
   uint16_t getRawHumidity() {return _rawHumidity; };
   uint16_t getRawTemperature() {return _rawTemperature; };
 
@@ -98,7 +101,7 @@ public:
   int getError(); // clears error flag
 
 
-private:
+protected:
   uint8_t  crc8(const uint8_t *data, uint8_t len);
   bool     writeCmd(uint16_t cmd);
   bool     readBytes(uint8_t n, uint8_t *val);
@@ -111,11 +114,47 @@ private:
   uint32_t _heaterStart;
   uint32_t _heaterStop;
   bool     _heaterOn;
+  uint8_t  _type;
 
   uint16_t _rawHumidity;
   uint16_t _rawTemperature;
 
   uint8_t _error;
 };
+
+
+
+////////////////////////////////////////////////////////
+//
+// DERIVED
+//
+class SHT30 : public SHT
+{
+public:
+  SHT30();
+};
+
+
+class SHT31 : public SHT
+{
+public:
+  SHT31();
+};
+
+
+class SHT35 : public SHT
+{
+public:
+  SHT35();
+};
+
+
+class SHT85 : public SHT
+{
+public:
+  SHT85();
+};
+
+
 
 // -- END OF FILE --

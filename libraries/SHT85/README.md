@@ -70,7 +70,12 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 
 #### Base interface
 
+- **SHT()** constructor of the base class. **getType()** will return 0.
+- **SHT30()** constructor.
+- **SHT31()** constructor.
+- **SHT35()** constructor.
 - **SHT85()** constructor.
+- **uint8_t getType()** returns numeric part of sensor type.
 - **begin(address, dataPin, clockPin)** begin function for ESP8266 & ESP32; **WARNING: not verified yet**
 returns false if device address is incorrect or device cannot be reset.
 - **bool begin(address, TwoWire \*wire = &Wire)** for platforms with multiple I2C busses.
@@ -80,8 +85,9 @@ Does read both the temperature and humidity.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
-- **float getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it.
-- **float getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it.
+- **float getHumidity()** computes the relative humidity in % based on the latest raw reading, and returns it.
+- **float getTemperature()** computes the temperature in °C based on the latest raw reading, and returns it.
+- **float getFahrenheit()** computes the temperature in °F based on the latest raw reading, and returns it.
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
@@ -90,7 +96,7 @@ Note that the temperature and humidity values are recalculated on every call to 
 
 #### Error interface
 
-- **getError()** returns last set error flag and clear it. 
+- **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
 | Error | Symbolic                  | Description
@@ -104,7 +110,7 @@ Be sure to clear the error flag by calling **getError()** before calling any com
 | 0x86  | SHT_ERR_CRC_HUM           | CRC error in humidity       |
 | 0x87  | SHT_ERR_CRC_STATUS        | CRC error in statusfield    |
 | 0x88  | SHT_ERR_HEATER_COOLDOWN   | Heater need to cool down    |
-| 0x88  | SHT_ERR_HEATER_ON         | Could not switch on heater  |
+| 0x89  | SHT_ERR_HEATER_ON         | Could not switch on heater  |
 
 
 #### Heater interface
@@ -136,7 +142,7 @@ Will switch the heater off if max heating time has passed.
 
 See async example for usage
 
-- **bool requestData()** requests a new measurement. Returns false if this fails.
+- **bool requestData()** requests a new measurement. Returns false if the request fails.
 - **bool dataReady()** checks if enough time has passed to read the data. (15 milliseconds)
 - **bool readData(bool fast = true)** fast = true skips the CRC check. 
 Returns false if reading fails or in case of a CRC failure. 
@@ -169,11 +175,8 @@ Returns false if reading fails or in case of a CRC failure.
 ## Future
 
 - verify working with ESP32
-- merge with other SHT sensors if possible
-- SHT_BASE class ?
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
-- direct Fahrenheit formula ?
 - improve error handling / status. (all code paths)
 
 

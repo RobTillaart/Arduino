@@ -7,6 +7,8 @@ SHT85	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+getType	KEYWORD2
+
 read	KEYWORD2
 isConnected	KEYWORD2
 readStatus	KEYWORD2

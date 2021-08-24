@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT85
 
@@ -29,8 +29,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("SHT85_LIB_VERSION: \t");
-  Serial.println(SHT85_LIB_VERSION);
+  Serial.print("SHT_LIB_VERSION: \t");
+  Serial.println(SHT_LIB_VERSION);
 
   Wire.begin();
   sht.begin(SHT85_ADDRESS);

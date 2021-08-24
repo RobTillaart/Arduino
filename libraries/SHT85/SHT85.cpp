@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -15,6 +15,8 @@
 //  0.1.3   2021-08-06  expose raw data from sensor
 //  0.1.4   2021-08-24  prevent heater to switch on too fast.
 //                      update readme
+//  0.2.0   2021-08-24  split off base class
+//                      create derived classes SHT85, 30, 31, 35
 
 
 #include "SHT85.h"
@@ -34,7 +36,8 @@
 #define SHT_HEAT_OFF          0x3066
 #define SHT_HEATER_TIMEOUT    180000UL  // milliseconds
 
-SHT85::SHT85()
+
+SHT::SHT()
 {
   _address        = 0;
   _lastRead       = 0;
@@ -45,11 +48,12 @@ SHT85::SHT85()
   _heaterStop     = 0;
   _heaterOn       = false;
   _error          = SHT_OK;
+  _type           = 0;
 }
 
 
 #if defined(ESP8266) || defined(ESP32)
-bool SHT85::begin(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
+bool SHT::begin(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
 {
   if ((address != 0x44) && (address != 0x45))
   {
@@ -69,7 +73,7 @@ bool SHT85::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cl
 #endif
 
 
-bool SHT85::begin(const uint8_t address,  TwoWire *wire)
+bool SHT::begin(const uint8_t address,  TwoWire *wire)
 {
   if ((address != 0x44) && (address != 0x45))
   {
@@ -82,7 +86,7 @@ bool SHT85::begin(const uint8_t address,  TwoWire *wire)
 }
 
 
-bool SHT85::read(bool fast)
+bool SHT::read(bool fast)
 {
   if (writeCmd(fast ? SHT_MEASUREMENT_FAST : SHT_MEASUREMENT_SLOW) == false)
   {
@@ -93,7 +97,7 @@ bool SHT85::read(bool fast)
 }
 
 
-bool SHT85::isConnected()
+bool SHT::isConnected()
 {
   _wire->beginTransmission(_address);
   int rv = _wire->endTransmission();
@@ -132,7 +136,7 @@ bool SHT85::isConnected()
 #endif
 
 
-uint16_t SHT85::readStatus()
+uint16_t SHT::readStatus()
 {
   uint8_t status[3] = { 0, 0, 0 };
   // page 13 datasheet
@@ -156,7 +160,7 @@ uint16_t SHT85::readStatus()
 }
 
 
-bool SHT85::reset(bool hard)
+bool SHT::reset(bool hard)
 {
   bool b = writeCmd(hard ? SHT_HARD_RESET : SHT_SOFT_RESET);
   if (b == false)
@@ -168,14 +172,14 @@ bool SHT85::reset(bool hard)
 }
 
 
-void SHT85::setHeatTimeout(uint8_t seconds)
+void SHT::setHeatTimeout(uint8_t seconds)
 {
   _heatTimeout = seconds;
   if (_heatTimeout > 180) _heatTimeout = 180;
 }
 
 
-bool SHT85::heatOn()
+bool SHT::heatOn()
 {
   if (isHeaterOn()) return true;
   if ((_heaterStop > 0) && (millis() - _heaterStop < SHT_HEATER_TIMEOUT))
@@ -194,7 +198,7 @@ bool SHT85::heatOn()
 }
 
 
-bool SHT85::heatOff()
+bool SHT::heatOff()
 {
   // always switch off the heater - ignore _heaterOn flag.
   if (writeCmd(SHT_HEAT_OFF) == false)
@@ -208,7 +212,7 @@ bool SHT85::heatOff()
 }
 
 
-bool SHT85::isHeaterOn()
+bool SHT::isHeaterOn()
 {
   if (_heaterOn == false)
   {
@@ -224,7 +228,7 @@ bool SHT85::isHeaterOn()
 }
 
 
-bool SHT85::requestData()
+bool SHT::requestData()
 {
   if (writeCmd(SHT_MEASUREMENT_SLOW) == false)
   {
@@ -235,13 +239,13 @@ bool SHT85::requestData()
 }
 
 
-bool SHT85::dataReady()
+bool SHT::dataReady()
 {
   return ((millis() - _lastRequest) > 15);  // TODO MAGIC NR
 }
 
 
-bool SHT85::readData(bool fast)
+bool SHT::readData(bool fast)
 {
   uint8_t buffer[6];
   if (readBytes(6, (uint8_t*) &buffer[0]) == false)
@@ -272,7 +276,7 @@ bool SHT85::readData(bool fast)
 }
 
 
-int SHT85::getError()
+int SHT::getError()
 {
   int rv = _error;
   _error = SHT_OK;
@@ -282,7 +286,7 @@ int SHT85::getError()
 
 //////////////////////////////////////////////////////////
 
-uint8_t SHT85::crc8(const uint8_t *data, uint8_t len) 
+uint8_t SHT::crc8(const uint8_t *data, uint8_t len) 
 {
   // CRC-8 formula from page 14 of SHT spec pdf
   const uint8_t POLY(0x31);
@@ -301,7 +305,7 @@ uint8_t SHT85::crc8(const uint8_t *data, uint8_t len)
 }
 
 
-bool SHT85::writeCmd(uint16_t cmd)
+bool SHT::writeCmd(uint16_t cmd)
 {
   _wire->beginTransmission(_address);
   _wire->write(cmd >> 8 );
@@ -315,7 +319,7 @@ bool SHT85::writeCmd(uint16_t cmd)
 }
 
 
-bool SHT85::readBytes(uint8_t n, uint8_t *val)
+bool SHT::readBytes(uint8_t n, uint8_t *val)
 {
   int rv = _wire->requestFrom(_address, (uint8_t) n);
   if (rv == n)
@@ -329,5 +333,35 @@ bool SHT85::readBytes(uint8_t n, uint8_t *val)
   _error = SHT_ERR_READBYTES;
   return false;
 }
+
+
+
+////////////////////////////////////////////////////////
+//
+// DERIVED
+//
+SHT30::SHT30()
+{
+  _type = 30;
+};
+
+
+SHT31::SHT31()
+{
+  _type = 31;
+};
+
+
+SHT35::SHT35()
+{
+  _type = 35;
+};
+
+
+SHT85::SHT85()
+{
+  _type = 85;
+};
+
 
 // -- END OF FILE --

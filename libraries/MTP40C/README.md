@@ -149,4 +149,4 @@ See examples.
 
 ## Sponsor 
 
-The development of this MTP40C library is sponsored by [TinyTronics, Netherlands](https://www.tinytronics.nl/shop/en).
+The development of this MTP40C library is sponsored by [TinyTronics, Netherlands](https://www.tinytronics.nl/shop/nl).

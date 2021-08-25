@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
@@ -16,6 +16,9 @@
 //                      inverted SELECT line as preparation for multidevice.
 //  0.3.0   2021-06-06  fix factory bit mask + new examples + some refactor
 //                      added multi device document
+//  0.3.1   2021-08-25  VSPI / HSPI support for ESP32
+//                      faster software SPI
+//                      minor optimizations / refactor
 
 
 #include "AD985X.h"
@@ -42,47 +45,82 @@ AD9850::AD9850()
 
 void AD9850::begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut , uint8_t clock)
 {
-  _select = select;
-  _reset  = resetPin;
-  _fqud   = FQUDPin;
+  _select  = select;
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _dataOut = dataOut;
+  _clock   = clock;
+  // following 3 are always set.
   pinMode(_select, OUTPUT);
   pinMode(_reset,  OUTPUT);
   pinMode(_fqud,   OUTPUT);
-  digitalWrite(_select, LOW);  // device select = HIGH  See - https://github.com/RobTillaart/AD985X/issues/13
+  // device select = HIGH  See - https://github.com/RobTillaart/AD985X/issues/13
+  digitalWrite(_select, LOW);  
   digitalWrite(_reset,  LOW);
   digitalWrite(_fqud,   LOW);
-  _useHW     = true;
 
-  // SW SPI
-  if ((dataOut != 0) && (clock != 0))
+  _hwSPI = ((dataOut == 0) || (clock == 0));
+
+  _spi_settings = SPISettings(2000000, LSBFIRST, SPI_MODE0);
+
+  if (_hwSPI)
   {
-    _dataOut   = dataOut;
-    _clock     = clock;
-    pinMode(_dataOut,  OUTPUT);
-    pinMode(_clock,    OUTPUT);
-    digitalWrite(_dataOut,  LOW);
-    digitalWrite(_clock,    LOW);
-    _useHW     = false;
+    #if defined(ESP32)
+    if (_useHSPI)      // HSPI
+    {
+      mySPI = new SPIClass(HSPI);
+      mySPI->end();
+      mySPI->begin(14, 12, 13, select);   // CLK=14 MISO=12 MOSI=13
+    }
+    else               // VSPI
+    {
+      mySPI = new SPIClass(VSPI);
+      mySPI->end();
+      mySPI->begin(18, 19, 23, select);   // CLK=18 MISO=19 MOSI=23
+    }
+    #else              // generic hardware SPI
+    mySPI = &SPI;
+    mySPI->end();
+    mySPI->begin();
+    #endif
   }
-
-  if (_useHW)
+  else                 // software SPI
   {
-    SPI.begin();  // set MOSI & MISO pin right.
+    pinMode(_dataOut, OUTPUT);
+    pinMode(_clock,   OUTPUT);
+    digitalWrite(_dataOut, LOW);
+    digitalWrite(_clock,   LOW);
   }
 
   reset();
 }
 
 
+#if defined(ESP32)
+void AD9850::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _select  = select;
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, LOW);
+
+  mySPI->end();  // disable SPI 
+  mySPI->begin(clk, miso, mosi, select);
+}
+#endif
+
+
 void AD9850::reset()
 {
-  digitalWrite(_select, HIGH);      // be sure to select the correct device 
+  // be sure to select the correct device 
+  digitalWrite(_select, HIGH);
   pulsePin(_reset);
-  if (_useHW) pulsePin(SPI_CLOCK);
+  if (_hwSPI) pulsePin(SPI_CLOCK);
   else pulsePin(_clock);
   digitalWrite(_select, LOW);
 
-  _config = 0;    // 0 phase   no powerdown
+  _config = 0;    // 0 phase   no power down
   _freq   = 0;
   _factor = 0;
   _offset = 0;
@@ -121,6 +159,13 @@ void AD9850::pulsePin(uint8_t pin)
 }
 
 
+void AD9850::setSPIspeed(uint32_t speed)
+{
+  _SPIspeed = speed;
+  _spi_settings = SPISettings(_SPIspeed, LSBFIRST, SPI_MODE0);
+};
+
+
 void AD9850::writeData()
 {
   // Serial.println(_factor, HEX);
@@ -129,17 +174,17 @@ void AD9850::writeData()
 
   // used for multidevice config only - https://github.com/RobTillaart/AD985X/issues/13
   digitalWrite(_select, HIGH);  
-  if (_useHW)
+  if (_hwSPI)
   {
-    SPI.beginTransaction(SPISettings(2000000, LSBFIRST, SPI_MODE0));
-    SPI.transfer(data & 0xFF);
+    mySPI->beginTransaction(_spi_settings);
+    mySPI->transfer(data & 0xFF);
     data >>= 8;
-    SPI.transfer(data & 0xFF);
+    mySPI->transfer(data & 0xFF);
     data >>= 8;
-    SPI.transfer(data & 0xFF);
-    SPI.transfer(data >> 8);
-    SPI.transfer(_config & 0xFC);  // mask factory test bit
-    SPI.endTransaction();
+    mySPI->transfer(data & 0xFF);
+    mySPI->transfer(data >> 8);
+    mySPI->transfer(_config & 0xFC);  // mask factory test bit
+    mySPI->endTransaction();
   }
   else
   {
@@ -160,14 +205,16 @@ void AD9850::writeData()
 
 
 // simple one mode version
-void AD9850::swSPI_transfer(uint8_t value)
+void AD9850::swSPI_transfer(uint8_t val)
 {
+  uint8_t clk = _clock;
+  uint8_t dao = _dataOut;
   // for (uint8_t mask = 0x80; mask; mask >>= 1)   // MSBFIRST
   for (uint8_t mask = 0x01; mask; mask <<= 1)   // LSBFIRST
   {
-    digitalWrite(_dataOut,(value & mask) != 0);
-    digitalWrite(_clock, HIGH);
-    digitalWrite(_clock, LOW);
+    digitalWrite(dao, (val & mask));
+    digitalWrite(clk, HIGH);
+    digitalWrite(clk, LOW);
   }
 }
 

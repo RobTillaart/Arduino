@@ -7,7 +7,7 @@
 
 #include "AD985X.h"
 
-AD9851 freqGen; 
+AD9851 freqGen;
 
 uint32_t freq = 0;
 uint32_t prev = 0;
@@ -35,33 +35,33 @@ void loop()
   if (Serial.available() > 0)
   {
     int c = Serial.read();
-    switch(c)
+    switch (c)
     {
-    case '?' :
-      help();
-      break;
-    case 'R' :
-      freqGen.reset();
-      freq = freqGen.getFrequency();
-      break;
-    case 'P' :
-      freqGen.powerDown();
-      break;
-    case 'U' :
-      freqGen.powerUp();
-      break;
-    case '+' :
-      freq += 1;
-      break;
-    case '-' :
-      freq -= 1;
-      break;
-    case '*' :
-      freq *= 10;
-      break;
-    case '/' :
-      freq /= 10;
-      break;
+      case '?' :
+        help();
+        break;
+      case 'R' :
+        freqGen.reset();
+        freq = freqGen.getFrequency();
+        break;
+      case 'P' :
+        freqGen.powerDown();
+        break;
+      case 'U' :
+        freqGen.powerUp();
+        break;
+      case '+' :
+        freq += 1;
+        break;
+      case '-' :
+        freq -= 1;
+        break;
+      case '*' :
+        freq *= 10;
+        break;
+      case '/' :
+        freq /= 10;
+        break;
     }
     if (freq > maxFreq) freq = maxFreq;
   }

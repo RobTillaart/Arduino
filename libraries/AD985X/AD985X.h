@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION    (F("0.3.0"))
+#define AD985X_LIB_VERSION    (F("0.3.1"))
 
 
 #define AD9850_MAX_FREQ       (40UL * 1000UL * 1000UL)
@@ -53,13 +53,40 @@ public:
   bool     getAutoUpdate()   { return _autoUpdate; };
   void     update();
 
+  //       speed in Hz
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed() { return _SPIspeed; };
+
+  // debugging
+  bool     usesHWSPI() { return _hwSPI; };
+  
+  // ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
+
+  // to overrule ESP32 default hardware pins
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+  #endif
+
 
 protected:
   void     pulsePin(uint8_t pin);
   void     writeData();
-  void     swSPI_transfer(uint8_t value);
+  void     swSPI_transfer(uint8_t val);
 
-  bool     _useHW   = true;
+  bool     _hwSPI    = true;
+  uint32_t _SPIspeed = 2000000;
+
+  SPIClass    * mySPI;
+  SPISettings _spi_settings;
+
+#if defined(ESP32)
+  bool        _useHSPI = true;
+#endif
+
   // PINS
   uint8_t  _dataOut = 0;
   uint8_t  _clock   = 0;

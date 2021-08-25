@@ -1,7 +1,10 @@
 
 [![Arduino CI](https://github.com/RobTillaart/AD985X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![JSON check](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.ym)l
+[![Arduino-lint](https://github.com/RobTillaart/AD985X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD985X/actions/workflows/arduino-lint.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD985X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD985X.svg?maxAge=3600)](https://github.com/RobTillaart/AD985X/releases)
+
 
 # AD985X
 
@@ -11,7 +14,7 @@ Arduino library for AD9850 and AD9851 function generators.
 ## Description
 
 Library for the AD9850 and AD9851 function generators.
-The library has a AD9850 base class that implements the commonalities.
+The library has a AD9850 as base class that implements the commonalities.
 The AD9851 is derived and has its own **setFrequency()** methods.
 Furthermore the AD9851 also has function to select the reference clock,
 a feature the AD9850 does not have.
@@ -152,28 +155,28 @@ devices at the same time.
 
 ### Common interface
 
-- **begin(selectPin, resetPin, FQUDPin, dataOut = 0, clock = 0)**  
+- **void begin(selectPin, resetPin, FQUDPin, dataOut = 0, clock = 0)**  
 For hardware SPI only use the first three parameters, 
 for SW SPI you need to define the data and clock pin too.
   - selectPin = chip select. The library uses HIGH as active and LOW as not selected.  
   - resetPin = reset
   - FQUD = Frequency UpDate Pin
-- **reset()** resets the function generator.
-- **powerDown()** idem
-- **powerUp()** idem
-- **setFrequency(uint32_t freq)** SetFrequency sets the frequency and is limited by the 
+- **void reset()** resets the function generator.
+- **void powerDown()** idem
+- **void powerUp()** idem
+- **void setFrequency(uint32_t freq)** SetFrequency sets the frequency and is limited by the 
 MaxFrequency of the class used. For the AD9850 => 40 MHz, for the AD9851 => 70 MHz. 
   - Note that the quality of the signal gets less at higher frequencies. 
   - Note setFrequency is affected by the autoUpdateFlag.
-- **setFrequencyF(float freq)** SetFrequencyF sets the frequency with a float with a maximum of **two** decimals. 
-  - Note that a float only has a mantisse of 6-7 digits so above ~1.000.000 decimals are lost.
+- **void setFrequencyF(float freq)** SetFrequencyF sets the frequency with a float with a maximum of **two** decimals. 
+  - Note that a float only has a mantissa of 6-7 digits so for frequencies above above ~1.000.000 = 1MHz all decimals are lost.
   - Note setFrequencyF is affected by the autoUpdateFlag.
-- **getMaxFrequency()** returns the maximum frequency setable. For the AD9850 this is 20 MHz.
+- **uint32_t getMaxFrequency()** returns the maximum frequency that can be set. For the AD9850 this is 20 MHz.
 For the AD9851 this is 70 MHz.
-- **getFrequency()** returns the frequency set. As it returns a float it might loose some accuracy at higher frequencies.
-- **setPhase(uint8_t phase = 0)** set the phase in units of 11.25°  0..31 allowed. 
+- **float getFrequency()** returns the frequency set. As it returns a float it might loose some accuracy at higher frequencies.
+- **void setPhase(uint8_t phase = 0)** set the phase in units of 11.25°  0..31 allowed. 
 Default it sets the phase to 0.
-- **getPhase()** returns the phase set, 0 by default.
+- **uint8_t getPhase()** returns the phase set, 0 by default. One need to multiply by 11.25° to get the actual angle.
 
 
 ### Calibration
@@ -194,7 +197,7 @@ Note: setting the offset reduces the range of frequencies (at the ends of scale)
 
 **Warning:** use with care.
 
-- **void setAutoUpdate(bool update)** sets the autoUpdate flag, default it is true.
+- **void setAutoUpdate(bool update)** sets the autoUpdate flag, default set to true.
 - **bool getAutoUpdate()** reads the autoUpdate flag.
 - **void update()** manually toggle the FQ_UD flag to update the frequency.
 
@@ -205,20 +208,59 @@ The default of the flag is true, and will be reset to true by the **reset()** ca
 
 
 
+### Hardware SPI
+
+To be used only if one needs a specific speed.
+
+- **void setSPIspeed(uint32_t speed)** set SPI transfer rate
+- **uint32_t getSPIspeed()** returns SPI transfer rate
+- **bool usesHWSPI()** returns true if HW SPI is used.
+
+
+### ESP32 specific
+
+This functionality is new in 0.3.1.
+
+- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
+- **void selectVSPI()** see above.
+- **bool usesHSPI()** returns true if HSPI is used.
+- **bool usesVSPI()** returns true if VSPI is used.
+
+The **selectVSPI()** or the **selectHSPI()** needs to be called 
+BEFORE the **begin()** function.
+
+
+#### ESP32 experimental
+
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
+AFTER the **begin()** function.
+
+```cpp
+void setup()
+{
+  freqGen.selectVSPI();
+  freqGen.begin(15);
+  freqGen.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
+  ...
+}
+```
+
+
 ### AD9850 specific
 
 The AD9850 has no specific functions.
 
+
 ### AD9851 specific
 
-- **setRefClockHigh()** set reference clock to 180 Mhz.
-- **setRefClockLow()**  set reference clock to 30 Mhz.
-- **getRefClock()** returns 30 or 180.
-- **setAutoRefClock(bool arc)** sets a flag so the library switches automatically
+- **void setRefClockHigh()** set reference clock to 180 Mhz.
+- **void setRefClockLow()**  set reference clock to 30 Mhz.
+- **uint8_t getRefClock()** returns 30 or 180.
+- **void setAutoRefClock(bool arc)** sets a flag so the library switches automatically
 to the reference clock of 180 MHz when the frequency is set above 10 MHz and 
 to 30 MHz when the frequency is set to 10 MHz or lower.
 The initial value is **false** == OFF for backwards compatibility. 
-- **getAutoRefClock()** returns true is automode is set. 
+- **bool getAutoRefClock()** returns true is automode is set. 
 - **void setARCCutOffFreq(uint32_t Hz = 10000000UL )** set cut off frequency 
 for the auto reference clock. max value is 30 MHz, typical 10MHz
 - **uint32_t getARCCutOffFreq()** returns cut off frequency set.
@@ -236,9 +278,16 @@ See examples
 ### Operational notes
 
 - The quality of the signal becomes less at higher frequencies.
-Switch the refclock to find your optimal quality.
+Switch the reference clock to find your optimal quality.
 - If the calibration offset is not 0, it needs to be set by the user after every startup, 
 and after switching the reference clock. 
 The user is also responsible to store it e.g. in EEPROM to make it persistent.
 - Experimental parts may change or removed in the future.
+
+
+## Future
+
+- test library with an ESP32 (check details)
+- examples for ESP32 HWSPI interface
+- performance measurements
 

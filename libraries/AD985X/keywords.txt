@@ -1,6 +1,6 @@
-# Syntax Coloring Map For AD985X
+# Syntax Colouring Map For AD985X
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AD9850	KEYWORD1
 AD9851	KEYWORD1
 
@@ -25,13 +25,22 @@ getAutoRefClock	KEYWORD2
 setARCCutOffFreq	KEYWORD2
 getARCCutOffFreq	KEYWORD2
 
-
 setCalibration	KEYWORD2
 getCalibration	KEYWORD2
 getFactor	KEYWORD2
 setAutoUpdate	KEYWORD2
 getAutoUpdate	KEYWORD2
 update	KEYWORD2
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
+
+selectHSPI	KEYWORD2
+selectVSPI	KEYWORD2
+usesHSPI	KEYWORD2
+usesVSPI	KEYWORD2
+setGPIOpins	KEYWORD2
 
 
 # Constants (LITERAL1)

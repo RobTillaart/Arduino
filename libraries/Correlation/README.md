@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Correlation/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Correlation/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Correlation/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Correlation/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Correlation/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Correlation/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Correlation.svg?maxAge=3600)](https://github.com/RobTillaart/Correlation/releases)
 
@@ -13,7 +15,7 @@ Arduino Library to determine linear correlation between X and Y datasets.
 
 This library calculates the coefficients of the linear correlation 
 between two (relative small) datasets. The size of these datasets is 
-20 by default, but this can be set in the constructor. 
+20 by default. The size can be set in the constructor. 
 
 The formula of the correlation is expressed as **Y = A + B \* X**,
 
@@ -35,7 +37,7 @@ Use with care.
 
 ### Base functions
 
-- **bool add(x, y)** adds a pair of **floats** to the internal storage. 
+- **bool add(float x, float y)** adds a pair of **floats** to the internal storage. 
 Returns true if the value is added, returns false when internal array is full.
 When running correlation is set, it will replace the oldest element and return true.
 - **uint8_t count()** returns the amount of items in the internal arrays.
@@ -56,19 +58,20 @@ Most often the R squared **sqr(R)** is used.
 quality of the relation.
 - **float getAvgX()** returns the average of all elements in the X dataset.
 - **float getAvgY()** returns the average of all elements in the Y dataset.
-- **float getEstimateX(y)** use to calculate the estimated X for a certain Y.
-- **float getEstimateY(x)** use to calculate the estimated Y for a certain X.
+- **float getEstimateX(float y)** use to calculate the estimated X for a given Y.
+- **float getEstimateY(float x)** use to calculate the estimated Y for a given X.
 
 
 ### Running correlation
 
-- **setRunningCorrelation(true | false)** sets the internal variable 
+- **void setRunningCorrelation(bool rc)** sets the internal variable 
 runningMode which allows **add()** to overwrite old elements in the
 internal arrays. 
+- **bool getRunningCorrelation()** returns the runningMOde flag.
 
 The running correlation will be calculated over the last **count** elements. 
 This allows for more adaptive formula finding e.g. find the relation between
-temperature and humidity for per hour.
+temperature and humidity per hour.
 
 
 ### Statistical

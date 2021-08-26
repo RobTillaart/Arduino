@@ -2,7 +2,7 @@
 //    FILE: correlation_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PUPROSE: demo of the Correlation Library
 
 // performance test: only ADD and CALCULATE as these are the most used
@@ -11,7 +11,7 @@
 
 #include "Correlation.h"
 
-Correlation C;
+Correlation C(100);
 
 uint32_t start, stop, sum = 0;
 
@@ -21,6 +21,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("CORRELATION_LIB_VERSION: ");
+  Serial.println(CORRELATION_LIB_VERSION);
 
   Serial.println("ADD");
   delay(10);
@@ -66,6 +68,13 @@ void setup()
   stop = micros();
   Serial.println(stop - start);
 
+
+  Serial.println("\ngetMaxX");
+  delay(10);
+  start = micros();
+  f = C.getMaxX();
+  stop = micros();
+  Serial.println(stop - start);
 
   Serial.println("\nDone...");
 }

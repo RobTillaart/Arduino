@@ -1,10 +1,12 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
 //  HISTORY:
+//  0.1.4  2021-08-26  improve performance calculate
+//
 //  0.1.3  2021-01-16  add size in constructor, 
 //                     add statistical + debug functions
 //  0.1.2  2020-12-17  add arduino-CI + unit tests
@@ -73,40 +75,52 @@ bool Correlation::calculate()
   if (!_needRecalculate) return true;
 
   // CALC AVERAGE X, AVERAGE Y
-  _avgX = 0;
-  _avgY = 0;
+  float avgx = 0;
+  float avgy = 0;
   for (uint8_t i = 0; i < _count; i++)
   {
-    _avgX += _x[i];
-    _avgY += _y[i];
+    avgx += _x[i];
+    avgy += _y[i];
   }
-  _avgX /= _count;
-  _avgY /= _count;
+  avgx /= _count;
+  avgy /= _count;
+  
+  _avgX = avgx;
+  _avgY = avgy;
 
   // CALC A and B  ==>  formula  Y = A + B*X
-  _sumXiYi = 0;
-  _sumXi2  = 0;
-  _sumYi2  = 0;
+  float sumXiYi = 0;
+  float sumXi2  = 0;
+  float sumYi2  = 0;
   for (uint8_t i = 0; i < _count; i++)
   {
-    float xi = _x[i] - _avgX;
-    float yi = _y[i] - _avgY;
-    _sumXiYi += (xi * yi);
-    _sumXi2  += (xi * xi);
-    _sumYi2  += (yi * yi);
+    float xi = _x[i] - avgx;
+    float yi = _y[i] - avgy;
+    sumXiYi += (xi * yi);
+    sumXi2  += (xi * xi);
+    sumYi2  += (yi * yi);
   }
-  _b = _sumXiYi / _sumXi2;
-  _a = _avgY - _b * _avgX;
-  _rSquare = _sumXiYi * _sumXiYi / (_sumXi2 * _sumYi2);
+  float b = sumXiYi / sumXi2;
+  float a = avgy - b * avgx;
+  // bool CORLIB_CALC_R_SQUARE
+  _rSquare = sumXiYi * sumXiYi / (sumXi2 * sumYi2);  
+ 
+  _a       = a;
+  _b       = b;
+  _sumXiYi = sumXiYi; 
+  _sumXi2  = sumXi2; 
+  _sumYi2  = sumYi2; 
 
+  // bool CORLIB_CALC_E_SQUARE
   // CALC _sumErrorSquare
-  _sumErrorSquare = 0;
+  float sumErrorSquare = 0;
   for (uint8_t i = 0; i < _count; i++)
   {
-    float EY =  _a + _b * _x[i];
+    float EY =  a + b * _x[i];
     float ei = _y[i] - EY;
-    _sumErrorSquare += (ei * ei);
+    sumErrorSquare += (ei * ei);
   }
+  _sumErrorSquare = sumErrorSquare;
   _needRecalculate = false;
   return true;
 }

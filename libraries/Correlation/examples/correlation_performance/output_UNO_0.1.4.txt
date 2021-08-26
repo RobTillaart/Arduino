@@ -1,0 +1,22 @@
+
+CORRELATION_LIB_VERSION: 0.1.4
+ADD
+10.60
+
+CALCULATE - needed 
+2720
+
+CALCULATE - no new values added
+12
+
+getEstimateX
+44
+
+getEstimateY
+20
+
+getMaxX
+92
+
+Done...
+

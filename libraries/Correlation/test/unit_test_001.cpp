@@ -39,9 +39,25 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
+  fprintf(stderr, "CORRELATION_LIB_VERSION: %s\n", CORRELATION_LIB_VERSION);
+
   Correlation C;
   assertEqual(0, C.count());
   assertEqual(20, C.size());
+  
+  Correlation D(100);
+  assertEqual(0, D.count());
+  assertEqual(100, D.size());
+}
+
+
+unittest(test_add_basic)
+{
+  Correlation C(2);
+
+  assertTrue(C.add(2, 7));
+  assertTrue(C.add(3, 9));
+  assertFalse(C.add(4, 10));
 }
 
 
@@ -49,11 +65,11 @@ unittest(test_add_clear)
 {
   Correlation C;
 
-  C.add(2, 7);
-  C.add(3, 9);
-  C.add(4, 10);
-  C.add(5, 14);
-  C.add(6, 15);
+  assertTrue(C.add(2, 7));
+  assertTrue(C.add(3, 9));
+  assertTrue(C.add(4, 10));
+  assertTrue(C.add(5, 14));
+  assertTrue(C.add(6, 15));
 
   assertEqual(5, C.count());
   assertEqual(20, C.size());
@@ -129,6 +145,41 @@ unittest(test_estimate)
   assertEqualFloat(-1.2381, C.getEstimateX(0), 0.0001);
   assertEqualFloat(2.6, C.getEstimateY(0), 0.0001);
 }
+
+
+unittest(test_calculate)
+{
+  Correlation C;
+
+  assertFalse(C.calculate());
+  assertFalse(C.calculate(true));
+  C.add(2, 7);
+  C.add(3, 9);
+  C.add(4, 10);
+  C.add(5, 14);
+  C.add(6, 15);
+  assertTrue(C.calculate());
+  assertTrue(C.calculate(true));
+}
+
+
+unittest(test_calculate_flags)
+{
+  Correlation C;
+
+  assertTrue(C.getR2Calculation());
+  C.setR2Calculation(false);
+  assertFalse(C.getR2Calculation());
+  C.setR2Calculation(true);
+  assertTrue(C.getR2Calculation());
+
+  assertTrue(C.getE2Calculation());
+  C.setE2Calculation(false);
+  assertFalse(C.getE2Calculation());
+  C.setE2Calculation(true);
+  assertTrue(C.getE2Calculation());
+}
+
 
 unittest_main()
 

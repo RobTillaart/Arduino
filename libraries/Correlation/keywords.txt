@@ -12,6 +12,10 @@ clear	KEYWORD2
 setRunningCorrelation	KEYWORD2
 getRunningCorrelation	KEYWORD2
 calculate	KEYWORD2
+setR2Calculation	KEYWORD2
+getR2Calculation	KEYWORD2
+setE2Calculation	KEYWORD2
+getE2Calculation	KEYWORD2
 
 getA	KEYWORD2
 getB	KEYWORD2

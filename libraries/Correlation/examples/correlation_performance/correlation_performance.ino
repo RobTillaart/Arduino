@@ -24,6 +24,7 @@ void setup()
   Serial.print("CORRELATION_LIB_VERSION: ");
   Serial.println(CORRELATION_LIB_VERSION);
 
+
   Serial.println("ADD");
   delay(10);
   C.clear();
@@ -44,6 +45,7 @@ void setup()
   C.calculate();
   stop = micros();
   Serial.println(stop - start);
+
 
   Serial.println("\nCALCULATE - no new values added");
   delay(10);
@@ -75,6 +77,50 @@ void setup()
   f = C.getMaxX();
   stop = micros();
   Serial.println(stop - start);
+
+  Serial.println("\n===================================\n0.2.0 \n");
+
+  Serial.println("ADD");
+  delay(10);
+  C.clear();
+  for (int i = 0; i < 20; i++)
+  {
+    f = i * 40 + 0.1 * random(10);
+    start = micros();
+    C.add(i * 10, f );
+    stop = micros();
+    sum += stop - start;
+  }
+  Serial.println(sum / 20.0);
+
+
+  Serial.println("\ndisable R2 and E2 math from calculate");
+  C.setR2Calculation(false);
+  C.setE2Calculation(false);
+
+  Serial.println("\nCALCULATE - needed ");
+  delay(10);
+  start = micros();
+  C.calculate();
+  stop = micros();
+  Serial.println(stop - start);
+
+
+  Serial.println("\nCALCULATE - no new values added");
+  delay(10);
+  start = micros();
+  C.calculate();
+  stop = micros();
+  Serial.println(stop - start);
+
+
+  Serial.println("\nCALCULATE - no new values added but forced");
+  delay(10);
+  start = micros();
+  C.calculate(true);
+  stop = micros();
+  Serial.println(stop - start);
+
 
   Serial.println("\nDone...");
 }

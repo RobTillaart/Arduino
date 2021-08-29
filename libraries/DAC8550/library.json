@@ -1,0 +1,21 @@
+{
+  "name": "DAC8550",
+  "keywords": "DAC8550, SPI, DAC, digital, analog, convertor",
+  "description": "Arduino library for DAC8550 SPI Digital Analog Convertor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DAC8550"
+  },
+  "version":"0.1.1",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

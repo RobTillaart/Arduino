@@ -2,13 +2,14 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 //
 //  HISTORY:
-//  0.1.00  2021-01-29  initial version
-//
+//   0.1.0  2021-01-29  initial version
+//   0.1.1  2021-08-30  add shadow interface - experimental
+
 
 #include "MAX14661.h"
 
@@ -19,11 +20,12 @@
 #define MAX14661_DIR2       0x02
 #define MAX14661_DIR3       0x03
 #define MAX14661_SHDW0      0x10
-#define MAX14661_SHDw1      0x11
-#define MAX14661_SHDw2      0x12
-#define MAX14661_SHDw3      0x13
+#define MAX14661_SHDW1      0x11
+#define MAX14661_SHDW2      0x12
+#define MAX14661_SHDW3      0x13
 #define MAX14661_CMD_A      0x14
 #define MAX14661_CMD_B      0x15
+
 
 
 MAX14661::MAX14661(const uint8_t deviceAddress, TwoWire *wire)
@@ -160,9 +162,157 @@ uint16_t MAX14661::getChannels()
 
 /////////////////////////////////////////////////////////
 //
+// SHADOW INTERFACE
+//
+void MAX14661::shadowClear()
+{
+  setShadowChannelMaskA(0x0000);
+  setShadowChannelMaskB(0x0000);
+}
+
+
+void MAX14661::activateShadow()
+{
+  writeRegister(MAX14661_CMD_A, 0x11);
+  writeRegister(MAX14661_CMD_B, 0x11);
+}
+
+////////////////////////////////////////////////////////////
+
+void MAX14661::setShadowChannelMaskA(uint16_t mask)
+{
+  writeRegister(MAX14661_SHDW0, mask & 0xFF);
+  writeRegister(MAX14661_SHDW1, mask >> 8);
+}
+
+
+uint16_t MAX14661::getShadowChannelMaskA()
+{
+  uint16_t mask = readRegister(MAX14661_SHDW1) << 8;
+  mask |= readRegister(MAX14661_SHDW0);
+  return mask;
+}
+
+
+void MAX14661::setShadowChannelMaskB(uint16_t mask)
+{
+  writeRegister(MAX14661_SHDW2, mask & 0xFF);
+  writeRegister(MAX14661_SHDW3, mask >> 8);
+}
+
+
+uint16_t MAX14661::getShadowChannelMaskB()
+{
+  uint16_t mask = readRegister(MAX14661_SHDW3) << 8;
+  mask |= readRegister(MAX14661_SHDW2);
+  return mask;
+}
+
+////////////////////////////////////////////////////////////
+
+bool MAX14661::openShadowChannelA(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW0;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW1;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  mask |= (1 << ch);
+  writeRegister(reg, mask);
+  return true;
+}
+
+
+bool MAX14661::closeShadowChannelA(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW0;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW1;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  mask &= ~(1 << ch);
+  writeRegister(reg, mask);
+  return true;
+}
+
+
+bool MAX14661::isOpenShadowChannelA(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW0;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW1;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  return (mask & (1 << ch)) > 0;
+}
+
+
+bool MAX14661::openShadowChannelB(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW0;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW1;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  mask |= (1 << ch);
+  writeRegister(reg, mask);
+  return true;
+}
+
+
+bool MAX14661::closeShadowChannelB(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW2;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW3;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  mask &= ~(1 << ch);
+  writeRegister(reg, mask);
+  return true;
+}
+
+
+bool MAX14661::isOpenShadowChannelB(uint8_t channel)
+{
+  if (channel > 15) return false;
+  uint8_t ch = channel;
+  uint8_t reg = MAX14661_SHDW2;
+  if (ch > 7)
+  {
+    reg = MAX14661_SHDW3;
+    ch -= 8;
+  }
+  uint8_t mask = readRegister(reg);
+  return (mask & (1 << ch)) > 0;
+}
+
+
+
+/////////////////////////////////////////////////////////
+//
 // MUX INTERFACE
 //
-
 void MAX14661::MUXA(uint8_t channel)
 {
   uint8_t ch = channel;
@@ -306,4 +456,4 @@ int MAX14661::lastError()
 
 
 
-// -- END OF FILE -- 
+// -- END OF FILE --

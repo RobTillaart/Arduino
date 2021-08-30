@@ -19,6 +19,22 @@ closeAllChannels	KEYWORD2
 setChannels	KEYWORD2
 getChannels	KEYWORD2
 
+shadowClear	KEYWORD2
+activateShadow	KEYWORD2
+
+setShadowChannelMaskA	KEYWORD2
+getShadowChannelMaskA	KEYWORD2
+setShadowChannelMaskB	KEYWORD2
+getShadowChannelMaskB	KEYWORD2
+
+openShadowChannelA	KEYWORD2
+closeShadowChannelA	KEYWORD2
+isOpenShadowChannelA	KEYWORD2
+
+openShadowChannelB	KEYWORD2
+closeShadowChannelB	KEYWORD2
+isOpenShadowChannelB	KEYWORD2
+
 MUXA	KEYWORD2
 getMUXA	KEYWORD2
 MUXB	KEYWORD2

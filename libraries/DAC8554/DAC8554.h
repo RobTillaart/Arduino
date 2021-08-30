@@ -3,7 +3,7 @@
 //    FILE: DAC8554.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor  
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // HISTORY: See DAC8554.cpp
 //     URL: https://github.com/RobTillaart/DAC8554
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define DAC8554_LIB_VERSION           (F("0.2.2"))
+#define DAC8554_LIB_VERSION           (F("0.2.3"))
 
 
 #define DAC8554_POWERDOWN_NORMAL     0x00
@@ -49,18 +49,46 @@ public:
   // write powerDownMode to all 8554's channel's
   void     broadcastPowerDown(uint8_t powerDownMode);
 
+  //       speed in Hz
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed() { return _SPIspeed; };
+
+  bool     usesHWSPI() { return _hwSPI; };
+
+  // ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
+
+  // to overrule ESP32 default hardware pins
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+  #endif
+
+
 private:
-  uint8_t  _spiData;
-  uint8_t  _spiClock;
-  uint8_t  _slaveSelect;
-  bool     _hwSPI;
+  uint8_t  _dataOut     = 255;
+  uint8_t  _clock       = 255;
+  uint8_t  _select      = 255;
+
+  bool     _hwSPI       = false;
   uint8_t  _address;
 
   uint16_t _value[4];     // holdes last written / buffered value per channel
   uint8_t  _register[4];  // holds powerDownMode per channel
 
+  uint32_t _SPIspeed    = 16000000;
+
   void     writeDevice(uint8_t configRegister, uint16_t value);
   void     swSPI_transfer(uint8_t value);
+
+  SPIClass    * mySPI;
+  SPISettings _spi_settings;
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 // -- END OF FILE --

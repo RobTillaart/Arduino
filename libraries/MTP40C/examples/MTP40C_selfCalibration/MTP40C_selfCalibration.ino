@@ -12,8 +12,11 @@
 
 
 #include "MTP40C.h"
+#include "SoftwareSerial.h"
 
-MTP40C mtp(&Serial1);
+SoftwareSerial sws(6, 7);
+MTP40C mtp(&sws);
+// MTP40C mtp(&Serial1);
 
 uint32_t start;
 
@@ -23,35 +26,48 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  Serial.print("MTP40C_LIB_VERSION:\t");
-  Serial.println(MTP40C_LIB_VERSION);
+  Serial.print("MTP40_LIB_VERSION:\t");
+  Serial.println(MTP40_LIB_VERSION);
 
-  Serial1.begin(19200);
-  mtp.begin(MTP40C_DEFAULT_ADDRESS);
+  sws.begin(19200);
+  mtp.begin(MTP40_DEFAULT_ADDRESS);
 
   Serial.print("STAT:\t");
   Serial.println(mtp.getSelfCalibrationStatus());
+  delay(100);
   Serial.print("OPEN:\t");
   Serial.println(mtp.openSelfCalibration());
+  delay(100);
   Serial.print("STAT:\t");
   Serial.println(mtp.getSelfCalibrationStatus());
+  delay(100);
   Serial.print("CLOSE:\t");
   Serial.println(mtp.closeSelfCalibration());
+  delay(100);
   Serial.print("STAT:\t");
   Serial.println(mtp.getSelfCalibrationStatus());
+  delay(100);
   Serial.print("OPEN:\t");
   Serial.println(mtp.openSelfCalibration());
+  delay(100);
+  Serial.print("STAT:\t");
+  Serial.println(mtp.getSelfCalibrationStatus());
+  delay(100);
+
   Serial.println();
 
   Serial.print("GET_HRS:\t");
   uint16_t hrs = mtp.getSelfCalibrationHours();
   Serial.println(hrs);
+  delay(100);
 
   if (hrs > 720) hrs = 23;
   Serial.print("SET_HRS:\t");
   Serial.println(mtp.setSelfCalibrationHours(hrs + 1));
+  delay(100);
   Serial.print("GET_HRS:\t");
   Serial.println(mtp.getSelfCalibrationHours());
+  delay(100);
 
   Serial.println("\ndone...");
 }

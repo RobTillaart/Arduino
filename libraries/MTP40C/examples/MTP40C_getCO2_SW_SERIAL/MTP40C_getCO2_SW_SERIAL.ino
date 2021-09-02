@@ -22,8 +22,8 @@ void setup()
   // DEBUG SERIAL
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("MTP40C_LIB_VERSION:\t");
-  Serial.println(MTP40C_LIB_VERSION);
+  Serial.print("MTP40_LIB_VERSION:\t");
+  Serial.println(MTP40_LIB_VERSION);
 
   // SERIAL OF MTP40C SENSOR
   sws.begin(19200);

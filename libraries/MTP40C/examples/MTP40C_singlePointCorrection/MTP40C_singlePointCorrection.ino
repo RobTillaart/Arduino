@@ -12,8 +12,11 @@
 
 
 #include "MTP40C.h"
+#include "SoftwareSerial.h"
 
-MTP40C mtp(&Serial1);
+SoftwareSerial sws(6, 7);
+MTP40C mtp(&sws);
+// MTP40C mtp(&Serial1);
 
 uint32_t start;
 
@@ -23,14 +26,14 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  Serial.print("MTP40C_LIB_VERSION:\t");
-  Serial.println(MTP40C_LIB_VERSION);
+  Serial.print("MTP40_LIB_VERSION:\t");
+  Serial.println(MTP40_LIB_VERSION);
 
-  Serial1.begin(19200);
-  mtp.begin(MTP40C_DEFAULT_ADDRESS);  
+  sws.begin(19200);
+  mtp.begin(MTP40_DEFAULT_ADDRESS);  
 
-  Serial.println("Set air pressure to: ");
-  Serial.setTimeout(3000);           // default is 1000 which is rather small.
+  Serial.println("Set CO2 level to: 400-5000");
+  Serial.setTimeout(10000);           // default is 1000 which is rather small.
   float spc = Serial.parseFloat();   // reads until carriage return
   Serial.println(spc, 1);
 
@@ -51,11 +54,17 @@ void setup()
       }
       if (millis() - start > 600000UL)  // 600 seconds = 10 minutes
       {
-        Serial.println("took > 10 minutes, something went wrong");
+        Serial.println();
+        Serial.println("took > 10 minutes, something went wrong?");
         break;
       }
     }
   }
+  else
+  {
+    Serial.println("could not set value");
+  }
+  Serial.println();
   Serial.print("TIME: \t");
   Serial.println(millis() - start);
   Serial.println("\ndone");

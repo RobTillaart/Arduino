@@ -2,62 +2,68 @@
 //    FILE: MTP40C.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.1.1
-// PURPOSE: Arduino library for MTP40C CO2 sensor
+// VERSION: 0.2.0
+// PURPOSE: Arduino library for MTP40C MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 //
 // HISTORY:
 //  0.1.0   2021-08-20  initial version
 //  0.1.1   2021-08-23  added examples, minor fixes
+//  0.2.0   2021-08-27  added MTP40D derived class
+//                      + many fixes after testing
 
 
 #include "MTP40C.h"
 
 // debug flag, development.
-// #define MTP40C_DEBUG    1
+// #define MTP40_DEBUG    1
 
 
 
-MTP40C::MTP40C(Stream * str)
+MTP40::MTP40(Stream * str)
 {
   _ser = str;
   _buffer[0] = '\0';
 }
 
 
-bool MTP40C::begin(uint8_t address)
+bool MTP40::begin(uint8_t address)
 {
   if (address > 247) return false;
 
-  _useAddress  = false;
-  _timeout     = 100;
-  _lastRead    = 0;
-  _airPressure = 0;
-  _gasLevel    = 0;
-  _address     = address;
+  _useAddress    = false;
+  _timeout       = 100;
+  _lastRead      = 0;
+  _airPressureReference = 0;
+  _gasLevel      = 0;
+  _address       = address;
+  _suppressError = false;
+
   return isConnected();
 }
 
 
-bool MTP40C::isConnected()
+bool MTP40::isConnected()
 {
   uint8_t addr = getAddress();
   return (addr == _address);
 }
 
 
-uint8_t MTP40C::getAddress()
+uint8_t MTP40::getAddress()
 {
   uint8_t cmd[8] = { 0xFE, 0x03, 0x14, 0x00, 0x01, 0x00, 0x55, 0xA5 };
   if (request(cmd, 8, 7) )
   {
+    _address = _buffer[3];
     return _buffer[3];
   }
-  return MTP40C_INVALID_ADDRESS;
+
+  return MTP40_INVALID_ADDRESS;
 }
 
 
-bool MTP40C::setAddress(uint8_t address)
+bool MTP40::setAddress(uint8_t address)
 {
   if (address > 247) return false;
 
@@ -73,7 +79,7 @@ bool MTP40C::setAddress(uint8_t address)
 }
 
 
-float MTP40C::getAirPressure()
+float MTP40::getAirPressureReference()
 {
   union
   {
@@ -81,25 +87,30 @@ float MTP40C::getAirPressure()
     uint8_t b[4];
   } convert;
 
+  _lastError = MTP40_OK;
+
   // max read freq 1x per 4 seconds
-  if (millis() - _lastRead < 4000) return _airPressure;  // last value
+  if (millis() - _lastRead < 4000) return _airPressureReference;  // last value
   _lastRead = millis();
 
   uint8_t cmd[5] = { 0xFE, 0x68, 0x01, 0xFE, 0x30 };
-  if (request(cmd, 5, 10) )
+  if (request(cmd, 5, 10))
   {
-    for (uint8_t i = 0; i < 3; i++)
+    for (uint8_t i = 0; i < 4; i++)
     {
       convert.b[i] = _buffer[4 + i];
     }
-    _airPressure = convert.value;
-    return _airPressure;
+    _airPressureReference = convert.value;
+    return _airPressureReference;
   }
-  return MTP40C_INVALID_AIR_PRESSURE;
+
+  _lastError = MTP40_INVALID_AIR_PRESSURE;
+  if (_suppressError) return _airPressureReference;
+  return _lastError;
 }
 
 
-bool MTP40C::setAirPressureReference(float apr)
+bool MTP40::setAirPressureReference(float apr)
 {
   if ((apr < 700) || (apr > 1100)) return false;
 
@@ -111,7 +122,7 @@ bool MTP40C::setAirPressureReference(float apr)
 
   uint8_t cmd[10] = { 0xFE, 0x67, 0x01, 0x01, 0x00, 0x40, 0x7D, 0x44, 0xC4, 0xA3 };
   convert.value = apr;
-  for (uint8_t i = 0; i < 3; i++)
+  for (uint8_t i = 0; i < 4; i++)
   {
     cmd[4 + i] = convert.b[i];
   }
@@ -123,8 +134,11 @@ bool MTP40C::setAirPressureReference(float apr)
 }
 
 
-uint16_t MTP40C::getGasConcentration()
+uint16_t MTP40::getGasConcentration()
 {
+
+  _lastError = MTP40_OK;
+
   // max read freq 1x per 4 seconds
   if (millis() - _lastRead < 4000) return _gasLevel;  // last value
   _lastRead = millis();
@@ -140,11 +154,14 @@ uint16_t MTP40C::getGasConcentration()
     _gasLevel = _buffer[5] *256 + _buffer[4];
     return _gasLevel;
   }
-  return MTP40C_INVALID_GAS_LEVEL;
+
+  _lastError = MTP40_INVALID_GAS_LEVEL;
+  if (_suppressError) return _gasLevel;
+  return _lastError;
 }
 
 
-bool MTP40C::setSinglePointCorrection(float spc)
+bool MTP40::setSinglePointCorrection(float spc)
 {
   if ((spc < 400) || (spc > 5000)) return false;
 
@@ -156,7 +173,7 @@ bool MTP40C::setSinglePointCorrection(float spc)
 
   uint8_t cmd[9] = { 0xFE, 0x28, 0x80, 0x00, 0x80, 0x40, 0x44, 0x33, 0x22 };
   convert.value = spc;
-  for (uint8_t i = 0; i < 3; i++)
+  for (uint8_t i = 0; i < 4; i++)
   {
     cmd[3 + i] = convert.b[i];
   }
@@ -168,7 +185,7 @@ bool MTP40C::setSinglePointCorrection(float spc)
 }
 
 
-bool MTP40C::getSinglePointCorrectionReady()
+bool MTP40::getSinglePointCorrectionReady()
 {
   uint8_t cmd[5] = { 0xFE, 0x28, 0x81, 0xCE, 0x50 };
   if (request(cmd, 5, 6) )
@@ -179,7 +196,7 @@ bool MTP40C::getSinglePointCorrectionReady()
 }
 
 
-bool MTP40C::openSelfCalibration()
+bool MTP40::openSelfCalibration()
 {
   uint8_t cmd[6] = { 0xFE, 0x28, 0x66, 0xFF, 0xDA, 0x24 };
   if (request(cmd, 6, 6) )
@@ -190,7 +207,7 @@ bool MTP40C::openSelfCalibration()
 }
 
 
-bool MTP40C::closeSelfCalibration()
+bool MTP40::closeSelfCalibration()
 {
   uint8_t cmd[6] = { 0xFE, 0x28, 0x66, 0x00, 0x9A, 0x64 };
   if (request(cmd, 6, 6) )
@@ -201,7 +218,7 @@ bool MTP40C::closeSelfCalibration()
 }
 
 
-uint8_t MTP40C::getSelfCalibrationStatus()
+uint8_t MTP40::getSelfCalibrationStatus()
 {
   uint8_t cmd[5] = { 0xFE, 0x28, 0x67, 0x4F, 0xDA };
   if (request(cmd, 5, 6) )
@@ -212,7 +229,7 @@ uint8_t MTP40C::getSelfCalibrationStatus()
 }
 
 
-bool MTP40C::setSelfCalibrationHours(uint16_t hrs)
+bool MTP40::setSelfCalibrationHours(uint16_t hrs)
 {
   if ((hrs < 24) || (hrs > 720)) return false;
   uint8_t cmd[7] = { 0xFE, 0x28, 0x6A, 0x64, 0x00, 0x0E, 0xA8 };
@@ -226,7 +243,7 @@ bool MTP40C::setSelfCalibrationHours(uint16_t hrs)
 }
 
 
-uint16_t MTP40C::getSelfCalibrationHours()
+uint16_t MTP40::getSelfCalibrationHours()
 {
   uint8_t cmd[5] = { 0xFE, 0x28, 0x69, 0xCE, 0x1E };
   if (request(cmd, 5, 9) )
@@ -237,20 +254,29 @@ uint16_t MTP40C::getSelfCalibrationHours()
 }
 
 
+int MTP40::lastError()
+{
+  int e = _lastError;
+  _lastError = MTP40_OK;
+  return e;
+}
+
+
+
 //////////////////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
-bool MTP40C::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
+bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 {
   // generic or specific address
-  if (_useAddress) 
+  if (_useAddress)
   {
     data[0] = _address;
   }
   else
   {
-    data[0] = 0xFE;  // broadcast 
+    data[0] = 0xFE;  // broadcast
   }
   // calculate CRC of command
   uint16_t crc = CRC(data, commandLength - 2);
@@ -258,7 +284,7 @@ bool MTP40C::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
   data[commandLength - 2] = crc & 0xFF;
   while (commandLength--)
   {
-#ifdef MTP40C_DEBUG
+#ifdef MTP40_DEBUG
     if (*data < 0x10) _ser->print(0);
     _ser->print(*data++, HEX);
     _ser->print(" ");
@@ -286,7 +312,7 @@ bool MTP40C::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 
 
 // from datasheet
-uint16_t MTP40C::CRC(uint8_t *data, uint16_t len)
+uint16_t MTP40::CRC(uint8_t *data, uint16_t len)
 {
 const uint8_t auchCRCHi[] = {
   0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
@@ -346,6 +372,24 @@ const uint8_t auchCRCLo[] = {
   crc += (uint16_t)uchCRCLo;
   return crc;
 }
+
+
+/////////////////////////////////////////////////////////////
+//
+// DERIVED CLASSES
+//
+
+MTP40C::MTP40C(Stream * str) : MTP40(str)
+{
+  _type = 2;
+};
+
+
+MTP40D::MTP40D(Stream * str) : MTP40(str)
+{
+  _type = 3;
+};
+
 
 
 // -- END OF FILE --

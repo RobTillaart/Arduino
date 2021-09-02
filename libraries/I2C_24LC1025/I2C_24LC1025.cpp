@@ -10,6 +10,7 @@
 //  0.1.2   2021-01-31  fix reading over 64K block border
 //  0.1.3   2021-02-02  add updateBlock();
 //  0.1.4   2021-05-27  fix library.properties;
+//  0.1.5   2021-08-30  fix #3 I2C_DEVICESIZE_24LC512 => I2C_DEVICESIZE_24LC1025
 
 
 #include "I2C_24LC1025.h"
@@ -31,8 +32,8 @@
 I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 {
   _deviceAddress = deviceAddress;
-  _deviceSize = I2C_DEVICESIZE_24LC512;
-  _pageSize = I2C_24LC1025_PAGESIZE;
+  _deviceSize = I2C_DEVICESIZE_24LC1025;
+  _pageSize   = I2C_PAGESIZE_24LC1025;
   _wire = wire;
 }
 

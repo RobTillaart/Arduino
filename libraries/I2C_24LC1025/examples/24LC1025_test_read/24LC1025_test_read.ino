@@ -117,7 +117,7 @@ void loop()
 
 void dump(uint32_t from, uint32_t to)
 {
-  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_24LC512
+  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_24LC1025
   {
     char buffer[24];
     if (i % 16 == 0)

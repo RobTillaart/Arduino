@@ -25,7 +25,7 @@ void setup()
   Serial.println("Formatting takes 32 dots ( < 45 seconds).");
 
   start = millis();
-  for (uint32_t i = 0; i < I2C_DEVICESIZE_24LC512; i+=128)
+  for (uint32_t i = 0; i < I2C_DEVICESIZE_24LC1025; i+=128)
   {
     if (i % 0x1000 == 0) Serial.print('.');
     ee.setBlock(i, 0x00, 128);

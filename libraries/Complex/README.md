@@ -1,26 +1,41 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Complex/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Complex/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Complex/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Complex/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Complex/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Complex/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Complex.svg?maxAge=3600)](https://github.com/RobTillaart/Complex/releases)
 
+
 # Complex
 
-Arduino library for Complex math
+Arduino library for Complex mathematical operations.
+
 
 ## Description
 
-This library defines the complex datatype and all the common math functions for it.
+This library defines the complex data type and all the common mathematical functions for it.
 
-These functions include basic = "+ - \* /" and also power and gonio functions.
+These functions include basic = "+ - \* /" and also power and goniometric functions.
+
+The library implements the **Printable** interface so one can directly print the complex values
+in any stream e.g. Serial.
+
 
 ## Interface
 
-See Complex.h for all functions implemented.
+See Complex.h for a full list of functions implemented.
+
+The library uses **float** for the real and imaginary part so precision is limited.
+Reasons are memory and performance, see also Future section below.
+
+The library implements the constant **one** as this value is often used in the code.
 
 
 ## Note
 
-The library has a big footprint so it fills up the memory of an UNO quite fast.
+The library has a big footprint so it fills up the memory of an UNO quite fast,
+especially if all functionality is used.
+
 
 #### Known problem
 
@@ -30,9 +45,21 @@ Class does not compile for DUE and TEENSY
 Apparently the name "Complex" is already in use (reserved) by some non-AVR compilers 
 so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 
-#### Solution:
-- Make a copy of the Complex Library and rename the folder to CComplex 
+
+#### Solution
+
+- Make a copy of the Complex Library and rename the folder to CComplex
 - Rename Complex.h to CComplex.h
-- Rename Complex.cpp to CComplec.cpp
+- Rename Complex.cpp to CComplex.cpp
 - change one line in CComplex.cpp to include CComplex.h
+- note your sketches need to include CComplex.h too.
+
+
+## Future
+
+- create a (8 byte) double based variant for high precision e.g. Complex8()  
+Note that some platforms map double to float, others support float in hardware etc  
+so there is a big difference expected in both memory and performance
+- create the constant **i** ??
+
 

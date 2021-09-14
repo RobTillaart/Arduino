@@ -2,22 +2,26 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
 //
 
+
 #include "Arduino.h"
 #include "Printable.h"
 
-#define COMPLEX_LIB_VERSION "0.2.2"
+
+#define COMPLEX_LIB_VERSION "0.2.3"
+
 
 class Complex: public Printable
 {
 public:
     Complex(const float r = 0, const float i = 0) : re(r), im(i) {};
-    Complex(const Complex &c)   : re(c.re), im(c.im) {};
+    Complex(const Complex &c) : re(c.re), im(c.im) {};
+
 
     void set(const float r, const float i ) { re = r; im = i; };
     void setReal(const float r)  { re = r; };
@@ -25,7 +29,9 @@ public:
     float real() { return re; };
     float imag() { return im; };
 
+
     size_t printTo(Print& p) const;
+
 
     void polar(const float modulus, const float phase);
     float phase()       { return atan2(im, re); };
@@ -34,10 +40,13 @@ public:
     Complex conjugate() { return Complex(re, -im); };
     Complex reciprocal();
 
+
     bool operator == (const Complex&);
     bool operator != (const Complex&);
 
+
     Complex operator - (); // negation
+
 
     Complex operator + (const Complex&);
     Complex operator - (const Complex&);
@@ -49,6 +58,7 @@ public:
     Complex& operator *= (const Complex&);
     Complex& operator /= (const Complex&);
 
+
     Complex c_sqrt();
     Complex c_sqr();
     Complex c_exp();
@@ -57,12 +67,14 @@ public:
     Complex c_pow(const Complex &);
     Complex c_logn(const Complex &);
 
+
     Complex c_sin();
     Complex c_cos();
     Complex c_tan();
     Complex c_asin();
     Complex c_acos();
     Complex c_atan();
+
 
     Complex c_csc();
     Complex c_sec();
@@ -71,6 +83,7 @@ public:
     Complex c_asec();
     Complex c_acot();
 
+
     Complex c_sinh();
     Complex c_cosh();
     Complex c_tanh();
@@ -78,12 +91,14 @@ public:
     Complex c_acosh();
     Complex c_atanh();
 
+
     Complex c_csch();
     Complex c_sech();
     Complex c_coth();
     Complex c_acsch();
     Complex c_asech();
     Complex c_acoth();
+
 
 protected:
     float re;

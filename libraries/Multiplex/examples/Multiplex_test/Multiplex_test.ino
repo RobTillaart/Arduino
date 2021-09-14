@@ -1,13 +1,16 @@
 //
 //    FILE: Multiplex_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: demo
 //    DATE: 2021-01-09
 
+
 #include "Multiplex.h"
 
+
 Multiplex mp;
+
 
 class FakeStream : public Print
 {
@@ -35,6 +38,7 @@ class FakeStream : public Print
   private: 
   uint8_t _id = 0;
 };
+
 
 void setup()
 {
@@ -96,8 +100,8 @@ void setup()
   }
 
   mp.print("Done...\n");
-
 }
+
 
 void loop()
 {

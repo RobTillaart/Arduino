@@ -1,14 +1,19 @@
-# Syntax Coloring Map for Multiplex
+# Syntax Colouring Map for Multiplex
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 Multiplex	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
 add	KEYWORD2
 reset	KEYWORD2
+
 count	KEYWORD2
 size	KEYWORD2
+free	KEYWORD2
+
 enable	KEYWORD2
 disable	KEYWORD2
 isEnabled	KEYWORD2
@@ -16,7 +21,7 @@ isEnabled	KEYWORD2
 enableStream	KEYWORD2
 disableStream	KEYWORD2
 isEnabledStream	KEYWORD2
-
+index	KEYWORD2
 
 # Constants (LITERAL1)
 MULTIPLEX_LIB_VERSION	LITERAL1

@@ -1,20 +1,24 @@
 //
 //    FILE: Multiplex_softwareSerial.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.1
 // PURPOSE: demo
 //    DATE: 2021-01-17
+
 
 #include "Multiplex.h"
 #include <SoftwareSerial.h>
 
+
 // one multiplexer
 Multiplex mp;
+
 
 // three serial outputs
 SoftwareSerial Serial_A(-1, 8);
 SoftwareSerial Serial_B(-1, 9);
 SoftwareSerial Serial_C(-1, 10);
+
 
 void setup()
 {
@@ -41,7 +45,7 @@ void setup()
   Serial.print("count: ");
   Serial.println(n);
 
-  mp.disable(&Serial_B);
+  mp.disableStream(&Serial_B);
 
   for (int i = 0; i < mp.count(); i++)
   {
@@ -52,10 +56,9 @@ void setup()
   }
   
   mp.println("\nThis should only print on Serial_A and Serial_C\n");
-
   mp.println("Done...\n");
-
 }
+
 
 void loop()
 {

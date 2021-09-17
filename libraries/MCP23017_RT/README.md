@@ -1,11 +1,13 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MCP23017_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23017_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23017_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23017_RT/releases)
 
 # MCP23017_RT
 
-Arduino library for MCP23017 16 channel I2C port expander
+Arduino library for MCP23017 16 channel I2C port expander.
 
 
 ## Description
@@ -17,29 +19,39 @@ This library gives easy control over the 16 pins of a MCP23017 chip.
 
 ### Constructor
 
-- **MCP23017(address, TwoWire \*wire = &Wire)** constructor, with default Wire interface. Can be overruled with Wire0..WireN
-- **bool begin()** for UNO, returns true if successful
-- **bool begin(sda, scl)** for ESP32, returns true if successful
-- **bool isConnected()** returns true if connected, false otherwise
+- **MCP23017(address, TwoWire \*wire = &Wire)** constructor, with default Wire interface.  
+Can be overruled with Wire0..WireN.
+- **bool begin()** for UNO, returns true if successful.
+- **bool begin(sda, scl)** for ESP32, returns true if successful.
+- **bool isConnected()** returns true if connected, false otherwise.
 
 
-### single pin interface
+### Single pin interface
 
 - **bool pinMode(pin, value)** pin = 0..15, value = INPUT, OUTPUT, returns true if successful.
 - **bool digitalWrite(pin, value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
-- **uint8_t digitalRead(pin)** pin = 0..15
+- **uint8_t digitalRead(pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
+- **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag, returns true if successful.
+- **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag, returns true if successful.
+- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pullup flag, returns true if successful.
+- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pullup flag, returns true if successful.
 
 
 ### 8 pins interface
 
-- **bool pinMode8(port, value)** port = 0, 1  value = 0..255, returns true if successful.
-- **bool write8(port, value)** port = 0, 1  value = 0..255, returns true if successful.
-- **uint8_t read8(port)** port = 0, 1
+- **bool pinMode8(port, value)** port = 0..1, value = 0..255, returns true if successful.
+- **bool write8(port, value)** port = 0..1, value = 0..255, returns true if successful.
+- **uint8_t read8(port)** port = 0..1, reads 8 pins into one byte.
+- **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
+- **bool getPolarity8(uint8_t port, uint8_t &mask)** port = 0..1, reads polarity of 8 channels at once.
+- **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1,, sets pullup for 8 channels at once.
+- **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pullup for 8 channels at once.
 
 
 ### Error codes
 
-- **int lastError()** Above functions set an error flag that can be read withthis function. Reading it will reset the flag to **MCP23017_OK**.
+- **int lastError()** Above functions set an error flag that can be read with this function.  
+Reading it will reset the flag to **MCP23017_OK**.
 
 | DESCRIPTION           | VALUE |
 |:----------------------|:-----:|
@@ -52,14 +64,23 @@ This library gives easy control over the 16 pins of a MCP23017 chip.
 
 ## Future
 
+
 #### Must
+
+- Improve and extend documentation
 - add pinMode16(), write16() and read16()
-- investigate PULL_UP register see begin() => pinMode()  (breaking change)
+- add examples
+
 
 #### Should
-- investigate caching for performance (readback)
+
+- extend error codes
+- optimize code - squeeze footprint
+- optimize code - do not write if pin does not chance (~25%)
+
 
 #### Could
+
 - initial value (16 bit?) as begin parameter (breaking change)
   - depends on input output pullup etc?
 - investigate auto address increment?

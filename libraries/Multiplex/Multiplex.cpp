@@ -1,7 +1,7 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -13,6 +13,8 @@
 //                      enable() / disable() return true on success
 //                      added free() function
 //                      minor refactor.
+//  0.2.2   2021-09-12  add remove(Stream) + remove(index);
+
 
 
 #include "Multiplex.h"
@@ -49,6 +51,27 @@ bool Multiplex::add(Print * stream)
 
   _enabled[_count]  = true;
   _stream[_count++] = stream;
+  return true;
+};
+
+
+bool Multiplex::remove(Print * stream)
+{
+  uint8_t idx = index(stream);
+  if (idx == 0xFF) return false;
+  return remove(idx);
+};
+
+
+bool Multiplex::remove(uint8_t idx)
+{
+  if (idx >= _count) return false;
+  _count--;
+  if (idx != _count)
+  {
+    _stream[idx]  = _stream[_count];
+    _enabled[idx] = _enabled[_count];
+  }
   return true;
 };
 

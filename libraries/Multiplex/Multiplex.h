@@ -2,17 +2,16 @@
 //
 //    FILE: Multiplex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library to multiplex streams 
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
 
 
 #include "Arduino.h"
-//#include "Print.h"
 
 
-#define MULTIPLEX_LIB_VERSION      (F("0.2.1"))
+#define MULTIPLEX_LIB_VERSION      (F("0.2.2"))
 
 
 #ifndef MAX_MULTIPLEX
@@ -30,8 +29,14 @@ public:
   // CORE
   virtual size_t write(uint8_t c) override;
   virtual size_t write(const uint8_t *buffer, size_t size) override;
+
   bool    add(Print * stream);  // returns true on success
   void    reset();
+
+  // remove 
+  // use with care as it changes the indices.
+  bool    remove(Print * stream);
+  bool    remove(uint8_t index);
 
 
   // CONTROL
@@ -55,6 +60,7 @@ public:
 private:
   Print * _stream[MAX_MULTIPLEX];
   bool    _enabled[MAX_MULTIPLEX];
+  //  bool    _free[MAX_MULTIPLEX];
 
   uint8_t _count;
   uint8_t _size;

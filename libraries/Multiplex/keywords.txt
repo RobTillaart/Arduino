@@ -8,6 +8,7 @@ Multiplex	KEYWORD1
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
 add	KEYWORD2
+remove	KEYWORD2
 reset	KEYWORD2
 
 count	KEYWORD2
@@ -22,6 +23,8 @@ enableStream	KEYWORD2
 disableStream	KEYWORD2
 isEnabledStream	KEYWORD2
 index	KEYWORD2
+stream	KEYWORD2
+
 
 # Constants (LITERAL1)
 MULTIPLEX_LIB_VERSION	LITERAL1

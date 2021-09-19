@@ -11,7 +11,7 @@ Arduino library for Microchip SPI DAC's:  8, 10, 12 bits, 1, 2 channel
 
 ## Description
 
-The MCP_DAC is a library for DAC's from Microchip in the MCP48xx en MCP49xx series.
+The MCP_DAC is a library for DAC's from Microchip in the MCP48xx and MCP49xx series.
 The library is experimental as it is not tested with all different devices.
 Please post an issue if there are problems.
 

@@ -49,14 +49,15 @@ Writes a character to all enabled streams.
 Writes a buffer of size characters to all enabled streams.
 - **bool add(Print \* stream)** add another Print stream. 
 Returns false if no space left. 
-Use the index(Stream) to get the index of the 
+Use the **index(Stream)** to get the actual index of the stream.
 
 
 #### Experimental 0.2.2
 
 Removing a stream is experimental. 
-It changes the internal indices used, so if you want to use **remove()** in your sketch, you should only use the functions with
-a stream as parameter as these will always work correctly.  Alternative is to request the **index(stream)** after you called **remove()** and update your indices. 
+It changes the internal indices used, so if you want to use **remove()** in your sketch, you  
+should only use the functions with a stream as parameter as these will always work correctly.  
+Alternative is to request the **index(Stream)** after you called **remove()** and update your indices. 
 
 - **bool remove(Print \* stream)** remove a Print stream. 
 Returns false if not in the multiplexer.
@@ -87,7 +88,7 @@ false otherwise.
 false otherwise.
 - **uint8_t index(Print \*stream)** returns the index of the stream if it was added,
 otherwise it returns 0xFF == 255.  
-Can be used to check if a stream is added the multiplexer.
+Can be used to check if a stream is added to the multiplexer.
 - **Print \* stream(uint8_t index)** returns the stream at index or NULL otherwise.
 Convenience function.
 
@@ -97,8 +98,6 @@ Convenience function.
 - set size in constructor - dynamic memory
 - pack enabled flag in one or more bytes
 - add names?
-- remove a stream from the multiplex ?  
-`bool remove(Print * stream); plus  bool remove(uint8_t idx) ?`
 
 
 ## Operation

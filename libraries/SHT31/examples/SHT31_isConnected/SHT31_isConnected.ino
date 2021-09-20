@@ -40,11 +40,21 @@ void loop()
   if ( sht.isConnected()  )
   {
     start = micros();
-    sht.read();         // default = true/fast       slow = false
+    bool b = sht.read();         // default = true/fast       slow = false
     stop = micros();
+
+    int error = sht.getError();
+    uint16_t stat = sht.readStatus();
+
     Serial.print(millis());
     Serial.print("\t");
     Serial.print(stop - start);
+    Serial.print("\t");
+    Serial.print(b, HEX);
+    Serial.print("\t");
+    Serial.print(error, HEX);
+    Serial.print("\t");
+    Serial.print(stat, HEX);
     Serial.print("\t");
     Serial.print(sht.getTemperature(), 1);
     Serial.print("\t");
@@ -59,7 +69,7 @@ void loop()
     // sht.reset();
   }
   Serial.println();
-  delay(100);
+  delay(1000);
 }
 
 

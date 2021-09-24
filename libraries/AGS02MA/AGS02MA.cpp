@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
 //    DATE: 2021-08-12
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -20,15 +20,9 @@
 
 AGS02MA::AGS02MA(const uint8_t deviceAddress, TwoWire *wire)
 {
-  _address       = deviceAddress;
-  _wire          = wire;
-
-  _I2CResetSpeed = 100000;
-  _startTime     = 0;
-  _lastRead      = 0;
-  _mode          = 255;
-  _status        = AGS02MA_OK;
-  _error         = AGS02MA_OK;
+  _address = deviceAddress;
+  _wire    = wire;
+  reset();
 }
 
 
@@ -70,9 +64,21 @@ bool AGS02MA::isConnected()
 }
 
 
+void AGS02MA::reset()
+{
+  _I2CResetSpeed = 100000;
+  _startTime     = millis();
+  _lastRead      = 0;
+  _lastPPB       = 0;
+  _mode          = 255;
+  _status        = AGS02MA_OK;
+  _error         = AGS02MA_OK;
+}
+
+
 bool AGS02MA::setAddress(const uint8_t deviceAddress)
 {
-  if (deviceAddress < 10 or deviceAddress > 119) return false;
+  if ((deviceAddress < 10) or (deviceAddress > 119)) return false;
   _buffer[2] = _buffer[0] = deviceAddress;
   _buffer[3] = _buffer[1] = 0xFF ^ deviceAddress;
   _buffer[4] = _CRC8(_buffer, 4);
@@ -89,11 +95,24 @@ uint8_t AGS02MA::getSensorVersion()
   uint8_t version = 0xFF;
   if (_readRegister(AGS02MA_VERSION))
   {
-    // unclear what the other bytes have for information. (if there is any)
+    // for (int i = 0; i < 5; i++)
+    // {
+      // Serial.print(_buffer[i]);
+      // Serial.print('\t');
+    // }
+    // Serial.println();
+    // unclear what the other bytes have for information.
+    // datasheet names these 3 bytes as KEEP.
+    // BUFFER        VALUE  MEANING
+    // buffer [0] == 20     year ?
+    // buffer [1] == 07     month ?
+    // buffer [2] == 28     day ?
+    // buffer [3] == 117    VERSION
+    // buffer [4] ==        CRC
     version = _buffer[3];
     if (_CRC8(_buffer, 5) != 0)
     {
-      _error = AGS02MA_CRC_ERROR;
+      _error = AGS02MA_ERROR_CRC;
     }
   }
   return version;
@@ -134,18 +153,15 @@ bool AGS02MA::setUGM3Mode()
 
 uint32_t AGS02MA::readPPB()
 {
-  uint32_t val = 0xFFFFFFFF;
-  _lastRead = millis();
-  if (_readRegister(AGS02MA_DATA))
+  uint32_t val = _readSensor();
+  if (_error == AGS02MA_OK)
   {
-    _status = _buffer[0];
-    val =  _buffer[1] * 65536UL;
-    val += _buffer[2] * 256;
-    val += _buffer[3];
-    if (_CRC8(_buffer, 5) != 0)
-    {
-      _error = AGS02MA_CRC_ERROR;
-    }
+    _lastRead = millis();
+    _lastPPB = val;
+  }
+  else
+  {
+    val = _lastPPB;
   }
   return val;
 }
@@ -153,19 +169,15 @@ uint32_t AGS02MA::readPPB()
 
 uint32_t AGS02MA::readUGM3()
 {
-  // TODO identical code wise to PPB, can be merged into one.
-  uint32_t val = 0xFFFFFFFF;
-  _lastRead = millis();
-  if (_readRegister(AGS02MA_DATA))
+  uint32_t val = _readSensor();
+  if (_error == AGS02MA_OK)
   {
-    _status = _buffer[0];
-    val = _buffer[1] * 65536UL;
-    val += _buffer[2] * 256;
-    val += _buffer[3];
-    if (_CRC8(_buffer, 5) != 0)
-    {
-      _error = AGS02MA_CRC_ERROR;
-    }
+    _lastRead = millis();
+    _lastUGM3 = val;
+  }
+  else
+  {
+    val = _lastUGM3;
   }
   return val;
 }
@@ -194,8 +206,30 @@ int AGS02MA::lastError()
 //
 // PRIVATE
 //
+uint32_t AGS02MA::_readSensor()
+{
+  _error = AGS02MA_ERROR_READ;
+  uint32_t val = 0;
+  if (_readRegister(AGS02MA_DATA))
+  {
+    _error = AGS02MA_OK;
+    _status = _buffer[0];
+    val =  _buffer[1] * 65536UL;
+    val += _buffer[2] * 256;
+    val += _buffer[3];
+    if (_CRC8(_buffer, 5) != 0)
+    {
+      _error = AGS02MA_ERROR_CRC;
+    }
+  }
+  return val;
+}
+ 
+
 bool AGS02MA::_readRegister(uint8_t reg)
 {
+  while (millis() - _lastRegTime < 30) yield();
+
 #if defined (__AVR__)
   TWBR = 255;
 #else
@@ -207,15 +241,14 @@ bool AGS02MA::_readRegister(uint8_t reg)
   delay(30);
   if (_wire->requestFrom(_address, (uint8_t)5) != 5)
   {
-    _error = AGS02MA_ERROR;
+    _error = AGS02MA_ERROR_READ;
     _wire->setClock(_I2CResetSpeed);
     return false;
   }
-  for (int i = 0; i < 5; i++)
+  for (uint8_t i = 0; i < 5; i++)
   {
     _buffer[i] = _wire->read();
   }
-  delay(30);
   _wire->setClock(_I2CResetSpeed);
   return true;
 }
@@ -223,6 +256,9 @@ bool AGS02MA::_readRegister(uint8_t reg)
 
 bool AGS02MA::_writeRegister(uint8_t reg)
 {
+  while (millis() - _lastRegTime < 30) yield();
+  _lastRegTime = millis();
+
 #if defined (__AVR__)
   TWBR = 255;
 #else
@@ -230,12 +266,11 @@ bool AGS02MA::_writeRegister(uint8_t reg)
 #endif
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  for (int i = 0; i < 5; i++)
+  for (uint8_t i = 0; i < 5; i++)
   {
     _wire->write(_buffer[i]);
   }
   _error = _wire->endTransmission(true);
-  delay(30);
   _wire->setClock(_I2CResetSpeed);
   return (_error == 0);
 }

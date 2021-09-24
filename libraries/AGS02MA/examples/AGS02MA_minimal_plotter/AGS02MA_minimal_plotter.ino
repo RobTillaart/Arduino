@@ -1,9 +1,9 @@
 //
-//    FILE: AGS02MA_minimal.ino
+//    FILE: AGS02MA_minimal_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.0
 // PURPOSE: test application
-//    DATE: 2021-08-14
+//    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 
@@ -17,6 +17,7 @@
 
 uint8_t buffer[5];
 
+uint8_t cnt = 0;
 
 void setup()
 {
@@ -39,15 +40,19 @@ void loop()
   }
   Serial.println();
 
-  // CONVERT RAW DATA
-  Serial.print("STAT:\t");
-  Serial.println(buffer[0]);
-  Serial.print("PPB:\t");
-  Serial.println(buffer[1] * 65536UL + buffer[2] * 256 + buffer[3]);
-  Serial.print("CRC:\t");
-  Serial.println(buffer[4]);
+  if (cnt == 0)
+  {
+    // CONVERT RAW DATA
+    Serial.println("\nSTAT\tPPB\tCRC");
+    cnt = 20;
+  }
+  cnt--;
+  Serial.print(buffer[0]);
+  Serial.print("\t");
+  Serial.print(buffer[1] * 65536UL + buffer[2] * 256 + buffer[3]);
+  Serial.print("\t");
+  Serial.print(buffer[4]);
   Serial.println();
-
 }
 
 // -- END OF FILE --

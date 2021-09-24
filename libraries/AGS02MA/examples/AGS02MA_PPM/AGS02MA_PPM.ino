@@ -1,9 +1,9 @@
 //
-//    FILE: AGS02MA_PPB.ino
+//    FILE: AGS02MA_PPM.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: test application
-//    DATE: 2021-08-12
+//    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 
@@ -47,20 +47,16 @@ void setup()
   Serial.print(b);
   Serial.print("\t");
   Serial.println(m);
-
-  uint8_t version = AGS.getSensorVersion();
-  Serial.print("VERS:\t");
-  Serial.println(version);
-
 }
 
 
 void loop()
 {
   delay(3000);
-  uint32_t value = AGS.readPPB();
-  Serial.print("PPB:\t");
-  Serial.print(value);
+  Serial.print("PPM:\t");
+  Serial.print(AGS.readPPM(), 3);
+  Serial.print("\t");
+  Serial.print(AGS.dataReady(), HEX);
   Serial.print("\t");
   Serial.print(AGS.lastStatus(), HEX);
   Serial.print("\t");

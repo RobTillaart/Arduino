@@ -1,0 +1,20 @@
+# Syntax Coloring Map For AnalogUVsensor
+
+# Data types (KEYWORD1)
+AnalogUVSensor	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+read	KEYWORD2
+mV2index	KEYWORD2
+index2color	KEYWORD2
+
+setPowerPin	KEYWORD2
+switchOff	KEYWORD2
+switchOn	KEYWORD2
+
+
+# Constants (LITERAL1)
+ANALOG_UVSENSOR_LIB_VERSION	LITERAL1
+

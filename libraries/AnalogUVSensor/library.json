@@ -1,0 +1,22 @@
+{
+  "name": "AnalogUVSensor",
+  "keywords": "Analog UV sensor",
+  "description": "AnalogUVSensor library for Arduino. ",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AnalogUVSensor.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*"
+}

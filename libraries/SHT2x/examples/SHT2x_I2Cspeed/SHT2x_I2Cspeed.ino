@@ -34,7 +34,7 @@ void loop()
 {
   for (uint32_t I2Cfreq = 100000; I2Cfreq < 600000; I2Cfreq += 50000)
   {
-    Serial.print(I2Cfreq/1000);
+    Serial.print(I2Cfreq / 1000);
     Wire.setClock(I2Cfreq);
     test();
   }

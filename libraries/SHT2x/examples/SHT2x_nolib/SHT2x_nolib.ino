@@ -8,6 +8,7 @@
 
 #include "Wire.h"
 
+uint8_t status = 0;
 
 void setup()
 {
@@ -25,19 +26,25 @@ void loop()
 {
   delay(1000);
   float t = getTemperature();
-  Serial.println(t, 1);
+  Serial.print(t, 2);
+  Serial.print("\t");
+  Serial.println(status, HEX);
   delay(1000);
   float h = getHumidity();
-  Serial.println(h, 1);
+  Serial.print(h, 2);
+  Serial.print("\t");
+  Serial.println(status, HEX);
 }
 
+
 ///////////////////////////////////////////////////
+
 
 void testConnected()
 {
   Wire.beginTransmission(0x40);
   int rv = Wire.endTransmission();
-  if (rv != 0) Serial.println("SHT2x_ERR_NOT_CONNECT");
+  if (rv != 0) Serial.println("CONNECT FAILED");
   else Serial.println("CONNECTED");
 }
 
@@ -68,6 +75,7 @@ float getTemperature()
 
   raw = Wire.read() << 8;
   raw += Wire.read();
+  status = raw & 0x0003;
   raw &= 0xFFFC;
 
   Serial.print("RAW TEM: ");
@@ -102,6 +110,7 @@ float getHumidity()
 
   raw = Wire.read() << 8;
   raw += Wire.read();
+  status = raw & 0x0003;
   raw &= 0xFFFC;
 
   Serial.print("RAW HUM: ");

@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -9,6 +9,8 @@
 
 //  HISTORY:
 //  0.1.0   2021-09-25  initial version
+//  0.1.1   2021-09-28  Add HTU2x derived classes,
+//                      update readme.md + add some status info
 
 
 #include "SHT2x.h"
@@ -91,7 +93,7 @@ bool SHT2x::read()
   _rawTemperature &= 0xFFFC;
 
   _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)
+  if (_status == 0xFF)  // TODO  != 0x01
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -111,7 +113,7 @@ bool SHT2x::read()
   _rawHumidity &= 0xFFFC; 
 
   _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)
+  if (_status == 0xFF)  // TODO  != 0x02
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -323,6 +325,19 @@ SHT25::SHT25()
 {
 };
 
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED HTU
+//
+HTU20::HTU20()
+{
+};
+
+
+HTU21::HTU21()
+{
+};
 
 
 // -- END OF FILE --

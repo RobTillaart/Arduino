@@ -6,6 +6,9 @@
 //     URL: https://github.com/RobTillaart/SHT2x
 
 
+// WARNING: NOT TESTED FOR SHT2x - UNDER DEVELOPMENT
+
+
 #include "Wire.h"
 #include "SHT2x.h"
 
@@ -54,7 +57,7 @@ void printHeaterStatus(uint8_t status)
 {
   Serial.print(millis());
   Serial.print("\tHEATER: ");
-  if (status == 0x00)  // todo - elaborate
+  if (status == 0x00)  // TODO - elaborate
   {
     Serial.println("ON");
   } else {

@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,15 +13,18 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.1.0"))
+#define SHT2x_LIB_VERSION             (F("0.1.1"))
 
 
-// fields getStatus   TODO meaning?
-#define SHT2x_STATUS_                 0x00
+//  fields getStatus
+#define SHT2x_STATUS_OPEN_CIRCUIT     0x00
+#define SHT2x_STATUS_TEMPERATURE      0x01
+#define SHT2x_STATUS_HUMIDITY         0x02
+#define SHT2x_STATUS_CLOSED_CIRCUIT   0x03
 
 
-// error codes 
-// kept in sync with SHT31 library
+//  error codes 
+//  kept in sync with SHT31 library
 #define SHT2x_OK                      0x00
 #define SHT2x_ERR_WRITECMD            0x81
 #define SHT2x_ERR_READBYTES           0x82
@@ -44,10 +47,10 @@ public:
 #endif
   bool begin(TwoWire *wire = &Wire);
 
-  // check sensor is reachable over I2C
+  //  check sensor is reachable over I2C
   bool isConnected();
 
-  // read must be called first...
+  //  read must be called get getTemperature / getHumidity
   bool read();
 
   float    getTemperature();
@@ -55,20 +58,28 @@ public:
   uint16_t getRawTemperature() { return _rawHumidity; };
   uint16_t getRawHumidity()    { return _rawTemperature; };
 
-  // might take up to 15 milliseconds.
+  //  might take up to 15 milliseconds.
   bool reset();
 
-  // details see datasheet; summary in SHT2x.cpp file
+  //  from datasheet HTU20
+  //
+  //  |  bits  | value  | meaning             |
+  //  |:------:|:------:|:--------------------|
+  //  |  00    |   0    | open circuit        |
+  //  |  01    |   1    | temperature reading |
+  //  |  10    |   2    | humidity reading    |
+  //  |  11    |   3    | closed circuit      |
+  //
   uint8_t getStatus();
 
   // lastRead is in milliSeconds since start
   uint32_t lastRead() { return _lastRead; };
 
 
-  // HEATER
-  // do not use heater for long periods,
-  // use it for max 3 minutes to heat up
-  // and let it cool down at least 3 minutes.
+  //  HEATER
+  //  do not use heater for long periods,
+  //  use it for max 3 minutes to heat up
+  //  and let it cool down at least 3 minutes.
   void    setHeatTimeout(uint8_t seconds);
   uint8_t getHeatTimeout() { return _heatTimeout; };
 
@@ -105,13 +116,14 @@ private:
 
 ////////////////////////////////////////////////////////
 //
-// DERIVED
+//  DERIVED SHT
 //
 class SHT20 : public SHT2x
 {
 public:
   SHT20();
 };
+
 
 class SHT21 : public SHT2x
 {
@@ -124,6 +136,24 @@ class SHT25 : public SHT2x
 {
 public:
   SHT25();
+};
+
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED HTU
+// 
+class HTU20 : public SHT2x
+{
+public:
+  HTU20();
+};
+
+
+class HTU21 : public SHT2x
+{
+public:
+  HTU21();
 };
 
 

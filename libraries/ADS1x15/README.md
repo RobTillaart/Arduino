@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/ADS1X15/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/ADS1X15/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ADS1X15/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/ADS1X15/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ADS1X15/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ADS1X15/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ADS1X15.svg?maxAge=3600)](https://github.com/RobTillaart/ADS1X15/releases)
 
@@ -25,11 +27,6 @@ although not all sensors support all functionality.
 As the 1015 and the 1115 are both 4 channels these are the most
 interesting from functionality point of view as these can also do
 differential measurement.
-
-
-#### Note
-
-This readme file is work in progress.
 
 
 ## Interface
@@ -78,11 +75,11 @@ in the constructor.
 
 #### Programmable Gain
 
-- **void setGain(uint8_t  gain)** set the gain value, indicating the maxVoltage that can be measured
+- **void setGain(uint8_t gain)** set the gain value, indicating the maxVoltage that can be measured
 Adjusting the gain allows one to make more precise measurements. 
 Note: the gain is not set in the device until an explicit read/request of the ADC (any read call will do).
 See table below.
-- **uint8_t  getGain()** returns the gain value (index).
+- **uint8_t getGain()** returns the gain value (index).
 
 | PGA value | Max Voltage | Notes   |
 |:---------:|:-----------:|:-------:|
@@ -107,6 +104,7 @@ Check the examples.
   ADS.setComparatorThresholdLow( 3.0 / f );
   ADS.setComparatorThresholdLow( 4.3 / f );
 ```
+
 
 #### Operational mode
 
@@ -152,8 +150,8 @@ If the pin number is out of range, this function will return 0.
 
 To read the ADC in an asynchronous way (e.g. to minimize blocking) one has to use three calls:
 - **void requestADC(uint8_t pin)**  Start the conversion. pin = 0..3. 
-- **bool isBusy()** Is the conversion not ready?
-- **bool isReady()** Is the conversion ready? (= wrapper around **isBusy()** )
+- **bool isBusy()** Is the conversion not ready yet? Works only in SINGLE mode!
+- **bool isReady()** Is the conversion ready? Works only in SINGLE mode!  (= wrapper around **isBusy()** )  
 - **int16_t getValue()** Read the result of the conversion.
 
 
@@ -163,6 +161,7 @@ in terms of code
   void setup()
   {
     // other setup things here
+    ADS.setMode(1);               // SINGLE SHOT MODE
     ADS.requestADC(pin);
   }
 
@@ -180,6 +179,7 @@ in terms of code
 ```
 See examples
 
+
 ## ReadADC Differential
 
 For reading the ADC in a differential way there are 4 calls possible.
@@ -191,14 +191,16 @@ For reading the ADC in a differential way there are 4 calls possible.
 - **int16_t readADC_Differential_1_2()** ADS1x15 only - in software (no async equivalent)
 
 The differential reading of the ADC can also be done with asynchronous calls.
-- **int16_t requestADC_Differential_0_1()** starts conversion for differential reading
-- **int16_t requestADC_Differential_0_3()** ADS1x15 only
-- **int16_t requestADC_Differential_1_3()** ADS1x15 only
-- **int16_t requestADC_Differential_2_3()** ADS1x15 only
+- **void requestADC_Differential_0_1()** starts conversion for differential reading
+- **void requestADC_Differential_0_3()** ADS1x15 only
+- **void requestADC_Differential_1_3()** ADS1x15 only
+- **void requestADC_Differential_2_3()** ADS1x15 only
 
 After one of these calls one need to call
-- **bool isBusy()**  Is the conversion ready?
 - **int16_t getValue()** Read the result of the last conversion.
+
+The readiness of a CONTINUOUS conversion can only be detected by the RDY line.
+Use interrupt for this, see examples.
 
 
 #### ReadADC continuous mode
@@ -212,7 +214,10 @@ Note this can be a different pin, so be warned.
 Calling this over and over again can give the same value multiple times.
 
 By using **bool isBusy()** or **bool isReady()** one can wait until new data is available.
-Or one can use the **ALERT/RDY** pin to trigger via hardware the readiness of the conversion.
+NOte this only works in the SINGLE_SHOT modus.
+
+In continuous mode one should use the **ALERT/RDY** pin to trigger via hardware the readiness of the conversion.
+This can be done by using an interrupt.
 
 See examples.
 
@@ -246,7 +251,7 @@ high threshold register. The comparator then de-asserts when the input
 signal falls below the low threshold register value.
 
 - **void setComparatorMode(uint8_t mode)** value 0 = TRADITIONAL 1 = WINDOW, 
-- **uint8_t getComparatorMode()**
+- **uint8_t getComparatorMode()** returns value set.
   
   
 If the comparator **LATCH** is set, the **ALERT/RDY** pin asserts and it will be

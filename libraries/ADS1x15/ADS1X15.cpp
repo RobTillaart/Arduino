@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -20,6 +20,7 @@
 //  0.2.7   2020-09-27  redo readRegister() + getValue() + getError()
 //  0.3.0   2021-03-29  add Wire parameter to constructors.
 //  0.3.1   2021-04-25  #22, add get/setClock() for Wire speed + reset()
+//  0.3.2   2021-10-07  fix build-CI; update readme + add new examples
 
 
 #include "ADS1X15.h"
@@ -28,7 +29,7 @@
 #define ADS1115_CONVERSION_DELAY    8
 
 
-// Kept #defines a bit in line with Adafruits library.
+// Kept #defines a bit in line with Adafruit library.
 
 // REGISTERS
 #define ADS1X15_REG_CONVERT         0x00
@@ -68,7 +69,7 @@
 #define ADS1X15_MODE_CONTINUE       0x0000
 #define ADS1X15_MODE_SINGLE         0x0100
 
-// BIT 5-7      datarate sample per second  // (0..7) << 5
+// BIT 5-7      data rate sample per second  // (0..7) << 5
 /*
 differs for different devices, check datasheet or readme.md
 
@@ -105,16 +106,16 @@ differs for different devices, check datasheet or readme.md
 
 // _CONFIG masks
 //
-// | bit  | description |
-// |:----:|:------------|
-// |  0   | # channels  |
-// |  1   | -           |
-// |  2   | resolution  |
-// |  3   | -           |
-// |  4   | GAIN supported |
+// | bit  | description          |
+// |:----:|:---------------------|
+// |  0   | # channels           |
+// |  1   | -                    |
+// |  2   | resolution           |
+// |  3   | -                    |
+// |  4   | GAIN supported       |
 // |  5   | COMPARATOR supported |
-// |  6   | -           |
-// |  7   | -           |
+// |  6   | -                    |
+// |  7   | -                    |
 //
 #define ADS_CONF_CHAN_1  0x00
 #define ADS_CONF_CHAN_4  0x01
@@ -146,7 +147,7 @@ void ADS1X15::reset()
   setMode(1);      // _mode = ADS1X15_MODE_SINGLE;
   setDataRate(4);  // middle speed, depends on device.
 
-  // COMPARATOR variables   # see notes .h 
+  // COMPARATOR variables   # see notes .h
   _compMode       = 0;
   _compPol        = 1;
   _compLatch      = 0;
@@ -177,9 +178,14 @@ bool ADS1X15::begin()
 
 bool ADS1X15::isBusy()
 {
+  return isReady() == false;
+}
+
+
+bool ADS1X15::isReady()
+{
   uint16_t val = _readRegister(_address, ADS1X15_REG_CONFIG);
-  if ((val & ADS1X15_OS_NOT_BUSY) != 0) return false;
-  return true;
+  return ((val & ADS1X15_OS_NOT_BUSY) > 0);
 }
 
 
@@ -445,7 +451,7 @@ uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
   _wire->endTransmission();
 
   int rv = _wire->requestFrom(address, (uint8_t) 2);
-  if (rv == 2) 
+  if (rv == 2)
   {
     uint16_t value = _wire->read() << 8;
     value += _wire->read();

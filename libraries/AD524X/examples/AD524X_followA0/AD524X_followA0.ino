@@ -4,12 +4,13 @@
 // VERSION: 0.1.2
 // PURPOSE: AD524X demo program
 //    DATE: 2013-10-12
-//     URL:
+//     URL: https://github.com/RobTillaart/AD524X
 //
 
 #include "AD524X.h"
 
 AD524X AD01(0x2C);  // AD0 & AD1 == GND
+
 
 void setup()
 {
@@ -20,6 +21,7 @@ void setup()
   Wire.begin();
   Wire.setClock(400000);
 }
+
 
 void loop()
 {
@@ -38,5 +40,6 @@ void loop()
 
   delay(100);
 }
+
 
 // -- END OF FILE --

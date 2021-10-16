@@ -1,11 +1,14 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
 //
+// HISTORY
+//  2021-10-16  0.3.2  fix build-CI, update readme.md
+
 
 #include "AD524X.h"
 
@@ -74,6 +77,7 @@ uint8_t AD524X::zeroAll()
   return write(1, 0);
 }
 
+
 uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
 {
   if (rdac >= _pmCount) return AS524X_ERROR;
@@ -84,6 +88,7 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
   _lastValue[rdac] = value;
   return send(cmd, value);
 }
+
 
 uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
 {
@@ -98,12 +103,14 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1,
   return send(cmd, value);
 }
 
+
 uint8_t AD524X::setO1(const uint8_t value)
 {
   _O1 = (value == LOW) ? 0 : AS524X_O1_HIGH;
   uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
   return send(cmd, _lastValue[0]);
 }
+
 
 uint8_t AD524X::setO2(const uint8_t value)
 {
@@ -112,20 +119,24 @@ uint8_t AD524X::setO2(const uint8_t value)
   return send(cmd, _lastValue[0]);
 }
 
+
 uint8_t AD524X::getO1()
 {
   return (_O1 > 0);
 }
+
 
 uint8_t AD524X::getO2()
 {
   return (_O2 > 0);
 }
 
+
 uint8_t AD524X::read(const uint8_t rdac)
 {
   return _lastValue[rdac];
 }
+
 
 uint8_t AD524X::readBackRegister()
 {
@@ -134,6 +145,7 @@ uint8_t AD524X::readBackRegister()
   Wire.requestFrom(_address, (uint8_t)1);
   return Wire.read();
 }
+
 
 uint8_t AD524X::midScaleReset(const uint8_t rdac)
 {
@@ -145,6 +157,7 @@ uint8_t AD524X::midScaleReset(const uint8_t rdac)
   _lastValue[rdac] = 127;
   return send(cmd, _lastValue[rdac]);
 }
+
 
 // read datasheet P.15 
 uint8_t AD524X::shutDown()
@@ -166,13 +179,16 @@ uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
   return Wire.endTransmission();
 }
 
-/////////////////////////////////////////////////////////////////////////////
 
-
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+// 
 AD5241::AD5241(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {
   _pmCount = 1;
 };
+
 
 AD5242::AD5242(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {

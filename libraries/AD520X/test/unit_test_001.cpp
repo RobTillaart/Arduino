@@ -66,6 +66,25 @@ unittest(test_setValue)
   {
     assertEqual(42, pot.getValue(i));
   }
+
+  assertFalse(pot.setValue(6, 10));
+
+  AD8400 p8400 = AD8400(10, 12, 13);
+  assertFalse(p8400.setValue(1, 117));
+}
+
+
+unittest(test_setPercentage)
+{
+  AD5206 pot = AD5206(10, 12, 13);  // HW SPI
+  pot.begin();
+  assertEqualFloat(50, pot.getPercentage(0), 0.5);
+
+  for (int i = 0; i < pot.pmCount(); i++)
+  {
+    pot.setPercentage(i, 35);
+    assertEqualFloat(35, pot.getPercentage(i), 0.5);
+  }
 }
 
 

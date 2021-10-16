@@ -2,7 +2,7 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers (+ older AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
 //
@@ -14,6 +14,8 @@
 //  0.1.2   2021-08-19  VSPI / HSPI support for ESP32 only
 //                      add setGPIOpins for ESP32 only
 //                      add SetSPIspeed (generic)
+//  0.2.0   2021-10-16  update build-CI
+//                      add get- and setPercentage()
 
 
 #include "AD520X.h"
@@ -31,7 +33,7 @@ AD520X::AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut,
 }
 
 
-// initializes the pins and starts SPI in case of hardware SPI
+//  initializes the pins and starts SPI in case of hardware SPI
 void AD520X::begin(uint8_t value)
 {
   pinMode(_select, OUTPUT);
@@ -46,19 +48,19 @@ void AD520X::begin(uint8_t value)
   if(_hwSPI)
   {
     #if defined(ESP32)
-    if (_useHSPI)      // HSPI
+    if (_useHSPI)      //  HSPI
     {
       mySPI = new SPIClass(HSPI);
       mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   // CLK=14 MISO=12 MOSI=13
+      mySPI->begin(14, 12, 13, _select);   //  CLK=14 MISO=12 MOSI=13
     }
-    else               // VSPI
+    else               //  VSPI
     {
       mySPI = new SPIClass(VSPI);
       mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   // CLK=18 MISO=19 MOSI=23
+      mySPI->begin(18, 19, 23, _select);   //  CLK=18 MISO=19 MOSI=23
     }
-    #else              // generic hardware SPI
+    #else              //  generic hardware SPI
     mySPI = &SPI;
     mySPI->end();
     mySPI->begin();
@@ -86,17 +88,18 @@ void AD520X::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI and restart
+  mySPI->end();                 //  disable SPI and restart
   mySPI->begin(clk, miso, mosi, select);
 }
 #endif
 
 
-void AD520X::setValue(uint8_t pm, uint8_t value)
+bool AD520X::setValue(uint8_t pm, uint8_t value)
 {
-  if (pm >= _pmCount) return;
+  if (pm >= _pmCount) return false;
   _value[pm] = value;
   updateDevice(pm);
+  return true;
 }
 
 
@@ -113,6 +116,22 @@ uint8_t AD520X::getValue(uint8_t pm)
 {
   if (pm >= _pmCount) return 0;
   return _value[pm];
+}
+
+
+bool AD520X::setPercentage(uint8_t pm, float percentage)
+{
+  if ((percentage < 0) || (percentage > 100.0)) return false;
+  return setValue(pm, round(percentage * (255.0 / 100.0)));
+}
+
+
+float AD520X::getPercentage(uint8_t pm)
+{
+  if (pm >= _pmCount) return 0;
+  uint8_t v = _value[pm];
+  if (v == 0) return 0.0;
+  return (100.0 / 255.0) * v;
 }
 
 
@@ -145,7 +164,7 @@ void AD520X::updateDevice(uint8_t pm)
     mySPI->transfer(_value[pm]);
     mySPI->endTransaction();
   }
-  else // Software SPI
+  else      //  Software SPI
   {
     swSPI_transfer(pm);
     swSPI_transfer(_value[pm]);
@@ -154,7 +173,7 @@ void AD520X::updateDevice(uint8_t pm)
 }
 
 
-// simple one mode version
+//  simple one mode version
 void AD520X::swSPI_transfer(uint8_t val)
 {
   uint8_t clk = _clock;
@@ -170,7 +189,7 @@ void AD520X::swSPI_transfer(uint8_t val)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// DERIVED CLASSES
+//  DERIVED CLASSES
 //
 AD5206::AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
              : AD520X(select, reset, shutdown, dataOut, clock)

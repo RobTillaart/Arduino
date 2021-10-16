@@ -14,6 +14,10 @@ begin	KEYWORD2
 setValue	KEYWORD2
 setAll	KEYWORD2
 getValue	KEYWORD2
+
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
 reset	KEYWORD2
 
 powerOn	KEYWORD2

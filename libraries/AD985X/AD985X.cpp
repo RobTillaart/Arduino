@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
@@ -19,6 +19,7 @@
 //  0.3.1   2021-08-25  VSPI / HSPI support for ESP32
 //                      faster software SPI
 //                      minor optimizations / refactor
+//  0.3.2   2021-10-16  update build-ci
 
 
 #include "AD985X.h"

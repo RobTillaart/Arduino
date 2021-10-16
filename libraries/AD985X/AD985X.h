@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION    (F("0.3.1"))
+#define AD985X_LIB_VERSION    (F("0.3.2"))
 
 
 #define AD9850_MAX_FREQ       (40UL * 1000UL * 1000UL)

@@ -287,7 +287,6 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 
 ## Future
 
-- test library with an ESP32 (check details)
 - examples for ESP32 HWSPI interface
 - performance measurements
 

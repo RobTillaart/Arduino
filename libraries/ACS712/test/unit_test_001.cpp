@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-06
-// PURPOSE: unit tests for the SHT31 temperature and humidity sensor
-//          https://github.com/RobTillaart/SHT31
+// PURPOSE: unit tests for the ACS712 current sensor
+//          https://github.com/RobTillaart/ACS712
 //          https://www.adafruit.com/product/2857
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
@@ -20,12 +20,14 @@
 // assertFalse(actual)
 // assertNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
 #include "ACS712.h"
 
 #define A0      0
+
 
 unittest_setup()
 {

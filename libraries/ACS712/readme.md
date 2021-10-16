@@ -1,7 +1,10 @@
 
 [![Arduino CI](https://github.com/RobTillaart/ACS712/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/ACS712/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ACS712/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/ACS712/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ACS712/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ACS712/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ACS712.svg?maxAge=3600)](https://github.com/RobTillaart/ACS712/releases)
+
 
 # ACS712
 
@@ -11,29 +14,32 @@ Library for the ACS712 Current Sensor - 5A, 20A, 30A
 ## Description
 
 The ACS712 is a chip to measure current, both AC or DC. The chip has an
-analog output that provides a voltage that is lineair with the current.
-The ACS712 library supports only a built in ADC by means of analogRead().
+analogue output that provides a voltage that is linear with the current.
+The ACS712 library supports only a built in ADC by means of **analogRead()**.
 There are 2 core functions:
 
 - **int mA_DC()**
-- **int mA_AC()**
+- **int mA_AC(float freq = 50)** The frequency can be set to typically 50 or 60 Hz
+however other values e.g. 50.1 or 40 or 123.456 are possible.
 
-To measure DC current a single analogRead() with some conversion math is sufficient to get
-a value. To stabilize the signal analogRead() is called twice.
+To measure DC current a single **analogRead()** with some conversion maths is sufficient to get
+a value. To stabilize the signal **analogRead()** is called twice.
 
-To measure AC current **a blocking loop for 20 millis** is run to determine the
+To measure AC current **a blocking loop for 20 milliseconds** is run to determine the
 peak to peak value which is converted to the RMS value. To convert the peak2peak
 value to RMS one need the so called crest or form factor. This factor depends heavily
-on the signal form. For a perfect sinus the value is sqrt(2)/2.
+on the signal form. For a perfect sinus the value is sqrt(2)/2 == 1/sqrt(2).
 
 
 ## Interface
 
 #### Base
 
-- **ACS712(analogPin, volts = 5.0, maxADC = 1023, mVperA = 100)** constructor. It defaults a 20 A type sensor, which is defined by the default value of mVperA. See below.
-- **mA_AC(freq = 50)** blocks ~21 ms to sample a whole 50 or 60 Hz period. Since version 0.2.2 frequencies other than 50 and 60 are supported, the lower the frequency, the longer the blocking period.
-- **mA_DC()** blocks < 1 ms as it just needs one analogue read.
+- **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100)** constructor. It defaults a 20 A type sensor, which is defined by the default value of mVperA. See below.
+- **int mA_AC(float freq = 50)** blocks ~21 ms (depending on the freq) to sample a whole 50 or 60 Hz period.  
+Since version 0.2.2 frequencies other integer values than 50 and 60 are supported, the lower the frequency, the longer the blocking period.
+Since version 0.2.3 floating point frequencies are supported to tune optimally.
+- **int mA_DC()** blocks < 1 ms as it just needs one **analogRead()**.
 
 
 | type sensor  | mVperA | LSB 5V-10bit |
@@ -45,26 +51,27 @@ on the signal form. For a perfect sinus the value is sqrt(2)/2.
 
 #### Midpoint
 
-- **setMidPoint(mp)** sets midpoint for the ADC
-- **autoMidPoint(uint8_t freq = 50)** Auto midPoint, assuming zero DC current or any AC current. Note it will block for 2 periods. Since version 0.2.2 frequencies other than 50 and 60 are supported.
-- **getMidPoint()** read back the value set / determined.
-- **incMidPoint()** manual increase midpoint, e.g. useful to manually adjust the midPoint in an interactive application.
-- **decMidPoint()** manual decrease midpoint
+- **void setMidPoint(uint16_t mp)** sets midpoint for the ADC conversion.
+- **void autoMidPoint(float freq = 50)** Auto midPoint, assuming zero DC current or any AC current. Note it will block for 2 periods. Since version 0.2.2 frequencies other than 50 and 60 are supported.
+By setting the frequency to e.g 1, the code will sample for 2 seconds, possibly getting a better average.
+- **uint16_t getMidPoint()** read the value set / determined.
+- **void incMidPoint()** manual increase midpoint, e.g. useful to manually adjust the midPoint in an interactive application.
+- **void decMidPoint()** manual decrease midpoint.
 
 
 #### Formfactor 
 
 Also known as crest factor;  affects AC signals only. 
 
-- **setFormFactor(ff = ACS712_FF_SINUS)** manually sets form factor  0.0 .. 1.0, 
-- **getFormFactor()** returns current form factor
+- **void setFormFactor(float ff = ACS712_FF_SINUS)** manually sets form factor, must be between 0.0 and 1.0
+- **float getFormFactor()** returns current form factor. 
 
 The library has a number of predefined form factors
 
 |  definition          | value         | approx | notes   |
 |:---------------------|:--------------|:------:|:--------|
-| ACS712_FF_SINUS      | 1.0 / sqrt(2) | 0.707  | default |
 | ACS712_FF_SQUARE     | 1.0           | 1.000  |         |
+| ACS712_FF_SINUS      | 1.0 / sqrt(2) | 0.707  | default |
 | ACS712_FF_TRIANGLE   | 1.0 / sqrt(3) | 0.577  |         |
 |                      |               |        |         |
 
@@ -77,16 +84,16 @@ to improve the quality of your measurements.
 
 Default = 21 mV.
 
-- **setNoisemV(noisemV = 21)** set noise level, is used to determine zero level e.g. in AC measurements.
-- **getNoisemV()** returns set value
+- **void setNoisemV(uint8_t noisemV = 21)** set noise level, is used to determine zero level e.g. in AC measurements.
+- **uint8_t getNoisemV()** returns the set value.
 
 
 #### mV per Ampere
 
 Both for AC and DC. Is defined in the constructor and depends on 
 
-- **setmVperAmp(mva)** sets the milliVolt per Ampere measured.
-- **getmVperAmp()** returns set value.
+- **void setmVperAmp(uint8_t mva)** sets the milliVolt per Ampere measured.
+- **uint8_t getmVperAmp()** returns the set value.
 
 Typical values see constructor above.
 
@@ -117,8 +124,11 @@ The examples show the basic working of the functions.
 
 ## Future
 
-- mA_AC blocks 20 ms so might affect task scheduling on a ESP32.
+- mA_AC blocks 20 ms so might affect task scheduling on a ESP32.  
 This needs to be investigated. Probably need a separate thread that wakes up when new analogRead is available.
-- int point2point(uint8_t freq) function for AC. Is part of mA_AC() already. Needs extra global variables?
-- float frequency as parameter? Or detect zero crossing to start?
+- int point2point(float freq) function for AC. Is part of mA_AC() already.  
+Needs extra global variables, which are slower than local ones  
+Or just cache the last p2p value?
+- detect zero crossing to start? 
+- detect frequency?
 - external analogue read support? separate class?

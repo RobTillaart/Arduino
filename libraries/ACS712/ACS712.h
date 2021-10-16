@@ -2,16 +2,18 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
 // Tested with a RobotDyn ACS712 20A breakout + UNO.
 //
 
+
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.2.2"))
+#define ACS712_LIB_VERSION        (F("0.2.3"))
+
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
 //  should be smaller in practice 0.5 ?
@@ -38,7 +40,7 @@ class ACS712
     // returns mA
     // blocks 20-21 ms to sample a whole 50 or 60 Hz period.
     // lower frequencies block longer.
-    int        mA_AC(uint8_t freq = 50);
+    int        mA_AC(float freq = 50);
 
 
     // returns mA
@@ -52,7 +54,7 @@ class ACS712
     inline void     incMidPoint() { _midPoint++; };
     inline void     decMidPoint() { _midPoint--; };
     // Auto midPoint, assuming zero DC current or any AC current
-    void autoMidPoint(uint8_t freq = 50);
+    void autoMidPoint(float freq = 50);
 
 
     // also known as crest factor;  affects mA_AC() only

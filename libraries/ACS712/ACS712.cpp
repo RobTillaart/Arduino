@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -14,6 +14,8 @@
 //  0.2.0  2020-08-02  Add autoMidPoint
 //  0.2.1  2020-12-06  Add Arduino-CI + readme + unit test + refactor
 //  0.2.2  2021-06-23  support for more frequencies.
+//  0.2.3  2021-10-15  changed frequencies to float, for optimal tuning.
+//                     updated build CI, readme.md
 
 
 #include "ACS712.h"
@@ -30,16 +32,16 @@ ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, uint8_t mVperA)
 }
 
 
-int ACS712::mA_AC(uint8_t freq)
+int ACS712::mA_AC(float freq)
 {
-  uint16_t period  = (1000000UL + freq/2) / freq;
+  uint16_t period  = round(1000000UL / freq);
   uint16_t samples = 0;
   uint16_t zeros   = 0;
 
   int _min, _max;
   _min = _max = analogRead(_pin);
 
-  // remove expensive float operation from loop.
+  //  remove expensive float operation from loop.
   uint16_t zeroLevel = round(_noisemV/_mVpstep);
 
   uint32_t start = micros();
@@ -75,18 +77,19 @@ int ACS712::mA_AC(uint8_t freq)
 
 int ACS712::mA_DC()
 {
-  // read twice to stabilize...
+  //  read twice to stabilize the ADC
   analogRead(_pin);
   int steps = analogRead(_pin) - _midPoint;
   return 1000.0 * steps * _mVpstep / _mVperAmpere;
 }
 
 
-// configure by sampling for 2 cycles of AC
-// Also works for DC as long as no current flowing
-void ACS712::autoMidPoint(uint8_t freq)
+//  configure by sampling for 2 cycles of AC
+//  Also works for DC as long as no current flowing
+//  note this is blocking!
+void ACS712::autoMidPoint(float freq)
 {
-  uint16_t twoPeriods = (2000000UL + freq/2) / freq;
+  uint16_t twoPeriods = round(2000000UL / freq);
 
   uint32_t total   = 0;
   uint32_t samples = 0;

@@ -1,7 +1,6 @@
 //
 //    FILE: AD5144A_test_write.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A

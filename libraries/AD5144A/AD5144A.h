@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION        (F("0.1.2_experimental"))
+#define AD51XXA_VERSION        (F("0.1.3_experimental"))
 
 
 #define AD51XXA_OK             0
@@ -72,7 +72,7 @@ public:
   // page 27-28
   uint8_t setLinearMode(const uint8_t rdac);
   uint8_t setPotentiometerMode(const uint8_t rdac);
-  // 0 = potentio, 1 = linear
+  // 0 = potentiometer, 1 = linear
   uint8_t getOperationalMode(const uint8_t rdac);
 
   uint8_t incrementLinear(const uint8_t rdac);
@@ -86,10 +86,10 @@ public:
 
 
   // SYNC functions
-  // preload registers to change all channels synchronuous
+  // preload registers to change all channels synchronous
   uint8_t preload(const uint8_t rdac, const uint8_t value);
   uint8_t preloadAll(const uint8_t value);
-  // copy the preloads to the channels. The bitmask indicates which channels
+  // copy the preloads to the channels. The bit mask indicates which channels
   // b00001101 would indicate channel 0, 2 and 3;
   uint8_t sync(const uint8_t mask);
 
@@ -109,18 +109,20 @@ public:
 
   // USE WITH CARE - READ DATASHEET
   // write to control register
+  //
   // value :       0                   1
   // bit 0 : FREEZE RDAC's       normal operation
   // bit 1 : EEPROM DISABLED     normal operation
   // bit 2 : normal operation    LINEAR GAIN MODE
   // bit 3 : normal operation    BURST MODE
+  //
   uint8_t writeControlRegister(uint8_t mask);
   // TODO separate get set functions ?
 
 
 protected:
-  uint8_t _potCount = 4;    // unknown
-  uint8_t _maxValue = 255;  // unknown
+  uint8_t _potCount = 4;    // unknown, default max
+  uint8_t _maxValue = 255;  // unknown, default max
 
 
 private:
@@ -133,8 +135,11 @@ private:
   TwoWire*  _wire;
 };
 
-//////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
 class AD5123 : public AD51XX
 {
   AD5123(const uint8_t address, TwoWire *wire = &Wire);

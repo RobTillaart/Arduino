@@ -36,12 +36,34 @@ preload	KEYWORD2
 preloadAll	KEYWORD2
 sync	KEYWORD2
 
+setTopScale	KEYWORD2
+clrTopScale	KEYWORD2
+setTopScaleAll	KEYWORD2
+clrTopScaleAll	KEYWORD2
+setBottomScale	KEYWORD2
+clrBottomScale	KEYWORD2
+setBottomScaleAll	KEYWORD2
+clrBottomScaleAll	KEYWORD2
+
+setLinearMode	KEYWORD2
+setPotentiometerMode	KEYWORD2
+getOperationalMode	KEYWORD2
+incrementLinear	KEYWORD2
+incrementLinearAll	KEYWORD2
+decrementLineair	KEYWORD2
+decrementLineairAll	KEYWORD2
+increment6dB	KEYWORD2
+increment6dBAll	KEYWORD2
+decrement6dB	KEYWORD2
+decrement6dBAll	KEYWORD2
+
 readBackINPUT	KEYWORD2
 readBackEEPROM	KEYWORD2
 readBackCONTROL	KEYWORD2
 readBackRDAC	KEYWORD2
 
 pmCount	KEYWORD2
+maxValue	KEYWORD2
 shutDown	KEYWORD2
 
 

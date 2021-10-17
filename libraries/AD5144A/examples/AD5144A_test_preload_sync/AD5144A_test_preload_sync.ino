@@ -1,14 +1,13 @@
 //
 //    FILE: AD5144A_test_preload_sync.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 // connect the AD5144A to a multichannel scope
-// to verify the potmeters change at the same time 
+// to verify the potentiometers change at the same time 
 
 
 #include "AD5144A.h"

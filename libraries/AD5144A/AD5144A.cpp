@@ -1,7 +1,7 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -10,6 +10,7 @@
 //  0.1.0   2021-04-30  initial version
 //  0.1.1   2021-05-12  add topScale() and bottomScale()
 //  0.1.2   2021-05-12  add increment() and decrement() functions
+//  0.1.3   2021-10-17  update build-ci, improve readme.md
 
 
 #include "AD5144A.h"
@@ -338,25 +339,27 @@ uint8_t AD51XX::writeControlRegister(uint8_t mask)
   return send(cmd, mask);
 }
 
+
 //////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
-/*
-_wire->endTransmission
-0:success
-1:data too long to fit in transmit buffer
-2:received NACK on transmit of address
-3:received NACK on transmit of data
-4:other error
-*/
+//
+//  _wire->endTransmission
+//  returns   description
+//    0:      success
+//    1:      data too long to fit in transmit buffer
+//    2:      received NACK on transmit of address
+//    3:      received NACK on transmit of data
+//    4:      other error
+//  
 uint8_t AD51XX::send(const uint8_t cmd, const uint8_t value)
 {
   // COMMAND 1 - page 20
   _wire->beginTransmission(_address);  // returns nothing.
   _wire->write(cmd);                   // returns bytes written
   _wire->write(value);                 // returns bytes written
-  return _wire->endTransmission();     // returns status of actual write..
+  return _wire->endTransmission();     // returns status of actual write
 }
 
 
@@ -380,14 +383,17 @@ uint8_t AD51XX::readBack(const uint8_t rdac, const uint8_t mask)
   return _wire->read();
 }
 
-/////////////////////////////////////////////////////////////////////////////
 
-
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
 AD5123::AD5123(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 4;
   _maxValue = 127;
 }
+
 
 AD5124::AD5124(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
@@ -395,11 +401,13 @@ AD5124::AD5124(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
   _maxValue = 127;
 }
 
+
 AD5143::AD5143(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 4;
   _maxValue = 255;
 }
+
 
 AD5144::AD5144(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
@@ -407,11 +415,13 @@ AD5144::AD5144(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
   _maxValue = 255;
 }
 
+
 AD5144A::AD5144A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 4;
   _maxValue = 255;
 }
+
 
 AD5122A::AD5122A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
@@ -419,17 +429,20 @@ AD5122A::AD5122A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
   _maxValue = 128;
 }
 
+
 AD5142A::AD5142A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 2;
   _maxValue = 255;
 }
 
+
 AD5121::AD5121(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 1;
   _maxValue = 128;
 }
+
 
 AD5141::AD5141(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {

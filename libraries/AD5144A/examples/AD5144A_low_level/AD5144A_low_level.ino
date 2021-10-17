@@ -1,7 +1,6 @@
 //
 //    FILE: AD5144A_low_level.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test low level IO
 //    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A

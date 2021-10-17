@@ -1,7 +1,6 @@
 //
 //    FILE: AD5144A_test_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: indication performance methods of the class
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A

@@ -1,7 +1,6 @@
 //
 //    FILE: AD5144A_test_writeAll.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test writeAll + wrappers
 //    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A

@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/AD5144A/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/AD5144A/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD5144A/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/AD5144A/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD5144A/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD5144A/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD5144A.svg?maxAge=3600)](https://github.com/RobTillaart/AD5144A/releases)
 
@@ -37,6 +39,7 @@ The AD5144A devices support standard 100 kHz, and fast 400 kHz, data transfer mo
 The library has a number of functions which are all quite straightforward.
 
 As the library is experimental, function signatures might change in the future.
+
 
 ### Constructors
 
@@ -81,9 +84,9 @@ Returns true if the address of the device can be found on the I2C bus.
 
 Used to set one channel at the time. 
 
-- **uint8_t write(rdac, value)** set channel rdac 0..3 to value 0..255 (depending on type less channels and lower max value should be used)
+- **uint8_t write(uint8_t rdac, uint8_t value)** set channel rdac 0..3 to value 0..255 (depending on type less channels and lower max value should be used)
 The value is also written into a cache of last set values for fast retrieval later.
-- **uint8_t read(rdac)** read back set value from the **cache**, not from the device.
+- **uint8_t read(uint8_t rdac)** read back set value from the **cache**, not from the device.
 
 
 ### EEPROM
@@ -92,39 +95,72 @@ The value stored in the EEPROM is the value the 4 potmeters will start at boot t
 This allows to start at predefined values and makes it possibly easier to continue after
 a reboot.
 
-- **uint8_t storeEEPROM(rdac)** store the current channel value in EEPROM.
-- **uint8_t storeEEPROM(rdac, value)** store a specific (new) value in EEPROM.
-- **uint8_t recallEEPROM(rdac)** get the value from EEPROM and set the channel.
+- **uint8_t storeEEPROM(uint8_t rdac)** store the current channel value in EEPROM.
+- **uint8_t storeEEPROM(uint8_t rdac, uint8_t value)** store a specific (new) value in EEPROM.
+- **uint8_t recallEEPROM(uint8_t rdac)** get the value from EEPROM and set the channel.
 
 
 ### Async 
 
 Sets values in sequence, not at exact same time
 
-- **uint8_t writeAll(value)** write the same value to all channels.
+- **uint8_t writeAll(uint8_t value)** write the same value to all channels.
 - **uint8_t zeroAll()** sets all channels to 0
 - **uint8_t midScaleAll()** sets all channels to their midpoint 128 / 64
 - **uint8_t maxAll()** sets all channels to the max 255 / 127
-- **uint8_t zero(rdac)** sets one channel to 0
-- **uint8_t midScale(rdac)** sets one channel to its midpoint = 128 / 64
-- **uint8_t maxValue(rdac)** sets one channel to the max 255 / 127
+- **uint8_t zero(uint8_t rdac)** sets one channel to 0
+- **uint8_t midScale(uint8_t rdac)** sets one channel to its midpoint = 128 / 64
+- **uint8_t maxValue(uint8_t rdac)** sets one channel to the max 255 / 127
 
 
 ### Sync
 
-- **uint8_t preload(rdac, value)** prepare a rdac for a new value but only use it after **sync()** is called.
-- **uint8_t preloadAll(value)** prepape all rdacs with the same value, and wait for **sync()**
-- **uint8_t sync(mask)** will transfer the preloaded values to the (4) rdacs at the very same moment. The 4-bit mask is used to select which rdacs to sync.
+- **uint8_t preload(uint8_t rdac, uint8_t value)** prepare a single rdac for a new value but only use it after **sync()** is called.
+- **uint8_t preloadAll(uint8_t value)** prepare all rdacs with the same value, and wait for **sync()**
+- **uint8_t sync(uint8_t mask)** will transfer the preloaded values to the (4) rdacs at the very same moment. 
+The 4-bit mask is used to select which rdacs to sync.
+
+
+### TopScale BottomScale
+
+See page 27 datasheet
+
+- **uint8_t setTopScale(uint8_t rdac)**
+- **uint8_t clrTopScale(uint8_t rdac)**
+- **uint8_t setTopScaleAll()**
+- **uint8_t clrTopScaleAll()**
+- **uint8_t setBottomScale(uint8_t rdac)**
+- **uint8_t clrBottomScale(uint8_t rdac)**
+- **uint8_t setBottomScaleAll()**
+- **uint8_t clrBottomScaleAll()**
+
+
+### Operational modes
+
+See page 27-28 datasheet
+
+- **uint8_t setLinearMode(uint8_t rdac)**
+- **uint8_t setPotentiometerMode(uint8_t rdac)**
+- **// 0 = potentio, 1 = linear
+- **uint8_t getOperationalMode(uint8_t rdac)**
+- **uint8_t incrementLinear(uint8_t rdac)**
+- **uint8_t incrementLinearAll()**
+- **uint8_t decrementLineair(uint8_t rdac)**
+- **uint8_t decrementLineairAll()**
+- **uint8_t increment6dB(uint8_t rdac)**
+- **uint8_t increment6dBAll()**
+- **uint8_t decrement6dB(uint8_t rdac)**
+- **uint8_t decrement6dBAll()**
 
 
 ### ReadBack
 
 These function read back from the internal registers of the actual device.
 
-- **uint8_t readBackINPUT(rdac)** reads back the "preload value" in the INPUT register.
-- **uint8_t readBackEEPROM(rdac)** reads the **boot value** for the selected rdac from EEPROM.
-- **uint8_t readBackCONTROL(rdac)** read back the control register. Read the datasheet for the details of the individual bits.
-- **uint8_t readBackRDAC(rdac)** reads the value of the rdac from the device. 
+- **uint8_t readBackINPUT(uint8_t rdac)** reads back the "preload value" in the INPUT register.
+- **uint8_t readBackEEPROM(uint8_t rdac)** reads the **boot value** for the selected rdac from EEPROM.
+- **uint8_t readBackCONTROL(uint8_t rdac)** read back the control register. Read the datasheet for the details of the individual bits.
+- **uint8_t readBackRDAC(uint8_t rdac)** reads the value of the rdac from the device. 
 
 
 ### Write control register
@@ -136,7 +172,9 @@ Read the datasheet for the details of the individual bits.
 
 ### Misc
 
-- **uint8_t pmCount()** returns the number of potmeters / channels the device has. Useful when writing your own loops over all channels.
+- **uint8_t pmCount()** returns the number of potentiometers / channels the device has. 
+Useful when writing your own loops over all channels.
+- **uint8_t maxValue()** return maxValue (127 / 255) of the potentiometer.
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
 
 
@@ -145,21 +183,15 @@ Read the datasheet for the details of the individual bits.
 The examples show the basic working of the functions.
 
 
-## TODO
+## Future
 
 See also open issues.
 
-#### Must
-
-- testing ...
-- example sketches
-
-#### Could
-
-- CI test code
+- update documentation
+- more testing ...
+- CI unit test code
 - SPI based version of the library ?
 - test for maxValue when writing a channel as not all derived use 0..255
-
 - some functions can be performance optimized
   - writing a value is not needed is last value is the same?
 

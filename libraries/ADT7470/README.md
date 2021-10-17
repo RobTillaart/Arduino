@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/ADT7470/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/ADT7470/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ADT7470/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/ADT7470/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ADT7470/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ADT7470/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ADT7470.svg?maxAge=3600)](https://github.com/RobTillaart/ADT7470/releases)
+
 
 # ADT7470 Library
 
 Arduino library for I2C ADT7470 Fan Monitoring
+
 
 ## Description
 
@@ -29,12 +33,13 @@ cabinet.
 Do not forget to put a diode over the Fan to prevent damage due to
 inductive pulse when switched off.
 
+
 ## ADT7470 Address Select Mode
 
 (from datasheet)
 
 | Pin 11 | (ADDR) State | Address |
-|:----:|:----:|:----:|
+|:------:|:------------:|:-------:|
 | High (10 kΩ to VCC)   | 010 1111 (0x5E left-justified or 0x2F right-justified) | 
 | Low (10 kΩ to GND)    | 010 1100 (0x58 left-justified or 0x2C right-justified) |
 | Floating (no pull-up) | 010 1110 (0x5C left-justified or 0x2E right-justified) |
@@ -45,47 +50,48 @@ inductive pulse when switched off.
 The interface consists of:
 
 - **ADT7470()** constructor
-- **begin()** initialize the I2C bus
-- **isConnected()** check if the module is connected to the I2C bus
-- **getRevision()** version of the firmware
-- **getDeviceID()** should return 0x70
-- **getCompanyID()** should return 0x41
-- **startMonitoring()** 
-- **stopMonitoring()**
-- **powerDown()** energy save mode
-- **powerUp()** active mode
-- **getTemperature(idx)** idx = 0..9; if connected it returns the temperature 
-of sensor idx. Temperature sensors are daisy chaned.
-- **getMaxTemperature()** get max temperature of connected temperature sensors.
-- **setTemperatureLimit(idx, low, high)** for ALARM function
-- **getTemperatureLowLimit(idx)**
-- **getTemperatureHighLimit(idx)**
-- **setPWM(idx, val)** set the speed of the fan at idx
-- **getPWM(idx)** read back the speed set. 
-- **setFanLowFreq(val = 0)** 
-- **setFanHighFreq(val = 0)** 
-- **setInvertPWM(idx)**
-- **getInvertPWM(idx)**
-- **setPulsesPerRevolution(idx, val)** val should be 1..4 as a fan gives 1..4 pulses per revolution. 
-This valus is needed to calculate a correct tach and RPM.
-- **getPulsesPerRevolution(idx)** read back PulsePerRevolution. returns 1..4.
-- **setFastTach()** Tach register is updated 4x per second.
-- **setSlowTach()** Tach register is updated 1x per second. 
-- **getTach(idx)** get the raw pulses.
-- **getRPM(idx)** get a Revolutions Per Minute, based upon **getTach()**
-- **setTachLimits(idx, low, high)** 
-- **getTachLowLimits(idx)** 
-- **getTachHighLimits(idx)** 
-- **getTemperatureIRQstatus()**
-- **setTemperatureIRQMask(idx)**
-- **clrTemperatureIRQMask(idx)**
-- **getTemperatureIRQMask(idx)**
-- **getFanIRQstatus()**
-- **setFanIRQMask(idx)**
-- **clrFanIRQMask(idx)**
-- **getFanIRQMask(idx)**
+- **void begin()** initialize the I2C bus
+- **bool isConnected()** check if the module is connected to the I2C bus
+- **uint8_t getRevision()** version of the firmware
+- **uint8_t getDeviceID()** should return 0x70
+- **uint8_t getCompanyID()** should return 0x41
+- **void startMonitoring()** 
+- **void stopMonitoring()**
+- **void powerDown()** energy save mode
+- **void powerUp()** active mode
+- **int8_t getTemperature(uint8_t idx)** idx = 0..9; if connected it returns the temperature 
+of sensor idx. Temperature sensors are daisy changed.
+- **int8_t getMaxTemperature()** get max temperature of connected temperature sensors.
+- **bool setTemperatureLimit(uint8_t idx, int8_t low, int8_t high)** for ALARM function
+- **int8_t getTemperatureLowLimit(uint8_t idx)**
+- **int8_t getTemperatureHighLimit(uint8_t idx)**
+- **bool setPWM(uint8_t idx, uint8_t val)** set the speed of the fan at idx
+- **uint8_t getPWM(uint8_t idx)** read back the speed set. 
+- **bool setFanLowFreq(val = 0)** 
+- **bool setFanHighFreq(val = 0)** 
+- **void setInvertPWM(uint8_t idx)**
+- **uint8_t getInvertPWM(uint8_t idx)**
+- **bool setPulsesPerRevolution(uint8_t idx, uint8_t val)** val should be 1..4 as a fan gives 1..4 pulses per revolution. 
+This value is needed to calculate a correct tach and RPM.
+- **uint8_t getPulsesPerRevolution(uint8_t idx)** read back PulsePerRevolution. returns 1..4.
+- **void setFastTach()** Tach register is updated 4x per second.
+- **void setSlowTach()** Tach register is updated 1x per second. 
+- **uint16_t getTach(uint8_t idx)** get the raw pulses.
+- **uint32_t getRPM(uint8_t idx)** get Revolutions Per Minute, based upon **getTach()**
+- **bool setTachLimits(uint8_t idx, uint16_t low, uint16_t high)** 
+- **uint16_t getTachLowLimits(uint8_t idx)** 
+- **uint16_t getTachHighLimits(uint8_t idx)** 
+- **uint16_t getTemperatureIRQstatus()**
+- **void setTemperatureIRQMask(uint8_t idx)**
+- **void clrTemperatureIRQMask(uint8_t idx)**
+- **uint8_t getTemperatureIRQMask(uint8_t idx)**
+- **uint8_t getFanIRQstatus()**
+- **void setFanIRQMask(uint8_t idx)**
+- **void clrFanIRQMask(uint8_t idx)**
+- **uint8_t getFanIRQMask(uint8_t idx)**
 
 The descriptions are short and need to be extended. 
+
 
 ## Todo / investigate / not implemented yet
 
@@ -96,7 +102,7 @@ The descriptions are short and need to be extended.
 https://ez.analog.com/temperature_sensors/f/discussions/77540/adt7470-and-tmp05-daisy-chain-temeparure-sensing
 - FULLSPEED pin, must it be in the library?  
 software version ==> fullspeed(idx)
-- automode
+- auto mode
 - improve documentation, readme.md file.
 - ...
 

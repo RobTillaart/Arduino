@@ -2,7 +2,7 @@
 //
 //    FILE: ADT7470.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for I2C ADT7470 Fan Monitoring
 //     URL: https://github.com/RobTillaart/ADT7470
 //          http://forum.arduino.cc/index.php?topic=363218.0
@@ -10,10 +10,11 @@
 // HISTORY:
 // see ADT7470.cpp file
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADT7470_LIB_VERSION         "0.1.1"
+#define ADT7470_LIB_VERSION         (F("0.1.3"))
 
 #ifndef ADT7470_TIMEOUT
 #define ADT7470_TIMEOUT             1000
@@ -27,6 +28,7 @@
 #ifndef ADT7470_ADDR_FLOAT
 #define ADT7470_ADDR_FLOAT          0x2E
 #endif
+
 
 class ADT7470
 {
@@ -69,7 +71,6 @@ public:
   // Page 21
   void     setInvertPWM(uint8_t idx);
   uint8_t  getInvertPWM(uint8_t idx);
-  
 
 
   // MEASURE FAN SPEED

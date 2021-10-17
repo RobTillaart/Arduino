@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //
@@ -17,6 +17,7 @@
 //  0.1.8   2021-04-08  clear scratchpad before read + update readme.md
 //  0.1.9   2021-05-26  add oneWire.reset() in begin()
 //  0.1.10  2021-06-14  add retries param to begin()
+//  0.1.11  2021-10-03  add dependency + fix build-CI
 
 
 #include "DS18B20.h"

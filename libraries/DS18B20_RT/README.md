@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/DS18B20/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS18B20/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DS18B20.svg?maxAge=3600)](https://github.com/RobTillaart/DS18B20/releases)
 

@@ -1,7 +1,10 @@
 
 [![Arduino CI](https://github.com/RobTillaart/AnalogPin/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/AnalogPin/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AnalogPin/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/AnalogPin/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AnalogPin/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AnalogPin/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AnalogPin.svg?maxAge=3600)](https://github.com/RobTillaart/AnalogPin/releases)
+
 
 # AnalogPin
 
@@ -12,27 +15,37 @@ Arduino library to add functionality on top of analogRead()
 
 AnalogPin is an Arduino class that adds noise filtering and smoothing
 to analogRead().
-Furthermore it can speed up the analogRead() function by tuning the prescaler.
+Furthermore it can speed up the analogRead() function by tuning the pre-scaler.
 This latter is AVR only.
+
+
+## Interface
+
+
+- **AnalogPin(uint8_t pin)** constructor with analogue pin as parameter.
+- **void setPrescaler(uint8_t prescale = 7)** AVR only pre-scaler.
+- **uint8_t getPrescaler()** return pre-scaler set.
+- **void  setNoiseThreshold(uint8_t noise = 0)** set noise level that should be ignored. Typical 0..2.
+- **uint8_t getNoiseThreshold()** return set value.
+- **void setSmoothWeight(uint8_t alpha = 0)** alpha = 0..31, parameter for low pass filter.
+- **uint8_t getSmoothWeight(void)** returns set alpha.
+- **int read(bool twice = false)** read function, optional read twice to stabilize.
+- **int readSmoothed()** read version that uses low pass filter.
+- **int readPrevious()** returns previous read value.
+- **int readLast()** returns last read value without reading a new one.
 
 
 ## Operation
 
-**readLast()** returns the last read value without reading a new one.
-
-**get/setPrescaler(prescale)** can be used to speed up analogRead().
-
-The effect is that both the accuracy and precission are affected.
+**get/setPrescaler(prescale)** can be used to speed up analogRead().  
+The effect is that both the accuracy and precision are affected.
 You should verify if this is acceptable for your project.
 ***Works only for AVR based boards***
 
+**get/setNoiseThreshold(noise)** is used to set the noise threshold to be used by the **read()** function.
 
-**get/setNoiseThreshold(noise)** is used to set the noise threshold to be used by 
-the **read()** function.
-
-**read(twice)** implements an **analogRead()** that supresses small noise fluctuations.
-The parameter twice is used to force analogRead() to be executed twice to reduce noise 
-from the multiplexing.
+**read(twice)** implements an **analogRead()** that suppresses small noise fluctuations.
+The parameter twice is used to force analogRead() to be executed twice to reduce noise from the multiplexing.
 
 Example: if the previous read has the value 300 and you
 want to interpret all subsequent readings between 290
@@ -56,8 +69,9 @@ This can be used to suppress noise too.
 
 **readSmoothed()** implements an analogRead with a running average build in.
 
-Two functions that expose information that might sometimes be useful.
-**readPrevious()** returns the previous value read.
 
-**readLast()** returns the last value read.
+## Future
+
+- more examples
+
 

@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/DS18B20_INT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/DS18B20_INT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_INT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/DS18B20_INT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_INT/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS18B20_INT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DS18B20_INT.svg?maxAge=3600)](https://github.com/RobTillaart/DS18B20_INT/releases)
 
@@ -35,11 +37,8 @@ returns true if all is OK. there will be a number of retries to connect, default
 - **void requestTemperatures()** trigger temperature comversion
 - **bool isConversionComplete()** check if conversion is complete
 - **int16_t getTempC()** returns temperature in whole degrees only. -55..125  
--127 = DEVICE_DISCONNECTED  
-
+-127 = DEVICE_DISCONNECTED
 - **bool getAddress()** returns true if the sensor is configured (available)
-
-
 
 
 ## Operation

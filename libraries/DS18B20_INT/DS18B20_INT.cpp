@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -13,6 +13,7 @@
 //  0.1.3   2020-12-20  add arduino-ci + unit test
 //  0.1.4   2021-05-26  add onewire.reset() to begin()
 //  0.1.5   2021-06-16  add retries param to begin()
+//  0.1.6   2021-10-03  add dependency + fix build-CI
 
 
 #include "DS18B20_INT.h"

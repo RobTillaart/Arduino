@@ -1,22 +1,24 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
 //
-//  0.1.10  2021-01-16  readme.md + minor refactor
-//  0.1.9   2020-12-10  Arduino ci
-//  0.1.8   2020-05-27  update library.json
-//  0.1.7   2020-03-26  refactor #pragma once
-//  0.1.06  fixed bug negative values.
-//  0.1.05  added AngleFormat proxy added 03/03/15 by Christoper Andrews.
-//  0.1.04  changed thousands in tenthousands, string constructor
-//  0.1.03  added URL, fromRadians [TEST]
-//  0.1.02  added toRadians() + fix compare()
-//  0.1.01  cleanup a bit
+//  HISTORY
 //  0.1.00  initial version
+//  0.1.01  cleanup a bit
+//  0.1.02  added toRadians() + fix compare()
+//  0.1.03  added URL, fromRadians [TEST]
+//  0.1.04  changed thousands in tenthousands, string constructor
+//  0.1.05  added AngleFormat proxy added 03/03/15 by Christoper Andrews.
+//  0.1.06  fixed bug negative values.
+//  0.1.7   2020-03-26  refactor #pragma once
+//  0.1.8   2020-05-27  update library.json
+//  0.1.9   2020-12-10  Arduino ci
+//  0.1.10  2021-01-16  readme.md + minor refactor
+//  0.1.11  2021-10-17  update build-ci, 
 
 
 #include "Angle.h"
@@ -118,9 +120,9 @@ Angle::Angle(char * str)
         yy *= 10;
     }
     // convert float to degrees. 1000000000 ~> 36000000  -> /250 * 9
-    // yy = yy * 4 / 125 + yy / 250;  // just keeps the math within 32 bits
+    // yy = yy * 4 / 125 + yy / 250;  // just keeps the maths within 32 bits
     yy = yy * 4 / 125;
-    yy = yy + (yy + 4)/ 8;  // just keeps the math within 32 bits
+    yy = yy + (yy + 4)/ 8;  // just keeps the maths within 32 bits
     // split yy in m, s, tt
     t = yy % 10000UL;
     yy = yy / 10000UL;

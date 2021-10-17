@@ -1,8 +1,8 @@
 #pragma once
 //
 //    FILE: Angle.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.10
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.11
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION 		(F("0.1.10"))
+#define ANGLE_LIB_VERSION 		(F("0.1.11"))
 
 
 class Angle;

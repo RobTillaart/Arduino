@@ -1,6 +1,6 @@
-# Syntax Coloring Map For Angle
+# Syntax Colouring Map For Angle
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Angle	KEYWORD1
 AngleFormatMode	KEYWORD1
 AngleFormat	KEYWORD1

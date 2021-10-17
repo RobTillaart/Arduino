@@ -1,15 +1,14 @@
 //
 //    FILE: test_angle01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
 // PURPOSE: demo sketch to test angle class
 //    DATE: 2015-07-30
-//     URL:
-//
-// Released to the public domain
+//     URL: https://github.com/RobTillaart/Angle.git
 //
 
+
 #include "Angle.h"
+
 
 Angle a(1, 2, 3, 4);
 Angle b(45, 30);
@@ -21,6 +20,7 @@ Angle aa(-1, 2, 3, 45);
 Angle bb(0, -2, 3, 45);
 Angle cc(0, 0, -3, 45);
 Angle dd(0, 0, 0, -45);
+
 
 void testConstructors()
 {
@@ -63,6 +63,7 @@ void testConstructors()
   Serial.println(uu.toDouble(), 9);
   Serial.println(vv);
 }
+
 
 void testToDouble()
 {
@@ -116,6 +117,7 @@ void testToDouble()
   Serial.println();
 }
 
+
 void testParts()
 {
   Serial.println("\n3. degrees, minutes, seconds, thousands");
@@ -133,6 +135,7 @@ void testParts()
   Serial.println(cc.second());
   Serial.println(cc.tenthousand());
 }
+
 
 void testCompare()
 {
@@ -186,6 +189,7 @@ void testCompare()
   Serial.println();
 }
 
+
 void testNegate()
 {
   Serial.println("\n6. negate  ");
@@ -203,6 +207,7 @@ void testNegate()
   Angle ww(0, 0, 0, 0);
   Serial.println(-ww);
 }
+
 
 void testAdd()
 {
@@ -309,6 +314,7 @@ void testAdd()
   }
 }
 
+
 void testSubtract()
 {
   Serial.println("\n8.1 Subtract  -");
@@ -397,6 +403,7 @@ void testSubtract()
 
 }
 
+
 void testMultiply()
 {
   Serial.println("\n9. Multiply  *  *=");
@@ -407,6 +414,7 @@ void testMultiply()
   a *= 3.1;
   Serial.println(a);
 }
+
 
 void testDivide()
 {
@@ -419,6 +427,7 @@ void testDivide()
   d /= PI;
   Serial.println(d);
 }
+
 
 void testRatio()
 {
@@ -457,6 +466,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
+

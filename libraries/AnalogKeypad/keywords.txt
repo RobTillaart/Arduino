@@ -1,6 +1,6 @@
-# Syntax Coloring Map For AnalogKeypad
+# Syntax Colouring Map For AnalogKeypad
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AnalogKeypad	KEYWORD1
 
 

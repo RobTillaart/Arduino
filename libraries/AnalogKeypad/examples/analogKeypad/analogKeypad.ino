@@ -1,17 +1,17 @@
 //
 //    FILE: analogKeypad.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
-// PURPOSE:
+// PURPOSE: demo 4x4 analogue keypad
 //
-// HISTORY:
 // https://www.tinytronics.nl/shop/nl/arduino/accessoires/robotdyn-keypad-4x4-matrix-analoog?search=matrix
 //
+
 
 #include "AnalogKeypad.h"
 
 AnalogKeypad AKP(A0);
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -20,6 +20,9 @@ void setup()
   Serial.print("ANALOGKEYPAD_LIB_VERSION:\t");
   Serial.println(ANALOGKEYPAD_LIB_VERSION);
 
+  Serial.println();
+  test3();
+  
   for (int i = 0; i < 100; i++) test1();
   for (int i = 0; i < 100; i++) test2();
 }
@@ -27,6 +30,7 @@ void setup()
 void loop()
 {
 }
+
 
 // 
 void test1()
@@ -39,6 +43,7 @@ void test1()
   }
   delay(100);
 }
+
 
 // use the "event" interface
 void test2()
@@ -79,3 +84,5 @@ void test3()
   Serial.println(button);
   delay(100);
 }
+
+// -- END OF FILE --

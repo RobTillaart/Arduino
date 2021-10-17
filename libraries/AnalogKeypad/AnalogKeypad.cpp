@@ -1,50 +1,49 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 //
-// HISTORY:
-// 0.1.0   2019-01-31  initial version
-// 0.1.1   2019-02-01  add pressed() event() last()
-// 0.1.2   2019-02-01  refactored rawRead(), first stable version
-// 0.1.3   2020-03-25  minor refactoring
-// 0.1.4   2020-05-27  update library.json
-// 0.1.5   2020-12-09  add arduino-ci
-// 0.1.6   2021-05-27  fix arduino-lint
+//  HISTORY:
+//  0.1.0  2019-01-31  initial version
+//  0.1.1  2019-02-01  add pressed() event() last()
+//  0.1.2  2019-02-01  refactored rawRead(), first stable version
+//  0.1.3  2020-03-25  minor refactoring
+//  0.1.4  2020-05-27  update library.json
+//  0.1.5  2020-12-09  add arduino-ci
+//  0.1.6  2021-05-27  fix arduino-lint
+//  0.2.0  2021-10-17  update build-ci, readme,
+//                     add bits as parameter in constructor.
 
 
 #include "AnalogKeypad.h"
 
 
 // NOTE the MAGIC NUMBERS in rawRead() are for 8 BIT ADC
-// (8 bit compares are fast)
+// as 8 bit compares are fast
 //
-// The AKP_SHIFT takes care if the ADC generates more
-// than e.g. 10 bits. Change AKP_BITS to match your 
-// build in ADC.
+// The _analogShift takes care if the ADC has more
+// than e.g. 10 bits. 
 //
-// Arduino UNO3 build in ==>  10  BITS
-//         so AKP_SHIFT  ==>  2
-//
-#define AKP_BITS    10
-#define AKP_SHIFT   (AKP_BITS - 8)
+// Arduino UNO3 build in ==>  10 bits
+// Other may have 12 or even 16 bits.
 
 
-AnalogKeypad::AnalogKeypad(const uint8_t pin)
+AnalogKeypad::AnalogKeypad(const uint8_t pin, const uint8_t bits)
 {
-  _pin = pin;
-  _lastKey = NOKEY;
+  _analogPin   = pin;
+  _analogShift = bits - 8;
+  _lastKey     = NOKEY;
 }
 
 
 uint8_t AnalogKeypad::event()
 {
   int rv = NOKEY;
-  uint8_t _key = rawRead();
+  uint8_t _key = _rawRead();
 
-  if (_key == 0 && _lastKey == 0)         rv = NOKEY;
+  if      (_key == 0 && _lastKey == 0)    rv = NOKEY;
   else if (_key != 0 && _lastKey == 0)    rv = PRESSED;
   else if (_key == 0 && _lastKey != 0)    rv = RELEASED;
   else if (_key != 0 && _lastKey != 0 && _key == _lastKey)  rv = REPEATED;
@@ -60,7 +59,7 @@ uint8_t AnalogKeypad::pressed()
 {
   int rv = NOKEY;
 
-  uint8_t _key = rawRead();
+  uint8_t _key = _rawRead();
   if (_key == _lastKey)           // NOKEY OR REPEAT
   {
     rv = _lastKey;
@@ -86,16 +85,16 @@ uint8_t AnalogKeypad::pressed()
 
 uint8_t AnalogKeypad::read()
 {
-  _lastKey = rawRead();
+  _lastKey = _rawRead();
   return _lastKey;
 }
 
 
 // Adjust numbers for other than 4x4 keypad
-uint8_t AnalogKeypad::rawRead()
+uint8_t AnalogKeypad::_rawRead()
 {
-  // spends most time in analogRead (uno ~110 usec) 
-  uint8_t val = analogRead(_pin) >> AKP_SHIFT;
+  // spends most time in analogRead (UNO ~110 microseconds) 
+  uint8_t val = (analogRead(_analogPin) >> _analogShift);
 
   // handle NOKEY first
   if (val < 57) return 0;

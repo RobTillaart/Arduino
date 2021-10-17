@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -21,6 +21,7 @@
 //  0.3.0   2021-03-29  add Wire parameter to constructors.
 //  0.3.1   2021-04-25  #22, add get/setClock() for Wire speed + reset()
 //  0.3.2   2021-10-07  fix build-CI; update readme + add new examples
+//  0.3.3   2021-10-17  update build-CI (esp32), readme.md, keywords.txt
 
 
 #include "ADS1X15.h"

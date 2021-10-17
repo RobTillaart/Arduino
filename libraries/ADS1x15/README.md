@@ -145,7 +145,7 @@ Data rate in samples per second, based on datasheet numbers.
 
 Reading the ADC is very straightforward, the **readADC()** function handles
 all in one call. Under the hood it uses the asynchronous calls.
-- **int16_t readADC(pin)** normal ADC functionality, pin = 0..3. 
+- **int16_t readADC(uint8_t pin)** normal ADC functionality, pin = 0..3. 
 If the pin number is out of range, this function will return 0.
 
 To read the ADC in an asynchronous way (e.g. to minimize blocking) one has to use three calls:
@@ -214,7 +214,7 @@ Note this can be a different pin, so be warned.
 Calling this over and over again can give the same value multiple times.
 
 By using **bool isBusy()** or **bool isReady()** one can wait until new data is available.
-NOte this only works in the SINGLE_SHOT modus.
+Note this only works in the SINGLE_SHOT modus.
 
 In continuous mode one should use the **ALERT/RDY** pin to trigger via hardware the readiness of the conversion.
 This can be done by using an interrupt.

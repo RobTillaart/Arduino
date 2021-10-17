@@ -1,7 +1,6 @@
 //
 //    FILE: uvi_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo UV sensor
 //    DATE: 2021-09-25
 

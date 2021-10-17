@@ -2,7 +2,7 @@
 //
 //    FILE: AnalogUVSensor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-09-25
 // PURPOSE: AnalogUVSensor library
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define ANALOG_UVSENSOR_LIB_VERSION        (F("0.1.0"))
+#define ANALOG_UVSENSOR_LIB_VERSION        (F("0.1.1"))
 
 
 class AnalogUVSensor

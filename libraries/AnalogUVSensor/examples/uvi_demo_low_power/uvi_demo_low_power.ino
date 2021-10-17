@@ -1,7 +1,6 @@
 //
 //    FILE: uvi_demo_low_power.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo UV sensor
 //    DATE: 2021-09-25
 
@@ -21,7 +20,7 @@ void setup()
 
   AUV.begin(A0, 5.0, 1023);
   
-  AUV.setPowerPin(4);
+  AUV.setPowerPin(4);           // connect power of sensor to pin 4
   AUV.switchOff();
 }
 
@@ -29,7 +28,7 @@ void setup()
 void loop()
 {
   AUV.switchOn();
-  float uvi = AUV.read();
+  float uvi = AUV.read();       // default is 1 read
   AUV.switchOff();
 
   Serial.print("UVI: ");

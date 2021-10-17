@@ -1,7 +1,6 @@
 //
 //    FILE: demUV.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo UV sensor
 //    DATE: 2021-09-25
 
@@ -25,7 +24,7 @@ void setup()
 
 void loop()
 {
-  float uvi = AUV.read();
+  float uvi = AUV.read(3);      // average 3 readings
   Serial.print("UVI: ");
   Serial.print(uvi, 1);
   Serial.print("\t");

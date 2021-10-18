@@ -1,6 +1,6 @@
-# Syntax Coloring Map For ANSI
+# Syntax Colouring Map For ANSI
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 ANSI	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
@@ -10,9 +10,11 @@ low	KEYWORD2
 underline	KEYWORD2
 blink	KEYWORD2
 reverse	KEYWORD2
+
 clearScreen	KEYWORD2
 home	KEYWORD2
 gotoXY	KEYWORD2
+
 cursorUp	KEYWORD2
 cursorDown	KEYWORD2
 cursorForward	KEYWORD2
@@ -21,6 +23,7 @@ clearLine	KEYWORD2
 
 foreground	KEYWORD2
 background	KEYWORD2
+
 color	KEYWORD2
 gray2color	KEYWORD2
 grey2color	KEYWORD2

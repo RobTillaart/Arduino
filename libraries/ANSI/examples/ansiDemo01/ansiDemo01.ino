@@ -8,6 +8,7 @@
 //    (c) : MIT
 //
 
+
 #include "ansi.h"
 
 ANSI ansi(&Serial);
@@ -87,7 +88,10 @@ void setup()
 
   delay(1000);
   ansi.normal();
+
+  ansi.println("\ndone...");
 }
+
 
 void loop()
 {

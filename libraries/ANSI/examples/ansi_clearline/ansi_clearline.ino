@@ -8,6 +8,7 @@
 //    (c) : MIT
 //
 
+
 #include "ansi.h"
 
 ANSI ansi(&Serial);
@@ -32,7 +33,7 @@ void setup()
     delay(100);
   }
   delay(1000);
-  
+
   for (int i = 12; i < 20; i++)
   {
     ansi.gotoXY(i, 4 + 2 * i);
@@ -48,8 +49,6 @@ void setup()
     delay(100);
   }
   delay(1000);
-
-  
 }
 
 void loop()

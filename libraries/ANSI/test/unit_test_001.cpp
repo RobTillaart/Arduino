@@ -29,20 +29,25 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
 
+
 unittest(test_constructor)
 {
   ANSI ansi(&Serial);
+  fprintf(stderr, "ANSI_LIB_VERSION: %s\n", (char *) ANSI_LIB_VERSION);
 
   assertEqual(12, ansi.println("1234567890") );
 }
 
+
 unittest(test_gray2color)
 {
   ANSI ansi(&Serial);
+  fprintf(stderr, "ANSI_LIB_VERSION: %s\n", (char *) ANSI_LIB_VERSION);
 
   for (int gray = 0; gray < 255; gray += 31)
   {
@@ -50,6 +55,7 @@ unittest(test_gray2color)
     assertEqual(232 + gray * 3 / 32, color);
   }
 }
+
 
 unittest_main()
 

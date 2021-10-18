@@ -1,17 +1,20 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
 //
-// 0.1.0    2020-04-28  initial version
-// 0.1.1    2020-05-27  update library.json
-// 0.1.2    2020-07-08  added clearLine + color support (thanks airbornemint)
-// 0.1.3    2020-12-11  added arduino-ci + unit test (minimal)
+//  0.1.0   2020-04-28  initial version
+//  0.1.1   2020-05-27  update library.json
+//  0.1.2   2020-07-08  added clearLine + color support (thanks airbornemint)
+//  0.1.3   2020-12-11  added Arduino-CI + unit test (minimal)
+//  0.1.4   2020-10-18  updated Arduino-CI (esp32) + examples
+
 
 #include "ansi.h"
+
 
 ANSI::ANSI(Stream * stream)
 {
@@ -20,17 +23,17 @@ ANSI::ANSI(Stream * stream)
 
 int ANSI::available()
 {
-	return _stream->available();
+  return _stream->available();
 }
 
 int ANSI::read()
 {
-	return _stream->read();
+  return _stream->read();
 }
 
 int ANSI::peek()
 {
-	return _stream->peek();
+  return _stream->peek();
 }
 
 void ANSI::clearScreen()

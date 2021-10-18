@@ -1,6 +1,6 @@
 {
   "name": "AverageAngle",
-  "keywords": "Angle,average,RADIANS,DEGREES,heading",
+  "keywords": "Angle,average,RADIANS,DEGREES,GRADIANS,heading",
   "description": "Library to average angles.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AverageAngle.git"
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*"

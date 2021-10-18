@@ -1,12 +1,14 @@
 //
 //    FILE: averageAngle.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
-// PURPOSE: demonstates the usage of the AverageAngle Class
+// VERSION: 0.1.1
+//    DATE: 2017-11-21
+// PURPOSE: demonstrates the usage of the AverageAngle Class
 //
-// HISTORY: 0.1.0 2017-11-21 initial version
+
 
 #include "AverageAngle.h"
+
 
 void setup()
 {
@@ -23,9 +25,11 @@ void setup()
   test7();
 }
 
+
 void loop()
 {
 }
+
 
 void test0()
 {
@@ -44,6 +48,7 @@ void test0()
   Serial.println("EXPECT:\t10");
   Serial.println();
 }
+
 
 void test1()
 {
@@ -66,6 +71,7 @@ void test1()
   Serial.println();
 }
 
+
 void test2(int count)
 {
   AverageAngle AA(AverageAngle::DEGREES);
@@ -87,6 +93,7 @@ void test2(int count)
   Serial.println();
 }
 
+
 void test3(int count)
 {
   AverageAngle AA(AverageAngle::RADIANS);
@@ -107,6 +114,7 @@ void test3(int count)
   Serial.println("EXPECT:\t~PI/2");
   Serial.println();
 }
+
 
 void test4()
 {
@@ -132,6 +140,7 @@ void test4()
   Serial.println();
 }
 
+
 void test5()
 {
   AverageAngle AA(AverageAngle::DEGREES);
@@ -155,6 +164,7 @@ void test5()
   Serial.println("EXPECT:\t~359");
   Serial.println();
 }
+
 
 void test6()
 {
@@ -180,16 +190,21 @@ void test6()
   Serial.println();
 }
 
+
 void test7()
 {
   AverageAngle AA(AverageAngle::DEGREES);
   AverageAngle BB(AverageAngle::RADIANS);
+  AverageAngle CC(AverageAngle::GRADIANS);
+
   Serial.println(__FUNCTION__);
   Serial.print("AA:\t");
   Serial.println(AA.type());
   Serial.print("BB:\t");
   Serial.println(BB.type());
-  Serial.println("EXPECT:\tAA=0 BB=1");
+  Serial.println("CC:\t");
+  Serial.println(CC.type());
+  Serial.println("EXPECT:\tAA=0 BB=1 CC=2");
   Serial.println();
 }
 

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For AverageAngle
+# Syntax Colouring Map For AverageAngle
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AverageAngle	KEYWORD1
 AngleType	KEYWORD1
 
@@ -16,4 +16,6 @@ getAverageLength	KEYWORD2
 
 # Constants (LITERAL1)
 AVERAGE_ANGLE_LIB_VERSION	LITERAL1
-
+DEGREES	LITERAL1
+RADIANS	LITERAL1
+GRADIANS	LITERAL1

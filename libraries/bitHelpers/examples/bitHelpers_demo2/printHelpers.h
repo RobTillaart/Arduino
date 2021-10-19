@@ -78,6 +78,7 @@ char * print64(int64_t n, uint8_t base = 10)
   return buf;
 }
 
+
 char * print64(uint64_t n, uint8_t base = 10)
 {
   char * buf = __printbuffer;
@@ -115,6 +116,7 @@ char * print64(uint64_t n, uint8_t base = 10)
   }
   return buf;
 }
+
 
 ////////////////////////////////////////////////////////////
 //
@@ -223,15 +225,18 @@ char * scieng(double number, uint8_t digits, uint8_t em)
   return buf;
 }
 
+
 char * eng(double number, uint8_t digits)
 {
   return scieng(number, digits, 3);
 }
 
+
 char * sci(double number, uint8_t digits)
 {
   return scieng(number, digits, 1);
 }
+
 
 void sci(Stream &str, double f, uint8_t digits)
 {

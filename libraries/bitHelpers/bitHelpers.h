@@ -2,22 +2,24 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
 //
-// 0.0.1    2015-11-07  initial version
-// 0.1.0    2020-07-29  initial release
-// 0.1.1    2020-08-10  added BitsNeeded, bitSet64 family
-// 0.1.2    2020-12-14  add Arduino-CI + unit tests
-// 0.1.3    2021-08-09  update readme.md + unit tests
+//  HISTORY
+//  0.0.1  2015-11-07  initial version
+//  0.1.0  2020-07-29  initial release
+//  0.1.1  2020-08-10  added BitsNeeded, bitSet64 family
+//  0.1.2  2020-12-14  add Arduino-CI + unit tests
+//  0.1.3  2021-08-09  update readme.md + unit tests
+//  0.1.4  2021-10-19  update Arduino-CI + badges 
 
 
 #include "Arduino.h"
 
-
-#define BH_BIG_NR        1000000000
+#define BITHELPER_LIB_VERSION         (F("0.1.4"))
+#define BH_BIG_NR                     1000000000
 
 
 ////////////////////////////////////////////////
@@ -36,6 +38,7 @@ uint8_t bitCountReference(uint32_t value)
   return count;
 };
 
+
 uint8_t bitCountKR(uint32_t value)
 {
   // Kerningham & Ritchie
@@ -48,6 +51,7 @@ uint8_t bitCountKR(uint32_t value)
   }
   return count;
 };
+
 
 uint8_t bitCountArray(uint32_t value)
 {
@@ -62,6 +66,7 @@ uint8_t bitCountArray(uint32_t value)
   return count;
 };
 
+
 uint8_t bitCountF1(uint32_t value)
 {
   //  parallel adding in a register SWAG algorithm
@@ -74,6 +79,7 @@ uint8_t bitCountF1(uint32_t value)
   return v & 0x0000003F;
 };
 
+
 uint8_t bitCountF2(uint32_t value)
 {
   //  parallel adding in a register SWAG algorithm
@@ -83,6 +89,7 @@ uint8_t bitCountF2(uint32_t value)
   v = ((v + (v >> 4)) & 0x0F0F0F0F);
   return ( v * 0x01010101) >> 24;
 };
+
 
 ////////////////////////////////////////////////
 //
@@ -98,6 +105,7 @@ uint8_t bitCount(uint8_t value)
   return v;
 };
 
+
 uint8_t bitCount(uint16_t value)
 {
   //  parallel adding in a register SWAG algorithm
@@ -108,6 +116,7 @@ uint8_t bitCount(uint16_t value)
   v = v + (v >> 8);
   return v & 0xFF;
 };
+
 
 uint8_t bitCount(uint32_t value)
 {
@@ -120,6 +129,7 @@ uint8_t bitCount(uint32_t value)
   v = v + (v >> 16);
   return v & 0xFF;
 };
+
 
 uint8_t bitCount(uint64_t value)
 {
@@ -148,6 +158,7 @@ uint8_t bitReverse(uint8_t val)
   return x;
 }
 
+
 uint16_t bitReverse(uint16_t val)
 {
   uint16_t x = val;
@@ -157,6 +168,7 @@ uint16_t bitReverse(uint16_t val)
   x = (x >> 8) | (x << 8);
   return x;
 }
+
 
 uint32_t bitReverse(uint32_t val)
 {
@@ -168,6 +180,7 @@ uint32_t bitReverse(uint32_t val)
   x = (x >> 16) | (x << 16);
   return x;
 }
+
 
 uint64_t bitReverse(uint64_t val)
 {
@@ -193,6 +206,7 @@ uint8_t nybbleReverse(uint8_t val)
   return x;
 }
 
+
 uint16_t nybbleReverse(uint16_t val)
 {
   uint16_t x = val;
@@ -200,6 +214,7 @@ uint16_t nybbleReverse(uint16_t val)
   x = (x >> 8) | (x << 8);
   return x;
 }
+
 
 uint32_t nybbleReverse(uint32_t val)
 {
@@ -210,6 +225,7 @@ uint32_t nybbleReverse(uint32_t val)
   return x;
 }
 
+
 uint64_t nybbleReverse(uint64_t val)
 {
   uint64_t x = val;
@@ -219,6 +235,7 @@ uint64_t nybbleReverse(uint64_t val)
   x = (x >> 32) | (x << 32);
   return x;
 }
+
 
 ////////////////////////////////////////////////
 //
@@ -231,6 +248,7 @@ uint16_t byteReverse(uint16_t val)
   return x;
 }
 
+
 uint32_t byteReverse(uint32_t val)
 {
   uint32_t x = val;
@@ -238,6 +256,7 @@ uint32_t byteReverse(uint32_t val)
   x = (x >> 16) | (x << 16);
   return x;
 }
+
 
 uint64_t byteReverse(uint64_t val)
 {
@@ -260,6 +279,7 @@ uint32_t wordReverse(uint32_t val)
   return x;
 }
 
+
 uint64_t wordReverse(uint64_t val)
 {
   uint64_t x = val;
@@ -278,15 +298,18 @@ uint8_t swap(uint8_t val)
   return (val << 4) | (val >> 4);
 }
 
+
 uint16_t swap(uint16_t val)
 {
   return (val << 8) | (val >> 8);
 }
 
+
 uint32_t swap(uint32_t val)
 {
   return (val << 16) | (val >> 16);
 }
+
 
 uint64_t swap(uint64_t val)
 {
@@ -304,17 +327,20 @@ uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
   return (value << pos) | (value >> (8 - pos));
 }
 
+
 uint16_t bitRotateLeft(uint16_t value, uint8_t pos)
 {
   if (pos > 15) return value;
   return (value << pos) | (value >> (16 - pos));
 }
 
+
 uint32_t bitRotateLeft(uint32_t value, uint8_t pos)
 {
   if (pos > 31) return value;
   return (value << pos) | (value >> (32 - pos));
 }
+
 
 uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
 {
@@ -333,17 +359,20 @@ uint8_t  bitRotateRight(uint8_t value, uint8_t pos)
   return (value << (8 - pos)) | (value >> pos);
 }
 
+
 uint16_t bitRotateRight(uint16_t value, uint8_t pos)
 {
   if (pos > 15) return value;
   return (value << (16 - pos)) | (value >> pos);
 }
 
+
 uint32_t bitRotateRight(uint32_t value, uint8_t pos)
 {
   if (pos > 31) return value;
   return (value << (32 - pos)) | (value >> pos);
 }
+
 
 uint64_t bitRotateRight(uint64_t value, uint8_t pos)
 {
@@ -362,17 +391,20 @@ uint8_t bitFlip(uint8_t value, uint8_t pos)
   return value ^ (1 << pos);
 }
 
+
 uint16_t bitFlip(uint16_t value, uint8_t pos)
 {
   if (pos > 15) return value;
   return value ^ (1 << pos);
 }
 
+
 uint32_t bitFlip(uint32_t value, uint8_t pos)
 {
   if (pos > 31) return value;
   return value ^ (1UL << pos);
 }
+
 
 uint64_t bitFlip(uint64_t value, uint8_t pos)
 {
@@ -391,17 +423,20 @@ uint8_t bitRot(uint8_t value, float chance = 0.5)
   return value ^ (1 << random(8));
 }
 
+
 uint16_t bitRot(uint16_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(16));
 }
 
+
 uint32_t bitRot(uint32_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(32));
 }
+
 
 uint64_t bitRot(uint64_t value, float chance = 0.5)
 {
@@ -437,6 +472,7 @@ void bitSet64(uint64_t & x, uint8_t n)
   else             x |= 0x1 << n;
 }
 
+
 void bitClear64(uint64_t & x, uint8_t n)
 {
   if (n > 47)      x &= ~(0x1000000000000 << (n - 48));
@@ -445,6 +481,7 @@ void bitClear64(uint64_t & x, uint8_t n)
   else if (n > 15) x &= ~(0x10000 << (n - 16));
   else             x &= ~(0x1 << n);
 }
+
 
 void bitToggle64(uint64_t & x, uint8_t n)
 {
@@ -455,6 +492,7 @@ void bitToggle64(uint64_t & x, uint8_t n)
   else             x ^= (0x1 << n);
 }
 
+
 #elif defined(ESP32) || defined(ESP8266)
 
 void bitSet64(uint64_t & x, uint8_t n)
@@ -463,17 +501,20 @@ void bitSet64(uint64_t & x, uint8_t n)
   else        x |= 0x1 << n;
 }
 
+
 void bitClear64(uint64_t & x, uint8_t n)
 {
   if (n > 31) x &= ~(0x100000000 << (n - 32));
   else        x &= ~(0x1 << n);
 }
 
+
 void bitToggle64(uint64_t & x, uint8_t n)
 {
   if (n > 31) x ^= (0x100000000 << (n - 32));
   else        x ^= (0x1 << n);
 }
+
 
 #else
 
@@ -482,15 +523,18 @@ void bitSet64(uint64_t & x, uint8_t bit)
   x |= 1ULL << bit;
 }
 
+
 void bitClear64(uint64_t & x, uint8_t bit)
 {
   x &= ~(1ULL << bit);
 }
 
+
 void bitToggle64(uint64_t & x, uint8_t bit)
 {
   x ^= 1ULL << bit;
 }
+
 
 #endif
 
@@ -499,6 +543,7 @@ uint8_t bitRead64(uint64_t & x, uint8_t bit)
 {
   return x & (1ULL << bit);
 }
+
 
 void bitWrite64(uint64_t & x, uint8_t bit, uint8_t value)
 {
@@ -524,6 +569,7 @@ uint8_t bitsNeededRef(uint64_t x)
   return n;
 }
 
+
 // workers
 uint8_t bitsNeeded(uint8_t x)
 {
@@ -536,6 +582,7 @@ uint8_t bitsNeeded(uint8_t x)
   return n;
 }
 
+
 uint8_t bitsNeeded(uint16_t x)
 {
   uint8_t y = x >> 8;
@@ -543,12 +590,14 @@ uint8_t bitsNeeded(uint16_t x)
   return bitsNeeded((uint8_t)x);
 }
 
+
 uint8_t bitsNeeded(uint32_t x)
 {
   uint16_t y = x >> 16;
   if (y != 0) return bitsNeeded(y) + 16;
   return bitsNeeded((uint16_t)x);
 }
+
 
 uint8_t bitsNeeded(uint64_t x)
 {
@@ -567,3 +616,4 @@ uint8_t bitsNeeded(uint64_t x)
 
 
 // -- END OF FILE --
+

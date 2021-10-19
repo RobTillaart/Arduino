@@ -1,6 +1,7 @@
-# Syntax Coloring Map For bitHelpers
+# Syntax Colouring Map For bitHelpers
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
+
 
 # Methods and Functions (KEYWORD2)
 bitCountReference	KEYWORD2
@@ -27,5 +28,8 @@ bitWrite64	KEYWORD2
 bitsNeededRef	KEYWORD2
 bitsNeeded	KEYWORD2
 
+
 # Constants (LITERAL1)
+BITHELPER_LIB_VERSION	LITERAL1
+
 

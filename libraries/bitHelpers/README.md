@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/bitHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/bitHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/bitHelpers/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/bitHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/bitHelpers/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/bitHelpers/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/bitHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/bitHelpers/releases)
 
@@ -7,6 +9,7 @@
 # bitHelpers
 
 Arduino library with functions on bit level
+
 
 ## Description
 
@@ -94,6 +97,12 @@ Added Arduino-CI and unit tests
 - update unit tests
 
 
+### 0.1.4
+
+- update build-CI (e.g. ESP32 compilation of tests)
+- update readme.md with badges
+
+
 ## BitReverse n bit number
 
 Trick to reverse a number of n bits  ( 0 < n < 32 ).
@@ -117,13 +126,14 @@ A function could be created to mimic such timing error, by shifting bits from a
 specific position. e.g. 
 - parShiftLeft(00001010, 4) ==> 00011010
 - bitBurst(00000000, 3) ==>  00111000 any group of 3 bits will toggle.
-- bitRot(value, chance = 50%, times = 1) extention...
+- bitRot(value, chance = 50%, times = 1) extension...
 - bitNoggle(value, bit) - toggle all but one bit. (why?)
 - bitSort(value) ==> 00101001 ==> 00000111
 - many more :)
 - add **bitReverse(uint32_t x, uint8_t n)**
 - add **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
 - add **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d)
+- performance tests
 
 ## Operations
 

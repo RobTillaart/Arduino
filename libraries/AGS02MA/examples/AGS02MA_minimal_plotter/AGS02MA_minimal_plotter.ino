@@ -1,7 +1,6 @@
 //
 //    FILE: AGS02MA_minimal_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test application
 //    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
@@ -30,7 +29,6 @@ void setup()
 
 void loop()
 {
-  delay(3000);
   Wire.requestFrom(26, 5);
   for ( int i = 0; i < 5; i++)
   {
@@ -38,7 +36,7 @@ void loop()
     // Serial.print(buffer[i], HEX);  // for debugging.
     // Serial.print('\t');
   }
-  Serial.println();
+  // Serial.println();
 
   if (cnt == 0)
   {
@@ -47,12 +45,16 @@ void loop()
     cnt = 20;
   }
   cnt--;
-  Serial.print(buffer[0]);
-  Serial.print("\t");
-  Serial.print(buffer[1] * 65536UL + buffer[2] * 256 + buffer[3]);
-  Serial.print("\t");
-  Serial.print(buffer[4]);
-  Serial.println();
+  if (buffer[0] == 0x10)
+  {
+    Serial.print(buffer[0]);
+    Serial.print("\t");
+    Serial.print(buffer[1] * 65536UL + buffer[2] * 256 + buffer[3]);
+    Serial.print("\t");
+    Serial.print(buffer[4]);
+    Serial.println();
+    delay(2000);
+  }
 }
 
 // -- END OF FILE --

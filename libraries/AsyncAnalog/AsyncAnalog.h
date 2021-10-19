@@ -2,11 +2,12 @@
 //
 //    FILE: AsyncAnalog.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2018-09-05
-// PURPOSE: async version of analogRead
+// PURPOSE: async version of analogRead for AVR
 //     URL: https://github.com/RobTillaart/AsyncAnalog
 //
+
 
 #if !defined(ARDUINO_ARCH_AVR)
 
@@ -21,12 +22,13 @@
 #include "wiring_private.h"
 #include "pins_arduino.h"
 
-#define ASYNCANALOG_LIB_VERSION "0.1.3"
+#define ASYNCANALOG_LIB_VERSION       (F("0.1.4"))
+
 
 class AsyncAnalog
 {
 public:
-  AsyncAnalog(uint8_t pin);
+  AsyncAnalog(const uint8_t pin);
 
   void start();
   bool ready();

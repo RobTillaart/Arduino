@@ -9,10 +9,11 @@
 // https://www.avrfreaks.net/forum/tut-c-newbies-guide-avr-adc?name=PNphpBB2&file=viewtopic&t=56429
 //
 // HISTORY:
-// 0.1.0   2018-09-05  initial version, based upon analogRead()
-// 0.1.1   2020-03-26  minor refactor
-// 0.1.2   2020-05-27  update library.json
-// 0.1.3   2020-12-12  added Arduino CI, minor fixes
+//  0.1.0  2018-09-05  initial version, based upon analogRead()
+//  0.1.1  2020-03-26  minor refactor
+//  0.1.2  2020-05-27  update library.json
+//  0.1.3  2020-12-12  added Arduino CI, minor fixes
+//  0.1.4  2020-12-12  update Arduino CI, minor fixes
 
 
 #include "AsyncAnalog.h"
@@ -29,6 +30,7 @@ AsyncAnalog::AsyncAnalog(const uint8_t pin)
 #endif
 }
 
+
 void AsyncAnalog::start()
 {
 #if defined(ADCSRB) && defined(MUX5)
@@ -38,7 +40,7 @@ void AsyncAnalog::start()
 #endif
 
 #if defined(ADMUX)
-  // set the analog reference (high two bits of ADMUX) and select the
+  // set the analogue reference (high two bits of ADMUX) and select the
   // channel (low 4 bits).  this also sets ADLAR (left-adjust result)
   // to 0 (the default).
   ADMUX = (DEFAULT << 6) | (_pin & 0x07);
@@ -68,5 +70,6 @@ int AsyncAnalog::value()
 }
 
 #endif        // ARDUINO_ARCH_AVR
+
 
 // -- END OF FILE --

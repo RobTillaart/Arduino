@@ -4,7 +4,9 @@
 // VERSION: 0.1.1
 //    DATE: 2018-09-05
 
+
 #include "AsyncAnalog.h"
+
 
 AsyncAnalog AA(A0);
 
@@ -21,6 +23,7 @@ void setup()
   AA.start();
   start = micros();
 }
+
 
 void loop()
 {
@@ -48,4 +51,5 @@ void loop()
   count++;
 }
 
-// END OF FILE
+
+// -- END OF FILE --

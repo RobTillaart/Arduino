@@ -1,6 +1,6 @@
-# Syntax Coloring Map For AsyncAnalog
+# Syntax Colouring Map For AsyncAnalog
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AsyncAnalog	KEYWORD1
 
 

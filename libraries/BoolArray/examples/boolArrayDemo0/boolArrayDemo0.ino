@@ -1,12 +1,10 @@
 //
-//    FILE: boolArrayDemo2.ino
+//    FILE: boolArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.4
 // PURPOSE: demo performance reading boolean array
 //    DATE: 2015-12-06
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
-//
-// Released to the public domain
 //
 
 
@@ -57,7 +55,7 @@ void loop()
 void test0()
 {
   Serial.println();
-  Serial.println("SET TEST0");
+  Serial.println("TEST SET(1)");
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -77,17 +75,17 @@ void test0()
   duration2 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration2);
-  Serial.print("\t\t\t");
-  Serial.println(duration2 - duration1);
-  Serial.print("       X:\t");
-  Serial.println(x);
+  Serial.print("\t\t");
+  Serial.print(duration2 - duration1);
+  Serial.print("\t");
+  Serial.println((duration2 - duration1) / (1.0 * b.size()));
 }
 
 
 void test1()
 {
   Serial.println();
-  Serial.println("SET TEST0");
+  Serial.println("TEST SET(0)");
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -107,17 +105,17 @@ void test1()
   duration2 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration2);
-  Serial.print("\t\t\t");
-  Serial.println(duration2 - duration1);
-  Serial.print("       X:\t");
-  Serial.println(x);
+  Serial.print("\t\t");
+  Serial.print(duration2 - duration1);
+  Serial.print("\t");
+  Serial.println((duration2 - duration1) / (1.0 * b.size()));
 }
 
 
 void test2()
 {
   Serial.println();
-  Serial.println("GET TEST");
+  Serial.println("TEST GET(i)");
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -137,40 +135,54 @@ void test2()
   duration2 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration2);
-  Serial.print("\t\t\t");
-  Serial.println(duration2 - duration1);
-  Serial.print("       X:\t");
-  Serial.println(x);
+  Serial.print("\t\t");
+  Serial.print(duration2 - duration1);
+  Serial.print("\t");
+  Serial.println((duration2 - duration1) / (1.0 * b.size()));
 }
 
 
 void test3()
 {
   Serial.println();
-  Serial.println("SET TEST");
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
   {
     b.set(i, 0);
   }
-  duration1 = micros();
-  Serial.print("DURATION:\t");
+  duration1 = micros() - start;
+  Serial.print("TEST SET(0):\t");
   Serial.println(duration1);
+  delay(10);
+
+  start = micros();
+  b.setAll(0);
+  duration2 = micros() - start;
+  Serial.print("TEST SETALL(0):\t");
+  Serial.println(duration2);
+  Serial.print("FACTOR:\t\t");
+  Serial.println(1.0 * duration1 / duration2);
+  Serial.println();
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
   {
-    b.set(i, 0);
-    b.set(i, 0);
+    b.set(i, 1);
   }
-  duration2 = micros();
-  Serial.print("DURATION:\t");
+  duration1 = micros() - start;
+  Serial.print("TEST SET(1):\t");
+  Serial.println(duration1);
+  delay(10);
+
+  start = micros();
+  b.setAll(1);
+  duration2 = micros() - start;
+  Serial.print("TEST SETALL(1):\t");
   Serial.println(duration2);
-  Serial.print("\t\t\t");
-  Serial.println(duration2 - duration1);
-  Serial.print("       X:\t");
-  Serial.println(x);
+  Serial.print("FACTOR:\t\t");
+  Serial.println(1.0 * duration1 / duration2);
 }
 
 // -- END OF FILE --

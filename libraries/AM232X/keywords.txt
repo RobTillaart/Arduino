@@ -1,7 +1,7 @@
-# Syntax Coloring Map For DHT_I2C
+# Syntax Colouring Map For DHT_I2C
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AM232X	KEYWORD1
 
 

@@ -5,7 +5,7 @@
 // PURPOSE: demo sketch for AM2322 I2C humidity & temperature sensor
 //
 // HISTORY:
-// 0.1.0   2020-09-01 simple program to dump for plotter.
+// 0.1.0   2020-09-01  simple program to dump for plotter.
 // 0.1.1   2021-01-28  added begin() ++
 
 //

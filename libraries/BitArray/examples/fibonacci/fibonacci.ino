@@ -2,7 +2,8 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
 //    DATE: 2018-03-05
-// PURPOSE: Generate Fibonaci numbers
+// PURPOSE: Generate Fibonacci numbers
+//     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=532760.0
 
 
@@ -12,6 +13,7 @@
 
 BitArray a;
 BitArray b;
+
 
 void setup()
 {
@@ -49,8 +51,10 @@ void setup()
   Serial.println(millis() - start);
 }
 
+
 void loop()
 {}
+
 
 // add numbers in groups of 3 digits
 void add()
@@ -78,5 +82,6 @@ void add()
     a.set(i, tb);
   }
 }
+
 
 // -- END OF FILE --

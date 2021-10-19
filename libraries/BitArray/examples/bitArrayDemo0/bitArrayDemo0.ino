@@ -4,21 +4,16 @@
 // VERSION: 0.1.02
 // PURPOSE: demo - store 2000 dice rolls
 //    DATE: 14-11-2015
-//     URL:
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/BitArray
+
 
 #include "BitArray.h"
-
-//#include "avrheap.h"
 
 #define SAMPLES 2000
 
 BitArray diceRolls;
 int count[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
-//Avrheap myheap;
 
 void setup()
 {
@@ -31,8 +26,6 @@ void setup()
     int x = diceRolls.begin(3, SAMPLES);  // 3 bits can hold any value 1..6
     if (x == BA_NO_MEMORY_ERR) Serial.println("no mem");
     diceRolls.clear();
-
-    // myheap.followHeap();
 
     Serial.print("CAPACITY:\t");
     Serial.println(diceRolls.capacity());
@@ -59,7 +52,6 @@ void setup()
     }
     Serial.println();
 
-    // myheap.followHeap();
 
     Serial.println();
     for (int i = 0; i < SAMPLES; i++)
@@ -107,7 +99,11 @@ void setup()
     Serial.println("\n finish test...\n");
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
 

@@ -4,14 +4,13 @@
 // VERSION: 0.1.00
 // PURPOSE: demo
 //    DATE: 14-11-2015
-//     URL:
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/BitArray
+
 
 #include "BitArray.h"
 
 BitArray b;
+
 
 void setup()
 {
@@ -26,6 +25,7 @@ void setup()
   test(6, 1000);   // 64 steps
   test(4, 3000);   // 16 steps
 }
+
 
 void test(byte bits, uint16_t samples)
 {
@@ -63,4 +63,7 @@ void test(byte bits, uint16_t samples)
 void loop()
 {
 }
+
+
+// -- END OF FILE --
 

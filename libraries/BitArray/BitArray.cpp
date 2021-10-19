@@ -1,31 +1,30 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 //          http://forum.arduino.cc/index.php?topic=361167
 //
-// 16 bit clear is faster --> verify correctness
+// HISTORY
+//  0.1.00   initial version
+//  0.1.01   added clear() + fixed set bug
+//  0.1.02   first stable version (at last)
+//  0.1.03   refactoring
+//  0.1.04   improve performance
+//  0.1.05   added upper limits
+//  0.1.06   refactored
+//  0.1.07   private calls inline -> performance & footprint
+//  0.1.8    added toggle
+//  0.1.9    fix constructor bug
+//  0.2.0    2020-03-28  #pragma once, readme, fix Fibonacci demo
+//  0.2.1    2020-06-05  fix library.json
+//  0.2.2    2020-12-14  add Arduino-CI + unit test
+//  0.2.3    2021-10-19  update Arduino-CI + setAll(value)
 
-
-// 0.2.2    2020-12-14  add arduino-CI + unit test
-// 0.2.1    2020-06-05  fix library.json
-// 0.2.0    2020-03-28  #pragma once, readme, fix fibnacci demo
-//
-// 0.1.9  - fix constructor bug
-// 0.1.8  - added toggle
-// 0.1.07 - private calls inline -> performance & footprint
-// 0.1.06 - refactored
-// 0.1.05 - added upper limits
-// 0.1.04 - improve performance
-// 0.1.03 - refactoring
-// 0.1.02 - first stabile version (at last)
-// 0.1.01 - added clear() + fixed set bug
-// 0.1.00 - initial version
-//
 
 #include "BitArray.h"
+
 
 BitArray::BitArray()
 {
@@ -35,6 +34,7 @@ BitArray::BitArray()
     }
 }
 
+
 BitArray::~BitArray()
 {
     for (uint8_t i = 0; i < BA_MAX_SEGMENTS; i++)
@@ -42,6 +42,7 @@ BitArray::~BitArray()
         if (_ar[i]) free(_ar[i]);
     }
 }
+
 
 uint8_t BitArray::begin(const uint8_t bits, const uint16_t size)
 {
@@ -67,18 +68,19 @@ uint8_t BitArray::begin(const uint8_t bits, const uint16_t size)
     uint16_t b = _bytes;
     while (b > 0)
     {
-        _ar[_segments] = (uint8_t*) malloc(min(b, BA_SEGMENT_SIZE));
+        _ar[_segments] = (uint8_t*) malloc(min(b, (uint16_t) BA_SEGMENT_SIZE));
         if (_ar[_segments] == NULL)
         {
             _error = BA_NO_MEMORY_ERR;
             return _error;
         }
-        b = b - min(b, BA_SEGMENT_SIZE);
+        b = b - min(b, (uint16_t) BA_SEGMENT_SIZE);
         _segments++;
     }
     _error = BA_OK;
     return _error;
 }
+
 
 uint32_t BitArray::get(const uint16_t idx)
 {
@@ -111,6 +113,7 @@ uint32_t BitArray::set(const uint16_t idx, uint32_t value)
     return value;
 }
 
+
 uint32_t BitArray::toggle(const uint16_t idx)
 {
     // if (_error != BA_OK) return BA_ERR;
@@ -125,6 +128,7 @@ uint32_t BitArray::toggle(const uint16_t idx)
     return v;
 }
 
+
 void BitArray::clear()
 {
     uint16_t b = _bytes;
@@ -133,7 +137,7 @@ void BitArray::clear()
         uint8_t *p = _ar[s];
         if (p)
         {
-            uint8_t t = min(b, BA_SEGMENT_SIZE);
+            uint8_t t = min(b, (uint16_t) BA_SEGMENT_SIZE);
             b -= t;
             while(t--)
             {
@@ -144,7 +148,20 @@ void BitArray::clear()
     }
 }
 
-// 16 bit address usage is faster 
+
+
+void BitArray::setAll(uint32_t value)
+{
+  for (uint16_t i = 0; i < capacity(); i++)
+  {
+    set(i, value);
+  }
+}
+
+
+//      16 bit address usage is faster
+// TODO verify correctness
+//
 // void BitArray::clear()
 // {
     // uint16_t b = _bytes;
@@ -163,6 +180,7 @@ void BitArray::clear()
     // }
 // }
 
+
 // PRIVATE
 inline uint8_t BitArray::_bitget(uint16_t pos)
 {
@@ -180,6 +198,7 @@ inline uint8_t BitArray::_bitget(uint16_t pos)
     return (p[by] >> bi) & 0x01; // bitRead(p[by], bi);
 }
 
+
 inline void BitArray::_bitset(uint16_t pos, uint8_t value)
 {
     uint8_t se = 0;
@@ -196,6 +215,7 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
     if (value == 0) p[by] &= ~(1 << bi); // bitClear(p[by], bi);
     else p[by] |= (1 << bi);             // bitSet(p[by], bi);
 }
+
 
 inline uint8_t BitArray::_bittoggle(const uint16_t pos)
 {
@@ -215,4 +235,5 @@ inline uint8_t BitArray::_bittoggle(const uint16_t pos)
     return (mask > 0);
 }
 
-// END OF FILE
+
+// -- END OF FILE --

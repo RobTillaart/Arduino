@@ -1,6 +1,6 @@
-# Syntax Coloring Map For BitArray
+# Syntax Colouring Map For BitArray
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 BitArray	KEYWORD1
 
 
@@ -15,6 +15,7 @@ clear	KEYWORD2
 get	KEYWORD2
 set	KEYWORD2
 toggle	KEYWORD2
+setAll	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/BitArray/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/BitArray/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/BitArray/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/BitArray/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/BitArray/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/BitArray/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/BitArray.svg?maxAge=3600)](https://github.com/RobTillaart/BitArray/releases)
+
 
 # BitArray
 
 Arduino library for compact array of objects with a size expressed in bits. typically 1..10
+
 
 ## Description
 
@@ -20,30 +24,42 @@ can take more time. You need to check if your application needs more performance
 this library can deliver. 
 
 The BitArray library is one from a set of three:
-- BitArray  for elements of user defined size in bits (values 0 .. 2^n-1)
-- BoolArray for elements of 1 bit (values 0 .. 1)
-- nybbleArray for elements of 4 bits (values 0 .. 15)
+- **BitArray** for elements of user defined size in bits (values 0 .. 2^n-1)
+- **BoolArray** for elements of 1 bit (values 0 .. 1)
+- **nybbleArray** for elements of 4 bits (values 0 .. 15)
 
 
 ## Operations
+
 In the function **begin(#elementsize, #elements)** the element size and number of elements 
 needs to be defined. The maximum number of elements is 65535 if memory allows, 
 the maximum element size is 32.
 
 The basic functions of the class are
-- **set(index, value)**
-- **get(index)**
-- **toggle(index)**
+
+- **set(uint16_t index, uint32_t value)**
+- **get(uint16_t index)**
+- **toggle(uint16_t index)**
+- **setAll(uint32_t value)**
 - **clear()**
 
 Check out the examples.
 
+
 ## Notes
 
-The BitArray class dynamicly allocates memory, so called BA_SEGMENTS, 
+The BitArray class allocates dynamic memory, so called BA_SEGMENTS, 
 each of 200 bytes.
 As the memory size of different processors differ the maximum amount of SEGMENTS 
 depends on architecture.
 
 The library is tested on AVR architecture only.
+
+
+## Future
+
+- testing
+- functional examples
+- documentation
+- investigate element size of 64 (for doubles) and beyond.
 

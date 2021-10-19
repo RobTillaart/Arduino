@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -10,18 +10,18 @@
 // BitArray allows you to make a compact array of objects with a size
 // expressed in bits. typically 1..10.
 // The interface uses uint32_t as that will be enough for most purposes.
-// The main requirement is to optimize storage space
+// The main requirement is to optimize storage space.
 //
-// the bitarray uses an array of segments and the space per segment 
+// The BitArray uses an array of segments and the space per segment 
 // may not exceed 256 bytes as this is a limit on some processors.
 //
 // Originally created to store lot of numbers between 1..6 dice rolls
-// the storage is also usable to store e.g. raw 10 bit analogReads
+// the storage is also usable to store e.g. raw 10 bit analogRead()'s.
 //
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION "0.2.2"
+#define BITARRAY_LIB_VERSION      (F("0.2.3"))
 
 
 
@@ -80,6 +80,7 @@ public:
   void     clear();
   uint32_t get(const uint16_t idx);
   uint32_t set(const uint16_t idx, uint32_t value);
+  void     setAll(uint32_t value);
   uint32_t toggle(const uint16_t idx);
 
 private:

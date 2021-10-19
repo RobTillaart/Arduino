@@ -8,9 +8,11 @@
 //          https://github.com/RobTillaart/CountDown
 //
 
+
 #include "CountDown.h"
 
 CountDown CD[2];
+
 
 void setup()
 {
@@ -24,6 +26,7 @@ void setup()
     delay(1234);
     CD[1].stop();
 }
+
 
 void loop()
 {
@@ -46,3 +49,7 @@ void loop()
 
     delay(250);
 }
+
+
+// -- END OF FILE --
+

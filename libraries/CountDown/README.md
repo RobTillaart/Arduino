@@ -1,6 +1,7 @@
 
-
 [![Arduino CI](https://github.com/RobTillaart/CountDown/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/CountDown/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/CountDown/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/CountDown/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/CountDown/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CountDown/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CountDown.svg?maxAge=3600)](https://github.com/RobTillaart/CountDown/releases)
 
@@ -26,9 +27,9 @@ For longer periods one could cascade countDown, so when one is finished the next
 
 The main functions of the CountDown clock are:
 
-- **bool start(ticks)**
-- **bool start(days, hours, minutes, seconds)**
-- **bool start(days, hours, minutes)**
+- **bool start(uint32_t ticks)**
+- **bool start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds)**
+- **bool start(uint8_t days, uint16_t hours, uint32_t minutes)**
 - **void stop()**
 - **void cont()**  *(continue is a C-Keyword)*
 - **uint32_t remaining()**
@@ -51,7 +52,7 @@ If there is an overflow it returns false
 
 Total amount of time to countdown for **CountDown::MICROS** may not exceed 2\^32 micros ~ 1 hour 10 minutes.
 Total amount of time to countdown for **CountDown::MILLIS**, **CountDown::SECONDS** and **CountDown::MINUTES**
-may not exceed 2\^32 millis  ~49 days
+may not exceed 2\^32 milliseconds  ~49 days
 
 
 The function **start(days, hours, minutes)** is new since 0.2.2.
@@ -84,4 +85,11 @@ a new value. This allows to implement a sort of watchdog clock in which e.g.
 the user must press a button at least once per minute to show he is still
 awake.
 
+
+## Future
+
+- incorporate a real time clock? or EEPROM to be reboot proof?
+- examples with visualisations (e.g. hexadecimal countdown)
+- Countdown based upon external pulses
+- uint64_t version ==> **CountDown64** class?
 

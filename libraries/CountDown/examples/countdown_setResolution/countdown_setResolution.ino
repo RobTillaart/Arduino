@@ -8,9 +8,11 @@
 //          https://github.com/RobTillaart/CountDown
 //
 
+
 #include "CountDown.h"
 
 CountDown CD;
+
 
 void setup()
 {
@@ -24,6 +26,7 @@ void setup()
     CD.start(1);
 }
 
+
 void loop()
 {
   static uint32_t last_remaining = 0;
@@ -36,3 +39,7 @@ void loop()
   Serial.print(CD.remaining());
   delay(5000);   // every 5 seconds
 }
+
+
+// -- END OF FILE --
+

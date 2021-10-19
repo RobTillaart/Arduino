@@ -20,6 +20,7 @@
 // assertNull(actual)
 // assertNotNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -31,13 +32,15 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
 
+
 unittest(test_constructor)
 {
-  fprintf(stderr, COMPLEX_LIB_VERSION);
+  fprintf(stderr, "COMPLEX_LIB_VERSION: %s\n", (char *) COMPLEX_LIB_VERSION);
 
   Complex c1(10.0, -2.0);
   Complex c2(3, 0);
@@ -65,6 +68,7 @@ unittest(test_constructor)
   assertEqualFloat(5, c1.modulus(), 0.0001);
   assertEqualFloat(PI/4, c1.phase(), 0.0001);
 }
+
 
 unittest(test_basic_math)
 {
@@ -107,6 +111,7 @@ unittest(test_basic_math)
   assertEqual(10, a.real());
   assertEqual(-2.5, a.imag());
 }
+
 
 unittest(test_basic_functions)
 {
@@ -179,6 +184,7 @@ unittest(test_power_functions)
   assertEqual(1, b.real());
   assertEqual(0, b.imag());
 }
+
 
 unittest(test_gonio_functions_I)
 {

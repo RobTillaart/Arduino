@@ -7,10 +7,12 @@
 //
 // Serial.print(Complex) supported since 0.1.05
 
+
 #include "Complex.h"
 
 unsigned long start, stop, total;
 double re, im, m, p;
+
 
 void setup()
 {
@@ -421,9 +423,11 @@ void setup()
   Serial.println("\n.. Complex done");
 }
 
+
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

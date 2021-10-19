@@ -1,22 +1,23 @@
 //
 //    FILE: array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.0
 //    DATE: 2015-10-18
 //
 // PUPROSE: example complex array
 //
 
+
 #include "Complex.h"
 
 Complex samples[100];
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.println("\n  Complex numbers array example");
-  Serial.println("  Library version: ");
+  Serial.print("\n  Complex numbers array example: ");
   Serial.println(COMPLEX_LIB_VERSION);
 
   Serial.println("\n1. Read into array");

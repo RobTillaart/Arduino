@@ -7,7 +7,9 @@
 //
 // Serial.print(Complex) supported since 0.1.05
 
+
 #include "Complex.h"
+
 
 void setup()
 {
@@ -225,9 +227,11 @@ void setup()
   Serial.println(one);
 }
 
+
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

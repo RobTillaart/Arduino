@@ -6,12 +6,14 @@
 //    DATE: 2020-08-20
 //
 
+
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
 
 float correctionFactor = 0.45;     // min value see datasheet
 uint32_t count = 0;
+
 
 void setup()
 {
@@ -25,6 +27,7 @@ void setup()
   myLux.powerOn();
   myLux.setContHighRes();
 }
+
 
 void loop()
 {
@@ -47,7 +50,7 @@ void loop()
     Serial.print("\t");
     Serial.println(val / myLux.getCorrectionFactor(), 1);
 
-    // note correctionfactor are steps of 1/69 internally, see datasheet
+    // note correction factor are steps of 1/69 internally, see datasheet
     correctionFactor += 0.05;
     if (correctionFactor > 3.68)  // 0.45 - 3.68 = 45 steps of 0.05
     {
@@ -62,4 +65,6 @@ void loop()
   // do other things here
 }
 
+
 // -- END OF FILE --
+

@@ -9,6 +9,7 @@
 // using mylux.getRaw() instead of myLux.getLux();  line38
 // gain on UNO: ~350 bytes smaller
 
+
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
@@ -29,6 +30,7 @@ void setup()
   myLux.setContHighRes();
 }
 
+
 void loop()
 {
   uint16_t interval = 100;
@@ -40,5 +42,6 @@ void loop()
   }
 
 }
+
 
 // -- END OF FILE --

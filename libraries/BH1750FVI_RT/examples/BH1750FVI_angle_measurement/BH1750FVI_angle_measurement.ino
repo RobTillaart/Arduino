@@ -22,8 +22,8 @@
    Lux level compared to the references.
 
    First trials are not not too bad, roughly within 15° accuracy
-
 */
+
 
 #include "BH1750FVI.h"
 
@@ -71,6 +71,7 @@ void setup()
   Serial.println(ref2);
 }
 
+
 void loop()
 {
   float val = measure(1, false);
@@ -91,4 +92,6 @@ void loop()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

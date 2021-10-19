@@ -6,6 +6,7 @@
 //    DATE: 2020-08-20
 //
 
+
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
@@ -13,6 +14,7 @@ BH1750FVI myLux(0x23);
 uint32_t lastUpdate = 0;
 float val;
 uint32_t count = 0;
+
 
 void setup()
 {
@@ -26,6 +28,7 @@ void setup()
   myLux.powerOn();
   myLux.setContLowRes();
 }
+
 
 void loop()
 {
@@ -61,4 +64,6 @@ void loop()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

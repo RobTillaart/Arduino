@@ -1,24 +1,26 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI
 //
+//  HISTORY
 //  0.1.0   2020-02-02  initial version
 //  0.1.1   2020-03-28  refactor
 //  0.1.2   2020-03-29  unique name in repo, and new release tag.
 //  0.1.3   2020-06-05  fix library.json file
-//  0.1.4   2020-08-14  cleanup tabs/spaces;
+//  0.1.4   2020-08-14  clean up tabs/spaces;
 //  0.2.0   2020-08-18  implement logic for LOW & HIGH2;
-//                      implement correctionfactor;  examples;
+//                      implement correction factor;  examples;
 //  0.2.1   2020-08-31  implement angle factor
 //  0.2.2   2020-09-04  implement temperature compensation
 //  0.2.3   2020-09-04  implement wavelength compensation
 //  0.2.4   2020-11-27  fix #10 rename _sensitivityFactor for ESP32
 //  0.2.5   2020-12-12  add Arduino-CI and unit tests
 //  0.2.6   2021-01-16  add reset()
-//  0.2.7   2021-06-08  add unit tests, improved correction factor code.
+//  0.2.7   2021-06-08  add unit tests, improved correction factor code
+//  0.2.8   2021-10-19  update Arduino-CI, badges in readme
 
 
 #include "BH1750FVI.h"
@@ -274,4 +276,6 @@ void BH1750FVI::command(uint8_t value)
   _error = _wire->endTransmission();
 }
 
+
 // --- END OF FILE ---
+

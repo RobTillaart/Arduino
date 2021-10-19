@@ -6,9 +6,11 @@
 //    DATE: 2020-08-31
 //
 
+
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
+
 
 void setup()
 {
@@ -22,6 +24,7 @@ void setup()
   myLux.powerOn();
   myLux.setContHighRes();
 }
+
 
 void loop()
 {
@@ -40,4 +43,6 @@ void loop()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

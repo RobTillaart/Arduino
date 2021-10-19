@@ -6,6 +6,7 @@
 //    DATE: 2020-02-02
 //
 
+
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
@@ -13,6 +14,7 @@ BH1750FVI myLux(0x23);
 uint32_t lastUpdate = 0;
 
 float correctionFactor = 0.45;     // min value see datasheet
+
 
 void setup()
 {
@@ -26,6 +28,7 @@ void setup()
   myLux.powerOn();
   myLux.setContHighRes();
 }
+
 
 void loop()
 {
@@ -52,4 +55,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

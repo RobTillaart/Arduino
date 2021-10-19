@@ -5,8 +5,7 @@
 // PURPOSE: demo of BH1750FVI lux scanner library
 //    DATE: 2020-02-02
 //
-// Released to the public domain
-//
+
 
 #include "BH1750FVI.h"
 
@@ -28,6 +27,7 @@ void setup()
   myLux.setContLowRes();
 }
 
+
 void loop()
 {
   uint16_t interval = 100;
@@ -40,4 +40,6 @@ void loop()
 
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

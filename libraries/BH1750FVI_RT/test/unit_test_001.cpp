@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "BH1750FVI.h"
@@ -38,13 +39,15 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
 
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "BH1750FVI_LIB_VERSION: %s\n", BH1750FVI_LIB_VERSION);
+  fprintf(stderr, "BH1750FVI_LIB_VERSION: %s\n", (char *) BH1750FVI_LIB_VERSION);
   
   BH1750FVI myLux(0x23);
 
@@ -70,7 +73,7 @@ unittest(test_constructor)
 
 unittest(test_constants)
 {
-  fprintf(stderr, "BH1750FVI_LIB_VERSION: %s\n", BH1750FVI_LIB_VERSION);
+  fprintf(stderr, "BH1750FVI_LIB_VERSION: %s\n", (char *) BH1750FVI_LIB_VERSION);
 
   assertEqual(0x23, BH1750FVI_DEFAULT_ADDRESS);
   assertEqual(0x5C, BH1750FVI_ALT_ADDRESS);
@@ -161,7 +164,6 @@ unittest(test_angleFactor)
 }
 
 
-
 unittest(test_temperatureFactor)
 {
   BH1750FVI myLux(0x23);
@@ -181,7 +183,6 @@ unittest(test_temperatureFactor)
   assertEqualFloat(0.965, myLux.setTemperature( 90), 0.001);
   assertEqualFloat(0.960, myLux.setTemperature(100), 0.001);
 }
-
 
 
 unittest(test_wavelengthFactor)

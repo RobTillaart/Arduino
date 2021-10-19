@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/BH1750FVI_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/BH1750FVI_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/BH1750FVI_RT.svg?maxAge=3600)](https://github.com/RobTillaart/BH1750FVI_RT/releases)
 
@@ -60,8 +62,8 @@ The sensor works on 2.4 - 3.6 volt so be careful not to connect directly to 5.0 
 
 ### Constructor
 
-- **BH1750FVI(address, dataPin, clockPin)**  ESP constructor with I2C parameters
-- **BH1750FVI(address, TwoWire \*wire = &Wire)** constructor for other platforms
+- **BH1750FVI(uint8_t address, uint8_t dataPin, uint8_t clockPin)**  ESP constructor with I2C parameters
+- **BH1750FVI(uint8_t address, TwoWire \*wire = &Wire)** constructor for other platforms
 - **bool begin()** resets some internal variables to default. Use with care.
 - **bool isConnected()** returns true if address is on I2C bus.
 
@@ -112,7 +114,7 @@ Note: experimental - use carefully
 
 The lux sensor is really sensitive for the angle of the light.
 If one makes measurements outside, the position of the sun changes
-during the day. The **setAngle(degrees)** function provides a mean to correct that.
+during the day. The **setAngle(int degrees)** function provides a mean to correct that.
 
 The angle adjustments is based upon the figure 4 and 5 (directional characteristics.)
 which describe **Lambert’s Cosine Law**. (details see  Wikipedia)
@@ -124,7 +126,7 @@ If the light is perpendicular on the sensor the angle to use is 0 degrees.
 Light coming from the side is 90 degrees.
 
 - **float setAngle(int degrees = 0)** adjust the lux to incoming angle in degrees (-89..89). Returns the angle correction factor.
-- **int getAngle()** returns set angle in degrees, 0 by default is perpendicular
+- **int getAngle()** returns set angle in degrees, 0 by default is perpendicular.
 
 
 ### Temperature Compensation
@@ -134,7 +136,7 @@ The effect of temperature is small, about 3% per 60°C ==> 1% per 20°C
 so only on either a hot roof or on a icy cold day the effect is substantial.
 
 - **float setTemperature(int temp = 20)**  see datasheet P3 fig7  Returns the temperature correction factor
-- **int getTemperature()** returns temperature set, default = 20°C
+- **int getTemperature()** returns temperature set, default = 20°C.
 
 
 ### Spectral Compensation ! EXPERIMENTAL !

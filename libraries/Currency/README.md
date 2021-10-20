@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/currency/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Currency/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Currency/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Currency/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Currency/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/currency/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/currency.svg?maxAge=3600)](https://github.com/RobTillaart/currency/releases)
 
@@ -21,7 +23,10 @@ The currency functions assume you do the currency math in integer units.
 For dollars and euro's this would be cents. For numbers with more decimals 
 it is a smaller unit. 
 
-Using integers makes addition, subtraction and multiplication exact. 
+Using integers makes addition, subtraction and multiplication exact.
+
+The library has experimental wrappers for float/double values. 
+Not tested extensively yet.
 
 Choosing int32_t as 'base' also means that there is a limit in terms 
 of minimum and maximum values. When large amounts are needed one can 
@@ -48,7 +53,8 @@ The following functions are implemented:
 - **char \* bitcoin(int32_t value)**
 - **char \* dollar(int32_t value)**
 - **char \* euro(int32_t value)**
-- **char \* roebel(int32_t value)**
+- **char \* pound(int32_t value)**
+- **char \* roubles(int32_t value)**
 - **char \* yen(int32_t value)**
 - **char \* yuan(int32_t value)**
 
@@ -58,7 +64,8 @@ The following functions are implemented:
 - **char \* bitcoin64(int64_t value)**
 - **char \* dollar64(int64_t value)**
 - **char \* euro64(int64_t value)**
-- **char \* roebel64(int64_t value)**
+- **char \* pound64(int64_t value)**
+- **char \* roubles64(int64_t value)**
 - **char \* yen64(int64_t value)**
 - **char \* yuan64(int64_t value)**
 
@@ -70,7 +77,8 @@ Even more experimental - not tested
 - **char \* bitcoinf(double value)**
 - **char \* dollarf(double value)**
 - **char \* eurof(double value)**
-- **char \* roebelf(double value)**
+- **char \* poundf(double value)**
+- **char \* roublesf(double value)**
 - **char \* yenf(double value)**
 - **char \* yuanf(double value)**
 
@@ -79,6 +87,8 @@ Even more experimental - not tested
 
 - More wrapper functions?
 - test double parameters.
+- add BTC, USD, EUR, GBP, RUB, JPY, CNY, etc. (3+1 chars)
+- https://www.easymarkets.com/eu/learn-centre/discover-trading/currency-acronyms-and-abbreviations/
 
 
 ## Operation

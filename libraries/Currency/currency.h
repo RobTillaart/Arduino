@@ -3,19 +3,22 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
 //  HISTORY
 //  0.1.0   2021-02-27  initial version
 //  0.1.1   2021-05-27  fix library.properties
+//  0.1.2   2021-10-20  update build-CI + badges 
+//                      added pound, renamed roubles
+// 
 
 
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION        (F("0.1.1"))
+#define CURRENCY_VERSION        (F("0.1.2"))
 
 
 // TODO 
@@ -111,21 +114,24 @@ char * currency64(int64_t value, int decimals, char dsep, char tsep, char sym)
 char * bitcoin(int32_t value)   { return currency(value, 6,  '.',  ',',  'B'); }  
 char * dollar(int32_t value)    { return currency(value, 2,  '.',  ',',  '$'); }
 char * euro(int32_t value)      { return currency(value, 2,  ',',  '.',  'E'); }
-char * roebel(int32_t value)    { return currency(value, 2,  ',',  '.',  'P'); }
+char * pound(int32_t value)     { return currency(value, 2,  ',',  '.',  'L'); }
+char * roubles(int32_t value)    { return currency(value, 2,  ',',  '.',  'P'); }
 char * yen(int32_t value)       { return currency(value, 2,  '.',  ',',  'Y'); }
 char * yuan(int32_t value)      { return currency(value, 2,  '.',  ',',  'R'); }
 
 char * bitcoin64(int64_t value) { return currency64(value, 6,  '.',  ',',  'B'); }  
 char * dollar64(int64_t value)  { return currency64(value, 2,  '.',  ',',  '$'); }
 char * euro64(int64_t value)    { return currency64(value, 2,  ',',  '.',  'E'); }
-char * roebel64(int64_t value)  { return currency64(value, 2,  ',',  '.',  'P'); }
+char * pound64(int64_t value)   { return currency64(value, 2,  ',',  '.',  'L'); }
+char * roubles64(int64_t value)  { return currency64(value, 2,  ',',  '.',  'P'); }
 char * yen64(int64_t value)     { return currency64(value, 2,  '.',  ',',  'Y'); }
 char * yuan64(int64_t value)    { return currency64(value, 2,  '.',  ',',  'R'); }
 
 char * bitcoinf(double value)   { return currency64(round(value * 1000000), 6,  '.',  ',',  'B'); }  
 char * dollarf(double value)    { return currency64(round(value * 100), 2,  '.',  ',',  '$'); }
 char * eurof(double value)      { return currency64(round(value * 100), 2,  ',',  '.',  'E'); }
-char * roebelf(double value)    { return currency64(round(value * 100), 2,  ',',  '.',  'P'); }
+char * poundf(double value)     { return currency64(round(value * 100), 2,  ',',  '.',  'L'); }
+char * roublesf(double value)    { return currency64(round(value * 100), 2,  ',',  '.',  'P'); }
 char * yenf(double value)       { return currency64(round(value * 100), 2,  '.',  ',',  'Y'); }
 char * yuanf(double value)      { return currency64(round(value * 100), 2,  '.',  ',',  'R'); }
 

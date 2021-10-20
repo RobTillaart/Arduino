@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Cozir/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Cozir/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Cozir/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Cozir/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Cozir/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Cozir/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Cozir.svg?maxAge=3600)](https://github.com/RobTillaart/Cozir/releases)
 
@@ -20,6 +22,7 @@ Idea is to make the interface identical if possible.
 
 
 #### Notes
+
 - the **CozirDemoHWSerial.ino** example needs to run on a MEGA or a Teensy, 
 at least a board with more than one Serial port. 
 - Read the datasheet before using this library. 
@@ -79,8 +82,8 @@ Read datasheet before using these functions:
 
 use with care, read datasheet before use.
 
-| value | meaning |
-|:-----:|:--------|
+| value | meaning                         |
+|:-----:|:--------------------------------|
 |   0   | Special, see datasheet page ... |
 |   1   | fast, but can be noisy          |
 |  32   | default, good average           |

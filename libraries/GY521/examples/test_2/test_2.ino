@@ -5,9 +5,11 @@
 // PURPOSE: test set/get
 //    DATE: 2020-08-06
 
+
 #include "GY521.h"
 
 GY521 sensor(0x69);
+
 
 void setup()
 {
@@ -75,8 +77,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

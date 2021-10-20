@@ -22,6 +22,7 @@
 //  0.3.2   2021-07-05  fix #20 support multiWire
 //  0.3.3   2021-07-05  fix #22 improve maths
 //  0.3.4   2021-07-12  fix #24 improve precision
+//  0.3.5   2021-10-20  update build-CI, badges + #28 add wakeup to begin().
 
 
 #include "GY521.h"
@@ -52,7 +53,11 @@ GY521::GY521(uint8_t address, TwoWire *wire)
 bool GY521::begin(uint8_t sda, uint8_t scl)
 {
   _wire->begin(sda, scl);
-  return isConnected();
+  if (isConnected())
+  {
+    return wakeup();
+  }
+  return false;
 }
 #endif
 
@@ -60,7 +65,11 @@ bool GY521::begin(uint8_t sda, uint8_t scl)
 bool GY521::begin()
 {
   _wire->begin();
-  return isConnected();
+  if (isConnected())
+  {
+    return wakeup();
+  }
+  return false;
 }
 
 

@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.3.4"))
+#define GY521_LIB_VERSION           (F("0.3.5"))
 
 
 #ifndef GY521_THROTTLE_TIME

@@ -5,11 +5,13 @@
 // PURPOSE: minimal demo
 //    DATE: 2020-07-01
 
+
 #include "GY521.h"
 
 GY521 sensor(0x69);
 
 uint32_t counter = 0;
+
 
 void setup()
 {
@@ -31,7 +33,7 @@ void setup()
   sensor.setThrottle();
   Serial.println("start...");
   
-  // set callibration values from calibration sketch.
+  // set calibration values from calibration sketch.
   sensor.axe = 0;
   sensor.aye = 0;
   sensor.aze = 0;
@@ -78,4 +80,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

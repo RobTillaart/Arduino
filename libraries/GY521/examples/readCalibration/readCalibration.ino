@@ -5,6 +5,7 @@
 // PURPOSE: read the calibration values / errors for a flat sensor.
 //    DATE: 2020-07-14
 
+
 #include "GY521.h"
 
 GY521 sensor(0x69);
@@ -14,6 +15,7 @@ uint32_t counter = 0;
 float ax, ay, az;
 float gx, gy, gz;
 float t;
+
 
 void setup()
 {
@@ -31,7 +33,7 @@ void setup()
   sensor.setGyroSensitivity(0);   // 250 degrees/s
   sensor.setThrottle(false);
 
-  // set all callibration errors to zero
+  // set all calibration errors to zero
   sensor.axe = 0;
   sensor.aye = 0;
   sensor.aze = 0;
@@ -41,6 +43,7 @@ void setup()
 
   Serial.println("\n\nReading calibration numbers...");
 }
+
 
 void loop()
 {
@@ -107,4 +110,6 @@ void loop()
   delay(100);
 }
 
+
 // -- END OF FILE --
+

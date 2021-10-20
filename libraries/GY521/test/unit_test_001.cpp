@@ -21,6 +21,7 @@
 // assertNull(actual)
 // assertNotNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -32,6 +33,7 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
@@ -40,7 +42,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   GY521 sensor(0x69);
-  fprintf(stderr, "VERSION: %s\n", GY521_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) GY521_LIB_VERSION);
   sensor.begin();
   assertEqual(GY521_OK, sensor.getError());
 
@@ -95,7 +97,7 @@ unittest(test_get_set_sensitivity)
 
 unittest(test_constants)
 {
-  fprintf(stderr, "VERSION: %s\n", GY521_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) GY521_LIB_VERSION);
 
   assertEqual(GY521_OK,                   0);
   assertEqual(GY521_THROTTLED,            1);

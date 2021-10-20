@@ -1,7 +1,7 @@
 
 [![Arduino CI](https://github.com/robtillaart/SHT85/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml)
 [![Arduino-lint](https://github.com/RobTillaart/SHT85/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT85/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT85/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT85.svg?maxAge=3600)](https://github.com/RobTillaart/SHT85/releases)
 
@@ -19,14 +19,15 @@ not be used for more than 10% of the time.
 ## Description
 
 ```
-    // TOPVIEW
+    // TOPVIEW      SHT85
     //            +-------+
     // +-----\    | SDA 4 -----
-    // | /-+  ----+ VCC 3 -----
-    // | +-+  ----+ GND 2 -----
+    // | /-+  ----+ GND 3 -----
+    // | +-+  ----+ +5V 2 -----
     // +-----/    | SCL 1 -----
     //            +-------+
 ```
+
 
 The SHT85 sensors should work up to 1000 KHz, however during tests 
 with an Arduino UNO it stopped between 500 - 550 KHz so to be safe I recommend

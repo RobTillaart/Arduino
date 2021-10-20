@@ -2,7 +2,7 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -15,8 +15,8 @@
 // TOPVIEW      SHT85
 //            +-------+
 // +-----\    | SDA 4 -----
-// | +-+  ----+ VCC 3 -----
-// | +-+  ----+ GND 2 -----
+// | +-+  ----+ GND 3 -----
+// | +-+  ----+ +5V 2 -----
 // +-----/    | SCL 1 -----
 //            +-------+
 
@@ -25,7 +25,7 @@
 #include "Wire.h"
 
 
-#define SHT_LIB_VERSION             (F("0.2.0"))
+#define SHT_LIB_VERSION             (F("0.3.0"))
 #define SHT85_LIB_VERSION           SHT_LIB_VERSION
 
 
@@ -80,7 +80,7 @@ public:
   // do not use heater for long periods,
   // use it for max 3 minutes to heat up
   // and let it cool down at least 3 minutes.
-  void setHeatTimeout(uint8_t seconds);
+  void    setHeatTimeout(uint8_t seconds);
   uint8_t getHeatTimeout() { return _heatTimeout; };
 
   bool heatOn();
@@ -98,7 +98,7 @@ public:
   bool dataReady();
   bool readData(bool fast = true);
 
-  int getError(); // clears error flag
+  int  getError(); // clears error flag
 
 
 protected:

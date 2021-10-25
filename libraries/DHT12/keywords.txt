@@ -12,6 +12,8 @@ setHumOffset	KEYWORD2
 setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
+lastRead	KEYWORD2
+
 
 # Constants (LITERAL1)
 DHT12_VERSION	LITERAL2

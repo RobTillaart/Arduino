@@ -21,6 +21,7 @@
 // assertNull(actual)
 // assertNotNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -78,6 +79,7 @@ unittest(test_offset)
     assertEqualFloat(offset, DHT.getHumidity(), 0.001);
   }
 }
+
 
 unittest_main()
 

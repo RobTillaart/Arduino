@@ -1,29 +1,31 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 
-
+//  HISTORY
+//  0.1.00  initial version
+//  0.1.01  refactor
+//  0.1.2   fix overflow;  add some error detection;  revert float to float to memory
+//  0.1.3   2017-07-27  Fix issue #33
+//  0.1.4   2019-01-10  add size()
+//  0.1.5   2020-06-07  fix library.json, minor edits
+//  0.1.6   2020-12-20  arduino-ci + unit test
 //  0.2.0   2021-01-19  refactor
 //                      properly named functions, 
 //                      add setAll(), minimum(), maximum() and count()
-//  0.1.6   2020-12-20  arduino-ci + unit test
-//  0.1.5   2020-06-07  fix library.json, minor edits
-//  0.1.4   2019-01-10  add size()
-//  0.1.3   2017-07-27  Fix issue #33
-//  0.1.2   fix overflow;  add some error detection;  revert float to float to memory
-//  0.1.01  refactor
-//  0.1.00  initial version
+//  0.2.1   2021-10-26  update build-CI, update readme.md
+//                      default value in constructor
 
 
 #include "DistanceTable.h"
 
 
-DistanceTable::DistanceTable(uint8_t dimension)
+DistanceTable::DistanceTable(uint8_t dimension, float value)
 {
-  // ATMEL 328 has 2000 bytes mem,
+  // ATMEL 328 has ~2000 bytes RAM,
   // so roughly 30X30 = 900 floats(4Bytes) => 1740 bytes is max feasible
   _dimension = 0;
   _elements  = 0;
@@ -38,7 +40,7 @@ DistanceTable::DistanceTable(uint8_t dimension)
     _dimension = 0;
     _elements  = 0;
   }
-  setAll(0);
+  setAll(value);
 }
 
 
@@ -63,7 +65,7 @@ void DistanceTable::setAll(float value)
 void DistanceTable::set(uint8_t x, uint8_t y, float value )
 {
   if ( x == y ) return;
-  // comment next line to skip rangecheck (squeeze performance)
+  // comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return;
 
   if ( x < y )
@@ -80,7 +82,7 @@ void DistanceTable::set(uint8_t x, uint8_t y, float value )
 float DistanceTable::get (uint8_t x, uint8_t y)
 {
   if ( x == y ) return 0.0;  // TODO even true when x and y are out of range??
-  // comment next line to skip rangecheck (squeeze performance)
+  // comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return -1;  // NAN ?
 
   if ( x < y )

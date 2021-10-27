@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/CRC/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/CRC/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/CRC/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/CRC/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/CRC/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CRC/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CRC.svg?maxAge=3600)](https://github.com/RobTillaart/CRC/releases)
 
@@ -33,7 +35,7 @@ and many other websites.
 ## Interface CRC classes
 
 These interfaces are very similar for CRC8, CRC16, CRC32 and CRC64 class.
-The only difference is the datatype for polynome, start- and endmask, and the returned CRC.
+The only difference is the data type for polynome, start- and end-mask, and the returned CRC.
 
 Use **\#include "CRC8.h"**
 
@@ -41,10 +43,10 @@ Use **\#include "CRC8.h"**
 - **void reset()** set all internals to constructor defaults.
 - **void restart()** reset internal CRC and count only;  reuse values for other e.g polynome, XOR masks and reverse flags.
 - **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
-- **void setStartXOR(start)** set startmask, default 0.
-- **void setEndXOR(end)** set endmask, default 0.
-- **void setReverseIn(bool reverseIn)** reverse the bitpattern of input data (MSB vs LSB).
-- **void setReverseOut(bool reverseOut)** reverse the bitpattern of CRC (MSB vs LSB).
+- **void setStartXOR(start)** set start-mask, default 0.
+- **void setEndXOR(end)** set end-mask, default 0.
+- **void setReverseIn(bool reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
+- **void setReverseOut(bool reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
 - **void add(value)** add a single value to CRC calculation.
 - **void add(array, uint32_t length)** add an array of values to the CRC. In case of a warning/error use casting to (uint8_t \*).
 - **uint8_t getCRC()** returns CRC calculated so far. This allows to check the CRC of a really large stream at intermediate moments, e.g. to link multiple packets.
@@ -77,7 +79,7 @@ Use **\#include "CRC.h"**
 
 Most functions have a default polynome, same start and end masks, and default there is no reversing.
 However these parameters allow one to tweak the CRC in all aspects known. 
-In all the examples encountered the reverseflags were set both to false or both to true. 
+In all the examples encountered the reverse flags were set both to false or both to true. 
 For flexibility both parameters are kept available. 
 
 - **uint8_t crc8(array, length, polynome = 0xD5, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For CRC
+# Syntax Colouring Map For CRC
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 CRC8	KEYWORD1
 CRC16	KEYWORD1
 CRC32	KEYWORD1

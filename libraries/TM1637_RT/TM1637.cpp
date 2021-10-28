@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
@@ -11,14 +11,26 @@
 //  0.1.1   2021-02-15  first release + examples. 
 //  0.1.2   2021-04-16  update readme, fix default values.
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
+//          2021-10-07  add support for letters g-z; added keyscan()
+//                      tested on ESP8266
+//  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
+
 
 //          tested on 6 digits display only for now.
+
+
+// NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
+// works if you add a 1000 ohm pullup resistor from DIO to 3.3v
+// This reduces the rise time of the DIO signal when reading the key info.
+// If one only uses the pull-up inside the microcontroller, 
+// the rise time is too long for the data to be read reliably.
 
 
 #include "TM1637.h"
 
 
 #define TM1637_ADDR_AUTO           0x40
+#define TM1637_READ_KEYSCAN        0x42
 #define TM1637_ADDR_FIXED          0x44
 
 #define TM1637_CMD_SET_DATA        0x40
@@ -50,6 +62,14 @@ static uint8_t seg[] =
   0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40                // A - F, ' ', '-'
 };
 
+static uint8_t alpha_seg[] =
+{
+    0x00, 0x74, 0x10, 0x00,      // g, h, i, j,
+    0x00, 0x38, 0x00, 0x54,      // k, l, m, n,
+    0x5c, 0x00, 0x00, 0x50,      // o, p, q, r,
+    0x00, 0x31, 0x1c, 0x1c,      // s, t, u, v,
+    0x00, 0x00, 0x00, 0x00       // w, x, y, z
+};
 
 TM1637::TM1637()
 {
@@ -160,7 +180,7 @@ void TM1637::setBrightness(uint8_t b)
 
 void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 {
-  uint8_t b;
+  uint8_t b, dp;
   start();
   writeByte(TM1637_ADDR_AUTO);
   stop();
@@ -169,14 +189,28 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   writeByte(TM1637_CMD_SET_ADDR);
   for (uint8_t i = 3; i < 6 ; i++)
   {
-    b = seg[data[i]];
-    if (i == pointPos) b |= 0x80;
+    dp = data[i] & 0x80;
+    data[i] &= 0x7f;
+    if(data[i] <= 17) {
+      b = seg[data[i]];
+    }
+    else if(data[i] <= 37) {
+      b = alpha_seg[data[i]-18];
+    }
+    if (i == pointPos || dp) b |= 0x80;
     writeByte(b);
   }
   for (uint8_t i = 0; i < 3 ; i++)
   {
-    b = seg[data[i]];
-    if (i == pointPos) b |= 0x80;
+    dp = data[i] & 0x80;
+    data[i] &= 0x7f;
+    if(data[i] <= 17) {
+      b = seg[data[i]];
+    }
+    else if(data[i] <= 37) {
+      b = alpha_seg[data[i]-18];
+    }
+    if (i == pointPos || dp) b |= 0x80;
     writeByte(b);
   }
   stop();
@@ -241,6 +275,47 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
     nanoDelay(2);
   #endif
   // other processors may need other "nanoDelay(n)"
+}
+
+
+// keyscan results are reversed left for right from the data sheet.
+// here are the values returned by keyscan():
+// pin       2    3    4    5    6    7    8    9
+//         sg1  sg2  sg3  sg4  sg5  sg6  sg7  sg8
+// 19  k1 0xf7 0xf6 0xf5 0xf4 0xf3 0xf2 0xf1 0xf0
+// 20  k2 0xef 0xee 0xed 0xec 0xeb 0xea 0xe9 0xe8
+
+uint8_t TM1637::keyscan(void)
+{
+  uint8_t halfDelay = _bitDelay >> 1;
+  uint8_t key;
+  start();
+  key = 0;
+  writeByte(TM1637_READ_KEYSCAN);	// includes the ACK, leaves DATA low
+  pinMode(_data, INPUT_PULLUP);
+
+  for (uint8_t i = 0; i <= 7; i++) {
+    writeSync(_clock, LOW);
+    delayMicroseconds(halfDelay);
+    writeSync(_clock, HIGH);
+    delayMicroseconds(halfDelay);
+    key >>= 1;
+    key |= (digitalRead(_data)) ? 0x80 : 0x00 ;
+  }
+
+  writeSync(_clock, LOW);
+  delayMicroseconds(halfDelay);
+  writeSync(_clock, HIGH);
+
+  // wait for ACK
+  delayMicroseconds(halfDelay);
+
+  // FORCE OUTPUT LOW
+  pinMode(_data, OUTPUT);
+  digitalWrite(_data, LOW);
+  delayMicroseconds(halfDelay);
+  stop();
+  return key;
 }
 
 

@@ -1,7 +1,7 @@
-# Syntax Coloring Map for TM1637
+# Syntax Colouring Map for TM1637
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 TM1637	KEYWORD1
 
 
@@ -19,6 +19,8 @@ getBrightness	KEYWORD2
 
 setBitDelay	KEYWORD2
 getBitDelay	KEYWORD2
+
+keyscan	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F(0.2.0))
+#define TM1637_LIB_VERSION      (F(0.3.0))
 
 
 class TM1637
@@ -35,6 +35,7 @@ class TM1637
     // tune the timing of writing bytes.
     void    setBitDelay(uint8_t bitDelay = 10) { _bitDelay = bitDelay; };
     uint8_t getBitDelay() { return _bitDelay; };
+    uint8_t keyscan(void);
 
   private:
     uint8_t _clock      = -1;

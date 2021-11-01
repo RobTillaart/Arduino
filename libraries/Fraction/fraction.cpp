@@ -1,30 +1,31 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: Arduino library to implement a Fraction datatype
 //     URL: https://github.com/RobTillaart/Fraction
 //
 //
-// TODO
-// - divide by zero errors
-// - test extensively
-//
-// 0.1.11   2020-12-23  arduino-CI + unit tests
-// 0.1.10   2020-06-10  fix library.json
-// 0.1.9    refactor
-// 0.1.8    refactor made constructors explicit; fix issue #33 double --> float
-// 0.1.07   major refactoring by Chris-A
-// 0.1.06   added proper(), mediant(), angle();
-// 0.1.05   tested negative Fractions math, added constructors,
+//  HISTORY
+//  0.1.12  2021-11-01  update Arduino-CI, badges, 
+//                      refactor
+//  0.1.11  2020-12-23  arduino-CI + unit tests
+//  0.1.10  2020-06-10  fix library.json
+//  0.1.9   refactor
+//  0.1.8   refactor made constructors explicit; fix issue #33 double --> float
+//  0.1.07  major refactoring by Chris-A
+//  0.1.06  added proper(), mediant(), angle();
+//  0.1.05  tested negative Fractions math, added constructors,
 //          minor refactoring,
-// 0.1.04   stabilizing code, add simplify() for some code paths.
-// 0.1.03   added toDouble(), tested several fractionize() codes, bug fixes.
-// 0.1.02   faster fractionize code
-// 0.1.01   some fixes
-// 0.1.00   initial version
+//  0.1.04  stabilizing code, add simplify() for some code paths.
+//  0.1.03  added toDouble(), tested several fractionize() codes, bug fixes.
+//  0.1.02  faster fractionize code
+//  0.1.01  some fixes
+//  0.1.00  initial version
+
 
 #include "fraction.h"
+
 
 //////////////////////////////////////
 //
@@ -35,10 +36,12 @@ Fraction::Fraction(double d)
   Fraction::split(float(d));
 }
 
+
 Fraction::Fraction(float f)
 {
   Fraction::split(f);
 }
+
 
 void Fraction::split(float f)
 {
@@ -91,6 +94,7 @@ void Fraction::split(float f)
     }
 }
 
+
 Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
 {
     simplify();
@@ -119,6 +123,7 @@ size_t Fraction::printTo(Print& p) const
     return s;
 };
 
+
 //////////////////////////////////////
 //
 // EQUALITIES
@@ -134,30 +139,36 @@ bool Fraction::operator == (const Fraction &c)
     // return (n * c.d) == (d * c.n);
 // }
 
+
 bool Fraction::operator != (const Fraction &c)
 {
     return (n * c.d) != (d * c.n);
 }
+
 
 bool Fraction::operator > (const Fraction &c)
 {
     return (n * c.d) > (d * c.n);
 }
 
+
 bool Fraction::operator >= (const Fraction &c)
 {
     return (n * c.d) >= (d * c.n);
 }
+
 
 bool Fraction::operator < (const Fraction &c)
 {
     return (n * c.d) < (d * c.n);
 }
 
+
 bool Fraction::operator <= (const Fraction &c)
 {
     return (n * c.d) <= (d * c.n);
 }
+
 
 //////////////////////////////////////
 //
@@ -167,6 +178,7 @@ Fraction Fraction::operator - ()
 {
     return Fraction(-n, d);
 }
+
 
 //////////////////////////////////////
 //
@@ -181,6 +193,7 @@ Fraction Fraction::operator + (const Fraction &c)
     return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
+
 Fraction Fraction::operator - (const Fraction &c)
 {
     if (d == c.d)
@@ -190,16 +203,19 @@ Fraction Fraction::operator - (const Fraction &c)
     return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
+
 Fraction Fraction::operator * (const Fraction &c)
 {
     return Fraction(n * c.n, d * c.d); 
 }
+
 
 Fraction Fraction::operator / (const Fraction &c)
 {
     // division by zero returns 0
     return Fraction(n * c.d, d * c.n);
 }
+
 
 Fraction& Fraction::operator += (const Fraction &c)
 {
@@ -216,6 +232,7 @@ Fraction& Fraction::operator += (const Fraction &c)
     return *this;
 }
 
+
 Fraction& Fraction::operator -= (const Fraction &c)
 {
     if (d == c.d)
@@ -231,6 +248,7 @@ Fraction& Fraction::operator -= (const Fraction &c)
     return *this;
 }
 
+
 Fraction& Fraction::operator *= (const Fraction &c)
 {
     n *= c.n;
@@ -238,6 +256,7 @@ Fraction& Fraction::operator *= (const Fraction &c)
     simplify();
     return *this;
 }
+
 
 Fraction& Fraction::operator /= (const Fraction &c)
 {
@@ -248,16 +267,19 @@ Fraction& Fraction::operator /= (const Fraction &c)
     return *this;
 }
 
+
 float Fraction::toDouble()
 {
     return (1.0 * n) / d;
 }
+
 
 // fraction is proper if abs(fraction) < 1
 bool Fraction::isProper()
 {
     return abs(n) < abs(d);
 }
+
 
 // visualize fraction as an angle in degrees
 float Fraction::toAngle()
@@ -280,18 +302,20 @@ float Fraction::toAngle()
 //
 
 // the mediant is a fraction that is always between 2 fractions
-// at least if within precission.
+// at least if within precision.
 Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 {
     return Fraction(a.n + b.n, a.d + b.d);
 }
 
+
 // the middle is a fraction that is between 2 fractions
-// at least if within precission.
+// at least if within precision.
 Fraction Fraction::middle(const Fraction &a, const Fraction &b)
 {
     return Fraction(a.n*b.d + b.n*a.d, 2 * a.d * b.d);
 }
+
 
 // approximate a fraction with defined denominator
 // sort of setDenominator(uint16_t den);
@@ -318,6 +342,7 @@ int32_t Fraction::gcd(int32_t a , int32_t b)
     }
     return b;
 }
+
 
 // not that simple ...
 void Fraction::simplify()
@@ -348,6 +373,7 @@ void Fraction::simplify()
     n = (neg) ? -p : p;
     d = q;
 }
+
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -414,4 +440,6 @@ void Fraction::fractionize(float val)
     d = high.d;
 }
 
+
 // -- END OF FILE --
+

@@ -21,6 +21,7 @@
 // assertNull(actual)
 // assertNotNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -37,22 +38,10 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION:\t%s\n", FRACTIONLIBVERSION);
+  fprintf(stderr, "VERSION:\t%s\n", (char*) FRACTION_LIB_VERSION);
 
   Fraction pi(PI);
   assertEqual(355, pi.nominator());

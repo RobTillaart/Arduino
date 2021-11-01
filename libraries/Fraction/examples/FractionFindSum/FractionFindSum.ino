@@ -1,23 +1,26 @@
 //
 //    FILE: FractionFindSum.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: demo
 //    DATE: 13-feb-2015
 //     URL: https://github.com/RobTillaart/Fraction
 //
 
+
 #include "fraction.h"
+
 
 uint32_t start;
 uint32_t stop;
+
 
 void setup()
 {
   pinMode(13, OUTPUT);
   Serial.begin(115200);
   Serial.print("\n\nStart F: ");
-  Serial.println(FRACTIONLIBVERSION);
+  Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
   randomSeed(analogRead(A0) * 256 + analogRead(A1));
 
@@ -31,6 +34,7 @@ void setup()
     findSum(f);
   }
 }
+
 
 void findSum(Fraction f)
 {
@@ -63,4 +67,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

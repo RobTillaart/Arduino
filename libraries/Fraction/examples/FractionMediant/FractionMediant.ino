@@ -9,9 +9,12 @@
 // this method is not that fast but it shows a nice application for 
 // the mediant.
 
+
 #include "fraction.h"
 
+
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -39,7 +42,6 @@ void setup()
   Serial.println();
 
   Serial.println("done...\n");
-
 }
 
 
@@ -104,5 +106,5 @@ Fraction fractionize(float f)
 }
 
 
-
 // -- END OF FILE --
+

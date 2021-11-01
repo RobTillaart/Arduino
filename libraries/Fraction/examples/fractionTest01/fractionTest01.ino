@@ -1,13 +1,15 @@
 //
 //    FILE: fractionTest01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: test sketch for fraction math
 //    DATE: 2015-01-25
 //     URL: https://github.com/RobTillaart/Fraction
 //
 
+
 #include "fraction.h"
+
 
 Fraction q(0.42);
 Fraction a(1, 3);
@@ -18,11 +20,12 @@ Fraction p(5, 1);
 Fraction pi(PI);
 Fraction e(EULER);
 
+
 void setup()
 {
   Serial.begin(115200);
   Serial.print("Start fractionTest: ");
-  Serial.println(FRACTIONLIBVERSION);
+  Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
 
   Serial.println(a);
@@ -50,9 +53,11 @@ void setup()
   testGE();
 }
 
+
 void loop()
 {
 }
+
 
 void testPlus()
 {
@@ -67,6 +72,7 @@ void testPlus()
   Serial.println();
 }
 
+
 void testMin()
 {
   Serial.println("testMin");
@@ -80,6 +86,7 @@ void testMin()
   Serial.println();
 }
 
+
 void testMul()
 {
   Serial.println("testMul");
@@ -92,6 +99,7 @@ void testMul()
   Serial.println();
   Serial.println();
 }
+
 
 void testDiv()
 {
@@ -117,6 +125,7 @@ void testEQ()
   Serial.println();
 }
 
+
 void testNEQ()
 {
   Serial.println("testNEQ 1 0 0");
@@ -127,6 +136,7 @@ void testNEQ()
   Serial.println();
 }
 
+
 void testLS()
 {
   Serial.println("testLS 0 0");
@@ -135,6 +145,7 @@ void testLS()
   Serial.println();
   Serial.println();
 }
+
 
 void testLE()
 {
@@ -145,6 +156,7 @@ void testLE()
   Serial.println();
 }
 
+
 void testGR()
 {
   Serial.println("testGR 1 0");
@@ -154,6 +166,7 @@ void testGR()
   Serial.println();
 }
 
+
 void testGE()
 {
   Serial.println("testGE 1 1");
@@ -162,4 +175,7 @@ void testGE()
   Serial.println();
   Serial.println();
 }
+
+
+// -- END OF FILE --
 

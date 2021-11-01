@@ -1,23 +1,26 @@
 //
 //    FILE: fractionExerciser.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: demo sketch for fraction math
 //    DATE: 2015-03-29
 //     URL: https://github.com/RobTillaart/Fraction
 //
 
+
 #include "fraction.h"
+
 
 void setup()
 {
   pinMode(13, OUTPUT);
   Serial.begin(115200);
   Serial.print("\n\nStart fractionExcerciser: ");
-  // Serial.println(FRACTIONLIBVERSION);
+  // Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
   randomSeed(analogRead(A0) * 256 + analogRead(A1));
 }
+
 
 Fraction readFraction()
 {
@@ -45,12 +48,14 @@ Fraction readFraction()
   return fr;
 }
 
+
 char choice()
 {
   while (Serial.available()) Serial.read();
   while (Serial.available() == 0);
   return Serial.read();
 }
+
 
 void loop()
 {
@@ -75,6 +80,7 @@ void loop()
   Serial.println(count);
 }
 
+
 int add(int n)
 {
   int count = 0;
@@ -96,6 +102,7 @@ int add(int n)
   }
   return count;
 }
+
 
 int sub(int n)
 {
@@ -119,6 +126,7 @@ int sub(int n)
   return count;
 }
 
+
 int mul(int n)
 {
   int count = 0;
@@ -141,6 +149,7 @@ int mul(int n)
   return count;
 }
 
+
 int div(int n)
 {
   int count = 0;
@@ -162,6 +171,7 @@ int div(int n)
   }
   return count;
 }
+
 
 int equ(int n)
 {
@@ -186,3 +196,5 @@ int equ(int n)
   return count;
 }
 
+
+// -- END OF FILE --

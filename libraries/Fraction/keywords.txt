@@ -1,7 +1,9 @@
-# Syntax Coloring Map For Fraction
+# Syntax Colouring Map For Fraction
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 Fraction	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 toDouble	KEYWORD2
@@ -14,5 +16,8 @@ mediant	KEYWORD2
 middle	KEYWORD2
 setDenominator	KEYWORD2
 
+
 # Constants (LITERAL1)
+FRACTION_LIB_VERSION	LITERAL1
+
 

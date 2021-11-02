@@ -1,26 +1,39 @@
 //
-//    FILE: gamma_test.ino
+//    FILE: gammaFast.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: demo
 //    DATE: 2020-08-08
 
 
 #include "gamma.h"
 
+
 GAMMA gt1(256);
 
 // fastGamma is based upon values found with GAMMA(8).setGamma(2.8);
-// it is however not that fast...
-
+// it is however not fast enough...
+// binary search
 int fastGamma(uint8_t idx)
 {
-  if (idx <  32) return map(idx,   0,  31, 0, 1);
-  if (idx <  64) return map(idx,  32,  63, 1, 5);
-  if (idx <  96) return map(idx,  64,  31, 5, 17);
-  if (idx < 128) return map(idx,  96, 127, 17, 37);
-  if (idx < 160) return map(idx, 128, 159, 37, 69);
-  if (idx < 192) return map(idx, 160, 191, 69, 115);
+  if (idx < 128)
+  {
+    if (idx <  64)
+    {
+      if (idx <  32) return map(idx,   0,  31, 0, 1);
+      return map(idx,  32,  63, 1, 5);
+    }
+    else
+    {
+      if (idx <  96) return map(idx,  64,  95, 5, 17);
+      return map(idx,  96, 127, 17, 37);
+    }
+  }
+  if (idx < 192)
+  {
+    if (idx < 160) return map(idx, 128, 159, 37, 69);
+    return map(idx, 160, 191, 69, 115);
+  }
   if (idx < 224) return map(idx, 192, 223, 115, 177);
   return map(idx, 224, 255, 177, 255);
 }
@@ -30,37 +43,52 @@ void setup()
 {
   Serial.begin(115200);
 
+  gt1.begin();
   gt1.setGamma(2.8);
 
-  for (int i = 0; i < 256; i++)
+  Serial.println("\n\ttest fastGamma()");
+  Serial.println("\ti \tgt1[] \tfast \tdelta");
+  for (int i = 0; i < 256; i ++ )
   {
+    Serial.print('\t');
     Serial.print(i);
     Serial.print('\t');
     Serial.print(gt1[i]);
     Serial.print('\t');
-    Serial.print(fastGamma(i));  
+    Serial.print(fastGamma(i));
+    Serial.print('\t');
+    Serial.print(gt1[i] - fastGamma(i));
     Serial.println();
   }
 
-  volatile int x;
+  volatile uint32_t x = 0;
   uint32_t start = micros();
   for (int i = 0; i < 256; i++) x += gt1[i];
   uint32_t d1 = micros() - start;
+  Serial.println();
+  Serial.print(" 256 x gt1[i] : ");
   Serial.println(d1);
+  Serial.print("            x : ");
+  Serial.println(x);
   delay(10);
 
+  x = 0;
   start = micros();
   for (int i = 0; i < 256; i++) x += fastGamma(i);
   d1 = micros() - start;
+  Serial.print(" 256 x fast   : ");
   Serial.println(d1);
+  Serial.print("            x : ");
+  Serial.println(x);
   delay(10);
 
-  Serial.println(x);
+  Serial.println("\ndone...");
 }
 
 
 void loop()
 {
 }
+
 
 // -- END OF FILE --

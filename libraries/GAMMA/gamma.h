@@ -2,22 +2,20 @@
 //
 //    FILE: gamma.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2020-08-08
 // PURPOSE: Arduino Library to efficiently hold a gamma lookup table
 
 //  0.1.0   2020-08-08  initial release
 //  0.1.1   2020-12-24  arduino-ci + unit test 
+//  0.2.0   2021-11-02  update build-CI, badges
+//                      add begin() - fixes ESP32 crash.
 
 
 #include "Arduino.h"
 
-#define GAMMA_LIB_VERSION         (F("0.1.1"))
+#define GAMMA_LIB_VERSION         (F("0.2.0"))
 
-
-#if defined(ESP8266) || defined(ESP32)
-#include "types.h"
-#endif
 
 class GAMMA
 {
@@ -39,14 +37,25 @@ public:
     }
     _mask = (1 << _shift) - 1;
     _interval = 256 / _size;
-    _table = (uint8_t *)malloc(_size + 1);
-    setGamma(2.8);
+    // removed malloc from constructor for ESP32
   }
+
 
   ~GAMMA()
   {
     if (_table) free(_table);
   }
+
+
+  void begin()
+  {
+    if (_table == NULL)
+    {
+      _table = (uint8_t *)malloc(_size + 1);
+    }
+    setGamma(2.8);
+  }
+
 
   void setGamma(float gamma)
   {
@@ -62,10 +71,12 @@ public:
     }
   }
 
+
   float getGamma()
   {
     return _gamma;
   };
+
 
   uint8_t operator[] (uint8_t idx)
   {
@@ -81,10 +92,12 @@ public:
     return _table[i] + delta;
   }
 
+
   uint16_t size()
   {
     return _size + 1;
   };
+
 
   int distinct()
   {
@@ -98,6 +111,7 @@ public:
     }
     return cnt;
   }
+
 
   void dump()
   {
@@ -114,8 +128,9 @@ private:
   uint16_t  _size     = 0;
   uint8_t   _interval = 0;
   float     _gamma    = 0;
-  uint8_t * _table;
-
+  uint8_t * _table    = NULL;
 };
 
+
 // -- END OF FILE --
+

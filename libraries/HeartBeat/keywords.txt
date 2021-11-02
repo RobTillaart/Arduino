@@ -1,6 +1,6 @@
-# Syntax Coloring Map For HeartBeat
+# Syntax Colouring Map For HeartBeat
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 HeartBeat	KEYWORD1
 
 
@@ -8,6 +8,8 @@ HeartBeat	KEYWORD1
 begin	KEYWORD2
 setFrequency	KEYWORD2
 setDutyCycle	KEYWORD2
+getFrequency	KEYWORD2
+getDutyCycle	KEYWORD2
 enable	KEYWORD2
 disable	KEYWORD2
 beat	KEYWORD2

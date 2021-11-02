@@ -19,6 +19,9 @@ void setup()
   HB[0].begin(11, 1);
   HB[1].begin(12, 3);
   HB[2].begin(13, 5);
+  HB[0].setDutyCycle(20);
+  HB[1].setDutyCycle(30);
+  HB[2].setDutyCycle(40);
 }
 
 

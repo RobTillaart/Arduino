@@ -9,8 +9,6 @@
 
 HeartBeat HB;
 
-int frequency = 1;
-
 
 void setup() 
 {
@@ -18,7 +16,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.println(HEARTBEAT_LIB_VERSION);
 
-  HB.begin(13, frequency);
+  HB.begin(13, 1.0);
 }
 
 
@@ -26,9 +24,9 @@ void loop()
 {
   HB.beat();
 
-  float f = 5 * (1 + sin(millis()/10000));
-  HB.set(f);
-  
+  float frequency = 5 * (1 + sin(millis()/1000.0));
+  HB.setFrequency(frequency);
+  // Serial.println(frequency, 6);
   // do other stuff here
 }
 

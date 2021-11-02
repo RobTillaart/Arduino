@@ -49,7 +49,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", HEARTBEAT_LIB_VERSION );
+  fprintf(stderr, "VERSION: %s\n", (char *) HEARTBEAT_LIB_VERSION );
 
   GodmodeState* state = GODMODE();
   state->reset();
@@ -78,6 +78,32 @@ unittest(test_constructor)
   }
 }
 
+
+unittest(test_frequency)
+{
+  HeartBeat HB;
+  HB.begin(13, 4);
+  
+  assertEqualFloat(4, HB.getFrequency(), 0.001);
+  for (int fr = 1; fr < 10; fr++)
+  {
+    HB.setFrequency(fr);
+    assertEqualFloat(fr, HB.getFrequency(), 0.001);
+  }
+}
+
+
+unittest(test_dutycycle)
+{
+  HeartBeat HB;
+  HB.begin(13, 1);
+
+  for (int dc = 10; dc < 101; dc += 10)
+  {
+    HB.setDutyCycle(dc);
+    assertEqualFloat(dc, HB.getDutyCycle(), 0.001);
+  }
+}
 
 unittest_main()
 

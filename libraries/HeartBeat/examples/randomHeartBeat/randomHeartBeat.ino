@@ -31,7 +31,7 @@ void loop()
   {
     lastUpdate = millis();
     float f = 1.0 + 0.1 * random(50);
-    HB.set(f);
+    HB.setFrequency(f);
   }
   
   // do other stuff here

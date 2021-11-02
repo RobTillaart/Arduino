@@ -1,18 +1,20 @@
 
 [![Arduino CI](https://github.com/RobTillaart/HeartBeat/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/HeartBeat/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HeartBeat/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/HeartBeat/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HeartBeat/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HeartBeat/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HeartBeat.svg?maxAge=3600)](https://github.com/RobTillaart/HeartBeat/releases)
 
 
 # HeartBeat
 
-Arduino library for a HeartBeat with frequency and dutycycle
+Arduino library for a HeartBeat with frequency and duty cycle.
 
 
 ## Description
 
-The hearbeat library offers a simple HeartBeat by sending pulses to
-a digital pin. Typical usage is to blink a (built in) LED as indicater 
+The heartbeat library offers a simple HeartBeat by sending pulses to 
+a digital pin. Typical usage is to blink a (built in) LED as indicator 
 a program is still alive.
 
 The library uses no hardware timer and is based upon micros() so the user 
@@ -24,35 +26,39 @@ can be used as a first level debugging tool. Different frequencies can indicate
 a different state of the program or a different level of some sensor.
 No heart beat indicates the program is stuck or blocked.
 
-The current version does not allow to differ the ON and OFF time,
-this might be an option in a future version.
-
 For more complex patterns, please check my pulsePattern library.
 
 
 ## Interface
 
-The interface consists of a small set of 
+The interface consists of the following functions:
 
 - **HeartBeat()** constructor
-- **begin(uint8_t pin, float freq)**  to configure the HeartBeat. 
+- **void begin(uint8_t pin, float frequency)** to configure the HeartBeat. 
 The default frequency is 1.0
-- **setFrequency(float freq)** change the frequency of the pulsing.  
-Will not enable or disable the HeartBeat. Must be > 0.0
-- **setDutyCycle(float dutyCycle = 50)** duty cycle in percentage time HIGH.
-Must be between 0.00 and 100.0.
-- **enable()** enable the pulsing
-- **disable()** disable the pulsing; will switch of the LED.
-- **beat()** the worker; this function checks if the HeartBeat is enabled 
+- **void setFrequency(float frequency)** change the frequency of the pulsing.  
+Will not enable or disable the HeartBeat.  
+Must be > 0.001 otherwise it will be constrained to 0.001.
+On the upper side values beyond 10 Hz are hard for humans but are allowed.
+- **void setDutyCycle(float dutyCycle = 50)** duty cycle in percentage time HIGH.
+Must be between 0.00 and 100.0.  A value of 0 will put the heartbeat effectively off.
+- **float getFrequency()** returns set frequency (or constrained value).
+- **float getDutyCycle()** returns set duty cycle (or constrained value).
+- **void enable()** enable the pulsing.
+- **void disable()** disable the pulsing; will switch of the LED.
+- **void beat()** the worker; this function checks if the HeartBeat is enabled 
 and the LED  must be toggled.  
 It must be called as often as possible to keep a steady pace,
 at least 4 times the given frequency.  
-Not calling **beat()** effectively stops the hearbeat.
+Not calling **beat()** effectively stops the heartbeat.
+- **uint8_t getState()** returns the state of the heartbeat.
+Useful for debugging.
 
 
 #### Obsolete
 
-- **set(float freq)** Will become obsolete, use **setFrequency()** instead.
+- **set(float freq)** is replaced by **setFrequency()**.
+
 
 ## Applications
 
@@ -62,13 +68,22 @@ Applications include but are not limited to
   - 1 Hz = OK
   - 2 Hz = Warning
   - 5 Hz = Error
-- indicate power usage by increasing HeartBeat e.g. round(amps) 
-- indicate sound volume by increasing HeartBeat
-- indicate changing distant by hearbeat
-- geiger counter style.
+  - no signal would indicate also an error.
+- indicate power e.g. round(amps) - you might need to map the range!
+- indicate the volume by increasing heartBeat
+- indicate a changing distant - increasing or decreasing.
+- Geiger counter style.
 
 
 ## Operation
 
 See examples
+
+
+## Future
+
+- differentiate between ON / OFF time
+- improve documentation
+- add examples
+- 
 

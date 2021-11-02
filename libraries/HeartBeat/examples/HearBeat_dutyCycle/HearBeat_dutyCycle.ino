@@ -16,8 +16,13 @@ void setup()
   Serial.println(__FILE__);
   Serial.println(HEARTBEAT_LIB_VERSION);
 
-  HB.begin(13, 3);        // PIN 13 with frequency 3
-  HB.setDutyCycle(10.0);  // 10% time high
+  HB.begin(13, 3);          // PIN 13 with frequency 3
+  HB.setDutyCycle(17.53);
+
+  Serial.print("FR: ");
+  Serial.println(HB.getFrequency());
+  Serial.print("DC: ");
+  Serial.println(HB.getDutyCycle());
 }
 
 

@@ -14,9 +14,11 @@
 //  ESP32        to be tested
 //
 
+
 #include "functionGenerator.h"
 #include "MCP4725.h"
 #include "Wire.h"
+
 
 funcgen gen;
 float val   = 0;
@@ -33,6 +35,7 @@ char mode = 's';
 MCP4725 MCP(0x63);
 uint32_t count;
 uint32_t lastTime = 0;
+
 
 void setup()
 {
@@ -134,4 +137,6 @@ void loop()
 {
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

@@ -1,6 +1,6 @@
-# Syntax Coloring Map for funcgen
+# Syntax Colouring Map for funcgen
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 funcgen	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
@@ -8,6 +8,7 @@ setPeriod	KEYWORD2
 getPeriod	KEYWORD2
 setFrequency	KEYWORD2
 getFrequency	KEYWORD2
+
 setAmplitude	KEYWORD2
 getAmplitude	KEYWORD2
 setPhase	KEYWORD2
@@ -25,4 +26,4 @@ line	KEYWORD2
 zero	KEYWORD2
 
 # Constants (LITERAL1)
-
+FUNCTIONGENERATOR_LIB_VERSION	LITERAL1

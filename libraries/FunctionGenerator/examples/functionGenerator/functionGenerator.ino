@@ -7,12 +7,15 @@
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 
+
 #include "functionGenerator.h"
+
 
 funcgen gen;
 
 uint32_t lastTime = 0;
 char choice = '0';
+
 
 void setup()
 {
@@ -23,6 +26,7 @@ void setup()
   gen.setFrequency(4);
   gen.setAmplitude(50);
 }
+
 
 void loop()
 {
@@ -54,4 +58,6 @@ void loop()
   }
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

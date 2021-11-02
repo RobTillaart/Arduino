@@ -14,6 +14,7 @@
 funcgen gen1;
 funcgen gen2;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -31,6 +32,7 @@ void setup()
   gen2.setYShift(25);
 }
 
+
 void loop()
 {
   float t = millis() * 0.001;
@@ -44,4 +46,6 @@ void loop()
   Serial.println();
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

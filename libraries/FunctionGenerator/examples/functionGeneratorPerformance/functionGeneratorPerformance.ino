@@ -7,6 +7,7 @@
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 
+
 #include "functionGenerator.h"
 
 uint32_t start;
@@ -16,6 +17,7 @@ volatile float t;
 volatile float y;
 
 funcgen gen;
+
 
 void setup()
 {
@@ -87,6 +89,7 @@ void test_square()
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
+
 void test_sawtooth()
 {
   start = micros();
@@ -101,6 +104,7 @@ void test_sawtooth()
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
+
 
 void test_triangle()
 {
@@ -117,6 +121,7 @@ void test_triangle()
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
+
 void test_sinus()
 {
   start = micros();
@@ -131,6 +136,7 @@ void test_sinus()
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
+
 
 void test_stair()
 {
@@ -147,6 +153,7 @@ void test_stair()
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
+
 void test_random()
 {
   start = micros();
@@ -161,6 +168,7 @@ void test_random()
   Serial.print("\t");
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
+
 
 void test_line()
 {
@@ -177,6 +185,7 @@ void test_line()
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
+
 void test_zero()
 {
   start = micros();
@@ -192,8 +201,11 @@ void test_zero()
   Serial.println(1000000.0 / ((stop - start) / 10000.0));
 }
 
+
 void loop()
 {
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

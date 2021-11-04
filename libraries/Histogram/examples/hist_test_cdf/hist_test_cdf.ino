@@ -7,12 +7,14 @@
 // PUPROSE: test histogram library
 //
 
+
 #include "histogram.h"
 
 float b[] = {
   0, 300, 325, 350, 375, 400, 1000 };
 
 Histogram hist(7, b);
+
 
 void setup()
 {
@@ -22,6 +24,7 @@ void setup()
   Serial.println(HISTOGRAM_LIB_VERSION);
 }
 
+
 void loop()
 {
   int x = random(1000);
@@ -29,7 +32,7 @@ void loop()
 
   Serial.print(hist.count());
   Serial.print("\t");
-  for (int i = 0; i < (hist.size() -1); i++)
+  for (int i = 0; i < (hist.size() - 1); i++)
   {
     Serial.print(hist.CDF(b[i]), 2);
     Serial.print("\t");
@@ -41,3 +44,5 @@ void loop()
   delay(10);
 }
 
+
+// -- END OF FILE --

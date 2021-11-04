@@ -1,20 +1,33 @@
-# Syntax Coloring Map For Histogram
+# Syntax Colouring Map For Histogram
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Histogram	KEYWORD1
+Histogram8	KEYWORD1
+Histogram16	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 clear	KEYWORD2
+setBucket	KEYWORD2
 add	KEYWORD2
 sub	KEYWORD2
+
 size	KEYWORD2
 count	KEYWORD2
 bucket KEYWORD2
 frequency	KEYWORD2
+
 PMF	KEYWORD2
 CDF	KEYWORD2
 VAL	KEYWORD2
+
 find	KEYWORD2
+findMin	KEYWORD2
+findMax	KEYWORD2
+
+countLevel	KEYWORD2
+countAbove	KEYWORD2
+countBelow	KEYWORD2
+
 
 # Constants (LITERAL1)
 HISTOGRAM_LIB_VERSION	LITERAL1

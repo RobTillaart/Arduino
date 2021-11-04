@@ -7,7 +7,9 @@
 // PUPROSE: test histogram frequency
 //
 
+
 #include "histogram.h"
+
 
 // boundaries array does not need to be equally distributed.
 float bounds[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
@@ -16,6 +18,7 @@ Histogram hist(14, bounds);
 
 uint32_t lastTime = 0;
 const uint32_t threshold = 1000;  // milliseconds, for updating display
+
 
 void setup()
 {
@@ -28,6 +31,7 @@ void setup()
   Serial.println(hist.size());
   Serial.println();
 }
+
 
 void loop()
 {
@@ -61,3 +65,5 @@ void loop()
   }
 }
 
+
+// -- END OF FILE --

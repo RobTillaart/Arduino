@@ -37,18 +37,6 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constructor)
 {
@@ -65,6 +53,7 @@ unittest(test_constructor)
     assertEqual(0, hist.bucket(i));
   }
 }
+
 
 unittest(test_dice)
 {
@@ -97,6 +86,7 @@ unittest(test_dice)
     assertEqual(0, hist.bucket(i));
   }
 }
+
 
 unittest_main()
 

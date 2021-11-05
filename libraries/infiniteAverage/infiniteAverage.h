@@ -2,14 +2,14 @@
 //
 //    FILE: infiniteAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Calculate the average of a very large number of values.
 //     URL: https://github.com/RobTillaart/I2C_24FC1025
 
 
 #include "Arduino.h"
 
-#define IAVG_LIB_VERSION     (F("0.1.3"))
+#define IAVG_LIB_VERSION     (F("0.1.4"))
 
 
 class IAVG
@@ -53,7 +53,7 @@ public:
       _sum -= 1;
     }
     // scale back factor 2 when overflow comes near
-    if ((_count & (1UL << 31)) || (_overflow & (1UL << 31)))
+    if ((_count >= _threshold)|| (_overflow >= _threshold))
     {
       _count /= 2;
       _overflow /= 2;
@@ -101,14 +101,27 @@ public:
   };
 
 
+  void setDivideThreshold(uint32_t threshold)
+  {
+    _threshold = threshold;
+  }
+
+
+  uint32_t getDivideThreshold()
+  {
+    return _threshold;
+  }
+
+
 private:
   float    _sum      = 0;
   float    _minimum  = 0;
   float    _maximum  = 0;
   uint32_t _overflow = 0;
   uint32_t _count    = 0;
-
+  uint32_t _threshold = (1UL << 31);
 };
 
 
 // -- END OF FILE --
+

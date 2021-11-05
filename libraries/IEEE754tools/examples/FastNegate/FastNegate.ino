@@ -31,14 +31,16 @@ void setup()
 void test_negfabs()
 {
   Serial.println(__FUNCTION__);
-  Serial.println("zz = -fabs(zz)");
+  Serial.println("TEST : zz = -fabs(zz)");
   start = micros();
   for (int i = 0; i < 30000; i++)
   {
     *(((byte*) &zz) + 3) |= 0x80;   // Force negative  == -fabs(zz);
   }
   duration1 = micros() - start;
-  Serial.println(duration1 / 30000.0);
+  Serial.print("TIME : ");
+  Serial.println(duration1 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
   delay(10);
 
@@ -49,10 +51,12 @@ void test_negfabs()
     zz = -fabs(zz);
   }
   duration2 = micros() - start;
-  Serial.println(duration2 / 30000.0);
-  Serial.print("Gain:\t");
-  Serial.println(1.0 * duration2 / duration1);
+  Serial.print("TIME : ");
+  Serial.println(duration2 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
+  Serial.print("GAIN : ");
+  Serial.println(1.0 * duration2 / duration1, 2);
   Serial.println();
   delay(10);
 }
@@ -60,14 +64,16 @@ void test_negfabs()
 void test_fabs()
 {
   Serial.println(__FUNCTION__);
-  Serial.println("zz = fabs(zz)");
+  Serial.println("TEST : zz = fabs(zz)");
   start = micros();
   for (int i = 0; i < 30000; i++)
   {
     *(((byte*) &zz) + 3) &= 0x7F;     // force positive  == fabs(zz);
   }
   duration1 = micros() - start;
-  Serial.println(duration1 / 30000.0);
+  Serial.print("TIME : ");
+  Serial.println(duration1 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
   delay(10);
 
@@ -77,10 +83,12 @@ void test_fabs()
     zz = fabs(zz);
   }
   duration2 = micros() - start;
-  Serial.println(duration2 / 30000.0);
-  Serial.print("Gain:\t");
-  Serial.println(1.0 * duration2 / duration1);
+  Serial.print("TIME : ");
+  Serial.println(duration2 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
+  Serial.print("GAIN : ");
+  Serial.println(1.0 * duration2 / duration1, 2);
   Serial.println();
   delay(10);
 }
@@ -88,14 +96,16 @@ void test_fabs()
 void test_negate()
 {
   Serial.println(__FUNCTION__);
-  Serial.println("zz = -zz");
+  Serial.println("TEST : zz = -zz");
   start = micros();
   for (int i = 0; i < 30000; i++)
   {
     *(((byte*) &zz) + 3) ^= 0x80;
   }
   duration1 = micros() - start;
-  Serial.println(duration1 / 30000.0);
+  Serial.print("TIME : ");
+  Serial.println(duration1 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
 
   start = micros();
@@ -104,10 +114,12 @@ void test_negate()
     zz = -zz;
   }
   duration2 = micros() - start;
-  Serial.println(duration2 / 30000.0);
-  Serial.print("Gain:\t");
-  Serial.println(1.0 * duration2 / duration1);
+  Serial.print("TIME : ");
+  Serial.println(duration2 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
+  Serial.print("GAIN : ");
+  Serial.println(1.0 * duration2 / duration1, 2);
   Serial.println();
   delay(10);
 }
@@ -115,14 +127,16 @@ void test_negate()
 void test_less_zero()
 {
   Serial.println(__FUNCTION__);
-  Serial.println("if (zz < 0) ");
+  Serial.println("TEST : if (zz < 0) ");
   start = micros();
   for (int i = 0; i < 30000; i++)
   {
     if ( *(((byte*) &zz) + 3) & 0x80) x = 2; // equals if (zz < 0);
   }
   duration1 = micros() - start;
-  Serial.println(duration1 / 30000.0);
+  Serial.print("TIME : ");
+  Serial.println(duration1 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
 
   start = micros();
@@ -131,18 +145,20 @@ void test_less_zero()
     if (zz < 0) x = 2;
   }
   duration2 = micros() - start;
-  Serial.println(duration2 / 30000.0);
-  Serial.print("Gain:\t");
-  Serial.println(1.0 * duration2 / duration1);
+  Serial.print("TIME : ");
+  Serial.println(duration2 / 30000.0, 4);
+  Serial.print("VALUE: ");
   Serial.println(zz);
+  Serial.print("GAIN : ");
+  Serial.println(1.0 * duration2 / duration1, 2);
 
   start = micros();
   for (int i = 0; i < 30000; i++)
   {
     x = 2;
   }
+  Serial.print("TIME : ");
   Serial.println((micros() - start) / 30000.0, 4);
-  Serial.println(zz);
   Serial.println();
   delay(10);
 }

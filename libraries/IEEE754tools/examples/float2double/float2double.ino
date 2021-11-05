@@ -5,6 +5,11 @@
 // PURPOSE: experimental expands a float in a IEEE 754 double to be printed to PC.
 //
 
+// NOTE
+// - WORKS ON AVR 
+// - FAILS ON ESP32
+
+
 #include <IEEE754tools.h>
 
 byte x[8];
@@ -24,6 +29,7 @@ void setup()
 void test1()
 {
   Serial.println();
+  Serial.println(__FUNCTION__);
   for (float f = -50.0; f < 50.0; f += 10.0)
   {
     dumpFloat(f);
@@ -38,6 +44,8 @@ void test1()
 
 void test2()
 {
+  Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.println("\n0.15625");
   dumpFloat(0.15625);
   //     sign = 0
@@ -47,7 +55,9 @@ void test2()
 
 void test3()
 {
-  Serial.println("\nPI-check");
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  Serial.println("PI-check");
   Serial.println(PI, 20);
   float2DoublePacked(PI, x);
   dumpByteArray(x);
@@ -58,7 +68,9 @@ void test3()
 
 void test4()
 {
-  Serial.println("\nBIG-check");
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  Serial.println("BIG-check");
   Serial.println(1.23456789e38, 20);
   dumpFloat(1.23456789e38);
   float2DoublePacked(1.23456789e38, x);
@@ -74,20 +86,16 @@ void loop()
 {
 }
 
-
-
-
-
-
-
-
 void dumpByteArray(byte *ar)
 {
   for (int i = 0; i < 8; i++)
   {
     if (ar[i] < 0x10) Serial.print('0');
     Serial.print(ar[i], HEX);
-    Serial.print('\t');
+    Serial.print(' ');
   }
   Serial.println();
 }
+
+
+// -- END OF FILE --

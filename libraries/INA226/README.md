@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/INA226/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/INA226/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/INA226/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/INA226/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/INA226/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/INA226/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/INA226.svg?maxAge=3600)](https://github.com/RobTillaart/INA226/releases)
 
@@ -16,7 +18,8 @@ Not all functionality is tested / investigated.
 
 ==> **USE WITH CARE**
 
-The INA226 is a voltage, current and power measurement device. a few important maxima. (See datasheet, chapter 6)
+The INA226 is a voltage, current and power measurement device. a few important maxima. 
+(See datasheet, chapter 6)
 
 |  description  |  max  |  unit  |
 |:--------------|------:|-------:|
@@ -25,7 +28,8 @@ The INA226 is a voltage, current and power measurement device. a few important m
 | current       |  20   | Ampere | 
 
 
-The sensor can have 16 different I2C addresses, which depends on how the A0 and A1 address lines are connected to the SCL, SDA, GND and VCC pins.
+The sensor can have 16 different I2C addresses, which depends on how the A0 and A1 address lines 
+are connected to the SCL, SDA, GND and VCC pins.
 
 See datasheet - table 2 - datasheet.
 

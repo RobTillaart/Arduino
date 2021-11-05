@@ -1,4 +1,4 @@
-# Syntax Coloring Map For INA226
+# Syntax Colouring Map For INA226
 
 # Data types (KEYWORD1)
 INA226	KEYWORD1

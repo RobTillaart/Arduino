@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.1.4"))
+#define INA226_LIB_VERSION              (F("0.1.5"))
 
 
 // set by setAlertRegister
@@ -37,7 +37,7 @@ class INA226
 {
 public:
   // address between 0x40 and 0x4F
-  explicit INA226(const int8_t address, TwoWire *wire = &Wire);
+  explicit INA226(const uint8_t address, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
   bool     begin(const uint8_t sda, const uint8_t scl);
@@ -51,6 +51,8 @@ public:
   float    getShuntVoltage();
   float    getCurrent();
   float    getPower();
+
+
   // scale helpers
   float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
@@ -131,5 +133,6 @@ private:
   TwoWire * _wire;
 
 };
+
 
 // -- END OF FILE --

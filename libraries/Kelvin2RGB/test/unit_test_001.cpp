@@ -40,9 +40,11 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)
@@ -57,9 +59,10 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", KELVIN2RGB_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) KELVIN2RGB_LIB_VERSION);
   
   Kelvin2RGB tempColor;
 
@@ -87,6 +90,7 @@ unittest(test_Tanner_Helland)
   assertEqual(16757102, tempColor.RGB());
 }
 
+
 unittest(test_Neil_Bartlett)
 {
   Kelvin2RGB tempColor;
@@ -101,6 +105,34 @@ unittest(test_Neil_Bartlett)
   assertEqualFloat(0.424804, tempColor.blue(), 0.0001);
   assertEqual(16757868, tempColor.RGB());
 }
+
+
+unittest(test_colour_spaces)
+{
+  Kelvin2RGB tempColor;
+
+  fprintf(stderr, "test_colour_spaces\n");
+  tempColor.setRGB(0.50, 1.00, 0.75, 90);  // brightness in %
+  
+  fprintf(stderr, "BRIGHT: %f\n", tempColor.brightness());
+  fprintf(stderr, "RED   : %f\n", tempColor.red());
+  fprintf(stderr, "GREEN : %f\n", tempColor.green());
+  fprintf(stderr, "BLUE  : %f\n", tempColor.blue());
+  fprintf(stderr, "RGB   : %d\n", tempColor.RGB());
+  fprintf(stderr, "BGR   : %d\n", tempColor.BGR());
+  fprintf(stderr, "CMYK  : %d\n", tempColor.CMYK());
+  fprintf(stderr, "RGB565: %d\n", tempColor.RGB565());
+
+  assertEqualFloat(90, tempColor.brightness(), 0.0001);
+  assertEqualFloat(0.450, tempColor.red(),   0.0001);
+  assertEqualFloat(0.900, tempColor.green(), 0.0001);
+  assertEqualFloat(0.675, tempColor.blue(),  0.0001);
+  assertEqual(7595692, tempColor.RGB());
+  assertEqual(65792, tempColor.BGR());
+  assertEqual(2130722560, tempColor.CMYK());
+  assertEqual(30517, tempColor.RGB565());
+}
+
 
 unittest_main()
 

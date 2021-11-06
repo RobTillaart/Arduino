@@ -1,7 +1,7 @@
 //
 //    FILE: Kelvin2RGB_timing.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo - shows timing 2 methods
 //    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
@@ -12,7 +12,8 @@
 
 Kelvin2RGB KRGB;
 
-uint32_t start, stop, d1, d2;
+uint32_t start, stop, duration1, duration2;
+
 
 void setup()
 {
@@ -22,11 +23,15 @@ void setup()
   KRGB.begin();
 
   test_timing();
+  
+  Serial.println("\ndone...");
 }
+
 
 void loop()
 {
 }
+
 
 void test_timing()
 {
@@ -43,7 +48,7 @@ void test_timing()
     KRGB.convert_TH(temp, bright);
   }
   stop = micros();
-  d1 = stop - start;
+  duration1 = stop - start;
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -51,14 +56,16 @@ void test_timing()
     KRGB.convert_NB(temp, bright);
   }
   stop = micros();
-  d2 = stop - start;
+  duration2 = stop - start;
 
   Serial.print("TH:\t");
-  Serial.println(d1 * 0.001);
+  Serial.println(duration1 * 0.001);
   Serial.print("NB:\t");
-  Serial.println(d2 * 0.001);
+  Serial.println(duration2 * 0.001);
   Serial.print("ratio:\t");
-  Serial.println(1.0 * d1 / d2, 4);
+  Serial.println(1.0 * duration1 / duration2, 4);
 }
 
+
 // -- END OF FILE --
+

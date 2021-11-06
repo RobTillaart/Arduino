@@ -1,6 +1,6 @@
-# Syntax Coloring Map For Kelvin2RGB
+# Syntax Colouring Map For Kelvin2RGB
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Kelvin2RGB	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
@@ -8,11 +8,20 @@ convert_TH	KEYWORD2
 convert_NB	KEYWORD2
 temperature	KEYWORD2
 brightness	KEYWORD2
+
 red	KEYWORD2
 green	KEYWORD2
 blue	KEYWORD2
+
+setRGB	KEYWORD2
 RGB	KEYWORD2
 RGB565	KEYWORD2
+BGR	KEYWORD2
+CMYK	KEYWORD2
+
 
 # Constants (LITERAL1)
+KELVIN2RGB_LIB_VERSION	LITERAL1
+
+
 

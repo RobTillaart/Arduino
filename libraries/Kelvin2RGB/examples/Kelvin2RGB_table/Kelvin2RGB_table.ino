@@ -7,9 +7,11 @@
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 //
 
+
 #include "Kelvin2RGB.h"
 
 Kelvin2RGB KRGB;
+
 
 void setup()
 {
@@ -20,9 +22,11 @@ void setup()
   test();
 }
 
+
 void loop()
 {
 }
+
 
 void test()
 {
@@ -55,5 +59,6 @@ void test()
     }
   }
 }
+
 
 // -- END OF FILE --

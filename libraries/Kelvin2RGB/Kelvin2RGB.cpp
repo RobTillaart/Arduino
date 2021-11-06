@@ -1,7 +1,7 @@
 //
 //    FILE: Kelvin2RGB.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
@@ -9,8 +9,9 @@
 //  HISTORY
 //  0.1.0    2018-01-31  initial version
 //  0.1.1    2020-12-30  ??
-//  0.1.2    2021-06-01  add RGB565() - 16 bit color - output
-
+//  0.1.2    2021-06-01  add RGB565() - 16 bit colour - output
+//  0.1.3    2021-11-06  update build-CI, badges
+//                       add setRGB(), CMYK(), BGR(), reset();
 
 #include "Kelvin2RGB.h"
 
@@ -20,16 +21,18 @@
 
 Kelvin2RGB::Kelvin2RGB()
 {
-  _temperature = 0;
-  _brightness  = 0;          // default = darkness
-  _red   = 0;
-  _green = 0;
-  _blue  = 0;
+  begin();
 }
 
 
 void Kelvin2RGB::begin()
 {
+  _temperature = 0;
+  _brightness  = 0;          // default = darkness
+  _red   = 0;
+  _green = 0;
+  _blue  = 0;
+  _rgb   = 0;
 }
 
 
@@ -39,7 +42,7 @@ void Kelvin2RGB::convert_TH(float temperature, float brightness)
   _temperature = constrain(temperature, 0, 65500);
   _brightness = constrain(brightness, 0, 100);
 
-  _red = _green = _blue = 0;  
+  _red = _green = _blue = 0;
   float t = _temperature * 0.01;
 
   if (t <= 66)
@@ -97,7 +100,18 @@ void Kelvin2RGB::convert_NB(float temperature, float brightness)
 }
 
 
-// 16 bit color
+uint32_t Kelvin2RGB::setRGB(float red, float green, float blue, float brightness)
+{
+  _brightness = brightness;
+  _red   = red   * 255;
+  _green = green * 255;
+  _blue  = blue  * 255;
+  _normalize();
+  return _rgb;
+}
+
+
+// 16 bit colour - of last conversion.
 uint16_t Kelvin2RGB::RGB565()
 {
   uint16_t val = 0;
@@ -106,7 +120,27 @@ uint16_t Kelvin2RGB::RGB565()
   val |= uint8_t(_green * 64);
   val <<= 5;
   val |= uint8_t(_blue * 32);
-  return val; 
+  return val;
+}
+
+
+uint32_t Kelvin2RGB::CMYK()
+{
+  float k = _red;
+  if (k < _green) k = _green;
+  if (k < _blue) k = _blue;
+  k = 1 - k;
+  uint32_t c = 255 * (1 - _red   - k) / (1 - k);
+  uint32_t m = 255 * (1 - _green - k) / (1 - k);
+  uint32_t y = 255 * (1 - _blue  - k) / (1 - k);
+
+  return (c << 24) + (m << 16) + (y << 8) + (k * 255);
+}
+
+
+uint32_t Kelvin2RGB::BGR()
+{
+  return round(_blue) * 65536UL + round(_green) * 256UL + round(_red);
 }
 
 
@@ -114,6 +148,8 @@ uint16_t Kelvin2RGB::RGB565()
 //
 // private
 //
+
+// expects _red, _green, _blue in the 0..255 range.
 void Kelvin2RGB::_normalize()
 {
   float f = 0.01 * _brightness;
@@ -123,7 +159,7 @@ void Kelvin2RGB::_normalize()
   _blue  = constrain(f * _blue,  0, 255);
 
   _rgb   = round(_red) * 65536UL + round(_green) * 256UL + round(_blue);
-  
+
   // divide by 255 to get factors between 0..1
   _red   *=  DIVIDE_255;
   _green *=  DIVIDE_255;

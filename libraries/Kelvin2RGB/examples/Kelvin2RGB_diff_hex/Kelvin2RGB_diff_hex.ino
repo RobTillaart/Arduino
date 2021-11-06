@@ -10,10 +10,12 @@
 // shows difference between the two calculations
 //       best viewed in plotter.
 
+
 #include "Kelvin2RGB.h"
 
 Kelvin2RGB KRGB;
 Kelvin2RGB KRGB2;
+
 
 void setup()
 {
@@ -26,9 +28,11 @@ void setup()
   test_difference();
 }
 
+
 void loop()
 {
 }
+
 
 void test_difference()
 {
@@ -45,4 +49,6 @@ void test_difference()
   }
 }
 
+
 // -- END OF FILE --
+

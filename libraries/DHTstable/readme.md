@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/DHTstable/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/DHTstable/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTstable/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/DHTstable/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTstable/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTstable/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTstable.svg?maxAge=3600)](https://github.com/RobTillaart/DHTstable/releases)
+
 
 # DHTStable
 
 Arduino Library for the DHT11 and DHT22 temperature and humidity sensor. 
+
 
 ## Description
 
@@ -30,13 +34,15 @@ The latest developments for the DHT sensors are done in https://github.com/RobTi
 which is also tested on an ESP32.
 There are some interface differences, these are relative small but can be time critical.
 
-It is adviced to upgrade to the DHTNEW library if one needs the new functionality.
-
-
-## TODO (optional)
-
+It is advised to upgrade to the DHTNEW library if one needs the new functionality.
 
 
 ## Operational
 
 See examples.
+
+
+## Future
+
+- follow bug fixes from DHTnew?
+-  

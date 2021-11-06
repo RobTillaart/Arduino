@@ -6,7 +6,7 @@ compile:
     # - zero
     # - leonardo
     - m4
-    - esp32
+    # - esp32    #  has other server code
     # - esp8266
     # - mega2560
   libraries:

@@ -9,9 +9,11 @@
 // 0.1.0   2020-05-14 initial version
 //
 
+
 #include "LineFormatter.h"
 
 LineFormatter L;
+
 
 void setup()
 {
@@ -34,9 +36,11 @@ void setup()
   L.println("Done...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_ruler()
 {
@@ -61,6 +65,7 @@ void test_ruler()
 
   L.repeat(3, '\n');
 }
+
 
 void test_table_1()
 {
@@ -118,6 +123,7 @@ void test_table_1()
 
   L.repeat(3, '\n');
 }
+
 
 void test_table_2()
 {
@@ -178,4 +184,6 @@ void test_table_2()
   L.repeat(3, '\n');
 }
 
+
 // -- END OF FILE --
+

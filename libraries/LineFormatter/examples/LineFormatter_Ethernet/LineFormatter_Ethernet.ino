@@ -7,6 +7,7 @@
 //     URL: https://github.com/RobTillaart/LineFormatter
 //
 
+
 #include <LineFormatter.h>
 
 #include <SPI.h>
@@ -21,6 +22,7 @@ EthernetServer server(80);    // change to your config
 
 char httpRequest[40];
 uint8_t reqCnt;
+
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -172,6 +174,7 @@ void loop()
   }
 }
 
+
 void test_table_1(LineFormatter L)
 {
   L.println();
@@ -230,6 +233,7 @@ void test_table_1(LineFormatter L)
 
   L.repeat(3, '\n');
 }
+
 
 void test_table_2(LineFormatter L)
 {
@@ -291,4 +295,6 @@ void test_table_2(LineFormatter L)
   L.repeat(3, '\n');
 }
 
+
 // -- END OF FILE --
+

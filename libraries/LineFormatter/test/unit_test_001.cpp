@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -44,69 +45,60 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constructor)
 {
-  LineFormatter L;
+  fprintf(stderr, "LINEFORMATTER_LIB_VERSION: %s\n", (char*) LINEFORMATTER_LIB_VERSION);
 
-  assertEqual(0, L.getMaxLength());
-  L.setMaxLength(80);
-  assertEqual(80, L.getMaxLength());
+  LineFormatter Line;
 
-  assertEqual(0, L.getAutoNewLine());
-  L.setAutoNewLine(5);
-  assertEqual(5, L.getAutoNewLine());
+  assertEqual(0, Line.getMaxLength());
+  Line.setMaxLength(80);
+  assertEqual(80, Line.getMaxLength());
+
+  assertEqual(0, Line.getAutoNewLine());
+  Line.setAutoNewLine(5);
+  assertEqual(5, Line.getAutoNewLine());
 }
 
 
 unittest(test_position)
 {
-  LineFormatter L;
+  LineFormatter Line;
 
-  assertEqual(0, (int)L.getPos());
-  assertEqual(20, (int)L.gotoPos(20));
-  assertEqual(20, (int)L.gotoPos(15));
+  assertEqual(0, (int)Line.getPos());
+  assertEqual(20, (int)Line.gotoPos(20));
+  assertEqual(20, (int)Line.gotoPos(15));
 
-  L.repeat(10, '*');
-  assertEqual(30, (int)L.getPos());
-  L.repeat(10, "--");
-  assertEqual(50, (int)L.getPos());
+  Line.repeat(10, '*');
+  assertEqual(30, (int)Line.getPos());
+  Line.repeat(10, "--");
+  assertEqual(50, (int)Line.getPos());
 }
+
 
 unittest(test_tab)
 {
-  LineFormatter L;
+  LineFormatter Line;
 
   fprintf(stderr, "tab setting\n");
   for (int i = 8; i <= 80; i += 8)
   {
-    L.addTab(i);
+    Line.addTab(i);
   }
-  assertEqual(10, L.getTabCount());
-  for (int i = 0; i < L.getTabCount(); i++)
+  assertEqual(10, Line.getTabCount());
+  for (int i = 0; i < Line.getTabCount(); i++)
   {
     fprintf(stderr, "%d\t", 8 + i*8);
-    assertEqual(8 + i*8, L.getTabStop(i));
+    assertEqual(8 + i*8, Line.getTabStop(i));
   }
 
-  fprintf(stderr, "tab test - !! cur pos is one before tab pos\n");
-  for (int i = 0; i < L.getTabCount(); i++)
+  fprintf(stderr, "tab test - !! cur position is one before tab position\n");
+  for (int i = 0; i < Line.getTabCount(); i++)
   {
-    fprintf(stderr, "%d\t", 8 + i*8);  // tabpos
-    L.write('\t');
-    assertEqual(8 + i*8, (int)L.getPos() + 1 );  // current pos is just before 
+    fprintf(stderr, "%d\t", 8 + i*8);  // tab positions
+    Line.write('\t');
+    assertEqual(8 + i*8, (int)Line.getPos() + 1 );  // current position is just before tab
   }
 
 }

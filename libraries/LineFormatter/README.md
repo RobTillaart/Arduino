@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/LineFormatter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/LineFormatter/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/LineFormatter/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/LineFormatter/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/LineFormatter/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/LineFormatter/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/LineFormatter.svg?maxAge=3600)](https://github.com/RobTillaart/LineFormatter/releases)
+
 
 # LineFormatter
 
 Arduino library to enhance the layout of tabular data on serial output,
+
 
 # Description
 
@@ -40,15 +44,60 @@ of positions to the right e.g. when copying a file from disk to Serial.
 Setting the value to 0 results in no maximum line length.
 Note: the maximum value is 255.
 
+
+## Interface
+
+- **LineFormatter(Print\* stream = &Serial)** constructor
+- **reset()** reset internal variables to start over again.
+
+
+#### Printing
+
+- **size_t write(uint8_t c)** implements print.
+- **uint8_t gotoPos(uint8_t n)** if position is smaller than n, move to the right
+- **void repeat(uint8_t n, char c, uint8_t newLine = 0)** repeat a char n times
+- **void repeat(uint8_t n, const char\* str, uint8_t newLine = 0)** repeat a "string" n times
+
+
+#### Tab configuration
+
+- **bool addTab(uint8_t n)** Add a tab at an absolute position. returns true on success
+- **bool addRelTab(uint8_t n)** Add a tab at a relative position. returns true on success
+- **void clearTabs()** remove all the tabs.
+- **void tab(uint8_t n = 1)** print zero or more tabs, similar as e.g. "\t\t\t"
+
+
+#### Line configuration
+
+- **void setMaxLength(uint8_t maxPos)** set the maximum line length - bold cut off
+- **uint8_t getMaxLength()** return max line length set.
+- **void setAutoNewLine(uint8_t n)** n = 0 switches autoNewLine off
+- **uint8_t getAutoNewLine()** returns number of newlines.
+
+
 ### Debugging
 
 For debugging purposes there are the following functions:
-- **getPos()** - returns current position
-- **resetLineCount()** - sets internal lineCounter to zero
-- **getLineCount()** - returns current line number (since last reset)
-- **getTabCount()** - get the number of tab positions added.
-- **printRuler()** - prints a dotted line with 5 and 10 markers, and # for tab positions.
+
+- **uint8_t getPos()** returns current position
+- **void resetLineCount()** sets internal lineCounter to zero
+- **uint16_t getLineCount()** returns current line number (since last reset)
+- **uint8_t getTabCount()** get the number of tab positions added.
+- **uint8_t getTabStop(uint8_t n)**
+- **void printRuler()** prints a dotted line with 5 and 10 markers, and # for tab positions.
+
 
 # Operational
 
 See examples
+
+
+## Future
+
+- improve documentation
+- add examples
+- add reset();
+- check if print interface is completely covered.
+- set defaults for functions
+- add **rmTab(position)**
+- 

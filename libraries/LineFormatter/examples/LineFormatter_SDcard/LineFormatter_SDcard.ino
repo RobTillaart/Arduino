@@ -7,6 +7,7 @@
 //     URL: https://github.com/RobTillaart/LineFormatter
 //
 
+
 #include <SPI.h>
 #include <SD.h>
 // SPI     PINS
@@ -17,6 +18,7 @@
 #define CS    10      // adjust this ChipSelect line if needed !
 
 #include <LineFormatter.h>
+
 
 void setup()
 {
@@ -52,7 +54,6 @@ void setup()
 void loop()
 {
 }
-
 
 
 void test_table(LineFormatter L)
@@ -117,4 +118,6 @@ void test_table(LineFormatter L)
   L.repeat(3, '\n');
 }
 
+
 // -- END OF FILE --
+

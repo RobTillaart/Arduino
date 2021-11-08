@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.6"))
+#define MCP_ADC_LIB_VERSION       (F("0.1.7"))
 
 
 class MCP_ADC
@@ -46,6 +46,9 @@ public:
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
+  uint32_t count();
+
+
 protected:
   uint8_t  _dataIn;
   uint8_t  _dataOut;
@@ -68,6 +71,8 @@ protected:
   #if defined(ESP32)
   bool        _useHSPI = true;
   #endif
+
+  uint32_t _count;
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -120,3 +125,4 @@ public:
 
 
 // -- END OF FILE --
+

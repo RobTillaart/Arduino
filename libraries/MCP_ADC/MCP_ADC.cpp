@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -71,10 +71,18 @@ void MCP_ADC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI 
+  mySPI->end();  // disable SPI
   mySPI->begin(clk, miso, mosi, select);
 }
 #endif
+
+
+uint32_t MCP_ADC::count()
+{
+  uint32_t cnt = _count;
+  _count = 0;
+  return cnt;
+}
 
 
 int16_t MCP_ADC::analogRead(uint8_t channel)
@@ -115,7 +123,9 @@ void MCP_ADC::setSPIspeed(uint32_t speed)
 int16_t MCP_ADC::readADC(uint8_t channel, bool single)
 {
   if (channel >= _channels) return 0;
-  
+
+  _count++;
+
   uint8_t  data[3] = { 0,0,0 };
   uint8_t  bytes = buildRequest(channel, single, data);
 
@@ -150,7 +160,7 @@ uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
   uint8_t dai = _dataIn;
-  
+
   uint8_t rv = 0;
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
@@ -167,7 +177,7 @@ uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3002
-// 
+//
 MCP3002::MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -177,7 +187,7 @@ MCP3002::MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
 
 uint8_t MCP3002::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
-    // P17  fig 6.1   MCP3002 
+    // P17  fig 6.1   MCP3002
   data[0] = 0x44;                          // start bit + MSB first bit
   if (single) data[0] |= 0x20;             // single read | differential
   if (channel) data[0] |= (channel << 4);  // channel = 0 or 1;
@@ -188,7 +198,7 @@ uint8_t MCP3002::buildRequest(uint8_t channel, bool single, uint8_t * data)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3004
-// 
+//
 MCP3004::MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -209,7 +219,7 @@ uint8_t MCP3004::buildRequest(uint8_t channel, bool single, uint8_t * data)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3008
-// 
+//
 MCP3008::MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -230,7 +240,7 @@ uint8_t MCP3008::buildRequest(uint8_t channel, bool single, uint8_t * data)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3202
-// 
+//
 MCP3202::MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -240,10 +250,10 @@ MCP3202::MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
 
 uint8_t MCP3202::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
-  // P17  fig 6.2   MCP3202 
+  // P17  fig 6.2   MCP3202
   data[0] = 0x01;                          // start bit
   data[1] = 0x20;                          // MSB first bit
-  if (single) data[1] |= 0x80;             // single read | differential 
+  if (single) data[1] |= 0x80;             // single read | differential
   if (channel) data[1] |= (channel << 6);  // channel = 0 or 1;
   return 3;
 }
@@ -252,7 +262,7 @@ uint8_t MCP3202::buildRequest(uint8_t channel, bool single, uint8_t * data)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3204
-// 
+//
 MCP3204::MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -264,7 +274,7 @@ uint8_t MCP3204::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
   // P21  fig 6.1   MCP3204/3208
   data[0] = 0x04;                          // start bit
-  if (single) data[0] |= 0x02;             // single read | differential 
+  if (single) data[0] |= 0x02;             // single read | differential
   if (channel > 3) data[0] |= 0x01;        // msb channel (D2)
   if (channel) data[1] |= (channel << 6);  // other 2 bits (D1 D0)
   return 3;
@@ -274,7 +284,7 @@ uint8_t MCP3204::buildRequest(uint8_t channel, bool single, uint8_t * data)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP3208
-// 
+//
 MCP3208::MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -286,7 +296,7 @@ uint8_t MCP3208::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
   // P21  fig 6.1   MCP3204/3208
   data[0] = 0x04;                          // start bit
-  if (single) data[0] |= 0x02;             // single read | differential 
+  if (single) data[0] |= 0x02;             // single read | differential
   if (channel > 3) data[0] |= 0x01;        // msb channel (D2)
   if (channel) data[1] |= (channel << 6);  // other 2 bits (D1 D0)
   return 3;

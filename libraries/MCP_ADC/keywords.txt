@@ -1,6 +1,6 @@
-# Syntax Coloring Map For MCP_ADC
+# Syntax Colouring Map For MCP_ADC
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 MCP3002	KEYWORD1
 MCP3004	KEYWORD1
 MCP3008	KEYWORD1
@@ -28,5 +28,10 @@ usesHSPI	KEYWORD2
 usesVSPI	KEYWORD2
 setGPIOpins	KEYWORD2
 
+count	KEYWORD2
+
+
 # Constants (LITERAL1)
+MCP_ADC_LIB_VERSION	LITERAL1
+
 

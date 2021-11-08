@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.5.0
+// VERSION: 1.5.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.5.0"))
+#define I2C_EEPROM_VERSION          (F("1.5.1"))
 
 
 #define I2C_DEVICESIZE_24LC512      65536
@@ -88,11 +88,17 @@ public:
   uint8_t  getPageSize(uint32_t deviceSize);
   uint32_t getLastWrite()  { return _lastWrite; };
 
+  //  TWR = WriteCycleTime
+  //  5 ms is minimum, one can add extra ms here to adjust timing of both read() and write()
+  void     setExtraWriteCycleTime(uint8_t ms) { _extraTWR = ms; };
+  uint8_t  getExtraWriteCycleTime() { return _extraTWR; };
+
 private:
   uint8_t  _deviceAddress;
   uint32_t _lastWrite;       // for waitEEReady
   uint32_t _deviceSize;
   uint8_t  _pageSize;
+  uint8_t  _extraTWR = 0;    // milliseconds
 
   // 24LC32..24LC512 use two bytes for memory address
   // 24LC01..24LC16  use one-byte addresses + part of device address

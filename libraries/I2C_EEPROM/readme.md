@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/I2C_EEPROM/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_EEPROM.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_EEPROM/releases)
 
@@ -54,18 +56,18 @@ The debug flag gives some output to Serial.
 Test results 
 
 | Type    | returns |  Memory  | Page Size | Notes |
-|:--------|:--------|:---------|:-----:|:------|
-|  -      |    0    |          |       | connect error, check device address / wiring |
-| 24LC512 |  65536  |  64 KB   |  128  |       |
-| 24LC256 |  32768  |  32 KB   |   64  |       |
-| 24LC128 |  16384  |  16 KB   |   64  |       |
-| 24LC64  |   8192  |   8 KB   |   32  |       |
-| 24LC32  |   4096  |   4 KB   |   32  | not tested with hardware |
-| 24LC16  |   2048  |   2 KB   |   16  |       |
-| 24LC08  |   1024  |   1 KB   |   16  |       |
-| 24LC04  |    512  |  512 b   |   16  |       |
-| 24LC02  |    256  |  256 b   |    8  |       |
-| 24LC01  |    128  |  128 b   |    8  |       |
+|:--------|:--------|:---------|:---------:|:------|
+|  -      |    0    |          |           | connect error, check device address / wiring |
+| 24LC512 |  65536  |  64 KB   |  128      |       |
+| 24LC256 |  32768  |  32 KB   |   64      |       |
+| 24LC128 |  16384  |  16 KB   |   64      |       |
+| 24LC64  |   8192  |   8 KB   |   32      |       |
+| 24LC32  |   4096  |   4 KB   |   32      | not tested with hardware |
+| 24LC16  |   2048  |   2 KB   |   16      |       |
+| 24LC08  |   1024  |   1 KB   |   16      |       |
+| 24LC04  |    512  |  512 b   |   16      |       |
+| 24LC02  |    256  |  256 b   |    8      |       |
+| 24LC01  |    128  |  128 b   |    8      |       |
 
 The function cannot detect smaller than 128 bit EEPROMS.
 
@@ -82,6 +84,18 @@ The result is that an **updateBlock()** call can result e.g. in 4 reads and only
 
 If data is changed often between writes, **updateBlock()** is slower than **writeBlock()**.
 So you should verify if your sketch can make use of the advantages of **updateBlock()**
+
+
+#### ExtraWriteCycleTime (experimental)
+
+(new since 1.5.1)
+
+To improve support older I2C EEPROMs e.g. IS24C16 two functions were added to increase 
+the waiting time before a read and/or write as some older devices have a larger timeout
+than 5 milliseconds which is the minimum.
+
+- **void     setExtraWriteCycleTime(uint8_t ms)** idem
+- **uint8_t  getExtraWriteCycleTime()** idem
 
 
 ## Limitation

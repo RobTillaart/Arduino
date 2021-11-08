@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.5.0
+// VERSION: 1.5.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -39,6 +39,7 @@
 //  1.4.2   2021-01-31  add updateBlock()
 //  1.4.3   2021-05-05  adjust buffer size AVR / ESP +rename
 //  1.5.0   2021-06-30  #28 fix addressing 24LC04/08/16
+//  1.5.1   2021-10-14  function to add extra for write cycle (experimental)
  
 
 #include <I2C_eeprom.h>
@@ -371,10 +372,11 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, co
 void I2C_eeprom::_waitEEReady()
 {
 #define I2C_WRITEDELAY  5000
-
-  // Wait until EEPROM gives ACK again.
-  // this is a bit faster than the hardcoded 5 milliSeconds
-  while ((micros() - _lastWrite) <= I2C_WRITEDELAY)
+  //  Wait until EEPROM gives ACK again.
+  //  this is a bit faster than the hardcoded 5 milliSeconds
+  //  TWR = WriteCycleTime
+  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  // do the math once.
+  while ((micros() - _lastWrite) <= waitTime)
   {
     _wire->beginTransmission(_deviceAddress);
     int x = _wire->endTransmission();

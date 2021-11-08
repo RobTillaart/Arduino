@@ -32,26 +32,17 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
+
+
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", I2C_KEYPAD_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) I2C_KEYPAD_LIB_VERSION);
 
   const uint8_t KEYPAD_ADDRESS = 0x38;
   I2CKeyPad keyPad(KEYPAD_ADDRESS);
@@ -62,11 +53,12 @@ unittest(test_constructor)
   // assertTrue(keyPad.isConnected());
 }
 
+
 // Issues with Wire - to be investigated...
 //
 // unittest(test_read)
 // {
-  // fprintf(stderr, "VERSION: %s\n", I2C_KEYPAD_LIB_VERSION);
+  // fprintf(stderr, "VERSION: %s\n", (char *) I2C_KEYPAD_LIB_VERSION);
 
   // const uint8_t KEYPAD_ADDRESS = 0x38;
   // I2CKeyPad keyPad(KEYPAD_ADDRESS);
@@ -77,6 +69,7 @@ unittest(test_constructor)
   // // assertEqual(I2C_KEYPAD_NOKEY, keyPad.getKey());
   // // assertFalse(keyPad.isPressed());
 // }
+
 
 unittest_main()
 

@@ -11,10 +11,10 @@
 //  2021-05-06  0.2.0  updated with lib
 
 
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
-//    pin p4-p7 colums
-// 4x4 or smaller keypad.
+//    pin p4-p7 columns
+//  4x4 or smaller keypad.
 
 
 #include "Wire.h"
@@ -46,24 +46,26 @@ void setup()
 void loop()
 {
   uint32_t now = millis();
-  char keys[] = "123A456B789C*0#DNF";  // N = Nokey, F = Fail
+  char keys[] = "123A456B789C*0#DNF";  // N = NoKey, F = Fail
 
   if (now - lastKeyPressed >= 100)
   {
     lastKeyPressed = now;
 
     start = micros();
-    uint8_t idx = keyPad.getKey();
+    uint8_t index = keyPad.getKey();
     stop = micros();
 
     Serial.print(millis());
     Serial.print("\t");
-    Serial.print(idx);
+    Serial.print(index);
     Serial.print("\t");
-    Serial.print(keys[idx]);
+    Serial.print(keys[index]);
     Serial.print("\t");
     Serial.println(stop - start);
   }
 }
 
+
 // -- END OF FILE --
+

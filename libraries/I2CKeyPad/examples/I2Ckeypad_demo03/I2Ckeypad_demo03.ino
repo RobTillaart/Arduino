@@ -13,7 +13,7 @@
 
 // PCF8574
 //    pin p0-p3 rows
-//    pin p4-p7 colums
+//    pin p4-p7 columns
 // 4x4 or smaller keypad.
 
 
@@ -76,7 +76,7 @@ void loop()
 // ABCD are not mapped.
 char handleKeyPadValue(uint32_t &value)
 {
-  char v[19] = "123A456B789C*0#DNF";  // N = Nokey, F = Fail
+  char v[19] = "123A456B789C*0#DNF";  // N = NoKey, F = Fail
   static uint8_t lastKey = 0;
 
   uint8_t idx = keyPad.getKey();
@@ -113,4 +113,6 @@ char handleKeyPadValue(uint32_t &value)
   return c;
 }
 
+
 // -- END OF FILE --
+

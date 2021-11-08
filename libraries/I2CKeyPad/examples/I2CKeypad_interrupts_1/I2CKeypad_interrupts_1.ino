@@ -32,12 +32,12 @@
 //  polling at e.g 10Hz (to stay reactive) adds up both in CPU time used
 //  and also in occupation of the I2C bus.
 //
-//  The PCF8574 will generate an irq both on press and release.
+//  The PCF8574 will generate an interrupt both on press and release.
 //  So this code reads the keypad on both signals!
 //
 //  Note: depending on keypad used some bouncing may occur
 //        (saw it only during release)
-//  can be solved by tracking lastinterrupt in the ISR routine
+//  can be solved by tracking the last interrupt in the ISR routine
 //  however it is more efficient to reset the flag only after the 
 //  keypress is handled.
 //
@@ -54,7 +54,7 @@
 
 const uint8_t KEYPAD_ADDRESS = 0x20;
 I2CKeyPad keyPad(KEYPAD_ADDRESS);
-char keys[] = "123A456B789C*0#DNF";  // N = Nokey, F = Fail (eg >1 keys pressed)
+char keys[] = "123A456B789C*0#DNF";  // N = NoKey, F = Fail (e.g. >1 keys pressed)
 
 // volatile for IRQ var
 volatile bool keyChange = false;
@@ -95,13 +95,13 @@ void loop()
 {
   if (keyChange)
   {
-    uint8_t idx = keyPad.getKey();
-    // only after keychange is handled it is time reset the flag
+    uint8_t index = keyPad.getKey();
+    // only after keyChange is handled it is time reset the flag
     keyChange = false;
-    if (idx != 16)
+    if (index != 16)
     {
       Serial.print("press: ");
-      Serial.println(keys[idx]);
+      Serial.println(keys[index]);
     }
     else
     {
@@ -133,14 +133,14 @@ void measurePolling()
     {
       // reference time for keyPressed check UNO ~
       uint32_t start = micros();
-      uint8_t idx = keyPad.isPressed();
+      uint8_t index = keyPad.isPressed();
       uint32_t stop = micros();
 
       Serial.print(clock);
       Serial.print("\t");
-      Serial.print(idx);
+      Serial.print(index);
       Serial.print("\t");
-      Serial.print(keys[idx]);
+      Serial.print(keys[index]);
       Serial.print("\t");
       Serial.println(stop - start);
       delay(10);
@@ -148,4 +148,6 @@ void measurePolling()
   }
 }
 
+
 // -- END OF FILE --
+

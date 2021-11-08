@@ -13,7 +13,7 @@
 
 // PCF8574
 //    pin p0-p3 rows
-//    pin p4-p7 colums
+//    pin p4-p7 columns
 // 4x4 or smaller keypad.
 
 
@@ -51,27 +51,28 @@ void loop()
   {
     lastKeyPressed = now;
 
-    bool c = keyPad.isConnected();
-    bool b = keyPad.isPressed();
-    uint8_t lk = keyPad.getLastKey();
+    bool connected  = keyPad.isConnected();
+    bool pressed    = keyPad.isPressed();
+    uint8_t lastKey = keyPad.getLastKey();
     
     start = micros();
-    uint8_t idx = keyPad.getKey();
+    uint8_t index = keyPad.getKey();
     stop = micros();
     Serial.print(millis());
     Serial.print("\t");
-    Serial.print(idx);
+    Serial.print(index);
     Serial.print("\t");
-    Serial.print((char)"123A456B789C*0#DNF"[idx]);  // Nokey, Fail
+    Serial.print((char)"123A456B789C*0#DNF"[index]);  // NoKey, Fail
     Serial.print("\t");
-    Serial.print(lk);
+    Serial.print(lastKey);
     Serial.print("\t");
-    Serial.print(b?"True":"False");
+    Serial.print(pressed ? "True" : "False");
     Serial.print("\t");
-    Serial.print(c?"True":"False");
+    Serial.print(connected ? "True" : "False");
     Serial.print("\t");
     Serial.println(stop - start);
   }
 }
 
 // -- END OF FILE --
+

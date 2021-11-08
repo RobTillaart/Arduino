@@ -20,7 +20,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  mm.autoReset(10000);
+  mm.setAutoResetCount(10000);
 }
 
 

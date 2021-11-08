@@ -41,9 +41,11 @@ especially if all functionality is used.
 
 Issue found in version 0.1.9 - https://github.com/RobTillaart/Arduino/issues/90
 Class does not compile for DUE and TEENSY
+Also Raspberry Pico - https://github.com/RobTillaart/Complex/issues/6
 
 Apparently the name "Complex" is already in use (reserved) by some non-AVR compilers 
 so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
+
 
 
 #### Solution

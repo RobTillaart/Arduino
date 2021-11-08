@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,8 +12,13 @@
 //  0.1.2   2021-07-29  VSPI / HSPI support for ESP32 (default pins only
 //                      faster software SPI
 //                      minor optimizations / refactor
-//  0.1.3   2021-07-31  add incr() and decr()
+//  0.1.3   2021-07-31  add increment() and decrement()
 //  0.1.4   2021-08-01  fix setGPIOpins() - needs more testing.
+//  0.1.5   2021-11-08  update build-CI, badges,
+//                      default parameter 1 for setGain()
+//                      default parameter false for setBufferedMode()
+//                      default parameter 0 for getPercentage()
+//                      extended unit tests
 
 
 #include "MCP_DAC.h"
@@ -97,7 +102,7 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
 
 bool MCP_DAC::setGain(uint8_t gain)
 {
-  if ((0 < gain) && (gain < 2)) return false;
+  if ((0 == gain) || (gain > 2)) return false;
   _gain = gain;
   return true;
 }
@@ -202,8 +207,9 @@ void MCP_DAC::setSPIspeed(uint32_t speed)
 
 
 //////////////////////////////////////////////////////////////////
-
-
+//
+// PROTECTED
+//
 void MCP_DAC::transfer(uint16_t data)
 {
   // DATA TRANSFER 

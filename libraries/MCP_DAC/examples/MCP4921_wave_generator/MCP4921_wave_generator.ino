@@ -52,14 +52,19 @@ void setup()
 
   MCP.begin(10);
 
+  MCP.selectVSPI();     // needs to be called before begin()
+                        // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
+                        // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
+  MCP.begin(15);        // 5 for VSPI and 15 for HSPI
+  
   MCP.fastWriteA(0);
 
   period = 1e6 / freq;
   halvePeriod = period / 2;
 
-  while (1)
+  while (1)   // endless loop - could have been done in loop() 
   {
-    Serial.println(analogRead(A0));   // read output back via A0.
+    // Serial.println(analogRead(A0));   // read output back via A0.
     yield();
     uint32_t now = micros();
 
@@ -167,4 +172,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

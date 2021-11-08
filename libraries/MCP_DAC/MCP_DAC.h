@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.4"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.5"))
 
 
 
@@ -35,7 +35,7 @@ public:
   uint16_t maxValue() { return _maxValue; };
 
   //       gain = 1 or 2
-  bool     setGain(uint8_t gain);
+  bool     setGain(uint8_t gain = 1);
   uint8_t  getGain()  { return _gain; };
 
   bool     analogWrite(uint16_t value, uint8_t channel = 0);
@@ -47,8 +47,9 @@ public:
   bool     decrement(uint8_t channel = 0);
 
   //       convenience wrappers
-  void     setPercentage(float perc, uint8_t channel = 0);  //  perc = 0..100.0%
-  float    getPercentage(uint8_t channel);
+  //       percentage = 0..100.0%
+  void     setPercentage(float percentage, uint8_t channel = 0);
+  float    getPercentage(uint8_t channel = 0);
 
   //       trigger LDAC = LatchDAC pin - if not set it does nothing
   void     setLatchPin( uint8_t latchPin);
@@ -66,8 +67,8 @@ public:
   //       MCP49xxx series only
   //
   //       see page 20 ==> not functional for MCP48xx series.
-  void     setBufferedMode(bool mode) { _buffered = mode; };
-  bool     getBufferedMode()          { return _buffered; };
+  void     setBufferedMode(bool mode = false) { _buffered = mode; };
+  bool     getBufferedMode() { return _buffered; };
 
   // debugging
   void     reset();

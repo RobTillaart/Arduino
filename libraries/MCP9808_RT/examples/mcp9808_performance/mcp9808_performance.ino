@@ -5,11 +5,13 @@
 // PURPOSE: demo
 //    DATE: 2020-11-13
 
+
 #include "mcp9808.h"
 
 MCP9808 ts(24);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -36,8 +38,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

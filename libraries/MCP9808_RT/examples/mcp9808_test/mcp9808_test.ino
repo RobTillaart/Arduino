@@ -7,9 +7,11 @@
 //    (c) : MIT
 //
 
+
 #include "mcp9808.h"
 
 MCP9808 ts(24);
+
 
 void setup()
 {
@@ -21,6 +23,7 @@ void setup()
   test_2();
   test_3();
 }
+
 
 void test_0()
 {
@@ -45,10 +48,11 @@ void test_0()
   Serial.println(ts.getDeviceID());
   Serial.print("Revision: ");
   Serial.println(ts.getRevision());
-  Serial.print("RFU: ");
+  Serial.print("RFU:      ");
   Serial.println(ts.getRFU());
   Serial.println();
 }
+
 
 void test_1()
 {
@@ -64,6 +68,7 @@ void test_1()
     Serial.println();
   }
 }
+
 
 void test_2()
 {
@@ -113,6 +118,7 @@ void test_2()
   Serial.println();
 }
 
+
 void test_3()
 {
   Serial.println();
@@ -131,6 +137,10 @@ void test_3()
 }
 
 
-void loop() {}
+void loop()
+{
+}
+
 
 // -- END OF FILE --
+

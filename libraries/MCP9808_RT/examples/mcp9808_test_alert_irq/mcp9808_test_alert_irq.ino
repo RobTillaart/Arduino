@@ -21,6 +21,7 @@
 //  +----------+
 //
 
+
 #include "mcp9808.h"
 
 MCP9808 ts(24);
@@ -28,10 +29,12 @@ MCP9808 ts(24);
 const uint8_t ALERTPIN = 2;     // ADJUST IF NEEDED
 volatile bool flag = false;
 
+// interrupt routine
 void detectAlert()
 {
   flag = true;
 }
+
 
 void setup()
 {
@@ -57,6 +60,7 @@ void setup()
   pinMode(ALERTPIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(ALERTPIN), detectAlert, RISING);  // CHANGE
 
+
   // SET ALERT PARAMETERS
   uint16_t cfg = ts.getConfigRegister();
   cfg &= ~0x0001;      // set comparator mode
@@ -66,6 +70,7 @@ void setup()
   cfg |= 0x0008;       // enable alert
   ts.setConfigRegister(cfg);
 }
+
 
 void loop()
 {
@@ -85,3 +90,4 @@ void loop()
 
 
 // -- END OF FILE --
+

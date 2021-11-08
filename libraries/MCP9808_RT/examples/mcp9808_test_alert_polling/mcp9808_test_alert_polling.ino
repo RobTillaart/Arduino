@@ -21,6 +21,7 @@
 //  +----------+
 //
 
+
 #include "mcp9808.h"
 
 MCP9808 ts(24);
@@ -60,6 +61,7 @@ void setup()
   cfg |= 0x0008;       // enable alert
   ts.setConfigRegister(cfg);
 }
+
 
 void loop()
 {

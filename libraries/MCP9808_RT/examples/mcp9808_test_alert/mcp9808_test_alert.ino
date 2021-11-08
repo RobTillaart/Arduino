@@ -21,9 +21,11 @@
 //  +----------+
 //
 
+
 #include "mcp9808.h"
 
 MCP9808 ts(24);
+
 
 void setup()
 {
@@ -33,6 +35,7 @@ void setup()
   // SET TEMPERATURE WINDOW FOR COMPERATOR MODE °C
   ts.setTlower(21);
   ts.setTupper(23);
+
   // SET AUTO RESET  (p32 datasheet)
   // same value as Tupper to have auto reset in comparator mode.
   // note no hysteresis set
@@ -55,6 +58,7 @@ void setup()
   ts.setConfigRegister(cfg);
 }
 
+
 void loop()
 {
   Serial.print(ts.getConfigRegister() & 0x0010);
@@ -68,3 +72,4 @@ void loop()
 
 
 // -- END OF FILE --
+

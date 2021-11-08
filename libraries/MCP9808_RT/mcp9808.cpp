@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -12,6 +12,10 @@
 //  0.1.2   2020-11-16  removed hasAlert, removed setAlertPin, 
 //                      added 2 alert examples, refactor low level
 //  0.1.3   2021-01-01  arduino-ci + unit test                    
+//  0.1.4   2021-11-08  update build-CI, badges
+//                      default offset for offset
+//                      default Wire for I2C bus - setAddress()
+
 
 #include "mcp9808.h"
 
@@ -25,6 +29,7 @@
 #define MCP9808_DID     0x07
 #define MCP9808_RES     0x08
 
+
 /*
   0000 = RFU, Reserved for Future Use (Read-Only register)
   0001 = Configuration register (CONFIG)
@@ -37,6 +42,7 @@
   1000 = Resolution register
   1xxx = Reserved(1)
 */
+
 
 #if defined(ESP8266) || defined(ESP32)
 MCP9808::MCP9808(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
@@ -59,6 +65,7 @@ MCP9808::MCP9808(const uint8_t address)
 }
 #endif
 
+
 bool MCP9808::setAddress(const uint8_t address, TwoWire *wire)
 {
   if ((address < 24) || (address > 31)) return false;
@@ -68,96 +75,115 @@ bool MCP9808::setAddress(const uint8_t address, TwoWire *wire)
   return true;
 }
 
+
 bool MCP9808::isConnected()
 {
   Wire.beginTransmission(_address);
   return (Wire.endTransmission() == 0);
 }
 
-void MCP9808::setConfigRegister(uint16_t config)
+
+void MCP9808::setConfigRegister(uint16_t configuration)
 {
-  writeReg16(MCP9808_CONFIG, config);
+  writeReg16(MCP9808_CONFIG, configuration);
 }
+
 
 uint16_t MCP9808::getConfigRegister()
 {
   return readReg16(MCP9808_CONFIG);
 }
 
-void  MCP9808::setTupper(float temp)
+
+void  MCP9808::setTupper(float temperature)
 {
-  writeFloat(MCP9808_TUPPER, temp);
+  writeFloat(MCP9808_TUPPER, temperature);
 }
+
 
 float MCP9808::getTupper()
 {
   return readFloat(MCP9808_TUPPER);
 }
 
-void  MCP9808::setTlower(float temp)
+
+void  MCP9808::setTlower(float temperature)
 {
-  writeFloat(MCP9808_TLOWER, temp);
+  writeFloat(MCP9808_TLOWER, temperature);
 }
+
 
 float MCP9808::getTlower()
 {
   return readFloat(MCP9808_TLOWER);
 }
 
-void  MCP9808::setTcritical(float temp)
+
+void  MCP9808::setTcritical(float temperature)
 {
-  writeFloat(MCP9808_TCRIT, temp);
+  writeFloat(MCP9808_TCRIT, temperature);
 }
+
 
 float MCP9808::getTcritical()
 {
   return readFloat(MCP9808_TCRIT);
 }
 
+
 void MCP9808::setOffset(float offset)
 {
   _offset = offset;
 };
+
 
 float MCP9808::getOffset()
 {
   return _offset; 
 };
 
+
 float MCP9808::getTemperature()
 {
   return readFloat(MCP9808_TA) + _offset;
 }
+
 
 uint8_t MCP9808::getStatus()
 {
   return _status;
 }
 
+
 uint16_t MCP9808::getManufacturerID()
 {
   return readReg16(MCP9808_MID);
 }
+
 
 uint8_t MCP9808::getDeviceID()
 {
   return readReg16(MCP9808_DID) >> 8;
 }
 
+
 uint8_t MCP9808::getRevision()
 {
   return readReg16(MCP9808_DID) & 0xFF;
 }
 
-void MCP9808::setResolution(uint8_t res)
+
+void MCP9808::setResolution(uint8_t resolution)
 {
-  if (res < 4) writeReg8(MCP9808_RES, res);
+  if (resolution < 4) writeReg8(MCP9808_RES, resolution);
 }
+
 
 uint8_t MCP9808::getResolution()
 {
   return readReg8(MCP9808_RES);
 }
+
 
 uint16_t MCP9808::getRFU()
 {
@@ -178,6 +204,7 @@ void MCP9808::writeFloat(uint8_t reg, float f)
   writeReg16(reg, val);
 }
 
+
 float MCP9808::readFloat(uint8_t reg)
 {
   uint16_t val = readReg16(reg);
@@ -192,6 +219,7 @@ float MCP9808::readFloat(uint8_t reg)
   return (val & 0x0FFF) * 0.0625;
 }
 
+
 void MCP9808::writeReg8(uint8_t reg, uint8_t value)
 {
   if (reg > MCP9808_RES) return;  // see p.16
@@ -200,6 +228,7 @@ void MCP9808::writeReg8(uint8_t reg, uint8_t value)
   Wire.write(value);
   Wire.endTransmission();
 }
+
 
 uint8_t MCP9808::readReg8(uint8_t reg)
 {
@@ -211,6 +240,7 @@ uint8_t MCP9808::readReg8(uint8_t reg)
   return Wire.read();
 }
 
+
 void MCP9808::writeReg16(uint8_t reg, uint16_t value)
 {
   if (reg > MCP9808_RES) return;  // see p.16
@@ -220,6 +250,7 @@ void MCP9808::writeReg16(uint8_t reg, uint16_t value)
   Wire.write(value & 0xFF); // lo byte
   Wire.endTransmission();
 }
+
 
 uint16_t MCP9808::readReg16(uint8_t reg)
 {
@@ -233,4 +264,6 @@ uint16_t MCP9808::readReg16(uint8_t reg)
   return val;
 }
 
+
 // -- END OF FILE --
+

@@ -1,7 +1,7 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //
 //  HISTORY:
@@ -14,6 +14,8 @@
 //  0.1.6  2021-06-19  add get/setDUVfactor(), 
 //                     rewrite estimateDUVindex(),
 //                     add reset();
+//  0.1.7  2021-11-09  update vuild-CI, badges
+//                     add voltage2mW() for external ADC
 
 
 #include "ML8511.h"
@@ -58,13 +60,21 @@ float ML8511::getUV(uint8_t energyMode)
     uint32_t start = micros();
     while (micros() - start < 1000) yield();
   }
-
+  //  read the sensor
   float voltage = analogRead(_analogPin) * _voltsPerStep;
+  //  go to low power mode?
   if (energyMode == LOW)
   {
     disable();
   }
 
+  return voltage2mW(voltage);
+}
+
+
+//  to be used by external ADC
+float ML8511::voltage2mW(float voltage)
+{
   // see datasheet - page 4
   // mW/cm2 @ 365 nm
   // @ 25 Celsius
@@ -91,10 +101,10 @@ float ML8511::estimateDUVindex(float mWcm2)
 };
 
 
-bool ML8511::setDUVfactor(float f)
+bool ML8511::setDUVfactor(float factor)
 {
-  if (f < 0.01) return false;  // enforce positive values 
-  _DUVfactor = f; 
+  if (factor < 0.01) return false;  // enforce positive values 
+  _DUVfactor = factor; 
   return true;
 };
 

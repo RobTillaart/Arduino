@@ -1,12 +1,13 @@
-# Syntax Coloring Map For ML8511
+# Syntax Colouring Map For ML8511
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 ML8511	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 reset	KEYWORD2
 getUV	KEYWORD2
+voltage2mW	KEYWORD2
 setVoltsPerStep	KEYWORD2
 getVoltsPerStep	KEYWORD2
 

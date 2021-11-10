@@ -1,16 +1,16 @@
 //
 //    FILE: nibbleArray_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo nibble array
 //    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/nibbleArray
 
-// 0.1.0    2020-06-21 initial version
-//
+
 #include "nibbleArray.h"
 
 nibbleArray na(500);
+
 
 void setup()
 {
@@ -24,6 +24,7 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void test_1()
 {
   int ar[16];
@@ -34,11 +35,12 @@ void test_1()
   // 500 throws with 3 dices (3..18 ==> 0..15)
   for (int i = 0; i < 500; i++)
   {
-    uint8_t sum = random(6);
+    uint8_t sum = random(6);  // 0..5
     sum += random(6);
     sum += random(6);
     na.set(i, sum);       // diff from na.set(i, random(16));
   }
+
   for (int i = 0; i < 500; i++)
   {
     ar[na.get(i)]++;
@@ -47,6 +49,7 @@ void test_1()
     if ((i % 32) == 31) Serial.println();
   }
   Serial.println();
+
   Serial.println("\nFrequency analysis");
   for (int i = 0; i < 16; i++)
   {
@@ -77,10 +80,11 @@ void test_1()
   }
 }
 
-void play(uint8_t chord, uint8_t note, uint8_t duration)
+
+void play(uint8_t octave, uint8_t note, uint8_t duration)
 {
   Serial.print("Play: ");
-  // Serial.print(chord);
+  // Serial.print(octave);
   Serial.print(" ");
   switch (note)
   {
@@ -137,8 +141,10 @@ void move(uint8_t steps, uint8_t direction)
   delay(100 * steps);
 }
 
+
 void loop()
 {
 }
+
 
 // -- END OF FILE --

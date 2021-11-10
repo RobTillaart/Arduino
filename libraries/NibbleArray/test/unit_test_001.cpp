@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
@@ -44,25 +45,14 @@ unittest_teardown()
   fprintf(stderr, "\n");
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", NIBBLEARRAY_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) NIBBLEARRAY_LIB_VERSION);
 
   nibbleArray na(500);
   assertEqual(500, na.size());
+  assertEqual(250, na.memory());
 
   fprintf(stderr, "get / set\n");
   for (int i = 0; i < 500; i += 23)

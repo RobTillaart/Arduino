@@ -1,6 +1,6 @@
-# Syntax Coloring Map For BoolArray
+# Syntax Colouring Map For BoolArray
 
-# Datatypes (KEYWORD1)
+# Datat ypes (KEYWORD1)
 BoolArray	KEYWORD1
 
 
@@ -8,7 +8,10 @@ BoolArray	KEYWORD1
 begin	KEYWORD2
 get	KEYWORD2
 set	KEYWORD2
+
 size	KEYWORD2
+memory	KEYWORD2
+
 clear	KEYWORD2
 setAll	KEYWORD2
 

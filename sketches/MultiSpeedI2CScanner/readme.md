@@ -1,12 +1,16 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MultiSpeedI2CScanner/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MultiSpeedI2CScanner.svg?maxAge=3600)](https://github.com/RobTillaart/MultiSpeedI2CScanner/releases)
 
 
 # Arduino MultiSpeed I2C Scanner
 
-## Version: 0.1.13
+
+## Version: 0.1.14
+
 
 ## Description
 
@@ -16,6 +20,7 @@ The scanner is tested on an UNO and an ESP32.
 The scanner provides an overview of which addresses can be found 
 at which speed. This allows one to optimize the I2C performance of
 many devices above the standard 100KHz speed.
+
 
 ## Menu dialog
 
@@ -53,6 +58,7 @@ Speeds:
 	? = help - this page
 ```
 
+
 ## Functions
 
 ### I2C ports
@@ -74,6 +80,7 @@ Only needed sometimes.
 
 **i** toggles disable/enable interrupts, use with care.
 
+
 ### Output selection
 
 **p** toggles printAll and  printFound. 
@@ -84,6 +91,7 @@ PrintFound will only generate a line if an I2C device is found on that address.
 
 **a** toggles the range of addresses scanned, default the range 8 .. 119 is scanned,
 but one can extend this range to 0 .. 127. **Note:** some addresses are reserved.
+
 
 ### Speeds
 
@@ -97,3 +105,10 @@ NOTE: not all processors will support these higher speeds.
 This can show up as blocking or it can even look like it is working.
 Check your datasheet to see which speeds are applicable for the processor in use.
 
+
+## Future
+
+- add watchdog reset (at least AVR - 8 seconds 0.2.0 )
+- create an I2Scanner class
+- r = reset (defaults)
+- non-AVR command behind a ```#ifdef``` ?

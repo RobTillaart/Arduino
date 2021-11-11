@@ -1,6 +1,6 @@
-# Syntax Coloring Map For ParallelPrinter
+# Syntax Colouring Map For ParallelPrinter
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 ParallelPrinter	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
@@ -27,6 +27,7 @@ formfeed	KEYWORD2
 linefeed	KEYWORD2
 
 isOutOfPaper	KEYWORD2
+isBusy	KEYWORD2
 setStrobeDelay	KEYWORD2
 getStrobeDelay	KEYWORD2
 

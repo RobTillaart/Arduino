@@ -15,6 +15,7 @@
 
 ParallelPrinter PP;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -22,6 +23,7 @@ void setup()
   
   PP.begin();
 }
+
 
 void loop()
 {

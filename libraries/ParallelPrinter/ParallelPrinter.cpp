@@ -1,7 +1,7 @@
 //
 //    FILE: ParallelPrinter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: parallel printer class that implements the Print interface
 //    DATE: 2013-09-30
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -9,8 +9,11 @@
 //  HISTORY
 //  0.1.0   2013-09-30  initial release
 //  0.2.0   2020-05-26  refactor, examples
-//  0.2.1   2021-01-04  arduino-CI + unit test
+//  0.2.1   2021-01-04  Arduino-CI + unit test
 //  0.2.2   2021-01-14  update readme, add linefeed(), add keywords.txt
+//  0.2.3   2021-11-11  update Arduino-CI, readme,md
+//                      add isBusy();
+
 
 #include "ParallelPrinter.h"
 

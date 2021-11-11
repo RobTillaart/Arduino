@@ -23,10 +23,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
-
 }
+
 
 void test1()
 {
@@ -36,6 +37,7 @@ void test1()
   delay(100);
 }
 
+
 void test2()
 {
   Serial.println(__FUNCTION__);
@@ -44,6 +46,7 @@ void test2()
   for (int i = 0; i < 30; i++) PP.println("Hello World");
   delay(100);
 }
+
 
 void test3()
 {

@@ -1,20 +1,24 @@
 
 [![Arduino CI](https://github.com/RobTillaart/ParallelPrinter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ParallelPrinter/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ParallelPrinter.svg?maxAge=3600)](https://github.com/RobTillaart/ParallelPrinter/releases)
 
+
 # ParallelPrinter
 
-Arduino library that implements a parallel printer (driver) - implements the PRINT interface
+Arduino library that implements a parallel printer (driver) - implements the PRINT interface.
 
 
 ## Description
 
 This library defines a parallel printer object.
 
-It implements the **Print interface** to be able to print all datatypes using **write()**, **print()** and **println()**
+It implements the **Print interface** to be able to print all data types 
+using **write()**, **print()** and **println()**.
 The printer writes every byte over 8 parallel lines including a **STROBE** (clock) pulse,
-while waiting for the connected printer not to be **BUSY** or **OUT OF PAPER**.
+while waiting for the connected printer not to be **BUSY** or **OUT OF PAPER** (OOP).
 
 This library is meant to be a starting point to make a "printer driver" for a 
 specific parallel printer. These can often be bought in 2nd hand stores or so.
@@ -29,41 +33,45 @@ Have fun!
 ### Constructor
 
 - **ParallelPrinter()** uses default pins (13, 2, 12, \[3,4,5,6,7,8,9,10\])
-- **ParallelPrinter(strobe, busy, oop, arr)** define 3 control pins + 8 datapins (= arr)
-- **begin(linelength, pagelength)** set line and page length parameters
+- **ParallelPrinter(uint8_t strobe, uint8_t busy, uint8_t oop, uint8_t \*arr)** 
+define 3 control pins + 8 data pins (= arr\[8\]).
+- **void begin(uint8_t lineLength, uint8_t pageLength)** set line and page length parameters
 
 
 ### Print interface
-- **write(c)** send a single byte to printer, implements Print interface. 
-Therefor all **print()** and **println()** functions will work.
-- **formfeed()** to eject current page or forced go to the next page.
-- **linefeed()** send a linefeed. The number of actual lines is set by **setLineFeed()**
+
+- **size_t write(uint8_t c)** send a single byte to printer, implements Print interface. 
+Therefore all **print()** and **println()** functions will work.
+- **void formfeed()** to eject current page or forced go to the next page.
+- **void linefeed()** send a linefeed. 
+The number of actual lines is set by **setLineFeed()**
 
 
-### Config
+### Configuration
 
 These settings are pretty straightforward.
 
-- **setLineLength(lineLength)** idem
-- **getLineLength()** returns the current line length. 
-- **setPageLength(pageLength)** idem
-- **getPageLength()** returns the current page length.
-- **getLineNumber()** returns current line number.
-- **getPageNumber()** returns current page number.
-- **getPosition()** returns the position on a line.
-- **setTabSize(tabsize)** tabs are replaced by spaces. n can be 0 or any size!
-- **getTabSize()** returns tabSize set
-- **setLineFeed(lineFeeds)** lineFeeds = 1,2,3  1 = default
-- **getLineFeed()** returns lineFeeds set
-- **printLineNr(bool)** can be set to true, false
+- **void setLineLength(uint8_t lineLength)** idem
+- **uint8_t getLineLength()** returns the current line length. 
+- **void setPageLength(uint8_t pageLength)** idem
+- **uint8_t getPageLength()** returns the current page length.
+- **uint8_t getLineNumber()** returns current line number.
+- **uint8_t getPageNumber()** returns current page number.
+- **uint8_t getPosition()** returns the position on a line.
+- **uint8_t setTabSize(uint8_t tabsize)** tabs are replaced by spaces. n can be 0 or any size!
+- **uint8_t getTabSize()** returns tabSize set
+- **void setLineFeed(uint8_t lineFeeds)** lineFeeds = 1,2,3  1 = default. 
+- **uint8_t getLineFeed()** returns lineFeeds set
+- **void printLineNr(bool b)** can be set to true, false.
 
 
 ### Expert mode
 
-- **isOutOfPaper()** to check paper tray before printing starts.
-- **setStrobeDelay(n = 2000)** make the strobe pulse shorter == faster printing
-allows tuning of performance. Default value = 2000. Time in microseconds.
-- **getStrobeDelay()** returns value set.
+- **bool isOutOfPaper()** to check paper tray before printing starts.
+- **void setStrobeDelay(uint16_t n = 2000)** allows tuning of performance. 
+Make the strobe pulse shorter == faster printing (printer dependant).
+Default value = 2000. Time in microseconds.
+- **uint16_t getStrobeDelay()** returns value set.
 
 **Note** mechanical printers e.g. dot matrix, really do need a way to stop receiving 
 data as they do not have large buffers.
@@ -76,8 +84,14 @@ https://en.wikipedia.org/wiki/Parallel_port#Centronics
 
 ## Future
 
-- Make a front end of a parallel printer, that accepts the clocked bytes and print them 
+- update documentation
+- extend unit tests?
+- test more
+- extend simulator sketch
+  - Make a front end of a parallel printer, 
+  - Accepts the clocked bytes and print them e.g. over serial.
 - derive e.g. an HP or an EPSON printer from this class.
+  - special modes e.g. bold italic underline
 
 ## Operation
 

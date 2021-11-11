@@ -7,9 +7,11 @@
 //    (c) : MIT
 //
 
+
 #include "PAR27979.h"
 
 PAR27979 display(&Serial);
+
 
 void setup()
 {
@@ -67,9 +69,10 @@ void setup()
   display.print("Done...");
 }
 
+
 void loop()
 {
-
 }
+
 
 // -- END OF FILE --

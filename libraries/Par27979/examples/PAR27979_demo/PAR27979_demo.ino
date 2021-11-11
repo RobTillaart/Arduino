@@ -15,6 +15,7 @@ SoftwareSerial sws(3, 3);
 
 PAR27979 display(&sws);
 
+
 void setup()
 {
   sws.begin(19200);  // max speed parallax display
@@ -72,7 +73,10 @@ void setup()
 
 }
 
+
 void loop()
 {
-
 }
+
+
+// -- END OF FILE --

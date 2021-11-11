@@ -43,17 +43,17 @@ unittest_teardown()
 {
 }
 
+
 // interface gives no feedback so hard to write unit test.
 // GODMODE with serial 
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PAR27929_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PAR27929_LIB_VERSION);
 
   PAR27979 display(&Serial);
   assertEqual(1, display.write(232));   // no sound
-  
-  
+
 }
 
 unittest_main()

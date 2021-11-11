@@ -13,6 +13,7 @@ XMLWriter KML(&Serial);
 
 char buffer[24];
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -24,9 +25,11 @@ void setup()
   Serial.println(stop - start);
 }
 
+
 void loop()
 {
 }
+
 
 void KMLTest()
 {
@@ -62,7 +65,9 @@ void KMLTest()
 
   KML.tagStart("/kml");
   KML.tagEnd(NEWLINE, NOSLASH);
+  KML.flush();
 }
+
 
 /* output
 <!--

@@ -7,11 +7,13 @@
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
 
+
 #include <XMLWriter.h>
 
 XMLWriter XML(&Serial);
 
 #define NUMBERZ   F("1.2.3.4.5")
+
 
 void setup()
 {
@@ -32,8 +34,10 @@ void setup()
   XML.flush();
 }
 
+
 void loop()
 {
 }
+
 
 // -- END OF FILE --

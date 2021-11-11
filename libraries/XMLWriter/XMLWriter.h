@@ -2,7 +2,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML 
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.3.0"))
+#define XMLWRITER_VERSION         (F("0.3.1"))
 
 
 // for comment()
@@ -54,14 +54,14 @@ class XMLWriter : public Print
 {
 public:
   // default = Serial
-  XMLWriter(Print* stream = &Serial, uint8_t bufsize = 10);
+  XMLWriter(Print* stream = &Serial, uint8_t bufferSize = 10);
   ~XMLWriter();
 
   void reset();
 
   // to show/strip comment, indent, newLine
   // to minimize the output setConfig(0);
-  void setConfig(uint8_t cfg) { _config = cfg; };
+  void setConfig(uint8_t config) { _config = config; };
 
   // standard XML header
   void header();
@@ -151,12 +151,12 @@ public:
 
 
   // metrics
-  uint8_t  bufferIndex()  { return _bidx; };
+  uint8_t  bufferIndex()  { return _bufferIndex; };
   uint32_t bytesWritten() { return _bytesOut; };
 
 
 private:
-  // outputstream, Print Class
+  // output stream, Print Class
   Print*   _stream;
   size_t   write(uint8_t c);
 
@@ -169,14 +169,16 @@ private:
 
   // stack - used to remember the current tagname to create
   // automatic the right close tag.
-  uint8_t  _tidx;
+  uint8_t  _tagIndex;
   char     _tagStack[XMLWRITER_MAXLEVEL][XMLWRITER_MAXTAGSIZE + 1];
 
   // output admin
   char *   _buffer;
-  uint8_t  _bufsize;
-  uint8_t  _bidx;
+  uint8_t  _bufferSize;
+  uint8_t  _bufferIndex;
   uint32_t _bytesOut;
 };
 
+
 // -- END OF FILE --
+

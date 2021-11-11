@@ -7,10 +7,12 @@
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
 
+
 #include <XMLWriter.h>
 
 #include <SPI.h>
 #include <Ethernet.h>
+
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 IPAddress ip( 192, 168, 1, 177);
@@ -21,6 +23,7 @@ EthernetServer server(80);    // change to your config
 
 char httpRequest[40];
 uint8_t reqCnt;
+
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -221,6 +224,7 @@ void Weather2(XMLWriter* xw)
   }
 }
 
+
 void Weather(XMLWriter* xw)
 {
   xw->comment("The weather in Nebraska");
@@ -233,6 +237,7 @@ void Weather(XMLWriter* xw)
   xw->writeNode("Sun", "40");
   xw->tagClose();
 }
+
 
 // casting to keep some compilers happy
 void AnalogPorts(XMLWriter* xw, const char* name)
@@ -248,6 +253,7 @@ void AnalogPorts(XMLWriter* xw, const char* name)
   xw->tagClose();
 }
 
+
 // casting to keep some compilers happy
 void DigitalPorts(XMLWriter* xw)
 {
@@ -259,6 +265,7 @@ void DigitalPorts(XMLWriter* xw)
   xw->writeNode("D13", (uint8_t) digitalRead(13));
   xw->tagClose();
 }
+
 
 void DataTypes(XMLWriter* xw)
 {
@@ -287,4 +294,6 @@ void DataTypes(XMLWriter* xw)
   }
 }
 
+
 // -- END OF FILE --
+

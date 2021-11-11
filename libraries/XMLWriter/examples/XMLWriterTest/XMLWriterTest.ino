@@ -13,6 +13,7 @@ XMLWriter XML(&Serial);
 
 char buffer[24];
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -36,10 +37,12 @@ void setup()
   DataTypes();
 
   XML.tagClose();
+  XML.flush();
   uint32_t stop = micros();
   Serial.println(stop - start);
   Serial.println("done...");
 }
+
 
 void Weather2()
 {
@@ -57,6 +60,7 @@ void Weather2()
   }
 }
 
+
 void Weather()
 {
   XML.comment("The weather in Nebraska");
@@ -70,6 +74,7 @@ void Weather()
   XML.tagClose();
 }
 
+
 // casting to keep some compilers happy
 void AnalogPorts(const char* name)
 {
@@ -82,6 +87,7 @@ void AnalogPorts(const char* name)
   XML.tagClose();
 }
 
+
 void DigitalPorts()
 {
   XML.comment("The digital ports are not multiplexed");
@@ -90,6 +96,7 @@ void DigitalPorts()
   XML.writeNode("D13", (uint8_t)digitalRead(13));
   XML.tagClose();
 }
+
 
 void DataTypes()
 {
@@ -118,8 +125,11 @@ void DataTypes()
   }
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

@@ -10,6 +10,7 @@
 // and it will append to the data.xml file every time started.
 //
 
+
 #include <SPI.h>
 #include <SD.h>
 // SPI 		PINS
@@ -22,6 +23,7 @@
 #include <XMLWriter.h>
 
 char buffer[24];
+
 
 void setup()
 {
@@ -80,6 +82,7 @@ void AnalogPorts(XMLWriter* xw, const char* name)
   xw->tagClose();
 }
 
+
 void DigitalPorts(XMLWriter* xw)
 {
   xw->comment("The digital ports are not multiplexed");
@@ -89,8 +92,11 @@ void DigitalPorts(XMLWriter* xw)
   xw->tagClose();
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

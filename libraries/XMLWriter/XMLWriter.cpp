@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML 
 //
@@ -21,17 +21,21 @@
 //  0.2.2  2020-04-29  dynamic buffer size in constructor
 //  0.2.3  2020-06-19  fix library.json
 //  0.2.4  2020-07-07  fix #6 Print interface made public
-//  0.3.0  2021-01-09  arduino-ci + unit tests
+//  0.3.0  2021-01-09  Arduino-ci + unit tests
 //                     add getIndentSize(); version(); debug();
+//  0.3.1  2021-11-11  refactor naming to improve readability
+//                     update build-CI, 
+//                     update readme.md, Badges.
+//
 
 
 #include "XMLWriter.h"
 
 
-XMLWriter::XMLWriter(Print* stream, uint8_t bufsize)
+XMLWriter::XMLWriter(Print* stream, uint8_t bufferSize)
 {
-  _bufsize = constrain(bufsize, 2, 250);
-  _buffer = (char *) malloc(_bufsize);
+  _bufferSize = constrain(bufferSize, 2, 250);
+  _buffer = (char *) malloc(_bufferSize);
   _stream = stream;
   reset();
 }
@@ -45,12 +49,12 @@ XMLWriter::~XMLWriter()
 
 void XMLWriter::reset()
 {
-  _indent     = 0;
-  _indentStep = 2;
-  _tidx       = 0;
-  _bidx       = 0;
-  _config     = XMLWRITER_COMMENT | XMLWRITER_INDENT | XMLWRITER_NEWLINE;
-  _bytesOut   = 0;
+  _indent      = 0;
+  _indentStep  = 2;
+  _tagIndex        = 0;
+  _bufferIndex = 0;
+  _config      = XMLWRITER_COMMENT | XMLWRITER_INDENT | XMLWRITER_NEWLINE;
+  _bytesOut    = 0;
 }
 
 
@@ -84,7 +88,7 @@ void XMLWriter::debug()
   print(F("  INDENT: "));
   println(_indent);
   print(F(" BUFSIZE: "));
-  println(_bufsize);
+  println(_bufferSize);
   print(F(" -->\n"));
 }
 
@@ -118,9 +122,10 @@ void XMLWriter::tagOpen(const char* tag, const bool newline)
   tagOpen(tag, "", newline);
 }
 
+
 void XMLWriter::tagOpen(const char* tag, const char* name, const bool newline)
 {
-  if (_tidx > XMLWRITER_MAXLEVEL)
+  if (_tagIndex > XMLWRITER_MAXLEVEL)
   {
     comment("MAXLEVEL exceeded.");
     comment(tag);
@@ -135,21 +140,23 @@ void XMLWriter::tagOpen(const char* tag, const char* name, const bool newline)
      flush();
      return;
   }
-  strcpy(_tagStack[_tidx++], tag);
+  strcpy(_tagStack[_tagIndex++], tag);
   tagStart(tag);
   if (name[0] != 0) tagField("name", name);
   tagEnd(newline, NOSLASH);
   _indent += _indentStep;
 }
 
+
 void XMLWriter::tagClose(const bool ind)
 {
   _indent -= _indentStep;
   if (ind) indent();
   print("</");
-  print(_tagStack[--_tidx]);
+  print(_tagStack[--_tagIndex]);
   print(">\n");
 }
+
 
 void XMLWriter::tagStart(const char *tag)
 {
@@ -157,6 +164,7 @@ void XMLWriter::tagStart(const char *tag)
   print('<');
   print(tag);
 }
+
 
 void XMLWriter::tagField(const char *field, const char* str)
 {
@@ -171,12 +179,14 @@ void XMLWriter::tagField(const char *field, const char* str)
   print('"');
 }
 
+
 void XMLWriter::tagEnd(const bool newline, const bool addSlash)
 {
   if (addSlash) print("/>");
   else print('>');
   if (newline) print('\n');
 }
+
 
 void XMLWriter::writeNode(const char* tag, const char* str)
 {
@@ -199,10 +209,12 @@ void XMLWriter::tagField(const char *field, const uint8_t value, const uint8_t b
   tagField(field, (uint32_t) value, base);
 }
 
+
 void XMLWriter::tagField(const char *field, const uint16_t value, const uint8_t base)
 {
   tagField(field, (uint32_t) value, base);
 }
+
 
 void XMLWriter::tagField(const char *field, const uint32_t value, const uint8_t base)
 {
@@ -213,20 +225,24 @@ void XMLWriter::tagField(const char *field, const uint32_t value, const uint8_t 
   print('"');
 }
 
+
 void XMLWriter::tagField(const char *field, const int8_t value, const uint8_t base)
 {
   tagField(field, (int32_t) value, base);
 }
+
 
 void XMLWriter::tagField(const char *field, const int16_t value, const uint8_t base)
 {
   tagField(field, (int32_t) value, base);
 }
 
+
 void XMLWriter::tagField(const char *field, const int value, const int base)
 {
   tagField(field, (int32_t) value, (uint8_t) base);
 }
+
 
 void XMLWriter::tagField(const char *field, const int32_t value, const uint8_t base)
 {
@@ -237,6 +253,7 @@ void XMLWriter::tagField(const char *field, const int32_t value, const uint8_t b
   print('"');
 }
 
+
 void XMLWriter::tagField(const char *field, const bool value)
 {
   print(' ');
@@ -244,6 +261,7 @@ void XMLWriter::tagField(const char *field, const bool value)
   // F() is slower & uses less RAM but 15 bytes saved
   print(value ? F("=\"true\"") : F("=\"false\""));
 }
+
 
 void XMLWriter::tagField(const char *field, const double value, const uint8_t decimals)
 {
@@ -254,6 +272,7 @@ void XMLWriter::tagField(const char *field, const double value, const uint8_t de
   print('"');
 }
 
+
 ///////////////////////////////////////////////////////////////
 //
 // WRITENODE
@@ -263,10 +282,12 @@ void XMLWriter::writeNode(const char* tag, const uint8_t value, const uint8_t ba
   writeNode(tag, (uint32_t) value, base);
 }
 
+
 void XMLWriter::writeNode(const char* tag, const uint16_t value, const uint8_t base)
 {
   writeNode(tag, (uint32_t) value, base);
 }
+
 
 void XMLWriter::writeNode(const char* tag, const uint32_t value, const uint8_t base)
 {
@@ -275,20 +296,24 @@ void XMLWriter::writeNode(const char* tag, const uint32_t value, const uint8_t b
   tagClose(NOINDENT);
 }
 
+
 void XMLWriter::writeNode(const char* tag, const int8_t value, const uint8_t base)
 {
   writeNode(tag, (int32_t) value, base);
 }
+
 
 void XMLWriter::writeNode(const char* tag, const int16_t value, const uint8_t base)
 {
   writeNode(tag, (int32_t) value, base);
 }
 
+
 void XMLWriter::writeNode(const char* tag, const int value, const int base)
 {
   writeNode(tag, (int32_t) value, (uint8_t) base);
 }
+
 
 void XMLWriter::writeNode(const char* tag, const int32_t value, const uint8_t base)
 {
@@ -296,6 +321,7 @@ void XMLWriter::writeNode(const char* tag, const int32_t value, const uint8_t ba
   print(value, base);
   tagClose(NOINDENT);
 }
+
 
 void XMLWriter::writeNode(const char* tag, const bool value)
 {
@@ -305,12 +331,14 @@ void XMLWriter::writeNode(const char* tag, const bool value)
   tagClose(NOINDENT);
 }
 
+
 void XMLWriter::writeNode(const char* tag, const double value, const uint8_t decimals)
 {
   tagOpen(tag, "", NONEWLINE);
   print(value, decimals);
   tagClose(NOINDENT);
 }
+
 
 void XMLWriter::indent()
 {
@@ -322,21 +350,24 @@ void XMLWriter::indent()
   }
 }
 
+
 size_t XMLWriter::write(uint8_t c)
 {
-  _buffer[_bidx++] = c;
-  if (_bidx == (_bufsize - 1)) flush();
+  _buffer[_bufferIndex++] = c;
+  if (_bufferIndex == (_bufferSize - 1)) flush();
   return 1;
 };
 
+
 void XMLWriter::flush()
 {
-  _bytesOut += _bidx;
-  if (_bidx > 0)
+  _bytesOut += _bufferIndex;
+  if (_bufferIndex > 0)
   {
-    _buffer[_bidx] = 0;
-    _stream->print(_buffer);
-    _bidx = 0;
+    _buffer[_bufferIndex] = 0;
+    _stream->write(_buffer, _bufferIndex);  // saves ~40 bytes on UNO.
+    // _stream->print(_buffer);
+    _bufferIndex = 0;
   }
 };
 

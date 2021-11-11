@@ -8,6 +8,7 @@
 
 Arduino Library to create simple XML (messages, files, print, ...)
 
+
 ## Description
 
 The XMLWriter class supports generating XML files and send these over a stream
@@ -26,10 +27,10 @@ Indicative sizes based upon the examples.
 Run your tests to find your application optimum.
 
 | STREAM   |    SIZE    |
-|:------------|:----------|
-| Ethernet | 20-30 |
-| Serial   |  5 |
-| SD File  |  10-16 |
+|:---------|:-----------|
+| Ethernet |   20-30    |
+| Serial   |     5      |
+| SD File  |   10-16    |
 
 **IMPORTANT:** When using buffering you should always call **XML.flush()** 
 at the end of the XML generation. This will flush the last bytes in the internal buffer into the output stream.
@@ -37,71 +38,75 @@ at the end of the XML generation. This will flush the last bytes in the internal
 
 ## Interface
 
+
 ### Constructor
 
-- **XMLWriter(stream, bufsize);** Constructor defines the stream and the buffersize
+- **XMLWriter(Print\* stream = &Serial, uint8_t bufferSize = 10)** Constructor defines the stream and the buffer size
 to optimize performance vs memory usage.
+Note the default bufferSize of 10 can be optimized. 
+See table in description above.
 
 
 ### Functions for manual layout control
 
-- **setIndentSize(size = 2)** preferred a multiple of 2; no limit
-- **getIndentSize()** returns set indent
-- **incrIndent()** increments indent by 2 spaces
-- **decrIndent()** decrements indent by 2 spaces
-- **indent()** manually indent output
-- **raw(str)** inject any string
+- **void setIndentSize(uint8_t size = 2)** preferred a multiple of 2; no limit.
+- **uint8_t getIndentSize()** returns set indent.
+- **void incrIndent()** increments indent by 2 spaces.
+- **void decrIndent()** decrements indent by 2 spaces.
+- **void indent()** manually indent output.
+- **void raw(char\* str)** inject any string.
 
 
 ### General settings
 
-- **setConfig(cfg)** used to show/strip comment, indent, newLine. 
-use **setConfig(0);** to minimize the output
-- **newLine(n)** add a number of newlines to the output, default = 1
+- **void setConfig(uint8_t config)** used to show/strip comment, indent, newLine. 
+use **setConfig(0);** to minimize the output.
+- **void newLine(uint8_t n)** add a number of newlines to the output, default = 1.
 
 
 ### Functions
 
-- **header()** injects standard XML header string, must be first line
-- **reset()** resets internal state, to be called before new XML is written
-- **comment(text, multiline)** \<!-- text --\>  
+- **void header()** injects standard XML header string, must be first line.
+- **void reset()** resets internal state, to be called before new XML is written.
+- **void comment(char\* text, bool multiLine = false)** \<!-- text --\>  
 if multiline == true it does not indent to allow bigger text blocks
 multiline is default false.
-- **flush()** call flush() at the end of writing to empty the internal buffer. **!!**
+- **void flush()** call flush() at the end of writing to empty the internal buffer. **!!**
 
 
 ### Functions to create simple tags with named fields
 
-- **tagOpen(tag, newLine)** \<tag\>
-- **tagOpen(tag, name, newLine)** \<tag name="name"\>
-- **tagClose()** \</tag\>
+- **void tagOpen(char\* tag, bool newLine)** \<tag\>
+- **void tagOpen(char\* tag, char\* name, bool newLine)** \<tag name="name"\>
+- **void tagClose()** \</tag\>
 
 
 ### Functions to make up tags with multiple fields
 
-- **tagStart(tag)**  \<tag 
-- **tagField(field, string);**  field="string"
-- **tagField(field, T value, base = DEC);** standard math types,  field="value"
-- **tagEnd(newline = true, addSlash = true);**  /\>
+- **void tagStart(char\* tag)**  \<tag 
+- **void tagField(char\* field, char\* string)**  field="string"
+- **void tagField(char\* field, T value, uint8_t base = DEC)** standard math types,  field="value"
+- **void tagEnd(bool newline = true, bool addSlash = true);**  /\>
 
 ### Functions to make a node
 
-- **writeNode(tag, value);** \<tag\>value\</tag\>
-- **writeNode(tag, T value, base = DEC);** standard math types
+- **void writeNode(char\* tag, bool value);** \<tag\>value\</tag\>
+- **void writeNode(char\* tag, T value, uint8_t base = DEC);** standard math types.
 
 ### Helper 
 
-- **escape(str)** expands the xml chars: \"\'\<\>\&
+- **void escape(char\* str)** expands the XML chars: \"\'\<\>\&
+Note one need to set the **XMLWRITER_ESCAPE_SUPPORT** flag.
 
 
 ### Metrics and debug
 
-To optimize buffersize in combination with timing.
+To optimize buffer size in combination with timing.
 
-- **bufferIndex()** returns the size of the internal buffer
-- **bytesWritten()** idem, since reset().
-- **version()** injects the XMLWRITER_VERSION as comment in outputstream.
-- **debug()** injects comment with internal info.
+- **uint8_t bufferIndex()** returns the size of the internal buffer.
+- **uint32_t bytesWritten()** idem, since reset().
+- **void version()** injects the **XMLWRITER_VERSION** as comment in output stream.
+- **void debug()** injects comment with internal info.
 
 
 ## Print interface
@@ -123,12 +128,12 @@ can inject strings.
 
 ## Configuration flags
 
-| Flag | Value | Meaning |
-|:----|:----|:----|
-|XMLWRITER_NONE    | 0x00 | minimize output, smaller & faster |
-|XMLWRITER_COMMENT | 0x01 | allow comments |
-|XMLWRITER_INDENT  | 0x02 | allow indentation |
-|XMLWRITER_NEWLINE | 0x04 | allow newlines |
+| Flag             | Value | Description  |
+|:-----------------|:------|:-------------|
+|XMLWRITER_NONE    | 0x00  | minimize output, smaller & faster |
+|XMLWRITER_COMMENT | 0x01  | allow comments |
+|XMLWRITER_INDENT  | 0x02  | allow indentation |
+|XMLWRITER_NEWLINE | 0x04  | allow newlines |
 
 - **setConfig(XMLWRITER_NONE);** to minimize the output in bytes.
 - **setConfig(XMLWRITER_NEWLINE);** to break an XML stream in lines.
@@ -140,3 +145,8 @@ can inject strings.
 
 See examples
 
+
+## Future
+
+- update documentation
+- 

@@ -4,7 +4,7 @@
 // VERSION: 0.1.0
 // PURPOSE: demo XML writer for EthernetClient
 //    DATE: 2020-04-24
-//     URL: 
+//     URL: https://github.com/RobTillaart/XMLWriter
 //
 
 #include <XMLWriter.h>
@@ -22,6 +22,7 @@ EthernetServer server(80);    // change to your config
 char httpRequest[40];
 uint8_t reqCnt;
 
+
 ////////////////////////////////////////////////////////////////////
 //
 // HTTP HELPER CODE
@@ -32,7 +33,7 @@ void HTTP_header(EthernetClient* cl, const char *contentType, bool keepAlive = f
   cl->print("Content-Type: ");
   cl->println( contentType  );
   cl->println("Connection: ");
-  cl->println(keepAlive ? "keep-alive":"close");
+  cl->println(keepAlive ? "keep-alive" : "close");
   cl->println("Refresh: ");
   cl->println(refresh);
   cl->println();
@@ -101,16 +102,16 @@ void loop()
         // so you can send a reply
         if (c == '\n' && currentLineIsBlank)
         {
-		  if (strstr(httpRequest, "1.xml"))
-		  {
+          if (strstr(httpRequest, "1.xml"))
+          {
             // send a standard http response header
             HTTP_header(&client, "text/xml", true, 5);
             XMLWriter XML(&client);
-	   
+
             // XML body
             XML.header();
             XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
-            
+
             // use of {} to get indentation that follows the XML (sort of)
             // it adds no code size, but improves readability a lot
             XML.tagOpen("Arduino", "42");
@@ -119,23 +120,23 @@ void loop()
               {
                 AnalogPorts(XML, "before");
                 DigitalPorts(XML);
-                AnalogPorts(XML,"after");
+                AnalogPorts(XML, "after");
               }
               XML.tagClose();
             }
             XML.tagClose();
-		    break;
-		  }
-		  if (strstr(httpRequest, "2.xml"))
-		  {
+            break;
+          }
+          if (strstr(httpRequest, "2.xml"))
+          {
             // send a standard http response header
             HTTP_header(&client, "text/xml", true, 5);
             XMLWriter XML(&client);
-			
+
             // XML body
             XML.header();
             XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
-          
+
             // use of {} to get indentation that follows the XML (sort of)
             // it adds no code size, but improves readability a lot
             XML.tagOpen("Arduino", "102");
@@ -145,10 +146,10 @@ void loop()
               DataTypes(XML);
             }
             XML.tagClose();
-		    break;
-		  }
-		  
-		  // default page is simple HTML
+            break;
+          }
+
+          // default page is simple HTML
           // send a standard http response header
           HTTP_header(&client, "text/html", true, 5);
 
@@ -203,6 +204,7 @@ void Weather2(XMLWriter xw)
   }
 }
 
+
 void Weather(XMLWriter xw)
 {
   xw.comment("The weather in Nebraska");
@@ -230,6 +232,7 @@ void AnalogPorts(XMLWriter xw, const char* name)
   xw.tagClose();
 }
 
+
 void DigitalPorts(XMLWriter xw)
 {
   char buffer[24];
@@ -240,6 +243,7 @@ void DigitalPorts(XMLWriter xw)
   xw.writeNode("D13", digitalRead(13));
   xw.tagClose();
 }
+
 
 void DataTypes(XMLWriter xw)
 {
@@ -252,7 +256,7 @@ void DataTypes(XMLWriter xw)
   xw.writeNode("HEX", 42, HEX);
   xw.writeNode("OCT", 42, OCT);
   xw.tagClose();
-  
+
   xw.comment("Testing dataTypes II");
   for (int i = 0; i < 3; i++)
   {
@@ -268,4 +272,6 @@ void DataTypes(XMLWriter xw)
   }
 }
 
+
 // -- END OF FILE --
+

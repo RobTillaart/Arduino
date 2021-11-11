@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriterPrint_1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo Print interface
 //    DATE: 2020-07-07
 //     URL: https://github.com/RobTillaart/XMLWriter
@@ -12,6 +12,7 @@
 XMLWriter XML(&Serial);
 
 char buffer[24];
+
 
 void setup()
 {
@@ -48,11 +49,13 @@ void setup()
   }
   XML.tagClose();
   XML.flush();
-
 }
+
 
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

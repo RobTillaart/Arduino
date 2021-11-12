@@ -1,6 +1,6 @@
-# Syntax Coloring Map For PID_RT
+# Syntax Colouring Map For PID_RT
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PID_RT	KEYWORD1
 
 

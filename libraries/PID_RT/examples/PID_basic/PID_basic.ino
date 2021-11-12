@@ -8,7 +8,7 @@
 //
 
 // connect an LED to the PWM pin
-// connect a potmeter to A0
+// connect a potentiometer to A0
 // play :)
 
 

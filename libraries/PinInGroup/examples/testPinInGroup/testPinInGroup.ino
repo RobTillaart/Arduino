@@ -1,16 +1,16 @@
 //    FILE: testPinInGroup.ino
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: demo PinInGroup library for Arduino
 // HISTORY: 20-08-2017
 //
-// Released to the public domain
-//
+
 
 #include "PinInGroup.h"
 
 uint8_t ar[4] = {2, 3, 4, 23};
 uint8_t alt[] = {23, 22, 1, 3, 21, 19, 18, 5, 23, 22, 1, 3, 21, 19, 18, 5};
+
 
 void setup()
 {
@@ -32,11 +32,13 @@ void setup()
   Serial.println(F("done..."));
 }
 
+
 void loop()
 {
 }
 
-// TEST1 verifies and times basic working
+
+// TEST0 verifies and times basic working
 void test0()
 {
   Serial.println();
@@ -64,6 +66,7 @@ void test0()
   Serial.println(F("Test0 done..."));
   Serial.println();
 }
+
 
 void test1()
 {
@@ -97,6 +100,7 @@ void test1()
   Serial.println();
 }
 
+
 void test2()
 {
   Serial.println();
@@ -107,7 +111,7 @@ void test2()
   PinInGroup PIG;
 
 #if defined(ESP32) || defined(ESP8266)
-  // be carefull which pins you use for ESP32  (and probably 8266 too, not tested)
+  // be careful which pins you use for ESP32  (and probably 8266 too, not tested)
   // note: GPIO06 through GPIO11 are reserved for the FLASH.
   //       You cannot use them.  ==> pinMode() fails.
   // https://github.com/espressif/arduino-esp32/issues/1411
@@ -136,6 +140,7 @@ void test2()
   Serial.println(F("Test2 done..."));
   Serial.println();
 }
+
 
 void test3()
 {
@@ -187,6 +192,7 @@ void test3()
   Serial.println();
 }
 
+
 void test4()
 {
   Serial.println();
@@ -227,6 +233,7 @@ void test4()
   Serial.println(F("Test4 done..."));
   Serial.println();
 }
+
 
 void test5()
 {
@@ -274,7 +281,6 @@ void test5()
     delay(20);
   }
 
-
   Serial.println(F("Test5 done..."));
   Serial.println();
 }
@@ -307,4 +313,6 @@ void test6()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

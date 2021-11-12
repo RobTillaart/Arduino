@@ -1,7 +1,7 @@
 //
 //    FILE: PinInGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.5
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 //          goal is to easily read a group of pins that logically
@@ -13,10 +13,17 @@
 //  HISTORY
 
 //  0.1.0   2017-08-20  initial version (based upon pinGroup)
-//  0.1.1   2020-05-19  refactor; added clear(); 
+//  0.1.1   2020-05-19  refactor; added clear();
 //                      added param for INPUT or INPUT_PULLUP
 //  0.1.2   2020-06-19  fix library.json
-//  0.1.3   2021-01-05  add arduino-CI + unit test 
+//  0.1.3   2021-01-05  add arduino-CI + unit test
+//  0.1.4   2021-01-22
+//  0.1.5   2021-11-12  update build-CI
+//                      update readme, badges
+//                      rename variables for readability,
+//                      add getIndex() to replace getIdx(),
+//                      add getMaxSize(),
+//                      fix version number and history.
 
 
 #include "PinInGroup.h"
@@ -34,12 +41,12 @@ void PinInGroup::clear()
 }
 
 
-uint8_t PinInGroup::add(uint8_t sz, uint8_t * ar, uint8_t mode)
+uint8_t PinInGroup::add(uint8_t size, uint8_t * pinArray, uint8_t mode)
 {
   int n = 0;
-  for (uint8_t i = 0; i < sz; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
-    n += add(ar[i], mode);
+    n += add(pinArray[i], mode);
   }
   return n;
 }
@@ -70,7 +77,7 @@ uint8_t PinInGroup::isInGroup(uint8_t pin)
 uint16_t PinInGroup::read()
 {
   uint16_t value = 0;
-  uint16_t mask = 0x01;
+  uint16_t mask  = 0x0001;
   for (uint8_t i = 0; i < _size; i++)
   {
     if (digitalRead(_pins[i])) value |= mask;
@@ -80,22 +87,22 @@ uint16_t PinInGroup::read()
 }
 
 
-uint16_t PinInGroup::read(uint8_t idx)
+uint16_t PinInGroup::read(uint8_t index)
 {
-  if (idx >= _size) return 0xFFFF; // sort of error
+  if (index >= _size) return 0xFFFF; // sort of error
 
-  return (digitalRead(_pins[idx])) ? 1 : 0;
+  return (digitalRead(_pins[index])) ? 1 : 0;
 }
 
 
-uint8_t PinInGroup::getPin(uint8_t idx)
+uint8_t PinInGroup::getPin(uint8_t index)
 {
-  if (idx >= _size) return 0xFF;
-  return _pins[idx];
+  if (index >= _size) return 0xFF;
+  return _pins[index];
 }
 
 
-uint8_t PinInGroup::getIdx(uint8_t pin)
+uint8_t PinInGroup::getIndex(uint8_t pin)
 {
   for (uint8_t i = 0; i < _size; i++)
   {

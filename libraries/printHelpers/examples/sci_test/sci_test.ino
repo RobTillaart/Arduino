@@ -1,7 +1,7 @@
 //
 //    FILE: sci_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
+// VERSION: 0.1.0
 // PURPOSE: test different values with sci function
 
 
@@ -153,6 +153,7 @@ void test5()
   Serial.println();
 }
 
+
 void test6()
 {
   if (sizeof(double) >= 8)
@@ -195,3 +196,4 @@ void test6()
 
 
 // -- END OF FILE --
+

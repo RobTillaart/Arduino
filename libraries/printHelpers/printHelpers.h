@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PUPROSE: Arduino library to help formatting for printing. 
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.2.1"))
+#define PRINTHELPERS_VERSION      (F("0.2.2"))
 
 // 24 is a pretty safe minimum
 
@@ -38,29 +38,29 @@ char __printbuffer[PRINTBUFFERSIZE];
 // buffer size 24 will work for base 8 -36
 // buffer size 22 will work for base 10 - 36
 
-char * print64(int64_t n, uint8_t base = 10)
+char * print64(int64_t value, uint8_t base = 10)
 {
-  char * buf = __printbuffer;
+  char * buffer = __printbuffer;
   uint8_t i = 0;
   uint8_t j = 0;
 
-  buf[0] = 0;
+  buffer[0] = 0;
   // small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buf;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
   // handle special case
-  if (n == 0)
+  if (value == 0)
   {
-    buf[0] = '0';
-    buf[1] = 0;
-    return buf;
+    buffer[0] = '0';
+    buffer[1] = 0;
+    return buffer;
   }
 
   // PREFIX NEGATIVE
   // handle negative values (for all bases for now)
-  if ((n < 0) && (base != 16))
+  if ((value < 0) && (base != 16))
   {
-    n = -n;
-    buf[0] = '-';
+    value = -value;
+    buffer[0] = '-';
     i++;
     j++;
   }
@@ -68,71 +68,71 @@ char * print64(int64_t n, uint8_t base = 10)
   // PREFIX HEX
   if (base == 16)
   {
-    buf[0] = '0';
-    buf[1] = 'x';
-    buf[2] = 0;
+    buffer[0] = '0';
+    buffer[1] = 'x';
+    buffer[2] = 0;
     i = 2;
     j = 2;
   }
   // create one digit per loop
-  while (n > 0)
+  while (value > 0)
   {
-    int64_t t = n / base;
-    uint8_t p = n - t * base;
-    buf[i++] = (p < 10) ? '0' + p : ('A' - 10) + p;
-    n = t;
+    int64_t temp = value / base;
+    uint8_t digit = value - temp * base;
+    buffer[i++] = (digit < 10) ? '0' + digit : ('A' - 10) + digit;
+    value = temp;
   }
-  buf[i] = 0;
+  buffer[i] = 0;
   // reverse buffer
   --i;
   while ( i > j)
   {
-    uint8_t t = buf[i];
-    buf[i] = buf[j];
-    buf[j] = t;
+    uint8_t temp = buffer[i];
+    buffer[i]    = buffer[j];
+    buffer[j]    = temp;
     i--;
     j++;
   }
-  return buf;
+  return buffer;
 }
 
 
-char * print64(uint64_t n, uint8_t base = 10)
+char * print64(uint64_t value, uint8_t base = 10)
 {
-  char * buf = __printbuffer;
+  char * buffer = __printbuffer;
   uint8_t i = 0;
   uint8_t j = 0;
 
-  buf[0] = 0;
+  buffer[0] = 0;
   // small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buf;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
   // handle special case
-  if (n == 0)
+  if (value == 0)
   {
-    buf[0] = '0';
-    buf[1] = 0;
-    return buf;
+    buffer[0] = '0';
+    buffer[1] = 0;
+    return buffer;
   }
-  // create one digit per loop
-  while (n > 0)
+  // create one digit per iteration
+  while (value > 0)
   {
-    uint64_t t = n / base;
-    uint8_t p = n - t * base;
-    buf[i++] = (p < 10) ? '0' + p : ('A' - 10) + p;
-    n = t;
+    uint64_t temp = value / base;
+    uint8_t  digit = value - temp * base;
+    buffer[i++] = (digit < 10) ? '0' + digit : ('A' - 10) + digit;
+    value = temp;
   }
-  buf[i] = 0;
-  // reverse buf
+  buffer[i] = 0;
+  // reverse buffer
   --i;
   while (i > j)
   {
-    uint8_t t = buf[i];
-    buf[i] = buf[j];
-    buf[j] = t;
+    uint8_t temp = buffer[i];
+    buffer[i]    = buffer[j];
+    buffer[j]    = temp;
     i--;
     j++;
   }
-  return buf;
+  return buffer;
 }
 
 
@@ -143,9 +143,10 @@ char * print64(uint64_t n, uint8_t base = 10)
 
 // typical buffer size for 8 byte double is 22 bytes 
 // 15 bytes mantissa, sign dot E-xxx
-char * scieng(double number, uint8_t digits, uint8_t em)
+//  em = exponentMultiple.
+char * scieng(double value, uint8_t decimals, uint8_t em)
 {
-  char * buf = __printbuffer;
+  char * buffer = __printbuffer;
   int exponent = 0;
   int pos = 0;
   double e1 = 10;
@@ -158,107 +159,107 @@ char * scieng(double number, uint8_t digits, uint8_t em)
 
   // Handling these costs 13 bytes RAM
   // shorten them with N, I, -I ?
-  if (isnan(number)) 
+  if (isnan(value)) 
   {
-    strcpy(buf, "nan");
-    return buf;
+    strcpy(buffer, "nan");
+    return buffer;
   }
-  if (isinf(number))
+  if (isinf(value))
   {
-    if (number < 0) strcpy(buf, "-inf");
-    strcpy(buf, "inf");
-    return buf;
+    if (value < 0) strcpy(buffer, "-inf");
+    strcpy(buffer, "inf");
+    return buffer;
   }
 
   // Handle negative numbers
-  if (number < 0.0)
+  if (value < 0.0)
   {
-    buf[pos++] = '-';
-    number = -number;
+    buffer[pos++] = '-';
+    value = -value;
   }
 
   // Scale exponent to multiple of em  
   // TODO: can we remove loop to reduce rounding errors
-  while (number >= e1)
+  while (value >= e1)
   {
-    number *= e2;
+    value *= e2;
     exponent += em;
   }
   // TODO: can we remove loop to reduce rounding errors
-  while (number < 1 && number != 0.0)
+  while (value < 1 && value != 0.0)
   {
-    number *= e1;
+    value *= e1;
     exponent -= em;
   }
 
   // Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
   // TODO: can we remove loop to reduce rounding errors
-  for (uint8_t i = 0; i < digits; ++i)
+  for (uint8_t i = 0; i < decimals; ++i)
   {
     rounding *= 0.1;
   }
-  number += rounding;
-  if (number >= e1)
+  value += rounding;
+  if (value >= e1)
   {
     exponent += em;
-    number *= e2;
+    value *= e2;
   }
 
   // Split whole part and remainder
-  uint32_t d = (uint32_t)number;
-  double remainder = number - d;
+  uint32_t d = (uint32_t)value;
+  double remainder = value - d;
 
   // print whole part
-  itoa(d, &buf[pos], 10);
-  pos = strlen(buf);
+  itoa(d, &buffer[pos], 10);
+  pos = strlen(buffer);
 
   // print remainder part
-  if (digits > 0)
+  if (decimals > 0)
   {
-    buf[pos++] = '.';    // decimal point
+    buffer[pos++] = '.';    // decimal point
   }
 
-  // Extract digits from the remainder one at a time 
+  // Extract decimals from the remainder one at a time 
   // to prevent missing leading zero's
   // TODO: can we remove loop to reduce rounding errors
-  while (digits-- > 0)
+  while (decimals-- > 0)
   {
     remainder *= 10;
     d = (uint8_t)remainder;
-    buf[pos++] = d + '0';
+    buffer[pos++] = d + '0';
     remainder -= d;
   }
 
   // print exponent
-  buf[pos++] = 'E';
+  buffer[pos++] = 'E';
   if (exponent < 0)
   {
-    buf[pos++] = '-';
+    buffer[pos++] = '-';
     exponent = -exponent;
   }
-  else buf[pos++] = '+';
+  else buffer[pos++] = '+';
 
-  itoa(exponent, &buf[pos], 10);
-  return buf;
+  itoa(exponent, &buffer[pos], 10);
+  return buffer;
 }
 
 
-char * eng(double number, uint8_t digits)
+char * eng(double value, uint8_t decimals)
 {
-  return scieng(number, digits, 3);
+  return scieng(value, decimals, 3);
 }
 
 
-char * sci(double number, uint8_t digits)
+char * sci(double value, uint8_t decimals)
 {
-  return scieng(number, digits, 1);
+  return scieng(value, decimals, 1);
 }
 
 
-void sci(Stream &str, double f, uint8_t digits)
+void sci(Stream &str, double value, uint8_t decimals)
 {
-  str.print(sci(f, digits));
+  str.print(sci(value, decimals));
 }
 
 ////////////////////////////////////////////////////////////
@@ -271,60 +272,60 @@ void sci(Stream &str, double f, uint8_t digits)
 // zetta yotta xona weka vunda uda (1024^12)
 //
 // (treda Byte == TDB is the next one and it is 2 char 
-// so codewise difficult and as it is seldom used, support stops there.
+// so code wise difficult and as it is seldom used, support stops there.
 // 
 // To have some support the code uses lowercase for the next 8 levels
 // treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
-char * toBytes(double val, uint8_t decimals = 2)
+char * toBytes(double value, uint8_t decimals = 2)
 {
-  static char buf[12];
-  char t[] = " KMGTPEZYXWVUtsrqponml";
-  uint8_t i = 0;
-  if (isinf(val)) 
+  static char buffer[12];
+  char  t[] = " KMGTPEZYXWVUtsrqponml";
+  uint8_t i = 0;    // i is index of the array == powers of 1024.
+  if (isinf(value)) 
   {
-    strcpy(buf, "<inf>");
-    return buf;
+    strcpy(buffer, "<inf>");
+    return buffer;
   }
 
-  while(val >= 1024)
+  while(value >= 1024)
   {
-    val /= 1024;
+    value /= 1024;
     i++;
   }
   if (i == 0) decimals = 0;
   if (decimals > 3) decimals = 3;
 
-  // WHOLE PART
-  int iv = val;
-  itoa(iv, &buf[0], 10);
+  // WHOLE PART iv
+  int integerPart = value;
+  itoa(integerPart, &buffer[0], 10);
   
   // DECIMALS
-  val -= iv;
-  uint8_t pos = strlen(buf);
+  value -= integerPart;
+  uint8_t pos = strlen(buffer);
   if (decimals > 0)
   {
-    buf[pos++] = '.';
+    buffer[pos++] = '.';
     while (decimals-- > 0)
     {
-      val = val * 10;
-      buf[pos++] = '0' + int(val);
-      val -= int(val);
+      value = value * 10;
+      buffer[pos++] = '0' + int(value);
+      value -= int(value);
     }
   }
   
   // UNITS
   if (i <= strlen(t))
   {
-    if (i > 0) buf[pos++] = ' ';
-    buf[pos++] = t[i];
-    buf[pos++] = 'B';
-    buf[pos] = 0;
+    if (i > 0) buffer[pos++] = ' ';
+    buffer[pos++] = t[i];
+    buffer[pos++] = 'B';
+    buffer[pos]   = 0;
   }
   else
   {
     // TODO   e.g. E99 B
   }
-  return buf;
+  return buffer;
 }
 
 

@@ -48,7 +48,7 @@ unittest_teardown()
 
 unittest(test_sci)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
   fprintf(stderr, "%s\n", sci(PI * 1000, 6));
@@ -66,7 +66,7 @@ unittest(test_sci)
 
 unittest(test_eng)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
   int32_t value32 = 1UL << 25;
@@ -87,7 +87,7 @@ unittest(test_eng)
 
 unittest(test_print64)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTHELPERS_VERSION);
   fprintf(stderr, "PRINTBUFFERSIZE: %d\n", PRINTBUFFERSIZE);
 
   int64_t value64 = 1ULL << 35;
@@ -103,7 +103,7 @@ unittest(test_print64)
 
 unittest(test_toBytes)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTHELPERS_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTHELPERS_VERSION);
 
   for (int i = 0; i < 30; i++)
   {

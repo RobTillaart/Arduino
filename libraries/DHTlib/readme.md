@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/DHTlib/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/DHTlib/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTlib/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/DHTlib/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTlib/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTlib/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTlib.svg?maxAge=3600)](https://github.com/RobTillaart/DHTlib/releases)
+
 
 # DHTlib
 
 Arduino library for DHT temperature and humidity sensor. AVR optimized
+
 
 ## Description
 
@@ -31,15 +35,17 @@ More information - http://playground.arduino.cc/Main/DHTLib -
 
 For latest version for the DHT, check https://github.com/RobTillaart/DHTNEW
 
+
 ## DHT PIN layout from left to right
 
-| FRONT | | DESCRIPTION  |
-|:----|:----:|:----|
-| pin 1 | | VCC           |
-| pin 2 | | DATA          |
-| pin 3 | | Not Connected |
-| pin 4 | | GND           |
-						  |
+| Front |      | Description   |
+|:------|:----:|:--------------|
+| pin 1 |      | VCC           |
+| pin 2 |      | DATA          |
+| pin 3 |      | Not Connected |
+| pin 4 |      | GND           |
+
+
 
 ## Operational
 

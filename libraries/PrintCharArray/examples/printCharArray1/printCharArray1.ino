@@ -5,13 +5,12 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PrintCharArray
 //
-//  HISTORY:
-//  0.1.0   2017-12-07  initial version
-//  0.3.0   2021-01-06  free() => available()
+
 
 #include "PrintCharArray.h"
 
 PrintCharArray ps;
+
 
 void setup()
 {
@@ -31,9 +30,11 @@ void setup()
   Serial.println(ps.getBuffer());
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

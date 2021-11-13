@@ -5,16 +5,14 @@
 // PURPOSE: demo it takes less time to send data out.
 //     URL: https://github.com/RobTillaart/PrintCharArray
 //
-//  HISTORY:
-//  0.1.0  2017-12-09  initial version
-//  0.1.1  2020-04-30  minor refactor
-//  0.3.0  2021-01-06  free() -> available()
+
 
 #include "PrintCharArray.h"
 
 PrintCharArray ps(200);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -54,9 +52,11 @@ void setup()
   Serial.println(ps.available());
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

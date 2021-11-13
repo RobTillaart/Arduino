@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -47,7 +48,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTCHARARRAY_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTCHARARRAY_VERSION);
 
   PrintCharArray ps(100);
 
@@ -69,6 +70,7 @@ unittest(test_constructor)
   assertEqual(100, ps.available());
   assertEqual(0,   ps.size());
 }
+
 
 unittest_main()
 

@@ -1,19 +1,16 @@
 //
 //    FILE: printCharArrayDynamicSize.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: demo
+// VERSION: 0.3.0
+// PURPOSE: demo setting size of internal buffer
 //     URL: https://github.com/RobTillaart/PrintCharArray
 //
-//  HISTORY:
-//  0.1.0  2020-04-30  initial version
-//  0.3.0  2021-01-06  free() -> available()
 
 
 #include "PrintCharArray.h"
 
-
 PrintCharArray ps(100);
+
 
 void setup()
 {
@@ -33,9 +30,11 @@ void setup()
   Serial.println(ps.getBuffer());
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

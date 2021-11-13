@@ -1,7 +1,8 @@
-# Syntax Coloring Map For PrintCharArray
+# Syntax Colouring Map For PrintCharArray
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PrintCharArray	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
@@ -11,6 +12,7 @@ size	KEYWORD2
 bufSize	KEYWORD2
 getBuffer	KEYWORD2
 
+
 # Constants (LITERAL1)
 PRINTCHARARRAY_VERSION	LITERAL1
-
+PRINTCHARARRAY_MAX_BUFFER_SIZE	LITERAL1

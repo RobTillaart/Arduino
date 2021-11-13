@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: PinOutGroup.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.4
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.5
 //    DATE: 2017-04-26
 // PURPOSE: PinOutGroup library for Arduino
 //     URL: https://github.com/RobTillaart/PinOutGroup
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define PINOUTGROUP_LIB_VERSION      (F("0.1.4"))
+#define PINOUTGROUP_LIB_VERSION      (F("0.1.5"))
 
 
 // smaller MAXSIZE will reduce memory footprint with ditto bytes.
@@ -30,7 +30,7 @@ public:
 
   // adds a predefined array of pin numbers to the PinOutGroup
   // sets all to (LOW, HIGH)
-  uint8_t   add(uint8_t sz, uint8_t* ar, uint8_t value = LOW);
+  uint8_t   add(uint8_t size, uint8_t* pinArray, uint8_t value = LOW);
   // adds a single pin to the PinOutGroup, default to LOW.
   uint8_t   add(uint8_t pin, uint8_t value = LOW);
 
@@ -40,7 +40,7 @@ public:
   // set up to 16 pins "simultaneously" in one call.
   uint8_t   write(uint16_t value);
   // write to a single pin while maintaining internal admin
-  uint8_t   write(uint8_t idx, uint8_t value);
+  uint8_t   write(uint8_t index, uint8_t value);
   void      allLOW();
   void      allHIGH();
 
@@ -48,13 +48,13 @@ public:
   uint16_t  read() { return _lastValue; };
 
   uint8_t   size() { return _size; };
-
   // check how many free "slots" there are...
   uint8_t   available() { return PINOUTGROUP_MAXSIZE - _size; };
+  uint8_t   getMaxSize() { return PINOUTGROUP_MAXSIZE; };
 
-  uint8_t   getPin(uint8_t idx);
-  uint8_t   getIdx(uint8_t pin);
-
+  uint8_t   getPin(uint8_t index);
+  uint8_t   getIndex(uint8_t pin);
+  uint8_t   getIdx(uint8_t pin) { return getIndex(pin); }; // will be obsolete in 0.2.0 
 
 
 private:

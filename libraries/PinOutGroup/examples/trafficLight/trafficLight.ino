@@ -1,12 +1,14 @@
 //    FILE: trafficLight.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
+//  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: demo PinOutGroup library for Arduino
 //
 
+
 #include "PinOutGroup.h"
 
 PinOutGroup trafficLight;
+
 
 uint8_t lights[]    = {11, 12, 13};  // connect 3 leds...
 const int RED       = 4;
@@ -15,6 +17,7 @@ const int GREEN     = 1;
 const int YELLOWRED = 6;     // YELLOW | RED 
 
 int state = 0;
+
 
 void setup()
 {
@@ -26,6 +29,7 @@ void setup()
 
   trafficLight.add(3, lights);
 }
+
 
 void loop()
 {
@@ -53,4 +57,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

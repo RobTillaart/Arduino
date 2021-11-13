@@ -47,7 +47,7 @@ unittest_teardown()
 
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", PINOUTGROUP_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PINOUTGROUP_LIB_VERSION);
 
   PinOutGroup POG;
   uint8_t ar[46] = {2, 3, 4, 5, 6, 7};

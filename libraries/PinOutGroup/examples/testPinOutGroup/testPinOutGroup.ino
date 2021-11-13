@@ -1,5 +1,5 @@
 //    FILE: testPinOutGroup.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
+//  AUTHOR: Rob Tillaart
 // VERSION: 0.1.2
 // PURPOSE: demo PinOutGroup library for Arduino
 //
@@ -9,6 +9,7 @@
 
 
 uint8_t ar[4] = {2, 3, 4, 13};
+
 
 void setup()
 {
@@ -392,5 +393,6 @@ void test8()
   Serial.println(F(" done..."));
   Serial.println();
 }
+
 
 // -- END OF FILE --

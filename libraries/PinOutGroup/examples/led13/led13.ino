@@ -1,8 +1,9 @@
 //    FILE: led13.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.0
-// PURPOSE: demo pinGroup library for Arduino
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
+// PURPOSE: demo pinOutGroup library for Arduino
 //          blink the build in led by means of a PinOutGroup
+
 
 #include "PinOutGroup.h"
 
@@ -11,6 +12,7 @@ PinOutGroup led13;
 uint8_t ar[1] = { 13 } ;
 
 uint32_t start , stop;
+
 
 void setup()
 {
@@ -21,6 +23,7 @@ void setup()
 
   led13.add(1, ar );
 }
+
 
 void loop()
 {
@@ -34,5 +37,6 @@ void loop()
   led13.write(0, LOW);  // could be led13.write(0); as there is just one in the group.
   delay(250);
 }
+
 
 // -- END OF FILE --

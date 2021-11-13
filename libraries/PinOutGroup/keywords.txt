@@ -1,18 +1,23 @@
-# Syntax Coloring Map For PinOutGroup
+# Syntax Colouring Map For PinOutGroup
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PinOutGroup	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 clear	KEYWORD2
 add	KEYWORD2
 isInGroup	KEYWORD2
+
 write	KEYWORD2
 read	KEYWORD2
+
 size	KEYWORD2
 available	KEYWORD2
+getMaxSize	KEYWORD2
+
 allLOW	KEYWORD2
 allHIGH	KEYWORD2
+
 
 # Constants (LITERAL1)
 PINOUTGROUP_LIB_VERSION	LITERAL1

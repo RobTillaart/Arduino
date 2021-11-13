@@ -1,12 +1,14 @@
 //    FILE: sevenSegment.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
+//  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: demo PinOutGroup library for Arduino
 //
 
+
 #include "PinOutGroup.h"
 
-// connect arduino pins 2.. 8 to pins A..G of a 7 segments display
+// connect Arduino UNO pins 2.. 8 to pins A..G of a 7 segments display
+
 
 uint8_t ar[7] = {2, 3, 4, 5, 6, 7, 8};
 
@@ -19,6 +21,7 @@ int ssc[16] = // seven segment char
 PinOutGroup display;
 
 uint32_t start, stop, t1, t2;
+
 
 void setup()
 { 
@@ -65,10 +68,11 @@ void setup()
   Serial.println(stop - start);
   Serial.println();
   
-  Serial.print(" %: ");
-  Serial.println((1.0 * t2)/ t1);
+  Serial.print("Percentage: ");
+  Serial.println((100.0 * t2)/ t1);
   Serial.println();
 }
+
 
 void loop()
 {
@@ -79,4 +83,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

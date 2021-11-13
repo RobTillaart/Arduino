@@ -1,12 +1,14 @@
-# Syntax Coloring Map For PrintSize
+# Syntax Colouring Map For PrintSize
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PrintSize	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
 reset	KEYWORD2
 total	KEYWORD2
+
 
 # Constants (LITERAL1)
 PRINTSIZE_VERSION	LITERAL1

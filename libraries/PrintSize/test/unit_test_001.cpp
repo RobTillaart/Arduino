@@ -59,22 +59,53 @@ unittest(test_new_operator)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTSIZE_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
 
   PrintSize ps;
 
+  assertEqual(0, ps.total());
+}
+
+
+
+unittest(test_print)
+{
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
+
+  PrintSize ps;
+
+  assertEqual(0,  ps.total());
   assertEqual(11, ps.print("Hello World"));
   assertEqual(11, ps.total());
   assertEqual(6,  ps.print(PI, 4));
   assertEqual(17, ps.total());
 
   ps.reset();
+  assertEqual(0,  ps.total());
   assertEqual(13, ps.println("Hello World"));
   assertEqual(13, ps.total());
   assertEqual(8,  ps.println(PI, 4));
   assertEqual(21, ps.total());
-
 }
+
+
+
+unittest(test_write)
+{
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
+
+  PrintSize ps;
+
+  assertEqual(0,  ps.total());
+  assertEqual(1, ps.write('c'));
+
+  ps.reset();
+  assertEqual(0,  ps.total());
+  char str[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis eget odio ut";
+  assertEqual(strlen(str), ps.write((uint8_t *)str, strlen(str)));
+  assertEqual(strlen(str), ps.total());
+}
+
 
 unittest_main()
 

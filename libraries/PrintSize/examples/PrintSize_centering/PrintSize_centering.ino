@@ -1,12 +1,9 @@
 //
 //    FILE: PrintSize_centering.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: demo printSize centering
+// VERSION: 0.1.1
+// PURPOSE: demo printSize centring
 //     URL: https://github.com/RobTillaart/PrintSize
-//
-// HISTORY:
-// 0.1.0   2020-04-30 initial version
 //
 
 
@@ -16,6 +13,7 @@ char woord[24];
 int idx = 0;
 
 PrintSize ps;
+
 
 void setup()
 {
@@ -30,13 +28,13 @@ void setup()
   ps.reset();
 }
 
+
 void loop()
 {
   uint32_t sum = 0;
 
-
   Serial.println();
-  Serial.println("  Centering");
+  Serial.println("  Centring");
   for (int i = 0; i < 10; i++)
   {
     // create different order of magnitude random numbers
@@ -75,9 +73,12 @@ void loop()
   delay(1000);
 }
 
+
 void printSpaces(uint8_t n)
 {
   while (n--) Serial.print(' ');
 }
 
+
 // -- END OF FILE --
+

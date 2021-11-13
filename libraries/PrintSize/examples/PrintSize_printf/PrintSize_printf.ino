@@ -7,9 +7,7 @@
 //    NOTE:
 // - UNO does not support printf, - ESP32 does
 //
-// HISTORY:
-// 0.1.0   2020-02-16 initial version
-//
+
 
 #include "PrintSize.h"
 
@@ -53,4 +51,6 @@ void printSpaces(uint8_t n)
   while (n--) Serial.print(' ');
 }
 
+
 // -- END OF FILE --
+

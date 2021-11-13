@@ -5,14 +5,12 @@
 // PURPOSE: demo printSize
 //     URL: https://github.com/RobTillaart/PrintSize
 //
-// HISTORY:
-// 0.1.0   2017-12-09 initial version
-// 0.1.1   2020-02-19 refactored, simpler printSpaces()
-//
+
 
 #include "PrintSize.h"
 
 PrintSize ps;
+
 
 void setup()
 {
@@ -23,6 +21,7 @@ void setup()
   Serial.println("align the numbers in a table with their sum.");
   Serial.println();
 }
+
 
 void loop()
 {
@@ -44,9 +43,12 @@ void loop()
   Serial.println();
 }
 
+
 void printSpaces(uint8_t n)
 {
   while (n--) Serial.print(' ');
 }
 
+
 // -- END OF FILE -- 
+

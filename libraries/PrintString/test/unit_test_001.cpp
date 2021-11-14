@@ -50,7 +50,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PRINTSTRING_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSTRING_VERSION);
 
   PrintString ps;
 

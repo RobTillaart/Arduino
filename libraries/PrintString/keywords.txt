@@ -1,7 +1,9 @@
-# Syntax Coloring Map For PrintString
+# Syntax Colouring Map For PrintString
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 PrintString	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
@@ -9,5 +11,7 @@ size	KEYWORD2
 clear	KEYWORD2
 getString	KEYWORD2
 
+
 # Constants (LITERAL1)
+PRINTSTRING_VERSION	LITERAL1
 

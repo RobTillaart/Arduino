@@ -17,10 +17,12 @@
 //                    SCL         A5
 //
 
+
 #include "Wire.h"
 #include "rotaryDecoder.h"
 
 rotaryDecoder decoder(0x20);
+
 
 void setup()
 {
@@ -34,6 +36,7 @@ void setup()
   decoder.begin(4);
   decoder.readInitialState();
 }
+
 
 
 void loop()
@@ -54,3 +57,4 @@ void loop()
 
 
 // -- END OF FILE --
+

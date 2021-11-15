@@ -1,13 +1,15 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
 //
 //  HISTORY:
 //  0.1.0   2021-05-08  initial version
+//  0.1.1   2021-11-15  update build-CI, readme.md
+//                      improve readability of code
 //
 
 
@@ -26,9 +28,10 @@ rotaryDecoder::rotaryDecoder(const int8_t address, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool rotaryDecoder::begin(uint8_t sda, uint8_t scl, uint8_t cnt)
+bool rotaryDecoder::begin(uint8_t sda, uint8_t scl, uint8_t count)
 {
-  _cnt = cnt;
+  _count = count;
+  if (_count > 4) _count = 4;
   _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
@@ -37,9 +40,10 @@ bool rotaryDecoder::begin(uint8_t sda, uint8_t scl, uint8_t cnt)
 #endif
 
 
-bool rotaryDecoder::begin(uint8_t cnt)
+bool rotaryDecoder::begin(uint8_t count)
 {
-  _cnt = cnt;
+  _count = count;
+  if (_count > 4) _count = 4;
   _wire->begin();
   if (! isConnected()) return false;
   return true;
@@ -55,31 +59,35 @@ bool rotaryDecoder::isConnected()
 
 void rotaryDecoder::readInitialState()
 {
-  uint8_t val = _read8();
-  _lastVal = val;
-  for (uint8_t i = 0; i < _cnt; i++)
+  uint8_t value = _read8();
+  _lastValue = value;
+  for (uint8_t i = 0; i < _count; i++)
   {
-    _lastPos[i] = val & 0x03;
-    val >>= 2;
+    _lastPos[i] = value & 0x03;
+    value >>= 2;
   }
 }
 
 
 bool rotaryDecoder::checkChange()
 {
-  uint8_t val = _read8();
-  return (_lastVal != val);
+  uint8_t value = _read8();
+  return (_lastValue != value);
 }
 
 
 bool rotaryDecoder::update()
 {
-  uint8_t val = _read8();
-  if (_lastVal == val) return false;
- _lastVal = val;
-  for (uint8_t i = 0; i < _cnt; i++, val >>= 2)
+  uint8_t value = _read8();
+  if (_lastValue == value)
   {
-    uint8_t currentpos = (val & 0x03);
+    return false;
+  }
+
+ _lastValue = value;
+  for (uint8_t i = 0; i < _count; i++, value >>= 2)
+  {
+    uint8_t currentpos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {
@@ -104,13 +112,16 @@ bool rotaryDecoder::update()
 
 bool rotaryDecoder::updateSingle()
 {
-  uint8_t val = _read8();
-  if (_lastVal == val) return false;
- _lastVal = val;
- 
-  for (uint8_t i = 0; i < _cnt; i++, val >>= 2)
+  uint8_t value = _read8();
+  if (_lastValue == value)
   {
-    uint8_t currentpos = (val & 0x03);
+    return false;
+  }
+
+ _lastValue = value;
+  for (uint8_t i = 0; i < _count; i++, value >>= 2)
+  {
+    uint8_t currentpos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {

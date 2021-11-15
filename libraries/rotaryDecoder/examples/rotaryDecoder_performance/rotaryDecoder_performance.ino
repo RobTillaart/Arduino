@@ -17,10 +17,12 @@
 //                    SCL         A5
 //
 
+
 #include "Wire.h"
 #include "rotaryDecoder.h"
 
 rotaryDecoder decoder(0x20);
+
 
 void setup()
 {

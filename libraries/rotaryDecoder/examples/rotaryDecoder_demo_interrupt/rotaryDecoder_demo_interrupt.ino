@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
 //
-// PUPROSE: demo
+// PUPROSE: demo interrupt controlled rotary decoder
 
 // connect up to 4 rotary encoders to 1 PCF8574.
 //
@@ -15,6 +15,7 @@
 //
 //                    SDA         A4
 //                    SCL         A5
+//
 //                    INT         2
 //
 
@@ -26,8 +27,10 @@ rotaryDecoder decoder(0x20);
 
 volatile bool flag = false;
 
+
 void moved()
 {
+  // one should not read the PPCF8574 in the interrupt routine.
   flag = true;
 }
 

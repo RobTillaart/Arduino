@@ -47,7 +47,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", ROTARY_DECODER_LIB_VERSION);
+  fprintf(stderr, "ROTARY_DECODER_LIB_VERSION: %s\n", (char *) ROTARY_DECODER_LIB_VERSION);
 
   rotaryDecoder(0x20);
 

@@ -6,11 +6,13 @@
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/randomHelpers
 
+
 #include "randomHelpers.h"
 
 uint32_t start, duration1, duration2;
 
 volatile uint32_t x;
+
 
 void setup()
 {
@@ -24,9 +26,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
+
 
 void test_getRandomBits(uint8_t n)
 {
@@ -55,4 +59,6 @@ void test_getRandomBits(uint8_t n)
   delay(10);
 }
 
+
 // -- END OF FILE --
+

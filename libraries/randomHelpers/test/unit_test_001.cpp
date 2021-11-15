@@ -60,7 +60,7 @@ unittest(test_new_operator)
 
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", RANDOM_HELPERS_VERSION);
+  fprintf(stderr, "VERSION: %s\n", (char *) RANDOM_HELPERS_VERSION);
 
   for (int i = 0; i < 10; i ++)
   {

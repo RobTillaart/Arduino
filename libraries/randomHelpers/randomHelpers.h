@@ -2,11 +2,14 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 //
 //  HISTORY:
+//  0.2.2   2021-11-15  update Arduino-CI, readme.md badges
+//                      add seedMarsaglia(uint32_t a, uint32_t b)
+//                      fix randomDice()
 //  0.2.1   2021-01-07  Arduino-CI
 //  0.2.0   2020-07-01  rewrite.
 //  0.1.01  2015-08-18  bug fixes and further optimizations.
@@ -16,13 +19,13 @@
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION       (F("0.2.1"))
+#define RANDOM_HELPERS_VERSION       (F("0.2.2"))
 
 // the idea is to have one buffer ( __randomBuffer) which holds 32 random bits. 
 // Every call fetches bits from that buffer and if it does not hold enough 
-// bits anymore it fills the buffer first. This way the relative expensive 
+// bits any more it fills the buffer first. This way the relative expensive 
 // calls to random() which produces a 32 bit number are minimized in an
-// effcient way.
+// efficient way.
 //
 // TBD: put it in a class ?
 
@@ -40,12 +43,22 @@ uint8_t   __randomIdx = 0;
 uint32_t m_w = 1;
 uint32_t m_z = 2; 
 
+
 uint32_t Marsaglia()
 {
     m_z = 36969L * (m_z & 65535L) + (m_z >> 16);
     m_w = 18000L * (m_w & 65535L) + (m_w >> 16);
     return (m_z << 16) + m_w;  /* 32-bit result */
 } 
+
+
+bool seedMarsaglia(uint32_t a, uint32_t b)
+{
+  if (a == 0 || b == 0) return false;
+  m_w = a;
+  m_z = b;
+  return true;
+}
 
 
 uint32_t getRandom32()
@@ -118,15 +131,16 @@ uint8_t getRandom6()
 
 
 // typical use
-uint8_t inline throwDice() 
+uint8_t throwDice() 
 {
-  uint8_t rv = 0;
-  uint8_t x = getRandom5();
-  for (uint8_t i = 0; i < 6 ; i++)
+  if (__randomIdx < 16)
   {
-    if (x & 1) rv++;
-    x >>= 1;
+    __randomBuffer = getRandom32();
+    __randomIdx = 32;
   }
+  uint16_t rv = __randomBuffer % 6 + 1;
+  __randomBuffer >>= 3;
+  __randomIdx -= 3;
   return rv;
 }
 
@@ -163,6 +177,7 @@ uint32_t getRandom24()
 {
   return getRandom32() & 0xFFFFFF;
 }
+
 
 uint64_t getRandom64()
 {
@@ -218,4 +233,6 @@ uint32_t getRandomBits(uint8_t n)
   return rv;
 }
 
+
 // -- END OF FILE --
+

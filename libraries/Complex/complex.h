@@ -2,7 +2,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
@@ -13,7 +13,7 @@
 #include "Printable.h"
 
 
-#define COMPLEX_LIB_VERSION     (F("0.2.4"))
+#define COMPLEX_LIB_VERSION     (F("0.3.0"))
 
 
 class Complex: public Printable
@@ -26,32 +26,32 @@ public:
     void set(const float r, const float i ) { re = r; im = i; };
     void setReal(const float r)  { re = r; };
     void setImag(const float i ) { im = i; };
-    float real() { return re; };
-    float imag() { return im; };
+    float real() const { return re; };
+    float imag() const { return im; };
 
 
     size_t printTo(Print& p) const;
 
 
     void polar(const float modulus, const float phase);
-    float phase()       { return atan2(im, re); };
-    float modulus()     { return hypot(re, im); };
+    float phase() const       { return atan2(im, re); };
+    float modulus() const     { return hypot(re, im); };
     // conjugate is the number mirrored in x-axis
-    Complex conjugate() { return Complex(re, -im); };
-    Complex reciprocal();
+    Complex conjugate() const { return Complex(re, -im); };
+    Complex reciprocal() const;
 
 
-    bool operator == (const Complex&);
-    bool operator != (const Complex&);
+    bool operator == (const Complex&) const;
+    bool operator != (const Complex&) const;
 
 
-    Complex operator - (); // negation
+    Complex operator - () const; // negation
 
 
-    Complex operator + (const Complex&);
-    Complex operator - (const Complex&);
-    Complex operator * (const Complex&);
-    Complex operator / (const Complex&);
+    Complex operator + (const Complex&) const;
+    Complex operator - (const Complex&) const;
+    Complex operator * (const Complex&) const;
+    Complex operator / (const Complex&) const;
 
     Complex& operator += (const Complex&);
     Complex& operator -= (const Complex&);
@@ -59,57 +59,57 @@ public:
     Complex& operator /= (const Complex&);
 
 
-    Complex c_sqrt();
-    Complex c_sqr();
-    Complex c_exp();
-    Complex c_log();
-    Complex c_log10();
-    Complex c_pow(const Complex &);
-    Complex c_logn(const Complex &);
+    Complex c_sqrt() const;
+    Complex c_sqr() const;
+    Complex c_exp() const;
+    Complex c_log() const;
+    Complex c_log10() const;
+    Complex c_pow(const Complex &) const;
+    Complex c_logn(const Complex &) const;
 
 
-    Complex c_sin();
-    Complex c_cos();
-    Complex c_tan();
-    Complex c_asin();
-    Complex c_acos();
-    Complex c_atan();
+    Complex c_sin() const;
+    Complex c_cos() const;
+    Complex c_tan() const;
+    Complex c_asin() const;
+    Complex c_acos() const;
+    Complex c_atan() const;
 
 
-    Complex c_csc();
-    Complex c_sec();
-    Complex c_cot();
-    Complex c_acsc();
-    Complex c_asec();
-    Complex c_acot();
+    Complex c_csc() const;
+    Complex c_sec() const;
+    Complex c_cot() const;
+    Complex c_acsc() const;
+    Complex c_asec() const;
+    Complex c_acot() const;
 
 
-    Complex c_sinh();
-    Complex c_cosh();
-    Complex c_tanh();
-    Complex c_asinh();
-    Complex c_acosh();
-    Complex c_atanh();
+    Complex c_sinh() const;
+    Complex c_cosh() const;
+    Complex c_tanh() const;
+    Complex c_asinh() const;
+    Complex c_acosh() const;
+    Complex c_atanh() const;
 
 
-    Complex c_csch();
-    Complex c_sech();
-    Complex c_coth();
-    Complex c_acsch();
-    Complex c_asech();
-    Complex c_acoth();
+    Complex c_csch() const;
+    Complex c_sech() const;
+    Complex c_coth() const;
+    Complex c_acsch() const;
+    Complex c_asech() const;
+    Complex c_acoth() const;
 
 
 protected:
     float re;
     float im;
 
-    Complex gonioHelper1(const byte);
-    Complex gonioHelper2(const byte);
+    Complex gonioHelper1(const byte) const;
+    Complex gonioHelper2(const byte) const;
 };
 
 
-static Complex one(1, 0);
+static const Complex one(1, 0);
 
 
 // -- END OF FILE --

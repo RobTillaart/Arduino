@@ -22,10 +22,12 @@
 //                    SCL         A5
 //
 
+
 #include "Wire.h"
 #include "rotaryDecoderSwitch.h"
 
 rotaryDecoderSwitch decoder(0x20);
+
 
 void setup()
 {
@@ -62,3 +64,4 @@ void loop()
 
 
 // -- END OF FILE --
+

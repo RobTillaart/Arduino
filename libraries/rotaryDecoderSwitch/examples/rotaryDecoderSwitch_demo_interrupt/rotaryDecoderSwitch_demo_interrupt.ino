@@ -30,6 +30,7 @@ rotaryDecoderSwitch decoder(0x20);
 
 volatile bool flag = false;
 
+
 void moved()
 {
   flag = true;
@@ -75,3 +76,4 @@ void loop()
 
 
 // -- END OF FILE --
+

@@ -1,7 +1,8 @@
-# Syntax Coloring Map For HX711
+# Syntax Colouring Map For HX711
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 HX711	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
@@ -16,6 +17,7 @@ read	KEYWORD2
 read_average	KEYWORD2
 read_median	KEYWORD2
 read_medavg	KEYWORD2
+read_runavg	KEYWORD2
 
 set_average_mode	KEYWORD2
 set_median_mode	KEYWORD2
@@ -49,8 +51,13 @@ get_price	KEYWORD2
 set_unit_price	KEYWORD2
 get_unit_price	KEYWORD2
 
+
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 HX711_LIB_VERSION	LITERAL1
-
+HX711_AVERAGE_MODE	LITERAL1
+HX711_MEDIAN_MODE	LITERAL1
+HX711_MEDAVG_MODE	LITERAL1
+HX711_RUNAVG_MODE	LITERAL1

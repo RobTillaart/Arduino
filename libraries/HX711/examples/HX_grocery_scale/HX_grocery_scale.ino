@@ -9,6 +9,7 @@
 // 0.1.0    2020-06-16 initial version
 //
 
+
 #include "HX711.h"
 
 HX711 scale;
@@ -54,6 +55,7 @@ void setup()
   scale.set_unit_price(0.031415);  // we only have one price
 }
 
+
 void loop()
 {
   Serial.print("UNITS: ");
@@ -63,4 +65,6 @@ void loop()
   delay(250);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

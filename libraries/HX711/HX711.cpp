@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -12,6 +12,9 @@
 //  0.2.1   2020-12-28  add arduino-ci + unit test
 //  0.2.2   2021-05-10  add read_median(), fix typo, add mode operandi
 //  0.2.3   2021-05-26  add running_average() mode
+//  0.3.0   2021-11-14  fix #11 shiftIn timing
+//                      update build-CI, readme.md, badges
+
 
 
 #include "HX711.h"
@@ -28,7 +31,7 @@ HX711::~HX711() {}
 
 void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 {
-  _dataPin = dataPin;
+  _dataPin  = dataPin;
   _clockPin = clockPin;
 
   pinMode(_dataPin, INPUT);
@@ -55,6 +58,11 @@ bool HX711::is_ready()
 }
 
 
+//  from datasheet page 4
+//  When output data is not ready for retrieval,
+//  digital output pin DOUT is high. Serial clock
+//  input PD_SCK should be low. When DOUT goes
+//  to low, it indicates data is ready for retrieval.
 float HX711::read() 
 {
   // this waiting takes most time...
@@ -69,9 +77,12 @@ float HX711::read()
   noInterrupts();
 
   // Pulse the clock pin 24 times to read the data.
-  v.data[2] = shiftIn(_dataPin, _clockPin, MSBFIRST);
-  v.data[1] = shiftIn(_dataPin, _clockPin, MSBFIRST);
-  v.data[0] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  // v.data[2] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  // v.data[1] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  // v.data[0] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  v.data[2] = _shiftIn();
+  v.data[1] = _shiftIn();
+  v.data[0] = _shiftIn();
 
   // TABLE 3 page 4 datasheet
   // only default verified, so other values not supported yet
@@ -270,5 +281,28 @@ void HX711::power_up()
 {
   digitalWrite(_clockPin, LOW);
 }
+
+
+//  MSB_FIRST optimized shiftIn
+//  see datasheet page 5 for timing
+uint8_t HX711::_shiftIn()
+{
+  uint8_t value = 0;
+  uint8_t mask = 0x80;
+  while(mask > 0)
+  {
+    digitalWrite(_clockPin, HIGH);
+    delayMicroseconds(1);               // T2  >= 0.2 us
+    if (digitalRead(_dataPin) == HIGH)
+    {
+      value |= mask;
+    }
+    digitalWrite(_clockPin, LOW);
+    delayMicroseconds(1);               // keep duty cycle ~50%
+    mask >>= 1;
+  }
+  return value;
+}
+
 
 // -- END OF FILE --

@@ -9,6 +9,7 @@
 // 0.1.0    2020-06-16 initial version
 //
 
+
 #include "HX711.h"
 
 HX711 scale;
@@ -48,10 +49,12 @@ void setup()
   Serial.println(scale.get_units(10));
 
   Serial.println("\nScale is calibrated, press a key to continue");
+  // Serial.println(scale.get_scale());
+  // Serial.println(scale.get_offset());
   while(!Serial.available());
   while(Serial.available()) Serial.read();
-
 }
+
 
 void loop()
 {
@@ -60,4 +63,6 @@ void loop()
   delay(250);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

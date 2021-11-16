@@ -53,6 +53,7 @@ unittest(test_constructor)
   assertEqual(0, scale.last_read());
 }
 
+
 unittest(test_gain)
 {
   HX711 scale;

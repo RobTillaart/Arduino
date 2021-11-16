@@ -9,6 +9,7 @@
 // 0.1.0    2020-06-15 initial version
 //
 
+
 #include "HX711.h"
 
 HX711 scale;
@@ -18,6 +19,7 @@ uint8_t clockPin = 7;
 
 uint32_t start, stop;
 volatile float f;
+
 
 void setup()
 {
@@ -34,11 +36,11 @@ void setup()
   measure(10);
 
   // TODO find a nice solution for this calibration..
-  // loadcell factor 20 KG
+  // load cell factor 20 KG
   // scale.set_scale(127.15);
 
-  // loadcell factor 5 KG
-  scale.set_scale(420.0983);
+  // load cell factor 5 KG
+  scale.set_scale(420.0983);       // TODO you need to calibrate this yourself.
   // reset the scale to zero = 0
   scale.tare();
 
@@ -54,6 +56,11 @@ void setup()
   delay(1000);
   measure(10);
 
+/*
+ * PERFORMANCE
+ * 100x get_units(1) = 9404352  (UNO)
+ * VAL: 0.05
+ */
   Serial.println("\nPERFORMANCE");
   start = micros();
   f = 0;
@@ -75,8 +82,8 @@ void setup()
   }
   Serial.print("  VAL:");
   Serial.println(f * 0.01, 4);
-
 }
+
 
 void loop()
 {
@@ -85,6 +92,7 @@ void loop()
   Serial.println(f);
   delay(250);
 }
+
 
 void measure(uint8_t cnt)
 {
@@ -100,3 +108,4 @@ void measure(uint8_t cnt)
 
 
 // -- END OF FILE --
+

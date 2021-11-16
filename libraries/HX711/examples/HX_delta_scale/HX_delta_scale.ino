@@ -9,6 +9,7 @@
 // 0.1.0    2020-06-16 initial version
 //
 
+
 // to be tested 
 
 #include "HX711.h"
@@ -19,6 +20,7 @@ uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
 float w1, w2, previous = 0;
+
 
 void setup()
 {
@@ -33,15 +35,16 @@ void setup()
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));
 
-  // loadcell factor 20 KG
+  // load cell factor 20 KG
   // scale.set_scale(127.15);
-  // loadcell factor 5 KG
-  scale.set_scale(420.0983);
+  // load cell factor 5 KG
+  scale.set_scale(420.0983);       // TODO you need to calibrate this yourself.
   scale.tare();
 
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));
 }
+
 
 void loop()
 {
@@ -71,4 +74,6 @@ void loop()
   delay(100);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

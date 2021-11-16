@@ -9,6 +9,7 @@
 // 0.1.0    2021-05-13 initial version
 //
 
+
 #include "HX711.h"
 
 HX711 scale;
@@ -18,6 +19,7 @@ uint8_t clockPin = 7;
 
 uint32_t start, stop;
 volatile float f;
+
 
 void setup()
 {
@@ -91,8 +93,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

@@ -8,23 +8,33 @@
 
 # SHT2x
 
-Arduino library for the SHT2x and HTU2x temperature and humidity sensors.
+Arduino library for the SHT2x, HTU2x and Si70xx temperature and humidity sensors.
 
 
 ## Description
 
+This library is not tested extensively yet. 
+It should work for SHT20, SHT21 and SHT25 but these are not tested yet.
 The SHT2x family of sensors should work up to 400 KHz I2C.
 
-This library should work for SHT20, SHT21 and SHT25 but these are 
-not tested yet.
+Furthermore there are a number of compatible sensors, these are not tested either.
 
-| Sensor | Temperature accuracy | Humidity accuracy |
-|:------:|:------:|:------:|
-| SHT20  |  ~0.3  |  ±3.0  |
-| SHT21  |  ~0.3  |  ±3.0  |
-| SHT25  |  ~0.3  |  ±1.8  |
+
+| Sensor  | Temperature accuracy | Humidity accuracy |
+|:-------:|:--------------------:|:-----------------:|
+| SHT20   |  ~0.3  |  ±3.0  |
+| SHT21   |  ~0.3  |  ±3.0  |
+| SHT25   |  ~0.3  |  ±1.8  |
+| HTU20   |        |        |  to-do 
+| HTU21   |        |        |  to-do 
+| Si7013  |        |        |  to-do 
+| Si7020  |        |        |  to-do 
+| Si7021  |        |        |  to-do 
+
 
 All sensors in this family of sensors have address 0x40 (64 decimal).
+If you want to use more on one I2C bus one needs either an I2C multiplexer
+or one should switch sensors on/off like the select in SPI communication.
 
 
 ## Interface
@@ -39,13 +49,17 @@ All classes below are derived from SHT2x class.
 - **SHT25()** constructor.
 - **HTU20()** constructor.
 - **HTU21()** constructor.
+- **Si7013()** constructor.
+- **Si7020()** constructor.
+- **Si7021()** constructor.
 
 
 #### Base interface
 
-- **bool begin(dataPin, clockPin)** begin function for ESP8266 & ESP32;
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(TwoWire \*wire = &Wire)** optional set the wire interface for platforms with multiple I2C buses. **begin()** calls **reset()** which can take up to 15 ms. 
+- **bool begin(TwoWire \*wire = &Wire)** optional set the wire interface 
+for platforms with multiple I2C buses. **begin()** calls **reset()** which can take up to 15 ms. 
 - **bool read()** Reads both the temperature and humidity.  
 Initial release has a blocking delay. 
 - **bool isConnected()** check if sensor is reachable over I2C. Returns false if not connected.
@@ -108,6 +122,13 @@ Returns false if fails, setting error to **SHT2x_ERR_HEATER_OFF**.
 - **bool isHeaterOn()** is the sensor still in heating cycle?
 
 
+#### Electronic ID
+
+- **uint32_t getEIDA()** not tested yet.
+- **uint32_t getEIDB()** not tested yet.
+- **uint8_t getFirmwareVersion()** not tested yet.
+  
+
 #### Status fields
 
 From HTU20 datasheet
@@ -120,15 +141,16 @@ From HTU20 datasheet
 |  11    |   3    | closed circuit      |
 
 
-## Future
-
-- test test test test
-- **getSerialNumber()**
-- improve error handling (all code paths)
-- investigate blocking delay() in read - optimize... Q: need async interface?
-
-
 ## Operation
 
 See examples
 
+
+## Future
+
+- test test test test test test test and ...
+- improve documentation
+- **getSerialNumber()**
+- improve error handling (all code paths)
+- investigate blocking delay() in read - optimize... Q: need async interface?
+- check TODO in code

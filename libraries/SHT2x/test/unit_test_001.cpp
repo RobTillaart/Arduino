@@ -49,6 +49,17 @@ unittest_teardown()
 }
 
 
+unittest(test_constructor)
+{
+  fprintf(stderr, "SHT2x_LIB_VERSION: %s \n", (char *) SHT2x_LIB_VERSION);
+  SHT2x sht;
+
+  bool b = sht.begin();
+  assertEqual(b, true);
+}
+
+
+
 unittest(test_begin)
 {
   SHT2x sht;

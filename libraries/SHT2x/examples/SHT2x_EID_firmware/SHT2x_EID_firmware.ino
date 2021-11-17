@@ -1,5 +1,5 @@
 //
-//    FILE: SHT2x_lastRead.ino
+//    FILE: SHT2x_EID.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: demo
@@ -24,22 +24,24 @@ void setup()
 
   sht.begin();
 
-  uint8_t stat = sht.getStatus();
-  Serial.print(stat, HEX);
+  uint32_t EIDA = sht.getEIDA();
+  Serial.print(EIDA, HEX);
   Serial.println();
+  
+  uint32_t EIDB = sht.getEIDB();
+  Serial.print(EIDB, HEX);
+  Serial.println();
+  
+  uint8_t firmware = sht.getFirmwareVersion();
+  Serial.print(firmware, HEX);
+  Serial.println();
+
+  Serial.println("\n done...");
 }
 
 
 void loop()
 {
-  sht.read();
-  Serial.print("\t");
-  Serial.print(sht.lastRead());
-  Serial.print("\t");
-  Serial.print(sht.getTemperature(), 1);
-  Serial.print("\t");
-  Serial.println(sht.getHumidity(), 1);
-  delay(1000);
 }
 
 

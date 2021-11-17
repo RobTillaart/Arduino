@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.1.1"))
+#define SHT2x_LIB_VERSION             (F("0.1.2"))
 
 
 //  fields getStatus
@@ -23,7 +23,7 @@
 #define SHT2x_STATUS_CLOSED_CIRCUIT   0x03
 
 
-//  error codes 
+//  error codes
 //  kept in sync with SHT31 library
 #define SHT2x_OK                      0x00
 #define SHT2x_ERR_WRITECMD            0x81
@@ -87,7 +87,16 @@ public:
   bool heatOff();
   bool isHeaterOn();  // is the sensor still heating up?
 
+  bool setHeaterLevel(uint8_t level);    // level = 0..15
+  bool getHeaterLevel(uint8_t & level);  // 0..15
+
+
   int getError(); // clears error flag
+
+  //  Electronic ID bytes
+  uint32_t  getEIDA();
+  uint32_t  getEIDB();
+  uint8_t   getFirmwareVersion();
 
 private:
   uint8_t   crc8(const uint8_t *data, uint8_t len);
@@ -142,7 +151,7 @@ public:
 ////////////////////////////////////////////////////////
 //
 //  DERIVED HTU
-// 
+//
 class HTU20 : public SHT2x
 {
 public:
@@ -154,6 +163,31 @@ class HTU21 : public SHT2x
 {
 public:
   HTU21();
+};
+
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED Si70xx
+//
+class Si7013 : public SHT2x
+{
+public:
+  Si7013();
+};
+
+
+class Si7020 : public SHT2x
+{
+public:
+  Si7020();
+};
+
+
+class Si7021 : public SHT2x
+{
+public:
+  Si7021();
 };
 
 

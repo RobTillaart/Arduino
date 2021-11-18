@@ -7,7 +7,6 @@
 //     URL: https://github.com/RobTillaart/SRF05
 
 
-#include "Arduino.h"
 #include "SRF05.h"
 
 const int trigger = 7;

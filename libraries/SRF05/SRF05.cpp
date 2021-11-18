@@ -1,14 +1,15 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05
 //
 //  HISTORY:
 //  0.1.0   2021-05-17  initial version
-//
+//  0.1.1   2021-11-18  update build-CI, 
+//                      update reame.md, minor edits
 
 
 #include "SRF05.h"
@@ -45,35 +46,40 @@ float SRF05::getSpeedOfSound()
 
 void SRF05::setModeSingle()
 {
-  _mode = 0x00;
-  _cnt  = 1;
+  _mode  = 0x00;
+  _count = 1;
 }
 
-void SRF05::setModeAverage(uint8_t cnt)
+
+void SRF05::setModeAverage(uint8_t count)
 {
-  _mode = 0x01;
-  _cnt  = cnt;
+  _mode  = 0x01;
+  _count = count;
 }
 
-void SRF05::setModeMedian(uint8_t cnt)
+
+void SRF05::setModeMedian(uint8_t count)
 {
-  _mode = 0x02;
-  _cnt  = cnt;
-  if (_cnt < 3)  _cnt = 3;
-  if (_cnt > 15) _cnt = 15;
+  _mode  = 0x02;
+  _count = count;
+  if (_count < 3)  _count = 3;
+  if (_count > 15) _count = 15;
 }
+
 
 void SRF05::setModeRunningAverage(float alpha)
 {
   _mode  = 0x03;
-  _cnt   = 1;
+  _count = 1;
   _alpha = alpha;
 }
+
 
 uint8_t SRF05::getOperationalMode()
 {
   return _mode;
 }
+
 
 //////////////////////////////////////////////////
 
@@ -88,28 +94,28 @@ uint32_t SRF05::getTime()
     case 0x01:
     {
       float sum = 0;
-      for (uint8_t s = 0; s < _cnt; s++)
+      for (uint8_t s = 0; s < _count; s++)
       {
         sum += _read();
         delay(1);
       }
-      return round(sum / _cnt);
+      return round(sum / _count);
     }
     case 0x02:
     {
       uint32_t samples[15];
-      for (uint8_t s = 0; s < _cnt; s++)
+      for (uint8_t s = 0; s < _count; s++)
       {
         samples[s] = _read();
         delay(1);
       }
-      _insertSort(samples, _cnt);
-      if (_cnt & 0x01) return samples[_cnt / 2];
-      return (samples[(_cnt + 1) / 2] + samples[_cnt / 2]) / 2;
+      _insertSort(samples, _count);
+      if (_count & 0x01) return samples[_count / 2];
+      return (samples[(_count + 1) / 2] + samples[_count / 2]) / 2;
     }
     case 0x03:
-      _val = (1 - _alpha) * _val + _alpha * _read();
-      return _val;
+      _value = (1 - _alpha) * _value + _alpha * _read();
+      return _value;
   }
 }
 
@@ -118,21 +124,25 @@ uint32_t SRF05::getMillimeter()
 {
   return _speedOfSound * getTime() * 0.5e-3;
 }
-  
+
+
 float SRF05::getCentimeter()
 {
   return _speedOfSound * getTime() * 0.5e-4;
 }
+
 
 float SRF05::getMeter()
 {
   return _speedOfSound * getTime() * 0.5e-6;
 }
 
+
 float SRF05::getInch()
 {
   return _speedOfSound * getTime() * 1.9685e-5;
 }
+
 
 float SRF05::getFeet()
 {
@@ -140,8 +150,8 @@ float SRF05::getFeet()
 }
 
 
-// assumes a distance of 1.00 mtr
-// typically use 100 or 500 mtr for distance to calibrate
+// assumes a distance of 1.00 meter
+// typically use 100 or 500 meter for distance to calibrate
 float SRF05::determineSpeedOfSound(uint16_t distance)
 {
   float sum = 0;
@@ -192,5 +202,5 @@ void SRF05::_insertSort(uint32_t * array, uint8_t size)
 }
 
 
-
 // -- END OF FILE --
+

@@ -2,7 +2,7 @@
 //
 //    FILE: SRF05.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for SRF05 distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SRF05_LIB_VERSION         (F("0.1.0"))
+#define SRF05_LIB_VERSION         (F("0.1.1"))
 
 
 class SRF05
@@ -24,14 +24,14 @@ public:
   float    getSpeedOfSound();
 
   // adjust timing
-  void     setCorrectionFactor(float cf = 1) { _correctionFactor = cf; };
+  void     setCorrectionFactor(float factor = 1) { _correctionFactor = factor; };
   float    getCorrectionFactor() { return _correctionFactor; };
 
 
   // operational mode
   void     setModeSingle();
-  void     setModeAverage(uint8_t cnt);
-  void     setModeMedian(uint8_t cnt);
+  void     setModeAverage(uint8_t count);
+  void     setModeMedian(uint8_t count);
   void     setModeRunningAverage(float alpha);
   uint8_t  getOperationalMode();
 
@@ -60,16 +60,18 @@ private:
   uint8_t  _echo;
   uint8_t  _out;
   uint8_t  _mode  = 0;
-  uint8_t  _cnt   = 1;
+  uint8_t  _count = 1;
   float    _alpha = 1.0;
-  float    _val   = 0;
+  float    _value = 0;
   float    _correctionFactor = 1;
-  uint8_t  _triggerLength = 10;
-  float    _speedOfSound = 340;      // ~20°C
+  uint8_t  _triggerLength    = 10;
+  float    _speedOfSound     = 340;      // 20°C
 
   uint32_t _read();
   void     _insertSort(uint32_t * array, uint8_t size);
 
 };
 
+
 // -- END OF FILE --
+

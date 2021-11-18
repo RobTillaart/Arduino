@@ -47,14 +47,14 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "\nVERSION: %s\n", SRF05_LIB_VERSION);
+  fprintf(stderr, "\nSRF05_LIB_VERSION: %s\n", (char *) SRF05_LIB_VERSION);
   SRF05 SRF(7, 6);
 }
 
 
 unittest(test_SOS)
 {
-  fprintf(stderr, "\nVERSION: %s\n", SRF05_LIB_VERSION);
+  fprintf(stderr, "\nSRF05_LIB_VERSION: %s\n", (char *) SRF05_LIB_VERSION);
   SRF05 SRF(7, 6);
 
   assertEqualFloat(340, SRF.getSpeedOfSound(), 0.001);
@@ -68,7 +68,7 @@ unittest(test_SOS)
 
 unittest(test_correctionFactor)
 {
-  fprintf(stderr, "\nVERSION: %s\n", SRF05_LIB_VERSION);
+  fprintf(stderr, "\nSRF05_LIB_VERSION: %s\n", (char *) SRF05_LIB_VERSION);
   SRF05 SRF(7, 6);
 
   assertEqualFloat(1, SRF.getCorrectionFactor(), 0.001);
@@ -82,7 +82,7 @@ unittest(test_correctionFactor)
 
 unittest(test_operationalMode)
 {
-  fprintf(stderr, "\nVERSION: %s\n", SRF05_LIB_VERSION);
+  fprintf(stderr, "\nSRF05_LIB_VERSION: %s\n", (char *) SRF05_LIB_VERSION);
   SRF05 SRF(7, 6);
 
   assertEqual(0, SRF.getOperationalMode());

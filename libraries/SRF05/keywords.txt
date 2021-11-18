@@ -1,7 +1,9 @@
-# Syntax Coloring Map For SRF05
+# Syntax Colouring Map For SRF05
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 SRF05	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 setSpeedOfSound	KEYWORD2

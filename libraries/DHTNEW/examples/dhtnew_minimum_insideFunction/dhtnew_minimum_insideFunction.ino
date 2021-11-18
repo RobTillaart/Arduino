@@ -19,12 +19,16 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
 uint64_t previousMillis;
 
+
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println();
@@ -34,7 +38,10 @@ void setup()
 void DHTt(uint8_t pin)
 {
   DHTNEW mySensor(pin);
-  
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
   if (millis() - mySensor.lastRead() > 2000)
   {
     previousMillis = millis();
@@ -46,8 +53,11 @@ void DHTt(uint8_t pin)
 }
 
 
-void loop() {
+void loop()
+{
   DHTt(2);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

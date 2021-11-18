@@ -16,18 +16,25 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(6);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println("dhtnew_debug.ino");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
 }
+
 
 void loop()
 {
@@ -35,4 +42,6 @@ void loop()
   mySensor.read();    // put print statements in core lib (see read())
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

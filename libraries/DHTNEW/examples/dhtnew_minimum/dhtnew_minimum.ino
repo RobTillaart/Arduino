@@ -18,15 +18,22 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
 
   Serial.println("BEFORE OFFSET");
   mySensor.read();
@@ -40,6 +47,7 @@ void setup()
   Serial.println("AFTER OFFSET");
 }
 
+
 void loop()
 {
   if (millis() - mySensor.lastRead() > 2000)
@@ -51,4 +59,6 @@ void loop()
   }
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

@@ -17,16 +17,23 @@
 // during the low power mode. Measuring during communication will disrupt the
 // data transfer.
 
+
 #include <dhtnew.h>
 
 DHTNEW mySensor(16);
 
+
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("dhtnew_test.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
 
   Serial.println("\nstartup");
   delay(2000);
@@ -68,8 +75,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

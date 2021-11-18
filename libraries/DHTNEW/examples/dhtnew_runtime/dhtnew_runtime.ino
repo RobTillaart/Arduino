@@ -19,16 +19,25 @@
 
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
 
 uint32_t lastTime = 0;
 
+
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
 }
+
 
 void loop()
 {
@@ -50,4 +59,6 @@ void loop()
   // Do other things here
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

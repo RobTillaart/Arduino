@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.9
+// VERSION: 0.4.10
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -20,20 +20,20 @@
 //  0.3.0  2020-06-12  added getReadDelay & setReadDelay to tune reading interval
 //                     removed get/setDisableIRQ; adjusted wakeup timing; refactor
 //  0.3.1  2020-07-08  added powerUp() powerDown();
-//  0.3.2  2020-07-17  fix #23 added get/setSuppressError(); overrulable DHTLIB_INVALID_VALUE
+//  0.3.2  2020-07-17  fix #23 added get/setSuppressError(); overridable DHTLIB_INVALID_VALUE
 //  0.3.3  2020-08-18  fix #29, create explicit delay between pulling line HIGH and
 //                     waiting for LOW in handshake to trigger the sensor.
 //                     On fast ESP32 this fails because the capacity / voltage of the long wire
 //                     cannot rise fast enough to be read back as HIGH.
 //  0.3.4  2020-09-23  Added **waitFor(state, timeout)** to follow timing from datasheet.
-//                     Restored disableIRQ flag as problems occured on AVR. The default of
+//                     Restored disableIRQ flag as problems occurred on AVR. The default of
 //                     this flag on AVR is false so interrupts are allowed.
 //                     This need some investigation
 //                     Fix wake up timing for DHT11 as it does not behave according datasheet.
 //                     fix wakeupDelay bug in setType();
 //  0.4.0  2020-11-10  added DHTLIB_WAITING_FOR_READ as return value of read (minor break of interface)
 //  0.4.1  2020-11-11  getType() attempts to detect sensor type
-//         2020-12-12  add arduino -CI + readme
+//         2020-12-12  add Arduino -CI + readme
 //  0.4.2  2020-12-15  fix negative temperatures
 //  0.4.3  2021-01-13  add reset(), add lastRead()
 //  0.4.4  2021-02-01  fix negative temperatures DHT22 (again)
@@ -43,7 +43,11 @@
 //  0.4.7  2021-04-09  fix #60 negative temperatures below -25.5°C + readme.md
 //  0.4.8  2021-05-27  fixes to improve Arduino-lint
 //  0.4.9  2021-06-13  add optional flag DHTLIB_VALUE_OUT_OF_RANGE
-
+//  0.4.10 2021-11-18  update build-CI - compilation test on M4 and ESP32 of examples
+//                     update readme.md, badges, typos, reorganizing
+//                     added note: MKR1010 Wifi support - setDisableIRQ(false)
+//                     minor edits in examples
+//                     changed TIMEOUT_C to 90us (after endurance test on MKR1010 Wifi)
 
 #include "dhtnew.h"
 #include <stdint.h>
@@ -92,8 +96,11 @@ void DHTNEW::reset()
   _suppressError = false;
   _readDelay     = 0;
 #if defined(__AVR__)
-  _disableIRQ = false;
+  _disableIRQ    = false;
 #endif
+// #if defined(MKR1010)  // TODO find out real define 
+  // _disableIRQ    = false;
+// #endif
 }
 
 
@@ -250,8 +257,16 @@ int DHTNEW::_read()
   }
 #endif
 
-  _humidity = constrain(_humidity + _humOffset, 0, 100);
-  _temperature += _tempOffset;
+  if (_humOffset != 0.0)
+  {
+    _humidity += _humOffset;
+    if (_humidity < 0) _humidity = 0;
+    if (_humidity > 100) _humidity = 100;
+  }
+  if (_tempOffset != 0.0)
+  {
+    _temperature += _tempOffset;
+  }
 
   // TEST CHECKSUM
   uint8_t sum = _bits[0] + _bits[1] + _bits[2] + _bits[3];
@@ -340,13 +355,24 @@ int DHTNEW::_readSensor()
   for (uint8_t i = 40; i != 0; i--)
   {
     // EACH BIT START WITH ~50 us LOW
-    if (_waitFor(HIGH, 70)) return DHTLIB_ERROR_TIMEOUT_C;
+    if (_waitFor(HIGH, 90)) 
+    {
+      // Most critical timeout
+      // Serial.print("IC: ");
+      // Serial.println(i);
+      return DHTLIB_ERROR_TIMEOUT_C;
+    }
 
     // DURATION OF HIGH DETERMINES 0 or 1
     // 26-28 us ==> 0
     //    70 us ==> 1
     uint32_t t = micros();
-    if (_waitFor(LOW, 90)) return DHTLIB_ERROR_TIMEOUT_D;
+    if (_waitFor(LOW, 90))
+    {
+      // Serial.print("ID: ");
+      // Serial.println(i);
+      return DHTLIB_ERROR_TIMEOUT_D;
+    }
     if ((micros() - t) > DHTLIB_BIT_THRESHOLD)
     {
       _bits[idx] |= mask;
@@ -365,7 +391,7 @@ int DHTNEW::_readSensor()
   // if (_waitFor(HIGH, 60)) return DHTLIB_ERROR_TIMEOUT_E;
 
   // CATCH RIGHTSHIFT BUG ESP (only 1 single bit shift)
-  // humidity is max 1000 = 0x03E8 for DHT22 and 0x6400 for DHT11
+  // humidity is maximum 1000 = 0x03E8 for DHT22 and 0x6400 for DHT11
   // so most significant bit may never be set.
   if (_bits[0] & 0x80) return DHTLIB_ERROR_BIT_SHIFT;
 
@@ -391,4 +417,6 @@ bool DHTNEW::_waitFor(uint8_t state, uint32_t timeout)
   return true;
 }
 
+
 // -- END OF FILE --
+

@@ -26,17 +26,24 @@
 // A way to do this is to add a function auto_calibrate() that finds the timing
 // where reading fails and use that value + safety margin (20%?)
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("dhtnew_adaptive_delay.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
 
   Serial.println("\n1. Type detection test, first run might take longer to determine type");
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
@@ -85,10 +92,12 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
   test();
 }
+
 
 void test()
 {
@@ -155,4 +164,5 @@ void test()
 }
 
 
-// END OF FILE
+// -- END OF FILE --
+

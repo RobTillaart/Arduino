@@ -20,6 +20,7 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
 DHTNEW kitchen(4);
@@ -28,19 +29,26 @@ DHTNEW outside(6);
 
 DHTNEW ar[3] = { kitchen, living, outside };
 
+
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("dhtnew_array.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
   for (int idx = 0; idx < 3; idx++)
   {
     test(idx);
   }
 }
+
 
 void loop()
 {
@@ -50,6 +58,7 @@ void loop()
   }
   Serial.println();
 }
+
 
 void test(int idx)
 {
@@ -109,4 +118,6 @@ void test(int idx)
   delay(500);
 }
 
+
 // -- END OF FILE --
+

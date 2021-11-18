@@ -32,16 +32,24 @@ uint32_t errors[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("DHT_endless.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
 }
+
 
 void DHTt(const uint8_t pin)
 {
-  if (millis() - previousMillis > 2000) {
+  if (millis() - previousMillis > 2000)
+  {
     previousMillis = millis();
     DHTNEW mySensor(pin);
     
@@ -130,6 +138,13 @@ void DHTt(const uint8_t pin)
   }
 }
 
-void loop() {
+
+void loop()
+{
   DHTt(2);
 }
+
+
+// -- END OF FILE --
+
+

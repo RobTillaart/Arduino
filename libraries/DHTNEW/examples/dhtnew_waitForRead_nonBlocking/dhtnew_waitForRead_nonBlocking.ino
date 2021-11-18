@@ -16,24 +16,33 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("\n");
   Serial.println("dhtnew_waitForRead_nonBlocking.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
+
   Serial.println("This example shows how you can use the output of the read() function to implement non-blocking waiting for read.");
   Serial.println("In this example, Arduino continuously polls the read() function and returns fresh data (or an error) only when the read delay is over.");
   Serial.println("Infinite loop.");
   Serial.println();
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
 }
+
 
 void loop()
 {
@@ -92,4 +101,5 @@ void loop()
 }
 
 
-// END OF FILE
+// -- END OF FILE --
+

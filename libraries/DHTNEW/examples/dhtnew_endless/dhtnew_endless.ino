@@ -19,9 +19,10 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);   // ESP 16  UNO 6
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
 
 uint32_t count = 0;
 uint32_t start, stop;
@@ -31,12 +32,18 @@ uint32_t errors[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println("DHT_endless.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
 }
+
 
 void loop()
 {
@@ -128,3 +135,4 @@ void loop()
 
 
 // -- END OF FILE --
+

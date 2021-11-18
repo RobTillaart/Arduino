@@ -18,17 +18,24 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
+
 #include <dhtnew.h>
 
-DHTNEW mySensor(16);
+DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+
 
 void setup()
 {
+  while(!Serial);        // MKR1010 needs this
+
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
+
+  // MKR1010 needs this
+  // mySensor.setDisableIRQ(false);
 
   delay(2000);  // boot time
 
@@ -67,6 +74,7 @@ void setup()
   Serial.println("\n\nDuration test started");
 }
 
+
 void loop()
 {
   // Note: the library prevents reads faster than readDelay...
@@ -82,6 +90,7 @@ void loop()
   Serial.print("\t");
   printStatus(chk);
 }
+
 
 void printStatus(int chk)
 {
@@ -123,4 +132,6 @@ void printStatus(int chk)
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

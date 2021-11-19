@@ -1,12 +1,16 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 //
 //  HISTORY:
 //  0.1.0   2021-03-16  initial version
+//  0.1.1   2021-11-19  fix reset code (from datasheet)
+//                      implemented forced IO
+//                      update build-CI, readme.md, badges
+//
 
 
 #include "TCA9548.h"
@@ -19,6 +23,7 @@ TCA9548::TCA9548(const uint8_t deviceAddress, TwoWire *wire)
   _mask     = 0x00;
   _resetPin = -1;
   _forced   = false;
+  _error    = 0;
 }
 
 
@@ -54,9 +59,9 @@ bool TCA9548::isConnected()
 }
 
 
-bool TCA9548::isConnected(uint8_t addr)
+bool TCA9548::isConnected(uint8_t address)
 {
-  _wire->beginTransmission(addr);
+  _wire->beginTransmission(address);
   return ( _wire->endTransmission() == 0);
 }
 
@@ -101,6 +106,11 @@ void TCA9548::setChannelMask(uint8_t mask)
 
 uint8_t TCA9548::getChannelMask()
 {
+  if (_forced) // read from device.
+  {
+    _wire->requestFrom(_address, 1); 
+    _mask = _wire->read();
+  }
   return _mask;
 }
 
@@ -109,15 +119,15 @@ void TCA9548::setResetPin(uint8_t resetPin)
 {
   _resetPin = resetPin;
   pinMode(_resetPin, OUTPUT);
-  digitalWrite(_resetPin, LOW);  // CHECK
+  digitalWrite(_resetPin, HIGH);  // page 3 HIGH is normal operation
 }
 
 
 void TCA9548::reset()
 {
-  digitalWrite(_resetPin, HIGH);  // CHECK
-  delay(1);
   digitalWrite(_resetPin, LOW);
+  delayMicroseconds(1);           // datasheet page 6 & 7 - 500 ns
+  digitalWrite(_resetPin, HIGH);
 }
 
 

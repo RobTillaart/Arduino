@@ -38,14 +38,17 @@
   It appears that Wire.write does not fail without sensor...
 */
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
 #include "TCA9548.h"
 
+
 int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
+
 
 unittest_setup()
 {
@@ -55,8 +58,10 @@ unittest_teardown()
 {
 }
 
+
 unittest(test_begin)
 {
+  fprintf(stderr, "TCA9548_LIB_VERSION: %s\n", (char *) TCA9548_LIB_VERSION);
   TCA9548 tca(0x70);
 
   bool b = tca.begin();
@@ -65,6 +70,7 @@ unittest(test_begin)
   assertTrue(tca.isConnected());
 
 }
+
 
 unittest(test_enable)
 {

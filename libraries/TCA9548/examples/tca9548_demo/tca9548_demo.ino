@@ -11,8 +11,6 @@
 
 TCA9548 MP(0x70);
 
-uint32_t start, stop;
-
 
 void setup()
 {
@@ -25,7 +23,6 @@ void setup()
   {
     Serial.println("COULD NOT CONNECT");
   }
-
 
   Serial.print("MASK:\t");
   Serial.println(MP.getChannelMask(), HEX);
@@ -69,17 +66,5 @@ void loop()
 }
 
 
-void test()
-{
-  start = millis();
-
-  stop = millis();
-  Serial.println();
-  Serial.print("TIME:\t");
-  Serial.print(stop - start);
-  Serial.println(" ms");
-  Serial.println();
-}
-
-
 // -- END OF FILE --
+

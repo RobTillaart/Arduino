@@ -2,18 +2,19 @@
 //
 //    FILE: TCA9548.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 //
 //     URL: https://github.com/RobTillaart/TCA9548
 //
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define TCA9548_LIB_VERSION    (F("0.1.0"))
+#define TCA9548_LIB_VERSION             (F("0.1.1"))
 
 
 class TCA9548
@@ -27,7 +28,7 @@ public:
 #endif
   bool    begin(uint8_t mask = 0x00);         // default no channels enabled
   bool    isConnected();                      // find multiplexer on I2C bus
-  bool    isConnected(uint8_t address);       // find any addr on I2C bus
+  bool    isConnected(uint8_t address);       // find any address on I2C bus
 
   // channel = 0.. 7
   void    enableChannel(uint8_t channel);
@@ -42,21 +43,21 @@ public:
   void    setResetPin(uint8_t resetPin);
   void    reset();     // trigger reset pin
 
-  // set forced write
-  void    setForced(bool forced) { _forced = forced; };
-  bool    getForced()            { return _forced; };
+  // set forced IO (default false)
+  void    setForced(bool forced = false) { _forced = forced; };
+  bool    getForced() { return _forced; };
 
-  // TODO improve errorhandling ?
   int     getError();
 
 private:
-  uint8_t   _mask = 0x00;             // caching mask
-  uint8_t   _resetPin = -1;
-  int       _error = 0;
+  uint8_t   _mask;             // caching mask
+  uint8_t   _resetPin;
+  int       _error;
   uint8_t   _address;
   TwoWire*  _wire;
   bool      _forced;
 };
+
 
 // -- END OF FILE -- 
 

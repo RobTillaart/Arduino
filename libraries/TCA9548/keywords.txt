@@ -1,6 +1,6 @@
-# Syntax Coloring Map For TCA9548
+# Syntax Colouring Map For TCA9548
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 TCA9548	KEYWORD1
 
 

@@ -1,7 +1,7 @@
-# Syntax Coloring Map For RunningAverage
+# Syntax Colouring Map For RunningAverage
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 RunningAverage	KEYWORD1
 
 
@@ -29,6 +29,10 @@ getCount	KEYWORD2
 
 setPartial	KEYWORD2
 getPartial	KEYWORD2
+
+getAverageLast	KEYWORD2
+getMinInBufferLast	KEYWORD2
+getMaxInBufferLast	KEYWORD2
 
 
 # Instances (KEYWORD2)

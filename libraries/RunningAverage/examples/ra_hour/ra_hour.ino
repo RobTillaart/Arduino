@@ -8,12 +8,14 @@
 //          3 or more steps also possible
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage raMinute(60);
 RunningAverage raHour(60);
 
 int samples = 0;
+
 
 void setup(void) 
 {
@@ -24,6 +26,7 @@ void setup(void)
   raHour.clear();
   raMinute.clear();
 }
+
 
 void loop(void) 
 {
@@ -38,3 +41,7 @@ void loop(void)
   Serial.print("  raHour: ");
   Serial.println(raHour.getAverage(), 4);
 }
+
+
+// -- END OF FILE --
+

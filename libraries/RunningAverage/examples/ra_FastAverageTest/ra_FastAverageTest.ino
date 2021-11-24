@@ -7,6 +7,7 @@
 // PUPROSE: demo to see if different average algorithm give different result
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage myRA(16);
@@ -17,6 +18,7 @@ float diff = 0;
 float maxDiff = 0;
 
 uint32_t start, stop;
+
 
 void setup(void)
 {
@@ -29,6 +31,7 @@ void setup(void)
 
   measure_duration();
 }
+
 
 void loop()
 {
@@ -57,7 +60,6 @@ void measure_duration()
 }  
 
 
-
 void test(long n)
 {
   Serial.println("\nCNT\tAVG\t\tFASTAVG\t\tDIFF\t\tMAXDIFF");
@@ -66,10 +68,10 @@ void test(long n)
   {
     long rn = random(0, 1000);
     myRA.addValue(rn * 0.001);
-	if ( i % 1000 == 0)
-	{
+    if ( i % 1000 == 0)
+    {
       // the order of the next two lines is important as getAverage() resets the _sum
-	  // used by the getFastAverage();
+      // used by the getFastAverage();
       favg = myRA.getFastAverage();
       avg = myRA.getAverage();
       diff = abs(avg - favg);
@@ -90,4 +92,6 @@ void test(long n)
   delay(100);
 }
 
+
 // -- END OF FILE --
+

@@ -7,6 +7,7 @@
 // PUPROSE: show working of runningAverage for two sensors
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage RAT(10);
@@ -63,3 +64,4 @@ void loop(void)
 
 
 // -- END OF FILE --
+

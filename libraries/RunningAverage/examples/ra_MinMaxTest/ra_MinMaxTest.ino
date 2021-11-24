@@ -1,16 +1,18 @@
 //
 //    FILE: runningAverageMinMaxTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
+// VERSION: 0.1.0
 //    DATE: 2015-apr-10
 //
 // PUPROSE: demo
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage myRA(10);
 int samples = 0;
+
 
 void setup(void)
 {
@@ -22,6 +24,7 @@ void setup(void)
 
   Serial.println("\nCNT\tMIN\tAVG\tMAX");
 }
+
 
 void loop(void)
 {
@@ -44,3 +47,6 @@ void loop(void)
   }
   delay(10);
 }
+
+
+// -- END OF FILE --

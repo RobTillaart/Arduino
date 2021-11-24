@@ -7,10 +7,12 @@
 // PUPROSE: demonstrate access in order of the values added
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage myRA(10);
 int samples = 0;
+
 
 void setup(void)
 {
@@ -20,6 +22,7 @@ void setup(void)
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
   myRA.clear(); // explicitly start clean
 }
+
 
 void loop(void)
 {
@@ -66,4 +69,6 @@ void loop(void)
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

@@ -6,6 +6,7 @@
 // PUPROSE: demo + timing of fillValue
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage myRA(10);
@@ -30,6 +31,7 @@ void setup(void)
   Serial.println();
 }
 
+
 void loop(void) 
 {
   long rn = random(0, 100);
@@ -46,6 +48,7 @@ void loop(void)
   delay(100);
 }
 
+
 void measure_duration(int n)
 {
   start = micros();
@@ -58,4 +61,6 @@ void measure_duration(int n)
   delay(10);
 }
 
+
 // -- END OF FILE --
+

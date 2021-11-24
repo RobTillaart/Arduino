@@ -20,18 +20,34 @@ void setup(void)
   Serial.println("Demo RunningAverage lib");
   Serial.print("Version: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
-  
+
   myRA.clear();
   for (uint16_t i = 0; i < 1000; i++)
   {
-    myRA.addValue(i);
+    myRA.addValue(i);    //  random(1000));  (i);
+    //    Serial.print(i);
+    //    Serial.print("\t");
+    //    Serial.print(myRA.getCount());
+    //    Serial.print("\t");
+    //    Serial.print(myRA.getAverage());
+    //    Serial.println();
+  }
+
+  Serial.println();
+  for (uint16_t i = 1; i < 1000; i++)
+  {
     Serial.print(i);
     Serial.print("\t");
-    Serial.print(myRA.getCount());
+    Serial.print(myRA.getMinInBufferLast(i));
     Serial.print("\t");
-    Serial.print(myRA.getAverage());
+    Serial.print(myRA.getAverageLast(i));
+    Serial.print("\t");
+    Serial.print(myRA.getMaxInBufferLast(i));
     Serial.println();
   }
+
+
+
 }
 
 
@@ -41,4 +57,3 @@ void loop(void)
 
 
 // -- END OF FILE --
-

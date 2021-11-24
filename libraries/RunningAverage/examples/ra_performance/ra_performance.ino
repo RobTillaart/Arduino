@@ -7,6 +7,7 @@
 // PUPROSE: timing of runningAverage
 //
 
+
 #include "RunningAverage.h"
 
 RunningAverage myRA(50);
@@ -14,6 +15,7 @@ int samples = 0;
 
 uint32_t start, stop;
 volatile float x;
+
 
 void setup(void) 
 {
@@ -54,6 +56,7 @@ void setup(void)
   Serial.println("\ndone...\n");
 }
 
+
 void test_clear(void) 
 {
   start = micros();
@@ -63,6 +66,7 @@ void test_clear(void)
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_addvalue()
 {
@@ -74,6 +78,7 @@ void test_addvalue()
   delay(10);
 }
 
+
 void test_fillValue()
 {
   start = micros();
@@ -83,6 +88,7 @@ void test_fillValue()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getValue()
 {
@@ -94,6 +100,7 @@ void test_getValue()
   delay(10);
 }
  
+ 
 void test_getAverage()
 {
   start = micros();
@@ -103,6 +110,7 @@ void test_getAverage()
   Serial.println(stop - start);
   delay(10);
 }
+ 
  
 void test_getFastAverage()
 {
@@ -114,6 +122,7 @@ void test_getFastAverage()
   delay(10);
 }
 
+
 void test_getStandardDeviation()
 {
   start = micros();
@@ -123,6 +132,7 @@ void test_getStandardDeviation()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getStandardError()
 {
@@ -134,6 +144,7 @@ void test_getStandardError()
   delay(10);
 }
 
+
 void test_getMin()
 {
   start = micros();
@@ -143,6 +154,7 @@ void test_getMin()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getMax()
 {
@@ -154,6 +166,7 @@ void test_getMax()
   delay(10);
 }
 
+
 void test_getMinInBuffer()
 {
   start = micros();
@@ -163,6 +176,7 @@ void test_getMinInBuffer()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getMaxInBuffer()
 {
@@ -174,6 +188,7 @@ void test_getMaxInBuffer()
   delay(10);
 }
 
+
 void test_bufferIsFull()
 {
   start = micros();
@@ -183,6 +198,7 @@ void test_bufferIsFull()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getElement()
 {
@@ -194,6 +210,7 @@ void test_getElement()
   delay(10);
 }
 
+
 void test_getSize()
 {
   start = micros();
@@ -203,6 +220,7 @@ void test_getSize()
   Serial.println(stop - start);
   delay(10);
 }
+
 
 void test_getCount()
 {
@@ -214,8 +232,11 @@ void test_getCount()
   delay(10);
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

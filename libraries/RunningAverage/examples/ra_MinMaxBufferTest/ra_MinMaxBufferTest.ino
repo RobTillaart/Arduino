@@ -1,16 +1,18 @@
 //
 //    FILE: ra_MinMaxBufferTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
-//    DATE: 2015-SEP-04
+// VERSION: 0.1.0
+//    DATE: 2015-09-04
 //
 // PUPROSE: demo
 //
+
 
 #include "RunningAverage.h"
 
 RunningAverage myRA(10);
 int samples = 0;
+
 
 void setup(void)
 {
@@ -23,6 +25,7 @@ void setup(void)
 
   Serial.println("\nCNT\tMIN\tMINBUF\tMAX\tMAXBUF");
 }
+
 
 void loop(void)
 {
@@ -47,3 +50,7 @@ void loop(void)
   }
   delay(10);
 }
+
+
+// -- END OF FILE --
+

@@ -1,0 +1,16 @@
+// test run on IDE 1.8.13 UNO
+// test run while working on improvements for 0.1.2)
+
+DEVNULL_performance.ino
+DEVNULL_LIB_VERSION: 0.1.1
+text1: 	80
+text2: 	0
+long: 	384
+float: 	616
+float: 	1144
+float: 	1684
+float: 	2216
+find: 	998580
+Done...
+
+

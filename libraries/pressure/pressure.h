@@ -2,10 +2,13 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 //
+
+
+#define PRESSURE_LIB_VERSION        (F("0.2.0"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
@@ -17,7 +20,7 @@
 #define PSI2MILLIBAR       68.9475729318
 #define DYNES2MILLIBAR     0.001
 #define INHG2MILLIBAR      33.85355
-#define INH202MILLIBAR     2.4908890833333
+#define INH2O2MILLIBAR     2.4908890833333
 #define PASCAL2MILLIBAR    0.01
 #define TORR2MILLIBAR      1.33322368
 #define CMHG2MILLIBAR      13.3322368
@@ -38,7 +41,6 @@
 #define MILLIBAR2MSW       100
 
 
-#define PRESSURE_LIB_VERSION        (F("0.1.0"))
 
 
 class pressure
@@ -49,17 +51,17 @@ public:
 
 
   void  setMilliBar(float value)  { _pressure = value; };
-  void  setBar(float value)       { _pressure = value * MILLIBAR2BAR; };
-  void  setPSI(float value)       { _pressure = value * MILLIBAR2PSI; };
-  void  setATM(float value)       { _pressure = value * MILLIBAR2ATM; }
-  void  setDynes(float value)     { _pressure = value * MILLIBAR2DYNES; }
-  void  setInchHg(float value)    { _pressure = value * MILLIBAR2INHG; }
-  void  setInchH2O(float value)   { _pressure = value * MILLIBAR2INH2O; }
-  void  setPascal(float value)    { _pressure = value * MILLIBAR2PASCAL; }
-  void  setTORR(float value)      { _pressure = value * MILLIBAR2TORR; }
-  void  setCmHg(float value)      { _pressure = value * MILLIBAR2CMHG; }
-  void  setCmH2O(float value)     { _pressure = value * MILLIBAR2CMH2O; }
-  void  setMSW(float value)       { _pressure = value * MILLIBAR2MSW; }
+  void  setBar(float value)       { _pressure = value * BAR2MILLIBAR; };
+  void  setPSI(float value)       { _pressure = value * PSI2MILLIBAR; };
+  void  setATM(float value)       { _pressure = value * ATM2MILLIBAR; }
+  void  setDynes(float value)     { _pressure = value * DYNES2MILLIBAR; }
+  void  setInchHg(float value)    { _pressure = value * INHG2MILLIBAR; }
+  void  setInchH2O(float value)   { _pressure = value * INH2O2MILLIBAR; }
+  void  setPascal(float value)    { _pressure = value * PASCAL2MILLIBAR; }
+  void  setTORR(float value)      { _pressure = value * TORR2MILLIBAR; }
+  void  setCmHg(float value)      { _pressure = value * CMHG2MILLIBAR; }
+  void  setCmH2O(float value)     { _pressure = value * CMH2O2MILLIBAR; }
+  void  setMSW(float value)       { _pressure = value * MSW2MILLIBAR; }
 
 
   float getMilliBar()  { return _pressure; };

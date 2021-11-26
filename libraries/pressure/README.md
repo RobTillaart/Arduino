@@ -64,6 +64,30 @@ Note: constants need to be verified.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
 
 
+#### constants
+
+The library has a number of constants to convert units.
+These constants can be used to write specific convertors or define specific constants.
+
+A dedicated conversion is faster as it has only one float multiplication runtime.
+
+
+```cpp
+inline float PSI2MSW(float value)
+{
+  return value * (PSI2MILLIBAR * MILLIBAR2MSW);
+}
+```
+
+or
+```cpp 
+#define PSI2MSW     (PSI2MILLIBAR * MILLIBAR2MSW)
+...
+float out = in * (PSI2MSW);
+```
+
+
+
 ## Operation
 
 ```cpp
@@ -78,10 +102,15 @@ Serial.print("TORR: ");
 Serial.println(P.getTORR());     // 1000 Dynes in Torr
 ```
 
+#### Obsolete
+
+Version 0.1.0 has incorrect setters. fixed in version 0.2.0.
+
 
 ## Future
 
 - update documentation
 - find a good reference for conversion formula constants.
+
 
 

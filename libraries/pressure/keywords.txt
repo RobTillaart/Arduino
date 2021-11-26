@@ -1,0 +1,38 @@
+# Syntax Colouring Map For I2C_ASDX
+
+
+# Data types (KEYWORD1)
+pressure	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setMilliBar	KEYWORD2
+setBar	KEYWORD2
+setPSI	KEYWORD2
+setATM	KEYWORD2
+setDynes	KEYWORD2
+setInchHg	KEYWORD2
+setInchH2O	KEYWORD2
+setPascal	KEYWORD2
+setTORR	KEYWORD2
+setCmHg	KEYWORD2
+setCmH2O	KEYWORD2
+setMSW	KEYWORD2
+
+
+getMilliBar	KEYWORD2
+getBar	KEYWORD2
+getPSI	KEYWORD2
+getATM	KEYWORD2
+getDynes	KEYWORD2
+getInchHg	KEYWORD2
+getInchH2O	KEYWORD2
+getPascal	KEYWORD2
+getTORR	KEYWORD2
+getCmHg	KEYWORD2
+getCmH2O	KEYWORD2
+getMSW	KEYWORD2
+
+
+# Constants (LITERAL1)
+

@@ -1,0 +1,19 @@
+//
+// test: UNO 
+//  IDE: 1.8.13
+//
+
+FLOAT16_LIB_VERSION: 0.1.4
+
+Constructor: 	24
+a = b: 	4
+toDouble(): 	396
+
+compare == : 	4
+compare != : 	4
+compare <  : 	784
+compare <= : 	784
+compare >= : 	784
+compare >  : 	780
+
+done

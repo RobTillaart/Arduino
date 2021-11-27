@@ -1,0 +1,12 @@
+# Syntax Colouring Map For float16
+
+
+# Data types (KEYWORD1)
+float16	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+
+# Constants (LITERAL1)
+

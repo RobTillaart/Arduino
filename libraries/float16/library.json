@@ -1,0 +1,23 @@
+{
+  "name": "float16",
+  "keywords": "float16",
+  "description": "Arduino library to implement float16 data type.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/float16.git"
+  },
+  "version": "0.1.4",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "float16.h"
+}

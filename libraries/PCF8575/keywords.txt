@@ -25,9 +25,11 @@ toggle	KEYWORD2
 toggleMask	KEYWORD2
 shiftRight	KEYWORD2
 shiftLeft	KEYWORD2
+
 rotateRight	KEYWORD2
 rotateLeft	KEYWORD2
 reverse	KEYWORD2
+
 lastError	KEYWORD2
 
 # Constants (LITERAL1)

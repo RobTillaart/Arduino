@@ -2,7 +2,7 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
@@ -13,6 +13,8 @@
 //  0.1.0   2021-01-03  add Arduino-CI + unit tests
 //  0.1.1   2021-04-23  fix for platformIO compatibility
 //  0.1.2   2021-07-09  fix #10 add set/getAddress() function 
+//  0.1.3   2021-12-01  update build-CI, readme
+//                      add getButtonMask()
 
 
 #include "PCF8575.h"

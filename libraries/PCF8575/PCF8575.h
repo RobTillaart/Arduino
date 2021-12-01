@@ -3,7 +3,7 @@
 //    FILE: PCF8575.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define PCF8575_LIB_VERSION      (F("0.1.2"))
+#define PCF8575_LIB_VERSION      (F("0.1.3"))
 
 
 #ifndef PCF8575_INITIAL_VALUE
@@ -62,6 +62,7 @@ public:
   uint16_t readButton16(const uint16_t mask);
   uint8_t  readButton(const uint8_t pin);
   void     setButtonMask(uint16_t mask) { _buttonMask = mask; };
+  uint16_t getButtonMask() { return _buttonMask; };
 
 
   // rotate, shift, toggle, reverse expect all lines are output
@@ -75,6 +76,7 @@ public:
 
 
   int      lastError();
+
 
 private:
   uint8_t  _address;

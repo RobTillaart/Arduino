@@ -35,9 +35,11 @@ on the signal form. For a perfect sinus the value is sqrt(2)/2 == 1/sqrt(2).
 
 #### Base
 
-- **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100)** constructor. It defaults a 20 A type sensor, which is defined by the default value of mVperA. See below.
+- **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100)** constructor. 
+It defaults a 20 A type sensor, which is defined by the default value of mVperA. See below.
 - **int mA_AC(float freq = 50)** blocks ~21 ms (depending on the freq) to sample a whole 50 or 60 Hz period.  
-Since version 0.2.2 frequencies other integer values than 50 and 60 are supported, the lower the frequency, the longer the blocking period.
+Since version 0.2.2 frequencies other integer values than 50 and 60 are supported, the lower the frequency, 
+the longer the blocking period.
 Since version 0.2.3 floating point frequencies are supported to tune optimally.
 - **int mA_DC()** blocks < 1 ms as it just needs one **analogRead()**.
 
@@ -52,14 +54,15 @@ Since version 0.2.3 floating point frequencies are supported to tune optimally.
 #### Midpoint
 
 - **void setMidPoint(uint16_t mp)** sets midpoint for the ADC conversion.
-- **void autoMidPoint(float freq = 50)** Auto midPoint, assuming zero DC current or any AC current. Note it will block for 2 periods. Since version 0.2.2 frequencies other than 50 and 60 are supported.
+- **void autoMidPoint(float freq = 50)** Auto midPoint, assuming zero DC current or any AC current. 
+Note it will block for 2 periods. Since version 0.2.2 frequencies other than 50 and 60 are supported.
 By setting the frequency to e.g 1, the code will sample for 2 seconds, possibly getting a better average.
 - **uint16_t getMidPoint()** read the value set / determined.
 - **void incMidPoint()** manual increase midpoint, e.g. useful to manually adjust the midPoint in an interactive application.
 - **void decMidPoint()** manual decrease midpoint.
 
 
-#### Formfactor 
+#### Form factor 
 
 Also known as crest factor;  affects AC signals only. 
 
@@ -98,6 +101,25 @@ Both for AC and DC. Is defined in the constructor and depends on
 Typical values see constructor above.
 
 
+#### Experimental
+
+- **float detectFrequency(float minFreq = 40)** Detect the frequency of the AC signal.
+- **void setMicrosAdjust(float value = 1.0)** adjusts the timing of micros in **detectFrequency()**.
+Values are typical around 1.0 ± 1%
+- **float getMicrosAdjust()** returns the set value. 
+
+The minimum frequency of 40 Hz is used to sample enough time to find the minimum and maximum for 50 and 60 Hz signals. 
+Thereafter the signal is sampled 10 cycles to minimize the variation of the frequency.
+
+The **microsAdjust()** is to adjust the timing of **micros()**. 
+It is only useful if one has a good source like a calibrated function generator to find the factor 
+to adjust. Testing with my UNO I got a factor 0.9986.
+
+Current version is not performance optimized. 
+
+Current version of detectFrequency can block forever. The second part has no timeout guard.
+
+
 ## Test
 
 The library is tested with the RobotDyn ACS712 20 A breakout and an Arduino UNO.
@@ -129,6 +151,5 @@ This needs to be investigated. Probably need a separate thread that wakes up whe
 - int point2point(float freq) function for AC. Is part of mA_AC() already.  
 Needs extra global variables, which are slower than local ones  
 Or just cache the last p2p value?
-- detect zero crossing to start? 
-- detect frequency?
+- improve robustness of the **detectFrequency()** function (timeout 2nd part)
 - external analogue read support? separate class?

@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.2.4"))
+#define ACS712_LIB_VERSION        (F("0.2.5"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -75,8 +75,8 @@ class ACS712
 
     // Experimental frequency detection.
     // the minimal frequency determines the time to sample.
-    float           detectFrequency(float mininmalFrequency = 40);
-    void            setMicrosAdjust(float value = 1.0) { _microsAdjust = value; };
+    float           detectFrequency(float minimalFrequency = 40);
+    void            setMicrosAdjust(float factor = 1.0) { _microsAdjust = factor; };
     float           getMicrosAdjust() { return _microsAdjust; };
 
 

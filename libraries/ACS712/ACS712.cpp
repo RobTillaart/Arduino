@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -16,7 +16,8 @@
 //  0.2.2  2021-06-23  support for more frequencies.
 //  0.2.3  2021-10-15  changed frequencies to float, for optimal tuning.
 //                     updated build CI, readme.md
-//  0.2.4  2021-11-22  add experimental detectFrequency
+//  0.2.4  2021-11-22  add experimental detectFrequency()
+//  0.2.5  2021-12-03  add timeout to detectFrequency()
 
 
 #include "ACS712.h"
@@ -110,37 +111,39 @@ void ACS712::autoMidPoint(float freq)
 //  Experimental frequency detection.
 //  uses oversampling and averaging to minimize variation
 //  blocks for substantial amount of time, depending on minimalFrequency
-float ACS712::detectFrequency(float mininmalFrequency)
+float ACS712::detectFrequency(float minimalFrequency)
 {
-  uint16_t maximum = 0;
-  uint16_t minimum = 0;
+  int maximum = 0;
+  int minimum = 0;
   maximum = minimum = analogRead(_pin);
 
   //  determine maxima
-  uint32_t sampleTime = round(1000000.0 / mininmalFrequency);
+  uint32_t timeOut = round(1000000.0 / minimalFrequency);
   uint32_t start = micros();
-  while (micros() - start < sampleTime)
+  while (micros() - start < timeOut)
   {
-    uint16_t value = analogRead(_pin);
+    int value = analogRead(_pin);
     if (value > maximum) maximum = value;
     if (value < minimum) minimum = value;
   }
 
   //  calculate quarter points
   //  using quarter points is less noise prone than using one single midpoint
-  uint16_t Q1 = (3 * minimum + maximum ) / 4;
-  uint16_t Q3 = (minimum + 3 * maximum ) / 4;
+  int Q1 = (3 * minimum + maximum ) / 4;
+  int Q3 = (minimum + 3 * maximum ) / 4;
 
   // 10x passing Quantile points
   // wait for the right moment to start
-  while (analogRead(_pin) > Q1);
-  while (analogRead(_pin) <= Q3);
+  // to prevent endless loop a timeout is checked.
+  timeOut *= 10;
+  start = micros();
+  while ((analogRead(_pin) >  Q1) && ((micros() - start) < timeOut));
+  while ((analogRead(_pin) <= Q3) && ((micros() - start) < timeOut));
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    // note these loops can block forever. Need a timeout.
-    while (analogRead(_pin) > Q1);  // here
-    while (analogRead(_pin) < Q3);  // and here
+    while ((analogRead(_pin) >  Q1) && ((micros() - start) < timeOut));
+    while ((analogRead(_pin) <= Q3) && ((micros() - start) < timeOut));
   }
   uint32_t stop = micros();
 

@@ -103,10 +103,10 @@ Typical values see constructor above.
 
 #### Experimental
 
-- **float detectFrequency(float minFreq = 40)** Detect the frequency of the AC signal.
-- **void setMicrosAdjust(float value = 1.0)** adjusts the timing of micros in **detectFrequency()**.
+- **float detectFrequency(float minimalFrequency = 40)** Detect the frequency of the AC signal.
+- **void setMicrosAdjust(float factor = 1.0)** adjusts the timing of micros in **detectFrequency()**.
 Values are typical around 1.0 ± 1%
-- **float getMicrosAdjust()** returns the set value. 
+- **float getMicrosAdjust()** returns the set factor. 
 
 The minimum frequency of 40 Hz is used to sample enough time to find the minimum and maximum for 50 and 60 Hz signals. 
 Thereafter the signal is sampled 10 cycles to minimize the variation of the frequency.
@@ -148,8 +148,8 @@ The examples show the basic working of the functions.
 
 - mA_AC blocks 20 ms so might affect task scheduling on a ESP32.  
 This needs to be investigated. Probably need a separate thread that wakes up when new analogRead is available.
+**detectFrequency** also blocks pretty long.
 - int point2point(float freq) function for AC. Is part of mA_AC() already.  
 Needs extra global variables, which are slower than local ones  
 Or just cache the last p2p value?
-- improve robustness of the **detectFrequency()** function (timeout 2nd part)
 - external analogue read support? separate class?

@@ -24,9 +24,9 @@ void setup()
   Serial.println(FLOAT16_LIB_VERSION);
   Serial.println();
 
-  f = random(1000000) * 0.001;
 
-  // CONSTRUCTORS
+  Serial.println("CONSTRUCTORS");
+  f = random(1000000) * 0.001;
   start = micros();
   float16 f16(f);
   stop = micros();
@@ -41,8 +41,10 @@ void setup()
   Serial.print("a = b: \t");
   Serial.println(stop - start);
   delay(10);
+  Serial.println();
 
-  // CONVERSION
+
+  Serial.println("CONVERSION");
   start = micros();
   f = f16.toDouble();
   stop = micros();
@@ -52,7 +54,7 @@ void setup()
   Serial.println();
 
 
-  // COMPARE
+  Serial.println("COMPARE");
   f17 = f16.toDouble() + 1;
 
   start = micros();
@@ -96,6 +98,85 @@ void setup()
   Serial.print("compare >  : \t");
   Serial.println(stop - start);
   delay(10);
+  Serial.println();
+
+
+  Serial.println("MATH I");
+  float16 f18;
+  start = micros();
+  f18 = f16 + f17;
+  stop = micros();
+  Serial.print("math +  : \t");
+  Serial.println(stop - start);
+  delay(10);
+  //  Serial.println(f16);
+  //  Serial.println(f17);
+  //  Serial.println(f18);
+
+  start = micros();
+  f18 = f16 - f17;
+  stop = micros();
+  Serial.print("math -  : \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  f18 = f16 * f17;
+  stop = micros();
+  Serial.print("math *  : \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  f18 = f16 + f17;
+  stop = micros();
+  Serial.print("math /  : \t");
+  Serial.println(stop - start);
+  delay(10);
+  Serial.println();
+
+  Serial.println("MATH II");
+  start = micros();
+  f18 += f16;
+  stop = micros();
+  Serial.print("math += : \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  f18 -= f16;
+  stop = micros();
+  Serial.print("math -= : \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  f18 *= f16;
+  stop = micros();
+  Serial.print("math *= : \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  f18 /= f16;
+  stop = micros();
+  Serial.print("math /= : \t");
+  Serial.println(stop - start);
+  delay(10);
+  Serial.println();
+
+  Serial.println(f16);
+
+  Serial.println("MATH III - negation");
+  start = micros();
+  f18 = -f16;
+  stop = micros();
+  Serial.print("negation : \t");
+  Serial.println(stop - start);
+  delay(10);
+  Serial.println();
+
+  Serial.println(f18);
 
   Serial.println("\ndone");
 }

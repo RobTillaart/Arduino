@@ -17,7 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
-  Serial.println("\nStart ");
+  Serial.println();
 
 
   for( int i = -10; i < 2; i++)

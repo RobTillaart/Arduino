@@ -22,9 +22,10 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
-  Serial.println("\nStart ");
+  Serial.println();
 
-  // simulate temperature with random numbers
+
+  // simulate temperature sensor with random numbers
   for (uint32_t n = 0; n < 10; n++)
   {
     temperature[n] = (random(1000) - 300) * 0.01;

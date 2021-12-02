@@ -22,146 +22,191 @@
 // CONSTRUCTOR
 float16::float16(double f)
 {
-    n = f32tof16(f);
+  _value = f32tof16(f);
 }
 
 
 // PRINTING
 size_t float16::printTo(Print& p) const
 {
-    double d = this->f16tof32(n);
-    return p.print(d, _decimals);
+  double d = this->f16tof32(_value);
+  return p.print(d, _decimals);
 };
 
 
 double float16::toDouble() const
 {
-    return f16tof32(n);
+  return f16tof32(_value);
 }
 
 
-// NEGATE
-float16 float16::operator - ()
-{
-    return float16( -f16tof32(n) );
-}
-
-//    bool float16::isNaN();
-//    bool float16::isInf();
-
-
+//////////////////////////////////////////////////////////
+//
 // EQUALITIES
+//
 bool float16::operator == (const float16 &f)
 {
-    return (n == f.n);
+    return (_value == f._value);
 }
 
 
 bool float16::operator != (const float16 &f)
 {
-    return (n != f.n);
+    return (_value != f._value);
 }
 
-
-bool float16::operator > (const float16 &c)
+bool float16::operator > (const float16 &f)
 {
-    return this->toDouble() > c.toDouble();
+    if ((_value & 0x8000) && ( f._value & 0x8000)) return _value < f._value;
+    if (_value & 0x8000) return false;
+    if (f._value & 0x8000) return true;
+    return _value > f._value;
 }
 
-
-bool float16::operator >= (const float16 &c)
+bool float16::operator >= (const float16 &f)
 {
-    return this->toDouble() >= c.toDouble();
+    if ((_value & 0x8000) && (f._value & 0x8000)) return _value <= f._value;
+    if (_value & 0x8000) return false;
+    if (f._value & 0x8000) return true;
+    return _value >= f._value;
 }
 
-
-bool float16::operator < (const float16 &c)
+bool float16::operator < (const float16 &f)
 {
-    return this->toDouble() < c.toDouble();
+    if ((_value & 0x8000) && (f._value & 0x8000)) return _value > f._value;
+    if (_value & 0x8000) return true;
+    if (f._value & 0x8000) return false;
+    return _value < f._value;
 }
 
-
-bool float16::operator <= (const float16 &c)
+bool float16::operator <= (const float16 &f)
 {
-    return this->toDouble() <= c.toDouble();
+    if ((_value & 0x8000) && (f._value & 0x8000)) return _value >= f._value;
+    if (_value   & 0x8000) return true;
+    if (f._value & 0x8000) return false;
+    return _value <= f._value;
 }
 
 
-/*
-// BASIC MATH I
-float16 float16::operator + (const float16 &c)
+//////////////////////////////////////////////////////////
+//
+// NEGATION
+//
+float16 float16::operator - ()
 {
-  return (float16(this->toDouble() + c.toDouble());
+  float16 f16;
+  f16.setBinary(_value ^ 0x8000);
+  return f16;
 }
 
-float16 float16::operator - (const float16 &c)
+
+//////////////////////////////////////////////////////////
+//
+// MATH
+//
+float16 float16::operator + (const float16 &f)
 {
-  return (float16(this->toDouble() - c.toDouble());
+  return float16(this->toDouble() + f.toDouble());
 }
 
-float16 float16::operator * (const float16 &c)
+
+float16 float16::operator - (const float16 &f)
 {
-  return (float16(this->toDouble() * c.toDouble());
+  return float16(this->toDouble() - f.toDouble());
 }
 
-float16 float16::operator / (const float16 &c)
+
+float16 float16::operator * (const float16 &f)
 {
-  return (float16(this->toDouble() / c.toDouble());
+  return float16(this->toDouble() * f.toDouble());
 }
-*/
 
 
-/*
-// BASIC MATH II
-float16& float16::operator += (const float16 &c)
+float16 float16::operator / (const float16 &f)
 {
+  return float16(this->toDouble() / f.toDouble());
 }
 
-float16& float16::operator -= (const float16 &c)
+
+float16& float16::operator += (const float16 &f)
 {
+  *this = this->toDouble() + f.toDouble();
+  return *this;
 }
 
-float16& float16::operator *= (const float16 &c)
+
+float16& float16::operator -= (const float16 &f)
 {
+  *this = this->toDouble() - f.toDouble();
+  return *this;
 }
 
-float16& float16::operator /= (const float16 &c)
+
+float16& float16::operator *= (const float16 &f)
 {
+  *this = this->toDouble() * f.toDouble();
+  return *this;
 }
 
-*/
+
+float16& float16::operator /= (const float16 &f)
+{
+  *this = this->toDouble() / f.toDouble();
+  return *this;
+}
 
 
-float float16::f16tof32(uint16_t n) const
+//////////////////////////////////////////////////////////
+//
+// MATH HELPER FUNCTIONS
+//
+
+int float16::sign()
+{
+  if (_value & 0x8000) return -1;
+  if (_value & 0xFFFF) return 1;
+  return 0;
+}
+
+
+bool float16::isZero()
+{
+  return ((_value & 0x7FFF) == 0x0000);
+}
+
+// bool float16::isNaN()
+// {
+  // return ((_value & 0x7FFF) == 0x0000);
+// }
+
+bool float16::isInf()
+{
+  return ((_value == 0x7C00) || (_value == 0xFC00));
+}
+
+
+//////////////////////////////////////////////////////////
+//
+// CORE CONVERSION
+//
+float float16::f16tof32(uint16_t _value) const
 {
     uint16_t sgn, man;
     int exp;
     double f;
 
-    sgn = (n & 0x8000) > 0;
-    exp = (n & 0x7C00) >> 10;
-    man = (n & 0x03FF);
-
-#ifdef DEBUG
-    Serial.println(sgn, BIN);
-    Serial.println(exp, BIN);
-    Serial.println(man, BIN);
-#endif
+    sgn = (_value & 0x8000) > 0;
+    exp = (_value & 0x7C00) >> 10;
+    man = (_value & 0x03FF);
 
     // ZERO
-    if ((n & 0x7FFF) == 0)
+    if ((_value & 0x7FFF) == 0)
     {
-#ifdef DEBUG
-        Serial.println("ZERO");
-#endif
         return sgn ? -0 : 0;
     }
     // NAN & INF
     if (exp == 0x001F)
     {
-#ifdef DEBUG
-        Serial.println("INFINITY");
-#endif
         if (man == 0) return sgn ? -INFINITY : INFINITY;
         else return NAN;
     }
@@ -192,10 +237,6 @@ uint16_t float16::f32tof16(float f) const
     uint16_t man = (t & 0x007FFFFF) >> 12;
     int16_t  exp = (t & 0x7F800000) >> 23;
     bool     sgn = (t & 0x80000000);
-
-    // Serial.print("SGN: "); Serial.println(sgn, BIN);
-    // Serial.print("EXP: "); Serial.println(exp, BIN);
-    // Serial.print("MAN: "); Serial.println(man, BIN);
 
     // handle 0
     if ((t & 0x7FFFFFFF) == 0)
@@ -241,9 +282,6 @@ uint16_t float16::f32tof16(float f) const
     exp <<= 10;
     man++;
     man >>= 1;
-    // Serial.print("SGN: "); Serial.println(sgn, BIN);
-    // Serial.print("EXP: "); Serial.println(exp, BIN);
-    // Serial.print("MAN: "); Serial.println(man, BIN);
     if (sgn) return 0x8000 | exp | man;
     return exp | man;
 }

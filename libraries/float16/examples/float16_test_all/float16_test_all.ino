@@ -77,7 +77,7 @@ void test_1()
     Serial.print('\t');
     float current = f16.toDouble();
     Serial.print(current, 8);
-    if (prev > current)
+    if (prev > current)           // numbers should be increasing.
     {
       Serial.print("\t\tERROR");
       errors++;
@@ -107,7 +107,7 @@ void test_1()
     Serial.print('\t');
     float current = f16.toDouble();
     Serial.print(current, 8);
-    if (prev < current)
+    if (prev < current)           // negative numbers should be decreasing.
     {
       Serial.print("\t\tERROR");
       errors++;

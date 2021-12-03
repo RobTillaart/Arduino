@@ -1,0 +1,15 @@
+# Syntax Colouring Map For palindrome
+
+# Data types (KEYWORD1)
+palindrome	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+	KEYWORD2
+	KEYWORD2
+
+
+# Constants (LITERAL1)
+
+
+

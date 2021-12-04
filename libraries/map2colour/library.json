@@ -1,0 +1,23 @@
+{
+  "name": "map2colour",
+  "keywords": "",
+  "description": "Arduino library for mapping a float to colour spectrum.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/map2colour.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "map2colour.h"
+}

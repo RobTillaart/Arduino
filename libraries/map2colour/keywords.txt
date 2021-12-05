@@ -1,0 +1,16 @@
+# Syntax Colouring Map For map2colour
+
+# Data types (KEYWORD1)
+map2colour	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+map2RGB	KEYWORD2
+
+
+# Constants (LITERAL1)
+MAP2COLOUR_LIB_VERSION	LITERAL1
+
+
+

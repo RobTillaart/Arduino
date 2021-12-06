@@ -11,6 +11,7 @@
 // pressure 950,  990,   1010,  1030    1050, 2000, 2000
 //          RED  YELLOW  GREEN  YELLOW  RED  WHITE  WHITE
 
+
 #include "Arduino.h"
 #include "map2colour.h"
 
@@ -19,8 +20,8 @@ map2colour mcp;
 
 
 // should be in increasing order; and 7 elements
-// temperature
-float values[7] = { 950, 990, 1010, 1030, 1050, 2000, 2000 };
+// pressure in mbar
+float values[7] = { 950, 990, 1010, 1030, 1050, 2000, 2500 };
 uint32_t colours[7] =
 {
   M2C_RED, M2C_YELLOW, M2C_GREEN, M2C_YELLOW, M2C_RED, M2C_WHITE, M2C_WHITE

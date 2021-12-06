@@ -1,9 +1,9 @@
 //
-//    FILE: map2colour_demo01.ino
+//    FILE: map2colour_map2_565.ino
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 // PURPOSE: map2colour demo
-//    DATE: 2021-12-04
+//    DATE: 2021-12-05
 //     URL: https://github.com/RobTillaart/map2colour
 
 
@@ -28,7 +28,7 @@ void setup()
   // show the interpolating
   for (float i = 0; i < 1024; i += 10)
   {
-    uint32_t rgb = mc.map2RGB(i);
+    uint16_t rgb = mc.map2_565(i);
     Serial.print(i);
     Serial.print("\t");
     Serial.println(rgb, HEX);
@@ -40,7 +40,7 @@ void setup()
 void loop()
 {
   int x = analogRead(0);          // UNO returns between 0..1023; adapt if needed.
-  uint32_t rgb = mc.map2RGB(x);
+  uint32_t rgb = mc.map2_565(x);
   Serial.print(x);
   Serial.print("\t");
   Serial.println(rgb, HEX);

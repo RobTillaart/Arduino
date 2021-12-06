@@ -8,20 +8,20 @@
 
 # map2colour
 
-Arduino library for mapping a float to colour spectrum
+Arduino library for mapping a float to colour spectrum.
 
 
 ## Description
 
-The map2colour library is used to make map a reading from a sensor, e.g. temperature or pressure, 
+The map2colour library is used to make map a reading from a sensor, e.g. temperature or pressure,
 to a colour in the RGB spectrum. This can be used to colour an element on a graphical display, drive an RGB LED etc.
 
-The initial release uses 7 floats values that describe the range being mapped. 
-These are passed to the library with **begin()**. 
+The initial release uses 7 floats values that describe the range being mapped.
+These are passed to the library with **begin()**.
 These 7 floats must be in ascending order and are mapped default on the following colour array.
 
 ```cpp
-uint32_t colours[] = 
+uint32_t colours[] =
 {
   // BLACK        RED         YELLOW      GREEN      AQUA        BLUE       WHITE
   0x00000000, 0x00FF0000, 0x00FFFF00, 0x0000FF00, 0x0000FFFF, 0x000000FF, 0x00FFFFFF
@@ -30,23 +30,31 @@ uint32_t colours[] =
 
 New values will be linear interpolated between two points when needed.
 
-Assume you initialize a float array 
+Assume you initialize a float array
 ```cpp
 float tempArray[] = { -10, -10, 5, 15, 30, 60, 125 };  // note the double -10
 ```
-A temperature of 0°C will be mapped between the 2nd and 3rd element so 
-between RED and YELLOW.  
+A temperature of 0°C will be mapped between the 2nd and 3rd element so
+between RED and YELLOW.
 A temperature between 60°C and 125°C will be mapped between BLUE and WHITE.
+
+**begin()** also allows one to overrule the colours array with a colour array of your choice.
+Adjusting the colour array allows one to use a "full spectrum" like the default or only 
+interpolate between two colours. Note the library has several colours predefined as constant
+to make the colour table (and the code) more readable. If colours are missing please make a 
+PullRequest (preferred) or file an issue. 
 
 
 ## Interface
 
 - **map2colour()** constructor.
-- **bool begin(float \* values, uint32_t \* colourMap = NULL)** load the array with **7** boundary values and
-the associated array of **7** colours packed in uint32_t **0x00RRGGBB**. 
-If the colour array is not given the last used (default) colour array is used.
+- **bool begin(float \* values, uint32_t \* colourMap = NULL)** load the array with **7** 
+boundary values and the associated array of **7** colours packed in uint32_t **0x00RRGGBB**.
+If the colour array is not given the last given (or the default) colour array is used.
 **begin()** can be called multiple times to change the mapping.
-- **uint32_t map2RGB(float value)** returns RGB colour packed in an uint32_t **0x00RRGGBB**.
+- **uint32_t map2RGB(float value)** returns RGB colour packed in an uint32_t **0x00RRGGBB**.  
+If the value is out of range of the original values array, the value is always mapped upon the first colour.
+- **uint16_t map2_565(float value)** often used 16 bit colour format. Currently a wrapper around **map2RGB**.
 
 Note: the arrays passed to **begin()** should both have at least 7 elements!
 
@@ -85,14 +93,47 @@ More colour definitions can be found e.g. https://www.w3.org/wiki/CSS/Properties
 
 See examples.
 
+By changing the colour map one can get different effects. The minimum is an intensity effects
+going from black towards a certain colour at max intensity. 
+More complex colour schemes are possible, up to 7 different colours. 
+This number is hardcoded (now) and that might change
+
+
+## Performance
+
+A small indicative table with some performance figures lib version 0.1.2) 
+
+
+| function call          | time us UNO | time us ESP32 |
+|:-----------------------|------------:|--------------:|
+| begin(values)          | 4           | 4             |
+| begin(values, colours) | 12          | 4             |
+| map2RGB(value)         | 124 - 152   | 2 - 4         |
+| map2_565(value)        | 124 - 168   | 2 - 4         |
+
+
+Note: UNO at 16 MHz, ESP32 at 240 MHz
+
 
 ## Future
 
 - update documentation
-- investigate performance
-- **uint16_t map2_565(float value)** 
-  - wrapper around RGB uses less memory and is expected slower)
-- add examples
+- investigate ESP32 
+  - behaviour
 - seven "fixed" points is that flex enough?
-- PROGMEM for default array
+
+
+#### prio
+
+- optimize mapping 
+
+
+#### development ?
+
+- **void adjustColour(uint8_t index, uint32_t RGB)**    // single colour adjust
+- **uint32_t dumpColourMap()** 
+
+- PROGMEM for default array?
+
+
 

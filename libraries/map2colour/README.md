@@ -14,7 +14,7 @@ Arduino library for mapping a float to colour spectrum.
 ## Description
 
 The map2colour library is used to make map a reading from a sensor, e.g. temperature or pressure,
-to a colour in the RGB spectrum. This can be used to colour an element on a graphical display, drive an RGB LED etc.
+to a colour in the RGB spectrum. This can be used to colour an element on a graphical display, drive an RGB LED, or even a LED string etc.
 
 The initial release uses 7 floats values that describe the range being mapped.
 These are passed to the library with **begin()**.
@@ -32,7 +32,7 @@ New values will be linear interpolated between two points when needed.
 
 Assume you initialize a float array
 ```cpp
-float tempArray[] = { -10, -10, 5, 15, 30, 60, 125 };  // note the double -10
+float tempArray[] = { -20, -10, 5, 15, 30, 60, 125 };
 ```
 A temperature of 0°C will be mapped between the 2nd and 3rd element so
 between RED and YELLOW.
@@ -101,8 +101,10 @@ This number is hardcoded (now) and that might change
 
 ## Performance
 
-A small indicative table with some performance figures lib version 0.1.2) 
+measured with performance example.
 
+
+#### indicative performance figures lib version 0.1.2
 
 | function call          | time us UNO | time us ESP32 |
 |:-----------------------|------------:|--------------:|
@@ -112,27 +114,38 @@ A small indicative table with some performance figures lib version 0.1.2)
 | map2_565(value)        | 124 - 168   | 2 - 4         |
 
 
+#### indicative performance figures lib version 0.1.3
+
+| function call          | time us UNO | time us ESP32 |
+|:-----------------------|------------:|--------------:|
+| begin(values)          | 4           | 4             |
+| begin(values, colours) | 12          | 4             |
+| map2RGB(value)         | 64 - 132    | 2 - 3         |
+| map2_565(value)        | 68 - 140    | 2 - 3         |
+
+
 Note: UNO at 16 MHz, ESP32 at 240 MHz
+
+
+#### optimization
+
+One performance optimization (trade memory for speed) is replacing the float division 
+in map2RGB by a multiplication. 
+This requires 24 bytes RAM to hold the 6 factors and calculation of the dividers in begin().
+The latter implies more PROGMEM. 
+To be implemented as a derived class?
 
 
 ## Future
 
 - update documentation
-- investigate ESP32 
-  - behaviour
-- seven "fixed" points is that flex enough?
-
-
-#### prio
-
-- optimize mapping 
+- derived class optimization?
 
 
 #### development ?
 
 - **void adjustColour(uint8_t index, uint32_t RGB)**    // single colour adjust
 - **uint32_t dumpColourMap()** 
-
 - PROGMEM for default array?
 
 

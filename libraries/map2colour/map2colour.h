@@ -2,7 +2,7 @@
 //
 //    FILE: map2colour.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 //
@@ -10,7 +10,8 @@
 
 #include "Arduino.h"
 
-#define MAP2COLOUR_LIB_VERSION          (F("0.1.2"))
+#define MAP2COLOUR_LIB_VERSION          (F("0.1.3"))
+
 
 // https://www.w3.org/wiki/CSS/Properties/color/keywords
 #define M2C_BLACK                       0x00000000
@@ -54,5 +55,4 @@ class map2colour
 
 
 // -- END OF FILE --
-
 

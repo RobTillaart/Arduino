@@ -29,12 +29,12 @@
 // | MOSI     |   11  |   23    |   13    |  * not used...
 // | SELECT   | eg. 4 |    5    |   15    |  * can be others too.
 
-const int csPin   = 15;
+const int csPin   = 25;
 
 uint32_t start, stop;
 
 
-MAX31855 tc(csPin);
+MAX31855 tc;
 
 
 void setup()
@@ -47,7 +47,10 @@ void setup()
   Serial.println();
 
   tc.selectVSPI();     // needs to be called before begin()
-  tc.begin();
+
+  tc.begin(csPin);
+  // tc.begin(14, csPin, 12);  // SW SPI for testing
+
   tc.setSPIspeed(16000000);
 }
 
@@ -88,3 +91,4 @@ void loop()
 
 
 // -- END OF FILE --
+

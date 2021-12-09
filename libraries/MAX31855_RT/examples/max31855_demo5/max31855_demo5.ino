@@ -13,7 +13,7 @@ const int doPin = 7;
 const int csPin = 6;
 const int clPin = 5;
 
-MAX31855 tc(clPin, csPin, doPin);
+MAX31855 tc;
 
 void setup() 
 {
@@ -22,7 +22,8 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clPin, csPin, doPin);
+
   tc.read();
   float t1 = tc.getTemperature();
   Serial.print("  temp before:\t");
@@ -48,8 +49,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop() 
 {
 }
 
+
 // -- END OF FILE --
+

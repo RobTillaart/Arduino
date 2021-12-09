@@ -60,14 +60,14 @@ unittest(test_new_operator)
 
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", MAX31855_VERSION);
+  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
   
   const int doPin = 7;
   const int csPin = 6;
   const int clPin = 5;
 
-  MAX31855 tc(clPin, csPin, doPin);
-  tc.begin();
+  MAX31855 tc;
+  tc.begin(clPin, csPin, doPin);
 
   fprintf(stderr, "Status...\n");
   assertEqual(STATUS_NOREAD, (int)tc.getStatus());

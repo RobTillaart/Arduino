@@ -1,13 +1,16 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MAX31855_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX31855_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX31855_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MAX31855_RT/releases)
+
 
 # MAX31855_RT
 
 Arduino library for MAX31855 chip for K type thermocouple.
 
-The library has experimental support for other types of thermocouples E, J, N, R, S, T
+The library has experimental support for other types of thermocouples E, J, N, R, S, T.
 
 
 ## Description
@@ -40,11 +43,11 @@ Library tested with breakout board
 Default pin connections. ESP32 can overrule with **setGPIOpins()**.
 
  | HW SPI   |  UNO  |  ESP32 VSPI |  ESP32 HSPI | Notes
- |:---------|:-----:|:-------:|:-------:|:----------|
- | CLOCKPIN |   13  |   18    |   14    |
- | MISO     |   12  |   19    |   12    |
- | MOSI     |   11  |   23    |   13    |  *not used...*
- | SELECT   | eg. 4 |    5    |   15    |  *can be others too.*
+ |:---------|:-----:|:-----------:|:-----------:|:----------|
+ | CLOCKPIN |   13  |   18        |   14        |
+ | MISO     |   12  |   19        |   12        |
+ | MOSI     |   11  |   23        |   13        |  *not used...*
+ | SELECT   | eg. 4 |    5        |   15        |  *can be others too.*
 
 
 Performance read() function, timing in us.  (ESP32 @240MHz)
@@ -65,16 +68,17 @@ Performance read() function, timing in us.  (ESP32 @240MHz)
 
 ### Constructor
 
-- **MAX31855(const uint8_t select)** create object and set select pin => hardware SPI
-- **MAX31855(const uint8_t sclk, const uint8_t select, const uint8_t miso)** create object, set clock, select and miso pin => software SPI
+- **MAX31855()** create object.
+- **void begin(const uint8_t select)** set select pin => hardware SPI
+- **void begin(const uint8_t sclk, const uint8_t select, const uint8_t miso)** set clock, select and miso pin => software SPI
 
 
 ### Hardware SPI
 
 To be used only if one needs a specific speed.
 
-- **void setSPIspeed(uint32_t speed)** set SPI transfer rate
-- **uint32_t getSPIspeed()** returns SPI transfer rate
+- **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
+- **uint32_t getSPIspeed()** returns SPI transfer rate.
 
 
 ### ESP32 specific
@@ -226,6 +230,11 @@ or
 
 See examples
 
+#### breaking change 0.4.0 
+
+In issue #21 it became clear that the code in the constructor is not always executed correctly.
+Therefore this code + parameters is moved to the **Begin()** function.
+
 
 ## Experimental part (to be tested)
 
@@ -272,4 +281,9 @@ One can adjust the values to improve the accuracy of the temperature read.
 The **float getTemperature()** has implemented this algorithm, however as long
 as one does not set the Seebeck Coefficient it will use the K_TC as default.
 
+
+## Future
+
+- investigate other TC's 
+- 
 

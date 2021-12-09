@@ -7,13 +7,16 @@
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
+
 #include "MAX31855.h"
 
 const int doPin = 7;
 const int csPin = 6;
 const int clPin = 5;
 
-MAX31855 tc(clPin, csPin, doPin);
+
+MAX31855 tc;
+
 
 void setup()
 {
@@ -22,7 +25,7 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clPin, csPin, doPin);
 
   uint32_t start = micros();
   for (int i = 0; i < 10; i++) tc.read();
@@ -75,3 +78,4 @@ void loop()
 }
 
 // -- END OF FILE --
+

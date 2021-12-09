@@ -15,14 +15,17 @@
 const int dataPin  = 7;
 const int clockPin = 6;
 
-MAX31855 sensors[] =
+
+MAX31855 A, B, C;
+
+MAX31855 sensors[] = 
 {
-  MAX31855(clockPin, 5, dataPin),
-  MAX31855(clockPin, 4, dataPin),
-  MAX31855(clockPin, 3, dataPin)
+  A, B, C
 };
 
+
 const uint8_t sensorCount = sizeof(sensors) / sizeof(MAX31855);
+
 
 void setup()
 {
@@ -35,9 +38,10 @@ void setup()
 
   for (int i = 0; i < sensorCount; i++)
   {
-    sensors[i].begin();
+    sensors[i].begin(clockPin, 3 + i, dataPin);  //  three different select pins.
   }
 }
+
 
 void loop()
 {
@@ -66,4 +70,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

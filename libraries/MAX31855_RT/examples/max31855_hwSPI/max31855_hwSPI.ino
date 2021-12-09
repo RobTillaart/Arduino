@@ -25,17 +25,24 @@
 // | CLOCKPIN |   13  |   18    |
 // | MISO     |   12  |   19    |
 // | MOSI     |   11  |   23    |  * not used...
+// | SELECT   |   10  |   25    |
+
 
 
 const int csPin   = 25;
 const int clkPin  = 18;
 const int dataPin = 19;
+// const int csPin   = 10;
+// const int clkPin  = 13;
+// const int dataPin = 12;
+// const int csPin   = 15;
+// const int clkPin  = 14;
+// const int dataPin = 12;
 
 uint32_t start, stop;
 
 
-MAX31855 tc(csPin);
-// MAX31855 tc(clkPin, csPin, dataPin);  // sw SPI
+MAX31855 tc;
 
 
 void setup()
@@ -46,7 +53,8 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(csPin);
+  // tc.begin(clkPin, csPin, dataPin);  // sw SPI to test
 }
 
 
@@ -86,3 +94,4 @@ void loop()
 
 
 // -- END OF FILE --
+

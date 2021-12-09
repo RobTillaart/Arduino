@@ -11,6 +11,7 @@
 // one might to need to disconnect pin 12 during upload of the code
 // when HSPI is used.
 
+
 #include "MAX31855.h"
 
 
@@ -35,8 +36,7 @@ const int csPin   = 15;
 
 uint32_t start, stop;
 
-
-MAX31855 tc(csPin);
+MAX31855 tc;
 
 
 void setup()
@@ -49,8 +49,11 @@ void setup()
   Serial.println();
 
   tc.selectHSPI();     // needs to be called before begin()
-  tc.begin();
-  tc.setSPIspeed(16000000);
+
+  tc.begin(csPin);
+  // tc.begin(14, csPin, 12);  // SW SPI for testing
+
+  tc.setSPIspeed(1000000);
 }
 
 
@@ -90,3 +93,4 @@ void loop()
 
 
 // -- END OF FILE --
+

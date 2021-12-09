@@ -1,11 +1,12 @@
 //
 //    FILE: max31855_test_error.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.4.0
 // PURPOSE: thermocouple lib inline tests
 //    DATE: 2019-07-31
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
+
 
 #include "MAX31855.h"
 
@@ -13,7 +14,8 @@ const int doPin = 7;
 const int csPin = 6;
 const int clPin = 5;
 
-MAX31855 tc(clPin, csPin, doPin);
+MAX31855 tc;
+
 
 void setup() 
 {
@@ -22,8 +24,9 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clPin, csPin, doPin);
 }
+
 
 void loop() 
 {
@@ -52,4 +55,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

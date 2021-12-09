@@ -5,3 +5,4 @@ compile:
     # - leonardo
     # - due
     # - zero
+    - esp32

@@ -1,12 +1,15 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 //  HISTORY:
+//  0.4.0   2021-12-09  fix #21 breaking change for HW SPI
+//                      move constructor code to begin()
+//                      read() removed "premature" return on status.
 //  0.3.0   2021-08-11  VSPI / HSPI support for ESP32
 //                      add setGIOpins - ESP32 specific
 //                      add get/setSPIspeed() - all
@@ -33,18 +36,23 @@
 #include "MAX31855.h"
 
 
-MAX31855::MAX31855(const uint8_t select)
+MAX31855::MAX31855()
 {
-  MAX31855(255, select, 255);
 }
 
 
-MAX31855::MAX31855(const uint8_t clock, const uint8_t select, const uint8_t miso)
+void MAX31855::begin(const uint8_t select)
 {
-  _clock       = clock;
-  _select      = select;
-  _miso        = miso;
-  _hwSPI       = (clock == 255);
+  begin(255, select, 255);
+}
+
+
+void MAX31855::begin(const uint8_t clock, const uint8_t select, const uint8_t miso)
+{
+  _clock        = clock;
+  _miso         = miso;
+  _select       = select;
+  _hwSPI        = (_clock == 255);
 
   _lastTimeRead = 0;
   _offset       = 0;
@@ -53,15 +61,10 @@ MAX31855::MAX31855(const uint8_t clock, const uint8_t select, const uint8_t miso
   _temperature  = MAX31855_NO_TEMPERATURE;
   _internal     = MAX31855_NO_TEMPERATURE;
   _rawData      = 0;
-}
+  setSPIspeed(1000000);
 
-
-void MAX31855::begin()
-{
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
-
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if (_hwSPI)
   {
@@ -110,7 +113,8 @@ void MAX31855::setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t se
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI
+  //  disable SPI and enable again
+  mySPI->end();
   mySPI->begin(clock, miso, mosi, select);
 }
 #endif
@@ -130,7 +134,7 @@ uint8_t MAX31855::read()
   //      31  SIGN
   uint32_t value = _read();
 
-  if (value == 0xFFFFFFFF)  // needs a pull up on miso pin to work properly!
+  if (value == 0xFFFFFFFF)  // needs a pull up on MISO pin to work properly!
   {
     // bit 3 and bit 17 should always be 0 - P10 datasheet
     _status = STATUS_NO_COMMUNICATION;
@@ -139,12 +143,12 @@ uint8_t MAX31855::read()
 
   _lastTimeRead = millis();
 
-  // process status bit 0-2
+  //  process status bit 0-2
   _status = value & 0x0007;
-  if (_status != STATUS_OK)
-  {
-    return _status;
-  }
+  // if (_status != STATUS_OK)  // removed in 0.4.0 as internal can be valid.
+  // {
+  //   return _status;
+  // }
 
   value >>= 3;
 
@@ -233,3 +237,4 @@ float MAX31855::getTemperature()
 
 
 // -- END OF FILE --
+

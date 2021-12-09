@@ -2,7 +2,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -25,7 +25,7 @@
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.3.0"))
+#define MAX31855_VERSION              (F("0.4.0"))
 
 #define MAX31855_NO_TEMPERATURE       -999
 
@@ -63,12 +63,13 @@
 class MAX31855
 {
 public:
-  // HW SPI
-  MAX31855(uint8_t select);
-  // SW SPI
-  MAX31855(uint8_t clock, uint8_t select, uint8_t miso);
 
-  void     begin();
+  MAX31855();
+
+  //  HW SPI
+  void     begin(uint8_t select);
+  //  SW SPI
+  void     begin(uint8_t clock, uint8_t select, uint8_t miso);
 
   // returns state - bit field: 0 = STATUS_OK
   uint8_t  read();
@@ -128,7 +129,7 @@ private:
   uint8_t  _miso;
   uint8_t  _select;
 
-  uint32_t    _SPIspeed = 1000000;
+  uint32_t    _SPIspeed;
   SPIClass    * mySPI;
   SPISettings _spi_settings;
   #if defined(ESP32)

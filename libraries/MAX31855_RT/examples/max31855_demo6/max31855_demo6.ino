@@ -1,11 +1,12 @@
 //
 //    FILE: max31855_demo6.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.4.0
 // PURPOSE: thermocouple lib demo setSeebeckCoefficient()
 //    DATE: 2015-12-06
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
+
 
 #include "MAX31855.h"
 
@@ -13,7 +14,9 @@ const int doPin = 7;
 const int csPin = 6;
 const int clPin = 5;
 
-MAX31855 tc(clPin, csPin, doPin);
+
+MAX31855 tc;
+
 
 void setup()
 {
@@ -22,7 +25,8 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clPin, csPin, doPin);
+
   tc.read();
   float t1 = tc.getTemperature();
   Serial.print("    temp before:\t");
@@ -49,6 +53,10 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
+
+// -- END OF FILE --
+

@@ -7,13 +7,16 @@
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
+
 #include "MAX31855.h"
 
 const int doPin = 7;
 const int csPin = 6;
 const int clPin = 5;
 
-MAX31855 tc(clPin, csPin, doPin);
+
+MAX31855 tc;
+
 
 void setup() 
 {
@@ -22,7 +25,7 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clPin, csPin, doPin);
 
   uint32_t start = micros();
   tc.read();
@@ -47,7 +50,8 @@ void setup()
   Serial.println(t2, 2);
   Serial.println();
 }
- 
+
+
 void loop() 
 {
   // this loop returns multiples of about 73mSec (counter multiples of ~143)
@@ -73,4 +77,7 @@ void loop()
   Serial.println(t1, 2);
   Serial.println();
 }
- 
+
+
+// -- END OF FILE --
+

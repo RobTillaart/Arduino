@@ -1,7 +1,7 @@
 //
 //    FILE: max31855_sw_SPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.4.0
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2021-08-11
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -36,7 +36,7 @@ const int dataPin = 12;
 
 uint32_t start, stop;
 
-MAX31855 tc(clkPin, csPin, dataPin);  // sw SPI
+MAX31855 tc;
 
 
 void setup()
@@ -47,7 +47,7 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  tc.begin();
+  tc.begin(clkPin, csPin, dataPin);  // sw SPI
 }
 
 
@@ -87,3 +87,4 @@ void loop()
 
 
 // -- END OF FILE --
+

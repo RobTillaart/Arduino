@@ -8,7 +8,7 @@
 
 # ACS712
 
-Library for the ACS712 Current Sensor - 5A, 20A, 30A
+Library for the ACS712 Current Sensor - 5A, 20A, 30A.
 
 
 ## Description
@@ -22,13 +22,14 @@ There are 2 core functions:
 - **int mA_AC(float freq = 50)** The frequency can be set to typically 50 or 60 Hz
 however other values e.g. 50.1 or 40 or 123.456 are possible.
 
-To measure DC current a single **analogRead()** with some conversion maths is sufficient to get
+To measure DC current a single **analogRead()** with conversion maths is sufficient to get
 a value. To stabilize the signal **analogRead()** is called twice.
 
 To measure AC current **a blocking loop for 20 milliseconds** is run to determine the
 peak to peak value which is converted to the RMS value. To convert the peak2peak
 value to RMS one need the so called crest or form factor. This factor depends heavily
 on the signal form. For a perfect sinus the value is sqrt(2)/2 == 1/sqrt(2).
+See Form factor below.
 
 
 ## Interface
@@ -41,7 +42,7 @@ It defaults a 20 A type sensor, which is defined by the default value of mVperA.
 Since version 0.2.2 frequencies other integer values than 50 and 60 are supported, the lower the frequency, 
 the longer the blocking period.
 Since version 0.2.3 floating point frequencies are supported to tune optimally.
-- **int mA_DC()** blocks < 1 ms as it just needs one **analogRead()**.
+- **int mA_DC()** blocks < 1 ms (Arduino UNO) as it just needs one **analogRead()**.
 
 
 | type sensor  | mVperA | LSB 5V-10bit |
@@ -69,7 +70,7 @@ Also known as crest factor;  affects AC signals only.
 - **void setFormFactor(float ff = ACS712_FF_SINUS)** manually sets form factor, must be between 0.0 and 1.0
 - **float getFormFactor()** returns current form factor. 
 
-The library has a number of predefined form factors
+The library has a number of predefined form factors:
 
 |  definition          | value         | approx | notes   |
 |:---------------------|:--------------|:------:|:--------|
@@ -79,21 +80,22 @@ The library has a number of predefined form factors
 |                      |               |        |         |
 
 It is important to measure the current with a calibrated multimeter
-and determine / verify the form factor of the signal. This can help
-to improve the quality of your measurements.
+and determine / verify the form factor of the signal. 
+This can help to improve the quality of your measurements.
 
 
 #### Noise
 
 Default = 21 mV.
 
-- **void setNoisemV(uint8_t noisemV = 21)** set noise level, is used to determine zero level e.g. in AC measurements.
+- **void setNoisemV(uint8_t noisemV = 21)** set noise level, 
+is used to determine zero level e.g. in AC measurements.
 - **uint8_t getNoisemV()** returns the set value.
 
 
 #### mV per Ampere
 
-Both for AC and DC. Is defined in the constructor and depends on 
+Both for AC and DC. Is defined in the constructor and depends on sensor used. 
 
 - **void setmVperAmp(uint8_t mva)** sets the milliVolt per Ampere measured.
 - **uint8_t getmVperAmp()** returns the set value.
@@ -116,8 +118,6 @@ It is only useful if one has a good source like a calibrated function generator 
 to adjust. Testing with my UNO I got a factor 0.9986.
 
 Current version is not performance optimized. 
-
-Current version of detectFrequency can block forever. The second part has no timeout guard.
 
 
 ## Test
@@ -148,7 +148,7 @@ The examples show the basic working of the functions.
 
 - mA_AC blocks 20 ms so might affect task scheduling on a ESP32.  
 This needs to be investigated. Probably need a separate thread that wakes up when new analogRead is available.
-**detectFrequency** also blocks pretty long.
+- **detectFrequency** also blocks pretty long.
 - int point2point(float freq) function for AC. Is part of mA_AC() already.  
 Needs extra global variables, which are slower than local ones  
 Or just cache the last p2p value?

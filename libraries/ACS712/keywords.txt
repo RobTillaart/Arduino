@@ -1,4 +1,4 @@
-# Syntax Coloring Map For ACS712
+# Syntax Colouring Map For ACS712
 
 # Data types (KEYWORD1)
 ACS712	KEYWORD1
@@ -20,6 +20,10 @@ getNoisemV	KEYWORD2
 
 setmVperAmp	KEYWORD2
 getmVperAmp	KEYWORD2
+
+detectFrequency	KEYWORD2
+setMicrosAdjust	KEYWORD2
+getMicrosAdjust	KEYWORD2
 
 
 # Constants (LITERAL1)

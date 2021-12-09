@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -18,6 +18,7 @@
 //                     updated build CI, readme.md
 //  0.2.4  2021-11-22  add experimental detectFrequency()
 //  0.2.5  2021-12-03  add timeout to detectFrequency()
+//  0.2.6  2021-12-09  update readme.md + license
 
 
 #include "ACS712.h"

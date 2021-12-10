@@ -79,6 +79,8 @@ To be used only if one needs a specific speed.
 
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
+- **void setSWSPIdelay(uint16_t del = 0)** for tuning SW SPI signal quality. Del is the time in micros added per bit. Even numbers keep the duty cycle of the clock around 50%.
+- **uint16_t getSWSPIdelay()** get set value in micros.
 
 
 ### ESP32 specific

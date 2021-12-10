@@ -2,7 +2,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -25,7 +25,7 @@
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.4.0"))
+#define MAX31855_VERSION              (F("0.4.1"))
 
 #define MAX31855_NO_TEMPERATURE       -999
 
@@ -100,6 +100,10 @@ public:
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed() { return _SPIspeed; };
+  void     setSWSPIdelay(uint16_t del = 0)  { _swSPIdelay = del; };
+  uint16_t getSWSPIdelay() { return _swSPIdelay; };
+
+
 
   //       ESP32 specific
   #if defined(ESP32)
@@ -129,6 +133,7 @@ private:
   uint8_t  _miso;
   uint8_t  _select;
 
+  uint16_t    _swSPIdelay = 0;
   uint32_t    _SPIspeed;
   SPIClass    * mySPI;
   SPISettings _spi_settings;

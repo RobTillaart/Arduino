@@ -58,7 +58,23 @@ unittest(test_new_operator)
 }
 */
 
-unittest(test_all)
+unittest(test_constants)
+{
+  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
+
+  assertEqual(0x00, STATUS_OK);
+  assertEqual(0x01, STATUS_OPEN_CIRCUIT);
+  assertEqual(0x02, STATUS_SHORT_TO_GND);
+  assertEqual(0x04, STATUS_SHORT_TO_VCC);
+  assertEqual(0x07, STATUS_ERROR);
+  assertEqual(0x80, STATUS_NOREAD);
+  assertEqual(0x81, STATUS_NO_COMMUNICATION);
+  
+  assertEqual(-999, MAX31855_NO_TEMPERATURE);
+}
+
+
+unittest(test_status)
 {
   fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
   
@@ -79,12 +95,25 @@ unittest(test_all)
   assertFalse(tc.genericError());
   assertFalse(tc.noCommunication());
   assertTrue(tc.noRead());
+}
+
+
+unittest(test_temperature)
+{
+  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
+  
+  const int doPin = 7;
+  const int csPin = 6;
+  const int clPin = 5;
+
+  MAX31855 tc;
+  tc.begin(clPin, csPin, doPin);
 
   fprintf(stderr, "Temperature...\n");
   assertEqualFloat(MAX31855_NO_TEMPERATURE, tc.getInternal(), 0.001);
   assertEqualFloat(MAX31855_NO_TEMPERATURE, tc.getTemperature(), 0.001);
 
-  fprintf(stderr, "Offset...\n");
+  fprintf(stderr, "\nOffset...\n");
   for (int of = 0; of < 10; of++)
   {
     tc.setOffset(of * 0.1);
@@ -92,15 +121,44 @@ unittest(test_all)
     assertEqualFloat(of * 0.1, tc.getOffset(), 0.001);
   }
 
-  fprintf(stderr, "SeebeckCoefficient...\n");
-  for (float sbc = 9; sbc < 100; sbc += 12.345)  // non existant still good for test.
+  fprintf(stderr, "\nSeebeckCoefficient...\n");
+  for (float sbc = 9; sbc < 100; sbc += 12.345)  // non existent still good for test.
   {
     tc.setSeebeckCoefficient(sbc);
     fprintf(stderr, "%f\t", sbc);
     assertEqualFloat(sbc, tc.getSeebeckCoefficient(), 0.001);
   }
-
 }
+
+
+unittest(test_SPIspeed_SWSPIdelay)
+{
+  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
+  
+  const int doPin = 7;
+  const int csPin = 6;
+  const int clPin = 5;
+
+  MAX31855 tc;
+  tc.begin(clPin, csPin, doPin);
+
+  fprintf(stderr, "SPIspeed...\n");
+  for (uint32_t sp = 100000; sp <= 1000000; sp += 100000)
+  {
+    tc.setSPIspeed(sp);
+    fprintf(stderr, "%ld\t", sp);
+    assertEqual(sp, tc.getSPIspeed());
+  }
+
+  fprintf(stderr, "\nsetSWSPIdelay...\n");
+  for (uint16_t del = 0; del < 11; del++)
+  {
+    tc.setSWSPIdelay(del);
+    fprintf(stderr, "%d\t", del);
+    assertEqual(del, tc.getSWSPIdelay());
+  }
+}
+
 
 unittest_main()
 

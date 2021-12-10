@@ -1,12 +1,13 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 //  HISTORY:
+//  0.4.1   2021-12-10  add SWSPI delay + getter/setter
 //  0.4.0   2021-12-09  fix #21 breaking change for HW SPI
 //                      move constructor code to begin()
 //                      read() removed "premature" return on status.
@@ -200,15 +201,19 @@ uint32_t MAX31855::_read(void)
   }
   else  // Software SPI
   {
+    // split _swSPIdelay in equal dLow and dHigh
+    // dLow should be longer one when _swSPIdelay = odd.
+    uint16_t dHigh = _swSPIdelay/2;
+    uint16_t dLow = _swSPIdelay - dHigh;
     digitalWrite(_select, LOW);
     for (int8_t i = 31; i >= 0; i--)
     {
       _rawData <<= 1;
       digitalWrite(_clock, LOW);
-      // delayMicroseconds(1);  // DUE
+      if (dLow > 0) delayMicroseconds(dLow);  // DUE might need 1 us
       if ( digitalRead(_miso) ) _rawData++;
       digitalWrite(_clock, HIGH);
-      // delayMicroseconds(1);  // DUE
+      if (dHigh > 0) delayMicroseconds(dHigh);  // DUE
     }
     digitalWrite(_select, HIGH);
   }

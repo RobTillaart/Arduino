@@ -49,7 +49,7 @@ void setup()
   tc.selectVSPI();     // needs to be called before begin()
 
   tc.begin(csPin);
-  // tc.begin(14, csPin, 12);  // SW SPI for testing
+  // tc.begin(18, csPin, 19);  // SW SPI for testing
 
   tc.setSPIspeed(16000000);
 }

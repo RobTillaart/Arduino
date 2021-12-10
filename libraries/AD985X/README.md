@@ -23,6 +23,8 @@ a feature the AD9850 does not have.
 The library is not suitable for AD9852 as that is a function generator with
 way more functionality.
 
+Note: mainly tested on Arduino UNO. Tweaking for other platforms is expected.
+
 
 ## Connection
 
@@ -48,11 +50,11 @@ way more functionality.
   XTAL = crystal
   L    = LED
   C    = chip
-  P    = potmeter => for duty cycle square wave
+  P    = potentiometer => for duty cycle square wave
 
 ```
 
-### Multidevice 
+### Multi device 
 
 See Multi_AD985X_devices.pdf
 
@@ -155,7 +157,7 @@ devices at the same time.
 
 ### Common interface
 
-- **void begin(selectPin, resetPin, FQUDPin, dataOut = 0, clock = 0)**  
+- **void begin(uint8_t selectPin, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut = 0, uint8_t clock = 0)**  
 For hardware SPI only use the first three parameters, 
 for SW SPI you need to define the data and clock pin too.
   - selectPin = chip select. The library uses HIGH as active and LOW as not selected.  
@@ -187,7 +189,7 @@ Default it sets the phase to 0.
 - **uint32_t getCalibrationOffset()** reads back the offset set.
 - **uint32_t getFactor()** internal factor, for debugging
 
-Note: reset() resets the offset to 0..
+Note: **reset()** resets the offset to 0..
 Note: setting the offset reduces the range of frequencies (at the ends of scale).
 
 
@@ -204,16 +206,16 @@ Note: setting the offset reduces the range of frequencies (at the ends of scale)
 Manual updating allows one to prepare the frequency, and actually apply 
 it at a later moment.
 
-The default of the flag is true, and will be reset to true by the **reset()** call.
-
+Note: The default of the autoUpdate flag is true.  
+Note: **reset()** resets the autoUpdateFlag to true.
 
 
 ### Hardware SPI
 
 To be used only if one needs a specific speed.
 
-- **void setSPIspeed(uint32_t speed)** set SPI transfer rate
-- **uint32_t getSPIspeed()** returns SPI transfer rate
+- **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
+- **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
@@ -232,8 +234,8 @@ BEFORE the **begin()** function.
 
 #### ESP32 experimental
 
-- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
-AFTER the **begin()** function.
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. 
+Needs to be called AFTER the **begin()** function.
 
 ```cpp
 void setup()
@@ -260,9 +262,9 @@ The AD9850 has no specific functions.
 to the reference clock of 180 MHz when the frequency is set above 10 MHz and 
 to 30 MHz when the frequency is set to 10 MHz or lower.
 The initial value is **false** == OFF for backwards compatibility. 
-- **bool getAutoRefClock()** returns true is automode is set. 
+- **bool getAutoRefClock()** returns true if autoRefClock is set. 
 - **void setARCCutOffFreq(uint32_t Hz = 10000000UL )** set cut off frequency 
-for the auto reference clock. max value is 30 MHz, typical 10MHz
+for the auto reference clock. Maximum value is 30 MHz, typical 10 MHz.
 - **uint32_t getARCCutOffFreq()** returns cut off frequency set.
 
 
@@ -272,7 +274,7 @@ for the auto reference clock. max value is 30 MHz, typical 10MHz
 
 ## Operation
 
-See examples
+See examples.
 
 
 ### Operational notes
@@ -288,5 +290,6 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 ## Future
 
 - examples for ESP32 HWSPI interface
+- do tests on ESP32
 - performance measurements
 

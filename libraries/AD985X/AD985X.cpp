@@ -1,32 +1,35 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //
 //  HISTORY:
 //  0.1.0   2019-03-19  initial version
-//  0.1.1   2020-12-09  add arduino-ci
+//  0.1.1   2020-12-09  add Arduino-CI
 //  0.1.2   2020-12-27  add setAutoMode() + offset
 //  0.2.0   2020-12-28  major refactor class hierarchy + float frequency
 //  0.2.1   2021-01-10  add get- and setARCCutOffFreq()
 //  0.2.2   2021-01-24  add manual updating frequency 
 //                      get- setManualFQ_UD(), update()
-//                      inverted SELECT line as preparation for multidevice.
+//                      inverted SELECT line as preparation for multi-device.
 //  0.3.0   2021-06-06  fix factory bit mask + new examples + some refactor
 //                      added multi device document
 //  0.3.1   2021-08-25  VSPI / HSPI support for ESP32
 //                      faster software SPI
 //                      minor optimizations / refactor
-//  0.3.2   2021-10-16  update build-ci
+//  0.3.2   2021-10-16  update Arduino-CI
+//  0.3.3   2021-12-10  update library.json, license, readme.md
+//                      fix reset() for ESP32 hardware SPI
+
 
 
 #include "AD985X.h"
 
 
 // UNO HARDWARE SPI           PINS
-#define SPI_CLOCK             13
+#define SPI_CLOCK             13          // not portable...
 #define SPI_MISO              12
 #define SPI_MOSI              11
 
@@ -117,7 +120,16 @@ void AD9850::reset()
   // be sure to select the correct device 
   digitalWrite(_select, HIGH);
   pulsePin(_reset);
-  if (_hwSPI) pulsePin(SPI_CLOCK);
+  if (_hwSPI)
+  {
+    #if defined(ESP32)
+    if (_useHSPI) pulsePin(14);   // HSPI magic number clock
+    else          pulsePin(18);   // VSPI magic number clock
+    #else                 
+    // UNO hardware SPI
+    pulsePin(SPI_CLOCK);
+    #endif
+  }
   else pulsePin(_clock);
   digitalWrite(_select, LOW);
 
@@ -173,7 +185,7 @@ void AD9850::writeData()
   // Serial.println(_config, HEX);
   uint32_t data = _factor;
 
-  // used for multidevice config only - https://github.com/RobTillaart/AD985X/issues/13
+  // used for multi device configuration only - https://github.com/RobTillaart/AD985X/issues/13
   digitalWrite(_select, HIGH);  
   if (_hwSPI)
   {

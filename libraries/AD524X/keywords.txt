@@ -1,9 +1,10 @@
-# Syntax Coloring Map For AD524X
+# Syntax Colouring Map For AD524X
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AD524X	KEYWORD1
 AD5241	KEYWORD1
 AD5242	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
@@ -22,7 +23,9 @@ midScaleReset	KEYWORD2
 pmCount	KEYWORD2
 shutDown	KEYWORD2
 
+
 # Constants (LITERAL1)
 AD524X_VERSION	LITERAL1
+
 AS524X_OK	LITERAL1
 AS524X_ERROR	LITERAL1

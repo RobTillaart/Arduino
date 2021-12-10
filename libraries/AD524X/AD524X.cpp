@@ -1,23 +1,25 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
 //
 // HISTORY
 //  2021-10-16  0.3.2  fix build-CI, update readme.md
+//  2021-12-10  0.3.3  update constants, library.json, license
+
 
 
 #include "AD524X.h"
 
-#define AS524X_RDAC0    0x00
-#define AS524X_RDAC1    0x80
-#define AS524X_RESET    0x40
-#define AS524X_SHUTDOWN 0x20
-#define AS524X_O1_HIGH  0x10
-#define AS524X_O2_HIGH  0x08
+#define AD524X_RDAC0    0x00
+#define AD524X_RDAC1    0x80
+#define AD524X_RESET    0x40
+#define AD524X_SHUTDOWN 0x20
+#define AD524X_O1_HIGH  0x10
+#define AD524X_O2_HIGH  0x08
 
 
 AD524X::AD524X(const uint8_t address, TwoWire *wire)
@@ -80,9 +82,9 @@ uint8_t AD524X::zeroAll()
 
 uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
 {
-  if (rdac >= _pmCount) return AS524X_ERROR;
+  if (rdac >= _pmCount) return AD524X_ERROR;
 
-  uint8_t cmd = (rdac == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
+  uint8_t cmd = (rdac == 0) ? AD524X_RDAC0 : AD524X_RDAC1;
   // apply the output lines
   cmd = cmd | _O1 | _O2;
   _lastValue[rdac] = value;
@@ -92,11 +94,11 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
 
 uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
 {
-  if (rdac >= _pmCount) return AS524X_ERROR;
+  if (rdac >= _pmCount) return AD524X_ERROR;
 
-  uint8_t cmd = (rdac == 0) ? AS524X_RDAC0 : AS524X_RDAC1;
-  _O1 = (O1 == LOW) ? 0 : AS524X_O1_HIGH;
-  _O2 = (O2 == LOW) ? 0 : AS524X_O2_HIGH;
+  uint8_t cmd = (rdac == 0) ? AD524X_RDAC0 : AD524X_RDAC1;
+  _O1 = (O1 == LOW) ? 0 : AD524X_O1_HIGH;
+  _O2 = (O2 == LOW) ? 0 : AD524X_O2_HIGH;
   // apply the output lines
   cmd = cmd | _O1 | _O2;
   _lastValue[rdac] = value;
@@ -106,16 +108,16 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1,
 
 uint8_t AD524X::setO1(const uint8_t value)
 {
-  _O1 = (value == LOW) ? 0 : AS524X_O1_HIGH;
-  uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
+  _O1 = (value == LOW) ? 0 : AD524X_O1_HIGH;
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
   return send(cmd, _lastValue[0]);
 }
 
 
 uint8_t AD524X::setO2(const uint8_t value)
 {
-  _O2 = (value == LOW) ? 0: AS524X_O2_HIGH;
-  uint8_t cmd = AS524X_RDAC0 | _O1 | _O2;
+  _O2 = (value == LOW) ? 0: AD524X_O2_HIGH;
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
   return send(cmd, _lastValue[0]);
 }
 
@@ -149,10 +151,10 @@ uint8_t AD524X::readBackRegister()
 
 uint8_t AD524X::midScaleReset(const uint8_t rdac)
 {
-  if (rdac >= _pmCount) return AS524X_ERROR;
+  if (rdac >= _pmCount) return AD524X_ERROR;
 
-  uint8_t cmd = AS524X_RESET;
-  if (rdac == 1) cmd |= AS524X_RDAC1;
+  uint8_t cmd = AD524X_RESET;
+  if (rdac == 1) cmd |= AD524X_RDAC1;
   cmd = cmd | _O1 | _O2;
   _lastValue[rdac] = 127;
   return send(cmd, _lastValue[rdac]);
@@ -162,7 +164,7 @@ uint8_t AD524X::midScaleReset(const uint8_t rdac)
 // read datasheet P.15 
 uint8_t AD524X::shutDown()
 {
-  uint8_t cmd = AS524X_SHUTDOWN;  // TODO TEST & VERIFY
+  uint8_t cmd = AD524X_SHUTDOWN;  // TODO TEST & VERIFY
   return send(cmd, 0);
 }
 

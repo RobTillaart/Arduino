@@ -128,6 +128,13 @@ unittest(test_O1_O2)
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0, AD524X_OK);
+  assertEqual(100, AD524X_ERROR);
+}
+
+
 unittest_main()
 
 // --------

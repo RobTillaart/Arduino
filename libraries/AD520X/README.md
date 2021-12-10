@@ -8,14 +8,14 @@
 
 # AD520X
 
-Arduino library for SPI AD5204 and AD5206 digital potentiometers
+Arduino library for SPI AD5204 and AD5206 digital potentiometers.
 
 Should work for the AD840x series too (not tested). 
 
 
 ## Description
 
-The library is still experimental as not all functionality is tested (enough).
+The library is experimental as not all functionality is tested (enough).
 
 The **AD5204** (4 channels) and **AD5206** (6 channels) are SPI based digital potentiometers.
 This library consists of a base class **AD520X** that does the work.
@@ -52,24 +52,27 @@ reset and shutdown may be set to 255 too, which effectively disables them.
 - **AD8402(select, reset, shutdown, dataOut = 255, clock = 255)** has 2 channels.
 - **AD8403(select, reset, shutdown, dataOut = 255, clock = 255)** has 4 channels.
 
-Note: hardware SPI is 10+ times faster on an UNO.
+Note: hardware SPI is 10+ times faster on an UNO than software SPI. 
 
 
 ### Base
 
 Since 0.2.0 the functions have more default parameters. Potentiometer is default pot 0 
-and value is default the middle value of 128. 
+and value is default the **AD520X_MIDDLE_VALUE** of 128.
 
 - **void begin(uint8_t value = 128)** value is the initial value of all potentiometer.
 - **bool setValue(uint8_t pm = 0, uint8_t value = 128)** set a potentiometer to a value. 
 Default value is middle value.  
 Returns true if successful, false if not.
-- **void setAll(uint8_t value)** set all potentiometers to the same value e.g. 0 or max or mid value.
+- **void setAll(uint8_t value = 128)** set all potentiometers to the same value e.g. 0 or max or mid value.
 - **uint8_t getValue(uint8_t pm = 0)** returns the last set value of a specific potentiometer.
 - **void reset(uint8_t value = 128)** resets all potentiometers to value, default 128.
 - **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%  
 Returns true when successful, false if not.
 - **float getPercentage(uint8_t pm = 0)** return the value of potentiometer pm as percentage.
+
+
+The library has defined **#define AD520X_MIDDLE_VALUE  128**
 
 
 ### Hardware SPI
@@ -99,8 +102,17 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 - **uint8_t pmCount()** returns the number of internal potentiometers.
 - **void powerOn()** switches the module on.
 - **void powerOff()** switches the module off.
-- **void powerDown()** OBSOLETE => use powerOff() instead.
 - **bool isPowerOn()** returns true if on (default) or false if off.
+
+
+### Obsolete
+
+- **void powerDown()** OBSOLETE => use powerOff() instead.
+
+
+## Operations
+
+See examples.
 
 
 ## Future
@@ -117,9 +129,6 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 - **void setGamma(uint8_t pm, float gamma)**
   - logarithmic effect? easier with setPercentage()
   - see gamma library.
-- **middle value** 127 ?
+- **AD520X_MIDDLE_VALUE** 127 ?
+- **setSWSPIdelay()** to tune software SPI?
 
-
-## Operations
-
-See examples.

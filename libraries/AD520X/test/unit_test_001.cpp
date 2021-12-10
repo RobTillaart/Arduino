@@ -39,7 +39,7 @@ unittest_teardown()
 
 unittest(test_begin)
 {
-  fprintf(stderr, "AD520X_LIB_VERSION:\t%s", AD520X_LIB_VERSION);
+  fprintf(stderr, "AD520X_LIB_VERSION:\t%s\n", (char *) AD520X_LIB_VERSION);
   AD5204 pot = AD5204(10, 12, 13);  // HW SPI
   pot.begin();
   assertEqual(128, pot.getValue(0));
@@ -65,6 +65,12 @@ unittest(test_setValue)
   for (int i = 0; i < pot.pmCount(); i++)
   {
     assertEqual(42, pot.getValue(i));
+  }
+
+  pot.setAll();
+  for (int i = 0; i < pot.pmCount(); i++)
+  {
+    assertEqual(128, pot.getValue(i));
   }
 
   assertFalse(pot.setValue(6, 10));

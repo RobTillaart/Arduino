@@ -2,7 +2,7 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers (+ older AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
 //
@@ -16,6 +16,8 @@
 //                      add SetSPIspeed (generic)
 //  0.2.0   2021-10-16  update build-CI
 //                      add get- and setPercentage()
+//  0.2.1   2021-12-10  update library.json, licence
+//                      default value for setAll()
 
 
 #include "AD520X.h"

@@ -10,6 +10,7 @@
 // just for develop scratch pad
 // need to make the CRC function public in the library
 
+
 #include "AGS02MA.h"
 
 
@@ -74,7 +75,6 @@ void setup()
 
 void loop()
 {
-
 }
 
 

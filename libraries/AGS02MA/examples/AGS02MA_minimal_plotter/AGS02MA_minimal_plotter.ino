@@ -1,7 +1,7 @@
 //
 //    FILE: AGS02MA_minimal_plotter.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test application
+// PURPOSE: test application not using the library
 //    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -17,6 +17,7 @@
 uint8_t buffer[5];
 
 uint8_t cnt = 0;
+
 
 void setup()
 {
@@ -56,5 +57,6 @@ void loop()
     delay(2000);
   }
 }
+
 
 // -- END OF FILE --

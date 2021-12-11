@@ -1,3 +1,4 @@
+
 [![Arduino CI](https://github.com/RobTillaart/AGS02MA/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AGS02MA/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AGS02MA/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AGS02MA/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AGS02MA/actions/workflows/jsoncheck.yml)
@@ -10,7 +11,7 @@
 Arduino library for AGS02MA TVOC sensor.
 
 This library is experimental, so please use with care.
-Note the warning about the I2C speed, the device works at 30 KHz.
+Note the warning about the I2C speed, the device works at only 30 KHz.
 
 
 ## I2C - warning low speed
@@ -43,8 +44,7 @@ The reset clock speed can be changed with **setI2CResetSpeed()** e.g. to 200 or 
 
 - **bool isHeated()** returns true if 2 minutes have passed after startup (call of **begin()** ).
 Otherwise the device is not optimal ready.
-According to the datasheet the preheating will improve the quality
-of the measurements.
+According to the datasheet the preheating will improve the quality of the measurements.
 - **uint32_t lastRead()** last time the device is read, timestamp is in milliseconds since start.
 Returns 0 if **readPPB()** or **readUGM3()** is not called yet.  
 This function allows to implement sort of asynchronous wait.  
@@ -58,14 +58,14 @@ If function succeeds the address changes immediately and will be persistent over
 - **uint8_t getAddress()** returns the set address. Default the function will return 26 or 0x1A.
 - **uint8_t getSensorVersion()** reads sensor version from device.  
 If the version cannot be read the function will return 255.  
-(My test sensors all return 117)
+(My test sensors all return version 117)
 
 The library sets the clock speed to 30 KHz (for non AVR) during operation 
 and resets it to 100 KHz after operation.
 This is done to minimize interference with the communication of other devices.
 The following function can change the I2C reset speed to e.g. 200 or 400 KHz.
 
-- **void setI2CResetSpeed(uint32_t s)** sets the I2C speed the library need to reset the I2C speed to.
+- **void setI2CResetSpeed(uint32_t speed)** sets the I2C speed the library need to reset the I2C speed to.
 - **uint32_t getI2CResetSpeed()** returns the value set. Default is 100 KHz.
 
 
@@ -97,14 +97,14 @@ Simplified formula for 1 atm @ 25°C:
 
 Some known gasses
 
-|  gas    |  ratio              | molecular weight M |
-|:--------|:--------------------|:------------------:|
-| SO2     | 1 ppb = 2.62 μg/m3  | 64 |
-| NO2     | 1 ppb = 1.88 μg/m3  | 46 |
-| NO      | 1 ppb = 1.25 μg/m3  | 30 |
-| O3      | 1 ppb = 2.00 μg/m3  | 48 |
-| CO      | 1 ppb = 1.145 μg/m3 | 28 |
-| Benzene | 1 ppb = 3.19 μg/m3  | 78 | C6H6 |
+|  gas | Common name   |  ratio              | molecular weight M |
+|:-----|:--------------|:--------------------|:------------------:|
+| SO2  |               | 1 ppb = 2.62 μg/m3  | 64                 |
+| NO2  |               | 1 ppb = 1.88 μg/m3  | 46                 |
+| NO   |               | 1 ppb = 1.25 μg/m3  | 30                 |
+| O3   |               | 1 ppb = 2.00 μg/m3  | 48                 |
+| CO   |               | 1 ppb = 1.145 μg/m3 | 28                 |
+| C6H6 | Benzene       | 1 ppb = 3.19 μg/m3  | 78                 |
 
 
 ### Reading
@@ -147,10 +147,10 @@ Read datasheet or table below for details.
 
 #### Status bits.
 
-| bit  | description            |
-|:----:|:-----------------------|
-| 7-4  | internal use           |
-| 3-1  | 000 = PPB  001 = uG/M3 |
+| bit  | description                       |
+|:----:|:----------------------------------|
+| 7-4  | internal use                      |
+| 3-1  | 000 = PPB  001 = uG/M3            |
 |  0   | RDY bit  0 = ready  1 = not ready |
 
 

@@ -3,7 +3,7 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
 //    DATE: 2021-08-12
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.1.2"))
+#define AGS02MA_LIB_VERSION         (F("0.1.3"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
@@ -47,7 +47,7 @@ public:
 
   // to set the speed the I2C bus should return to
   // as the device operates at very low bus speed of 30 kHz.
-  void     setI2CResetSpeed(uint32_t s) { _I2CResetSpeed = s; };
+  void     setI2CResetSpeed(uint32_t speed) { _I2CResetSpeed = speed; };
   uint32_t getI2CResetSpeed() { return _I2CResetSpeed; };
 
   // to be called after at least 5 minutes in fresh air.

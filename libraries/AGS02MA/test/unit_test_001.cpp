@@ -33,8 +33,22 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  fprintf(stderr, "AGS02MA_LIB_VERSION: %s\n", (char *) AGS02MA_LIB_VERSION);
+
+  assertEqual(  0, AGS02MA_OK);
+  assertEqual(-10, AGS02MA_ERROR);
+  assertEqual(-11, AGS02MA_ERROR_CRC);
+  assertEqual(-12, AGS02MA_ERROR_READ);
+
+  assertEqual(30000, AGS02MA_I2C_CLOCK);
 }
 
 
@@ -43,7 +57,7 @@ unittest(test_base)
   AGS02MA AGS(26);
   Wire.begin();
 
-  fprintf(stderr, "AGS02MA_LIB_VERSION: %s\n", AGS02MA_LIB_VERSION);
+  fprintf(stderr, "AGS02MA_LIB_VERSION: %s\n", (char *) AGS02MA_LIB_VERSION);
 
   assertTrue(AGS.begin());
   assertTrue(AGS.isConnected());   // TODO - GODMODE
@@ -69,7 +83,7 @@ unittest(test_mode)
   AGS02MA AGS(26);
   Wire.begin();
 
-  fprintf(stderr, "AGS02MA_LIB_VERSION: %s\n", AGS02MA_LIB_VERSION);
+  fprintf(stderr, "AGS02MA_LIB_VERSION: %s\n", (char *) AGS02MA_LIB_VERSION);
 
   assertTrue(AGS.begin());
   assertTrue(AGS.isConnected());   // TODO - GODMODE

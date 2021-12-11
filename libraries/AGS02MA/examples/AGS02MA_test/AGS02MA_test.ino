@@ -39,7 +39,6 @@ void setup()
   uint8_t version = AGS.getSensorVersion();
   Serial.print("VERS:\t");
   Serial.println(version);
-
 }
 
 

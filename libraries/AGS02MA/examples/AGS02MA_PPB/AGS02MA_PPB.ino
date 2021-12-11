@@ -7,6 +7,7 @@
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 
+
 #include "AGS02MA.h"
 
 
@@ -51,7 +52,6 @@ void setup()
   uint8_t version = AGS.getSensorVersion();
   Serial.print("VERS:\t");
   Serial.println(version);
-
 }
 
 

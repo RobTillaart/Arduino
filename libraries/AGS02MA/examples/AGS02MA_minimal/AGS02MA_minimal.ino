@@ -47,7 +47,7 @@ void loop()
   Serial.print("CRC:\t");
   Serial.println(buffer[4]);
   Serial.println();
-
 }
+
 
 // -- END OF FILE --

@@ -35,6 +35,24 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  fprintf(stderr, "AM232X_LIB_VERSION: %s\n", (char *) AM232X_LIB_VERSION);
+
+  assertEqual(  0, AM232X_OK                  );
+  assertEqual(-10, AM232X_ERROR_UNKNOWN       );
+  assertEqual(-11, AM232X_ERROR_CONNECT       );
+  assertEqual(-12, AM232X_ERROR_FUNCTION      );
+  assertEqual(-13, AM232X_ERROR_ADDRESS       );
+  assertEqual(-14, AM232X_ERROR_REGISTER      );
+  assertEqual(-15, AM232X_ERROR_CRC_1         );
+  assertEqual(-16, AM232X_ERROR_CRC_2         );
+  assertEqual(-17, AM232X_ERROR_WRITE_DISABLED);
+  assertEqual(-18, AM232X_ERROR_WRITE_COUNT   );
+  assertEqual(-19, AM232X_MISSING_BYTES       );
+}
+
+
 unittest(test_demo)
 {
   AM232X AM;

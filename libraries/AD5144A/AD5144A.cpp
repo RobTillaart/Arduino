@@ -1,7 +1,7 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -11,6 +11,10 @@
 //  0.1.1   2021-05-12  add topScale() and bottomScale()
 //  0.1.2   2021-05-12  add increment() and decrement() functions
 //  0.1.3   2021-10-17  update build-ci, improve readme.md
+//  0.1.4   2021-12-10  remove experimental from version string.
+//                      add headers to library.json,
+//                      minor edits readme, license,
+//                      add check for maxValue in code. 
 
 
 #include "AD5144A.h"
@@ -22,7 +26,7 @@
 // 0      NOP
 // 4 5    linear RDAC in/decrement
 // 6 7    6dB RDAC in/decrement
-// 12 13  topscale bottom scale ???
+// 12 13  top scale bottom scale ???
 
 
 AD51XX::AD51XX(const uint8_t address, TwoWire *wire)
@@ -74,6 +78,7 @@ uint8_t AD51XX::reset()
 
 uint8_t AD51XX::writeAll(const uint8_t value)
 {
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   // COMMAND 1 - page 29
   for (uint8_t pm = 0; pm < _potCount; pm++)
   {
@@ -88,6 +93,7 @@ uint8_t AD51XX::write(const uint8_t rdac, const uint8_t value)
 {
   // COMMAND 1 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   _lastValue[rdac] = value;
   uint8_t cmd = 0x10 | rdac;
   return send(cmd, _lastValue[rdac]);
@@ -117,6 +123,7 @@ uint8_t AD51XX::storeEEPROM(const uint8_t rdac, const uint8_t value)
 {
   // COMMAND 11 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   uint8_t cmd = 0x80 | rdac;
   return send(cmd, value);
 }
@@ -293,6 +300,7 @@ uint8_t AD51XX::preload(const uint8_t rdac, const uint8_t value)
 {
   // COMMAND 2 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   _lastValue[rdac] = value;
   uint8_t cmd = 0x20 | rdac;
   return send(cmd, _lastValue[rdac]);
@@ -301,6 +309,7 @@ uint8_t AD51XX::preload(const uint8_t rdac, const uint8_t value)
 
 uint8_t AD51XX::preloadAll(const uint8_t value)
 {
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   // COMMAND 2 - page 29
   uint8_t cmd = 0x28;
   return send(cmd, value);
@@ -426,7 +435,7 @@ AD5144A::AD5144A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 AD5122A::AD5122A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 2;
-  _maxValue = 128;
+  _maxValue = 127;
 }
 
 
@@ -440,7 +449,7 @@ AD5142A::AD5142A(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 AD5121::AD5121(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
 {
   _potCount = 1;
-  _maxValue = 128;
+  _maxValue = 127;
 }
 
 

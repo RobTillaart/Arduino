@@ -9,7 +9,7 @@
 #include "AD5144A.h"
 
 // select the right type
-// adjust address
+// adjust address if needed
 AD5144A AD(0x77);
 
 

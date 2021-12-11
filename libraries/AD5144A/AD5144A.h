@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -12,12 +12,13 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION        (F("0.1.3_experimental"))
+#define AD51XXA_VERSION           (F("0.1.4"))
 
 
-#define AD51XXA_OK             0
-#define AD51XXA_ERROR          100
-#define AD51XXA_INVALID_POT    101
+#define AD51XXA_OK                0
+#define AD51XXA_ERROR             100
+#define AD51XXA_INVALID_POT       101
+#define AD51XXA_INVALID_VALUE     102
 
 
 class AD51XX
@@ -124,7 +125,6 @@ protected:
   uint8_t _potCount = 4;    // unknown, default max
   uint8_t _maxValue = 255;  // unknown, default max
 
-
 private:
   uint8_t send(const uint8_t cmd, const uint8_t value);
   uint8_t readBack(const uint8_t rdac, const uint8_t mask);
@@ -142,16 +142,19 @@ private:
 //
 class AD5123 : public AD51XX
 {
+public:
   AD5123(const uint8_t address, TwoWire *wire = &Wire);
 };
 
 class AD5124 : public AD51XX
 {
+public:
   AD5124(const uint8_t address, TwoWire *wire = &Wire);
 };
 
 class AD5143 : public AD51XX
 {
+public:
   AD5143(const uint8_t address, TwoWire *wire = &Wire);
 };
 
@@ -169,6 +172,7 @@ public:
 
 class AD5122A : public AD51XX
 {
+public:
   AD5122A(const uint8_t address, TwoWire *wire = &Wire);
 };
 

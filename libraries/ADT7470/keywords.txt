@@ -1,6 +1,6 @@
-# Syntax Coloring Map For ADT7470
+# Syntax Colouring Map For ADT7470
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 ADT7470	KEYWORD1
 
 # Methods and Functions (KEYWORD2)

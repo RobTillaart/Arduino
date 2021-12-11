@@ -34,6 +34,17 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  fprintf(stderr, "ADT7470_LIB_VERSION: %s\n", (char *)ADT7470_LIB_VERSION);
+
+  assertEqual(1000, ADT7470_TIMEOUT);
+  assertEqual(0x2F, ADT7470_ADDR_HIGH);
+  assertEqual(0x2C, ADT7470_ADDR_LOW);
+  assertEqual(0x2E, ADT7470_ADDR_FLOAT);
+}
+
+
 unittest(test_constructor)
 {
   ADT7470 ADT(0x2C);

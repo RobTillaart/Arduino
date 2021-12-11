@@ -11,9 +11,10 @@
 //  0.0.01  2015-12-03  first beta
 //  0.1.0   2020-07-15  major refactor - first public version
 //  0.1.1   2020-08     fixes after testing
-//  0.1.2   2020-12-09  arduino-ci
+//  0.1.2   2020-12-09  Arduino-CI
 //  0.1.3   2021-10-17  update Arduino-CI
-//
+//  0.1.4   2021-12-11  update library.json, license, readme.md
+//                      idx => index, val => value for readability.
 
 
 #include "ADT7470.h"
@@ -148,10 +149,10 @@ void ADT7470::powerUp()
 // make these calls async as waiting up to 2 seconds is an 'eternity'
 // void startConversion();
 // bool conversionReady();
-// int8_t getTemperature(uin8_t idx);
-int8_t ADT7470::getTemperature(uint8_t idx)
+// int8_t getTemperature(uin8_t index);
+int8_t ADT7470::getTemperature(uint8_t index)
 {
-  if (idx >= 10) return 0;
+  if (index >= 10) return 0;
   // 1. Set Register 40 Bit[7] = 1. This starts the temperature measurements.
   setRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_T05_STB);
   // 2. Wait 200 ms for each TMP05/TMP06 in the loop.
@@ -159,7 +160,7 @@ int8_t ADT7470::getTemperature(uint8_t idx)
   // 3. Set Register 40 Bit[7] = 0.
   clrRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_T05_STB); 
   // 4. Read the temperature registers.
-  return (int8_t) getReg8(ADT7470_TEMP_BASE + idx);
+  return (int8_t) getReg8(ADT7470_TEMP_BASE + index);
 }
 
 
@@ -169,25 +170,25 @@ int8_t ADT7470::getMaxTemperature()
 }
 
 
-bool ADT7470::setTemperatureLimit(uint8_t idx, int8_t low, int8_t high)
+bool ADT7470::setTemperatureLimit(uint8_t index, int8_t low, int8_t high)
 {
-  if ((idx >= 10) || (low >= high)) return false;
-  setReg8(ADT7470_TEMP_LIMIT_BASE + idx * 2, low);
-  setReg8(ADT7470_TEMP_LIMIT_BASE + idx * 2 + 1, high);
+  if ((index >= 10) || (low >= high)) return false;
+  setReg8(ADT7470_TEMP_LIMIT_BASE + index * 2, low);
+  setReg8(ADT7470_TEMP_LIMIT_BASE + index * 2 + 1, high);
   return true;
 }
 
 
-int8_t ADT7470::getTemperatureLowLimit(uint8_t idx)
+int8_t ADT7470::getTemperatureLowLimit(uint8_t index)
 {
-  int8_t rv = getReg8(ADT7470_TEMP_LIMIT_BASE + 2 * idx);
+  int8_t rv = getReg8(ADT7470_TEMP_LIMIT_BASE + 2 * index);
   return rv;
 }
 
 
-int8_t ADT7470::getTemperatureHighLimit(uint8_t idx)
+int8_t ADT7470::getTemperatureHighLimit(uint8_t index)
 {
-  int8_t rv = getReg8(ADT7470_TEMP_LIMIT_BASE + 2 * idx + 1);
+  int8_t rv = getReg8(ADT7470_TEMP_LIMIT_BASE + 2 * index + 1);
   return rv;
 }
 
@@ -195,24 +196,24 @@ int8_t ADT7470::getTemperatureHighLimit(uint8_t idx)
 //
 // SET FAN SPEED
 //
-bool ADT7470::setPWM(uint8_t idx, uint8_t val)
+bool ADT7470::setPWM(uint8_t index, uint8_t value)
 {
-  if (idx >= 4) return false;
-  setReg8(ADT7470_FAN_PWM_BASE + idx, val);
+  if (index >= 4) return false;
+  setReg8(ADT7470_FAN_PWM_BASE + index, value);
   return true;
 }
 
 
-uint8_t ADT7470::getPWM(uint8_t idx)
+uint8_t ADT7470::getPWM(uint8_t index)
 {
-  if (idx >= 4) return 0;
-  return getReg8(ADT7470_FAN_PWM_BASE + idx);
+  if (index >= 4) return 0;
+  return getReg8(ADT7470_FAN_PWM_BASE + index);
 }
 
 
-bool ADT7470::setFanLowFreq(uint8_t val)
+bool ADT7470::setFanLowFreq(uint8_t value)
 {
-  if (val > 7) return false;
+  if (value > 7) return false;
   setRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_LOW_FREQ_DRIVE);
   // make sure all bits are 0.          
   // Can be more efficient  check previous value.
@@ -221,37 +222,37 @@ bool ADT7470::setFanLowFreq(uint8_t val)
   // else clr bits & set
   // write them
   clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  // clr 3 bits 
-  setRegMask(ADT7470_CONFIG_REGISTER_2, (val << 4));
+  setRegMask(ADT7470_CONFIG_REGISTER_2, (value << 4));
   return true;
 }
 
 
-bool ADT7470::setFanHighFreq(uint8_t val)
+bool ADT7470::setFanHighFreq(uint8_t value)
 {
-  if (val > 7) return false;
+  if (value > 7) return false;
   clrRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_LOW_FREQ_DRIVE);
   // make sure all bits are 0 first.    // Can be more efficient  check previous value.
   clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  // clr 3 bits 
-  setRegMask(ADT7470_CONFIG_REGISTER_2, (val << 4));
+  setRegMask(ADT7470_CONFIG_REGISTER_2, (value << 4));
   return true;
 }
 
 
-void ADT7470::setInvertPWM(uint8_t idx)
+void ADT7470::setInvertPWM(uint8_t index)
 {
-  if (idx == 0) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x10);  // bit 5
-  if (idx == 1) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x80);  // bit 4
-  if (idx == 2) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x10);
-  if (idx == 3) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x80);
+  if (index == 0) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x10);  // bit 5
+  if (index == 1) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x80);  // bit 4
+  if (index == 2) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x10);
+  if (index == 3) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x80);
 }
 
 
-uint8_t ADT7470::getInvertPWM(uint8_t idx)
+uint8_t ADT7470::getInvertPWM(uint8_t index)
 {
-  if (idx == 0) return getReg8(ADT7470_FAN_PWM_CONFIG_1) & 0x10;
-  if (idx == 1) return getReg8(ADT7470_FAN_PWM_CONFIG_1) & 0x80;
-  if (idx == 2) return getReg8(ADT7470_FAN_PWM_CONFIG_2) & 0x10;
-  if (idx == 3) return getReg8(ADT7470_FAN_PWM_CONFIG_2) & 0x80;
+  if (index == 0) return getReg8(ADT7470_FAN_PWM_CONFIG_1) & 0x10;
+  if (index == 1) return getReg8(ADT7470_FAN_PWM_CONFIG_1) & 0x80;
+  if (index == 2) return getReg8(ADT7470_FAN_PWM_CONFIG_2) & 0x10;
+  if (index == 3) return getReg8(ADT7470_FAN_PWM_CONFIG_2) & 0x80;
   return 0;
 }
 
@@ -259,26 +260,26 @@ uint8_t ADT7470::getInvertPWM(uint8_t idx)
 //
 // MEASURE FAN SPEED
 //
-bool ADT7470::setPulsesPerRevolution(uint8_t idx, uint8_t val)
+bool ADT7470::setPulsesPerRevolution(uint8_t index, uint8_t value)
 {
-  if (idx >= 4) return false;
-  if ((val == 0) || (val > 4)) return false;
-  uint8_t mask = 0x03 << (idx * 2);
+  if (index >= 4) return false;
+  if ((value == 0) || (value > 4)) return false;
+  uint8_t mask = 0x03 << (index * 2);
 
   uint8_t reg;
   _read(ADT7470_FAN_PPR_REGISTER, &reg);
   reg &= ~mask;
-  reg |= ((val - 1) << (idx * 2));
+  reg |= ((value - 1) << (index * 2));
   _write(ADT7470_FAN_PPR_REGISTER, reg);
   return true;
 }
 
 
-uint8_t ADT7470::getPulsesPerRevolution(uint8_t idx)
+uint8_t ADT7470::getPulsesPerRevolution(uint8_t index)
 {
-  if (idx >= 4) return 0;
+  if (index >= 4) return 0;
   uint8_t reg = getReg8(ADT7470_FAN_PPR_REGISTER);
-  return ((reg >> (idx * 2)) & 0x03) + 1;
+  return ((reg >> (index * 2)) & 0x03) + 1;
 }
 
 
@@ -294,19 +295,19 @@ void ADT7470::setSlowTach()
 }
 
 
-uint16_t ADT7470::getTach(uint8_t idx)
+uint16_t ADT7470::getTach(uint8_t index)
 {
-  if (idx >= 4) return 0;
-  return getReg16(ADT7470_TACH_BASE + idx * 2);
+  if (index >= 4) return 0;
+  return getReg16(ADT7470_TACH_BASE + index * 2);
 }
 
 
-uint32_t ADT7470::getRPM(uint8_t idx)
+uint32_t ADT7470::getRPM(uint8_t index)
 {
-  if (idx >= 4) return 0;
+  if (index >= 4) return 0;
   uint32_t clock = 90000UL;
   uint16_t measurementsPerMinute = 60;
-  uint16_t tach = getTach(idx);
+  uint16_t tach = getTach(index);
   // P23 stalling tach or very slow < 100 ==> 0xFFFF
   if (tach == 0xFFFF) return 0;
   if (tach == 0) return 0;  // explicit prevents divide by zero
@@ -317,25 +318,25 @@ uint32_t ADT7470::getRPM(uint8_t idx)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool ADT7470::setTachLimits(uint8_t idx, uint16_t low, uint16_t high)
+bool ADT7470::setTachLimits(uint8_t index, uint16_t low, uint16_t high)
 {
-  if ((idx >= 4) || (low >= high)) return false;
-  setReg16(ADT7470_TACH_LOW_LIMIT_BASE + idx * 2, low);
-  setReg16(ADT7470_TACH_HIGH_LIMIT_BASE + idx * 2, high);
+  if ((index >= 4) || (low >= high)) return false;
+  setReg16(ADT7470_TACH_LOW_LIMIT_BASE + index * 2, low);
+  setReg16(ADT7470_TACH_HIGH_LIMIT_BASE + index * 2, high);
   return true;
 }
 
 
-uint16_t ADT7470::getTachLowLimits(uint8_t idx)
+uint16_t ADT7470::getTachLowLimits(uint8_t index)
 {
-  uint16_t rv = getReg16(ADT7470_TACH_LOW_LIMIT_BASE + idx * 2);
+  uint16_t rv = getReg16(ADT7470_TACH_LOW_LIMIT_BASE + index * 2);
   return rv;
 }
 
 
-uint16_t ADT7470::getTachHighLimits(uint8_t idx)
+uint16_t ADT7470::getTachHighLimits(uint8_t index)
 {
-  uint16_t rv = getReg16(ADT7470_TACH_HIGH_LIMIT_BASE + idx * 2);
+  uint16_t rv = getReg16(ADT7470_TACH_HIGH_LIMIT_BASE + index * 2);
   return rv;
 }
 
@@ -348,80 +349,80 @@ uint16_t ADT7470::getTemperatureIRQstatus()
   // TODO -  NORM bit not handled
   // uint8_t NORM = (getReg8(ADT7470_IRQ_STATUS_2) & 0x08) >> 3;
 
-  uint16_t val = 0;
-  val = (getReg8(ADT7470_IRQ_STATUS_2) & 0x07) << 7;
-  val |= (getReg8(ADT7470_IRQ_STATUS_1) & 0x7F);
-  return val;
+  uint16_t value = 0;
+  value = (getReg8(ADT7470_IRQ_STATUS_2) & 0x07) << 7;
+  value |= (getReg8(ADT7470_IRQ_STATUS_1) & 0x7F);
+  return value;
 }
 
 
 uint8_t ADT7470::getFanIRQstatus()
 {
-  uint8_t val = (getReg8(ADT7470_IRQ_STATUS_2) & 0xF0) >> 4;
-  return val;
+  uint8_t value = (getReg8(ADT7470_IRQ_STATUS_2) & 0xF0) >> 4;
+  return value;
 }
 
 
-// TODO MERGE? setTemperatureIRQMask(idx, val);  ?
-void ADT7470::setTemperatureIRQMask(uint8_t idx)
+// TODO MERGE? setTemperatureIRQMask(index, value);  ?
+void ADT7470::setTemperatureIRQMask(uint8_t index)
 {
   uint8_t reg = ADT7470_IRQ_MASK_REG_1;
-  if (idx > 7)
+  if (index > 7)
   {
     reg = ADT7470_IRQ_MASK_REG_2;
-    idx -= 7;
+    index -= 7;
   }
-  uint8_t val = getReg8(reg);
-  val |= (1 << idx);
-  setReg8(reg, val);
+  uint8_t value = getReg8(reg);
+  value |= (1 << index);
+  setReg8(reg, value);
 }
 
 
-void ADT7470::clrTemperatureIRQMask(uint8_t idx)
+void ADT7470::clrTemperatureIRQMask(uint8_t index)
 {
   uint8_t reg = ADT7470_IRQ_MASK_REG_1;
-  if (idx > 7)
+  if (index > 7)
   {
     reg = ADT7470_IRQ_MASK_REG_2;
-    idx -= 7;
+    index -= 7;
   }
-  uint8_t val = getReg8(reg);
-  val &= ~(1 << idx);
-  setReg8(reg, val);
+  uint8_t value = getReg8(reg);
+  value &= ~(1 << index);
+  setReg8(reg, value);
 }
 
 
-uint8_t ADT7470::getTemperatureIRQMask(uint8_t idx)
+uint8_t ADT7470::getTemperatureIRQMask(uint8_t index)
 {
   uint8_t reg = ADT7470_IRQ_MASK_REG_1;
-  if (idx > 7)
+  if (index > 7)
   {
     reg = ADT7470_IRQ_MASK_REG_2;
-    idx -= 7;
+    index -= 7;
   }
-  return getReg8(reg) & (1 << idx);
+  return getReg8(reg) & (1 << index);
 }
 
 
-void ADT7470::setFanIRQMask(uint8_t idx)
+void ADT7470::setFanIRQMask(uint8_t index)
 {
-  uint8_t val = getReg8(ADT7470_IRQ_MASK_REG_2);
-  val |= (1 << (idx + 4));
-  setReg8(ADT7470_IRQ_MASK_REG_2, val);
+  uint8_t value = getReg8(ADT7470_IRQ_MASK_REG_2);
+  value |= (1 << (index + 4));
+  setReg8(ADT7470_IRQ_MASK_REG_2, value);
 }
 
 
-void ADT7470::clrFanIRQMask(uint8_t idx)
+void ADT7470::clrFanIRQMask(uint8_t index)
 {
-  uint8_t val = getReg8(ADT7470_IRQ_MASK_REG_2);
-  val &= ~(1 << (idx + 4));
-  setReg8(ADT7470_IRQ_MASK_REG_2, val);
+  uint8_t value = getReg8(ADT7470_IRQ_MASK_REG_2);
+  value &= ~(1 << (index + 4));
+  setReg8(ADT7470_IRQ_MASK_REG_2, value);
 }
 
 
-uint8_t ADT7470::getFanIRQMask(uint8_t idx)
+uint8_t ADT7470::getFanIRQMask(uint8_t index)
 {
-  return getReg8(ADT7470_IRQ_MASK_REG_2) & (1 << (idx + 4));
+  return getReg8(ADT7470_IRQ_MASK_REG_2) & (1 << (index + 4));
 }
 
 
@@ -449,15 +450,15 @@ void ADT7470::clrRegMask(uint8_t reg, uint8_t mask)
 
 uint8_t ADT7470::getReg8(uint8_t reg)
 {
-  uint8_t val;
-  _read(reg, &val);
-  return val;
+  uint8_t value;
+  _read(reg, &value);
+  return value;
 }
 
 
-void ADT7470::setReg8(uint8_t reg, uint8_t val)
+void ADT7470::setReg8(uint8_t reg, uint8_t value)
 {
-  _write(reg, val);
+  _write(reg, value);
 }
 
 
@@ -470,10 +471,10 @@ uint16_t ADT7470::getReg16(uint8_t reg)
 }
 
 
-void ADT7470::setReg16(uint8_t reg, uint16_t val)
+void ADT7470::setReg16(uint8_t reg, uint16_t value)
 {
-  _write(reg + 1, val & 0xFF);
-  _write(reg, val >> 8);
+  _write(reg + 1, value & 0xFF);
+  _write(reg, value >> 8);
 }
 
 

@@ -11,6 +11,7 @@
 
 ADT7470 ADT(ADT7470_ADDR_FLOAT);
 
+
 void setup()
 {
   Wire.begin();
@@ -40,6 +41,7 @@ void setup()
   Serial.println("Done");
 }
 
+
 void testStart()
 {
   Serial.println(F("ADT7470 testStart"));
@@ -67,6 +69,7 @@ void testRevision()
   delay(10);
 }
 
+
 void testTemp()
 {
   Serial.println(F("ADT7470 testTemp 0..9"));
@@ -85,6 +88,7 @@ void testTemp()
   Serial.println();
   delay(10);
 }
+
 
 void testPWM()
 {
@@ -110,6 +114,7 @@ void testPWM()
   Serial.println();
   delay(10);
 }
+
 
 void testTach()
 {
@@ -205,6 +210,7 @@ void testFanSpeed()
   delay(10);
 }
 
+
 void testStop()
 {
   Serial.println(F("ADT7470 testStop"));
@@ -219,4 +225,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

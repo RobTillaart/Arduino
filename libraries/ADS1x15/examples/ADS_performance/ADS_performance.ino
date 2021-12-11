@@ -16,16 +16,19 @@
 
 #include "ADS1X15.h"
 
+
 // choose you sensor
 // ADS1013 ADS(0x48);
 // ADS1014 ADS(0x48);
 // ADS1015 ADS(0x48);
 // ADS1113 ADS(0x48);
 // ADS1114 ADS(0x48);
+
 ADS1115 ADS(0x48);
 
 uint32_t start, d1, d2;
 int x;
+
 
 void setup()
 {
@@ -53,9 +56,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_single_shot()
 {
@@ -73,6 +78,7 @@ void test_single_shot()
   Serial.println(d1);
 }
 
+
 void test_continuous()
 {
   Serial.print(__FUNCTION__);
@@ -89,4 +95,6 @@ void test_continuous()
   Serial.println(d2);
 }
 
+
 // -- END OF FILE --
+

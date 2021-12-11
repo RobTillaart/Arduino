@@ -16,6 +16,7 @@
 
 #include "ADS1X15.h"
 
+
 // choose you sensor
 // ADS1013 ADS(0x48);
 // ADS1014 ADS(0x48);
@@ -39,9 +40,13 @@ void setup()
   ADS.readADC(0);      // first read to trigger
 }
 
+
 void loop()
 {
   Serial.println(ADS.getValue());
+  // optional other code here
 }
 
+
 // -- END OF FILE --
+

@@ -14,9 +14,11 @@
 // measure at x (connect to AIN0).
 //
 
+
 #include "ADS1X15.h"
 
 ADS1115 ADS(0x48);
+
 
 void setup() 
 {
@@ -27,6 +29,7 @@ void setup()
 
   ADS.begin();
 }
+
 
 void loop() 
 {
@@ -48,4 +51,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

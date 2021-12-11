@@ -18,7 +18,9 @@
 // so one can see these as references in the output.
 //
 
+
 #include "ADS1X15.h"
+
 
 // choose you sensor
 // ADS1013 ADS(0x48);
@@ -31,6 +33,7 @@ ADS1115 ADS(0x48);
 volatile bool RDY = false;
 uint8_t channel = 0;
 int16_t val[4] = { 0, 0, 0, 0 };
+
 
 void setup()
 {
@@ -59,6 +62,7 @@ void setup()
   ADS.readADC(channel);     // trigger first read
 }
 
+
 void loop()
 {
   handleConversion();
@@ -73,10 +77,14 @@ void loop()
   delay(100);
 }
 
+
+//  interrupt service routine
+//  kept as minimal as possible 
 void adsReady()
 {
   RDY = true;
 }
+
 
 void handleConversion()
 {
@@ -91,4 +99,7 @@ void handleConversion()
     RDY = false;
   }
 }
+
+
 // -- END OF FILE --
+

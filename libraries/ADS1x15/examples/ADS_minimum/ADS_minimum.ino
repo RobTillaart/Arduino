@@ -15,7 +15,9 @@
 
 // view with Serial Plotter
 
+
 #include "ADS1X15.h"
+
 
 // choose you sensor
 // ADS1013 ADS(0x48);
@@ -23,7 +25,9 @@
 // ADS1015 ADS(0x48);
 // ADS1113 ADS(0x48);
 // ADS1114 ADS(0x48);
+
 ADS1115 ADS(0x48);
+
 
 void setup() 
 {
@@ -37,10 +41,13 @@ void setup()
   Serial.println("Voltage");
 }
 
+
 void loop() 
 {
   int16_t raw = ADS.readADC(0);
   Serial.println(ADS.toVoltage(raw), 3);
 }
 
+
 // -- END OF FILE --
+

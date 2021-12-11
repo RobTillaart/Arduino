@@ -29,9 +29,24 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
+
+
+unittest(test_constants)
+{
+  fprintf(stderr, "ADS1X15_LIB_VERSION: %s\n", (char *) ADS1X15_LIB_VERSION);
+
+  assertEqual(0x48, ADS1015_ADDRESS);
+  assertEqual(0x48, ADS1115_ADDRESS);
+  assertEqual(   0, ADS1X15_OK);
+  assertEqual(-100, ADS1X15_INVALID_VOLTAGE);
+  assertEqual(0xFF, ADS1X15_INVALID_GAIN);
+  assertEqual(0xFE, ADS1X15_INVALID_MODE);
+}
+
 
 unittest(test_begin)
 {
@@ -40,6 +55,7 @@ unittest(test_begin)
   assertTrue(ADS.isConnected());
   assertTrue(ADS.isBusy());
 }
+
 
 unittest(test_gain)
 {
@@ -57,6 +73,7 @@ unittest(test_gain)
   ADS.setGain(42);
   assertEqual(0, ADS.getGain());
 }
+
 
 unittest(test_Voltage)
 {
@@ -77,5 +94,6 @@ unittest(test_Voltage)
 
 
 unittest_main()
+
 
 // --------

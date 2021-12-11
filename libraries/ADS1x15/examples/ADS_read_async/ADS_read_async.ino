@@ -14,10 +14,12 @@
 // measure at x (connect to AIN0).
 //
 
+
 #include "ADS1X15.h"
 
 ADS1115 ADS(0x48);
 float f = 0;
+
 
 void setup()
 {
@@ -31,6 +33,7 @@ void setup()
   f = ADS.toVoltage();      // voltage factor
   ADS.requestADC(0);
 }
+
 
 void loop()
 {
@@ -47,4 +50,6 @@ void loop()
   delay(2000);
 }
 
+
 // -- END OF FILE --
+

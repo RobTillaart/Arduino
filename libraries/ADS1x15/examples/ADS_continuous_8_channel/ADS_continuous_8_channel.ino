@@ -18,17 +18,24 @@
 // so one can see these as references in the output.
 //
 
+
 #include "ADS1X15.h"
+
 
 // adjust addresses if needed
 ADS1115 ADS_1(0x49);
 ADS1115 ADS_2(0x48);
 
+//  two interrupt flags
 volatile bool RDY_1 = false;
 volatile bool RDY_2 = false;
-uint8_t channel_1 = 0;
-uint8_t channel_2 = 0;
+
+uint8_t channel_1 = 0;         // channel from device 1
+uint8_t channel_2 = 0;         // channel from device 2
+
+//  array to hold the data.
 int16_t val[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
 
 void setup()
 {
@@ -73,6 +80,7 @@ void setup()
   ADS_2.readADC(channel_2);  // trigger first read
 }
 
+
 void loop()
 {
   handleConversion();
@@ -87,16 +95,19 @@ void loop()
   delay(100);
 }
 
-// catch interrupt and set flag
+
+// catch interrupt and set flag device 1
 void adsReady_1()
 {
   RDY_1 = true;
 }
 
+// catch interrupt and set flag device 1
 void adsReady_2()
 {
   RDY_2 = true;
 }
+
 
 // handle conversions that are ready
 void handleConversion()
@@ -123,4 +134,6 @@ void handleConversion()
   }
 }
 
+
 // -- END OF FILE --
+

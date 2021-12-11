@@ -7,7 +7,7 @@
 
 # ADS1X15
 
-Arduino library for I2C ADC ADS1015, ADS1115,
+Arduino library for I2C ADC ADS1015, ADS1115, and similar.
 
 
 ## Description
@@ -31,7 +31,7 @@ differential measurement.
 
 ## Interface
 
-The address of the ADS1113/4/5 is determined by to which pin the ADDR
+The address of the ADS1113/4/5 is determined by to which pin the **ADDR**
 is connected to:
 
 | ADDR pin connected to | Address | Notes   |
@@ -42,7 +42,7 @@ is connected to:
 |      SCL              |   0x4B  |         |
 
 
-- **ADS1x15()** constructor, should not be used.
+- **ADS1x15()** base constructor, should not be used.
 - **ADS1013(address, TwoWire \*wire = &Wire)** Constructor with device address, 
 and optional the Wire interface as parameter.
 - **ADS1014(address, TwoWire \*wire = &Wire)** Constructor with device address, 
@@ -170,7 +170,7 @@ in terms of code
   {
     if (ADS.isReady())
     {
-      val = ADS.getValue();
+      value = ADS.getValue();
       ADS.requestADC(pin);       // request new conversion
     }
     // do other things here
@@ -183,6 +183,7 @@ See examples
 ## ReadADC Differential
 
 For reading the ADC in a differential way there are 4 calls possible.
+
 - **int16_t readADC_Differential_0_1()** returns the difference between 2 ADC pins.
 - **int16_t readADC_Differential_0_3()** ADS1x15 only
 - **int16_t readADC_Differential_1_3()** ADS1x15 only
@@ -191,6 +192,7 @@ For reading the ADC in a differential way there are 4 calls possible.
 - **int16_t readADC_Differential_1_2()** ADS1x15 only - in software (no async equivalent)
 
 The differential reading of the ADC can also be done with asynchronous calls.
+
 - **void requestADC_Differential_0_1()** starts conversion for differential reading
 - **void requestADC_Differential_0_3()** ADS1x15 only
 - **void requestADC_Differential_1_3()** ADS1x15 only
@@ -199,8 +201,8 @@ The differential reading of the ADC can also be done with asynchronous calls.
 After one of these calls one need to call
 - **int16_t getValue()** Read the result of the last conversion.
 
-The readiness of a CONTINUOUS conversion can only be detected by the RDY line.
-Use interrupt for this, see examples.
+The readiness of a CONTINUOUS conversion can only be detected by the **RDY** line.
+Best to use an interrupt for this, see examples.
 
 
 #### ReadADC continuous mode
@@ -226,6 +228,7 @@ See examples.
 
 If the thresholdHigh is set to 0x0100 and the thresholdLow to 0x0000
 the **ALERT/RDY** pin is triggered when a conversion is ready.
+
 - **void setComparatorThresholdLow(int16_t lo)** writes value to device directly.
 - **void setComparatorThresholdHigh(int16_t hi)** writes value to device directly.
 - **int16_t getComparatorThresholdLow()** reads value from device.
@@ -304,6 +307,7 @@ A value of 3 (or above) effectively disables the comparator. See table below.
 
 Depending on the comparator mode **TRADITIONAL** or **WINDOW** the thresholds registers
 mean something different see - Comparator Mode above or datasheet.
+
 - **void setComparatorThresholdLow(int16_t lo)** set the low threshold; take care the hi >= lo.
 - **void setComparatorThresholdHigh(int16_t hi)**  set the high threshold; take care the hi >= lo.
 - **int16_t getComparatorThresholdLow()** reads value from device.

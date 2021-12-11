@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/ADS1X15"
   },
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
   "frameworks": "*",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "ADS1X15.h"
 }

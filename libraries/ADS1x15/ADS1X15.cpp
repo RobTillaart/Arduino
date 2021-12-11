@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -22,6 +22,8 @@
 //  0.3.1   2021-04-25  #22, add get/setClock() for Wire speed + reset()
 //  0.3.2   2021-10-07  fix build-CI; update readme + add new examples
 //  0.3.3   2021-10-17  update build-CI (esp32), readme.md, keywords.txt
+//  0.3.4   2021-12-11  update library.json, license, minor edits incl layout)
+//                      add unit test constants.
 
 
 #include "ADS1X15.h"
@@ -102,7 +104,7 @@ differs for different devices, check datasheet or readme.md
 #define ADS1X15_COMP_QUE_1_CONV         0x0000  // trigger alert after 1 convert
 #define ADS1X15_COMP_QUE_2_CONV         0x0001  // trigger alert after 2 converts
 #define ADS1X15_COMP_QUE_4_CONV         0x0002  // trigger alert after 4 converts
-#define ADS1X15_COMP_QUE_NONE           0x0003  // dosable comparator
+#define ADS1X15_COMP_QUE_NONE           0x0003  // disable comparator
 
 
 // _CONFIG masks
@@ -230,21 +232,21 @@ uint8_t ADS1X15::getGain()
 }
 
 
-float ADS1X15::toVoltage(int16_t val)
+float ADS1X15::toVoltage(int16_t value)
 {
-  if (val == 0) return 0;
+  if (value == 0) return 0;
 
   float volts = getMaxVoltage();
   if (volts < 0) return volts;
 
-  volts *= val;
+  volts *= value;
   if (_config & ADS_CONF_RES_16)
   {
-    volts /= 32767;  // val = 16 bits - sign bit = 15 bits mantissa
+    volts /= 32767;  // value = 16 bits - sign bit = 15 bits mantissa
   }
   else
   {
-    volts /= 2047;   // val = 12 bits - sign bit = 11 bit mantissa
+    volts /= 2047;   // value = 12 bits - sign bit = 11 bit mantissa
   }
   return volts;
 }
@@ -418,6 +420,7 @@ int16_t ADS1X15::_readADC(uint16_t readmode)
   return getValue();
 }
 
+
 void ADS1X15::_requestADC(uint16_t readmode)
 {
   // write to register is needed in continuous mode as other flags can be changed
@@ -436,6 +439,7 @@ void ADS1X15::_requestADC(uint16_t readmode)
   _writeRegister(_address, ADS1X15_REG_CONFIG, config);
 }
 
+
 bool ADS1X15::_writeRegister(uint8_t address, uint8_t reg, uint16_t value)
 {
   _wire->beginTransmission(address);
@@ -444,6 +448,7 @@ bool ADS1X15::_writeRegister(uint8_t address, uint8_t reg, uint16_t value)
   _wire->write((uint8_t)(value & 0xFF));
   return (_wire->endTransmission() == 0);
 }
+
 
 uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
 {
@@ -506,25 +511,30 @@ ADS1015::ADS1015(uint8_t address, TwoWire *wire)
   _maxPorts = 4;
 }
 
+
 int16_t ADS1015::readADC_Differential_0_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_0_3);
 }
+
 
 int16_t ADS1015::readADC_Differential_1_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_1_3);
 }
 
+
 int16_t ADS1015::readADC_Differential_2_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_2_3);
 }
 
+
 int16_t ADS1015::readADC_Differential_0_2()
 {
   return readADC(2) - readADC(0);
 }
+
 
 int16_t ADS1015::readADC_Differential_1_2()
 {
@@ -532,16 +542,17 @@ int16_t ADS1015::readADC_Differential_1_2()
 }
 
 
-
 void ADS1015::requestADC_Differential_0_3()
 {
   _requestADC(ADS1X15_MUX_DIFF_0_3);
 }
 
+
 void ADS1015::requestADC_Differential_1_3()
 {
   _requestADC(ADS1X15_MUX_DIFF_1_3);
 }
+
 
 void ADS1015::requestADC_Differential_2_3()
 {
@@ -593,44 +604,54 @@ ADS1115::ADS1115(uint8_t address, TwoWire *wire)
   _maxPorts = 4;
 }
 
+
 int16_t ADS1115::readADC_Differential_0_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_0_3);
 }
+
 
 int16_t ADS1115::readADC_Differential_1_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_1_3);
 }
 
+
 int16_t ADS1115::readADC_Differential_2_3()
 {
   return _readADC(ADS1X15_MUX_DIFF_2_3);
 }
+
 
 int16_t ADS1115::readADC_Differential_0_2()
 {
   return readADC(2) - readADC(0);
 }
 
+
 int16_t ADS1115::readADC_Differential_1_2()
 {
   return readADC(2) - readADC(1);;
 }
+
 
 void ADS1115::requestADC_Differential_0_3()
 {
   _requestADC(ADS1X15_MUX_DIFF_0_3);
 }
 
+
 void ADS1115::requestADC_Differential_1_3()
 {
   _requestADC(ADS1X15_MUX_DIFF_1_3);
 }
+
 
 void ADS1115::requestADC_Differential_2_3()
 {
   _requestADC(ADS1X15_MUX_DIFF_2_3);
 }
 
+
 // --- END OF FILE
+

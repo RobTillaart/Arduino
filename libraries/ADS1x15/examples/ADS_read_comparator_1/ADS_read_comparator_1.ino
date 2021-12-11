@@ -25,6 +25,7 @@
 
 ADS1115 ADS(0x48);
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -55,8 +56,8 @@ void setup()
   
   Serial.println(ADS.getComparatorThresholdLow());
   Serial.println(ADS.getComparatorThresholdHigh());
-
 }
+
 
 void loop()
 {
@@ -79,4 +80,6 @@ void loop()
   delay(100);
 }
 
+
 // -- END OF FILE --
+

@@ -18,6 +18,7 @@
 
 #include "ADS1X15.h"
 
+
 // choose you sensor
 // ADS1013 ADS(0x48);
 // ADS1014 ADS(0x48);
@@ -50,6 +51,7 @@ void setup()
   // trigger first read
   ADS.requestADC_Differential_0_1();
 }
+
 
 void loop()
 {
@@ -92,4 +94,6 @@ bool handleConversion()
   return false;  // default not all read
 }
 
+
 // -- END OF FILE --
+

@@ -18,12 +18,14 @@
 
 #include "ADS1X15.h"
 
+
 // choose you sensor
 // ADS1013 ADS(0x48);
 // ADS1014 ADS(0x48);
 // ADS1015 ADS(0x48);
 // ADS1113 ADS(0x48);
 // ADS1114 ADS(0x48);
+
 ADS1115 ADS(0x48);
 
 
@@ -87,11 +89,13 @@ void loop()
   // delay(10);
 }
 
-// interrupt handler, just sets the RDY flag
+
+// interrupt handler, sets the RDY flag
 void adsReady()
 {
   RDY = true;
 }
+
 
 // can be changed to hold other differentials or normal reads too.
 bool handleConversion()
@@ -121,3 +125,4 @@ bool handleConversion()
 
 
 // -- END OF FILE --
+

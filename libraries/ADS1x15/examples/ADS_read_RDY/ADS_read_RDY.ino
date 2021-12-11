@@ -19,9 +19,11 @@
 // The RDY pin (or ALERT Pin) is triggered when conversion is ready
 //
 
+
 #include "ADS1X15.h"
 
 ADS1115 ADS(0x48);
+
 
 void setup() 
 {
@@ -43,6 +45,7 @@ void setup()
   ADS.setComparatorLatch(0);
 }
 
+
 void loop() 
 {
   ADS.setGain(0);
@@ -59,4 +62,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

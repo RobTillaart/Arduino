@@ -6,12 +6,15 @@
 //     URL: https://github.com/RobTillaart/AnalogPin
 //
 
+
 #include "AnalogPin.h"
+
 
 AnalogPin AR(A0);
 
 uint32_t start, stop;
 uint32_t val;
+
 
 void setup()
 {
@@ -44,6 +47,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
+

@@ -1,15 +1,18 @@
-# Syntax Coloring Map For AnalogPin
+# Syntax Colouring Map For AnalogPin
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 AnalogPin	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 setPrescaler	KEYWORD2
 getPrescaler	KEYWORD2
+
 setNoiseThreshold	KEYWORD2
 getNoiseThreshold	KEYWORD2
+
 setSmoothWeight	KEYWORD2
 getSmoothWeight	KEYWORD2
+
 read	KEYWORD2
 readSmoothed	KEYWORD2
 readPrevious	KEYWORD2

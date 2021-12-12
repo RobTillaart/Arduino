@@ -6,6 +6,7 @@
 //     URL: https://github.com/RobTillaart/AnalogPin
 //
 
+
 #include "AnalogPin.h"
 
 AnalogPin INA(A0);
@@ -13,6 +14,7 @@ AnalogPin INB(A1);
 
 uint32_t start, stop;
 uint32_t val;
+
 
 void setup()
 {
@@ -66,7 +68,7 @@ void setup()
   Serial.print("VALUE:\t ");
   Serial.println(val / 1000);
 
-  Serial.println("\nINB.read() - prescaler=5");
+  Serial.println("\nINB.read() - prescale = 5");
   val = 0;
   start = millis();
   for (int i = 0; i < 1000; i++)
@@ -94,4 +96,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

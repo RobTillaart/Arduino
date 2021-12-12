@@ -8,13 +8,12 @@
 
 # AnalogPin
 
-Arduino library to add functionality on top of analogRead()
+Arduino library to add functionality on top of analogRead().
 
 
 ## Description
 
-AnalogPin is an Arduino class that adds noise filtering and smoothing
-to analogRead().
+AnalogPin is an Arduino class that adds noise filtering and smoothing to analogRead().
 Furthermore it can speed up the analogRead() function by tuning the pre-scaler.
 This latter is AVR only.
 
@@ -37,14 +36,14 @@ This latter is AVR only.
 
 ## Operation
 
-**get/setPrescaler(prescale)** can be used to speed up analogRead().  
+**get/setPrescaler(uint8_t prescale)** can be used to speed up analogRead().  
 The effect is that both the accuracy and precision are affected.
 You should verify if this is acceptable for your project.
 ***Works only for AVR based boards***
 
-**get/setNoiseThreshold(noise)** is used to set the noise threshold to be used by the **read()** function.
+**get/setNoiseThreshold(uint8_t noise)** is used to set the noise threshold to be used by the **read()** function.
 
-**read(twice)** implements an **analogRead()** that suppresses small noise fluctuations.
+**read(bool twice)** implements an **analogRead()** that suppresses small noise fluctuations.
 The parameter twice is used to force analogRead() to be executed twice to reduce noise from the multiplexing.
 
 Example: if the previous read has the value 300 and you
@@ -55,7 +54,7 @@ and 310 as 300 (the same) your code should look like:
     AP.read();
 ```
 
-**get/setSmoothWeight(alpha)** is used to set the weight factor for the **readSmoothed()** function.
+**get/setSmoothWeight(uint8_t alpha)** is used to set the weight factor for the **readSmoothed()** function.
 
 The weight of the previous read is **alpha/32**.
 A higher alpha will dampen the signal more, a lower alpha
@@ -72,6 +71,10 @@ This can be used to suppress noise too.
 
 ## Future
 
+- update documentation
+  - advantage of certain functions, when to use
 - more examples
+- **volts()** + get/setFactor(float f)
+  - 
 
 

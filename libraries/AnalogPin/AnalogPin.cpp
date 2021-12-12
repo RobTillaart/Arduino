@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogPin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
 //
@@ -17,6 +17,7 @@
 //  0.2.3   2020-05-27  update library.json
 //  0.2.4   2020-12-10  add Arduino-ci
 //  0.2.5   2021-10-17  update Arduino-CI
+//  0.2.6   2021-12-12  update library.json, license, minor edits.
 
 
 #include "AnalogPin.h"
@@ -96,4 +97,6 @@ void AnalogPin::_rawRead()
 #endif
 }
 
+
 // -- END OF FILE --
+

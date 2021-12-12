@@ -33,6 +33,19 @@ unittest_teardown()
 {
 }
 
+
+unittest(test_constants)
+{
+  fprintf(stderr, "ANALOGKEYPAD_LIB_VERSION: %s\n", (char *) ANALOGKEYPAD_LIB_VERSION);
+
+  assertEqual(0x00, NOKEY   );
+  assertEqual(0x80, PRESSED );
+  assertEqual(0x40, RELEASED);
+  assertEqual(0x20, REPEATED);
+  assertEqual(0x10, CHANGED );
+}
+
+
 unittest(test_constructor)
 {
   AnalogKeypad AKP(0);
@@ -40,12 +53,14 @@ unittest(test_constructor)
   assertEqual(0, press);
 }
 
+
 unittest(test_polling)
 {
   AnalogKeypad AKP(0);
   int key = AKP.read();
   assertEqual(0, key);
 }
+
 
 unittest(test_event)
 {
@@ -57,6 +72,8 @@ unittest(test_event)
   assertEqual(0, key);
 }
 
+
 unittest_main()
+
 
 // --------

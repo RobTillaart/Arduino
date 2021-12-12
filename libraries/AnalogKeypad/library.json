@@ -1,6 +1,6 @@
 {
   "name": "AnalogKeypad",
-  "keywords": "Analog Keypad 4x4 4x3",
+  "keywords": "Analog,Keypad,4x4,4x3",
   "description": "Arduino Library for (Robotdyn) 4x4 and 4x3 AnalogKeypad.",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AnalogKeypad"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "AnalogKeypad.h"
 }

@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 //
@@ -11,10 +11,12 @@
 //  0.1.2  2019-02-01  refactored rawRead(), first stable version
 //  0.1.3  2020-03-25  minor refactoring
 //  0.1.4  2020-05-27  update library.json
-//  0.1.5  2020-12-09  add arduino-ci
-//  0.1.6  2021-05-27  fix arduino-lint
-//  0.2.0  2021-10-17  update build-ci, readme,
+//  0.1.5  2020-12-09  add Arduino-CI
+//  0.1.6  2021-05-27  fix Arduino-lint
+//  0.2.0  2021-10-17  update build-CI, readme,
 //                     add bits as parameter in constructor.
+//  0.2.1  2021-12-12  update library.json, license
+//                     add test_constants to unit test.
 
 
 #include "AnalogKeypad.h"
@@ -121,4 +123,6 @@ uint8_t AnalogKeypad::_rawRead()
   return 1;
 }
 
+
 // -- END OF FILE --
+

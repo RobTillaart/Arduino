@@ -8,7 +8,7 @@
 
 # AnalogUVSensor
 
-Arduino library for analogue UV sensor
+Arduino library for an analogue UV sensor.
 
 
 ## Description
@@ -18,7 +18,7 @@ Image courtesy Tinytronics
 
 This small (type-less) UV-sensor is powered by 3.3 .. 5 V so it can be used by almost any microprocessor.
 
-The sensor has an analogue output that is roughly linear with the UV-index (sunlight assumed, see notes)
+The sensor has an analogue output that is roughly linear with the UV-index (sunlight assumed, see notes).
 
 
 | Voltage | UV index |
@@ -42,19 +42,19 @@ Between 0 and 1 there seems to be a curve / other linear relation.
 
 ### Notes
 
-Note: The sensor is not calibrated and the table is indicative for sunlight (warning assumption!) 
+Note: The sensor is not calibrated and the table is indicative for sunlight (warning, assumption!) 
 and therefore not suitable for e.g. medical or industrial usage. 
 
 Note: UV radiation will not go through normal glass, so inside (a house) you will most likely always read zero. 
 This may of course help to calibrate the zero level of the sensor.
 
-Note: depending on the light source used, the table above is incorrect. 
+Note: depending on the light source used, the table above is not correct. 
 If one wants to use other values one need to fix the formula in the **mv2index()** function.
+(mv stands for millivolt)
 
 Note: the output of the sensor is typically 0 .. 1.1 volt. To increase precision one might configure
 the ADC used to match this voltage range. E.g. Arduino UNO can be set to use an internal 1.1 volt reference.
 See Arduino manual **setAnalogReference()**
- 
 
 
 ### Wavelength sensitivity
@@ -79,7 +79,7 @@ changed e.g. to INTERNAL_1V1 to change the accuracy.
 Read the analogue sensor one (or more) times to average the reading. 
 This can improve the accuracy of the reading.  
 If times == 0 it is set to 1.
-- **float mV2index(uint16_t milliVolt)** Returns the UV index.  
+- **float mV2index(uint16_t milliVolt)** MilliVolt to index. Returns the UV index.  
 The conversion formula from milliVolt to the UV index is used internally by the **read()** function.  
 This function can also be called with a voltage measured with an external ADC.  
 THe function will return a value between 0.0 and 12.0. 
@@ -105,11 +105,19 @@ e.g. when the analogue sensor is switched through a MOSFET.
 
 - verify vs calibrated sensor
 - investigate angle sensitivity e.g. if the UV light comes from an angle - cosine law.
+  - see https://github.com/RobTillaart/BH1750FVI library
 - investigate response time to stabilize e.g. does it react fast on clouds.
 - investigate with different light sources (UVled, TL, sunlight).
 - investigate time needed to first (stable) measurement.
-- **index2time()** calculate max exposure time? dangerous advice?
-- **uint32_t index2RGB(float index)** full colour RGB mapping. 
+
+
+**won't**
+
+- **index2time()** calculate max exposure time? 
+  - dangerous advice, so better keep that out of the library ?
+- **uint32_t index2RGB(float index)** full (smooth) colour RGB mapping.
+  - created a https://github.com/RobTillaart/map2colour lib for this feature 
+    to keep footprint in this library small.
 
 
 ## Sponsor 

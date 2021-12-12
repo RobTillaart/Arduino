@@ -1,4 +1,4 @@
-# Syntax Coloring Map For AnalogUVsensor
+# Syntax Colouring Map For AnalogUVsensor
 
 # Data types (KEYWORD1)
 AnalogUVSensor	KEYWORD1

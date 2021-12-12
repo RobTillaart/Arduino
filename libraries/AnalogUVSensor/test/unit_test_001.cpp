@@ -41,7 +41,7 @@ unittest_teardown()
 
 unittest(constructor)
 {
-  fprintf(stderr, "VERSION: %s\n",  ANALOG_UVSENSOR_LIB_VERSION);
+  fprintf(stderr, "ANALOG_UVSENSOR_LIB_VERSION: %s\n",  (char *) ANALOG_UVSENSOR_LIB_VERSION);
   AnalogUVSensor AUV;
 
   AUV.begin(A0);

@@ -7,10 +7,12 @@
 // Use the Arduino IDE -> Tools -> Serial plotter 
 // to get a graph.
 
+
 #include "AnalogUVSensor.h"
 
 AnalogUVSensor AUV;
 float lastRead = 0;
+
 
 void setup()
 {
@@ -45,3 +47,4 @@ void loop()
 
 
 // -- END OF FILE --
+

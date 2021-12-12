@@ -1,14 +1,15 @@
 //
 //    FILE: AnalogUVSensor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-09-25
 // PURPOSE: AnalogUVSensor library
 //
 //  HISTORY:
 //  0.1.0  2021-09-25  initial version
-//  0.1.1  2021-10-17  update build-ci, readme.md
+//  0.1.1  2021-10-17  update build-CI, readme.md
 //                     refactor, plotter example
+//  0.1.2  2021-12-12  update library.json, license, minor edits.
 
 
 #include "AnalogUVSensor.h"
@@ -75,6 +76,7 @@ void AnalogUVSensor::setPowerPin(uint8_t powerPin, bool invert)
   pinMode(_powerPin, OUTPUT);
   switchOn();
 }
+
 
 // -- END OF FILE --
 

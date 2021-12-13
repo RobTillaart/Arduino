@@ -2,7 +2,7 @@
 //
 //    FILE: AverageAngle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: class for averaging angles.
 // HISTORY: See AverageAngle.cpp
 //
@@ -11,10 +11,10 @@
 #include "math.h"
 #include "Arduino.h"
 
-#define AVERAGE_ANGLE_LIB_VERSION     (F("0.1.6"))
+#define AVERAGE_ANGLE_LIB_VERSION             (F("0.1.7"))
 
-#define GRAD_TO_RAD     (PI / 200.0)
-#define RAD_TO_GRAD     (200.0 / PI)
+#define GRAD_TO_RAD                           (PI / 200.0)
+#define RAD_TO_GRAD                           (200.0 / PI)
 
 
 class AverageAngle
@@ -43,4 +43,6 @@ private:
   uint32_t  _count;
 };
 
+
 // -- END OF FILE --
+

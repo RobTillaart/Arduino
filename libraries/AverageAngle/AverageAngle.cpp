@@ -1,7 +1,7 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: class for averaging angles
 //     URL: https://github.com/RobTillaart/AverageAngle
 //
@@ -11,8 +11,10 @@
 //  0.1.2   2018-03-30  added getAverageLength, getTotalLength + zero-test
 //  0.1.3   2020-03-26  #pragma once; removed pre 1.00 support; readme.md
 //  0.1.4   2020-05-27  update library.json
-//  0.1.5   2020-12-12  added arduino-CI, unit tests, minor refactor.
+//  0.1.5   2020-12-12  added Arduino-CI, unit tests, minor refactor.
 //  0.1.6   2021-10-18  update Arduino-CI, add GRADIANS
+//  0.1.7   2021-12-13  update library.json, fix badges, license, readme
+
 
 
 #include "AverageAngle.h"

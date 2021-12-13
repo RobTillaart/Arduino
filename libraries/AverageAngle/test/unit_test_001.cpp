@@ -34,6 +34,15 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqualFloat(PI / 180.0, DEG_TO_RAD, 0.00001);
+  assertEqualFloat(180.0 / PI, RAD_TO_DEG, 0.00001);
+  assertEqualFloat(PI / 200.0, GRAD_TO_RAD, 0.00001);
+  assertEqualFloat(200.0 / PI, RAD_TO_GRAD, 0.00001);
+}
+
+
 unittest(test_constructor)
 {
   fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
@@ -45,11 +54,6 @@ unittest(test_constructor)
   assertEqual(AverageAngle::DEGREES, dd.type());
   assertEqual(AverageAngle::RADIANS, rr.type());
   assertEqual(AverageAngle::GRADIANS, gg.type());
-
-  assertEqualFloat(PI / 180.0, DEG_TO_RAD, 0.00001);
-  assertEqualFloat(180.0 / PI, RAD_TO_DEG, 0.00001);
-  assertEqualFloat(PI / 200.0, GRAD_TO_RAD, 0.00001);
-  assertEqualFloat(200.0 / PI, RAD_TO_GRAD, 0.00001);
 }
 
 

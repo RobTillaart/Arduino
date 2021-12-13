@@ -1,7 +1,7 @@
 //
 //    FILE: AsyncAnalog.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.5
 //    DATE: 2018-09-05
 // PURPOSE: async version of analogRead, prevent blocking wait
 //
@@ -14,6 +14,7 @@
 //  0.1.2  2020-05-27  update library.json
 //  0.1.3  2020-12-12  added Arduino CI, minor fixes
 //  0.1.4  2020-12-12  update Arduino CI, minor fixes
+//  0.1.5  2021-12-13  update library.json, license, readme
 
 
 #include "AsyncAnalog.h"

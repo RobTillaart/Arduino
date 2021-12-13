@@ -8,7 +8,7 @@
 
 # AsyncAnalog
 
-Arduino Library for async reading of an analogue pin. **\[AVR ONLY\]**
+Arduino Library for async reading of an analogue pin. **\[AVR ONLY\]**.
 
 
 ## Description
@@ -25,26 +25,30 @@ The library works only for AVR boards now, other platforms might be supported in
 As the UNO has only one ADC that is multiplexed, one can only read one analogue pin
 in async way simultaneously.
 
+**Use with care**
+
 
 ## Interface 
 
 - **AsyncAnalog(uint8_t pin)** constructor, defines the analogue pin to use.
 - **void start()** triggers a new ADC reading.
-- **bool ready()** returns true if sample is complete
-- **int value()** returns the value 
+- **bool ready()** returns true if sample is complete.
+- **int value()** returns the value.
 
 
 ## Operation
 
 The example **asyncAnalogTest2.ino** shows a loop of 1000 analogReads and prints 
-over Serial at 115200 baud. The async test does this in less time. Note that faster
-baud rates shows an even bigger difference.
-
-During the printing, the sampling continues.
+over Serial at 115200 baud. 
 
 
 ## Future
 
+- improve documentation.
+- investigate the performance gain.
+  - asyncAnalogTest2.ino is no good test.
+- create examples
+  - real world examples preferred.
 - investigate other platforms
 - fall back to normal analogRead for non AVR platforms ?
 - 

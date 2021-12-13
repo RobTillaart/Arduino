@@ -1,14 +1,14 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
 //
 //  HISTORY
 //  0.1.00  initial version
-//  0.1.01  cleanup a bit
+//  0.1.01  clean up a bit
 //  0.1.02  added toRadians() + fix compare()
 //  0.1.03  added URL, fromRadians [TEST]
 //  0.1.04  changed thousands in tenthousands, string constructor
@@ -16,16 +16,21 @@
 //  0.1.06  fixed bug negative values.
 //  0.1.7   2020-03-26  refactor #pragma once
 //  0.1.8   2020-05-27  update library.json
-//  0.1.9   2020-12-10  Arduino ci
+//  0.1.9   2020-12-10  Arduino CI
 //  0.1.10  2021-01-16  readme.md + minor refactor
-//  0.1.11  2021-10-17  update build-ci, 
+//  0.1.11  2021-10-17  update build-CI, 
+//  0.1.12  2021-12-12  update library.json, license, minor edits
+
 
 
 #include "Angle.h"
 
 
 AngleFormat::AngleFormat( const Angle &ref, AngleFormatMode format )
-: angle(ref), mode(format) {}
+: angle(ref), mode(format) 
+{
+}
+
 
 size_t AngleFormat::printTo(Print& p) const
 {
@@ -33,7 +38,7 @@ size_t AngleFormat::printTo(Print& p) const
 }
 
 
-Angle::Angle(int dd, int mm, int ss, int tt) // todo optimize
+Angle::Angle(int dd, int mm, int ss, int tt)      // TODO optimize
 {
     neg = false;
     d = dd;
@@ -77,13 +82,13 @@ Angle::Angle(const double alpha)
 }
 
 
-Angle::Angle(char * str)
+Angle::Angle(const char * str)
 {
     uint32_t yy = 0;
     uint8_t d_cnt = 0;
     neg = false;
     // parse whole degrees
-    char *p = str;
+    char *p = (char *) str;
     d = 0;
     // skip crap
     while (!isdigit(*p) && (*p != '-')) p++;
@@ -321,7 +326,7 @@ int Angle::compare(const Angle &a, const Angle &b)
 }
 
 
-void Angle::normalize()  // TOCHECK
+void Angle::normalize()  // TODO CHECK
 {
     while (t < 0)      { s--; t += 10000; }
     while (t >= 10000) { s++; t -= 10000; }
@@ -353,5 +358,6 @@ void Angle::normalize()  // TOCHECK
 
     if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
+
 
 // --- END OF FILE ---

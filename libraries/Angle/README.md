@@ -23,53 +23,62 @@ and comparisons ( == != < <= > >= ) are added to the class.
 
 The library implements the Printable interface, allowing one to call
 
-**Serial.println(angle)**  or **SD.print(angle)**
+**Serial.println(angle)** or **SD.print(angle)**.
 
 
 ## Interface
 
 ### Constructors
 
-- **Angle(int dd=0, int mm=0, int ss=0, int tt=0)** create an Angle, default is zero.
+- **Angle(int dd = 0, int mm = 0, int ss = 0, int tt = 0)** create an Angle, default is zero.
 - **Angle(double alpha)** create an Angle from a double.
 - **Angle(char \* str)** create an Angle from a string e.g. "45.31234".
 
 
 ### base
 
-- **int sign()** returns -1 or 1
-- **int degree()** returns # degrees
-- **int minute()** returns # minutes
-- **int second()** returns # seconds
-- **int tenthousand()** returns # ten-thousands of a second
+- **int sign()** returns -1 or 1.
+- **int degree()** returns # degrees.
+- **int minute()** returns # minutes.
+- **int second()** returns # seconds.
+- **int tenthousand()** returns # ten-thousands of a second.
 
 
 ### Conversions
 
-- **double toDouble()** returns the angle as a double (0..360.0, float on UNO)
-- **double toRadians()** returns the angle in radians (0..TWO_PI)
+- **double toDouble()** returns the angle as a double (0..360.0, float on UNO).
+- **double toRadians()** returns the angle in radians (0..TWO_PI).
 - **void fromRadian(double rad)** create an angle from radians.
 
 
 ### Equality operators
 
-The library supports equality operator "==", "!=", "<" "<=" ">" and ">="
+The library supports equality operator "==", "!=", "<" "<=" ">" and ">=" .
 
 
 ### Math operators
 
-- **negate**  -angle
-- **addition** and **subtract** add angles to angles
-- **multiplication** and **division** multiply an angle with a double
-- **ratio**  ratio = Angle/Angle;
+- **negate** returns -angle.
+- **addition** and **subtract** add angles to angles.
+- **multiplication** and **division** multiply an angle with a double.
+- **ratio**  ratio = Angle/Angle.
 
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Note
 
 The library has not been tested extensively and it could still contain
 bugs. Especially the constructor does not check input so use it carefully.
+
+
+## Future
+
+- improve documentation
+- test more
+- optimize code where possible
+
+

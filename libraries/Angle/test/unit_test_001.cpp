@@ -45,8 +45,11 @@ unittest_teardown()
 {
 }
 
+
 unittest(test_constructors)
 {
+  fprintf(stderr, "ANGLE_LIB_VERSION: %s\n", (char *) ANGLE_LIB_VERSION);
+
   Angle a(1, 2, 3, 4);
   Angle b(-45, 30);
   Angle n(0);

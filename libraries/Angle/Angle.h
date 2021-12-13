@@ -2,7 +2,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION 		(F("0.1.11"))
+#define ANGLE_LIB_VERSION               (F("0.1.12"))
 
 
 class Angle;
@@ -23,6 +23,7 @@ class Angle;
 enum AngleFormatMode{
     D = 1, M, S, T
 };
+
 
 struct AngleFormat : Printable{
 
@@ -33,12 +34,13 @@ struct AngleFormat : Printable{
     AngleFormatMode mode;
 };
 
+
 class Angle: public Printable
 {
 public:
-    Angle(int dd=0, int mm=0, int ss=0, int tt=0);
+    Angle(int dd = 0, int mm = 0, int ss = 0, int tt = 0);
     Angle(double alpha);
-    Angle(char * str);
+    Angle(const char * str);
 
     int sign()        { return neg ? -1 : 1; };
     int degree()      { return d; };
@@ -88,10 +90,12 @@ private:
     Angle subHelper(const Angle &a);
 
     bool neg; // angle is negative
-    int d; // whole degrees
-    int m; // minutes
-    int s; // seconds
-    int t; // tenhousands
+    int d;    // whole degrees
+    int m;    // minutes
+    int s;    // seconds
+    int t;    // ten thousands
 };
 
+
 // -- END OF FILE
+

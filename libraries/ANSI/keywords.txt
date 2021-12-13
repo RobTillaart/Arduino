@@ -1,7 +1,9 @@
 # Syntax Colouring Map For ANSI
 
+
 # Data types (KEYWORD1)
 ANSI	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 normal	KEYWORD2
@@ -28,6 +30,7 @@ color	KEYWORD2
 gray2color	KEYWORD2
 grey2color	KEYWORD2
 rgb2color	KEYWORD2
+
 
 # Constants (LITERAL1)
 toEnd	LITERAL1

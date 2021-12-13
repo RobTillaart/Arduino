@@ -32,6 +32,28 @@ Tests are done with
 Other terminal program's exist so please let me know if yours is working too.
 If not, please open an issue.
 
-# Operation
+
+## Operation
 
 See examples
+
+
+## Performance
+
+Since 0.1.5 there is some focus on performance. 
+Using **ansi.print()** and **ansi.println()** for printing text and numbers is 
+improved a bit since 0.1.4 by adding the private **write(array, length)**.
+
+
+## Future
+
+- test more terminal programs (Linux mac)
+- write more examples
+  - DOS emulator?
+- increase functionality
+  - which codes are useful ?
+- investigate performance. (first step made in 0.1.5 but more possible)
+  - add line buffer in write(c) to improve throughput?
+  - need for flush() with line buffer?
+  - rewrite functions, replace print() by **\_stream->write()** calls?  (effect on size?)
+

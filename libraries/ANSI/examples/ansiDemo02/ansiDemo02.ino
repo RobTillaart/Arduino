@@ -16,6 +16,7 @@ ANSI ansi(&Serial);
 int t;
 double d;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -29,6 +30,7 @@ void setup()
   delay(5000);
   ansi.clearScreen();
 }
+
 
 void loop()
 {
@@ -92,4 +94,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

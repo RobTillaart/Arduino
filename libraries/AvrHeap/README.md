@@ -21,4 +21,10 @@ this is useful for debugging memory allocation.
 
 ## Operation
 
-See example heapdemo2.ino 
+See example heapdemo2.ino
+
+
+## Future
+
+- no development unless specific requested.
+- 

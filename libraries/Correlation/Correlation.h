@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Calculate Correlation from a small dataset.
 // HISTORY: See Correlation.cpp
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.2.0"))
+#define CORRELATION_LIB_VERSION          (F("0.2.1"))
 
 
 class Correlation
@@ -38,14 +38,14 @@ public:
 
   // worker, to calculate the correlation parameters.
   // MUST be called before retrieving the parameters 
-  //      A, B, R, Rsquare, Esquare, avgX and avgY
+  //      A, B, R, Rsquared, Esquared, avgX and avgY
   //
   // parameter forced overrules the _needRecalculate flag.
   //           forced is default false to maintain backwards compatibility
   //
   // returns false if contains no elements ==> count() == 0
   bool    calculate(bool forced = false);
-  // enables / disables R, Rsquare and Esquare calculation
+  // enables / disables R, Rsquared and Esquared calculation
   // This can be used to speed up the calculate function if
   // these values are not used in your project.
   void    setR2Calculation(bool doR2) { _doR2 = doR2; };
@@ -91,11 +91,11 @@ public:
 
 
   // DEBUGGING - access to internal arrays.
-  bool    setXY(uint8_t idx, float x, float y);  // returns true if succeeded
-  bool    setX(uint8_t idx, float x);            // returns true if succeeded
-  bool    setY(uint8_t idx, float y);            // returns true if succeeded
-  float   getX(uint8_t idx);    // idem
-  float   getY(uint8_t idx);    // idem
+  bool    setXY(uint8_t index, float x, float y);  // returns true if succeeded
+  bool    setX(uint8_t index, float x);            // returns true if succeeded
+  bool    setY(uint8_t index, float y);            // returns true if succeeded
+  float   getX(uint8_t index);    // idem
+  float   getY(uint8_t index);    // idem
 
   float   getSumXiYi() { return _sumXiYi; };
   float   getSumXi2()  { return _sumXi2;  };
@@ -104,7 +104,7 @@ public:
 
 private:
   uint8_t _size  = 0;
-  uint8_t _idx   = 0;
+  uint8_t _index = 0;
   uint8_t _count = 0;
   bool    _runningMode = false;
   bool    _needRecalculate = true;
@@ -125,4 +125,6 @@ private:
   float   _sumYi2;
 };
 
+
 // -- END OF FILE --
+

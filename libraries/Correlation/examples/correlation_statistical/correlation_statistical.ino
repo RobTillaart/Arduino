@@ -6,9 +6,11 @@
 // PUPROSE: demo of the Correlation Library
 //
 
+
 #include "Correlation.h"
 
 Correlation C;
+
 
 void setup()
 {
@@ -31,13 +33,14 @@ void setup()
     Serial.print(C.getMaxY(), 2);
     Serial.println();
   }
-
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

@@ -17,6 +17,7 @@ uint32_t start, stop, sum = 0;
 
 volatile float f;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -125,9 +126,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

@@ -1,7 +1,9 @@
-# Syntax Coloring Map For Correlation
+# Syntax Colouring Map For Correlation
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 Correlation	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2

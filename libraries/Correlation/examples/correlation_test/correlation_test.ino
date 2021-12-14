@@ -17,6 +17,7 @@ uint32_t start, stop, sum = 0;
 
 volatile float f;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -78,9 +79,7 @@ void setup()
 
 void loop()
 {
-
 }
-
 
 
 void test()
@@ -114,4 +113,6 @@ void test()
   //  assertEqualFloat(1.9, C.getEsquare(), 0.0001);
 }
 
+
 // -- END OF FILE --
+

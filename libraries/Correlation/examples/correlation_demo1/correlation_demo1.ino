@@ -6,9 +6,11 @@
 // PUPROSE: demo of the Correlation Library
 //
 
+
 #include "Correlation.h"
 
 Correlation C;
+
 
 void setup()
 {
@@ -42,9 +44,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

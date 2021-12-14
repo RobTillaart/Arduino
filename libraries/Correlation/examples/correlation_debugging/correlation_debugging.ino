@@ -6,11 +6,13 @@
 // PUPROSE: demo of the Correlation Library
 //
 
+
 #include "Correlation.h"
 
 #define SIZE  15
 
 Correlation C(SIZE);
+
 
 void setup()
 {
@@ -139,13 +141,14 @@ void setup()
   Serial.println(C.getEsquare(), 3);
   Serial.println();
 
-
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

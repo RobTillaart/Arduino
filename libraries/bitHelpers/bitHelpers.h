@@ -2,7 +2,7 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
@@ -14,11 +14,12 @@
 //  0.1.2  2020-12-14  add Arduino-CI + unit tests
 //  0.1.3  2021-08-09  update readme.md + unit tests
 //  0.1.4  2021-10-19  update Arduino-CI + badges 
+//  0.1.5  2021-12-14  update library.json, license, minor edits
 
 
 #include "Arduino.h"
 
-#define BITHELPER_LIB_VERSION         (F("0.1.4"))
+#define BITHELPER_LIB_VERSION         (F("0.1.5"))
 #define BH_BIG_NR                     1000000000
 
 
@@ -149,9 +150,9 @@ uint8_t bitCount(uint64_t value)
 //
 // BIT REVERSE
 //
-uint8_t bitReverse(uint8_t val)
+uint8_t bitReverse(uint8_t value)
 {
-  uint8_t x = val;
+  uint8_t x = value;
   x = (((x & 0xAA) >> 1) | ((x & 0x55) << 1));
   x = (((x & 0xCC) >> 2) | ((x & 0x33) << 2));
   x = (x >> 4) | (x << 4);
@@ -159,9 +160,9 @@ uint8_t bitReverse(uint8_t val)
 }
 
 
-uint16_t bitReverse(uint16_t val)
+uint16_t bitReverse(uint16_t value)
 {
-  uint16_t x = val;
+  uint16_t x = value;
   x = (((x & 0xAAAA) >> 1) | ((x & 0x5555) << 1));
   x = (((x & 0xCCCC) >> 2) | ((x & 0x3333) << 2));
   x = (((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4));
@@ -170,9 +171,9 @@ uint16_t bitReverse(uint16_t val)
 }
 
 
-uint32_t bitReverse(uint32_t val)
+uint32_t bitReverse(uint32_t value)
 {
-  uint32_t x = val;
+  uint32_t x = value;
   x = (((x & 0xAAAAAAAA) >> 1)  | ((x & 0x55555555) << 1));
   x = (((x & 0xCCCCCCCC) >> 2)  | ((x & 0x33333333) << 2));
   x = (((x & 0xF0F0F0F0) >> 4)  | ((x & 0x0F0F0F0F) << 4));
@@ -182,9 +183,9 @@ uint32_t bitReverse(uint32_t val)
 }
 
 
-uint64_t bitReverse(uint64_t val)
+uint64_t bitReverse(uint64_t value)
 {
-  uint64_t x = val;
+  uint64_t x = value;
   x = (((x & 0xAAAAAAAAAAAAAAAA) >> 1)  | ((x & 0x5555555555555555) << 1));
   x = (((x & 0xCCCCCCCCCCCCCCCC) >> 2)  | ((x & 0x3333333333333333) << 2));
   x = (((x & 0xF0F0F0F0F0F0F0F0) >> 4)  | ((x & 0x0F0F0F0F0F0F0F0F) << 4));
@@ -199,26 +200,26 @@ uint64_t bitReverse(uint64_t val)
 //
 // NYBBLE REVERSE
 //
-uint8_t nybbleReverse(uint8_t val)
+uint8_t nybbleReverse(uint8_t value)
 {
-  uint8_t x = val;
+  uint8_t x = value;
   x = (x >> 4) | (x << 4);
   return x;
 }
 
 
-uint16_t nybbleReverse(uint16_t val)
+uint16_t nybbleReverse(uint16_t value)
 {
-  uint16_t x = val;
+  uint16_t x = value;
   x = (((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4));
   x = (x >> 8) | (x << 8);
   return x;
 }
 
 
-uint32_t nybbleReverse(uint32_t val)
+uint32_t nybbleReverse(uint32_t value)
 {
-  uint32_t x = val;
+  uint32_t x = value;
   x = (((x & 0xF0F0F0F0) >> 4)  | ((x & 0x0F0F0F0F) << 4));
   x = (((x & 0xFF00FF00) >> 8)  | ((x & 0x00FF00FF) << 8));
   x = (x >> 16) | (x << 16);
@@ -226,9 +227,9 @@ uint32_t nybbleReverse(uint32_t val)
 }
 
 
-uint64_t nybbleReverse(uint64_t val)
+uint64_t nybbleReverse(uint64_t value)
 {
-  uint64_t x = val;
+  uint64_t x = value;
   x = (((x & 0xF0F0F0F0F0F0F0F0) >> 4)  | ((x & 0x0F0F0F0F0F0F0F0F) << 4));
   x = (((x & 0xFF00FF00FF00FF00) >> 8)  | ((x & 0x00FF00FF00FF00FF) << 8));
   x = (((x & 0xFFFF0000FFFF0000) >> 16) | ((x & 0x0000FFFF0000FFFF) << 16));
@@ -241,26 +242,26 @@ uint64_t nybbleReverse(uint64_t val)
 //
 // BYTE REVERSE
 //
-uint16_t byteReverse(uint16_t val)
+uint16_t byteReverse(uint16_t value)
 {
-  uint16_t x = val;
+  uint16_t x = value;
   x = (x >> 8) | (x << 8);
   return x;
 }
 
 
-uint32_t byteReverse(uint32_t val)
+uint32_t byteReverse(uint32_t value)
 {
-  uint32_t x = val;
+  uint32_t x = value;
   x = (((x & 0xFF00FF00) >> 8)  | ((x & 0x00FF00FF) << 8));
   x = (x >> 16) | (x << 16);
   return x;
 }
 
 
-uint64_t byteReverse(uint64_t val)
+uint64_t byteReverse(uint64_t value)
 {
-  uint64_t x = val;
+  uint64_t x = value;
   x = (((x & 0xFF00FF00FF00FF00) >> 8)  | ((x & 0x00FF00FF00FF00FF) << 8));
   x = (((x & 0xFFFF0000FFFF0000) >> 16) | ((x & 0x0000FFFF0000FFFF) << 16));
   x = (x >> 32) | (x << 32);
@@ -272,17 +273,17 @@ uint64_t byteReverse(uint64_t val)
 //
 // WORD REVERSE
 //
-uint32_t wordReverse(uint32_t val)
+uint32_t wordReverse(uint32_t value)
 {
-  uint32_t x = val;
+  uint32_t x = value;
   x = (x >> 16) | (x << 16);
   return x;
 }
 
 
-uint64_t wordReverse(uint64_t val)
+uint64_t wordReverse(uint64_t value)
 {
-  uint64_t x = val;
+  uint64_t x = value;
   x = (((x & 0xFFFF0000FFFF0000) >> 16) | ((x & 0x0000FFFF0000FFFF) << 16));
   x = (x >> 32) | (x << 32);
   return x;
@@ -293,27 +294,27 @@ uint64_t wordReverse(uint64_t val)
 //
 // SWAP HI LO
 //
-uint8_t swap(uint8_t val)
+uint8_t swap(uint8_t value)
 {
-  return (val << 4) | (val >> 4);
+  return (value << 4) | (value >> 4);
 }
 
 
-uint16_t swap(uint16_t val)
+uint16_t swap(uint16_t value)
 {
-  return (val << 8) | (val >> 8);
+  return (value << 8) | (value >> 8);
 }
 
 
-uint32_t swap(uint32_t val)
+uint32_t swap(uint32_t value)
 {
-  return (val << 16) | (val >> 16);
+  return (value << 16) | (value >> 16);
 }
 
 
-uint64_t swap(uint64_t val)
+uint64_t swap(uint64_t value)
 {
-  return (val << 32) | (val >> 32);
+  return (value << 32) | (value >> 32);
 }
 
 

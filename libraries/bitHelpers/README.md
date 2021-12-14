@@ -8,7 +8,7 @@
 
 # bitHelpers
 
-Arduino library with functions on bit level
+Arduino library with functions on bit level.
 
 
 ## Description
@@ -19,9 +19,9 @@ For most functions a 8 - 64 bit optimized version exist.
 
 The library is tested on ESP32 and Arduino UNO but not for all possible values. 
 other platforms are expected to work without modification. 
-If they don't please let me know.
+If they don't please file an issue on GitHub.
 
-New bit functions can be added or investigated, please post an issue.
+New bit functions can be added or investigated, please file an issue on GitHub.
 
 
 ## Interface
@@ -30,34 +30,41 @@ New bit functions can be added or investigated, please post an issue.
 ### 0.1.0
 
 BitCount, several implementations to compare performance.
-- **uint8_t bitCountReference(uint32_t val)** returns nr of bits set in a value.
-- **uint8_t bitCountKR(uint32_t val)** Kerningham Ritchie bitCount
-- **uint8_t bitCountArray(uint32_t val)** count per nybble with lookup table
-- **uint8_t bitCountF1(uint32_t val)** SWAG algorithm variant
-- **uint8_t bitCountF2(uint32_t val)** SWAG algorithm variant
+
+- **uint8_t bitCountReference(uint32_t value)** returns number of bits set in a value.
+- **uint8_t bitCountKR(uint32_t value)** Kerningham Ritchie bitCount.
+- **uint8_t bitCountArray(uint32_t value)** count per nybble with lookup table.
+- **uint8_t bitCountF1(uint32_t value)** SWAG algorithm variant.
+- **uint8_t bitCountF2(uint32_t value)** SWAG algorithm variant.
 
 BitCount - fastest version, SWAG algorithm
-- **uint8_t  bitCount(uint8_t val)** available for 16, 32 and 64 bit.
+
+- **uint8_t  bitCount(uint8_t value)** available for 16, 32 and 64 bit.
 
 Reverse: uint8_t .. uint64_t
-- **T bitReverse(T val)** reverses bits in a uint8_t .. uint64_t
-- **T nybbleReverse(T val)** reverses nibbles (4 bit) in a uint8_t .. uint64_t
-- **T byteReverse(T val)** reverses bytes (8 bit) in a uint16_t .. uint64_t
-- **T wordReverse(T val)** reverses words (16 bit) in uint32_t and uint64_t
 
-Swap upper and lower half: uint8_t .. uint64_t
-- **T swap(T val)** 0x12345678 ==> 0x56781234
+- **T bitReverse(T value)** reverses bits in a uint8_t .. uint64_t.
+- **T nybbleReverse(T value)** reverses nibbles (4 bit) in a uint8_t .. uint64_t.
+- **T byteReverse(T value)** reverses bytes (8 bit) in a uint16_t .. uint64_t.
+- **T wordReverse(T value)** reverses words (16 bit) in uint32_t and uint64_t.
+
+Swap upper and lower half: uint8_t .. uint64_t.
+
+- **T swap(T value)** 0x12345678 ==> 0x56781234.
 
 Rotate Left / Right: uint8_t .. uint64_t
 if pos larger than # bits original value is returned.
+
 - **T bitRotateLeft(T value, uint8_t pos)**
 - **T bitRotateRight(T value, uint8_t pos)** 
 
 BitFlip: uint8_t .. uint64_t  a.k.a toggle
 if pos larger than # bits original value is returned.
+
 - **T bitFlip(T value, uint8_t pos)** flips a single bit at pos
 
 BitRot: uint8_t .. uint64_t
+
 - **T bitRot(T value, float chance = 0.5)** random damage to a single bit of a value,
 chance = float 0.0 .. 1.0 that one random bit is toggled. 
 **bitRot()** is a function that can be used to mimic single bit errors in communication protocols.  
@@ -67,18 +74,21 @@ chance = float 0.0 .. 1.0 that one random bit is toggled.
 ### 0.1.1 added
 
 How many bits are needed to store / transmit a number?
-- **bitsNeededReference(n)** reference implementation for uit to uint64_t.
+
+- **bitsNeededReference(n)** reference implementation for uint8_t to uint64_t.
 - **bitsNeeded(n)** A 'recursive strategy' for uint8_t .. uint64_t provides a fast answer. 
 
-The following functions are made as the normal **bitset()** etc do not work for 64 bit.
+The following functions are made as the normal **bitset()** etcetera do not work for 64 bit.
 These functions are optimized for speed for **AVR**, **ESP32** and **ESP8266**. 
-- **void bitSet64(uint64 & x, uint8_t bit)** set bit of uint64_t
-- **void bitClear64(uint64 & x, uint8_t bit)** clear bit of uint64_t
-- **void bitToggle64(uint64 & x, uint8_t bit)** toggle bit of uint64_t
-- **void bitWrite64(uint64 & x, uint8_t bit, uint8_t value)** set bit of uint64_t to 0 or 1
-- **void bitRead64(uint64 & x, uint8_t bit)** reads bit from uint64_t 
+
+- **void bitSet64(uint64_t & x, uint8_t bit)** set bit of uint64_t
+- **void bitClear64(uint64_t & x, uint8_t bit)** clear bit of uint64_t
+- **void bitToggle64(uint64_t & x, uint8_t bit)** toggle bit of uint64_t
+- **void bitWrite64(uint64_t & x, uint8_t bit, uint8_t value)** set bit of uint64_t to 0 or 1
+- **void bitRead64(uint64_t & x, uint8_t bit)** reads bit from uint64_t 
 
 Also added are macro versions of these five functions.
+
 - **mbitSet64(x, bit)** set bit of uint64_t
 - **mbitClear64(x, bit)** clear bit of uint64_t
 - **mbitToggle64(x, bit)** toggle bit of uint64_t
@@ -103,10 +113,15 @@ Added Arduino-CI and unit tests
 - update readme.md with badges
 
 
+### 0.1.5
+
+- update library.json, minor edits
+
+
 ## BitReverse n bit number
 
 Trick to reverse a number of n bits  ( 0 < n < 32 ).
-Could also be done similar with 64 bit and or byte / nybble reverse.
+Could also be done similar with 64 bit and or byte / nibble reverse.
 
 not as fast as a dedicated version.
 ```cpp
@@ -121,6 +136,8 @@ Could be added in next release...
 
 ## Future
 
+- improve documentation
+- improve readability of code (val => value and pos => position)
 - besides **bitRot()** one can also have timing issues when clocking in bits. 
 A function could be created to mimic such timing error, by shifting bits from a 
 specific position. e.g. 
@@ -134,6 +151,7 @@ specific position. e.g.
 - add **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
 - add **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d)
 - performance tests
+
 
 ## Operations
 

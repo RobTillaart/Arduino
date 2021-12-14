@@ -45,14 +45,47 @@
 // aspects of software serial
 bool bigEndian = false;
 
+
 unittest_setup()
 {
-  fprintf(stderr, "\n");
+  fprintf(stderr, "COZIR_LIB_VERSION: %s\n", (char *) COZIR_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
+
+unittest(test_constants)
+{
+  fprintf(stderr, "\noutput fields\n");
+  assertEqual(0x2000, CZR_LIGHT        );
+  assertEqual(0x1000, CZR_HUMIDITY     );
+  assertEqual(0x0800, CZR_FILTLED      );
+  assertEqual(0x0400, CZR_RAWLED       );
+  assertEqual(0x0200, CZR_MAXLED       );
+
+  assertEqual(0x0100, CZR_ZEROPOINT    );
+  assertEqual(0x0080, CZR_RAWTEMP      );
+  assertEqual(0x0040, CZR_FILTTEMP     );
+  assertEqual(0x0020, CZR_FILTLEDSIGNAL);
+  assertEqual(0x0010, CZR_RAWLEDSIGNAL );
+
+  assertEqual(0x0008, CZR_SENSTEMP     );
+  assertEqual(0x0004, CZR_FILTCO2      );
+  assertEqual(0x0002, CZR_RAWCO2       );
+  assertEqual(0x0001, CZR_NONE         );
+  assertEqual(0x1082, CZR_HTC          );
+
+  assertEqual(0x3FFE, CZR_ALL          );
+
+  fprintf(stderr, "\nmodi operandi\n");
+  assertEqual(0x00, CZR_COMMAND);
+  assertEqual(0x01, CZR_STREAMING);
+  assertEqual(0x02, CZR_POLLING);
+}
+
 
 
 unittest(test_software_serial)

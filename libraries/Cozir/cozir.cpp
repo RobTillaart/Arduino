@@ -1,13 +1,14 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
 // HISTORY:
+//  0.3.2   2021-12-14  update library.json, license, minor edits
 //  0.3.1   2021-10-20  update Arduino-CI, badges in readme.md
 //  0.3.0   2021-08-08  Major update - breaks interface (names mainly)
 //                      add isInitialized(),   add getOperatingMode(), 

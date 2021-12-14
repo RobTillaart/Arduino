@@ -10,9 +10,11 @@
 // Note: this sketch needs a MEGA or a Teensy that supports a second
 //       Serial port named Serial1
 
+
 #include "cozir.h"
 
 COZIR czr(&Serial1);
+
 
 void setup()
 {
@@ -26,6 +28,7 @@ void setup()
 
   delay(1000);
 }
+
 
 void loop()
 {
@@ -43,4 +46,6 @@ void loop()
   delay(3000);
 }
 
+
 // -- END OF FILE --
+

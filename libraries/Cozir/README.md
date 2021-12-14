@@ -184,12 +184,17 @@ Also the user must reset the operating mode either to **CZR_POLLING** or **CZR_S
 
 ## Future
 
-- test test test test and ...
+- improve documentation
+- test test test test and buy a sensor
 - add a **setEEPROMFactoryDefault()**?
 - example two Cozir sensors
 - example Cozir with I2C display?
 - build a Arduino COZIR simulator for testing.
-- Cozir I2C class for newer generation ~ same interface
+  - add other sensors underneath?
+  - ...
+- Cozir I2C class for newer generation 
+  ~ same functional interface
+  - multiWire / pin a la PCF8574
 
 
 ## Operation

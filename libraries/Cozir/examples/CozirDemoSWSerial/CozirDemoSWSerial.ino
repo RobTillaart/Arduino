@@ -7,12 +7,14 @@
 //     URL: http://forum.arduino.cc/index.php?topic=91467.0
 //
 
+
 #include "cozir.h"
 #include "SoftwareSerial.h"
 
 SoftwareSerial sws(3, 2);
 
 COZIR czr(&sws);
+
 
 void setup()
 {
@@ -26,6 +28,7 @@ void setup()
 
   delay(1000);
 }
+
 
 void loop()
 {
@@ -43,4 +46,6 @@ void loop()
   delay(3000);
 }
 
+
 // -- END OF FILE --
+

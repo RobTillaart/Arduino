@@ -1,7 +1,7 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 //          http://forum.arduino.cc/index.php?topic=361167
@@ -21,6 +21,7 @@
 //  0.2.1    2020-06-05  fix library.json
 //  0.2.2    2020-12-14  add Arduino-CI + unit test
 //  0.2.3    2021-10-19  update Arduino-CI + setAll(value)
+//  0.2.4    2021-12-14  update library.json, license, minor edits
 
 
 #include "BitArray.h"
@@ -82,12 +83,12 @@ uint8_t BitArray::begin(const uint8_t bits, const uint16_t size)
 }
 
 
-uint32_t BitArray::get(const uint16_t idx)
+uint32_t BitArray::get(const uint16_t index)
 {
     // if (_error != BA_OK) return BA_ERR;
-    // if (idx >= _size) return BA_IDX_RANGE;
+    // if (index >= _size) return BA_IDX_RANGE;
     uint32_t v = 0;
-    uint16_t pos = idx * _bits;
+    uint16_t pos = index * _bits;
       
     for (uint8_t i = _bits; i-- > 0;)
     {
@@ -98,11 +99,11 @@ uint32_t BitArray::get(const uint16_t idx)
 }
 
 
-uint32_t BitArray::set(const uint16_t idx, uint32_t value)
+uint32_t BitArray::set(const uint16_t index, uint32_t value)
 {
     // if (_error != BA_OK) return BA_ERR;
-    // if (idx >= _size) return BA_IDX_RANGE;
-    uint16_t pos = idx * _bits;
+    // if (index >= _size) return BA_IDX_RANGE;
+    uint16_t pos = index * _bits;
     uint32_t mask = 1UL;
     for (uint8_t i = 0; i < _bits; i++)
     {
@@ -114,12 +115,12 @@ uint32_t BitArray::set(const uint16_t idx, uint32_t value)
 }
 
 
-uint32_t BitArray::toggle(const uint16_t idx)
+uint32_t BitArray::toggle(const uint16_t index)
 {
     // if (_error != BA_OK) return BA_ERR;
-    // if (idx >= _size) return BA_IDX_RANGE;
+    // if (index >= _size) return BA_IDX_RANGE;
     uint32_t v = 0;
-    uint16_t pos = idx * _bits;
+    uint16_t pos = index * _bits;
     for (uint8_t i = _bits; i-- > 0;)
     {
         v <<= 1;

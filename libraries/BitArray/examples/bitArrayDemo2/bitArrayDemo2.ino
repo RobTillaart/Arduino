@@ -32,6 +32,7 @@ void setup()
     test(4, 2500);
 }
 
+
 void test(uint8_t bits, uint16_t cnt)
 {
     b.begin(bits, cnt);
@@ -99,6 +100,11 @@ void test(uint8_t bits, uint16_t cnt)
     Serial.println("Done...");
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
+

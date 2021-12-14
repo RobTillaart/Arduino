@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -21,11 +21,11 @@
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION      (F("0.2.3"))
+#define BITARRAY_LIB_VERSION              (F("0.2.4"))
 
 
 
-#define BA_SEGMENT_SIZE 200
+#define BA_SEGMENT_SIZE                   200
 
 // max memory is board type dependent
 // note the bitArray does not use all of the RAM
@@ -55,12 +55,12 @@
 #define BA_MAX_SEGMENTS 5
 #endif
 
-#define BA_ERR              0xFFFFFFFF
-#define BA_OK               0x00
-#define BA_NO_MEMORY_ERR    0x01
-#define BA_IDX_RANGE_ERR    0x02
-#define BA_ELEMENT_SIZE_ERR 0x03
-#define BA_SIZE_ERR         0x04
+#define BA_ERR                            0xFFFFFFFF
+#define BA_OK                             0x00
+#define BA_NO_MEMORY_ERR                  0x01
+#define BA_IDX_RANGE_ERR                  0x02
+#define BA_ELEMENT_SIZE_ERR               0x03
+#define BA_SIZE_ERR                       0x04
 
 
 class BitArray
@@ -78,15 +78,15 @@ public:
   uint8_t  getError() { return _error; };
 
   void     clear();
-  uint32_t get(const uint16_t idx);
-  uint32_t set(const uint16_t idx, uint32_t value);
+  uint32_t get(const uint16_t index);
+  uint32_t set(const uint16_t index, uint32_t value);
   void     setAll(uint32_t value);
-  uint32_t toggle(const uint16_t idx);
+  uint32_t toggle(const uint16_t index);
 
 private:
-  uint8_t   _bitget(const uint16_t idx);
-  void      _bitset(const uint16_t idx, const uint8_t value);
-  uint8_t   _bittoggle(const uint16_t idx);
+  uint8_t   _bitget(const uint16_t index);
+  void      _bitset(const uint16_t index, const uint8_t value);
+  uint8_t   _bittoggle(const uint16_t index);
 
   uint16_t  _bytes = 0;
   uint8_t   _bits = 0;

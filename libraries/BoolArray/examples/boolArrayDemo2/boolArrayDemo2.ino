@@ -6,8 +6,6 @@
 //    DATE: 2015-12-12
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
 //
-// 0.1.1 - added performance for toggle
-//
 
 
 #include "BoolArray.h"
@@ -148,4 +146,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

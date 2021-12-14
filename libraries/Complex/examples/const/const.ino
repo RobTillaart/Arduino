@@ -6,7 +6,9 @@
 // PUPROSE: test complex math - https://github.com/RobTillaart/Complex/issues/7
 //
 
+
 #include "Complex.h"
+
 
 void setup()
 {
@@ -33,8 +35,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

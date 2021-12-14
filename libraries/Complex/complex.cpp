@@ -1,12 +1,13 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
 //
 //  HISTORY
+//  0.3.1   2021-12-14   update library.json, license, minor edits
 //  0.3.0   2021-11-15   fix #7 adding const to operators
 //  0.2.4   2021-10-19   update build-CI.
 //  0.2.3   2021-09-14   fix build-CI + update readme
@@ -407,4 +408,6 @@ Complex Complex::c_acoth() const
   return (one / *this).c_atanh();
 }
 
+
 // --- END OF FILE ---
+

@@ -2,7 +2,7 @@
 //
 //    FILE: Complex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
@@ -13,7 +13,7 @@
 #include "Printable.h"
 
 
-#define COMPLEX_LIB_VERSION     (F("0.3.0"))
+#define COMPLEX_LIB_VERSION                 (F("0.3.1"))
 
 
 class Complex: public Printable

@@ -8,21 +8,21 @@
 
 # BH1750FVI_RT
 
-Arduino library for BH1750FVI (GY-30) 16 bit I2C Lux sensor
+Arduino library for BH1750FVI (GY-30) 16 bit I2C Lux sensor.
 
 
 ## Description
 
-The BH1750FVI is a 16 bit lux sensor with an I2C interface
+The BH1750FVI is a 16 bit lux sensor with an I2C interface.
 It is possible to detect a wide range from 0.11 - 100000 lux.
 
 To be able to support this wide range, the sensor can operate in three modi.
 
-|  ID  | Mode  | Integration time | Resolution | Notes |
-|:----:|:-----:|:----------------:|:----------:|:------|
-|  0   | LOW   |     16 ms        |  4.0 Lux   | to measure very bright light |
-|  1   | HIGH  |    120 ms        |  1.0 lux   | default |
-|  2   | HIGH2 |    120 ms        |  0.5 lux   | to measure very dim light |
+|  ID  | Mode  | Integration time | Resolution | Notes                     |
+|:----:|:-----:|:----------------:|:----------:|:--------------------------|
+|  0   | LOW   |     16 ms        |  4.0 Lux   | measure very bright light |
+|  1   | HIGH  |    120 ms        |  1.0 lux   | default                   |
+|  2   | HIGH2 |    120 ms        |  0.5 lux   | measure very dim light    |
 
 Furthermore one can set a correction factor to reduce / increase the
 integration time of the sensor.
@@ -54,43 +54,43 @@ Library was tested with a breakout board.
 //   1 = 0x5C
 //
 ```
-The sensor works on 2.4 - 3.6 volt so be careful not to connect directly to 5.0 volt.
-(Note: the breakout board was 5 volt tolerant)
+The sensor works on 2.4 - 3.6 volt so be careful not to connect directly to 5.0 volt.  
+Note: the breakout board was 5 volt tolerant.
 
 
 ## Interface
 
 ### Constructor
 
-- **BH1750FVI(uint8_t address, uint8_t dataPin, uint8_t clockPin)**  ESP constructor with I2C parameters
-- **BH1750FVI(uint8_t address, TwoWire \*wire = &Wire)** constructor for other platforms
+- **BH1750FVI(uint8_t address, uint8_t dataPin, uint8_t clockPin)**  ESP constructor with I2C parameters.
+- **BH1750FVI(uint8_t address, TwoWire \*wire = &Wire)** constructor for other platforms.
 - **bool begin()** resets some internal variables to default. Use with care.
 - **bool isConnected()** returns true if address is on I2C bus.
 
 
 ### Base
 
-- **float getRaw()** reads the lux sensor,
+- **float getRaw()** reads the lux sensor.
 - **float getLux()** reads the lux sensor and corrects for correctionFactor, mode, temperature and angle.
 
 
 ### management
 
-- **int getError()** get the latest error code, mainly for debugging,
-- **void powerOn()** wakes up the sensor,
-- **void powerOff()** set sensor to sleep,
+- **int getError()** get the latest error code, mainly for debugging.
+- **void powerOn()** wakes up the sensor.
+- **void powerOff()** set sensor to sleep.
 - **void reset()** resets the data register to 0, effectively removing last measurement.
 
 
 ### Mode operators
 
 - **uint8_t getMode()** gets the mode set by one of the set functions. See table above.
-- **void setContHighRes()** continuous mode in HIGH resolution
-- **void setContHigh2Res()** continuous mode in HIGH2 resolution
-- **void setContLowRes()** continuous mode in LOW resolution
-- **void setOnceHighRes()** single shot mode in HIGH resolution
-- **void setOnceHigh2Res()** single shot mode in HIGH2 resolution
-- **void setOnceLowRes()** single shot mode in LOW resolution
+- **void setContHighRes()** continuous mode in HIGH resolution.
+- **void setContHigh2Res()** continuous mode in HIGH2 resolution.
+- **void setContLowRes()** continuous mode in LOW resolution.
+- **void setOnceHighRes()** single shot mode in HIGH resolution.
+- **void setOnceHigh2Res()** single shot mode in HIGH2 resolution.
+- **void setOnceLowRes()** single shot mode in LOW resolution.
 
 
 ### CorrectionFactor
@@ -101,8 +101,8 @@ Please read datasheet P11 about details of the correction factor.
 This is based on a calculated time, the sensor does not have a means to indicate ready directly.
 Needed only for the single shot modi.
 The function **isReady()** takes the correction factor into account.
-- **void changeTiming(uint8_t val)** 69 is default = BH1750FVI_REFERENCE_TIME
-- **uint8_t setCorrectionFactor(float f = 1)** preferred wrapper around changeTiming f = 0.45 .. 3.68.  
+- **void changeTiming(uint8_t time = BH1750FVI_REFERENCE_TIME)** 69 is default.
+- **uint8_t setCorrectionFactor(float factor = 1)** preferred wrapper around changeTiming factor = 0.45 .. 3.68.  
 Returns changeTiming() parameter.
 - **float getCorrectionFactor()** returns the correction factor.
 Note this can differ as it is stores as an integer internally.
@@ -167,18 +167,18 @@ Values outside the range will be mapped upon 400 or 715.
 Default wavelength will be 580 as that gives 100%
 
 
-## Ideas
+## Operation
+
+See samples...
+
+
+## Future
 
 - **Intelligent isReady()**
 After a **getLux()** call one can clean the data register explicitly with
 **reset()**. Then a call to **isReady()** fetches data and as long as
 data equals zero the sensor is not ready.
 
-
 - **DVI interface**
 To investigate, sort of external reset?
 
-
-## Operation
-
-See samples...

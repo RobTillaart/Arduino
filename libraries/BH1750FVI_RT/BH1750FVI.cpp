@@ -1,7 +1,7 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI
 //
@@ -21,6 +21,7 @@
 //  0.2.6   2021-01-16  add reset()
 //  0.2.7   2021-06-08  add unit tests, improved correction factor code
 //  0.2.8   2021-10-19  update Arduino-CI, badges in readme
+//  0.2.9   2021-12-14  update library.json, license
 
 
 #include "BH1750FVI.h"
@@ -187,22 +188,22 @@ void BH1750FVI::setOnceLowRes()
 // measurement timing
 //
 // P11 datasheet
-void BH1750FVI::changeTiming(uint8_t val)
+void BH1750FVI::changeTiming(uint8_t time)
 {
-  val = constrain(val, 31, 254);
-  _sensitivityFactor = val;
+  time = constrain(time, 31, 254);
+  _sensitivityFactor = time;
   // P5 instruction set table
-  uint8_t Hbits = 0x40 | (val >> 5);
-  uint8_t Lbits = 0x60 | (val & 0x1F);
+  uint8_t Hbits = 0x40 | (time >> 5);
+  uint8_t Lbits = 0x60 | (time & 0x1F);
   command(Hbits);
   command(Lbits);
 }
 
 
-uint8_t BH1750FVI::setCorrectionFactor(float f)
+uint8_t BH1750FVI::setCorrectionFactor(float factor)
 {
   // 31 .. 254 are range P11 - constrained in changeTIming call
-  uint8_t timingValue = round(BH1750FVI_REFERENCE_TIME * f);
+  uint8_t timingValue = round(BH1750FVI_REFERENCE_TIME * factor);
   changeTiming(timingValue);
   return _sensitivityFactor;
 }

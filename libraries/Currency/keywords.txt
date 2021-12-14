@@ -1,6 +1,6 @@
-# Syntax Coloring Map for currency
+# Syntax Colouring Map for currency
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 
 # Methods and Functions (KEYWORD2)
 currency	KEYWORD2
@@ -29,4 +29,5 @@ yuanf	KEYWORD2
 
 
 # Constants (LITERAL1)
+CURRENCY_VERSION	LITERAL1
 

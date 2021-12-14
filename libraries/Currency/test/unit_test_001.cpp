@@ -38,7 +38,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "CURRENCY_VERSION: %s\n", (char *) CURRENCY_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -47,8 +49,6 @@ unittest_teardown()
 
 unittest(currency32)
 {
-  fprintf(stderr, "VERSION: %s\n", CURRENCY_VERSION);
-
   fprintf(stderr, "%s\n", currency(10000000, 0, '.', ',', '$') );
   fprintf(stderr, "%s\n", currency(10000000, 1, '.', ',', 'E') );
   fprintf(stderr, "%s\n", currency(10000000, 2, '.', ',', 'Y') );
@@ -106,8 +106,6 @@ unittest(currency32)
 
 unittest(currency64)
 {
-  fprintf(stderr, "VERSION: %s\n", CURRENCY_VERSION);
-
   assertEqual(0, strcmp("$ 0.00",         currency64(0, 2, '.', ',', '$') ) );
   assertEqual(0, strcmp("$ 9,999,999.99", currency64(999999999, 2, '.', ',', '$') ) );
   assertEqual(0, strcmp("$-9,999,999.99", currency64(-999999999, 2, '.', ',', '$') ) );
@@ -116,8 +114,6 @@ unittest(currency64)
 
 unittest(wrappers32)
 {
-  fprintf(stderr, "VERSION: %s\n", CURRENCY_VERSION);
-
   assertEqual(0, strcmp("$ 0.00",         dollar(0) ) );
   assertEqual(0, strcmp("$ 9,999,999.99", dollar(999999999) ) );
   assertEqual(0, strcmp("$-9,999,999.99", dollar(-999999999) ) );
@@ -130,8 +126,6 @@ unittest(wrappers32)
 
 unittest(wrappers64)
 {
-  fprintf(stderr, "VERSION: %s\n", CURRENCY_VERSION);
-
   assertEqual(0, strcmp("$ 0.00",         dollar64(0) ) );
   assertEqual(0, strcmp("$ 9,999,999.99", dollar64(999999999) ) );
   assertEqual(0, strcmp("$-9,999,999.99", dollar64(-999999999) ) );
@@ -143,8 +137,6 @@ unittest(wrappers64)
 
 unittest(wrappersdouble)
 {
-  fprintf(stderr, "VERSION: %s\n", CURRENCY_VERSION);
-
   assertEqual(0, strcmp("$ 0.00",     dollarf(0) ) );
   assertEqual(0, strcmp("$ 9,999.99", dollarf(9999.99) ) );
   assertEqual(0, strcmp("$-9,999.99", dollarf(-9999.99) ) );

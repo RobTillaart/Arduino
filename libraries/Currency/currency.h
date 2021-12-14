@@ -3,7 +3,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -12,13 +12,13 @@
 //  0.1.1   2021-05-27  fix library.properties
 //  0.1.2   2021-10-20  update build-CI + badges 
 //                      added pound, renamed roubles
-// 
+//  0.1.3   2021-12-14  update library.json, license, minor edits.
 
 
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION        (F("0.1.2"))
+#define CURRENCY_VERSION                        (F("0.1.3"))
 
 
 // TODO 
@@ -30,79 +30,80 @@
 // U+20BF   = Bitcoin
 
 
-char * currency(int32_t value, int decimals, char dsep, char tsep, char sym)
+char * currency(int32_t value, int decimals, char decimalSeparator, char thousandSeparator, char symbol)
 {
   static char tmp[16];
-  int idx = 0;
+  int index = 0;
 
   int32_t v = value;
-  bool neg = v < 0;
-  if (neg) v = -v;
+  bool negative = v < 0;
+  if (negative) v = -v;
 
-  int p = -decimals; // decimal places
+  int pos = -decimals; // decimal places
 
-  while ((p < 1) || ( v > 0))
+  while ((pos < 1) || (v > 0))
   {
     // separators
-    if ((p == 0) && (decimals > 0) ) tmp[idx++] = dsep;
-    if ((p > 0) && (p % 3 == 0) && (v > 0)) tmp[idx++] = tsep;
+    if ((pos == 0) && (decimals > 0) ) tmp[index++] = decimalSeparator;
+    if ((pos > 0) && (pos % 3 == 0) && (v > 0)) tmp[index++] = thousandSeparator;
 
-    int d = (v % 10) + '0';
+    //  TODO can be optimized
+    int digit = (v % 10) + '0';
     v /= 10;
-    tmp[idx++] = d;
-    p++;
+    tmp[index++] = digit;
+    pos++;
   }
-  if (neg) tmp[idx++] = '-';
-  else     tmp[idx++] = ' ';
-  tmp[idx++] = sym;
-  tmp[idx] = 0;
+  if (negative) tmp[index++] = '-';
+  else          tmp[index++] = ' ';
+  tmp[index++] = symbol;
+  tmp[index]   = '\0';
 
   // reverse string
-  int len = strlen(tmp);
-  for (int i = 0; i < len / 2; i++)
+  int length = strlen(tmp);                // optimize  index is strlen?
+  for (int i = 0; i < length / 2; i++)     // optimize   j--
   {
     char c = tmp[i];
-    tmp[i] = tmp[len - i - 1];
-    tmp[len - i - 1] = c;
+    tmp[i] = tmp[length - i - 1];
+    tmp[length - i - 1] = c;
   }
   return tmp;
 }
 
 
-char * currency64(int64_t value, int decimals, char dsep, char tsep, char sym)
+char * currency64(int64_t value, int decimals, char decimalSeparator, char thousandSeparator, char symbol)
 {
   static char tmp[32];
-  int idx = 0;
+  int index = 0;
 
   int64_t v = value;
-  bool neg = v < 0;
-  if (neg) v = -v;
+  bool negative = v < 0;
+  if (negative) v = -v;
 
-  int p = -decimals; // decimal places
+  int pos = -decimals; // decimal places
 
-  while ((p < 1) || ( v > 0))
+  while ((pos < 1) || (v > 0))
   {
     // separators
-    if ((p == 0) && (decimals > 0) ) tmp[idx++] = dsep;
-    if ((p > 0) && (p % 3 == 0) && (v > 0)) tmp[idx++] = tsep;
+    if ((pos == 0) && (decimals > 0) ) tmp[index++] = decimalSeparator;
+    if ((pos > 0) && (pos % 3 == 0) && (v > 0)) tmp[index++] = thousandSeparator;
 
-    int d = (v % 10) + '0';
+    int digit = (v % 10) + '0';
     v /= 10;
-    tmp[idx++] = d;
-    p++;
+    tmp[index++] = digit;
+    pos++;
   }
-  if (neg) tmp[idx++] = '-';
-  else     tmp[idx++] = ' ';
-  tmp[idx++] = sym;
-  tmp[idx] = 0;
+  if (negative) tmp[index++] = '-';
+  else          tmp[index++] = ' ';
+  tmp[index++] = symbol;
+  tmp[index]   = '\0';
 
   // reverse string
-  int len = strlen(tmp);
-  for (int i = 0; i < len / 2; i++)
+  int length = strlen(tmp);
+  for (int i = 0; i < length / 2; i++)
   {
     char c = tmp[i];
-    tmp[i] = tmp[len - i - 1];
-    tmp[len - i - 1] = c;
+    tmp[i] = tmp[length - i - 1];
+    tmp[length - i - 1] = c;
   }
   return tmp;
 }
@@ -115,7 +116,7 @@ char * bitcoin(int32_t value)   { return currency(value, 6,  '.',  ',',  'B'); }
 char * dollar(int32_t value)    { return currency(value, 2,  '.',  ',',  '$'); }
 char * euro(int32_t value)      { return currency(value, 2,  ',',  '.',  'E'); }
 char * pound(int32_t value)     { return currency(value, 2,  ',',  '.',  'L'); }
-char * roubles(int32_t value)    { return currency(value, 2,  ',',  '.',  'P'); }
+char * roubles(int32_t value)   { return currency(value, 2,  ',',  '.',  'P'); }
 char * yen(int32_t value)       { return currency(value, 2,  '.',  ',',  'Y'); }
 char * yuan(int32_t value)      { return currency(value, 2,  '.',  ',',  'R'); }
 
@@ -123,7 +124,7 @@ char * bitcoin64(int64_t value) { return currency64(value, 6,  '.',  ',',  'B');
 char * dollar64(int64_t value)  { return currency64(value, 2,  '.',  ',',  '$'); }
 char * euro64(int64_t value)    { return currency64(value, 2,  ',',  '.',  'E'); }
 char * pound64(int64_t value)   { return currency64(value, 2,  ',',  '.',  'L'); }
-char * roubles64(int64_t value)  { return currency64(value, 2,  ',',  '.',  'P'); }
+char * roubles64(int64_t value) { return currency64(value, 2,  ',',  '.',  'P'); }
 char * yen64(int64_t value)     { return currency64(value, 2,  '.',  ',',  'Y'); }
 char * yuan64(int64_t value)    { return currency64(value, 2,  '.',  ',',  'R'); }
 
@@ -131,7 +132,7 @@ char * bitcoinf(double value)   { return currency64(round(value * 1000000), 6,  
 char * dollarf(double value)    { return currency64(round(value * 100), 2,  '.',  ',',  '$'); }
 char * eurof(double value)      { return currency64(round(value * 100), 2,  ',',  '.',  'E'); }
 char * poundf(double value)     { return currency64(round(value * 100), 2,  ',',  '.',  'L'); }
-char * roublesf(double value)    { return currency64(round(value * 100), 2,  ',',  '.',  'P'); }
+char * roublesf(double value)   { return currency64(round(value * 100), 2,  ',',  '.',  'P'); }
 char * yenf(double value)       { return currency64(round(value * 100), 2,  '.',  ',',  'Y'); }
 char * yuanf(double value)      { return currency64(round(value * 100), 2,  '.',  ',',  'R'); }
 

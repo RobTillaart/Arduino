@@ -1,7 +1,7 @@
 //
 //    FILE: CountDown.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 //
@@ -13,9 +13,10 @@
 //  0.2.0   2020-03-29  #pragma once, removed pre 1.0 support
 //  0.2.1   2020-06-05  fix library.json
 //  0.2.2   2020-07-08  add MINUTES; refactor
-//  0.2.3   2020-12-17  add arduino-ci + unit test
+//  0.2.3   2020-12-17  add Arduino-CI + unit test
 //  0.2.4   2021-01-15  start detect overflow now.
-//  0.2.5   2021-10-19  update Arduino-CI + badgets
+//  0.2.5   2021-10-19  update Arduino-CI + badges
+//  0.2.6   2021-12-14  update library.json, license
 
 
 #include "CountDown.h"

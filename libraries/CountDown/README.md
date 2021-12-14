@@ -18,7 +18,7 @@ It does not call a function or so as the user is responsible to check the time r
 Typically one checks the remaining time in every loop.
 
 UNder the hood the function uses **micros()** or **millis()** which results in a maximum time
-of 4294 seconds in micros (1h10m) or about 49+ days when using millis.
+of 4294 seconds in micros (1h10m) or about 49+ days when using milliseconds.
 
 For longer periods one could cascade countDown, so when one is finished the next one starts.
 
@@ -31,7 +31,7 @@ The main functions of the CountDown clock are:
 - **bool start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds)**
 - **bool start(uint8_t days, uint16_t hours, uint32_t minutes)**
 - **void stop()**
-- **void cont()**  *(continue is a C-Keyword)*
+- **void cont()**  *(note continue is a C-Keyword)*
 - **uint32_t remaining()**
 - **bool isRunning()**
 
@@ -48,11 +48,11 @@ The resolution is implicitly set to **CountDown::SECONDS**.
 
 Since 0.2.4 the function **start()** will check if the parameters cause an overflow
 in the underlying math. If there is no overflow call to **start()** returns true. 
-If there is an overflow it returns false
+If there is an overflow it returns false.
 
 Total amount of time to countdown for **CountDown::MICROS** may not exceed 2\^32 micros ~ 1 hour 10 minutes.
 Total amount of time to countdown for **CountDown::MILLIS**, **CountDown::SECONDS** and **CountDown::MINUTES**
-may not exceed 2\^32 milliseconds  ~49 days
+may not exceed 2\^32 milliseconds  ~49 days.
 
 
 The function **start(days, hours, minutes)** is new since 0.2.2.
@@ -90,6 +90,8 @@ awake.
 
 - incorporate a real time clock? or EEPROM to be reboot proof?
 - examples with visualisations (e.g. hexadecimal countdown)
-- Countdown based upon external pulses
-- uint64_t version ==> **CountDown64** class?
+  - Countdown based upon external pulses.
+- uint64_t version ==> **CountDown64** class?  (only on request)
+  - would be useful for micros() in theory but drift / interrupts would make it fail.
+- 
 

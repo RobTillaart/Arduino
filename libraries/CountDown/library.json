@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/CountDown.git"
   },
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "CountDown.h"
 }

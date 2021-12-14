@@ -1,7 +1,8 @@
-# Syntax Coloring CountDown
+# Syntax Colouring CountDown
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 CountDown	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 setResolution	KEYWORD2

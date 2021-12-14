@@ -3,7 +3,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -13,12 +13,13 @@
 //  0.1.2   2021-10-20  update build-CI + badges 
 //                      added pound, renamed roubles
 //  0.1.3   2021-12-14  update library.json, license, minor edits.
+//  0.1.4   2021-12-14  fix version number for PlatformIO
 
 
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.3"))
+#define CURRENCY_VERSION                        (F("0.1.4"))
 
 
 // TODO 

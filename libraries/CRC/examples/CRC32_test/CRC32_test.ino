@@ -5,11 +5,13 @@
 //    DATE: 2021-01-20
 //    (c) : MIT
 
+
 #include "CRC32.h"
 
 char str[24] =  "123456789";
 
 CRC32 crc;
+
 
 void setup()
 {
@@ -25,6 +27,7 @@ void setup()
 void loop()
 {
 }
+
 
 void test()
 {
@@ -54,4 +57,6 @@ void test()
   Serial.println(crc.count());
 }
 
+
 // -- END OF FILE --
+

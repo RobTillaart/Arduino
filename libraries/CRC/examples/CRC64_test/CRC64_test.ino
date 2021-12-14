@@ -5,12 +5,14 @@
 //    DATE: 2021-01-20
 //    (c) : MIT
 
+
 #include "CRC64.h"
 #include "printHelpers.h"     // https://github.com/RobTillaart/printHelpers
 
 char str[24] =  "123456789";
 
 CRC64 crc;
+
 
 void setup()
 {
@@ -26,6 +28,7 @@ void setup()
 void loop()
 {
 }
+
 
 void test()
 {
@@ -55,4 +58,6 @@ void test()
   Serial.println(print64(crc.count()));
 }
 
+
 // -- END OF FILE --
+

@@ -6,12 +6,13 @@
 //    (c) : MIT
 //
 
+
 #include "CRC.h"
 
 char str[122] =  "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -104,13 +105,14 @@ void setup()
   Serial.println("=============================");
   delay(100);
 
-
   Serial.println("\n\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

@@ -7,13 +7,13 @@
 
 
 #include "CRC8.h"
-
 #include "CRC.h"
 
 
 char str[24] =  "123456789";
 
 CRC8 crc;
+
 
 void setup()
 {
@@ -29,6 +29,7 @@ void setup()
 void loop()
 {
 }
+
 
 void test()
 {
@@ -60,4 +61,6 @@ void test()
   Serial.println(crc.count());
 }
 
+
 // -- END OF FILE --
+

@@ -93,6 +93,7 @@ uint32_t CRC32::_reverse(uint32_t in)
   return x;
 }
 
+
 uint8_t CRC32::_reverse8(uint8_t in)
 {
   uint8_t x = in;
@@ -102,4 +103,6 @@ uint8_t CRC32::_reverse8(uint8_t in)
   return x;
 }
 
+
 // -- END OF FILE --
+

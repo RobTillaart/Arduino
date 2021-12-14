@@ -43,6 +43,7 @@ uint8_t * data = (uint8_t *) str;
 
 unittest_setup()
 {
+  fprintf(stderr, "CRC_LIB_VERSION: %s\n", (char *) CRC_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -52,8 +53,6 @@ unittest_teardown()
 
 unittest(test_crc8)
 {
-  fprintf(stderr, "VERSION: %s\n", CRC_LIB_VERSION);
-
   assertEqual(0xF4, crc8(data, 9, 0x07));
   assertEqual(0xDA, crc8(data, 9, 0x9B, 0xFF));
   assertEqual(0x15, crc8(data, 9, 0x39, 0x00, 0x00, true, true));
@@ -69,8 +68,6 @@ unittest(test_crc8)
 
 unittest(test_crc16)
 {
-  fprintf(stderr, "VERSION: %s\n", CRC_LIB_VERSION);
-
   assertEqual(0x29B1, crc16(data, 9, 0x1021, 0xFFFF, 0x0000, false, false ));
   assertEqual(0xBB3D, crc16(data, 9, 0x8005, 0x0000, 0x0000, true,  true  ));
   assertEqual(0xE5CC, crc16(data, 9, 0x1021, 0x1D0F, 0x0000, false, false ));
@@ -99,8 +96,6 @@ unittest(test_crc16)
 
 unittest(test_crc32)
 {
-  fprintf(stderr, "VERSION: %s\n", CRC_LIB_VERSION);
-
   assertEqual(0xCBF43926, crc32(data, 9, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true));
   assertEqual(0xFC891918, crc32(data, 9, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, false, false));
   assertEqual(0xE3069283, crc32(data, 9, 0x1EDC6F41, 0xFFFFFFFF, 0xFFFFFFFF, true, true));
@@ -115,8 +110,6 @@ unittest(test_crc32)
 
 unittest(test_crc64)
 {
-  fprintf(stderr, "VERSION: %s\n", CRC_LIB_VERSION);
-
   fprintf(stderr, "no reference yet\n");
   assertEqual(1, 1);
 }

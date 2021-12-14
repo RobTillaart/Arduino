@@ -6,10 +6,12 @@
 //    (c) : MIT
 //
 
+
 #include "CRC.h"
 #include "printHelpers.h"  // for the 64 bit...
 
 char str[24] =  "123456789";
+
 
 void setup()
 {
@@ -35,9 +37,11 @@ void setup()
   Serial.println("\n\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

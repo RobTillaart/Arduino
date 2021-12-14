@@ -2,7 +2,7 @@
 //
 //    FILE: CRC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library fir CRC8, CRC16, CRC16-CCITT, CRC32
 //     URL: https://github.com/RobTillaart/CRC
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CRC_LIB_VERSION       (F("0.1.3"))
+#define CRC_LIB_VERSION       (F("0.1.4"))
 
 
 ////////////////////////////////////////////////////////////////
@@ -63,6 +63,7 @@ uint64_t reverse64(uint64_t in)
   x = (x >> 32) | (x << 32);
   return x;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -186,3 +187,4 @@ uint64_t crc64(uint8_t *array, uint8_t length, uint64_t polynome, uint64_t start
 
 
 // -- END OF FILE --
+

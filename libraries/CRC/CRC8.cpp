@@ -91,4 +91,6 @@ uint8_t CRC8::_reverse(uint8_t in)
   return x;
 }
 
+
 // -- END OF FILE --
+

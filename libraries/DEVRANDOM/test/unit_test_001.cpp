@@ -29,6 +29,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DEVRANDOM_LIB_VERSION: %s\n", (char *) DEVRANDOM_LIB_VERSION);
 }
 
 
@@ -37,10 +38,16 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0, DEVRANDOM_MODE_SW);
+  assertEqual(1, DEVRANDOM_MODE_HW);
+  assertEqual(2, DEVRANDOM_MODE_AR);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", DEVRANDOM_LIB_VERSION);
-
   DEVRANDOM dr;
   
   assertEqual(DEVRANDOM_MODE_SW, dr.getMode());

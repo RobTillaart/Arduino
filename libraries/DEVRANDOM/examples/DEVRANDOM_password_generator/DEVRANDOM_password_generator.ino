@@ -22,12 +22,14 @@ char pw[PASSWORD_SIZE + 1];
 
 DEVRANDOM dr;
 
-char c1[] = "QWERTYUIOPLMKJNBHGVCFDXSZA";
-char c2[] = "zaqwertyuioplmnbvcxsdfghjk";
-char c3[] = "1598746230";
-char c4[] = "!@#$%^&*()_+-={}|[]\\:;<>?,./";
+// PROGMEM ?
+const char c1[] = "QWERTYUIOPLMKJNBHGVCFDXSZA";
+const char c2[] = "zaqwertyuioplmnbvcxsdfghjk";
+const char c3[] = "1598746230";
+const char c4[] = "!@#$%^&*()_+-={}|[]\\:;<>?,./";
 
 int mx = 0;
+
 
 void setup()
 {
@@ -39,6 +41,7 @@ void setup()
   // dr.useAR(A0);
   dr.useSW();  // for proof of concept this is OK
 }
+
 
 void loop()
 {
@@ -58,6 +61,7 @@ void loop()
   Serial.println();
   delay(5);
 }
+
 
 int generatePassword()
 {
@@ -99,4 +103,6 @@ int generatePassword()
   return count;
 }
 
+
 // -- END OF FILE --
+

@@ -2,21 +2,22 @@
 //
 //    FILE: DEVRANDOM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
-// PURPOSE: Arduino library for a /dev/random stream - usefull for testing
+// VERSION: 0.1.3
+// PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
 //
 //  HISTORY:
 //  0.1.0   2020-06-23  initial version
-//  0.1.1   2020-12-18  add arduino-ci + unit tests
+//  0.1.1   2020-12-18  add Arduino-CI + unit tests
 //                      + getMode() + flush()
 //  0.1.2   2021-01-15  add constructors with seed.
+//  0.1.3   2021-12-15  update library.json, license, minor edits
 
 
 #include "Arduino.h"
 
 
-#define  DEVRANDOM_LIB_VERSION      (F("0.1.2"))
+#define  DEVRANDOM_LIB_VERSION      (F("0.1.3"))
 
 
 #define  DEVRANDOM_MODE_SW           0
@@ -35,6 +36,7 @@ public:
     _pin = 0;
   };
 
+
   DEVRANDOM(const char * str)
   {
     this->print(str);
@@ -43,17 +45,19 @@ public:
     _pin = 0;
   };
 
-  DEVRANDOM(const uint32_t val)
+
+  DEVRANDOM(const uint32_t value)
   {
-     this->print(val);
+     this->print(value);
     _next = random(256);
     _mode = 0;
     _pin = 0;
   };
 
-  DEVRANDOM(const float val)
+
+  DEVRANDOM(const float value)
   {
-    this->print(val, 6);
+    this->print(value, 6);
     _next = random(256);
     _mode = 0;
     _pin = 0;
@@ -64,6 +68,8 @@ public:
 
 
   int peek()      { return _next; };
+
+
   int read()      
   {
     uint8_t x = _next;
@@ -110,29 +116,31 @@ private:
 
   int _hardware()
   {
-    uint8_t val = 0;
+    uint8_t value = 0;
     for (uint8_t i = 0; i < 8; i++)
     {
-      val <<= 1;
-      // TODO register optimized read for speed? ==> Not portable
-      if (digitalRead(_pin)) val++;  
+      value <<= 1;
+      if (digitalRead(_pin)) value++;  
     }
-    return val ^ _seed;
+    return value ^ _seed;
   }
 
 
   int _analog()
   {
-    uint8_t val = 0;
+    uint8_t value = 0;
     for (uint8_t i = 0; i < 8; i++)
     {
-      val <<= 1;
-      if (analogRead(_pin) & 1) val++;
+      value <<= 1;
+      if (analogRead(_pin) & 1) value++;
     }
-    return val ^ _seed;
+    return value ^ _seed;
   }
 };
 
-// TODO alternative random nummer generator so all platforms behave same.
+
+// TODO alternative random number generator so all platforms behave same.
+//      Marsaglia ?
 
 // -- END OF FILE --
+

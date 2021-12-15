@@ -1,7 +1,9 @@
-# Syntax Coloring Map For DEVRANDOM
+# Syntax Colouring Map For DEVRANDOM
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 DEVRANDOM	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 useAR	KEYWORD2
@@ -9,8 +11,14 @@ useHW	KEYWORD2
 useSW	KEYWORD2
 getMode	KEYWORD2
 
+
 # Instances (KEYWORD2)
 
-# Constants (LITERAL1)
 
+# Constants (LITERAL1)
+#DEVRANDOM_LIB_VERSION	LITERAL1
+
+DEVRANDOM_MODE_SW	LITERAL1
+DEVRANDOM_MODE_HW	LITERAL1
+DEVRANDOM_MODE_AR	LITERAL1
 

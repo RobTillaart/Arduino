@@ -7,12 +7,14 @@
 //    (c) : MIT
 //
 
+
 #include "DEVRANDOM.h"
 
 DEVRANDOM dr;
 
 uint32_t i = 0, start, stop;
 volatile int x;
+
 
 void setup()
 {
@@ -85,6 +87,7 @@ void setup()
   delay(1000);
 }
 
+
 void loop()
 {
   i++;
@@ -97,4 +100,6 @@ void loop()
   delay(100);
 }
 
+
 // -- END OF FILE --
+

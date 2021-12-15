@@ -9,11 +9,13 @@
 
 // USE WITH SERIAL PLOTTER
 
+
 #include "DEVRANDOM.h"
 
 DEVRANDOM dr;
 
 volatile int x, y, z;
+
 
 void setup()
 {
@@ -23,6 +25,7 @@ void setup()
 
   Serial.println("SOFTWARE\tDIGITAL\tANALOG");
 }
+
 
 void loop()
 {
@@ -41,4 +44,6 @@ void loop()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

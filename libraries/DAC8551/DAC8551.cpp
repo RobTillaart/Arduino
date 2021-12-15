@@ -15,6 +15,7 @@
 //  0.2.2   2021-02-04  add DAC8550 DAC8501 DAC8501 derived class + minor refactor
 //  0.2.3   2021-06-02  compile ESP32
 //  0.2.4   2021-08-29  add support for HSPI / VSPI ESP32 ++
+//  0.2.5   2021-12-15  update library.json, license, minor edits
 
 
 #include "DAC8551.h"
@@ -180,6 +181,7 @@ DAC8501::DAC8501(uint8_t slaveSelect) : DAC8551(slaveSelect)
 {
 }
 
+
 DAC8501::DAC8501(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
                 : DAC8551(spiData, spiClock, slaveSelect)
 {
@@ -189,6 +191,7 @@ DAC8501::DAC8501(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 DAC8531::DAC8531(uint8_t slaveSelect) : DAC8551(slaveSelect)
 {
 }
+
 
 DAC8531::DAC8531(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
                 : DAC8551(spiData, spiClock, slaveSelect)
@@ -200,9 +203,12 @@ DAC8550::DAC8550(uint8_t slaveSelect) : DAC8551(slaveSelect)
 {
 }
 
+
 DAC8550::DAC8550(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
                 : DAC8551(spiData, spiClock, slaveSelect)
 {
 }
 
+
 // -- END OF FILE --
+

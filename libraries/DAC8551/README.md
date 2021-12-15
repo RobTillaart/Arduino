@@ -8,7 +8,7 @@
 
 # DAC8551
 
-Arduino library for DAC8501 DAC8531, DAC8550, DAC8551 SPI Digital Analog Convertor
+Arduino library for DAC8501 DAC8531, DAC8550, DAC8551 SPI Digital Analog Convertor.
 
 
 ## Description
@@ -18,7 +18,7 @@ The DAC8551 is a SPI based 16 bit DAC with one channel.
 The DAC8501, DAC8531 and DAC8550 are drop in compatible 
 They all have classed derived 1 to 1 from DAC8551.
 
-**Warning** this library is not tested extensively
+**Warning** this library is not tested extensively.
 
 
 ## Interface
@@ -61,8 +61,9 @@ BEFORE the **begin()** function.
 
 #### experimental
 
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
-AFTER the **begin()** function.
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of ESP32 for hardware SPI. 
+Needs to be called AFTER the **begin()** function.
 
 
 ### Power down
@@ -80,12 +81,7 @@ check datasheet for details.
 | DAC8551_POWERDOWN_HIGH_IMP |   3   |
 
 
-DAC8501, DAC8531 and DAC8550 uses the same constants.
-
-
-## Future
-
-- testing
+Note: DAC8501, DAC8531 and DAC8550 uses the same constants.
 
 
 ## Operation
@@ -102,4 +98,11 @@ See examples
 
 **demo_powerdown.ino**
 - idem
+
+
+## Future
+
+- testing
+- verify replacement chips
+
 

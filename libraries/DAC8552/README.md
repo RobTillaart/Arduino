@@ -8,14 +8,14 @@
 
 # DAC8552
 
-Arduino library for DAC8552 SPI Digital Analog Convertor
+Arduino library for DAC8552 SPI Digital Analog Convertor.
 
 
 ## Description
 
 The DAC8552 is a SPI based 16 bit DAC with two channels.
 
-**Warning** This library is not tested extensively
+**Warning** This library is not tested extensively.
 
 
 ## Interface
@@ -53,7 +53,8 @@ BEFORE the **begin()** function.
 
 #### experimental
 
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
 AFTER the **begin()** function.
 
 

@@ -2,7 +2,7 @@
 //    FILE: DAC8552.cpp 
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //     URL: https://github.com/RobTillaart/DAC8552
 //
 // HISTORY:
@@ -14,13 +14,15 @@
 //                      add slave select pin for HW constructor
 //  0.2.1   2021-06-02  compile ESP32 + fix for channel B
 //  0.2.2   2021-08-29  add support for HSPI / VSPI ESP32 ++
+//  0.2.3   2021-12-15  update library.json, license, unit test, minor edits
 
 
 #include "DAC8552.h"
 
 
-#define MAXVOLTAGE      5.0
-#define MAXVALUE        0xFFFF
+#define MAXVOLTAGE              5.0
+#define MAXVALUE                0xFFFF
+
 
 DAC8552::DAC8552(uint8_t slaveSelect)
 {
@@ -199,4 +201,6 @@ void DAC8552::swSPI_transfer(uint8_t value)
   }
 }
 
+
 // -- END OF FILE --
+

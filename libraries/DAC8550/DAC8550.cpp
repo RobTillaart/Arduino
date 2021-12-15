@@ -2,14 +2,14 @@
 //    FILE: DAC8550.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/DAC8550
 //
 //  HISTORY:
-//  0.1.0  2021-02-04 initial version (based upon DAC8551)
-//  0.1.1  2021-08-29 add support for HSPI/VSPI ESP32
-//                    some performance improvements.
-
+//  0.1.0  2021-02-04  initial version (based upon DAC8551)
+//  0.1.1  2021-08-29  add support for HSPI/VSPI ESP32
+//                     some performance improvements.
+//  0.1.2  2021-12-15  update library.json, license, minor edits.
 
 
 #include "DAC8550.h"
@@ -111,6 +111,7 @@ void DAC8550::setPowerDown(uint8_t powerDownMode)
   updateDevice();
 }
 
+
 uint8_t DAC8550::getPowerDownMode()
 {
   return _register & 0x03;
@@ -164,4 +165,6 @@ void DAC8550::swSPI_transfer(uint8_t value)
   }
 }
 
+
 // -- END OF FILE --
+

@@ -3,7 +3,7 @@
 //    FILE: DAC8550.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor  
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // HISTORY: See DAC8550.cpp
 //     URL: https://github.com/RobTillaart/DAC8550
 //
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define DAC8550_LIB_VERSION            (F("0.1.1"))
+#define DAC8550_LIB_VERSION            (F("0.1.2"))
 
 
 #define DAC8550_POWERDOWN_NORMAL        0

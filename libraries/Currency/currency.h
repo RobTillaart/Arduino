@@ -3,7 +3,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -14,12 +14,13 @@
 //                      added pound, renamed roubles
 //  0.1.3   2021-12-14  update library.json, license, minor edits.
 //  0.1.4   2021-12-14  fix version number for PlatformIO
+//  0.1.5   2021-12-15  improve performance / size
 
 
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.4"))
+#define CURRENCY_VERSION                        (F("0.1.5"))
 
 
 // TODO 
@@ -34,7 +35,7 @@
 char * currency(int32_t value, int decimals, char decimalSeparator, char thousandSeparator, char symbol)
 {
   static char tmp[16];
-  int index = 0;
+  uint8_t index = 0;
 
   int32_t v = value;
   bool negative = v < 0;
@@ -46,13 +47,11 @@ char * currency(int32_t value, int decimals, char decimalSeparator, char thousan
   {
     // separators
     if ((pos == 0) && (decimals > 0) ) tmp[index++] = decimalSeparator;
-    if ((pos > 0) && (pos % 3 == 0) && (v > 0)) tmp[index++] = thousandSeparator;
-
-    //  TODO can be optimized
-    int digit = (v % 10) + '0';
-    v /= 10;
-    tmp[index++] = digit;
+    if ((pos > 0)  && (pos % 3 == 0) ) tmp[index++] = thousandSeparator;
     pos++;
+
+    tmp[index++] = (v % 10) + '0';
+    v /= 10;
   }
   if (negative) tmp[index++] = '-';
   else          tmp[index++] = ' ';
@@ -60,12 +59,11 @@ char * currency(int32_t value, int decimals, char decimalSeparator, char thousan
   tmp[index]   = '\0';
 
   // reverse string
-  int length = strlen(tmp);                // optimize  index is strlen?
-  for (int i = 0; i < length / 2; i++)     // optimize   j--
+  for (uint8_t i = 0, j = index - 1; i < index / 2; i++, j--)
   {
     char c = tmp[i];
-    tmp[i] = tmp[length - i - 1];
-    tmp[length - i - 1] = c;
+    tmp[i] = tmp[j];
+    tmp[j] = c;
   }
   return tmp;
 }
@@ -86,12 +84,11 @@ char * currency64(int64_t value, int decimals, char decimalSeparator, char thous
   {
     // separators
     if ((pos == 0) && (decimals > 0) ) tmp[index++] = decimalSeparator;
-    if ((pos > 0) && (pos % 3 == 0) && (v > 0)) tmp[index++] = thousandSeparator;
-
-    int digit = (v % 10) + '0';
-    v /= 10;
-    tmp[index++] = digit;
+    if ((pos > 0)  && (pos % 3 == 0) ) tmp[index++] = thousandSeparator;
     pos++;
+
+    tmp[index++] = (v % 10) + '0';
+    v /= 10;
   }
   if (negative) tmp[index++] = '-';
   else          tmp[index++] = ' ';
@@ -99,12 +96,11 @@ char * currency64(int64_t value, int decimals, char decimalSeparator, char thous
   tmp[index]   = '\0';
 
   // reverse string
-  int length = strlen(tmp);
-  for (int i = 0; i < length / 2; i++)
+  for (uint8_t i = 0, j = index - 1; i < index / 2; i++, j--)
   {
     char c = tmp[i];
-    tmp[i] = tmp[length - i - 1];
-    tmp[length - i - 1] = c;
+    tmp[i] = tmp[j];
+    tmp[j] = c;
   }
   return tmp;
 }

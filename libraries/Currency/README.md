@@ -8,7 +8,7 @@
 
 # Currency
 
-Arduino library to help formatting integers for printing as currency
+Arduino library to help formatting integers for printing as currency.
 
 ## Warning: experimental
 
@@ -23,7 +23,7 @@ The currency functions assume you do the currency math in integer units.
 For dollars and euro's this would be cents. For numbers with more decimals 
 it is a smaller unit. 
 
-Using integers makes addition, subtraction and multiplication exact.
+Using integers makes addition, subtraction and multiplication of currency exact.
 
 The library has experimental wrappers for float/double values. 
 Not tested extensively yet.
@@ -72,7 +72,9 @@ The following functions are implemented:
 
 ### float Wrapper functions
 
-Even more experimental - not tested
+Experimental - not tested
+
+All assumes 2 decimals except bitcoin which has 6.
 
 - **char \* bitcoinf(double value)**
 - **char \* dollarf(double value)**
@@ -85,17 +87,24 @@ Even more experimental - not tested
 
 ## Operation
 
-See examples
+See examples.
+
+
+## Performance
+
+Performance is hard to optimize. Most time is spend in splitting 
+individual digits (div / mod 10).
 
 
 ## Future
 
 - update documentation.
-- performance test + optimize.
 - More wrapper functions?
 - test double parameters.
+  - should decimals be a parameter too?
 - add BTC, USD, EUR, GBP, RUB, JPY, CNY, etc. (3+1 chars)
-- currency conversion?
-  - intern all in ???
 - https://www.easymarkets.com/eu/learn-centre/discover-trading/currency-acronyms-and-abbreviations/
 
+**won't**
+- currency conversion?
+  - intern all in ???

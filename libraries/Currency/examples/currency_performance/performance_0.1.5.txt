@@ -1,0 +1,10 @@
+
+currency_performance.ino
+
+TIME: 436
+$ 10,000,000
+
+TIME: 2340
+$-9,999,999,999,999.99
+
+done...

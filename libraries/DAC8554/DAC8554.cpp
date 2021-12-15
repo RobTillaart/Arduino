@@ -2,7 +2,7 @@
 //    FILE: DAC8554.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //     URL: https://github.com/RobTillaart/DAC8554
 //
 //  HISTORY:
@@ -10,11 +10,12 @@
 //  0.1.2   2020-04-06  minor refactor, readme.md
 //  0.1.3   2020-06-07  fix library.json
 //  0.1.4   2020-07-20  fix URL's in demo's; MIT license; minor edits
-//  0.2.0   2020-12-18  add arduino-ci + unit test
+//  0.2.0   2020-12-18  add Arduino-CI + unit test
 //  0.2.1   2021-01-10  fix slave select hardware SPI + getValue() + getPowerDownMode().
 //                      fix unit test.
 //  0.2.2   2021-06-02  compile ESP32
 //  0.2.3   2021-08-29  add support for HSPI / VSPI ESP32 ++
+//  0.2.4   2021-12-15  update library.json, license, unit test, minor edits
 
 
 #include "DAC8554.h"
@@ -34,7 +35,6 @@ DAC8554::DAC8554(uint8_t slaveSelect, uint8_t address)
 }
 
 
-// 0,1,2,4 resp 8550 8551 8552 8554
 DAC8554::DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t address)
 {
   _hwSPI   = false;
@@ -112,8 +112,8 @@ void DAC8554::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
 //
 // SETVALUE
 //
-// channel = 0,1,2,3
-// value = 0..65535
+// channel = 0, 1, 2, 3
+// value   = 0..65535
 void DAC8554::bufferValue(uint8_t channel, uint16_t value)
 {
   uint8_t configRegister = _address;
@@ -134,7 +134,7 @@ void DAC8554::setValue(uint8_t channel, uint16_t value)
 
 
 // channel = 0, 1, 2, 3 depending on type
-// returns 0..65535
+// returns   0..65535
 uint16_t DAC8554::getValue(uint8_t channel)
 {
   return _value[channel];
@@ -155,12 +155,13 @@ void DAC8554::setSingleValue(uint8_t channel, uint16_t value)
 //
 // POWERDOWN
 //
-// channel = 0,1,2,3
+// channel       = 0, 1, 2, 3
 // powerDownMode =
-// DAC8554_POWERDOWN_NORMAL   0x00
-// DAC8554_POWERDOWN_1K       0x40
-// DAC8554_POWERDOWN_100K     0x80
-// DAC8554_POWERDOWN_HIGH_IMP 0xC0
+//   DAC8554_POWERDOWN_NORMAL       0x00
+//   DAC8554_POWERDOWN_1K           0x40
+//   DAC8554_POWERDOWN_100K         0x80
+//   DAC8554_POWERDOWN_HIGH_IMP     0xC0
+//
 void DAC8554::bufferPowerDown(uint8_t channel, uint8_t powerDownMode)
 {
   _register[channel] = powerDownMode;
@@ -278,4 +279,6 @@ void DAC8554::swSPI_transfer(uint8_t value)
   }
 }
 
+
 // -- END OF FILE --
+

@@ -15,6 +15,7 @@ DAC8554 mydac(10);
 uint32_t lastTime = 0;
 uint16_t state = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -22,6 +23,7 @@ void setup()
   Serial.println(DAC8554_LIB_VERSION);
   mydac.begin();
 }
+
 
 void loop()
 {
@@ -55,4 +57,6 @@ void loop()
   }
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

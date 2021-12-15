@@ -18,6 +18,7 @@ uint8_t chanB = 1;
 uint8_t chanC = 2;
 uint8_t chanD = 3;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -30,6 +31,7 @@ void setup()
   mydac.setPowerDown(chanC, DAC8554_POWERDOWN_100K);
   mydac.setPowerDown(chanD, DAC8554_POWERDOWN_1K);
 }
+
 
 void loop()
 {
@@ -58,4 +60,6 @@ void loop()
   mydac.setPowerDown(chanA, DAC8554_POWERDOWN_NORMAL);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

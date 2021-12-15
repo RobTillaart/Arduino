@@ -30,11 +30,20 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DAC8554_LIB_VERSION: %s\n", (char *) DAC8554_LIB_VERSION);
 }
-
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(0x00, DAC8554_POWERDOWN_NORMAL  );
+  assertEqual(0x40, DAC8554_POWERDOWN_1K      );
+  assertEqual(0x80, DAC8554_POWERDOWN_100K    );
+  assertEqual(0xC0, DAC8554_POWERDOWN_HIGH_IMP);
 }
 
 

@@ -7,7 +7,7 @@
 
 # DAC8554
 
-Arduino library for DAC8554 SPI Digital Analog Convertor
+Arduino library for DAC8554 SPI Digital Analog Convertor.
 
 
 ## Description
@@ -23,10 +23,12 @@ The DAC8554 is a SPI based 16 bit DAC with four channels.
 
 - **DAC8554(uint8_t slaveSelect, uint8_t address = 0)** Constructor for hardware SPI,
 since 0.2.0 the slaveSelect pin needs to be defined.
-- **DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t address = 0)** Constructor for the software SPI
+- **DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t address = 0)** 
+Constructor for the software SPI
 - **void begin()** initializes all pins to default state
 - **void setValue(uint8_t channel, uint16_t value)** set the value of the channel to 0 - 65535
-- **void setSingleValue(uint8_t channel, uint16_t value)** writes the value to the channel but does not affect buffered ones. TODO - elaborate.
+- **void setSingleValue(uint8_t channel, uint16_t value)** writes the value to the channel but 
+does not affect buffered ones. TODO - elaborate.
 - **uint16_t getValue(uint8_t channel)** returns the last value written.
 
 
@@ -52,8 +54,9 @@ BEFORE the **begin()** function.
 
 #### experimental
 
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
-AFTER the **begin()** function.
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of ESP32 for hardware SPI. 
+Needs to be called AFTER the **begin()** function.
 
 
 ### Power down
@@ -75,13 +78,9 @@ Check datasheet for details.
 ### Broadcast
 
 - **void bufferValue(uint8_t channel, uint16_t value)** prepare a new value for a channel. 
-- **void broadcastBuffer()** write all buffers to all(up to 4) 8554's channel's
-- **void broadcastValue(uint16_t value)** write value to all(up to 4) 8554's channel's
-- **void broadcastPowerDown(uint8_t powerDownMode)** write powerDownMode to all 8554's channel's
-
-## Future
-
-- testing
+- **void broadcastBuffer()** write all buffers to all(up to 4) 8554's channel's.
+- **void broadcastValue(uint16_t value)** write value to all(up to 4) 8554's channel's.
+- **void broadcastPowerDown(uint8_t powerDownMode)** write powerDownMode to all 8554's channel's.
 
 
 ## Operation
@@ -104,4 +103,9 @@ See examples
 
 **demo_powerdown.ino**
 - idem
+
+
+## Future
+
+- testing
 

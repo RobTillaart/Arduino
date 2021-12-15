@@ -29,6 +29,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DEVNULL_LIB_VERSION: %s\n", (char *) DEVNULL_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -39,12 +40,13 @@ unittest_teardown()
 unittest(test_all)
 {
   DEVNULL dn;
-  
+
   assertEqual(0,   dn.available());
   assertEqual(EOF, dn.peek());
   assertEqual(EOF, dn.read());
   assertEqual(1,   dn.write('a'));
   assertEqual(11,  dn.print("hello world"));
+  assertEqual(13,  dn.println("hello world"));
 }
 
 unittest_main()

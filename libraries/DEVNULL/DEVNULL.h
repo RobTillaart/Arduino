@@ -2,7 +2,7 @@
 //
 //    FILE: DEVNULL.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for a /dev/null stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVNULL
 //
@@ -11,11 +11,12 @@
 //  0.1.1   2020-12-18  add Arduino-CI.
 //  0.1.2   2021-11-24  update build-CI, badges, etc.
 //                      added write(data, length) + _timeOut.
+//  0.1.3   2021-12-15  update library.json, license, minor edits
 
 
 #include "Arduino.h"
 
-#define DEVNULL_LIB_VERSION     (F("0.1.2"))
+#define DEVNULL_LIB_VERSION     (F("0.1.3"))
 
 
 class DEVNULL : public Stream
@@ -38,7 +39,7 @@ public:
   };
   size_t write( const uint8_t *buffer, size_t size) 
   {
-    _bottomLessPit = buffer[size - 1];
+    if (size > 0) _bottomLessPit = buffer[size - 1];
     return size;
   };
 

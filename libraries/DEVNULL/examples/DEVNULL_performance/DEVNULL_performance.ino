@@ -20,7 +20,9 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DEVNULL_LIB_VERSION: ");
-  // Serial.println(DEVNULL_LIB_VERSION);
+  Serial.println(DEVNULL_LIB_VERSION);
+  delay(100);
+
 
   start = micros();
   dn.println("it is dark in here...");
@@ -30,11 +32,12 @@ void setup()
   delay(10);
 
   start = micros();
-  // dn.write("it is dark in here...", 22);
+  dn.write((const uint8_t *) "it is dark in here...", 22);
   stop = micros();
   Serial.print("text2: \t");
   Serial.println(stop - start);
   delay(10);
+
 
   start = micros();
   dn.print(123456789L);
@@ -43,12 +46,14 @@ void setup()
   Serial.println(stop - start);
   delay(10);
 
+
   start = micros();
   dn.print(PI, 5);
   stop = micros();
   Serial.print("float: \t");
   Serial.println(stop - start);
   delay(10);
+
 
   start = micros();
   dn.print(PI, 10);
@@ -57,12 +62,14 @@ void setup()
   Serial.println(stop - start);
   delay(10);
 
+
   start = micros();
   dn.print(PI, 15);
   stop = micros();
   Serial.print("float: \t");
   Serial.println(stop - start);
   delay(10);
+
 
   start = micros();
   dn.print(PI, 20);
@@ -71,6 +78,7 @@ void setup()
   Serial.println(stop - start);
   delay(10);
 
+
   start = micros();
   bool b = dn.find("hello");
   stop = micros();
@@ -78,8 +86,10 @@ void setup()
   Serial.println(stop - start);
   delay(10);
 
-  Serial.println("Done...");
+
+  Serial.println("\nDone...");
 }
+
 
 void loop()
 {
@@ -87,3 +97,4 @@ void loop()
 
 
 // -- END OF FILE --
+

@@ -8,14 +8,14 @@
 
 # DEVNULL
 
-Arduino library for a /dev/null stream
+Arduino library for a /dev/null stream.
 
 
 ## Description
 
 The library implements a stream class that mimics the **/dev/null**
-device of a Linux system. You can write everything to it, you can 
-never read data from it as it always returns EOF (end of file);
+device of a Linux system. You can write everything to it. 
+You can never read data from it as it always returns EOF (end of file);
 
 The 0.1.0 version is a minimal implementation that can be optimized.
 it implements the **write(const uint8_t data)** call and e.g. a float is still

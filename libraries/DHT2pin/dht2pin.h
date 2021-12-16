@@ -2,7 +2,7 @@
 //
 //    FILE: dht2pin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
@@ -13,15 +13,15 @@
 
 #include <Arduino.h>
 
-#define DHT2PIN_LIB_VERSION "0.1.1"
+#define DHT2PIN_LIB_VERSION               (F("0.1.2"))
 
-#define DHTLIB_OK                   0
-#define DHTLIB_ERROR_CHECKSUM       -1
-#define DHTLIB_ERROR_TIMEOUT        -2
-#define DHTLIB_ERROR_CONNECT        -3
-#define DHTLIB_ERROR_ACK_L          -4
-#define DHTLIB_ERROR_ACK_H          -5
-#define DHTLIB_INVALID_VALUE        -999
+#define DHTLIB_OK                         0
+#define DHTLIB_ERROR_CHECKSUM             -1
+#define DHTLIB_ERROR_TIMEOUT              -2
+#define DHTLIB_ERROR_CONNECT              -3
+#define DHTLIB_ERROR_ACK_L                -4
+#define DHTLIB_ERROR_ACK_H                -5
+#define DHTLIB_INVALID_VALUE              -999
 
 #define DHTLIB_DHT11_WAKEUP     18
 #define DHTLIB_DHT_WAKEUP       1
@@ -36,7 +36,7 @@
 #else
 #define DHTLIB_TIMEOUT (75000000/40000)
 #endif
-    
+
 class DHT2pin
 {
 public:
@@ -44,8 +44,8 @@ public:
     // DHTLIB_OK
     // DHTLIB_ERROR_CHECKSUM
     // DHTLIB_ERROR_TIMEOUT
-    DHT2pin(uint8_t rpin, uint8_t wpin) 
-    { 
+    DHT2pin(uint8_t rpin, uint8_t wpin)
+    {
         _rpin = rpin;
         _wpin = wpin;
         temperature = 0;
@@ -57,7 +57,7 @@ public:
         pinMode(_rpin, INPUT);
         pinMode(_wpin, OUTPUT);
     }
-    
+
     int read11();
     int read();
 

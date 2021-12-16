@@ -31,6 +31,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DHT2PIN_LIB_VERSION: %s\n", (char *) DHT2PIN_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -41,7 +42,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   DHT2pin DHT(2, 3);
-  fprintf(stderr, DHT2PIN_LIB_VERSION);
+
   assertEqualFloat(0, DHT.temperature, 0.001);
   assertEqualFloat(0, DHT.humidity, 0.001);
 

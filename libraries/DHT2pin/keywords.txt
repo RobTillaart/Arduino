@@ -1,6 +1,6 @@
-# Syntax Coloring Map For DHT2pin
+# Syntax Colouring Map For DHT2pin
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DHT2pin	KEYWORD1
 
 
@@ -18,6 +18,7 @@ temperature	KEYWORD2
 
 # Constants (LITERAL1)
 DHT2PIN_LIB_VERSION	LITERAL1
+
 DHTLIB_OK	LITERAL1
 DHTLIB_ERROR_CHECKSUM	LITERAL1
 DHTLIB_ERROR_TIMEOUT	LITERAL1

@@ -1,7 +1,7 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.2
 // PURPOSE: I2C library for DHT12 for Arduino.
 //
 // HISTORY:
@@ -15,11 +15,13 @@
 //  0.3.0   2020-12-19  add Arduino-CI + unit test
 //                      temperature and humidity made private
 //  0.3.1   2021-10-25  add lastRead, update Arduino-CI, badges
+//  0.3.2   2021-12-16  update library.json, license
+//                      add isConnected()
 
 
 #include "DHT12.h"
 
-#define DHT12_ADDRESS   ((uint8_t)0x5C)
+#define DHT12_ADDRESS           ((uint8_t)0x5C)
 
 
 DHT12::DHT12(TwoWire *wire)
@@ -32,14 +34,15 @@ DHT12::DHT12(TwoWire *wire)
 }
 
 
-void DHT12::begin()
+bool DHT12::begin()
 {
   _wire->begin();
+  return isConnected();
 }
 
 
 #if defined(ESP8266) || defined(ESP32)
-void DHT12::begin(const uint8_t dataPin, const uint8_t clockPin)
+bool DHT12::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
   if ((dataPin < 255) && (clockPin < 255))
   {
@@ -47,8 +50,17 @@ void DHT12::begin(const uint8_t dataPin, const uint8_t clockPin)
   } else {
     _wire->begin();
   }
+  return isConnected();
 }
 #endif
+
+
+bool DHT12::isConnected()
+{
+  _wire->beginTransmission(DHT12_ADDRESS);
+  int rv = _wire->endTransmission();
+  return rv == 0;
+}
 
 
 int8_t DHT12::read()
@@ -70,7 +82,7 @@ int8_t DHT12::read()
   if (_bits[4] != checksum) return DHT12_ERROR_CHECKSUM;
 
   _lastRead = millis();
-  
+
   return DHT12_OK;
 }
 

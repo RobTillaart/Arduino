@@ -1,13 +1,8 @@
 //
 //    FILE: DHT12 _plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
 // PURPOSE: Demo for DHT12 I2C humidity & temperature sensor
 //
-//  HISTORY:
-//  0.1.0  2020-04-11  initial version
-//  0.3.0  2020-12-19  compatible new version
-//  0.3.1  2021-10-25  add lastRead
 
 
 #include "DHT12.h"
@@ -35,4 +30,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

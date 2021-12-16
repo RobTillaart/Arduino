@@ -31,6 +31,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DHT12_LIB_VERSION: %s \n", (char *) DHT12_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -38,11 +39,18 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(  0, DHT12_OK);
+  assertEqual(-10, DHT12_ERROR_CHECKSUM);
+  assertEqual(-11, DHT12_ERROR_CONNECT);
+  assertEqual(-12, DHT12_MISSING_BYTES);
+}
+
+
 unittest(test_constructor)
 {
   DHT12 DHT(&Wire);
-  
-  fprintf(stderr, DHT12_LIB_VERSION);
 
   assertEqualFloat(0, DHT.getTemperature(), 0.001);
   assertEqualFloat(0, DHT.getHumidity(), 0.001);
@@ -63,7 +71,7 @@ unittest(test_offset)
 {
   DHT12 DHT(&Wire);
   DHT.begin();
-  
+
   assertEqualFloat(0, DHT.getTempOffset(), 0.001);
   assertEqualFloat(0, DHT.getHumOffset(), 0.001);
 

@@ -25,12 +25,15 @@ Calling these latter again will return the same values until a new **read()** is
 
 
 ### Constructor
+
 - **DHT12(TwoWire \*wire)** constructor, using a specific Wire (I2C bus).
-- **begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins
-- **begin()** initializer for non ESP32.
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins
+- **bool begin()** initializer for non ESP32. Returns true if connected.
+- **bool isConnected()** returns true if the address of the DHT12 can be seen on the I2C bus. (since 0.3.2)
 
 
 ### Core
+
 - **int8_t read()** read the sensor and store the values internally. It returns the status of the read which should be 0.
 - **float getHumidity()** returns last Humidity read, or -999 in case of error.
 - **float getTemperature()** returns last Temperature read, or -999 in case of error.
@@ -38,13 +41,14 @@ Calling these latter again will return the same values until a new **read()** is
 
 
 ### Offset
+
 - **void setHumOffset(float offset)** set an offset to calibrate (1st order) the sensor.
 - **float getHumOffset()** return current offset, default 0.
 - **void setTempOffset(float offset)** set an offset to calibrate (1st order) the sensor
 - **float getTempOffset()** return current offset, default 0.
 
 
-### version 0.3.0
+### 0.3.0
 
 - The members **temperature** and **humidity** became private in 0.3.0.
 - added offset for temperature and humidity.
@@ -53,3 +57,15 @@ Calling these latter again will return the same values until a new **read()** is
 ## Operation
 
 See examples
+
+
+## Future
+
+- check for optimizations. although I2C overhead is much more...
+- test at different I2C speeds 400 KHz should be possible.
+- add examples.
+- **void setIgnoreChecksum(bool = false)** ignore checksum flag speeds up communication a bit
+- **bool getIgnoreChecksum()** get status. for completeness.
+- 
+
+

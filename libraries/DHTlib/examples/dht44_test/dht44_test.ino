@@ -1,18 +1,16 @@
 //
 //    FILE: dht44_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
 // PURPOSE: DHT library test sketch for DHT44 && Arduino
-//     URL:
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/DHTlib
+
 
 #include <dht.h>
 
 dht DHT;
 
-#define DHT44_PIN 5
+#define DHT44_PIN     5
+
 
 void setup()
 {
@@ -23,6 +21,7 @@ void setup()
     Serial.println();
     Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
 }
+
 
 void loop()
 {
@@ -70,6 +69,7 @@ void loop()
 
     delay(1000);
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

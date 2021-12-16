@@ -1,19 +1,16 @@
-
 //
 //    FILE: dht21_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
 // PURPOSE: DHT library test sketch for DHT21 && Arduino
 //     URL:
-//
-// Released to the public domain
-//
+
 
 #include <dht.h>
 
 dht DHT;
 
-#define DHT21_PIN 5
+#define DHT21_PIN     5
+
 
 void setup()
 {
@@ -24,6 +21,7 @@ void setup()
     Serial.println();
     Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)");
 }
+
 
 void loop()
 {
@@ -61,6 +59,7 @@ void loop()
 
     delay(2000);
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

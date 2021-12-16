@@ -1,16 +1,16 @@
 //
 //    FILE: dht22_in_function.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-02-19
 // PURPOSE: show usage of DHT object in a function
+//          based on issue #8
 //     URL: https://github.com/RobTillaart/DHTlib
 
-// based on issue #8
 
 #include "dht.h"
 
 #define DHTPIN 8
+
 
 void printDHT(const uint8_t pin)   // uint8_t is an 8 bit unsigned integer
 {
@@ -58,6 +58,7 @@ void printDHT(const uint8_t pin)   // uint8_t is an 8 bit unsigned integer
   }
 }
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -77,4 +78,6 @@ void loop()
   // add your other code here
 }
 
+
 // -- END OF FILE --
+

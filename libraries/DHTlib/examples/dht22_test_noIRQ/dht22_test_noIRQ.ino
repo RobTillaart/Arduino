@@ -1,20 +1,16 @@
 //
 //    FILE: dht22_test_noIRQ.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: DHT library test sketch for DHT22 && Arduino
-//     URL:
-// HISTORY:
-// 0.1.0 initial version
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/DHTlib
+
 
 #include <dht.h>
 
 dht DHT;
 
 #define DHT22_PIN 5
+
 
 struct
 {
@@ -30,6 +26,7 @@ struct
     uint32_t mintime;
 } stat = { 0,0,0,0,0,0,0,0, 0, 9999};
 
+
 void setup()
 {
     Serial.begin(115200);
@@ -37,15 +34,16 @@ void setup()
     Serial.print("LIBRARY VERSION: ");
     Serial.println(DHT_LIB_VERSION);
     Serial.println();
-    
+
     Serial.print("IRQ:\t");
     Serial.println( DHT.getDisableIRQ() );
     DHT.setDisableIRQ(true);
     Serial.print("IRQ:\t");
     Serial.println( DHT.getDisableIRQ() );
-    
+
     Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
 }
+
 
 void loop()
 {
@@ -125,6 +123,7 @@ void loop()
     }
     delay(500);
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

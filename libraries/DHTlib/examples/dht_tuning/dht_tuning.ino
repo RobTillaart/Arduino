@@ -1,18 +1,24 @@
 //
 //    FILE: dht_tuning.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
 // PURPOSE: DHT test sketch for DHT22 && Arduino => find minimum time between reads
-//     URL:
-//
-// Released to the public domain
-//
+//     URL: https://github.com/RobTillaart/DHTlib
+
 
 #include <dht.h>
 
 dht DHT;
 
-#define DHT22_PIN 2
+#define DHT22_PIN     2
+
+
+int del = 500;
+uint32_t startRead = 0;
+uint32_t stopRead = 0;
+uint32_t startCycle = 0;
+uint32_t stopCycle = 0;
+uint32_t tempCycle = 0;
+
 
 void setup()
 {
@@ -24,12 +30,6 @@ void setup()
   Serial.println("Type,\tstatus,\t\tHumidity (%),\tTemperatur (C),\tT_Read (us)\tT_Cycle (us)\tT_Delay (us)");
 }
 
-int del = 500;
-uint32_t startRead = 0;
-uint32_t stopRead = 0;
-uint32_t startCycle = 0;
-uint32_t stopCycle = 0;
-uint32_t tempCycle = 0;
 
 void loop()
 {
@@ -87,7 +87,7 @@ void loop()
   }
   while(1);
 }
-//
-// END OF FILE
-//
+
+
+// --  END OF FILE --
 

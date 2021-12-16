@@ -1,17 +1,11 @@
-#######################################
-# Syntax Coloring Map For DHT
-#######################################
+# Syntax Colouring Map For DHT
 
-#######################################
-# Datatypes (KEYWORD1)
-#######################################
 
+# Data types (KEYWORD1)
 DHT	KEYWORD1
 
-#######################################
-# Methods and Functions (KEYWORD2)
-#######################################
 
+# Methods and Functions (KEYWORD2)
 read	KEYWORD2
 read11	KEYWORD2
 read12	KEYWORD2
@@ -19,20 +13,27 @@ read21	KEYWORD2
 read22	KEYWORD2
 read33	KEYWORD2
 read44	KEYWORD2
+
 read2301	KEYWORD2
 read2302	KEYWORD2
 read2303	KEYWORD2
 read2320	KEYWORD2
 read2322	KEYWORD2
+
 humidity	KEYWORD2
 temperature	KEYWORD2
 
-#######################################
+
 # Instances (KEYWORD2)
-#######################################
 
 
-#######################################
 # Constants (LITERAL1)
-#######################################
+DHT_LIB_VERSION	LITERAL1
+
+DHTLIB_OK	LITERAL1
+DHTLIB_ERROR_CHECKSUM	LITERAL1
+DHTLIB_ERROR_TIMEOUT	LITERAL1
+DHTLIB_ERROR_CONNECT	LITERAL1
+DHTLIB_ERROR_ACK_L	LITERAL1
+DHTLIB_ERROR_ACK_H	LITERAL1
 

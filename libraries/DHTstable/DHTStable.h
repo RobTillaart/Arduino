@@ -2,18 +2,15 @@
 //
 //    FILE: DHTStable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.1.0
+// VERSION: 1.1.1
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
-//
-//  HISTORY:
-//  see dht.cpp file
-//
+
 
 
 #include "Arduino.h"
 
-#define DHTSTABLE_LIB_VERSION           (F("1.1.0 - DHTStable"))
+#define DHTSTABLE_LIB_VERSION           (F("1.1.1 - DHTStable"))
 
 
 const int DHTLIB_OK              = 0;
@@ -61,8 +58,8 @@ public:
     float getHumidity()    { return _humidity; };
     float getTemperature() { return _temperature; };
 
-    bool  getDisableIRQ()              { return _disableIRQ; };
-    void  setDisableIRQ(bool b )       { _disableIRQ = b; };
+    bool  getDisableIRQ()            { return _disableIRQ; };
+    void  setDisableIRQ(bool b )     { _disableIRQ = b; };
 
 private:
     uint8_t _bits[5];  // buffer to receive data

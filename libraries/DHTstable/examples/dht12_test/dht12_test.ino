@@ -1,22 +1,16 @@
 //
 //    FILE: dht12_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.0.0
 // PURPOSE: DHT library test sketch for DHT12 && Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
-//
-//  HISTORY:
-//  1.0.0   2021-05-26  class name changed to DHTStable  (breaking change)
-//
-//  0.2.0   use getHumidity() and getTemperature()
-//  0.1.1   add URL in header
+
 
 
 #include "DHTStable.h"
 
 DHTStable DHT;
 
-#define DHT12_PIN 5
+#define DHT12_PIN         5
 
 
 void setup()
@@ -57,4 +51,6 @@ void loop()
   delay(2000);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

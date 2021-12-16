@@ -1,6 +1,6 @@
-# Syntax Coloring Map For DHTStable
+# Syntax Colouring Map For DHTStable
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DHTStable	KEYWORD1
 
 
@@ -13,20 +13,24 @@ read21	KEYWORD2
 read22	KEYWORD2
 read33	KEYWORD2
 read44	KEYWORD2
+
 read2301	KEYWORD2
 read2302	KEYWORD2
 read2320	KEYWORD2
 read2322	KEYWORD2
+
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
 
-### obsolete in future
-humidity	KEYWORD2
-temperature	KEYWORD2
 
 # Instances (KEYWORD2)
 
 
 # Constants (LITERAL1)
 DHTSTABLE_LIB_VERSION	LITERAL1
+
+DHTLIB_OK	LITERAL1
+DHTLIB_ERROR_CHECKSUM	LITERAL1
+DHTLIB_ERROR_TIMEOUT	LITERAL1
+DHTLIB_INVALID_VALUE	LITERAL1
 

@@ -1,13 +1,14 @@
 //
 //    FILE: DHTStable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.1.0
+// VERSION: 1.1.1
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 //  HISTORY:
 
-//  1.1.0   2021-11-06  fix DHTNew-#67 negative temperature 
+//  1.1.1   2021-12-16  update library.json, license, minor edits
+//  1.1.0   2021-11-06  fix DHTNew-#67 negative temperature
 //  1.0.1   2021-06-01  change architecture to fix incompatible flag.
 //  1.0.0   2021-05-26  rename files and class to DHTStable to fix incompatible flag.
 //                      changed temperature and humidity to private
@@ -15,7 +16,7 @@
 
 //  0.2.9   2021-02-27  fix URL in library.json
 //  0.2.8   2021-02-01  fix negative temperature (from DHTStablenew)
-//  0.2.7   2020-12-20  add arduino-CI, unit test, 
+//  0.2.7   2020-12-20  add Arduino-CI, unit test,
 //                      reset(), getTemperature(), getHumidity()
 //  0.2.6   2020-07-20  update URL in .cpp
 //  0.2.5   2020-06-30  move to own repository; update headers mainly.
@@ -30,7 +31,7 @@
 //  0.1.11  renamed DHTLIB_TIMEOUT
 //  0.1.10  optimized faster WAKEUP + TIMEOUT
 //  0.1.09  optimize size: timeout check + use of mask
-//  0.1.08  added formula for timeout based upon clockspeed
+//  0.1.08  added formula for timeout based upon clock speed
 //  0.1.07  added support for DHT21
 //  0.1.06  minimize footprint (2012-12-27)
 //  0.1.05  fixed negative temperature bug (thanks to Roseman)

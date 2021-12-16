@@ -17,9 +17,9 @@ The DHTStable library is a "frozen" version of the DHTlib.
 This version is stable for both ARM and AVR.
 
 0.2.5 is a migration to its own repository.
-0.2.6 fixed URL to new repro
+0.2.6 fixed URL to new repository
 0.2.7 getTemperature() and getHumidity() added
-      added arduino-ci + unit test.
+      added Arduino-CI + unit test.
 0.2.8 fix negative temperature
 0.2.9 fix URL in JSON file
 
@@ -44,5 +44,12 @@ See examples.
 
 ## Future
 
-- follow bug fixes from DHTnew?
--  
+- no active development 
+  - follow bug fixes from DHTnew
+  - on request.
+- move some const int to .cpp file
+- improve unit test
+  - add constants test
+- add release_notes
+
+

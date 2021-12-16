@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DHTSTABLE_LIB_VERSION %s\n", (char *) DHTSTABLE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -38,7 +39,6 @@ unittest(test_constructor)
 {
   DHTStable dht;
 
-  fprintf(stderr, "%s\n", DHTSTABLE_LIB_VERSION);
   assertFalse(dht.getDisableIRQ());
 
   dht.setDisableIRQ(true);

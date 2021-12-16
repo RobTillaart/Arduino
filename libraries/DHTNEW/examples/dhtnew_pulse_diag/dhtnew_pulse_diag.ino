@@ -1,16 +1,9 @@
 //
 //    FILE: dhtnew_pulse_diag.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: DHTNEW library pulse measurement tool - diagnostics
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2020-08-15  initial version
-// 0.1.1    2020-09-23  commented noInterrupts as it corrupts timing on AVR.
-//                      Also MKR1010 needs interrupts on
 
-//
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION

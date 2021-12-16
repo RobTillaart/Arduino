@@ -1,7 +1,7 @@
-# Syntax Coloring Map For DHTNEW
+# Syntax Colouring Map For DHTNEW
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DHTNEW	KEYWORD1
 
 

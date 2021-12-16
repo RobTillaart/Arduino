@@ -1,16 +1,9 @@
 //
 //    FILE: dhtnew_array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
 
-// HISTORY:
-// 0.1.0    2020-04-25 initial version
-// 0.1.1    2020-04-30 replaced humidity and temperature with functions
-// 0.1.2    2020-06-08 improved error handling
-// 0.1.3    2020-06-15 match 0.3.0 error handling
-// 0.1.4    2020-11-09 wait for read handling
 // 
 // DHT PIN layout from left to right
 // =================================

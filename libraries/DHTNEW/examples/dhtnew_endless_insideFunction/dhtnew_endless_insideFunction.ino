@@ -1,17 +1,10 @@
 //
 //    FILE: dhtnew_endless_insideFunction.ino
 // AUTHORS: Rob Tillaart, Vladislaw Kuzmin
-// VERSION: 0.1.5
 // PURPOSE: Demonstration example of endless DHT values' reporting in a function
 //    DATE: 2021-02-19
 //    (c) : MIT
-//
-// 0.1.0    2020-06-04 initial version
-// 0.1.1    2020-06-15 match 0.3.0 error handling
-// 0.1.2    2020-09-22 fix typo
-// 0.1.3    2020-11-09 wait for read handling
-// 0.1.5    2021-02-19 improved the sketch to read the DHT's value in a function
-//
+
 // DHT PINs' layout from left to right
 // =================================
 // FRONT : DESCRIPTION
@@ -52,7 +45,7 @@ void DHTt(const uint8_t pin)
   {
     previousMillis = millis();
     DHTNEW mySensor(pin);
-    
+
     count++;
     // show counters for OK and errors.
     if (count % 50 == 0)
@@ -67,7 +60,7 @@ void DHTt(const uint8_t pin)
       Serial.println();
       Serial.println();
     }
-  
+
     if (count % 10 == 0)
     {
       Serial.println();
@@ -77,11 +70,11 @@ void DHTt(const uint8_t pin)
     Serial.print("\t");
     Serial.print(count);
     Serial.print("\t");
-  
+
     start = micros();
     int chk = mySensor.read();
     stop = micros();
-  
+
     switch (chk)
     {
       case DHTLIB_OK:

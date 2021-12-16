@@ -1,13 +1,9 @@
 //
 //    FILE: dhtnew_waitForRead_nonBlocking.ino
 //  AUTHOR: Budulinek
-// VERSION: 0.1.0
 // PURPOSE: DHTNEW non-blocking wait for read example sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2020-11-09 initial version
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION

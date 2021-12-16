@@ -1,13 +1,9 @@
 //
 //    FILE: dhtnew_debug.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: DHTNEW library debug sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2020-12-15
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION
@@ -32,7 +28,6 @@ void setup()
 
   // MKR1010 needs this
   // mySensor.setDisableIRQ(false);
-
 }
 
 

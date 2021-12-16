@@ -1,19 +1,9 @@
 //
 //    FILE: dhtnew_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2017-07-24 initial version
-// 0.1.1    2017-07-29 added begin();
-// 0.1.2    2018-01-08 removed begin();
-// 0.1.3    2020-04-30 replaced humidity and temperature with functions
-// 0.1.4    2020-06-08 improved error handling
-// 0.1.5    2020-06-15 match 0.3.0 error handling
-// 0.1.6    2020-11-09 wait for read handling
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION

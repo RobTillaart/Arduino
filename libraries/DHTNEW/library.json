@@ -13,8 +13,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DHTNEW.git"
   },
-  "version": "0.4.10",
+  "version": "0.4.11",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "dhtnew.h"
 }

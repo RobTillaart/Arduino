@@ -1,10 +1,9 @@
 //
 //    FILE: dhtnew_powerDown.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION
@@ -13,7 +12,7 @@
 // pin 3 : Not Connected
 // pin 4 : GND
 
-// to see the effect one must apply a voltmeter to the datapin of the sensor
+// to see the effect one must apply a voltmeter to the data pin of the sensor
 // during the low power mode. Measuring during communication will disrupt the
 // data transfer.
 

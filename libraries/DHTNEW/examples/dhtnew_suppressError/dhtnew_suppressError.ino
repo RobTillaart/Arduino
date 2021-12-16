@@ -1,13 +1,9 @@
 //
 //    FILE: dhtnew_suppressError.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: DHTNEW library test sketch
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2020-07-17 initial version
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION

@@ -32,20 +32,20 @@ Note there are differences e.g. DHT11 has no negative temperature, no decimals, 
 
 ## Specification DHT22
 
-| Model                     | DHT22              | Notes |
-|:--------------------------|:-------------------|:------|
-| Power supply              | 3.3 - 6 V DC       | 
-| Output signal             | digital signal via single-bus | 
-| Sensing element           | Polymer capacitor  | 
-| Operating range           | humidity 0-100% RH | temperature -40° - 80° Celsius | 
-| Accuracy humidity         | ±2% RH(Max ±5% RH) | temperature < ±0.5° Celsius | 
-| Resolution or sensitivity | humidity 0.1% RH   | temperature 0.1° Celsius | 
-| Repeatability humidity    | ±1% RH             | temperature ±0.2° Celsius | 
-| Humidity hysteresis       | ±0.3% RH           | 
-| Long-term Stability       | ±0.5% RH/year      | 
-| Sensing period            | Average: 2s        | 
-| Interchangeability        | fully interchangeable  | 
-| Dimensions                | small 14 x 18 x 5.5 mm | big 22 x 28 x 5 mm | 
+| Model                     | DHT22                  | Notes |
+|:--------------------------|:-----------------------|:------|
+| Power supply              | 3.3 - 6 V DC           |
+| Output signal             | digital signal via single-bus  |
+| Sensing element           | Polymer capacitor      |
+| Operating range           | humidity 0-100% RH     | temperature -40° - 80° Celsius
+| Accuracy humidity         | ±2% RH(Max ±5% RH)     | temperature < ±0.5° Celsius
+| Resolution or sensitivity | humidity 0.1% RH       | temperature 0.1° Celsius
+| Repeatability humidity    | ±1% RH                 | temperature ±0.2° Celsius
+| Humidity hysteresis       | ±0.3% RH               |
+| Long-term Stability       | ±0.5% RH/year          |
+| Sensing period            | Average: 2s            |
+| Interchangeability        | fully interchangeable  |
+| Dimensions                | small 14 x 18 x 5.5 mm | big 22 x 28 x 5 mm |
 
 
 ## Interface
@@ -213,8 +213,10 @@ add optional flag DHTLIB_VALUE_OUT_OF_RANGE.
 26. (0.4.10)
 updated build-CI to do compile test - UNO, due, zero, Leonardo, m4, esp32, esp8266, mega2560.
 updated readme.md - added badges and remarks after testing with MKR1010 Wifi.
-updated TIMEOUT_C from 70->90 us to minimize its occurrence - See https://github.com/RobTillaart/DHTNew/issues/67.
+updated TIMEOUT_C from 70 -> 90 us to minimize its occurrence - See https://github.com/RobTillaart/DHTNew/issues/67.
 added ```while(!Serial);``` in examples to they work for MKR1010 Wifi.
+27. (0.4.11)
+update library.json, license, minor edits (cleanup), unit tests
 
 
 ## Future
@@ -223,6 +225,10 @@ added ```while(!Serial);``` in examples to they work for MKR1010 Wifi.
 - investigate temperature constraining (type dependant.
 - update documentation
 - move history to separate release_notes.md file ?
--
+- improve unit test
+- fix  DHTLIB_VALUE_OUT_OF_RANGE  code
+- #if defined(MKR1010)  // TODO find out real define 
+- 
+
 
  

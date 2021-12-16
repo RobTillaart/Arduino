@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.10
+// VERSION: 0.4.11
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -48,6 +48,9 @@
 //                     added note: MKR1010 Wifi support - setDisableIRQ(false)
 //                     minor edits in examples
 //                     changed TIMEOUT_C to 90us (after endurance test on MKR1010 Wifi)
+//  0.4.11 2021-12-16  update library.json, license, minor edits (clean up),
+//                     add constants to unit tests
+
 
 #include "dhtnew.h"
 #include <stdint.h>

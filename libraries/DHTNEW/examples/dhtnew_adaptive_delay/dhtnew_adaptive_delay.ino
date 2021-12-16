@@ -1,15 +1,10 @@
 //
 //    FILE: dhtnew_adaptive_delay.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
 //
-// HISTORY:
-// 0.1.0    2018-08-06 initial version
-// 0.1.1    2020-04-30 replaced humidity and temperature with functions
-// 0.1.2    2020-06-08 redid 0.1.1 testing and fix + improved error handling
-// 0.1.3    2020-06-15 match 0.3.0 error handling
+
 //
 // DHT PIN layout from left to right
 // =================================
@@ -22,7 +17,7 @@
 // Note:
 // Adaptive delay makes no sense anymore as the DHTNEW lib catches reads that
 // are done faster than READ_DELAY apart (see dhtnew.cpp file).
-// that said it is the goal to get this adaptibility into the library one day.
+// that said it is the goal to get this adaptability into the library one day.
 // A way to do this is to add a function auto_calibrate() that finds the timing
 // where reading fails and use that value + safety margin (20%?)
 

@@ -1,15 +1,9 @@
 //
 //    FILE: dhtnew_setReadDelay.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: DHTNEW library waitForRead example sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
-//
-// HISTORY:
-// 0.1.0    2020-06-12 initial version
-// 0.1.1    2020-06-15 match 0.3.0 error handling
-// 0.1.2    2020-11-09 fix + wait for read handling
-//
+
 // DHT PIN layout from left to right
 // =================================
 // FRONT : DESCRIPTION

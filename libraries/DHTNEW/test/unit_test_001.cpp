@@ -27,11 +27,32 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DHTNEW_LIB_VERSION: %s\n", (char *) DHTNEW_LIB_VERSION);
 }
 
 unittest_teardown()
 {
 }
+
+
+unittest(test_constants)
+{
+  assertEqual( 0, DHTLIB_OK                    );
+  assertEqual(-1, DHTLIB_ERROR_CHECKSUM        );
+  assertEqual(-2, DHTLIB_ERROR_TIMEOUT_A       );
+  assertEqual(-3, DHTLIB_ERROR_BIT_SHIFT       );
+  assertEqual(-4, DHTLIB_ERROR_SENSOR_NOT_READY);
+  assertEqual(-5, DHTLIB_ERROR_TIMEOUT_C       );
+  assertEqual(-6, DHTLIB_ERROR_TIMEOUT_D       );
+  assertEqual(-7, DHTLIB_ERROR_TIMEOUT_B       );
+  assertEqual(-8, DHTLIB_WAITING_FOR_READ      );
+  
+  assertEqual(-100, DHTLIB_HUMIDITY_OUT_OF_RANGE   );
+  assertEqual(-101, DHTLIB_TEMPERATURE_OUT_OF_RANGE);
+  
+  assertEqual(-999, DHTLIB_INVALID_VALUE);
+}
+
 
 unittest(test_constructor)
 {
@@ -53,6 +74,7 @@ unittest(test_constructor)
   assertFalse(dht.getSuppressError());
 }
 
+
 unittest(test_hum_temp)
 {
   DHTNEW dht(4);
@@ -67,6 +89,7 @@ unittest(test_hum_temp)
   dht.setTempOffset(-1.5);
   assertEqual(-1.5, dht.getTempOffset());
 }
+
 
 unittest(test_process_flags)
 {
@@ -102,11 +125,12 @@ unittest(test_process_flags)
   assertFalse(dht.getSuppressError());
 }
 
+
 unittest(test_read)
 {
   DHTNEW dht(4);
 
-  fprintf(stderr, "\tread() cannot be tested\n");
+  fprintf(stderr, "\tread() cannot be tested  GODMODE?\n");
   // int rc = dht.read();
   // fprintf(stderr, "%d\n", rc);
   

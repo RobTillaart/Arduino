@@ -1,21 +1,20 @@
 //
 //    FILE: DS18B20_getAddress.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: DS18B20 lib getAddress demo
-//
-// HISTORY:
-// 0.0.1 = 2020-02-18 initial version
+//     URL: https://github.com/RobTillaart/DS18B20_RT
+
 
 #include <OneWire.h>
 #include <DS18B20.h>
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS            2
 
 OneWire oneWire(ONE_WIRE_BUS);
 DS18B20 sensor(&oneWire);
 
 DeviceAddress da;
+
 
 void setup()
 {
@@ -26,7 +25,7 @@ void setup()
 
   Serial.print("\ngetAddress: ");
   Serial.println(sensor.getAddress(da));
-  
+
   sensor.begin();
 
   Serial.print("\ngetAddress: ");
@@ -50,7 +49,7 @@ void setup()
 
 void loop()
 {
-
 }
 
-// END OF FILE
+// -- END OF FILE --
+

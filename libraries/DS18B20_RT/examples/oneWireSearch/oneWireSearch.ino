@@ -1,20 +1,17 @@
 //
 //    FILE: oneWireSearch.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
 // PURPOSE: scan for 1-Wire devices + code snippet generator
 //    DATE: 2015-june-30
 //     URL: http://forum.arduino.cc/index.php?topic=333923
+//     URL: https://github.com/RobTillaart/DS18B20_RT
 //
 // inspired by http://www.hacktronics.com/Tutorials/arduino-1-wire-address-finder.html
-//
-// Released to the public domain
-//
-// 0.1.00 initial version
-// 0.1.01 first published version
-// 0.1.02 small output changes
+
+
 
 #include <OneWire.h>
+
 
 void setup()
 {
@@ -28,9 +25,11 @@ void setup()
   Serial.println("\n//\n// End oneWireSearch.ino \n//");
 }
 
+
 void loop()
 {
 }
+
 
 uint8_t findDevices(int pin)
 {
@@ -38,7 +37,6 @@ uint8_t findDevices(int pin)
 
   uint8_t address[8];
   uint8_t count = 0;
-
 
   if (ow.search(address))
   {
@@ -65,3 +63,7 @@ uint8_t findDevices(int pin)
 
   return count;
 }
+
+
+// -- END OF FILE --
+

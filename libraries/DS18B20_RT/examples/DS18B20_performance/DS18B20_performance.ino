@@ -1,12 +1,10 @@
 //
 //    FILE: DS18B20_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: show performance of DS18B20 lib 
 //          compared to datasheet times per resolution
-//
-// HISTORY:
-// 0.0.1 = 2017-07-25 initial version
+//     URL: https://github.com/RobTillaart/DS18B20_RT
+
 
 #include <OneWire.h>
 #include <DS18B20.h>
@@ -28,6 +26,7 @@ void setup()
 
   sensor.begin();
 }
+
 
 void loop()
 {
@@ -55,6 +54,7 @@ void loop()
   delay(1000);
 }
 
+
 uint32_t run(int runs)
 {
   float t;
@@ -68,3 +68,7 @@ uint32_t run(int runs)
   stop = millis();
   return stop - start;
 }
+
+
+// -- END OF FILE --
+

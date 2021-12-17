@@ -1,21 +1,20 @@
 //
 //    FILE: DS18B20_diagnose.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: Minimal DS18B20 lib with async support.
-//
-// HISTORY:
-// 0.0.1 = 2020-04-23 initial version
+//     URL: https://github.com/RobTillaart/DS18B20_RT
+
 
 #include <OneWire.h>
 #include <DS18B20.h>
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS            2
 
 OneWire oneWire(ONE_WIRE_BUS);
 DS18B20 sensor(&oneWire);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -65,4 +64,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

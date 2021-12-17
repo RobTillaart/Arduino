@@ -1,9 +1,10 @@
 
-[![Arduino CI](https://github.com/RobTillaart/DS18B20/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino CI](https://github.com/RobTillaart/DS18B20_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS18B20/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/DS18B20.svg?maxAge=3600)](https://github.com/RobTillaart/DS18B20/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS18B20_RT/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/DS18B20_RT.svg?maxAge=3600)](https://github.com/RobTillaart/DS18B20_RT/releases)
+
 
 # DS18B20
 
@@ -29,14 +30,14 @@ The DS18B20 library supports only the DS18B20, only one sensor per pin, no paras
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-- **DS18B20(onewire)** constructor needs a reference to OneWire object.
+- **DS18B20(OneWire \* ow)** constructor needs a reference to OneWire object.
 - **bool begin(uint8_t retries = 3)** resets oneWire and set resolution to 9 bit.  
 returns true if all is OK. there will be a number of retries to connect, default 3. 
-- **void requestTemperatures()** trigger temperature comversion
-- **bool isConversionComplete()** check if conversion is complete
+- **void requestTemperatures()** trigger temperature conversion.
+- **bool isConversionComplete()** check if conversion is complete.
 - **float getTempC()** returns temperature
 -127 = DEVICE_DISCONNECTED  
-- **void setResolution(uint8_t res = 9)** res = 9..12 (9 is default)
+- **void setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default)
 - **bool getAddress()** returns true if the sensor is configured (available)
 
 This allowed the class to be both minimal in size and non-blocking. In fact the class
@@ -81,14 +82,14 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 
 
 | Length        | - 5.0 Volt  | - 3.3 Volt |
-|--------------:|------------:|----------:|
-| 10cm (4")     | 10K0  | 6K8 |
-| 20cm (8")     |  8K2  | 4K7 |
-| 50cm (20")    |  4K7  | 3K3 | 
-| 100cm (3'4")  |  3K3  | 2K2 | 
-| 200cm (6'8")  |  2K2  | 1K0 | 
-| 500cm (16'8") |  1K0  | \*  |  
-| longer        |    *  | \*  |
+|--------------:|------------:|-----------:|
+| 10cm (4")     |    10K0     |    6K8     |
+| 20cm (8")     |     8K2     |    4K7     |
+| 50cm (20")    |     4K7     |    3K3     | 
+| 100cm (3'4")  |     3K3     |    2K2     | 
+| 200cm (6'8")  |     2K2     |    1K0     | 
+| 500cm (16'8") |     1K0     |    \*      |  
+| longer        |       *     |    \*      |
 
 \* = no info, smaller 
 
@@ -107,12 +108,12 @@ and the CRC can be checked.
 table of known "strange values" and actions one could take.
 It is meant to start some diagnosis.
 
-| value   | possible cause | optional action |
-|:--------|:---------------|:----------------|
-|  0.0000 | data line has no pull up            | use pull up |
-| -0.0625 | data line is constantly pulled HIGH | check GND   |
-| -128    | CRC error      | wrong pull up, bad sensor ? | 
-| -127    | DISCONNECTED   | 
+| value   | possible cause                      | optional action |
+|:--------|:------------------------------------|:----------------|
+|  0.0000 | data line has no pull up            | use pull up     |
+| -0.0625 | data line is constantly pulled HIGH | check GND       |
+| -128    | CRC error                           | wrong pull up, bad sensor ? | 
+| -127    | DISCONNECTED                        | check wires     }
 
 If a value occurs only once in a while, wiring is often the cause, 
 or it can be caused by e.g. induction e.g. switching on a motor while 
@@ -123,4 +124,11 @@ sensor is read.
 
 Miles Burton who originally developed the Arduino Temperature Control Library.
 and all people who contributed to that lib.
+
+
+## Future
+
+- unit tests
+  - add constants
+  - get it working
 

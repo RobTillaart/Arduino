@@ -1,16 +1,14 @@
 //
 //    FILE: DS18B20_simple.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: equivalent of DallasTemperature library Simple
-//
-// HISTORY:
-// 0.0.1 = 2017-07-25 initial version
+//     URL: https://github.com/RobTillaart/DS18B20_RT
+
 
 #include <OneWire.h>
 #include <DS18B20.h>
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS              2
 
 OneWire oneWire(ONE_WIRE_BUS);
 DS18B20 sensor(&oneWire);
@@ -28,11 +26,16 @@ void setup(void)
 
 
 void loop(void)
-{ 
+{
   sensor.requestTemperatures();
-  
+
   while (!sensor.isConversionComplete());  // wait until sensor is ready
-  
+
   Serial.print("Temp: ");
   Serial.println(sensor.getTempC());
 }
+
+
+// -- END OF FILE --
+
+

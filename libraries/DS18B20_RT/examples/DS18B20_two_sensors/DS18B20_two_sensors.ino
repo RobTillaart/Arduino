@@ -1,18 +1,16 @@
 //
 //    FILE: DS18B20_two_sensors.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: demo with two sensors (on two pins)
-//
-// HISTORY:
-// 0.0.1 = 2017-07-25 initial version
+//     URL: https://github.com/RobTillaart/DS18B20_RT
+
 
 #include <OneWire.h>
 #include <DS18B20.h>
 
 // numbers chosen to match pin numbers..
-#define ONE_WIRE_BUS2   2
-#define ONE_WIRE_BUS3   3
+#define ONE_WIRE_BUS2               2
+#define ONE_WIRE_BUS3               3
 
 OneWire oneWire2(ONE_WIRE_BUS2);
 OneWire oneWire3(ONE_WIRE_BUS3);
@@ -56,3 +54,7 @@ void loop(void)
     outside.requestTemperatures();
   }
 }
+
+
+// -- END OF FILE --
+

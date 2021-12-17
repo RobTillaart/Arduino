@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-20
 // PURPOSE: unit tests for the DS18B20 library
-//          https://github.com/RobTillaart/DS18B20
+//          https://github.com/RobTillaart/DS18B20_RT
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -31,11 +31,16 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DS18B20_LIB_VERSION: %s\n", (char *) DS18B20_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
+
+// TODO constants
 
 
 unittest(test_constructor)
@@ -54,22 +59,23 @@ unittest(test_constructor)
   assertEqual(DS18B20_CLEAR, sensor.getConfig());
 }
 
+
 unittest(test_try_read)
 {
   OneWire oneWire(4);
   DS18B20 sensor(&oneWire);
 
   sensor.begin();
-  for (int res = 9; res < 13; res++)
+  for (int resolution = 9; resolution < 13; resolution++)
   {
-    sensor.setResolution(res);
+    sensor.setResolution(resolution);
     sensor.requestTemperatures();
     delay(750);
     assertFalse(sensor.isConversionComplete());
     assertEqual(DEVICE_DISCONNECTED, sensor.getTempC());
   }
-  
 }
+
 
 unittest_main()
 

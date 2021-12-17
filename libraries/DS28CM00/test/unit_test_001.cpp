@@ -29,10 +29,20 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DS28CM00_LIB_VERSION: %s\n", (char *) DS28CM00_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(0x00, DS28CM00_I2C_MODE    );
+  assertEqual(0x01, DS28CM00_SMBUS_MODE  );
+  assertEqual(0xFF, DS28CM00_MODE_UNKNOWN);
 }
 
 
@@ -59,7 +69,6 @@ unittest(test_constructor_I)
 
 unittest(test_constructor_II)
 {
-  fprintf(stderr, "DS28CM00_LIB_VERSION: %s\n", (char *) DS28CM00_LIB_VERSION);
   uint8_t   uid[8];
   DS28CM00  DS28;     // use default Wire
 
@@ -69,6 +78,7 @@ unittest(test_constructor_II)
   assertFalse(DS28.getMode(mode));           // not connected...
   assertEqual(DS28CM00_MODE_UNKNOWN, mode);
 }
+
 
 unittest_main()
 

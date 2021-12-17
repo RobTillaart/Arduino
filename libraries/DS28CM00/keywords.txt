@@ -1,11 +1,12 @@
-# Syntax Coloring Map For DS28CM00
+# Syntax Colouring Map For DS28CM00
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DS28CM00	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+isConnected	KEYWORD2
 getUID	KEYWORD2
 setI2CMode	KEYWORD2
 setSMBusMode	KEYWORD2

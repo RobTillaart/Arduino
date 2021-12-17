@@ -53,12 +53,14 @@ An example sketch for ESP32 exist and compiles. Feedback welcome.
 
 ## Future
 
-- **bool getUID4()** to read only 4 bytes to improve performance. Possible?
-- **bool getUID(4)** number of bytes as parameter?
-- **uint8_t getError()** add error handling? - I2C; #bytes; mode; ...
+- only extend on request / bugs
 - measure performance I2C 400 500 600 kHz ...
 - cache the serial? (costs 8 bytes)
-- **bool isConnected()** check in begin. 
-- **bool begin()** return type upgrade.
-- **uint8_t getMode()** if not connected error ..
+  - If (defined DS28_CACHE) ...
+  -
+
+**wont**
+- **bool getUID4()** to read only 4 bytes to improve performance. Possible?
+- **bool getUID(4)** number of bytes as parameter?
+- **uint8_t getError()** add error handling? - I2C; #bytes; mode; ...(too much for simple device)
 

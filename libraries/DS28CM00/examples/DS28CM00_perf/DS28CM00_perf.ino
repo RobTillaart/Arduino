@@ -1,11 +1,10 @@
 //
 //    FILE: DS28CM00_perf.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
 // PURPOSE: performance test DS28CM00 lib
 //    DATE: 2017-07-24
 //     URL: https://github.com/RobTillaart/DS28CM00
-//
+
 
 #include <Wire.h>
 #include <DS28CM00.h>
@@ -33,6 +32,7 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
   if (DS28.getUID(uid))
@@ -46,6 +46,7 @@ void loop()
   }
   delay(1000);
 }
+
 
 void perf_test()
 {
@@ -92,4 +93,6 @@ void perf_test()
   Serial.println(stop - start);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

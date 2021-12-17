@@ -1,11 +1,10 @@
 //
 //    FILE: DS28CM00_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test DS28CM00 lib
 //    DATE: 2020-04-10
 //     URL: https://github.com/RobTillaart/DS28CM00
-//
+
 
 #include <Wire.h>
 #include <DS28CM00.h>
@@ -16,6 +15,7 @@
 uint8_t uid[8];
 
 DS28CM00 DS28(10, 12);
+
 
 void setup()
 {
@@ -29,6 +29,7 @@ void setup()
 
   Serial.println();
 }
+
 
 void loop()
 {
@@ -72,13 +73,13 @@ void test()
     {
       DS28.setI2CMode();
     }
-	
-    // CRC GENERATION
-    // TODO VERIFY WHICH CRC  
-	// uint8_t crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
-	// uint8_t crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
-	
-	uint8_t crc = crc8_le(0, uid, 7);
+
+    //  CRC GENERATION
+    //  TODO VERIFY WHICH CRC  
+    //  uint8_t crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
+    //  uint8_t crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
+
+    uint8_t crc = crc8_le(0, uid, 7);
     if (crc == uid[7])
     {
       Serial.println(F("CRC:\tOK"));
@@ -92,4 +93,6 @@ void test()
   }
 }
 
+
 // -- END OF FILE --
+

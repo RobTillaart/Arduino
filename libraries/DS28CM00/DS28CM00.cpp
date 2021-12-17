@@ -2,15 +2,17 @@
 //    FILE: DS28CM00.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS28CM00 unique identification chip.
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //     URL: https://github.com/RobTillaart/DS28CM00
 //
 //  HISTORY:
 //  0.1.0   2017-07-15  initial version
 //  0.2.0   2020-04-11  refactor, #pragma once, ESP support, multiple Wire, ESP support (start)
 //  0.2.1   2020-06-07  fix library.json
-//  0.2.2   2020-12-20  add arduino-CI + unit test
-//  0.2.3   2021-10-26  update build-CI + default Wire in constructor.
+//  0.2.2   2020-12-20  add Arduino-CI + unit test
+//  0.2.3   2021-10-26  update build-CI + default Wire in constructor
+//  0.2.4   2021-12-17  update library.json, license, minor edits
+//                      added isConnected()
 
 
 #include "DS28CM00.h"
@@ -40,10 +42,18 @@ DS28CM00::DS28CM00(const uint8_t dataPin, const uint8_t clockPin)
 #endif
 
 
-void DS28CM00::begin()
+bool DS28CM00::begin()
 {
   _wire->begin();
-  setI2CMode();
+  return setI2CMode();
+}
+
+
+bool DS28CM00::isConnected()
+{
+  _wire->beginTransmission(DS28CM00_DEVICEADDRESS);
+  int rv = _wire->endTransmission();
+  return rv == 0;
 }
 
 
@@ -90,3 +100,4 @@ bool DS28CM00::getUID(uint8_t *buffer)
 
 
 // -- END OF FILE --
+

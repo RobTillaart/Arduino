@@ -1,10 +1,9 @@
 //
 //    FILE: fastShiftIn_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftIn
-//
+
 
 #include "FastShiftIn.h"
 
@@ -13,6 +12,7 @@ FastShiftIn FSI(12, 13);
 volatile int x = 0;
 
 uint32_t start, duration1, duration2;
+
 
 void setup()
 {
@@ -37,6 +37,7 @@ void setup()
 
   Serial.println("done...");
 }
+
 
 void test_read()
 {
@@ -64,6 +65,7 @@ void test_read()
   delay(100);
 }
 
+
 void test_readLSBFIRST()
 {
   start = micros();
@@ -89,6 +91,7 @@ void test_readLSBFIRST()
   Serial.println();
   delay(100);
 }
+
 
 void test_readMSBFIRST()
 {
@@ -116,6 +119,7 @@ void test_readMSBFIRST()
   delay(100);
 }
 
+
 void test_reference()
 {
   start = micros();
@@ -142,6 +146,11 @@ void test_reference()
   delay(100);
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
+

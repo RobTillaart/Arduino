@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
@@ -17,7 +17,7 @@ FastShiftIn::FastShiftIn(const uint8_t datapin, const uint8_t clockpin, const ui
   pinMode(datapin, INPUT);
   pinMode(clockpin, OUTPUT);
   // https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/
-  digitalWrite(clockpin, LOW);  // assume rising pulses from clock 
+  digitalWrite(clockpin, LOW);  // assume rising pulses from clock
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -43,6 +43,8 @@ FastShiftIn::FastShiftIn(const uint8_t datapin, const uint8_t clockpin, const ui
 #endif
 }
 
+
+
 int FastShiftIn::read()
 {
   if (_bitorder == LSBFIRST)
@@ -51,6 +53,8 @@ int FastShiftIn::read()
   }
   return readMSBFIRST();
 }
+
+
 
 int FastShiftIn::readLSBFIRST()
 {
@@ -77,13 +81,12 @@ int FastShiftIn::readLSBFIRST()
   return _value;
 
 #else
-
   // reference implementation
   _value = shiftIn(_databit, _clockbit, LSBFIRST);
   return _value;
-
 #endif
 }
+
 
 int FastShiftIn::readMSBFIRST()
 {
@@ -110,22 +113,22 @@ int FastShiftIn::readMSBFIRST()
   return _value;
 
 #else
-
   // reference implementation
   _value = shiftIn(_databit, _clockbit, MSBFIRST);
   return _value;
-
 #endif
 }
+
 
 bool FastShiftIn::setBitOrder(const uint8_t bitOrder)
 {
   if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
   {
-    _bitorder = bitOrder; 
+    _bitorder = bitOrder;
     return true;
   };
   return false;
 }
+
 
 // -- END OF FILE --

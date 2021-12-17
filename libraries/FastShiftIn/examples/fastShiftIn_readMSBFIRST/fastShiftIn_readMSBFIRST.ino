@@ -1,16 +1,16 @@
 //
 //    FILE: fastShiftIn_readMSBFIRST.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftIn
-//
+
 
 #include "FastShiftIn.h"
 
 FastShiftIn FSI(12, 13);
 
 volatile int x = 0;
+
 
 void setup()
 {
@@ -70,8 +70,11 @@ void setup()
   Serial.println("done...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

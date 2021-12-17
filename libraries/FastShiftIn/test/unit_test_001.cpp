@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FASTSHIFTIN_LIB_VERSION: %s\n", (char *) FASTSHIFTIN_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,7 +49,6 @@ unittest(test_constructor)
 {
   FastShiftIn FSI(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTIN_LIB_VERSION);
   assertEqual(0, FSI.lastRead());
   assertEqual(LSBFIRST, FSI.getBitOrder());
   
@@ -61,7 +61,6 @@ unittest(test_constructor_LSB)
 {
   FastShiftIn FSI(12, 13, LSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTIN_LIB_VERSION);
   assertEqual(0, FSI.lastRead());
   assertEqual(LSBFIRST, FSI.getBitOrder());
   
@@ -74,7 +73,6 @@ unittest(test_constructor_MSB)
 {
   FastShiftIn FSI(12, 13, MSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTIN_LIB_VERSION);
   assertEqual(0, FSI.lastRead());
   assertEqual(MSBFIRST, FSI.getBitOrder());
   
@@ -86,8 +84,6 @@ unittest(test_constructor_MSB)
 unittest(test_read)
 {
   FastShiftIn FSI(12, 13);
-
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTIN_LIB_VERSION);
 
 // apparently needed... To be investigated someday ...
 #if defined(ARDUINO_ARCH_SAM) || defined(ARDUINO_ARCH_SAMD)

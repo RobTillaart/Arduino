@@ -1,7 +1,6 @@
 //
 //    FILE: distanceTable.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of memory efficient distance table class
 //    DATE: 2015-06-18
 //     URL: https://github.com/RobTillaart/DistanceTable
@@ -134,5 +133,6 @@ void setup()
 void loop()
 {
 }
+
 
 // -- END OF FILE --

@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DISTANCETABLE_LIB_VERSION: %s\n", (char *) DISTANCETABLE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,31 +49,29 @@ unittest_teardown()
 unittest(test_constructor)
 {
   DistanceTable dt(12);
-  fprintf(stderr, "%s\n", DISTANCETABLE_LIB_VERSION);
-  
+
   assertEqual(12, dt.dimension());
   assertEqual(60, dt.elements());
   assertEqual(240, dt.memoryUsed());
   
   for (int i = 0; i < 12; i += 4)
   {
-    for (int j = i+1; j < 12; j += 3)
+    for (int j = i + 1; j < 12; j += 3)
     {
       dt.set(i, j, i * j);
       assertEqual(i * j, dt.get(i, j));
       assertEqual(i * j, dt.get(j, i));
     }
   }
-  
+
   dt.clear();
   for (int i = 0; i < 12; i += 4)
   {
-    for (int j = i+1; j < 12; j += 3)
+    for (int j = i + 1; j < 12; j += 3)
     {
       assertEqual(0, dt.get(j, i));
     }
   }
-
 }
 
 

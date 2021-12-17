@@ -2,7 +2,7 @@
 //
 //    FILE: DistanceTable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DISTANCETABLE_LIB_VERSION     (F("0.2.1"))
+#define DISTANCETABLE_LIB_VERSION     (F("0.2.2"))
 
 
 class DistanceTable
@@ -57,3 +57,4 @@ protected:
 
 
 // --- END OF FILE ---
+

@@ -1,7 +1,7 @@
-# Syntax Coloring Map For DistanceTable
+# Syntax Colouring Map For DistanceTable
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DistanceTable	KEYWORD1
 
 

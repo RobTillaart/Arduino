@@ -167,3 +167,4 @@ uint16_t DistanceTable::count(float value, float epsilon)
 
 
 // --- END OF FILE ---
+

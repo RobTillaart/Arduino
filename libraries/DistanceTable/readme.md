@@ -27,16 +27,19 @@ Within the 2K RAM of an Arduino one could store normally a 21 x 21 matrix (1764 
 
 ## Interface
 
-- **DistanceTable(uint8_t size, float value = 0.0)** Constructor, allocates memory and sets initial value to all elements.
+- **DistanceTable(uint8_t size, float value = 0.0)** Constructor, allocates memory and 
+sets initial value to all elements.
 - **~DistanceTable();** Destructor, frees memory
 - **void clear()** sets all entries to 0.0.
 - **void setAll(float value)** sets all entries to value;
 - **void set(uint8_t x, uint8_t y, float value )** sets a value for (x,y) and automatically for (y, x)
 - **float get(uint8_t x, uint8_t y)** gets a value from (x,y). If x == y it will return 0.
-- **float minimum(uint8_t &x, uint8_t &y)** Returns minimum and first occurrence in x and y. It does skip x == y pairs as these are 0.
-- **float maximum(uint8_t &x, uint8_t &y)** Returns maximum and first occurrence in x and y. It does skip x == y pairs as these are 0.
-- **uint16_t count(value, epsilon)** counts the number of occurrences of value. As we are comparing floats the epsilon can set a margin for 'almost equal'.
-
+- **float minimum(uint8_t &x, uint8_t &y)** Returns minimum and first occurrence in x and y. 
+It does skip x == y pairs as these are 0.
+- **float maximum(uint8_t &x, uint8_t &y)** Returns maximum and first occurrence in x and y. 
+It does skip x == y pairs as these are 0.
+- **uint16_t count(value, epsilon)** counts the number of occurrences of value. 
+As we are comparing floats the epsilon can set a margin for 'almost equal'.
 
 
 ### Debug
@@ -47,16 +50,28 @@ Within the 2K RAM of an Arduino one could store normally a 21 x 21 matrix (1764 
 - **uint16_t memoryUsed()** amount of memory used.
 
 
-## Future
-
-- **clear()** could set all to NAN? is that better as it indicates unknown?  
-  setAll() let the user decide.
-
-
-Note: table can be used for other symmetrical 2D tables. 
-And therefore include negative values.
-
-
 ## Operational
 
 See examples.
+
+
+## Future
+
+- improve documentation
+- **clear()** could set all to NAN? is that better as it indicates unknown?  
+  - setAll() let the user decide.
+- would  DT(x,y) == -DT(y,x) a special case? (for all xy pairs)    interesting!!
+  - e.g. difference in height?
+  - game with transactions between players?
+  - it would become a magnitude symmetrical distance table
+- **countAbove(float value)** no epsilon needed
+- add examples
+  - Note: table can be used for other symmetrical 2D tables. 
+  - And therefore include negative values.  
+- derived or related classes 
+  - int64_t int32_t int16_t int8_t  + unsigned variants. (8 variations?)
+  - Template class?
+- sum of all distances?
+- Hamilton paths?
+- idea for very sparse matrix? array of struct (x,y,value);
+

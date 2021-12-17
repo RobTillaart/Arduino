@@ -1,10 +1,10 @@
 //
 //    FILE: fastMapDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
+
 
 #include "FastMap.h"
 
@@ -16,6 +16,7 @@ volatile long zz = 3000, yy = 20000;
 volatile float x;
 
 FastMap mapper;
+
 
 void setup()
 {
@@ -59,9 +60,11 @@ void setup()
   Serial.println(reference/(stop-start));
 }
 
+
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

@@ -1,10 +1,10 @@
 //
 //    FILE: fastMapDemo4.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
+
 
 #include "FastMap.h"
 
@@ -16,6 +16,7 @@ volatile long zz = 3000, yy = 20000;
 volatile float x;
 
 FastMap mapper;
+
 
 void setup()
 {
@@ -60,7 +61,7 @@ void setup()
   Serial.print("Performance factor: ");
   Serial.println((float)reference/(stop-start));
   Serial.println();
-  
+
   // constrainedMap
   mapper.init(0, 1023, yy, zz);
   start = micros();
@@ -118,13 +119,14 @@ void setup()
   Serial.println((float)reference/(stop-start));
   Serial.println();
 
-
   Serial.println("done...");
 }
+
 
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
+

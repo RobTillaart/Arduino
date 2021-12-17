@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FASTMAP_LIB_VERSION: %s\n", (char *) FASTMAP_LIB_VERSION);
 }
 
 
@@ -42,7 +43,6 @@ unittest(test_map)
 {
   FastMap fm;
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(11.6429, fm.map(-5), 0.001);
@@ -58,7 +58,6 @@ unittest(test_back)
 {
   FastMap fm;
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(-14.32, fm.back(-5), 0.001);
@@ -75,7 +74,6 @@ unittest(test_constrainedMap)
 {
   FastMap fm;
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(17, fm.constrainedMap(-5), 0.001);
@@ -91,7 +89,6 @@ unittest(test_lowerConstrainedMap)
 {
   FastMap fm;
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(17, fm.lowerConstrainedMap(-5), 0.001);
@@ -107,7 +104,6 @@ unittest(test_upperConstrainedMap)
 {
   FastMap fm;
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(11.6429, fm.upperConstrainedMap(-5), 0.001);
@@ -121,10 +117,10 @@ unittest(test_upperConstrainedMap)
 
 unittest(test_map_double)
 {
+  fprintf(stderr, "FAST MAP DOUBLE\n");
+
   FastMapDouble fm;
 
-  fprintf(stderr, "FAST MAP DOUBLE\n");
-  fprintf(stderr, "VERSION:\t%s\n", FASTMAP_LIB_VERSION);
   fm.init(-2, 12, 17, 42);
 
   assertEqualFloat(11.6429, fm.map(-5), 0.001);

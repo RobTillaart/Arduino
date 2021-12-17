@@ -1,14 +1,15 @@
 //
 //    FILE: constrainedMap.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo of FastMap class ==> merge map and constrain functions
 //    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
 
+
 #include "FastMap.h"
 
 FastMap mapper;
+
 
 void setup() 
 {
@@ -39,8 +40,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop() 
 {
 }
 
+
+// -- END OF FILE --
 

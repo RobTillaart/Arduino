@@ -1,7 +1,6 @@
 //
 //    FILE: fastMapDouble.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of FastMapDouble class
 //    DATE: 2020-07-04
 //     URL: https://github.com/RobTillaart/FastMap
@@ -18,6 +17,7 @@ uint32_t start, stop;
 volatile double x;
 
 FastMapDouble mapper;
+
 
 void setup()
 {
@@ -59,8 +59,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

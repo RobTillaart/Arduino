@@ -1,12 +1,13 @@
 //
 //    FILE: FastMap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: class with fast map function - library for Arduino
 //     URL: https://github.com/RobTillaart/FastMap
 //
 // HISTORY:
-//  0.3.2  2020-12-21  add arduino-CI + unit test
+//  0.3.3  2021-12-17  update library.json, license, minor edits
+//  0.3.2  2020-12-21  add Arduino-CI + unit test
 //  0.3.1  2020-08-31  updated documentation
 //  0.3.0  2020-07-04  added fastMapDouble + test sketch.
 //  0.2.1  2020-06-10  fix library.json; rename license
@@ -17,19 +18,21 @@
 //  0.1.06 2015-03-08  replaced float by double (support ARM)
 //  0.1.05 2014-11-02  stripped of bit mask experimental code
 //  0.1.04  add back() - the inverse map
-//          tested with bit mask for constrain code (Perfomance was killed)
+//          tested with bit mask for constrain code (Performance was killed)
 //  0.1.03  proper name
-//  0.1.02  sqeezed the code (first public version)
+//  0.1.02  squeezed the code (first public version)
 //  0.1.01  refactor
 //  0.1.00  initial version
-//
+
 
 #include "FastMap.h"
+
 
 FastMap::FastMap()
 {
     init(0, 1, 0, 1);
 }
+
 
 void FastMap::init(float in_min, float in_max, float out_min, float out_max)
 {
@@ -45,6 +48,7 @@ void FastMap::init(float in_min, float in_max, float out_min, float out_max)
     _backbase = in_min - out_min * _backfactor;
 }
 
+
 float FastMap::constrainedMap(float value)
 {
     if (value <= _in_min) return _out_min;
@@ -52,11 +56,13 @@ float FastMap::constrainedMap(float value)
     return this->map(value);
 }
 
+
 float FastMap::lowerConstrainedMap(float value)
 {
     if (value <= _in_min) return _out_min;
     return this->map(value);
 }
+
 
 float FastMap::upperConstrainedMap(float value)
 {
@@ -64,10 +70,12 @@ float FastMap::upperConstrainedMap(float value)
     return this->map(value);
 }
 
+
 FastMapDouble::FastMapDouble()
 {
     init(0, 1, 0, 1);
 }
+
 
 void FastMapDouble::init(double in_min, double in_max, double out_min, double out_max)
 {
@@ -83,6 +91,7 @@ void FastMapDouble::init(double in_min, double in_max, double out_min, double ou
     _backbase = in_min - out_min * _backfactor;
 }
 
+
 double FastMapDouble::constrainedMap(double value)
 {
     if (value <= _in_min) return _out_min;
@@ -90,11 +99,13 @@ double FastMapDouble::constrainedMap(double value)
     return this->map(value);
 }
 
+
 double FastMapDouble::lowerConstrainedMap(double value)
 {
     if (value <= _in_min) return _out_min;
     return this->map(value);
 }
+
 
 double FastMapDouble::upperConstrainedMap(double value)
 {
@@ -102,4 +113,6 @@ double FastMapDouble::upperConstrainedMap(double value)
     return this->map(value);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

@@ -1,15 +1,16 @@
 //
 //    FILE: fastMapDemo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.02
 // PURPOSE: demo of FastMap class ==> a faster map function
 //    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
+
 
 #include "FastMap.h"
 
 FastMap CtoF;
 FastMap FtoC;
+
 
 void setup()
 {
@@ -25,17 +26,18 @@ void setup()
   Serial.print(f);
   Serial.print(char(223));
   Serial.println('C');
-  
+
   float c = CtoF.map(f);
   Serial.print(c);
   Serial.print(char(223));
   Serial.println('F');
 }
 
+
 void loop()
 {
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
 

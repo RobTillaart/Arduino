@@ -1,6 +1,6 @@
-# Syntax Coloring Map For FastShiftOut
+# Syntax Colouring Map For FastShiftOut
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 FastShiftOut	KEYWORD1
 
 

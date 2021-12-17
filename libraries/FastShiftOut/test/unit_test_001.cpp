@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FASTSHIFTOUT_LIB_VERSION: %s\n", (char *) FASTSHIFTOUT_LIB_VERSION);
 }
 
 
@@ -43,7 +44,6 @@ unittest(test_constructor)
 {
   FastShiftOut FSO(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTOUT_LIB_VERSION);
   assertEqual(LSBFIRST, FSO.getBitOrder());
 
   FSO.setBitOrder(MSBFIRST);
@@ -55,7 +55,6 @@ unittest(test_constructor_LSB)
 {
   FastShiftOut FSO(12, 13, LSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTOUT_LIB_VERSION);
   assertEqual(LSBFIRST, FSO.getBitOrder());
 
   FSO.setBitOrder(MSBFIRST);
@@ -67,7 +66,6 @@ unittest(test_constructor_MSB)
 {
   FastShiftOut FSO(12, 13, MSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTOUT_LIB_VERSION);
   assertEqual(MSBFIRST, FSO.getBitOrder());
   
   FSO.setBitOrder(LSBFIRST);
@@ -79,8 +77,6 @@ unittest(test_write)
 {
   FastShiftOut FSO(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTOUT_LIB_VERSION);
-
   assertEqual(1, FSO.write(0x42));
   assertEqual(1, FSO.writeLSBFIRST(0xAA));
   assertEqual(1, FSO.writeMSBFIRST(0x55));
@@ -91,12 +87,9 @@ unittest(test_print)
 {
   FastShiftOut FSO(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", FASTSHIFTOUT_LIB_VERSION);
-
   assertEqual(5, FSO.print(FASTSHIFTOUT_LIB_VERSION));
   assertEqual(7, FSO.println(FASTSHIFTOUT_LIB_VERSION));
 }
-
 
 
 unittest_main()

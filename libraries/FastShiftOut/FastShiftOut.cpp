@@ -1,11 +1,10 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
-// PURPOSE: shiftout that implements the Print interface
+// VERSION: 0.2.4
+// PURPOSE: ShiftOut that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
-//
 
 
 #include "FastShiftOut.h"

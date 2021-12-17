@@ -1,12 +1,14 @@
 
 [![Arduino CI](https://github.com/RobTillaart/FastShiftOut/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/FastShiftOut/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/FastShiftOut/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/FastShiftOut/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/FastShiftOut/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastShiftOut/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/FastShiftOut.svg?maxAge=3600)](https://github.com/RobTillaart/FastShiftOut/releases)
 
 
 # FastShiftOut
 
-Arduino library for (AVR) optimized shiftOut - e.g. 74HC595
+Arduino library for (AVR) optimized shiftOut - e.g. 74HC595.
 
 A library for FastShiftIn also exist - https://github.com/RobTillaart/FastShiftIn
 
@@ -14,7 +16,7 @@ A library for FastShiftIn also exist - https://github.com/RobTillaart/FastShiftI
 ## Description
 
 FastShiftOut is a class that has optimized code for AVR to shift out data faster 
-than the normal shiftOut() function.
+than the normal **shiftOut()** function.
 It speeds up the shift using low level ports and masks. These are predetermined
 in the constructor of the FastShiftOut object.
 
@@ -34,12 +36,12 @@ It does a comparison and shows how the class is to be used.
 
 The interface exists of the following functions:
 
-- **size_t write(const uint8_t data);** send a byte, also the workhorse of the **Print** interface
-- **uint8_t lastWritten()** returns last byte writtem
-- **bool setBitOrder(bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
-- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
-- **size_t writeLSBFIRST(const uint8_t data);**  most optimized
-- **size_t writeMSBFIRST(const uint8_t data);**  most optimized
+- **size_t write(const uint8_t data)** send a byte, also the workhorse of the **Print** interface.
+- **uint8_t lastWritten()** returns last byte written.
+- **bool setBitOrder(uint8_t bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
+- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST.
+- **size_t writeLSBFIRST(const uint8_t data);**  most optimized.
+- **size_t writeMSBFIRST(const uint8_t data);**  most optimized.
 
 As a FastShiftOut object implements the Print interface, one can also call
 - **FSO.print(any type);** or 
@@ -47,7 +49,7 @@ As a FastShiftOut object implements the Print interface, one can also call
 
 to send e.g. a float with 4 digits over the line, or some text string. 
 
-Note: **FSO.print()** returns the characters printed, including an optional \\r or \\n.
+Note: **FSO.print()** returns the number of characters printed, including an optional \\r or \\n.
 
 
 ## Notes
@@ -60,4 +62,12 @@ pull up resistors, especially if wires are exceeding 10 cm (4").
 ## Operation
 
 See examples
+
+
+## Future
+
+- performance ESP32
+- check optimized ESP32
+- add **size_t write(const uint8_t \*buffer, size_t size)**
+- example schema
 

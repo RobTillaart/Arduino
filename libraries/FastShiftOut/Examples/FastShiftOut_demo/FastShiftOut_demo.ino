@@ -1,10 +1,8 @@
 //
 //    FILE: FastShiftOut_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftOut
-//
 
 
 #include "FastShiftOut.h"
@@ -15,10 +13,10 @@ FastShiftOut FSO(12, 13, LSBFIRST);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftOut: "); 
+  Serial.print("example fastShiftOut: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);
 
-  Serial.println("\nPerformance - time in us"); 
+  Serial.println("\nPerformance - time in us");
   uint32_t start = micros();
   for (int i = 0; i < 1000; i++)
   {

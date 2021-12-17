@@ -1,10 +1,8 @@
 //
 //    FILE: FastShiftOut_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/FastShiftOut
-//
 
 
 #include "FastShiftOut.h"

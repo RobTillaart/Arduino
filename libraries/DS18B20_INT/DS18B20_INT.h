@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2017-07-25
 // PUPROSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -20,15 +20,13 @@
 //
 
 
-#define DS18B20_INT_LIB_VERSION     (F("0.1.6"))
-
+#define DS18B20_INT_LIB_VERSION       (F("0.1.7"))
 
 #include "Arduino.h"
 #include "OneWire.h"
 
-
 // Error Code
-#define DEVICE_DISCONNECTED     -127
+#define DEVICE_DISCONNECTED           -127
 
 typedef uint8_t DeviceAddress[8];
 
@@ -36,7 +34,7 @@ typedef uint8_t DeviceAddress[8];
 class DS18B20_INT
 {
 public:
-  explicit  DS18B20_INT(OneWire *);
+  explicit  DS18B20_INT(OneWire * ow);
   bool      begin(uint8_t retries = 3);
   void      requestTemperatures(void);
   int16_t   getTempC(void);
@@ -45,8 +43,10 @@ public:
 
 private:
   DeviceAddress _deviceAddress;
-  OneWire*      _wire;
-  bool          _addresFound;
+  OneWire*      _oneWire;
+  bool          _addressFound;
 };
 
+
 //  -- END OF FILE --
+

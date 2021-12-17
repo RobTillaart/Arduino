@@ -31,14 +31,14 @@ This DS18B20_INT library supports only the DS18B20, only one sensor per pin, no 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-- **DS18B20_INT(onewire)** constructor needs a reference to OneWire object.
+- **DS18B20_INT(OneWire *)** constructor needs a reference to OneWire object.
 - **bool begin(uint8_t retries = 3)** resets oneWire and set resolution to 9 bit.  
 returns true if all is OK. there will be a number of retries to connect, default 3. 
-- **void requestTemperatures()** trigger temperature comversion
-- **bool isConversionComplete()** check if conversion is complete
+- **void requestTemperatures()** trigger temperature conversion.
+- **bool isConversionComplete()** check if conversion is complete.
 - **int16_t getTempC()** returns temperature in whole degrees only. -55..125  
 -127 = DEVICE_DISCONNECTED
-- **bool getAddress()** returns true if the sensor is configured (available)
+- **bool getAddress()** returns true if the sensor is configured (available).
 
 
 ## Operation
@@ -71,14 +71,14 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 
 
 | Length        | - 5.0 Volt  | - 3.3 Volt |
-|--------------:|------------:|----------:|
-| 10cm (4")     | 10K0  | 6K8 |
-| 20cm (8")     |  8K2  | 4K7 |
-| 50cm (20")    |  4K7  | 3K3 | 
-| 100cm (3'4")  |  3K3  | 2K2 | 
-| 200cm (6'8")  |  2K2  | 1K0 | 
-| 500cm (16'8") |  1K0  | \*  |  
-| longer        |    *  | \*  |
+|--------------:|------------:|-----------:|
+| 10cm (4")     |    10K0     |    6K8     |
+| 20cm (8")     |     8K2     |    4K7     |
+| 50cm (20")    |     4K7     |    3K3     | 
+| 100cm (3'4")  |     3K3     |    2K2     | 
+| 200cm (6'8")  |     2K2     |    1K0     | 
+| 500cm (16'8") |     1K0     |    \*      |  
+| longer        |       *     |    \*      |
 
 \* = no info, smaller 
 
@@ -87,4 +87,10 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 
 Miles Burton who originally developed the Arduino Temperature Control Library.
 and all people who contributed to that lib.
+
+
+## Future
+
+- add examples
+  - a multi sensor == multiple pins, no bus
 

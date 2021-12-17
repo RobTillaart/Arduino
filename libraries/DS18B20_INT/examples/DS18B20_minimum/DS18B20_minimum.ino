@@ -1,22 +1,18 @@
 //
 //    FILE: DS18B20_minimum.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: most minimal sketch
 //
 // WARNING: this sketch does not wait for isConversionComplete()
-//          and therefor temperature read is probably incorrect
+//          and therefore temperature read is probably incorrect
 //          but it is fast and maybe accurate enough...
-//
-// HISTORY:
-// 0.0.1 = 2021-06-16 initial version
 
 
 #include <OneWire.h>
 #include <DS18B20_INT.h>
 
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS            2
 
 OneWire     oneWire(ONE_WIRE_BUS);
 DS18B20_INT sensor(&oneWire);
@@ -37,4 +33,6 @@ void loop(void)
   Serial.println(sensor.getTempC());
 }
 
+
 // -- END OF FILE --
+

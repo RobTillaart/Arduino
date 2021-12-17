@@ -23,8 +23,9 @@
       "version": "^2.3.5"
     }
   ],
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "DS18B20_INT.h"
 }

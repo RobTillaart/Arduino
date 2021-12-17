@@ -7,7 +7,7 @@
 
 #include "DS18B20_INT.h"
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS            2
 
 OneWire oneWire(ONE_WIRE_BUS);
 DS18B20_INT sensor(&oneWire);
@@ -41,4 +41,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

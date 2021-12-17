@@ -1,6 +1,6 @@
-# Syntax Coloring Map For DS18B20_INT
+# Syntax Colouring Map For DS18B20_INT
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DS18B20_INT	KEYWORD1
 
 

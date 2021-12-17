@@ -1,7 +1,7 @@
-# Syntax Coloring Map For DS1821
+# Syntax Colouring Map For DS1821
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DS1821	KEYWORD1
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: DS1821.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2014-10-05
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821
@@ -22,7 +22,7 @@
 #include "OneWire.h"
 
 
-#define DS1821_H_LIB_VERSION     (F("0.3.2"))
+#define DS1821_H_LIB_VERSION     (F("0.3.3"))
 
 #define DS1821_RESET_OK          0
 #define DS1821_RESET_ERROR       -999
@@ -40,14 +40,14 @@ public:
 
   int        conversionReady();
   float      readTemperature();
-  int        error()  { int e = _err; _err = 0; return e; };
+  int        error()  { int e = _error; _error = 0; return e; };
 
   // High and low temperature 'alarm' flags.
   int        setLow(int8_t lo);
   int        getLow();
   int        setHigh(int8_t hi);
   int        getHigh();
-  // flags in config register => 1 = triggered since clear
+  // flags in configuration register => 1 = triggered since clear
   int        getHighFlag();
   int        clrHighFlag();
   int        getLowFlag();
@@ -58,16 +58,17 @@ public:
   // - check the example
   // - DQ pin must be same the oneWire pin!
   int        setOneWireMode(uint8_t VDD, uint8_t DQ);
-  int        setPolarity(int activstate);  // HIGH or LOW
+  int        setPolarity(int activeState);  // HIGH or LOW
   int        getPolarity();
   int        setThermostatMode();
 
 private:
-  OneWire * _ow;
-  int       _err;
-  int       _reset()                { _err = _ow->reset(); return _err; };
-  void      _command(uint8_t cmd)   { _ow->write(cmd); };
-  uint8_t   _readByte()             { return _ow->read(); };
+  OneWire * _oneWire;
+  int       _error;
+
+  int       _reset()                { _error = _oneWire->reset(); return _error; };
+  void      _command(uint8_t cmd)   { _oneWire->write(cmd); };
+  uint8_t   _readByte()             { return _oneWire->read(); };
   uint8_t   _waitForNVB();
   int       _getConfigFlag(uint8_t flag);
   int       _setConfigFlag(uint8_t flag);

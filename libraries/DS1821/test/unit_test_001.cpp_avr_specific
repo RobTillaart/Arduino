@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "DS1821_H_LIB_VERSION: %s\n", (char *) DS1821_H_LIB_VERSION);
 }
 
 
@@ -42,8 +43,6 @@ unittest(test_constructor)
 {
   OneWire ow(10);
   DS1821 ds(&ow);
-  
-  fprintf(stderr, "VERSION:\t%s\n", DS1821_H_LIB_VERSION);
 
   int n = ds.requestTemperature();
   assertEqual(1, 1);

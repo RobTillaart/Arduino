@@ -1,11 +1,10 @@
 //
 //    FILE: DS1821_thermostat_config.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-08-07
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821
-//
+
 
 // THERMOSTAT CONFIG
 // - be sure to  read datasheet first!
@@ -13,7 +12,7 @@
 
 #include "DS1821.h"
 
-// change config if needed
+// change configuration if needed
 const int VDD       = 11;
 const int DQ        = 10;
 const int polarity  = 1;    // 1 = HIGH, 0 = LOW;
@@ -49,7 +48,7 @@ void setup()
     Serial.println("error @ lowTemp");
   }
   tt.clrLowFlag();
-  
+
 
   Serial.print("set highTemp:\t");
   Serial.println(highTemp);
@@ -76,3 +75,4 @@ void loop()
 
 
 // -- END OF FILE --
+

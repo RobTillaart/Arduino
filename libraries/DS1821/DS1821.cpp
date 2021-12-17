@@ -1,18 +1,19 @@
 //
 //    FILE: DS1821.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2014-10-05
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821
 //
 // HISTORY:
-// 0.0.1    2014-10-05  initial version
-// 0.1.00   2015-05-14  added prescale support
-// 0.2.0    2020-08-05  initial release; refactored ad fundum.
-// 0.3.0    2020-08-07  add continuous mode, alarm level, polarity, thermostat etc
-// 0.3.1    2020-12-20  arduino-CI + unit test (frame)
-// 0.3.2    2021-05-27  arduio-lint fixes
+//  0.0.1   2014-10-05  initial version
+//  0.1.00  2015-05-14  added pre scale support
+//  0.2.0   2020-08-05  initial release; refactored ad fundum.
+//  0.3.0   2020-08-07  add continuous mode, alarm level, polarity, thermostat etc
+//  0.3.1   2020-12-20  Arduino-CI + unit test (frame)
+//  0.3.2   2021-05-27  Arduino-lint fixes
+//  0.3.3   2021-12-17  update library.json, license, minor edits
 
 
 #include "DS1821.h"
@@ -49,8 +50,8 @@
 //
 DS1821::DS1821(OneWire *ow)
 {
-  _ow = ow;
-  _err = DS1821_RESET_OK;
+  _oneWire = ow;
+  _error = DS1821_RESET_OK;
 }
 
 
@@ -200,9 +201,9 @@ int DS1821::setOneWireMode(uint8_t VDD, uint8_t DQ)
 }
 
 
-int DS1821::setPolarity(int activstate)
+int DS1821::setPolarity(int activeState)
 {
-  if (activstate == HIGH) return _setConfigFlag(DS1821_CONF_POL);
+  if (activeState == HIGH) return _setConfigFlag(DS1821_CONF_POL);
   return _clrConfigFlag(DS1821_CONF_POL);
 }
 
@@ -283,3 +284,4 @@ int DS1821::_writeConfig(uint8_t val)
 
 
 // -- END OF FILE --
+

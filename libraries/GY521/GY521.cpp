@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.6
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -23,6 +23,7 @@
 //  0.3.3   2021-07-05  fix #22 improve maths
 //  0.3.4   2021-07-12  fix #24 improve precision
 //  0.3.5   2021-10-20  update build-CI, badges + #28 add wakeup to begin().
+//  0.3.6   2021-12-18  update library.json, license, minor edits
 
 
 #include "GY521.h"
@@ -317,3 +318,4 @@ int16_t GY521::_WireRead2()
 
 
 // -- END OF FILE --
+

@@ -1,8 +1,7 @@
 //
 //    FILE: GY521_pitch_roll_yaw.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: demo PRY
+// PURPOSE: demo pitch roll yaw
 //    DATE: 2020-08-06
 
 
@@ -32,7 +31,7 @@ void setup()
 
   sensor.setThrottle();
   Serial.println("start...");
-  
+
   // set calibration values from calibration sketch.
   sensor.axe = 0;
   sensor.aye = 0;

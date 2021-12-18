@@ -1,8 +1,7 @@
 //
 //    FILE: test1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: minimal demo
+// PURPOSE: minimal demo to test working of the sensor.
 //    DATE: 2020-07-01
 
 
@@ -41,6 +40,7 @@ void setup()
   sensor.gye = 0;
   sensor.gze = 0;
 }
+
 
 void loop()
 {

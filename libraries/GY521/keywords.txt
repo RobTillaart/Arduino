@@ -1,7 +1,9 @@
-# Syntax Coloring Map for GY521
+# Syntax Colouring Map for GY521
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 GY521	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
@@ -38,6 +40,7 @@ lastTime	KEYWORD2
 setRegister	KEYWORD2
 getRegister	KEYWORD2
 getError	KEYWORD2
+
 
 # Constants (LITERAL1)
 GY521_LIB_VERSION	LITERAL1

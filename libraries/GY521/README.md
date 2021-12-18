@@ -5,14 +5,15 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/GY521/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/GY521.svg?maxAge=3600)](https://github.com/RobTillaart/GY521/releases)
 
+
 # GY521
 
-Arduino library for I2C GY521 accelerometer-gyroscope sensor a.k.a. MCU-6050
+Arduino library for I2C GY521 accelerometer-gyroscope sensor a.k.a. MCU-6050.
 
 
 ## Description
 
-Experimental library for GY521 a.k.a. MCU-6050
+Experimental library for GY521 a.k.a. MCU-6050.
 
 Library is work in progress, in fact it is extracted and extended from an old project.
 It needs to be tested a lot more.
@@ -68,7 +69,7 @@ AD0 connected to VCC => 0x69
 - **bool begin()** Returns true if address can be found on I2C bus.
 - **bool isConnected()** returns true if device can be found on I2C bus.
 - **void reset()** set all internal values to 0 and throttle time to 10 ms.
-- **bool wakeUp()**
+- **bool wakeUp()** idem.
 
 
 ### Throttle
@@ -122,6 +123,16 @@ Read the register PDF for the specific value and meaning of registers.
 - **uint8_t getRegister(uint8_t reg)**
 
 
+## documents
+
+- check details - MPU-6000-Register-Map1.pdf
+
+
+## Operation
+
+See examples, use with care 
+
+
 ## Future
 
 **Should**
@@ -135,13 +146,3 @@ Read the register PDF for the specific value and meaning of registers.
 - calibrate sketch could print code snippet to include...
 - option to read only Accel?
 - option to read only Gyro?
-
-## documents
-
-- check details - MPU-6000-Register-Map1.pdf
-
-
-## Operation
-
-See examples, use with care 
-

@@ -1,7 +1,6 @@
 //
 //    FILE: GY521_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: minimal demo
 //    DATE: 2021-06-13
 
@@ -44,4 +43,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

@@ -1,7 +1,6 @@
 //
 //    FILE: readCalibration.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: read the calibration values / errors for a flat sensor.
 //    DATE: 2020-07-14
 
@@ -105,7 +104,7 @@ void loop()
   sensor.gxe += gx * 0.05;
   sensor.gye += gy * 0.05;
   sensor.gze += gz * 0.05;
-  
+
   counter++;
   delay(100);
 }

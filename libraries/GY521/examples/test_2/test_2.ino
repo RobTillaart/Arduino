@@ -1,8 +1,7 @@
 //
 //    FILE: test_2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: test set/get
+// PURPOSE: test set/get functions
 //    DATE: 2020-08-06
 
 

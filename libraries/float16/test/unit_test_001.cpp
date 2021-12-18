@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
 }
 
 
@@ -48,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   float16 zero;
   assertEqualFloat(0.000, zero.toDouble(), 1e-3);
   float16 one(1);

@@ -14,14 +14,14 @@ Arduino library to implement float16 data type.
 
 ## Description
 
-This **experimental** library defines the float16 (2 byte) data type, including conversion 
+This **experimental** library defines the float16 (2 byte) data type, including conversion
 function to and from float32 type. It is definitely **work in progress**.
 
-The library implements the **Printable** interface so one can directly print the 
+The library implements the **Printable** interface so one can directly print the
 float16 values in any stream e.g. Serial.
 
-The primary usage of the float16 data type is to efficiently store and transport 
-a floating point number. As it uses only 2 bytes where float and double have typical 
+The primary usage of the float16 data type is to efficiently store and transport
+a floating point number. As it uses only 2 bytes where float and double have typical
 4 and 8 bytes, gains can be made at the price of range and precision.
 
 
@@ -31,13 +31,39 @@ a floating point number. As it uses only 2 bytes where float and double have typ
 | attribute | value        |  notes  |
 |:----------|:-------------|:--------|
 | size      | 2 bytes      | layout s  eeeee  mmmmmmmmmm
-| sign      | 1 bit        |            
-| exponent  | 5 bit        |            
-| mantissa  | 11 bit       | ~ 3 digits 
-| minimum   | 5.96046 E−8  |  smallest positive number. 
-|           | 1.0009765625 |  1 + 2^−10 = smallest nr larger than 1. 
-| maximum   | 65504        |            
-|           |              |            
+| sign      | 1 bit        |
+| exponent  | 5 bit        |
+| mantissa  | 11 bit       | ~ 3 digits
+| minimum   | 5.96046 E−8  |  smallest positive number.
+|           | 1.0009765625 |  1 + 2^−10 = smallest nr larger than 1.
+| maximum   | 65504        |
+|           |              |
+
+
+#### example values
+
+```cpp
+/*
+   SIGN  EXP     MANTISSA
+    0    01111    0000000000 = 1
+    0    01111    0000000001 = 1 + 2−10 = 1.0009765625 (next smallest float after 1)
+    1    10000    0000000000 = −2
+
+    0    11110    1111111111 = 65504  (max half precision)
+
+    0    00001    0000000000 = 2−14 ≈ 6.10352 × 10−5 (minimum positive normal)
+    0    00000    1111111111 = 2−14 - 2−24 ≈ 6.09756 × 10−5 (maximum subnormal)
+    0    00000    0000000001 = 2−24 ≈ 5.96046 × 10−8 (minimum positive subnormal)
+
+    0    00000    0000000000 = 0
+    1    00000    0000000000 = −0
+
+    0    11111    0000000000 = infinity
+    1    11111    0000000000 = −infinity
+
+    0    01101    0101010101 = 0.333251953125 ≈ 1/3
+*/
+```
 
 
 ## Interface
@@ -66,7 +92,7 @@ See array example for efficient storage using set/getBinary() functions.
 
 #### Compare
 
-Standard compare functions. Since 0.1.5 these are quite optimized, 
+Standard compare functions. Since 0.1.5 these are quite optimized,
 so it is fast to compare e.g. 2 measurements.
 
 - **bool operator == (const float16& f)**
@@ -80,7 +106,7 @@ so it is fast to compare e.g. 2 measurements.
 #### Math (basic)
 
 Math is done by converting to double, do the math and convert back.
-These operators are added for convenience only. 
+These operators are added for convenience only.
 Not planned to optimize these.
 
 - **float16 operator + (const float16& f)**
@@ -106,7 +132,7 @@ negation operator.
 ## Future
 
 
-#### 0.1.6
+#### 0.1.x
 
 - update documentation.
 - unit tests of the above.

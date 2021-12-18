@@ -1,17 +1,16 @@
 //
 //    FILE: float16_test_special.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test float16
 //    DATE: 2021-11-26
 //     URL: https://github.com/RobTillaart/float16
-//
 
 // test special values ...
 // https://github.com/RobTillaart/float16/issues/2
 
 
 #include "float16.h"
+
 
 uint16_t value[32] =
 {

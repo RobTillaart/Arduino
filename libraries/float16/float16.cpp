@@ -1,7 +1,7 @@
 //
 //    FILE: float16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
 //
@@ -9,15 +9,17 @@
 //  0.1.00  2015-03-10  initial version
 //  0.1.01  2015-03-12  make base conversion separate functions
 //  0.1.02  2015-03-14  getting rounding right
-//  0.1.03 
+//  0.1.03
 //  0.1.4   2021-11-26  setup repo to get it working again.
 //                      still experimental.
-//
+//  0.1.5   2021-12-02  add basic math, optimize compare operators
+//  0.1.6   2021-12-18  update library.json, license, minor edits
 
 
 #include "float16.h"
 
 // #define DEBUG
+
 
 // CONSTRUCTOR
 float16::float16(double f)
@@ -258,7 +260,7 @@ uint16_t float16::f32tof16(float f) const
     // normal numbers
     exp = exp - 127 + 15;
     // overflow does not fit => INF
-    if (exp > 30) 
+    if (exp > 30)
     {
         return sgn ? 0xFC00 : 0x7C00;   // -INF : INF
     }

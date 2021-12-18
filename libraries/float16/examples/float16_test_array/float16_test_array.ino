@@ -1,7 +1,6 @@
 //
 //    FILE: float16_test_array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test float16
 //    DATE: 2015-03-11
 //     URL: https://github.com/RobTillaart/float16

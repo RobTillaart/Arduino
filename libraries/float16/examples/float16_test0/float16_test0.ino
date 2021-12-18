@@ -1,12 +1,10 @@
 //
 //    FILE: float16_test0.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test float16
 //    DATE: 2015-03-11
 //     URL: https://github.com/RobTillaart/float16
 //
-
 
 /*
    SIGN  EXP     MANTISSA
@@ -28,6 +26,7 @@
 
     0    01101    0101010101 = 0.333251953125 ≈ 1/3
 */
+
 
 #include "float16.h"
 

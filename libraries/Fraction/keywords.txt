@@ -10,6 +10,7 @@ toDouble	KEYWORD2
 toFloat	KEYWORD2
 isProper	KEYWORD2
 toAngle	KEYWORD2
+
 nominator	KEYWORD2
 denominator	KEYWORD2
 mediant	KEYWORD2

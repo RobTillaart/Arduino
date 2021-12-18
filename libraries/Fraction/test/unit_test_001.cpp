@@ -32,6 +32,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FRACTION_LIB_VERSION: %s\n", (char*) FRACTION_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -41,8 +42,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION:\t%s\n", (char*) FRACTION_LIB_VERSION);
-
   Fraction pi(PI);
   assertEqual(355, pi.nominator());
   assertEqual(113, pi.denominator());

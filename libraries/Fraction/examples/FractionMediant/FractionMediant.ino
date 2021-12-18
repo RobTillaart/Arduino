@@ -1,11 +1,9 @@
 //
 //    FILE: FractionMediant.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: Find fraction by binary search with mediant.
 //    DATE: 2020-04-21
 //
-
 // this method is not that fast but it shows a nice application for 
 // the mediant.
 

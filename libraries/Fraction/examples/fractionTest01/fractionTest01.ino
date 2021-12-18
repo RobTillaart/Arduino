@@ -1,11 +1,9 @@
 //
 //    FILE: fractionTest01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: test sketch for fraction math
 //    DATE: 2015-01-25
 //     URL: https://github.com/RobTillaart/Fraction
-//
 
 
 #include "fraction.h"

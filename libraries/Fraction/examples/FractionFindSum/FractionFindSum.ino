@@ -1,7 +1,6 @@
 //
 //    FILE: FractionFindSum.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: demo
 //    DATE: 13-feb-2015
 //     URL: https://github.com/RobTillaart/Fraction

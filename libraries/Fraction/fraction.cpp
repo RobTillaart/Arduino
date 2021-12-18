@@ -1,13 +1,14 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 // PURPOSE: Arduino library to implement a Fraction datatype
 //     URL: https://github.com/RobTillaart/Fraction
 //
 //
 //  HISTORY
-//  0.1.12  2021-11-01  update Arduino-CI, badges, 
+//  0.1.13  2021-12-18  update library.json, license, minot edits
+//  0.1.12  2021-11-01  update Arduino-CI, badges,
 //                      refactor
 //  0.1.11  2020-12-23  arduino-CI + unit tests
 //  0.1.10  2020-06-10  fix library.json
@@ -68,13 +69,13 @@ void Fraction::split(float f)
     // Normalize to 0.0 ... 1.0
     bool negative = f < 0;
     if (negative) f = -f;
- 
+
 // TODO investigate different strategy:
 // intpart = int32_t(f);   // strip of the integer part.
 // f = f - intpart;        // determine remainder
 // determine n, d
 // n += intpart * d;       // add integer part * denominator to fraction.
- 
+
     bool reciproke = f > 1;
     if (reciproke) f = 1/f;
 
@@ -206,7 +207,7 @@ Fraction Fraction::operator - (const Fraction &c)
 
 Fraction Fraction::operator * (const Fraction &c)
 {
-    return Fraction(n * c.n, d * c.d); 
+    return Fraction(n * c.n, d * c.d);
 }
 
 
@@ -393,7 +394,7 @@ void Fraction::simplify()
 // (100x) micros()=96048
 // showed errors for very small values around 0
 void Fraction::fractionize(float val)
-{   
+{
     // find nearest fraction
     float Precision = 0.0000001;
     Fraction low(0, 1);             // "A" = 0/1

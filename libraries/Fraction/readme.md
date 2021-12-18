@@ -8,7 +8,7 @@
 
 # Fraction
 
-Arduino library to implement a Fraction data type (experimental)
+Arduino library to implement a Fraction data type (experimental).
 
 
 ## Description
@@ -42,6 +42,8 @@ The library is reasonably tested, and if problems arise please let me know.
 
 ## Future
 
+- improve documentation
+- extend unit tests
 - experiment with bigger nominator/denominator using all of 32767 possibilities ?
 - investigate divide by zero errors
 - investigate better fractionize() - depends on nom/denom size

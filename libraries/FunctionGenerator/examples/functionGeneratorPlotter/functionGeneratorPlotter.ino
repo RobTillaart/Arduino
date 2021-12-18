@@ -1,7 +1,6 @@
 //
 //    FILE: functionGeneratorPlotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo function generators
 //    DATE: 2020-06-10
 //     URL: https://github.com/RobTillaart/FunctionGenerator

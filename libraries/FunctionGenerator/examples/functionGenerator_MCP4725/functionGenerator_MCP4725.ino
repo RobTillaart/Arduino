@@ -1,17 +1,13 @@
 //
 //    FILE: functionGenerator_MCP4725.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo function generators
 //    DATE: 2021-01-06
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 //  depending on the platform, the range of "smooth" sinus is limited.
 //  other signals are less difficult so have a slightly larger range.
-//  
-//  PLATFORM     RANGE          Points/sec    Points/period
-//  UNO          - 25 Hz        ~1900         ~75
-//  ESP32        to be tested
+//  see readme.md for mac frequency table.
 //
 
 
@@ -21,9 +17,9 @@
 
 
 funcgen gen;
-float val   = 0;
-float freq = 40;
-float amp  = 1.0;
+float value   = 0;
+float frequency = 40;
+float amplitude  = 1.0;
 
 // q = square
 // s = sinus
@@ -42,8 +38,8 @@ void setup()
   Serial.begin(230400);
   gen.setAmplitude(1);
   gen.setYShift(1);
-  gen.setFrequency(freq);
-  val = 0;
+  gen.setFrequency(frequency);
+  value = 0;
 
   Wire.begin();
   MCP.begin();
@@ -73,23 +69,23 @@ void setup()
       switch (c)
       {
         case '+':
-          freq += 0.01;
+          frequency += 0.01;
           break;
         case '-':
-          freq -= 0.01;
+          frequency -= 0.01;
           break;
         case '*':
-          freq *= 10;
+          frequency *= 10;
           break;
         case '/':
-          freq /= 10;
+          frequency /= 10;
           break;
         case '0' ... '9':
-          freq *= 10;
-          freq += (c - '0');
+          frequency *= 10;
+          frequency += (c - '0');
           break;
         case 'c':
-          freq = 0;
+          frequency = 0;
           break;
         case 'A':
           break;
@@ -105,30 +101,30 @@ void setup()
         default:
           break;
       }
-      gen.setFrequency(freq);
-      Serial.println(freq);
+      gen.setFrequency(frequency);
+      Serial.println(frequency);
     }
 
     switch (mode)
     {
       case 'q':
-        val = 2047 * gen.square(t);
+        value = 2047 * gen.square(t);
         break;
       case 'w':
-        val = 2047 * gen.sawtooth(t);
+        value = 2047 * gen.sawtooth(t);
         break;
       case 't':
-        val = 2047 * gen.triangle(t);
+        value = 2047 * gen.triangle(t);
         break;
       case 'r':
-        val = 2047 * gen.random();
+        value = 2047 * gen.random();
         break;
       default:
       case 's':
-        val = 2047 *  gen.sinus(t);
+        value = 2047 *  gen.sinus(t);
         break;
     }
-    MCP.setValue(val);
+    MCP.setValue(value);
   }
 }
 

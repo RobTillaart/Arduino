@@ -1,7 +1,6 @@
 //
 //    FILE: functionGeneratorPerformance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo function generators
 //    DATE: 2015-01-01
 //     URL: https://github.com/RobTillaart/FunctionGenerator
@@ -24,7 +23,7 @@ void setup()
   Serial.begin(115200);
   Serial.print("Start functionGeneratorPerformance - LIB VERSION: ");
   Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
-  
+
   Serial.println("func \t\tusec\tmax calls/sec");
   y = analogRead(A0) / 1024;
   test_square();

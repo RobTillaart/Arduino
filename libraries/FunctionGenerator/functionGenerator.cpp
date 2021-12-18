@@ -1,7 +1,7 @@
 //
 //    FILE: functionGenerator.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
@@ -16,7 +16,7 @@
 //  0.2.1   2020-12-24  Arduino-CI + unit tests
 //  0.2.2   2021-11-02  update Arduino-CI, badges
 //                      add mode for sawtooth and stair.
-//
+//  0.2.3   2021-12-18  update library.json, license, minor edits
 
 
 #include "functionGenerator.h"

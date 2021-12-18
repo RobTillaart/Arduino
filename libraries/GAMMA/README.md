@@ -57,7 +57,8 @@ like ```x = G[40];``` Makes it easy to switch with a real array.
 ### Development functions
 
 - **size()** returns size of the internal array.
-- **distinct()** returns the number of distinct values in the table. Especially with larger internal tables this will happen.
+- **distinct()** returns the number of distinct values in the table. 
+Especially with larger internal tables rhere will be duplicate numbers in the table.
 - **dump()** dumps the internal table to Serial. Can be useful to create
 an array in RAM, PROGMEM or wherever.
 
@@ -69,8 +70,10 @@ See example
 
 ## Future ideas
 
-- test other platforms
 - improve documentation
+- test other platforms
 - look for optimizations 
 - uint16 version?
--
+- **dumpAsArray()** - generate a C style array 
+- 
+

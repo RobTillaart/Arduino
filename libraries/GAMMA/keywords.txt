@@ -1,9 +1,10 @@
-# Syntax Coloring Map For GAMMA
+# Syntax Colouring Map For GAMMA
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 GAMMA	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
+begin	KEYWORD2
 setGamma	KEYWORD2
 getGamma	KEYWORD2
 size	KEYWORD2

@@ -1,7 +1,6 @@
 //
 //    FILE: gammaTest2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo setGamma
 //    DATE: 2020-08-08
 

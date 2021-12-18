@@ -31,10 +31,18 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "GAMMA_LIB_VERSION: %s\n", (char *) GAMMA_LIB_VERSION);
 }
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual( 32, GAMMA_DEFAULT_SIZE);
+  assertEqual(256, GAMMA_MAX_SIZE);
 }
 
 
@@ -57,25 +65,25 @@ unittest(test_constructor)
   assertEqual(129, gt2.size());
   assertEqualFloat(2.8, gt2.getGamma(), 0.0001);
   assertEqual(97,  gt2.distinct());
-  
+
   GAMMA gt3(64);
   gt3.begin();
   assertEqual(65, gt3.size());
   assertEqualFloat(2.8, gt3.getGamma(), 0.0001);
   assertEqual(53,  gt3.distinct());
-  
+
   GAMMA gt4(32);    // default
   gt4.begin();
   assertEqual(33, gt4.size());
   assertEqualFloat(2.8, gt4.getGamma(), 0.0001);
   assertEqual(28,  gt4.distinct());
-  
+
   GAMMA gt5(16);
   gt5.begin();
   assertEqual(17, gt5.size());
   assertEqualFloat(2.8, gt5.getGamma(), 0.0001);
   assertEqual(15, gt5.distinct());
-  
+
   GAMMA gt6(8);
   gt6.begin();
   assertEqual(9, gt6.size());

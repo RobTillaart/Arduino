@@ -2,19 +2,24 @@
 //
 //    FILE: gamma.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2020-08-08
 // PURPOSE: Arduino Library to efficiently hold a gamma lookup table
 
 //  0.1.0   2020-08-08  initial release
-//  0.1.1   2020-12-24  arduino-ci + unit test 
+//  0.1.1   2020-12-24  arduino-ci + unit test
 //  0.2.0   2021-11-02  update build-CI, badges
 //                      add begin() - fixes ESP32 crash.
+//  0.2.1  2021-12-18   update library.json, license, 
+//                      add constants, minor edits.
 
 
 #include "Arduino.h"
 
-#define GAMMA_LIB_VERSION         (F("0.2.0"))
+#define GAMMA_LIB_VERSION         (F("0.2.1"))
+
+#define GAMMA_DEFAULT_SIZE        32
+#define GAMMA_MAX_SIZE            256
 
 
 class GAMMA
@@ -22,11 +27,11 @@ class GAMMA
 
 public:
 
-  GAMMA(uint16_t size = 32)
+  GAMMA(uint16_t size = GAMMA_DEFAULT_SIZE)
   {
     _shift = 7;
     // force power of 2; get shift & mask right
-    for (uint16_t s = 2; s < 512; s <<= 1)
+    for (uint16_t s = 2; s <= GAMMA_MAX_SIZE; s <<= 1)
     {
       if (size <= s)
       {
@@ -36,8 +41,7 @@ public:
       _shift--;
     }
     _mask = (1 << _shift) - 1;
-    _interval = 256 / _size;
-    // removed malloc from constructor for ESP32
+    _interval = GAMMA_MAX_SIZE / _size;
   }
 
 

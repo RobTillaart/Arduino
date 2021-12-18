@@ -1,7 +1,6 @@
 //
 //    FILE: gammaPerformance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
 //    DATE: 2020-08-08
 

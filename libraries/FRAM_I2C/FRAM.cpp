@@ -1,26 +1,29 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 //
 //  HISTORY:
 //  0.1.0   2018-01-24  initial version
-//  0.1.1   2019-07-31  added suppport for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
+//  0.1.1   2019-07-31  added support for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
 //  0.2.0   2020-04-30  refactor, add writeProtectPin code
 //  0.2.1   2020-06-10  fix library.json
-//  0.2.2   2020-12-23  arduino-CI + unit test + getWriteProtect()
+//  0.2.2   2020-12-23  Arduino-CI + unit test + getWriteProtect()
 //  0.2.3   2021-01-ii  fix getMetaData (kudos to PraxisSoft
 //  0.3.0   2021-01-13  fix #2 ESP32 + WireN support
 //  0.3.1   2021-02-05  fix #7 typo in .cpp
+//  0.3.2   2021-12-18  update Arduino-CI, add badges,
+//                      update library.json, license, minor edits
 
 
 #include "FRAM.h"
 
 
 const uint8_t FRAM_SLAVE_ID_= 0x7C;
+
 
 /////////////////////////////////////////////////////
 //

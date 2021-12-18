@@ -24,35 +24,32 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "FRAM.h"
 
 
 
 unittest_setup()
 {
+  fprintf(stderr, "FRAM_LIB_VERSION: %s\n", (char*) FRAM_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
+
+unittest(test_constants)
 {
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
+  assertEqual(  0, FRAM_OK           );
+  assertEqual(-10, FRAM_ERROR_ADDR   );
+  assertEqual(-11, FRAM_ERROR_I2C    );
+  assertEqual(-12, FRAM_ERROR_CONNECT);
 }
-*/
+
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", FRAM_LIB_VERSION);
   FRAM fram49;
   FRAM fram50;
   FRAM fram52;
@@ -60,29 +57,30 @@ unittest(test_constructor)
 
   Wire.begin();
 
-  fprintf(stderr, "\ndifferent constructors\n");
+  fprintf(stderr, "\n Different constructors\n");
   assertEqual(FRAM_ERROR_ADDR, fram49.begin(0x49));
   assertEqual(FRAM_OK, fram50.begin());
   assertEqual(FRAM_OK, fram52.begin(0x52));
   assertEqual(FRAM_OK, fram57.begin(0x57, 4));
 
-  fprintf(stderr, "\nno writeProtect pin defined\n");
+  fprintf(stderr, "\n no writeProtect pin defined\n");
   assertFalse(fram50.setWriteProtect(true));
   assertFalse(fram50.getWriteProtect());
   assertFalse(fram50.setWriteProtect(false));
   assertFalse(fram50.getWriteProtect());
 
-  fprintf(stderr, "\nwriteProtect pin defined\n");
+  fprintf(stderr, "\n writeProtect pin defined\n");
   assertTrue(fram57.setWriteProtect(true));
   assertTrue(fram57.getWriteProtect());
   assertTrue(fram57.setWriteProtect(false));
   assertFalse(fram57.getWriteProtect());
 
-  fprintf(stderr, "\nall fail as nothing connected\n");
+  fprintf(stderr, "\n all fail as nothing connected\n");
   assertEqual(65535, fram50.getManufacturerID());
   assertEqual(65535, fram50.getProductID());
   assertEqual(0, fram50.getSize());
 }
+
 
 unittest_main()
 

@@ -1,6 +1,6 @@
-# Syntax Coloring Map for FRAM
+# Syntax Colouring Map for FRAM
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 FRAM	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
@@ -17,9 +17,13 @@ read16	KEYWORD2
 read32	KEYWORD2
 read	KEYWORD2
 
+setWriteProtect	KEYWORD2
+getWriteProtect	KEYWORD2
+
 getManufacturerID	KEYWORD2
 getProductID	KEYWORD2
 getSize	KEYWORD2
+
 
 # Constants (LITERAL1)
 FRAM_LIB_VERSION	LITERAL1
@@ -27,3 +31,4 @@ FRAM_OK	LITERAL1
 FRAM_ERROR_ADDR	LITERAL1
 FRAM_ERROR_I2C	LITERAL1
 FRAM_ERROR_CONNECT	LITERAL1
+

@@ -1,12 +1,13 @@
 //
 //    FILE: testFRAMPerformance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test for FRAM library for Arduino
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 //
 
+
 #include "FRAM.h"
+
 
 FRAM fram;
 
@@ -14,7 +15,8 @@ uint32_t start;
 uint32_t stop;
 
 int ar[600];
-  
+
+
 void setup()
 {
   Serial.begin(115200);
@@ -46,9 +48,11 @@ void setup()
   Serial.println("done...");
 }
 
+
 void loop()
 {
 }
+
 
 void testReadWriteLarge()
 {
@@ -86,4 +90,6 @@ void testReadWriteLarge()
   Serial.println();
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

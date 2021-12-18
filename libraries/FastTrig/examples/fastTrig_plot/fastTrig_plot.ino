@@ -1,7 +1,6 @@
 //
 //    FILE: fastTrig_plot.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: testing the fastTrigonio functions
 //    DATE: 2020-09-07
 
@@ -14,6 +13,7 @@
 
 volatile float x;
 int i;
+
 
 void setup()
 {
@@ -62,8 +62,11 @@ void setup()
   Serial.println("done...\n");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

@@ -1,14 +1,14 @@
 //
 //    FILE: fastTrig_generate_tables.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: generate look up tables for gonio functions (and others)
 //          these are not optimized for interpolation.
 //    DATE: 2020-09-08
 
 
 // TODO
-// tables might have some trouble at "max values" CHECK 
+// tables might have some trouble at "max values" CHECK
+
 
 #include "Arduino.h"
 
@@ -19,7 +19,7 @@ void setup()
   Serial.println(__FILE__);
 
   // generate any # bits you want.
-  generate_bit_sin(32);  // works is possible 
+  generate_bit_sin(32);  // works is possible
   generate_bit_sin(24);  // TODO is this better than 16 bit?
   generate_bit_sin(20);  // for serious math 1 digit better than 16 bit.
   generate_bit_sin(16);  // for serious math
@@ -38,12 +38,15 @@ void setup()
 
   generate_bit_tan(16);
   generate_bit_tan(8);
+
+  Serial.println("\n//done...");
 }
+
 
 void loop()
 {
-
 }
+
 
 void generate_header()
 {
@@ -146,4 +149,6 @@ void generate_bit_tan(int t)
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

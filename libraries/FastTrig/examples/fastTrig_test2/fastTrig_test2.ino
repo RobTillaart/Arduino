@@ -4,7 +4,7 @@
 // PURPOSE: testing the itan functions
 //    DATE: 2021-08-10
 //    (c) : MIT
-//
+
 
 
 #include "FastTrig.h"
@@ -13,6 +13,7 @@ uint32_t start, d1, d2;
 
 volatile float x;
 int i;
+
 
 void setup()
 {
@@ -24,7 +25,6 @@ void setup()
 
   Serial.println("done...\n");
 }
-
 
 
 void test_tan(int n)
@@ -56,6 +56,7 @@ void test_tan(int n)
   Serial.println();
   delay(10);
 }
+
 
 void test_itan_error_1(bool show)
 {
@@ -119,4 +120,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

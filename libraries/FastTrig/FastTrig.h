@@ -2,7 +2,7 @@
 //
 //    FILE: FastTrig.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -23,9 +23,14 @@
 //  0.1.7   2021-04-23  fix for PlatformIO
 //  0.1.8   2021-08-10  made % 180 conditional in itan() => performance gain
 //                      added icot() cotangent.
+//  0.1.9   2021-12-18  update Arduino-CI, badges, 
+//                      update library.json, minor edits
 
 
 #include "Arduino.h"
+
+#define FAST_TRIG_LIB_VERSION             (F("0.1.9"))
+
 
 // 91 x 2 bytes ==> 182 bytes
 // use 65535.0 as divider
@@ -74,6 +79,7 @@ uint8_t isinTable8[] = {
   252, 253, 253, 254, 254, 254, 255, 255, 255, 255,
   255
 };
+
 
 ///////////////////////////////////////////////////////
 //
@@ -124,11 +130,13 @@ float isin(float f)
   return -g;
 }
 
+
 float icos(float x)
 {
   // prevent modulo math if x in 0..360
   return isin(x - 270.0);  // better than x + 90;
 }
+
 
 float itan(float f)
 {
@@ -174,6 +182,7 @@ float itan(float f)
   if (neg) return -ta;
   return ta;
 }
+
 
 // some problem at 0 but at least we have a icot(x) cotangent.
 float icot(float f)
@@ -225,15 +234,18 @@ float iasin(float f)
   return (lo + delta);  
 }
 
+
 float iacos(float f)
 {
   return 90 - iasin(f);
 }
+
 
 // PLACEHOLDER
 float iatan(float f)
 {
   return 0 * f;
 }
+
 
 // -- END OF FILE --

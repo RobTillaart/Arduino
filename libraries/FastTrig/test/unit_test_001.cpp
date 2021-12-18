@@ -30,7 +30,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FAST_TRIG_LIB_VERSION: %s\n", (char *) FAST_TRIG_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -47,6 +49,7 @@ unittest(test_isinTable16)
   }
 }
 
+
 unittest(test_isinTable8)
 {
   fprintf(stderr,"Table8 error is < 1%% \n");
@@ -56,6 +59,7 @@ unittest(test_isinTable8)
     assertEqualFloat(sin(i * degrees2radians), isinTable8[i] / 255.0, 0.01);
   }
 }
+
 
 unittest(test_max_error_table16)
 {
@@ -71,6 +75,7 @@ unittest(test_max_error_table16)
   assertEqualFloat(0, m, 0.001);
 }
 
+
 unittest(test_max_error_table8)
 {
   fprintf(stderr,"Table8 max error: ");
@@ -84,6 +89,7 @@ unittest(test_max_error_table8)
   fprintf(stderr,"%2.4f\n", m);
   assertEqualFloat(0, m, 0.01);
 }
+
 
 unittest_main()
 

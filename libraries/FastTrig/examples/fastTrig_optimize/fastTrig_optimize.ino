@@ -1,7 +1,6 @@
 //
 //    FILE: fastTrig_optimize.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: sketch to optimize the table for interpolation
 //    DATE: 2020-09-06
 
@@ -9,7 +8,9 @@
 
 // TODO    make a python script for this ?
 
+
 #include "FastTrig.h"
+
 
 float getError(int i)
 {
@@ -120,9 +121,10 @@ void test_isin_error_1(bool show)
 }
 
 
-
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

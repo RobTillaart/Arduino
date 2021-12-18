@@ -1,7 +1,6 @@
 //
 //    FILE: fastTrig_test1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: testing the fastTrigonio functions
 //    DATE: 2020-08-30
 //    (c) : MIT
@@ -14,6 +13,7 @@ uint32_t start, d1, d2;
 
 volatile float x;
 int i;
+
 
 void setup()
 {
@@ -304,5 +304,6 @@ void test_itan_error_1(bool show)
 void loop()
 {
 }
+
 
 // -- END OF FILE --

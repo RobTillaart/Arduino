@@ -82,7 +82,6 @@ See examples
 
 ## Future
 
-- differentiate between ON / OFF time
 - improve documentation
 - add examples
 - 

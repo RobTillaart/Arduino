@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -16,6 +16,8 @@
 //                      add getFrequency(), getDutyCycle();
 //                      add getState().
 //                      removed set()
+//  0.2.1   2021-12-18  update library.json, license, minor edits
+
 
 
 #include "HeartBeat.h"

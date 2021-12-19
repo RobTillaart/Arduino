@@ -1,12 +1,11 @@
 //
 //    FILE: hist_test_big.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 //    DATE: 2012-12-23
-//
 // PUPROSE: demo histogram frequency
 //          run on ESP32 - 
 //          view in Serial plotter to graph distribution
+
 
 #include "histogram.h"
 
@@ -16,6 +15,7 @@ Histogram hist(200, b);
 
 uint32_t lastTime = 0;
 const uint32_t threshold = 1000;  // milliseconds, for updating display
+
 
 void setup()
 {
@@ -64,3 +64,4 @@ void loop()
 
 
 // -- END OF FILE --
+

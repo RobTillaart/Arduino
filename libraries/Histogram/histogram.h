@@ -2,7 +2,7 @@
 //
 //    FILE: Histogram.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define HISTOGRAM_LIB_VERSION       (F("0.3.0"))
+#define HISTOGRAM_LIB_VERSION       (F("0.3.1"))
 
 
 class Histogram

@@ -1,11 +1,9 @@
 //
 //    FILE: hist_test_val.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 //    DATE: 2012-11-11
-//
 // PUPROSE: test histogram library
-//
+
 
 #include "histogram.h"
 
@@ -36,10 +34,10 @@ void loop()
   float f = 0.5;
   Serial.print(f, 2);
   Serial.print(" : ");
-  
+
   Serial.print(hist.VAL(f), 2);
   Serial.print("\t");
-  
+
   float sum = 0;
   uint16_t i = 0;
   for (i = 0; i < hist.size(); i++)
@@ -59,3 +57,4 @@ void loop()
 
 
 // -- END OF FILE --
+

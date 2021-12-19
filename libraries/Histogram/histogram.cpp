@@ -1,7 +1,7 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
@@ -22,6 +22,8 @@
 //                      add countAbove(), countLevel(), countBelow().
 //                      add setBucket(),
 //                      change length to uint16_t ==> 65534
+//  0.3.1   2021-12-19  update library.json, license, minor edits
+
 
 #include "histogram.h"
 

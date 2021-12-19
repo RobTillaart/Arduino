@@ -1,11 +1,8 @@
 //
 //    FILE: hist_test_graph.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 //    DATE: 2017-07-16
-//
 // PUPROSE: test histogram frequency
-//
 
 
 #include "histogram.h"
@@ -67,3 +64,4 @@ void loop()
 
 
 // -- END OF FILE --
+

@@ -3,9 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
 //    DATE: 2012-11-10
-//
 // PUPROSE: test histogram library
-//
+
 
 #include "histogram.h"
 
@@ -47,3 +46,4 @@ void loop()
 
 
 // -- END OF FILE --
+

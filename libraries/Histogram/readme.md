@@ -23,7 +23,7 @@ If you need more quantitative analysis, you might need the statistics library,
 - https://github.com/RobTillaart/Statistic
 
 
-#### working
+#### Working
 
 When the class is initialized an array of the boundaries to define the borders of the
 buckets is passed to the constructor. This array should be declared global as the
@@ -48,19 +48,19 @@ The **frequency()** function may be removed to reduce footprint as it can be cal
 with the formula **(1.0 \* bucket(i))/count()**.
 
 
-#### experimental: Histogram8 Histogram16
+#### Experimental: Histogram8 Histogram16
 
 Histogram8 and Histogram16 are classes with same interface but smaller buckets. Histogram can count to ±2^31 while often ±2^15 or even ±2^7 is sufficient. Saves memory.
 
-| class name  | length | count/bucket | maxmem |
-|:------------|-------:|-------------:|-------:|
-| Histogram   | 65534  | ±2147483647  | 260 KB |
-| Histogram8  | 65534  | ±127         |  65 KB |
-| Histogram16 | 65534  | ±32767       | 130 KB |
+| class name  | length | count/bucket | max memory |
+|:------------|-------:|-------------:|-----------:|
+| Histogram   | 65534  | ±2147483647  |    260 KB  |
+| Histogram8  | 65534  | ±127         |     65 KB  |
+| Histogram16 | 65534  | ±32767       |    130 KB  |
 
 The difference is the **\_data** array, to reduce the memory footprint.
 
-Note: Maxmem is without the boundary array.
+Note: max memory is without the boundary array.
 
 Performance optimizations are possible too however not essential for 
 the experimental version.
@@ -71,7 +71,8 @@ the experimental version.
 
 ### Constructor
 
-- **Histogram(uint16_t length, float \*bounds)** constructor, get an array of boundary values and array length. Length should be less than 65534.
+- **Histogram(uint16_t length, float \*bounds)** constructor, get an array of boundary values and array length. 
+Length should be less than 65534.
 - **~Histogram()** destructor.
 
 
@@ -120,7 +121,9 @@ See examples
 
 ## Future
 
-- performance - **find()** the right bucket. Binary search is faster - need testing.
+- performance - **find()** the right bucket. 
+  - Binary search is faster 
+  - need testing.
 - improve accuracy - linear interpolation for **PMF()**, **CDF()** and **VAL()**
 - performance - merge loops in **PMF()**
 - performance - reverse loops - compare to zero.

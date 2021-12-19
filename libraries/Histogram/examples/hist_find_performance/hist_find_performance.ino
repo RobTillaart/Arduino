@@ -1,11 +1,9 @@
 //
 //    FILE: hist_find_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-11-03
-//
 // PUPROSE: indication histogram find performance 
-//
+
 
 #include "histogram.h"
 
@@ -73,9 +71,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
 
 
 // -- END OF FILE --
+

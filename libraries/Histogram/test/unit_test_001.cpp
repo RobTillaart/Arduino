@@ -31,6 +31,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "HISTOGRAM_LIB_VERSION: %s\n", (char *) HISTOGRAM_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -40,13 +41,11 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", HISTOGRAM_LIB_VERSION);
-
   float diceValues[] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5 };
   Histogram hist(6, diceValues);
   assertEqual(7, hist.size());
   assertEqual(0, hist.count());
-  
+
   for (int i = 0; i < 7; i++)
   {
     fprintf(stderr, "%d\t", i);
@@ -66,20 +65,20 @@ unittest(test_dice)
   {
     hist.add( d % 7 ); // simulate dice 
   }
-  
+
   assertEqual(7, hist.size());
   assertEqual(70, hist.count());
-  
+
   for (int i = 0; i < 7; i++)
   {
     fprintf(stderr, "%d\t", i);
     assertEqual(10, hist.bucket(i));
   }
-  
+
   hist.clear();
   assertEqual(7, hist.size());
   assertEqual(0, hist.count());
-  
+
   for (int i = 0; i < 7; i++)
   {
     fprintf(stderr, "%d\t", i);

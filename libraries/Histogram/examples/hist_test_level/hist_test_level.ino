@@ -1,11 +1,9 @@
 //
 //    FILE: hist_test_level.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-11-04
-//
 // PUPROSE: test histogram
-//
+
 
 #include "histogram.h"
 
@@ -16,6 +14,7 @@ Histogram hist(100, b);
 
 uint32_t lastTime = 0;
 const uint32_t threshold = 25;  // milliseconds, for updating display
+
 
 void setup()
 {
@@ -91,8 +90,8 @@ void setup()
   Serial.println();
 
   Serial.println("done...");
-
 }
+
 
 void loop()
 {
@@ -100,3 +99,4 @@ void loop()
 
 
 // -- END OF FILE --
+

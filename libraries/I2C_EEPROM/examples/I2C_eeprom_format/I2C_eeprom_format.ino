@@ -2,7 +2,6 @@
 //    FILE: I2C_eeprom_format.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo format EEPROM
-//
 
 
 #include "Wire.h"
@@ -81,5 +80,6 @@ void setup()
 void loop()
 {
 }
+
 
 // -- END OF FILE --

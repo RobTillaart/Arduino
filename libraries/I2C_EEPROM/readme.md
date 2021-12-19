@@ -5,9 +5,11 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_EEPROM.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_EEPROM/releases)
 
+
 # I2C_EEPROM
 
-Arduino Library for external I2C EEPROM - 24LC512, 24LC256, 24LC64/32/16/08/04/02/01
+Arduino Library for external I2C EEPROM - 24LC512, 24LC256, 24LC64/32/16/08/04/02/01.
+
 
 ## Description
 
@@ -22,7 +24,7 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 
 ### Constructor
 
-- **I2C_eeprom(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface
+- **I2C_eeprom(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
 - **I2C_eeprom(uint8_t deviceAddress, uint32_t deviceSize, TwoWire \*wire = &Wire)** constructor, with optional Wire interface.
 - **bool begin()** initializes the I2C bus and checks if the device is available on the I2C bus.
 - **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 and alike.
@@ -32,12 +34,14 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 ### Core functions
 
 - **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
-- **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, but only if changed. Returns 0 if value was same or write succeeded.
-- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address. 
-- **int updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address, but only if changed
+- **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, but only if changed.
+Returns 0 if value was same or write succeeded.
+- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address.
+- **int updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address, but only if changed.
 - **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.
 - **uint8_t readByte(uint16_t memoryAddress)** read a single byte from a given address
-- **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** read length bytes into buffer starting at specified memory address. Returns the number of bytes read, which should be length.
+- **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** read length bytes into buffer starting at specified memory address.
+Returns the number of bytes read, which should be length.
 
 
 ### Other
@@ -46,14 +50,14 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 - **uint8_t  getPageSize()** idem
 - **uint8_t  getPageSize(uint32_t deviceSize)** idem
 - **uint32_t getLastWrite()** idem
-- **uint32_t determineSize(bool debug = false)**  
-function that determines the size of the EEPROM by detecting when a memory address is folded upon memory address 0. 
-It is based upon the observation that memory wraps around. 
+- **uint32_t determineSize(bool debug = false)**
+function that determines the size of the EEPROM by detecting when a memory address is folded upon memory address 0.
+It is based upon the observation that memory wraps around.
 The debug flag gives some output to Serial.
 
-**Warning**: this function has changed (again) in 1.4.0 
+**Warning**: this function has changed (again) in 1.4.0
 
-Test results 
+Test results
 
 | Type    | returns |  Memory  | Page Size | Notes |
 |:--------|:--------|:---------|:---------:|:------|
@@ -79,8 +83,8 @@ The function cannot detect smaller than 128 bit EEPROMS.
 The function **updateBlock()** reads the block of data and compares it with the new values to see if it needs rewriting.
 
 As the function reads/writes the data in blocks with a maximum length of **I2C_BUFFERSIZE** (== 30 on AVR limitation).
-It does this comparison in chunks if the length exceeds this number. 
-The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood. 
+It does this comparison in chunks if the length exceeds this number.
+The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood.
 
 If data is changed often between writes, **updateBlock()** is slower than **writeBlock()**.
 So you should verify if your sketch can make use of the advantages of **updateBlock()**
@@ -90,7 +94,7 @@ So you should verify if your sketch can make use of the advantages of **updateBl
 
 (new since 1.5.1)
 
-To improve support older I2C EEPROMs e.g. IS24C16 two functions were added to increase 
+To improve support older I2C EEPROMs e.g. IS24C16 two functions were added to increase
 the waiting time before a read and/or write as some older devices have a larger timeout
 than 5 milliseconds which is the minimum.
 
@@ -107,8 +111,9 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 
 - improve error handling, write functions should return bytes written or so.
 - what can we do with the print interface? (investigate)
-- investigate multi-EEPROM storage, 
-- investigate smarter strategy for updateBlock() => find first and last changed position could possibly result in less writes. 
+- investigate multi-EEPROM storage,
+- investigate smarter strategy for updateBlock() => find first and last changed position could possibly result in less writes.
+- can setBlock use strategies from update
 
 
 ## Operational

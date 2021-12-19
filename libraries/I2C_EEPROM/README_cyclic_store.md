@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/I2C_EEPROM/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_EEPROM.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_EEPROM/releases)
+
 
 # I2C_eeprom_cyclic_store
 
 Utility class for storing data using cyclic writes to eeprom memory
+
 
 ## Description
 
@@ -25,9 +29,11 @@ The interface is pretty straightforward
 - **write(buffer)** write buffer to next location on eeprom
 - **getMetrics(slots, writeCounter)** get usage metrics
 
+
 ## Limitation
 
 The class does not handle changes in buffer size or structure, nor does it detect an eeprom that has data that wasn't written using the class.
+
 
 ## Operational
 

@@ -2,7 +2,6 @@
 //    FILE: I2C_eeprom_determineSize.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test determinSize() function
-//
 
 
 #include "Wire.h"
@@ -67,4 +66,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

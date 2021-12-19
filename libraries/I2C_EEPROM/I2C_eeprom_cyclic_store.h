@@ -6,12 +6,13 @@
 // PURPOSE: Supplemental utility class for I2C_EEPROM library
 //
 
+
 #include <I2C_eeprom.h>
 
 /**
  * @brief This is a utility class for using an eeprom to store a simple
  * data structure.
- * 
+ *
  * The purpose of the utility is to extend the life of an eeprom memory by
  * rotating the writes over different pages to reduce the number of writes
  * to any individual page.
@@ -23,7 +24,7 @@
  * version number which is then used for subsequent reads.
  * Whenever data is written the version number is incremented and the next
  * slot in sequence is used (or the first slot if going past the end).
- *  
+ *
  * Note that the data is stored in binary form which means it should not be
  * expected that the eeprom can be moved between architectures. Data stored
  * in an eeprom will also become invalid if the data structure is changed
@@ -31,10 +32,10 @@
  *
  * If the data structure has changed or if the eeprom contains other data it
  * must first be formatted with a call to format().
- * 
+ *
  * Finally, since the version number is a long word, this class will
  * *derail and fail* to add new versions past 4294967295 writes.
- * 
+ *
  * @tparam T the type of the data structure to store, should only contain
  * **value** members and no constructor/destructor nor other
  * methods/functions - e g a pure DTO.
@@ -45,10 +46,10 @@ class I2C_eeprom_cyclic_store
 public:
     /**
       * @brief Initializes the instance
-      * 
+      *
       * This call searches the eeprom for the latest written version and
       * sets the current slot accordingly.
-      * 
+      *
       * @param eeprom  The instance of I2C_eeprom to use.
       * @param pageSize The number of bytes in each write page.
       * @param totalPages Specifies the total number of pages to use.
@@ -69,12 +70,12 @@ public:
 
     /**
       * @brief Formats the eeprom
-      * 
+      *
       * This must be done if the eeprom already contains data or if the
-	  * structure of the data stored changes.
-      * 
+      * structure of the data stored changes.
+      *
       * Formatting is done by writing the max version number to each slot,
-      * thus it performs a write cycle to the first write page of each slot. 
+      * thus it performs a write cycle to the first write page of each slot.
       *
       * @return True if successful or false if unable to write to eeprom.
       */
@@ -93,14 +94,14 @@ public:
         _currentSlot = 0;
         _isInitialized = true;
 
-	return true;
+        return true;
     }
 
     /**
       * @brief Read data from the eeprom into a buffer.
-      * 
+      *
       * The data is read from the current slot of the eeprom.
-      * 
+      *
       * @param buffer A reference to the buffer to read data into.
       * @return True if data was read successfully, false otherwise.
       */
@@ -108,9 +109,9 @@ public:
 
     /**
       * @brief Read data from the eeprom into a buffer.
-      * 
+      *
       * The data is read from the current slot of the eeprom.
-      * 
+      *
       * @param buffer A pointet to the buffer to read data into.
       * @return True if data was read successfully, false otherwise.
       */
@@ -127,9 +128,9 @@ public:
 
     /**
       * @brief Write a buffer to the next slot in the eeprom.
-      * 
+      *
       * This updates the current slot of this instance.
-      * 
+      *
       * @param buffer A reference to the buffer to write data from.
       * @return True if data was written successfully, false otherwise.
       */
@@ -181,11 +182,11 @@ public:
 
     /**
       * @brief Returns metrics for the eeprom usage.
-      * 
+      *
       * Dividing the returned values of \p writeCounter with \p slots yields the average number of
       * writes to the individual write pages of the eeprom. This can be used to estimate the remaining
       * number of possible writes.
-      * 
+      *
       * @param[out] slots The number of slots used to write the data buffer.
       * @param[out] writeCounter The total number of write to the eeprom since the last format (or first use).
       * @return True if the instance is initialized, false otherwise.

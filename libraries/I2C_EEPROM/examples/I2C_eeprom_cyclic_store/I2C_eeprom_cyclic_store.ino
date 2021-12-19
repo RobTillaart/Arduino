@@ -5,11 +5,13 @@
 // PURPOSE: Simple example of how to use cyclic storage.
 //
 
+
 #include <I2C_eeprom.h>
 #include <I2C_eeprom_cyclic_store.h>
 
 #define MEMORY_SIZE 0x2000 // Total capacity of the EEPROM
 #define PAGE_SIZE 64 // Size of write page of device, use datasheet to find!
+
 
 struct SampleData {
 public:
@@ -18,10 +20,12 @@ public:
   char message[32];
 };
 
+
 SampleData data;
 
 I2C_eeprom ee(0x50, MEMORY_SIZE);
 I2C_eeprom_cyclic_store<SampleData> cs;
+
 
 void setup()
 {
@@ -39,7 +43,7 @@ void setup()
     sprintf(data.message, "Initialized to %x", data.counter);
     cs.write(data);
   }
-  
+
 }
 
 void loop()

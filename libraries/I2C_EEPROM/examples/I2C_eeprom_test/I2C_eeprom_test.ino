@@ -3,9 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: show/test I2C_EEPROM library
 //
-
 // uses a 24LC256 (32KB) EEPROM
 // might need adaptions for other EEPROMS (page size etc)
+
 
 #include "Wire.h"
 #include "I2C_eeprom.h"
@@ -209,7 +209,7 @@ void loop()
 void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 {
   const int BLOCK_TO_LENGTH = 10;
-  
+
   SERIAL_OUT.print("\t  ");
   for (int x = 0; x < 10; x++)
   {
@@ -241,4 +241,6 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
   SERIAL_OUT.println();
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

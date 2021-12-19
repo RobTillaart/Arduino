@@ -1,7 +1,7 @@
-# Syntax Coloring Map For I2C_EEPROM
+# Syntax Colouring Map For I2C_EEPROM
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 I2C_eeprom	KEYWORD1
 I2C_eeprom_cyclic_store	KEYWORD1
 

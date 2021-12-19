@@ -3,10 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library - performance gain updateBlock
 //
-
 // uses a 24LC256 (32KB) EEPROM
 // as this test writes a lot it might wear out EEPROMs eventually.
-// 
+
 
 #include "Wire.h"
 #include "I2C_eeprom.h"
@@ -17,6 +16,7 @@ I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
 uint32_t start, dur1, dur2;
 
 uint8_t ar[100];
+
 
 void setup()
 {
@@ -47,9 +47,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_1(int n)
 {
@@ -84,6 +86,7 @@ void test_1(int n)
   delay(10);
   Serial.println();
 }
+
 
 void test_2()
 {
@@ -136,4 +139,5 @@ void dump(uint32_t from, uint32_t to)
 }
 
 
-// -- END OF FILE
+// -- END OF FILE --
+

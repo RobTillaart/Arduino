@@ -38,11 +38,13 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "I2C_EEPROM_VERSION: %s\n", ( char * ) I2C_EEPROM_VERSION);
 }
 
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)

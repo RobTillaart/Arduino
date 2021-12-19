@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.5.1
+// VERSION: 1.5.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -40,7 +40,8 @@
 //  1.4.3   2021-05-05  adjust buffer size AVR / ESP +rename
 //  1.5.0   2021-06-30  #28 fix addressing 24LC04/08/16
 //  1.5.1   2021-10-14  function to add extra for write cycle (experimental)
- 
+//  1.5.2   2021-12-19  update library.json, license, minor edits
+
 
 #include <I2C_eeprom.h>
 
@@ -62,7 +63,7 @@
 #if defined(ESP32) || defined(ESP8266)
 #define I2C_BUFFERSIZE           128
 #else
-#define I2C_BUFFERSIZE           30   //  AVR, STM 
+#define I2C_BUFFERSIZE           30   //  AVR, STM
 #endif
 
 
@@ -184,7 +185,7 @@ int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer,
   {
     uint8_t buf[I2C_BUFFERSIZE];
     uint8_t cnt = I2C_BUFFERSIZE;
-    
+
     if (cnt > len) cnt = len;
     rv     += _ReadBlock(addr, buf, cnt);
     if (memcmp(buffer, buf, cnt) != 0)
@@ -275,9 +276,9 @@ uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
 // PRIVATE
 //
 
-// _pageBlock aligns buffer to page boundaries for writing.
-// and to I2C buffer size
-// returns 0 = OK otherwise error
+//  _pageBlock aligns buffer to page boundaries for writing.
+//  and to I2C buffer size
+//  returns 0 = OK otherwise error
 int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer)
 {
   uint16_t addr = memoryAddress;
@@ -301,7 +302,7 @@ int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
 }
 
 
-// supports one and two bytes addresses
+//  supports one and two bytes addresses
 void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 {
   if (this->_isAddressSizeTwoWords)
@@ -321,8 +322,8 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 }
 
 
-// pre: length <= this->_pageSize  && length <= I2C_BUFFERSIZE;
-// returns 0 = OK otherwise error
+//  pre: length <= this->_pageSize  && length <= I2C_BUFFERSIZE;
+//  returns 0 = OK otherwise error
 int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length)
 {
   _waitEEReady();
@@ -337,8 +338,8 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer,
 }
 
 
-// pre: buffer is large enough to hold length bytes
-// returns bytes read
+//  pre: buffer is large enough to hold length bytes
+//  returns bytes read
 uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint8_t length)
 {
   _waitEEReady();
@@ -386,4 +387,6 @@ void I2C_eeprom::_waitEEReady()
   return;
 }
 
+
 // -- END OF FILE --
+

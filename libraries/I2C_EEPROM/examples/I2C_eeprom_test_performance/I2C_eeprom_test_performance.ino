@@ -2,7 +2,6 @@
 //    FILE: I2C_eeprom_test_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test I2C_EEPROM library
-//
 
 
 #include "Wire.h"
@@ -53,8 +52,8 @@ void loop()
 
 void test()
 {
-  char data2[] = "0000000000111111111122222222223333333333444444444455555555556666666666777777777788888888889999999999A"; 
-    
+  char data2[] = "0000000000111111111122222222223333333333444444444455555555556666666666777777777788888888889999999999A";
+
   totals = 0;
   Serial.print("\nTEST: timing writeByte()\t");
   uint32_t start = micros();
@@ -145,7 +144,7 @@ void test()
 void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 {
   const int BLOCK_TO_LENGTH = 10;
-  
+
   Serial.print("\t  ");
   for (int x = 0; x < 10; x++)
   {
@@ -177,4 +176,6 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
   Serial.println();
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

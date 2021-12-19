@@ -3,10 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library store /retrieve struct
 //
-
 // uses a 24LC256 (32KB) EEPROM
 // as this test writes a lot it might wear out EEPROMs eventually.
-// 
+//
 
 
 #include "Wire.h"
@@ -14,7 +13,6 @@
 
 
 I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
-
 
 uint32_t start, duration;
 
@@ -53,7 +51,7 @@ void setup()
   measurement.temperature = 22.5;
   measurement.humidity    = 53.1;
   measurement.pressure    = 1000.9;
-  
+
   // store it in EEPROM
   start = micros();
   ee.writeBlock(0, (uint8_t *) &measurement, sizeof(measurement));
@@ -85,8 +83,11 @@ void setup()
   Serial.println("\ndone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE
+

@@ -7,6 +7,7 @@
 // 0.1.0    2014-05-xx initial version
 // 0.1.1    2020-07-14 fix #1 compile for ESP; fix author
 
+
 #include <Wire.h>
 #include <I2C_eeprom.h>
 
@@ -38,11 +39,12 @@
 
 I2C_eeprom eeprom(DEVICEADDRESS, EE24LC01MAXBYTES);
 
-void readAndWriteVar() { 
-    SERIAL_DEBUG.println("----------------------------------------------");     
+
+void readAndWriteVar() {
+    SERIAL_DEBUG.println("----------------------------------------------");
     SERIAL_DEBUG.print("SINGLE BYTE: writing and retreiving EEPROM on I2C at address ");
     SERIAL_DEBUG.println(DEVICEADDRESS);
-    SERIAL_DEBUG.println("----------------------------------------------");  
+    SERIAL_DEBUG.println("----------------------------------------------");
 
     byte curval = eeprom.readByte(TEST_ADDR);
 
@@ -59,11 +61,11 @@ void readAndWriteVar() {
 
     curval = eeprom.readByte(TEST_ADDR);
     SERIAL_DEBUG.print("new value: ");
-    SERIAL_DEBUG.println(curval);    
-
+    SERIAL_DEBUG.println(curval);
 }
 
-void readAndWritePage(unsigned int pageAddress, int bufferLen) { 
+
+void readAndWritePage(unsigned int pageAddress, int bufferLen) {
     // always make the maximum size, just don't use all of it.
     byte testBuffer[LONG_BUFFER_LEN + 1];
 
@@ -91,54 +93,54 @@ void readAndWritePage(unsigned int pageAddress, int bufferLen) {
 
     eeprom.readBlock(pageAddress, testBuffer, bufferLen);
     SERIAL_DEBUG.print("new value:   ");
-    SERIAL_DEBUG.println((char*)testBuffer);    
-
+    SERIAL_DEBUG.println((char*)testBuffer);
 }
-     
+
+
 void setup()
 {
-  SERIAL_DEBUG.begin(57600); 
+  SERIAL_DEBUG.begin(57600);
   while (!SERIAL_DEBUG); // wait for SERIAL_DEBUG port to connect. Needed for Leonardo only
 
-  SERIAL_DEBUG.println("IT IS BEGINNING"); 
-  SERIAL_DEBUG.println("WAIT FOR IT");  
-  
+  SERIAL_DEBUG.println("IT IS BEGINNING");
+  SERIAL_DEBUG.println("WAIT FOR IT");
+
   eeprom.begin();
-  
+
   readAndWriteVar();
 
-  SERIAL_DEBUG.println("----------------------------------------------");     
-  SERIAL_DEBUG.println("PAGE:");     
+  SERIAL_DEBUG.println("----------------------------------------------");
+  SERIAL_DEBUG.println("PAGE:");
   SERIAL_DEBUG.print(" writing and retrieving EEPROM Page on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
-  SERIAL_DEBUG.println("----------------------------------------------");  
+  SERIAL_DEBUG.println("----------------------------------------------");
 
   readAndWritePage(TEST_PAGE_ADDR, SHORT_BUFFER_LEN);
 
 
-
-  SERIAL_DEBUG.println("----------------------------------------------");     
-  SERIAL_DEBUG.println("MULTI-PAGE:");     
+  SERIAL_DEBUG.println("----------------------------------------------");
+  SERIAL_DEBUG.println("MULTI-PAGE:");
   SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
-  SERIAL_DEBUG.println("----------------------------------------------");  
+  SERIAL_DEBUG.println("----------------------------------------------");
 
   readAndWritePage(LONG_TEST_PAGE_ADDR, LONG_BUFFER_LEN);
 
 
-
-  SERIAL_DEBUG.println("----------------------------------------------");     
-  SERIAL_DEBUG.println("MULTI-PAGE UNALINGED: ");     
+  SERIAL_DEBUG.println("----------------------------------------------");
+  SERIAL_DEBUG.println("MULTI-PAGE UNALINGED: ");
   SERIAL_DEBUG.print("writing and retrieving EEPROM Pages on I2C at address ");
   SERIAL_DEBUG.println(DEVICEADDRESS);
-  SERIAL_DEBUG.println("----------------------------------------------");  
+  SERIAL_DEBUG.println("----------------------------------------------");
 
   readAndWritePage(UNALIGNED_TEST_PAGE_ADDR, UNALIGNED_BUFFER_LEN);
 
   SERIAL_DEBUG.println("\nDone...");
 }
 
+
 void loop()
 {
   // Nothing to do during loop
 }
+

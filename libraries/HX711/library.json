@@ -1,6 +1,6 @@
 {
   "name": "HX711",
-  "keywords": "load cell library kilo pound gram price ",
+  "keywords": "load cell,weight,kilo,pound,gram,price,lbs,ounce,pound",
   "description": "Arduino library for HX711 loadcell amplifier",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HX711"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "HX711.h"
 }

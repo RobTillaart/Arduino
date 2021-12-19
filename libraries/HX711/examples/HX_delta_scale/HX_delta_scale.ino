@@ -1,16 +1,11 @@
 //
 //    FILE: HX_kitchen_scale.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY:
-// 0.1.0    2020-06-16 initial version
-//
 
 
-// to be tested 
+// to be tested
 
 #include "HX711.h"
 
@@ -58,7 +53,7 @@ void loop()
      w2 = scale.get_units();
      delay(100);
   }
-  
+
   Serial.print("UNITS: ");
   Serial.print(w1);
   if (w1 == 0)

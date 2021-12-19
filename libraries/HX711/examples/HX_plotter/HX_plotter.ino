@@ -1,13 +1,8 @@
 //
 //    FILE: HX_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY:
-// 0.1.0    2020-06-15 initial version
-//
 
 
 #include "HX711.h"

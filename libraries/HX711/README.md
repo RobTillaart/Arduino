@@ -206,6 +206,11 @@ See examples
 - add examples
 - test different load cells
 - optimize the build-in **ShiftIn()** function to improve performance again.
+- investigate read()
+  - investigate the need of yield after interrupts
+  - investigate blocking loop at begin of read()
+  - 
+
 
 
 #### the adding scale

@@ -1,13 +1,8 @@
 //
 //    FILE: HX_set_mode.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY:
-// 0.1.0    2021-05-13 initial version
-//
 
 
 #include "HX711.h"
@@ -39,7 +34,7 @@ void setup()
   // scale.set_scale(420.0983);
   // reset the scale to zero = 0
   scale.tare();
-  
+
 
   Serial.println();
   scale.set_average_mode();

@@ -1,0 +1,8 @@
+
+(dry run with no HW)
+
+LIBRARY VERSION: 0.3.0
+
+Counting get_units() calls for 1 minute...
+calls per minute: 149202
+calls per second: 2486.70

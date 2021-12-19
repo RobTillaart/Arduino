@@ -1,13 +1,8 @@
 //
 //    FILE: HX_grocery_scale.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY:
-// 0.1.0    2020-06-16 initial version
-//
 
 
 #include "HX711.h"
@@ -30,11 +25,11 @@ void setup()
 
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));
-  
+
   Serial.println("\nEmpty the scale, press a key to continue");
   while(!Serial.available());
   while(Serial.available()) Serial.read();
-  
+
   scale.tare();
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));

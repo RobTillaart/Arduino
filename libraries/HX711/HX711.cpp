@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -14,7 +14,7 @@
 //  0.2.3   2021-05-26  add running_average() mode
 //  0.3.0   2021-11-14  fix #11 shiftIn timing
 //                      update build-CI, readme.md, badges
-
+//  0.3.1   2021-12-19  update library.json, license, minor edits
 
 
 #include "HX711.h"
@@ -60,32 +60,33 @@ bool HX711::is_ready()
 
 //  from datasheet page 4
 //  When output data is not ready for retrieval,
-//  digital output pin DOUT is high. Serial clock
-//  input PD_SCK should be low. When DOUT goes
-//  to low, it indicates data is ready for retrieval.
-float HX711::read() 
+//    digital output pin DOUT is high.
+//  Serial clock input PD_SCK should be low.
+//  When DOUT goes to low, it indicates data is ready for retrieval.
+float HX711::read()
 {
-  // this waiting takes most time...
+  //  this BLOCKING wait takes most time...
   while (digitalRead(_dataPin) == HIGH) yield();
-  
+
   union
   {
     long value = 0;
     uint8_t data[4];
   } v;
 
+  //  blocking part ...
   noInterrupts();
 
-  // Pulse the clock pin 24 times to read the data.
-  // v.data[2] = shiftIn(_dataPin, _clockPin, MSBFIRST);
-  // v.data[1] = shiftIn(_dataPin, _clockPin, MSBFIRST);
-  // v.data[0] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  //  Pulse the clock pin 24 times to read the data.
+  //  v.data[2] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  //  v.data[1] = shiftIn(_dataPin, _clockPin, MSBFIRST);
+  //  v.data[0] = shiftIn(_dataPin, _clockPin, MSBFIRST);
   v.data[2] = _shiftIn();
   v.data[1] = _shiftIn();
   v.data[0] = _shiftIn();
 
-  // TABLE 3 page 4 datasheet
-  // only default verified, so other values not supported yet
+  //  TABLE 3 page 4 datasheet
+  //  only default verified, so other values not supported yet
   uint8_t m = 1;   // default gain == 128
   if (_gain == 64) m = 3;
   if (_gain == 32) m = 2;
@@ -98,8 +99,9 @@ float HX711::read()
   }
 
   interrupts();
+  //  yield();
 
-  // SIGN extend
+  //  SIGN extend
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
   _lastRead = millis();
@@ -113,15 +115,15 @@ void HX711::calibrate_scale(uint16_t weight, uint8_t times)
   _scale = (1.0 * weight) / (read_average(times) - _offset);
 }
 
-// will be obsolete
+
+// OBSOLETE 0.4.0  (LL is wrong)
 void HX711::callibrate_scale(uint16_t weight, uint8_t times)
 {
-  calibrate_scale(weight, times); 
+  calibrate_scale(weight, times);
 };
-  
 
 
-void HX711::wait_ready(uint32_t ms) 
+void HX711::wait_ready(uint32_t ms)
 {
   while (!is_ready())
   {
@@ -130,7 +132,7 @@ void HX711::wait_ready(uint32_t ms)
 }
 
 
-bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms) 
+bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms)
 {
   while (retries--)
   {
@@ -140,10 +142,11 @@ bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms)
   return false;
 }
 
+
 bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 {
   uint32_t start = millis();
-  while (millis() - start < timeout) 
+  while (millis() - start < timeout)
   {
     if (is_ready()) return true;
     delay(ms);
@@ -152,11 +155,11 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 }
 
 
-float HX711::read_average(uint8_t times) 
+float HX711::read_average(uint8_t times)
 {
   if (times < 1) times = 1;
   float sum = 0;
-  for (uint8_t i = 0; i < times; i++) 
+  for (uint8_t i = 0; i < times; i++)
   {
     sum += read();
     yield();
@@ -165,12 +168,12 @@ float HX711::read_average(uint8_t times)
 }
 
 
-float HX711::read_median(uint8_t times) 
+float HX711::read_median(uint8_t times)
 {
   if (times > 15) times = 15;
   if (times < 3)  times = 3;
   float s[15];
-  for (uint8_t i = 0; i < times; i++) 
+  for (uint8_t i = 0; i < times; i++)
   {
     s[i] = read();
     yield();
@@ -181,12 +184,12 @@ float HX711::read_median(uint8_t times)
 }
 
 
-float HX711::read_medavg(uint8_t times) 
+float HX711::read_medavg(uint8_t times)
 {
   if (times > 15) times = 15;
   if (times < 3)  times = 3;
   float s[15];
-  for (uint8_t i = 0; i < times; i++) 
+  for (uint8_t i = 0; i < times; i++)
   {
     s[i] = read();
     yield();
@@ -206,13 +209,13 @@ float HX711::read_medavg(uint8_t times)
 }
 
 
-float HX711::read_runavg(uint8_t times, float alpha) 
+float HX711::read_runavg(uint8_t times, float alpha)
 {
   if (times < 1)  times = 1;
   if (alpha < 0)  alpha = 0;
   if (alpha > 1)  alpha = 1;
   float val = read();
-  for (uint8_t i = 1; i < times; i++) 
+  for (uint8_t i = 1; i < times; i++)
   {
     val += alpha * (read() - val);
     yield();
@@ -225,11 +228,11 @@ void HX711::_insertSort(float * array, uint8_t size)
 {
   uint8_t t, z;
   float temp;
-  for (t = 1; t < size; t++) 
+  for (t = 1; t < size; t++)
   {
     z = t;
     temp = array[z];
-    while( (z > 0) && (temp < array[z - 1] )) 
+    while( (z > 0) && (temp < array[z - 1] ))
     {
       array[z] = array[z - 1];
       z--;
@@ -240,7 +243,7 @@ void HX711::_insertSort(float * array, uint8_t size)
 }
 
 
-float HX711::get_value(uint8_t times) 
+float HX711::get_value(uint8_t times)
 {
   float raw;
   switch(_mode)
@@ -270,14 +273,14 @@ float HX711::get_units(uint8_t times)
 };
 
 
-void HX711::power_down() 
+void HX711::power_down()
 {
   digitalWrite(_clockPin, LOW);
   digitalWrite(_clockPin, HIGH);
 }
 
 
-void HX711::power_up() 
+void HX711::power_up()
 {
   digitalWrite(_clockPin, LOW);
 }
@@ -289,7 +292,7 @@ uint8_t HX711::_shiftIn()
 {
   uint8_t value = 0;
   uint8_t mask = 0x80;
-  while(mask > 0)
+  while (mask > 0)
   {
     digitalWrite(_clockPin, HIGH);
     delayMicroseconds(1);               // T2  >= 0.2 us

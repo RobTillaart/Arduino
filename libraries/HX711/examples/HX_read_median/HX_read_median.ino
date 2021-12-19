@@ -1,13 +1,9 @@
 //
 //    FILE: HX_read_median.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY:
-// 0.1.0    2021-05-10 initial version
-//
+
 
 
 #include "HX711.h"

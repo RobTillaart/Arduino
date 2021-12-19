@@ -34,6 +34,7 @@ uint8_t clockPin = 7;
 
 unittest_setup()
 {
+  fprintf(stderr, "HX711_LIB_VERSION: %s\n", (char *) HX711_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -43,8 +44,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", HX711_LIB_VERSION);
-
   HX711 scale;
   scale.begin(dataPin, clockPin);
 

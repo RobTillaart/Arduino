@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "I2C_KEYPAD_LIB_VERSION: %s\n", (char *) I2C_KEYPAD_LIB_VERSION);
 }
 
 
@@ -38,12 +39,16 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(16, I2C_KEYPAD_NOKEY);
+  assertEqual(17, I2C_KEYPAD_FAIL);
+}
+
 
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) I2C_KEYPAD_LIB_VERSION);
-
   const uint8_t KEYPAD_ADDRESS = 0x38;
   I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
@@ -58,8 +63,6 @@ unittest(test_constructor)
 //
 // unittest(test_read)
 // {
-  // fprintf(stderr, "VERSION: %s\n", (char *) I2C_KEYPAD_LIB_VERSION);
-
   // const uint8_t KEYPAD_ADDRESS = 0x38;
   // I2CKeyPad keyPad(KEYPAD_ADDRESS);
 

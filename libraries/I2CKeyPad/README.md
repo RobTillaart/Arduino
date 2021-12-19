@@ -8,7 +8,7 @@
 
 # I2CKeyPad
 
-Arduino library for 4x4 KeyPad connected to an I2C PCF8574 
+Arduino library for 4x4 KeyPad connected to an I2C PCF8574.
 
 
 ## Description

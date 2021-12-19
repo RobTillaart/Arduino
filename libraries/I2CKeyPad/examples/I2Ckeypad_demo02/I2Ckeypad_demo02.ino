@@ -1,16 +1,9 @@
 //
 //    FILE: I2Ckeypad_demo02.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-//  HISTORY:
-//  2019-10-01  0.0.1  initial version
-//  2020-06-26  0.1.0  updated with lib
-//  2021-05-06  0.2.0  updated with lib
-
-
 // PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
@@ -54,7 +47,7 @@ void loop()
     bool connected  = keyPad.isConnected();
     bool pressed    = keyPad.isPressed();
     uint8_t lastKey = keyPad.getLastKey();
-    
+
     start = micros();
     uint8_t index = keyPad.getKey();
     stop = micros();
@@ -73,6 +66,7 @@ void loop()
     Serial.println(stop - start);
   }
 }
+
 
 // -- END OF FILE --
 

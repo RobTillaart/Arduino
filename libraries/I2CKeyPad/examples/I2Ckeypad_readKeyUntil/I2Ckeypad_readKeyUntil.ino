@@ -1,11 +1,9 @@
 //
 //    FILE: I2Ckeypad_readKeyUntil.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo reading until specific keyPress
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-
 // PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
@@ -13,6 +11,7 @@
 //
 //  This demo doesn't use the build in key mapping.
 //
+
 
 #include "Wire.h"
 #include "I2CKeyPad.h"
@@ -118,3 +117,4 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
 
 
 // -- END OF FILE --
+

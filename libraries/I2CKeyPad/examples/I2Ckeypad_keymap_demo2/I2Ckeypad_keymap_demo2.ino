@@ -1,16 +1,13 @@
 //
 //    FILE: I2Ckeypad_keymap_demo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo key mapping
 //     URL: https://github.com/RobTillaart/I2CKeyPad
-
-
+//
 // PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
 // 4x4 or smaller keypad.
-
 
 
 #include "Wire.h"
@@ -64,3 +61,4 @@ void loop()
 
 
 // -- END OF FILE --
+

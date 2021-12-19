@@ -1,17 +1,12 @@
 //
 //    FILE: I2CKeypad_interrupts_1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo interrupt checking keyPressed
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-//  HISTORY:
-//  2021-05-08  0.1.0 initial version
-
 //  interrupts are supported since version 0.2.1
 //  this sketch show usage and some comparison with polling.
-
-
+//
 //   KEYPAD   PCF8574     UNO
 //   rows     p0-p3
 //   columns  p4-p7
@@ -38,7 +33,7 @@
 //  Note: depending on keypad used some bouncing may occur
 //        (saw it only during release)
 //  can be solved by tracking the last interrupt in the ISR routine
-//  however it is more efficient to reset the flag only after the 
+//  however it is more efficient to reset the flag only after the
 //  keypress is handled.
 //
 // Note: multiple keypresses are not queued.

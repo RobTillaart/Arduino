@@ -1,7 +1,7 @@
 //
 //    FILE: I2CKeyPad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for 4x4 KeyPad connected to an I2C PCF8574
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
@@ -15,6 +15,7 @@
 //  0.2.1  2021-05-06  add _read(0xF0) to begin() to enable PCF8574
 //                     interrupts. (#5 thanks to JohnMac1234)
 //  0.3.0  2021-11-04  add key mapping functions.
+//  0.3.1  2021-12-19  update library.json, license, minor edits
 
 
 #include "I2CKeyPad.h"
@@ -32,7 +33,8 @@ I2CKeyPad::I2CKeyPad(const uint8_t deviceAddress, TwoWire *wire)
 bool I2CKeyPad::begin(uint8_t sda, uint8_t scl)
 {
   _wire->begin(sda, scl);
-  _read(0xF0);   // enable interrupts
+  //  enable interrupts
+  _read(0xF0);
   return isConnected();
 }
 #endif
@@ -41,7 +43,7 @@ bool I2CKeyPad::begin(uint8_t sda, uint8_t scl)
 bool I2CKeyPad::begin()
 {
   _wire->begin();
-  // enable interrupts
+  //  enable interrupts
   _read(0xF0);
   return isConnected();
 }
@@ -53,7 +55,7 @@ uint8_t I2CKeyPad::getKey()
 }
 
 
-// to check "press any key"
+//  to check "press any key"
 bool I2CKeyPad::isPressed()
 {
   uint8_t a = _read(0xF0);
@@ -81,13 +83,14 @@ void I2CKeyPad::loadKeyMap(char * keyMap)
 //
 uint8_t I2CKeyPad::_read(uint8_t mask)
 {
-  yield();  // improve the odds that IO will not interrupted.
+  //  improve the odds that IO will not interrupted.
+  yield();
 
   _wire->beginTransmission(_address);
   _wire->write(mask);
   if (_wire->endTransmission() != 0)
   {
-    // set communication error
+    //  set communication error
     return 0xFF;
   }
   _wire->requestFrom(_address, (uint8_t)1);
@@ -97,12 +100,12 @@ uint8_t I2CKeyPad::_read(uint8_t mask)
 
 uint8_t I2CKeyPad::_getKey4x4()
 {
-  // key = row + 4 x col
+  //  key = row + 4 x col
   uint8_t key = 0;
 
-  // mask = 4 rows as input pull up, 4 columns as output
+  //  mask = 4 rows as input pull up, 4 columns as output
   uint8_t rows = _read(0xF0);
-  // check if single line has gone low.
+  //  check if single line has gone low.
   if (rows == 0xF0)      return I2C_KEYPAD_NOKEY;
   else if (rows == 0xE0) key = 0;
   else if (rows == 0xD0) key = 1;

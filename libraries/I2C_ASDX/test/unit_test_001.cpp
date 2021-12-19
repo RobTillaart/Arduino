@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "I2C_ASDX_VERSION: %s\n", (char *) I2C_ASDX_VERSION);
 }
 
 unittest_teardown()
@@ -50,7 +51,7 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
@@ -60,9 +61,8 @@ unittest(test_new_operator)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
-
   I2C_ASDX sensor(0x58, 100);
+
   assertEqual(I2C_ASDX_INIT, sensor.state());
 
   assertTrue(sensor.begin());
@@ -78,8 +78,6 @@ unittest(test_constructor)
 
 unittest(test_constants)
 {
-  fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
-
   fprintf(stderr, "Test conversion constants\n");
   assertEqualFloat(68.9475729,    PSI2MILLIBAR,    1e-4);
   assertEqualFloat(0.01450377377, MILLIBAR2PSI,    1e-4);
@@ -98,7 +96,7 @@ unittest(test_constants)
 
   assertEqualFloat(1.02056,       MILLIBAR2CMH2O,  1e-5);
   assertEqualFloat(100,           MILLIBAR2MSW,    1);
-  
+
   fprintf(stderr, "Test state constants\n");
   assertEqual(1,  I2C_ASDX_OK);
   assertEqual(0,  I2C_ASDX_INIT);
@@ -110,9 +108,8 @@ unittest(test_constants)
 
 unittest(test_read_zero)
 {
-  fprintf(stderr, "VERSION: %s\n", I2C_ASDX_VERSION);
-
   I2C_ASDX sensor(0x58, 100);
+
   assertTrue(sensor.begin());
   assertTrue(sensor.isConnected());  // incorrect, keep build happy
 

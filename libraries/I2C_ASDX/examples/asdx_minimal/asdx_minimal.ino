@@ -1,15 +1,16 @@
 //
 //    FILE: asdx_minimal.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-06-18
 //     URL: https://github.com/RobTillaart/I2C_ASDX
+
 
 #include "I2C_ASDX.h"
 
 // adjust to type of sensor
 I2C_ASDX sensor(0x58, 100);
+
 
 void setup()
 {
@@ -18,6 +19,7 @@ void setup()
 
   sensor.begin();
 }
+
 
 void loop()
 {
@@ -37,4 +39,6 @@ void loop()
   delay(1000);
 }
 
+
 // =- END OF FILE --
+

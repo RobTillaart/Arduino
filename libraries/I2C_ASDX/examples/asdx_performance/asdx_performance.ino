@@ -1,10 +1,10 @@
 //
 //    FILE: asdx_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-06-18
 //     URL: https://github.com/RobTillaart/I2C_ASDX
+
 
 #include "I2C_ASDX.h"
 
@@ -13,6 +13,7 @@ I2C_ASDX sensor(0x58, 100);
 
 uint32_t start, stop;
 volatile uint32_t pressure = 0;
+
 
 void setup()
 {
@@ -42,8 +43,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
+
 // =- END OF FILE --
+

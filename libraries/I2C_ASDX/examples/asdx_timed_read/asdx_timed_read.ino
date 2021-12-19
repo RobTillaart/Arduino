@@ -1,10 +1,10 @@
 //
 //    FILE: asdx_timed_read.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-06-18
 //     URL: https://github.com/RobTillaart/I2C_ASDX
+
 
 #include "I2C_ASDX.h"
 
@@ -12,6 +12,7 @@
 I2C_ASDX sensor(0x58, 100);
 
 const uint32_t interval = 1000;
+
 
 void setup()
 {
@@ -26,6 +27,7 @@ void setup()
     while (1);
   }
 }
+
 
 void loop()
 {
@@ -61,4 +63,6 @@ void loop()
   }
 }
 
+
 // =- END OF FILE --
+

@@ -1,7 +1,9 @@
-# Syntax Coloring Map For HMC6352
+# Syntax Colouring Map For HMC6352
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 HMC6352	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
@@ -34,6 +36,7 @@ setMeasurementSumming	KEYWORD2
 getMeasurementSumming	KEYWORD2
 saveOpMode	KEYWORD2
 updateOffsets	KEYWORD2
+
 
 # Constants (LITERAL1)
 HMC6352_LIB_VERSION	LITERAL1

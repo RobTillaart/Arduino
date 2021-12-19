@@ -1,11 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/HMC6352/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/HMC6352/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HMC6352/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/HMC6352/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HMC6352/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HMC6352/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HMC6352.svg?maxAge=3600)](https://github.com/RobTillaart/HMC6352/releases)
+
 
 # HMC6352
 
 Arduino library for HMC6352 compass sensor
+
 
 ## Description
 
@@ -13,7 +17,7 @@ Arduino library for HMC6352 compass sensor
 
 This library is BETA, only tested partially and not thoroughly
 No guarantees, use at own risk, all disclaimers apply 
-The example sketch can be used to config the compass.
+The example sketch can be used to configuration the compass.
 For switching operational mode one must reboot the device.
 
 **WARNING: BETA: WARNING: BETA: WARNING: BETA: WARNING:**
@@ -28,7 +32,6 @@ For switching operational mode one must reboot the device.
 - **bool begin(uint8_t sda, uint8_t scl)** for ESP32 ea. Returns true if address can be seen on the I2C bus.
 - **bool begin()** for UNO, Returns true if address can be seen on the I2C bus.
 - **bool isConnected()** Returns true if address can be seen on the I2C bus. Can be used as 1st order diagnostics.
-
 
 
 ### Base calls standby mode
@@ -80,3 +83,12 @@ Warning: use with care: read the datasheet for the details
 ## Operation
 
 See examples
+
+
+## Future
+
+- update documentation
+- testing AVR
+- testing ESP32
+- test examples => more specific?
+

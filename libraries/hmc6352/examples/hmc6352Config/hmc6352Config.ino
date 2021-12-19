@@ -1,18 +1,13 @@
 //
 //    FILE: hmc6352Config.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: test HMC6352 library for Arduino
-//
-// HISTORY:
-// 0.1.0  - 2011-04-12 initial version
-// 0.1.1  - 2017-09-13 renamed to .ino;
-// 0.2.0    2020-06-13 match lib version 0.2.0
-//
+
 
 #include <hmc6352.h>
 
 hmc6352 Compass(33);
+
 
 void setup()
 {
@@ -25,6 +20,7 @@ void setup()
 
   dumpEEPROM();
 }
+
 
 void loop()
 {
@@ -128,6 +124,7 @@ void loop()
   }
 }
 
+
 void OutPutModusMenu()
 {
   Serial.println(Compass.getOutputModus());
@@ -146,12 +143,14 @@ void OutPutModusMenu()
   Serial.println(x);
 }
 
+
 void askHeading()
 {
   int x = Compass.askHeading();
   Serial.print("Returns: ");
   Serial.println(x);
 }
+
 
 void readHeading()
 {
@@ -160,11 +159,13 @@ void readHeading()
   Serial.println(heading);
 }
 
+
 void factoryReset()
 {
   Compass.factoryReset();
   Serial.println("Reboot Arduino");
 }
+
 
 void dumpRAM()
 {
@@ -185,6 +186,7 @@ void dumpRAM()
   }
   Serial.println();
 }
+
 
 void dumpEEPROM()
 {
@@ -217,6 +219,7 @@ void dumpEEPROM()
   Serial.println(Compass.getOutputModus(), BIN);
 }
 
+
 void setI2Caddress()
 {
   Serial.print("Current I2C address : ");
@@ -241,4 +244,6 @@ void setI2Caddress()
 
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

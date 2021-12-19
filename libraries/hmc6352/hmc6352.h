@@ -2,7 +2,7 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: HMC6352 library for Arduino
 
 
@@ -10,26 +10,27 @@
 #include "Arduino.h"
 
 
-#define HMC6352_LIB_VERSION         (F("0.3.0"))
+#define HMC6352_LIB_VERSION                    (F("0.3.1"))
 
 // status function calls
-#define HMC6532_OK                    0
-#define HMC6352_ERROR_PARAM1        -20
-#define HMC6352_ERROR_PARAM2        -21
+#define HMC6532_OK                               0
+#define HMC6352_ERROR_PARAM1                   -20
+#define HMC6352_ERROR_PARAM2                   -21
 
 // I2C related errors
-#define HMC6532_I2C_OK                     0
-#define HMC6532_I2C_ERROR_BUFFEROVERFLOW  -1
-#define HMC6532_I2C_ERROR_ADDR_NACK       -2
-#define HMC6532_I2C_ERROR_DATA_NACK       -3
-#define HMC6532_I2C_ERROR_OTHER           -4
-#define HMC6352_I2C_ERROR_REQ_FROM        -10
+#define HMC6532_I2C_OK                          0
+#define HMC6532_I2C_ERROR_BUFFEROVERFLOW       -1
+#define HMC6532_I2C_ERROR_ADDR_NACK            -2
+#define HMC6532_I2C_ERROR_DATA_NACK            -3
+#define HMC6532_I2C_ERROR_OTHER                -4
+#define HMC6352_I2C_ERROR_REQ_FROM             -10
 
 
 enum hmcMode
 {
   STANDBY = 0, QUERY = 1, CONT = 2, ERROR
 };
+
 
 enum hmcOutputMode
 {
@@ -104,4 +105,6 @@ private:
   TwoWire*  _wire;
 };
 
-// -- END OF FILE -- 
+
+// -- END OF FILE --
+

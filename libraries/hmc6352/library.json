@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HMC6352.git"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "hmc6352.h"
 }

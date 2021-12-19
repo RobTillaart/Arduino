@@ -1,21 +1,16 @@
 //
 //    FILE: set2standby.pde
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: Reset HMC6352 to standby mode without library
 //          (esp if it is struck in continuous mode - Arduino)
-//
-// HISTORY:
-// 0.1.00 - 2011-04-12 initial version
-// 0.1.1  - 2017-09-13 renamed to .ino; fix wire.receive
-// 0.2.0    2020-06-13 refactor
-//
+
 
 #include <Wire.h>
 
 int HMC = 0x21;
 int ledPin = 13;
 boolean ledState = LOW;
+
 
 void setup()
 {
@@ -30,6 +25,7 @@ void setup()
 
   delay(1000); // give all things time to start
 }
+
 
 void loop()
 {
@@ -69,4 +65,6 @@ void loop()
   }
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

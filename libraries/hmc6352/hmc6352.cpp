@@ -1,7 +1,7 @@
 //
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for HMC6352 digital compass sensor
 //
 //  HISTORY:
@@ -11,8 +11,9 @@
 //  0.1.03  2011-04-13  fixed small things; added getHeading()
 //  0.1.4   2017-09-13  minor refactor
 //  0.2.0   2020-06-12  remove pre1.0 support, main refactor
-//  0.2.1   2020-12-28  arduino-ci + unit test
+//  0.2.1   2020-12-28  Arduino-CI + unit test
 //  0.3.0   2021-06-07  add multi-Wire interface + refactor
+//  0.3.1   2021-12-19  update library.json, license, minor edits
 
 
 #include "hmc6352.h"

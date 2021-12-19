@@ -1,20 +1,15 @@
 //
 //    FILE: queryDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo HMC6352 library - query mode for Arduino
-//
-// HISTORY:
-// 0.1.00 - 2011-04-12 initial version
-// 0.1.1  - 2017-09-13 renamed to .ino
-// 0.2.0    2020-06-13 match lib version 0.2.0
-//
+
 
 #include <hmc6352.h>
 
 hmc6352 Compass(0x21);
 
 int heading;
+
 
 void setup()
 {
@@ -24,7 +19,7 @@ void setup()
   Serial.println(HMC6352_LIB_VERSION);
 
   Compass.begin();
-  
+
   Serial.print("Output modus: ");
   Serial.println(Compass.getOutputModus());
 
@@ -32,6 +27,7 @@ void setup()
   Serial.print("Ask returns: ");
   Serial.println(heading);
 }
+
 
 void loop()
 {
@@ -45,4 +41,6 @@ void loop()
   delay(1000);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

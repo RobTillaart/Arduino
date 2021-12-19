@@ -1,14 +1,7 @@
 //
 //    FILE: standbyDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo app HMC6352 library - standby mode for Arduino
-//
-// HISTORY:
-// 0.1.00 - 2011-04-12 initial version
-// 0.1.1  - 2017-09-13 renamed to .ino;
-// 0.2.0    2020-06-13 refactor
-//
 
 
 #include <hmc6352.h>
@@ -27,7 +20,7 @@ void setup()
 
   Wire.begin();
   Compass.begin();
-  
+
   Serial.print("Output modus");
   Serial.println(Compass.getOutputModus());
 }
@@ -63,4 +56,6 @@ void loop()
   delay(500);
 }
 
+
 // -- END OF FILE --
+

@@ -1,7 +1,6 @@
 //
 //    FILE: demo_dual1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo 2 I2C 4x7segment displays one uint32_t unsigned long
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -47,12 +46,14 @@ void display_ulong(uint32_t value)
   uint16_t rval = value % 10000;
 
   // left show no digit if not needed
-  left.setDigits(0);    
+  left.setDigits(0);
   // right show at least 1 digit if value < 10000, otherwise leading zero's needed
-  right.setDigits(lval > 0 ? 4 : 0);   
+  right.setDigits(lval > 0 ? 4 : 0);
 
   left.displayInt(lval);
   right.displayInt(rval);
 }
 
+
 // -- END OF FILE --
+

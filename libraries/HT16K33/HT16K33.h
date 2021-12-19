@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.3"))
+#define HT16K33_LIB_VERSION         (F("0.3.4"))
 
 
 // Characters
@@ -59,18 +59,18 @@ public:
   void cacheOn()  { _cache = true; };
   void cacheOff() { _cache = false; };
   void refresh(); // force writing of cache to display
-  
+
   void displayOn();
   void displayOff();
 
-  void brightness(uint8_t val);             // 0 .. 15
-  void blink(uint8_t val);                  // 0 .. 3     0 = off
+  void brightness(uint8_t value);             // 0 .. 15
+  void blink(uint8_t value);                  // 0 .. 3     0 = off
 
 
   // 0,1,2,3,4 digits - will replace suppressLeadingZeroPlaces
-  void setDigits(uint8_t val);
-  // 0 = off, 1,2,3,4 digits  space iso 0
-  void suppressLeadingZeroPlaces(uint8_t val);    // will be obsolete
+  void setDigits(uint8_t value);
+  // 0 = off, 1,2,3,4 digits  space instead of 0
+  void suppressLeadingZeroPlaces(uint8_t value);    // will be obsolete
 
   void displayClear();
   bool displayInt(int n);                   // -999 .. 9999
@@ -85,20 +85,23 @@ public:
 
   bool displayFloat(float f, uint8_t decimals = 3); // -999 .. 0.000 .. 9999
 
-  void display(uint8_t *arr);               // array with 4 elements
-  void display(uint8_t *arr, uint8_t pt);   // pt = digit with . (0..3)
-  void displayColon(uint8_t on);            // 0 = off
-  void displayRaw(uint8_t *arr, bool colon = false);  // max control
+  void display(uint8_t *array);                  // array with 4 elements
+  void display(uint8_t *array, uint8_t point);   // point = digit with . (0..3)
+  void displayColon(uint8_t on);                 // 0 = off
+  void displayRaw(uint8_t *array, bool colon = false);  // max control
 
-  bool displayVULeft(uint8_t val);          // 0..8
-  bool displayVURight(uint8_t val);         // 0..8
+  bool displayVULeft(uint8_t value);        // 0..8
+  bool displayVURight(uint8_t value);       // 0..8
 
 
   // DEBUG
   void    displayTest(uint8_t del);
-  void    dumpSerial(uint8_t *arr, uint8_t pnt);  // array as numbers
-  void    dumpSerial();                           // display cache in HEX format
-  uint8_t getAddr() { return _addr; };
+  // array as numbers
+  void    dumpSerial(uint8_t *array, uint8_t point);
+  // display cache in HEX format
+  void    dumpSerial();
+  uint8_t getAddress() { return _address; };
+  uint8_t getAddr()    { return getAddress(); };  // TODO obsolete in future
 
 
   // EXPERIMENTAL
@@ -115,18 +118,20 @@ private:
   void    _refresh();
   void    writeCmd(uint8_t cmd);
   void    writePos(uint8_t pos, uint8_t mask);
-  void    writePos(uint8_t pos, uint8_t mask, bool pnt);
+  void    writePos(uint8_t pos, uint8_t mask, bool point);
 
-  uint8_t _addr;
+  uint8_t _address;
   uint8_t _displayCache[5];                 // for performance
   bool    _cache = true;
   uint8_t _digits = 0;
   uint8_t _bright;
 
   TwoWire*  _wire;
-  
+
   // EXPERIMENTAL
   bool    _overflow = false;
 };
 
+
 // -- END OF FILE --
+

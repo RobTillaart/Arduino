@@ -1,12 +1,14 @@
 
 [![Arduino CI](https://github.com/RobTillaart/HT16K33/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/HT16K33/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HT16K33/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/HT16K33/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HT16K33/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HT16K33/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HT16K33.svg?maxAge=3600)](https://github.com/RobTillaart/HT16K33/releases)
 
 
 # HT16K33
 
-Arduino Library for HT16K33 I2C 4x7segment display
+Arduino Library for HT16K33 I2C 4x7segment display.
 
 
 ## Description
@@ -56,42 +58,42 @@ get leading/trailing zero's correctly.
 
 ### Setup behaviour
 
-- **HT16K33(address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default
-- **bool begin(sda, scl)** for ESP32, select I2C pins, initialize I2C and calls **reset()**. 
+- **HT16K33(const uint8_t address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
+- **bool begin(uint8_t sda, uint8_t scl)** for ESP32, select I2C pins, initialize I2C and calls **reset()**. 
 Returns false if device not seen on I2C bus.
 - **bool begin()** initialize I2C and calls **reset()**.
 Returns false if device not seen on I2C bus.
 - **bool isConnected()** Returns false if device not seen on I2C bus.
-- **void reset()** resets display
+- **void reset()** resets display.
 - **void clearCache()** forced clearing of the cache, to be used to switch the cache off just for one write.
-- **void cacheOn()** enable caching, this is default behavior
-- **void cacheOff()** disable caching, will force writing to every position
-- **void displayOn()** enable display
-- **void displayOff()** disable display, fast way to darken display e.g. for energy consumption
-- **void brightness(val)** values (dim) 0..15 (bright)
-- **void blink(val)** values 0..3   0 = off
-- **void setDigits(val)** values 0..4, minimal number of digits shown, mandatory for large numbers on dual display.
-- **void suppressLeadingZeroPlaces(val)** obsolete, replaced by setDigits
+- **void cacheOn()** enable caching, this is default behaviour.
+- **void cacheOff()** disable caching, will force writing to every position.
+- **void displayOn()** enable display.
+- **void displayOff()** disable display, fast way to darken display e.g. for energy consumption.
+- **void brightness(uint8_t value)** values (dim) 0..15 (bright).
+- **void blink(uint8_t value)** values 0..3   0 = off.
+- **void setDigits(uint8_t value)** values 0..4, minimal number of digits shown, mandatory for large numbers on dual display.
+- **uint8_t getAddress()** idem.
 
 
-### Datatypes
+### Data types
 
 The bool return value indicates that the value displayed is in range.
 
 - **void displayClear()** fill display with spaces => results in an empty display.
-- **bool displayInt(n)** values -999 .. 9999
-- **bool displayHex(n)** values 0000 .. FFFF
-- **bool displayDate(left, right, lz = true)** values 00.00..99.99 Date could be {month.day} or {day.hour}  
+- **bool displayInt(int n)** values -999 .. 9999
+- **bool displayHex(uint16_t n)** values 0000 .. FFFF
+- **bool displayDate(uint8_t left, uint8_t right, bool lz = true)** values 00.00..99.99 Date could be {month.day} or {day.hour}  
 It uses **.** as separator. Optional the leading zero (lz) 
-can be replaced by a space to look more natural e.g 1:54  iso  01:54
-- **bool displayTime(left, right, colon = true, lz = true)** values 00:00..99:99 
+can be replaced by a space to look more natural e.g 1:54  instead of  01:54
+- **bool displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true)** values 00:00..99:99 
 Time could be hh:mm or mm:ss or ss:uu (hundreds), it uses **:** as separator. 
 Optional the colon is set to false (e.g. to simulate blink) and optional the leading zero (lz) 
-can be replaced by a space to look more natural e.g 1:54  iso  01:54
-- **void seconds(seconds, colon, lz = true)** displays 00:00..99:99 units in seconds (or minutes) - splits % 60 : as separator
+can be replaced by a space to look more natural e.g 1:54  instead of  01:54
+- **void displaySeconds(uint16_t seconds, bool colon, bool lz = true)** displays 00:00..99:99 units in seconds (or minutes) - splits % 60 : as separator
 Optional the colon is set to false (to simulate blink). 
-Optional the leading zero (lz) can be replaced by a space to look more natural e.g 1:54  iso  01:54
-- **bool displayFloat(f, decimals = 3)** values -999..0.000..9999
+Optional the leading zero (lz) can be replaced by a space to look more natural e.g 1:54  instead of 01:54
+- **bool displayFloat(float f, uint8_t decimals = 3)** values -999..0.000..9999
 The number of decimals = 0,1,2,3 = default. When less decimals are displayed, the number will be right aligned.
 
 
@@ -107,42 +109,48 @@ These functions are new and still under investigation.
 
 ### Special
 
-- **bool displayVULeft(val)** display used as sort VU meter, values 0..8  Vales > 8 are treated as 8 (but return false)
-- **bool displayVURight(val)** display used as sort VU meter, values 0..8 Vales > 8 are treated as 8 (but return false)
+- **bool displayVULeft(uint8_t value)** display used as sort VU meter, values 0..8  Vales > 8 are treated as 8 (but return false).
+- **bool displayVURight(uint8_t value)** display used as sort VU meter, values 0..8 Vales > 8 are treated as 8 (but return false).
 
 
 ### Lower level workers
 
-- **void display(uint8_t \*arr)** array of 4 bytes to control one 7seg display
-- **void display(uint8_t \*arr, uint8_t pt)** idem + pt = position of the digit with point (0..3)
-- **void displayColon(on)** 0 = off, all values other are on.
-- **void displayRaw(uint8_t \*arr, colon)** array of 4 bytes to control one 7seg display + colon flag
+- **void display(uint8_t \* array)** array of 4 bytes to control one 7seg display.
+- **void display(uint8_t \* array, uint8_t point)** idem + point = position of the digit with point (0..3).
+- **void displayColon(uint8_t on)** 0 = off, all values other are on.
+- **void displayRaw(uint8_t \* array, bool colon)** array of 4 bytes to control one 7seg display + colon flag.
 
 
 ### Debugging
 
-- **void displayTest(uint8_t del)** debugging / test function
-- **void dumpSerial(uint8_t \*arr, uint8_t pt)** debugging equivalent of display.
+- **void displayTest(uint8_t del)** debugging / test function.
+- **void dumpSerial(uint8_t \* array, uint8_t point)** debugging equivalent of display.
 
 
-### Future
+### Obsolete
+
+- **void suppressLeadingZeroPlaces(uint8_t value)** obsolete, replaced by setDigits
+
+
+## Operation
+
+See examples
+
+
+## Future
 
 **0.4.0**
 - **bool isDisplayOn()** and similar state functions
-  - config byte: 4 bits brightness, 1 bit on off flag, 1 bit cacheflag, 2 blinkrate
+  - configuration byte: 4 bits brightness, 1 bit on off flag, 1 bit cache flag, 2 blink rate
 - **void setBrightness()** and **uint8_t getBrightness()**
 - **void setBlink()** and **uint8_t getBlink()**
 - **void getDigits()**
 - **FixedPoint()** regular (experimental in 0.3.2)
-- overflow flag ? or not decission
+- overflow flag ? or not decision
 
 **unknown**
 - VU metering using halve bars allows two VU from 0..8   **new**
 - VU metering using halve bars allows one VU from 0..17. extension of current VUleft/right
 - optimize the math if possible - performance and footprint. +float + int division
 - low level I2C error detection
-
-## Operation
-
-See examples
 

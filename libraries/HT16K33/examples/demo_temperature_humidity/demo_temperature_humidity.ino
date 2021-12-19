@@ -1,12 +1,11 @@
 //
 //    FILE: demo_temperature_humidity.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
 
-// This example uses th DHTNew library and a DHT22 sensor
+// This example uses the DHTNew library and a DHT22 sensor
 //  https://github.com/RobTillaart/DHTNew
 
 
@@ -54,3 +53,4 @@ void loop()
 
 
 // -- END OF FILE --
+

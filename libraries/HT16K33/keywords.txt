@@ -1,6 +1,7 @@
-# Syntax Coloring Map For HT16K33
+# Syntax Colouring Map For HT16K33
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 HT16K33	KEYWORD1
 
 
@@ -49,6 +50,7 @@ displayFixedPoint3	KEYWORD2
 
 
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 HT16K33_LIB_VERSION	LITERAL1

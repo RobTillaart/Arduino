@@ -1,7 +1,6 @@
 //
 //    FILE: demo_cache.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -74,4 +73,6 @@ void test_cache(uint32_t speed)
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

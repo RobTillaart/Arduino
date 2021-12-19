@@ -1,7 +1,6 @@
 //
 //    FILE: demo_displayInt.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -78,4 +77,6 @@ void loop()
 
 }
 
+
 // -- END OF FILE --
+

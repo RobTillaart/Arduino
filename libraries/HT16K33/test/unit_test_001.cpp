@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "HT16K33_LIB_VERSION: %s\n", (char *) HT16K33_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -51,8 +52,6 @@ unittest(test_new_operator)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", HT16K33_LIB_VERSION);
-
   HT16K33 seg(0x70);
 
   fprintf(stderr, "None of the functions return anything...\n");

@@ -1,7 +1,6 @@
 //
 //    FILE: test_out_of_range.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test decimal point for floats.
 //     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -132,4 +131,6 @@ void test_out_of_range()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

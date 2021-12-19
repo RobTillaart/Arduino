@@ -1,19 +1,17 @@
 //
 //    FILE: 24LC1025_test_read.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020
 //    (c) : MIT
-//
 
 
 #include "I2C_24LC1025.h"
 
 I2C_24LC1025 ee(0x50);
 
-
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -110,6 +108,7 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
@@ -135,7 +134,6 @@ void dump(uint32_t from, uint32_t to)
 }
 
 
-
 void test(uint32_t offset)
 {
   Serial.println();
@@ -158,5 +156,5 @@ void test(uint32_t offset)
 }
 
 
-
 // -- END OF FILE --
+

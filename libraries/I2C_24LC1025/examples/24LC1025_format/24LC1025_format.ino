@@ -11,6 +11,7 @@ I2C_24LC1025 ee(0x50);
 
 uint32_t start, stop;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -37,8 +38,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

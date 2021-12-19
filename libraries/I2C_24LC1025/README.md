@@ -8,7 +8,7 @@
 
 # I2C_24LC1025 - I2C 1MB EEPROM
 
-Arduino library for for external I2C EEPROM - 24LC1025 and equivalents e.g. 24AA1025/24FC1025
+Arduino library for for external I2C EEPROM - 24LC1025 and equivalents e.g. 24AA1025/24FC1025.
 
 
 ## Description
@@ -32,7 +32,7 @@ Most important change is 32 bit memory addresses.
 
 ### Constructor
 
-- **I2C_24LC1025(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface
+- **I2C_24LC1025(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
 - **bool begin()** initializes the I2C bus and checks if the device is available on the I2C bus.
 - **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 and alike.
 - **bool isConnected()** test to see if device is on the bus.
@@ -41,7 +41,8 @@ Most important change is 32 bit memory addresses.
 ### Core functions
 
 - **int writeByte(uint32_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
-- **int updateByte(uint32_t memoryAddress, uint8_t value)** write a single byte, but only if changed. Returns 0 if value was same or write succeeded.
+- **int updateByte(uint32_t memoryAddress, uint8_t value)** write a single byte, but only if changed. 
+Returns 0 if value was same or write succeeded.
 - **int writeBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address. 
 - **int updateBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address, but only if changed
 - **int setBlock(uint32_t memoryAddress, uint8_t value, uint32_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.

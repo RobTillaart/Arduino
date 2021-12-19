@@ -38,10 +38,18 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "I2C_24LC1025_VERSION: %s\n", (char *) I2C_24LC1025_VERSION);
 }
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(131072, I2C_DEVICESIZE_24LC1025);
+  assertEqual(   128, I2C_PAGESIZE_24LC1025);
 }
 
 

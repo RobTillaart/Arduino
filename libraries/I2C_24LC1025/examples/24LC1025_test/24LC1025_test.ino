@@ -1,9 +1,8 @@
 //
 //    FILE: 24LC1025_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020
+//    DATE: 2020-??-??
 //    (c) : MIT
 //
 
@@ -43,6 +42,7 @@ void setup()
   // test(65530);
   Serial.println("\nDone...");
 }
+
 
 void loop()
 {
@@ -92,5 +92,5 @@ void test(uint32_t offset)
 }
 
 
-
 // -- END OF FILE --
+

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.6
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //
 //  HISTORY:
@@ -11,13 +11,14 @@
 //  0.1.3   2021-02-02  add updateBlock();
 //  0.1.4   2021-05-27  fix library.properties;
 //  0.1.5   2021-08-30  fix #3 I2C_DEVICESIZE_24LC512 => I2C_DEVICESIZE_24LC1025
+//  0.1.6   2021-12-19  update library.json, license, minor edits
 
 
 #include "I2C_24LC1025.h"
 
 
-//  TWI buffer needs max 2 bytes for eeprom address
-//  1 byte for eeprom register address is available in txbuffer
+//  TWI buffer needs max 2 bytes for EEPROM address
+//  1 byte for EEPROM register address is available in TX buffer
 #if defined(ESP32) || defined(ESP8266)
 #define I2C_BUFFERSIZE           128
 #else
@@ -126,7 +127,7 @@ uint32_t I2C_24LC1025::readBlock(const uint32_t memoryAddress, uint8_t* buffer, 
     addr   += cnt;
     buffer += cnt;
     len    -= cnt;
-    yield();    // For OS scheduling etc
+    yield();    // For OS scheduling
   }
   return rv;
 }
@@ -158,7 +159,7 @@ int I2C_24LC1025::updateBlock(const uint32_t memoryAddress, const uint8_t* buffe
     addr   += cnt;
     buffer += cnt;
     len    -= cnt;
-    yield();    // For OS scheduling etc
+    yield();    // For OS scheduling
   }
   return rv;
 }
@@ -214,7 +215,7 @@ void I2C_24LC1025::_beginTransmission(uint32_t memoryAddress)
     delayMicroseconds(50);
   }
    uint16_t memAddr = (memoryAddress & 0xFFFF);
-  _wire->beginTransmission(_actualAddress);      // device addres + bit 16
+  _wire->beginTransmission(_actualAddress);      // device address + bit 16
   _wire->write((memAddr >> 8) & 0xFF);   // highByte
   _wire->write(memAddr & 0xFF);          // lowByte
 }
@@ -278,3 +279,4 @@ int I2C_24LC1025::_ReadBlock(uint32_t memoryAddress, uint8_t* buffer, const uint
 
 
 // -- END OF FILE --
+

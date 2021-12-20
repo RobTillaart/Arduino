@@ -2,7 +2,7 @@
 //
 //    FILE: LineFormatter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Simple positioning wrapper class for Serial / Stream
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -12,10 +12,10 @@
 #include "Print.h"
 
 #ifndef MAX_TAB_STOPS
-#define MAX_TAB_STOPS 12
+#define MAX_TAB_STOPS       12
 #endif
 
-#define LINEFORMATTER_LIB_VERSION           (F("0.1.3"))
+#define LINEFORMATTER_LIB_VERSION           (F("0.1.4"))
 
 
 class LineFormatter: public Print
@@ -34,7 +34,7 @@ public:
 
 
   // if position is smaller than n, move to the right
-  uint8_t   gotoPos(uint8_t n) { while (_pos < n) write(' '); return _pos; };
+  uint8_t   gotoPos(uint8_t pos) { while (_pos < pos) write(' '); return _pos; };
 
 
   // repeat a char or a "string" n times

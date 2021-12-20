@@ -22,7 +22,7 @@ for absolute positions and **andRelTab(n)** for relative positions.
 
 Absolute tab positions must be added in increasing order as the class does not
 check the input. Also adding same value twice is not checked for. The maximum
-number of tabs is defined by **MAX_TAB_STOPS** == 10 default. This value canbe
+number of tabs is defined by **MAX_TAB_STOPS** == 12 default. This value can be
 overruled by -D compile flag or edited in the LineFormatter.h file.
 
 Tab positions can be cleared by **clearTabs()**. This removes all tabs in one call.
@@ -54,24 +54,24 @@ Note: the maximum value is 255.
 #### Printing
 
 - **size_t write(uint8_t c)** implements print.
-- **uint8_t gotoPos(uint8_t n)** if position is smaller than n, move to the right
-- **void repeat(uint8_t n, char c, uint8_t newLine = 0)** repeat a char n times
-- **void repeat(uint8_t n, const char\* str, uint8_t newLine = 0)** repeat a "string" n times
+- **uint8_t gotoPos(uint8_t pos)** if position is smaller than pos, move to the right.
+- **void repeat(uint8_t n, char c, uint8_t newLine = 0)** repeat a char n times.
+- **void repeat(uint8_t n, const char\* str, uint8_t newLine = 0)** repeat a "string" n times.
 
 
 #### Tab configuration
 
-- **bool addTab(uint8_t n)** Add a tab at an absolute position. returns true on success
-- **bool addRelTab(uint8_t n)** Add a tab at a relative position. returns true on success
+- **bool addTab(uint8_t n)** Add a tab at an absolute position. Returns true on success.
+- **bool addRelTab(uint8_t n)** Add a tab at a relative position. Returns true on success.
 - **void clearTabs()** remove all the tabs.
 - **void tab(uint8_t n = 1)** print zero or more tabs, similar as e.g. "\t\t\t"
 
 
 #### Line configuration
 
-- **void setMaxLength(uint8_t maxPos)** set the maximum line length - bold cut off
+- **void setMaxLength(uint8_t maxPos)** set the maximum line length - bold cut off.
 - **uint8_t getMaxLength()** return max line length set.
-- **void setAutoNewLine(uint8_t n)** n = 0 switches autoNewLine off
+- **void setAutoNewLine(uint8_t n)** n = 0 switches autoNewLine off.
 - **uint8_t getAutoNewLine()** returns number of newlines.
 
 
@@ -79,11 +79,11 @@ Note: the maximum value is 255.
 
 For debugging purposes there are the following functions:
 
-- **uint8_t getPos()** returns current position
-- **void resetLineCount()** sets internal lineCounter to zero
-- **uint16_t getLineCount()** returns current line number (since last reset)
+- **uint8_t getPos()** returns current position.
+- **void resetLineCount()** sets internal lineCounter to zero.
+- **uint16_t getLineCount()** returns current line number (since last reset).
 - **uint8_t getTabCount()** get the number of tab positions added.
-- **uint8_t getTabStop(uint8_t n)**
+- **uint8_t getTabStop(uint8_t n)** returns the n-th tab position.
 - **void printRuler()** prints a dotted line with 5 and 10 markers, and # for tab positions.
 
 
@@ -97,7 +97,13 @@ See examples
 - improve documentation
 - add examples
 - add reset();
-- check if print interface is completely covered.
 - set defaults for functions
 - add **rmTab(position)**
 - 
+
+#### Wont
+
+- check if print interface is completely covered.
+  - due to tab parsing it is, so no speed up.
+
+

@@ -1,13 +1,8 @@
 //
 //    FILE: LineFormatter_test_table.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo LineFormatter class
 //     URL: https://github.com/RobTillaart/LineFormatter
-//
-// HISTORY:
-// 0.1.0   2020-05-14 initial version
-//
 
 
 #include "LineFormatter.h"
@@ -46,7 +41,7 @@ void test_ruler()
 {
   L.println();
   L.println(__FUNCTION__);
-  L.repeat(strlen(__FUNCTION__), "=", 2); 
+  L.repeat(strlen(__FUNCTION__), "=", 2);
 
   L.clearTabs();
   L.addTab(3);
@@ -71,7 +66,7 @@ void test_table_1()
 {
   L.println();
   L.println(__FUNCTION__);
-  L.repeat(strlen(__FUNCTION__), "=", 2); 
+  L.repeat(strlen(__FUNCTION__), "=", 2);
 
   L.clearTabs();
   L.addTab(3);
@@ -129,7 +124,7 @@ void test_table_2()
 {
   L.println();
   L.println(__FUNCTION__);
-  L.repeat(strlen(__FUNCTION__), "=", 2); 
+  L.repeat(strlen(__FUNCTION__), "=", 2);
 
   L.clearTabs();
   L.addTab(3);

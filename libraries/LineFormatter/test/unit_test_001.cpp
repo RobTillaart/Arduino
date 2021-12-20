@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "LINEFORMATTER_LIB_VERSION: %s\n", (char*) LINEFORMATTER_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "LINEFORMATTER_LIB_VERSION: %s\n", (char*) LINEFORMATTER_LIB_VERSION);
-
   LineFormatter Line;
 
   assertEqual(0, Line.getMaxLength());

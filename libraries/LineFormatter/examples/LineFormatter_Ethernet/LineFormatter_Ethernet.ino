@@ -1,11 +1,9 @@
 //
 //    FILE: LineFormatter_Ethernet.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo LineFormatter for EthernetClient
 //    DATE: 2020-05-23
 //     URL: https://github.com/RobTillaart/LineFormatter
-//
 
 
 #include <LineFormatter.h>

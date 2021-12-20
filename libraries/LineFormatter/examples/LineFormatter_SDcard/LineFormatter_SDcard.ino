@@ -1,11 +1,9 @@
 //
 //    FILE: LineFormatter_SDcard.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo LineFormatter for SDcard
 //    DATE: 2020-05-23
 //     URL: https://github.com/RobTillaart/LineFormatter
-//
 
 
 #include <SPI.h>
@@ -15,7 +13,7 @@
 // MISO   12
 // CLOCK  13
 // CS   10
-#define CS    10      // adjust this ChipSelect line if needed !
+#define CS          10      // adjust this ChipSelect line if needed !
 
 #include <LineFormatter.h>
 

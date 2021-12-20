@@ -1,7 +1,7 @@
 //
 //    FILE: LineFormatter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Simple positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -12,7 +12,7 @@
 //  0.1.2   2020-12-30  Arduino-ci + unit tests
 //  0.1.3   2021-11-06  update Arduino-CI, badges
 //                      update readme.md, add reset();
-//
+//  0.1.4   2021-12-20  update library.json, license, minor edits
 
 
 #include "LineFormatter.h"

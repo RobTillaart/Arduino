@@ -8,7 +8,7 @@
 
 # Kelvin2RGB
 
-Arduino library for converting temperature and brightness to RGB values
+Arduino library for converting temperature and brightness to RGB values.
 
 
 ## Credentials
@@ -27,7 +27,7 @@ however these are not investigated. On request these can be added.
 
 The library converts a temperature in Kelvin and a brightness (0..100%) 
  to 3 numbers red, green and blue.
-These numbers are weights can be used to correct a colorimage for virtual white temperature.
+These numbers are weights can be used to correct a colour image for virtual white temperature.
 
 There are 2 convert functions where the **convert_NB()** is claimed to be 
 the more accurate one.

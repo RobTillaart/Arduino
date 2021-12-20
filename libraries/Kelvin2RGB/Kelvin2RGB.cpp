@@ -1,7 +1,7 @@
 //
 //    FILE: Kelvin2RGB.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
@@ -12,6 +12,8 @@
 //  0.1.2    2021-06-01  add RGB565() - 16 bit colour - output
 //  0.1.3    2021-11-06  update build-CI, badges
 //                       add setRGB(), CMYK(), BGR(), reset();
+//  0.1.4    2021-12-20  update library.json, license, minor edits
+
 
 #include "Kelvin2RGB.h"
 
@@ -168,3 +170,4 @@ void Kelvin2RGB::_normalize()
 
 
 // -- END OF FILE --
+

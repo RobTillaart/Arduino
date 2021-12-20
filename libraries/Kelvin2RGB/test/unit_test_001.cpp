@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "KELVIN2RGB_LIB_VERSION: %s\n", (char *) KELVIN2RGB_LIB_VERSION);
 }
 
 
@@ -52,7 +53,7 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
@@ -60,10 +61,38 @@ unittest(test_new_operator)
 */
 
 
+unittest(test_constants)
+{
+  assertEqual(DLS_dark           ,     0);
+  assertEqual(DLS_match          ,  1700);
+  assertEqual(DLS_sodiumLamp     ,  1700);
+  assertEqual(DLS_candleFlame    ,  1850);
+  assertEqual(DLS_sunrise        ,  1850);
+  assertEqual(DLS_sunset         ,  1850);
+  assertEqual(DLS_bulb           ,  2400);
+  assertEqual(DLS_bulbSoftWhite  ,  2550);
+  assertEqual(DLS_LEDlamp        ,  2700);
+  assertEqual(DLS_warmWhite      ,  3000);
+  assertEqual(DLS_studioLight    ,  3200);
+  assertEqual(DLS_studioCPlight  ,  3350);
+  assertEqual(DLS_daylightHorizon,  5000);
+  assertEqual(DLS_flashLight     ,  5700);
+  assertEqual(DLS_xenonLight     ,  6200);
+  assertEqual(DLS_dayLightBright ,  6500);
+  assertEqual(DLS_normal         ,  6500);
+  assertEqual(DLS_screenlow      ,  6500);
+  assertEqual(DLS_screenMed      ,  8000);
+  assertEqual(DLS_screenHigh     ,  9500);
+  assertEqual(DLS_polewardSky0   , 15000);
+  assertEqual(DLS_polewardSky1   , 19000);
+  assertEqual(DLS_polewardSky2   , 23000);
+  assertEqual(DLS_polewardSky3   , 27000);
+}
+
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) KELVIN2RGB_LIB_VERSION);
-  
   Kelvin2RGB tempColor;
 
   assertEqualFloat(0, tempColor.temperature(), 0.0001);
@@ -113,7 +142,7 @@ unittest(test_colour_spaces)
 
   fprintf(stderr, "test_colour_spaces\n");
   tempColor.setRGB(0.50, 1.00, 0.75, 90);  // brightness in %
-  
+
   fprintf(stderr, "BRIGHT: %f\n", tempColor.brightness());
   fprintf(stderr, "RED   : %f\n", tempColor.red());
   fprintf(stderr, "GREEN : %f\n", tempColor.green());

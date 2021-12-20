@@ -1,13 +1,10 @@
 //
 //    FILE: Kelvin2RGB_difference.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo - shows difference between 2 convert functions.
 //    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 //
-
-// shows difference between the two calculations
 //       best viewed in plotter.
 
 
@@ -24,7 +21,7 @@ void setup()
 
   KRGB.begin();
   KRGB2.begin();
-  
+
   test_difference();
 }
 

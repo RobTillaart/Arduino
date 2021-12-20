@@ -1,11 +1,9 @@
 //
 //    FILE: Kelvin2RGB_timing.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo - shows timing 2 methods
 //    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
-//
 
 
 #include "Kelvin2RGB.h"
@@ -23,7 +21,7 @@ void setup()
   KRGB.begin();
 
   test_timing();
-  
+
   Serial.println("\ndone...");
 }
 

@@ -1,11 +1,9 @@
 //
 //    FILE: Kelvin2RGB_table.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: generate table of values
 //    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
-//
 
 
 #include "Kelvin2RGB.h"
@@ -62,3 +60,4 @@ void test()
 
 
 // -- END OF FILE --
+

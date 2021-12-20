@@ -1,18 +1,17 @@
 //
 //    FILE: float2double.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: experimental expands a float in a IEEE 754 double to be printed to PC.
 //
-
 // NOTE
-// - WORKS ON AVR 
+// - WORKS ON AVR
 // - FAILS ON ESP32
 
 
 #include <IEEE754tools.h>
 
 byte x[8];
+
 
 void setup()
 {
@@ -25,6 +24,7 @@ void setup()
 
   Serial.println("done");
 }
+
 
 void test1()
 {
@@ -42,6 +42,7 @@ void test1()
   }
 }
 
+
 void test2()
 {
   Serial.println();
@@ -52,6 +53,7 @@ void test2()
   // exponent = 7C
   // mantissa = 0020 0000
 }
+
 
 void test3()
 {
@@ -65,6 +67,7 @@ void test3()
   Serial.println(f, 20);
   Serial.println();
 }
+
 
 void test4()
 {
@@ -86,6 +89,7 @@ void loop()
 {
 }
 
+
 void dumpByteArray(byte *ar)
 {
   for (int i = 0; i < 8; i++)
@@ -99,3 +103,4 @@ void dumpByteArray(byte *ar)
 
 
 // -- END OF FILE --
+

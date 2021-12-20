@@ -1,19 +1,15 @@
 //
 //    FILE: FastNegate.ino
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.0
 // PURPOSE: Fast negate for floating points
 //
-// HISTORY:
-// 0.2.0    2020-06-30 main refactor
-// 0.1.01 - 2013-09-08 added Gain:
-// 0.1.00 - 2011-08-21 initial version
-//
+
 
 volatile float zz = 100;
 volatile int x = 3;
 
 uint32_t start, duration1, duration2;
+
 
 void setup()
 {
@@ -27,6 +23,7 @@ void setup()
   test_less_zero();
   test5();
 }
+
 
 void test_negfabs()
 {
@@ -61,6 +58,7 @@ void test_negfabs()
   delay(10);
 }
 
+
 void test_fabs()
 {
   Serial.println(__FUNCTION__);
@@ -93,6 +91,7 @@ void test_fabs()
   delay(10);
 }
 
+
 void test_negate()
 {
   Serial.println(__FUNCTION__);
@@ -123,6 +122,7 @@ void test_negate()
   Serial.println();
   delay(10);
 }
+
 
 void test_less_zero()
 {
@@ -163,6 +163,7 @@ void test_less_zero()
   delay(10);
 }
 
+
 void test5()
 {
   Serial.println(__FUNCTION__);
@@ -181,8 +182,11 @@ void test5()
   else Serial.println("P");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

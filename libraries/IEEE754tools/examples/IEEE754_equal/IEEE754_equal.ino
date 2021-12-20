@@ -1,12 +1,8 @@
-
 //
-//    FILE: //
 //    FILE: IEEE754_equal.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: experimental
 //
-
 // NOTE
 // - WORKS ON AVR
 // - FAILS FOR ESP32
@@ -16,6 +12,7 @@
 
 uint32_t start, duration;
 volatile bool b;
+
 
 void setup()
 {
@@ -189,6 +186,5 @@ void test_POW2()
 }
 
 
-
-
 // -- END OF FILE --
+

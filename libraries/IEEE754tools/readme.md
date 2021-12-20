@@ -51,9 +51,10 @@ ESP32 - needs investigation as UNO verified code fails.
 - test on ESP23
 - investigate other speed ups
 - write more examples
-- example binary transfer over Serial
-- example binary transfer over Ethernet
+  - example binary transfer over Serial
+  - example binary transfer over Ethernet
 - bring more structure in this library.
+- link to float16 in documentation
 
 
 ## Operations

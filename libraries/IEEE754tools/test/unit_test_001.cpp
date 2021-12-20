@@ -39,11 +39,14 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "IEEE754_VERSION: %s\n", (char*) IEEE754_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)
@@ -58,10 +61,9 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", (char*) IEEE754_VERSION);
-
   fprintf(stderr, "Convert PI to double and back\n");
   uint8_t ar[8];
   float p = PI;
@@ -114,6 +116,7 @@ unittest(test_all)
   // }
 
 }
+
 
 unittest_main()
 

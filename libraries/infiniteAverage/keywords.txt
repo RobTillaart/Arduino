@@ -4,12 +4,12 @@
 infinteAverage	KEYWORD1
 IAVG	KEYWORD1
 
-# Methods and Functions (KEYWORD2)
 
-IAVG	KEYWORD2
+# Methods and Functions (KEYWORD2)
 reset	KEYWORD2
 add	KEYWORD2
 average	KEYWORD2
+
 decimals	KEYWORD2
 whole	KEYWORD2
 count	KEYWORD2

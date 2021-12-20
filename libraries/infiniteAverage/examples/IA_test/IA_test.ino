@@ -1,11 +1,8 @@
 //
 //    FILE: IA_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-01-21
-//    (c) : MIT
-//
 
 
 #include "infiniteAverage.h"
@@ -21,12 +18,13 @@ void setup()
   Serial.println(__FILE__);
 
   IA.reset();
+  IA.setDivideThreshold(1024);
 
   while (1)
   {
     IA.add(random(10000) * 0.0001);
 
-    if (millis() - lastTime >= 1000)
+    if (millis() - lastTime >= 500)
     {
       lastTime = millis();
       Serial.print(IA.count());
@@ -48,3 +46,4 @@ void loop()
 
 
 // -- END OF FILE --
+

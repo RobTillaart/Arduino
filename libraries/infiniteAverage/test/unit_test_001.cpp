@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "IAVG_LIB_VERSION: %s\n", (char *) IAVG_LIB_VERSION);
 }
 
 
@@ -47,8 +48,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", IAVG_LIB_VERSION);
-
   IAVG iavg;
   
   assertEqual(0, iavg.count());
@@ -59,8 +58,6 @@ unittest(test_constructor)
 
 unittest(test_add)
 {
-  fprintf(stderr, "VERSION: %s\n", IAVG_LIB_VERSION);
-
   IAVG iavg;
 
   iavg.add(10000000);
@@ -74,6 +71,32 @@ unittest(test_add)
   assertEqual(10000001, iavg.whole());
   assertEqualFloat(0, iavg.decimals(), 0.0001);
   assertEqualFloat(5000000.5, iavg.average(), 0.5);  // as output is just a float ...
+}
+
+
+unittest(test_threshold)
+{
+  IAVG iavg;
+
+  iavg.reset();
+  for (int i = 0; i < 1000; i++)
+  {
+    iavg.add(1.0 * i);
+  }
+  fprintf(stderr, "%d \t%d \t%f\n", iavg.count(), iavg.whole(), iavg.average());
+
+
+  // shows the effects of (relative) small thresholds with non-uniform data
+  for (uint32_t th = 100000; th < 1000000; th += 100000)
+  {
+    iavg.reset();
+    iavg.setDivideThreshold(th);
+    for (int i = 0; i < 1000; i++)
+    {
+      iavg.add(1.0 * i);
+    }
+    fprintf(stderr, "%3d  %d \t%d \t%f\n", th, iavg.count(), iavg.whole(), iavg.average());
+  }
 }
 
 

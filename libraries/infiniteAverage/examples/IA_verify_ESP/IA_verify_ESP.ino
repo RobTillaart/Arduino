@@ -1,11 +1,9 @@
 //
 //    FILE: IA_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-01-21
 //    (c) : MIT
-//
 
 
 #include "infiniteAverage.h"
@@ -60,3 +58,4 @@ void loop()
 
 
 // -- END OF FILE --
+

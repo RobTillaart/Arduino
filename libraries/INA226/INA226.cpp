@@ -1,6 +1,6 @@
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -15,6 +15,7 @@
 //  0.1.4   2021-08-07  fix getCurrent()
 //  0.1.5   2021-11-05  update build-CI, add badges
 //                      fix address in constructor.
+//  0.1.6   2021-12-20  update library.json, license, minor edits
 
 
 #include "INA226.h"
@@ -39,7 +40,7 @@ INA226::INA226(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
-  // as these 
+  // as these
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;

@@ -1,12 +1,10 @@
 //
 //    FILE: INA226_BusVoltageConversionTime.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
-
-
+//
 //  run this sketch in the IDE plotter
 //  change the setBusVoltageConversionTime(7)  (line 33)   0..7
 //  change the bus voltage
@@ -45,3 +43,4 @@ void loop()
 
 
 // -- END OF FILE --
+

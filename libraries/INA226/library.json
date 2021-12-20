@@ -1,6 +1,6 @@
 {
   "name": "INA226",
-  "keywords": "power ampere voltage volts current",
+  "keywords": "power,ampere,voltage,volts,current",
   "description": "Arduino library for INA226 power sensor",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/INA226.git"
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "INA226.h"
 }

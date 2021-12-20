@@ -1,7 +1,6 @@
 //
 //    FILE: INA226_demo_alert.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
@@ -41,7 +40,7 @@ void setup()
     Serial.println(test_limit);
     while(1);
   }
-  
+
   uint16_t alert_mask = INA226_POWER_OVER_LIMIT;
   INA.setAlertRegister(alert_mask);
 }
@@ -59,3 +58,4 @@ void loop()
 
 
 // -- END OF FILE --
+

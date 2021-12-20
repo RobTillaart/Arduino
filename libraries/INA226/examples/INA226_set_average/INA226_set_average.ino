@@ -1,16 +1,14 @@
 //
 //    FILE: INA226_set_average.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
-
-
+//
 //  run this sketch in the IDE plotter
 //  change the setAverage(7)  (line 33)   0..7
 //  change the bus voltage
-//  0 reads fast  ...  7 staircasing, very slow 
+//  0 reads fast  ...  7 stair casing, very slow
 
 
 #include "INA226.h"
@@ -47,5 +45,5 @@ void loop()
 }
 
 
-
 // -- END OF FILE --
+

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA266.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA266 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.1.5"))
+#define INA226_LIB_VERSION              (F("0.1.6"))
 
 
 // set by setAlertRegister
@@ -77,7 +77,7 @@ public:
   // mandatory to set these!
   // maxCurrent  = 0.001 .. 20
   // shunt      >= 0.001
-  bool     setMaxCurrentShunt(float macCurrent = 20.0, float shunt = 0.002, 
+  bool     setMaxCurrentShunt(float macCurrent = 20.0, float shunt = 0.002,
                               bool normalize = true);
 
   // these return zero if not calibrated!
@@ -105,7 +105,7 @@ public:
   // - what is a reasonable limit?
   // - which units to define a limit per mask ?
   //   same as voltage registers ?
-  // - how to test 
+  // - how to test
   void     setAlertRegister(uint16_t mask);
   uint16_t getAlertFlag();
   void     setAlertLimit(uint16_t limit);
@@ -136,3 +136,4 @@ private:
 
 
 // -- END OF FILE --
+

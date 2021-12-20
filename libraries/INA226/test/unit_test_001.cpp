@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "\n INA226_LIB_VERSION: %s\n", (char *) INA226_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -47,7 +48,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "\nVERSION: %s\n", INA226_LIB_VERSION);
+
   INA226 INA(0x40);
   
   assertTrue(INA.begin());
@@ -57,8 +58,6 @@ unittest(test_constructor)
 
 unittest(test_constants)
 {
-  fprintf(stderr, "\nVERSION: %s\n", INA226_LIB_VERSION);
-
   assertEqual(0x8000, INA226_SHUNT_OVER_VOLTAGE);
   assertEqual(0x4000, INA226_SHUNT_UNDER_VOLTAGE);
   assertEqual(0x2000, INA226_BUS_OVER_VOLTAGE);
@@ -141,8 +140,6 @@ unittest(test_setMode)
   assertTrue(INA.setModeShuntBusContinuous());
   */
 }
-
-
 
 
 unittest_main()

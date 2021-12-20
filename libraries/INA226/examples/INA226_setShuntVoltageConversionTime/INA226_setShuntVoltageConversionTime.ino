@@ -1,16 +1,14 @@
 //
 //    FILE: INA226_demoShuntVoltageConversionTime.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
-
-
+//
 //  run this sketch in the IDE plotter
 //  change the setShuntVoltageConversionTime(7)  (line 33)   0..7
 //  change the bus voltage
-//  0 reads fast  ...  7 staircasing, slower reads)
+//  0 reads fast  ...  7 stair casing, slower reads)
 
 
 #include "INA226.h"
@@ -45,3 +43,4 @@ void loop()
 
 
 // -- END OF FILE --
+

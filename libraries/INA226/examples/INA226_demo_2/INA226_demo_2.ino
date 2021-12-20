@@ -1,7 +1,6 @@
 //
 //    FILE: INA226_demo_2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
 // PURPOSE: demo
 //    DATE: 2021-06-21
 //     URL: https://github.com/RobTillaart/INA226
@@ -69,3 +68,4 @@ void loop()
 
 
 // -- END OF FILE --
+

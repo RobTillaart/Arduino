@@ -1,7 +1,6 @@
 //
 //    FILE: INA226_setMaxCurrentShunt.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-06-22
 //     URL: https://github.com/RobTillaart/INA226
@@ -96,5 +95,5 @@ void printConfig()
 }
 
 
-
 // -- END OF FILE --
+

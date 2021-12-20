@@ -1,12 +1,12 @@
 //
 //    FILE: INA226_demo_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-06-21
 //     URL: https://github.com/RobTillaart/INA226
-
+//
 // Can be used for IDE-Tools->Plotter
+
 
 #include "INA226.h"
 #include "Wire.h"
@@ -54,3 +54,4 @@ void loop()
 
 
 // -- END OF FILE --
+

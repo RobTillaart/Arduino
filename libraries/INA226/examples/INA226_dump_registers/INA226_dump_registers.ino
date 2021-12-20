@@ -1,23 +1,21 @@
 //
 //    FILE: INA226_dump_registers.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-06-21
 //     URL: https://github.com/RobTillaart/INA226
-
-/*
-   expected output something like
-
-    REGISTER      VALUE   VALUE_X
-  -----------------------------------
-  CONFIGURATION:  16679   4127
-          SHUNT:  65533   FFFD
-    BUS VOLTAGE:  2       2
-          POWER:  0       0
-        CURRENT:  0       0
-    CALIBRATION:  0       0
-*/
+//
+//     expected output something like
+//
+//      REGISTER      VALUE   VALUE_X
+//    -----------------------------------
+//    CONFIGURATION:  16679   4127
+//            SHUNT:  65533   FFFD
+//      BUS VOLTAGE:  2       2
+//            POWER:  0       0
+//          CURRENT:  0       0
+//      CALIBRATION:  0       0
+//
 
 
 #include "INA226.h"
@@ -35,6 +33,7 @@ char names[6][20] =
   "      CURRENT: ",
   "  CALIBRATION: "
 };
+
 
 void setup()
 {
@@ -67,5 +66,5 @@ void loop()
 }
 
 
-
 // -- END OF FILE --
+

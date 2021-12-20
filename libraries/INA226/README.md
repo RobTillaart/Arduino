@@ -8,7 +8,7 @@
 
 # INA226
 
-Arduino library for the INA226 power sensor
+Arduino library for the INA226 power sensor.
 
 
 ## Description
@@ -180,7 +180,8 @@ Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference.
 
 See datasheet, not tested yet.
 
-- **void setAlertRegister(uint16_t mask)** by setting the mask one of five an over- or underflow can be detected. Another feature that can be set is the conversion ready flag.
+- **void setAlertRegister(uint16_t mask)** by setting the mask one of five an over- or underflow can be detected. 
+Another feature that can be set is the conversion ready flag.
 - **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**
 - **void setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**
@@ -219,7 +220,7 @@ The alert line falls when alert is reached.
 See examples.. 
 
 
-## TODO
+## Future
 
 - test different loads (low edge)
 - test unit tests
@@ -229,7 +230,7 @@ See examples..
 - disconnected load, can it be recognized?
 - **lastError()** do we need this...
 - cache configuration ? ==> 2 bytes
-- getCurrentLSB_mA()
-- bool isCalibrated()
+- **float getCurrentLSB_mA()** wrapper?
+- **bool isCalibrated()**
 
 

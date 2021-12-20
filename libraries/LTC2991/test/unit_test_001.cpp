@@ -38,7 +38,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "LTC2991_LIB_VERSION: %s\n", (char *) LTC2991_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -47,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", LTC2991_LIB_VERSION);
-
   LTC2991(0x20);
 
   fprintf(stderr, "no tests yet");

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For LTC2991
+# Syntax Colouring Map For LTC2991
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 LTC2991	KEYWORD1
 
 # Methods and Functions (KEYWORD2)

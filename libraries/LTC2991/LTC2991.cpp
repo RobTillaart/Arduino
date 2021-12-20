@@ -1,15 +1,16 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
 //
 //  HISTORY:
 //  0.1.0   2021-05-10  initial version
-//  0.1.1   2021-05-16  add trigger_conversion(), set_PWM_fast() 
-//          performance optimizations, some default values, and cleanup.
+//  0.1.1   2021-05-16  add trigger_conversion(), set_PWM_fast()
+//          performance optimizations, some default values, and clean up.
+//  0.1.2   update library.json, license, minor edits
 
 
 #include "LTC2991.h"
@@ -56,9 +57,9 @@
 // MAGIC NUMBERS
 //
 // PAGE 21
-const float SINGLE_ENDED_FACTOR  = 2.5 / 8192;     // 2^13 
+const float SINGLE_ENDED_FACTOR  = 2.5 / 8192;     // 2^13
 const float DIFFERENTIAL_FACTOR  = 2.5 / 131072;   // 2^17
-const float VCC_FACTOR           = 2.5 / 8192;     // 2^13 
+const float VCC_FACTOR           = 2.5 / 8192;     // 2^13
 const float TEMPERATURE_FACTOR   = 1.0 / 16;
 const float DIODE_VOLTAGE_FACTOR = 2.5 / 65536;    // 2^16
 
@@ -158,7 +159,7 @@ bool LTC2991::is_enabled(uint8_t n)
 void LTC2991::enable_filter(uint8_t n, bool enable)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -173,7 +174,7 @@ void LTC2991::enable_filter(uint8_t n, bool enable)
 bool LTC2991::is_enabled_filter(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -186,7 +187,7 @@ bool LTC2991::is_enabled_filter(uint8_t n)
 
 // can be more efficient in one register addressing.
 void LTC2991::set_Kelvin(uint8_t n)
-{ 
+{
   set_temp_scale(n, true);
   set_mode_temperature(n);
 };
@@ -203,7 +204,7 @@ void LTC2991::set_Celsius(uint8_t n)
 void LTC2991::set_temp_scale(uint8_t n, bool Kelvin)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -218,7 +219,7 @@ void LTC2991::set_temp_scale(uint8_t n, bool Kelvin)
 char LTC2991::get_temp_scale(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -236,7 +237,7 @@ char LTC2991::get_temp_scale(uint8_t n)
 void LTC2991::set_mode_temperature(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -250,7 +251,7 @@ void LTC2991::set_mode_temperature(uint8_t n)
 void LTC2991::set_mode_voltage_differential(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -266,7 +267,7 @@ void LTC2991::set_mode_voltage_differential(uint8_t n)
 void LTC2991::set_mode_voltage_normal(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -282,7 +283,7 @@ void LTC2991::set_mode_voltage_normal(uint8_t n)
 uint8_t LTC2991::get_operational_mode(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -297,7 +298,7 @@ uint8_t LTC2991::get_operational_mode(uint8_t n)
 uint8_t LTC2991::get_differential_mode(uint8_t n)
 {
   uint8_t reg = CONTROL_V1_V4;
-  if (n > 2) 
+  if (n > 2)
   {
     reg++;
     n -= 2;
@@ -486,12 +487,12 @@ float LTC2991::get_Tintern()
 {
   int16_t v = _readRegister16(T_INTERNAL_MSB);
 
-  if (get_temp_scale_Tintern() == 'K') 
+  if (get_temp_scale_Tintern() == 'K')
   {
     return TEMPERATURE_FACTOR * (float)v;
   }
   // CELSIUS positive value
-  if ((v & 0x1000) == 0) 
+  if ((v & 0x1000) == 0)
   {
     return TEMPERATURE_FACTOR * (float)v;
   }

@@ -1,7 +1,6 @@
 //
 //    FILE: interval_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: minimal demo
 //    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/Interval
@@ -65,3 +64,4 @@ void test_math_1()
 
 
 // -- END OF FILE --
+

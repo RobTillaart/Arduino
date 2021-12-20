@@ -1,7 +1,7 @@
-# Syntax Coloring Map For Interval
+# Syntax Colouring Map For Interval
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Interval	KEYWORD1
 
 

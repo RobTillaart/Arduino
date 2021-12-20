@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "INTERVAL_LIB_VERSION: %s\n", INTERVAL_LIB_VERSION );
 }
 
 
@@ -49,8 +50,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", INTERVAL_LIB_VERSION );
-
   Interval x(1, 5);
   assertEqual(1, x.low());
   assertEqual(5, x.high());
@@ -62,8 +61,6 @@ unittest(test_constructor)
 
 unittest(test_math_basic_1)
 {
-  fprintf(stderr, "VERSION: %s\n", INTERVAL_LIB_VERSION );
-
   Interval x(1, 5);
   Interval y(2, 3);
   Interval z;
@@ -112,8 +109,6 @@ unittest(test_math_basic_1)
 
 unittest(test_math_basic_2)
 {
-  fprintf(stderr, "VERSION: %s\n", INTERVAL_LIB_VERSION );
-
   Interval x(1, 5);
   Interval y(2, 3);
 
@@ -153,8 +148,6 @@ unittest(test_math_basic_2)
 
 unittest(test_comparisons)
 {
-  fprintf(stderr, "VERSION: %s\n", INTERVAL_LIB_VERSION );
-
   Interval x(1, 5);
   Interval y(2, 3);
   Interval a(1, 5);

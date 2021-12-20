@@ -7,8 +7,9 @@
 //     URL: https://github.com/RobTillaart/Interval
 //
 //  0.0.1   2020-07-20  initial version (not complete)
-//  0.1.0   2020-12-30  arduino-ci, unit tests, setRange()
-//  0.1.1   2021-05-27  arduino-lint
+//  0.1.0   2020-12-30  Arduino-CI, unit tests, setRange()
+//  0.1.1   2021-05-27  Arduino-lint
+//  0.1.2   2021-12-20  update library.json, license, minor edits.
 
 
 #include "Interval.h"

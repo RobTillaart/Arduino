@@ -1,12 +1,14 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Interval/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Interval/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Interval/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Interval/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Interval/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Interval/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Interval.svg?maxAge=3600)](https://github.com/RobTillaart/Interval/releases)
 
 
 # Interval
 
-Arduino library for the Interval datatype. **Experimental**
+Arduino library for the Interval data type. **Experimental**
 
 
 ## Description
@@ -18,8 +20,8 @@ After doing some math you want to know the interval of possible outcomes.
 An interval exist of a pair of floats, low and high, the borders of the interval. 
 
 **footnote:**
-The datatype Interval was created to do some experiments.
-It was inspired by the frink language which has an interval datatype.
+The data type Interval was created to do some experiments.
+It was inspired by the **frink** language which has an interval data type.
 Frink itself is not investigated, so semantics are not necessary similar.
 
 
@@ -128,3 +130,11 @@ border exclusive \< \>. How to deal with that?
 ## Operation
 
 See example
+
+
+## Future
+
+- play and extend the library.
+- check all to be investigated above.
+- clean up the documentation.
+

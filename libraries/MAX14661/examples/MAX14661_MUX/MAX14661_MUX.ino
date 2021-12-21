@@ -1,11 +1,9 @@
 //
 //    FILE: MAX14661_MUX.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo PAIR interface
 //    DATE: 2021-01-29
 //     URL: https://github.com/RobTillaart/MAX14661
-//
 
 
 #include "Wire.h"
@@ -77,3 +75,4 @@ void loop()
 
 
 // -- END OF FILE --
+

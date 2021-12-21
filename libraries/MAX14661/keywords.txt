@@ -1,7 +1,7 @@
-# Syntax Coloring Map for MAX14661
+# Syntax Colouring Map for MAX14661
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 MAX14661	KEYWORD1
 
 

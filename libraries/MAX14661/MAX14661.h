@@ -3,7 +3,7 @@
 //    FILE: MAX14661.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define MAX14661_LIB_VERSION     (F("0.1.1"))
+#define MAX14661_LIB_VERSION     (F("0.1.2"))
 
 
 class MAX14661
@@ -112,13 +112,9 @@ private:
 
   int      _error;
 
-
-
-// cache direct registers?
+  //  cache direct registers?
 };
 
 
-
-
-
 // -- END OF FILE --
+

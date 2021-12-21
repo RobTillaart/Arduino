@@ -1,17 +1,16 @@
 //
 //    FILE: MAX14661_PAIR.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo PAIR interface
 //    DATE: 2021-01-29
 //     URL: https://github.com/RobTillaart/MAX14661
-//
 
 
 #include "Wire.h"
 #include "MAX14661.h"
 
 MAX14661 mux(0x4C);  // 0x4C..0x4F
+
 
 void setup()
 {
@@ -94,9 +93,11 @@ void test5()
   Serial.println(mux.getChannels(), HEX);
 }
 
+
 void loop()
 {
 }
 
 
 // -- END OF FILE --
+

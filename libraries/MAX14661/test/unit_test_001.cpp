@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MAX14661_LIB_VERSION: %s\n", (char *) MAX14661_LIB_VERSION);
 }
 
 
@@ -49,8 +50,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", MAX14661_LIB_VERSION);
-
   MAX14661 MUX(0x4C);
   MUX.begin();
 }

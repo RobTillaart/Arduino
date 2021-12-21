@@ -2,13 +2,14 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 //
 //  HISTORY:
-//   0.1.0  2021-01-29  initial version
-//   0.1.1  2021-08-30  add shadow interface - experimental
+//  0.1.0  2021-01-29  initial version
+//  0.1.1  2021-08-30  add shadow interface - experimental
+//  0.1.2  2021-12-21  update library.json, license, minor edits
 
 
 #include "MAX14661.h"

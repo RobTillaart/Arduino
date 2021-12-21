@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX14661/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX14661.svg?maxAge=3600)](https://github.com/RobTillaart/MAX14661/releases)
 
+
 # MAX14661
 
 Arduino library for MAX14661 multiplexer with I2C interface.

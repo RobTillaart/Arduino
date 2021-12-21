@@ -1,13 +1,11 @@
 //
 //    FILE: MAX14661_isConnected.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test MAX14661 lib
 //    DATE: 2021-01-29
 //     URL: https://github.com/RobTillaart/MAX14661
 //
-
-// test behavior when device is not connected and reconnected again.
+// test behaviour when device is not connected and reconnected again.
 // E.g. simulate loose wires..
 
 
@@ -34,6 +32,7 @@ void setup()
   Serial.println("end of setup()");
 }
 
+
 void loop()
 {
   if (!connected && mux.isConnected())
@@ -46,10 +45,9 @@ void loop()
   {
     connected = false;
   }
-  
   delay(1000);
 }
 
 
-
 // -- END OF FILE --
+

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For MCP_DAC
+# Syntax Colouring Map For MCP_DAC
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 MCP_DAC	KEYWORD1
 MCP4801	KEYWORD1
 MCP4802	KEYWORD1

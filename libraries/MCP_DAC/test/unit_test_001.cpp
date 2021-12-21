@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MCP_DAC_LIB_VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -39,7 +40,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
   MCP4921 MCP;
 
   fprintf(stderr, "test default values\n");
@@ -52,7 +52,6 @@ unittest(test_constructor)
 
 unittest(test_gain)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
   MCP4921 MCP;
 
   assertEqual(1, MCP.getGain());
@@ -74,7 +73,6 @@ unittest(test_gain)
 
 unittest(test_SPI_speed)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
   MCP4921 MCP;
 
   MCP.setSPIspeed(1000000);
@@ -93,7 +91,6 @@ unittest(test_SPI_speed)
 
 unittest(test_active)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
   MCP4921 MCP;
 
   assertTrue(MCP.isActive());
@@ -108,7 +105,6 @@ unittest(test_active)
 
 unittest(test_buffered_mode)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) MCP_DAC_LIB_VERSION);
   MCP4921 MCP;
 
   assertFalse(MCP.getBufferedMode());

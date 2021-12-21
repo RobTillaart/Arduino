@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP_DAC"
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "MCP_DAC.h"
 }

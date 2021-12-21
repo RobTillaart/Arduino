@@ -1,11 +1,9 @@
 //
 //    FILE: MCP4911_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test MCP4921 lib
 //    DATE: 2021-05-26
 //     URL: https://github.com/RobTillaart/MCP4921
-//
 
 
 #include "MCP_DAC.h"
@@ -104,3 +102,4 @@ void loop()
 
 
 // -- END OF FILE --
+

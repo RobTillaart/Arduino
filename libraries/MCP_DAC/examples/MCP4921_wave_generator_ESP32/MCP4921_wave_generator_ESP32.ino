@@ -1,5 +1,5 @@
 //
-//    FILE: MCP4921_wave_generator.ino
+//    FILE: MCP4921_wave_generator_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo function generators
 //    DATE: 2021-02-03
@@ -12,7 +12,6 @@
 //  UNO          -100 Hz
 //  ESP32        -200 Hz  -1000   -250      -100
 //
-
 
 
 #include "MCP_DAC.h"
@@ -44,19 +43,25 @@ void setup()
 {
   Serial.begin(115200);
 
-  // fill table with sinus values for fast lookup
+  // fill table
   for (int i = 0; i < 361; i++)
   {
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  MCP.begin(10);  // select pin = 10
+  MCP.begin(10);
+
+  MCP.selectVSPI();     // needs to be called before begin()
+                        // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
+                        // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
+  MCP.begin(15);        // 5 for VSPI and 15 for HSPI
+
   MCP.fastWriteA(0);
 
   period = 1e6 / freq;
   halvePeriod = period / 2;
 
-  while (1)
+  while (1)   // endless loop - could have been done in loop()
   {
     // Serial.println(analogRead(A0));   // read output back via A0.
     yield();

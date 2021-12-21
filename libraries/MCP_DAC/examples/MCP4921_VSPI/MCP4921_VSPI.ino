@@ -1,11 +1,10 @@
 //
 //    FILE: MCP4921_VSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test MCP4921 lib
 //    DATE: 2021-07-31
 //     URL: https://github.com/RobTillaart/MCP4921
-//
+
 
 #ifndef ESP32
 #error ESP32 only example, please select appropriate board
@@ -89,3 +88,4 @@ void loop()
 
 
 // -- END OF FILE --
+

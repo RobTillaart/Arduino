@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -19,6 +19,7 @@
 //                      default parameter false for setBufferedMode()
 //                      default parameter 0 for getPercentage()
 //                      extended unit tests
+//  0.1.6   2021-12-21  update library.json, license, minor edits
 
 
 #include "MCP_DAC.h"
@@ -94,7 +95,7 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI 
+  mySPI->end();  // disable SPI
   mySPI->begin(clk, miso, mosi, select);
 }
 #endif
@@ -212,7 +213,7 @@ void MCP_DAC::setSPIspeed(uint32_t speed)
 //
 void MCP_DAC::transfer(uint16_t data)
 {
-  // DATA TRANSFER 
+  // DATA TRANSFER
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
@@ -249,12 +250,13 @@ uint8_t MCP_DAC::swSPI_transfer(uint8_t val)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP4800 series
-// 
+//
 MCP4801::MCP4801(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 255;
 };
+
 
 MCP4802::MCP4802(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
@@ -262,11 +264,13 @@ MCP4802::MCP4802(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
   _maxValue = 255;
 };
 
+
 MCP4811::MCP4811(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 1023;
 };
+
 
 MCP4812::MCP4812(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
@@ -274,11 +278,13 @@ MCP4812::MCP4812(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
   _maxValue = 1023;
 };
 
+
 MCP4821::MCP4821(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 4095;
 };
+
 
 MCP4822::MCP4822(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
@@ -287,16 +293,16 @@ MCP4822::MCP4822(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 };
 
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP4900 series
-// 
+//
 MCP4901::MCP4901(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 255;
 };
+
 
 MCP4902::MCP4902(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
@@ -304,11 +310,13 @@ MCP4902::MCP4902(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
   _maxValue = 255;
 };
 
+
 MCP4911::MCP4911(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 1023;
 };
+
 
 MCP4912::MCP4912(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
@@ -316,12 +324,14 @@ MCP4912::MCP4912(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
   _maxValue = 1023;
 };
 
+
 MCP4921::MCP4921(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {
   _channels = 1;
   _maxValue = 4095;
 
 };
+
 
 MCP4922::MCP4922(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 {

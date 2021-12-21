@@ -164,6 +164,7 @@ SPI0 and SPI1 are used to access flash memory. SPI2 and SPI3 are "user" SPI cont
 
 - test test test and ....
 - refactor the API 
+- improve documentation
 - ...
 
 

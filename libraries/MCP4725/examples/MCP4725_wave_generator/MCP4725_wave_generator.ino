@@ -1,7 +1,6 @@
 //
 //    FILE: MCP4725_wave_generator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo function generators
 //    DATE: 2021-01-07
 //     URL: https://github.com/RobTillaart/FunctionGenerator
@@ -10,9 +9,10 @@
 //  other signals are less difficult so have a slightly larger range.
 //
 //  PLATFORM     SINUS    SQUARE  SAWTOOTH  TRIANGLE
-//  UNO          -100 Hz  
+//  UNO          -100 Hz
 //  ESP32        -200 Hz  -1000   -250      -100
 //
+
 
 #include "MCP4725.h"
 #include "Wire.h"
@@ -171,4 +171,6 @@ void loop()
 {
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

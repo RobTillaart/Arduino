@@ -1,17 +1,21 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MCP4725/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/MCP4725/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP4725/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MCP4725/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP4725/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP4725/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP4725.svg?maxAge=3600)](https://github.com/RobTillaart/MCP4725/releases)
 
+
 # MCP4725
 
-Arduino library for 12 bit I2C DAC - MCP4725 
+Arduino library for 12 bit I2C DAC - MCP4725.
 
 
 ## Description
 
-The MCP4725 is an I2C 12 bit Digital to Analog Converter (DAC). It is possible to have
-up to 8 MCP4725 on one bus. The MCP4725 supports 100KHz 400KHz and 3.4MHz bus speeds.
+The MCP4725 is an I2C 12 bit Digital to Analog Converter (DAC). 
+It is possible to have up to 8 MCP4725 on one I2C bus. 
+The MCP4725 supports 100 KHz 400 KHz and 3.4 MHz bus speeds.
 
 The output of the MCP4725 depends on the voltage supplied, which is in the range 
 of 2.7V .. 5.5V. Check datasheet for the details.
@@ -21,32 +25,36 @@ of 2.7V .. 5.5V. Check datasheet for the details.
 
 ### Constructor
 
-- **MCP4725(deviceAddress, TwoWire \*wire = &Wire);)** Constructor, needs I2C address, optional set Wire bus
-- **begin(dataPin, clockPin)** for ESP32. Returns true if connected.
-- **begin()** for UNO and other boards with hard wired I2C pins. Returns true if connected.
-Only suppport for Wire so not for Wire1 or Wire2 etc
-- **isConnected()** returns true if device (address) can be seen on the I2C bus.
+- **MCP4725(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor, needs I2C address, optional set Wire bus
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** for ESP32. Returns true if connected.
+- **bool begin()** for UNO and other boards with hard wired I2C pins. 
+Returns true if deviceAddress can be found on the I2C bus.
+- **bool isConnected()** returns true if device (address) can be seen on the I2C bus.
 
 
 ### base
 
-- **setValue(value)** value = 0 .. 4095  
+- **int setValue(uint16_t value = 0)** value = 0 .. 4095.  
 Uses writeFastMode and does not write to EEPROM.
-Therfore it does not update the lastWriteEEPROM timestamp.
-- **getValue()** returns last value set from cache, this is much faster than readDAC().  
-This latter gives the real value from the MCP4725. A difference can be caused by power
-outage a reset etc.
-- **setPercentage(perc)** perc = 0..100.0% Convenience wrapper around setValue().
-- **getPercentage()** returns percentage. Wrapper around getValue().
-- **writeDAC(value, const bool EEPROM = false)** Writes to DAC and conditionally to EEPROM.  
-This latter is for startup / reset behavior. Check datasheet for the detail behavior.
-- **ready()** returns true if a new value can be written to the MCP4725.  
+Therefore it does not update the lastWriteEEPROM timestamp.
+The default value is 0.  
+Returns 0 on success
+- **uint16_t getValue()** returns last value set from cache, this is much faster than readDAC().  
+This latter gives the real value from the MCP4725. 
+Note: a difference can be caused by power outage a reset etc.
+- **int setPercentage(float percentage)** percentage = 0..100.0%.
+Convenience wrapper around setValue().
+- **float getPercentage()** returns percentage. Wrapper around getValue().
+- **int writeDAC(value, bool EEPROM = false)** Writes to DAC and conditionally to EEPROM.  
+This latter is for startup / reset behaviour. Check datasheet for the detail behaviour.
+- **bool ready()** returns true if a new value can be written to the MCP4725.  
 Return false if recently was written to EEPROM.
-- **readDAC()** reads the current value set in the MCP4725.
-- **readEEPROM()** reads the current value in the EEPROM of the MCP4725.
-- **getLastWriteEEPROM()** returns time in millis() when last value was written to EEPROM.  
+- **uint16_t readDAC()** reads the current value set in the MCP4725.
+- **uint16_t readEEPROM()** reads the current value in the EEPROM of the MCP4725.
+- **uint32_t getLastWriteEEPROM()** returns time in millis() when last value was written to EEPROM.
+
 Page 3 of datasheet states it takes **25 - 50 ms** before values are written to EEPROM. 
-So the exact timing of a sensor can differ a lot. 
+So the exact timing of a sensor can differ quite a lot. 
 When writing to EEPROM with **writeDAC()** one should check it is at least 50 ms ago.
 If one know the specific timing of a sensor one can tune this or even make it adaptive.  
 
@@ -55,11 +63,11 @@ If one know the specific timing of a sensor one can tune this or even make it ad
 
 Check datasheet for these functions, (not tested enough yet).
 
-- **writePowerDownMode(PDM, const bool EEPROM = false)**
-- **readPowerDownModeEEPROM()**
-- **readPowerDownModeDAC()**
-- **powerOnReset()**
-- **powerOnWakeUp()**
+- **int writePowerDownMode(uint8_t PDM, bool EEPROM = false)**
+- **uint8_t readPowerDownModeEEPROM()**
+- **uint8_t readPowerDownModeDAC()**
+- **int powerOnReset()**
+- **int powerOnWakeUp()**
 
 More investigations needed for:
 - Writing to EEPROM, **ready()** and **getLastWriteEEPROM()**  
@@ -95,3 +103,14 @@ It has 4 channels per chip (no experience /library yet)
 ## Operation
 
 See examples
+
+
+## Future
+
+- update documentation
+- test the powerDown modes / functions.
+- write a sketch to measure the **writeDac()** timing if possible.
+- extend unit tests
+- 
+
+

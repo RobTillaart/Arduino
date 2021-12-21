@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP4725.git"
   },
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "MCP4725.h"
 }

@@ -1,11 +1,10 @@
 //
 //    FILE: mcp4725_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
 // PURPOSE: test mcp4725 lib
 //    DATE: 2013-11-24
 //     URL: https://github.com/RobTillaart/MCP4725
-//
+
 
 #include "Wire.h"
 #include "MCP4725.h"
@@ -14,6 +13,7 @@ MCP4725 MCP(0x62);  // 0x62 or 0x63
 
 volatile int x;
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -30,6 +30,7 @@ void setup()
   test5();
   test6();
 }
+
 
 void test1()
 {
@@ -48,6 +49,7 @@ void test1()
   }
   Serial.println();
 }
+
 
 void test2()
 {
@@ -87,6 +89,7 @@ void test2()
   Serial.println(MCP.readEEPROM());
   Serial.println();
 }
+
 
 void test3()
 {
@@ -134,6 +137,7 @@ void test3()
   Serial.println();
 }
 
+
 void test4()
 {
   Serial.println("\n\nEXPERIMENTAL");
@@ -167,6 +171,7 @@ void test4()
   Serial.println(MCP.getValue());
   Serial.println();
 }
+
 
 void test5()
 {
@@ -245,6 +250,7 @@ void test5()
   Serial.println(stop - start);
 }
 
+
 void test6()
 {
   Serial.println("\n\nEXPERIMENTAL II");
@@ -279,6 +285,7 @@ void test6()
   Serial.print("\nDone... (start triangle mode)");
 }
 
+
 void loop()
 {
   for (uint16_t i = 0; i < 4096; i++)
@@ -293,4 +300,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

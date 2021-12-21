@@ -1,12 +1,10 @@
 //
 //    FILE: MCP4725_keypad.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: test MCP4725 lib
 //    DATE: 2019-10-16
 //     URL: https://github.com/RobTillaart/MCP4725
 //
-
 // Note: possible to replace I2CKeypad with Serial code
 
 
@@ -23,6 +21,7 @@ I2CKeyPad keyPad(KEYPAD_ADDR);
 uint32_t value = 0;
 uint32_t oldValue = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -34,6 +33,7 @@ void setup()
   MCP.setValue(0);
   keyPad.begin();
 }
+
 
 void loop()
 {
@@ -81,4 +81,6 @@ char updateKeyPadValue(uint32_t &value, uint32_t maxValue)
   return c;
 }
 
+
 // -- END OF FILE --
+

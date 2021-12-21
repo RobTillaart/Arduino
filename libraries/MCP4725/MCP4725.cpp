@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 //  HISTORY:
@@ -21,10 +21,11 @@
 //  0.2.1   2020-07-04  Add yield(); add getLastWriteEEPROM(); 
 //                      update readme.md + keywords.txt
 //  0.2.2   2020-07-05  add get/setPercentage();
-//  0.2.3   2020-12-26  arduino-CI, bool isConnected(), bool begin()
+//  0.2.3   2020-12-26  Arduino-CI, bool isConnected(), bool begin()
 //  0.3.0   2021-01-15  Add WireN support (e.g. teensy)
-//  0.3.1   2021-05-27  Fix arduino-CI / arduino-lint
+//  0.3.1   2021-05-27  Fix Arduino-CI / Arduino-lint
 //  0.3.2   2021-06-06  Verify input of setPercentage()
+//  0.3.3   2021-12-21  update library.json, license, minor edits
 
 
 #include "MCP4725.h"
@@ -104,12 +105,11 @@ uint16_t MCP4725::getValue()
 }
 
 
-int MCP4725::setPercentage(float perc)
+int MCP4725::setPercentage(float percentage)
 {
-  if ((perc > 100) || (perc < 0)) return MCP4725_VALUE_ERROR;
-  return setValue(round(perc * (0.01 * MCP4725_MAXVALUE)));
+  if ((percentage > 100) || (percentage < 0)) return MCP4725_VALUE_ERROR;
+  return setValue(round(percentage * (0.01 * MCP4725_MAXVALUE)));
 }
-
 
 
 // unfortunately it is not possible to write a different value
@@ -153,7 +153,7 @@ uint16_t MCP4725::readEEPROM()
 // (true) DAC & EEPROM,
 int MCP4725::writePowerDownMode(const uint8_t PDM, const bool EEPROM)
 {
-  _powerDownMode = (PDM & 0x03); // mask pdm bits only (written later low level)
+  _powerDownMode = (PDM & 0x03); // mask PDM bits only (written later low level)
   return writeDAC(_lastValue, EEPROM);
 }
 
@@ -190,7 +190,7 @@ int MCP4725::powerOnReset()
 
 
 // PAGE 22 - experimental
-// _powerDownMode DAC resets to 0 -- pdm EEPROM stays same !!!
+// _powerDownMode DAC resets to 0 -- PDM EEPROM stays same !!!
 // need to reflect this in cached value
 int MCP4725::powerOnWakeUp()
 {
@@ -270,4 +270,6 @@ int MCP4725::_generalCall(const uint8_t gc)
   return _wire->endTransmission();
 }
 
+
 // -- END OF FILE --
+

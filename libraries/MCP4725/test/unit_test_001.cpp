@@ -28,10 +28,11 @@
 #include "MCP4725.h"
 
 
-
 unittest_setup()
 {
+  fprintf(stderr, "MCP4725_VERSION: %s\n", (char *) MCP4725_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -40,10 +41,20 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", MCP4725_VERSION);
   MCP4725 MCP(0x62);
   Wire.begin();
 
+  assertEqual(0, MCP.getValue());
+  assertEqual(0, MCP.getLastWriteEEPROM());
+
+  fprintf(stderr, "test start\n");
+  assureTrue(MCP.isConnected());
+  // assertTrue(MCP.begin());
+}
+
+
+unittest(test_constant)
+{
   fprintf(stderr, "test default values\n");
   assertEqual(MCP4725_MAXVALUE, 4095);
   assertEqual(MCP4725_OK, 0);
@@ -56,16 +67,6 @@ unittest(test_constructor)
   assertEqual(MCP4725_PDMODE_1K, 1);
   assertEqual(MCP4725_PDMODE_100K, 2);
   assertEqual(MCP4725_PDMODE_500K, 3);
-
-  assertEqual(0, MCP.getValue());
-  assertEqual(0, MCP.getLastWriteEEPROM());
-
-  fprintf(stderr, "test start\n");
-
-  assureTrue(MCP.isConnected());
-  // assertTrue(MCP.begin());
-  // assertTrue(MCP.isConnected());
-
 }
 
 
@@ -94,6 +95,7 @@ unittest(test_writeDAC)
   assertEqual(MCP4725_VALUE_ERROR, MCP.writeDAC(4096, false));
   assertEqual(MCP4725_VALUE_ERROR, MCP.writeDAC(4096, true));
 }
+
 
 unittest_main()
 

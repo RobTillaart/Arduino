@@ -1,14 +1,18 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MAX44009/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Max44009/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Max44009/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Max44009/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Max44009/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX44009/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX44009.svg?maxAge=3600)](https://github.com/RobTillaart/MAX44009/releases)
 
+
 # MAX44009 I2C LUX sensor
 
-Library for MAX44009 / GY-49 I2C lux sensor
+Library for MAX44009 / GY-49 I2C lux sensor.
 
 
 ## Description
+
 a.k.a. GY-49
 
 The MAX44009 ambient light sensor is an I2C sensor, that has a 22 bit 
@@ -43,15 +47,15 @@ dynamic range from 0.045 lux to 188,000 lux.
 
 ## Interface
 
-- **enum class Boolean { True, False }** enum class to prevent bool to be implicitly casted to int
+- **enum class Boolean { True, False }** enum class to prevent bool to be implicitly casted to int.
 
 
 ### Constructor 
   
-- **Max44009(address, dataPin, clockPin)** Constructor with dataPin (sda) and clockPin (scl) for ESP32 and ESP8266
-- **Max44009(address, begin = Boolean::True)** Constructor for other boards e.g. UNO.
+- **Max44009(uint8_t address, uint8_t dataPin, uint8_t clockPin)** Constructor with dataPin (sda) and clockPin (scl) for ESP32 and ESP8266.
+- **Max44009(uint8_t address, begin = Boolean::True)** Constructor for other boards e.g. UNO.
 - **Max44009(begin = Boolean::True)** Constructor with default I2C address 0x4A == 74.
-- **void configure(address, TwoWire \*wire, begin = Boolean::True)** Change I2C interface and address.
+- **void configure(uint8_t address, TwoWire \*wire, begin = Boolean::True)** Change I2C interface and address.
 - **bool isConnected()** returns true if the device address configured is available on I2C bus.
 
 
@@ -74,11 +78,16 @@ dynamic range from 0.045 lux to 188,000 lux.
 
 check datasheet for details
 
-- **bool setHighThreshold(float)** sets the upper threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. Function returns false if the value is out of range.
-- **float getHighThreshold(void)** returns the value set.
-- **bool setLowThreshold(float)** sets the lower threshold for the interrupt generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. Function returns false if the value is out of range.
-- **float getLowThreshold(void)** returns the value set.
-- **void setThresholdTimer(uint8_t)** Time the threshold needs to be exceeded, defined in steps of 100ms. 2 seems to be a practical minimum.
+- **bool setHighThreshold(float value)** sets the upper threshold for the interrupt 
+generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. 
+Function returns false if the value is out of range.
+- **float getHighThreshold()** returns the value set.
+- **bool setLowThreshold(float value)** sets the lower threshold for the interrupt 
+generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**. 
+Function returns false if the value is out of range.
+- **float getLowThreshold()** returns the value set.
+- **void setThresholdTimer(uint8_t value)** Time the threshold needs to be exceeded, 
+defined in steps of 100ms. 2 seems to be a practical minimum.
 - **uint8_t getThresholdTimer()** returns the value set.
 
 
@@ -96,7 +105,8 @@ check datasheet for details
 
 check datasheet for details
 
-- **void setConfiguration(uint8_t)** writes directly to configuration register. **warning** Use with care.
+- **void setConfiguration(uint8_t)** writes directly to configuration register. 
+**warning** Use with care.
 - **uint8_t getConfiguration()** reads the current configuration register.
 
 
@@ -108,10 +118,13 @@ CCR = Current Divisor Ratio.
 
 TIM = Integration time.
 
-- **void setAutomaticMode()** in automatic mode the MAX44009 determines the CDR and TIM parameters.
-- **void setContinuousMode()** continuous mode uses more power than a "single" conversion. Advantage is that the latest data is always available fast.
+- **void setAutomaticMode()** in automatic mode the MAX44009 determines the CDR and TIM 
+parameters.
+- **void setContinuousMode()** continuous mode uses more power than a "single" conversion. 
+Advantage is that the latest data is always available fast.
 - **void clrContinuousMode()** uses less power so better for LOW power configurations. 
-- **void setManualMode(uint8_t CDR, uint8_t TIM)** Set the Current Divisor Ratio and the integration time manually. Effectively disable automatic mode.
+- **void setManualMode(uint8_t CDR, uint8_t TIM)** Set the Current Divisor Ratio and the 
+integration time manually. Effectively disable automatic mode.
 - **int getIntegrationTime()** returns the set integration time in milliseconds
 
 ```
@@ -135,7 +148,8 @@ TIM = Integration time.
 Function for the conversion math, not meant to be used directly, 
 but by making them public they become testable.
 
-- **float convertToLux(uint8_t datahigh, uint8_t datalow)** convert intern register format to a LUX value. 
+- **float convertToLux(uint8_t datahigh, uint8_t datalow)** convert intern register 
+format to a LUX value. 
 
 
 ## Examples
@@ -157,3 +171,10 @@ solve this.
 Do not forget to connect the address pin as you cannot read the sensor
 in a reliable way. As the line will float it will sometimes have the
 right address and sometimes not. (been there ;)
+
+
+## Future
+
+- improve documentation
+- 
+

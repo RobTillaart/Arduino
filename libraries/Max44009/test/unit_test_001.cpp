@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MAX44009_LIB_VERSION: %s\n", (char *) MAX44009_LIB_VERSION);
 }
 
 
@@ -46,10 +47,35 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(MAX44009_DEFAULT_ADDRESS, 0x4A);
+  assertEqual(MAX44009_ALT_ADDRESS    , 0x4B);
+
+  assertEqual(MAX44009_INTERRUPT_STATUS  , 0x00);
+  assertEqual(MAX44009_INTERRUPT_ENABLE  , 0x01);
+  assertEqual(MAX44009_CONFIGURATION     , 0x02);
+  assertEqual(MAX44009_LUX_READING_HIGH  , 0x03);
+  assertEqual(MAX44009_LUX_READING_LOW   , 0x04);
+  assertEqual(MAX44009_THRESHOLD_HIGH    , 0x05);
+  assertEqual(MAX44009_THRESHOLD_LOW     , 0x06);
+  assertEqual(MAX44009_THRESHOLD_TIMER   , 0x07);
+
+  assertEqual(MAX44009_CFG_CONTINUOUS    , 0x80);
+  assertEqual(MAX44009_CFG_MANUAL        , 0x40);
+  assertEqual(MAX44009_CFG_CDR           , 0x08);
+  assertEqual(MAX44009_CFG_TIMER         , 0x07);
+
+  assertEqual(MAX44009_OK                , 0  );
+  assertEqual(MAX44009_ERROR_WIRE_REQUEST, -10);
+  assertEqual(MAX44009_ERROR_OVERFLOW    , -20);
+  assertEqual(MAX44009_ERROR_HIGH_BYTE   , -30);
+  assertEqual(MAX44009_ERROR_LOW_BYTE    , -31);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", MAX44009_LIB_VERSION);
-
   Max44009 LuxA(0x4A);
   Wire.begin();
 
@@ -62,8 +88,6 @@ unittest(test_constructor)
 
 unittest(test_convertToLux)
 {
-  fprintf(stderr, "VERSION: %s\n", MAX44009_LIB_VERSION);
-
   Max44009 LuxA(0x4A);
 
   assertEqualFloat(0.000, LuxA.convertToLux(0x00, 0x00), 0.0001);

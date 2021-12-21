@@ -1,12 +1,13 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
 //
 //  HISTORY
 //
+//  0.5.1   2021-12-21  update library.json, license, minor edits
 //  0.5.0   2021-06-04  fix exponent math.
 //  0.4.4   2021-05-27  arduino-lint
 //  0.4.3   2020-12-30  arduino-ci, unit test

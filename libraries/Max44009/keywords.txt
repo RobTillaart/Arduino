@@ -1,6 +1,6 @@
-# Syntax Coloring Map For Max44009
+# Syntax Colouring Map For Max44009
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Max44009	KEYWORD1
 
 

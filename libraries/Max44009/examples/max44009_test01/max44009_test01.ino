@@ -1,12 +1,8 @@
 //
 //    FILE: max44009_test01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: demo of max44009 library
 //    DATE: 2015-08-06
-//
-// Released to the public domain
-//
 
 
 #include "Wire.h"
@@ -51,4 +47,4 @@ void loop()
 }
 
 
-// END OF FILE
+// -- END OF FILE --

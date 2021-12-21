@@ -1,12 +1,8 @@
 //
 //    FILE: max44009_interrupt.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of max44009 library
 //    DATE: 2020-01-30
-//
-// Released to the public domain
-//
 
 
 #include "Wire.h"
@@ -65,4 +61,5 @@ void loop()
 }
 
 
-// END OF FILE
+// -- END OF FILE --
+

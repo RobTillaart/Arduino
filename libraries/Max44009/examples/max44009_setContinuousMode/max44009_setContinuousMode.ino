@@ -1,18 +1,14 @@
 //
 //    FILE: max44009_setContinuousMode.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of max44009 library
 //    DATE: 2020-01-30
 //
-// Released to the public domain
-//
-
-// note that lux values are repeated a number of times
-// if read faster than the integration time.
-// So it makes no sense to call getLux() more than once
-// per integration time.
-// NB the getLux() call takes a bit more than 1 millisecond
+//  note that lux values are repeated a number of times
+//  if read faster than the integration time.
+//  So it makes no sense to call getLux() more than once
+//  per integration time.
+//  NB the getLux() call takes a bit more than 1 millisecond
 
 
 #include "Wire.h"
@@ -73,3 +69,4 @@ void loop()
 
 
 // -- END OF FILE --
+

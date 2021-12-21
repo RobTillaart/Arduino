@@ -31,6 +31,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MINMAX_LIB_VERSION: %s\n", (char *) MINMAX_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -38,12 +39,19 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(MINMAX_NO_CHANGE  , 0X00);
+  assertEqual(MINMAX_MIN_CHANGED, 0X01);
+  assertEqual(MINMAX_MAX_CHANGED, 0X02);
+  assertEqual(MINMAX_RESET_DONE , 0X80);
+}
+
+
 unittest(test_add)
 {
-  fprintf(stderr, "MINMAX_LIB_VERSION: %s\n", (char *) MINMAX_LIB_VERSION);
-
   MINMAX mm;
-  
+
   for (int i = 0; i < 1000; i++)
   {
     mm.add(i);
@@ -56,10 +64,8 @@ unittest(test_add)
 
 unittest(test_reset)
 {
-  fprintf(stderr, "MINMAX_LIB_VERSION: %s\n", (char *) MINMAX_LIB_VERSION);
-
   MINMAX mm;
-  
+
   for (int i = 0; i < 10; i++)
   {
     mm.add(i);
@@ -73,12 +79,10 @@ unittest(test_reset)
 
 unittest(test_autoReset)
 {
-  fprintf(stderr, "MINMAX_LIB_VERSION: %s\n", (char *) MINMAX_LIB_VERSION);
-
   MINMAX mm;
 
   mm.autoReset(10);
-  
+
   for (int i = 0; i < 15; i++)
   {
     mm.add(i);

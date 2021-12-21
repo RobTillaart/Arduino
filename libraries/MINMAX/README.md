@@ -15,7 +15,9 @@ Library for finding peaks (minimum and maximum) in signal.
 
 The MINMAX library is a simple peak finder in a stream of floats. 
 
-It indicates if after adding a number the minimum and/or the maximum value has been changed by means of a bit flag that is returned. If a peak is found, it will be used as the new reference until a reset.
+It indicates if after adding a number the minimum and/or the maximum value has been 
+changed by means of a bit flag that is returned. 
+If a peak is found, it will be used as the new reference until a reset.
 
 
 The library can reset the minimum and maximum to 0 to start again. 
@@ -38,14 +40,15 @@ If no call to **add()** is made it will return 0.
 - **uint32_t count()** returns number of **add()** calls since last (auto)reset.
 
 
-Return values of **add()**
+Return flags of **add()** - is a bitmask
 
-| flag | description     |
-|:----:|:----------------|
-| 0x00 | no change       |
-| 0x01 | minimum changed |
-| 0x02 | maximum changed |
-| 0x80 | reset done      |
+| flag               | value | description     |
+|:-------------------|:-----:|:----------------|
+| MINMAX_NO_CHANGE   | 0x00  | no change       |
+| MINMAX_MIN_CHANGED | 0x01  | minimum changed |
+| MINMAX_MAX_CHANGED | 0x02  | maximum changed |
+| MINMAX_RESET_DONE  | 0x80  | reset done      |
+
 
 
 ## Obsolete
@@ -68,5 +71,8 @@ The examples show the basic working of the functions.
   - need a uint32_t start;
   - need a uint32_t threshold;
   - millis() - start > threshold) => action.
--
+- Template class to allow other types 
+  - int32_t uint64_t double etc.
+  - now you loose precision 
+- 
 

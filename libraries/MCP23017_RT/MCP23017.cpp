@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -15,7 +15,8 @@
 //  0.2.1   2021-02-17  fix #7 DDR is defined in ESP32
 //  0.2.2   2021-04-23  fix for plpatformIO compatibility
 //  0.2.3   2021-06-06  add lastError() unit test + minor refactor.
-//  0.2.4   2021-09-16  add polarity and pullup support
+//  0.2.4   2021-09-16  add polarity and pull-up support
+//  0.2.5   2021-12-21  update library.json, license, minor edits
 
 
 #include "MCP23017.h"

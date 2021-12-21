@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23017_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23017_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23017_RT/releases)
 
+
 # MCP23017_RT
 
 Arduino library for MCP23017 16 channel I2C port expander.
@@ -19,33 +20,33 @@ This library gives easy control over the 16 pins of a MCP23017 chip.
 
 ### Constructor
 
-- **MCP23017(address, TwoWire \*wire = &Wire)** constructor, with default Wire interface.  
+- **MCP23017(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface.  
 Can be overruled with Wire0..WireN.
 - **bool begin()** for UNO, returns true if successful.
-- **bool begin(sda, scl)** for ESP32, returns true if successful.
+- **bool begin(uint8_t sda, uint8_t scl)** for ESP32, returns true if successful.
 - **bool isConnected()** returns true if connected, false otherwise.
 
 
 ### Single pin interface
 
-- **bool pinMode(pin, value)** pin = 0..15, value = INPUT, OUTPUT, returns true if successful.
-- **bool digitalWrite(pin, value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
-- **uint8_t digitalRead(pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
+- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT, returns true if successful.
+- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
+- **uint8_t digitalRead(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag, returns true if successful.
 - **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag, returns true if successful.
-- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pullup flag, returns true if successful.
-- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pullup flag, returns true if successful.
+- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag, returns true if successful.
+- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pull-up flag, returns true if successful.
 
 
 ### 8 pins interface
 
-- **bool pinMode8(port, value)** port = 0..1, value = 0..255, returns true if successful.
-- **bool write8(port, value)** port = 0..1, value = 0..255, returns true if successful.
-- **uint8_t read8(port)** port = 0..1, reads 8 pins into one byte.
+- **bool pinMode8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255, returns true if successful.
+- **bool write8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255, returns true if successful.
+- **uint8_t read8(uint8_t port)** port = 0..1, reads 8 pins into one byte.
 - **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
 - **bool getPolarity8(uint8_t port, uint8_t &mask)** port = 0..1, reads polarity of 8 channels at once.
-- **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1,, sets pullup for 8 channels at once.
-- **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pullup for 8 channels at once.
+- **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1,, sets pull-up for 8 channels at once.
+- **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pull-up for 8 channels at once.
 
 
 ### Error codes
@@ -60,6 +61,11 @@ Reading it will reset the flag to **MCP23017_OK**.
 | MCP23017_I2C_ERROR    |  0x82 |
 | MCP23017_VALUE_ERROR  |  0x83 |
 | MCP23017_PORT_ERROR   |  0x84 |
+
+
+## Operation
+
+See examples.
 
 
 ## Future
@@ -82,11 +88,6 @@ Reading it will reset the flag to **MCP23017_OK**.
 #### Could
 
 - initial value (16 bit?) as begin parameter (breaking change)
-  - depends on input output pullup etc?
+  - depends on input output pull-up etc?
 - investigate auto address increment?
-
-
-## Operation
-
-See examples
 

@@ -38,10 +38,23 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MCP23017_LIB_VERSION: %s\n", (char *) MCP23017_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(MCP23017_OK          , 0x00);
+  assertEqual(MCP23017_PIN_ERROR   , 0x81);
+  assertEqual(MCP23017_I2C_ERROR   , 0x82);
+  assertEqual(MCP23017_VALUE_ERROR , 0x83);
+  assertEqual(MCP23017_PORT_ERROR  , 0x84);
+  assertEqual(MCP23017_INVALID_READ, -100);
 }
 
 
@@ -50,8 +63,6 @@ unittest(test_constructor)
 {
   Wire.resetMocks();
 
-  fprintf(stderr, "VERSION: %s\n", MCP23017_LIB_VERSION);
-
   MCP23017 MCP(0x27);
 
   assertFalse(Wire.didBegin());
@@ -59,7 +70,6 @@ unittest(test_constructor)
   // in fact invalid ...
   assertTrue(Wire.didBegin());
   assertTrue(MCP.isConnected());
-
 }
 
 
@@ -67,19 +77,19 @@ unittest(test_lastError)
 {
   Wire.resetMocks();
 
-  fprintf(stderr, "VERSION: %s\n", MCP23017_LIB_VERSION);
-
   MCP23017 MCP(0x27);
   MCP.begin();
   assertEqual(MCP23017_OK, MCP.lastError());
-  
+
   // MCP23017_PIN_ERROR
   MCP.pinMode(16, INPUT);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
+
   MCP.digitalWrite(16, 1);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
+
   uint8_t y = MCP.digitalRead(16);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
@@ -95,9 +105,11 @@ unittest(test_lastError)
   MCP.pinMode8(2, 0xF0);
   assertEqual(MCP23017_PORT_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
+
   MCP.write8(2, 0xF0);
   assertEqual(MCP23017_PORT_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
+
   uint8_t x = MCP.read8(2);
   assertEqual(MCP23017_PORT_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());

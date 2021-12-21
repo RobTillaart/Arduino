@@ -120,29 +120,34 @@ The default SPI speed is reduced to 1 MHz.
 This is the value recommended in the datasheet for 2.7V.
 
 In a test with an ESP32 (3.3V) the library showed stable results 
-at 4 Mhz and at 6 Mhz it was almost good.
+at 4 MHz and at 6 MHz it was almost good.
  
 The max value read at 6 MHz was 1020 instead of 1023  (MCP3008) 
 which indicates that the last 2 bits got lost due to signal deformation.
 
 | Board | Voltage |  safe  |  max  |
 |:-----:|:-------:|:------:|:-----:|
-| ESP32 |  2.7V   |  1 MHz | 4 Mhz |
-| UNO   |  5.0V   |  2 MHz | 4 Mhz |
+| ESP32 |  2.7V   |  1 MHz | 4 MHz |
+| UNO   |  5.0V   |  2 MHz | 4 MHz |
 
 
 For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
 
 
-## Future / ideas / improvements
+## Future
 
+- documentation
 - testing, a lot ...
-- get / setF(float A, float B) => float readF(channel)   output = A\*value + B;
-  it actually does float mapping. As it implies the same mapping for all it might 
-  not be that useful
 - analogRead (mask, int array\[8\] ) read ports (set in mask) in an array in one call.
   would this save time?
 
+
+#### wont
+
+- get / setF(float A, float B) => float readF(channel)   output = A\*value + B;
+  it actually does float mapping. As it implies the same mapping for all it might 
+  not be that useful => multmap
+  
 
 ## Operations
 

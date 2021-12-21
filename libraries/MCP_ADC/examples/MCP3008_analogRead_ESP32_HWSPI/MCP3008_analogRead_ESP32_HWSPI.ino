@@ -1,23 +1,23 @@
 //
 //    FILE: MCP3008_analogRead_ESP32_HWSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-03-12
+
 
 #include "MCP_ADC.h"
 
 
 // ESP32 PINS
 // For HSPI
-// CLK:  14
-// MOSI: 13
-// MISO: 12
+//   CLK:  14
+//   MOSI: 13
+//   MISO: 12
 //
 // For VSPI (id = 2):
-// CLK: 18,
-// MOSI: 23,
-// MISO: 19,
+//   CLK:  18,
+//   MOSI: 23,
+//   MISO: 19,
 
 
 MCP3008 mcp1;                  // use HWSPI  on ESP32 (apparently VSPI)
@@ -42,6 +42,7 @@ void setup()
   mcp1.setSPIspeed(4000000);  // seems to be the max speed. use 1MHz (default) to be safe
 }
 
+
 void loop()
 {
   Serial.print(millis());
@@ -58,4 +59,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

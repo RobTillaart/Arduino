@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP_ADC.git"
   },
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "frameworks": "*",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "MCP_ADC.h"
 }

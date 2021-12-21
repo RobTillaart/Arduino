@@ -1,14 +1,15 @@
 //
 //    FILE: MCP3008_deltaRead.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-08-13
+
 
 #include "MCP_ADC.h"
 
 MCP3008 mcp1;       // use HWSPI
 MCP3004 mcp2(6, 7); // use SWSPI
+
 
 void setup()
 {
@@ -29,6 +30,7 @@ void setup()
   Serial.print("\t");
   Serial.println(mcp2.maxValue());
 }
+
 
 void loop()
 {
@@ -52,4 +54,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

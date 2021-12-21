@@ -1,23 +1,23 @@
 //
 //    FILE: MCP3008_analogRead_ESP32_SWSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-03-12
+
 
 #include "MCP_ADC.h"
 
 
 // ESP32 PINS
 // For HSPI
-// CLK:  14
-// MOSI: 13
-// MISO: 12
+//   CLK:  14
+//   MOSI: 13
+//   MISO: 12
 //
 // For VSPI (id = 2):
-// CLK: 18,
-// MOSI: 23,
-// MISO: 19,
+//   CLK:  18,
+//   MOSI: 23,
+//   MISO: 19,
 
 
 MCP3008 mcp1(23, 19, 21);      // ESP32 use SWSPI  dataIn, dataOut, Clock
@@ -40,6 +40,7 @@ void setup()
   Serial.println(mcp1.maxValue());
 }
 
+
 void loop()
 {
   Serial.print(millis());
@@ -56,4 +57,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

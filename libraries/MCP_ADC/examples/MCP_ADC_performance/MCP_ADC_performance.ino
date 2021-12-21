@@ -1,13 +1,12 @@
 //
 //    FILE: MCP_ADC_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: simple performance measurement.
 //    DATE: 2020-08-14
-
-// Note the deltaRead() does 1 or 2 differential reads depending
-// on positive of negative delta between 2 pins.
-// Therefor timing might differ substantially.
+//
+//  Note the deltaRead() does 1 or 2 differential reads depending
+//  on positive of negative delta between 2 pins.
+//  Therefore timing might differ substantially.
 
 
 #include "MCP_ADC.h"
@@ -21,6 +20,7 @@ MCP3204 mcp24;
 MCP3208 mcp28;
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -93,9 +93,11 @@ void setup()
   Serial.println("done...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_1()
 {
@@ -133,6 +135,7 @@ void test_1()
   delay(10);
 }
 
+
 void test_2()
 {
   uint32_t val = 0;
@@ -169,6 +172,7 @@ void test_2()
   delay(10);
 }
 
+
 void test_3()
 {
   uint32_t val = 0;
@@ -204,6 +208,7 @@ void test_3()
   Serial.println();
   delay(10);
 }
+
 
 void test_6()
 {
@@ -243,3 +248,4 @@ void test_6()
 
 
 // -- END OF FILE --
+

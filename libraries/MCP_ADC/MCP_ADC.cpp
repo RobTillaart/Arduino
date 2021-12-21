@@ -1,11 +1,10 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
-//
 
 
 #include "MCP_ADC.h"
@@ -304,3 +303,4 @@ uint8_t MCP3208::buildRequest(uint8_t channel, bool single, uint8_t * data)
 
 
 // -- END OF FILE --
+

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For M62429
+# Syntax Colouring Map For M62429
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 M62429	KEYWORD1
 
 # Methods and Functions (KEYWORD2)

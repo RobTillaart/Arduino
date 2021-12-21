@@ -39,11 +39,14 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "M62429_VERSION: %s\n", (char *) M62429_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)
@@ -51,20 +54,19 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
 }
 */
 
+
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", M62429_VERSION);
-
   uint8_t dataPin = 6;
   uint8_t clockPin = 7;
-  
+
   M62429 AMP;
   AMP.begin(dataPin, clockPin);
 
@@ -75,18 +77,21 @@ unittest(test_all)
   AMP.muteOff();
   assertFalse(AMP.isMuted());
 
-  fprintf(stderr, "set get volume\n");
+  fprintf(stderr, "\nset get volume(0)\n");
   for (int vol = 0; vol < 10; vol++)
   {
     AMP.setVolume(0, vol);
     assertEqual(vol, AMP.getVolume(0));
   }
+
+  fprintf(stderr, "\nset get volume(1)\n");
   for (int vol = 10; vol < 20; vol++)
   {
     AMP.setVolume(1, vol);
     assertEqual(vol, AMP.getVolume(1));
   }
 
+  fprintf(stderr, "\nset get volume(2)\n");
   for (int vol = 30; vol < 40; vol++)
   {
     AMP.setVolume(2, vol);
@@ -94,13 +99,14 @@ unittest(test_all)
     assertEqual(vol, AMP.getVolume(1));
   }
 
-  fprintf(stderr, "incr, decr\n");
+  fprintf(stderr, "\nincr, decr\n");
   AMP.setVolume(0, 0);
   for (int i = 0; i < 10; i++) AMP.incr();
   assertEqual(10, AMP.getVolume(0));
   for (int i = 0; i < 5; i++) AMP.decr();
   assertEqual(5, AMP.getVolume(0));
 }
+
 
 unittest_main()
 

@@ -9,8 +9,9 @@
 //  HISTORY:
 //  0.1.0   2019-01-17  initial version
 //  0.2.0   2020-08-02  refactor
-//  0.2.1   2020-12-30  add arduino-ci + unit test
+//  0.2.1   2020-12-30  add Arduino-CI + unit test
 //  0.2.2   2021-05-27  fix library.properties
+//  0.2.3   2021-12-21  update library.json, license, readme, minor edits
 
 
 #include "M62429.h"
@@ -116,7 +117,7 @@ void M62429::_setVolume(uint8_t channel, uint8_t attn)
     digitalWrite(_clock, HIGH);
     // Note that if clock pulses are long enough the data pulses are automatically too.
     if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
-    
+
     digitalWrite(_data, LOW);
     digitalWrite(_clock, LOW);
     if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
@@ -125,10 +126,12 @@ void M62429::_setVolume(uint8_t channel, uint8_t attn)
   digitalWrite(_data, HIGH);
   digitalWrite(_clock, HIGH);
   if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
-  
-  // _data is already high 
+
+  // _data is already high
   digitalWrite(_clock, LOW);
   if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
 }
 
+
 // -- END OF FILE --
+

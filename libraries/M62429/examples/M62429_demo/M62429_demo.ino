@@ -1,7 +1,6 @@
 //
 //    FILE: M62429_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo volume IC FM62429
 //    DATE: 2020-08-02
 
@@ -12,6 +11,7 @@ uint32_t start, stop;
 
 M62429  AMP;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -19,16 +19,16 @@ void setup()
   Serial.println("\nTest takes a ~2 minutes.\n");
 
   AMP.begin(4, 5);
-  
+
   start = millis();
-  
+
   test_channel(0);
   test_channel(1);
   test_channel(2); // both
   test_mute(0);
   test_mute(1);
   test_average();
-  
+
   stop = millis();
   Serial.print("\nTest duration (s) : ");
   Serial.println((stop - start) * 0.001);
@@ -36,9 +36,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
+
 
 void test_channel(uint8_t ch)
 {
@@ -114,6 +116,7 @@ void test_channel(uint8_t ch)
   Serial.println();
 }
 
+
 void test_mute(uint8_t ch)
 {
   Serial.print(__FUNCTION__);
@@ -150,6 +153,7 @@ void test_mute(uint8_t ch)
   Serial.println();
 }
 
+
 void test_average()
 {
   Serial.println(__FUNCTION__);
@@ -177,4 +181,6 @@ void test_average()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

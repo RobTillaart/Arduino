@@ -3,7 +3,7 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //
 // HISTORY: See M62429.cpp
 //     URL: https://github.com/RobTillaart/M62429
@@ -12,10 +12,10 @@
 #include "Arduino.h"
 
 
-#define M62429_VERSION          (F("0.2.2"))
+#define M62429_VERSION          (F("0.2.3"))
 
 
-// minimum pulswidth CLOCK = 1.6 us (datasheet);
+// minimum pulse width CLOCK = 1.6 us (datasheet);
 // digitalWrite takes enough time on UNO / AVR so clock_delay == 0
 // Note that if clock pulses are long enough the data pulses are too.
 #ifndef M62429_CLOCK_DELAY

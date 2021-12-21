@@ -40,6 +40,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ML8511_LIB_VERSION: %s\n", (char *) ML8511_LIB_VERSION);
 }
 
 
@@ -53,8 +54,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) ML8511_LIB_VERSION);
-
   ML8511 light(ANALOGPIN);
 
   assertEqualFloat(5.0/1023, light.getVoltsPerStep(), 0.0001);
@@ -160,7 +159,7 @@ unittest(test_setDUVfactor)
 
   assertFalse(light.setDUVfactor(-1.0));
   assertEqualFloat(0.577, light.getDUVfactor(), 0.0001);
-  
+
   light.reset();
   assertEqualFloat(1.61, light.getDUVfactor(), 0.0001);
 }

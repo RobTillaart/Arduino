@@ -1,11 +1,10 @@
 //
 //    FILE: ML8511_minimal.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo UV sensor
 //    DATE: 2020-02-17
 //     URL: https://github.com/RobTillaart/ML8511
-
+//
 //        BREAKOUT
 //      +-------+--+
 //  VIN |o      +-+| mounting hole
@@ -45,3 +44,4 @@ void loop()
 
 
 // -- END OF FILE --
+

@@ -1,11 +1,10 @@
 //
 //    FILE: ML8511_determine_DUV_factor.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo ML8511 UV sensor - to determine DUV factor
 //    DATE: 2021-06-19
 //     URL: https://github.com/RobTillaart/ML8511
-
+//
 //        BREAKOUT
 //      +-------+--+
 //  VIN |o      +-+| mounting hole
@@ -72,4 +71,6 @@ void loop()
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

@@ -1,11 +1,10 @@
 //
 //    FILE: ML8511_setVoltsPerStep.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo UV sensor
 //    DATE: 2020-02-17
 //     URL: https://github.com/RobTillaart/ML8511
-
+//
 //        BREAKOUT
 //      +-------+--+
 //  VIN |o      +-+| mounting hole
@@ -31,7 +30,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println("UV UltraViolet ML8511");
-  
+
   // adjust to your ADC specification.
   light.setVoltsPerStep(3.3, 4095);      // 12 bit DAC
 }
@@ -47,3 +46,4 @@ void loop()
 
 
 // -- END OF FILE --
+

@@ -2,7 +2,7 @@
 //
 //    FILE: ML8511.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511
 //
@@ -10,7 +10,7 @@
 // see ML8511.cpp file
 //
 // NOTES
-//   ML8511 is a 3.3 Volt device, 
+//   ML8511 is a 3.3 Volt device,
 //   so do not connect to a 5V device (e.g. UNO)
 //   this includes the ENABLE PIN !!
 //
@@ -18,7 +18,7 @@
 
 #include <Arduino.h>
 
-#define ML8511_LIB_VERSION            (F("0.1.7"))
+#define ML8511_LIB_VERSION            (F("0.1.8"))
 
 
 class ML8511
@@ -52,8 +52,8 @@ public:
   float    estimateDUVindex(float mWcm2);
   //
   // https://github.com/RobTillaart/ML8511/issues/4
-  // discusses the calibration 
-  // see readme.md how to reverse engineer the factor for 
+  // discusses the calibration
+  // see readme.md how to reverse engineer the factor for
   // the estimateDUVindex() conversion function.
   // a value of 1.61 was found to be far more accurate
   //
@@ -74,3 +74,4 @@ private:
 
 
 // -- END OF FILE --
+

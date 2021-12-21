@@ -8,7 +8,7 @@
 
 # ML8511
 
-Arduino library for ML8511 UV sensor
+Arduino library for ML8511 UV sensor.
 
 
 ## Warning
@@ -167,6 +167,17 @@ As we cannot differentiate wavelengths, this is the safest choice.
 
 The formula is simplified to a single factor that the user needs to determine.
 Below is described how to do the calibration. 
+
+
+#### 0.1.7
+
+- update Arduino-CI, badges
+- add voltage2mW() for external ADC
+
+
+#### 0.1.8
+
+-  update library.json, license, minor edits
 
 
 ## External ADC

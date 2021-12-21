@@ -1,11 +1,8 @@
 //
 //    FILE: mcp9808_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-05-03
-//    (c) : MIT
-//
 
 
 #include "mcp9808.h"

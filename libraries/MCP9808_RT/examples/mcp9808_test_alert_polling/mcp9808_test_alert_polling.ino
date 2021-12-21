@@ -1,12 +1,8 @@
 //
 //    FILE: mcp9808_test_alert_polling.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo alert to PIN5 of Arduino UNO.
 //    DATE: 2020-11-16
-//    (c) : MIT
-//
-
 //
 //  MCP9808 breakout board
 //  +----------+
@@ -82,3 +78,4 @@ void loop()
 
 
 // -- END OF FILE --
+

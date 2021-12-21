@@ -1,12 +1,8 @@
 //
 //    FILE: mcp9808_test_alert_irq.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo alert to interrupt 0 = PIN2 of Arduino UNO.
 //    DATE: 2020-11-16
-//    (c) : MIT
-//
-
 //
 //  MCP9808 breakout board
 //  +----------+
@@ -28,6 +24,7 @@ MCP9808 ts(24);
 
 const uint8_t ALERTPIN = 2;     // ADJUST IF NEEDED
 volatile bool flag = false;
+
 
 // interrupt routine
 void detectAlert()

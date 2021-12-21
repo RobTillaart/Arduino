@@ -1,12 +1,8 @@
 //
 //    FILE: mcp9808_test_alert.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo alert
 //    DATE: 2020-11-12
-//    (c) : MIT
-//
-
 //
 //  MCP9808 breakout board
 //  +----------+

@@ -2,7 +2,7 @@
 //
 //    FILE: mcp9808.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.1
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -17,21 +17,21 @@
 // 24..31 == 0x18..0x1F
 
 
-#define MCP9808_LIB_VERSION         (F("0.1.4"))
+#define MCP9808_LIB_VERSION               (F("0.2.1"))
 
 
 // CONFIGURATION REGISTER MASKS
 // check the datasheet for exact usage
-#define MCP9808_THYSTERESIS         0x0600
-#define MCP9808_SHUTDOWN            0x0100
-#define MCP9808_CRIT_LOCK           0x0080
-#define MCP9808_WIN_LOCK            0x0040
-#define MCP9808_INT_CLEAR           0x0020
-#define MCP9808_ALERT_STATUS        0x0010
-#define MCP9808_ALERT_CTRL          0x0008
-#define MCP9808_ALERT_SELECT        0x0004
-#define MCP9808_ALERT_POLAR         0x0002
-#define MCP9808_ALERT_MODE          0x0001
+#define MCP9808_THYSTERESIS               0x0600
+#define MCP9808_SHUTDOWN                  0x0100
+#define MCP9808_CRIT_LOCK                 0x0080
+#define MCP9808_WIN_LOCK                  0x0040
+#define MCP9808_INT_CLEAR                 0x0020
+#define MCP9808_ALERT_STATUS              0x0010
+#define MCP9808_ALERT_CTRL                0x0008
+#define MCP9808_ALERT_SELECT              0x0004
+#define MCP9808_ALERT_POLAR               0x0002
+#define MCP9808_ALERT_MODE                0x0001
 
 
 class MCP9808

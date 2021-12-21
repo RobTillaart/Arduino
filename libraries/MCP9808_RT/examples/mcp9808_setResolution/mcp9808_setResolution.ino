@@ -1,7 +1,6 @@
 //
 //    FILE: mcp9808_setResolution.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-11-13
 

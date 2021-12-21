@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.1
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -11,10 +11,12 @@
 //  0.1.1   2020-11-12  refactor
 //  0.1.2   2020-11-16  removed hasAlert, removed setAlertPin, 
 //                      added 2 alert examples, refactor low level
-//  0.1.3   2021-01-01  arduino-ci + unit test                    
+//  0.1.3   2021-01-01  Arduino-ci + unit test
 //  0.1.4   2021-11-08  update build-CI, badges
 //                      default offset for offset
 //                      default Wire for I2C bus - setAddress()
+//  0.2.0   2021-11-19  fix #7 negative temperature
+//  0.2.1   2021-12-21  update library.json, license, minor edits
 
 
 #include "mcp9808.h"
@@ -214,7 +216,7 @@ float MCP9808::readFloat(uint8_t reg)
   }
   if (val & 0x1000)  // negative value
   {
-    return 256 - (val & 0x0FFF) * 0.0625;
+    return ((val & 0x0FFF) * 0.0625) - 256.0;
   }
   return (val & 0x0FFF) * 0.0625;
 }

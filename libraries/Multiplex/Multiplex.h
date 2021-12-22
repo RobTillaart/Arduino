@@ -2,7 +2,7 @@
 //
 //    FILE: Multiplex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library to multiplex streams 
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -11,11 +11,12 @@
 #include "Arduino.h"
 
 
-#define MULTIPLEX_LIB_VERSION      (F("0.2.2"))
+#define MULTIPLEX_LIB_VERSION         (F("0.2.3"))
 
 
+// MAX 254 (in theory) as 0xFF is a special value, 
 #ifndef MAX_MULTIPLEX
-#define MAX_MULTIPLEX       4             // MAX 254 as 0xFF is a special value.
+#define MAX_MULTIPLEX                 4
 #endif
 
 
@@ -66,4 +67,6 @@ private:
   uint8_t _size;
 };
 
+
 // -- END OF FILE --
+

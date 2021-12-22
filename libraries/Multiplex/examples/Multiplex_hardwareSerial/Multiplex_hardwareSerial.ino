@@ -1,22 +1,22 @@
 //
-//    FILE: Multiplex_softwareSerial.ino
+//    FILE: Multiplex_hardwareSerial.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-17
+//    DATE: 2021-11-10
+//
+//  example for MEGA 2560 only
+//  MEGA has four serial outputs
+//  Serial
+//  Serial1
+//  Serial2
+//  Serial3
 
 
 #include "Multiplex.h"
-#include <SoftwareSerial.h>
 
 
 // one multiplexer
 Multiplex mp;
-
-
-// three serial outputs
-SoftwareSerial Serial_A(-1, 8);
-SoftwareSerial Serial_B(-1, 9);
-SoftwareSerial Serial_C(-1, 10);
 
 
 void setup()
@@ -24,13 +24,13 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  Serial_A.begin(19200);
-  Serial_B.begin(19200);
-  Serial_C.begin(19200);
+  Serial1.begin(115200);
+  Serial2.begin(115200);
+  Serial3.begin(115200);
 
-  mp.add(&Serial_A);
-  mp.add(&Serial_B);
-  mp.add(&Serial_C);
+  mp.add(&Serial1);
+  mp.add(&Serial2);
+  mp.add(&Serial3);
 
   for (int i = 0; i < mp.count(); i++)
   {
@@ -44,7 +44,7 @@ void setup()
   Serial.print("count: ");
   Serial.println(n);
 
-  mp.disableStream(&Serial_B);
+  mp.disableStream(&Serial2);
 
   for (int i = 0; i < mp.count(); i++)
   {
@@ -54,7 +54,7 @@ void setup()
     Serial.println(mp.isEnabled(i));
   }
 
-  mp.println("\nThis should only print on Serial_A and Serial_C\n");
+  mp.println("\nThis should only print on Serial1 and Serial3n");
   mp.println("Done...\n");
 }
 

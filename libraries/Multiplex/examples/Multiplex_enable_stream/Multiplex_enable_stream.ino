@@ -1,7 +1,6 @@
 //
 //    FILE: Multiplex_enable_stream.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
 // PURPOSE: demo
 //    DATE: 2021-089-10
 
@@ -63,3 +62,4 @@ void loop()
 
 
 // -- END OF FILE --
+

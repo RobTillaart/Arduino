@@ -65,9 +65,12 @@ class FakeStream : public Print
   uint8_t _id = 0;
 };
 
+
 unittest_setup()
 {
+  fprintf(stderr, "MULTIPLEX_LIB_VERSION: %s\n", (char *) MULTIPLEX_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -76,8 +79,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", MULTIPLEX_LIB_VERSION);
-
   Multiplex mp;
   assertEqual(0, mp.count());
   assertEqual(4, mp.size());
@@ -95,10 +96,9 @@ unittest(test_constructor)
   assertEqual(4, mp.size());
 }
 
+
 unittest(test_enable)
 {
-  fprintf(stderr, "VERSION: %s\n", MULTIPLEX_LIB_VERSION);
-
   Multiplex mp;
   FakeStream stream1(1);
   FakeStream stream2(2);
@@ -125,6 +125,8 @@ unittest(test_enable)
   assertFalse(mp.isEnabledStream(&stream2));
 }
 
+
 unittest_main()
+
 
 // --------

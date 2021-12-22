@@ -11,16 +11,25 @@
 
 MS5611 MS5611(0x77);   // 0x76 = CSB to VCC; 0x77 = CSB to GND
 
+
 void setup()
 {
   Serial.begin(115200);
   Serial.print(__FILE__);
-  Serial.print("MS5611 lib version: ");
+  Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
 
-  bool b = MS5611.begin();
-  Serial.println(b ? "found" : "not found");
+  if (MS5611.begin() == true)
+  {
+    Serial.println("MS5611 found.");
+  }
+  else
+  {
+    Serial.println("MS5611 not found. halt.");
+    while(1);
+  }
 }
+
 
 void loop()
 {
@@ -41,4 +50,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

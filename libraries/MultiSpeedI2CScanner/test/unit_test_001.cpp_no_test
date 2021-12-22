@@ -32,15 +32,19 @@ unittest_setup()
 {
 }
 
+
 unittest_teardown()
 {
 }
+
 
 unittest(test_constructor)
 {
   assertEqual(1, 1);
 }
 
+
 unittest_main()
+
 
 // --------

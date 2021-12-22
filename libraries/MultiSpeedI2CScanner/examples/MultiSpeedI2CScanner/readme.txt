@@ -6,5 +6,5 @@ It is placed here to give Arduino-CI something to compile.
 
 On the long term an I2C scanner class should be made which 
 will have this application as an example.
-As teh application os working rather well this has no urgency
+As the application is working rather well this has no urgency
 or priority.

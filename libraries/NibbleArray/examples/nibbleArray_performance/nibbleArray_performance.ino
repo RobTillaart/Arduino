@@ -1,7 +1,6 @@
 //
 //    FILE: nibbleArray_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo performance nibble array
 //    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/nibbleArray
@@ -180,3 +179,4 @@ void loop()
 
 
 // -- END OF FILE --
+

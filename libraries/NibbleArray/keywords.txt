@@ -1,6 +1,6 @@
 # Syntax Colouring Map For BoolArray
 
-# Datat ypes (KEYWORD1)
+# Data types (KEYWORD1)
 BoolArray	KEYWORD1
 
 

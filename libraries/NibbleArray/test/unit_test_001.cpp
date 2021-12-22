@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "VERSION: %s\n", (char *) NIBBLEARRAY_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -46,10 +47,16 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(NIBBLEARRAY_MAXSIZE    , 510 );
+  assertEqual(NIBBLEARRAY_OK         , 0x00);
+  assertEqual(NIBBLEARRAY_ERROR_INDEX, 0xFF);
+}
+
+
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) NIBBLEARRAY_LIB_VERSION);
-
   nibbleArray na(500);
   assertEqual(500, na.size());
   assertEqual(250, na.memory());
@@ -83,6 +90,7 @@ unittest(test_all)
   assertEqual(330, sum);  // not all 500 all summed!
 
 }
+
 
 unittest_main()
 

@@ -2,7 +2,7 @@
 //
 //    FILE: nibbleArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for a compact array of nibbles (4 bits)
 //     URL: https://github.com/RobTillaart/nibbleArray
 //

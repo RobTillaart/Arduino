@@ -3,7 +3,7 @@
 //    FILE: MTP40C.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for MTP40C + MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 //
@@ -17,15 +17,15 @@
 #include "Arduino.h"
 
 
-#define MTP40_LIB_VERSION            (F("0.2.0"))
+#define MTP40_LIB_VERSION                     (F("0.2.1"))
 
 
-#define MTP40_DEFAULT_ADDRESS        0x64
+#define MTP40_DEFAULT_ADDRESS                 0x64
 
-#define MTP40_OK                     0x00
-#define MTP40_INVALID_AIR_PRESSURE   0x01
-#define MTP40_INVALID_GAS_LEVEL      0x02
-#define MTP40_INVALID_ADDRESS        0xFF
+#define MTP40_OK                              0x00
+#define MTP40_INVALID_AIR_PRESSURE            0x01
+#define MTP40_INVALID_GAS_LEVEL               0x02
+#define MTP40_INVALID_ADDRESS                 0xFF
 
 
 class MTP40
@@ -118,3 +118,4 @@ public:
 
 
 // -- END OF FILE --
+

@@ -1,15 +1,14 @@
 //
 //    FILE: MTP40D_PWM_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of MTP40D PWM interface
 //    DATE: 2021-08-27
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-
+//
 //  TODO TEST WITH MTP40D SENSOR
 //
-// Connect the PWM output to the interrup pin 2 or 3 of the UNO.
+// Connect the PWM output to the interrupt pin 2 or 3 of the UNO.
 // other processors interrupts pins work slightly different
 
 
@@ -61,3 +60,4 @@ uint16_t duration2PPM(uint16_t d)
 
 
 // -- END OF FILE --
+

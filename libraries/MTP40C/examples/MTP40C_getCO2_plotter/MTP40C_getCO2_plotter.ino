@@ -1,12 +1,11 @@
 //
 //    FILE: MTP40C_getCO2_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of MTP40C library
 //    DATE: 2021-08-23
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// any board that support two or more hardware serial ports 
+// any board that support two or more hardware serial ports
 // Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
 // Uno, Nano or Mini will fail to compile.
 //
@@ -44,10 +43,11 @@ void loop()
 {
   if (millis() - mtp.lastRead() >= 5000)
   {
-    Serial.print(mtp.getGasConcentration());   
+    Serial.print(mtp.getGasConcentration());
     Serial.println();
   }
 }
 
 
 // -- END OF FILE --
+

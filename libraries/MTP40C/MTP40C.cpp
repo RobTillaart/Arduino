@@ -2,7 +2,7 @@
 //    FILE: MTP40C.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for MTP40C MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 //
@@ -11,6 +11,7 @@
 //  0.1.1   2021-08-23  added examples, minor fixes
 //  0.2.0   2021-08-27  added MTP40D derived class
 //                      + many fixes after testing
+//  0.2.1   2021-12-22  update library.json, license, minor edits
 
 
 #include "MTP40C.h"
@@ -391,5 +392,5 @@ MTP40D::MTP40D(Stream * str) : MTP40(str)
 };
 
 
-
 // -- END OF FILE --
+

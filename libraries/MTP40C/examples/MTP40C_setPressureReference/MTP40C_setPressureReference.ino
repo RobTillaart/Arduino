@@ -1,7 +1,6 @@
 //
 //    FILE: MTP40C_setPressureReference.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of MTP40C library
 //    DATE: 2021-08-21
 //     URL: https://github.com/RobTillaart/MTP40C
@@ -41,16 +40,12 @@ void setup()
   Serial.println(mtp.getAirPressureReference(), 1);
   delay(100);
 
-  
+
   Serial.print("1013:\t");
   Serial.println(mtp.setAirPressureReference(1013.0));
   delay(5000);
   Serial.println(mtp.getAirPressureReference(), 1);
   delay(100);
-
-
-
-  
 }
 
 
@@ -74,3 +69,4 @@ void loop()
 
 
 // -- END OF FILE --
+

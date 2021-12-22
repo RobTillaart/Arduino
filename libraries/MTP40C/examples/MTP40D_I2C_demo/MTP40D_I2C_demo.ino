@@ -1,12 +1,11 @@
 //
 //    FILE: MTP40D_I2C_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of MTP40D I2C interface
 //    DATE: 2021-08-27
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-
+//
 //  TODO TEST WITH SENSOR
 //  do not expect this to work yet
 

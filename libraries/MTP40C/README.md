@@ -5,11 +5,13 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MTP40C/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MTP40C.svg?maxAge=3600)](https://github.com/RobTillaart/MTP40C/releases)
 
+
 # MTP40C / MTP40D
 
 Arduino library for MTP40C and MTP40D CO2 sensor.
 
 (include image)
+
 
 ## Description
 
@@ -120,11 +122,14 @@ Return 255 for the MTP40 base class.
 - **uint16_t getGasConcentration()** returns the CO2 concentration in PPM (parts per million).
 The function returns **MTP40_INVALID_GAS_LEVEL** if the request fails.
 
-- **void suppressError(bool se)** sets or clears a flag that replaces the error value 0 with the last read value if the request fails.
+- **void suppressError(bool se)** sets or clears a flag that replaces the error value with 
+the last read value if the request fails.
+This is useful when plotting the values and one do not want a sudden spike.
+One can still check **lastError()** to see if the value was OK.
 - **bool getSuppressError()** gets the value of the suppress flag. 
 - **int lastError()** returns last error set by **getGasConcentration()** 
 or by **getAirPressureReference()** 
-Reading resets lastError to MTP40_OK;
+Reading resets internal error to MTP40_OK;
 
 
 ### Configuration
@@ -212,10 +217,12 @@ moments. Valid values are 24 - 720 .
 - optimize performance if possible
 - caching? what?
 - seek optimum delay() between calls.
+- investigate wire length
 
 #### Other
 
 - serial bus with multiple devices? => diodes
+- improve readability code (e.g. parameter names)
 
 
 ## Operations

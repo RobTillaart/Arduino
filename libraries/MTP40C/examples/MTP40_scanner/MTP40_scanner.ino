@@ -1,7 +1,6 @@
 //
 //    FILE: MTP40_scanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo of MTP40C library
 //    DATE: 2021-08-21
 //     URL: https://github.com/RobTillaart/MTP40C
@@ -16,7 +15,7 @@
 
 SoftwareSerial sws(6, 7);
 
-MTP40C mtp(&sws);       // use hardware Serial1 for MTP40C sensor
+MTP40C mtp(&sws);       // optional use hardware Serial1 for MTP40C sensor
 
 
 void setup()
@@ -102,5 +101,5 @@ void detect_scan()
 }
 
 
-
 // -- END OF FILE --
+

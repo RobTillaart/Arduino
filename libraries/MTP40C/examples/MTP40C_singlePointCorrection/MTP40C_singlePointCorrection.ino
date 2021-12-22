@@ -1,7 +1,6 @@
 //
 //    FILE: MTP40C_singlePointCorrection.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of MTP40C library
 //    DATE: 2021-08-23
 //     URL: https://github.com/RobTillaart/MTP40C

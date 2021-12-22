@@ -50,6 +50,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", (char *) MTP40_LIB_VERSION);
 }
 
 
@@ -58,10 +59,17 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(MTP40_OK                  , 0x00);
+  assertEqual(MTP40_INVALID_AIR_PRESSURE, 0x01);
+  assertEqual(MTP40_INVALID_GAS_LEVEL   , 0x02);
+  assertEqual(MTP40_INVALID_ADDRESS     , 0xFF);
+}
+
+
 unittest(test_getType)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensorC = MTP40C(&Serial);
   assertEqual(2, sensorC.getType());
 
@@ -76,8 +84,6 @@ unittest(test_getType)
 
 unittest(test_begin)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
 
   for (int addr = 248; addr < 256; addr++)
@@ -92,8 +98,6 @@ unittest(test_begin)
 
 unittest(test_address)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());  blocks!
 
@@ -108,8 +112,6 @@ unittest(test_address)
 
 unittest(test_air_pressure)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());    // default address
 
@@ -123,8 +125,6 @@ unittest(test_air_pressure)
 
 unittest(test_gas_concentration)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());
 
@@ -134,8 +134,6 @@ unittest(test_gas_concentration)
 
 unittest(test_single_point_correction)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());
 
@@ -149,8 +147,6 @@ unittest(test_single_point_correction)
 
 unittest(test_self_calibration)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());    // default address
 
@@ -162,8 +158,6 @@ unittest(test_self_calibration)
 
 unittest(test_self_calibration_hours)
 {
-  fprintf(stderr, "MTP40_LIB_VERSION:\t%s\n", MTP40_LIB_VERSION);
-
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());    // default address
 

@@ -50,13 +50,22 @@ Note this is a cached value from a readRaw / read call.
 - **uint32_t lastTimeRead()** returns the timestamp of last **read()** or **readRaw()**. 
 
 
-## Future / ideas / improvements
-
-- buffer like Serial? (how to fill? interrupt? example sketch?)
-- DMTF tone generation?
-- more examples!
-
-
 ## Operations
 
 See examples.
+
+
+## Future / ideas / improvements
+
+- improve documentation
+- buffer like Serial? (how to fill? interrupt? example sketch?)
+- test setup
+- more examples
+  - DMTF with a PCF8574
+  - DMTF as secret key
+  - DMTF with less keys (less pins)
+  - DMTF over interrupt triggered by STQ line
+- DMTF tone generation?  
+  - MCP_DAC, 
+  - PWM +HW?
+

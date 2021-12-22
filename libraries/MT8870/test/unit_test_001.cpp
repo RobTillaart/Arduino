@@ -38,7 +38,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MT8870_LIB_VERSION: %s\n", (char *) MT8870_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -57,10 +59,9 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", MT8870_LIB_VERSION);
-
   uint8_t STQ = 4, Q1 = 5, Q2 = 6, Q3 = 7, Q4 = 8;
   MT8870 DTMF;
 
@@ -115,6 +116,7 @@ unittest(test_read)
     assertEqual(i, DTMF.readRaw());
   }
 }
+
 
 unittest_main()
 

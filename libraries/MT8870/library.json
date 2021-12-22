@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MT8870.git"
   },
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "MIT",
   "frameworks": "*",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "MT8870.h"
 }

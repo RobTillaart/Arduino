@@ -1,16 +1,15 @@
 //
 //    FILE: multimap_NTC_int_FAIL.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo of faulty optimizing 
 //    DATE: 2020-04-09
 //    (c) : MIT
 //
-
+//
 // NOTE:
 // use integers instead of floats to minimize RAM. uses ~320 bytes PROGMEM ~120 bytes RAM less on UNO than float version
 //
-// this example is added to show how to reduce memory but  also how it can FAIL due to math overflow
+// this example is added to show how to reduce memory but also how it can FAIL due to math overflow
 // E.g. see around 196-200; 340-400
 // to prevent this one must have more values which increases the memory usage again.
 // 
@@ -27,6 +26,7 @@ volatile float x, y, z;
 int in[] = {
   0, 1, 3, 8, 13,  20, 25, 32, 50, 60,  72, 85, 100, 145, 200,  250, 300, 400, 500, 600,  650, 700, 753, 800, 830,  870, 900, 936, 964, 985,  1000, 1017, 1023
 };
+
 int out[] = {
   -27315, -7165, -6069, -4981, -4397,    -3850, -3554, -3216, -2572, -2295,    -2008, -1737, -1462, -790, -143,    357, 808, 1634, 2430, 3264, 
   3717, 4213, 4805, 5419, 5875,    6603, 7287, 8385, 9651, 11146,    12949, 18282, 30182
@@ -91,3 +91,4 @@ float val(int sensorValueA1)
 
 
 // -- END OF FILE --
+

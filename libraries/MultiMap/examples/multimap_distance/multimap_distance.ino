@@ -1,10 +1,10 @@
 //
 //    FILE: multimap_distance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-04-09
 //
+//  example simulates the lookup graph of a distance sensor 
 
 
 #include "MultiMap.h"
@@ -48,3 +48,4 @@ float sharp2cm(int val)
 
 
 // -- END OF FILE --
+

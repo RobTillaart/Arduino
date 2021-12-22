@@ -1,11 +1,11 @@
 //
 //    FILE: multimap_NTC.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-04-09
 //    (c) : MIT
 //
+//  example uses multiMap to calculate the temperature from an 10K NTC.
 
 
 #include "MultiMap.h"
@@ -22,10 +22,12 @@ volatile float x, y, z;
 float in[] = {
   0, 1, 3, 8, 13,  20, 25, 32, 50, 60,  72, 85, 100, 145, 200,  250, 300, 400, 500, 600,  650, 700, 753, 800, 830,  870, 900, 936, 964, 985,  1000, 1017, 1023
 };
+
 float out[] = {
   -273.15, -71.65, -60.69, -49.81, -43.97, -38.50, -35.54, -32.16, -25.72, -22.95, -20.08, -17.37, -14.62, -7.90, -1.43, 3.57,
   8.08, 16.34, 24.30, 32.64, 37.17, 42.13, 48.05, 54.19, 58.75, 66.03, 72.87, 83.85, 96.51, 111.46, 129.49, 182.82, 301.82
 };
+
 
 int sz = 33;
 
@@ -87,3 +89,4 @@ float val(int sensorValueA1)
 
 
 // -- END OF FILE --
+

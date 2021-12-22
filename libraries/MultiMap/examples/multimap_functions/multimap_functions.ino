@@ -1,11 +1,12 @@
 //
 //    FILE: multimap_functions.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo (use serial plotter)...
 //    DATE: 2020-04-09
 //    (c) : MIT
 //
+//  example show use of multiMap to approximate some well known functions.
+
 
 
 #include "MultiMap.h"
@@ -53,7 +54,7 @@ void test_normal_distribution()
 
 void test_sinus()
 {
-  // one sinus wave, amplitudo 1023
+  // one sinus wave, amplitude 1023
   long sinus[] = {0, 316, 601, 827, 972, 1023, 972, 827, 601, 316, 0, -316, -601, -827, -972, -1023, -972, -827, -601, -316, 0 }; //21
   long in[21];
   for (int i = 0; i < 21; i++) in[i] = round(i * 1000.0 / 20);
@@ -136,3 +137,4 @@ void test_sawtooth()
 
 
 // -- END OF FILE --
+

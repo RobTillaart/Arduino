@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MULTIMAP_LIB_VERSION: %s\n", (char *) MULTIMAP_LIB_VERSION);
 }
 
 
@@ -58,10 +59,8 @@ unittest(test_new_operator)
 */
 
 
-unittest(test_all)
+unittest(test_float)
 {
-  fprintf(stderr, "VERSION: %s\n", MULTIMAP_LIB_VERSION);
-  
   // based on the distance example
   // out[] holds the distances in cm
   float out[] = {150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20};
@@ -77,6 +76,25 @@ unittest(test_all)
   assertEqualFloat(20.0000, multiMap<float>(600, in, out, 14), 0.001);
 }
 
+
+/* todo
+unittest(test_uint32_t)
+{
+  // based on the distance example
+  // out[] holds the distances in cm
+  uint32_t out[] = {150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20};
+  // in[] holds the measured analogRead() values for that distance
+  uint32_t in[]  = { 90, 97, 105, 113, 124, 134, 147, 164, 185, 218, 255, 317, 408, 506};
+
+  assertEqual(150, multiMap<uint32_t>(80, in, out, 14)  );
+  assertEqual(136, multiMap<uint32_t>(100, in, out, 14) );
+  assertEqual( 65, multiMap<uint32_t>(200, in, out, 14) );
+  assertEqual( 42, multiMap<uint32_t>(300, in, out, 14) );
+  assertEqual( 30, multiMap<uint32_t>(400, in, out, 14) );
+  assertEqual( 20, multiMap<uint32_t>(500, in, out, 14) );
+  assertEqual( 20, multiMap<uint32_t>(600, in, out, 14) );
+}
+*/
 
 unittest_main()
 

@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -38,29 +39,16 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "OPTOMA_LIB_VERSION: %s\n", (char *) OPTOMA_LIB_VERSION);
 }
 
 unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", "-");
-
   Optoma beamer;
 
   beamer.init(22);

@@ -1,14 +1,21 @@
-# Syntax Coloring Map for optoma Beamer class
+# Syntax Colouring Map for Optoma Beamer class
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Optoma	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
+init	KEYWORD2
+getBaudrate	KEYWORD2
+
 switchOn	KEYWORD2
 switchOff	KEYWORD2
+
 isOn	KEYWORD2
 increaseVKS	KEYWORD2
 decreaseVKS	KEYWORD2
 
+
 # Constants (LITERAL1)
+OPTOMA_LIB_VERSION	LITERAL1
 

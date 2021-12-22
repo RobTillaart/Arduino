@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "VERSION: %s\n", (char *) PAR27929_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -49,8 +50,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) PAR27929_LIB_VERSION);
-
   PAR27979 display(&Serial);
   assertEqual(1, display.write(232));   // no sound
 

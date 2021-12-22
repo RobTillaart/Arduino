@@ -2,7 +2,7 @@
 //
 //    FILE: PAR27979.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for Parallax 27979 _serial LCD display
 //     URL: https://github.com/RobTillaart/PAR27979
 //
@@ -11,13 +11,14 @@
 //  0.2.0   2020-06-23  complete redo as class
 //                      also support for 27976, 27977 (not tested)
 //  0.2.1   2021-01-03  Arduino-CI + unit test
-//  0.2.2   2021-11-10  Update Arduino-CI, 
-//                      update readme.md + badges, 
+//  0.2.2   2021-11-10  Update Arduino-CI,
+//                      update readme.md + badges,
 //                      fix version number
 //                      update Print interface
+//  0.2.3   2021-12-22  update library.json, license, minor edits
 
 
-#define PAR27929_LIB_VERSION      (F("0.2.2"))
+#define PAR27929_LIB_VERSION      (F("0.2.3"))
 
 #include "Arduino.h"
 
@@ -69,9 +70,9 @@ public:
 
   // PRINT interface
   size_t write(const uint8_t data) { return _ser->write(data); };
-  size_t write(const uint8_t * data, uint8_t length) 
+  size_t write(const uint8_t * data, uint8_t length)
   {
-    return _ser->write(data, length); 
+    return _ser->write(data, length);
   };
 
 
@@ -79,4 +80,6 @@ private:
   Stream *_ser;
 };
 
+
 // -- END OF FILE --
+

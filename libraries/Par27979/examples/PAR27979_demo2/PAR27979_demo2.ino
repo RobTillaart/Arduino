@@ -1,11 +1,9 @@
 //
 //    FILE: par27979_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-06-23
 //    (c) : MIT
-//
 
 
 #include "PAR27979.h"
@@ -76,3 +74,4 @@ void loop()
 
 
 // -- END OF FILE --
+

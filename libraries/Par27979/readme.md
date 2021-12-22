@@ -17,6 +17,8 @@ The library is essentially a wrapper around a Stream, typically Serial,
 Serial2 (3,4..) or newSoftSerial or equivalent.
 This stream is given as parameter in the constructor.
 
+Should work for 27976 and 27977 display although not tested.
+
 
 ## Interface
 
@@ -57,7 +59,7 @@ see datasheet.
 
 - **void octave(uint8_t octave)**  octave =  3 4 5 6 7
 - **void duration(uint8_t duration)** duration = 1 2 4 8 16 32 64
-- **void play(uint8_t note)** note = 0 1 2 3 4 5 6 7 8 9 10 11   0=A 1=A# etc
+- **void play(uint8_t note)** note = 0 1 2 3 4 5 6 7 8 9 10 11   0=A 1=A# etc.
 - **void noSound()** idem.
 
 

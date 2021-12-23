@@ -37,17 +37,44 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PCA9635_LIB_VERSION: %s\n", (char *) PCA9635_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(PCA9635_MODE1      , 0x00);
+  assertEqual(PCA9635_MODE2      , 0x01);
+
+  assertEqual(PCA9635_GRPPWM     , 0x12);
+  assertEqual(PCA9635_GRPFREQ    , 0x13);
+  assertEqual(PCA9635_LEDOUT_BASE, 0x14);
+
+  assertEqual(PCA9635_LEDOFF     , 0x00);
+  assertEqual(PCA9635_LEDON      , 0x01);
+  assertEqual(PCA9635_LEDPWM     , 0x02);
+  assertEqual(PCA9635_LEDGRPPWM  , 0x03);
+
+  fprintf(stderr, "\nerrorcodes");
+  assertEqual(PCA9635_OK         , 0x00);
+  assertEqual(PCA9635_ERROR      , 0xFF);
+  assertEqual(PCA9635_ERR_WRITE  , 0xFE);
+  assertEqual(PCA9635_ERR_CHAN   , 0xFD);
+  assertEqual(PCA9635_ERR_MODE   , 0xFC);
+  assertEqual(PCA9635_ERR_REG    , 0xFB);
+  assertEqual(PCA9635_ERR_I2C    , 0xFA);
+}
+
+
 unittest(test_constructor)
 {
   fprintf(stderr, "VERSION: %s\n", PCA9635_LIB_VERSION);
-  
+
   PCA9635 ledArray(0x20);
   assertTrue(ledArray.begin());
   assertTrue(ledArray.isConnected());

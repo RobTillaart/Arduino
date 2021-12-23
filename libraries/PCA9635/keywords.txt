@@ -1,13 +1,14 @@
-# Syntax Coloring Map for PCA9635
+# Syntax Colouring Map for PCA9635
 
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PCA9635	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 reset	KEYWORD2
+
 isConnected	KEYWORD2
 setLedDriverMode	KEYWORD2
 getLedDriverMode	KEYWORD2

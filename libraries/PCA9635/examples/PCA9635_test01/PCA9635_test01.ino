@@ -2,14 +2,14 @@
 //    FILE: PCA9635_test01.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-APR-2016
-// VERSION: 0.2.0
 // PUPROSE: test PCA9635 library
-//
+
 
 #include "PCA9635.h"
 #include <Wire.h>
 
 PCA9635 ledArray(0x20);
+
 
 void setup()
 {
@@ -34,6 +34,7 @@ void setup()
   Serial.println("done...");
 }
 
+
 void testSetLedDriverModeLEDON()
 {
   Serial.print(millis());
@@ -51,6 +52,7 @@ void testSetLedDriverModeLEDON()
     }
   }
 }
+
 
 void testPWMMode()
 {
@@ -71,6 +73,7 @@ void testPWMMode()
     }
   }
 }
+
 
 void testWrite1()
 {
@@ -97,6 +100,7 @@ void testWrite1()
   }
 }
 
+
 void testWrite3()
 {
   Serial.print(millis());
@@ -111,6 +115,7 @@ void testWrite3()
   }
 }
 
+
 void testWriteN()
 {
   Serial.print(millis());
@@ -119,6 +124,7 @@ void testWriteN()
   uint8_t arr[16] = {16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 255};
   ledArray.writeN(0, arr, 16);
 }
+
 
 void testSetGroupPWM_FREQ()
 {
@@ -166,6 +172,7 @@ void testSetGroupPWM_FREQ()
   }
 }
 
+
 void testSetAndReadMode()
 {
   Serial.print(millis());
@@ -185,6 +192,7 @@ void testSetAndReadMode()
   Serial.println(regval);
 }
 
+
 void testSetLedDriverModeLEDOFF()
 {
   Serial.print(millis());
@@ -203,9 +211,11 @@ void testSetLedDriverModeLEDOFF()
   }
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

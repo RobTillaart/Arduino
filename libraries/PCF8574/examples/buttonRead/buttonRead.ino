@@ -24,8 +24,10 @@
  *  no matter the set output state when you press the button.
  */
 
+
 #include <PCF8574.h>
 #include <Wire.h>
+
 
 PCF8574 pcf20(0x20);
 
@@ -35,12 +37,14 @@ const byte PcfButtonLedPin = 0;
 unsigned int blinkMillis;
 unsigned int buttonMillis;
 
+
 void setup() {
   Serial.begin(115200);
   pcf20.begin();
   
   pinMode(onboardLed, OUTPUT);
 }
+
 
 void loop() {
   static bool state;
@@ -71,3 +75,7 @@ void loop() {
     Serial.println(pcf20.read8(), BIN);
   }
 }
+
+
+// -- END OF FILE --
+

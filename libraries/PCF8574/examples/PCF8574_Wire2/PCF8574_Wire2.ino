@@ -2,14 +2,14 @@
 //    FILE: PCF8574_Wire2.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2016-04-30
-//
-// PUPROSE: demo 
-//
+// PUPROSE: demo
+
 
 #include "PCF8574.h"
 
 // adjust addresses if needed
 PCF8574 PCF(0x39, &Wire2);
+
 
 void setup()
 {
@@ -34,6 +34,7 @@ void setup()
   delay(1000);
 }
 
+
 void loop()
 {
   Serial.println("HLT");
@@ -46,6 +47,7 @@ void loop()
   }
 }
 
+
 void doHigh()
 {
   PCF.write(4, HIGH);
@@ -54,6 +56,7 @@ void doHigh()
   Serial.println(x, HEX);
 }
 
+
 void doLow()
 {
   PCF.write(4, LOW);
@@ -61,6 +64,7 @@ void doLow()
   Serial.print("Read ");
   Serial.println(x, HEX);
 }
+
 
 void doToggle()
 {
@@ -72,3 +76,4 @@ void doToggle()
 
 
 // -- END OF FILE --
+

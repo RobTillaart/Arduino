@@ -1,16 +1,16 @@
 //
-//    FILE: pcf8574_test.ino
+//    FILE: PCF8574_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 27-08-2013
-//
 // PUPROSE: demo
-//
+
 
 #include "PCF8574.h"
 
 // adjust addresses if needed
 PCF8574 PCF_38(0x38);  // add switches to lines  (used as input)
-PCF8574 PCF_39(0x39);  // add leds to lines      (used as output)
+PCF8574 PCF_39(0x39);  // add LEDs to lines      (used as output)
+
 
 void setup()
 {
@@ -62,12 +62,15 @@ void setup()
   }
 }
 
+
 void loop()
 {
-  // echos the lines
+  // echo the state of the lines on the other PCF
   uint8_t value = PCF_38.read8();
   PCF_39.write8(value);
   delay(100);
 }
 
+
 // END OF FILE
+

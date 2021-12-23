@@ -42,16 +42,17 @@ PCF8574 PCF(0x38);
 
 unittest_setup()
 {
+  fprintf(stderr, "PCF8574_LIB_VERSION: %s\n", (char *) PCF8574_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
+
 unittest(test_begin)
 {
-  fprintf(stderr, "VERSION: %s\n", PCF8574_LIB_VERSION);
-
   PCF8574 PCF(0x38);
 
   PCF.begin();
@@ -102,5 +103,6 @@ unittest(test_address)
 
 
 unittest_main()
+
 
 // --------

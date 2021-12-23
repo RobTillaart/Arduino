@@ -4,17 +4,18 @@
 //    DATE: 2020-12-07
 // PUPROSE: test PCF8574 library
 //
-
 // TEST SETUP
-// Connect INT pin of the PCF8574 to UNO pin 2
+//   Connect INT pin of the PCF8574 to UNO pin 2
 //
-// (from figure 4 datasheet
-// Place a pull up resistor 4K7 between pin and 5V
-// Place a capacitor 10-400pF between pin and GND
+//   (from figure 4 datasheet
+//   Place a pull up resistor 4K7 between pin and 5V
+//   Place a capacitor 10-400pF between pin and GND
+
 
 #include "PCF8574.h"
 
 PCF8574 PCF(0x38);
+
 
 ////////////////////////////////////
 //
@@ -47,6 +48,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(IRQPIN), pcf_irq, FALLING);
 }
 
+
 void loop()
 {
   uint32_t now = millis();
@@ -60,8 +62,10 @@ void loop()
     Serial.print('\t');
     Serial.println(x, HEX);
   }
-  // do other things here
+  //  do other things here
   delay(10);
 }
 
+
 // -- END OF FILE --
+

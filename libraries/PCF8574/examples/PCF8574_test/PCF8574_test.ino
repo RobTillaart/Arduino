@@ -1,15 +1,14 @@
-
 //
 //    FILE: PCF8574_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 7-febr-2013
-//
 // PUPROSE: test PCF8574 library
-//
+
 
 #include "PCF8574.h"
 
 PCF8574 PCF_01(0x38);
+
 
 void setup()
 {
@@ -26,6 +25,7 @@ void setup()
   delay(1000);
 }
 
+
 void loop()
 {
   Serial.println("HLT");
@@ -38,6 +38,7 @@ void loop()
   }
 }
 
+
 void doHigh()
 {
   PCF_01.write(4, HIGH);
@@ -45,6 +46,7 @@ void doHigh()
   Serial.print("Read ");
   Serial.println(x, HEX);
 }
+
 
 void doLow()
 {
@@ -54,6 +56,7 @@ void doLow()
   Serial.println(x, HEX);
 }
 
+
 void doToggle()
 {
   PCF_01.toggle(4);
@@ -61,3 +64,7 @@ void doToggle()
   Serial.print("Read ");
   Serial.println(x, HEX);
 }
+
+
+// -- END OF FILE --
+

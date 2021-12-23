@@ -2,15 +2,17 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
 //
 //  HISTORY:
+//
+//  0.3.3   2021-12-23  update library.json, license, readme, minor edits
 //  0.3.2   2021-07-04  fix #25 add setAddress()
 //  0.3.1   2021-04-23  Fix for platformIO compatibility
-//  0.3.0   2021-01-03  multiWire support - inspirated by mattbue - issue #14
+//  0.3.0   2021-01-03  multiWire support - inspired by mattbue - issue #14
 //  0.2.4   2020-12-17  fix #6 tag problem 0.2.3
 //  0.2.3   2020-12-14  fix #6 readButton8 ambiguity
 //  0.2.2   2020-12-07  add Arduino-ci + start unit test + _wire->h in PCF8574.h
@@ -19,9 +21,9 @@
 //          removed pre 1.0 support
 //          added begin(dsa, scl) for ESP32
 //          added reverse()
-//          
+//
 //  0.1.9   2017-02-27  fix warning about return in readButton8()
-//  0.1.08  2016-05-20  Merged work of Septillion 
+//  0.1.08  2016-05-20  Merged work of Septillion
 //          Fix/refactor ButtonRead8() - see https://github.com/RobTillaart/Arduino/issues/38
 //          missing begin() => mask parameter
 //  0.1.07  2016-05-02  (manually merged) Septillion
@@ -36,7 +38,7 @@
 //  0.1.05  2016-04-30  refactor, +toggleMask, +rotLeft, +rotRight
 //  0.1.04  2015-05-09  removed ambiguity in read8()
 //  0.1.03  2015-03-02  address int -> uint8_t
-//  0.1.02  replaced ints with uint8_t to reduce footprint;
+//  0.1.02  replaced integers with uint8_t to reduce footprint;
 //          added default value for shiftLeft() and shiftRight()
 //          renamed status() to lastError();
 //  0.1.01  added value(); returns last read 8 bit value (cached);
@@ -59,7 +61,7 @@ PCF8574::PCF8574(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool PCF8574::begin(uint8_t dataPin, uint8_t clockPin, uint8_t val)
+bool PCF8574::begin(uint8_t dataPin, uint8_t clockPin, uint8_t value)
 {
   _wire      = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
@@ -69,17 +71,17 @@ bool PCF8574::begin(uint8_t dataPin, uint8_t clockPin, uint8_t val)
     _wire->begin();
   }
   if (! isConnected()) return false;
-  PCF8574::write8(val);
+  PCF8574::write8(value);
   return true;
 }
 #endif
 
 
-bool PCF8574::begin(uint8_t val)
+bool PCF8574::begin(uint8_t value)
 {
   _wire->begin();
   if (! isConnected()) return false;
-  PCF8574::write8(val);
+  PCF8574::write8(value);
   return true;
 }
 
@@ -104,11 +106,11 @@ uint8_t PCF8574::getAddress()
 }
 
 
-// removed _wire->beginTransmission(addr);
-// with  @100KHz -> 265 micros()
-// without @100KHz -> 132 micros()
-// without @400KHz -> 52 micros()
-// TODO @800KHz -> ??
+// removed _wire->beginTransmission(_address);
+// with    @100 KHz -> 265 micros()
+// without @100 KHz -> 132 micros()
+// without @400 KHz -> 52 micros()
+// TODO    @800 KHz -> ??
 uint8_t PCF8574::read8()
 {
   if (_wire->requestFrom(_address, (uint8_t)1) != 1)
@@ -252,10 +254,11 @@ uint8_t PCF8574::readButton(const uint8_t pin)
 
   uint8_t temp = _dataOut;
   PCF8574::write(pin, HIGH);
-  uint8_t rtn = PCF8574::read(pin);
+  uint8_t value = PCF8574::read(pin);
   PCF8574::write8(temp);
-  return rtn;
+  return value;
 }
 
 
 // -- END OF FILE --
+

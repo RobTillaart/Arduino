@@ -2,14 +2,15 @@
 //    FILE: PCF8574_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-24
-//
-// PUPROSE: test PCF8574 library
+// PUPROSE: test PCF8574 library at different I2C speeds.
+
 
 #include "PCF8574.h"
 
 PCF8574 PCF(0x38);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -39,10 +40,13 @@ void setup()
     Serial.println(stop - start);
     delay(1000);
   }
-
 }
+
 
 void loop()
 {
-
 }
+
+
+// -- END OF FILE --
+

@@ -2,14 +2,14 @@
 //    FILE: PCF8574_isConnected.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-//
-// PUPROSE: demo 
-//
+// PUPROSE: demo isConnected function
+
 
 #include "PCF8574.h"
 
 // adjust addresses if needed
 PCF8574 PCF_39(0x39);
+
 
 void setup()
 {
@@ -32,8 +32,11 @@ void setup()
   }
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

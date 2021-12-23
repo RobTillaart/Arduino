@@ -24,8 +24,10 @@
  *  no matter the set output state when you press the button.
  */
 
+
 #include <PCF8574.h>
 #include <Wire.h>
+
 
 PCF8574 pcf20(0x20);
 
@@ -36,50 +38,52 @@ const byte PcfLedPin = 1;
 unsigned int blinkMillis;
 unsigned int buttonMillis;
 
+
 void setup() {
   Serial.begin(115200);
   pcf20.begin();
   
   pinMode(onboardLed, OUTPUT);
   
-  //As alternative to adding the mask to buttonRead8() every time
-  //you can set it once.
-  //Without setting a mask buttonRead8() will effect ALL pins.
-  //Not a problem when using things like LEDs.
-  //pcf20.setButtonMask(_BV(PcfButtonLedPin));
+  //  As alternative to adding the mask to buttonRead8() every time
+  //  you can set it once.
+  //  Without setting a mask buttonRead8() will effect ALL pins.
+  //  Not a problem when using things like LEDs.
+  //  pcf20.setButtonMask(_BV(PcfButtonLedPin));
 }
+
 
 void loop() {
   static bool state;
   unsigned int currentMillis = millis();
   
-  //Limit button read to 20 times a second
-  //Fast enough for most buttons 
-  //but this way you don't have a dimmer output because it's blanked during button read
-  //a read takes 460us t 16Mhz Arduino and normal I2C speed.
+  //  Limit button read to 20 times a second
+  //  Fast enough for most buttons 
+  //  but this way you don't have a dimmer output because it's blanked during button read
+  //  a read takes 460us t 16Mhz Arduino and normal I2C speed.
   if(currentMillis - buttonMillis >= 50){
     buttonMillis = currentMillis;
     
-    //read all states but only force PcfButtonLedPin HIGH during the 
-    //buttonRead8()
-    //Alternativly the mask could have been set with setButtonMask().
-    //Then the mask can be omitted here. See setup()
-    // byte inputStates = pcf20.readButton8(_BV(PcfButtonLedPin));
+    //  read all states but only force PcfButtonLedPin HIGH during the 
+    //  buttonRead8()
+    //  Alternatively the mask could have been set with setButtonMask().
+    //  Then the mask can be omitted here. See setup()
+    //  byte inputStates = pcf20.readButton8(_BV(PcfButtonLedPin));
     byte inputStates = pcf20.readButton8(1 << PcfButtonLedPin);      // Keep Arduino-CI happy
     
-    //check the bit of PcfButtonLedPin
+    //  check the bit of PcfButtonLedPin
     if(state != bitRead(inputStates, PcfButtonLedPin)){
       if(state){
-        //toggle the LED
+        //  toggle the LED
         digitalWrite(onboardLed, !digitalRead(onboardLed));
       }
       state = !state;
     }
   }
   
-  //Lets blink the same output
+  //  Lets blink the same output
   if(currentMillis - blinkMillis >= 500){
-    //Update time
+    //  Update time
     blinkMillis = currentMillis;
     
     pcf20.toggle(PcfButtonLedPin);
@@ -87,3 +91,7 @@ void loop() {
     Serial.println(pcf20.read8(), BIN);
   }
 }
+
+
+// -- END OF FILE --
+

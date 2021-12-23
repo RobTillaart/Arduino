@@ -1,11 +1,9 @@
 //
 //    FILE: test_random_timing.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-05-13
-//    (c) : MIT
-//
+
 
 #include "Prandom.h"
 
@@ -14,6 +12,7 @@ const int runs = 1000;
 Prandom R;
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -45,6 +44,7 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop() {}
 
 
@@ -64,6 +64,7 @@ void test_randrange_1()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_randrange_2()
 {
   uint32_t sum = 0;
@@ -79,6 +80,7 @@ void test_randrange_2()
   Serial.print("\t\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_randrange_3()
 {
@@ -96,6 +98,7 @@ void test_randrange_3()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_random_0()
 {
   float sum = 0;
@@ -111,6 +114,7 @@ void test_random_0()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_random_1()
 {
@@ -128,6 +132,7 @@ void test_random_1()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_uniform_2()
 {
   float sum = 0;
@@ -143,6 +148,7 @@ void test_uniform_2()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_triangular_0()
 {
@@ -160,6 +166,7 @@ void test_triangular_0()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_normalvariate_2()
 {
   float sum = 0;
@@ -175,6 +182,7 @@ void test_normalvariate_2()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_lognormvariate_2()
 {
@@ -192,6 +200,7 @@ void test_lognormvariate_2()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_gauss_2()
 {
   float sum = 0;
@@ -207,6 +216,7 @@ void test_gauss_2()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_expovariate_1()
 {
@@ -224,6 +234,7 @@ void test_expovariate_1()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_gammavariate_2()
 {
   float sum = 0;
@@ -239,6 +250,7 @@ void test_gammavariate_2()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_betavariate_2()
 {
@@ -256,6 +268,7 @@ void test_betavariate_2()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_paretovariate_1()
 {
   float sum = 0;
@@ -271,6 +284,7 @@ void test_paretovariate_1()
   Serial.print("\t");
   Serial.println(__FUNCTION__);
 }
+
 
 void test_weibullvariate_2()
 {
@@ -288,6 +302,7 @@ void test_weibullvariate_2()
   Serial.println(__FUNCTION__);
 }
 
+
 void test_vonmisesvariate_2()
 {
   float sum = 0;
@@ -304,4 +319,6 @@ void test_vonmisesvariate_2()
   Serial.println(__FUNCTION__);
 }
 
+
 // -- END OF FILE --
+

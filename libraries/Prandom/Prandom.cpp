@@ -1,7 +1,7 @@
 //
 //    FILE: Prandom.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for random number generation with Python random interface
 //     URL: https://github.com/RobTillaart/Prandom
 //
@@ -10,10 +10,11 @@
 //                       https://docs.python.org/3/library/random.html
 //  0.1.1               renamed all to Prandom
 //  0.1.2   2020-06-19  fix library.json
-//  0.1.3   2021-01-06  arduino-CI + unit test
-
-// code based upon Python implementation although some small 
-// optimizations and tweaks were needed to get it working.
+//  0.1.3   2021-01-06  Arduino-CI + unit test
+//  0.1.4   2021-12-23  update library.json, readme, license, minor edits
+//
+//  code based upon Python implementation although some small
+//  optimizations and tweaks were needed to get it working.
 
 
 #include "Prandom.h"
@@ -40,7 +41,7 @@ void Prandom::seed()
 
 void Prandom::seed(uint32_t s, uint32_t t)
 {
-  // set marsaglia constants, prevent 0 as value
+  // set Marsaglia constants, prevent 0 as value
   if (s == 0) s = 1;
   if (t == 0) t = 2;
   _m_w = s;
@@ -70,8 +71,8 @@ uint32_t Prandom::randrange(uint32_t start, uint32_t stop, uint32_t step)
 
 // returns value between 0 and top which defaults to 1.0
 //         the parameter does not exist in Python
-// note: not all possible (0xFFFFFFFF) values are used
-//       function has an uniform distribution.
+// note:   not all possible (0xFFFFFFFF) values are used
+//         function has an uniform distribution.
 float Prandom::random(const float top)
 {
   if (top == 0) return 0;
@@ -108,7 +109,7 @@ float Prandom::triangular(float lo, float hi, float mid)
 float Prandom::normalvariate(float mu, float sigma)
 {
   // const float NV_MAGICCONST = 4 * exp(-0.5)/sqrt(2.0);
-  const float NV_MAGICCONST = 2 * exp(-0.5)/sqrt(2.0);
+  const float NV_MAGICCONST = 2 * exp(-0.5) / sqrt(2.0);
 
   float u1, u2, z;
   while (true)
@@ -129,7 +130,7 @@ float Prandom::lognormvariate(float mu, float sigma)
 }
 
 
-// implemented slightly differently 
+// implemented slightly differently
 float Prandom::gauss(float mu, float sigma)
 {
   static bool generate = false;
@@ -176,22 +177,22 @@ float Prandom::gammavariate(float alpha, float beta)
 
     float u1, u2, v, x, z, r;
     while (true)
-	{
+    {
       u1 = random();
-	  if (u1 < 1e-7) continue;
+      if (u1 < 1e-7) continue;
       if (u1 > 0.9999999) continue;  // needed?
-	   
+
       u2 = 1.0 - random();
       v = log(u1 / (1.0 - u1)) / ainv;
       x = alpha * exp(v);
       z = u1 * u1 * u2;
       r = bbb + ccc * v - x;
       if ( ( (r + SG_MAGICCONST - 4.5 * z) >= 0.0) ||
-             (r >= log(z)) )
-			 {
-				 return x * beta;
-			 }
-	}
+           (r >= log(z)) )
+      {
+        return x * beta;
+      }
+    }
   }
   else if (alpha == 1.0)
   {
@@ -203,22 +204,22 @@ float Prandom::gammavariate(float alpha, float beta)
 
     float u, b, p, x, u1;
     while (true)
-	{
+    {
       u = random();
-      b = (EULER + alpha)/ EULER;
+      b = (EULER + alpha) / EULER;
       p = b * u;
       if ( p <= 1.0) x = pow(p, (1.0 / alpha));
       else           x = -log((b - p) / alpha);
       u1 = random();
       if (p > 1.0)
-	  {
-		  if (u1 <= pow(x, (alpha - 1.0))) break;
-	  }
+      {
+        if (u1 <= pow(x, (alpha - 1.0))) break;
+      }
       else
-	  {
-		  if (u1 <= exp(-x)) break;
-	  }
-	}
+      {
+        if (u1 <= exp(-x)) break;
+      }
+    }
     return x * beta;
   }
 }
@@ -242,7 +243,7 @@ float Prandom::paretovariate(float alpha)
 float Prandom::weibullvariate(float alpha, float beta)
 {
   float u = 1 - random();
-  return  alpha * pow(-log(u), 1.0/beta);
+  return  alpha * pow(-log(u), 1.0 / beta);
 }
 
 
@@ -309,4 +310,6 @@ uint32_t Prandom::__random()
   return (_m_z << 16) + _m_w;  /* 32-bit result */
 }
 
+
 // -- END OF FILE --
+

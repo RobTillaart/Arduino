@@ -1,14 +1,16 @@
-# Syntax Coloring Map For Prandom
+# Syntax Colouring Map For Prandom
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Prandom	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 Prandom	KEYWORD2
 seed	KEYWORD2
+
 getrandbits	KEYWORD2
 randrange	KEYWORD2
 randint	KEYWORD2
+
 random	KEYWORD2
 uniform	KEYWORD2
 triangular	KEYWORD2
@@ -20,9 +22,12 @@ gammavariate	KEYWORD2
 betavariate	KEYWORD2
 paretovariate	KEYWORD2
 weibullvariate	KEYWORD2
+
 vonmisesvariate	KEYWORD2
 
+
 # Instances (KEYWORD2)
+
 
 # Constants (LITERAL1)
 PRANDOM_LIB_VERSION	LITERAL1

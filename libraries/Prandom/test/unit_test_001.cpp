@@ -38,11 +38,14 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PRANDOM_LIB_VERSION: %s\n", (char *) PRANDOM_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)
@@ -57,10 +60,9 @@ unittest(test_new_operator)
 }
 */
 
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PRANDOM_LIB_VERSION);
-
   Prandom R;
 
   // three seed() calls are possible
@@ -78,6 +80,7 @@ unittest(test_constructor)
   }
 
 }
+
 
 unittest_main()
 

@@ -1,12 +1,9 @@
 //
 //    FILE: PrinterSimulator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-06-24
-//    (c) : MIT
-
-
+//
 // Simple parallel printer simulator, prints to serial...
 // version could be made with a shiftin register ....
 

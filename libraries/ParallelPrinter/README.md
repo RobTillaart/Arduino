@@ -86,13 +86,18 @@ https://en.wikipedia.org/wiki/Parallel_port#Centronics
 
 - update documentation
 - extend unit tests?
-- test more
-- extend simulator sketch
+- test more.
+- extend simulator sketch.
   - Make a front end of a parallel printer, 
   - Accepts the clocked bytes and print them e.g. over serial.
 - derive e.g. an HP or an EPSON printer from this class.
-  - special modes e.g. bold italic underline
+  - special modes e.g. bold italic underline.
+- **write(uint8_t \* buf, uint8_t length)** should be added
+  - might not really add to performance..
+- fix blocking TODO in sendByte
+  
+
 
 ## Operation
 
-See examples
+See examples.

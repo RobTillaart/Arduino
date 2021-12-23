@@ -1,11 +1,9 @@
 //
 //    FILE: ParPrinter_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-05-26
-//    (c) : MIT
-//
+
 
 #include "ParallelPrinter.h"
 
@@ -59,7 +57,7 @@ void test3()
   for (int i = 0; i < 100; i++) PP.print("Hello World ");
   PP.printLineNumber(false);
   for (int i = 0; i < 100; i++) PP.print("Hello World ");
-  
+
   PP.setTabSize(4);
   PP.printLineNumber(true);
   for (int i = 0; i < 100; i++) PP.print("Hello World ");
@@ -83,3 +81,4 @@ void test3()
 
 
 // -- END OF FILE --
+

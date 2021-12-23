@@ -1,7 +1,7 @@
 //
 //    FILE: ParallelPrinter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: parallel printer class that implements the Print interface
 //    DATE: 2013-09-30
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -13,6 +13,7 @@
 //  0.2.2   2021-01-14  update readme, add linefeed(), add keywords.txt
 //  0.2.3   2021-11-11  update Arduino-CI, readme,md
 //                      add isBusy();
+//  0.2.4   2021-12-23  update library.json, license, minor edits
 
 
 #include "ParallelPrinter.h"
@@ -34,7 +35,7 @@ ParallelPrinter::ParallelPrinter(uint8_t STROBE, uint8_t BUSY, uint8_t OOP, uint
   pinMode(_oopPin, INPUT);
   pinMode(_busyPin, INPUT);
   pinMode(_strobePin, OUTPUT);
-  
+
   // DATA LINES
   for (uint8_t i = 0; i < 8; i++)
   {
@@ -143,7 +144,7 @@ void ParallelPrinter::sendByte(uint8_t c)
   // BLOCK WHEN OUT OF PAPER    TODO
   // while (digitalRead(_oopPin) == LOW) yield();
   // indication in hardware?
-  
+
   Serial.write(c);  // debugging
   return;
 
@@ -168,3 +169,4 @@ void ParallelPrinter::sendByte(uint8_t c)
 
 
 // -- END OF FILE --
+

@@ -1,11 +1,9 @@
 //
 //    FILE: Serial2ParPrinter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2020-05-26
-//    (c) : MIT
-//
+
 
 #include "ParallelPrinter.h"
 
@@ -32,3 +30,4 @@ void loop()
 
 
 // -- END OF FILE --
+

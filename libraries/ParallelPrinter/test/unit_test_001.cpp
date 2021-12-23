@@ -38,11 +38,14 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PARALLELPRINTER_VERSION: %s\n", (char *) PARALLELPRINTER_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
 
 /*
 unittest(test_new_operator)
@@ -50,21 +53,19 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
 }
 */
 
-// minimal
 
+// minimal
 unittest(test_constructor_basic)
 {
-  fprintf(stderr, "VERSION: %s\n", PARALLELPRINTER_VERSION);
-
   ParallelPrinter PP;
-  
+
   PP.begin();
   assertEqual(80, PP.getLineLength());
   assertEqual(60, PP.getPageLength());
@@ -86,7 +87,7 @@ unittest(test_constructor_basic)
   // fprintf(stderr, "%d\n", PP.getLineNumber());
   // fprintf(stderr, "%d\n", PP.getPageNumber());
   // fprintf(stderr, "%d\n", PP.getPosition());
-  
+
   assertEqual(3, PP.getLineNumber());  // 0 based
   assertEqual(4, PP.getPageNumber());  // 0 based
   assertEqual(11, PP.getPosition());   // 0 based
@@ -108,7 +109,7 @@ unittest(test_tabs_linefeed)
   fprintf(stderr, "0\t");
   PP.setLineFeed(0);
   assertEqual(1, PP.getLineFeed());   // minimum LF size
-  
+
   for (int LF = 1; LF < 4; LF +=2 )
   {
     fprintf(stderr, "%d\t", LF);
@@ -128,10 +129,11 @@ unittest(test_OutOfPaper)
   // TODO
   // state->digitalPin[12] = 0;
   // assertFalse(PP.isOutOfPaper());
-  // 
+  //
   // state->digitalPin[12] = 1;
   // assertTrue(PP.isOutOfPaper());
 }
+
 
 unittest_main()
 

@@ -64,6 +64,13 @@ Note: constants need to be verified.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
 
 
+#### Gas law (experimental see below)
+
+- **change(float T1, float T2, float V1 = 1, float V2 = 1, float N1 = 1, float N2 = 1)**
+apply changing temperature (**Kelvin**), volume (m3) and moles. If an parameter does not change
+just fill in the value 1 for both before and after.
+
+
 #### constants
 
 The library has a number of constants to convert units.
@@ -107,10 +114,37 @@ Serial.println(P.getTORR());     // 1000 Dynes in Torr
 Version 0.1.0 has incorrect setters. fixed in version 0.2.0.
 
 
+#### Experimental 0.2.1
+
+Apply the ideal gas law : **PxV / nxT = Constant**
+
+- **void change(float T1, float T2, float V1, float V2, float N1, float N2)**
+  - T (temperature) in Kelvin,
+  - V (volume) in identical units, 
+  - N (# atoms) in mole
+- **void changeT(float T1, float T2)** only change temperature. T in Kelvin.
+- **void changeV(float V1, float V2)** only change volume.
+- **void changeN(float N1, float N2)** only change moles.
+
+in code
+```cpp
+pressure P;    
+P.setPressure(...);
+P.change(T1, T2, V1, V2, N1, N2);  // apply all changes.  
+x = P.getPressure()
+```
+
+- do we need a **changeTC(float T1, float T2)** only change temperature, T in Celsius
+- should functions return bool true on success ?
+
+Kelvin = Celsius + 273.15;
+Kelvin = (Fahrenheit - 32) \* 5 / 9 + 273.15;
+Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
+
+
 ## Future
 
 - update documentation
 - find a good reference for conversion formula constants.
-
-
+- test with gas law.
 

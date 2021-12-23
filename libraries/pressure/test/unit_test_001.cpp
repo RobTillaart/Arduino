@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
-
   pressure P;
 
   assertEqualFloat(0.0, P.getMilliBar(), 1e-4);
@@ -69,8 +68,6 @@ unittest(test_constructor)
 
 unittest(test_constants_setter)
 {
-  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
-
   fprintf(stderr, "Test conversion constants\n");
 
   assertEqualFloat(1000,          BAR2MILLIBAR,    1);
@@ -89,8 +86,6 @@ unittest(test_constants_setter)
 
 unittest(test_constants_getter)
 {
-  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
-
   fprintf(stderr, "Test conversion constants\n");
 
   assertEqualFloat(0.001,         MILLIBAR2BAR,    1e-7);
@@ -109,8 +104,6 @@ unittest(test_constants_getter)
 
 unittest(test_constants_3)
 {
-  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
-
   fprintf(stderr, "Test conversion constants\n");
 
   assertEqualFloat(1.0, BAR2MILLIBAR    * MILLIBAR2BAR,    1e-5);
@@ -129,8 +122,6 @@ unittest(test_constants_3)
 
 unittest(test_get_set)
 {
-  fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
-
   pressure P;
 
   P.setMilliBar(2);

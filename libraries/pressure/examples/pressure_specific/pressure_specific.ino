@@ -1,7 +1,6 @@
 //
 //    FILE: pressure_specific.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-11-26
 //     URL: https://github.com/RobTillaart/pressure
@@ -74,3 +73,4 @@ inline float PSI2MSW(float value)
 
 
 // -- END OF FILE --
+

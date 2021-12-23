@@ -2,13 +2,18 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 //
+// HISTORY
+//  0.1.0  2021-11-25   Initial version
+//  0.2.0  2021-11-25   Fix formulas
+//  0.2.1  2021-12-23   update library.json, license
+//                      add experimental gas law.
 
 
-#define PRESSURE_LIB_VERSION        (F("0.2.0"))
+#define PRESSURE_LIB_VERSION        (F("0.2.1"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
@@ -39,8 +44,6 @@
 #define MILLIBAR2CMHG      0.0750061683
 #define MILLIBAR2CMH2O     1.0197162129779 
 #define MILLIBAR2MSW       100
-
-
 
 
 class pressure
@@ -77,9 +80,39 @@ public:
   float getCmH2O()     { return _pressure * MILLIBAR2CMH2O; }
   float getMSW()       { return _pressure * MILLIBAR2MSW; }
 
+
+  // EXPERIMENTAL
+  // temperature in Kelvin!
+  void change(float T1, float T2, float V1, float V2, float N1, float N2)
+  {
+    changeT(T1, T2);
+    changeV(V1, V2);
+    changeN(N1, N2);
+  }
+
+  // temperature in Kelvin!
+  void changeT(float T1, float T2)
+  {
+    if ((T1 != T2) && (T1 > 0) && (T2 > 0)) _pressure *= (T2 / T1);
+  }
+
+
+  void changeV(float V1, float V2)
+  {
+    if ((V1 != V2) && (V1 > 0) && (V2 > 0)) _pressure *= (V1 / V2);
+  }
+
+
+  void changeN(float N1, float N2)
+  {
+    if ((N1 != N2) && (N1 > 0) && (N2 > 0)) _pressure *= (N2 / N1);
+  }
+
+
 private:
   float    _pressure;
 };
 
 
 // -- END OF FILE --
+

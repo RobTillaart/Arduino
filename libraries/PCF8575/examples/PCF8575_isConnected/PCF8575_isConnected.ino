@@ -2,14 +2,14 @@
 //    FILE: PCF8575_isConnected.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-//
-// PUPROSE: demo 
-//
+// PUPROSE: demo device detection
+
 
 #include "PCF8575.h"
 
 // adjust addresses if needed
 PCF8575 PCF(0x39);
+
 
 void setup()
 {
@@ -32,8 +32,11 @@ void setup()
   }
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

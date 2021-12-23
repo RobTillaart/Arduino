@@ -5,9 +5,11 @@
 // PUPROSE: test PCF8575 library
 //     URL: https://github.com/RobTillaart/PCF8575
 
+
 #include "PCF8575.h"
 
 PCF8575 PCF(0x38);
+
 
 void setup()
 {
@@ -15,7 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8575_test version: ");
   Serial.println(PCF8575_LIB_VERSION);
-  
+
   PCF.begin();
 
   uint16_t x = PCF.read16();
@@ -23,6 +25,7 @@ void setup()
   printHex(x);
   delay(1000);
 }
+
 
 void loop()
 {
@@ -36,6 +39,7 @@ void loop()
   }
 }
 
+
 void doHigh()
 {
   PCF.write(4, HIGH);
@@ -44,6 +48,7 @@ void doHigh()
   printHex(x);
 }
 
+
 void doLow()
 {
   PCF.write(4, LOW);
@@ -51,6 +56,7 @@ void doLow()
   Serial.print("Read ");
   printHex(x);
 }
+
 
 void doToggle()
 {
@@ -69,4 +75,6 @@ void printHex(uint16_t x)
   Serial.println(x, HEX);
 }
 
+
 // -- END OF FILE --
+

@@ -51,10 +51,10 @@ the include of "pcf8575.h" to overrule the default value used with the
 
 ### Constructor
 
-- **PCF8575(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
-and optional the Wire interface as parameter.
-- **bool begin(uint8_t val = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t val = PCF8575_INITIAL_VALUE)** idem, 
+- **PCF8575(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with the optional 
+I2C device address, default 0x20, and the optional Wire interface as parameter.
+- **bool begin(uint8_t value = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
+- **bool begin(uint8_t dataPin, uint8_t clockPin, uint8_t value = PCF8575_INITIAL_VALUE)** idem, 
 for the ESP32 where one can choose the I2C pins.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
@@ -132,3 +132,5 @@ See examples.
 
 - update documentation.
 - keep in sync with pcf8574 (as far as meaningful)
+- **value()** => **lastRead16()**  ??
+

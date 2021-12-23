@@ -2,14 +2,14 @@
 //    FILE: pcf8575_test2.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-//
 // PUPROSE: demo rotateLeft, -Right and toggleMask
-//
+
 
 #include "PCF8575.h"
 
 // adjust addresses if needed
-PCF8575 PCF(0x39);  // add leds to lines      (used as output)
+PCF8575 PCF(0x39);  // add LEDs to lines      (used as output)
+
 
 void setup()
 {
@@ -61,8 +61,11 @@ void setup()
   }
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

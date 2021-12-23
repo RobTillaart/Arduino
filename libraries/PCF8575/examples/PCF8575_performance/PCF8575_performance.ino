@@ -2,8 +2,8 @@
 //    FILE: PCF8575_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-24
-//
 // PUPROSE: test PCF8575 library
+
 
 #include "PCF8575.h"
 
@@ -12,6 +12,7 @@ PCF8575 PCF(0x38);
 uint32_t start, stop;
 
 volatile uint16_t x;
+
 
 void setup()
 {
@@ -41,10 +42,13 @@ void setup()
     Serial.println(stop - start);
     delay(1000);
   }
-
 }
+
 
 void loop()
 {
-
 }
+
+
+// -- END OF FILE --
+

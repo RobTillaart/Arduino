@@ -2,15 +2,15 @@
 //    FILE: pcf8575_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-//
 // PUPROSE: demo
-//
+
 
 #include "PCF8575.h"
 
 // adjust addresses if needed
 PCF8575 PCF_38(0x38);  // add switches to lines  (used as input)
 PCF8575 PCF_39(0x39);  // add leds to lines      (used as output)
+
 
 void setup()
 {
@@ -62,6 +62,7 @@ void setup()
   }
 }
 
+
 void loop()
 {
   // echos the lines
@@ -70,4 +71,6 @@ void loop()
   delay(100);
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

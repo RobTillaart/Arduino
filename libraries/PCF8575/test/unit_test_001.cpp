@@ -42,16 +42,26 @@ PCF8575 PCF(0x38);
 
 unittest_setup()
 {
+  fprintf(stderr, "PCF8575_LIB_VERSION: %s\n", (char *) PCF8575_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
+
+unittest(test_constants)
+{
+  assertEqual(PCF8575_INITIAL_VALUE, 0xFFFF);
+  assertEqual(PCF8575_OK           , 0x00);
+  assertEqual(PCF8575_PIN_ERROR    , 0x81);
+  assertEqual(PCF8575_I2C_ERROR    , 0x82);
+}
+
+
 unittest(test_begin)
 {
-  fprintf(stderr, "VERSION: %s\n", PCF8575_LIB_VERSION);
-
   PCF8575 PCF(0x38);
 
   PCF.begin();

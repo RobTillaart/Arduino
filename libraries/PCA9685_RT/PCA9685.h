@@ -3,27 +3,23 @@
 //    FILE: PCA9685.H
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.3.2
-// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM 
+// VERSION: 0.3.3
+// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9685_RT
-//
-// HISTORY:
-// see PCA9685.cpp file
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION       (F("0.3.2"))
+#define PCA9685_LIB_VERSION                 (F("0.3.3"))
 
 // ERROR CODES
-#define PCA9685_OK                0x00
-#define PCA9685_ERROR             0xFF
-#define PCA9685_ERR_CHANNEL       0xFE
-#define PCA9685_ERR_MODE          0xFD
-#define PCA9685_ERR_I2C           0xFC
+#define PCA9685_OK                          0x00
+#define PCA9685_ERROR                       0xFF
+#define PCA9685_ERR_CHANNEL                 0xFE
+#define PCA9685_ERR_MODE                    0xFD
+#define PCA9685_ERR_I2C                     0xFC
 
 
 class PCA9685
@@ -37,10 +33,11 @@ public:
   bool    begin();
   void    reset();
   bool    isConnected();
-  
+
   // reg = 1, 2  check datasheet for values
   void    writeMode(uint8_t reg, uint8_t value);
   uint8_t readMode(uint8_t reg);
+
 
   // single PWM setting, channel = 0..15,
   // onTime = 0..4095, offTime = 0..4095
@@ -50,6 +47,7 @@ public:
 
   // single PWM setting, channel = 0..15, offTime = 0..4095  (onTime = 0)
   void    setPWM(uint8_t channel, uint16_t offTime);
+
 
   // set update frequency for all channels
   // freq = 24 - 1526 Hz
@@ -70,6 +68,7 @@ public:
 
   int     lastError();
 
+
 private:
   // DIRECT CONTROL
   void    writeReg(uint8_t reg, uint8_t value);
@@ -83,4 +82,6 @@ private:
   TwoWire*  _wire;
 };
 
+
 // -- END OF FILE --
+

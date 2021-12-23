@@ -2,15 +2,11 @@
 //    FILE: PCA9685_allOFF_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-11-22
-// VERSION: 0.1.0
 // PUPROSE: test PCA9685 library
 //
-
-/*
-   sets all channels to a PWM
-   then switches them all off
-   you can check it by testing all channels.
-*/
+// sets all channels to a PWM
+// then switches them all off
+// you can check it by testing all channels.
 
 
 #include "PCA9685.h"
@@ -52,4 +48,6 @@ void loop()
   Serial.println(digitalRead(PIN));  // you can measure all pins
 }
 
+
 // -- END OF FILE --
+

@@ -2,15 +2,11 @@
 //    FILE: PCA9685_maxPWM_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-11-22
-// VERSION: 0.1.0
 // PUPROSE: test PCA9685 library
 //
-
-/*
-   sets one channel to max PWM 0..4095
-   and connect the output to an interrupt pin 2
-   to see the frequency of the PWM
-*/
+// sets one channel to max PWM 0..4095
+// and connect the output to an interrupt pin 2
+// to see the frequency of the PWM
 
 
 #include "PCA9685.h"
@@ -69,4 +65,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

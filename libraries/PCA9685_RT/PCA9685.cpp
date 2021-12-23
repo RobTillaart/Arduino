@@ -2,7 +2,7 @@
 //    FILE: PCA9685.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for I2C PCA9685 16 channel PWM 
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 //
@@ -14,8 +14,9 @@
 //  0.2.2  2020-09-21  fix #1 + add getFrequency()
 //  0.2.3  2020-11-21  fix digitalWrite (internal version only)
 //  0.3.0  2020-11-22  fix setting frequency
-//  0.3.1  2021-01-05  arduino-CI + unit test
+//  0.3.1  2021-01-05  Arduino-CI + unit test
 //  0.3.2  2021-01-14  WireN support
+//  0.3.3  2021-12-23  update library.json, license, readme, minor edits
 
 
 #include "PCA9685.h"

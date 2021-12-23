@@ -2,9 +2,7 @@
 //    FILE: PCA9685_test01.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-APR-2016
-// VERSION: 0.1.1
 // PUPROSE: test PCA9685 library
-//
 
 
 #include "PCA9685.h"
@@ -32,6 +30,7 @@ void setup()
   Serial.println("done...");
 }
 
+
 void testSetON()
 {
   Serial.print(millis());
@@ -43,6 +42,7 @@ void testSetON()
   }
 }
 
+
 void testSetOFF()
 {
   Serial.print(millis());
@@ -53,6 +53,7 @@ void testSetOFF()
     ledArray.digitalWrite(channel, LOW);
   }
 }
+
 
 void testPWMMode()
 {
@@ -72,9 +73,11 @@ void testPWMMode()
   }
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

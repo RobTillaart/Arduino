@@ -2,21 +2,16 @@
 //    FILE: PCA9685_setFrequency_offset.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-11-22
-// VERSION: 0.1.0
 // PUPROSE: test PCA9685 library
 //
-
-/*
-   This sketch is to determine the offset needed to get te best matching
-   value for offset to match the wanted frequency.
-
-   connect PWM line 15 to IRQ line 2 to monitor the real frequency
-   set the frequency to the value you want.
-   use the + and - keys to adjust the frequency to get the wanted frequency.
-
-   Note: the higher the frequency, the more inaccurate the real frequency,
-
-*/
+// This sketch is to determine the offset needed to get te best matching
+// value for offset to match the wanted frequency.
+//
+// connect PWM line 15 to IRQ line 2 to monitor the real frequency
+// set the frequency to the value you want.
+// use the + and - keys to adjust the frequency to get the wanted frequency.
+//
+// Note: the higher the frequency, the more inaccurate the real frequency,
 
 
 #include "PCA9685.h"
@@ -32,6 +27,7 @@ uint32_t lastTime = 0;
 uint16_t freq = 200;  // adjust to freq needed  (between 24..1526 )
 int offset = 0;
 int lines = 0;
+
 
 void setup()
 {
@@ -100,4 +96,6 @@ void loop()
 
 }
 
+
 // -- END OF FILE --
+

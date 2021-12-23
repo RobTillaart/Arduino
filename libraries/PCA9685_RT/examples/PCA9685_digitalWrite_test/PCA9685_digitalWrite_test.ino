@@ -2,15 +2,11 @@
 //    FILE: PCA9685_digitalWrite_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-11-21
-// VERSION: 0.1.0
 // PUPROSE: test PCA9685 library
 //
-
-/*
-   sets one channel to max PWM 0..4095
-   and connect the output to an interrupt pin 2
-   to see the frequency of the PWM
-*/
+// sets one channel to max PWM 0..4095
+// and connect the output to an interrupt pin 2
+// to see the frequency of the PWM
 
 
 #include "PCA9685.h"
@@ -21,6 +17,7 @@ PCA9685 PCA(0x40);
 const uint8_t IRQ_PIN = 2;
 volatile uint16_t count = 0;
 uint32_t lastTime = 0;
+
 
 void setup()
 {
@@ -65,4 +62,7 @@ void loop()
     Serial.println(digitalRead(IRQ_PIN));
   }
 }
+
+
 // -- END OF FILE --
+

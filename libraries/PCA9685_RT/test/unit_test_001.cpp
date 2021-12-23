@@ -36,21 +36,32 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PCA9685_LIB_VERSION: %s\n", (char *) PCA9685_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(PCA9685_OK         , 0x00);
+  assertEqual(PCA9685_ERROR      , 0xFF);
+  assertEqual(PCA9685_ERR_CHANNEL, 0xFE);
+  assertEqual(PCA9685_ERR_MODE   , 0xFD);
+  assertEqual(PCA9685_ERR_I2C    , 0xFC);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PCA9685_LIB_VERSION);
-  
   PCA9685 ledArray(0x20);
   assertTrue(ledArray.begin());
   assertTrue(ledArray.isConnected());
 }
+
 
 unittest(test_TODO)
 {
@@ -59,6 +70,7 @@ unittest(test_TODO)
 
   // TODO
 }
+
 
 unittest_main()
 

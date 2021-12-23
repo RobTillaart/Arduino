@@ -1,22 +1,27 @@
-# Syntax Coloring Map For PCA9685
+# Syntax Colouring Map For PCA9685
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PCA9685	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 reset	KEYWORD2
 isConnected	KEYWORD2
+
 writeMode	KEYWORD2
 readMode	KEYWORD2
 setPWM	KEYWORD2
 getPWM	KEYWORD2
+
 setFrequency	KEYWORD2
 getFrequency	KEYWORD2
 digitalWrite	KEYWORD2
+
 setON	KEYWORD2
 setOFF	KEYWORD2
 allOFF	KEYWORD2
+
 lastError	KEYWORD2
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: PinInGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 //          goal is to easily read a group of pins that logically
@@ -16,7 +16,7 @@
 //  0.1.1   2020-05-19  refactor; added clear();
 //                      added param for INPUT or INPUT_PULLUP
 //  0.1.2   2020-06-19  fix library.json
-//  0.1.3   2021-01-05  add arduino-CI + unit test
+//  0.1.3   2021-01-05  add Arduino-CI + unit test
 //  0.1.4   2021-01-22
 //  0.1.5   2021-11-12  update build-CI
 //                      update readme, badges
@@ -24,6 +24,7 @@
 //                      add getIndex() to replace getIdx(),
 //                      add getMaxSize(),
 //                      fix version number and history.
+//  0.1.6  2021-12-23   update library.json, license, minor edits
 
 
 #include "PinInGroup.h"
@@ -113,3 +114,4 @@ uint8_t PinInGroup::getIndex(uint8_t pin)
 
 
 // --- END OF FILE ---
+

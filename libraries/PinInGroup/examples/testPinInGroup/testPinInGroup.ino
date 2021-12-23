@@ -1,9 +1,7 @@
 //    FILE: testPinInGroup.ino
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.1
 // PURPOSE: demo PinInGroup library for Arduino
-// HISTORY: 20-08-2017
-//
+//    DATE: 20-08-2017
 
 
 #include "PinInGroup.h"

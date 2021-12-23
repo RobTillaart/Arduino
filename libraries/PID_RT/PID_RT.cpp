@@ -1,21 +1,22 @@
 //
 //    FILE: PID_RT.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID
 //
 //  HISTORY
-//  2020-12-15  0.1.0  update readme, fix unit test, 
+//  0.1.0  2020-12-15  update readme, fix unit test, 
 //                     fix library.json
 //                     add 2nd constructor
-//  2021-05-27  0.1.1  add json check, add lint check
-//  2021-05-28  0.1.2  minor edits
-//  2021-11-12  0.1.3  update build-CI, update readme
+//  0.1.1  2021-05-27  add json check, add lint check
+//  0.1.2  2021-05-28  minor edits
+//  0.1.3  2021-11-12  update build-CI, update readme
 //                     renamed variables for readability
 //                     added history
 //                     fixed bug in setK
-//
+//  0.1.4  2021-12-23  update library.json, license, minor edits
+
 
 #include "PID_RT.h"
 
@@ -157,3 +158,4 @@ bool PID_RT::setInterval(uint32_t interval)
 
 
 // -- END OF FILE -- 
+

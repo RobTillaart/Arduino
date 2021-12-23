@@ -1,12 +1,9 @@
 //
 //    FILE: PID_basic.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-12-15
-//    (c) : MIT
 //
-
 // connect an LED to the PWM pin
 // connect a potentiometer to A0
 // play :)
@@ -53,3 +50,4 @@ void loop()
 
 
 // -- END OF FILE --
+

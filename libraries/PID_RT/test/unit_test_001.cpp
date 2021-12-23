@@ -26,6 +26,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PID_LIB_VERSION: %s\n", (char *) PID_LIB_VERSION);
 }
 
 

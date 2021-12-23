@@ -1,8 +1,6 @@
 //    FILE: trafficLight.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo PinOutGroup library for Arduino
-//
 
 
 #include "PinOutGroup.h"

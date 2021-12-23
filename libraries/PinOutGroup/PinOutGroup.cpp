@@ -1,7 +1,7 @@
 //
 //    FILE: PinOutGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2017-04-26
 // PURPOSE: PinOutGroup library for Arduino
 //          goal is to easily change a group of pins that logically
@@ -14,8 +14,8 @@
 //
 //  0.1.0   20-08-2017  initial version (based upon experimental pinGroup)
 //  0.1.1   2020-05-19  main refactor;
-//          added tests; added clear(); added write(idx, value)
-//          renamed set to write() to be in line with digitalWrite()
+//                      added tests; added clear(); added write(idx, value)
+//                      renamed set to write() to be in line with digitalWrite()
 //  0.1.2   2020-06-19  fix library.json
 //  0.1.3   2021-01-05  add Arduino-CI + unit test
 //  0.1.4   2021-01-22
@@ -25,6 +25,7 @@
 //                      renamed variables for readability 
 //                      add getIndex() to replace getIdx(),
 //                      add getMaxSize(),
+//  0.1.6   2021-12-23  update library.json, license, minor edits
 
 
 #include "PinOutGroup.h"
@@ -155,5 +156,5 @@ uint8_t PinOutGroup::getIndex(uint8_t pin)
 }
 
 
-
 // --- END OF FILE ---
+

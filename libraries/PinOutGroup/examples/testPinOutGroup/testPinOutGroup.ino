@@ -1,8 +1,6 @@
 //    FILE: testPinOutGroup.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: demo PinOutGroup library for Arduino
-//
 
 
 #include "PinOutGroup.h"
@@ -396,3 +394,4 @@ void test8()
 
 
 // -- END OF FILE --
+

@@ -1,16 +1,17 @@
 //
 //    FILE: PCF8591_incremental_read.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-07-22
 //     URL: https://github.com/RobTillaart/PCF8591
+
 
 #include "PCF8591.h"
 
 PCF8591 dev(0x48);
 
 uint32_t start, stop, dura1, dura2;
+
 
 void setup()
 {
@@ -76,8 +77,11 @@ void setup()
   Serial.println("\nDone...\n");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

@@ -2,15 +2,16 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: I2C PCF8591 library for Arduino
 //     URL: https://github.com/RobTillaart/PCF8591
 //
 //  HISTORY:
 //  0.0.1  2020-03-12  initial version
 //  0.0.2  2020-07-22  testing, refactor, documentation and examples 
-//  0.1.0  2021-01-04  arduino-CI
+//  0.1.0  2021-01-04  Arduino-CI
 //  0.1.1  2021-01-14  added WireN + improve error handling.
+//  0.1.2  2021-12-23  update library.json, readme, license, minor edits
 
 
 #include "PCF8591.h"
@@ -178,5 +179,5 @@ int PCF8591::lastError()
 }
 
 
-
 // -- END OF FILE --
+

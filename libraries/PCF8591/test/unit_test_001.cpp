@@ -39,17 +39,32 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PCF8591_LIB_VERSION: %s\n", (char *) PCF8591_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(PCF8591_OK           , 0x00);
+  assertEqual(PCF8591_PIN_ERROR    , 0x81);
+  assertEqual(PCF8591_I2C_ERROR    , 0x82);
+  assertEqual(PCF8591_MODE_ERROR   , 0x83);
+  assertEqual(PCF8591_CHANNEL_ERROR, 0x84);
+  assertEqual(PCF8591_ADDRESS_ERROR, 0x85);
+
+  fprintf(stderr, "increment flags\n");
+  assertEqual(PCF8591_DAC_FLAG     , 0x40);
+  assertEqual(PCF8591_INCR_FLAG    , 0x04);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PCF8591_LIB_VERSION);
-
   PCF8591 dev(0x48);
   assertTrue(dev.begin());
 

@@ -1,19 +1,21 @@
 //
 //    FILE: PCF8591_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-07-22
 //     URL: https://github.com/RobTillaart/PCF8591
-
+//
 // NOTE: output is written in markdown format of a table
+//       (so oeasy to include in the readme.md ;)
 //       can be changed to tab based or comma based output
+
 
 #include "PCF8591.h"
 
 PCF8591 dev(0x48);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -39,9 +41,11 @@ void setup()
   test2();
 }
 
+
 void loop()
 {
 }
+
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -64,6 +68,7 @@ void test1()
   Serial.println();
 }
 
+
 void test2()
 {
   Serial.println(F("| - Wire clock KHz - | - analogWrite() OK% - | - analogRead() OK% - |"));
@@ -83,6 +88,7 @@ void test2()
   Serial.println();
 }
 
+
 void test_DAC()
 {
   dev.enableDAC();
@@ -98,6 +104,7 @@ void test_DAC()
   Serial.print((stop - start) * 0.001);
 }
 
+
 void test_ADC()
 {
   volatile uint8_t x = 0;
@@ -110,6 +117,7 @@ void test_ADC()
   Serial.print(" | ");
   Serial.print((stop - start) * 0.001);
 }
+
 
 void test_DAC_error()
 {
@@ -126,6 +134,7 @@ void test_DAC_error()
   Serial.print(perc);
 }
 
+
 void test_ADC_error()
 {
   float perc = 0;
@@ -139,4 +148,6 @@ void test_ADC_error()
   Serial.print(perc);
 }
 
+
 // -- END OF FILE --
+

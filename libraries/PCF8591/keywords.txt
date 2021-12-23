@@ -1,6 +1,6 @@
-# Syntax Coloring Map For PCF8591
+# Syntax Colouring Map For PCF8591
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 PCF8591	KEYWORD1
 
 # Methods and Functions (KEYWORD2)

@@ -1,7 +1,6 @@
 //
 //    FILE: toBytes.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo toBytes(double val);
 //    DATE: 2020-07-03
 

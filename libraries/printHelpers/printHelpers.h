@@ -3,8 +3,8 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.2
-// PUPROSE: Arduino library to help formatting for printing. 
+// VERSION: 0.2.3
+// PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.2.2"))
+#define PRINTHELPERS_VERSION      (F("0.2.3"))
 
 // 24 is a pretty safe minimum
 
@@ -29,7 +29,7 @@ char __printbuffer[PRINTBUFFERSIZE];
 
 ////////////////////////////////////////////////////////////
 //
-// PRINT 64 BIT 
+// PRINT 64 BIT
 //
 
 // print64 note
@@ -141,7 +141,7 @@ char * print64(uint64_t value, uint8_t base = 10)
 // SCIENTIFIC NOTATIION
 //
 
-// typical buffer size for 8 byte double is 22 bytes 
+// typical buffer size for 8 byte double is 22 bytes
 // 15 bytes mantissa, sign dot E-xxx
 //  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em)
@@ -159,7 +159,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   // Handling these costs 13 bytes RAM
   // shorten them with N, I, -I ?
-  if (isnan(value)) 
+  if (isnan(value))
   {
     strcpy(buffer, "nan");
     return buffer;
@@ -178,7 +178,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     value = -value;
   }
 
-  // Scale exponent to multiple of em  
+  // Scale exponent to multiple of em
   // TODO: can we remove loop to reduce rounding errors
   while (value >= e1)
   {
@@ -220,7 +220,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     buffer[pos++] = '.';    // decimal point
   }
 
-  // Extract decimals from the remainder one at a time 
+  // Extract decimals from the remainder one at a time
   // to prevent missing leading zero's
   // TODO: can we remove loop to reduce rounding errors
   while (decimals-- > 0)
@@ -262,18 +262,19 @@ void sci(Stream &str, double value, uint8_t decimals)
   str.print(sci(value, decimals));
 }
 
+
 ////////////////////////////////////////////////////////////
 //
-// toBytes 
+// toBytes
 //
 
 // official support to UDA == 1024^12
 // kilo mega giga tera peta exa (1024^6)
 // zetta yotta xona weka vunda uda (1024^12)
 //
-// (treda Byte == TDB is the next one and it is 2 char 
+// (treda Byte == TDB is the next one and it is 2 char
 // so code wise difficult and as it is seldom used, support stops there.
-// 
+//
 // To have some support the code uses lowercase for the next 8 levels
 // treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
 char * toBytes(double value, uint8_t decimals = 2)
@@ -281,7 +282,7 @@ char * toBytes(double value, uint8_t decimals = 2)
   static char buffer[12];
   char  t[] = " KMGTPEZYXWVUtsrqponml";
   uint8_t i = 0;    // i is index of the array == powers of 1024.
-  if (isinf(value)) 
+  if (isinf(value))
   {
     strcpy(buffer, "<inf>");
     return buffer;
@@ -298,7 +299,7 @@ char * toBytes(double value, uint8_t decimals = 2)
   // WHOLE PART iv
   int integerPart = value;
   itoa(integerPart, &buffer[0], 10);
-  
+
   // DECIMALS
   value -= integerPart;
   uint8_t pos = strlen(buffer);
@@ -312,7 +313,7 @@ char * toBytes(double value, uint8_t decimals = 2)
       value -= int(value);
     }
   }
-  
+
   // UNITS
   if (i <= strlen(t))
   {
@@ -330,3 +331,4 @@ char * toBytes(double value, uint8_t decimals = 2)
 
 
 // -- END OF FILE --
+

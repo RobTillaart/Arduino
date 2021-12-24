@@ -1,6 +1,5 @@
 //    FILE: print_sci.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: demo program SCI
 
 
@@ -73,3 +72,4 @@ void loop()
 
 
 // -- END OF FILE --
+

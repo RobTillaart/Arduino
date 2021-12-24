@@ -8,7 +8,7 @@
 
 # printHelpers
 
-Arduino library to help formatting data for printing
+Arduino library to help formatting data for printing.
 
 
 ## Description
@@ -36,10 +36,10 @@ Base 10 (DEC) and 16 (HEX) are supported and bases up to 36 can be used.
 char array. 
 E.g. print(sci(f, 4)) ==> results in "6.7407E+21".
 The existing Arduino print library only supports printing of floats and
-doubles up toabout 4E9 while the range of floats goes up to ~1E38. 
+doubles up to about 4E9 while the range of floats goes up to ~1E38. 
 The smallest float values will often be printed as 0.00 while floats 
 support down to about 1E-38 (subnormal even to 1E-45). 
-Exisiting library functions **dtostrf()** has no scientific notation 
+Existing library functions **dtostrf()** has no scientific notation 
 and **dtostre()** (AVR) is limited to 7 decimals.
 
 - **char \* eng(double value, uint8_t decimals)** converts a float or double to a 
@@ -114,14 +114,14 @@ When functions are added, the recommended minimum size might increase.
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Future
 
 - Investigate the precision of **sci()** and **eng()**.
 - Investigate performance of **sci()** and **eng()**.
-- Investigate performance (local variables iso modifying parameters)
+- Investigate performance (local variables instead of modifying parameters)
 - Add option to pass char buffer as parameter (improve threadsafe)
 - Add more print helpers. 
 - improve readability of the code (even more)

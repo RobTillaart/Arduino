@@ -1,7 +1,6 @@
 //
 //    FILE: sci_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test different values with sci function
 
 

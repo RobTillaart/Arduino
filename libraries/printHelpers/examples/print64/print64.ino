@@ -1,11 +1,8 @@
 //
 //    FILE: print64.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo print 64 bit integers
 //    DATE: 2020-06-24
-//    (c) : MIT
-//
 
 
 #include "printHelpers.h"
@@ -57,3 +54,4 @@ void loop()
 
 
 // -- END OF FILE --
+

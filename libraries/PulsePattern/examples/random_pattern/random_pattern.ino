@@ -2,12 +2,12 @@
 //    FILE: random_pattern.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-04
-//
-// PUPROSE: demo of the PulsePattern Library
+// PURPOSE: demo of the PulsePattern Library
 //          uses timer1
-//
+
 
 #include "PulsePattern.h"
+
 
 // a pattern constants of durations of LOW and HIGH periods
 // so the first line of the SOSpattern
@@ -20,6 +20,7 @@ uint16_t random_pattern[] = { 500, 500 };
 uint8_t patternSize = 2;
 uint8_t startLevel = LOW;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -30,6 +31,7 @@ void setup()
   PPGenerator.init(13, random_pattern, patternSize, startLevel, PRESCALE_1024);
   PPGenerator.start();
 }
+
 
 void loop()
 {
@@ -46,4 +48,6 @@ void loop()
   delay(5000);
 }
 
+
 // -- END OF FILE --
+

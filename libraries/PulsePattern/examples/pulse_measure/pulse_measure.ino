@@ -1,28 +1,28 @@
 //
 //    FILE: pulse_measure.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: measure pulselength
 //    DATE: 2020-08-07
-
+//
 // TEST
-// - generate with one Arduino a pulse of 1000 ms
-// - measure it with this sketch to determine the correction percentage
+//   generate with one Arduino a pulse of 1000 ms
+//   measure it with this sketch to determine the correction percentage
+
 
 #include "Arduino.h"
 
 // measure pin = A5 on UNO
-uint8_t  pin = 19;           
+uint8_t  pin = 19;
 
 
-// record pulses in units of 10 milliseconds 
+// record pulses in units of 10 milliseconds
 // an a minimum duration of 20 miiliseconds.
 uint16_t minDuration = 20;
 uint16_t units = 10;
 
 
 // to calc the average
-uint32_t count = 0;          
+uint32_t count = 0;
 uint32_t sum = 0;
 
 
@@ -78,4 +78,6 @@ uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
   return duration;
 }
 
+
 // -- END OF FILE --
+

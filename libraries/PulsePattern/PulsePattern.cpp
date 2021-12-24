@@ -1,7 +1,7 @@
 //
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //
@@ -10,15 +10,15 @@
 //  0.0.2   2012-11-23  adapted a static PPO
 //  0.0.3   2012-12-27  renamed to PulsePattern
 //  0.0.4   2012-12-27  code stable(?) enough to publish
-//  0.0.5   2012-12-27  code cleanup+comment
+//  0.0.5   2012-12-27  code clean up + comment
 //  0.0.6   2015-04-18  completed the state machine
 //  0.0.7   2017-07-16  refactor & review
 //  0.0.8   2018-12-13  refactor -> remove some warnings
 //  0.1.0   2020-06-19  #pragma once; remove pre 1.0 support; refactor
 //  0.1.1   2020-07-04  add continue function, fix spaces.
 //  0.1.2   2020-08-07  speed up toggle pin + get/setFactor()
-//  0.1.3   2021-01-06  arduino-ci (no unit test)
-
+//  0.1.3   2021-01-06  Arduino-CI (no unit test)
+//  0.1.4   2021-12-24  update library.json, license, minor edits
 
 #include "PulsePattern.h"
 
@@ -31,6 +31,7 @@ ISR(TIMER1_COMPA_vect)
   PPGenerator.worker();
 }
 
+
 PulsePattern::PulsePattern()
 {
   _size = 0;
@@ -41,6 +42,7 @@ PulsePattern::PulsePattern()
   _prescaler = 0;
   _pin = 0;
 }
+
 
 void PulsePattern::init(const uint8_t pin, const uint16_t * ar, const uint8_t size,
 const uint8_t level, const uint8_t prescaler)
@@ -64,12 +66,14 @@ const uint8_t level, const uint8_t prescaler)
   _pinbit = digitalPinToBitMask(_pin);
 }
 
+
 void PulsePattern::start()
 {
   if (_state == RUNNING) return;  // no restart
   _cnt = 0;                       // start from begin
   cont();
 }
+
 
 void PulsePattern::cont()
 {
@@ -79,6 +83,7 @@ void PulsePattern::cont()
   _state = RUNNING;
 }
 
+
 void PulsePattern::stop()
 {
   stopTimer();
@@ -86,6 +91,7 @@ void PulsePattern::stop()
   _level = LOW;
   digitalWrite(_pin, _level);
 }
+
 
 void PulsePattern::worker()
 {
@@ -109,12 +115,14 @@ void PulsePattern::worker()
   if (_cnt >= _size) _cnt = 0;  // repeat pattern
 }
 
+
 // TIMER code based upon - http://www.gammon.com.au/forum/?id=11504
 void PulsePattern::stopTimer()
 {
   TCCR1A = 0;        // reset timer 1
   TCCR1B = 0;
 }
+
 
 void PulsePattern::setTimer(const uint16_t cc) const
 {
@@ -132,4 +140,6 @@ void PulsePattern::setTimer(const uint16_t cc) const
   TIMSK1 = _BV (OCIE1A);    // interrupt on Compare A Match
 }
 
+
 // -- END OF FILE --
+

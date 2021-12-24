@@ -47,6 +47,7 @@ uint8_t startLevel = LOW;
 
 unittest_setup()
 {
+  fprintf(stderr, "PULSEPATTERN_LIB_VERSION: %s\n", (char *) PULSEPATTERN_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -54,10 +55,27 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  fprintf(stderr, "status\n");
+  assertEqual(NOTINIT, -1);  
+  assertEqual(STOPPED, 0);
+  assertEqual(RUNNING, 1);
+
+  fprintf(stderr, "\nprescaler\n");
+  assertEqual(NO_CLOCK      , 0);
+  assertEqual(PRESCALE_1    , 1);  
+  assertEqual(PRESCALE_8    , 2);
+  assertEqual(PRESCALE_64   , 3);
+  assertEqual(PRESCALE_256  , 4);
+  assertEqual(PRESCALE_1024 , 5);  
+  assertEqual(EXT_T1_FALLING, 6);
+  assertEqual(EXT_T2_RISING , 7);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", PULSEPATTERN_LIB_VERSION);
-
   PPGenerator.init(13, pattern, patternSize, startLevel, PRESCALE_1024);
 
   assertFalse(PPGenerator.isRunning());
@@ -79,8 +97,6 @@ unittest(test_constructor)
 
 unittest(test_setFactor)
 {
-  fprintf(stderr, "VERSION: %s\n", PULSEPATTERN_LIB_VERSION);
-
   PPGenerator.init(13, pattern, patternSize, startLevel, PRESCALE_1024);
 
   PPGenerator.setFactor(42.42);

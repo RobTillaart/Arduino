@@ -2,12 +2,10 @@
 //    FILE: pulse_sender.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-08-08
-//
-// PUPROSE: for callibrating the pulselength
+// PURPOSE: for calibrating the pulse length
 //          uses timer1
 //
-
-// This sketch sends a testpattern of 1000 ms LOW and 1000 ms HIGH ==> Duty Cycle = 50%
+// This sketch sends a test pattern of 1000 ms LOW and 1000 ms HIGH ==> Duty Cycle = 50%
 // From measuring the duration of the pulses one can derive the correction factor to adjust the timing.
 //
 // Pulse sender used an UNO R3 board.
@@ -17,7 +15,7 @@
 // 2: Saleae Logic analyzer 2.3.4 Alpha 
 //
 // The correction factor was not identical but close  -2.46% vs -2.78% 
-// The Saleae gave a pulselength after correction of 999.99 mSec so pretty good for UNO.
+// The Saleae gave a pulse length after correction of 999.99 mSec so pretty good for UNO.
 // Currently the correction factor is in steps of 1/4096, to get in the order of 0.1% accuracy
 
 
@@ -25,6 +23,7 @@
 //
 // CODE STARTS HERE
 //
+
 
 #include "PulsePattern.h"
 
@@ -55,8 +54,11 @@ void setup()
   PPGenerator.start();
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

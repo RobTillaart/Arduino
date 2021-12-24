@@ -1,11 +1,12 @@
 //
 //    FILE: pattern_recorder.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: records and writes a pattern to serial
 //    DATE: 2020-07-25
 
+
 #include "Arduino.h"
+
 
 uint8_t  pin = 4;
 uint16_t minDuration = 50;
@@ -13,11 +14,13 @@ uint16_t units = 10;
 uint32_t counter = 0;
 uint32_t sum = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 }
+
 
 void loop()
 {
@@ -28,6 +31,7 @@ void loop()
   Serial.print("\t");
   Serial.println(sum/counter);
 }
+
 
 uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
 {
@@ -57,4 +61,6 @@ uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
   return duration;
 }
 
+
 // -- END OF FILE --
+

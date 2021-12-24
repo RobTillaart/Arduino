@@ -38,7 +38,7 @@ Can be used to calculate the needed space.
 - to properly do a right alignment e.g. for numbers or variable text.
 - do left alignment and overwrite previous output with just enough spaces.
 - centring of numbers.
-- see if output will fit into a line / display
+- see if output will fit into a line / display.
 - see if a string fits in EEPROM or any other storage medium.
 - see if a string fits in a communication buffer.
 
@@ -47,6 +47,6 @@ Can be used to calculate the needed space.
 
 - add examples
 - add a function to handle **tab** char correctly e.g. 
-  could add more than one char. Interferes with the write(str, length).
+  could add more than one char. Interferes with the **write(str, length)**.
 - 
 

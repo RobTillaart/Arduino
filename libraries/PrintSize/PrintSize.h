@@ -2,7 +2,7 @@
 //
 //    FILE: PrintSize.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Class that determines printSize
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintSize
@@ -15,12 +15,12 @@
 //  0.3.0   2021-01-06  Arduino-CI + unit test
 //  0.3.1   2021-11-13  update Arduino-CI, readme.md, badges
 //                      add write(str, length) for Print interface.
-//
+//  0.3.2   2021-12-24  update library.json, license, minor edits
 
 
 #include "Print.h"
 
-#define PRINTSIZE_VERSION     (F("0.3.1"))
+#define PRINTSIZE_VERSION     (F("0.3.2"))
 
 
 class PrintSize: public Print
@@ -30,7 +30,6 @@ public:
   {
     reset();
   };
-
 
 
   size_t write(uint8_t c)  // note: warning unused parameter
@@ -58,4 +57,6 @@ private:
 
 };
 
+
 // -- END OF FILE --
+

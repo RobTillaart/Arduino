@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PRINTSIZE_VERSION: %s\n", (char *) PRINTSIZE_VERSION);
 }
 
 unittest_teardown()
@@ -59,8 +60,6 @@ unittest(test_new_operator)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
-
   PrintSize ps;
 
   assertEqual(0, ps.total());
@@ -70,8 +69,6 @@ unittest(test_constructor)
 
 unittest(test_print)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
-
   PrintSize ps;
 
   assertEqual(0,  ps.total());
@@ -92,8 +89,6 @@ unittest(test_print)
 
 unittest(test_write)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) PRINTSIZE_VERSION);
-
   PrintSize ps;
 
   assertEqual(0,  ps.total());

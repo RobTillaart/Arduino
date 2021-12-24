@@ -1,11 +1,9 @@
 //
 //    FILE: PrintSize_total.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo printSize total counter
 //     URL: https://github.com/RobTillaart/PrintSize
 //
-
 /*
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis eget odio ut
   tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur,

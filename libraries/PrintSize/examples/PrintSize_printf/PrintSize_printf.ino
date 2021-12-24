@@ -1,12 +1,9 @@
 //
 //    FILE: PrintSize_printf.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo printSize printf
 //
-//    NOTE:
-// - UNO does not support printf, - ESP32 does
-//
+//    NOTE: - UNO does not support printf, - ESP32 does
 
 
 #include "PrintSize.h"

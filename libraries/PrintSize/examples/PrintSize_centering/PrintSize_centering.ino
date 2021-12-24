@@ -1,10 +1,8 @@
 //
 //    FILE: PrintSize_centering.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo printSize centring
 //     URL: https://github.com/RobTillaart/PrintSize
-//
 
 
 #include "PrintSize.h"

@@ -1,10 +1,8 @@
 //
 //    FILE: PrintSize1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo printSize
 //     URL: https://github.com/RobTillaart/PrintSize
-//
 
 
 #include "PrintSize.h"

@@ -22,7 +22,7 @@ This String can be requested to process later.
   use to prevent "display line overflow"
   (e.g. floats)
 
-There is a relation to https://github.com/RobTillaart/PrintCharArray
+There is a relation to https://github.com/RobTillaart/PrintCharArray and https://github.com/RobTillaart/PrintSize.
 
 
 ## Interface
@@ -37,14 +37,15 @@ There is a relation to https://github.com/RobTillaart/PrintCharArray
 
 ## Operational
 
-See examples
+See examples.
 
 
 ## Future
 
 - testing
-- add examples
-- rename examples
+- examples
+  - add new ones
+  - rename examples
 - add functions like **repeat(char c)** to inject e.g. 7 spaces etc.
 - add error flag
 - 

@@ -20,12 +20,14 @@ The internal buffer can be set in the constructor and has a minimum of 20 bytes 
 a maximum of 250 bytes. Default size is 100 bytes.
 
 Applications
-- buffer slowly generated data, and send it with minimum time between bytes
-  use it e.g. for faster printing to SD card or Ethernet which can handle larger buffers.
+- Buffer slowly generated data, and send it with minimum time between bytes.
+  Use it e.g. for faster printing to SD card or Ethernet which can handle larger buffers.
 - print to buffer to see how many chars the output will be.
   - use to prevent "display line overflow" (e.g. floats).
   - use to right align output (see examples).
   - 
+
+Related to https://github.com/RobTillaart/PrintSize and https://github.com/RobTillaart/PrintString.
 
 
 ## Interface
@@ -44,14 +46,16 @@ Recall that a char array must have a '\0' delimiter.
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Future
 
 - testing
-- add examples
-- rename examples
+- examples
+  - inject spaces in "middle align" example? possible?
+  - rename some
+  - add real live examples.
 - add functions like **repeat(char c)** to inject e.g. 7 spaces etc.
 - add error flag
 - 

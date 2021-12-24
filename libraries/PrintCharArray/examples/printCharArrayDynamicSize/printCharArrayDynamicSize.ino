@@ -1,10 +1,8 @@
 //
 //    FILE: printCharArrayDynamicSize.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
 // PURPOSE: demo setting size of internal buffer
 //     URL: https://github.com/RobTillaart/PrintCharArray
-//
 
 
 #include "PrintCharArray.h"

@@ -1,10 +1,8 @@
 //
 //    FILE: printCharArray1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PrintCharArray
-//
 
 
 #include "PrintCharArray.h"

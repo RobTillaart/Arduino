@@ -39,17 +39,23 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PRINTCHARARRAY_VERSION: %s\n", (char *) PRINTCHARARRAY_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(PRINTCHARARRAY_MAX_BUFFER_SIZE, 250);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) PRINTCHARARRAY_VERSION);
-
   PrintCharArray ps(100);
 
   assertEqual(100, ps.bufSize());

@@ -22,7 +22,7 @@ void setup()
   Serial.print("MS5611 lib version: ");
   Serial.println(MS5611_LIB_VERSION);
 
-  if (MS5611.begin() == true)
+  if (MS5611.begin())
   {
     Serial.println("MS5611 found.");
   }
@@ -33,15 +33,15 @@ void setup()
   }
 
   count = 0;
-  Serial.println("CNT\tDUR\tRES\tTEMP\tPRES");
-  delay(1000);
 }
 
 
 void loop()
 {
+  delay(1000);
+
   start = micros();
-  int result = MS5611.read();
+  int result = MS5611.read();   // uses default OSR_ULTRA_LOW  (fastest)
   stop = micros();
 
   if (count % 20 == 0)
@@ -61,8 +61,6 @@ void loop()
   Serial.print("\t");
   Serial.print(MS5611.getPressure(), 2);
   Serial.println();
-
-  delay(1000);
 }
 
 

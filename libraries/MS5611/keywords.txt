@@ -10,6 +10,8 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 
 read	KEYWORD2
+setOversampling	KEYWORD2
+getOversampling	KEYWORD2
 getTemperature	KEYWORD2
 getPressure	KEYWORD2
 getLastResult	KEYWORD2

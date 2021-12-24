@@ -96,6 +96,28 @@ unittest(test_read_sensor)
   // assertEqual(0, sensor.lastRead());
 }
 
+
+unittest(test_overSampling)
+{
+  MS5611 sensor(0x77);
+
+  assertTrue(sensor.begin());
+
+  // default
+  assureEqual(OSR_ULTRA_LOW, sensor.getOversampling());
+
+  sensor.setOversampling(OSR_ULTRA_LOW);
+  assureEqual(OSR_ULTRA_LOW, sensor.getOversampling());
+  sensor.setOversampling(OSR_LOW);
+  assureEqual(OSR_LOW, sensor.getOversampling());
+  sensor.setOversampling(OSR_STANDARD);
+  assureEqual(OSR_STANDARD, sensor.getOversampling());
+  sensor.setOversampling(OSR_HIGH);
+  assureEqual(OSR_HIGH, sensor.getOversampling());
+  sensor.setOversampling(OSR_ULTRA_HIGH);
+  assureEqual(OSR_ULTRA_HIGH, sensor.getOversampling());
+}
+
 unittest_main()
 
 // --------

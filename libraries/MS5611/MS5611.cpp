@@ -2,12 +2,13 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
 //
+//  0.3.2   2021-12-24  add get/set oversampling, read() (thanks to LyricPants66133)
 //  0.3.1   2021-12-21  update library.json, readme, license, minor edits
 //  0.3.0   2021-01-27  fix #9 math error (thanks to Emiel Steerneman)
 //                      add Wire1..WireN support (e.g. teensy)
@@ -58,11 +59,12 @@
 //
 MS5611::MS5611(uint8_t deviceAddress)
 {
-  _address     = deviceAddress;
-  _temperature = MS5611_NOT_READ;
-  _pressure    = MS5611_NOT_READ;
-  _result      = MS5611_NOT_READ;
-  _lastRead    = 0;
+  _address      = deviceAddress;
+  _samplingRate = OSR_ULTRA_LOW;
+  _temperature  = MS5611_NOT_READ;
+  _pressure     = MS5611_NOT_READ;
+  _result       = MS5611_NOT_READ;
+  _lastRead     = 0;
 }
 
 
@@ -183,6 +185,11 @@ int MS5611::read(uint8_t bits)
   return MS5611_READ_OK;
 }
 
+
+void MS5611::setOversampling(osr_t samplingRate)
+{
+  _samplingRate = (uint8_t) samplingRate;
+}
 
 /////////////////////////////////////////////////////
 //

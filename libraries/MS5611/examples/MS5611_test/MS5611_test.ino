@@ -31,11 +31,11 @@ void setup()
   /*
   There are 5 oversampling settings, each corresponding to a different amount of milliseconds
   The higher the oversampling, the more accurate the reading will be, however the longer it will take.
-  OSR_ULTRA_HIGH -> 10 millis
-  OSR_HIGH       -> 5 millis
-  OSR_STANDARD   -> 3 millis
-  OSR_LOW        -> 2 millis
-  OSR_ULTRA_LOW  -> 1 millis   Default = backwards compatible
+  OSR_ULTRA_HIGH -> 8.22 millis
+  OSR_HIGH       -> 4.11 millis
+  OSR_STANDARD   -> 2.1 millis
+  OSR_LOW        -> 1.1 millis
+  OSR_ULTRA_LOW  -> 0.5 millis   Default = backwards compatible
   */
   MS5611.setOversampling(OSR_ULTRA_HIGH);
 }

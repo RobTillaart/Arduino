@@ -2,12 +2,12 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
-//
+//  0.3.3   2021-12-25  Update oversampling timings to reduce time spent waiting
 //  0.3.2   2021-12-24  add get/set oversampling, read() (thanks to LyricPants66133)
 //  0.3.1   2021-12-21  update library.json, readme, license, minor edits
 //  0.3.0   2021-01-27  fix #9 math error (thanks to Emiel Steerneman)
@@ -110,16 +110,16 @@ bool MS5611::isConnected()
 void MS5611::reset()
 {
   command(MS5611_CMD_RESET);
-  delay(3);
+  delayMicroseconds(2800);
   // constants that were multiplied in read()
   // do this once and you save CPU cycles
   C[0] = 1;
-  C[1] = 32768L;
-  C[2] = 65536L;
-  C[3] = 3.90625E-3;
-  C[4] = 7.8125E-3;
-  C[5] = 256;
-  C[6] = 1.1920928955E-7;
+  C[1] = 32768L;          // SENSt1 = C[1] * 2^15
+  C[2] = 65536L;          // OFFt1 = C[2] * 2^16
+  C[3] = 3.90625E-3;      // TCS = C[3] / 2^6
+  C[4] = 7.8125E-3;       // TCO = C[4] / 2^7
+  C[5] = 256;             // Tref = C[5] * 2^8
+  C[6] = 1.1920928955E-7; // TEMPSENS = C[6] / 2^23
   // read factory calibrations from EEPROM.
   for (uint8_t reg = 0; reg < 7; reg++)
   {
@@ -197,12 +197,13 @@ void MS5611::setOversampling(osr_t samplingRate)
 //
 void MS5611::convert(const uint8_t addr, uint8_t bits)
 {
-  uint8_t del[5] = {1, 2, 3, 5, 10};
+  //Values from page 2 datasheet
+  uint16_t del[5] = {500, 1100, 2100, 4100, 8220};
 
   bits = constrain(bits, 8, 12);
   uint8_t offset = (bits - 8) * 2;
   command(addr + offset);
-  delay(del[offset/2]);
+  delayMicroseconds(del[offset/2]);
 }
 
 

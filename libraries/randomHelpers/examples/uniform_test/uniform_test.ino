@@ -1,11 +1,9 @@
 //
 //    FILE: uniform_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-11-15
 //     URL: https://github.com/RobTillaart/randomHelpers
-//
 
 
 #include "randomHelpers.h"
@@ -25,6 +23,7 @@ void setup()
 void loop()
 {
 }
+
 
 void test_throwDice()
 {
@@ -55,3 +54,4 @@ void test_throwDice()
 
 
 // -- END OF FILE --
+

@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "RANDOM_HELPERS_VERSION: %s\n", (char *) RANDOM_HELPERS_VERSION);
 }
 
 unittest_teardown()
@@ -60,8 +61,6 @@ unittest(test_new_operator)
 
 unittest(test_all)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) RANDOM_HELPERS_VERSION);
-
   for (int i = 0; i < 10; i ++)
   {
     fprintf(stderr, "\n round %d\n", i);

@@ -2,11 +2,12 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 //
 //  HISTORY:
+//  0.2.3   2021-12-27  update library.json, license, minor edits
 //  0.2.2   2021-11-15  update Arduino-CI, readme.md badges
 //                      add seedMarsaglia(uint32_t a, uint32_t b)
 //                      fix randomDice()
@@ -19,7 +20,8 @@
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION       (F("0.2.2"))
+#define RANDOM_HELPERS_VERSION                (F("0.2.3"))
+
 
 // the idea is to have one buffer ( __randomBuffer) which holds 32 random bits. 
 // Every call fetches bits from that buffer and if it does not hold enough 

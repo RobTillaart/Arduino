@@ -2,9 +2,8 @@
 //    FILE: rotaryDecoder_demo_polling.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
-//
 // PUPROSE: demo
-
+//
 // connect up to 4 rotary encoders to 1 PCF8574.
 //
 //  RotaryEncoder    PCF8574      UNO
@@ -36,7 +35,6 @@ void setup()
   decoder.begin(4);
   decoder.readInitialState();
 }
-
 
 
 void loop()

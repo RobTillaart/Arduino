@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoder.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_LIB_VERSION         (F("0.1.1"))
+#define ROTARY_DECODER_LIB_VERSION         (F("0.1.2"))
 
 
 class rotaryDecoder
@@ -28,14 +28,14 @@ public:
 
   void    readInitialState();
 
-  // for polling version, 
+  // for polling version,
   // checkChange is bit faster than a call to update
-  // so useful if there are only a few updates 
+  // so useful if there are only a few updates
   bool    checkChange();
 
   // read and update the counters
   bool    update();         // assumes two directions   => +1 and -1
-  bool    updateSingle();   // assumes single direction => + ++ +++ 
+  bool    updateSingle();   // assumes single direction => + ++ +++
 
   // re = rotary encoder
   int32_t getValue(uint8_t re) { return _encoder[re]; };
@@ -43,6 +43,7 @@ public:
 
   // DEBUG
   uint8_t getLastPosition(uint8_t re) { return _lastPos[re]; };
+
 
 private:
   uint8_t   _count = 0;
@@ -55,4 +56,6 @@ private:
   TwoWire * _wire;
 };
 
+
 // -- END OF FILE --
+

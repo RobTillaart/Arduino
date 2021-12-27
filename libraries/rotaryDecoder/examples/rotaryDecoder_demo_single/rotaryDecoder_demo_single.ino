@@ -2,12 +2,11 @@
 //    FILE: rotaryDecoder_demo_single.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
-//
 // PUPROSE: demo single direction rotary decoder.
-
+//
 // note this is used for e.g. RPM counters that are unidirectional.
 //      all moves are interpreted as same direction.
-
+//
 // connect up to 4 rotary encoders to 1 PCF8574.
 //
 //  RotaryEncoder    PCF8574      UNO

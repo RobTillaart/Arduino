@@ -10,7 +10,7 @@
 //  0.1.0   2021-05-08  initial version
 //  0.1.1   2021-11-15  update build-CI, readme.md
 //                      improve readability of code
-//
+//  0.1.2   2021-12-27  update library.json, license, minor edits
 
 
 #include "rotaryDecoder.h"
@@ -158,3 +158,4 @@ uint8_t rotaryDecoder::_read8()
 
 
 // -- END OF FILE --
+

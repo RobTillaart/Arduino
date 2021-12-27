@@ -1,7 +1,6 @@
 //
 //    FILE: gravity_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test formulas
 //    DATE: 2021-05-29
 //     URL: https://github.com/RobTillaart/relativity
@@ -35,4 +34,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

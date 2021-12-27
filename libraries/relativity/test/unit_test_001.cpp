@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "RELATIVITY_LIB_VERSION: %s\n", (char*) RELATIVITY_LIB_VERSION);
 }
 
 
@@ -47,8 +48,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", RELATIVITY_LIB_VERSION);
-
   relativity R;
 
   // test constants

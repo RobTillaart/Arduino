@@ -2,19 +2,20 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
 //
 //  HISTORY:
 //  0.1.0   2021-05-29  initial version
 //  0.1.1   2021-06-02  fix in tests
+//  0.1.2   2021-12-27  update library.json, readme, license, minor edits
 
 
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.1"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.2"))
 
 
 class relativity
@@ -122,7 +123,7 @@ public:
   }
 
   // returns radius in km.
-  double radiusEarth(uint8_t longitude = 45)  // 0..90
+  double radiusEarth(double longitude = 45)  // 0..90
   {
     // https://www.youtube.com/watch?v=hYMvJum9_Do  @ 8:00
     // radius polar:    6357 km
@@ -130,7 +131,7 @@ public:
     // difference:      21 km      
     double radians = longitude * (PI / 180.0);
 
-    // approx of the graph in youtube with a cosine
+    // approx of the graph in YouTube with a cosine
     return 6367.5 + 10.5 * cos(radians * 2);
   }
 
@@ -194,3 +195,4 @@ private:
 
 
 // -- END OF FILE --
+

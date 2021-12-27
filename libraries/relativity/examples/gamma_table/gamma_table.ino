@@ -1,7 +1,6 @@
 //
 //    FILE: gamma_table.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test formulas
 //    DATE: 2021-05-29
 //     URL: https://github.com/RobTillaart/relativity
@@ -13,6 +12,7 @@
 uint32_t start, stop;
 
 relativity R;
+
 
 void setup()
 {
@@ -46,4 +46,6 @@ void loop()
 {
 }
 
+
 // -- END OF FILE --
+

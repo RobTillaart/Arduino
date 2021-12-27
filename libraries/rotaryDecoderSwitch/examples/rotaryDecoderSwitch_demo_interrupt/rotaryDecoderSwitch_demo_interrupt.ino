@@ -2,9 +2,8 @@
 //    FILE: rotaryDecoderSwitch_demo_interrupt.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-17
-//
 // PUPROSE: demo
-
+//
 // connect up to 2 rotary encoders with a switch to 1 PCF8574.
 //
 //  RotaryEncoder    PCF8574      UNO

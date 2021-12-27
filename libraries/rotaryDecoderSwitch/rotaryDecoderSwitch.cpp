@@ -8,9 +8,10 @@
 //
 //  HISTORY:
 //  0.1.0   2021-05-17  initial version
-//  0.1.1   2021-11-16  update build-CI, reanme.md, badges
+//  0.1.1   2021-11-16  update build-CI, readnme.md, badges
 //                      improve readability of code
-//
+//  0.1.2   2021-12-27  update library.json, readme, license, minor edits
+
 
 #include "rotaryDecoderSwitch.h"
 
@@ -165,3 +166,4 @@ bool rotaryDecoderSwitch::isKeyPressed(uint8_t re)
 
 
 // -- END OF FILE --
+

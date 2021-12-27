@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ROTARY_DECODER_SWITCH_LIB_VERSION: %s\n", (char *) ROTARY_DECODER_SWITCH_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -47,8 +48,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", ROTARY_DECODER_SWITCH_LIB_VERSION);
-
   rotaryDecoderSwitch(0x20);
 
   fprintf(stderr, "no tests yet");

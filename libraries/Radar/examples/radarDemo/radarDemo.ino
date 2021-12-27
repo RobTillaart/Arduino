@@ -1,7 +1,6 @@
 //
 //    FILE: radarDemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo of the radar library
 //    DATE: 29-03-2015
 //     URL: https://github.com/RobTillaart/RADAR

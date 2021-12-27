@@ -1,6 +1,6 @@
 {
   "name": "RADAR",
-  "keywords": "Pan,tilt,radar,ping",
+  "keywords": "Pan,tilt,radar,ping,position",
   "description": "Arduino library for a pan tilt radar. Experimental",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/RADAR"
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "radar.h"
 }

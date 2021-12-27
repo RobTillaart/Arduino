@@ -1,16 +1,18 @@
 //
 //    FILE: radar.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for a pan tilt radar.
 //     URL: https://github.com/RobTillaart/RADAR
 //
+//  HISTORY
 //  0.1.00  2013-09-30  (?) outline
 //  0.1.01  2015-03-06  updated some code, still not functional
 //  0.1.2   2017-07-16  refactor & review
 //  0.1.3   2020-07-06  refactor, clean up and some documentation
-//  0.1.4   2021-01-07  arduino-ci, unit-test
-//  0.1.5   2021-05-27  fix arduino-lint
+//  0.1.4   2021-01-07  Arduino-CI, unit-test
+//  0.1.5   2021-05-27  fix Arduino-lint
+//  0.1.6   2021-12-27  Update library.json, readme, license, minor edits
 
 
 #include "radar.h"
@@ -60,7 +62,7 @@ int16_t RADAR::getPan()
   uint32_t movement = round(duration * _panPerSecond * 0.001);
   if ( abs(_pan - _prevPan) <= movement) return _pan;
 
-  // else estimate PAN by linear interpolation 
+  // else estimate PAN by linear interpolation
   if (_pan > _prevPan) return _prevPan + movement;
   return _prevPan - movement;
 }
@@ -87,8 +89,8 @@ int16_t RADAR::getTilt()
   uint32_t movement = round(duration * _tiltPerSecond * 0.001);
   if (abs(_tilt - _prevTilt) <= movement) return _tilt;
 
-  // estimate TILT by linear interpolation 
-  if (_tilt > _prevTilt) return _prevTilt + movement;  
+  // estimate TILT by linear interpolation
+  if (_tilt > _prevTilt) return _prevTilt + movement;
   return _prevTilt - movement;
 }
 
@@ -100,29 +102,29 @@ void RADAR::gotoPanTilt(const int16_t pan, const int16_t tilt)
 }
 
 
-bool RADAR::setPosition(const uint8_t n, const int16_t pan, const int16_t tilt)
+bool RADAR::setPosition(const uint8_t index, const int16_t pan, const int16_t tilt)
 {
-  if (n >= RADAR_POSITIONS) return false;
-  _panArray[n] = pan;
-  _tiltArray[n] = tilt;
+  if (index >= RADAR_POSITIONS) return false;
+  _panArray[index] = pan;
+  _tiltArray[index] = tilt;
   return true;
 }
 
 
-bool RADAR::getPosition(const uint8_t n, int16_t & pan, int16_t & tilt)
+bool RADAR::getPosition(const uint8_t index, int16_t & pan, int16_t & tilt)
 {
-  if (n >= RADAR_POSITIONS) return false;
-  pan = _panArray[n];
-  tilt = _tiltArray[n];
+  if (index >= RADAR_POSITIONS) return false;
+  pan = _panArray[index];
+  tilt = _tiltArray[index];
   return true;
 }
 
 
-bool RADAR::gotoPosition(const uint8_t n)
+bool RADAR::gotoPosition(const uint8_t index)
 {
-  if (n >= RADAR_POSITIONS) return false;
-  gotoPan(_panArray[n]);
-  gotoTilt(_tiltArray[n]);
+  if (index >= RADAR_POSITIONS) return false;
+  gotoPan(_panArray[index]);
+  gotoTilt(_tiltArray[index]);
   return true;
 }
 
@@ -157,7 +159,8 @@ uint32_t RADAR::ping(const int16_t pan, const int16_t tilt)
 }
 // PRIVATE
 
-// TODO distill private parts (getPan and getTilt share a lot
+// TODO distil private parts (getPan and getTilt share a lot
 
 
 // -- END OF FILE --
+

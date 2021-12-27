@@ -33,11 +33,12 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "radar.h" 
+#include "radar.h"
 
 
 unittest_setup()
 {
+  fprintf(stderr, "RADAR_LIB_VERSION: %s\n", (char *) RADAR_LIB_VERSION);
 }
 
 
@@ -51,7 +52,7 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
@@ -61,8 +62,6 @@ unittest(test_new_operator)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", RADAR_LIB_VERSION);
-
   RADAR radar(10, 11);
 
   assertEqual(10, radar.getMaxPositions());

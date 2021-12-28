@@ -1,10 +1,13 @@
 //
 //    FILE: ShiftInSlow.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for shiftIn with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftInSlow
+//
+//  0.1.0  2021-05-11   initial version
+//  0.1.1  2021-12-28   update library.json, readme, license
 
 
 #include "ShiftInSlow.h"
@@ -19,7 +22,7 @@ ShiftInSlow::ShiftInSlow(const uint8_t dataPin, const uint8_t clockPin, const ui
   pinMode(_dataPin, INPUT);
   pinMode(_clockPin, OUTPUT);
   // https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/
-  digitalWrite(_clockPin, LOW);  // assume rising pulses from clock 
+  digitalWrite(_clockPin, LOW);  // assume rising pulses from clock
 }
 
 
@@ -46,10 +49,12 @@ bool ShiftInSlow::setBitOrder(const uint8_t bitOrder)
 {
   if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
   {
-    _bitOrder = bitOrder; 
+    _bitOrder = bitOrder;
     return true;
   };
   return false;
 }
 
+
 // -- END OF FILE --
+

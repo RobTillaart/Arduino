@@ -37,6 +37,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "SHIFTINSLOW_LIB_VERSION: %s\n", (char *) SHIFTINSLOW_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,7 +49,6 @@ unittest(test_constructor)
 {
   ShiftInSlow SIS(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", SHIFTINSLOW_LIB_VERSION);
   assertEqual(0, SIS.lastRead());
   assertEqual(LSBFIRST, SIS.getBitOrder());
   
@@ -61,7 +61,6 @@ unittest(test_constructor_LSB)
 {
   ShiftInSlow SIS(12, 13, LSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", SHIFTINSLOW_LIB_VERSION);
   assertEqual(0, SIS.lastRead());
   assertEqual(LSBFIRST, SIS.getBitOrder());
   
@@ -74,7 +73,6 @@ unittest(test_constructor_MSB)
 {
   ShiftInSlow SIS(12, 13, MSBFIRST);
 
-  fprintf(stderr, "VERSION:\t%s\n", SHIFTINSLOW_LIB_VERSION);
   assertEqual(0, SIS.lastRead());
   assertEqual(MSBFIRST, SIS.getBitOrder());
   
@@ -87,7 +85,6 @@ unittest(test_setDelay)
 {
   ShiftInSlow SIS(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", SHIFTINSLOW_LIB_VERSION);
   for (uint16_t d = 0; d < 1000; d += 100)
   {
     SIS.setDelay(d);
@@ -100,7 +97,6 @@ unittest(test_read)
 {
   ShiftInSlow SIS(12, 13);
 
-  fprintf(stderr, "VERSION:\t%s\n", SHIFTINSLOW_LIB_VERSION);
   assertEqual(0, SIS.read());
 }
 

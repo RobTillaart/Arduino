@@ -1,6 +1,7 @@
-# Syntax Coloring Map For ShiftInSlow
+# Syntax Colouring Map For ShiftInSlow
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 ShiftInSlow	KEYWORD1
 
 

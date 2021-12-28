@@ -1,15 +1,16 @@
 //
 //    FILE: ShiftOutSlow.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for shiftOut with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
-
+//
 // HISTORY
 //  0.1.0   2021-05-11  initial version
 //  0.1.1   2021-08-16  add write(buffer, size) = print interface.
 //                      improve delay math; update readme.md
+//  0.1.2   2021-12-28  update library.json, readme, license, minor edits"
 
 
 #include "ShiftOutSlow.h"
@@ -73,4 +74,6 @@ bool ShiftOutSlow::setBitOrder(const uint8_t bitOrder)
   return false;
 }
 
+
 // -- END OF FILE --
+

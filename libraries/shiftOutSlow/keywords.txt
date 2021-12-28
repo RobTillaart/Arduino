@@ -1,14 +1,17 @@
-# Syntax Coloring Map For ShiftOutSlow
+# Syntax Colouring Map For ShiftOutSlow
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 ShiftOutSlow	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 read	KEYWORD2
-lastRead	KEYWORD2
+lastWriiten	KEYWORD2
+
 setBitOrder	KEYWORD2
 getBitOrder	KEYWORD2
+
 setDelay	KEYWORD2
 getDelay	KEYWORD2
 

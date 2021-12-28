@@ -1,10 +1,8 @@
 //
 //    FILE: shiftOutSlow_print.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test sketch for print interface
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
-//
 
 
 #include "ShiftOutSlow.h"
@@ -13,6 +11,7 @@
 ShiftOutSlow SOS(12, 13, LSBFIRST);
 
 volatile int x = 0;
+
 
 void setup()
 {
@@ -85,14 +84,16 @@ void setup()
     delay(10);
   }
 
-
   Serial.println(LSBFIRST);
   Serial.println(MSBFIRST);
   Serial.println("done...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

@@ -1,10 +1,8 @@
 //
 //    FILE: shiftOutSlow_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test sketch
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
-//
 
 
 #include "ShiftOutSlow.h"
@@ -13,6 +11,7 @@
 ShiftOutSlow SOS(12, 13, LSBFIRST);
 
 volatile int x = 0;
+
 
 void setup()
 {
@@ -35,8 +34,11 @@ void setup()
   Serial.println("done...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

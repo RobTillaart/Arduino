@@ -1,7 +1,6 @@
 //
 //    FILE: SRF05_demo_running_average.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo distance sensor
 //    DATE: 2021-05-17
 //     URL: https://github.com/RobTillaart/SRF05
@@ -37,3 +36,4 @@ void loop()
 
 
 // -- END OF FILE --
+

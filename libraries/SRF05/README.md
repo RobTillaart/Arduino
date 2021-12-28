@@ -159,4 +159,3 @@ See examples..
 - add ```setTriggerLength()```
 
 
-

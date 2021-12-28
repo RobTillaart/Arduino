@@ -1,6 +1,6 @@
 {
   "name": "SRF05",
-  "keywords": "distance sound HY-SRF05 SRF04 ping",
+  "keywords": "distance,sound,HY-SRF05,SRF04,ping",
   "description": "Arduino library for SRF05 distance sensor",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SRF05.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "SRF05.h"
 }

@@ -2,7 +2,7 @@
 //
 //    FILE: SRF05.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for SRF05 distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SRF05_LIB_VERSION         (F("0.1.1"))
+#define SRF05_LIB_VERSION                 (F("0.1.2"))
 
 
 class SRF05
@@ -50,8 +50,8 @@ public:
 
 
   // Experimental - adjust trigger length - gain is a few usec at best.
-  // 10 usec is advised minimum
-  // void     setTriggerLength(uint8_t len = 10) { _triggerLength = len; };
+  // 10 microseconds is advised minimum
+  // void     setTriggerLength(uint8_t length = 10) { _triggerLength = length; };
   // uint8_t  getTriggerLength() { return _triggerLength; };
 
 
@@ -69,7 +69,6 @@ private:
 
   uint32_t _read();
   void     _insertSort(uint32_t * array, uint8_t size);
-
 };
 
 

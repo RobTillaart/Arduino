@@ -36,6 +36,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "RUNNING_ANGLE_LIB_VERSION: %s\n", (char *) RUNNING_ANGLE_LIB_VERSION );
 }
 
 
@@ -46,10 +47,8 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", RUNNING_ANGLE_LIB_VERSION );
-  
   runningAngle heading(runningAngle::DEGREES);
-  assertEqualFloat(0.80, heading.getWeight(), 0.0001);  
+  assertEqualFloat(0.80, heading.getWeight(), 0.0001);
   assertEqualFloat(0, heading.getAverage(), 0.0001);
 }
 
@@ -67,14 +66,13 @@ unittest(test_getAverage)
   fprintf(stderr, "\treset()\n");
   heading.reset();
   assertEqualFloat(0, heading.getAverage(), 0.0001);
-
 }
 
 
 unittest(test_weight)
 {
   runningAngle heading(runningAngle::DEGREES);
-  assertEqualFloat(0.80, heading.getWeight(), 0.0001);  
+  assertEqualFloat(0.80, heading.getWeight(), 0.0001);
 
   heading.setWeight(0.85);
   assertEqualFloat(0.85, heading.getWeight(), 0.0001);

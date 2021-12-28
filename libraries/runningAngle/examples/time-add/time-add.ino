@@ -11,7 +11,9 @@
  * This test is meant to run on AVR-based Arduinos only.
  */
 
+
 #include <runningAngle.h>
+
 
 // Uncomment the line below in order to do the computation in radians.
 //#define USE_RADIANS
@@ -31,6 +33,7 @@
 # define ANGLE_MAX    90.0
 #endif
 
+
 // Overhead of the timing code, in CPU cycles. This was found by
 // disassembling and counting cycles.
 const uint16_t timing_overhead = 8;
@@ -47,6 +50,7 @@ static float unoptimize(float x)
     volatile float y = x;
     return y;
 }
+
 
 runningAngle heading(runningAngle::ANGLE_UNIT);
 
@@ -100,3 +104,4 @@ void setup() {
 }
 
 void loop(){}
+

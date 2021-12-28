@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/runningAngle/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/runningAngle/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/runningAngle/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/runningAngle/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/runningAngle/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/runningAngle/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/runningAngle.svg?maxAge=3600)](https://github.com/RobTillaart/runningAngle/releases)
 
@@ -85,7 +87,7 @@ float heading = get_a_compass_reading_somehow();
 float smoothed_heading = my_filter.add(heading);
 ```
 
-The method returns the smoothed reading within ±180° (i.e. ±π rad).
+The method returns the smoothed reading within ± 180° (i.e. ± π rad).
 
 See the “examples” folder for a more complete example.
 
@@ -97,7 +99,7 @@ See the “examples” folder for a more complete example.
 - **float add(float angle)** adds value using a certain weight, except the first value after a reset is used as initial value. The **add()** function returns the new average.
 - **void reset()** resets the internals and start over again.
 - **float getAverage()** returns the current average value.
-- **void setWeight(float weight)** sets the weight of the new added value. Value wil be constrained between 0.001 and 1.00
+- **void setWeight(float weight)** sets the weight of the new added value. Value will be constrained between 0.001 and 1.00
 - **float getWeight()** returns the current set weight.
 - **AngleType type()** returns DEGREES or RADIANS.
 - **float wrap(float angle)** wraps an angle to <-180..+180>  <-PI..PI> depending on the type set.
@@ -106,4 +108,11 @@ See the “examples” folder for a more complete example.
 ## Operation
 
 See examples
+
+
+## Future
+
+- get some numbers about the noise in the angles (stats on the delta?)
+- add GRADIANS as type (low prio)
+
 

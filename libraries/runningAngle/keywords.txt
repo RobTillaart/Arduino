@@ -1,8 +1,10 @@
-# Syntax Coloring Map for runningAngle
+# Syntax Colouring Map for runningAngle
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 runningAngle	KEYWORD1
 AngleType	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2

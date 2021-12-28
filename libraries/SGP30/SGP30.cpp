@@ -1,7 +1,7 @@
 //
 //    FILE: SGP30.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-06-24
 // PURPOSE: SGP30 library for Arduino
 //     URL: https://github.com/RobTillaart/SGP30
@@ -13,6 +13,7 @@
 //  0.1.2   2021-06-26  experimental add units  H2 + Ethanol
 //  0.1.3   2021-06-26  add get/setTVOCbaseline()
 //  0.1.4   2021-07-01  add CRC checking
+//  0.1.5   2021-12-28  update library,json, readme, license, minor edits
 
 
 #include "SGP30.h"
@@ -283,19 +284,19 @@ float SGP30::setRelHumidity(float T, float RH)  // P10
   // page 10 datasheet
   // AH = AbsoluteHumidity
   // uint16_t AH = 216.7 * RH/100 * 6.117 * exp((17.62 * T)/(243.12 + T)) / (273.15 + T);
-  float AbsoluteHumidity = (2.167 * 6.112) * RH ;
-  AbsoluteHumidity *= exp((17.62 * T)/(243.12 + T));
-  AbsoluteHumidity /=  (273.15 + T);
+  float absoluteHumidity = (2.167 * 6.112) * RH ;
+  absoluteHumidity *= exp((17.62 * T)/(243.12 + T));
+  absoluteHumidity /=  (273.15 + T);
 
-  setAbsHumidity(AbsoluteHumidity);
-  return AbsoluteHumidity;
+  setAbsHumidity(absoluteHumidity);
+  return absoluteHumidity;
 }
 
 
-void SGP30::setAbsHumidity(float AbsoluteHumidity)
+void SGP30::setAbsHumidity(float absoluteHumidity)
 {
-  uint16_t AH = AbsoluteHumidity;
-  uint8_t tmp = (AbsoluteHumidity - AH) * 256;
+  uint16_t AH = absoluteHumidity;
+  uint8_t tmp = (absoluteHumidity - AH) * 256;
   AH = (AH << 8) | tmp;
 
   _command(0x2061, AH);     // P 11
@@ -449,5 +450,5 @@ void SGP30::_init()
 };
 
 
-
 // -- END OF FILE --
+

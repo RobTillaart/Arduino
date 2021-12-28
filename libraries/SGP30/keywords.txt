@@ -1,4 +1,4 @@
-# Syntax Coloring Map For SGP30
+# Syntax Colouring Map For SGP30
 
 
 # Data types (KEYWORD1)

@@ -5,9 +5,8 @@
 //    DATE: 2021-06-24
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
-
-// 20 samples per second RAW data
 //
+// 20 samples per second RAW data
 // calculates the average, which can be used to determine the Sref
 // for the H2 and Ethanol concentration functions.
 
@@ -84,3 +83,4 @@ void loop()
 
 
 // -- END OF FILE --
+

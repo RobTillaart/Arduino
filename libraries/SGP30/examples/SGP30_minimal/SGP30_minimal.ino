@@ -2,7 +2,6 @@
 //    FILE: SGP30_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SGP30
-//    DATE: 2021-06-24
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
 

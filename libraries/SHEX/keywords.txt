@@ -1,7 +1,9 @@
-# Syntax Coloring Map For SHEX
+# Syntax Colouring Map For SHEX
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 SHEX	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
@@ -9,10 +11,12 @@ setHEX	KEYWORD2
 getHex	KEYWORD2
 setBytesPerLine	KEYWORD2
 getBytesPerLine	KEYWORD2
+
 setSeparator	KEYWORD2
 getSeparator	KEYWORD2
 setCountFlag	KEYWORD2
 getCountFlag	KEYWORD2
+
 
 # Constants (LITERAL1)
 SHEX_LIB_VERSION	LITERAL1

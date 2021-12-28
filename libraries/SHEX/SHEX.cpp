@@ -1,7 +1,7 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -10,17 +10,19 @@
 //  0.1.0   2020-05-24  initial version
 //  0.1.1   2020-06-19  fix library.json
 //  0.2.0   2021-01-07  Arduino-CI + unit tests + modifiers.
+//  0.2.1   2021-12-28  update library.json, readme, license, minor edits
 
 
 #include "SHEX.h"
 
 
-SHEX::SHEX(Print* stream, uint8_t len)
+SHEX::SHEX(Print* stream, uint8_t length)
 {
-  _stream    = stream;
+  _stream  = stream;
   reset();
   // force multiple of 4; max 32
-  _length    = min(32, ((len + 3) / 4) * 4);
+  _length = ((length + 3) / 4) * 4;
+  if (_length > 32) _length = 32;
 };
 
 
@@ -87,13 +89,15 @@ void SHEX::setHEX(bool hexOutput)
 };
 
 
-void SHEX::setBytesPerLine(const uint8_t len)
+void SHEX::setBytesPerLine(const uint8_t length)
 {
-  _length = min(32, ((len + 3) / 4) * 4);  // force multiple of 4; 
+  // force multiple of 4; max 32
+  _length = ((length + 3) / 4) * 4;
+  if (_length > 32) _length = 32;
   _charCount = 0;
   _stream->println();
 }
 
 
-
 // -- END OF FILE --
+

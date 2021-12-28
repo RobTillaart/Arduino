@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9555.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -12,15 +12,15 @@
 #include "Wire.h"
 
 
-#define TCA9555_LIB_VERSION    (F("0.1.1"))
+#define TCA9555_LIB_VERSION               (F("0.1.2"))
 
-#define TCA9555_OK              0x00
-#define TCA9555_PIN_ERROR       0x81
-#define TCA9555_I2C_ERROR       0x82
-#define TCA9555_VALUE_ERROR     0x83
-#define TCA9555_PORT_ERROR      0x84
+#define TCA9555_OK                        0x00
+#define TCA9555_PIN_ERROR                 0x81
+#define TCA9555_I2C_ERROR                 0x82
+#define TCA9555_VALUE_ERROR               0x83
+#define TCA9555_PORT_ERROR                0x84
 
-#define TCA9555_INVALID_READ    -100
+#define TCA9555_INVALID_READ              -100
 
 
 class TCA9555
@@ -49,7 +49,7 @@ public:
 
   //  8 PIN INTERFACE
   //  port  = 0..1
-  //  mask  = bitpattern
+  //  mask  = bit pattern
   bool     pinMode8(uint8_t port, uint8_t mask);
   bool     write8(uint8_t port, uint8_t mask);
   int      read8(uint8_t port);
@@ -61,8 +61,7 @@ public:
   //  wraps 2x 8 PIN call.
   //  opportunistic implementation of functions
   //  needs error checking in between calls
-  
-  //  mask  = bitpattern
+  //  mask  = bit pattern
   bool     pinMode16(uint16_t mask);
   bool     write16(uint16_t mask);
   uint16_t read16();
@@ -85,7 +84,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////
 //
 // TCA9535 class which is just a wrapper (for now)
-// 
+//
 class TCA9535 : public TCA9555
 {
   TCA9535(uint8_t address, TwoWire *wire = &Wire);
@@ -93,3 +92,4 @@ class TCA9535 : public TCA9555
 
 
 // -- END OF FILE --
+

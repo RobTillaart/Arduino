@@ -39,7 +39,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "TCA9555_LIB_VERSION:\t%s\n", (char *) TCA9555_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -48,7 +50,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "TCA9555_LIB_VERSION:\t%s\n", TCA9555_LIB_VERSION);
   TCA9555 TCA(0x22);
 
   assertTrue(TCA.begin());

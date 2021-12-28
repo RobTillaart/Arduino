@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/RunningMedian/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/RunningMedian/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RunningMedian/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/RunningMedian/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RunningMedian/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/RunningMedian/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/RunningMedian.svg?maxAge=3600)](https://github.com/RobTillaart/RunningMedian/releases)
 
@@ -18,7 +20,7 @@ middle two in case the internal buffer size is even.
 
 Important differences between running average and running median:
 - Running median will return real data (e.g. a real sample from a sensor) 
-if one uses an odd size of the buffer (therefor preferred).
+if one uses an odd size of the buffer (therefore preferred).
 Running average may return a value that is never sampled.
 - Running median will give zero weight to outliers, and 100% to the middle sample, 
 whereas running average gives the same weight to all samples.
@@ -55,15 +57,16 @@ is performance wise O(100x) faster in sorting than 255 elements.
 
 ### Base functions
 
-- **clear()** resets internal buffer and variables, effectively emptird thr buffer.
-- **add(const float value) ** adds a new value to internal buffer, optionally replacing the oldest element if the buffer is full
+- **clear()** resets internal buffer and variables, effectively empty the buffer.
+- **add(const float value) ** adds a new value to internal buffer, 
+optionally replacing the oldest element if the buffer is full
 - **float getMedian()** returns the median == middle element
 - **float getAverage()** returns average of **all** the values in the internal buffer
 - **float getAverage(uint8_t nMedian)** returns average of **the middle n** values. 
 This effectively removes noise from the outliers in the samples.
 - **float getHighest()** get the largest values in the buffer.
 - **float getLowest()** get the smallest value in the buffer.
-- **float getQuantile(const float q)** returns the Quantile value from the buffer. 
+- **float getQuantile(const float quantile)** returns the Quantile value from the buffer. 
 This value is often interpolated.
 
 
@@ -71,9 +74,18 @@ This value is often interpolated.
 
 - **float getElement(const uint8_t n)** returns the n'th element from the values in time order.
 - **float getSortedElement(const uint8_t n)** returns the n'th element from the values in size order (sorted ascending)
-- **float predict(const uint8_t n)** predict the max change of median after n additions, n should be smaller than **getSize()/2**
+- **float predict(const uint8_t n)** predict the maximum change of median after n additions, 
+n must be smaller than **getSize()/2**
 
 
 ## Operation
 
 See examples
+
+
+## Future
+
+- improve documentation
+- check for optimizations
+- separate releaseNotes.md
+- 

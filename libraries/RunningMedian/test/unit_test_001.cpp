@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -39,6 +40,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "RUNNING_MEDIAN_VERSION: %s\n", (char *) RUNNING_MEDIAN_VERSION);
 }
 
 unittest_teardown()
@@ -48,8 +50,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", RUNNING_MEDIAN_VERSION);
-
   RunningMedian samples = RunningMedian(5);
   assertEqual(5, samples.getSize());
   assertEqual(0, samples.getCount());
@@ -60,8 +60,6 @@ unittest(test_constructor)
 
 unittest(test_basic_add)
 {
-  fprintf(stderr, "VERSION: %s\n", RUNNING_MEDIAN_VERSION);
-
   RunningMedian samples = RunningMedian(5);
 
   int cnt = 0;
@@ -76,7 +74,7 @@ unittest(test_basic_add)
   assertEqualFloat(20, samples.getAverage(), 0.0001);
   assertEqualFloat(00, samples.getLowest(), 0.0001);
   assertEqualFloat(40, samples.getHighest(), 0.0001);
-  
+
   samples.add(100);  // 6th element
   assertEqual(5, samples.getSize());
   assertEqual(5, samples.getCount());
@@ -85,7 +83,7 @@ unittest(test_basic_add)
   assertEqualFloat(40, samples.getAverage(), 0.0001);
   assertEqualFloat(10, samples.getLowest(), 0.0001);
   assertEqualFloat(100, samples.getHighest(), 0.0001);
-  
+
   samples.clear();
   assertEqual(5, samples.getSize());
   assertEqual(0, samples.getCount());
@@ -94,8 +92,6 @@ unittest(test_basic_add)
 
 unittest(test_big)
 {
-  fprintf(stderr, "VERSION: %s\n", RUNNING_MEDIAN_VERSION);
-
   RunningMedian samples = RunningMedian(100);
   assertEqual(100, samples.getSize());
   assertEqual(0, samples.getCount());

@@ -1,23 +1,32 @@
-# Syntax Coloring Map for RunningMedian
+# Syntax Colouring Map for RunningMedian
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 RunningMedian	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2
 clear	KEYWORD2
+
 getMedian	KEYWORD2
 getQuantile KEYWORD2
 getAverage	KEYWORD2
+
 getHighest	KEYWORD2
 getLowest	KEYWORD2
 getSize	KEYWORD2
 getCount	KEYWORD2
+isFull	KEYWORD2
+
 getElement	KEYWORD2
 getSortedElement	KEYWORD2
 predict	KEYWORD2
-getStatus	KEYWORD2
+
 
 # Constants (LITERAL1)
-OK	LITERAL1
-NOK	LITERAL1
+RUNNING_MEDIAN_VERSION	LITERAL1
+RUNNING_MEDIAN_USE_MALLOC	LITERAL1
+MEDIAN_MIN_SIZE	LITERAL1
+MEDIAN_MAX_SIZE	LITERAL1
+

@@ -1,30 +1,33 @@
 //
 //    FILE: runningMedianTest1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: test functionality
 //    DATE: 2013-10-28
 //     URL: https://github.com/RobTillaart/RunningMedian
-//
+
 
 #include <RunningMedian.h>
 
+
+// 50 consecutive samples from Sharp distance sensor model GP2Y0A710K0F while stationary.
 const int sourceData[] =
-{ // 50 consecutive samples from Sharp distance sensor model GP2Y0A710K0F while stationary.
+{
   300, 299, 296, 343, 307, 304, 303, 305, 300, 340,
   308, 305, 300, 304, 311, 304, 300, 300, 304, 304,
   284, 319, 306, 304, 300, 302, 305, 310, 306, 304,
   308, 300, 299, 304, 300, 305, 307, 303, 326, 311,
   306, 304, 305, 300, 300, 307, 302, 305, 296, 300
 };
+
 const int sourceSize = (sizeof(sourceData)/sizeof(sourceData[0]));
 
 RunningMedian samples = RunningMedian(sourceSize);
 
+
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial); // Wait for serial port to connect. Needed for Leonardo only.
+  while (!Serial); // Wait for serial port to connect. Needed for Leonardo + MKR1010.
   delay(1000); // Simply to allow time for the ERW versions of the IDE time to automagically open the Serial Monitor. 1 second chosen arbitrarily.
   Serial.print(F("Running Median Version: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
@@ -43,9 +46,11 @@ void setup()
   Serial.println("\ndone..\n");
 }
 
+
 void loop()
 {
 }
+
 
 void test1()
 {
@@ -160,4 +165,6 @@ void test1()
   }
 }
 
-// -- END OF FILE -- 
+
+// -- END OF FILE --
+

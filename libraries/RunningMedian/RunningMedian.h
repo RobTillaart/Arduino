@@ -3,7 +3,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //     URL: https://github.com/RobTillaart/RunningMedian
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.3"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.4"))
 
 
 // fall back to fixed storage for dynamic version => remove true
@@ -24,7 +24,7 @@
 
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
-// max 250 to not overflow uint8_t internal vars
+// max 250 to not overflow uint8_t internal variables
 #define MEDIAN_MAX_SIZE               255
 #else
 // using fixed memory will be limited to 19 elements.
@@ -41,7 +41,7 @@ public:
   explicit RunningMedian(const uint8_t size);
   ~RunningMedian();
 
-  // resets internal buffer and var
+  // resets internal buffer and variables
   void    clear();
   // adds a new value to internal buffer, optionally replacing the oldest element.
   void    add(const float value);
@@ -49,7 +49,7 @@ public:
   float   getMedian();
   
   // returns the Quantile
-  float   getQuantile(const float q);
+  float   getQuantile(const float quantile);
 
   // returns average of the values in the internal buffer
   float   getAverage();
@@ -59,9 +59,9 @@ public:
   float   getHighest() { return getSortedElement(_count - 1); };
   float   getLowest()  { return getSortedElement(0); };
 
-  // get n'th element from the values in time order
+  // get n-th element from the values in time order
   float   getElement(const uint8_t n);
-  // get n'th element from the values in size order
+  // get n-th element from the values in size order
   float   getSortedElement(const uint8_t n);
   // predict the max change of median after n additions
   float   predict(const uint8_t n);
@@ -91,4 +91,6 @@ protected:
   void sort();
 };
 
-// END OF FILE
+
+// -- END OF FILE --
+

@@ -1,17 +1,17 @@
 //
 //    FILE: RunningMedian2.ino
 //  AUTHOR: Rob Tillaart ( kudos to Sembazuru)
-// VERSION: 0.1.2
 // PURPOSE: demo most functions
 //    DATE: 2013-10-17
 //     URL: https://github.com/RobTillaart/RunningMedian
-//
+
 
 #include "RunningMedian.h"
 
 RunningMedian samples = RunningMedian(100);
 
 long count = 0;
+
 
 void setup()
 {
@@ -20,14 +20,16 @@ void setup()
   Serial.println(RUNNING_MEDIAN_VERSION);
 }
 
+
 void loop()
 {
   test1();
 }
 
+
 void test1()
 {
-  if (count % 20 == 0) 
+  if (count % 20 == 0)
   {
     Serial.println(F("\nmsec \tAnR \tSize \tCnt \tLow \tAvg \tAvg(7) \tAvg(3) \tMed \tHigh \tPre(1) \tPre(2)"));
   }
@@ -75,4 +77,6 @@ void test1()
   delay(100);
 }
 
+
+// -- END OF FILE --
 

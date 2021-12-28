@@ -1,7 +1,6 @@
 //
 //    FILE: SHT2x_raw_values.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo raw
 //     URL: https://github.com/RobTillaart/SHT2x
 

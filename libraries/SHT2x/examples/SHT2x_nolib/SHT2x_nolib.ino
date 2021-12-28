@@ -1,7 +1,6 @@
 //
 //    FILE: SHT2x_nolib.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test sensor without library
 //     URL: https://github.com/RobTillaart/SHT2x
 
@@ -121,3 +120,4 @@ float getHumidity()
 
 
 // -- END OF FILE --
+

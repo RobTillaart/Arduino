@@ -1,7 +1,6 @@
 //
 //    FILE: SHT2x_heater.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo heater functions
 //     URL: https://github.com/RobTillaart/SHT2x
 

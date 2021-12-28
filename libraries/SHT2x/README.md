@@ -19,17 +19,18 @@ The SHT2x family of sensors should work up to 400 KHz I2C.
 
 Furthermore there are a number of compatible sensors, these are not tested either.
 
+Accuracy table
 
-| Sensor  | Temperature accuracy | Humidity accuracy |
-|:-------:|:--------------------:|:-----------------:|
-| SHT20   |  ~0.3  |  ±3.0  |
-| SHT21   |  ~0.3  |  ±3.0  |
-| SHT25   |  ~0.3  |  ±1.8  |
-| HTU20   |        |        |  to-do 
-| HTU21   |        |        |  to-do 
-| Si7013  |        |        |  to-do 
-| Si7020  |        |        |  to-do 
-| Si7021  |        |        |  to-do 
+| Sensor  | Temperature | Humidity | Notes  |
+|:-------:|:-----------:|:--------:|:-------|
+| SHT20   |   ~0.3      |  ±3.0    |        |
+| SHT21   |   ~0.3      |  ±3.0    |        |
+| SHT25   |   ~0.3      |  ±1.8    |        |
+| HTU20   |             |          |  to-do |
+| HTU21   |             |          |  to-do |
+| Si7013  |             |          |  to-do |
+| Si7020  |             |          |  to-do |
+| Si7021  |             |          |  to-do |
 
 
 All sensors in this family of sensors have address 0x40 (64 decimal).

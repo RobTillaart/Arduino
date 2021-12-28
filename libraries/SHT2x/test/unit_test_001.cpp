@@ -41,6 +41,7 @@ uint32_t start, stop;
 
 unittest_setup()
 {
+  fprintf(stderr, "SHT2x_LIB_VERSION: %s \n", (char *) SHT2x_LIB_VERSION);
 }
 
 
@@ -49,9 +50,34 @@ unittest_teardown()
 }
 
 
+unittest(test_constants_1)
+{
+  fprintf(stderr, "fields getStatus\n");
+  assertEqual(SHT2x_STATUS_OPEN_CIRCUIT  , 0x00);
+  assertEqual(SHT2x_STATUS_TEMPERATURE   , 0x01);
+  assertEqual(SHT2x_STATUS_HUMIDITY      , 0x02);
+  assertEqual(SHT2x_STATUS_CLOSED_CIRCUIT, 0x03);
+}
+
+
+unittest(test_constants_2)
+{
+  fprintf(stderr, "error codes\n");
+  assertEqual(SHT2x_OK                 , 0x00);
+  assertEqual(SHT2x_ERR_WRITECMD       , 0x81);
+  assertEqual(SHT2x_ERR_READBYTES      , 0x82);
+  assertEqual(SHT2x_ERR_HEATER_OFF     , 0x83);
+  assertEqual(SHT2x_ERR_NOT_CONNECT    , 0x84);
+  assertEqual(SHT2x_ERR_CRC_TEMP       , 0x85);
+  assertEqual(SHT2x_ERR_CRC_HUM        , 0x86);
+  assertEqual(SHT2x_ERR_CRC_STATUS     , 0x87);
+  assertEqual(SHT2x_ERR_HEATER_COOLDOWN, 0x88);
+  assertEqual(SHT2x_ERR_HEATER_ON      , 0x89);
+}
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "SHT2x_LIB_VERSION: %s \n", (char *) SHT2x_LIB_VERSION);
   SHT2x sht;
 
   bool b = sht.begin();
@@ -146,7 +172,6 @@ unittest(test_heater)
   // expect = SHT2x_OK;
   // assertEqual(expect, sht.getError());
 }
-
 
 
 unittest_main()

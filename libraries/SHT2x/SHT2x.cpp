@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -14,7 +14,7 @@
 //  0.1.2   2021-09-29  Add Si70xx derived classes
 //                      add getEIDA(), getEIDB(), getFirmwareVersion()
 //                      update build-CI, readme.md badges
-//
+//  0.1.3   2021-12-28  update library.json, license, minor edits
 
 
 #include "SHT2x.h"

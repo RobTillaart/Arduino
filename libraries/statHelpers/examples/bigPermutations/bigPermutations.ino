@@ -1,7 +1,6 @@
 //
 //    FILE: permutations.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-08-06
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -13,6 +12,7 @@
 
 uint32_t start, duration1, duration2;
 volatile uint32_t x;
+
 
 void setup()
 {
@@ -135,9 +135,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

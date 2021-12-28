@@ -1,7 +1,6 @@
 //
 //    FILE: factorial.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -38,7 +37,6 @@ void setup()
   }
   Serial.println();
 
-  
   Serial.println("PERFORMANCE");
   Serial.println("n\tdfactorial,stirling usec\t values");
   delay(100);
@@ -90,8 +88,11 @@ void setup()
   Serial.println("\n Done...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

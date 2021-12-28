@@ -1,7 +1,6 @@
 //
 //    FILE: combinations.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -13,6 +12,7 @@
 
 uint32_t start, duration1;
 volatile uint32_t x;
+
 
 void setup()
 {
@@ -135,8 +135,11 @@ void setup()
   Serial.println("\nDone...");
 }
 
+
 void loop()
 {
 }
 
+
 // -- END OF FILE --
+

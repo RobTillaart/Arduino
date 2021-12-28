@@ -2,7 +2,7 @@
 //
 //    FILE: statHelpers.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -11,12 +11,7 @@
 #include "Arduino.h"
 
 
-#define STATHELPERS_LIB_VERSION       (F("0.1.3"))
-
-
-// TODO
-// Look for optimizations
-// Look for ways to extend the scope
+#define STATHELPERS_LIB_VERSION               (F("0.1.4"))
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -57,7 +52,9 @@ As an example consider finding the next permutation of:
 The longest monotonically decreasing tail is 666411, and the corresponding head is 8342.
 
 8342 666411
-666411 is, by definition, reverse-ordered, and cannot be increased by permuting its elements. To find the next permutation, we must increase the head; a matter of finding the smallest tail element larger than the head’s final 2.
+666411 is, by definition, reverse-ordered, and cannot be increased by permuting its elements.
+To find the next permutation, we must increase the head; a matter of finding the smallest tail
+ element larger than the head’s final 2.
 
 8342 666411
 Walking back from the end of tail, the first element greater than 2 is 4.
@@ -66,7 +63,8 @@ Walking back from the end of tail, the first element greater than 2 is 4.
 Swap the 2 and the 4
 
 8344 666211
-Since head has increased, we now have a greater permutation. To reduce to the next permutation, we reverse tail, putting it into increasing order.
+Since head has increased, we now have a greater permutation. To reduce to the next permutation, 
+we reverse tail, putting it into increasing order.
 
 8344 112666
 Join the head and tail back together. The permutation one greater than 8342666411 is 8344112666.
@@ -545,3 +543,4 @@ void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &expon
 
 
 // -- END OF FILE --
+

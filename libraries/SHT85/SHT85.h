@@ -2,16 +2,14 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
 //     URL: https://github.com/RobTillaart/SHT85
 //
-
 // keep lib in sync with https://github.com/RobTillaart/SHT31
-
-
+//
 // TOPVIEW      SHT85
 //            +-------+
 // +-----\    | SDA 4 -----
@@ -25,30 +23,30 @@
 #include "Wire.h"
 
 
-#define SHT_LIB_VERSION             (F("0.3.0"))
-#define SHT85_LIB_VERSION           SHT_LIB_VERSION
+#define SHT_LIB_VERSION                 (F("0.3.1"))
+#define SHT85_LIB_VERSION               SHT_LIB_VERSION
 
 
 // fields readStatus
-#define SHT_STATUS_ALERT_PENDING    (1 << 15)
-#define SHT_STATUS_HEATER_ON        (1 << 13)
-#define SHT_STATUS_HUM_TRACK_ALERT  (1 << 11)
-#define SHT_STATUS_TEMP_TRACK_ALERT (1 << 10)
-#define SHT_STATUS_SYSTEM_RESET     (1 << 4)
-#define SHT_STATUS_COMMAND_STATUS   (1 << 1)
-#define SHT_STATUS_WRITE_CRC_STATUS (1 << 0)
+#define SHT_STATUS_ALERT_PENDING        (1 << 15)
+#define SHT_STATUS_HEATER_ON            (1 << 13)
+#define SHT_STATUS_HUM_TRACK_ALERT      (1 << 11)
+#define SHT_STATUS_TEMP_TRACK_ALERT     (1 << 10)
+#define SHT_STATUS_SYSTEM_RESET         (1 << 4)
+#define SHT_STATUS_COMMAND_STATUS       (1 << 1)
+#define SHT_STATUS_WRITE_CRC_STATUS     (1 << 0)
 
 // error codes
-#define SHT_OK                      0x00
-#define SHT_ERR_WRITECMD            0x81
-#define SHT_ERR_READBYTES           0x82
-#define SHT_ERR_HEATER_OFF          0x83
-#define SHT_ERR_NOT_CONNECT         0x84
-#define SHT_ERR_CRC_TEMP            0x85
-#define SHT_ERR_CRC_HUM             0x86
-#define SHT_ERR_CRC_STATUS          0x87
-#define SHT_ERR_HEATER_COOLDOWN     0x88
-#define SHT_ERR_HEATER_ON           0x89
+#define SHT_OK                          0x00
+#define SHT_ERR_WRITECMD                0x81
+#define SHT_ERR_READBYTES               0x82
+#define SHT_ERR_HEATER_OFF              0x83
+#define SHT_ERR_NOT_CONNECT             0x84
+#define SHT_ERR_CRC_TEMP                0x85
+#define SHT_ERR_CRC_HUM                 0x86
+#define SHT_ERR_CRC_STATUS              0x87
+#define SHT_ERR_HEATER_COOLDOWN         0x88
+#define SHT_ERR_HEATER_ON               0x89
 
 
 class SHT
@@ -77,21 +75,23 @@ public:
 
   bool reset(bool hard = false);
 
+
   // do not use heater for long periods,
   // use it for max 3 minutes to heat up
   // and let it cool down at least 3 minutes.
   void    setHeatTimeout(uint8_t seconds);
   uint8_t getHeatTimeout() { return _heatTimeout; };
+  bool    heatOn();
+  bool    heatOff();
+  bool    isHeaterOn();      // is the sensor still heating up?
 
-  bool heatOn();
-  bool heatOff();
-  bool isHeaterOn();      // is the sensor still heating up?
 
-  float getHumidity() { return _rawHumidity * (100.0 / 65535); };
-  float getTemperature() { return _rawTemperature * (175.0 / 65535) - 45; };
-  float getFahrenheit() { return _rawTemperature * (63.0 /13107.0) - 49; };
-  uint16_t getRawHumidity() {return _rawHumidity; };
-  uint16_t getRawTemperature() {return _rawTemperature; };
+  float    getHumidity()       { return _rawHumidity    * (100.0 / 65535); };
+  float    getTemperature()    { return _rawTemperature * (175.0 / 65535) - 45; };
+  float    getFahrenheit()     { return _rawTemperature * (63.0 /13107.0) - 49; };
+  uint16_t getRawHumidity()    { return _rawHumidity; };
+  uint16_t getRawTemperature() { return _rawTemperature; };
+
 
   // ASYNC INTERFACE
   bool requestData();
@@ -156,5 +156,5 @@ public:
 };
 
 
-
 // -- END OF FILE --
+

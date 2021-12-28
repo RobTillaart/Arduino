@@ -1,11 +1,9 @@
 //
 //    FILE: SHT85_I2C_speed.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT85
-
-
+//
 // TOPVIEW
 //            +-------+
 // +-----\    | SDA 4 -----

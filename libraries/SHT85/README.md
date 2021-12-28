@@ -8,7 +8,7 @@
 
 # SHT85
 
-Arduino library for the SHT85 temperature and humidity sensor
+Arduino library for the SHT85 temperature and humidity sensor.
 
 Based upon the SHT31 library - https://github.com/RobTillaart/SHT31
 
@@ -53,15 +53,18 @@ quite small. (max 15% gain). See output example sketch.
 This library should also work for SHT30, SHT31 and SHT35 but 
 this is not verified yet.
 
-| SENSOR | Temperature accuracy | Humidity accuracy |
-|:------:|:------:|:-----:|
-| SHT30  |  ~0.3  |  2.0  |
-| SHT31  |  ~0.3  |  1.5  |
-| SHT35  |  ~0.2  |  1.5  |
-| SHT85  |  ~0.2  |  1.5  |
+Accuracy table
+
+| SENSOR | Temperature | Humidity |
+|:------:|:-----------:|:--------:|
+| SHT30  |    ~0.3°    |   2.0%   |
+| SHT31  |    ~0.3°    |   1.5%   |
+| SHT35  |    ~0.2°    |   1.5%   |
+| SHT85  |    ~0.2°    |   1.5%   |
+
 
 Need to investigate if the interface is identical?
-If so the libraries might  be merged.
+If so the libraries might be merged.
 
 An elaborated library for the SHT31 sensor can be found here
 https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
@@ -79,7 +82,7 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 - **uint8_t getType()** returns numeric part of sensor type.
 - **begin(address, dataPin, clockPin)** begin function for ESP8266 & ESP32; **WARNING: not verified yet**
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(address, TwoWire \*wire = &Wire)** for platforms with multiple I2C busses.
+- **bool begin(address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses.
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
 - **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
@@ -92,7 +95,9 @@ Does read both the temperature and humidity.
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
-Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). If you're worried about the extra cycles, you should make sure to cache these values or only request them after you've performed a new reading.
+Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). 
+If you're worried about the extra cycles, you should make sure to cache these values or only request them after 
+you've performed a new reading.
 
 
 #### Error interface
@@ -100,7 +105,7 @@ Note that the temperature and humidity values are recalculated on every call to 
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
-| Error | Symbolic                  | Description
+| Error | Symbolic                  | Description                 |
 |:-----:|:--------------------------|:----------------------------|
 | 0x00  | SHT_OK                    | no error                    |
 | 0x81  | SHT_ERR_WRITECMD          | I2C write failed            |
@@ -109,7 +114,7 @@ Be sure to clear the error flag by calling **getError()** before calling any com
 | 0x84  | SHT_ERR_NOT_CONNECT       | Could not connect           |
 | 0x85  | SHT_ERR_CRC_TEMP          | CRC error in temperature    |
 | 0x86  | SHT_ERR_CRC_HUM           | CRC error in humidity       |
-| 0x87  | SHT_ERR_CRC_STATUS        | CRC error in statusfield    |
+| 0x87  | SHT_ERR_CRC_STATUS        | CRC error in status field   |
 | 0x88  | SHT_ERR_HEATER_COOLDOWN   | Heater need to cool down    |
 | 0x89  | SHT_ERR_HEATER_ON         | Could not switch on heater  |
 
@@ -173,15 +178,24 @@ Returns false if reading fails or in case of a CRC failure.
 |      |                            |  1      | checksum of last write transfer failed
 
 
+## Operation
+
+See examples.
+
+
 ## Future
 
+- merge with other SHT sensors if possible
+- direct Fahrenheit formula ?                                DONE???
+- improve error handling / status. (all code paths)
 - verify working with ESP32
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
-- improve error handling / status. (all code paths)
+- software I2C experiments?
+- CREATE AN SHT85 simulator 
+  - I2C slave sketch with a DHT22 sensor?
+- CHECK OPEN ISSUE TO INCLUDE DEFAULT ADDRESS ?
+  - possible?
+- prioritize the ideas...
 
-
-## Operation
-
-See examples
 

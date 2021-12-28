@@ -24,8 +24,8 @@
 /*
   most unit tests will test for fail 
   as there is no sensor connected
-  and there is no mockup.
-  
+  and there is no mock-up.
+
   It appears that Wire.write does not fail without sensor...
 */
 
@@ -34,12 +34,15 @@
 #include "Arduino.h"
 #include "SHT85.h"
 
+
 int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 
+
 unittest_setup()
 {
+  fprintf(stderr, "SHT_LIB_VERSION: %s\n", (char *) SHT_LIB_VERSION);
 }
 
 
@@ -48,10 +51,38 @@ unittest_teardown()
 }
 
 
+unittest(test_constants_1)
+{
+  fprintf(stderr, "fields readStatus\n");
+  assertEqual(SHT_STATUS_ALERT_PENDING   , (1 << 15) );
+  assertEqual(SHT_STATUS_HEATER_ON       , (1 << 13) );
+  assertEqual(SHT_STATUS_HUM_TRACK_ALERT , (1 << 11) );
+  assertEqual(SHT_STATUS_TEMP_TRACK_ALERT, (1 << 10) );
+  assertEqual(SHT_STATUS_SYSTEM_RESET    , (1 << 4)  );
+  assertEqual(SHT_STATUS_COMMAND_STATUS  , (1 << 1)  );
+  assertEqual(SHT_STATUS_WRITE_CRC_STATUS, (1 << 0)  );
+}
+
+
+unittest(test_constants_2)
+{
+  fprintf(stderr, "error codes\n");
+  assertEqual(SHT_OK                 , 0x00);
+  assertEqual(SHT_ERR_WRITECMD       , 0x81);
+  assertEqual(SHT_ERR_READBYTES      , 0x82);
+  assertEqual(SHT_ERR_HEATER_OFF     , 0x83);
+  assertEqual(SHT_ERR_NOT_CONNECT    , 0x84);
+  assertEqual(SHT_ERR_CRC_TEMP       , 0x85);
+  assertEqual(SHT_ERR_CRC_HUM        , 0x86);
+  assertEqual(SHT_ERR_CRC_STATUS     , 0x87);
+  assertEqual(SHT_ERR_HEATER_COOLDOWN, 0x88);
+  assertEqual(SHT_ERR_HEATER_ON      , 0x89);
+}
+
+
 unittest(test_begin)
 {
   SHT85 sht;
-
   bool b = sht.begin(0x44);
   assertEqual(b, true);
 

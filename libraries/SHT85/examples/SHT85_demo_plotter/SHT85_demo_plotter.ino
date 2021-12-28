@@ -1,11 +1,9 @@
 //
 //    FILE: SHT85_demo_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT85
-
-
+//
 // TOPVIEW
 //            +-------+
 // +-----\    | SDA 4 -----
@@ -14,9 +12,10 @@
 // +-----/    | SCL 1 -----
 //            +-------+
 
+
 #include "SHT85.h"
 
-#define SHT85_ADDRESS   0x44
+#define SHT85_ADDRESS       0x44
 
 uint32_t start;
 uint32_t stop;
@@ -68,3 +67,4 @@ void loop()
 
 
 // -- END OF FILE --
+

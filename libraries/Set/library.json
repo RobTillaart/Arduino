@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SET.git"
   },
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "set.h"
 }

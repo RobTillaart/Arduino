@@ -1,7 +1,6 @@
 //
 //    FILE: allTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
 // PURPOSE: demo/test Set class
 //    DATE: 2014-11-16
 //     URL: https://github.com/RobTillaart/SET
@@ -33,9 +32,11 @@ void setup()
     Serial.println();
 }
 
+
 void loop()
 {
 }
+
 
 void timingTest()
 {
@@ -202,13 +203,13 @@ void timingTest()
     int n = setA.first();
     stop = micros();
     Serial.println(stop - start);
-    
+
     Serial.print("next:\t");
     start = micros();
     n = setA.next();
     stop = micros();
-    Serial.println(stop - start); 
-    
+    Serial.println(stop - start);
+
     Serial.print("100x first + next until -1 :\t");
     start = micros();
     for (uint8_t i = 0; i < 100; i++)
@@ -220,8 +221,8 @@ void timingTest()
       }
     }
     stop = micros();
-    Serial.println(stop - start); 
-    
+    Serial.println(stop - start);
+
     Serial.print("100x  last + prev until -1 :\t");
     start = micros();
     for (uint8_t i = 0; i < 100; i++)
@@ -233,11 +234,12 @@ void timingTest()
       }
     }
     stop = micros();
-    Serial.println(stop - start); 
+    Serial.println(stop - start);
     Serial.println();
-    
+
     Serial.println();
 }
+
 
 void equalTest()
 {
@@ -265,6 +267,7 @@ void equalTest()
 
     Serial.println();
 }
+
 
 void intersectionTest()
 {
@@ -315,6 +318,7 @@ void intersectionTest()
     Serial.println();
 }
 
+
 void intersection2Test()
 {
     Serial.println("INTERSECTION2 TEST");
@@ -348,6 +352,7 @@ void intersection2Test()
     Serial.println();
 }
 
+
 void subsetTest()
 {
     Serial.println("SUBSET TEST");
@@ -373,6 +378,7 @@ void subsetTest()
     Serial.println();
 }
 
+
 void iterationTest()
 {
     Serial.println("10x ITERATE OVER SET TEST");
@@ -397,9 +403,9 @@ void iterationTest()
     }
     stop = micros();
     Serial.println();
-    Serial.println(stop - start); 
+    Serial.println(stop - start);
     Serial.println();
-    
+
     start = micros();
     for (int i = 0; i < 10; i++)
     {
@@ -414,8 +420,10 @@ void iterationTest()
     }
     stop = micros();
     Serial.println();
-    Serial.println(stop - start); 
+    Serial.println(stop - start);
     Serial.println();
 }
 
+
 // -- END OF FILE --
+

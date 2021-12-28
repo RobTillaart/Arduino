@@ -1,7 +1,6 @@
 //
 //    FILE: iterationTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
 // PURPOSE: demo first, next, last, prev
 //    DATE: 2014-11-09
 //     URL: https://github.com/RobTillaart/SET
@@ -14,6 +13,7 @@ Set myset;
 Set setA, setB;
 
 volatile bool b;
+
 
 void setup()
 {
@@ -52,7 +52,11 @@ void setup()
     Serial.println();
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
 

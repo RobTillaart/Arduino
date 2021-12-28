@@ -38,7 +38,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "SET_LIB_VERSION: %s\n", (char *) SET_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -47,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", SET_LIB_VERSION);
-
   Set A;
 
   assertTrue(A.isEmpty());
@@ -79,8 +79,6 @@ unittest(test_constructor)
 
 unittest(test_count_has)
 {
-  fprintf(stderr, "VERSION: %s\n", SET_LIB_VERSION);
-
   Set A;
 
   A.clear();
@@ -107,8 +105,6 @@ unittest(test_count_has)
 
 unittest(test_operator)
 {
-  fprintf(stderr, "VERSION: %s\n", SET_LIB_VERSION);
-
   Set A;
   Set B;
   Set C;
@@ -150,8 +146,6 @@ unittest(test_operator)
 
 unittest(test_iterator)
 {
-  fprintf(stderr, "VERSION: %s\n", SET_LIB_VERSION);
-
   Set A;
   A.clear();
 
@@ -189,6 +183,8 @@ unittest(test_iterator)
 
 }
 
+
 unittest_main()
+
 
 // --------

@@ -1,12 +1,15 @@
-# Syntax Coloring Map For Set
+# Syntax Colouring Map For Set
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 Set	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 clear	KEYWORD2
 invert	KEYWORD2
 addAll	KEYWORD2
+
 count	KEYWORD2
 isEmpty	KEYWORD2
 isFull	KEYWORD2
@@ -22,5 +25,8 @@ prev	KEYWORD2
 last	KEYWORD2
 getNth	KEYWORD2
 
+
 # Constants (LITERAL1)
 SET_LIB_VERSION	LITERAL1
+
+

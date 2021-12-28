@@ -1,21 +1,22 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
 //
 //  HISTORY:
-//  0.2.4   2021-05-06  getNth(n) 
-//  0.2.3   2021-05-05  Add addAll (256 elements) + setCurrent
-//  0.2.2   2021-01-07  Arduino-CI, unit test
-//  0.2.1   2020-06-19  fix library.json
-//  0.2.0   2020-05-02  refactored, removed pre 1.0 support
-//  0.1.11  2017-07-16  fix count() --> 16 bit when set is full !
-//  0.1.10  2017-07-16  performance refactor. isEmpty()
-//  0.1.09  2015-07-12  const + constructor
-//  0.1.08              memset for clr()
+//  0.2.5   2021-12-28   update library.json, readme, license, minor edits
+//  0.2.4   2021-05-06   getNth(n)
+//  0.2.3   2021-05-05   Add addAll (256 elements) + setCurrent
+//  0.2.2   2021-01-07   Arduino-CI, unit test
+//  0.2.1   2020-06-19   fix library.json
+//  0.2.0   2020-05-02   refactored, removed pre 1.0 support
+//  0.1.11  2017-07-16   fix count() --> 16 bit when set is full !
+//  0.1.10  2017-07-16   performance refactor. isEmpty()
+//  0.1.09  2015-07-12   const + constructor
+//  0.1.08               memset for clr()
 //  0.1.07  faster first/next/last/prev; interface
 //  0.1.06  added flag to constructor to optimize +,-,*,
 //          set -> Set
@@ -29,6 +30,7 @@
 
 
 #include "set.h"
+
 
 /////////////////////////////////////////////////////
 //
@@ -58,24 +60,24 @@ Set::Set(const Set &t)
 //
 // METHODS
 //
-void Set::add(const uint8_t v)
+void Set::add(const uint8_t value)
 {
-    uint8_t idx = v / 8;
-    _mem[idx] |= masks[v & 7];
+    uint8_t idx = value / 8;
+    _mem[idx] |= _masks[value & 7];
 }
 
 
-void Set::sub(const uint8_t v)
+void Set::sub(const uint8_t value)
 {
-    uint8_t idx = v / 8;
-    _mem[idx] &= ~masks[v & 7];
+    uint8_t idx = value / 8;
+    _mem[idx] &= ~_masks[value & 7];
 }
 
 
-void Set::invert(const uint8_t v)
+void Set::invert(const uint8_t value)
 {
-    uint8_t idx = v / 8;
-    _mem[idx] ^= masks[v & 7];
+    uint8_t idx = value / 8;
+    _mem[idx] ^= _masks[value & 7];
 }
 
 
@@ -85,21 +87,21 @@ void Set::addAll()
 }
 
 
-bool Set::has(const uint8_t v)
+bool Set::has(const uint8_t value)
 {
-    uint8_t idx = v / 8;
-    return (_mem[idx] & masks[v & 7]) > 0;
+    uint8_t idx = value / 8;
+    return (_mem[idx] & _masks[value & 7]) > 0;
 }
 
 
 uint16_t Set::count() const
 {
     uint16_t cnt = 0;
-    
+
     uint8_t i = 32;
     do
     {
-        // kerningham bit count trick
+        // Kerningham bit count trick
         uint8_t b = _mem[--i];
         for (; b; cnt++)
         {
@@ -123,7 +125,7 @@ void Set::invert()
     do
     {
         _mem[--i] ^= 0xFF;
-    } 
+    }
     while (i != 0);
 }
 
@@ -134,7 +136,7 @@ bool Set::isEmpty()
     do
     {
       if (_mem[--i] > 0) return false;
-    } 
+    }
     while (i != 0);
     return true;
 }
@@ -142,26 +144,26 @@ bool Set::isEmpty()
 
 bool Set::isFull()
 {
-    // check two elements per loop 
+    // check two elements per loop
     // is faster for full sets but slower for empty set.
-    // footprint is ~25 bytese larger
-    // overal performance gain 
+    // footprint is ~25 bytes larger
+    // overall performance gain
     uint8_t i = 32;
     do
     {
         if ((_mem[--i]) != 255) return false;
-    } 
+    }
     while (i != 0);
     return true;
 }
 
 
-int Set::setCurrent(const uint8_t cur)
+int Set::setCurrent(const uint8_t current)
 {
     _current = -1;
-    if (has(cur))
+    if (has(current))
     {
-      _current = cur;
+      _current = current;
     }
     return _current;
 }
@@ -191,13 +193,13 @@ int Set::next()
 // needs investigation.
 // int Set::findNext(const uint8_t p, const uint8_t q)
 // {
-	// uint8_t * pp = &_mem[p];
-	// uint8_t mask = 1 << q;
-	// uint8_t j = q;
-	// do
-	// {
-		// if (*pp != 0)
-		// {
+  // uint8_t * pp = &_mem[p];
+  // uint8_t mask = 1 << q;
+  // uint8_t j = q;
+  // do
+  // {
+    // if (*pp != 0)
+    // {
             // while (j < 8)
             // {
                 // if (*pp & mask)
@@ -206,14 +208,14 @@ int Set::next()
                     // return _current;
                 // }
                 // mask <<= 1;
-				// j++;
-            // }			
-		// }
-		// j = 0;
-		// mask = 1;
-		// pp++;
-	// } 
-	// while (pp != &_mem[31]);
+        // j++;
+            // }
+    // }
+    // j = 0;
+    // mask = 1;
+    // pp++;
+  // }
+  // while (pp != &_mem[31]);
     // _current = -1;
     // return _current;
 // }
@@ -226,7 +228,7 @@ int Set::findNext(const uint8_t p, uint8_t q)
         uint8_t b = _mem[i];
         if (b != 0)
         {
-            uint8_t mask = 1 << q;  // masks[q]
+            uint8_t mask = 1 << q;  // _masks[q]
             for (uint8_t j = q; j < 8; j++)
             {
                 if (b & mask)
@@ -401,4 +403,6 @@ bool Set::operator <= (const Set &t) const // subSet
     return true;
 }
 
+
 // -- END OF FILE --
+

@@ -2,7 +2,7 @@
 //
 //    FILE: set.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SET_LIB_VERSION         (F("0.2.4"))
+#define SET_LIB_VERSION               (F("0.2.5"))
 
 
 class Set
@@ -29,10 +29,10 @@ public:
     bool     isFull();
 
 
-    void add(const uint8_t);          // add element to the Set
-    void sub(const uint8_t);          // remove element from Set
-    void invert(const uint8_t);       // flip element in Set
-    bool has(const uint8_t);          // element is in Set
+    void add(const uint8_t value);     // add element to the Set
+    void sub(const uint8_t value);     // remove element from Set
+    void invert(const uint8_t value);  // flip element in Set
+    bool has(const uint8_t value);     // element is in Set
 
 
     Set operator + (const Set &);     // union
@@ -54,20 +54,23 @@ public:
 
     // iterating through the Set
     // returns value or -1 if not exist
-    int setCurrent(const uint8_t);  // set element as current
-    int first();                    // find first element
-    int next();                     // find next element
-    int prev();                     // find previous element
-    int last();                     // find last element
-    int getNth(const uint8_t n);    // find Nth element in a set (from start)
+    int setCurrent(const uint8_t current);  // set element as current
+    int first();                            // find first element
+    int next();                             // find next element
+    int prev();                             // find previous element
+    int last();                             // find last element
+    int getNth(const uint8_t n);            // find Nth element in a set (from start)
+
 
 private:
     uint8_t _mem[32];           // can hold 0..255
-    uint8_t masks[8] = {1, 2, 4, 8, 16, 32, 64, 128};
+    uint8_t _masks[8] = {1, 2, 4, 8, 16, 32, 64, 128};
     int _current = -1;
 	
-    int findNext(const uint8_t, const uint8_t); // helper for first, next
-    int findPrev(const uint8_t, const uint8_t); // helper for last, prev
+    int findNext(const uint8_t p, const uint8_t q); // helper for first, next
+    int findPrev(const uint8_t p, const uint8_t q); // helper for last, prev
 };
 
+
 // -- END OF FILE --
+

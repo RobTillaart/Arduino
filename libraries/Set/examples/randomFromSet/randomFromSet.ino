@@ -1,12 +1,10 @@
 //
 //    FILE: randomFromSet.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo random playlist with set
 //    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/SET
 //          https://github.com/RobTillaart/Prandom/issues/3
-//
 
 
 #include "set.h"
@@ -17,6 +15,7 @@ Set playList;
 int SONGS = 15;
 
 uint32_t start, stop ;
+
 
 void setup()
 {
@@ -69,4 +68,6 @@ int getRandomSong()
   return rv;
 }
 
+
 // -- END OF FILE --
+

@@ -1,7 +1,6 @@
 //
 //    FILE: timingTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
 // PURPOSE: timing test for set class methods
 //    DATE: 2014-11-09
 //     URL: https://github.com/RobTillaart/SET
@@ -17,6 +16,7 @@ uint32_t start;
 uint32_t stop;
 
 volatile bool b;
+
 
 void setup()
 {
@@ -74,7 +74,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
+
+
+// -- END OF FILE --
 

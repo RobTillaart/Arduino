@@ -52,7 +52,9 @@ uint32_t start, stop;
 
 unittest_setup()
 {
+  fprintf(stderr, "TCA9548_LIB_VERSION: %s\n", (char *) TCA9548_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -61,7 +63,6 @@ unittest_teardown()
 
 unittest(test_begin)
 {
-  fprintf(stderr, "TCA9548_LIB_VERSION: %s\n", (char *) TCA9548_LIB_VERSION);
   TCA9548 tca(0x70);
 
   bool b = tca.begin();

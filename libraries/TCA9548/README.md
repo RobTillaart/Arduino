@@ -78,7 +78,6 @@ See example
 
 - improve error handling + documentation.
 - add examples
-- check TODO in code
 - test test and test
 - improve documentation
 - write unit test

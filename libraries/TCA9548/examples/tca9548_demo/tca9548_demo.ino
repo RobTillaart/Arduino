@@ -1,7 +1,6 @@
 //
 //    FILE: tca9548_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo TCA9548 I2C multiplexer
 //    DATE: 2021-03-16
 //     URL: https://github.com/RobTillaart/TCA9548

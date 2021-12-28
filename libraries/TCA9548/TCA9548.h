@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9548.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 //
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define TCA9548_LIB_VERSION             (F("0.1.1"))
+#define TCA9548_LIB_VERSION             (F("0.1.2"))
 
 
 class TCA9548
@@ -59,5 +59,5 @@ private:
 };
 
 
-// -- END OF FILE -- 
+// -- END OF FILE --
 

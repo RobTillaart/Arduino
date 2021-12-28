@@ -1,15 +1,15 @@
 //
 //    FILE: stopwatch_resolution.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: sample demo stopwatch class
 //    DATE: 2020-05-08
 //     URL: https://github.com/RobTillaart/StopWatch_RT
-//
+
 
 #include <StopWatch.h>
 
 StopWatch MySW;
+
 
 void setup()
 {
@@ -25,6 +25,7 @@ void setup()
   Serial.println(MySW.resolution());
   Serial.println();
 }
+
 
 void loop()
 {
@@ -47,4 +48,6 @@ void simple_test(StopWatch::Resolution res)
   Serial.println();
 }
 
+
 // -- END OF FILE --
+

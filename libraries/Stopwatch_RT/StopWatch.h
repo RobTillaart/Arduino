@@ -2,7 +2,7 @@
 //
 //    FILE: StopWatch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino Library implementing a stopwatch including seconds, milliseconds microseconds
 // HISTORY: See StopWatch.cpp
 //     URL: https://github.com/RobTillaart/StopWatch_RT
@@ -13,16 +13,16 @@
 #include "Arduino.h"
 
 
-#define STOPWATCH_LIB_VERSION (F("0.3.1"))
+#define STOPWATCH_LIB_VERSION             (F("0.3.2"))
 
 
 // NOTE: adjust divider can fix timing inaccuracies (to some extend)
 #ifndef STOPWATCH_SECONDS_DIVIDER
-#define STOPWATCH_SECONDS_DIVIDER 1000
+#define STOPWATCH_SECONDS_DIVIDER         1000
 #endif
 
 #ifndef STOPWATCH_MINUTES_DIVIDER
-#define STOPWATCH_MINUTES_DIVIDER 60000
+#define STOPWATCH_MINUTES_DIVIDER         60000
 #endif
 
 
@@ -32,7 +32,7 @@ public:
   enum State      { RESET, RUNNING, STOPPED };
   enum Resolution { MICROS, MILLIS, SECONDS, MINUTES};
 
-  explicit StopWatch(const enum Resolution res = MILLIS);
+  explicit StopWatch(const enum Resolution resolution = MILLIS);
   void     start();
   void     stop();
   void     reset();
@@ -41,19 +41,17 @@ public:
 
   bool     isRunning() { return _state == StopWatch::RUNNING; };
   enum     State state() { return _state; };
- 
-  void     setResolution(const enum Resolution res);
-  enum     Resolution resolution() { return _res; };
+
+  void     setResolution(const enum Resolution resolution);
+  enum     Resolution resolution() { return _resolution; };
 
   // PRINTABLE
   size_t printTo(Print& p) const;
 
-  // value is obsolete => elapsed() is more descriptive
-  // uint32_t value() { return elapsed(); };
 
 private:
-  enum State _state;
-  enum Resolution _res;
+  enum State      _state;
+  enum Resolution _resolution;
 
   uint32_t _starttime;
   uint32_t _stoptime;
@@ -65,4 +63,6 @@ private:
   static uint32_t minutes()     { return millis() / STOPWATCH_MINUTES_DIVIDER; };
 };
 
+
 // -- END OF FILE --
+

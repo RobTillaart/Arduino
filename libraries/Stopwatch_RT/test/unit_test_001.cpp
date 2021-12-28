@@ -38,17 +38,25 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "STOPWATCH_LIB_VERSION: %s\n", (char *) STOPWATCH_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(STOPWATCH_SECONDS_DIVIDER,  1000);
+  assertEqual(STOPWATCH_MINUTES_DIVIDER,  60000);
+}
+
+
+
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", STOPWATCH_LIB_VERSION);
-
   StopWatch stopwatch0;
 
   assertFalse(stopwatch0.isRunning());
@@ -60,7 +68,7 @@ unittest(test_constructor)
 
   StopWatch stopwatch2(StopWatch::SECONDS);
   assertEqual(StopWatch::SECONDS, stopwatch2.resolution());
-  
+
   StopWatch stopwatch3(StopWatch::MINUTES);
   assertEqual(StopWatch::MINUTES, stopwatch3.resolution());
 }

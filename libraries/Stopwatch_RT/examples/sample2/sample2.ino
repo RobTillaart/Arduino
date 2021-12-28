@@ -1,19 +1,20 @@
 //
 //    FILE: sample2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: sample demo stopwatch class
 //    DATE: 2011-01-04
 //     URL: https://github.com/RobTillaart/StopWatch_RT
-//
+
 
 #include <StopWatch.h>
+
 
 StopWatch sw_millis;    // MILLIS (default)
 StopWatch sw_micros(StopWatch::MICROS);
 StopWatch sw_secs(StopWatch::SECONDS);
 
-void setup() 
+
+void setup()
 {
     Serial.begin(115200);
     sw_millis.start();
@@ -22,7 +23,7 @@ void setup()
 }
 
 
-void loop() 
+void loop()
 {
     Serial.print("sw_millis=");
     Serial.print(sw_millis.elapsed());
@@ -31,8 +32,10 @@ void loop()
     Serial.print("\tsw_secs=");
     Serial.print(sw_secs.elapsed());
     Serial.println();
-   
+
     delay(1000);
 }
 
+
 // -- END OF FILE --
+

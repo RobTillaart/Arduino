@@ -1,7 +1,9 @@
-# Syntax Coloring Map for StopWatch
+# Syntax Colouring Map for StopWatch
 
-# Datatypes (KEYWORD1)
+
+# Data types (KEYWORD1)
 StopWatch	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 start	KEYWORD2
@@ -12,6 +14,7 @@ isRunning	KEYWORD2
 state	KEYWORD2
 setResolution	KEYWORD2
 resolution	KEYWORD2
+
 
 # Constants (LITERAL1)
 RESET	LITERAL1

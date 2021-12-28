@@ -1,7 +1,6 @@
 //
 //    FILE: stopwatch_printable.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: sample demo stopwatch class
 //    DATE: 2021-01-08
 //     URL: https://github.com/RobTillaart/StopWatch_RT
@@ -28,9 +27,11 @@ void setup()
   test_printTo();
 }
 
+
 void loop()
 {
 }
+
 
 void test_printTo()
 {
@@ -42,4 +43,6 @@ void test_printTo()
   Serial.println(stopwatch.elapsed());
 }
 
+
 // -- END OF FILE --
+

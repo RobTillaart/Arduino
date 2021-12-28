@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -39,7 +40,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "TEMPERATURE_VERSION: %s\n", (char *) TEMPERATURE_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -48,8 +51,6 @@ unittest_teardown()
 
 unittest(test_conversion)
 {
-  fprintf(stderr, "VERSION: %s\n", TEMPERATURE_VERSION);
-  
   assertEqualFloat(-40, Fahrenheit(-40), 0.001);
   assertEqualFloat(-40, Celsius(-40), 0.001);
   assertEqualFloat(273.15, Kelvin(0), 0.001);

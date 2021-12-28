@@ -1,7 +1,6 @@
 //
 //    FILE: heatindexC_table.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-04-04
 
@@ -10,6 +9,7 @@
 
 
 volatile float hi;
+
 
 void setup()
 {
@@ -40,13 +40,14 @@ void setup()
   Serial.println();
   Serial.println();
 
-
   Serial.print("Done...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

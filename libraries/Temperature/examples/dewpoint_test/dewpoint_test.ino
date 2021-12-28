@@ -1,7 +1,6 @@
 //
 //    FILE: dewpoint_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-04-04
 
@@ -15,6 +14,7 @@ uint32_t duration2;
 
 float maxError;
 volatile float dp;
+
 
 void setup()
 {
@@ -68,9 +68,11 @@ void setup()
   Serial.print("Done...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

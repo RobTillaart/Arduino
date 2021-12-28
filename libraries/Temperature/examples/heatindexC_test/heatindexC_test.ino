@@ -1,7 +1,6 @@
 //
 //    FILE: heatindexC_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-04-04
 
@@ -13,6 +12,7 @@ uint32_t start;
 uint32_t duration1;
 
 volatile float hi;
+
 
 void setup()
 {
@@ -32,13 +32,14 @@ void setup()
   duration1 = millis() - start;
   Serial.println(duration1);
 
-
   Serial.print("Done...");
 }
 
+
 void loop()
 {
-
 }
 
+
 // -- END OF FILE --
+

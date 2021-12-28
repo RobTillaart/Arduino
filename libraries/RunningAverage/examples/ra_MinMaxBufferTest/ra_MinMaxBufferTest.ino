@@ -1,11 +1,8 @@
 //
 //    FILE: ra_MinMaxBufferTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2015-09-04
-//
 // PUPROSE: demo
-//
 
 
 #include "RunningAverage.h"

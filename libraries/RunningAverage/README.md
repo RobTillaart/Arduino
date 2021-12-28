@@ -109,8 +109,7 @@ See examples
 - default size for constructor
 - update documentation, explain better.
 - create a double based derived class? Template class?
-
 - check for optimizations.
 - clear(bool zero = true)  to suppress setting all to 0. ??
--  
+- separate releaseNotes.md
 

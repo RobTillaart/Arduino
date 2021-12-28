@@ -2,11 +2,9 @@
 //    FILE: runningAverageHour.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
-//
 // PUPROSE: show working of runningAverage per hour 
 //          in 2 steps - last minute + last hour
 //          3 or more steps also possible
-//
 
 
 #include "RunningAverage.h"

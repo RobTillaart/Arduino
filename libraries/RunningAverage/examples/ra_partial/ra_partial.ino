@@ -1,11 +1,8 @@
 //
 //    FILE: ra_partial.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-05-26
-//
 // PUPROSE: demonstrate partial use of internal buffer
-//
 
 
 #include "RunningAverage.h"

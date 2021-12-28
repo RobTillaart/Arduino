@@ -2,9 +2,7 @@
 //    FILE: fillValue.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
-//
 // PUPROSE: demo + timing of fillValue
-//
 
 
 #include "RunningAverage.h"

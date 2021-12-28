@@ -38,6 +38,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "RUNNINGAVERAGE_LIB_VERSION: %s\n", (char *) RUNNINGAVERAGE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -47,8 +48,6 @@ unittest_teardown()
 
 unittest(test_zero_elements)
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) RUNNINGAVERAGE_LIB_VERSION);
-
   RunningAverage myRA(10);
   myRA.clear();
 
@@ -155,7 +154,7 @@ unittest(test_last)
   assertNAN(myRA.getMinInBufferLast(0));
   assertNAN(myRA.getAverageLast(0));
   assertNAN(myRA.getMaxInBufferLast(0));
-  
+
   assertEqualFloat(999.0, myRA.getMinInBufferLast(1), 0.001);
   assertEqualFloat(999.0, myRA.getAverageLast(1), 0.001);
   assertEqualFloat(999.0, myRA.getMaxInBufferLast(1), 0.001);

@@ -1,11 +1,8 @@
 //
 //    FILE: ra_two_sensors.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-12-06
-//
 // PUPROSE: show working of runningAverage for two sensors
-//
 
 
 #include "RunningAverage.h"

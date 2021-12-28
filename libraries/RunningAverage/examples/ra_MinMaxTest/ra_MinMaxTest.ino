@@ -1,11 +1,8 @@
 //
 //    FILE: runningAverageMinMaxTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2015-apr-10
-//
 // PUPROSE: demo
-//
 
 
 #include "RunningAverage.h"
@@ -50,3 +47,4 @@ void loop(void)
 
 
 // -- END OF FILE --
+

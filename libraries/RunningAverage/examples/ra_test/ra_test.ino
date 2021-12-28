@@ -1,11 +1,8 @@
 //
 //    FILE: runningAverageTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
 //    DATE: 2012-12-30
-//
 // PUPROSE: show working of runningAverage
-//
 
 
 #include "RunningAverage.h"

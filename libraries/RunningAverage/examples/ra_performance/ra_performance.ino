@@ -1,11 +1,8 @@
 //
 //    FILE: ra_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-04-16
-//
 // PUPROSE: timing of runningAverage
-//
 
 
 #include "RunningAverage.h"
@@ -17,7 +14,7 @@ uint32_t start, stop;
 volatile float x;
 
 
-void setup(void) 
+void setup(void)
 {
   Serial.begin(115200);
   Serial.print("\nPerformance RunningAverage lib: ");
@@ -25,39 +22,39 @@ void setup(void)
   Serial.println();
 
   myRA.clear(); // explicitly start clean
-  
+
   for (int i = 0; i < 10; i++)
   {
     myRA.addValue(random(1000) * 0.001);
   }
-  
+
   test_clear();
   test_addvalue();
   test_fillValue();
   test_getValue();
-  
+
   test_getAverage();
   test_getFastAverage();
-  
+
   test_getStandardDeviation();
   test_getStandardError();
-  
+
   test_getMin();
   test_getMax();
   test_getMinInBuffer();
   test_getMaxInBuffer();
-  
+
   test_bufferIsFull();
   test_getElement();
-  
+
   test_getSize();
   test_getCount();
-  
+
   Serial.println("\ndone...\n");
 }
 
 
-void test_clear(void) 
+void test_clear(void)
 {
   start = micros();
   myRA.clear();
@@ -99,8 +96,8 @@ void test_getValue()
   Serial.println(stop - start);
   delay(10);
 }
- 
- 
+
+
 void test_getAverage()
 {
   start = micros();
@@ -110,8 +107,8 @@ void test_getAverage()
   Serial.println(stop - start);
   delay(10);
 }
- 
- 
+
+
 void test_getFastAverage()
 {
   start = micros();

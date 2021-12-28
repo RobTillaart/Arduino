@@ -1,11 +1,8 @@
 //
 //    FILE: ra_300.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-05-26
-//
 // PUPROSE: demonstrate large (16 bit) buffer
-//
 
 
 #include "RunningAverage.h"

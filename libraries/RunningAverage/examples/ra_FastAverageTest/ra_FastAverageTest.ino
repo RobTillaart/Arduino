@@ -1,11 +1,8 @@
 //
 //    FILE: ra_FastAverageTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 //    DATE: 2015-sep-04
-//
 // PUPROSE: demo to see if different average algorithm give different result
-//
 
 
 #include "RunningAverage.h"

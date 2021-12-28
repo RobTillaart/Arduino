@@ -1,13 +1,11 @@
 //
 //    FILE: SHT31_two_I2C.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT31
 //
 //   NOTE: see issue #22 for details
 //         originally written for a ATSAMD21G18A custom board.
-//
 
 
 #include "Wire.h"
@@ -97,4 +95,6 @@ void loop()
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

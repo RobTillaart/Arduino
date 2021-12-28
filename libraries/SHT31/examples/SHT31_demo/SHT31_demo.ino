@@ -1,7 +1,6 @@
 //
 //    FILE: SHT31_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.2
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT31
 
@@ -49,4 +48,6 @@ void loop()
   delay(100);
 }
 
+
 // -- END OF FILE --
+

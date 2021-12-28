@@ -8,7 +8,7 @@
 
 # SHT31
 
-Arduino library for the SHT31 temperature and humidity sensor
+Arduino library for the SHT31 temperature and humidity sensor.
 
 Relates to the SHT85 library - https://github.com/RobTillaart/SHT85
 
@@ -37,10 +37,10 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 #### Base interface
 
 - **SHT31()** constructor.
-- **bool begin(address, dataPin, clockPin)** begin function for ESP8266 & ESP32;
+- **bool begin(uint8_taddress, uint8_tdataPin, uint8_tclockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(address)** for single I2C bus platforms, e.g UNO.
-- **bool begin(address,  TwoWire \*wire)** for platforms with multiple I2C busses.
+- **bool begin(uint8_t address)** for single I2C bus platforms, e.g UNO.
+- **bool begin(uint8_t address,  TwoWire \*wire)** for platforms with multiple I2C buses.
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
 - **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
@@ -52,7 +52,9 @@ Does read both the temperature and humidity.
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
-Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). If you're worried about the extra cycles, you should make sure to cache these values or only request them after you've performed a new reading.
+Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). 
+If you're worried about the extra cycles, you should make sure to cache these values or only request them after 
+you've performed a new reading.
 
 
 #### Error interface
@@ -60,7 +62,7 @@ Note that the temperature and humidity values are recalculated on every call to 
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
-| Error | Symbolic                  | Description
+| Error | Symbolic                  | Description                 |
 |:-----:|:--------------------------|:----------------------------|
 | 0x00  | SHT31_OK                  | no error                    |
 | 0x81  | SHT31_ERR_WRITECMD        | I2C write failed            |
@@ -69,7 +71,7 @@ Be sure to clear the error flag by calling **getError()** before calling any com
 | 0x84  | SHT31_ERR_NOT_CONNECT     | Could not connect           |
 | 0x85  | SHT31_ERR_CRC_TEMP        | CRC error in temperature    |
 | 0x86  | SHT31_ERR_CRC_HUM         | CRC error in humidity       |
-| 0x87  | SHT31_ERR_CRC_STATUS      | CRC error in statusfield    |
+| 0x87  | SHT31_ERR_CRC_STATUS      | CRC error in status field   |
 | 0x88  | SHT31_ERR_HEATER_COOLDOWN | Heater need to cool down    |
 | 0x88  | SHT31_ERR_HEATER_ON       | Could not switch on heater  |
 
@@ -128,10 +130,16 @@ Returns false if reading fails or in case of a CRC failure.
 |  4   | System reset detected      |  0      | no reset since last ‘clear status register’ command
 |      |                            |  1      | reset detected (hard or soft reset command or supply fail) - default
 | 3-2  | Reserved                   |  00     |
-|  1   | Command status             |  0      | last cmd executed successfully
-|      |                            |  1      | last cmd not processed. Invalid or failed checksum
+|  1   | Command status             |  0      | last command executed successfully
+|      |                            |  1      | last command not processed. Invalid or failed checksum
 |  0   | Write data checksum status |  0      | checksum of last write correct
 |      |                            |  1      | checksum of last write transfer failed
+
+
+
+## Operation
+
+See examples.
 
 
 ## Future
@@ -139,9 +147,13 @@ Returns false if reading fails or in case of a CRC failure.
 - merge with other SHT sensors if possible
 - direct Fahrenheit formula ?
 - improve error handling / status. (all code paths)
+- verify working with ESP32
+- investigate command ART (auto sampling at 4 Hz)
+- investigate command BREAK (stop auto sampling)
+- software I2C experiments?
+- separate releaseNotes.md
 
 
-## Operation
+#### Wont
 
-See examples
 

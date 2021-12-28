@@ -1,7 +1,6 @@
 //
 //    FILE: SHT31_isConnected.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo  (needs 0.2.4 or up)
 //     URL: https://github.com/RobTillaart/SHT31
 
@@ -74,3 +73,4 @@ void loop()
 
 
 // -- END OF FILE --
+

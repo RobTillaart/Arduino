@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -29,6 +29,7 @@
 //  0.3.3   2021-08-24  fix #22 prevent heater to switch on too fast.
 //                      update readme
 //  0.3.4   2021-09-19  update build-CI
+//  0.3.5   2021-12-28  update library.json, readme, license, minor edits
 
 
 #include "SHT31.h"

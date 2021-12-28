@@ -1,7 +1,6 @@
 //
 //    FILE: SHT31_I2Cspeed
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: testing the performance at different I2C speeds
 //     URL: https://github.com/RobTillaart/SHT31
 
@@ -61,3 +60,4 @@ void test()
 
 
 // -- END OF FILE --
+

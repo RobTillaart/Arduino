@@ -1,6 +1,6 @@
 {
   "name": "SHT31",
-  "keywords": "SHT31 Temperature Humidity I2C SHT30 SHT35",
+  "keywords": "SHT31,Temperature,Humidity,I2C,SHT30,SHT35",
   "description": "Arduino library for the I2C SHT31 temperature and humidity sensor",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT31"
   },
-  "version": "0.3.4",
+  "version": "0.3.5",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "SHT31.h"
 }

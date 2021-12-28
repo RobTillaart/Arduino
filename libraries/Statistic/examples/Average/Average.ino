@@ -1,9 +1,8 @@
 //
 //    FILE: Average.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.4
+//  AUTHOR: Rob Tillaart
 // PURPOSE: Sample sketch for statistic library Arduino
-//
+
 
 #include "Statistic.h"
 
@@ -11,6 +10,7 @@ Statistic myStats;
 
 uint32_t start;
 uint32_t stop;
+
 
 void setup(void)
 {
@@ -21,6 +21,7 @@ void setup(void)
   myStats.clear(); //explicitly start clean
   start = millis();
 }
+
 
 void loop(void)
 {
@@ -51,3 +52,7 @@ void loop(void)
     start = millis();
   }
 }
+
+
+// -- END OF FILE --
+

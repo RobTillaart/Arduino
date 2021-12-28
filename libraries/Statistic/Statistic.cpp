@@ -2,7 +2,7 @@
 //    FILE: Statistic.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
 //          modified at 0.3 by Gil Ross at physics dot org
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: Recursive statistical library for Arduino
 //
 // NOTE: 2011-01-07 Gill Ross
@@ -15,7 +15,7 @@
 // standard error (deviation) becomes the difference of two large
 // numbers and will tend to zero.
 //
-// For small numbers of iterations and small Average/SE th original code is
+// For small numbers of iterations and small Average/SE the original code is
 // likely to work fine.
 // It should also be recognised that for very large samples, questions
 // of stability of the sample assume greater importance than the
@@ -25,14 +25,14 @@
 // iteration is numerically stable.
 // It updates the number, mean, max, min and SumOfSquaresDiff each step to
 // deliver max min average, population standard error (standard deviation) and
-// unbiassed SE.
+// unbiased SE.
 // -------------
 //
 //  HISTORY:
 //  0.1     2010-10-29 initial version
 //  0.2     2010-10-29 stripped to minimal functionality
 //  0.2.01  2010-10-30
-//          added minimim, maximum, unbiased stdev,
+//          added minimum, maximum, unbiased stdev,
 //          changed counter to long -> int overflows @32K samples
 //  0.3     2011-01-07
 //          branched from 0.2.01 version of Rob Tillaart's code
@@ -55,6 +55,7 @@
 //  0.4.1   2020-06-19  fix library.json
 //  0.4.2   2021-01-08  add Arduino-CI + unit tests
 //  0.4.3   2021-01-20  add() returns how much was actually added.
+//  0.4.4   2021-12-28  update library.json, readme, license, minor edits
 
 
 #include "Statistic.h"
@@ -143,4 +144,6 @@ float Statistic::unbiased_stdev() const
   return sqrt( _ssqdif / (_cnt - 1));
 }
 
+
 // -- END OF FILE --
+

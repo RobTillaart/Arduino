@@ -1,13 +1,13 @@
 //
 //    FILE: StatisticArray.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1
+//  AUTHOR: Rob Tillaart
 // PURPOSE: Sample sketch for statistic library Arduino
-//
+
 
 #include "Statistic.h"
 
 Statistic stats[4];
+
 
 void setup(void)
 {
@@ -20,6 +20,7 @@ void setup(void)
     stats[i].clear(); //explicitly start clean
   }
 }
+
 
 void loop(void)
 {
@@ -43,3 +44,7 @@ void loop(void)
     stats[idx].clear();
   }
 }
+
+
+// -- END OF FILE --
+

@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: Statistic.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
+//  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See Statistic.cpp
 //
@@ -13,7 +13,8 @@
 #include <math.h>
 
 
-#define STATISTIC_LIB_VERSION       (F("0.4.3"))
+#define STATISTIC_LIB_VERSION                     (F("0.4.4"))
+
 
 class Statistic
 {
@@ -47,4 +48,6 @@ protected:
 
 };
 
+
 // -- END OF FILE -- 
+

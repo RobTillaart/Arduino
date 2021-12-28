@@ -1,9 +1,9 @@
 //
 //    FILE: TimingTest.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.0
+//  AUTHOR: Rob Tillaart
 // PURPOSE: measure time difference for runtime stddev toggle.
-//          add is 1024 millis faster for 10K adds ==> ~ 100uSec per add faster.
+//          add is 1024 milliseconds faster for 10K adds ==> ~ 100uSec per add faster.
+
 
 #include "Statistic.h"
 
@@ -14,6 +14,7 @@ uint32_t stop;
 
 bool useStdDev = true;
 
+
 void setup(void)
 {
   Serial.begin(115200);
@@ -23,6 +24,7 @@ void setup(void)
   myStats.clear(useStdDev);
   start = millis();
 }
+
 
 void loop(void)
 {
@@ -57,4 +59,6 @@ void loop(void)
   }
 }
 
+
 // -- END OF FILE --
+

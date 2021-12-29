@@ -1,15 +1,12 @@
 //
 //    FILE: TSL235R_multi.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2021-05-29
-
+//
 // NOTE
-// the max number of interrupt an Arduino UNO can handle
-// is in the order of 150000 for all interrupts.
-
-
+//   the max number of interrupt an Arduino UNO can handle
+//   is in the order of ~150 KHz for all interrupts.
 //
 // Digital Pin layout ARDUINO
 // =============================
@@ -19,7 +16,6 @@
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
-//
 
 
 #include "TSL235R.h"
@@ -40,6 +36,7 @@ void count_irq1()
 {
   cnt1++;
 }
+
 
 void count_irq2()
 {
@@ -89,4 +86,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

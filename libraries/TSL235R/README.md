@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/TSL235R/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/TSL235R/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TSL235R/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/TSL235R/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TSL235R/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TSL235R/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TSL235R.svg?maxAge=3600)](https://github.com/RobTillaart/TSL235R/releases)
 
@@ -22,7 +24,7 @@ For measurements below 1uW/cm2 one bests measures for multiple seconds
 Above 1 uW/cm2 1 second or shorter is OK. 
 
 Note that for longer and shorter measurements than 1 second one must convert the
-value to Hz, which is the nr of pulses in 1 second.
+value to Hz, which is the number of pulses in 1 second.
 
 
 ## Connection
@@ -46,11 +48,12 @@ To get irradiance in W/m2 one must divide by 100.
 - **float irradiance_HS(uint32_t pulses, uint32_t microseconds)** returns the irradiance in uW/cm2
 This formula is used when the time is measured in microseconds. This is the most accurate measurement.
 - **float getFactor()** returns the inner conversion factor from Hz to Watt/cm2.
-- **void setWavelength(uint16_t wavelength = 635)** sets the wavelength so the formulas can use a correction factor. At the default wavelength of 635 nm the wavelength correction factor == 1.0
+- **void setWavelength(uint16_t wavelength = 635)** sets the wavelength so the formulas can use a 
+correction factor. At the default wavelength of 635 nm the wavelength correction factor == 1.0
 - **uint16_t getWavelength()** returns the set wavelength. Convenience function.
 - **float getWaveLengthFactor()** returns the wavelength correction factor. 
 As the sensor is most sensitive around 750 nm this value helps to normalize the signal.
-This works only for (almost) monochomatic light.
+This works only for (almost) monochromatic light.
 - **void setVoltage(float voltage)** sets the voltage so the formulas can use a correction factor.
 This voltage correction factor is rather small < 1.5%
 - **float getVoltage()** returns the set voltage. Convenience function.
@@ -63,6 +66,9 @@ See examples for typical usage.
 
 ## Future
 
+- improve documentation
+- test test test
+- investigate hardware solutions for e.g. divide by 100 or so
 - investigate correction factor for white light and mixed light sources.
-- investigate callibration factor for timing of processor used.
+- investigate calibration factor for timing of processor used.
 -

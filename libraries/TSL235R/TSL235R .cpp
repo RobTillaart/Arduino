@@ -1,12 +1,13 @@
 //
 //    FILE: TSL235R.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: library fot the TSL235R light to frequency convertor
+// VERSION: 0.1.2
+// PURPOSE: library for the TSL235R light to frequency convertor
 //
 //  HISTORY:
 //  0.1.0   2020-05-29  initial version
 //  0.1.1   2020-06-03  add irradiance_HS()
+//  0.1.2   2021-12-29  update build-CI, readme, library.json, license, minor edits
 
 
 #include "TSL235R.h"
@@ -49,11 +50,12 @@ void TSL235R::setVoltage(float voltage)
   calculateFactor();
 }
 
+
 void TSL235R::calculateFactor()
 {
   // figure 1 datasheet
-  // 1 Khz crosses the line at 35/230 between 1 and 10.
-  // so the correctiion factor is 10^0.15217 = 1.419659 = 1.42
+  // 1 KHz crosses the line at 35/230 between 1 and 10.
+  // so the correction factor is 10^0.15217 = 1.419659 = 1.42 (as all math has 3 decimals)
   // as the graph is in kHz we need to correct a factor 1000
   // as the irradiance function gets Hz
   const float cf = 0.00142;
@@ -75,24 +77,25 @@ float TSL235R::calcWLF(uint16_t _waveLength)
 }
 
 
-float TSL235R::multiMap(float val, float * _in, float * _out, uint8_t size)
+float TSL235R::multiMap(float value, float * _in, float * _out, uint8_t size)
 {
   // take care the value is within range
-  // val = constrain(val, _in[0], _in[size-1]);
-  if (val <= _in[0]) return _out[0];
-  if (val >= _in[size-1]) return _out[size-1];
+  // value = constrain(value, _in[0], _in[size-1]);
+  if (value <= _in[0]) return _out[0];
+  if (value >= _in[size-1]) return _out[size-1];
 
   // search right interval
-  uint8_t pos = 1;  // _in[0] allready tested
-  while(val > _in[pos]) pos++;
+  uint8_t pos = 1;  // _in[0] already tested
+  while(value > _in[pos]) pos++;
 
   // this will handle all exact "points" in the _in array
-  if (val == _in[pos]) return _out[pos];
+  if (value == _in[pos]) return _out[pos];
 
   // interpolate in the right segment for the rest
-  return (val - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+  uint8_t pos1 = pos - 1;
+  return (value - _in[pos1]) * (_out[pos] - _out[pos1]) / (_in[pos] - _in[pos1]) + _out[pos1];
 }
 
 
-
 // -- END OF FILE --
+

@@ -1,19 +1,16 @@
 //
 //    FILE: TSL235R_multi_alternate.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
-
+//
 // NOTE
-// This code will work up to ~150 kHz on an Arduino UNO
-
-// Note
-// the max number of interrupt an Arduino UNO can handle
-// is in the order of 20000.
-// in the demo we alternate the two interrupt pins to be able
-// to have a larger range per sensor.
-
+//   This code will work up to ~150 KHz on an Arduino UNO
+//
+// NOTE
+//   in the demo we alternate the two interrupt pins to be able
+//   to have a larger range per sensor. 
+//   The price is that the values are behind at least a second.
 //
 // Digital Pin layout ARDUINO
 // =============================
@@ -23,7 +20,6 @@
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
-//
 
 
 #include "TSL235R.h"
@@ -45,11 +41,6 @@ void count_irq()
 }
 
 
-
-///////////////////////////////////////////////////////////////////
-//
-// SETUP
-//
 void setup()
 {
   Serial.begin(115200);
@@ -97,4 +88,6 @@ void loop()
   // ...
 }
 
+
 // -- END OF FILE --
+

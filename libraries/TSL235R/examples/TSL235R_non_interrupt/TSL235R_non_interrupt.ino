@@ -1,15 +1,14 @@
 //
 //    FILE: TSL235R_non_interrupt.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo polling
 //    DATE: 2021-06-03
-
+//
 // NOTE
-// This code will work up to ~150 kHz on an Arduino UNO
-// above that pulses come in faster than digitalRead 
-// can reliably handle
-
+//   This code will work up to ~150 kHz on an Arduino UNO
+//   above that pulses come in faster than digitalRead 
+//   can reliably handle
+//
 // Digital Pin layout ARDUINO
 // =============================
 //  2 - to TSL235R
@@ -25,10 +24,6 @@
 TSL235R  mySensor;
 
 
-///////////////////////////////////////////////////////////////////
-//
-// SETUP
-//
 void setup()
 {
   Serial.begin(115200);
@@ -59,4 +54,6 @@ void loop()
   Serial.println(" uW/cm2");
 }
 
+
 // -- END OF FILE --
+

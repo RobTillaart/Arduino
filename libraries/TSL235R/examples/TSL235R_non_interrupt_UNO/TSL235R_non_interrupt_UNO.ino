@@ -1,19 +1,16 @@
 //
 //    FILE: TSL235R_non_interrupt_UNO.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: demo polling with direct port access
+// PURPOSE: demo polling with direct port access = AVR.UNO specific!
 //    DATE: 2021-06-03
-
+//
 // NOTE
-// This code will work up to ~1700 kHz (3800 uW/cm2) on an Arduino UNO
-// above that pulses come in faster than the code can reliably handle
-
+//   This code will work up to ~1700 kHz (3800 uW/cm2) on an Arduino UNO
+//   above that pulses come in faster than the code can reliably handle
+//
 // NOTE
-// - the code is UNO specific as it uses low level PORT manipulations
-// - the code is blocking and not suitable for low level of radiance.
-
-
+//   the code is UNO specific as it uses low level PORT manipulations
+//   the code is blocking and not suitable for low level of radiance.
 //
 // Digital Pin layout ARDUINO
 // =============================
@@ -22,7 +19,6 @@
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
-//
 
 
 #include "TSL235R.h"
@@ -31,10 +27,6 @@
 TSL235R  mySensor;
 
 
-///////////////////////////////////////////////////////////////////
-//
-// SETUP
-//
 void setup()
 {
   Serial.begin(115200);
@@ -51,7 +43,7 @@ void loop()
   uint32_t start = micros();
   while (cnt < 60000)
   {
-    while (PIND & 0x04);             // wait for LOW
+    while (PIND & 0x04);             // wait for LOW      AVR.UNO specific !!
     cnt++;
     while ((PIND & 0x04) == 0x00);   // wait for HIGH
   }
@@ -66,4 +58,6 @@ void loop()
   Serial.println(" uW/cm2");
 }
 
+
 // -- END OF FILE --
+

@@ -1,16 +1,13 @@
 //
 //    FILE: TSL235R_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
-
-
+//
 // NOTE
 // This code will work up to ~150KHz on an Arduino UNO
 // above that frequency the interrupt saturate the processor.
-
-
+//
 // Digital Pin layout ARDUINO
 // =============================
 //  2     IRQ 0    - to TSL235R
@@ -25,22 +22,18 @@
 
 TSL235R  mySensor;
 
-volatile uint32_t cnt = 0;
-uint32_t oldcnt = 0;
+volatile uint32_t count = 0;
+uint32_t oldCount = 0;
 uint32_t t = 0;
 uint32_t lastMeasurement = 0;
 
 
 void count_irq()
 {
-  cnt++;
+  count++;
 }
 
 
-///////////////////////////////////////////////////////////////////
-//
-// SETUP
-//
 void setup()
 {
   Serial.begin(115200);
@@ -59,9 +52,9 @@ void loop()
   if (now - lastMeasurement >= 1000)
   {
     lastMeasurement = now;
-    t = cnt;
-    uint32_t Hz = t - oldcnt;
-    oldcnt = t;
+    t = count;
+    uint32_t Hz = t - oldCount;
+    oldCount = t;
     
     Serial.print("Hz: ");
     Serial.print(Hz);
@@ -71,4 +64,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

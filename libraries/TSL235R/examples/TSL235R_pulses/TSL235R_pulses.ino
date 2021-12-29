@@ -1,14 +1,12 @@
 //
 //    FILE: TSL235R_pulses.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-05-29
-
+//
 // NOTE
 // This code will work up to ~150 kHz on an Arduino UNO
 // above that pulses come in faster than the code can reliably handle
-
 //
 // Digital Pin layout ARDUINO
 // =============================
@@ -18,12 +16,12 @@
 // PIN 1 - GND
 // PIN 2 - VDD - 5V
 // PIN 3 - SIGNAL
-//
 
 
 #include "TSL235R.h"
 
 TSL235R  mySensor;
+
 
 volatile uint32_t cnt1 = 0;
 uint32_t oldcnt1 = 0;
@@ -37,10 +35,6 @@ void count_irq1()
 }
 
 
-///////////////////////////////////////////////////////////////////
-//
-// SETUP
-//
 void setup()
 {
   Serial.begin(115200);
@@ -75,4 +69,6 @@ void loop()
   }
 }
 
+
 // -- END OF FILE --
+

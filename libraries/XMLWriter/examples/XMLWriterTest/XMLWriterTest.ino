@@ -1,11 +1,10 @@
 //
 //    FILE: XMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
 // PURPOSE: make a simple XML generating lib
 //    DATE: 2013-11-06
 //     URL: https://github.com/RobTillaart/XMLWriter
-//
+
 
 #include <XMLWriter.h>
 

@@ -1,11 +1,10 @@
 //
 //    FILE: XMLWriterDemo01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
 // PURPOSE: XML writer demo
 //    DATE: 2016-03-16
 //     URL: https://github.com/RobTillaart/XMLWriter
-//
+
 
 #include <XMLWriter.h>
 
@@ -106,3 +105,4 @@ void loop()
 
 
 // -- END OF FILE --
+

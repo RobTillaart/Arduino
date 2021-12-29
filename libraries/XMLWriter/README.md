@@ -1,12 +1,14 @@
 
 [![Arduino CI](https://github.com/RobTillaart/XMLWriter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/XMLWriter/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/XMLWriter/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/XMLWriter/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/XMLWriter/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/XMLWriter/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/XMLWriter.svg?maxAge=3600)](https://github.com/RobTillaart/XMLWriter/releases)
 
 
 # XMLWriter
 
-Arduino Library to create simple XML (messages, files, print, ...)
+Arduino Library to create simple XML (messages, files, print, ...).
 
 
 ## Description
@@ -18,9 +20,9 @@ When instantiating an XMLWriter one can define the internal buffer size.
 A bigger buffer will make the output faster, especially for Ethernet and SD.File.
 The buffer size should be at least 2 bytes and max 250.
 How much faster depends on the properties of the stream and the platform used.
-E.g. the baudrate and internal buffer of Serial, packet behaviour of Ethernet,
+E.g. the baud rate and internal buffer of Serial, packet behaviour of Ethernet,
 or paging of SD cards.
-If performance is low one should do testruns with different sizes for the buffer 
+If performance is low one should do test runs with different sizes for the buffer 
 and choose one that is appropriate.
 
 Indicative sizes based upon the examples.
@@ -128,12 +130,13 @@ can inject strings.
 
 ## Configuration flags
 
-| Flag             | Value | Description  |
-|:-----------------|:------|:-------------|
+| Flag             | Value | Description       |
+|:-----------------|:------|:------------------|
 |XMLWRITER_NONE    | 0x00  | minimize output, smaller & faster |
-|XMLWRITER_COMMENT | 0x01  | allow comments |
+|XMLWRITER_COMMENT | 0x01  | allow comments    |
 |XMLWRITER_INDENT  | 0x02  | allow indentation |
-|XMLWRITER_NEWLINE | 0x04  | allow newlines |
+|XMLWRITER_NEWLINE | 0x04  | allow newlines    |
+
 
 - **setConfig(XMLWRITER_NONE);** to minimize the output in bytes.
 - **setConfig(XMLWRITER_NEWLINE);** to break an XML stream in lines.
@@ -150,3 +153,5 @@ See examples
 
 - update documentation
 - 
+
+

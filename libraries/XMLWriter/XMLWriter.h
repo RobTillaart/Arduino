@@ -2,7 +2,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML 
 //
@@ -11,40 +11,40 @@
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.3.1"))
+#define XMLWRITER_VERSION         (F("0.3.2"))
 
 
 // for comment()
-#define NOMULTILINE           false
-#define MULTILINE             true
+#define NOMULTILINE               false
+#define MULTILINE                 true
 
 // for tagOpen(), tagEnd()
-#define NEWLINE               true
-#define NONEWLINE             false
-#define NOINDENT              false    // for tagClose()
+#define NEWLINE                   true
+#define NONEWLINE                 false
+#define NOINDENT                  false    // for tagClose()
 
 // for tagEnd()
-#define SLASH                 true
-#define NOSLASH               false
+#define SLASH                     true
+#define NOSLASH                   false
 
 // deepness of XML tree 5..10
 // needed for stack of tagStack
 #ifndef XMLWRITER_MAXLEVEL
-#define XMLWRITER_MAXLEVEL          5      // adjust for deeper nested structures
+#define XMLWRITER_MAXLEVEL        5      // adjust for deeper nested structures
 #endif
 
 #ifndef XMLWRITER_MAXTAGSIZE
-#define XMLWRITER_MAXTAGSIZE        15 // adjust for longer fields - !! eats memory !!
+#define XMLWRITER_MAXTAGSIZE      15 // adjust for longer fields - !! eats memory !!
 #endif
 
 // reduce footprint by commenting next line
 #define XMLWRITER_ESCAPE_SUPPORT
 
 // configuration - setConfig
-#define XMLWRITER_NONE              0x00
-#define XMLWRITER_COMMENT           0x01
-#define XMLWRITER_INDENT            0x02
-#define XMLWRITER_NEWLINE           0x04
+#define XMLWRITER_NONE            0x00
+#define XMLWRITER_COMMENT         0x01
+#define XMLWRITER_INDENT          0x02
+#define XMLWRITER_NEWLINE         0x04
 
 // uncomment next line to reduce ~30bytes RAM in escape()  (AVR oonly)
 // #define __PROGMEM__

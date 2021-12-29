@@ -1,11 +1,9 @@
 //
 //    FILE: XMLWriterDefaultSerial.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: make a simple XML generating lib
 //    DATE: 2020-04-24
 //     URL: https://github.com/RobTillaart/XMLWriter
-//
 
 
 #include <XMLWriter.h>
@@ -133,3 +131,4 @@ void loop()
 
 
 // -- END OF FILE --
+

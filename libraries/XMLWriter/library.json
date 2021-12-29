@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/XMLWriter"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "XMLWriter.h"
 }

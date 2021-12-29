@@ -1,14 +1,12 @@
 //
 //    FILE: XMLWriterPrint_3.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo Print interface - Printable data types
 //    DATE: 2020-07-07
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
-
-// example works for UNO but does not compile for ESP, 
-// to investigate [complex vs Complex]
+//  example works for UNO but does not compile for ESP, 
+//  to investigate [complex vs Complex]
 
 
 #include <XMLWriter.h>
@@ -47,3 +45,4 @@ void loop()
 
 
 // -- END OF FILE --
+

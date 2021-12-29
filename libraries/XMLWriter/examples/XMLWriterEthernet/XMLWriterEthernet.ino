@@ -1,11 +1,9 @@
 //
 //    FILE: XMLWriterEthernet.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo XML writer for EthernetClient
 //    DATE: 2020-04-24
 //     URL: https://github.com/RobTillaart/XMLWriter
-//
 
 
 #include <XMLWriter.h>

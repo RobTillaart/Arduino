@@ -1,22 +1,24 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Troolean/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/Troolean/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Troolean/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Troolean/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Troolean/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Troolean/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Troolean.svg?maxAge=3600)](https://github.com/RobTillaart/Troolean/releases)
 
 
 # Troolean
 
-Arduino Library for a three state logic datatype supporting {True False Unknown}
+Arduino Library for a three state logic data type supporting {True False Unknown}.
 
 
 ## Description
 
-Troolean is a datatype that implements three state logic with the values 
+Troolean is a data type that implements three state logic with the values 
 {True False Unknown }
 
 Logic operators are similar to boolean and behave the same for the familiar boolean values.
 
-Trooleans can be used e.g. to indicate a value is valid, invald or unknown to be valid or not.
+Trooleans can be used e.g. to indicate a value is valid, invalid or unknown to be valid or not.
 Imagine a monitoring application which has different sensors e.g. temperature. If the sensor 
 is sampled less than 1 minute ago one could say the value is valid, if the last sample is taken 
 more than an hour ago it could be changed (a lot) or not. So one does not know if the temperature
@@ -29,10 +31,19 @@ See also https://en.wikipedia.org/wiki/Three-valued_logic
 
 ## Interface
 
-TODO
+
+ TODO
 
 
 ## Operation
 
 See examples
+
+
+## Future
+
+- update documentation
+- add unit tests  (derive from test troolean.ino?)
+- add examples
+- 
 

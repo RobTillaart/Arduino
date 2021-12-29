@@ -1,8 +1,8 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
-// PURPOSE: Arduino Library for a three state logic datatype supporting {true false unknown}
+// VERSION: 0.1.5
+// PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 //
 //  HISTORY:
@@ -13,7 +13,9 @@
 //                     first public release
 //  0.1.2  2020-06-07  small refactor; updated keywords.txt; metadata
 //  0.1.3  2020-06-19  fix library.json
-//  0.1.4  2021-01-09  arduino-CI + unit test
+//  0.1.4  2021-01-09  Arduino-CI + unit test
+//  0.1.5  2021-12-29  update library.json, readme, license, minor edits
+
 
 #include "Troolean.h"
 
@@ -27,6 +29,7 @@ Troolean::Troolean()
   _value = -1;
 }
 
+
 Troolean::Troolean(const int8_t val)
 {
   if (val == 0) _value = 0;
@@ -34,10 +37,12 @@ Troolean::Troolean(const int8_t val)
   else _value = 1;
 }
 
+
 Troolean::Troolean(const Troolean &t)
 {
   _value = t._value;
 }
+
 
 // PRINTING
 size_t Troolean::printTo(Print& p) const
@@ -49,14 +54,19 @@ size_t Troolean::printTo(Print& p) const
   return n;
 };
 
+
+//////////////////////////////////////////////////
+//
 // EQUALITIES
 // t == t
 // f == f
 // u == u
+//
 bool Troolean::operator == (const Troolean &t)
 {
   return (_value == t._value);
 }
+
 
 bool Troolean::operator == (const bool &b)
 {
@@ -64,6 +74,7 @@ bool Troolean::operator == (const bool &b)
   if (_value == 1 && b) return true;
   return false;
 }
+
 
 bool Troolean::operator == (const int &i)
 {
@@ -73,10 +84,12 @@ bool Troolean::operator == (const int &i)
   return false;
 }
 
+
 bool Troolean::operator != (const Troolean &t)
 {
   return (_value != t._value);
 }
+
 
 bool Troolean::operator != (const bool &b)
 {
@@ -84,6 +97,7 @@ bool Troolean::operator != (const bool &b)
   if (_value == 1 && b) return false;
   return true;
 }
+
 
 bool Troolean::operator != (const int &i)
 {
@@ -93,6 +107,7 @@ bool Troolean::operator != (const int &i)
   return false;
 }
 
+
 Troolean::operator bool() const
 {
   if (_value == 1) return true;
@@ -100,10 +115,14 @@ Troolean::operator bool() const
   return false;
 }
 
+
+//////////////////////////////////////////////////////////
+//
 // NEGATE
 // t -> f
 // f -> t
 // u -> u
+//
 Troolean Troolean::operator ! ()
 {
   if (_value == -1) return Troolean(-1);  // random 0 1 :)
@@ -111,13 +130,18 @@ Troolean Troolean::operator ! ()
   return Troolean(1);
 }
 
+
+//////////////////////////////////////////////////////////
+//
 // LOGICAL OPERATORS
+//
 Troolean Troolean::operator && (const Troolean &t)
 {
   if (_value == 0 || t._value == 0) return Troolean(0);
   if (_value == 1 && t._value == 1) return Troolean(1);
   return Troolean(-1);
 }
+
 
 Troolean Troolean::operator && (const bool &b)
 {
@@ -126,12 +150,14 @@ Troolean Troolean::operator && (const bool &b)
   return Troolean(-1);
 }
 
+
 Troolean Troolean::operator || (const Troolean &t)
 {
   if (_value == 1 || t._value == 1) return Troolean(1);
   if (_value == 0 && t._value == 0) return Troolean(0);
   return Troolean(-1);
 }
+
 
 Troolean Troolean::operator || (const bool &b)
 {
@@ -140,4 +166,6 @@ Troolean Troolean::operator || (const bool &b)
   return Troolean(-1);
 }
 
+
 // -- END OF FILE --
+

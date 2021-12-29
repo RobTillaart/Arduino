@@ -1,7 +1,6 @@
 //
 //    FILE: testTrooleanArray.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: test for troolean (tri state) math library for Arduino
 //     URL: https://github.com/RobTillaart/Troolean
 
@@ -12,6 +11,7 @@
 // minimal array test
 Troolean arr[10];
 Troolean brr[5] = { true, false, unknown };
+
 
 void setup()
 {
@@ -50,11 +50,16 @@ void setup()
     Serial.print(brr[i]);
     Serial.print(" ");
   }
-  Serial.println();
+  Serial.println(); 
+
+  Serial.println("\ndone...");
 }
+
 
 void loop()
 {
 }
 
-// END OF FILE
+
+// -- END OF FILE --
+

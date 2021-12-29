@@ -1,12 +1,18 @@
-# Syntax Coloring Map for Troolean
+# Syntax Colouring Map for Troolean
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 Troolean	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 isTrue	KEYWORD2
 isFalse	KEYWORD2
 isUnknown	KEYWORD2
 
+
 # Constants (LITERAL1)
+TROOLEAN_LIB_VERSION	LITERAL1
+
 unknown	LITERAL1
+
+

@@ -1,11 +1,8 @@
 //
 //    FILE: seconds.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020
 //     URL: https://github.com/RobTillaart/timing
-//
 
 
 #include "timing.h"
@@ -22,7 +19,7 @@ const uint32_t mx = 15000;
 
 uint16_t primes[MAXPRIMES];
 uint16_t idx = 0;
-uint32_t x = 1;
+uint32_t x   = 1;
 
 
 void setup()
@@ -84,3 +81,4 @@ int nextPrime()
 
 
 // -- END OF FILE --
+

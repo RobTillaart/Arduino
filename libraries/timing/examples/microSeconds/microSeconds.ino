@@ -1,11 +1,8 @@
 //
 //    FILE: microSeconds.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020
 //     URL: https://github.com/RobTillaart/timing
-//
 
 
 #include "timing.h"
@@ -59,3 +56,4 @@ uint64_t fibonaci(uint32_t n)
 
 
 // -- END OF FILE --
+

@@ -1,11 +1,8 @@
 //
 //    FILE: milliSeconds.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020
 //     URL: https://github.com/RobTillaart/timing
-//
 
 
 #include "timing.h"
@@ -49,3 +46,4 @@ void loop()
 
 
 // -- END OF FILE --
+

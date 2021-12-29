@@ -40,11 +40,14 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "TM1637_LIB_VERSION: %s\n", (char *) TM1637_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
+
 
 unittest(test_begin)
 {
@@ -90,6 +93,7 @@ unittest(test_set_bit_delay)
   }
 
 }
+
 
 unittest_main()
 

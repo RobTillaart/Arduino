@@ -1,7 +1,6 @@
 //
 //    FILE: TM1637_HEX.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo TM1637 library
 //    DATE: 2021-02-15
 //     URL: https://github.com/RobTillaart/TM1637
@@ -11,8 +10,10 @@
 
 TM1637 TM;
 
+
 uint32_t start, stop;
 volatile uint32_t val  = 0;
+
 
 void setup()
 {
@@ -62,3 +63,4 @@ void test()
 
 
 // -- END OF FILE --
+

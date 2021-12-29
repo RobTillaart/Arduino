@@ -12,7 +12,7 @@ Library for TM1637 driven displays and keyscans.
 
 ## Description
 
-The TM1637 drives 7 segment displays and can also scan a 16 key keyboard
+The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
 Library is tested with Arduino UNO and a 6 digits display.
 
@@ -38,12 +38,15 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 
 **displayRaw()** can display some of the alphabet as follows:
    - space (blank) is 0x10
-   - - (blank) is 0x11
+   - '-' (minus) is 0x11
    - a-f are coded as 0x0a-0x0f
-   - g-z are coded as 0x12-0x25
+   - g-z are coded as 0x12-0x25.  Characters that cannot be represented in 7 segments render as blank.
 
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 
+See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.  It presents a more convenient interface for displaying text messages on the display.
+
+Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
 
 ### Tuning function
 
@@ -112,6 +115,7 @@ Scope photo showing faster rise time of DIO pin (upper trace) with 1000 ohm pull
 
 The scope photos were taken using the TM1637_keyscan_raw example, with the scope trigger hooked to the TRIGGER pin, and the two channel probes hooked to DIO and CLK.  Vertical sensitivity is 2v/division, horizontal timebase is 20usec/division.
 
+
 ## Keyscan
 
 Implemented in version 0.3.0  Please read the datasheet to understand the limitations.
@@ -136,4 +140,6 @@ See examples
 - elaborate documentation
 - testing
 - rename **init()** to **begin()** ?
-- 
+- **keyScan()** camelCase ?
+- separate releaseNotes ?
+

@@ -2,27 +2,27 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
 //  HISTORY:
 //  0.1.0   2019-10-28  initial version
-//  0.1.1   2021-02-15  first release + examples. 
+//  0.1.1   2021-02-15  first release + examples.
 //  0.1.2   2021-04-16  update readme, fix default values.
 //  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
 //          2021-10-07  add support for letters g-z; added keyscan()
 //                      tested on ESP8266
 //  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
-
-
+//  0.3.1   2021-12-29  update library.json, license, readme, minor edits
+//
 //          tested on 6 digits display only for now.
 
 
 // NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
-// works if you add a 1000 ohm pullup resistor from DIO to 3.3v
+// works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
 // This reduces the rise time of the DIO signal when reading the key info.
-// If one only uses the pull-up inside the microcontroller, 
+// If one only uses the pull-up inside the microcontroller,
 // the rise time is too long for the data to be read reliably.
 
 
@@ -54,13 +54,16 @@
 
 */
 
+
 // PROGMEM ?
+
 
 static uint8_t seg[] =
 {
   0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f,   // 0 - 9
   0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40                // A - F, ' ', '-'
 };
+
 
 static uint8_t alpha_seg[] =
 {
@@ -70,6 +73,7 @@ static uint8_t alpha_seg[] =
     0x00, 0x31, 0x1c, 0x1c,      // s, t, u, v,
     0x00, 0x00, 0x00, 0x00       // w, x, y, z
 };
+
 
 TM1637::TM1637()
 {
@@ -267,7 +271,7 @@ void TM1637::stop()
 }
 
 
-void TM1637::writeSync(uint8_t pin, uint8_t val) 
+void TM1637::writeSync(uint8_t pin, uint8_t val)
 {
   digitalWrite(pin, val);
 
@@ -319,7 +323,7 @@ uint8_t TM1637::keyscan(void)
 }
 
 
-// nanoDelay() makes it possible to go into the sub micron delays. 
+// nanoDelay() makes it possible to go into the sub micron delays.
 // It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
 void TM1637::nanoDelay(uint16_t n)
 {
@@ -327,4 +331,6 @@ void TM1637::nanoDelay(uint16_t n)
   while (i--);
 }
 
+
 // -- END OF FILE --
+

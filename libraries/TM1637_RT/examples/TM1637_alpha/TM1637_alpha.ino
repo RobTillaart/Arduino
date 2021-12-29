@@ -11,6 +11,7 @@
 
 TM1637 TM;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -19,6 +20,7 @@ void setup()
   TM.init(2, 3);
   TM.setBrightness(2);
 }
+
 
 void ascii_to_7segment(char *buff, uint8_t *data) {
   for(int8_t i = 0, j=5 ; j > -1 && i < 12 && buff[i] ; i++) {
@@ -41,6 +43,7 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
   }
 }
 
+
 void loop()
 {
 char buff[20];
@@ -54,4 +57,6 @@ uint8_t data[10];
   delay(1000);
 }
 
+
 // -- END OF FILE --
+

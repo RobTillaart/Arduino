@@ -1,6 +1,6 @@
 {
   "name": "TM1637_RT",
-  "keywords": "TM1637 ",
+  "keywords": "TM1637, display",
   "description": "TM1637 Library for Arduino.\nFor 6 digit 7 segment display.",
   "authors":
   [
@@ -15,8 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/TM1637_RT"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "*",
+  "headers": "TM1637.h"
 }

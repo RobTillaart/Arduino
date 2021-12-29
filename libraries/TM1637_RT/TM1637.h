@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F(0.3.0))
+#define TM1637_LIB_VERSION      (F("0.3.1"))
 
 
 class TM1637
@@ -37,6 +37,7 @@ class TM1637
     uint8_t getBitDelay() { return _bitDelay; };
     uint8_t keyscan(void);
 
+
   private:
     uint8_t _clock      = -1;
     uint8_t _data       = -1;
@@ -52,4 +53,6 @@ class TM1637
     void nanoDelay(uint16_t n);
 };
 
+
 // -- END OF FILE --
+

@@ -1,6 +1,6 @@
-# Syntax Coloring Map For weight
+# Syntax Colouring Map For weight
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 
 # Methods and Functions (KEYWORD2)
 lbs2kilo	KEYWORD2
@@ -24,4 +24,5 @@ metric2US	KEYWORD2
 
 
 # Constants (LITERAL1)
+WEIGHT_LIB_VERSION	LITERAL1
 

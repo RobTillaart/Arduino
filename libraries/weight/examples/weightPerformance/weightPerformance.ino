@@ -1,11 +1,9 @@
 //
 //    FILE: weightPerformance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-06-17
-//    (c) : MIT
-//
+
 
 #include "weight.h"
 
@@ -13,6 +11,7 @@ volatile float val, test;
 float stone, lbs, ounce, kilo, kg;
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -24,11 +23,11 @@ void setup()
   measure_2();
 }
 
+
 void loop()
 {
 }
 
-//////////////////////////////////////////////////////////////
 
 void measure_1()
 {
@@ -119,6 +118,7 @@ void measure_1()
   delay(100);
 }
 
+
 void measure_2()
 {
   test = random(20) * 0.12345;
@@ -139,3 +139,7 @@ void measure_2()
 
   Serial.println("\nDone...");
 }
+
+
+// -- END OF FILE --
+

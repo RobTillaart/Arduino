@@ -1,12 +1,15 @@
 
 [![Arduino CI](https://github.com/RobTillaart/weight/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/weight/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/weight/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/weight/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/weight/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/weight/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/weight.svg?maxAge=3600)](https://github.com/RobTillaart/weight/releases)
 
 
 # Weight
 
-Library of weight conversion functions
+Library of weight conversion functions.
+
 
 ## Description
 
@@ -47,9 +50,16 @@ Functions are straightforward.
 - **float metric2US(float kilo, float &stone, float &lbs, float &ounce)**
 
 
-## ideas for future (TBD)
-- mass of all elements - 
-  - an array of floats 
+## Operation
+
+See examples
+
+
+## Future (TBD)
+
+- improve documentation
+- mass of all elements
+  - an array of floats
   - a compressed format with access function (1 byte/ element)
   - constants e.g. MASS_OXYGEN
 - molarity functions
@@ -59,9 +69,6 @@ Functions are straightforward.
 - teaspoon
   - although that is a volume unit.
   - volume conversion too?
-- create datatypes of stone lbs kilo etc.?
+- create data types of stone lbs kilo etc.?
 
 
-## Operation
-
-See examples

@@ -1,21 +1,21 @@
 //
 //    FILE: weightTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
 //    DATE: 2020-06-17
-//    (c) : MIT
-//
+
 
 #include "weight.h"
 
 const float accuracy = 0.0001;
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 }
+
 
 void loop()
 {
@@ -57,6 +57,8 @@ void loop()
     Serial.print(kilo);
   }
   Serial.println("\t.");
-
-
 }
+
+
+// -- END OF FILE --
+

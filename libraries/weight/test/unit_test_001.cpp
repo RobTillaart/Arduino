@@ -38,17 +38,18 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "WEIGHT_LIB_VERSION: %s\n", (char *) WEIGHT_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
   fprintf(stderr, "\n");
 }
 
+
 unittest(test_lbs2kilo)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -59,8 +60,6 @@ unittest(test_lbs2kilo)
 
 unittest(test_ounce2gram)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -71,8 +70,6 @@ unittest(test_ounce2gram)
 
 unittest(test_gram2kilo)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -83,8 +80,6 @@ unittest(test_gram2kilo)
 
 unittest(test_lbs2ounce)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -95,8 +90,6 @@ unittest(test_lbs2ounce)
 
 unittest(test_stone2lbs)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -107,8 +100,6 @@ unittest(test_stone2lbs)
 
 unittest(test_stone2kilo)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float val = random(10000) * 0.01;
@@ -119,8 +110,6 @@ unittest(test_stone2kilo)
 
 unittest(test_US2metric)
 {
-  fprintf(stderr, "VERSION: %s\n", WEIGHT_LIB_VERSION);
-
   for (int i = 0; i < 10; i++)
   {
     float stone = random(10);

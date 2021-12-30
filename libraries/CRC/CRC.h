@@ -68,7 +68,7 @@ uint64_t reverse64(uint64_t in)
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CRC POLYNOME = x8 + x5 + x4 + 1 = 1001 1000 = 0x8C
-uint8_t crc8(uint8_t *array, uint8_t length, uint8_t polynome = 0xD5, uint8_t startmask = 0x00, uint8_t endmask = 0x00, bool reverseIn = false, bool reverseOut = false)
+uint8_t crc8(const uint8_t *array, uint8_t length, const uint8_t polynome = 0xD5, const uint8_t startmask = 0x00, const uint8_t endmask = 0x00, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint8_t crc = startmask;
   while (length--) 
@@ -96,7 +96,7 @@ uint8_t crc8(uint8_t *array, uint8_t length, uint8_t polynome = 0xD5, uint8_t st
 
 
 // CRC POLYNOME = x15 + 1 =  1000 0000 0000 0001 = 0x8001
-uint16_t crc16(uint8_t *array, uint8_t length, uint16_t polynome = 0x8001, uint16_t startmask = 0x0000, uint16_t endmask = 0x0000, bool reverseIn = false, bool reverseOut = false)
+uint16_t crc16(const uint8_t *array, uint8_t length, const uint16_t polynome = 0x8001, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint16_t crc = startmask;
   while (length--) 
@@ -131,7 +131,7 @@ uint16_t crc16_CCITT(uint8_t *array, uint8_t length)
 
 
 // CRC-32 POLYNOME =  x32 + ..... + 1
-uint32_t crc32(uint8_t *array, uint8_t length, uint32_t polynome = 0x04C11DB7, uint32_t startmask = 0, uint32_t endmask = 0, bool reverseIn = false, bool reverseOut = false)
+uint32_t crc32(const uint8_t *array, uint8_t length, const uint32_t polynome = 0x04C11DB7, const uint32_t startmask = 0, const uint32_t endmask = 0, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint32_t crc = startmask;
   while (length--) 
@@ -159,7 +159,7 @@ uint32_t crc32(uint8_t *array, uint8_t length, uint32_t polynome = 0x04C11DB7, u
 
 
 // CRC-CCITT POLYNOME =  x64 + ..... + 1
-uint64_t crc64(uint8_t *array, uint8_t length, uint64_t polynome, uint64_t startmask, uint64_t endmask, bool reverseIn, bool reverseOut)
+uint64_t crc64(const uint8_t *array, uint8_t length, const uint64_t polynome, const uint64_t startmask, const uint64_t endmask, const bool reverseIn, const bool reverseOut)
 {
   uint64_t crc = startmask;
   while (length--) 

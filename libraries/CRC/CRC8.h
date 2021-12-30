@@ -28,7 +28,7 @@ public:
   void     setReverseOut(bool reverseOut) { _reverseOut = reverseOut; };
 
   void     add(uint8_t value);
-  void     add(uint8_t * array, uint32_t length);
+  void     add(const uint8_t * array, uint8_t length);
 
   uint8_t  getCRC();  // returns CRC
   uint32_t count()    { return _count; };

@@ -42,7 +42,7 @@ void CRC16::add(uint8_t value)
 }
 
 
-void CRC16::add(uint8_t * array, uint32_t length)
+void CRC16::add(const uint8_t * array, uint8_t length)
 {
   _count += length;
   while (length--)

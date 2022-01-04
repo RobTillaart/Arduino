@@ -2,11 +2,12 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
+//  0.3.4   2021-12-29  fix #16 compilation for MBED
 //  0.3.3   2021-12-25  Update oversampling timings to reduce time spent waiting
 //  0.3.2   2021-12-24  add get/set oversampling, read() (thanks to LyricPants66133)
 //  0.3.1   2021-12-21  update library.json, readme, license, minor edits
@@ -138,12 +139,13 @@ int MS5611::read(uint8_t bits)
 
   convert(MS5611_CMD_CONVERT_D1, bits);
   if (_result) return _result;
-  uint32_t D1 = readADC();
+  // NOTE: D1 and D2 seem reserved in MBED (NANO BLE)
+  uint32_t _D1 = readADC();
   if (_result) return _result;
 
   convert(MS5611_CMD_CONVERT_D2, bits);
   if (_result) return _result;
-  uint32_t D2 = readADC();
+  uint32_t _D2 = readADC();
   if (_result) return _result;
   
   //  TEST VALUES - comment lines above
@@ -151,7 +153,7 @@ int MS5611::read(uint8_t bits)
   // uint32_t D2 = 8569150;
 
   // TEMP & PRESS MATH - PAGE 7/20
-  float dT = D2 - C[5];
+  float dT = _D2 - C[5];
   _temperature = 2000 + dT * C[6];
 
   float offset =  C[2] + dT * C[4];
@@ -179,7 +181,7 @@ int MS5611::read(uint8_t bits)
   }
   // END SECOND ORDER COMPENSATION
 
-  _pressure = (D1 * sens * 4.76837158205E-7 - offset) * 3.051757813E-5;
+  _pressure = (_D1 * sens * 4.76837158205E-7 - offset) * 3.051757813E-5;
 
   _lastRead = millis();
   return MS5611_READ_OK;

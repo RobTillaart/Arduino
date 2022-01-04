@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MS5611_LIB_VERSION                    (F("0.3.3"))
+#define MS5611_LIB_VERSION                    (F("0.3.4"))
 
 
 #define MS5611_READ_OK                        0

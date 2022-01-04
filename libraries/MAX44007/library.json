@@ -1,0 +1,23 @@
+{
+  "name": "Max44007",
+  "keywords": "Max44007,Lux,light",
+  "description": "library for Max44007 Lux sensor Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Max44007.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "Max44007.h"
+}

@@ -1,18 +1,19 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
 //
 //  HISTORY
 //
+//  0.5.2   2022-01-05  minor edits after creating Max44007 library
 //  0.5.1   2021-12-21  update library.json, license, minor edits
 //  0.5.0   2021-06-04  fix exponent math.
-//  0.4.4   2021-05-27  arduino-lint
-//  0.4.3   2020-12-30  arduino-ci, unit test
+//  0.4.4   2021-05-27  Arduino-lint
+//  0.4.3   2020-12-30  Arduino-CI, unit test
 //  0.4.2   2020-06-19  fix library.json
-//  0.4.1   2020-03-21  #pragma, readme.nd, license.md
+//  0.4.1   2020-03-21  #pragma, readme.md, license.md
 //  0.4.0   2020-01-30  remove automatic mode from constructors;
 //                      added example code
 //  0.3.3   2020-01-27  issue #140 refactor constructors / configure
@@ -39,6 +40,10 @@
 
 
 #include "Max44009.h"
+
+// MAX44007 KEY VALUES
+#define MAX44009_MIN_LUX                       (0.045)
+#define MAX44009_MAX_LUX                       (188006.0)
 
 
 #if defined(ESP8266) || defined(ESP32)
@@ -216,7 +221,7 @@ float Max44009::convertToLux(uint8_t datahigh, uint8_t datalow)
 {
   uint8_t  exponent = datahigh >> 4;
   uint32_t mantissa = ((datahigh & 0x0F) << 4) + (datalow & 0x0F);
-  float lux = ((0x0001 << exponent) * 0.045) * mantissa;
+  float lux = ((0x0001 << exponent) * MAX44009_MIN_LUX) * mantissa;
   return lux;
 }
 
@@ -228,9 +233,9 @@ float Max44009::convertToLux(uint8_t datahigh, uint8_t datalow)
 bool Max44009::setThreshold(const uint8_t reg, const float value)
 {
   // CHECK RANGE OF VALUE
-  if ((value < 0.0) || (value > 188006)) return false;
+  if ((value < 0.0) || (value > MAX44009_MAX_LUX)) return false;
 
-  uint32_t mantissa = round(value * 22.2222222);     // was round(value / 0.045);  multiply is faster.
+  uint32_t mantissa = round(value * (1.0 / MAX44009_MIN_LUX));     //  compile time optimized.
   uint8_t exponent = 0;
   while (mantissa > 255)
   {

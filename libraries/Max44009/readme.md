@@ -18,6 +18,8 @@ a.k.a. GY-49
 The MAX44009 ambient light sensor is an I2C sensor, that has a 22 bit 
 dynamic range from 0.045 lux to 188,000 lux.
 
+relates to https://github.com/RobTillaart/Max44007 
+
 
 ## Schema breakout max44009 / GY-49
 
@@ -176,5 +178,10 @@ right address and sometimes not. (been there ;)
 ## Future
 
 - improve documentation
-- 
+- merge MAX44007 library in the future. (shared base class?)
 
+
+#### MAX44007
+
+The MAX44007 is an almost identical sensor that uses a step size of 0.025.
+That implies the library is not useable 1 to 1 for the MAX4007, however some 

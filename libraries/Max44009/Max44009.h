@@ -2,7 +2,7 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: library for MAX44009 lux sensor Arduino
 // HISTORY: See Max440099.cpp
 
@@ -32,7 +32,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION                  (F("0.5.1"))
+#define MAX44009_LIB_VERSION                  (F("0.5.2"))
 
 #define MAX44009_DEFAULT_ADDRESS              0x4A
 #define MAX44009_ALT_ADDRESS                  0x4B
@@ -123,7 +123,7 @@ public:
   float   convertToLux(uint8_t datahigh, uint8_t datalow);
 
 
-private:
+protected:
   bool    setThreshold(uint8_t reg, float value);
   float   getThreshold(uint8_t reg);
 

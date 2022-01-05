@@ -105,6 +105,16 @@ unittest(test_all)
   assertEqual(10, AMP.getVolume(0));
   for (int i = 0; i < 5; i++) AMP.decr();
   assertEqual(5, AMP.getVolume(0));
+
+  fprintf(stderr, "\naverage\n");
+  AMP.setVolume(0, 10);
+  AMP.setVolume(1, 20);
+  assertEqual(10, AMP.getVolume(0));
+  assertEqual(20, AMP.getVolume(1));
+  AMP.average();
+  assertEqual(15, AMP.getVolume(0));
+  assertEqual(15, AMP.getVolume(1));
+
 }
 
 

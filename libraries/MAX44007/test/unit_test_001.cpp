@@ -38,7 +38,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "Max44007_LIB_VERSION: %s\n", (char *) Max44007_LIB_VERSION);
+  fprintf(stderr, "MAX44007_LIB_VERSION: %s\n", (char *) MAX44007_LIB_VERSION);
 }
 
 
@@ -49,28 +49,28 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(Max44007_DEFAULT_ADDRESS, 0x5A);
-  assertEqual(Max44007_ALT_ADDRESS    , 0x5B);
+  assertEqual(MAX44007_DEFAULT_ADDRESS, 0x5A);
+  assertEqual(MAX44007_ALT_ADDRESS    , 0x5B);
 
-  assertEqual(Max44007_INTERRUPT_STATUS  , 0x00);
-  assertEqual(Max44007_INTERRUPT_ENABLE  , 0x01);
-  assertEqual(Max44007_CONFIGURATION     , 0x02);
-  assertEqual(Max44007_LUX_READING_HIGH  , 0x03);
-  assertEqual(Max44007_LUX_READING_LOW   , 0x04);
-  assertEqual(Max44007_THRESHOLD_HIGH    , 0x05);
-  assertEqual(Max44007_THRESHOLD_LOW     , 0x06);
-  assertEqual(Max44007_THRESHOLD_TIMER   , 0x07);
+  assertEqual(MAX44007_INTERRUPT_STATUS  , 0x00);
+  assertEqual(MAX44007_INTERRUPT_ENABLE  , 0x01);
+  assertEqual(MAX44007_CONFIGURATION     , 0x02);
+  assertEqual(MAX44007_LUX_READING_HIGH  , 0x03);
+  assertEqual(MAX44007_LUX_READING_LOW   , 0x04);
+  assertEqual(MAX44007_THRESHOLD_HIGH    , 0x05);
+  assertEqual(MAX44007_THRESHOLD_LOW     , 0x06);
+  assertEqual(MAX44007_THRESHOLD_TIMER   , 0x07);
 
-  assertEqual(Max44007_CFG_CONTINUOUS    , 0x80);
-  assertEqual(Max44007_CFG_MANUAL        , 0x40);
-  assertEqual(Max44007_CFG_CDR           , 0x08);
-  assertEqual(Max44007_CFG_TIMER         , 0x07);
+  assertEqual(MAX44007_CFG_CONTINUOUS    , 0x80);
+  assertEqual(MAX44007_CFG_MANUAL        , 0x40);
+  assertEqual(MAX44007_CFG_CDR           , 0x08);
+  assertEqual(MAX44007_CFG_TIMER         , 0x07);
 
-  assertEqual(Max44007_OK                , 0  );
-  assertEqual(Max44007_ERROR_WIRE_REQUEST, -10);
-  assertEqual(Max44007_ERROR_OVERFLOW    , -20);
-  assertEqual(Max44007_ERROR_HIGH_BYTE   , -30);
-  assertEqual(Max44007_ERROR_LOW_BYTE    , -31);
+  assertEqual(MAX44007_OK                , 0  );
+  assertEqual(MAX44007_ERROR_WIRE_REQUEST, -10);
+  assertEqual(MAX44007_ERROR_OVERFLOW    , -20);
+  assertEqual(MAX44007_ERROR_HIGH_BYTE   , -30);
+  assertEqual(MAX44007_ERROR_LOW_BYTE    , -31);
 }
 
 
@@ -79,7 +79,7 @@ unittest(test_constructor)
   Max44007 LuxA(0x5A);
   Wire.begin();
 
-  assertEqual(Max44007_OK, LuxA.getError());
+  assertEqual(MAX44007_OK, LuxA.getError());
   assertTrue(LuxA.isConnected());   // TODO should be false...
 
   // TODO more tests if WIRE works...

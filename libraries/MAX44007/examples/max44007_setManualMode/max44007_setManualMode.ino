@@ -20,7 +20,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.print("\nStart Max44007_setManualMode : ");
-  Serial.println(Max44007_LIB_VERSION);
+  Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
 

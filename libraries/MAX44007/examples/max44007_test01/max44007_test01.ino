@@ -17,7 +17,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.print("Start Max44007_test01 : ");
-  Serial.println(Max44007_LIB_VERSION);
+  Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
   Wire.setClock(100000);

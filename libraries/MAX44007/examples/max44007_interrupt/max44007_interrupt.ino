@@ -17,7 +17,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.print("\nStart Max44007_interrupt : ");
-  Serial.println(Max44007_LIB_VERSION);
+  Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
   myLux.setContinuousMode();

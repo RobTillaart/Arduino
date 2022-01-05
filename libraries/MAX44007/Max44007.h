@@ -2,7 +2,7 @@
 
 //    FILE: Max44007.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: library for Max44007 lux sensor Arduino
 // HISTORY: See Max44007.cpp
 
@@ -32,36 +32,36 @@
 #include "Arduino.h"
 
 
-#define Max44007_LIB_VERSION                  (F("0.1.0"))
+#define MAX44007_LIB_VERSION                  (F("0.1.1"))
 
-#define Max44007_DEFAULT_ADDRESS              0x5A
-#define Max44007_ALT_ADDRESS                  0x5B
+#define MAX44007_DEFAULT_ADDRESS              0x5A
+#define MAX44007_ALT_ADDRESS                  0x5B
 
 
 // REGISTERS
-#define Max44007_INTERRUPT_STATUS             0x00
-#define Max44007_INTERRUPT_ENABLE             0x01
-#define Max44007_CONFIGURATION                0x02
-#define Max44007_LUX_READING_HIGH             0x03
-#define Max44007_LUX_READING_LOW              0x04
-#define Max44007_THRESHOLD_HIGH               0x05
-#define Max44007_THRESHOLD_LOW                0x06
-#define Max44007_THRESHOLD_TIMER              0x07
+#define MAX44007_INTERRUPT_STATUS             0x00
+#define MAX44007_INTERRUPT_ENABLE             0x01
+#define MAX44007_CONFIGURATION                0x02
+#define MAX44007_LUX_READING_HIGH             0x03
+#define MAX44007_LUX_READING_LOW              0x04
+#define MAX44007_THRESHOLD_HIGH               0x05
+#define MAX44007_THRESHOLD_LOW                0x06
+#define MAX44007_THRESHOLD_TIMER              0x07
 
 
 // CONFIGURATION MASKS
-#define Max44007_CFG_CONTINUOUS               0x80
-#define Max44007_CFG_MANUAL                   0x40
-#define Max44007_CFG_CDR                      0x08
-#define Max44007_CFG_TIMER                    0x07
+#define MAX44007_CFG_CONTINUOUS               0x80
+#define MAX44007_CFG_MANUAL                   0x40
+#define MAX44007_CFG_CDR                      0x08
+#define MAX44007_CFG_TIMER                    0x07
 
 
 // ERROR CODES
-#define Max44007_OK                           0
-#define Max44007_ERROR_WIRE_REQUEST           -10
-#define Max44007_ERROR_OVERFLOW               -20
-#define Max44007_ERROR_HIGH_BYTE              -30
-#define Max44007_ERROR_LOW_BYTE               -31
+#define MAX44007_OK                           0
+#define MAX44007_ERROR_WIRE_REQUEST           -10
+#define MAX44007_ERROR_OVERFLOW               -20
+#define MAX44007_ERROR_HIGH_BYTE              -30
+#define MAX44007_ERROR_LOW_BYTE               -31
 
 
 
@@ -95,10 +95,10 @@ public:
   void    setThresholdTimer(const uint8_t value);    // 2 seems practical minimum
   uint8_t getThresholdTimer();
 
-  void    enableInterrupt()    { write(Max44007_INTERRUPT_ENABLE, 1); };
-  void    disableInterrupt()   { write(Max44007_INTERRUPT_ENABLE, 0); };
-  bool    interruptEnabled()   { return read(Max44007_INTERRUPT_ENABLE) & 0x01; };
-  uint8_t getInterruptStatus() { return read(Max44007_INTERRUPT_STATUS) & 0x01; };
+  void    enableInterrupt()    { write(MAX44007_INTERRUPT_ENABLE, 1); };
+  void    disableInterrupt()   { write(MAX44007_INTERRUPT_ENABLE, 0); };
+  bool    interruptEnabled()   { return read(MAX44007_INTERRUPT_ENABLE) & 0x01; };
+  uint8_t getInterruptStatus() { return read(MAX44007_INTERRUPT_STATUS) & 0x01; };
 
   // check datasheet for detailed behavior
   void    setConfiguration(uint8_t);

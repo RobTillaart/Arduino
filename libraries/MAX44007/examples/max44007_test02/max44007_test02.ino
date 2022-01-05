@@ -27,14 +27,14 @@ void setup()
 {
   Serial.begin(115200);
   Serial.print("Start Max44007_test02 : ");
-  Serial.println(Max44007_LIB_VERSION);
+  Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin(19, 18);
   Wire1.begin(22, 23);
-  myLuxA.configure(Max44007_DEFAULT_ADDRESS, &Wire);
-  myLuxB.configure(Max44007_ALT_ADDRESS, &Wire);
-  myLuxC.configure(Max44007_DEFAULT_ADDRESS, &Wire1);
-  myLuxD.configure(Max44007_ALT_ADDRESS, &Wire1);
+  myLuxA.configure(MAX44007_DEFAULT_ADDRESS, &Wire);
+  myLuxB.configure(MAX44007_ALT_ADDRESS, &Wire);
+  myLuxC.configure(MAX44007_DEFAULT_ADDRESS, &Wire1);
+  myLuxD.configure(MAX44007_ALT_ADDRESS, &Wire1);
 }
 
 

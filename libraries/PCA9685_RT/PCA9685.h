@@ -1,9 +1,9 @@
 #pragma once
 //
-//    FILE: PCA9685.H
+//    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION                 (F("0.3.3"))
+#define PCA9685_LIB_VERSION                 (F("0.3.4"))
 
 // ERROR CODES
 #define PCA9685_OK                          0x00
@@ -20,6 +20,10 @@
 #define PCA9685_ERR_CHANNEL                 0xFE
 #define PCA9685_ERR_MODE                    0xFD
 #define PCA9685_ERR_I2C                     0xFC
+
+//  get/setFrequency()
+#define PCA9685_MIN_FREQ                    24
+#define PCA9685_MAX_FREQ                    1526
 
 
 class PCA9685
@@ -33,6 +37,8 @@ public:
   bool    begin();
   void    reset();
   bool    isConnected();
+
+  uint8_t  channelCount() { return _channelCount; };
 
   // reg = 1, 2  check datasheet for values
   void    writeMode(uint8_t reg, uint8_t value);
@@ -78,6 +84,7 @@ private:
   uint8_t _address;
   int     _error;
   int     _freq = 200;  // default PWM frequency - P25 datasheet
+  uint8_t  _channelCount = 16;
 
   TwoWire*  _wire;
 };

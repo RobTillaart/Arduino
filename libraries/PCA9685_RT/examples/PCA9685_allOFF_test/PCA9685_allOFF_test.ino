@@ -27,7 +27,7 @@ void setup()
   Serial.println();
 
   pinMode(PIN, INPUT_PULLUP);
-  for (int channel = 0; channel < 16; channel++)
+  for (int channel = 0; channel < PCA.channelCount(); channel++)
   {
     PCA.setPWM(channel, 0, 1000);
   }

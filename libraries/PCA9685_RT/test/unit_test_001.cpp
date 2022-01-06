@@ -31,6 +31,8 @@
 
 #include <ArduinoUnitTests.h>
 
+#include "Arduino.h"
+#include "Wire.h"
 #include "PCA9685.h"
 
 

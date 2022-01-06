@@ -2,7 +2,7 @@
 //    FILE: PCA9685.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for I2C PCA9685 16 channel PWM 
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 //
@@ -17,6 +17,7 @@
 //  0.3.1  2021-01-05  Arduino-CI + unit test
 //  0.3.2  2021-01-14  WireN support
 //  0.3.3  2021-12-23  update library.json, license, readme, minor edits
+//  0.3.4  2022-01-03  add channelCount()
 
 
 #include "PCA9685.h"
@@ -145,7 +146,7 @@ uint8_t PCA9685::readMode(uint8_t reg)
 void PCA9685::setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime)
 {
   _error = PCA9685_OK;
-  if (channel > 15)
+  if (channel >= _channelCount)
   {
     _error = PCA9685_ERR_CHANNEL;
     return;
@@ -167,7 +168,7 @@ void PCA9685::setPWM(uint8_t channel, uint16_t offTime)
 void PCA9685::getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime)
 {
   _error = PCA9685_OK;
-  if (channel > 15)
+  if (channel >= _channelCount)
   {
     _error = PCA9685_ERR_CHANNEL;
     return;
@@ -193,8 +194,9 @@ void PCA9685::setFrequency(uint16_t freq, int offset)
 {
   _error = PCA9685_OK;
   _freq = freq;
-  if (_freq < 24) _freq = 24;       // page 25 datasheet
-  if (_freq > 1526) _freq = 1526;
+  //  limits frequency see page 25 datasheet
+  if (_freq < PCA9685_MIN_FREQ) _freq = PCA9685_MIN_FREQ;
+  if (_freq > PCA9685_MAX_FREQ) _freq = PCA9685_MAX_FREQ;
   // removed float operation for speed
   // faster but equal accurate
   // uint8_t scaler = round(25e6 / (_freq * 4096)) - 1;
@@ -226,7 +228,7 @@ int PCA9685::getFrequency(bool cache)
 void PCA9685::digitalWrite(uint8_t channel, uint8_t mode)
 {
   _error = PCA9685_OK;
-  if (channel > 15)
+  if (channel >= _channelCount)
   {
     _error = PCA9685_ERR_CHANNEL;
     return;

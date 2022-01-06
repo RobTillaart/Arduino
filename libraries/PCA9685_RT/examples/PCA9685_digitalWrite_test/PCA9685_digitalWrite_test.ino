@@ -9,6 +9,8 @@
 // to see the frequency of the PWM
 
 
+#include "Arduino.h"
+#include "Wire.h"
 #include "PCA9685.h"
 
 

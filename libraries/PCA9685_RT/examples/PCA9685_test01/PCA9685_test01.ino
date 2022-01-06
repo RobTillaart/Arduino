@@ -5,6 +5,8 @@
 // PUPROSE: test PCA9685 library
 
 
+#include "Arduino.h"
+#include "Wire.h"
 #include "PCA9685.h"
 
 
@@ -36,7 +38,7 @@ void testSetON()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - setHIGH");
-  for (uint8_t channel = 0; channel < 16; channel++)
+  for (uint8_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
     ledArray.digitalWrite(channel, HIGH);
   }
@@ -48,7 +50,7 @@ void testSetOFF()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - setLOW");
-  for (uint8_t channel = 0; channel < 16; channel++)
+  for (uint8_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
     ledArray.digitalWrite(channel, LOW);
   }
@@ -60,7 +62,7 @@ void testPWMMode()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - setPwm getPWM");
-  for (uint16_t channel = 0; channel < 16; channel++)
+  for (uint16_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
     // every next line ~twice as much time
     ledArray.setPWM(channel, channel * 127, channel * 255);

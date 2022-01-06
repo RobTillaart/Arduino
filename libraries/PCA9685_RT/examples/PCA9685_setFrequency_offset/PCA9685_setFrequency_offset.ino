@@ -14,6 +14,8 @@
 // Note: the higher the frequency, the more inaccurate the real frequency,
 
 
+#include "Arduino.h"
+#include "Wire.h"
 #include "PCA9685.h"
 
 

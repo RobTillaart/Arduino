@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: temperature.h
-// VERSION: 0.2.5
+// VERSION: 0.3.0
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //
@@ -16,9 +16,11 @@
 //  0.2.3   2020-08-27  fix #5 order of functions, typo, fixed 1 example
 //  0.2.4   2021-01-08  Arduino-CI + unit tests
 //  0.2.5   2021-12-28  Arduino-CI, library.json, readme.md, license, minor edits
+//  0.3.0   2022-01-05  fix #10 update HeatIndex function
+//                      compared with https://www.calculator.net/heat-index-calculator.html
 
 
-#define TEMPERATURE_VERSION     (F("0.2.5"))
+#define TEMPERATURE_VERSION         (F("0.3.0"))
 
 
 inline float Fahrenheit(float celsius)
@@ -87,34 +89,59 @@ float humidex(float celsius, float dewPoint)
 }
 
 
-// https://en.wikipedia.org/wiki/Heat_index
+// 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//          previous  https://en.wikipedia.org/wiki/Heat_index
 // TODO add valid range for TF & R
 // TF = temp in Fahrenheit
-// R = humidity in %
-float heatIndex(float TF, float R)
+// RH = relative humidity in %
+float heatIndex(float TF, float RH)
 {
-  const float c1 = -42.379;
-  const float c2 =  2.04901523;
-  const float c3 = 10.14333127;
-  const float c4 = -0.22475541;
-  const float c5 = -0.00683783;
-  const float c6 = -0.05481717;
-  const float c7 =  0.00122874;
-  const float c8 =  0.00085282;
-  const float c9 = -0.00000199;
+  float HI = 0;
 
-  float A = (( c5 * TF) + c2) * TF + c1;
-  float B = (((c7 * TF) + c4) * TF + c3) * R;
-  float C = (((c9 * TF) + c8) * TF + c6) * R * R;
+  if (TF >= 80)
+  {
+    const float c1 = -42.379;
+    const float c2 =  2.04901523;
+    const float c3 = 10.14333127;
+    const float c4 = -0.22475541;
+    const float c5 = -0.00683783;
+    const float c6 = -0.05481717;
+    const float c7 =  0.00122874;
+    const float c8 =  0.00085282;
+    const float c9 = -0.00000199;
 
-  return A + B + C;
+    float A = (( c5 * TF) + c2) * TF + c1;
+    float B = (((c7 * TF) + c4) * TF + c3) * RH;
+    float C = (((c9 * TF) + c8) * TF + c6) * RH * RH;
+
+    HI = A + B + C;
+    if ((RH < 13) && (TF <= 112))
+    {
+      HI += ((13 - RH) / 4) * sqrt((17 - abs(TF - 95.0)) / 17);
+    }
+    if ((RH > 87) && (TF < 87))
+    {
+      HI += ((RH - 85) / 10) * ((87 - TF) / 5);
+    }
+    return HI;
+  }
+
+  HI = 0.5 * (TF + 61.0 + ((TF - 68.0) * 1.2) + (RH * 0.094));
+
+  return HI;
 }
 
 
-// https://en.wikipedia.org/wiki/Heat_index
+// 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//          previous  https://en.wikipedia.org/wiki/Heat_index
 // TODO add valid range for TF & R
+// TODO optimize?
 float heatIndexC(float celcius, float humidity)
 {
+  float TF = celcius * (9.0 / 5.0) + 32;
+  float HI = (heatIndex(TF, humidity) - 32) * (5.0 / 9.0);
+  return HI;
+/*
   const float c1 = -8.78469475556;
   const float c2 =  1.61139411;
   const float c3 =  2.33854883889;
@@ -130,6 +157,7 @@ float heatIndexC(float celcius, float humidity)
   float C = (((c9 * celcius) + c8) * celcius + c6) * humidity * humidity;
 
   return A + B + C;
+*/
 }
 
 

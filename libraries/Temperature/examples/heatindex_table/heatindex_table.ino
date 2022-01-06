@@ -17,7 +17,9 @@ void setup()
   Serial.println(__FILE__);
 
   Serial.println();
-  
+  Serial.println(" Compare to: https://www.calculator.net/heat-index-calculator.html\n");
+  Serial.println();
+
   for (int t = 80; t <= 110; t += 2)
   {
     Serial.print("\t");
@@ -50,4 +52,3 @@ void loop()
 
 
 // -- END OF FILE --
-

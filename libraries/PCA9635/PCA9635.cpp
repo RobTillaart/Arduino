@@ -2,11 +2,12 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
 //  HISTORY:
+//  0.3.3   2022-01-03  add channelCount()
 //  0.3.2   2021-12-23  update library.json, readme, license, minor edits
 //  0.3.1   2021-04-25  fix writeN by aspyra
 //  0.3.0   2021-01-18  support Wire1..WireN
@@ -29,8 +30,9 @@
 //
 PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 {
-  _address = deviceAddress;
-  _wire    = wire;
+  _address      = deviceAddress;
+  _wire         = wire;
+  _channelCount = 16;
 }
 
 
@@ -96,7 +98,7 @@ uint8_t PCA9635::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 // checks if [channel + count - 1 > 15]
 uint8_t PCA9635::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 {
-  if (channel + count > 16)
+  if (channel + count > _channelCount)
   {
     _error = PCA9635_ERR_WRITE;
     return PCA9635_ERROR;
@@ -146,7 +148,7 @@ uint8_t PCA9635::readMode(uint8_t reg)
 
 uint8_t PCA9635::setLedDriverMode(uint8_t channel, uint8_t mode)
 {
-  if (channel > 15)
+  if (channel >= _channelCount)
   {
     _error  = PCA9635_ERR_CHAN;
     return PCA9635_ERROR;
@@ -171,7 +173,7 @@ uint8_t PCA9635::setLedDriverMode(uint8_t channel, uint8_t mode)
 // returns 0..3 if OK, other values indicate an error
 uint8_t PCA9635::getLedDriverMode(uint8_t channel)
 {
-  if (channel > 15)
+  if (channel >= _channelCount)
   {
     _error  = PCA9635_ERR_CHAN;
     return PCA9635_ERROR;

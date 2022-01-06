@@ -1,10 +1,10 @@
 #pragma once
 //
-//    FILE: PCA9635.H
+//    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.2
-// PURPOSE: Arduino library for PCA9635 I2C LED driver
+// VERSION: 0.3.3
+// PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
 
@@ -12,22 +12,23 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.3.2"))
+#define PCA9635_LIB_VERSION         (F("0.3.3"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
-#define PCA9635_PWM(x)              (0x82+(x))
+#define PCA9635_PWM(x)              (0x82+(x))    // Auto-Increment for all registers.
 
 #define PCA9635_GRPPWM              0x12
 #define PCA9635_GRPFREQ             0x13
 
-// check datasheet for details
+//  check datasheet for details
 #define PCA9635_LEDOUT_BASE         0x14    // 0x14..0x17
 #define PCA9635_LEDOFF              0x00    // default @ startup
 #define PCA9635_LEDON               0x01
 #define PCA9635_LEDPWM              0x02
 #define PCA9635_LEDGRPPWM           0x03
 
+//  Error codes
 #define PCA9635_OK                  0x00
 #define PCA9635_ERROR               0xFF
 #define PCA9635_ERR_WRITE           0xFE
@@ -37,8 +38,8 @@
 #define PCA9635_ERR_I2C             0xFA
 
 // NOT IMPLEMENTED YET
-#define PCA9635_SUBADR(x)   (0x17+(x))  // x = 1..3
-#define PCA9635_ALLCALLADR  0x1B
+#define PCA9635_SUBADR(x)           (0x17+(x))  // x = 1..3
+#define PCA9635_ALLCALLADR          0x1B
 
 
 class PCA9635
@@ -52,6 +53,8 @@ public:
   bool     begin();
   void     reset();
   bool     isConnected();
+
+  uint8_t  channelCount() { return _channelCount; };
 
   uint8_t  setLedDriverMode(uint8_t channel, uint8_t mode);
   uint8_t  getLedDriverMode(uint8_t channel);
@@ -73,7 +76,7 @@ public:
   void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); }
   uint8_t  getGroupPWM() { return readReg(PCA9635_GRPPWM); }
 
-  // TODO set time in millisec and round to nearest value?
+  // TODO set time in milliseconds and round to nearest value?
   void     setGroupFREQ(uint8_t value) { writeReg(PCA9635_GRPFREQ, value); }
   uint8_t  getGroupFREQ() { return readReg(PCA9635_GRPFREQ); }
 
@@ -88,8 +91,11 @@ private:
   uint8_t  _register;
   uint8_t  _data;
   int      _error;
+  uint8_t  _channelCount = 16;
 
   TwoWire*  _wire;
 };
 
+
 // -- END OF FILE --
+

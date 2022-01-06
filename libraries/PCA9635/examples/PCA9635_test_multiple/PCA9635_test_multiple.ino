@@ -5,8 +5,9 @@
 // PUPROSE: test PCA9635 library
 
 
-#include "PCA9635.h"
+#include "Arduino.h"
 #include "Wire.h"
+#include "PCA9635.h"
 
 
 PCA9635 ledArray(0x20);

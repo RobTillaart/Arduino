@@ -8,13 +8,13 @@
 
 # PCA9635
 
-Arduino library for PCA9635 I2C 8 bit PWM LED driver.
+Arduino library for PCA9635 I2C 8 bit PWM LED driver, 16 channel.
 
 
 ## Description
 
 This library is to control the I2C PCA9635 PWM extender.
-The 16 channels are independently configurable is steps of 1/256.
+The 16 channels are independently configurable in steps of 1/256.
 this allows for better than 1% fine tuning of the duty-cycle
 of the PWM signal. 
 
@@ -31,6 +31,7 @@ and optional the Wire interface as parameter.
 multiple Wire instances (yet).
 - **void reset()** resets the library to start up conditions.
 - **bool isConnected()** checks if address is available on I2C bus.
+- **uint8_t channelCount()** returns the number of channels = 16.
 
 
 ### LedDriverMode
@@ -38,12 +39,12 @@ multiple Wire instances (yet).
 - **uint8_t setLedDriverMode(uint8_t channel, uint8_t mode)** mode is 0..3 See datasheet for full details.
 - **uint8_t getLedDriverMode(uint8_t channel)** returns the current mode of the channel.
 
-| LED mode           | Value | Description |
-|:-------------------|:-----:|:------------|
-| PCA9635_LEDOFF     | 0x00  | led is 100% off, default @startup
-| PCA9635_LEDON      | 0x01  | led is 100% on. 
-| PCA9635_LEDPWM     | 0x02  | set LED in PWM mode, 0..255
-| PCA9635_LEDGRPPWM  | 0x03  | add LED to the GRPPWM*
+| LED mode           | Value | Description                       |
+|:-------------------|:-----:|:----------------------------------|
+| PCA9635_LEDOFF     | 0x00  | led is 100% off, default @startup |
+| PCA9635_LEDON      | 0x01  | led is 100% on.                   |
+| PCA9635_LEDPWM     | 0x02  | set LED in PWM mode, 0..255       |
+| PCA9635_LEDGRPPWM  | 0x03  | add LED to the GRPPWM*            |
 
 \* all LEDs in the group GRPPWM can be set to the same PWM value in one set.
 This is ideal to trigger e.g. multiple LEDs (servo's) at same time.
@@ -75,8 +76,8 @@ useful to add or remove a single flag (bit masking).
 
 - **int lastError()** returns **PCA9635_OK** if all is OK, and other error codes otherwise.
 
-| Error code        | Value | Description |
-|:------------------|:-----:|:------------|
+| Error code        | Value | Description         |
+|:------------------|:-----:|:--------------------|
 | PCA9635_OK        | 0x00  | Everything went well
 | PCA9635_ERROR     | 0xFF  | Generic error
 | PCA9635_ERR_WRITE | 0xFE  | Tries to write more elements than PWM channels

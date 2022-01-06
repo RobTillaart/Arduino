@@ -1,0 +1,23 @@
+{
+  "name": "AM2315",
+  "keywords": "Temperature, Humidity, AM2315, I2C",
+  "description": "Arduino library for I2C AM2315 temperature and humidity sensor. ",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AM2315.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "AM2315.h"
+}

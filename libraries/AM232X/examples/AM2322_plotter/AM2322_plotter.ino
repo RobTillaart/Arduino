@@ -1,26 +1,22 @@
 //
 //    FILE: AM2322_plotter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo sketch for AM2322 I2C humidity & temperature sensor
 //
-// HISTORY:
-// 0.1.0   2020-09-01  simple program to dump for plotter.
-// 0.1.1   2021-01-28  added begin() ++
-
-//
-//  Bottom view 
+//  AM232X PIN layout             AM2315 COLOR
+//  ============================================
+//   bottom view  DESCRIPTION     COLOR
 //       +---+
-//  VDD  |o  |
-//  SDA  |o  |
-//  GND  |o  |
-//  SCL  |o  |
+//       |o  |       VDD          RED
+//       |o  |       SDA          YELLOW
+//       |o  |       GND          BLACK
+//       |o  |       SCL          GREY
 //       +---+
 //
 // do not forget pull up resistors between SDA, SCL and VDD.
 
 
-#include <AM232X.h>
+#include "AM232X.h"
 
 AM232X AM2322;
 
@@ -34,6 +30,8 @@ void setup()
     Serial.println("Sensor not found");
     while (1);
   }
+  AM2322.wakeUp();
+  delay(2000);
 
   Serial.println("Humidity(%),\tTemperature(C)");
 }

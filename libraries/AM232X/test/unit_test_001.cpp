@@ -28,7 +28,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "AM232X_LIB_VERSION: %s\n", (char *) AM232X_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -37,8 +39,6 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  fprintf(stderr, "AM232X_LIB_VERSION: %s\n", (char *) AM232X_LIB_VERSION);
-
   assertEqual(  0, AM232X_OK                  );
   assertEqual(-10, AM232X_ERROR_UNKNOWN       );
   assertEqual(-11, AM232X_ERROR_CONNECT       );
@@ -50,6 +50,7 @@ unittest(test_constants)
   assertEqual(-17, AM232X_ERROR_WRITE_DISABLED);
   assertEqual(-18, AM232X_ERROR_WRITE_COUNT   );
   assertEqual(-19, AM232X_MISSING_BYTES       );
+  assertEqual(-20, AM232X_READ_TOO_FAST       );
 }
 
 
@@ -62,6 +63,22 @@ unittest(test_demo)
   assertTrue(AM.isConnected());   // TODO - GODMODE
 
   // assertEqual(-10, AM.read());
+}
+
+
+unittest(test_hum_temp)
+{
+  AM232X AM;
+
+  assertEqualFloat(0, AM.getHumidity(), 0.001);
+  assertEqualFloat(0, AM.getHumOffset(), 0.001);
+  AM.setHumOffset(1.5);
+  assertEqualFloat(1.5, AM.getHumOffset(), 0.001);
+  
+  assertEqualFloat(0, AM.getTemperature(), 0.001);
+  assertEqualFloat(0, AM.getTempOffset(), 0.001);
+  AM.setTempOffset(-1.5);
+  assertEqualFloat(-1.5, AM.getTempOffset(), 0.001);
 }
 
 

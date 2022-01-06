@@ -3,26 +3,28 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X library for Arduino
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // HISTORY: See AM232X.cpp
 //     URL: https://github.com/RobTillaart/AM232X
 //
-
-//  Bottom view
+//  AM232X PIN layout             AM2315 COLOR
+//  ============================================
+//   bottom view  DESCRIPTION     COLOR
 //       +---+
-//  VDD  |o  |
-//  SDA  |o  |
-//  GND  |o  |
-//  SCL  |o  |
+//       |o  |       VDD          RED
+//       |o  |       SDA          YELLOW
+//       |o  |       GND          BLACK
+//       |o  |       SCL          GREY
 //       +---+
+//
+// do not forget pull up resistors between SDA, SCL and VDD.
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.3.4"))
-
+#define AM232X_LIB_VERSION              (F("0.4.0"))
 
 
 #define AM232X_OK                        0
@@ -36,6 +38,7 @@
 #define AM232X_ERROR_WRITE_DISABLED     -17
 #define AM232X_ERROR_WRITE_COUNT        -18
 #define AM232X_MISSING_BYTES            -19
+#define AM232X_READ_TOO_FAST            -20
 
 
 /*
@@ -57,9 +60,15 @@ public:
 #endif
     bool     begin();
     // datasheet 8.2 - wake up is min 800 us max 3000 us
-    bool     isConnected(uint16_t timeout = 3000);  
+    bool     isConnected(uint16_t timeout = 3000);
 
     int      read();
+    // lastRead is in MilliSeconds since start sketch
+    uint32_t lastRead()                    { return _lastRead; };
+    // set readDelay to 0 will reset to datasheet values
+    uint16_t getReadDelay()                { return _readDelay; };
+    void     setReadDelay(uint16_t rd = 0) { _readDelay = rd; };
+
     int      getModel();
     int      getVersion();
     uint32_t getDeviceID();
@@ -72,15 +81,26 @@ public:
     int      setUserRegisterA(int value);
     int      setUserRegisterB(int value);
 
-    inline float getHumidity()    { return humidity; };
-    inline float getTemperature() { return temperature; };
+    float    getHumidity();
+    float    getTemperature();
+
+    // adding offsets works well in normal range
+    // might introduce under- or overflow at the ends of the sensor range
+    void     setHumOffset(float offset)    { _humOffset = offset; };
+    void     setTempOffset(float offset)   { _tempOffset = offset; };
+    float    getHumOffset()                { return _humOffset; };
+    float    getTempOffset()               { return _tempOffset; };
 
     bool     wakeUp() { return isConnected(); };
 
 private:
     uint8_t  bits[8];
-    float    humidity;
-    float    temperature;
+    float    _humidity;
+    float    _temperature;
+    float    _humOffset;
+    float    _tempOffset;
+    uint32_t _lastRead;
+    uint16_t _readDelay;
 
     int      _readRegister(uint8_t reg, uint8_t cnt);
     int      _writeRegister(uint8_t reg, uint8_t cnt, int16_t value);
@@ -91,4 +111,6 @@ private:
     TwoWire* _wire;
 };
 
+
 // -- END OF FILE --
+

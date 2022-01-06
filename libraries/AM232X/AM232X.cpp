@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -17,12 +17,14 @@
 //   0.2.1  2020-05-06  fix temperature function (thanks Chade)
 //   0.2.2  2020-05-12  added ESP32 support
 //   0.2.3  2020-05-27  update library.json
-//   0.2.4  2020-12-09  arduino-ci
+//   0.2.4  2020-12-09  Arduino-CI
 //   0.3.0  2021-01-12  isConnected() + Wire0..Wire5 support
 //   0.3.1  2021-01-28  fix TODO's in code
 //   0.3.2  2021-03-30  #13 - timeout to isConnected() + wakeUp() + readme.md
 //   0.3.3  2021-10-19  update build-CI
 //   0.3.4  2021-12-11  add unit test, update library.json, license
+//   0.4.0  2022-01-06  add offset(), lastRead() and readDelay()
+//                      refactor examples, update readme.md
 
 
 #include "AM232X.h"
@@ -38,7 +40,14 @@ const uint8_t AM232X_ADDRESS = 0x5C;
 
 AM232X::AM232X(TwoWire *wire)
 {
-  _wire = wire;
+  _wire        = wire;
+  //  reset() or begin() ?
+  _humidity    = 0.0;
+  _temperature = 0.0;
+  _humOffset   = 0.0;
+  _tempOffset  = 0.0;
+  _lastRead    = 0;
+  _readDelay   = 2000;
 }
 
 
@@ -79,20 +88,39 @@ bool AM232X::isConnected(uint16_t timeout)
 
 int AM232X::read()
 {
+  if (_readDelay == 0) _readDelay = 2000;  // reset
+  if (millis() - _lastRead < _readDelay)
+  {
+    return AM232X_READ_TOO_FAST;
+  }
   // READ HUMIDITY AND TEMPERATURE REGISTERS
   int rv = _readRegister(0x00, 4);
   if (rv < 0) return rv;
 
   // CONVERT AND STORE
-  humidity = (bits[2] * 256 + bits[3]) * 0.1;
-  temperature = ((bits[4] & 0x7F) * 256 + bits[5]) * 0.1;
+  _humidity = (bits[2] * 256 + bits[3]) * 0.1;
+  _temperature = ((bits[4] & 0x7F) * 256 + bits[5]) * 0.1;
 
   if (bits[4] & 0x80)
   {
-    temperature = -temperature;
+    _temperature = -_temperature;
   }
   return AM232X_OK;
 }
+
+
+float AM232X::getHumidity()
+{
+  if (_humOffset == 0.0) return _humidity;
+  return _humidity + _humOffset;
+};
+
+
+float AM232X::getTemperature()
+{
+  if (_tempOffset == 0.0) return _temperature;
+  return _temperature + _tempOffset;
+};
 
 
 int AM232X::getModel()
@@ -251,9 +279,9 @@ int AM232X::_getData(uint8_t length)
   }
 
   // ANALYZE ERRORS
-  // will not detect if we requested 1 byte as that will
-  // return 5 bytes as requested. E.g. getStatus()
-  // design a fix if it becomes a problem.
+  //   will not detect if we requested 1 byte as that will
+  //   return 5 bytes as requested. E.g. getStatus()
+  //   design a fix if it becomes a problem.
   if (bytes != length)
   {
     switch (bits[3])
@@ -301,4 +329,6 @@ uint16_t AM232X::_crc16(uint8_t *ptr, uint8_t len)
   return crc;
 }
 
+
 // -- END OF FILE --
+

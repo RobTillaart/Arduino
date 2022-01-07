@@ -75,6 +75,39 @@ unittest(test_heatIndex)
 }
 
 
+unittest(test_heatIndex_2)
+{
+  //  Fahrenheit  reference points
+  assertEqualFloat( 77, heatIndex(80,  00), 1);
+  assertEqualFloat( 78, heatIndex(80,  10), 1);
+  assertEqualFloat( 80, heatIndex(80,  40), 1);
+  assertEqualFloat( 82, heatIndex(80,  60), 1);
+  assertEqualFloat( 86, heatIndex(80,  90), 1);
+  assertEqualFloat( 89, heatIndex(80, 100), 1);
+  fprintf(stderr, "\n");
+  assertEqualFloat( 84, heatIndex(90,  00), 1);
+  assertEqualFloat( 85, heatIndex(90,  10), 1);
+  assertEqualFloat( 91, heatIndex(90,  40), 1);
+  assertEqualFloat(100, heatIndex(90,  60), 1);
+  assertEqualFloat(122, heatIndex(90,  90), 1);
+  assertEqualFloat(132, heatIndex(90, 100), 1);
+  fprintf(stderr, "\n");
+  assertEqualFloat( 91, heatIndex(100,  00), 1);
+  assertEqualFloat( 94, heatIndex(100,  10), 1);
+  assertEqualFloat(109, heatIndex(100,  40), 1);
+  assertEqualFloat(129, heatIndex(100,  60), 1);
+  assertEqualFloat(176, heatIndex(100,  90), 1);
+  assertEqualFloat(195, heatIndex(100, 100), 1);
+  fprintf(stderr, "\n");
+  assertEqualFloat( 99, heatIndex(110,  00), 1);
+  assertEqualFloat(104, heatIndex(110,  10), 1);
+  assertEqualFloat(136, heatIndex(110,  40), 1);
+  assertEqualFloat(171, heatIndex(110,  60), 1);
+  assertEqualFloat(247, heatIndex(110,  90), 1);
+  assertEqualFloat(278, heatIndex(110, 100), 1);
+}
+
+
 unittest(test_windChill)
 {
   assertEqualFloat(107.108, WindChill_F_mph (100, 10, true), 0.001);

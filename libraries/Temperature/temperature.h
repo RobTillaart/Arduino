@@ -117,7 +117,7 @@ float heatIndex(float TF, float RH)
     HI = A + B + C;
     if ((RH < 13) && (TF <= 112))
     {
-      HI += ((13 - RH) / 4) * sqrt((17 - abs(TF - 95.0)) / 17);
+      HI -= ((13 - RH) / 4) * sqrt((17 - abs(TF - 95.0)) / 17);
     }
     if ((RH > 87) && (TF < 87))
     {

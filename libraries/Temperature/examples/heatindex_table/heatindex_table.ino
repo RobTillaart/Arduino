@@ -28,6 +28,21 @@ void setup()
   Serial.println();
   Serial.println();
 
+  for (int hum = 0; hum <= 100; hum += 2)
+  {
+    Serial.print(hum);
+    for (int t = 80; t <= 110; t += 2)
+    {
+      float hi = heatIndex(t, hum);
+      Serial.print("\t");
+      Serial.print(round(hi));
+    }
+    Serial.println();
+  }
+  Serial.println();
+  Serial.println();
+
+  /*
   for (int hum = 40; hum <= 100; hum += 5)
   {
     Serial.print(hum);
@@ -41,6 +56,7 @@ void setup()
   }
   Serial.println();
   Serial.println();
+  */
 
   Serial.print("Done...");
 }

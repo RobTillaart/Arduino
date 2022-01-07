@@ -19,6 +19,8 @@ These functions are approximations based on work of NOAA a.o.
 These functions can be used with temperature and humidity sensors e.g.
 DHT22 or Sensirion, to make a weather station application.
 
+Note: pre-0.3.1 versions have incorrect heat-index.
+
 
 ## Interface
 
@@ -42,7 +44,9 @@ DHT22 or Sensirion, to make a weather station application.
 - **float heatIndex(float Fahrenheit, float humidity)** idem.
 - **float heatIndexC(float Celsius, float humidity)** idem.
 
-**0.3.0**
+
+#### 0.3.0
+
 The formula for the **heatIndex()** was taken from https://en.wikipedia.org/wiki/Heat_index.
 Since version 0.3.0 the more elaborated version of https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
 will be used. Note: there will be performance differences.
@@ -56,6 +60,10 @@ Indicative table
 |   90-104   |  32-40  | hot         |    orange   |
 |  105-129   |  40-54  | very hot    |       red   |
 |  > 130     |  > 54   | extreme hot |    purple   |
+
+#### 0.3.1
+
+Fixed the adjustment which was incorrectly added.
 
 
 ### WindChill

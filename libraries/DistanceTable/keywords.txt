@@ -10,9 +10,15 @@ clear	KEYWORD2
 setAll	KEYWORD2
 set	KEYWORD2
 get	KEYWORD2
+
+setInvert	KEYWORD2
+getInvert	KEYWORD2
+
 minimum	KEYWORD2
 maximum	KEYWORD2
 count	KEYWORD2
+countAbove	KEYWORD2
+countBelow	KEYWORD2
 
 dump	KEYWORD2
 dimension	KEYWORD2

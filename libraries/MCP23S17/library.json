@@ -1,0 +1,23 @@
+{
+  "name": "MCP23S17",
+  "keywords": "MCP23S17,SPI, 16 IO, polarity, pullup",
+  "description": "Arduino library for SPI MCP23S17 16 channel port expander",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP23S17.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MCP23S17.h"
+}

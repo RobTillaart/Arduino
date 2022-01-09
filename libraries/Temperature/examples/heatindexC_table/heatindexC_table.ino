@@ -38,7 +38,7 @@ void setup()
     Serial.println();
   }
   Serial.println();
-  Serial.println();
+  Serial.println(heatIndexC(20, 50));
 
   Serial.print("Done...");
 }
@@ -50,4 +50,3 @@ void loop()
 
 
 // -- END OF FILE --
-

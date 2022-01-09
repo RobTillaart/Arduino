@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: temperature.h
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //
@@ -23,9 +23,11 @@
 //  0.3.2   2022-01-08  Renamed Celcius to Celsius.
 //                      added a TempConvertor class for more exotic scales.
 //                      added baroToSeaLevel() - kudos to RobertDB59
+//  0.3.3   2022-01-09  added working limits to windchill() and heatIndex()
 
 
-#define TEMPERATURE_VERSION         (F("0.3.2"))
+
+#define TEMPERATURE_VERSION         (F("0.3.3"))
 
 
 inline float Fahrenheit(float celsius)
@@ -34,9 +36,9 @@ inline float Fahrenheit(float celsius)
 }
 
 
-inline float Celsius(float fahrenheit)
+inline float Celsius(float Fahrenheit)
 {
-  return (fahrenheit - 32) * 0.55555555555;   // 5.0 / 9.0 = 0.555...
+  return (Fahrenheit - 32) * 0.55555555555;   // 5.0 / 9.0 = 0.555...
 }
 
 
@@ -96,14 +98,16 @@ float humidex(float celsius, float dewPoint)
 
 // 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
 //          previous  https://en.wikipedia.org/wiki/Heat_index
-// TODO add valid range for TF & R
 // TF = temp in Fahrenheit
 // RH = relative humidity in %
 float heatIndex(float TF, float RH)
 {
-  float HI = 0;
+  //  Steadman's formula  ==> can be optimized :: HI = TF * 1.1 - 10.3 + RH * 0.047
+  float HI =  0.5 * (TF + 61.0 + ((TF - 68.0) * 1.2) + (RH * 0.094));
 
-  if (TF >= 80)
+
+  //  Rothfusz regression
+  if (HI >= 80)
   {
     const float c1 = -42.379;
     const float c2 =  2.04901523;
@@ -128,10 +132,7 @@ float heatIndex(float TF, float RH)
     {
       HI += ((RH - 85) / 10) * ((87 - TF) / 5);
     }
-    return HI;
   }
-
-  HI = 0.5 * (TF + 61.0 + ((TF - 68.0) * 1.2) + (RH * 0.094));
 
   return HI;
 }
@@ -139,12 +140,13 @@ float heatIndex(float TF, float RH)
 
 // 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
 //          previous  https://en.wikipedia.org/wiki/Heat_index
-// TODO add valid range for TF & RH
-// TODO optimize?
-float heatIndexC(float C, float humidity)
+// TC = temp in Celsius
+// RH = relative humidity in %
+float heatIndexC(float TC, float RH)
 {
-  float TF = Fahrenheit(C);
-  return Celsius(heatIndex(TF, humidity));
+  if ( (TC < 27) || (RH < 40)) return TC;
+  float TF = Fahrenheit(TC);
+  return Celsius(heatIndex(TF, RH));
 
 /*
   const float c1 = -8.78469475556;
@@ -167,25 +169,27 @@ float heatIndexC(float C, float humidity)
 
 
 // https://en.wikipedia.org/wiki/Wind_chill
-//    US     = Fahrenheit / miles
-//    METRIC = Celsius / meter/sec
+//    US     = Fahrenheit / miles / hour
+//    METRIC = Celsius    / meter / hour (sec)
 // wind speed @ 10 meter,
 // if convert is true => wind speed will be converted to 1.5 meter
 // else ==> formula assumes wind speed @ 1.5 meter
 
 
 // US
-float WindChill_F_mph(const float fahrenheit, const float milesPerHour, const bool convert = true)
+float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bool convert = true)
 {
+  if ((milesPerHour < 3.0) || (Fahrenheit > 50)) return Fahrenheit;
   float windSpeed = milesPerHour;
   if (convert) windSpeed = pow(milesPerHour, 0.16);
-  return 35.74 + 0.6125 * fahrenheit + (0.4275 * fahrenheit - 35.75) * windSpeed;
+  return 35.74 + 0.6125 * Fahrenheit + (0.4275 * Fahrenheit - 35.75) * windSpeed;
 }
 
 
-// METRIC
+// METRIC - standard wind chill formula for Environment Canada
 float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const bool convert = true)
 {
+  if ((kilometerPerHour < 4.8) || (Celsius > 10)) return Celsius;
   float windSpeed = kilometerPerHour;
   if (convert) windSpeed = pow(kilometerPerHour, 0.16);
   return 13.12 + 0.6215 * Celsius + (0.3965 * Celsius - 11.37) * windSpeed;

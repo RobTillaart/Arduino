@@ -1,7 +1,7 @@
 //
 //    FILE: heatindexC_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo - test average performance per call in micros.
 //    DATE: 2020-04-04
 
 
@@ -21,16 +21,19 @@ void setup()
 
   Serial.println(heatIndexC(25, 50), 2);
 
-  start = millis();
+  start = micros();
+  int cnt = 0;
   for (int cel = 10; cel < 80; cel++)
   {
     for (int hum = 1; hum < 100; hum++)
     {
       hi = heatIndexC(cel, hum);
+      cnt++;
     }
   }
-  duration1 = millis() - start;
+  duration1 = micros() - start;
   Serial.println(duration1);
+  Serial.println(1.0 * duration1 / cnt);
 
   Serial.print("Done...");
 }
@@ -42,4 +45,3 @@ void loop()
 
 
 // -- END OF FILE --
-

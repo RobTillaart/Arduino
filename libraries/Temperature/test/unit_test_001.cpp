@@ -71,7 +71,7 @@ unittest(test_heatIndex)
   assertEqualFloat(14.050, heatIndex(20, 50), 0.001);
   assertEqualFloat(66.850, heatIndex(68, 50), 0.001);
   //  Celsius
-  assertEqualFloat(19.361, heatIndexC(20, 50), 0.001);
+  assertEqualFloat(20.000, heatIndexC(20, 50), 0.001);
 }
 
 
@@ -110,12 +110,16 @@ unittest(test_heatIndex_2)
 
 unittest(test_windChill)
 {
-  assertEqualFloat(107.108, WindChill_F_mph (100, 10, true), 0.001);
-  assertEqualFloat(40.8862, WindChill_C_kmph(37, 10, true),  0.001);
-  assertEqualFloat(41.9713, WindChill_C_mps (37, 10, true),  0.001);
-  assertEqualFloat(166.99,  WindChill_F_mph (100, 10, false), 0.001);
-  assertEqualFloat(69.1205, WindChill_C_kmph(37, 10, false),  0.001);
-  assertEqualFloat(154.934, WindChill_C_mps (37, 10, false),  0.001);
+  fprintf(stderr, "\n Fahrenheit\n");
+  assertEqualFloat( -15.9, WindChill_F_mph (0, 10, true), 0.1);
+  assertEqualFloat(-321.8, WindChill_F_mph (0, 10, false), 0.1);
+
+  fprintf(stderr, "\n Celsius\n");
+  assertEqualFloat(  -3.3, WindChill_C_kmph(0, 10, true), 0.1);
+  assertEqualFloat(  -7.1, WindChill_C_mps (0, 10, true), 0.1);
+  assertEqualFloat( -24.3, WindChill_C_kmph(-20, 5, true), 0.1);
+  assertEqualFloat(-100.5, WindChill_C_kmph(0, 10, false), 0.1);
+  assertEqualFloat(-396.2, WindChill_C_mps (0, 10, false), 0.1);
 }
 
 

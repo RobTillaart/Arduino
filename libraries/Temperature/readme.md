@@ -79,6 +79,17 @@ else ==> formula assumes wind speed @ 1.5 meter
 - **float WindChill_C_mps(float Celsius, float meterPerSecond, bool convert = true)**
 
 
+Indicative table (subjective).
+
+| wind chill °C | description          |
+|:-------------:|:---------------------|
+|  > -10        |  cold                |
+|  -10 .. -25   |  very cold !         |
+|  -25 .. -35   |  very very cold !    |
+|  -35 .. -55   |  chance of frostbite |
+|  < -55        |  serious dangerous   |
+
+
 ## temperatureConverter
 
 Since version 0.3.2 a temperature convertor class is added to convert to and from 

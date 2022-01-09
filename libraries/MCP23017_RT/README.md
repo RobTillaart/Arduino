@@ -13,7 +13,10 @@ Arduino library for MCP23017 16 channel I2C port expander.
 
 ## Description
 
-This library gives easy control over the 16 pins of a MCP23017 chip.
+This library gives easy control over the 16 pins of a (I2C) MCP23017 chip.
+
+This IC is strongly related tot the MCP23S17 SPI port expander - https://github.com/RobTillaart/MCP23S17
+Programming Interface is kept the same as much as possible.
 
 
 ## Interface
@@ -45,8 +48,19 @@ Can be overruled with Wire0..WireN.
 - **uint8_t read8(uint8_t port)** port = 0..1, reads 8 pins into one byte.
 - **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
 - **bool getPolarity8(uint8_t port, uint8_t &mask)** port = 0..1, reads polarity of 8 channels at once.
-- **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1,, sets pull-up for 8 channels at once.
+- **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1, sets pull-up for 8 channels at once.
 - **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pull-up for 8 channels at once.
+
+
+### 16 pins interface
+
+- **bool pinMode16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
+- **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
+- **uint16_t read16()** reads 16 pins into an uint16_t.
+- **bool setPolarity16(uint16_t mask)** sets polarity for 16 channels.
+- **bool getPolarity16(uint16_t &mask)** reads polarity of 16 channels.
+- **bool setPullup16(uint16_t mask)** sets pull-up for 16 channels.
+- **bool getPullup16(uint16_t &mask)** reads pull-up for 16 channels.
 
 
 ### Error codes
@@ -74,7 +88,6 @@ See examples.
 #### Must
 
 - Improve and extend documentation
-- add pinMode16(), write16() and read16()
 - add examples
 
 

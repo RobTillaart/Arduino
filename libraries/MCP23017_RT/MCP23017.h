@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.2.5"))
+#define MCP23017_LIB_VERSION              (F("0.2.6"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -27,8 +27,7 @@
 class MCP23017
 {
 public:
-  MCP23017(uint8_t addr, TwoWire *wire = &Wire);
-
+  MCP23017(uint8_t address, TwoWire *wire = &Wire);
 
 #if defined(ESP8266) || defined(ESP32)
   bool    begin(const uint8_t dataPin, const uint8_t clockPin);
@@ -56,12 +55,22 @@ public:
   bool    write8(uint8_t port, uint8_t value);
   int     read8(uint8_t port);
 
-
   bool    setPolarity8(uint8_t port, uint8_t mask);
   bool    getPolarity8(uint8_t port, uint8_t &mask);
   bool    setPullup8(uint8_t port, uint8_t mask);
   bool    getPullup8(uint8_t port, uint8_t &mask);
 
+
+  // 16 pins interface
+  // value = bit pattern
+  bool     pinMode16(uint16_t value);
+  bool     write16(uint16_t value);
+  uint16_t read16();
+
+  bool     setPolarity16(uint16_t mask);
+  bool     getPolarity16(uint16_t &mask);
+  bool     setPullup16(uint16_t mask);
+  bool     getPullup16(uint16_t &mask);
 
   int     lastError();
 
@@ -69,7 +78,7 @@ private:
   bool    writeReg(uint8_t reg, uint8_t value);
   uint8_t readReg(uint8_t reg);
 
-  uint8_t   _addr;
+  uint8_t   _address;
   TwoWire*  _wire;
   uint8_t   _error;
 };

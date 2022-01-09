@@ -1,5 +1,5 @@
 //
-//    FILE: MCP23017_test.ino
+//    FILE: MCP23017_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-14
 // PUPROSE: test MCP23017 library

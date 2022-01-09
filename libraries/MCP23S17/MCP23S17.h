@@ -2,17 +2,38 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17_RT
+//
+//        dip layout
+//
+//        +-----||-----+
+//  GPB0  | o        o |  GPA7
+//  GPB1  | o        o |  GPA6
+//  GPB2  | o        o |  GPA5
+//  GPB3  | o        o |  GPA4
+//  GPB4  | o        o |  GPA3
+//  GPB5  | o        o |  GPA2
+//  GPB6  | o        o |  GPA1
+//  GPB7  | o        o |  GPA0
+//   +5V  | o        o |  INTA
+//   GND  | o        o |  INTB
+//  _CS_  | o        o |  _RESET_
+//  CLK   | o        o |  A2
+//   SI   | o        o |  A1
+//   SO   | o        o |  A0
+//        +------------+
+//
+//  note: Connect Address pins (default GND == address 0x00)
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.1.0"))
+#define MCP23S17_LIB_VERSION              (F("0.1.1"))
 
 #define MCP23S17_OK                       0x00
 #define MCP23S17_PIN_ERROR                0x81

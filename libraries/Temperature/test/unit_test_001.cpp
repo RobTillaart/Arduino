@@ -119,6 +119,58 @@ unittest(test_windChill)
 }
 
 
+unittest(test_converter)
+{
+  temperatureConverter TC;
+
+  fprintf(stderr, "\n 0°C\n");
+  TC.setCelsius(0);
+  assertEqualFloat( 273.15, TC.getKelvin(),     0.01);
+  assertEqualFloat(   0.00, TC.getCelsius(),    0.01);
+  assertEqualFloat(  32.00, TC.getFahrenheit(), 0.01);
+  assertEqualFloat(   0.00, TC.getReamur(),     0.01);
+  assertEqualFloat( 491.67, TC.getRankine(),    0.01);
+  assertEqualFloat(-100.00, TC.getDelisle(),    0.01);
+  assertEqualFloat(   0.00, TC.getNewton(),     0.01);
+  assertEqualFloat(   7.50, TC.getRomer(),      0.01);
+
+  fprintf(stderr, "\n 100°C\n");
+  TC.setCelsius(100);
+  assertEqualFloat( 373.15, TC.getKelvin(),     0.01);
+  assertEqualFloat( 100.00, TC.getCelsius(),    0.01);
+  assertEqualFloat( 212.00, TC.getFahrenheit(), 0.01);
+  assertEqualFloat(  80.00, TC.getReamur(),     0.01);
+  assertEqualFloat( 671.67, TC.getRankine(),    0.01);
+  assertEqualFloat(  50.00, TC.getDelisle(),    0.01);
+  assertEqualFloat(  33.00, TC.getNewton(),     0.01);
+  assertEqualFloat(  60.00, TC.getRomer(),      0.01);
+}
+
+
+unittest(test_set_get)
+{
+  temperatureConverter TC;
+
+  fprintf(stderr, "\n 42°C\n");
+  TC.setKelvin(42);
+  assertEqualFloat( 42.00, TC.getKelvin(),     0.01);
+  TC.setCelsius(42);
+  assertEqualFloat( 42.00, TC.getCelsius(),    0.01);
+  TC.setFahrenheit(42);
+  assertEqualFloat( 42.00, TC.getFahrenheit(), 0.01);
+  TC.setReamur(42);
+  assertEqualFloat( 42.00, TC.getReamur(),     0.01);
+  TC.setRankine(42);
+  assertEqualFloat( 42.00, TC.getRankine(),    0.01);
+  TC.setDelisle(42);
+  assertEqualFloat( 42.00, TC.getDelisle(),    0.01);
+  TC.setNewton(42);
+  assertEqualFloat( 42.00, TC.getNewton(),     0.01);
+  TC.setRomer(42);
+  assertEqualFloat( 42.00, TC.getRomer(),      0.01);
+}
+
+
 unittest_main()
 
 // --------

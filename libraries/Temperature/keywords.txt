@@ -1,0 +1,43 @@
+# Syntax Colouring Map For temperature
+
+
+# Data types (KEYWORD1)
+temperatureConverter	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+Fahrenheit	KEYWORD2
+Celsius	KEYWORD2
+Kelvin	KEYWORD2
+dewPoint	KEYWORD2
+dewPointFast	KEYWORD2
+humidex	KEYWORD2
+heatIndex	KEYWORD2
+heatIndexC	KEYWORD2
+WindChill_F_mph	KEYWORD2
+WindChill_C_kmph	KEYWORD2
+WindChill_C_mps	KEYWORD2
+
+
+# temperatureConverter class
+setKelvin	KEYWORD2
+setCelsius	KEYWORD2
+setFahrenheit	KEYWORD2
+setReamur	KEYWORD2
+setRankine	KEYWORD2
+setDelisle	KEYWORD2
+setNewton	KEYWORD2
+setRomer	KEYWORD2
+
+getKelvin	KEYWORD2
+getCelsius	KEYWORD2
+getFahrenheit	KEYWORD2
+getReamur	KEYWORD2
+getRankine	KEYWORD2
+getDelisle	KEYWORD2
+getNewton	KEYWORD2
+getRomer	KEYWORD2
+
+
+# Constants (LITERAL1)
+

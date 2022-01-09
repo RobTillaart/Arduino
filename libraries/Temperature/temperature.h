@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: temperature.h
-// VERSION: 0.3.0
+// VERSION: 0.3.2
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //
@@ -16,11 +16,16 @@
 //  0.2.3   2020-08-27  fix #5 order of functions, typo, fixed 1 example
 //  0.2.4   2021-01-08  Arduino-CI + unit tests
 //  0.2.5   2021-12-28  Arduino-CI, library.json, readme.md, license, minor edits
+//
 //  0.3.0   2022-01-05  fix #10 update HeatIndex function
 //                      compared with https://www.calculator.net/heat-index-calculator.html
+//  0.3.1   2022-01-07  fix adjustments
+//  0.3.2   2022-01-08  Renamed Celcius to Celsius.
+//                      added a TempConvertor class for more exotic scales.
+//                      added baroToSeaLevel() - kudos to RobertDB59
 
 
-#define TEMPERATURE_VERSION         (F("0.3.0"))
+#define TEMPERATURE_VERSION         (F("0.3.2"))
 
 
 inline float Fahrenheit(float celsius)
@@ -134,13 +139,13 @@ float heatIndex(float TF, float RH)
 
 // 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
 //          previous  https://en.wikipedia.org/wiki/Heat_index
-// TODO add valid range for TF & R
+// TODO add valid range for TF & RH
 // TODO optimize?
-float heatIndexC(float celcius, float humidity)
+float heatIndexC(float C, float humidity)
 {
-  float TF = celcius * (9.0 / 5.0) + 32;
-  float HI = (heatIndex(TF, humidity) - 32) * (5.0 / 9.0);
-  return HI;
+  float TF = Fahrenheit(C);
+  return Celsius(heatIndex(TF, humidity));
+
 /*
   const float c1 = -8.78469475556;
   const float c2 =  1.61139411;
@@ -152,9 +157,9 @@ float heatIndexC(float celcius, float humidity)
   const float c8 =  0.00072546;
   const float c9 = -0.000003582;
 
-  float A = (( c5 * celcius) + c2) * celcius + c1;
-  float B = (((c7 * celcius) + c4) * celcius + c3) * humidity;
-  float C = (((c9 * celcius) + c8) * celcius + c6) * humidity * humidity;
+  float A = (( c5 * Celsius) + c2) * Celsius + c1;
+  float B = (((c7 * Celsius) + c4) * Celsius + c3) * humidity;
+  float C = (((c9 * Celsius) + c8) * Celsius + c6) * humidity * humidity;
 
   return A + B + C;
 */
@@ -179,18 +184,65 @@ float WindChill_F_mph(const float fahrenheit, const float milesPerHour, const bo
 
 
 // METRIC
-float WindChill_C_kmph(const float celcius, const float kilometerPerHour, const bool convert = true)
+float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const bool convert = true)
 {
   float windSpeed = kilometerPerHour;
   if (convert) windSpeed = pow(kilometerPerHour, 0.16);
-  return 13.12 + 0.6215 * celcius + (0.3965 * celcius - 11.37) * windSpeed;
+  return 13.12 + 0.6215 * Celsius + (0.3965 * Celsius - 11.37) * windSpeed;
 }
 
 
-float WindChill_C_mps(const float celcius, const float meterPerSecond, const bool convert = true)
+float WindChill_C_mps(const float Celsius, const float meterPerSecond, const bool convert = true)
 {
-  return WindChill_C_kmph(celcius, meterPerSecond * 3.6, convert);
+  return WindChill_C_kmph(Celsius, meterPerSecond * 3.6, convert);
 }
+
+
+// https://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+//   Does not have the temperature correction ==> it has almost the -5.257 exponent
+// https://www.omnicalculator.com/physics/air-pressure-at-altitude
+//   similar to https://en.wikipedia.org/wiki/Barometric_formula
+//
+// Note: altitude in meters.
+float baroToSeaLevelC( float pressure, float celsius, float altitude)
+{
+  float altitudeFactor = 0.0065 * altitude;
+  float kelvin = celsius + 273.15;
+  return pressure * pow( 1 - (altitudeFactor / (kelvin + altitudeFactor)), -5.257);
+}
+
+
+/////////////////////////////////////////////////////////////
+//
+//  TEMPERATURE CONVERTER CLASS
+//
+class temperatureConverter
+{
+  //  used Celsius as internal unit, to minimize math
+  public:
+    temperatureConverter()              { _temp = 0; };
+
+    void setKelvin(float value = 0)     { _temp = value - 273.15; };
+    void setCelsius(float value = 0)    { _temp = value; };
+    void setFahrenheit(float value = 0) { _temp = (value - 32.0) / 1.8; };
+    void setReamur(float value = 0)     { _temp = value * 1.25; };
+    void setRankine(float value = 0)    { _temp = (value - 491.67) / 1.8; };
+    void setDelisle(float value = 0)    { _temp = (value + 100) / 1.5; };
+    void setNewton(float value = 0)     { _temp = value / 0.33; };
+    void setRomer(float value = 0)      { _temp = (value - 7.5) / 0.525; };
+
+    float getKelvin()      { return _temp + 273.15; };
+    float getCelsius()     { return _temp; };
+    float getFahrenheit()  { return _temp * 1.8 + 32; };
+    float getReamur()      { return _temp * 0.8; };
+    float getRankine()     { return _temp * 1.8 + 491.67; };
+    float getDelisle()     { return _temp * 1.5 - 100.0; };
+    float getNewton()      { return _temp * 0.33; };
+    float getRomer()       { return _temp * 0.525 + 7.5; };
+
+  private:
+    float _temp = 0;
+};
 
 
 // -- END OF FILE --

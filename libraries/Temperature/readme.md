@@ -31,6 +31,8 @@ Note: pre-0.3.1 versions have incorrect heat-index.
 - **float Celsius(float Fahrenheit)** idem.
 - **float Kelvin(float Celsius)** idem.
 
+More converters are implemented in tne **temperatureConverter()** below.
+
 
 ### DewPoint, humidex
 
@@ -61,6 +63,7 @@ Indicative table
 |  105-129   |  40-54  | very hot    |       red   |
 |  > 130     |  > 54   | extreme hot |    purple   |
 
+
 #### 0.3.1
 
 Fixed the adjustment which was incorrectly added.
@@ -76,6 +79,62 @@ else ==> formula assumes wind speed @ 1.5 meter
 - **float WindChill_C_mps(float Celsius, float meterPerSecond, bool convert = true)**
 
 
+## temperatureConverter
+
+Since version 0.3.2 a temperature convertor class is added to convert to and from 
+other (less known) temperature scales. 
+The idea is to set a value in one scale and retrieve it in the other.
+As the converter holds the last value set, multiple conversions are easy.
+See example.
+
+The scales are typically named after their inventor. 
+Check Wikipedia for details about the scales.
+
+| Name        | units | 1° in °K |    0°C  |   100°C | notes |
+|:------------|:-----:|:--------:|--------:|--------:|:------|
+| Celsius     |  °C   | 1.000000 |    0.00 |  100.00 |
+} Delisle     |  °De  | 0.666666 | -100.00 |   50.00 |
+| Fahrenheit  |  °F   | 0.555556 |   32.00 |  212.00 |
+| Kelvin      |  °K   | 1.000000 |  273.15 |  373.15 |
+| Newton      |  --   | 3.030303 |    0.00 |   33.00 | not the force.
+| Rankine     |  °Ra  | 0.555556 |  491.76 |  671.67 | 0°Ra == 0°K, steps == Fahrenheit.
+| Reamur      |  °Re  | 1.250000 |    0.00 |   80.00 |
+| Romer       |  °Ro  | 1.904762 |    7.50 |   60.00 |
+
+Note: units to be verified.
+
+Note: this class is slightly slower than direct conversion, but it 
+prevents to have 8 x 7 optimized functions.
+
+
+#### Constructor
+
+- **temperatureConverter()** Constructor sets the default to zero degrees C.
+
+
+#### setters
+
+- **void setKelvin(float value = 0)**
+- **void setCelsius(float value = 0)**
+- **void setFahrenheit(float value = 0)**
+- **void setReamur(float value = 0)**
+- **void setRankine(float value = 0)**
+- **void setDelisle(float value = 0)**
+- **void setNewton(float value = 0)**
+- **void setRomer(float value = 0)**
+
+#### getters
+
+- **void getKelvin()**
+- **void getCelsius()**
+- **void getFahrenheit()**
+- **void getReamur()**
+- **void getRankine()**
+- **void getDelisle()**
+- **void getNewton()**
+- **void getRomer()**
+
+
 ## Operations
 
 The functions have a limited scope so one cannot use it for all input values possible.
@@ -89,6 +148,6 @@ See examples for typical usage.
 # Future
 
 - improve documentation
-- expand number of formulas
+  - add short explanation?
+- add more scales to temperatureConverter if exist
 - 
-

@@ -1,0 +1,23 @@
+{
+  "name": "MCP23008",
+  "keywords": "MCP23008,I2C, 8 IO, polarity, pullup",
+  "description": "Arduino library for I2C MCP23008 8 channel port expander",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP23008.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MCP23008.h"
+}

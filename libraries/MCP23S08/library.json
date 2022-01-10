@@ -1,0 +1,23 @@
+{
+  "name": "MCP23S08",
+  "keywords": "MCP23S08,SPI, 8 IO, polarity, pullup",
+  "description": "Arduino library for SPI MCP23S08 8 channel port expander",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP23S08.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MCP23S08.h"
+}

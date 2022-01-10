@@ -1,14 +1,15 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
-//     URL: https://github.com/RobTillaart/MCP23S17_RT
+//     URL: https://github.com/RobTillaart/MCP23S17
 
 //
 //  HISTORY:
 //  0.1.0   2021-12-30  initial version (a 2019 version did not make it)
+//  0.1.1   2022-01-10  add 16 bit interface
 
 
 #include "Arduino.h"
@@ -476,6 +477,94 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 }
 
 
+///////////////////////////////////////////////////////////////////////
+// 16 pins interface
+// two register at once
+// value = 0..0xFFFF bit pattern
+bool MCP23S17::pinMode16(uint16_t value)
+{
+  writeReg(MCP23S17_DDR_A, value >> 8);
+  writeReg(MCP23S17_DDR_B, value & 8);
+  _error = MCP23S17_OK;
+  return true;
+}
+
+
+// value = 0..0xFFFF   bit pattern
+bool MCP23S17::write16(uint16_t value)
+{
+  writeReg(MCP23S17_GPIO_A, value >> 8);
+  writeReg(MCP23S17_GPIO_B, value & 8);
+  _error = MCP23S17_OK;
+  return true;
+}
+
+
+// return = 0..0xFFFF  bit pattern
+uint16_t MCP23S17::read16()
+{
+  _error = MCP23S17_OK;
+  uint16_t value = readReg(MCP23S17_GPIO_A);
+  value <<= 8;
+  value += readReg(MCP23S17_GPIO_B);
+  return value;
+}
+
+
+// mask = 0..0xFFFF  bit pattern
+bool MCP23S17::setPolarity16(uint16_t mask)
+{
+  writeReg(MCP23S17_POL_A, mask >> 8);
+  writeReg(MCP23S17_POL_B, mask & 8);
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+  return true;
+}
+
+
+// mask = 0..0xFFFF  bit pattern
+bool MCP23S17::getPolarity16(uint16_t &mask)
+{
+  mask = readReg(MCP23S17_POL_A);
+  mask <<= 8;
+  mask += readReg(MCP23S17_POL_B);
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+  return true;
+}
+
+
+// mask = 0..0xFFFF  bit pattern
+bool MCP23S17::setPullup16(uint16_t mask)
+{
+  writeReg(MCP23S17_PUR_A, mask >> 8);
+  writeReg(MCP23S17_PUR_B, mask & 8);
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+  return true;
+}
+
+
+// mask = 0..0xFFFF  bit pattern
+bool MCP23S17::getPullup16(uint16_t &mask)
+{
+  mask = readReg(MCP23S17_PUR_A);
+  mask <<= 8;
+  mask += readReg(MCP23S17_PUR_B);
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+  return true;
+}
+
+
 int MCP23S17::lastError()
 {
   int e = _error;
@@ -487,13 +576,13 @@ int MCP23S17::lastError()
 ////////////////////////////////////////////////////
 //
 // PRIVATE
-// 
+//
 
 bool MCP23S17::writeReg(uint8_t reg, uint8_t value)
 {
   _error = MCP23S17_OK;
 
-  if (reg > MCP23S17_OLAT_B) 
+  if (reg > MCP23S17_OLAT_B)
   {
     _error = 0xFF;   // TODO MAGIC NR
     return false;
@@ -524,7 +613,7 @@ uint8_t MCP23S17::readReg(uint8_t reg)
 
   _error = MCP23S17_OK;
 
-  if (reg > MCP23S17_OLAT_B) 
+  if (reg > MCP23S17_OLAT_B)
   {
     _error = 0xFF;   // TODO MAGIC NR
     return false;

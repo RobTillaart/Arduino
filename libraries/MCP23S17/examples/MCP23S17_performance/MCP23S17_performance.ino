@@ -86,8 +86,29 @@ void setup()
   Serial.print("TEST read8(port):\t");
   delay(100);
   start = micros();
-  volatile int val = MCP.read8(0);
-  val = MCP.read8(1);
+  volatile int val8 = MCP.read8(0);
+  val8 = MCP.read8(1);
+  stop = micros();
+  Serial.println((stop - start) / 2.0);
+  Serial.println();
+
+  
+  //////////////////////////////////////////////////
+  //
+  // write16 read16 interface
+  //
+  Serial.print("TEST write16(mask):\t");
+  delay(100);
+  start = micros();
+  MCP.write16(0xAAAA); // alternating HIGH/LOW
+  stop = micros();
+  Serial.println((stop - start) / 2.0);
+
+
+  Serial.print("TEST read16():\t");
+  delay(100);
+  start = micros();
+  volatile uint16_t val16 = MCP.read16();
   stop = micros();
   Serial.println((stop - start) / 2.0);
   Serial.println();
@@ -102,4 +123,3 @@ void loop()
 
 
 // -- END OF FILE --
-

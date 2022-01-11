@@ -1,0 +1,33 @@
+# Syntax Colouring Map For DHT20
+
+# Data types (KEYWORD1)
+DHT20	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+requestData	KEYWORD2
+readyData	KEYWORD2
+readData	KEYWORD2
+
+read	KEYWORD2
+getHumidity	KEYWORD2
+getTemperature	KEYWORD2
+
+setHumOffset	KEYWORD2
+setTempOffset	KEYWORD2
+getHumOffset	KEYWORD2
+getTempOffset	KEYWORD2
+
+lastRead	KEYWORD2
+lastRequest	KEYWORD2
+internalStatus()	KEYWORD2
+
+
+# Constants (LITERAL1)
+DHT20_LIB_VERSION	LITERAL2
+DHT20_OK	LITERAL2
+DHT20_ERROR_CHECKSUM	LITERAL1
+DHT20_ERROR_CONNECT	LITERAL1
+DHT20_MISSING_BYTES	LITERAL1

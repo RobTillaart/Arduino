@@ -28,17 +28,20 @@ Calling these latter again will return the same values until a new **read()** is
 
 ### Constructor
 
-- **AM2315(TwoWire \*wire)** constructor, using a specific Wire (I2C bus).
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins
+- **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins, returns true if device is connected.
 - **bool begin()** initializer for non ESP32. Returns true if connected.
-- **bool isConnected()** returns true if the address of the AM2315 can be seen on the I2C bus.
+- **bool isConnected(uint16_t timeout = 3000)** returns true if the address of the AM2315 can be seen on the I2C bus.
+As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
+minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
 ### Core
 
-- **int8_t read()** read the sensor and store the values internally. It returns the status of the read which should be 0.
+- **int8_t read()** read the sensor and store the values internally. 
+It returns the status of the read which should be **AM2315_OK** == 0.
 - **float getHumidity()** returns last Humidity read, or -999 in case of error.
-- **float getTemperature()** returns last Temperature read, or -999 in case of error.
+- **float getTemperature()** returns last Temperature read, or **AM2315_INVALID_VALUE** == -999 in case of error.
 - **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
 
 
@@ -64,6 +67,26 @@ This is used to keep spikes out of your graphs / logs.
 - **bool getSuppressError()**  returns the above setting.
 
 
+### Misc
+
+- **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
+
+
+### error codes
+
+
+| name                              | value | notes     |
+|:----------------------------------|------:|:----------|
+| AM2315_OK                         |  0    |
+| AM2315_ERROR_CHECKSUM             |  -10  |
+| AM2315_ERROR_CONNECT              |  -11  |
+| AM2315_MISSING_BYTES              |  -12  |
+| AM2315_WAITING_FOR_READ           |  -50  |
+| AM2315_HUMIDITY_OUT_OF_RANGE      |  -100 |
+| AM2315_TEMPERATURE_OUT_OF_RANGE   |  -101 |
+| AM2315_INVALID_VALUE              |  -999 |
+
+
 ## Operation
 
 See examples
@@ -81,7 +104,7 @@ See examples
 - optimize
 
 **wont**
-- add calls for meta information (no desxcription yet)
+- add calls for meta information (no description yet)
   - 0x07 status register
   - 0x08-0x0B user register HIGH LOW HIGH2 LOW2
 

@@ -2,7 +2,7 @@
 //
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 
@@ -22,7 +22,7 @@
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.0"))
+#define AM2315_LIB_VERSION                    (F("0.1.1"))
 
 
 #define AM2315_OK                             0
@@ -54,7 +54,8 @@ public:
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
   bool     begin();
-  bool     isConnected();
+  // datasheet- wake up is min 800 us max 3000 us
+  bool     isConnected(uint16_t timeout = 3000);
 
   int      read();
 
@@ -84,6 +85,7 @@ public:
   bool     getSuppressError()            { return _suppressError; };
   void     setSuppressError(bool b)      { _suppressError = b; };
 
+  bool     wakeUp() { return isConnected(); };
 
 private:
   float    _humOffset     = 0.0;

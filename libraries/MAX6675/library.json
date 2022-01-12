@@ -1,0 +1,23 @@
+{
+  "name": "MAX6675",
+  "keywords": "MAX6675,Thermocouple,K type,temperature, offset, MAX31855K",
+  "description": "Arduino library for MAX6675 chip for K type thermocouple.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX6675"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MAX6675.h"
+}

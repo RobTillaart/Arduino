@@ -2,11 +2,10 @@
 //
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/AM2315
-
-
+//
 //  AM232X PIN layout             AM2315 COLOR
 //  ============================================
 //   bottom view  DESCRIPTION     COLOR
@@ -16,13 +15,15 @@
 //       |o  |       GND          BLACK
 //       |o  |       SCL          GREY
 //       +---+
+//
+// do not forget pull up resistors between SDA, SCL and VDD.
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.1"))
+#define AM2315_LIB_VERSION                    (F("0.1.2"))
 
 
 #define AM2315_OK                             0
@@ -68,22 +69,18 @@ public:
 
   // adding offsets works well in normal range
   // might introduce under- or overflow at the ends of the sensor range
-  void     setHumOffset(float offset)    { _humOffset = offset; };
-  void     setTempOffset(float offset)   { _tempOffset = offset; };
-  float    getHumOffset()                { return _humOffset; };
-  float    getTempOffset()               { return _tempOffset; };
+  void     setHumOffset(float offset = 0)  { _humOffset = offset; };
+  void     setTempOffset(float offset = 0) { _tempOffset = offset; };
+  float    getHumOffset()             { return _humOffset; };
+  float    getTempOffset()            { return _tempOffset; };
 
-  bool     getWaitForReading()           { return _waitForRead; };
-  void     setWaitForReading(bool b )    { _waitForRead = b; };
-
-  // set readDelay to 0 will reset to datasheet values
-  uint16_t getReadDelay()                { return _readDelay; };
-  void     setReadDelay(uint16_t rd = 0) { _readDelay = rd; };
+  bool     getWaitForReading()        { return _waitForRead; };
+  void     setWaitForReading(bool b ) { _waitForRead = b; };
 
 
   // suppress error values of -999 => check return value of read() instead
-  bool     getSuppressError()            { return _suppressError; };
-  void     setSuppressError(bool b)      { _suppressError = b; };
+  bool     getSuppressError()         { return _suppressError; };
+  void     setSuppressError(bool b)   { _suppressError = b; };
 
   bool     wakeUp() { return isConnected(); };
 
@@ -95,9 +92,8 @@ private:
   uint32_t _lastRead      = 0;
   bool     _waitForRead   = false;
   bool     _suppressError = false;
-  uint16_t _readDelay     = 0;
 
-  uint8_t  _bits[5];  // buffer to receive data
+  uint8_t  _bits[8];    // buffer to hold raw data
   int      _read();
   int      _readSensor();
   uint16_t _crc16(uint8_t *ptr, uint8_t len);

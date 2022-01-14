@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -11,8 +11,25 @@
 #include "Arduino.h"
 #include "Wire.h"
 
+//  BREAKOUT  MS5611  aka  GY63 - see datasheet
+//
+//  SPI    I2C
+//              +--------+
+//  VCC    VCC  | o      |
+//  GND    GND  | o      |
+//         SCL  | o      |
+//  SDI    SDA  | o      |
+//  CSO         | o      |
+//  SDO         | o L    |   L = led
+//          PS  | o    O |   O = opening  PS
+//              +--------+
+//
+//  PS to VCC  ==>  I2C
+//  PS to GND  ==>  SPI
+//  CS to VCC  ==>  0x76
+//  CS to GND  ==>  0x77
 
-#define MS5611_LIB_VERSION                    (F("0.3.4"))
+#define MS5611_LIB_VERSION                    (F("0.3.5"))
 
 
 #define MS5611_READ_OK                        0

@@ -9,7 +9,7 @@
 #include "MS5611.h"
 
 
-MS5611 MS5611(0x77);   // 0x76 = CSB to VCC; 0x77 = CSB to GND
+MS5611 MS5611(0x76);   // 0x76 = CSB to VCC; 0x77 = CSB to GND
 
 
 uint32_t start, stop, count;
@@ -18,19 +18,23 @@ uint32_t start, stop, count;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print(__FILE__);
-  Serial.print("MS5611 lib version: ");
+  while(!Serial);
+
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
 
-  if (MS5611.begin())
+  if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");
   }
   else
   {
     Serial.println("MS5611 not found. halt.");
-    while(1);
+    while (1);
   }
+  Serial.println();
 
   count = 0;
 }

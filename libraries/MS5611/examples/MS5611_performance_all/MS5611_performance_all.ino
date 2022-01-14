@@ -16,19 +16,23 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print(__FILE__);
-  Serial.print("MS5611 lib version: ");
+  while(!Serial);
+
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
 
-  if (MS5611.begin())
+  if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");
   }
   else
   {
     Serial.println("MS5611 not found. halt.");
-    while(1);
+    while (1);
   }
+  Serial.println();
 
   Serial.println("OSR \t TIME");
 

@@ -2,11 +2,12 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
+//  0.3.5   2022-01-13  fix isConnected() for NANO 33 BLE
 //  0.3.4   2021-12-29  fix #16 compilation for MBED
 //  0.3.3   2021-12-25  Update oversampling timings to reduce time spent waiting
 //  0.3.2   2021-12-24  add get/set oversampling, read() (thanks to LyricPants66133)
@@ -18,7 +19,7 @@
 //
 //  0.2.2   2021-01-01  add Arduino-CI + unit tests + isConnected()
 //  0.2.1   2020-06-28  fix #1 min macro compile error
-//  0.2.0   2020-06-21  refactor; #pragma once; 
+//  0.2.0   2020-06-21  refactor; #pragma once;
 //
 //  0.1.8               fix #109 incorrect constants (thanks to flauth)
 //  0.1.7               revert double to float (issue 33)
@@ -104,6 +105,7 @@ bool MS5611::begin(TwoWire * wire)
 bool MS5611::isConnected()
 {
   _wire->beginTransmission(_address);
+  _wire->write(0);                        // needed for NANO 33 BLE
   return (_wire->endTransmission() == 0);
 }
 
@@ -147,7 +149,7 @@ int MS5611::read(uint8_t bits)
   if (_result) return _result;
   uint32_t _D2 = readADC();
   if (_result) return _result;
-  
+
   //  TEST VALUES - comment lines above
   // uint32_t D1 = 9085466;
   // uint32_t D2 = 8569150;

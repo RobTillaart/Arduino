@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -21,7 +21,7 @@
 //  SDI    SDA  | o      |
 //  CSO         | o      |
 //  SDO         | o L    |   L = led
-//          PS  | o    O |   O = opening  PS
+//          PS  | o    O |   O = opening  PS = protocol select
 //              +--------+
 //
 //  PS to VCC  ==>  I2C
@@ -29,7 +29,8 @@
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 
-#define MS5611_LIB_VERSION                    (F("0.3.5"))
+
+#define MS5611_LIB_VERSION                    (F("0.3.6"))
 
 
 #define MS5611_READ_OK                        0
@@ -39,11 +40,11 @@
 
 enum osr_t
 {
-    OSR_ULTRA_HIGH = 12, // 10 millis
-    OSR_HIGH       = 11, //  5 millis
-    OSR_STANDARD   = 10, //  3 millis
-    OSR_LOW        = 9,  //  2 millis
-    OSR_ULTRA_LOW  = 8   //  1 millis    Default = backwards compatible
+    OSR_ULTRA_HIGH = 12,        // 10 millis
+    OSR_HIGH       = 11,        //  5 millis
+    OSR_STANDARD   = 10,        //  3 millis
+    OSR_LOW        = 9,         //  2 millis
+    OSR_ULTRA_LOW  = 8          //  1 millis    Default = backwards compatible
 };
 
 
@@ -64,7 +65,8 @@ public:
   // the actual reading of the sensor;
   // returns MS5611_READ_OK upon success
   int      read(uint8_t bits);
-  inline int read() { return read( (uint8_t) _samplingRate); };  // uses the preset oversampling
+  // wrapper, uses the preset oversampling rate.
+  inline int read() { return read( (uint8_t) _samplingRate); };
 
   // sets oversampling to a value between 8 and 12
   void     setOversampling(osr_t samplingRate);
@@ -73,16 +75,28 @@ public:
   osr_t    getOversampling() const { return (osr_t) _samplingRate; };
 
   // temperature is in ²C
-  float    getTemperature() const  { return _temperature * 0.01; };
+  float    getTemperature() const;
 
   // pressure is in mBar
-  float    getPressure() const     { return _pressure * 0.01; };
+  float    getPressure() const;
+
+  //  OFFSET - 0.3.6
+  void     setPressureOffset(float offset = 0)    { _pressureOffset = offset; };
+  float    getPressureOffset()    { return _pressureOffset; };
+  void     setTemperatureOffset(float offset = 0) { _temperatureOffset = offset; };
+  float    getTemperatureOffset() { return _temperatureOffset; };
 
   // to check for failure
   int      getLastResult() const   { return _result; };
 
-  // last time in millis() that the sensor has been read.
-  uint32_t lastRead()              { return _lastRead; };
+  // last time in millis() when the sensor has been read.
+  uint32_t lastRead() const        { return _lastRead; };
+
+  // develop functions.
+  /*
+  void     setAddress(uint8_t address) { _address = address; };  // RANGE CHECK !!!
+  uint8_t  getAddress() const          { return _address; };
+  */
 
 
 private:
@@ -95,6 +109,8 @@ private:
   uint8_t  _samplingRate;
   int32_t  _temperature;
   int32_t  _pressure;
+  float    _pressureOffset;
+  float    _temperatureOffset;
   int      _result;
   float    C[7];
   uint32_t _lastRead;

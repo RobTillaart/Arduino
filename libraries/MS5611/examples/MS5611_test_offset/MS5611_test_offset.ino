@@ -1,8 +1,8 @@
 //
-//    FILE: MS5611_test.ino
+//    FILE: MS5611_test_offset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2014-okt-16
+//    DATE: 2022-01-15
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -60,6 +60,9 @@ void setup()
     }
   }
   Serial.println();
+
+  MS5611.setTemperatureOffset(273.15);  // set temp in Kelvin
+  MS5611.setPressureOffset(-1013);      // set pressure relative to 1 ATM
 }
 
 
@@ -119,11 +122,11 @@ void test()
   }
   else
   {
-    Serial.print("T:\t");
+    Serial.print("T: ");
     Serial.print(MS5611.getTemperature(), 2);
-    Serial.print("\tP:\t");
+    Serial.print("\tP: ");
     Serial.print(MS5611.getPressure(), 2);
-    Serial.print("\tt:\t");
+    Serial.print("\tt: ");
     Serial.print(stop - start);
     Serial.println();
   }
@@ -131,4 +134,3 @@ void test()
 
 
 // -- END OF FILE --
-

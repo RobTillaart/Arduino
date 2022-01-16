@@ -17,6 +17,11 @@ getPressure	KEYWORD2
 getLastResult	KEYWORD2
 lastRead	KEYWORD2
 
+setTemperatureOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
+setPressureOffset	KEYWORD2
+getPressureOffset	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

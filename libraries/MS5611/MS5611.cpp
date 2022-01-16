@@ -2,11 +2,13 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
+//  0.3.6   2022-01-15  add setOffset functions; minor refactor;
+//                      adjust convert timing to max - see issue #23
 //  0.3.5   2022-01-13  fix isConnected() for NANO 33 BLE
 //  0.3.4   2021-12-29  fix #16 compilation for MBED
 //  0.3.3   2021-12-25  Update oversampling timings to reduce time spent waiting
@@ -61,12 +63,14 @@
 //
 MS5611::MS5611(uint8_t deviceAddress)
 {
-  _address      = deviceAddress;
-  _samplingRate = OSR_ULTRA_LOW;
-  _temperature  = MS5611_NOT_READ;
-  _pressure     = MS5611_NOT_READ;
-  _result       = MS5611_NOT_READ;
-  _lastRead     = 0;
+  _address           = deviceAddress;
+  _samplingRate      = OSR_ULTRA_LOW;
+  _temperature       = MS5611_NOT_READ;
+  _pressure          = MS5611_NOT_READ;
+  _result            = MS5611_NOT_READ;
+  _lastRead          = 0;
+  _pressureOffset    = 0;
+  _temperatureOffset = 0;
 }
 
 
@@ -105,7 +109,10 @@ bool MS5611::begin(TwoWire * wire)
 bool MS5611::isConnected()
 {
   _wire->beginTransmission(_address);
-  _wire->write(0);                        // needed for NANO 33 BLE
+   #ifdef ARDUINO_ARCH_NRF52840
+   //  needed for NANO 33 BLE
+  _wire->write(0);
+   #endif
   return (_wire->endTransmission() == 0);
 }
 
@@ -113,7 +120,13 @@ bool MS5611::isConnected()
 void MS5611::reset()
 {
   command(MS5611_CMD_RESET);
-  delayMicroseconds(2800);
+  uint32_t start = micros();
+  // while loop prevents blocking RTOS
+  while (micros() - start < 2800)
+  {
+    yield();
+    delayMicroseconds(10);
+  }
   // constants that were multiplied in read()
   // do this once and you save CPU cycles
   C[0] = 1;
@@ -195,25 +208,51 @@ void MS5611::setOversampling(osr_t samplingRate)
   _samplingRate = (uint8_t) samplingRate;
 }
 
+
+float MS5611::getTemperature() const
+{
+  if (_temperatureOffset == 0) return _temperature * 0.01;
+  return _temperature * 0.01 + _temperatureOffset;
+};
+
+
+float MS5611::getPressure() const
+{
+  if (_pressureOffset == 0) return _pressure * 0.01;
+  return _pressure * 0.01 + _pressureOffset;
+};
+
+
 /////////////////////////////////////////////////////
 //
 // PRIVATE
 //
 void MS5611::convert(const uint8_t addr, uint8_t bits)
 {
-  //Values from page 2 datasheet
-  uint16_t del[5] = {500, 1100, 2100, 4100, 8220};
+  // values from page 3 datasheet - MAX column (rounded up)
+  uint16_t del[5] = {600, 1200, 2300, 4600, 9100};
 
-  bits = constrain(bits, 8, 12);
-  uint8_t offset = (bits - 8) * 2;
+  uint8_t index = bits;
+  if (index < 8) index = 8;
+  else if (index > 12) index = 12;
+  index -= 8;
+  uint8_t offset = index * 2;
   command(addr + offset);
-  delayMicroseconds(del[offset/2]);
+
+  uint16_t waitTime = del[index];
+  uint32_t start = micros();
+  // while loop prevents blocking RTOS
+  while (micros() - start < waitTime)
+  {
+    yield();
+    delayMicroseconds(10);
+  }
 }
 
 
 uint16_t MS5611::readProm(uint8_t reg)
 {
-  // last EEPROM register is CRC - Page13 datasheet.
+  // last EEPROM register is CRC - Page 13 datasheet.
   uint8_t promCRCRegister = 7;
   if (reg > promCRCRegister) return 0;
 
@@ -221,12 +260,13 @@ uint16_t MS5611::readProm(uint8_t reg)
   command(MS5611_CMD_READ_PROM + offset);
   if (_result == 0)
   {
-    int nr = _wire->requestFrom(_address, (uint8_t)2);
-    if (nr >= 2)
+    uint8_t length = 2;
+    int bytes = _wire->requestFrom(_address, length);
+    if (bytes >= length)
     {
-      uint16_t val = _wire->read() * 256;
-      val += _wire->read();
-      return val;
+      uint16_t value = _wire->read() * 256;
+      value += _wire->read();
+      return value;
     }
     return 0;
   }
@@ -239,13 +279,14 @@ uint32_t MS5611::readADC()
   command(MS5611_CMD_READ_ADC);
   if (_result == 0)
   {
-    int nr = _wire->requestFrom(_address, (uint8_t)3);
-    if (nr >= 3)
+    uint8_t length = 3;
+    int bytes = _wire->requestFrom(_address, length);
+    if (bytes >= length)
     {
-      uint32_t val = _wire->read() * 65536UL;
-      val += _wire->read() * 256UL;
-      val += _wire->read();
-      return val;
+      uint32_t value = _wire->read() * 65536UL;
+      value += _wire->read() * 256UL;
+      value += _wire->read();
+      return value;
     }
     return 0UL;
   }

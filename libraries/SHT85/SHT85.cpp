@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -17,9 +17,11 @@
 //                      update readme
 //  0.2.0   2021-08-24  split off base class
 //                      create derived classes SHT85, 30, 31, 35
+//
 //  0.3.0   2021-10-20  Fix #6 image in documentation, 
 //                      update build-CI
 //  0.3.1   2021-12-28  update library.json, readme, license, minor edits
+//  0.3.2   2022-01-17  fix #8 add SHT_DEFAULT_ADDRESS + 2x begin()
 
 
 #include "SHT85.h"
@@ -73,6 +75,12 @@ bool SHT::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cloc
   }
   return reset();
 }
+
+
+bool SHT::begin(const uint8_t dataPin, const uint8_t clockPin)
+{
+  return begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
+}
 #endif
 
 
@@ -86,6 +94,12 @@ bool SHT::begin(const uint8_t address,  TwoWire *wire)
   _wire    = wire;
   _wire->begin();
   return reset();
+}
+
+
+bool SHT::begin(TwoWire *wire)
+{
+  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 

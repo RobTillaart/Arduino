@@ -4,7 +4,7 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT85
 //
-// TOPVIEW
+// TOPVIEW SHT85  (check datasheet)
 //            +-------+
 // +-----\    | SDA 4 -----
 // | +-+  ----+ GND 3 -----

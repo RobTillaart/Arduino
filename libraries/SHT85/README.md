@@ -80,9 +80,13 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 - **SHT35()** constructor.
 - **SHT85()** constructor.
 - **uint8_t getType()** returns numeric part of sensor type.
-- **begin(address, dataPin, clockPin)** begin function for ESP8266 & ESP32; **WARNING: not verified yet**
+- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32; **WARNING: not verified yet**
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses.
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. 
+Uses SHT_DEFAULT_ADDRESS as address.
+- **bool begin(uint8_t address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses. Default Wire as I2C bus.
+- **bool begin(TwoWire \*wire = &Wire)** same as above.
+Uses SHT_DEFAULT_ADDRESS as address.
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
 - **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
@@ -185,17 +189,25 @@ See examples.
 
 ## Future
 
-- merge with other SHT sensors if possible
-- direct Fahrenheit formula ?                                DONE???
+#### should
+
+- testing
+  - verify working with ESP32
+  - software I2C experiments
 - improve error handling / status. (all code paths)
-- verify working with ESP32
+- add offsets for temperature and humidity.
+  - like other sensors
+
+#### could
+
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
-- software I2C experiments?
-- CREATE AN SHT85 simulator 
-  - I2C slave sketch with a DHT22 sensor?
-- CHECK OPEN ISSUE TO INCLUDE DEFAULT ADDRESS ?
-  - possible?
-- prioritize the ideas...
+- merge with other SHT sensors if possible
+
+#### won't
+
+- create a SHT85 simulator 
+  - I2C slave sketch with e.g. a DHT22 sensor/
+  - not within this library.
 
 

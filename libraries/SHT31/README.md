@@ -37,18 +37,21 @@ https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 #### Base interface
 
 - **SHT31()** constructor.
-- **bool begin(uint8_taddress, uint8_tdataPin, uint8_tclockPin)** begin function for ESP8266 & ESP32;
+- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(uint8_t address)** for single I2C bus platforms, e.g UNO.
-- **bool begin(uint8_t address,  TwoWire \*wire)** for platforms with multiple I2C buses.
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. With default SHT_DEFAULT_ADDRESS.
+- **bool begin(uint8_t address,  TwoWire \*wire = &Wire)** for platforms with multiple I2C buses.
+- **bool begin(TwoWire \*wire = &Wire)** same as above. 
+With default SHT_DEFAULT_ADDRESS.
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
 - **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
-- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
-- **float getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it.
-- **float getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it.
+- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if it fails.
+- **float getHumidity()** computes the relative humidity in % based on the latest raw reading, and returns it.
+- **float getTemperature()** computes the temperature in °C based on the latest raw reading, and returns it.
+- **float getFahrenheit()** computes the temperature in °F based on the latest raw reading, and returns it..
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
@@ -144,16 +147,6 @@ See examples.
 
 ## Future
 
-- merge with other SHT sensors if possible
-- direct Fahrenheit formula ?
-- improve error handling / status. (all code paths)
-- verify working with ESP32
-- investigate command ART (auto sampling at 4 Hz)
-- investigate command BREAK (stop auto sampling)
-- software I2C experiments?
-- separate releaseNotes.md
-
-
-#### Wont
+- keep in sync with SHT85 library
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -30,6 +30,7 @@
 //                      update readme
 //  0.3.4   2021-09-19  update build-CI
 //  0.3.5   2021-12-28  update library.json, readme, license, minor edits
+//  0.3.6   2022-01-18  sync with SHT85 lib
 
 
 #include "SHT31.h"
@@ -49,12 +50,13 @@
 #define SHT31_HEAT_OFF          0x3066
 #define SHT31_HEATER_TIMEOUT    180000UL  // milliseconds
 
+
 SHT31::SHT31()
 {
   _address        = 0;
   _lastRead       = 0;
-  rawTemperature  = 0;
-  rawHumidity     = 0;
+  _rawTemperature = 0;
+  _rawHumidity    = 0;
   _heatTimeout    = 0;
   _heaterStart    = 0;
   _heaterStop     = 0;
@@ -81,13 +83,13 @@ bool SHT31::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cl
   }
   return reset();
 }
-#endif
 
 
-bool SHT31::begin(const uint8_t address)
+bool SHT31::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
-  return begin(address, &Wire);
+  return begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
 }
+#endif
 
 
 bool SHT31::begin(const uint8_t address,  TwoWire *wire)
@@ -100,6 +102,12 @@ bool SHT31::begin(const uint8_t address,  TwoWire *wire)
   _wire    = wire;
   _wire->begin();
   return reset();
+}
+
+
+bool SHT31::begin(TwoWire *wire)
+{
+  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 
@@ -284,8 +292,8 @@ bool SHT31::readData(bool fast)
     }
   }
 
-  rawTemperature = (buffer[0] << 8) + buffer[1];
-  rawHumidity    = (buffer[3] << 8) + buffer[4];
+  _rawTemperature = (buffer[0] << 8) + buffer[1];
+  _rawHumidity    = (buffer[3] << 8) + buffer[4];
 
   _lastRead = millis();
 

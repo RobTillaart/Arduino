@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -24,6 +24,8 @@
 //  0.3.3   2021-10-17  update build-CI (esp32), readme.md, keywords.txt
 //  0.3.4   2021-12-11  update library.json, license, minor edits incl layout)
 //                      add unit test constants.
+//  0.3.5   2022-01-21  fix #36 support for Nano Every
+
 
 
 #include "ADS1X15.h"
@@ -380,11 +382,17 @@ void ADS1X15::setWireClock(uint32_t clockSpeed)
 }
 
 
+//////////////////////////////////////////////////////
+//
+// EXPERIMENTAL
+//
+// see https://github.com/RobTillaart/ADS1X15/issues/22
+//     https://github.com/arduino/Arduino/issues/11457
 // TODO: get the real clock speed from the I2C interface if possible.
-// ESP ==> ??
 uint32_t ADS1X15::getWireClock()
 {
-#if defined(__AVR__)
+// UNO 328 and
+#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
   uint32_t speed = F_CPU / ((TWBR * 2) + 16);
   return speed;
 
@@ -396,7 +404,7 @@ uint32_t ADS1X15::getWireClock()
 // not supported.
 // return -1;
 
-#else  // best effort ...
+#else  // best effort is remembering it
   return _clockSpeed;
 #endif
 }
@@ -456,7 +464,7 @@ uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
   _wire->write(reg);
   _wire->endTransmission();
 
-  int rv = _wire->requestFrom(address, (uint8_t) 2);
+  int rv = _wire->requestFrom((int) address, (int) 2);
   if (rv == 2)
   {
     uint16_t value = _wire->read() << 8;

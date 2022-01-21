@@ -56,8 +56,18 @@ and optional the Wire interface as parameter.
 - **ADS1115(address, TwoWire \*wire = &Wire)** Constructor with device address, 
 and optional the Wire interface as parameter.
 
-The function **void setWireClock(uint32_t speed)** is used to set the clock speed 
-of the used I2C interface. 
+
+After construction the **ADS.begin()** need to be called. This will return false 
+if an invalid address is used.
+The function **bool isConnected()** can be used to verify the reading of the ADS.
+The function **void reset()** is sets the parameters to their initial value as 
+in the constructor.
+
+
+#### I2C clock speed
+
+The function **void setWireClock(uint32_t speed = 100000)** is used to set the clock speed 
+in Hz of the used I2C interface. typical value is 100 KHz.
 
 The function **uint32_t getWireClock()** is a prototype. 
 It returns the value set by setWireClock().
@@ -66,11 +76,9 @@ When no value is set **getWireClock()** returns 0.
 Need to implement a read / calculate from low level I2C code (e.g. TWBR on AVR),
 better the Arduino Wire lib should support this call (ESP32 does).
 
-After construction the **ADS.begin()** need to be called. This will return false 
-if an invalid address is used.
-The function **bool isConnected()** can be used to verify the reading of the ADS.
-The function **void reset()** is sets the parameters to their initial value as 
-in the constructor.
+See - https://github.com/arduino/Arduino/issues/11457
+
+Question: should this functionality be in this library?
 
 
 #### Programmable Gain
@@ -319,6 +327,7 @@ mean something different see - Comparator Mode above or datasheet.
 - Improve documentation
 - More examples ?
 - SMB alert command (00011001) on I2C bus?
+
 
 
 ## Operation

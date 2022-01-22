@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
 //    DATE: 2021-08-12
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -119,6 +119,28 @@ uint8_t AGS02MA::getSensorVersion()
 }
 
 
+uint32_t AGS02MA::getSensorDate()
+{
+  uint32_t date = 0xFFFFFFFF;
+  if (_readRegister(AGS02MA_VERSION))
+  {
+    date = 0x20;
+    date <<= 8;
+    date += _bin2bcd(_buffer[0]);
+    date <<= 8;
+    date += _bin2bcd(_buffer[1]);
+    date <<= 8;
+    date += _bin2bcd(_buffer[2]);
+    // version = _buffer[3];
+    if (_CRC8(_buffer, 5) != 0)
+    {
+      _error = AGS02MA_ERROR_CRC;
+    }
+  }
+  return date;
+}
+
+
 bool AGS02MA::setPPBMode()
 {
   _buffer[0] = 0x00;
@@ -209,20 +231,24 @@ int AGS02MA::lastError()
 uint32_t AGS02MA::_readSensor()
 {
   _error = AGS02MA_ERROR_READ;
-  uint32_t val = 0;
+  uint32_t value = 0;
   if (_readRegister(AGS02MA_DATA))
   {
     _error = AGS02MA_OK;
     _status = _buffer[0];
-    val =  _buffer[1] * 65536UL;
-    val += _buffer[2] * 256;
-    val += _buffer[3];
+    if (_status & 0x01)
+    {
+      _error = AGS02MA_ERROR_NOT_READY;
+    }
+    value =  _buffer[1] * 65536UL;
+    value += _buffer[2] * 256;
+    value += _buffer[3];
     if (_CRC8(_buffer, 5) != 0)
     {
       _error = AGS02MA_ERROR_CRC;
     }
   }
-  return val;
+  return value;
 }
  
 
@@ -289,6 +315,12 @@ uint8_t AGS02MA::_CRC8(uint8_t * buf, uint8_t size)
     }
   }
   return crc;
+}
+
+
+uint8_t AGS02MA::_bin2bcd (uint8_t value)
+{
+  return value + 6 * (value / 10);
 }
 
 

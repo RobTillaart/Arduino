@@ -58,9 +58,18 @@ If function succeeds the address changes immediately and will be persistent over
 - **uint8_t getAddress()** returns the set address. Default the function will return 26 or 0x1A.
 - **uint8_t getSensorVersion()** reads sensor version from device.  
 If the version cannot be read the function will return 255.  
-(My test sensors all return version 117)
+(My test sensors all return version 117, version 118 is reported)
+- **uint32_t getSensorDate()** (experimental) reads bytes from the sensor that seem to indicate the production date(?). This date is encoded in an uint32_t to minimize footprint as it is a debug function. 
 
-The library sets the clock speed to 30 KHz (for non AVR) during operation 
+```cpp
+uint32_t dd = sensor.getSensorDate();
+Serial.println(dd, HEX);   //  prints YYYYMMDD e.g. 20210203  
+```
+
+
+### I2C clock speed
+
+The library sets the clock speed to 30 KHz during operation 
 and resets it to 100 KHz after operation.
 This is done to minimize interference with the communication of other devices.
 The following function can change the I2C reset speed to e.g. 200 or 400 KHz.
@@ -123,9 +132,18 @@ Typical values depend on the molecular weight of the TVOC.
 Returns **lastUGM3()** if failed so one does not get sudden jumps in graphs.
 - **float readPPM()** returns parts per million (PPM). 
 This function is a wrapper around readPPB().
-Typical value should be between 1.00 .. 999.99 
+Typical value should be between 0.01 .. 999.99 
 - **float readMGM3()** returns milligram per cubic meter.
 - **float readUGF3()** returns microgram per cubic feet.
+
+
+| ERROR_CODES                | value |
+|:---------------------------|:-----:|
+| AGS02MA_OK                 |    0  |
+| AGS02MA_ERROR              |  -10  |
+| AGS02MA_ERROR_CRC          |  -11  |
+| AGS02MA_ERROR_READ         |  -12  |
+| AGS02MA_ERROR_NOT_READY    |  -13  |
 
 
 #### Cached values
@@ -141,17 +159,17 @@ Typical value should be between 1.00 .. 999.99
 See example sketch.
 - **int lastError()** returns last error.
 - **uint8_t lastStatus()** returns status byte from last read.
-Read datasheet or table below for details. 
+Read datasheet or table below for details. A new read is needed to update this.
 - **uint8_t dataReady()** returns RDY bit from last read.
 
 
 #### Status bits.
 
-| bit  | description                       |
-|:----:|:----------------------------------|
+| bit  | description                       | notes |
+|:----:|:----------------------------------|:------|
 | 7-4  | internal use                      |
 | 3-1  | 000 = PPB  001 = uG/M3            |
-|  0   | RDY bit  0 = ready  1 = not ready |
+|  0   | RDY bit  0 = ready  1 = not ready | 1 == busy 
 
 
 ## Future

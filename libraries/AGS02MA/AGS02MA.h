@@ -3,7 +3,7 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
 //    DATE: 2021-08-12
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,12 +13,13 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.1.3"))
+#define AGS02MA_LIB_VERSION         (F("0.1.4"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
 #define AGS02MA_ERROR_CRC           -11
 #define AGS02MA_ERROR_READ          -12
+#define AGS02MA_ERROR_NOT_READY     -13
 
 
 #define AGS02MA_I2C_CLOCK           30000
@@ -44,6 +45,7 @@ public:
   bool     setAddress(const uint8_t deviceAddress);
   uint8_t  getAddress() { return _address; };
   uint8_t  getSensorVersion();
+  uint32_t getSensorDate();
 
   // to set the speed the I2C bus should return to
   // as the device operates at very low bus speed of 30 kHz.
@@ -98,6 +100,7 @@ private:
   uint8_t  _buffer[5];
 
   uint8_t  _CRC8(uint8_t * buf, uint8_t size);
+  uint8_t  _bin2bcd(uint8_t val);
 
   int      _error = AGS02MA_OK;
 

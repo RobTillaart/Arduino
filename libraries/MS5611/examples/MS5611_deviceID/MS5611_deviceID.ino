@@ -1,8 +1,8 @@
 //
-//    FILE: MS5611_performance.ino
+//    FILE: MS5611_deviceID.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2020-06-21
+//    DATE: 2022-01-22
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -29,62 +29,43 @@
 MS5611 MS5611(0x77);
 
 
-uint32_t start, stop, count;
+uint32_t start, stop;
 
 
 void setup()
 {
   Serial.begin(115200);
-  while(!Serial);
+  while (!Serial);
+
+  pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
 
-
-
   if (MS5611.begin() == true)
   {
-    Serial.println("MS5611 found.");
+    Serial.print("MS5611 found: ");
+    Serial.println(MS5611.getDeviceID(), HEX);
   }
   else
   {
     Serial.println("MS5611 not found. halt.");
-    while (1);
+    while (1)
+    {
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay(1000);
+      digitalWrite(LED_BUILTIN, LOW);
+      delay(1000);
+    }
   }
-  Serial.println();
-
-  // Wire.setClock(100000);
-  count = 0;
+  Serial.println("done");
 }
 
 
 void loop()
 {
-  delay(1000);
-
-  start = micros();
-  int result = MS5611.read();   // uses default OSR_ULTRA_LOW  (fastest)
-  stop = micros();
-
-  if (count % 20 == 0)
-  {
-    Serial.println();
-    Serial.println("CNT\tDUR\tRES\tTEMP\tPRES");
-  }
-
-  Serial.print(count);
-  count++;
-  Serial.print("\t");
-  Serial.print(stop - start);
-  Serial.print("\t");
-  Serial.print(result);
-  Serial.print("\t");
-  Serial.print(MS5611.getTemperature(), 2);
-  Serial.print("\t");
-  Serial.print(MS5611.getPressure(), 2);
-  Serial.println();
 }
 
 

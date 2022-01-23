@@ -18,10 +18,10 @@
 //  SDI    SDA  | o      |
 //  CSO         | o      |
 //  SDO         | o L    |   L = led
-//          PS  | o    O |   O = opening  PS
+//          PS  | o    O |   O = opening  PS = protocol select
 //              +--------+
 //
-//  PS to VCC  ==>  I2C
+//  PS to VCC  ==>  I2C  (GY-63 board has internal pull up, so not needed)
 //  PS to GND  ==>  SPI
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77

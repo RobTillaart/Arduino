@@ -18,7 +18,10 @@ The high resolution is made possible by oversampling many times.
 
 The device address is 0x76 or 0x77 depending on the CSB/CSO pin.
 
-This library only implements the I2C interface. 
+This library only implements the I2C interface.
+
+An experimental SPI version of the library can be found here 
+- https://github.com/RobTillaart/MS5611_SPI
 
 
 #### breakout
@@ -38,7 +41,7 @@ This library only implements the I2C interface.
 //          PS  | o    O |   O = opening  PS = protocol select
 //              +--------+
 //
-//  PS to VCC  ==>  I2C
+//  PS to VCC  ==>  I2C  (GY-63 board has internal pull up, so not needed)
 //  PS to GND  ==>  SPI
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
@@ -77,11 +80,20 @@ The **write(0)** in **isConnected()** is made conditional explicit for the NANO 
 The timing for convert is adjusted from TYPICAL to MAX - datasheet page 3.
 
 
+#### 0.3.7
+
+- default address for constructor, can be set as define on the command line.
+MS5611_DEFAULT_ADDRESS
+- added getDeviceID(), to provide a sort of unique device ID (experimental) based 
+upon uniqueness of the factory calibration values.
+
+
 ## Interface
 
 #### Base
 
-- **MS5611(uint8_t deviceAddress)** constructor.
+- **MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS)** constructor.
+Since 0.3.7 a default address 0x77 is added.
 - **bool begin(uint8_t sda, uint8_t scl, TwoWire \*wire = &Wire)** for ESP and alike, optionally set Wire interface. initializes internals, 
 - **bool begin(TwoWire \*wire = &Wire)** for UNO and alike, optionally set Wire interface. Initializes internals.
 - **bool isConnected()** checks availability of device address on the I2C bus.
@@ -137,6 +149,16 @@ Default the offset is set to 0.
 
 - **int getLastResult()** checks last I2C communication. Replace with more informative error handling?
 - **uint32_t lastRead()** last time when **read()** was called in milliseconds since startup.
+- **uint32_t getDeviceID()** returns the hashed values of the calibration PROM. 
+As these calibration are set in the factory and differ (enough) per sensor these can serve as an unique deviceID.
+
+Having a device-ID can be used in many ways:
+- use known offsets for each sensor automatically, 
+- work as an identification of that specific copy of the project (customer specific tracking).
+- ID in a mesh network
+- etc.
+
+Note: this is not an official ID from the device / datasheet, it is made up from calibration data.
 
 
 ## Operation
@@ -148,9 +170,7 @@ See examples
 
 - update documentation
   - separate release notes?
-- create a SPI based library (same base class if possible?)
-  - first get this lib working 100%
 - proper error handling
 - redo lower level functions?
 - handle the read + math of temperature first? 
--
+- flag to enable / disable the compensation part?

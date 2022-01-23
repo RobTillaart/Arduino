@@ -9,7 +9,9 @@ MS5611	KEYWORD1
 begin	KEYWORD2
 isConnected	KEYWORD2
 
+reset	KEYWORD2
 read	KEYWORD2
+
 setOversampling	KEYWORD2
 getOversampling	KEYWORD2
 getTemperature	KEYWORD2
@@ -21,6 +23,8 @@ setTemperatureOffset	KEYWORD2
 getTemperatureOffset	KEYWORD2
 setPressureOffset	KEYWORD2
 getPressureOffset	KEYWORD2
+
+getDeviceID	KEYWORD2
 
 
 # Instances (KEYWORD2)

@@ -2,11 +2,13 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
+//  0.3.7   2022-01-22  fix #26 added getPromHash()
+//                      fix #24 default all examples address 0x77
 //  0.3.6   2022-01-15  add setOffset functions; minor refactor;
 //                      adjust convert timing to max - see issue #23
 //  0.3.5   2022-01-13  fix isConnected() for NANO 33 BLE
@@ -69,6 +71,7 @@ MS5611::MS5611(uint8_t deviceAddress)
   _pressure          = MS5611_NOT_READ;
   _result            = MS5611_NOT_READ;
   _lastRead          = 0;
+  _deviceID          = 0;
   _pressureOffset    = 0;
   _temperatureOffset = 0;
 }
@@ -130,11 +133,11 @@ void MS5611::reset()
   // constants that were multiplied in read()
   // do this once and you save CPU cycles
   C[0] = 1;
-  C[1] = 32768L;          // SENSt1 = C[1] * 2^15
-  C[2] = 65536L;          // OFFt1 = C[2] * 2^16
-  C[3] = 3.90625E-3;      // TCS = C[3] / 2^6
-  C[4] = 7.8125E-3;       // TCO = C[4] / 2^7
-  C[5] = 256;             // Tref = C[5] * 2^8
+  C[1] = 32768L;          // SENSt1   = C[1] * 2^15
+  C[2] = 65536L;          // OFFt1    = C[2] * 2^16
+  C[3] = 3.90625E-3;      // TCS      = C[3] / 2^6
+  C[4] = 7.8125E-3;       // TCO      = C[4] / 2^7
+  C[5] = 256;             // Tref     = C[5] * 2^8
   C[6] = 1.1920928955E-7; // TEMPSENS = C[6] / 2^23
   // read factory calibrations from EEPROM.
   for (uint8_t reg = 0; reg < 7; reg++)
@@ -142,7 +145,12 @@ void MS5611::reset()
     // used indices match datasheet.
     // C[0] == manufacturer - read but not used;
     // C[7] == CRC - skipped.
-    C[reg] *= readProm(reg);
+    uint16_t tmp = readProm(reg);
+    C[reg] *= tmp;
+    // _deviceID is a simple SHIFT XOR merge of PROM data
+    _deviceID <<= 4;
+    _deviceID ^= tmp;
+    // Serial.println(readProm(reg));
   }
 }
 

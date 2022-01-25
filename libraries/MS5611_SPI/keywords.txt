@@ -1,0 +1,38 @@
+# Syntax Colouring Map For MS5611
+
+
+# Data types (KEYWORD1)
+MS5611	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+reset	KEYWORD2
+read	KEYWORD2
+
+setOversampling	KEYWORD2
+getOversampling	KEYWORD2
+getTemperature	KEYWORD2
+getPressure	KEYWORD2
+getLastResult	KEYWORD2
+lastRead	KEYWORD2
+
+setTemperatureOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
+setPressureOffset	KEYWORD2
+getPressureOffset	KEYWORD2
+
+getDeviceID	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+MS5611_LIB_VERSION	LITERAL1
+
+MS5611_READ_OK	LITERAL1
+MS5611_ERROR_2	LITERAL1
+MS5611_NOT_READ	LITERAL1
+

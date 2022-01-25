@@ -1,0 +1,23 @@
+{
+  "name": "MS5611_SPI",
+  "keywords": "MS5611,GY-63,GY63,temperature,pressure",
+  "description": "Arduino library (SPI) for MS5611 temperature and pressure sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MS5611_SPI.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MS5611_SPI.h"
+}

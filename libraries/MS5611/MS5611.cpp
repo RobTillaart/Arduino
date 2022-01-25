@@ -2,11 +2,13 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: MS5611 Temperature & Humidity library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY:
+//  0.3.8   2022-01-24  reset() returns bool 
+//                      get/setCompensation()
 //  0.3.7   2022-01-22  fix #26 added getPromHash()
 //                      fix #24 default all examples address 0x77
 //  0.3.6   2022-01-15  add setOffset functions; minor refactor;
@@ -74,6 +76,7 @@ MS5611::MS5611(uint8_t deviceAddress)
   _deviceID          = 0;
   _pressureOffset    = 0;
   _temperatureOffset = 0;
+  _compensation      = true;
 }
 
 
@@ -91,8 +94,7 @@ bool MS5611::begin(uint8_t dataPin, uint8_t clockPin, TwoWire * wire)
   }
   if (! isConnected()) return false;
 
-  reset();
-  return true;
+  return reset();
 }
 #endif
 
@@ -104,8 +106,7 @@ bool MS5611::begin(TwoWire * wire)
   _wire->begin();
   if (! isConnected()) return false;
 
-  reset();
-  return true;
+  return reset();
 }
 
 
@@ -120,7 +121,7 @@ bool MS5611::isConnected()
 }
 
 
-void MS5611::reset()
+bool MS5611::reset()
 {
   command(MS5611_CMD_RESET);
   uint32_t start = micros();
@@ -140,6 +141,7 @@ void MS5611::reset()
   C[5] = 256;             // Tref     = C[5] * 2^8
   C[6] = 1.1920928955E-7; // TEMPSENS = C[6] / 2^23
   // read factory calibrations from EEPROM.
+  bool ROM_OK = true;
   for (uint8_t reg = 0; reg < 7; reg++)
   {
     // used indices match datasheet.
@@ -151,7 +153,12 @@ void MS5611::reset()
     _deviceID <<= 4;
     _deviceID ^= tmp;
     // Serial.println(readProm(reg));
+    if (reg > 0)
+    {
+      ROM_OK = ROM_OK && (tmp != 0);
+    }
   }
+  return ROM_OK;
 }
 
 
@@ -171,9 +178,12 @@ int MS5611::read(uint8_t bits)
   uint32_t _D2 = readADC();
   if (_result) return _result;
 
+  // Serial.println(_D1);
+  // Serial.println(_D2);
+
   //  TEST VALUES - comment lines above
-  // uint32_t D1 = 9085466;
-  // uint32_t D2 = 8569150;
+  // uint32_t _D1 = 9085466;
+  // uint32_t _D2 = 8569150;
 
   // TEMP & PRESS MATH - PAGE 7/20
   float dT = _D2 - C[5];
@@ -182,27 +192,30 @@ int MS5611::read(uint8_t bits)
   float offset =  C[2] + dT * C[4];
   float sens = C[1] + dT * C[3];
 
-  // SECOND ORDER COMPENSATION - PAGE 8/20
-  // COMMENT OUT < 2000 CORRECTION IF NOT NEEDED
-  // NOTE TEMPERATURE IS IN 0.01 C
-  if (_temperature < 2000)
+  if (_compensation)
   {
-    float T2 = dT * dT * 4.6566128731E-10;
-    float t = (_temperature - 2000) * (_temperature - 2000);
-    float offset2 = 2.5 * t;
-    float sens2 = 1.25 * t;
-    // COMMENT OUT < -1500 CORRECTION IF NOT NEEDED
-    if (_temperature < -1500)
+    // SECOND ORDER COMPENSATION - PAGE 8/20
+    // COMMENT OUT < 2000 CORRECTION IF NOT NEEDED
+    // NOTE TEMPERATURE IS IN 0.01 C
+    if (_temperature < 2000)
     {
-      t = (_temperature + 1500) * (_temperature + 1500);
-      offset2 += 7 * t;
-      sens2 += 5.5 * t;
+      float T2 = dT * dT * 4.6566128731E-10;
+      float t = (_temperature - 2000) * (_temperature - 2000);
+      float offset2 = 2.5 * t;
+      float sens2 = 1.25 * t;
+      // COMMENT OUT < -1500 CORRECTION IF NOT NEEDED
+      if (_temperature < -1500)
+      {
+        t = (_temperature + 1500) * (_temperature + 1500);
+        offset2 += 7 * t;
+        sens2 += 5.5 * t;
+      }
+      _temperature -= T2;
+      offset -= offset2;
+      sens -= sens2;
     }
-    _temperature -= T2;
-    offset -= offset2;
-    sens -= sens2;
+    // END SECOND ORDER COMPENSATION
   }
-  // END SECOND ORDER COMPENSATION
 
   _pressure = (_D1 * sens * 4.76837158205E-7 - offset) * 3.051757813E-5;
 

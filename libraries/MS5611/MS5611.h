@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -30,7 +30,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.3.7"))
+#define MS5611_LIB_VERSION                    (F("0.3.8"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77
@@ -63,7 +63,8 @@ public:
   bool     isConnected();
 
   // reset command + get constants
-  void     reset();
+  // returns false if ROM constants == 0;
+  bool     reset();
 
   // the actual reading of the sensor;
   // returns MS5611_READ_OK upon success
@@ -97,6 +98,9 @@ public:
 
   uint32_t getDeviceID() const     { return _deviceID; };
 
+  void     setCompensation(bool flag = true) { _compensation = flag; };
+  bool     getCompensation() { return _compensation; };
+
   // develop functions.
   /*
   void     setAddress(uint8_t address) { _address = address; };  // RANGE CHECK + isConnected() !
@@ -121,6 +125,7 @@ private:
   float    C[7];
   uint32_t _lastRead;
   uint32_t _deviceID;
+  bool     _compensation;
 
   TwoWire * _wire;
 };

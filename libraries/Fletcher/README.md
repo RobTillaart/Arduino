@@ -31,11 +31,11 @@ Tested on Arduino UNO only.
 The functions are straightforward, however one should define **length**
 in terms of the data type and optional pad it with zeros.
 
-A string "abcdef" has length 2 for **fletcher64()**.
+A string "abcdef" has length 2 for **fletcher64()** as it needs 2x4 bytes.
 
-- **uint16_t fletcher16(uint8_t \*data, uint16_t length)** idem.
-- **uint32_t fletcher32(uint16_t \*data, uint16_t length)** idem.
-- **uint64_t fletcher64(uint32_t \*data, uint16_t length)** idem.
+- **uint16_t fletcher16(uint8_t \*data, uint16_t length)** length in units of 1 byte = 8 bits.
+- **uint32_t fletcher32(uint16_t \*data, uint16_t length)** length in units of 2 bytes = 16 bits.
+- **uint64_t fletcher64(uint32_t \*data, uint16_t length)** length in units of 4 bytes = 32 bits.
 
 TODO - class version.
 
@@ -52,7 +52,6 @@ See examples.
 - Class versions
   - incremental calculate e.g. for a stream.
   - similar to CRC classes
-- look for optimizations 
 - Fletcher24 ? and others?
 - generic FletcherN(). for N = 1..32
 

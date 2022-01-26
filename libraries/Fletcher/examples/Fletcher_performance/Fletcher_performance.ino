@@ -5,6 +5,7 @@
 
 #include "Arduino.h"
 #include "Fletcher.h"
+#include "printHelpers.h"
 
 
 char str[] = "Lorem ipsum dolor sit amet, \
@@ -49,25 +50,28 @@ void setup()
   volatile uint16_t x = fletcher16((uint8_t *) str, len);
   stop = micros();
   Serial.print("FLETCHER16: ");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(x);
   delay(100);
 
   start = micros();
   volatile uint32_t y = fletcher32((uint16_t *) str, (len + 1) / 2);
   stop = micros();
   Serial.print("FLETCHER32: ");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(y);
   delay(100);
 
   start = micros();
   volatile uint64_t z = fletcher64((uint32_t *) str, (len + 3) / 4);
   stop = micros();
   Serial.print("FLETCHER64: ");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(print64(z));
   delay(100);
-
-  // keep compiler happy.
-  Serial.println((uint32_t) z * y * x, HEX);
 }
 
 

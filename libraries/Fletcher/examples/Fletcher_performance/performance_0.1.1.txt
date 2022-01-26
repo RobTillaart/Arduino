@@ -1,0 +1,14 @@
+
+Tested on Arduino UNO
+IDE 1.18.19
+
+FLETCHER_LIB_VERSION: 0.1.1
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ae...
+LENGTH STR: 868
+FLETCHER16: 1120	53705
+FLETCHER32: 728	1196447857
+FLETCHER64: 1952	10053561395214921491
+
+
+
+

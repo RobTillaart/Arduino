@@ -2,8 +2,8 @@
 //
 //    FILE: CRC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
-// PURPOSE: Arduino library fir CRC8, CRC16, CRC16-CCITT, CRC32
+// VERSION: 0.1.6
+// PURPOSE: Arduino library fir CRC8, CRC12, CRC16, CRC16-CCITT, CRC32
 //     URL: https://github.com/RobTillaart/CRC
 //
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CRC_LIB_VERSION       (F("0.1.4"))
+#define CRC_LIB_VERSION       (F("0.1.6"))
 
 
 ////////////////////////////////////////////////////////////////
@@ -37,6 +37,12 @@ uint16_t reverse16(uint16_t in)
   x = (((x & 0xF0F0) >> 4) | ((x & 0X0F0F) << 4));
   x = (( x >> 8) | (x << 8));
   return x;
+}
+
+
+uint16_t reverse12(uint16_t in)
+{
+  return reverse16(in) >> 4;
 }
 
 
@@ -91,6 +97,36 @@ uint8_t crc8(const uint8_t *array, uint8_t length, const uint8_t polynome = 0xD5
   }
   crc ^= endmask;
   if (reverseOut) crc = reverse8(crc);
+  return crc;
+}
+
+
+// CRC POLYNOME = x12 + x3 + x2 + 1 =  0000 1000 0000 1101 = 0x80D
+uint16_t crc12(const uint8_t *array, uint8_t length, const uint16_t polynome = 0x80D, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
+{
+  uint16_t crc = startmask;
+  while (length--) 
+  {
+    uint8_t data = *array++;
+    if (reverseIn) data = reverse8(data);
+
+    crc ^= ((uint16_t)data) << 4;
+    for (uint8_t i = 8; i; i--) 
+    {
+      if (crc & (1 << 11) )
+      {
+        crc <<= 1;
+        crc ^= polynome;
+      }
+      else
+      {
+        crc <<= 1;
+      }
+    }
+  }
+
+  if (reverseOut) crc = reverse12(crc);
+  crc ^= endmask;
   return crc;
 }
 

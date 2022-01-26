@@ -8,7 +8,7 @@
 
 # CRC
 
-Arduino library with CRC8, CRC16, CRC32 and CRC64 functions.
+Arduino library with CRC8, CRC12, CRC16, CRC32 and CRC64 functions.
 
 
 ## Description
@@ -39,7 +39,7 @@ and many other websites.
 
 ## Interface CRC classes
 
-These interfaces are very similar for CRC8, CRC16, CRC32 and CRC64 class.
+These interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The only difference is the data type for polynome, start- and end-mask, 
 and the returned CRC.
 
@@ -92,6 +92,7 @@ In all the examples encountered the reverse flags were set both to false or both
 For flexibility both parameters are kept available. 
 
 - **uint8_t crc8(array, length, polynome = 0xD5, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
+- **uint16_t crc12(array, length, polynome = 0x080D, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint16_t crc16(array, length, polynome = 0xA001, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint16_t crc16-CCITT(array, length)** fixed polynome **0x1021**, non zero start / end masks.
 - **uint32_t crc32(array, length, polynome = 0x04C11DB7, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
@@ -109,6 +110,7 @@ See examples.
 
 - https://en.wikipedia.org/wiki/Cyclic_redundancy_check - generic background.
 - https://crccalc.com/ - online CRC calculator to verify.
+- http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64)
 
 
 ## Future
@@ -119,7 +121,9 @@ See examples.
 - stream version - 4 classes class?
 - setCRC(value) to be able to pick up where one left ?
 - getters, getPolynome() etc?
-- 
+- add(array, length) calls yield per byte that is quite a lot.
+  - ignore flag
+  - timing once per millisecond?
 
 
 #### Exotic CRC's ?

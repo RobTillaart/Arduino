@@ -8,7 +8,7 @@
 
 #include "Arduino.h"
 
-#define CRC64_DEFAULT_POLYNOME      0x814141AB  // TODO
+#define CRC64_DEFAULT_POLYNOME      0x814141AB
 
 
 class CRC64

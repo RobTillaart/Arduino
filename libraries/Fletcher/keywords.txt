@@ -1,0 +1,14 @@
+# Syntax Colouring Map For FLETCHER
+
+# Data types (KEYWORD1)
+Fletcher	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+fletcher16	KEYWORD2
+fletcher32	KEYWORD2
+fletcher64	KEYWORD2
+
+
+# Constants (LITERAL1)
+FLETCHER_LIB_VERSION	LITERAL1
+

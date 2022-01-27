@@ -1,0 +1,12 @@
+
+Tested on Arduino UNO
+IDE 1.18.19
+
+Adler32_performance
+ADLER_LIB_VERSION: 0.1.0
+randomtime: 901460
+     total: 956780
+ 1e4 x add: 55320
+  checksum: 1607808947
+
+

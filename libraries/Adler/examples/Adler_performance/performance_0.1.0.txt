@@ -1,0 +1,10 @@
+
+Tested on Arduino UNO
+IDE 1.18.19
+
+ADLER_LIB_VERSION: 0.1.0
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ae...
+LENGTH STR: 868
+ADLER-32: 1116	15516
+
+

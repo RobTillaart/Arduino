@@ -1,0 +1,23 @@
+{
+  "name": "Adler",
+  "keywords": "Adler, checksum",
+  "description": "Arduino Library for calculating Adler-32 checksum.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Adler.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "Adler.h"
+}

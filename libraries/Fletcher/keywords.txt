@@ -1,7 +1,10 @@
 # Syntax Colouring Map For FLETCHER
 
 # Data types (KEYWORD1)
-Fletcher	KEYWORD1
+Fletcher16	KEYWORD1
+Fletcher32	KEYWORD1
+Fletcher64	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 fletcher16	KEYWORD2

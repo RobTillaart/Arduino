@@ -51,6 +51,25 @@ unittest_teardown()
 }
 
 
+unittest(test_crc8_getters)
+{
+  fprintf(stderr, "TEST CRC8 GETTERS\n");
+
+  CRC8 crc;
+  crc.setPolynome(0x07);
+  crc.setStartXOR(0x55);
+  crc.setEndXOR(0xAA);
+  crc.setReverseIn(false);
+  crc.setReverseOut(true);
+  
+  assertEqual(0x07, crc.getPolynome());
+  assertEqual(0x55, crc.getStartXOR());
+  assertEqual(0xAA, crc.getEndXOR());
+  assertFalse(crc.getReverseIn());
+  assertTrue(crc.getReverseOut());
+}
+
+
 unittest(test_crc8)
 {
   fprintf(stderr, "TEST CRC8\n");

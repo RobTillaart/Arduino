@@ -20,7 +20,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // Serial.println("Verified with - https://crccalc.com/\n");
+  // Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
 
   test();
 }

@@ -24,6 +24,12 @@ setEndXOR	KEYWORD2
 setReverseIn	KEYWORD2
 setReverseOut	KEYWORD2
 
+getPolynome	KEYWORD2
+getStartXOR	KEYWORD2
+getEndXOR	KEYWORD2
+getReverseIn	KEYWORD2
+getReverseOut	KEYWORD2
+
 add	KEYWORD2
 getCRC	KEYWORD2
 count	KEYWORD2

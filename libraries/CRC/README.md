@@ -43,23 +43,35 @@ These interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The only difference is the data type for polynome, start- and end-mask, 
 and the returned CRC.
 
+#### base
+
 Use **\#include "CRC8.h"**
 
 - **CRC8()** Constructor
 - **void reset()** set all internals to constructor defaults.
 - **void restart()** reset internal CRC and count only;  reuse values for other 
 e.g polynome, XOR masks and reverse flags.
-- **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
-- **void setStartXOR(start)** set start-mask, default 0.
-- **void setEndXOR(end)** set end-mask, default 0.
-- **void setReverseIn(bool reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
-- **void setReverseOut(bool reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
 - **void add(value)** add a single value to CRC calculation.
 - **void add(array, uint32_t length)** add an array of values to the CRC. 
 In case of a warning/error use casting to (uint8_t \*).
 - **uint8_t getCRC()** returns CRC calculated so far. This allows to check the CRC of 
 a really large stream at intermediate moments, e.g. to link multiple packets.
 - **uint32_t count()** returns number of values added so far. Default 0.
+
+#### parameters
+
+These parameters do not have defaults so the user must set them explicitly.
+
+- **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
+- **void setStartXOR(start)** set start-mask, default 0.
+- **void setEndXOR(end)** set end-mask, default 0.
+- **void setReverseIn(bool reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
+- **void setReverseOut(bool reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
+- **uint8_t getPolyNome()** return parameter set above or default.
+- **uint8_t getStartXOR()** return parameter set above or default.
+- **uint8_t getEndXOR()** return parameter set above or default.
+- **bool getReverseIn()** return parameter set above or default.
+- **bool getReverseOut()** return parameter set above or default.
 
 
 ### Example snippet
@@ -100,6 +112,18 @@ For flexibility both parameters are kept available.
 
 Note these functions are limited to one call per block of data. For more flexibility use the classes.
 
+The CRC functions also have fast reverse functions that can be used outside CRC context.
+The usage is straightforward.
+
+- **uint8_t reverse8(uint8_t in)** idem.
+- **uint16_t reverse16(uint16_t in)** idem.
+- **uint16_t reverse12(uint16_t in)** idem.
+- **uint32_t reverse32(uint32_t in)** idem.
+- **uint64_t reverse64(uint64_t in)** idem.
+
+Reverse12 is based upon reverse16, with a final shift.
+Other reverses can be created in similar way.
+
 
 ## Operational
 
@@ -109,21 +133,19 @@ See examples.
 ## Links 
 
 - https://en.wikipedia.org/wiki/Cyclic_redundancy_check - generic background.
+- http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64 is supported.)
 - https://crccalc.com/ - online CRC calculator to verify.
-- http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64)
 
 
 ## Future
 
 - extend examples.
-- table versions for performance?  (performance - memory discussion)
-- example showing multiple packages of data linked by their CRC.
-- stream version - 4 classes class?
+  - example showing multiple packages of data linked by their CRC.
 - setCRC(value) to be able to pick up where one left ?
-- getters, getPolynome() etc?
-- add(array, length) calls yield per byte that is quite a lot.
-  - ignore flag
-  - timing once per millisecond?
+- table versions for performance?  (performance - memory discussion)
+- add a dump(Stream = Serial) to see all the settings at once.
+- stream version - 4 classes class?
+
 
 
 #### Exotic CRC's ?

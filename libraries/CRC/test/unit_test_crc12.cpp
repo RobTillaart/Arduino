@@ -50,6 +50,25 @@ unittest_teardown()
 }
 
 
+unittest(test_crc12_getters)
+{
+  fprintf(stderr, "TEST CRC12 GETTERS\n");
+
+  CRC12 crc;
+  crc.setPolynome(0x080D);
+  crc.setStartXOR(0x0555);
+  crc.setEndXOR(0x0AAA);
+  crc.setReverseIn(true);
+  crc.setReverseOut(false);
+  
+  assertEqual(0x080D, crc.getPolynome());
+  assertEqual(0x0555, crc.getStartXOR());
+  assertEqual(0x0AAA, crc.getEndXOR());
+  assertTrue(crc.getReverseIn());
+  assertFalse(crc.getReverseOut());
+}
+
+
 unittest(test_crc12)
 {
   fprintf(stderr, "TEST CRC12\n");

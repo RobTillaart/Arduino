@@ -20,7 +20,7 @@ void setup()
 
   uint8_t * data = (uint8_t *) &str[0];
 
-  Serial.println("Verified with - https://crccalc.com/\n");
+  Serial.println("Verified with - https://crccalc.com/ \n");
 
   Serial.print("TEST:\t");
   Serial.println(str);
@@ -44,4 +44,3 @@ void loop()
 
 
 // -- END OF FILE --
-

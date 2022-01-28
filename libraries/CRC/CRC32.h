@@ -27,6 +27,13 @@ public:
   void     setReverseIn(bool reverseIn)   { _reverseIn = reverseIn; };
   void     setReverseOut(bool reverseOut) { _reverseOut = reverseOut; };
 
+  // get parameters
+  uint32_t getPolynome()   { return _polynome; };
+  uint32_t getStartXOR()   { return _startMask; };
+  uint32_t getEndXOR()     { return _endMask; };
+  bool     getReverseIn()  { return _reverseIn; };
+  bool     getReverseOut() { return _reverseOut; };
+  
   void     add(uint8_t value);
   void     add(const uint8_t * array, uint8_t length);
 

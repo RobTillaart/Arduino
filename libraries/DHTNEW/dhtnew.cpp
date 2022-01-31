@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.11
+// VERSION: 0.4.12
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -50,6 +50,7 @@
 //                     changed TIMEOUT_C to 90us (after endurance test on MKR1010 Wifi)
 //  0.4.11 2021-12-16  update library.json, license, minor edits (clean up),
 //                     add constants to unit tests
+//  0.4.12 2022-01-31  Fix #72, delayMicroseconds() for wakeUp
 
 
 #include "dhtnew.h"
@@ -319,14 +320,20 @@ int DHTNEW::_readSensor()
   // EMPTY BUFFER
   for (uint8_t i = 0; i < 5; i++) _bits[i] = 0;
 
-  // HANDLE PENDING IRQ
-  yield();
-
   // REQUEST SAMPLE - SEND WAKEUP TO SENSOR
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, LOW);
-  // add 10% extra for timing inaccuracies in sensor.
-  delayMicroseconds(_wakeupDelay * 1100UL);
+
+  // WAKE UP - add 10% extra for timing inaccuracies in sensor.
+  uint32_t startWakeup = micros();
+  do
+  {
+    // HANDLE PENDING IRQ
+    yield();
+    // 180 gives good wakeup delay on UNO for DHT22 / DHT11 (issue #72)
+    delayMicroseconds(180UL);  
+  }
+  while((micros() - startWakeup) < (_wakeupDelay * 1100UL));
 
   // HOST GIVES CONTROL TO SENSOR
   digitalWrite(_dataPin, HIGH);

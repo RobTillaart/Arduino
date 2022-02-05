@@ -2,6 +2,8 @@
 
 # Data types (KEYWORD1)
 HeartBeat	KEYWORD1
+HeartBeatDiag	KEYWORD1
+HeartBeatSL	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -10,9 +12,15 @@ setFrequency	KEYWORD2
 setDutyCycle	KEYWORD2
 getFrequency	KEYWORD2
 getDutyCycle	KEYWORD2
+
 enable	KEYWORD2
 disable	KEYWORD2
+
 beat	KEYWORD2
+getState	KEYWORD2
+
+code	KEYWORD2
+codeOff	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -1,0 +1,16 @@
+# Syntax Colouring Map For Soundex
+
+# Data types (KEYWORD1)
+Soundex	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+soundex	KEYWORD2
+
+setLength	KEYWORD2
+getLength	KEYWORD2
+
+
+# Constants (LITERAL1)
+SOUNDEX_LIB_VERSION	LITERAL1
+

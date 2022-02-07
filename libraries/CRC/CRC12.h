@@ -9,7 +9,7 @@
 
 #include "Arduino.h"
 
-#define CRC12_DEFAULT_POLYNOME      0x080D
+#include "CRC_polynomes.h"
 
 
 class CRC12
@@ -36,7 +36,7 @@ public:
   bool     getReverseOut() { return _reverseOut; };
 
   void     add(uint8_t value);
-  void     add(const uint8_t * array, uint8_t length);
+  void     add(const uint8_t * array, uint16_t length);
 
   uint16_t getCRC();  // returns CRC
   uint32_t count()    { return _count; };

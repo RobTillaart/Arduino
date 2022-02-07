@@ -38,18 +38,16 @@ void CRC16::restart()
 void CRC16::add(uint8_t value)
 {
   _count++;
+  if ((_count & 0xFF) == 0) yield();
   _update(value);
 }
 
 
-void CRC16::add(const uint8_t * array, uint8_t length)
+void CRC16::add(const uint8_t * array, uint16_t length)
 {
-  _count += length;
   while (length--)
   {
-    // reduce yield() calls
-    if ((_count & 0xFF) == 0xFF) yield();
-    _update(*array++);
+    add(*array++);
   }
 }
 
@@ -67,7 +65,7 @@ void CRC16::_update(uint8_t value)
 {
   if (!_started) restart();
   if (_reverseIn) value = _reverse8(value);
-  _crc ^= ((uint16_t)value) << 8;;
+  _crc ^= ((uint16_t)value) << 8;
   for (uint8_t i = 8; i; i--) 
   {
     if (_crc & (1UL << 15))

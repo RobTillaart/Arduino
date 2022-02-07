@@ -38,18 +38,16 @@ void CRC8::restart()
 void CRC8::add(uint8_t value)
 {
   _count++;
+  if ((_count & 0xFF) == 0) yield();
   _update(value);
 }
 
 
-void CRC8::add(const uint8_t * array, uint8_t length)
+void CRC8::add(const uint8_t * array, uint16_t length)
 {
-  _count += length;
   while (length--)
   {
-    // reduce yield() calls
-    if ((_count & 0xFF) == 0xFF) yield();
-    _update(*array++);
+    add(*array++);
   }
 }
 

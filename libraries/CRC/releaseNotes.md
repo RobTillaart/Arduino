@@ -2,10 +2,21 @@
 # Release Notes
 
 
+## 0.2.1
+
+- fix #17 yield() count in **add(array, length)**
+  (kudo's to dlsloan)
+- added defaults for CRC64 static function.
+- static functions
+  - increased length from uint8_t => uint16_t
+  - added conditional yield().
+- added CRC_polynomes.h
+
+
 ## 0.2.0
 
 - added getters for parameters 
-- made yield conditional in the add(array, length)
+- made yield conditional in **add(array, length)**
 - improved examples
 - added releaseNotes.md
 

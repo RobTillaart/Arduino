@@ -2,16 +2,17 @@
 //
 //    FILE: CRC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
-// PURPOSE: Arduino library fir CRC8, CRC12, CRC16, CRC16-CCITT, CRC32
+// VERSION: 0.2.1
+// PURPOSE: Arduino library for CRC8, CRC12, CRC16, CRC16-CCITT, CRC32, CRC64
 //     URL: https://github.com/RobTillaart/CRC
 //
 
 
 #include "Arduino.h"
 
+#include "CRC_polynomes.h"
 
-#define CRC_LIB_VERSION       (F("0.2.0"))
+#define CRC_LIB_VERSION       (F("0.2.1"))
 
 
 ////////////////////////////////////////////////////////////////
@@ -74,11 +75,12 @@ uint64_t reverse64(uint64_t in)
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CRC POLYNOME = x8 + x5 + x4 + 1 = 1001 1000 = 0x8C
-uint8_t crc8(const uint8_t *array, uint8_t length, const uint8_t polynome = 0xD5, const uint8_t startmask = 0x00, const uint8_t endmask = 0x00, const bool reverseIn = false, const bool reverseOut = false)
+uint8_t crc8(const uint8_t *array, uint16_t length, const uint8_t polynome = 0xD5, const uint8_t startmask = 0x00, const uint8_t endmask = 0x00, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint8_t crc = startmask;
   while (length--) 
   {
+    if ((length & 0xFF) == 0) yield();  // RTOS
     uint8_t data = *array++;
     if (reverseIn) data = reverse8(data);
     crc ^= data;
@@ -102,11 +104,12 @@ uint8_t crc8(const uint8_t *array, uint8_t length, const uint8_t polynome = 0xD5
 
 
 // CRC POLYNOME = x12 + x3 + x2 + 1 =  0000 1000 0000 1101 = 0x80D
-uint16_t crc12(const uint8_t *array, uint8_t length, const uint16_t polynome = 0x80D, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
+uint16_t crc12(const uint8_t *array, uint16_t length, const uint16_t polynome = 0x80D, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint16_t crc = startmask;
   while (length--) 
   {
+    if ((length & 0xFF) == 0) yield();  // RTOS
     uint8_t data = *array++;
     if (reverseIn) data = reverse8(data);
 
@@ -132,11 +135,12 @@ uint16_t crc12(const uint8_t *array, uint8_t length, const uint16_t polynome = 0
 
 
 // CRC POLYNOME = x15 + 1 =  1000 0000 0000 0001 = 0x8001
-uint16_t crc16(const uint8_t *array, uint8_t length, const uint16_t polynome = 0x8001, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
+uint16_t crc16(const uint8_t *array, uint16_t length, const uint16_t polynome = 0x8001, const uint16_t startmask = 0x0000, const uint16_t endmask = 0x0000, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint16_t crc = startmask;
   while (length--) 
   {
+    if ((length & 0xFF) == 0) yield();  // RTOS
     uint8_t data = *array++;
     if (reverseIn) data = reverse8(data);
     crc ^= ((uint16_t)data) << 8;
@@ -160,18 +164,19 @@ uint16_t crc16(const uint8_t *array, uint8_t length, const uint16_t polynome = 0
 
 
 // CRC-CCITT POLYNOME = x13 + X5 + 1 =  0001 0000 0010 0001 = 0x1021
-uint16_t crc16_CCITT(uint8_t *array, uint8_t length)
+uint16_t crc16_CCITT(uint8_t *array, uint16_t length)
 {
   return crc16(array, length, 0x1021, 0xFFFF);
 }
 
 
 // CRC-32 POLYNOME =  x32 + ..... + 1
-uint32_t crc32(const uint8_t *array, uint8_t length, const uint32_t polynome = 0x04C11DB7, const uint32_t startmask = 0, const uint32_t endmask = 0, const bool reverseIn = false, const bool reverseOut = false)
+uint32_t crc32(const uint8_t *array, uint16_t length, const uint32_t polynome = 0x04C11DB7, const uint32_t startmask = 0, const uint32_t endmask = 0, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint32_t crc = startmask;
   while (length--) 
   {
+    if ((length & 0xFF) == 0) yield();  // RTOS
     uint8_t data = *array++;
     if (reverseIn) data = reverse8(data);
     crc ^= ((uint32_t) data) << 24;
@@ -195,11 +200,13 @@ uint32_t crc32(const uint8_t *array, uint8_t length, const uint32_t polynome = 0
 
 
 // CRC-CCITT POLYNOME =  x64 + ..... + 1
-uint64_t crc64(const uint8_t *array, uint8_t length, const uint64_t polynome, const uint64_t startmask, const uint64_t endmask, const bool reverseIn, const bool reverseOut)
+// CRC_ECMA64 = 0x42F0E1EBA9EA3693
+uint64_t crc64(const uint8_t *array, uint16_t length, const uint64_t polynome = 0x42F0E1EBA9EA3693, const uint64_t startmask = 0, const uint64_t endmask = 0, const bool reverseIn = false, const bool reverseOut = false)
 {
   uint64_t crc = startmask;
   while (length--) 
   {
+    if ((length & 0xFF) == 0) yield();  // RTOS
     uint8_t data = *array++;
     if (reverseIn) data = reverse8(data);
     crc ^= ((uint64_t) data) << 56;

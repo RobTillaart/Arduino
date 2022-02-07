@@ -43,20 +43,22 @@ These interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The only difference is the data type for polynome, start- and end-mask, 
 and the returned CRC.
 
+
 #### base
 
 Use **\#include "CRC8.h"**
 
-- **CRC8()** Constructor
+- **CRC8()** Constructor.
 - **void reset()** set all internals to constructor defaults.
-- **void restart()** reset internal CRC and count only;  reuse values for other 
-e.g polynome, XOR masks and reverse flags.
+- **void restart()** reset internal CRC and count only;
+reuse values for other e.g polynome, XOR masks and reverse flags.
 - **void add(value)** add a single value to CRC calculation.
-- **void add(array, uint32_t length)** add an array of values to the CRC. 
-In case of a warning/error use casting to (uint8_t \*).
+- **void add(array, uint16_t length)** add an array of values to the CRC. 
+In case of a warning/error for the array type, use casting to (uint8_t \*).
 - **uint8_t getCRC()** returns CRC calculated so far. This allows to check the CRC of 
 a really large stream at intermediate moments, e.g. to link multiple packets.
 - **uint32_t count()** returns number of values added so far. Default 0.
+
 
 #### parameters
 
@@ -108,7 +110,7 @@ For flexibility both parameters are kept available.
 - **uint16_t crc16(array, length, polynome = 0xA001, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint16_t crc16-CCITT(array, length)** fixed polynome **0x1021**, non zero start / end masks.
 - **uint32_t crc32(array, length, polynome = 0x04C11DB7, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint64_t crc64(array, length, polynome, start, end, reverseIn, reverseOut)** - experimental version, no reference found except on Wikipedia.
+- **uint64_t crc64(array, length, polynome = 0x42F0E1EBA9EA3693, start = 0, end = 0, reverseIn = false, reverseOut = false)** - experimental version, no reference found except on Wikipedia.
 
 Note these functions are limited to one call per block of data. For more flexibility use the classes.
 
@@ -141,11 +143,11 @@ See examples.
 
 - extend examples.
   - example showing multiple packages of data linked by their CRC.
-- setCRC(value) to be able to pick up where one left ?
 - table versions for performance?  (performance - memory discussion)
-- add a dump(Stream = Serial) to see all the settings at once.
 - stream version - 4 classes class?
-
+- **setCRC(value)** to be able to pick up where one left ?
+  - can be done with **setStartXOR()**
+  - needs **getRawCRC()**  without reverse and endmask
 
 
 #### Exotic CRC's ?
@@ -153,10 +155,13 @@ See examples.
 - **CRC1()** // parity :)
 - **CRC4(array, length, polynome, start, end, reverseIn, reverseOut)** nibbles?
   - default polynome 0x03
+- One CRC() with #bits as parameter?
+  - up to 64 bit for all missing ones.?
+  - performance penalty
 
+#### Won't
 
-#### Magic \#defines for "common" polynomes? verify ?
+- add a dump(Stream = Serial) to see all the settings at once.
+  user can access parameters, so no need.
 
-  - \#define CRC_ISO64  0x000000000000001B
-  - \#define CRC_ECMA64 0x42F0E1EBA9EA3693
-
+  

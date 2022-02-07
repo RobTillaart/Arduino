@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -25,6 +25,8 @@
 //   0.3.4  2021-12-11  add unit test, update library.json, license
 //   0.4.0  2022-01-06  add offset(), lastRead() and readDelay()
 //                      refactor examples, update readme.md
+//   0.4.1  2022-01-28  fix ERROR_CONNECT, minor edits
+//                      fix #19 support Wire1 on ESP
 
 
 #include "AM232X.h"
@@ -54,7 +56,7 @@ AM232X::AM232X(TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool AM232X::begin(uint8_t sda, uint8_t scl)
 {
-  _wire = &Wire;
+  // _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   this->read();
@@ -98,10 +100,10 @@ int AM232X::read()
   if (rv < 0) return rv;
 
   // CONVERT AND STORE
-  _humidity = (bits[2] * 256 + bits[3]) * 0.1;
-  _temperature = ((bits[4] & 0x7F) * 256 + bits[5]) * 0.1;
+  _humidity = (_bits[2] * 256 + _bits[3]) * 0.1;
+  _temperature = ((_bits[4] & 0x7F) * 256 + _bits[5]) * 0.1;
 
-  if (bits[4] & 0x80)
+  if (_bits[4] & 0x80)
   {
     _temperature = -_temperature;
   }
@@ -128,7 +130,7 @@ int AM232X::getModel()
   int rv = _readRegister(0x08, 2);
   if (rv < 0) return rv;
 
-  return (bits[2] * 256) + bits[3];
+  return (_bits[2] * 256) + _bits[3];
 }
 
 
@@ -137,7 +139,7 @@ int AM232X::getVersion()
   int rv = _readRegister(0x0A, 1);
   if (rv < 0) return rv;
 
-  return bits[2];
+  return _bits[2];
 }
 
 
@@ -146,9 +148,9 @@ uint32_t AM232X::getDeviceID()
   int rv = _readRegister(0x0B, 4);
   if (rv < 0) return rv;
 
-  uint32_t _deviceID = (bits[2] * 256) + bits[3];
-  _deviceID = _deviceID * 256 + bits[4];
-  _deviceID = _deviceID * 256 + bits[5];
+  uint32_t _deviceID = (_bits[2] * 256) + _bits[3];
+  _deviceID = _deviceID * 256 + _bits[4];
+  _deviceID = _deviceID * 256 + _bits[5];
   return _deviceID;
 }
 
@@ -158,7 +160,7 @@ int AM232X::getStatus()
   int rv = _readRegister(0x0F, 1);
   if (rv < 0) return rv;
 
-  return bits[2];
+  return _bits[2];
 }
 
 
@@ -167,7 +169,7 @@ int AM232X::getUserRegisterA()
   int rv = _readRegister(0x10, 2);
   if (rv < 0) return rv;
 
-  return (bits[2] * 256) + bits[3];
+  return (_bits[2] * 256) + _bits[3];
 }
 
 
@@ -176,7 +178,7 @@ int AM232X::getUserRegisterB()
   int rv = _readRegister(0x12, 2);
   if (rv < 0) return rv;
 
-  return (bits[2] * 256) + bits[3];
+  return (_bits[2] * 256) + _bits[3];
 }
 
 
@@ -213,6 +215,10 @@ int AM232X::setUserRegisterB(int value)
 //
 int AM232X::_readRegister(uint8_t reg, uint8_t count)
 {
+  // HANDLE PENDING IRQ
+  yield();
+
+  // WAKE UP the sensor
   if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
   // request the data
@@ -234,18 +240,18 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
   // prepare data to send
-  bits[0] = 0x10;
-  bits[1] = reg;
-  bits[2] = cnt;
+  _bits[0] = 0x10;
+  _bits[1] = reg;
+  _bits[2] = cnt;
 
   if (cnt == 2)
   {
-    bits[4] = value & 0xFF;
-    bits[3] = (value >> 8) & 0xFF;
+    _bits[4] = value & 0xFF;
+    _bits[3] = (value >> 8) & 0xFF;
   }
   else
   {
-    bits[3] = value & 0xFF;
+    _bits[3] = value & 0xFF;
   }
 
   // send data
@@ -253,10 +259,10 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
   _wire->beginTransmission(AM232X_ADDRESS);
   for (int i = 0; i < length; i++)
   {
-    _wire->write(bits[i]);
+    _wire->write(_bits[i]);
   }
   // send the CRC
-  uint16_t crc = _crc16(bits, length);
+  uint16_t crc = _crc16(_bits, length);
   _wire->write(crc & 0xFF);
   _wire->write(crc >> 8);
 
@@ -272,10 +278,11 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
 int AM232X::_getData(uint8_t length)
 {
   int bytes = _wire->requestFrom(AM232X_ADDRESS, length);
+  if (bytes == 0) return AM232X_ERROR_CONNECT;
 
   for (int i = 0; i < bytes; i++)
   {
-    bits[i] = _wire->read();
+    _bits[i] = _wire->read();
   }
 
   // ANALYZE ERRORS
@@ -284,7 +291,7 @@ int AM232X::_getData(uint8_t length)
   //   design a fix if it becomes a problem.
   if (bytes != length)
   {
-    switch (bits[3])
+    switch (_bits[3])
     {
       case 0x80: return AM232X_ERROR_FUNCTION;
       case 0x81: return AM232X_ERROR_ADDRESS;
@@ -296,8 +303,8 @@ int AM232X::_getData(uint8_t length)
   }
 
   // CRC is LOW Byte first
-  uint16_t crc = bits[bytes - 1] * 256 + bits[bytes - 2];
-  if (_crc16(&bits[0], bytes - 2) != crc)
+  uint16_t crc = _bits[bytes - 1] * 256 + _bits[bytes - 2];
+  if (_crc16(&_bits[0], bytes - 2) != crc)
   {
     return AM232X_ERROR_CRC_2;  // read itself has wrong CRC
   }

@@ -2,9 +2,8 @@
 //
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: AM232X library for Arduino
-// VERSION: 0.4.0
-// HISTORY: See AM232X.cpp
+// PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
+// VERSION: 0.4.1
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -24,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.4.0"))
+#define AM232X_LIB_VERSION              (F("0.4.1"))
 
 
 #define AM232X_OK                        0
@@ -94,7 +93,7 @@ public:
     bool     wakeUp() { return isConnected(); };
 
 private:
-    uint8_t  bits[8];
+    uint8_t  _bits[8];
     float    _humidity;
     float    _temperature;
     float    _humOffset;

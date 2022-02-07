@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-25
-// PURPOSE: unit tests for the GAMMA library
-//          https://github.com/RobTillaart/GAMMA
+// PURPOSE: unit tests for the Adler library
+//          https://github.com/RobTillaart/Adler
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 

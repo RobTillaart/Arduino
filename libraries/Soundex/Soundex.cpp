@@ -1,7 +1,7 @@
 //
 //    FILE: Soundex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-02-05
 // PURPOSE: Arduino Library for calculating Soundex hash
 //     URL: https://github.com/RobTillaart/Soundex
@@ -17,10 +17,14 @@ Soundex::Soundex()
 }
 
 
-void Soundex::setLength(uint32_t length)
+void Soundex::setLength(uint8_t length)
 {
   _length = length;
-  if (_length > (SOUNDEX_MAX_LENGTH - 1))
+  if (_length < SOUNDEX_MIN_LENGTH)
+  {
+    _length = SOUNDEX_MIN_LENGTH;
+  }
+  else if (_length > (SOUNDEX_MAX_LENGTH - 1))
   {
     _length = SOUNDEX_MAX_LENGTH - 1;
   }
@@ -65,6 +69,43 @@ char * Soundex::soundex(const char * str)
 }
 
 
+// reference implementation
+uint16_t Soundex::soundex16(const char * str)
+{
+  uint8_t tmp = _length;
+  _length = 5;
+  char *p = soundex(str);
+  _length = tmp;
+
+  uint16_t value = (p[0] - 'A');
+  for (uint8_t i = 1; i < 5; i++)
+  {
+    value *= 7;
+    value += (p[i] - '0');
+  }
+  return value;
+}
+
+
+// reference implementation
+uint32_t Soundex::soundex32(const char * str)
+{
+  uint8_t tmp = _length;
+  _length = 10;
+  char *p = soundex(str);
+  _length = tmp;
+
+  uint32_t value = (p[0] - 'A');
+  for (uint8_t i = 1; i < 10; i++)
+  {
+    value *= 7;
+    value += (p[i] - '0');
+  }
+  return value;
+}
+
+
+  
 // -- END OF FILE -- 
 
 

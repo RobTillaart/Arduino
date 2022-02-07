@@ -39,7 +39,14 @@ unittest_teardown()
 }
 
 
-unittest(test_soundex_3)
+unittest(test_soundex_constants)
+{
+  assertEqual(SOUNDEX_MIN_LENGTH, 4);
+  assertEqual(SOUNDEX_MAX_LENGTH, 12);
+}
+
+
+unittest(test_soundex_default)
 {
   Soundex SDX;
   // examples from Wikipedia
@@ -65,7 +72,30 @@ unittest(test_soundex_chemicals)
 }
 
 
-unittest(test_getLength)
+unittest(test_soundex16)
+{
+  Soundex SDX;
+
+  assertEqual(0xA203, SDX.soundex16("Robert"));
+  assertEqual(0xA203, SDX.soundex16("Rupert"));
+  assertEqual(0xA1BD, SDX.soundex16("Rubin"));
+  assertEqual(0xB956, SDX.soundex16("Tymczak"));
+  assertEqual(0x901A, SDX.soundex16("Pfister"));
+  assertEqual(0x4972, SDX.soundex16("Honeyman"));
+}
+
+
+unittest(test_soundex32)
+{
+  Soundex SDX;
+
+  assertEqual(0x2FE4F75B, SDX.soundex32("Trichloroethylene"));
+  assertEqual(0x25F6EB97, SDX.soundex32("pentacarbon decahydrate"));
+  assertEqual(0x0835BD86, SDX.soundex32("deoxyribonucleic acid"));
+}
+
+
+unittest(test_soundex_getLength)
 {
   Soundex SDX;
 
@@ -76,9 +106,16 @@ unittest(test_getLength)
     SDX.setLength(i);
     assertEqual(i, SDX.getLength());
   }
-  
+
+  // fails
   SDX.setLength(12);
+  assertNotEqual(12, SDX.getLength());
   assertEqual(11, SDX.getLength());
+
+  // fails
+  SDX.setLength(3);
+  assertNotEqual(3, SDX.getLength());
+  assertEqual(4, SDX.getLength());
 }
 
 

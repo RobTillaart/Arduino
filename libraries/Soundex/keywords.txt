@@ -6,6 +6,8 @@ Soundex	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 soundex	KEYWORD2
+soundex16	KEYWORD2
+soundex32	KEYWORD2
 
 setLength	KEYWORD2
 getLength	KEYWORD2

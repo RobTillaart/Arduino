@@ -1,27 +1,26 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 //
-//  HISTORY:
-//  0.1.0   2018-01-24  initial version
-//  0.1.1   2019-07-31  added support for Fujitsu 64Kbit MB85RC64T (kudos ysoyipek)
-//  0.2.0   2020-04-30  refactor, add writeProtectPin code
-//  0.2.1   2020-06-10  fix library.json
-//  0.2.2   2020-12-23  Arduino-CI + unit test + getWriteProtect()
-//  0.2.3   2021-01-ii  fix getMetaData (kudos to PraxisSoft
-//  0.3.0   2021-01-13  fix #2 ESP32 + WireN support
-//  0.3.1   2021-02-05  fix #7 typo in .cpp
-//  0.3.2   2021-12-18  update Arduino-CI, add badges,
-//                      update library.json, license, minor edits
+//  HISTORY: see releaseNotes.md
 
 
 #include "FRAM.h"
 
 
+// DENSITY CODES
+
+#define FRAM_MB85RC64                 0x03
+#define FRAM_MB85RC256                0x05
+#define FRAM_MB85RC512                0x06
+#define FRAM_MB85RC1M                 0x07
+
+
+// used for metadata
 const uint8_t FRAM_SLAVE_ID_= 0x7C;
 
 
@@ -196,22 +195,24 @@ uint16_t FRAM::getProductID()
 }
 
 
+// NOTE: returns the number of kiloBYTE
 uint16_t FRAM::getSize()
 {
-  uint16_t val = getMetaData(2);  // density bits
-  if (val > 0) return 1UL << val;
+  uint16_t density = getMetaData(2);
+  if (density > 0) return 1UL << density;
   return 0;
 }
+
 
 ///////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
 
-// metadata is packed as  [....MMMM][MMMMDDDD][PPPPPPPP]
-// M = manufacturerID
-// D = density => memsize = 2^D KB
-// P = product ID (together with D)
+//  metadata is packed as  [....MMMM][MMMMDDDD][PPPPPPPP]
+//  M = manufacturerID
+//  D = density => memory size = 2^D KB
+//  P = product ID (together with D)
 uint16_t FRAM::getMetaData(uint8_t field)
 {
   if (field > 2) return 0;
@@ -234,6 +235,10 @@ uint16_t FRAM::getMetaData(uint8_t field)
   // PRODUCT ID
   if (field == 1) return value & 0x0FFF;
   // DENSITY
+  // 3 => MB85RC64
+  // 5 => MB85RC256
+  // 6 => MB85RC512
+  // 7 => MB85RC1M
   if (field == 2) return (value >> 8) & 0x0F;
   return 0;
 }
@@ -268,4 +273,6 @@ void FRAM::readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
   }
 }
 
+
 // -- END OF FILE --
+

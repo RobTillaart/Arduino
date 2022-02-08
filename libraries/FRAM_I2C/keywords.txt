@@ -3,6 +3,7 @@
 # Data types (KEYWORD1)
 FRAM	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
@@ -23,6 +24,7 @@ getWriteProtect	KEYWORD2
 getManufacturerID	KEYWORD2
 getProductID	KEYWORD2
 getSize	KEYWORD2
+getSizeBytes	KEYWORD2
 
 
 # Constants (LITERAL1)

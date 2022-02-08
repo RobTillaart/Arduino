@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.3.2"))
+#define FRAM_LIB_VERSION              (F("0.3.3"))
 
 
 #define FRAM_OK                       0
@@ -45,16 +45,22 @@ public:
   uint32_t read32(uint16_t memaddr);
   void     read(uint16_t memaddr, uint8_t * obj, uint16_t size);
 
+  //  works only if pin is defined in begin.
   bool     setWriteProtect(bool b);
   bool     getWriteProtect();
 
-  uint16_t getManufacturerID();
-  uint16_t getProductID();
-  uint16_t getSize();
+  //  meta info
+  uint16_t getManufacturerID();   // Fujitsu = 0x000A
+  uint16_t getProductID();        // Proprietary
+  uint16_t getSize();             // Returns kiloBYTE
+  uint32_t getSizeBytes() { return getSize() * 1024UL; };
+
 
 private:
   uint8_t  _address;
-  int8_t   _writeProtectPin = -1;  // default no pin ==> no write protect.
+
+  //  default no pin = -1 ==> no write protect.
+  int8_t   _writeProtectPin = -1;
 
   uint16_t getMetaData(uint8_t id);
   void     writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);

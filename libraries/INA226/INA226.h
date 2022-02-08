@@ -1,9 +1,9 @@
 #pragma once
-//    FILE: INA266.h
+//    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-05-18
-// PURPOSE: Arduino library for INA266 power sensor
+// PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
 //
 //  Read the datasheet for the details
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.1.6"))
+#define INA226_LIB_VERSION              (F("0.2.0"))
 
 
 // set by setAlertRegister
@@ -77,8 +77,10 @@ public:
   // mandatory to set these!
   // maxCurrent  = 0.001 .. 20
   // shunt      >= 0.001
-  bool     setMaxCurrentShunt(float macCurrent = 20.0, float shunt = 0.002,
+  bool     setMaxCurrentShunt(float macCurrent = 20.0, 
+                              float shunt = 0.002,
                               bool normalize = true);
+  bool     isCalibrated()     { return _current_LSB != 0.0; };
 
   // these return zero if not calibrated!
   float    getCurrentLSB()    { return _current_LSB; };

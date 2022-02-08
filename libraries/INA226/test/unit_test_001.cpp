@@ -50,9 +50,11 @@ unittest(test_constructor)
 {
 
   INA226 INA(0x40);
-  
+
   assertTrue(INA.begin());
   assertTrue(INA.isConnected());
+
+  assertFalse(INA.isCalibrated());
 }
 
 

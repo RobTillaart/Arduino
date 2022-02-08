@@ -21,9 +21,9 @@ Not all functionality is tested / investigated.
 The INA226 is a voltage, current and power measurement device. a few important maxima. 
 (See datasheet, chapter 6)
 
-|  description  |  max  |  unit  |
-|:--------------|------:|-------:|
-| bus voltage   |  36   | Volt   |
+|  description  |  max  |  unit  | notes |
+|:--------------|------:|-------:|:------|
+| bus voltage   |  36   | Volt   | unclear for how long.
 | shunt voltage |  80   | mVolt  |
 | current       |  20   | Ampere | 
 
@@ -36,7 +36,7 @@ See datasheet - table 2 - datasheet.
 
 ## About Measurements
 
-Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
+Calibration with **setMaxCurrentShunt()** is mandatory to get **getCurrent()** and **getPower()** to work.
 
 Some initial tests shows that the readings do not 100% add up. 
 I expect this is caused by fluctuations in my power supply used and
@@ -53,18 +53,30 @@ always check and verify what is on the shunt and even verify with a DMM that thi
 With the calibration function **setMaxCurrentShunt()** one can just set the actual value and even
 compensate slightly if readings are structural too low or too high.
 
-I noted that the **getPower()** function does not always equal **getBusVoltage()** times **getCurrent()**
-Cause is rounding/trunking maths and time of measurement.  You might prefer to multiply those values yourself 
-to get extra digits. Please be aware that more digits is not always more exact (think significant digits)
+I noted that the **getPower()** function does not always equal **getBusVoltage()** times **getCurrent()**.
+Cause is rounding/trunking maths and time of measurement.
+You might prefer to multiply those values yourself to get extra digits. 
+Please be aware that more digits is not always more exact (think significant digits)
 
 The example sketch **INA226_setMaxCurrentShunt.ino** switches between two calibration modes.
 It shows the **INA266** sensor needs time to accommodate to this change. 
-In practice you should call **setMaxCurrentShunt()** only once in **setup()**
+In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
+
+
+## Versions
+
+#### 0.2.0
+
+- **reset()** also resets the calibration (current_lsb, maxCurrent and shunt), 
+thereby forcing the user to redo the calibration call with **setMaxCurrentShunt()**.
+- fixes issue #11 => a factor 10 bug in current_lsb.
+- some edits in readme.md.
+- added **bool isCalibrated()**.
 
 
 ## Interface
 
-read datasheet for details
+read datasheet for details.
 
 
 ### Constructor
@@ -84,34 +96,40 @@ the sensor. Also the value is not meaningful if there is no shunt connected.
 
 - **float getShuntVoltage()** idem.
 - **float getBusVoltage()** idem. Max 36 Volt.
-- **float getCurrent()** is the current through the shunt in Ampere
-- **float getPower()** is the current x BusVoltage in Watt
+- **float getCurrent()** is the current through the shunt in Ampere.
+- **float getPower()** is the current x BusVoltage in Watt.
 
-Helper functions to get the right scale
+Helper functions to get the right scale.
 
-- **float getBusVoltage_mV()** idem, in millivolts
-- **float getShuntVoltage_mV()** idem, in millivolts
-- **float getCurrent_mA()** idem in milliAmpere
-- **float getPower_mW()** idem in milliWatt
-- **float getShuntVoltage_uV()** idem microVolt
-- **float getCurrent_uA()** idem in microAmpere
-- **float getPower_uW()** idem, in microWatt
+- **float getBusVoltage_mV()** idem, in millivolts.
+- **float getShuntVoltage_mV()** idem, in millivolts.
+- **float getCurrent_mA()** idem in milliAmpere.
+- **float getPower_mW()** idem in milliWatt.
+- **float getShuntVoltage_uV()** idem microVolt.
+- **float getCurrent_uA()** idem in microAmpere.
+- **float getPower_uW()** idem, in microWatt.
 
 
 ### Configuration
 
-Note: the conversion time runs in the background and if done value is stored in a register. The core functions read from the registers, so they are not blocked, but just get the same value if no new is ready.
+Note: the conversion time runs in the background and if done value is stored in a register. 
+The core functions read from the registers, so they are not blocked, 
+but just get the same value if no new is ready.
 
-- **void reset()** software power on reset
-- **bool setAverage(uint8_t avg = 0)** see table below
-(0 = default ==> 1 read), returns false if parameter > 7
-- **uint8_t getAverage()** returns the value set. Note this is not the count of samples.
-- **bool setBusVoltageConversionTime(uint8_t bvct = 4)** see table below
-(4 = default ==> 1.1 ms), returns false if parameter > 7
-- **uint8_t getBusVoltageConversionTime()** return the value set. Note this is not a unit of time.
-- **bool setShuntVoltageConversionTime(uint8_t svct = 4)** see table below
-(4 = default ==> 1.1 ms), returns false if parameter > 7
-- **uint8_t getShuntVoltageConversionTime()** return the value set. Note this is not a unit of time.
+- **void reset()** software power on reset. 
+This implies calibration with **setMaxCurrentShunt()** needs to be redone.
+- **bool setAverage(uint8_t avg = 0)** see table below.
+(0 = default ==> 1 read), returns false if parameter > 7.
+- **uint8_t getAverage()** returns the value set. See table below.
+Note this is not the count of samples.
+- **bool setBusVoltageConversionTime(uint8_t bvct = 4)** see table below.
+(4 = default ==> 1.1 ms), returns false if parameter > 7.
+- **uint8_t getBusVoltageConversionTime()** return the value set. 
+Note the value returned is not a unit of time.
+- **bool setShuntVoltageConversionTime(uint8_t svct = 4)** see table below.
+(4 = default ==> 1.1 ms), returns false if parameter > 7.
+- **uint8_t getShuntVoltageConversionTime()** return the value set. 
+Note the value returned is not a unit of time.
 
 
 | Average | # samples |  notes  |
@@ -153,10 +171,15 @@ set the calibration register based upon the shunt and the max ampere.
 From this the LSB is derived. 
 Note the function will round up the LSB to nearest round value by default. 
 This may cause loss of precision. The function may force normalization if underflow detected.
-- **float getCurrentLSB()** returns the LSB == precision of the calibration
-- **float getCurrentLSB_uA()** returns the LSB == precision of the calibration
-- **float getShunt()** returns the value set for the shunt
+The user **must** check the return value == true, otherwise the calibration register is **not** set.
+- **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**. 
+- **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
+- **float getCurrentLSB_mA()** returns the LSB in milliampere.
+- **float getCurrentLSB_uA()** returns the LSB in microampere.
+- **float getShunt()** returns the value set for the shunt.
 - **float getMaxCurrent()** returns the value for the maxCurrent which can be corrected.
+
+To print these values one might use https://github.com/RobTillaart/printHelpers 
 
 
 ### Operating mode
@@ -215,6 +238,11 @@ The alert line falls when alert is reached.
 - **uint16_t getDieID()** should return 0x2260
 
 
+### debugging
+
+- **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
+
+
 ## Operational
 
 See examples.. 
@@ -223,14 +251,20 @@ See examples..
 ## Future
 
 - test different loads (low edge)
-- test unit tests
+- expand unit tests possible?
 - test examples
 - investigate alert functions / interface
-- improve readme.md
-- disconnected load, can it be recognized?
-- **lastError()** do we need this...
+- disconnected load, 
+  - can it be recognized? => current drop?
+- **lastError()** do we need this
+- if **BVCT SVCT** is set to 6 or 7
+  - does the long timing affects RTOS? ==> yield()
 - cache configuration ? ==> 2 bytes
-- **float getCurrentLSB_mA()** wrapper?
-- **bool isCalibrated()**
-
-
+  - what is gained? updates are faster.
+  - 15 times used, 
+- separate release notes.
+- can the calibration math be optimized
+  - integer only?
+  - less iterations?
+  - local var for current_lsb?
+  - ??

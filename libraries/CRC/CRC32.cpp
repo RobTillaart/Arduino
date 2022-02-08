@@ -24,6 +24,7 @@ void CRC32::reset()
   _reverseOut = false;
   _started    = false;
   _count      = 0;
+  _canYield   = true;
 }
 
 
@@ -38,7 +39,7 @@ void CRC32::restart()
 void CRC32::add(uint8_t value)
 {
   _count++;
-  if ((_count & 0xFF) == 0) yield();
+  if (_canYield && ((_count & 0xFF) == 0)) yield();
   _update(value);
 }
 

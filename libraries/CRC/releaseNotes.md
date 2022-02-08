@@ -2,6 +2,11 @@
 # Release Notes
 
 
+## 0.2.2
+
+- fix #19 enable/disable yield call
+
+
 ## 0.2.1
 
 - fix #17 yield() count in **add(array, length)**

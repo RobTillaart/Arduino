@@ -40,6 +40,10 @@ public:
   uint8_t  getCRC();  // returns CRC
   uint32_t count()    { return _count; };
 
+  // POWER USER ONLY
+  void     enableYield()  { _canYield = true; };
+  void     disableYield() { _canYield = false; };
+
 private:
   uint8_t  _reverse(uint8_t value);
   void     _update(uint8_t value);
@@ -51,6 +55,7 @@ private:
   bool     _reverseIn;
   bool     _reverseOut;
   bool     _started;
+  bool     _canYield;
   uint32_t _count;
 };
 

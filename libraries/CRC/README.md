@@ -76,6 +76,23 @@ These parameters do not have defaults so the user must set them explicitly.
 - **bool getReverseOut()** return parameter set above or default.
 
 
+#### power users only
+
+As CRC calculations of large blocks can take serious time (in milliseconds),
+the classes call **yield()** after every 256 **add()** calls to keep RTOS
+environments happy. 
+
+The following two calls allows one to enable and disable these calls to 
+**yield()** to get optimal performance. The risk is missing context switching
+to handle interrupts etc. So use at own risk.
+
+- **void enableYield()** enables the calls to **yield()**.
+- **void disableYield()** disables the calls to **yield()**.
+
+_Note: the static functions in this library also call **yield()** but this 
+cannot be disabled (for now)._
+
+
 ### Example snippet
 
 A minimal usage only needs: 
@@ -107,15 +124,17 @@ For flexibility both parameters are kept available.
 
 - **uint8_t crc8(array, length, polynome = 0xD5, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint16_t crc12(array, length, polynome = 0x080D, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint16_t crc16(array, length, polynome = 0xA001, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
+- **uint16_t crc16(array, length, polynome = 0x8001, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint16_t crc16-CCITT(array, length)** fixed polynome **0x1021**, non zero start / end masks.
 - **uint32_t crc32(array, length, polynome = 0x04C11DB7, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
 - **uint64_t crc64(array, length, polynome = 0x42F0E1EBA9EA3693, start = 0, end = 0, reverseIn = false, reverseOut = false)** - experimental version, no reference found except on Wikipedia.
 
-Note these functions are limited to one call per block of data. For more flexibility use the classes.
+Note these functions are limited to one call per block of data. 
+These functions will call **yield()** every 256 bytes to keep RTOS happy.
+For more flexibility use the specific classes.
 
-The CRC functions also have fast reverse functions that can be used outside CRC context.
-The usage is straightforward.
+The static CRC functions use fast reverse functions that can be also be 
+used outside CRC context. Their usage is straightforward.
 
 - **uint8_t reverse8(uint8_t in)** idem.
 - **uint16_t reverse16(uint16_t in)** idem.
@@ -125,6 +144,13 @@ The usage is straightforward.
 
 Reverse12 is based upon reverse16, with a final shift.
 Other reverses can be created in similar way.
+
+
+## CRC_polynomes.h
+
+Since version 0.2.1 the file CRC_polynomes.h is added to hold symbolic names for certain polynomes.
+These can be used in your code too to minimize the number of "magic HEX codes".
+If standard polynomes are missing, please open an issue and report, with reference.
 
 
 ## Operational

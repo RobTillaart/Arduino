@@ -34,6 +34,10 @@ add	KEYWORD2
 getCRC	KEYWORD2
 count	KEYWORD2
 
+enableYield	KEYWORD2
+disableYield	KEYWORD2
+
+
 # Instances (KEYWORD2)
 
 

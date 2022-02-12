@@ -3,7 +3,7 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //
 // HISTORY: See M62429.cpp
 //     URL: https://github.com/RobTillaart/M62429
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define M62429_VERSION              (F("0.3.0"))
+#define M62429_VERSION              (F("0.3.1"))
 
 
 // minimum pulse width CLOCK = 1.6 us (datasheet);

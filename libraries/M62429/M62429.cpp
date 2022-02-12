@@ -2,7 +2,7 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // HISTORY: See M62429.cpp2
 //     URL: https://github.com/RobTillaart/M62429
 
@@ -13,6 +13,9 @@
 //  0.2.2   2021-05-27  fix library.properties
 //  0.2.3   2021-12-21  update library.json, license, readme, minor edits
 //  0.3.0   2021-12-30  fix #4 incomplete protocol
+//                      add examples, refactor
+//  0.3.1   2022-02-12  performance updates
+//                      average(), increment() and decrement()
 
 
 #include "M62429.h"
@@ -50,36 +53,47 @@ int M62429::setVolume(uint8_t channel, uint8_t volume)
   _setAttn(channel, attn);
 
   // update cached values
-  if (channel == 0) _vol[0] = volume;
-  if (channel == 1) _vol[1] = volume;
-  if (channel == 2) _vol[0] = _vol[1] = volume;
+  if (channel == 0)      _vol[0] = volume;
+  else if (channel == 1) _vol[1] = volume;
+  else                   _vol[0] = _vol[1] = volume;
   return M62429_OK;
 }
 
 
 void M62429::incr()
 {
-  if (_vol[0] < 255) _vol[0]++;
-  setVolume(0, _vol[0]);
-  if (_vol[1] < 255) _vol[1]++;
-  setVolume(1, _vol[1]);
+  if (_vol[0] < 255)
+  {
+    _vol[0]++;
+    setVolume(0, _vol[0]);
+  }
+  if (_vol[1] < 255)
+  {
+    _vol[1]++;
+    setVolume(1, _vol[1]);
+  }
 }
 
 
 void M62429::decr()
 {
-  if (_vol[0] > 0) _vol[0]--;
-  setVolume(0, _vol[0]);
-  if (_vol[1] > 0) _vol[1]--;
-  setVolume(1, _vol[1]);
+  if (_vol[0] > 0)
+  {
+    _vol[0]--;
+    setVolume(0, _vol[0]);
+  }
+  if (_vol[1] > 0)
+  {
+    _vol[1]--;
+    setVolume(1, _vol[1]);
+  }
 }
 
 
 void M62429::average()
 {
   uint8_t v = (((int)_vol[0]) + _vol[1]) / 2;
-  setVolume(0, v);
-  setVolume(1, v);
+  setVolume(2, v);
 }
 
 

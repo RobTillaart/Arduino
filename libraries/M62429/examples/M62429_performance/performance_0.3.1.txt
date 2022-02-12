@@ -1,0 +1,15 @@
+...\M62429_performance.ino
+UNO
+IDE 1.18.19
+
+M62429_VERSION: 0.3.1
+setVolume: 	204
+setVolume: 	208
+setVolume: 	208
+setVolume: 	208
+getVolume: 	4
+increment: 	412
+decrement: 	4            // note due to zero value!
+muteOn: 	4
+muteOff: 	420
+average: 	208            // both channels at once

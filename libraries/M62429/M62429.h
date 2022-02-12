@@ -32,6 +32,11 @@
 #define M62429_MUTED                -1
 #define M62429_CHANNEL_ERROR        -10
 
+// CHANNELS
+#define M62429_LEFT                  2
+#define M62429_RIGHT                 3
+#define M62429_BOTH                  0
+
 
 class M62429
 {
@@ -52,13 +57,14 @@ public:
   void    muteOff();
   bool    isMuted()  { return _muted; };
 
+
 private:
   uint8_t _vol[2] = { 0, 0 };
   uint8_t _data   = 0;
   uint8_t _clock  = 0;
   bool    _muted  = false;
 
-  void    _setVolume(uint8_t channel, uint8_t volume);
+  void    _setAttn(uint8_t channel, uint8_t attn);
 };
 
 

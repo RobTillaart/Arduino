@@ -17,6 +17,8 @@
 
 #include "M62429.h"
 
+#define M62429_MAX_ATTN           87 // decibel
+
 
 void M62429::begin(uint8_t dataPin, uint8_t clockPin)
 {
@@ -44,9 +46,8 @@ int M62429::setVolume(uint8_t channel, uint8_t volume)
   if (channel > 2) return M62429_CHANNEL_ERROR;
   if (_muted)      return M62429_MUTED;
 
-  uint8_t attn = volume/3 + 2;
-  if (attn <= 2) attn = 0;
-  _setVolume(channel, attn);
+  uint16_t attn = (M62429_MAX_ATTN * volume)/255;
+  _setAttn(channel, attn);
 
   // update cached values
   if (channel == 0) _vol[0] = volume;
@@ -102,20 +103,21 @@ void M62429::muteOff()
 // PRIVATE
 //
 
-// attn = 0, 3..87
-void M62429::_setVolume(uint8_t channel, uint8_t attn)
+// attn = 0..M62429_MAX_ATTN
+void M62429::_setAttn(uint8_t channel, uint8_t attn)
 {
-  uint16_t databits = 0xFE00;               //  D10 -  D9 latch bits
+  uint16_t databits = 0x0200;               //         D9 latch bit
   databits |= ((attn & 0x03) << 7);         //  D8  -  D7
-  databits |= (attn & 0x007C);              //  D6  -  D2
+  databits |= (attn & 0x7C);                //  D6  -  D2
   // channel == 2 -> both 0x00 is default
   if (channel == 0) databits |= 0x03;       //  D0  -  D1
   if (channel == 1) databits |= 0x02;       //  D0  -  D1
 
   // write D0 - D9
-  for (uint16_t mask = 1; mask < 0x0400; mask <<= 1)
+  for (uint8_t i = 0; i < 10; i++)
   {
-    digitalWrite(_data, databits & mask);
+    digitalWrite(_data, databits & 0x01);
+    databits >>= 1;
     digitalWrite(_clock, HIGH);
     // Note if _clock pulses are long enough, _data pulses are too.
     if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
@@ -130,7 +132,7 @@ void M62429::_setVolume(uint8_t channel, uint8_t attn)
   digitalWrite(_clock, HIGH);
   if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
 
-  // latch signal requires _clock low before _data
+  // latch D10  signal requires _clock low before _data
   // make _data dummy write to keep timing constant
   digitalWrite(_data, HIGH);
   digitalWrite(_clock, LOW);

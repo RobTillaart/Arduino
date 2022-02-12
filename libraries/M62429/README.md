@@ -46,6 +46,9 @@ GetVolume() will return the 'saved' volume value.
 - **void muteOff()** resets the volume per channel again.
 - **bool isMuted()** returns the muted state. 
 
+Note: the volume goes from 0..255 while the actual steps go from 0..87.
+Therrefor not every step in volume will make a "real" step (roughly 1 in 3).
+
 
 ## Operation
 

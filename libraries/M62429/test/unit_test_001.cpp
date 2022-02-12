@@ -62,20 +62,13 @@ unittest(test_new_operator)
 */
 
 
-unittest(test_all)
+unittest(test_setVolume)
 {
   uint8_t dataPin = 6;
   uint8_t clockPin = 7;
 
   M62429 AMP;
   AMP.begin(dataPin, clockPin);
-
-  fprintf(stderr, "mute on off\n");
-  assertFalse(AMP.isMuted());
-  AMP.muteOn();
-  assertTrue(AMP.isMuted());
-  AMP.muteOff();
-  assertFalse(AMP.isMuted());
 
   fprintf(stderr, "\nset get volume(0)\n");
   for (int vol = 0; vol < 10; vol++)
@@ -99,14 +92,35 @@ unittest(test_all)
     assertEqual(vol, AMP.getVolume(1));
   }
 
-  fprintf(stderr, "\nincr, decr\n");
+  fprintf(stderr, "\nerror volume(3)\n");
+  assertEqual(M62429_CHANNEL_ERROR, AMP.setVolume(3, 25));
+}
+
+
+unittest(test_incr_decr)
+{
+  uint8_t dataPin = 6;
+  uint8_t clockPin = 7;
+
+  M62429 AMP;
+  AMP.begin(dataPin, clockPin);
+
   AMP.setVolume(0, 0);
   for (int i = 0; i < 10; i++) AMP.incr();
   assertEqual(10, AMP.getVolume(0));
   for (int i = 0; i < 5; i++) AMP.decr();
   assertEqual(5, AMP.getVolume(0));
+}
 
-  fprintf(stderr, "\naverage\n");
+
+unittest(test_average)
+{
+  uint8_t dataPin = 6;
+  uint8_t clockPin = 7;
+
+  M62429 AMP;
+  AMP.begin(dataPin, clockPin);
+
   AMP.setVolume(0, 10);
   AMP.setVolume(1, 20);
   assertEqual(10, AMP.getVolume(0));
@@ -114,6 +128,50 @@ unittest(test_all)
   AMP.average();
   assertEqual(15, AMP.getVolume(0));
   assertEqual(15, AMP.getVolume(1));
+}
+
+
+unittest(test_mute)
+{
+  uint8_t dataPin = 6;
+  uint8_t clockPin = 7;
+
+  M62429 AMP;
+  AMP.begin(dataPin, clockPin);
+
+  fprintf(stderr, "mute on off\n");
+  assertFalse(AMP.isMuted());
+  AMP.muteOn();
+  assertTrue(AMP.isMuted());
+  AMP.muteOff();
+  assertFalse(AMP.isMuted());
+
+  assertEqual(M62429_OK, AMP.setVolume(0, 10));
+  assertEqual(10, AMP.getVolume(0));
+
+  fprintf(stderr, "mute on\n");
+  AMP.muteOn();
+  assertTrue(AMP.isMuted());
+
+  assertEqual(M62429_MUTED, AMP.setVolume(0, 20));
+  assertEqual(10, AMP.getVolume(0));
+
+  assertEqual(M62429_MUTED, AMP.setVolume(0, 0));
+  assertEqual(10, AMP.getVolume(0));
+
+  assertEqual(M62429_MUTED, AMP.incr());
+  assertEqual(10, AMP.getVolume(0));
+
+  assertEqual(M62429_MUTED, AMP.decr());
+  assertEqual(10, AMP.getVolume(0));
+  
+  assertEqual(M62429_MUTED, AMP.average());
+  assertEqual(10, AMP.getVolume(0));
+
+  AMP.muteOff();
+  assertFalse(AMP.isMuted());
+  assertEqual(M62429_OK, AMP.setVolume(0, 20));
+  assertEqual(20, AMP.getVolume(0));
 
 }
 

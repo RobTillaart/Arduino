@@ -31,23 +31,42 @@ The interface is straightforward
 
 - **void begin(uint8_t dataPin, uint8_t clockPin)** defines the clock and data pin.
 One has to create one object per IC. 
-- **int getVolume(uint8_t channel)** channel is 0 or 1 or 2 (both). In the latter
-case the volume of channel 0 is used as volume of both channels.
+- **int getVolume(uint8_t channel)** channel is 0 or 1 or 2 (both). 
+In the latter case the volume of channel 0 is used as volume of both channels.
 - **int setVolume(uint8_t channel, uint8_t volume)** 
-channel = { 0, 1, 2 = both; volume = {0 .. 255 }
-- **void incr()** increment volume of both channels until max is reached.
+  - channel = { 0, 1, 2 = both; volume = {0 .. 255 }
+  - Note: if system is muted, no changes are made.
+- **int incr()** increment volume of both channels until max (255) is reached.
 This is another way to set volume that is better suited for a rotary 
 encoder or a \[+\] button
-- **void decr()** decrement volume of both channels until 0 is reached. See **incr()**.
-- **void average()** averages the 2 channels to same = average level.  
+  - Note: if system is muted, no changes are made.
+- **int decr()** decrement volume of both channels until 0 is reached. See **incr()**.
+  - Note: if system is muted, no changes are made.
+- **int average()** averages the 2 channels to same = average level.  
 Sort of set balance in the middle functionality.
+  - Note: if system is muted, no changes are made.
 - **void muteOn()** silences both channels but remembers the volume..
 GetVolume() will return the 'saved' volume value.
 - **void muteOff()** resets the volume per channel again.
 - **bool isMuted()** returns the muted state. 
 
 Note: the volume goes from 0..255 while the actual steps go from 0..87.
-Therrefor not every step in volume will make a "real" step (roughly 1 in 3).
+Therefore not every step in volume will make a "real" step (roughly 1 in 3).
+This choice is made as the range 0..255 is more often used than the 0..87 range
+and therefore better fits other sensors and devices.
+
+
+#### Error codes
+
+The functions **getVolume(), setVolume(), incr(), decr()** and **average()**
+can return one of the  error codes.
+
+
+| value | name                 | notes     |
+|:-----:|:---------------------|:----------|
+|   0   | M62429_OK            | no error  |
+|  -1   | M62429_MUTED         | system is muted, use **muteOff()** |
+|  -10  | M62429_CHANNEL_ERROR | channel must be 0, 1 or 2          |
 
 
 ## Operation
@@ -87,19 +106,28 @@ Runtime configuration mono / stereo would be cool.
 ```
 
 
-#### Other
+#### Volume pan model
 
 - model with one **volume(0..100%)** and one **balance(-100..100)** == **pan()**.  
-Also a **left()** and **right()** incremental balance might be added.
-This could work better than 2 separate volume channels.
+- Also a **left()** and **right()** incremental balance might be added.
+
+Does this model work better than 2 separate volume channels?
+
+
+#### Other
+
 - change **getVolume(both)** to return max of the two channels?
-- **Mute()** could be per channel, default = both / all.
-- **mute50()** reduces levels with 50% (rounded down?).
-- optimize when volume is already set? 
-  - e.g. average function.
-  - muteOff will fail ? investigate
+  would be better.
+- **min()** to reduce volume to minimum of both channels.
+- **incr()** and **decr()** could have channel parameter.
+  - default is both (backwards compatible)
+- create **setAttn(channel, attn)** and **getAttn()** for low level control.
+  - needs cached attn values.
 
 **wont**
 - **muteOff()** should increase gradually.  takes too much blocking time.
-
+- **Mute()** could be per channel, default = both / all.
+would add a lot of extra testing. the user can implement a **setVOlume(chan, 0)**
+- **mute50()** reduces levels with 50% (rounded down?).
+  user can implement this **setVolume(chan, getVolume(chan)/2);**
 

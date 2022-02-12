@@ -2,7 +2,7 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // HISTORY: See M62429.cpp2
 //     URL: https://github.com/RobTillaart/M62429
 
@@ -16,6 +16,7 @@
 //                      add examples, refactor
 //  0.3.1   2022-02-12  performance updates
 //                      average(), increment() and decrement()
+//  0.3.2   2022-02-12  fix #6 mute behavior
 
 
 #include "M62429.h"
@@ -60,8 +61,9 @@ int M62429::setVolume(uint8_t channel, uint8_t volume)
 }
 
 
-void M62429::incr()
+int M62429::incr()
 {
+  if (_muted) return M62429_MUTED;
   if (_vol[0] < 255)
   {
     _vol[0]++;
@@ -72,11 +74,13 @@ void M62429::incr()
     _vol[1]++;
     setVolume(1, _vol[1]);
   }
+  return M62429_OK;
 }
 
 
-void M62429::decr()
+int M62429::decr()
 {
+  if (_muted) return M62429_MUTED;
   if (_vol[0] > 0)
   {
     _vol[0]--;
@@ -87,25 +91,30 @@ void M62429::decr()
     _vol[1]--;
     setVolume(1, _vol[1]);
   }
+  return M62429_OK;
 }
 
 
-void M62429::average()
+int M62429::average()
 {
+  if (_muted) return M62429_MUTED;
   uint8_t v = (((int)_vol[0]) + _vol[1]) / 2;
   setVolume(2, v);
+  return M62429_OK;
 }
 
 
 void M62429::muteOn()
 {
+  if (_muted) return;
   _muted = true;
-  setVolume(2, 0);
+  _setAttn(2, 0);
 }
 
 
 void M62429::muteOff()
 {
+  if (_muted == false) return;
   _muted = false;
   setVolume(0, _vol[0]);
   setVolume(1, _vol[1]);

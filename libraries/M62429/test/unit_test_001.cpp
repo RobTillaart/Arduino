@@ -105,11 +105,36 @@ unittest(test_incr_decr)
   M62429 AMP;
   AMP.begin(dataPin, clockPin);
 
-  AMP.setVolume(0, 0);
-  for (int i = 0; i < 10; i++) AMP.incr();
+  fprintf(stderr, "\nincr decr channel 0\n");
+  AMP.setVolume(2, 0);
+  for (int i = 0; i < 10; i++) AMP.incr(0);
   assertEqual(10, AMP.getVolume(0));
+  assertEqual(0,  AMP.getVolume(1));
+  for (int i = 0; i < 5; i++) AMP.decr(0);
+  assertEqual(5, AMP.getVolume(0));
+  assertEqual(0, AMP.getVolume(1));
+
+  fprintf(stderr, "\nincr decr channel 1\n");
+  AMP.setVolume(2, 0);
+  for (int i = 0; i < 10; i++) AMP.incr(1);
+  assertEqual(0,  AMP.getVolume(0));
+  assertEqual(10, AMP.getVolume(1));
+  for (int i = 0; i < 5; i++) AMP.decr(1);
+  assertEqual(0, AMP.getVolume(0));
+  assertEqual(5, AMP.getVolume(1));
+
+  fprintf(stderr, "\nincr decr channel 2\n");
+  AMP.setVolume(2, 0);
+  for (int i = 0; i < 10; i++) AMP.incr();  // 2 is default
+  assertEqual(10, AMP.getVolume(0));
+  assertEqual(10, AMP.getVolume(1));
   for (int i = 0; i < 5; i++) AMP.decr();
   assertEqual(5, AMP.getVolume(0));
+  assertEqual(5, AMP.getVolume(1));
+
+  fprintf(stderr, "\nincr decr channel error\n");
+  assertEqual(M62429_CHANNEL_ERROR, AMP.incr(3));
+  assertEqual(M62429_CHANNEL_ERROR, AMP.decr(3));
 }
 
 
@@ -164,7 +189,7 @@ unittest(test_mute)
 
   assertEqual(M62429_MUTED, AMP.decr());
   assertEqual(10, AMP.getVolume(0));
-  
+
   assertEqual(M62429_MUTED, AMP.average());
   assertEqual(10, AMP.getVolume(0));
 

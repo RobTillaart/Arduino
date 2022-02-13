@@ -31,21 +31,23 @@ The interface is straightforward
 
 - **void begin(uint8_t dataPin, uint8_t clockPin)** defines the clock and data pin.
 One has to create one object per IC. 
-- **int getVolume(uint8_t channel)** channel is 0 or 1 or 2 (both). 
+- **int getVolume(uint8_t channel)** channel is 0, 1 or 2 (both). 
 In the latter case the volume of channel 0 is used as volume of both channels.
+See remark future section.
 - **int setVolume(uint8_t channel, uint8_t volume)** 
-  - channel = { 0, 1, 2 = both; volume = {0 .. 255 }
+  - channel = 0, 1, 2 = both
+  - volume = 0 .. 255
   - Note: if system is muted, no changes are made.
-- **int incr()** increment volume of both channels until max (255) is reached.
+- **int incr(uint8_t channel = 2)** increment volume (both channels is default) until max (255) is reached.
 This is another way to set volume that is better suited for a rotary 
-encoder or a \[+\] button
+encoder or a \[+\] button.
   - Note: if system is muted, no changes are made.
-- **int decr()** decrement volume of both channels until 0 is reached. See **incr()**.
+- **int decr(uint8_t channel = 2)** decrement volume (both channels is default) until 0 is reached. 
   - Note: if system is muted, no changes are made.
 - **int average()** averages the 2 channels to same = average level.  
 Sort of set balance in the middle functionality.
   - Note: if system is muted, no changes are made.
-- **void muteOn()** silences both channels but remembers the volume..
+- **void muteOn()** silences both channels but remembers the volume.
 GetVolume() will return the 'saved' volume value.
 - **void muteOff()** resets the volume per channel again.
 - **bool isMuted()** returns the muted state. 
@@ -119,8 +121,6 @@ Does this model work better than 2 separate volume channels?
 - change **getVolume(both)** to return max of the two channels?
   would be better.
 - **min()** to reduce volume to minimum of both channels.
-- **incr()** and **decr()** could have channel parameter.
-  - default is both (backwards compatible)
 - create **setAttn(channel, attn)** and **getAttn()** for low level control.
   - needs cached attn values.
 

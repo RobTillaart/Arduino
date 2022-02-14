@@ -1,0 +1,23 @@
+{
+  "name": "X9C10X",
+  "keywords": "potentiometer,X9C102,X9C103,X9C104,X9C503",
+  "description": "Arduino Library for X9C10X series digital potentiometer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/X9C10X.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "X9C10X.h"
+}

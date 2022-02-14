@@ -1,0 +1,24 @@
+
+Tested on Arduino UNO
+IDE 1.18.19
+
+X9C10X_LIB_VERSION: 0.1.0
+getPosition:	4
+
+from 0 to ...
+setPosition(33):	1024
+setPosition(66):	1860
+setPosition(99):	2788
+
+from n to m
+setPosition(33):	932
+setPosition(66):	936
+setPosition(99):	932
+
+getMaxOhm():	4
+getOhm():	44
+
+10 x incr():	284
+10 x decr():	284
+
+

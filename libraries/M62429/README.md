@@ -29,6 +29,8 @@ before including "M62429.h" or by defining it as command line parameter.
 
 The interface is straightforward
 
+Use **\#include "M62429.h"**
+
 - **void begin(uint8_t dataPin, uint8_t clockPin)** defines the clock and data pin.
 One has to create one object per IC. 
 - **int getVolume(uint8_t channel)** channel is 0, 1 or 2 (both). 
@@ -118,6 +120,7 @@ Does this model work better than 2 separate volume channels?
 
 #### Other
 
+- separate releaseNotes.md?
 - change **getVolume(both)** to return max of the two channels?
   would be better.
 - **min()** to reduce volume to minimum of both channels.

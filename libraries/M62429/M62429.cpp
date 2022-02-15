@@ -2,7 +2,7 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // HISTORY: See M62429.cpp2
 //     URL: https://github.com/RobTillaart/M62429
 
@@ -19,6 +19,7 @@
 //  0.3.2   2022-02-12  fix #8 mute behaviour
 //  0.3.3   2022-02-12  fix #10 add channel parameter to incr() and decr()
 //                      improve muteOn() + muteOff()
+//  0.3.4   2022-02-15  improve conditional delayMicroseconds()
 
 
 #include "M62429.h"
@@ -150,26 +151,36 @@ void M62429::_setAttn(uint8_t channel, uint8_t attn)
     databits >>= 1;
     digitalWrite(_clock, HIGH);
     // Note if _clock pulses are long enough, _data pulses are too.
-    if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
+    #if M62429_CLOCK_DELAY > 0
+    delayMicroseconds(M62429_CLOCK_DELAY);
+    #endif
 
     digitalWrite(_data, LOW);
     digitalWrite(_clock, LOW);
-    if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
+    #if M62429_CLOCK_DELAY > 0
+    delayMicroseconds(M62429_CLOCK_DELAY);
+    #endif
   }
 
   // Send D10 HIGH bit (Latch signal)
   digitalWrite(_data, HIGH);
   digitalWrite(_clock, HIGH);
-  if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
+  #if M62429_CLOCK_DELAY > 0
+  delayMicroseconds(M62429_CLOCK_DELAY);
+  #endif
 
   // latch D10  signal requires _clock low before _data
   // make _data dummy write to keep timing constant
   digitalWrite(_data, HIGH);
   digitalWrite(_clock, LOW);
-  if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
+  #if M62429_CLOCK_DELAY > 0
+  delayMicroseconds(M62429_CLOCK_DELAY);
+  #endif
 
   digitalWrite(_data, LOW);
-  if (M62429_CLOCK_DELAY > 0) delayMicroseconds(M62429_CLOCK_DELAY);
+  #if M62429_CLOCK_DELAY > 0
+  delayMicroseconds(M62429_CLOCK_DELAY);
+  #endif
 }
 
 

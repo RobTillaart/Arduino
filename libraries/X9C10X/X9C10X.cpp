@@ -5,8 +5,8 @@
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //
 // HISTORY
-//   0.1.0  2022-01-26  initial version
-//
+//  0.1.0  2022-01-26  initial version
+//  0.1.1  2022-02-15  improve conditional delay
 
 
 #include "X9C10X.h"
@@ -15,9 +15,9 @@
 //  digitalWrite takes enough time on UNO / AVR so clock_delay == 0
 //  Note that if clock pulses are long enough the data pulses are too.
 #ifdef __AVR__
-#define X9C10X_DELAYMICROS          0
+#define X9C10X_DELAY_MICROS         0
 #else
-#define X9C10X_DELAYMICROS          1
+#define X9C10X_DELAY_MICROS         1
 #endif
 
 #define X9C10X_UP                   HIGH
@@ -81,7 +81,9 @@ uint8_t X9C10X::store()
 {
   //  _pulsePin starts default HIGH
   digitalWrite(_selectPin, LOW);
-  if (X9C10X_DELAYMICROS > 0) delayMicroseconds(X9C10X_DELAYMICROS);
+  #if X9C10X_DELAY_MICROS > 0
+  delayMicroseconds(X9C10X_DELAY_MICROS);
+  #endif
   digitalWrite(_selectPin, HIGH);
   delay(20);    //  Tcph  page 5
   return _position;
@@ -102,9 +104,14 @@ void X9C10X::_move(uint8_t direction, uint8_t steps)
   while (steps--)
   {
     digitalWrite(_pulsePin, HIGH);
-    if (X9C10X_DELAYMICROS > 0) delayMicroseconds(X9C10X_DELAYMICROS);
+    #if X9C10X_DELAY_MICROS > 0
+    delayMicroseconds(X9C10X_DELAY_MICROS);
+    #endif
+
     digitalWrite(_pulsePin, LOW);
-    if (X9C10X_DELAYMICROS > 0) delayMicroseconds(X9C10X_DELAYMICROS);
+    #if X9C10X_DELAY_MICROS > 0
+    delayMicroseconds(X9C10X_DELAY_MICROS);
+    #endif
   }
   //  _pulsePin == LOW, (No Store, page 7)
   digitalWrite(_selectPin, HIGH);

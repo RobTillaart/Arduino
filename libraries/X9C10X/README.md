@@ -15,16 +15,16 @@ Arduino Library for X9C10X series digital potentiometer.
 
 This experimental library provides a X9C10X base class and four derived classes for specific digital potentiometer.
 
-| type   | resistance |  notes       |
-|:------:|:----------:|:-------------|
-| X9C10X |    generic |  base class  |
-| X9C102 |    1 KΩ    |  10 \* 10^2  |
-| X9C103 |   10 KΩ    |  10 \* 10^3  |
-| X9C104 |  100 KΩ    |  10 \* 10^4  |
-| X9C503 |   50 KΩ    |  50 \* 10^3  |
+| type   | resistance | tested  |  notes       |
+|:------:|:----------:|:-------:|:-------------|
+| X9C10X |    generic |    N    |  base class  |
+| X9C102 |    1 KΩ    |    N    |  10 \* 10^2  |
+| X9C103 |   10 KΩ    |    N    |  10 \* 10^3  |
+| X9C104 |  100 KΩ    |    N    |  10 \* 10^4  |
+| X9C503 |   50 KΩ    |    N    |  50 \* 10^3  |
 
 
-_Note: Ω ohm sign = ALT-234_
+_Note: Ω Ohm sign = ALT-234_
 
 The library keeps cache of the position. 
 
@@ -36,7 +36,7 @@ The library keeps cache of the position.
 
 Use **\#include "X9C10X.h"**
 
-- **X9C10X(uint32_t ohm = 10000)** Constructor, default initializes the resistance to 10000 Ω. 
+- **X9C10X(uint32_t Ohm = 10000)** Constructor, default initializes the resistance to 10000 Ω. 
 To calibrate one can fill in any other value e.g. 9950 Ω.
 - **void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin, uint8_t position = 0)** 
 sets the pins used by the device, and resets the position (default to 0).
@@ -52,7 +52,7 @@ This behaviour is similar to the SPI select pin.
 - **uint8_t getPosition()** returns the current position.
 - **void incr()** moves one position up (if possible).
 - **void decr()** moves one position down (if possible).
-- **uint32_t getOhm()** returns the position expressed in ohm.
+- **uint32_t getOhm()** returns the position expressed in Ohm.
 The returned value does depend on the value passed in the constructor.
 - **uint32_t getMaxOhm()** returns the maximum value ( =  parameter from constructor). 
 
@@ -70,14 +70,14 @@ The other way is to call **setPosition(0)** followed by **setPosition(99)** (or 
 to get a defined internal state.
 
 
-## derived classes 
+## Derived classes 
 
 There are 4 derived classes, each with a other (appropriate) default value for the resistance. 
 
-- **X9C102(uint32_t ohm = 1000)**
-- **X9C103(uint32_t ohm = 10000)**
-- **X9C104(uint32_t ohm = 100000)**
-- **X9C503(uint32_t ohm = 50000)**
+- **X9C102(uint32_t Ohm = 1000)**
+- **X9C103(uint32_t Ohm = 10000)**
+- **X9C104(uint32_t Ohm = 100000)**
+- **X9C503(uint32_t Ohm = 50000)**
 
 These classes have the same interface as the base class.
 

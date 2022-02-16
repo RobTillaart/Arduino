@@ -7,7 +7,22 @@
 #include "X9C10X.h"
 
 
-X9C10X pot(12345);  //  100KΩ  (ALT-234)
+//  PINOUT  X9C10X TOP VIEW  (see datasheet)
+//
+//       +--------+
+//  INC  | o    o |  VCC
+//  U/D  | o    o |  CS
+//  RH   | o    o |  RL
+//  GND  | o    o |  Rwiper
+//       +--------+
+//
+//  INC   pulses
+//  U/D   UP = 1 DOWN = 0
+//  VCC   +5V
+//
+
+
+X9C10X pot(12345);    //  100 KΩ  (ALT-234)
 
 uint32_t start, stop;
 
@@ -24,6 +39,8 @@ void setup()
   Serial.println(X9C10X_LIB_VERSION);
 
   pot.begin(8, 9, 10, 0);  // pulse, direction, select, position
+
+  pot.setPosition(0);
 
   start = micros();
   pos = pot.getPosition();
@@ -73,6 +90,32 @@ void setup()
   Serial.println(stop - start);
   delay(100);
 
+  start = micros();
+  pot.setPosition(99);
+  stop = micros();
+  Serial.print("setPosition(99):\t");
+  Serial.println(stop - start);
+  delay(100);
+
+
+  Serial.println("\nno movement");
+  pot.setPosition(33);
+  start = micros();
+  pot.setPosition(33);
+  stop = micros();
+  Serial.print("setPosition(33):\t");
+  Serial.println(stop - start);
+  delay(100);
+
+  pot.setPosition(66);
+  start = micros();
+  pot.setPosition(66);
+  stop = micros();
+  Serial.print("setPosition(66):\t");
+  Serial.println(stop - start);
+  delay(100);
+
+  pot.setPosition(99);
   start = micros();
   pot.setPosition(99);
   stop = micros();

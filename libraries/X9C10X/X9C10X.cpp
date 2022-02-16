@@ -1,12 +1,14 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //
 // HISTORY
 //  0.1.0  2022-01-26  initial version
 //  0.1.1  2022-02-15  improve conditional delay
+//  0.1.2  2022-02-16  improve performance, add sweeper example
+//                     rounding in getOhm(), documentation
 
 
 #include "X9C10X.h"
@@ -24,9 +26,9 @@
 #define X9C10X_DOWN                 LOW
 
 
-X9C10X::X9C10X(uint32_t ohm)
+X9C10X::X9C10X(uint32_t maxOhm)
 {
-  _ohm = ohm;
+  _maxOhm = maxOhm;
 }
 
 
@@ -56,8 +58,18 @@ void X9C10X::begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin, ui
 void X9C10X::setPosition(uint8_t position)
 {
   if (position > 99) position = 99;
-  while (position > _position) incr();
-  while (position < _position) decr();
+  // reference 0.1.0
+  // while (position > _position) incr();
+  // while (position < _position) decr();
+  if (position > _position)
+  {
+    _move(X9C10X_UP, position - _position);
+  }
+  if (position < _position)
+  {
+    _move(X9C10X_DOWN, _position - position);
+  }
+  _position = position;
 }
 
 

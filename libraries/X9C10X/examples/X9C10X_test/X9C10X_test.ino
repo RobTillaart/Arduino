@@ -7,7 +7,24 @@
 #include "Arduino.h"
 #include "X9C10X.h"
 
+
+//  PINOUT  X9C10X TOP VIEW  (see datasheet)
+//
+//       +--------+
+//  INC  | o    o |  VCC
+//  U/D  | o    o |  CS
+//  RH   | o    o |  RL
+//  GND  | o    o |  Rwiper
+//       +--------+
+//
+//  INC   pulses
+//  U/D   UP = 1 DOWN = 0
+//  VCC   +5V
+//
+
+
 X9C10X pot(12345);  //  100KΩ  (ALT-234)
+
 
 void setup()
 {

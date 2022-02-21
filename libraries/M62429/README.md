@@ -13,6 +13,8 @@ Arduino library for M62429 volume control IC.
 
 ## Description
 
+#### M62429
+
 This library is used to set the attenuation (volume) of the 
 M62429 IC a.k.a. FM62429.
 
@@ -24,8 +26,12 @@ takes time enough.
 For faster processors this define can be overruled runtime by setting it 
 before including "M62429.h" or by defining it as command line parameter.
 
+#### M62429_RAW
 
-## Interface
+The library also implements a M62429_RAW class which has a minimalistic interface.
+ 
+
+## Interface M62429
 
 The interface is straightforward
 
@@ -76,6 +82,23 @@ can return one of the  error codes.
 ## Operation
 
 See examples
+
+
+
+## Interface M62429_RAW
+
+The interface is minimalistic. 
+No parameter or other checks are made.
+
+Use **\#include "M62429.h"**
+
+- **void begin(uint8_t dataPin, uint8_t clockPin)** defines the clock and data pin.
+One has to create one object per IC. 
+- **int getAttn(uint8_t channel)** channel is 0, 1 or 2 (both). 
+In the latter case the attenuation of channel 0 is used as attenuation of both channels.
+- **void setAttn(uint8_t channel, uint8_t attn)** 
+  - channel = 0, 1, 2 = both
+  - attenuation = 0 .. 87
 
 
 ## Future

@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 M62429	KEYWORD1
+M62429_RAW	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -15,6 +16,11 @@ average	KEYWORD2
 muteOn	KEYWORD2
 muteOff	KEYWORD2
 isMuted	KEYWORD2
+
+
+#  M62429_RAW
+getAttn	KEYWORD2
+setAttn	KEYWORD2
 
 
 # Constants (LITERAL1)

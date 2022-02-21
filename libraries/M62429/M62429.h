@@ -3,14 +3,14 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //     URL: https://github.com/RobTillaart/M62429
 
 
 #include "Arduino.h"
 
 
-#define M62429_VERSION              (F("0.3.4"))
+#define M62429_VERSION              (F("0.3.5"))
 
 
 // minimum pulse width CLOCK = 1.6 us (datasheet);
@@ -64,6 +64,24 @@ private:
   bool    _muted  = false;
 
   void    _setAttn(uint8_t channel, uint8_t attn);
+};
+
+
+class M62429_RAW
+{
+public:
+
+  void begin(uint8_t dataPin, uint8_t clockPin);
+
+  // channel = { 0, 1 }
+  int     getAttn(uint8_t channel);
+  // channel = { 0, 1, 2 = both; attn = {0 .. 87 }
+  void    setAttn(uint8_t channel, uint8_t attn);
+
+private:
+  uint8_t _attn[2] = { 0, 0 };
+  uint8_t _data   = 0;
+  uint8_t _clock  = 0;
 };
 
 

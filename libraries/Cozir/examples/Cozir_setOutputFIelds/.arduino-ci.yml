@@ -1,6 +1,11 @@
 compile:
   # Choosing to run compilation tests on 2 different Arduino platforms
   platforms:
-    - leonardo
+    # - uno
     - due
-    - zero
+    # - zero
+    - leonardo
+    # - m4
+    - esp32
+    # - esp8266
+    # - mega2560

@@ -2,7 +2,7 @@
 //
 //    FILE: Cozir.h
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
@@ -15,7 +15,7 @@
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.2"))
+#define COZIR_LIB_VERSION           (F("0.3.3"))
 
 
 // OUTPUTFIELDS
@@ -38,6 +38,8 @@
 #define CZR_NONE                    0x0001
 
 
+// factory default 
+#define CZR_DEFAULT                 (CZR_FILTCO2 | CZR_RAWCO2)
 // easy default setting for streaming
 #define CZR_HTC                     (CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2)
 // not in datasheet for debug only
@@ -58,10 +60,11 @@ public:
   bool     isInitialized();
 
   // warning: CZR_STREAMING is experimental, minimal tested.
-  void     setOperatingMode(uint8_t mode);
+  bool     setOperatingMode(uint8_t mode);
   uint8_t  getOperatingMode() { return _operatingMode; };
 
 
+  //  POLLING MODE
   float    celsius();
   float    fahrenheit() { return (celsius() * 1.8) + 32; };
   float    kelvin()     { return celsius() + 273.15; };
@@ -71,42 +74,43 @@ public:
   uint16_t getPPMFactor();   // P14 . command  return 1, 10 or 100
 
 
-  // Calibration function, read datasheet before use
+  //  CALIBRATION
+  //  read datasheet before use
   uint16_t fineTuneZeroPoint(uint16_t v1, uint16_t v2);
   uint16_t calibrateFreshAir();
   uint16_t calibrateNitrogen();
   uint16_t calibrateKnownGas(uint16_t value);
 
+  //  WARNING: following 3 functions are NOT RECOMMENDED,
+  //           read datasheet before use
+  //  uint16_t calibrateManual(uint16_t value);
+  //  uint16_t setSpanCalibrate(uint16_t value);
+  //  uint16_t getSpanCalibrate();
 
-  // WARNING: following 3 functions are NOT RECOMMENDED,
-  //          read datasheet before use
-  // uint16_t calibrateManual(uint16_t value);
-  // uint16_t setSpanCalibrate(uint16_t value);
-  // uint16_t getSpanCalibrate();
 
-
-  // DIGIFILTER, use with care, read datasheet before use
-  //     32 = default value = 32,
-  //      1 = fast (noisy)
-  //    255 = slow (smoothed)
+  //  DIGIFILTER, use with care, read datasheet before use
+  //     32 = good default value,
+  //      1 = fast (noisy and responsive to fast changes)
+  //    255 = slow (smoothed to the max)
   //      0 = special. details see datasheet
   void     setDigiFilter(uint8_t value);
   uint8_t  getDigiFilter();
 
 
-  // STREAMING MODE - needs testing...
+  //  STREAMING MODE
   void     setOutputFields(uint16_t fields);
   uint16_t getOutputFields() { return _outputFields; };
   bool     inOutputFields(uint16_t field);
   void     clearOutputFields() { setOutputFields(CZR_NONE); };
-  // WARNING:
-  // After a call to GetRecentFields() you must read the serial port yourself as
-  // the internal buffer of this Class cannot handle the possible large output.
-  // Answers can be over 100 bytes long!
+  //  WARNING:
+  //  After a call to GetRecentFields() you must read the serial port yourself as
+  //  the internal buffer of this Class cannot handle the possible large output.
+  //  Answers can be over 100 bytes long!
   void     getRecentFields();
 
 
-  // EEPROM
+  //  EEPROM
+  //  not all sensors support these.
   void     setAutoCalibrationPreload(uint16_t value);
   uint16_t getAutoCalibrationPreload();
 
@@ -129,7 +133,9 @@ public:
   // TODO test EEPROM function first.
   // void setEEPROMFactoryReset();
 
-  // META INFORMATION
+
+  //  META INFORMATION
+  //  library does not parse the output (yet)
   void     getVersionSerial();
   void     getConfiguration();
 
@@ -160,3 +166,4 @@ private:
 
 
 // -- END OF FILE --
+

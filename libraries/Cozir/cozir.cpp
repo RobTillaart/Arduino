@@ -1,33 +1,13 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
-// HISTORY:
-//  0.3.2   2021-12-14  update library.json, license, minor edits
-//  0.3.1   2021-10-20  update Arduino-CI, badges in readme.md
-//  0.3.0   2021-08-08  Major update - breaks interface (names mainly)
-//                      add isInitialized(),   add getOperatingMode(), 
-//                      add getOutputFields(), add inOutputFields(), 
-//                      add kelvin(),          add EEPROM functions
-//                      class methods camelCase
-//                      extend unit tests
-//  0.2.6   2021-01-31  fix #4 use Mode0 for versions and configuration
-//  0.2.5   2020-12-26  fix software Serial + version number (oops)
-//  0.2.2   2020-12-17  add Arduino-CI + unit tests
-//  0.2.1   2020-06-05  fix library.json
-//  0.2.0   2020-03-30  some refactor and own repo
-//  0.1.06  added support for HardwareSerial for MEGA (Rob T)
-//          removed support for NewSoftSerial ==> stop pre 1.0 support)
-//  0.1.05  fixed bug: uint16_t request() to uint32_t request() in .h file (Rob T)
-//  0.1.04  changed CO2 to support larger values (Rob T)
-//  0.1.03  added setOperatingMode
-//  0.1.02  added support Arduino 1.x
-//  0.1.01  initial version
+// HISTORY: see changelog.md
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //
@@ -41,7 +21,8 @@
 
 
 // EEPROM ADRESSES
-// P 11-12 manual
+// P 11-12 manual     WHICH
+//
 //      Name          Address         Default value/ notes
 #define CZR_AHHI        0x00            // reserved
 #define CZR_ANLO        0x01            // reserved
@@ -93,11 +74,13 @@ bool COZIR::isInitialized()
 // CZR_POLLING and CZR_STREAMING use an equally amount
 // of power as both sample continuously...
 //
-void COZIR::setOperatingMode(uint8_t mode)
+bool COZIR::setOperatingMode(uint8_t mode)
 {
+  if (mode > CZR_POLLING) return false;
   _operatingMode = mode;
   sprintf(_buffer, "K %u", mode);
   _command(_buffer);
+  return true;
 }
 
 
@@ -113,7 +96,7 @@ void COZIR::setOperatingMode(uint8_t mode)
 float COZIR::celsius()
 {
   uint16_t rv = _request("T");
-  return 0.1 * (rv - 1000.0);     // P17 negative values
+  return 0.1 * (rv - 1000.0);
 }
 
 
@@ -147,7 +130,7 @@ uint16_t COZIR::getPPMFactor()
 
 // FineTuneZeroPoint()
 // a reading of v1 will be reported as v2
-// sort of mapping
+// sort of mapping / offset
 // check datasheet for detailed description
 uint16_t COZIR::fineTuneZeroPoint(uint16_t v1, uint16_t v2)
 {
@@ -217,7 +200,12 @@ uint8_t COZIR::getDigiFilter()
 // you need to set the STREAMING mode explicitly
 // SetOperatingMode(CZR_STREAMING);
 //
-// in STREAMING mode you must parse the output of serial yourself
+// in STREAMING mode you must parse the output of serial yourself.
+// stream looks like [space field space value]*  \n
+//
+// - find separator ('\n')
+// - read until next separator ('\n') in a buffer,
+// - parse buffer [field space value]
 //
 void COZIR::setOutputFields(uint16_t fields)
 {
@@ -373,14 +361,11 @@ uint32_t COZIR::_request(const char* str)
   // read the answer from serial.
   // TODO: PROPER TIMEOUT CODE.
   // - might be a big delay
-  // - what is longest answer possible?
+  // - what is longest answer possible? CZR_REQUEST_TIMEOUT?
   uint8_t idx = 0;
   uint32_t start = millis();
-  // while (millis() - start < CZR_REQUEST_TIMEOUT)
-  delay(CZR_REQUEST_TIMEOUT);
-  while (true)
+  while (millis() - start < CZR_REQUEST_TIMEOUT)
   {
-    // delay(1);
     if (_ser->available())
     {
       char c = _ser->read();
@@ -389,6 +374,8 @@ uint32_t COZIR::_request(const char* str)
       if (c == '\n') break;
     }
   }
+  // Serial.print("buffer: ");
+  // Serial.println(_buffer);
   uint32_t rv = atol(&_buffer[2]);
   if (idx > 2) return rv;
   return 0;

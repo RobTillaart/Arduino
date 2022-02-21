@@ -1,23 +1,24 @@
 //
-//    FILE: Cozir_getVersion.ino
+//    FILE: Cozir_SWSerial_getVersion.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
-//
+// NOTE: software serial is less reliable than hardware serial
 
-// Note: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
 
 #include "Arduino.h"
 #include "cozir.h"
+#include "SoftwareSerial.h"
 
-COZIR czr(&Serial1);
+SoftwareSerial sws(3, 2);  // RX, TX, optional inverse logic
+
+COZIR czr(&sws);
 
 
 void setup()
 {
-  Serial1.begin(9600);
+  sws.begin(9600);
   czr.init();
 
   Serial.begin(115200);
@@ -28,17 +29,17 @@ void setup()
   delay(100);
   czr.getVersionSerial();
   delay(5);
-  while (Serial1.available())
+  while (sws.available())
   {
-    Serial.write(Serial1.read());
+    Serial.write(sws.read());
   }
   delay(100);
 
   czr.getConfiguration();
   delay(5);
-  while (Serial1.available())
+  while (sws.available())
   {
-    Serial.write(Serial1.read());
+    Serial.write(sws.read());
   }
   delay(1000);
 
@@ -66,4 +67,3 @@ void loop()
 
 
 // -- END OF FILE --
-

@@ -68,10 +68,13 @@ Note: **begin()** has a hard coded 500uS delay so the device can wake up.
 Note: multiple devices can be controlled, just by giving them an unique selectPin.
 This behaviour is similar to the SPI select pin.
 
-- **void setPosition(uint8_t position)** sets the wiper to a position between 0 and 99. 
+- **void setPosition(uint8_t position, bool forced = false)** sets the wiper to a position between 0 and 99. The movement is relative to the current (cached) position.
+If forced is set to true, the cached position is ignored and the new position will be cached. 
 - **uint8_t getPosition()** returns the current position.
-- **void incr()** moves one position up (if possible).
-- **void decr()** moves one position down (if possible).
+- **bool incr()** moves one position up (if possible). 
+Returns true if moved and false if already at end position.
+- **bool decr()** moves one position down (if possible).
+Returns true if moved and false if already at end position.
 - **uint32_t getOhm()** returns the position expressed in Ohm.
 The returned value does depend on the value passed in the constructor.
 - **uint32_t getMaxOhm()** returns the maximum value ( =  parameter from constructor). 
@@ -155,6 +158,14 @@ Note: check datasheet for the range of the max voltage allowed.
 
 - test different platforms
 - improve the hardcoded 500us delay in **begin()**
-- add return code to **setPosition() incr() decr()** ?
 - add error codes ?
 - test **store()**
+- in the constructor rename **Ohm** parameter to value? 
+  - The potentiometer can be used as a voltage divider (see above)
+    so a better parameter name could be the anonymous **value**.
+  - **getOhm()** ==> **getValue()**
+  - **getMaxOhm()** ==> **getMaxValue()**
+  - think milliVolt, ohm, lux, speed, etc. 
+    User can do this too with **getPosition()**
+
+

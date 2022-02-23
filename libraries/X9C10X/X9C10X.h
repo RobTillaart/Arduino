@@ -2,14 +2,14 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
-//
+//     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.1.2"))
+#define X9C10X_LIB_VERSION        (F("0.1.3"))
 
 
 class X9C10X
@@ -21,12 +21,15 @@ public:
   void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin, uint8_t position = 0);
 
   //  position = 0..99
-  void     setPosition(uint8_t position);
+  //  forced = true will ignore the cached position
+  //         takes up to 150 steps as one cannot read the position from device.
+  //  forced = default false as that is safer and backwards compatible.
+  void     setPosition(uint8_t position, bool forced = false);
   uint8_t  getPosition() { return _position; };
 
   //  step size 1.
-  void     incr();
-  void     decr();
+  bool     incr();
+  bool     decr();
 
   //  use with care
   uint8_t  store();

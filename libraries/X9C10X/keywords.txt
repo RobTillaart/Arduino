@@ -19,6 +19,7 @@ getOhm	KEYWORD2
 getMaxOhm	KEYWORD2
 
 store	KEYWORD2
+getType	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -1,8 +1,7 @@
 #pragma once
 //
 //    FILE: Cozir.h
-//  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
@@ -15,12 +14,15 @@
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.3"))
+#define COZIR_LIB_VERSION           (F("0.3.4"))
 
 
-// OUTPUTFIELDS
+// OUTPUT FIELDS
 // See datasheet for details.
 // These defines can be OR-ed for the SetOutputFields command
+//
+#define CZR_UNKNOWN_2               0x8000     // returns  P 00128  ? 
+#define CZR_UNKNOWN_1               0x4000     // returns  E 00016  ?
 #define CZR_LIGHT                   0x2000
 #define CZR_HUMIDITY                0x1000
 #define CZR_FILTLED                 0x0800
@@ -162,6 +164,79 @@ private:
 
   void     _command(const char* str);
   uint32_t _request(const char* str);
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  C0ZIRParser
+//
+//  used to parse the stream from a COZIR CO2 sensor.
+//  Note: one can comment fields / code not used to minimize footprint.
+//
+class C0ZIRParser
+{
+public:
+  C0ZIRParser();
+
+  void init();
+
+  // returns field char if a field is completed, 0 otherwise.
+  uint8_t nextChar(char c);
+
+  //  FETCH LAST READ VALUES
+  float    celsius();
+  float    fahrenheit()    { return (celsius() * 1.8) + 32; };
+  float    kelvin()        { return celsius() + 273.15; };
+  float    humidity()      { return 0.1 * _humidity; };
+
+  uint16_t light()         { return _light; };
+  uint16_t ledFilt()       { return _LED_FILT; };
+  uint16_t ledRaw()        { return _LED_RAW; };
+  uint16_t ledMax()        { return _LED_MAX; };
+  uint16_t ledSignalFilt() { return _LED_signal_FILT; };
+  uint16_t ledSignalRaw()  { return _LED_signal_RAW; };
+
+  uint16_t zeroPoint()     { return _zeroPoint; };
+  uint16_t tempFilt()      { return _temperature_FILT; };
+  uint16_t tempRaw()       { return _temperature_RAW; };
+  uint16_t tempSensor()    { return _temperature_Sensor; };
+
+  uint16_t CO2()           { return _CO2_FILT; };
+  uint16_t CO2Raw()        { return _CO2_RAW; };
+
+  uint16_t samples()       { return _samples; };
+  uint16_t getPPMFactor()  { return _PPM; }
+
+
+private:
+  //       FIELD                    ID character
+  uint16_t _light;              //  L
+  uint16_t _humidity;           //  H
+  uint16_t _LED_FILT;           //  D
+  uint16_t _LED_RAW;            //  d
+  uint16_t _LED_MAX;            //  l    // el not one
+  uint16_t _zeroPoint;          //  h
+  uint16_t _temperature_RAW;    //  V
+  uint16_t _temperature_FILT;   //  T
+  uint16_t _LED_signal_FILT;    //  o    // oo not zero
+  uint16_t _LED_signal_RAW;     //  O    // oo not zero
+  uint16_t _temperature_Sensor; //  v
+  uint16_t _CO2_FILT;           //  Z
+  uint16_t _CO2_RAW;            //  z
+
+  // not output fields sec but useful.
+  uint16_t _samples;            //  a
+  uint16_t _PPM;                //  .    // point
+
+
+  // parsing helpers
+  uint32_t _value;
+  uint8_t  _field;
+
+  // returns field char if a field is completed, 0 otherwise.
+  uint8_t store();
 };
 
 

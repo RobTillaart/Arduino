@@ -2,6 +2,12 @@
 # Cozir Changelog
 
 
+## 0.3.4 2022-02-22
+- added COZIRParser class for streaming mode
+- added streaming examples
+- minor edits
+
+
 ## 0.3.3 2022-02-21
 - update readme,
 - update + add examples

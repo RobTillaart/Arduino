@@ -23,6 +23,11 @@ This version of the library supports only the **Serial** interface.
 Preferred is a hardware Serial port to connect the sensor but software Serial 
 does work too. 
 
+The library (since 0.3.4) a separate class to parse the STREAMING data.
+See COZIRParser below. 
+The Cozir class is focussed on polling and sending commands.
+
+
 #### Notes
 
 - Read the datasheet before using this library. 
@@ -212,16 +217,41 @@ Also the user must reset the operating mode either to **CZR_POLLING** or **CZR_S
 See examples.
 
 
+## COZIRParser
+
+Class to parse the output of a COZIR sensor in stream mode.
+
+## Description
+
+(added in 0.3.4, experimental)
+
+The COZIRparser object has a main function called **nextChar(c)**
+It needs to be called with all incoming characters from the sensor.
+
+If a new field is found **nextChar()** returns the field identifier 
+of the last parsed field (single char) to indicate its value has been 
+updated, otherwise it returns 0.
+The updated value can be accessed with one of the functions, see cozir.h file.
+
+An example **Cozir_stream_parse.ino** is added to show how to use this class.
+
+Note: to send commands e.g. outputField selection, to the sensor the COZIR
+ class is used (which is mostly focussed on polling access).
+
+
+
 ## Future
 
 - improve documentation
+  - COZIR Parser a separate readme?
   - matrix functions vs sensor ?
 - test
   - test streaming mode
   - test table / matrix ?
 - add examples
   - example COZIR with I2C display?
-  - example streaming mode parsing.
+  - example with GREEN YELLOW RED LED?
+  - examples for COZIRParser.
 - COZIR I2C class for newer generation 
   ~ same functional interface
   - multiWire / pin a la PCF8574 lib

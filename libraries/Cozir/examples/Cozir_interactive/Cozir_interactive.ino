@@ -37,6 +37,9 @@ void loop()
     char c = Serial.read();
     switch (toupper(c))
     {
+      case '0':
+        czr.setOperatingMode(CZR_COMMAND);
+        break;
       case '1':
         czr.setOperatingMode(CZR_STREAMING);
         break;
@@ -118,6 +121,7 @@ void menu()
   Serial.println();
   Serial.println("-- COZIR GC0034 --");
   Serial.println();
+  Serial.println("  0 Command mode (low power)");
   Serial.println("  1 Continuous mode");
   Serial.println("  2 Polling mode");
   Serial.println();

@@ -1,7 +1,7 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode
 //     URL: https://github.com/RobTillaart/Cozir
@@ -417,4 +417,135 @@ uint16_t COZIR::_getEEPROM2(uint8_t address)
 
 
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// C0ZIRParser
+//
+C0ZIRParser::C0ZIRParser()
+{
+  init();
+}
+
+
+void C0ZIRParser::init()
+{
+  _light              = 0;
+  _humidity           = 0;
+  _LED_FILT           = 0;
+  _LED_RAW            = 0;
+  _LED_MAX            = 0;
+  _zeroPoint          = 0;
+  _temperature_RAW    = 0;
+  _temperature_FILT   = 0;
+  _LED_signal_FILT    = 0;
+  _LED_signal_RAW     = 0;
+  _temperature_Sensor = 0;
+  _CO2_FILT           = 0;
+  _CO2_RAW            = 0;
+  _samples            = 0;
+  _PPM                = 1;  // Note default one
+  _value              = 0;
+  _field              = 0;
+}
+
+
+uint8_t C0ZIRParser::nextChar(char c)
+{
+  uint8_t rv = 0;
+  switch(c)
+  {
+    case '0' ... '9':
+      _value *= 10;
+      _value += (c - '0');
+      break;
+    case 'L':
+    case 'T':
+    case 'H':
+    case 'z':
+    case 'Z':
+    case 'A':
+    case 'P':
+      rv = store();
+      _field = c;
+      _value = 0;
+      break;
+    default:
+      break;
+  }
+  return rv;
+}
+
+
+float C0ZIRParser::celsius()
+{
+  return  0.1 * (_temperature_FILT - 1000.0);
+}
+
+
+//////////////////////////////////
+//
+//  PRIVATE
+//
+uint8_t C0ZIRParser::store()
+{
+  switch(_field)
+  {
+    //  LIGHT related
+    case 'L':
+      _light = _value;
+      return _field;
+    case 'D':
+      _LED_FILT = _value;
+      return _field;
+    case 'd':
+      _LED_RAW = _value;
+      return _field;
+    case 'l':
+      _LED_MAX = _value;
+      return _field;
+    case 'o':
+      _LED_signal_FILT = _value;
+      return _field;
+    case 'O':
+      _LED_signal_RAW = _value;
+      return _field;
+
+    // TEMPERATURE & HUMIDITY
+    case 'V':
+      _temperature_RAW = _value;
+      return _field;
+    case 'v':
+      _temperature_Sensor = _value;
+      return _field;
+    case 'T':
+      _temperature_FILT = _value;
+      return _field;
+    case 'H':
+      _humidity = _value;
+      return _field;
+
+    //  CO2 related
+    case 'z':
+      _CO2_RAW = _value;
+      return _field;
+    case 'Z':
+      _CO2_FILT = _value;
+      return _field;
+
+    //  OTHER
+    case 'h':
+      _zeroPoint = _value;
+      return _field;
+    case 'a':
+      _samples = _value;
+      return _field;
+    case '.':
+      _PPM = _value;
+      return _field;
+  }
+  return 0;
+}
+
+
 // -- END OF FILE --
+

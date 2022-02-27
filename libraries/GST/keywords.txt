@@ -1,0 +1,65 @@
+# Syntax Colouring Map For GST
+
+# Data types (KEYWORD1)
+GST	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setTruePositive	KEYWORD2
+setTrueNegative	KEYWORD2
+setFalsePositive	KEYWORD2
+setFalseNegative	KEYWORD2
+
+getTruePositive	KEYWORD2
+getTrueNegative	KEYWORD2
+getFalsePositive	KEYWORD2
+getFalseNegative	KEYWORD2
+
+getTotal	KEYWORD2
+getActualPositive	KEYWORD2
+getActualNegative	KEYWORD2
+getTestedPositive	KEYWORD2
+getTestedNegative	KEYWORD2
+
+sensitivity	KEYWORD2
+specificity	KEYWORD2
+
+
+TPR	KEYWORD2
+TNR	KEYWORD2
+FNR	KEYWORD2
+FPR	KEYWORD2
+
+
+PPV	KEYWORD2
+NPV	KEYWORD2
+FDR	KEYWORD2
+FOR	KEYWORD2
+
+
+LRplus	KEYWORD2
+LRminus	KEYWORD2
+
+
+prevalenceThreshold	KEYWORD2
+threatScore	KEYWORD2
+criticalSuccessIndex	KEYWORD2
+
+prevalence	KEYWORD2
+accuracy	KEYWORD2
+balancedAccuracy	KEYWORD2
+F1Score	KEYWORD2
+
+
+MCC	KEYWORD2
+phi	KEYWORD2
+FM	KEYWORD2
+BM	KEYWORD2
+MK	KEYWORD2
+deltaP	KEYWORD2
+DOR	KEYWORD2
+
+
+# Constants (LITERAL1)
+GST_LIB_VERSION	LITERAL1
+

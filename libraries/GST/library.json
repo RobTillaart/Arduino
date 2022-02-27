@@ -1,0 +1,23 @@
+{
+  "name": "GST",
+  "keywords": "Golden,Standard,Test,confusion,matrix",
+  "description": "Arduino library for Golden Standard Test, confusion matrix",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/GST.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "GST.h"
+}

@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: Cozir.h
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: library for COZIR range of sensors for Arduino
-//          Polling Mode
+//          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.4"))
+#define COZIR_LIB_VERSION           (F("0.3.5"))
 
 
 // OUTPUT FIELDS
@@ -180,7 +180,11 @@ class C0ZIRParser
 public:
   C0ZIRParser();
 
+  //  init resets all internal values
   void init();
+  //  resetParser only resets current FIELD (last values are kept).
+  void resetParser() { _field = 0; };
+
 
   // returns field char if a field is completed, 0 otherwise.
   uint8_t nextChar(char c);
@@ -232,10 +236,10 @@ private:
 
 
   // parsing helpers
-  uint32_t _value;
-  uint8_t  _field;
+  uint32_t _value;    //  to build up the numeric value 
+  uint8_t  _field;    //  last read FIELD
 
-  // returns field char if a field is completed, 0 otherwise.
+  // returns FIELD char if a FIELD is completed, 0 otherwise.
   uint8_t store();
 };
 

@@ -1,9 +1,9 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: library for COZIR range of sensors for Arduino
-//          Polling Mode
+//          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
@@ -369,16 +369,22 @@ uint32_t COZIR::_request(const char* str)
     if (_ser->available())
     {
       char c = _ser->read();
+      if (c == '\n') break;
       _buffer[idx++] = c;
       _buffer[idx] = '\0';
-      if (c == '\n') break;
     }
   }
   // Serial.print("buffer: ");
   // Serial.println(_buffer);
-  uint32_t rv = atol(&_buffer[2]);
-  if (idx > 2) return rv;
-  return 0;
+  uint32_t rv = 0;
+  // default for PPM is different.
+  if (str[0] == '.') rv = 1;
+  // do we got the requested field?
+  if (strchr(_buffer, str[0]) && (idx > 2))
+  {
+    rv = atol(&_buffer[2]);
+  }
+  return rv;
 }
 
 
@@ -451,25 +457,72 @@ void C0ZIRParser::init()
 
 uint8_t C0ZIRParser::nextChar(char c)
 {
+  static bool skipLine = false;
   uint8_t rv = 0;
+
+  //  SKIP * and Y until next return.
+  //  as output of these two commands not handled by this parser
+  if ((c == '*') || (c == 'Y') || (c == '@')) skipLine = true;
+  if (c == '\n') skipLine = false;
+  if (skipLine) return 0;
+
+  //  TODO investigate
+  //  if the last char is more than 2..5 ms ago (9600 baud ~ 1 char/ms)
+  //  it probably needs to sync with the stream again.
+  //  but it depends on how calling process behaves.
+  //  - need for uint32_t _lastChar time stamp?
+
   switch(c)
   {
     case '0' ... '9':
       _value *= 10;
       _value += (c - '0');
       break;
+    //  major responses to catch
+    case 'z':
+    case 'Z':
     case 'L':
     case 'T':
     case 'H':
-    case 'z':
-    case 'Z':
+    //  all other known responses, starting a new field
+    case 'X':
+    case '.':
+    case '@':     // skipped
+    case 'Y':     // skipped
+    case '*':     // skipped
+    case 'Q':
+    case 'F':
+    case 'G':
+    case 'M':
+    case 'K':    // mode
     case 'A':
+    case 'a':
     case 'P':
+    case 'p':
+    case 'S':
+    case 's':
+    case 'U':
+    case 'u':
+    //  new line triggers store() to have results available faster.
+    //  saves ~500 millis() for the last FIELD
+    case '\n':
       rv = store();
       _field = c;
       _value = 0;
       break;
-    default:
+
+    //  drop fields of Y, and * command.
+    //  reset parsing on separators of Y and * commands
+    case ':':
+    case ',':
+      _field = 0;
+      _value = 0;
+      break;
+
+    case ' ':    //  known separator
+    case '\r':   //  known return
+      break;
+    default:     //  catch all unknown characters, including glitches.
       break;
   }
   return rv;

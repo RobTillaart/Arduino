@@ -3,12 +3,12 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir sensor
 //     URL: https://github.com/RobTillaart/Cozir
-//          http://forum.arduino.cc/index.php?topic=91467.0
+//
 // NOTE: software serial is less reliable than hardware serial
 //
 // The purpose of this sketch is to talk lowest level to the COZIR sensor.
 // one can send the low level commands (datasheet) directly to the device.
-// Note: this can cause (unwanted) side effects, so use with care.
+// NOTE: this can cause (unwanted) side effects, so use with care.
 
 
 #include "Arduino.h"

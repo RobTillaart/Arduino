@@ -1,5 +1,5 @@
 //
-//    FILE: Cozir_stream_parse.ino
+//    FILE: Cozir_stream_parse_3LED.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
@@ -29,12 +29,28 @@ uint8_t field = 0;        //  which field is parsed
 
 uint32_t lastPrint = 0;   //  last time fields are displayed.
 
+//  CO2 traffic light, could be a 3 colour LED
+//  or three separate ones
+const uint8_t REDPIN    = A0;
+const uint8_t YELLOWPIN = A1;
+const uint8_t GREENPIN  = A2;
+
+
 
 void setup()
 {
   Serial1.begin(9600);
   czr.init();
   czrp.init();
+
+  // initialize the LEDS
+  pinMode(REDPIN,    OUTPUT);
+  pinMode(YELLOWPIN, OUTPUT);
+  pinMode(GREENPIN,  OUTPUT);
+  digitalWrite(REDPIN,    LOW);
+  digitalWrite(YELLOWPIN, LOW);
+  digitalWrite(GREENPIN,  LOW);
+
 
   Serial.begin(115200);
   // Serial.print("COZIR_LIB_VERSION: ");
@@ -66,7 +82,6 @@ void loop()
   if (Serial1.available())
   {
     char c = Serial1.read();
-    // Serial.print(c);
     field = czrp.nextChar(c);
     if (field != 0)
     {
@@ -79,9 +94,46 @@ void loop()
       Serial.print("\t");
       Serial.print(czrp.CO2Raw());
       Serial.println();
+      
+      updateLEDS(czrp.CO2());
     }
   }
 }
 
+
+void updateLEDS(uint16_t value)
+{
+  digitalWrite(REDPIN,    LOW);
+  digitalWrite(YELLOWPIN, LOW);
+  digitalWrite(GREENPIN,  LOW);
+  if (value < 100)
+  {
+    digitalWrite(GREENPIN, HIGH);
+    digitalWrite(REDPIN, HIGH);
+  }
+  else if (value < 800)
+  {
+    digitalWrite(GREENPIN, HIGH);
+  }
+  else if (value < 1000)
+  {
+    digitalWrite(GREENPIN, HIGH);
+    digitalWrite(YELLOWPIN, HIGH);
+  }
+  else if (value < 1200)
+  {
+    digitalWrite(YELLOWPIN, HIGH);
+  }
+  else if (value < 1400)
+  {
+    digitalWrite(YELLOWPIN, HIGH);
+    digitalWrite(REDPIN, HIGH);
+  }
+  else
+  {
+    digitalWrite(REDPIN, HIGH);
+  }
+
+}
 
 // -- END OF FILE --

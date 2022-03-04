@@ -3,12 +3,11 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir lib - stand alone stream parsing.
 //     URL: https://github.com/RobTillaart/Cozir
-//          http://forum.arduino.cc/index.php?topic=91467.0
 //
-// Note: this sketch needs a MEGA or a Teensy that supports a second
+// NOTE: this sketch needs a MEGA or a Teensy that supports a second
 //       Serial port named Serial1
 //
-//  to be used with the Serial Plotter.
+//       to be used with the Serial Plotter.
 
 
 #include "Arduino.h"

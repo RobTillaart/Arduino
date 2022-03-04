@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
-//          http://forum.arduino.cc/index.php?topic=91467.0
+//
 // NOTE: software serial is less reliable than hardware serial
 
 

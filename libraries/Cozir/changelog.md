@@ -2,6 +2,15 @@
 # Cozir Changelog
 
 
+## 0.3.5 2022-02-25
+- added capturing mode 'K' field in the COZIRParser class
+- added all known fields in the COZIRParser class
+- added sending commands in stream parser example to test.
+- added example with adaptive timing depending on CO21 level.
+- verify requested field in **_request()**
+- minor edits.
+
+
 ## 0.3.4 2022-02-22
 - added COZIRParser class for streaming mode
 - added streaming examples

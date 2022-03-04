@@ -13,7 +13,7 @@ Arduino library for COZIR range CO2 sensors.
 
 ## Description
 
-The Cozir library is **experimental** as not all functionality is tested.
+The COZIR library is **experimental** as not all functionality is tested.
 The polling mode as used in the examples is tested in the past by DirtGambit.
 **CO2meter.com** sponsored a **COZIR GC0034** to start hands on testing (2022-02).
 This sensor does not support all commands, but as the pattern of the commands 
@@ -25,7 +25,7 @@ does work too.
 
 The library (since 0.3.4) a separate class to parse the STREAMING data.
 See COZIRParser below. 
-The Cozir class is focussed on polling and sending commands.
+The COZIR class is focussed on polling and sending commands.
 
 
 #### Notes
@@ -41,7 +41,7 @@ It needs to be set to **CZR_POLLING** mode.
 - Not all COZIR devices support all calls of this library.
 
 
-## Interface
+## Interface Cozir
 
 Read the datasheet (again).
 
@@ -109,6 +109,7 @@ use with care, read datasheet before use.
 |  32   | default, good average                              |
 | 255   | very slow, max smoothed                            |
 
+
 - **void setDigiFilter(uint8_t value)** The larger the value the more smoothed the signal is.
 Larger values also means that the output does not follow fast changes.
 So depending on your needs you need to find an optimal value for the project.
@@ -119,7 +120,7 @@ the actual CO2 value.
 
 ### Streaming MODE
 
-Warning: hardware serial is needed to improve the capture of all output correctly. 
+Warning: hardware serial is needed / recommended to improve the capture of all output correctly. 
 
 - **void setOutputFields(uint16_t fields)** Sets the fields in the output stream as a 16 bit mask. See table below.
 - **void clearOutputFields()** clears all the fields.
@@ -154,7 +155,8 @@ Note: NOT all sensors support all fields, check the datasheet of the sensor used
 | CZR_HTC           |  0X1082   |    4226   | shortcut        |
 | CZR_ALL           |  0X3FFE   |   16383   | debug           |
 
-Default value is 6  = CZR_FILTCO2 + CZR_RAWCO2
+
+Default value is CZR_DEFAULT ==  6  == CZR_FILTCO2 + CZR_RAWCO2
 
 
 ### EEPROM
@@ -217,9 +219,33 @@ Also the user must reset the operating mode either to **CZR_POLLING** or **CZR_S
 See examples.
 
 
+## Future
+
+- improve documentation
+  - COZIR Parser a separate readme?
+- add examples
+  - example COZIR with I2C display?
+- COZIR I2C class for newer generation 
+  ~ same functional interface
+  - multiWire / pin a la PCF8574 lib
+
+
+#### won't for now
+
+- add a **setEEPROMFactoryDefault()**?
+  - unknown if all sensors have same values
+- build a Arduino COZIR simulator for testing.
+  - add other sensors underneath?
+
+
+
+----
+
+
 ## COZIRParser
 
 Class to parse the output of a COZIR sensor in stream mode.
+
 
 ## Description
 
@@ -235,34 +261,51 @@ The updated value can be accessed with one of the functions, see cozir.h file.
 
 An example **Cozir_stream_parse.ino** is added to show how to use this class.
 
-Note: to send commands e.g. outputField selection, to the sensor the COZIR
- class is used (which is mostly focussed on polling access).
+**NOTE:** to send commands e.g. outputField selection, to the sensor the COZIR
+ class can be used (which is mostly focussed on polling access). 
+Alternatively the user sends the low level commands just as a string over serial.
+This latter method will save memory especially in a final version of a project. 
 
+**NOTE:** The COZIRparser skips the output of the Y, \* and @ command.
+These are configuration fields and therefore not part of the **stream mode** fields.
+Furthermore not all fields these lines produce are understood.
+So parsing these lines is left to the user for now. 
+
+**NOTE:** The COZIRparser class does not check for missing characters,
+the range of the fields recognized, or other errors. So the values
+returned should be handled with care.
+
+
+## Interface COZIRParser
+
+Read the datasheet (again).
+
+
+### Constructor and initialisation
+
+- **C0ZIRParser()** constructor
+- **void init()** resets all internal variables to 0 except PPM (set to 1)
+- **void resetParser()** should / could be called if stream from sensor is
+interrupted for long period, e.g. if there are missing characters. 
+This should prevent the parser to overshoot a value due to concatenating the 
+value of different (interrupted) measurements or FIELDs.
+- **uint8_t nextChar(char c)** all characters coming from the sensor should 
+be send to the parser by means of **nextChar()**. 
+Default it will return 0 and the FIELD character is a field has been updated. 
+Read Datasheet for the characters used.
+
+The remainder of the interface are getters for the different fields.
 
 
 ## Future
 
 - improve documentation
   - COZIR Parser a separate readme?
-  - matrix functions vs sensor ?
-- test
-  - test streaming mode
-  - test table / matrix ?
+- support splitting output of Y and \* command.
+  - separate parser COZIRParserY()
+  - separate parser COZIRParserStar()
+  - separate parser COZIRParser@()
 - add examples
-  - example COZIR with I2C display?
-  - example with GREEN YELLOW RED LED?
   - examples for COZIRParser.
-- COZIR I2C class for newer generation 
-  ~ same functional interface
-  - multiWire / pin a la PCF8574 lib
 
 
-#### won't for now
-
-- add a **setEEPROMFactoryDefault()**?
-  - unknown if all sensors have same values
-- build a Arduino COZIR simulator for testing.
-  - add other sensors underneath?
-  
-  
-  

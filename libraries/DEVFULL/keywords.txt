@@ -1,0 +1,17 @@
+# Syntax Colouring Map For DEVFULL
+
+
+# Data types (KEYWORD1)
+DEVFULL	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+# all known from Stream.
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+DEVFULL_LIB_VERSION	LITERAL1
+

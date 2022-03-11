@@ -1,0 +1,23 @@
+{
+  "name": "DEVFULL",
+  "keywords": "DEVFULL,zero,full",
+  "description": "Arduino library for a /dev/full stream. Useful for debugging.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DEVFULL.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "DEVFULL.h"
+}

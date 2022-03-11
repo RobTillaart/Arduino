@@ -1,7 +1,7 @@
 //
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //
@@ -19,12 +19,15 @@
 //  0.1.2   2020-08-07  speed up toggle pin + get/setFactor()
 //  0.1.3   2021-01-06  Arduino-CI (no unit test)
 //  0.1.4   2021-12-24  update library.json, license, minor edits
+//  0.1.5   2022-03-10  add times to start(), 0 = continuous mode
+
 
 #include "PulsePattern.h"
 
 
 // Predefined generator (singleton)
 PulsePattern PPGenerator;
+
 
 ISR(TIMER1_COMPA_vect)
 {
@@ -67,10 +70,11 @@ const uint8_t level, const uint8_t prescaler)
 }
 
 
-void PulsePattern::start()
+void PulsePattern::start(uint32_t times)
 {
   if (_state == RUNNING) return;  // no restart
-  _cnt = 0;                       // start from begin
+  _cnt   = 0;                     // start from begin
+  _times = times;
   cont();
 }
 
@@ -112,7 +116,23 @@ void PulsePattern::worker()
     OCR1A = _ar[_cnt] * (F_CPU/1000000UL);
   }
   _cnt++;
-  if (_cnt >= _size) _cnt = 0;  // repeat pattern
+  if (_cnt >= _size)
+  {
+    _cnt = 0;  // reset pattern
+    switch(_times)
+    {
+      case PP_CONTINUOUS:
+        break;
+      case 1:
+        _times--;
+      case 0:
+        stop();
+        break;
+      default:
+        _times--;
+        break;
+    }
+  }
 }
 
 

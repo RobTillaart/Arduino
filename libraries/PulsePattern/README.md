@@ -43,7 +43,9 @@ Use with care.
 - **void setFactor(float perc)** percentage = factor to correct timing (relative).
 - **float getFactor()** get the internal used factor. Due to rounding it can be slightly different.
 - **void stop()** stop the pattern generator
-- **void start()** start the pattern generator
+- **void start(uint32_t times = PP_CONTINUOUS)** start the pattern generator.
+Default in the continuous mode to be backwards compatible.
+**PP_CONTINUOUS** == 0xFFFFFFFF, so times should be less than 4294967295. For convenience there is a **PP_ONCE** == 1 defined.
 - **void cont()** continue the pattern generator from the last stopped place (approx).
 - **bool isRunning()** status indicator
 - **void worker()** must be public otherwise the ISR cannot call it.
@@ -74,5 +76,6 @@ See examples.
 
 - ESP32 variant of this class (base class -> AVR -> ESP class)
 - pulse recorder class to record / generate patterns
-
+- add interval between patterns?
+  - or is this just LOW/HIGH for a certain time.
 if time permits ...

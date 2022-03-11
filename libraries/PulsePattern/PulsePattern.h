@@ -2,7 +2,7 @@
 //
 //    FILE: PulsePattern.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //          sends a pulse pattern to a digital pin (continuously)
@@ -17,14 +17,14 @@
 #include "Arduino.h"
 
 
-#define PULSEPATTERN_LIB_VERSION        (F("0.1.4"))
+#define PULSEPATTERN_LIB_VERSION        (F("0.1.5"))
 
-
+//  RUNNING STATES
 #define NOTINIT                         -1
 #define STOPPED                         0
 #define RUNNING                         1
 
-
+//  PRESCALER CONSTANTS
 #define NO_CLOCK                        0   // timer off
 #define PRESCALE_1                      1
 #define PRESCALE_8                      2
@@ -33,6 +33,10 @@
 #define PRESCALE_1024                   5
 #define EXT_T1_FALLING                  6  // external clock
 #define EXT_T2_RISING                   7  // external clock
+
+//  RUNNING MODE
+#define PP_ONCE                         1
+#define PP_CONTINUOUS                   0xFFFFFFFF
 
 
 class PulsePattern
@@ -46,7 +50,7 @@ public:
 
   void  setFactor(float perc) { _factor = round(4096 * (1 + perc)); };
   float getFactor()           { return _factor / 4096.0 - 1; };
-  void  start();
+  void  start(uint32_t times = PP_CONTINUOUS);
   void  cont();
   void  stop();
   bool  isRunning() const { return _state == RUNNING; };
@@ -67,6 +71,8 @@ private:
   volatile uint8_t  _level;
   volatile int8_t   _state;
   volatile uint8_t  _cnt;
+
+  uint32_t          _times = PP_CONTINUOUS;
 };
 
 extern PulsePattern PPGenerator;

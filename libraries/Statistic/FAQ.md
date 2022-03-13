@@ -9,7 +9,10 @@ calculate the most important statistics.
 
 #### Q: How many samples can the lib hold?  Part 1: internal variables and overflow
 
-The counter of samples is an **uint32_t**, implying a maximum of about **4 billion** samples. 
+Since version 1.0.0 the user can define the ` value type` and the `count type` in the constructor.
+So one can use double (64) and uint64_t to improve precision at the price of performance.
+
+The (default) counter of samples is an **uint32_t**, implying a maximum of about **4 billion** samples. 
 In practice 'strange' things might happen before this number is reached. 
 There are two internal variables, **\_sum** which is the sum of the values and **\_ssq** 
 which is the sum of the squared values. Both can overflow especially **\_ssq** 
@@ -26,6 +29,9 @@ This workaround has no influence on the standard deviation.
 
 
 #### Q: How many samples can the lib hold?  Part 2: order of magnitude floats
+
+Since version 1.0.0 the user can define the ` value type` and the `count type` in the constructor.
+So one can use double (64) and uint64_t to improve precision at the price of performance.
 
 The samples are added in the internal variable **\_sum** and counted in **\_cnt**. 
 In time **\_sum** will outgrow the added values in order of magnitude.
@@ -54,6 +60,9 @@ not change more than 1x per minute, it makes no sense to sample it 2x per second
 
 #### Q: How about the precision of the library?
 
+Since version 1.0.0 the user can define the ` value type` and the `count type` in the constructor.
+So one can use double (64) and uint64_t to improve precision at the price of performance.
+
 The precision of the internal variables is restricted due to the fact 
 that they are 32 bit float (IEEE754). If the internal variable **\_sum** has 
 a large value, adding relative small values to the dataset wouldn't 
@@ -68,6 +77,9 @@ in the sorted, increasing order.
 
 
 #### Q: When will internal var's overflow? esp. squared sum
+
+Since version 1.0.0 the user can define the ` value type` and the `count type` in the constructor.
+So one can use double (64) and uint64_t to improve precision at the price of performance.
 
 IEEE754 floats have a max value of about **+-3.4028235E+38**
 

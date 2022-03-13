@@ -1,5 +1,5 @@
 //
-//    FILE: TimingTest.ino
+//    FILE: statistic_add_overflow.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: this sketch shows a known (rounding) problem when the
 //          internal sum is orders of magnitude larger than the added value.

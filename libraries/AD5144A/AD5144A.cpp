@@ -1,32 +1,24 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
 //
-//  HISTORY
-//  0.1.0   2021-04-30  initial version
-//  0.1.1   2021-05-12  add topScale() and bottomScale()
-//  0.1.2   2021-05-12  add increment() and decrement() functions
-//  0.1.3   2021-10-17  update build-ci, improve readme.md
-//  0.1.4   2021-12-10  remove experimental from version string.
-//                      add headers to library.json,
-//                      minor edits readme, license,
-//                      add check for maxValue in code. 
+//  Datasheet: REV-C  7/2019
 
 
 #include "AD5144A.h"
 
 
-// Commands page 29 datasheet
+//  Commands page 29 datasheet
 //
-// not implemented (yet)
-// 0      NOP
-// 4 5    linear RDAC in/decrement
-// 6 7    6dB RDAC in/decrement
-// 12 13  top scale bottom scale ???
+//  not implemented (yet)
+//  0      NOP
+//  4 5    linear RDAC in/decrement
+//  6 7    6dB RDAC in/decrement
+//  12 13  top scale bottom scale ???
 
 
 AD51XX::AD51XX(const uint8_t address, TwoWire *wire)
@@ -37,7 +29,7 @@ AD51XX::AD51XX(const uint8_t address, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool AD51XX::begin(uint8_t dataPin, uint8_t clockPin)
+bool AD51XX::begin(uint8_t dataPin, uint8_t clockPin, bool doReset)
 {
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
@@ -47,17 +39,17 @@ bool AD51XX::begin(uint8_t dataPin, uint8_t clockPin)
     _wire->begin();
   }
   if (! isConnected()) return false;
-  reset();
+  if (doReset) reset();    //  See page 28 datasheet
   return true;
 }
 #endif
 
 
-bool AD51XX::begin()
+bool AD51XX::begin(bool doReset)
 {
   _wire->begin();
   if (! isConnected()) return false;
-  midScaleAll();    // is this what we want?
+  if (doReset) reset();    //  See page 28 datasheet
   return true;
 }
 
@@ -128,11 +120,12 @@ uint8_t AD51XX::storeEEPROM(const uint8_t rdac, const uint8_t value)
   return send(cmd, value);
 }
 
+
 ///////////////////////////////////////////////////////////
 
 uint8_t AD51XX::setTopScale(const uint8_t rdac)
 {
-  // COMMAND 12
+  //  COMMAND 12
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   uint8_t cmd = 0x90 | rdac;
   return send(cmd, 0x81);
@@ -141,7 +134,7 @@ uint8_t AD51XX::setTopScale(const uint8_t rdac)
 
 uint8_t AD51XX::clrTopScale(const uint8_t rdac)
 {
-  // COMMAND 12
+  //  COMMAND 12
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   uint8_t cmd = 0x90 | rdac;
   return send(cmd, 0x80);
@@ -150,7 +143,7 @@ uint8_t AD51XX::clrTopScale(const uint8_t rdac)
 
 uint8_t AD51XX::setTopScaleAll()
 {
-  // COMMAND 12
+  //  COMMAND 12
   uint8_t cmd = 0x98;
   return send(cmd, 0x81);
 }
@@ -197,7 +190,8 @@ uint8_t AD51XX::clrBottomScaleAll()
   return send(cmd, 0x00);
 }
 
-///////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
 
 uint8_t AD51XX::setLinearMode(const uint8_t rdac)
 {
@@ -294,7 +288,7 @@ uint8_t AD51XX::decrement6dBAll()
 }
 
 
-///////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 uint8_t AD51XX::preload(const uint8_t rdac, const uint8_t value)
 {
@@ -349,7 +343,7 @@ uint8_t AD51XX::writeControlRegister(uint8_t mask)
 }
 
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 //
 // PRIVATE
 //
@@ -385,15 +379,14 @@ uint8_t AD51XX::readBack(const uint8_t rdac, const uint8_t mask)
   a = _wire->endTransmission();
   // Serial.print(" TX: ");
   // Serial.println(a);
-  
   a = _wire->requestFrom(_address, (uint8_t)1);
-  Serial.print(" RF: ");
-  Serial.println(a);
+  // Serial.print(" RF: ");
+  // Serial.println(a);
   return _wire->read();
 }
 
 
-//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
 //
@@ -459,4 +452,6 @@ AD5141::AD5141(const uint8_t address, TwoWire *wire) : AD51XX(address, wire)
   _maxValue = 255;
 }
 
+
 // -- END OF FILE --
+

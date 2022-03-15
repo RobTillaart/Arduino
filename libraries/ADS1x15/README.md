@@ -5,11 +5,13 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ADS1X15/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ADS1X15.svg?maxAge=3600)](https://github.com/RobTillaart/ADS1X15/releases)
 
+
 # ADS1X15
 
 Arduino library for I2C ADC ADS1015, ADS1115, and similar.
 
 For using I2C ADC with Raspberry pi or other SBC with Linux OS, you can check similar library [here](https://github.com/chandrawi/ADS1x15-ADC).
+
 
 ## Description
 
@@ -172,18 +174,24 @@ Data rate in samples per second, based on datasheet is described on table below.
 
 Reading the ADC is very straightforward, the **readADC()** function handles all in one call.
 Under the hood it uses the asynchronous calls.
-- **int16_t readADC(uint8_t pin)** normal ADC functionality, pin = 0..3. 
+- **int16_t readADC(uint8_t pin = 0)** normal ADC functionality, pin = 0..3. 
 If the pin number is out of range, this function will return 0.
+Default pin = 0 as this is convenient for 1 channel devices.
 
 ```cpp
-// read ADC in pin 0
+// read ADC in pin 2
+ADS.readADC(2);
+
+// read ADC in pin 0 - two ways
+ADS.readADC();
 ADS.readADC(0);
 ```
 
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_minimum/ADS_minimum.ino).
 
 To read the ADC in an asynchronous way (e.g. to minimize blocking) you need call three functions:
-- **void requestADC(uint8_t pin)**  Start the conversion. pin = 0..3. 
+- **void requestADC(uint8_t pin = 0)**  Start the conversion. pin = 0..3. 
+Default pin = 0 as this is convenient for 1 channel devices.
 - **bool isBusy()** Is the conversion not ready yet? Works only in SINGLE mode!
 - **bool isReady()** Is the conversion ready? Works only in SINGLE mode!  (= wrapper around **isBusy()** )  
 - **int16_t getValue()** Read the result of the conversion.

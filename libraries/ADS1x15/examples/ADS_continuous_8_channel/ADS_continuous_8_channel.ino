@@ -110,8 +110,9 @@ void adsReady_2()
 
 
 // handle conversions that are ready
-void handleConversion()
+bool handleConversion()
 {
+  bool rv = false;
   if (RDY_1)
   {
     // save the last value
@@ -121,6 +122,7 @@ void handleConversion()
     if (channel_1 >= 4) channel_1 = 0;
     ADS_1.readADC(channel_1);
     RDY_1 = false;
+    rv = true;
   }
   if (RDY_2)
   {
@@ -131,7 +133,9 @@ void handleConversion()
     if (channel_2 >= 4) channel_2 = 0;
     ADS_2.readADC(channel_2);
     RDY_2 = false;
+    rv = true;
   }
+  return rv;
 }
 
 

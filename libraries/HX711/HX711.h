@@ -2,11 +2,11 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Library for Load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
-// HISTORY: see HX711.cpp
+// HISTORY: see CHANGELOG.md
 //
 // NOTES
 // Superset of interface of HX711 class of Bogde
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.1"))
+#define HX711_LIB_VERSION               (F("0.3.2"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -52,6 +52,7 @@ public:
 
   //  raw read
   float    read();
+
   //  get average of multiple raw reads
   //  times = 1 or more
   float    read_average(uint8_t times = 10);

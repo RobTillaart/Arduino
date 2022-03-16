@@ -57,6 +57,7 @@ void setup()
  * VAL: 0.05
  */
   Serial.println("\nPERFORMANCE");
+  delay(10);
   start = micros();
   f = 0;
   for (int i = 0; i < 100; i++)
@@ -83,9 +84,9 @@ void setup()
 void loop()
 {
   // continuous scale 4x per second
-  f = scale.get_units(5);
-  Serial.println(f);
-  delay(250);
+  // f = scale.get_units(5);
+  // Serial.println(f);
+  // delay(250);
 }
 
 

@@ -9,9 +9,10 @@
 
 HX711 scale;
 
-uint8_t dataPin = 6;
-uint8_t clockPin = 7;
-
+//uint8_t dataPin = 6;
+//uint8_t clockPin = 7;
+uint8_t dataPin  = 19;//for esp32
+uint8_t clockPin = 18;//for esp32
 
 void setup()
 {

@@ -1,20 +1,10 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
-//  HISTORY:
-//  0.1.0   2019-09-04  initial release
-//  0.1.1   2019-09-09  change long to float (reduce footprint)
-//  0.2.0   2020-06-15  refactor; add price functions;
-//  0.2.1   2020-12-28  add arduino-ci + unit test
-//  0.2.2   2021-05-10  add read_median(), fix typo, add mode operandi
-//  0.2.3   2021-05-26  add running_average() mode
-//  0.3.0   2021-11-14  fix #11 shiftIn timing
-//                      update build-CI, readme.md, badges
-//  0.3.1   2021-12-19  update library.json, license, minor edits
 
 
 #include "HX711.h"
@@ -290,18 +280,21 @@ void HX711::power_up()
 //  see datasheet page 5 for timing
 uint8_t HX711::_shiftIn()
 {
+  // local vars are faster.
+  uint8_t clk   = _clockPin;
+  uint8_t data  = _dataPin;
   uint8_t value = 0;
-  uint8_t mask = 0x80;
+  uint8_t mask  = 0x80;
   while (mask > 0)
   {
-    digitalWrite(_clockPin, HIGH);
-    delayMicroseconds(1);               // T2  >= 0.2 us
-    if (digitalRead(_dataPin) == HIGH)
+    digitalWrite(clk, HIGH);
+    delayMicroseconds(1);   // T2  >= 0.2 us
+    if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
-    digitalWrite(_clockPin, LOW);
-    delayMicroseconds(1);               // keep duty cycle ~50%
+    digitalWrite(clk, LOW);
+    delayMicroseconds(1);   // keep duty cycle ~50%
     mask >>= 1;
   }
   return value;
@@ -309,3 +302,4 @@ uint8_t HX711::_shiftIn()
 
 
 // -- END OF FILE --
+

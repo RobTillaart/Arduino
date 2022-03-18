@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.3.3"))
+#define FRAM_LIB_VERSION              (F("0.3.4"))
 
 
 #define FRAM_OK                       0
@@ -44,6 +44,17 @@ public:
   uint16_t read16(uint16_t memaddr);
   uint32_t read32(uint16_t memaddr);
   void     read(uint16_t memaddr, uint8_t * obj, uint16_t size);
+
+  template <class T> uint16_t writeObject(uint16_t memaddr, T &obj)
+  {
+    write(memaddr, (uint8_t *) &obj, sizeof(obj));
+    return memaddr + sizeof(obj);
+  };
+  template <class T> uint16_t readObject(uint16_t memaddr, T &obj)
+  {
+    read(memaddr, (uint8_t *) &obj, sizeof(obj));
+    return memaddr + sizeof(obj);
+  }
 
   //  works only if pin is defined in begin.
   bool     setWriteProtect(bool b);

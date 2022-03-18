@@ -14,7 +14,7 @@ FRAM fram;
 uint32_t start;
 uint32_t stop;
 
-int ar[600];
+int ar[600];  // 1200 bytes
 
 
 void setup()
@@ -56,26 +56,29 @@ void loop()
 
 void testReadWriteLarge()
 {
-  Serial.println();
-  Serial.println(__FUNCTION__);
-
   for (int i = 0; i < 600; i++) ar[i] = i;
 
-  start = millis();
+  start = micros();
   fram.write(1000, (uint8_t*)ar, 1200);
-  stop = millis();
-  Serial.print("WRITE 1200 bytes TIME:\t");
+  stop = micros();
+  Serial.print("WRITE 1200 bytes TIME: \t");
   Serial.print(stop - start);
-  Serial.println(" ms");
+  Serial.print(" us ==> \t");
+  Serial.print((stop - start) / 1200.0, 2);
+  Serial.println(" us/byte.");
+  delay(100);
 
   for (int i = 0; i < 600; i++) ar[i] = 0;
 
-  start = millis();
+  start = micros();
   fram.read(1000, (uint8_t*)ar, 1200);
-  stop = millis();
-  Serial.print("READ 1200 bytes TIME:\t");
+  stop = micros();
+  Serial.print("READ 1200 bytes TIME: \t");
   Serial.print(stop - start);
-  Serial.println(" ms");
+  Serial.print(" us ==> \t");
+  Serial.print((stop - start) / 1200.0, 2);
+  Serial.println(" us/byte.");
+  delay(100);
 
   for (int i = 0; i < 600; i++)
   {

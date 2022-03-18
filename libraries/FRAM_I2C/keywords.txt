@@ -18,6 +18,9 @@ read16	KEYWORD2
 read32	KEYWORD2
 read	KEYWORD2
 
+writeObject	KEYWORD2
+readObject	KEYWORD2
+
 setWriteProtect	KEYWORD2
 getWriteProtect	KEYWORD2
 

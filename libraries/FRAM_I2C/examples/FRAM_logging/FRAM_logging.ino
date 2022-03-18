@@ -54,7 +54,7 @@ void loop()
 {
   char buffer[24];
 
-  sprintf(buffer, "%ld\t%ld\n", millis(), random());
+  sprintf(buffer, "%ld\t%ld\n", millis(), random(1000000000UL));
   Serial.print(buffer);
   log2fram(buffer);
   delay(1000);

@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -33,13 +33,14 @@ FRAM::FRAM(TwoWire *wire)
   _wire            = wire;
   _address         = 0x50;
   _writeProtectPin = -1;
+  _sizeBytes       = 0;
 }
 
 
 #if defined (ESP8266) || defined(ESP32)
 int FRAM::begin(uint8_t sda, uint8_t scl, const uint8_t address, int8_t writeProtectPin)
 {
-  if (address < 0x50 || address > 0x57) return FRAM_ERROR_ADDR;
+  if ((address < 0x50) || (address > 0x57)) return FRAM_ERROR_ADDR;
 
   _wire = &Wire;
   _address = address;
@@ -56,6 +57,7 @@ int FRAM::begin(uint8_t sda, uint8_t scl, const uint8_t address, int8_t writePro
     pinMode(_writeProtectPin, OUTPUT);
   }
   if (! isConnected()) return FRAM_ERROR_CONNECT;
+  getSize();
   return FRAM_OK;
 }
 #endif
@@ -63,7 +65,7 @@ int FRAM::begin(uint8_t sda, uint8_t scl, const uint8_t address, int8_t writePro
 
 int FRAM::begin(uint8_t address, int8_t writeProtectPin)
 {
-  if (address < 0x50 || address > 0x57) return FRAM_ERROR_ADDR;
+  if ((address < 0x50) || (address > 0x57)) return FRAM_ERROR_ADDR;
 
   _address = address;
   _wire->begin();
@@ -74,6 +76,7 @@ int FRAM::begin(uint8_t address, int8_t writeProtectPin)
     pinMode(_writeProtectPin, OUTPUT);
   }
   if (! isConnected()) return FRAM_ERROR_CONNECT;
+  getSize();
   return FRAM_OK;
 }
 
@@ -88,21 +91,21 @@ bool FRAM::isConnected()
 void FRAM::write8(uint16_t memaddr, uint8_t value)
 {
   uint8_t val = value;
-  writeBlock(memaddr, (uint8_t *)&val, 1);
+  _writeBlock(memaddr, (uint8_t *)&val, 1);
 }
 
 
 void FRAM::write16(uint16_t memaddr, uint16_t value)
 {
   uint16_t val = value;
-  writeBlock(memaddr, (uint8_t *)&val, 2);
+  _writeBlock(memaddr, (uint8_t *)&val, 2);
 }
 
 
 void FRAM::write32(uint16_t memaddr, uint32_t value)
 {
   uint32_t val = value;
-  writeBlock(memaddr, (uint8_t *)&val, 4);
+  _writeBlock(memaddr, (uint8_t *)&val, 4);
 }
 
 
@@ -112,7 +115,7 @@ void FRAM::write(uint16_t memaddr, uint8_t * obj, uint16_t size)
   uint8_t * p = obj;
   while (size >= blocksize)
   {
-    writeBlock(memaddr, p, blocksize);
+    _writeBlock(memaddr, p, blocksize);
     memaddr += blocksize;
     p += blocksize;
     size -= blocksize;
@@ -120,7 +123,7 @@ void FRAM::write(uint16_t memaddr, uint8_t * obj, uint16_t size)
   // remaining
   if (size > 0)
   {
-    writeBlock(memaddr, p, size);
+    _writeBlock(memaddr, p, size);
   }
 }
 
@@ -128,7 +131,7 @@ void FRAM::write(uint16_t memaddr, uint8_t * obj, uint16_t size)
 uint8_t FRAM::read8(uint16_t memaddr)
 {
   uint8_t val;
-  readBlock(memaddr, (uint8_t *)&val, 1);
+  _readBlock(memaddr, (uint8_t *)&val, 1);
   return val;
 }
 
@@ -136,7 +139,7 @@ uint8_t FRAM::read8(uint16_t memaddr)
 uint16_t FRAM::read16(uint16_t memaddr)
 {
   uint16_t val;
-  readBlock(memaddr, (uint8_t *)&val, 2);
+  _readBlock(memaddr, (uint8_t *)&val, 2);
   return val;
 }
 
@@ -144,7 +147,7 @@ uint16_t FRAM::read16(uint16_t memaddr)
 uint32_t FRAM::read32(uint16_t memaddr)
 {
   uint32_t val;
-  readBlock(memaddr, (uint8_t *)&val, 4);
+  _readBlock(memaddr, (uint8_t *)&val, 4);
   return val;
 }
 
@@ -155,7 +158,7 @@ void FRAM::read(uint16_t memaddr, uint8_t * obj, uint16_t size)
   uint8_t * p = obj;
   while (size >= blocksize)
   {
-    readBlock(memaddr, p, blocksize);
+    _readBlock(memaddr, p, blocksize);
     memaddr += blocksize;
     p += blocksize;
     size -= blocksize;
@@ -163,7 +166,7 @@ void FRAM::read(uint16_t memaddr, uint8_t * obj, uint16_t size)
   // remainder
   if (size > 0)
   {
-    readBlock(memaddr, p, size);
+    _readBlock(memaddr, p, size);
   }
 }
 
@@ -185,22 +188,45 @@ bool FRAM::getWriteProtect()
 
 uint16_t FRAM::getManufacturerID()
 {
-  return getMetaData(0);
+  return _getMetaData(0);
 }
 
 
 uint16_t FRAM::getProductID()
 {
-  return getMetaData(1);
+  return _getMetaData(1);
 }
 
 
-// NOTE: returns the number of kiloBYTE
+// NOTE: returns the size in kiloBYTE
 uint16_t FRAM::getSize()
 {
-  uint16_t density = getMetaData(2);
-  if (density > 0) return 1UL << density;
-  return 0;
+  uint16_t density = _getMetaData(2);
+  uint16_t size = 0;
+  if (density > 0) size = (1UL << density);
+  _sizeBytes = size * 1024UL;
+  return size;
+}
+
+
+//  override to be used when getSize() fails == 0
+void FRAM::setSizeBytes(uint32_t value)
+{
+  _sizeBytes = value;
+}
+
+
+uint32_t FRAM::clear(uint8_t value)
+{
+  uint8_t buf[16];
+  for (uint8_t i = 0; i < 16; i++) buf[i] = value;
+  uint32_t start = 0;
+  uint32_t end = _sizeBytes;
+  for (uint32_t addr = start; addr < end; addr += 16)
+  {
+    _writeBlock(addr, buf, 16);
+  }
+  return end - start;
 }
 
 
@@ -213,7 +239,7 @@ uint16_t FRAM::getSize()
 //  M = manufacturerID
 //  D = density => memory size = 2^D KB
 //  P = product ID (together with D)
-uint16_t FRAM::getMetaData(uint8_t field)
+uint16_t FRAM::_getMetaData(uint8_t field)
 {
   if (field > 2) return 0;
 
@@ -244,9 +270,8 @@ uint16_t FRAM::getMetaData(uint8_t field)
 }
 
 
-void FRAM::writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
+void FRAM::_writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
-  // TODO constrain size < 30 ??
   _wire->beginTransmission(_address);
   _wire->write(memaddr >> 8);
   _wire->write(memaddr & 0xFF);
@@ -259,7 +284,7 @@ void FRAM::writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 }
 
 
-void FRAM::readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
+void FRAM::_readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   _wire->beginTransmission(_address);
   _wire->write(memaddr >> 8);

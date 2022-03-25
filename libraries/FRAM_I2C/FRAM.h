@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,13 +13,22 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.3.4"))
+#define FRAM_LIB_VERSION              (F("0.3.5"))
 
 
 #define FRAM_OK                       0
 #define FRAM_ERROR_ADDR               -10
 #define FRAM_ERROR_I2C                -11
 #define FRAM_ERROR_CONNECT            -12
+
+// Size known types
+#define FRAM_MB85RC04                 512  
+#define FRAM_MB85RC16                2048
+#define FRAM_MB85RC64T               8192
+#define FRAM_MB85RC128A             16384
+#define FRAM_MB85RC256V             32768
+#define FRAM_MB85RC512T             65536
+#define FRAM_MB85RC1MT             131072
 
 
 class FRAM
@@ -61,23 +70,27 @@ public:
   bool     getWriteProtect();
 
   //  meta info
-  uint16_t getManufacturerID();   // Fujitsu = 0x000A
-  uint16_t getProductID();        // Proprietary
-  uint16_t getSize();             // Returns kiloBYTE
-  uint32_t getSizeBytes() { return getSize() * 1024UL; };
+  uint16_t getManufacturerID();   //  Fujitsu = 0x000A
+  uint16_t getProductID();        //  Proprietary
+  uint16_t getSize();             //  Returns size in KILO-BYTE (or 0)
+  uint32_t getSizeBytes() { return _sizeBytes; };  //  Returns size in BYTE
+  void     setSizeBytes(uint32_t value);           //  override when getSize() fails == 0
+
+  //  0.3.5
+  uint32_t clear(uint8_t value = 0);
 
 
 private:
   uint8_t  _address;
-
+  uint32_t _sizeBytes;
   //  default no pin = -1 ==> no write protect.
   int8_t   _writeProtectPin = -1;
+  TwoWire* _wire;
 
-  uint16_t getMetaData(uint8_t id);
-  void     writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
-  void     readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  uint16_t _getMetaData(uint8_t id);
+  void     _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  void     _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
 
-  TwoWire*  _wire;
 };
 
 

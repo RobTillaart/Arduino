@@ -70,6 +70,10 @@ One needs to allocate memory as the function won't.
 - **uint16_t writeObject(uint16_t memaddr, T &obj)** writes an object to memaddr (and following bytes). Returns memaddr + sizeof(obj) to get the next address to write to.
 - **uint16_t readObject(uint16_t memaddr, T &obj)** reads an object from memaddr and next bytes. Returns memaddr + sizeof(obj) to get the next address to read from.
 
+(0.3.5 added)
+- **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses - default zero's.
+Returns the number of bytes written..
+
 
 ### Miscellaneous
 
@@ -85,6 +89,10 @@ If the FRAM has no device ID, the size cannot be read.
 - **uint32_t getSizeBytes()** returns size in BYTES.
 Convenience wrapper, useful for iterating over the whole memory,
 or testing the upper boundary.
+- **void setSizeBytes(uint32_t value)** sets size in bytes for **getSizeBytes()**.
+To be used only if **getSize()** cannot determine the size.
+See also remark in Future section below. 
+
 
 
 ## Operational
@@ -95,6 +103,8 @@ or testing the upper boundary.
 ## Future
 
 ### high
+- 32 bits addresses to support MB85RC1MT.
+  - no explicit request yet (0.4.0)
 
 ### medium
 - **write()** and **writeBlock()** might write beyond the end of FRAM
@@ -110,14 +120,14 @@ or testing the upper boundary.
 
 ### low
 - test more types of FRAM
-- **clear(begin, end)** or complete clear / format only?
-  - loop with write is slow
-  - loop with writeBlock().
-- **dump(stream)** or printable interface?
-  - Print interface? expensive in performance per char..
 - **getSize()** scanning FRAM like EEPROM library?
 - remember last written address? why?
 
-
-
+### wont
+- extend current **clear()** with partial **clear(begin, end, value)**?
+  - can be done by **writeBlock()** calls by user too
+  - would need more complex end checking
+  - ==> wont for now
+- **dump(stream)** or printable interface?
+  - Print interface? expensive in performance per char..
 

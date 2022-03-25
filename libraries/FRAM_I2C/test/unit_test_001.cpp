@@ -45,6 +45,14 @@ unittest(test_constants)
   assertEqual(-10, FRAM_ERROR_ADDR   );
   assertEqual(-11, FRAM_ERROR_I2C    );
   assertEqual(-12, FRAM_ERROR_CONNECT);
+  
+  assertEqual(512,    FRAM_MB85RC04  );
+  assertEqual(2048,   FRAM_MB85RC16  );
+  assertEqual(8192,   FRAM_MB85RC64T );
+  assertEqual(16384,  FRAM_MB85RC128A);
+  assertEqual(32768,  FRAM_MB85RC256V);
+  assertEqual(65536,  FRAM_MB85RC512T);
+  assertEqual(131072, FRAM_MB85RC1MT );
 }
 
 
@@ -79,6 +87,29 @@ unittest(test_constructor)
   assertEqual(65535, fram50.getManufacturerID());
   assertEqual(65535, fram50.getProductID());
   assertEqual(0, fram50.getSize());
+}
+
+
+unittest(test_getSizeBytes)
+{
+  FRAM fram;
+
+  Wire.begin();
+  
+  assertEqual(0, fram.getSizeBytes());
+  fram.setSizeBytes(FRAM_MB85RC256V);
+  assertEqual(32768, fram.getSizeBytes());
+}
+
+
+unittest(test_clear)
+{
+  FRAM fram;
+
+  Wire.begin();
+  // note size is not set.
+  assertEqual(0, fram.clear());
+  assertEqual(0, fram.clear(0xFF));
 }
 
 

@@ -1,11 +1,29 @@
-# Change Log
+# Change Log FRAM_I2C
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.3] - 2022-03-16
+## [0.3.5] - 2022-03-23
+
+### Added
+- add **uint32_t clear(uint8_t value = 0)**
+- add **void setSizeBytes(uint32_t value)**
+- added defines for size of known types for e.g. **void setSizeBytes(uint32_t value)**
+- add _sizeinBytes private var. Needed in clear a.o.
+
+### Changed
+- **getSize()** automatically called in **begin()**
+- updated example **FRAM_clear.ino**
+- renamed private functions with _
+- updated readme.md
+-
+
+### Fixed
+
+
+## [0.3.4] - 2022-03-16
 
 ### Added
 - add **uint16_t writeObject(memaddr, &obj)** see #13

@@ -104,6 +104,7 @@ void test()
   Serial.println(" us/byte");
   delay(100);
 
+
   uint8_t buf[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   start = micros();
   for (uint32_t addr = 0; addr < sizeInBytes; addr += 8)
@@ -118,6 +119,7 @@ void test()
   Serial.println(" us/byte");
   delay(100);
 
+
   start = micros();
   for (uint32_t addr = 0; addr < sizeInBytes; addr += 16)
   {
@@ -125,7 +127,28 @@ void test()
   }
   stop = micros();
   Serial.print("BYTES 16:\t");
+  Serial.print(stop - start);
+  Serial.print(" ==> \t");
+  Serial.print((stop - start) * 1.0 / 32768.0);
+  Serial.println(" us/byte");
+  delay(100);
 
+
+  start = micros();
+  fram.clear();
+  stop = micros();
+  Serial.print("CLEAR():\t");
+  Serial.print(stop - start);
+  Serial.print(" ==> \t");
+  Serial.print((stop - start) * 1.0 / 32768.0);
+  Serial.println(" us/byte");
+  delay(100);
+
+  
+  start = micros();
+  fram.clear(0xFF);
+  stop = micros();
+  Serial.print("CLEAR(0xFF):\t");
   Serial.print(stop - start);
   Serial.print(" ==> \t");
   Serial.print((stop - start) * 1.0 / 32768.0);

@@ -1,0 +1,23 @@
+{
+  "name": "WaveMix",
+  "keywords": "Wave,mix,signal",
+  "description": "Arduino library to mix two signals (A and B) with an adaptive weight.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/WaveMix.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "WaveMix.h"
+}

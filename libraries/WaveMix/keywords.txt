@@ -1,0 +1,16 @@
+# Syntax Colouring WaveMix
+
+# Data types (KEYWORD1)
+WaveMix	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setWeight	KEYWORD2
+setPercentage	KEYWORD2
+mix	KEYWORD2
+
+
+
+# Constants (LITERAL1)
+WAVEMIX_LIB_VERSION	LITERAL1
+

@@ -6,9 +6,14 @@ WaveMix	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 setWeight	KEYWORD2
+getW1	KEYWORD2
+getW2	KEYWORD2
 setPercentage	KEYWORD2
-mix	KEYWORD2
 
+setGain	KEYWORD2
+getGain	KEYWORD2
+
+mix	KEYWORD2
 
 
 # Constants (LITERAL1)

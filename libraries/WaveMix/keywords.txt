@@ -13,6 +13,9 @@ setPercentage	KEYWORD2
 setGain	KEYWORD2
 getGain	KEYWORD2
 
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
 mix	KEYWORD2
 
 

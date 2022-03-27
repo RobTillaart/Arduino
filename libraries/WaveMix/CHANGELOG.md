@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2022-03-26
+
+### Added
+- add **setOffset(offset)** and **getOffset()**
+- add example
+
+### Changed
+- updated **mix()** code
+
+### Fixed
+- set gain explicit in constructor.
+
+
 ## [0.1.1] - 2022-03-26
 
 ### Added

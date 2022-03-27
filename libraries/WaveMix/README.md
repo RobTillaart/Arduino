@@ -38,9 +38,12 @@ The weights do not need to be normalized, so one can use e.g **setWeight(7, 13)*
 - **void  setPercentage(float percentage)** sets the weight for channel A preferably to 0 <= percentage <= 100. 
 Channel B will have 100 - percentage.
 - **void  setGain(float gain)** sets the gain factor.
-An important use of gain is to amplify weak signals but one can also use it as a modulator of a signal. 
+An important use of gain is to amplify weak signals but one can also use it as a modulator of a signal.
 See examples.
 - **float getGain()** return the gain set.
+- **void  setOffset(float offset)** sets the offset for the output signal. 
+Typical used to align the zero level.
+- **float getOffset()** return the current offset used.
 - **float mix(float s1, float s2 = 0)** returns the weighted average of signal1 and signal2. 
 Signal2 is made optional to allow single signal processes e.g. modulation by **setGain()**.
 
@@ -71,32 +74,28 @@ When the gain is negative, the output is effectively inverted.
 ## Future ideas
 
 
-#### 0.2.0
+#### N channel variant.
 
-- make a N channel variant.
-  - add **setValue(uint8_t channel, float value)** allow update of channels at a different frequency.
-  - add **getValue()**, read the current output given the value of the channels. OR
-  - add **getValue(uint8_t mask = 0xFF)**, read the current output given the value of selected channels.
-  - add **setMask(uint8_t mask = 0xFF)**, select channels. ease of use?  **getValue(mask)** still needed?
-  - add **getMask()**, read back \_mask;
-  - note that **mix()** can be implemented with the above functions.
-  - add **setWeight(uint8_t channel, float weight)** need internal array of weights and \_sum
-  - add **float getWeight(uint8_t channel)**
-  - add constructor **WaveMix(uint8_t channels = 8)** with parameter to set the nr of channels?
-  - or do we need **WaveMix2()**, **WaveMix4()**, **WaveMix8()**, or even **WaveMix16()**, **WaveMix24()**, **WaveMix32()** class?
+- add **setValue(uint8_t channel, float value)** allow update of channels at a different frequency.
+- add **getValue()**, read the current output given the value of the channels. OR
+- add **getValue(uint8_t mask = 0xFF)**, read the current output given the value of selected channels.
+- add **setMask(uint8_t mask = 0xFF)**, select channels. ease of use?  **getValue(mask)** still needed?
+- add **getMask()**, read back \_mask;
+- note that **mix()** can be implemented with the above functions.
+- add **setWeight(uint8_t channel, float weight)** need internal array of weights and \_sum
+- add **float getWeight(uint8_t channel)** Normalized or not?
+Not normalized allows easier increment per channel. Needs a **float getTotalWeight()**.
+- add constructor **WaveMix(uint8_t channels = 8)** with parameter to set the number of channels? \[NO\]
+- or do we need **WaveMix2()**, **WaveMix4()**, **WaveMix8()**, or even **WaveMix16()**, **WaveMix24()**, **WaveMix32()** class?
 
 **WaveMix4()** and **WaveMix8()** seems to be realistic in terms of performance.
 **WaveMix8()** can be used for 2-8 channels, using a uint8_t mask.
-More channels will be much slower, so upon request the 16 and 32 variant?
+More channels will be much slower, so upon request the 16 and 32 variant? other variants can be obtained by masking.
 
 
 #### Medium
 
-- add **void setOffset(float)** 
-- add **float getOffset()**
-- add top clipping
-  - add **setMaximum(float)**
-  - add **setMinimum(float)**
+
 - performance test.
 
 
@@ -113,5 +112,16 @@ More channels will be much slower, so upon request the 16 and 32 variant?
   - add **increment(float)**
   - add **decrement(float)**
   - percentages? hard for multichannel?
+- default parameters
+  - gain = 1.0
+  - percentage 50%
+  - offset = 0.0
+  - **reset()** needed?
 
 
+#### wont
+- add top clipping
+  - add **setMaximum(float)**
+  - add **setMinimum(float)**
+  - needs an enable/disable per limit. 
+    becomes more complex than let the user constrain the output.

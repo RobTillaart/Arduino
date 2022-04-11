@@ -2,20 +2,12 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
-//  HISTORY:
-//  0.0.1   2020-07-20  initial version
-//  0.0.2   2020-07-21  fix reverse(); refactor;
-//  0.0.3   2020-07-29  fix #5 reverse() + refactor.
-//  0.1.0   2021-01-03  add Arduino-CI + unit tests
-//  0.1.1   2021-04-23  fix for platformIO compatibility
-//  0.1.2   2021-07-09  fix #10 add set/getAddress() function 
-//  0.1.3   2021-12-01  update build-CI, readme
-//                      add getButtonMask()
-//  0.1.4   2021-12-23  update library.json, license, minor edits
+// HISTORY: see CHANGELOG.md
+
 
 
 #include "PCF8575.h"
@@ -33,7 +25,7 @@ PCF8575::PCF8575(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool PCF8575::begin(uint8_t dataPin, uint8_t clockPin, uint16_t value)
+bool PCF8575::begin(int dataPin, int clockPin, uint16_t value)
 {
   _wire      = &Wire;
   if ((dataPin < 255) && (clockPin < 255))

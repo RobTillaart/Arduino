@@ -3,7 +3,7 @@
 //    FILE: PCF8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -17,7 +17,7 @@
 #include "Wire.h"
 
 
-#define PCF8574_LIB_VERSION         (F("0.3.3"))
+#define PCF8574_LIB_VERSION         (F("0.3.4"))
 
 #ifndef PCF8574_INITIAL_VALUE
 #define PCF8574_INITIAL_VALUE       0xFF
@@ -34,7 +34,7 @@ public:
   explicit PCF8574(const uint8_t deviceAddress = 0x20, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t sda, uint8_t scl, uint8_t value = PCF8574_INITIAL_VALUE);
+  bool    begin(int sda, int scl, uint8_t value = PCF8574_INITIAL_VALUE);
 #endif
   bool    begin(uint8_t value = PCF8574_INITIAL_VALUE);
   bool    isConnected();

@@ -42,7 +42,7 @@ the include of "pcf8574.h" to overrule the default value used with the **begin()
 - **PCF8574(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with optional device address, default 0x20, 
 and the optional Wire interface as parameter.
 - **bool begin(uint8_t value = PCF8574_INITIAL_VALUE)** set the initial value for the pins and masks.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t value = PCF8574_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins.
+- **bool begin(int sda, int scl, uint8_t value = PCF8574_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins.
 - **bool isConnected()** checks if the address set in the constructor or by **setAddress()** is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8574 modules runtime. Note this corrupts internal buffered values, 
@@ -116,6 +116,6 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 
 ## Future
 
-- update documentation
-- link to related libraries.
+-
+
 

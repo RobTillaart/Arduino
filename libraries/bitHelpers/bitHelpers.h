@@ -2,25 +2,22 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
 //
-//  HISTORY
-//  0.0.1  2015-11-07  initial version
-//  0.1.0  2020-07-29  initial release
-//  0.1.1  2020-08-10  added BitsNeeded, bitSet64 family
-//  0.1.2  2020-12-14  add Arduino-CI + unit tests
-//  0.1.3  2021-08-09  update readme.md + unit tests
-//  0.1.4  2021-10-19  update Arduino-CI + badges 
-//  0.1.5  2021-12-14  update library.json, license, minor edits
+// HISTORY: See CHANGELOG.md
+
 
 
 #include "Arduino.h"
 
-#define BITHELPER_LIB_VERSION         (F("0.1.5"))
-#define BH_BIG_NR                     1000000000
+#define BITHELPER_LIB_VERSION         (F("0.1.6"))
+
+//  used by bitRot()
+//  power of 2 gives better uniform distribution in the last bits
+#define BH_BIG_NR                     (1073741824)
 
 
 ////////////////////////////////////////////////
@@ -48,7 +45,7 @@ uint8_t bitCountKR(uint32_t value)
   while (v)
   {
     count++;
-    v &= (v -1);
+    v &= (v - 1);
   }
   return count;
 };
@@ -114,8 +111,8 @@ uint8_t bitCount(uint16_t value)
   v = v - ((v >> 1) & 0x5555);
   v = (v & 0x3333) + ((v >> 2) & 0x3333);
   v = (v + (v >> 4)) & 0x0F0F;
-  v = v + (v >> 8);
-  return v & 0xFF;
+  v = (v + (v >> 8)) & 0x1F;
+  return v;
 };
 
 
@@ -126,9 +123,9 @@ uint8_t bitCount(uint32_t value)
   v = v - ((v >> 1) & 0x55555555);
   v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
   v = (v + (v >> 4)) & 0x0F0F0F0F;
-  v = v + (v >> 8);
-  v = v + (v >> 16);
-  return v & 0xFF;
+  v =  v + (v >> 8);
+  v = (v + (v >> 16)) & 0x3F;
+  return v;
 };
 
 
@@ -139,10 +136,10 @@ uint8_t bitCount(uint64_t value)
   v = v - ((v >> 1) & 0x5555555555555555);
   v = (v & 0x3333333333333333) + ((v >> 2) & 0x3333333333333333);
   v = (v + (v >> 4)) & 0x0F0F0F0F0F0F0F0F;
-  v = v + (v >> 8);
-  v = v + (v >> 16);
-  v = v + (v >> 32);
-  return v & 0x7F;
+  v =  v + (v >> 8);
+  v =  v + (v >> 16);
+  v = (v + (v >> 32)) & 0x7F;
+  return v;
 };
 
 
@@ -446,31 +443,95 @@ uint64_t bitRot(uint64_t value, float chance = 0.5)
 }
 
 
+//
+//  EXPERIMENTAL
+//  - will replace bitRot() in next release.
+//  - might need to adapt BH_BIG_NR to a power of 2
+//
+uint8_t bitRotFast(uint8_t value, float chance = 0.5, uint16_t times = 1)
+{
+  while(times--)
+  {
+    uint32_t r = random(BH_BIG_NR);
+    if ( r < chance * BH_BIG_NR)
+    {
+      value ^= (1 << (r & 7));
+    }
+  }
+  return value;
+}
+
+
+uint16_t bitRotFast(uint16_t value, float chance = 0.5, uint16_t times = 1)
+{
+  while(times--)
+  {
+    uint32_t r = random(BH_BIG_NR);
+    if ( r < chance * BH_BIG_NR)
+    {
+      value ^= (1 << (r & 15));
+    }
+  }
+  return value;
+}
+
+
+uint32_t bitRotFast(uint32_t value, float chance = 0.5, uint16_t times = 1)
+{
+  while(times--)
+  {
+    uint32_t r = random(BH_BIG_NR);
+    if ( r < chance * BH_BIG_NR)
+    {
+      value ^= (1 << (r & 31));
+    }
+  }
+  return value;
+}
+
+
+uint64_t bitRotFast(uint64_t value, float chance = 0.5, uint16_t times = 1)
+{
+  while(times--)
+  {
+    uint32_t r = random(BH_BIG_NR);
+    if ( r < chance * BH_BIG_NR)
+    {
+      value ^= (1 << (r & 63));
+    }
+  }
+  return value;
+}
+
+
+
+
 ////////////////////////////////////////////////////
 //
 // BIT-SET64 -CLEAR64 -TOGGLE64 -READ64 -WRITE64
 //
 
 // MACROS
-// only 64 bit datatypes are handled 64 bit.
-#define mbitSet64(value, bit)    ((value) |= (sizeof(value)<5?1UL:1ULL) <<(bit))
+// only 64 bit data types are handled 64 bit.
+#define mbitSet64(value, bit)    ((value) |=  (sizeof(value)<5?1UL:1ULL) <<(bit))
 #define mbitClear64(value, bit)  ((value) &= ~(sizeof(value)<5?1UL:1ULL) <<(bit))
-#define mbitToggle64(value, bit) ((value) ^= (sizeof(value)<5?1UL:1ULL) <<(bit))
+#define mbitToggle64(value, bit) ((value) ^=  (sizeof(value)<5?1UL:1ULL) <<(bit))
 
-#define mbitRead64(value, bit) ( ((value) & ((sizeof(value)<5?1UL:1ULL) <<(bit))) ? 1 : 0)
+#define mbitRead64(value, bit) ( ((value) &  ((sizeof(value)<5?1UL:1ULL) <<(bit))) ? 1 : 0)
 #define mbitWrite64(value, bit, bitvalue) (bitvalue ? mbitSet64(value, bit) : mbitClear64(value, bit))
 
 
 // FUNCTIONS
 #if defined(__AVR__)
+//  optimized for performance
 
 void bitSet64(uint64_t & x, uint8_t n)
 {
-  if (n > 47)      x |= 0x1000000000000 << (n - 48);
-  else if (n > 31) x |= 0x100000000 << (n - 32);
-  else if (n > 23) x |= 0x1000000 << (n - 24);
-  else if (n > 15) x |= 0x10000 << (n - 16);
-  else             x |= 0x1 << n;
+  if (n > 47)      x |= (0x1000000000000 << (n - 48));
+  else if (n > 31) x |= (0x100000000 << (n - 32));
+  else if (n > 23) x |= (0x1000000 << (n - 24));
+  else if (n > 15) x |= (0x10000 << (n - 16));
+  else             x |= (0x1 << n);
 }
 
 
@@ -494,12 +555,13 @@ void bitToggle64(uint64_t & x, uint8_t n)
 }
 
 
-#elif defined(ESP32) || defined(ESP8266)
+#elif defined(ESP32)
+//  optimized for performance
 
 void bitSet64(uint64_t & x, uint8_t n)
 {
-  if (n > 31) x |= 0x100000000 << (n - 32);
-  else        x |= 0x1 << n;
+  if (n > 31) x |= (0x100000000 << (n - 32));
+  else        x |= (0x1 << n);
 }
 
 
@@ -518,10 +580,11 @@ void bitToggle64(uint64_t & x, uint8_t n)
 
 
 #else
+//  slower reference implementation
 
 void bitSet64(uint64_t & x, uint8_t bit)
 {
-  x |= 1ULL << bit;
+  x |= (1ULL << bit);
 }
 
 
@@ -533,7 +596,7 @@ void bitClear64(uint64_t & x, uint8_t bit)
 
 void bitToggle64(uint64_t & x, uint8_t bit)
 {
-  x ^= 1ULL << bit;
+  x ^= (1ULL << bit);
 }
 
 
@@ -542,7 +605,7 @@ void bitToggle64(uint64_t & x, uint8_t bit)
 
 uint8_t bitRead64(uint64_t & x, uint8_t bit)
 {
-  return x & (1ULL << bit);
+  return ((x & (1ULL << bit)) > 0);
 }
 
 

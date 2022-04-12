@@ -96,29 +96,50 @@ Also added are macro versions of these five functions.
 - **mbitRead64(x, bit)** reads bit from uint64_t 
 
 
-### 0.1.2 added
+### 0.1.2 and beyond
 
-Added Arduino-CI and unit tests
-
-
-### 0.1.3 added
-
-- update readme.md
-- update unit tests
+See CHANGELOG.md
 
 
-### 0.1.4
+## Operations
 
-- update build-CI (e.g. ESP32 compilation of tests)
-- update readme.md with badges
-
-
-### 0.1.5
-
-- update library.json, minor edits
+See examples.
 
 
-## BitReverse n bit number
+## Future
+
+- improve documentation
+- improve readability of code
+- add performance tests
+
+
+#### Functions add
+
+- besides **bitRot()** one can also have timing issues when clocking in bits. 
+A function could be created to mimic such timing error, by shifting bits from a 
+specific position. e.g. 
+- **parShiftLeft(00001010, 3)** ==> 00011010
+- **bitBurst(00000000, 3)** ==>  00111000 any group of 3 bits will toggle. edges?
+- **bitNoggle(value, bit)** - toggle all but one bit. (why?)
+- **bitSort(value)** 00101001 ==> 00000111
+or with minimal # toggles?
+- **bitReverse(uint32_t x, uint8_t n)**
+- **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
+- **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d) = rather simple ~?
+- **isBitPalindrome()** byte, word ...
+- **bitSwap(value, p, q)**
+
+
+#### Functions fix
+
+- **bitRotateLeftRight()** should it do modulo pos?
+- **bitRotateLeftRight()** should it handle (pos == 0) separately
+- **bitsNeededRef()** correct for value 0?
+- **bitRot(value, chance = 50%, times = 1)** extension...
+- **bitRot()** one random + mod might be faster (dependency? bad?)
+
+
+#### BitReverse n bit number
 
 Trick to reverse a number of n bits  ( 0 < n < 32 ).
 Could also be done similar with 64 bit and or byte / nibble reverse.
@@ -133,26 +154,16 @@ uint32_t bitReverse(uint32_t x, uint8_t n)
 ```
 Could be added in next release...
 
+Q: what to do with the first (32-n) bits?
+Just reverse the last 24 bits and clear bit 24-31 is different than
+reversing the last 24 bits and keel bit 24-31 as is.
+```cpp
+uint32_t bitReverse(uint32_t x, uint8_t n)
+{
+  uint32_t y = (x >> n) << n;
+  uint32_t r = bitReverse(x);
+  r >>= (32 - n);
+  return y | r;
+}
+```
 
-## Future
-
-- improve documentation
-- improve readability of code (val => value and pos => position)
-- besides **bitRot()** one can also have timing issues when clocking in bits. 
-A function could be created to mimic such timing error, by shifting bits from a 
-specific position. e.g. 
-- parShiftLeft(00001010, 4) ==> 00011010
-- bitBurst(00000000, 3) ==>  00111000 any group of 3 bits will toggle.
-- bitRot(value, chance = 50%, times = 1) extension...
-- bitNoggle(value, bit) - toggle all but one bit. (why?)
-- bitSort(value) ==> 00101001 ==> 00000111
-- many more :)
-- add **bitReverse(uint32_t x, uint8_t n)**
-- add **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
-- add **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d)
-- performance tests
-
-
-## Operations
-
-See examples.

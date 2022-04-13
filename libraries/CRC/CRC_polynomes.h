@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CRC_POLYNOMES_H
+#define CRC_POLYNOMES_H
 //
 //    FILE: polynomes.h
 //  AUTHOR: Rob Tillaart
@@ -65,4 +67,4 @@
 
 
 // -- END OF FILE --
-
+#endif

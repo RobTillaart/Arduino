@@ -1,8 +1,10 @@
 #pragma once
+#ifndef CRC_H
+#define CRC_H
 //
 //    FILE: CRC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for CRC8, CRC12, CRC16, CRC16-CCITT, CRC32, CRC64
 //     URL: https://github.com/RobTillaart/CRC
 //
@@ -12,7 +14,7 @@
 
 #include "CRC_polynomes.h"
 
-#define CRC_LIB_VERSION       (F("0.2.2"))
+#define CRC_LIB_VERSION       (F("0.2.3"))
 
 
 ////////////////////////////////////////////////////////////////
@@ -230,4 +232,4 @@ uint64_t crc64(const uint8_t *array, uint16_t length, const uint64_t polynome = 
 
 
 // -- END OF FILE --
-
+#endif

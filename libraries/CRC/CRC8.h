@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CRC8_H
+#define CRC8_H
 //
 //    FILE: CRC8.h
 //  AUTHOR: Rob Tillaart
@@ -61,4 +63,4 @@ private:
 
 
 // -- END OF FILE --
-
+#endif

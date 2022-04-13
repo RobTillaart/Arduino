@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CRC64_H
+#define CRC64_H
 //
 //    FILE: CRC64.h
 //  AUTHOR: Rob Tillaart
@@ -9,7 +11,6 @@
 #include "Arduino.h"
 
 #include "CRC_polynomes.h"
-
 
 
 class CRC64
@@ -63,4 +64,4 @@ private:
 
 
 // -- END OF FILE --
-
+#endif

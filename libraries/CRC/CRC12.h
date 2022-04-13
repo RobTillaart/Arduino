@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CRC12_H
+#define CRC12_H
 //
 //    FILE: CRC12.h
 //  AUTHOR: Rob Tillaart
@@ -63,4 +65,4 @@ private:
 
 
 // -- END OF FILE --
-
+#endif

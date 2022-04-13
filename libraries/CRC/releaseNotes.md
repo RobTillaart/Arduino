@@ -2,6 +2,11 @@
 # Release Notes
 
 
+## 0.2.3  2022-04-13
+
+- replace #pragma once with #ifndef Header guards
+
+
 ## 0.2.2
 
 - fix #19 enable/disable yield call

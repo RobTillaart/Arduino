@@ -1,7 +1,7 @@
 //    FILE: bitHelpers_bitRotFast_compare.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: performance comparison  (~30% faster)
-//     URL:
+//     URL: https://github.com/RobTillaart/bitHelpers
 
 #include "bitHelpers.h"
 
@@ -39,7 +39,7 @@ void test8()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x8 = bitRotFast(x8);
+    x8 = bitRotRef(x8);
   }
   stop = micros();
   Serial.println(stop - start);
@@ -66,7 +66,7 @@ void test16()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x16 = bitRotFast(x16);
+    x16 = bitRotRef(x16);
   }
   stop = micros();
   Serial.println(stop - start);
@@ -93,7 +93,7 @@ void test32()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x32 = bitRotFast(x32);
+    x32 = bitRotRef(x32);
   }
   stop = micros();
   Serial.println(stop - start);
@@ -120,10 +120,11 @@ void test64()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x64 = bitRotFast(x64);
+    x64 = bitRotRef(x64);
   }
   stop = micros();
   Serial.println(stop - start);
+  Serial.println((uint32_t)(x64 >> 32), HEX);
   Serial.println((uint32_t)(x64 & 0xFFFFFFFF), HEX);
   delay(10);
 }

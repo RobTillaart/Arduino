@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2022-04-13
+
+### Added
+
+### Changed
+- updated **bitRot()** by faster version and made the old one a ref version
+  - replaced one random call with mod (faster)
+  - has a times parameter to apply bitrot n times.
+
+### Fixed
+- **bitRotateRight(value, pos)** handles pos == 0 separately.
+- **bitRotateLeft(value, pos)** handles pos == 0 separately.
+
+
 ## [0.1.6] - 2022-04-11
 
 ### Added

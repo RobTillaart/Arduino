@@ -65,8 +65,9 @@ if pos larger than # bits original value is returned.
 
 BitRot: uint8_t .. uint64_t
 
-- **T bitRot(T value, float chance = 0.5)** random damage to a single bit of a value,
+- **T bitRot(T value, float chance = 0.5, uint8_t times = 1)** random damage to a single bit of a value,
 chance = float 0.0 .. 1.0 that one random bit is toggled. 
+The times parameter allows to apply this n times.
 **bitRot()** is a function that can be used to mimic single bit errors in communication protocols.  
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
@@ -125,18 +126,15 @@ specific position. e.g.
 or with minimal # toggles?
 - **bitReverse(uint32_t x, uint8_t n)**
 - **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
-- **byteInverse(uint32_t x)**  (a,b,c,d) => (255-a, 255-b, 255-c, 255-d) = rather simple ~?
+- **byteInverse(uint32_t x)** (a,b,c,d) => (255-a, 255-b, 255-c, 255-d) = rather simple ~?
 - **isBitPalindrome()** byte, word ...
-- **bitSwap(value, p, q)**
+- **bitSwap(value, p, q)** 
 
 
 #### Functions fix
 
 - **bitRotateLeftRight()** should it do modulo pos?
-- **bitRotateLeftRight()** should it handle (pos == 0) separately
 - **bitsNeededRef()** correct for value 0?
-- **bitRot(value, chance = 50%, times = 1)** extension...
-- **bitRot()** one random + mod might be faster (dependency? bad?)
 
 
 #### BitReverse n bit number

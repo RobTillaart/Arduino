@@ -2,7 +2,7 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define BITHELPER_LIB_VERSION         (F("0.1.6"))
+#define BITHELPER_LIB_VERSION         (F("0.1.7"))
 
 //  used by bitRot()
 //  power of 2 gives better uniform distribution in the last bits
@@ -321,6 +321,7 @@ uint64_t swap(uint64_t value)
 //
 uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 7) return value;
   return (value << pos) | (value >> (8 - pos));
 }
@@ -328,6 +329,7 @@ uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
 
 uint16_t bitRotateLeft(uint16_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 15) return value;
   return (value << pos) | (value >> (16 - pos));
 }
@@ -335,6 +337,7 @@ uint16_t bitRotateLeft(uint16_t value, uint8_t pos)
 
 uint32_t bitRotateLeft(uint32_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 31) return value;
   return (value << pos) | (value >> (32 - pos));
 }
@@ -342,6 +345,7 @@ uint32_t bitRotateLeft(uint32_t value, uint8_t pos)
 
 uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 63) return value;
   return (value << pos) | (value >> (64 - pos));
 }
@@ -353,6 +357,7 @@ uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
 //
 uint8_t  bitRotateRight(uint8_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 7) return value;
   return (value << (8 - pos)) | (value >> pos);
 }
@@ -360,6 +365,7 @@ uint8_t  bitRotateRight(uint8_t value, uint8_t pos)
 
 uint16_t bitRotateRight(uint16_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 15) return value;
   return (value << (16 - pos)) | (value >> pos);
 }
@@ -367,6 +373,7 @@ uint16_t bitRotateRight(uint16_t value, uint8_t pos)
 
 uint32_t bitRotateRight(uint32_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 31) return value;
   return (value << (32 - pos)) | (value >> pos);
 }
@@ -374,6 +381,7 @@ uint32_t bitRotateRight(uint32_t value, uint8_t pos)
 
 uint64_t bitRotateRight(uint64_t value, uint8_t pos)
 {
+  if (pos == 0) return value;
   if (pos > 63) return value;
   return (value << (64 - pos)) | (value >> pos);
 }
@@ -415,40 +423,35 @@ uint64_t bitFlip(uint64_t value, uint8_t pos)
 //
 // BIT ROT
 //
-uint8_t bitRot(uint8_t value, float chance = 0.5)
+uint8_t bitRotRef(uint8_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1 << random(8));
 }
 
 
-uint16_t bitRot(uint16_t value, float chance = 0.5)
+uint16_t bitRotRef(uint16_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(16));
 }
 
 
-uint32_t bitRot(uint32_t value, float chance = 0.5)
+uint32_t bitRotRef(uint32_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1UL << random(32));
 }
 
 
-uint64_t bitRot(uint64_t value, float chance = 0.5)
+uint64_t bitRotRef(uint64_t value, float chance = 0.5)
 {
   if (random(BH_BIG_NR) > chance * BH_BIG_NR) return value;
   return value ^ (1ULL << random(64));
 }
 
 
-//
-//  EXPERIMENTAL
-//  - will replace bitRot() in next release.
-//  - might need to adapt BH_BIG_NR to a power of 2
-//
-uint8_t bitRotFast(uint8_t value, float chance = 0.5, uint16_t times = 1)
+uint8_t bitRot(uint8_t value, float chance = 0.5, uint16_t times = 1)
 {
   while(times--)
   {
@@ -462,7 +465,7 @@ uint8_t bitRotFast(uint8_t value, float chance = 0.5, uint16_t times = 1)
 }
 
 
-uint16_t bitRotFast(uint16_t value, float chance = 0.5, uint16_t times = 1)
+uint16_t bitRot(uint16_t value, float chance = 0.5, uint16_t times = 1)
 {
   while(times--)
   {
@@ -476,7 +479,7 @@ uint16_t bitRotFast(uint16_t value, float chance = 0.5, uint16_t times = 1)
 }
 
 
-uint32_t bitRotFast(uint32_t value, float chance = 0.5, uint16_t times = 1)
+uint32_t bitRot(uint32_t value, float chance = 0.5, uint16_t times = 1)
 {
   while(times--)
   {
@@ -490,7 +493,7 @@ uint32_t bitRotFast(uint32_t value, float chance = 0.5, uint16_t times = 1)
 }
 
 
-uint64_t bitRotFast(uint64_t value, float chance = 0.5, uint16_t times = 1)
+uint64_t bitRot(uint64_t value, float chance = 0.5, uint16_t times = 1)
 {
   while(times--)
   {

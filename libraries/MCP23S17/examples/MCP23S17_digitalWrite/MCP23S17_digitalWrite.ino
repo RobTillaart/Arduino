@@ -21,7 +21,7 @@ void setup()
 
   SPI.begin();
   bool b = MCP.begin();
-  // Serial.println(b ? "true" : "false");
+  Serial.println(b ? "true" : "false");
   delay(100);
 
   MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input

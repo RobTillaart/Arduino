@@ -23,7 +23,7 @@ void setup()
 
   SPI.begin();
   rv = MCP.begin();
-  Serial.println(rv);
+  Serial.println(rv ? "true" : "false");
 
   rv = MCP.pinMode8(0, 0xFF);   // CHECK
   Serial.println(rv);

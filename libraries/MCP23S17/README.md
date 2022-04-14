@@ -67,9 +67,9 @@ Programming Interface is kept the same as much as possible.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23S17_OK**.
 
-| DESCRIPTION           | VALUE |
-|:----------------------|:-----:|
-| MCP23S17_OK           |  0x00 |
+| NAME                  | VALUE | DESCRIPTION |
+|:----------------------|:-----:|:------------|
+| MCP23S17_OK           |  0x00 | No error    |
 | MCP23S17_PIN_ERROR    |  0x81 |
 | MCP23S17_I2C_ERROR    |  0x82 |
 | MCP23S17_VALUE_ERROR  |  0x83 |
@@ -85,3 +85,6 @@ See examples.
 
 - keep functional in sync with MCP23017_RT
 - **isConnected()** is not really needed
+- implement ESP32 specific support - see MCP_ADC.begin()
+- replace magic numbers with a defined constant
+

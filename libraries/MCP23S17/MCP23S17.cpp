@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -11,6 +11,7 @@
 //  0.1.0   2021-12-30  initial version (a 2019 version did not make it)
 //  0.1.1   2022-01-10  add 16 bit interface
 //  0.1.2   2022-01-12  change the URL for library manager
+//  0.1.3   2022-04-13  fix compiling for NANO33 BLE
 
 
 #include "Arduino.h"
@@ -41,6 +42,15 @@
 #define MCP23S17_OLAT_A       0x14    // NOT USED output latch       P24
 #define MCP23S17_OLAT_B       0x15    // NOT USED
 
+//  IOCR bit masks (details datasheet P20)
+#define MCP23S17_IOCR_BANK    0x80    // Controls how the registers are addressed.
+#define MCP23S17_IOCR_MIRROR  0x40    // INT Pins Mirror bit.
+#define MCP23S17_IOCR_SEQOP   0x20    // Sequential Operation mode bit.
+#define MCP23S17_IOCR_DISSLW  0x10    // Slew Rate control bit for SDA output.
+#define MCP23S17_IOCR_HAEN    0x08    // Hardware Address Enable bit (MCP23S17 only).
+#define MCP23S17_IOCR_ODR     0x04    // Configures the INT pin as an open-drain output.
+#define MCP23S17_IOCR_INTPOL  0x02    // This bit sets the polarity of the INT output pin.
+#define MCP23S17_IOCR_NI      0x01    // Not implemented.
 
 // low level read / write masks
 #define MCP23S17_WRITE_REG    0x40
@@ -100,11 +110,15 @@ bool MCP23S17::begin()
   // check connected
   if (! isConnected()) return false;
 
-  // disable address increment (datasheet)
-  if (! writeReg(MCP23S17_IOCR, 0b00100000)) return false;   // TODO MAGIC NR
+  // disable address increment (datasheet P20
+  //   SEQOP: Sequential Operation mode bit
+  //   1 = Sequential operation disabled, address pointer does not increment.
+  //   0 = Sequential operation enabled, address pointer increments.
+  if (! writeReg(MCP23S17_IOCR, MCP23S17_IOCR_SEQOP)) return false;
+
   // Force INPUT_PULLUP
-  if (! writeReg(MCP23S17_PUR_A, 0xFF)) return false;
-  if (! writeReg(MCP23S17_PUR_B, 0xFF)) return false;
+  if (! writeReg(MCP23S17_PUR_A, 0xFF)) return false;   //  0xFF == all UP
+  if (! writeReg(MCP23S17_PUR_B, 0xFF)) return false;   //  0xFF == all UP
   return true;
 }
 
@@ -649,7 +663,7 @@ uint8_t  MCP23S17::swSPI_transfer(uint8_t val)
   uint8_t rv = 0;
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
   {
-    ::digitalWrite(dao, (val & mask));
+    ::digitalWrite(dao, (val & mask) ? HIGH : LOW);
     ::digitalWrite(clk, HIGH);
     if (::digitalRead(dai) == HIGH) rv |= mask;
     ::digitalWrite(clk, LOW);

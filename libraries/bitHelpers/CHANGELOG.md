@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.8] - 2022-04-13
+
+### Added
+
+### Changed
+- split bitHelpers.h file into a .h and a .cpp file to prevent multiple declarations in some complexer projects.
+
+
+### Fixed
+
+
 ## [0.1.7] - 2022-04-13
 
 ### Added

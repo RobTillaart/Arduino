@@ -90,7 +90,7 @@ Indicative table (subjective).
 |  < -55        |  serious dangerous   |
 
 
-## temperatureConverter
+# temperatureConverter class
 
 Since version 0.3.2 a temperature convertor class is added to convert to and from 
 other (less known) temperature scales. 
@@ -104,7 +104,7 @@ Check Wikipedia for details about the scales.
 | Name        | units | 1° in °K |    0°C  |   100°C | notes |
 |:------------|:-----:|:--------:|--------:|--------:|:------|
 | Celsius     |  °C   | 1.000000 |    0.00 |  100.00 |
-} Delisle     |  °De  | 0.666666 | -100.00 |   50.00 |
+| Delisle     |  °De  | 0.666666 | -100.00 |   50.00 |
 | Fahrenheit  |  °F   | 0.555556 |   32.00 |  212.00 |
 | Kelvin      |  °K   | 1.000000 |  273.15 |  373.15 |
 | Newton      |  --   | 3.030303 |    0.00 |   33.00 | not the force.
@@ -160,5 +160,4 @@ See examples for typical usage.
 
 - improve documentation
   - add short explanation?
-- add more scales to temperatureConverter if exist
 - 

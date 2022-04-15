@@ -208,6 +208,10 @@ There is no **atan()** or **atan2()** replacement.
 
 - update library.json, badges, version string, minor edits.
 
+## 0.1.10
+
+- split .h in .h and .cpp. Needed in case of more complex projects.
+
 
 ## Operation
 
@@ -218,4 +222,5 @@ See examples
 
 - How to improve the accuracy of the whole degrees, as now the table is optimized for interpolation.
 - version info in release_notes.md file.
+- separate releaseNotes.md
 

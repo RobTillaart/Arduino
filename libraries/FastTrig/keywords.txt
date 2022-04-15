@@ -16,6 +16,6 @@ iacos	KEYWORD2
 
 
 # Constants (LITERAL1)
-isinTable16	LITERAL1
-isinTable8	LITERAL1
+FAST_TRIG_LIB_VERSION	LITERAL1
+
 

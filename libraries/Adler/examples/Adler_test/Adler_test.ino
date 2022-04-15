@@ -9,7 +9,7 @@
 
 
 //  expected output
-//  ADLER_LIB_VERSION: 0.1.0
+//  ADLER_LIB_VERSION: 0.1.1
 //  5C801F0
 //  81E0256
 //  E000325

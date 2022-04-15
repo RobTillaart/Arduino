@@ -54,10 +54,10 @@ First numbers of **.add(value)** measured with test sketch shows the following t
 
 | Checksum    |  UNO 16 MHz | ESP32 240 MHz |
 |:------------|:-----------:|:-------------:|
-| Fletcher16  |     3.8 us  |               |
-| Fletcher32  |     5.6 us  |               |
-| Fletcher64  |    10.1 us  |               |
-| Average     |     6.5 us  |               |
+| Fletcher16  |     3.8 us  |    0.22 us    |
+| Fletcher32  |     5.6 us  |    0.23 us    |
+| Fletcher64  |    10.1 us  |    0.26 us    |
+| Average     |     6.5 us  |    0.24 us    |
 
 
 ## Interface static functions
@@ -82,14 +82,13 @@ measured with **Fletcher_performance.ino** sketch shows the following timing.
 
 Lorem Ipsum text = 868 bytes.
 
-| Checksum    |  UNO 16 MHz | ESP32 240 MHz |
-|:------------|:-----------:|:-------------:|
-| Fletcher16  |    1120 us  |               |
-| Fletcher32  |     728 us  |               |
-| Fletcher64  |    1952 us  |               |
-| Average     |    1267 us  |               |
-
-Average 1267 / 868 = ~1.5 us per byte.
+| Checksum    |  UNO 16 MHz | ESP32 240 MHz | Notes              |
+|:------------|:-----------:|:-------------:|:-------------------|
+| Fletcher16  |    1120 us  |     62 us     | first run slower ? |
+| Fletcher32  |     728 us  |     33 us     |                    |
+| Fletcher64  |    1952 us  |     35 us     |                    |
+| Average     |    1267 us  |     43 us     |                    |
+| Avg / char  |    1.46 us  |   0.0495 us   | 868 bytes          |
 
 
 ## Operation

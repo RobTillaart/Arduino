@@ -21,6 +21,9 @@ void setup()
   Serial.println();
   delay(100);
 
+  int x = 0x0020;
+  Serial.println(__builtin_ctz(x) + 1);
+  
   start = micros();
   p = currency(10000000, 0, '.', ',', '$');
   stop = micros();

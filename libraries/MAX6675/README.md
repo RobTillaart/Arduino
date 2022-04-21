@@ -8,50 +8,79 @@
 
 # MAX6675
 
-Arduino library for MAX6675 chip for K type thermocouple. 
+Max6675 is an Arduino library for MAX6675 chip with a K type thermocouple. 
 
 The library is based upon (stripped and adapted version of) the https://github.com/RobTillaart/MAX31855_RT library.
 
-Experimental as not tested with hardware yet.
+Currently the library is experimental, so use with care.
+
+Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO @ 16 MHz. The library works and it reads temperatures well, both with HW SPI and SW SPI. 
+
 
 ## Description
 
-The MAX6675 is a chip to convert the reading of a K-type thermocouple to a temperature. The MAX6675 only supports positive degrees Celsius.
+The MAX6675 is a chip to convert the reading of a K-type thermocouple to a temperature. 
+The MAX6675 only supports positive degrees Celsius.
+
+The values are read with an precision of **0.25°C.** 
+Typical noise seen during usage are **± 0.5°C**, so using a low pass filter on the temperature might be a good idea.
 
 The working of thermocouples (TC) is based upon Seebeck effect.
-Different TC's have a different Seebeck Coefficient (SC) expressed in �V/�C.
+Different TC's have a different Seebeck Coefficient (SC) expressed in µV/°C.
 See http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
 
-Library tested with breakout board - 
+
+### Breakout
+
+The library is tested with a breakout board with following pins:
 
 ```
-  TODO
-
+             +---------------------+
+             |          signal out |  -->  MISO
+             | -       chip select |  <--  SELECT
+    TC here  |               clock |  <--  CLOCK    processor side
+             | +               VCC |  ---  VCC
+             |                 GND |  ---  GND
+             +---------------------+
 ```
 
 
 ## Hardware SPI vs software SPI
 
+
+### Pins
+
 Default pin connections. ESP32 can overrule with **setGPIOpins()**.
 
  | HW SPI   |  UNO  |  ESP32 VSPI |  ESP32 HSPI | Notes
  |:---------|:-----:|:-----------:|:-----------:|:----------|
- | CLOCKPIN |   13  |   18        |   14        |
- | MISO     |   12  |   19        |   12        |
- | MOSI     |   11  |   23        |   13        |  *not used...*
+ | CLOCK    |  13   |   18        |   14        |
+ | MISO     |  12   |   19        |   12        |
+ | MOSI     |  11   |   23        |   13        |  *not used...*
  | SELECT   | eg. 4 |    5        |   15        |  *can be others too.*
 
 
-Performance read() function, timing in us.  (TODO ESP32 @240MHz)
+### Performance 
 
-| mode   | clock    | timing UNO | timing ESP32 | Notes
+Performance read() function, timing in us.  
+- UNO @ 16 MHz
+- TODO ESP32 @ 240 MHz
+
+| mode   |  clock   | timing UNO | timing ESP32 | Notes
 |:-------|---------:|-----------:|-------------:|:----------|
-| HW SPI |  4000000 |    ~32     |              | highest supported.
-| HW SPI |  2000000 |    ~36     |              |
-| HW SPI |  1000000 |    ~44     |              |
-| HW SPI |   500000 |    ~60     |              |
-| SW SPI | bit bang |    ~276    |              |
+| HW SPI |  4000000 |    36      |              | highest supported.
+| HW SPI |  3500000 |    40      |              |
+| HW SPI |  3000000 |    40      |              |
+| HW SPI |  2500000 |    40      |              |
+| HW SPI |  2000000 |    40-44   |              |
+| HW SPI |  1500000 |    48      |              |
+| HW SPI |  1000000 |    48-52   |              |
+| HW SPI |   500000 |    64-68   |              |
+| SW SPI | bit bang |    276     |              |
 
+Note the UNO micros() has a 4 us precision, but it is clear that
+4 Mb is not even twice the speed of 0.5 Mb.  
+Tested with **MAX6675_test_HWSPI.ino**
 
 
 ## Interface
@@ -61,7 +90,8 @@ Performance read() function, timing in us.  (TODO ESP32 @240MHz)
 
 - **MAX6675()** create object.
 - **void begin(const uint8_t select)** set select pin => hardware SPI
-- **void begin(const uint8_t sclk, const uint8_t select, const uint8_t miso)** set clock, select and miso pin => software SPI
+- **void begin(const uint8_t sclk, const uint8_t select, const uint8_t miso)** 
+set CLOCK, SELECT and MISO pin => software SPI
 
 
 ### Hardware SPI
@@ -70,7 +100,8 @@ To be used only if one needs a specific speed.
 
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
-- **void setSWSPIdelay(uint16_t del = 0)** for tuning SW SPI signal quality. Del is the time in micros added per bit. Even numbers keep the duty cycle of the clock around 50%.
+- **void setSWSPIdelay(uint16_t del = 0)** for tuning SW SPI signal quality. 
+Del is the time in micros added per bit. Even numbers keep the duty cycle of the clock around 50%.
 - **uint16_t getSWSPIdelay()** get set value in micros.
 
 
@@ -91,29 +122,17 @@ The function **getStatus()** returns the same status value.
 
 Table: values returned from **uint8_t read()** and **uint8_t getStatus()**
 
+Note: this list is a subset of MAX31855 errors.
+
 | value | Description               | Action       |
 |:-----:|:--------------------------|:-------------|
 |    0  | OK                        |              |
-|    1  | Thermocouple open circuit | check wiring |
-|    2  | Thermocouple short to GND | check wiring |
 |    4  | Thermocouple short to VCC | check wiring |
-|    7  | Generic error             |              |
 |  128  | No read done yet          | check wiring |
 |  129  | No communication          | check wiring |
 
-There are six functions to check the individual error conditions mentioned above.
-These make it easier to check them.
 
-- **bool openCircuit()**
-- **bool shortToGND()**
-- **bool shortToVCC()**
-- **bool genericError()**
-- **bool noRead()**
-- **bool noCommunication()**
-
-After a **uint8_t read()** you can get the temperature with **float getTemperature()** 
-and **float getInternal()** for the internal temperature of the chip / board itself.
-Normally these are (almost) equal.
+After a **uint8_t read()** you can get the temperature with **float getTemperature()**.
 
 Repeated calls to **getTemperature()** will give the same value until a new **read()**.
 The latter fetches a new value from the sensor. Note that if the **read()** fails
@@ -127,7 +146,10 @@ The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
 This offset is "added" in the **getTemperature()** function.
 
-Note the offset used is a float, so decimals can be used.
+Notes 
+- the offset used is a float, so decimals can be used.
+A typical usage is to call **setOffset(273.15)** to get ° Kelvin.
+- the offset can cause negative temperatures.
 
 
 ### Delta analysis
@@ -188,7 +210,7 @@ This allows one to compact the measurement e.g. for storage or sending over a ne
 
 To have proper working of the MAX6675 board, you need to add a pull-up resistor 
 (e.g. 4K7 - 1K depending on wire length) between the MISO pin (from constructor call) and the 
-VCC (5Volt). This improves the signal quality and will allow you to detect if there is
+VCC (5 Volt). This improves the signal quality and will allow you to detect if there is
 proper communication with the board. Without pull-up one might get random noise that could 
 look like real data.
 

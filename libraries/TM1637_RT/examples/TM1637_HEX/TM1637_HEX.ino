@@ -5,6 +5,7 @@
 //    DATE: 2021-02-15
 //     URL: https://github.com/RobTillaart/TM1637
 
+//  test with 6 digits (decimal) display
 
 #include "TM1637.h"
 
@@ -22,6 +23,8 @@ void setup()
 
   TM.init(2, 3, 6);
   TM.displayClear();
+  delay(2000);
+
   TM.displayHex(0xFEDCBA);
   delay(2000);
 }

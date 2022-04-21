@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.1"))
+#define TM1637_LIB_VERSION      (F("0.3.2"))
 
 
 class TM1637
@@ -37,6 +37,11 @@ class TM1637
     uint8_t getBitDelay() { return _bitDelay; };
     uint8_t keyscan(void);
 
+    //  the order the individual digits must be sent to the display.
+    void    setDigitOrder(uint8_t a = 0, uint8_t b = 1, 
+                          uint8_t c = 2, uint8_t d = 3,
+                          uint8_t e = 4, uint8_t f = 5,
+                          uint8_t g = 6, uint8_t h = 7);
 
   private:
     uint8_t _clock      = -1;
@@ -44,6 +49,8 @@ class TM1637
     uint8_t _digits     = 4;
     uint8_t _brightness = 3;
     uint8_t _bitDelay   = 10;
+
+    uint8_t _digitOrder[8];
 
     uint8_t writeByte(uint8_t data);
     void    start();

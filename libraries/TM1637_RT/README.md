@@ -48,6 +48,19 @@ See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.  I
 
 Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
 
+
+### Display support
+
+The library is tested with a 6 (=2x3) digit - decimal point - display and a 4 (=1x4) digit - clock - display. 
+At low level these displays differ in the order the digits have to be clocked in.
+To adjust the order for a not supported display, the following function can be used with care:
+
+- **void setDigitOrder(uint8_t a, uint8_t b,... uint8_t h)** sets the order in which up to 8 digits should be clocked in.
+
+If you have a (7 segment) display that is not supported by the library, 
+please open an issue on Github so it can be build in.
+
+
 ### Tuning function
 
 To tune the timing of writing bytes.
@@ -141,5 +154,5 @@ See examples
 - testing
 - rename **init()** to **begin()** ?
 - **keyScan()** camelCase ?
-- separate releaseNotes ?
+- separate CHANGELOG.md
 

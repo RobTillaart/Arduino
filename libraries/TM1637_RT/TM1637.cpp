@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 //
@@ -15,15 +15,17 @@
 //                      tested on ESP8266
 //  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
 //  0.3.1   2021-12-29  update library.json, license, readme, minor edits
-//
-//          tested on 6 digits display only for now.
+//                      tested on 6 digits (decimal point) display
+//  0.3.2   2022-04-16  fix #15 support for 4 digits.
+//                      tested on 4 digit (clock) display.
 
 
-// NOTE: on the inexpensive TM1637 boards @wfdudley has used, keyscan
-// works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
-// This reduces the rise time of the DIO signal when reading the key info.
-// If one only uses the pull-up inside the microcontroller,
-// the rise time is too long for the data to be read reliably.
+//  NOTE:
+//  on the inexpensive TM1637 boards @wfdudley has used, keyscan
+//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
+//  This reduces the rise time of the DIO signal when reading the key info.
+//  If one only uses the pull-up inside the microcontroller,
+//  the rise time is too long for the data to be read reliably.
 
 
 #include "TM1637.h"
@@ -43,14 +45,14 @@
   |   |
    ---
   |   |
-   ---  .
+   ---    .
 
 
       -01-
   20 |    | 02
       -40-
   10 |    | 04
-      -08-  .80
+      -08-    .80
 
 */
 
@@ -92,6 +94,16 @@ void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
   digitalWrite(_clock, HIGH);
   pinMode(_data, OUTPUT);
   digitalWrite(_data, HIGH);
+
+  //  TODO: replace _digits by a display enumeration?
+  if (_digits == 4 )
+  {
+    setDigitOrder(3,2,1,0);
+  }
+  else  // (_digits == 6 ) // default
+  {
+    setDigitOrder(3,4,5,0,1,2);
+  }
 }
 
 
@@ -182,39 +194,49 @@ void TM1637::setBrightness(uint8_t b)
 }
 
 
+void TM1637::setDigitOrder(uint8_t a, uint8_t b,
+                uint8_t c, uint8_t d, uint8_t e,
+                uint8_t f, uint8_t g, uint8_t h)
+{
+  _digitOrder[0] = a;
+  _digitOrder[1] = b;
+  _digitOrder[2] = c;
+  _digitOrder[3] = d;
+  _digitOrder[4] = e;
+  _digitOrder[5] = f;
+  _digitOrder[6] = g;
+  _digitOrder[7] = h;
+}
+
+
 void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 {
-  uint8_t b, dp;
+  uint8_t b = 0;
+
   start();
   writeByte(TM1637_ADDR_AUTO);
   stop();
 
   start();
   writeByte(TM1637_CMD_SET_ADDR);
-  for (uint8_t i = 3; i < 6 ; i++)
+
+  for (uint8_t d = 0; d < _digits; d++)
   {
-    dp = data[i] & 0x80;
+    uint8_t i = _digitOrder[d];
     data[i] &= 0x7f;
-    if(data[i] <= 17) {
+    if (data[i] <= 17)        //  HEX DIGIT
+    {
       b = seg[data[i]];
     }
-    else if(data[i] <= 37) {
-      b = alpha_seg[data[i]-18];
+    else if (data[i] <= 37)   //  ASCII
+    {
+      b = alpha_seg[data[i] - 18];
     }
-    if (i == pointPos || dp) b |= 0x80;
-    writeByte(b);
-  }
-  for (uint8_t i = 0; i < 3 ; i++)
-  {
-    dp = data[i] & 0x80;
-    data[i] &= 0x7f;
-    if(data[i] <= 17) {
-      b = seg[data[i]];
+    //  do we need a decimal point
+    if ((i == pointPos) || (data[i] & 0x80))
+    {
+      b |= 0x80;
     }
-    else if(data[i] <= 37) {
-      b = alpha_seg[data[i]-18];
-    }
-    if (i == pointPos || dp) b |= 0x80;
     writeByte(b);
   }
   stop();
@@ -225,6 +247,93 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 }
 
 
+
+/* previous version
+void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
+{
+  uint8_t b = 0, dp = 0;
+
+  start();
+  writeByte(TM1637_ADDR_AUTO);
+  stop();
+
+  // for debugging new displays...
+  // for (int i = 0; i< 6; i++)
+  // {
+    // Serial.print(data[i]);
+    // Serial.print("\t");
+  // }
+  // Serial.println();
+
+  start();
+  writeByte(TM1637_CMD_SET_ADDR);
+
+  //  TODO: how to encode display digit order in a generic way?
+  //        2nd array?  (packed in nybbles?)
+  //  6 digits == 2x3 display
+  //  [3,4,5,0,1,2]
+  if (_digits == 6)
+  {
+
+    for (uint8_t i = 3; i < 6 ; i++)
+    {
+      dp = data[i] & 0x80;
+      data[i] &= 0x7f;
+      if(data[i] <= 17) {
+        b = seg[data[i]];
+      }
+      else if(data[i] <= 37) {
+        b = alpha_seg[data[i]-18];
+      }
+      if (i == pointPos || dp) b |= 0x80;
+      writeByte(b);
+    }
+    for (uint8_t i = 0; i < 3 ; i++)
+    {
+      dp = data[i] & 0x80;
+      data[i] &= 0x7f;
+      if(data[i] <= 17) {
+        b = seg[data[i]];
+      }
+      else if(data[i] <= 37) {
+        b = alpha_seg[data[i]-18];
+      }
+      if (i == pointPos || dp) b |= 0x80;
+      writeByte(b);
+    }
+  }
+  //  4 digit clock version. =>  : is the point at digit 2
+  //  [3,2,1,0]
+  if (_digits == 4)
+  {
+    for (uint8_t j = 0; j < 4 ; j++)
+    {
+      uint8_t i = 3 - j;
+      dp = data[i] & 0x80;           // repeating block till writeByte()
+      data[i] &= 0x7f;
+      if(data[i] <= 17) {
+        b = seg[data[i]];
+      }
+      else if(data[i] <= 37) {
+        b = alpha_seg[data[i]-18];
+      }
+      if (i == pointPos || dp) b |= 0x80;
+      writeByte(b);
+    }
+  }
+  stop();
+
+  start();
+  writeByte(TM1637_CMD_DISPLAY | _brightness);
+  stop();
+}
+*/
+
+
+//////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 uint8_t TM1637::writeByte(uint8_t data)
 {
   // shift out data 8 bits LSB first

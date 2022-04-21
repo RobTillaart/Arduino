@@ -22,6 +22,8 @@ getBitDelay	KEYWORD2
 
 keyscan	KEYWORD2
 
+setDigitOrder	KEYWORD2
+
 
 # Constants (LITERAL1)
 TM1637_LIB_VERSION	LITERAL1

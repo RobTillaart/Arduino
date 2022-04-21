@@ -1,10 +1,15 @@
 
 # Release Notes
 
+## 0.3.0  2022-04-15
+
+- split CRC.h in CRC.h and CRC.cpp to fix #21 (again)
+- remove #ifndef Header guards as these are not needed.
+
 
 ## 0.2.3  2022-04-13
 
-- replace #pragma once with #ifndef Header guards
+- replace #pragma once with #ifndef Header guards  #21
 
 
 ## 0.2.2

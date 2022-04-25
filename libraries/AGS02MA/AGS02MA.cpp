@@ -1,8 +1,8 @@
 //
 //    FILE: AGS02MA.cpp
-//  AUTHOR: Rob Tillaart, Viktor Balint
+//  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -205,14 +205,34 @@ uint32_t AGS02MA::readUGM3()
 }
 
 
-bool AGS02MA::zeroCalibration()
+bool AGS02MA::manualZeroCalibration(uint16_t value)
 {
   _buffer[0] = 0x00;
   _buffer[1] = 0x0C;
-  _buffer[2] = 0xFF;
-  _buffer[3] = 0xF3;
-  _buffer[4] = 0xFC;
+  _buffer[2] = (uint8_t) (value >> 8);
+  _buffer[3] = (uint8_t) (value & 0x00FF);
+  _buffer[4] = _CRC8(_buffer, 4);
   return _writeRegister(AGS02MA_CALIBRATION);
+}
+
+
+bool AGS02MA::getZeroCalibrationData(AGS02MA::ZeroCalibrationData &data) {
+  if (!_readRegister(AGS02MA_CALIBRATION))
+  {
+    return false;
+  }
+
+  if (_CRC8(_buffer, 5) != 0)
+  {
+    _error = AGS02MA_ERROR_CRC;
+    return false;
+  }
+
+  _error = AGS02MA_OK;
+  // Don't pollute the struct given to us, until we've handled all error cases.
+  data.status = _getDataMSB();
+  data.value = _getDataLSB();
+  return true;
 }
 
 
@@ -250,7 +270,7 @@ uint32_t AGS02MA::_readSensor()
   }
   return value;
 }
- 
+
 
 bool AGS02MA::_readRegister(uint8_t reg)
 {
@@ -301,6 +321,15 @@ bool AGS02MA::_writeRegister(uint8_t reg)
   return (_error == 0);
 }
 
+uint16_t AGS02MA::_getDataMSB()
+{
+  return (_buffer[0] << 8) + _buffer[1];
+}
+
+uint16_t AGS02MA::_getDataLSB()
+{
+  return (_buffer[2] << 8) + _buffer[3];
+}
 
 uint8_t AGS02MA::_CRC8(uint8_t * buf, uint8_t size)
 {

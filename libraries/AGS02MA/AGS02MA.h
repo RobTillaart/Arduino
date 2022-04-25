@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: AGS02MA.h
-//  AUTHOR: Rob Tillaart, Viktor Balint
+//  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.1.4"))
+#define AGS02MA_LIB_VERSION         (F("0.2.0"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
@@ -28,6 +28,19 @@
 class AGS02MA
 {
 public:
+  struct ZeroCalibrationData
+  {
+    /**
+     * Warning, the exact meaning of this status is not fully documented.
+     * It seems like it's a bitmask:
+     * 0000 1100 | 0x0C | 12  | Typical value
+     * 0000 1101 | 0x0D | 13  | Sometimes seen on v117
+     * 0111 1101 | 0x7D | 125 | Seen on v118, after power-off (gives different data than 12!)
+     */
+    uint16_t status;
+    uint16_t value;
+  };
+
   // address 26 = 0x1A
   explicit AGS02MA(const uint8_t deviceAddress = 26, TwoWire *wire = &Wire);
 
@@ -53,7 +66,16 @@ public:
   uint32_t getI2CResetSpeed() { return _I2CResetSpeed; };
 
   // to be called after at least 5 minutes in fresh air.
-  bool     zeroCalibration();
+  bool     zeroCalibration() { return manualZeroCalibration(0); };
+
+  /**
+   * Set the zero calibration value manually.
+   * To be called after at least 5 minutes in fresh air.
+   * For v117: 0-65535 = automatic calibration.
+   * For v118: 0 = automatic calibration, 1-65535 manual calibration.
+   */
+  bool     manualZeroCalibration(uint16_t value = 0);
+  bool     getZeroCalibrationData(ZeroCalibrationData &data);
 
 
   // MODE
@@ -99,6 +121,8 @@ private:
   uint8_t  _status        = 0;
   uint8_t  _buffer[5];
 
+  uint16_t _getDataMSB();
+  uint16_t _getDataLSB();
   uint8_t  _CRC8(uint8_t * buf, uint8_t size);
   uint8_t  _bin2bcd(uint8_t val);
 

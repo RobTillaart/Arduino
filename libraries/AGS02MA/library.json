@@ -11,6 +11,9 @@
       "name": "Rob Tillaart",
       "email": "Rob.Tillaart@gmail.com",
       "maintainer": true
+    },
+    {
+      "name": "Beanow"
     }
   ],
   "repository":
@@ -18,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AGS02MA.git"
   },
-  "version": "0.1.4",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

@@ -28,6 +28,19 @@ This is done to minimize interference with the communication of other devices.
 The reset clock speed can be changed with **setI2CResetSpeed()** e.g. to 200 or 400 KHz.
 
 
+## Version problem?
+
+The library can request the version with **getSensorVersion()**.
+My devices all report version 117 and this version is used to develop / test this library.
+There are devices reported with version 118 which only support the **PPB** and not the **ugM3** mode.
+It is unclear if this is an incident, bug or a structural change in the firmware.
+
+So if you encounter problems with setting the mode, let me know.
+Also if you have a working device, not being version 117 or 118 let me know too.
+
+See also - https://github.com/RobTillaart/AGS02MA/issues/11
+
+
 ## Interface
 
 
@@ -157,6 +170,12 @@ Typical value should be between 0.01 .. 999.99
 
 - **bool zeroCalibration()** to be called after at least 5 minutes in fresh air.
 See example sketch.
+- **bool manualZeroCalibration(uint16_t value = 0)** Set the zero calibration value manually.
+To be called after at least 5 minutes in fresh air.
+For v117: 0-65535 = automatic calibration.
+For v118: 0 = automatic calibration, 1-65535 manual calibration.
+- **bool getZeroCalibrationData(ZeroCalibrationData &data);** fills a data struct with the current zero calibration status and value.
+Returns true on success.
 - **int lastError()** returns last error.
 - **uint8_t lastStatus()** returns status byte from last read.
 Read datasheet or table below for details. A new read is needed to update this.

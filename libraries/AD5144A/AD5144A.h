@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION           (F("0.1.5"))
+#define AD51XXA_VERSION           (F("0.1.6"))
 
 
 #define AD51XXA_OK                0
@@ -95,6 +95,8 @@ public:
   uint8_t preloadAll(const uint8_t value);
   //  copy the preloads to the channels. The bit mask indicates which channels
   //  b00001101 would indicate channel 0, 2 and 3;
+  //  sync should not have a default mask as one doesn't know which preloads 
+  //  are set and which not.
   uint8_t sync(const uint8_t mask);
 
 

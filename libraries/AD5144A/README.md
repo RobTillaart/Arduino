@@ -10,7 +10,7 @@
 
 Arduino library for **I2C AD5144A** 4 channel digital potentiometer.
 
-LIbrary has also classes for AD5123, AD5124, AD5143, AD5144, AD5144A, AD5122A, AD5142A, AD5121, AD5141
+Library has also classes for AD5123, AD5124, AD5143, AD5144, AD5144A, AD5122A, AD5142A, AD5121, AD5141
 
 ## Description
 
@@ -47,10 +47,10 @@ See Future below.
 
 - x = 2 => range = 0..127    
 - x = 4 => range = 0..255
-- y = 1 => 1 potmeter
-- y = 2 => 2 potmeters
-- y = 4 => 4 potmeters
-- y = 3 => 2 potmeters + 2 rheostats
+- y = 1 => 1 potentiometer
+- y = 2 => 2 potentiometers
+- y = 4 => 4 potentiometers
+- y = 3 => 2 potentiometers + 2 rheostats
 
 
 ## I2C
@@ -93,9 +93,11 @@ The developer is responsible for handling these differences correctly when using
 - **bool begin(uint8_t sda, uint8_t scl, bool doReset = true)** ESP32 a.o initializing of the I2C data and clock pins.
 If these pins are set to 255 the default pins will be used.
 If **doReset** == true (default) **reset()** is called, to load last values stored in EEPROM. 
-Returns true if the address of the device can be found on the I2C bus. If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
+Returns true if the address of the device can be found on the I2C bus. 
+If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool begin()** for UNO, if **doReset** == true (default) **reset()** is called, to load last values stored in EEPROM. 
-Returns true if the address of the device can be found on the I2C bus. If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
+Returns true if the address of the device can be found on the I2C bus. 
+If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool isConnected()** returns true if the address of the device can be found on the I2C bus, false otherwise.
 - **uint8_t reset()** calls the built in RESET command.
 This loads the last values stored in EEPROM in the RDAC's. 
@@ -173,7 +175,7 @@ See page 27-28 datasheet REV-C
 
 - **uint8_t setLinearMode(uint8_t rdac)**
 - **uint8_t setPotentiometerMode(uint8_t rdac)**
-- **// 0 = potentio, 1 = linear
+- **// 0 = potentiometer, 1 = linear
 - **uint8_t getOperationalMode(uint8_t rdac)**
 - **uint8_t incrementLinear(uint8_t rdac)**
 - **uint8_t incrementLinearAll()**
@@ -225,7 +227,7 @@ The examples show the basic working of the functions.
 
 **could**
 - improve unit testing CI
-- more testing with hw
+- more testing with hardware.
 - SPI based version of the library ?
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -295,7 +295,6 @@ uint8_t AD51XX::preload(const uint8_t rdac, const uint8_t value)
   // COMMAND 2 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   if (value > _maxValue) return AD51XXA_INVALID_VALUE;
-  _lastValue[rdac] = value;
   uint8_t cmd = 0x20 | rdac;
   return send(cmd, _lastValue[rdac]);
 }
@@ -330,7 +329,8 @@ uint8_t AD51XX::sync(const uint8_t mask)
 
 uint8_t AD51XX::shutDown()
 {
-  // COMMAND 15 - table 29
+  //  COMMAND 15 - table 29
+  //  shutdown all channels
   return send(0xC8, 0x01);   // to be tested
 }
 

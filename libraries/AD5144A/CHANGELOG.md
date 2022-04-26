@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2022-04-25
+
+### Added
+- extra comments on **sync()**
+
+### Changed
+
+### Fixed
+- fixed issue #14, preloading values should not change cached values
+
+
 ## [0.1.5] - 2022-03-14
 
 ### Added

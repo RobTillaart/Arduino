@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -243,6 +243,22 @@ int AGS02MA::lastError()
   return e;
 }
 
+bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
+  if (!_readRegister(address))
+  {
+    return false;
+  }
+
+  _error = AGS02MA_OK;
+  // Don't pollute the struct given to us, until we've handled all error cases.
+  reg.data[0] = _buffer[0];
+  reg.data[1] = _buffer[1];
+  reg.data[2] = _buffer[2];
+  reg.data[3] = _buffer[3];
+  reg.crc = _buffer[4];
+  reg.crcValid = _CRC8(_buffer, 5) == 0;
+  return true;
+}
 
 /////////////////////////////////////////////////////////
 //

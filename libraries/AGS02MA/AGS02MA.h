@@ -3,7 +3,7 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.2.0"))
+#define AGS02MA_LIB_VERSION         (F("0.3.0"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
@@ -28,6 +28,13 @@
 class AGS02MA
 {
 public:
+  struct RegisterData
+  {
+    uint8_t data[4];
+    uint8_t crc;
+    bool    crcValid;
+  };
+
   struct ZeroCalibrationData
   {
     /**
@@ -103,6 +110,9 @@ public:
   int      lastError();
   uint8_t  lastStatus() { return _status; };
   uint8_t  dataReady()  { return _status & 0x01; };
+
+  // Reading registers
+  bool     readRegister(uint8_t address, RegisterData &reg);
 
 
 private:

@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.3.5"))
+#define FRAM_LIB_VERSION              (F("0.3.6"))
 
 
 #define FRAM_OK                       0
@@ -76,8 +76,11 @@ public:
   uint32_t getSizeBytes() { return _sizeBytes; };  //  Returns size in BYTE
   void     setSizeBytes(uint32_t value);           //  override when getSize() fails == 0
 
-  //  0.3.5
-  uint32_t clear(uint8_t value = 0);
+  uint32_t clear(uint8_t value = 0);  // fills FRAM with value
+
+  //  0.3.6
+  void sleep();
+  bool wakeup(uint32_t trec = 400);  // trec <= 400us  P12
 
 
 private:

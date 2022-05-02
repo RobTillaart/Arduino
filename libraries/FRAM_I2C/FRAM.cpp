@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -20,8 +20,9 @@
 #define FRAM_MB85RC1M                 0x07
 
 
-// used for metadata
-const uint8_t FRAM_SLAVE_ID_= 0x7C;
+// used for metadata and sleep
+const uint8_t FRAM_SLAVE_ID_ = 0x7C;  // == 0xF8
+const uint8_t FRAM_SLEEP_CMD = 0x86;  //
 
 
 /////////////////////////////////////////////////////
@@ -227,6 +228,30 @@ uint32_t FRAM::clear(uint8_t value)
     _writeBlock(addr, buf, 16);
   }
   return end - start;
+}
+
+
+//  EXPERIMENTAL - to be confirmed
+//  page 12 datasheet
+//  command = S 0xF8 A address A S 86 A P  (A = Ack from slave )
+void FRAM::sleep()
+{
+  _wire->beginTransmission(FRAM_SLAVE_ID_);       //  S 0xF8
+  _wire->write(_address << 1);                    //  address << 1
+  _wire->endTransmission(false);                  //  no stoP
+  _wire->beginTransmission(FRAM_SLEEP_CMD >> 1);  //  S 0x86
+  _wire->endTransmission(true);                   //  stoP
+}
+
+
+//  page 12 datasheet   trec <= 400us
+bool FRAM::wakeup(uint32_t trec)
+{
+  bool b = isConnected();  //  wakeup
+  if (trec == 0) return b;
+  //  wait recovery time
+  delayMicroseconds(trec);
+  return isConnected();    //  check recovery OK
 }
 
 

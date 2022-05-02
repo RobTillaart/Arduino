@@ -31,6 +31,8 @@ getSizeBytes	KEYWORD2
 setSizeBytes	KEYWORD2
 
 clear	KEYWORD2
+sleep	KEYWORD2
+wakeup	KEYWORD2
 
 
 # Constants (LITERAL1)

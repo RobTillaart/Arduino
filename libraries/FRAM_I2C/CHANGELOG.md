@@ -5,20 +5,34 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2022-05-02
+
+### Added
+- add **void sleep()** experimental.
+- add **bool wakeup(trec = 400)** experimental. wakeup time of 400us. returns true if connected after call.
+- add example **FRAM_sleep.ino**
+
+### Changed
+- updated readme.md
+- updated keywords.txt
+
+### Fixed
+- minor edits
+
+
 ## [0.3.5] - 2022-03-23
 
 ### Added
 - add **uint32_t clear(uint8_t value = 0)**
 - add **void setSizeBytes(uint32_t value)**
 - added defines for size of known types for e.g. **void setSizeBytes(uint32_t value)**
-- add _sizeinBytes private var. Needed in clear a.o.
+- add \_sizeinBytes private var. Needed in clear a.o.
 
 ### Changed
 - **getSize()** automatically called in **begin()**
 - updated example **FRAM_clear.ino**
-- renamed private functions with _
+- renamed private functions with \_
 - updated readme.md
--
 
 ### Fixed
 

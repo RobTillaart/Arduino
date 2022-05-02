@@ -17,28 +17,27 @@ FRAM is a library to read from and write to (over I2C) an FRAM module.
 FRAM is much faster than EEPROM and almost as fast as (Arduino UNO) RAM.
 Another important feature it has in common with EEPROM is that FRAM keeps
 its content after a reboot as it is non-volatile.
-That makes it ideal to store configuration or logging
-data in a project.
+That makes it ideal to store configuration or logging data in a project.
 
 FRAM stands for Ferroelectric RAM - https://en.wikipedia.org/wiki/Ferroelectric_RAM
 
-Types of FRAM the library should work with
+Types of FRAM the library should work with the library:
 
 |  TYPE      | SIZE   | TESTED | NOTES                |
 |:----------:|-------:|:------:|:---------------------|
 | MB85RC04   |   512  |        | no deviceID register |
 | MB85RC16   |   2 KB |        | no deviceID register |
-| MB85RC64T  |   8 KB |    Y   |
+| MB85RC64T  |   8 KB |    Y   |                      |
 | MB85RC128A |  16 KB |        | no deviceID register |
-| MB85RC256V |  32 KB |        |
-| MB85RC512T |  64 KB |    Y   |
+| MB85RC256V |  32 KB |    Y   |                      |
+| MB85RC512T |  64 KB |    Y   |                      |
 | MB85RC1MT  | 128 KB |        | 16 bit address problem? to be tested |
 
-Notes
+
+#### Notes
 - Not all types of FRAM are tested. Please let me know if you have verified one.
 - If there is no deviceID **getSize()** will not work correctly.
-
-Address = 0x50 (default) .. 0x57, depends on the lines A0..A2.
+- Address = 0x50 (default) .. 0x57, depends on the lines A0..A2.
 
 
 ## Interface
@@ -67,8 +66,10 @@ Support for basic types and 2 calls for generic object, use casting if needed.
 One needs to allocate memory as the function won't.
 
 (0.3.4 added template functions, see issue #13 )
-- **uint16_t writeObject(uint16_t memaddr, T &obj)** writes an object to memaddr (and following bytes). Returns memaddr + sizeof(obj) to get the next address to write to.
-- **uint16_t readObject(uint16_t memaddr, T &obj)** reads an object from memaddr and next bytes. Returns memaddr + sizeof(obj) to get the next address to read from.
+- **uint16_t writeObject(uint16_t memaddr, T &obj)** writes an object to memaddr (and following bytes). 
+Returns memaddr + sizeof(obj) to get the next address to write to.
+- **uint16_t readObject(uint16_t memaddr, T &obj)** reads an object from memaddr and next bytes. 
+Returns memaddr + sizeof(obj) to get the next address to read from.
 
 (0.3.5 added)
 - **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses - default zero's.
@@ -94,6 +95,47 @@ To be used only if **getSize()** cannot determine the size.
 See also remark in Future section below. 
 
 
+### Sleep
+
+(0.3.6 added - experimental)
+- **void sleep()** puts the FRAM in sleep mode so it uses less power. 
+Still needs a power test for 2 types of FRAM.
+- **bool wakeup(uint32_t trec = 400)** tries to wake up the device with a default recovery time of 400 microseconds.
+Returns true if connected after the call.
+
+According to the data sheets there are only three FRAM devices support the sleep command.
+So use with care.  
+
+|  TYPE      | SIZE   | SLEEP (datasheet)|  CURRENT  | CONFIRMED | NOTES   |
+|:----------:|-------:|:----------------:|:---------:|:---------:|:--------|
+| MB85RC04   |   512  | N                |  -        |     N     |         |
+| MB85RC16   |   2 KB | N                |  -        |     N     |         |
+| MB85RC64T  |   8 KB | Y  Page 11       |  4.0 uA*  |     N     |         |
+| MB85RC128A |  16 KB | N                |  -        |     N     |         |
+| MB85RC256V |  32 KB | N                |  -        |     N     |         |
+| MB85RC512T |  64 KB | Y  Page 12       |  4.0 uA*  |     N     |         |
+| MB85RC1MT  | 128 KB | Y  Page 12       |  3.6 uA   |     Y     | See #17 |
+
+_current with \* are from datasheet_
+
+
+### Current
+
+Indicative power usage in uA in three modi (if supported). 
+
+
+|  TYPE      | SIZE   | STANDBY  | WRITE     | SLEEP     | NOTES   |
+|:----------:|-------:|:--------:|:---------:|:---------:|:--------|
+| MB85RC04   |   512  |          |           |  -        |         |
+| MB85RC16   |   2 KB |          |           |  -        |         |
+| MB85RC64T  |   8 KB |          |           |  4.0 uA   |         |
+| MB85RC128A |  16 KB |          |           |  -        |         |
+| MB85RC256V |  32 KB | 10.22 uA | 93.48 uA  |  -        |         |
+| MB85RC512T |  64 KB |          |           |  4.0 uA   |         |
+| MB85RC1MT  | 128 KB | 11.7 uA  | 46-721 uA |  3.6 uA   | See #17 | 
+
+_TODO fill the table_
+
 
 ## Operational
 
@@ -103,7 +145,7 @@ See also remark in Future section below.
 ## Future
 
 ### high
-- 32 bits addresses to support MB85RC1MT.
+- 32 bits addresses to support MB85RC1MT (to be verified if needed).
   - no explicit request yet (0.4.0)
 
 ### medium
@@ -122,6 +164,7 @@ See also remark in Future section below.
 - test more types of FRAM
 - **getSize()** scanning FRAM like EEPROM library?
 - remember last written address? why?
+- fill power usage table
 
 ### wont
 - extend current **clear()** with partial **clear(begin, end, value)**?

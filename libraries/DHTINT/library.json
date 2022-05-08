@@ -1,0 +1,21 @@
+{
+  "name": "DHTINT",
+  "keywords": "DHT11, DHT22, DHT33, DHT44, AM2301, AM2302, AM2303, autodetect, offset, interrupt, powerDown",
+  "description": "Arduino library for DHT sensors. Integer only to save footprint.",
+  "authors": 
+  {
+    "name": "Rob Tillaart",
+    "email": "Rob.Tillaart@gmail.com",
+    "maintainer": true
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DHTINT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "dhtint.h"
+}

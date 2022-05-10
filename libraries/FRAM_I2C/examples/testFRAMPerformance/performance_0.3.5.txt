@@ -1,0 +1,42 @@
+
+Sketch:   testFRAMPerformance.ino
+Platform: UNO
+IDE:      1.18.19
+
+FRAM_LIB_VERSION: 0.3.5
+
+
+CLOCK: 100000
+WRITE 1200 bytes TIME: 	136704 us ==> 	113.92 us/byte.
+READ 1200 bytes TIME: 	141760 us ==> 	118.13 us/byte.
+
+CLOCK: 200000
+WRITE 1200 bytes TIME: 	75428 us ==> 	62.86 us/byte.
+READ 1200 bytes TIME: 	78132 us ==> 	65.11 us/byte.
+
+CLOCK: 300000
+WRITE 1200 bytes TIME: 	53976 us ==> 	44.98 us/byte.
+READ 1200 bytes TIME: 	55684 us ==> 	46.40 us/byte.
+
+CLOCK: 400000
+WRITE 1200 bytes TIME: 	44860 us ==> 	37.38 us/byte.
+READ 1200 bytes TIME: 	46192 us ==> 	38.49 us/byte.
+
+CLOCK: 500000
+WRITE 1200 bytes TIME: 	38692 us ==> 	32.24 us/byte.
+READ 1200 bytes TIME: 	39724 us ==> 	33.10 us/byte.
+
+CLOCK: 600000
+WRITE 1200 bytes TIME: 	34900 us ==> 	29.08 us/byte.
+READ 1200 bytes TIME: 	35836 us ==> 	29.86 us/byte.
+
+CLOCK: 700000
+WRITE 1200 bytes TIME: 	32580 us ==> 	27.15 us/byte.
+READ 1200 bytes TIME: 	33368 us ==> 	27.81 us/byte.
+
+CLOCK: 800000
+WRITE 1200 bytes TIME: 	30980 us ==> 	25.82 us/byte.
+READ 1200 bytes TIME: 	31716 us ==> 	26.43 us/byte.
+
+done...
+

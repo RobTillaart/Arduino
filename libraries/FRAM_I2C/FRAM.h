@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.3.6"))
+#define FRAM_LIB_VERSION              (F("0.4.0"))
 
 
 #define FRAM_OK                       0
@@ -83,7 +83,7 @@ public:
   bool wakeup(uint32_t trec = 400);  // trec <= 400us  P12
 
 
-private:
+protected:
   uint8_t  _address;
   uint32_t _sizeBytes;
   //  default no pin = -1 ==> no write protect.
@@ -94,6 +94,46 @@ private:
   void     _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
   void     _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
 
+};
+
+
+/////////////////////////////////////////////////////////////////
+//
+//  FRAM32
+//
+
+
+class FRAM32 : public FRAM
+{
+public:
+  FRAM32(TwoWire *wire = &Wire);
+
+  void     write8(uint32_t memaddr, uint8_t value);
+  void     write16(uint32_t memaddr, uint16_t value);
+  void     write32(uint32_t memaddr, uint32_t value);
+  void     write(uint32_t memaddr, uint8_t * obj, uint16_t size);
+
+  uint8_t  read8(uint32_t memaddr);
+  uint16_t read16(uint32_t memaddr);
+  uint32_t read32(uint32_t memaddr);
+  void     read(uint32_t memaddr, uint8_t * obj, uint16_t size);
+
+  template <class T> uint32_t writeObject(uint32_t memaddr, T &obj)
+  {
+    write(memaddr, (uint8_t *) &obj, sizeof(obj));
+    return memaddr + sizeof(obj);
+  };
+  template <class T> uint32_t readObject(uint32_t memaddr, T &obj)
+  {
+    read(memaddr, (uint8_t *) &obj, sizeof(obj));
+    return memaddr + sizeof(obj);
+  }
+
+  uint32_t clear(uint8_t value = 0);  // fills FRAM with value
+
+protected:
+  void     _writeBlock(uint32_t memaddr, uint8_t * obj, uint8_t size);
+  void     _readBlock(uint32_t memaddr, uint8_t * obj, uint8_t size);
 };
 
 

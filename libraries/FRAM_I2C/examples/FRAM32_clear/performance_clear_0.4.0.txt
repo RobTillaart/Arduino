@@ -1,0 +1,39 @@
+FRAM_LIB_VERSION: 0.4.0
+BYTES  :	32768
+
+SPEED  :	100000
+BYTES 1:	14380436 ==> 	438.86 us/byte
+BYTES 2:	8825944 ==> 	269.35 us/byte
+BYTES 4:	6047592 ==> 	184.56 us/byte
+BYTES 8:	4656060 ==> 	142.09 us/byte
+BYTES 16:	3961288 ==> 	120.89 us/byte
+CLEAR():	3955932 ==> 	120.73 us/byte
+CLEAR(0xFF):	3955840 ==> 	120.72 us/byte
+
+SPEED  :	200000
+BYTES 1:	8161944 ==> 	249.08 us/byte
+BYTES 2:	4975548 ==> 	151.84 us/byte
+BYTES 4:	3383644 ==> 	103.26 us/byte
+BYTES 8:	2589080 ==> 	79.01 us/byte
+BYTES 16:	2197028 ==> 	67.05 us/byte
+CLEAR():	2191668 ==> 	66.88 us/byte
+CLEAR(0xFF):	2191824 ==> 	66.89 us/byte
+
+SPEED  :	400000
+BYTES 1:	5072616 ==> 	154.80 us/byte
+BYTES 2:	3062364 ==> 	93.46 us/byte
+BYTES 4:	2061760 ==> 	62.92 us/byte
+BYTES 8:	1557500 ==> 	47.53 us/byte
+BYTES 16:	1305104 ==> 	39.83 us/byte
+CLEAR():	1303652 ==> 	39.78 us/byte
+CLEAR(0xFF):	1303648 ==> 	39.78 us/byte
+
+SPEED  :	800000
+BYTES 1:	3641632 ==> 	111.13 us/byte
+BYTES 2:	2188328 ==> 	66.78 us/byte
+BYTES 4:	1454024 ==> 	44.37 us/byte
+BYTES 8:	1086020 ==> 	33.14 us/byte
+BYTES 16:	904640 ==> 	27.61 us/byte
+CLEAR():	902940 ==> 	27.56 us/byte
+CLEAR(0xFF):	902956 ==> 	27.56 us/byte
+done...

@@ -1,0 +1,58 @@
+FRAM_LIB_VERSION: 0.4.0
+
+testID
+takes ~32 seconds
+ManufacturerID: 10
+     ProductID: 1296
+    memory size: 32
+
+
+testFRAMmemory
+takes ~32 seconds
+.................................
+TIME:   33263 ms
+
+
+testReadWriteSmall
+test8:  ok.
+test16: ok.
+test32: ok.
+
+
+testReadWriteLarge
+WRITE 100 bytes TIME:   11 ms
+READ 100 bytes TIME:    12 ms
+
+
+testWriteText
+WRITE 200 bytes TIME:   24 ms
+
+
+testReadText1
+READ 200 bytes TIME:    24 ms
+
+Hello world 0
+Hello world 1
+Hello world 2
+Hello world 3
+Hello world 4
+Hello world 5
+Hello world 6
+Hello world 7
+Hello world 8
+Hello world 9
+
+
+testReadText2
+Hello world 0
+Hello world 1
+Hello world 2
+Hello world 3
+Hello world 4
+Hello world 5
+Hello world 6
+Hello world 7
+Hello world 8
+Hello world 9
+
+done...

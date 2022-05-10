@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 FRAM	KEYWORD1
+FRAM32	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

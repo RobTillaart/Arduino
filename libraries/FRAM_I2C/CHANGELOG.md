@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2022-05-02
+
+### Added
+- add **FRAM32** derived class to support the MB85RC1MT as it need 32 bits addressing. 
+  This class uses 4 byte memory addresses internally.
+  Note **FRAM32** can also address 16 bit FRAM devices.
+
+
+### Changed
+- updated documentation
+
+### Fixed
+
+
+
 ## [0.3.6] - 2022-05-02
 
 ### Added

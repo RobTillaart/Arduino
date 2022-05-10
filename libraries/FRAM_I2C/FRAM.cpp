@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -298,10 +298,10 @@ uint16_t FRAM::_getMetaData(uint8_t field)
 void FRAM::_writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   _wire->beginTransmission(_address);
-  _wire->write(memaddr >> 8);
-  _wire->write(memaddr & 0xFF);
+  _wire->write((uint8_t) (memaddr >> 8));
+  _wire->write((uint8_t) (memaddr & 0xFF));
   uint8_t * p = obj;
-  for (uint8_t i = 0; i < size; i++)
+  for (uint8_t i = size; i > 0; i--)
   {
     _wire->write(*p++);
   }
@@ -312,12 +312,158 @@ void FRAM::_writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 void FRAM::_readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   _wire->beginTransmission(_address);
-  _wire->write(memaddr >> 8);
-  _wire->write(memaddr & 0xFF);
+  _wire->write((uint8_t) (memaddr >> 8));
+  _wire->write((uint8_t) (memaddr & 0xFF));
   _wire->endTransmission();
   _wire->requestFrom(_address, size);
   uint8_t * p = obj;
-  for (uint8_t i = 0; i < size; i++)
+  for (uint8_t i = size; i > 0; i--)
+  {
+    *p++ = _wire->read();
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+//  FRAM32  PUBLIC
+//
+
+FRAM32::FRAM32(TwoWire *wire):FRAM(wire)
+{
+}
+
+
+void FRAM32::write8(uint32_t memaddr, uint8_t value)
+{
+  uint8_t val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, 1);
+}
+
+
+void FRAM32::write16(uint32_t memaddr, uint16_t value)
+{
+  uint16_t val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, 2);
+}
+
+
+void FRAM32::write32(uint32_t memaddr, uint32_t value)
+{
+  uint32_t val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, 4);
+}
+
+
+void FRAM32::write(uint32_t memaddr, uint8_t * obj, uint16_t size)
+{
+  const int blocksize = 24;
+  uint8_t * p = obj;
+  while (size >= blocksize)
+  {
+    _writeBlock(memaddr, p, blocksize);
+    memaddr += blocksize;
+    p += blocksize;
+    size -= blocksize;
+  }
+  // remaining
+  if (size > 0)
+  {
+    _writeBlock(memaddr, p, size);
+  }
+}
+
+
+uint8_t FRAM32::read8(uint32_t memaddr)
+{
+  uint8_t val;
+  _readBlock(memaddr, (uint8_t *)&val, 1);
+  return val;
+}
+
+
+uint16_t FRAM32::read16(uint32_t memaddr)
+{
+  uint16_t val;
+  _readBlock(memaddr, (uint8_t *)&val, 2);
+  return val;
+}
+
+
+uint32_t FRAM32::read32(uint32_t memaddr)
+{
+  uint32_t val;
+  _readBlock(memaddr, (uint8_t *)&val, 4);
+  return val;
+}
+
+
+void FRAM32::read(uint32_t memaddr, uint8_t * obj, uint16_t size)
+{
+  const uint8_t blocksize = 24;
+  uint8_t * p = obj;
+  while (size >= blocksize)
+  {
+    _readBlock(memaddr, p, blocksize);
+    memaddr += blocksize;
+    p += blocksize;
+    size -= blocksize;
+  }
+  // remainder
+  if (size > 0)
+  {
+    _readBlock(memaddr, p, size);
+  }
+}
+
+
+uint32_t FRAM32::clear(uint8_t value)
+{
+  uint8_t buf[16];
+  for (uint8_t i = 0; i < 16; i++) buf[i] = value;
+  uint32_t start = 0;
+  uint32_t end = _sizeBytes;
+  for (uint32_t addr = start; addr < end; addr += 16)
+  {
+    _writeBlock(addr, buf, 16);
+  }
+  return end - start;
+}
+
+///////////////////////////////////////////////////////////
+//
+//  FRAM32  PROTECTED
+//
+
+void FRAM32::_writeBlock(uint32_t memaddr, uint8_t * obj, uint8_t size)
+{
+  uint8_t _addr = _address;
+  if (memaddr & 0x00010000) _addr += 0x01;
+
+  _wire->beginTransmission(_addr);
+  _wire->write((uint8_t) (memaddr >> 8));
+  _wire->write((uint8_t) (memaddr & 0xFF));
+  uint8_t * p = obj;
+  for (uint8_t i = size; i > 0; i--)
+  {
+    _wire->write(*p++);
+  }
+  _wire->endTransmission();
+}
+
+
+void FRAM32::_readBlock(uint32_t memaddr, uint8_t * obj, uint8_t size)
+{
+  uint8_t _addr = _address;
+  if (memaddr & 0x00010000) _addr += 0x01;
+
+  _wire->beginTransmission(_address);
+  _wire->write((uint8_t) (memaddr >> 8));
+  _wire->write((uint8_t) (memaddr & 0xFF));
+  _wire->endTransmission();
+  _wire->requestFrom(_addr, size);
+  uint8_t * p = obj;
+  for (uint8_t i = size; i > 0; i--)
   {
     *p++ = _wire->read();
   }

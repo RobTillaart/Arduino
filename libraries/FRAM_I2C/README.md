@@ -14,30 +14,38 @@ Arduino library for I2C FRAM.
 ## Description
 
 FRAM is a library to read from and write to (over I2C) an FRAM module.
-FRAM is much faster than EEPROM and almost as fast as (Arduino UNO) RAM.
-Another important feature it has in common with EEPROM is that FRAM keeps
-its content after a reboot as it is non-volatile.
-That makes it ideal to store configuration or logging data in a project.
+The library has (since 0.4.0) two classes **FRAM** and **FRAM32**. 
+The first is for the 16 bit devices and the latter for the 32 bit devices.
+Currently only the **MB85RC1MT** is known to be 32 bit. 
+**FRAM32** can also address 16 bit devices although there is some overhead in footprint. 
 
 FRAM stands for Ferroelectric RAM - https://en.wikipedia.org/wiki/Ferroelectric_RAM
 
-Types of FRAM the library should work with the library:
+FRAM memory is much faster than EEPROM and almost as fast as (Arduino UNO) RAM.
+Another important feature FRAM has in common with EEPROM is that FRAM keeps
+its content after a reboot as it is non-volatile, even for years.
+That makes it ideal to store configuration or logging data in a project.
+
+Types of FRAM that should work with this library:
 
 |  TYPE      | SIZE   | TESTED | NOTES                |
 |:----------:|-------:|:------:|:---------------------|
 | MB85RC04   |   512  |        | no deviceID register |
 | MB85RC16   |   2 KB |        | no deviceID register |
-| MB85RC64T  |   8 KB |    Y   |                      |
+| MB85RC64T  |   8 KB |   Y    |                      |
 | MB85RC128A |  16 KB |        | no deviceID register |
-| MB85RC256V |  32 KB |    Y   |                      |
-| MB85RC512T |  64 KB |    Y   |                      |
-| MB85RC1MT  | 128 KB |        | 16 bit address problem? to be tested |
+| MB85RC256V |  32 KB |   Y    |                      |
+| MB85RC512T |  64 KB |   Y    |                      |
+| MB85RC1MT  | 128 KB |   Y    | since 0.4.0  FRAM32 only |
 
 
 #### Notes
-- Not all types of FRAM are tested. Please let me know if you have verified one.
+
+- Not all types of FRAM are tested. Please let me know if you have verified one that is not in the list.
 - If there is no deviceID **getSize()** will not work correctly.
 - Address = 0x50 (default) .. 0x57, depends on the lines A0..A2.
+- **MB85RC1MT** uses even addresses only as it uses the next odd one internally. So 0x50 uses 0x51 internally for the upper 64 KB block. 
+This latter will not be shown on an I2C scanner (to be tested).
 
 
 ## Interface
@@ -46,14 +54,16 @@ Types of FRAM the library should work with the library:
 ### Constructor
 
 - **FRAM(TwoWire \*wire = &Wire)** Constructor with optional Wire interface.
+- **FRAM32(TwoWire \*wire = &Wire)** Constructor with optional Wire interface, specific for **MB85RC1MT** type of device.
 - **int begin(uint8_t address = 0x50, int8_t writeProtectPin = -1)** address and writeProtectPin is optional.
+Note the **MB85RC1MT** only uses even addresses. 
 - **int begin(uint8_t sda, uint8_t scl, uint8_t address = 0x50, int8_t writeProtectPin = -1)** idem for ESP32 a.o.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 
 
 ### Write & read
 
-Support for basic types and 2 calls for generic object, use casting if needed.
+Support for basic types and 2 calls for generic object, use casting if needed. In the **FRAM32** class these functions have an **uin32_t memaddr**.
 
 - **void write8(uint16_t memaddr, uint8_t value)** uint8_t
 - **void write16(uint16_t memaddr, uint16_t value)** uint16_t
@@ -108,11 +118,11 @@ So use with care.
 
 |  TYPE      | SIZE   | SLEEP (datasheet)|  CURRENT  | CONFIRMED | NOTES   |
 |:----------:|-------:|:----------------:|:---------:|:---------:|:--------|
-| MB85RC04   |   512  | N                |  -        |     N     |         |
-| MB85RC16   |   2 KB | N                |  -        |     N     |         |
+| MB85RC04   |   512  | not supported    |  -        |     N     |         |
+| MB85RC16   |   2 KB | not supported    |  -        |     N     |         |
 | MB85RC64T  |   8 KB | Y  Page 11       |  4.0 uA*  |     N     |         |
-| MB85RC128A |  16 KB | N                |  -        |     N     |         |
-| MB85RC256V |  32 KB | N                |  -        |     N     |         |
+| MB85RC128A |  16 KB | not supported    |  -        |     N     |         |
+| MB85RC256V |  32 KB | not supported    |  -        |     Y     |         |
 | MB85RC512T |  64 KB | Y  Page 12       |  4.0 uA*  |     N     |         |
 | MB85RC1MT  | 128 KB | Y  Page 12       |  3.6 uA   |     Y     | See #17 |
 
@@ -134,7 +144,7 @@ Indicative power usage in uA in three modi (if supported).
 | MB85RC512T |  64 KB |          |           |  4.0 uA   |         |
 | MB85RC1MT  | 128 KB | 11.7 uA  | 46-721 uA |  3.6 uA   | See #17 | 
 
-_TODO fill the table_
+_TODO: fill the table_
 
 
 ## Operational
@@ -145,10 +155,15 @@ _TODO fill the table_
 ## Future
 
 ### high
-- 32 bits addresses to support MB85RC1MT (to be verified if needed).
-  - no explicit request yet (0.4.0)
+
+- improve **FRAM32** that can write over the 64 KB border without problems.
+  - Would cause extra checking ==> overhead.
+  - now it is responsibility user.
+  - do we want/need this?
+
 
 ### medium
+
 - **write()** and **writeBlock()** might write beyond the end of FRAM
   - now it is responsibility user.
   - testing would degrade performance?
@@ -161,12 +176,15 @@ _TODO fill the table_
   - FRAM (8x) concatenated as one continuous memory.
 
 ### low
+
 - test more types of FRAM
 - **getSize()** scanning FRAM like EEPROM library?
 - remember last written address? why?
 - fill power usage table
 
+
 ### wont
+
 - extend current **clear()** with partial **clear(begin, end, value)**?
   - can be done by **writeBlock()** calls by user too
   - would need more complex end checking

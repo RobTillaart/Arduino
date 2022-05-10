@@ -51,13 +51,11 @@ void testID()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  Serial.println("takes ~32 seconds");
-
   Serial.print("ManufacturerID: ");
   Serial.println(fram.getManufacturerID());
   Serial.print("     ProductID: ");
   Serial.println(fram.getProductID());
-  Serial.print("    memory size: ");
+  Serial.print("     memory KB: ");
   Serial.println(fram.getSize());
 
   Serial.println();
@@ -242,4 +240,3 @@ void testReadText2()
 
 
 // -- END OF FILE --
-

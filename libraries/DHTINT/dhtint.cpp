@@ -1,12 +1,13 @@
 //
 //    FILE: dhtint.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 //
 //  HISTORY:
 //  0.1.0  2022-05-08  initial version based upon DHTNEW
+//  0.1.1  2022-05-11  add getRawTemperature() and getRawHumidity()
 
 
 #include "dhtint.h"
@@ -161,18 +162,10 @@ int DHTINT::_read()
   if (_type == 22) // DHT22, DHT33, DHT44, compatible
   {
     _humidity = (_bits[0] * 256 + _bits[1] + 5) / 10;
-    int16_t t = ((_bits[2] & 0x7F) * 256 + _bits[3]);
-    if (t == 0)
+    _temperature = ((_bits[2] & 0x7F) * 256 + _bits[3] + 5) / 10;
+    if((_bits[2] & 0x80) == 0x80 )
     {
-      _temperature = 0;     // prevent -0.0;
-    }
-    else
-    {
-      _temperature = (t + 5 ) / 10;
-      if((_bits[2] & 0x80) == 0x80 )
-      {
-        _temperature = -_temperature;
-      }
+      _temperature = -_temperature;
     }
   }
   else // if (_type == 11)  // DHT11, DH12, compatible
@@ -252,6 +245,19 @@ void DHTINT::powerDown()
   digitalWrite(_dataPin, LOW);
 }
 
+
+uint16_t DHTINT::getRawTemperature()
+{
+  uint16_t raw = _bits[2] * 256 + _bits[3];
+  return raw;
+};
+
+
+uint16_t DHTINT::getRawHumidity()
+{
+  uint16_t raw = _bits[0] * 256 + _bits[1];
+  return raw;
+}
 
 /////////////////////////////////////////////////////
 //

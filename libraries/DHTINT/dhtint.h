@@ -2,7 +2,7 @@
 //
 //    FILE: dhtint.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 
@@ -19,7 +19,7 @@
 #include "Arduino.h"
 
 
-#define DHTINT_LIB_VERSION                (F("0.1.0 experimental"))
+#define DHTINT_LIB_VERSION                (F("0.1.1 experimental"))
 
 
 #define DHTLIB_OK                         0
@@ -100,6 +100,12 @@ public:
   // suppress error values of -999 => check return value of read() instead
   bool     getSuppressError()            { return _suppressError; };
   void     setSuppressError(bool b)      { _suppressError = b; };
+
+  //  raw data for efficient storage / transport and
+  //  to access the decimal part if needed.
+  //  decoding depends on type sensor.
+  uint16_t getRawTemperature();
+  uint16_t getRawHumidity();
 
 
 private:

@@ -46,9 +46,21 @@ replaced DHTINT with DHTNEW
 Gain is most substantial for the UNO platform.
 
 
+### Raw data access
+
+To access the decimal part the following two functions are added.
+These give access to the bytes that are low level communicated.
+The user can decode these values to get the integer + decimal part.
+This can be used for efficient storage or transmission.
+
+- **uint16_t getRawTemperature()**
+- **uint16_t getRawHumidity()**
+
+Note these functions have no equivalent in the DHTNew library (yet).
+
+
 ## Future
 
 - Keep in sync with DHTNEW.
 - Test more
-- Add examples.
 

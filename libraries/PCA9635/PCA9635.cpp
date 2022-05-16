@@ -2,11 +2,12 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
 //  HISTORY:
+//  0.3.4   2022-04-13  add constants and functions for mode registers.
 //  0.3.3   2022-01-03  add channelCount()
 //  0.3.2   2021-12-23  update library.json, readme, license, minor edits
 //  0.3.1   2021-04-25  fix writeN by aspyra
@@ -18,7 +19,6 @@
 //  0.1.2   2020-05-07  fix for PCA9635_MODE1
 //  0.1.1   2016-04-24  set autoincr in constructor
 //  0.1.0   2016-04-23  initial BETA version
-
 
 
 #include "PCA9635.h"
@@ -74,7 +74,9 @@ void PCA9635::reset()
 {
   _data = 0;
   _error = 0;
-  writeReg(PCA9635_MODE1, 0x81);  //  AUTOINCR | NOSLEEP | ALLADRR
+
+  uint8_t mode1_mask = PCA9635_MODE1_AUTOINCR2 | PCA9635_MODE1_ALLCALL;
+  writeReg(PCA9635_MODE1, mode1_mask);  //  AUTOINCR | NOSLEEP | ALLADRR  0x81
 }
 
 

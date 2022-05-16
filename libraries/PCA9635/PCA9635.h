@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,11 +12,14 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.3.3"))
+#define PCA9635_LIB_VERSION         (F("0.3.4"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
-#define PCA9635_PWM(x)              (0x82+(x))    // Auto-Increment for all registers.
+
+//  0x80 bit ==> Auto-Increment for all registers.
+//               used in writeN() - see issue #9 PCA9634
+#define PCA9635_PWM(x)              (0x82+(x))
 
 #define PCA9635_GRPPWM              0x12
 #define PCA9635_GRPFREQ             0x13
@@ -36,6 +39,24 @@
 #define PCA9635_ERR_MODE            0xFC
 #define PCA9635_ERR_REG             0xFB
 #define PCA9635_ERR_I2C             0xFA
+
+
+// Configuration bits MODE1 register
+#define PCA9635_MODE1_AUTOINCR2     0x80  // RO, 0 = disable  1 = enable
+#define PCA9635_MODE1_AUTOINCR1     0x40  // RO, bit1
+#define PCA9635_MODE1_AUTOINCR0     0x20  // RO  bit0
+#define PCA9635_MODE1_SLEEP         0x10  // 0 = normal       1 = sleep
+#define PCA9635_MODE1_SUB1          0x08  // 0 = disable      1 = enable
+#define PCA9635_MODE1_SUB2          0x04  // 0 = disable      1 = enable
+#define PCA9635_MODE1_SUB3          0x02  // 0 = disable      1 = enable
+#define PCA9635_MODE1_ALLCALL       0x01  // 0 = disable      1 = enable
+
+// Configuration bits MODE2 register
+#define PCA9635_MODE2_BLINK         0x20  // 0 = dim          1 = blink
+#define PCA9635_MODE2_INVERT        0x10  // 0 = normal       1 = inverted
+#define PCA9635_MODE2_STOP          0x08  // 0 = on STOP      1 = on ACK
+#define PCA9635_MODE2_TOTEMPOLE     0x04  // 0 = open drain   1 = totem-pole
+
 
 // NOT IMPLEMENTED YET
 #define PCA9635_SUBADR(x)           (0x17+(x))  // x = 1..3
@@ -71,6 +92,12 @@ public:
   // reg = 1, 2  check datasheet for values
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
+  //  convenience wrappers
+  uint8_t  setMode1(uint8_t value) { return writeMode(PCA9635_MODE1, value); };
+  uint8_t  setMode2(uint8_t value) { return writeMode(PCA9635_MODE2, value); };
+  uint8_t  getMode1()              { return readMode(PCA9635_MODE1); };
+  uint8_t  getMode2()              { return readMode(PCA9635_MODE2); };
+
 
   // TODO PWM also in %% ?
   void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); }

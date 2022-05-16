@@ -59,6 +59,18 @@ This can be used for efficient storage or transmission.
 Note these functions have no equivalent in the DHTNew library (yet).
 
 
+### Integer offset
+
+To set the decimal part of the offset the following two functions are added.
+
+- **uint16_t setDecimalOffsetHumidity(int offset)**
+- **uint16_t setDecimalOffsetTemperature(int offset)**
+
+An offset of ```setDecimalOffsetTemperature(15);``` means +1.5 °C
+
+Note these functions have no equivalent in the DHTNew library (yet).
+
+
 ## Future
 
 - Keep in sync with DHTNEW.

@@ -2,7 +2,7 @@
 //
 //    FILE: dhtint.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 
@@ -19,7 +19,7 @@
 #include "Arduino.h"
 
 
-#define DHTINT_LIB_VERSION                (F("0.1.1 experimental"))
+#define DHTINT_LIB_VERSION                (F("0.1.2 experimental"))
 
 
 #define DHTLIB_OK                         0
@@ -72,15 +72,22 @@ public:
   uint32_t lastRead()                    { return _lastRead; };
 
   // preferred interface
-  int      getHumidity()                 { return _humidity; };
-  int      getTemperature()              { return _temperature; };
+  int      getHumidity();
+  int      getTemperature();
 
   // adding offsets works well in normal range
   // might introduce under- or overflow at the ends of the sensor range
-  void     setHumOffset(int offset)    { _humOffset = offset; };
-  void     setTempOffset(int offset)   { _tempOffset = offset; };
-  float    getHumOffset()                { return _humOffset; };
-  float    getTempOffset()               { return _tempOffset; };
+  void     setHumOffset(int offset)      { _humOffset = offset * 10; };
+  void     setTempOffset(int offset)     { _tempOffset = offset * 10; };
+  int      getHumOffset()                { return _humOffset / 10; };
+  int      getTempOffset()               { return _tempOffset / 10; };
+
+  // set offset in 1/10th
+  void     setHumOffsetDecimal(int offset)  { _humOffset = offset; };
+  void     setTempOffsetDecimal(int offset) { _tempOffset = offset; };
+  int      getHumOffsetDecimal()            { return _humOffset; };
+  int      getTempOffsetDecimal()           { return _tempOffset; };
+
 
   bool     getDisableIRQ()               { return _disableIRQ; };
   void     setDisableIRQ(bool b )        { _disableIRQ = b; };

@@ -1,13 +1,14 @@
 //
 //    FILE: dhtint.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 //
 //  HISTORY:
 //  0.1.0  2022-05-08  initial version based upon DHTNEW
 //  0.1.1  2022-05-11  add getRawTemperature() and getRawHumidity()
+//  0.1.2  2022-05-12  fix #2 - add decimal offset support + fix float bug
 
 
 #include "dhtint.h"
@@ -129,6 +130,18 @@ int DHTINT::read()
 }
 
 
+int DHTINT::getHumidity()
+{
+  return (_humidity + _humOffset + 5) / 10; 
+};
+
+
+int DHTINT::getTemperature()
+{
+  return (_temperature + _tempOffset + 5) / 10; 
+};
+
+
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
@@ -161,8 +174,8 @@ int DHTINT::_read()
 
   if (_type == 22) // DHT22, DHT33, DHT44, compatible
   {
-    _humidity = (_bits[0] * 256 + _bits[1] + 5) / 10;
-    _temperature = ((_bits[2] & 0x7F) * 256 + _bits[3] + 5) / 10;
+    _humidity = _bits[0] * 256 + _bits[1];
+    _temperature = (_bits[2] & 0x7F) * 256 + _bits[3];
     if((_bits[2] & 0x80) == 0x80 )
     {
       _temperature = -_temperature;
@@ -170,8 +183,8 @@ int DHTINT::_read()
   }
   else // if (_type == 11)  // DHT11, DH12, compatible
   {
-    _humidity    = _bits[0] + (_bits[1] + 5) / 10;
-    _temperature = _bits[2] + (_bits[3] + 5) / 10;
+    _humidity    = _bits[0] * 10 + _bits[1];
+    _temperature = _bits[2] * 10 + _bits[3];
   }
 
   // HEXDUMP DEBUG
@@ -200,26 +213,15 @@ int DHTINT::_read()
 
   // TEST OUT OF RANGE
 #ifdef DHTLIB_VALUE_OUT_OF_RANGE
-  if (_humidity > 100)
+  if (_humidity > 1000)
   {
     return DHTLIB_HUMIDITY_OUT_OF_RANGE;
   }
-  if ((_temperature < -40) || (_temperature > 80))
+  if ((_temperature < -400) || (_temperature > 800))
   {
     return DHTLIB_TEMPERATURE_OUT_OF_RANGE;
   }
 #endif
-
-  if (_humOffset != 0)
-  {
-    _humidity += _humOffset;
-    if (_humidity < 0) _humidity = 0;
-    if (_humidity > 100) _humidity = 100;
-  }
-  if (_tempOffset != 0)
-  {
-    _temperature += _tempOffset;
-  }
 
   // TEST CHECKSUM
   uint8_t sum = _bits[0] + _bits[1] + _bits[2] + _bits[3];

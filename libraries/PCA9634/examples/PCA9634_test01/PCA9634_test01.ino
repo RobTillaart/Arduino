@@ -2,7 +2,7 @@
 //    FILE: PCA9634_test01.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// PUPROSE: test PCA9634 library
+// PURPOSE: test PCA9634 library
 
 
 #include "Arduino.h"

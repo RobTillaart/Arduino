@@ -36,6 +36,7 @@ multiple Wire instances (yet).
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 8.
 
+
 ### LedDriverMode
 
 - **uint8_t setLedDriverMode(uint8_t channel, uint8_t mode)** mode is 0..3 See datasheet for full details.
@@ -60,10 +61,57 @@ typical use is to write R, G, B values for a full colour LED.
 - **uint8_t writeN(uint8_t channel, uint8_t \* array, uint8_t count)** write count consecutive PWM registers. 
 May return **PCA9634_ERR_WRITE** if array has too many elements 
 (including channel as offset).
+
+
+### Mode registers
+
 - **uint8_t writeMode(uint8_t reg, uint8_t value)** configuration of one of the two configuration registers.
 check datasheet for details.
 - **uint8_t readMode(uint8_t reg)** reads back the configured mode, 
 useful to add or remove a single flag (bit masking).
+- **uint8_t  setMode1(uint8_t value)** convenience wrapper.
+- **uint8_t  setMode2(uint8_t value)** convenience wrapper.
+- **uint8_t  getMode1()** convenience wrapper.
+- **uint8_t  getMode2()** convenience wrapper.
+
+
+#### Constants for mode registers
+
+(added 0.1.2)
+
+| Name                    | Value | Description                     |
+|:------------------------|:-----:|:--------------------------------|
+| PCA9634_MODE1_AUTOINCR2 | 0x80  | RO, 0 = disable  1 = enable     |
+| PCA9634_MODE1_AUTOINCR1 | 0x40  | RO, bit1                        |
+| PCA9634_MODE1_AUTOINCR0 | 0x20  | RO  bit0                        |
+| PCA9634_MODE1_SLEEP     | 0x10  | 0 = normal       1 = sleep      |
+| PCA9634_MODE1_SUB1      | 0x08  | 0 = disable      1 = enable     |
+| PCA9634_MODE1_SUB2      | 0x04  | 0 = disable      1 = enable     |
+| PCA9634_MODE1_SUB3      | 0x02  | 0 = disable      1 = enable     |
+| PCA9634_MODE1_ALLCALL   | 0x01  | 0 = disable      1 = enable     |
+|                         |       |                                 |
+| PCA9634_MODE2_BLINK     | 0x20  | 0 = dim          1 = blink      |
+| PCA9634_MODE2_INVERT    | 0x10  | 0 = normal       1 = inverted   |
+| PCA9634_MODE2_STOP      | 0x08  | 0 = on STOP      1 = on ACK     |
+| PCA9634_MODE2_TOTEMPOLE | 0x04  | 0 = open drain   1 = totem-pole |
+
+
+These constants makes it easier to set modes without using a non descriptive
+bitmask. The constants can be merged by OR-ing them together, see snippet:
+
+```cpp
+ledArray.writeMode(PCA9634_MODE2, 0b00110100);
+
+// would become
+
+uint8_t mode2_mask = PCA9634_MODE2_BLINK | PCA9634_MODE2_INVERT | PCA9634_MODE2_TOTEMPOLE;
+ledArray.writeMode(PCA9634_MODE2, mode2_mask);
+
+// or even
+
+ledArray.setMode2(PCA9634_MODE2_BLINK | PCA9634_MODE2_INVERT | PCA9634_MODE2_TOTEMPOLE);
+
+```
 
 
 ### Group PWM and frequency
@@ -86,7 +134,7 @@ useful to add or remove a single flag (bit masking).
 | PCA9634_ERR_CHAN  | 0xFD  | Channel out of range
 | PCA9634_ERR_MODE  | 0xFC  | Invalid mode
 | PCA9634_ERR_REG   | 0xFB  | Invalid register
-| PCA9634_ERR_I2C   | 0xFA  | PCA9634 I2C communication error
+| PCA9634_ERR_I2C   | 0xFA  | I2C communication error
 
 
 ## Operation

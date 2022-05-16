@@ -2,13 +2,14 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 03-01-2022
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 //
 //  HISTORY:
 //  0.1.0   2022-01-03  initial version -- based upon 0.3.2 PCA9635
 //  0.1.1   2022-01-04  minor fixes 
+//  0.1.2   2022-04-13  issue #7 add constants and functions for mode registers.
 
 
 #include "PCA9634.h"
@@ -64,7 +65,9 @@ void PCA9634::reset()
 {
   _data = 0;
   _error = 0;
-  writeReg(PCA9634_MODE1, 0x81);  //  AUTOINCR | NOSLEEP | ALLADRR
+
+  uint8_t mode1_mask = PCA9634_MODE1_AUTOINCR2 | PCA9634_MODE1_ALLCALL;
+  writeReg(PCA9634_MODE1, mode1_mask);  //  AUTOINCR | NOSLEEP | ALLADRR  0x81
 }
 
 

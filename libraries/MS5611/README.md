@@ -8,12 +8,12 @@
 
 # MS5611
 
-Arduino library for MS5611 temperature and pressure sensor.
+Arduino library for MS5611 pressure (and temperature) sensor.
 
 
 ## Description
 
-The MS5611 is a high resolution temperature and pressure sensor a.k.a GY-63.
+The MS5611 is a high resolution pressure (and temperature) sensor a.k.a GY-63.
 The high resolution is made possible by oversampling many times.
 
 The device address is 0x76 or 0x77 depending on the CSB/CSO pin.
@@ -22,6 +22,31 @@ This library only implements the I2C interface.
 
 An experimental SPI version of the library can be found here 
 - https://github.com/RobTillaart/MS5611_SPI
+
+
+#### Self heating
+
+In some configurations especially when using SPI the sensor showed a self heating. 
+First this was approached as a problem, so investigations were done to understand the 
+cause and how to solve it. During this process the view changed of seeing the higher 
+temperature as a problem to being the solution. 
+
+The sensor is primary a pressure sensor and if it is heated by a cause (don't care) 
+it needs compensation. For that the temperature sensor is build in the device. 
+Depending on the configuration self heating can be as low as 0.1°C to as high as 10++ °C.
+
+**WARNING** One should **NOT** use 5V to control I2C address line, SPI select, or 
+the protocol select line. This causes extreme heat build up > 10°C. 
+
+One should only use 3V3 lines for these "selection lines".
+
+See also - https://github.com/RobTillaart/MS5611_SPI/issues/3
+
+Note: the self heating offset can be compensated with **setTemperatureOffset(offset)**
+which allows you to match the temperature with the ambient temperature again.
+As the self heating effect is not expected to be linear over the full range of the
+temperature sensor the offset might work only in a smaller range.
+To have a reliable ambient temperature it is advised to use an dedicated temperature sensor for this (e.g. DS18B20).
 
 
 #### Breakout GY-63
@@ -178,7 +203,7 @@ Note: this is not an official ID from the device / datasheet, it is made up from
 
 #### 2nd order pressure compensation
 
-- **setCompensation(bool flag = true)** to enable/desiable the 2nd order compensation. 
+- **setCompensation(bool flag = true)** to enable/desirable the 2nd order compensation. 
 The default = true. 
 Disabling the compensation will be slightly faster but you loose precision.
 - **getCompensation()** returns flag set above.

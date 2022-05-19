@@ -52,7 +52,7 @@ bool SHT2x::begin(const uint8_t dataPin, const uint8_t clockPin)
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
-    _wire->begin(dataPin, clockPin);
+    _wire->begin((int)dataPin, (int)clockPin);
   } else {
     _wire->begin();
   }

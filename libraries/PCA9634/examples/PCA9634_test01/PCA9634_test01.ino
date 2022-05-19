@@ -122,9 +122,9 @@ void testWriteN()
 {
   Serial.print(millis());
   Serial.print("\t");
-  Serial.println("Test - writeN ");
-  uint8_t arr[16] = {16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 255};
-  ledArray.writeN(0, arr, ledArray.channelCount());
+  Serial.println("Test - writeN");
+  uint8_t arr[8] = {16, 32, 64, 96, 128, 160, 192, 255};
+  ledArray.writeN(0, arr, 8);     //  8 == ledArray.channelCount()
 }
 
 

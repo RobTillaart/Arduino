@@ -163,7 +163,7 @@ int MS5611_SPI::read(uint8_t bits)
     // SECOND ORDER COMPENSATION - PAGE 8/20
     // COMMENT OUT < 2000 CORRECTION IF NOT NEEDED
     // NOTE TEMPERATURE IS IN 0.01 C
-    if (_compensation && _temperature < 2000)
+    if (_temperature < 2000)
     {
       float T2 = dT * dT * 4.6566128731E-10;
       float t = (_temperature - 2000) * (_temperature - 2000);

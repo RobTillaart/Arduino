@@ -11,51 +11,6 @@
 Arduino library (SPI) for MS5611 temperature and pressure sensor.
 
 
-# WARNING EXPERIMENTAL
-
-**Note: This library is under development and NOT stable**
-
-SPI communication sec seems to work as "reasonable" values are read.
-
-All SPI tests so far gave too high temperatures, some were rising slowly, others faster.
-Values are read correctly but somehow the selection of SPI as protocol seems to cause internal heating.
-
-As I only have 1 sensor I cannot verify if there is something broken.
-Selecting I2C still does give stable results from the sensor.
-
-
-| Platform        | tested | time (us)| Notes   |
-|:----------------|-------:|:--------:|--------:|
-|  UNO SW SPI     |  fail  |          | temperature is rising very fast (stopped)
-|  UNO HW SPI     |  fail  |          | no data, 
-|  ESP32 SW SPI V |   Y    |   1299   | VSPI pins; temperature is rising slowly
-|  ESP32 SW SPI H |   Y    |   1298   | HSPI pins; temperature too high (+3) but looks stable
-|  ESP32 HSPI     |   Y    |   1396   | temperature is rising slowly
-|  ESP32 VSPI     |   Y    |   1395   | temperature is rising slowly
-|  NANO 33 SW SPI |   -    |    -     | not tested yet
-|  NANO 33 HW SPI |   -    |    -     | not tested yet
-
-
-#### Note UNO
-
-for VCC 3V3 was used as the other pins CLK and SDI have a voltage converter in the GY-63.
-Unclear why HW SPI blocks for UNO. (to investigate)
-
-
-#### Note ESP32 
-
-HSPI pins: not reliable at start, incorrect PROM reads, both HW and SW. 
-adjusting the timing improves this a bit.
-+ these pins also interfere with uploading.
-
-
-#### Conclusion for now
-
-In short a lot of open ends to investigate. 
-
-If you have experiences with this library please share them in the issues.
-
-----
 
 ## Description
 
@@ -66,6 +21,31 @@ This library only implements the SPI interface.
 
 Based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
+
+
+#### Self heating
+
+In some configurations especially when using SPI the sensor showed a self heating. 
+First this was approached as a problem, so investigations were done to understand the 
+cause and how to solve it. During this process the view changed of seeing the higher 
+temperature as a problem to being the solution. 
+
+The sensor is primary a pressure sensor and if it is heated by a cause (don't care) 
+it needs compensation. For that the temperature sensor is build in the device. 
+Depending on the configuration self heating can be as low as 0.1°C to as high as 10++ °C.
+
+**WARNING** One should **NOT** use 5V to control I2C address line, SPI select, or 
+the protocol select line. This causes extreme heat build up > 10°C. 
+
+One should only use 3V3 lines for these "selection lines".
+
+See also - https://github.com/RobTillaart/MS5611_SPI/issues/3
+
+Note: the self heating offset can be compensated with **setTemperatureOffset(offset)**
+which allows you to match the temperature with the ambient temperature again.
+As the self heating effect is not expected to be linear over the full range of the
+temperature sensor the offset might work only in a smaller range.
+To have a reliable ambient temperature it is advised to use an dedicated temperature sensor for this (e.g. DS18B20).
 
 
 #### Breakout GY-63
@@ -97,6 +77,57 @@ see - https://github.com/RobTillaart/MS5611
 For pressure conversions see - https://github.com/RobTillaart/pressure
 
 For temperature conversions see - https://github.com/RobTillaart/Temperature
+
+
+
+## WARNING EXPERIMENTAL
+
+Note: This library is under development
+
+SPI communication works and reasonable values are read, at least for pressure.
+
+All SPI tests so far gave too high temperatures, some were rising slowly, others faster.
+Values are read correctly but somehow the selection of SPI as protocol seems to cause internal heating.
+
+This self heating has been confirmed and is discussed - https://github.com/RobTillaart/MS5611_SPI/issues/3
+
+Some results of experiments:
+
+| Platform        | tested | time (us)| Notes   |
+|:----------------|-------:|:--------:|--------:|
+|  UNO SW SPI     |  fail  |          | temperature is rising very fast (stopped)  ==> DO NOT USE 5V 
+|  UNO HW SPI     |  fail  |          | no data, 
+|  ESP32 SW SPI V |   Y    |   1299   | VSPI pins; temperature is rising slowly
+|  ESP32 SW SPI H |   Y    |   1298   | HSPI pins; temperature too high (+3) but stable
+|  ESP32 HSPI     |   Y    |   1396   | temperature is rising slowly and stabilizes
+|  ESP32 VSPI     |   Y    |   1395   | temperature is rising slowly and stabilizes
+|  NANO 33 SW SPI |   -    |    -     | not tested yet
+|  NANO 33 HW SPI |   -    |    -     | not tested yet
+
+
+#### Note UNO
+
+For VCC 3V3 was used as the other pins CLK and SDI have a voltage converter in the GY-63.
+- Unclear why HW SPI blocks for UNO. 
+- The 5V voltage is definitely too high for the sensor, but protocol wise it was expected to work.
+- it might be a timing issue as the ESP32 showed some improvement when "fiddle the timing"
+
+
+#### Note ESP32 
+
+H-SPI pins: 
+- not reliable at start, incorrect PROM reads, both HW and SW. 
+- adjusting the timing improves this a bit.
+- these pins also interfere with uploading sketches. 
+
+
+#### Conclusion for now
+
+There are a few open ends to investigate.
+- investigate an UNO with a level converter (for selection pins)
+- investigate timing (clock) of the SPI. (both ESP and UNO)
+
+If you have experiences with this library please share them in the issues.
 
 
 ## Release Notes

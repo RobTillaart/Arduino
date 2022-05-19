@@ -149,9 +149,12 @@ See examples
 
 ## Future
 
-- test test test test test test test and ...
+- test
+  - get hardware
 - improve documentation
-- **getSerialNumber()**
+- add **getSerialNumber()**
 - improve error handling (all code paths)
-- investigate blocking delay() in read - optimize... Q: need async interface?
+- investigate blocking delay() in read 
+  - optimize... Q: need async interface?
+- add crc8 check
 - check TODO in code

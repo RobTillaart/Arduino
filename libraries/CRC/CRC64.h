@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CRC64_H
-#define CRC64_H
 //
 //    FILE: CRC64.h
 //  AUTHOR: Rob Tillaart
@@ -17,6 +15,7 @@ class CRC64
 {
 public:
   CRC64();
+  CRC64(uint64_t polynome, uint64_t XORstart, uint64_t XORend, bool reverseIn, bool reverseOut);
 
   // set parameters to default
   void     reset();       // set all to constructor defaults
@@ -39,12 +38,12 @@ public:
   void     add(uint8_t value);
   void     add(const uint8_t * array, uint16_t length);
 
-  uint64_t getCRC();  // returns CRC
-  uint64_t count()    { return _count; };
+  uint64_t getCRC();       // returns CRC
+  uint64_t count()         { return _count; };
 
   // POWER USER ONLY
-  void     enableYield()  { _canYield = true; };
-  void     disableYield() { _canYield = false; };
+  void     enableYield()   { _canYield = true; };
+  void     disableYield()  { _canYield = false; };
 
 private:
   uint64_t _reverse(uint64_t value);
@@ -64,4 +63,3 @@ private:
 
 
 // -- END OF FILE --
-#endif

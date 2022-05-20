@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CRC8_H
-#define CRC8_H
 //
 //    FILE: CRC8.h
 //  AUTHOR: Rob Tillaart
@@ -17,6 +15,7 @@ class CRC8
 {
 public:
   CRC8();
+  CRC8(uint8_t polynome, uint8_t XORstart, uint8_t XORend, bool reverseIn, bool reverseOut);
 
   // set parameters to default
   void     reset();       // set all to constructor defaults
@@ -39,12 +38,12 @@ public:
   void     add(uint8_t value);
   void     add(const uint8_t * array, uint16_t length);
 
-  uint8_t  getCRC();  // returns CRC
-  uint32_t count()    { return _count; };
+  uint8_t  getCRC();       // returns CRC
+  uint32_t count()         { return _count; };
 
   // POWER USER ONLY
-  void     enableYield()  { _canYield = true; };
-  void     disableYield() { _canYield = false; };
+  void     enableYield()   { _canYield = true; };
+  void     disableYield()  { _canYield = false; };
 
 private:
   uint8_t  _reverse(uint8_t value);
@@ -63,4 +62,4 @@ private:
 
 
 // -- END OF FILE --
-#endif
+

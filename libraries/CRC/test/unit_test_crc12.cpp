@@ -88,6 +88,15 @@ unittest(test_crc12)
 
 }
 
+unittest(test_crc12_param)
+{
+  fprintf(stderr, "TEST CRC12\n");
+
+  CRC12 crc(0x080D, 0, 0, false, false);
+  crc.add(data, 9);
+  assertEqual(0xEFB, crc.getCRC());
+}
+
 
 unittest_main()
 

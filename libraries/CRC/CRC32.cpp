@@ -14,6 +14,20 @@ CRC32::CRC32()
 }
 
 
+CRC32::CRC32(uint32_t polynome, uint32_t XORstart, uint32_t XORend, bool reverseIn, bool reverseOut)
+{
+  _polynome   = polynome;
+  _startMask  = XORstart;
+  _endMask    = XORend;
+  _reverseIn  = reverseIn;
+  _reverseOut = reverseOut;
+  _crc        = 0;
+  _started    = false;
+  _count      = 0;
+  _canYield   = true;
+}
+
+
 void CRC32::reset()
 {
   _polynome   = CRC32_DEFAULT_POLYNOME;

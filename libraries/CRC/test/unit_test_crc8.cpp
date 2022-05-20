@@ -150,6 +150,16 @@ unittest(test_crc8)
 }
 
 
+unittest(test_crc8_param)
+{
+  fprintf(stderr, "TEST CRC8 PARAM\n");
+
+  CRC8 crc(0x07, 0, 0, false, false);
+  crc.add(data, 9);
+  assertEqual(0xF4, crc.getCRC());
+}
+
+
 unittest_main()
 
 // --------

@@ -14,6 +14,20 @@ CRC16::CRC16()
 }
 
 
+CRC16::CRC16(uint16_t polynome, uint16_t XORstart, uint16_t XORend, bool reverseIn, bool reverseOut)
+{
+  _polynome   = polynome;
+  _startMask  = XORstart;
+  _endMask    = XORend;
+  _reverseIn  = reverseIn;
+  _reverseOut = reverseOut;
+  _crc        = 0;
+  _started    = false;
+  _count      = 0;
+  _canYield   = true;
+}
+ 
+
 void CRC16::reset()
 {
   _polynome   = CRC16_DEFAULT_POLYNOME;

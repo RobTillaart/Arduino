@@ -180,6 +180,16 @@ unittest(test_crc32)
 }
 
 
+unittest(test_crc32_param)
+{
+  fprintf(stderr, "TEST CRC32 PARAM\n");
+
+  CRC32 crc(0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true);
+  crc.add(data, 9);
+  assertEqual(0xCBF43926, crc.getCRC());
+}
+
+
 unittest_main()
 
 // --------

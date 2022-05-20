@@ -304,6 +304,16 @@ unittest(test_crc16)
 }
 
 
+unittest(test_crc16_param)
+{
+  fprintf(stderr, "TEST CRC16 PARAM\n");
+
+  CRC16 crc(0x1021, 0xFFFF, 0, false, false);
+  crc.add(data, 9);
+  assertEqual(0x29B1, crc.getCRC());
+}
+
+
 unittest_main()
 
 // --------

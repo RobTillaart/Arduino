@@ -14,6 +14,20 @@ CRC8::CRC8()
 }
 
 
+CRC8::CRC8(uint8_t polynome, uint8_t XORstart, uint8_t XORend, bool reverseIn, bool reverseOut)
+{
+  _polynome   = polynome;
+  _startMask  = XORstart;
+  _endMask    = XORend;
+  _reverseIn  = reverseIn;
+  _reverseOut = reverseOut;
+  _crc        = 0;
+  _started    = false;
+  _count      = 0;
+  _canYield   = true;
+}
+
+
 void CRC8::reset()
 {
   _polynome   = CRC8_DEFAULT_POLYNOME;

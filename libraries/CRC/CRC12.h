@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CRC12_H
-#define CRC12_H
 //
 //    FILE: CRC12.h
 //  AUTHOR: Rob Tillaart
@@ -18,6 +16,7 @@ class CRC12
 {
 public:
   CRC12();
+  CRC12(uint16_t polynome, uint16_t XORstart, uint16_t XORend, bool reverseIn, bool reverseOut);
 
   // set parameters to default
   void     reset();       // set all to constructor defaults
@@ -40,12 +39,12 @@ public:
   void     add(uint8_t value);
   void     add(const uint8_t * array, uint16_t length);
 
-  uint16_t getCRC();  // returns CRC
-  uint32_t count()    { return _count; };
+  uint16_t getCRC();       // returns CRC
+  uint32_t count()         { return _count; };
 
   // POWER USER ONLY
-  void     enableYield()  { _canYield = true; };
-  void     disableYield() { _canYield = false; };
+  void     enableYield()   { _canYield = true; };
+  void     disableYield()  { _canYield = false; };
 
 private:
   uint16_t _reverse(uint16_t value);
@@ -65,4 +64,4 @@ private:
 
 
 // -- END OF FILE --
-#endif
+

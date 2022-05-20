@@ -16,30 +16,31 @@ Arduino library with CRC8, CRC12, CRC16, CRC32 and CRC64 functions.
 Goal of this library is to have a flexible and portable set of generic 
 CRC functions and classes.
 
-The CRCx classes have a number of added values. Most important is that 
-they allow one to verify intermediate CRC values. This is useful if one 
-sends a "train of packets" which include a CRC so far. This detects both 
-errors in one packet but also missing packets, or injected packages.
+The CRCx classes have a number of added values. 
+Most important is that they allow one to verify intermediate CRC values. 
+This is useful if one sends a "train of packets" which include a CRC so far. 
+This detects both errors in one single packet but also optional missing packets, 
+or even injected packets.
 
-Another trick one can do is change the polynome or the reverse flag during 
-the process. This makes it harder to imitate.
+Another trick one can do with the class CRCx is to change the polynome or 
+the reverse flag runtime during the process. This makes it harder to imitate.
 
 Furthermore the class allows to add values in single steps and continue too.
 
-Finally the class version gives more readable code (imho) as the parameters 
+Finally the class version gives more readable code (IMHO) as the parameters 
 are explicitly set.
 
 
 **Note** the classes have same names as the static functions, except the class
-is UPPER case. So CRC8 is a class and **crc8()** is the function. 
+is UPPER case. So **CRC8** is a class and **crc8()** is the function. 
 
-Deeper tech info -https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+Deeper tech info - https://en.wikipedia.org/wiki/Cyclic_redundancy_check
 and many other websites.
 
 
 ## Interface CRC classes
 
-These interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
+The interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The only difference is the data type for polynome, start- and end-mask, 
 and the returned CRC.
 
@@ -48,8 +49,9 @@ and the returned CRC.
 
 Use **\#include "CRC8.h"**
 
-- **CRC8()** Constructor.
-- **void reset()** set all internals to constructor defaults.
+- **CRC8()** default - parameterless - constructor.
+- **CRC8(polynome, XORstart, XORend, reverseIn, reverseOut)** Constructor to set all parameters at once.
+- **void reset()** set all internals to defaults of the **CRC8()** parameterless constructor.
 - **void restart()** reset internal CRC and count only;
 reuse values for other e.g polynome, XOR masks and reverse flags.
 - **void add(value)** add a single value to CRC calculation.
@@ -62,7 +64,7 @@ a really large stream at intermediate moments, e.g. to link multiple packets.
 
 #### parameters
 
-These parameters do not have defaults so the user must set them explicitly.
+The parameters do not have defaults so the user must set them explicitly.
 
 - **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
 - **void setStartXOR(start)** set start-mask, default 0.
@@ -91,6 +93,9 @@ to handle interrupts etc. So use at own risk.
 
 _Note: the static functions in this library also call **yield()** but this 
 cannot be disabled (for now)._
+
+_Note: a parameter could be a future option to set the number of adds before 
+**yield()** is called. **setYield(0)** would be disable it._
 
 
 ### Example snippet
@@ -163,17 +168,20 @@ See examples.
 - https://en.wikipedia.org/wiki/Cyclic_redundancy_check - generic background.
 - http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64 is supported.)
 - https://crccalc.com/ - online CRC calculator to verify.
+- https://www.lddgo.net/en/encrypt/crc - online CRC calculator
 
 
 ## Future
 
 - extend examples.
   - example showing multiple packages of data linked by their CRC.
-- table versions for performance?  (performance - memory discussion)
+- table versions for performance?  (performance - memory discussion).
 - stream version - 4 classes class?
 - **setCRC(value)** to be able to pick up where one left ?
   - can be done with **setStartXOR()**
-  - needs **getRawCRC()**  without reverse and endmask
+  - needs **getRawCRC()**  without reverse and end mask
+- Think about default parameters for constructor **CRC8(polynome, XORstart, XORend, reverseIn, reverseOut)** 
+  - same as reset so constructors merge? Note the CRC-functions do have defaults too.
 
 
 #### Exotic CRC's ?
@@ -184,6 +192,8 @@ See examples.
 - One CRC() with #bits as parameter?
   - up to 64 bit for all missing ones.?
   - performance penalty
+- One CRC() template class?
+
 
 #### Won't
 

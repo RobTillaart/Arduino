@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CRC32_H
-#define CRC32_H
 //
 //    FILE: CRC32.h
 //  AUTHOR: Rob Tillaart
@@ -17,6 +15,7 @@ class CRC32
 {
 public:
   CRC32();
+  CRC32(uint32_t polynome, uint32_t XORstart, uint32_t XORend, bool reverseIn, bool reverseOut);
 
   // set parameters to default
   void     reset();       // set all to constructor defaults
@@ -39,12 +38,12 @@ public:
   void     add(uint8_t value);
   void     add(const uint8_t * array, uint16_t length);
 
-  uint32_t getCRC();  // returns CRC
-  uint32_t count()    { return _count; };
+  uint32_t getCRC();       // returns CRC
+  uint32_t count()         { return _count; };
 
   // POWER USER ONLY
-  void     enableYield()  { _canYield = true; };
-  void     disableYield() { _canYield = false; };
+  void     enableYield()   { _canYield = true; };
+  void     disableYield()  { _canYield = false; };
 
 private:
   uint32_t _reverse(uint32_t value);
@@ -64,4 +63,4 @@ private:
 
 
 // -- END OF FILE --
-#endif
+

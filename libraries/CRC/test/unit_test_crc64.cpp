@@ -84,6 +84,20 @@ unittest(test_crc64)
 }
 
 
+unittest(test_crc64_param)
+{
+  fprintf(stderr, "TEST CRC64 PARAM\n");
+
+  fprintf(stderr, "no reference yet\n");
+  assertEqual(1, 1);
+  
+  // just a dummy test
+  CRC64 crc(0x04C11DB704C11DB7, 0, 0, false, false);
+  crc.add(data, 9);
+  assertEqual(0xCE5CA2AD34A16112, crc.getCRC());  // 14869938934466568466
+}
+
+
 unittest_main()
 
 // --------

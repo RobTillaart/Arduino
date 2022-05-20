@@ -1,6 +1,16 @@
 
 # Release Notes
 
+## 0.3.1  2022-05-20
+
+- added constructors with all parameters. 
+  CRC16(uint16_t polynome, uint16_t XORstart, uint16_t XORend, bool reverseIn, bool reverseOut);
+  All five parameters are mandatory, no defaults in this first release. 
+  Defaults would allow the constructors merge in the future.
+- remove #ifndef Header guards as these are not needed.
+- update documentation
+
+
 ## 0.3.0  2022-04-15
 
 - split CRC.h in CRC.h and CRC.cpp to fix #21 (again)

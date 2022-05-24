@@ -1,0 +1,23 @@
+{
+  "name": "RS485",
+  "keywords": "RS485 SERIAL BALANCED",
+  "description": "RS485 library for Arduino.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/RS485"
+  },
+  "version": "0.2.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "RS485.h"
+}

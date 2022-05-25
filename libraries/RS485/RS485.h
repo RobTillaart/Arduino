@@ -3,7 +3,7 @@
 //    FILE: RS485.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for RS485 modules
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "ASCII_CONTROL.h"
 
-#define RS485_LIB_VERSION "0.2.0"
+#define RS485_LIB_VERSION      (F("0.2.1"))
 
 
 class RS485 : public Stream
@@ -28,13 +28,18 @@ public:
   uint8_t  getDeviceID()      { return _deviceID; };
 
 
-  //     Stream interface
-  int    available();
-  int    read();
-  int    peek();
-  void   flush();
-  size_t write(uint8_t c);
-  size_t write(uint8_t * array, uint8_t length);
+  //       Stream interface
+  int      available();
+  int      read();
+  int      peek();
+  void     flush();
+  size_t   write(uint8_t c);
+  size_t   write(uint8_t * array, uint8_t length);
+
+  //  set the communication direction
+  inline void setTXmode() { digitalWrite(_sendPin, HIGH); };
+  inline void setRXmode() { digitalWrite(_sendPin, LOW); };
+  uint8_t     getMode()   { return digitalRead(_sendPin) == HIGH; };
 
 
   //  TODO TEST 0.3.0

@@ -37,6 +37,11 @@ The library sets the pinMode and defaults it to LOW (receiving mode).
 - **void     setMicrosPerByte(uint32_t baudRate)** set the delay per character needed.
 This gives the hardware enough time to flush the buffer. 
 - **uint32_t getMicrosPerByte()** returns the current delay in micros used.
+- **void setTXmode()** explicitly set mode to transmitting / sending.
+This implies that the device will stop listening on the RS485 bus.
+- **void setRXmode()** explicitly set mode to receiving / listening.
+This is the default behaviour of every RS485 device.
+- **uint8_t getMode()** returns the current mode, 1 == TX, 0 == RX.
 
 
 #### Stream interface
@@ -70,7 +75,6 @@ resumes with listening.
   - dynamic buffer size?
   - should this be a sort of message class / struct. fixed size?
 - add **yield()** for large messages that are blocking.
-- **stopListening()** and **startListening()** (with sendPin ?)
 - prevent blocking if possible.
 - add examples
 - add unit tests

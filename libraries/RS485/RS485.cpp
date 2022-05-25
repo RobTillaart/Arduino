@@ -2,13 +2,14 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 //
 // HISTORY:
 // 0.1.x    2017-10-30  experimental versions.
 // 0.2.0    2022-05-24  first published version
+// 0.2.1    2022-05-24  add setTXmode(), setRXmode(), getMode().
 
 
 #include "RS485.h"
@@ -24,7 +25,7 @@ RS485::RS485(Stream * stream, uint8_t sendPin, uint8_t deviceID)
   _deviceID = deviceID;
   
   pinMode(_sendPin, OUTPUT);
-  digitalWrite(_sendPin, LOW);   //  receiver mode
+  setRXmode();    //  receiver mode
 }
 
 
@@ -50,20 +51,20 @@ void RS485::flush()
 
 size_t RS485::write(uint8_t c)
 {
-  digitalWrite(_sendPin, HIGH);   //  transmit mode
+  setTXmode();    //  transmit mode
   size_t n = _stream->write(c);
   delayMicroseconds(_microsPerByte);
-  digitalWrite(_sendPin, LOW);    //  receiver mode
+  setRXmode();    //  receiver mode
   return n;
 }
 
 //  TODO: fix blocking - yield() - merge above
 size_t RS485::write(uint8_t * array, uint8_t length)
 {
-  digitalWrite(_sendPin, HIGH);   //  transmit mode
+  setTXmode();    //  transmit mode
   size_t n = _stream->write(array, length);
   delayMicroseconds(_microsPerByte);
-  digitalWrite(_sendPin, LOW);    //  receiver mode
+  setRXmode();    //  receiver mode
   return n;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "RS485",
-  "keywords": "RS485 SERIAL BALANCED",
+  "keywords": "RS485, serial, balanced, max485",
   "description": "RS485 library for Arduino.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/RS485"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

@@ -66,6 +66,25 @@ resumes with listening.
 - see examples (TODO).
 
 
+#### yield()
+
+For RTOS environments the **yield()** function needs to be called 
+when code might be blocking. As the RS485 baud rate can be pretty low, 
+the **write(array, length)** function can be blocking for too long 
+so the function can call **yield()** every 4 milliseconds if enabled.
+
+To enable **yield()** uncomment the following line in **RS485.cpp**
+
+// #define RS485_YIELD_ENABLE  1
+
+or use this flag in the compile line option
+
+Note: the **yield()** calling version is substantial slower, depending 
+on the baud rate. Use with care.
+
+TODO: to be tested on ESP32 - RTOS .
+
+
 ## Future
 
 - improve documentation
@@ -74,8 +93,6 @@ resumes with listening.
   - which handshake?
   - dynamic buffer size?
   - should this be a sort of message class / struct. fixed size?
-- add **yield()** for large messages that are blocking.
-- prevent blocking if possible.
 - add examples
 - add unit tests
 

@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 //
@@ -10,6 +10,8 @@
 // 0.1.x    2017-10-30  experimental versions.
 // 0.2.0    2022-05-24  first published version
 // 0.2.1    2022-05-24  add setTXmode(), setRXmode(), getMode().
+// 0.2.2    2022-05-25  rewrite blocking write(uint8_t * array, length).
+//                      added write(char * array, length). (convenience)
 
 
 #include "RS485.h"
@@ -58,15 +60,49 @@ size_t RS485::write(uint8_t c)
   return n;
 }
 
-//  TODO: fix blocking - yield() - merge above
+
+size_t RS485::write(char * array, uint8_t length)
+{
+  return write((uint8_t *)array, length);
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  discussion about write and yield see 
+//  - https://github.com/RobTillaart/RS485/issues/2
+//
+
+// #define RS485_YIELD_ENABLE  1
+
+#ifdef RS485_YIELD_ENABLE
+
+// smallest and slightly fastest.
+size_t RS485::write(uint8_t * array, uint8_t length)
+{
+  uint8_t n = 0;
+  for (uint8_t i = 0; i < length; i++)
+  {
+    n += write(array[i]);
+    yield();
+  }
+  return n;
+}
+
+#else  
+
+//  0.2.1 version 
+//  no yield() calls - might be blocking...
 size_t RS485::write(uint8_t * array, uint8_t length)
 {
   setTXmode();    //  transmit mode
   size_t n = _stream->write(array, length);
-  delayMicroseconds(_microsPerByte);
+  delayMicroseconds(length * _microsPerByte);
   setRXmode();    //  receiver mode
   return n;
 }
+
+#endif
 
 
 void RS485::setMicrosPerByte(uint32_t baudRate)

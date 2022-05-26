@@ -1,0 +1,24 @@
+{
+  "name": "SIMON",
+  "keywords": "Simon",
+  "description": "Arduino library to build the 'Simon says' game or a digital lock.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/SIMON"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "simon.h"
+}
+

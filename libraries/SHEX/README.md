@@ -37,11 +37,18 @@ One can toggle the character count at the start of the line.
 
 ## Interface
 
+### Defines
+
+To be adjusted via command line (or in SHEX.h file)
+
+- **SHEX_DEFAULT_LENGTH 16**
+- **SHEX_MAX_LENGTH 32**
+
 
 ### Constructor + Core
 
-- **SHEX(Print \* stream = &Serial, uint8_t length = 16)** Constructor, optional set the number of bytes per line.
-default 16 bytes per line, forced multiple of 4, max 32.
+- **SHEX(Print \* stream = &Serial, uint8_t length = SHEX_DEFAULT_LENGTH)** Constructor, optional set the number of bytes per line.
+default 16 bytes per line, forced multiple of 4, max SHEX_MAX_LENGTH = 32.
 - **size_t write(uint8_t c)** implements the Print interface.
 
 
@@ -49,7 +56,7 @@ default 16 bytes per line, forced multiple of 4, max 32.
 
 - **void setHEX(bool hexOutput = true)** switch between modi, HEX (true) or pass through (false).
 - **bool getHEX()** returns mode set above.
-- **void setBytesPerLine(uint8_t length = 16)** idem, default 16 bytes per line, forced multiple of 4, max 32.
+- **void setBytesPerLine(uint8_t length = SHEX_DEFAULT_LENGTH)** idem, default 16 bytes per line, forced multiple of 4, max SHEX_MAX_LENGTH = 32.
 - **uint8_t getBytesPerLine()** returns number of bytes per line.
 - **void setSeparator(char c = ' ')** set the separator character, default a space.
 Some people like a dot '.', or a tab '\t'. Feel free to experiment.
@@ -75,11 +82,12 @@ so they won't get lost.
 needs a line buffer to do that (double loop)
 
 - line buffering for faster output (e.g Ethernet and SD card)
+  could it support **write(array, length)** call ?
 - header line: runtime configurable; optional combined with separator
   and after how many lines the header should repeat)
-  header(str, lines); ???
+  **header(str, lines)**; ???
 - HEX reader: converts dump format to a normal stream again.
 - better name for the class? - streamHex
-- showByteCount(bool) is a better name.
+- **showByteCount(bool)** is a better name than **setCountFlag()**
 
 

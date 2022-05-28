@@ -5,7 +5,7 @@
 //    DATE: 2020-05-24
 //
 // this sketch echoes all incoming bytes back in hex dump format.
-// 
+//
 
 
 #include "SHEX.h"
@@ -20,6 +20,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("SHEX_LIB_VERSION: ");
+  Serial.println(SHEX_LIB_VERSION);
 }
 
 

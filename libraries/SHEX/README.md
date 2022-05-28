@@ -63,6 +63,8 @@ Some people like a dot '.', or a tab '\t'. Feel free to experiment.
 - **char getSeparator()** return the separator character set.
 - **void setCountFlag(bool flag = true)** show the character count at begin of every line.
 - **bool getCountFlag()** return flag set.
+- **void setVTAB(uint8_t vtab = SHEX_DEFAULT_VTAB)** set the vertical separator line. 
+- **uint8_t getVTAB()** return the current vertical separator line.
 
 
 ## Operational

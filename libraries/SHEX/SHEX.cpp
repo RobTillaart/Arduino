@@ -1,7 +1,7 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -13,6 +13,8 @@
 //  0.2.1   2021-12-28  update library.json, readme, license, minor edits
 //  0.2.2   2022-05-27  fix #6 set default length
 //                      add defines SHEX_DEFAULT_LENGTH + SHEX_MAX_LENGTH
+//  0.2.3   2022-5-28   add setVTAB(vtab) getVTAB()
+//                      add define SHEX_DEFAULT_VTAB
 
 
 #include "SHEX.h"
@@ -38,6 +40,7 @@ void SHEX::reset()
   _charCount = 0;
   _separator = ' ';
   _countFlag = true;
+  _vtab      = SHEX_DEFAULT_VTAB;
 }
 
 
@@ -55,8 +58,8 @@ size_t SHEX::write(uint8_t c)
   if ((_charCount % _length) == 0)
   {
     _stream->println();
-    // separator line every 8 lines
-    if ((_charCount % (_length * 8)) == 0)
+    // separator line every _vtab lines
+    if ((_charCount % (_length * _vtab)) == 0)
     {
       _stream->println();
     }
@@ -107,6 +110,15 @@ void SHEX::setBytesPerLine(const uint8_t length)
   //  prevent change in middle of line
   _stream->println();
 }
+
+
+void SHEX::setVTAB(uint8_t vtab)
+{
+  _vtab = vtab;
+  _charCount = 0;
+  //  prevent change in middle of line
+  _stream->println();
+};
 
 
 // -- END OF FILE --

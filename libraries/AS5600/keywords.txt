@@ -1,0 +1,44 @@
+# Syntax Colouring Map For AS5600
+
+
+# Data types (KEYWORD1)
+AS5600	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+setAddress	KEYWORD2
+getAddress	KEYWORD2
+
+setDirection	KEYWORD2
+getDirection	KEYWORD2
+
+getZMCO	KEYWORD2
+setZPosition	KEYWORD2
+getZPosition	KEYWORD2
+setMPosition	KEYWORD2
+getMPosition	KEYWORD2
+setMaxAngle	KEYWORD2
+getMaxAngle	KEYWORD2
+setConfigure	KEYWORD2
+getConfigure	KEYWORD2
+
+rawAngle	KEYWORD2
+readAngle	KEYWORD2
+
+readStatus	KEYWORD2
+readAGC	KEYWORD2
+readMagnitude	KEYWORD2
+
+burnAngle	KEYWORD2
+burnSetting	KEYWORD2
+
+
+# Constants (LITERAL1)
+AS5600_LIB_VERSION	LITERAL1
+
+AS5600_CLOCK_WISE	LITERAL1
+AS5600_COUNTERCLOCK_WISE	LITERAL1
+
+

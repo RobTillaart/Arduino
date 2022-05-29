@@ -1,7 +1,7 @@
 //
 //    FILE: runningAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Library to average angles by means of low pass filtering with wrapping.
 //     URL: https://github.com/RobTillaart/runningAngle
 // RELATED: https://github.com/RobTillaart/AverageAngle
@@ -12,6 +12,7 @@
 //  0.1.1   2021-01-07  Arduino-CI + unit test
 //  0.1.2   2021-05-27  Arduino-lint
 //  0.1.3   2021-12-28  update library.json, readme, license, minor edits
+//  0.1.4   2022-05-29  add GRADIANS support.
 
 
 #include "runningAngle.h"
@@ -49,12 +50,20 @@ float runningAngle::add(float angle)
 
 float runningAngle::wrap(float angle)
 {
-  if (_type == DEGREES) {
+  if (_type == DEGREES)
+  {
     while (angle < -180) angle += 360;
     while (angle >= 180) angle -= 360;
-  } else {
+  } 
+  else if (_type == RADIANS) 
+  {
     while (angle < -PI) angle += TWO_PI;
     while (angle >= PI) angle -= TWO_PI;
+  }
+  else  // GRADIANS
+  {
+    while (angle < -200) angle += 400;
+    while (angle >= 200) angle -= 400;
   }
   return angle;
 }

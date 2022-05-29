@@ -45,9 +45,25 @@ unittest_teardown()
 }
 
 
-unittest(test_constructor)
+unittest(test_constructor_1)
 {
   runningAngle heading(runningAngle::DEGREES);
+  assertEqualFloat(0.80, heading.getWeight(), 0.0001);
+  assertEqualFloat(0, heading.getAverage(), 0.0001);
+}
+
+
+unittest(test_constructor_2)
+{
+  runningAngle heading(runningAngle::RADIANS);
+  assertEqualFloat(0.80, heading.getWeight(), 0.0001);
+  assertEqualFloat(0, heading.getAverage(), 0.0001);
+}
+
+
+unittest(test_constructor_3)
+{
+  runningAngle heading(runningAngle::GRADIANS);
   assertEqualFloat(0.80, heading.getWeight(), 0.0001);
   assertEqualFloat(0, heading.getAverage(), 0.0001);
 }

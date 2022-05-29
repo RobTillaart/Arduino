@@ -2,22 +2,25 @@
 //
 //    FILE: runningAngle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Library to average angles by means of low pass filtering with wrapping.
-
+//     URL: https://github.com/RobTillaart/runningAngle
+// RELATED: https://github.com/RobTillaart/AverageAngle
+//
 
 
 #include "Arduino.h"
 #include "math.h"
 
 
-#define RUNNING_ANGLE_LIB_VERSION     (F("0.1.3"))
+#define RUNNING_ANGLE_LIB_VERSION     (F("0.1.4"))
 
 
 class runningAngle
 {
 public:
-  enum AngleType { DEGREES, RADIANS };
+  enum AngleType { DEGREES = 0, RADIANS = 1, GRADIANS = 2 };
+
 
   runningAngle(const enum AngleType type = DEGREES);
 

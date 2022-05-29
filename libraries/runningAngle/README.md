@@ -91,18 +91,37 @@ The method returns the smoothed reading within ± 180° (i.e. ± π rad).
 
 See the “examples” folder for a more complete example.
 
+Degree character = ALT-0176
+
 
 ## Interface
 
-- **enum AngleType { DEGREES, RADIANS }** used to get type math right.
+### AngleType
+
+- **enum AngleType { DEGREES, RADIANS, GRADIANS }** used to get type math right.
+
+A full circle is defined as:
+- DEGREES = 360°
+- RADIANS = 2 π = 6.283...
+- GRADIANS = 400°
+
+GRADIANS are sometimes called GON. 
+There also exists a type milli-radians which is effectively the 
+same as RADIANS \* 1000. It won't be supported. 
+
+
+### runningAngle
+
 - **runningAngle(AngleType type = DEGREES)** constructor, default to DEGREES
 - **float add(float angle)** adds value using a certain weight, except the first value after a reset is used as initial value. The **add()** function returns the new average.
-- **void reset()** resets the internals and start over again.
+- **void reset()** resets the internal average and weight to start clean again. 
+If needed one should call **setWeight()** again!
 - **float getAverage()** returns the current average value.
-- **void setWeight(float weight)** sets the weight of the new added value. Value will be constrained between 0.001 and 1.00
+- **void setWeight(float weight)** sets the weight of the new added value. 
+Value will be constrained between 0.001 and 1.00
 - **float getWeight()** returns the current set weight.
-- **AngleType type()** returns DEGREES or RADIANS.
-- **float wrap(float angle)** wraps an angle to <-180..+180>  <-PI..PI> depending on the type set.
+- **AngleType type()** returns DEGREES, RADIANS or GRADIANS.
+- **float wrap(float angle)** wraps an angle to <-180..+180>  <-PI..PI> <-200..200> depending on the type set.
 
 
 ## Operation
@@ -113,6 +132,4 @@ See examples
 ## Future
 
 - get some numbers about the noise in the angles (stats on the delta?)
-- add GRADIANS as type (low prio)
-
 

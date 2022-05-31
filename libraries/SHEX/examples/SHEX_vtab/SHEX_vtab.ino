@@ -26,6 +26,7 @@ void setup()
 
   for (uint8_t vtab = 0; vtab < 6; vtab++)
   {
+    //  shex.flushASCII();   when using SHEXA
     shex.setVTAB(vtab);
     Serial.print("\n\nSHEX VTAB ");
     Serial.println(shex.getVTAB());

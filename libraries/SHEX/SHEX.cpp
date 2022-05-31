@@ -1,7 +1,7 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -13,8 +13,17 @@
 //  0.2.1   2021-12-28  update library.json, readme, license, minor edits
 //  0.2.2   2022-05-27  fix #6 set default length
 //                      add defines SHEX_DEFAULT_LENGTH + SHEX_MAX_LENGTH
-//  0.2.3   2022-5-28   add setVTAB(vtab) getVTAB()
+//  0.2.3   2022-05-28  add setVTAB(vtab) getVTAB()
 //                      add define SHEX_DEFAULT_VTAB
+//  0.3.0   2022-05-28  breaking!  
+//                      change default HEX output instead of pass through.
+//                      add get / setCountDigits() => 
+//                          #digits of count 4, 6 or 8 (4 = default)
+//                      replaces get / setCounterFlag()
+//                      add define SHEX_COUNTER_DIGITS + SHEX_MIN_LENGTH
+//                      add restartOutput() and getCounter()
+//                      add SHEXA class for ASCII column output
+//                      add SHEXA::flushASCII().
 
 
 #include "SHEX.h"
@@ -30,16 +39,20 @@ SHEX::SHEX(Print* stream, uint8_t length)
   {
     _length = SHEX_MAX_LENGTH;
   }
+  if (_length < SHEX_MIN_LENGTH)
+  {
+    _length = SHEX_MIN_LENGTH;
+  }
 };
 
 
 void SHEX::reset()
 {
-  _hexOutput = false;
+  _hexOutput = true;
   _length    = SHEX_DEFAULT_LENGTH;
   _charCount = 0;
   _separator = ' ';
-  _countFlag = true;
+  _digits    = SHEX_COUNTER_DIGITS;
   _vtab      = SHEX_DEFAULT_VTAB;
 }
 
@@ -50,24 +63,28 @@ void SHEX::reset()
 //
 size_t SHEX::write(uint8_t c)
 {
-  // PASS THROUGH MODE
+  //  PASS THROUGH MODE
   if (_hexOutput == false) return _stream->write(c);
 
-  // HEX MODE
-  // handle end of line and position number
+  //  HEX MODE
+  //  handle end of line and position number
   if ((_charCount % _length) == 0)
   {
+    //  insert ASCII array here
+    
     _stream->println();
-    // separator line every _vtab lines
+    //  separator line every _vtab (default 8) lines
     if ((_charCount % (_length * _vtab)) == 0)
     {
       _stream->println();
     }
 
-    // next line
-    if (_countFlag)
+    //  next line
+    if (_digits > 0)
     {
-      uint32_t mask = 0xF0000000;
+      uint32_t mask = 0xF000;
+      if (_digits > 4) mask = 0xF00000;
+      if (_digits > 6) mask = 0xF0000000;
       while((mask > 0xF) && (mask & _charCount) == 0)
       {
         _stream->print('0');
@@ -78,7 +95,7 @@ size_t SHEX::write(uint8_t c)
     }
   }
 
-  // Print char as HEX
+  //  Print char as HEX
   if (c < 0x10) _stream->print('0');
   _stream->print(c, HEX);
   _stream->print(_separator);
@@ -92,9 +109,7 @@ size_t SHEX::write(uint8_t c)
 void SHEX::setHEX(bool hexOutput)
 {
   _hexOutput = hexOutput;
-  _charCount = 0;
-  //  prevent change in middle of line
-  _stream->println();
+  restartOutput();
 };
 
 
@@ -106,20 +121,109 @@ void SHEX::setBytesPerLine(const uint8_t length)
   {
     _length = SHEX_MAX_LENGTH;
   }
-  _charCount = 0;
-  //  prevent change in middle of line
-  _stream->println();
+  if (_length < SHEX_MIN_LENGTH)
+  {
+    _length = SHEX_MIN_LENGTH;
+  }
+  restartOutput();
 }
 
 
 void SHEX::setVTAB(uint8_t vtab)
 {
   _vtab = vtab;
-  _charCount = 0;
-  //  prevent change in middle of line
-  _stream->println();
+  restartOutput();
 };
 
+
+void SHEX::setCountDigits(uint8_t digits) 
+{
+  _digits = digits;
+  if (_digits == 0) return;
+  if (_digits < 4) _digits = 4;
+  if (_digits > 8) _digits = 8;
+  restartOutput();
+};
+
+
+void SHEX::restartOutput()
+{
+  //  prevent change in middle of line
+  _charCount = 0;
+  _stream->println();
+}
+
+
+///////////////////////////////////////////////////
+//
+//  SHEXA
+//
+SHEXA::SHEXA(Print* stream, uint8_t length) : SHEX(stream, length)
+{
+}
+
+
+size_t SHEXA::write(uint8_t c)
+{
+  // PASS THROUGH MODE
+  if (_hexOutput == false) return _stream->write(c);
+
+  //  HEX MODE
+  //  handle end of line and position number
+  if ((_charCount % _length) == 0)
+  {
+    //  printable ASCII column
+    if (_charCount != 0) flushASCII();
+
+    _stream->println();
+    //  separator line every _vtab (default 8) lines
+    if ((_charCount % (_length * _vtab)) == 0)
+    {
+      _stream->println();
+    }
+
+    //  next line
+    if (_digits > 0)
+    {
+      uint32_t mask = 0xF000;
+      if (_digits > 4) mask = 0xF00000;
+      if (_digits > 6) mask = 0xF0000000;
+      while((mask > 0xF) && (mask & _charCount) == 0)
+      {
+        _stream->print('0');
+        mask >>= 4;
+      }
+      _stream->print(_charCount, HEX);
+      _stream->print('\t');
+    }
+  }
+
+  //  Print char as HEX
+  if (c < 0x10) _stream->print('0');
+  _stream->print(c, HEX);
+  _stream->print(_separator);
+
+  //  Store in _txtbuf
+  _txtbuf[_charCount % _length] = isPrintable(c) ? c : '.';
+
+  _charCount++;
+  if ((_charCount % 4) == 0) _stream->print(_separator);
+
+  return 1;
+}
+
+
+void SHEXA::flushASCII()
+{
+  int len = _charCount % _length;
+  if (len == 0) len = _length;
+  //  else  print about (_length - len) * 3 of spaces ...
+  for (uint8_t i = 0; i < len;)
+  {
+    _stream->write(_txtbuf[i++]);
+    if ((i % 8) == 0)_stream->print("  ");
+  }
+}
 
 // -- END OF FILE --
 

@@ -1,8 +1,8 @@
 //
-//    FILE: SHEX_demo.ino
+//    FILE: SHEXA_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SHEX hex dump class
-//    DATE: 2020-05-24
+//    DATE: 2022-05-28
 
 
 #include "SHEX.h"
@@ -24,31 +24,16 @@ void setup()
   }
 
   Serial.println("\n\nSHEX ASCII TEST");
-  SHEX shex(&Serial, 16);
+  SHEXA shex(&Serial, 16);
   shex.setCountDigits(5);
   shex.print("abcdefghijklmnopqrstuvwxyz");
+  shex.flushASCII();
   shex.restartOutput();
 
   shex.print("abcdefghijklmnopqrstuv");
+  shex.flushASCII();
   shex.restartOutput();
 
-  Serial.println("\n\nSHEX\n");
-  for (int i = 0; i < 300; i++)
-  {
-    char c = random(150);
-    shex.print(c);
-  }
-
-  Serial.println("\n\nSHEX modified\n");
-  shex.setBytesPerLine(60);
-  shex.setSeparator('-');
-  shex.setCountDigits(0);
-
-  for (int i = 0; i < 600; i++)
-  {
-    char c = random(150);
-    shex.print(c);
-  }
 
   Serial.println("\n Done...\n");
 }

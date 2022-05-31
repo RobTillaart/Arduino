@@ -50,6 +50,7 @@ unittest(test_constants)
   assertEqual(16, SHEX_DEFAULT_LENGTH);
   assertEqual(32, SHEX_MAX_LENGTH);
   assertEqual(4, SHEX_MIN_LENGTH);
+  assertEqual(4, SHEX_COUNTER_DIGITS);
   assertEqual(8, SHEX_DEFAULT_VTAB);
 }
 
@@ -57,9 +58,7 @@ unittest(test_constants)
 unittest(test_set_hex)
 {
   SHEX shex;
-  
-  assertFalse(shex.getHEX());
-  shex.setHEX();
+
   assertTrue(shex.getHEX());
 
   shex.setHEX(false);
@@ -101,15 +100,37 @@ unittest(test_separator)
 }
 
 
-unittest(test_countFlag)
+unittest(test_count_digits)
 {
   SHEX shex;
 
-  assertTrue(shex.getCountFlag());
-  shex.setCountFlag(false);
-  assertFalse(shex.getCountFlag());
-  shex.setCountFlag();
-  assertTrue(shex.getCountFlag());
+  assertEqual(SHEX_COUNTER_DIGITS, shex.getCountDigits());
+
+  shex.setCountDigits(0);
+  assertEqual(0, shex.getCountDigits());
+
+  shex.setCountDigits(1);
+  assertEqual(4, shex.getCountDigits());
+
+  shex.setCountDigits(2);
+  assertEqual(4, shex.getCountDigits());
+
+  shex.setCountDigits(3);
+  assertEqual(4, shex.getCountDigits());
+
+  shex.setCountDigits(4);
+  assertEqual(4, shex.getCountDigits());
+
+  shex.setCountDigits(6);
+  assertEqual(6, shex.getCountDigits());
+
+  shex.setCountDigits(8);
+  assertEqual(8, shex.getCountDigits());
+
+
+  //  should be truncated to 8 == uint32_t counter)
+  shex.setCountDigits(9);
+  assertEqual(8, shex.getCountDigits());
 }
 
 

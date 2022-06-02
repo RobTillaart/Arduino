@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.1.1"))
+#define AS5600_LIB_VERSION              (F("0.1.2"))
 
 #define AS5600_CLOCK_WISE               0   // LOW
 #define AS5600_COUNTERCLOCK_WISE        1   // HIGH
@@ -104,6 +104,10 @@ public:
   //  void burnAngle();
   //  void burnSetting();
 
+  //  experimental 0.1.2 - to be tested.
+  //  approximation of the angular speed in rotations per second.
+  float    getAngularSpeed();
+
 
 private:
   uint8_t  readReg(uint8_t reg);
@@ -115,6 +119,9 @@ private:
   uint8_t  _error = 0;
 
   TwoWire*  _wire;
+  
+  uint32_t _lastMeasurement = 0;
+  uint16_t _lastAngle       = 0; 
 };
 
 

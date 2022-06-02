@@ -105,6 +105,20 @@ Conversion factor to degrees = 360 / 4095 = 0.0879121
 This is the one most used.
 
 
+### Angular Speed
+
+- **getAngularSpeed()** is an experimental function that returns an approximation of the angular speed in rotations per second.
+The function needs to be called at least **four** times per rotation
+to get a reasonably accuracy. 
+
+Negative values indicate reverse rotation. What that means depends on
+the setup of your project.
+
+Note: the first call will return an erroneous value as it has no
+reference angle or time. Also if one stops calling this function 
+for some time the first call after such delays will be incorrect.
+
+
 ### Status registers
 
 - **uint8_t readStatus()** see below.
@@ -143,6 +157,7 @@ The risk is that you make your as5600 **USELESS**.
 - **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS registers are written to permanent memory. You can only burn a new Angle 3 times to the AS5600.
 - **void burnAngle()** writes the ZPOS and MPOS registers to permanent memory. You can only burn a new Angle maximum **THREE** times to the AS5600.
 - **void burnSetting()** writes the MANG register to permanent memory. You can write this only **ONE** time to the AS5600.
+
 
 
 ## Operational

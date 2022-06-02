@@ -34,6 +34,9 @@ readMagnitude	KEYWORD2
 burnAngle	KEYWORD2
 burnSetting	KEYWORD2
 
+getAngularSpeed	KEYWORD2
+
+
 
 # Constants (LITERAL1)
 AS5600_LIB_VERSION	LITERAL1

@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.3.4"))
+#define PCA9635_LIB_VERSION         (F("0.4.0"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
@@ -42,21 +42,22 @@
 
 
 // Configuration bits MODE1 register
-#define PCA9635_MODE1_AUTOINCR2     0x80  // RO, 0 = disable  1 = enable
-#define PCA9635_MODE1_AUTOINCR1     0x40  // RO, bit1
-#define PCA9635_MODE1_AUTOINCR0     0x20  // RO  bit0
+#define PCA9635_MODE1_AUTOINCR2     0x80  // ReadOnly, 0 = disable  1 = enable
+#define PCA9635_MODE1_AUTOINCR1     0x40  // ReadOnly, bit1
+#define PCA9635_MODE1_AUTOINCR0     0x20  // ReadOnly, bit0
 #define PCA9635_MODE1_SLEEP         0x10  // 0 = normal       1 = sleep
 #define PCA9635_MODE1_SUB1          0x08  // 0 = disable      1 = enable
 #define PCA9635_MODE1_SUB2          0x04  // 0 = disable      1 = enable
 #define PCA9635_MODE1_SUB3          0x02  // 0 = disable      1 = enable
 #define PCA9635_MODE1_ALLCALL       0x01  // 0 = disable      1 = enable
+#define PCA9635_MODE1_NONE          0x00
 
 // Configuration bits MODE2 register
 #define PCA9635_MODE2_BLINK         0x20  // 0 = dim          1 = blink
 #define PCA9635_MODE2_INVERT        0x10  // 0 = normal       1 = inverted
-#define PCA9635_MODE2_STOP          0x08  // 0 = on STOP      1 = on ACK
+#define PCA9635_MODE2_ACK           0x08  // 0 = on STOP      1 = on ACK
 #define PCA9635_MODE2_TOTEMPOLE     0x04  // 0 = open drain   1 = totem-pole
-
+#define PCA9635_MODE2_NONE          0x00
 
 // NOT IMPLEMENTED YET
 #define PCA9635_SUBADR(x)           (0x17+(x))  // x = 1..3
@@ -69,10 +70,13 @@ public:
   explicit PCA9635(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
+  bool     begin(uint8_t sda, uint8_t scl, 
+                     uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, 
+                     uint8_t mode2_mask = PCA9635_MODE2_NONE);
 #endif
-  bool     begin();
-  void     reset();
+  bool     begin(uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, 
+                 uint8_t mode2_mask = PCA9635_MODE2_NONE);
+  void     configure(uint8_t mode1_mask, uint8_t mode2_mask);
   bool     isConnected();
 
   uint8_t  channelCount() { return _channelCount; };
@@ -82,10 +86,10 @@ public:
 
   // single PWM setting
   uint8_t  write1(uint8_t channel, uint8_t value);
-  
+
   // RGB setting, write three consecutive PWM registers
   uint8_t  write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B);
-  
+
   // generic worker, write N consecutive PWM registers
   uint8_t  writeN(uint8_t channel, uint8_t* arr, uint8_t count);
 
@@ -100,14 +104,32 @@ public:
 
 
   // TODO PWM also in %% ?
-  void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); }
-  uint8_t  getGroupPWM() { return readReg(PCA9635_GRPPWM); }
+  void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); };
+  uint8_t  getGroupPWM() { return readReg(PCA9635_GRPPWM); };
 
   // TODO set time in milliseconds and round to nearest value?
-  void     setGroupFREQ(uint8_t value) { writeReg(PCA9635_GRPFREQ, value); }
-  uint8_t  getGroupFREQ() { return readReg(PCA9635_GRPFREQ); }
+  void     setGroupFREQ(uint8_t value) { writeReg(PCA9635_GRPFREQ, value); };
+  uint8_t  getGroupFREQ() { return readReg(PCA9635_GRPFREQ); };
 
   int      lastError();
+
+  /////////////////////////////////////////////////////
+  //
+  // SUB CALL  -  ALL CALL  (since 0.2.0)
+  //
+  //  nr = { 1, 2, 3 }
+  bool     enableSubCall(uint8_t nr);
+  bool     disableSubCall(uint8_t nr);
+  bool     isEnabledSubCall(uint8_t nr);
+  bool     setSubCallAddress(uint8_t nr, uint8_t address);
+  uint8_t  getSubCallAddress(uint8_t nr);
+
+  bool     enableAllCall();
+  bool     disableAllCall();
+  bool     isEnabledAllCall();
+  bool     setAllCallAddress(uint8_t address);
+  uint8_t  getAllCallAddress();
+
 
 private:
   // DIRECT CONTROL

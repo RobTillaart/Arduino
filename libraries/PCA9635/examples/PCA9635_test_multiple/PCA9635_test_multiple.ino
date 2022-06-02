@@ -27,7 +27,7 @@ void setup()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - write1 - I");
-  for (int channel = 0; channel < 16; channel++)
+  for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
     for (int pwm = 0; pwm < 256; pwm++)
     {
@@ -40,7 +40,7 @@ void setup()
   Serial.println("Test - write 1 - II");
   for (int pwm = 0; pwm < 256; pwm++)
   {
-    for (int channel = 0; channel < 16; channel++)
+    for (int channel = 0; channel < ledArray.channelCount(); channel++)
     {
       ledArray.write1(channel, pwm);
       ledArray2.write1(channel, pwm);

@@ -2,11 +2,21 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
 //  HISTORY:
+//
+//
+//  0.4.0   2022-05-29  breaking changes
+//                      rename reset() to configure()
+//                      add mode1 and mode2 parameter to configure.
+//                      add SUB CALL and ALL CALL functions.
+//                      update documentation.
+//                      renamed PCA9634_MODE2_STOP to PCA9634_MODE2_ACK
+//                      add mode parameters to begin()
+//
 //  0.3.4   2022-04-13  add constants and functions for mode registers.
 //  0.3.3   2022-01-03  add channelCount()
 //  0.3.2   2021-12-23  update library.json, readme, license, minor edits
@@ -19,6 +29,7 @@
 //  0.1.2   2020-05-07  fix for PCA9635_MODE1
 //  0.1.1   2016-04-24  set autoincr in constructor
 //  0.1.0   2016-04-23  initial BETA version
+
 
 
 #include "PCA9635.h"
@@ -37,7 +48,7 @@ PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool PCA9635::begin(uint8_t sda, uint8_t scl)
+bool PCA9635::begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask, uint8_t mode2_mask)
 {
   _wire = &Wire;
   if ((sda < 255) && (scl < 255))
@@ -47,17 +58,17 @@ bool PCA9635::begin(uint8_t sda, uint8_t scl)
     _wire->begin();
   }
   if (! isConnected()) return false;
-  reset();
+  configure(mode1_mask, mode2_mask);
   return true;
 }
 #endif
 
 
-bool PCA9635::begin()
+bool PCA9635::begin(uint8_t mode1_mask, uint8_t mode2_mask)
 {
   _wire->begin();
   if (! isConnected()) return false;
-  reset();
+  configure(mode1_mask, mode2_mask);
   return true;
 }
 
@@ -70,13 +81,13 @@ bool PCA9635::isConnected()
 }
 
 
-void PCA9635::reset()
+void PCA9635::configure(uint8_t mode1_mask, uint8_t mode2_mask)
 {
   _data = 0;
   _error = 0;
 
-  uint8_t mode1_mask = PCA9635_MODE1_AUTOINCR2 | PCA9635_MODE1_ALLCALL;
-  writeReg(PCA9635_MODE1, mode1_mask);  //  AUTOINCR | NOSLEEP | ALLADRR  0x81
+  setMode1(mode1_mask);
+  setMode2(mode2_mask);
 }
 
 
@@ -195,6 +206,107 @@ int PCA9635::lastError()
   _error = 0;
   return e;
 }
+
+
+
+/////////////////////////////////////////////////////
+//
+// SUB CALL  -   ALL CALL
+//
+bool PCA9635::enableSubCall(uint8_t nr)
+{
+  if ((nr == 0) || (nr > 3)) return false;
+  uint8_t prev = getMode1();
+  uint8_t reg = prev;
+  if (nr == 1)      reg |= PCA9635_MODE1_SUB1;
+  else if (nr == 2) reg |= PCA9635_MODE1_SUB2;
+  else              reg |= PCA9635_MODE1_SUB3;
+  //  only update if changed.
+  if (reg != prev) setMode1(reg);
+  return true;
+}
+
+
+bool PCA9635::disableSubCall(uint8_t nr)
+{
+  if ((nr == 0) || (nr > 3)) return false;
+  uint8_t prev = getMode1();
+  uint8_t reg = prev;
+  if (nr == 1)      reg &= ~PCA9635_MODE1_SUB1;
+  else if (nr == 2) reg &= ~PCA9635_MODE1_SUB2;
+  else              reg &= ~PCA9635_MODE1_SUB3;
+  //  only update if changed.
+  if (reg != prev) setMode1(reg);
+  return true;
+}
+
+
+bool PCA9635::isEnabledSubCall(uint8_t nr)
+{
+  if ((nr == 0) || (nr > 3)) return false;
+  uint8_t reg = getMode1();
+  if (nr == 1) return (reg & PCA9635_MODE1_SUB1) > 0;
+  if (nr == 2) return (reg & PCA9635_MODE1_SUB2) > 0;
+  return (reg & PCA9635_MODE1_SUB3) > 0;
+}
+
+
+bool PCA9635::setSubCallAddress(uint8_t nr, uint8_t address)
+{
+  if ((nr == 0) || (nr > 3)) return false;
+  writeReg(PCA9635_SUBADR(nr), address);
+  return true;
+}
+
+
+uint8_t PCA9635::getSubCallAddress(uint8_t nr)
+{
+  if ((nr == 0) || (nr > 3)) return 0;
+  uint8_t address = readReg(PCA9635_SUBADR(nr));
+  return address;
+}
+
+
+bool PCA9635::enableAllCall()
+{
+  uint8_t prev = getMode1();
+  uint8_t reg = prev | PCA9635_MODE1_ALLCALL;
+  //  only update if changed.
+  if (reg != prev) setMode1(reg);
+  return true;
+}
+
+
+bool PCA9635::disableAllCall()
+{
+  uint8_t prev = getMode1();
+  uint8_t reg = prev & ~PCA9635_MODE1_ALLCALL;
+  //  only update if changed.
+  if (reg != prev) setMode1(reg);
+  return true;
+}
+
+
+bool PCA9635::isEnabledAllCall()
+{
+  uint8_t reg = getMode1();
+  return reg & PCA9635_MODE1_ALLCALL;
+}
+
+
+bool PCA9635::setAllCallAddress(uint8_t address)
+{
+  writeReg(PCA9635_ALLCALLADR, address);
+  return true;
+}
+
+
+uint8_t PCA9635::getAllCallAddress()
+{
+  uint8_t address = readReg(PCA9635_ALLCALLADR);
+  return address;
+}
+
 
 
 /////////////////////////////////////////////////////

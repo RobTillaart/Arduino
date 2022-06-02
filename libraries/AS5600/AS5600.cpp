@@ -1,15 +1,22 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
 
+//  0.1.0   2022-05-28  initial version
+//  0.1.1   2022-05-31  Add readReg2() to speed up reading 2 byte values.
+//                      Fix clock wise and counter clock wise
+//                      Fix shift-direction @ getZPosition, getMPosition, 
+//                          getMaxAngle and getConfigure 
+//
 
 
-  //  Power-up time  1 minute
-  //  check  Timing Characteristics
+// TODO
+//  Power-up time  1 minute
+//  check  Timing Characteristics
 
 
 
@@ -53,7 +60,7 @@
 
 AS5600::AS5600(TwoWire *wire)
 {
-  _wire       = wire;
+  _wire = wire;
 }
 
 
@@ -64,7 +71,7 @@ bool AS5600::begin(int dataPin, int clockPin, int directionPin)
   pinMode(_directionPin, OUTPUT);
   setDirection(AS5600_CLOCK_WISE);
 
-  _wire      = &Wire;
+  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -128,7 +135,7 @@ void AS5600::setZPosition(uint16_t value)
 
 uint16_t AS5600::getZPosition()
 {
-  uint16_t value = (readReg(AS5600_ZPOS) & 0x0F) >> 8;
+  uint16_t value = (readReg(AS5600_ZPOS) & 0x0F) << 8;
   value += readReg(AS5600_ZPOS + 1);
   return value;
 }
@@ -143,7 +150,7 @@ void AS5600::setMPosition(uint16_t value)
 
 uint16_t AS5600::getMPosition()
 {
-  uint16_t value = (readReg(AS5600_MPOS) & 0x0F) >> 8;
+  uint16_t value = (readReg(AS5600_MPOS) & 0x0F) << 8;
   value += readReg(AS5600_MPOS + 1);
   return value;
 }
@@ -158,7 +165,7 @@ void AS5600::setMaxAngle(uint16_t value)
 
 uint16_t AS5600::getMaxAngle()
 {
-  uint16_t value = (readReg(AS5600_MANG) & 0x0F) >> 8;
+  uint16_t value = (readReg(AS5600_MANG) & 0x0F) << 8;
   value += readReg(AS5600_MANG + 1);
   return value;
 }
@@ -173,7 +180,7 @@ void AS5600::setConfigure(uint16_t value)
 
 uint16_t AS5600::getConfigure()
 {
-  uint16_t value = (readReg(AS5600_CONF) & 0x2F) >> 8;
+  uint16_t value = (readReg(AS5600_CONF) & 0x2F) << 8;
   value += readReg(AS5600_CONF + 1);
   return value;
 }
@@ -285,16 +292,14 @@ uint8_t AS5600::getWatchDog()
 //
 uint16_t AS5600::rawAngle()
 {
-  uint16_t value = (readReg(AS5600_RAW_ANGLE) & 0x0F) << 8;
-  value += readReg(AS5600_RAW_ANGLE + 1);
+  uint16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
   return value;
 }
 
 
 uint16_t AS5600::readAngle()
 {
-  uint16_t value = (readReg(AS5600_ANGLE) & 0x0F) << 8;
-  value += readReg(AS5600_ANGLE + 1);
+  uint16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
   return value;
 }
 
@@ -319,8 +324,7 @@ uint8_t AS5600::readAGC()
 
 uint16_t AS5600::readMagnitude()
 {
-  uint16_t value = (readReg(AS5600_MAGNITUDE) & 0x0F) << 8;
-  value += readReg(AS5600_MAGNITUDE + 1);
+  uint16_t value = readReg2(AS5600_MAGNITUDE) & 0x0FFF;
   return value;
 }
 
@@ -362,6 +366,20 @@ uint8_t AS5600::readReg(uint8_t reg)
 
   _wire->requestFrom(_address, (uint8_t)1);
   uint8_t _data = _wire->read();
+  return _data;
+}
+
+
+uint16_t AS5600::readReg2(uint8_t reg)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _error = _wire->endTransmission();
+
+  _wire->requestFrom(_address, (uint8_t)2);
+  uint16_t _data = _wire->read();
+  _data <<= 8;
+  _data += _wire->read();
   return _data;
 }
 

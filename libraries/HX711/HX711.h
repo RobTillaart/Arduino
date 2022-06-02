@@ -2,30 +2,32 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
-// PURPOSE: Library for Load cells for Arduino
+// VERSION: 0.3.3
+// PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
 // HISTORY: see CHANGELOG.md
 //
 // NOTES
 // Superset of interface of HX711 class of Bogde
-// float iso long as float has 23 bits mantisse.
+// float instead of long as float has 23 bits mantissa.
 
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.2"))
+#define HX711_LIB_VERSION               (F("0.3.3"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
 //  in median mode only between 3 and 15 samples are allowed.
-const uint8_t HX711_MEDIAN_MODE = 0x01;
+const uint8_t HX711_MEDIAN_MODE  = 0x01;
 //  medavg = average of the middle "half" of sorted elements
 //  in medavg mode only between 3 and 15 samples are allowed.
-const uint8_t HX711_MEDAVG_MODE = 0x02;
+const uint8_t HX711_MEDAVG_MODE  = 0x02;
 //  runavg = running average
-const uint8_t HX711_RUNAVG_MODE = 0x03;
+const uint8_t HX711_RUNAVG_MODE  = 0x03;
+//  causes read() to be called only once!
+const uint8_t HX711_RAW_MODE     = 0x04;
 
 
 class HX711
@@ -73,6 +75,7 @@ public:
 
   //  get set mode for get_value() and indirect get_units().
   //  in median and medavg mode only 3..15 samples are allowed.
+  void     set_raw_mode()     { _mode = HX711_RAW_MODE; };
   void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
   void     set_median_mode()  { _mode = HX711_MEDIAN_MODE; };
   void     set_medavg_mode()  { _mode = HX711_MEDAVG_MODE; };
@@ -80,9 +83,11 @@ public:
   void     set_runavg_mode()  { _mode = HX711_RUNAVG_MODE; };
   uint8_t  get_mode()         { return _mode; };
 
-  //  corrected for offset
+  //  corrected for offset.
+  //  in HX711_RAW_MODE the parameter times will be ignored.
   float    get_value(uint8_t times = 1);
   //  converted to proper units.
+  //  in HX711_RAW_MODE the parameter times will be ignored.
   float    get_units(uint8_t times = 1);
 
 

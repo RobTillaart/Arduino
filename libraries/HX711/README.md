@@ -14,7 +14,7 @@ Arduino library for HX711 24 bit ADC used for load cells and scales.
 ## Description
 
 This HX711 library has an interface which is a superset of a library made by Bogde.
-Some missing functions were added to get more info from the lib. 
+Some missing functions were added to get more info from the library. 
 
 Another important difference is that this library uses floats. 
 The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. 
@@ -66,7 +66,7 @@ Steps to take for calibration
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
-- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout.
+- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds.
 - **float read()** raw read.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
@@ -80,7 +80,7 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 
 #### Gain
 
-read datasheet - see also Connections HX711 below
+Read datasheet - see also Connections HX711 below.
 
 - **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
 - **uint8_t get_gain()** returns set gain.
@@ -90,16 +90,27 @@ read datasheet - see also Connections HX711 below
 
 Get and set the operational mode for get_value() and indirect get_units().
 In median and medavg mode only 3..15 samples are allowed.
+
+- **void set_raw_mode()** - will cause **read()** to be called only one time!
 - **void set_average_mode()**
 - **void set_median_mode()**
 - **void set_medavg_mode()**
 - **void set_runavg_mode()** default alpha = 0.5.
 - **uint8_t get_mode()**
 
+Constants (see .h file for actual value)
+
+- **HX711_RAW_MODE**  new in 0.3.3 
+- **HX711_AVERAGE_MODE**
+- **HX711_MEDIAN_MODE**
+- **HX711_MEDAVG_MODE**
+- **HX711_RUNAVG_MODE**
+
 
 #### Get values
 
-get values corrected for offset and scale
+Get values corrected for offset and scale.
+Note that in **HX711_RAW_MODE** times will be ignored => just read() once.
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
@@ -209,7 +220,7 @@ See examples
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin of read()
-  - 
+- make enum of the MODE's
 
 
 

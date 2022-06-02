@@ -40,6 +40,7 @@ void setup()
   scale.set_average_mode();
   Serial.print(scale.get_mode());
   Serial.println("\tPERFORMANCE set_average_mode");
+  delay(10);
   start = micros();
   f = 0;
   for (int i = 0; i < 100; i++)
@@ -57,6 +58,7 @@ void setup()
   scale.set_median_mode();
   Serial.print(scale.get_mode());
   Serial.println("\tPERFORMANCE set_median_mode");
+  delay(10);
   start = micros();
   f = 0;
   for (int i = 0; i < 100; i++)
@@ -74,6 +76,7 @@ void setup()
   scale.set_medavg_mode();
   Serial.print(scale.get_mode());
   Serial.println("\tPERFORMANCE set_medavg_mode");
+  delay(10);
   start = micros();
   f = 0;
   for (int i = 0; i < 100; i++)
@@ -85,6 +88,26 @@ void setup()
   Serial.println(stop - start);
   Serial.print("  VAL: ");
   Serial.println(f, 2);
+
+
+  Serial.println();
+  scale.set_raw_mode();
+  Serial.print(scale.get_mode());
+  Serial.println("\tPERFORMANCE set_raw_mode");
+  delay(10);
+  start = micros();
+  f = 0;
+  for (int i = 0; i < 100; i++)
+  {
+    f = scale.get_value(7);  //  note 7 will be ignored
+  }
+  stop = micros();
+  Serial.print("100x set_raw_mode = ");
+  Serial.println(stop - start);
+  Serial.print("  VAL: ");
+  Serial.println(f, 2);
+
+
   Serial.println("\ndone...");
 }
 
@@ -95,4 +118,3 @@ void loop()
 
 
 // -- END OF FILE --
-

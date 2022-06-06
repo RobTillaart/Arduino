@@ -31,7 +31,7 @@ the running median in the next steps in advance.
 to remove the oldest and keep them sorted to be able to select the median.
 
 
-#### Note MEDIAN_MAX_SIZE
+#### Note: MEDIAN_MAX_SIZE
 
 The maximum size of the internal buffer is defined by **MEDIAN_MAX_SIZE** and is 
 set to 255 (since version 0.3.1). The memory allocated currently is in the order
@@ -41,6 +41,19 @@ For an UNO this is quite a bit.
 With larger sizes the performance penalty to keep the internal array sorted 
 is large. For most applications a value much lower e.g. 19 is working well, and 
 is performance wise O(100x) faster in sorting than 255 elements.
+
+
+### Note: Configurable Options
+
+There are several options that can be configured via defines at compile time, those being:
+- RUNNING_MEDIAN_USE_MALLOC: bool
+    - true (default): Dynamic memory allocation is used for the buffer.
+    - false: Static buffers of size MEDIAN_MAX_SIZE are used.
+- MEDIAN_MIN_SIZE: uint
+    - Dynamic / Static: The buffer stores at least this many items.
+- MEDIAN_MAX_SIZE: uint
+    - Dynamic: Not used.
+    - Static: The buffer stores at most this many items.
 
 
 ## Interface

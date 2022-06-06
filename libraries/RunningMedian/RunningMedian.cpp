@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: RunningMedian library for Arduino
 //
 //  HISTORY:
@@ -30,6 +30,7 @@
 //                      --> better performance for large arrays.
 //  0.3.3   2021-01-22  better insertionSort (+ clean up test code)
 //  0.3.4   2021-12-28  update library.json, readme, license, minor edits
+//  0.3.5   2022-06-05  configuration options, fixed static version not working
 
 
 #include "RunningMedian.h"
@@ -39,9 +40,11 @@ RunningMedian::RunningMedian(const uint8_t size)
 {
   _size = size;
   if (_size < MEDIAN_MIN_SIZE) _size = MEDIAN_MIN_SIZE;
-  // if (_size > MEDIAN_MAX_SIZE) _size = MEDIAN_MAX_SIZE;
+#if !RUNNING_MEDIAN_USE_MALLOC
+  if (_size > MEDIAN_MAX_SIZE) _size = MEDIAN_MAX_SIZE;
+#endif
 
-#ifdef RUNNING_MEDIAN_USE_MALLOC
+#if RUNNING_MEDIAN_USE_MALLOC
   _values = (float *) malloc(_size * sizeof(float));
   _sortIdx  = (uint8_t *) malloc(_size * sizeof(uint8_t));
 #endif
@@ -51,7 +54,7 @@ RunningMedian::RunningMedian(const uint8_t size)
 
 RunningMedian::~RunningMedian()
 {
-  #ifdef RUNNING_MEDIAN_USE_MALLOC
+  #if RUNNING_MEDIAN_USE_MALLOC
   free(_values);
   free(_sortIdx);
   #endif

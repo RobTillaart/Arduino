@@ -3,7 +3,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //     URL: https://github.com/RobTillaart/RunningMedian
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
@@ -12,23 +12,29 @@
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.4"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.5"))
 
 
 // fall back to fixed storage for dynamic version => remove true
+#ifndef RUNNING_MEDIAN_USE_MALLOC
 #define RUNNING_MEDIAN_USE_MALLOC     true
+#endif
 
 
 // MEDIAN_MIN_SIZE  should at least be 3 to be practical,
+#ifndef MEDIAN_MIN_SIZE
 #define MEDIAN_MIN_SIZE               3
+#endif
 
 
+#ifndef MEDIAN_MAX_SIZE
 #ifdef RUNNING_MEDIAN_USE_MALLOC
 // max 250 to not overflow uint8_t internal variables
 #define MEDIAN_MAX_SIZE               255
 #else
 // using fixed memory will be limited to 19 elements.
 #define MEDIAN_MAX_SIZE               19
+#endif
 #endif
 
 
@@ -81,12 +87,12 @@ protected:
 
   // _values holds the elements themself
   // _p  holds the index for sorted 
-#ifdef RUNNING_MEDIAN_USE_MALLOC
+#if RUNNING_MEDIAN_USE_MALLOC
   float *   _values;
   uint8_t * _sortIdx;
 #else
   float   _values[MEDIAN_MAX_SIZE];
-  uint8_t _p[MEDIAN_MAX_SIZE];
+  uint8_t _sortIdx[MEDIAN_MAX_SIZE];
 #endif
   void sort();
 };

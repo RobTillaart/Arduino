@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: RunningMedian library for Arduino
 //
 //  HISTORY:
@@ -31,6 +31,8 @@
 //  0.3.3   2021-01-22  better insertionSort (+ clean up test code)
 //  0.3.4   2021-12-28  update library.json, readme, license, minor edits
 //  0.3.5   2022-06-05  configuration options, fixed static version not working
+//  0.3.6   2022-06-06  bump version for platformio
+
 
 
 #include "RunningMedian.h"

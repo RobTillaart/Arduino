@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.5.2
+// VERSION: 1.6.0
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -41,6 +41,7 @@
 //  1.5.0   2021-06-30  #28 fix addressing 24LC04/08/16
 //  1.5.1   2021-10-14  function to add extra for write cycle (experimental)
 //  1.5.2   2021-12-19  update library.json, license, minor edits
+//  1.6.0   2022-06-02  add verify functions.
 
 
 #include <I2C_eeprom.h>
@@ -116,7 +117,10 @@ bool I2C_eeprom::isConnected()
   return (_wire->endTransmission() == 0);
 }
 
-
+/////////////////////////////////////////////////////////////
+//
+//  WRITE SECTION
+//
 int I2C_eeprom::writeByte(const uint16_t memoryAddress, const uint8_t data)
 {
   int rv = _WriteBlock(memoryAddress, &data, 1);
@@ -143,6 +147,10 @@ int I2C_eeprom::writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
 }
 
 
+/////////////////////////////////////////////////////////////
+//
+//  READ SECTION
+//
 uint8_t I2C_eeprom::readByte(const uint16_t memoryAddress)
 {
   uint8_t rdata;
@@ -170,12 +178,19 @@ uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, co
 }
 
 
+/////////////////////////////////////////////////////////////
+//
+//  UPDATE SECTION
+//
+//  returns 0 == OK
 int I2C_eeprom::updateByte(const uint16_t memoryAddress, const uint8_t data)
 {
   if (data == readByte(memoryAddress)) return 0;
   return writeByte(memoryAddress, data);
 }
 
+
+//  returns bytes updated
 int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
 {
   uint16_t addr = memoryAddress;
@@ -200,6 +215,61 @@ int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer,
   return rv;
 }
 
+
+/////////////////////////////////////////////////////////////
+//
+//  VERIFY SECTION
+//
+bool I2C_eeprom::writeByteVerify(const uint16_t memoryAddress, const uint8_t value)
+{
+  if (writeByte(memoryAddress, value) != 0 ) return false;
+  uint8_t data = readByte(memoryAddress);
+  return (data == value);
+}
+
+
+bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+{
+  if (writeBlock(memoryAddress, buffer, length) != 0) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  return memcmp(data, buffer, length) == 0;
+}
+
+
+bool I2C_eeprom::setBlockVerify(const uint16_t memoryAddress, const uint8_t value, const uint16_t length)
+{
+  if (setBlock(memoryAddress, value, length) != 0) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  for (int i = 0; i < length; i++)
+  {
+    if (data[i] != value) return false;
+  }
+  return true;
+}
+
+
+bool I2C_eeprom::updateByteVerify(const uint16_t memoryAddress, const uint8_t value)
+{
+  if (updateByte(memoryAddress, value) != 0 ) return false;
+  uint8_t data = readByte(memoryAddress);
+  return (data == value);
+}
+
+
+bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+{
+  if (updateBlock(memoryAddress, buffer, length) != length) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  return memcmp(data, buffer, length) == 0;
+}
+
+/////////////////////////////////////////////////////////////
+//
+//  METADATA SECTION
+//
 
 // returns size in bytes
 // returns 0 if not connected

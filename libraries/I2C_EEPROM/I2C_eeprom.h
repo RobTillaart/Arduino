@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.5.2
+// VERSION: 1.6.0
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.5.2"))
+#define I2C_EEPROM_VERSION          (F("1.6.0"))
 
 
 #define I2C_DEVICESIZE_24LC512      65536
@@ -62,7 +62,7 @@ public:
   //  writes a byte to memoryAddress
   int      writeByte(const uint16_t memoryAddress, const uint8_t value);
   //  writes length bytes from buffer to EEPROM
-  int      writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length);
+  int      writeBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
   //  set length bytes in the EEPROM to the same value.
   int      setBlock(const uint16_t memoryAddress, const uint8_t value, const uint16_t length);
 
@@ -70,7 +70,7 @@ public:
   //  returns the value stored in memoryAddress
   uint8_t  readByte(const uint16_t memoryAddress);
   //  reads length bytes into buffer
-  uint16_t readBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint16_t length);
+  uint16_t readBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length);
 
 
   //  updates a byte at memoryAddress, writes only if there is a new value.
@@ -79,8 +79,17 @@ public:
   //  updates a block in memory, writes only if there is a new value.
   //  only to be used when you expect to write same buffer multiple times.
   //  test your performance gains!
-  int      updateBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length);
+  int      updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
 
+  //  same functions as above but with verify
+  //  return true if write or verify failed.
+  bool     writeByteVerify(const uint16_t memoryAddress, const uint8_t value);
+  bool     writeBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
+  bool     setBlockVerify(const uint16_t memoryAddress, const uint8_t value, const uint16_t length);
+  bool     updateByteVerify(const uint16_t memoryAddress, const uint8_t value);
+  bool     updateBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
+
+  //  Meta data functions
   uint32_t determineSize(const bool debug = false);
 
   uint32_t getDeviceSize() { return _deviceSize; };

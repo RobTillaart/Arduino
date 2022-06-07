@@ -31,17 +31,38 @@ The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_sto
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
 
 
-### Core functions
+### Write functions
 
-- **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
+- **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to the specified memory address. Returns 0 if OK.
+- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address. Returns 0 if OK.
+- **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.
+
+
+### Update functions
+
 - **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, but only if changed.
 Returns 0 if value was same or write succeeded.
-- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address.
 - **int updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address, but only if changed.
-- **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.
+
+
+### Read functions
+
 - **uint8_t readByte(uint16_t memoryAddress)** read a single byte from a given address
 - **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** read length bytes into buffer starting at specified memory address.
-Returns the number of bytes read, which should be length.
+Returns the number of bytes read, which should equal length.
+
+
+### Verify functions
+
+Since 1.6.0. - experimental, needs extensive testing.
+
+Same as write and update functions above. Returns true if successful, false indicates an error.
+
+- **bool writeByteVerify(uint16_t memoryAddress, uint8_t value)**
+- **bool writeBlockVerify(uint16_t memoryAddress, uint8_t \* buffer,  uint16_t length)**
+- **bool setBlockVerify(uint16_t memoryAddress, uint8_t value, uint16_t length)**
+- **bool updateByteVerify(uint16_t memoryAddress, uint8_t value)**
+- **bool updateBlockVerify(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)**
 
 
 ### Other
@@ -110,11 +131,17 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 ## Future
 
 - improve error handling, write functions should return bytes written or so.
-- what can we do with the print interface? (investigate)
-- investigate multi-EEPROM storage,
-- investigate smarter strategy for updateBlock() => find first and last changed position could possibly result in less writes.
-- can setBlock use strategies from update
+- investigate the print interface?
+  - circular buffer?
+- investigate multi-EEPROM storage
+  - wrapper class?
+- investigate smarter strategy for **updateBlock()** 
+  => find first and last changed position could possibly result in less writes.
+- can **setBlock()** use strategies from **updateBlock()**
+- Add changelog
 
+- internals
+  - **\_waitEEReady();** can return bool and could use isConnected() internally.
 
 ## Operational
 

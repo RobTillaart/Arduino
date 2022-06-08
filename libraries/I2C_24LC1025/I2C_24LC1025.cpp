@@ -1,8 +1,9 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
+//     URL: https://github.com/RobTillaart/I2C_24LC1025
 //
 //  HISTORY:
 //  0.1.0   2019-12-11  initial version (not tested)
@@ -12,6 +13,8 @@
 //  0.1.4   2021-05-27  fix library.properties;
 //  0.1.5   2021-08-30  fix #3 I2C_DEVICESIZE_24LC512 => I2C_DEVICESIZE_24LC1025
 //  0.1.6   2021-12-19  update library.json, license, minor edits
+//  0.2.0   2022-06-08  add verify functions (from I2C_EEPROM)
+//                      improve documentation / comments
 
 
 #include "I2C_24LC1025.h"
@@ -71,13 +74,20 @@ bool I2C_24LC1025::isConnected()
 }
 
 
-int I2C_24LC1025::writeByte(const uint32_t memoryAddress, const uint8_t value)
+/////////////////////////////////////////////////////////////
+//
+//  WRITE SECTION
+//
+
+//  returns I2C status, 0 = OK
+int I2C_24LC1025::writeByte(const uint32_t memoryAddress, const uint8_t data)
 {
-  int rv = _WriteBlock(memoryAddress, &value, 1);
+  int rv = _WriteBlock(memoryAddress, &data, 1);
   return rv;
 }
 
 
+//  returns I2C status, 0 = OK
 int I2C_24LC1025::setBlock(const uint32_t memoryAddress, const uint8_t data, const uint32_t length)
 {
   uint8_t buffer[I2C_BUFFERSIZE];
@@ -90,6 +100,7 @@ int I2C_24LC1025::setBlock(const uint32_t memoryAddress, const uint8_t data, con
 }
 
 
+//  returns I2C status, 0 = OK
 int I2C_24LC1025::writeBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
 {
   int rv = _pageBlock(memoryAddress, buffer, length, true);
@@ -97,6 +108,12 @@ int I2C_24LC1025::writeBlock(const uint32_t memoryAddress, const uint8_t* buffer
 }
 
 
+/////////////////////////////////////////////////////////////
+//
+//  READ SECTION
+//
+
+//  returns the value stored in memoryAddress
 uint8_t I2C_24LC1025::readByte(const uint32_t memoryAddress)
 {
   uint8_t rdata;
@@ -104,7 +121,7 @@ uint8_t I2C_24LC1025::readByte(const uint32_t memoryAddress)
   return rdata;
 }
 
-
+//  returns bytes read.
 uint32_t I2C_24LC1025::readBlock(const uint32_t memoryAddress, uint8_t* buffer, const uint32_t length)
 {
   uint32_t addr = memoryAddress;
@@ -133,6 +150,12 @@ uint32_t I2C_24LC1025::readBlock(const uint32_t memoryAddress, uint8_t* buffer, 
 }
 
 
+/////////////////////////////////////////////////////////////
+//
+//  UPDATE SECTION
+//
+
+//  returns 0 == OK
 int I2C_24LC1025::updateByte(const uint32_t memoryAddress, const uint8_t data)
 {
   if (data == readByte(memoryAddress)) return 0;
@@ -140,7 +163,8 @@ int I2C_24LC1025::updateByte(const uint32_t memoryAddress, const uint8_t data)
 }
 
 
-int I2C_24LC1025::updateBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
+//  returns bytes written.
+uint32_t I2C_24LC1025::updateBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
 {
   uint32_t addr = memoryAddress;
   uint32_t len = length;
@@ -164,6 +188,62 @@ int I2C_24LC1025::updateBlock(const uint32_t memoryAddress, const uint8_t* buffe
   return rv;
 }
 
+
+/////////////////////////////////////////////////////////////
+//
+//  VERIFY SECTION
+//
+
+//  return false if write or verify failed.
+bool I2C_24LC1025::writeByteVerify(const uint32_t memoryAddress, const uint8_t value)
+{
+  if (writeByte(memoryAddress, value) != 0 ) return false;
+  uint8_t data = readByte(memoryAddress);
+  return (data == value);
+}
+
+
+//  return false if write or verify failed.
+bool I2C_24LC1025::writeBlockVerify(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
+{
+  if (writeBlock(memoryAddress, buffer, length) != 0) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  return memcmp(data, buffer, length) == 0;
+}
+
+
+//  return false if write or verify failed.
+bool I2C_24LC1025::setBlockVerify(const uint32_t memoryAddress, const uint8_t value, const uint32_t length)
+{
+  if (setBlock(memoryAddress, value, length) != 0) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  for (uint32_t i = 0; i < length; i++)
+  {
+    if (data[i] != value) return false;
+  }
+  return true;
+}
+
+
+//  return false if write or verify failed.
+bool I2C_24LC1025::updateByteVerify(const uint32_t memoryAddress, const uint8_t value)
+{
+  if (updateByte(memoryAddress, value) != 0 ) return false;
+  uint8_t data = readByte(memoryAddress);
+  return (data == value);
+}
+
+
+//  return false if write or verify failed.
+bool I2C_24LC1025::updateBlockVerify(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length)
+{
+  if (updateBlock(memoryAddress, buffer, length) != length) return false;
+  uint8_t data[length];
+  if (readBlock(memoryAddress, data, length) != length) return false;
+  return memcmp(data, buffer, length) == 0;
+}
 
 
 ////////////////////////////////////////////////////////////////////

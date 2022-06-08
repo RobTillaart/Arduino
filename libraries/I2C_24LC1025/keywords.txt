@@ -11,12 +11,21 @@ isConnected	KEYWORD2
 
 
 # 24LC1025
-readByte	KEYWORD2
 writeByte	KEYWORD2
-setBlock	KEYWORD2
-readBlock	KEYWORD2
 writeBlock	KEYWORD2
+setBlock	KEYWORD2
+
+readByte	KEYWORD2
+readBlock	KEYWORD2
+
 updateByte	KEYWORD2
+updateBlock	KEYWORD2
+
+writeByteVerify	KEYWORD2
+writeBlockVerify	KEYWORD2
+setBlockVerify	KEYWORD2
+updateByteVerify	KEYWORD2
+updateBlockVerify	KEYWORD2
 
 getDeviceSize	KEYWORD2
 getPageSize	KEYWORD2

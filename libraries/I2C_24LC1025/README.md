@@ -38,16 +38,41 @@ Most important change is 32 bit memory addresses.
 - **bool isConnected()** test to see if device is on the bus.
 
 
-### Core functions
+### Write functions
 
 - **int writeByte(uint32_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
+Returns I2C status, 0 = OK.
+- **int writeBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address. 
+Returns I2C status, 0 = OK.
+- **int setBlock(uint32_t memoryAddress, uint8_t value, uint32_t length)** writes the same byte to length places starting at the specified memory address. 
+Returns I2C status, 0 = OK.
+
+
+### Update functions
+
 - **int updateByte(uint32_t memoryAddress, uint8_t value)** write a single byte, but only if changed. 
 Returns 0 if value was same or write succeeded.
-- **int writeBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address. 
-- **int updateBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address, but only if changed
-- **int setBlock(uint32_t memoryAddress, uint8_t value, uint32_t length)** writes the same byte to length places starting at the specified memory address. Returns 0 if OK.
+- **uint32_t updateBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** write a buffer starting at the specified memory address, but only if changed.
+Returns bytes written.
+
+
+### Read functions
+
 - **uint8_t readByte(uint32_t memoryAddress)** read a single byte from a given address
-- **uint16_t readBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** read length bytes into buffer starting at specified memory address. Returns the number of bytes read, which should be length.
+- **uint32_t readBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** read length bytes into buffer starting at specified memory address. Returns the number of bytes read, which should be length.
+
+
+### Verify functions
+
+Since 0.2.0 - experimental, needs extensive testing.
+
+Same as write and update functions above. Returns true if successful, false indicates an error.
+
+- **bool writeByteVerify(uint32_t memoryAddress, uint8_t value)**
+- **bool writeBlockVerify(uint32_t memoryAddress, uint8_t \* buffer,  uint32_t length)**
+- **bool setBlockVerify(uint32_t memoryAddress, uint8_t value, uint32_t length)**
+- **bool updateByteVerify(uint32_t memoryAddress, uint8_t value)**
+- **bool updateBlockVerify(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)**
 
 
 ### Other
@@ -80,6 +105,7 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 ## Future
 
 - See I2C EEPROM as this library is following.
+- add examples
 
 
 ## Operation

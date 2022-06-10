@@ -8,10 +8,10 @@
 
 # PCA9685_RT
 
-Arduino library for I2C PCA9685 16 channel PWM extender.
+Arduino library for PCA9685 I2C 12 bit PWM LED driver, 16 channel.
 
 
-# Description
+## Description
 
 This library is to control the I2C PCA9685 PWM extender. 
 The 16 channels are independently configurable in steps of 1/4096.
@@ -29,24 +29,76 @@ Lower frequencies do better than higher frequencies.
 
 ## Interface
 
+
 ### Constructor
 
-- **PCA9685(uint8_t deviceAddress, TwoWire \* wire = &Wire)** I2C address + optional I2C interface.
-- **bool begin()** initializes the library after startup. Mandatory.
-- **bool begin(uint8_t sda, uint8_t scl)** idem, ESP32 ESP8266 only. 
-Library does not support multiple Wire instances (yet).
-- **void reset()** resets the library to start up conditions.
+- **PCA9685(uint8_t deviceAddress, TwoWire \* wire = &Wire)** Constructor with I2C device address, 
+and optional the Wire interface as parameter.
+- **bool begin(uint8_t mode1_mask = PCA9685_MODE1_AUTOINCR | PCA9685_MODE1_ALLCALL, uint8_t mode2_mask = PCA9685_MODE2_TOTEMPOLE)** 
+initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers. 
+See PCA9685.h and datasheet for settings possible.
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask = PCA9685_MODE1_AUTOINCR | PCA9685_MODE1_ALLCALL, uint8_t mode2_mask = PCA9685_MODE2_TOTEMPOLE)** 
+idem, ESP32 ESP8266 only. 
+- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
+To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
+See PCA9685.h and datasheet for settings possible.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 16.
 
 
-### Mode
+### Mode registers
 
-- **writeMode(uint8_t reg, uint8_t value)** configuration of one of the two configuration registers.
-check datasheet for details.
-- **uint8_t readMode(reg)** reads back the configured mode, 
-useful to add or remove a single flag (bit masking)
+Used to configure the PCA9685 general behaviour.
 
+- **uint8_t writeMode(uint8_t reg, uint8_t value)** configuration of one of the two configuration registers.
+Check datasheet for details.
+- **uint8_t readMode(uint8_t reg)** reads back the configured mode, 
+useful to add or remove a single flag (bit masking).
+- **uint8_t setMode1(uint8_t value)** convenience wrapper.
+- **uint8_t setMode2(uint8_t value)** convenience wrapper.
+- **uint8_t getMode1()** convenience wrapper.
+- **uint8_t getMode2()** convenience wrapper.
+
+
+#### Constants for mode registers
+
+(added 0.4.0)
+
+| Name                    | Value | Description                        |
+|:------------------------|:-----:|:-----------------------------------|
+| PCA9685_MODE1_RESTART   | 0x80  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_EXTCLK    | 0x40  | 0 = internal      1 = external     |
+| PCA9685_MODE1_AUTOINCR  | 0x20  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_SLEEP     | 0x10  | 0 = normal        1 = sleep        |
+| PCA9685_MODE1_SUB1      | 0x08  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_SUB2      | 0x04  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_SUB3      | 0x02  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_ALLCALL   | 0x01  | 0 = disable       1 = enable       |
+| PCA9685_MODE1_NONE      | 0x00  |                                    |
+|                         |       |                                    |
+| PCA9685_MODE2_BLINK     | 0x20  | 0 = dim           1 = blink        |
+| PCA9685_MODE2_INVERT    | 0x10  | 0 = normal        1 = inverted     |
+| PCA9685_MODE2_STOP      | 0x08  | 0 = on STOP       1 = on ACK       |
+| PCA9685_MODE2_TOTEMPOLE | 0x04  | 0 = open drain    1 = totem-pole   |
+| PCA9685_MODE2_OUTNE     | 0x03  | check datasheet                    |
+| PCA9685_MODE2_NONE      | 0x00  |                                    |
+
+These constants makes it easier to set modes without using a non descriptive
+bit mask. The constants can be merged by OR-ing them together, see snippet:
+
+```cpp
+ledArray.writeMode(PCA9685_MODE2, 0b00110100);
+
+// would become
+
+uint8_t mode2_mask = PCA9685_MODE2_BLINK | PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE;
+ledArray.writeMode(PCA9685_MODE2, mode2_mask);
+
+// or even
+
+ledArray.setMode2(PCA9685_MODE2_BLINK | PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE);
+
+```
 
 ### PWM
 
@@ -104,6 +156,48 @@ When using offset, the **getFrequency(false)** will return the adjusted **preSca
 | PCA9685_ERR_I2C     | 0xFC  | PCA9685 I2C communication error |
 
 
+### SUB CALL and ALL CALL
+
+(new since 0.4.0)
+
+Please read the datasheet to understand the working of **SUB CALL** and **ALL CALL**.
+
+Since version 0.4.0 there is (experimental) support for the **SUB CALL** and **ALL CALL** functions.
+It needs more testing and if there are issues, please report.
+
+AllCall is automatically activated for each device on startup.
+
+
+#### Description
+
+**SUB CALL** allows one to make groups of PCA9685 devices and control them on group level.
+The number of groups one can make depends on free I2C addresses on one I2C bus.
+Using multiple I2C buses or multiplexers will even increase the possible number. 
+Every PCA9685 device can be member of up to three of these groups. 
+To become member one needs to set the **setSubCallAddress(nr, address)** and enable 
+it with **enableSubCall(nr)**.
+
+In the same way one can become member of an **ALL CALL** group.
+Typically there is only one such group but one can configure more of them by applying different addresses.
+
+
+#### Interface
+
+The functions to enable all/sub-addresses are straightforward:
+
+- **bool enableSubCall(uint8_t nr)** nr = 1,2,3
+- **bool disableSubCall(uint8_t nr)** nr = 1,2,3
+- **bool isEnabledSubCall(uint8_t nr)** nr = 1,2,3
+- **bool setSubCallAddress(uint8_t nr, uint8_t address)**
+- **uint8_t getSubCallAddress(uint8_t nr)**
+
+- **bool enableAllCall()**
+- **bool disableAllCall()**
+- **bool isEnabledAllCall()**
+- **bool setAllCallAddress(uint8_t address)**
+- **uint8_t getAllCallAddress()**
+
+
 ## Operation
 
 See examples
@@ -113,8 +207,9 @@ See examples
 
 - improve documentation
 - add unit tests (if possible)
-- investigate set/getFrequency int vs uint16_t ?
--
-
+- investigate int vs uint16_t ?
+  - **setFrequency(), getFrequency(), \_freq**
+- sync with PCA9634/35/85 where possible
+  - error handling?
 
 

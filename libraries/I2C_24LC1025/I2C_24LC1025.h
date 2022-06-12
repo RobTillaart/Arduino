@@ -2,17 +2,18 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
-// HISTORY: See I2C_24LC1025.cpp
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
+//
+// HISTORY: See I2C_24LC1025.cpp
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define I2C_24LC1025_VERSION        (F("0.2.0"))
+#define I2C_24LC1025_VERSION        (F("0.2.1"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072
@@ -47,14 +48,14 @@ public:
   uint8_t   readByte(const uint32_t memoryAddress);
   //  reads length bytes into buffer
   //  returns bytes read.
-  uint32_t  readBlock(const uint32_t memoryAddress, uint8_t *buffer, const uint32_t length);
+  uint32_t  readBlock(const uint32_t memoryAddress, uint8_t * buffer, const uint32_t length);
 
 
-  //  updates a byte at memory address, writes only if there is a new value.
+  //  updates a byte at memoryAddress, writes only if there is a new value.
   //  return 0 if data is same or written OK, error code otherwise.
   int      updateByte(const uint32_t memoryAddress, const uint8_t value);
   //  updates a block in memory, writes only if there is a new value.
-  //  only to be used when you expect to write same buffer multiple times. 
+  //  only to be used when you expect to write same buffer multiple times.
   //  test your performance gains!
   //  returns bytes written.
   uint32_t updateBlock(const uint32_t memoryAddress, const uint8_t* buffer, const uint32_t length);
@@ -74,28 +75,36 @@ public:
   uint8_t  getPageSize()   { return _pageSize; };
   uint32_t getLastWrite()  { return _lastWrite; };
 
+  //  TWR = WriteCycleTime
+  //  5 ms is minimum, one can add extra ms here to adjust timing of both read() and write()
+  void     setExtraWriteCycleTime(uint8_t ms) { _extraTWR = ms; };
+  uint8_t  getExtraWriteCycleTime() { return _extraTWR; };
 
 private:
   uint8_t  _deviceAddress;
   uint8_t  _actualAddress;   // a.k.a. controlByte
-  uint32_t _lastWrite  = 0;
+  uint32_t _lastWrite  = 0;  // for waitEEReady
   uint32_t _deviceSize = I2C_DEVICESIZE_24LC1025;
   uint8_t  _pageSize   = I2C_PAGESIZE_24LC1025;
-  int      _error      = 0;  // TODO.
+  uint8_t  _extraTWR = 0;    // milliseconds
+  int      _error    = 0;    // TODO.
 
 
   void      _beginTransmission(uint32_t memoryAddress);
 
   //  returns I2C status, 0 = OK
-  int       _pageBlock(uint32_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer);
+  int       _pageBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
   //  returns I2C status, 0 = OK
-  int       _WriteBlock(uint32_t memoryAddress, const uint8_t* buffer, const uint8_t length);
+  int       _WriteBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint8_t length);
   //  returns bytes read.
-  int       _ReadBlock(uint32_t memoryAddress, uint8_t* buffer, const uint8_t length);
+  uint8_t  _ReadBlock(uint32_t memoryAddress, uint8_t * buffer, const uint8_t length);
+
+  //  to optimize the write latency of the EEPROM
+  void     _waitEEReady();
 
   TwoWire * _wire;
 
-  bool      _debug = true;
+  bool      _debug = false;
 };
 
 

@@ -29,12 +29,14 @@ library is a 8 channel derived variation of the PCA9635 class.
 
 - **PCA9634(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address, 
 and optional the Wire interface as parameter.
-- **bool begin()** initializes the library after startup. Mandatory.
-- **bool begin(uint8_t sda, uint8_t scl)** idem, ESP32 ESP8266 only. 
-- **void configure(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
-configures the library, optionally setting the MODE1 and MODE2 configuration registers. 
+- **bool begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
+initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers. 
 See PCA9634.h and datasheet for settings possible.
-**configure()** is typically used at startup.
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
+idem, ESP32 ESP8266 only. 
+- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
+To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
+See PCA9634.h and datasheet for settings possible. 
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 8.
 

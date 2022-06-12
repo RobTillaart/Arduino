@@ -39,9 +39,12 @@ void setup()
   SERIAL_OUT.print(I2C_EEPROM_VERSION);
   SERIAL_OUT.println("\n");
 
+  SERIAL_OUT.print("isConnected:\t");
+  SERIAL_OUT.println(ee.isConnected());
+
   SERIAL_OUT.println("\nTEST: determine size");
   start = micros();
-  uint32_t size = ee.determineSize();
+  uint32_t size = ee.determineSize(true);
   diff = micros() - start;
   SERIAL_OUT.print("TIME: ");
   SERIAL_OUT.println(diff);
@@ -63,7 +66,9 @@ void setup()
   SERIAL_OUT.println("\nTEST: 64 byte page boundary writeBlock");
   ee.setBlock(0, 0, 128);
   dumpEEPROM(0, 128);
-  char data[] = "11111111111111111111";
+  Serial.println("---");
+  // char data[] = "11111111111111111111";
+  char data[] = "33333333333333333333";
   ee.writeBlock(60, (uint8_t*) data, 10);
   dumpEEPROM(0, 128);
 

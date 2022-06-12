@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.6.0
+// VERSION: 1.6.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -42,9 +42,11 @@
 //  1.5.1   2021-10-14  function to add extra for write cycle (experimental)
 //  1.5.2   2021-12-19  update library.json, license, minor edits
 //  1.6.0   2022-06-02  add verify functions.
+//  1.6.1   2022-06-11  update documentation, minor edits
+//                      minor improvements / bug fixes
 
 
-#include <I2C_eeprom.h>
+#include "I2C_eeprom.h"
 
 // Not used directly
 #define I2C_PAGESIZE_24LC512          128
@@ -68,13 +70,17 @@
 #endif
 
 
-I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire *wire)
+////////////////////////////////////////////////////////////////////
+//
+// PUBLIC FUNCTIONS
+//
+I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire * wire)
 {
     I2C_eeprom(deviceAddress, I2C_PAGESIZE_24LC256, wire);
 }
 
 
-I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, TwoWire *wire)
+I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, TwoWire * wire)
 {
     _deviceAddress = deviceAddress;
     _deviceSize = deviceSize;
@@ -117,10 +123,13 @@ bool I2C_eeprom::isConnected()
   return (_wire->endTransmission() == 0);
 }
 
+
 /////////////////////////////////////////////////////////////
 //
 //  WRITE SECTION
 //
+
+//  returns I2C status, 0 = OK
 int I2C_eeprom::writeByte(const uint16_t memoryAddress, const uint8_t data)
 {
   int rv = _WriteBlock(memoryAddress, &data, 1);
@@ -128,6 +137,7 @@ int I2C_eeprom::writeByte(const uint16_t memoryAddress, const uint8_t data)
 }
 
 
+//  returns I2C status, 0 = OK
 int I2C_eeprom::setBlock(const uint16_t memoryAddress, const uint8_t data, const uint16_t length)
 {
   uint8_t buffer[I2C_BUFFERSIZE];
@@ -140,7 +150,8 @@ int I2C_eeprom::setBlock(const uint16_t memoryAddress, const uint8_t data, const
 }
 
 
-int I2C_eeprom::writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+//  returns I2C status, 0 = OK
+int I2C_eeprom::writeBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   int rv = _pageBlock(memoryAddress, buffer, length, true);
   return rv;
@@ -151,6 +162,8 @@ int I2C_eeprom::writeBlock(const uint16_t memoryAddress, const uint8_t* buffer, 
 //
 //  READ SECTION
 //
+
+//  returns the value stored in memoryAddress
 uint8_t I2C_eeprom::readByte(const uint16_t memoryAddress)
 {
   uint8_t rdata;
@@ -159,7 +172,8 @@ uint8_t I2C_eeprom::readByte(const uint16_t memoryAddress)
 }
 
 
-uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint16_t length)
+//  returns bytes read.
+uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length)
 {
   uint16_t addr = memoryAddress;
   uint16_t len = length;
@@ -182,6 +196,7 @@ uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t* buffer, co
 //
 //  UPDATE SECTION
 //
+
 //  returns 0 == OK
 int I2C_eeprom::updateByte(const uint16_t memoryAddress, const uint8_t data)
 {
@@ -190,8 +205,8 @@ int I2C_eeprom::updateByte(const uint16_t memoryAddress, const uint8_t data)
 }
 
 
-//  returns bytes updated
-int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+//  returns bytes written.
+uint16_t I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   uint16_t addr = memoryAddress;
   uint16_t len = length;
@@ -220,6 +235,8 @@ int I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t* buffer,
 //
 //  VERIFY SECTION
 //
+
+//  return false if write or verify failed.
 bool I2C_eeprom::writeByteVerify(const uint16_t memoryAddress, const uint8_t value)
 {
   if (writeByte(memoryAddress, value) != 0 ) return false;
@@ -228,7 +245,8 @@ bool I2C_eeprom::writeByteVerify(const uint16_t memoryAddress, const uint8_t val
 }
 
 
-bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+//  return false if write or verify failed.
+bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   if (writeBlock(memoryAddress, buffer, length) != 0) return false;
   uint8_t data[length];
@@ -237,12 +255,13 @@ bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t* b
 }
 
 
+//  return false if write or verify failed.
 bool I2C_eeprom::setBlockVerify(const uint16_t memoryAddress, const uint8_t value, const uint16_t length)
 {
   if (setBlock(memoryAddress, value, length) != 0) return false;
   uint8_t data[length];
   if (readBlock(memoryAddress, data, length) != length) return false;
-  for (int i = 0; i < length; i++)
+  for (uint16_t i = 0; i < length; i++)
   {
     if (data[i] != value) return false;
   }
@@ -250,6 +269,7 @@ bool I2C_eeprom::setBlockVerify(const uint16_t memoryAddress, const uint8_t valu
 }
 
 
+//  return false if write or verify failed.
 bool I2C_eeprom::updateByteVerify(const uint16_t memoryAddress, const uint8_t value)
 {
   if (updateByte(memoryAddress, value) != 0 ) return false;
@@ -258,7 +278,8 @@ bool I2C_eeprom::updateByteVerify(const uint16_t memoryAddress, const uint8_t va
 }
 
 
-bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length)
+//  return false if write or verify failed.
+bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   if (updateBlock(memoryAddress, buffer, length) != length) return false;
   uint8_t data[length];
@@ -349,7 +370,7 @@ uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
 //  _pageBlock aligns buffer to page boundaries for writing.
 //  and to I2C buffer size
 //  returns 0 = OK otherwise error
-int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer)
+int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer)
 {
   uint16_t addr = memoryAddress;
   uint16_t len = length;
@@ -394,32 +415,53 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 
 //  pre: length <= this->_pageSize  && length <= I2C_BUFFERSIZE;
 //  returns 0 = OK otherwise error
-int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length)
+int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length)
 {
   _waitEEReady();
 
   this->_beginTransmission(memoryAddress);
   _wire->write(buffer, length);
   int rv = _wire->endTransmission();
+  _lastWrite = micros();
+
   yield();
 
-  _lastWrite = micros();
+//  if (rv != 0)
+//  {
+//    if (_debug)
+//    {
+//      Serial.print("mem addr w: ");
+//      Serial.print(memoryAddress, HEX);
+//      Serial.print("\t");
+//      Serial.println(rv);
+//    }
+//    return -(abs(rv));  // error
+//  }
   return rv;
 }
 
 
 //  pre: buffer is large enough to hold length bytes
 //  returns bytes read
-uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint8_t length)
+uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint8_t length)
 {
   _waitEEReady();
 
   this->_beginTransmission(memoryAddress);
   int rv = _wire->endTransmission();
-  if (rv != 0) return 0;  // error
+  if (rv != 0)
+  {
+//    if (_debug)
+//    {
+//      Serial.print("mem addr r: ");
+//      Serial.print(memoryAddress, HEX);
+//      Serial.print("\t");
+//      Serial.println(rv);
+//    }
+    return 0;  // error
+  }
 
   // readBytes will always be equal or smaller to length
-
   uint8_t readBytes = 0;
   if (this->_isAddressSizeTwoWords)
   {

@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.6.0
+// VERSION: 1.6.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.6.0"))
+#define I2C_EEPROM_VERSION          (F("1.6.1"))
 
 
 #define I2C_DEVICESIZE_24LC512      65536
@@ -56,20 +56,24 @@ public:
   bool     begin(uint8_t sda, uint8_t scl);
 #endif
   bool     begin();
-
   bool     isConnected();
 
+
   //  writes a byte to memoryAddress
+  //  returns I2C status, 0 = OK
   int      writeByte(const uint16_t memoryAddress, const uint8_t value);
   //  writes length bytes from buffer to EEPROM
+  //  returns I2C status, 0 = OK
   int      writeBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
   //  set length bytes in the EEPROM to the same value.
+  //  returns I2C status, 0 = OK
   int      setBlock(const uint16_t memoryAddress, const uint8_t value, const uint16_t length);
 
 
   //  returns the value stored in memoryAddress
   uint8_t  readByte(const uint16_t memoryAddress);
   //  reads length bytes into buffer
+  //  returns bytes read.
   uint16_t readBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length);
 
 
@@ -79,19 +83,21 @@ public:
   //  updates a block in memory, writes only if there is a new value.
   //  only to be used when you expect to write same buffer multiple times.
   //  test your performance gains!
-  int      updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
+  //  returns bytes written.
+  uint16_t updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
+
 
   //  same functions as above but with verify
-  //  return true if write or verify failed.
+  //  return false if write or verify failed.
   bool     writeByteVerify(const uint16_t memoryAddress, const uint8_t value);
   bool     writeBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
   bool     setBlockVerify(const uint16_t memoryAddress, const uint8_t value, const uint16_t length);
   bool     updateByteVerify(const uint16_t memoryAddress, const uint8_t value);
   bool     updateBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
 
+
   //  Meta data functions
   uint32_t determineSize(const bool debug = false);
-
   uint32_t getDeviceSize() { return _deviceSize; };
   uint8_t  getPageSize()   { return _pageSize; };
   uint8_t  getPageSize(uint32_t deviceSize);
@@ -102,9 +108,10 @@ public:
   void     setExtraWriteCycleTime(uint8_t ms) { _extraTWR = ms; };
   uint8_t  getExtraWriteCycleTime() { return _extraTWR; };
 
+
 private:
   uint8_t  _deviceAddress;
-  uint32_t _lastWrite;       // for waitEEReady
+  uint32_t _lastWrite  = 0;  // for waitEEReady
   uint32_t _deviceSize;
   uint8_t  _pageSize;
   uint8_t  _extraTWR = 0;    // milliseconds
@@ -113,22 +120,21 @@ private:
   //  24LC01..24LC16  use one-byte addresses + part of device address
   bool     _isAddressSizeTwoWords;
 
-
-  /**
-    * Begins wire transmission and selects the given address to write/read.
-    *
-    * @param memoryAddress Address to write/read
-    */
   void     _beginTransmission(const uint16_t memoryAddress);
 
-  int      _pageBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint16_t length, const bool incrBuffer);
-  int      _WriteBlock(const uint16_t memoryAddress, const uint8_t* buffer, const uint8_t length);
-  uint8_t  _ReadBlock(const uint16_t memoryAddress, uint8_t* buffer, const uint8_t length);
+  //  returns I2C status, 0 = OK
+  int      _pageBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
+  //  returns I2C status, 0 = OK
+  int      _WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length);
+  //  returns bytes read.
+  uint8_t  _ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint8_t length);
 
   //  to optimize the write latency of the EEPROM
   void     _waitEEReady();
 
   TwoWire * _wire;
+
+  bool     _debug = false;
 
   UNIT_TEST_FRIEND;
 };

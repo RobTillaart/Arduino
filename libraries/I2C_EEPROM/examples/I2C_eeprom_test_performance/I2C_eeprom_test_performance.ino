@@ -38,6 +38,7 @@ void setup()
     Serial.println(speed);
     delay(10);
     test();
+    dumpEEPROM(0, 100);
   }
   Serial.println("\ndone...");
 }

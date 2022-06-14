@@ -1,0 +1,23 @@
+{
+  "name": "UUID",
+  "keywords": "UUID, GUID",
+  "description": "Arduino library for generating UUID's. (experimental).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/UUID.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "UUID.h"
+}

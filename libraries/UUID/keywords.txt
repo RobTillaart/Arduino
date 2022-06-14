@@ -1,0 +1,16 @@
+# Syntax Colouring Map For UUID
+
+# Data types (KEYWORD1)
+UUID	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+seed	KEYWORD2
+generate	KEYWORD2
+toCharArray	KEYWORD2
+
+
+# Constants (LITERAL1)
+UUID_LIB_VERSION	LITERAL1
+
+

@@ -1,12 +1,19 @@
 //
-//    FILE: Adler_performance.ino
+//    FILE: Adler32_performance_addFast.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
 #include "Arduino.h"
 #include "Adler.h"
 
-char str[] = "Lorem ipsum dolor sit amet, \
+
+
+Adler32 ad;
+
+volatile uint8_t z;
+uint32_t start, stop, randomtime;
+
+char lorem[] = "Lorem ipsum dolor sit amet, \
 consectetuer adipiscing elit. Aenean commodo ligula eget dolor. \
 Aenean massa. Cum sociis natoque penatibus et magnis dis parturient \
 montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, \
@@ -21,8 +28,9 @@ viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus \
 varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies \
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
+char hello[] = "hello world";
 
-uint32_t start, stop;
+
 
 void setup()
 {
@@ -30,30 +38,13 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println("Adler32_performance_addFast");
   Serial.print("ADLER32_LIB_VERSION: ");
   Serial.println(ADLER32_LIB_VERSION);
 
-  for (int i = 0; i < 60; i++)
-  {
-    Serial.print(str[i]);
-  }
-  Serial.println("...");
-
-  uint16_t len = strlen(str);
-  Serial.print("LENGTH STR: ");
-  Serial.println(len);
-  delay(100);
-
-  start = micros();
-  volatile uint32_t x = adler32((uint8_t *) str, len);
-  stop = micros();
-  Serial.print("   TIME us: ");
-  Serial.println(stop - start);
-  Serial.print("  ADLER-32: ");
-  Serial.print(x);
-  Serial.print("\t");
-  Serial.println(x, HEX);
-  delay(100);
+  // to compare footprint 
+  //  ad.add(lorem, strlen(lorem));
+  ad.addFast(lorem, strlen(lorem));
 }
 
 

@@ -35,6 +35,7 @@ optional setting start values for s1 and s2. Note this is not part of the standa
 This allows a restart from a specific index in a buffer.
 - **void add(uint8_t value)** add a single value to the checksum.
 - **void add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
+- **void addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum. Is faster by trading PROGMEM for performance.
 - **uint32_t getAdler()** get the current checksum.
 - **uint32_t count()** get the number of items added. Merely a debugging feature, can overflow without affecting checksum.
 
@@ -47,9 +48,22 @@ optional with intermediate checksum tests.
 Not tested ESP32 (and many other platforms) yet.
 First numbers of **.add(value)** measured with test sketch shows the following timing.
 
-| Checksum    |  UNO 16 MHz | ESP32 240 MHz |
-|:------------|:-----------:|:-------------:|
-| Adler32     |     5.6 us  |               |
+| Version | Checksum |  UNO 16 MHz  |  ESP32 240 MHz  |
+|:-------:|:---------|:------------:|:---------------:|
+| 0.1.0   | Adler32  |     5.6 us   |                 |
+| 0.1.2   | Adler32  |     6.6 us   |                 |
+
+Todo elaborate / investigate.
+
+
+#### Performance 2
+
+(since 0.1.2) 
+
+The **addFast(array, length)** is faster than the reference **add(array, length)** but uses 108 bytes more, so a slightly larger footprint. 
+So depending on your needs, you choose performance or footprint. 
+
+See **Adler32_performance_addFast.ino**
 
 
 
@@ -80,14 +94,19 @@ Lorem Ipsum text = 868 bytes.
 Average 1116 / 868 = 1.29 us per byte.
 
 
+
+
+
 ## Operation
 
 See examples.
 
 
-## Future ideas
+## Future
 
 - test other platforms
-- optimize add(array, length) ..
+- add Adler-16, similar algorithm 
+  - ADLER16_MOD_PRIME  32749 = largest prime below 2^15 (32768)
+  - (0.2.0)
 
 

@@ -19,13 +19,26 @@ void setup()
   Serial.println(UUID_LIB_VERSION);
 
   uint16_t count = 0;
+  uuid.setVariant4Mode();
   uint32_t start = millis();
   while (millis() - start < 1000)
   {
     uuid.generate();
     count++;
   }
-  Serial.print("Generated ");
+  Serial.print("Generate 4: ");
+  Serial.print(count);
+  Serial.println(" uuid's per second.");
+
+  count = 0;
+  uuid.setRandomMode();
+  start = millis();
+  while (millis() - start < 1000)
+  {
+    uuid.generate();
+    count++;
+  }
+  Serial.print("Generate R: ");
   Serial.print(count);
   Serial.println(" uuid's per second.");
 }

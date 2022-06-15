@@ -13,72 +13,117 @@ Arduino library for generating UUID strings.
 
 ## Description
 
-This experimental library provides a UUID generator.
+This **experimental** library provides a UUID generator.
+A UUID is an Universally Unique IDentifier of 128 bits.
+These are typically written in the following format, defined in RFC 4122.
 
-The basis for the UUID is a Marsaglia pseudo random number generator.
-This must be seeded with two random numbers to get real usable UUID's.
+```
+    0ac82d02-002b-4ccb-b96c-1c7839cbc4c0
+                  ^    ^
+```
 
-In such this is for experimental use only.
+The length is 32 hexadecimal digits + four hyphens = 36 characters.
+Note that the hexadecimal digits are lower case.
+
+The 0.1.1 version of the lib tries to follow the RFC4122, 
+for version 4 (random generated) and variant 1.
+In the format above the version 4 is indicated by the first arrow and must be 4.
+The variant 1 is at the position of the second arrow. 
+This nibble must be 8,9, a or b.
+All the remaining bits are random.
+
+The basis for the UUID class is a Marsaglia pseudo random number generator.
+This PRNG must be seeded with two real random uint32_t to get real random UUID's.
+
+Often one sees also the term GUID = Globally Unique Identifier.
 
 Tested on Arduino UNO only.
 
-A UUID generated looks like 20d24650-d900-e34f-de49-8964ab3eb46d
-
+- https://en.wikipedia.org/wiki/Universally_unique_identifier
+- https://www.ietf.org/rfc/rfc4122.txt
 
 
 ## Interface
 
 
-## UUID class
+### UUID class
 
 Use **\#include "UUID.h"**
 
-- **UUID()** Constructor, initializes internals.
+The UUID class has only a few methods.
+
+- **UUID()** Constructor, initializes internals an generates a default UUID.
 - **void seed(uint32_t s1, uint32_t s2 = 0)** reseeds the internal 
 pseudo random number generator.
-Mandatory to set s1 while s2 is optional.
-- **void generate()** generates a new UUID.
+It is mandatory to set s1 while s2 is optional.
+The combination {0, 0} is not allowed and overruled in software.
+- **void generate()** generates a new UUID depending on the mode.
+  - **UUID_MODE_RANDOM**: all UUID bits are random.
+  - **UUID_MODE_VARIANT4**: the UUID (tries to) conform to version 4 variant 1. See above.
 - **char \* toCharArray()** returns a pointer to a char buffer 
-representing the last generated UUID.
+representing the last generated UUID. 
+Multiple subsequent calls to **toCharArray()** gives the same UUID 
+until **generate()** is called again.
+
+
+### Mode
+
+Only two modi are supported. Default is the **UUID_MODE_VARIANT4**.
+
+- **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4**.
+- **void setRandomMode()** set mode to **UUID_MODE_RANDOM**.
+- **uint8_t getMode()** returns mode set.
 
 
 ### Printable 
 
 The UUID class implements the printable interface.
-This allows one to print the UUID object directly.
-To do so it uses the **toCharArray()** internally.
+This allows one to print the UUID object directly over Serial and any other
+stream implementing the Print interface. Think Ethernet or SD card. 
 
 ```cpp
 UUID uuid;
 
 Serial.println(uuid);
+
+// gives same output as
+
+Serial.println(uuid.toCharArray());
 ```
 
-Note: there is a known compile warning on AVR on this. 
 
-
-#### Performance
+## Performance
 
 Not tested ESP32 (and many other platforms) yet.
-First numbers measured with **UUID_test.ino** shows the following timing.
+
+Performance measured with **UUID_test.ino** shows the following times,
+Note that 0.1.1 has substantial better performance on AVR.
+
 
 | Version |  Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
 |:-------:|:-------------|:------------:|:---------------:|
 | 0.1.0   | seed         |       4 us   |                 |
 | 0.1.0   | generate     |     412 us   |                 |
 | 0.1.0   | toCharArray  |       4 us   |                 |
+| 0.1.1   | seed         |       4 us   |                 |
+| 0.1.1   | generate     |     248 us   |                 | 
+| 0.1.1   | toCharArray  |       4 us   |                 |
 
 
-The performance of **generate()** must be improved if possible.
+UUID's per second
 
-Note an UNO can generate 2000++ UUID's per second.
+| Version |  UNO 16 MHz  |  ESP32 240 MHz  | notes  |
+|:-------:|:------------:|:---------------:|:------:|
+| 0.1.0   |    2000++    |                 |
+| 0.1.1   |    4000++    |                 | generate both modes
+
+Note that this maximum is not realistic e.g. for a server where also
+other tasks need to be done (listening, transfer etc).
 
 
 ## Operation
 
 See examples.
-
-Note: compile warning ...
 
 
 ## Future
@@ -87,30 +132,39 @@ Note: compile warning ...
 
 - improve documentation
   - external random input needed
-  - GUID, UUID, versions (links)
-  - background 
-  - rfc4122 layout
+  - background
 - test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
+- GUID as derived class?
+  - (further identical?)
 
 ### Functions
 
-- add **setSeparator(char)** and **getSeparator()** ?
-  - one char
 - add **setUpperCase()** and **setLowerCase()**, **isUpperCase()**
   - one bool flag
+- binary output in a byte array
+  - **getBinary(uint8_t \* array)**
+  - need to store them from generate.  
+
 
 ### Examples
 
 - ESP32 UUID server 
   - using timing of the calls as entropy !
 - RTC for entropy
+- EEPROM to store last seeds?
 
 ### Fixes / optimizations
 
-- improve performance of **generate()**
 - reduce footprint
   - can the buffer be reduced?
   - smaller random generator?
+
+### Won't
+
+- support for { and }
+- add **setSeparator(char)** and **getSeparator()** ?  
+  - minus is the specification.
+
 

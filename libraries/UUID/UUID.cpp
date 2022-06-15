@@ -5,10 +5,16 @@
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
-//          https://en.wikipedia.org/wiki/UUID
+//          https://en.wikipedia.org/wiki/Universally_unique_identifier
 //
 //  HISTORY
 //  0.1.0   2022-06-14   initial version
+//  0.1.1   2022-06-15   improve performance generate()
+//                       minor edits in readme.md
+//                       fix bug in generator
+//                       define UUID_MODE_VARIANT4
+//                       define UUID_MODE_RANDOM
+
 
 
 #include "UUID.h"
@@ -17,6 +23,7 @@
 UUID::UUID()
 {
   seed(1, 2);
+  setVariant4Mode();
   generate();
 }
 
@@ -38,20 +45,32 @@ void UUID::generate()
   {
     _ar[i] = _random();
   }
-
-  //  TODO improve efficiency
-  for (int i = 0, j = 0; i < 32; i++, j++)
+  
+  //  patch bits for version 1 and variant 4 here
+  if (_mode == UUID_MODE_VARIANT4)
   {
-    if (i == 8)  _buffer[j++] = '-';
-    if (i == 12) _buffer[j++] = '-';
-    if (i == 16) _buffer[j++] = '-';
-    if (i == 20) _buffer[j++] = '-';
+    _ar[1] &= 0xFFF0FFFF;   //  remove 4 bits.
+    _ar[1] |= 0x00040000;   //  variant 4
+    _ar[2] &= 0xFFFFFFF3;   //  remove 2 bits
+    _ar[2] |= 0x00000008;   //  version 1
+  }
+
+  //  store globally ?
+
+
+  //  build up the char array.
+  for (uint8_t i = 0, j = 0; i < 32; i++, j++)
+  {
+    if (i == 8)       _buffer[j++] = '-';
+    else if (i == 12) _buffer[j++] = '-';
+    else if (i == 16) _buffer[j++] = '-';
+    else if (i == 20) _buffer[j++] = '-';
 
     uint8_t nr   = i / 8;
-    uint8_t shft = ((i % 8) * 4);
-    uint8_t ch   = (_ar[nr] >> shft ) & 0xF;
+    uint8_t ch   = _ar[nr] & 0xF;
+    _ar[nr] >>= 4;
 
-    _buffer[j]   = (ch < 10) ? '0' + ch : 'a' - 10 + ch;
+    _buffer[j]   = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
   }
   _buffer[36] = 0;
 }

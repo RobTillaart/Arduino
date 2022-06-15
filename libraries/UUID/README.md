@@ -96,18 +96,19 @@ Serial.println(uuid.toCharArray());
 
 Not tested ESP32 (and many other platforms) yet.
 
-Performance measured with **UUID_test.ino** shows the following times,
-Note that 0.1.1 has substantial better performance on AVR.
+Performance measured with **UUID_test.ino** shows the following times:
 
 
-| Version |  Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
-|:-------:|:-------------|:------------:|:---------------:|
-| 0.1.0   | seed         |       4 us   |                 |
-| 0.1.0   | generate     |     412 us   |                 |
-| 0.1.0   | toCharArray  |       4 us   |                 |
-| 0.1.1   | seed         |       4 us   |                 |
-| 0.1.1   | generate     |     248 us   |                 | 
-| 0.1.1   | toCharArray  |       4 us   |                 |
+| Version |  Function   | UNO 16 MHz | ESP32 240 MHz |
+|:-------:|:------------|:----------:|:-------------:|
+| 0.1.0   | seed        |      4 us  |               |
+| 0.1.0   | generate    |    412 us  |               |
+| 0.1.0   | toCharArray |      4 us  |               |
+| 0.1.1   | seed        |      4 us  |               |
+| 0.1.1   | generate    |    248 us  |               |
+| 0.1.1   | toCharArray |      4 us  |               |
+| 0.1.2   | generate    |    156 us  |               |
+
 
 
 UUID's per second
@@ -116,6 +117,8 @@ UUID's per second
 |:-------:|:------------:|:---------------:|:------:|
 | 0.1.0   |    2000++    |                 |
 | 0.1.1   |    4000++    |                 | generate both modes
+| 0.1.2   |    6400++    |                 | generate both modes
+
 
 Note that this maximum is not realistic e.g. for a server where also
 other tasks need to be done (listening, transfer etc).
@@ -136,6 +139,7 @@ See examples.
 - test other platforms
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
+  - compile constants __DATE__ and __TIME__
 - GUID as derived class?
   - (further identical?)
 

@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -14,7 +14,8 @@
 //                       fix bug in generator
 //                       define UUID_MODE_VARIANT4
 //                       define UUID_MODE_RANDOM
-
+//  0.1.2   2022-06-16   fix version number
+//                       improve performance generate()
 
 
 #include "UUID.h"
@@ -38,6 +39,7 @@ void UUID::seed(uint32_t s1, uint32_t s2)
 }
 
 
+//  check version 0.1.1 for more readable code
 void UUID::generate()
 {
   uint32_t _ar[4];
@@ -57,20 +59,24 @@ void UUID::generate()
 
   //  store globally ?
 
-
-  //  build up the char array.
-  for (uint8_t i = 0, j = 0; i < 32; i++, j++)
+  //  process 16 bytes build up the char array.
+  for (uint8_t i = 0, j = 0; i < 16; i++)
   {
-    if (i == 8)       _buffer[j++] = '-';
-    else if (i == 12) _buffer[j++] = '-';
-    else if (i == 16) _buffer[j++] = '-';
-    else if (i == 20) _buffer[j++] = '-';
+    //  multiples of 4 between 8 and 20 get a -.
+    //  but note we are doing 2 digits in one loop.
+    if ((i & 0x1) == 0)
+    {
+      if ((4 <= i) && (i <= 10))  _buffer[j++] = '-';
+    }
 
-    uint8_t nr   = i / 8;
+    //  process one byte at the time instead of a nibble
+    uint8_t nr   = i / 4;
     uint8_t ch   = _ar[nr] & 0xF;
-    _ar[nr] >>= 4;
-
-    _buffer[j]   = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
+    _buffer[j++] = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
+    
+    ch   = (_ar[nr] >> 4) & 0xF;
+    _buffer[j++] = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
+    _ar[nr] >>= 8;
   }
   _buffer[36] = 0;
 }

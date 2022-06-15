@@ -1,0 +1,12 @@
+UUID_test.ino
+UUID_LIB_VERSION: 0.1.2
+       seed: 4
+   generate: 156
+toCharArray: 4
+UUID: 0ac82d02-002b-4ccb-b96c-1c7839cbc4c0
+UUID: d7652208-bd86-400d-93eb-eeafc12fe18d
+UUID: cf48f771-f39b-4fdd-a324-acad1c7ac596
+UUID: f74404e9-3cf4-4769-8c15-1a278e126987
+UUID: 4fe109d9-09d6-41e0-885a-b4ee716d1f5d
+
+

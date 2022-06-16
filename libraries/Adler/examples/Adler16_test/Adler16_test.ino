@@ -1,21 +1,20 @@
 //
-//    FILE: Adler32_test.ino
+//    FILE: Adler16_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
 #include "Arduino.h"
-#include "Adler32.h"
+#include "Adler16.h"
 
 //  expected output
-//  Adler32_test
-//  ADLER32_LIB_VERSION: 0.2.0
-//  116982386
-//  117310067
-//  117047923
+//  Adler16_test
+//  ADLER16_LIB_VERSION: 0.2.0
+//  6012
+//  7293
+//  6269
 
 
-
-Adler32 ad;
+Adler16 ad;
 
 uint8_t arr1[5]  = { 100, 120, 130, 135, 140 };
 uint8_t arr2[5]  = { 101, 120, 130, 135, 140 };  // minimal diff.
@@ -27,10 +26,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("Adler32_test");
-  Serial.print("ADLER32_LIB_VERSION: ");
-  Serial.println(ADLER32_LIB_VERSION);
-  
+  Serial.println("Adler16_test");
+  Serial.print("ADLER16_LIB_VERSION: ");
+  Serial.println(ADLER16_LIB_VERSION);
+
   ad.begin();
   ad.add(arr1, 5);
   Serial.println(ad.getAdler());

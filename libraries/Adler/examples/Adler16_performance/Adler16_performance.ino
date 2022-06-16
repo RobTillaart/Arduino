@@ -1,13 +1,13 @@
 //
-//    FILE: Adler32_performance.ino
+//    FILE: Adler16_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
 #include "Arduino.h"
-#include "Adler32.h"
+#include "Adler16.h"
 
 
-Adler32 ad;
+Adler16 ad;
 volatile uint8_t z;
 uint32_t start, stop, randomtime;
 
@@ -37,9 +37,9 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("Adler32_performance");
-  Serial.print("ADLER32_LIB_VERSION: ");
-  Serial.println(ADLER32_LIB_VERSION);
+  Serial.println("Adler16_performance");
+  Serial.print("ADLER16_LIB_VERSION: ");
+  Serial.println(ADLER16_LIB_VERSION);
 
   start = micros();
   for (uint16_t x = 0; x < 10000; x++)
@@ -167,8 +167,6 @@ void setup()
   Serial.print("\tchecksum: ");
   Serial.println(ad.getAdler());
   Serial.println();
-
-
 }
 
 

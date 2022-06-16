@@ -1,0 +1,34 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [0.2.0] - 2022-06-15
+
+- breaking change 
+- reordering files.
+- Adler.h for static functions
+- Adler32.h for Adler32 class
+- Adler16.h for Adler16 class (experimental).
+- Added optimizations.
+
+## [0.1.2] - 2022-06-13
+
+- split interface and implementation
+- rename ADLER32_MOD_PRIME
+- rename ADLER32_LIB_VERSION
+- add addFast(array, length)
+- add char interfaces
+
+## [0.1.1] - 2022-04-15
+
+- split of .cpp file
+
+### [0.1.0] - 2022-01-27
+
+- initial version
+
+
+

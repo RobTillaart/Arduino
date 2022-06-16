@@ -25,7 +25,7 @@
 
 
 #include "Arduino.h"
-#include "Adler.h"
+#include "Adler32.h"
 
 
 char lorem[] = "Lorem ipsum dolor sit amet, \
@@ -46,7 +46,7 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 unittest_setup()
 {
-  fprintf(stderr, "ADLER_LIB_VERSION: %s\n", (char *) ADLER_LIB_VERSION);
+  fprintf(stderr, "ADLER32_LIB_VERSION: %s\n", (char *) ADLER32_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -56,24 +56,33 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(ADLER16_MOD_PRIME, 251);
   assertEqual(ADLER32_MOD_PRIME, 65521);
 }
 
 
-unittest(test_adler_static)
+unittest(test_ADLER32_lorem)
 {
-  char str1[24] = "abcde";
-  char str2[24] = "abcdef";
-  char str3[24] = "abcdefgh";
+  Adler32 ad32;
 
-  assertEqual(96993776, adler32((uint8_t *) str1, 5));
-  assertEqual(136184406, adler32((uint8_t *) str2, 6));
-  assertEqual(234881829, adler32((uint8_t *) str3, 8));
+  ad32.begin();
+ 
+  fprintf(stderr, "strlen lorem\n");
+  assertEqual(868, strlen(lorem));
 
-  assertEqual(57845, adler16((uint8_t *) str1, 5));
-  assertEqual(18016, adler16((uint8_t *) str2, 6));
-  assertEqual(17972, adler16((uint8_t *) str3, 8));
+  for (int i = 0; lorem[i] != 0; i++)
+  {
+    ad32.add(lorem[i]);
+  }
+  assertEqual(3972480156, ad32.getAdler());
+
+  ad32.begin();
+  ad32.add(lorem, strlen(lorem));
+  assertEqual(3972480156, ad32.getAdler());
+
+  ad32.begin();
+  ad32.addFast(lorem, strlen(lorem));
+  assertEqual(3972480156, ad32.getAdler());
+
 }
 
 

@@ -9,11 +9,18 @@
 
 
 //  expected output
-//  ADLER32_LIB_VERSION: 0.1.2
+//  ADLER_LIB_VERSION: 0.2.0
+//
+//  E1F5
+//  4660
+//  4634
+//  40A7
+//
 //  5C801F0
 //  81E0256
 //  E000325
 //  11E60398
+
 
 
 char str1[24] = "abcde";
@@ -28,13 +35,21 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.print("ADLER32_LIB_VERSION: ");
-  Serial.println(ADLER32_LIB_VERSION);
+  Serial.print("ADLER_LIB_VERSION: ");
+  Serial.println(ADLER_LIB_VERSION);
+  Serial.println();
+
+  Serial.println(adler16((uint8_t *) str1, 5), HEX);
+  Serial.println(adler16((uint8_t *) str2, 6), HEX);
+  Serial.println(adler16((uint8_t *) str3, 8), HEX);
+  Serial.println(adler16((uint8_t *) str4, 9), HEX);
+  Serial.println();
 
   Serial.println(adler32((uint8_t *) str1, 5), HEX);
   Serial.println(adler32((uint8_t *) str2, 6), HEX);
   Serial.println(adler32((uint8_t *) str3, 8), HEX);
   Serial.println(adler32((uint8_t *) str4, 9), HEX);
+  Serial.println();
 }
 
 

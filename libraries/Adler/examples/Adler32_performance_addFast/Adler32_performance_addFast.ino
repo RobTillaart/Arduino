@@ -4,7 +4,7 @@
 // PURPOSE: demo
 
 #include "Arduino.h"
-#include "Adler.h"
+#include "Adler32.h"
 
 
 
@@ -29,7 +29,6 @@ varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies \
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 char hello[] = "hello world";
-
 
 
 void setup()

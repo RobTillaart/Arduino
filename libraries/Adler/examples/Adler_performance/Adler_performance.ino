@@ -30,8 +30,8 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.print("ADLER32_LIB_VERSION: ");
-  Serial.println(ADLER32_LIB_VERSION);
+  Serial.print("ADLER_LIB_VERSION: ");
+  Serial.println(ADLER_LIB_VERSION);
 
   for (int i = 0; i < 60; i++)
   {
@@ -53,6 +53,18 @@ void setup()
   Serial.print(x);
   Serial.print("\t");
   Serial.println(x, HEX);
+  delay(200);
+
+
+  start = micros();
+  volatile uint16_t y = adler16((uint8_t *) str, len);
+  stop = micros();
+  Serial.print("   TIME us: ");
+  Serial.println(stop - start);
+  Serial.print("  ADLER-16: ");
+  Serial.print(y);
+  Serial.print("\t");
+  Serial.println(y, HEX);
   delay(100);
 }
 

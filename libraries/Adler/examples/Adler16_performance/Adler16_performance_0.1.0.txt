@@ -1,0 +1,24 @@
+Adler16_performance
+ADLER16_LIB_VERSION: 0.1.0
+randomtime: 901476
+     total: 942656
+ 1e4 x add: 41180
+  checksum: 46478
+
+     total: 5157524
+ 1e6 x add: 4256048
+  checksum: 63140
+
+LENGTH LOREM: 868
+
+   lorem 1: 3792	checksum: 57303
+   lorem 2: 4224	checksum: 57303
+   lorem 3: 1972	checksum: 57303
+
+LENGTH HELLO: 11
+
+   hello 1: 52	checksum: 36209
+   hello 2: 60	checksum: 36209
+   hello 3: 48	checksum: 36209
+
+

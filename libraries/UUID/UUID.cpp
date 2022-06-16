@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -14,8 +14,9 @@
 //                       fix bug in generator
 //                       define UUID_MODE_VARIANT4
 //                       define UUID_MODE_RANDOM
-//  0.1.2   2022-06-16   fix version number
+//  0.1.2   2022-06-15   fix version number
 //                       improve performance generate()
+//  0.1.3   2022-06-16   improve performance generate() again
 
 
 #include "UUID.h"
@@ -71,12 +72,13 @@ void UUID::generate()
 
     //  process one byte at the time instead of a nibble
     uint8_t nr   = i / 4;
-    uint8_t ch   = _ar[nr] & 0xF;
-    _buffer[j++] = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
+    uint8_t xx   = _ar[nr];
+    uint8_t ch   = xx & 0xF;
+    _buffer[j++]   = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
     
-    ch   = (_ar[nr] >> 4) & 0xF;
-    _buffer[j++] = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
+    ch   = (xx >> 4) & 0xF;
     _ar[nr] >>= 8;
+    _buffer[j++]   = (ch < 10) ? '0' + ch : ('a' - 10) + ch;
   }
   _buffer[36] = 0;
 }

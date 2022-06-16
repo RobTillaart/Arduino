@@ -99,6 +99,8 @@ Not tested ESP32 (and many other platforms) yet.
 Performance measured with **UUID_test.ino** shows the following times:
 
 
+#### microseconds per byte
+
 | Version |  Function   | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:------------|:----------:|:-------------:|
 | 0.1.0   | seed        |      4 us  |               |
@@ -108,16 +110,19 @@ Performance measured with **UUID_test.ino** shows the following times:
 | 0.1.1   | generate    |    248 us  |               |
 | 0.1.1   | toCharArray |      4 us  |               |
 | 0.1.2   | generate    |    156 us  |               |
+| 0.1.3   | generate    |    120 us  |               |
+
+Note: generating the 16 random bytes already takes ~40 us.
 
 
-
-UUID's per second
+#### UUID's per second
 
 | Version |  UNO 16 MHz  |  ESP32 240 MHz  | notes  |
 |:-------:|:------------:|:---------------:|:------:|
 | 0.1.0   |    2000++    |                 |
 | 0.1.1   |    4000++    |                 | generate both modes
 | 0.1.2   |    6400++    |                 | generate both modes
+| 0.1.3   |    8200++    |                 | generate both modes
 
 
 Note that this maximum is not realistic e.g. for a server where also

@@ -3,7 +3,7 @@
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //     URL: https://github.com/RobTillaart/AM2315
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.2"))
+#define AM2315_LIB_VERSION                    (F("0.1.3"))
 
 
 #define AM2315_OK                             0
@@ -85,17 +85,19 @@ public:
   bool     wakeUp() { return isConnected(); };
 
 private:
-  float    _humOffset     = 0.0;
-  float    _tempOffset    = 0.0;
+  uint8_t  _bits[8];    // buffer to hold raw data
   float    _humidity      = 0.0;
   float    _temperature   = 0.0;
+  float    _humOffset     = 0.0;
+  float    _tempOffset    = 0.0;
   uint32_t _lastRead      = 0;
+
   bool     _waitForRead   = false;
   bool     _suppressError = false;
 
-  uint8_t  _bits[8];    // buffer to hold raw data
   int      _read();
   int      _readSensor();
+
   uint16_t _crc16(uint8_t *ptr, uint8_t len);
 
   TwoWire* _wire;

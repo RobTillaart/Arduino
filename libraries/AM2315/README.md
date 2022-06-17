@@ -105,7 +105,7 @@ This can be used to keep spikes out of your graphs / logs.
 
 ### Misc
 
-- **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor. 
+- **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
 This can be done before an actual read to minimize the **read()** call.
 
 

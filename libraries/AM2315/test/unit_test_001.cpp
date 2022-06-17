@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-05
-// PURPOSE: unit tests for the AM2315 library
+// PURPOSE: unit tests for the AM2315 temperature and humidity sensor
 //          https://github.com/RobTillaart/AM2315
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
@@ -50,7 +50,6 @@ unittest(test_constants)
   assertEqual(-100, AM2315_HUMIDITY_OUT_OF_RANGE);
   assertEqual(-101, AM2315_TEMPERATURE_OUT_OF_RANGE);
   assertEqual(-999, AM2315_INVALID_VALUE);
-
 }
 
 

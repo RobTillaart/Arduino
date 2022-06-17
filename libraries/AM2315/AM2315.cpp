@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 //
@@ -9,6 +9,7 @@
 //  0.1.0  2022-01-05  initial version
 //  0.1.1  2022-01-11  fix handshake.
 //  0.1.2  2022-01-13  fix wake-up in read() for ESP32.
+//  0.1.3  2022-06-17  sync with AM232X
 
 
 #include "AM2315.h"
@@ -29,14 +30,15 @@
 AM2315::AM2315(TwoWire *wire)
 {
   _wire          = wire;
-  _temperature   = 0;
-  _humidity      = 0;
-  _humOffset     = 0;
-  _tempOffset    = 0;
+  //  reset() or begin() ?
+  _humidity      = 0.0;
+  _temperature   = 0.0;
+  _humOffset     = 0.0;
+  _tempOffset    = 0.0;
   _lastRead      = 0;
   _waitForRead   = false;
   _suppressError = false;
-};
+}
 
 
 #if defined(ESP8266) || defined(ESP32)
@@ -48,7 +50,9 @@ bool AM2315::begin(const uint8_t dataPin, const uint8_t clockPin)
   } else {
     _wire->begin();
   }
-  return isConnected();
+  if (! isConnected()) return false;
+  this->read();
+  return true;
 }
 #endif
 
@@ -56,7 +60,9 @@ bool AM2315::begin(const uint8_t dataPin, const uint8_t clockPin)
 bool AM2315::begin()
 {
   _wire->begin();
-  return isConnected();
+  if (! isConnected()) return false;
+  this->read();
+  return true;
 }
 
 
@@ -220,14 +226,14 @@ uint16_t AM2315::_crc16(uint8_t *ptr, uint8_t len)
     crc ^= *ptr++;
     for (uint8_t i = 0; i < 8; i++)
     {
-      if(crc & 0x01)
+      if (crc & 0x01)
       {
         crc >>= 1;
         crc ^= 0xA001;
       }
       else
       {
-        crc>>=1;
+        crc >>= 1;
       }
     }
   }

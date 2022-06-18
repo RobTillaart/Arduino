@@ -154,6 +154,23 @@ unittest(test_AM2322_hum_temp)
 }
 
 
+unittest(test_AM232X_surpress_error)
+{
+  AM232X AM;
+
+  Wire.begin();
+
+  assertTrue(AM.begin());
+  assertTrue(AM.isConnected());
+
+  assertFalse(AM.getSuppressError());
+  AM.setSuppressError(true);
+  assertTrue(AM.getSuppressError());
+  AM.setSuppressError(false);
+  assertFalse(AM.getSuppressError());
+}
+
+
 unittest_main()
 
 // --------

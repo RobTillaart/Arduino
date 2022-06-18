@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.3
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //
 // HISTORY:
@@ -31,7 +31,11 @@
 //                      added some unit tests
 //                      fix _lastRead bug
 //                      minor edits.
-
+//   0.4.3  2022-06-17  add get/setSuppressError()
+//                      add AM232X_HUMIDITY_OUT_OF_RANGE
+//                      add AM232X_TEMPERATURE_OUT_OF_RANGE
+//                      fix return -0.0 (from AM2315 lib)
+//                      major rewrite readme.md (sync AM2315)
 
 
 #include "AM232X.h"
@@ -44,7 +48,6 @@ const uint8_t AM232X_ADDRESS = 0x5C;
 //
 // PUBLIC
 //
-
 AM232X::AM232X(TwoWire *wire)
 {
   _wire          = wire;
@@ -55,6 +58,7 @@ AM232X::AM232X(TwoWire *wire)
   _tempOffset    = 0.0;
   _lastRead      = 0;
   _readDelay     = 2000;
+  _suppressError = false;
 }
 
 
@@ -104,18 +108,49 @@ int AM232X::read()
     return AM232X_READ_TOO_FAST;
   }
   _lastRead = millis();
+
   // READ HUMIDITY AND TEMPERATURE REGISTERS
   int rv = _readRegister(0x00, 4);
   if (rv < 0) return rv;
 
-  // CONVERT AND STORE
-  _humidity = (_bits[2] * 256 + _bits[3]) * 0.1;
-  _temperature = ((_bits[4] & 0x7F) * 256 + _bits[5]) * 0.1;
-
-  if (_bits[4] & 0x80)
+  if (rv != AM232X_OK)
   {
-    _temperature = -_temperature;
+    if (_suppressError == false)
+    {
+      _humidity    = AM232X_INVALID_VALUE;
+      _temperature = AM232X_INVALID_VALUE;
+    }
+    return rv;  // propagate error value
   }
+
+  //  EXTRACT HUMIDITY AND TEMPERATURE
+  _humidity = (_bits[2] * 256 + _bits[3]) * 0.1;
+  int16_t t = ((_bits[4] & 0x7F) * 256 + _bits[5]);
+  if (t == 0)
+  {
+    _temperature = 0.0;     // prevent -0.0;
+  }
+  else
+  {
+    _temperature = t * 0.1;
+    if ((_bits[4] & 0x80) == 0x80 )
+    {
+      _temperature = -_temperature;
+    }
+  }
+  
+#ifdef AM232X_VALUE_OUT_OF_RANGE
+  // TEST OUT OF RANGE
+  if (_humidity > 100)
+  {
+    return AM232X_HUMIDITY_OUT_OF_RANGE;
+  }
+  if ((_temperature < -40) || (_temperature > 80))
+  {
+    return AM232X_TEMPERATURE_OUT_OF_RANGE;
+  }
+#endif
+
   return AM232X_OK;
 }
 

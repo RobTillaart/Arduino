@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.4.2"))
+#define AM232X_LIB_VERSION              (F("0.4.3"))
 
 
 #define AM232X_OK                        0
@@ -48,6 +48,20 @@
    0x83: CRC checksum error
    0x84: Write disabled
 */
+
+
+//  optionally detect out of range values.
+//  occurs seldom so not enabled by default.
+//  #define AM232X_VALUE_OUT_OF_RANGE
+#define AM232X_HUMIDITY_OUT_OF_RANGE          -100
+#define AM232X_TEMPERATURE_OUT_OF_RANGE       -101
+
+
+//  allows to overrule AM232X_INVALID_VALUE e.g. to prevent spike in graphs.
+#ifndef AM232X_INVALID_VALUE
+#define AM232X_INVALID_VALUE                  -999
+#endif
+
 
 class AM232X
 {
@@ -92,6 +106,10 @@ public:
   float    getHumOffset()             { return _humOffset; };
   float    getTempOffset()            { return _tempOffset; };
 
+  // suppress error values of -999 => check return value of read() instead
+  bool     getSuppressError()         { return _suppressError; };
+  void     setSuppressError(bool b)   { _suppressError = b; };
+  
   bool     wakeUp() { return isConnected(); };
 
 protected:
@@ -103,6 +121,8 @@ protected:
   uint32_t _lastRead      = 0;
   uint16_t _readDelay     = 2000;
 
+  bool     _suppressError = false;
+  
   int      _readRegister(uint8_t reg, uint8_t cnt);
   int      _writeRegister(uint8_t reg, uint8_t cnt, int16_t value);
   int      _getData(uint8_t length);

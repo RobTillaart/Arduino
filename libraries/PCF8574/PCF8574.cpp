@@ -2,7 +2,7 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -27,7 +27,7 @@ PCF8574::PCF8574(const uint8_t deviceAddress, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool PCF8574::begin(int dataPin, int clockPin, uint8_t value)
 {
-  _wire      = &Wire;
+  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -222,6 +222,23 @@ uint8_t PCF8574::readButton(const uint8_t pin)
   PCF8574::write8(temp);
   return value;
 }
+
+
+void PCF8574::select(const uint8_t pin)
+{
+  uint8_t n = 0x00;
+  if (pin < 8) n = 1 << pin;
+  write8(n);
+};
+
+
+void PCF8574::selectN(const uint8_t pin) 
+{
+  uint8_t n = 0xFF;
+  if (pin < 8) n = (2 << pin) - 1;
+  write8(n);
+};
+
 
 
 // -- END OF FILE --

@@ -1,0 +1,19 @@
+...\PCF8574_performance.ino
+PCF8574_LIB_VERSION:	0.3.5
+1
+100000
+Read:	236
+Write:	 240
+200000
+Read:	132
+Write:	 140
+300000
+Read:	104
+Write:	 108
+400000
+Read:	96
+Write:	 96
+500000
+Read:	92
+Write:	 92
+600

@@ -25,10 +25,27 @@ These chips are identical in behaviour although there are two distinct address r
 
 So you can connect up to 16 PCF8574 on one I2C bus, giving access 
 to 16 x 8 = 128 IO lines. To maximize IO lines combine 8 x PCF8575 + 8 x PCF8574A giving
-128 + 64 = 192 IO lines. Be sure to have a well dimensioned power supply.
+128 + 64 = 192 IO lines. 
+Be sure to have a well dimensioned power supply.
 
 The library allows to read and write both single pins or 8 pins at once.
-Furthermore some additional functions are implemented that are playful but useful.
+Furthermore some additional functions are implemented that are playful and useful.
+
+
+## I2C Clock
+
+Tested on UNO with **PCF8574_performance** showed that the PCF8574 still works at 500 KHz and failed at 600 KHz.
+These values are outside the specs of the datasheet so they are not recommended.
+However when performance is needed you can try to overclock the chip. 
+
+| clock speed |  Read  |  Write  |  Notes            |
+|:-----------:|:------:|:-------:|:------------------|
+|  100000     |  236   |   240   | spec datasheet    |
+|  200000     |  132   |   140   |
+|  300000     |  104   |   108   |
+|  400000     |   96   |    96   | max advised speed |
+|  500000     |   92   |    92   | not recommended   |
+|  600000     | crash  |  crash  | 
 
 
 ## Interface
@@ -59,7 +76,7 @@ in the class this is faster than reread the pins.
 - **void write8(const uint8_t value)** writes all 8 pins at once. This one does the actual writing.
 - **uint8_t write(const uint8_t pin, const uint8_t value)** writes a single pin; pin = 0..7; 
 value is HIGH(1) or LOW (0)
-- **valueOut()** returns the last written data.
+- **uint8_t valueOut()** returns the last written data.
 
 
 ### Button
@@ -90,12 +107,26 @@ Fills the higher lines with zero's.
 Fills the lower lines with zero's.
 - **void rotateRight(const uint8_t n = 1)** rotates output channels to right, moving lowest line to highest line.
 - **void rotateLeft(const uint8_t n = 1)** rotates output channels to left, moving highest line to lowest line.
-- **void reverse()** reverse the "bit pattern" of the lines, swapping pin 7 with 0, 6 with 1, 5 with 2 and 4 with 3.
+- **void reverse()** reverse the "bit pattern" of the lines, swapping pin 7 with 0, 6 with 1, 5 with 2 etc.
 
 
-### Misc
+### Select
 
-- **int lastError()** returns the last error from the lib. (see .h file)
+Some convenience wrappers.
+
+- **void select(const uint8_t pin)** sets a single pin to HIGH, all others are set to LOW.
+If pin > 7 all pins are set to LOW.
+Can be used to select one of n devices.
+- **void selectN(const uint8_t pin)** sets pins 0..pin to HIGH, all others are set to LOW.
+If pin > 7 all pins are set to LOW.
+This can typical be used to implement a VU meter.
+- **void selectNone()** sets all pins to LOW.
+- **void selectAll()** sets all pins to HIGH.
+
+
+### Miscellaneous
+
+- **int lastError()** returns the last error from the lib. (see .h file).
 
 
 ## Error codes
@@ -109,13 +140,13 @@ Fills the lower lines with zero's.
 
 ## Operation
 
-See examples
+See examples.
 
 It is advised to use pull-up or pull-down resistors so the lines have a defined state at startup.
 
 
 ## Future
 
--
+- 
 
 

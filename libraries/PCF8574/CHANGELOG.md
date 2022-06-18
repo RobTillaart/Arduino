@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2022-06-17
+
+### Added
+- add select(), selectN(), selectNone() and selectAll()
+  convenience wrappers
+
+
 ## [0.3.4] - 2022-04-11
 
 ### Added
 - add CHANGELOG.md
 
-### Changed
 
 ### Fixed
 - **begin(int sda, int scl)** int parameters for ESP alike.

@@ -8,22 +8,44 @@
 
 # AM2315
 
-Arduino library for I2C AM2315 temperature and humidity sensor.
-
-The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. The AM232X library allows to read some internal registers.
+Arduino library for an AM2315 I2C temperature and humidity sensor.
 
 
 ## Description
 
-The library must be initiated by calling the **begin()** function, 
-optionally **begin(dataPin, clockPin)** for **ESP32** and similar platforms.
+AM2315 is a sensor similar to the DHT12 with an I2C interface. 
+Although in theory this could enable multiple sensors on one bus
+the AM2315 has a fixed address **0x5C** so one need to implement a 
+multiplexing strategy to have multiple sensors in practice. 
+See multiplexing below.
 
-Thereafter one has to call the **read()** function to do the actual reading,
-and with **getTemperature()** and **getHumidity()** to get the read values.
-Calling these latter again will return the same values until a new **read()** is called.
+The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. The AM232X library allows to read some internal registers.
 
-The I2C address is 0x5C and is hardcoded in the device. 
-If you need multiple AM2315 devices use a I2C multiplexer e.g. https://github.com/RobTillaart/TCA9548
+
+#### Typical parameters
+
+|             |  range     | accuracy | repeatability |
+|:------------|:----------:|:--------:|:-------------:|
+| Temperature | -40 - 125  | 0.5°C    |  ±0.2         |
+| Humidity    | 0.0 - 99.9 | ±2%      |  ±0.1         |
+| Sample time | 2 seconds  |          |               |
+
+
+#### Hardware connection
+
+```
+//  AM232X PIN layout             AM2315 COLOR
+//  ============================================
+//   bottom view  DESCRIPTION     COLOR
+//       +---+
+//       |o  |       VDD          RED
+//       |o  |       SDA          YELLOW
+//       |o  |       GND          BLACK
+//       |o  |       SCL          GREY
+//       +---+
+//
+// do not forget pull up resistors between SDA, SCL and VDD.
+```
 
 
 ### I2C clock speed
@@ -52,13 +74,6 @@ If robustness is mandatory stick to the default of 100 KHz.
 If performance is mandatory do not go beyond 170 KHz.
 
 
-### Wake up
-
-As the sensor goes to sleep after 3 seconds after last read, it needs to be woken up.
-This is hard coded in the **readSensor()** function. 
-There is also a **wakeUp()** function so the wake up can be done some time before the 
-read is actual needed.
-
 
 ## Interface
 
@@ -66,19 +81,25 @@ read is actual needed.
 ### Constructor
 
 - **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins, returns true if device is connected.
-- **bool begin()** initializer for non ESP32. Returns true if connected.
-- **bool isConnected(uint16_t timeout = 3000)** returns true if the address of the AM2315 can be seen on the I2C bus.
+- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
+Returns true if device address 0x5C is connected.
+- **bool begin()** initializer for non ESP32 e.g. AVR.
+Returns true if device address 0x5C is connected.
+- **bool isConnected(uint16_t timeout = 3000)** returns true if the device address 0x5C is found on I2C bus.
 As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
 ### Core
 
-- **int8_t read()** read the sensor and store the values internally. 
+- **int8_t read()** read the sensor and store the values internally.
 It returns the status of the read which should be **AM2315_OK** == 0.
-- **float getHumidity()** returns last Humidity read + optional offset, or **AM2315_INVALID_VALUE** == -999 in case of error. This error can be suppressed, see below.
-- **float getTemperature()** returns last Temperature read + optional offset, or **AM2315_INVALID_VALUE** == -999 in case of error. This error can be suppressed, see below.
+- **float getHumidity()** returns last read humidity + optional offset, 
+or **AM2315_INVALID_VALUE** == -999 in case of error. 
+This error can be suppressed, see below.
+- **float getTemperature()** returns last read temperature + optional offset,
+or **AM2315_INVALID_VALUE** == -999 in case of error. 
+This error can be suppressed, see below.
 - **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
 
 
@@ -98,18 +119,14 @@ Functions to adjust the communication with the sensor.
 
 - **void setWaitForReading(bool b )** flag to enforce a blocking wait (up to 2 seconds) when **read()** is called.
 - **bool getWaitForReading()** returns the above setting.
+- **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
+This can be done before an actual read to minimize the **read()** call.
 - **void setSuppressError(bool b)** suppress error values of **AM2315_INVALID_VALUE** == -999 => you need to check the return value of read() instead.  
 This can be used to keep spikes out of your graphs / logs. 
 - **bool getSuppressError()**  returns the above setting.
 
 
-### Misc
-
-- **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
-This can be done before an actual read to minimize the **read()** call.
-
-
-### error codes
+### Error codes
 
 
 | name                              | value | notes       |
@@ -128,16 +145,46 @@ This can be done before an actual read to minimize the **read()** call.
 
 See examples
 
+In **setup()** you have to call the **begin()** to initialize 
+the Wire library and do an initial **read()** to fill the variables temperature and humidity. 
+To access these values one must use **getTemperature()** and **getHumidity()**. 
+Multiple calls will give the same values until **read()** is called again.
+
+Note that the sensor can go into sleep mode after 3 seconds after last read, 
+so one might need to call **wakeUp()** before the **read()**.
+
+
+## Multiplexing 
+
+Multiplexing the **AM232X** can be done in several ways.
+This is not a complete list or tutorial but should get you started.
+
+1. Control the power line by means of an extra pin (+ transistor). 
+Only switch on the sensor you want to use. Drawback might be time 
+the sensor takes to boot and to be ready for the first measurement.
+2. Use an AND gate between the I2C SCL (clock) line and the I2C SCL 
+pin of the sensors. This way one can enable / disable communication 
+per sensor. This will still need an IO pin per sensor but does not 
+have the "boot time" constraint mentioned above.
+you may use a **PCF8574** to control the AND gates.
+https://github.com/RobTillaart/PCF8574
+3. Use a **TCA9548A** I2C Multiplexer, or similar. https://github.com/RobTillaart/TCA9548
+
+Which method fit your application depends on your requirements and constraints.
+
 
 ## Future
 
-- documentation
-- test
+- update documentation
+- test more (other platforms)
+- keep in sync with AM2315 class
+  - merge in a far future.
 - update unit test
 - add examples
-- merge with the AM232X library in a far future.
 
-**wont**
+
+#### Won't
+
 - add calls for meta information (no description yet)
   - 0x07 status register
   - 0x08-0x0B user register HIGH LOW HIGH2 LOW2

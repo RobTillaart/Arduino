@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 //
@@ -10,17 +10,15 @@
 //  0.1.1  2022-01-11  fix handshake.
 //  0.1.2  2022-01-13  fix wake-up in read() for ESP32.
 //  0.1.3  2022-06-17  sync with AM232X
+//  0.1.4  2022-06-18  sync with AM232X (readme)
 
 
 #include "AM2315.h"
 
 
-// these defines can not be tuned
+const uint8_t AM2315_ADDRESS = 0x5C;
 // READ_DELAY for blocking read
-#define AM2315_READ_DELAY                     2000
-
-#define AM2315_ADDRESS                        0x5C
-
+const uint16_t AM2315_READ_DELAY = 2000;
 
 
 /////////////////////////////////////////////////////

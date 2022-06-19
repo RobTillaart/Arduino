@@ -41,6 +41,8 @@ Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
 These values are outside the specs of the datasheet so they are not recommended.
 However when performance is needed you can try to overclock the chip. 
 
+TODO table (see PCF8574)
+
 
 ## Interface
 
@@ -88,19 +90,35 @@ during program execution.
 Note this can be a subset of the pins set with **setButtonMask()** if one wants to process not all.
 - **uint8_t readButton(uint8_t pin)** read a singe input pin.
 
+Background - https://github.com/RobTillaart/Arduino/issues/38
+
 
 ### Special
 
 - **void toggle(uint8_t pin)** toggles a single pin.
 - **void toggleMask(uint16_t mask)** toggles a selection of pins, 
 if you want to invert all pins use 0xFFFF (default value).
-- **void shiftRight(uint8_t n = 1)** shifts output channels n pins (default 1) pins right (e.g. leds ). 
+- **void shiftRight(uint8_t n = 1)** shifts output channels n pins (default 1) pins right (e.g. LEDs ).
 Fills the higher lines with zero's.
-- **void shiftLeft(uint8_t n = 1)**  shifts output channels n pins (default 1) pins left (e.g. leds ).
+- **void shiftLeft(uint8_t n = 1)**  shifts output channels n pins (default 1) pins left (e.g. LEDs ).
 Fills the lower lines with zero's.
 - **void rotateRight(uint8_t n = 1)** rotates output channels to right, moving lowest line to highest line.
 - **void rotateLeft(uint8_t n = 1)** rotates output channels to left, moving highest line to lowest line.
-- **void reverse()** reverse the "bit pattern" of the lines, high to low and vice versa.
+- **void reverse()** reverse the "bit pattern" of the lines, swapping pin 15 with 0, 14 with 1, 13 with 2 etc..
+
+
+### Select
+
+Some convenience wrappers.
+
+- **void select(const uint8_t pin)** sets a single pin to HIGH, all others are set to LOW.
+If pin > 15 all pins are set to LOW.
+Can be used to select one of n devices.
+- **void selectN(const uint8_t pin)** sets pins 0..pin to HIGH, all others are set to LOW.
+If pin > 15 all pins are set to LOW.
+This can typical be used to implement a VU meter.
+- **void selectNone()** sets all pins to LOW.
+- **void selectAll()** sets all pins to HIGH.
 
 
 ### Miscellaneous
@@ -112,9 +130,9 @@ Fills the lower lines with zero's.
 
 | name               | value | description             |
 |:-------------------|:-----:|:------------------------|
-| PCF8574_OK         | 0x00  | no error                |
-| PCF8574_PIN_ERROR  | 0x81  | pin number out of range |
-| PCF8574_I2C_ERROR  | 0x82  | I2C communication error |
+| PCF8575_OK         |  0x00 | no error                |
+| PCF8575_PIN_ERROR  |  0x81 | pin number out of range |
+| PCF8575_I2C_ERROR  |  0x82 | I2C communication error |
 
 
 ## Testing
@@ -126,6 +144,8 @@ Platforms used for testing include: Nano, ESP32 and Seeed Xiao.
 ## Operation
 
 See examples.
+
+It is advised to use pull-up or pull-down resistors so the lines have a defined state at startup.
 
 
 ## Future

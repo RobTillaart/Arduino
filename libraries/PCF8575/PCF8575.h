@@ -3,7 +3,7 @@
 //    FILE: PCF8575.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define PCF8575_LIB_VERSION      (F("0.1.5"))
+#define PCF8575_LIB_VERSION      (F("0.1.6"))
 
 
 #ifndef PCF8575_INITIAL_VALUE
@@ -70,6 +70,12 @@ public:
   void     rotateRight(const uint8_t n = 1);
   void     rotateLeft(const uint8_t n = 1);
   void     reverse();
+
+
+  void    select(const uint8_t pin);
+  void    selectN(const uint8_t pin);
+  void    selectNone() { write16(0x0000); };
+  void    selectAll()  { write16(0xFFFF); };
 
 
   int      lastError();

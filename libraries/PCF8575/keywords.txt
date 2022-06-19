@@ -1,4 +1,4 @@
-# Syntax Colouring Map For PCF8575
+# Syntax Colouring Map for PCF8575
 
 
 # Data types (KEYWORD1)
@@ -32,7 +32,10 @@ rotateRight	KEYWORD2
 rotateLeft	KEYWORD2
 reverse	KEYWORD2
 
-lastError	KEYWORD2
+select	KEYWORD2
+selectN	KEYWORD2
+selectNone	KEYWORD2
+selectAll	KEYWORD2
 
 
 # Constants (LITERAL1)

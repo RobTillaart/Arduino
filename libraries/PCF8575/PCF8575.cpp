@@ -2,7 +2,7 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
@@ -219,6 +219,23 @@ uint8_t PCF8575::readButton(const uint8_t pin)
   PCF8575::write16(temp);
   return rtn;
 }
+
+
+void PCF8575::select(const uint8_t pin)
+{
+  uint16_t n = 0x0000;
+  if (pin < 16) n = 1L << pin;
+  write16(n);
+};
+
+
+void PCF8575::selectN(const uint8_t pin) 
+{
+  uint16_t n = 0xFFFF;
+  if (pin < 16) n = (2L << pin) - 1;
+  write16(n);
+};
+
 
 
 // -- END OF FILE --

@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -140,7 +140,7 @@ void ADS1X15::reset()
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool ADS1X15::begin(uint8_t sda, uint8_t scl)
+bool ADS1X15::begin(int sda, int scl)
 {
   _wire = &Wire;
   _wire->begin(sda, scl);

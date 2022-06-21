@@ -1,10 +1,14 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
 //  HISTORY:
+//
+//  0.2.2  2022-06-20  optimize getEstimateX() to match getEstimateY();
+//                     optimize averaging within calculate.
+//                     prepare renaming (5) functions in 0.3.0
 //  0.2.1  2021-12-14  update library.json, license, minor edits
 //  0.2.0  2021-08-26  Add flags to skip Rsquared and Esquared calculation
 //                     will improve performance calculate
@@ -50,6 +54,7 @@ void Correlation::clear()
   _avgY            = 0;
   _a               = 0;
   _b               = 0;
+  _div_b           = -1;  //  as 1/_b is undefined
   _r               = 0;
   _sumErrorSquare  = 0;
   _sumXiYi         = 0;
@@ -81,21 +86,22 @@ bool Correlation::calculate(bool forced)
   if (_count == 0) return false;
   if (! (_needRecalculate || forced)) return true;
 
-  // CALC AVERAGE X, AVERAGE Y
+  //  CALC AVERAGE X, AVERAGE Y
   float avgx = 0;
   float avgy = 0;
+  float div_count = 1.0 / _count;  // speed up averaging
   for (uint8_t i = 0; i < _count; i++)
   {
     avgx += _x[i];
     avgy += _y[i];
   }
-  avgx /= _count;
-  avgy /= _count;
+  avgx *= div_count;
+  avgy *= div_count;
 
   _avgX = avgx;
   _avgY = avgy;
 
-  // CALC A and B  ==>  formula  Y = A + B*X
+  //  CALC A and B  ==>  formula  Y = A + B * X
   float sumXiYi = 0;
   float sumXi2  = 0;
   float sumYi2  = 0;
@@ -112,14 +118,15 @@ bool Correlation::calculate(bool forced)
 
   _a       = a;
   _b       = b;
+  _div_b   = 1.0 / b;
   _sumXiYi = sumXiYi;
   _sumXi2  = sumXi2;
   _sumYi2  = sumYi2;
 
   if (_doR2 == true)
   {
-    // R is calculated instead of rSquared so we do not loose the sign.
-    // Rsquared  from R is much faster than R from Rsquared.
+    //  R is calculated instead of rSquared so we do not loose the sign.
+    //  Rsquared  from R is much faster than R from Rsquared.
     _r = sumXiYi / sqrt(sumXi2 * sumYi2);
   }
 
@@ -151,13 +158,13 @@ float Correlation::getEstimateX(float y)
 {
   if (_count == 0) return NAN;
   if (_needRecalculate) calculate();
-  return (y - _a) / _b;
+  return (y - _a) * _div_b;
 }
 
 
 //////////////////////////////////////////////////////
 //
-// STATISTICAL
+//  STATISTICAL
 //
 float Correlation::getMaxX()
 {
@@ -209,7 +216,7 @@ float Correlation::getMinY()
 
 //////////////////////////////////////////////////////
 //
-// DEBUGGING - access to internal arrays.
+//  DEBUGGING - access to internal arrays.
 //
 bool Correlation::setXY(uint8_t index, float x, float y)
 {

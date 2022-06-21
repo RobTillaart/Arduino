@@ -2,7 +2,6 @@
 //    FILE: demo_running_correlation.ino.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// VERSION: 0.1.0
 // PUPROSE: demo of the Correlation Library
 //
 

@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Calculate Correlation from a small dataset.
 // HISTORY: See Correlation.cpp
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.2.1"))
+#define CORRELATION_LIB_VERSION          (F("0.2.2"))
 
 
 class Correlation
@@ -72,8 +72,10 @@ public:
 
 
   // get the average values of the datasets (if count > 0)
-  float   getAvgX()    { return _avgX; };
-  float   getAvgY()    { return _avgY; };
+  float   getAverageX(){ return _avgX; };  //  will replace getAvgX() in time
+  float   getAverageY(){ return _avgY; };  //  will replace getAvgY() in time
+  float   getAvgX()    { return _avgX; };  //  will be obsolete in future
+  float   getAvgY()    { return _avgY; };  //  will be obsolete in future
 
 
   // based on the dataset get the estimated values for X and Y
@@ -97,9 +99,12 @@ public:
   float   getX(uint8_t index);    // idem
   float   getY(uint8_t index);    // idem
 
-  float   getSumXiYi() { return _sumXiYi; };
-  float   getSumXi2()  { return _sumXi2;  };
-  float   getSumYi2()  { return _sumYi2;  };
+  float   getSumXY()   { return _sumXiYi; };  //  replaces getSumXiYi()
+  float   getSumX2()   { return _sumXi2;  };  //  replaces getSumXi2()
+  float   getSumY2()   { return _sumYi2;  };  //  replaces getSumYi2()
+  float   getSumXiYi() { return _sumXiYi; };  //  obsolete in version 0.3.0
+  float   getSumXi2()  { return _sumXi2;  };  //  obsolete in version 0.3.0
+  float   getSumYi2()  { return _sumYi2;  };  //  obsolete in version 0.3.0
 
 
 private:
@@ -118,6 +123,7 @@ private:
   float   _avgY;
   float   _a;
   float   _b;
+  float   _div_b;
   float   _r;
   float   _sumErrorSquare;
   float   _sumXiYi;

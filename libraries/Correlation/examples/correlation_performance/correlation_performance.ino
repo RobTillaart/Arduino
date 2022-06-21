@@ -2,7 +2,6 @@
 //    FILE: correlation_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// VERSION: 0.1.1
 // PUPROSE: demo of the Correlation Library
 
 // performance test: only ADD and CALCULATE as these are the most used
@@ -27,8 +26,9 @@ void setup()
 
 
   Serial.println("ADD");
-  delay(10);
+  delay(100);
   C.clear();
+  sum = 0;
   for (int i = 0; i < 20; i++)
   {
     f = i * 40 + 0.1 * random(10);
@@ -41,7 +41,7 @@ void setup()
 
 
   Serial.println("\nCALCULATE - needed ");
-  delay(10);
+  delay(100);
   start = micros();
   C.calculate();
   stop = micros();
@@ -49,7 +49,7 @@ void setup()
 
 
   Serial.println("\nCALCULATE - no new values added");
-  delay(10);
+  delay(100);
   start = micros();
   C.calculate();
   stop = micros();
@@ -57,7 +57,7 @@ void setup()
 
 
   Serial.println("\ngetEstimateX");
-  delay(10);
+  delay(100);
   start = micros();
   f = C.getEstimateX(42);
   stop = micros();
@@ -65,7 +65,7 @@ void setup()
 
 
   Serial.println("\ngetEstimateY");
-  delay(10);
+  delay(100);
   start = micros();
   f = C.getEstimateY(42);
   stop = micros();
@@ -73,17 +73,25 @@ void setup()
 
 
   Serial.println("\ngetMaxX");
-  delay(10);
+  delay(100);
   start = micros();
   f = C.getMaxX();
   stop = micros();
   Serial.println(stop - start);
 
-  Serial.println("\n===================================\n0.2.0 \n");
+  Serial.println("\ngetMinX");
+  delay(100);
+  start = micros();
+  f = C.getMinX();
+  stop = micros();
+  Serial.println(stop - start);
 
-  Serial.println("ADD");
-  delay(10);
+  Serial.println("\n===================================\n\n");
+
+  Serial.println("ADD - fill arrays again");  
+  delay(100);
   C.clear();
+  sum = 0;
   for (int i = 0; i < 20; i++)
   {
     f = i * 40 + 0.1 * random(10);
@@ -100,7 +108,7 @@ void setup()
   C.setE2Calculation(false);
 
   Serial.println("\nCALCULATE - needed ");
-  delay(10);
+  delay(100);
   start = micros();
   C.calculate();
   stop = micros();
@@ -108,7 +116,7 @@ void setup()
 
 
   Serial.println("\nCALCULATE - no new values added");
-  delay(10);
+  delay(100);
   start = micros();
   C.calculate();
   stop = micros();
@@ -116,7 +124,7 @@ void setup()
 
 
   Serial.println("\nCALCULATE - no new values added but forced");
-  delay(10);
+  delay(100);
   start = micros();
   C.calculate(true);
   stop = micros();

@@ -25,8 +25,8 @@ getR	KEYWORD2
 getRsquare	KEYWORD2
 getEsquare	KEYWORD2
 
-getAvgX	KEYWORD2
-getAvgY 	KEYWORD2
+getAverageX	KEYWORD2
+getAverageY	KEYWORD2
 getEstimateY	KEYWORD2
 getEstimateX	KEYWORD2
 
@@ -41,6 +41,15 @@ setY	KEYWORD2
 getX	KEYWORD2
 getY	KEYWORD2
 
+getSumXY	KEYWORD2
+getSumX2	KEYWORD2
+getSumY2	KEYWORD2
+
+
+### remove 0.3.0
+
+getAvgX	KEYWORD2
+getAvgY	KEYWORD2
 getSumXiYi	KEYWORD2
 getSumXi2	KEYWORD2
 getSumYi2	KEYWORD2

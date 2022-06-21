@@ -2,7 +2,6 @@
 //    FILE: correlation_statistical.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-17
-// VERSION: 0.1.0
 // PUPROSE: demo of the Correlation Library
 //
 

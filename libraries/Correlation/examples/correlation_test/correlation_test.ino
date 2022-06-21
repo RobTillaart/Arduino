@@ -2,7 +2,6 @@
 //    FILE: correlation_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// VERSION: 0.1.1
 // PUPROSE: demo of the Correlation Library
 
 // performance test: only ADD and CALCULATE as these are the most used
@@ -84,27 +83,27 @@ void loop()
 
 void test()
 {
-    C.clear();
-  
-    C.add(2, 7);
-    C.add(3, 9);
-    C.add(4, 10);
-    C.add(5, 14);
-    C.add(6, 15);
-  
-    C.calculate();
-  
-    Serial.println("---------------");
-    Serial.println(C.getSumXiYi(), 6);
-    Serial.println(C.getSumXi2(), 6);
-    Serial.println(C.getSumYi2(), 6);
-    Serial.println(C.getRsquare(), 6);
-    Serial.println(C.getR(), 6);
-    Serial.print("A: ");
-    Serial.println(C.getA());
-    Serial.print("B: ");
-    Serial.println(C.getB());
-    Serial.println();
+  C.clear();
+
+  C.add(2, 7);
+  C.add(3, 9);
+  C.add(4, 10);
+  C.add(5, 14);
+  C.add(6, 15);
+
+  C.calculate();
+
+  Serial.println("---------------");
+  Serial.println(C.getSumXiYi(), 6);
+  Serial.println(C.getSumXi2(), 6);
+  Serial.println(C.getSumYi2(), 6);
+  Serial.println(C.getRsquare(), 6);
+  Serial.println(C.getR(), 6);
+  Serial.print("A: ");
+  Serial.println(C.getA());
+  Serial.print("B: ");
+  Serial.println(C.getB());
+  Serial.println();
 
   //  assertEqualFloat(2.6, C.getA(), 0.0001);
   //  assertEqualFloat(2.1, C.getB(), 0.0001);

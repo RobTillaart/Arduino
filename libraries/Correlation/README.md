@@ -68,8 +68,8 @@ Most often the Rsquared **R x R** is used.
 - **float getRsquare()** returns **R x R** which is always between 0.. 1.
 - **float getEsquare()** returns the error squared to get an indication of the
 quality of the correlation.
-- **float getAvgX()** returns the average of all elements in the X dataset.
-- **float getAvgY()** returns the average of all elements in the Y dataset.
+- **float getAverageX()** returns the average of all elements in the X dataset.
+- **float getAverageY()** returns the average of all elements in the Y dataset.
 - **float getEstimateX(float y)** use to calculate the estimated X for a given Y.
 - **float getEstimateY(float x)** use to calculate the estimated Y for a given X.
 
@@ -129,6 +129,17 @@ Returns true if succeeded.
 - **bool setY(uint8_t index, float y)** overwrites single Y.
 - **float getX(uint8_t index)** returns single value.
 - **float getY(uint8_t index)** returns single value.
+- **float getSumXY()** returns sum(Xi \* Yi).
+- **float getSumX2()** returns sum(Xi \* Xi).
+- **float getSumY2()** returns sum(Yi \* Yi).
+
+
+### Obsolete in 0.3.0
+
+To improve readability the following functions are replaced 
+
+- **float getAvgX()** returns average X. 
+- **float getAvgY()** returns average Y.
 - **float getSumXiYi()** returns sum(Xi \* Yi).
 - **float getSumXi2()** returns sum(Xi \* Xi).
 - **float getSumYi2()** returns sum(Yi \* Yi).
@@ -136,16 +147,18 @@ Returns true if succeeded.
 
 ## Future
 
-- Template version
+- Template version?
 The constructor should get a TYPE parameter, as this
 allows smaller data types to be analysed taking less memory.
-- naming of some functions   - 0.3.0 
-  - **getAverageX()** instead of **getAvgX()** less cryptic
-  - **getSumXY()  getSumX2()  getSumY2()**  the i is not functional
-  - **getMinimumX()** ???
-  - **getRsquared()** with d ???
 - examples
   - real world if possible.
+
+
+### 0.3.0
+
+- fix naming in examples as some function names are replaced.
+- are the getSUmXiYi indeed worse?
+
 
 
 ## Operation 

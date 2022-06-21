@@ -29,7 +29,7 @@ AD51XX::AD51XX(const uint8_t address, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool AD51XX::begin(uint8_t dataPin, uint8_t clockPin, bool doReset)
+bool AD51XX::begin(int dataPin, int clockPin, bool doReset)
 {
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))

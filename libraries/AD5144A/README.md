@@ -90,12 +90,13 @@ The developer is responsible for handling these differences correctly when using
 
 ### I2C / device initialization
 
-- **bool begin(uint8_t sda, uint8_t scl, bool doReset = true)** ESP32 a.o initializing of the I2C data and clock pins.
-If these pins are set to 255 the default pins will be used.
+- **bool begin(int dataPin, int clockPin, bool doReset = true)** ESP32 a.o initializing of the I2C data and clock pins.
+If these pins are set to 255 (or above)  the default pins will be used.
 If **doReset** == true (default) **reset()** is called, to load last values stored in EEPROM. 
 Returns true if the address of the device can be found on the I2C bus. 
 If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
-- **bool begin()** for UNO, if **doReset** == true (default) **reset()** is called, to load last values stored in EEPROM. 
+- **bool begin(bool doReset = true)** for UNO, if **doReset** == true (default) **reset()** is called, 
+to load last values stored in EEPROM. 
 Returns true if the address of the device can be found on the I2C bus. 
 If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool isConnected()** returns true if the address of the device can be found on the I2C bus, false otherwise.

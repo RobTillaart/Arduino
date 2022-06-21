@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION           (F("0.1.6"))
+#define AD51XXA_VERSION           (F("0.1.7"))
 
 
 #define AD51XXA_OK                0
@@ -30,7 +30,7 @@ public:
   //  default the reset function will be called in begin(), 
   //  by setting doReset to false one can skip this explicitly.
 #if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t sda, uint8_t scl, bool doReset = true);
+  bool    begin(int dataPin, int clockPin, bool doReset = true);
 #endif
   bool    begin(bool doReset = true);
   bool    isConnected();

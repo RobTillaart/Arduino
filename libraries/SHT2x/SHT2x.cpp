@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -15,6 +15,8 @@
 //                      add getEIDA(), getEIDB(), getFirmwareVersion()
 //                      update build-CI, readme.md badges
 //  0.1.3   2021-12-28  update library.json, license, minor edits
+//  0.1.4   2022-06-21  Fix #9 ESP32 wire.begin()
+//                      Fix getEIDB() bug.
 
 
 #include "SHT2x.h"
@@ -47,12 +49,12 @@ SHT2x::SHT2x()
 
 
 #if defined(ESP8266) || defined(ESP32)
-bool SHT2x::begin(const uint8_t dataPin, const uint8_t clockPin)
+bool SHT2x::begin(const int dataPin, const int clockPin)
 {
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
-    _wire->begin((int)dataPin, (int)clockPin);
+    _wire->begin(dataPin, clockPin);
   } else {
     _wire->begin();
   }
@@ -279,6 +281,7 @@ int SHT2x::getError()
 }
 
 
+//  Sensirion_Humidity_SHT2x_Electronic_Identification_Code_V1.1.pdf
 uint32_t SHT2x::getEIDA()
 {
   uint32_t id = 0;
@@ -289,6 +292,7 @@ uint32_t SHT2x::getEIDA()
     _error = SHT2x_ERR_READBYTES;
     return false;
   }
+  //  skip CRC's
   for (uint8_t i = 0; i < 4; i++)
   {
     id <<= 8;
@@ -298,6 +302,7 @@ uint32_t SHT2x::getEIDA()
 }
 
 
+//  Sensirion_Humidity_SHT2x_Electronic_Identification_Code_V1.1.pdf
 uint32_t SHT2x::getEIDB()
 {
   uint32_t id = 0;
@@ -308,11 +313,14 @@ uint32_t SHT2x::getEIDB()
     _error = SHT2x_ERR_READBYTES;
     return false;
   }
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    id <<= 8;
-    id |= buffer[i*2];
-  }
+  //  skip CRC's
+  id  = buffer[0];  //  SNC_1
+  id <<= 8;
+  id |= buffer[1];  //  SNC_0
+  id <<= 8;
+  id |= buffer[3];  //  SNA_1
+  id <<= 8;
+  id |= buffer[4];  //  SNA_0
   return id;
 }
 

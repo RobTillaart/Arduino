@@ -24,6 +24,8 @@ I'm a great fan of the above library however some time ago I needed to strip it 
 to save a few dozen bytes. I reworked that minimalistic version into a library and I 
 added a number of Arduino examples to help you get started.
 
+This library is also related to - https://github.com/RobTillaart/DS18B20_RT
+
 
 ## Interface
 
@@ -37,8 +39,27 @@ returns true if all is OK. there will be a number of retries to connect, default
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
 - **int16_t getTempC()** returns temperature in whole degrees only. -55..125  
--127 = DEVICE_DISCONNECTED
+or  -127 = DEVICE_DISCONNECTED
 - **bool getAddress()** returns true if the sensor is configured (available).
+
+
+### CentiC part
+
+The following functions are experimental since 0.2.0
+They allow to use a higher resolution while not using floats. 
+This keeps the library small.
+
+- **void setResolution(uint8_t bits = 9)** sets the internal resolution to 9, 10, 11 or 12 bits. 
+Other numbers will be mapped on 9. 
+This will affect the conversion time for a measurement.
+Internally it will call **begin()** to set the new resolution if needed.
+- **void getResolution()** returns the bits set, default 9.
+Convenience function.
+- **getTempCentiC(void)** returns the measured temperature times 100. -5500..12500
+So 10.62°C will be returned as 1062.
+
+**Warning** The DEVICE_DISCONNECTED is not tested for, but is commented in the code. 
+Use at own risk.
 
 
 ## Operation
@@ -60,8 +81,6 @@ This library supports only one DS18B20 per Arduino/ MCU pin.
 Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. 
 When the wires are longer this resistor needs to be smaller.
 
-Check examples.
-
 
 ### Pull up resistor
 
@@ -78,7 +97,7 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 | 100cm (3'4")  |     3K3     |    2K2     | 
 | 200cm (6'8")  |     2K2     |    1K0     | 
 | 500cm (16'8") |     1K0     |    \*      |  
-| longer        |       *     |    \*      |
+| longer        |     \*      |    \*      |
 
 \* = no info, smaller 
 
@@ -93,4 +112,7 @@ and all people who contributed to that lib.
 
 - add examples
   - a multi sensor == multiple pins, no bus
+- add rounding for **getTempC()**.
+  - now it truncates, so it can be 0.5°C off.
+  - add "0.5" to raw and truncate
 

@@ -1,5 +1,5 @@
 //
-//    FILE: DS18B20_INT.ino
+//    FILE: DS18B20_INT_getTempCentiC.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Minimalistic demo
 
@@ -19,6 +19,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   sensor.begin();
+  sensor.setResolution(12);
+  Serial.println(sensor.getResolution());
 }
 
 
@@ -28,7 +30,7 @@ void loop()
   start = millis();
   sensor.requestTemperatures();
   while (!sensor.isConversionComplete()) n++;
-  int t = sensor.getTempC();
+  int t = sensor.getTempCentiC();
   stop = millis();
 
   Serial.print(stop - start);

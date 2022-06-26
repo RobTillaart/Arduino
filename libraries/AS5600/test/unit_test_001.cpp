@@ -51,6 +51,7 @@ unittest(test_constants)
   assertEqual(0, AS5600_CLOCK_WISE);
   assertEqual(1, AS5600_COUNTERCLOCK_WISE);
   assertEqualFloat(360.0/4095, AS5600_RAW_TO_DEGREES, 0.0001);
+  assertEqualFloat(PI*2.0/4095, AS5600_RAW_TO_RADIANS, 0.0001);
 }
 
 

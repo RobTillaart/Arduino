@@ -47,6 +47,7 @@ To be adjusted via command line (or in AS5600.h file)
 - **AS5600_CLOCK_WISE             1**
 - **AS5600_COUNTERCLOCK_WISE      0**
 - **AS5600_RAW_TO_DEGREES         0.0879120879120879121**
+- **AS5600_RAW_TO_RADIANS         0.00153435538636864138630654133494**
 
 
 ### Constructor + I2C
@@ -107,12 +108,18 @@ This is the one most used.
 
 ### Angular Speed
 
-- **getAngularSpeed()** is an experimental function that returns an approximation of the angular speed in rotations per second.
+- **getAngularSpeed(uint8_t mode = 0)** is an experimental function that returns 
+an approximation of the angular speed in rotations per second.
 The function needs to be called at least **four** times per rotation
 to get a reasonably accuracy. 
 
-Negative values indicate reverse rotation. What that means depends on
-the setup of your project.
+(0.1.3 added mode parameter).
+- mode == 1: radians /second
+- mode == 0: degrees /second (default)
+- mode == ?: degrees /second
+
+Negative values indicate reverse rotation. 
+What that means depends on the setup of your project.
 
 Note: the first call will return an erroneous value as it has no
 reference angle or time. Also if one stops calling this function 
@@ -148,15 +155,21 @@ Please read datasheet for details.
 
 Please read datasheet twice.
 
-The burn functions are used to make settings persistent. As these functions can only be called one or three times, they are highly permanent, therefore they are commented in the library.
+The burn functions are used to make settings persistent. 
+As these functions can only be called one or three times, 
+they are highly permanent, therefore they are commented in the library.
 
 The risk is that you make your as5600 **USELESS**.
 
 **USE AT OWN RISK**
 
-- **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS registers are written to permanent memory. You can only burn a new Angle 3 times to the AS5600.
-- **void burnAngle()** writes the ZPOS and MPOS registers to permanent memory. You can only burn a new Angle maximum **THREE** times to the AS5600.
-- **void burnSetting()** writes the MANG register to permanent memory. You can write this only **ONE** time to the AS5600.
+- **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS 
+registers are written to permanent memory. 
+You can only burn a new Angle 3 times to the AS5600.
+- **void burnAngle()** writes the ZPOS and MPOS registers to permanent memory. 
+You can only burn a new Angle maximum **THREE** times to the AS5600.
+- **void burnSetting()** writes the MANG register to permanent memory. 
+You can write this only **ONE** time to the AS5600.
 
 
 
@@ -192,17 +205,21 @@ See examples.
 
 Some ideas are kept here so they won't get lost.
 
+
 ### high prio
 
 - improve documentation
+- improve performance (I2C issue)
 - get hardware to test.
 - write examples
+  - as5600_calibration.ino ?
 - add functions
   - **setOutputMode()** + constants.
   - **setPowerMode()** + constants
 - **magnetStrength()**  
   - combination of AGC and MD, ML and MH flags?
 - do we need **ANGLE_FACTOR** = 0.0879121
+
 
 ### low prio
 

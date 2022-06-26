@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,9 @@
 //                      Fix shift-direction @ getZPosition, getMPosition, 
 //                          getMaxAngle and getConfigure 
 //  0.1.2   2022-06-02  Add getAngularSpeed()
-//
+//  0.1.3   2022-06-26  Add AS5600_RAW_TO_RADIANS
+//                      Add getAngularSpeed() mode parameter.
+//                      Fix #8 bug in configure.
 
 
 // TODO
@@ -174,7 +176,7 @@ uint16_t AS5600::getMaxAngle()
 
 void AS5600::setConfigure(uint16_t value)
 {
-  writeReg(AS5600_CONF, (value >> 8) & 0x0F);
+  writeReg(AS5600_CONF, (value >> 8) & 0x2F);
   writeReg(AS5600_CONF + 1, value & 0xFF);
 }
 
@@ -354,15 +356,19 @@ bool AS5600::detectMagnet()
 //  }
 
 
-float AS5600::getAngularSpeed()
+float AS5600::getAngularSpeed(uint8_t mode)
 {
   uint32_t now     = micros();
   int      angle   = readAngle();
   uint32_t deltaT  = now - _lastMeasurement;
   int      deltaA  = angle - _lastAngle;
+  float    speed   = (deltaA * 1e6) / deltaT;
+  //  remember last time & angle
   _lastMeasurement = now;
   _lastAngle       = angle;
-  return (deltaA * 1e6 * AS5600_RAW_TO_DEGREES) / deltaT;
+  //  return degrees or radians
+  if (mode == 1) return speed * AS5600_RAW_TO_RADIANS;
+  return speed * AS5600_RAW_TO_DEGREES;
 }
 
 

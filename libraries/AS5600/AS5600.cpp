@@ -6,15 +6,19 @@
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
 
-//  0.1.0   2022-05-28  initial version
+//  0.1.0   2022-05-28  initial version.
 //  0.1.1   2022-05-31  Add readReg2() to speed up reading 2 byte values.
-//                      Fix clock wise and counter clock wise
-//                      Fix shift-direction @ getZPosition, getMPosition, 
-//                          getMaxAngle and getConfigure 
-//  0.1.2   2022-06-02  Add getAngularSpeed()
-//  0.1.3   2022-06-26  Add AS5600_RAW_TO_RADIANS
+//                      Fix clock wise and counter clock wise.
+//                      Fix shift-direction @ getZPosition, getMPosition,
+//                          getMaxAngle and getConfigure.
+//  0.1.2   2022-06-02  Add getAngularSpeed().
+//  0.1.3   2022-06-26  Add AS5600_RAW_TO_RADIANS.
 //                      Add getAngularSpeed() mode parameter.
 //                      Fix #8 bug in configure.
+//  0.1.4   2022-06-xx  Fix #7 use readReg2() to improve I2C performance.
+//                      define constants for configuration functions.
+//                      add examples - especially OUT pin related.
+//                      Fix default parameter of the begin function.
 
 
 // TODO
@@ -22,43 +26,42 @@
 //  check  Timing Characteristics
 
 
-
 #include "AS5600.h"
 
 
 //  CONFIGURATION REGISTERS
-#define AS5600_ZMCO                     0x00
-#define AS5600_ZPOS                     0x01  // + 0x02
-#define AS5600_MPOS                     0x03  // + 0x04
-#define AS5600_MANG                     0x05  // + 0x06
-#define AS5600_CONF                     0x07  // + 0x08
+const uint8_t AS5600_ZMCO = 0x00;
+const uint8_t AS5600_ZPOS = 0x01;  // + 0x02
+const uint8_t AS5600_MPOS = 0x03;  // + 0x04
+const uint8_t AS5600_MANG = 0x05;  // + 0x06
+const uint8_t AS5600_CONF = 0x07;  // + 0x08
 
 //  CONFIGURATION BIT MASKS - byte level
-#define AS5600_CONF_POWER_MODE          0x03
-#define AS5600_CONF_HYSTERESIS          0x0C
-#define AS5600_CONF_OUTPUT_MODE         0x30
-#define AS5600_CONF_PWM_FREQUENCY       0xC0
-#define AS5600_CONF_SLOW_FILTER         0x03
-#define AS5600_CONF_FAST_FILTER         0x1C
-#define AS5600_CONF_WATCH_DOG           0x20
+const uint8_t AS5600_CONF_POWER_MODE    = 0x03;
+const uint8_t AS5600_CONF_HYSTERESIS    = 0x0C;
+const uint8_t AS5600_CONF_OUTPUT_MODE   = 0x30;
+const uint8_t AS5600_CONF_PWM_FREQUENCY = 0xC0;
+const uint8_t AS5600_CONF_SLOW_FILTER   = 0x03;
+const uint8_t AS5600_CONF_FAST_FILTER   = 0x1C;
+const uint8_t AS5600_CONF_WATCH_DOG     = 0x20;
 
 
 //  UNKNOWN REGISTERS 0x09-0x0A
 
 //  OUTPUT REGISTERS
-#define AS5600_RAW_ANGLE                0x0C  // + 0x0D
-#define AS5600_ANGLE                    0x0E  // + 0x0F
+const uint8_t AS5600_RAW_ANGLE = 0x0C;  // + 0x0D
+const uint8_t AS5600_ANGLE     = 0x0E;  // + 0x0F
 
 //  STATUS REGISTERS
-#define AS5600_STATUS                   0x0B
-#define AS5600_AGC                      0x1A
-#define AS5600_MAGNITUDE                0x1B  // + 0x1C
-#define AS5600_BURN                     0xFF
+const uint8_t AS5600_STATUS    = 0x0B;
+const uint8_t AS5600_AGC       = 0x1A;
+const uint8_t AS5600_MAGNITUDE = 0x1B;  // + 0x1C
+const uint8_t AS5600_BURN      = 0xFF;
 
 //  STATUS BITS
-#define AS5600_MAGNET_HIGH              0x08
-#define AS5600_MAGNET_LOW               0x10
-#define AS5600_MAGNET_DETECT            0x20
+const uint8_t AS5600_MAGNET_HIGH   = 0x08;
+const uint8_t AS5600_MAGNET_LOW    = 0x10;
+const uint8_t AS5600_MAGNET_DETECT = 0x20;
 
 
 AS5600::AS5600(TwoWire *wire)
@@ -68,7 +71,7 @@ AS5600::AS5600(TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool AS5600::begin(int dataPin, int clockPin, int directionPin)
+bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 {
   _directionPin = directionPin;
   pinMode(_directionPin, OUTPUT);
@@ -87,7 +90,7 @@ bool AS5600::begin(int dataPin, int clockPin, int directionPin)
 #endif
 
 
-bool AS5600::begin(int directionPin)
+bool AS5600::begin(uint8_t directionPin)
 {
   _directionPin = directionPin;
   pinMode(_directionPin, OUTPUT);
@@ -131,60 +134,52 @@ uint8_t AS5600::getZMCO()
 
 void AS5600::setZPosition(uint16_t value)
 {
-  writeReg(AS5600_ZPOS, (value >> 8) & 0x0F);
-  writeReg(AS5600_ZPOS + 1, value & 0xFF);
+  writeReg2(AS5600_ZPOS, value & 0x0FFF);
 }
 
 
 uint16_t AS5600::getZPosition()
 {
-  uint16_t value = (readReg(AS5600_ZPOS) & 0x0F) << 8;
-  value += readReg(AS5600_ZPOS + 1);
+  uint16_t value = readReg2(AS5600_ZPOS) & 0x0FFF;
   return value;
 }
 
 
 void AS5600::setMPosition(uint16_t value)
 {
-  writeReg(AS5600_MPOS, (value >> 8) & 0x0F);
-  writeReg(AS5600_MPOS + 1, value & 0xFF);
+  writeReg2(AS5600_MPOS, value & 0x0FFF);
 }
 
 
 uint16_t AS5600::getMPosition()
 {
-  uint16_t value = (readReg(AS5600_MPOS) & 0x0F) << 8;
-  value += readReg(AS5600_MPOS + 1);
+  uint16_t value = readReg2(AS5600_MPOS) & 0x0FFF;
   return value;
 }
 
 
 void AS5600::setMaxAngle(uint16_t value)
 {
-  writeReg(AS5600_MANG, (value >> 8) & 0x0F);
-  writeReg(AS5600_MANG + 1, value & 0xFF);
+  writeReg2(AS5600_MANG, value & 0x0FFF);
 }
 
 
 uint16_t AS5600::getMaxAngle()
 {
-  uint16_t value = (readReg(AS5600_MANG) & 0x0F) << 8;
-  value += readReg(AS5600_MANG + 1);
+  uint16_t value = readReg2(AS5600_MANG) & 0x0FFF;
   return value;
 }
 
 
 void AS5600::setConfigure(uint16_t value)
 {
-  writeReg(AS5600_CONF, (value >> 8) & 0x2F);
-  writeReg(AS5600_CONF + 1, value & 0xFF);
+  writeReg2(AS5600_CONF, value & 0x2FFF);
 }
 
 
 uint16_t AS5600::getConfigure()
 {
-  uint16_t value = (readReg(AS5600_CONF) & 0x2F) << 8;
-  value += readReg(AS5600_CONF + 1);
+    uint16_t value = readReg2(AS5600_CONF) & 0x2FFF;
   return value;
 }
 
@@ -367,7 +362,11 @@ float AS5600::getAngularSpeed(uint8_t mode)
   _lastMeasurement = now;
   _lastAngle       = angle;
   //  return degrees or radians
-  if (mode == 1) return speed * AS5600_RAW_TO_RADIANS;
+  if (mode == AS5600_MODE_RADIANS)
+  {
+    return speed * AS5600_RAW_TO_RADIANS;
+  }
+  //  default return degrees
   return speed * AS5600_RAW_TO_DEGREES;
 }
 
@@ -407,6 +406,17 @@ uint8_t AS5600::writeReg(uint8_t reg, uint8_t value)
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
+  _error = _wire->endTransmission();
+  return _error;
+}
+
+
+uint8_t AS5600::writeReg2(uint8_t reg, uint16_t value)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->write(value >> 8);
+  _wire->write(value & 0xFF);
   _error = _wire->endTransmission();
   return _error;
 }

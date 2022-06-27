@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,14 +12,42 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.1.3"))
+#define AS5600_LIB_VERSION              (F("0.1.4"))
 
-#define AS5600_CLOCK_WISE               0   // LOW
-#define AS5600_COUNTERCLOCK_WISE        1   // HIGH
+//  setDirection
+const uint8_t AS5600_CLOCK_WISE         = 0;  //  LOW
+const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 
+//  0.0879120879120879121;
+const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4095.0;
+//  0.00153435538636864138630654133494;
+const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4095.0;
 
-#define AS5600_RAW_TO_DEGREES           (0.0879120879120879121)
-#define AS5600_RAW_TO_RADIANS           (0.00153435538636864138630654133494)
+//  getAngularSpeed
+const uint8_t AS5600_MODE_DEGREES       = 0;
+const uint8_t AS5600_MODE_RADIANS       = 1;
+
+//  setOutputMode
+const uint8_t AS5600_OUTMODE_ANALOG_100 = 0;
+const uint8_t AS5600_OUTMODE_ANALOG_90  = 1;
+const uint8_t AS5600_OUTMODE_PWM        = 2;
+
+//  setPowerMode
+const uint8_t AS5600_POWERMODE_NOMINAL  = 0;
+const uint8_t AS5600_POWERMODE_LOW1     = 1;
+const uint8_t AS5600_POWERMODE_LOW2     = 2;
+const uint8_t AS5600_POWERMODE_LOW3     = 3;
+
+//  setPWMFrequency
+const uint8_t AS5600_PWM_115            = 0;
+const uint8_t AS5600_PWM_230            = 1;
+const uint8_t AS5600_PWM_460            = 2;
+const uint8_t AS5600_PWM_920            = 3;
+
+//  setWatchDog
+const uint8_t AS5600_WATCHDOG_OFF       = 0;
+const uint8_t AS5600_WATCHDOG_ON        = 1;
+
 
 
 class AS5600
@@ -28,9 +56,9 @@ public:
   AS5600(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl, int directionPin =  AS5600_CLOCK_WISE);
+  bool     begin(int sda, int scl, uint8_t directionPin);
 #endif
-  bool     begin(int directionPin = AS5600_CLOCK_WISE);
+  bool     begin(uint8_t directionPin);
   bool     isConnected();
 
   uint8_t  getAddress() { return _address; };  //  0x36
@@ -68,7 +96,7 @@ public:
 
   //  0 = analog 0-100%
   //  1 = analog 10-90%
-  //  2 = PWM 
+  //  2 = PWM
   void     setOutputMode(uint8_t outputMode);  // 0..2
   uint8_t  getOutputMode();
 
@@ -111,22 +139,23 @@ public:
   //  approximation of the angular speed in rotations per second.
   //  mode == 1: radians /second
   //  mode == 0: degrees /second  (default)
-  float    getAngularSpeed(uint8_t mode = 0);
+  float    getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES);
 
 
 private:
   uint8_t  readReg(uint8_t reg);
   uint16_t readReg2(uint8_t reg);
   uint8_t  writeReg(uint8_t reg, uint8_t value);
+  uint8_t  writeReg2(uint8_t reg, uint16_t value);
 
   const uint8_t _address = 0x36;
   uint8_t  _directionPin;
   uint8_t  _error = 0;
 
   TwoWire*  _wire;
-  
+
   uint32_t _lastMeasurement = 0;
-  uint16_t _lastAngle       = 0; 
+  uint16_t _lastAngle       = 0;
 };
 
 

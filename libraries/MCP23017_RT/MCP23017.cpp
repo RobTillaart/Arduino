@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -10,6 +10,7 @@
 //  0.1.0   2019-10-12  initial version
 //  0.1.1   2020-06-19  refactor; #pragma once
 //  0.1.2   2021-01-01  add Arduino-CI + unit test
+//
 //  0.2.0   2021-01-11  Multiple Wire support Wire0 .. 5
 //                      error handling
 //  0.2.1   2021-02-17  fix #7 DDR is defined in ESP32
@@ -19,6 +20,8 @@
 //  0.2.5   2021-12-21  update library.json, license, minor edits
 //  0.2.6   2022-01-09  add 16 bit interface
 //                      update register defines
+//
+//  0.3.0   2022-06-28  fix incorrect masking - see #10 MCP23S17
 
 
 #include "MCP23017.h"
@@ -462,7 +465,7 @@ bool MCP23017::getPullup8(uint8_t port, uint8_t &mask)
 bool MCP23017::pinMode16(uint16_t value)
 {
   writeReg(MCP23017_DDR_A, value >> 8);
-  writeReg(MCP23017_DDR_B, value & 8);
+  writeReg(MCP23017_DDR_B, value & 0xFF);
   _error = MCP23017_OK;
   return true;
 }
@@ -472,7 +475,7 @@ bool MCP23017::pinMode16(uint16_t value)
 bool MCP23017::write16(uint16_t value)
 {
   writeReg(MCP23017_GPIO_A, value >> 8);
-  writeReg(MCP23017_GPIO_B, value & 8);
+  writeReg(MCP23017_GPIO_B, value & 0xFF);
   _error = MCP23017_OK;
   return true;
 }
@@ -493,7 +496,7 @@ uint16_t MCP23017::read16()
 bool MCP23017::setPolarity16(uint16_t mask)
 {
   writeReg(MCP23017_POL_A, mask >> 8);
-  writeReg(MCP23017_POL_B, mask & 8);
+  writeReg(MCP23017_POL_B, mask & 0xFF);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -520,7 +523,7 @@ bool MCP23017::getPolarity16(uint16_t &mask)
 bool MCP23017::setPullup16(uint16_t mask)
 {
   writeReg(MCP23017_PUR_A, mask >> 8);
-  writeReg(MCP23017_PUR_B, mask & 8);
+  writeReg(MCP23017_PUR_B, mask & 0xFF);
   if (_error != MCP23017_OK)
   {
     return false;

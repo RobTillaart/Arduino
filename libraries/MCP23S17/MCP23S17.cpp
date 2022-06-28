@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -12,6 +12,7 @@
 //  0.1.1   2022-01-10  add 16 bit interface
 //  0.1.2   2022-01-12  change the URL for library manager
 //  0.1.3   2022-04-13  fix compiling for NANO33 BLE
+//  0.2.0   2022-06-28  fix #10 incorrect mask
 
 
 #include "Arduino.h"
@@ -499,7 +500,7 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 bool MCP23S17::pinMode16(uint16_t value)
 {
   writeReg(MCP23S17_DDR_A, value >> 8);
-  writeReg(MCP23S17_DDR_B, value & 8);
+  writeReg(MCP23S17_DDR_B, value & 0xFF);
   _error = MCP23S17_OK;
   return true;
 }
@@ -509,7 +510,7 @@ bool MCP23S17::pinMode16(uint16_t value)
 bool MCP23S17::write16(uint16_t value)
 {
   writeReg(MCP23S17_GPIO_A, value >> 8);
-  writeReg(MCP23S17_GPIO_B, value & 8);
+  writeReg(MCP23S17_GPIO_B, value & 0xFF);
   _error = MCP23S17_OK;
   return true;
 }
@@ -530,7 +531,7 @@ uint16_t MCP23S17::read16()
 bool MCP23S17::setPolarity16(uint16_t mask)
 {
   writeReg(MCP23S17_POL_A, mask >> 8);
-  writeReg(MCP23S17_POL_B, mask & 8);
+  writeReg(MCP23S17_POL_B, mask & 0xFF);
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -557,7 +558,7 @@ bool MCP23S17::getPolarity16(uint16_t &mask)
 bool MCP23S17::setPullup16(uint16_t mask)
 {
   writeReg(MCP23S17_PUR_A, mask >> 8);
-  writeReg(MCP23S17_PUR_B, mask & 8);
+  writeReg(MCP23S17_PUR_B, mask & 0xFF);
   if (_error != MCP23S17_OK)
   {
     return false;

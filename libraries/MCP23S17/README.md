@@ -23,10 +23,30 @@ Programming Interface is kept the same as much as possible.
 
 ### Constructor
 
-- **MCP23S17(uint8_t select, uint8_t data, uint8_t clock)** constructor SW SPI
-- **MCP23S17(uint8_t select)** constructor HW SPI
+- **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SW SPI.
+- **MCP23S17(uint8_t select, SPIClass\* spi)** constructor HW SPI with explicit SPI interface selected.
+- **MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HW SPI with optional address pins and SPI interface.
 - **bool begin()** returns true if successful.
-- **bool isConnected()** returns true if connected, false otherwise. (dummy)
+- **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
+- **uint8_t getAddress()** returns the address set in the constructor. 
+Default = 0, range = 0..7.
+
+The two constructors allow to call 4 different constructors.
+
+```cpp
+- MCP23S17(10);            // select pin only
+- MCP23S17(10, 7);         // select pin + address pins
+- MCP23S17(10, 7, &SPI2);  // select pin + address pins + SPI port
+- MCP23S17(10, &SPI2);     // select pin + SPI port
+```
+
+
+#### sharing select lines
+
+(not tested)
+Technically two chips could use the same select pin and a different address. 
+The constructors would allow to setup such a configuration.
+I assume that this is less used and IMHO not recommended.
 
 
 ### Single pin interface
@@ -67,13 +87,14 @@ Programming Interface is kept the same as much as possible.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23S17_OK**.
 
-| NAME                  | VALUE | DESCRIPTION |
-|:----------------------|:-----:|:------------|
-| MCP23S17_OK           |  0x00 | No error    |
-| MCP23S17_PIN_ERROR    |  0x81 |
-| MCP23S17_I2C_ERROR    |  0x82 |
-| MCP23S17_VALUE_ERROR  |  0x83 |
-| MCP23S17_PORT_ERROR   |  0x84 |
+| NAME                    | VALUE  | DESCRIPTION |
+|:------------------------|:------:|:------------|
+| MCP23S17_OK             |  0x00  | No error    |
+| MCP23S17_PIN_ERROR      |  0x81  |
+| MCP23S17_I2C_ERROR      |  0x82  | (compatibility)
+| MCP23S17_VALUE_ERROR    |  0x83  |
+| MCP23S17_PORT_ERROR     |  0x84  |
+| MCP23S17_REGISTER_ERROR |  0xFF  | low level.
 
 
 ## Operation
@@ -83,8 +104,16 @@ See examples.
 
 ## Future
 
+- improve documentation
+  - references to I2C ?
 - keep functional in sync with MCP23017_RT
-- **isConnected()** is not really needed
-- implement ESP32 specific support - see MCP_ADC.begin()
-- replace magic numbers with a defined constant
+- implement ESP32 specific support in begin()
+  - see MCP_ADC.begin()
+  - SW_SPI is roughly equal in performance as HW SPI on ESP32.
+- investigate and reimplement the INPUT_PULLUP for pinMode() ?
+
+#### wont
+
+- check address range in constructor.
+
 

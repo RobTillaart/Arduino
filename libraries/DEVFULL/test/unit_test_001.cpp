@@ -42,13 +42,13 @@ unittest(test_all)
 {
   DEVFULL df;
 
-  assertEqual(0x7FFF, df.available());
+  assertEqual(INT_MAX, df.available());
   assertEqual(0x0000, df.peek());
   assertEqual(0x0000, df.read());
   assertEqual(-28, df.write('a'));
   assertEqual(-28, df.write((const uint8_t*) "hello\n", 6));
-  assertEqual(-28,  df.print("hello world"));
-  assertEqual(-56,  df.println("hello world"));   //  -56 ==> two underlying write calls...
+  assertEqual(-28, df.print("hello world"));
+  assertEqual(-56, df.println("hello world"));   //  -56 ==> two underlying write calls...
 }
 
 unittest_main()

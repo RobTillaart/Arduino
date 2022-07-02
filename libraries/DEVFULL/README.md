@@ -15,9 +15,7 @@ Arduino library for a /dev/full stream.
 
 The experimental library implements a stream class that mimics the **/dev/full**
 device of a Linux system. You can write nothing to it as it is always full.
-Every read data will return the value zero, just like **/dev/zero**
-
-The 0.1.0 version is a minimal implementation.
+Every read data will return the value zero, just like **/dev/zero**.
 
 Calls to **print()** and **println()** will be split up in multiple calls to **write()**.
 This causes a return value of n x -28 ==> mostly a number in the 65xxx range
@@ -25,10 +23,16 @@ This causes a return value of n x -28 ==> mostly a number in the 65xxx range
 See - https://en.wikipedia.org/wiki//dev/full
 
 
+## Versions
+
+- 0.1.0 is a minimal implementation.
+- 0.1.1 implements INT_MAX
+
+
 ## Interface
 
 - **DEVFULL()** constructor, sets the timeout to zero.
-- **int available()** always return 32767.
+- **int available()** always return INT_MAX = platform dependant.
 - **int peek()** always returns 0.
 - **int read()** always returns 0.
 - **void flush()** does nothing but keeps some compilers happy.

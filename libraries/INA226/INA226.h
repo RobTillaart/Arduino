@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.2.0"))
+#define INA226_LIB_VERSION              (F("0.3.0"))
 
 
 // set by setAlertRegister
@@ -44,6 +44,7 @@ public:
 #endif
   bool     begin();
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   // Core functions

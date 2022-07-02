@@ -53,6 +53,7 @@ unittest(test_constructor)
 
   assertTrue(INA.begin());
   assertTrue(INA.isConnected());
+  assertEqual(0x40, INA.getAddress());
 
   assertFalse(INA.isCalibrated());
 }
@@ -78,6 +79,7 @@ unittest(test_constants)
 unittest(test_core_functions)
 {
   INA226 INA(0x40);
+
   // assertTrue(INA.begin());
 
   fprintf(stderr, "need mock up\n");

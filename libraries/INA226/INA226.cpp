@@ -1,6 +1,6 @@
-//    FILE: INA226.h
+//    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -20,6 +20,14 @@
 #define INA226_ALERT_LIMIT          0x07
 #define INA226_MANUFACTURER         0xFE
 #define INA226_DIE_ID               0xFF
+
+
+//  CONFIGURATION MASKS
+#define INA226_CONF_RESET_MASK      0x8000
+#define INA226_CONF_AVERAGE_MASK    0x0E00
+#define INA226_CONF_BUSVC_MASK      0x01C0
+#define INA226_CONF_SHUNTVC_MASK    0x0038
+#define INA226_CONF_MODE_MASK       0x0007
 
 
 ////////////////////////////////////////////////////////
@@ -63,6 +71,12 @@ bool INA226::isConnected()
 }
 
 
+uint8_t INA226::getAddress()
+{
+  return _address;
+};
+
+
 ////////////////////////////////////////////////////////
 //
 // Core functions
@@ -102,7 +116,7 @@ float INA226::getCurrent()
 void INA226::reset()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
-  mask |= 0x800;
+  mask |= INA226_CONF_RESET_MASK;
   _writeRegister(INA226_CONFIGURATION, mask);
   // reset calibration
   _current_LSB = 0;
@@ -115,7 +129,7 @@ bool INA226::setAverage(uint8_t avg)
 {
   if (avg > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
-  mask &= 0xF1FF;
+  mask &= ~INA226_CONF_AVERAGE_MASK;
   mask |= (avg << 9);
   _writeRegister(INA226_CONFIGURATION, mask);
   return true;
@@ -125,8 +139,8 @@ bool INA226::setAverage(uint8_t avg)
 uint8_t INA226::getAverage()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
+  mask &= INA226_CONF_AVERAGE_MASK;
   mask >>= 9;
-  mask &= 7;
   return mask;
 }
 
@@ -135,7 +149,7 @@ bool INA226::setBusVoltageConversionTime(uint8_t bvct)
 {
   if (bvct > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
-  mask &= 0xFE3F;
+  mask &= ~INA226_CONF_BUSVC_MASK;
   mask |= (bvct << 6);
   _writeRegister(INA226_CONFIGURATION, mask);
   return true;
@@ -145,8 +159,8 @@ bool INA226::setBusVoltageConversionTime(uint8_t bvct)
 uint8_t INA226::getBusVoltageConversionTime()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
+  mask &= INA226_CONF_BUSVC_MASK;
   mask >>= 6;
-  mask &= 7;
   return mask;
 }
 
@@ -155,7 +169,7 @@ bool INA226::setShuntVoltageConversionTime(uint8_t svct)
 {
   if (svct > 7) return false;
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
-  mask &= 0xFFC7;
+  mask &= ~INA226_CONF_SHUNTVC_MASK;
   mask |= (svct << 3);
   _writeRegister(INA226_CONFIGURATION, mask);
   return true;
@@ -165,8 +179,8 @@ bool INA226::setShuntVoltageConversionTime(uint8_t svct)
 uint8_t INA226::getShuntVoltageConversionTime()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
+  mask &= INA226_CONF_SHUNTVC_MASK;
   mask >>= 3;
-  mask &= 7;
   return mask;
 }
 
@@ -258,7 +272,7 @@ bool INA226::setMode(uint8_t mode)
 {
   if (mode > 7) return false;
   uint16_t config = _readRegister(INA226_CONFIGURATION);
-  config &= 0xFFF8;
+  config &= ~INA226_CONF_MODE_MASK;
   config |= mode;
   _writeRegister(INA226_CONFIGURATION, config);
   return true;
@@ -267,7 +281,9 @@ bool INA226::setMode(uint8_t mode)
 
 uint8_t INA226::getMode()
 {
-  return _readRegister(INA226_CONFIGURATION) & 0x0007;
+  uint16_t mode = _readRegister(INA226_CONFIGURATION);
+  mode &= INA226_CONF_MODE_MASK;
+  return mode;
 }
 
 

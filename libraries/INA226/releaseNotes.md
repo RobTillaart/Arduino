@@ -3,11 +3,21 @@
 
 ## Release notes
 
+## 0.3.0   2022-07-01
+- fix #14 RESET FLAG
+- add getAddress()
+
 
 ## 0.2.0   2022-02-02
 - fix #11 normalize
 - fix #13 simplify sign handling shunt and current
 - add releaseNotes.md
+- **reset()** also resets the calibration (current_lsb, maxCurrent and shunt), 
+thereby forcing the user to redo the calibration call with **setMaxCurrentShunt()**.
+- fixes issue #11 => a factor 10 bug in current_lsb.
+- some edits in readme.md.
+- added **bool isCalibrated()**.
+
 
 ## 0.1.6   2021-12-20
 - update library.json, 

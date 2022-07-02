@@ -18,8 +18,8 @@ Not all functionality is tested / investigated.
 
 ==> **USE WITH CARE**
 
-The INA226 is a voltage, current and power measurement device. a few important maxima. 
-(See datasheet, chapter 6)
+The INA226 is a voltage, current and power measurement device. 
+A few important maxima, see datasheet, chapter 6.
 
 |  description  |  max  |  unit  | notes |
 |:--------------|------:|-------:|:------|
@@ -28,7 +28,8 @@ The INA226 is a voltage, current and power measurement device. a few important m
 | current       |  20   | Ampere | 
 
 
-The sensor can have 16 different I2C addresses, which depends on how the A0 and A1 address lines 
+The sensor can have 16 different I2C addresses, 
+which depends on how the A0 and A1 address lines 
 are connected to the SCL, SDA, GND and VCC pins.
 
 See datasheet - table 2 - datasheet.
@@ -36,13 +37,14 @@ See datasheet - table 2 - datasheet.
 
 ## About Measurements
 
-Calibration with **setMaxCurrentShunt()** is mandatory to get **getCurrent()** and **getPower()** to work.
+Calibration with **setMaxCurrentShunt()** is mandatory to get 
+**getCurrent()** and **getPower()** to work.
 
 Some initial tests shows that the readings do not 100% add up. 
 I expect this is caused by fluctuations in my power supply used and
-more important that the ADC is multiplexed so there is time between the bus voltage measurement
-and the shunt voltage measurement. If the current has changed a bit these values are not necessary 
-in line.
+more important that the ADC is multiplexed so there is time between 
+the bus voltage measurement and the shunt voltage measurement. 
+If the current has changed a bit these values are not necessary in line.
 
 Did some measurements with a load of 194 ohm and a shunt of 0.002 ohm that is a factor 10e5
 Being on the edge of the sensitivity of the ADC measurements of current were up to ~9% too low.
@@ -65,13 +67,7 @@ In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
 ## Versions
 
-#### 0.2.0
-
-- **reset()** also resets the calibration (current_lsb, maxCurrent and shunt), 
-thereby forcing the user to redo the calibration call with **setMaxCurrentShunt()**.
-- fixes issue #11 => a factor 10 bug in current_lsb.
-- some edits in readme.md.
-- added **bool isCalibrated()**.
+moved to releaseNotes.md.
 
 
 ## Interface
@@ -81,18 +77,21 @@ read datasheet for details.
 
 ### Constructor
 
-- **INA226(const int8_t address, TwoWire \*wire = Wire)** Constructor to set address and optional Wire interface.
-- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266;  initializes the class.
-sets I2C pins. Returns true if the INA226 address is on the I2C bus.
+- **INA226(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
+the address and optional Wire interface.
+- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266;  
+initializes the class. Sets I2C pins. 
+Returns true if the INA226 address is on the I2C bus.
 - **bool begin()** UNO ea. initializes the class. 
 returns true if the INA226 address is on the I2C bus.
 - **bool isConnected()** returns true if the INA226 address is on the I2C bus.
+- **uint8_t getAddress()** returns the address set in the constructor.
 
 
 ### Core Functions
 
-Note the power and the current are not meaningful without calibrating
-the sensor. Also the value is not meaningful if there is no shunt connected.
+Note the power and the current are not meaningful without calibrating the sensor.
+Also the value is not meaningful if there is no shunt connected.
 
 - **float getShuntVoltage()** idem.
 - **float getBusVoltage()** idem. Max 36 Volt.
@@ -203,11 +202,12 @@ Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference.
 
 See datasheet, not tested yet.
 
-- **void setAlertRegister(uint16_t mask)** by setting the mask one of five an over- or underflow can be detected. 
+- **void setAlertRegister(uint16_t mask)** by setting the mask 
+one of five types of over- or underflow can be detected. 
 Another feature that can be set is the conversion ready flag.
-- **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**
+- **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**.
 - **void setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag
-- **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**
+- **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
 
 
 | description alert register | value  | a.k.a.  |
@@ -262,9 +262,9 @@ See examples..
 - cache configuration ? ==> 2 bytes
   - what is gained? updates are faster.
   - 15 times used, 
-- separate release notes.
 - can the calibration math be optimized
   - integer only?
   - less iterations?
   - local var for current_lsb?
   - ??
+- make defines of "magic" numbers

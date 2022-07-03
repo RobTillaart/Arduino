@@ -1,0 +1,21 @@
+...Arduino\libraries\DEVRANDOM\examples\DEVRANDOM_demo\DEVRANDOM_demo.ino
+
+Build in random
+nrs per second: 10211
+0
+DigitalRead
+nrs per second: 31345
+0
+AnalogRead
+nrs per second: 1106
+0
+MARSAGLIA
+nrs per second: 53296
+57
+UINT32: D004D104
+UINT16: CF04
+	124	7	188	97	60	33	242	214	29
+	4	56	129	142	60	61	166	50	213	78
+	14	60	251	237	162	77	59	178	119	79
+	216	25	161	54	245	42	250	202	63	167
+	137	65	38	81	8	247	150	207	60	215

@@ -40,50 +40,67 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(0, DEVRANDOM_MODE_SW);
-  assertEqual(1, DEVRANDOM_MODE_HW);
-  assertEqual(2, DEVRANDOM_MODE_AR);
+  assertEqual(0, DEVRANDOM_MODE_RANDOM);
+  assertEqual(1, DEVRANDOM_MODE_DIGITALREAD);
+  assertEqual(2, DEVRANDOM_MODE_ANALOGREAD);
+  assertEqual(3, DEVRANDOM_MODE_MARSAGLIA);
 }
 
 
 unittest(test_constructor)
 {
   DEVRANDOM dr;
-  
-  assertEqual(DEVRANDOM_MODE_SW, dr.getMode());
-  
-  dr.useHW(4);
-  assertEqual(DEVRANDOM_MODE_HW, dr.getMode());
-  
-  dr.useAR(0);
-  assertEqual(DEVRANDOM_MODE_AR, dr.getMode());
-  
-  dr.useSW();
-  assertEqual(DEVRANDOM_MODE_SW, dr.getMode());
+
+  assertEqual(DEVRANDOM_MODE_RANDOM, dr.getMode());
+
+  dr.useDigitalRead(4);
+  assertEqual(DEVRANDOM_MODE_DIGITALREAD, dr.getMode());
+
+  dr.useAnalogRead(0);
+  assertEqual(DEVRANDOM_MODE_ANALOGREAD, dr.getMode());
+
+  dr.useMarsaglia();
+  assertEqual(DEVRANDOM_MODE_MARSAGLIA, dr.getMode());
+
+  dr.useRandom();
+  assertEqual(DEVRANDOM_MODE_RANDOM, dr.getMode());
 }
 
 
 unittest(test_constructor_seed)
 {
   DEVRANDOM dr_str("hello world");
-  assertEqual(DEVRANDOM_MODE_SW, dr_str.getMode());
+  assertEqual(DEVRANDOM_MODE_RANDOM, dr_str.getMode());
 
   DEVRANDOM dr_int((uint32_t)123456789);
-  assertEqual(DEVRANDOM_MODE_SW, dr_int.getMode());
+  assertEqual(DEVRANDOM_MODE_RANDOM, dr_int.getMode());
 
   DEVRANDOM dr_float((float)PI);
-  assertEqual(DEVRANDOM_MODE_SW, dr_float.getMode());
+  assertEqual(DEVRANDOM_MODE_RANDOM, dr_float.getMode());
 
 }
 
 
-unittest(test_generator_mode)
+unittest(test_read)
+{
+  DEVRANDOM dr;
+  assertEqual(1, dr.available());
+
+  fprintf(stderr, "read() >= 0test\n");
+  for (int i = 0; i < 10; i++)
+  {
+    assertLessOrEqual(0, dr.read());
+  }
+}
+
+
+unittest(test_generator_mode_random)
 {
   DEVRANDOM dr;
 
   assertEqual(1, dr.available());
 
-  fprintf(stderr, "peak == read test\n");
+  fprintf(stderr, "peek() == read() test\n");
   for (int i = 0; i < 10; i++)
   {
     int n = dr.peek();
@@ -91,6 +108,24 @@ unittest(test_generator_mode)
     assertEqual(n, dr.read());
   }
 }
+
+
+unittest(test_generator_mode_Marsaglia)
+{
+  DEVRANDOM dr;
+  dr.useMarsaglia();
+
+  assertEqual(1, dr.available());
+
+  fprintf(stderr, "peek() == read() test\n");
+  for (int i = 0; i < 10; i++)
+  {
+    int n = dr.peek();
+    fprintf(stderr,"\t%d\t%d\n", i, n);
+    assertEqual(n, dr.read());
+  }
+}
+
 
 unittest_main()
 

@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,20 +12,23 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.1.4"))
+#define AS5600_LIB_VERSION              (F("0.2.0"))
 
 //  setDirection
 const uint8_t AS5600_CLOCK_WISE         = 0;  //  LOW
 const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 
-//  0.0879120879120879121;
-const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4095.0;
-//  0.00153435538636864138630654133494;
-const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4095.0;
+//  0.087890625;
+const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4096;
+//  0.00153398078788564122971808758949;
+const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4096;
 
 //  getAngularSpeed
 const uint8_t AS5600_MODE_DEGREES       = 0;
 const uint8_t AS5600_MODE_RADIANS       = 1;
+
+//  CONFIGURE CONSTANTS
+//  check datasheet for details
 
 //  setOutputMode
 const uint8_t AS5600_OUTMODE_ANALOG_100 = 0;
@@ -44,6 +47,28 @@ const uint8_t AS5600_PWM_230            = 1;
 const uint8_t AS5600_PWM_460            = 2;
 const uint8_t AS5600_PWM_920            = 3;
 
+//  setHysteresis
+const uint8_t AS5600_HYST_OFF           = 0;
+const uint8_t AS5600_HYST_LSB1          = 1;
+const uint8_t AS5600_HYST_LSB2          = 2;
+const uint8_t AS5600_HYST_LSB3          = 3;
+
+//  setSlowFilter
+const uint8_t AS5600_SLOW_FILT_16X      = 0;
+const uint8_t AS5600_SLOW_FILT_8X       = 1;
+const uint8_t AS5600_SLOW_FILT_4X       = 2;
+const uint8_t AS5600_SLOW_FILT_2X       = 3;
+
+//  setFastFilter
+const uint8_t AS5600_FAST_FILT_NONE     = 0;
+const uint8_t AS5600_FAST_FILT_LSB6     = 1;
+const uint8_t AS5600_FAST_FILT_LSB7     = 2;
+const uint8_t AS5600_FAST_FILT_LSB9     = 3;
+const uint8_t AS5600_FAST_FILT_LSB18    = 4;
+const uint8_t AS5600_FAST_FILT_LSB21    = 5;
+const uint8_t AS5600_FAST_FILT_LSB24    = 6;
+const uint8_t AS5600_FAST_FILT_LSB10    = 7;
+
 //  setWatchDog
 const uint8_t AS5600_WATCHDOG_OFF       = 0;
 const uint8_t AS5600_WATCHDOG_ON        = 1;
@@ -56,9 +81,11 @@ public:
   AS5600(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl, uint8_t directionPin);
+           //  255 is software controlled direction pin
+  bool     begin(int sda, int scl, uint8_t directionPin = 255);
 #endif
-  bool     begin(uint8_t directionPin);
+           //  255 is software controlled direction pin
+  bool     begin(uint8_t directionPin = 255);
   bool     isConnected();
 
   uint8_t  getAddress() { return _address; };  //  0x36
@@ -81,44 +108,52 @@ public:
   uint16_t getMaxAngle();
 
   //  access the whole configuration register
+  //  check datasheet for bit fields
   void     setConfigure(uint16_t value);
   uint16_t getConfigure();
 
   //  access details of the configuration register
   //  0 = Normal
   //  1,2,3 are low power mode - check datasheet
-  void     setPowerMode(uint8_t powerMode);    // 0..3
+  void     setPowerMode(uint8_t powerMode);
   uint8_t  getPowerMode();
 
-  //  hysteresis = nr of LSB
-  void     setHysteresis(uint8_t hysteresis);  // 0..3
+  //  0 = off    1 = lsb1    2 = lsb2    3 = lsb3
+  void     setHysteresis(uint8_t hysteresis);
   uint8_t  getHysteresis();
 
   //  0 = analog 0-100%
   //  1 = analog 10-90%
   //  2 = PWM
-  void     setOutputMode(uint8_t outputMode);  // 0..2
+  void     setOutputMode(uint8_t outputMode);
   uint8_t  getOutputMode();
 
   //  0 = 115    1 = 230    2 = 460    3 = 920 (Hz)
-  void     setPWMFrequency(uint8_t pwmFreq);   // 0..3
+  void     setPWMFrequency(uint8_t pwmFreq);
   uint8_t  getPWMFrequency();
 
-  void     setSlowFilter(uint8_t mask);        // 0..3
+  //  0 = 16x    1 = 8x     2 = 4x     3 = 2x
+  void     setSlowFilter(uint8_t mask);
   uint8_t  getSlowFilter();
 
-  void     setFastFilter(uint8_t mask);        // 0..7
+  //  0 = none   1 = LSB6   2 = LSB7   3 = LSB9
+  //  4 = LSB18  5 = LSB21  6 = LSB24  7 = LSB10
+  void     setFastFilter(uint8_t mask);
   uint8_t  getFastFilter();
 
   //  0 = OFF
   //  1 = ON   (auto low power mode)
-  void     setWatchDog(uint8_t mask);          // 0..1
+  void     setWatchDog(uint8_t mask);
   uint8_t  getWatchDog();
 
 
   //  READ OUTPUT REGISTERS
   uint16_t rawAngle();
   uint16_t readAngle();
+
+  //  software based offset.
+  void     setOffset(float degrees);
+  float    getOffset();
 
 
   //  READ STATUS REGISTERS
@@ -135,7 +170,8 @@ public:
   //  void burnAngle();
   //  void burnSetting();
 
-  //  experimental 0.1.2 - to be tested.
+
+  //  Experimental 0.1.2 - to be tested.
   //  approximation of the angular speed in rotations per second.
   //  mode == 1: radians /second
   //  mode == 0: degrees /second  (default)
@@ -149,13 +185,18 @@ private:
   uint8_t  writeReg2(uint8_t reg, uint16_t value);
 
   const uint8_t _address = 0x36;
-  uint8_t  _directionPin;
-  uint8_t  _error = 0;
+  uint8_t  _directionPin = 255;
+  uint8_t  _direction    = AS5600_CLOCK_WISE;
+  uint8_t  _error        = 0;
 
   TwoWire*  _wire;
 
+  //  for getAngularSpeed()
   uint32_t _lastMeasurement = 0;
-  uint16_t _lastAngle       = 0;
+  int16_t  _lastAngle       = 0;
+
+  //  for readAngle() and rawAngle()
+  uint16_t _offset          = 0;
 };
 
 

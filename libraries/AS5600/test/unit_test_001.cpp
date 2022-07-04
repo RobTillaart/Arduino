@@ -50,11 +50,12 @@ unittest(test_constants)
 {
   assertEqual(0, AS5600_CLOCK_WISE);
   assertEqual(1, AS5600_COUNTERCLOCK_WISE);
+
   assertEqual(0, AS5600_MODE_DEGREES);
   assertEqual(1, AS5600_MODE_RADIANS);
 
-  assertEqualFloat(360.0/4095, AS5600_RAW_TO_DEGREES, 0.0001);
-  assertEqualFloat((PI*2.0)/4095, AS5600_RAW_TO_RADIANS, 0.0001);
+  assertEqualFloat(360.0/4096, AS5600_RAW_TO_DEGREES, 0.0001);
+  assertEqualFloat((PI*2.0)/4096, AS5600_RAW_TO_RADIANS, 0.0001);
 
   assertEqual(0, AS5600_OUTMODE_ANALOG_100);
   assertEqual(1, AS5600_OUTMODE_ANALOG_90);
@@ -69,6 +70,25 @@ unittest(test_constants)
   assertEqual(1, AS5600_PWM_230);
   assertEqual(2, AS5600_PWM_460);
   assertEqual(3, AS5600_PWM_920);
+
+  assertEqual(0, AS5600_HYST_OFF);
+  assertEqual(1, AS5600_HYST_LSB1);
+  assertEqual(2, AS5600_HYST_LSB2);
+  assertEqual(3, AS5600_HYST_LSB3);
+
+  assertEqual(0, AS5600_SLOW_FILT_16X);
+  assertEqual(1, AS5600_SLOW_FILT_8X);
+  assertEqual(2, AS5600_SLOW_FILT_4X);
+  assertEqual(3, AS5600_SLOW_FILT_2X);
+
+  assertEqual(0, AS5600_FAST_FILT_NONE);
+  assertEqual(1, AS5600_FAST_FILT_LSB6);
+  assertEqual(2, AS5600_FAST_FILT_LSB7);
+  assertEqual(3, AS5600_FAST_FILT_LSB9);
+  assertEqual(4, AS5600_FAST_FILT_LSB18);
+  assertEqual(5, AS5600_FAST_FILT_LSB21);
+  assertEqual(6, AS5600_FAST_FILT_LSB24);
+  assertEqual(7, AS5600_FAST_FILT_LSB10);
 
   assertEqual(0, AS5600_WATCHDOG_OFF);
   assertEqual(1, AS5600_WATCHDOG_ON);
@@ -93,11 +113,12 @@ unittest(test_address)
 }
 
 
-unittest(test_direction)
+unittest(test_hardware_direction)
 {
   AS5600 as5600;
 
   as5600.begin(4);
+  assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
 
   as5600.setDirection();
   assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
@@ -108,6 +129,49 @@ unittest(test_direction)
   as5600.setDirection(AS5600_CLOCK_WISE);
   assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
 }
+
+
+unittest(test_software_direction)
+{
+  AS5600 as5600;
+
+  as5600.begin(255);
+  assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
+
+  as5600.setDirection();
+  assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
+
+  as5600.setDirection(AS5600_COUNTERCLOCK_WISE);
+  assertEqual(AS5600_COUNTERCLOCK_WISE, as5600.getDirection());
+
+  as5600.setDirection(AS5600_CLOCK_WISE);
+  assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
+}
+
+
+unittest(test_offset)
+{
+  AS5600 as5600;
+
+  as5600.begin();
+  
+  for (int of = 0; of < 360; of += 40)
+  {
+    as5600.setOffset(of);
+    assertEqualFloat(of, as5600.getOffset(), 0.05);
+  }
+
+  as5600.setOffset(-40.25);
+  assertEqualFloat(319.75, as5600.getOffset(), 0.05);
+
+  as5600.setOffset(-400.25);
+  assertEqualFloat(319.75, as5600.getOffset(), 0.05);
+
+  as5600.setOffset(753.15);
+  assertEqualFloat(33.15, as5600.getOffset(), 0.05);
+}
+
+
 
 // FOR REMAINING ONE NEED A STUB
 

@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -15,11 +15,16 @@
 //  0.1.3   2022-06-26  Add AS5600_RAW_TO_RADIANS.
 //                      Add getAngularSpeed() mode parameter.
 //                      Fix #8 bug in configure.
-//  0.1.4   2022-06-xx  Fix #7 use readReg2() to improve I2C performance.
+//  0.1.4   2022-06-27  Fix #7 use readReg2() to improve I2C performance.
 //                      define constants for configuration functions.
 //                      add examples - especially OUT pin related.
 //                      Fix default parameter of the begin function.
-
+//
+//  0.2.0   2022-06-28  add software based direction control.
+//                      add examples
+//                      define constants for configuration functions.
+//                      fix conversion constants (4096 based)
+//                      add get- setOffset(degrees)   functions. (no radians yet)
 
 // TODO
 //  Power-up time  1 minute
@@ -74,7 +79,10 @@ AS5600::AS5600(TwoWire *wire)
 bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 {
   _directionPin = directionPin;
-  pinMode(_directionPin, OUTPUT);
+  if (_directionPin != 255)
+  {
+    pinMode(_directionPin, OUTPUT);
+  }
   setDirection(AS5600_CLOCK_WISE);
 
   _wire = &Wire;
@@ -93,7 +101,10 @@ bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 bool AS5600::begin(uint8_t directionPin)
 {
   _directionPin = directionPin;
-  pinMode(_directionPin, OUTPUT);
+  if (_directionPin != 255)
+  {
+    pinMode(_directionPin, OUTPUT);
+  }
   setDirection(AS5600_CLOCK_WISE);
 
   _wire->begin();
@@ -115,13 +126,21 @@ bool AS5600::isConnected()
 //
 void AS5600::setDirection(uint8_t direction)
 {
-  digitalWrite(_directionPin, direction);
+  _direction = direction;
+  if (_directionPin != 255)
+  {
+    digitalWrite(_directionPin, _direction);
+  }
 }
 
 
 uint8_t AS5600::getDirection()
 {
-  return digitalRead(_directionPin);
+  if (_directionPin != 255)
+  {
+    _direction = digitalRead(_directionPin);
+  }
+  return _direction;
 }
 
 
@@ -291,6 +310,12 @@ uint8_t AS5600::getWatchDog()
 uint16_t AS5600::rawAngle()
 {
   uint16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
+  if (_offset > 0) value = (value + _offset) & 0x0FFF;
+
+  if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
+  {
+    value = (4096 - value) & 4095;
+  }
   return value;
 }
 
@@ -298,7 +323,34 @@ uint16_t AS5600::rawAngle()
 uint16_t AS5600::readAngle()
 {
   uint16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
+  if (_offset > 0) value = (value + _offset) & 0x0FFF;
+  
+  if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
+  {
+    value = (4096 - value) & 4095;
+  }
   return value;
+}
+
+
+void AS5600::setOffset(float degrees)
+{
+  bool neg = false;
+  if (degrees < 0)
+  {
+    neg = true;
+    degrees = -degrees;
+  }
+  uint16_t offset = round(degrees * (4096 / 360.0));
+  offset &= 4095;
+  if (neg) offset = 4096 - offset;
+  _offset = offset;  
+}
+
+
+float AS5600::getOffset()
+{
+  return _offset * AS5600_RAW_TO_DEGREES;
 }
 
 
@@ -357,7 +409,14 @@ float AS5600::getAngularSpeed(uint8_t mode)
   int      angle   = readAngle();
   uint32_t deltaT  = now - _lastMeasurement;
   int      deltaA  = angle - _lastAngle;
+
+  //  assumption is that there is no more than 180° rotation
+  //  between two consecutive measurements.
+  //  => at least two measurements per rotation (preferred 4).
+  if (deltaA >  2048) deltaA -= 4096;
+  if (deltaA < -2048) deltaA += 4096;
   float    speed   = (deltaA * 1e6) / deltaT;
+
   //  remember last time & angle
   _lastMeasurement = now;
   _lastAngle       = angle;

@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.12
+// VERSION: 0.4.13
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -51,6 +51,8 @@
 //  0.4.11 2021-12-16  update library.json, license, minor edits (clean up),
 //                     add constants to unit tests
 //  0.4.12 2022-01-31  Fix #72, delayMicroseconds() for wakeUp
+//  0.4.13 2022-07-05  Fix #76, disable interrupts for ESP32.
+
 
 
 #include "dhtnew.h"
@@ -185,8 +187,13 @@ int DHTNEW::_read()
 {
   // READ VALUES
   int rv = _readSensor();
-  interrupts();
 
+  // enable interrupts again
+#if defined(ESP32)
+  portENABLE_INTERRUPTS();
+#else
+  interrupts();
+#endif
   // Data-bus's free status is high voltage level.
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, HIGH);
@@ -341,7 +348,14 @@ int DHTNEW::_readSensor()
   pinMode(_dataPin, INPUT_PULLUP);
 
   // DISABLE INTERRUPTS when clock in the bits
-  if (_disableIRQ) { noInterrupts(); }
+  if (_disableIRQ)
+  {
+#if defined(ESP32)  
+    portDISABLE_INTERRUPTS();
+#else
+    noInterrupts();
+#endif
+  }
 
   // DHT22
   // SENSOR PULLS LOW after 20-40 us  => if stays HIGH ==> device not ready

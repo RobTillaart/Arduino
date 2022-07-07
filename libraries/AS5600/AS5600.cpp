@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -25,9 +25,13 @@
 //                      define constants for configuration functions.
 //                      fix conversion constants (4096 based)
 //                      add get- setOffset(degrees)   functions. (no radians yet)
+//  0.2.1   notreleased add bool return to set() functions.
+//                      update Readme (analog / PWM out)
+//  0.3.0   2022-07-07  fix #18 invalid mask setConfigure().
+
 
 // TODO
-//  Power-up time  1 minute
+//  Power-up time  1 minute (need HW)
 //  check  Timing Characteristics
 
 
@@ -151,9 +155,11 @@ uint8_t AS5600::getZMCO()
 }
 
 
-void AS5600::setZPosition(uint16_t value)
+bool AS5600::setZPosition(uint16_t value)
 {
-  writeReg2(AS5600_ZPOS, value & 0x0FFF);
+  if (value > 0x0FFF) return false;
+  writeReg2(AS5600_ZPOS, value);
+  return true;
 }
 
 
@@ -164,9 +170,11 @@ uint16_t AS5600::getZPosition()
 }
 
 
-void AS5600::setMPosition(uint16_t value)
+bool AS5600::setMPosition(uint16_t value)
 {
-  writeReg2(AS5600_MPOS, value & 0x0FFF);
+  if (value > 0x0FFF) return false;
+  writeReg2(AS5600_MPOS, value);
+  return true;
 }
 
 
@@ -177,9 +185,11 @@ uint16_t AS5600::getMPosition()
 }
 
 
-void AS5600::setMaxAngle(uint16_t value)
+bool AS5600::setMaxAngle(uint16_t value)
 {
-  writeReg2(AS5600_MANG, value & 0x0FFF);
+  if (value > 0x0FFF) return false;
+  writeReg2(AS5600_MANG, value);
+  return true;
 }
 
 
@@ -190,27 +200,30 @@ uint16_t AS5600::getMaxAngle()
 }
 
 
-void AS5600::setConfigure(uint16_t value)
+bool AS5600::setConfigure(uint16_t value)
 {
-  writeReg2(AS5600_CONF, value & 0x2FFF);
+  if (value > 0x3FFF) return false;
+  writeReg2(AS5600_CONF, value);
+  return true;
 }
 
 
 uint16_t AS5600::getConfigure()
 {
-    uint16_t value = readReg2(AS5600_CONF) & 0x2FFF;
+  uint16_t value = readReg2(AS5600_CONF) & 0x3FFF;
   return value;
 }
 
 
 //  details configure
-void AS5600::setPowerMode(uint8_t powerMode)
+bool AS5600::setPowerMode(uint8_t powerMode)
 {
-  if (powerMode > 3) return;
+  if (powerMode > 3) return false;
   uint8_t value = readReg(AS5600_CONF + 1);
   value &= ~AS5600_CONF_POWER_MODE;
   value |= powerMode;
   writeReg(AS5600_CONF + 1, value);
+  return true;
 }
 
 uint8_t AS5600::getPowerMode()
@@ -218,13 +231,14 @@ uint8_t AS5600::getPowerMode()
   return readReg(AS5600_CONF + 1) & 0x03;
 }
 
-void AS5600::setHysteresis(uint8_t hysteresis)
+bool AS5600::setHysteresis(uint8_t hysteresis)
 {
-  if (hysteresis > 3) return;
+  if (hysteresis > 3) return false;
   uint8_t value = readReg(AS5600_CONF + 1);
   value &= ~AS5600_CONF_HYSTERESIS;
   value |= (hysteresis << 2);
   writeReg(AS5600_CONF + 1, value);
+  return true;
 }
 
 uint8_t AS5600::getHysteresis()
@@ -232,13 +246,14 @@ uint8_t AS5600::getHysteresis()
   return (readReg(AS5600_CONF + 1) >> 2) & 0x03;
 }
 
-void AS5600::setOutputMode(uint8_t outputMode)
+bool AS5600::setOutputMode(uint8_t outputMode)
 {
-  if (outputMode > 2) return;
+  if (outputMode > 2) return false;
   uint8_t value = readReg(AS5600_CONF + 1);
   value &= ~AS5600_CONF_OUTPUT_MODE;
   value |= (outputMode << 4);
   writeReg(AS5600_CONF + 1, value);
+  return true;
 }
 
 uint8_t AS5600::getOutputMode()
@@ -246,13 +261,14 @@ uint8_t AS5600::getOutputMode()
   return (readReg(AS5600_CONF + 1) >> 4) & 0x03;
 }
 
-void AS5600::setPWMFrequency(uint8_t pwmFreq)
+bool AS5600::setPWMFrequency(uint8_t pwmFreq)
 {
-  if (pwmFreq > 3) return;
+  if (pwmFreq > 3) return false;
   uint8_t value = readReg(AS5600_CONF + 1);
   value &= ~AS5600_CONF_PWM_FREQUENCY;
   value |= (pwmFreq << 6);
   writeReg(AS5600_CONF + 1, value);
+  return true;
 }
 
 uint8_t AS5600::getPWMFrequency()
@@ -260,13 +276,14 @@ uint8_t AS5600::getPWMFrequency()
   return (readReg(AS5600_CONF + 1) >> 6) & 0x03;
 }
 
-void AS5600::setSlowFilter(uint8_t mask)
+bool AS5600::setSlowFilter(uint8_t mask)
 {
-  if (mask > 3) return;
+  if (mask > 3) return false;
   uint8_t value = readReg(AS5600_CONF);
   value &= ~AS5600_CONF_SLOW_FILTER;
   value |= mask;
   writeReg(AS5600_CONF, value);
+  return true;
 }
 
 uint8_t AS5600::getSlowFilter()
@@ -274,13 +291,14 @@ uint8_t AS5600::getSlowFilter()
   return readReg(AS5600_CONF) & 0x03;
 }
 
-void AS5600::setFastFilter(uint8_t mask)
+bool AS5600::setFastFilter(uint8_t mask)
 {
-  if (mask > 7) return;
+  if (mask > 7) return false;
   uint8_t value = readReg(AS5600_CONF);
   value &= ~AS5600_CONF_FAST_FILTER;
   value |= (mask << 2);
   writeReg(AS5600_CONF, value);
+  return true;
 }
 
 uint8_t AS5600::getFastFilter()
@@ -288,13 +306,14 @@ uint8_t AS5600::getFastFilter()
   return (readReg(AS5600_CONF) >> 2) & 0x07;
 }
 
-void AS5600::setWatchDog(uint8_t mask)
+bool AS5600::setWatchDog(uint8_t mask)
 {
-  if (mask > 1) return;
+  if (mask > 1) return false;
   uint8_t value = readReg(AS5600_CONF);
   value &= ~AS5600_CONF_WATCH_DOG;
   value |= (mask << 5);
   writeReg(AS5600_CONF, value);
+  return true;
 }
 
 uint8_t AS5600::getWatchDog()
@@ -324,7 +343,7 @@ uint16_t AS5600::readAngle()
 {
   uint16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
   if (_offset > 0) value = (value + _offset) & 0x0FFF;
-  
+
   if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
   {
     value = (4096 - value) & 4095;
@@ -333,18 +352,18 @@ uint16_t AS5600::readAngle()
 }
 
 
-void AS5600::setOffset(float degrees)
+bool AS5600::setOffset(float degrees)
 {
-  bool neg = false;
-  if (degrees < 0)
-  {
-    neg = true;
-    degrees = -degrees;
-  }
+  // expect loss of precision.
+  if (abs(degrees) > 36000) return false;
+  bool neg = (degrees < 0);
+  if (neg) degrees = -degrees;
+
   uint16_t offset = round(degrees * (4096 / 360.0));
   offset &= 4095;
   if (neg) offset = 4096 - offset;
-  _offset = offset;  
+  _offset = offset;
+  return true;
 }
 
 

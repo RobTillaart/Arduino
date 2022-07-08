@@ -1,0 +1,23 @@
+{
+  "name": "DRV8825",
+  "keywords": "DRV8825",
+  "description": "Arduino library for DRV8825 stepper motor driver.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DRV8825.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "DRV8825.h"
+}

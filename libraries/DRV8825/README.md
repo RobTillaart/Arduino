@@ -17,8 +17,12 @@ Arduino library for DRV8825 stepper motor driver.
 
 **Warning: experimental**
 
-The 8825 stepper motor driver control a stepper motor with
-a direction signal and a step pulse. 
+The DRV8825 stepper motor library controls a stepper motor with
+a direction signal and a step pulse.
+The library has a default pulse length of 2 us however this can be adjusted to the specific requirements of the motor.
+
+The library will probably work for similar controllers.
+This is not tested. If you have some working, please let me know.
 
 
 ## Hardware connection
@@ -43,31 +47,52 @@ const uint8_t DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
 
  with steps per rotation as parameter.
 This parameter is optional and if set to zero, steps will not be counted.
-- **bool begin(uint8_t dirPin, uint8_t stepPin)** set the direction and step pin.
-Both pins are initially set to LOW.
+- **bool begin(uint8_t dirPin, uint8_t stepPin)** set the direction pin and step pin.
+Both pins are set to LOW. For direction this is DRV8825_CLOCK_WISE.
 
 
 ### Direction
 
 To define in which way the motor will turn.
 
-- **void setDirection(uint8_t direction = DRV8825_CLOCK_WISE)** idem.
+- **void setDirection(uint8_t direction = DRV8825_CLOCK_WISE)**
+switch direction between DRV8825_CLOCK_WISE (0 = default) or
+DRV8825_COUNTERCLOCK_WISE (1).
 - **uint8_t getDirection()** returns DRV8825_CLOCK_WISE (0) or
 DRV8825_COUNTERCLOCK_WISE (1).
 
 
-### Steps
+### Steps and position
 
-- **void setStepsPerRotation(uint16_t stepsPerRotation)** specifies the steps per rotation for the specific stepper motor. 
-If set to zero, the steps will not be counted.
+- **void setStepsPerRotation(uint16_t stepsPerRotation)** specifies the steps per rotation for the specific stepper motor.
+If set to zero, the steps and position will not be updated/valid.
+Note this value depends on pins M0, M1 and M2.
 - **uint16_t getStepsPerRotation()** returns the value set before
 or zero default.
 - **void step()** The workhorse, will give a pulse on the STEP pin.
-- **int32_t resetSteps(int32_t s = 0; )** 
-- **int32_t getSteps()** returns the sum of the steps made. 
-CW = + and CWW = - so one can go back to a relative position.
+This also updates the position and the steps counters.
+- **uint32_t resetSteps(uint32_t s = 0 )** to reset the steps counter,
+default to zero. 
+Returns the last value of internal steps counter.
+- **uint32_t getSteps()** returns the steps made since start of the program or the last **resetSteps()**.
+- **bool setPosition(uint16_t pos = 0)** to calibrate the position of the motor. Default to zero.
+Works only if stepsPerRotation > 0
+Returns false if pos > stepsPerRotation.
+- **uint16_t getPosition()** returns the position % stepsPerRotation.
+Value = 0 .. stepsPerRotation - 1
+This value can be converted to an angle in degrees or radians.
 
-The combination getSteps with stepsPerRotation indicates the position of the motor.
+Note the behaviour of steps changed in 0.1.1.
+This is done as the library added position functions.
+
+
+### Configuration
+
+- **void setStepPulseLength(uint16_t us = 2)** configures the pulse length of one step.
+It is defined in microseconds, default is 2 which is almost the 1.9 from the datasheet. 
+Normally these need not to be changed.
+- **uint16_t getStepPulseLength()** returns the set value.
+Default = 2.
 
 
 ## Operational
@@ -75,21 +100,21 @@ The combination getSteps with stepsPerRotation indicates the position of the mot
 The base functions are:
 
 ```cpp
-DRV8825 stpr;
+DRV8825 stepper;
 
 void setup()
 {
   Serial.begin(115200);
   ...
-  stpr.begin(4, 5);  // direction + step pin
-  stpr.setDirection(DRV8825_CLOCK_WISE);
+  stepper.begin(4, 5);  // direction + step pin
+  stepper.setDirection(DRV8825_CLOCK_WISE);
   ...
 }
 
 void loop()
 {
 ...
-  stpr.step;
+  stepper.step();
 ...
 }
 ```
@@ -100,13 +125,48 @@ See examples.
 ## Future
 
 Ideas are kept here so they won't get lost.
+Some will only be worked on if requested and time permits.
 
-- redo interface
-  - stepCW() + stepCCW();  or just CW(); and CCW();
-  - left() + right();
-  - step(nr of steps)  blocking!!
-- add position
-  - = steps % steps/rotation
-- base class DIRSTEP
-  - 8825 as derived?
-  - other too
+#### must
+
+- add examples
+- update documentation
+- investigate other pins
+  - M0..M2              8.3.5 micro steps
+  - decay mode          8.3.3 there are 3 modi)
+  - fault pin     FLT   input to detect errors
+  - sleep pin     SLP   8.3.6
+  - enable pin    EN    8.3.6
+  - reset pin     RST   8.3.6
+  - other?
+- if stepsPerRotation is set to zero, should pos be set to zero?
+  - NB it will not be updated anymore.
+- do we need steps counter?
+
+#### should
+
+- step(uint16_t steps)
+  - multiple steps in one call.
+  - blocking
+  - max 1 rotation?
+  - optimize "position admin"
+- gotoPosition(pos)..
+  - needs steps(n) above.
+- investigate other similar STEP/DIR controllers
+  - DRV88xx series?
+
+#### could
+
+- stepCW() + stepCCW()
+- base class STEPDIR
+  - only when needed?
+  - 8825 as derived? or as base class?
+  - which others are similar?
+- investigate controlling a DRV8825 with an PCF8574
+  - pins needed (M0..M2, SLP, RST, EN, DIR, STEP)
+  - first need a decent basic library.
+
+#### wont
+
+- left() + right();
+

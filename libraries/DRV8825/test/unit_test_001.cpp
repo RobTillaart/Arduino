@@ -87,24 +87,22 @@ unittest(test_step_1)
   assertTrue(stepper.begin(4, 5));
   stepper.setStepsPerRotation(1600);
 
-  for (int i= 0; i < 10; i++)
+  for (int i = 0; i < 10; i++)
   {
     stepper.step();
-    delay(1);
   }
   assertEqual(10, stepper.getSteps());
-  for (int i= 0; i < 10; i++)
+
+  for (int i = 0; i < 10; i++)
   {
     stepper.step();
-    delay(1);
   }
   assertEqual(20, stepper.getSteps());
-  
+
   stepper.resetSteps(0);
-  for (int i= 0; i < 10; i++)
+  for (int i = 0; i < 10; i++)
   {
     stepper.step();
-    delay(1);
   }
   assertEqual(10, stepper.getSteps());
 }
@@ -117,12 +115,18 @@ unittest(test_step_2)
   assertTrue(stepper.begin(4, 5));
   stepper.setStepsPerRotation(0);
 
-  for (int i= 0; i < 10; i++)
+  for (int i = 0; i < 10; i++)
   {
     stepper.step();
-    delay(1);
-    assertEqual(0, stepper.getSteps());
   }
+  assertEqual(10, stepper.getSteps());
+
+  stepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
+  for (int i = 0; i < 10; i++)
+  {
+    stepper.step();
+  }
+  assertEqual(20, stepper.getSteps());
 }
 
 
@@ -138,6 +142,34 @@ unittest(test_step_pulse_length)
     stepper.setStepPulseLength(i);
     assertEqual(i, stepper.getStepPulseLength());
   }
+}
+
+
+unittest(test_position)
+{
+  DRV8825 stepper;
+
+  assertTrue(stepper.begin(4, 5));
+  stepper.setStepsPerRotation(200);
+  assertFalse(stepper.setPosition(200));
+
+  assertTrue(stepper.setPosition(0));
+  assertEqual(0, stepper.getPosition());
+  for (int i = 0; i < 20; i++)
+  {
+    stepper.step();
+  }
+  assertEqual(20, stepper.getPosition());
+
+  stepper.setDirection(DRV8825_CLOCK_WISE);
+  assertTrue(stepper.setPosition(199));
+  stepper.step();
+  assertEqual(0, stepper.getPosition());
+
+  stepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
+  assertTrue(stepper.setPosition(0));
+  stepper.step();
+  assertEqual(199, stepper.getPosition());
 }
 
 

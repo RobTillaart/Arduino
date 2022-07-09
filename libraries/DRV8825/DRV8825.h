@@ -2,7 +2,7 @@
 //
 //    FILE: DRV8825.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -11,13 +11,12 @@
 #include "Arduino.h"
 
 
-#define DRV8825_LIB_VERSION              (F("0.1.0"))
+#define DRV8825_LIB_VERSION              (F("0.1.1"))
 
 
 //  setDirection
-const uint8_t DRV8825_CLOCK_WISE         = 0;  //  LOW
-const uint8_t DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
-
+const uint8_t DRV8825_CLOCK_WISE        = 0;  //  LOW
+const uint8_t DRV8825_COUNTERCLOCK_WISE = 1;  //  HIGHT
 
 class DRV8825
 {
@@ -37,8 +36,14 @@ public:
   void     setStepsPerRotation(uint16_t stepsPerRotation);
   uint16_t getStepsPerRotation();
   void     step();
-  int32_t  resetSteps(int32_t s = 0 );
-  int32_t  getSteps();
+  uint32_t resetSteps(uint32_t s = 0 );
+  uint32_t getSteps();
+
+  //       POSITION
+  //       only works if stepsPerRotation > 0
+  //       returns false if pos > stepsPerRotation.
+  bool     setPosition(uint16_t pos = 0);
+  uint16_t getPosition();
 
   //       CONFIGURATION
   //       step pulse length is in microseconds
@@ -47,13 +52,15 @@ public:
   uint16_t getStepPulseLength();
 
 
-private:
+
+protected:
   uint16_t _stepsPerRotation = 0;
   uint8_t  _directionPin     = 255;
   uint8_t  _stepPin          = 255;
   uint8_t  _direction        = DRV8825_CLOCK_WISE;
-  int32_t  _steps            = 0;
+  uint32_t _steps            = 0;
   uint16_t _us               = 2;
+  uint16_t _pos              = 0;
 };
 
 

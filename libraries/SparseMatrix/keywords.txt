@@ -1,0 +1,18 @@
+# Syntax Colouring Map For SparseMatrix
+
+# Data types (KEYWORD1)
+SparseMatrix	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+size	KEYWORD2
+count	KEYWORD2
+sum	KEYWORD2
+
+get	KEYWORD2
+set	KEYWORD2
+
+
+# Constants (LITERAL1)
+SPARSEMATRIX_LIB_VERSION	LITERAL1
+
+

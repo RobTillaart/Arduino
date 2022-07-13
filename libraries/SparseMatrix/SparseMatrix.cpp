@@ -1,12 +1,15 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //
 //  HISTORY:
 //  0.1.0  2022-07-12  initial version
+//  0.1.1  2022-07-13  add clear();
+//                     add add(x, y, value);
+//                     fix set(x, y, 0);
 
 
 #include "SparseMatrix.h"
@@ -21,6 +24,7 @@ SparseMatrix::SparseMatrix(uint8_t sz)
   _value = (float *)   malloc(sz * sizeof(float));
   //  catch malloc error
   if (_x && _y && _value) return;
+  //  if malloc error set size to zero.
   _size = 0;
 }
 
@@ -43,6 +47,13 @@ uint8_t SparseMatrix::count()
 {
   return _count;
 }
+
+
+void SparseMatrix::clear()
+{
+  _count = 0;
+}
+
 
 float SparseMatrix::sum()
 {
@@ -70,17 +81,54 @@ bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
       _count--;
       //  move last element
       //  efficiency is not a requirement yet.
-      _x[pos] = _x[_count];
-      _y[pos] = _y[_count];
-      _value[pos] = _value[_count];
+      if (_count > 0)
+      {
+        _x[pos]     = _x[_count];
+        _y[pos]     = _y[_count];
+        _value[pos] = _value[_count];
+      }
     }
     return true;
   }
 
-  //  new element
+  //  does not exist => new element ?
+  if (value == 0) return true;
   if (_count >= _size) return false;
-  _x[_count] = x;
-  _y[_count] = y;
+  _x[_count]     = x;
+  _y[_count]     = y;
+  _value[_count] = value;
+  _count++;
+  return true;
+}
+
+
+bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
+{
+  int pos = findPos(x, y);
+  //  existing element
+  if (pos > -1)
+  {
+    _value[pos] += value;
+    if (_value[pos] == 0.0)
+    {
+      _count--;
+      //  move last element
+      //  efficiency is not a requirement yet.
+      if (_count > 0)
+      {
+        _x[pos]     = _x[_count];
+        _y[pos]     = _y[_count];
+        _value[pos] = _value[_count];
+      }
+    }
+    return true;
+  }
+
+  //  does not exist => new element ?
+  if (value == 0) return true;
+  if (_count >= _size) return false;
+  _x[_count]     = x;
+  _y[_count]     = y;
   _value[_count] = value;
   _count++;
   return true;

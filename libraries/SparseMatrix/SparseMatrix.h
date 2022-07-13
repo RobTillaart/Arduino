@@ -2,7 +2,7 @@
 //
 //    FILE: SparseMatrix.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SPARSEMATRIX_LIB_VERSION        (F("0.1.0"))
+#define SPARSEMATRIX_LIB_VERSION        (F("0.1.1"))
 
 
 class SparseMatrix
@@ -22,10 +22,14 @@ public:
   uint8_t  size();
   uint8_t  count();
   float    sum();
+  void     clear();
+
 
   //  returns false if no slots free
   //  could return # free slots?
   bool     set(uint8_t x, uint8_t y, float value);
+  //  adds value to element x,y
+  bool     add(uint8_t x, uint8_t y, float value);
   float    get(uint8_t x, uint8_t y);
 
 

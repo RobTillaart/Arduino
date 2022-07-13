@@ -32,6 +32,8 @@ Relates to https://github.com/RobTillaart/distanceTable
 The implementation is based on 3 arrays holding ``` x, y, value``` where value is float.
 In the future other datatypes should be possible.
 
+#### Performance
+
 The elements are not kept sorted or indexed so optimizations are possible
 but not investigated yet.
 
@@ -43,10 +45,15 @@ Parameter is the maximum number of elements in the sparse matrix.
 - **uint8_t size()** maximum number of elements.
 - **uint8_t count()** current number of elements in the matrix.
 - **float sum()** sum of all elements ( > 0 ) in the matrix.
+- **void clear()** resets the matrix to all zero's again.
 - **bool set(uint8_t x, uint8_t y, float value)** gives an element in the matrix a value.
 If the value is set to zero, it is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
 - **float get(uint8_t x, uint8_t y)** returns the value in the matrix. 
+- **bool add(uint8_t x, uint8_t y, float value)** adds a value to an element in the matrix.
+If needed a new internal element is created. 
+If the sum is zero, the element is removed from the internal store.
+Returns false if the internal store is full, true otherwise.
 
 
 ## Future
@@ -61,8 +68,9 @@ Returns false if the internal store is full, true otherwise.
   - 2D histogram e.g. temperature vs humidity
   - N queens game.
 - investigate optimizations.
-- should **set()** return the number of free places?
+- should **set()** and **add()** return the number of free places?
   - no hard code and more informative than just a bool.
+- can **set()** and **add()** be merged?
 - add link in distanceTable repo
 - uint16_t size for larger platforms.
   - max matrix still 255 x 255 but more elements <> 0.
@@ -70,14 +78,9 @@ Returns false if the internal store is full, true otherwise.
 
 #### new functions
 
-- **float add(uint8_t x, uint8_t y, float value)** adds value to the x,y position.
-  - add or remove an internal element if needed,
-  - functional **set(x,y, get(x,y) + value)**
-- **void clear()** sets all elements to zero again. 
-  - \_count = 0; should be sufficient.
-- walking through the elements?
+- walk through the elements?
   - first -> next;  last -> prev.
-  
+
 
 #### won't
 

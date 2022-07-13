@@ -29,7 +29,6 @@ void setup()
     bool b = sm.set(x, y, value);  // check full
     if (b) Serial.print('.');
   }
-
   Serial.println();
   dump(10, 10);
 
@@ -37,6 +36,32 @@ void setup()
   {
     sm.set(3, y, 0);
   }
+  dump(10, 10);
+
+  for (int y = 0; y < 10; y++)
+  {
+    bool b = sm.add(0, y, -1);
+    if (b == false) Serial.print('e');
+  }
+  Serial.println();
+  dump(10, 10);
+
+  sm.clear();
+  Serial.println();
+  dump(10, 10);
+
+  for (int y = 0; y < 10; y++)
+  {
+    sm.add(y, y, 5);
+  }
+  Serial.println();
+  dump(10, 10);
+
+  for (int y = 0; y < 10; y++)
+  {
+    sm.add(y, y, -5);
+  }
+  Serial.println();
   dump(10, 10);
 }
 

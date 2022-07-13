@@ -1,7 +1,7 @@
 //
 //    FILE: sparse_matrix_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: performance measurement functions
 
 
 #include  "SparseMatrix.h"
@@ -54,6 +54,16 @@ void setup()
   Serial.println(stop - start);
   delay(100);
 
+  start = micros();
+  for (int i = 0; i < 20; i++)
+  {
+    sm.add(i, i, 5);
+  }
+  stop = micros();
+  Serial.print("add 20x :\t");
+  Serial.println(stop - start);
+  delay(100);
+
   volatile float f;
   start = micros();
   for (int i = 0; i < 20; i++)
@@ -70,6 +80,16 @@ void setup()
   f = sm.sum();
   stop = micros();
   Serial.print("sum 20x :\t");
+  Serial.println(stop - start);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 20; i++)
+  {
+    sm.clear();
+  }
+  stop = micros();
+  Serial.print("clr 20x :\t");
   Serial.println(stop - start);
   delay(100);
 }

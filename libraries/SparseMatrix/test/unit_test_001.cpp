@@ -52,9 +52,17 @@ unittest(test_set)
   for (int i = 0; i < 10; i++)
   {
     assertTrue(sm.set(i, i, 1.0 * i * i));
-    assertEqual(i+1, sm.count());
+    assertEqual(i, sm.count());
   }
-  assertFalse(sm.set(3,4,5));   //  don't fit any more...
+  assertTrue(sm.set(3, 4, 5));
+  assertFalse(sm.set(5, 4, 5));   //  don't fit any more...
+
+  //  do not set new element to zero 
+  sm.clear();
+  assertEqual(0, sm.count());
+
+  sm.set(1, 2, 0);
+  assertEqual(0, sm.count());
 }
 
 
@@ -66,7 +74,6 @@ unittest(test_get)
     assertTrue(sm.set(i, i, 1.0 * i * i));
     assertEqualFloat(1.0 * i * i, sm.get(i, i), 0.001);
   }
-  assertFalse(sm.set(3,4,5));   //  don't fit any more...
 }
 
 
@@ -78,6 +85,28 @@ unittest(test_sum)
     assertTrue(sm.set(i, i, 10));
   }
   assertEqualFloat(100, sm.sum(), 0.0001);
+}
+
+
+unittest(test_add)
+{
+  SparseMatrix sm(10);
+  for (int i = 0; i < 10; i++)
+  {
+    assertTrue(sm.add(i, i, 1.0 * i * i));
+    assertEqualFloat(1.0 * i * i, sm.get(i, i), 0.001);
+  }
+  for (int i = 0; i < 10; i++)
+  {
+    assertTrue(sm.add(i, i, 1.0 * i * i));
+    assertEqualFloat(2.0 * i * i, sm.get(i, i), 0.001);
+  }
+  for (int i = 0; i < 10; i++)
+  {
+    assertTrue(sm.add(i, i, -2.0 * i * i));
+    assertEqualFloat(0, sm.get(i, i), 0.001);
+  }
+  assertEqual(0, sm.count());
 }
 
 

@@ -44,20 +44,18 @@ const uint8_t DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
 ### Constructor
 
 - **DRV8825()** Constructor.
-
- with steps per rotation as parameter.
-This parameter is optional and if set to zero, steps will not be counted.
 - **bool begin(uint8_t dirPin, uint8_t stepPin)** set the direction pin and step pin.
-Both pins are set to LOW. For direction this is DRV8825_CLOCK_WISE.
+Both pins are set to LOW. For direction this means DRV8825_CLOCK_WISE.
 
 
 ### Direction
 
 To define in which way the motor will turn.
 
-- **void setDirection(uint8_t direction = DRV8825_CLOCK_WISE)**
+- **bool setDirection(uint8_t direction = DRV8825_CLOCK_WISE)**
 switch direction between DRV8825_CLOCK_WISE (0 = default) or
 DRV8825_COUNTERCLOCK_WISE (1).
+Returns false for other values.
 - **uint8_t getDirection()** returns DRV8825_CLOCK_WISE (0) or
 DRV8825_COUNTERCLOCK_WISE (1).
 
@@ -75,24 +73,40 @@ This also updates the position and the steps counters.
 default to zero. 
 Returns the last value of internal steps counter.
 - **uint32_t getSteps()** returns the steps made since start of the program or the last **resetSteps()**.
-- **bool setPosition(uint16_t pos = 0)** to calibrate the position of the motor. Default to zero.
-Works only if stepsPerRotation > 0
-Returns false if pos > stepsPerRotation.
-- **uint16_t getPosition()** returns the position % stepsPerRotation.
-Value = 0 .. stepsPerRotation - 1
+Its purpose is  to have an indication of usage (wear and tear).
+- **bool setPosition(uint16_t pos = 0)** to calibrate the position of the motor. Default value is zero.
+Works only if stepsPerRotation > 0.
+Returns false if pos > stepsPerRotation.  
+Note: it does not rotate the motor to a position.  
+Note: there is no relation between position and steps.
+- **uint16_t getPosition()** returns the position which is kin the range 0 .. stepsPerRotation - 1.
 This value can be converted to an angle in degrees or radians.
 
+
+#### Some math
+
+```cpp
+//  angle in degrees.
+float angle = position * (360.0 / stepsPerRotation);
+
+//  angle in radians.
+float angle = position * (2.0 * PI / stepsPerRotation);
+
+//  wear and tear math.
+float rotations = getSteps() * (1.0 / stepsPerRotation);
+```
+
 Note the behaviour of steps changed in 0.1.1.
-This is done as the library added position functions.
+This is done as the library added the position functions.
 
 
 ### Configuration
 
 - **void setStepPulseLength(uint16_t us = 2)** configures the pulse length of one step.
-It is defined in microseconds, default is 2 which is almost the 1.9 from the datasheet. 
+This is defined in microseconds, default is 2 which is almost the 1.9 from the datasheet. 
 Normally these need not to be changed.
-- **uint16_t getStepPulseLength()** returns the set value.
-Default = 2.
+- **uint16_t getStepPulseLength()** returns the set value in microseconds. 
+Default the value = 2.
 
 
 ## Operational
@@ -140,7 +154,7 @@ Some will only be worked on if requested and time permits.
   - reset pin     RST   8.3.6
   - other?
 - if stepsPerRotation is set to zero, should pos be set to zero?
-  - NB it will not be updated anymore.
+  - NB it will not be updated any more.
 - do we need steps counter?
 
 #### should

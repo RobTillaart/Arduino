@@ -47,10 +47,9 @@ public:
 
   //       CONFIGURATION
   //       step pulse length is in microseconds
-  //       default 1.9 us
+  //       datasheet default = 1.9 us
   void     setStepPulseLength(uint16_t us = 2);
   uint16_t getStepPulseLength();
-
 
 
 protected:

@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.1.4"))
+#define SHT2x_LIB_VERSION             (F("0.2.0"))
 
 
 //  fields getStatus
@@ -35,6 +35,9 @@
 #define SHT2x_ERR_CRC_STATUS          0x87     // not used
 #define SHT2x_ERR_HEATER_COOLDOWN     0x88
 #define SHT2x_ERR_HEATER_ON           0x89
+//  0.2.0
+#define SHT2x_ERR_RESOLUTION          0x8A
+
 
 
 class SHT2x
@@ -55,8 +58,8 @@ public:
 
   float    getTemperature();
   float    getHumidity();
-  uint16_t getRawTemperature() { return _rawHumidity; };
-  uint16_t getRawHumidity()    { return _rawTemperature; };
+  uint16_t getRawTemperature() { return _rawTemperature; };
+  uint16_t getRawHumidity()    { return _rawHumidity; };
 
   //  might take up to 15 milliseconds.
   bool reset();
@@ -98,6 +101,24 @@ public:
   uint32_t  getEIDB();
   uint8_t   getFirmwareVersion();
 
+  //  experimental 0.2.0 - needs testing.
+  //  table 8 SHT20 datasheet
+  //  table 7 shows different timing per resolution
+  //          every level is roughly factor 2 in time.
+  //  RES     HUM       TEMP
+  //   0      12 bit    14  bit
+  //   1      08 bit    12  bit
+  //   2      10 bit    13  bit
+  //   3      11 bit    11  bit
+  //   4..255 returns false
+  bool      setResolution(uint8_t res = 0);
+  //  returns RES set (cached value)
+  uint8_t   getResolution();
+
+
+  bool      batteryOK();
+
+
 private:
   uint8_t   crc8(const uint8_t *data, uint8_t len);
 
@@ -119,6 +140,7 @@ private:
   uint8_t   _status;
 
   uint8_t   _error;
+  uint8_t   _resolution;
 };
 
 

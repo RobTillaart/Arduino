@@ -30,6 +30,7 @@
   It appears that Wire.write does not fail without sensor...
 */
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
@@ -38,6 +39,7 @@
 int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
+
 
 unittest_setup()
 {
@@ -73,6 +75,7 @@ unittest(test_constants_2)
   assertEqual(SHT2x_ERR_CRC_STATUS     , 0x87);
   assertEqual(SHT2x_ERR_HEATER_COOLDOWN, 0x88);
   assertEqual(SHT2x_ERR_HEATER_ON      , 0x89);
+  assertEqual(SHT2x_ERR_RESOLUTION     , 0x8A);
 }
 
 

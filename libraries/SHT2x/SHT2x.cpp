@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -17,6 +17,12 @@
 //  0.1.3   2021-12-28  update library.json, license, minor edits
 //  0.1.4   2022-06-21  Fix #9 ESP32 wire.begin()
 //                      Fix getEIDB() bug.
+//
+//  0.2.0   2022-07-10  Fix #11 RawTemp + rawHum (kudos to theandy94)
+//                      add experimental getResolution() + setResolution()
+//                      adjust read delay
+//                      add experimental batteryOK()
+//                      add CRC in read() - no fail.
 
 
 #include "SHT2x.h"
@@ -34,6 +40,11 @@
 #define SHT2x_ADDRESS                   0x40
 
 
+#define SHT2x_USRREG_RESOLUTION         0x81
+#define SHT2x_USRREG_BATTERY            0x20
+#define SHT2x_USRREG_HEATER             0x04
+
+
 SHT2x::SHT2x()
 {
   _lastRead       = 0;
@@ -45,6 +56,7 @@ SHT2x::SHT2x()
   _heaterOn       = false;
   _error          = SHT2x_OK;
   _status         = 0;
+  _resolution     = 0;
 }
 
 
@@ -86,20 +98,28 @@ bool SHT2x::read()
 
   //  TEMPERATURE
   writeCmd(SHT2x_GET_TEMPERATURE_NO_HOLD);
-  delay(70);
+  //  table 7 
+  if      (_resolution == 3) delay(11);  //  11 bit
+  else if (_resolution == 1) delay(22);  //  12 bit
+  else if (_resolution == 2) delay(43);  //  13 bit
+  else                       delay(85);  //  14 bit
+
   if (readBytes(3, (uint8_t*) &buffer[0], 90) == false)
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
   }
-  // TODO CRC8 check
-  // error = SHT2x_ERR_CRC_TEMP;
-  _rawTemperature = buffer[0] << 8;
+  if (crc8(buffer, 2) != buffer[2])
+  {
+    _error = SHT2x_ERR_CRC_TEMP;
+  //  return false;  // do not fail yet
+  }
+  _rawTemperature  = buffer[0] << 8;
   _rawTemperature += buffer[1];
   _rawTemperature &= 0xFFFC;
 
   _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)  // TODO  != 0x01
+  if (_status == 0xFF)  // TODO  != 0x01  (need HW to test)
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -107,19 +127,27 @@ bool SHT2x::read()
 
   //  HUMIDITY
   writeCmd(SHT2x_GET_HUMIDITY_NO_HOLD);
-  delay(30);
+  //  table 7 
+  if      (_resolution == 1) delay(4);   //   8 bit
+  else if (_resolution == 2) delay(9);   //  10 bit
+  else if (_resolution == 3) delay(15);  //  11 bit
+  else                       delay(29);  //  12 bit
+
   if (readBytes(3, (uint8_t*) &buffer[0], 30) == false)
   {
     return false;
   }
-  // TODO CRC8 check
-  // _error = SHT2x_ERR_CRC_HUM;
-  _rawHumidity = buffer[0] << 8;
+  if (crc8(buffer, 2) != buffer[2])
+  {
+    _error = SHT2x_ERR_CRC_HUM;
+  //    return false;  // do not fail yet
+  }
+  _rawHumidity  = buffer[0] << 8;
   _rawHumidity += buffer[1];
-  _rawHumidity &= 0xFFFC;
+  _rawHumidity &= 0xFFFC;     //  TODO is this mask OK? as humidity is max 12 bit..
 
   _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)  // TODO  != 0x02
+  if (_status == 0xFF)        //  TODO  != 0x02  (need HW to test)
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -148,8 +176,7 @@ float SHT2x::getHumidity()
 bool SHT2x::reset()
 {
   bool b = writeCmd(SHT2x_SOFT_RESET);
-  if (b == false) return false;
-  return true;
+  return b;
 }
 
 
@@ -184,7 +211,9 @@ bool SHT2x::heatOn()
     _error = SHT2x_ERR_READBYTES;
     return false;
   }
-  userReg |= 0x04;      // HEAT BIT ON
+
+  //  HEAT BIT ON
+  userReg |= SHT2x_USRREG_HEATER;
 
   if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
   {
@@ -206,7 +235,10 @@ bool SHT2x::heatOff()
     _error = SHT2x_ERR_READBYTES;
     return false;
   }
-  userReg &= ~0x04;      // HEAT BIT OFF
+
+  //  HEAT BIT OFF
+  userReg &= ~SHT2x_USRREG_HEATER;
+
   if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
   {
     _error = SHT2x_ERR_HEATER_OFF;  // can be serious!
@@ -338,6 +370,55 @@ uint8_t SHT2x::getFirmwareVersion()
 }
 
 
+bool SHT2x::setResolution(uint8_t res)
+{
+  if (res > 3) return false;
+
+  uint8_t userReg = 0x00;
+  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (readBytes(1, (uint8_t *) &userReg, 5) == false)
+  {
+    _error = SHT2x_ERR_READBYTES;
+    return false;
+  }
+
+  //  clear old resolution and set new
+  userReg &= ~SHT2x_USRREG_RESOLUTION;
+  //  resolution is bit 7 and bit 0.
+  userReg |= ((res & 0x02) << 6);
+  userReg |= (res & 0x01);
+
+  if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
+  {
+    _error = SHT2x_ERR_RESOLUTION;
+    return false;
+  }
+  _resolution = res;
+  return true;
+}
+
+
+uint8_t SHT2x::getResolution()
+{
+  return _resolution;
+};
+
+
+bool SHT2x::batteryOK()
+{
+  uint8_t userReg = 0x00;
+  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (readBytes(1, (uint8_t *) &userReg, 5) == false)
+  {
+    _error = SHT2x_ERR_READBYTES;
+    return false;
+  }
+  return (userReg & SHT2x_USRREG_BATTERY) == 0;
+}
+
+
+
+
 //////////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -345,8 +426,9 @@ uint8_t SHT2x::getFirmwareVersion()
 uint8_t SHT2x::crc8(const uint8_t *data, uint8_t len)
 {
   // CRC-8 formula from page 14 of SHT spec pdf
-  const uint8_t POLY(0x31);
-  uint8_t crc(0xFF);
+  // Sensirion_Humidity_Sensors_SHT2x_CRC_Calculation.pdf
+  const uint8_t POLY = 0x31;
+  uint8_t crc = 0x00;
 
   for (uint8_t j = len; j; --j)
   {

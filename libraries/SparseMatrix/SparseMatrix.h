@@ -2,25 +2,30 @@
 //
 //    FILE: SparseMatrix.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
+//     URL: https://github.com/RobTillaart/SparseMatrix
 //
 
 
 #include "Arduino.h"
 
-#define SPARSEMATRIX_LIB_VERSION        (F("0.1.1"))
+#define SPARSEMATRIX_LIB_VERSION        (F("0.1.2"))
+
+#ifndef SPARSEMATRIX_MAX_SIZE
+#define SPARSEMATRIX_MAX_SIZE           1000
+#endif
 
 
 class SparseMatrix
 {
 public:
-  SparseMatrix(uint8_t sz);
+  SparseMatrix(uint16_t sz);
   ~SparseMatrix();
 
-  uint8_t  size();
-  uint8_t  count();
+  uint16_t size();
+  uint16_t count();
   float    sum();
   void     clear();
 
@@ -34,16 +39,16 @@ public:
 
 
 private:
-  int       _size   = 0;
-  int       _count  = 0;
+  uint16_t  _size   = 0;
+  uint16_t  _count  = 0;
 
   uint8_t   *_x     = NULL;
   uint8_t   *_y     = NULL;
   float     *_value = NULL;
 
-  //  returns index of x,y if in set
+  //  returns index of x, y if in set
   //  otherwise -1
-  int findPos(uint8_t x, uint8_t y);
+  int32_t findPos(uint8_t x, uint8_t y);
 };
 
 

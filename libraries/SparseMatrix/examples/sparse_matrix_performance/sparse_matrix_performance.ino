@@ -2,7 +2,7 @@
 //    FILE: sparse_matrix_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: performance measurement functions
-
+//     URL: https://github.com/RobTillaart/SparseMatrix
 
 #include  "SparseMatrix.h"
 
@@ -19,6 +19,8 @@ void setup()
   Serial.println();
   Serial.println(__FILE__);
 
+  Serial.println();
+  Serial.println(SPARSEMATRIX_LIB_VERSION);
   Serial.println(sm.size());
   Serial.println(sm.count());
   Serial.println();

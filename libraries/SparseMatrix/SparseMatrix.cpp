@@ -1,24 +1,32 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
+//     URL: https://github.com/RobTillaart/SparseMatrix
 //
 //  HISTORY:
 //  0.1.0  2022-07-12  initial version
 //  0.1.1  2022-07-13  add clear();
 //                     add add(x, y, value);
 //                     fix set(x, y, 0);
+//  0.1.2  2022-07-14  increase size to uint16_t
+//                     add SPARSEMATRIX_MAX_SIZE
+//                     improve documentation
 
 
 #include "SparseMatrix.h"
 
 
-SparseMatrix::SparseMatrix(uint8_t sz)
+SparseMatrix::SparseMatrix(uint16_t sz)
 {
   _count = 0;
   _size  = sz;
+  if ( _size > SPARSEMATRIX_MAX_SIZE)
+  {
+    _size = SPARSEMATRIX_MAX_SIZE;
+  }
   _x     = (uint8_t *) malloc(sz);
   _y     = (uint8_t *) malloc(sz);
   _value = (float *)   malloc(sz * sizeof(float));
@@ -37,13 +45,13 @@ SparseMatrix::~SparseMatrix()
 }
 
 
-uint8_t SparseMatrix::size()
+uint16_t SparseMatrix::size()
 {
   return _size;
 }
 
 
-uint8_t SparseMatrix::count()
+uint16_t SparseMatrix::count()
 {
   return _count;
 }
@@ -58,7 +66,7 @@ void SparseMatrix::clear()
 float SparseMatrix::sum()
 {
   float _sum = 0;
-  for (int i = 0; i < _count; i++)
+  for (uint16_t i = 0; i < _count; i++)
   {
     _sum += _value[i];
   }
@@ -68,7 +76,7 @@ float SparseMatrix::sum()
 
 bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
 {
-  int pos = findPos(x, y);
+  int32_t pos = findPos(x, y);
   //  existing element
   if (pos > -1)
   {
@@ -104,7 +112,7 @@ bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
 
 bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
 {
-  int pos = findPos(x, y);
+  int32_t pos = findPos(x, y);
   //  existing element
   if (pos > -1)
   {
@@ -137,7 +145,7 @@ bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
 
 float SparseMatrix::get(uint8_t x, uint8_t y)
 {
-  int pos = findPos(x, y);
+  int32_t pos = findPos(x, y);
   if (pos > -1)
   {
     return _value[pos];
@@ -146,13 +154,18 @@ float SparseMatrix::get(uint8_t x, uint8_t y)
 }
 
 
-int SparseMatrix::findPos(uint8_t x, uint8_t y)
+//////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
 {
-  for (int i = 0; i < _count; i++)
+  //  linear search - not optimized.
+  for (uint16_t i = 0; i < _count; i++)
   {
     if ((_x[i] == x) && (_y[i] == y))
     {
-      return i;
+      return (int32_t)i;
     }
   }
   return -1;
@@ -161,3 +174,4 @@ int SparseMatrix::findPos(uint8_t x, uint8_t y)
 
 
 // -- END OF FILE --
+

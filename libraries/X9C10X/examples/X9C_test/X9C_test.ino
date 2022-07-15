@@ -1,7 +1,7 @@
 //
-//    FILE: X9C10X_sweeper.ino
+//    FILE: X9C_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo minimalistic base class for X9Cxxx devices.
 
 
 #include "Arduino.h"
@@ -20,12 +20,11 @@
 //  INC   pulses
 //  U/D   UP = 1 DOWN = 0
 //  VCC   +5V
+//
 
 
-X9C10X pot(10000);  //  10 KΩ  (ALT-234)
+X9C pot;  //  unknown Ω  (ALT-234)
 
-uint8_t direction = LOW;
-uint8_t step = 1;
 
 void setup()
 {
@@ -36,26 +35,31 @@ void setup()
   Serial.print("X9C10X_LIB_VERSION: ");
   Serial.println(X9C10X_LIB_VERSION);
 
-  pot.begin(8, 9, 10);  // pulse, direction, select
-  pot.setPosition(0);
+  pot.begin(8, 9, 10);  //  pulse, direction, select
+
+  //  force to the end of the wiper.
+  for (uint8_t i = 0; i < 99; i++)
+  {
+    pot.incr();
+    Serial.print('+');
+  }
+  Serial.println();
+
+  //  go to the wanted position.  (99 - 24 = 75)
+  for (uint8_t i = 0; i < 24; i++)
+  {
+    pot.decr();
+    Serial.print('-');
+  }
+  Serial.println();
+
+  //  store the current position in NV-RAM.
+  pot.store();
 }
 
 
 void loop()
 {
-  for (uint8_t i = 0; i < 100; i++)
-  {
-    pot.incr();
-    delay(100);
-  }
-  Serial.println(millis());
-
-  for (uint8_t i = 0; i < 100; i++)
-  {
-    pot.decr();
-    delay(100);
-  }
-  Serial.println(millis());
 }
 
 

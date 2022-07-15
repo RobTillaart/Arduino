@@ -1,7 +1,7 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 //
@@ -12,7 +12,11 @@
 //                     rounding in getOhm(), documentation
 //  0.1.3  2022-02-22  add forced parameter to setPosition()
 //                     incr() and decr() return bool (made a step)
-//
+//  0.2.0  2022-07-09  fix #7 incorrect signal during initialize
+//                     remove position parameter from begin()
+//                       to make setting position more explicit.
+//                     update readme
+//                     add uint8_t Ohm2Position()
 
 
 #include "X9C10X.h"
@@ -30,31 +34,103 @@
 #define X9C10X_DOWN                 LOW
 
 
-X9C10X::X9C10X(uint32_t maxOhm)
+/////////////////////////////////////////////////////////
+//
+//  MINIMALISTIC BASE CLASS
+//
+X9C::X9C()
 {
-  _maxOhm = maxOhm;
 }
 
 
-void X9C10X::begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin, uint8_t position)
+void X9C::begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin)
 {
   _pulsePin     = pulsePin;
   _directionPin = directionPin;
   _selectPin    = selectPin;
 
-  pinMode(_pulsePin, OUTPUT);
-  pinMode(_directionPin, OUTPUT);
-  pinMode(_selectPin, OUTPUT);
-
+  //  #7 order of the initialization does matter
+  //     as it might introduce an unwanted STORE pulse.
+  //     use of pull ups might be wise.  
+  digitalWrite(_selectPin,    HIGH);
   digitalWrite(_pulsePin,     HIGH);
   digitalWrite(_directionPin, HIGH);
-  digitalWrite(_selectPin,    HIGH);
+
+  pinMode(_selectPin, OUTPUT);
+  pinMode(_pulsePin, OUTPUT);
+  pinMode(_directionPin, OUTPUT);
 
   //  wiper power up time. Page 5.
   delayMicroseconds(500);
+}
 
-  //  reset defined position.
-  _position = position;
+
+bool X9C::incr()
+{
+  _move(X9C10X_UP);
+  return true;
+}
+
+
+bool X9C::decr()
+{
+  _move(X9C10X_DOWN);
+  return true;
+}
+
+
+void X9C::store()
+{
+  //  _pulsePin starts default HIGH
+  digitalWrite(_selectPin, LOW);
+  #if X9C10X_DELAY_MICROS > 0
+  delayMicroseconds(X9C10X_DELAY_MICROS);
+  #endif
+  digitalWrite(_selectPin, HIGH);
+  delay(20);    //  Tcph  page 5
+}
+
+
+/////////////////////////////////////////////////////////
+//
+//  PROTECTED
+//
+void X9C::_move(uint8_t direction, uint8_t steps)
+{
+  digitalWrite(_directionPin, direction);
+  delayMicroseconds(3);  // Tdi  (page 5)
+
+  //  _pulsePin starts default HIGH
+  digitalWrite(_selectPin, LOW);
+  while (steps--)
+  {
+    digitalWrite(_pulsePin, HIGH);
+    #if X9C10X_DELAY_MICROS > 0
+    delayMicroseconds(X9C10X_DELAY_MICROS);
+    #endif
+
+    digitalWrite(_pulsePin, LOW);
+    #if X9C10X_DELAY_MICROS > 0
+    delayMicroseconds(X9C10X_DELAY_MICROS);
+    #endif
+  }
+  //  _pulsePin == LOW, (No Store, page 7)
+  digitalWrite(_selectPin, HIGH);
+  // reset _pulsePin to default.
+  digitalWrite(_pulsePin, HIGH);
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////
+//
+//  X9C10X  BASE CLASS
+//
+X9C10X::X9C10X(uint32_t maxOhm) : X9C()
+{
+  _maxOhm = maxOhm;
 }
 
 
@@ -112,51 +188,43 @@ bool X9C10X::decr()
 
 uint8_t X9C10X::store()
 {
-  //  _pulsePin starts default HIGH
-  digitalWrite(_selectPin, LOW);
-  #if X9C10X_DELAY_MICROS > 0
-  delayMicroseconds(X9C10X_DELAY_MICROS);
-  #endif
-  digitalWrite(_selectPin, HIGH);
-  delay(20);    //  Tcph  page 5
+  X9C::store();
   return _position;
 }
 
 
-////////////////////////////////////////////////////////////////////
-//
-//  PRIVATE
-//
-void X9C10X::_move(uint8_t direction, uint8_t steps)
+//  rounding needed!
+uint32_t X9C10X::getOhm()
 {
-  digitalWrite(_directionPin, direction);
-  delayMicroseconds(3);  // Tdi  (page 5)
+  return (_maxOhm * _position + 49) / 99;
+};
 
-  //  _pulsePin starts default HIGH
-  digitalWrite(_selectPin, LOW);
-  while (steps--)
-  {
-    digitalWrite(_pulsePin, HIGH);
-    #if X9C10X_DELAY_MICROS > 0
-    delayMicroseconds(X9C10X_DELAY_MICROS);
-    #endif
 
-    digitalWrite(_pulsePin, LOW);
-    #if X9C10X_DELAY_MICROS > 0
-    delayMicroseconds(X9C10X_DELAY_MICROS);
-    #endif
-  }
-  //  _pulsePin == LOW, (No Store, page 7)
-  digitalWrite(_selectPin, HIGH);
-  // reset _pulsePin to default.
-  digitalWrite(_pulsePin, HIGH);
+uint32_t X9C10X::getMaxOhm()
+{
+  return _maxOhm;
+};
+
+
+//  rounding needed!
+uint8_t X9C10X::Ohm2Position(uint32_t value, bool invert)
+{
+  if (value > _maxOhm) return 99;
+  uint8_t val = (99 * value + _maxOhm/2) / _maxOhm;
+  if (invert) return 99 - val;
+  return val;
 }
 
+
+uint16_t X9C10X::getType()
+{
+  return _type;
+};
 
 
 /////////////////////////////////////////////////////////
 //
-// DERIVED
+//  SPECIFIC DERIVED DEVICE CLASSES
 //
 X9C102::X9C102(uint32_t ohm) : X9C10X(ohm)
 {

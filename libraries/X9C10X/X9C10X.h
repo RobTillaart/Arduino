@@ -2,23 +2,53 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.1.3"))
+#define X9C10X_LIB_VERSION        (F("0.2.0"))
 
 
-class X9C10X
+/////////////////////////////////////////////////////////
+//
+//  X9C MINIMAL BASE CLASS
+//
+class X9C
+{
+public:
+
+  X9C();
+
+  void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin);
+
+  //  step size 1.
+  bool     incr();
+  bool     decr();
+
+  //  use with care
+  void     store();
+
+protected:
+  uint8_t  _pulsePin;
+  uint8_t  _directionPin;
+  uint8_t  _selectPin;
+
+  void     _move(uint8_t direction, uint8_t steps = 1);
+};
+
+
+/////////////////////////////////////////////////////////
+//
+//  X9C10X BASE CLASS
+//
+class X9C10X : public X9C
 {
 public:
   //  ohm can be actual measured value e.g 9950 ohm (calibration)
   X9C10X(uint32_t maxOhm = 10000);
-
-  void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin, uint8_t position = 0);
 
   //  position = 0..99
   //  forced = true will ignore the cached position
@@ -35,31 +65,24 @@ public:
   uint8_t  store();
 
   //  current resistance in ohm.
-  //  Q: rounding needed?
-  uint32_t getOhm() { return (_maxOhm * _position + 49) / 99; };
-  // misc
-  uint32_t getMaxOhm() { return _maxOhm; };
+  uint32_t getOhm();
+  uint32_t getMaxOhm();
+  uint8_t  Ohm2Position(uint32_t value, bool invert = false);
 
-  //  Q: needed?
-  uint16_t getType() { return _type; };
+  //  returns 0 as it is unknown for X9C10X
+  uint16_t getType();
 
 
 protected:
-  uint8_t  _pulsePin;
-  uint8_t  _directionPin;
-  uint8_t  _selectPin;
-
-  uint32_t _maxOhm;
-  uint8_t  _position;
-  uint16_t _type = 0;   // needed?
-
-  void     _move(uint8_t direction, uint8_t steps = 1);
+  uint32_t _maxOhm   = 0;
+  uint8_t  _position = 0;
+  uint16_t _type     = 0;
 };
 
 
 /////////////////////////////////////////////////////////
 //
-// DERIVED
+//  SPECIFIC DERIVED DEVICE CLASSES
 //
 class X9C102 : public X9C10X
 {
@@ -87,8 +110,6 @@ class X9C503 : public X9C10X
 public:
   X9C503(uint32_t ohm = 50000);
 };
-
-
 
 
 // -- END OF FILE --

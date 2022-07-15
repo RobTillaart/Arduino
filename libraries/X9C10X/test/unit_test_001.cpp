@@ -39,7 +39,17 @@ unittest_teardown()
 }
 
 
-unittest(test_constructor)
+unittest(test_X9C_all)
+{
+  X9C pot;
+  pot.begin(4,5,6);
+  assertTrue(pot.incr());
+  assertTrue(pot.decr());
+  //  store() cannot be tested as it calls delay().
+}
+
+
+unittest(test_X9C10X_constructor)
 {
   X9C10X dp0;
   X9C10X dp1(1000);
@@ -51,19 +61,27 @@ unittest(test_constructor)
   assertEqual(900,   dp2.getMaxOhm());
   assertEqual(1100,  dp3.getMaxOhm());
 
+  X9C10X x10x;
   X9C102 x102;
   X9C103 x103;
   X9C104 x104;
   X9C503 x503;
 
+  assertEqual(10000,  x10x.getMaxOhm());
   assertEqual(1000,   x102.getMaxOhm());
   assertEqual(10000,  x103.getMaxOhm());
   assertEqual(100000, x104.getMaxOhm());
   assertEqual(50000,  x503.getMaxOhm());
+
+  assertEqual(000, x10x.getType());
+  assertEqual(102, x102.getType());
+  assertEqual(103, x103.getType());
+  assertEqual(104, x104.getType());
+  assertEqual(503, x503.getType());
 }
 
 
-unittest(test_position)
+unittest(test_X9C10X_position)
 {
   X9C10X dp0;
 
@@ -76,14 +94,10 @@ unittest(test_position)
     dp0.setPosition(pos);
     assertEqual(pos, dp0.getPosition());
   }
-
-  X9C10X dp1;
-  dp1.begin(7, 8, 9, 50);
-  assertEqual(50, dp1.getPosition());
 }
 
 
-unittest(test_incr_decr)
+unittest(test_X9C10X_incr_decr)
 {
   X9C10X dp0;
 
@@ -94,18 +108,30 @@ unittest(test_incr_decr)
   for (uint8_t pos = 0; pos < 10; pos++)
   {
     assertEqual(pos, dp0.getPosition());
-    dp0.incr();
+    assertTrue(dp0.incr());
   }
 
   for (uint8_t pos = 0; pos < 5; pos++)
   {
     assertEqual(10 - pos, dp0.getPosition());
-    dp0.decr();
+    assertTrue(dp0.decr());
   }
+  
+  dp0.setPosition(100);
+  assertEqual(99, dp0.getPosition());
+  assertFalse(dp0.incr());
+  assertTrue(dp0.decr());
+  assertTrue(dp0.incr());
+  
+  dp0.setPosition(0);
+  assertEqual(0, dp0.getPosition());
+  assertFalse(dp0.decr());
+  assertTrue(dp0.incr());
+  assertTrue(dp0.decr());
 }
 
 
-unittest(test_getOhm)
+unittest(test_X9C10X_getOhm)
 {
   X9C10X dp0;
 
@@ -116,9 +142,25 @@ unittest(test_getOhm)
   for (uint8_t pos = 0; pos < 100; pos += 9)
   {
     fprintf(stderr, "VALUE: %d %d Ω\n", dp0.getPosition(), dp0.getOhm());
-    dp0.incr();
+    assertTrue(dp0.incr());
   }
 
+}
+
+
+unittest(test_X9C10X_Ohm2Position)
+{
+  X9C10X dp0(1000);
+
+  dp0.begin(7, 8, 9);
+  assertEqual(0, dp0.getPosition());
+  assertEqual(1000, dp0.getMaxOhm());
+
+  for (uint16_t ohm = 0; ohm < 1000; ohm += 50)
+  {
+    fprintf(stderr, "OHM: %d Ω \tPOS: %d \tPOS: %d\n", ohm, 
+                      dp0.Ohm2Position(ohm), dp0.Ohm2Position(ohm, true));
+  }
 }
 
 

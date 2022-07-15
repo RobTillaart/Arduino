@@ -2,7 +2,7 @@
 //
 //    FILE: DRV8825.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -23,7 +23,7 @@ class DRV8825
 public:
   DRV8825();
 
-  bool     begin(uint8_t dirPin, uint8_t stepPin);
+  bool     begin(uint8_t DIR, uint8_t STEP, uint8_t EN = 255, uint8_t RST = 255, uint8_t SLP = 255);
 
   //       DIRECTION
   //       0 = DRV8825_CLOCK_WISE
@@ -51,15 +51,33 @@ public:
   void     setStepPulseLength(uint16_t us = 2);
   uint16_t getStepPulseLength();
 
+  //       ENABLE pin should be set.
+  void     enable();
+  void     disable();
+  bool     isEnabled();
+
+  //       RESET pin should be set.
+  void     reset();
+
+  //       SLEEP pin should be set.
+  void     sleep();
+  void     wakeup();
+  bool     isSleeping();
+
 
 protected:
-  uint16_t _stepsPerRotation = 0;
   uint8_t  _directionPin     = 255;
   uint8_t  _stepPin          = 255;
+  uint8_t  _enablePin        = 255;
+  uint8_t  _resetPin         = 255;
+  uint8_t  _sleepPin         = 255;
+
   uint8_t  _direction        = DRV8825_CLOCK_WISE;
+
+  uint16_t _stepsPerRotation = 0;
   uint32_t _steps            = 0;
-  uint16_t _us               = 2;
   uint16_t _pos              = 0;
+  uint16_t _us               = 2;
 };
 
 

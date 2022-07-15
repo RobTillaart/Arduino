@@ -15,7 +15,7 @@ Arduino library for DRV8825 stepper motor driver.
 
 **DRV8825** is a library for DRV8825 stepper motor driver.
 
-**Warning: experimental**
+**Warning: experimental** needs testing.
 
 The DRV8825 stepper motor library controls a stepper motor with
 a direction signal and a step pulse.
@@ -44,8 +44,10 @@ const uint8_t DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
 ### Constructor
 
 - **DRV8825()** Constructor.
-- **bool begin(uint8_t dirPin, uint8_t stepPin)** set the direction pin and step pin.
+- **bool begin(uint8_t DIR, uint8_t STEP, uint8_t EN = 255, uint8_t RST = 255, uint8_t SLP = 255)** set the direction pin and step pin.
 Both pins are set to LOW. For direction this means DRV8825_CLOCK_WISE.
+Optional the enable, reset and sleep pin can be set.
+If these are set to 255 the related functions won't do anything.
 
 
 ### Direction
@@ -109,9 +111,72 @@ Normally these need not to be changed.
 Default the value = 2.
 
 
+### Enable (EN)
+
+- **void enable()** sets the enable line LOW.
+- **void disable()** sets the enable line HIGH.
+- **bool isEnabled()** reads back the line state.
+True means enabled.
+
+After **enable()** the system needs 650 ns before **step()**
+can be called. See 7.6 Timing Requirements.
+
+
+### Reset (RST)
+
+- **void reset()** sends a reset pulse to the device.
+
+
+### Sleep (SLP)
+
+- **void sleep()** sets the enable line LOW.
+- **void wakeup()** sets the enable line HIGH.
+- **bool isSleeping()** reads back the line state.
+True means enabled.
+
+After **wakeup()** the system needs **1700 us** before **step()**
+can be called. See 7.6 Timing Requirements.
+
+
+### MicroSteps
+
+The pins M0, M1 and M2 are to be used to set micro steps.
+This library does not allow them to be set from code as
+normally these won't change in a project.
+
+|  STEP MODE  |  M2  |  M1  |  M0  |
+|:-----------:|:----:|:----:|:----:|
+|    full     |   0  |   0  |   0  |
+|    half     |   0  |   0  |   1  |
+|    1/4      |   0  |   1  |   0  |
+|    1/8      |   0  |   1  |   1  |
+|    1/16     |   1  |   0  |   0  |
+|    1/32     |   1  |   0  |   1  |
+|    1/32     |   1  |   1  |   0  |
+|    1/32     |   1  |   1  |   1  |
+
+Check datasheet for details.
+
+
+### Fault (FLT)
+
+The FLT pin indicates that an error has occurred. 
+The library does not monitor this pin as that would need a background process.
+The user is advised to check this pin at regular intervals
+or connect the FLT pin to an interrupt pin of the processor. 
+
+- LOW  == fault condition (overtemp, overcurrent)
+- HIGH == OK
+
+The device does not provide means to interpret the type of 
+error, but one could at least call **disable()**.
+
+Check datasheet for the details.
+
+
 ## Operational
 
-The base functions are:
+The minimal code is:
 
 ```cpp
 DRV8825 stepper;
@@ -143,19 +208,12 @@ Some will only be worked on if requested and time permits.
 
 #### must
 
+- test test test
 - add examples
 - update documentation
 - investigate other pins
-  - M0..M2              8.3.5 micro steps
   - decay mode          8.3.3 there are 3 modi)
-  - fault pin     FLT   input to detect errors
-  - sleep pin     SLP   8.3.6
-  - enable pin    EN    8.3.6
-  - reset pin     RST   8.3.6
   - other?
-- if stepsPerRotation is set to zero, should pos be set to zero?
-  - NB it will not be updated any more.
-- do we need steps counter?
 
 #### should
 
@@ -164,10 +222,8 @@ Some will only be worked on if requested and time permits.
   - blocking
   - max 1 rotation?
   - optimize "position admin"
-- gotoPosition(pos)..
-  - needs steps(n) above.
-- investigate other similar STEP/DIR controllers
-  - DRV88xx series?
+- should begin return bool?
+
 
 #### could
 
@@ -176,11 +232,20 @@ Some will only be worked on if requested and time permits.
   - only when needed?
   - 8825 as derived? or as base class?
   - which others are similar?
-- investigate controlling a DRV8825 with an PCF8574
-  - pins needed (M0..M2, SLP, RST, EN, DIR, STEP)
-  - first need a decent basic library.
+    - A4988, DRV8824, more?
 
 #### wont
 
 - left() + right();
+- if stepsPerRotation is set to zero, should pos be set to zero?
+  - NB it will not be updated any more.
+  - leaving it as is, could allow "creative calibration"
+- investigate controlling a DRV8825 with an PCF8574
+  - pins needed (M0..M2, SLP, RST, EN, DIR, STEP)
+  - first need a decent basic library.
+  - would be a class on its own.
+- gotoPosition(pos)..
+  - needs steps(n) above? for loop!
+  - shortest angle/path or via current CW/CCW mode.
+  - user can implement his own strategy.
 

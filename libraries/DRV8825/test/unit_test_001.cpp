@@ -65,6 +65,26 @@ unittest(test_constructor)
 
   assertTrue(stepper.setDirection(DRV8825_COUNTERCLOCK_WISE));
   assertEqual(DRV8825_COUNTERCLOCK_WISE, stepper.getDirection());
+
+  assertTrue(stepper.isEnabled());
+  assertFalse(stepper.isSleeping());
+}
+
+
+unittest(test_constructor_full)
+{
+  DRV8825 stepper;
+
+  assertTrue(stepper.begin(4, 5, 6, 7, 8));
+
+  assertTrue(stepper.setDirection());
+  assertEqual(DRV8825_CLOCK_WISE, stepper.getDirection());
+
+  assertTrue(stepper.setDirection(DRV8825_COUNTERCLOCK_WISE));
+  assertEqual(DRV8825_COUNTERCLOCK_WISE, stepper.getDirection());
+
+  assertTrue(stepper.isEnabled());
+  assertFalse(stepper.isSleeping());
 }
 
 
@@ -170,6 +190,34 @@ unittest(test_position)
   assertTrue(stepper.setPosition(0));
   stepper.step();
   assertEqual(199, stepper.getPosition());
+}
+
+
+unittest(test_enable)
+{
+  DRV8825 stepper;
+
+  assertTrue(stepper.begin(4, 5, 6));
+
+  assertTrue(stepper.isEnabled());
+  stepper.disable();
+  assertFalse(stepper.isEnabled());
+  stepper.enable();
+  assertTrue(stepper.isEnabled());
+}
+
+
+unittest(test_sleep)
+{
+  DRV8825 stepper;
+
+  assertTrue(stepper.begin(4, 5, 255, 255, 8));
+
+  assertFalse(stepper.isSleeping());
+  stepper.sleep();
+  assertTrue(stepper.isSleeping());
+  stepper.wakeup();
+  assertFalse(stepper.isSleeping());
 }
 
 

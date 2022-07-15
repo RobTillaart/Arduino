@@ -19,6 +19,14 @@ getSteps	KEYWORD2
 setStepPulseLength	KEYWORD2
 getStepPulseLength	KEYWORD2
 
+enable	KEYWORD2
+disable	KEYWORD2
+isEnabled	KEYWORD2
+reset	KEYWORD2
+sleep	KEYWORD2
+wakeup	KEYWORD2
+isSleeping	KEYWORD2
+
 
 # Constants (LITERAL1)
 DRV8825_LIB_VERSION	LITERAL1

@@ -1,7 +1,7 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -14,6 +14,9 @@
 //  0.1.2  2022-07-14  increase size to uint16_t
 //                     add SPARSEMATRIX_MAX_SIZE
 //                     improve documentation
+//  0.1.3  2022-07-16  add boundingBox(...)
+//                     fix #4 set() add()
+
 
 
 #include "SparseMatrix.h"
@@ -80,33 +83,13 @@ bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
   //  existing element
   if (pos > -1)
   {
-    if (value != 0.0)
-    {
-      _value[pos] = value;
-    }
-    else
-    {
-      _count--;
-      //  move last element
-      //  efficiency is not a requirement yet.
-      if (_count > 0)
-      {
-        _x[pos]     = _x[_count];
-        _y[pos]     = _y[_count];
-        _value[pos] = _value[_count];
-      }
-    }
+    _value[pos] = value;
+    if (_value[pos] == 0.0) removeElement(pos);
     return true;
   }
 
   //  does not exist => new element ?
-  if (value == 0) return true;
-  if (_count >= _size) return false;
-  _x[_count]     = x;
-  _y[_count]     = y;
-  _value[_count] = value;
-  _count++;
-  return true;
+  return newElement(x, y, value);
 }
 
 
@@ -117,29 +100,12 @@ bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
   if (pos > -1)
   {
     _value[pos] += value;
-    if (_value[pos] == 0.0)
-    {
-      _count--;
-      //  move last element
-      //  efficiency is not a requirement yet.
-      if (_count > 0)
-      {
-        _x[pos]     = _x[_count];
-        _y[pos]     = _y[_count];
-        _value[pos] = _value[_count];
-      }
-    }
+    if (_value[pos] == 0.0) removeElement(pos);
     return true;
   }
 
   //  does not exist => new element ?
-  if (value == 0) return true;
-  if (_count >= _size) return false;
-  _x[_count]     = x;
-  _y[_count]     = y;
-  _value[_count] = value;
-  _count++;
-  return true;
+  return newElement(x, y, value);
 }
 
 
@@ -151,6 +117,24 @@ float SparseMatrix::get(uint8_t x, uint8_t y)
     return _value[pos];
   }
   return 0;
+}
+
+
+void SparseMatrix::boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)
+{
+  uint8_t _minx = 255, _maxx = 0,
+          _miny = 255, _maxy = 0;
+  for (uint16_t i = 0; i < _count; i++)
+  {
+    if (_x[i] < _minx) _minx = _x[i];
+    if (_x[i] > _maxx) _maxx = _x[i];
+    if (_y[i] < _miny) _miny = _y[i];
+    if (_y[i] > _maxy) _maxy = _y[i];
+  }
+  minX = _minx;
+  maxX = _maxx;
+  minY = _miny;
+  maxY = _maxy;
 }
 
 
@@ -171,6 +155,29 @@ int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
   return -1;
 }
 
+
+void SparseMatrix::removeElement(uint16_t pos)
+{
+  _count--;
+  //  move last element
+  //  efficiency (keep sorted) is no requirement.
+  if (pos == _count) return;
+  _x[pos]     = _x[_count];
+  _y[pos]     = _y[_count];
+  _value[pos] = _value[_count];
+}
+
+
+bool SparseMatrix::newElement(uint8_t x, uint8_t y, float value)
+{
+  if (value == 0.0) return true;
+  if (_count >= _size) return false;
+  _x[_count]     = x;
+  _y[_count]     = y;
+  _value[_count] = value;
+  _count++;
+  return true;
+}
 
 
 // -- END OF FILE --

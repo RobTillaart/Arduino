@@ -88,6 +88,9 @@ Returns false if the internal store is full, true otherwise.
 If needed a new internal element is created. 
 If the sum is zero, the element is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
+- **void  boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)** 
+Returns the bounding box in which all values != 0 are located.
+This can be useful for printing or processing the non zero elements.
 
 
 ## Future
@@ -101,14 +104,19 @@ Returns false if the internal store is full, true otherwise.
 - investigate performance optimizations
   - sort
   - linked list, tree, hashing?
-- can **set()** and **add()** be merged?
 
 
 #### Functions
 
 - walk through the elements?
-  - first() -> next();  optional last() -> prev().
-  
+  - in storage order.
+  - bool first(uint8_t &x, uint8_t &y, float &value);
+  - bool next(uint8_t &x, uint8_t &y, float &value);
+  - bool prev(uint8_t &x, uint8_t &y, float &value);
+  - bool last(uint8_t &x, uint8_t &y, float &value);
+  - returns false if there is no element anymore
+  - if count = 0 or current == -1 or end of list.
+
 
 #### won't
 

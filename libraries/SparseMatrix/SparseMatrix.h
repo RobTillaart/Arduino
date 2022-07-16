@@ -2,7 +2,7 @@
 //
 //    FILE: SparseMatrix.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define SPARSEMATRIX_LIB_VERSION        (F("0.1.2"))
+#define SPARSEMATRIX_LIB_VERSION        (F("0.1.3"))
 
 #ifndef SPARSEMATRIX_MAX_SIZE
 #define SPARSEMATRIX_MAX_SIZE           1000
@@ -38,6 +38,10 @@ public:
   float    get(uint8_t x, uint8_t y);
 
 
+  //  returns four sides between all values != 0 are located.
+  void     boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY);
+
+
 private:
   uint16_t  _size   = 0;
   uint16_t  _count  = 0;
@@ -49,6 +53,12 @@ private:
   //  returns index of x, y if in set
   //  otherwise -1
   int32_t findPos(uint8_t x, uint8_t y);
+
+  //  removes element at pos (from findPos)
+  //  pre: count > 0
+  void    removeElement(uint16_t pos);
+  //  creates a new element if value != 0 and if there is room
+  bool    newElement(uint8_t x, uint8_t y, float value);
 };
 
 

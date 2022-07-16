@@ -119,6 +119,26 @@ unittest(test_add)
 }
 
 
+unittest(test_boundix_box)
+{
+  SparseMatrix sm(10);
+  //  10 x 10 matrix - 6 random elements in the middle
+  for (int i = 0; i < 6; i++)
+  {
+    uint8_t x = random(5) + 3;
+    uint8_t y = random(5) + 3;
+    sm.set(x, y, random(37));
+  }
+  //  random generator does not work
+  //  assertEqual(6, sm.count());
+  assertEqual(1, sm.count());
+
+  uint8_t minX, maxX, minY, maxY;
+  sm.boundingBox(minX, maxX, minY, maxY);
+  fprintf(stderr, "%d\t%d\t%d\t%d\n", minX, maxX, minY, maxY);
+}
+
+
 unittest_main()
 
 

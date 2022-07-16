@@ -35,7 +35,7 @@ void setup()
 void loop()
 {
   float bv = INA.getBusVoltage();
-  float sv = INA.getShuntVoltage_mV();
+  // float sv = INA.getShuntVoltage_mV();
   float cu = INA.getCurrent_mA();
   float po = INA.getPower_mW();
 

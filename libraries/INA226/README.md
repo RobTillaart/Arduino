@@ -268,3 +268,7 @@ See examples..
   - local var for current_lsb?
   - ??
 - make defines of "magic" numbers
+
+## Resources
+- [TI - INA226 Details](https://www.ti.com/product/INA226#params)
+- [TI - INA226 datasheet](https://www.ti.com/document-viewer/INA226/datasheet)

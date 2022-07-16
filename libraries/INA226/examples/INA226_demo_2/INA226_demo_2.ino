@@ -48,7 +48,7 @@ void loop()
   for (int i = 0; i < 20; i++)
   {
     float bv = INA.getBusVoltage();
-    float sv = INA.getShuntVoltage_mV();
+    // float sv = INA.getShuntVoltage_mV();
     float cu = INA.getCurrent_mA();
     float po = INA.getPower_mW();
 

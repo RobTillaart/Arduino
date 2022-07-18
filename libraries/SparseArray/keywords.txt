@@ -1,0 +1,21 @@
+# Syntax Colouring Map For SparseArray
+
+# Data types (KEYWORD1)
+SparseArray	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+size	KEYWORD2
+count	KEYWORD2
+sum	KEYWORD2
+clear	KEYWORD2
+
+get	KEYWORD2
+set	KEYWORD2
+add	KEYWORD2
+boundingSegment	KEYWORD2
+
+
+# Constants (LITERAL1)
+SPARSEARRAY_LIB_VERSION	LITERAL1
+SPARSEARRAY_MAX_SIZE	LITERAL1
+

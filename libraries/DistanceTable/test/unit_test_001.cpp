@@ -153,6 +153,8 @@ unittest(test_min_max)
   fprintf(stderr, "MAX: %f\t", dt.maximum(x, y));
   fprintf(stderr, "%d\t", x);
   fprintf(stderr, "%d\n", y);
+  fprintf(stderr, "SUM: %f\t", dt.sum());
+  fprintf(stderr, "AVG: %f\t", dt.average());
 }
 
 

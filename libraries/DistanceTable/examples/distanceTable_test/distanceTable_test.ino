@@ -54,6 +54,7 @@ void setup()
   Serial.println(v1);
   Serial.println(a);
   Serial.println(b);
+  Serial.println();
   delay(100);
 
   start = micros();
@@ -64,8 +65,31 @@ void setup()
   Serial.println(v2);
   Serial.println(a);
   Serial.println(b);
+  Serial.println();
   delay(100);
 
+
+  start = micros();
+  float v3 = dt.sum();
+  stop = micros();
+  Serial.print("sum:\t");
+  Serial.println(stop - start);
+  Serial.println(v3);
+  Serial.println();
+  delay(100);
+
+
+  start = micros();
+  float v4 = dt.average();
+  stop = micros();
+  Serial.print("average:\t");
+  Serial.println(stop - start);
+  Serial.println(v4);
+  Serial.println();
+  delay(100);
+
+  Serial.println("\n========================================\n");
+  delay(100);
   dt.setInvert(true);
 
   start = micros();
@@ -76,6 +100,7 @@ void setup()
   Serial.println(v1);
   Serial.println(a);
   Serial.println(b);
+  Serial.println();
   delay(100);
 
   start = micros();
@@ -86,6 +111,7 @@ void setup()
   Serial.println(v2);
   Serial.println(a);
   Serial.println(b);
+  Serial.println();
   delay(100);
 
   Serial.println("\n========================================\n");

@@ -1,7 +1,7 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 
@@ -22,7 +22,10 @@
 //  0.3.0   2022-01-06  add invert flag, add unit tests
 //                      add countAbove(), countBelow()
 //                      fix allocation + # elements
-
+//  0.3.1   2022-07-22  fix set() get() test order
+//                      set() returns bool on success.
+//                      adds sum() and average()
+//                      add Pascal Triangle example.
 
 
 
@@ -31,8 +34,9 @@
 
 DistanceTable::DistanceTable(uint8_t dimension, float value)
 {
-  // ATMEL 328 has ~2000 bytes RAM,
-  // so roughly 30X30 = 900 floats(4Bytes) => 1740 bytes is max feasible
+  //  ATMEL 328 has ~2000 bytes RAM,
+  //  so roughly 30 x 30 = 900 floats (4 bytes) => 1740 bytes is max feasible
+  //  no check as other platforms allow larger tables
   _invert = false;
   _distanceTable = NULL;
   _dimension = dimension;
@@ -68,11 +72,11 @@ void DistanceTable::setAll(float value)
 };
 
 
-void DistanceTable::set(uint8_t x, uint8_t y, float value )
+bool DistanceTable::set(uint8_t x, uint8_t y, float value )
 {
-  if ( x == y ) return;
   // comment next line to skip range check (squeeze performance)
-  if ( (x >= _dimension) || (y >= _dimension)) return;
+  if ( (x >= _dimension) || (y >= _dimension)) return false;
+  if (x == y) return (value == 0.0);
 
   if ( x < y )
   {
@@ -83,16 +87,17 @@ void DistanceTable::set(uint8_t x, uint8_t y, float value )
   uint16_t index = x;
   index = (index * (index - 1)) / 2 + y;
   _distanceTable[index] = value;
+  return true;
 };
 
 
 float DistanceTable::get (uint8_t x, uint8_t y)
 {
-  bool flag = false;
-  if ( x == y ) return 0.0;  // TODO even true when x and y are out of range??
   // comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return -1;  // NAN ?
+  if ( x == y ) return 0.0;
 
+  bool flag = false;
   if ( x < y )
   {
     uint8_t t = x; x = y; y = t;
@@ -187,6 +192,24 @@ float DistanceTable::maximum(uint8_t &x, uint8_t &y)
   }
   return ma;
 }
+
+
+float DistanceTable::sum()
+{
+  float sum = 0;
+  for (uint16_t index = 0; index < _elements; index++)
+  {
+    sum += _distanceTable[index];
+  }
+  return sum * 2;  //  double it as it is symmetrical
+}
+
+
+float DistanceTable::average()
+{
+  return sum() / _elements;
+}
+
 
 
 uint16_t DistanceTable::count(float value, float epsilon)

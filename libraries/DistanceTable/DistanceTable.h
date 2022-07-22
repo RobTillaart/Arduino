@@ -2,7 +2,7 @@
 //
 //    FILE: DistanceTable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DISTANCETABLE_LIB_VERSION     (F("0.3.0"))
+#define DISTANCETABLE_LIB_VERSION     (F("0.3.1"))
 
 
 class DistanceTable
@@ -22,7 +22,7 @@ public:
 
   void     clear() { setAll(0); };
   void     setAll(float value);
-  void     set(uint8_t x, uint8_t y, float value );
+  bool     set(uint8_t x, uint8_t y, float value );
   float    get(uint8_t x, uint8_t y);
 
 
@@ -34,6 +34,8 @@ public:
   // minimum and maximum skip x == y  pairs as these are 0.
   float    minimum(uint8_t &x, uint8_t &y);
   float    maximum(uint8_t &x, uint8_t &y);
+  float    sum();
+  float    average();
 
 
   // epsilon allows 'almost equal' searches

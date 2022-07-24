@@ -1,7 +1,7 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 //
@@ -15,11 +15,17 @@
 //  0.2.0  2022-07-09  fix #7 incorrect signal during initialize
 //                     remove position parameter from begin()
 //                       to make setting position more explicit.
-//                     update readme
+//                     update readme.md
 //                     add uint8_t Ohm2Position()
+//  0.2.1  2022-07-23  fix #9 add restoreInternalPosition(pos)
+//                     change return type setPosition() to indicate truncation
+//                     update readme.md and comments
+//                     update build-CI tests
+
 
 
 #include "X9C10X.h"
+
 
 //  minimum pulse width CLOCK = ? us (datasheet);
 //  digitalWrite takes enough time on UNO / AVR so clock_delay == 0
@@ -32,6 +38,8 @@
 
 #define X9C10X_UP                   HIGH
 #define X9C10X_DOWN                 LOW
+
+#define X9C10X_MAXPOT               99
 
 
 /////////////////////////////////////////////////////////
@@ -122,8 +130,6 @@ void X9C::_move(uint8_t direction, uint8_t steps)
 
 
 
-
-
 /////////////////////////////////////////////////////////
 //
 //  X9C10X  BASE CLASS
@@ -134,14 +140,14 @@ X9C10X::X9C10X(uint32_t maxOhm) : X9C()
 }
 
 
-void X9C10X::setPosition(uint8_t position, bool forced)
+uint8_t X9C10X::setPosition(uint8_t position, bool forced)
 {
-  if (position > 99) position = 99;
-  //  reference 0.1.0
-  //  while (position > _position) incr();
-  //  while (position < _position) decr();
+  if (position > 99)
+  {
+    position = 99;
+  }
 
-  //  force to nearest end position first to minimize steps.
+  //  force to nearest end position first to minimize number of steps.
   if (forced)  
   {
     if (position < 50)
@@ -165,6 +171,7 @@ void X9C10X::setPosition(uint8_t position, bool forced)
   }
 
   _position = position;
+  return _position;
 }
 
 
@@ -189,6 +196,17 @@ bool X9C10X::decr()
 uint8_t X9C10X::store()
 {
   X9C::store();
+  return _position;
+}
+
+
+uint8_t X9C10X::restoreInternalPosition(uint8_t position)
+{
+  if (position > 99)
+  {
+    position = 99;
+  }
+  _position = position;
   return _position;
 }
 

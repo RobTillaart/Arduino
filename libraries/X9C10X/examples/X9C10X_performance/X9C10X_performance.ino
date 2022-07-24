@@ -153,6 +153,8 @@ void setup()
   Serial.print("10 x decr():\t");
   Serial.println(stop - start);
   delay(100);
+
+  Serial.println("\ndone...");
 }
 
 

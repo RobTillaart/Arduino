@@ -2,14 +2,14 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.2.0"))
+#define X9C10X_LIB_VERSION        (F("0.2.1"))
 
 
 /////////////////////////////////////////////////////////
@@ -25,6 +25,7 @@ public:
   void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin);
 
   //  step size 1.
+  //  return false if end of range reached. 
   bool     incr();
   bool     decr();
 
@@ -51,18 +52,27 @@ public:
   X9C10X(uint32_t maxOhm = 10000);
 
   //  position = 0..99
+  //             values > 99 are truncated.
   //  forced = true will ignore the cached position
-  //         takes up to 150 steps as one cannot read the position from device.
+  //           takes up to 150 steps as one cannot read the position from device.
   //  forced = default false as that is safer and backwards compatible.
-  void     setPosition(uint8_t position, bool forced = false);
+  //  returns new position 0..99
+  uint8_t  setPosition(uint8_t position, bool forced = false);
   uint8_t  getPosition() { return _position; };
 
   //  step size 1.
+  //  return false if end of range reached. 
   bool     incr();
   bool     decr();
 
   //  use with care
+  //  returns new position 0..99
   uint8_t  store();
+  //  note: restoreInternalPosition() is not available in X9C base class.
+  //  position = 0..99
+  //             values > 99 are truncated.
+  //  returns new position 0..99
+  uint8_t     restoreInternalPosition(uint8_t position);
 
   //  current resistance in ohm.
   uint32_t getOhm();

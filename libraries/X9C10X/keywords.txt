@@ -21,6 +21,7 @@ getMaxOhm	KEYWORD2
 Ohm2Position	KEYWORD2
 
 store	KEYWORD2
+restoreInternalPosition	KEYWORD2
 getType	KEYWORD2
 
 

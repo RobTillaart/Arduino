@@ -28,11 +28,11 @@
 #include "X9C10X.h"
 
 
-
 unittest_setup()
 {
   fprintf(stderr, "X9C10X_LIB_VERSION: %s\n", (char *) X9C10X_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -81,6 +81,26 @@ unittest(test_X9C10X_constructor)
 }
 
 
+unittest(test_X9C10X_restore_internal_position)
+{
+  X9C10X dp0;
+
+  dp0.begin(7, 8, 9);
+  assertEqual(0, dp0.restoreInternalPosition(0));
+  assertEqual(0, dp0.getPosition());
+  assertEqual(50, dp0.restoreInternalPosition(50));
+  assertEqual(50, dp0.getPosition());
+
+  //  test truncation
+  assertEqual(99, dp0.restoreInternalPosition(99));
+  assertEqual(99, dp0.getPosition());
+  assertEqual(99, dp0.restoreInternalPosition(100));
+  assertEqual(99, dp0.getPosition());
+  assertEqual(99, dp0.restoreInternalPosition(255));
+  assertEqual(99, dp0.getPosition());
+}
+
+
 unittest(test_X9C10X_position)
 {
   X9C10X dp0;
@@ -88,12 +108,40 @@ unittest(test_X9C10X_position)
   dp0.begin(7, 8, 9);
   assertEqual(0, dp0.getPosition());
 
-  fprintf(stderr, "setPosition step 9\n");
-  for (uint8_t pos = 0; pos < 100; pos += 9)
+  fprintf(stderr, "setPosition step 19\n");
+  for (uint8_t pos = 0; pos < 100; pos += 19)
   {
-    dp0.setPosition(pos);
+    assertEqual(pos, dp0.setPosition(pos));
     assertEqual(pos, dp0.getPosition());
   }
+
+  //  test truncation
+  assertEqual(99, dp0.setPosition(99));
+  assertEqual(99, dp0.setPosition(100));
+  assertEqual(99, dp0.setPosition(255));
+}
+
+
+unittest(test_X9C10X_store)
+{
+  X9C10X dp0;
+
+  dp0.begin(7, 8, 9);
+
+  fprintf(stderr, "store step 19\n");
+  for (uint8_t pos = 0; pos < 100; pos += 19)
+  {
+    dp0.setPosition(pos);
+    assertEqual(pos, dp0.store());
+  }
+
+  //  test truncation
+  dp0.setPosition(99);
+  assertEqual(99, dp0.store());
+  dp0.setPosition(100);
+  assertEqual(99, dp0.store());
+  dp0.setPosition(255);
+  assertEqual(99, dp0.store());
 }
 
 

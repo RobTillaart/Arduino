@@ -10,6 +10,7 @@ getGamma	KEYWORD2
 size	KEYWORD2
 distinct	KEYWORD2
 dump	KEYWORD2
+dumpArray	KEYWORD2
 
 
 # Constants (LITERAL1)

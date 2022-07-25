@@ -1,5 +1,5 @@
 //
-//    FILE: gammaTest.ino
+//    FILE: gamma_dump_array.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
@@ -34,21 +34,11 @@ void setup()
   gt4.setGamma(2.8);
   gt5.setGamma(2.8);
 
-  for (int i = 0; i < 256; i++)
-  {
-    Serial.print(i);
-    Serial.print('\t');
-    Serial.print(gt1[i]);
-    Serial.print('\t');
-    Serial.print(gt2[i]);
-    Serial.print('\t');
-    Serial.print(gt3[i]);
-    Serial.print('\t');
-    Serial.print(gt4[i]);
-    Serial.print('\t');
-    Serial.print(gt5[i]);
-    Serial.println();
-  }
+  gt1.dumpArray();
+  gt2.dumpArray();
+  gt3.dumpArray();
+  gt4.dumpArray();
+  gt5.dumpArray();
 
   Serial.println("\ndone...\n");
 }
@@ -60,4 +50,3 @@ void loop()
 
 
 // -- END OF FILE --
-

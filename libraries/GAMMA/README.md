@@ -31,7 +31,8 @@ The library has a **setGamma(float gamma)** function that allows an application
 to change the gamma value runtime. 
 This allows adjustments that a fixed table does not have.
 
-The class can be used to dump the internal table e.g. to place in PROGMEM.
+The class provides **dump()** to create a table e.g. to place in PROGMEM. 
+Since 0.2.2 the library also has **dumpArray()** to generate a C-style array.
 
 Note: tested on UNO and ESP32 only.
 
@@ -42,38 +43,50 @@ Note: tested on UNO and ESP32 only.
 
 - **GAMMA(uint16_t size = 32)** constructor, gets the size of the internal
 array as parameter. The default for size = 32 as this is a good balance between performance
-and size of the internal array. The size parameter must be in {2, 4, 8, 16, 32, 64, 128, 256 }.
-- **begin()** The array is initialized with a gamma == 2.8 which is an often used value.  
-**begin()** must be called before any other function.
-- **setGamma(float gamma)** calculates and fills the array with new values.
-This can be done runtime so runtime adjustment of gamma mapping.  
-This function takes relative quite some time.
+and size of the internal array. 
+The size parameter must be in {2, 4, 8, 16, 32, 64, 128, 256 }.
+- **~GAMMA()** destructor.
+- **void begin()** The internal array is allocated and initialized with a gamma == 2.8.
+This is an often used value to adjust light to human eye responses.
+Note that **begin()** must be called before any other function.
+- **void setGamma(float gamma)** calculates and fills the array with new values.
+This can be done runtime so runtime adjustment of gamma mapping is possible.  
+This calculation are relative expensive and takes quite some time (depending on size).
+If the array already is calculated for gamma, the calculation will be skipped.
 The parameter **gamma** must be > 0. The value 1 gives an 1:1 mapping.
-- **getGamma()** returns the set gamma value.
-- **operator \[\]** allows the GAMMA object to be accessed as an array.
-like ```x = G[40];``` Makes it easy to switch with a real array.
+- **float getGamma()** returns the set gamma value.
+- **uint8_t operator \[\]** allows the GAMMA object to be accessed as an array.
+like ```x = G[40];``` Makes it easy to switch with a real array. 
+The value returned is in the range 0 .. 255, so the user may need to scale it e.g. to 0.0 - 1.0
 
 
 ### Development functions
 
-- **size()** returns size of the internal array.
-- **distinct()** returns the number of distinct values in the table. 
-Especially with larger internal tables rhere will be duplicate numbers in the table.
-- **dump()** dumps the internal table to Serial. Can be useful to create
-an array in RAM, PROGMEM or wherever.
+- **uint16_t size()** returns size of the internal array.
+This is always a power of 2.
+- **uint16_t distinct()** returns the number of distinct values in the table. 
+Especially with larger internal tables there will be duplicate numbers in the table.
+- **void dump(Stream \*str = &Serial)** dumps the internal table to a stream, default Serial. 
+Useful to create an array in RAM, PROGMEM, EEPROM, in a file or wherever.
+- **void dumpArray(Stream \*str = &Serial)** dumps the internal table to a stream, default Serial, as a C-style array. See example.
 
 
 ## Operation
 
-See example
+See example.
 
 
 ## Future ideas
 
 - improve documentation
 - test other platforms
-- look for optimizations 
+- look for optimizations
+  - getter \[\]
+  - setGamma -> pow() is expensive
+- improvements (0.3.0)
+  - return bool => begin() + setGamma() + dump()?
+  - check \_table != NULL in functions
+  - add gamma<=0 check in setGamma()
 - uint16 version?
-- **dumpAsArray()** - generate a C style array 
 - 
 

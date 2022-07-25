@@ -2,7 +2,6 @@
 //    FILE: gammaTest2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo setGamma
-//    DATE: 2020-08-08
 
 // Use Arduino Plotter to see the different curves.
 
@@ -15,7 +14,10 @@ GAMMA gt;  // uses default 32 size
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("gammaTest2.ino");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("GAMMA_LIB_VERSION: ");
+  Serial.println(GAMMA_LIB_VERSION);
 
   gt.begin();
 

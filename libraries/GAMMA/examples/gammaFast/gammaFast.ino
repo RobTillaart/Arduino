@@ -1,9 +1,7 @@
 //
 //    FILE: gammaFast.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
-//    DATE: 2020-08-08
 
 
 #include "gamma.h"
@@ -42,6 +40,10 @@ int fastGamma(uint8_t idx)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("GAMMA_LIB_VERSION: ");
+  Serial.println(GAMMA_LIB_VERSION);
 
   gt1.begin();
   gt1.setGamma(2.8);

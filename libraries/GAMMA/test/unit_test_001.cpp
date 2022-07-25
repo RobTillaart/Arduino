@@ -52,7 +52,7 @@ unittest(test_constructor)
   gt0.begin();
   assertEqual(33, gt0.size());
   assertEqualFloat(2.8, gt0.getGamma(), 0.0001);
-  assertEqual(28,  gt0.distinct());
+  assertEqual(29,  gt0.distinct());
 
   GAMMA gt1(256);
   gt1.begin();
@@ -64,31 +64,31 @@ unittest(test_constructor)
   gt2.begin();
   assertEqual(129, gt2.size());
   assertEqualFloat(2.8, gt2.getGamma(), 0.0001);
-  assertEqual(97,  gt2.distinct());
+  assertEqual(98,  gt2.distinct());
 
   GAMMA gt3(64);
   gt3.begin();
   assertEqual(65, gt3.size());
   assertEqualFloat(2.8, gt3.getGamma(), 0.0001);
-  assertEqual(53,  gt3.distinct());
+  assertEqual(54,  gt3.distinct());
 
   GAMMA gt4(32);    // default
   gt4.begin();
   assertEqual(33, gt4.size());
   assertEqualFloat(2.8, gt4.getGamma(), 0.0001);
-  assertEqual(28,  gt4.distinct());
+  assertEqual(29,  gt4.distinct());
 
   GAMMA gt5(16);
   gt5.begin();
   assertEqual(17, gt5.size());
   assertEqualFloat(2.8, gt5.getGamma(), 0.0001);
-  assertEqual(15, gt5.distinct());
+  assertEqual(16, gt5.distinct());
 
   GAMMA gt6(8);
   gt6.begin();
   assertEqual(9, gt6.size());
   assertEqualFloat(2.8, gt6.getGamma(), 0.0001);
-  assertEqual(8, gt6.distinct());
+  assertEqual(9, gt6.distinct());
 }
 
 

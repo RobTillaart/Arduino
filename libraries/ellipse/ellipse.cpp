@@ -2,13 +2,16 @@
 //    FILE: ellipse.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-10-31
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 // TRIGGER: https://www.youtube.com/watch?v=5nW3nJhBHL0
 //
 // HISTORY:
 //  0.1.0  2021-10-31  initial version
+//  0.1.1  2022-07-    add angle() + example
+//                     add isCircle(), isFlat()
+//                     update readme.md
 
 
 #include "ellipse.h"
@@ -79,9 +82,25 @@ float ellipse::area()
 
 float ellipse::eccentricity()
 {
+  if (_a == _b) return 0;  //  quick circle check.
   float x = _a * _a - _b * _b;
   if (x < 0) x = -1 * x;
   return sqrt(x)/ _a;
+}
+
+
+bool ellipse::isCircle(float epsilon)
+{
+  if (epsilon == 0) return (_a == _b);
+  float delta = abs(_a - _b);
+  return (delta < epsilon);
+}
+
+
+bool ellipse::isFlat()
+{
+  if (_a > _b) return (_a > (4 * _b));
+  return (_b > (4 * _a));
 }
 
 
@@ -92,6 +111,12 @@ float ellipse::getC()
   return e * _b;
 }
 
+
+float ellipse::angle()
+{
+  float c = (_b < _a) ? _b/_a : _a/_b;
+  return acos(c) * (180 / PI);
+}
 
 // -- END OF FILE --
 

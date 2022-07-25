@@ -44,6 +44,18 @@ This is an indication of flatness of the ellipse. 0 is a circle 1 is flat line.
 See performance example for differences in timing.
 
 
+#### Misc
+
+- **bool isCircle(float epsilon = 0.0)**  | a - b | < eps.
+- **bool isFlat()** true if a > 4b, where a = longest radius.
+
+
+#### Experimental
+
+- **float angle()** returns the angle if the ellipse was the
+shadow of a circle, Returns 0..90°, 0° == circle, 90° == line.
+
+
 ## Operation
 
 See examples.
@@ -54,10 +66,10 @@ See examples.
 - make constructor symmetric (a < b or a > b ==> all possible.
 - make other code symmetric.
 - additional functions
-  - **bool isCircle()**  a == b
-  - **bool isFlat()**  a > 4 \* b ?
-  - bresenham to draw ellipse?
+  - Bresenham to draw ellipse?
+  - **float getLongRadius()**
+  - **float getShortRadius()**
+  - move all code to .cpp
 - documentation
-  - refer wikipedia.
-
+  - refer Wikipedia.
 

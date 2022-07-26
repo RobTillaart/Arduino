@@ -1,0 +1,19 @@
+Arduino UNO
+IDE 1.8.19
+
+GammaErrorAnalysis.ino
+GAMMA_LIB_VERSION: 0.2.2
+
+Error Analysis 256 elements = reference
+
+Size	Errors	Maximum
+257	0	0
+129	29	1
+65	38	2
+33	46	2
+17	58	2
+9	177	2
+5	233	8
+TOT	581
+
+done...

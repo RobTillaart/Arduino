@@ -1,0 +1,34 @@
+Arduino UNO 
+IDE 1.8.19
+
+GammaPerformance.ino
+GAMMA_LIB_VERSION: 0.3.0
+
+timing in microseconds
+
+SETGAMMA
+SIZE	TIME	TIME per element
+257	85872	334.13
+129	42696	330.98
+65	21172	325.72
+33	10420	315.76
+17	5052	297.18
+
+SETGAMMA II
+SIZE	TIME	TIME per element
+257	8	0.03
+129	8	0.06
+65	8	0.12
+33	8	0.24
+17	8	0.47
+
+GET[]
+SIZE	TIME	TIME per element
+257	460	1.80
+129	972	3.80
+65	1212	4.73
+33	1428	5.58
+17	1616	6.31
+
+
+done...

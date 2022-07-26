@@ -29,7 +29,7 @@ In short, choose the size that fits your application.
 
 The library has a **setGamma(float gamma)** function that allows an application 
 to change the gamma value runtime. 
-This allows adjustments that a fixed table does not have.
+This allows adjustments that are not possible with a fixed table.
 
 The class provides **dump()** to create a table e.g. to place in PROGMEM. 
 Since 0.2.2 the library also has **dumpArray()** to generate a C-style array.
@@ -46,18 +46,22 @@ array as parameter. The default for size = 32 as this is a good balance between 
 and size of the internal array. 
 The size parameter must be in {2, 4, 8, 16, 32, 64, 128, 256 }.
 - **~GAMMA()** destructor.
-- **void begin()** The internal array is allocated and initialized with a gamma == 2.8.
+- **bool begin()** The internal array is allocated and initialized with a gamma == 2.8.
 This is an often used value to adjust light to human eye responses.
 Note that **begin()** must be called before any other function.
+Returns false if allocation fails.
 - **void setGamma(float gamma)** calculates and fills the array with new values.
 This can be done runtime so runtime adjustment of gamma mapping is possible.  
 This calculation are relative expensive and takes quite some time (depending on size).
 If the array already is calculated for gamma, the calculation will be skipped.
 The parameter **gamma** must be > 0. The value 1 gives an 1:1 mapping.
+Returns false if gamma <= 0 or if no table is allocated.
 - **float getGamma()** returns the set gamma value.
-- **uint8_t operator \[\]** allows the GAMMA object to be accessed as an array.
+- **uint8_t operator \[uint8_t index\]** allows the GAMMA object to be accessed as an array.
 like ```x = G[40];``` Makes it easy to switch with a real array. 
-The value returned is in the range 0 .. 255, so the user may need to scale it e.g. to 0.0 - 1.0
+The value returned is in the range 0 .. 255, so the user may need to scale it e.g. to 0.0 - 1.0.
+Note: if internal table not allocated the function returns 0. 
+As this is a legitimate value the user should take care.
 
 
 ### Development functions
@@ -66,9 +70,11 @@ The value returned is in the range 0 .. 255, so the user may need to scale it e.
 This is always a power of 2.
 - **uint16_t distinct()** returns the number of distinct values in the table. 
 Especially with larger internal tables there will be duplicate numbers in the table.
-- **void dump(Stream \*str = &Serial)** dumps the internal table to a stream, default Serial. 
+- **bool dump(Stream \*str = &Serial)** dumps the internal table to a stream, default Serial. 
 Useful to create an array in RAM, PROGMEM, EEPROM, in a file or wherever.
+Returns false if no table is allocated.
 - **void dumpArray(Stream \*str = &Serial)** dumps the internal table to a stream, default Serial, as a C-style array. See example.
+Returns false if no table is allocated.
 
 
 ## Operation
@@ -83,10 +89,8 @@ See example.
 - look for optimizations
   - getter \[\]
   - setGamma -> pow() is expensive
-- improvements (0.3.0)
-  - return bool => begin() + setGamma() + dump()?
-  - check \_table != NULL in functions
-  - add gamma<=0 check in setGamma()
 - uint16 version?
+  - GAMMA16, GAMMA32, 
+  - GAMMA_RGB ?
 - 
 

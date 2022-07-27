@@ -12,6 +12,10 @@ reset	KEYWORD2
 wakeup	KEYWORD2
 
 read	KEYWORD2
+readAccel	KEYWORD2
+readGyro	KEYWORD2
+readTemperature	KEYWORD2
+
 setThrottle	KEYWORD2
 getThrottle	KEYWORD2
 setThrottleTime	KEYWORD2

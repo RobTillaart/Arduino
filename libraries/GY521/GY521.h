@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.3.6"))
+#define GY521_LIB_VERSION           (F("0.3.7"))
 
 
 #ifndef GY521_THROTTLE_TIME
@@ -23,7 +23,7 @@
 #endif
 
 
-// ERROR CODES
+//  ERROR CODES
 #define GY521_OK                     0
 #define GY521_THROTTLED              1
 #define GY521_ERROR_READ            -1
@@ -46,26 +46,35 @@ public:
 
 
   bool     wakeup();
-  // throttle to force delay between reads.
+  //  throttle to force delay between reads.
   void     setThrottle(bool throttle = true) { _throttle = throttle; };
   bool     getThrottle()                     { return _throttle; };
-  // 0..65535 (max milliseconds == roughly 1 minute.
+  //  0..65535 (max milliseconds == roughly 1 minute.
   void     setThrottleTime(uint16_t ti )     { _throttleTime = ti; };
   uint16_t getThrottleTime()                 { return _throttleTime; };
 
 
-  // returns GY521_OK or one of the error codes above.
+  //  READ THE SENSOR
+  //  returns GY521_OK or one of the error codes above.
   int16_t  read();
+  //  optimized partial reading
+  //  read accelerometer only
+  int16_t readAccel();
+  //  read gyroscope only can be done too
+  //  however for pitch roll yaw you need all.
+  int16_t readGyro();
+  //  read temperature only, does not affect throttle.
+  int16_t readTemperature();
 
-  // SET BEFORE READ
-  // as = 0,1,2,3 ==> 2g 4g 8g 16g
+  //  SET BEFORE READ
+  //  as = 0,1,2,3 ==> 2g 4g 8g 16g
   bool     setAccelSensitivity(uint8_t as);
   uint8_t  getAccelSensitivity();          // returns 0,1,2,3
-  // gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
+  //  gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
   bool     setGyroSensitivity(uint8_t gs);
   uint8_t  getGyroSensitivity();           // returns 0,1,2,3
 
-  // CALL AFTER READ
+  //  CALL AFTER READ
   float    getAccelX()   { return _ax; };
   float    getAccelY()   { return _ay; };
   float    getAccelZ()   { return _az; };
@@ -81,20 +90,20 @@ public:
   float    getYaw()      { return _yaw; };
 
 
-  // last time sensor is actually read.
+  //  last time sensor is actually read.
   uint32_t lastTime()    { return _lastTime; };
 
 
-  // generic worker to get access to all functionality
+  //  generic worker to get access to all functionality
   uint8_t  setRegister(uint8_t reg, uint8_t value);
   uint8_t  getRegister(uint8_t reg);
 
 
-  // get last error and reset error to OK.
+  //  get last error and reset error to OK.
   int16_t  getError()    { return _error; _error = GY521_OK; };
 
 
-  // calibration errors
+  //  calibration errors
   float    axe = 0, aye = 0, aze = 0;  // accelerometer errors
   float    gxe = 0, gye = 0, gze = 0;  // gyro errors
 

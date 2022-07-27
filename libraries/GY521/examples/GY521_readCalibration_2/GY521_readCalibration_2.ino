@@ -1,13 +1,13 @@
 //
-//    FILE: readCalibration.ino
+//    FILE: readCalibration_2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read the calibration values / errors for a flat sensor.
-//    DATE: 2020-07-14
+//    DATE: 2022-06-07
 
 
 #include "GY521.h"
 
-GY521 sensor(0x69);
+GY521 sensor(0x68);
 
 uint32_t counter = 0;
 
@@ -19,13 +19,16 @@ float t;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("GY521_LIB_VERSION: ");
+  Serial.println(GY521_LIB_VERSION);
 
   Wire.begin();
   delay(100);
   if (sensor.wakeup() == false)
   {
-    Serial.println("Could not conect to GY521");
+    Serial.println("Could not connect to GY521");
   }
   // adjust when needed.
   sensor.setAccelSensitivity(0);  // 2g
@@ -49,7 +52,7 @@ void loop()
   ax = ay = az = 0;
   gx = gy = gz = 0;
   t = 0;
-  for (int i = 0; i < 20; i++)
+  for (int i = 0; i < 100; i++)
   {
     sensor.read();
     ax -= sensor.getAccelX();
@@ -63,52 +66,64 @@ void loop()
 
   if (counter % 10 == 0)
   {
-    Serial.println("\n\tACCELEROMETER\t\tGYROSCOPE\t\tTEMPERATURE");
-    Serial.print('\t');
-    Serial.print(sensor.axe, 3);
-    Serial.print('\t');
-    Serial.print(sensor.aye, 3);
-    Serial.print('\t');
-    Serial.print(sensor.aze, 3);
-    Serial.print('\t');
-    Serial.print(sensor.gxe, 3);
-    Serial.print('\t');
-    Serial.print(sensor.gye, 3);
-    Serial.print('\t');
-    Serial.print(sensor.gze, 3);
-    Serial.print('\n');
+    Serial.println("\n\tCOPY CODE SNIPPET");
+    Serial.print("sensor.axe = ");
+    Serial.print(sensor.axe, 7);
+    Serial.print(";\n");
+
+    Serial.print("sensor.aye = ");
+    Serial.print(sensor.aye, 7);
+    Serial.print(";\n");
+
+    Serial.print("sensor.aze = ");
+    Serial.print(sensor.aze, 7);
+    Serial.print(";\n");
+    
+    Serial.print("sensor.gxe = ");
+    Serial.print(sensor.gxe, 7);
+    Serial.print(";\n");
+
+    Serial.print("sensor.gye = ");
+    Serial.print(sensor.gye, 7);
+    Serial.print(";\n");
+
+    Serial.print("sensor.aze = ");
+    Serial.print(sensor.gze, 7);
+    Serial.print(";\n");
+
     Serial.println("\taxe\taye\taze\tgxe\tgye\tgze\tT");
   }
 
+  if (counter % 10 == 0)
+  {
   Serial.print(counter);
   Serial.print('\t');
-  Serial.print(ax * 0.05, 3);
+  Serial.print(ax * 0.01, 3);
   Serial.print('\t');
-  Serial.print(ay * 0.05, 3);
+  Serial.print(ay * 0.01, 3);
   Serial.print('\t');
-  Serial.print(az * 0.05, 3);
+  Serial.print(az * 0.01, 3);
   Serial.print('\t');
-  Serial.print(gx * 0.05, 3);
+  Serial.print(gx * 0.01, 3);
   Serial.print('\t');
-  Serial.print(gy * 0.05, 3);
+  Serial.print(gy * 0.01, 3);
   Serial.print('\t');
-  Serial.print(gz * 0.05, 3);
+  Serial.print(gz * 0.01, 3);
   Serial.print('\t');
-  Serial.print(t * 0.05, 2);
+  Serial.print(t * 0.01, 2);
   Serial.println();
-
+  }
   // adjust calibration errors so table should get all zero's.
-  sensor.axe += ax * 0.05;
-  sensor.aye += ay * 0.05;
-  sensor.aze += az * 0.05;
-  sensor.gxe += gx * 0.05;
-  sensor.gye += gy * 0.05;
-  sensor.gze += gz * 0.05;
+  sensor.axe += ax * 0.01;
+  sensor.aye += ay * 0.01;
+  sensor.aze += az * 0.01;
+  sensor.gxe += gx * 0.01;
+  sensor.gye += gy * 0.01;
+  sensor.gze += gz * 0.01;
 
   counter++;
-  delay(100);
+
 }
 
 
 // -- END OF FILE --
-

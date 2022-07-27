@@ -1,8 +1,8 @@
 //
-//    FILE: GY521_pitch_roll_yaw.ino
+//    FILE: GY521_angle.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo pitch roll yaw
-//    DATE: 2020-08-06
+//    DATE: 2022-06-06
 
 
 #include "GY521.h"
@@ -48,22 +48,22 @@ void setup()
 void loop()
 {
   sensor.read();
-  float pitch = sensor.getPitch();
-  float roll  = sensor.getRoll();
-  float yaw   = sensor.getYaw();
+  float x = sensor.getAngleX();
+  float y = sensor.getAngleY();
+  float z = sensor.getAngleZ();
 
   if (counter % 10 == 0)
   {
-    Serial.println("\nCNT\tPITCH\tROLL\tYAW");
+    // Serial.println("\nCNT\tX\tY\tZ");
   }
 
-  Serial.print(counter);
+  //Serial.print(counter);
+  //Serial.print('\t');
+  Serial.print(x, 1);
   Serial.print('\t');
-  Serial.print(pitch, 3);
+  Serial.print(y, 1);
   Serial.print('\t');
-  Serial.print(roll, 3);
-  Serial.print('\t');
-  Serial.print(yaw, 3);
+  Serial.print(z, 1);
   Serial.println();
 
   counter++;

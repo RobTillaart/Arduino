@@ -1,5 +1,5 @@
 //
-//    FILE: test_2.ino
+//    FILE: GY521_test_2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test set/get functions
 //    DATE: 2020-08-06
@@ -13,14 +13,17 @@ GY521 sensor(0x69);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("GY521_LIB_VERSION: ");
+  Serial.println(GY521_LIB_VERSION);
 
   Wire.begin();
 
   delay(100);
   if (sensor.wakeup() == false)
   {
-    Serial.println("Could not conect to GY521");
+    Serial.println("Could not connect to GY521");
   }
 
   Serial.println("ACCEL TEST");

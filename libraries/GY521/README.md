@@ -87,13 +87,20 @@ AD0 connected to VCC => 0x69
 - **bool setAccelSensitivity(uint8_t as)** as = 0, 1, 2, 3 ==> 2g 4g 8g 16g
 - **uint8_t getAccelSensitivity()** returns 0, 1, 2, 3
 - **bool setGyroSensitivity(uint8_t gs)** gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
-- **uint8_t  getGyroSensitivity()** returns 0, 1, 2, 3  
+- **uint8_t getGyroSensitivity()** returns 0, 1, 2, 3  
 
 
 #### Actual read
 
-- **int16_t read()** returns ...
-- **uint32_t lastTime()** last time sensor is actually read. In milliseconds.
+- **int16_t read()** returns status = GY521_OK on success.
+- **int16_t readAccel()** read accelerometer only to speed up interaction. This call does update the throttle timer.
+returns status = GY521_OK on success.
+- **int16_t readGyro()** read gyroscope only to speed up interaction. This call does update the throttle timer.
+returns status = GY521_OK on success.
+Note: for pitch roll yaw you need to call **read()**.
+- **int16_t readTemperature()** read temperature only, does **not** update the throttle timer.
+returns status = GY521_OK on success.
+- **uint32_t lastTime()** last time sensor is actually read. In milliseconds. Not updated by readTemperature().
 
 
 #### Call after read
@@ -144,5 +151,4 @@ See examples, use with care
 **Could**
 - calibrate function in the lib ?  (think not as lib might grow?)
 - calibrate sketch could print code snippet to include...
-- option to read only Accel?
-- option to read only Gyro?
+

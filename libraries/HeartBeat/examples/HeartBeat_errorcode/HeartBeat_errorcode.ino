@@ -19,7 +19,9 @@ bool flag = true;
 void setup() 
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
 
   HB.begin(13, 3);  // PIN 13 with frequency 3
@@ -34,8 +36,9 @@ void loop()
   HB.beat();
 
   // if (millis() > 2000) HB.code(123454321);
-  if (millis() > 2000) HB.code(1369631);
+  if (millis() > 3000) HB.code(1369631);
   if (millis() > 20000) HB.codeOff();
+  if (millis() > 30000) HB.enable();
 }
 
 

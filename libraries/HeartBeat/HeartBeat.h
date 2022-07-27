@@ -2,7 +2,7 @@
 //
 //    FILE: HeartBeat.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -10,26 +10,32 @@
 
 #include "Arduino.h"
 
-#define HEARTBEAT_LIB_VERSION       (F("0.3.0"))
+#define HEARTBEAT_LIB_VERSION       (F("0.3.1"))
 
 
 class HeartBeat
 {
 public:
+  //  CONSTRUCTOR
   HeartBeat();
 
   void   begin(const uint8_t pin, float frequency = 1.0);
 
+  //  CONFIGURATION
   void   setFrequency(float frequency = 1.0);
   void   setDutyCycle(float dutyCycle = 50);
-  float  getFrequency() { return _frequency; };
-  float  getDutyCycle() { return _dutyCycle; };
+  float  getFrequency();
+  float  getDutyCycle();
 
-  inline void enable()  { _running = true;  };
-  inline void disable() { _running = false; };
+  //  START STOP interface
+  void   enable();
+  void   disable();
+  bool   isEnabled();
 
+  //  WORKER
   void    beat();
-  uint8_t getState()    { return _state; };
+  uint8_t getState();
+
 
 protected:
   void     _setFreqDuty();
@@ -55,14 +61,18 @@ protected:
 class HeartBeatDiag : public HeartBeat
 {
 public:
+  //  CONSTRUCTOR
   HeartBeatDiag();
 
+  //  WORKER
   void   beat();
 
+  //  CONFIGURATION PATTERN
   //  pattern = up to 9 digits, indicating the relative length of the pulses
   //            of the error or diagnostic code
-  bool   code(uint32_t pattern);        //  executes ONE time
-  void   codeOff() { _codeMask = 0; };  //  explicit stop.
+  bool   code(uint32_t pattern);   //  executes ONE time
+  void   codeOff();                //  explicit stop.
+
 
 protected:
   uint32_t _code        = 0;  //  up to 9 digits
@@ -80,14 +90,18 @@ protected:
 class HeartBeatSL : public HeartBeat
 {
 public:
+  //  CONSTRUCTOR
   HeartBeatSL();
 
+  //  WORKER
   void   beat();
 
+  //  CONFIGURATION PATTERN
   //  str = string of L (long) and S or non-L (short) characters.
   //        L is a pulse of 3 units, S is a pulse of 1 unit.
-  bool   code(const char * str);        //  executes ONE time
-  void   codeOff() { _codeMask = 0; };  //  explicit stop.
+  bool   code(const char * str);  //  executes ONE time
+  void   codeOff();               //  explicit stop.
+
 
 protected:
   uint8_t _code        = 0;  //  up to 7 bits

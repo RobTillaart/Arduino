@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -12,13 +12,20 @@
 //  0.1.2   2021-01-15  renamed all to HeartBeat
 //                      added dutyCycle
 //  0.1.3   2021-05-27  fix Arduino-lint
+//
 //  0.2.0   2021-11-02  update Build-CI, add badges
 //                      add getFrequency(), getDutyCycle();
 //                      add getState().
 //                      removed set()
 //  0.2.1   2021-12-18  update library.json, license, minor edits
+//
 //  0.3.0   2022-02-04  added HeartBeatDiag class.
 //                      added HeartBeatSL class (slightly simpler).
+//  0.3.1   2022-07-26  move all code to .cpp
+//                      add isEnabled()
+//                      rename examples
+//                      add example SRF05 distance sensor
+
 
 
 #include "HeartBeat.h"
@@ -50,9 +57,41 @@ void HeartBeat::setFrequency(float frequency)
 
 void HeartBeat::setDutyCycle(float dutyCycle)
 {
-  _dutyCycle = constrain(dutyCycle, 0, 100);  // percentage
+  _dutyCycle = dutyCycle;
+  if (_dutyCycle < 0)   _dutyCycle = 0;
+  if (_dutyCycle > 100) _dutyCycle = 100;
   _setFreqDuty();
 }
+
+
+float HeartBeat::getFrequency()
+{
+  return _frequency;
+};
+
+
+float HeartBeat::getDutyCycle()
+{
+  return _dutyCycle;
+};
+
+
+void HeartBeat::enable()    
+{ 
+  _running = true;  
+};
+
+
+void HeartBeat::disable()   
+{ 
+  _running = false; 
+};
+
+
+bool HeartBeat::isEnabled() 
+{
+  return _running;
+};
 
 
 void HeartBeat::beat()
@@ -73,7 +112,10 @@ void HeartBeat::beat()
 }
 
 
-
+uint8_t HeartBeat::getState()
+{
+  return _state; 
+};
 
 
 /////////////////////////////////
@@ -157,6 +199,12 @@ bool HeartBeatDiag::code(uint32_t pattern)
 }
 
 
+void HeartBeatDiag::codeOff()
+{
+  _codeMask = 0;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // HEARTBEATSL
@@ -235,6 +283,12 @@ bool HeartBeatSL::code(const char * str)
     _code <<= 1;
   }
   return true;
+}
+
+
+void HeartBeatSL::codeOff()
+{
+  _codeMask = 0;
 }
 
 

@@ -1,5 +1,5 @@
 //
-//    FILE: HeartBeat_errorcode_SL.ino
+//    FILE: HeartBeat_random.ino
 //  AUTHOR: Rob Tillaart 
 // PURPOSE: demo
 
@@ -7,7 +7,9 @@
 #include "HeartBeat.h"
 
 
-HeartBeatSL HB;
+HeartBeat HB;
+
+uint32_t lastUpdate = 0;
 
 
 void setup() 
@@ -18,10 +20,7 @@ void setup()
   Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
 
-  HB.begin(13, 1);  // PIN 13 with frequency 3
-
-  // make heartbeat invisible
-  HB.disable();
+  HB.begin(13, 1);
 }
 
 
@@ -29,8 +28,15 @@ void loop()
 {
   HB.beat();
 
-  if (millis() > 2000) HB.code("LSSL");
-  if (millis() > 20000) HB.codeOff();
+  // set a new frequency every 2 seconds
+  if (millis() - lastUpdate >= 2000)
+  {
+    lastUpdate = millis();
+    float f = 1.0 + 0.1 * random(50);
+    HB.setFrequency(f);
+  }
+  
+  // do other stuff here
 }
 
 

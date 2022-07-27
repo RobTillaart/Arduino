@@ -1,5 +1,5 @@
 //
-//    FILE: arrayHeartBeat.ino
+//    FILE: HeartBeat_array.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
@@ -13,7 +13,9 @@ HeartBeat HB[3];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
 
   HB[0].begin(11, 1);

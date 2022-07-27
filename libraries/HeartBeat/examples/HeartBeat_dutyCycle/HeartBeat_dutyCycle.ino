@@ -1,5 +1,5 @@
 //
-//    FILE: HeartBeat_errorcode_SL.ino
+//    FILE: HeartBeat_dutyCycle.ino
 //  AUTHOR: Rob Tillaart 
 // PURPOSE: demo
 
@@ -7,7 +7,7 @@
 #include "HeartBeat.h"
 
 
-HeartBeatSL HB;
+HeartBeat HB;
 
 
 void setup() 
@@ -18,10 +18,13 @@ void setup()
   Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
 
-  HB.begin(13, 1);  // PIN 13 with frequency 3
+  HB.begin(13, 3);          // PIN 13 with frequency 3
+  HB.setDutyCycle(17.53);
 
-  // make heartbeat invisible
-  HB.disable();
+  Serial.print("FR: ");
+  Serial.println(HB.getFrequency());
+  Serial.print("DC: ");
+  Serial.println(HB.getDutyCycle());
 }
 
 
@@ -29,8 +32,7 @@ void loop()
 {
   HB.beat();
 
-  if (millis() > 2000) HB.code("LSSL");
-  if (millis() > 20000) HB.codeOff();
+  // do other stuff here
 }
 
 

@@ -1,5 +1,5 @@
 //
-//    FILE: randomHeartBeat.ino
+//    FILE: HeartBeat_sinus.ino
 //  AUTHOR: Rob Tillaart 
 // PURPOSE: demo
 
@@ -9,16 +9,16 @@
 
 HeartBeat HB;
 
-uint32_t lastUpdate = 0;
-
 
 void setup() 
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
 
-  HB.begin(13, 1);
+  HB.begin(13, 1.0);
 }
 
 
@@ -26,14 +26,9 @@ void loop()
 {
   HB.beat();
 
-  // set a new frequency every 2 seconds
-  if (millis() - lastUpdate >= 2000)
-  {
-    lastUpdate = millis();
-    float f = 1.0 + 0.1 * random(50);
-    HB.setFrequency(f);
-  }
-  
+  float frequency = 5 * (1 + sin(millis()/1000.0));
+  HB.setFrequency(frequency);
+  // Serial.println(frequency, 6);
   // do other stuff here
 }
 

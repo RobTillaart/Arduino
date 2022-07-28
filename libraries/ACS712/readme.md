@@ -37,7 +37,10 @@ See Form factor below.
 #### Base
 
 - **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, uint8_t mVperA = 100)** constructor. 
-It defaults a 20 A type sensor, which is defined by the default value of mVperA. See below.
+It defaults a 20 A type sensor, which is defined by the default value of mVperA. See table below.
+Volts is the voltage used by the (Arduino) internal ADC. maxADC is the maximum output of the internal ADC.
+The defaults are based upon an Arduino UNO.
+These two ADC parameters are needed to calculate the voltage output of the ACS712 sensor.
 - **int mA_AC(float freq = 50)** blocks ~21 ms (depending on the freq) to sample a whole 50 or 60 Hz period.  
 Since version 0.2.2 frequencies other integer values than 50 and 60 are supported, the lower the frequency, 
 the longer the blocking period.

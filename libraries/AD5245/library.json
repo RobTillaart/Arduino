@@ -1,0 +1,23 @@
+{
+  "name": "AD5245",
+  "keywords": "I2C,digital,PotentioMeter, AD5245",
+  "description": "Library to control digital potentiometer AD5245",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5245"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "AD5245.h"
+}

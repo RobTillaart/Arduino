@@ -2,7 +2,7 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
 //
@@ -10,12 +10,13 @@
 //  0.1.0   2021-05-29  initial version
 //  0.1.1   2021-06-02  fix in tests
 //  0.1.2   2021-12-27  update library.json, readme, license, minor edits
+//  0.1.3   2022-08-04  fix constructor
 
 
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.2"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.3"))
 
 
 class relativity
@@ -24,9 +25,9 @@ public:
 
   relativity()
   {
-    double _speed  = 0.0;
-    double _factor = 1.0;
-    double _gamma  = 1.0;
+    _speed  = 0.0;
+    _factor = 1.0;
+    _gamma  = 1.0;
   }
 
   double getC()
@@ -53,7 +54,7 @@ public:
   
 ///////////////////////////////////////////////////////////////////
 //
-// relativistic corrections for speed
+//  relativistic corrections for speed
 //
 
   double relativeTime(double time, double speed)
@@ -77,12 +78,12 @@ public:
   }
 
 
-  // set speed only once for the 3 values
+  //  set speed only once for the 3 values
   void setSpeed(double speed = 0)
   {
-    _speed = speed;
+    _speed  = speed;
     _factor = factor(speed);
-    _gamma = gamma(speed);
+    _gamma  = gamma(speed);
   }
 
   double getSpeed()
@@ -113,35 +114,35 @@ public:
 
 ///////////////////////////////////////////////////////////////////
 //
-// relativistic corrections for gravity
+//  relativistic corrections for gravity
 //
 
   double gravitationalTime(double time, double mass, double radius)
   {
-    // formula tries to stay within float range
+    //  formula tries to stay within float range
     return time / sqrt(1 - (mass / (radius * _c2)) * (2 * _G) );
   }
 
-  // returns radius in km.
+  //  returns radius in km.
   double radiusEarth(double longitude = 45)  // 0..90
   {
-    // https://www.youtube.com/watch?v=hYMvJum9_Do  @ 8:00
-    // radius polar:    6357 km
-    // radius equator:  6378 km
-    // difference:      21 km      
+    //  https://www.youtube.com/watch?v=hYMvJum9_Do  @ 8:00
+    //  radius polar:    6357 km
+    //  radius equator:  6378 km
+    //  difference:      21 km      
     double radians = longitude * (PI / 180.0);
 
-    // approx of the graph in YouTube with a cosine
+    //  approx of the graph in YouTube with a cosine
     return 6367.5 + 10.5 * cos(radians * 2);
   }
 
-  // mass in 
+  //  mass in 
   double getPlanetMass(uint8_t n)  // sun = 0; mercury = 1 etc
   {
     return massPlanets[n];
   }
 
-  // radius in km
+  //  radius in km
   double getPlanetRadius(uint8_t n)  // sun = 0; mercury = 1 etc
   {
     return radiusPlanets[n];
@@ -156,8 +157,8 @@ private:
 
   const double _G = 6.6742e-11;         // gravitational constant
 
-  // wikipedia
-  // kg
+  //  wikipedia
+  //  kg
   const double massPlanets[10] =
   {
     1.9891e30,      // Sun
@@ -172,7 +173,7 @@ private:
     13.03e21,       // Pluto
   };
 
-  // km
+  //  km
   const double radiusPlanets[10] =
   {
     695508,         // Sun
@@ -187,7 +188,7 @@ private:
     1188.3,         // Pluto
   };
 
-  // cache
+  //  cache
   double _speed  = 0.0;
   double _factor = 1.0;
   double _gamma  = 1.0;

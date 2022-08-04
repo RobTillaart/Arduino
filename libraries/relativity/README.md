@@ -67,7 +67,11 @@ See examples for typical usage.
 ## Future
 
 - test test test test
+- Split .h into .h and .cpp
 - add more functions
+  - Schwarzschild horizon etc
+  - 
 - fix some overflow conditions.
 - add moons?
+  - need a database :)
 - add caching version of mass / radius;

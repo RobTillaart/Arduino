@@ -10,22 +10,45 @@
 
 Arduino library for AGS02MA TVOC sensor.
 
-This library is experimental, so please use with care.
-Note the warning about the I2C speed, the device works at only 30 KHz.
+This library is still experimental, so please use with care.
+Note the warning about the I2C low speed, the device works at max 30 KHz.
+Since 0.3.1 this library uses 25 KHz.
 
 
-## I2C - warning low speed
+## I2C
+
+### PIN layout from left to right
+
+| Front L->R | Description |
+|:----------:|:------------|
+| pin 1      | VDD +       |
+| pin 2      | SDA data    |
+| pin 3      | GND         |
+| pin 4      | SCL clock   |
+
+
+### WARNING - LOW SPEED 
 
 The sensor uses I2C at very low speed <= 30 KHz.
-For an Arduino UNO the lowest speed possible is about 30.4KHz (TWBR = 255) which works.
+For an Arduino UNO the lowest speed supported is about 30.4KHz (TWBR = 255) which works.
+First runs with Arduino UNO indicate 2 failed reads in > 500 Reads, so less than 1%
+
 Tests with ESP32 / ESP8266 at 30 KHz look good, 
-tests with lower clock speeds are to be done but expected to work.
-First runs indicate 2 failed reads in > 500 Reads, so less than 1%
+tests with ESP32 at lower clock speeds are to be done but expected to work.
 
 The library sets the clock speed to 30 KHz (for non AVR) during operation 
-and resets it to 100 KHz after operation.
+and resets it default to 100 KHz after operation.
 This is done to minimize interference with the communication of other devices. 
-The reset clock speed can be changed with **setI2CResetSpeed()** e.g. to 200 or 400 KHz.
+The reset clock speed can be changed with **setI2CResetSpeed(speed)** e.g. to 200 or 400 KHz.
+
+
+#### 0.3.1 fix.
+
+Version 0.3.1 sets the **I2C prescaler TWSR** register of the Arduino UNO to 4 so the lowest 
+speed possible is reduced to about 8 KHz. 
+A test run 4 hours with 6000++ reads on an UNO at 25 KHz gave 0 errors.
+So the communication speed will be set to 25 KHz, also for other boards, for stability.
+After communication the clock (+ prescaler) is reset again as before.
 
 
 ## Version 118 problems
@@ -60,7 +83,6 @@ Version 117 seem to have no problems with calibration.
 
 Note: the version 0.2.0 determines the version in the calibration function so
 it won't calibrate any non 117 version. 
-
 
 
 ### Please report your experiences.
@@ -111,7 +133,7 @@ Serial.println(dd, HEX);   //  prints YYYYMMDD e.g. 20210203
 
 ### I2C clock speed
 
-The library sets the clock speed to 30 KHz during operation 
+The library sets the clock speed to 25 KHz during operation 
 and resets it to 100 KHz after operation.
 This is done to minimize interference with the communication of other devices.
 The following function can change the I2C reset speed to e.g. 200 or 400 KHz.
@@ -148,27 +170,27 @@ Simplified formula for 1 atm @ 25°C:
 
 Some known gasses
 
-|  gas | Common name   |  ratio              | molecular weight M |
-|:-----|:--------------|:--------------------|:------------------:|
-| SO2  |               | 1 ppb = 2.62 μg/m3  | 64                 |
-| NO2  |               | 1 ppb = 1.88 μg/m3  | 46                 |
-| NO   |               | 1 ppb = 1.25 μg/m3  | 30                 |
-| O3   |               | 1 ppb = 2.00 μg/m3  | 48                 |
-| CO   |               | 1 ppb = 1.145 μg/m3 | 28                 |
-| C6H6 | Benzene       | 1 ppb = 3.19 μg/m3  | 78                 |
+|  gas | Common name       |  ratio  ppb-μg/m3   | molecular weight M |
+|:-----|:------------------|:--------------------|:------------------:|
+| SO2  | Sulphur dioxide   | 1 ppb = 2.62 μg/m3  |  64 gr/mol         |
+| NO2  | Nitrogen dioxide  | 1 ppb = 1.88 μg/m3  |  46 gr/mol         |
+| NO   | Nitrogen monoxide | 1 ppb = 1.25 μg/m3  |  30 gr/mol         |
+| O3   | Ozone             | 1 ppb = 2.00 μg/m3  |  48 gr/mol         |
+| CO   | Carbon Monoxide   | 1 ppb = 1.145 μg/m3 |  28 gr/mol         |
+| C6H6 | Benzene           | 1 ppb = 3.19 μg/m3  |  78 gr/mol         |
 
 
-### Reading
+### Read the sensor
 
 WARNING: The datasheet advises to take 3 seconds between reads.
-You might be able to squeeze time down to 1.5 second at your own risk.
+Tests gave stable results at 1.5 second intervals.
+Use this faster rate at your own risk.
 
 - **uint32_t readPPB()** reads PPB (parts per billion) from device.
 Typical value should be between 1 .. 999999.
 Returns **lastPPB()** value if failed so one does not get sudden jumps in graphs.
 Check **lastStatus()** and **lastError()** to get more info about success.  
 Time needed is ~35 milliseconds.
-
 - **uint32_t readUGM3()** reads UGM3 (microgram per cubic meter) current value from device. 
 Typical values depend on the molecular weight of the TVOC.
 Returns **lastUGM3()** if failed so one does not get sudden jumps in graphs.
@@ -178,6 +200,8 @@ Typical value should be between 0.01 .. 999.99
 - **float readMGM3()** returns milligram per cubic meter.
 - **float readUGF3()** returns microgram per cubic feet.
 
+
+### Error Codes
 
 | ERROR_CODES                | value |
 |:---------------------------|:-----:|
@@ -195,16 +219,20 @@ Typical value should be between 0.01 .. 999.99
 - **uint32_t lastUGM3()** returns last read UGM3 (microgram per cubic meter) value (cached).
 
 
-### Other
+### Calibration
 
 - **bool zeroCalibration()** to be called after at least 5 minutes in fresh air.
 See example sketch.
 - **bool manualZeroCalibration(uint16_t value = 0)** Set the zero calibration value manually.
 To be called after at least 5 minutes in fresh air.
-For v117: 0-65535 = automatic calibration.
-For v118: 0 = automatic calibration, 1-65535 manual calibration.
+  - For v117: 0-65535 = automatic calibration.
+  - For v118: 0 = automatic calibration, 1-65535 manual calibration.
 - **bool getZeroCalibrationData(ZeroCalibrationData &data)** fills a data struct with the current zero calibration status and value.
 Returns true on success.
+
+
+### Other
+
 - **bool readRegister(uint8_t address, RegisterData &reg)** fills a data struct with the chip's register data at that address.
 Primarily intended for troubleshooting and analysis of the sensor. Not recommended to build applications on top of this method's raw data.
 Returns true when the struct is filled, false when the data could not be read.
@@ -217,11 +245,11 @@ Read datasheet or table below for details. A new read is needed to update this.
 
 #### Status bits.
 
-| bit  | description                       | notes |
-|:----:|:----------------------------------|:------|
-| 7-4  | internal use                      |
-| 3-1  | 000 = PPB  001 = uG/M3            |
-|  0   | RDY bit  0 = ready  1 = not ready | 1 == busy 
+|  bit  |  description                        |  notes  |
+|:-----:|:------------------------------------|:--------|
+|  7-4  |  internal use                       |
+|  3-1  |  000 = PPB  001 = uG/M3             |
+|   0   |  RDY bit  0 = ready  1 = not ready  | 1 == busy 
 
 
 ## Future
@@ -231,4 +259,8 @@ Read datasheet or table below for details. A new read is needed to update this.
 - add indicative table for PPB health zone
 - check the mode bits of the status byte with internal \_mode.
 - elaborate error handling.
+- create an async interface for **readPPB()** if possible
+- put the I2C speed code in 2 inline functions
+  - less repeating conditional code places
+  - setLowSpeed() + setNormalSpeed()
 

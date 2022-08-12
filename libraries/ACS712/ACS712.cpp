@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -19,25 +19,28 @@
 //  0.2.4  2021-11-22  add experimental detectFrequency()
 //  0.2.5  2021-12-03  add timeout to detectFrequency()
 //  0.2.6  2021-12-09  update readme.md + license
+//  0.2.7  2022-08-10  change mVperAmp to float
+//                     add ACS712_FF_SAWTOOTH
+//                     update readme.md + unit test + minor edits
 
 
 #include "ACS712.h"
 
 
-ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, uint8_t mVperA)
+ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, float mVperAmpere)
 {
   _pin = analogPin;
-  _mVpstep     = 1000.0 * volts / maxADC;  // 1x 1000 for V -> mV
-  _mVperAmpere = mVperA;
+  _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
+  _mVperAmpere = mVperAmpere;
   _formFactor  = ACS712_FF_SINUS;  
   _midPoint    = maxADC / 2;
-  _noisemV     = 21;             // Noise is 21mV according to datasheet
+  _noisemV     = 21;             //  Noise is 21mV according to datasheet
 }
 
 
-int ACS712::mA_AC(float freq)
+int ACS712::mA_AC(float frequency)
 {
-  uint16_t period  = round(1000000UL / freq);
+  uint16_t period  = round(1000000UL / frequency);
   uint16_t samples = 0;
   uint16_t zeros   = 0;
 
@@ -45,36 +48,40 @@ int ACS712::mA_AC(float freq)
   _min = _max = analogRead(_pin);
 
   //  remove expensive float operation from loop.
-  uint16_t zeroLevel = round(_noisemV/_mVpstep);
+  uint16_t zeroLevel = round(_noisemV/_mVperStep);
 
   uint32_t start = micros();
   while (micros() - start < period)  // UNO ~180 samples...
   {
     samples++;
     int val = analogRead(_pin);
+    //  determine extremes
     if (val < _min) _min = val;
     else if (val > _max) _max = val;
+    //  count zeros
     if (abs(val - _midPoint) <= zeroLevel ) zeros++;
   }
   int point2point = (_max - _min);
 
-  // automatic determine _formFactor / crest factor
+  //  automatic determine _formFactor / crest factor
   float D = 0;
   float FF = 0;
-  if (zeros > samples * 0.025)  // more than 2% zero's
+  //  TODO uint32_t math?  (zeros * 40) > samples
+  if (zeros > samples * 0.025)          //  more than 2% zero's   
   {
-    D = 1.0 - (1.0 * zeros) / samples;  // % SAMPLES NONE ZERO
-    FF = sqrt(D) * ACS712_FF_SINUS;     // ASSUME NON ZERO PART ~ SINUS
+    D = 1.0 - (1.0 * zeros) / samples;  //  % SAMPLES NONE ZERO
+    FF = sqrt(D) * ACS712_FF_SINUS;     //  ASSUME NON ZERO PART ~ SINUS
   }
-  else  // # zeros is small => D --> 1 --> sqrt(D) --> 1
+  else                  //  # zeros is small => D --> 1 --> sqrt(D) --> 1
   {
     FF = ACS712_FF_SINUS;
   }
   _formFactor = FF;
 
-  // value could be partially precalculated: C = 1000.0 * 0.5 * _mVpstep / _mVperAmpere;
-  // return 1000.0 * 0.5 * point2point * _mVpstep * _formFactor / _mVperAmpere);
-  return round( (500.0 * point2point) * _mVpstep * _formFactor / _mVperAmpere);
+  //  value could be partially pre-calculated: C = 1000.0 * 0.5 * _mVperStep / _mVperAmpere;
+  //  return 1000.0 * 0.5 * point2point * _mVperStep * _formFactor / _mVperAmpere);
+  float mA = (500.0 * point2point) * _mVperStep * _formFactor / _mVperAmpere;
+  return round(mA);
 }
 
 
@@ -83,16 +90,17 @@ int ACS712::mA_DC()
   //  read twice to stabilize the ADC
   analogRead(_pin);
   int steps = analogRead(_pin) - _midPoint;
-  return 1000.0 * steps * _mVpstep / _mVperAmpere;
+  float mA = 1000.0 * steps * _mVperStep / _mVperAmpere;
+  return round(mA);
 }
 
 
 //  configure by sampling for 2 cycles of AC
 //  Also works for DC as long as no current flowing
 //  note this is blocking!
-void ACS712::autoMidPoint(float freq)
+void ACS712::autoMidPoint(float frequency)
 {
-  uint16_t twoPeriods = round(2000000UL / freq);
+  uint16_t twoPeriods = round(2000000UL / frequency);
 
   uint32_t total   = 0;
   uint32_t samples = 0;
@@ -101,8 +109,8 @@ void ACS712::autoMidPoint(float freq)
   {
     uint16_t reading = analogRead(_pin);
     total += reading;
-    samples ++;
-    // Delaying ensures we won't overflow since we'll perform a maximum of 40,000 reads
+    samples++;
+    //  Delaying ensures we won't overflow since we'll perform a maximum of 40,000 reads
     delayMicroseconds(1);
   }
   _midPoint = total / samples;
@@ -133,9 +141,9 @@ float ACS712::detectFrequency(float minimalFrequency)
   int Q1 = (3 * minimum + maximum ) / 4;
   int Q3 = (minimum + 3 * maximum ) / 4;
 
-  // 10x passing Quantile points
-  // wait for the right moment to start
-  // to prevent endless loop a timeout is checked.
+  //  10x passing Quantile points
+  //  wait for the right moment to start
+  //  to prevent endless loop a timeout is checked.
   timeOut *= 10;
   start = micros();
   while ((analogRead(_pin) >  Q1) && ((micros() - start) < timeOut));

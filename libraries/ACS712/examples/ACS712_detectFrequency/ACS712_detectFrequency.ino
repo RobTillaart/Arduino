@@ -1,20 +1,21 @@
 //
 //    FILE: ACS712_detectFrequency.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: demo function
-//    DATE: 2021-12-01
-//     URL: https://github.com/RobTillaart/
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/ACS712
 
 
-#include "Arduino.h"
 #include "ACS712.h"
 
-// Arduino UNO has 5.0 volt with a max ADC value of 1023 steps
-// ACS712 5A  uses 185 mV per A
-// ACS712 20A uses 100 mV per A
-// ACS712 30A uses  66 mV per A
+
+//  Arduino UNO has 5.0 volt with a max ADC value of 1023 steps
+//  ACS712 5A  uses 185 mV per A
+//  ACS712 20A uses 100 mV per A
+//  ACS712 30A uses  66 mV per A
 ACS712  ACS(A0, 5.0, 1023, 100);
+//  ESP 32 example (might requires resistors to step down the logic voltage)
+//  ACS712  ACS(25, 3.3, 4095, 185);
+
 
 uint32_t start, stop;
 
@@ -41,3 +42,4 @@ void loop()
 
 
 // -- END OF FILE --
+

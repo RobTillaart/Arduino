@@ -31,10 +31,20 @@
 
 unittest_setup()
 {
+    fprintf(stderr, "ACS712_LIB_VERSION: %s\n", (char *) ACS712_LIB_VERSION);
 }
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqualFloat(1.0/sqrt(2), ACS712_FF_SINUS,    0.001);
+  assertEqualFloat(1.0, ACS712_FF_SQUARE,           0.001);
+  assertEqualFloat(1.0/sqrt(3), ACS712_FF_TRIANGLE, 0.001);
+  assertEqualFloat(1.0/sqrt(3), ACS712_FF_SAWTOOTH, 0.001);
 }
 
 
@@ -51,11 +61,11 @@ unittest(test_mA_DC)
   int future[12] = {0, 0, 100, 100, 200, 200, 511, 511, 900, 900, 1023, 1023};
   state->analogPin[0].fromArray(future, 12);
 
-  assertEqual(-24975, ACS.mA_DC());
-  assertEqual(-20087, ACS.mA_DC());
+  assertEqual(-24976, ACS.mA_DC());
+  assertEqual(-20088, ACS.mA_DC());
   assertEqual(-15200, ACS.mA_DC());
   assertEqual(0, ACS.mA_DC());
-  assertEqual(19012, ACS.mA_DC());
+  assertEqual(19013, ACS.mA_DC());
   assertEqual(25024, ACS.mA_DC());
 }
 
@@ -133,13 +143,19 @@ unittest(test_mVperAmp)
 {
   ACS712  ACS(A0, 5.0, 1023, 100);
 
-  int mpa = ACS.getmVperAmp();
-  assertEqual(100, mpa);       // default value..
+  float mpa = ACS.getmVperAmp();
+  assertEqualFloat(100, mpa, 0.001);       // default value..
 
-  ACS.setmVperAmp(50);
-  mpa = ACS.getmVperAmp();
-  assertEqual(50, mpa);
+  float mv = 25.0;
+  while (mv < 200)
+  {
+    ACS.setmVperAmp(mv);
+    mpa = ACS.getmVperAmp();
+    assertEqualFloat(mv, mpa, 0.001);
+    mv += 24.8;  //  just a bit random adjustments
+  }
 }
+
 
 
 unittest_main()

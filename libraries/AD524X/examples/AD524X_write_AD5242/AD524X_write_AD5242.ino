@@ -1,44 +1,54 @@
 //
 //    FILE: AD524X_write_AD5242.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: AD524X demo program
-//    DATE: 2020-12-08
 //     URL: https://github.com/RobTillaart/AD524X
 //
 
+
 #include "AD524X.h"
 
-AD5242 AD(0x2C);  // AD0 & AD1 == GND
+AD5242 AD01(0x2C);  // AD0 & AD1 == GND
+
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.println(AD524X_VERSION);
+  Serial.println();
+  Serial.println(AD524X_LIB_VERSION);
 
   Wire.begin();
   Wire.setClock(400000);
+  
+  bool b = AD01.begin();
+  Serial.println(b ? "true" : "false");
+  Serial.println(AD01.isConnected());
 
-  Serial.println(AD.pmCount());
+  Serial.println(AD01.pmCount());
 }
+
 
 void loop()
 {
   for (int val = 0; val < 255; val++)
   {
-    AD.write(1, val);
+    AD01.write(1, val);
     if (val == 200)
     {
-      AD.write(1, val, HIGH, LOW);
+      AD01.write(1, val, HIGH, LOW);
     }
     if (val == 0)
     {
-      AD.write(1, val, LOW, LOW);
+      AD01.write(1, val, LOW, LOW);
     }
     Serial.println(val);
     delay(20);
   }
 }
 
+
 // -- END OF FILE --
+

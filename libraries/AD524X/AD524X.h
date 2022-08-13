@@ -2,7 +2,7 @@
 //
 //    FILE: AD524X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: I2C digital PotentioMeter AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AD524X_VERSION        (F("0.3.3"))
+#define AD524X_LIB_VERSION    (F("0.3.4"))
 
 
 #define AD524X_OK             0
@@ -29,7 +29,7 @@ public:
 #endif
   bool    begin();
   bool    isConnected();
-  
+
   uint8_t reset();    // reset both channels to 127 and O1/O2 to LOW
   uint8_t zeroAll();  //   set both channels to 0   and O1/O2 to LOW
 
@@ -69,7 +69,7 @@ private:
 //////////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
-// 
+//
 class AD5241 : public AD524X
 {
 public:
@@ -85,3 +85,4 @@ public:
 
 
 // -- END OF FILE --
+

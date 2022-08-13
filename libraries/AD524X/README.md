@@ -24,6 +24,12 @@ An important property of the devices is that they defaults
 to their mid position at startup.
 
 
+#### Related libraries
+
+This library is related to - https://github.com/RobTillaart/AD5245
+The AD5245 is a single port digital potentiometer.
+
+
 ## I2C address
 
 The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F 
@@ -91,5 +97,5 @@ The examples show the basic working of the functions.
 ## Future
 
 - improve error handling.
-- sync with AD520X library?
+- sync with AD520X library
 

@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "\nAD524X_LIB_VERSION: %s\n", (char *) AD524X_LIB_VERSION);
 }
 
 

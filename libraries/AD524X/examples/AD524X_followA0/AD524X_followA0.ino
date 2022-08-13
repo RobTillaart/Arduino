@@ -1,11 +1,10 @@
 //
 //    FILE: AD524X_followA0.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: AD524X demo program
-//    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
 //
+
 
 #include "AD524X.h"
 
@@ -15,11 +14,17 @@ AD524X AD01(0x2C);  // AD0 & AD1 == GND
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.println(AD524X_VERSION);
+  Serial.println();
+  Serial.println(AD524X_LIB_VERSION);
 
   Wire.begin();
   Wire.setClock(400000);
+  
+  bool b = AD01.begin();
+  Serial.println(b ? "true" : "false");
+  Serial.println(AD01.isConnected());
 }
 
 
@@ -43,3 +48,4 @@ void loop()
 
 
 // -- END OF FILE --
+

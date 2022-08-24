@@ -1,18 +1,12 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
 //
-//  0.1.0   2020-04-28  initial version
-//  0.1.1   2020-05-27  update library.json
-//  0.1.2   2020-07-08  added clearLine + color support (thanks airbornemint)
-//  0.1.3   2020-12-11  added Arduino-CI + unit test (minimal)
-//  0.1.4   2020-10-18  updated Arduino-CI (esp32) + examples
-//  0.1.5   2020-12-13  update library.json, license, minor edits
-//                      add write(array, length);
+// HISTORY: See CHANGELOG.md
 
 
 #include "ansi.h"
@@ -68,42 +62,6 @@ enum {
   extended_color8 = 5,
   extended_color24 = 2,
 };
-
-
-void ANSI::color4_code(uint8_t base, uint8_t color) {
-  if (color < 8) {
-    print(base + color);
-  } else {
-    print(base + bright_color + color);
-  }
-}
-
-
-void ANSI::color4(uint8_t base, uint8_t color) {
-  print("\033[");
-  this->color4_code(base, color);
-  print("m");
-}
-
-
-void ANSI::colors4(uint8_t fgcolor, uint8_t bgcolor) {
-  print("\033[");
-  this->color4_code(fg_normal, fgcolor);
-  print(";");
-  this->color4_code(bg_normal, bgcolor);
-  print("m");
-}
-
-
-void ANSI::color8(uint8_t base, uint8_t color) {
-  print("\033[");
-  print(base + extended_color);
-  print(";");
-  print(extended_color8);
-  print(";");
-  print(color);
-  print("m");
-}
 
 
 void ANSI::foreground(uint8_t fgcolor)
@@ -187,17 +145,81 @@ void ANSI::cursorBack(uint8_t x)
 }
 
 
+int ANSI::deviceType(uint32_t timeout)
+{
+  int type = -1;    // -1 = unknown
+  print("\033[0c");
+  
+  uint32_t start = millis();
+  int read_len = 0;
+  char buffer[8];
+  while ((read_len != 3) && ((millis() - start) < timeout))
+  {
+    delay(1);
+    read_len = Serial.readBytes(buffer, 3);
+    if ((buffer[0] == '1') && (buffer[1] == ';'))
+    {
+      type = buffer[2] - '0';
+    }
+    // Serial.write(buffer, 3);
+    // Serial.println();
+  }
+  return type;
+}
+
+
+//////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 size_t ANSI::write(uint8_t c)
 {
   // TODO add line buffer? - interference with write(array, length) !?
   return _stream->write(c);
 }
 
+
 size_t ANSI::write(uint8_t * array, uint8_t length)
 {
   return _stream->write(array, length);
 }
 
+
+
+void ANSI::color4_code(uint8_t base, uint8_t color) {
+  if (color < 8) {
+    print(base + color);
+  } else {
+    print(base + bright_color + color);
+  }
+}
+
+
+void ANSI::color4(uint8_t base, uint8_t color) {
+  print("\033[");
+  this->color4_code(base, color);
+  print("m");
+}
+
+
+void ANSI::colors4(uint8_t fgcolor, uint8_t bgcolor) {
+  print("\033[");
+  this->color4_code(fg_normal, fgcolor);
+  print(";");
+  this->color4_code(bg_normal, bgcolor);
+  print("m");
+}
+
+
+void ANSI::color8(uint8_t base, uint8_t color) {
+  print("\033[");
+  print(base + extended_color);
+  print(";");
+  print(extended_color8);
+  print(";");
+  print(color);
+  print("m");
+}
 
 // -- END OF FILE --
 

@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.1.5"))
+#define ANSI_LIB_VERSION        (F("0.1.6"))
 
 
 class ANSI : public Stream
@@ -19,14 +19,14 @@ class ANSI : public Stream
 public:
   ANSI(Stream * stream = &Serial);
 
-  // Stream interface
+  //  Stream interface
   int  available();
   int  read();
   int  peek();
   void flush()     { return; };  // placeholder to keep CI happy
 
 
-  // CHAR MODES
+  //  CHAR MODES
   void normal()    { print("\033[0m"); };
   void bold()      { print("\033[1m"); };
   void low()       { print("\033[2m"); };
@@ -35,7 +35,7 @@ public:
   void reverse()   { print("\033[7m"); };
 
 
-  // COLOR
+  //  COLOR
   enum {
     black = 0,
     red,
@@ -70,7 +70,7 @@ public:
   uint8_t rgb2color(uint8_t r, uint8_t g, uint8_t b);
 
 
-  // POSITIONING
+  //  POSITIONING
   enum {
     toEnd = 0,
     toStart = 1,
@@ -88,6 +88,41 @@ public:
   void cursorForward(uint8_t x);
   void cursorBack(uint8_t x);
 
+
+  //  META
+  //  deviceType is discussed 
+  //    - https://github.com/RobTillaart/ANSI/issues/9
+  //  timeout in milliseconds. 
+  //  note this function blocks for timeout or less.
+  //  -1 = unknown; 
+  //   1 = VT52, 2 = VT100, 3 = VT220,
+  int deviceType(uint32_t timeout = 100);
+
+
+  //  EXPERIMENTAL SECTION
+  //  use at own risk
+  //  check if it works on your terminal              Tera
+  /*
+  void set132()          { print("\033[?3h");  };  //  +
+  void set80()           { print("\033[?3l");  };  //  +
+  void setSmoothScroll() { print("\033[?4h");  };  //  -
+  void setJumpScroll()   { print("\033[?4l");  };  //  -
+  void moveWindowDown()  { print("\033M");     };  //  +
+  void moveWindowUp()    { print("\033D");     };  //  +
+  //  to be used for password?
+  void invisible()       { print("\033[8m");   };  //  -
+
+  //  PRINTING
+  //  use at own risk
+  //  check if it works on your terminal              Tera
+  void printScreen()     { print("\033[i");    };  //  +
+  void printLine()       { print("\033[1i");   };  //  ?
+  void startPrintLog()   { print("\033[4i");   };  //  ?
+  void stopPrintLog()    { print("\033[5i");   };  //  ?
+
+  //  Reset terminal to initial state
+  void reset()           { print("\033c");     };  //  +
+  */
 
 private:
   size_t write(uint8_t c);

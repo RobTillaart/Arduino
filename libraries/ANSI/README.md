@@ -45,6 +45,17 @@ Using **ansi.print()** and **ansi.println()** for printing text and numbers is
 improved a bit since 0.1.4 by adding the private **write(array, length)**.
 
 
+## Experimental 0.1.6
+
+Version 0.1.6 added a number of experimental function that need more testing.
+Some are working, others are unclear, but the user can uncomment these and
+experiment with them if needed. 
+
+Also added is the **int deviceType()** function which also need more testing
+
+As always, constructive feedback is welcome.
+
+
 ## Future
 
 - test more terminal programs (Linux mac)

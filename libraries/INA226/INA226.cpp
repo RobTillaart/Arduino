@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -10,6 +10,7 @@
 
 #include "INA226.h"
 
+//  REGISTERS
 #define INA226_CONFIGURATION        0x00
 #define INA226_SHUNT_VOLTAGE        0x01
 #define INA226_BUS_VOLTAGE          0x02
@@ -32,13 +33,13 @@
 
 ////////////////////////////////////////////////////////
 //
-// Constructor
+//  Constructor
 //
 INA226::INA226(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
-  // not calibrated values by default.
+  //  not calibrated values by default.
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
@@ -79,26 +80,26 @@ uint8_t INA226::getAddress()
 
 ////////////////////////////////////////////////////////
 //
-// Core functions
+//  Core functions
 //
 float INA226::getShuntVoltage()
 {
   int16_t val = _readRegister(INA226_SHUNT_VOLTAGE);
-  return val * 2.5e-6;   // fixed 2.50 uV
+  return val * 2.5e-6;   //  fixed 2.50 uV
 }
 
 
 float INA226::getBusVoltage()
 {
   uint16_t val = _readRegister(INA226_BUS_VOLTAGE);
-  return val * 1.25e-3;  // fixed 1.25 mV
+  return val * 1.25e-3;  //  fixed 1.25 mV
 }
 
 
 float INA226::getPower()
 {
   uint16_t val = _readRegister(INA226_POWER);
-  return val * 25 * _current_LSB;
+  return val * 25 * _current_LSB;  //  fixed 25 Watt 
 }
 
 
@@ -111,14 +112,14 @@ float INA226::getCurrent()
 
 ////////////////////////////////////////////////////////
 //
-// Configuration
+//  Configuration
 //
 void INA226::reset()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask |= INA226_CONF_RESET_MASK;
   _writeRegister(INA226_CONFIGURATION, mask);
-  // reset calibration
+  //  reset calibration
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
@@ -187,16 +188,18 @@ uint8_t INA226::getShuntVoltageConversionTime()
 
 ////////////////////////////////////////////////////////
 //
-// Calibration
+//  Calibration
 //
-bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
+int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 {
-  // #define printdebug true
-  uint32_t calib = 0;
-  uint32_t factor = 1;
+  //  #define printdebug true
 
-  if ((maxCurrent > 20) || (maxCurrent < 0.001)) return false;
-  if (shunt < 0.001) return false;
+  //  fix #16 - datasheet 6.5 Electrical Characteristics
+  //            rounded value to 80 mV
+  float shuntVoltage = abs(maxCurrent * shunt);  
+  if (shuntVoltage > 0.080) return INA226_ERR_SHUNTVOLTAGE_HIGH;
+  if (maxCurrent < 0.001)   return INA226_ERR_MAXCURRENT_LOW;
+  if (shunt < 0.001)        return INA226_ERR_SHUNT_LOW;
 
   _current_LSB = maxCurrent * 3.0517578125e-5;      // maxCurrent / 32768;
 
@@ -209,8 +212,11 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     Serial.println(" uA / bit");
   #endif
 
-  // normalize the LSB to a round number
-  // LSB will increase
+  uint32_t calib  = 0;
+  uint32_t factor = 1;
+
+  //  normalize the LSB to a round number
+  //  LSB will increase
   if (normalize)
   {
     calib = round(0.00512 / (_current_LSB * shunt));
@@ -222,7 +228,7 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
       Serial.println(" uA / bit");
     #endif
 
-    // auto scale current_LSB
+    //  auto scale current_LSB
     factor = 1;
     while (_current_LSB < 1)
     {
@@ -232,7 +238,7 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     _current_LSB = 1.0 / factor;
   }
 
-  // auto scale calibration
+  //  auto scale calibration
   calib = round(0.00512 / (_current_LSB * shunt));
   while (calib > 65535)
   {
@@ -241,7 +247,7 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   }
   _writeRegister(INA226_CALIBRATION, calib);
 
-  _maxCurrent = _current_LSB * 32768.0;
+  _maxCurrent = _current_LSB * 32768;
   _shunt = shunt;
 
   #ifdef printdebug
@@ -258,15 +264,18 @@ bool INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     Serial.print("Shunt:\t");
     Serial.print(_shunt, 8);
     Serial.println(" ohm");
+    Serial.print("ShuntV:\t");
+    Serial.print(shuntVoltage, 4);
+    Serial.println(" Volt");
   #endif
 
-  return true;
+  return INA226_ERR_NONE;
 }
 
 
 ////////////////////////////////////////////////////////
 //
-// operating mode
+//  operating mode
 //
 bool INA226::setMode(uint8_t mode)
 {
@@ -332,7 +341,7 @@ uint16_t INA226::getDieID()
 
 ////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint16_t INA226::_readRegister(uint8_t reg)
 {

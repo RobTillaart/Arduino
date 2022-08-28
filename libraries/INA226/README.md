@@ -155,8 +155,10 @@ Note the value returned is not a unit of time.
 |    6      |  4.2 ms   |
 |    7      |  8.3 ms   |
 
+Note: times are typical, check datasheet for operational range.
+(max is ~10% higher)
 
-Note that total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
+Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 
 ### Calibration
@@ -167,10 +169,8 @@ Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 
 - **bool setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
 set the calibration register based upon the shunt and the max ampere. 
-From this the LSB is derived. 
-Note the function will round up the LSB to nearest round value by default. 
-This may cause loss of precision. The function may force normalization if underflow detected.
-The user **must** check the return value == true, otherwise the calibration register is **not** set.
+From this the LSB is derived.
+The function may force normalization if underflow is detected.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**. 
 - **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
 - **float getCurrentLSB_mA()** returns the LSB in milliampere.
@@ -178,7 +178,26 @@ The user **must** check the return value == true, otherwise the calibration regi
 - **float getShunt()** returns the value set for the shunt.
 - **float getMaxCurrent()** returns the value for the maxCurrent which can be corrected.
 
-To print these values one might use https://github.com/RobTillaart/printHelpers 
+To print these values in scientific notation use https://github.com/RobTillaart/printHelpers 
+
+
+#### About normalization
+
+**setMaxCurrentShunt()** will round the LSB to nearest round value (typical 0.001) by default (normalize == true). 
+- The user **must** check the return value == 0x000, otherwise the calibration register is **not** set.
+- Normalization typically gives smaller steps => improve precision
+- Normalization can cause that the maxCurrent passed cannot be reached any more.
+Solution is not to normalize if this max range is needed. 
+
+
+#### Error codes setMaxCurrentShunt
+
+| descriptive name error       | value  | meaning |
+|:-----------------------------|-------:|:--------|
+| INA226_ERR_NONE              | 0x0000 | OK
+| INA226_ERR_SHUNTVOLTAGE_HIGH | 0x8000 | maxCurrent \* shunt > 80 mV 
+| INA226_ERR_MAXCURRENT_LOW    | 0x8001 | maxCurrent < 0.001
+| INA226_ERR_SHUNT_LOW         | 0x8002 | shunt      < 0.001
 
 
 ### Operating mode
@@ -250,25 +269,42 @@ See examples..
 
 ## Future
 
-- test different loads (low edge)
-- expand unit tests possible?
-- test examples
-- investigate alert functions / interface
-- disconnected load, 
+#### Should
+
+- test different loads (low edge).
+- test examples.
+- investigate alert functions / interface.
+- disconnected load.
   - can it be recognized? => current drop?
-- **lastError()** do we need this
-- if **BVCT SVCT** is set to 6 or 7
-  - does the long timing affects RTOS? ==> yield()
-- cache configuration ? ==> 2 bytes
-  - what is gained? updates are faster.
-  - 15 times used, 
-- can the calibration math be optimized
+
+
+#### Could
+
+- can the calibration math be optimized?
   - integer only?
   - less iterations?
-  - local var for current_lsb?
   - ??
 - make defines of "magic" numbers
+  - const floats (most used only once)
+
+
+#### Won't
+
+- **lastError()** do we need this?
+  - no
+- if **BVCT SVCT** is set to 6 or 7
+  - does the long timing affects RTOS? ==> yield()
+  - wait for issue
+- expand unit tests possible?
+  - need virtual device => too much work
+- cache configuration ? ==> 2 bytes.
+  - what is gained? updates are faster. footprint code?
+  - how often operational?
+  - 15 times used..
+  
 
 ## Resources
+
 - [TI - INA226 Details](https://www.ti.com/product/INA226#params)
 - [TI - INA226 datasheet](https://www.ti.com/document-viewer/INA226/datasheet)
+

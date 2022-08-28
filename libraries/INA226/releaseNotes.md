@@ -3,6 +3,14 @@
 
 ## Release notes
 
+## 0.4.0   2022-08-XX
+- fix #16 - change error to warning for max current
+  setMaxCurrentShunt now returns an int indicating OK == 0
+  otherwise error. See INA226.h for error codes.
+- updated readme.md
+- updated unit tests (error codes)
+
+
 ## 0.3.0   2022-07-01
 - fix #14 RESET FLAG
 - add getAddress()

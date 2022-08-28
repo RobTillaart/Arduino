@@ -45,6 +45,9 @@ unittest(test_constants)
   assertEqualFloat(1.0, ACS712_FF_SQUARE,           0.001);
   assertEqualFloat(1.0/sqrt(3), ACS712_FF_TRIANGLE, 0.001);
   assertEqualFloat(1.0/sqrt(3), ACS712_FF_SAWTOOTH, 0.001);
+  
+  assertEqual(21, ACS712_DEFAULT_NOISE);
+  assertEqual(50, ACS712_DEFAULT_FREQ);
 }
 
 
@@ -77,6 +80,17 @@ unittest(test_mA_AC)
   // loop with micros and a lot of analogReads - not possible
   // assertEqual(0, ACS.mA_AC(50));
   // assertEqual(0, ACS.mA_AC(60));
+  assertEqual(1, 1);
+}
+
+
+unittest(test_mA_AC_samples)
+{
+  ACS712  ACS(A0, 5.0, 1023, 100);  // analogPin, volts, maxADC, mVperA
+
+  // loop with micros and a lot (150?) of analogReads - not possible
+  // assertEqual(0, ACS.mA_AC_samples(50));
+  // assertEqual(0, ACS.mA_AC_samples(60));
   assertEqual(1, 1);
 }
 
@@ -146,16 +160,33 @@ unittest(test_mVperAmp)
   float mpa = ACS.getmVperAmp();
   assertEqualFloat(100, mpa, 0.001);       // default value..
 
-  float mv = 25.0;
-  while (mv < 200)
+  float mva = 25.0;
+  while (mva < 200)
   {
-    ACS.setmVperAmp(mv);
+    ACS.setmVperAmp(mva);
     mpa = ACS.getmVperAmp();
-    assertEqualFloat(mv, mpa, 0.001);
-    mv += 24.8;  //  just a bit random adjustments
+    assertEqualFloat(mva, mpa, 0.001);
+    mva += 24.8;  //  just a bit random adjustments
   }
 }
 
+
+unittest(test_AmperePerStep)
+{
+  ACS712  ACS(A0, 5.0, 1023, 100);
+
+  float aps = ACS.getAmperePerStep();
+  assertEqualFloat(0.047885, aps, 0.001);
+
+  float mva = 25.0;
+  while (mva < 200)
+  {
+    ACS.setmVperAmp(mva);
+    aps = ACS.getAmperePerStep();
+    assertEqualFloat(5000.0/1023/mva, aps, 0.001);
+    mva += 24;
+  }
+}
 
 
 unittest_main()

@@ -1,10 +1,9 @@
 //
-//    FILE: ACS712_20_DC.ino
+//    FILE: ACS712_20_AC_compare.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo to measure mA DC
+// PURPOSE: demo AC measurement comparison
 //     URL: https://github.com/RobTillaart/ACS712
 
-//  use with Arduino Serial Plotter
 
 #include "ACS712.h"
 
@@ -29,15 +28,22 @@ void setup()
   Serial.println(ACS712_LIB_VERSION);
 
   ACS.autoMidPoint();
-  //  Serial.println(ACS.getMidPoint());
+  Serial.print("MidPoint: ");
+  Serial.print(ACS.getMidPoint());
+  Serial.print(". Noise mV: ");
+  Serial.println(ACS.getNoisemV());
 }
 
 
 void loop()
 {
-  int mA = ACS.mA_DC();
-  Serial.println(mA);
-  delay(100);
+  int m1 = ACS.mA_AC();
+  float m2 = ACS.mA_AC_sampling();
+  Serial.print("mA:\t");
+  Serial.print(m1);
+  Serial.print("\t\t");
+  Serial.println(m2);
+  delay(1000);
 }
 
 

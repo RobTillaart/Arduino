@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712_detectFrequency.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo detect frequency + timing indication.
 //     URL: https://github.com/RobTillaart/ACS712
 
 
@@ -23,7 +23,10 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
   Serial.println(__FILE__);
+  Serial.print("ACS712_LIB_VERSION: ");
+  Serial.println(ACS712_LIB_VERSION);
 }
 
 
@@ -38,6 +41,7 @@ void loop()
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println(frequency, 1);
+  delay(100);
 }
 
 

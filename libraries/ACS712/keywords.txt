@@ -6,11 +6,13 @@ ACS712	KEYWORD1
 # Methods and Functions (KEYWORD2)
 mA_AC	KEYWORD2
 mA_DC	KEYWORD2
+mA_AC_sampling	KEYWORD2
 
 setMidPoint	KEYWORD2
 getMidPoint	KEYWORD2
 incMidPoint	KEYWORD2
 decMidPoint	KEYWORD2
+autoMidPoint	KEYWORD2
 
 setFormFactor	KEYWORD2
 getFormFactor	KEYWORD2
@@ -24,6 +26,8 @@ getmVperAmp	KEYWORD2
 detectFrequency	KEYWORD2
 setMicrosAdjust	KEYWORD2
 getMicrosAdjust	KEYWORD2
+
+getAmperePerStep	KEYWORD2
 
 
 # Constants (LITERAL1)

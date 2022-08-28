@@ -1,10 +1,9 @@
 //
-//    FILE: ACS712_20_DC.ino
+//    FILE: ACS712_20_AC_average.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo to measure mA DC
+// PURPOSE: demo AC measurement with point to point + averaging
 //     URL: https://github.com/RobTillaart/ACS712
 
-//  use with Arduino Serial Plotter
 
 #include "ACS712.h"
 
@@ -29,15 +28,31 @@ void setup()
   Serial.println(ACS712_LIB_VERSION);
 
   ACS.autoMidPoint();
-  //  Serial.println(ACS.getMidPoint());
+  Serial.print("MidPoint: ");
+  Serial.println(ACS.getMidPoint());
+  Serial.print("Noise mV: ");
+  Serial.println(ACS.getNoisemV());
 }
 
 
 void loop()
 {
-  int mA = ACS.mA_DC();
+  float average = 0;
+  uint32_t start = millis();
+  for (int i = 0; i < 100; i++)
+  {
+    //  select sppropriate function
+    //  average += ACS.mA_AC_sampling();
+    average += ACS.mA_AC();
+  }
+  float mA = average / 100.0;
+  uint32_t duration = millis() - start;
+  Serial.print("Time: ");
+  Serial.print(duration);
+  Serial.print("  mA: ");
   Serial.println(mA);
-  delay(100);
+
+  delay(1000);
 }
 
 

@@ -1,7 +1,7 @@
 //
-//    FILE: ACS712_20_AC.ino
+//    FILE: ACS712_20_AC_low_pass.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo AC measurement with point to point
+// PURPOSE: demo AC measurement with point to point with low pass filter
 //     URL: https://github.com/RobTillaart/ACS712
 
 
@@ -14,10 +14,12 @@
 //  ACS712 30A uses  66 mV per A
 
 
-ACS712  ACS(A0, 5.0, 1023, 100);
+ACS712  ACS(A0, 5.0, 1023, 185);
 //  ESP 32 example (might requires resistors to step down the logic voltage)
 //  ACS712  ACS(25, 3.3, 4095, 185);
 
+float value  = 0;
+float weight = 0.2;
 
 void setup()
 {
@@ -28,22 +30,35 @@ void setup()
   Serial.println(ACS712_LIB_VERSION);
 
   ACS.autoMidPoint();
+
   Serial.print("MidPoint: ");
-  Serial.print(ACS.getMidPoint());
-  Serial.print(". Noise mV: ");
+  Serial.println(ACS.getMidPoint());
+  Serial.print("Noise mV: ");
   Serial.println(ACS.getNoisemV());
+  Serial.print("Amp/Step: ");
+  Serial.println(ACS.getAmperePerStep(), 4);
+
+  value = ACS.mA_AC();  // get good initial value
 }
 
 
 void loop()
 {
-  int mA = ACS.mA_AC();
-  Serial.print("mA: ");
+  //  select sppropriate function
+  float mA = ACS.mA_AC_sampling();
+  // float mA = ACS.mA_AC();
+  value += weight * (mA - value);  // low pass filtering
+
+  Serial.print("weight: ");
+  Serial.print(weight);
+  Serial.print(" value: ");
+  Serial.print(value, 0);
+  Serial.print(" mA: ");
   Serial.print(mA);
-  Serial.print(". Form factor: ");
-  Serial.println(ACS.getFormFactor());
+  Serial.println();
+
+  delay(1000);
 }
 
 
 // -- END OF FILE --
-

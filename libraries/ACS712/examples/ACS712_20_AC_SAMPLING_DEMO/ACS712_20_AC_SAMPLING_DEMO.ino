@@ -1,10 +1,9 @@
 //
-//    FILE: ACS712_20_DC.ino
+//    FILE: ACS712_20_AC_SAMPLING_DEMO.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo to measure mA DC
+// PURPOSE: demo to sample AC current and set mVPerAmpere
 //     URL: https://github.com/RobTillaart/ACS712
 
-//  use with Arduino Serial Plotter
 
 #include "ACS712.h"
 
@@ -27,17 +26,26 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
-
+  
   ACS.autoMidPoint();
-  //  Serial.println(ACS.getMidPoint());
 }
 
 
 void loop()
 {
-  int mA = ACS.mA_DC();
-  Serial.println(mA);
-  delay(100);
+  float mA = ACS.mA_AC_sampling();
+  Serial.println(mA, 1);
+
+  while (Serial.available() > 0)
+  {
+    char c = Serial.read();
+
+    if (c == '*') ACS.setmVperAmp(ACS.getmVperAmp() + 1);
+    if (c == '/') ACS.setmVperAmp(ACS.getmVperAmp() - 1);
+    Serial.print("mVperAmp:\t");
+    Serial.println(ACS.getmVperAmp());
+  }
+  delay(250);
 }
 
 

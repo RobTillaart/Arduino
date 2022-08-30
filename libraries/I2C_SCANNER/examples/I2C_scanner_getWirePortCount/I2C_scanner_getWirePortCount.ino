@@ -1,4 +1,4 @@
-//    FILE: I2C_scanner_simple.ino
+//    FILE: I2C_scanner_getWirePortCount.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo simple scanner
 //     URL: https://github.com/RobTillaart/I2C_SCANNER
@@ -19,12 +19,40 @@ void setup()
 
   scanner.begin();
 
+  Serial.print("I2C ports: \t");
+  Serial.println(scanner.getWirePortCount());
+
+  for (int port = 0; port < scanner.getWirePortCount(); port++)
+  {
+    if (scanner.setWire(port))
+    {
+      Serial.println();
+      Serial.print("Scan port: \t");
+      Serial.println(port);
+
+      int fnd = simpleScan();
+      Serial.print("found: \t");
+      Serial.println(fnd);
+    }
+  }
+}
+
+
+void loop()
+{
+}
+
+
+int simpleScan()
+{
+  int count = 0;
   for (int addr = 0; addr < 128; addr++)
   {
     if (addr % 8 == 0) Serial.println();
     if (scanner.ping(addr))
     {
       Serial.print(addr);
+      count++;
     }
     else
     {
@@ -34,10 +62,6 @@ void setup()
   }
   Serial.println();
   Serial.println();
+  return count;
 }
-
-void loop()
-{
-}
-
 // -- END OF FILE --

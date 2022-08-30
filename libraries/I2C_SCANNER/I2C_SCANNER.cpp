@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 //
@@ -16,9 +16,21 @@ I2C_SCANNER::I2C_SCANNER(TwoWire *wire)
 }
 
 
+//
+//  CONFIGURATION
+//
+bool I2C_SCANNER::begin()
+{
+  _init();
+  _wire->begin();
+  return true;
+}
+
+
 #if defined (ESP8266) || defined(ESP32)
 bool I2C_SCANNER::begin(int dataPin, int clockPin)
 {
+  _init();
   _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
@@ -31,24 +43,133 @@ bool I2C_SCANNER::begin(int dataPin, int clockPin)
 #endif
 
 
-bool I2C_SCANNER::begin()
+//
+//  I2C PORT
+//
+uint8_t I2C_SCANNER::getWirePortCount()
 {
-  _wire->begin();
+  return _wirePortCount;
+}
+
+
+bool I2C_SCANNER::setWire(TwoWire *wire)
+{
+  _wire = wire;
   return true;
 }
 
 
-bool I2C_SCANNER::ping(uint8_t address)
+//  0 == Wire, 1 = Wire1 etc.
+bool I2C_SCANNER::setWire(uint8_t n)
 {
-  _wire->beginTransmission(address);
-  return ( _wire->endTransmission() == 0);
+  if (n == 0) { _wire = &Wire; return true; };
+#if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
+  if (n == 1) { _wire = &Wire1; return true; };
+#endif
+#if defined WIRE_IMPLEMENT_WIRE2 || WIRE_INTERFACES_COUNT > 2
+  if (n == 2) { _wire = &Wire2; return true; };
+#endif
+#if defined WIRE_IMPLEMENT_WIRE3 || WIRE_INTERFACES_COUNT > 3
+  if (n == 3) { _wire = &Wire3; return true; };
+#endif
+#if defined WIRE_IMPLEMENT_WIRE4 || WIRE_INTERFACES_COUNT > 4
+  if (n == 4) { _wire = &Wire4; return true; };
+#endif
+#if defined WIRE_IMPLEMENT_WIRE5 || WIRE_INTERFACES_COUNT > 5
+  if (n == 5) { _wire = &Wire5; return true; };
+#endif
+  return false;
 }
 
 
+TwoWire* I2C_SCANNER::getWire()
+{
+  return _wire;
+}
+
+
+//
+//  TIMING
+//
 bool I2C_SCANNER::setClock(uint32_t clockFrequency)
 {
   _wire->setClock(clockFrequency);
   return true;
+}
+
+
+#if defined(ESP32)
+uint32_t I2C_SCANNER::getClock()
+{
+  return _wire->getClock();
+}
+#endif
+
+
+//
+//  SCANNING
+//
+bool I2C_SCANNER::ping(uint8_t address)
+{
+  return diag(address) == 0;
+}
+
+int I2C_SCANNER::diag(uint8_t address)
+{
+  _wire->beginTransmission(address);
+  return _wire->endTransmission();
+}
+
+
+int32_t I2C_SCANNER::pingTime(uint8_t address)
+{
+  uint32_t start = micros();
+  int x = diag(address);
+  int32_t duration = (int32_t)(micros() - start);
+  if (x == 0) return duration;
+  return -duration;
+}
+
+
+uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
+{
+  uint8_t cnt = 0;
+  for (int addr = start; addr <= end; addr++)
+  {
+    if (diag(addr) == 0) cnt++;
+  }
+  return cnt;
+}
+
+////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+int I2C_SCANNER::_init()
+{
+  Wire.begin();
+  _wirePortCount = 1;
+#if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
+  Wire1.begin();
+  _wirePortCount++;
+#endif
+#if defined WIRE_IMPLEMENT_WIRE2 || WIRE_INTERFACES_COUNT > 2
+  Wire2.begin();
+  _wirePortCount++;
+#endif
+#if defined WIRE_IMPLEMENT_WIRE3 || WIRE_INTERFACES_COUNT > 3
+  Wire3.begin();
+  _wirePortCount++;
+#endif
+#if defined WIRE_IMPLEMENT_WIRE4 || WIRE_INTERFACES_COUNT > 4
+  Wire4.begin();
+  _wirePortCount++;
+#endif
+#if defined WIRE_IMPLEMENT_WIRE5 || WIRE_INTERFACES_COUNT > 5
+  Wire5.begin();
+  _wirePortCount++;
+#endif
+  return _wirePortCount;
 }
 
 

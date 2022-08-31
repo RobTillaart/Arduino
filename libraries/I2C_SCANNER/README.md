@@ -36,8 +36,8 @@ If there is missing functionality, please file an issue.
 ### Configuration
 
 - **bool setClock(uint32_t clockFrequency = 100000UL)** sets the speed of the I2C bus.
-Returns true
-- **uint32_t getClock()** for supported platforms
+Returns true.
+- **uint32_t getClock()** supported by some platforms, including ESP32.
 - **uint8_t getWireCount()** returns the number of Wire ports (hardware I2C).
 - **bool setWire(TwoWire \*wire = &Wire)** set a Wire port by 'name' e.g. Wire1.
 - **bool setWire(uint8_t n)** sets the Wire port by number.
@@ -56,6 +56,21 @@ Returns time used in micros. Returns minus time (<0) if failed to contact.
 Includes start and end address too. Returns the number of addresses found.
 
 
+### Reset
+
+(needs testing)
+
+- **int softwareReset(uint8_t method = 0)** sends a I2C SWRST command over the configured I2C bus.
+This will cause all devices that support this command to do a "power on" reset.
+The code implements two methods, 
+  - 0 = NXP spec (default)
+  - 1 = from PCA9634 issue.
+
+The **softwareReset()** function should return 0 for success. 
+The value -999 indicates invalid method selected.
+Other are I2C specific error codes.
+
+
 ## Operation
 
 See examples.
@@ -66,17 +81,20 @@ See examples.
 #### Should
 
 - add examples.
+- documentation.
+- add **setWireTimeOut(uint32_t timeout, bool reset_with_timeout = true)**
+  - portable? clear? reset?
 
-- documentation
-- add **bool softwareReset()** (0.1.2)
-  - command 0x03
-- **uint8_t \_devices[16]** cache hits ?
-  
+
 #### Could
 
-- add unit tests
-- add **bool hardwareReset()** (needs investigation)
+- add **bool hardwareReset()** 
   - keep data HIGH for X clock pulses - google this.
+  - (needs investigation)
+- implement **getClock()** for AVR based platforms
+  - reverse calculate TWBR and prescaler.
+  - (needs investigation)
+
 
 
 #### Won't
@@ -85,6 +103,9 @@ See examples.
   - add **bool send(address, uint8_t \*buffer, uint8_t length)**
   - add **bool receive(address, uint8_t \*buffer, uint8_t length)**
 - add iterator 
-  - **uint8_t first(uint8_t start = 0)** returns nr or 255
-  - **uint8_t next()** returns nr or 255.
-
+  - **uint8_t first(uint8_t start = 0)** returns address or 255
+  - **uint8_t next()** returns address or 255.
+- **uint8_t \_devices[16]** cache hits ?
+  - No
+- implement a SW_I2C
+  - No, user may use a SW_I2C that derives from TwoWire.

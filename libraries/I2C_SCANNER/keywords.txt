@@ -13,6 +13,8 @@ getWirePortCount	KEYWORD2
 setWire	KEYWORD2
 getWire	KEYWORD2
 
+softwareReset	KEYWORD2
+
 ping	KEYWORD2
 diag	KEYWORD2
 pingTime	KEYWORD2

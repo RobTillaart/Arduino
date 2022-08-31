@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_SCANNER.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 //
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_SCANNER_LIB_VERSION        (F("0.1.1"))
+#define I2C_SCANNER_LIB_VERSION        (F("0.1.2"))
 
 
 class I2C_SCANNER
@@ -32,6 +32,8 @@ public:
   bool     setWire(uint8_t n = 0);
   TwoWire* getWire();
 
+  //  valid methods 0 and 1.
+  int      softwareReset(uint8_t method = 0);
 
   //  TIMING
   bool     setClock(uint32_t clockFrequency = 100000UL);

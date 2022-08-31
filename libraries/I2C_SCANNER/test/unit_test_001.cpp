@@ -30,7 +30,7 @@
 
 unittest_setup()
 {
-    fprintf(stderr, "I2C_SCANNER_LIB_VERSION: %s\n", (char *) I2C_SCANNER_LIB_VERSION);
+  fprintf(stderr, "I2C_SCANNER_LIB_VERSION: %s\n", (char *) I2C_SCANNER_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -41,9 +41,41 @@ unittest_teardown()
 unittest(test_constructor)
 {
   I2C_SCANNER scanner;
-  scanner.begin();
+  assertTrue(scanner.begin());
+
+  assertTrue(scanner.setClock(200000));
+}
+
+
+unittest(test_getWirePortCount)
+{
+  I2C_SCANNER scanner;
+  assertTrue(scanner.begin());
   
-  assertEqual(1, 1); //  keep build-CI happy
+  int ports = scanner.getWirePortCount();
+  fprintf(stderr, "PORTS: %d\n", ports);
+  assertMoreOrEqual(1, ports);
+  
+  for (int p = 0; p < ports; p++)
+  {
+    assertTrue(scanner.setWire(p));
+  }
+
+  //  explicit fail
+  assertFalse(scanner.setWire(10));
+}
+
+
+unittest(test_scanning)
+{
+  I2C_SCANNER scanner;
+  assertTrue(scanner.begin());
+
+  //  not a real test but at least something...
+  fprintf(stderr, "PING:  %d\n", scanner.ping(0x50));
+  fprintf(stderr, "DIAG:  %d\n", scanner.diag(0x50));
+  //  fprintf(stderr, "COUNT: %d\n", scanner.count());
+  //  pingTime uses micros() so will block...
 }
 
 

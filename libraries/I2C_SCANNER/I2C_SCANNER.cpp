@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 //
@@ -87,6 +87,30 @@ TwoWire* I2C_SCANNER::getWire()
   return _wire;
 }
 
+//
+//  RESET
+//
+int I2C_SCANNER::softwareReset(uint8_t method)
+{
+  //  only support 0 and 1
+  if (method > 1) return -999;
+  if (method == 1)
+  {
+    //  from https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
+   const uint8_t SW_RESET = 0x03;
+   _wire->beginTransmission(SW_RESET);
+   _wire->write(0xA5);
+   _wire->write(0x5A);
+   return _wire->endTransmission(true);
+  }
+
+  //  default 
+  //  based upon NXP specification - UM10204.pdf - page 16
+  _wire->beginTransmission(0x00);
+  _wire->write(0x06);
+  return _wire->endTransmission(true);
+}
+
 
 //
 //  TIMING
@@ -114,6 +138,7 @@ bool I2C_SCANNER::ping(uint8_t address)
   return diag(address) == 0;
 }
 
+
 int I2C_SCANNER::diag(uint8_t address)
 {
   _wire->beginTransmission(address);
@@ -134,7 +159,7 @@ int32_t I2C_SCANNER::pingTime(uint8_t address)
 uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
 {
   uint8_t cnt = 0;
-  for (int addr = start; addr <= end; addr++)
+  for (uint8_t addr = start; addr <= end; addr++)
   {
     if (diag(addr) == 0) cnt++;
   }

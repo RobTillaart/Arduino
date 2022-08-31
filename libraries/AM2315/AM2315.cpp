@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 //
@@ -11,6 +11,7 @@
 //  0.1.2  2022-01-13  fix wake-up in read() for ESP32.
 //  0.1.3  2022-06-17  sync with AM232X
 //  0.1.4  2022-06-18  sync with AM232X (readme)
+//  0.1.5  2022-08-31  fix #11 Warning requestFrom for ESP32
 
 
 #include "AM2315.h"
@@ -196,7 +197,7 @@ int AM2315::_readSensor()
 
   //  REQUEST DATA
   const int length = 8;
-  int bytes = _wire->requestFrom(AM2315_ADDRESS, length);
+  int bytes = _wire->requestFrom((int)AM2315_ADDRESS, length);
   if (bytes == 0)     return AM2315_ERROR_CONNECT;
   if (bytes < length) return AM2315_MISSING_BYTES;
 

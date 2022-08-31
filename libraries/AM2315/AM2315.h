@@ -3,7 +3,7 @@
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //     URL: https://github.com/RobTillaart/AM2315
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.4"))
+#define AM2315_LIB_VERSION                    (F("0.1.5"))
 
 
 #define AM2315_OK                             0

@@ -19,7 +19,8 @@ the AM2315 has a fixed address **0x5C** so one need to implement a
 multiplexing strategy to have multiple sensors in practice. 
 See multiplexing below.
 
-The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. The AM232X library allows to read some internal registers.
+The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. 
+The AM232X library allows to read some internal registers.
 
 
 #### Typical parameters
@@ -121,7 +122,8 @@ Functions to adjust the communication with the sensor.
 - **bool getWaitForReading()** returns the above setting.
 - **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
 This can be done before an actual read to minimize the **read()** call.
-- **void setSuppressError(bool b)** suppress error values of **AM2315_INVALID_VALUE** == -999 => you need to check the return value of read() instead.  
+- **void setSuppressError(bool b)** suppress error values of **AM2315_INVALID_VALUE** == -999 
+=> you need to check the return value of read() instead.  
 This can be used to keep spikes out of your graphs / logs. 
 - **bool getSuppressError()**  returns the above setting.
 
@@ -140,23 +142,27 @@ This can be used to keep spikes out of your graphs / logs.
 | AM2315_TEMPERATURE_OUT_OF_RANGE   |  -101 | not used by default.
 | AM2315_INVALID_VALUE              |  -999 | can be suppressed. 
 
+Note: The OUT_OT_RANGE errors are tested on the "raw" readings, excluding the offset.
+So if the "raw" humidity is 99% and you use an offset of 3% you will get 102%
+without the error. 
+
 
 ## Operation
 
 See examples
 
-In **setup()** you have to call the **begin()** to initialize 
-the Wire library and do an initial **read()** to fill the variables temperature and humidity. 
-To access these values one must use **getTemperature()** and **getHumidity()**. 
+In **setup()** you must call the **begin()** to initialize the Wire library used 
+and do an initial **read()** to fill the variables temperature and humidity. 
+To access these values use **getTemperature()** and **getHumidity()**. 
 Multiple calls will give the same values until **read()** is called again.
 
-Note that the sensor can go into sleep mode after 3 seconds after last read, 
+Note that the AM2315 can go into sleep mode after 3 seconds after last read, 
 so one might need to call **wakeUp()** before the **read()**.
 
 
 ## Multiplexing 
 
-Multiplexing the **AM232X** can be done in several ways.
+Multiplexing the **AM2315** can be done in several ways.
 This is not a complete list or tutorial but should get you started.
 
 1. Control the power line by means of an extra pin (+ transistor). 
@@ -166,7 +172,7 @@ the sensor takes to boot and to be ready for the first measurement.
 pin of the sensors. This way one can enable / disable communication 
 per sensor. This will still need an IO pin per sensor but does not 
 have the "boot time" constraint mentioned above.
-you may use a **PCF8574** to control the AND gates.
+You may use a **PCF8574** to control the AND gates.
 https://github.com/RobTillaart/PCF8574
 3. Use a **TCA9548A** I2C Multiplexer, or similar. https://github.com/RobTillaart/TCA9548
 
@@ -177,7 +183,7 @@ Which method fit your application depends on your requirements and constraints.
 
 - update documentation
 - test more (other platforms)
-- keep in sync with AM2315 class
+- keep in sync with AM232X class
   - merge in a far future.
 - update unit test
 - add examples

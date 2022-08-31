@@ -38,7 +38,6 @@ void loop()
   if (millis() - sensor.lastRead() >= 2000)
   {
     // READ DATA
-
     uint32_t start = micros();
     int status = sensor.read();
     uint32_t stop = micros();

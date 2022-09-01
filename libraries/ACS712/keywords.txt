@@ -4,6 +4,7 @@
 ACS712	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
+mA_peak2peak	KEYWORD2
 mA_AC	KEYWORD2
 mA_DC	KEYWORD2
 mA_AC_sampling	KEYWORD2

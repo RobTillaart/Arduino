@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.8
+// VERSION: 0.3.0
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.2.8"))
+#define ACS712_LIB_VERSION        (F("0.3.0"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -40,12 +40,14 @@ class ACS712
     //  30A        66.0
     ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, float mVperAmpere = 100);
 
+   //   returns mA peak2peak current.
+   float mA_peak2peak(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
 
     //  returns mA
     //  blocks 20-21 ms to sample a whole 50 or 60 Hz period.
-    //  works with peak2peak level and Form Factor.
+    //  works with peak2peak level and (crest) Form Factor.
     //  lower frequencies block longer.
-    int      mA_AC(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    float    mA_AC(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
 
     //  returns mA
     //  blocks 20-21 ms to sample a whole 50 or 60 Hz period.
@@ -55,17 +57,17 @@ class ACS712
 
     //  returns mA
     //  blocks < 1 ms
-    int      mA_DC(uint16_t samples = 1);
+    float    mA_DC(uint16_t samples = 1);
 
 
     //  midPoint functions
-    //  set reference point for both DC and AC
-    void     setMidPoint(uint16_t midPoint);
+    //  set reference point (raw ADC) for both DC and AC
+    uint16_t setMidPoint(uint16_t midPoint);
     uint16_t getMidPoint();
-    void     incMidPoint();
-    void     decMidPoint();
+    uint16_t incMidPoint();
+    uint16_t decMidPoint();
     //  Auto midPoint, assuming zero DC current or any AC current
-    void     autoMidPoint(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    uint16_t autoMidPoint(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
 
 
     //  Form Factor is also known as crest factor;
@@ -82,6 +84,7 @@ class ACS712
     //  Adjusting resolution AC and DC
     void     setmVperAmp(float mVperAmpere);
     float    getmVperAmp();
+    float    getmAPerStep();
     float    getAmperePerStep();
 
 
@@ -91,13 +94,17 @@ class ACS712
     void     setMicrosAdjust(float factor = 1.0);
     float    getMicrosAdjust();
 
+    //  DEBUG
+    uint16_t getMinimum(uint16_t milliSeconds = 20);
+    uint16_t getMaximum(uint16_t milliSeconds = 20);
+
 
   private:
     uint8_t   _pin;
     float     _mVperStep;
     float     _formFactor;    //  peak2peak -> RMS
     float     _mVperAmpere;
-    float     _AmperePerStep;
+    float     _mAPerStep;
     int       _midPoint;
     uint8_t   _noisemV;
     float     _microsAdjust = 1.0;  //  0.9986

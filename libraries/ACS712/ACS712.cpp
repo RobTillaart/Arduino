@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.2.8
+// VERSION: 0.3.0
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -32,6 +32,11 @@
 //                     moved several functions to .cpp
 //                     improve documentation
 //
+//  0.3.0  2022-09-01  return midPoint value in MP functions.
+//                     float return type for mA() functions
+//                     add float mA_peak2peak(freq, cycles)
+//                     add debug getMinimum(), getmaximum();
+//                     update Readme.md
 
 
 #include "ACS712.h"
@@ -40,25 +45,55 @@
 //  CONSTRUCTOR
 ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, float mVperAmpere)
 {
-  _pin           = analogPin;
-  _mVperStep     = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
-  _mVperAmpere   = mVperAmpere;
-  _AmperePerStep = _mVperStep / _mVperAmpere;
-  _formFactor    = ACS712_FF_SINUS;
-  _midPoint      = maxADC / 2;
-  _noisemV       = ACS712_DEFAULT_NOISE;    //  21mV according to datasheet
+  _pin         = analogPin;
+  _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
+  _mVperAmpere = mVperAmpere;
+  _mAPerStep   = 1000.0 * _mVperStep / _mVperAmpere;
+  _formFactor  = ACS712_FF_SINUS;
+  _midPoint    = maxADC / 2;
+  _noisemV     = ACS712_DEFAULT_NOISE;    //  21mV according to datasheet
 }
 
 
 //  MEASUREMENTS
-int ACS712::mA_AC(float frequency, uint16_t cycles)
+float ACS712::mA_peak2peak(float frequency, uint16_t cycles)
+{
+  uint16_t period = round(1000000UL / frequency);
+
+  if (cycles == 0) cycles = 1;
+  float sum = 0;
+  
+  for (uint16_t i = 0; i < cycles; i++)
+  {
+    int minimum, maximum;
+    //  Better than using midPoint
+    minimum = maximum = analogRead(_pin);  
+
+    //  find minimum and maximum
+    uint32_t start = micros();
+    while (micros() - start < period)  // UNO ~180 samples...
+    {
+      int val = analogRead(_pin);
+      //  determine extremes
+      if (val < minimum) minimum = val;
+      else if (val > maximum) maximum = val;
+    }
+    sum += (maximum - minimum);
+  }
+  float peak2peak = sum * _mAPerStep / cycles;
+
+  return peak2peak;
+}
+
+
+float ACS712::mA_AC(float frequency, uint16_t cycles)
 {
   uint16_t period  = round(1000000UL / frequency);
 
   if (cycles == 0) cycles = 1;
   float sum = 0;
 
-  //  remove expensive float operation from loop.
+  //  remove float operation from loop.
   uint16_t zeroLevel = round(_noisemV/_mVperStep);
 
   for (uint16_t i = 0; i < cycles; i++)
@@ -86,7 +121,6 @@ int ACS712::mA_AC(float frequency, uint16_t cycles)
     //  automatic determine _formFactor / crest factor
     float D = 0;
     float FF = 0;
-    //  TODO uint32_t math?  (zeros * 40) > samples
     if (zeros > samples * 0.025)          //  more than 2% zero's
     {
       D = 1.0 - (1.0 * zeros) / samples;  //  % SAMPLES NONE ZERO
@@ -101,9 +135,9 @@ int ACS712::mA_AC(float frequency, uint16_t cycles)
     //  return 1000.0 * 0.5 * peak2peak * _mVperStep * _formFactor / _mVperAmpere);
     sum += peak2peak * FF;
   }
-  float mA = 500.0 * sum * _AmperePerStep/ cycles;
+  float mA = 0.5 * sum * _mAPerStep / cycles;
 
-  return round(mA);
+  return mA;
 }
 
 
@@ -125,7 +159,7 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
     while (micros() - start < period)
     {
       samples++;
-      float current = ((int)analogRead(_pin)) - _midPoint;
+      float current = analogRead(_pin) - _midPoint;
       sumSquared += (current * current);
       // if (abs(current) > noiseLevel)
       // {        
@@ -134,12 +168,12 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
     }
     sum += sqrt(sumSquared / samples);
   }
-  float mA = 1000.0 * sum * _AmperePerStep / cycles;
+  float mA = sum * _mAPerStep / cycles;
   return mA;
 }
 
 
-int ACS712::mA_DC(uint16_t cycles)
+float ACS712::mA_DC(uint16_t cycles)
 {
   //  read at least twice to stabilize the ADC
   analogRead(_pin);
@@ -147,17 +181,20 @@ int ACS712::mA_DC(uint16_t cycles)
   float sum = 0;
   for (uint16_t i = 0; i < cycles; i++)
   {
-    sum += analogRead(_pin) - _midPoint;
+    sum += (analogRead(_pin) - _midPoint);
   }
-  float mA = 1000.0 * sum * _AmperePerStep / cycles;
-  return round(mA);
+  float mA = sum * _mAPerStep / cycles;
+  return mA;
 }
 
 
 //  CALIBRATION MIDPOINT
-void ACS712::setMidPoint(uint16_t midPoint)
+uint16_t ACS712::setMidPoint(uint16_t midPoint)
 {
+  //  TODO - check valid value?
+  //  if (midPoint > _maxADC) return 0xFFFF;
   _midPoint = midPoint;
+  return _midPoint;
 };
 
 
@@ -167,22 +204,30 @@ uint16_t ACS712::getMidPoint()
 };
 
 
-void ACS712::incMidPoint()
+uint16_t ACS712::incMidPoint()
 {
+  //  TODO - check valid value?
+  //  if ((midPoint + 1) > _maxADC) return 0xFFFF; 
+  //  needs MAXADC which is not kept
   _midPoint += 1;
+  return _midPoint;
 };
 
 
-void ACS712::decMidPoint()
+uint16_t ACS712::decMidPoint()
 {
+  //  TODO - check valid value?
+  //  if ((midPoint == 0) return 0xFFFF;   #define ACS712_ERR_INVALID_MIDPOINT 0xFFFF
+  //  needs MAXADC which is not kept
   _midPoint -= 1;
+  return _midPoint;
 };
 
 
 //  configure by sampling for 2 cycles of AC
 //  Also works for DC as long as no current flowing
 //  note this is blocking!
-void ACS712::autoMidPoint(float frequency, uint16_t cycles)
+uint16_t ACS712::autoMidPoint(float frequency, uint16_t cycles)
 {
   uint16_t twoPeriods = round(2000000UL / frequency);
 
@@ -205,6 +250,7 @@ void ACS712::autoMidPoint(float frequency, uint16_t cycles)
     total += (subTotal/samples);
   }
   _midPoint = total / cycles;
+  return _midPoint;
 }
 
 
@@ -213,6 +259,7 @@ void ACS712::setFormFactor(float formFactor)
 {
   _formFactor = formFactor;
 };
+
 
 float ACS712::getFormFactor()
 {
@@ -227,6 +274,7 @@ void  ACS712::setNoisemV(uint8_t noisemV)
   _noisemV = noisemV;
 };
 
+
 uint8_t ACS712::getNoisemV()
 {
   return _noisemV;
@@ -238,21 +286,29 @@ uint8_t ACS712::getNoisemV()
 void ACS712::setmVperAmp(float mVperAmpere)
 {
   _mVperAmpere = mVperAmpere;
-  _AmperePerStep = _mVperStep / _mVperAmpere;
+  _mAPerStep = 1000.0 * _mVperStep / _mVperAmpere;
 };
+
 
 float ACS712::getmVperAmp()
 {
   return _mVperAmpere;
 };
 
-float ACS712::getAmperePerStep()
+
+float ACS712::getmAPerStep()
 {
-  return _AmperePerStep;
+  return _mAPerStep;
 };
 
 
-//  Frequency detection.
+float ACS712::getAmperePerStep()
+{
+  return _mAPerStep * 0.001;
+};
+
+
+//  FREQUENCY DETECTION
 //  uses oversampling and averaging to minimize variation
 //  blocks for substantial amount of time, depending on minimalFrequency
 float ACS712::detectFrequency(float minimalFrequency)
@@ -298,16 +354,49 @@ float ACS712::detectFrequency(float minimalFrequency)
   return frequency;
 }
 
-//  CALIBRATION  TIMING
+
+//  timing for FREQUENCY DETECTION
 void ACS712::setMicrosAdjust(float factor)
 {
   _microsAdjust = factor;
 };
 
+
 float ACS712::getMicrosAdjust()
 {
   return _microsAdjust;
 };
+
+
+//  DEBUG
+uint16_t ACS712::getMinimum(uint16_t milliSeconds)
+{
+  uint16_t minimum = analogRead(_pin);
+
+  //  find minimum
+  uint32_t start = millis();
+  while (millis() - start < milliSeconds)
+  {
+    uint16_t value = analogRead(_pin);
+    if (value < minimum) minimum = value;
+  }
+  return minimum;
+}
+
+
+uint16_t ACS712::getMaximum(uint16_t milliSeconds)
+{
+  uint16_t maximum = analogRead(_pin);
+
+  //  find minimum
+  uint32_t start = millis();
+  while (millis() - start < milliSeconds)
+  {
+    uint16_t value = analogRead(_pin);
+    if (value > maximum) maximum = value;
+  }
+  return maximum;
+}
 
 
 // -- END OF FILE --

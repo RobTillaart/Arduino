@@ -8,7 +8,7 @@
 #include "AS5600.h"
 #include "Wire.h"
 
-AS5600 as5600;   //  use default Wire
+AS5600L as5600(0x40);   //  use default Wire
 
 
 void setup()
@@ -31,10 +31,16 @@ void loop()
   Serial.println(as5600.readStatus(), HEX);
   Serial.print("CONFIG:\t ");
   Serial.println(as5600.getConfigure(), HEX);
-  Serial.print("   AGC:\t ");
+  Serial.print("  GAIN:\t ");
   Serial.println(as5600.readAGC(), HEX);
   Serial.print("MAGNET:\t ");
   Serial.println(as5600.readMagnitude(), HEX);
+  Serial.print("DETECT:\t ");
+  Serial.println(as5600.detectMagnet(), HEX);
+  Serial.print("M HIGH:\t ");
+  Serial.println(as5600.magnetTooStrong(), HEX);
+  Serial.print("M  LOW:\t ");
+  Serial.println(as5600.magnetTooWeak(), HEX);
   Serial.println();
 
   delay(1000);

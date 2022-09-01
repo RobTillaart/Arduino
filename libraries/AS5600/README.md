@@ -8,36 +8,66 @@
 
 # AS5600
 
-Arduino library for AS5600 magnetic rotation meter.
+Arduino library for AS5600 and AS5600L magnetic rotation meter.
 
 
 ## Description
 
 ### AS5600
 
-**AS5600** is a library for an AS5600 based magnetic rotation meter.
+**AS5600** is a library for an AS5600 / AS5600L based magnetic rotation meter.
+These sensors are pin compatible (always check datasheet).
 
 **Warning: experimental**
 
 The sensor can measure a full rotation in 4096 steps.
-The precision is therefore limited to 0.1°.
-Noise levels unknown, but one might expect it to be effected by electric
+The precision is therefore limited to approx 0.1°.
+Noise levels are unknown, but one might expect that the sensor is affected by electric
 and or magnetic signals in the environment.
 Also unknown is the influence of metals near the sensor or an unstable 
 or fluctuating power supply.
 
+Please share your experiences.
+
+
+### Related libraries
+
+Possible interesting related libraries.
+
+- https://github.com/RobTillaart/Angle
+- https://github.com/RobTillaart/AverageAngle
+- https://github.com/RobTillaart/runningAngle
+
 
 ### I2C Address
 
-The I2C address of the **AS5600** is always 0x36.
+|  sensor  |  address  |  changeable  |
+|:--------:|:---------:|:-------------|
+|  AS5600  |    0x36   | NO           |
+|  AS5600L |    0x40   | YES, check setAddress()  |
 
 To use more than one **AS5600** on one I2C bus, see Multiplexing below.
+
+The **AS5600L** supports the change of I2C address, optionally permanent.
+Check the **setAddress()** function for non-permanent change. 
+
+
+### I2C performance
+
+|    board    |  sensor   |  results            |
+|:-----------:|:---------:|:--------------------|
+| Arduino UNO |  AS5600   | not tested          |
+| Arduino UNO |  AS5600L  | work up to 300 KHz. |
+
+
+More tests are needed 
 
 
 ### OUT pin
 
 The sensor has an output pin named **OUT**.
-This pin can be used for an analogue or PWM output signal.
+This pin can be used for an analogue or PWM output signal (AS5600),
+and only for PWM by the AS5600L.
 
 See **Analogue Pin** and **PWM Pin** below.
 
@@ -46,7 +76,7 @@ Examples are added to show how to use this pin with **setOutputMode()**.
 
 ### PGO pin
 
-Not tested.
+Not tested. ==> Read the datasheet!
 
 PGO stands for Programming Option, it is used to calibrate / program the sensor.
 As the sensor can be programmed only a few times one should
@@ -62,6 +92,7 @@ The I2C address of the **AS5600** is always 0x36.
 
 The AS5600 datasheet states it supports Fast-Mode == 400 KHz
 and Fast-Mode-Plus == 1000 KHz. 
+Tests with a AS5600L failed at 400 KHz (needs investigation).
 
 The sensor should connect the I2C lines SDA and SCL and the
 VCC and GND to communicate with the processor.
@@ -69,7 +100,7 @@ The DIR (direction) pin of the sensor should be connected to:
 
 - **GND** = fixed clockwise(\*)
 - **VCC** = fixed counter clock wise
-- a free IO pin of the processor = under library control.
+- a free floating IO pin of the processor = under library control.
 
 In the latter setup the library can control the direction of 
 counting by initializing this pin in **begin(directionPin)**, 
@@ -120,13 +151,13 @@ directionPin.
 If the pin is set to 255, the default value, there will be software 
 direction control instead of hardware control.
 See below.
-- **bool begin(int sda, int scl, uint8_t directionPin = 255)** idem, 
+- **bool begin(int dataPin, int clockPin, uint8_t directionPin = 255)** idem, 
 for the ESP32 where one can choose the I2C pins.
 If the pin is set to 255, the default value, there will be software 
 direction control instead of hardware control.
 See below.
-- **bool isConnected()** checks if the address 0x36 is on the I2C bus.
-- **uint8_t getAddress()** returns the fixed device address 0x36. 
+- **bool isConnected()** checks if the address 0x36 (AS5600) is on the I2C bus.
+- **uint8_t getAddress()** returns the fixed device address 0x36 (AS5600).
 
 
 ### Direction
@@ -142,15 +173,14 @@ AS5600_COUNTERCLOCK_WISE (1).
 
 Please read the datasheet for details.
 
-- **bool setZPosition(uint16_t value)** set start position for limited range. Value = 0..4095.
-Returns false if parameter is out of range.
+- **bool setZPosition(uint16_t value)** set start position for limited range. 
+Value = 0..4095. Returns false if parameter is out of range.
 - **uint16_t getZPosition()** get current start position.
-- **bool setMPosition(uint16_t value)** set stop position for limited range. Value = 0..4095.
-Returns false if parameter is out of range.
+- **bool setMPosition(uint16_t value)** set stop position for limited range. 
+Value = 0..4095. Returns false if parameter is out of range.
 - **uint16_t getMPosition()** get current stop position.
 - **bool setMaxAngle(uint16_t value)** set limited range.
-Value = 0..4095.
-Returns false if parameter is out of range.
+Value = 0..4095. Returns false if parameter is out of range.
 See datasheet **Angle Programming**
 - **uint16_t getMaxAngle()** get limited range.
 
@@ -189,7 +219,7 @@ See the .h file for the other get/set functions.
 
 - **bool setHysteresis(uint8_t hysteresis)** Suppresses "noise" on the output when the magnet is not moving.
 In a way one is trading precision for stability.
-returns false if parameter is out of range.
+Returns false if parameter is out of range.
 
 
 ### Read Angle
@@ -203,14 +233,15 @@ This is the one most used.
 e.g. to calibrate the sensor after mounting.
 Typical values are -359.99 - 359.99 probably smaller. 
 Larger values will be mapped back to this interval.
-Be aware that larger values will affect / decrease the precision of the measurements as floats have only 7 significant digits.
+Be aware that larger values will affect / decrease the precision of the 
+measurements as floats have only 7 significant digits.
 Verify this for your application.
 - **float getOffset()** returns offset in degrees.
 
 In #14 there is a discussion about **setOffset()**.
 A possible implementation is to ignore all values outside the
 -359.99 - 359.99 range.
-This would help to keep the precision high.
+This would help to keep the precision high. User responsibility.
 
 
 ### Angular Speed
@@ -236,6 +267,10 @@ Note: the frequency of calling this function of the sensor depends on the applic
 The faster the magnet rotates, the faster it may be called.
 Also if one wants to detect minute movements, calling it more often is the way to go.
 
+An alternative implementation is possible in which the angle is measured twice 
+with a short interval. The only limitation then is that both measurements
+should be within 180° = half a rotation. 
+
 
 ### Status registers
 
@@ -246,6 +281,8 @@ Also if one wants to detect minute movements, calling it more often is the way t
 (page 9 datasheet)
 Scale is unclear, can be used as relative scale.
 - **bool detectMagnet()** returns true if device sees a magnet.
+- **bool magnetTooStrong()** idem.
+- **bool magnetTooWeak()** idem.
 
 
 #### Status bits
@@ -256,7 +293,7 @@ Please read datasheet for details.
 |:-----:|:------|:-------------:|:----------------------|
 | 0-2   |       | not used      |                       |
 | 3     |  MH   | overflow      | 1 = magnet too strong |
-| 4     |  ML   | overflow      | 1 = magnet too weak   |
+| 4     |  ML   | underflow     | 1 = magnet too weak   |
 | 5     |  MD   | magnet detect | 1 = magnet detected   |
 | 6-7   |       | not used      |                       |
 
@@ -268,18 +305,19 @@ Please read datasheet for details.
 Please read datasheet twice.
 
 The burn functions are used to make settings persistent. 
-As these functions can only be called one or three times, 
-they are highly permanent, therefore they are commented in the library.
+These burn functions are highly permanent, therefore they are commented in the library.
+Please read datasheet twice, before uncomment them.
 
-The risk is that you make your as5600 **USELESS**.
+The risk is that you make your AS5600 / AS5600L **USELESS**.
 
 **USE AT OWN RISK**
 
 - **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS 
 registers are written to permanent memory. 
-You can only burn a new Angle 3 times to the AS5600.
+You can only burn a new Angle 3 times to the AS5600, and only 2 times for the AS5600L.
 - **void burnAngle()** writes the ZPOS and MPOS registers to permanent memory. 
-You can only burn a new Angle maximum **THREE** times to the AS5600.
+You can only burn a new Angle maximum **THREE** times to the AS5600
+and **TWO** times for the AS5600L.
 - **void burnSetting()** writes the MANG register to permanent memory. 
 You can write this only **ONE** time to the AS5600.
 
@@ -308,13 +346,16 @@ TODO: measure performance impact.
 TODO: investigate impact on functionality of other registers.
 
 
-## Analogue OUT
+## Analog OUT
 
-(details datasheet - page 25)
+(details datasheet - page 25 = AS5600)
 
 The OUT pin can be configured with the function:
 
 - **bool setOutputMode(uint8_t outputMode)**
+
+
+#### AS5600
 
 When the analog OUT mode is set the OUT pin provides a voltage
 which is linear with the angle. 
@@ -331,9 +372,15 @@ To measure these angles a 10 bit ADC or higher is needed.
 When analog OUT is selected **readAngle()** will still return valid values.
 
 
+#### AS5600L
+
+The AS5600L does **NOT** support analog OUT.
+Both mode 0 and 1 will set the OUT pin to VDD (+5V0 or 3V3).
+
+
 ## PWM OUT
 
-(details datasheet - page 27)
+(details datasheet - page 27 = AS5600)
 
 The OUT pin can be configured with the function:
 
@@ -412,6 +459,28 @@ This output could be used to connect multiple sensors to different analogue port
 **Warning**: If and how well this analog option works is not verified or tested.
 
 
+## AS5600L
+
+- **AS5600L(uint8_t address = 0x40, TwoWire \*wire = &Wire)** constructor.
+As the I2C address can be changed in the AS5600L, the address is a parameter of the constructor.
+This is a difference with the AS5600 constructor.
+
+
+### Setting I2C address
+
+- **bool setAddress(uint8_t address)** Returns false if the I2C address is not in valid range (8-119).
+
+
+### Setting I2C UPDT
+
+UPDT = update  page 30 - AS5600L 
+
+- **bool setI2CUPDT(uint8_t value)**
+- **uint8_t getI2CUPDT()**
+
+These functions seems to have only a function in relation to **setAddress()** so possibly obsolete in the future. If you got other insights on these functions please let me know.
+
+
 ## Operational
 
 The base functions are:
@@ -446,33 +515,34 @@ Some ideas are kept here so they won't get lost.
 priority is relative
 
 
-#### high prio
+#### high priority
 
-- get hardware to test.
-- improve documentation.
+- fix for AS5600L does not support analog OUT
+  - type field?
+  - other class hierarchy?
+  - just ignore?
 
-#### med prio
+#### medium priority
 
-- limit the **setOffset()** to -359.99 .. 359.99
 - investigate **readMagnitude()**
   - combination of AGC and MD, ML and MH flags?
 - investigate performance
   - basic performance per function
   - I2C improvements
   - software direction
-- investigate OUT behavior in practice
+- investigate OUT behaviour in practice
   - analogue
   - PWM
+  - need AS5600 on breakout with support
 - write examples:
   - as5600_calibration.ino (needs HW and lots of time)
   - different configuration options
-- create **changeLog.md**
-
-#### low prio
-
-- add error handling
-- investigate PGO programming pin.
 - add mode parameter to offset functions.
   - see getAngularSpeed()
 
+#### low priority
+
+- add error handling
+- investigate PGO programming pin.
+- create **changeLog.md**
 

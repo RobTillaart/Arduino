@@ -3,6 +3,7 @@
 
 # Data types (KEYWORD1)
 AS5600	KEYWORD1
+AS5600L	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -33,6 +34,8 @@ readStatus	KEYWORD2
 readAGC	KEYWORD2
 readMagnitude	KEYWORD2
 detectMagnet	KEYWORD2
+magnetTooStrong	KEYWORD2
+magnetTooWeak	KEYWORD2
 
 burnAngle	KEYWORD2
 burnSetting	KEYWORD2

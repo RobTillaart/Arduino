@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-05-28
-// PURPOSE: unit tests for the SHEX Serial HEX library
-//          https://github.com/RobTillaart/SHEX
+// PURPOSE: unit tests for the AS5600 library
+//          https://github.com/RobTillaart/AS5600
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -28,6 +28,7 @@
 // assertNotInfinity(actual);                      // !isinf(a)
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
+
 
 #include <ArduinoUnitTests.h>
 
@@ -98,18 +99,28 @@ unittest(test_constants)
 unittest(test_constructor)
 {
   AS5600 as5600;
-
   as5600.begin(4);
-  assertTrue(as5600.isConnected());  // keep CI happy
+  assertTrue(as5600.isConnected());  //  keep CI happy
+
+  AS5600L asl(0x40);
+  asl.begin(5);
+  assertTrue(asl.isConnected());     //  keep CI happy
 }
 
 
 unittest(test_address)
 {
   AS5600 as5600;
-
   as5600.begin(4);
   assertEqual(0x36, as5600.getAddress());
+
+  AS5600L asl;
+  as5600.begin(5);
+  assertEqual(0x40, asl.getAddress());
+  
+  AS5600L asl2(0x41);
+  asl2.begin(6);
+  assertEqual(0x41, asl2.getAddress());
 }
 
 

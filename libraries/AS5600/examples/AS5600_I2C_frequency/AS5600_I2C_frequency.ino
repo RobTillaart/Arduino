@@ -1,8 +1,8 @@
 //
-//    FILE: AS5600_angular_speed.ino
+//    FILE: AS5600_I2C_frequency.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-06-02
+//    DATE: 2022-05-28
 
 
 #include "AS5600.h"
@@ -10,6 +10,7 @@
 
 AS5600 as5600;   //  use default Wire
 
+uint32_t clk = 0;
 
 void setup()
 {
@@ -22,26 +23,25 @@ void setup()
 
   as5600.begin(4);  //  set direction pin.
   as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
-
-  Serial.println(as5600.getAddress());
-
-  // as5600.setAddress(0x40);  // AS5600L only
-
   int b = as5600.isConnected();
   Serial.print("Connect: ");
   Serial.println(b);
-
-  delay(1000);
 }
 
 
 void loop()
 {
-  //  Serial.print("\ta = ");
-  //  Serial.print(as5600.readAngle());
-  Serial.print("\tω = ");
-  Serial.println(as5600.getAngularSpeed());
-  delay(100);
+  clk += 100000;
+  if (clk >= 800000) clk = 100000;
+  Wire.setClock(clk);
+
+  Serial.print(clk);
+  Serial.print("\t");
+  Serial.print(as5600.readAngle());
+  Serial.print("\t");
+  Serial.println(as5600.rawAngle() * AS5600_RAW_TO_DEGREES);
+
+  delay(1000);
 }
 
 

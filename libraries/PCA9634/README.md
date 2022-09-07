@@ -36,7 +36,7 @@ See PCA9634.h and datasheet for settings possible.
 idem, ESP32 ESP8266 only. 
 - **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
 To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
-See PCA9634.h and datasheet for settings possible. 
+See PCA9634.h and datasheet for settings possible.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 8.
 
@@ -102,12 +102,13 @@ useful to add or remove a single flag (bit masking).
 | PCA9634_MODE1_SUB2      | 0x04  | 0 = disable       1 = enable       |
 | PCA9634_MODE1_SUB3      | 0x02  | 0 = disable       1 = enable       |
 | PCA9634_MODE1_ALLCALL   | 0x01  | 0 = disable       1 = enable       |
+| PCA9634_MODE1_NONE      | 0x00  |                                    |
 |                         |       |                                    |
 | PCA9634_MODE2_BLINK     | 0x20  | 0 = dim           1 = blink        |
 | PCA9634_MODE2_INVERT    | 0x10  | 0 = normal        1 = inverted     |
 | PCA9634_MODE2_STOP      | 0x08  | 0 = on STOP       1 = on ACK       |
 | PCA9634_MODE2_TOTEMPOLE | 0x04  | 0 = open drain    1 = totem-pole   |
-
+| PCA9634_MODE2_NONE      | 0x00  |                                    |
 
 These constants makes it easier to set modes without using a non descriptive
 bit mask. The constants can be merged by OR-ing them together, see snippet:
@@ -175,6 +176,7 @@ it with **enableSubCall(nr)**.
 In the same way one can become member of an **ALL CALL** group.
 Typically there is only one such group but one can configure more of them by applying different addresses.
 
+
 #### Interface
 
 The functions to enable all/sub-addresses are straightforward:
@@ -190,6 +192,30 @@ The functions to enable all/sub-addresses are straightforward:
 - **bool isEnabledAllCall()**
 - **bool setAllCallAddress(uint8_t address)**
 - **uint8_t getAllCallAddress()**
+
+
+### I2C Software reset
+
+#### 0.2.2  experimental
+
+The goal of the i2C software reset is to reset ALL PCA9634 (and compatible)
+devices on the I2C bus. But....
+
+Since version 0.2.2 the PCA9634 library supports a I2C software reset.
+However the documentation about the I2C software reset is ambiguous. 
+Different sources tell about different commands to execute.
+
+The implementation is a function with the two described methods.
+- method 1 is the PCA9634 specific reset.
+- method 0 is the NXP described reset.
+
+
+Note: side effect of this function can be that all devices on the I2C bus 
+that support the software reset will reset themselves.
+
+See - https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
+ 
+Feedback and experiences with this function is welcome.
 
 
 ## Operation

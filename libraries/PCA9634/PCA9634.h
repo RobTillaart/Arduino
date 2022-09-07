@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 03-01-2022
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.1"))
+#define PCA9634_LIB_VERSION         (F("0.2.2"))
 
 #define PCA9634_MODE1               0x00
 #define PCA9634_MODE2               0x01
@@ -130,6 +130,9 @@ public:
   bool     setAllCallAddress(uint8_t address);
   uint8_t  getAllCallAddress();
 
+  //  EXPERIMENTAL 0.2.2
+  int I2C_SoftwareReset(uint8_t method);
+
 
 private:
   // DIRECT CONTROL
@@ -144,6 +147,7 @@ private:
 
   TwoWire*  _wire;
 };
+
 
 
 // -- END OF FILE --

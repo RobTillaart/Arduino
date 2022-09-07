@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 03-01-2022
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 //
@@ -18,6 +18,7 @@
 //                      update documentation.
 //                      renamed PCA9634_MODE2_STOP to PCA9634_MODE2_ACK
 //  0.2.1   2022-05-30  add mode parameters to begin()
+//  0.2.2   2022-09-02  add static I2C_SoftwareReset()
 
 
 #include "PCA9634.h"
@@ -295,6 +296,30 @@ uint8_t PCA9634::getAllCallAddress()
   return address;
 }
 
+
+//////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
+int PCA9634::I2C_SoftwareReset(uint8_t method)
+{
+  //  only support 0 and 1
+  if (method > 1) return -999;
+  if (method == 1)
+  {
+    //  from https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
+   const uint8_t SW_RESET = 0x03;
+   _wire->beginTransmission(SW_RESET);
+   _wire->write(0xA5);
+   _wire->write(0x5A);
+   return _wire->endTransmission(true);
+  }
+
+  //  default - based upon NXP specification - UM10204.pdf - page 16
+  _wire->beginTransmission(0x00);
+  _wire->write(0x06);
+  return _wire->endTransmission(true);
+}
 
 
 /////////////////////////////////////////////////////

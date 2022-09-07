@@ -48,9 +48,12 @@ unittest_teardown()
 
 unittest(test_constants)
 {
+  fprintf(stderr, "\nregisters");
   assertEqual(PCA9634_MODE1      , 0x00);
   assertEqual(PCA9634_MODE2      , 0x01);
 
+  assertEqual(PCA9634_PWM(0)     , 0x82);
+  assertEqual(PCA9634_PWM(1)     , 0x83);
   assertEqual(PCA9634_GRPPWM     , 0x0A);
   assertEqual(PCA9634_GRPFREQ    , 0x0B);
   assertEqual(PCA9634_LEDOUT_BASE, 0x0C);

@@ -1,0 +1,52 @@
+# Syntax Colouring Map For INA219
+
+
+# Data types (KEYWORD1)
+INA219	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+getShuntVoltage	KEYWORD2
+getBusVoltage	KEYWORD2
+getPower	KEYWORD2
+getCurrent	KEYWORD2
+
+getBusVoltage_mV	KEYWORD2
+getShuntVoltage_uV	KEYWORD2
+getCurrent_mA	KEYWORD2
+getPower_mW	KEYWORD2
+getShuntVoltage_uV	KEYWORD2
+getCurrent_uA	KEYWORD2
+getPower_uW	KEYWORD2
+
+
+reset	KEYWORD2
+setBusVoltageRange	KEYWORD2
+getBusVoltageRange	KEYWORD2
+setGain	KEYWORD2
+getGain	KEYWORD2
+setBusADC	KEYWORD2
+getBusADC	KEYWORD2
+setShuntADC	KEYWORD2
+getShuntADC	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+
+shutDown	KEYWORD2
+setModeShuntTrigger	KEYWORD2
+setModeBusTrigger	KEYWORD2
+setModeShuntBusTrigger	KEYWORD2
+setModeADCOff	KEYWORD2
+setModeShuntContinuous	KEYWORD2
+setModeBusContinuous	KEYWORD2
+setModeShuntBusContinuous	KEYWORD2
+
+
+# Constants (LITERAL1)
+INA219_LIB_VERSION	LITERAL1
+
+

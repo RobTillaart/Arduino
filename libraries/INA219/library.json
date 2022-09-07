@@ -1,0 +1,23 @@
+{
+  "name": "INA219",
+  "keywords": "power ampere voltage volts current",
+  "description": "AArduino library for INA219 voltage, current and power sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA219.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "INA219.h"
+}

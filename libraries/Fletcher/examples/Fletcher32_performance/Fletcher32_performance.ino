@@ -24,7 +24,7 @@ void setup()
   start = micros();
   for (uint16_t x = 0; x < 10000; x++)
   {
-    z = random(255);
+    z = random(256);
   }
   stop = micros();
   randomtime = stop - start;
@@ -36,7 +36,7 @@ void setup()
   start = micros();
   for (uint16_t x = 0; x < 10000; x++)
   {
-    z = random(255);
+    z = random(256);
     fl.add(z);
   }
   stop = micros();

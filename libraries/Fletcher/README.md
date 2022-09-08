@@ -23,7 +23,7 @@ Relates to https://github.com/RobTillaart/CRC
 
 Use https://github.com/RobTillaart/printHelpers to print the Fletcher64().
 
-Tested on Arduino UNO only.
+Tested on Arduino UNO + ESP32 + SAMD (See PR #7).
 
 
 ## Interface
@@ -47,19 +47,6 @@ The checksum from **getFletcher()** can be split into a high and a low part
 to be used to "feed" **begin()** again. See restart example.
 
 
-#### Performance
-
-Not tested ESP32 (and many other platforms) yet.
-First numbers of **.add(value)** measured with test sketch shows the following timing.
-
-| Checksum    |  UNO 16 MHz | ESP32 240 MHz |
-|:------------|:-----------:|:-------------:|
-| Fletcher16  |     3.8 us  |    0.22 us    |
-| Fletcher32  |     5.6 us  |    0.23 us    |
-| Fletcher64  |    10.1 us  |    0.26 us    |
-| Average     |     6.5 us  |    0.24 us    |
-
-
 ## Interface static functions
 
 The functions are straightforward, however one should define **length**
@@ -74,13 +61,27 @@ Use **\#include "Fletcher.h"**
 - **uint64_t fletcher64(uint32_t \*data, uint16_t length)** length in units of 4 bytes = 32 bits.
 
 
-#### Performance
+#### Performance I
 
+Not tested ESP32 (and many other platforms) yet.
+First numbers of **.add(value)** measured with test sketch shows the following timing.
+
+| Checksum    |  UNO 16 MHz | ESP32 240 MHz |
+|:------------|:-----------:|:-------------:|
+| Fletcher16  |     3.8 us  |    0.22 us    |
+| Fletcher32  |     5.6 us  |    0.23 us    |
+| Fletcher64  |    10.1 us  |    0.26 us    |
+| Average     |     6.5 us  |    0.24 us    |
+
+
+#### Performance II
 
 Not tested extensively, first numbers of **.add(array, length)**
 measured with **Fletcher_performance.ino** sketch shows the following timing.
 
 Lorem Ipsum text = 868 bytes.
+
+Version 0.1.3. 
 
 | Checksum    |  UNO 16 MHz | ESP32 240 MHz | Notes              |
 |:------------|:-----------:|:-------------:|:-------------------|
@@ -91,6 +92,9 @@ Lorem Ipsum text = 868 bytes.
 | Avg / char  |    1.46 us  |   0.0495 us   | 868 bytes          |
 
 
+Note 0.1.4 has improved the performance. See PR #7 for some numbers.
+
+
 ## Operation
 
 See examples.
@@ -99,6 +103,7 @@ See examples.
 ## Future ideas
 
 - improve documentation
+  - update performance figures.
 - test other platforms
 - others e.g. Fletcher24?
 - generic FletcherN(). for N = 1..32

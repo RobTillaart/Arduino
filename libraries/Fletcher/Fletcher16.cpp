@@ -28,9 +28,9 @@ void Fletcher16::add(uint8_t value)
 {
   _count++;
   _s1 += value;
-   if (_s1 >= FLETCHER_16) _s1 -= FLETCHER_16;
+  _s1 = (_s1 & 255) + (_s1 >> 8);
   _s2 += _s1;
-   if (_s2 >= FLETCHER_16) _s2 -= FLETCHER_16;
+  _s2 = (_s2 & 255) + (_s2 >> 8);
 }
 
 

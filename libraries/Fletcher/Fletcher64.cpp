@@ -29,9 +29,17 @@ void Fletcher64::add(uint32_t value)
 {
   _count++;
   _s1 += value;
-   if (_s1 >= FLETCHER_64) _s1 -= FLETCHER_64;
+#if defined(ARDUINO_ARCH_SAMD) || defined(ESP32) || defined(ESP8266)
+  _s1 = (_s1 & ((((uint64_t) 1) << 32) - 1)) + (_s1 >> 32);
+#else
+  if (_s1 >= FLETCHER_64) _s1 -= FLETCHER_64;
+#endif
   _s2 += _s1;
-   if (_s2 >= FLETCHER_64) _s2 -= FLETCHER_64;
+#if defined(ARDUINO_ARCH_SAMD) || defined(ESP32) || defined(ESP8266)
+  _s2 = (_s2 & ((((uint64_t) 1) << 32) - 1)) + (_s2 >> 32);
+#else
+  if (_s2 >= FLETCHER_64) _s2 -= FLETCHER_64;
+#endif
 }
 
 

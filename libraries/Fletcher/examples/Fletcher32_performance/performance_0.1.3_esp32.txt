@@ -1,0 +1,11 @@
+
+Tested on ESP32 (240 MHz)
+IDE 1.18
+
+FLETCHER_LIB_VERSION: 0.1.3
+
+Fletcher32_performance
+randomtime: 6945
+     total: 9275
+ 1e4 x add: 2330
+  checksum: 430995902

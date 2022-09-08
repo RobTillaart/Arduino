@@ -2,7 +2,7 @@
 //
 //    FILE: Fletcher.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-01-25
 // PURPOSE: Arduino Library for calculating Fletcher's checksum
 //     URL: https://github.com/RobTillaart/Fletcher
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define FLETCHER_LIB_VERSION              (F("0.1.4"))
+#define FLETCHER_LIB_VERSION              (F("0.1.5"))
 
 #define FLETCHER_16                       255
 #define FLETCHER_32                       65535UL

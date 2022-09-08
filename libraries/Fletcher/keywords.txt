@@ -11,6 +11,11 @@ fletcher16	KEYWORD2
 fletcher32	KEYWORD2
 fletcher64	KEYWORD2
 
+begin	KEYWORD2
+add	KEYWORD2
+getFletcher	KEYWORD2
+count	KEYWORD2
+
 
 # Constants (LITERAL1)
 FLETCHER_LIB_VERSION	LITERAL1

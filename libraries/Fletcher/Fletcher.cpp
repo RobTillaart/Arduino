@@ -1,7 +1,7 @@
 //
 //    FILE: Fletcher.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-01-25
 // PURPOSE: Arduino Library for calculating Fletcher's checksum
 //     URL: https://github.com/RobTillaart/Fletcher
@@ -15,6 +15,9 @@
 //  0.1.4   2022-09-08   performance optimization (Kudos to Daniel Mohr).
 //                       affects SAMD, ESP32 and ESP8266
 //                       fix FLETCHER_LIB_VERSION
+//  0.1.5   2022-09-08   roll back the optimizations in the standalone functions
+//                       conflict with loop optimization already in.
+//                       update ketwords.txt
 
 
 #include "Fletcher.h"
@@ -38,10 +41,10 @@ uint16_t fletcher16(uint8_t *data, uint16_t length)
       s2 += s1;
     }
     s1 %= FLETCHER_16;
-    //  does not work due to the above "32-bit" loop.
-    // s1 = (s1 & 255) + (s1 >> 8);   
+    //  this optimization does not work due to the above "32-bit" loop.
+    //  for all three functions.
+    //  s1 = (s1 & 255) + (s1 >> 8);   
     s2 %= FLETCHER_16;
-    // s2 = (s2 & 255) + (s2 >> 8);
   }
   return (s2 << 8) | s1;
 }
@@ -59,11 +62,8 @@ uint32_t fletcher32(uint16_t *data, uint16_t length)
       s1 += data[i++];
       s2 += s1;
     }
-    // s1 %= FLETCHER_32;
-    s1 = (s1 & 65535UL) + (s1 >> 16);
-    
-    // s2 %= FLETCHER_32;
-    s2 = (s2 & 65535UL) + (s2 >> 16);
+    s1 %= FLETCHER_32;
+    s2 %= FLETCHER_32;
   }
   return (s2 << 16) | s1;
 }
@@ -81,10 +81,8 @@ uint64_t fletcher64(uint32_t *data, uint16_t length)
       s1 += data[i++];
       s2 += s1;
     }
-    // s1 %= FLETCHER_64;
-    s1 = (s1 & ((((uint64_t) 1) << 32) - 1)) + (s1 >> 32);
-    // s2 %= FLETCHER_64;
-    s2 = (s2 & ((((uint64_t) 1) << 32) - 1)) + (s2 >> 32);
+    s1 %= FLETCHER_64;
+    s2 %= FLETCHER_64;
   }
   return (s2 << 32) | s1;
 }

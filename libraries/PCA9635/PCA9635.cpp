@@ -2,13 +2,14 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 //
 //  HISTORY:
 //
 //
+//  0.4.1   2022-09-10  Fix #17 adjust begin() interface for ESP32
 //  0.4.0   2022-05-29  breaking changes
 //                      rename reset() to configure()
 //                      add mode1 and mode2 parameter to configure.
@@ -48,7 +49,7 @@ PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool PCA9635::begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask, uint8_t mode2_mask)
+bool PCA9635::begin(int sda, int scl, uint8_t mode1_mask, uint8_t mode2_mask)
 {
   _wire = &Wire;
   if ((sda < 255) && (scl < 255))

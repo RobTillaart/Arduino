@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.4.0"))
+#define PCA9635_LIB_VERSION         (F("0.4.1"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
@@ -70,7 +70,7 @@ public:
   explicit PCA9635(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl, 
+  bool     begin(int sda, int scl, 
                      uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, 
                      uint8_t mode2_mask = PCA9635_MODE2_NONE);
 #endif

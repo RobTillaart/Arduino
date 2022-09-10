@@ -32,7 +32,7 @@ and optional the Wire interface as parameter.
 - **bool begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
 initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers.
 See PCA9635.h and datasheet for settings possible.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, uint8_t mode2_mask = PCA9635_MODE2_NONE)** 
+- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, uint8_t mode2_mask = PCA9635_MODE2_NONE)** 
 idem, ESP32 ESP8266 only.
 - **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
 To configure the library after startup one can set the MODE1 and MODE2 configuration registers.
@@ -161,6 +161,7 @@ It needs more testing and if there are issues, please report.
 
 AllCall is automatically activated for each device on startup.
 
+
 #### Description
 
 **SUB CALL** allows one to make groups of PCA9634 devices and control them on group level.
@@ -172,6 +173,7 @@ it with **enableSubCall(nr)**.
 
 In the same way one can become member of an **ALL CALL** group.
 Typically there is only one such group but one can configure more of them by applying different addresses.
+
 
 #### Interface
 

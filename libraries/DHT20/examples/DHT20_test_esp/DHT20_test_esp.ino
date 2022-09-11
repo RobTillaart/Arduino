@@ -4,7 +4,14 @@
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
 
-// TODO
+//  Always check datasheet - front view
+//
+//          +--------------+
+//  VDD ----| 1            |
+//  SDA ----| 2    DHT20   |
+//  GND ----| 3            |
+//  SCL ----| 4            |
+//          +--------------+
 
 #include "DHT20.h"
 
@@ -15,7 +22,7 @@ void setup()
 {
   
 #if defined(ESP8266) || defined(ESP32)
-  DHT.begin(12, 13);  // select your pin numbers here
+  DHT.begin(12, 13);  //  select your pin numbers here
 #else
   DHT.begin();
 #endif
@@ -33,7 +40,7 @@ void setup()
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   Serial.print("DHT20, \t");
   int status = DHT.read();
   switch (status)
@@ -54,7 +61,8 @@ void loop()
     Serial.print("Unknown error,\t");
     break;
   }
-  // DISPLAY DATA, sensor has only one decimal.
+
+  //  DISPLAY DATA, sensor has only one decimal.
   Serial.print(DHT.getHumidity(), 1);
   Serial.print(",\t");
   Serial.println(DHT.getTemperature(), 1);

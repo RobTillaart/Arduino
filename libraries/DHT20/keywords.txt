@@ -8,8 +8,8 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 
 requestData	KEYWORD2
-readyData	KEYWORD2
 readData	KEYWORD2
+convert	KEYWORD2
 
 read	KEYWORD2
 getHumidity	KEYWORD2

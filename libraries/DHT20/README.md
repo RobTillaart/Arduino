@@ -24,6 +24,25 @@ The **read()** call of this sensor is blocking for 80+ milliseconds (datasheet 7
 so the library also has a asynchronous interface. See below.
 
 
+## Connection
+
+Always check datasheet 
+
+Front view
+```
+          +--------------+
+  VDD ----| 1            |
+  SDA ----| 2    DHT20   |
+  GND ----| 3            |
+  SCL ----| 4            |
+          +--------------+
+```
+
+## Tested
+
+Examples verified to work with Arduino UNO and ESP32.
+
+
 ## Interface
 
 
@@ -53,14 +72,33 @@ It returns the status of the read which should be 0.
 
 ### Asynchronous interface
 
-The async interface allows one to continue processing after a **requestData()** has been made.
-One can check **readyData()** and if it returns true, enough time has 
-passed to make the measurement and the sensor can be read with **readData()**.
+Note the async interface is not 100% functional yet. 
+Expect functional complete in 0.2.0.
+
+There are two timings that need to be considdered, 
+- time between requests = 1000 ms
+- time between request and data ready.
+
+The async interface allows one to continue processing whatever after a **requestData()** has been made. Note that there should be at least **1000 milliseconds** between subsequent requests.
+
+After **DHT20_ACQUISITION_TIME == 85 ms** enough time after the request has 
+passed to read the data of the measurement. So the sensor can be read with **readData()**.
+
+To interpret the read bits to temperature, humidity and status one needs to call **convert()** as last step.
+
 
 - **int requestData()** signals the sensor to make a new measurement.
-- **bool readyData()** returns true if 85 milliseconds have passed since the last **requestData()** call. 
-The time of 85 ms is hard coded.
+Note there must be at least 1000 milliseconds between requests!
 - **int readData()** does the actual reading of the data.
+- **int convert()** converts the read bits to temperature and humidity.
+
+See the example **DHT20_async.ino**
+
+In the .h file there is a line
+```cpp
+#define DHT20_ACQUISITION_TIME      85
+```
+This can be used to optimize performance a bit. Use with care.
 
 
 ### Miscellaneous
@@ -89,23 +127,30 @@ See examples
 
 ## Future
 
+#### must
+
 - update documentation
+- improve the code
+  - check return codes etc.
   - add missing error codes
-  - describe async interface
+  - **read()** should check lastRead() and return ERROR_LASTREAD
+
+#### should
+
 - test more in detail
   - test on ESP32
+- add examples
+  - asynchronous
+
+#### could
+
 - improve unit tests.
-- improve the code (check return codes etc.)
 - investigate 
   - status register bits 
   - sensor calibration (website aosong?)
 - check for optimizations.
   - mainly for asynchronous
-  - test at different I2C speeds 400 KHz should be possible.
   - 85 ms wait time?
-- add examples
-  - asynchronous
-  - 
 
 
 #### won't

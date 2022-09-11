@@ -4,6 +4,14 @@
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
 
+//  Always check datasheet - front view
+//
+//          +--------------+
+//  VDD ----| 1            |
+//  SDA ----| 2    DHT20   |
+//  GND ----| 3            |
+//  SCL ----| 4            |
+//          +--------------+
 
 #include "DHT20.h"
 
@@ -12,7 +20,7 @@ DHT20 DHT(&Wire);
 
 void setup()
 {
-  DHT.begin();
+  DHT.begin();  //  ESP32 default pins 21 22
   Serial.begin(115200);
   Serial.println("Humidity, Temperature");
 }

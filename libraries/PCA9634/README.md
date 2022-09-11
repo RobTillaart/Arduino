@@ -32,12 +32,12 @@ and optional the Wire interface as parameter.
 - **bool begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
 initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers. 
 See PCA9634.h and datasheet for settings possible.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
+- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
 idem, ESP32 ESP8266 only. 
 - **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
 To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
 See PCA9634.h and datasheet for settings possible.
-- **bool isConnected()** checks if address is available on I2C bus.
+- **bool isConnected()** checks if address is visible on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 8.
 
 
@@ -196,26 +196,29 @@ The functions to enable all/sub-addresses are straightforward:
 
 ### I2C Software reset
 
-#### 0.2.2  experimental
+The goal of this function is to reset ALL PCA9634 devices on the bus. 
+When using the software reset, ALL devices attached to the bus are set to their hardware startup conditions.
+Generally, there are multiple definitions of software resets by the I²C inventor NXP. 
+To accommodate this, two different modes for this function have been defined and tested (library version 0.2.2).
 
-The goal of the i2C software reset is to reset ALL PCA9634 (and compatible)
-devices on the I2C bus. But....
+- Method 1 is a tested method which is specific to the PCA9634.
+Since the number of different types of I²C chips is very large, side-effects on other chips might be possible. 
+Before using this method, consult the data sheets of all chips on the bus to mitigate potential undefined states.
+- Method 0 is a somewhat “general” method which resets many chips on the I²C-bus. 
+However, this method DOES NOT reset the PCA9634 chip. 
+Therefore, consult the data sheet of all different chips on the bus to mitigate potential undefined states.
 
-Since version 0.2.2 the PCA9634 library supports a I2C software reset.
-However the documentation about the I2C software reset is ambiguous. 
-Different sources tell about different commands to execute.
+When only working with PCA9634 chips on a bus, only method 1 is required.
 
-The implementation is a function with the two described methods.
-- method 1 is the PCA9634 specific reset.
-- method 0 is the NXP described reset.
+```cpp
+ledArray.I2C_SoftwareReset(1); // for method 1
+ledArray.I2C_SoftwareReset(0); // for method 0
+```
 
+In case you experience issues with this function on your chips (non-PCA9634), 
+please give feedback, so the documentation can be improved.
 
-Note: side effect of this function can be that all devices on the I2C bus 
-that support the software reset will reset themselves.
-
-See - https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
- 
-Feedback and experiences with this function is welcome.
+For further details of the development, see - #10 (comment)
 
 
 ## Operation

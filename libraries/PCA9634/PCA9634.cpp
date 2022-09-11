@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 03-01-2022
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 //
@@ -19,6 +19,8 @@
 //                      renamed PCA9634_MODE2_STOP to PCA9634_MODE2_ACK
 //  0.2.1   2022-05-30  add mode parameters to begin()
 //  0.2.2   2022-09-02  add static I2C_SoftwareReset()
+//  0.2.3   2022-09-11  update documentation
+//                      fix begin() for ESP32 ambiguity - See PCA9635 #17
 
 
 #include "PCA9634.h"
@@ -37,7 +39,7 @@ PCA9634::PCA9634(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
-bool PCA9634::begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask, uint8_t mode2_mask)
+bool PCA9634::begin(int sda, int scl, uint8_t mode1_mask, uint8_t mode2_mask)
 {
   _wire = &Wire;
   if ((sda < 255) && (scl < 255))

@@ -77,6 +77,9 @@ void loop()
       case DHT20_MISSING_BYTES:
         Serial.print("Missing bytes");
         break;
+      case DHT20_ERROR_BYTES_ALL_ZERO:
+        Serial.print("All bytes read zero");
+        break;
       default:
         Serial.print("Unknown error");
         break;

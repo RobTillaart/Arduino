@@ -45,6 +45,7 @@ unittest(test_constants)
   assertEqual(-10, DHT20_ERROR_CHECKSUM);
   assertEqual(-11, DHT20_ERROR_CONNECT);
   assertEqual(-12, DHT20_MISSING_BYTES);
+  assertEqual(-13, DHT20_ERROR_BYTES_ALL_ZERO);
 }
 
 
@@ -58,7 +59,7 @@ unittest(test_constructor)
   assertEqualFloat(0, DHT.getHumOffset(), 0.001);
 
   DHT.begin();
-  assertEqual(DHT20_ERROR_CHECKSUM, DHT.read());
+  assertEqual(DHT20_ERROR_CONNECT, DHT.read());
 
   //  assertEqualFloat(0, DHT.getTemperature(), 0.001);
   //  assertEqualFloat(0, DHT.getHumidity(), 0.001);

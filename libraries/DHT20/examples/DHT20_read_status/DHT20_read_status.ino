@@ -1,5 +1,5 @@
 //
-//    FILE: DHT20_plotter.ino
+//    FILE: DHT20_read_status.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
@@ -13,29 +13,34 @@
 //  SCL ----| 4            |
 //          +--------------+
 
+
 #include "DHT20.h"
 
-DHT20 DHT(&Wire);
+DHT20 DHT;
 
+uint8_t count = 0;
 
 void setup()
 {
-  DHT.begin();  //  ESP32 default pins 21 22
+  DHT.begin();    //  ESP32 default pins 21 22
+
+  Wire.setClock(400000);
+
   Serial.begin(115200);
-  Serial.println("Humidity, Temperature");
+  Serial.println(__FILE__);
+  Serial.print("DHT20 LIBRARY VERSION: ");
+  Serial.println(DHT20_LIB_VERSION);
+  Serial.println();
+
+  delay(2000);
 }
 
 
 void loop()
 {
-  if (millis() - DHT.lastRead() >= 1000)
-  {
-    // note no error checking
-    DHT.read();
-    Serial.print(DHT.getHumidity(), 1);
-    Serial.print(", ");
-    Serial.println(DHT.getTemperature(), 1);
-  }
+  int status = DHT.readStatus();
+  Serial.println(status);
+  delay(1000);
 }
 
 

@@ -105,19 +105,28 @@ This can be used to optimize performance a bit. Use with care.
 
 - **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
 - **uint32_t lastRequest()** last time a request is made to make a measurement.
-- **int internalStatus()** returns the internal status of the sensor. (debug ?).
+- **int internalStatus()** returns the internal status of the sensor. (debug ).
+- **uint8_t readStatus()** forced read of the status only.
+
+|  status bit  |  meaning                   |
+|:------------:|:---------------------------|
+|    7         |  busy making measurement   |
+|  6 - 4       |  unknown                   |
+|    3         |  1 = calibrated, 0 is not  |
+|  2 - 0       |  unknown                   |
 
 
 ### Return codes
 
 TODO: fix incomplete list
 
-| name                  |  value  |
-|:----------------------|:-------:|
-| DHT20_OK              |    00   |
-| DHT20_ERROR_CHECKSUM  |   -10   |
-| DHT20_ERROR_CONNECT   |   -11   |
-| DHT20_MISSING_BYTES   |   -12   |
+| name                        |  value  |  notes  |
+|:----------------------------|:-------:|:--------|
+| DHT20_OK                    |    00   |  OK
+| DHT20_ERROR_CHECKSUM        |   -10   |  values might be OK if they are like recent previous ones.
+| DHT20_ERROR_CONNECT         |   -11   |  check connection
+| DHT20_MISSING_BYTES         |   -12   |  check connection
+| DHT20_ERROR_BYTES_ALL_ZERO  |   -13   |  check connection
 
 
 ## Operation
@@ -134,11 +143,14 @@ See examples
   - check return codes etc.
   - add missing error codes
   - **read()** should check lastRead() and return ERROR_LASTREAD
+- add status shortcuts
+  - add **bool isCalibrated()**
+  - add **bool isMeasuring()**
+  - add **bool isIdle()**
+
 
 #### should
 
-- test more in detail
-  - test on ESP32
 - add examples
   - asynchronous
 
@@ -146,7 +158,6 @@ See examples
 
 - improve unit tests.
 - investigate 
-  - status register bits 
   - sensor calibration (website aosong?)
 - check for optimizations.
   - mainly for asynchronous

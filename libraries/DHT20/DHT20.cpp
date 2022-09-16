@@ -1,18 +1,26 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 //
 // HISTORY:
 //  0.1.0   2022-01-11  initial version (based upon DHT20 datasheet)
 //  0.1.1   2022-09-10  add hardware schema to readme.md.
 //                      fix async interface (first version)
+//  0.1.2   2022-09-16  fix #4 DHT20_ERROR_BYTES_ALL_ZERO error condition.
+//                      fix keywords
+//                      add readStatus()  fix _readStatus()
+//                      add setWireTimeout(250000, true);  // in comments
 
 
 #include "DHT20.h"
 
-#define DHT20_ACQUISITION_TIME      85
+
+#define DHT20_ACQUISITION_TIME      85        //  milliseconds
+
+//  set DHT20_WIRE_TIME_OUT to 0 to disable.
+#define DHT20_WIRE_TIME_OUT         250000    //  microseconds 
 
 const uint8_t DHT20_ADDRESS = 0x38;
 
@@ -34,6 +42,7 @@ DHT20::DHT20(TwoWire *wire)
 bool DHT20::begin()
 {
   _wire->begin();
+  //  _wire->setWireTimeout(DHT20_WIRE_TIME_OUT, true);
   return isConnected();
 }
 
@@ -47,6 +56,7 @@ bool DHT20::begin(const uint8_t dataPin, const uint8_t clockPin)
   } else {
     _wire->begin();
   }
+  //  _wire->setWireTimeout(DHT20_WIRE_TIME_OUT, true);
   return isConnected();
 }
 #endif
@@ -66,13 +76,17 @@ int DHT20::read()
   //  check lastRead!
   int status = _requestData();
   if (status < 0) return status;
+  //  wait for measurement ready
   while ((millis() - _lastRequest) <= DHT20_ACQUISITION_TIME)
   {
     yield();
     delay(1);
   }
-  _readData();
+  //  read the measurement
+  status = _readData();
+  if (status < 0) return status;
 
+  //  convert it to meaningfull data
   return convert();
 }
 
@@ -129,30 +143,31 @@ int DHT20::_readData()
   if (bytes == 0)     return DHT20_ERROR_CONNECT;
   if (bytes < length) return DHT20_MISSING_BYTES;
 
+  bool allZero = true;
   for (int i = 0; i < bytes; i++)
   {
     _bits[i] = _wire->read();
     //  if (_bits[i] < 0x10) Serial.print(0);
     //  Serial.print(_bits[i], HEX);
     //  Serial.print(" ");
+    allZero = allZero && (_bits[i] == 0);
   }
   //  Serial.println();
+  if (allZero) return DHT20_ERROR_BYTES_ALL_ZERO;
 
   _lastRead = millis();
   return bytes;
 }
 
 
-int DHT20::_readStatus()
+uint8_t DHT20::_readStatus()
 {
-  //  GET CONNECTION
   _wire->beginTransmission(DHT20_ADDRESS);
-  _wire->write(0xAC);
   _wire->write(0x71);
-  _wire->write(0x00);
-  return _wire->endTransmission();
+  _wire->endTransmission();
 
   _wire->requestFrom(DHT20_ADDRESS, (uint8_t)1);
+  return (uint8_t) _wire->read();
 }
 
 

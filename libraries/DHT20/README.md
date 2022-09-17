@@ -23,6 +23,8 @@ Calling these latter again will return the same values until a new **read()** is
 The **read()** call of this sensor is blocking for 80+ milliseconds (datasheet 7.4)
 so the library also has a asynchronous interface. See below.
 
+Verified to work with Arduino UNO and ESP32.
+
 
 ## Connection
 
@@ -94,19 +96,14 @@ Note there must be at least 1000 milliseconds between requests!
 
 See the example **DHT20_async.ino**
 
-In the .h file there is a line
-```cpp
-#define DHT20_ACQUISITION_TIME      85
-```
-This can be used to optimize performance a bit. Use with care.
 
+### Status
 
-### Miscellaneous
-
-- **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
-- **uint32_t lastRequest()** last time a request is made to make a measurement.
-- **int internalStatus()** returns the internal status of the sensor. (debug ).
 - **uint8_t readStatus()** forced read of the status only.
+- **bool isCalibrated()** idem, wrapper around **readStatus()**
+- **bool isMeasuring()** idem, wrapper around **readStatus()**
+- **bool isIdle()** idem, wrapper around **readStatus()**
+- **int internalStatus()** returns the internal status of the sensor. (debug ).
 
 |  status bit  |  meaning                   |
 |:------------:|:---------------------------|
@@ -116,9 +113,13 @@ This can be used to optimize performance a bit. Use with care.
 |  2 - 0       |  unknown                   |
 
 
-### Return codes
+### Timing
 
-TODO: fix incomplete list
+- **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
+- **uint32_t lastRequest()** last time a request is made to make a measurement.
+
+
+### Return codes
 
 | name                        |  value  |  notes  |
 |:----------------------------|:-------:|:--------|
@@ -127,6 +128,8 @@ TODO: fix incomplete list
 | DHT20_ERROR_CONNECT         |   -11   |  check connection
 | DHT20_MISSING_BYTES         |   -12   |  check connection
 | DHT20_ERROR_BYTES_ALL_ZERO  |   -13   |  check connection
+| DHT20_ERROR_READ_TIMEOUT    |   -14   |
+| DHT20_ERROR_LASTREAD        |   -15   |
 
 
 ## Operation
@@ -139,29 +142,19 @@ See examples
 #### must
 
 - update documentation
-- improve the code
-  - check return codes etc.
-  - add missing error codes
-  - **read()** should check lastRead() and return ERROR_LASTREAD
-- add status shortcuts
-  - add **bool isCalibrated()**
-  - add **bool isMeasuring()**
-  - add **bool isIdle()**
-
+- comments in .h file
 
 #### should
 
 - add examples
-  - asynchronous
+- check TODO's in code.
+
 
 #### could
 
 - improve unit tests.
 - investigate 
   - sensor calibration (website aosong?)
-- check for optimizations.
-  - mainly for asynchronous
-  - 85 ms wait time?
 
 
 #### won't

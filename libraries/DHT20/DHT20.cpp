@@ -1,7 +1,7 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 //
 // HISTORY:
@@ -12,15 +12,16 @@
 //                      fix keywords
 //                      add readStatus()  fix _readStatus()
 //                      add setWireTimeout(250000, true);  // in comments
+//  0.1.3   2022-09-xx  add wrapper status functions
+//                      improve performance read()
+//                      refactor, update readme.md
 
 
 #include "DHT20.h"
 
 
-#define DHT20_ACQUISITION_TIME      85        //  milliseconds
-
 //  set DHT20_WIRE_TIME_OUT to 0 to disable.
-#define DHT20_WIRE_TIME_OUT         250000    //  microseconds 
+#define DHT20_WIRE_TIME_OUT         250000    //  microseconds
 
 const uint8_t DHT20_ADDRESS = 0x38;
 
@@ -70,20 +71,28 @@ bool DHT20::isConnected()
 }
 
 
+////////////////////////////////////////////////
+//
+//  READ THE SENSOR
+//
 int DHT20::read()
 {
-  //  READ SENSOR ==> uses the async interface!
-  //  check lastRead!
-  int status = _requestData();
+  //  do not read to fast
+  if (millis() - _lastRead < 1000)
+  {
+    return DHT20_ERROR_LASTREAD;
+  }
+
+  int status = requestData();
   if (status < 0) return status;
   //  wait for measurement ready
-  while ((millis() - _lastRequest) <= DHT20_ACQUISITION_TIME)
+  while (isMeasuring())
   {
     yield();
     delay(1);
   }
   //  read the measurement
-  status = _readData();
+  status = readData();
   if (status < 0) return status;
 
   //  convert it to meaningfull data
@@ -91,36 +100,7 @@ int DHT20::read()
 }
 
 
-int DHT20::convert()
-{
-  //  CONVERT AND STORE
-  _status      = _bits[0];
-  uint32_t tmp = _bits[1];
-  tmp <<= 8;
-  tmp += _bits[2];
-  tmp <<= 4;
-  tmp += (_bits[3] >> 4);
-  _humidity = tmp * 9.5367431640625e-5;   // ==> / 1048576.0 * 100%;
-
-  tmp = (_bits[3] & 0x0F);
-  tmp <<= 8;
-  tmp += _bits[4];
-  tmp <<= 8;
-  tmp += _bits[5];
-  _temperature = tmp * 1.9073486328125e-4 - 50;  //  ==> / 1048576.0 * 200 - 50;
-
-  //  TEST CHECKSUM
-  uint8_t _crc = _crc8(_bits, 6);
-  //  Serial.print(_crc, HEX);
-  //  Serial.print("\t");
-  //  Serial.println(_bits[6], HEX);
-  if (_crc != _bits[6]) return DHT20_ERROR_CHECKSUM;
-
-  return DHT20_OK;
-}
-
-
-int DHT20::_requestData()
+int DHT20::requestData()
 {
   //  GET CONNECTION
   _wire->beginTransmission(DHT20_ADDRESS);
@@ -134,7 +114,7 @@ int DHT20::_requestData()
 }
 
 
-int DHT20::_readData()
+int DHT20::readData()
 {
   //  GET DATA
   const uint8_t length = 7;
@@ -160,17 +140,133 @@ int DHT20::_readData()
 }
 
 
-uint8_t DHT20::_readStatus()
+int DHT20::convert()
+{
+  //  CONVERT AND STORE
+  _status      = _bits[0];
+  uint32_t raw = _bits[1];
+  raw <<= 8;
+  raw += _bits[2];
+  raw <<= 4;
+  raw += (_bits[3] >> 4);
+  _humidity = raw * 9.5367431640625e-5;   // ==> / 1048576.0 * 100%;
+
+  raw = (_bits[3] & 0x0F);
+  raw <<= 8;
+  raw += _bits[4];
+  raw <<= 8;
+  raw += _bits[5];
+  _temperature = raw * 1.9073486328125e-4 - 50;  //  ==> / 1048576.0 * 200 - 50;
+
+  //  TEST CHECKSUM
+  uint8_t _crc = _crc8(_bits, 6);
+  //  Serial.print(_crc, HEX);
+  //  Serial.print("\t");
+  //  Serial.println(_bits[6], HEX);
+  if (_crc != _bits[6]) return DHT20_ERROR_CHECKSUM;
+
+  return DHT20_OK;
+}
+
+
+////////////////////////////////////////////////
+//
+//  TEMPERATURE & HUMIDITY & OFFSET
+//
+float DHT20::getHumidity()
+{
+  return _humidity + _humOffset;
+};
+
+
+float DHT20::getTemperature()
+{
+  return _temperature + _tempOffset;
+};
+
+
+void DHT20::setHumOffset(float offset)
+{
+  _humOffset  = offset;
+};
+
+
+void DHT20::setTempOffset(float offset)
+{
+  _tempOffset = offset;
+};
+
+
+float DHT20::getHumOffset()
+{
+  return _humOffset;
+};
+
+
+float DHT20::getTempOffset()
+{
+  return _tempOffset;
+};
+
+
+////////////////////////////////////////////////
+//
+//  STATUS
+//
+uint8_t DHT20::readStatus()
 {
   _wire->beginTransmission(DHT20_ADDRESS);
   _wire->write(0x71);
   _wire->endTransmission();
-
   _wire->requestFrom(DHT20_ADDRESS, (uint8_t)1);
   return (uint8_t) _wire->read();
 }
 
 
+bool DHT20::isCalibrated()
+{
+  return (readStatus() & 0x08) == 0x08;
+}
+
+
+bool DHT20::isMeasuring()
+{
+  return (readStatus() & 0x80) == 0x80;
+}
+
+
+bool DHT20::isIdle()
+{
+  return (readStatus() & 0x80) == 0x00;
+}
+
+
+int DHT20::internalStatus()
+{
+  return _status;
+};
+
+
+////////////////////////////////////////////////
+//
+//  OTHER
+//
+uint32_t DHT20::lastRead()
+{
+  return _lastRead;
+};
+
+
+uint32_t DHT20::lastRequest()
+{
+  return _lastRequest;
+};
+
+
+////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 uint8_t DHT20::_crc8(uint8_t *ptr, uint8_t len)
 {
   uint8_t crc = 0xFF;

@@ -80,6 +80,12 @@ void loop()
       case DHT20_ERROR_BYTES_ALL_ZERO:
         Serial.print("All bytes read zero");
         break;
+      case DHT20_ERROR_READ_TIMEOUT:
+        Serial.print("Read time out");
+        break;
+      case DHT20_ERROR_LASTREAD:
+        Serial.print("Error read too fast");
+        break;
       default:
         Serial.print("Unknown error");
         break;

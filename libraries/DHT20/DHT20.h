@@ -3,7 +3,7 @@
 //    FILE: DHT20.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // HISTORY: See DHT20.cpp
 //     URL: https://github.com/RobTillaart/DHT20
 //
@@ -21,7 +21,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT20_LIB_VERSION                    (F("0.1.3"))
+#define DHT20_LIB_VERSION                    (F("0.1.4"))
 
 #define DHT20_OK                             0
 #define DHT20_ERROR_CHECKSUM                -10
@@ -32,46 +32,69 @@
 #define DHT20_ERROR_LASTREAD                -15
 
 
-#define DHT20_ACQUISITION_TIME               85
-
-
 class DHT20
 {
 public:
-  DHT20(TwoWire *wire = &Wire);        // to be tested explicitly
+  //  CONSTRUCTOR
+  //  fixed address 0x38
+  DHT20(TwoWire *wire = &Wire);
 
+  //  start the I2C
 #if defined(ESP8266) || defined(ESP32)
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
   bool     begin();
   bool     isConnected();
 
+
   //  ASYNCHRONUOUS CALL
+  //  trigger acquisition.
   int      requestData();
+  //  read the raw data.
   int      readData();
+  //  converts raw databits to temperature and humidity.
   int      convert();
 
+
   //  SYNCHRONUOUS CALL
+  //  blocking read call to read + convert data
   int      read();
+  //  access the converted temperature & humidity
   float    getHumidity();
   float    getTemperature();
 
-  //  CALIBRATION  1st order
+
+  //  OFFSET  1st order adjustments
   void     setHumOffset(float offset);
   void     setTempOffset(float offset);
   float    getHumOffset();
   float    getTempOffset();
 
+
   //  READ STATUS
   uint8_t  readStatus();
+  //  3 wrapper functions around readStatus()
   bool     isCalibrated();
   bool     isMeasuring();
   bool     isIdle();
+  //  status from last read()
   int      internalStatus();
 
-  //  OTHER
+
+  //  TIMING
   uint32_t lastRead();
   uint32_t lastRequest();
+
+
+  //  RESET  (new since 0.1.4)
+  //  use with care 
+  //  returns number of registers reset => must be 3
+  //  3     = OK
+  //  0,1,2 = error.
+  //  255   = no reset needed.
+  //  See datasheet 7.4 Sensor Reading Process, point 1
+  //  use with care 
+  uint8_t  resetSensor();
 
 
 private:
@@ -86,6 +109,9 @@ private:
   uint8_t  _bits[7];
 
   uint8_t  _crc8(uint8_t *ptr, uint8_t len);
+
+  //  use with care
+  bool     _resetRegister(uint8_t reg);
 
   TwoWire* _wire;
 };

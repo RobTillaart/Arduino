@@ -1,6 +1,8 @@
 ...Arduino\libraries\DHT20\examples\DHT20\DHT20.ino
 DHT20 LIBRARY VERSION: 0.1.3
 
+IDE 1.8.19
+Arduino UNO
 
 Type	Humidity (%)	Temp (°C)	Time (µs)	Status
 DHT20 	61.4		21.5		54684		OK

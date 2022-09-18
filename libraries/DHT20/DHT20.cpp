@@ -1,7 +1,7 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 //
 // HISTORY:
@@ -12,15 +12,21 @@
 //                      fix keywords
 //                      add readStatus()  fix _readStatus()
 //                      add setWireTimeout(250000, true);  // in comments
-//  0.1.3   2022-09-xx  add wrapper status functions
+//  0.1.3   2022-09-17  add wrapper status functions
 //                      improve performance read()
 //                      refactor, update readme.md
+//  0.1.4   2022-09-18  add resetSensor() code.
+//                      add comments in .h file
+//                      add examples
+//                      stabilize readStatus()
+//                      update readme.md
 
 
 #include "DHT20.h"
 
 
 //  set DHT20_WIRE_TIME_OUT to 0 to disable.
+//  note this timeout is commented in code below.
 #define DHT20_WIRE_TIME_OUT         250000    //  microseconds
 
 const uint8_t DHT20_ADDRESS = 0x38;
@@ -71,6 +77,23 @@ bool DHT20::isConnected()
 }
 
 
+//  See datasheet 7.4 Sensor Reading Process, point 1
+//  use with care.
+uint8_t DHT20::resetSensor()
+{
+  uint8_t count = 255;
+  if ((readStatus() & 0x18) != 0x18)
+  {
+    count++;
+    if (_resetRegister(0x1B)) count++;
+    if (_resetRegister(0x1C)) count++;
+    if (_resetRegister(0x1E)) count++;
+    delay(10);
+  }
+  return count;
+}
+
+
 ////////////////////////////////////////////////
 //
 //  READ THE SENSOR
@@ -89,7 +112,6 @@ int DHT20::read()
   while (isMeasuring())
   {
     yield();
-    delay(1);
   }
   //  read the measurement
   status = readData();
@@ -218,7 +240,9 @@ uint8_t DHT20::readStatus()
   _wire->beginTransmission(DHT20_ADDRESS);
   _wire->write(0x71);
   _wire->endTransmission();
+  delay(1);  //  needed to stabilize timing
   _wire->requestFrom(DHT20_ADDRESS, (uint8_t)1);
+  delay(1);  //  needed to stabilize timing
   return (uint8_t) _wire->read();
 }
 
@@ -249,7 +273,7 @@ int DHT20::internalStatus()
 
 ////////////////////////////////////////////////
 //
-//  OTHER
+//  TIMING
 //
 uint32_t DHT20::lastRead()
 {
@@ -287,6 +311,41 @@ uint8_t DHT20::_crc8(uint8_t *ptr, uint8_t len)
     }
   }
   return crc;
+}
+
+
+//  Code based on demo code sent by www.aosong.com
+//  no further documentation.
+//  0x1B returned 18, 0, 4
+//  0x1C returned 18, 65, 0
+//  0x1E returned 18, 8, 0
+//    18 seems to be status register
+//    other values unknown.
+bool DHT20::_resetRegister(uint8_t reg)
+{
+  uint8_t value[3];
+  _wire->beginTransmission(DHT20_ADDRESS);
+  _wire->write(reg);
+  _wire->write(0x00);
+  _wire->write(0x00);
+  if (_wire->endTransmission() != 0) return false;
+  delay(5);
+
+  int bytes = _wire->requestFrom(DHT20_ADDRESS, 3); 
+  for (int i = 0; i < bytes; i++)
+  {
+    value[i] = _wire->read();
+    //  Serial.println(value[i], HEX);
+  }
+  delay(10);
+
+  _wire->beginTransmission(DHT20_ADDRESS);
+  _wire->write(0xB0 | reg);
+  _wire->write(value[1]);
+  _wire->write(value[2]);
+  if (_wire->endTransmission() != 0) return false;
+  delay(5);
+  return true;
 }
 
 

@@ -1,5 +1,5 @@
 //
-//    FILE: DHT20.ino
+//    FILE: DHT20_offset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
@@ -38,7 +38,15 @@ void setup()
 
 void loop()
 {
-  if (millis() - DHT.lastRead() >= 1000)
+  //  set an offset after 10 seconds.
+  if (millis() > 10000)
+  {
+    DHT.setTempOffset(1.7);
+    DHT.setHumOffset(-2.3);
+  }
+
+  //  make a measurement every 2 seconds
+  if (millis() - DHT.lastRead() >= 2000)
   {
     // READ DATA
     uint32_t start = micros();
@@ -49,7 +57,7 @@ void loop()
     {
       count = 0;
       Serial.println();
-      Serial.println("Type\tHumidity (%)\tTemp (°C)\tTime (µs)\tStatus");
+      Serial.println("Type\tHumidity (%)\tTemp (°C)\tTime (µs)\tStatus\tOffset");
     }
     count++;
 
@@ -88,6 +96,10 @@ void loop()
         Serial.print("Unknown error");
         break;
     }
+    Serial.print("\t");
+    Serial.print(DHT.getHumOffset());
+    Serial.print("\t");
+    Serial.print(DHT.getTempOffset());
     Serial.print("\n");
   }
 }

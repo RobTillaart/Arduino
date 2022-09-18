@@ -20,13 +20,17 @@ setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
 
-lastRead	KEYWORD2
-lastRequest	KEYWORD2
-internalStatus	KEYWORD2
 readStatus	KEYWORD2
 isCalibrated	KEYWORD2
 isMeasuring	KEYWORD2
 isIdle	KEYWORD2
+internalStatus	KEYWORD2
+
+lastRead	KEYWORD2
+lastRequest	KEYWORD2
+
+resetSensor	KEYWORD2
+
 
 # Constants (LITERAL1)
 DHT20_LIB_VERSION	LITERAL2

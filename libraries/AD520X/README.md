@@ -10,7 +10,7 @@
 
 Arduino library for SPI AD5204 and AD5206 digital potentiometers.
 
-Should work for the AD840x series too (not tested). 
+Should work with the AD840x series too (not tested).  
 
 
 ## Description
@@ -22,18 +22,18 @@ This library consists of a base class **AD520X** that does the work.
 
 The interface is straightforward, one can set a value per channels between 0..255.
 
-| type   | # channels |
-|:-------|:----------:|
-| AD5204 |  4         |
-| AD5206 |  6         |
-| AD8400 |  1         |
-| AD8402 |  2         |
-| AD8403 |  4         |
+|  type    |  channels  |  1 kΩ | 10 kΩ | 50 kΩ | 100 kΩ |  works    |
+|:---------|:----------:|:-----:|:-----:|:-----:|:------:|:----------|
+|  AD5204  |    4       |       |   V   |   V   |   V    | confirmed |
+|  AD5206  |    6       |       |   V   |   V   |   V    | confirmed |
+|  AD8400  |    1       |   V   |   V   |   V   |   V    | confirmed |
+|  AD8402  |    2       |   V   |   V   |   V   |   V    |
+|  AD8403  |    4       |   V   |   V   |   V   |   V    |
 
+The library is not yet confirmed to work for **AD8402** (2 channels) and **AD8403** (4 channels).
+These devices have  a very similar interface (datasheet comparison) so it should work.
 
-_Although not tested this library should work for the older **AD8400** (1 channel),
-the **AD8402** (2 channels) and **AD8403** (4 channels) as the interface is very similar
-(datasheet comparison). If you can confirm it works, please let me know._
+If you can confirm these models works, please let me know._
 
 
 ## Interface
@@ -61,13 +61,27 @@ Since 0.2.0 the functions have more default parameters. Potentiometer is default
 and value is default the **AD520X_MIDDLE_VALUE** of 128.
 
 - **void begin(uint8_t value = 128)** value is the initial value of all potentiometer.
+- **void reset(uint8_t value = 128)** resets the device and sets all potentiometers to value, default 128.
+
+#### Value
+
 - **bool setValue(uint8_t pm = 0, uint8_t value = 128)** set a potentiometer to a value. 
 Default value is middle value.  
 Returns true if successful, false if not.
+- **bool setValue(uint8_t pmA, uint8_t pmB, uint8_t value)** set two potentiometers to same value.
+Note, no default value!
+Returns true if successful, false if not.
 - **void setAll(uint8_t value = 128)** set all potentiometers to the same value e.g. 0 or max or mid value.
+Can typically be used for **mute**.
 - **uint8_t getValue(uint8_t pm = 0)** returns the last set value of a specific potentiometer.
-- **void reset(uint8_t value = 128)** resets all potentiometers to value, default 128.
+
+
+#### percentage
+
 - **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%  
+Returns true when successful, false if not.
+- **bool setPercentage(uint8_t pmA, uint8_t pmB, float percentage)** similar to setValue, percentage from 0..100%.
+Note, no default value.
 Returns true when successful, false if not.
 - **float getPercentage(uint8_t pm = 0)** return the value of potentiometer pm as percentage.
 
@@ -117,18 +131,38 @@ See examples.
 
 ## Future
 
+#### Must
+
+
+#### Should
+
 - **void setInvert(uint8_t pm)** invert flag per potentiometer.
    - 0..255 -> 255..0
    - 1 uint8_t can hold 8 flags
+   - will slow performance.
+   - how does this work with **stereo** functions.
+   - at what level should invert work.
 - **bool getInvert(uint8_t pm)**
-- **void follow(pm_B, pm_A, float percentage = 100)**
-  - makes pm_B follow pm_A unless pm_B is addressed explicitly
-  - e.g. to be used for stereo channels.
-  - array cascade = 0xFF or pm_A.
-  - It will follow pm_A for certain percentage default 100.
+- **setGroupValue(mask, value)** bitmask to set 0..8 channels in one call
+  - loop over mask ?
+- **setGroupPercentage(mask, value)** bitmask to set 0..8 channels in one call
+  - wrapper 
+
+#### Could
+
+- **AD520X_MIDDLE_VALUE** 127 ?
+- **setSWSPIdelay()** to tune software SPI?
+  - only if requested.
+
+#### Wont
+
+
 - **void setGamma(uint8_t pm, float gamma)**
   - logarithmic effect? easier with setPercentage()
   - see gamma library.
-- **AD520X_MIDDLE_VALUE** 127 ?
-- **setSWSPIdelay()** to tune software SPI?
+- **void follow(pm_B, pm_A, float percentage = 100)**
+  - makes pm_B follow pm_A unless pm_B is addressed explicitly
+  - e.g. to be used for **stereo** channels.
+  - array cascade = 0xFF or pm_A.
+  - It will follow pm_A for certain percentage default 100.
 

@@ -2,22 +2,28 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers (+ older AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
 //
 // HISTORY:
 //  0.0.1   2020-07-24  initial version
 //  0.0.2   2020-07-25  support for AD8400 series in documentation.
+//
 //  0.1.0   2020-07-26  refactor, fix #2 select pin for HW SPI; add shutdown.
 //  0.1.1   2020-12-08  Arduino-CI + unit test + isPowerOn()
 //  0.1.2   2021-08-19  VSPI / HSPI support for ESP32 only
 //                      add setGPIOpins for ESP32 only
 //                      add SetSPIspeed (generic)
+//
 //  0.2.0   2021-10-16  update build-CI
 //                      add get- and setPercentage()
 //  0.2.1   2021-12-10  update library.json, licence
 //                      default value for setAll()
+//  0.2.2   2022-09-19  update readme.md
+//                      add "stereo functions" for setting 2 channels in one call
+//                      setValue() and setPercentage()
+//                      performance update
 
 
 #include "AD520X.h"
@@ -100,16 +106,28 @@ bool AD520X::setValue(uint8_t pm, uint8_t value)
 {
   if (pm >= _pmCount) return false;
   _value[pm] = value;
-  updateDevice(pm);
+  updateDevice(pm, value);
+  return true;
+}
+
+//  STEREO same value
+bool AD520X::setValue(uint8_t pmA, uint8_t pmB, uint8_t value)
+{
+  if ((pmA >= _pmCount) || (pmB >= _pmCount)) return false;
+  _value[pmA] = value;
+  updateDevice(pmA, value);
+  _value[pmB] = value;
+  updateDevice(pmB, value);
   return true;
 }
 
 
 void  AD520X::setAll(uint8_t value)
 {
-  for (uint8_t pm = 0; pm < _pmCount; pm++)
+  for (uint8_t pm = 0; pm < _pmCount; pm++ )
   {
-    setValue(pm, value);
+    _value[pm] = value;
+    updateDevice(pm, value);
   }
 }
 
@@ -125,6 +143,14 @@ bool AD520X::setPercentage(uint8_t pm, float percentage)
 {
   if ((percentage < 0) || (percentage > 100.0)) return false;
   return setValue(pm, round(percentage * (255.0 / 100.0)));
+}
+
+
+//  STEREO same percentage
+bool AD520X::setPercentage(uint8_t pmA, uint8_t pmB, float percentage)
+{
+  if ((percentage < 0) || (percentage > 100.0)) return false;
+  return setValue(pmA, pmB, round(percentage * (255.0 / 100.0)));
 }
 
 
@@ -156,20 +182,20 @@ void AD520X::setSPIspeed(uint32_t speed)
 //
 // PROTECTED
 //
-void AD520X::updateDevice(uint8_t pm)
+void AD520X::updateDevice(uint8_t pm, uint8_t value)
 {
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     mySPI->beginTransaction(_spi_settings);
     mySPI->transfer(pm);
-    mySPI->transfer(_value[pm]);
+    mySPI->transfer(value);
     mySPI->endTransaction();
   }
   else      //  Software SPI
   {
     swSPI_transfer(pm);
-    swSPI_transfer(_value[pm]);
+    swSPI_transfer(value);
   }
   digitalWrite(_select, HIGH);
 }

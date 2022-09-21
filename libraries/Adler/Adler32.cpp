@@ -1,7 +1,7 @@
 //
 //    FILE: Adler32.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-01-27
 // PURPOSE: Arduino Library for calculating Adler-32 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -55,13 +55,14 @@ void Adler32::add(uint8_t value)
 
 //  straightforward going through the array.
 //  small footprint.
-void Adler32::add(uint8_t * array, uint16_t length)
+//  returns current Adler value
+uint32_t Adler32::add(uint8_t * array, uint16_t length)
 {
   while (length--)
   {
     add(*array++);
   }
-  return;
+  return (_s2 << 16) | _s1;
 }
 
 
@@ -70,7 +71,8 @@ void Adler32::add(uint8_t * array, uint16_t length)
 //  S2 grows quadratic
 //  only do modulo when S2 reaches halfway uint32_t
 //                      and at the end of the loop.
-void Adler32::addFast(uint8_t * array, uint16_t length)
+//  returns current Adler value
+uint32_t Adler32::addFast(uint8_t * array, uint16_t length)
 {
   _count += length;
   uint32_t s1 = _s1;
@@ -91,6 +93,7 @@ void Adler32::addFast(uint8_t * array, uint16_t length)
   }
   _s1 = s1;
   _s2 = s2;
+  return (s2 << 16) | s1;
 }
 
 
@@ -99,6 +102,11 @@ uint32_t Adler32::getAdler()
   return (_s2 << 16) | _s1;
 };
 
+
+uint32_t Adler32::count()
+{
+  return _count;
+};
 
 
 //////////////////////////////////////////////////////////////
@@ -111,15 +119,15 @@ void Adler32::add(char value)
 }
 
 
-void Adler32::add(char * array, uint16_t length)
+uint32_t Adler32::add(char * array, uint16_t length)
 {
-  add((uint8_t *) array, length);
+  return add((uint8_t *) array, length);
 }
 
 
-void Adler32::addFast(char * array, uint16_t length)
+uint32_t Adler32::addFast(char * array, uint16_t length)
 {
-  addFast((uint8_t *) array, length);
+  return addFast((uint8_t *) array, length);
 }
 
 

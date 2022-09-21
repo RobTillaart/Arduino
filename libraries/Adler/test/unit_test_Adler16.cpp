@@ -74,14 +74,17 @@ unittest(test_ADLER16_lorem)
     ad16.add(lorem[i]);
   }
   assertEqual(57303, ad16.getAdler());
+  assertEqual(868, ad16.count());
 
   ad16.begin();
-  ad16.add(lorem, strlen(lorem));
+  assertEqual(57303, ad16.add(lorem, strlen(lorem)));
   assertEqual(57303, ad16.getAdler());
+  assertEqual(868, ad16.count());
 
   ad16.begin();
-  ad16.addFast(lorem, strlen(lorem));
+  assertEqual(57303, ad16.addFast(lorem, strlen(lorem)));
   assertEqual(57303, ad16.getAdler());
+  assertEqual(868, ad16.count());
 }
 
 

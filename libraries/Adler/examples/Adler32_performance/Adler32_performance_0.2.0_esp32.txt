@@ -1,0 +1,25 @@
+Adler32_performance
+ADLER32_LIB_VERSION: 0.2.0
+randomtime: 6949
+     total: 8639
+ 1e4 x add: 1690
+  checksum: 2580568639
+
+     total: 224706
+ 1e6 x add: 217757
+  checksum: 237492440
+
+LENGTH LOREM: 868
+
+   lorem 1: 198	checksum: 3972480156
+   lorem 2: 145	checksum: 3972480156
+   lorem 3: 66	checksum: 3972480156
+
+LENGTH HELLO: 11
+
+   hello 1: 3	checksum: 436929629
+   hello 2: 3	checksum: 436929629
+   hello 3: 3	checksum: 436929629
+
+
+

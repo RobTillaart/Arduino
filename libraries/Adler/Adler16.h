@@ -2,7 +2,7 @@
 //
 //    FILE: Adler16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-06-15
 // PURPOSE: Arduino Library for calculating Adler-16 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define ADLER16_LIB_VERSION              (F("0.2.0"))
+#define ADLER16_LIB_VERSION              (F("0.2.1"))
 
 
 //  largest prime below 2^8
@@ -24,21 +24,25 @@ class Adler16
 public:
   Adler16();
 
-  void begin(uint16_t s1 = 1, uint16_t s2 = 0);
+  void     begin(uint16_t s1 = 1, uint16_t s2 = 0);
 
-  void add(uint8_t value);
-  void add(uint8_t * array, uint16_t length);
+  void     add(uint8_t value);
+  //  returns current Adler value
+  uint16_t add(uint8_t * array, uint16_t length);
   //  trade PROGMEM for speed
-  void addFast(uint8_t * array, uint16_t length);
+  //  returns current Adler value
+  uint16_t addFast(uint8_t * array, uint16_t length);
 
   //  wrappers for strings
-  void add(char value);
-  void add(char * array, uint16_t length);
-  void addFast(char * array, uint16_t length);
+  void     add(char value);
+  //  returns current Adler value
+  uint16_t add(char * array, uint16_t length);
+  //  returns current Adler value
+  uint16_t addFast(char * array, uint16_t length);
 
-
+  //  returns current Adler value
   uint16_t getAdler();
-  uint16_t count() { return _count; };
+  uint16_t count();
 
 private:
   uint16_t _s1;

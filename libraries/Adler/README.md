@@ -15,9 +15,9 @@ Arduino Library for Adler-32 and experimental Adler-16 checksum.
 
 This library provides a Adler32 checksum of a data array.
 Furthermore since 0.2.0 an experimental Adler-16 implementation is added.
-This one is often faster as it uses a smaller checksum than the Adler32,
-and the price is that it is less sensitive than the Adler32.
-Still it might have its niches where it will be useful.
+This one is often faster as it uses a smaller checksum than the Adler32.
+The price is that Adler16 is less sensitive than the Adler32.
+Still it will have its niches where it will be useful.
 
 Relates to https://github.com/RobTillaart/CRC
 
@@ -46,10 +46,14 @@ The interface for the Adler16 is very similar.
 optional setting start values for s1 and s2. Note this is not part of the standard.
 This allows a restart from a specific index in a buffer.
 - **void add(uint8_t value)** add a single value to the checksum.
-- **void add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
-- **void addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum. Is faster by trading PROGMEM for performance.
+- **uint32_t add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
+Returns the current checksum.
+- **uint32_t addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum. 
+Is faster by trading PROGMEM for performance.
+Returns the current checksum.
 - **uint32_t getAdler()** get the current checksum.
-- **uint32_t count()** get the number of items added. Merely a debugging feature, can overflow without affecting checksum.
+- **uint32_t count()** get the number of items added. Merely a debugging feature, 
+can overflow without affecting checksum.
 
 The class is typically used for streaming very large blocks of data,
 optional with intermediate checksum tests.
@@ -57,7 +61,8 @@ optional with intermediate checksum tests.
 
 ## Performance Adler32
 
-Not tested ESP32 (and many other platforms) yet.
+Only tested on UNO and ESP32 yet.
+If you have data of other platforms, please let me know.
 
 Numbers measured with **Adler32_performance.ino**.
 
@@ -69,9 +74,9 @@ instead of a modulo.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:---------|:----------:|:-------------:|
-| 0.1.0   | add      |   5.6 us   |               |
-| 0.1.2   | add      |   6.6 us   |               |
-| 0.2.0   | add      |   5.9 us   |               |
+| 0.1.0   |   add    |   5.6 us   |               |
+| 0.1.2   |   add    |   6.6 us   |               |
+| 0.2.0   |   add    |   5.9 us   |    1.7 us     |
 
 
 ### add(lorem) 868 chars
@@ -81,9 +86,10 @@ over the array and has a small footprint.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:---------|:----------:|:-------------:|
-| 0.1.0   | add      |            |               |
-| 0.1.2   | add      |  6392 us   |               |
-| 0.2.0   | add      |  5748 us   |               |
+| 0.1.0   |   add    |            |               |
+| 0.1.2   |   add    |  6392 us   |               |
+| 0.2.0   |   add    |  5748 us   |     145 us    |
+
 
 Note: **add()** is about 6.6 us per byte.
 
@@ -91,7 +97,7 @@ Note: **add()** is about 6.6 us per byte.
 ### addFast(lorem) 868 chars
 
 The **addFast(array, length)** is faster than the 
-reference **add(array, length)** and uses 108 bytes more.
+reference **add(array, length)** and uses 108 bytes more (UNO).
 So the function has a larger footprint. 
 Depending on your needs, choose performance or footprint. 
 
@@ -102,15 +108,15 @@ See **Adler32_performance_addFast.ino**
 |:-------:|:---------|:----------:|:-------------:|
 | 0.1.0   | addFast  |            |               |
 | 0.1.2   | addFast  |  1348 us   |               |
-| 0.2.0   | addFast  |  1348 us   |               |
+| 0.2.0   | addFast  |  1348 us   |      66 us    |
 
 Note: **addFast()** is less than 2 us per byte.
 
 
-
 ## Performance Adler16
 
-Not tested ESP32 (and many other platforms) yet.
+Only tested on UNO and ESP32 yet.
+If you have data of other platforms, please let me know.
 
 Numbers measured with **Adler16_performance.ino**.
 
@@ -122,7 +128,7 @@ instead of a modulo.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:---------|:----------:|:-------------:|
-| 0.2.0   | add      |   4.0 us   |               |
+| 0.2.0   | add      |   4.0 us   |     1.8 us    |
 
 The per byte performance of the Adler16 (on UNO) is faster 
 than the Adler32 **add(value)**. The reason is that a 16 bit 
@@ -136,7 +142,7 @@ over the array and has a small footprint.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:---------|:----------:|:-------------:|
-| 0.2.0   | add      |  4040 us   |               |
+| 0.2.0   | add      |  4040 us   |    160 us     |
 
 Note: **add()** is about 6.6 us per byte.
 
@@ -148,7 +154,7 @@ reference **add(array, length)**.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
 |:-------:|:---------|:----------:|:-------------:|
-| 0.2.0   | addFast  |  1968 us   |               |
+| 0.2.0   | addFast  |  1968 us   |     79 us     |
 
 The gain of the faster 16 bit modulo meets the frequency of
 doing the modulo more often.
@@ -169,7 +175,8 @@ Think of packets in a network, records in a database, or a checksum for an confi
 
 ### Performance
 
-Not tested ESP32 (and many other platforms) yet.
+Only tested on UNO and ESP32 yet.
+If you have data of other platforms, please let me know.
 
 Numbers measured with **Adler_performance.ino**.
 
@@ -179,9 +186,11 @@ Lorem Ipsum text = 868 bytes.
 |:-------:|:---------|:----------:|:-------------:|
 | 0.1.0   | Adler32  |  1116 us   |               |
 | 0.1.2   | Adler32  |  1116 us   |               |
-| 0.2.0   | Adler32  |  1116 us   |               |
-| 0.2.0   | Adler16  |  1736 us   |               |
+| 0.2.0   | Adler32  |  1116 us   |     60 us     |
+| 0.2.0   | Adler16  |  1736 us   |     75 us     |
 
+
+#### UNO
 
 Adler32 average 1116 / 868 = 1.29 us per byte.
 Adler16 average 1736 / 868 = 2.00 us per byte. (~1.5x slower !)
@@ -189,8 +198,8 @@ Adler16 average 1736 / 868 = 2.00 us per byte. (~1.5x slower !)
 Adler16 does more often the modulo math as it reaches halfway uint16_t 
 faster than Adler32 reaches halfway uint32_t.
 
-As the Adler16 is less performant as the Adler32, it is often the best to use
-the 32 bit version.
+As the Adler16 is less performant as the Adler32 (on all tested platforms), 
+it is often the best to use the 32 bit version.
 
 
 ## Operation
@@ -200,17 +209,20 @@ See examples.
 
 ## Future
 
-- return values for **add(array)** and **addFast(array)**
-  - updated checksum?
-  - not for **add(value)** as that would create quite some overhead.
 - Adler64 ?
-  - would need a large prime (which)
+  - would need a large prime (which) => 4294967291
+  - max uint32_t       = 4.294.967.296
+  - max uint32_t prime = 4.294.967.291
+  - need printHelpers library for printing.
+  - only on request.
 
 
 #### Wont
 
 - do the string wrappers need strlen() ? parameter.
   - yes, as string can be processed partially.
+- no return value for **add(value)** 
+  - would create too much overhead for repeated calls.
 
 
 

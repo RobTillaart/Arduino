@@ -1,10 +1,7 @@
 //
 //    FILE: DEVNULL_performance.ino
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+//  AUTHOR: Rob Tillaart0
 // PURPOSE: demo
-//    DATE: 2021-11-24
-//    (c) : MIT
 //
 
 
@@ -80,10 +77,21 @@ void setup()
 
 
   start = micros();
-  bool b = dn.find("hello");
+  bool b = dn.find((char*)"hello");
   stop = micros();
   Serial.print("find: \t");
   Serial.println(stop - start);
+  Serial.print("find: \t");
+  Serial.println(b);
+  delay(10);
+
+  start = micros();
+  int v = dn.lastByte();
+  stop = micros();
+  Serial.print("last: \t");
+  Serial.println(stop - start);
+  Serial.print("last: \t");
+  Serial.println(v);
   delay(10);
 
 
@@ -97,4 +105,3 @@ void loop()
 
 
 // -- END OF FILE --
-

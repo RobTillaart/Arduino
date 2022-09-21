@@ -1,13 +1,12 @@
 # Syntax Colouring Map For DEVNULL
 
-
 # Data types (KEYWORD1)
 DEVNULL	KEYWORD1
-
 
 # Methods and Functions (KEYWORD2)
 # all known from Stream.
 
+lastByte	KEYWORD2
 
 # Instances (KEYWORD2)
 

@@ -44,9 +44,14 @@ unittest(test_all)
   assertEqual(0,   dn.available());
   assertEqual(EOF, dn.peek());
   assertEqual(EOF, dn.read());
+
   assertEqual(1,   dn.write('a'));
+  assertEqual('a', dn.lastByte());
+
   assertEqual(11,  dn.print("hello world"));
+  assertEqual('d', dn.lastByte());
   assertEqual(13,  dn.println("hello world"));
+  assertEqual(10,  dn.lastByte());  //  10 == newline
 }
 
 unittest_main()

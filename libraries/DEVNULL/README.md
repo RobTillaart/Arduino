@@ -30,12 +30,18 @@ with only a return 0; (or at least **print(Type)** as the **println(T)** would o
 call once extra for the "\n".
 
 
-#### Version 0.1.2
+## Versions
 
-- sets the timeout for reading to 0. No need to wait longer with DEVNULl.
+#### 0.1.2
+
+- sets the timeout for reading to 0. No need to wait longer with DEVNULL.
   this improves the **find(...)** calls substantially.
 - added **size_t write( const uint8_t \*buffer, size_t size)** for faster string processing.
 
+#### 0.1.4
+
+- add **lastByte()** to check last byte written.
+- split of .cpp
 
 ## Interface
 
@@ -45,10 +51,10 @@ call once extra for the "\n".
 - **int read()** always return EOF.
 - **void flush()** does nothing but keeps some compilers happy.
 - **size_t write(const uint8_t data)** implements print interface. returns 1.
-
-0.1.2 added to improve performance a few percent (UNO).
-
-- **size_t write( const uint8_t \*buffer, size_t size)** implements print interface. returns size.
+- **size_t write( const uint8_t \*buffer, size_t size)** implements print interface.
+Returns size.
+- **int lastByte()** returns last byte written (debug and test purpose).
+Returns -1 if no byte has been written yet.
 
 
 ## Operation
@@ -60,11 +66,22 @@ See examples.
 
 ## Future
 
-- add optional delay to mimic pause / tune behaviour for simulating other devices
-  microseconds - milliseconds?
-  delay per byte or per call to write? (esp long arrays might need other performance
-  feels out of scope for /dev/null
-- add byte counter (uint32_t)
-- add lastWrittenByte() - look at the last byte written to the bottomless pit.
+#### Could
 
+- add byte counter (uint32_t)
+- investigate if DEVNULL can be used to harvest entropy?
+  - sum xor of all data + timestamp?
+  - enable / disable flag (complex)
+  - => /dev/entropy class?
+- **flush()** could reset bottomLessPit to -1?
+
+
+#### Wont
+
+- add delay to mimic pause / tune behaviour for simulating devices
+  - microseconds
+  - delay per byte, esp long arrays might need other performance
+  - out of scope for /dev/null => separate class?
+- implement Print class to increase performance?
+  - derived class?
 

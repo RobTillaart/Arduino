@@ -119,6 +119,20 @@ These functions are new and still under investigation.
 - **void display(uint8_t \* array, uint8_t point)** idem + point = position of the digit with point (0..3).
 - **void displayColon(uint8_t on)** 0 = off, all values other are on.
 - **void displayRaw(uint8_t \* array, bool colon)** array of 4 bytes to control one 7seg display + colon flag.
+- **void displayExtraLeds(uint8_t value)** switch on extra leds.
+value is in fact a bit mask see table below. 0 = all off.
+
+#### Extra Leds table
+
+|  mask  |  description  |
+|:------:|:--------------|
+|  0x00  |  all off 
+|  0x02  |  colon.
+|  0x04  |  upper left point, left of the 1st digit.
+|  0x08  |  lower left point, left of the 1st digit.
+|  0x10  |  upper point between 3rd and 4th digit.
+
+( based upon issue #21 )
 
 
 ### Debugging
@@ -139,7 +153,8 @@ See examples
 
 ## Future
 
-**0.4.0**
+#### 0.4.0
+
 - **bool isDisplayOn()** and similar state functions
   - configuration byte: 4 bits brightness, 1 bit on off flag, 1 bit cache flag, 2 blink rate
 - **void setBrightness()** and **uint8_t getBrightness()**
@@ -147,8 +162,10 @@ See examples
 - **void getDigits()**
 - **FixedPoint()** regular (experimental in 0.3.2)
 - overflow flag ? or not decision
+- move all code to .cpp file
+  - even the small functions.
 
-**unknown**
+#### unknown
 - VU metering using halve bars allows two VU from 0..8   **new**
 - VU metering using halve bars allows one VU from 0..17. extension of current VUleft/right
 - optimize the math if possible - performance and footprint. +float + int division

@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -13,11 +13,13 @@
 //  0.1.3   2019-10-07  fixed clear, added suppressLeadingZeroPlaces();
 //  0.1.4   2019-11-28  added displayRaw(), displayVULeft(), displayVURight()
 //  0.1.5   2019-11-30  refactor,
+//
 //  0.2.0   2020-06-13  ESP32 support; fix brightness bug;
 //  0.2.1   2020-07-15  fix #160 - decimal point
 //  0.2.2   2020-10-04  added displayDate() thanks to bepitama
 //  0.2.3   2020-10-09  issue #4 add negative values for displayInt()
 //  0.2.4   2020-10-10  refactor #5 setDigits() iso suppressLeadingZeroPlaces()
+//
 //  0.3.0   2020-10-12  negative float, cache control, extend displayRaw()
 //  0.3.1   2020-12-28  Arduino-CI, unit test (framework only),
 //  0.3.2   2021-01-14  add WireN support,
@@ -26,6 +28,8 @@
 //                      add displayFloat(f, decimals);  // experimental
 //  0.3.3   2021-05-26  fix #17 add leadingZero flag in displayTIme() [Kudos to OwenDuffy]
 //  0.3.4   2021-12-19  update library.json, license, minor edits
+//  0.3.5   2022-09-23  fix #21 additional LEDs on the display
+//                              used in a special layout   :88:8'8
 
 
 #include "HT16K33.h"
@@ -495,6 +499,16 @@ void HT16K33::display(uint8_t *array, uint8_t point)
 void HT16K33::displayColon(uint8_t on)
 {
   writePos(2, on ? 2 : 0);
+}
+
+
+void HT16K33::displayExtraLeds(uint8_t value)
+{
+  if (value > 30)
+  {
+    return;  //  no leds.
+  }
+  writePos(2, value);
 }
 
 

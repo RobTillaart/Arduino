@@ -38,6 +38,8 @@ displayColon	KEYWORD2
 displayTest	KEYWORD2
 displayRaw	KEYWORD2
 
+displayExtraLeds	KEYWORD2
+
 displayVULeft	KEYWORD2
 displayVURight	KEYWORD2
 

@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.4"))
+#define HT16K33_LIB_VERSION         (F("0.3.5"))
 
 
 // Characters
@@ -89,6 +89,14 @@ public:
   void display(uint8_t *array, uint8_t point);   // point = digit with . (0..3)
   void displayColon(uint8_t on);                 // 0 = off
   void displayRaw(uint8_t *array, bool colon = false);  // max control
+
+  //  from issue #21 - used in special layout   :88:8'8   normal = 88:88 or 8.8.8.8
+  //  value = 0 ==> all off.
+  //   2 = colon
+  //   4 = upper left point, left of the 1st digit
+  //   8 = lower left point, left of the 1st digit
+  //  16 = upper point between 3rd and 4th digit
+  void displayExtraLeds(uint8_t value);
 
   bool displayVULeft(uint8_t value);        // 0..8
   bool displayVURight(uint8_t value);       // 0..8

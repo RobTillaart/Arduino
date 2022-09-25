@@ -20,7 +20,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.init(7, 6, 4);
+  TM.begin(7, 6, 4);       //  clockpin, datapin, #digits
+
   TM.displayClear();
   delay(2000);
 

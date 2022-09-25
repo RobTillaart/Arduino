@@ -36,8 +36,8 @@ void setup()
   Serial.println(__TIME__);
   Serial.println(__FILE__);
 
-  // TM.init(2, 3);
-  TM.init(dispCLOCK, dispDATA);
+  TM.begin(dispCLOCK, dispDATA);
+
   TM.setBrightness(1);
   TM.displayClear();
   bptr = 0;

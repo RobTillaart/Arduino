@@ -1,8 +1,8 @@
 [![Arduino CI](https://github.com/robtillaart/TM1637_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TM1637_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TM1637_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TM1637_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TM1637_RT/actions/workflows/jsoncheck.yml)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/TM1637_RT.svg?maxAge=3600)](https://github.com/RobTillaart/TM1637_RT/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TM1637_RT/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/TM1637_RT.svg?maxAge=3600)](https://github.com/RobTillaart/TM1637_RT/releases)
 
 
 # TM1637
@@ -22,7 +22,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 ## Interface
 
 - **TM1637()** constructor
-- **void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** set up the connection of the pins to the display.
+- **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** set up the connection of the pins to the display.
 As the display is only tested with a 6 digit display, this is used as the default of the digits parameter.
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
@@ -47,6 +47,12 @@ So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.  It presents a more convenient interface for displaying text messages on the display.
 
 Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
+
+
+#### Obsolete (0.4.0)
+
+- **void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** replaced by begin().
+
 
 
 ### Display support
@@ -150,9 +156,15 @@ See examples
 
 ## Future
 
-- elaborate documentation
-- testing
-- rename **init()** to **begin()** ?
+### 0.4.0
+
+- remove obsolete **init()** from code
+
+### other
+
+- testing platforms.
+- investigate if code can be optimized
+  - performance measurement
 - **keyScan()** camelCase ?
-- separate CHANGELOG.md
+
 

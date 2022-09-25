@@ -17,7 +17,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.init(2, 3);
+  TM.begin(2, 3);       //  clockpin, datapin
+
   TM.setBrightness(2);
 }
 

@@ -40,7 +40,8 @@ void setup()
   Serial.println(__TIME__);
   Serial.println(__FILE__);
 
-  TM.init(dispCLOCK, dispDATA);
+  TM.begin(dispCLOCK, dispDATA);
+
 #ifdef TRIGGER
   pinMode(TRIGGER, OUTPUT);
   digitalWrite(TRIGGER, LOW);
@@ -68,8 +69,8 @@ char button_poll(void) {
 
 void loop()
 {
-char c;
-  c = button_poll();
+  button_poll();
+
 #ifndef TRIGGER
   // for oscilloscope testing, don't delay for faster repetition rate
   delay(50);

@@ -2,23 +2,9 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
-//
-//  HISTORY:
-//  0.1.0   2019-10-28  initial version
-//  0.1.1   2021-02-15  first release + examples.
-//  0.1.2   2021-04-16  update readme, fix default values.
-//  0.2.0   2021-09-26  add ESP32 support - kudos to alexthomazo
-//          2021-10-07  add support for letters g-z; added keyscan()
-//                      tested on ESP8266
-//  0.3.0   2021-10-27  improved keyscan + documentation - kudos to wfdudley
-//  0.3.1   2021-12-29  update library.json, license, readme, minor edits
-//                      tested on 6 digits (decimal point) display
-//  0.3.2   2022-04-16  fix #15 support for 4 digits.
-//                      tested on 4 digit (clock) display.
-
 
 //  NOTE:
 //  on the inexpensive TM1637 boards @wfdudley has used, keyscan
@@ -84,7 +70,14 @@ TM1637::TM1637()
 }
 
 
+//  wrapper, will become obsolete 0.4.0.
 void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
+{
+  begin(clockPin, dataPin, digits);
+}
+
+
+void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 {
   _clock  = clockPin;
   _data   = dataPin;

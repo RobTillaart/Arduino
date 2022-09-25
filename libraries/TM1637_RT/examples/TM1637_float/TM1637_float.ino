@@ -2,7 +2,6 @@
 //    FILE: TM1637_float.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo TM1637 library
-//    DATE: 2021-02-15
 //     URL: https://github.com/RobTillaart/TM1637
 
 
@@ -20,7 +19,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.init(2, 3);
+  TM.begin(2, 3);       //  clockpin, datapin
+
   TM.displayFloat(1.42425);
   delay(2000);
   TM.displayFloat(-1.42425);

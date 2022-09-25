@@ -6,7 +6,8 @@ TM1637	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-init	KEYWORD2
+begin	KEYWORD2
+
 
 displayRaw	KEYWORD2
 displayInt	KEYWORD2

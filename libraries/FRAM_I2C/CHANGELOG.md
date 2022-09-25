@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2022-09-24
+
+### Added
+- changed ESP32 **begin()** parameters to **int** to prevent link error.
+  see https://github.com/RobTillaart/PCA9635/issues/17
+
+### Changed
+- updated documentation
+
+
 ## [0.4.0] - 2022-05-02
 
 ### Added

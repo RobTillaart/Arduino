@@ -57,7 +57,7 @@ This latter will not be shown on an I2C scanner (to be tested).
 - **FRAM32(TwoWire \*wire = &Wire)** Constructor with optional Wire interface, specific for **MB85RC1MT** type of device.
 - **int begin(uint8_t address = 0x50, int8_t writeProtectPin = -1)** address and writeProtectPin is optional.
 Note the **MB85RC1MT** only uses even addresses. 
-- **int begin(uint8_t sda, uint8_t scl, uint8_t address = 0x50, int8_t writeProtectPin = -1)** idem for ESP32 a.o.
+- **int begin(int sda, int scl, uint8_t address = 0x50, int8_t writeProtectPin = -1)** idem for ESP32 a.o.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 
 

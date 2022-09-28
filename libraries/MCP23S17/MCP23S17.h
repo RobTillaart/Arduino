@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.2.1"))
+#define MCP23S17_LIB_VERSION              (F("0.2.2"))
 
 #define MCP23S17_OK                       0x00
 #define MCP23S17_PIN_ERROR                0x81
@@ -44,8 +44,8 @@ public:
   uint8_t  getAddress();   //  typically returns 0x00
 
 
-  // single pin interface
-  // mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //  single pin interface
+  //  mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
   bool     pinMode(uint8_t pin, uint8_t mode);
   bool     digitalWrite(uint8_t pin, uint8_t value);
   uint8_t  digitalRead(uint8_t pin);
@@ -56,9 +56,9 @@ public:
   bool     getPullup(uint8_t pin, bool &pullup);
 
 
-  // 8 pins interface
-  // port  = 0..1
-  // value = bit pattern
+  //  8 pins interface
+  //  port  = 0..1
+  //  value = bit pattern
   bool     pinMode8(uint8_t port, uint8_t value);
   bool     write8(uint8_t port, uint8_t value);
   int      read8(uint8_t port);
@@ -69,8 +69,8 @@ public:
   bool     getPullup8(uint8_t port, uint8_t &mask);
 
 
-  // 16 pins interface
-  // value = bit pattern
+  //  16 pins interface
+  //  value = bit pattern
   bool     pinMode16(uint16_t value);
   bool     write16(uint16_t value);
   uint16_t read16();
@@ -85,7 +85,7 @@ public:
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed() { return _SPIspeed; };
 
-  // debugging
+  //       debugging
   bool     usesHWSPI() { return _hwSPI; };
   int      lastError();
 
@@ -101,7 +101,7 @@ private:
   uint8_t  _error   = MCP23S17_OK;
 
   bool        _hwSPI = true;
-  // 10 MHz is maximum, 8 is a better clock divider
+  //  10 MHz is maximum, 8 is a better clock divider
   uint32_t    _SPIspeed = MCP23S17_TYP_SPI_SPEED;
   SPIClass *  _mySPI;
   SPISettings _spi_settings;

@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -18,6 +18,7 @@
 //                      redo constructors.
 //                      add getAddress() + optimized (_address << 1)
 //                      update readme.md
+//  0.2.2   2022-09-28  optimize digitalWrite - most used one only.
 
 
 
@@ -59,7 +60,7 @@
 #define MCP23S17_IOCR_INTPOL  0x02    // This bit sets the polarity of the INT output pin.
 #define MCP23S17_IOCR_NI      0x01    // Not implemented.
 
-// low level read / write masks
+//  low level read / write masks
 #define MCP23S17_WRITE_REG    0x40
 #define MCP23S17_READ_REG     0x41
 
@@ -102,7 +103,7 @@ bool MCP23S17::begin()
 
   if (_hwSPI)
   {
-    // _mySPI = &SPI;  //  set in constructor  #10
+    //  _mySPI = &SPI;  //  set in constructor  #10
     _mySPI->end();
     _mySPI->begin();
   }
@@ -115,16 +116,16 @@ bool MCP23S17::begin()
     ::digitalWrite(_clock,   LOW);
   }
 
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
 
-  // disable address increment (datasheet P20
+  //  disable address increment (datasheet P20
   //   SEQOP: Sequential Operation mode bit
   //   1 = Sequential operation disabled, address pointer does not increment.
   //   0 = Sequential operation enabled, address pointer increments.
   if (! writeReg(MCP23S17_IOCR, MCP23S17_IOCR_SEQOP)) return false;
 
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23S17_PUR_A, 0xFF)) return false;   //  0xFF == all UP
   if (! writeReg(MCP23S17_PUR_B, 0xFF)) return false;   //  0xFF == all UP
   return true;
@@ -145,9 +146,9 @@ uint8_t MCP23S17::getAddress()
 }
 
 
-// single pin interface
-// pin  = 0..15
-// mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//  single pin interface
+//  pin  = 0..15
+//  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
@@ -173,7 +174,7 @@ bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
     return false;
   }
   uint8_t mask = 1 << pin;
-  // only work with valid
+  //  only work with valid
   if ((mode == INPUT) || (mode == INPUT_PULLUP))
   {
     val |= mask;
@@ -182,7 +183,7 @@ bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
   {
     val &= ~mask;
   }
-  // other values won't change val ....
+  //  other values won't change val ....
   writeReg(dataDirectionRegister, val);
   if (_error != MCP23S17_OK)
   {
@@ -192,8 +193,8 @@ bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
 }
 
 
-// pin   = 0..15
-// value = LOW, HIGH
+//  pin   = 0..15
+//  value = LOW, HIGH
 bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
@@ -209,6 +210,7 @@ bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
   }
 
   uint8_t val = readReg(IOR);
+  uint8_t pre = val;
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -223,10 +225,13 @@ bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
-  writeReg(IOR, val);
-  if (_error != MCP23S17_OK)
+  if (pre != val)
   {
-    return false;
+    writeReg(IOR, val);
+    if (_error != MCP23S17_OK)
+    {
+      return false;
+    }
   }
   return true;
 }
@@ -257,8 +262,8 @@ uint8_t MCP23S17::digitalRead(uint8_t pin)
 }
 
 
-// pin  = 0..15
-// reversed = true or false
+//  pin  = 0..15
+//  reversed = true or false
 bool MCP23S17::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 15)
@@ -319,8 +324,8 @@ bool MCP23S17::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-// pin  = 0..15
-// pullup = true or false
+//  pin  = 0..15
+//  pullup = true or false
 bool MCP23S17::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 15)
@@ -390,10 +395,11 @@ void MCP23S17::setSPIspeed(uint32_t speed)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 8 pins interface
-// whole register at once
-// port  = 0..1
-// value = 0..0xFF  bit pattern
+//
+//  8 pins interface
+//  whole register at once
+//  port  = 0..1
+//  value = 0..0xFF  bit pattern
 bool MCP23S17::pinMode8(uint8_t port, uint8_t value)
 {
   if (port > 1)
@@ -408,7 +414,8 @@ bool MCP23S17::pinMode8(uint8_t port, uint8_t value)
 }
 
 
-bool MCP23S17::write8(uint8_t port, uint8_t value)   // port = 0..1
+//  port = 0..1
+bool MCP23S17::write8(uint8_t port, uint8_t value)
 {
   if (port > 1)
   {
@@ -435,8 +442,8 @@ int MCP23S17::read8(uint8_t port)
 }
 
 
-// port  = 0..1
-// mask  = 0..0xFF  bit pattern
+//  port  = 0..1
+//  mask  = 0..0xFF  bit pattern
 bool MCP23S17::setPolarity8(uint8_t port,  uint8_t mask)
 {
   if (port > 1)
@@ -471,8 +478,8 @@ bool MCP23S17::getPolarity8(uint8_t port, uint8_t &mask)
 }
 
 
-// port  = 0..1
-// mask  = 0..0xFF  bit pattern
+//  port  = 0..1
+//  mask  = 0..0xFF  bit pattern
 bool MCP23S17::setPullup8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
@@ -508,9 +515,10 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 16 pins interface
-// two register at once
-// value = 0..0xFFFF bit pattern
+//
+//  16 pins interface
+//  two register at once
+//  value = 0x0000..0xFFFF bit pattern
 bool MCP23S17::pinMode16(uint16_t value)
 {
   writeReg(MCP23S17_DDR_A, value >> 8);
@@ -520,7 +528,7 @@ bool MCP23S17::pinMode16(uint16_t value)
 }
 
 
-// value = 0..0xFFFF   bit pattern
+//  value = 0x0000..0xFFFF   bit pattern
 bool MCP23S17::write16(uint16_t value)
 {
   writeReg(MCP23S17_GPIO_A, value >> 8);
@@ -530,7 +538,7 @@ bool MCP23S17::write16(uint16_t value)
 }
 
 
-// return = 0..0xFFFF  bit pattern
+//  return = 0x0000..0xFFFF  bit pattern
 uint16_t MCP23S17::read16()
 {
   _error = MCP23S17_OK;
@@ -541,7 +549,7 @@ uint16_t MCP23S17::read16()
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::setPolarity16(uint16_t mask)
 {
   writeReg(MCP23S17_POL_A, mask >> 8);
@@ -554,7 +562,7 @@ bool MCP23S17::setPolarity16(uint16_t mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::getPolarity16(uint16_t &mask)
 {
   mask = readReg(MCP23S17_POL_A);
@@ -568,7 +576,7 @@ bool MCP23S17::getPolarity16(uint16_t &mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::setPullup16(uint16_t mask)
 {
   writeReg(MCP23S17_PUR_A, mask >> 8);
@@ -581,7 +589,7 @@ bool MCP23S17::setPullup16(uint16_t mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::getPullup16(uint16_t &mask)
 {
   mask = readReg(MCP23S17_PUR_A);
@@ -598,14 +606,14 @@ bool MCP23S17::getPullup16(uint16_t &mask)
 int MCP23S17::lastError()
 {
   int e = _error;
-  _error = MCP23S17_OK;  // reset error after read.
+  _error = MCP23S17_OK;  //  reset error after read.
   return e;
 }
 
 
 ////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
 bool MCP23S17::writeReg(uint8_t reg, uint8_t value)

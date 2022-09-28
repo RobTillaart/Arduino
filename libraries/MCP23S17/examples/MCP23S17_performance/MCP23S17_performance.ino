@@ -34,6 +34,8 @@ void setup()
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
 
+  MCP.setSPIspeed(10000000);
+
   MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
 
@@ -97,7 +99,7 @@ void setup()
   Serial.println((stop - start) / 2.0);
   Serial.println();
 
-  
+
   //////////////////////////////////////////////////
   //
   // write16 read16 interface

@@ -8,8 +8,8 @@
 #include "MCP23017.h"
 #include "Wire.h"
 
-// MCP23017 MCP(10, 12, 11, 13);  //  SW SPI address 0x00
-MCP23017 MCP(10);           //  HW SPI address 0x00
+// MCP23017 MCP(10, 12, 11, 13);  //  SW SPI address
+MCP23017 MCP(10);           //  HW SPI address
 
 uint32_t start, stop;
 
@@ -25,6 +25,8 @@ void setup()
 
   Wire.begin();
   bool b = MCP.begin();
+  Serial.print("BEGIN: ");
+  Serial.println(b);
 
   MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
@@ -58,12 +60,14 @@ void setup()
   Serial.print("TEST digitalRead(pin):\t");
   delay(100);
   start = micros();
+  volatile int val = 0;
   for (int pin = 0; pin < 16; pin++)
   {
-    volatile int val = MCP.digitalRead(pin);
+    val = MCP.digitalRead(pin);
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
+  Serial.println(val);           //  keep build CI compiler happy
   Serial.println();
 
 
@@ -87,6 +91,7 @@ void setup()
   val8 = MCP.read8(1);
   stop = micros();
   Serial.println((stop - start) / 2.0);
+  Serial.println(val8);           //  keep build CI compiler happy
   Serial.println();
 
   
@@ -108,6 +113,7 @@ void setup()
   volatile uint16_t val16 = MCP.read16();
   stop = micros();
   Serial.println((stop - start) / 2.0);
+  Serial.println(val16);           //  keep build CI compiler happy
   Serial.println();
 
   Serial.println("\ndone...");

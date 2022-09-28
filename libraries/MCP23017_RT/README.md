@@ -18,6 +18,9 @@ This library gives easy control over the 16 pins of a (I2C) MCP23017 chip.
 This IC is strongly related tot the MCP23S17 SPI port expander - https://github.com/RobTillaart/MCP23S17
 Programming Interface is kept the same as much as possible.
 
+Since 0.3.1 the **digitalWrite(pin, value)** is optimized. 
+If a pin is not changed it will not be written again to save time.
+
 
 ## Interface
 
@@ -32,38 +35,49 @@ Can be overruled with Wire0..WireN.
 
 ### Single pin interface
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT, returns true if successful.
-- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
+- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
+- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t digitalRead(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
-- **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag, returns true if successful.
-- **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag, returns true if successful.
-- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag, returns true if successful.
-- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pull-up flag, returns true if successful.
+- **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag. Returns true if successful.
+- **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag. Returns true if successful.
+- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag. Returns true if successful.
+- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pull-up flag. Returns true if successful.
 
 
 ### 8 pins interface
 
-- **bool pinMode8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255, returns true if successful.
-- **bool write8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255, returns true if successful.
+- **bool pinMode8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
+- **bool write8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
 - **uint8_t read8(uint8_t port)** port = 0..1, reads 8 pins into one byte.
-- **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
+- **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity 
+for 8 channels at once.
+Returns true if successful.
 - **bool getPolarity8(uint8_t port, uint8_t &mask)** port = 0..1, reads polarity of 8 channels at once.
+Returns true if successful.
 - **bool setPullup8(uint8_t port, uint8_t mask)** port = 0..1, sets pull-up for 8 channels at once.
+Returns true if successful.
 - **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pull-up for 8 channels at once.
+Returns true if successful.
 
 
 ### 16 pins interface
 
-- **bool pinMode16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
-- **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
+- **bool pinMode16(uint16_t value)** value = 0..0xFFFF. Returns true if successful.
+- **bool write16(uint16_t value)** value = 0..0xFFFF. Returns true if successful.
 - **uint16_t read16()** reads 16 pins into an uint16_t.
 - **bool setPolarity16(uint16_t mask)** sets polarity for 16 channels.
+Returns true if successful.
 - **bool getPolarity16(uint16_t &mask)** reads polarity of 16 channels.
+Returns true if successful.
 - **bool setPullup16(uint16_t mask)** sets pull-up for 16 channels.
+Returns true if successful.
 - **bool getPullup16(uint16_t &mask)** reads pull-up for 16 channels.
+Returns true if successful.
 
 
 ### Error codes
+
+If one of the above functions return false, there might be an error.
 
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23017_OK**.
@@ -95,7 +109,6 @@ See examples.
 
 - extend error codes
 - optimize code - squeeze footprint
-- optimize code - do not write if pin does not chance (~25%)
 
 
 #### Could

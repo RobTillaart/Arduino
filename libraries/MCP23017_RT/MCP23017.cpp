@@ -22,6 +22,7 @@
 //                      update register defines
 //
 //  0.3.0   2022-06-28  fix incorrect masking - see #10 MCP23S17
+//  0.3.1   2022-09-28  optimize digitalWrite() - most used one only.
 
 
 #include "MCP23017.h"
@@ -65,11 +66,11 @@ bool MCP23017::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
   _wire = &Wire;
   _wire->begin(dataPin, clockPin);
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
-  // disable address increment (datasheet)
+  //  disable address increment (datasheet)
   if (! writeReg(MCP23017_IOCR, 0b00100000)) return false;
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23017_PUR_A, 0xFF)) return false;
   if (! writeReg(MCP23017_PUR_B, 0xFF)) return false;
   return true;
@@ -80,11 +81,11 @@ bool MCP23017::begin(const uint8_t dataPin, const uint8_t clockPin)
 bool MCP23017::begin()
 {
   _wire->begin();
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
-  // disable address increment (datasheet)
+  //  disable address increment (datasheet)
   if (! writeReg(MCP23017_IOCR, 0b00100000)) return false;
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23017_PUR_A, 0xFF)) return false;
   if (! writeReg(MCP23017_PUR_B, 0xFF)) return false;
   return true;
@@ -104,9 +105,9 @@ bool MCP23017::isConnected()
 }
 
 
-// single pin interface
-// pin  = 0..15
-// mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//  single pin interface
+//  pin  = 0..15
+//  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
@@ -132,7 +133,7 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
     return false;
   }
   uint8_t mask = 1 << pin;
-  // only work with valid
+  //  only work with valid
   if ((mode == INPUT) || (mode == INPUT_PULLUP))
   {
     val |= mask;
@@ -141,7 +142,7 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
   {
     val &= ~mask;
   }
-  // other values won't change val ....
+  //  other values won't change val ....
   writeReg(dataDirectionRegister, val);
   if (_error != MCP23017_OK)
   {
@@ -151,8 +152,8 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
 }
 
 
-// pin   = 0..15
-// value = LOW, HIGH
+//  pin   = 0..15
+//  value = LOW, HIGH
 bool MCP23017::digitalWrite(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
@@ -168,6 +169,7 @@ bool MCP23017::digitalWrite(uint8_t pin, uint8_t value)
   }
 
   uint8_t val = readReg(IOR);
+  uint8_t pre = val;
   if (_error != MCP23017_OK)
   {
     return false;
@@ -182,10 +184,13 @@ bool MCP23017::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
-  writeReg(IOR, val);
-  if (_error != MCP23017_OK)
+  if (pre != val)
   {
-    return false;
+    writeReg(IOR, val);
+    if (_error != MCP23017_OK)
+    {
+      return false;
+    }
   }
   return true;
 }
@@ -216,8 +221,8 @@ uint8_t MCP23017::digitalRead(uint8_t pin)
 }
 
 
-// pin  = 0..15
-// reverse = true or false
+//  pin  = 0..15
+//  reverse = true or false
 bool MCP23017::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 15)
@@ -278,8 +283,8 @@ bool MCP23017::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-// pin  = 0..15
-// reverse = true or false
+//  pin  = 0..15
+//  reverse = true or false
 bool MCP23017::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 15)
@@ -341,9 +346,10 @@ bool MCP23017::getPullup(uint8_t pin, bool &pullup)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 8 pins interface
-// whole register at once
-// port  = 0..1
+//
+//  8 pins interface
+//  whole register at once
+//  port  = 0..1
 // value = 0..0xFF  bit pattern
 bool MCP23017::pinMode8(uint8_t port, uint8_t value)
 {
@@ -386,8 +392,8 @@ int MCP23017::read8(uint8_t port)
 }
 
 
-// port  = 0..1
-// mask  = 0..0xFF  bit pattern
+//  port  = 0..1
+//  mask  = 0..0xFF  bit pattern
 bool MCP23017::setPolarity8(uint8_t port,  uint8_t mask)
 {
   if (port > 1)
@@ -422,8 +428,8 @@ bool MCP23017::getPolarity8(uint8_t port, uint8_t &mask)
 }
 
 
-// port  = 0..1
-// mask  = 0..0xFF  bit pattern
+//  port  = 0..1
+//  mask  = 0..0xFF  bit pattern
 bool MCP23017::setPullup8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
@@ -459,9 +465,10 @@ bool MCP23017::getPullup8(uint8_t port, uint8_t &mask)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 16 pins interface
-// two register at once
-// value = 0..0xFFFF bit pattern
+//
+//  16 pins interface
+//  two register at once
+//  value = 0x0000..0xFFFF bit pattern
 bool MCP23017::pinMode16(uint16_t value)
 {
   writeReg(MCP23017_DDR_A, value >> 8);
@@ -471,7 +478,7 @@ bool MCP23017::pinMode16(uint16_t value)
 }
 
 
-// value = 0..0xFFFF   bit pattern
+//  value = 0x0000..0xFFFF   bit pattern
 bool MCP23017::write16(uint16_t value)
 {
   writeReg(MCP23017_GPIO_A, value >> 8);
@@ -481,7 +488,7 @@ bool MCP23017::write16(uint16_t value)
 }
 
 
-// return = 0..0xFFFF  bit pattern
+//  return = 0x0000..0xFFFF  bit pattern
 uint16_t MCP23017::read16()
 {
   _error = MCP23017_OK;
@@ -492,7 +499,7 @@ uint16_t MCP23017::read16()
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::setPolarity16(uint16_t mask)
 {
   writeReg(MCP23017_POL_A, mask >> 8);
@@ -505,7 +512,7 @@ bool MCP23017::setPolarity16(uint16_t mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::getPolarity16(uint16_t &mask)
 {
   mask = readReg(MCP23017_POL_A);
@@ -519,7 +526,7 @@ bool MCP23017::getPolarity16(uint16_t &mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::setPullup16(uint16_t mask)
 {
   writeReg(MCP23017_PUR_A, mask >> 8);
@@ -532,7 +539,7 @@ bool MCP23017::setPullup16(uint16_t mask)
 }
 
 
-// mask = 0..0xFFFF  bit pattern
+//  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::getPullup16(uint16_t &mask)
 {
   mask = readReg(MCP23017_PUR_A);
@@ -549,7 +556,7 @@ bool MCP23017::getPullup16(uint16_t &mask)
 int MCP23017::lastError()
 {
   int e = _error;
-  _error = MCP23017_OK;  // reset error after read.
+  _error = MCP23017_OK;     //  reset error after read.
   return e;
 }
 
@@ -598,3 +605,4 @@ uint8_t MCP23017::readReg(uint8_t reg)
 
 
 // -- END OF FILE --
+

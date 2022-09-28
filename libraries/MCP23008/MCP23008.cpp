@@ -1,13 +1,14 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
 //
 //  HISTORY:
 //  0.1.0   2022-01-10  initial version
+//  0.1.1   2022-09-28  optimize digitalWrite() [as that is the most used one]
 
 
 
@@ -41,11 +42,11 @@ bool MCP23008::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
   _wire = &Wire;
   _wire->begin(dataPin, clockPin);
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
-  // disable address increment (datasheet)
+  //  disable address increment (datasheet)
   if (! writeReg(MCP23008_IOCR, 0b00100000)) return false;
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23008_PUR_A, 0xFF)) return false;
   return true;
 }
@@ -55,11 +56,11 @@ bool MCP23008::begin(const uint8_t dataPin, const uint8_t clockPin)
 bool MCP23008::begin()
 {
   _wire->begin();
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
-  // disable address increment (datasheet)
+  //  disable address increment (datasheet)
   if (! writeReg(MCP23008_IOCR, 0b00100000)) return false;
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23008_PUR_A, 0xFF)) return false;
   return true;
 }
@@ -78,9 +79,9 @@ bool MCP23008::isConnected()
 }
 
 
-// single pin interface
-// pin  = 0..7
-// mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//  single pin interface
+//  pin  = 0..7
+//  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23008::pinMode(uint8_t pin, uint8_t mode)
 {
   if (pin > 7)
@@ -120,8 +121,8 @@ bool MCP23008::pinMode(uint8_t pin, uint8_t mode)
 }
 
 
-// pin   = 0..7
-// value = LOW, HIGH
+//  pin   = 0..7
+//  value = LOW, HIGH
 bool MCP23008::digitalWrite(uint8_t pin, uint8_t value)
 {
   if (pin > 7)
@@ -131,6 +132,7 @@ bool MCP23008::digitalWrite(uint8_t pin, uint8_t value)
   }
   uint8_t IOR = MCP23008_GPIO_A;
   uint8_t val = readReg(IOR);
+  uint8_t pre = val;
   if (_error != MCP23008_OK)
   {
     return false;
@@ -145,10 +147,14 @@ bool MCP23008::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
-  writeReg(IOR, val);
-  if (_error != MCP23008_OK)
+  //  only write if there is a change
+  if (val != pre)
   {
-    return false;
+    writeReg(IOR, val);
+    if (_error != MCP23008_OK)
+    {
+      return false;
+    }
   }
   return true;
 }
@@ -173,8 +179,8 @@ uint8_t MCP23008::digitalRead(uint8_t pin)
 }
 
 
-// pin  = 0..7
-// reverse = true or false
+//  pin  = 0..7
+//  reverse = true or false
 bool MCP23008::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 7)
@@ -225,8 +231,8 @@ bool MCP23008::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-// pin  = 0..7
-// reverse = true or false
+//  pin  = 0..7
+//  reverse = true or false
 bool MCP23008::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 7)
@@ -278,9 +284,10 @@ bool MCP23008::getPullup(uint8_t pin, bool &pullup)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 8 pins interface
-// whole register at once
-// value = 0..0xFF  bit pattern
+//
+//  8 pins interface
+//  whole register at once
+//  value = 0..0xFF  bit pattern
 bool MCP23008::pinMode8(uint8_t value)
 {
   writeReg(MCP23008_DDR_A, value);
@@ -304,7 +311,7 @@ int MCP23008::read8()
 }
 
 
-// mask  = 0..0xFF  bit pattern
+//  mask  = 0..0xFF  bit pattern
 bool MCP23008::setPolarity8(uint8_t mask)
 {
   writeReg(MCP23008_POL_A, mask);
@@ -327,7 +334,7 @@ bool MCP23008::getPolarity8(uint8_t &mask)
 }
 
 
-// mask  = 0..0xFF  bit pattern
+//  mask  = 0..0xFF  bit pattern
 bool MCP23008::setPullup8(uint8_t mask)
 {
   writeReg(MCP23008_PUR_A, mask);
@@ -353,7 +360,7 @@ bool MCP23008::getPullup8(uint8_t &mask)
 int MCP23008::lastError()
 {
   int e = _error;
-  _error = MCP23008_OK;  // reset error after read.
+  _error = MCP23008_OK;  //  reset error after read.
   return e;
 }
 

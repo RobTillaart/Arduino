@@ -24,6 +24,8 @@ void setup()
 
   Wire.begin();
   bool b = MCP.begin();
+  Serial.print("BEGIN: ");
+  Serial.println(b);
 
   MCP.pinMode8(0x00);  // 0 = output , 1 = input
 
@@ -55,13 +57,15 @@ void setup()
 
   Serial.print("TEST digitalRead(pin):\t");
   delay(100);
+  volatile int val = 0;
   start = micros();
   for (int pin = 0; pin < 8; pin++)
   {
-    volatile int val = MCP.digitalRead(pin);
+    val = MCP.digitalRead(pin);
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
+  Serial.println(val);
   Serial.println();
 
 
@@ -83,6 +87,7 @@ void setup()
   volatile int val8 = MCP.read8();
   stop = micros();
   Serial.println(stop - start);
+  Serial.println(val8);
   Serial.println();
 
   Serial.println("\ndone...");

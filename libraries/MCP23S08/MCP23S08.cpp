@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -9,6 +9,8 @@
 //
 //  HISTORY:
 //  0.1.0   2022-01-10  initial version
+//  0.1.1   2022-09-28  optimize digitalWrite - most used one only.
+//                      add MCP23S08_REGISTER_ERROR
 
 
 #include "Arduino.h"
@@ -70,7 +72,7 @@ bool MCP23S08::begin()
 
   if (_hwSPI)
   {
-    // TODO - ESP32 specific support - see MCP_ADC.
+    //  TODO - ESP32 specific support - see MCP_ADC.
     mySPI = &SPI;
     mySPI->end();
     mySPI->begin();
@@ -84,12 +86,12 @@ bool MCP23S08::begin()
     ::digitalWrite(_clock,   LOW);
   }
 
-  // check connected
+  //  check connected
   if (! isConnected()) return false;
 
-  // disable address increment (datasheet)
+  //  disable address increment (datasheet)
   if (! writeReg(MCP23S08_IOCR, 0b00100000)) return false;   // TODO MAGIC NR
-  // Force INPUT_PULLUP
+  //  Force INPUT_PULLUP
   if (! writeReg(MCP23S08_PUR_A, 0xFF)) return false;
   return true;
 }
@@ -102,9 +104,9 @@ bool MCP23S08::isConnected()
 }
 
 
-// single pin interface
-// pin  = 0..7
-// mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//  single pin interface
+//  pin  = 0..7
+//  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
 {
   if (pin > 7)
@@ -125,7 +127,7 @@ bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
     return false;
   }
   uint8_t mask = 1 << pin;
-  // only work with valid
+  //  only work with valid
   if ((mode == INPUT) || (mode == INPUT_PULLUP))
   {
     val |= mask;
@@ -134,7 +136,7 @@ bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
   {
     val &= ~mask;
   }
-  // other values won't change val ....
+  //  other values won't change val ....
   writeReg(dataDirectionRegister, val);
   if (_error != MCP23S08_OK)
   {
@@ -144,8 +146,8 @@ bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
 }
 
 
-// pin   = 0..7
-// value = LOW, HIGH
+//  pin   = 0..7
+//  value = LOW, HIGH
 bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
 {
   if (pin > 7)
@@ -155,6 +157,7 @@ bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
   }
   uint8_t IOR = MCP23S08_GPIO_A;
   uint8_t val = readReg(IOR);
+  uint8_t pre = val;
   if (_error != MCP23S08_OK)
   {
     return false;
@@ -168,10 +171,13 @@ bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
-  writeReg(IOR, val);
-  if (_error != MCP23S08_OK)
+  if (pre != val)
   {
-    return false;
+    writeReg(IOR, val);
+    if (_error != MCP23S08_OK)
+    {
+      return false;
+    }
   }
   return true;
 }
@@ -196,8 +202,8 @@ uint8_t MCP23S08::digitalRead(uint8_t pin)
 }
 
 
-// pin  = 0..7
-// reversed = true or false
+//  pin  = 0..7
+//  reversed = true or false
 bool MCP23S08::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 7)
@@ -248,8 +254,8 @@ bool MCP23S08::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-// pin  = 0..7
-// pullup = true or false
+//  pin  = 0..7
+//  pullup = true or false
 bool MCP23S08::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 7)
@@ -309,9 +315,10 @@ void MCP23S08::setSPIspeed(uint32_t speed)
 
 
 ///////////////////////////////////////////////////////////////////////
-// 8 pins interface
-// whole register at once
-// value = 0..0xFF  bit pattern
+//
+//  8 pins interface
+//  whole register at once
+//  value = 0..0xFF  bit pattern
 bool MCP23S08::pinMode8(uint8_t value)
 {
   writeReg(MCP23S08_DDR_A, value);
@@ -335,7 +342,7 @@ int MCP23S08::read8()
 }
 
 
-// mask  = 0..0xFF  bit pattern
+//  mask  = 0..0xFF  bit pattern
 bool MCP23S08::setPolarity8(uint8_t mask)
 {
   writeReg(MCP23S08_POL_A, mask);
@@ -358,7 +365,7 @@ bool MCP23S08::getPolarity8(uint8_t &mask)
 }
 
 
-// mask  = 0..0xFF  bit pattern
+//  mask  = 0..0xFF  bit pattern
 bool MCP23S08::setPullup8(uint8_t mask)
 {
   writeReg(MCP23S08_PUR_A, mask);
@@ -391,7 +398,7 @@ int MCP23S08::lastError()
 
 ////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
 bool MCP23S08::writeReg(uint8_t reg, uint8_t value)
@@ -400,7 +407,7 @@ bool MCP23S08::writeReg(uint8_t reg, uint8_t value)
 
   if (reg > MCP23S08_OLAT_A)
   {
-    _error = 0xFF;   // TODO MAGIC NR
+    _error = MCP23S08_REGISTER_ERROR;
     return false;
   }
   ::digitalWrite(_select, LOW);
@@ -431,7 +438,7 @@ uint8_t MCP23S08::readReg(uint8_t reg)
 
   if (reg > MCP23S08_OLAT_A)
   {
-    _error = 0xFF;   // TODO MAGIC NR
+    _error = MCP23S08_REGISTER_ERROR;
     return false;
   }
 

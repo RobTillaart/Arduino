@@ -25,6 +25,8 @@ void setup()
 
   SPI.begin();
   bool b = MCP.begin();
+  Serial.print("BEGIN: ");
+  Serial.println(b);
 
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
@@ -51,7 +53,7 @@ void setup()
   start = micros();
   for (int pin = 0; pin < 8; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.digitalWrite(pin, 1 - pin % 2); //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
@@ -59,13 +61,15 @@ void setup()
 
   Serial.print("TEST digitalRead(pin):\t");
   delay(100);
+  volatile int val = 0;
   start = micros();
   for (int pin = 0; pin < 8; pin++)
   {
-    volatile int val = MCP.digitalRead(pin);
+    val = MCP.digitalRead(pin);
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
+  Serial.println(val);            //  keep build CI compiler happy
   Serial.println();
 
 
@@ -87,6 +91,7 @@ void setup()
   volatile int val8 = MCP.read8();
   stop = micros();
   Serial.println(stop - start);
+  Serial.println(val8);           //  keep build CI compiler happy
   Serial.println();
 
   Serial.println("\ndone...");

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S08.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -19,7 +19,7 @@
 #define MCP23S08_SPI_ERROR                0x82
 #define MCP23S08_VALUE_ERROR              0x83
 #define MCP23S08_PORT_ERROR               0x84
-
+#define MCP23S08_REGISTER_ERROR           0xFF
 
 #define MCP23S08_INVALID_READ             -100
 
@@ -34,8 +34,8 @@ public:
   bool     isConnected();  // needed ?
 
 
-  // single pin interface
-  // mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //  single pin interface
+  //  mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
   bool     pinMode(uint8_t pin, uint8_t mode);
   bool     digitalWrite(uint8_t pin, uint8_t value);
   uint8_t  digitalRead(uint8_t pin);
@@ -46,9 +46,9 @@ public:
   bool     getPullup(uint8_t pin, bool &pullup);
 
 
-  // 8 pins interface
-  // port  = 0..1
-  // value = bit pattern
+  //  8 pins interface
+  //  port  = 0..1
+  //  value = bit pattern
   bool     pinMode8(uint8_t value);
   bool     write8(uint8_t value);
   int      read8();
@@ -63,7 +63,7 @@ public:
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed() { return _SPIspeed; };
 
-  // debugging
+  //       debugging
   bool     usesHWSPI() { return _hwSPI; };
   int      lastError();
 
@@ -79,7 +79,8 @@ private:
   uint8_t  _error   = MCP23S08_OK;
 
   bool        _hwSPI = false;
-  uint32_t    _SPIspeed = 8000000UL;   // 1MHz is a safe value TODO CHECK datasheet
+  //  1 MHz is a safe value TODO CHECK datasheet
+  uint32_t    _SPIspeed = 8000000UL;   
   SPIClass    * mySPI;
   SPISettings _spi_settings;
 

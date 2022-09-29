@@ -43,6 +43,11 @@ unittest(test_constants)
 {
   assertEqual(16, I2C_KEYPAD_NOKEY);
   assertEqual(17, I2C_KEYPAD_FAIL);
+
+  assertEqual(44, I2C_KEYPAD_4x4);
+  assertEqual(53, I2C_KEYPAD_5x3);
+  assertEqual(62, I2C_KEYPAD_6x2);
+  assertEqual(81, I2C_KEYPAD_8x1);
 }
 
 
@@ -56,6 +61,42 @@ unittest(test_constructor)
 
   // assertTrue(keyPad.begin());
   // assertTrue(keyPad.isConnected());
+}
+
+
+unittest(test_mode)
+{
+  const uint8_t KEYPAD_ADDRESS = 0x38;
+  I2CKeyPad keyPad(KEYPAD_ADDRESS);
+
+  assertEqual(I2C_KEYPAD_4x4, keyPad.getKeyPadMode());
+
+  keyPad.setKeyPadMode(I2C_KEYPAD_5x3);
+  assertEqual(I2C_KEYPAD_5x3, keyPad.getKeyPadMode());
+
+  keyPad.setKeyPadMode(I2C_KEYPAD_4x4);
+  assertEqual(I2C_KEYPAD_4x4, keyPad.getKeyPadMode());
+
+  keyPad.setKeyPadMode(I2C_KEYPAD_6x2);
+  assertEqual(I2C_KEYPAD_6x2, keyPad.getKeyPadMode());
+
+  keyPad.setKeyPadMode(I2C_KEYPAD_8x1);
+  assertEqual(I2C_KEYPAD_8x1, keyPad.getKeyPadMode());
+
+  //  invalid are mapped to 4x4
+  keyPad.setKeyPadMode(00);
+  assertEqual(I2C_KEYPAD_4x4, keyPad.getKeyPadMode());
+}
+
+
+unittest(test_KeyMap)
+{
+  const uint8_t KEYPAD_ADDRESS = 0x38;
+  I2CKeyPad keyPad(KEYPAD_ADDRESS);
+
+  char keymap[19] = "123A456B789C*0#DNF";
+  keyPad.loadKeyMap(keymap);
+  assertEqual('N', keyPad.getLastChar());
 }
 
 

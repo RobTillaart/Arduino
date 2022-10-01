@@ -47,8 +47,9 @@ bool test_hw_support()        // to be elaborated
   d2 = micros() - start;
   Serial.println(d1);
   Serial.println(d2);
+  Serial.println(y);      //  keep compiler happy
   Serial.println();
-  return (d1 / d2) < 1.5; // just a guess for now.
+  return (d1 / d2) < 1.5; //  just a guess for now.
 }
 
 

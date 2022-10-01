@@ -13,8 +13,9 @@ Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 
 ## Description
 
-**warning** during tests I could overclock the chip up to 650 KHz but it is only specified 
-to run at 100 kHz. After getting pretty hot it broke down. 
+**warning** during tests I could overclock the PCF8591 chip up to 650 KHz.
+However it is only specified to run at 100 kHz. 
+After some time it was getting pretty hot and it broke down. 
 So overclocking is fun but not recommended.
 
 PCF8591 has one 8 bit ADC on board for 4 channels. The ADC is 8 bit and quite fast.
@@ -44,7 +45,7 @@ Also set initial value for the DAC. Returns **true** if successful.
 
 ### ADC part
 
-The PCF8591 has four 8 bit ADC channels. Values = 0..255
+The PCF8591 has four 8 bit ADC channels. Values = 0..255.
 
 - **void enableINCR()** used in analogRead4(); Could become private in the future.
 - **void disableINCR()** idem.
@@ -62,12 +63,13 @@ This cache is filled both by **analogRead()** and **analogRead4()**. See example
 
 ### DAC part
 
-The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet)
+The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet).
 
 - **void enableDAC()** switch on the analogue output.
 - **void disableDAC()** switch off the analogue output (high impedance) Sort of energy saving mode.
 - **bool isDACEnabled()** check the modus operandi.
 - **bool analogWrite(uint8_t value = 0)** writes a value 0..255 to the DAC. Check datasheet for voltage.
+Note, this is a real voltage not a PWM signal like **analogWrite()** on an UNO.
 - **uint8_t lastWrite()** get last written value from cache.
 - **int lastError()** always check this value after a read / write to see if it was OK (== 0).
 After the read the error value is reset to OK.

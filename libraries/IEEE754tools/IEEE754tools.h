@@ -25,11 +25,11 @@
 #define IEEE754_VERSION                   (F("0.2.3"))
 
 
-// (un)comment lines to configure functionality / size
+//  (un)comment lines to configure functionality / size
 //#define IEEE754_ENABLE_MSB   // +78 bytes
 
 
-// IEEE754 float layout; 
+//  IEEE754 float layout; 
 struct IEEEfloat
 {
     uint32_t m:23; 
@@ -38,7 +38,7 @@ struct IEEEfloat
 };
 
 
-// IEEE754 double layout; 
+//  IEEE754 double layout; 
 struct IEEEdouble
 {
     uint64_t m:52; 
@@ -47,9 +47,9 @@ struct IEEEdouble
 };
 
 
-// Arduino UNO double layout: 
-// the UNO has no 64 bit double, it is only able to map 23 bits of the mantisse
-// a filler is added for the remaining bits. These might be useful in future?
+//  Arduino UNO double layout: 
+//  the UNO has no 64 bit double, it is only able to map 23 bits of the mantisse
+//  a filler is added for the remaining bits. These might be useful in future?
 struct _DBL
 {
     uint32_t filler:29;
@@ -59,7 +59,7 @@ struct _DBL
 };
 
 
-// for packing and unpacking a float
+//  for packing and unpacking a float
 union _FLOATCONV
 {
     IEEEfloat p;
@@ -68,7 +68,7 @@ union _FLOATCONV
 };
 
 
-// for packing and unpacking a double
+//  for packing and unpacking a double
 union _DBLCONV
 {
     // IEEEdouble p;
@@ -79,9 +79,9 @@ union _DBLCONV
 
 
 //
-// DEBUG FUNCTIONS
+//  DEBUG FUNCTIONS
 //
-// print float components
+//  print float components
 void dumpFloat(float number)
 {
     IEEEfloat* x = (IEEEfloat*) ((void*)&number);
@@ -91,13 +91,13 @@ void dumpFloat(float number)
     Serial.print("\t");
     Serial.println(x->m, HEX);
     
-    // Serial.print(" sign: "); Serial.print(x->s);
-    // Serial.print("  exp: "); Serial.print(x->e);
-    // Serial.print(" mant: "); Serial.println(x->m);
+    //  Serial.print(" sign: "); Serial.print(x->s);
+    //  Serial.print("  exp: "); Serial.print(x->e);
+    //  Serial.print(" mant: "); Serial.println(x->m);
 }
 
 
-// print "double" components
+//  print "double" components
 void dumpDBL(struct _DBL dbl)
 {
     Serial.print(dbl.s, HEX);
@@ -109,20 +109,24 @@ void dumpDBL(struct _DBL dbl)
 
 
 //
-// mapping to/from 64bit double - best effort
+//  mapping to/from 64bit double - best effort
 //
 
-// converts a float to a packed array of 8 bytes representing a 64 bit double
-// restriction exponent and mantissa.
-// float;  array of 8 bytes;  LSBFIRST; MSBFIRST
+//  converts a float to a packed array of 8 bytes representing a 64 bit double
+//  restriction exponent and mantissa.
+//  float;  array of 8 bytes;  LSBFIRST; MSBFIRST
 void float2DoublePacked(float number, byte* bar, int byteOrder = LSBFIRST)  
 {
     _FLOATCONV fl;
+    //  prevent warning/error on ESP build
+    fl.p.s = 0;
+    fl.p.e = 0;
+    fl.p.m = 0;
     fl.f = number;
     _DBLCONV dbl;
     dbl.p.filler = 0;
     dbl.p.s = fl.p.s;
-    dbl.p.e = fl.p.e - 127 + 1023;  // exponent adjust
+    dbl.p.e = fl.p.e - 127 + 1023;  //  exponent adjust
     dbl.p.m = fl.p.m;
     
 #ifdef IEEE754_ENABLE_MSB
@@ -146,9 +150,9 @@ void float2DoublePacked(float number, byte* bar, int byteOrder = LSBFIRST)
 }
 
 
-// converts a packed array of bytes into a 32bit float.
-// there can be an exponent overflow
-// the mantissa is truncated to 23 bits.
+//  converts a packed array of bytes into a 32bit float.
+//  there can be an exponent overflow
+//  the mantissa is truncated to 23 bits.
 float doublePacked2Float(byte* bar, int byteOrder = LSBFIRST)
 {
     _FLOATCONV fl;
@@ -188,10 +192,10 @@ float doublePacked2Float(byte* bar, int byteOrder = LSBFIRST)
 
 
 //
-// TEST FUNCTIONS
+//  TEST FUNCTIONS
 //
 
-// ~1.7x faster
+//  ~1.7x faster
 int IEEE_NAN(float number)  
 {
     uint16_t* x = ((uint16_t*) &number + 1);
@@ -199,7 +203,7 @@ int IEEE_NAN(float number)
 }
 
 
-// ~3.4x faster
+//  ~3.4x faster
 int IEEE_INF(float number)  
 {
     uint8_t* x = ((uint8_t*) &number);
@@ -210,7 +214,7 @@ int IEEE_INF(float number)
 }
 
 
-// for the real speed freaks, the next
+//  for the real speed freaks, the next
 boolean IEEE_PosINF(float number)  
 {
     return (* ((uint16_t*) &number + 1) ) == 0x7F80; 
@@ -223,7 +227,7 @@ boolean IEEE_NegINF(float number)
 
 
 //
-// PROPERTIES
+//  PROPERTIES
 // 
 uint8_t IEEE_Sign(float number)
 {
@@ -245,11 +249,11 @@ uint32_t IEEE_Mantisse(float number)
 
 
 //
-// MATH FUNCTIONS
+//  MATH FUNCTIONS
 //
 
-// f = f * 2^n
-// factor ~2.7; (tested with *16) more correct than the faster one
+//  f = f * 2^n
+//  factor ~2.7; (tested with *16) more correct than the faster one
 float IEEE_POW2(float number, int n)
 {
     _FLOATCONV fl;
@@ -264,7 +268,7 @@ float IEEE_POW2(float number, int n)
 }
 
 
-// WARNING no overflow detection in the SHIFT (factor ~3.5)
+//  WARNING no overflow detection in the SHIFT (factor ~3.5)
 float IEEE_POW2fast(float number, int n)
 {
     _FLOATCONV fl;
@@ -274,7 +278,7 @@ float IEEE_POW2fast(float number, int n)
 }
 
 
-// - FAILS ON ESP32  (x16 => x256   strange)
+//  - FAILS ON ESP32  (x16 => x256   strange)
 float IEEE_FLOAT_POW2fast(float number, int n)
 {
     IEEEfloat* x = (IEEEfloat*) ((void*)&number);
@@ -283,8 +287,8 @@ float IEEE_FLOAT_POW2fast(float number, int n)
 }
 
 
-// - NOT FASTER
-// - FAILS ON ESP32  (==> divides by 4)
+//  - NOT FASTER
+//  - FAILS ON ESP32  (==> divides by 4)
 float IEEE_FLOAT_DIV2(float number)
 {
     IEEEfloat* x = (IEEEfloat*) ((void*)&number);
@@ -314,11 +318,11 @@ bool IEEE_FLOAT_NEQ(float &f, float &g)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// NOT TESTED FUNCTIONS
+//  NOT TESTED FUNCTIONS
 //
 
 //
-// get truncated part as separate float.
+//  get truncated part as separate float.
 // 
 void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
 {
@@ -363,7 +367,7 @@ void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
 }
 
 
-// what is this???
+//  what is this???
 float IEEE_FLIP(float number)
 {
     _FLOATCONV fl;

@@ -56,6 +56,8 @@ void setup()
   stop = micros();
   Serial.print("getVolume: \t");
   Serial.println(stop - start);
+  Serial.print("getVolume: \t");
+  Serial.println(x);               //  keep build-CI compiler happy
   delay(100);
 
   AMP.setVolume(2, 0);

@@ -46,13 +46,19 @@ This is the default behaviour of every RS485 device.
 
 #### Stream interface
 
+The most important commands of the Stream interface are:
+
 - **int available()** returns the number of characters available in the buffer.
 - **int read()** read a character from the RS485 stream.
 - **int peek()** peeks a character ahead. (less used).
 - **void flush()** flush the stream. (less used).
+- https://www.arduino.cc/reference/en/language/functions/communication/stream/
 
 All variations of **print()**, **println()** and **write()** can be used,
 the library calculates the time needed to set the RS485 chip in transmit mode.
+
+An important command from the stream interface is the **setTimeOut()** as
+this allows reads on the RS485 bus that are limited
 
 
 ## Operation
@@ -61,9 +67,26 @@ A RS485 controlled device is typically waiting for a command or message
 and is therefore default in listening or receiving mode. Only when
 the device needs to answer the library will automatically set the RS485 
 chip in sending mode, wait for enough time to "flush the buffer" and 
-resumes with listening. 
+resumes with listening.
 
-- see examples (TODO).
+
+#### Pull up resistors
+
+Do not forget to use one pull up (A line) and one pull down (B line) 
+at only one end of the bus.
+Values depend on the length of the cables, start with 1 KΩ.
+
+
+#### Wires
+
+Preferred wire for RS485 is STP (Shielded Twisted Pair), however 
+UTP (Unshielded) will works in many cases.
+Typical for most applications CAT5 (100 Mbit) will do the job.
+
+Note CAT5 has 4 x 2 twisted wires so there are 6 cables to spare.
+These could be used e.g. to build a FULL DUPLEX version in which
+every slave has 2 RS485 ports, one for receiving and one for sending.
+Another application is to use these as power lines e.g 5 and 12 V.
 
 
 #### yield()

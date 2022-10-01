@@ -25,7 +25,7 @@ RS485::RS485(Stream * stream, uint8_t sendPin, uint8_t deviceID)
   _stream   = stream;
   _sendPin  = sendPin;
   _deviceID = deviceID;
-  
+
   pinMode(_sendPin, OUTPUT);
   setRXmode();    //  receiver mode
 }
@@ -69,7 +69,7 @@ size_t RS485::write(char * array, uint8_t length)
 
 ///////////////////////////////////////////////////////
 //
-//  discussion about write and yield see 
+//  discussion about write and yield see
 //  - https://github.com/RobTillaart/RS485/issues/2
 //
 
@@ -89,9 +89,9 @@ size_t RS485::write(uint8_t * array, uint8_t length)
   return n;
 }
 
-#else  
+#else
 
-//  0.2.1 version 
+//  0.2.1 version
 //  no yield() calls - might be blocking...
 size_t RS485::write(uint8_t * array, uint8_t length)
 {

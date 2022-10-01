@@ -129,7 +129,11 @@ void dump(uint32_t from, uint32_t to)
     {
       char buffer[24];
       Serial.print('\n');
-      sprintf(buffer, "%08lX\t", i);
+#if defined (ESP8266) || defined(ESP32)
+      sprintf(buffer, "%08X\t", i);   //  ESP cast (long unsigned int)
+#else
+      sprintf(buffer, "%08lX\t", i);  //  AVR needs lX
+#endif;
       Serial.print(buffer);
     }
     sprintf(buffer, "%02X\t", ee.readByte(i));

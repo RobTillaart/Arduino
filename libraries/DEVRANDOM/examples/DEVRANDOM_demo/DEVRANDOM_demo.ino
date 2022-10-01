@@ -93,15 +93,15 @@ void setup()
   Serial.println();
   delay(1000);
 
-  uint32_t x;
-  fscanf((FILE*)&dr, "%lu", &x);
-  Serial.print("UINT32: ");
-  Serial.println(x, HEX);
+  //  uint32_t x;
+  //  fscanf((FILE*)&dr, "%lu", &x);  //  fails on ESP32
+  //  Serial.print("UINT32: ");
+  //  Serial.println(x, HEX);
 
-  uint16_t y;
-  fscanf((FILE*)&dr, "%u", &y);
-  Serial.print("UINT16: ");
-  Serial.println(y, HEX);
+  //  uint16_t y;
+  //  fscanf((FILE*)&dr, "%u", &y);  //  fails on ESP32
+  //  Serial.print("UINT16: ");
+  //  Serial.println(y, HEX);
 
   //  float f;
   //  fscanf((FILE*)&dr, "%e", &f);  // does not work on UNO.

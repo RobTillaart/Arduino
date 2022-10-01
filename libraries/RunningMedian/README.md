@@ -71,7 +71,7 @@ There are several options that can be configured via defines at compile time, th
 ### Base functions
 
 - **clear()** resets internal buffer and variables, effectively empty the buffer.
-- **add(const float value) ** adds a new value to internal buffer, 
+- **add(const float value)** adds a new value to internal buffer, 
 optionally replacing the oldest element if the buffer is full
 - **float getMedian()** returns the median == middle element
 - **float getAverage()** returns average of **all** the values in the internal buffer

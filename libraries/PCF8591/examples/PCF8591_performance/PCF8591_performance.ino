@@ -116,6 +116,7 @@ void test_ADC()
   stop = micros();
   Serial.print(" | ");
   Serial.print((stop - start) * 0.001);
+  if (x == 255) return;      //  keep build CI happy
 }
 
 
@@ -146,6 +147,7 @@ void test_ADC_error()
   }
   Serial.print(" | ");
   Serial.print(perc);
+  if (x == 255) return;      //  keep build CI happy
 }
 
 

@@ -133,6 +133,7 @@ See examples..
 - get hardware to 
 - test test test
 - update documentation
+- error handling
 
 #### could
 

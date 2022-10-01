@@ -69,7 +69,7 @@ int optimize()
         flag = true;
       }
     }
-    // if (flag) Serial.print('*');    // uncomment this as you want to spot the changes.
+    if (flag) Serial.print('*');    // comment if you do not want see changes.
     isinTable16[i] = t + idx;
     Serial.print(isinTable16[i]);
     Serial.print(", ");

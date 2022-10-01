@@ -30,7 +30,9 @@ void setup()
     int x = PCF.read8();
     stop = micros();
     Serial.print("Read:\t");
-    Serial.println(stop - start);
+    Serial.print(stop - start);
+    Serial.print("\t");
+    Serial.println(x);             //  keep build CI compiler happy
     delay(1000);
 
     start = micros();

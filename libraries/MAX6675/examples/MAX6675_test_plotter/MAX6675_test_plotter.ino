@@ -34,6 +34,7 @@ void setup()
   thermoCouple.setOffset(273);
 
   int status = thermoCouple.read();
+  if (status != 0) Serial.println(status);
   temp = thermoCouple.getTemperature();
 }
 

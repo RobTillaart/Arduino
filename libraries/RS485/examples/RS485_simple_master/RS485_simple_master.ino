@@ -33,6 +33,7 @@ void loop()
   if (rs485.available() > 0)
   {
     int status = rs485.read();
+    Serial.println(status);
   }
 }
 

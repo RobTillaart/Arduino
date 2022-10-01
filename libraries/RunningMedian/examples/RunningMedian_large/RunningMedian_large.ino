@@ -49,6 +49,8 @@ void loop()
     Serial.print('\t');
     Serial.print(dur3);
     Serial.print('\t');
+    Serial.print(value);
+    Serial.print('\t');
     Serial.println();
   }
 

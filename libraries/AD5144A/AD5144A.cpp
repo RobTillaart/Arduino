@@ -370,19 +370,25 @@ uint8_t AD51XX::readBack(const uint8_t rdac, const uint8_t mask)
 {
   // COMMAND 3 - page 20
   _wire->beginTransmission(_address);
-  int a = _wire->write(0x30 | rdac);
+  _wire->write(0x30 | rdac);
+  _wire->write(mask);
+  _wire->endTransmission();
+  _wire->requestFrom(_address, (uint8_t)1);
+  return _wire->read();
+
+  // int a = _wire->write(0x30 | rdac);
   // Serial.print("READBACK cmd: ");
   // Serial.print(a);
-  a = _wire->write(mask);
+  // a = _wire->write(mask);
   // Serial.print(" val: ");
   // Serial.print(a);
-  a = _wire->endTransmission();
+  // a = _wire->endTransmission();
   // Serial.print(" TX: ");
   // Serial.println(a);
-  a = _wire->requestFrom(_address, (uint8_t)1);
+  // a = _wire->requestFrom(_address, (uint8_t)1);
   // Serial.print(" RF: ");
   // Serial.println(a);
-  return _wire->read();
+  // return _wire->read();
 }
 
 

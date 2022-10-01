@@ -20,6 +20,21 @@ MicroChip 24LC512, 24LC256, 24LC64, 24LC32, 24LC16, 24LC08, 24LC04, 24LC02, 24LC
 The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_store.md)
 
 
+## Schematic
+
+```cpp
+        +---U---+
+    A0  | 1   8 |  VCC = +5V
+    A1  | 2   7 |   WP = write protect pin
+    A2  | 3   6 |  SCL = I2C clock
+   GND  | 4   5 |  SDA = I2C data
+        +-------+
+
+default address = 0x50 .. 0x57 depending on three address lines
+
+```
+
+
 ## Interface
 
 The interface is kept quite identical to the I2C_24LC1025 library.

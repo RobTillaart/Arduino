@@ -29,14 +29,14 @@ void setup()
 void loop()
 {
   Serial.print("DHT A:\t");
-  int chk = DHT_A.read11(DHT11_PIN_A);
+  DHT_A.read11(DHT11_PIN_A);
   Serial.print(DHT_A.getHumidity());
   Serial.print(",\t");
   Serial.println(DHT_A.getTemperature());
 
 
   Serial.print("DHT B:\t");
-  chk = DHT_B.read11(DHT11_PIN_B);
+  DHT_B.read11(DHT11_PIN_B);
   Serial.print(DHT_B.getHumidity());
   Serial.print(",\t");
   Serial.println(DHT_B.getTemperature());

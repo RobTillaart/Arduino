@@ -544,7 +544,7 @@ uint16_t LTC2991::_readRegister16(const uint8_t reg)
 {
   uint16_t x = _readRegister(reg) << 8;
   x |= _readRegister(reg + 1);
-  bool dataValid = (x & 0x8000) > 0;   // do nothing for now...
+  //  bool dataValid = (x & 0x8000) > 0;   //  TODO error handling
   x &= 0x7FFF;
   return x;
 }

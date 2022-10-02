@@ -52,6 +52,11 @@ setGPIOpins	KEYWORD2
 increment	KEYWORD2
 decrement	KEYWORD2
 
+selectSPI	KEYWORD2
+selectSPI1	KEYWORD2
+usesSPI	KEYWORD2
+usesSPI1	KEYWORD2
+
 # Instances (KEYWORD2)
 
 # Constants (LITERAL1)

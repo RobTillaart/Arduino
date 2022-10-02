@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.6"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.7"))
 
 
 
@@ -74,47 +74,77 @@ public:
   void     reset();
   bool     usesHWSPI() { return _hwSPI; };
 
-  // ESP32 specific
-  #if defined(ESP32)
+
+  #if defined(ESP32)                    // ESP32 specific
+
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  // to overrule the ESP32s default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+
+
+  #elif defined(ARDUINO_ARCH_RP2040)    // RP2040 specific
+
+  // check which SPI-Bus (SPI or SPI1) is used
+  void     selectSPI()  { _useSPI1 = false;  };
+  void     selectSPI1() { _useSPI1 = true; };
+  bool     usesSPI()    { return !_useSPI1;  };
+  bool     usesSPI1()   { return _useSPI1;  };
+
+  // to overrule the RP2040s default hardware pins
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+
   #endif
 
-protected:
-  uint8_t  _dataOut;
-  uint8_t  _clock;
-  uint8_t  _select;
-  uint8_t  _latchPin = 255;
-  bool     _hwSPI;
-  uint32_t _SPIspeed = 16000000;
 
-  uint8_t  _channels;
-  uint16_t _maxValue;
-  uint16_t _value[2];
-  uint8_t  _gain;
-  bool     _buffered = false;
-  bool     _active   = true;
+protected:
+  uint8_t  _dataOut;                // Data out Pin (MOSI)
+  uint8_t  _clock;                  // Clock Pin (SCK)
+  uint8_t  _select;                 // Chip Select Pin (CS)
+  uint8_t  _latchPin = 255;         // Latch-DAC Pin (LDAC)
+  bool     _hwSPI;                  // Hardware SPI (true) or Software SPI (false)
+  uint32_t _SPIspeed = 16000000;    // SPI-Bus Frequency
+
+  uint8_t  _channels;               // Number of DAC-Channels of a given Chip
+  uint16_t _maxValue;               // Maximum value of a given Chip
+  uint16_t _value[2];               // Current value  (cache for performance)
+  uint8_t  _gain;                   // Programmable Gain Amplifier variable
+  bool     _buffered = false;       // Buffer for the Reference Voltage of the MCP49XX Series Chips
+  bool     _active   = true;        // Indicates shutDown mode.
 
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
 
+  #if defined(ARDUINO_ARCH_RP2040)
+
+  SPIClassRP2040 * mySPI;
+
+  #else
+
   SPIClass    * mySPI;
+
+  #endif
+
   SPISettings _spi_settings;
 
   #if defined(ESP32)
-  bool        _useHSPI = true;
+
+  bool     _useHSPI = true;
+
+  #elif defined(ARDUINO_ARCH_RP2040)
+
+  bool     _useSPI1 = false;
+
   #endif
 };
 
 
 ///////////////////////////////////////////////////////////////
 //
-// 4800 Series
+// MCP4800 Series
 //
 class MCP4801 : public MCP_DAC
 {
@@ -160,7 +190,7 @@ public:
 
 ///////////////////////////////////////////////////////////////
 //
-// 4900 Series
+// MCP4900 Series
 //
 class MCP4901 : public MCP_DAC
 {

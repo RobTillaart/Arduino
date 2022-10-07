@@ -1,0 +1,23 @@
+# Syntax Colouring Map For CHT8305
+
+# Data types (KEYWORD1)
+CHT8305	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+read	KEYWORD2
+lastRead	KEYWORD2
+getTemperature	KEYWORD2
+getHumidity	KEYWORD2
+setHumOffset	KEYWORD2
+setTempOffset	KEYWORD2
+getHumOffset	KEYWORD2
+getTempOffset	KEYWORD2
+
+
+# Constants (LITERAL1)
+CHT8305_LIB_VERSION	LITERAL1
+
+

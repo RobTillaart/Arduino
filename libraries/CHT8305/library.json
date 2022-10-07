@@ -1,0 +1,23 @@
+{
+  "name": "CHT8305",
+  "keywords": "CHT8305, temperature, humidity",
+  "description": "Arduino library for CHT8305 temperature and humidity sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/CHT8305.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "CHT8305.h"
+}

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.4] - 2022-10-07
+
+- added CHANGELOG.md
+- added **void displayPChar(char \* data)** thanks to radionerd
+- added **uint8_t asciiTo7Segment (char c)** thanks to radionerd
+- updated documentation
+
 ## [0.3.3] - 2022-09-24
 
 - added CHANGELOG.md

@@ -8,7 +8,7 @@ TM1637	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 
-
+displayPChar	KEYWORD2
 displayRaw	KEYWORD2
 displayInt	KEYWORD2
 displayFloat	KEYWORD2

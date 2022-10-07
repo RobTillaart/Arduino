@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -202,6 +202,29 @@ void TM1637::setDigitOrder(uint8_t a, uint8_t b,
 }
 
 
+// Set sign bit on any char to display decimal point
+void TM1637::displayPChar( char * data )
+{
+  start();
+  writeByte(TM1637_ADDR_AUTO);
+  stop();
+
+  start();
+  writeByte(TM1637_CMD_SET_ADDR);
+
+  for (int d = _digits-1; d >=0 ; d--)
+  {
+    uint8_t i = _digitOrder[d];
+    writeByte( asciiTo7Segment(data[i]) );
+  }
+  stop();
+
+  start();
+  writeByte(TM1637_CMD_DISPLAY | _brightness);
+  stop();
+}
+
+
 void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 {
   uint8_t b = 0;
@@ -238,89 +261,6 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   writeByte(TM1637_CMD_DISPLAY | _brightness);
   stop();
 }
-
-
-
-/* previous version
-void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
-{
-  uint8_t b = 0, dp = 0;
-
-  start();
-  writeByte(TM1637_ADDR_AUTO);
-  stop();
-
-  // for debugging new displays...
-  // for (int i = 0; i< 6; i++)
-  // {
-    // Serial.print(data[i]);
-    // Serial.print("\t");
-  // }
-  // Serial.println();
-
-  start();
-  writeByte(TM1637_CMD_SET_ADDR);
-
-  //  TODO: how to encode display digit order in a generic way?
-  //        2nd array?  (packed in nybbles?)
-  //  6 digits == 2x3 display
-  //  [3,4,5,0,1,2]
-  if (_digits == 6)
-  {
-
-    for (uint8_t i = 3; i < 6 ; i++)
-    {
-      dp = data[i] & 0x80;
-      data[i] &= 0x7f;
-      if(data[i] <= 17) {
-        b = seg[data[i]];
-      }
-      else if(data[i] <= 37) {
-        b = alpha_seg[data[i]-18];
-      }
-      if (i == pointPos || dp) b |= 0x80;
-      writeByte(b);
-    }
-    for (uint8_t i = 0; i < 3 ; i++)
-    {
-      dp = data[i] & 0x80;
-      data[i] &= 0x7f;
-      if(data[i] <= 17) {
-        b = seg[data[i]];
-      }
-      else if(data[i] <= 37) {
-        b = alpha_seg[data[i]-18];
-      }
-      if (i == pointPos || dp) b |= 0x80;
-      writeByte(b);
-    }
-  }
-  //  4 digit clock version. =>  : is the point at digit 2
-  //  [3,2,1,0]
-  if (_digits == 4)
-  {
-    for (uint8_t j = 0; j < 4 ; j++)
-    {
-      uint8_t i = 3 - j;
-      dp = data[i] & 0x80;           // repeating block till writeByte()
-      data[i] &= 0x7f;
-      if(data[i] <= 17) {
-        b = seg[data[i]];
-      }
-      else if(data[i] <= 37) {
-        b = alpha_seg[data[i]-18];
-      }
-      if (i == pointPos || dp) b |= 0x80;
-      writeByte(b);
-    }
-  }
-  stop();
-
-  start();
-  writeByte(TM1637_CMD_DISPLAY | _brightness);
-  stop();
-}
-*/
 
 
 //////////////////////////////////////////////////////
@@ -431,6 +371,37 @@ void TM1637::nanoDelay(uint16_t n)
 {
   volatile uint16_t i = n;
   while (i--);
+}
+
+
+uint8_t TM1637::asciiTo7Segment ( char c )
+{
+  /*
+      -01-
+  20 |    | 02
+      -40-
+  10 |    | 04
+      -08-    .80
+  */
+  //  7+1  Segment patterns for ASCII 0x30-0x5F
+  const uint8_t asciiToSegments[] = { 
+    0x3f,0x06,0x5b,0x4f, 0x66,0x6d,0x7d,0x07,  //  0123 4567 
+    0x7f,0x6f,0x09,0x89, 0x58,0x48,0x4c,0xD3,  //  89:; <=>?
+    0x5f,0x77,0x7c,0x39, 0x5E,0x79,0x71,0x3d,  //  @ABC DEFG 
+    0x76,0x06,0x0E,0x75, 0x38,0x37,0x54,0x5c,  //  HIJK LMNO
+    0x73,0x67,0x50,0x6D, 0x78,0x3E,0x1C,0x9c,  //  PQRS TUVW
+    0x76,0x6E,0x5B,0x39, 0x52,0x0F,0x23,0x08   //  XYZ[ /]^_
+  };
+
+  uint8_t segments = c & 0x80;
+  c &= 0x7f;
+  if ( c >= 0x60 ) c -= 0x20 ;                 //  a-z -> A-Z
+  if ( c == '.' ) segments = 0x80;             //  decimal point only
+  if ( c == '-' ) segments |= 0x40;            //  minus sign
+  if ( ( c >= 0x30 ) && ( c <= 0x5F ) ) {
+    segments |= asciiToSegments[ c - 0x30 ];
+  }
+  return segments;
 }
 
 

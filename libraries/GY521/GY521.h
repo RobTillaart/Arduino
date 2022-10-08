@@ -2,12 +2,9 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
-//
-// HISTORY:
-// see GY521.cpp file
 //
 
 
@@ -15,9 +12,10 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.3.7"))
+#define GY521_LIB_VERSION           (F("0.3.8"))
 
 
+//  THROTTLE TIMING
 #ifndef GY521_THROTTLE_TIME
 #define GY521_THROTTLE_TIME         10   // milliseconds
 #endif
@@ -29,6 +27,12 @@
 #define GY521_ERROR_READ            -1
 #define GY521_ERROR_WRITE           -2
 #define GY521_ERROR_NOT_CONNECTED   -3
+
+
+//  CONVERSION CONSTANTS
+#define GY521_RAD2DEGREES          (180.0 / PI)
+#define GY521_RAW2DPS              (1.0 / 131.0)
+#define GY521_RAW2G                (1.0 / 16384.0)
 
 
 class GY521
@@ -69,10 +73,10 @@ public:
   //  SET BEFORE READ
   //  as = 0,1,2,3 ==> 2g 4g 8g 16g
   bool     setAccelSensitivity(uint8_t as);
-  uint8_t  getAccelSensitivity();          // returns 0,1,2,3
+  uint8_t  getAccelSensitivity();          //  returns 0,1,2,3
   //  gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
   bool     setGyroSensitivity(uint8_t gs);
-  uint8_t  getGyroSensitivity();           // returns 0,1,2,3
+  uint8_t  getGyroSensitivity();           //  returns 0,1,2,3
 
   //  CALL AFTER READ
   float    getAccelX()   { return _ax; };
@@ -104,32 +108,32 @@ public:
 
 
   //  calibration errors
-  float    axe = 0, aye = 0, aze = 0;  // accelerometer errors
-  float    gxe = 0, gye = 0, gze = 0;  // gyro errors
+  float    axe = 0, aye = 0, aze = 0;  //  accelerometer errors
+  float    gxe = 0, gye = 0, gze = 0;  //  gyro errors
 
 
 private:
-  uint8_t  _address;                // I2C address
-  bool     _throttle = true;        // to prevent reading too fast
+  uint8_t  _address;                //  I2C address
+  bool     _throttle = true;        //  to prevent reading too fast
   uint16_t _throttleTime = GY521_THROTTLE_TIME;
-  uint32_t _lastTime = 0;           // to measure duration for math & throttle
-  uint32_t _lastMicros = 0;         // to measure duration for math & throttle
-  int16_t  _error = GY521_OK;       // initially everything is OK
+  uint32_t _lastTime = 0;           //  to measure duration for math & throttle
+  uint32_t _lastMicros = 0;         //  to measure duration for math & throttle
+  int16_t  _error = GY521_OK;       //  initially everything is OK
 
-  uint8_t  _afs = 0;                // sensitivity factor
-  float    _raw2g = 1.0/16384.0;    // raw data to gravity g's
-  float    _ax, _ay, _az;           // accelerometer raw
-  float    _aax, _aay, _aaz;        // accelerometer processed
+  uint8_t  _afs = 0;                //  sensitivity factor
+  float    _raw2g = GY521_RAW2G;    //  raw data to gravity g's
+  float    _ax, _ay, _az;           //  accelerometer raw
+  float    _aax, _aay, _aaz;        //  accelerometer processed
 
   uint8_t  _gfs = 0;
-  float    _raw2dps = 1.0/131.0;
-  float    _gx, _gy, _gz;           // gyro raw
-  float    _gax, _gay, _gaz;        // gyro processed.
-  float    _pitch, _roll, _yaw;     // used by user
+  float    _raw2dps = GY521_RAW2DPS;
+  float    _gx, _gy, _gz;           //  gyro raw
+  float    _gax, _gay, _gaz;        //  gyro processed.
+  float    _pitch, _roll, _yaw;     //  used by user
 
   float    _temperature = 0;
 
-  // to read register of 2 bytes.
+  //  to read register of 2 bytes.
   int16_t  _WireRead2();
 
   TwoWire*  _wire;

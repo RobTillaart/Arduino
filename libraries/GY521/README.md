@@ -102,6 +102,11 @@ Note: for pitch roll yaw you need to call **read()**.
 returns status = GY521_OK on success.
 - **uint32_t lastTime()** last time sensor is actually read. In milliseconds. Not updated by readTemperature().
 
+Since version 0.3.8 the **read()** and **readGyro()** function is updated to keep the range of **getPitch()**,
+ **getRoll()** and **getYaw()** in the range 0..360 degrees. (Issue #36). 
+Problem is  that with continuous roatation in a same direction internal variables will overflow and new 
+movements (angles) will get lost as insignificant digits.
+
 
 #### Call after read
 
@@ -117,9 +122,9 @@ Note that multiple calls will return the same value. One must explicitly call **
 - **float getGyroX()** idem
 - **float getGyroY()** idem
 - **float getGyroZ()** idem
-- **float getPitch()** idem
-- **float getRoll()** idem
-- **float getYaw()** idem
+- **float getPitch()** idem. Returns 0.00 - 359.99.
+- **float getRoll()** idem. Returns 0.00 - 359.99.
+- **float getYaw()** idem. Returns 0.00 - 359.99.
 
 
 ### Register access

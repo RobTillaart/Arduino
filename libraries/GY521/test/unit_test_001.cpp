@@ -105,6 +105,10 @@ unittest(test_constants)
   assertEqual(GY521_ERROR_NOT_CONNECTED,  -3);
 
   assertEqual(GY521_THROTTLE_TIME,        10);
+
+  assertEqualFloat(GY521_RAD2DEGREES, 180.0 / PI,    0.001);
+  assertEqualFloat(GY521_RAW2DPS,     1.0 / 131.0,   0.001);
+  assertEqualFloat(GY521_RAW2G,       1.0 / 16384.0, 0.000001);
 }
 
 

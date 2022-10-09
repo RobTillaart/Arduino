@@ -96,6 +96,41 @@ unittest(test_offset)
 }
 
 
+unittest(test_lastRead)
+{
+  CHT8305 cht;
+
+  assertEqual(0, cht.lastRead());
+}
+
+
+unittest(test_AlertTriggerMode)
+{
+  CHT8305 cht;
+
+  //  test range check only false can be checked
+  for (int mode = 4; mode < 10; mode++)
+  {
+    assertFalse(cht.setAlertTriggerMode(mode));
+  }
+  assertFalse(cht.setAlertTriggerMode(-1));
+}
+
+
+unittest(test_setAlertLevels)
+{
+  CHT8305 cht;
+
+  //  temp range check only false can be checked
+  assertFalse(cht.setAlertLevels(-41, 50));
+  assertFalse(cht.setAlertLevels(126, 50));
+  //  humi range check
+  assertFalse(cht.setAlertLevels(50, -1));
+  assertFalse(cht.setAlertLevels(50, 101));
+  //  both range check
+  assertFalse(cht.setAlertLevels(126, -1));
+  assertFalse(cht.setAlertLevels(-41, 101));
+}
 
 
 unittest_main()

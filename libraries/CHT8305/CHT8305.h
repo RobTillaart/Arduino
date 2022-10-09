@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.1"))
+#define CHT8305_LIB_VERSION              (F("0.1.2"))
 
 //  ERRORS
 #define CHT8305_OK                       0
@@ -62,18 +62,16 @@ public:
   //  read the temperature and humidity.
   int      read();
   //  lastRead is in MilliSeconds since start sketch
-  uint32_t lastRead()                    { return _lastRead; };
-
-  //  preferred interface
-  float    getHumidity()                 { return _humidity; };
-  float    getTemperature()              { return _temperature; };
+  uint32_t lastRead();
+  float    getHumidity();
+  float    getTemperature();
 
   //  adding offsets works well in normal range
-  // might introduce under- or overflow at the ends of the sensor range
-  void     setHumOffset(float offset)    { _humOffset = offset; };
-  void     setTempOffset(float offset)   { _tempOffset = offset; };
-  float    getHumOffset()                { return _humOffset; };
-  float    getTempOffset()               { return _tempOffset; };
+  //  might introduce under- or overflow at the ends of the sensor range
+  void     setHumOffset(float offset);
+  void     setTempOffset(float offset);
+  float    getHumOffset();
+  float    getTempOffset();
 
   //  CONFIG REGISTER
   void     setConfigRegister(uint16_t bitmask);
@@ -96,13 +94,13 @@ public:
   //  |  1-0  | 0x0003 |  reserved.      |  do not change.
   //
   //  specific config functions. See datasheet!
-  //  first iteration.
+  //
   void     softReset();
 
   void     setI2CClockStretch(bool on = false);
   bool     getI2CClockStretch();
 
-  void     setHeaterOn(bool on = false);              //  !!!  user is responsible for timing!
+  void     setHeaterOn(bool on = false);              //  WARNING: user is responsible for timing!
   bool     getHeater();
 
   void     setMeasurementMode(bool both = true);
@@ -110,11 +108,11 @@ public:
 
   bool     getVCCstatus();
 
-  void     setTemperatureResolution(bool b = false);
-  bool     getTemperatureResolution();
+  void     setTemperatureResolution(uint8_t res = 0); //  1 = 11 bit, other = 14 bit
+  uint8_t  getTemperatureResolution();
 
-  void     setHumidityResolution(uint8_t r = 0);      //  0,2,3
-  uint8_t  getHumidityResolution();                   //  0,2,3
+  void     setHumidityResolution(uint8_t res = 0);    //  2 = 8 bit, 1 = 11 bit, other = 14 bit
+  uint8_t  getHumidityResolution();                   //  idem
 
   void     setVCCenable(bool enable = false);
   bool     getVCCenable();
@@ -125,13 +123,14 @@ public:
   //    1      T
   //    2      H
   //    3      T and H
-  bool     setAlertTriggerMode(uint8_t mode = 0);     //  0,1,2,3
+  bool     setAlertTriggerMode(uint8_t mode = 0);     //  0, 1, 2, 3
   uint8_t  getAlertTriggerMode();
   bool     getAlertPendingStatus();
   bool     getAlertHumidityStatus();
   bool     getAlertTemperatureStatus();
 
-  //       mandatory to set them both.
+  //       it is mandatory to set both values.
+  //       optionally use 125.0 for temperature and 100.0 for humidity
   bool     setAlertLevels(float temperature, float humidity);
   float    getAlertLevelTemperature();
   float    getAlertLevelHumidity();

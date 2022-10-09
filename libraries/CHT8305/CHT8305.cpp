@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,6 +12,10 @@
 //                     add config ALERT functions.
 //                     add constants for registers
 //                     fix getVoltage() register
+//  2022-10-xx  0.1.2  update unit tests
+//                     fix humidity resolution param.
+//                     fix setAlertLevels()
+//                     refactor, move code to .cpp
 
 
 #include "CHT8305.h"
@@ -95,6 +99,48 @@ int CHT8305::read()
 }
 
 
+//  MilliSeconds since start sketch
+uint32_t CHT8305::lastRead()
+{
+  return _lastRead; 
+};
+
+
+float CHT8305::getHumidity()
+{ 
+  return _humidity; 
+};
+
+
+float CHT8305::getTemperature()
+{ 
+  return _temperature; 
+};
+
+
+void CHT8305::setHumOffset(float offset)
+{
+  _humOffset = offset; 
+};
+
+
+void CHT8305::setTempOffset(float offset)
+{ 
+  _tempOffset = offset; 
+};
+
+
+float CHT8305::getHumOffset()
+{ 
+  return _humOffset; 
+};
+
+
+float CHT8305::getTempOffset()
+{ 
+  return _tempOffset;
+};
+
 ////////////////////////////////////////////////
 //
 //  CONFIG REGISTER
@@ -167,25 +213,26 @@ bool CHT8305::getVCCstatus()
 }
 
 
-void CHT8305::setTemperatureResolution(bool b)
+void CHT8305::setTemperatureResolution(uint8_t res)
 {
-  if (b) _setConfigMask(CHT8305_CFG_TEMP_RES);
-  else   _clrConfigMask(CHT8305_CFG_TEMP_RES);
+  if (res == 1) _setConfigMask(CHT8305_CFG_TEMP_RES);
+  else          _clrConfigMask(CHT8305_CFG_TEMP_RES);
 }
 
 
-bool CHT8305::getTemperatureResolution()
+uint8_t CHT8305::getTemperatureResolution()
 {
-  return (getConfigRegister() & CHT8305_CFG_TEMP_RES) > 0;
+  if (getConfigRegister() & CHT8305_CFG_TEMP_RES) return 1;
+  return 0;
 }
 
 
 void CHT8305::setHumidityResolution(uint8_t res)
 {
-  _clrConfigMask(CHT8305_CFG_HUMI_RES);
-  if (res == 2)_setConfigMask(0x0100);  //  magic
-  if (res == 3)_setConfigMask(0x0200);  //  magic
-  //  default == 00 if not 2 or 3
+  _clrConfigMask(CHT8305_CFG_HUMI_RES); //  set bits to 00
+  if (res == 2)_setConfigMask(0x0200);  //   8 bit
+  if (res == 1)_setConfigMask(0x0100);  //  11 bit
+  //  default == 00 if not 1 or 2       //  14 bit
 }
 
 
@@ -214,8 +261,8 @@ bool CHT8305::getVCCenable()
 //
 bool CHT8305::setAlertTriggerMode(uint8_t mode)
 {
-  _clrConfigMask(CHT8305_CFG_ALERT_MODE);
   if (mode > 3) return false;   //  check 0,1,2,3
+  _clrConfigMask(CHT8305_CFG_ALERT_MODE);
   uint16_t mask = mode << 6;
   _setConfigMask(mask);
   return true;
@@ -252,11 +299,10 @@ bool CHT8305::setAlertLevels(float temperature, float humidity)
   if ((temperature < -40 ) || (temperature > 125)) return false;
   if ((humidity < 0 )      || (humidity > 100)) return false;
 
-  uint16_t mask = 0;
-  uint16_t tmp = humidity * (65535.0/100.0);
-  mask = tmp << 9;
+  uint16_t tmp  = humidity * (127.0 / 100.0);
+  uint16_t mask = tmp << 9;
 
-  tmp = (temperature + 40.0) * (65535.0 / 165.0);
+  tmp = (temperature + 40.0) * (511.0 / 165.0);
   mask |= tmp;
   _writeRegister(CHT8305_REG_ALERT, (uint8_t *)&mask, 2);
   return true;
@@ -267,6 +313,7 @@ float CHT8305::getAlertLevelTemperature()
   uint16_t data = 0;
   _readRegister(CHT8305_REG_ALERT, (uint8_t *)&data, 2);
   data &= 0x01FF;
+  data <<= 7;
   return data * (165.0 / 65535.0) - 40.0;
 }
 
@@ -275,7 +322,7 @@ float CHT8305::getAlertLevelHumidity()
 {
   uint16_t data = 0;
   _readRegister(CHT8305_REG_ALERT, (uint8_t *)&data, 2);
-  data >>= 9;
+  data &= 0xFE00;
   return data * (100.0 / 65535.0);
 }
 

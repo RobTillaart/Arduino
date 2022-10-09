@@ -78,9 +78,9 @@ Pull ups are needed on SDA, SCL and optional to ALERT.
 - **CHT8305(TwoWire \*wire = &Wire)** Constructor with default I2C bus.
 - **int begin(const uint8_t address = 0x40)** sets address, deault = 0x40.
 - **int begin(int sda, int scl, const uint8_t address = 0x40)** idem ESP32 et. al.
-- **bool isConnected()** checks if address can be seen onthe I2C bus.
-- **int read()** reads the temperature and humidity.
-- **uint32_t lastRead()** returns lastRead is in MilliSeconds since start sketch.
+- **bool isConnected()** checks if address can be seen on the I2C bus.
+- **int read()** reads both the temperature and humidity.
+- **uint32_t lastRead()** returns lastRead in MilliSeconds since start sketch.
 - **float getHumidity()** returns last humidity read.
 Will return the same value until **read()** is called again.
 - **float getTemperature()** returns last temperature read.
@@ -97,12 +97,15 @@ under- or overflow at the ends of the sensor range.
 - **float getHumOffset()** idem.
 - **float getTempOffset()** idem.
 
+If the offset is not the same over the operational range, 
+consider a mapping function for temperature and humidity.
+
 
 ### Config register
 
 Check the datasheet for details of the register bits.
 
-- **void setConfigRegister(uint16_t bitmask)** idem.
+- **void setConfigRegister(uint16_t bitmask)** idem. Default value 0x1000.
 - **uint16_t getConfigRegister()** idem. 
 
 |  bit  |  mask  |  name           |  description  |
@@ -124,26 +127,31 @@ Check the datasheet for details of the register bits.
 
 #### Getters / setters config register
 
-Wrapper functions for easy access.
+Note: setting **setConfigRegister(bitmask)** can be faster.
+
+Wrapper functions for easy configuration.
 
 - **void softReset()** sets the soft reset bit in the configuration, causing the sensor to reset.
-- **void setI2CClockStretch(bool on = false)**
+- **void setI2CClockStretch(bool on = false)** check datasheet.
 - **bool getI2CClockStretch()**
-- **void setHeaterOn(bool on = false)**  !user is responsible for timing!
-- **bool getHeater()**
-- **void setMeasurementMode(bool both = true)**
-- **bool getMeasurementMode()**
-- **bool getVCCstatus()**
-- **void setTemperatureResolution(bool b = false)**
-- **bool getTemperatureResolution()**
-- **void setHumidityResolution(uint8_t r = 0)** 0,2,3
-- **uint8_t getHumidityResolution()** returns 0,2,3
-- **void setVCCenable(bool enable = false)**
-- **bool getVCCenable()**
+- **void setHeaterOn(bool on = false)** switch on internal heater. Can improve humidity readings.
+see datasheet for details.
+  - **WARNING** User is responsible for timing as library
+- **bool getHeater()** Returns status.
+- **void setMeasurementMode(bool both = true)** both T and H or single unit.
+- **bool getMeasurementMode()** returns mode. 
+- **bool getVCCstatus()** 1 ==  > 2.8V  0 == < 2.8V  Useful when battery operated.
+- **void setTemperatureResolution(uint8_t res = 0)** 1 = 11 bit, 0 = 14 bit (default).
+- **uint8_t getTemperatureResolution()** idem.
+- **void setHumidityResolution(uint8_t res = 0)** 2 = 8 bit, 1 = 11 bit, 0 = 14 bit (default).
+- **uint8_t getHumidityResolution()** idem.
+- **void setVCCenable(bool enable = false)** idem.
+- **bool getVCCenable()** idem.
+
 
 ### Alert
 
-See register 3 datasheet page 12.
+See register 3 datasheet page 12 for details.
 
 - **void setAlertTriggerMode(uint8_t mode)** see table below.
 - **uint8_t getAlertTriggerMode()** returns 0, 1, 2 or 3.
@@ -155,15 +163,15 @@ See register 3 datasheet page 12.
 |   2    |  H        |
 |   3    |  T and H  |
 
-- **bool getAlertPendingStatus()**
-- **bool getAlertHumidityStatus()**
-- **bool getAlertTemperatureStatus()**
+- **bool getAlertPendingStatus()** idem.
+- **bool getAlertHumidityStatus()** idem.
+- **bool getAlertTemperatureStatus()** idem.
 - **bool setAlertLevels(float temperature, float humidity)** 
   - the values will be truncated to the closest possible.
   - the alert supports high limit only ==> there is no low limit alert.
   - note: the datasheet is ambigue wrt the formula used.
-- **float getAlertLevelTemperature()** idem.
-- **float getAlertLevelHumidity()** idem.
+- **float getAlertLevelTemperature()** returns the truncated value set.
+- **float getAlertLevelHumidity()** returns the truncated value set.
 
 
 The ALERT pin triggers with a falling edge (from HIGH to LOW).
@@ -177,11 +185,10 @@ or by **setConfigRegister(0x0002)**.
 - **float getVoltage()** to be tested what unit is used.
 
 Expected: 16 bit data implies ```voltage = 5.0V \* value / 65535.0;``` 
-similar to temperature and humidity.  To be verified.
+similar to temperature and humidity. To be verified.
 
 
 ### Meta data
-
 
 - **uint16_t getManufacturer()** returns 0x5959.
 - **uint16_t getVersionID()** return value may differ.
@@ -192,7 +199,6 @@ similar to temperature and humidity.  To be verified.
 - Buy hardware.
 - test (see below)
 - elaborate documentation.
-
 
 #### test
 
@@ -207,4 +213,9 @@ similar to temperature and humidity.  To be verified.
 - test getManufacturer(), getVersionID().
 - test write / readRegister with a single uint16_t to simplify code.
 
+### Could
 
+- move code to .cpp
+- add **uint8_t getAddress()** 
+- add **void readTemperature()** does single acquisition.
+- add **void readHumidity()** does single acquisition.

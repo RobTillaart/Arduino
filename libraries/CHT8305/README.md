@@ -8,7 +8,7 @@
 
 Arduino library for CHT8305 temperature and humidity sensor.
 
-**EXPERIMENTAL** not tested yet - TODO buy hardware + test.
+**EXPERIMENTAL** not tested yet ==> buy hardware + test.
 
 If you happen to have hardware and are able to test this library, 
 please let me know your experiences.
@@ -20,7 +20,7 @@ The CHT8305 is a temperature and humidity sensor.
 
 |  sensor       |  range       |  accuracy\*  |  resolution  |
 |:-------------:|:------------:|:------------:|:------------:|
-|  temperature  |  -40°..125°  |  max 2°C     |  0.1° C      |
+|  temperature  |  -40Â°..125Â°  |  max 2Â°C     |  0.1Â° C      |
 |  humidity     |  0%..100% RH |  max 5% RH   |  0.1% RH     |
 
 \* Accuracy for full range.
@@ -104,7 +104,6 @@ Check the datasheet for details of the register bits.
 
 - **void setConfigRegister(uint16_t bitmask)** idem.
 - **uint16_t getConfigRegister()** idem. 
-- **void softReset()** sets the soft reset bit in the configuration, causing the sensor to reset.
 
 |  bit  |  mask  |  name           |  description  |
 |:-----:|:------:|:----------------|:--------------|
@@ -122,53 +121,90 @@ Check the datasheet for details of the register bits.
 |  2    | 0x0002 |  VCC enable     |  1 = enable VCC measurement, 0 = disable (default)
 |  1-0  | 0x0003 |  reserved.      |  do not change. 
 
-Additional specific functions per field might be added in future releases
 
+#### Getters / setters config register
+
+Wrapper functions for easy access.
+
+- **void softReset()** sets the soft reset bit in the configuration, causing the sensor to reset.
+- **void setI2CClockStretch(bool on = false)**
+- **bool getI2CClockStretch()**
+- **void setHeaterOn(bool on = false)**  !user is responsible for timing!
+- **bool getHeater()**
+- **void setMeasurementMode(bool both = true)**
+- **bool getMeasurementMode()**
+- **bool getVCCstatus()**
+- **void setTemperatureResolution(bool b = false)**
+- **bool getTemperatureResolution()**
+- **void setHumidityResolution(uint8_t r = 0)** 0,2,3
+- **uint8_t getHumidityResolution()** returns 0,2,3
+- **void setVCCenable(bool enable = false)**
+- **bool getVCCenable()**
 
 ### Alert
 
-TODO elaborate
+See register 3 datasheet page 12.
 
-- high limit only (no low limit alert) << verify.
-- Register 3 datasheet page 12.
-- FALLING edge
+- **void setAlertTriggerMode(uint8_t mode)** see table below.
+- **uint8_t getAlertTriggerMode()** returns 0, 1, 2 or 3.
+
+|  mode  |  trigger  |  notes    |
+|:------:|:---------:|:----------|
+|   0    |  T or H   |  default  |
+|   1    |  T        |
+|   2    |  H        |
+|   3    |  T and H  |
+
+- **bool getAlertPendingStatus()**
+- **bool getAlertHumidityStatus()**
+- **bool getAlertTemperatureStatus()**
+- **bool setAlertLevels(float temperature, float humidity)** 
+  - the values will be truncated to the closest possible.
+  - the alert supports high limit only ==> there is no low limit alert.
+  - note: the datasheet is ambigue wrt the formula used.
+- **float getAlertLevelTemperature()** idem.
+- **float getAlertLevelHumidity()** idem.
+
+
+The ALERT pin triggers with a falling edge (from HIGH to LOW).
 
 
 ### Voltage
 
-Note: VCC measurement should be enabled (bit 2 config register)
+VCC measurement should be enabled by means of **void setVCCenable(true)**
+or by **setConfigRegister(0x0002)**.
 
-- **float getVoltage()** to be tested what unit exactly
+- **float getVoltage()** to be tested what unit is used.
 
-16 bit data implies 5.0V \* value / 65535.0;
+Expected: 16 bit data implies ```voltage = 5.0V \* value / 65535.0;``` 
+similar to temperature and humidity.  To be verified.
 
 
 ### Meta data
 
-TODO elaborate
 
-- **uint16_t getManufacturer()** 
-- **uint16_t getVersionID()**
+- **uint16_t getManufacturer()** returns 0x5959.
+- **uint16_t getVersionID()** return value may differ.
 
 
 ## Future
 
-- improve documentation.
-- make code functional complete.
-  - config register.
-  - alert function
-- fix TODO's in code.
-- fix TODO's in readme.
-- implement ALERT functions
+- Buy hardware.
+- test (see below)
+- elaborate documentation.
 
 
 #### test
 
-- buy hardware 
-- test AVR, ESP32, ...
-- test performance
-= test I2C speed
-- test resolution bits
-- test ALERT functions
-- test getVoltage(), getManufacturer(), getVersionID().
+- test Temperature and Humidity
+- test AVR, ESP32, other platforms?
+- test performance.
+= test I2C speed.
+- test resolution bits.
+- test config functions.
+- test ALERT functions.
+- test getVoltage()
+- test getManufacturer(), getVersionID().
+- test write / readRegister with a single uint16_t to simplify code.
+
 

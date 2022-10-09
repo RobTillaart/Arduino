@@ -3,6 +3,7 @@
 # Data types (KEYWORD1)
 CHT8305	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
@@ -11,10 +12,41 @@ read	KEYWORD2
 lastRead	KEYWORD2
 getTemperature	KEYWORD2
 getHumidity	KEYWORD2
+
 setHumOffset	KEYWORD2
 setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
+
+setConfigRegister	KEYWORD2
+getConfigRegister	KEYWORD2
+
+softReset	KEYWORD2
+setI2CClockStretch	KEYWORD2
+getI2CClockStretch	KEYWORD2
+setHeaterOn	KEYWORD2
+getHeate	KEYWORD2
+
+setMeasurementMode	KEYWORD2
+getMeasurementMode	KEYWORD2
+getVCCstatus	KEYWORD2
+setTemperatureResolution	KEYWORD2
+getTemperatureResolution	KEYWORD2
+
+setHumidityResolution	KEYWORD2
+getHumidityResolution	KEYWORD2
+setVCCenable	KEYWORD2
+getVCCenable	KEYWORD2
+
+setAlertTriggerMode	KEYWORD2
+getAlertTriggerMode	KEYWORD2
+getAlertPendingStatus	KEYWORD2
+getAlertHumidityStatus	KEYWORD2
+getAlertTemperatureStatus	KEYWORD2
+
+setAlertLevels	KEYWORD2
+getAlertLevelTemperature	KEYWORD2
+getAlertLevelHumidity	KEYWORD2
 
 
 # Constants (LITERAL1)

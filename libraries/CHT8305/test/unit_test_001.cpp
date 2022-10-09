@@ -25,8 +25,6 @@
 #include "Arduino.h"
 #include "CHT8305.h"
 
-#define A0      0
-
 
 unittest_setup()
 {
@@ -37,22 +35,44 @@ unittest_teardown()
 {
 }
 
-#define CHT8305_OK                       0
-#define CHT8305_ERROR_ADDR               -10
-#define CHT8305_ERROR_I2C                -11
-#define CHT8305_ERROR_CONNECT            -12
 
-#define CHT8305_ERROR_LASTREAD           -20
-
-
-
-unittest(test_constants)
+unittest(test_constants_I)
 {
   assertEqual(0,   CHT8305_OK);
   assertEqual(-10, CHT8305_ERROR_ADDR);
   assertEqual(-11, CHT8305_ERROR_I2C);
   assertEqual(-12, CHT8305_ERROR_CONNECT);
   assertEqual(-20, CHT8305_ERROR_LASTREAD);
+}
+
+
+unittest(test_constants_II)
+{
+  assertEqual(0x00, CHT8305_REG_TEMPERATURE);
+  assertEqual(0x01, CHT8305_REG_HUMIDITY);
+  assertEqual(0x02, CHT8305_REG_CONFIG);
+  assertEqual(0x03, CHT8305_REG_ALERT);
+  assertEqual(0x04, CHT8305_REG_VOLTAGE);
+  assertEqual(0xFE, CHT8305_REG_MANUFACTURER);
+  assertEqual(0xFF, CHT8305_REG_VERSION);
+}
+
+
+unittest(test_constants_III)
+{
+  assertEqual(0x8000, CHT8305_CFG_SOFT_RESET);
+  assertEqual(0x4000, CHT8305_CFG_CLOCK_STRETCH);
+  assertEqual(0x2000, CHT8305_CFG_HEATER);
+  assertEqual(0x1000, CHT8305_CFG_MODE);
+  assertEqual(0x0800, CHT8305_CFG_VCCS);
+  assertEqual(0x0400, CHT8305_CFG_TEMP_RES);
+  assertEqual(0x0300, CHT8305_CFG_HUMI_RES);
+  assertEqual(0x00C0, CHT8305_CFG_ALERT_MODE);
+  assertEqual(0x0020, CHT8305_CFG_ALERT_PENDING);
+  assertEqual(0x0010, CHT8305_CFG_ALERT_HUMI);
+  assertEqual(0x0008, CHT8305_CFG_ALERT_TEMP);
+  assertEqual(0x0004, CHT8305_CFG_VCC_ENABLE);
+  assertEqual(0x0003, CHT8305_CFG_VCC_RESERVED);
 }
 
 

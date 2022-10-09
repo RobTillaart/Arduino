@@ -23,6 +23,7 @@ CHT8305 CHT;
 
 uint8_t count = 0;
 
+
 void setup()
 {
   CHT.begin(0x40);   //  default address
@@ -34,7 +35,6 @@ void setup()
   Serial.print("CHT8305_LIB_VERSION: ");
   Serial.println(CHT8305_LIB_VERSION);
   Serial.println();
-
 
   Serial.println(CHT.getManufacturer());
   Serial.println(CHT.getVersionID());

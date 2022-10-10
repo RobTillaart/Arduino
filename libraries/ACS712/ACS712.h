@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.0"))
+#define ACS712_LIB_VERSION        (F("0.3.1"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -68,6 +68,8 @@ class ACS712
     uint16_t decMidPoint();
     //  Auto midPoint, assuming zero DC current or any AC current
     uint16_t autoMidPoint(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    //  resets to half maxADC
+    uint16_t resetMidPoint();
 
 
     //  Form Factor is also known as crest factor;
@@ -79,6 +81,9 @@ class ACS712
     //  noise defaults 21 datasheet
     void     setNoisemV(uint8_t noisemV = ACS712_DEFAULT_NOISE);
     uint8_t  getNoisemV();
+    //  enable/disable noiseSuppression for this measurement as needed.
+    float    mVNoiseLevel(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);  //  uses mA_peak2peak()
+    void     suppressNoise(bool flag);
 
 
     //  Adjusting resolution AC and DC
@@ -101,13 +106,15 @@ class ACS712
 
   private:
     uint8_t   _pin;
+    uint16_t  _maxADC;
     float     _mVperStep;
     float     _formFactor;    //  peak2peak -> RMS
     float     _mVperAmpere;
     float     _mAPerStep;
-    int       _midPoint;
+    uint16_t  _midPoint;
     uint8_t   _noisemV;
-    float     _microsAdjust = 1.0;  //  0.9986
+    float     _microsAdjust   = 1.0;  //  0.9986
+    bool      _suppresNoise = false;
 };
 
 

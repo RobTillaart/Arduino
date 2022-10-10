@@ -70,6 +70,7 @@ The library is at least confirmed to work with the following boards:
 | Device       | Voltage | ADC steps |  Notes  |
 |:-------------|:-------:|:---------:|:--------|
 | Arduino UNO  |  5.0V   |   1024    | tested with RobotDyn ACS712 20 A breakout.
+| Arduino UNO  |  5.0V   |   1024    | tested with Open-Smart ACS712 5 A breakout.
 | Arduino NANO |  5.0V   |   1024    | #18
 | ESP32        |  3.3V   |   4096    | #15
 | Promicro     |  5.0V   |   1024    | #15 
@@ -119,7 +120,10 @@ Volts is the voltage used by the (Arduino) internal ADC. maxADC is the maximum o
 The defaults are based upon an Arduino UNO, 10 bits ADC.
 These two ADC parameters are needed to calculate the voltage output of the ACS712 sensor.
 - **float mA_peak2peak(float frequency = 50, uint16_t cycles = 1)** blocks ~21 ms to sample a whole 50 or 60 Hz period.
-Returns the peak to peak current, can be used to determine form factor..
+Returns the peak to peak current, can be used to determine form factor.  
+The **mA_peak2peak()** can also be used to measure on a zero current line 
+to get an indication of the lowest detectable current.
+Finally this function is used internally to detect the noiseLevel in mV on a zero current line. 
 - **float mA_AC(float frequency = 50, uint16_t cycles = 1)** blocks ~21 ms to sample a whole 50 or 60 Hz period.
 Note that a lower frequency, or more cycles, will increase the blocking period.
 The function returns the AC current in mA.
@@ -139,14 +143,14 @@ A negative value indicates the current flows in the opposite direction.
 
 #### Midpoint
 
-The midPoint is the (raw) zero-reference for all current measurements.
+The midpoint is the (raw) zero-reference for all current measurements.
 It is defined in steps of the ADC and is typical around half the **maxADC** value defined 
 in the constructor. So for a 10 bit ADC a number between 500..525 is most likely.
 
- 
-Since 0.3.0 all midPoint functions return actual midPoint.
+Since 0.3.0 all midpoint functions return actual midPoint.
 
 - **uint16_t setMidPoint(uint16_t midPoint)** sets midpoint for the ADC conversion.
+Parameter must be between 0 and maxADC, otherwise midpoint is not changed.
 - **uint16_t autoMidPoint(float frequency = 50, uint16_t cycles = 1)** Auto midPoint, 
 assuming zero DC current or any AC current. 
 The function takes the average of many measurements during one or more full cycles.
@@ -158,10 +162,14 @@ This function is mandatory for measuring AC.
   - 0.2.8 the parameter cycles allow to average over a number of cycles.
 - **uint16_t getMidPoint()** read the value set / determined.
 - **uint16_t incMidPoint()** manual increase midpoint, e.g. useful in an interactive application.
+Will not increase if midpoint equals macADC.
 - **uint16_t decMidPoint()** manual decrease midpoint.
+Will not decrease if midpoint equals 0.
+- **uint16_t resetMidPoint()** resets the midpoint to the initial value of maxADC / 2 as in the constructor.
 
 Since version 0.3.0 there is another way to determine the midPoint.
-One can use the two debug functions (milliseconds at least a full cycle)
+One can use the two debug functions. 
+(milliseconds > 20 to get at least a full cycle)
 - **uint16_t getMinimum(uint16_t milliSeconds = 20)**
 - **uint16_t getMaximum(uint16_t milliSeconds = 20)**
 
@@ -173,7 +181,7 @@ uint16_t midpnt = ACS.setMidPoint((ACS.getMinimum(20) + ACS.getMaximum(20)) / 2)
 See - ACS712_20_AC_midPoint_compare.ino
 
 The ACS712 has a midPoint level that is specified as  0.5 \* VCC. 
-So **autoMidPoint()** can help indicate voltage deviations for the ACS712. 
+So **autoMidPoint()** can help to detect voltage deviations for the ACS712. 
 The library does not support this yet.
 
 
@@ -182,7 +190,7 @@ The library does not support this yet.
 The form factor is also known as the crest factor. 
 It is only used for signals measured with **mA_AC()**.
 
-- **void setFormFactor(float formFactor = ACS712_FF_SINUS)** manually sets form factor.
+- **void setFormFactor(float formFactor = ACS712_FF_SINUS)** manually sets the form factor.
 Must typical be between 0.0 and 1.0, see constants below.
 - **float getFormFactor()** returns current form factor. 
 
@@ -204,7 +212,7 @@ Please let me know if other crest factors need to be added.
 Since version 0.3.0 the form factor can be determined by
 
 ```cpp
-float FF = 2.0 * mA_AC_sampling() / ACS.mA_peak2peak();
+float formFactor = 2.0 * mA_AC_sampling() / ACS.mA_peak2peak();
 ```
 
 See - ACS712_20_determine_form_factor.ino
@@ -213,13 +221,24 @@ See - ACS712_20_determine_form_factor.ino
 
 #### Noise
 
-Default = 21 mV.
+Default = 21 mV (datasheet)
 
-- **void setNoisemV(uint8_t noisemV = 21)** set noise level, 
+- **void setNoisemV(uint8_t noisemV = 21)** sets the noise level, 
 is used to determine zero level e.g. in the AC measurements with **mA_AC()**.
 - **uint8_t getNoisemV()** returns the set value.
+- **float mVNoiseLevel(float frequency, uint16_t cycles)** determines the mV of noise.
+Measurement should be taken when there is no AC/DC current or a constant DC current. 
+The level will give a (not quantified yet) indication of the accuracy of the measurements.
+A first order indication can be made by comparing it to voltage / 2 of the constructor.
 
-How to improve upon noise is one of the open issues under investigation. 
+Noise on the signal can be reduced by using a low pass (RC) filter. 
+Version 0.3.1 includes experimental code to take two sample and average them.
+The idea is that ```((3 + 5)/2)^2   <  (3^2 + 5^2)/2```
+
+In theory this should suppress noise levels however more investigation in
+software noise detection and suppression is needed.
+
+- **void suppressNoise(bool flag)** experimental noise suppression.
 
 
 #### mV per Ampere
@@ -323,44 +342,39 @@ The examples show the basic working of the functions.
 
 #### Should - 0.3.x
 
-- investigate noise suppression  (0.3.1 or later)
+- investigate noise suppression  #21 (0.3.1 and later)
 - external history file = changelog.md
-- check TODO's in code.
 
 
 #### Could
 
 - merge **mA_AC()** and **mA_AC_sampling()** into one. (0.4.0)
   - or remove - depreciate - the worst one
-- ACS712X class with external ADC ( 16 or even 24 bit)
-  - keep interface alike?
-  - are these fast enough for e.g. 60 Hz (100 samples in 16 millis?)
-    - **ADS1115** in continuous mode ==> 0.8 samples per millisecond at 16 bit Ideal for **mA-DC()**
-    - **MCP3202** SPI interface ==> up to 100 samples per millisecond !! at 12 bit. Perfect.
 - investigate blocking calls:
   - **mA_AC()** blocks for about 20 ms at 50 Hz.
   This might affect task scheduling on a ESP32. Needs to be investigated. 
   Probably need a separate thread that wakes up when new analogRead is available?
   - RTOS specific class?
   - **detectFrequency(float)** blocks pretty long.
-- **setMidPoint()** test valid value < maxADC?
-  - **incrMidPoint()** idem.
-  - **autoMP()** ??
 - other set functions also a range check?
+- split the readme.md in multiple documents?
+  - which?
 
 
 #### Won't
 
 - external analogue read support? separate class!
   - after this one stabilized.
+- ACS712X class with external ADC ( 16 or even 24 bit)
+  - keep interface alike?
+  - are these fast enough for e.g. 60 Hz (100 samples in 16 millis?)
+    - **ADS1115** in continuous mode ==> 0.8 samples per millisecond at 16 bit Ideal for **mA-DC()**
+    - **MCP3202** SPI interface ==> up to 100 samples per millisecond !! at 12 bit. Perfect.
 - investigate support for micro-Amperes. **ACS.uA_DC()**
   - need a very stable voltage 
   - needs a 24 bit ADC 
   - default noise is already ~21mV...
   - => not feasible in normal setup.
-- Should the FormFactor not be just a parameter of **mA_AC()**
-  - it is the only function using it.
-  - No, 
 - Should the FormFactor not be just a parameter of **mA_AC()**
   it is the only function using it. ==> No unnecessary breaking API
 - should cycles be an uint8_t ?

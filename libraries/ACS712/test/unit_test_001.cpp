@@ -108,8 +108,11 @@ unittest(test_midPoint)
   // uint16_t amp60 = ACS.getMidPoint();
   // assertEqual(0, amp60);
 
-  ACS.setMidPoint(1000);
   uint16_t amp = ACS.getMidPoint();
+  assertEqual(511, amp);
+  
+  ACS.setMidPoint(1000);
+  amp = ACS.getMidPoint();
   assertEqual(1000, amp);
 
   ACS.incMidPoint();
@@ -119,6 +122,19 @@ unittest(test_midPoint)
   ACS.decMidPoint();
   amp = ACS.getMidPoint();
   assertEqual(1000, amp);
+
+  ACS.resetMidPoint();
+  amp = ACS.getMidPoint();
+  assertEqual(511, amp);
+
+  //  test range ends
+  ACS.setMidPoint(1023);
+  amp = ACS.incMidPoint();
+  assertEqual(1023, amp);
+
+  ACS.setMidPoint(0);
+  amp = ACS.decMidPoint();
+  assertEqual(0, amp);
 }
 
 
@@ -126,7 +142,7 @@ unittest(test_formFactor)
 {
   ACS712  ACS(A0, 5.0, 1023, 100);
 
-  // default 0.5 * sqrt(2)
+  //  default 0.5 * sqrt(2)
   float ff = ACS.getFormFactor();
   float eff = 0.5 * sqrt(2);
   float delta = abs(eff - ff);
@@ -145,7 +161,7 @@ unittest(test_Noise)
   ACS712  ACS(A0, 5.0, 1023, 100);
 
   int nmv = ACS.getNoisemV();
-  assertEqual(21, nmv);       // default value..
+  assertEqual(21, nmv);       //  default value..
 
   ACS.setNoisemV(100);
   nmv = ACS.getNoisemV();
@@ -158,7 +174,7 @@ unittest(test_mVperAmp)
   ACS712  ACS(A0, 5.0, 1023, 100);
 
   float mpa = ACS.getmVperAmp();
-  assertEqualFloat(100, mpa, 0.001);       // default value..
+  assertEqualFloat(100, mpa, 0.001);       //  default value..
 
   float mva = 25.0;
   while (mva < 200)

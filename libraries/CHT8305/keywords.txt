@@ -12,6 +12,8 @@ read	KEYWORD2
 lastRead	KEYWORD2
 getTemperature	KEYWORD2
 getHumidity	KEYWORD2
+setConversionDelay	KEYWORD2
+getConversionDelay	KEYWORD2
 
 setHumOffset	KEYWORD2
 setTempOffset	KEYWORD2

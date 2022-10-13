@@ -15,7 +15,12 @@
 //          |               |
 //  IRQ ----| ALERT         |   only if enabled.
 //          +---------------+
-
+//
+//  check datasheet
+//  VCC     RED
+//  GND     BLACK
+//  SDA     YELLOW
+//  SCL     WHITE
 
 #include "CHT8305.h"
 

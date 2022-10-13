@@ -17,7 +17,12 @@
 //          |               |
 //  IRQ ----| ALERT         |   only if enabled.
 //          +---------------+
-
+//
+//  check datasheet
+//  VCC     RED
+//  GND     BLACK
+//  SDA     YELLOW
+//  SCL     WHITE
 
 #include "CHT8305.h"
 
@@ -36,6 +41,8 @@ void setup()
   Serial.println(CHT8305_LIB_VERSION);
   Serial.println();
 
+  CHT.setVCCenable(true);
+
   Serial.println("voltage\t us");
   delay(1000);
 }
@@ -43,8 +50,9 @@ void setup()
 
 void loop()
 {
-  if (millis() - CHT.lastRead() >= 100)
+  if (millis() - CHT.lastRead() >= 1000)
   {
+    CHT.read();
     // READ DATA
     uint32_t start = micros();
     float voltage = CHT.getVoltage();
@@ -53,6 +61,10 @@ void loop()
     Serial.print(voltage, 3);
     Serial.print("\t\t");
     Serial.print(stop - start);
+    Serial.print("\t\t");
+    Serial.print(CHT.getVCCstatus());
+    Serial.print("\t\t");
+    Serial.print(CHT.getConfigRegister(), HEX);
     Serial.print("\n");
   }
 }

@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,10 +12,14 @@
 //                     add config ALERT functions.
 //                     add constants for registers
 //                     fix getVoltage() register
-//  2022-10-xx  0.1.2  update unit tests
+//  2022-10-09  0.1.2  update unit tests
 //                     fix humidity resolution param.
 //                     fix setAlertLevels()
 //                     refactor, move code to .cpp
+//  2022-10-13  0.1.3  adjust getVoltage() formula.(still unclear).
+//                     update readme.md  (some AVR test results)
+//                     add get- setConversionDelay()
+//
 
 
 #include "CHT8305.h"
@@ -102,42 +106,55 @@ int CHT8305::read()
 //  MilliSeconds since start sketch
 uint32_t CHT8305::lastRead()
 {
-  return _lastRead; 
+  return _lastRead;
 };
 
 
 float CHT8305::getHumidity()
-{ 
-  return _humidity; 
+{
+  return _humidity;
 };
 
 
 float CHT8305::getTemperature()
-{ 
-  return _temperature; 
+{
+  return _temperature;
 };
+
+
+void CHT8305::setConversionDelay(uint8_t cd)
+{
+  if (cd < 8) cd = 8;
+  _conversionDelay = cd;
+}
+
+
+uint8_t CHT8305::getConversionDelay()
+{
+  return _conversionDelay;
+}
 
 
 void CHT8305::setHumOffset(float offset)
 {
-  _humOffset = offset; 
+  _humOffset = offset;
 };
 
 
 void CHT8305::setTempOffset(float offset)
-{ 
-  _tempOffset = offset; 
+{
+  _tempOffset = offset;
 };
 
 
 float CHT8305::getHumOffset()
-{ 
-  return _humOffset; 
+{
+  return _humOffset;
 };
 
 
 float CHT8305::getTempOffset()
-{ 
+{
   return _tempOffset;
 };
 
@@ -336,7 +353,7 @@ float CHT8305::getVoltage()
   uint8_t data[2] = { 0, 0};
   _readRegister(CHT8305_REG_VOLTAGE, &data[0], 2);
   uint16_t tmp = data[0] << 8 | data[1];
-  return tmp * (5.0 / 65535.0);  //  this is best guess
+  return tmp * (5.0 / 32768.0);   //  best guess
 }
 
 
@@ -375,7 +392,7 @@ int CHT8305::_readRegister(uint8_t reg, uint8_t * buf, uint8_t size)
 
   if (reg == CHT8305_REG_TEMPERATURE)  //  wait for conversion...
   {
-    delay(14);  //  2x 6.5 ms @ 14 bit.
+    delay(_conversionDelay);  //  2x 6.5 ms @ 14 bit = 14  (10 works).
   }
 
   n = _wire->requestFrom(_address, size);

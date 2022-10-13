@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.2"))
+#define CHT8305_LIB_VERSION              (F("0.1.3"))
 
 //  ERRORS
 #define CHT8305_OK                       0
@@ -65,6 +65,9 @@ public:
   uint32_t lastRead();
   float    getHumidity();
   float    getTemperature();
+  void     setConversionDelay(uint8_t cd = 14);
+  uint8_t  getConversionDelay();
+  
 
   //  adding offsets works well in normal range
   //  might introduce under- or overflow at the ends of the sensor range
@@ -89,8 +92,8 @@ public:
   //  |  7-6  | 0x00C0 |  ALTM           |  Alert Mode (datasheet)
   //  |  5    | 0x0020 |  APS            |  Alert pending status
   //  |  4    | 0x0010 |  H-ALT          |  Humidity Alert status
-  //  |  3    | 0x0004 |  T-ALT          |  Temperature Alert status
-  //  |  2    | 0x0002 |  VCC enable     |  1 = enable VCC measurement, 0 = disable (default)
+  //  |  3    | 0x0008 |  T-ALT          |  Temperature Alert status
+  //  |  2    | 0x0004 |  VCC enable     |  1 = enable VCC measurement (default), 0 = disable
   //  |  1-0  | 0x0003 |  reserved.      |  do not change.
   //
   //  specific config functions. See datasheet!
@@ -114,7 +117,7 @@ public:
   void     setHumidityResolution(uint8_t res = 0);    //  2 = 8 bit, 1 = 11 bit, other = 14 bit
   uint8_t  getHumidityResolution();                   //  idem
 
-  void     setVCCenable(bool enable = false);
+  void     setVCCenable(bool enable = true);
   bool     getVCCenable();
 
   //  ALERT FUNCTIONS
@@ -146,14 +149,15 @@ public:
 
 
 private:
-  float    _humOffset     = 0.0;
-  float    _tempOffset    = 0.0;
-  float    _humidity      = 0.0;
-  float    _temperature   = 0.0;
-  uint32_t _lastRead      = 0;
+  float    _humOffset       = 0.0;
+  float    _tempOffset      = 0.0;
+  float    _humidity        = 0.0;
+  float    _temperature     = 0.0;
+  uint32_t _lastRead        = 0;
+  uint8_t  _conversionDelay = 14;
 
   TwoWire* _wire;
-  uint8_t  _address       = 0x40;
+  uint8_t  _address       = 0x40;  //  default.
 
   int      _readRegister(uint8_t reg, uint8_t * buf, uint8_t size);
   int      _writeRegister(uint8_t reg, uint8_t * buf, uint8_t size);

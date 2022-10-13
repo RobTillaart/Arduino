@@ -15,7 +15,12 @@
 //          |               |
 //  IRQ ----| ALERT         |   only if enabled.
 //          +---------------+
-
+//
+//  check datasheet
+//  VCC     RED
+//  GND     BLACK
+//  SDA     YELLOW
+//  SCL     WHITE
 
 #include "CHT8305.h"
 
@@ -36,8 +41,8 @@ void setup()
   Serial.println(CHT8305_LIB_VERSION);
   Serial.println();
 
-  Serial.println(CHT.getManufacturer());
-  Serial.println(CHT.getVersionID());
+  Serial.println(CHT.getManufacturer(), HEX);
+  Serial.println(CHT.getVersionID(), HEX);
   Serial.println(CHT.getVoltage());
 
   delay(1000);

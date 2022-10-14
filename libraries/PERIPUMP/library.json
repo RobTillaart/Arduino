@@ -1,0 +1,23 @@
+{
+  "name": "PERIPUMP",
+  "keywords": "peristaltic, pump, DFR0523",
+  "description": "Arduino library for peristaltic pump DFR0523 and compatibles.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PERIPUMP.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "PERIPUMP.h"
+}

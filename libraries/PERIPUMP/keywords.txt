@@ -1,0 +1,19 @@
+# Syntax Colouring Map For peristaltic
+
+# Data types (KEYWORD1)
+PERIPUMP	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+
+begin	KEYWORD2
+stop	KEYWORD2
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
+getRunTime	KEYWORD2
+resetRunTime	KEYWORD2
+
+
+# Constants (LITERAL1)
+PERIPUMP_LIB_VERSION	LITERAL1
+

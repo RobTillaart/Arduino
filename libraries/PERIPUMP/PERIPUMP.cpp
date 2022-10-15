@@ -1,7 +1,7 @@
 //
 //    FILE: PERIPUMP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
 
@@ -18,54 +18,63 @@ PERIPUMP::PERIPUMP(uint8_t pumpPin)
 }
 
 
-void PERIPUMP::begin()
+void PERIPUMP::begin(float percentage)
 {
   _myServo.attach(_pin);
-  stop();
   resetRunTime();
+  setPercentage(percentage);
 }
 
 
 void PERIPUMP::stop()
 {
-  _myServo.writeMicroseconds(1500);
-  if (_start != 0)
-  {
-    _sumTime += (millis() - _start);
-    _start = 0;
-  }
+  setPercentage(0);
 }
 
 
+void PERIPUMP::forward()
+{
+  setPercentage(100);
+}
+
+
+void PERIPUMP::backward()
+{
+  setPercentage(-100);
+}
+
+
+//  the worker.
 void PERIPUMP::setPercentage(float percentage)
 {
   //  weighted runtime ?
   //  _sumTime += (millis() - _start) * abs(_percentage);
-  _percentage = constrain(percentage, -100, 100);
+
+  _percentage = constrain(percentage, -100.0, 100.0);
+
+  uint32_t now = millis();
 
   uint16_t ms = 0;
   if (_percentage == 0)
   {
-    ms = 1500;
-    if (_start != 0)
-    {
-      _sumTime += (millis() - _start);
-      _start = 0;
-    }
+    if (_start != 0) _sumTime += (now - _start);
+    //  middle position is stop
+    ms = 0;
+    _start = 0;
   }
   else if (_percentage > 0)
   {
-    //  1600 - 2500
-    ms = 1600 + 9 * _percentage;         //  9 ==  900 / 100%
-    if (_start == 0) _start = millis();
+    ms = 500 + 5 * _percentage;
+    if (_start == 0) _start = now;
   }
   else if (_percentage < 0)
   {
-    //  500 - 1400
-    ms = 1400 + 9 * _percentage;
-    if (_start == 0) _start = millis();
+    ms = -500 + 5 * _percentage;
+    if (_start == 0) _start = now;
   }
-  _myServo.writeMicroseconds(ms);
+
+  if (_invert) _myServo.writeMicroseconds(1500 - ms);
+  else _myServo.writeMicroseconds(1500 + ms);
 }
 
 
@@ -73,6 +82,19 @@ float PERIPUMP::getPercentage()
 {
   return _percentage;
 }
+
+
+void PERIPUMP::setInvert(bool flag)
+{
+  _invert = flag;
+}
+
+
+bool PERIPUMP::getInvert()
+{
+  return _invert;
+}
+
 
 
 //////////////////////////////////////////////////////

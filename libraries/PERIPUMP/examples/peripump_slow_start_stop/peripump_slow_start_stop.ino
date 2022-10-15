@@ -21,6 +21,7 @@ void setup()
   pump.begin();
   pump.stop();
 
+  //  FULL SPEED
   pump.setPercentage(100);
   delay(2000);
   pump.stop();
@@ -30,74 +31,36 @@ void setup()
   pump.stop();
   delay(1000);
 
-  pump.setPercentage(10);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(20);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(30);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(40);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(50);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(60);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(70);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(80);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(90);
-  Serial.println(pump.getPercentage());
-  delay(2000);
-  pump.setPercentage(100);
-  Serial.println(pump.getPercentage());
-  delay(2000);
+  //  SLOW START / STOP
 
+  //  takes 10 seconds to go to 100%
+  slowStart(100.0, 10000);
+  Serial.print(millis());
+  Serial.print('\t');
+  Serial.print(pump.getPercentage());
+  Serial.println();
+  delay(1000);
 
+  slowStop(2000);
+  Serial.print(millis());
+  Serial.print('\t');
+  Serial.print(pump.getPercentage());
+  Serial.println();
+  delay(1000);
 
+  slow(0, 100, 5000);
+  Serial.print(millis());
+  Serial.print('\t');
+  Serial.print(pump.getPercentage());
+  Serial.println();
+  delay(1000);
 
-  //  pump.setPercentage(0);
-  //  Serial.print(millis());
-  //  Serial.print('\t');
-  //  Serial.print(pump.getPercentage());
-  //  Serial.println();
-  //
-  //  //  take 0.5 seconds to go to 100%
-  //  slowStart(100.0, 5000);
-  //  Serial.print(millis());
-  //  Serial.print('\t');
-  //  Serial.print(pump.getPercentage());
-  //  Serial.println();
-  //  delay(1000);
-  //
-  //  slowStop(2000);
-  //  Serial.print(millis());
-  //  Serial.print('\t');
-  //  Serial.print(pump.getPercentage());
-  //  Serial.println();
-  //  delay(1000);
-  //
-  //  slow(0, 100, 5000);
-  //  Serial.print(millis());
-  //  Serial.print('\t');
-  //  Serial.print(pump.getPercentage());
-  //  Serial.println();
-  //  delay(1000);
-  //
-  //  slowStop(10000);
-  //  Serial.print(millis());
-  //  Serial.print('\t');
-  //  Serial.print(pump.getPercentage());
-  //  Serial.println();
-  //  delay(1000);
+  slowStop(10000);
+  Serial.print(millis());
+  Serial.print('\t');
+  Serial.print(pump.getPercentage());
+  Serial.println();
+  delay(1000);
 
   pump.stop();
   delay(1000);
@@ -106,6 +69,7 @@ void setup()
 void loop()
 {
 }
+
 
 void slowStart(float perc, uint32_t mils)
 {
@@ -119,10 +83,10 @@ void slowStop(uint32_t mils)
 }
 
 
-//  blocking slow speed adjustment
+//  BLOCKING slow speed adjustment
 uint32_t slow(float percStart, float percStop, uint32_t mils)
 {
-  uint32_t count = 0;
+  uint32_t steps = 0;
   uint32_t start = micros();
   float step = (percStop - percStart) / (mils * 1000.0);
   while (micros() - start < (mils * 1000))
@@ -130,11 +94,11 @@ uint32_t slow(float percStart, float percStop, uint32_t mils)
     float speed = percStart + step * (micros() - start);
     pump.setPercentage(speed);
     //  Serial.println(speed);
-    count++;
+    steps++;
   }
   pump.setPercentage(percStop);
   //  Serial.println(count);
-  return count;
+  return steps;
 }
 
 

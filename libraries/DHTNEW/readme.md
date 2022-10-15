@@ -19,6 +19,13 @@ This is the main development library of all my DHT libraries.
 Supports DHT11, DHT22, DHT33, DHT44, AM2301, AM2302, AM2303 as these all have the same protocol.
 Note there are differences e.g. DHT11 has no negative temperature, no decimals, and a longer wakeup time.
 
+#### Sonoff Si7021
+
+Since 0.4.14 there is **experimental** support for the Sonoff Si7021 . 
+No hardware yet to test this myself, but it is confirmed to work.(see #79)
+Seems the Sonoff Si7021 sensor is very sensitive in the wakeup timing.
+This behavior needs to be investigated in the future. 
+
 
 ## DHT PIN layout from left to right
 
@@ -58,7 +65,15 @@ Note there are differences e.g. DHT11 has no negative temperature, no decimals, 
 however it does not reset the sensor in a hardware way. 
 - **uint8_t getType()**  0 = unknown, 11 or 22. 
 In case of 0, **getType()** will try to determine type.
+Since 0.4.14 type 70 is added for **experimental** Sonoff Si7021 support.
 - **void setType(uint8_t type = 0)** allows to force the type of the sensor. 
+
+|  type  |  sensors        |  notes         |
+|:------:|:---------------:|:---------------|
+|   0    |  not defined    |                |
+|   11   |  DHT11          |                |
+|   22   |  DHT22 a.o      |  most others   |
+|   70   |  Sonoff Si7021  |  experimental  |
 
 
 ### Base interface
@@ -217,18 +232,28 @@ updated TIMEOUT_C from 70 -> 90 us to minimize its occurrence - See https://gith
 added ```while(!Serial);``` in examples to they work for MKR1010 Wifi.
 27. (0.4.11)
 update library.json, license, minor edits (cleanup), unit tests
+28. (0.4.12)
+Fix #72, delayMicroseconds() for wakeUp
+29. (0.4.13)
+Fix #76, disable interrupts for ESP32.
+30. (0.4.14)
+added experimental support for Si7021.
 
 
 ## Future
 
+#### must
+
+- move history to separate CHANGELOG.md file
+
+#### should
+
 - test on more boards
 - investigate temperature constraining (type dependant.
 - update documentation
-- move history to separate release_notes.md file ?
 - improve unit test
 - fix  DHTLIB_VALUE_OUT_OF_RANGE  code
 - #if defined(MKR1010)  // TODO find out real define 
-- 
 
 
  

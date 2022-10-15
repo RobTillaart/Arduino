@@ -1,67 +1,22 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.13
+// VERSION: 0.4.14
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
-//  HISTORY:
-//  0.1.0  2017-07-24  initial version based upon DHTStable
-//  0.1.1  2017-07-29  add begin() to determine type once and for all instead of every call + refactor
-//  0.1.2  2018-01-08  improved begin() + refactor()
-//  0.1.3  2018-01-08  removed begin() + moved detection to read() function
-//  0.1.4  2018-04-03  add get-/setDisableIRQ(bool b)
-//  0.1.5  2019-01-20  fix negative temperature DHT22 - issue #120
-//  0.1.6  2020-04-09  #pragma once, readme.md, own repo
-//  0.1.7  2020-05-01  prevent premature read; add waitForReading flag (Kudo's to Mr-HaleYa),
-//  0.2.0  2020-05-02  made temperature and humidity private (Kudo's to Mr-HaleYa),
-//  0.2.1  2020-05-27  Fix #11 - Adjust bit timing threshold
-//  0.2.2  2020-06-08  added ERROR_SENSOR_NOT_READY and differentiate timeout errors
-//  0.3.0  2020-06-12  added getReadDelay & setReadDelay to tune reading interval
-//                     removed get/setDisableIRQ; adjusted wakeup timing; refactor
-//  0.3.1  2020-07-08  added powerUp() powerDown();
-//  0.3.2  2020-07-17  fix #23 added get/setSuppressError(); overridable DHTLIB_INVALID_VALUE
-//  0.3.3  2020-08-18  fix #29, create explicit delay between pulling line HIGH and
-//                     waiting for LOW in handshake to trigger the sensor.
-//                     On fast ESP32 this fails because the capacity / voltage of the long wire
-//                     cannot rise fast enough to be read back as HIGH.
-//  0.3.4  2020-09-23  Added **waitFor(state, timeout)** to follow timing from datasheet.
-//                     Restored disableIRQ flag as problems occurred on AVR. The default of
-//                     this flag on AVR is false so interrupts are allowed.
-//                     This need some investigation
-//                     Fix wake up timing for DHT11 as it does not behave according datasheet.
-//                     fix wakeupDelay bug in setType();
-//  0.4.0  2020-11-10  added DHTLIB_WAITING_FOR_READ as return value of read (minor break of interface)
-//  0.4.1  2020-11-11  getType() attempts to detect sensor type
-//         2020-12-12  add Arduino -CI + readme
-//  0.4.2  2020-12-15  fix negative temperatures
-//  0.4.3  2021-01-13  add reset(), add lastRead()
-//  0.4.4  2021-02-01  fix negative temperatures DHT22 (again)
-//  0.4.5  2021-02-14  fix -0°C encoding of DHT22  ( bit pattern 0x8000 )
-//  0.4.6  2021-04-09  fix #57 negative temperatures DHT22
-//                     Do not use 0.4.5 and 0.4.4 as these are incorrect for negative temperature.
-//  0.4.7  2021-04-09  fix #60 negative temperatures below -25.5°C + readme.md
-//  0.4.8  2021-05-27  fixes to improve Arduino-lint
-//  0.4.9  2021-06-13  add optional flag DHTLIB_VALUE_OUT_OF_RANGE
-//  0.4.10 2021-11-18  update build-CI - compilation test on M4 and ESP32 of examples
-//                     update readme.md, badges, typos, reorganizing
-//                     added note: MKR1010 Wifi support - setDisableIRQ(false)
-//                     minor edits in examples
-//                     changed TIMEOUT_C to 90us (after endurance test on MKR1010 Wifi)
-//  0.4.11 2021-12-16  update library.json, license, minor edits (clean up),
-//                     add constants to unit tests
-//  0.4.12 2022-01-31  Fix #72, delayMicroseconds() for wakeUp
-//  0.4.13 2022-07-05  Fix #76, disable interrupts for ESP32.
-
+//  HISTORY: see changelog.md
 
 
 #include "dhtnew.h"
 #include <stdint.h>
 
 
-// these defines are not for user to adjust
-#define DHTLIB_DHT11_WAKEUP        18
-#define DHTLIB_DHT_WAKEUP          1
+//  these defines are not for user to adjust (microseconds)
+#define DHTLIB_DHT11_WAKEUP           (18 * 1100UL)
+#define DHTLIB_DHT_WAKEUP             (1 * 1100UL)
+//  experimental 0.4.14
+#define DHTLIB_SI7021_WAKEUP          (500)
 
 
 // READ_DELAY for blocking read
@@ -75,7 +30,7 @@
 
 /////////////////////////////////////////////////////
 //
-// PUBLIC
+//  PUBLIC
 //
 DHTNEW::DHTNEW(uint8_t pin)
 {
@@ -104,7 +59,7 @@ void DHTNEW::reset()
 #if defined(__AVR__)
   _disableIRQ    = false;
 #endif
-// #if defined(MKR1010)  // TODO find out real define 
+// #if defined(MKR1010)  // TODO find out real define
   // _disableIRQ    = false;
 // #endif
 }
@@ -128,6 +83,12 @@ void DHTNEW::setType(uint8_t type)
   {
     _type = type;
     _wakeupDelay = DHTLIB_DHT_WAKEUP;
+  }
+  //  experimental 0.4.14
+  if (type == 70)
+  {
+    _type = type;
+    _wakeupDelay = DHTLIB_SI7021_WAKEUP;
   }
 }
 
@@ -159,6 +120,8 @@ int DHTNEW::read()
     return _read();
   }
 
+  //  AUTODETECT
+
   _type = 22;
   _wakeupDelay = DHTLIB_DHT_WAKEUP;
   int rv = _read();
@@ -166,6 +129,12 @@ int DHTNEW::read()
 
   _type = 11;
   _wakeupDelay = DHTLIB_DHT11_WAKEUP;
+  rv = _read();
+  if (rv == DHTLIB_OK) return rv;
+
+  //  experimental 0.4.14
+  _type = 70;
+  _wakeupDelay = DHTLIB_SI7021_WAKEUP;
   rv = _read();
   if (rv == DHTLIB_OK) return rv;
 
@@ -331,16 +300,24 @@ int DHTNEW::_readSensor()
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, LOW);
 
-  // WAKE UP - add 10% extra for timing inaccuracies in sensor.
-  uint32_t startWakeup = micros();
-  do
+  //  HANDLE SI7021 separately (see #79)
+  if (_type == 70)
   {
-    // HANDLE PENDING IRQ
-    yield();
-    // 180 gives good wakeup delay on UNO for DHT22 / DHT11 (issue #72)
-    delayMicroseconds(180UL);  
+    delayMicroseconds(DHTLIB_SI7021_WAKEUP);  //  hardcoded for now
   }
-  while((micros() - startWakeup) < (_wakeupDelay * 1100UL));
+  else
+  {
+    //  WAKE UP - add 10% extra for timing inaccuracies in sensor.
+    uint32_t startWakeup = micros();
+    do
+    {
+      //  HANDLE PENDING IRQ
+      yield();
+      //  180 gives good wakeup delay on UNO for DHT22 / DHT11 (issue #72)
+      delayMicroseconds(180UL);
+    }
+    while((micros() - startWakeup) < _wakeupDelay);
+  }
 
   // HOST GIVES CONTROL TO SENSOR
   digitalWrite(_dataPin, HIGH);
@@ -350,7 +327,7 @@ int DHTNEW::_readSensor()
   // DISABLE INTERRUPTS when clock in the bits
   if (_disableIRQ)
   {
-#if defined(ESP32)  
+#if defined(ESP32)
     portDISABLE_INTERRUPTS();
 #else
     noInterrupts();
@@ -379,7 +356,7 @@ int DHTNEW::_readSensor()
   for (uint8_t i = 40; i != 0; i--)
   {
     // EACH BIT START WITH ~50 us LOW
-    if (_waitFor(HIGH, 90)) 
+    if (_waitFor(HIGH, 90))
     {
       // Most critical timeout
       // Serial.print("IC: ");

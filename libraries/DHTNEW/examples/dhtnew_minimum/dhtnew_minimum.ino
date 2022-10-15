@@ -30,6 +30,7 @@ void setup()
   // mySensor.setDisableIRQ(false);
 
   Serial.println("BEFORE OFFSET");
+  delay(2000);
   mySensor.read();
   Serial.print(mySensor.getHumidity(), 1);
   Serial.print("\t");

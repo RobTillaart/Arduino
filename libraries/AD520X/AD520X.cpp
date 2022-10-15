@@ -2,29 +2,12 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.2.2
-// PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers (+ older AD8400, AD8402, AD8403)
+// VERSION: 0.3.0
+// PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
+//          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
 //
-// HISTORY:
-//  0.0.1   2020-07-24  initial version
-//  0.0.2   2020-07-25  support for AD8400 series in documentation.
-//
-//  0.1.0   2020-07-26  refactor, fix #2 select pin for HW SPI; add shutdown.
-//  0.1.1   2020-12-08  Arduino-CI + unit test + isPowerOn()
-//  0.1.2   2021-08-19  VSPI / HSPI support for ESP32 only
-//                      add setGPIOpins for ESP32 only
-//                      add SetSPIspeed (generic)
-//
-//  0.2.0   2021-10-16  update build-CI
-//                      add get- and setPercentage()
-//  0.2.1   2021-12-10  update library.json, licence
-//                      default value for setAll()
-//  0.2.2   2022-09-19  update readme.md
-//                      add "stereo functions" for setting 2 channels in one call
-//                      setValue() and setPercentage()
-//                      performance update
-
+// HISTORY: see CHANGELOG.md
 
 #include "AD520X.h"
 
@@ -47,11 +30,11 @@ void AD520X::begin(uint8_t value)
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
   pinMode(_reset, OUTPUT);
-  digitalWrite(_reset, LOW);
+  digitalWrite(_reset, HIGH);
   pinMode(_shutdown, OUTPUT);
-  digitalWrite(_shutdown, LOW);
+  digitalWrite(_shutdown, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if(_hwSPI)
   {
@@ -165,8 +148,8 @@ float AD520X::getPercentage(uint8_t pm)
 
 void AD520X::reset(uint8_t value)
 {
-  digitalWrite(_reset, HIGH);
   digitalWrite(_reset, LOW);
+  digitalWrite(_reset, HIGH);
   setAll(value);
 }
 
@@ -174,7 +157,7 @@ void AD520X::reset(uint8_t value)
 void AD520X::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
 
 

@@ -1,0 +1,23 @@
+
+IDE:    1.8.19
+Board:  UNO
+Mode:   HWSPI
+
+D:\Rob\WORK\Arduino\libraries\AD520X\examples\AD5204_demo\AD5204_demo.ino
+test_timing
+10000 x setValue():	74500
+1000 x setAll():	45204
+1000 x getValue():	692
+
+Done...
+
+
+IDE:    1.8.19
+Board:  UNO
+Mode:   software SPI (bit bang)
+
+D:\Rob\WORK\Arduino\libraries\AD520X\examples\AD5204_demo\AD5204_demo.ino
+test_timing
+10000 x setValue():	1062232
+1000 x setAll():	638272
+1000 x getValue():	696

@@ -12,8 +12,10 @@ uint32_t start, stop;
 
 
 //  select, reset, shutdown, data, clock
-//  AD5204 pot(10, 255, 255, 8, 9);  // SW SPI
-AD5204 pot = AD5204(10, 12, 13);     // HW SPI
+AD5206 pot(10, 255, 255, 8, 9);  // SW SPI
+
+//  select, reset, shutdown
+//  AD5206 pot = AD5206(5, 6, 7);     // HW SPI UNO clock = 13, data = 11
 
 
 void setup()
@@ -23,8 +25,9 @@ void setup()
 
   pot.begin(4);
 
-  test_sinus();
-  test_sawtooth();
+  // test_extremes();
+  // test_sinus();
+  // test_sawtooth();
   test_timing();
 
   Serial.println("\nDone...");
@@ -33,6 +36,24 @@ void setup()
 
 void loop()
 {
+}
+
+void test_extremes()
+{
+  Serial.println(__FUNCTION__);
+  delay(10);
+
+  Serial.println("0");
+  pot.setValue(0, 0);
+  delay(2000);
+
+  Serial.println("127");
+  pot.setValue(0, 127);
+  delay(2000);
+
+  Serial.println("255");
+  pot.setValue(0, 255);
+  delay(2000);
 }
 
 
@@ -47,7 +68,7 @@ void test_sinus()
   uint32_t i = 0;
   while (millis() - start < 10000)
   {
-    uint8_t value = 127 * sin(i * TWO_PI / 100);
+    int8_t value = 127 * sin(i * TWO_PI / 100);
     pot.setValue(0, 128 + value);
     pot.setValue(1, 128 + value / 2);
     pot.setValue(2, 64  + value / 2);
@@ -66,9 +87,10 @@ void test_sawtooth()
 
   start = millis();
   uint8_t i = 0;
-  while (millis() - start < 10000)
+  while (millis() - start < 25500)
   {
     pot.setValue(0, i++); // auto wrap is fast...
+    delay(100);
   }
 }
 

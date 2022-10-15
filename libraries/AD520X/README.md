@@ -10,7 +10,7 @@
 
 Arduino library for SPI AD5204 and AD5206 digital potentiometers.
 
-Should work with the AD840x series too (not tested).  
+Works with the AD840x series too (see PR #15)
 
 
 ## Description
@@ -28,12 +28,10 @@ The interface is straightforward, one can set a value per channels between 0..25
 |  AD5206  |    6       |       |   V   |   V   |   V    | confirmed |
 |  AD8400  |    1       |   V   |   V   |   V   |   V    | confirmed |
 |  AD8402  |    2       |   V   |   V   |   V   |   V    |
-|  AD8403  |    4       |   V   |   V   |   V   |   V    |
+|  AD8403  |    4       |   V   |   V   |   V   |   V    | confirmed |  see PR #15
 
-The library is not yet confirmed to work for **AD8402** (2 channels) and **AD8403** (4 channels).
-These devices have  a very similar interface (datasheet comparison) so it should work.
-
-If you can confirm these models works, please let me know._
+The library is not yet confirmed to work for **AD8402** (2 channels).
+This device has  a very similar interface (datasheet comparison) so it should work. If you can confirm the AD8402 works, please let me know.
 
 
 ## Interface
@@ -121,7 +119,7 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 
 ### Obsolete
 
-- **void powerDown()** OBSOLETE => use powerOff() instead.
+- **void powerDown()** OBSOLETE since 0.3.0 => use powerOff() instead.
 
 
 ## Operations
@@ -130,6 +128,16 @@ See examples.
 
 
 ## Future
+
+
+#### 0.3.1
+
+- **setGroupValue(mask, value)** bit mask to set 0..8 channels in one call
+  - loop over mask ?
+- **setGroupPercentage(mask, value)** bit mask to set 0..8 channels in one call
+  - wrapper
+- move all code to .cpp file
+
 
 #### Must
 
@@ -143,19 +151,17 @@ See examples.
    - how does this work with **stereo** functions.
    - at what level should invert work.
 - **bool getInvert(uint8_t pm)**
-- **setGroupValue(mask, value)** bitmask to set 0..8 channels in one call
-  - loop over mask ?
-- **setGroupPercentage(mask, value)** bitmask to set 0..8 channels in one call
-  - wrapper 
 
-#### Could
 
-- **AD520X_MIDDLE_VALUE** 127 ?
+#### Could (only if requested.)
+
+- **AD520X_MIDDLE_VALUE** 127 ?   (0.4.0?)
 - **setSWSPIdelay()** to tune software SPI?
-  - only if requested.
+  - bit delay / not byte delay
+  - unit microseconds
+  
 
 #### Wont
-
 
 - **void setGamma(uint8_t pm, float gamma)**
   - logarithmic effect? easier with setPercentage()

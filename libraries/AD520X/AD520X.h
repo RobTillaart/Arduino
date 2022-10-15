@@ -3,20 +3,19 @@
 //    FILE: AD520X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.2.2
-// PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers (+ older AD8400, AD8402, AD8403)
+// VERSION: 0.3.0
+// PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
+//          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
 //
-// HISTORY:
-// see AD520X.cpp file
-//
+// HISTORY: see CHANGELOG.md
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define AD520X_LIB_VERSION              (F("0.2.2"))
+#define AD520X_LIB_VERSION              (F("0.3.0"))
 
 
 #ifndef AD520X_MIDDLE_VALUE
@@ -27,10 +26,9 @@
 class AD520X
 {
 public:
-  AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);  
+  AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 
   void     begin(uint8_t value = AD520X_MIDDLE_VALUE);
-
 
   //  MONO / SINGLE
   bool     setValue(uint8_t pm = 0, uint8_t value = AD520X_MIDDLE_VALUE);
@@ -45,16 +43,12 @@ public:
   bool     setPercentage(uint8_t pmA, uint8_t pmB, float percentage);
   float    getPercentage(uint8_t pm = 0);
 
-
   void     reset(uint8_t value = AD520X_MIDDLE_VALUE);
   uint8_t  pmCount()   { return _pmCount; };
 
-
-  void     powerOn()   { digitalWrite(_shutdown, LOW); };
-  void     powerOff()  { digitalWrite(_shutdown, HIGH); };
-  void     powerDown() { powerOff(); };             // obsolete, remove in 0.3.0
-  bool     isPowerOn() { return digitalRead(_shutdown) == LOW; };
-
+  void     powerOn()   { digitalWrite(_shutdown, HIGH); };
+  void     powerOff()  { digitalWrite(_shutdown, LOW); };
+  bool     isPowerOn() { return digitalRead(_shutdown) == HIGH; };
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
@@ -73,7 +67,6 @@ public:
   // to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
-
 
 protected:
   uint8_t  _dataOut;
@@ -113,28 +106,28 @@ public:
 class AD5204 : public AD520X
 {
 public:
-  AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255); 
+  AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
 };
 
 
 class AD8400 : public AD520X
 {
 public:
-  AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255); 
+  AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
 };
 
 
 class AD8402 : public AD520X
 {
 public:
-  AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255); 
+  AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
 };
 
 
 class AD8403 : public AD520X
 {
 public:
-  AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255); 
+  AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
 };
 
-// -- END OF FILE -- 
+// -- END OF FILE --

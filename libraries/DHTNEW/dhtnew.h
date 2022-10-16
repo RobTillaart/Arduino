@@ -2,24 +2,24 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.14
+// VERSION: 0.4.15
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT  :  DESCRIPTION
+//  pin 1  :  VCC
+//  pin 2  :  DATA
+//  pin 3  :  Not Connected
+//  pin 4  :  GND
 
 
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.14"))
+#define DHTNEW_LIB_VERSION                (F("0.4.15"))
 
 
 #define DHTLIB_OK                         0
@@ -44,10 +44,10 @@
 #endif
 
 
-// bits are timing based (datasheet)
-// 26-28us ==> 0
-// 70 us   ==> 1
-// See https://github.com/RobTillaart/DHTNew/issues/11
+//  bits are timing based (datasheet)
+//  26-28us ==> 0
+//  70 us   ==> 1
+//  See https://github.com/RobTillaart/DHTNew/issues/11
 #ifndef DHTLIB_BIT_THRESHOLD
 #define DHTLIB_BIT_THRESHOLD             50
 #endif
@@ -59,24 +59,24 @@ public:
 
   DHTNEW(uint8_t pin);
 
-  // resets all internals to construction time 
-  // might help to reset a sensor behaving badly..
+  //  resets all internals to construction time 
+  //  might help to reset a sensor behaving badly..
   void     reset();
 
-  // 0 = unknown, 11 or 22
+  //  0 = unknown, 11 or 22
   uint8_t  getType();
   void     setType(uint8_t type = 0);
   int      read();
 
-  // lastRead is in MilliSeconds since start sketch
+  //  lastRead is in MilliSeconds since start sketch
   uint32_t lastRead()                    { return _lastRead; };
 
-  // preferred interface
+  //  preferred interface
   float    getHumidity()                 { return _humidity; };
   float    getTemperature()              { return _temperature; };
 
-  // adding offsets works well in normal range
-  // might introduce under- or overflow at the ends of the sensor range
+  //  adding offsets works well in normal range
+  //  might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset)    { _humOffset = offset; };
   void     setTempOffset(float offset)   { _tempOffset = offset; };
   float    getHumOffset()                { return _humOffset; };
@@ -88,16 +88,16 @@ public:
   bool     getWaitForReading()           { return _waitForRead; };
   void     setWaitForReading(bool b )    { _waitForRead = b; };
 
-  // set readDelay to 0 will reset to datasheet values
+  //  set readDelay to 0 will reset to datasheet values
   uint16_t getReadDelay()                { return _readDelay; };
   void     setReadDelay(uint16_t rd = 0) { _readDelay = rd; };
 
-  // minimal support for low power applications.
-  // after powerUp one must wait up to two seconds.
+  //  minimal support for low power applications.
+  //  after powerUp one must wait up to two seconds.
   void     powerUp();
   void     powerDown();
 
-  // suppress error values of -999 => check return value of read() instead
+  //  suppress error values of -999 => check return value of read() instead
   bool     getSuppressError()            { return _suppressError; };
   void     setSuppressError(bool b)      { _suppressError = b; };
 
@@ -116,7 +116,7 @@ private:
   bool     _suppressError = false;
   uint16_t _readDelay     = 0;
 
-  uint8_t  _bits[5];  // buffer to receive data
+  uint8_t  _bits[5];  //  buffer to receive data
   int      _read();
   int      _readSensor();
   bool     _waitFor(uint8_t state, uint32_t timeout);

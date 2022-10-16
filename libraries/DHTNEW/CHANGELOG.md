@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.15]  2022-10-13  
+- Fix #81, recognize DHT22 as type 70. Add minimal wakeup delay.
+
 ## [0.4.14]  2022-10-13  
 - Fix #79, experimental support for Si7021.
 - Add RP2040 pico in build-CI

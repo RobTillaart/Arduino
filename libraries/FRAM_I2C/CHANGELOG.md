@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2022-10-03
+
+### Added
+- FRAM_RINGBUFFER class - see FRAM_RINGBUFFER.md
+- build-ci support for RP2040 pico
+
+### Changed
+- updated documentation
+- moved code from FRAM.h to FRAM.cpp
+
+
 ## [0.4.1] - 2022-09-24
 
 ### Added

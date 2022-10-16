@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -212,6 +212,12 @@ uint16_t FRAM::getSize()
 }
 
 
+uint32_t FRAM::getSizeBytes()
+{
+  return _sizeBytes;
+}; 
+
+
 //  override to be used when getSize() fails == 0
 void FRAM::setSizeBytes(uint32_t value)
 {
@@ -416,6 +422,20 @@ void FRAM32::read(uint32_t memaddr, uint8_t * obj, uint16_t size)
   {
     _readBlock(memaddr, p, size);
   }
+}
+
+
+template <class T> uint32_t FRAM32::writeObject(uint32_t memaddr, T &obj)
+{
+  write(memaddr, (uint8_t *) &obj, sizeof(obj));
+  return memaddr + sizeof(obj);
+};
+
+
+template <class T> uint32_t FRAM32::readObject(uint32_t memaddr, T &obj)
+{
+  read(memaddr, (uint8_t *) &obj, sizeof(obj));
+  return memaddr + sizeof(obj);
 }
 
 

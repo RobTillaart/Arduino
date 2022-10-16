@@ -1,7 +1,7 @@
 {
   "name": "FRAM_I2C",
   "keywords": "FRAM, storage",
-  "description": "Library for FRAM for Arduino.",
+  "description": "Library for FRAM for Arduino. Includes an experimental FRAM_RINGBUFFER class (since 0.4.2)",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/FRAM_I2C.git"
   },
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

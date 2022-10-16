@@ -38,11 +38,13 @@ unittest_teardown()
 
 unittest(test_constants_I)
 {
-  assertEqual(0,   CHT8305_OK);
-  assertEqual(-10, CHT8305_ERROR_ADDR);
-  assertEqual(-11, CHT8305_ERROR_I2C);
-  assertEqual(-12, CHT8305_ERROR_CONNECT);
-  assertEqual(-20, CHT8305_ERROR_LASTREAD);
+  assertEqual(0x40, CHT8305_DEFAULT_ADDRESS);
+
+  assertEqual(0,    CHT8305_OK);
+  assertEqual(-10,  CHT8305_ERROR_ADDR);
+  assertEqual(-11,  CHT8305_ERROR_I2C);
+  assertEqual(-12,  CHT8305_ERROR_CONNECT);
+  assertEqual(-20,  CHT8305_ERROR_LASTREAD);
 }
 
 

@@ -1,26 +1,11 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
-//  HISTORY
-//  2022-10-06  0.1.0  initial version
-//  2022-10-08  0.1.1  add config specific functions
-//                     fix ESP32 begin() address check
-//                     add config ALERT functions.
-//                     add constants for registers
-//                     fix getVoltage() register
-//  2022-10-09  0.1.2  update unit tests
-//                     fix humidity resolution param.
-//                     fix setAlertLevels()
-//                     refactor, move code to .cpp
-//  2022-10-13  0.1.3  adjust getVoltage() formula.(still unclear).
-//                     update readme.md  (some AVR test results)
-//                     add get- setConversionDelay()
-//
-
+//  HISTORY: see changelog.md
 
 #include "CHT8305.h"
 
@@ -32,7 +17,7 @@
 CHT8305::CHT8305(TwoWire *wire)
 {
   _wire            = wire;
-  _address         = 0x40;   //  default AD0 to GND.
+  _address         = CHT8305_DEFAULT_ADDRESS;   //  default AD0 to GND.
 }
 
 
@@ -198,6 +183,7 @@ bool CHT8305::getI2CClockStretch()
   return (getConfigRegister() & CHT8305_CFG_CLOCK_STRETCH) > 0;
 }
 
+
 void CHT8305::setHeaterOn(bool on)
 {
   if (on) _setConfigMask(CHT8305_CFG_HEATER);
@@ -324,6 +310,7 @@ bool CHT8305::setAlertLevels(float temperature, float humidity)
   _writeRegister(CHT8305_REG_ALERT, (uint8_t *)&mask, 2);
   return true;
 }
+
 
 float CHT8305::getAlertLevelTemperature()
 {

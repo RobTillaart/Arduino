@@ -8,7 +8,7 @@
 //
 //          +---------------+
 //  VCC ----| VCC           |
-//  SDA ----| SDA  CHT8305  |   TODO CHECK DATASHEET.
+//  SDA ----| SDA  CHT8305  |   CHECK DATASHEET.
 //  GND ----| GND           |
 //  SCL ----| SCL           |
 //   ?  ----| AD0           |   ? depends on address to select
@@ -22,6 +22,7 @@
 //  SDA     YELLOW
 //  SCL     WHITE
 
+
 #include "CHT8305.h"
 
 CHT8305 CHT;
@@ -31,7 +32,7 @@ uint8_t count = 0;
 
 void setup()
 {
-  CHT.begin(0x40);   //  default address
+  CHT.begin(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
 
   Wire.setClock(400000);
 

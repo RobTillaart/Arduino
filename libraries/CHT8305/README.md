@@ -25,26 +25,30 @@ The CHT8305 is a temperature and humidity sensor.
 \* Accuracy for full range.
 More exact details for smaller ranges, see datasheet (page 8).
 
-
 One of the interesting functions is the support of an ALERT function.
 This prevents the need for continuous polling of the sensor.
-The ALERT function is not supported in the first release of library.
 
-Register map see datasheet page 10.
 
-Tests
+#### Tests
+
 - Temperature() and humidity() works on AVR.
-  - about 14 milliseconds at 14 bit resolution.
-- voltage works on AVR but meaning unclear
+  - default about 14 milliseconds at 14 bit resolution.
+- offset functions work.
+- getVoltage() function works on AVR but meaning unclear.
 - getManufacturer(), getVersionID() works on AVR.
-= 
+- 
+
+The ALERT functions are not tested.
+The reason is that the sensor I have does not expose the ALERT pin.
+
+If you are able to test the ALERT functions, please let me know your experiences.
 
 
 ### Hardware
 
 Always check datasheet for connections.
 
-```
+```cpp
 //
 //             +---------------+
 //     VCC ----| VCC           |
@@ -64,23 +68,37 @@ Always check datasheet for connections.
 ```
 
 
+### Register map 
+
+See datasheet page 10 for details
+
+|  Address  |  Register name             |
+|:---------:|:---------------------------|
+|   0x00    |  CHT8305_REG_TEMPERATURE   |
+|   0x01    |  CHT8305_REG_HUMIDITY      |
+|   0x02    |  CHT8305_REG_CONFIG        |
+|   0x03    |  CHT8305_REG_ALERT         |
+|   0x04    |  CHT8305_REG_VOLTAGE       |
+|   0xFE    |  CHT8305_REG_MANUFACTURER  |
+|   0xFF    |  CHT8305_REG_VERSION       |
+
+
 ### Alert
 
-It has ALERT logic output pin with open drain structure, which is active low.
-(if the breakout supports this)
+The CHT8305 has an ALERT logic output pin with an open drain structure.
+This output is active low. (if the breakout supports this.)
 
 
 ## I2C 
 
 I2C bus speeds supported up to 400 KHz.
 
-|  AD0  |   Address  |
-|:-----:|:----------:|
-|  GND  |    0x40    |
+|  AD0  |   Address  |  Notes  |
+|:-----:|:----------:|:--------|
+|  GND  |    0x40    |  CHT8305_DEFAULT_ADDRESS
 |  VCC  |    0x41    |
 |  SDA  |    0x42    |
 |  SCL  |    0x43    |
-
 
 Pull ups are needed on SDA, SCL and optional to ALERT.
 
@@ -88,8 +106,8 @@ Pull ups are needed on SDA, SCL and optional to ALERT.
 ## Interface
 
 - **CHT8305(TwoWire \*wire = &Wire)** Constructor with default I2C bus.
-- **int begin(const uint8_t address = 0x40)** sets address, deault = 0x40.
-- **int begin(int sda, int scl, const uint8_t address = 0x40)** idem ESP32 et. al.
+- **int begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS)** sets address, default = 0x40.
+- **int begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS)** idem ESP32 et. al.
 - **bool isConnected()** checks if address can be seen on the I2C bus.
 - **int read()** reads both the temperature and humidity.
 - **uint32_t lastRead()** returns lastRead in MilliSeconds since start sketch.
@@ -104,13 +122,13 @@ Will return the same value until **read()** is called again.
 - **void setConversionDelay(uint8_t cd = 14)** default is 14 milliseconds (datasheet).
 7 ms failed. 8 ms worked, so values below 8 are mapped to 8 in the library.
 Expect 10 ms is pretty save. Use at own risk.
-It might be that lower resolutions allow shorter delays. This is not tested yet.
+It might be that lower resolutions allow shorter delays. This is not tested.
 - **uint8_t getConversionDelay()** returns set value.
 
 
 ### Offset
 
-Adding offsets works well in normal range but might introduce 
+Adding offsets works well in the "normal range" but might introduce 
 under- or overflow at the ends of the sensor range.
   
 - **void setHumOffset(float offset)** idem.
@@ -122,11 +140,11 @@ If the offset is not the same over the operational range,
 consider a mapping function for temperature and humidity.
 
 
-### Config register
+### Configuration register
 
 Check the datasheet for details of the register bits.
 
-- **void setConfigRegister(uint16_t bitmask)** idem. Default value 0x1000.
+- **void setConfigRegister(uint16_t bitmask)** idem. Default value 0x1004.
 - **uint16_t getConfigRegister()** idem. 
 
 |  bit  |  mask  |  name           |  description  |
@@ -142,7 +160,7 @@ Check the datasheet for details of the register bits.
 |  5    | 0x0020 |  APS            |  Alert pending status
 |  4    | 0x0010 |  H-ALT          |  Humidity Alert status
 |  3    | 0x0008 |  T-ALT          |  Temperature Alert status
-|  2    | 0x0004 |  VCC enable     |  1 = enable VCC measurement, 0 = disable (default)
+|  2    | 0x0004 |  VCC enable     |  1 = enable VCC measurement (default), 0 = disable
 |  1-0  | 0x0003 |  reserved.      |  do not change. 
 
 
@@ -155,13 +173,14 @@ Wrapper functions for easy configuration.
 - **void softReset()** sets the soft reset bit in the configuration, causing the sensor to reset.
 - **void setI2CClockStretch(bool on = false)** check datasheet.
 - **bool getI2CClockStretch()**
-- **void setHeaterOn(bool on = false)** switch on internal heater. Can improve humidity readings.
-see datasheet for details.
-  - **WARNING** User is responsible for timing as library
-- **bool getHeater()** Returns status.
-- **void setMeasurementMode(bool both = true)** both T and H or single unit.
-- **bool getMeasurementMode()** returns mode. 
-- **bool getVCCstatus()** 1 ==  > 2.8V  0 == < 2.8V  Useful when battery operated.
+- **void setHeaterOn(bool on = false)** switch on internal heater. 
+Can improve humidity readings.
+See datasheet for (limited) details.
+  - **WARNING** User is responsible for timing as library does not support timing.
+- **bool getHeater()** Returns status of the heater.
+- **void setMeasurementMode(bool both = true)** both T and H or single value.
+- **bool getMeasurementMode()** returns mode set above. 
+- **bool getVCCstatus()** 1 ==  > 2.8V  0 == < 2.8V  Useful when battery operated?
 - **void setTemperatureResolution(uint8_t res = 0)** 1 = 11 bit, 0 = 14 bit (default).
 - **uint8_t getTemperatureResolution()** idem.
 - **void setHumidityResolution(uint8_t res = 0)** 2 = 8 bit, 1 = 11 bit, 0 = 14 bit (default).
@@ -188,9 +207,9 @@ See register 3 datasheet page 12 for details.
 - **bool getAlertHumidityStatus()** idem.
 - **bool getAlertTemperatureStatus()** idem.
 - **bool setAlertLevels(float temperature, float humidity)** 
-  - the values will be truncated to the closest possible.
-  - the alert supports high limit only ==> there is no low limit alert.
-  - note: the datasheet is ambigue wrt the formula used.
+  - the values will be truncated to the nearest value possible.
+  - the ALERT supports HIGH limit only ==> there is no LOW limit ALERT.
+  - note: the datasheet is ambiguous with respect to the formula used.
 - **float getAlertLevelTemperature()** returns the truncated value set.
 - **float getAlertLevelHumidity()** returns the truncated value set.
 
@@ -205,9 +224,10 @@ or by **setConfigRegister(0x0004)**.
 
 - **float getVoltage()** unclear what unit is used.
 
-Best guess: 16 bit data implies ```voltage = 5.0V \* value / 32768.0;``` 
-Varied slightly 5.000 - 4.999 also for 3V3 power supply. 
-Conclusion is unclear how to interpret this register.
+Best guess for now: 16 bit data implies ```voltage = 5.0V * value / 32768.0;``` 
+Varied slightly 5.000 - 4.999 also for 3V3 power supply.
+
+Conclusion: it is unclear how to interpret this register.
 
 
 ### Meta data
@@ -226,10 +246,9 @@ Test returned 0x8305.
 
 - test ESP32, other platforms?
 - test performance.
-= test I2C speed.
 - test resolution bits.
   - delay ?
-- test config functions.
+- test configuration functions.
 - test ALERT functions.
 - test write / readRegister with a single uint16_t to simplify code.
 

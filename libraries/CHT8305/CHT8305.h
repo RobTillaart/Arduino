@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,7 +12,12 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.3"))
+#define CHT8305_LIB_VERSION              (F("0.1.4"))
+
+//  DEFAULT ADDRESS
+#ifndef CHT8305_DEFAULT_ADDRESS
+#define CHT8305_DEFAULT_ADDRESS          0x40
+#endif
 
 //  ERRORS
 #define CHT8305_OK                       0
@@ -53,10 +58,10 @@ public:
 
 #if defined (ESP8266) || defined(ESP32)
   //  address and writeProtectPin is optional
-  int      begin(int sda, int scl, const uint8_t address = 0x50);
+  int      begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS);
 #endif
   //  address and writeProtectPin is optional
-  int      begin(const uint8_t address = 0x50);
+  int      begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS);
   bool     isConnected();
 
   //  read the temperature and humidity.
@@ -67,7 +72,6 @@ public:
   float    getTemperature();
   void     setConversionDelay(uint8_t cd = 14);
   uint8_t  getConversionDelay();
-  
 
   //  adding offsets works well in normal range
   //  might introduce under- or overflow at the ends of the sensor range
@@ -96,7 +100,7 @@ public:
   //  |  2    | 0x0004 |  VCC enable     |  1 = enable VCC measurement (default), 0 = disable
   //  |  1-0  | 0x0003 |  reserved.      |  do not change.
   //
-  //  specific config functions. See datasheet!
+  //  specific configuration functions. See datasheet!
   //
   void     softReset();
 
@@ -138,15 +142,12 @@ public:
   float    getAlertLevelTemperature();
   float    getAlertLevelHumidity();
 
-
   //  VOLTAGE
   float    getVoltage();
-
 
   //  META DATA
   uint16_t getManufacturer();     //  expect 0x5959
   uint16_t getVersionID();        //  may vary
-
 
 private:
   float    _humOffset       = 0.0;
@@ -157,7 +158,7 @@ private:
   uint8_t  _conversionDelay = 14;
 
   TwoWire* _wire;
-  uint8_t  _address       = 0x40;  //  default.
+  uint8_t  _address         = CHT8305_DEFAULT_ADDRESS;
 
   int      _readRegister(uint8_t reg, uint8_t * buf, uint8_t size);
   int      _writeRegister(uint8_t reg, uint8_t * buf, uint8_t size);

@@ -17,7 +17,7 @@
 #include "ADS1X15.h"
 
 
-// choose you sensor
+// choose your sensor
 // ADS1013 ADS(0x48);
 // ADS1014 ADS(0x48);
 // ADS1015 ADS(0x48);

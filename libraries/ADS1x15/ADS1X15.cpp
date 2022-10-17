@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -150,6 +150,19 @@ bool ADS1X15::begin(int sda, int scl)
 }
 #endif
 
+#if defined (ARDUINO_ARCH_RP2040)
+
+bool ADS1X15::begin(int sda, int scl)
+{
+  _wire->setSDA(sda);
+  _wire->setSCL(scl);
+  _wire->begin();
+  if ((_address < 0x48) || (_address > 0x4B)) return false;
+  if (! isConnected()) return false;
+  return true;
+}
+
+#endif
 
 bool ADS1X15::begin()
 {

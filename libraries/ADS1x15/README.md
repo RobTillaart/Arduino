@@ -277,7 +277,8 @@ By using **bool isBusy()** or **bool isReady()** one can wait until new data is 
 Note this only works in the SINGLE_SHOT modus.
 
 In continuous mode, you can't use **isBusy()** or **isReady()** functions to wait until new data available.
-Instead you can configure the threshold registers to allow the **ALERT/RDY** pin to trigger an interrupt signal when conversion data ready.
+Instead you can configure the threshold registers to allow the **ALERT/RDY** 
+pin to trigger an interrupt signal when conversion data ready.
 
 
 ### Threshold registers
@@ -368,6 +369,14 @@ mean something different see - Comparator Mode above or datasheet.
 - **void setComparatorThresholdHigh(int16_t hi)**  set the high threshold; take care the hi >= lo.
 - **int16_t getComparatorThresholdLow()** reads value from device.
 - **int16_t getComparatorThresholdHigh()** reads value from device.
+
+
+### RP2040 specific
+
+- **bool begin(int sda, int scl)** begin communication with the ADC. 
+It has the parameter for selecting on which pins the communication should happen. 
+wireUsed is optional. Check RP2040 Pinout for compatible pins. 
+If, "Wire1" is used, you need to add "&Wire1" in the constructor.
 
 
 ## Future ideas & improvements

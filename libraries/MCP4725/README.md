@@ -100,6 +100,14 @@ If one need more DAC's one might have a look at the MCP4728
 It has 4 channels per chip (no experience /library yet)
 
 
+### RP2040 specific
+
+- **bool begin(int sda, int scl)** begin communication with the DAC. 
+It has the parameter for selecting on which pins the communication should happen. 
+Check RP2040 Pinout for compatible pins. 
+When Wire1 is used, it needs to be specified in the constructor with "&Wire1"
+
+
 ## Operation
 
 See examples

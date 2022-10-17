@@ -1,43 +1,12 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
-
-//  0.1.0   2022-05-28  initial version.
-//  0.1.1   2022-05-31  Add readReg2() to speed up reading 2 byte values.
-//                      Fix clock wise and counter clock wise.
-//                      Fix shift-direction @ getZPosition, getMPosition,
-//                          getMaxAngle and getConfigure.
-//  0.1.2   2022-06-02  Add getAngularSpeed().
-//  0.1.3   2022-06-26  Add AS5600_RAW_TO_RADIANS.
-//                      Add getAngularSpeed() mode parameter.
-//                      Fix #8 bug in configure.
-//  0.1.4   2022-06-27  Fix #7 use readReg2() to improve I2C performance.
-//                      define constants for configuration functions.
-//                      add examples - especially OUT pin related.
-//                      Fix default parameter of the begin function.
 //
-//  0.2.0   2022-06-28  add software based direction control.
-//                      add examples
-//                      define constants for configuration functions.
-//                      fix conversion constants (4096 based)
-//                      add get- setOffset(degrees)   functions. (no radians yet)
-//  0.2.1   notreleased add bool return to set() functions.
-//                      update Readme (analog / PWM out)
-//
-//  0.3.0   2022-07-07  fix #18 invalid mask setConfigure().
-//  0.3.1   2022-08-11  add support for AS5600L (I2C address)
-//                      add magnetTooStrong() + magnetTooWeak();
-//                      add / update examples
-//                      update documentation
-
-
-// TODO
-//  Power-up time  1 minute (need HW)
-//  check  Timing Characteristics
+// HISTORY: see changelog.md
 
 
 #include "AS5600.h"

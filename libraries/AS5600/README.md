@@ -39,28 +39,46 @@ Possible interesting related libraries.
 - https://github.com/RobTillaart/runningAngle
 
 
-### I2C Address
+## Hardware connection
 
-|  sensor  |  address  |  changeable  |
-|:--------:|:---------:|:-------------|
-|  AS5600  |    0x36   | NO           |
-|  AS5600L |    0x40   | YES, check setAddress()  |
+The I2C address of the **AS5600** is always 0x36.
 
-To use more than one **AS5600** on one I2C bus, see Multiplexing below.
+The AS5600 datasheet states it supports Fast-Mode == 400 KHz
+and Fast-Mode-Plus == 1000 KHz. 
+Tests with a AS5600L failed at 400 KHz (needs investigation).
 
-The **AS5600L** supports the change of I2C address, optionally permanent.
-Check the **setAddress()** function for non-permanent change. 
-
-
-### I2C performance
-
-|    board    |  sensor   |  results            |
-|:-----------:|:---------:|:--------------------|
-| Arduino UNO |  AS5600   | not tested          |
-| Arduino UNO |  AS5600L  | work up to 300 KHz. |
+The sensor should connect the I2C lines SDA and SCL and the
+VCC and GND to communicate with the processor.
 
 
-More tests are needed 
+### DIR pin
+
+From datasheet, page 30 - Direction (clockwise vs. counter-clockwise)
+
+_**The AS5600 allows controlling the direction of the magnet 
+rotation with the DIR pin. If DIR is connected to GND (DIR = 0)
+a clockwise rotation viewed from the top will generate an 
+increment of the calculated angle. If the DIR pin is connected
+to VDD (DIR = 1) an increment of the calculated angle will 
+happen with counter-clockwise rotation.**_
+
+This AS5600 library offers a 3rd option for the DIR (direction) pin of the sensor:
+
+1. Connect to **GND** ==> fixed clockwise(\*).  This is the default.
+1. Connect to **VCC** ==> fixed counter-clockwise.
+1. Connect to an IO pin of the processor == Hardware Direction Control by library.
+
+In the 3rd configuration the library controls the direction of counting by initializing 
+this pin in **begin(directionPin)**, followed by **setDirection(direction)**. 
+For the parameter direction the library defines two constants named:
+
+- **AS5600_CLOCK_WISE (0)**
+- **AS5600_COUNTERCLOCK_WISE (1)**
+
+(\*) if **begin()** is called without **directionPin** or with this 
+parameter set to **255**, Software Direction Control is enabled.
+
+See Software Direction Control below for more information.
 
 
 ### OUT pin
@@ -72,6 +90,8 @@ and only for PWM by the AS5600L.
 See **Analogue Pin** and **PWM Pin** below.
 
 Examples are added to show how to use this pin with **setOutputMode()**.
+
+See more in the sections Analog OUT and PWM OUT below.
 
 
 ### PGO pin
@@ -86,34 +106,27 @@ See datasheet for a detailed list of steps to be done.
 See **Make configuration persistent** below.
 
 
-## Hardware connection
+## I2C 
 
-The I2C address of the **AS5600** is always 0x36.
+### Address
 
-The AS5600 datasheet states it supports Fast-Mode == 400 KHz
-and Fast-Mode-Plus == 1000 KHz. 
-Tests with a AS5600L failed at 400 KHz (needs investigation).
+|  sensor  |  address  |  changeable  |
+|:--------:|:---------:|:-------------|
+|  AS5600  |    0x36   | NO           |
+|  AS5600L |    0x40   | YES, check setAddress()  |
 
-The sensor should connect the I2C lines SDA and SCL and the
-VCC and GND to communicate with the processor.
-The DIR (direction) pin of the sensor should be connected to:
+To use more than one **AS5600** on one I2C bus, see Multiplexing below.
 
-- **GND** = fixed clockwise(\*)
-- **VCC** = fixed counter clock wise
-- a free floating IO pin of the processor = under library control.
+The **AS5600L** supports the change of I2C address, optionally permanent.
+Check the **setAddress()** function for non-permanent change. 
 
-In the latter setup the library can control the direction of 
-counting by initializing this pin in **begin(directionPin)**, 
-followed by **setDirection(direction)**. For the direction the 
-library defines two constants named:
 
-- **AS5600_CLOCK_WISE (0)**
-- **AS5600_COUNTERCLOCK_WISE (1)**
+### Performance
 
-(\*) if **begin()** is called without **directionPin** or with this 
-parameter set to **255**, software direction control is enabled.
-
-See Software Direction Control below for more information.
+|    board    |  sensor   |  results        |  notes   |
+|:-----------:|:---------:|:----------------|:---------|
+| Arduino UNO |  AS5600   | up to 900 KHz.  | see #22  |
+| Arduino UNO |  AS5600L  | up to 300 KHz.  |          |
 
 
 ## Interface
@@ -168,6 +181,8 @@ To define in which way the sensor counts up.
 - **uint8_t getDirection()** returns AS5600_CLOCK_WISE (0) or
 AS5600_COUNTERCLOCK_WISE (1).
 
+See Software Direction Control below for more information.
+
 
 ### Configuration registers
 
@@ -196,7 +211,7 @@ Returns false if parameter is out of range.
 Please read datasheet for details.
 
 | Bit   | short | Description   | Values                                                | 
-|:-----:|:------|:-------------:|:------------------------------------------------------|
+|:-----:|:------|:--------------|:------------------------------------------------------|
 | 0-1   |  PM   | Power mode    | 00 = NOM, 01 = LPM1, 10 = LPM2, 11 = LPM3             |
 | 2-3   |  HYST | Hysteresis    | 00 = OFF, 01 = 1 LSB, 10 = 2 LSB, 11 = 3 LSB          |
 | 4-5   |  OUTS | Output Stage  | 00 = analog (0-100%), 01 = analog (10-90%), 10 = PWM  |
@@ -330,16 +345,18 @@ Normally one controls the direction of the sensor by connecting the DIR pin
 to one of the available IO pins of the processor. 
 This IO pin is set in the library as parameter of the **begin(directionPin)** function.
 
-The directionPin is default set to 255, which defines a software direction control.
-To have this working one has to connect the DIR pin of the sensor to GND.
-This puts the sensor in a hardware clock wise mode, so it is up to the library 
+The directionPin is default set to 255, which defines a **Software Direction Control**.
+
+To have this working one has to connect the **DIR pin of the sensor to GND**.
+This puts the sensor in a hardware clockwise mode. Then it is up to the library 
 to do the additional math so the **readAngle()** and **rawAngle()** behave as 
-if the DIR pin was connected to the processor IO pin.
+if the DIR pin was connected to a processor IO pin.
 
-The gain is that the user does not need an IO pin for this, 
-which makes connecting the sensor a bit easier.
+The user still calls **setDirection()** as before to change the direction
+of the increments and decrements.
 
-The user still calls **setDirection()** as before to change the direction.
+The advantage is one does not need that extra IO pin from the processor. 
+This makes connecting the sensor a bit easier.
 
 TODO: measure performance impact.
 
@@ -478,7 +495,8 @@ UPDT = update  page 30 - AS5600L
 - **bool setI2CUPDT(uint8_t value)**
 - **uint8_t getI2CUPDT()**
 
-These functions seems to have only a function in relation to **setAddress()** so possibly obsolete in the future. If you got other insights on these functions please let me know.
+These functions seems to have only a function in relation to **setAddress()** so possibly obsolete in the future. 
+If you got other insights on these functions please let me know.
 
 
 ## Operational
@@ -512,15 +530,16 @@ See examples.
 ## Future
 
 Some ideas are kept here so they won't get lost.
-priority is relative
+priority is relative.
 
 
 #### high priority
 
-- fix for AS5600L does not support analog OUT
+- fix for AS5600L as it does not support analog OUT.
   - type field?
-  - other class hierarchy?
+  - other class hierarchy? base class with commonalities?
   - just ignore?
+
 
 #### medium priority
 
@@ -539,10 +558,14 @@ priority is relative
   - different configuration options
 - add mode parameter to offset functions.
   - see getAngularSpeed()
+- check / verify Power-up time
+  - 1 minute (need HW)
+- check Timing Characteristics (datasheet)
+  - is there improvement possible.
+
 
 #### low priority
 
 - add error handling
 - investigate PGO programming pin.
-- create **changeLog.md**
 

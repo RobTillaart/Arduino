@@ -15,8 +15,8 @@
 //                    SCL         A5
 //                    INT         2
 //
-// note: a dedicated rotary decoder class is created 
-//       - https://github.com/RobTillaart/rotaryDecoder -
+//  note: a dedicated rotary decoder class is created 
+//        - https://github.com/RobTillaart/rotaryDecoder -
 
 
 #include "PCF8574.h"
@@ -24,13 +24,13 @@
 PCF8574 decoder(0x20);
 
 
-// hold position of 4 RE + last position
+//  hold position of 4 RE + last position
 uint8_t lastpos[4] = {0, 0, 0, 0};
 int32_t encoder[4] = {0, 0, 0, 0};
 volatile bool flag = false;
 
 
-// IRQ routine
+//  IRQ routine
 void moved()
 {
   flag = true;
@@ -96,7 +96,7 @@ void initRotaryDecoder()
 }
 
 
-// assumes 4 rotary encoders connected to one PCF8574
+//  assumes 4 rotary encoders connected to one PCF8574
 void updateRotaryDecoder()
 {
   uint8_t val = decoder.read8();
@@ -105,12 +105,12 @@ void updateRotaryDecoder()
   for (uint8_t i = 0; i < 4; i++)
   {
     uint8_t currentpos = (val & 0x03);
-    if (lastpos[i] != currentpos) // moved!
+    if (lastpos[i] != currentpos)     //  moved!
     {
       uint8_t change = (lastpos[i] << 2) | currentpos;
       switch (change)
       {
-        case 0b0001:  // fall through..
+        case 0b0001:  //  fall through..
         case 0b0111:
         case 0b1110:
         case 0b1000:
@@ -124,8 +124,8 @@ void updateRotaryDecoder()
           break;
       }
       lastpos[i] = currentpos;
-      val >>= 2;
     }
+    val >>= 2;
   }
 }
 

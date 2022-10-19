@@ -6,46 +6,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.5] - 2022-06-17
+## [0.3.6] - 2022-10-19
+- fix example PCF8574_rotaryEncoder.ino
+- add RP2040 to build-CI
+- simplified changelog.md 
 
-### Added
+## [0.3.5] - 2022-06-17
 - add select(), selectN(), selectNone() and selectAll()
   convenience wrappers
 
-
 ## [0.3.4] - 2022-04-11
-
-### Added
 - add CHANGELOG.md
-
-
-### Fixed
-- **begin(int sda, int scl)** int parameters for ESP alike.
-
+- fix **begin(int sda, int scl)** int parameters for ESP alike.
 
 ## [0.3.3] - 2021-12-23  
-
-### Changed
 - update library.json, license, readme, minor edits
 
-
 ## [0.3.2] - 2021-07-04
-
-### Added 
 - fix #25 add setAddress()
 
-
 ## [0.3.1] - 2021-04-23
-
-### Fixed
 - Fix for platformIO compatibility
 
-
 ## [0.3.0] - 2021-01-03
+- add multiWire support - inspired by mattbue - issue #14
 
-### Added 
-- multiWire support - inspired by mattbue - issue #14
-
+---
 
 ## [0.2.4] - 2020-12-17
 - fix #6 tag problem 0.2.3
@@ -64,6 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - removed pre 1.0 support
 - added begin(dsa, scl) for ESP32
 - added reverse()
+
+----
 
 ## [0.1.9] - 2017-02-27
 - fix warning about return in readButton8()

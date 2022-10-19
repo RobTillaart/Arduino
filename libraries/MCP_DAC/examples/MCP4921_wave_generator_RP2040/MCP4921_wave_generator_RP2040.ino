@@ -1,7 +1,7 @@
 //
 //    FILE: MCP4921_wave_generator_RP2040.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: demo function generators
+//  AUTHOR: Rob Tillaart / Intubun
+// PURPOSE: demo function generators on the RP2040
 //    DATE: 2021-02-03
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
@@ -52,7 +52,7 @@ uint32_t   halvePeriod = 0;
 char mode = 'q';
 
 
-MCP4921 MCP;
+MCP4921 MCP(255, 255, &SPI1);
 uint16_t count;
 uint32_t lastTime = 0;
 
@@ -71,12 +71,8 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-
-  MCP.selectSPI();    //select SPI
-  //MCP.selectSPI1();   //select SPI1
-
-  MCP.begin(17);    // select pin = 17, SPI
-  //MCP.begin(13);    // select pin = 13, SPI1
+  //MCP.begin(17);    // select pin = 17, SPI
+  MCP.begin(13);    // select pin = 13, SPI1
 
 
   MCP.fastWriteA(0);

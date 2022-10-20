@@ -28,6 +28,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "MAP2COLOUR_LIB_VERSION: %s\n", (char *) MAP2COLOUR_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -37,8 +38,6 @@ unittest_teardown()
 
 unittest(test_constructor_I)
 {
-  fprintf(stderr, "MAP2COLOUR_LIB_VERSION: %s\n", (char *) MAP2COLOUR_LIB_VERSION);
-
   map2colour mc;
 
   float values[7] = { 1, 2, 3, 4, 5, 6, 7 };
@@ -53,10 +52,9 @@ unittest(test_constructor_I)
   assertEqual(0x00FFFFFF, mc.map2RGB(7));
 }
 
+
 unittest(test_constructor_II)
 {
-  fprintf(stderr, "MAP2COLOUR_LIB_VERSION: %s\n", (char *) MAP2COLOUR_LIB_VERSION);
-
   map2colour mc;
 
   float values[7] = { 1, 2, 3, 4, 5, 6, 7 };
@@ -76,11 +74,8 @@ unittest(test_constructor_II)
 }
 
 
-
 unittest(test_constants)
 {
-  fprintf(stderr, "MAP2COLOUR_LIB_VERSION: %s\n", (char *) MAP2COLOUR_LIB_VERSION);
-
   assertEqual(M2C_BLACK   ,0x00000000);
   assertEqual(M2C_SILVER  ,0x00C0C0C0);
   assertEqual(M2C_GRAY    ,0x00808080);
@@ -97,6 +92,59 @@ unittest(test_constants)
   assertEqual(M2C_BLUE    ,0x000000FF);
   assertEqual(M2C_TEAL    ,0x00008080);
   assertEqual(M2C_AQUA    ,0x0000FFFF);
+}
+
+
+
+unittest(test_compare_RGB)
+{
+  map2colour mc;
+  map2colourFast mcf;
+
+  float values[7] = { 0, 32, 64, 128, 256, 512, 1024 };
+
+  mc.begin(values);
+  mcf.begin(values);
+  
+  int fails = 0;
+  for (float i = 0; i <= 1024; i++)
+  {
+    uint32_t rgb1 = mc.map2RGB(i);
+    uint32_t rgb2 = mcf.map2RGB(i);
+    //  assertEqual(rgb1, rgb2);  // do not want 1024 output lines.
+    if (rgb1 != rgb2)
+    {
+      fprintf(stderr, "%d\n", i);
+      fails++;
+    }
+  }
+  assertEqual(0, fails);
+}
+
+
+unittest(test_compare_RGB565)
+{
+  map2colour mc;
+  map2colourFast mcf;
+
+  float values[7] = { 0, 32, 64, 128, 256, 512, 1024 };
+
+  mc.begin(values);
+  mcf.begin(values);
+  
+  int fails = 0;
+  for (float i = 0; i <= 1024; i++)
+  {
+    uint16_t rgb1 = mc.map2_565(i);
+    uint16_t rgb2 = mcf.map2_565(i);
+    //  assertEqual(rgb1, rgb2);  // do not want 1024 output lines.
+    if (rgb1 != rgb2)
+    {
+      fprintf(stderr, "%d\n", i);
+      fails++;
+    }
+  }
+  assertEqual(0, fails);
 }
 
 

@@ -1,20 +1,11 @@
 //
 //    FILE: map2colour.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 //
-//  HISTORY:
-//  0.1.0  2021-12-04  initial version.
-//  0.1.1  2021-12-05  add user defined colour-map.
-//                     add unit tests, update readme.md.
-//  0.1.2  2021-12-06  add map2_565(), 
-//                     add + improve examples.
-//                     fix value > upper bug
-//  0.1.3  2021-12-07  improve performance map2RGB
-//  0.1.4  2021-12-08  add derived class that is fast and uses more MEMORY / RAM
-//
+//  HISTORY see changelog.md
 
 
 #include "map2colour.h"
@@ -43,7 +34,7 @@ bool map2colour::begin(float * values, uint32_t * colourMap)
   _values = values;
   for (int index = 1; index < 7; index++)
   {
-    //  catch non increasing values. 
+    //  catch non increasing values.
     float den = _values[index] - _values[index - 1];
     if (den <= 0.0) return false;
   }
@@ -59,7 +50,7 @@ uint32_t map2colour::map2RGB(float value)
   uint8_t G = _Green[0];
   uint8_t B = _Blue[0];
 
-  if (_values[0] < value) 
+  if (_values[0] < value)
   {
     if (value <= _values[6] )
     {
@@ -71,10 +62,10 @@ uint32_t map2colour::map2RGB(float value)
       G = _Green[index];
       B = _Blue[index];
       //  calculate the interpolation factor
-      //  OPTIMIZE USE PRECALCULATED DIVIDERS (costs 24 bytes extra RAM).
+      //  map2colourFast uses pre calculated dividers (costs 24 bytes extra RAM).
       float factor = (_values[index] - value) / (_values[index] - _values[index - 1]);
 
-      //  interpolate if delta <> 0
+      //  interpolate only if delta != 0
       int delta = _Red[index] - _Red[index - 1];
       if (delta != 0 ) R -= factor * delta;
 
@@ -127,16 +118,22 @@ map2colourFast::map2colourFast() : map2colour()
 
 bool map2colourFast::begin(float * values, uint32_t * colourMap)
 {
-  if (map2colour::begin(values, colourMap) == false)
-  {
-    return false;  //  non increasing values.
-  }
-  //  calculate dividers
+  //  load the colour-map and check non-decreasing order.
+  bool OK = map2colour::begin(values, colourMap);
+  //  pre-calculate dividers
   for (int index = 1; index < 7; index++)
   {
-    divFactor[index - 1] = 1.0 / (_values[index] - _values[index - 1]);
+    float divider = _values[index] - _values[index - 1];
+    if (divider > 0)
+    {
+      divFactor[index - 1] = 1.0 / divider;
+    }
+    else
+    {
+      divFactor[index - 1] = 0;
+    }
   }
-  return true;
+  return OK;
 }
 
 
@@ -148,7 +145,7 @@ uint32_t map2colourFast::map2RGB(float value)
   uint8_t G = _Green[0];
   uint8_t B = _Blue[0];
 
-  if (_values[0] < value) 
+  if (_values[0] < value)
   {
     if (value <= _values[6] )
     {

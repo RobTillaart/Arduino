@@ -2,7 +2,7 @@
 //
 //    FILE: map2colour.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 //
@@ -10,10 +10,10 @@
 
 #include "Arduino.h"
 
-#define MAP2COLOUR_LIB_VERSION          (F("0.1.4"))
+#define MAP2COLOUR_LIB_VERSION          (F("0.1.5"))
 
 
-// https://www.w3.org/wiki/CSS/Properties/color/keywords
+//  https://www.w3.org/wiki/CSS/Properties/color/keywords
 #define M2C_BLACK                       0x00000000
 #define M2C_SILVER                      0x00C0C0C0
 #define M2C_GRAY                        0x00808080
@@ -37,7 +37,7 @@ class map2colour
   public:
     map2colour();
 
-    // values is an array of 7 values in ascending order
+    //  values is an array of 7 values in ascending order
     bool begin(float * values, uint32_t * colourMap = NULL);
     uint32_t map2RGB(float value);
     uint16_t map2_565(float value);
@@ -46,7 +46,7 @@ class map2colour
     uint8_t _size = 7;
     float * _values;
 
-    // default colours, split up per channel for performance.
+    //  default colours, split up per channel for performance.
     uint8_t _Red[7]   = { 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF };
     uint8_t _Green[7] = { 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0xFF };
     uint8_t _Blue[7]  = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
@@ -55,15 +55,15 @@ class map2colour
 
 /////////////////////////////////////////////////////////////////////////
 //
-// DERIVED CLASS
+//  DERIVED CLASS
 //
-// FASTER + MORE RAM
+//  FASTER + MORE RAM
 //
 class map2colourFast : public map2colour
 {
   public:
     map2colourFast();
-    // values is an array of 7 values in ascending order
+    //  values is an array of 7 values in ascending order
     bool begin(float * values, uint32_t * colourMap = NULL);
     uint32_t map2RGB(float value);
     uint16_t map2_565(float value);

@@ -1,16 +1,14 @@
 //
 //    FILE: map2colour_temperature.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: map2colour demo
-//    DATE: 2021-12-04
 //     URL: https://github.com/RobTillaart/map2colour
 
 
-// demo simulates a temperature sensor and its mapping upon colours
-// temp -20,    5,     10,     30,    35,    50,  200
-//       Red  yellow  black   black  yellow  red  red
-// note thart the middle area 10..30 has no colour.
+//  demo simulates a temperature sensor and its mapping upon colours
+//  temp -20,    5,     10,     30,    35,    50,  200
+//        Red  yellow  black   black  yellow  red  red
+//  note that the middle area 10..30 has no colour (black).
 
 
 #include "Arduino.h"
@@ -20,8 +18,8 @@
 map2colour mct;
 map2colour mch;
 
-// should be in increasing order; and 7 elements
-// temperature
+//  should be in increasing order; and 7 elements
+//  temperature
 float Tvalues[7] = { -20, 5, 10, 30, 35, 50, 200 };
 uint32_t Tcolours[7] =
 {
@@ -30,7 +28,7 @@ uint32_t Tcolours[7] =
   0x00FF0000
 };
 
-// humidity  around 35 is perfect
+//  humidity  around 35 is perfect
 float Hvalues[7] = { 0, 20, 30, 35, 40, 50, 100 };
 uint32_t Hcolours[7] =
 {
@@ -40,11 +38,13 @@ uint32_t Hcolours[7] =
 };
 
 
-
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAP2COLOUR_LIB_VERSION: ");
+  Serial.println(MAP2COLOUR_LIB_VERSION);
+  Serial.println();
 
   mct.begin(Tvalues, Tcolours);
   mch.begin(Hvalues, Hcolours);
@@ -72,18 +72,19 @@ void setup()
 
 void loop()
 {
-  float temperature = analogRead(A0)/10;  // add your sensor
+  float temperature = analogRead(A0)/10;  //  add your sensor
   uint32_t rgb = mct.map2RGB(temperature);
   Serial.print("T: ");
-  Serial.print(rgb, HEX);                 // replace with PWM-RGB led 
+  Serial.print(rgb, HEX);                 //  replace with PWM-RGB led 
   Serial.print("\t\t");
   
-  float humidity = analogRead(A1)/10;     // add your sensor
+  float humidity = analogRead(A1)/10;     //  add your sensor
   rgb = mch.map2RGB(humidity);
   Serial.print("H: ");
-  Serial.println(rgb, HEX);               // replace with PWM-RGB led 
+  Serial.println(rgb, HEX);               //  replace with PWM-RGB led 
   delay(1000);
 }
 
 
 // -- END OF FILE --
+

@@ -1,14 +1,13 @@
 //
 //    FILE: map2colour_intensity.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: map2colour demo
-//    DATE: 2021-12-06
 //     URL: https://github.com/RobTillaart/map2colour
 
 
-// demo simulates a temperature mapped upon 1 colour intensity.
-// low temperature = no colour, higher is more intense RED
+//  demo simulates a temperature mapped upon 1 colour intensity.
+//  low temperature = no colour, higher is more intense RED
+//      above 100 is just RED
 
 
 #include "Arduino.h"
@@ -17,7 +16,7 @@
 
 map2colour mct;
 
-// values must be 7 elements in increasing order
+//  values must be 7 elements in increasing order
 float values[7] = { 20,    100,  125,  150,  200,  250,  300 };
 uint32_t colours[7] =
 {
@@ -29,6 +28,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAP2COLOUR_LIB_VERSION: ");
+  Serial.println(MAP2COLOUR_LIB_VERSION);
+  Serial.println();
 
   mct.begin(values, colours);
 
@@ -49,3 +51,4 @@ void loop()
 
 
 // -- END OF FILE --
+

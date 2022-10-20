@@ -1,5 +1,5 @@
 //
-//    FILE: map2colour_map2_565.ino
+//    FILE: map2colour_gradient_break.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: map2colour demo
 //     URL: https://github.com/RobTillaart/map2colour
@@ -11,9 +11,9 @@
 
 map2colour mc;
 
-//  should be in increasing order
-float values[7] = { 0, 32, 64, 128, 256, 512, 1024 };
-
+//  note that 128 appears twice.
+float values[7] = { 0, 32, 64, 128, 128, 256, 512 };
+uint32_t colours[7] = { M2C_BLUE, M2C_AQUA, M2C_LIME, M2C_BLUE, M2C_RED, M2C_YELLOW, M2C_GREEN};
 
 void setup()
 {
@@ -23,13 +23,13 @@ void setup()
   Serial.println(MAP2COLOUR_LIB_VERSION);
   Serial.println();
 
-  //  load the values array
-  mc.begin(values);
+  //  load the values array and colours array
+  mc.begin(values, colours);
 
-  //  show the interpolating
-  for (float i = 0; i < 1024; i += 10)
+  //  show the interpolating - note the break between 128 and 129.
+  for (float i = 0; i < 512; i++)
   {
-    uint16_t rgb = mc.map2_565(i);
+    uint32_t rgb = mc.map2RGB(i);
     Serial.print(i);
     Serial.print("\t");
     Serial.println(rgb, HEX);
@@ -40,12 +40,6 @@ void setup()
 
 void loop()
 {
-  int x = analogRead(0);          //  UNO returns between 0..1023; adapt if needed.
-  uint32_t rgb = mc.map2_565(x);
-  Serial.print(x);
-  Serial.print("\t");
-  Serial.println(rgb, HEX);
-  delay(100);
 }
 
 

@@ -1,14 +1,12 @@
 //
 //    FILE: map2colour_faucet.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: map2colour demo
-//    DATE: 2021-12-06
 //     URL: https://github.com/RobTillaart/map2colour
 
 
-// demo simulates a temperature of a faucet mapped upon 2 colours.
-// blue = cold, black is middle, red is hot
+//  demo simulates a temperature of a faucet mapped upon 2 colours.
+//  blue = cold, black is middle, red is hot
 
 
 #include "Arduino.h"
@@ -17,7 +15,7 @@
 
 map2colour mct;
 
-// values must be 7 elements in increasing order.
+//  values must be 7 elements in increasing order.
 float values[7] = { 0,  10,  15,  25,  40,  100,  125 };
 uint32_t faucet[7] =
 {
@@ -29,6 +27,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAP2COLOUR_LIB_VERSION: ");
+  Serial.println(MAP2COLOUR_LIB_VERSION);
+  Serial.println();
 
   mct.begin(values, faucet);
 

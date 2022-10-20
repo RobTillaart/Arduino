@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 map2colour	KEYWORD1
+map2colourFast	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

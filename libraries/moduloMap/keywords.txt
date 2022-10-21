@@ -1,0 +1,15 @@
+# Syntax Colouring Map For moduloMap
+
+# Data types (KEYWORD1)
+moduloMap	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+map	KEYWORD2
+
+
+# Constants (LITERAL1)
+MODMAP_LIB_VERSION	LITERAL1
+
+

@@ -1,0 +1,12 @@
+
+IDE:    1.8.19
+board:  UNO
+
+...\moduloMap_performance.ino
+
+MODMAP_LIB_VERSION: 0.1.0
+begin() call:	8
+1000 map() calls:	44120
+
+
+

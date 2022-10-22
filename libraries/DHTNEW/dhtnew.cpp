@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.15
+// VERSION: 0.4.16
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -180,7 +180,12 @@ int DHTNEW::_read()
     return rv;        //  propagate error value
   }
 
-  if (_type == 22)    //  DHT22, DHT33, DHT44, compatible
+  if (_type == 11)    //  DHT11, DH12, compatible
+  {
+    _humidity    = _bits[0] + _bits[1] * 0.1;
+    _temperature = _bits[2] + _bits[3] * 0.1;
+  }
+  else               //  DHT22, DHT33, DHT44, compatible + Si7021
   {
     _humidity = (_bits[0] * 256 + _bits[1]) * 0.1;
     int16_t t = ((_bits[2] & 0x7F) * 256 + _bits[3]);
@@ -197,11 +202,7 @@ int DHTNEW::_read()
       }
     }
   }
-  else // if (_type == 11)  // DHT11, DH12, compatible
-  {
-    _humidity    = _bits[0] + _bits[1] * 0.1;
-    _temperature = _bits[2] + _bits[3] * 0.1;
-  }
+
 
   // HEXDUMP DEBUG
   /*

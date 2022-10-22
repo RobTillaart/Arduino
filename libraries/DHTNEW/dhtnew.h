@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.15
+// VERSION: 0.4.16
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 
@@ -19,7 +19,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.15"))
+#define DHTNEW_LIB_VERSION                (F("0.4.16"))
 
 
 #define DHTLIB_OK                         0
@@ -59,7 +59,7 @@ public:
 
   DHTNEW(uint8_t pin);
 
-  //  resets all internals to construction time 
+  //  resets all internals to construction time
   //  might help to reset a sensor behaving badly..
   void     reset();
 

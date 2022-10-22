@@ -8,7 +8,7 @@ DHTNEW	KEYWORD1
 # Methods and Functions (KEYWORD2)
 reset	KEYWORD2
 getType	KEYWORD2
-setType()	KEYWORD2
+setType	KEYWORD2
 read	KEYWORD2
 lastRead	KEYWORD2
 

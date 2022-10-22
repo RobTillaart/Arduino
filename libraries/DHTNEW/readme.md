@@ -24,7 +24,7 @@ Note there are differences e.g. DHT11 has no negative temperature, no decimals, 
 Since 0.4.14 there is **experimental** support for the Sonoff Si7021 . 
 No hardware yet to test this myself, but it is confirmed to work.(see #79)
 Seems the Sonoff Si7021 sensor is very sensitive in the wakeup timing.
-This behavior needs to be investigated in the future. 
+This behaviour needs to be investigated in the future. 
 
 
 ## DHT PIN layout from left to right
@@ -82,7 +82,8 @@ Since 0.4.14 type 70 is added for **experimental** Sonoff Si7021 support.
 - **uint32_t lastRead()** returns milliseconds since last **read()**
 - **float getHumidity()** returns last read value (float) or -999 in case of error. 
 Note this error value can be suppressed by **setSuppressError(bool)**.
-- **float getTemperature()** returns last read value (float) or -999 in case of error. Note this error value can be suppressed by **setSuppressError(bool)**.
+- **float getTemperature()** returns last read value (float) or -999 in case of error. 
+Note this error value can be suppressed by **setSuppressError(bool)**.
 
 
 ### Offset 
@@ -238,6 +239,10 @@ Fix #72, delayMicroseconds() for wakeUp
 Fix #76, disable interrupts for ESP32.
 30. (0.4.14)
 added experimental support for Si7021.
+31. (0.4.15)
+Fix #81, recognize DHT22 as type 70. Add minimal wakeup delay.
+32. (0.4.16)
+Fix #84 correct the reading of type 70 for Sonoff Si7021.
 
 
 ## Future

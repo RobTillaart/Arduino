@@ -1,24 +1,13 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
 //
-//  HISTORY:
-//  0.1.0   2021-01-09  initial version
-//  0.2.0   2021-08-09  See issues #2 and #3
-//  0.2.1   2021-09-12  made index(Stream) public; added stream(index)
-//                      enable() / disable() return true on success
-//                      added free() function
-//                      minor refactor.
-//  0.2.2   2021-09-12  add remove(Stream) + remove(index);
-//  0.2.3   2021-12-22  update library.json, readme, license, minor edits
-//  0.2.4   2022-06-12  add isEnabledAny() to see if writes makes sense.
-//                      keep the streams in adding order when removing a stream.
-//                      add getOutputCount() and resetOutputCount() to
-//                          keep track of bytes multiplexed.
+//  HISTORY: see changelog.md
+
 
 
 #include "Multiplex.h"
@@ -26,7 +15,7 @@
 
 Multiplex::Multiplex()
 {
-  // malloc ?
+  //  malloc ?
   _size = MAX_MULTIPLEX;
   reset();
 }
@@ -34,7 +23,7 @@ Multiplex::Multiplex()
 
 Multiplex::~Multiplex()
 {
-  // free ?
+  //  free ?
 }
 
 
@@ -84,7 +73,7 @@ bool Multiplex::remove(uint8_t idx)
 
 ///////////////////////////////////////////
 //
-// WRITE - the core
+//  WRITE - the core
 //
 size_t Multiplex::write(uint8_t c)
 {
@@ -113,6 +102,18 @@ size_t Multiplex::write(const uint8_t *buffer, size_t size)
   }
   _outputCount += n;
   return n;
+}
+
+
+void Multiplex::flush()  //  see issue 13
+{
+  for (uint8_t i = 0; i < _count; i++)
+  {
+    if (_enabled[i])
+    {
+      _stream[i]->flush(); 
+    } 
+  }
 }
 
 

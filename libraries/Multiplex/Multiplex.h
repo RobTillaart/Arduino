@@ -2,7 +2,7 @@
 //
 //    FILE: Multiplex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MULTIPLEX_LIB_VERSION         (F("0.2.4"))
+#define MULTIPLEX_LIB_VERSION         (F("0.2.5"))
 
 
 // MAX 254 (in theory) as 0xFF is a special value
@@ -31,7 +31,7 @@ public:
   virtual size_t write(uint8_t c) override;
   virtual size_t write(const uint8_t * buffer, size_t size) override;
 
-  bool     add(Print * stream);  // returns true on success
+  bool     add(Print * stream);  //  returns true on success
   void     reset();
 
   //  remove
@@ -39,6 +39,8 @@ public:
   bool     remove(Print * stream);
   bool     remove(uint8_t index);
 
+  //  see issue 13
+  virtual void flush() override;
 
   //  CONTROL
   uint8_t  count() { return _count; };

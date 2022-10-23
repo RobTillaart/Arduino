@@ -89,6 +89,8 @@ void setup()
   uint32_t stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
+  
+  mp.flush();
 }
 
 

@@ -12,6 +12,7 @@ MODMAP  mm;
 
 uint32_t start, stop;
 volatile float f;
+volatile float t = 5;
 
 
 void setup()
@@ -21,7 +22,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MODMAP_LIB_VERSION: ");
   Serial.println(MODMAP_LIB_VERSION);
-  delay(100);
+  delay(1000);
 
   start = micros();
   mm.begin(PI, 2 * PI);
@@ -29,7 +30,7 @@ void setup()
 
   Serial.print("begin() call:\t");
   Serial.println(stop - start);
-  delay(100);
+  delay(1000);
 
 
   start = micros();
@@ -41,8 +42,33 @@ void setup()
 
   Serial.print("1000 map() calls:\t");
   Serial.println(stop - start);
-  delay(100);
+  delay(1000);
 
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    f = mm.map(t);
+  }
+  stop = micros();
+
+  Serial.print("1000 map() calls:\t");
+  Serial.println(stop - start);
+  delay(1000);
+
+/*
+  t = 500;
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    f = mm.map(t);
+  }
+  stop = micros();
+
+  Serial.print("1000 map() calls:\t");
+  Serial.println(stop - start);
+  delay(1000);
+*/
 
   Serial.println();
 

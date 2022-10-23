@@ -52,6 +52,15 @@ unittest(test_map)
   assertEqualFloat(0.3, x, 0.001);
 }
 
+unittest(test_begin)
+{
+  MODMAP mm;
+
+  assertTrue(mm.begin(0, 1));
+  assertFalse(mm.begin(1, 0));
+  assertFalse(mm.begin(1, 1));
+}
+
 
 
 unittest_main()

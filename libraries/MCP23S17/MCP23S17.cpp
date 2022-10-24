@@ -1,71 +1,18 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
-
 //
-//  HISTORY:
-//  0.1.0   2021-12-30  initial version (a 2019 version did not make it)
-//  0.1.1   2022-01-10  add 16 bit interface
-//  0.1.2   2022-01-12  change the URL for library manager
-//  0.1.3   2022-04-13  fix compiling for NANO33 BLE
-//
-//  0.2.0   2022-06-28  fix #10 incorrect mask
-//  0.2.1   2022-06-29  add SPIClass as parameter for constructor (See #10)
-//                      redo constructors.
-//                      add getAddress() + optimized (_address << 1)
-//                      update readme.md
-//  0.2.2   2022-09-28  optimize digitalWrite - most used one only.
+//  HISTORY see changelog.md
 
 
-
-#include "Arduino.h"
 #include "MCP23S17.h"
 
 
-//  Registers                         // description                 datasheet
-#define MCP23S17_DDR_A        0x00    // Data Direction Register A   P18
-#define MCP23S17_DDR_B        0x01    // Data Direction Register B   P18
-#define MCP23S17_POL_A        0x02    // Input Polarity A            P18
-#define MCP23S17_POL_B        0x03    // Input Polarity B            P18
-#define MCP23S17_GPINTEN_A    0x04    // NOT USED interrupt enable   P19
-#define MCP23S17_GPINTEN_B    0x05    // NOT USED
-#define MCP23S17_DEFVAL_A     0x06    // NOT USED interrupt def      P19
-#define MCP23S17_DEFVAL_B     0x07    // NOT USED
-#define MCP23S17_INTCON_A     0x08    // NOT USED interrupt control  P20
-#define MCP23S17_INTCON_B     0x09    // NOT USED
-#define MCP23S17_IOCR         0x0A    // IO control register         P20
-#define MCP23S17_IOCR2        0x0B    // NOT USED
-#define MCP23S17_PUR_A        0x0C    // Pull Up Resistors A         P22
-#define MCP23S17_PUR_B        0x0D    // Pull Up Resistors A         P22
-#define MCP23S17_INTF_A       0x0E    // NOT USED interrupt flag     P22
-#define MCP23S17_INTF_B       0x0F    // NOT USED
-#define MCP23S17_INTCAP_A     0x10    // NOT USED interrupt capture  P23
-#define MCP23S17_INTCAP_B     0x11    // NOT USED
-#define MCP23S17_GPIO_A       0x12    // General Purpose IO A        P23
-#define MCP23S17_GPIO_B       0x13    // General Purpose IO B        P23
-#define MCP23S17_OLAT_A       0x14    // NOT USED output latch       P24
-#define MCP23S17_OLAT_B       0x15    // NOT USED
-
-//  IOCR bit masks (details datasheet P20)
-#define MCP23S17_IOCR_BANK    0x80    // Controls how the registers are addressed.
-#define MCP23S17_IOCR_MIRROR  0x40    // INT Pins Mirror bit.
-#define MCP23S17_IOCR_SEQOP   0x20    // Sequential Operation mode bit.
-#define MCP23S17_IOCR_DISSLW  0x10    // Slew Rate control bit for SDA output.
-#define MCP23S17_IOCR_HAEN    0x08    // Hardware Address Enable bit (MCP23S17 only).
-#define MCP23S17_IOCR_ODR     0x04    // Configures the INT pin as an open-drain output.
-#define MCP23S17_IOCR_INTPOL  0x02    // This bit sets the polarity of the INT output pin.
-#define MCP23S17_IOCR_NI      0x01    // Not implemented.
-
-//  low level read / write masks
-#define MCP23S17_WRITE_REG    0x40
-#define MCP23S17_READ_REG     0x41
-
-
-//  SW SPI
+//  SOFTWARE SPI
 MCP23S17::MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address)
 {
   _address = (address << 1);
@@ -78,11 +25,12 @@ MCP23S17::MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t cloc
 }
 
 
-//  HW SPI
+//  HARDWARE SPI
 MCP23S17::MCP23S17(uint8_t select, SPIClass* spi)
 {
   MCP23S17(select, 0x00, spi);
 }
+
 
 MCP23S17::MCP23S17(uint8_t select, uint8_t address, SPIClass* spi)
 {
@@ -132,7 +80,7 @@ bool MCP23S17::begin()
 }
 
 
-//  to keep interface in sync with I2C MCP23017 library.
+//  just to keep interface in sync with I2C MCP23017 library.
 bool MCP23S17::isConnected()
 {
   _error = MCP23S17_OK;
@@ -146,7 +94,10 @@ uint8_t MCP23S17::getAddress()
 }
 
 
+///////////////////////////////////////////////////////////////////
+//
 //  single pin interface
+//
 //  pin  = 0..15
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
@@ -225,6 +176,7 @@ bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
+  //  only write when changed.
   if (pre != val)
   {
     writeReg(IOR, val);
@@ -394,9 +346,10 @@ void MCP23S17::setSPIspeed(uint32_t speed)
 
 
 
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  8 pins interface
+//
 //  whole register at once
 //  port  = 0..1
 //  value = 0..0xFF  bit pattern
@@ -514,9 +467,10 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 }
 
 
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  16 pins interface
+//
 //  two register at once
 //  value = 0x0000..0xFFFF bit pattern
 bool MCP23S17::pinMode16(uint16_t value)
@@ -611,10 +565,32 @@ int MCP23S17::lastError()
 }
 
 
+void MCP23S17::enableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23S17_IOCR);
+  reg |= mask;
+  writeReg(MCP23S17_IOCR, reg);
+}
+
+
+void MCP23S17::disableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23S17_IOCR);
+  reg &= ~mask;
+  writeReg(MCP23S17_IOCR, reg);
+}
+
+
 ////////////////////////////////////////////////////
 //
 //  PRIVATE
 //
+
+
+//  low level read / write masks
+#define MCP23S17_WRITE_REG    0x40
+#define MCP23S17_READ_REG     0x41
+
 
 bool MCP23S17::writeReg(uint8_t reg, uint8_t value)
 {

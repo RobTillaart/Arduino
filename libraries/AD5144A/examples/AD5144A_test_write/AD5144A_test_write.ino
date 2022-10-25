@@ -2,14 +2,13 @@
 //    FILE: AD5144A_test_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 
@@ -25,8 +24,8 @@ void setup()
     return;
   }
 
-  // will generate 20+ lines
-  // decrease step 50 to 1 to test all
+  //  will generate 20+ lines
+  //  decrease step 50 to 1 to test all
   for (int val = 0; val < 256; val+= 50)
   {
     for (int p = 0; p < AD.pmCount(); p++)
@@ -53,3 +52,4 @@ void loop()
 
 
 // -- END OF FILE --
+

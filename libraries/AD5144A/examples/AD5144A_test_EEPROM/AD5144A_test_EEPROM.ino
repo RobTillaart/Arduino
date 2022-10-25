@@ -2,14 +2,13 @@
 //    FILE: AD5144A_test_EEPROM.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test EEPROM functions
-//    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 
@@ -25,7 +24,7 @@ void setup()
     return;
   }
 
-  // values should be same after start
+  //  values should be same after start
   for (int ch = 0; ch < AD.pmCount(); ch++)
   {
     Serial.print(ch);
@@ -36,7 +35,7 @@ void setup()
     Serial.println();
   }
 
-  // update values for after next (full) power up.
+  //  update values for after next (full) power up.
   for (int ch = 0; ch < AD.pmCount(); ch++)
   {
     uint8_t val = AD.recallEEPROM(ch);

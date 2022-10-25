@@ -45,7 +45,7 @@ See Future below.
 
 ### Type AD51xy decomposition
 
-- x = 2 => range = 0..127    
+- x = 2 => range = 0..127
 - x = 4 => range = 0..255
 - y = 1 => 1 potentiometer
 - y = 2 => 2 potentiometers
@@ -56,6 +56,7 @@ See Future below.
 ## I2C
 
 For the selection of the address, see table 12 / 13 datasheet.
+Typical 0x28, 0x2A or 0x2B.
 
 The AD5144A devices support standard 100 kHz, and fast 400 kHz, data transfer modes.
 
@@ -87,7 +88,6 @@ The developer is responsible for handling these differences correctly when using
 - **AD5141(uint8_t address, TwoWire \*wire = &Wire)**
 
 
-
 ### I2C / device initialization
 
 - **bool begin(int dataPin, int clockPin, bool doReset = true)** ESP32 a.o initializing of the I2C data and clock pins.
@@ -103,7 +103,6 @@ If the device cannot be found, **reset()** won't be called, even if **doReset** 
 - **uint8_t reset()** calls the built in RESET command.
 This loads the last values stored in EEPROM in the RDAC's. 
 Factory default is **midScale()** check datasheet for details.
-
 
 
 ### Basic IO
@@ -221,13 +220,16 @@ The examples show the basic working of the functions.
 
 ## Future
 
-**must**
+#### must
+
 - update documentation
 - some functions can be performance optimized
   - writing a value is not needed if last value is the same?
 
-**could**
+#### could
+
 - improve unit testing CI
+- **stereo**, write one value to two channels.
 - more testing with hardware.
 - SPI based version of the library ?
 

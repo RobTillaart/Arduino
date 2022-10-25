@@ -2,14 +2,13 @@
 //    FILE: AD5144A_test_control_register.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read CONTROL REGISTER functions
-//    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 

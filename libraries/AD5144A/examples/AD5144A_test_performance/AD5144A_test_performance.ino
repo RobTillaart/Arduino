@@ -2,14 +2,13 @@
 //    FILE: AD5144A_test_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: indication performance methods of the class
-//    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 uint32_t start, stop;
@@ -106,7 +105,7 @@ void test_midScaleAll()
 }
 
 
-void test_zeroAll()  // todo test
+void test_zeroAll()  //  todo test
 {
   Serial.println();
   Serial.println(__FUNCTION__);

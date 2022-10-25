@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION           (F("0.1.7"))
+#define AD51XXA_VERSION           (F("0.1.8"))
 
 
 #define AD51XXA_OK                0

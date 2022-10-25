@@ -2,14 +2,13 @@
 //    FILE: AD5144A_test_speed.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 

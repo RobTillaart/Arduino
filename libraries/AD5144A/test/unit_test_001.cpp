@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "AD51XXA_VERSION: %s\n", (char *) AD51XXA_VERSION);
 }
 
 
@@ -37,14 +38,12 @@ unittest_teardown()
 
 unittest(test_constructors)
 {
-  fprintf(stderr, "AD51XXA_VERSION: %s\n", (char *) AD51XXA_VERSION);
-
   Wire.begin();
 
   AD5123 AD23(0x2C);
   assertEqual(  4, AD23.pmCount());
   assertEqual(127, AD23.maxValue());
-  // assertEqual(0, AD23.read())     // todo
+  // assertEqual(0, AD23.read())     //  todo
 
   AD5124 AD24(0x2C);
   assertEqual(  4, AD24.pmCount());
@@ -86,7 +85,6 @@ unittest(test_constants)
   assertEqual(100, AD51XXA_ERROR);
   assertEqual(101, AD51XXA_INVALID_POT);
   assertEqual(102, AD51XXA_INVALID_VALUE);
-  
 }
 
 

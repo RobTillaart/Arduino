@@ -6,14 +6,14 @@
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
-// connect the AD5144A to a multichannel scope
-// to verify the potentiometers change at the same time 
+//  connect the AD5144A to a multichannel scope
+//  to verify the potentiometers change at the same time 
 
 
 #include "AD5144A.h"
 
-// select the right type
-// adjust address
+//  select the right type
+//  adjust address
 AD5144A AD(0x77);
 
 

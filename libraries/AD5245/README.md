@@ -10,7 +10,7 @@
 
 Arduino library for I2C digital potentiometer AD5245.
 
-The library is experimental and not tested yet.
+The library is experimental and not tested yet. 
 
 
 ## Description
@@ -54,6 +54,14 @@ One can get / set the value of the potentiometer.
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
 
 
+## Error codes
+
+|  define        |  value  |
+|:---------------|:-------:|
+|  AD5245_OK     |   0     |
+|  AD5245_ERROR  |  100    |
+
+
 ## Operation
 
 The examples show the basic working of the functions.
@@ -63,4 +71,5 @@ The examples show the basic working of the functions.
 
 - sync with AD520X library
 - sync with AD524X library
+  - reset ==> midScaleReset() ?  AD524X alike
 

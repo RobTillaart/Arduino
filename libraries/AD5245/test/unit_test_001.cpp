@@ -1,10 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
-//    DATE: 2020-12-03
-// PURPOSE: unit tests for I2C digital PotentioMeter AD5241 AD5242
-//          https://github.com/RobTillaart/AD524X
+//    DATE: 2022-07-31
+// PURPOSE: unit tests for I2C digital PotentioMeter AD5245
+//          https://github.com/RobTillaart/AD5245
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -34,6 +33,7 @@ unittest_setup()
 unittest_teardown()
 {
 }
+
 
 unittest(test_constants)
 {

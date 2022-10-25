@@ -1,16 +1,12 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
 //
-// HISTORY
-//  2021-10-16  0.3.2  fix build-CI, update readme.md
-//  2021-12-10  0.3.3  update constants, library.json, license
-//  2022-08-13  0.3.4  fix AD524X_LIB_VERSION
-//                     minor edits,
+// HISTORY see changelog.md
 
 
 #include "AD524X.h"
@@ -25,10 +21,10 @@
 
 AD524X::AD524X(const uint8_t address, TwoWire *wire)
 {
-  // address: 0x01011xx = 0x2C - 0x2F
+  //  address: 0x01011xx = 0x2C - 0x2F
   _address = address;
   _wire = wire;
-  _lastValue[0] = _lastValue[1] = 127; // power on reset => mid position
+  _lastValue[0] = _lastValue[1] = 127;  //  power on reset => mid position
   _O1 = _O2 = 0;
   _pmCount = 2;
 }
@@ -162,17 +158,17 @@ uint8_t AD524X::midScaleReset(const uint8_t rdac)
 }
 
 
-// read datasheet P.15
+//  read datasheet P.15
 uint8_t AD524X::shutDown()
 {
-  uint8_t cmd = AD524X_SHUTDOWN;  // TODO TEST & VERIFY
+  uint8_t cmd = AD524X_SHUTDOWN;  //  TODO TEST & VERIFY
   return send(cmd, 0);
 }
 
 
 //////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 {
@@ -199,5 +195,5 @@ AD5242::AD5242(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -13,7 +13,7 @@ Arduino class for I2C digital potentiometer AD5241 AD5242.
 
 ## Description
 
-The AD5241 and AD5242 are two digital potentiometers.
+The AD5241 and AD5242 are digital potentiometers.
 The AD5241 has one, the AD5242 has two potentiometers.
 Both types have two output lines O1 and O2.
 
@@ -94,8 +94,20 @@ The developer is responsible for handling this correctly.
 The examples show the basic working of the functions.
 
 
+## Error codes
+
+|  define        |  value  |
+|:---------------|:-------:|
+|  AD524X_OK     |   0     |
+|  AD524X_ERROR  |   100   |
+
+
 ## Future
 
+### should
 - improve error handling.
 - sync with AD520X library
 
+
+#### wont
+- make midpoint 128

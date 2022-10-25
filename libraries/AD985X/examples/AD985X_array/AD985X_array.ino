@@ -1,9 +1,8 @@
 //
 //    FILE: AD985X_array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo multi device
-//    DATE: 2021-06-04
+//     URL: https://github.com/RobTillaart/AD985X
 
 
 /*

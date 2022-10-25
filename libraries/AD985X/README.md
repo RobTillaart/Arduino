@@ -14,10 +14,22 @@ Arduino library for AD9850 and AD9851 function generators.
 ## Description
 
 Library for the AD9850 and AD9851 function generators.
+These devices can produce a square and a sine wave 
+
+|   type   | max frequency  |  phase (stepsize)  |
+|:---------|---------------:|-------------------:|
+|  AD9850  |      40 MHz    |  0..31 x 11.25°    |
+|  AD9851  |      70 MHz    |  0..31 x 11.25°    |
+
+
+Note that at the max frequency the devices do not give a nice sine anymore.
+You need to check what is acceptable for your project.
+
 The library has a AD9850 as base class that implements the commonalities.
 The AD9851 is derived and has its own **setFrequency()** methods.
 Furthermore the AD9851 also has function to select the reference clock,
-a feature the AD9850 does not have.
+a feature the AD9850 does not have. 
+This feature improves the tuning for both low and high frequencies.
 
 **Warning**
 The library is not suitable for AD9852 as that is a function generator with
@@ -28,6 +40,7 @@ Note: mainly tested on Arduino UNO. Tweaking for other platforms is expected.
 
 ## Connection
 
+Schema break-out
 
 ```
           TOP VIEW
@@ -54,9 +67,10 @@ Note: mainly tested on Arduino UNO. Tweaking for other platforms is expected.
 
 ```
 
+
 ### Multi device 
 
-See Multi_AD985X_devices.pdf
+See **Multi_AD985X_devices.pdf**
 
 
 Discussion leading to the document see - https://github.com/RobTillaart/AD985X/issues/13 
@@ -292,4 +306,5 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 - examples for ESP32 HWSPI interface
 - do tests on ESP32
 - performance measurements
+- move code to .cpp
 

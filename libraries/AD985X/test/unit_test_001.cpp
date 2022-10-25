@@ -27,7 +27,9 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "VERSION: %s\n", AD985X_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -36,7 +38,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "VERSION: %s\n", AD985X_LIB_VERSION);
   AD9850 funcgen0;
   AD9851 funcgen1;
 
@@ -47,7 +48,6 @@ unittest(test_constructor)
 
 unittest(test_auto_update)
 {
-  fprintf(stderr, "VERSION: %s\n", AD985X_LIB_VERSION);
   AD9850 funcgen0;
   AD9851 funcgen1;
   funcgen0.begin(4, 5, 6);
@@ -190,6 +190,7 @@ unittest(test_ad9851_offset)
   funcgen.setCalibration();
   assertEqual(0, funcgen.getCalibration());
 }
+
 
 unittest(test_ad9851_float_freq)
 {

@@ -1,9 +1,8 @@
 //
 //    FILE: AD9850_multi_sync.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo multi device
-//    DATE: 2021-06-06
+//     URL: https://github.com/RobTillaart/AD985X
 
 // measure speed difference when updating multiple devices
 // - sequentially

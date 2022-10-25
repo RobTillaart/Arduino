@@ -1,9 +1,8 @@
 //
 //    FILE: AD9851_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo
-
+//     URL: https://github.com/RobTillaart/AD985X
 
 #include "AD985X.h"
 

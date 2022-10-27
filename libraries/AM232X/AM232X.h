@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.4.3"))
+#define AM232X_LIB_VERSION              (F("0.4.4"))
 
 
 #define AM232X_OK                        0
@@ -109,7 +109,7 @@ public:
   // suppress error values of -999 => check return value of read() instead
   bool     getSuppressError()         { return _suppressError; };
   void     setSuppressError(bool b)   { _suppressError = b; };
-  
+
   bool     wakeUp() { return isConnected(); };
 
 protected:
@@ -122,7 +122,7 @@ protected:
   uint16_t _readDelay     = 2000;
 
   bool     _suppressError = false;
-  
+
   int      _readRegister(uint8_t reg, uint8_t cnt);
   int      _writeRegister(uint8_t reg, uint8_t cnt, int16_t value);
   int      _getData(uint8_t length);

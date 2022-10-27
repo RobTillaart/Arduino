@@ -2,8 +2,8 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: MS5611 (SPI) Temperature & Humidity library for Arduino
+// VERSION: 0.1.1
+// PURPOSE: S5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
 
@@ -29,11 +29,11 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.1.0 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.1.1 EXPERIMENTAL"))
 
 
 #define MS5611_READ_OK                        0
-#define MS5611_ERROR_2                        2         // TODO ??
+#define MS5611_ERROR_2                        2         //  TODO ??
 #define MS5611_NOT_READ                       -999
 
 
@@ -53,27 +53,29 @@ public:
   explicit MS5611_SPI(uint8_t select, uint8_t dataOut = 255, uint8_t dataIn = 255, uint8_t clock = 255);
 
   bool     begin();
+  bool     isConnected();
 
-  // reset command + get constants
-  // returns false if ROM constants == 0;
-  bool     reset();
+  //       reset command + get constants
+  //       mathMode = 0 (default), 1 = factor 2 fix.
+  //       returns false if ROM constants == 0;
+  bool     reset(uint8_t mathMode = 0);
 
-  // the actual reading of the sensor;
-  // returns MS5611_READ_OK upon success
+  //  the actual reading of the sensor;
+  //  returns MS5611_READ_OK upon success
   int      read(uint8_t bits);
-  // wrapper, uses the preset oversampling rate.
+  //  wrapper, uses the preset oversampling rate.
   inline int read() { return read( (uint8_t) _samplingRate); };
 
-  // sets oversampling to a value between 8 and 12
+  //  sets oversampling to a value between 8 and 12
   void     setOversampling(osr_t samplingRate);
 
-  // oversampling rate is in osr_t
+  //  oversampling rate is in osr_t
   osr_t    getOversampling() const { return (osr_t) _samplingRate; };
 
-  // temperature is in ²C
+  //  temperature is in ²C
   float    getTemperature() const;
 
-  // pressure is in mBar
+  //  pressure is in mBar
   float    getPressure() const;
 
   //  OFFSET - 0.3.6
@@ -82,10 +84,10 @@ public:
   void     setTemperatureOffset(float offset = 0) { _temperatureOffset = offset; };
   float    getTemperatureOffset() { return _temperatureOffset; };
 
-  // to check for failure
+  //  to check for failure
   int      getLastResult() const   { return _result; };
 
-  // last time in millis() when the sensor has been read.
+  //  last time in millis() when the sensor has been read.
   uint32_t lastRead() const        { return _lastRead; };
 
   uint32_t getDeviceID() const     { return _deviceID; };
@@ -93,38 +95,43 @@ public:
   void     setCompensation(bool flag = true) { _compensation = flag; };
   bool     getCompensation() { return _compensation; };
 
-  // develop functions.
+  //  develop functions.
   /*
   void     setAddress(uint8_t address) { _address = address; };  // RANGE CHECK
   uint8_t  getAddress() const          { return _address; };
   uint8_t  detectAddress() { todo };  // works with only one on the bus?
   */
 
+  //       EXPERIMENTAL
+  uint16_t getManufacturer();
+  uint16_t getSerialCode();
+
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed() { return _SPIspeed; };
 
-  // debugging
+  //  debugging
   bool     usesHWSPI() { return _hwSPI; };
 
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
 
-private:
+protected:
   void     convert(const uint8_t addr, uint8_t bits);
   uint32_t readADC();
   uint16_t readProm(uint8_t reg);
   int      command(const uint8_t command);
+  void     initConstants(uint8_t mathMode);
 
   uint8_t  _address;
   uint8_t  _samplingRate;

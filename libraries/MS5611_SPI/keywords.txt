@@ -7,6 +7,7 @@ MS5611	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+isConnected	KEYWORD2
 
 reset	KEYWORD2
 read	KEYWORD2
@@ -24,6 +25,12 @@ setPressureOffset	KEYWORD2
 getPressureOffset	KEYWORD2
 
 getDeviceID	KEYWORD2
+
+setCompensation	KEYWORD2
+getCompensation	KEYWORD2
+
+getManufacturer	KEYWORD2
+getSerialCode	KEYWORD2
 
 
 # Instances (KEYWORD2)

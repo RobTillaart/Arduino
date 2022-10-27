@@ -8,19 +8,25 @@
 
 # MS5611_SPI
 
-Arduino library (SPI) for MS5611 temperature and pressure sensor.
-
+Arduino library (SPI) for MS5611 pressure (and temperature) sensor.
 
 
 ## Description
 
-The MS5611 is a high resolution temperature and pressure sensor a.k.a GY-63.
+The MS5611 is a high resolution pressure (and temperature) sensor a.k.a GY-63.
 The high resolution is made possible by oversampling many times.
 
 This library only implements the SPI interface.
 
 Based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
+
+
+#### Compatibility
+
+The library should be compatible with MS56XX, MS57xx and MS58xx devices (to be tested). 
+Some device types will returns only 50% of the pressure value. 
+This is solved by calling **reset(1)** to select the math used.
 
 
 #### Self heating
@@ -142,8 +148,12 @@ Based upon 0.3.8 of the I2C MS5611 library.
 #### Base
 
 - **MS5611_SPI(uint8_t select, uint8_t dataOut = 255, uint8_t dataIn = 255, uint8_t clock = 255)** constructor.
-- **bool begin()** initializes internals, 
-- **reset()** resets the chip and loads constants from its ROM.
+- **bool begin()** initializes internals,
+- **bool isConnected()** checks device by calling **read()**.
+- **bool reset(uint8_t mathMode = 0)** resets the chip and loads constants from its ROM.
+Returns false if ROM could not be read.
+  - mathMode = 0 follows the datasheet math (default).
+  - mathMode = 1 will adjust for a factor 2 in the pressure math.
 - **int read(uint8_t bits)** the actual reading of the sensor. 
 Number of bits determines the oversampling factor. Returns MS5611_READ_OK upon success.
 - **int read()** wraps the **read()** above, uses the preset oversampling (see below). 
@@ -210,6 +220,13 @@ Having a device-ID can be used in many ways:
 Note: this is not an official ID from the device / datasheet, it is made up from calibration data.
 
 
+#### getManufacturer
+
+The meaning of the manufacturer and serialCode value is unclear.
+- **uint16_t getManufacturer()** returns manufacturer private info.
+- **uint16_t getSerialCode()** returns serialCode from the PROM\[6].
+
+
 #### 2nd order pressure compensation
 
 - **setCompensation(bool flag = true)** to enable/desiable the 2nd order compensation. 
@@ -245,5 +262,16 @@ See examples
 
 ## Future
 
+#### must
+- update documentation
 - follow I2C library.
 - investigate internal heating with SPI.
+
+#### should
+- proper error handling.
+- move all code to .cpp
+
+#### could
+- redo lower level functions?
+- handle the read + math of temperature first?
+

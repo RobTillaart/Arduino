@@ -58,7 +58,7 @@ a number 1 to 16 for the keys pressed. Note the return value may
 fluctuate randomly when multiple keys are pressed.
 
 The **pressed()** function is a bit more robust.
-It returns the key pressed first, so multiple key presses simultaniously 
+It returns the key pressed first, so multiple key presses simultaneously 
 are less likely to disturb your program.
 
 See Examples

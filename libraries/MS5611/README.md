@@ -13,7 +13,7 @@ Arduino library for MS5611 pressure (and temperature) sensor.
 
 ## Description
 
-The MS5611 is a high resolution pressure (and temperature) sensor a.k.a GY-63.
+The MS5611-01BA03 is a high resolution pressure (and temperature) sensor a.k.a GY-63.
 The high resolution is made possible by oversampling many times.
 
 The device address is 0x76 or 0x77 depending on the CSB/CSO pin.
@@ -22,6 +22,13 @@ This library only implements the I2C interface.
 
 An experimental SPI version of the library can be found here 
 - https://github.com/RobTillaart/MS5611_SPI
+
+
+#### Compatibility
+
+The library should be compatible with MS56XX, MS57xx and MS58xx devices (to be tested). 
+Some device types will returns only 50% of the pressure value. 
+This is solved in 0.3.9 by calling **reset(1)** to select the math used.
 
 
 #### Self heating
@@ -80,13 +87,13 @@ For pressure conversions see - https://github.com/RobTillaart/pressure
 For temperature conversions see - https://github.com/RobTillaart/Temperature
 
 
-## Release Notes
+## Release Notes (major)
 
 #### 0.3.0 breaking change
 
-1. fixed math error so previous versions are **obsolete**.
-2. temperature is a float expressed in degrees Celsius.
-3. pressure is a float expressed in mBar.
+- fixed math error so previous versions are **obsolete**.
+- temperature is a float expressed in degrees Celsius.
+- pressure is a float expressed in mBar.
 
 
 #### 0.3.5 NANO 33 BLE
@@ -98,25 +105,18 @@ Adding a **wire->write(0x00)** in **isConnected()** fixes the problem,
 however more investigation is needed to understand the root cause.
 
 
-#### 0.3.6 
+#### 0.3.9 pressure math 
 
-The **write(0)** in **isConnected()** is made conditional explicit for the NANO 33 BLE.
+There are MS5611 compatibles for which the math for the pressure is different.
+See **AN520__004: C-code example for MS56xx, MS57xx (except analog sensor), and MS58xx series pressure sensors**
+The difference is in the constants (powers of 2) used to calculate the pressure.
 
-The timing for convert is adjusted from TYPICAL to MAX - datasheet page 3.
+The library implements **reset(uint8_t mathMode = 0)** to select the mathMode.
+- mathMode = 0 ==> datasheet type math  (default)
+- mathMode = 1 ==> Application notes type math.
+- other values will act as 0
 
-
-#### 0.3.7
-
-- default address for constructor, can be set as define on the command line.
-MS5611_DEFAULT_ADDRESS
-- added getDeviceID(), to provide a sort of unique device ID (experimental) based 
-upon uniqueness of the factory calibration values.
-
-
-#### 0.3.8
-
-- reset() returns bool indicating succesful ROM read
-- get/setCompensation() to enable/disable compensation.
+See issue #33.
 
 
 ## Interface
@@ -133,8 +133,10 @@ Initializes internals by calling reset().
 Return false indicates either isConnected() error or reset() error.
 - **bool isConnected()** checks availability of device address on the I2C bus.
 (see note above NANO 33 BLE).
-- **bool reset()** resets the chip and loads constants from its ROM.
+- **bool reset(uint8_t mathMode = 0)** resets the chip and loads constants from its ROM.
 Returns false if ROM could not be read.
+  - mathMode = 0 follows the datasheet math (default).
+  - mathMode = 1 will adjust for a factor 2 in the pressure math.
 - **int read(uint8_t bits)** the actual reading of the sensor. 
 Number of bits determines the oversampling factor. Returns MS5611_READ_OK upon success.
 - **int read()** wraps the **read()** above, uses the preset oversampling (see below). 
@@ -201,6 +203,13 @@ Having a device-ID can be used in many ways:
 Note: this is not an official ID from the device / datasheet, it is made up from calibration data.
 
 
+#### getManufacturer
+
+The meaning of the manufacturer and serialCode value is unclear.
+- **uint16_t getManufacturer()** returns manufacturer private info.
+- **uint16_t getSerialCode()** returns serialCode from the PROM\[6].
+
+
 #### 2nd order pressure compensation
 
 - **setCompensation(bool flag = true)** to enable/desirable the 2nd order compensation. 
@@ -216,9 +225,15 @@ See examples
 
 ## Future
 
+#### must
 - update documentation
-  - separate release notes?
+
+#### should
 - proper error handling.
+- move all code to .cpp
+
+#### could
 - redo lower level functions?
-- handle the read + math of temperature first? 
+- handle the read + math of temperature first?
+
 

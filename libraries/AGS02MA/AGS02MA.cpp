@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for AGS02MA TVOC
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -234,7 +234,7 @@ bool AGS02MA::getZeroCalibrationData(AGS02MA::ZeroCalibrationData &data) {
   }
 
   _error = AGS02MA_OK;
-  // Don't pollute the struct given to us, until we've handled all error cases.
+  //  Don't pollute the struct given to us, until we've handled all error cases.
   data.status = _getDataMSB();
   data.value = _getDataLSB();
   return true;
@@ -244,7 +244,7 @@ bool AGS02MA::getZeroCalibrationData(AGS02MA::ZeroCalibrationData &data) {
 int AGS02MA::lastError()
 {
   int e = _error;
-  _error = AGS02MA_OK;  // reset error after read
+  _error = AGS02MA_OK;  //  reset error after read
   return e;
 }
 
@@ -256,7 +256,7 @@ bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
   }
 
   _error = AGS02MA_OK;
-  // Don't pollute the struct given to us, until we've handled all error cases.
+  //  Don't pollute the struct given to us, until we've handled all error cases.
   reg.data[0] = _buffer[0];
   reg.data[1] = _buffer[1];
   reg.data[2] = _buffer[2];
@@ -268,7 +268,7 @@ bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
 
 /////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint32_t AGS02MA::_readSensor()
 {
@@ -371,7 +371,7 @@ uint16_t AGS02MA::_getDataLSB()
 
 uint8_t AGS02MA::_CRC8(uint8_t * buf, uint8_t size)
 {
-  uint8_t crc = 0xFF;  // start value
+  uint8_t crc = 0xFF;  //  start value
   for (uint8_t b = 0; b < size; b++)
   {
     crc ^= buf[b];

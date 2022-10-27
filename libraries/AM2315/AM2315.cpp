@@ -1,17 +1,11 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 //
-//  HISTORY:
-//  0.1.0  2022-01-05  initial version
-//  0.1.1  2022-01-11  fix handshake.
-//  0.1.2  2022-01-13  fix wake-up in read() for ESP32.
-//  0.1.3  2022-06-17  sync with AM232X
-//  0.1.4  2022-06-18  sync with AM232X (readme)
-//  0.1.5  2022-08-31  fix #11 Warning requestFrom for ESP32
+//  HISTORY: see changelog.md
 
 
 #include "AM2315.h"

@@ -2,7 +2,7 @@
 //    FILE: Adler_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-
+//     URL: https://github.com/RobTillaart/Adler
 
 #include "Arduino.h"
 #include "Adler.h"

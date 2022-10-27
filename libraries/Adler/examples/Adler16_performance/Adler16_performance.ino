@@ -2,6 +2,8 @@
 //    FILE: Adler16_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Adler
+
 
 #include "Arduino.h"
 #include "Adler16.h"
@@ -28,7 +30,6 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 
 char hello[] = "hello world";
-
 
 
 void setup()

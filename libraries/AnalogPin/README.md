@@ -20,7 +20,6 @@ This latter is AVR only.
 
 ## Interface
 
-
 - **AnalogPin(uint8_t pin)** constructor with analogue pin as parameter.
 - **void setPrescaler(uint8_t prescale = 7)** AVR only pre-scaler.
 - **uint8_t getPrescaler()** return pre-scaler set.
@@ -75,6 +74,6 @@ This can be used to suppress noise too.
   - advantage of certain functions, when to use
 - more examples
 - **volts()** + get/setFactor(float f)
-  - 
+- move code to .cpp
 
 

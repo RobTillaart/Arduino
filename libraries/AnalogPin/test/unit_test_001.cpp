@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ANALOGPIN_LIB_VERSION: %s\n", (char *) ANALOGPIN_LIB_VERSION);
 }
 
 
@@ -37,8 +38,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "ANALOGPIN_LIB_VERSION: %s\n", (char *) ANALOGPIN_LIB_VERSION);
-
   AnalogPin AP(0);        // A0 not supported
 
   assertEqual(7, AP.getPrescaler());

@@ -24,7 +24,7 @@ void setup()
 
 void loop()
 {
-  float uvi = AUV.read(3);      // average 3 readings
+  float uvi = AUV.read(3);      //  average 3 readings
   Serial.print("UVI: ");
   Serial.print(uvi, 1);
   Serial.print("\t");

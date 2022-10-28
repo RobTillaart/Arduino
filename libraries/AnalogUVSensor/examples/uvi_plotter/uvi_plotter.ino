@@ -4,8 +4,8 @@
 // PURPOSE: demo UV sensor
 //    DATE: 2021-10-17
 
-// Use the Arduino IDE -> Tools -> Serial plotter 
-// to get a graph.
+//  Use the Arduino IDE -> Tools -> Serial plotter 
+//  to get a graph.
 
 
 #include "AnalogUVSensor.h"
@@ -24,14 +24,14 @@ void setup()
   AUV.begin(A0, 5.0, 1023);
   lastRead = AUV.read(5);      // average 5 readings
 
-  // print the header for the plotter.
+  //  print the header for the plotter.
   Serial.println("UVI \tLAST \tDELTA");
 }
 
 
 void loop()
 {
-  float uvi = AUV.read(5);      // average 5 readings
+  float uvi = AUV.read(5);      //  average 5 readings
   float delta = uvi - lastRead;
 
   Serial.print(uvi, 1);

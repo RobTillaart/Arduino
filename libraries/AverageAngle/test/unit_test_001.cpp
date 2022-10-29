@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -45,8 +46,6 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
-
   AverageAngle dd(AverageAngle::DEGREES);
   AverageAngle rr(AverageAngle::RADIANS);
   AverageAngle gg(AverageAngle::GRADIANS);
@@ -59,8 +58,6 @@ unittest(test_constructor)
 
 unittest(test_degrees)
 {
-  fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
-
   AverageAngle aa(AverageAngle::DEGREES);
 
   for (int i = 0; i < 10; i++)
@@ -81,8 +78,6 @@ unittest(test_degrees)
 
 unittest(test_radians)
 {
-  fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
-
   AverageAngle aa(AverageAngle::RADIANS);
 
   for (int i = 0; i < 10; i++)
@@ -103,8 +98,6 @@ unittest(test_radians)
 
 unittest(test_gradians)
 {
-  fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
-
   AverageAngle aa(AverageAngle::GRADIANS);
 
   for (int i = 0; i < 10; i++)

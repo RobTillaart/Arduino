@@ -13,7 +13,7 @@ Arduino library to calculate correctly the average of multiple angles.
 
 ## Description
 
-AverageAngle is an class to calculate the average of angles.
+AverageAngle is a class to calculate the average of angles.
 
 This is especially useful when angles are around 0 degrees, 
 e.g. from a compass sensor or the resultant of a track.
@@ -27,24 +27,34 @@ Example: The average angle of 359 (length = 2) and 1 (length = 1) is 359.somethi
 See also **runningAngle** class.
 
 
+#### AngleType
+
+- **enum AngleType { DEGREES, RADIANS, GRADIANS }** idem. 100 GRADIANS == 90 DEGREES.
+
+|  value  |  name      |
+|:-------:|:-----------|
+|   0     |  DEGREES   |
+|   1     |  RADIANS   |
+|   2     |  GRADIANS  |
+
+
 ## Interface
 
-- **enum AngleType { DEGREES, RADIANS, GRADIANS } ** idem. 100 GRADIANS == 90 DEGREES.
 - **AverageAngle(AngleType type = DEGREES)** constructor defaults to degrees.
 - **uint32_t add(float alpha, float length = 1.0)** add a new angle, optional with length. 
 **add()** returns the number of elements (count).
 - **void reset()** clears internal buffers.
 - **uint32_t count()** the amount of angles added.
-- **float getAverage() ** returns the average.
-- **float getTotalLength() ** the length of the resulting 'angle' when we see them as vectors.
+- **float getAverage()** returns the average.
+- **float getTotalLength()** the length of the resulting 'angle' when we see them as vectors.
 - **float getAverageLength()** returns the average length of the angles added.
-- **AngleType type()** returns DEGREES = 0, RADIANS = 1 or GRADIANS = 2.
+- **AngleType type()** returns DEGREES, RADIANS or GRADIANS.
 - **void setType(AngleType type)** changes type DEGREES, RADIANS or GRADIANS.
 
 
 ## Gradians
 
-Gradians a.k.a. gon, is a less often used unit for angles. 
+Gradians a.k.a. **gon**, is a less often used unit for angles. 
 There are 100 gradians in a right angle. A full circle = 400 gradians.
 
 https://en.wikipedia.org/wiki/Gradian
@@ -78,7 +88,13 @@ you need to include the length of each step.
 
 ## Future
 
-- Improve documentation. 
+- Improve documentation.
 - check if other units exist to support.
+- add a USER AngleType, in which the user can map 0..360 degrees to any number.
+  - float userFactor = 1.0;  (default)
+  - can even be negative?
+  - use cases? e.g 0..4 quadrant?
+- performance measurements
+  - 
 
 

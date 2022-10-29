@@ -80,5 +80,10 @@ bugs. Especially the constructor does not check input so use it carefully.
 - improve documentation
 - test more
 - optimize code where possible
+  - performance sketch
+- improve code quality
+  - fix TODO in code
+  - use better variable names in code
+  - move all code to .cpp
 
 

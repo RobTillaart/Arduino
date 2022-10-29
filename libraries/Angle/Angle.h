@@ -2,7 +2,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 // PURPOSE: angle library for Arduino
 // HISTORY: See angle.cpp
 //
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION               (F("0.1.12"))
+#define ANGLE_LIB_VERSION               (F("0.1.13"))
 
 
 class Angle;
@@ -57,7 +57,7 @@ public:
     double toRadians() { return toDouble() * PI / 180.0; };
     void fromRadians(double rad) { *this = rad * 180.0/PI; };
 
-    // EQUALITIES
+    //  EQUALITIES
     bool operator == (const Angle& a) { return compare(*this, a) == 0; };
     bool operator != (const Angle& a) { return compare(*this, a) != 0; };
     bool operator <  (const Angle& a) { return compare(*this, a) <  0; };
@@ -65,7 +65,7 @@ public:
     bool operator >  (const Angle& a) { return compare(*this, a) >  0; };
     bool operator >= (const Angle& a) { return compare(*this, a) >= 0; };
 
-    // NEGATE
+    //  NEGATE
     Angle operator - ();
 
     Angle operator + (const Angle&);
@@ -80,7 +80,7 @@ public:
     Angle operator / (const double);
     Angle& operator /= (const double);
 
-    double operator / (Angle&);   // ratio
+    double operator / (Angle&);   //  ratio
 
 private:
     void normalize();
@@ -89,11 +89,11 @@ private:
     Angle addHelper(const Angle &a);
     Angle subHelper(const Angle &a);
 
-    bool neg; // angle is negative
-    int d;    // whole degrees
-    int m;    // minutes
-    int s;    // seconds
-    int t;    // ten thousands
+    bool neg;  //  angle is negative
+    int d;     //  whole degrees
+    int m;     //  minutes
+    int s;     //  seconds
+    int t;     //  ten thousands
 };
 
 

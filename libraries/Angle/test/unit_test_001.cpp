@@ -39,6 +39,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ANGLE_LIB_VERSION: %s\n", (char *) ANGLE_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -48,8 +49,6 @@ unittest_teardown()
 
 unittest(test_constructors)
 {
-  fprintf(stderr, "ANGLE_LIB_VERSION: %s\n", (char *) ANGLE_LIB_VERSION);
-
   Angle a(1, 2, 3, 4);
   Angle b(-45, 30);
   Angle n(0);
@@ -87,6 +86,7 @@ unittest(test_constructors)
   assertEqual(0, s.tenthousand());
 }
 
+
 unittest(test_toDouble)
 {
   Angle a(1, 2, 3, 4);
@@ -107,6 +107,7 @@ unittest(test_toDouble)
   assertMoreOrEqual(6, fd);
   assertMoreOrEqual(38, fs);
 }
+
 
 unittest(test_Radians)
 {

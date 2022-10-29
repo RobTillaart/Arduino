@@ -11,6 +11,7 @@ degree	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 tenthousand	KEYWORD2
+
 toDouble	KEYWORD2
 toRadians	KEYWORD2
 fromRadians	KEYWORD2

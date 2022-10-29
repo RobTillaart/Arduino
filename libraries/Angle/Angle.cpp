@@ -1,26 +1,12 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
 //
-//  HISTORY
-//  0.1.00  initial version
-//  0.1.01  clean up a bit
-//  0.1.02  added toRadians() + fix compare()
-//  0.1.03  added URL, fromRadians [TEST]
-//  0.1.04  changed thousands in tenthousands, string constructor
-//  0.1.05  added AngleFormat proxy added 03/03/15 by Christoper Andrews.
-//  0.1.06  fixed bug negative values.
-//  0.1.7   2020-03-26  refactor #pragma once
-//  0.1.8   2020-05-27  update library.json
-//  0.1.9   2020-12-10  Arduino CI
-//  0.1.10  2021-01-16  readme.md + minor refactor
-//  0.1.11  2021-10-17  update build-CI, 
-//  0.1.12  2021-12-12  update library.json, license, minor edits
-
+//  HISTORY: see changelog.md
 
 
 #include "Angle.h"
@@ -38,23 +24,25 @@ size_t AngleFormat::printTo(Print& p) const
 }
 
 
-Angle::Angle(int dd, int mm, int ss, int tt)      // TODO optimize
+Angle::Angle(int dd, int mm, int ss, int tt)
 {
     neg = false;
     d = dd;
     m = mm;
     s = ss;
     t = tt;
-    // TODO
-    // normalize();
-    // assume only one (largest) parameter is negative at most...
+    //  TODO
+    //  normalize();
+    //  assume only one (largest) parameter is negative at most...
     if (d < 0) { d = -d; neg = true; }
     if (m < 0) { m = -m; neg = true; }
     if (s < 0) { s = -s; neg = true; }
     if (t < 0) { t = -t; neg = true; }
+    //  modulo might be faster
     while (t >= 10000) { s++; t -= 10000; }
     while (s >= 60)    { m++; s -= 60; }
     while (m >= 60)    { d++; m -= 60; }
+    //  check special case 0
     if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
 
@@ -67,18 +55,20 @@ Angle::Angle(const double alpha)
 
     d = int(a);
     a = a - d;
-    // unsigned long p = a * 3600000L;
-    // 3600 000 = 2^7 • 3^2 • 5^5 = 128 * 28125
-    // 2^7 = 128 will only affect exponent - no loss precision
-    // 28125 is less digits so less loss of significant digits.
-    // upgraded to 4 decimal seconds
-    // 36 000 000L = 256 * 140625
+    //  unsigned long p = a * 3600000L;
+    //  3600 000 = 2^7 • 3^2 • 5^5 = 128 * 28125
+    //  2^7 = 128 will only affect exponent - no loss precision
+    //  28125 is less digits so less loss of significant digits.
+    //  upgraded to 4 decimal seconds
+    //  36 000 000L = 256 * 140625
     a = a * 256;
     unsigned long p = round(a * 140625.0);
     t = p % 10000UL;
     p = p / 10000UL;
     s = p % 60UL;
     m = p / 60UL;
+    //  check special case 0
+    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
 
 
@@ -87,26 +77,26 @@ Angle::Angle(const char * str)
     uint32_t yy = 0;
     uint8_t d_cnt = 0;
     neg = false;
-    // parse whole degrees
+    //  parse whole degrees
     char *p = (char *) str;
     d = 0;
-    // skip crap
+    //  skip crap
     while (!isdigit(*p) && (*p != '-')) p++;
-    // process sign
+    //  process sign
     if (*p == '-')
     {
         neg = true;
         p++;
     }
     if (*p == '+') p++;
-    // parse whole part into degrees;
+    //  parse whole part into degrees;
     while (isdigit(*p))
     {
         d *= 10;
         d += (*p - '0');
         p++;
     }
-    // parse decimal part into an uint32_t
+    //  parse decimal part into an uint32_t
     if (*p != '\0')
     {
         p++;  // skip .
@@ -118,29 +108,31 @@ Angle::Angle(const char * str)
             p++;
         }
     }
-    // make sure we have 9 decimal places.
+    //  make sure we have 9 decimal places.
     while (d_cnt < 9)
     {
         d_cnt++;
         yy *= 10;
     }
-    // convert float to degrees. 1000000000 ~> 36000000  -> /250 * 9
-    // yy = yy * 4 / 125 + yy / 250;  // just keeps the maths within 32 bits
+    //  convert float to degrees. 1000000000 ~> 36000000  -> /250 * 9
+    //  yy = yy * 4 / 125 + yy / 250;  //  just keeps the maths within 32 bits
     yy = yy * 4 / 125;
-    yy = yy + (yy + 4)/ 8;  // just keeps the maths within 32 bits
-    // split yy in m, s, tt
+    yy = yy + (yy + 4)/ 8;  //  just keeps the maths within 32 bits
+    //  split yy in m, s, tt
     t = yy % 10000UL;
     yy = yy / 10000UL;
     s = yy % 60;
     m = yy / 60;
+    //  check special case 0
+    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
 }
 
 
-// PRINTING
+//  PRINTING
 size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 {
     unsigned char c = mode;
-    char separator[4] = ".\'\"";   // "...";  // ALT-0176 = °  179.59.59.9999
+    char separator[4] = ".\'\"";   //  "...";  //  ALT-0176 = °  179.59.59.9999
 
     size_t n = 0;
     if (neg) n += p.print('-');
@@ -178,7 +170,7 @@ double Angle::toDouble(void)
 }
 
 
-// NEGATE
+//  NEGATE
 Angle Angle::operator - ()
 {
     Angle temp = *this;
@@ -194,7 +186,7 @@ Angle Angle::operator - ()
 };
 
 
-// BASIC MATH
+//  BASIC MATH
 Angle Angle::operator + (const Angle &a) // TOCHECK
 {
     return addHelper(a);
@@ -231,20 +223,20 @@ Angle Angle::addHelper(const Angle &a) // TOCHECK
 }
 
 
-Angle Angle::operator - (const Angle &a) // TOCHECK
+Angle Angle::operator - (const Angle &a) //  TOCHECK
 {
     return subHelper(a);
 }
 
 
-Angle& Angle::operator -= (const Angle &a) // TOCHECK
+Angle& Angle::operator -= (const Angle &a) //  TOCHECK
 {
     *this = subHelper(a);
     return *this;
 }
 
 
-Angle Angle::subHelper(const Angle &a) // TOCHECK
+Angle Angle::subHelper(const Angle &a) //  TOCHECK
 {
     Angle temp = *this;
     if (temp.neg == a.neg)
@@ -292,7 +284,7 @@ Angle& Angle::operator /= (const double dd)
 }
 
 
-// !! can divide by zero
+//  !! can divide by zero
 double Angle::operator / (Angle& a)
 {
     double f = this->toDouble();
@@ -303,14 +295,14 @@ double Angle::operator / (Angle& a)
 
 ///////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 int Angle::compare(const Angle &a, const Angle &b)
 {
-    // check sign first
+    //  check sign first
     if (!a.neg && b.neg) return 1;
     if (a.neg && !b.neg) return -1;
-    // check abs value
+    //  check abs value
     int rv = 0;
     if (a.d > b.d) rv = 1;
     else if (a.d < b.d) rv = -1;
@@ -326,7 +318,7 @@ int Angle::compare(const Angle &a, const Angle &b)
 }
 
 
-void Angle::normalize()  // TODO CHECK
+void Angle::normalize()  //  TODO CHECK
 {
     while (t < 0)      { s--; t += 10000; }
     while (t >= 10000) { s++; t -= 10000; }

@@ -25,3 +25,4 @@ compile:
     - esp8266
     # - mega2560
     - rpipico
+

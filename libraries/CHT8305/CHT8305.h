@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CH8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.4"))
+#define CHT8305_LIB_VERSION              (F("0.1.5"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
@@ -63,9 +63,16 @@ public:
   //  address and writeProtectPin is optional
   int      begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS);
   bool     isConnected();
+  uint8_t  getAddress();
 
-  //  read the temperature and humidity.
+
+  //  read both the temperature and humidity.
   int      read();
+  //  read only temperature (slightly faster)
+  int      readTemperature();
+  //  read only humidity (slightly faster)
+  int      readHumidity();
+
   //  lastRead is in MilliSeconds since start sketch
   uint32_t lastRead();
   float    getHumidity();
@@ -73,12 +80,14 @@ public:
   void     setConversionDelay(uint8_t cd = 14);
   uint8_t  getConversionDelay();
 
+
   //  adding offsets works well in normal range
   //  might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset);
   void     setTempOffset(float offset);
   float    getHumOffset();
   float    getTempOffset();
+
 
   //  CONFIG REGISTER
   void     setConfigRegister(uint16_t bitmask);
@@ -107,7 +116,8 @@ public:
   void     setI2CClockStretch(bool on = false);
   bool     getI2CClockStretch();
 
-  void     setHeaterOn(bool on = false);              //  WARNING: user is responsible for timing!
+  //  WARNING: user is responsible for timing!  WARNING!
+  void     setHeaterOn(bool on = false);
   bool     getHeater();
 
   void     setMeasurementMode(bool both = true);
@@ -115,11 +125,13 @@ public:
 
   bool     getVCCstatus();
 
-  void     setTemperatureResolution(uint8_t res = 0); //  1 = 11 bit, other = 14 bit
+  //       1 = 11 bit, other = 14 bit
+  void     setTemperatureResolution(uint8_t res = 0);
   uint8_t  getTemperatureResolution();
 
-  void     setHumidityResolution(uint8_t res = 0);    //  2 = 8 bit, 1 = 11 bit, other = 14 bit
-  uint8_t  getHumidityResolution();                   //  idem
+  //       2 = 8 bit, 1 = 11 bit, other = 14 bit
+  void     setHumidityResolution(uint8_t res = 0);
+  uint8_t  getHumidityResolution();
 
   void     setVCCenable(bool enable = true);
   bool     getVCCenable();
@@ -130,7 +142,7 @@ public:
   //    1      T
   //    2      H
   //    3      T and H
-  bool     setAlertTriggerMode(uint8_t mode = 0);     //  0, 1, 2, 3
+  bool     setAlertTriggerMode(uint8_t mode = 0);
   uint8_t  getAlertTriggerMode();
   bool     getAlertPendingStatus();
   bool     getAlertHumidityStatus();
@@ -148,6 +160,7 @@ public:
   //  META DATA
   uint16_t getManufacturer();     //  expect 0x5959
   uint16_t getVersionID();        //  may vary
+
 
 private:
   float    _humOffset       = 0.0;

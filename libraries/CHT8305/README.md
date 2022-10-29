@@ -110,11 +110,17 @@ Pull ups are needed on SDA, SCL and optional to ALERT.
 - **int begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS)** idem ESP32 et. al.
 - **bool isConnected()** checks if address can be seen on the I2C bus.
 - **int read()** reads both the temperature and humidity.
+Can be called once per second.
+- **int readTemperature()** read only temperature (slightly faster than read)
+- **int readHumidity()** read only humidity (slightly faster than read)
 - **uint32_t lastRead()** returns lastRead in MilliSeconds since start sketch.
 - **float getHumidity()** returns last humidity read.
 Will return the same value until **read()** is called again.
 - **float getTemperature()** returns last temperature read.
 Will return the same value until **read()** is called again.
+
+Note: read(), readTemperature() and readHumidity() blocks each other,
+so you can call one of them every second.
 
 
 ### Conversion delay
@@ -252,9 +258,6 @@ Test returned 0x8305.
 - test ALERT functions.
 - test write / readRegister with a single uint16_t to simplify code.
 
-### Could
+#### Could
 
-- add **uint8_t getAddress()** 
-- add **void readTemperature()** does single acquisition.
-- add **void readHumidity()** does single acquisition.
 

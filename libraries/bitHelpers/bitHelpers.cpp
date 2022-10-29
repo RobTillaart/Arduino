@@ -1,7 +1,7 @@
 //
 //    FILE: bitHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////
 //
-// BIT COUNT TEST
+//  BIT COUNT TEST
 //
 uint8_t bitCountReference(uint32_t value)
 {
@@ -31,7 +31,7 @@ uint8_t bitCountReference(uint32_t value)
 
 uint8_t bitCountKR(uint32_t value)
 {
-  // Kerningham & Ritchie
+  //  Kerningham & Ritchie
   uint32_t v = value;
   uint8_t count = 0;
   while (v)
@@ -83,7 +83,7 @@ uint8_t bitCountF2(uint32_t value)
 
 ////////////////////////////////////////////////
 //
-// BIT COUNT
+//  BIT COUNT
 //
 uint8_t bitCount(uint8_t value)
 {
@@ -137,7 +137,7 @@ uint8_t bitCount(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// BIT REVERSE
+//  BIT REVERSE
 //
 uint8_t bitReverse(uint8_t value)
 {
@@ -187,7 +187,7 @@ uint64_t bitReverse(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// NYBBLE REVERSE
+//  NYBBLE REVERSE
 //
 uint8_t nybbleReverse(uint8_t value)
 {
@@ -229,7 +229,7 @@ uint64_t nybbleReverse(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// BYTE REVERSE
+//  BYTE REVERSE
 //
 uint16_t byteReverse(uint16_t value)
 {
@@ -260,7 +260,7 @@ uint64_t byteReverse(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// WORD REVERSE
+//  WORD REVERSE
 //
 uint32_t wordReverse(uint32_t value)
 {
@@ -281,7 +281,7 @@ uint64_t wordReverse(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// SWAP HI LO
+//  SWAP HI LO
 //
 uint8_t swap(uint8_t value)
 {
@@ -309,7 +309,7 @@ uint64_t swap(uint64_t value)
 
 ////////////////////////////////////////////////
 //
-// BIT ROTATE LEFT
+//  BIT ROTATE LEFT
 //
 uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
 {
@@ -345,7 +345,7 @@ uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
 
 ////////////////////////////////////////////////
 //
-// BIT ROTATE RIGHT
+//  BIT ROTATE RIGHT
 //
 uint8_t  bitRotateRight(uint8_t value, uint8_t pos)
 {
@@ -381,7 +381,7 @@ uint64_t bitRotateRight(uint64_t value, uint8_t pos)
 
 ////////////////////////////////////////////////////
 //
-// BIT FLIP
+//  BIT FLIP
 //
 uint8_t bitFlip(uint8_t value, uint8_t pos)
 {
@@ -413,7 +413,7 @@ uint64_t bitFlip(uint64_t value, uint8_t pos)
 
 ////////////////////////////////////////////////////
 //
-// BIT ROT
+//  BIT ROT
 //
 uint8_t bitRotRef(uint8_t value, float chance)
 {
@@ -503,10 +503,10 @@ uint64_t bitRot(uint64_t value, float chance, uint16_t times)
 
 ////////////////////////////////////////////////////
 //
-// BIT-SET64 -CLEAR64 -TOGGLE64 -READ64 -WRITE64
+//  BIT-SET64 -CLEAR64 -TOGGLE64 -READ64 -WRITE64
 //
 
-// FUNCTIONS
+//  FUNCTIONS
 #if defined(__AVR__)
 //  optimized for performance
 
@@ -603,10 +603,10 @@ void bitWrite64(uint64_t & x, uint8_t bit, uint8_t value)
 
 ////////////////////////////////////////////////////
 //
-// BITS NEEDED
+//  BITS NEEDED
 //
 
-// reference
+//  reference
 uint8_t bitsNeededRef(uint64_t x)
 {
   uint8_t n = 0;
@@ -619,7 +619,7 @@ uint8_t bitsNeededRef(uint64_t x)
 }
 
 
-// workers
+//  workers
 uint8_t bitsNeeded(uint8_t x)
 {
   uint8_t n = 0;

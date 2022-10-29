@@ -26,6 +26,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "BITHELPER_LIB_VERSION: %s\n", (char*) BITHELPER_LIB_VERSION);
 }
 
 

@@ -165,3 +165,24 @@ uint32_t bitReverse(uint32_t x, uint8_t n)
 }
 ```
 
+## Future
+
+#### Must
+
+- redo documentation 
+  - logical groups
+
+#### Should
+
+#### Could
+
+- besides **bitRot()** one can also have timing issues when clocking in bits. 
+A function could be created to mimic such timing error, by shifting bits from a 
+specific position. e.g. 
+- parShiftLeft(00001010, 4) ==> 00011010
+- bitBurst(00000000, 3) ==>  00111000 any group of 3 bits will toggle.
+- bitRot(value, chance = 50%, times = 1) extention...
+- bitNoggle(value, bit) - toggle all but one bit. (why?)
+- bitSort(value) ==> 00101001 ==> 00000111
+- many more :)
+

@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "BITARRAY_LIB_VERSION: %s\n", (char *) BITARRAY_LIB_VERSION);
 }
 
 
@@ -39,8 +40,6 @@ unittest_teardown()
 unittest(test_constructor)
 {
   BitArray ba;
-
-  fprintf(stderr, "BITARRAY_LIB_VERSION: %s\n", (char *) BITARRAY_LIB_VERSION);
 
   assertEqual(BA_NO_MEMORY_ERR, ba.getError());
 
@@ -62,7 +61,6 @@ unittest(test_set_get_toggle)
 {
   BitArray ba;
 
-  fprintf(stderr, "BITARRAY_LIB_VERSION: %s\n", (char *) BITARRAY_LIB_VERSION);
   ba.begin(1, 1000);
   assertEqual(BA_OK, ba.getError());
 
@@ -89,7 +87,7 @@ unittest(test_set_get_toggle)
     sum += ba.get(i);
   }
   assertEqual(1000, sum);
-  
+
   fprintf(stderr, "\t1000x toggle(i)\n");
   sum = 0;
   for (int i = 0; i < ba.capacity(); i++)
@@ -108,7 +106,6 @@ unittest(test_clear)
 {
   BitArray ba;
 
-  fprintf(stderr, "BITARRAY_LIB_VERSION: %s\n", (char *) BITARRAY_LIB_VERSION);
   ba.begin(1, 1000);
   assertEqual(BA_OK, ba.getError());
 
@@ -139,7 +136,6 @@ unittest(test_setAll)
 {
   BitArray ba;
 
-  fprintf(stderr, "BITARRAY_LIB_VERSION: %s\n", (char *) BITARRAY_LIB_VERSION);
   ba.begin(5, 200);
   assertEqual(BA_OK, ba.getError());
 

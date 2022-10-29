@@ -63,4 +63,6 @@ The library is tested on AVR architecture only.
 - testing.
 - functional examples.
 - investigate element size of 64 (for doubles) and beyond.
+- move code to .cpp
+
 

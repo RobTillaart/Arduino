@@ -1,56 +1,54 @@
 #pragma once
 //
 //    FILE: bitArray.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.2.4
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.2.5
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
+//  BitArray allows you to make a compact array of objects with a size
+//  expressed in bits. typically 1..10.
+//  The interface uses uint32_t as that will be enough for most purposes.
+//  The main requirement is to optimize storage space.
+//
+//  The BitArray uses an array of segments and the space per segment
+//  may not exceed 256 bytes as this is a limit on some processors.
+//
+//  Originally created to store lot of numbers between 1..6 dice rolls
+//  the storage is also usable to store e.g. raw 10 bit analogRead()'s.
 
-// BitArray allows you to make a compact array of objects with a size
-// expressed in bits. typically 1..10.
-// The interface uses uint32_t as that will be enough for most purposes.
-// The main requirement is to optimize storage space.
-//
-// The BitArray uses an array of segments and the space per segment 
-// may not exceed 256 bytes as this is a limit on some processors.
-//
-// Originally created to store lot of numbers between 1..6 dice rolls
-// the storage is also usable to store e.g. raw 10 bit analogRead()'s.
-//
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION              (F("0.2.4"))
-
+#define BITARRAY_LIB_VERSION              (F("0.2.5"))
 
 
 #define BA_SEGMENT_SIZE                   200
 
-// max memory is board type dependent
-// note the bitArray does not use all of the RAM
-// 1K - max 600
+//  max memory is board type dependent
+//  note the bitArray does not use all of the RAM
+//  1K - max 600
 #if defined(__AVR_ATmega168__)
 #define BA_MAX_SEGMENTS 3
-// 2K - max 1600
+//  2K - max 1600
 #elif defined(__AVR_ATmega328P__)
 #define BA_MAX_SEGMENTS 8
-// 8K - max 7000
+//  8K - max 7000
 #elif defined(__AVR_ATmega1280__)
 #define BA_MAX_SEGMENTS 35
-// 8K - max 7000
+//  8K - max 7000
 #elif defined(__AVR_ATmega2560__)
 #define BA_MAX_SEGMENTS 35
-// 1.25K - max 800
+//  1.25K - max 800
 #elif defined(__AVR_ATmega16U4__)
 #define BA_MAX_SEGMENTS 4
-// 2.5K - max 2000
+//  2.5K - max 2000
 #elif defined(__AVR_ATmega32U4__)
 #define BA_MAX_SEGMENTS 10
-// 96K (64 + 32) DUE...
+//  96K (64 + 32) DUE...
 #elif defined(__SAM3X8E__)
 #define BA_MAX_SEGMENTS 100
-// default max 1000
+//  default max 1000
 #else
 #define BA_MAX_SEGMENTS 5
 #endif
@@ -95,4 +93,6 @@ private:
   uint8_t   _error = BA_NO_MEMORY_ERR;
 };
 
+
 // -- END OF FILE --
+

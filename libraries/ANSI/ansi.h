@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.1.6"))
+#define ANSI_LIB_VERSION        (F("0.1.7"))
 
 
 class ANSI : public Stream
@@ -23,7 +23,7 @@ public:
   int  available();
   int  read();
   int  peek();
-  void flush()     { return; };  // placeholder to keep CI happy
+  void flush()     { return; };  //  placeholder to keep CI happy
 
 
   //  CHAR MODES
@@ -45,28 +45,29 @@ public:
     magenta,
     cyan,
     white,
-    bright, // Add this to any of the previous 8 to get a bright color
+    bright, //  Add this to any of the previous 8 to get a bright color
   };
 
-  // foreground, background, and color accept one of the following colors:
-  // * color name from above: ANSI::red
-  // * bright color name from above: ANSI::red + ANSI::bright
-  // * gray color: ANSI::gray2color(gray)
-  // * RGB color: ANSI::rgb2color(r, g, b)
+  //  foreground, background, and color accept one of the following colors:
+  //  * color name from above:          ANSI::red
+  //  * bright color name from above:   ANSI::red + ANSI::bright
+  //  * gray color:                     ANSI::gray2color(gray)
+  //  * RGB color:                      ANSI::rgb2color(r, g, b)
 
-  // Set foreground color
+  //  Set foreground color
   void foreground(uint8_t fgcolor);
-  // Set background color
+  //  Set background color
   void background(uint8_t bgcolor);
-  // Set foreground and background color (for named colors, this is 25% faster than setting one then the other)
+  //  Set foreground and background color 
+  //  (for named colors, this is 25% faster than setting one then the other)
   void color(uint8_t fgcolor, uint8_t bgcolor);
 
-  // Convert gray to ANSI 24-level gray in 4-bit colorspace
-  // Pass in a gray level from 0 (black) to 255 (white)
+  //  Convert gray to ANSI 24-level gray in 4-bit colorspace
+  //  Pass in a gray level from 0 (black) to 255 (white)
   uint8_t gray2color(uint8_t gray) { return 232 + uint16_t(gray) * 24 / 256; }
   uint8_t grey2color(uint8_t grey) { return this->gray2color(grey); }
-  // Convert RGB color to ANSI color in 4-bit colorspace
-  // Pass in a RGB level from 0 (dark) to 255 (light)
+  //  Convert RGB color to ANSI color in 4-bit colorspace
+  //  Pass in a RGB level from 0 (dark) to 255 (light)
   uint8_t rgb2color(uint8_t r, uint8_t g, uint8_t b);
 
 
@@ -136,4 +137,6 @@ private:
 
 };
 
+
 // -- END OF FILE --
+

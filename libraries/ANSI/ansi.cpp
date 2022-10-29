@@ -1,7 +1,7 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -50,9 +50,9 @@ void ANSI::clearLine(uint8_t clear)
 }
 
 
-// ANSI has three different color spaces: 4-bit color, 8-bit color, and 24-bit color
-// The are rendered with SGR 30-37,90-97/40-47,100-107, SGR 38;5/48;5, and SGR 38;2/48;2, respectively
-// The 4-bit color space is the most widely compatible and the most compactly transmitted
+//  ANSI has three different color spaces: 4-bit color, 8-bit color, and 24-bit color
+//  These are rendered with SGR 30-37,90-97/40-47,100-107, SGR 38;5/48;5, and SGR 38;2/48;2, respectively
+//  The 4-bit color space is the most widely compatible and the most compactly transmitted
 enum {
   fg_normal = 30,
   bg_normal = 40,
@@ -147,7 +147,7 @@ void ANSI::cursorBack(uint8_t x)
 
 int ANSI::deviceType(uint32_t timeout)
 {
-  int type = -1;    // -1 = unknown
+  int type = -1;        //  -1 = unknown
   print("\033[0c");
   
   uint32_t start = millis();
@@ -174,7 +174,7 @@ int ANSI::deviceType(uint32_t timeout)
 //
 size_t ANSI::write(uint8_t c)
 {
-  // TODO add line buffer? - interference with write(array, length) !?
+  //  TODO add line buffer? - interference with write(array, length) !?
   return _stream->write(c);
 }
 
@@ -220,6 +220,7 @@ void ANSI::color8(uint8_t base, uint8_t color) {
   print(color);
   print("m");
 }
+
 
 // -- END OF FILE --
 

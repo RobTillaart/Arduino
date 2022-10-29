@@ -74,7 +74,7 @@ Note: the breakout board was 5 volt tolerant.
 - **float getLux()** reads the lux sensor and corrects for correctionFactor, mode, temperature and angle.
 
 
-### management
+### Management
 
 - **int getError()** get the latest error code, mainly for debugging.
 - **void powerOn()** wakes up the sensor.
@@ -84,7 +84,8 @@ Note: the breakout board was 5 volt tolerant.
 
 ### Mode operators
 
-- **uint8_t getMode()** gets the mode set by one of the set functions. See table above.
+- **uint8_t getMode()** gets the mode set by one of the set functions. 
+See table above.
 - **void setContHighRes()** continuous mode in HIGH resolution.
 - **void setContHigh2Res()** continuous mode in HIGH2 resolution.
 - **void setContLowRes()** continuous mode in LOW resolution.
@@ -125,7 +126,8 @@ to angles between -89 - +89 degrees.
 If the light is perpendicular on the sensor the angle to use is 0 degrees.
 Light coming from the side is 90 degrees.
 
-- **float setAngle(int degrees = 0)** adjust the lux to incoming angle in degrees (-89..89). Returns the angle correction factor.
+- **float setAngle(int degrees = 0)** adjust the lux to incoming angle in degrees (-89..89).
+Returns the angle correction factor.
 - **int getAngle()** returns set angle in degrees, 0 by default is perpendicular.
 
 
@@ -135,7 +137,8 @@ The reference temperature of the sensor = 20°C.
 The effect of temperature is small, about 3% per 60°C ==> 1% per 20°C
 so only on either a hot roof or on a icy cold day the effect is substantial.
 
-- **float setTemperature(int temp = 20)**  see datasheet P3 fig7  Returns the temperature correction factor
+- **float setTemperature(int temp = 20)**  see datasheet P3 fig 7.
+Returns the temperature correction factor.
 - **int getTemperature()** returns temperature set, default = 20°C.
 
 
@@ -147,8 +150,9 @@ compensate for it by setting the wavelength. It can also be used when using filt
 As said it is not tested so use at your own risk, but I am interested in your experiences
 if you do real tests with it.
 
-- **float setWaveLength(int wavelength = 580)** set wavelength, returns the wavelength correction factor.
-- **int getWaveLength()** returns set wavelength
+- **float setWaveLength(int wavelength = 580)** set wavelength.
+Returns the wavelength correction factor.
+- **int getWaveLength()** returns set wavelength.
 
 As the graph (figure 1) is not linear it is approximated by linear interpolation with the 
 following six points.
@@ -164,7 +168,7 @@ following six points.
 |     715    |    1   |
 
 Values outside the range will be mapped upon 400 or 715. 
-Default wavelength will be 580 as that gives 100%
+Default wavelength will be 580 as that gives 100%.
 
 
 ## Operation
@@ -178,7 +182,6 @@ See samples...
 After a **getLux()** call one can clean the data register explicitly with
 **reset()**. Then a call to **isReady()** fetches data and as long as
 data equals zero the sensor is not ready.
-
 - **DVI interface**
 To investigate, sort of external reset?
-
+- move code to .cpp

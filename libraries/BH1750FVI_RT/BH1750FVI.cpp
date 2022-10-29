@@ -1,27 +1,11 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.2.10
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI
 //
-//  HISTORY
-//  0.1.0   2020-02-02  initial version
-//  0.1.1   2020-03-28  refactor
-//  0.1.2   2020-03-29  unique name in repo, and new release tag.
-//  0.1.3   2020-06-05  fix library.json file
-//  0.1.4   2020-08-14  clean up tabs/spaces;
-//  0.2.0   2020-08-18  implement logic for LOW & HIGH2;
-//                      implement correction factor;  examples;
-//  0.2.1   2020-08-31  implement angle factor
-//  0.2.2   2020-09-04  implement temperature compensation
-//  0.2.3   2020-09-04  implement wavelength compensation
-//  0.2.4   2020-11-27  fix #10 rename _sensitivityFactor for ESP32
-//  0.2.5   2020-12-12  add Arduino-CI and unit tests
-//  0.2.6   2021-01-16  add reset()
-//  0.2.7   2021-06-08  add unit tests, improved correction factor code
-//  0.2.8   2021-10-19  update Arduino-CI, badges in readme
-//  0.2.9   2021-12-14  update library.json, license
+//  HISTORY: see changelog.md
 
 
 #include "BH1750FVI.h"
@@ -73,7 +57,7 @@ bool BH1750FVI::isConnected()
 
 bool BH1750FVI::isReady()
 {
-  // max times from datasheet P2 + P11;
+  //  max times from datasheet P2 + P11;
   uint8_t timeout[3] = { 16, 120, 120 };
   if (_mode < 3)
   {
@@ -92,25 +76,25 @@ float BH1750FVI::getRaw(void)
 
 float BH1750FVI::getLux(void)
 {
-  // lux without mode correction
+  //  lux without mode correction
   float lux = getRaw();
 
-  // sensitivity factor
+  //  sensitivity factor
   if (_sensitivityFactor != BH1750FVI_REFERENCE_TIME)
   {
     lux *= (1.0 * BH1750FVI_REFERENCE_TIME) / _sensitivityFactor;
   }
-  // angle compensation
+  //  angle compensation
   if (_angle != 0)
   {
     lux *= _angleFactor;
   }
-  // temperature compensation.
+  //  temperature compensation.
   if (_temp != 20)
   {
     lux *= _tempFactor;
   }
-  // wavelength compensation.
+  //  wavelength compensation.
   if (_waveLength != 580)
   {
     lux *= _waveLengthFactor;
@@ -133,7 +117,7 @@ int BH1750FVI::getError()
 
 ////////////////////////////////////////////
 //
-// operational mode
+//  operational mode
 //
 void BH1750FVI::setContHighRes()
 {
@@ -185,14 +169,14 @@ void BH1750FVI::setOnceLowRes()
 
 ////////////////////////////////////////////
 //
-// measurement timing
+//  measurement timing
 //
-// P11 datasheet
+//  P11 datasheet
 void BH1750FVI::changeTiming(uint8_t time)
 {
   time = constrain(time, 31, 254);
   _sensitivityFactor = time;
-  // P5 instruction set table
+  //  P5 instruction set table
   uint8_t Hbits = 0x40 | (time >> 5);
   uint8_t Lbits = 0x60 | (time & 0x1F);
   command(Hbits);
@@ -202,7 +186,7 @@ void BH1750FVI::changeTiming(uint8_t time)
 
 uint8_t BH1750FVI::setCorrectionFactor(float factor)
 {
-  // 31 .. 254 are range P11 - constrained in changeTIming call
+  //  31 .. 254 are range P11 - constrained in changeTIming call
   uint8_t timingValue = round(BH1750FVI_REFERENCE_TIME * factor);
   changeTiming(timingValue);
   return _sensitivityFactor;
@@ -219,7 +203,7 @@ float BH1750FVI::getCorrectionFactor()
 float BH1750FVI::setTemperature(int temp)
 {
   _temp = temp;
-  // _tempFactor = 1.0f - (_temp - 20.0f) / 2000.0f;
+  //  _tempFactor = 1.0f - (_temp - 20.0f) / 2000.0f;
   _tempFactor = 1.0f - (_temp - 20.0f) * 0.0005f;
   return _tempFactor;
 }
@@ -228,13 +212,13 @@ float BH1750FVI::setTemperature(int temp)
 float BH1750FVI::setAngle(int degrees)
 {
   _angle = constrain(degrees, -89, 89);
-  // Lamberts Law.
+  //  Lamberts Law.
   _angleFactor = 1.0f / cos(_angle * (PI / 180.0f));
   return _angleFactor;
 }
 
 
-// interpolation tables uses more RAM (versus progmem)
+//  interpolation tables uses more RAM (versus progmem)
 float BH1750FVI::setWaveLength(int waveLength)
 {
   _waveLength = constrain(waveLength, 400, 715);
@@ -254,7 +238,7 @@ float BH1750FVI::setWaveLength(int waveLength)
 
 ///////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint16_t BH1750FVI::readData()
 {

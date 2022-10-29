@@ -1,23 +1,12 @@
 //
 //  FILE: BoolArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: BoolArray library for Arduino
-//   URL: https://github.com/RobTillaart/BoolArray.git
-//      http://forum.arduino.cc/index.php?topic=361167
+//     URL: https://github.com/RobTillaart/BoolArray.git
+//          http://forum.arduino.cc/index.php?topic=361167
 //
-//  HISTORY
-//  0.1.00             initial version
-//  0.1.01             fixed constructor - Thanks WPD64 + error handling
-//  0.1.02             added error handling
-//  0.1.3              added toggle
-//  0.1.4  2017-07-16  added masks for performance
-//  0.2.0  2020-03-29  #pragma, readme.md,
-//  0.2.1  2020-06-05  Fix library.json
-//  0.2.2  2020-12-15  add arduino-CI + unit tests
-//  0.2.3  2021-01-19  update readme
-//  0.2.4  2021-10-19  update build-CI + badges
-//  0.2.5  2021-12-12  update library.json, license, minor edits
+//  HISTORY: see changelog.md
 
 
 #include "BoolArray.h"
@@ -98,3 +87,4 @@ uint8_t BoolArray::setAll(const uint8_t value)
 
 
 // -- END OF FILE --
+

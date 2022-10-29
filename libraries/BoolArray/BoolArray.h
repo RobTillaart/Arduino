@@ -2,19 +2,19 @@
 //
 //    FILE: BoolArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray.git
 
-// BoolArray implement a compact array of booleans of max size 2000.
-// For larger arrays one need to modify the code, or use BitArray.
-// Tested on AVR only
+//  BoolArray implement a compact array of booleans of max size 2000.
+//  For larger arrays one need to modify the code, or use BitArray.
+//  Tested on AVR only
 
 
 #include "Arduino.h"
 
 
-#define BOOLARRAY_LIB_VERSION     (F("0.2.5"))
+#define BOOLARRAY_LIB_VERSION     (F("0.2.6"))
 
 #define BOOLARRAY_MAXSIZE         (250 * 8)       // 2000
 
@@ -48,4 +48,6 @@ private:
   uint8_t   _bytes = 0;
 };
 
+
 // -- END OF FILE --
+

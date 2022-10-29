@@ -9,6 +9,7 @@ begin	KEYWORD2
 size	KEYWORD2
 memory	KEYWORD2
 setAll	KEYWORD2
+
 clear	KEYWORD2
 get	KEYWORD2
 set	KEYWORD2

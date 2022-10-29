@@ -28,6 +28,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "\tVERSION:\t %s\n", (char *) BOOLARRAY_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -47,8 +48,6 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "\tVERSION:\t %s\n", (char *) BOOLARRAY_LIB_VERSION);
-
   BoolArray ba;
   assertEqual(0, ba.size());
   ba.begin(1000);
@@ -111,7 +110,6 @@ unittest(test_clear)
 
   ba.begin(1000);
   assertEqual(1000, ba.size());
-
 
   fprintf(stderr, "\t1000x setAll(1) -> clear() -> sum += get(i)\n");
   int sum = 0;

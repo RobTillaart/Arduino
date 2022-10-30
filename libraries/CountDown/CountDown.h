@@ -2,7 +2,7 @@
 //
 //    FILE: CountDown.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 //
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define COUNTDOWN_LIB_VERSION               (F("0.2.6"))
+#define COUNTDOWN_LIB_VERSION               (F("0.2.7"))
 
 
 class CountDown

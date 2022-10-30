@@ -1,27 +1,10 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //
-//  HISTORY:
-//
-//  0.2.2  2022-06-20  optimize getEstimateX() to match getEstimateY();
-//                     optimize averaging within calculate.
-//                     prepare renaming (5) functions in 0.3.0
-//  0.2.1  2021-12-14  update library.json, license, minor edits
-//  0.2.0  2021-08-26  Add flags to skip Rsquared and Esquared calculation
-//                     will improve performance calculate
-//                     fixed sign of R correlation coefficient
-//
-//  0.1.4  2021-08-26  improve performance calculate
-//  0.1.3  2021-01-16  add size in constructor,
-//                     add statistical + debug functions
-//  0.1.2  2020-12-17  add Arduino-CI + unit tests
-//                     + size() + getAvgX() + getAvgY()
-//  0.1.1  2020-06-05  fix library.json
-//  0.1.0  2020-05-17  initial version
-
+//  HISTORY: see cjhangelog.md
 
 
 #include "Correlation.h"
@@ -89,7 +72,7 @@ bool Correlation::calculate(bool forced)
   //  CALC AVERAGE X, AVERAGE Y
   float avgx = 0;
   float avgy = 0;
-  float div_count = 1.0 / _count;  // speed up averaging
+  float div_count = 1.0 / _count;  //  speed up averaging
   for (uint8_t i = 0; i < _count; i++)
   {
     avgx += _x[i];

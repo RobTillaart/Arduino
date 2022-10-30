@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "CORRELATION_LIB_VERSION: %s\n", (char *) CORRELATION_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -39,8 +40,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "CORRELATION_LIB_VERSION: %s\n", (char *) CORRELATION_LIB_VERSION);
-
   Correlation C;
   assertEqual(0, C.count());
   assertEqual(20, C.size());

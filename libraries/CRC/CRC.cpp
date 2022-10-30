@@ -1,7 +1,7 @@
 //
 //    FILE: CRC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for CRC8, CRC12, CRC16, CRC16-CCITT, CRC32, CRC64
 //     URL: https://github.com/RobTillaart/CRC
 //

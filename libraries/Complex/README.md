@@ -47,7 +47,6 @@ Apparently the name "Complex" is already in use (reserved) by some non-AVR compi
 so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 
 
-
 #### Solution
 
 - Make a copy of the Complex Library and rename the folder to CComplex

@@ -1,32 +1,18 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
 //
-//  HISTORY
-//  0.3.1   2021-12-14   update library.json, license, minor edits
-//  0.3.0   2021-11-15   fix #7 adding const to operators
-//  0.2.4   2021-10-19   update build-CI.
-//  0.2.3   2021-09-14   fix build-CI + update readme
-//  0.2.2   2020-12-16   add arduino-ci + unit test (starter)
-//                       setReal, setImag
-//  0.2.1   2020-06-05   fix library.json
-//  0.2.0   2020-03-29   #pragma once, own repo
-//  0.1.12  2018-04-02 - fix issue #33 double -> float
-//  0.1.11  2018-01-29 - fix sin and cos formula - issue #91
-//  0.1.10  2018-01-15 - uppercase #define COMPLEX_H
-//  0.1.09  2016-10-15 - added (0,0) constructor
-//  0.1.08  2015-06-03 - refactor
-//  0.1.07  2015-06-03 - refactor interfaces
+//  HISTORY: see changelog.md
 
 
 #include "Complex.h"
 
 
-// PRINTING
+//  PRINTING
 size_t Complex::printTo(Print& p) const
 {
   size_t n = 0;
@@ -54,7 +40,7 @@ Complex Complex::reciprocal() const
 }
 
 //
-// EQUALITIES
+//  EQUALITIES
 //
 bool Complex::operator == (const Complex &c) const
 {
@@ -69,7 +55,7 @@ bool Complex::operator != (const Complex &c) const
 
 
 //
-// NEGATE
+//  NEGATE
 //
 Complex Complex::operator - () const
 {
@@ -78,7 +64,7 @@ Complex Complex::operator - () const
 
 
 //
-// BASIC MATH
+//  BASIC MATH
 //
 Complex Complex::operator + (const Complex &c) const
 {
@@ -147,7 +133,7 @@ Complex& Complex::operator /= (const Complex &c)
 
 
 //
-// POWER FUNCTIONS
+//  POWER FUNCTIONS
 //
 Complex Complex::c_sqr() const
 {
@@ -205,7 +191,7 @@ Complex Complex::c_log10() const
 
 
 //
-// GONIO I - SIN COS TAN
+//  GONIO I - SIN COS TAN
 //
 Complex Complex::c_sin() const
 {
@@ -275,7 +261,7 @@ Complex Complex::c_atan() const
 
 
 //
-// GONIO II - CSC SEC COT
+//  GONIO II - CSC SEC COT
 //
 Complex Complex::c_csc() const
 {
@@ -314,7 +300,7 @@ Complex Complex::c_acot() const
 
 
 //
-// GONIO HYPERBOLICUS I
+//  GONIO HYPERBOLICUS I
 //
 Complex Complex::c_sinh() const
 {
@@ -371,7 +357,7 @@ Complex Complex::c_atanh() const
 
 
 //
-// GONIO HYPERBOLICUS II
+//  GONIO HYPERBOLICUS II
 //
 Complex Complex::c_csch() const
 {

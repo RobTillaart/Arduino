@@ -3,7 +3,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -11,16 +11,16 @@
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.6"))
+#define CURRENCY_VERSION                        (F("0.1.7"))
 
 
-// TODO 
-// optimize this 99% same code currency - currency64  
-// print to string and "merge" with formatters?
-//
-// ALT-0165 = ¥
-// ALT-0128 = €
-// U+20BF   = Bitcoin
+//  TODO 
+//  optimize this 99% same code currency - currency64  
+//  print to string and "merge" with formatters?
+//  
+//  ALT-0165 = ¥
+//  ALT-0128 = €
+//  U+20BF   = Bitcoin
 
 
 char * currency(int32_t value, int decimals, char decimalSeparator, char thousandSeparator, char symbol);
@@ -56,3 +56,4 @@ char * yuanf(double value);
 
 
 // -- END OF FILE --
+

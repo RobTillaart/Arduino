@@ -10,7 +10,7 @@
 
 Arduino library to help formatting integers for printing as currency.
 
-## Warning: experimental
+#### Warning: experimental
 
 
 
@@ -98,13 +98,18 @@ individual digits (div / mod 10).
 
 ## Future
 
+#### must
 - update documentation.
+
+#### should
+
+#### could
 - More wrapper functions?
 - test double parameters.
   - should decimals be a parameter too?
 - add BTC, USD, EUR, GBP, RUB, JPY, CNY, etc. (3+1 chars)
 - https://www.easymarkets.com/eu/learn-centre/discover-trading/currency-acronyms-and-abbreviations/
 
-**won't**
+#### won't
 - currency conversion?
   - intern all in ???

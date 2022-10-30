@@ -1,25 +1,25 @@
 #pragma once
 //
 //    FILE: Cozir.h
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
-// READ DATASHEET BEFORE USE OF THIS LIB !
+//  READ DATASHEET BEFORE USE OF THIS LIB !
 //
 
 
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.5"))
+#define COZIR_LIB_VERSION           (F("0.3.6"))
 
 
-// OUTPUT FIELDS
-// See datasheet for details.
-// These defines can be OR-ed for the SetOutputFields command
+//  OUTPUT FIELDS
+//  See datasheet for details.
+//  These defines can be OR-ed for the SetOutputFields command
 //
 #define CZR_UNKNOWN_2               0x8000     // returns  P 00128  ? 
 #define CZR_UNKNOWN_1               0x4000     // returns  E 00016  ?
@@ -132,8 +132,8 @@ public:
   void     setBufferClearTime(uint16_t value);
   uint16_t getBufferClearTime();
 
-  // TODO test EEPROM function first.
-  // void setEEPROMFactoryReset();
+  //  TODO test EEPROM function first.
+  //  void setEEPROMFactoryReset();
 
 
   //  META INFORMATION
@@ -144,7 +144,7 @@ public:
 
   ///////////////////////////////////////////////
   //
-  // SEMI PRIVATE FOR UNIT TESTING THEM
+  //  SEMI PRIVATE FOR UNIT TESTING THEM
   //
   void     _setEEPROM(uint8_t address, uint8_t value);
   uint8_t  _getEEPROM(uint8_t address);
@@ -186,7 +186,7 @@ public:
   void resetParser() { _field = 0; };
 
 
-  // returns field char if a field is completed, 0 otherwise.
+  //  returns field char if a field is completed, 0 otherwise.
   uint8_t nextChar(char c);
 
   //  FETCH LAST READ VALUES
@@ -230,16 +230,16 @@ private:
   uint16_t _CO2_FILT;           //  Z
   uint16_t _CO2_RAW;            //  z
 
-  // not output fields sec but useful.
+  //  not output fields sec but useful.
   uint16_t _samples;            //  a
   uint16_t _PPM;                //  .    // point
 
 
-  // parsing helpers
+  //  parsing helpers
   uint32_t _value;    //  to build up the numeric value 
   uint8_t  _field;    //  last read FIELD
 
-  // returns FIELD char if a FIELD is completed, 0 otherwise.
+  //  returns FIELD char if a FIELD is completed, 0 otherwise.
   uint8_t store();
 };
 

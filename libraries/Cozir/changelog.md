@@ -2,12 +2,17 @@
 # Cozir Changelog
 
 
+## 0.3.6 2022-10-30
+- add RP2040 to build-CI
+- minor edits
+
+
 ## 0.3.5 2022-02-25
 - added capturing mode 'K' field in the COZIRParser class
 - added all known fields in the COZIRParser class
 - added sending commands in stream parser example to test.
 - added example with adaptive timing depending on CO21 level.
-- verify requested field in **_request()**
+- verify requested field in **\_request()**
 - minor edits.
 
 
@@ -18,7 +23,7 @@
 
 
 ## 0.3.3 2022-02-21
-- update readme,
+- update readme.md
 - update + add examples
 - tested with GC0034
 - changed return value of **setOperatingMode()** to bool.
@@ -31,7 +36,7 @@
 
 
 ## 0.3.1 2021-10-20
-- update Arduino-CI,
+- update Arduino-CI
 - badges in readme.md
 
 
@@ -46,7 +51,7 @@
 - class methods camelCase
 - extend unit tests
 
-
+----
 
 ## 0.2.6 2021-01-31
 - fix #4 use Mode0 for versions and configuration
@@ -63,6 +68,8 @@
 ## 0.2.0 2020-03-30
 - some refactor and own repo
 
+-----
+
 ## 0.1.06
 - added support for HardwareSerial for MEGA
 - removed support for NewSoftSerial
@@ -72,7 +79,7 @@
 - fixed bug uint16_t request() to uint32_t request() in .h file
 
 ## 0.1.04
-- changed CO2 to support larger values (Rob T)
+- changed CO2 to support larger values
 
 ## 0.1.03
 - added setOperatingMode

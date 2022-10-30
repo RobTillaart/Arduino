@@ -1,7 +1,7 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
@@ -24,20 +24,20 @@
 // P 11-12 manual     WHICH
 //
 //      Name          Address         Default value/ notes
-#define CZR_AHHI        0x00            // reserved
-#define CZR_ANLO        0x01            // reserved
-#define CZR_ANSOURCE    0x02            // reserved
-#define CZR_ACINITHI    0x03            // 87
-#define CZR_ACINITLO    0x04            // 192
-#define CZR_ACHI        0x05            // 94
-#define CZR_ACLO        0x06            // 128
-#define CZR_ACONOFF     0x07            // 0
-#define CZR_ACPPMHI     0x08            // 1
-#define CZR_ACPPMLO     0x09            // 194
-#define CZR_AMBHI       0x0A            // 1
-#define CZR_AMBLO       0x0B            // 194
-#define CZR_BCHI        0x0C            // 0
-#define CZR_BCLO        0x0D            // 8
+#define CZR_AHHI        0x00            //  reserved
+#define CZR_ANLO        0x01            //  reserved
+#define CZR_ANSOURCE    0x02            //  reserved
+#define CZR_ACINITHI    0x03            //  87
+#define CZR_ACINITLO    0x04            //  192
+#define CZR_ACHI        0x05            //  94
+#define CZR_ACLO        0x06            //  128
+#define CZR_ACONOFF     0x07            //  0
+#define CZR_ACPPMHI     0x08            //  1
+#define CZR_ACPPMLO     0x09            //  194
+#define CZR_AMBHI       0x0A            //  1
+#define CZR_AMBLO       0x0B            //  194
+#define CZR_BCHI        0x0C            //  0
+#define CZR_BCLO        0x0D            //  8
 
 
 

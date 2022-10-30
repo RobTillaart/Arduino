@@ -221,22 +221,27 @@ See examples.
 
 ## Future
 
+#### must
+
+#### should
 - improve documentation
-  - COZIR Parser a separate readme?
+- COZIR Parser
+  - separate readme.md
+  - separate .h and .cpp
+  - separate repo
 - add examples
-  - example COZIR with I2C display?
+  - example COZIR with I2C LCD display?
+
+#### could
 - COZIR I2C class for newer generation 
   ~ same functional interface
   - multiWire / pin a la PCF8574 lib
 
-
-#### won't for now
-
+#### won't
 - add a **setEEPROMFactoryDefault()**?
   - unknown if all sensors have same values
 - build a Arduino COZIR simulator for testing.
   - add other sensors underneath?
-
 
 
 ----

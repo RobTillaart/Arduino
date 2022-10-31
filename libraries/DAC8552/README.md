@@ -75,10 +75,6 @@ but waits until (TODO CHECK DATASHEET)
 | DAC8552_POWERDOWN_HIGH_IMP |   3   |
 
 
-## Future
-
-- testing
-
 
 ## Operation
 
@@ -100,4 +96,9 @@ See examples
 
 **demo_powerdown.ino**
 - idem
+
+
+## Future
+
+- testing
 

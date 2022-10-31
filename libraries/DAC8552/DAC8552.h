@@ -3,7 +3,7 @@
 //    FILE: DAC8552.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor  
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // HISTORY: See DAC8552.cpp
 //     URL: https://github.com/RobTillaart/DAC8552
 //
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define DAC8552_LIB_VERSION           (F("0.2.3"))
+#define DAC8552_LIB_VERSION           (F("0.2.4"))
 
 
 #define DAC8552_POWERDOWN_NORMAL      0
@@ -44,14 +44,14 @@ public:
 
   bool     usesHWSPI() { return _hwSPI; };
 
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

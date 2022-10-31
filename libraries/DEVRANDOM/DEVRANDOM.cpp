@@ -5,18 +5,7 @@
 // PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
 //
-//  HISTORY:
-//  0.1.0   2020-06-23  initial version
-//  0.1.1   2020-12-18  add Arduino-CI + unit tests
-//                      + getMode() + flush()
-//  0.1.2   2021-01-15  add constructors with seed.
-//  0.1.3   2021-12-15  update library.json, license, minor edits
-//
-//  0.2.0   2022-07-02  add Marsaglia PRNG, is portable over platforms
-//                      becomes mode 3
-//                      improved reseeding
-//                      split off .cpp file
-//                      add examples
+//  HISTORY: see changelog.md
 
 
 #include "DEVRANDOM.h"
@@ -69,7 +58,7 @@ int DEVRANDOM::read()
 };
 
 
-// keep CI happy as parent class flush is virtual.
+//  keep CI happy as parent class flush is virtual.
 void DEVRANDOM::flush()
 {
 };
@@ -168,9 +157,9 @@ int DEVRANDOM::_analogRead()
 }
 
 
-// An example of a simple pseudo-random number generator is the
-// Multiply-with-carry method invented by George Marsaglia.
-// two initializers (not null)
+//  An example of a simple pseudo-random number generator is the
+//  Multiply-with-carry method invented by George Marsaglia.
+//  two initializers (not null)
 uint32_t DEVRANDOM::_marsaglia()
 {
   _m_z = 36969L * (_m_z & 65535L) + (_m_z >> 16);

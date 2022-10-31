@@ -2,7 +2,7 @@
 //
 //    FILE: DEVRANDOM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define  DEVRANDOM_LIB_VERSION      (F("0.2.0"))
+#define  DEVRANDOM_LIB_VERSION      (F("0.2.1"))
 
 
 #define  DEVRANDOM_MODE_RANDOM       0
@@ -31,9 +31,11 @@ public:
   int     available();
   int     peek();
   int     read();
-  //  keep CI happy as parent class flush is virtual.
+
+  //      keep CI happy as parent class flush is virtual.
   void    flush();
-  //  for reseeding, including via print() and println().
+
+  //      for reseeding, including via print() and println().
   size_t  write(const uint8_t data);
   size_t  write(const uint8_t * buffer, size_t size);
 
@@ -46,10 +48,10 @@ public:
   uint8_t getMode();
 
 
-  //  will be obsolete in future
-  void    useAR(uint8_t pin) { useAnalogRead(pin);  };
-  void    useHW(uint8_t pin) { useDigitalRead(pin); };
-  void    useSW()            { useRandom();         };
+  //  OBSOLETE
+  //  void    useAR(uint8_t pin) { useAnalogRead(pin);  };
+  //  void    useHW(uint8_t pin) { useDigitalRead(pin); };
+  //  void    useSW()            { useRandom();         };
 
 
 private:
@@ -57,7 +59,8 @@ private:
   uint32_t _seed = 0;
   uint8_t  _mode = 0;
   uint8_t  _pin  = 0;
-  // Marsaglia 'constants'
+
+  //  Marsaglia 'constants'
   uint32_t _m_w  = 1;
   uint32_t _m_z  = 2;
 

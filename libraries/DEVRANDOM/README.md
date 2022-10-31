@@ -65,12 +65,12 @@ The seed value from the write is used as a XOR byte.
 This one is quite fast and good, and more important portable.
 - **uint8_t getMode()** returns the source of randomness.
 
-|  Mode   |  DEVRANDOM_MODE  | Type                  |
-|:-------:|:----------------:|:----------------------|
-|    0    | build in random  | depends on platform
-|    1    | digitalRead      | hardware external
-|    2    | analogRead       | hardware external
-|    3    | Marsaglia        | software portable PRNG
+|  Mode   |  DEVRANDOM_MODE  | Type                   |
+|:-------:|:----------------:|:-----------------------|
+|    0    | build in random  | depends on platform    |
+|    1    | digitalRead      | hardware external      |
+|    2    | analogRead       | hardware external      |
+|    3    | Marsaglia        | software portable PRNG |
 
 
 There might be other RNG's in the future. 
@@ -78,8 +78,6 @@ If you have an interesting and fast PRNG to be included please let me know.
 
 
 ### Obsolete
-
-To be obsolete in a next release.
 
 - **useSW()** replaced by **useRandom()**. 
 - **useHW(uint8_t pin)** replaced by **useDigitalRead()**.
@@ -93,7 +91,7 @@ See example sketches.
 
 ### Example
 
-As shown in the example one can use fscanf to read larger datatypes, 
+As shown in the example one can use fscanf() to read larger data types, 
 
 ```cpp
   DEVRANDOM dr;
@@ -101,7 +99,8 @@ As shown in the example one can use fscanf to read larger datatypes,
   fscanf((FILE*) &dr, "%lu", &x);
   Serial.println(x);
 ```
-However float is not supported standard in the fscanf by UNO and strings (%s) generate garbage.
+
+However float is not supported standard in the fscanf() by UNO and strings (%s) generate garbage.
 So a password generator is a bit more difficult (and a good exercise).
 
 

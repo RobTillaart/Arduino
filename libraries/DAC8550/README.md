@@ -72,13 +72,16 @@ check datasheet for details.
 | DAC8550_POWERDOWN_HIGH_IMP |   3   |
 
 
+## Operation
+
+See examples
+
 
 ## Future
 
 - testing with real hardware
+- improve documentation
+- improve code incl readability
+  - spiData => spiDataOut
 
-
-## Operation
-
-See examples
 

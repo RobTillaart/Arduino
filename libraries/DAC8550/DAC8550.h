@@ -3,7 +3,7 @@
 //    FILE: DAC8550.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor  
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // HISTORY: See DAC8550.cpp
 //     URL: https://github.com/RobTillaart/DAC8550
 //
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define DAC8550_LIB_VERSION            (F("0.1.2"))
+#define DAC8550_LIB_VERSION            (F("0.1.3"))
 
 
 #define DAC8550_POWERDOWN_NORMAL        0
@@ -42,14 +42,14 @@ public:
 
   bool     usesHWSPI() { return _hwSPI; };
 
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
@@ -76,4 +76,6 @@ private:
   #endif
 };
 
+
 // -- END OF FILE --
+

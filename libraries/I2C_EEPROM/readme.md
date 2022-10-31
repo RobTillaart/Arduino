@@ -45,35 +45,48 @@ Most important change is 32 bit memory addresses.
 
 ### Constructor
 
-- **I2C_eeprom(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
-- **I2C_eeprom(uint8_t deviceAddress, uint32_t deviceSize, TwoWire \*wire = &Wire)** constructor, with optional Wire interface.
-- **bool begin()** initializes the I2C bus and checks if the device is available on the I2C bus.
-- **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 and alike.
+- **I2C_eeprom(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, 
+optional Wire interface.
+- **I2C_eeprom(uint8_t deviceAddress, uint32_t deviceSize, TwoWire \*wire = &Wire)** 
+constructor, with optional Wire interface.
+- **bool begin()** initializes the I2C bus with the default pins.
+Furthermore it checks if the deviceAddress is available on the I2C bus.
+Returns true if deviceAddress is found on the bus, false otherwise.
+- **bool begin(uint8_t sda, uint8_t scl)** (ESP32 / ESP8266 only)
+initializes the I2C bus with the specified pins, therby overruling the default pins.
+Furthermore it checks if the deviceAddress is available on the I2C bus.
+Returns true if deviceAddress is found on the bus, false otherwise.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
 
 
 ### Write functions
 
-- **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to the specified memory address.
+- **int writeByte(uint16_t memoryAddress, uint8_t value)** write a single byte to 
+the specified memory address.
 Returns I2C status, 0 = OK.
-- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address.
+- **int writeBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** 
+write a buffer starting at the specified memory address.
  Returns I2C status, 0 = OK.
-- **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes the same byte to length places starting at the specified memory address.
+- **int setBlock(uint16_t memoryAddress, uint8_t value, uint16_t length)** writes 
+the same byte to length places starting at the specified memory address.
 Returns I2C status, 0 = OK.
 
 
 ### Update functions
 
-- **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, but only if changed.
+- **int updateByte(uint16_t memoryAddress, uint8_t value)** write a single byte, 
+but only if changed.
 Returns 0 if value was same or write succeeded.
-- **uint16_t updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** write a buffer starting at the specified memory address, but only if changed.
+- **uint16_t updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** 
+write a buffer starting at the specified memory address, but only if changed.
 Returns bytes written.
 
 
 ### Read functions
 
-- **uint8_t readByte(uint16_t memoryAddress)** read a single byte from a given address
-- **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** read length bytes into buffer starting at specified memory address.
+- **uint8_t readByte(uint16_t memoryAddress)** read a single byte from a given address.
+- **uint16_t readBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** 
+read length bytes into buffer starting at specified memory address.
 Returns the number of bytes read, which should be length.
 
 
@@ -99,7 +112,7 @@ Same as write and update functions above. Returns true if successful, false indi
 - **uint32_t determineSize(bool debug = false)**
 function that determines the size of the EEPROM by detecting when a memory address is folded upon memory address 0.
 It is based upon the observation that memory wraps around.
-The debug flag gives some output to Serial.
+The debug flag prints some output to Serial.
 
 **Warning**: this function has changed (again) in 1.4.0
 
@@ -108,16 +121,16 @@ Test results
 | Type    | returns |  Memory  | Page Size | Notes |
 |:--------|:--------|:---------|:---------:|:------|
 |  -      |    0    |          |           | connect error, check device address / wiring |
-| 24LC512 |  65536  |  64 KB   |  128      |       |
-| 24LC256 |  32768  |  32 KB   |   64      |       |
-| 24LC128 |  16384  |  16 KB   |   64      |       |
-| 24LC64  |   8192  |   8 KB   |   32      |       |
-| 24LC32  |   4096  |   4 KB   |   32      | not tested with hardware |
-| 24LC16  |   2048  |   2 KB   |   16      |       |
-| 24LC08  |   1024  |   1 KB   |   16      |       |
-| 24LC04  |    512  |  512 b   |   16      |       |
-| 24LC02  |    256  |  256 b   |    8      |       |
-| 24LC01  |    128  |  128 b   |    8      |       |
+| 24LC512 |  65536  |  64 KB   |   128     |       |
+| 24LC256 |  32768  |  32 KB   |    64     |       |
+| 24LC128 |  16384  |  16 KB   |    64     |       |
+| 24LC64  |   8192  |   8 KB   |    32     |       |
+| 24LC32  |   4096  |   4 KB   |    32     | not tested with hardware |
+| 24LC16  |   2048  |   2 KB   |    16     |       |
+| 24LC08  |   1024  |   1 KB   |    16     |       |
+| 24LC04  |    512  |  512 b   |    16     |       |
+| 24LC02  |    256  |  256 b   |     8     |       |
+| 24LC01  |    128  |  128 b   |     8     |       |
 
 The function cannot detect smaller than 128 bit EEPROMS.
 
@@ -139,8 +152,9 @@ So you should verify if your sketch can make use of the advantages of **updateBl
 
 #### ExtraWriteCycleTime (experimental)
 
-To improve support older I2C EEPROMs e.g. IS24C16 two functions were added to increase
-the waiting time before a read and/or write as some older devices have a larger timeout
+To improve support older I2C EEPROMs e.g. IS24C16 two functions were 
+added to increase the waiting time before a read and/or write as some 
+older devices have a larger timeout
 than 5 milliseconds which is the minimum.
 
 - **void     setExtraWriteCycleTime(uint8_t ms)** idem
@@ -152,22 +166,27 @@ than 5 milliseconds which is the minimum.
 The library does not offer multiple EEPROMS as one continuous storage device.
 
 
-## Future
-
-- improve error handling, write functions should return bytes written or so.
-- investigate the print interface?
-  - circular buffer?
-- investigate multi-EEPROM storage
-  - wrapper class?
-- investigate smarter strategy for **updateBlock()** 
-  => find first and last changed position could possibly result in less writes.
-- can **setBlock()** use strategies from **updateBlock()**
-- Add changelog
-
-- internals
-  - **\_waitEEReady();** can return bool and could use isConnected() internally.
-
 ## Operation
 
 See examples
+
+## Future
+
+#### must
+- improve documentation
+
+#### should
+- investigate multi-EEPROM storage
+  - wrapper class?
+- improve error handling, write functions should return bytes written or so.
+
+#### could
+- investigate smarter strategy for **updateBlock()** 
+  => find first and last changed position could possibly result in less writes.
+- can **setBlock()** use strategies from **updateBlock()**
+- **\_waitEEReady();** can return bool and could use isConnected() internally.
+  - added value?
+- investigate the print interface?
+  - circular buffer? (see FRAM library)
+  - dump function?
 

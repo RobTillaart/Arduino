@@ -3,7 +3,7 @@
 //    FILE: DAC8554.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor  
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // HISTORY: See DAC8554.cpp
 //     URL: https://github.com/RobTillaart/DAC8554
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define DAC8554_LIB_VERSION                       (F("0.2.4"))
+#define DAC8554_LIB_VERSION                       (F("0.2.5"))
 
 #define DAC8554_POWERDOWN_NORMAL                  0x00
 #define DAC8554_POWERDOWN_1K                      0x40
@@ -22,10 +22,10 @@
 class DAC8554
 {
 public:
-  // hardware SPI constructor
-  DAC8554(uint8_t slaveSelect, uint8_t address = 0);  // address is 0,1,2,3
+  //  hardware SPI constructor
+  DAC8554(uint8_t slaveSelect, uint8_t address = 0);  //  address is 0,1,2,3
 
-  // software SPI constructor
+  //  software SPI constructor
   DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t address = 0);
 
   void     begin();
@@ -34,7 +34,7 @@ public:
   void     bufferValue(uint8_t channel, uint16_t value);
   void     setValue(uint8_t channel, uint16_t value);
   uint16_t getValue(uint8_t channel);
-  //writes the value to the channel but does not affect buffered ones
+  //  writes the value to the channel but does not affect buffered ones
   void     setSingleValue(uint8_t channel, uint16_t value);
 
 
@@ -44,11 +44,11 @@ public:
   void     setSinglePowerDown(uint8_t channel, uint8_t powerDownMode);
 
 
-  // write all buffers to all(up to 4) 8554's channel's
+  //  write all buffers to all(up to 4) 8554's channel's
   void     broadcastBuffer();
-  // write value to all(up to 4) 8554's channel's
+  //  write value to all(up to 4) 8554's channel's
   void     broadcastValue(uint16_t value);
-  // write powerDownMode to all 8554's channel's
+  //  write powerDownMode to all 8554's channel's
   void     broadcastPowerDown(uint8_t powerDownMode);
 
 
@@ -60,7 +60,7 @@ public:
   bool     usesHWSPI() { return _hwSPI; };
 
 
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
@@ -68,7 +68,7 @@ public:
   bool     usesVSPI()   { return !_useHSPI; };
 
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
@@ -81,8 +81,8 @@ private:
   bool     _hwSPI       = false;
   uint8_t  _address;
 
-  uint16_t _value[4];     // holdes last written / buffered value per channel
-  uint8_t  _register[4];  // holds powerDownMode per channel
+  uint16_t _value[4];     //  holds last written / buffered value per channel
+  uint8_t  _register[4];  //  holds powerDownMode per channel
 
   uint32_t _SPIspeed    = 16000000;
 

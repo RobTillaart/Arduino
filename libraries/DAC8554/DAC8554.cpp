@@ -5,17 +5,7 @@
 // VERSION: 0.2.4
 //     URL: https://github.com/RobTillaart/DAC8554
 //
-//  HISTORY:
-//  0.1.0:  2017-12-19  initial version
-//  0.1.2   2020-04-06  minor refactor, readme.md
-//  0.1.3   2020-06-07  fix library.json
-//  0.1.4   2020-07-20  fix URL's in demo's; MIT license; minor edits
-//  0.2.0   2020-12-18  add Arduino-CI + unit test
-//  0.2.1   2021-01-10  fix slave select hardware SPI + getValue() + getPowerDownMode().
-//                      fix unit test.
-//  0.2.2   2021-06-02  compile ESP32
-//  0.2.3   2021-08-29  add support for HSPI / VSPI ESP32 ++
-//  0.2.4   2021-12-15  update library.json, license, unit test, minor edits
+//  HISTORY: see changelog.md
 
 
 #include "DAC8554.h"
@@ -45,8 +35,8 @@ DAC8554::DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t
 }
 
 
-// initializes the SPI
-// and sets internal state
+//  initializes the SPI
+//  and sets internal state
 void DAC8554::begin()
 {
   pinMode(_select, OUTPUT);
@@ -57,26 +47,26 @@ void DAC8554::begin()
   if(_hwSPI)
   {
     #if defined(ESP32)
-    if (_useHSPI)      // HSPI
+    if (_useHSPI)      //  HSPI
     {
       mySPI = new SPIClass(HSPI);
       mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   // CLK=14 MISO=12 MOSI=13
+      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
     }
-    else               // VSPI
+    else               //  VSPI
     {
       mySPI = new SPIClass(VSPI);
       mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   // CLK=18 MISO=19 MOSI=23
+      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
     }
-    #else              // generic hardware SPI
+    #else              //  generic hardware SPI
     mySPI = &SPI;
     mySPI->end();
     mySPI->begin();
     #endif
     delay(1);
   }
-  else                 // software SPI
+  else                 //  software SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
@@ -101,7 +91,7 @@ void DAC8554::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI 
+  mySPI->end();  //  disable SPI 
   mySPI->begin(clk, miso, mosi, select);
 }
 #endif
@@ -110,10 +100,10 @@ void DAC8554::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
 
 //////////////////////////////////////////////////////////////////////
 //
-// SETVALUE
+//  SETVALUE
 //
-// channel = 0, 1, 2, 3
-// value   = 0..65535
+//  channel = 0, 1, 2, 3
+//  value   = 0..65535
 void DAC8554::bufferValue(uint8_t channel, uint16_t value)
 {
   uint8_t configRegister = _address;
@@ -133,8 +123,8 @@ void DAC8554::setValue(uint8_t channel, uint16_t value)
 }
 
 
-// channel = 0, 1, 2, 3 depending on type
-// returns   0..65535
+//  channel = 0, 1, 2, 3 depending on type
+//  returns   0..65535
 uint16_t DAC8554::getValue(uint8_t channel)
 {
   return _value[channel];
@@ -153,14 +143,14 @@ void DAC8554::setSingleValue(uint8_t channel, uint16_t value)
 
 //////////////////////////////////////////////////////////////////////
 //
-// POWERDOWN
+//  POWERDOWN
 //
-// channel       = 0, 1, 2, 3
-// powerDownMode =
-//   DAC8554_POWERDOWN_NORMAL       0x00
-//   DAC8554_POWERDOWN_1K           0x40
-//   DAC8554_POWERDOWN_100K         0x80
-//   DAC8554_POWERDOWN_HIGH_IMP     0xC0
+//  channel       = 0, 1, 2, 3
+//  powerDownMode =
+//    DAC8554_POWERDOWN_NORMAL       0x00
+//    DAC8554_POWERDOWN_1K           0x40
+//    DAC8554_POWERDOWN_100K         0x80
+//    DAC8554_POWERDOWN_HIGH_IMP     0xC0
 //
 void DAC8554::bufferPowerDown(uint8_t channel, uint8_t powerDownMode)
 {
@@ -200,13 +190,13 @@ void DAC8554::setSinglePowerDown(uint8_t channel, uint8_t powerDownMode)
 
 uint8_t DAC8554::getPowerDownMode(uint8_t channel)
 {
-  return _register[channel]; // slightly different than DAC8552 rrrrrr
+  return _register[channel]; //  slightly different than DAC8552 rrrrrr
 }
 
 
 //////////////////////////////////////////////////////////////////////
 //
-// BROADCAST (addresses all 8554 on "SPI-bus")
+//  BROADCAST (addresses all 8554 on "SPI-bus")
 //
 void DAC8554::broadcastBuffer()
 {
@@ -242,7 +232,7 @@ void DAC8554::setSPIspeed(uint32_t speed)
 
 //////////////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
 void DAC8554::writeDevice(uint8_t configRegister, uint16_t value)
@@ -266,7 +256,7 @@ void DAC8554::writeDevice(uint8_t configRegister, uint16_t value)
 }
 
 
-// simple one mode version
+//  simple one mode version
 void DAC8554::swSPI_transfer(uint8_t value)
 {
   uint8_t clk = _clock;

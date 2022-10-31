@@ -1,0 +1,15 @@
+// test run on IDE 1.8.19 UNO
+// test run while working on improvements for 0.1.2)
+
+DEVFULL_performance.ino
+DEVFULL_LIB_VERSION: 0.1.2
+PRINTLN: 	20	2
+WRITE: 		4	1
+long: 		356	1
+float0: 	64	1
+float1: 	596	7
+float2: 	1096	12
+float3: 	1612	17
+float4: 	2116	22
+
+

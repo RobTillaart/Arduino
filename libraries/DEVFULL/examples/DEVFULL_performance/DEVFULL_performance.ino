@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //
-// this shows that a print can be split up in many  write calls
+// this shows that a print can be split up in many write calls
 // that all return -28. Print will add these together.
 // (is a limit of the Arduino environment)
 

@@ -23,12 +23,6 @@ This causes a return value of n x -28 ==> mostly a number in the 65xxx range
 See - https://en.wikipedia.org/wiki//dev/full
 
 
-## Versions
-
-- 0.1.0 is a minimal implementation.
-- 0.1.1 implements INT_MAX
-
-
 ## Interface
 
 - **DEVFULL()** constructor, sets the timeout to zero.
@@ -61,5 +55,4 @@ See examples.
 - improve documentation
 - improve code
   - test different platforms.
-
 

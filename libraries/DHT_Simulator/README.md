@@ -26,6 +26,10 @@ and humidity. Just connect two potentiometers to play and simulate increase and
 decrease of the temperature and humidity.
 
 
+## 2022-11-01
+- add RP2040 to build-CI
+- update license
+
 ## 0.2.1
 
 - added pin to trigger CRC errors

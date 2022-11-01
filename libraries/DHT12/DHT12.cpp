@@ -1,22 +1,10 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: I2C library for DHT12 for Arduino.
 //
-// HISTORY:
-//  0.1.0   2017-12-11  initial version
-//  0.1.1   2017-12-19  added ESP8266 - issue #86
-//                      Verified by Viktor Balint
-//  0.1.2   2018-09-02  fix negative temperature DHT12 - issue #111
-//  0.2.0   2020-04-11  explicit constructors, select other Wire interface, 
-//                      #pragma once
-//  0.2.1   2020-06-07  fix library.json
-//  0.3.0   2020-12-19  add Arduino-CI + unit test
-//                      temperature and humidity made private
-//  0.3.1   2021-10-25  add lastRead, update Arduino-CI, badges
-//  0.3.2   2021-12-16  update library.json, license
-//                      add isConnected()
+// HISTORY: see changelog.md
 
 
 #include "DHT12.h"

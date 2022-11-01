@@ -3,7 +3,7 @@
 //    FILE: DHT12.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DHT_I2C library for Arduino .
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // HISTORY: See DHT12.cpp
 //     URL: https://github.com/RobTillaart/DHT12
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT12_LIB_VERSION                    (F("0.3.2"))
+#define DHT12_LIB_VERSION                    (F("0.3.3"))
 
 #define DHT12_OK                             0
 #define DHT12_ERROR_CHECKSUM                -10
@@ -23,7 +23,7 @@
 class DHT12
 {
 public:
-  DHT12(TwoWire *wire);        // to be tested explicitly
+  DHT12(TwoWire *wire);        //  to be tested explicitly
 
 #if defined(ESP8266) || defined(ESP32)
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
@@ -36,7 +36,7 @@ public:
   float    getHumidity()    { return _humidity    + _humOffset; };
   float    getTemperature() { return _temperature + _tempOffset; };
 
-  // allows 1st order calibration
+  //  allows 1st order calibration
   void     setHumOffset(float offset)  { _humOffset  = offset; };
   void     setTempOffset(float offset) { _tempOffset = offset; };
   float    getHumOffset()              { return _humOffset; };

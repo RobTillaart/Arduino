@@ -1,36 +1,29 @@
 //
 //    FILE: DHT2pin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Experimental DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
 //
-// HISTORY:
-//  0.1.2  2021-12-16  update library.json, license, minor edits
-//  0.1.1  2020-12-19  added arduino-ci + unit test
-//  0.1.0  2020-06-30  own repository; #pragma once
-//  0.0.3  Fix issue #33
-//  0.0.2  support for non "F_CPU" boards especially Galileo
-//         Tested and verified by Maria Emanuella Moura Silva (thanks)
-//         changed name to DHT2pin
-//  0.0.1  initial version - 2016 SEP 05 (based upon 0.1.13 DHT)
-//
+// HISTORY: see changelog.md
+
 
 #include "DHT2pin.h"
 
+
 /////////////////////////////////////////////////////
 //
-// PUBLIC
+//  PUBLIC
 //
 
-// return values:
-// DHTLIB_OK
-// DHTLIB_ERROR_CHECKSUM
-// DHTLIB_ERROR_TIMEOUT
+//  return values:
+//  DHTLIB_OK
+//  DHTLIB_ERROR_CHECKSUM
+//  DHTLIB_ERROR_TIMEOUT
 int DHT2pin::read11()
 {
-    // READ VALUES
+    //  READ VALUES
     int rv = _readSensor(DHTLIB_DHT11_WAKEUP);
     if (rv != DHTLIB_OK)
     {
@@ -39,12 +32,12 @@ int DHT2pin::read11()
         return rv;
     }
 
-    // CONVERT AND STORE
+    //  CONVERT AND STORE
     humidity    = bits[0];  // bits[1] == 0;
     temperature = bits[2];  // bits[3] == 0;
 
-    // TEST CHECKSUM
-    // bits[1] && bits[3] both 0
+    //  TEST CHECKSUM
+    //  bits[1] && bits[3] both 0
     uint8_t sum = bits[0] + bits[2];
     if (bits[4] != sum) return DHTLIB_ERROR_CHECKSUM;
 
@@ -52,25 +45,25 @@ int DHT2pin::read11()
 }
 
 
-// return values:
-// DHTLIB_OK
-// DHTLIB_ERROR_CHECKSUM
-// DHTLIB_ERROR_TIMEOUT
+//  return values:
+//  DHTLIB_OK
+//  DHTLIB_ERROR_CHECKSUM
+//  DHTLIB_ERROR_TIMEOUT
 int DHT2pin::read()
 {
-    // READ VALUES
+    //  READ VALUES
     int rv = _readSensor(DHTLIB_DHT_WAKEUP);
     if (rv != DHTLIB_OK)
     {
-        humidity    = DHTLIB_INVALID_VALUE;  // invalid value, or is NaN prefered?
-        temperature = DHTLIB_INVALID_VALUE;  // invalid value
-        return rv; // propagate error value
+        humidity    = DHTLIB_INVALID_VALUE;  //  invalid value, or is NaN prefered?
+        temperature = DHTLIB_INVALID_VALUE;  //  invalid value
+        return rv;      //  propagate error value
     }
 
-    // CONVERT AND STORE
+    //  CONVERT AND STORE
     humidity = word(bits[0], bits[1]) * 0.1;
     temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
-    if (bits[2] & 0x80)  // negative temperature
+    if (bits[2] & 0x80)     //  negative temperature
     {
         temperature = -temperature;
     }
@@ -86,28 +79,28 @@ int DHT2pin::read()
 
 /////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
-// return values:
-// DHTLIB_OK
-// DHTLIB_ERROR_TIMEOUT
+//  return values:
+//  DHTLIB_OK
+//  DHTLIB_ERROR_TIMEOUT
 int DHT2pin::_readSensor(uint8_t wakeupDelay)
 {
-    // INIT BUFFERVAR TO RECEIVE DATA
+    //  INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;
     uint8_t idx = 0;
 
-    // EMPTY BUFFER
+    //  EMPTY BUFFER
     for (uint8_t i = 0; i < 5; i++) bits[i] = 0;
 
-    // REQUEST SAMPLE
+    //  REQUEST SAMPLE
     digitalWrite(_wpin, LOW);
     delay(wakeupDelay);
     digitalWrite(_wpin, HIGH);
     delayMicroseconds(40);
  
-    // GET ACKNOWLEDGE or TIMEOUT
+    //  GET ACKNOWLEDGE or TIMEOUT
     uint16_t loopCnt = DHTLIB_TIMEOUT;
     while(digitalRead(_rpin) == LOW)
     {
@@ -152,6 +145,7 @@ int DHT2pin::_readSensor(uint8_t wakeupDelay)
 
     return DHTLIB_OK;
 }
-//
-// END OF FILE
-//
+
+
+//  -- END OF FILE --
+

@@ -13,12 +13,17 @@ Arduino library for I2C DHT20 temperature and humidity sensor.
 
 ## Description
 
+The DHT20 is a humidity an temperature sensor. 
+
+The sensor has a fixed address of **0x38**.
+It is not known if the address can be changed.
+
 The library must be initiated by calling the **begin()** function, 
 or **begin(dataPin, clockPin)** for **ESP32** and similar platforms.
 
 Thereafter one has to call the **read()** function to do the actual reading,
-and with **getTemperature()** and **getHumidity()** to get the measured values.
-Calling these latter again will return the same values until a new **read()** is called.
+and call **getTemperature()** and **getHumidity()** to get the measured values.
+Calling these latter again will return the same values until a new **read()** is done.
 
 The **read()** call of this sensor is blocking for 80+ milliseconds (datasheet 7.4)
 so the library also has a asynchronous interface. See below.
@@ -27,9 +32,30 @@ Since 0.1.3 and 0.1.4 the performance of **read()** has been optimized,
 still blocking but less long for about 45 milliseconds.
 
 
+### 0.2.0
+
+In #8 a bug is described that the sensor "freezes".
+Cause is not well understood.
+
+Two solutions / workarounds are found:
+- call **resetSensor()** before EVERY **read()**. 
+This is the preferred solution.
+- use **Wire.setClock(200000)** 100 K and lower speeds freezes the sensor.
+With clock set to 200 K and above the sensor seems to work for longer periods.
+Tested several speeds on UNO, no pull ups, < 10 cm wire.
+
+Note: setting the I2C clock possibly interferes with other devices on the I2C bus,
+so it is not a solution in the end.
+
+The 0.2.0 version embeds the **resetSensor()** into **requestData()** to 
+reset the sensor if needed in both synchronous and asynchronous calls.
+This keeps the API simple. The reads are 1-2 ms slower than 0.1.4. (< 50 ms).
+Still far below the 80 ms mentioned in the datasheet. 
+
+
 ### Connection
 
-Always check datasheet 
+Always check datasheet!
 
 Front view
 ```
@@ -43,7 +69,7 @@ Front view
 
 ### Tested
 
-Verified to work with Arduino UNO and ESP32.
+Verified to work with Arduino UNO and ESP32 and ESP8266 (see #8)
 Please let me know if other platforms work (or not).
 
 
@@ -61,29 +87,32 @@ Please let me know if other platforms work (or not).
 ### Core
 
 - **int8_t read()** read the sensor and store the values internally. 
-It returns the status of the read which should be 0.
+Returns the status of the read which should be 0 == **DHT20_OK**.
 - **float getHumidity()** returns last Humidity read.
+Multiple calls will return same value until a new **read()** is made.
 - **float getTemperature()** returns last Temperature read.
+Multiple calls will return same value until a new **read()** is made.
 
 
 ### Offset
 
-- **void setHumOffset(float offset)** set an offset to calibrate (1st order) the sensor.
-- **float getHumOffset()** return current offset, default 0.
-- **void setTempOffset(float offset)** set an offset to calibrate (1st order) the sensor.
-- **float getTempOffset()** return current offset, default 0.
+- **void setHumOffset(float offset)** set an offset to calibrate the sensor (1st order).
+- **float getHumOffset()** return current humidity offset, default 0.
+- **void setTempOffset(float offset)** set an offset to calibrate the sensor (1st order).
+- **float getTempOffset()** return current temperature offset, default 0.
 
 
 ### Asynchronous interface
 
-There are two timings that need to be considdered, 
-- time between requests = 1000 ms
-- time between request and data ready = 80 ms
+There are two timings that need to be considered (from datasheet):
+- time between requests = 1000 ms.
+- time between request and data ready = 80 ms.
 
 The async interface allows one to continue processing after a **requestData()** has been made. 
-Note that there should be at least **1000 milliseconds** between subsequent requests.
+Note there should be at least **1000 milliseconds** between subsequent requests.
 
 With **bool isMeasuring()** one can check if a new measurement is ready.
+Alternative is to delay for up to 80 ms.
 If so the sensor can be read with **readData()**.
 
 To interpret the read bits to temperature, humidity and status one needs to call **convert()** as last step.
@@ -116,13 +145,16 @@ This function blocks a few milliseconds to optimize communication.
 
 #### Experimental 0.1.4 resetSensor
 
-Use with care, as this is not tested.
+Use with care!
 
 - **uint8_t resetSensor()** if at startup the sensor does not return a status of 0x18, 
 three registers 0x1B, 0x1C and 0x1E need to be reset. 
 See datasheet 7.4 Sensor Reading Process, point 1.
 There is no documentation about the meaning of these registers.
 The code is based upon example code for the AHT20 (from manufacturer).
+
+The call is needed to get the **read()** working well so it has been embedded into
+the read calls. (0.2.0)
 
 
 ### Timing
@@ -152,20 +184,20 @@ See examples
 ## Future
 
 #### must
-
+- improve documentation.
+- investigate the bug from #8 further
 
 #### should
 
 
 #### could
-
 - improve unit tests.
 - investigate 
   - sensor calibration (website aosong?)
 - investigate optimizing timing in readStatus()
   - delay(1) ==> microSeconds(???).
-- separate changelog.md
 - connected flag?
+- add **uint8_t getAddress()** to return the address (convenience).
 
 #### won't
 

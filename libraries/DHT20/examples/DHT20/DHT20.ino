@@ -24,8 +24,6 @@ void setup()
 {
   DHT.begin();    //  ESP32 default pins 21 22
 
-  Wire.setClock(400000);
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");

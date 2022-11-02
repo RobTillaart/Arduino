@@ -67,9 +67,6 @@ See examples.
 - make other code symmetric.
 - additional functions
   - Bresenham to draw ellipse?
-  - **float getLongRadius()**
-  - **float getShortRadius()**
-  - move all code to .cpp
 - documentation
   - refer Wikipedia.
 

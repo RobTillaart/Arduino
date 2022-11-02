@@ -29,6 +29,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ELLIPSE_LIB_VERSION: %s\n", (char*) ELLIPSE_LIB_VERSION);
 }
 
 
@@ -39,8 +40,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "ELLIPSE_LIB_VERSION: %s\n", (char*) ELLIPSE_LIB_VERSION);
-
   ellipse E(1.0, 1.0);
   fprintf(stderr, "%03.8f\n", E.getA());
   fprintf(stderr, "%03.8f\n", E.getB());

@@ -2,16 +2,12 @@
 //    FILE: ellipse.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-10-31
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 // TRIGGER: https://www.youtube.com/watch?v=5nW3nJhBHL0
 //
-// HISTORY:
-//  0.1.0  2021-10-31  initial version
-//  0.1.1  2022-07-    add angle() + example
-//                     add isCircle(), isFlat()
-//                     update readme.md
+// HISTORY: see changelog.md
 
 
 #include "ellipse.h"
@@ -26,8 +22,8 @@ ellipse::ellipse(float a, float b)
 
 //////////////////////////////////////////////////////////////////
 // 
-// unknown - see youtube link.
-// p = 2 * PI * sqrt((a*a + b*b)/2);
+//  unknown - see youtube link.
+//  p = 2 * PI * sqrt((a*a + b*b)/2);
 //
 float ellipse::circumference()
 {
@@ -43,7 +39,7 @@ float ellipse::perimeter_ref()
 
 float ellipse::perimeter_Keppler()
 {
-  // Keppler 
+  //  Keppler 
   float p = 2 * PI * (_a + _b) / 2;   // very fast for a ~ b
   return p;
 }
@@ -51,8 +47,8 @@ float ellipse::perimeter_Keppler()
 
 float ellipse::perimeter_Ramanujan1()
 {
-  // Srinivasa Ramanujan I - very good
-  // float p = PI * (3 * (_a + _b) - sqrt((3 * _a +_b)*(_a + 3 * _b)));
+  //  Srinivasa Ramanujan I - very good
+  //  float p = PI * (3 * (_a + _b) - sqrt((3 * _a +_b)*(_a + 3 * _b)));
   float a3 = 3 * _a;
   float b3 = 3 * _b;
   float p = PI * (a3 + b3 - sqrt( (a3 + _b)*(_a + b3))); 
@@ -63,7 +59,7 @@ float ellipse::perimeter_Ramanujan1()
 
 float ellipse::perimeter_Ramanujan2()
 {
-  // Srinivasa Ramanujan II - extremely good
+  //  Srinivasa Ramanujan II - extremely good
   float x = _a - _b;
   float y = _a + _b;
   float h3 = 3 * (x * x) / (y * y);
@@ -104,6 +100,30 @@ bool ellipse::isFlat()
 }
 
 
+void ellipse::setA(float a)
+{
+  _a = abs(a);
+}
+
+
+void ellipse::setB(float b)
+{
+  _b = abs(b); 
+};
+
+
+float ellipse::getA()
+{
+  return _a;
+}
+
+
+float ellipse::getB()
+{
+  return _b;
+}
+
+
 float ellipse::getC()
 {
   float e = eccentricity();
@@ -112,11 +132,26 @@ float ellipse::getC()
 }
 
 
+float ellipse::getLongRadius()
+{
+  if (_a >= _b) return _a;
+  return _b;
+}
+
+
+float ellipse::getShortRadius()
+{
+  if (_a >= _b) return _b;
+  return _a;
+}
+
+
 float ellipse::angle()
 {
   float c = (_b < _a) ? _b/_a : _a/_b;
   return acos(c) * (180 / PI);
 }
+
 
 // -- END OF FILE --
 

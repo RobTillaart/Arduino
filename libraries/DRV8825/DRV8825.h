@@ -2,7 +2,7 @@
 //
 //    FILE: DRV8825.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DRV8825_LIB_VERSION              (F("0.1.1"))
+#define DRV8825_LIB_VERSION              (F("0.1.3"))
 
 
 //  setDirection

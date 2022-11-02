@@ -44,7 +44,8 @@ const uint8_t DRV8825_COUNTERCLOCK_WISE  = 1;  //  HIGH
 ### Constructor
 
 - **DRV8825()** Constructor.
-- **bool begin(uint8_t DIR, uint8_t STEP, uint8_t EN = 255, uint8_t RST = 255, uint8_t SLP = 255)** set the direction pin and step pin.
+- **bool begin(uint8_t DIR, uint8_t STEP, uint8_t EN = 255, uint8_t RST = 255, uint8_t SLP = 255)** 
+set the direction pin and step pin.
 Both pins are set to LOW. For direction this means DRV8825_CLOCK_WISE.
 Optional the enable, reset and sleep pin can be set.
 If these are set to 255 the related functions won't do anything.

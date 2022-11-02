@@ -1,18 +1,13 @@
 //
 //    FILE: DRV8825.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
+//
+// HISTORY: see changelog.md
 
-//  0.1.0   2022-07-07  initial version.
-//  0.1.1   2022-07-08  update readme.md
-//                      add setPosition() + getPosition();
-//                      minor optimizations
-//  0.1.2   2022-07-14  add support for SLP RST and EN pin
-//                      update documentation
-//                      update build-CI
 
 
 #include "DRV8825.h"
@@ -214,5 +209,4 @@ bool DRV8825::isSleeping()
 
 
 //  -- END OF FILE --
-
 

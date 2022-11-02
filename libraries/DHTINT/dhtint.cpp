@@ -5,10 +5,7 @@
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 //
-//  HISTORY:
-//  0.1.0  2022-05-08  initial version based upon DHTNEW
-//  0.1.1  2022-05-11  add getRawTemperature() and getRawHumidity()
-//  0.1.2  2022-05-12  fix #2 - add decimal offset support + fix float bug
+//  HISTORY: see changelog.md
 
 
 #include "dhtint.h"

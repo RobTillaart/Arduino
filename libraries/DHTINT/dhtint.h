@@ -2,24 +2,24 @@
 //
 //    FILE: dhtint.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT   :   DESCRIPTION
+//  pin 1   :   VCC
+//  pin 2   :   DATA
+//  pin 3   :   Not Connected
+//  pin 4   :   GND
 
 
 #include "Arduino.h"
 
 
-#define DHTINT_LIB_VERSION                (F("0.1.2 experimental"))
+#define DHTINT_LIB_VERSION                (F("0.1.3 experimental"))
 
 
 #define DHTLIB_OK                         0

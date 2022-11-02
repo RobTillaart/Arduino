@@ -2,32 +2,32 @@
 //
 //    FILE: DS18B20.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 //
-//  BOTTOM VIEW
+//          BOTTOM VIEW
 //
-//          PIN  MEANING
-//   /---+
-//  /  o |  1    GND
-//  |  o |  2    DATA
-//  \  o |  3    VCC
-//   \---+
+//                  PIN     MEANING
+//           /---+
+//          /  o |  1       GND
+//          |  o |  2       DATA
+//          \  o |  3       VCC
+//           \---+
 //
 
 
-#define DS18B20_LIB_VERSION     (F("0.1.12"))
+#define DS18B20_LIB_VERSION     (F("0.1.13"))
 
 #include <OneWire.h>
 
-// Error Code
+//  Error Code
 #define DEVICE_DISCONNECTED     -127
 #define DEVICE_CRC_ERROR        -128
 
-// config codes
+//  config codes
 #define DS18B20_CLEAR           0x00
 #define DS18B20_CRC             0x01
 

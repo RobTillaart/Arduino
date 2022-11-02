@@ -89,7 +89,7 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 | 100cm (3'4")  |     3K3     |    2K2     | 
 | 200cm (6'8")  |     2K2     |    1K0     | 
 | 500cm (16'8") |     1K0     |    \*      |  
-| longer        |       *     |    \*      |
+| longer        |     \*        |    \*      |
 
 \* = no info, smaller 
 

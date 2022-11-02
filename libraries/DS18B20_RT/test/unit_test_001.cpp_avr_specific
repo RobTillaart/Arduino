@@ -40,7 +40,13 @@ unittest_teardown()
 }
 
 
-// TODO constants
+unittest(test_constants)
+{
+  assertEqual(-127, DEVICE_DISCONNECTED);
+  assertEqual(-128, DEVICE_CRC_ERROR);
+  assertEqual(0x00, DS18B20_CLEAR);
+  assertEqual(0x01, DS18B20_CRC);
+}
 
 
 unittest(test_constructor)

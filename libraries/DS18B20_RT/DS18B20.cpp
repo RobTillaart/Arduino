@@ -1,37 +1,24 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.12
+// VERSION: 0.1.13
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 //
-// HISTORY:
-//  0.1.0   2017-07-25  initial version
-//  0.1.1   2020-02-18  added getAddress()
-//  0.1.2   2020-04-11  #pragma once, refactor
-//  0.1.3   2020-04-22  #1 fix library.json file
-//  0.1.4   2020-04-23  #2 add retry in begin() to support Wemos
-//  0.1.5   2020-04-29  #4 added set/getConfig + DEVICE_CRC_ERROR + example
-//  0.1.6   2020-06-07  fix library.json
-//  0.1.7   2020-12-20  add Arduino CI + unit test
-//  0.1.8   2021-04-08  clear scratchpad before read + update readme.md
-//  0.1.9   2021-05-26  add oneWire.reset() in begin()
-//  0.1.10  2021-06-14  add retries parameter to begin()
-//  0.1.11  2021-10-03  add dependency + fix build-CI
-//  0.1.12  2021-12-17  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "DS18B20.h"
 
 
-// OneWire commands
+//  OneWire commands
 #define STARTCONVO          0x44
 #define READSCRATCH         0xBE
 #define WRITESCRATCH        0x4E
 
 
-// Scratchpad locations
+//  Scratchpad locations
 #define TEMP_LSB            0
 #define TEMP_MSB            1
 #define HIGH_ALARM_TEMP     2
@@ -43,11 +30,11 @@
 #define SCRATCHPAD_CRC      8
 
 
-// Device resolution
-#define TEMP_9_BIT          0x1F    //  9 bit
-#define TEMP_10_BIT         0x3F    // 10 bit
-#define TEMP_11_BIT         0x5F    // 11 bit
-#define TEMP_12_BIT         0x7F    // 12 bit
+//  Device resolution
+#define TEMP_9_BIT          0x1F    //   9 bit
+#define TEMP_10_BIT         0x3F    //  10 bit
+#define TEMP_11_BIT         0x5F    //  11 bit
+#define TEMP_12_BIT         0x7F    //  12 bit
 
 
 DS18B20::DS18B20(OneWire* ow)
@@ -135,7 +122,7 @@ void DS18B20::setResolution(uint8_t resolution)
   _oneWire->reset();
   _oneWire->select(_deviceAddress);
   _oneWire->write(WRITESCRATCH);
-  // two dummy values for LOW & HIGH ALARM
+  //  two dummy values for LOW & HIGH ALARM
   _oneWire->write(0);
   _oneWire->write(100);
   switch (resolution)

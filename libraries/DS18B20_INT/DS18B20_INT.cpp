@@ -1,34 +1,25 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 //          https://github.com/RobTillaart/DS18B20_RT
 //
-//  HISTORY:
-//  0.1.0   2017-07-25  initial version
-//  0.1.1   2019-
-//  0.1.2   2020-08-05  refactor / sync with DS18B20
-//  0.1.3   2020-12-20  add Arduino-CI + unit test
-//  0.1.4   2021-05-26  add OneWire.reset() to begin()
-//  0.1.5   2021-06-16  add retries parameter to begin()
-//  0.1.6   2021-10-03  add dependency + fix build-CI
-//  0.1.7   2021-12-17  update library.json, license, minor edits
-//  0.2.0   2022-06-23  fix #10 getTempCentiC() (thanks negroKiordi)
-//                      fix reading sensor
+// HISTORY: see changelog.md
 
 
 #include "DS18B20_INT.h"
 
-// OneWire commands
+
+//  OneWire commands
 #define STARTCONVO              0x44
 #define READSCRATCH             0xBE
 #define WRITESCRATCH            0x4E
 
 
-// Device resolution
+//  Device resolution
 #define TEMP_9_BIT              0x1F    //  9 bit
 #define TEMP_10_BIT             0x3F    // 10 bit
 #define TEMP_11_BIT             0x5F    // 11 bit
@@ -61,10 +52,10 @@ bool DS18B20_INT::begin(uint8_t retries)
     _oneWire->reset();
     _oneWire->select(_deviceAddress);
     _oneWire->write(WRITESCRATCH);
-    // two dummy values for LOW & HIGH ALARM
+    //  two dummy values for LOW & HIGH ALARM
     _oneWire->write(0);
     _oneWire->write(100);
-    _oneWire->write(_resolution);     // lowest as we do only integer math.
+    _oneWire->write(_resolution);     //  lowest as we do only integer math.
     _oneWire->reset();
   }
   return _addressFound;

@@ -33,7 +33,7 @@ This DS18B20_INT library supports only the DS18B20, only one sensor per pin, no 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-- **DS18B20_INT(OneWire *)** constructor needs a reference to OneWire object.
+- **DS18B20_INT(OneWire \*)** constructor needs a reference to OneWire object.
 - **bool begin(uint8_t retries = 3)** resets oneWire and set resolution to 9 bit.  
 returns true if all is OK. there will be a number of retries to connect, default 3. 
 - **void requestTemperatures()** trigger temperature conversion.

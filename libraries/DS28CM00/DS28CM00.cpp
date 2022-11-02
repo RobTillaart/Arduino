@@ -2,20 +2,14 @@
 //    FILE: DS28CM00.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS28CM00 unique identification chip.
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //     URL: https://github.com/RobTillaart/DS28CM00
 //
-//  HISTORY:
-//  0.1.0   2017-07-15  initial version
-//  0.2.0   2020-04-11  refactor, #pragma once, ESP support, multiple Wire, ESP support (start)
-//  0.2.1   2020-06-07  fix library.json
-//  0.2.2   2020-12-20  add Arduino-CI + unit test
-//  0.2.3   2021-10-26  update build-CI + default Wire in constructor
-//  0.2.4   2021-12-17  update library.json, license, minor edits
-//                      added isConnected()
+// HISTORY: see changelog.md
 
 
 #include "DS28CM00.h"
+
 
 #define DS28CM00_DEVICEADDRESS      0x50
 #define DS28CM00_UIDREGISTER        0x00

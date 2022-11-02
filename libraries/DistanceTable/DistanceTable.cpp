@@ -1,32 +1,11 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
-
-//  HISTORY
-//  0.1.00  initial version
-//  0.1.01  refactor
-//  0.1.2   fix overflow;  add some error detection; revert float to float to memory
-//  0.1.3   2017-07-27  Fix issue #33
-//  0.1.4   2019-01-10  add size()
-//  0.1.5   2020-06-07  fix library.json, minor edits
-//  0.1.6   2020-12-20  Arduino-CI + unit test
-//  0.2.0   2021-01-19  refactor
-//                      properly named functions,
-//                      add setAll(), minimum(), maximum() and count()
-//  0.2.1   2021-10-26  update build-CI, update readme.md
-//                      default value in constructor
-//  0.2.2   2021-12-17  update license, readme, minor edits
-//  0.3.0   2022-01-06  add invert flag, add unit tests
-//                      add countAbove(), countBelow()
-//                      fix allocation + # elements
-//  0.3.1   2022-07-22  fix set() get() test order
-//                      set() returns bool on success.
-//                      adds sum() and average()
-//                      add Pascal Triangle example.
-
+//
+//  HISTORY: see changelog.md
 
 
 #include "DistanceTable.h"

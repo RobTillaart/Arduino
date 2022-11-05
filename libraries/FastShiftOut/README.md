@@ -10,7 +10,8 @@
 
 Arduino library for (AVR) optimized shiftOut - e.g. 74HC595.
 
-A library for FastShiftIn also exist - https://github.com/RobTillaart/FastShiftIn
+- library for FastShiftIn - https://github.com/RobTillaart/FastShiftIn
+- library for FastShiftInOut - https://github.com/RobTillaart/FastShiftInOut
 
 
 ## Description
@@ -30,6 +31,15 @@ The performance of **write()** is substantially faster than the default Arduino
 **shiftOut()**, but not as fast as HW SPI. 
 Exact how big the performance gain is can be seen with the example sketch.
 It does a comparison and shows how the class is to be used.
+
+test 0.2.4  Arduino UNO
+
+|  function             | time (us) |
+|:----------------------|----------:|
+|  write()              |    21.66  |
+|  writeLSBFIRST()      |    22.94  |
+|  writeMSBFIRST()      |    20.30  |
+|  reference shiftOut() |    89.74  |
 
 
 ## Interface

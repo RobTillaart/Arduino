@@ -1,10 +1,12 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: ShiftOut that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
+//
+// HISTORY: see changelog.md
 
 
 #include "FastShiftOut.h"
@@ -15,26 +17,26 @@ FastShiftOut::FastShiftOut(const uint8_t datapin, const uint8_t clockpin, const 
   _bitorder = bitOrder;
   pinMode(datapin, OUTPUT);
   pinMode(clockpin, OUTPUT);
-  // https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftout/
-  digitalWrite(clockpin, LOW);  // assume rising pulses from clock 
+  //  https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftout/
+  digitalWrite(clockpin, LOW);  // assume rising pulses from clock
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
-  // uint8_t _datatimer  = digitalPinToTimer(datapin);
-  // if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer); TODO
+  //  uint8_t _datatimer  = digitalPinToTimer(datapin);
+  //  if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer); TODO
   uint8_t _dataport   = digitalPinToPort(datapin);
   _dataout = portOutputRegister(_dataport);
   _databit = digitalPinToBitMask(datapin);
 
-  // uint8_t _clocktimer = digitalPinToTimer(clockpin);
-  // if (_clocktimer != NOT_ON_TIMER) turnOffPWM(_clocktimer);
+  //  uint8_t _clocktimer = digitalPinToTimer(clockpin);
+  //  if (_clocktimer != NOT_ON_TIMER) turnOffPWM(_clocktimer);
   uint8_t _clockport  = digitalPinToPort(clockpin);
   _clockout = portOutputRegister(_clockport);
   _clockbit = digitalPinToBitMask(clockpin);
 
-#else   // reference implementation
+#else   //  reference implementation
 
-  // reuse these vars as pin to save some space
+  //  reuse these variables as pin to save some space
   _databit = datapin;
   _clockbit = clockpin;
 
@@ -100,7 +102,7 @@ size_t FastShiftOut::writeMSBFIRST(const uint8_t data)
     n >>= 1;
   }
   return 1;
-#else  // reference implementation  // note this has no cli()
+#else  //  reference implementation  // note this has no cli()
   shiftOut(_databit, _clockbit, MSBFIRST, data);
   return 1;
 #endif
@@ -111,7 +113,7 @@ bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
 {
   if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
   {
-    _bitorder = bitOrder; 
+    _bitorder = bitOrder;
     return true;
   };
   return false;

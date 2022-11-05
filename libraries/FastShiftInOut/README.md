@@ -19,7 +19,7 @@ Arduino library for (AVR) optimized shiftInOut (simultaneously).
 FastShiftInOut is a class that can send and receive bytes simultaneously.
 In that sense it mimics a SPI bus.
 
-VERY experimental.
+Experimental.
 
 
 ## Performance
@@ -29,7 +29,7 @@ performance of **write()**
 |  version  |  UNO (us)  |  ESP32 (us)  |
 |:---------:|:----------:|:------------:|
 |   0.1.0   |   181.08   |     4.32     |
-|   0.1.1   |     -      |     4.32     |
+|   0.1.1   |    26.84   |     4.32     |
 
 
 ## Interface

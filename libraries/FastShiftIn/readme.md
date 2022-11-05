@@ -10,7 +10,8 @@
 
 Arduino library for **AVR** optimized shiftIn - e.g. for 74HC165.
 
-A library for FastShiftOut also exist - https://github.com/RobTillaart/FastShiftOut
+- library for FastShiftOut - https://github.com/RobTillaart/FastShiftOut
+- library for FastShiftInOut - https://github.com/RobTillaart/FastShiftInOut
 
 
 ## Description
@@ -30,6 +31,15 @@ The performance of **read()** is substantially faster than the default Arduino
 **shiftIn()**, but not as fast as HW SPI. 
 Exact how big the performance gain is can be seen with the example sketch.
 It does a comparison and shows how the class is to be used.
+
+test 0.2.3  Arduino UNO
+
+|  function            | time (us) |
+|:---------------------|----------:|
+|  read()              |    19.30  |
+|  readLSBFIRST()      |    19.04  |
+|  readMSBFIRST()      |    19.04  |
+|  reference shiftIn() |   107.82  |
 
 
 ## Interface

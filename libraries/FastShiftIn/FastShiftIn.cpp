@@ -1,10 +1,12 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
+//
+// HISTORY: see changelog.md
 
 
 #include "FastShiftIn.h"
@@ -16,27 +18,27 @@ FastShiftIn::FastShiftIn(const uint8_t datapin, const uint8_t clockpin, const ui
   _value    = 0;
   pinMode(datapin, INPUT);
   pinMode(clockpin, OUTPUT);
-  // https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/
+  //  https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/
   digitalWrite(clockpin, LOW);  // assume rising pulses from clock
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
-  // uint8_t _datatimer  = digitalPinToTimer(datapin);
-  // if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer); TODO
+  //  uint8_t _datatimer  = digitalPinToTimer(datapin);
+  //  if (_datatimer != NOT_ON_TIMER) turnOffPWM(_datatimer); TODO
   uint8_t _dataport   = digitalPinToPort(datapin);
   _datain = portOutputRegister(_dataport);
   _databit = digitalPinToBitMask(datapin);
 
-  // uint8_t _clocktimer = digitalPinToTimer(clockpin);
-  // if (_clocktimer != NOT_ON_TIMER) turnOffPWM(_clocktimer);
+  //  uint8_t _clocktimer = digitalPinToTimer(clockpin);
+  //  if (_clocktimer != NOT_ON_TIMER) turnOffPWM(_clocktimer);
   uint8_t _clockport  = digitalPinToPort(clockpin);
   _clockin = portOutputRegister(_clockport);
   _clockbit = digitalPinToBitMask(clockpin);
 
 #else
 
-  // reference implementation
-  // reuse these local vars as pin to save some space
+  //  reference implementation
+  //  reuse these local variables as pin to save some space
   _databit = datapin;
   _clockbit = clockpin;
 
@@ -113,7 +115,7 @@ int FastShiftIn::readMSBFIRST()
   return _value;
 
 #else
-  // reference implementation
+  //  reference implementation
   _value = shiftIn(_databit, _clockbit, MSBFIRST);
   return _value;
 #endif

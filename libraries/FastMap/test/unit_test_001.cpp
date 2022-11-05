@@ -39,6 +39,23 @@ unittest_teardown()
 }
 
 
+unittest(test_init)
+{
+  FastMap fm;
+  FastMapDouble fmd;
+
+  assertTrue(fm.init(-2, 12, 17, 42));
+  assertFalse(fm.init(12, 12, 17, 42));
+  assertFalse(fm.init(-2, 12, 17, 17));
+  assertFalse(fm.init(12, 12, 17, 17));
+
+  assertTrue(fmd.init(-2, 12, 17, 42));
+  assertFalse(fmd.init(12, 12, 17, 42));
+  assertFalse(fmd.init(-2, 12, 17, 17));
+  assertFalse(fmd.init(12, 12, 17, 17));
+}
+
+
 unittest(test_map)
 {
   FastMap fm;

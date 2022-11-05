@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftIn.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.3.0
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
@@ -11,35 +11,45 @@
 #include "Arduino.h"
 
 
-#define FASTSHIFTIN_LIB_VERSION         (F("0.2.4"))
+#define FASTSHIFTIN_LIB_VERSION         (F("0.3.0"))
 
 
 class FastShiftIn
 {
 public:
   //  bitOrder = { LSBFIRST, MSBFIRST };
-  FastShiftIn(const uint8_t datapin, const uint8_t clockpin, const uint8_t bitOrder = LSBFIRST);
+  FastShiftIn(uint8_t dataIn, uint8_t clockPin, uint8_t bitOrder = LSBFIRST);
 
   int     read(void);
-  int     lastRead(void)    { return _value; };
+  int     lastRead(void);
 
-  bool    setBitOrder(const uint8_t bitOrder);
-  uint8_t getBitOrder(void) { return _bitorder; };
+  bool    setBitOrder(uint8_t bitOrder);
+  uint8_t getBitOrder(void);
 
   //  overrule bitOrder (most optimized).
   int     readLSBFIRST(void);
   int     readMSBFIRST(void);
 
 private:
-  uint8_t _bitorder;
+  uint8_t _bitOrder;
   int     _value;
+  
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
-  uint8_t _databit;
-  volatile uint8_t *_datain;
+  volatile uint8_t *_dataInRegister;
+  uint8_t _dataInBit;
 
-  uint8_t _clockbit;
-  volatile uint8_t *_clockin;
+  volatile uint8_t *_clockRegister;
+  uint8_t _clockBit;
+
+#else
+
+  uint8_t _dataPinIn;
+  uint8_t _clockPin;
+
+#endif
 };
 
 
 // -- END OF FILE --
+

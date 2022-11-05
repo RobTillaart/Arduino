@@ -1,0 +1,41 @@
+IDE:      1.8.19
+Board:    UNO
+FASTSHIFTINOUT_LIB_VERSION: 0.1.0
+
+Performance - time in us
+        write: 182.08
+        write: 363.16
+        Delta: 181.08
+
+writeLSBFIRST: 180.82
+writeLSBFIRST: 361.51
+        Delta: 180.69
+
+writeMSBFIRST: 178.25
+writeMSBFIRST: 356.36
+        Delta: 178.12
+
+
+done ...
+
+=============================
+
+IDE:      1.8.19
+Board:    ESP32
+FASTSHIFTINOUT_LIB_VERSION: 0.1.0
+
+Performance - time in us
+        write: 4.37
+        write: 8.69
+        Delta: 4.32
+
+writeLSBFIRST: 4.27
+writeLSBFIRST: 8.52
+        Delta: 4.26
+
+writeMSBFIRST: 4.28
+writeMSBFIRST: 8.53
+        Delta: 4.24
+
+
+done ...

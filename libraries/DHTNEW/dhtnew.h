@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.16
+// VERSION: 0.4.17
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 
@@ -19,7 +19,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.16"))
+#define DHTNEW_LIB_VERSION                (F("0.4.17"))
 
 
 #define DHTLIB_OK                         0
@@ -40,7 +40,7 @@
 
 //  allows to overrule DHTLIB_INVALID_VALUE e.g. to prevent spike in graphs.
 #ifndef DHTLIB_INVALID_VALUE
-#define DHTLIB_INVALID_VALUE           -999
+#define DHTLIB_INVALID_VALUE             -999
 #endif
 
 
@@ -106,10 +106,10 @@ private:
   uint8_t  _dataPin       = 0;
   uint32_t _wakeupDelay   = 0;
   uint8_t  _type          = 0;
-  float    _humOffset     = 0.0;
-  float    _tempOffset    = 0.0;
-  float    _humidity      = 0.0;
-  float    _temperature   = 0.0;
+  float    _humOffset     = (float)0.0;
+  float    _tempOffset    = (float)0.0;
+  float    _humidity      = (float)0.0;
+  float    _temperature   = (float)0.0;
   uint32_t _lastRead      = 0;
   bool     _disableIRQ    = true;
   bool     _waitForRead   = false;

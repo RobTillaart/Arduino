@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.16
+// VERSION: 0.4.17
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -47,10 +47,10 @@ void DHTNEW::reset()
 
   _wakeupDelay   = 0;
   _type          = 0;
-  _humOffset     = 0.0;
-  _tempOffset    = 0.0;
-  _humidity      = 0.0;
-  _temperature   = 0.0;
+  _humOffset     = (float)0.0;
+  _tempOffset    = (float)0.0;
+  _humidity      = (float)0.0;
+  _temperature   = (float)0.0;
   _lastRead      = 0;
   _disableIRQ    = true;
   _waitForRead   = false;
@@ -191,7 +191,7 @@ int DHTNEW::_read()
     int16_t t = ((_bits[2] & 0x7F) * 256 + _bits[3]);
     if (t == 0)
     {
-      _temperature = 0.0;     // prevent -0.0;
+      _temperature = (float)0.0;     // prevent -0.0;
     }
     else
     {
@@ -240,13 +240,13 @@ int DHTNEW::_read()
   }
 #endif
 
-  if (_humOffset != 0.0)
+  if (_humOffset != (float)0.0)
   {
     _humidity += _humOffset;
     if (_humidity < 0) _humidity = 0;
     if (_humidity > 100) _humidity = 100;
   }
-  if (_tempOffset != 0.0)
+  if (_tempOffset != (float)0.0)
   {
     _temperature += _tempOffset;
   }

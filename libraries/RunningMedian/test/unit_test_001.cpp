@@ -37,14 +37,22 @@
 #include "RunningMedian.h"
 
 
-
 unittest_setup()
 {
   fprintf(stderr, "RUNNING_MEDIAN_VERSION: %s\n", (char *) RUNNING_MEDIAN_VERSION);
 }
 
+
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(true, RUNNING_MEDIAN_USE_MALLOC);
+  assertEqual(255, MEDIAN_MAX_SIZE);
+  assertEqual(  3, MEDIAN_MIN_SIZE);
 }
 
 
@@ -54,7 +62,7 @@ unittest(test_constructor)
   assertEqual(5, samples.getSize());
   assertEqual(0, samples.getCount());
 
-  // TODO default values?
+  //  TODO default values?
 }
 
 
@@ -75,7 +83,7 @@ unittest(test_basic_add)
   assertEqualFloat(00, samples.getLowest(), 0.0001);
   assertEqualFloat(40, samples.getHighest(), 0.0001);
 
-  samples.add(100);  // 6th element
+  samples.add(100);  //  6th element
   assertEqual(5, samples.getSize());
   assertEqual(5, samples.getCount());
 

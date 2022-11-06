@@ -15,13 +15,17 @@ getAverage	KEYWORD2
 
 getHighest	KEYWORD2
 getLowest	KEYWORD2
-getSize	KEYWORD2
-getCount	KEYWORD2
-isFull	KEYWORD2
 
 getElement	KEYWORD2
 getSortedElement	KEYWORD2
 predict	KEYWORD2
+
+getSize	KEYWORD2
+getCount	KEYWORD2
+isFull	KEYWORD2
+
+setSearchMode	KEYWORD2
+getSearchMode	KEYWORD2
 
 
 # Constants (LITERAL1)

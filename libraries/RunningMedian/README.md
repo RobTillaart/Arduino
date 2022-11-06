@@ -46,14 +46,15 @@ is performance wise O(100x) faster in sorting than 255 elements.
 ### Note: Configurable Options
 
 There are several options that can be configured via defines at compile time, those being:
-- RUNNING_MEDIAN_USE_MALLOC: bool
-    - true (default): Dynamic memory allocation is used for the buffer.
-    - false: Static buffers of size MEDIAN_MAX_SIZE are used.
-- MEDIAN_MIN_SIZE: uint
-    - Dynamic / Static: The buffer stores at least this many items.
-- MEDIAN_MAX_SIZE: uint
-    - Dynamic: Not used.
-    - Static: The buffer stores at most this many items.
+- **RUNNING_MEDIAN_USE_MALLOC**: bool
+  - true (default): Dynamic memory allocation is used for the buffer.
+  - false: Static buffers of size MEDIAN_MAX_SIZE are used.
+- **MEDIAN_MIN_SIZE**: uint8_t
+  - Dynamic / Static: The buffer stores at least this many items.
+  - should be minimal 3.
+- **MEDIAN_MAX_SIZE**: uint8_t
+  - Dynamic: Not used.
+  - Static: The buffer stores at most this many items.
 
 
 ## Interface
@@ -62,9 +63,9 @@ There are several options that can be configured via defines at compile time, th
 ### Constructor
 
 - **RunningMedian(const uint8_t size)** Constructor, dynamically allocates memory.
-- **~RunningMedian()** Destructor
-- **uint8_t getSize()** returns size of internal array
-- **uint8_t getCount()** returns current used elements, getCount() <= getSize()
+- **~RunningMedian()** Destructor.
+- **uint8_t getSize()** returns size of internal array.
+- **uint8_t getCount()** returns current used elements, getCount() <= getSize().
 - **bool isFull()** returns true if the internal buffer is 100% filled.
 
 
@@ -72,9 +73,9 @@ There are several options that can be configured via defines at compile time, th
 
 - **clear()** resets internal buffer and variables, effectively empty the buffer.
 - **add(const float value)** adds a new value to internal buffer, 
-optionally replacing the oldest element if the buffer is full
-- **float getMedian()** returns the median == middle element
-- **float getAverage()** returns average of **all** the values in the internal buffer
+optionally replacing the oldest element if the buffer is full.
+- **float getMedian()** returns the median == middle element.
+- **float getAverage()** returns average of **all** the values in the internal buffer.
 - **float getAverage(uint8_t nMedian)** returns average of **the middle n** values. 
 This effectively removes noise from the outliers in the samples.
 - **float getHighest()** get the largest values in the buffer.
@@ -86,19 +87,41 @@ This value is often interpolated.
 ### Less used functions
 
 - **float getElement(const uint8_t n)** returns the n'th element from the values in time order.
-- **float getSortedElement(const uint8_t n)** returns the n'th element from the values in size order (sorted ascending)
+- **float getSortedElement(const uint8_t n)** returns the n'th element from the values in size order (sorted ascending).
 - **float predict(const uint8_t n)** predict the maximum change of median after n additions, 
-n must be smaller than **getSize()/2**
+n must be smaller than **getSize()/2**.
+
+
+### SearchMode optimization
+
+Since 0.3.7 the internal sort has been optimized.
+It is now possible to select between LINEAR (=0) and BINARY (=1) insertion sort.
+Pre-0.3.7 used linear insertion sort, and the new linear version is slightly optimized.
+For larger internal arrays the performance gain of BINARY mode is substantial.
+
+- **void setSearchMode(uint8_t searchMode = 0)** 0 = linear, 1 = binary - see table below.
+Other values will set the searchMode to linear.
+- **uint8_t getSearchMode()** returns the set mode
+
+|  searchMode  |  value  | notes  |
+|:------------:|:-------:|:-------|
+|    LINEAR    |    0    |  fastest for smaller internal buffers (default)
+|    BINARY    |    1    |  faster for larger internal buffers
+
+Depends on the board / clock used where the methods are equally fast.
+
+Give it a try, and let me know your.
 
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Future
 
-- improve documentation
-- check for optimizations
-- separate releaseNotes.md
-- 
+- improve documentation.
+- check for optimizations.
+  - get the median without (full) sorting. QuickSelect()
+- move all code to .cpp file
+

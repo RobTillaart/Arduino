@@ -1,0 +1,12 @@
+Running Median Version: 0.3.6
+Dynamic version using malloc() enabled
+Allocated size = 25
+
+50 x add: 568
+     avg: 11.36
+ 1 x get: 1304       == sorting
+  median: 304.00
+ 1 x get: 8       == no sorting
+  median: 304.00
+
+done..

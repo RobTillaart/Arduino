@@ -42,13 +42,28 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0x00, HX711_AVERAGE_MODE);
+  assertEqual(0x01, HX711_MEDIAN_MODE);
+  assertEqual(0x02, HX711_MEDAVG_MODE);
+  assertEqual(0x03, HX711_RUNAVG_MODE);
+  assertEqual(0x04, HX711_RAW_MODE);
+
+  assertEqual(128,  HX711_CHANNEL_A_GAIN_128);
+  assertEqual(64,   HX711_CHANNEL_A_GAIN_64);
+  assertEqual(32,   HX711_CHANNEL_B_GAIN_32);
+}
+
+
 unittest(test_constructor)
 {
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
-  assertTrue(scale.is_ready()); // pins are default LOW apparently.
-  // default not read
+  //  pins are default LOW apparently.
+  assertTrue(scale.is_ready()); 
+  //  default not read
   assertEqual(0, scale.last_read());
 }
 
@@ -58,20 +73,34 @@ unittest(test_gain)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
-  // default
+  //  rewrite with constants?
+  //  HX711_CHANNEL_A_GAIN_128
+  //  HX711_CHANNEL_A_GAIN_64
+  //  HX711_CHANNEL_B_GAIN_32
+
+  //  default
   assertEqual(128, scale.get_gain());
 
-  scale.set_gain(32);
+  assertTrue(scale.set_gain(32));
   assertEqual(32, scale.get_gain());
 
-  scale.set_gain();
+  assertTrue(scale.set_gain());
   assertEqual(128, scale.get_gain());
 
-  scale.set_gain(64);
+  assertTrue(scale.set_gain(64));
   assertEqual(64, scale.get_gain());
 
-  scale.set_gain(128);
+  assertTrue(scale.set_gain(128));
   assertEqual(128, scale.get_gain());
+
+  //  failing invalid parameter
+  assertFalse(scale.set_gain(100));
+  assertEqual(128, scale.get_gain());
+  
+  //  failing invalid parameter
+  //  0x40 == 64 so it will fail to fail.
+  //  assertFalse(scale.set_gain(0xFF40));  
+  //  assertEqual(128, scale.get_gain());
 }
 
 

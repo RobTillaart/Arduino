@@ -2,20 +2,20 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
 // HISTORY: see CHANGELOG.md
 //
-// NOTES
-// Superset of interface of HX711 class of Bogde
-// float instead of long as float has 23 bits mantissa.
+//  NOTES
+//  Superset of interface of HX711 class of Bogde
+//  float instead of long as float has 23 bits mantissa.
 
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.3"))
+#define HX711_LIB_VERSION               (F("0.3.4"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -28,6 +28,12 @@ const uint8_t HX711_MEDAVG_MODE  = 0x02;
 const uint8_t HX711_RUNAVG_MODE  = 0x03;
 //  causes read() to be called only once!
 const uint8_t HX711_RAW_MODE     = 0x04;
+
+
+//  supported values for set_gain()
+const uint8_t HX711_CHANNEL_A_GAIN_128 = 128;  // default
+const uint8_t HX711_CHANNEL_A_GAIN_64 = 64;
+const uint8_t HX711_CHANNEL_B_GAIN_32 = 32;
 
 
 class HX711
@@ -99,12 +105,25 @@ public:
 
 
   //  CORE "CONSTANTS" -> read datasheet
-  //  GAIN values: 128, 64 32  [only 128 tested & verified]
-  void     set_gain(uint8_t gain = 128) { _gain = gain; };
-  uint8_t  get_gain()                   { return _gain; };
+  //  CHANNEL      GAIN   notes
+  //  -------------------------------------
+  //     A         128    default, tested
+  //     A          64
+  //     B          32
+
+  //  returns true  ==>  parameter gain is valid
+  //  returns false ==>  parameter gain is invalid ==> no change.
+  //  note that changing gain/channel takes up to 400 ms (page 3)
+  //  if forced == true, the gain will be forced set 
+  //  even it is already the right value
+  bool     set_gain(uint8_t gain = HX711_CHANNEL_A_GAIN_128, bool forced = false);
+  uint8_t  get_gain();
+
+
   //  SCALE > 0
   void     set_scale(float scale = 1.0) { _scale = 1.0 / scale; };
   float    get_scale()                  { return 1.0 / _scale; };
+
   //  OFFSET > 0
   void     set_offset(long offset = 0)  { _offset = offset; };
   long     get_offset()                 { return _offset; };
@@ -151,4 +170,6 @@ private:
   uint8_t  _shiftIn();
 };
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

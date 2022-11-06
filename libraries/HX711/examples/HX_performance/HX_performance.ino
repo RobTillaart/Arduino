@@ -70,7 +70,7 @@ void setup()
   Serial.print("  VAL: ");
   Serial.println(f, 2);
 
-  Serial.println("\nPRECISSION");
+  Serial.println("\nPRECISION");
   f = 0;
   for (int i = 0; i < 100; i++)
   {
@@ -104,4 +104,3 @@ void measure(uint8_t cnt)
 
 
 // -- END OF FILE --
-

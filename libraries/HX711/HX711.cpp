@@ -1,10 +1,11 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
+// HISTORY: see CHANGELOG.md
 
 
 #include "HX711.h"
@@ -34,9 +35,11 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 
 void HX711::reset()
 {
+  power_down();
+  power_up();
   _offset   = 0;
   _scale    = 1;
-  _gain     = 128;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastRead = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
@@ -76,13 +79,24 @@ float HX711::read()
   v.data[0] = _shiftIn();
 
   //  TABLE 3 page 4 datasheet
-  //  only default verified, so other values not supported yet
-  uint8_t m = 1;   //  default _gain == 128
-  if (_gain == 64) m = 3;
-  if (_gain == 32) m = 2;
+  //
+  //  CLOCK      CHANNEL      GAIN      m
+  //  ------------------------------------
+  //   25           A         128       1    //  default
+  //   26           B          32       2
+  //   27           A          64       3
+  //
+  //  only default 128 verified,
+  //  selection goes through the set_gain(gain)
+  //
+  uint8_t m = 1;
+  if      (_gain == HX711_CHANNEL_A_GAIN_128) m = 1;
+  else if (_gain == HX711_CHANNEL_A_GAIN_64)  m = 3;
+  else if (_gain == HX711_CHANNEL_B_GAIN_32)  m = 2;
 
   while (m > 0)
   {
+    //  delayMicroSeconds(1) needed for fast processors?
     digitalWrite(_clockPin, HIGH);
     digitalWrite(_clockPin, LOW);
     m--;
@@ -96,6 +110,32 @@ float HX711::read()
 
   _lastRead = millis();
   return 1.0 * v.value;
+}
+
+
+//  note: if parameter gain == 0xFF40 some compilers
+//  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
+//  solution: use uint32_t or larger parameters everywhere.
+//  note that changing gain/channel may take up to 400 ms (page 3)
+bool HX711::set_gain(uint8_t gain, bool forced)
+{
+  if ( (not forced) && (_gain == gain)) return true;
+  switch(gain)
+  {
+    case HX711_CHANNEL_B_GAIN_32:
+    case HX711_CHANNEL_A_GAIN_64:
+    case HX711_CHANNEL_A_GAIN_128:
+      _gain = gain;
+      read();     //  next user read() is from right channel / gain
+      return true;
+  }
+  return false;   //  unchanged, but incorrect value.
+}
+
+
+uint8_t HX711::get_gain()
+{
+  return _gain;
 }
 
 
@@ -268,8 +308,9 @@ float HX711::get_units(uint8_t times)
 
 void HX711::power_down()
 {
-  digitalWrite(_clockPin, LOW);
+  // at least 60 us HIGH
   digitalWrite(_clockPin, HIGH);
+  delayMicroseconds(64);
 }
 
 

@@ -22,7 +22,7 @@ done ...
 
 IDE:      1.8.19
 Board:    ESP32
-FASTSHIFTINOUT_LIB_VERSION: 0.1.0
+FASTSHIFTINOUT_LIB_VERSION: 0.1.1
 
 Performance - time in us
         write: 4.37

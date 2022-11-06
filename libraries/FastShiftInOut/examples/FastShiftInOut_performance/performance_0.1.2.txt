@@ -1,0 +1,22 @@
+IDE:      1.8.19
+Board:    UNO
+FASTSHIFTINOUT_LIB_VERSION: 0.1.2
+
+Performance - time in us
+        write: 27.86
+        write: 54.69
+        Delta: 26.84
+
+writeLSBFIRST: 26.60
+writeLSBFIRST: 53.06
+        Delta: 26.46
+
+writeMSBFIRST: 26.60
+writeMSBFIRST: 53.06
+        Delta: 26.46
+
+
+done ...
+
+
+

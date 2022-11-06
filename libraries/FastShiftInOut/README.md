@@ -8,10 +8,13 @@
 
 # FastShiftInOut
 
-Arduino library for (AVR) optimized shiftInOut (simultaneously).
+Arduino library for **AVR** optimized shiftInOut (simultaneously).
 
-- library for FastShiftIn only - https://github.com/RobTillaart/FastShiftIn
-- library for FastShiftOut only - https://github.com/RobTillaart/FastShiftOut
+Related libraries
+- https://github.com/RobTillaart/FastShiftIn
+- https://github.com/RobTillaart/FastShiftOut
+- https://github.com/RobTillaart/ShiftInSlow
+- https://github.com/RobTillaart/ShiftOutSlow
 
 
 ## Description

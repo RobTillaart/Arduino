@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2022-11-05
+- major refactor
+
+
 ## [0.2.5] - 2022-11-05
 - add changelog.md
 - add rp2040 to build-CI

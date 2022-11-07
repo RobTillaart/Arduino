@@ -2,7 +2,7 @@
 //
 //    FILE: functionGenerator.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define FUNCTIONGENERATOR_LIB_VERSION           (F("0.2.3"))
+#define FUNCTIONGENERATOR_LIB_VERSION           (F("0.2.4"))
 
 
 class funcgen

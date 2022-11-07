@@ -102,16 +102,23 @@ See examples.
 
 ## Future ideas
 
+#### must
 - improve documentation
   - update performance figures.
+
+#### should
 - test other platforms
+- add parameter for start values for F in static functions
+  - would allow to use them in a stream too.
+
+#### could
 - others e.g. Fletcher24?
 - generic FletcherN(). for N = 1..32
 - add Print interface
   - or Printable() ?
   - Stream ??
 - add getters for S1 and S2 in the classes
-- add parameter for start values for F in static functions
-  - would allow to use them in a stream too.
+
+#### wont
 
 

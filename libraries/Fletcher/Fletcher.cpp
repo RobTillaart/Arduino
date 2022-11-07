@@ -1,30 +1,18 @@
 //
 //    FILE: Fletcher.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2022-01-25
 // PURPOSE: Arduino Library for calculating Fletcher's checksum
 //     URL: https://github.com/RobTillaart/Fletcher
 //          https://en.wikipedia.org/wiki/Fletcher%27s_checksum
 //
-//  HISTORY
-//  0.1.0   2022-01-25   initial version, straightforward implementation
-//  0.1.1   2022-01-26   optimize % math  variation based upon to Anastase Nakassis (wikipedia)
-//  0.1.2   2022-01-26   add class implementation e.g. for streaming
-//  0.1.3   2022-04-15   fix #4 split .h in .h and .cpp
-//  0.1.4   2022-09-08   performance optimization (Kudos to Daniel Mohr).
-//                       affects SAMD, ESP32 and ESP8266
-//                       fix FLETCHER_LIB_VERSION
-//  0.1.5   2022-09-08   roll back the optimizations in the standalone functions
-//                       conflict with loop optimization already in.
-//                       update keywords.txt
-//  0.1.6   2022-09-10   stabilize optimizations
+// HISTORY: see changelog.md
 
 
 #include "Fletcher.h"
 
 
-//
 //  straightforward implementation.
 //  max length buffer 65534.
 //  Wikipedia shows optimizations.

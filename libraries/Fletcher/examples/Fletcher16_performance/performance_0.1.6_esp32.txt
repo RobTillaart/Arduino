@@ -1,0 +1,11 @@
+
+Tested on Arduino UNO
+IDE 1.18.19
+LIB VERSION 0.1.6
+
+Fletcher16_performance
+randomtime: 6947
+     total: 8702
+ 1e4 x add: 1755
+  checksum: 43990
+

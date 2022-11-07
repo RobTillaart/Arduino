@@ -1,19 +1,11 @@
 //
 //    FILE: float16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.7
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
 //
-//  HISTORY:
-//  0.1.00  2015-03-10  initial version
-//  0.1.01  2015-03-12  make base conversion separate functions
-//  0.1.02  2015-03-14  getting rounding right
-//  0.1.03
-//  0.1.4   2021-11-26  setup repo to get it working again.
-//                      still experimental.
-//  0.1.5   2021-12-02  add basic math, optimize compare operators
-//  0.1.6   2021-12-18  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "float16.h"
@@ -27,14 +19,12 @@ float16::float16(double f)
   _value = f32tof16(f);
 }
 
-
 // PRINTING
 size_t float16::printTo(Print& p) const
 {
   double d = this->f16tof32(_value);
   return p.print(d, _decimals);
 };
-
 
 double float16::toDouble() const
 {
@@ -50,7 +40,6 @@ bool float16::operator == (const float16 &f)
 {
     return (_value == f._value);
 }
-
 
 bool float16::operator != (const float16 &f)
 {
@@ -111,24 +100,20 @@ float16 float16::operator + (const float16 &f)
   return float16(this->toDouble() + f.toDouble());
 }
 
-
 float16 float16::operator - (const float16 &f)
 {
   return float16(this->toDouble() - f.toDouble());
 }
-
 
 float16 float16::operator * (const float16 &f)
 {
   return float16(this->toDouble() * f.toDouble());
 }
 
-
 float16 float16::operator / (const float16 &f)
 {
   return float16(this->toDouble() / f.toDouble());
 }
-
 
 float16& float16::operator += (const float16 &f)
 {
@@ -136,20 +121,17 @@ float16& float16::operator += (const float16 &f)
   return *this;
 }
 
-
 float16& float16::operator -= (const float16 &f)
 {
   *this = this->toDouble() - f.toDouble();
   return *this;
 }
 
-
 float16& float16::operator *= (const float16 &f)
 {
   *this = this->toDouble() * f.toDouble();
   return *this;
 }
-
 
 float16& float16::operator /= (const float16 &f)
 {
@@ -169,7 +151,6 @@ int float16::sign()
   if (_value & 0xFFFF) return 1;
   return 0;
 }
-
 
 bool float16::isZero()
 {
@@ -230,7 +211,6 @@ float float16::f16tof32(uint16_t _value) const
     }
     return sgn ? -f : f;
 }
-
 
 uint16_t float16::f32tof16(float f) const
 {

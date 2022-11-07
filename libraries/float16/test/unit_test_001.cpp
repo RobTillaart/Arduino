@@ -88,8 +88,6 @@ unittest(test_constructor)
 
 unittest(test_compare_equal)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   float16 a(1);
   float16 b(1);
   float16 c(2);
@@ -110,8 +108,6 @@ unittest(test_compare_equal)
 
 unittest(test_compare_1nequal)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   float16 a(1);
   float16 b(1);
   float16 c(2);
@@ -138,8 +134,6 @@ unittest(test_compare_1nequal)
 
 unittest(test_negation)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   float16 f16(123.456);
   float16 f17(-f16);
   float16 f18 = -f16;
@@ -151,8 +145,6 @@ unittest(test_negation)
 
 unittest(test_conversion)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   for (int i = 0; i < 20; i++)
   {
     float f = random(60000000) * 0.001;
@@ -164,8 +156,6 @@ unittest(test_conversion)
 
 unittest(test_printable)
 {
-  fprintf(stderr, "FLOAT16_LIB_VERSION: %s\n", (char*) FLOAT16_LIB_VERSION);
-
   float16 f16(123.456);
   // test default value.
   assertEqual(4, f16.getDecimals());

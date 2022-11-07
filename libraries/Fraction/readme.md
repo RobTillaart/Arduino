@@ -42,12 +42,16 @@ The library is reasonably tested, and if problems arise please let me know.
 
 ## Future
 
+#### must
 - improve documentation
-- extend unit tests
-- experiment with bigger nominator/denominator using all of 32767 possibilities ?
+- test test test ...
+
+#### should
 - investigate divide by zero errors
 - investigate better fractionize() - depends on nom/denom size
-- test test test ...
+
+#### could
+- extend unit tests
+- experiment with bigger nominator/denominator using all of 32767 possibilities ?
 - add famous constants as Fraction e.g FRAC_PI = (355, 113) ??
-- 
 

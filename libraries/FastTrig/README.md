@@ -139,7 +139,6 @@ Please, verify the accuracy to see if it meets your requirements.
 
 (added 0.1.5)
 
-
 ESP32 calls -1 ..+1 step 0.001 degree
 
 | function | max abs error | avg abs error | max rel error | avg rel error |
@@ -169,48 +168,9 @@ UNO calls -1 ..+1 step 0.001 degree
 Please, verify the accuracy to see if it meets your requirements.
 
 
-## 0.1.4
+## versions
 
-The library (0.1.4) provides an **itan()** which improved accuracy 
-upon the (0.1.3) version and performance for the ESP32.  
-Performance on AVR (UNO) is still an issue, accuracy is OK.
-
-
-## 0.1.5
-
-In (0.1.4) an error was found in the optimize algorithm, so for 0.1.5 
-it was ran again and accuracy improved for **isin()** and **icos()**. 
-However **itan()** lost a (smaller) bit. 
-The gain outweighs the loss and so new table is kept.
-
-Performance has not changed.
-
-An initial version of a reverse lookup for **iasin(val)** and **iacos(val)** 
-is added, as it uses the same **isintable16\[\]** interpolation table.
-
-There is no **atan()** or **atan2()** replacement.
-
-
-## 0.1.6
-
-- Arduino-CI + unit tests
-
-## 0.1.7
-
-- fix for PlatformIO
-
-## 0.1.8
-
-- Made the % 180 in the **itan()** conditional.
-- added **icot(f)**
-
-## 0.1.9
-
-- update library.json, badges, version string, minor edits.
-
-## 0.1.10
-
-- split .h in .h and .cpp. Needed in case of more complex projects.
+See changelog.md
 
 
 ## Operation
@@ -221,6 +181,4 @@ See examples
 ## Future
 
 - How to improve the accuracy of the whole degrees, as now the table is optimized for interpolation.
-- version info in release_notes.md file.
-- separate releaseNotes.md
-
+- sinc(x)  = sin(x)/x function.?

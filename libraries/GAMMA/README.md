@@ -84,13 +84,18 @@ See example.
 
 ## Future ideas
 
+#### must
 - improve documentation
+
+#### should
 - test other platforms
 - look for optimizations
   - getter \[\]
   - setGamma -> pow() is expensive
+
+#### could
 - uint16 version?
   - GAMMA16, GAMMA32, 
   - GAMMA_RGB ?
-- 
+
 

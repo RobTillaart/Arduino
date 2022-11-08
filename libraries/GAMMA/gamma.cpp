@@ -1,28 +1,11 @@
 //
 //    FILE: gamma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2020-08-08
 // PURPOSE: Arduino Library to efficiently hold a gamma lookup table
-
-//  0.1.0   2020-08-08  initial release
-//  0.1.1   2020-12-24  Arduino-CI + unit test
 //
-//  0.2.0   2021-11-02  update build-CI, badges
-//                      add begin() - fixes ESP32 crash.
-//  0.2.1   2021-12-18  update library.json, license, 
-//                      add constants, minor edits.
-//  0.2.2   2022-07-25  split in .h and .cpp
-//                      add Stream parameter to dump()
-//                      add dumpArray(Stream)
-//                      fix distinct()
-//
-//  0.3.0   2022-07-26  change return type begin() + setGamma()
-//                      add test gamma <=0 in setGamma()
-//                      add _table == NULL tests
-//                      fixed type of index in [] operator.
-//                      adjust rounding in setGamma() to minimize errors.
-//                      update build-CI
+// HISTORY: see changelog.md
 
 
 #include "gamma.h"
@@ -31,7 +14,7 @@
 GAMMA::GAMMA(uint16_t size)
 {
   _shift = 7;
-  // force power of 2; get shift & mask right
+  //  force power of 2; get shift & mask right
   for (uint16_t s = 2; s <= GAMMA_MAX_SIZE; s <<= 1)
   {
     if (size <= s)

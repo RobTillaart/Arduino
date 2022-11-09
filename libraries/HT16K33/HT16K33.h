@@ -2,22 +2,21 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33.git
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.5"))
+#define HT16K33_LIB_VERSION         (F("0.3.6"))
 
 
-// Characters
+//  Characters
 #define HT16K33_0                0
 #define HT16K33_1                1
 #define HT16K33_2                2
@@ -52,9 +51,9 @@ public:
 
   bool isConnected();
 
-  // default _cache is true as it is ~3x faster but if one has noise
-  // on the I2C and wants to force refresh one can disable caching
-  // for one or more calls.
+  //  default _cache is true as it is ~3x faster but if one has noise
+  //  on the I2C and wants to force refresh one can disable caching
+  //  for one or more calls.
   void clearCache();
   void cacheOn()  { _cache = true; };
   void cacheOff() { _cache = false; };
@@ -67,18 +66,18 @@ public:
   void blink(uint8_t value);                  // 0 .. 3     0 = off
 
 
-  // 0,1,2,3,4 digits - will replace suppressLeadingZeroPlaces
+  //  0,1,2,3,4 digits - will replace suppressLeadingZeroPlaces
   void setDigits(uint8_t value);
-  // 0 = off, 1,2,3,4 digits  space instead of 0
+  //  0 = off, 1,2,3,4 digits  space instead of 0
   void suppressLeadingZeroPlaces(uint8_t value);    // will be obsolete
 
   void displayClear();
   bool displayInt(int n);                   // -999 .. 9999
   bool displayHex(uint16_t n);              // 0000 .. FFFF
 
-  // Date could be {month.day} or {day.hour}           . as separator
-  // Time could be hh:mm or mm:ss or ss:uu (hundreds   : as separator
-  //    colon displays :   lz = Leading Zero or space
+  //  Date could be {month.day} or {day.hour}           . as separator
+  //  Time could be hh:mm or mm:ss or ss:uu (hundreds   : as separator
+  //     colon displays :   lz = Leading Zero or space
   bool displayDate(uint8_t left, uint8_t right, bool lz = true);                     // 00.00 .. 99.99
   bool displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true);  // 00:00 .. 99:99
   bool displaySeconds(uint16_t seconds, bool colon = true, bool lz = true);          // 00:00 .. 99:99
@@ -102,17 +101,17 @@ public:
   bool displayVURight(uint8_t value);       // 0..8
 
 
-  // DEBUG
+  //  DEBUG
   void    displayTest(uint8_t del);
-  // array as numbers
+  //  array as numbers
   void    dumpSerial(uint8_t *array, uint8_t point);
-  // display cache in HEX format
+  //  display cache in HEX format
   void    dumpSerial();
   uint8_t getAddress() { return _address; };
-  uint8_t getAddr()    { return getAddress(); };  // TODO obsolete in future
+  uint8_t getAddr()    { return getAddress(); };  //  TODO obsolete in future
 
 
-  // EXPERIMENTAL
+  //  EXPERIMENTAL
   bool    getOverflow() { return _overflow; };
   void    clrOverflow() { _overflow = false; };
 
@@ -129,14 +128,14 @@ private:
   void    writePos(uint8_t pos, uint8_t mask, bool point);
 
   uint8_t _address;
-  uint8_t _displayCache[5];                 // for performance
+  uint8_t _displayCache[5];                 //  for performance
   bool    _cache = true;
   uint8_t _digits = 0;
   uint8_t _bright;
 
   TwoWire*  _wire;
 
-  // EXPERIMENTAL
+  //  EXPERIMENTAL
   bool    _overflow = false;
 };
 

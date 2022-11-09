@@ -2,7 +2,7 @@
 //
 //    FILE: Histogram.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define HISTOGRAM_LIB_VERSION       (F("0.3.1"))
+#define HISTOGRAM_LIB_VERSION       (F("0.3.2"))
 
 
 class Histogram
@@ -20,17 +20,17 @@ public:
   ~Histogram();
 
   void  clear(int32_t value = 0);
-  void  setBucket(const uint16_t index, int32_t value = 0) { _data[index] = value; };
+  void  setBucket(const uint16_t index, int32_t value = 0);
   void  add(const float value);
   void  sub(const float value);
 
-  // number of buckets
-  inline uint16_t size() { return _length; };
+  //  number of buckets
+  uint16_t size();
 
-  // number of values added to all buckets
-  inline uint32_t count() { return _count; };
+  //  number of values added to all buckets
+  uint32_t count();
 
-  // number of values added to single bucket
+  //  number of values added to single bucket
   int32_t  bucket(const uint16_t index);
 
   float    frequency(const uint16_t index);

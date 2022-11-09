@@ -1,28 +1,11 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 //
-//  HISTORY:
-//  0.1.0   2012-11-10  initial version
-//  0.1.1   2012-11-10  added PMF() and CDF()
-//  0.1.2   2012-12-23  changed float to double; some comments
-//  0.1.3   2013-09-29  testing a lot & refactoring
-//  0.1.4   2015-03-06  stricter interface
-//  0.1.5   2017-07-16  refactor, support for > 256 buckets; prevent alloc() errors
-//  0.1.6   2017-07-27  revert double to float (issue #33)
-//  0.2.0   2020-06-12  #pragma once, removed pre 1.0 support
-//  0.2.1   2020-12-24  Arduino-CI + unit tests
-//  0.3.0   2021-11-02  update build-CI, add badges
-//                      refactor readability
-//                      add parameter for clear(value = 0)
-//                      add findMin(), findMax()
-//                      add countAbove(), countLevel(), countBelow().
-//                      add setBucket(),
-//                      change length to uint16_t ==> 65534
-//  0.3.1   2021-12-19  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "histogram.h"
@@ -45,7 +28,7 @@ Histogram::~Histogram()
 }
 
 
-// resets all counters to value (default 0)
+//  resets all counters to value (default 0)
 void Histogram::clear(int32_t value)
 {
   for (uint16_t i = 0; i < _length; i++) _data[i] = value;
@@ -53,7 +36,13 @@ void Histogram::clear(int32_t value)
 }
 
 
-// adds a new value to the histogram - increasing
+void Histogram::setBucket(const uint16_t index, int32_t value)
+{ 
+  _data[index] = value; 
+};
+
+
+//  adds a new value to the histogram - increasing
 void Histogram::add(const float value)
 {
   if (_length > 0)
@@ -62,11 +51,11 @@ void Histogram::add(const float value)
     _data[index]++;
     _count++;
   }
-  // could return index or count.
+  //  return index or count.
 }
 
 
-// adds a new value to the histogram - decreasing
+//  adds a new value to the histogram - decreasing
 void Histogram::sub(const float value)
 {
   if (_length > 0)
@@ -75,11 +64,25 @@ void Histogram::sub(const float value)
     _data[index]--;
     _count++;
   }
-  // could return index or count.
+  //  return index or count.
 }
 
 
-// returns the count of a bucket
+//  number of buckets
+uint16_t Histogram::size() 
+{ 
+  return _length; 
+};
+
+
+//  number of values added to all buckets
+uint32_t Histogram::count()
+{ 
+  return _count;
+};
+
+
+//  returns the count of a bucket
 int32_t Histogram::bucket(const uint16_t index)
 {
   if (index > _length) return 0;
@@ -87,7 +90,7 @@ int32_t Histogram::bucket(const uint16_t index)
 }
 
 
-// returns the relative frequency of a bucket
+//  returns the relative frequency of a bucket
 float Histogram::frequency(const uint16_t index)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
@@ -97,8 +100,8 @@ float Histogram::frequency(const uint16_t index)
 }
 
 
-// EXPERIMENTAL
-// returns the probability of the bucket of a value
+//  EXPERIMENTAL
+//  returns the probability of the bucket of a value
 float Histogram::PMF(const float value)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
@@ -108,14 +111,14 @@ float Histogram::PMF(const float value)
 }
 
 
-// EXPERIMENTAL
-// returns the cumulative probability of
-// values <= value
+//  EXPERIMENTAL
+//  returns the cumulative probability of
+//  values <= value
 float Histogram::CDF(const float value)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
 
-  // TODO: could be done in one loop?
+  //  TODO: could be done in one loop?
   uint16_t index = find(value);
   int32_t  sum = 0;
   for (uint16_t i = 0; i <= index; i++)
@@ -126,9 +129,9 @@ float Histogram::CDF(const float value)
 }
 
 
-// EXPERIMENTAL
-// returns the value of the original array for
-// which the CDF is at least prob(ability).
+//  EXPERIMENTAL
+//  returns the value of the original array for
+//  which the CDF is at least prob(ability).
 float Histogram::VAL(const float prob)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
@@ -176,7 +179,7 @@ float Histogram::VAL(const float prob)
 // }
 
 
-// returns the bucket number for value
+//  returns the bucket number for value
 uint16_t Histogram::find(const float value)
 {
   if (_length <= 0) return -1;
@@ -192,7 +195,7 @@ uint16_t Histogram::find(const float value)
 }
 
 
-// returns the (first) index of the bucket with minimum value.
+//  returns the (first) index of the bucket with minimum value.
 uint16_t Histogram::findMin()
 {
   if (_length <= 0) return -1;
@@ -206,7 +209,7 @@ uint16_t Histogram::findMin()
 }
 
 
-// returns the (first) index of the bucket with maximum value.
+//  returns the (first) index of the bucket with maximum value.
 uint16_t Histogram::findMax()
 {
   if (_length <= 0) return -1;
@@ -220,7 +223,7 @@ uint16_t Histogram::findMax()
 }
 
 
-// returns the number of buckets above a certain level.
+//  returns the number of buckets above a certain level.
 uint16_t Histogram::countLevel(const int32_t level)
 {
   if (_length <= 0) return -1;
@@ -234,7 +237,7 @@ uint16_t Histogram::countLevel(const int32_t level)
 }
 
 
-// returns the number of buckets above a certain level.
+//  returns the number of buckets above a certain level.
 uint16_t Histogram::countAbove(const int32_t level)
 {
   if (_length <= 0) return -1;
@@ -248,7 +251,7 @@ uint16_t Histogram::countAbove(const int32_t level)
 }
 
 
-// returns the number of buckets below a certain level.
+//  returns the number of buckets below a certain level.
 uint16_t Histogram::countBelow(const int32_t level)
 {
   if (_length <= 0) return -1;
@@ -264,7 +267,7 @@ uint16_t Histogram::countBelow(const int32_t level)
 
 //////////////////////////////////////////////////////////////
 //
-// DERIVED CLASS
+//  DERIVED CLASS
 //
 
 Histogram16::Histogram16(const uint16_t length, float *bounds) : Histogram(length, bounds)
@@ -275,6 +278,7 @@ Histogram16::Histogram16(const uint16_t length, float *bounds) : Histogram(lengt
 Histogram8::Histogram8(const uint16_t length, float *bounds) : Histogram(length, bounds)
 {
 };
+
 
 // -- END OF FILE --
 

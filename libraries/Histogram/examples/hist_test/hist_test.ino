@@ -29,14 +29,14 @@ void setup()
   Serial.print("# buckets: ");
   Serial.println(hist.size());
 
-  for (int i = 0; i < hist.size()-1; i++)
+  for (uint16_t i = 0; i < hist.size()-1; i++)
   {
     Serial.print("\t");
     Serial.print(b[i], 2);
   }
   Serial.println();
 
-  for (int i = 0; i < hist.size()-1; i++)
+  for (uint16_t i = 0; i < hist.size()-1; i++)
   {
     Serial.print("\t");
     Serial.print(hist.find(b[i]));
@@ -67,7 +67,7 @@ void loop()
   {
     lastTime = now;
     Serial.print(hist.count());
-    for (int i = 0; i < hist.size(); i++)
+    for (uint16_t i = 0; i < hist.size(); i++)
     {
       Serial.print("\t");
       // gives percentage per bucket
@@ -93,4 +93,3 @@ void loop()
 
 
 // -- END OF FILE --
-

@@ -17,7 +17,7 @@ One of the main applications for the Arduino board is reading and logging of sen
 We often want to make a histogram of this data to get insight of the distribution of the
 measurements. This is where this Histogram library comes in.
 
-The Histogram distributes the values added to it into buckets and keeps count.
+The Histogram distributes the values added to it into buckets and keeps count per bucket.
 
 If you need more quantitative analysis, you might need the statistics library, 
 - https://github.com/RobTillaart/Statistic
@@ -50,7 +50,8 @@ with the formula **(1.0 \* bucket(i))/count()**.
 
 #### Experimental: Histogram8 Histogram16
 
-Histogram8 and Histogram16 are classes with same interface but smaller buckets. Histogram can count to ±2^31 while often ±2^15 or even ±2^7 is sufficient. Saves memory.
+Histogram8 and Histogram16 are classes with same interface but smaller buckets. 
+Histogram can count to ±2^31 while often ±2^15 or even ±2^7 is sufficient. Saves memory.
 
 | class name  | length | count/bucket | max memory |
 |:------------|-------:|-------------:|-----------:|
@@ -68,6 +69,9 @@ the experimental version.
 
 ## Interface 
 
+```cpp
+#include "histogram.h"
+```
 
 ### Constructor
 
@@ -79,6 +83,7 @@ Length should be less than 65534.
 ### Base
 
 - **void clear(float value = 0)** reset all bucket counters to value (default 0).
+- **void setBucket(const uint16_t index, int32_t value = 0)** store / overwrite a value of bucket.
 - **void add(float value)** add a value, increase count of bucket.
 - **void sub(float value)** 'add' a value, but decrease count (subtract).
 - **uint16_t size()** returns number of buckets.
@@ -121,17 +126,38 @@ See examples
 
 ## Future
 
-- performance - **find()** the right bucket. 
+
+#### must
+- improve documentation
+  - explain **PMF()**, **CDF()** and **VAL()** functions.
+  - or a link to a good site?
+
+
+#### should
+- investigate performance - **find()** the right bucket. 
   - Binary search is faster 
   - need testing.
 - improve accuracy - linear interpolation for **PMF()**, **CDF()** and **VAL()**
 - performance - merge loops in **PMF()**
 - performance - reverse loops - compare to zero.
-- improve documentation
-  - explain **PMF()**, **CDF()** and **VAL()** functions.
-- bucket full / overflow warning. The **add()** **sub()** should 
-return a bool to indicate that a bucket is (almost) full.
+
+
+#### could
+- bucket full / overflow warning. 
+  - The **add()** **sub()** could return a bool to indicate that a bucket is (almost) full.
+  - return index ...
+  - keep track of max filled histogram.
+  - max value per bin
+  - saturation indication of the whole histogram
 - 2D histograms ? e.g. positions on a grid.
+  - see SparseMatrix
+- percentage readOut == frequency()
+  - int32_t total() = 100%
+  - getBucketPercent(idx).. 
+- clear selected bins?
+
+#### wont
+- merge bins
 
 
 #### expensive ideas

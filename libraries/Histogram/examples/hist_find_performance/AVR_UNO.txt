@@ -1,0 +1,41 @@
+
+preliminary results of test for binary search version of find(value)
+=====================================================================
+
+LINEAR SEARCH
+
+Histogram version: 0.3.0
+# buckets: 101
+Duration: 16
+  Bucket: 1
+Duration: 40
+  Bucket: 6
+Duration: 292
+  Bucket: 66
+Duration: 432
+  Bucket: 100
+
+
+BINARY SEARCH
+
+Histogram version: 0.3.0
+# buckets: 101
+Duration: 52
+  Bucket: 1
+Duration: 52
+  Bucket: 100
+Duration: 44
+  Bucket: 66
+Duration: 48
+  Bucket: 100
+
+
+based upon above
+average linear search: 195
+average binary search:  49
+roughly factor 4.
+
+expect linear search will average around 50 if # buckets is approx. 20.
+so for small histograms there is no gain. 
+
+

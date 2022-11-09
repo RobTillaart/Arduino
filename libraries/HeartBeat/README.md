@@ -225,10 +225,15 @@ See examples
 
 ## Future
 
-- add examples
-  - SRF05 distance sensor
-  - ACS712 current sensor
+#### must
 - test HeartBeatDiag version in more detail.
+
+#### should
+- add examples
+  - ACS712 current sensor
+  - buffer % filled (e.g. stream)
+
+#### could
 - investigate a pattern recognizer (fun)
   - e.g. with an LDR or lux sensor.
-- separate changelog.md
+

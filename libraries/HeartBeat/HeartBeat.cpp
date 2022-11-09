@@ -6,26 +6,7 @@
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
 //
-//  HISTORY:
-//  0.1.0   2019-06-12  initial version
-//  0.1.1   2020-12-24  Arduino-CI
-//  0.1.2   2021-01-15  renamed all to HeartBeat
-//                      added dutyCycle
-//  0.1.3   2021-05-27  fix Arduino-lint
-//
-//  0.2.0   2021-11-02  update Build-CI, add badges
-//                      add getFrequency(), getDutyCycle();
-//                      add getState().
-//                      removed set()
-//  0.2.1   2021-12-18  update library.json, license, minor edits
-//
-//  0.3.0   2022-02-04  added HeartBeatDiag class.
-//                      added HeartBeatSL class (slightly simpler).
-//  0.3.1   2022-07-26  move all code to .cpp
-//                      add isEnabled()
-//                      rename examples
-//                      add example SRF05 distance sensor
-
+// HISTORY: see changelog
 
 
 #include "HeartBeat.h"

@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_SCANNER.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 //
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_SCANNER_LIB_VERSION        (F("0.1.2"))
+#define I2C_SCANNER_LIB_VERSION        (F("0.1.3"))
 
 
 class I2C_SCANNER

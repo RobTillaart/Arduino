@@ -19,12 +19,17 @@ void setup()
 
   scanner.begin();
 
-  for (int port = 0; port < scanner.getWirePortCount(); port++)
+  int ports = scanner.getWirePortCount();
+  Serial.print("PORTS: \t");
+  Serial.println(ports);
+
+  for (int port = 0; port < ports; port++)
   {
     scanner.setWire(port);
     int cnt = scanner.count();
+    Serial.print("Port: \t");
     Serial.print(port);
-    Serial.print("\t");
+    Serial.print("\tCount: \t");
     Serial.println(cnt);
   }
 

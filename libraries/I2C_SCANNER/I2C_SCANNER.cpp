@@ -1,13 +1,14 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 //
+// HISTORY: see changelog.md
+
 
 #include "I2C_SCANNER.h"
-
 
 
 I2C_SCANNER::I2C_SCANNER(TwoWire *wire)

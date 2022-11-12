@@ -113,13 +113,13 @@ than 5 milliseconds which is the minimum.
 The library does not offer multiple EEPROMS as one continuous storage device.
 
 
+## Operation
+
+See examples
+
+
 ## Future
 
 - See I2C EEPROM as this library is following.
 - add examples
-
-
-## Operation
-
-See examples
 

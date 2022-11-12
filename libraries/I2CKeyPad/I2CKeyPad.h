@@ -2,7 +2,7 @@
 //
 //    FILE: I2CKeyPad.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for 4x4 KeyPad connected to an I2C PCF8574
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_KEYPAD_LIB_VERSION    (F("0.3.2"))
+#define I2C_KEYPAD_LIB_VERSION    (F("0.3.3"))
 
 #define I2C_KEYPAD_NOKEY          16
 #define I2C_KEYPAD_FAIL           17

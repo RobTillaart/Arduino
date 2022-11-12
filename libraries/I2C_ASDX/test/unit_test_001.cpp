@@ -29,11 +29,11 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
 #include "I2C_ASDX.h"
-
 
 
 unittest_setup()
@@ -45,19 +45,6 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
-
 
 unittest(test_constructor)
 {
@@ -66,8 +53,8 @@ unittest(test_constructor)
   assertEqual(I2C_ASDX_INIT, sensor.state());
 
   assertTrue(sensor.begin());
-  assertTrue(sensor.isConnected());    // incorrect, keep build happy
-  assertTrue(sensor.available());      // obsolete in the future
+  assertTrue(sensor.isConnected());    //  incorrect, keep build happy
+  assertTrue(sensor.available());      //  obsolete in the future
 
   fprintf(stderr, "test state\n");
   assertEqual(0, sensor.errorCount());
@@ -111,7 +98,7 @@ unittest(test_read_zero)
   I2C_ASDX sensor(0x58, 100);
 
   assertTrue(sensor.begin());
-  assertTrue(sensor.isConnected());  // incorrect, keep build happy
+  assertTrue(sensor.isConnected());  //  incorrect, keep build happy
 
   fprintf(stderr, "Test default pressure\n");
   assertEqual(0, sensor.getPressure());

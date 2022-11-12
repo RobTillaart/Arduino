@@ -1,18 +1,11 @@
 //
 //    FILE: I2C_ASDX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: I2C_asdx library for Arduino.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 //
-//  HISTORY:
-//  0.1.0   2013-11-14  initial version
-//  0.2.0   2020-03-18  refactor
-//  0.2.1   2020-07-04  add getBar(), getMilliBar(), getPSI()
-//  0.2.2   2020-12-29  add Arduino-CI + unit test (minimal), keywords update.
-//  0.2.3   2021-06-06  add different units to read pressure
-//  0.3.0   2021-06-07  add multiWire interface
-//  0.3.1   2021-12-19  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "I2C_ASDX.h"

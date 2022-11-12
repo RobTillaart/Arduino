@@ -9,10 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - simplified changelog
 - add RP2040 to build-CI
 - refactored **set_gain()** to return bool to confirm valid parameter.
+- add forced flag for set_gain to force a dummy read call. Default false.
 - add constants for **set_gain()**
-- add unit test for constants.
 - improved unit test for **set_gain()**
+- add unit test for constants.
+- add delayMicroseconds(64) to power_down to enforce long enough HIGH signal.
+- add power_down() power_up() cycle in **reset()**
 - updated readme.md
+- updated keywords.txt
 
 
 ## [0.3.3] - 2022-03-16

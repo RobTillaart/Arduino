@@ -98,7 +98,7 @@ If one uses an invalid value for the parameter gain, the channel and gain are no
 If forced == false it will not set the new gain if the library "thinks" it
 already has the right value.
 If forced == true, it will explicitly try to set the gain/channel again.
-This includes a dummy read() so the next "user" read() will give the right info.
+This includes a dummy **read()** so the next "user" **read()** will give the right info.
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
 By setting the gain to one of the three constants the gain and the channel is selected.
@@ -173,7 +173,8 @@ Steps to take for calibration
 
 #### Power management
 
-- **void power_down()** idem. Blocks for 64 microseconds. (Page 5 datasheet). 
+- **void power_down()** idem. Explicitly blocks for 64 microseconds. 
+(See Page 5 datasheet). 
 - **void power_up()** wakes up the HX711. 
 It should reset the HX711 to defaults but this is not always seen. 
 See discussion issue #27 GitHub. Needs more testing.

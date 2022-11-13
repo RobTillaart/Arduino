@@ -45,19 +45,26 @@ ESP32 - needs investigation as UNO verified code fails.
 (something for a long winter)
 
 
-## Future
-
-- test with double
-- test on ESP23
-- investigate other speed ups
-- write more examples
-  - example binary transfer over Serial
-  - example binary transfer over Ethernet
-- bring more structure in this library.
-- link to float16 in documentation
-
-
 ## Operations
 
 See examples
+
+
+## Future
+
+#### must
+- test with double
+- test on ESP23
+
+#### should
+- investigate other speed ups
+- bring more structure in this library.
+
+#### could
+- write more examples
+  - example binary transfer over Serial
+  - example binary transfer over Ethernet
+- link to float16 in documentation
+
+
 

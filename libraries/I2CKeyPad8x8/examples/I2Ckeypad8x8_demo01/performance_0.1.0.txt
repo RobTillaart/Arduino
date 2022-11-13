@@ -1,0 +1,14 @@
+
+BOARD:  Arduino UNO
+IDE:    1.8.19
+LIB:    0.1.0
+
+examples\I2Ckeypad8x8_demo01\I2Ckeypad8x8_demo01.ino
+
+229100	64	664
+229201	64	1324      //  floating lines (no pull ups yet).
+229300	64	664
+
+153101	35	1324      //  key pressed ...
+
+A read just takes 664 us.

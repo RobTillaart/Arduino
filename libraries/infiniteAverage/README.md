@@ -131,7 +131,8 @@ to get around 28 significant digits => 18.10 format
 - add examples
 - \_overflow => \_wholePart
 
-**0.2.0**
+#### 0.2.0
 - add negative numbers
 - test negative numbers / mixed numbers.
+- move code paer from .h to .cpp
 

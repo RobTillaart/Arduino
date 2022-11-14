@@ -2,14 +2,14 @@
 //
 //    FILE: infiniteAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Calculate the average of a very large number of values.
-//     URL: https://github.com/RobTillaart/I2C_24FC1025
+//     URL: https://github.com/RobTillaart/infiniteAverage
 
 
 #include "Arduino.h"
 
-#define IAVG_LIB_VERSION            (F("0.1.5"))
+#define IAVG_LIB_VERSION            (F("0.1.6"))
 
 
 class IAVG

@@ -94,15 +94,17 @@ See examples
 
 ## Future
 
+#### must
 - improve documentation
+
+#### should
 - add examples
-- add reset();
-- set defaults for functions
 - add **rmTab(position)**
-- 
+
+#### could
+- set defaults for functions
 
 #### Wont
-
 - check if print interface is completely covered.
   - due to tab parsing it is, so no speed up.
 

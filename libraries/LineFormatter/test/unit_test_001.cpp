@@ -95,9 +95,9 @@ unittest(test_tab)
   fprintf(stderr, "tab test - !! cur position is one before tab position\n");
   for (int i = 0; i < Line.getTabCount(); i++)
   {
-    fprintf(stderr, "%d\t", 8 + i*8);  // tab positions
+    fprintf(stderr, "%d\t", 8 + i*8);               //  tab positions
     Line.write('\t');
-    assertEqual(8 + i*8, (int)Line.getPos() + 1 );  // current position is just before tab
+    assertEqual(8 + i*8, (int)Line.getPos() + 1 );  //  current position is just before tab
   }
 
 }

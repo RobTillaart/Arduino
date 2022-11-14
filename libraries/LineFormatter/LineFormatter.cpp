@@ -1,18 +1,12 @@
 //
 //    FILE: LineFormatter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Simple positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
 //
-//  HISTORY:
-//  0.1.0   2020-05-14  initial version
-//  0.1.1   2020-06-19  fix library.json
-//  0.1.2   2020-12-30  Arduino-ci + unit tests
-//  0.1.3   2021-11-06  update Arduino-CI, badges
-//                      update readme.md, add reset();
-//  0.1.4   2021-12-20  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "LineFormatter.h"
@@ -38,17 +32,17 @@ void LineFormatter::reset()
 
 ///////////////////////////////////////////
 //
-// WRITE - the core
+//  WRITE - the core
 //
 size_t LineFormatter::write(uint8_t c)
 {
-  // handle tabs.
+  //  handle tabs.
   if (_tabCount && c == '\t')
   {
     write(' ');
     for (int i = 0; i < _tabCount; i++)
     {
-      if (_tabStop[i] > _pos + 1)   // assume sorted
+      if (_tabStop[i] > _pos + 1)   //  assume sorted
       {
         gotoPos(_tabStop[i] - 1);
         break;
@@ -61,7 +55,7 @@ size_t LineFormatter::write(uint8_t c)
     _pos++;
   }
 
-  // handle return
+  //  handle return
   if (c == '\n')
   {
     _pos = 0;
@@ -69,13 +63,13 @@ size_t LineFormatter::write(uint8_t c)
     _anl++;
   }
 
-  // handle maxpos
+  //  handle maxpos
   if (_maxPos && _pos == _maxPos)
   {
     write('\n');
   }
 
-  // handle autoNewLine
+  //  handle autoNewLine
   if (_autoNewLine && (_anl == _autoNewLine))
   {
     write('\n');
@@ -87,7 +81,7 @@ size_t LineFormatter::write(uint8_t c)
 
 ///////////////////////////////////////////
 //
-// REPEAT
+//  REPEAT
 //
 void LineFormatter::repeat(uint8_t n, char c, uint8_t newLine)
 {
@@ -105,7 +99,7 @@ void LineFormatter::repeat(uint8_t n, const char* str, uint8_t newLine)
 
 ///////////////////////////////////////////
 //
-// AUTONEWLINE
+//  AUTONEWLINE
 //
 void LineFormatter::setAutoNewLine(uint8_t n)
 {
@@ -116,7 +110,7 @@ void LineFormatter::setAutoNewLine(uint8_t n)
 
 ///////////////////////////////////////////
 //
-// TAB
+//  TAB
 //
 void LineFormatter::clearTabs()
 {
@@ -149,12 +143,12 @@ bool LineFormatter::addRelTab(uint8_t n)
 
 ///////////////////////////////////////////
 //
-// DEBUGGING
+//  DEBUGGING
 //
 void LineFormatter::printRuler(uint8_t n)
 {
-  // for (int i = 0; i < _tabCount; i++) _stream->println(_tabStop[i]);
-  // return;
+  //  for (int i = 0; i < _tabCount; i++) _stream->println(_tabStop[i]);
+  //  return;
 
   uint8_t t = 0;
   for (int i = 1; i <= n; i++)

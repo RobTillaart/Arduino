@@ -3,7 +3,7 @@
 //    FILE: Interval.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for Interval datatype
 //     URL: https://github.com/RobTillaart/Interval
 //
@@ -13,22 +13,22 @@
 
 #include "Arduino.h"
 
-#define INTERVAL_LIB_VERSION                (F("0.1.2"))
+#define INTERVAL_LIB_VERSION                (F("0.1.3"))
 
  
 class Interval: public Printable
 {
 public:
-  // CONSTRUCTOR
+  //  CONSTRUCTOR
   Interval();
   Interval(float lo, float hi);
   Interval(float f);             // default zero interval [f, f]
 
-  // PRINTABLE
+  //  PRINTABLE
   size_t printTo(Print& p) const;
   void setDecimals(uint8_t n) { _decimals = n; };
 
-  // BASE FUNCTIONS
+  //  BASE FUNCTIONS
   float value()       { return (_hi /2 + _lo /2); };   // assumption
   float range()       { return _hi -_lo; };
   float high()        { return _hi; };
@@ -36,7 +36,7 @@ public:
   float relAccuracy();
   void  setRange(float r);
 
-  // MATH OPERATORS
+  //  MATH OPERATORS
   Interval operator +  (const Interval&);
   Interval operator -  (const Interval&);
   Interval operator *  (const Interval&);
@@ -46,7 +46,7 @@ public:
   Interval operator *= (const Interval&);
   Interval operator /= (const Interval&);
 
-  // COMPARISON OPERATORS - compares value()
+  //  COMPARISON OPERATORS - compares value()
   bool operator == (const Interval&);
   bool operator != (const Interval&);
   // bool operator >  (const Interval&);
@@ -55,7 +55,7 @@ public:
   // bool operator <= (const Interval&);
 
 
-  // SET OPERATORS
+  //  SET OPERATORS
   // Interval operator  &  (const Interval&);  // common part  [1, 5] & [4, 8] => [4, 5]
   // Interval operator  |  (const Interval&);  // superset [1, 5] | [4, 8] => [1, 8]
   // Interval operator  ^  (const Interval&);  // 
@@ -69,3 +69,4 @@ private:
 
 
 // -- END OF FILE --
+

@@ -2,14 +2,11 @@
 //    FILE: Interval.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.1
-// PURPOSE: Arduino library for Interval datatype
+// VERSION: 0.1.3
+// PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
 //
-//  0.0.1   2020-07-20  initial version (not complete)
-//  0.1.0   2020-12-30  Arduino-CI, unit tests, setRange()
-//  0.1.1   2021-05-27  Arduino-lint
-//  0.1.2   2021-12-20  update library.json, license, minor edits.
+// HISTORY: see changelog.md
 
 
 #include "Interval.h"
@@ -47,7 +44,7 @@ Interval::Interval()
 float Interval::relAccuracy()
 {
   if (value() == 0.0) return -1;
-  return abs(range() / value());  // TODO /2 ?
+  return abs(range() / value());  //  TODO /2 ?
 }
 
 
@@ -59,7 +56,7 @@ void Interval::setRange(float r)
 }
 
 
-// PRINTABLE
+//  PRINTABLE
 size_t Interval::printTo(Print& p) const
 {
   size_t n = 0;
@@ -74,7 +71,7 @@ size_t Interval::printTo(Print& p) const
 
 /////////////////////////////////////////////////
 //
-// MATH BASIC OPERATIONS
+//  MATH BASIC OPERATIONS
 //
 Interval Interval::operator + (const Interval &in)
 {
@@ -134,7 +131,7 @@ Interval Interval::operator /= (const Interval &in)
 
 /////////////////////////////////////////////////
 //
-// COMPARISON OPERATIONS
+//  COMPARISON OPERATIONS
 //
 
 bool Interval::operator == (const Interval &in)
@@ -148,7 +145,7 @@ bool Interval::operator != (const Interval &in)
   return ((_lo != in._lo) || (_hi != in._hi));
 }
 
-// VALUE FOR NOW...
+//  VALUE FOR NOW...
 // bool Interval::operator >  (const Interval &in)
 // {
 //   return this->value() > in.value();

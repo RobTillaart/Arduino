@@ -157,7 +157,7 @@ unittest(test_colour_spaces)
   assertEqualFloat(0.900, tempColor.green(), 0.0001);
   assertEqualFloat(0.675, tempColor.blue(),  0.0001);
   assertEqual(7595692, tempColor.RGB());
-  assertEqual(65792, tempColor.BGR());
+  assertEqual(11331187, tempColor.BGR());
   assertEqual(2130722560, tempColor.CMYK());
   assertEqual(30517, tempColor.RGB565());
 }

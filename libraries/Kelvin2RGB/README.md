@@ -16,24 +16,24 @@ Arduino library for converting temperature and brightness to RGB values.
 This library is based upon an article of Tanner Helland
 and a related story by Neil Bartlett
 http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
-http://www.zombieprototypes.com/?p=210  
+http://www.zombieprototypes.com/?p=210
 https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
 
-There are more approximation formulas, some claim to be better, 
+There are more approximation formulas, some claim to be better,
 however these are not investigated. On request these can be added.
 
 
 ## Description
 
-The library converts a temperature in Kelvin and a brightness (0..100%) 
+The library converts a temperature in Kelvin and a brightness (0..100%)
  to 3 numbers red, green and blue.
 These numbers are weights can be used to correct a colour image for virtual white temperature.
 
-There are 2 convert functions where the **convert_NB()** is claimed to be 
+There are 2 convert functions where the **convert_NB()** is claimed to be
 the more accurate one.
 
 With the numbers R,G,B calculated one can convert images so they will look
-more like taken with candle light, sunrise or sunset etc. 
+more like taken with candle light, sunrise or sunset etc.
 
 
 **pseudo code**
@@ -51,7 +51,7 @@ for each pixel in image
 }
 ```
 
-The numbers can also be used to reduce the blue channel so it has less effect 
+The numbers can also be used to reduce the blue channel so it has less effect
 on "getting sleepy".
 
 The library uses floats for the R,G and B weights to keep values as accurate as possible.
@@ -65,46 +65,54 @@ The interface is straightforward:
 
 - **Kelvin2RGB()** constructor
 - **void begin()** empty function for now.
-- **void reset()** resets all internal values to 0.
-- **void convert_TH(float temperature, float brightness = 100)**  
-    temperature = 0..65500   temperature below 1000 is not well defined.  
-    brightness = 0..100%, 
-- **void convert_NB(float temperature, float brightness = 100)**  
-    temperature = 0..65500   temperature below 1000 is not well defined.  
-    brightness = 0..100%, 
+- **void reset()** resets all internal values to 0. 
+All colours, brightness and temperature.
+- **void convert_TH(float temperature, float brightness = 100)**
+    temperature = 0..65500   temperature below 1000 is not well defined.
+    brightness = 0..100%,
+- **void convert_NB(float temperature, float brightness = 100)**
+    temperature = 0..65500   temperature below 1000 is not well defined.
+    brightness = 0..100%,
     Is a bit more accurate and slightly slower (few %). Read link above for more information.
 - **float temperature()** returns temperature, to check the value used.
 - **float brightness()** returns brightness, to check the value used.
-- **float red()** returns red channel weight 0.0 .. 1.0  
+- **float red()** returns red channel weight 0.0 .. 1.0
 note this is different from Helland / Bartlett who both use an integer value 0 .. 255
 - **float green()** returns green channel weight 0.0 .. 1.0
 - **float blue()** returns blue channel weight 0.0 .. 1.0
-- **uint32_t setRGB(float red, float green, float blue, float brightness = 100)** sets RGB values 
+- **uint32_t setRGB(float red, float green, float blue, float brightness = 100)** sets RGB values
 red, green, blue should be in 0 .. 1.0 range. brightness should be in 0..100%, Default = 100%.
-returns a 24 bit RGB value,  
+returns a 24 bit RGB value,
 - **uint32_t RGB()** returns a 24 bit RGB value, 0 .. 16777215
-more efficient than 3 floats for communication. 
-- **uint16_t RGB565()** returns a 16 bit RGB value, 
+more efficient than 3 floats for communication.
+- **uint16_t RGB565()** returns a 16 bit RGB value,
 5 bits for red, 6 for green and 5 for blue.
 - **uint32_t BGR()** returns a 24 bit BGR value, 0 .. 16777215
-- **uint32_t CMYK()** returns a 32 bit = 4 byte CMYK value,  
-
-
-## Future
-
-- separate brightness per colour channel to mimic "artificial illumination"  (0.2.0 ?)
-- define constants like candleLight as parameter.
-- investigate other formulas.
-- investigate timing and performance
-- investigate usability for RGB led strip.
-- remove begin() ?
-- add examples 
-  - CMYK()
-  - BGR()
-  - Led-strip()
+- **uint32_t CMYK()** returns a 32 bit = 4 byte CMYK value,
 
 
 ## Operations
 
 See examples
+
+
+## Future
+
+#### must
+- add examples
+  - CMYK()
+  - BGR()
+
+#### should
+- define constants like candleLight as parameter.
+- investigate other formulas.
+- investigate timing and performance
+- investigate usability for RGB led strip.
+- investigate **RGB_10_12_10()**
+
+#### could
+- separate brightness per colour channel to mimic "artificial illumination"  (0.2.0 ?)
+- remove begin() ?
+- example Led-strip()
+
 

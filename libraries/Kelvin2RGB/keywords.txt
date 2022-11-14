@@ -24,4 +24,35 @@ CMYK	KEYWORD2
 KELVIN2RGB_LIB_VERSION	LITERAL1
 
 
+DLS_dark	LITERAL1
+DLS_match	LITERAL1
+DLS_sodiumLamp	LITERAL1
+DLS_candleFlame	LITERAL1
+
+DLS_sunrise	LITERAL1
+DLS_sunset	LITERAL1
+DLS_bulb	LITERAL1
+DLS_bulbSoftWhite	LITERAL1
+
+DLS_LEDlamp	LITERAL1
+DLS_warmWhite	LITERAL1
+DLS_studioLight	LITERAL1
+DLS_studioCPlight	LITERAL1
+
+DLS_daylightHorizon	LITERAL1
+DLS_flashLight	LITERAL1
+DLS_xenonLight	LITERAL1
+DLS_dayLightBright	LITERAL1
+
+DLS_normal	LITERAL1
+DLS_screenlow	LITERAL1
+DLS_screenMed	LITERAL1
+DLS_screenHigh	LITERAL1
+
+DLS_polewardSky0	LITERAL1
+DLS_polewardSky1	LITERAL1
+DLS_polewardSky2	LITERAL1
+DLS_polewardSky3	LITERAL1
+
+
 

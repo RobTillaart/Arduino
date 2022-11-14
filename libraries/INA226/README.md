@@ -34,6 +34,8 @@ are connected to the SCL, SDA, GND and VCC pins.
 
 See datasheet - table 2 - datasheet.
 
+https://github.com/RobTillaart/INA219
+
 
 ## About Measurements
 

@@ -1,13 +1,11 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
 //
-//  HISTORY:
-//  0.1.0   2021-05-18  initial version
-//  0.1.1   2022-09-06  refactor and first public release
+// HISTORY: see changelog.md
 
 
 #include "INA219.h"

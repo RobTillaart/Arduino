@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.1.1"))
+#define INA219_LIB_VERSION              (F("0.1.2"))
 
 
 class INA219
@@ -91,7 +91,7 @@ public:
   float    getMaxCurrent()    { return _maxCurrent; };
 
 
-  // DEBUG
+  //  DEBUG
   uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
 
 

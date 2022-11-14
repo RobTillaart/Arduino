@@ -34,6 +34,9 @@ Maxima, see datasheet, chapter 7, esp 7.5
 - µ == micro = ALT-0181 (Windows)
 
 
+Relates to https://github.com/RobTillaart/INA226
+
+
 ## I2C
 
 #### Address

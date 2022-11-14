@@ -22,7 +22,6 @@ getShuntVoltage_uV	KEYWORD2
 getCurrent_uA	KEYWORD2
 getPower_uW	KEYWORD2
 
-
 reset	KEYWORD2
 setBusVoltageRange	KEYWORD2
 getBusVoltageRange	KEYWORD2

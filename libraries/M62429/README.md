@@ -150,7 +150,7 @@ Does this model work better than 2 separate volume channels?
 - create **setAttn(channel, attn)** and **getAttn()** for low level control.
   - needs cached attn values.
 
-**wont**
+#### wont
 - **muteOff()** should increase gradually.  takes too much blocking time.
 - **Mute()** could be per channel, default = both / all.
 would add a lot of extra testing. the user can implement a **setVOlume(chan, 0)**

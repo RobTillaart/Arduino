@@ -130,13 +130,13 @@ See examples..
 
 #### must
 
-- get hardware to 
-- test test test
+
+#### should
+- get hardware to test
 - update documentation
 - error handling
 
 #### could
-
 - cache registers (which) or
 - cache a number of flags to speed up retrieving data
 - optimize multi-byte read / write

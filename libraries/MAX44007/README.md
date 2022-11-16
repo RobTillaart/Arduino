@@ -25,24 +25,24 @@ is not tested yet. If you do, please share the results (on GitHub)
 
 
 ```cpp
-//  breakout Max44007
+//      breakout Max44007
 //
-//      +--------+
-//  VCC |o       |
-//  GND |o       |
-//  SCL |o      o| ADDRESS
-//  SDA |o      o| -INT
-//      +--------+
+//          +--------+
+//      VCC |o       |
+//      GND |o       |
+//      SCL |o      o| ADDRESS
+//      SDA |o      o| -INT
+//          +--------+
 //
-// ADDRESS:
-// 0 = 0x5A
-// 1 = 0x5B
+//  ADDRESS:
+//  0 = 0x5A
+//  1 = 0x5B
 //
-// INT:
-// Connect the INT pin to an pull up resistor
-// 0 = interrupt
-// 1 = no interrupt
-// connect to an LED or an interrupt pin of an Arduino
+//  INT:
+//  Connect the INT pin to an pull up resistor
+//  0 = interrupt
+//  1 = no interrupt
+//  connect to an LED or an interrupt pin of an Arduino
 //
 ```
 
@@ -67,7 +67,7 @@ is not tested yet. If you do, please share the results (on GitHub)
 - **int getError()** returns last error.
 
 ```cpp
-// ERROR CODES
+//  ERROR CODES
 #define Max44007_OK                     0
 #define Max44007_ERROR_WIRE_REQUEST    -10
 #define Max44007_ERROR_OVERFLOW        -20
@@ -134,14 +134,14 @@ integration time manually. Effectively disable automatic mode.
     CDR = 1 ==> only 1/8th is measured
 
     TIM = Time Integration Measurement (table)
-    000  800ms
-    001  400ms
-    010  200ms
-    011  100ms
-    100   50ms       manual only
-    101   25ms       manual only
-    110   12.5ms     manual only
-    111    6.25ms    manual only
+    000   800ms
+    001   400ms
+    010   200ms
+    011   100ms
+    100    50ms       manual only
+    101    25ms       manual only
+    110    12.5ms     manual only
+    111     6.25ms    manual only
 ```
 
 

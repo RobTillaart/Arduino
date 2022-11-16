@@ -1,20 +1,18 @@
 //
 //    FILE: Max44007.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: library for Max44007 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/Max44007
 //
-//  HISTORY
-//
-//  0.1.0   2022-01-04  initial version (derived from Max44009 0.5.1)
-//  0.1.1   2022-01-05  minor refactor
+// HISTORY: see changelog.md
+
 
 
 #include "Max44007.h"
 
 
-// MAX44007 KEY VALUES
+//  MAX44007 KEY VALUES
 #define MAX44007_MIN_LUX                       (0.025)
 #define MAX44007_MAX_LUX                       (104448.0)
 
@@ -156,7 +154,7 @@ uint8_t Max44007::getConfiguration()
 
 void Max44007::setAutomaticMode()
 {
-  // CDR & TIM cannot be written in automatic mode
+  //  CDR & TIM cannot be written in automatic mode
   uint8_t config = read(MAX44007_CONFIGURATION);
   config &= ~MAX44007_CFG_MANUAL;
   write(MAX44007_CONFIGURATION, config);
@@ -181,12 +179,12 @@ void Max44007::clrContinuousMode()
 
 void Max44007::setManualMode(uint8_t CDR, uint8_t TIM)
 {
-  if (CDR !=0) CDR = 1;    // only 0 or 1 
+  if (CDR !=0) CDR = 1;    //  only 0 or 1 
   if (TIM > 7) TIM = 7;
   uint8_t config = read(MAX44007_CONFIGURATION);
   config |= MAX44007_CFG_MANUAL;
-  config &= 0xF0;                     // clear old CDR & TIM bits
-  config |= CDR << 3 | TIM;           // set new CDR & TIM bits
+  config &= 0xF0;                     //  clear old CDR & TIM bits
+  config |= CDR << 3 | TIM;           //  set new CDR & TIM bits
   write(MAX44007_CONFIGURATION, config);
 }
 
@@ -202,18 +200,18 @@ float Max44007::convertToLux(uint8_t datahigh, uint8_t datalow)
 
 ///////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 bool Max44007::setThreshold(const uint8_t reg, const float value)
 {
-  // CHECK RANGE OF VALUE
+  //  CHECK RANGE OF VALUE
   if ((value < 0.0) || (value > MAX44007_MAX_LUX)) return false;
 
   uint32_t mantissa = round(value * (1.0 / MAX44007_MIN_LUX));     //  compile time optimized.
   uint8_t exponent = 0;
   while (mantissa > 255)
   {
-    mantissa >>= 1;                // bits get lost
+    mantissa >>= 1;                //  bits get lost
     exponent++;
   };
   mantissa = (mantissa >> 4) & 0x0F;
@@ -226,7 +224,7 @@ bool Max44007::setThreshold(const uint8_t reg, const float value)
 float Max44007::getThreshold(uint8_t reg)
 {
   uint8_t datahigh = read(reg);
-  float lux = convertToLux(datahigh, 0x08);  // 0x08 = correction for lost bits 
+  float lux = convertToLux(datahigh, 0x08);  //  0x08 = correction for lost bits 
   return lux;
 }
 
@@ -238,12 +236,12 @@ uint8_t Max44007::read(uint8_t reg)
   _error = _wire->endTransmission();
   if (_error != MAX44007_OK)
   {
-    return _data; // last value
+    return _data;       //  last value
   }
   if (_wire->requestFrom(_address, (uint8_t) 1) != 1)
   {
     _error = MAX44007_ERROR_WIRE_REQUEST;
-    return _data; // last value
+    return _data;       //  last value
   }
   _data = _wire->read();
   return _data;

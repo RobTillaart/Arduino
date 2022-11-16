@@ -32,6 +32,17 @@ The library allows to read and write both single pins or 8 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
 
 
+#### Interrupts
+
+The PCF8574 has an interrupt output line (INT) to notice a MCU that one of the input lines has changed.
+This can be used to prevent active polling of the PCF8574, which can be more efficient.
+The library does not support this internally.
+
+There are two examples to show how interrupts can be used:
+- PCF8574_interrupt.ino
+- PCF8574_rotaryEncoder.ino
+
+
 ## I2C Clock
 
 Tested on UNO with **PCF8574_performance** showed that the PCF8574 still works at 500 KHz and failed at 600 KHz.

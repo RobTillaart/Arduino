@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2022-11-16
+- fix #40 - add interrupt section to readme.md
+
 ## [0.3.6] - 2022-10-19
 - fix example PCF8574_rotaryEncoder.ino
 - add RP2040 to build-CI

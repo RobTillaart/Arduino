@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2022-11-06
+- redo clock pulse
+
+
 ## [0.3.0] - 2022-11-05
 - fix inputRegister bug
 - refactor for code size

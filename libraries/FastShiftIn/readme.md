@@ -10,8 +10,11 @@
 
 Arduino library for **AVR** optimized shiftIn - e.g. for 74HC165.
 
-- library for FastShiftOut - https://github.com/RobTillaart/FastShiftOut
-- library for FastShiftInOut - https://github.com/RobTillaart/FastShiftInOut
+Related libraries
+- https://github.com/RobTillaart/FastShiftOut
+- https://github.com/RobTillaart/FastShiftInOut
+- https://github.com/RobTillaart/ShiftInSlow
+- https://github.com/RobTillaart/ShiftOutSlow
 
 
 ## Description

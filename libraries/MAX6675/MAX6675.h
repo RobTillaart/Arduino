@@ -2,33 +2,33 @@
 //
 //    FILE: MAX6675.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-12
 //     URL: https://github.com/RobTillaart/MAX6675
 
 
-// TODO Breakout board
+//  TODO Breakout board
 //
-//     +---------+
-// Vin | o       |
-// 3V3 | o       |
-// GND | o     O | Thermocouple
-//  D0 | o     O | Thermocouple
-//  CS | o       |
-// CLK | o       |
-//     +---------+
+//       +---------+
+//   Vin | o       |
+//   3V3 | o       |
+//   GND | o     O | Thermocouple
+//    D0 | o     O | Thermocouple
+//    CS | o       |
+//   CLK | o       |
+//       +---------+
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define MAX6675_LIB_VERSION               (F("0.1.1"))
+#define MAX6675_LIB_VERSION               (F("0.1.2"))
 
 #define MAX6675_NO_TEMPERATURE            -999
 
-// STATE constants returned by read()
-// TODO check
+//  STATE constants returned by read()
+//  TODO check
 #define STATUS_OK                         0x00
 #define STATUS_ERROR                      0x04
 #define STATUS_NOREAD                     0x80
@@ -53,13 +53,13 @@ public:
   //  SW SPI
   void     begin(uint8_t clock, uint8_t select, uint8_t miso);
 
-  // returns state - bit field: 0 = STATUS_OK
+  //       returns state - bit field: 0 = STATUS_OK
   uint8_t  read();
   float    getTemperature(void)  { return _temperature + _offset; };
 
   uint8_t  getStatus(void) const { return _status; };
 
-  // use offset to calibrate the TC.
+  //       use offset to calibrate the TC.
   void     setOffset(const float  t)   { _offset = t; };
   float    getOffset() const           { return _offset; };
 
@@ -80,7 +80,7 @@ public:
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //       to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

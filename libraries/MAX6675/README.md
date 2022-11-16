@@ -14,7 +14,8 @@ The library is based upon (stripped and adapted version of) the https://github.c
 
 Currently the library is experimental, so use with care.
 
-Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO @ 16 MHz. The library works and it reads temperatures well, both with HW SPI and SW SPI. 
+Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO @ 16 MHz. 
+The library works and it reads temperatures well, both with HW SPI and SW SPI. 
 
 
 ## Description

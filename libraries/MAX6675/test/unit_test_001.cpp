@@ -46,18 +46,6 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constants)
 {
@@ -65,7 +53,7 @@ unittest(test_constants)
   assertEqual(0x04, STATUS_ERROR);
   assertEqual(0x80, STATUS_NOREAD);
   assertEqual(0x81, STATUS_NO_COMMUNICATION);
-  
+
   assertEqual(-999, MAX6675_NO_TEMPERATURE);
 }
 
@@ -137,4 +125,5 @@ unittest(test_SPIspeed_SWSPIdelay)
 
 unittest_main()
 
-// --------
+
+// -- END OF FILE --

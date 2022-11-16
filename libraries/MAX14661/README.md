@@ -26,7 +26,7 @@ Addresses go from 0x4C (76) .. 0x4F (79). See table 3 datasheet.
 
 ## Interface
 
-The library provides 3 kinds of interfaces. 
+The library provides 3 kinds of interfaces (PAIR, SHADOW, MUX). 
 Mixing these interfaces is allowed but definitely not advised as 
 especially the PAIR interface assumes that A and B selections 
 are kept in sync.
@@ -38,7 +38,7 @@ So depending on your application choose the interface you want to use.
 
 - **MAX14661(deviceAddress, TwoWire \*wire = &Wire)** Constructor with device address, 
 and optional the Wire interface as parameter.
-- **bool begin()** initializes the wire interface 
+- **bool begin()** initializes the wire interface.
 - **bool begin(sda, scl)** idem, for the ESP32 where one can choose the I2C pins.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 
@@ -91,7 +91,7 @@ prepare per channel
 
 ### MUX interface
 
-The MUX interface allows one channel to be open at a time.
+The MUX interface allows one channel (0..15) to be open at a time.
 
 - **void MUXA(uint8_t channel)** if channel < 16 only that channel will be selected. All other values will select no channel.
 - **uint8_t getMUXA()** returns the selected channel. 255 means none selected.
@@ -101,7 +101,7 @@ The MUX interface allows one channel to be open at a time.
 
 ### FULL CONTROL interface
 
-full control per channel, any combination is possible.
+Full control per channel, any combination is possible.
 Use with care as these can interfere e.g. with the PAIR interface.
 All functions return false if channel > 15.
 
@@ -126,21 +126,28 @@ Check datasheet for these values of the registers.
 
 ## Error codes
 
-to be elaborated
-
-
-## Future
-
-- test behaviour
-- test I2C speed.
-- measure performance
-- optimize low level bit set/clr/get read/write 2bytes at once.
-- write unit tests.
-- error handling
-- improve documentation
-- initial values parameter for begin()?
+to be elaborated (see future).
 
 
 ## Operation
 
 See examples
+
+
+## Future
+
+#### must
+- improve documentation
+
+#### should
+- test behaviour
+- write unit tests.
+- error handling
+
+#### could
+- optimize low level bit set/clr/get read/write 2 bytes at once.
+- test I2C speed.
+- measure performance.
+- initial values parameter for begin()?
+- SPI interface.
+

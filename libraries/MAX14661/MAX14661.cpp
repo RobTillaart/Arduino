@@ -2,20 +2,19 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 //
-//  HISTORY:
-//  0.1.0  2021-01-29  initial version
-//  0.1.1  2021-08-30  add shadow interface - experimental
-//  0.1.2  2021-12-21  update library.json, license, minor edits
+// HISTORY: see changelog.md
 
 
 #include "MAX14661.h"
 
 
-// registers
+//
+//  REGISTERS
+//
 #define MAX14661_DIR0       0x00
 #define MAX14661_DIR1       0x01
 #define MAX14661_DIR2       0x02
@@ -72,7 +71,7 @@ bool MAX14661::isConnected()
 
 /////////////////////////////////////////////////////////
 //
-// PAIR INTERFACE
+//  PAIR INTERFACE
 //
 bool MAX14661::openChannel(uint8_t channel)
 {
@@ -116,7 +115,7 @@ bool MAX14661::closeChannel(uint8_t channel)
 }
 
 
-// assumption both A and B are in same state
+//  assumption both A and B are in same state
 bool MAX14661::isOpenChannel(uint8_t channel)
 {
   if (channel > 15) return false;
@@ -143,6 +142,7 @@ void MAX14661::closeAllChannels()
   setChannels(0);
 }
 
+
 void MAX14661::setChannels(uint16_t mask)
 {
   writeRegister(MAX14661_DIR0, mask & 0x00FF);
@@ -152,7 +152,7 @@ void MAX14661::setChannels(uint16_t mask)
 }
 
 
-// assumption both A and B are in same state
+//  assumption both A and B are in same state
 uint16_t MAX14661::getChannels()
 {
   uint16_t channels = readRegister(MAX14661_DIR1) << 8;
@@ -163,7 +163,7 @@ uint16_t MAX14661::getChannels()
 
 /////////////////////////////////////////////////////////
 //
-// SHADOW INTERFACE
+//  SHADOW INTERFACE
 //
 void MAX14661::shadowClear()
 {
@@ -178,7 +178,9 @@ void MAX14661::activateShadow()
   writeRegister(MAX14661_CMD_B, 0x11);
 }
 
+
 ////////////////////////////////////////////////////////////
+
 
 void MAX14661::setShadowChannelMaskA(uint16_t mask)
 {
@@ -209,7 +211,9 @@ uint16_t MAX14661::getShadowChannelMaskB()
   return mask;
 }
 
+
 ////////////////////////////////////////////////////////////
+
 
 bool MAX14661::openShadowChannelA(uint8_t channel)
 {
@@ -312,7 +316,7 @@ bool MAX14661::isOpenShadowChannelB(uint8_t channel)
 
 /////////////////////////////////////////////////////////
 //
-// MUX INTERFACE
+//  MUX INTERFACE
 //
 void MAX14661::MUXA(uint8_t channel)
 {
@@ -348,7 +352,7 @@ uint8_t MAX14661::getMUXB()
 
 /////////////////////////////////////////////////////////
 //
-// FULL CONTROL
+//  FULL CONTROL
 //
 bool MAX14661::openA(uint8_t channel)
 {
@@ -420,7 +424,7 @@ bool MAX14661::closeB(uint8_t channel)
 
 /////////////////////////////////////////////////////////
 //
-// LOW LEVEL CONTROL
+//  LOW LEVEL CONTROL
 //
 uint8_t MAX14661::readRegister(uint8_t reg)
 {
@@ -455,6 +459,5 @@ int MAX14661::lastError()
 }
 
 
+//  -- END OF FILE --
 
-
-// -- END OF FILE --

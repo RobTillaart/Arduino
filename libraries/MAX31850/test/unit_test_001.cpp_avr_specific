@@ -1,0 +1,78 @@
+//
+//    FILE: unit_test_001.cpp
+//  AUTHOR: Rob Tillaart
+//    DATE: 2021-06-03
+// PURPOSE: unit tests for the MAX31850 library
+//          https://github.com/RobTillaart/MAX31850
+//          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
+//
+
+// supported assertions
+// https://github.com/Arduino-CI/arduino_ci/blob/master/cpp/unittest/Assertion.h#L33-L42
+// ----------------------------
+// assertEqual(expected, actual)
+// assertNotEqual(expected, actual)
+// assertLess(expected, actual)
+// assertMore(expected, actual)
+// assertLessOrEqual(expected, actual)
+// assertMoreOrEqual(expected, actual)
+// assertTrue(actual)
+// assertFalse(actual)
+// assertNull(actual)
+// assertNotNull(actual)
+
+#include <ArduinoUnitTests.h>
+
+
+#include "Arduino.h"
+#include "MAX31850.h"
+
+
+
+unittest_setup()
+{
+  fprintf(stderr, "MAX31850_LIB_VERSION: %s\n", (char*) MAX31850_LIB_VERSION);
+}
+
+
+unittest_teardown()
+{
+}
+
+
+unittest(test_constructor)
+{
+  OneWire oneWire(4);
+  MAX31850 sensor(&oneWire);
+
+  sensor.begin();
+  
+  assertEqual(MAX31850_CLEAR, sensor.getConfig());
+  
+  sensor.setConfig(MAX31850_CRC);
+  assertEqual(MAX31850_CRC, sensor.getConfig());
+  
+  sensor.setConfig(MAX31850_CLEAR);
+  assertEqual(MAX31850_CLEAR, sensor.getConfig());
+}
+
+unittest(test_try_read)
+{
+  OneWire oneWire(4);
+  MAX31850 sensor(&oneWire);
+
+  sensor.begin();
+  for (int res = 9; res < 13; res++)
+  {
+    sensor.setResolution(res);
+    sensor.requestTemperatures();
+    delay(750);
+    assertFalse(sensor.isConversionComplete());
+    assertEqual(DEVICE_DISCONNECTED, sensor.getTempC());
+  }
+  
+}
+
+unittest_main()
+
+// --------

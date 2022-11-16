@@ -1,0 +1,23 @@
+{
+  "name": "MAX31850",
+  "keywords": "MAX31850,MAX31851,Onewire, Temperature,thermocouple",
+  "description": "Arduino library for the MAX31850 thermocouple temperature sensor. Restricted to a single sensor per pin. Minimalistic version.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX31850.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MAX31850.h"
+}

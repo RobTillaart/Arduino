@@ -36,32 +36,19 @@
 #include "MAX31855.h"
 
 
-
 unittest_setup()
 {
+  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
 }
+
 
 unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_constants)
 {
-  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
-
   assertEqual(0x00, STATUS_OK);
   assertEqual(0x01, STATUS_OPEN_CIRCUIT);
   assertEqual(0x02, STATUS_SHORT_TO_GND);
@@ -69,15 +56,13 @@ unittest(test_constants)
   assertEqual(0x07, STATUS_ERROR);
   assertEqual(0x80, STATUS_NOREAD);
   assertEqual(0x81, STATUS_NO_COMMUNICATION);
-  
+
   assertEqual(-999, MAX31855_NO_TEMPERATURE);
 }
 
 
 unittest(test_status)
 {
-  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
-  
   const int doPin = 7;
   const int csPin = 6;
   const int clPin = 5;
@@ -100,8 +85,6 @@ unittest(test_status)
 
 unittest(test_temperature)
 {
-  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
-  
   const int doPin = 7;
   const int csPin = 6;
   const int clPin = 5;
@@ -122,7 +105,7 @@ unittest(test_temperature)
   }
 
   fprintf(stderr, "\nSeebeckCoefficient...\n");
-  for (float sbc = 9; sbc < 100; sbc += 12.345)  // non existent still good for test.
+  for (float sbc = 9; sbc < 100; sbc += 12.345)    //  non existent still good for test.
   {
     tc.setSeebeckCoefficient(sbc);
     fprintf(stderr, "%f\t", sbc);
@@ -133,8 +116,6 @@ unittest(test_temperature)
 
 unittest(test_SPIspeed_SWSPIdelay)
 {
-  fprintf(stderr, "MAX31855_VERSION: %s\n", (char *) MAX31855_VERSION);
-  
   const int doPin = 7;
   const int csPin = 6;
   const int clPin = 5;
@@ -162,4 +143,5 @@ unittest(test_SPIspeed_SWSPIdelay)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

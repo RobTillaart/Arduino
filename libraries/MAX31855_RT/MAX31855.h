@@ -2,30 +2,30 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //          http://forum.arduino.cc/index.php?topic=208061
 
 
-// Breakout board
+//        Breakout board
 //
-//     +---------+
-// Vin | o       |
-// 3V3 | o       |
-// GND | o     O | Thermocouple
-//  D0 | o     O | Thermocouple
-//  CS | o       |
-// CLK | o       |
-//     +---------+
+//         +---------+
+//     Vin | o       |
+//     3V3 | o       |
+//     GND | o     O |   Thermocouple
+//      D0 | o     O |   Thermocouple
+//      CS | o       |
+//     CLK | o       |
+//         +---------+
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.4.1"))
+#define MAX31855_VERSION              (F("0.4.2"))
 
 #define MAX31855_NO_TEMPERATURE       -999
 
@@ -71,7 +71,7 @@ public:
   //  SW SPI
   void     begin(uint8_t clock, uint8_t select, uint8_t miso);
 
-  // returns state - bit field: 0 = STATUS_OK
+  //  returns state - bit field: 0 = STATUS_OK
   uint8_t  read();
 
   float    getInternal(void) const { return _internal; }
@@ -85,7 +85,7 @@ public:
   inline   bool noRead()          { return _status == STATUS_NOREAD; };
   inline   bool noCommunication() { return _status == STATUS_NO_COMMUNICATION; };
 
-  // use offset to calibrate the TC.
+  //  use offset to calibrate the TC.
   void     setOffset(const float  t)   { _offset = t; };
   float    getOffset() const           { return _offset; };
 
@@ -112,7 +112,7 @@ public:
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

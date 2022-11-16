@@ -27,14 +27,14 @@ other types of TC's. See details below.
 Library tested with breakout board
 
 ```
-     +---------+
- Vin | o       |
- 3V3 | o       |
- GND | o     O | Thermocouple
-  D0 | o     O | Thermocouple
-  CS | o       |
- CLK | o       |
-     +---------+
+         +---------+
+     Vin | o       |
+     3V3 | o       |
+     GND | o     O | Thermocouple
+      D0 | o     O | Thermocouple
+      CS | o       |
+     CLK | o       |
+         +---------+
 
 ```
 
@@ -60,7 +60,6 @@ Performance read() function, timing in us.  (ESP32 @240MHz)
 | HW SPI |  1000000 |    ~100    |      ~51     |
 | HW SPI |   500000 |    ~128    |      ~89     |
 | SW SPI | bit bang |    ~500    |      ~17 (!) |
-
 
 
 ## Interface
@@ -286,6 +285,13 @@ as one does not set the Seebeck Coefficient it will use the K_TC as default.
 
 ## Future
 
+#### must
+
+
+#### should
 - investigate other TC's 
 - 
+
+
+#### could
 

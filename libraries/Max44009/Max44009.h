@@ -2,29 +2,29 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: library for MAX44009 lux sensor Arduino
-// HISTORY: See Max440099.cpp
+// HISTORY: See changelog.md
 
 
-//  breakout MAX44009 / GY-49
+//      breakout MAX44009 / GY-49
 //
-//      +--------+
-//  VCC |o       |
-//  GND |o       |
-//  SCL |o      o| ADDRESS
-//  SDA |o      o| -INT
-//      +--------+
+//          +--------+
+//      VCC |o       |
+//      GND |o       |
+//      SCL |o      o| ADDRESS
+//      SDA |o      o| -INT
+//          +--------+
 //
-// ADDRESS:
-// 0 = 0x4A
-// 1 = 0x4B
+//  ADDRESS:
+//  0 = 0x4A
+//  1 = 0x4B
 //
-// INT:
-// Connect the INT pin to an pull up resistor
-// 0 = interrupt
-// 1 = no interrupt
-// connect to an LED or an interrupt pin of an Arduino
+//  INT:
+//  Connect the INT pin to an pull up resistor
+//  0 = interrupt
+//  1 = no interrupt
+//  connect to an LED or an interrupt pin of an Arduino
 //
 
 
@@ -32,7 +32,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION                  (F("0.5.2"))
+#define MAX44009_LIB_VERSION                  (F("0.5.3"))
 
 #define MAX44009_DEFAULT_ADDRESS              0x4A
 #define MAX44009_ALT_ADDRESS                  0x4B
@@ -67,31 +67,31 @@
 class Max44009
 {
 public:
-  // enum class to prevent bool to be implicitly casted to int
+  //  enum class to prevent bool to be implicitly casted to int
   enum class Boolean { True, False };
 
 #if defined(ESP8266) || defined(ESP32)
-  // dataPin and clockPin can be used for ESP8266
+  //  dataPin and clockPin can be used for ESP8266
   Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin);
 #endif
 
-  // ctor for UNO
+  //  constructor for UNO
   Max44009(const uint8_t address, const Boolean begin = Boolean::True);
-  // default ctor with default address
+  //  default constructor with default address
   Max44009(const Boolean begin = Boolean::True);
-  // Change I2C interface and address
+  //  Change I2C interface and address
   void configure(const uint8_t address, TwoWire *wire, const Boolean begin = Boolean::True);
 
   bool    isConnected();
   float   getLux();
   int     getError();
 
-  // threshold must be between 0 and 188006
-  bool    setHighThreshold(const float value);       // returns false if value out of range
+  //      threshold must be between 0 and 188006
+  bool    setHighThreshold(const float value);       //  returns false if value out of range
   float   getHighThreshold(void);
-  bool    setLowThreshold(const float value);        // returns false if value out of range
+  bool    setLowThreshold(const float value);        //  returns false if value out of range
   float   getLowThreshold(void);
-  void    setThresholdTimer(const uint8_t value);    // 2 seems practical minimum
+  void    setThresholdTimer(const uint8_t value);    //  2 seems practical minimum
   uint8_t getThresholdTimer();
 
   void    enableInterrupt()    { write(MAX44009_INTERRUPT_ENABLE, 1); };
@@ -99,27 +99,28 @@ public:
   bool    interruptEnabled()   { return read(MAX44009_INTERRUPT_ENABLE) & 0x01; };
   uint8_t getInterruptStatus() { return read(MAX44009_INTERRUPT_STATUS) & 0x01; };
 
-  // check datasheet for detailed behavior
+  //  check datasheet for detailed behaviour
   void    setConfiguration(uint8_t);
   uint8_t getConfiguration();
   void    setAutomaticMode();
-  void    setContinuousMode();    // uses more power
-  void    clrContinuousMode();    // uses less power
-  // CDR = Current Divisor Ratio
-  // CDR = 1 ==> only 1/8th is measured
-  // TIM = Time Integration Measurement (table)
-  // 000  800ms
-  // 001  400ms
-  // 010  200ms
-  // 011  100ms
-  // 100   50ms       manual only
-  // 101   25ms       manual only
-  // 110   12.5ms     manual only
-  // 111    6.25ms    manual only
-  void    setManualMode(uint8_t CDR, uint8_t TIM);
-  int     getIntegrationTime() { return 800 >> (getConfiguration() & 0x07); };  // ms
+  void    setContinuousMode();    //  uses more power
+  void    clrContinuousMode();    //  uses less power
 
-  // TEST the math
+  //      CDR = Current Divisor Ratio
+  //      CDR = 1 ==> only 1/8th is measured
+  //      TIM = Time Integration Measurement (table)
+  //      000   800ms
+  //      001   400ms
+  //      010   200ms
+  //      011   100ms
+  //      100    50ms       manual only
+  //      101    25ms       manual only
+  //      110    12.5ms     manual only
+  //      111     6.25ms    manual only
+  void    setManualMode(uint8_t CDR, uint8_t TIM);
+  int     getIntegrationTime() { return 800 >> (getConfiguration() & 0x07); };  //  ms
+
+  //  TEST the math
   float   convertToLux(uint8_t datahigh, uint8_t datalow);
 
 
@@ -138,5 +139,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

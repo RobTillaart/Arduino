@@ -18,31 +18,31 @@ a.k.a. GY-49
 The MAX44009 ambient light sensor is an I2C sensor, that has a 22 bit 
 dynamic range from 0.045 lux to 188,000 lux.
 
-relates to https://github.com/RobTillaart/Max44007 
+Relates to https://github.com/RobTillaart/Max44007 
 
 
 ## Schema breakout max44009 / GY-49
 
 
 ```cpp
-//  breakout MAX44009 / GY-49
+//       breakout MAX44009 / GY-49
 //
-//      +--------+
-//  VCC |o       |
-//  GND |o       |
-//  SCL |o      o| ADDRESS
-//  SDA |o      o| -INT
-//      +--------+
+//          +--------+
+//      VCC |o       |
+//      GND |o       |
+//      SCL |o      o| ADDRESS
+//      SDA |o      o| -INT
+//          +--------+
 //
-// ADDRESS:
-// 0 = 0x4A
-// 1 = 0x4B
+//  ADDRESS:
+//  0 = 0x4A
+//  1 = 0x4B
 //
-// INT:
-// Connect the INT pin to an pull up resistor
-// 0 = interrupt
-// 1 = no interrupt
-// connect to an LED or an interrupt pin of an Arduino
+//  INT:
+//  Connect the INT pin to an pull up resistor
+//  0 = interrupt
+//  1 = no interrupt
+//  connect to an LED or an interrupt pin of an Arduino
 //
 ```
 
@@ -114,7 +114,7 @@ check datasheet for details
 
 ### Configure sample mode
 
-check datasheet for details
+Check datasheet for details.
 
 CCR = Current Divisor Ratio.
 
@@ -134,14 +134,14 @@ integration time manually. Effectively disable automatic mode.
     CDR = 1 ==> only 1/8th is measured
 
     TIM = Time Integration Measurement (table)
-    000  800ms
-    001  400ms
-    010  200ms
-    011  100ms
-    100   50ms       manual only
-    101   25ms       manual only
-    110   12.5ms     manual only
-    111    6.25ms    manual only
+    000   800ms
+    001   400ms
+    010   200ms
+    011   100ms
+    100    50ms       manual only
+    101    25ms       manual only
+    110    12.5ms     manual only
+    111     6.25ms    manual only
 ```
 
 
@@ -167,8 +167,8 @@ format to a LUX value.
 ## Notes
 
 Please be aware this is a **3.3 Volt device** so it should not be connected
-to an Arduino or other 5 Volt device directly. Use a level convertor to 
-solve this.
+to an Arduino UNO or other 5 Volt device directly. 
+Use a level convertor to solve this.
 
 Do not forget to connect the address pin as you cannot read the sensor
 in a reliable way. As the line will float it will sometimes have the
@@ -184,4 +184,5 @@ right address and sometimes not. (been there ;)
 #### MAX44007
 
 The MAX44007 is an almost identical sensor that uses a step size of 0.025.
-That implies the library is not useable 1 to 1 for the MAX4007, however some 
+This implies that this library is not useable 1 to 1 for the MAX44007, however some parts will work/
+

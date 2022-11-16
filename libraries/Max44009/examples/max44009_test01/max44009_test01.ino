@@ -3,6 +3,19 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of max44009 library
 //    DATE: 2015-08-06
+//
+//      breakout MAX44009 / GY-49
+//
+//          +--------+
+//      VCC |o       |
+//      GND |o       |
+//      SCL |o      o| ADDRESS
+//      SDA |o      o| -INT
+//          +--------+
+//
+//  ADDRESS:
+//  0 = 0x4A
+//  1 = 0x4B
 
 
 #include "Wire.h"
@@ -41,7 +54,7 @@ void loop()
     else
     {
       Serial.print("lux:\t");
-      Serial.println(lux);
+      Serial.println(lux, 3);
     }
   }
 }

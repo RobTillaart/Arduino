@@ -26,8 +26,6 @@
 #include "Arduino.h"
 #include "MINMAX.h"
 
-#define A0      0
-
 
 unittest_setup()
 {
@@ -70,6 +68,9 @@ unittest(test_reset)
   {
     mm.add(i);
   }
+  assertEqual(0, mm.minimum());
+  assertEqual(9, mm.maximum());
+  assertEqual(10, mm.count());
   mm.reset();
   assertEqual(0, mm.minimum());
   assertEqual(0, mm.maximum());
@@ -90,6 +91,18 @@ unittest(test_autoReset)
   assertEqual(10, mm.minimum());
   assertEqual(14, mm.maximum());
   assertEqual(5, mm.count());
+}
+
+
+unittest(test_lastValue)
+{
+  MINMAX mm;
+
+  for (int i = 0; i < 10; i++)
+  {
+    mm.add(i);
+  }
+  assertEqual(9, mm.lastValue());
 }
 
 

@@ -2,22 +2,15 @@
 //
 //    FILE: MINMAX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
-//
-//  HISTORY:
-//  0.1.0  2021-10-14  initial version
-//  0.1.1  2021-11-09  update readme, parameters
-//                     add getAutoResetCount()
-//                     rename setAutoResetCount()
-//  0.1.2  2021-12-21  update library.json, license, minor edits
-//                     defined constants
+
 
 
 #include "Arduino.h"
 
-#define MINMAX_LIB_VERSION                  (F("0.1.2"))
+#define MINMAX_LIB_VERSION                  (F("0.1.3"))
 
 #define MINMAX_NO_CHANGE                    0X00
 #define MINMAX_MIN_CHANGED                  0X01
@@ -33,12 +26,14 @@ public:
   {
     reset();
     _resetCount = 0;
+    _callback = NULL;
   }
 
 
   uint8_t add(const float value)
   {
     uint8_t rv = MINMAX_NO_CHANGE;
+    _lastValue = value;
     if ((_resetCount != 0) && (_resetCount == _count))
     {
       reset();
@@ -47,29 +42,41 @@ public:
     if ((value < _minimum) || (_count == 0))
     {
       _minimum = value;
+      _lastMin = millis();
       rv |= MINMAX_MIN_CHANGED;
     }
     if ((value > _maximum) || (_count == 0))
     {
       _maximum = value;
+      _lastMax = millis();
       rv |= MINMAX_MAX_CHANGED;
     }
     _count++;
+    if ((rv != MINMAX_NO_CHANGE) && (_callback != NULL)) _callback();
     return rv;
   }
 
 
   void reset()
   {
+    _lastValue = 0;
     _minimum = 0;
     _maximum = 0;
     _count   = 0;
+    _lastMin = 0;
+    _lastMax = 0;
   }
 
 
-  void autoReset(uint32_t count)  // obsolete 0.2.0
+  void addCallBack( void (* func)(void) )
   {
-    _resetCount = count;
+    _callback = func;
+  };
+
+
+  void autoReset(uint32_t count)  //  obsolete 0.2.0
+  {
+    setAutoResetCount(count);
   };
 
 
@@ -85,16 +92,24 @@ public:
   };
 
 
+  float    lastValue() { return _lastValue; };
   float    minimum() { return _minimum; };
   float    maximum() { return _maximum; };
   uint32_t count()   { return _count; };
+  uint32_t lastMin() { return _lastMin; };
+  uint32_t lastMax() { return _lastMax; };
 
 
 private:
+  float    _lastValue;
   float    _minimum;
   float    _maximum;
   uint32_t _count;
   uint32_t _resetCount;
+  void     (* _callback)(void);
+
+  uint32_t _lastMin;
+  uint32_t _lastMax;
 
 };
 

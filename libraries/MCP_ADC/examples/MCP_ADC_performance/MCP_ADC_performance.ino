@@ -13,7 +13,7 @@
 
 MCP3002 mcp2;
 MCP3004 mcp4;
-MCP3008 mcp8(11,12,13);  // software spi
+MCP3008 mcp8(11, 12, 13);     // software spi
 // MCP3008 mcp8;               // hardware spi
 MCP3202 mcp22;
 MCP3204 mcp24;
@@ -79,6 +79,24 @@ void setup()
     Serial.println(s * 1000000UL);
     mcp8.setSPIspeed(s * 1000000UL);
     test_3();
+  }
+
+  // on UNO there is no difference above 8MHz (half CPU clock)
+  Serial.println("***************************************\n");
+  for (int s = 1; s <= 16; s *= 2)
+  {
+    Serial.println(s * 1000000UL);
+    mcp22.setSPIspeed(s * 1000000UL);
+    test_4();
+  }
+
+  // on UNO there is no difference above 8MHz (half CPU clock)
+  Serial.println("***************************************\n");
+  for (int s = 1; s <= 16; s *= 2)
+  {
+    Serial.println(s * 1000000UL);
+    mcp24.setSPIspeed(s * 1000000UL);
+    test_5();
   }
 
   // on UNO there is no difference above 8MHz (half CPU clock)
@@ -204,6 +222,80 @@ void test_3()
   }
   stop = micros();
   Serial.print("mcp8.deltaRead()\t8x: \t");
+  Serial.println(stop - start);
+  Serial.println();
+  delay(10);
+}
+
+
+void test_4()
+{
+  uint32_t val = 0;
+
+  start = micros();
+  for (int channel = 0; channel < mcp22.channels(); channel++)
+  {
+    val += mcp22.analogRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp22.analogRead()\t2x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp22.channels(); channel++)
+  {
+    val += mcp22.differentialRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp22.differentialRead() 2x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp22.channels(); channel++)
+  {
+    val += mcp22.deltaRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp22.deltaRead()\t2x: \t");
+  Serial.println(stop - start);
+  Serial.println();
+  delay(10);
+}
+
+
+void test_5()
+{
+  uint32_t val = 0;
+
+  start = micros();
+  for (int channel = 0; channel < mcp24.channels(); channel++)
+  {
+    val += mcp24.analogRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp24.analogRead()\t4x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp24.channels(); channel++)
+  {
+    val += mcp24.differentialRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp24.differentialRead() 4x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0; channel < mcp24.channels(); channel++)
+  {
+    val += mcp24.deltaRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp24.deltaRead()\t4x: \t");
   Serial.println(stop - start);
   Serial.println();
   delay(10);

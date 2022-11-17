@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.8"))
+#define MCP_ADC_LIB_VERSION       (F("0.1.9"))
 
 
 class MCP_ADC
@@ -32,17 +32,17 @@ public:
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed()               { return _SPIspeed; };
 
-  // debugging
+  //       debugging
   bool     usesHWSPI() { return _hwSPI; };
 
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
@@ -57,9 +57,9 @@ protected:
   bool     _hwSPI;
   uint8_t  _channels;
   int16_t  _maxValue;
-  uint32_t _SPIspeed = 1000000;   // 1MHz is a safe value (datasheet); in a test 4 MHz worked.
+  uint32_t _SPIspeed = 1000000;   //  1 MHz is a safe value (datasheet); in a test 4 MHz worked.
 
-  // derived classes must implement this one
+  //  derived classes must implement buildRequest() function.
   virtual uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data) = 0;
 
   int16_t  readADC(uint8_t channel, bool single);
@@ -75,9 +75,11 @@ protected:
   uint32_t _count;
 };
 
+
 /////////////////////////////////////////////////////////////////////////////
-
-
+//
+//  DERIVED CLASSES
+//
 class MCP3002 : public MCP_ADC
 {
 public:
@@ -85,12 +87,14 @@ public:
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
+
 class MCP3004 : public MCP_ADC
 {
 public:
   MCP3004(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
+
 
 class MCP3008 : public MCP_ADC
 {

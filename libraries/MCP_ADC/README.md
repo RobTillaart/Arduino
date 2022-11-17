@@ -134,10 +134,22 @@ which indicates that the last 2 bits got lost due to signal deformation.
 For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
 
 
+## Operations
+
+See examples.
+
+
 ## Future
 
+#### must
 - documentation
 - testing, a lot ...
+
+
+#### should
+
+
+#### could
 - analogRead (mask, int array\[8\] ) read ports (set in mask) in an array in one call.
   would this save time?
 
@@ -146,9 +158,5 @@ For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
 
 - get / setF(float A, float B) => float readF(channel)   output = A\*value + B;
   it actually does float mapping. As it implies the same mapping for all it might 
-  not be that useful => multmap
-  
+  not be that useful => multimap
 
-## Operations
-
-See examples.

@@ -8,7 +8,7 @@
 
 # ML8511
 
-Arduino library for ML8511 UV sensor.
+Arduino library for the ML8511 UV sensor.
 
 
 ## Warning
@@ -24,17 +24,20 @@ When using artificial UV light (TL LED laser a.o.) use appropriate shielding.
 
 ML8511 - UV sensor - library for Arduino UNO. 
 
+- 3V3 Sensor so do **NOT** connect to 5V directly.
+- do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
 
-## Breakout
+
+#### Breakout
 
 ```
-//      +-------+--+
-//  VIN |o      +-+| mounting hole
-//  3V3 |o      +-+|
-//  GND |o         |
-//  OUT |o         |
-//   EN |o       S |  Sensor
-//      +----------+
+//        +-------+--+
+//    VIN |o      +-+|  mounting hole
+//    3V3 |o      +-+|
+//    GND |o         |
+//    OUT |o         |
+//     EN |o       S |  Sensor
+//        +----------+
 ```
 
 
@@ -47,18 +50,18 @@ reference of 5.0 Volt == 1023 steps as default.
 If one wants to use other ratio e.g. 3.3 volts == 4095 steps, one
 can set those with **setVoltagePerStep()**.
 
-```
+```cpp
     ML8511 light(A0, 7);
     light.setVoltagePerStep(3.3, 4095);
 ```
 
 It is possible to always enable the sensor by connecting the EN pin to 3V3.
 The value of the enablePin in the constructor should then be omitted 
-or set to a negative value;
+or set to a negative value.
 
-When connecting to an Arduino UNO one can use the 3V3 of the Arduino to power
-the sensor. However it is not possible to connect the enable pin directly to the 
-sensor. Use a voltage divider (10K + 20K) to convert the 5 Volts to ~3.3 Volts.
+When connecting to an Arduino UNO one can use the 3V3 of the Arduino to power the sensor. 
+However it is not possible to connect the enable pin directly to the sensor. 
+Use a voltage divider (10K + 20K) to convert the 5 Volts to ~3.3 Volts.
 
 
 ## Interface
@@ -85,13 +88,13 @@ WARNING: USE WITH CARE
 - **void setDUVfactor(float factor)** set the conversion factor
 - **float getDUVfactor()** returns the set conversion factor (default 1.61)
 
-See below how to determine the DUV factor for your sensor.
+See below (Experimental DUVindex) how to determine the DUV factor for your sensor.
 
-Note: 
+_Note: 
 The UV index can be very high, in La Paz, Bolivia, one of the highest cities in the world
 the DUV index can go above 20. See link below.
 This is really extreme and it is unknown how the ML8511 sensor (and this library) behaves under such conditions, and how long the sensor would survive.
-Datasheet goes up to 15 mW per cm2, with a default DUVfactor of ~1.61 the measurements could handle DUV of ~24 in theory.
+Datasheet goes up to 15 mW per cm2, with a default DUVfactor of ~1.61 the measurements could handle DUV of ~24 in theory._
 
 https://edition.cnn.com/2021/11/03/americas/bolivia-heatwave-highlands-intl/index.html
 
@@ -150,6 +153,8 @@ Hardcode this found value in the library (in the constructor) or better
 use the **setDUVfactor(factor)** call in **setup()** to calibrate your sensor.
 
 
+## Version info
+
 #### 0.1.5 and before
 
 The formula for the experimental **estimateDUVindex(mWcm2)** is based on
@@ -169,24 +174,14 @@ The formula is simplified to a single factor that the user needs to determine.
 Below is described how to do the calibration. 
 
 
-#### 0.1.7
-
-- update Arduino-CI, badges
-- add voltage2mW() for external ADC
-
-
-#### 0.1.8
-
--  update library.json, license, minor edits
-
 
 ## External ADC
 
 **float voltage2mW(float voltage)** can be used for an external ADC e.g ADS1015,
 ADS1115 or one of the (fast) MCP_ADC's.
 
-https://github.com/RobTillaart/ADS1X15 
-https://github.com/RobTillaart/MCP_ADC
+- https://github.com/RobTillaart/ADS1X15 
+- https://github.com/RobTillaart/MCP_ADC
 
 
 ## More about UV
@@ -194,20 +189,20 @@ https://github.com/RobTillaart/MCP_ADC
 https://en.wikipedia.org/wiki/Ultraviolet_index
 
 
-## Notes
-
-- 3V3 Sensor so do **NOT** connect to 5V directly.
-- do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
-
-
 ## Future
 
+#### must
+- improve documentation
 - refactor / reorganize readme.md
+
+#### should
 - test more
 - get unit tests up and running
 - investigate in calibration 
 - check performance
+
+#### could
 - investigate serial UV communication with UV led
 - voltage2mW -> handle negative voltages by taking abs value?
-- 
+
 

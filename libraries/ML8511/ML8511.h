@@ -2,64 +2,69 @@
 //
 //    FILE: ML8511.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511
 //
-// HISTORY:
-// see ML8511.cpp file
+//  NOTES
+//    ML8511 is a 3.3 Volt device,
+//    so do not connect to a 5V device (e.g. UNO)
+//    this includes the ENABLE PIN !!
 //
-// NOTES
-//   ML8511 is a 3.3 Volt device,
-//   so do not connect to a 5V device (e.g. UNO)
-//   this includes the ENABLE PIN !!
-//
+//        +-------+--+
+//    VIN |o      +-+| mounting hole
+//    3V3 |o      +-+|
+//    GND |o         |
+//    OUT |o         |
+//     EN |o       S |  Sensor
+//        +----------+
 
 
 #include <Arduino.h>
 
-#define ML8511_LIB_VERSION            (F("0.1.8"))
+#define ML8511_LIB_VERSION            (F("0.1.9"))
 
 
 class ML8511
 {
 public:
-  // if enablePin is omitted, one must connect EN to 3V3.
+  //  if enablePin is omitted, one must connect EN to 3V3.
   ML8511(uint8_t analogPin, uint8_t enablePin = 0xFF);
 
-  void reset();  // reset internal variables to initial value.
+  void reset();  //  reset internal variables to initial value.
 
-  // energyMode = HIGH or LOW;
-  // returns mW per cm2
+  //  energyMode = HIGH or LOW;
+  //  returns mW per cm2
   float    getUV(uint8_t energyMode = HIGH);
-  // for external ADC
+  //  for external ADC
   float    voltage2mW(float voltage);
 
-  // voltage must be > 0 otherwise it is not set
+  //  voltage must be > 0 otherwise it is not set
   void     setVoltsPerStep(float voltage, uint32_t steps);
-  float    getVoltsPerStep() { return _voltsPerStep; };
+  float    getVoltsPerStep();
 
-  // manually enable / disable
+  //  manually enable / disable
   void     enable();
   void     disable();
-  bool     isEnabled() { return _enabled; };
+  bool     isEnabled();
 
 
-  // experimental estimate DUV index
-  // WARNING: USE WITH CARE
+  //  experimental estimate DUV index
+  //  WARNING: USE WITH CARE
   //
-  // input in mW per cm2    == typical the output of getUV()
+  //  input in mW per cm2    ==  typical the output of getUV()
   float    estimateDUVindex(float mWcm2);
+
+
+  //  https://github.com/RobTillaart/ML8511/issues/4
+  //  discusses the calibration
+  //  see readme.md how to reverse engineer the factor for
+  //  the estimateDUVindex() conversion function.
+  //  a value of 1.61 was found to be far more accurate
   //
-  // https://github.com/RobTillaart/ML8511/issues/4
-  // discusses the calibration
-  // see readme.md how to reverse engineer the factor for
-  // the estimateDUVindex() conversion function.
-  // a value of 1.61 was found to be far more accurate
-  //
-  // returns false  if f < 0.01 (to force positive only)
+  //  returns false  if f < 0.01 (to force positive factor only)
   bool     setDUVfactor(float factor);
-  float    getDUVfactor() { return _DUVfactor; };
+  float    getDUVfactor();
 
 
 private:
@@ -68,10 +73,9 @@ private:
   float    _voltsPerStep;
   bool     _enabled;
 
-
   float    _DUVfactor;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

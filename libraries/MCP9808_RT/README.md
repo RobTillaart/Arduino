@@ -21,19 +21,19 @@ of electronics if the temperature hits a predefined value or zone.
 ### MCP9808 breakout board
 ```
 //
-//  Adafruit MCP9808 breakout board
-//  +----------+
-//  |0   ALERT |---------------+--[ 4K7 ]---- +5V
-//  |       A2 |---- GND       |
-//  |       A1 |---- GND       +--[ LED ]---- GND  // or other electronics.
-//  |       A0 |---- GND
-//  |      SDA |---- I2C MCU
-//  |      SCL |---- I2C MCU
-//  |      GND |---- GND MCU
-//  |0     VCC |---- +5V
-//  +----------+
+//       Adafruit MCP9808 breakout board
+//       +----------+
+//       |0   ALERT |---------------+--[ 4K7 ]---- +5V
+//       |       A2 |---- GND       |
+//       |       A1 |---- GND       +--[ LED ]---- GND  // or other electronics.
+//       |       A0 |---- GND
+//       |      SDA |---- I2C MCU
+//       |      SCL |---- I2C MCU
+//       |      GND |---- GND MCU
+//       |0     VCC |---- +5V
+//       +----------+
 //
-//  address above is 24
+//       address above is 24
 //
 ```
 
@@ -50,7 +50,7 @@ Default I2C bus is Wire.
 
 #### Address
 
-There ar max 8 sensors on one I2C bus.
+There are max 8 sensors on one I2C bus.
 Normal address = 0011xxx where xxx = A2, A1, A0  
 
 | Address |  HEX   |  A2  |  A1  |  A0  |
@@ -80,11 +80,11 @@ The value returned by **getStatus()** is the last value read by the call to **Ge
 There are three bits, see table below. 
 A value of 6 == mask == 110 means that TA is above the upper and above the critical temperature.
 
-| Bit  |  Mask  | Description | Notes           |
-|:----:|:------:|:------------|:----------------|
-| 0    |  0x01  | TA < TLOWER | lower           |
-| 1    |  0x02  | TA > TUPPER | larger          |
-| 2    |  0x04  | TA ≥ TCRIT  | larger or equal |
+|  Bit  |  Mask  |  Description  |  Notes           |
+|:-----:|:------:|:--------------|:-----------------|
+|   0   |  0x01  |  TA < TLOWER  |  lower           |
+|   1   |  0x02  |  TA > TUPPER  |  larger          |
+|   2   |  0x04  |  TA ≥ TCRIT   |  larger or equal |
 
 
 ### Resolution
@@ -92,12 +92,12 @@ A value of 6 == mask == 110 means that TA is above the upper and above the criti
 - **void setResolution(uint8_t resolution = 3)** set the resolution, if resolution > 3, it is not set.
 - **uint8_t getResolution()** returns the resolution set.
 
-| Value  | Resolution | Conv time (ms) | Samples/s | Notes   |
-|:------:|:-----------|:--------------:|:---------:|:-------:|
-| 0      | 0.5°C      | 30             | 33        |         |
-| 1      | 0.25°C     | 65             | 15        |         |
-| 2      | 0.125°C    | 130            | 7         |         |
-| 3      | 0.0625°C   | 250            | 4         | default |
+|  Value  |  Resolution  |  Conv time (ms)  |  Samples/s  |  Notes   |
+|:-------:|:-------------|:----------------:|:-----------:|:--------:|
+|    0    |  0.5°C       |   30             |   33        |          |
+|    1    |  0.25°C      |   65             |   15        |          |
+|    2    |  0.125°C     |   130            |   7         |          |
+|    3    |  0.0625°C    |   250            |   4         |  default |
 
 
 Note: for the same resolution it is about 3x faster than a DS18B20.
@@ -112,7 +112,7 @@ Note: for the same resolution it is about 3x faster than a DS18B20.
 |:-----:|:------:|:-----------|:----------------|:-------|
 | 0     | 0x0001 | ALT MOD    | alert mode      | **0 = comparator output**,  1 = interrupt output
 | 1     | 0x0002 | ALT POL    | alert polarity  | **0 = active low**,         1 = active high
-| 2     | 0x0004 | ALT SEL    | alert select    | **0 = upper+lower+crit**,   1 = crit only
+| 2     | 0x0004 | ALT SEL    | alert select    | **0 = upper+lower+crit**,   1 = critical only
 | 3     | 0x0008 | ALT CNT    | alert control   | **0 = OFF**,                1 = ON
 | 4     | 0x0010 | ALT STAT   | alert status    | **0 = OFF**,                1 = ON  (read!)
 | 5     | 0x0020 | INT CLR    | interrupt clear | **0 = none**,               1 = clear interrupt
@@ -163,8 +163,19 @@ See examples
 
 ## Future
 
+#### must
 - update documentation
+  - compare DS18B20?
+- test more
+  - negative temperatures
+
+#### should
 - do unit test
-- add more examples for the **ALERT**
--
+- check for optimizations
+
+#### could
+- add examples 
+  - for the **ALERT**
+  - multi sensor
+
 

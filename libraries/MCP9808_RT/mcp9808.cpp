@@ -1,22 +1,10 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
-//
-//  HISTORY:
-//  0.1.0   2020-05-03  initial version
-//  0.1.1   2020-11-12  refactor
-//  0.1.2   2020-11-16  removed hasAlert, removed setAlertPin, 
-//                      added 2 alert examples, refactor low level
-//  0.1.3   2021-01-01  Arduino-ci + unit test
-//  0.1.4   2021-11-08  update build-CI, badges
-//                      default offset for offset
-//                      default Wire for I2C bus - setAddress()
-//  0.2.0   2021-11-19  fix #7 negative temperature
-//  0.2.1   2021-12-21  update library.json, license, minor edits
 
 
 #include "mcp9808.h"
@@ -33,16 +21,16 @@
 
 
 /*
-  0000 = RFU, Reserved for Future Use (Read-Only register)
-  0001 = Configuration register (CONFIG)
-  0010 = Alert Temperature Upper Boundary Trip register (TUPPER)
-  0011 = Alert Temperature Lower Boundary Trip register (TLOWER)
-  0100 = Critical Temperature Trip register (TCRIT)
-  0101 = Temperature register (TA)
-  0110 = Manufacturer ID register
-  0111 = Device ID/Revision register
-  1000 = Resolution register
-  1xxx = Reserved(1)
+    0000  =  RFU, Reserved for Future Use (Read-Only register)
+    0001  =  Configuration register (CONFIG)
+    0010  =  Alert Temperature Upper Boundary Trip register (TUPPER)
+    0011  =  Alert Temperature Lower Boundary Trip register (TLOWER)
+    0100  =  Critical Temperature Trip register (TCRIT)
+    0101  =  Temperature register (TA)
+    0110  =  Manufacturer ID register
+    0111  =  Device ID/Revision register
+    1000  =  Resolution register
+    1xxx  =  Reserved(1)
 */
 
 
@@ -195,7 +183,7 @@ uint16_t MCP9808::getRFU()
 
 ////////////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 void MCP9808::writeFloat(uint8_t reg, float f)
 {
@@ -214,7 +202,7 @@ float MCP9808::readFloat(uint8_t reg)
   {
     _status = (val & 0xE000) >> 13;
   }
-  if (val & 0x1000)  // negative value
+  if (val & 0x1000)         //  negative value
   {
     return ((val & 0x0FFF) * 0.0625) - 256.0;
   }
@@ -224,7 +212,7 @@ float MCP9808::readFloat(uint8_t reg)
 
 void MCP9808::writeReg8(uint8_t reg, uint8_t value)
 {
-  if (reg > MCP9808_RES) return;  // see p.16
+  if (reg > MCP9808_RES) return;      //  see p.16
   Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.write(value);
@@ -234,7 +222,7 @@ void MCP9808::writeReg8(uint8_t reg, uint8_t value)
 
 uint8_t MCP9808::readReg8(uint8_t reg)
 {
-  if (reg > MCP9808_RES) return 0;  // see p.16
+  if (reg > MCP9808_RES) return 0;    //  see p.16
   Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.endTransmission();
@@ -245,18 +233,18 @@ uint8_t MCP9808::readReg8(uint8_t reg)
 
 void MCP9808::writeReg16(uint8_t reg, uint16_t value)
 {
-  if (reg > MCP9808_RES) return;  // see p.16
+  if (reg > MCP9808_RES) return;      //  see p.16
   Wire.beginTransmission(_address);
   Wire.write(reg);
-  Wire.write(value >> 8);   // hi byte
-  Wire.write(value & 0xFF); // lo byte
+  Wire.write(value >> 8);       //  hi byte
+  Wire.write(value & 0xFF);     //  lo byte
   Wire.endTransmission();
 }
 
 
 uint16_t MCP9808::readReg16(uint8_t reg)
 {
-  if (reg > MCP9808_RES) return 0;  // see p.16
+  if (reg > MCP9808_RES) return 0;    //  see p.16
   Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.endTransmission();

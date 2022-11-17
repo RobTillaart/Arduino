@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23008.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C MCP23008 16 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MCP23008_LIB_VERSION              (F("0.1.1"))
+#define MCP23008_LIB_VERSION              (F("0.1.2"))
 
 #define MCP23008_OK                       0x00
 #define MCP23008_PIN_ERROR                0x81
@@ -36,8 +36,8 @@ public:
   bool    isConnected();
 
 
-  // single pin interface
-  // mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //      single pin interface
+  //      mode =  INPUT,  OUTPUT or  INPUT_PULLUP (== INPUT)
   bool    pinMode(uint8_t pin, uint8_t mode);
   bool    digitalWrite(uint8_t pin, uint8_t value);
   uint8_t digitalRead(uint8_t pin);
@@ -48,8 +48,8 @@ public:
   bool    getPullup(uint8_t pin, bool &pullup);
 
 
-  // 8 pins interface
-  // value = bit pattern
+  //      8 pins interface
+  //      value = bit pattern
   bool    pinMode8(uint8_t value);
   bool    write8(uint8_t value);
   int     read8();

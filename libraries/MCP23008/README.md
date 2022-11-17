@@ -62,13 +62,13 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23008_OK**.
 
-| DESCRIPTION           | VALUE |
-|:----------------------|:-----:|
-| MCP23008_OK           |  0x00 |
-| MCP23008_PIN_ERROR    |  0x81 |
-| MCP23008_I2C_ERROR    |  0x82 |
-| MCP23008_VALUE_ERROR  |  0x83 |
-| MCP23008_PORT_ERROR   |  0x84 |
+|  DESCRIPTION           |  VALUE  |
+|:-----------------------|:-------:|
+|  MCP23008_OK           |  0x00   |
+|  MCP23008_PIN_ERROR    |  0x81   |
+|  MCP23008_I2C_ERROR    |  0x82   |
+|  MCP23008_VALUE_ERROR  |  0x83   |
+|  MCP23008_PORT_ERROR   |  0x84   |
 
 
 ## Operation

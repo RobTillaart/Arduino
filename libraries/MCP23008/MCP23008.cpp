@@ -1,32 +1,27 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
-//
-//  HISTORY:
-//  0.1.0   2022-01-10  initial version
-//  0.1.1   2022-09-28  optimize digitalWrite() [as that is the most used one]
-
 
 
 #include "MCP23008.h"
 
 
-//  Registers                         // description                 datasheet
-#define MCP23008_DDR_A        0x00    // Data Direction Register A   P
-#define MCP23008_POL_A        0x01    // Input Polarity A            P
-#define MCP23008_GPINTEN_A    0x02    // NOT USED interrupt enable   P
-#define MCP23008_DEFVAL_A     0x03    // NOT USED interrupt def      P
-#define MCP23008_INTCON_A     0x04    // NOT USED interrupt control  P
-#define MCP23008_IOCR         0x05    // IO control register         P
-#define MCP23008_PUR_A        0x06    // Pull Up Resistors A         P
-#define MCP23008_INTF_A       0x07    // NOT USED interrupt flag     P
-#define MCP23008_INTCAP_A     0x08    // NOT USED interrupt capture  P
-#define MCP23008_GPIO_A       0x09    // General Purpose IO A        P
-#define MCP23008_OLAT_A       0x0A    // NOT USED output latch       P
+//  Registers                         //   DESCRIPTION                  DATASHEET
+#define MCP23008_DDR_A        0x00    //   Data Direction Register A      P 10
+#define MCP23008_POL_A        0x01    //   Input Polarity A               P 11
+#define MCP23008_GPINTEN_A    0x02    //   NOT USED interrupt enable      P 12
+#define MCP23008_DEFVAL_A     0x03    //   NOT USED interrupt def         P 13
+#define MCP23008_INTCON_A     0x04    //   NOT USED interrupt control     P 14
+#define MCP23008_IOCR         0x05    //   IO control register            P 15
+#define MCP23008_PUR_A        0x06    //   Pull Up Resistors A            P 16
+#define MCP23008_INTF_A       0x07    //   NOT USED interrupt flag        P 17
+#define MCP23008_INTCAP_A     0x08    //   NOT USED interrupt capture     P 18
+#define MCP23008_GPIO_A       0x09    //   General Purpose IO A           P 19
+#define MCP23008_OLAT_A       0x0A    //   NOT USED output latch          P 20
 
 
 MCP23008::MCP23008(uint8_t address, TwoWire *wire)

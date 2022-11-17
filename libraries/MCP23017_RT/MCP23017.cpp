@@ -1,56 +1,38 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
-//
-//  HISTORY:
-//  0.1.0   2019-10-12  initial version
-//  0.1.1   2020-06-19  refactor; #pragma once
-//  0.1.2   2021-01-01  add Arduino-CI + unit test
-//
-//  0.2.0   2021-01-11  Multiple Wire support Wire0 .. 5
-//                      error handling
-//  0.2.1   2021-02-17  fix #7 DDR is defined in ESP32
-//  0.2.2   2021-04-23  fix for plpatformIO compatibility
-//  0.2.3   2021-06-06  add lastError() unit test + minor refactor.
-//  0.2.4   2021-09-16  add polarity and pull-up support
-//  0.2.5   2021-12-21  update library.json, license, minor edits
-//  0.2.6   2022-01-09  add 16 bit interface
-//                      update register defines
-//
-//  0.3.0   2022-06-28  fix incorrect masking - see #10 MCP23S17
-//  0.3.1   2022-09-28  optimize digitalWrite() - most used one only.
 
 
 #include "MCP23017.h"
 
 
-//  Registers                         // description                 datasheet
-#define MCP23017_DDR_A        0x00    // Data Direction Register A   P18
-#define MCP23017_DDR_B        0x01    // Data Direction Register B   P18
-#define MCP23017_POL_A        0x02    // Input Polarity A            P18
-#define MCP23017_POL_B        0x03    // Input Polarity B            P18
-#define MCP23017_GPINTEN_A    0x04    // NOT USED interrupt enable   P19
-#define MCP23017_GPINTEN_B    0x05    // NOT USED
-#define MCP23017_DEFVAL_A     0x06    // NOT USED interrupt def      P19
-#define MCP23017_DEFVAL_B     0x07    // NOT USED
-#define MCP23017_INTCON_A     0x08    // NOT USED interrupt control  P20
-#define MCP23017_INTCON_B     0x09    // NOT USED
-#define MCP23017_IOCR         0x0A    // IO control register         P20
-#define MCP23017_IOCR2        0x0B    // NOT USED
-#define MCP23017_PUR_A        0x0C    // Pull Up Resistors A         P22
-#define MCP23017_PUR_B        0x0D    // Pull Up Resistors A         P22
-#define MCP23017_INTF_A       0x0E    // NOT USED interrupt flag     P22
-#define MCP23017_INTF_B       0x0F    // NOT USED
-#define MCP23017_INTCAP_A     0x10    // NOT USED interrupt capture  P23
-#define MCP23017_INTCAP_B     0x11    // NOT USED
-#define MCP23017_GPIO_A       0x12    // General Purpose IO A        P23
-#define MCP23017_GPIO_B       0x13    // General Purpose IO B        P23
-#define MCP23017_OLAT_A       0x14    // NOT USED output latch       P24
-#define MCP23017_OLAT_B       0x15    // NOT USED
+//  Registers                         //  DESCRIPTION                  DATASHEET
+#define MCP23017_DDR_A        0x00    //  Data Direction Register A       P18
+#define MCP23017_DDR_B        0x01    //  Data Direction Register B       P18
+#define MCP23017_POL_A        0x02    //  Input Polarity A                P18
+#define MCP23017_POL_B        0x03    //  Input Polarity B                P18
+#define MCP23017_GPINTEN_A    0x04    //  NOT USED interrupt enable       P19
+#define MCP23017_GPINTEN_B    0x05    //  NOT USED
+#define MCP23017_DEFVAL_A     0x06    //  NOT USED interrupt def          P19
+#define MCP23017_DEFVAL_B     0x07    //  NOT USED
+#define MCP23017_INTCON_A     0x08    //  NOT USED interrupt control      P20
+#define MCP23017_INTCON_B     0x09    //  NOT USED
+#define MCP23017_IOCR         0x0A    //  IO control register             P20
+#define MCP23017_IOCR2        0x0B    //  NOT USED
+#define MCP23017_PUR_A        0x0C    //  Pull Up Resistors A             P22
+#define MCP23017_PUR_B        0x0D    //  Pull Up Resistors A             P22
+#define MCP23017_INTF_A       0x0E    //  NOT USED interrupt flag         P22
+#define MCP23017_INTF_B       0x0F    //  NOT USED
+#define MCP23017_INTCAP_A     0x10    //  NOT USED interrupt capture      P23
+#define MCP23017_INTCAP_B     0x11    //  NOT USED
+#define MCP23017_GPIO_A       0x12    //  General Purpose IO A            P23
+#define MCP23017_GPIO_B       0x13    //  General Purpose IO B            P23
+#define MCP23017_OLAT_A       0x14    //  NOT USED output latch           P24
+#define MCP23017_OLAT_B       0x15    //  NOT USED
 
 
 MCP23017::MCP23017(uint8_t address, TwoWire *wire)
@@ -563,8 +545,8 @@ int MCP23017::lastError()
 
 ////////////////////////////////////////////////////
 //
-// PRIVATE
-// 
+//  PRIVATE
+//
 
 bool MCP23017::writeReg(uint8_t reg, uint8_t value)
 {

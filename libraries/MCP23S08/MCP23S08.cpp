@@ -1,16 +1,10 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
-
-//
-//  HISTORY:
-//  0.1.0   2022-01-10  initial version
-//  0.1.1   2022-09-28  optimize digitalWrite - most used one only.
-//                      add MCP23S08_REGISTER_ERROR
 
 
 #include "Arduino.h"
@@ -462,7 +456,7 @@ uint8_t MCP23S08::readReg(uint8_t reg)
 }
 
 
-uint8_t  MCP23S08::swSPI_transfer(uint8_t val)
+uint8_t  MCP23S08::swSPI_transfer(uint8_t value)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
@@ -471,7 +465,7 @@ uint8_t  MCP23S08::swSPI_transfer(uint8_t val)
   uint8_t rv = 0;
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
   {
-    ::digitalWrite(dao, (val & mask));
+    ::digitalWrite(dao, (value & mask) ? HIGH : LOW);
     ::digitalWrite(clk, HIGH);
     if (::digitalRead(dai) == HIGH) rv |= mask;
     ::digitalWrite(clk, LOW);

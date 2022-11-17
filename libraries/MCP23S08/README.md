@@ -88,5 +88,14 @@ See examples.
 
 ## Future
 
-- keep functional in sync with MCP23017_RT
+#### must
+- keep documentation in sync with MCP23S17
+
+#### should
+- keep functional in sync with MCP23017_RT and MCP23S17
+
+#### could
+- MCP23S17 sync
+  - add enableIO controlRegister functions
+  - add registers.h file
 

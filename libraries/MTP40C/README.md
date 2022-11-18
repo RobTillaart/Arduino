@@ -204,6 +204,11 @@ moments. Valid values are 24 - 720 .
 - **uint16_t getSelfCalibrationHours()** returns the value set above.
 
 
+## Operations
+
+See examples.
+
+
 ## Future
 
 #### CRC
@@ -223,11 +228,7 @@ moments. Valid values are 24 - 720 .
 
 - serial bus with multiple devices? => diodes
 - improve readability code (e.g. parameter names)
-
-
-## Operations
-
-See examples.
+- move all code from .h to .cpp file
 
 
 ## Sponsor 

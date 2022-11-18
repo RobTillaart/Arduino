@@ -1,23 +1,17 @@
 //
-//    FILE: MTP40C.h
+//    FILE: MTP40C.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for MTP40C MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
-//
-// HISTORY:
-//  0.1.0   2021-08-20  initial version
-//  0.1.1   2021-08-23  added examples, minor fixes
-//  0.2.0   2021-08-27  added MTP40D derived class
-//                      + many fixes after testing
-//  0.2.1   2021-12-22  update library.json, license, minor edits
+
 
 
 #include "MTP40C.h"
 
-// debug flag, development.
-// #define MTP40_DEBUG    1
+//  debug flag, development.
+//  #define MTP40_DEBUG    1
 
 
 
@@ -90,7 +84,7 @@ float MTP40::getAirPressureReference()
 
   _lastError = MTP40_OK;
 
-  // max read freq 1x per 4 seconds
+  //  max read freq 1x per 4 seconds
   if (millis() - _lastRead < 4000) return _airPressureReference;  // last value
   _lastRead = millis();
 
@@ -137,7 +131,6 @@ bool MTP40::setAirPressureReference(float apr)
 
 uint16_t MTP40::getGasConcentration()
 {
-
   _lastError = MTP40_OK;
 
   // max read freq 1x per 4 seconds
@@ -266,20 +259,20 @@ int MTP40::lastError()
 
 //////////////////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 {
-  // generic or specific address
+  //  generic or specific address
   if (_useAddress)
   {
     data[0] = _address;
   }
   else
   {
-    data[0] = 0xFE;  // broadcast
+    data[0] = 0xFE;     //  broadcast
   }
-  // calculate CRC of command
+  //  calculate CRC of command
   uint16_t crc = CRC(data, commandLength - 2);
   data[commandLength - 1] = crc / 256;
   data[commandLength - 2] = crc & 0xFF;
@@ -292,7 +285,7 @@ bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 #else
     _ser->write(*data++);
 #endif
-     yield();  // because baud rate is low!
+     yield();   //  because baud rate is low!
   }
 
   uint32_t start = millis();
@@ -306,7 +299,7 @@ bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
       i++;
       answerLength--;
     }
-    yield();  // because baud rate is low!
+    yield();  //  because baud rate is low!
   }
   return true;
 }
@@ -363,9 +356,9 @@ const uint8_t auchCRCLo[] = {
   uint16_t uIndex;           // Query the CRC table index
   uint16_t crc;
 
-  while (len--) /* Complete the entire message buffer*/
+  while (len--)               /* Complete the entire message buffer*/
   {
-    uIndex   = uchCRCLo ^ *data++;            /* Calculate CRC */;
+    uIndex   = uchCRCLo ^ *data++;            /*  Calculate CRC  */;
     uchCRCLo = uchCRCHi ^ auchCRCHi[uIndex];
     uchCRCHi = auchCRCLo[uIndex];
   }
@@ -377,7 +370,7 @@ const uint8_t auchCRCLo[] = {
 
 /////////////////////////////////////////////////////////////
 //
-// DERIVED CLASSES
+//  DERIVED CLASSES
 //
 
 MTP40C::MTP40C(Stream * str) : MTP40(str)

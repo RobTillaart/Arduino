@@ -3,12 +3,11 @@
 //    FILE: MTP40C.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for MTP40C + MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// HISTORY:
-// see MTP40C.cpp file
+// HISTORY: see changelog.md
 //
 // Based upon datasheet June 2020, version 2.0
 //
@@ -17,7 +16,7 @@
 #include "Arduino.h"
 
 
-#define MTP40_LIB_VERSION                     (F("0.2.1"))
+#define MTP40_LIB_VERSION                     (F("0.2.2"))
 
 
 #define MTP40_DEFAULT_ADDRESS                 0x64
@@ -62,13 +61,14 @@ public:
   void     setSpecificAddress() { _useAddress = true; };
   bool     useSpecificAddress() { return _useAddress; };
 
-  // set timeout of serial communication.
+  //  set timeout of serial communication.
   void     setTimeout(uint32_t to = 100) { _timeout = to; };
   uint32_t getTimeout() { return _timeout; };
 
   uint32_t lastRead() { return _lastRead; };
 
-  // 2 = MTP40C   3 = MTP40D
+  //       2 = MTP40C
+  //       3 = MTP40D
   uint8_t  getType()  { return _type; };
   int      lastError();
 

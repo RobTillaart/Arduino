@@ -10,8 +10,8 @@ available	KEYWORD2
 
 read	KEYWORD2
 readRaw	KEYWORD2
-lastRead	KEYWORD2
-lastTime	KEYWORD2
+lastRaw	KEYWORD2
+lastTimeRead	KEYWORD2
 
 
 # Constants (LITERAL1)

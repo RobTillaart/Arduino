@@ -1,12 +1,11 @@
 //
 //    FILE: MT8870.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2019-02-11
 // PURPOSE: Arduino library for MT8870 DTMF decoder (breakout)
 //     URL: https://github.com/RobTillaart/MT8870
 //          https://www.tinytronics.nl/shop/nl/sensoren/geluid/mt8870-dtmf-module
-//
 
 
 #include "MT8870.h"
@@ -55,6 +54,18 @@ uint8_t MT8870::readRaw()
   _lastTimeRead = millis();
   return _val;
 }
+
+
+uint8_t MT8870::lastRaw()
+{
+  return _val;
+};
+
+
+uint32_t MT8870::lastTimeRead()
+{
+  return _lastTimeRead;
+};
 
 
 // -- END OF FILE --

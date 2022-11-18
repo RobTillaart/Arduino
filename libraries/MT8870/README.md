@@ -16,21 +16,21 @@ Arduino library for MT8870 DTMF decoder (breakout).
 This library reads the signals of the MT8870 chip. 
 If data is available one can read it raw or as text.
 
-DTMF = Dual Tones Multiple Frequency, it are the tones you
-hear when you press buttons on your phone. 
+DTMF = Dual Tones Multiple Frequency.
+These are the tones you hear when you press buttons on your phone. 
 
-DTMF tones, uses one from A..D one from E..H.
+DTMF tones, uses one from A..D and one from E..H.
 
-| Name | Frequency |
-|:----:|----------:|
-|  A   |  697 Hz   |
-|  B   |  770 Hz   |
-|  C   |  852 Hz   |
-|  D   |  941 Hz   |
-|  E   |  1209 Hz  |
-|  F   |  1336 Hz  |
-|  G   |  1477 Hz  |
-|  H   |  1633 Hz  |
+|  Name  |  Frequency  |
+|:------:|------------:|
+|   A    |   697 Hz    |
+|   B    |   770 Hz    |
+|   C    |   852 Hz    |
+|   D    |   941 Hz    |
+|   E    |   1209 Hz   |
+|   F    |   1336 Hz   |
+|   G    |   1477 Hz   |
+|   H    |   1633 Hz   |
 
 
 ## Interface
@@ -55,17 +55,24 @@ Note this is a cached value from a readRaw / read call.
 See examples.
 
 
-## Future / ideas / improvements
+## Future
 
+#### must
 - improve documentation
-- buffer like Serial? (how to fill? interrupt? example sketch?)
+  - keypad matrix, which key generates which tones
+
+#### should
 - test setup
-- more examples
+- add examples
   - DMTF with a PCF8574
   - DMTF as secret key
   - DMTF with less keys (less pins)
   - DMTF over interrupt triggered by STQ line
+
+#### could
+- buffer like Serial? (how to fill? interrupt? example sketch?)
+  - read part of stream interface?
 - DMTF tone generation?  
-  - MCP_DAC, 
-  - PWM +HW?
+  - MCP_DAC
+  - PWM + HW?
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MT8870.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2019-02-11
 // PURPOSE: Arduino library for MT8870 DTMF decoder (breakout)
 //     URL: https://github.com/RobTillaart/MT8870
@@ -12,21 +12,21 @@
 
 #include "Arduino.h"
 
-#define MT8870_LIB_VERSION          (F("0.1.4"))
+#define MT8870_LIB_VERSION          (F("0.1.5"))
 
 
 class MT8870
 {
 public:
-  // STQ - pin to see if new data arrived
-  // Q1 - Q4 data pins.
+  //  STQ - pin to see if new data arrived
+  //  Q1 - Q4 data pins.
   void     begin(uint8_t STQ, uint8_t Q1, uint8_t Q2, uint8_t Q3, uint8_t Q4);
 
   bool     available();
   char     read();
   uint8_t  readRaw();
-  uint8_t  lastRaw()  { return _val; };
-  uint32_t lastTimeRead() { return _lastTimeRead; };
+  uint8_t  lastRaw();
+  uint32_t lastTimeRead();
 
 private:
   uint8_t   _val = 255;

@@ -2,24 +2,15 @@
 //
 //    FILE: MultiMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2011-01-26
 // PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
 //     URL: https://github.com/RobTillaart/MultiMap
 //     URL: http://playground.arduino.cc/Main/MultiMap
-//
-//  HISTORY:
-//  0.0.1   2011-01-26 initial version (see forum)
-//  .....   eons passed ...
-//  0.1.0   2015-03-29
-//  0.1.1   2020-04-09
-//  0.1.2   2020-06-19  fix library.json
-//  0.1.3   2021-01-02  add Arduino-CI 
-//  0.1.4   2021-05-27  fix Arduino-lint
-//  0.1.5   2021-12-22  update library.json, readme, license, minor edits
 
 
-#define MULTIMAP_LIB_VERSION                (F("0.1.5"))
+
+#define MULTIMAP_LIB_VERSION                (F("0.1.6"))
 
 
 #include "Arduino.h"
@@ -47,9 +38,10 @@ T multiMap(T value, T* _in, T* _out, uint8_t size)
 
 
 /*
- * speed optimized version if inputs do not change often e.g.  2 2 2 2 2 3 3 3 3 5 5 5 5 5 5 8 8 8 8 5 5 5 5 5 
- *
-// note: the in array should have increasing values
+//  speed optimized version if inputs do not change often e.g.  2 2 2 2 2 3 3 3 3 5 5 5 5 5 5 8 8 8 8 5 5 5 5 5 
+//  implements a minimal cache
+//
+//  note: the in array should have increasing values
 
 template<typename T>
 T multiMap(T value, T* _in, T* _out, uint8_t size)

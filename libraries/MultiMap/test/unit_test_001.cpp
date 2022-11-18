@@ -45,26 +45,13 @@ unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
-
 
 unittest(test_float)
 {
-  // based on the distance example
-  // out[] holds the distances in cm
+  //  based on the distance example
+  //  out[] holds the distances in cm
   float out[] = {150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20};
-  // in[] holds the measured analogRead() values for that distance
+  //  in[] holds the measured analogRead() values for that distance
   float in[]  = { 90, 97, 105, 113, 124, 134, 147, 164, 185, 218, 255, 317, 408, 506};
 
   assertEqualFloat(150.000, multiMap<float>(80, in, out, 14), 0.001);

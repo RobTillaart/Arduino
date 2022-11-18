@@ -51,13 +51,20 @@ Please note the fail example as this shows that in the intern math overflow can 
 
 ## Future
 
-- Investigate class implementation for performance / footprint
+#### must
+- improve documentation
+
+#### should
+- Investigate class implementation 
+  - performance / footprint
+  - less parameter passing
+  
+#### could
 - flag if input value was "IN_MIN" <  input < "IN_MAX", 
   now it is constrained without user being informed.
 - extend unit tests
 
-
-**wont**
+#### wont
 - should the lookup tables be merged into one array of pairs?
   - you cannot reuse e.g. the input array then. (memory footprint)
 

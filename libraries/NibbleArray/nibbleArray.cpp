@@ -1,18 +1,9 @@
 //
 //    FILE: nibbleArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for a compact array of nibbles (4 bits)
 //     URL: https://github.com/RobTillaart/nibbleArray
-//
-//  HISTORY:
-//  0.1.0   2015-04-12  initial version
-//  0.2.0   2020-06-21  refactor; #pragma once; removed pre 1.0 support
-//  0.2.1   2020-01-02  Arduino-CI + unit test
-//  0.2.2   2020-11-10  update Arduino-CI, badges
-//                      fix bug in setAll();
-//                      add memory();
-//  0.2.3   2021-12-22  update library.json, readme, license, minor edits
 
 
 #include "nibbleArray.h"

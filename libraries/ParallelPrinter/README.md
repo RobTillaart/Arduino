@@ -74,7 +74,7 @@ Default value = 2000. Time in microseconds.
 - **uint16_t getStrobeDelay()** returns value set.
 
 **Note** mechanical printers e.g. dot matrix, really do need a way to stop receiving 
-data as they do not have large buffers.
+data as they do not have large buffers.  (==> BUSY line)
 
 
 ## See also
@@ -82,22 +82,30 @@ data as they do not have large buffers.
 https://en.wikipedia.org/wiki/Parallel_port#Centronics
 
 
+## Operation
+
+See examples.
+
+
 ## Future
 
+#### must
 - update documentation
+
+#### should
 - extend unit tests?
 - test more.
 - extend simulator sketch.
   - Make a front end of a parallel printer, 
   - Accepts the clocked bytes and print them e.g. over serial.
+
+#### could
 - derive e.g. an HP or an EPSON printer from this class.
   - special modes e.g. bold italic underline.
 - **write(uint8_t \* buf, uint8_t length)** should be added
   - might not really add to performance..
 - fix blocking TODO in sendByte
-  
+
+#### wont
 
 
-## Operation
-
-See examples.

@@ -205,8 +205,13 @@ See examples
 
 ## Future
 
+#### must
 - improve documentation
+
+#### should
 - add unit tests (if possible)
+
+#### could
 - investigate int vs uint16_t ?
   - **setFrequency(), getFrequency(), \_freq**
 - sync with PCA9634/35/85 where possible

@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 03-01-2022
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.3"))
+#define PCA9634_LIB_VERSION         (F("0.2.4"))
 
 #define PCA9634_MODE1               0x00
 #define PCA9634_MODE2               0x01
@@ -25,8 +25,8 @@
 #define PCA9634_GRPFREQ             0x0B
 
 // check datasheet for details
-#define PCA9634_LEDOUT_BASE         0x0C    // 0x0C..0x0D
-#define PCA9634_LEDOFF              0x00    // default @ startup
+#define PCA9634_LEDOUT_BASE         0x0C    //  0x0C..0x0D
+#define PCA9634_LEDOFF              0x00    //  default @ startup
 #define PCA9634_LEDON               0x01
 #define PCA9634_LEDPWM              0x02
 #define PCA9634_LEDGRPPWM           0x03
@@ -41,22 +41,22 @@
 #define PCA9634_ERR_I2C             0xFA
 
 
-// Configuration bits MODE1 register
-#define PCA9634_MODE1_AUTOINCR2     0x80  // ReadOnly,  0 = disable  1 = enable
-#define PCA9634_MODE1_AUTOINCR1     0x40  // ReadOnly,  bit1
-#define PCA9634_MODE1_AUTOINCR0     0x20  // ReadOnly,  bit0
-#define PCA9634_MODE1_SLEEP         0x10  // 0 = normal       1 = sleep
-#define PCA9634_MODE1_SUB1          0x08  // 0 = disable      1 = enable
-#define PCA9634_MODE1_SUB2          0x04  // 0 = disable      1 = enable
-#define PCA9634_MODE1_SUB3          0x02  // 0 = disable      1 = enable
-#define PCA9634_MODE1_ALLCALL       0x01  // 0 = disable      1 = enable
+//  Configuration bits MODE1 register
+#define PCA9634_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
+#define PCA9634_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
+#define PCA9634_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
+#define PCA9634_MODE1_SLEEP         0x10  //  0 = normal       1 = sleep
+#define PCA9634_MODE1_SUB1          0x08  //  0 = disable      1 = enable
+#define PCA9634_MODE1_SUB2          0x04  //  0 = disable      1 = enable
+#define PCA9634_MODE1_SUB3          0x02  //  0 = disable      1 = enable
+#define PCA9634_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
 #define PCA9634_MODE1_NONE          0x00
 
-// Configuration bits MODE2 register
-#define PCA9634_MODE2_BLINK         0x20  // 0 = dim          1 = blink
-#define PCA9634_MODE2_INVERT        0x10  // 0 = normal       1 = inverted
-#define PCA9634_MODE2_ACK           0x08  // 0 = on STOP      1 = on ACK
-#define PCA9634_MODE2_TOTEMPOLE     0x04  // 0 = open drain   1 = totem-pole
+//  Configuration bits MODE2 register
+#define PCA9634_MODE2_BLINK         0x20  //  0 = dim          1 = blink
+#define PCA9634_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
+#define PCA9634_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
+#define PCA9634_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole
 #define PCA9634_MODE2_NONE          0x00
 
 //  (since 0.2.0)
@@ -84,30 +84,30 @@ public:
   uint8_t  setLedDriverMode(uint8_t channel, uint8_t mode);
   uint8_t  getLedDriverMode(uint8_t channel);
 
-  // single PWM setting
+  //  single PWM setting
   uint8_t  write1(uint8_t channel, uint8_t value);
 
-  // RGB setting, write three consecutive PWM registers
+  //  RGB setting, write three consecutive PWM registers
   uint8_t  write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B);
 
-  // generic worker, write N consecutive PWM registers
+  //  generic worker, write N consecutive PWM registers
   uint8_t  writeN(uint8_t channel, uint8_t* arr, uint8_t count);
 
-  // reg = 1, 2  check datasheet for values
+  //  reg = 1, 2  check datasheet for values
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
-  //  convenience wrappers
+  //   convenience wrappers
   uint8_t  setMode1(uint8_t value) { return writeMode(PCA9634_MODE1, value); };
   uint8_t  setMode2(uint8_t value) { return writeMode(PCA9634_MODE2, value); };
   uint8_t  getMode1()              { return readMode(PCA9634_MODE1); };
   uint8_t  getMode2()              { return readMode(PCA9634_MODE2); };
 
 
-  // TODO PWM also in %% ?
+  //  TODO PWM also in %% ?
   void     setGroupPWM(uint8_t value) { writeReg(PCA9634_GRPPWM, value); };
   uint8_t  getGroupPWM() { return readReg(PCA9634_GRPPWM); };
 
-  // TODO set time in milliseconds and round to nearest value?
+  //  TODO set time in milliseconds and round to nearest value?
   void     setGroupFREQ(uint8_t value) { writeReg(PCA9634_GRPFREQ, value); };
   uint8_t  getGroupFREQ() { return readReg(PCA9634_GRPFREQ); };
 
@@ -115,7 +115,7 @@ public:
 
   /////////////////////////////////////////////////////
   //
-  // SUB CALL  -  ALL CALL  (since 0.2.0)
+  //  SUB CALL  -  ALL CALL  (since 0.2.0)
   //
   //  nr = { 1, 2, 3 }
   bool     enableSubCall(uint8_t nr);
@@ -135,8 +135,8 @@ public:
 
 
 private:
-  // DIRECT CONTROL
-  uint8_t  writeReg(uint8_t reg, uint8_t value);  // returns error status.
+  //  DIRECT CONTROL
+  uint8_t  writeReg(uint8_t reg, uint8_t value);  //  returns error status.
   uint8_t  readReg(uint8_t reg);
 
   uint8_t  _address;
@@ -149,6 +149,5 @@ private:
 };
 
 
-
-// -- END OF FILE --
+//  -- END OF FILE --
 

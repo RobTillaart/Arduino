@@ -228,11 +228,16 @@ See examples
 
 ## Future
 
+#### must
 - improve documentation
+
+#### should
 - unit tests
   - SUB CALL if possible?
   - ALL CALL if possible?
 - add examples
+
+#### could
 - sync with PCA9635 developments
 - merge with PCA9635 and a PCA963X base class if possible
 

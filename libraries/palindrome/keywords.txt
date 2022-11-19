@@ -5,11 +5,15 @@ palindrome	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-	KEYWORD2
-	KEYWORD2
+findPalindrome	KEYWORD2
+findEvenPalindrome	KEYWORD2
+findOddPalindrome	KEYWORD2
+isPalindrome	KEYWORD2
+palindromeCount	KEYWORD2
+palindromePercentage	KEYWORD2
 
 
-# Constants (LITERAL1)
-
+Constants (LITERAL1)
+PALINDROME_LIB_VERSION	LITERAL1
 
 

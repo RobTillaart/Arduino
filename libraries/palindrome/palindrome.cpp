@@ -1,14 +1,9 @@
 //
 //    FILE: palindrome.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library to do palindrome experiments.
 //     URL: https://github.com/RobTillaart/palindrome
-//
-//  HISTORY:
-//  0.1.0  2021-12-02  initial version
-//  0.1.1  2021-12-03  add palindromeCount(), palindromePercentage()
-
 
 
 #include "palindrome.h"

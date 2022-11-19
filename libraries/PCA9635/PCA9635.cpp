@@ -2,35 +2,9 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
-//
-//  HISTORY:
-//
-//
-//  0.4.1   2022-09-10  Fix #17 adjust begin() interface for ESP32
-//  0.4.0   2022-05-29  breaking changes
-//                      rename reset() to configure()
-//                      add mode1 and mode2 parameter to configure.
-//                      add SUB CALL and ALL CALL functions.
-//                      update documentation.
-//                      renamed PCA9634_MODE2_STOP to PCA9634_MODE2_ACK
-//                      add mode parameters to begin()
-//
-//  0.3.4   2022-04-13  add constants and functions for mode registers.
-//  0.3.3   2022-01-03  add channelCount()
-//  0.3.2   2021-12-23  update library.json, readme, license, minor edits
-//  0.3.1   2021-04-25  fix writeN by aspyra
-//  0.3.0   2021-01-18  support Wire1..WireN
-//
-//  0.2.2   2021-01-13  refactor + fix register index error.
-//  0.2.1   2021-01-05  Arduino-CI + unit test
-//  0.2.0   2020-05-26  major refactor; ESP32 support
-//  0.1.2   2020-05-07  fix for PCA9635_MODE1
-//  0.1.1   2016-04-24  set autoincr in constructor
-//  0.1.0   2016-04-23  initial BETA version
-
 
 
 #include "PCA9635.h"
@@ -38,7 +12,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-// Constructor
+//  Constructor
 //
 PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 {
@@ -92,15 +66,15 @@ void PCA9635::configure(uint8_t mode1_mask, uint8_t mode2_mask)
 }
 
 
-// write value to single PWM registers
+//  write value to single PWM registers
 uint8_t PCA9635::write1(uint8_t channel, uint8_t value)
 {
   return writeN(channel, &value, 1);
 }
 
 
-// write three values in consecutive PWM registers
-// typically for RGB values
+//  write three values in consecutive PWM registers
+//  typically for RGB values
 uint8_t PCA9635::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 {
   uint8_t arr[3] = { R, G, B };
@@ -108,8 +82,8 @@ uint8_t PCA9635::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 }
 
 
-// write count values in consecutive PWM registers
-// checks if [channel + count - 1 > 15]
+//  write count values in consecutive PWM registers
+//  checks if [channel + count - 1 > 15]
 uint8_t PCA9635::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 {
   if (channel + count > _channelCount)
@@ -146,7 +120,7 @@ uint8_t PCA9635::writeMode(uint8_t reg, uint8_t value)
 }
 
 
-// Note 0xFF can also mean an error....  check error flag..
+//  Note 0xFF can also mean an error....  check error flag..
 uint8_t PCA9635::readMode(uint8_t reg)
 {
   if ((reg == PCA9635_MODE1) || (reg == PCA9635_MODE2))
@@ -174,7 +148,7 @@ uint8_t PCA9635::setLedDriverMode(uint8_t channel, uint8_t mode)
   }
 
   uint8_t reg = PCA9635_LEDOUT_BASE + (channel >> 2);
-  // some bit magic
+  //  some bit magic
   uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
   uint8_t setmask = mode << shift;
   uint8_t clrmask = ~(0x03 << shift);
@@ -184,7 +158,7 @@ uint8_t PCA9635::setLedDriverMode(uint8_t channel, uint8_t mode)
 }
 
 
-// returns 0..3 if OK, other values indicate an error
+//  returns 0..3 if OK, other values indicate an error
 uint8_t PCA9635::getLedDriverMode(uint8_t channel)
 {
   if (channel >= _channelCount)
@@ -200,7 +174,7 @@ uint8_t PCA9635::getLedDriverMode(uint8_t channel)
 }
 
 
-// note error flag is reset after read!
+//  note error flag is reset after read!
 int PCA9635::lastError()
 {
   int e = _error;
@@ -212,7 +186,7 @@ int PCA9635::lastError()
 
 /////////////////////////////////////////////////////
 //
-// SUB CALL  -   ALL CALL
+//  SUB CALL  -   ALL CALL
 //
 bool PCA9635::enableSubCall(uint8_t nr)
 {
@@ -312,7 +286,7 @@ uint8_t PCA9635::getAllCallAddress()
 
 /////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint8_t PCA9635::writeReg(uint8_t reg, uint8_t value)
 {

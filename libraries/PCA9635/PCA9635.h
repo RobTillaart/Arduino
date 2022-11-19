@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.4.1"))
+#define PCA9635_LIB_VERSION         (F("0.4.2"))
 
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
@@ -70,11 +70,11 @@ public:
   explicit PCA9635(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl, 
-                     uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, 
+  bool     begin(int sda, int scl,
+                     uint8_t mode1_mask = PCA9635_MODE1_ALLCALL,
                      uint8_t mode2_mask = PCA9635_MODE2_NONE);
 #endif
-  bool     begin(uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, 
+  bool     begin(uint8_t mode1_mask = PCA9635_MODE1_ALLCALL,
                  uint8_t mode2_mask = PCA9635_MODE2_NONE);
   void     configure(uint8_t mode1_mask, uint8_t mode2_mask);
   bool     isConnected();
@@ -84,16 +84,16 @@ public:
   uint8_t  setLedDriverMode(uint8_t channel, uint8_t mode);
   uint8_t  getLedDriverMode(uint8_t channel);
 
-  // single PWM setting
+  //  single PWM setting
   uint8_t  write1(uint8_t channel, uint8_t value);
 
-  // RGB setting, write three consecutive PWM registers
+  //  RGB setting, write three consecutive PWM registers
   uint8_t  write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B);
 
-  // generic worker, write N consecutive PWM registers
+  //  generic worker, write N consecutive PWM registers
   uint8_t  writeN(uint8_t channel, uint8_t* arr, uint8_t count);
 
-  // reg = 1, 2  check datasheet for values
+  //  reg = 1, 2  check datasheet for values
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
   //  convenience wrappers
@@ -103,11 +103,11 @@ public:
   uint8_t  getMode2()              { return readMode(PCA9635_MODE2); };
 
 
-  // TODO PWM also in %% ?
+  //  TODO PWM also in %% ?
   void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); };
   uint8_t  getGroupPWM() { return readReg(PCA9635_GRPPWM); };
 
-  // TODO set time in milliseconds and round to nearest value?
+  //  TODO set time in milliseconds and round to nearest value?
   void     setGroupFREQ(uint8_t value) { writeReg(PCA9635_GRPFREQ, value); };
   uint8_t  getGroupFREQ() { return readReg(PCA9635_GRPFREQ); };
 

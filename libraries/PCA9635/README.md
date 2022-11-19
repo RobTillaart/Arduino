@@ -199,11 +199,17 @@ See examples
 
 ## Future
 
+#### must
 - improve documentation
+
+#### should
+- move code from .h to .cpp
 - unit tests
   - SUB CALL if possible?
   - ALL CALL if possible?
 - add examples
+
+#### could
 - sync with PCA9634 developments
 - merge with PCA9634 and a PCA963X base class if possible
 

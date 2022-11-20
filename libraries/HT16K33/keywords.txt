@@ -32,6 +32,7 @@ displayTime	KEYWORD2
 displaySeconds	KEYWORD2
 
 displayFloat	KEYWORD2
+displayUnit	KEYWORD2
 
 display	KEYWORD2
 displayColon	KEYWORD2

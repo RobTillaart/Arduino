@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2022-11-19
+- add displayUnit(float, char);
+- add top c symbol
+- add degree symbol
+- moved code to .cpp file (prep 0.4.0)
+
+
 ## [0.3.6] - 2022-11-09
 - add changelog.md
 - add rp2040 to build-CI

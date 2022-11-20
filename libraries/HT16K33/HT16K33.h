@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.6"))
+#define HT16K33_LIB_VERSION         (F("0.3.7"))
 
 
 //  Characters
@@ -35,8 +35,12 @@
 #define HT16K33_F                15
 #define HT16K33_SPACE            16
 #define HT16K33_MINUS            17
+#define HT16K33_TOP_C            18     //  c
+#define HT16K33_DEGREE           19     //  °
 #define HT16K33_NONE             99
 
+//  P for Pascal / Pressure ?
+//  J for joule?
 
 class HT16K33
 {
@@ -55,9 +59,9 @@ public:
   //  on the I2C and wants to force refresh one can disable caching
   //  for one or more calls.
   void clearCache();
-  void cacheOn()  { _cache = true; };
-  void cacheOff() { _cache = false; };
-  void refresh(); // force writing of cache to display
+  void cacheOn();
+  void cacheOff();
+  void refresh();     //  force writing of cache to display
 
   void displayOn();
   void displayOff();
@@ -82,7 +86,12 @@ public:
   bool displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true);  // 00:00 .. 99:99
   bool displaySeconds(uint16_t seconds, bool colon = true, bool lz = true);          // 00:00 .. 99:99
 
-  bool displayFloat(float f, uint8_t decimals = 3); // -999 .. 0.000 .. 9999
+  // -999 .. 0.000 .. 9999
+  bool displayFloat(float f, uint8_t decimals = 3);
+
+  // -99 .. 0.00 .. 999
+  bool displayUnit(float f, uint8_t decimals = 2, uint8_t unitChar = HT16K33_SPACE);
+
 
   void display(uint8_t *array);                  // array with 4 elements
   void display(uint8_t *array, uint8_t point);   // point = digit with . (0..3)

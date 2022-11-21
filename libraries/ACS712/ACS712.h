@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.1"))
+#define ACS712_LIB_VERSION        (F("0.3.2"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -111,7 +111,7 @@ class ACS712
     float     _formFactor;    //  peak2peak -> RMS
     float     _mVperAmpere;
     float     _mAPerStep;
-    uint16_t  _midPoint;
+    int       _midPoint;
     uint8_t   _noisemV;
     float     _microsAdjust   = 1.0;  //  0.9986
     bool      _suppresNoise = false;

@@ -147,10 +147,10 @@ The midpoint is the (raw) zero-reference for all current measurements.
 It is defined in steps of the ADC and is typical around half the **maxADC** value defined 
 in the constructor. So for a 10 bit ADC a number between 500..525 is most likely.
 
-Since 0.3.0 all midpoint functions return actual midPoint.
+Since 0.3.0 all midpoint functions return the actual midPoint.
 
 - **uint16_t setMidPoint(uint16_t midPoint)** sets midpoint for the ADC conversion.
-Parameter must be between 0 and maxADC, otherwise midpoint is not changed.
+Parameter must be between 0 and maxADC/2, otherwise midpoint is not changed.
 - **uint16_t autoMidPoint(float frequency = 50, uint16_t cycles = 1)** Auto midPoint, 
 assuming zero DC current or any AC current. 
 The function takes the average of many measurements during one or more full cycles.
@@ -176,7 +176,7 @@ One can use the two debug functions.
 and take the average of these two values. In code:
 
 ```cpp
-uint16_t midpnt = ACS.setMidPoint((ACS.getMinimum(20) + ACS.getMaximum(20)) / 2);
+uint16_t midpoint = ACS.setMidPoint(ACS.getMinimum(20)/2 + ACS.getMaximum(20)/ 2);
 ```
 See - ACS712_20_AC_midPoint_compare.ino
 
@@ -343,7 +343,7 @@ The examples show the basic working of the functions.
 #### Should - 0.3.x
 
 - investigate noise suppression  #21 (0.3.1 and later)
-- external history file = changelog.md
+- add external history file = changelog.md
 
 
 #### Could

@@ -1,49 +1,9 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
-//
-//  HISTORY:
-//  0.1.0  2020-03-17  initial version
-//  0.1.1  2020-03-18  first release version
-//  0.1.2  2020-03-21  automatic form factor test
-//  0.1.3  2020-05-27  fix library.json
-//  0.1.4  2020-08-02  Allow for faster processors
-//
-//  0.2.0  2020-08-02  Add autoMidPoint
-//  0.2.1  2020-12-06  Add Arduino-CI + readme + unit test + refactor
-//  0.2.2  2021-06-23  support for more frequencies.
-//  0.2.3  2021-10-15  changed frequencies to float, for optimal tuning.
-//                     updated build CI, readme.md
-//  0.2.4  2021-11-22  add experimental detectFrequency()
-//  0.2.5  2021-12-03  add timeout to detectFrequency()
-//  0.2.6  2021-12-09  update readme.md + license
-//  0.2.7  2022-08-10  change mVperAmp to float
-//                     add ACS712_FF_SAWTOOTH
-//                     update readme.md + unit test + minor edits
-//  0.2.8  2022-08-19  prepare for 0.3.0
-//                     Fix #21 FormFactor
-//                     add mA_AC_sampling() as method to determine
-//                     current when FormFactor is unknown.
-//                     added float _AmperePerStep cached value.
-//                     added getAmperePerStep();
-//                     moved several functions to .cpp
-//                     improve documentation
-//
-//  0.3.0  2022-09-01  return midPoint value in MP functions.
-//                     float return type for mA() functions
-//                     add float mA_peak2peak(freq, cycles)
-//                     add debug getMinimum(), getmaximum();
-//                     update Readme.md
-//  0.3.1  2022-09-xx  add float mVNoiseLevel(frequency, cycles)
-//                     add void suppressNoise(bool flag) 
-//                         experimental suppression by averaging two samples.
-//                     update readme.md
-//                     improve midPoint functions
-//                     add resetMidPoint()
-//                     add RP2040 pico in build-ci
 
 
 #include "ACS712.h"
@@ -184,6 +144,7 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
       }
       float current = value - _midPoint;
       sumSquared += (current * current);
+      // not adding noise squared might be more correct for small currents.
       // if (abs(current) > noiseLevel)
       // {
       //   sumSquared += (current * current);
@@ -223,7 +184,7 @@ float ACS712::mA_DC(uint16_t cycles)
 //  CALIBRATION MIDPOINT
 uint16_t ACS712::setMidPoint(uint16_t midPoint)
 {
-  if (midPoint <= _maxADC) _midPoint = midPoint;
+  if (midPoint <= _maxADC) _midPoint = (int) midPoint;
   return _midPoint;
 };
 
@@ -236,7 +197,7 @@ uint16_t ACS712::getMidPoint()
 
 uint16_t ACS712::incMidPoint()
 {
-  if (_midPoint < _maxADC) _midPoint += 1;
+  if (_midPoint < (int)(_maxADC)) _midPoint += 1;
   return _midPoint;
 };
 

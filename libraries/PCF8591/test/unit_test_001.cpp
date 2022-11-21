@@ -36,7 +36,6 @@
 #include "PCF8591.h"
 
 
-
 unittest_setup()
 {
   fprintf(stderr, "PCF8591_LIB_VERSION: %s\n", (char *) PCF8591_LIB_VERSION);
@@ -56,10 +55,6 @@ unittest(test_constants)
   assertEqual(PCF8591_MODE_ERROR   , 0x83);
   assertEqual(PCF8591_CHANNEL_ERROR, 0x84);
   assertEqual(PCF8591_ADDRESS_ERROR, 0x85);
-
-  fprintf(stderr, "increment flags\n");
-  assertEqual(PCF8591_DAC_FLAG     , 0x40);
-  assertEqual(PCF8591_INCR_FLAG    , 0x04);
 }
 
 

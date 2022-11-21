@@ -2,19 +2,17 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: I2C PCF8591 library for Arduino
 //     URL: https://github.com/RobTillaart/PCF8591
-//
-//  HISTORY:
-//  0.0.1  2020-03-12  initial version
-//  0.0.2  2020-07-22  testing, refactor, documentation and examples 
-//  0.1.0  2021-01-04  Arduino-CI
-//  0.1.1  2021-01-14  added WireN + improve error handling.
-//  0.1.2  2021-12-23  update library.json, readme, license, minor edits
 
 
 #include "PCF8591.h"
+
+
+//  INTERNAL USE ONLY
+#define PCF8591_DAC_FLAG                0x40
+#define PCF8591_INCR_FLAG               0x04
 
 
 PCF8591::PCF8591(const uint8_t address, TwoWire *wire)
@@ -23,7 +21,7 @@ PCF8591::PCF8591(const uint8_t address, TwoWire *wire)
   {
     _error = PCF8591_ADDRESS_ERROR;
     return;
-  }  
+  }
   _address = address;
   _wire    = wire;
   _control = 0;
@@ -68,7 +66,28 @@ bool PCF8591::isConnected()
   return( _error == PCF8591_OK);
 }
 
-// ADC PART
+//////////////////////////////////////////////////////////
+//
+//  ADC PART
+//
+void PCF8591::enableINCR()
+{
+  _control |= PCF8591_INCR_FLAG;
+};
+
+
+void PCF8591::disableINCR()
+{
+  _control &= ~PCF8591_INCR_FLAG;
+};
+
+
+bool PCF8591::isINCREnabled()
+{
+  return ((_control & PCF8591_INCR_FLAG) > 0);
+};
+
+
 uint8_t PCF8591::analogRead(uint8_t channel, uint8_t mode)
 {
   if (mode > 3)
@@ -103,7 +122,7 @@ uint8_t PCF8591::analogRead(uint8_t channel, uint8_t mode)
   }
   _error = PCF8591_OK;
 
-  // NOTE: one must read two values to get an up to date value. 
+  // NOTE: one must read two values to get an up to date value.
   //       Page 8 datasheet.
   _wire->beginTransmission(_address);
   _wire->write(_control);
@@ -126,12 +145,12 @@ uint8_t PCF8591::analogRead4()
   _control &= 0b01000100;         // clear all except flags
   uint8_t channel = 0;
   _control |= channel;
-  
+
   enableINCR();
   _wire->beginTransmission(_address);
   _wire->write(_control);
   _error = _wire->endTransmission();  // default == 0 == PCF8591_OK
-  if (_error != 0) 
+  if (_error != 0)
   {
     _error = PCF8591_I2C_ERROR;
     disableINCR();
@@ -155,7 +174,34 @@ uint8_t PCF8591::analogRead4()
 }
 
 
-// DAC PART
+uint8_t PCF8591::lastRead(uint8_t channel)
+{
+  return _adc[channel];
+};
+
+
+//////////////////////////////////////////////////////////
+//
+//  DAC PART
+//
+void PCF8591::enableDAC()
+{
+  _control |= PCF8591_DAC_FLAG;
+};
+
+
+void PCF8591::disableDAC()
+{
+  _control &= ~PCF8591_DAC_FLAG;
+};
+
+
+bool PCF8591::isDACEnabled()
+{
+  return ((_control & PCF8591_DAC_FLAG) > 0);
+};
+
+
 bool PCF8591::analogWrite(uint8_t value)
 {
   _wire->beginTransmission(_address);
@@ -171,6 +217,17 @@ bool PCF8591::analogWrite(uint8_t value)
   return true;
 }
 
+
+uint8_t PCF8591::lastWrite()
+{
+  return _dac;
+};
+
+
+//////////////////////////////////////////////////////////
+//
+//  ERROR HANDLING
+//
 int PCF8591::lastError()
 {
   int e = _error;
@@ -179,5 +236,5 @@ int PCF8591::lastError()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

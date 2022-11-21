@@ -43,11 +43,11 @@ Also set initial value for the DAC. Returns **true** if successful.
 - **bool isConnected()** test to see if chip can be reached.
 
 
-### ADC part
+### ADC channels
 
 The PCF8591 has four 8 bit ADC channels. Values = 0..255.
 
-- **void enableINCR()** used in analogRead4(); Could become private in the future.
+- **void enableINCR()** used in analogRead4(). Could become private in the future.
 - **void disableINCR()** idem.
 - **bool isINCREnabled()** idem.
 - **uint8_t analogRead(uint8_t channel, uint8_t mode = 0)** read one of the 4 analogue ports.  
@@ -57,22 +57,37 @@ Uses **enableINCR()** to do that efficiently.
 It is about 2.6 x faster than 4 individual **analogRead()**, although the latter 
 allows for optimized timing per channel. 
 Only 4x single ports mode supported for now, comparator modi needs investigation.
+Returns **PCF8591_OK** or an error code.
 - **uint8_t lastRead(uint8_t channel)** get last read value from cache.  
 This cache is filled both by **analogRead()** and **analogRead4()**. See example sketch.
 
 
-### DAC part
+### DAC channel
 
 The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet).
 
 - **void enableDAC()** switch on the analogue output.
-- **void disableDAC()** switch off the analogue output (high impedance) Sort of energy saving mode.
+- **void disableDAC()** switch off the analogue output (high impedance). Sort of energy saving mode.
 - **bool isDACEnabled()** check the modus operandi.
 - **bool analogWrite(uint8_t value = 0)** writes a value 0..255 to the DAC. Check datasheet for voltage.
 Note, this is a real voltage not a PWM signal like **analogWrite()** on an UNO.
 - **uint8_t lastWrite()** get last written value from cache.
+
+### Error codes
+
 - **int lastError()** always check this value after a read / write to see if it was OK (== 0).
 After the read the error value is reset to OK.
+
+To elaborate
+
+|  error code             |  Value  |  Notes  |
+|:------------------------|:-------:|:--------|
+|  PCF8591_OK             |  0x00   |
+|  PCF8591_PIN_ERROR      |  0x81   |
+|  PCF8591_I2C_ERROR      |  0x82   |
+|  PCF8591_MODE_ERROR     |  0x83   |
+|  PCF8591_CHANNEL_ERROR  |  0x84   |
+|  PCF8591_ADDRESS_ERROR  |  0x85   |
 
 
 ## Operations
@@ -82,15 +97,21 @@ See examples.
 
 ## Future
 
+#### must
+- improve documentation
+
+#### should
 - add / improve comparator modi support,  datasheet (par.8.2 figure 4)
   - int16_t readComparator10()
   - int16_t readComparator30() - return type correct?
   - int16_t readComparator31()
   - int16_t readComparator32()
   - set modi and read.
+
+
+#### could
 - **analogRead4()** needs investigation for the other modi. 
   - Does it work?  
   - Is it user understandable?
-  - good example...
-- ...
+  - good example
 

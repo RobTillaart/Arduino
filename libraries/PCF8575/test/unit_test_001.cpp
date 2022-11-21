@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-12-03
 // PURPOSE: unit tests for the PCF8575 I2C port expander
 //          https://github.com/RobTillaart/PCF8575

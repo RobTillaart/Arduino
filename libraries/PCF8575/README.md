@@ -22,8 +22,6 @@ Base address = 0x20 + 0..7 depending on address pins A0..A2.
 | TYPE     | ADDRESS-RANGE | notes                    |
 |:---------|:-------------:|:------------------------:|
 |PCF8575   | 0x20 to 0x27  | same range as PCF8574 !! |
-|          |               |                          |
-
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 
 to 8 x 16 = 128 IO lines. 
@@ -33,6 +31,18 @@ Be sure to have a well dimensioned power supply.
 
 The library allows to read and write both single pins or 16 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
+
+
+#### Interrupts
+
+The PCF8575 has an interrupt output line (INT) to notify an MCU that one of the input lines has changed.
+This can be used to prevent active polling of the PCF8575, which can be more efficient.
+
+The library cannot handle the PCF8575 interrupts as it has no code for it. 
+The user should catch the interrupt in his own code and can use the library to see which line has changed.
+
+There is one example to show how interrupts can be used:
+- PCF8575_interrupt.ino
 
 
 ## I2C Clock

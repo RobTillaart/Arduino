@@ -2,11 +2,10 @@
 //    FILE: PID_basic.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-12-15
 //
-// connect an LED to the PWM pin
-// connect a potentiometer to A0
-// play :)
+//  connect an LED to the PWM pin
+//  connect a potentiometer to A0
+//  play :)
 
 
 #include "PID_RT.h"
@@ -15,7 +14,7 @@ PID_RT PID;
 
 const int PWM_PIN = 3;  // UNO PWM pin
 
-int op = 0;;
+int op = 0;
 float input = 0;
 
 

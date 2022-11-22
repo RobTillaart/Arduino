@@ -48,10 +48,12 @@ This is platform, group size and pin state dependent.
 
 ### Administration
 
-- **void clear()** resets all pins in the group to LOW and sets the size to zero
+- **void clear()** resets all pins in the group to LOW and sets the size to zero.
 so one can repopulate.
-- **uint8_t add(uint8_t size, uint8_t \* pinArray, uint8_t value = LOW)** adds a predefined array of pins to the group. Returns the number of pins added. Default the pins are set to LOW.
-- **uint8_t add(uint8_t pin, uint8_t mode = LOW)** adds a single pin to the group. Returns the number of pins added (1 or 0). value can be LOW (=0, default) or HIGH (1 and other values).
+- **uint8_t add(uint8_t size, uint8_t \* pinArray, uint8_t value = LOW)** adds a predefined array of pins to the group. 
+Returns the number of pins added. Default the pins are set to LOW.
+- **uint8_t add(uint8_t pin, uint8_t mode = LOW)** adds a single pin to the group. 
+Returns the number of pins added (1 or 0). value can be LOW (=0, default) or HIGH (1 and other values).
 - **uint8_t getPin(uint8_t index)** index = 0..15; returns the pin at slot index or 255 (0xFF) when out of range.
 - **uint8_t getIndex(uint8_t pin)** returns the (first) index of the slot with pin number. 255 (0xFF) if not found.
 - **uint8_t isInGroup(uint8_t pin)** returns how often a pin is added to a group. Can be more than once.
@@ -78,9 +80,19 @@ See examples
 
 ## Future
 
+#### must
+- update documentation
+
+#### should 
+- move code from .h to .cpp
+- should clear() have a flag to set to LOW/HIGH/NOCHANGE when clearing?
+
+#### could
 - Optimize the low level writing
   For AVR this could be interesting (performance).
 - extend to 32 bits / pins. class hierarchy. 8, 24 ?
 - give **clear(skip)** a bool flag to skip setting the pins to LOW ?
 - remove function? 
 - check PinInGroup to stay in "sync" API wise.
+
+

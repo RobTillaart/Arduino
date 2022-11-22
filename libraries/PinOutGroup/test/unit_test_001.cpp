@@ -47,22 +47,63 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(16,   PINOUTGROUP_MAXSIZE);
+  assertEqual(0xFF, PINOUTGROUP_ERROR_PIN);
+}
+
+
 unittest(test_all)
 {
   PinOutGroup POG;
-  uint8_t ar[46] = {2, 3, 4, 5, 6, 7};
+  uint8_t ar[16] = {2, 3, 4, 5, 6, 7};
   
-  assertEqual(0, POG.size());
+  assertEqual(0,  POG.size());
   assertEqual(16, POG.available());
   assertEqual(16, POG.getMaxSize());
-  assertFalse(POG.isInGroup(2));
+  assertEqual(0,  POG.isInGroup(2));
 
   POG.add(6, ar, LOW);
-  assertEqual(6, POG.size());
+  assertEqual(6,  POG.size());
   assertEqual(10, POG.available());
   assertEqual(16, POG.getMaxSize());
-  assertTrue(POG.isInGroup(2));
+  assertEqual(1,  POG.isInGroup(2));
 }
+
+
+unittest(test_getPin)
+{
+  PinOutGroup POG;
+  uint8_t ar[16] = {2, 3, 4, 5, 6, 7};
+  POG.add(6, ar, LOW);
+
+  assertEqual(2,    POG.getPin(0));
+  assertEqual(3,    POG.getPin(1));
+  assertEqual(4,    POG.getPin(2));
+  assertEqual(5,    POG.getPin(3));
+  assertEqual(6,    POG.getPin(4));
+  assertEqual(7,    POG.getPin(5));
+  assertEqual(0xFF, POG.getPin(6));  
+}
+
+
+unittest(test_getIndex)
+{
+  PinOutGroup POG;
+  uint8_t ar[16] = {2, 3, 4, 5, 6, 7};
+  POG.add(6, ar, LOW);
+
+  assertEqual(0xFF, POG.getIndex(0));  //  pin 0 is not in group
+  assertEqual(0xFF, POG.getIndex(1));
+  assertEqual(0,    POG.getIndex(2));
+  assertEqual(1,    POG.getIndex(3));
+  assertEqual(2,    POG.getIndex(4));
+  assertEqual(3,    POG.getIndex(5));
+  assertEqual(0xFF, POG.getIndex(8));
+}
+
+
 
 
 unittest_main()

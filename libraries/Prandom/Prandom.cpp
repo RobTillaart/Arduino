@@ -1,17 +1,9 @@
 //
 //    FILE: Prandom.cpp
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for random number generation with Python random interface
 //     URL: https://github.com/RobTillaart/Prandom
-//
-//  HISTORY:
-//  0.1.0   2020-05-13  complete redo based upon python random interface
-//                       https://docs.python.org/3/library/random.html
-//  0.1.1               renamed all to Prandom
-//  0.1.2   2020-06-19  fix library.json
-//  0.1.3   2021-01-06  Arduino-CI + unit test
-//  0.1.4   2021-12-23  update library.json, readme, license, minor edits
 //
 //  code based upon Python implementation although some small
 //  optimizations and tweaks were needed to get it working.
@@ -34,14 +26,14 @@ Prandom::Prandom(uint32_t s)
 
 void Prandom::seed()
 {
-  // no argument ==> time based.
+  //  no argument ==> time based.
   seed(_rndTime());
 }
 
 
 void Prandom::seed(uint32_t s, uint32_t t)
 {
-  // set Marsaglia constants, prevent 0 as value
+  //  set Marsaglia constants, prevent 0 as value
   if (s == 0) s = 1;
   if (t == 0) t = 2;
   _m_w = s;
@@ -69,10 +61,10 @@ uint32_t Prandom::randrange(uint32_t start, uint32_t stop, uint32_t step)
 }
 
 
-// returns value between 0 and top which defaults to 1.0
-//         the parameter does not exist in Python
-// note:   not all possible (0xFFFFFFFF) values are used
-//         function has an uniform distribution.
+//  returns value between 0 and top which defaults to 1.0
+//          the parameter does not exist in Python
+//  note:   not all possible (0xFFFFFFFF) values are used
+//          function has an uniform distribution.
 float Prandom::random(const float top)
 {
   if (top == 0) return 0;
@@ -105,10 +97,10 @@ float Prandom::triangular(float lo, float hi, float mid)
 }
 
 
-// minor optimization.
+//  minor optimization.
 float Prandom::normalvariate(float mu, float sigma)
 {
-  // const float NV_MAGICCONST = 4 * exp(-0.5)/sqrt(2.0);
+  //  const float NV_MAGICCONST = 4 * exp(-0.5)/sqrt(2.0);
   const float NV_MAGICCONST = 2 * exp(-0.5) / sqrt(2.0);
 
   float u1, u2, z;
@@ -117,7 +109,7 @@ float Prandom::normalvariate(float mu, float sigma)
     u1 = random();
     u2 = 1 - random();
     z = NV_MAGICCONST * (u1 - 0.5) / u2 ;
-    // if ((z * z / 4) <= -log(u2)) break;
+    //  if ((z * z / 4) <= -log(u2)) break;
     if ((z * z) <= -log(u2)) break;
   }
   return z * sigma + mu;
@@ -130,7 +122,7 @@ float Prandom::lognormvariate(float mu, float sigma)
 }
 
 
-// implemented slightly differently
+//  implemented slightly differently
 float Prandom::gauss(float mu, float sigma)
 {
   static bool generate = false;
@@ -159,7 +151,7 @@ float Prandom::expovariate(float lambda)
 }
 
 
-// alpha & beta > 0
+//  alpha & beta > 0
 float Prandom::gammavariate(float alpha, float beta)
 {
   const float LOG4 = log(4);
@@ -167,9 +159,9 @@ float Prandom::gammavariate(float alpha, float beta)
 
   if (alpha > 1.0)
   {
-    // # Uses R.C.H. Cheng, "The generation of Gamma
-    // # variables with non-integral shape parameters",
-    // # Applied Statistics, (1977), 26, No. 1, p71-74
+    //  #  Uses R.C.H. Cheng, "The generation of Gamma
+    //  #  variables with non-integral shape parameters",
+    //  #  Applied Statistics, (1977), 26, No. 1, p71-74
 
     float ainv = sqrt(2.0 * alpha - 1.0);
     float bbb = alpha - LOG4;
@@ -180,7 +172,7 @@ float Prandom::gammavariate(float alpha, float beta)
     {
       u1 = random();
       if (u1 < 1e-7) continue;
-      if (u1 > 0.9999999) continue;  // needed?
+      if (u1 > 0.9999999) continue;  //  needed?
 
       u2 = 1.0 - random();
       v = log(u1 / (1.0 - u1)) / ainv;
@@ -198,9 +190,9 @@ float Prandom::gammavariate(float alpha, float beta)
   {
     return -log(1.0 - random()) * beta;
   }
-  else   // alpha in 0..1
+  else   //  alpha in 0..1
   {
-    // # Uses ALGORITHM GS of Statistical Computing - Kennedy & Gentle
+    //  #  Uses ALGORITHM GS of Statistical Computing - Kennedy & Gentle
 
     float u, b, p, x, u1;
     while (true)
@@ -281,7 +273,7 @@ float Prandom::vonmisesvariate(float mu, float kappa)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint32_t Prandom::_rndTime()
 {
@@ -289,20 +281,20 @@ uint32_t Prandom::_rndTime()
 }
 
 
-// TODO how to guarantee it uniform between 0 .. n-1
+//  TODO how to guarantee it uniform between 0 .. n-1
 uint32_t Prandom::_rnd(uint32_t n)
 {
-  // float formula works fastest but it looses precision for large values of n
-  // as floats have only 23 bit mantissa
+  //  float formula works fastest but it looses precision for large values of n
+  //  as floats have only 23 bit mantissa
   uint32_t val = __random();
-  if (n > 0x003FFFFF) return val % n;     // distribution will fail here
+  if (n > 0x003FFFFF) return val % n;     //  distribution will fail here
   return (n * 1.0 * val) / 0xFFFFFFFF;
 }
 
 
-// An example of a simple pseudo-random number generator is the
-// Multiply-with-carry method invented by George Marsaglia.
-// two initializers (not null)
+//  An example of a simple pseudo-random number generator is the
+//  Multiply-with-carry method invented by George Marsaglia.
+//  two initializers (not null)
 uint32_t Prandom::__random()
 {
   _m_z = 36969L * (_m_z & 65535L) + (_m_z >> 16);
@@ -311,5 +303,5 @@ uint32_t Prandom::__random()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

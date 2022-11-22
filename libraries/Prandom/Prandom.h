@@ -2,7 +2,7 @@
 //
 //    FILE: Prandom.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for random numbers with Python Random interface
 //          The underlying pseudo-random number generator is a
 //          Multiply-with-carry method invented by George Marsaglia.
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define PRANDOM_LIB_VERSION                 (F("0.1.4"))
+#define PRANDOM_LIB_VERSION                 (F("0.1.5"))
 
 
 class Prandom
@@ -23,19 +23,19 @@ public:
   Prandom(uint32_t s);
 
   void seed();
-  void seed(uint32_t s, uint32_t t = 2);  // Marsaglia need 2 seeds, but 1 will work too
+  void seed(uint32_t s, uint32_t t = 2);  //  Marsaglia need 2 seeds, but 1 will work too
 
 
-  // integer methods
+  //  integer methods
   //
   uint32_t getrandbits(uint8_t n);
   uint32_t randrange(uint32_t stop);
   uint32_t randrange(uint32_t start, uint32_t stop, uint32_t step = 1);
-  // randint is inclusive end value
+  //  randint is inclusive end value
   uint32_t randint(uint32_t start, uint32_t stop) { return randrange(start, stop + 1); };
 
 
-  // real distributions
+  //  real distributions
   //
   float random(const float top = 1.0);
   float uniform(float lo, float hi);
@@ -50,10 +50,10 @@ public:
   float weibullvariate(float alpha, float beta);
 
  
-  // Circular distributions
+  //  Circular distributions
   //
-  // mu is mean angle in radians
-  // kappa is concentration parameter, 0 -> uniform.
+  //  mu is mean angle in radians
+  //  kappa is concentration parameter, 0 -> uniform.
   float vonmisesvariate(float mu, float kappa = 0);
 
 
@@ -62,7 +62,7 @@ private:
   uint32_t _rndTime();
   uint32_t _rnd(uint32_t n);
 
-  // Marsaglia 'constants'
+  //  Marsaglia 'constants'
   uint32_t _m_w = 1;
   uint32_t _m_z = 2;
   uint32_t __random();

@@ -23,8 +23,14 @@ See examples.
 
 ## Future
 
-- follow developments in Python random library.
+#### must
 - improve documentation.
+
+#### should
+- unit tests?
+- follow developments in Python random library.
+
+#### could
 - add more RNG's to choose from.
 
 

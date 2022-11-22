@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -47,25 +48,11 @@ unittest_teardown()
 }
 
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
-
-
 unittest(test_constructor)
 {
   Prandom R;
 
-  // three seed() calls are possible
+  //  three seed() calls are possible
   R.seed();
   R.seed(42);
   R.seed(355, 113);

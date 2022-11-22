@@ -1,4 +1,4 @@
-# Syntax Colouring Map For I2C_ASDX
+# Syntax Colouring Map For pressure
 
 
 # Data types (KEYWORD1)
@@ -42,6 +42,8 @@ changeN	KEYWORD2
 
 
 # Constants (LITERAL1)
+PRESSURE_LIB_VERSION	LITERAL1
+
 BAR2MILLIBAR	LITERAL1
 ATM2MILLIBAR	LITERAL1
 PSI2MILLIBAR	LITERAL1

@@ -2,55 +2,50 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
-//
-// HISTORY
-//  0.1.0  2021-11-25   Initial version
-//  0.2.0  2021-11-25   Fix formulas
-//  0.2.1  2021-12-23   update library.json, license
-//                      add experimental gas law.
 
 
-#define PRESSURE_LIB_VERSION        (F("0.2.1"))
+
+#define PRESSURE_LIB_VERSION        (F("0.2.2"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
 //  Temperature 25°C ?
 
 // CONSTANTS SETTERS
-#define BAR2MILLIBAR       1000
-#define ATM2MILLIBAR       1013.25
-#define PSI2MILLIBAR       68.9475729318
-#define DYNES2MILLIBAR     0.001
-#define INHG2MILLIBAR      33.85355
-#define INH2O2MILLIBAR     2.4908890833333
-#define PASCAL2MILLIBAR    0.01
-#define TORR2MILLIBAR      1.33322368
-#define CMHG2MILLIBAR      13.3322368
-#define CMH2O2MILLIBAR     0.980665
-#define MSW2MILLIBAR       0.01
+#define BAR2MILLIBAR           1000
+#define ATM2MILLIBAR           1013.25
+#define PSI2MILLIBAR           68.9475729318
+#define DYNES2MILLIBAR         0.001
+#define INHG2MILLIBAR          33.85355
+#define INH2O2MILLIBAR         2.4908890833333
+#define PASCAL2MILLIBAR        0.01
+#define TORR2MILLIBAR          1.33322368
+#define CMHG2MILLIBAR          13.3322368
+#define CMH2O2MILLIBAR         0.980665
+#define MSW2MILLIBAR           0.01
 
 // CONSTANTS GETTERS
-#define MILLIBAR2BAR       0.001
-#define MILLIBAR2ATM       9.86923267e-4
-#define MILLIBAR2PSI       0.0145037738
-#define MILLIBAR2DYNES     1000
-#define MILLIBAR2INHG      2.9539e-2
-#define MILLIBAR2INH2O     0.40146307866177
-#define MILLIBAR2PASCAL    100
-#define MILLIBAR2TORR      0.750061683
-#define MILLIBAR2CMHG      0.0750061683
-#define MILLIBAR2CMH2O     1.0197162129779 
-#define MILLIBAR2MSW       100
+#define MILLIBAR2BAR           0.001
+#define MILLIBAR2ATM           9.86923267e-4
+#define MILLIBAR2PSI           0.0145037738
+#define MILLIBAR2DYNES         1000
+#define MILLIBAR2INHG          2.9539e-2
+#define MILLIBAR2INH2O         0.40146307866177
+#define MILLIBAR2PASCAL        100
+#define MILLIBAR2TORR          0.750061683
+#define MILLIBAR2CMHG          0.0750061683
+#define MILLIBAR2CMH2O         1.0197162129779 
+#define MILLIBAR2MSW           100
 
 
 class pressure
 {
 public:
   //  CONSTRUCTOR
-  pressure(float value = 0)       { _pressure = value; };
+  pressure(float value = 0.0)     { _pressure = value; };
 
 
   void  setMilliBar(float value)  { _pressure = value; };
@@ -81,8 +76,8 @@ public:
   float getMSW()       { return _pressure * MILLIBAR2MSW; }
 
 
-  // EXPERIMENTAL
-  // temperature in Kelvin!
+  //  EXPERIMENTAL
+  //  temperature in KELVIN !
   void change(float T1, float T2, float V1, float V2, float N1, float N2)
   {
     changeT(T1, T2);
@@ -90,7 +85,7 @@ public:
     changeN(N1, N2);
   }
 
-  // temperature in Kelvin!
+  //  temperature in KELVIN!
   void changeT(float T1, float T2)
   {
     if ((T1 != T2) && (T1 > 0) && (T2 > 0)) _pressure *= (T2 / T1);
@@ -110,7 +105,7 @@ public:
 
 
 private:
-  float    _pressure;
+  float    _pressure;    //  millibar.
 };
 
 

@@ -19,7 +19,10 @@ In fact it just hides all conversion constants.
 
 Pressure is implemented as a float so this limits the precision of the value.
 
-Note: as the conversion is 2 steps the conversion error might be larger than in a single conversion step.
+If other constants / conversions are needed please open an issue on GitHub.
+
+Note: as a conversion uses two steps the conversion error might be (bit) larger 
+than in a single conversion step as there are two multiplications involved.
 
 Note: constants need to be verified.
 
@@ -32,7 +35,7 @@ Note: constants need to be verified.
 - **pressure(float value = 0.0)** Constructor, with optional initial value.
 
 
-#### setters
+#### Setters
 
 - **void setMilliBar(float value)** sets pressure in milliBar.
 - **void setBar(float value)** sets pressure in bar.
@@ -48,7 +51,7 @@ Note: constants need to be verified.
 - **void setMSW(float value)** sets pressure in Meters of Sea Water. (under water pressure unit).
 
 
-#### getters
+#### Getters
 
 - **float getMilliBar()** returns pressure in milliBar.
 - **float getBar()** returns pressure in bar.
@@ -66,14 +69,20 @@ Note: constants need to be verified.
 
 #### Gas law (experimental see below)
 
-- **change(float T1, float T2, float V1 = 1, float V2 = 1, float N1 = 1, float N2 = 1)**
-apply changing temperature (**Kelvin**), volume (m3) and moles. If an parameter does not change
-just fill in the value 1 for both before and after.
+The **change()** function is applied to the current internal pressure.
+
+- **void change(float T1, float T2, float V1, float V2, float N1, float N2)**
+  - apply changing temperature (**Kelvin**), 
+  - volume (m3) and moles.
+  - If an parameter does not change fill in 1 for both before (T1,V1, N1) and after (T2,V2,n2).
+- **void changeT(float T1, float T2)** only change temperature. T in **Kelvin**.
+- **void changeV(float V1, float V2)** only change volume.
+- **void changeN(float N1, float N2)** only change moles.
 
 
-#### constants
+#### Constants
 
-The library has a number of constants to convert units.
+The library has a number of constants to convert units. See the pressure.h file.
 These constants can be used to write specific convertors or define specific constants.
 
 A dedicated conversion is faster as it has only one float multiplication runtime.
@@ -92,7 +101,6 @@ or
 ...
 float out = in * (PSI2MSW);
 ```
-
 
 
 ## Operation
@@ -116,7 +124,7 @@ Version 0.1.0 has incorrect setters. fixed in version 0.2.0.
 
 #### Experimental 0.2.1
 
-Apply the ideal gas law : **PxV / nxT = Constant**
+Apply the ideal gas law : **P x V / n x T = Constant**
 
 - **void change(float T1, float T2, float V1, float V2, float N1, float N2)**
   - T (temperature) in Kelvin,
@@ -137,14 +145,38 @@ x = P.getPressure()
 - do we need a **changeTC(float T1, float T2)** only change temperature, T in Celsius
 - should functions return bool true on success ?
 
+```cpp
 Kelvin = Celsius + 273.15;
 Kelvin = (Fahrenheit - 32) \* 5 / 9 + 273.15;
 Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
+```
 
 
 ## Future
 
+#### must
 - update documentation
 - find a good reference for conversion formula constants.
+
+
+#### should
 - test with gas law.
+- calculate getter constants from setter constants.    1.0 / XXX
+- rename parameters so they make more sense?
+```
+  void  setMilliBar(float milliBar )  { _pressure = milliBar; };
+  void  setBar(float Bar)             { _pressure = Bar * BAR2MILLIBAR; };
+  void  setPSI(float PSI)             { _pressure = PSI * PSI2MILLIBAR; };
+```
+
+
+
+#### could
+- defaults for functions?  0 like constructor?
+- move code to .cpp file ?
+- change could return int indicating 
+  -  1: a change is made.
+  -  0: no change is made
+  - -1: parameter negative
+- change could return a float indicating the new pressure in mBar?
 

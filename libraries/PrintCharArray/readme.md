@@ -51,7 +51,14 @@ See examples.
 
 ## Future
 
+#### must
+- documentation
+
+#### should 
+- move code to .cpp file
 - testing
+
+#### could
 - examples
   - inject spaces in "middle align" example? possible?
   - rename some

@@ -56,7 +56,7 @@ unittest(test_constructor)
 
   assertEqual(0,   ps.size());
 
-  // not so nice but best I could do on short term
+  //  not so nice but best I could do on short term
   ps.print("Hello World");
   ps.getString().toCharArray(buffer, 100);
   fprintf(stderr, "%s\n", buffer);

@@ -22,7 +22,9 @@ This String can be requested to process later.
   use to prevent "display line overflow"
   (e.g. floats)
 
-There is a relation to https://github.com/RobTillaart/PrintCharArray and https://github.com/RobTillaart/PrintSize.
+This library is related to
+- https://github.com/RobTillaart/PrintCharArray 
+- https://github.com/RobTillaart/PrintSize.
 
 
 ## Interface

@@ -41,18 +41,26 @@ unittest_setup()
   fprintf(stderr, "PININGROUP_LIB_VERSION: %s\n", (char *) PININGROUP_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual(16,   PININGROUP_MAXSIZE);
+  assertEqual(0xFF, PININGROUP_ERROR_PIN);
 }
 
 
 unittest(test_constructor)
 {
   PinInGroup PIG;
-  assertEqual(0, PIG.size());
+  assertEqual(0,  PIG.size());
   assertEqual(16, PIG.available());
   assertEqual(16, PIG.getMaxSize());
-  assertEqual(0, PIG.isInGroup(2));
+  assertEqual(0,  PIG.isInGroup(2));
 }
 
 
@@ -62,18 +70,18 @@ unittest(test_isInGroup)
   uint8_t ar[8] = {2, 3, 4, 5, 6, 7, 4, 4};
 
   PIG.add(8, ar, INPUT_PULLUP);
-  assertEqual(8, PIG.size());
-  assertEqual(8, PIG.available());
+  assertEqual(8,  PIG.size());
+  assertEqual(8,  PIG.available());
   assertEqual(16, PIG.getMaxSize());
 
-  assertEqual(0, PIG.isInGroup(0));
-  assertEqual(1, PIG.isInGroup(2));
-  assertEqual(1, PIG.isInGroup(3));
-  assertEqual(3, PIG.isInGroup(4));
-  assertEqual(1, PIG.isInGroup(5));
-  assertEqual(1, PIG.isInGroup(6));
-  assertEqual(1, PIG.isInGroup(7));
-  assertEqual(0, PIG.isInGroup(8));
+  assertEqual(0,  PIG.isInGroup(0));
+  assertEqual(1,  PIG.isInGroup(2));
+  assertEqual(1,  PIG.isInGroup(3));
+  assertEqual(3,  PIG.isInGroup(4));
+  assertEqual(1,  PIG.isInGroup(5));
+  assertEqual(1,  PIG.isInGroup(6));
+  assertEqual(1,  PIG.isInGroup(7));
+  assertEqual(0,  PIG.isInGroup(8));
 }
 
 
@@ -83,9 +91,15 @@ unittest(test_getIndex)
   uint8_t ar[8] = {2, 3, 4, 5, 6, 7, 4, 4};
 
   PIG.add(8, ar, INPUT_PULLUP);
-  assertEqual(8, PIG.size());
-  assertEqual(8, PIG.available());
-  // TODO
+  assertEqual(8,  PIG.size());
+  assertEqual(8,  PIG.available());
+
+  assertEqual(0xFF,  PIG.getIndex(0));  //  not in group
+  assertEqual(0xFF,  PIG.getIndex(1));
+  assertEqual(0,  PIG.getIndex(2));
+  assertEqual(2,  PIG.getIndex(4));
+  assertEqual(4,  PIG.getIndex(6));
+  assertEqual(5,  PIG.getIndex(7));
 }
 
 
@@ -95,9 +109,16 @@ unittest(test_getPin)
   uint8_t ar[8] = {2, 3, 4, 5, 6, 7, 4, 4};
 
   PIG.add(8, ar, INPUT_PULLUP);
-  assertEqual(8, PIG.size());
-  assertEqual(8, PIG.available());
-  // TODO
+  assertEqual(8,  PIG.size());
+  assertEqual(8,  PIG.available());
+
+  assertEqual(2,  PIG.getPin(0));
+  assertEqual(3,  PIG.getPin(1));
+  assertEqual(4,  PIG.getPin(2));
+  assertEqual(6,  PIG.getPin(4));
+  assertEqual(4,  PIG.getPin(6));
+  assertEqual(4,  PIG.getPin(7));
+  assertEqual(0xFF,  PIG.getPin(8));
 }
 
 

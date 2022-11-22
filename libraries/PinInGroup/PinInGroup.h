@@ -1,10 +1,9 @@
 #pragma once
 //    FILE: PinInGroup.h
 //  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
-// HISTORY: See PinInGroup.cpp
 //
 // Note: ESP32 has some dedicated IO pins that cannot be used in a group.
 //       FLASH: pin 6 - 11  (maybe more)
@@ -13,13 +12,15 @@
 #include "Arduino.h"
 
 
-#define PININGROUP_LIB_VERSION          (F("0.1.7"))
+#define PININGROUP_LIB_VERSION        (F("0.1.8"))
 
 
 //  smaller MAXSIZE will reduce memory footprint with ditto bytes.
 #ifndef PININGROUP_MAXSIZE
-#define PININGROUP_MAXSIZE              16
+#define PININGROUP_MAXSIZE            16
 #endif
+
+#define PININGROUP_ERROR_PIN          0xFF
 
 
 class PinInGroup
@@ -53,11 +54,11 @@ public:
 
 
   uint8_t   getPin(uint8_t index);
-  uint8_t   getIndex(uint8_t pin);
+  uint8_t   getIndex(uint8_t pin);  //  returns first occurrence!
 
 
   //  OBSOLETE in next release
-  uint8_t   getIdx(uint8_t pin)      { return getIndex(pin); };
+  //  uint8_t   getIdx(uint8_t pin)      { return getIndex(pin); };
 
 private:
   uint8_t   _pins[PININGROUP_MAXSIZE];

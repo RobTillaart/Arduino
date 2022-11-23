@@ -1,9 +1,8 @@
-# Syntax Colouring Map for runningAngle
+# Syntax Colouring Map for RADAR
 
 
 # Data types (KEYWORD1)
-runningAngle	KEYWORD1
-AngleType	KEYWORD1
+RADAR	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

@@ -14,7 +14,7 @@ Arduino library for a pan tilt radar based upon 2 servo's.
 ## Warning
 
 **WARNING: not extensively tested**
-There are still a lot of things to be tested. 
+There are still a lot of things to be tested.  
 The example code is now working to show the concept.
 
 
@@ -32,13 +32,10 @@ From that number and the start moment one can determine approximately its positi
 Given its position while moving is interesting for radar purposes as one can determine e.g.
 in which direction a ping is given and therefore which distance belongs to which pair of angles.
 
-Note: no active development 
+Note: no active development.
 
 
 ## Interface
-
-TODO elaborate
-
 
 ### Constructor and config
 
@@ -60,7 +57,7 @@ Note: no valid range checking or negative value check.
 - **void gotoPanTilt(const int16_t pan, const int16_t tilt)**
 
 
-### memory positions - store / recall?
+### memory positions - store / recall
 
 - **uint8_t getMaxPositions()**
 - **bool setPosition(const uint8_t index, const int16_t pan, const int16_t tilt)**
@@ -70,7 +67,7 @@ Note: no valid range checking or negative value check.
 - **void gotoHomePosition()**
 
 
-### feedback on positions.
+### feedback on position
 
 - **bool isMoving()**
 - **bool isPanMoving()**
@@ -84,12 +81,21 @@ See examples
 
 ## Future
 
+#### must
+- build the thing when time permits!
 - improve documentation.
+
+#### should
 - test more (e.g. continuous servo versus 180 servo).
 - add sketches.
 - remember lastPing (angle pan tilt).
 - check TODO's in code.
+- move code from .h to .cpp
+
+
+#### could
 - single servo radar (Pan only) as derived class.
 - dynamic allocation of position arrays.
+- store positions in EEPROM/FRAM for reboot?
 
 

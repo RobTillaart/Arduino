@@ -75,3 +75,5 @@ See examples for typical usage.
 - add moons?
   - need a database :)
 - add caching version of mass / radius;
+- move code to .cpp
+

@@ -2,21 +2,15 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
-//
-//  HISTORY:
-//  0.1.0   2021-05-29  initial version
-//  0.1.1   2021-06-02  fix in tests
-//  0.1.2   2021-12-27  update library.json, readme, license, minor edits
-//  0.1.3   2022-08-04  fix constructor
 
 
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.3"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.4"))
 
 
 class relativity
@@ -51,7 +45,8 @@ public:
   {
     return 1.0 / factor(speed);
   }
-  
+
+
 ///////////////////////////////////////////////////////////////////
 //
 //  relativistic corrections for speed
@@ -151,41 +146,41 @@ public:
 
 private:
 
-  const double _c = 299792458.0;        // speed of light
-  const double _c2 = _c * _c;           // sol squared
-  const double _divc = 1.0/_c;          // sol inverse
+  const double _c = 299792458.0;        //  speed of light
+  const double _c2 = _c * _c;           //  sol squared
+  const double _divc = 1.0/_c;          //  sol inverse
 
-  const double _G = 6.6742e-11;         // gravitational constant
+  const double _G = 6.6742e-11;         //  gravitational constant
 
   //  wikipedia
   //  kg
   const double massPlanets[10] =
   {
-    1.9891e30,      // Sun
-    330.11e21,      // Mercury
-    4867.5e21,      // Venus
-    5972.4e21,      // Earth
-    641.71e21,      // Mars
-    1898187e21,     // Jupiter
-    568317e21,      // Saturn
-    102413e21,      // Neptune
-    86813e21,       // Uranus
-    13.03e21,       // Pluto
+    1.9891e30,      //  Sun
+    330.11e21,      //  Mercury
+    4867.5e21,      //  Venus
+    5972.4e21,      //  Earth
+    641.71e21,      //  Mars
+    1898187e21,     //  Jupiter
+    568317e21,      //  Saturn
+    102413e21,      //  Neptune
+    86813e21,       //  Uranus
+    13.03e21,       //  Pluto
   };
 
   //  km
   const double radiusPlanets[10] =
   {
-    695508,         // Sun
-    2439.4,         // Mercury
-    6052,           // Venus
-    6371,           // Earth
-    3389.5,         // Mars
-    69911,          // Jupiter
-    58232,          // Saturn
-    24622,          // Neptune
-    3981,           // Uranus
-    1188.3,         // Pluto
+    695508,         //  Sun
+    2439.4,         //  Mercury
+    6052,           //  Venus
+    6371,           //  Earth
+    3389.5,         //  Mars
+    69911,          //  Jupiter
+    58232,          //  Saturn
+    24622,          //  Neptune
+    3981,           //  Uranus
+    1188.3,         //  Pluto
   };
 
   //  cache
@@ -195,5 +190,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

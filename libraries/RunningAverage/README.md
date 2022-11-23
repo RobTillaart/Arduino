@@ -96,6 +96,10 @@ Note: if called with a value larger or equal to **getCount()**  (incl **getSize(
 parameter, the functions will return the statistics of the whole buffer. 
 
 
+## Subset (experimental)
+
+- **float getAverageSubset(uint16_t start, uint16_t count)** 
+Get the average of subset - count elements from start.
 
 
 ## Operation
@@ -105,11 +109,15 @@ See examples
 
 ## Future 
 
+#### must
+- update documentation, explain better
+
+#### should
 - add error handling  (important?)
-- default size for constructor
-- update documentation, explain better.
-- create a double based derived class? Template class?
 - check for optimizations.
-- clear(bool zero = true)  to suppress setting all to 0. ??
-- separate releaseNotes.md
+- clear(bool zero = true) to suppress setting all to 0. ?
+
+#### could
+- default size for constructor
+- create a double based derived class? Template class?
 

@@ -41,6 +41,7 @@ unittest_setup()
   fprintf(stderr, "RUNNINGAVERAGE_LIB_VERSION: %s\n", (char *) RUNNINGAVERAGE_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -140,7 +141,6 @@ unittest(test_partial)
 }
 
 
-
 unittest(test_last)
 {
   RunningAverage myRA(300);
@@ -174,5 +174,6 @@ unittest(test_last)
 
 
 unittest_main()
+
 
 // --------

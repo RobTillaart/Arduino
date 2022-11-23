@@ -108,10 +108,35 @@ on the baud rate. Use with care.
 TODO: to be tested on ESP32 - RTOS .
 
 
+#### Protocol design
+
+An error I made in one of my first RS485 experiments was that a possible
+response of one module would trigger another module to also send a response.
+Of course these two responses interacted quite consistent but wrong.
+It took some time to find the cause and to redesign the protocol used.
+
+Lesson learned was to spend more time designing the protocol.
+
+An example of a simple byte protocol could use commands all with 
+bit 7 set to 1, and all responses with bit 7 set to 0 (E.g ASCII).
+
+
+#### Useful links
+
+- https://www.ti.com/lit/an/snla049b/snla049b.pdf
+- https://www.gammon.com.au/forum/?id=11428
+- https://www.arduino.cc/reference/en/language/functions/communication/stream/
+
+
 ## Future
 
+#### must
 - improve documentation
-- setUsPerByte() parameter does not feel 100%
+
+#### should
+- setUsPerByte() parameter does not feel 100% (investigate)
+
+#### could
 - add **send()** and **receive()** for longer messages.
   - which handshake?
   - dynamic buffer size?

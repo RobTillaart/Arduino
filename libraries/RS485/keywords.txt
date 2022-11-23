@@ -11,8 +11,12 @@ setMicrosPerByte	KEYWORD2
 getMicrosPerByte	KEYWORD2
 getDeviceID	KEYWORD2
 
+setTXmode	KEYWORD2
+setRXmode	KEYWORD2
+getMode	KEYWORD2
 
-# TODO
+
+# EXPERIMENTAL
 send	KEYWORD2
 receive	KEYWORD2
 

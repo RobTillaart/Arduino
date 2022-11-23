@@ -2,31 +2,31 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION                (F("0.2.4"))
+#define RANDOM_HELPERS_VERSION                (F("0.2.5"))
 
 
-// the idea is to have one buffer ( __randomBuffer) which holds 32 random bits. 
-// Every call fetches bits from that buffer and if it does not hold enough 
-// bits any more it fills the buffer first. This way the relative expensive 
-// calls to random() which produces a 32 bit number are minimized in an
-// efficient way.
+//  the idea is to have one buffer ( __randomBuffer) which holds 32 random bits.
+//  Every call fetches bits from that buffer and if it does not hold enough
+//  bits any more it fills the buffer first. This way the relative expensive
+//  calls to random() which produces a 32 bit number are minimized in an
+//  efficient way.
 //
-// TBD: put it in a class ?
+//  TBD: put it in a class ?
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// An example of a simple pseudo-random number generator is the 
-// Multiply-with-carry method invented by George Marsaglia.
-// it has two initializers (not zero) which can be changed 
-// to seed the generator.
+//  An example of a simple pseudo-random number generator is the
+//  Multiply-with-carry method invented by George Marsaglia.
+//  it has two initializers (not zero) which can be changed
+//  to seed the generator.
 //
 
 uint32_t Marsaglia();
@@ -37,7 +37,7 @@ uint32_t getRandom32();
 
 bool getRandom1();
 
-// typical use 
+//  typical use
 bool inline flipCoin();
 
 uint8_t getRandom4();
@@ -46,7 +46,7 @@ uint8_t getRandom5();
 
 uint8_t getRandom6();
 
-// typical use
+//  typical use
 uint8_t throwDice();
 
 uint8_t getRandom8();

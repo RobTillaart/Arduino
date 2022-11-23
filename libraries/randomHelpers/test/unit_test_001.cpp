@@ -36,28 +36,16 @@
 #include "randomHelpers.h"
 
 
-
 unittest_setup()
 {
   fprintf(stderr, "RANDOM_HELPERS_VERSION: %s\n", (char *) RANDOM_HELPERS_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-  
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
 
 unittest(test_all)
 {
@@ -73,8 +61,8 @@ unittest(test_all)
     assertMore(16777215, getRandom24());
     assertMore(pow(2, 32), getRandom32());
   }
-  
 }
+
 
 unittest_main()
 

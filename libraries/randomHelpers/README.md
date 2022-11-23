@@ -26,18 +26,21 @@ However above 16 bits the overhead is larger than the gain.
 So to improve in that range too one could use a faster random function like the one 
 from Marsaglia (included).
 
-Note the gains differ per platform and are more explicit on the Arduino UNO platform
-than on an ESP32. 
+Note the gains differ per platform and are more explicit on the (slow) Arduino UNO 
+platform than on a much faster ESP32. 
+
+This library relates to https://github.com/RobTillaart/Prandom
 
 
 ## Interface
 
-functions implemented are
+#### generators (sort of)
 
 - **uint32_t Marsaglia()** fast PRNG.
 - **bool seedMarsaglia(uint32_t a, uint32_t b)** seed the Marsaglia PRNG. a and b should not be 0. returns true on success.
+
+#### getters (sort of)
 - **bool getRandom1()** returns 0 or 1, false or true. 
-- **bool flipCoin()** A wrapper around getRandom1().
 - **uint8_t getRandom4()** returns 0 .. 15.
 - **uint8_t getRandom5()** returns 0 .. 31.
 - **uint8_t getRandom6()** returns 0 .. 63.
@@ -47,11 +50,18 @@ functions implemented are
 - **uint32_t getRandom32()** returns 0 .. 2^32 - 1 (4 bytes) this is the core random generator
 - **uint64_t getRandom64()** returns 0.. 2^64 - 1 (8 bytes).
 - **uint32_t getRandomBits(n)** returns 0.. 2^n - 1  This works well for 1..16 bits but above 16 it is slower than the standard way. 
+
+#### Typical wrappers.
+
+- **bool flipCoin()** A wrapper around getRandom1().
 - **uint8_t throwDice()** returns 1..6.
 
 The examples show how to use these and how their performance gain relative to
 calling **random()** for every random number.
 
+## Performance
+
+to elaborate
 
 ## Operation
 
@@ -60,8 +70,20 @@ See examples
 
 ## Future
 
+#### must
+- improve/update documentation
+  - add performance figures
+
+#### should
+- wrap all up in a class.
+- add JKISS? other RNG's
+
+#### could
 - improve performance getRandomBits(n) for n = 17..31
 - investigate new tricks :)
-- wrap all up in a class.
 - test if the functions are uniform.
+- rename getRandom64() ==> get64()  etc.
+  - when it is part of a class.
+- add **getRandom2(), getRandom3(), getRandom12()**?
+
 

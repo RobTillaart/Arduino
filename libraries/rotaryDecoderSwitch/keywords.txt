@@ -1,4 +1,4 @@
-# Syntax Colouring Map For rotaryDecoder
+# Syntax Colouring Map For rotaryDecoderSwitch
 
 
 # Data types (KEYWORD1)

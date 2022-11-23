@@ -78,7 +78,8 @@ assumes that the rotary encoder only goes into a single direction.
 
 - **uint32_t getValue(uint8_r re)** returns the RE counter. (re = 0 or 1).
 - **void setValue(uint8_r re, uint32_t val = 0)** (re)set the internal counter to val, default 0
-- **bool isKeyPressed(uint8_t re)** returns true is the switch is pressed of the RE selected (re = 0 or 1). Note one needs to call **update()** first!
+- **bool isKeyPressed(uint8_t re)** returns true is the switch is pressed of the RE selected (re = 0 or 1).
+Note one needs to call **update()** first!
 
 
 ## Debugging
@@ -126,6 +127,14 @@ See examples..
 
 ## Future
 
-- think of what to do with the two "idle lines"
+#### must
 - update documentation
-- add schematic.
+  - add schema
+- keep in sync with rotaryDecoder library
+
+#### should
+- think of what to do with the two "idle lines"
+
+#### could
+
+

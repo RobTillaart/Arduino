@@ -1,16 +1,10 @@
 //
 //    FILE: rotaryDecoderSwitch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.3
 //    DATE: 2021-05-17
-// PURPOSE: rotary decoder library for Arduino
+// PURPOSE: Arduino library for rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
-//
-//  HISTORY:
-//  0.1.0   2021-05-17  initial version
-//  0.1.1   2021-11-16  update build-CI, readnme.md, badges
-//                      improve readability of code
-//  0.1.2   2021-12-27  update library.json, readme, license, minor edits
 
 
 #include "rotaryDecoderSwitch.h"
@@ -18,7 +12,7 @@
 
 /////////////////////////////////////////////////////
 //
-// CONSTRUCTORS
+//  CONSTRUCTORS
 //
 rotaryDecoderSwitch::rotaryDecoderSwitch(const int8_t address, TwoWire *wire)
 {
@@ -61,7 +55,7 @@ void rotaryDecoderSwitch::readInitialState()
 {
   uint8_t value = _read8();
   _lastValue = value;
-  // pin 0,1 and 4,5
+  //  pin 0,1 and 4,5
   for (uint8_t i = 0; i < _count; i++)
   {
     _lastPos[i] = value & 0x03;
@@ -91,7 +85,7 @@ bool rotaryDecoderSwitch::update()
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {
-      case 0b0001:  // fall through..
+      case 0b0001:  //  fall through..
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -125,7 +119,7 @@ bool rotaryDecoderSwitch::updateSingle()
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {
-      case 0b0001:  // fall through..
+      case 0b0001:  //  fall through..
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -150,18 +144,22 @@ bool rotaryDecoderSwitch::updateSingle()
 }
 
 
-uint8_t rotaryDecoderSwitch::_read8()
-{
-  _wire->requestFrom(_address, (uint8_t)1);
-  return _wire->read();
-}
-
-
 bool rotaryDecoderSwitch::isKeyPressed(uint8_t re)
 {
   uint8_t mask = 0x04;
   if (re > 0) mask = 0x40;
   return (_lastValue & mask) == 0;
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+uint8_t rotaryDecoderSwitch::_read8()
+{
+  _wire->requestFrom(_address, (uint8_t)1);
+  return _wire->read();
 }
 
 

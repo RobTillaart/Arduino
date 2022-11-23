@@ -1,7 +1,7 @@
 {
   "name": "rotaryDecoderSwitch",
   "keywords": "rotary,encoder,PCF8574",
-  "description": "Arduino library to rotary decoder with a PCF8574\nSupports up to 2 RE's with switch",
+  "description": "Arduino library for rotary decoder+switch with a PCF8574\nSupports up to 2 RE's with switch",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/rotaryDecoderSwitch.git"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

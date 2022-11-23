@@ -2,18 +2,17 @@
 //
 //    FILE: runningAngle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Library to average angles by means of low pass filtering with wrapping.
 //     URL: https://github.com/RobTillaart/runningAngle
 // RELATED: https://github.com/RobTillaart/AverageAngle
-//
 
 
 #include "Arduino.h"
 #include "math.h"
 
 
-#define RUNNING_ANGLE_LIB_VERSION     (F("0.1.4"))
+#define RUNNING_ANGLE_LIB_VERSION     (F("0.1.5"))
 
 
 class runningAngle
@@ -24,8 +23,8 @@ public:
 
   runningAngle(const enum AngleType type = DEGREES);
 
-  // first value added will not use the weight to set the initial value.
-  float  add(float angle);  // returns new average
+  //  first value added will not use the weight to set the initial value.
+  float  add(float angle);  //  returns new average
   void   reset();
   float  getAverage()       { return _average; };
 
@@ -33,7 +32,7 @@ public:
   float  getWeight()        { return _weight; };
   enum   AngleType type()   { return _type; };
 
-  // reformat angle to -180..+180 (degrees) or  -PI..PI (radians)
+  //  reformat angle to -180..+180 (degrees) or  -PI..PI (radians)
   float  wrap(float angle);
 
 private:
@@ -44,5 +43,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

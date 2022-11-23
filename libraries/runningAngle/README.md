@@ -113,7 +113,9 @@ same as RADIANS \* 1000. It won't be supported.
 ### runningAngle
 
 - **runningAngle(AngleType type = DEGREES)** constructor, default to DEGREES
-- **float add(float angle)** adds value using a certain weight, except the first value after a reset is used as initial value. The **add()** function returns the new average.
+- **float add(float angle)** adds value using a certain weight, 
+except the first value after a reset is used as initial value. 
+The **add()** function returns the new average.
 - **void reset()** resets the internal average and weight to start clean again. 
 If needed one should call **setWeight()** again!
 - **float getAverage()** returns the current average value.
@@ -132,4 +134,9 @@ See examples
 ## Future
 
 - get some numbers about the noise in the angles (stats on the delta?)
+- runtime change of type
+  - conversion 
+  - add mixed types.  45° + 3 radians = ??
+
+
 

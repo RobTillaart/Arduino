@@ -1,16 +1,10 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.3
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
-//
-//  HISTORY:
-//  0.1.0   2021-05-08  initial version
-//  0.1.1   2021-11-15  update build-CI, readme.md
-//                      improve readability of code
-//  0.1.2   2021-12-27  update library.json, license, minor edits
 
 
 #include "rotaryDecoder.h"
@@ -18,7 +12,7 @@
 
 /////////////////////////////////////////////////////
 //
-// CONSTRUCTORS
+//  CONSTRUCTORS
 //
 rotaryDecoder::rotaryDecoder(const int8_t address, TwoWire *wire)
 {
@@ -91,7 +85,7 @@ bool rotaryDecoder::update()
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {
-      case 0b0001:  // fall through..
+      case 0b0001:  //  fall through..
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -125,7 +119,7 @@ bool rotaryDecoder::updateSingle()
     uint8_t change = (_lastPos[i] << 2) | currentpos;
     switch (change)
     {
-      case 0b0001:  // fall through..
+      case 0b0001:  //  fall through..
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -150,6 +144,10 @@ bool rotaryDecoder::updateSingle()
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 uint8_t rotaryDecoder::_read8()
 {
   _wire->requestFrom(_address, (uint8_t)1);
@@ -157,5 +155,5 @@ uint8_t rotaryDecoder::_read8()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

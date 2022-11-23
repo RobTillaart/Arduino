@@ -95,7 +95,14 @@ See examples..
 
 ## Future
 
-- test with a high speed drill like a Dremel-tool.
+#### must
 - update documentation
 - picture how to connect e.g 2 RE's  which pins to used
 
+#### should
+- test with a high speed drill like a Dremel-tool.
+
+#### could
+- invert flag to adjust to RE that give their pulse just the other way around?
+  - setInvert(bool);  getInvert();
+  - per channel / all?

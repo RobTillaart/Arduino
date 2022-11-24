@@ -187,26 +187,33 @@ Timing in milliseconds.
 
 ## Future
 
-- test test test
-  - get hardware
-- investigate resolution anomalies
+#### must
 - improve documentation
-- fix TODO in code (.cpp and .h)
-- add examples
-  - test resolutions
-  - performance different resolutions
-  - test battery
-- update unit tests
 
 
 #### 0.3.0
-
 - add crc8 check (need sensor)
 - improve error handling (all code paths)
 - investigate blocking delay() in read 
   - **ASYNC** NO HOLD call to read T or H
   - **void requestTemperature()** ==> **void readTemperature()**
   - **void requestHumidity()** ==> **void readHumidity()**
+
+
+#### should
+- test test test
+  - get hardware
+- add examples
+  - test resolutions
+  - performance different resolutions
+  - test battery
+
+
+#### could
+- investigate resolution anomalies
+- fix TODO in code (.cpp and .h)
+- update unit tests
+
 
 #### wont
 

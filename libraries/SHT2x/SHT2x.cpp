@@ -1,28 +1,10 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
-//
-
-//  HISTORY:
-//  0.1.0   2021-09-25  initial version
-//  0.1.1   2021-09-28  Add HTU2x derived classes,
-//                      update readme.md + add some status info
-//  0.1.2   2021-09-29  Add Si70xx derived classes
-//                      add getEIDA(), getEIDB(), getFirmwareVersion()
-//                      update build-CI, readme.md badges
-//  0.1.3   2021-12-28  update library.json, license, minor edits
-//  0.1.4   2022-06-21  Fix #9 ESP32 wire.begin()
-//                      Fix getEIDB() bug.
-//
-//  0.2.0   2022-07-10  Fix #11 RawTemp + rawHum (kudos to theandy94)
-//                      add experimental getResolution() + setResolution()
-//                      adjust read delay
-//                      add experimental batteryOK()
-//                      add CRC in read() - no fail.
 
 
 #include "SHT2x.h"
@@ -35,7 +17,7 @@
 #define SHT2x_WRITE_USER_REGISTER       0xE6
 #define SHT2x_READ_USER_REGISTER        0xE7
 
-#define SHT2x_HEATER_TIMEOUT            180000UL  // milliseconds
+#define SHT2x_HEATER_TIMEOUT            180000UL  //  milliseconds
 
 #define SHT2x_ADDRESS                   0x40
 

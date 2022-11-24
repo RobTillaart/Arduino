@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.2.0"))
+#define SHT2x_LIB_VERSION             (F("0.2.1"))
 
 
 //  fields getStatus
@@ -119,7 +119,7 @@ public:
   bool      batteryOK();
 
 
-private:
+protected:
   uint8_t   crc8(const uint8_t *data, uint8_t len);
 
   bool      writeCmd(uint8_t cmd);
@@ -127,9 +127,9 @@ private:
   bool      readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration);
   TwoWire* _wire;
 
-  uint8_t   _heatTimeout;   // seconds
+  uint8_t   _heatTimeout;   //  seconds
   uint32_t  _lastRead;
-  uint32_t  _lastRequest;   // for async interface
+  uint32_t  _lastRequest;   //  for async interface
   uint32_t  _heaterStart;
   uint32_t  _heaterStop;
   bool      _heaterOn;

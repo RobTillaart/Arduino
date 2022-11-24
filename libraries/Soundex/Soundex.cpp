@@ -1,7 +1,7 @@
 //
 //    FILE: Soundex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-02-05
 // PURPOSE: Arduino Library for calculating Soundex hash
 //     URL: https://github.com/RobTillaart/Soundex
@@ -38,7 +38,7 @@ char * Soundex::soundex(const char * str)
   //  fill buffer with zeros
   for (i = 0; i < _length; i++) _buffer[i] = '0';
   _buffer[_length] = '\0';
-  
+
   //  find begin of word, skip spaces, digits
   char *p = (char *) &str[0];
   while((*p != 0) && (isalpha(*p) == false)) p++;
@@ -69,7 +69,7 @@ char * Soundex::soundex(const char * str)
 }
 
 
-// reference implementation
+//  reference implementation
 uint16_t Soundex::soundex16(const char * str)
 {
   uint8_t tmp = _length;
@@ -87,7 +87,7 @@ uint16_t Soundex::soundex16(const char * str)
 }
 
 
-// reference implementation
+//  reference implementation
 uint32_t Soundex::soundex32(const char * str)
 {
   uint8_t tmp = _length;
@@ -105,7 +105,5 @@ uint32_t Soundex::soundex32(const char * str)
 }
 
 
-  
-// -- END OF FILE -- 
-
+//  -- END OF FILE --
 

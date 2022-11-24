@@ -1,0 +1,25 @@
+
+SOUNDEX_LIB_VERSION: 0.1.3
+
+Trichloroethylene
+T624	40
+T624	32
+47809	48
+803534683	116
+
+
+Examples from wikipedia
+A203
+A203
+A1BD
+B956
+901A
+4972
+
+
+Soundex32 - 3 chemicals
+2FE4F75B
+25F6EB97
+835BD86
+
+done...

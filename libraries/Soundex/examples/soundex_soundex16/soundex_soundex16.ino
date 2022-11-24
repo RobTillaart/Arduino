@@ -22,6 +22,7 @@ void setup()
   Serial.println(SOUNDEX_LIB_VERSION);
   delay(1000);
 
+  Serial.println("\nTrichloroethylene");
   start = micros();
   char * p = SDX.soundex("Trichloroethylene");
   stop = micros();
@@ -56,7 +57,7 @@ void setup()
 
   Serial.println();
 
-  // examples from wikipedia
+  Serial.println("\nExamples from wikipedia");
   Serial.println(SDX.soundex16("Robert"), HEX);     //  A203
   Serial.println(SDX.soundex16("Rupert"), HEX);     //  A203
   Serial.println(SDX.soundex16("Rubin"), HEX);      //  A1BD
@@ -65,7 +66,7 @@ void setup()
   Serial.println(SDX.soundex16("Honeyman"), HEX);   //  4972
 
   Serial.println();
-
+  Serial.println("\nSoundex32 - 3 chemicals");
   Serial.println(SDX.soundex32("Trichloroethylene"), HEX);       //  2FE4F75B
   Serial.println(SDX.soundex32("pentacarbon decahydrate"), HEX); //  25F6EB97
   Serial.println(SDX.soundex32("deoxyribonucleic acid"), HEX);   //  835BD86

@@ -69,9 +69,9 @@ void setup()
   Serial.print("\t");
   Serial.print(words);
   Serial.print("\t");
-  Serial.print(1.0 * words / total, 4);
+  Serial.print(1.0 * total / words, 4);
   Serial.print(" per word\n");
-  delay(10);
+  delay(100);
 
   Serial.println("\ndone...");
 }

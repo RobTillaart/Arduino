@@ -2,7 +2,7 @@
 //
 //    FILE: ShiftInSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for shiftIn with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftInSlow
@@ -11,13 +11,13 @@
 #include "Arduino.h"
 
 
-#define SHIFTINSLOW_LIB_VERSION           (F("0.1.1"))
+#define SHIFTINSLOW_LIB_VERSION           (F("0.1.2"))
 
 
 class ShiftInSlow
 {
 public:
-  // bitOrder = { LSBFIRST, MSBFIRST };
+  //  bitOrder = { LSBFIRST, MSBFIRST }; defined in Arduino.h.
   ShiftInSlow(const uint8_t dataPin, const uint8_t clockPin, const uint8_t  bitOrder = LSBFIRST);
 
   int      read(void);

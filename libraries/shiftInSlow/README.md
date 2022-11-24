@@ -10,7 +10,12 @@
 
 Arduino library for shiftIn with build-in delay - e.g. for 74HC165.
 
-A library for shiftOutSlow also exist.
+Related libraries
+- https://github.com/RobTillaart/FastShiftIn
+- https://github.com/RobTillaart/FastShiftOut
+- https://github.com/RobTillaart/FastShiftInOut
+- https://github.com/RobTillaart/ShiftInSlow
+- https://github.com/RobTillaart/ShiftOutSlow
 
 
 ## Description
@@ -33,10 +38,12 @@ This keeps the duty cycle ~50%.
 ## Interface
 
 The interface exists of the following functions:
-- **ShiftInSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor, bit order is default set to LSBFIRST.
+- **ShiftInSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor, 
+bit order is default set to LSBFIRST.
 - **int read(void)** reads a new value
 - **int lastRead()** returns last value read
-- **void setDelay(uint16_t microseconds)** set delay per bit from 0 .. 65535 microseconds. Note that the delay is split in two parts to keep ~ 50% duty cycle.
+- **void setDelay(uint16_t microseconds)** set delay per bit from 0 .. 65535 microseconds. 
+Note that the delay is split in two parts to keep ~ 50% duty cycle.
 - **uint16_t getDelay()** returns the set delay in microseconds.
 - **bool setBitOrder(uint8_t bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
 - **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
@@ -49,13 +56,20 @@ See examples
 
 ## Future
 
-- Add a select pin to be more SPI alike?
+#### must
 - improve documentation
+- move code from .h to .cpp
+
+#### should
 - add examples
+  - adaptive speed example?
+
+
+#### could
+- Add a select pin to be more SPI alike?
 - increase max delay uint32_t ? 
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
 - set default delay = 0, is no delay ?
-- adaptive speed example?
 - get set dutyCycle(0 .. 99%)
--
+

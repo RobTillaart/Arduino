@@ -20,12 +20,14 @@ The SHT3x family of sensors should work up to 1 MHz I2C
 This library should also work for SHT30 and SHT35 but these are 
 not tested yet.
 
-| SENSOR | Temperature accuracy | Humidity accuracy |
-|:------:|:------:|:-----:|
-| SHT30  |  ~0.3  |  2.0  |
-| SHT31  |  ~0.3  |  1.5  |
-| SHT35  |  ~0.2  |  1.5  |
-| SHT85  |  ~0.2  |  1.5  |
+Accuracy table
+
+|  SENSOR  |  Temperature  |  Humidity  |
+|:--------:|:-------------:|:----------:|
+|  SHT30   |  ~0.3         |  2.0       |
+|  SHT31   |  ~0.3         |  1.5       |
+|  SHT35   |  ~0.2         |  1.5       |
+|  SHT85   |  ~0.2         |  1.5       |
 
 
 An elaborated library for the SHT31 sensor can be found here
@@ -65,18 +67,18 @@ you've performed a new reading.
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
-| Error | Symbolic                  | Description                 |
-|:-----:|:--------------------------|:----------------------------|
-| 0x00  | SHT31_OK                  | no error                    |
-| 0x81  | SHT31_ERR_WRITECMD        | I2C write failed            |
-| 0x82  | SHT31_ERR_READBYTES       | I2C read failed             |
-| 0x83  | SHT31_ERR_HEATER_OFF      | Could not switch off heater |
-| 0x84  | SHT31_ERR_NOT_CONNECT     | Could not connect           |
-| 0x85  | SHT31_ERR_CRC_TEMP        | CRC error in temperature    |
-| 0x86  | SHT31_ERR_CRC_HUM         | CRC error in humidity       |
-| 0x87  | SHT31_ERR_CRC_STATUS      | CRC error in status field   |
-| 0x88  | SHT31_ERR_HEATER_COOLDOWN | Heater need to cool down    |
-| 0x88  | SHT31_ERR_HEATER_ON       | Could not switch on heater  |
+|  Error  |  Symbolic                   |  Description                  |
+|:-------:|:----------------------------|:------------------------------|
+|  0x00   |  SHT31_OK                   |  no error                     |
+|  0x81   |  SHT31_ERR_WRITECMD         |  I2C write failed             |
+|  0x82   |  SHT31_ERR_READBYTES        |  I2C read failed              |
+|  0x83   |  SHT31_ERR_HEATER_OFF       |  Could not switch off heater  |
+|  0x84   |  SHT31_ERR_NOT_CONNECT      |  Could not connect            |
+|  0x85   |  SHT31_ERR_CRC_TEMP         |  CRC error in temperature     |
+|  0x86   |  SHT31_ERR_CRC_HUM          |  CRC error in humidity        |
+|  0x87   |  SHT31_ERR_CRC_STATUS       |  CRC error in status field    |
+|  0x88   |  SHT31_ERR_HEATER_COOLDOWN  |  Heater need to cool down     |
+|  0x88   |  SHT31_ERR_HEATER_ON        |  Could not switch on heater   |
 
 
 #### Heater interface
@@ -117,26 +119,26 @@ Returns false if reading fails or in case of a CRC failure.
 
 ## Status fields
 
-| BIT  | Description                | value   | notes |
-|:-----|:---------------------------|:--------|:------|
-| 15   | Alert pending status       |  0      | no pending alerts
-|      |                            |  1      | at least one pending alert - default
-| 14   | Reserved                   |  0      |
-| 13   | Heater status              |  0      | Heater OFF - default
-|      |                            |  1      | Heater ON 
-| 12   | Reserved                   |  0      |
-| 11   | Humidity tracking alert    |  0      | no alert - default
-|      |                            |  1      | alert
-| 10   | Temperature tracking alert |  0      | no alert - default
-|      |                            |  1      | alert
-| 9-5  | Reserved                   |  00000  |
-|  4   | System reset detected      |  0      | no reset since last ‘clear status register’ command
-|      |                            |  1      | reset detected (hard or soft reset command or supply fail) - default
-| 3-2  | Reserved                   |  00     |
-|  1   | Command status             |  0      | last command executed successfully
-|      |                            |  1      | last command not processed. Invalid or failed checksum
-|  0   | Write data checksum status |  0      | checksum of last write correct
-|      |                            |  1      | checksum of last write transfer failed
+|  BIT  |  Description                 |  value  |  notes  |
+|:------|:-----------------------------|:--------|:--------|
+|  15   |  Alert pending status        |  0      | no pending alerts
+|       |                              |  1      | at least one pending alert - default
+|  14   |  Reserved                    |  0      |
+|  13   |  Heater status               |  0      | Heater OFF - default
+|       |                              |  1      | Heater ON 
+|  12   |  Reserved                    |  0      |
+|  11   |  Humidity tracking alert     |  0      | no alert - default
+|       |                              |  1      | alert
+|  10   |  Temperature tracking alert  |  0      | no alert - default
+|       |                              |  1      | alert
+|  9-5  |  Reserved                    |  00000  |
+|   4   |  System reset detected       |  0      | no reset since last ‘clear status register’ command
+|       |                              |  1      | reset detected (hard or soft reset command or supply fail) - default
+|  3-2  |  Reserved                    |  00     |
+|   1   |  Command status              |  0      | last command executed successfully
+|       |                              |  1      | last command not processed. Invalid or failed checksum
+|   0   |  Write data checksum status  |  0      | checksum of last write correct
+|       |                              |  1      | checksum of last write transfer failed
 
 
 
@@ -148,5 +150,6 @@ See examples.
 ## Future
 
 - keep in sync with SHT85 library
+- check TODO in code
 
 

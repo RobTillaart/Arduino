@@ -2,7 +2,7 @@
 //
 //    FILE: ShiftOutSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for shiftOut with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
@@ -12,16 +12,16 @@
 #include "Arduino.h"
 
 
-#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.2"))
+#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.3"))
 
 
 class ShiftOutSlow : public Print
 {
 public:
-  // bitOrder = { LSBFIRST, MSBFIRST };
+  //  bitOrder = { LSBFIRST, MSBFIRST };  defined in Arduino.h
   ShiftOutSlow(const uint8_t dataPin, const uint8_t clockPin, const uint8_t  bitOrder = LSBFIRST);
 
-  // PRINT INTERFACE
+  //  PRINT INTERFACE
   virtual size_t   write(const uint8_t data) override;
   virtual size_t   write(const uint8_t *buffer, size_t size) override;
 
@@ -30,7 +30,7 @@ public:
   bool     setBitOrder(const uint8_t bitOrder);
   uint8_t  getBitOrder(void) { return _bitOrder; };
 
-  // microSeconds = 0..65535
+  //  microSeconds = 0..65535
   void     setDelay(uint16_t microSeconds) { _delay = microSeconds; };
   uint16_t getDelay() { return _delay; };
 
@@ -44,5 +44,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -28,10 +28,10 @@
 #include "ShiftOutSlow.h"
 
 
-// PATCH FOR DUE & ZERO FOR UNIT TEST - https://github.com/Arduino-CI/arduino_ci/issues/252
+//  PATCH FOR DUE & ZERO FOR UNIT TEST - https://github.com/Arduino-CI/arduino_ci/issues/252
 #if defined(ARDUINO_ARCH_SAM) || defined(ARDUINO_ARCH_SAMD)
-// - due         #  ARDUINO_ARCH_SAM    does not support shiftIn apparently
-// - zero        #  ARDUINO_ARCH_SAMD
+//  - due         #  ARDUINO_ARCH_SAM    does not support shiftIn apparently
+//  - zero        #  ARDUINO_ARCH_SAMD
 #endif
 
 

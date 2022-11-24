@@ -10,7 +10,12 @@
 
 Arduino library for shiftOut with build-in delay - e.g. for 74HC595
 
-A library for shiftInSlow also exist.
+Related libraries
+- https://github.com/RobTillaart/FastShiftIn
+- https://github.com/RobTillaart/FastShiftOut
+- https://github.com/RobTillaart/FastShiftInOut
+- https://github.com/RobTillaart/ShiftInSlow
+- https://github.com/RobTillaart/ShiftOutSlow
 
 
 ## Description
@@ -65,15 +70,19 @@ See examples.
 
 ## Future
 
-- Add a select pin to be more SPI alike?
+#### must
 - improve documentation
+
+#### should
 - add examples
+  - adaptive speed example?
+  
+#### could
+- Add a select pin to be more SPI alike?
 - increase max delay uint32_t ? 
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
 - set default delay = 0, is no delay ?
-- adaptive speed example?
 - get set dutyCycle(0 .. 99%)
 - optimize the place to yield() ?
-- create releaseNotes.md
 

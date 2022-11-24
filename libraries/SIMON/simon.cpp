@@ -2,12 +2,9 @@
 //    FILE: simon.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-05-26
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SIMON
 //     URL: https://github.com/RobTillaart/SIMON
-//
-// HISTORY:
-// 0.1.0    2022-05-26  initial version
 
 
 #include "simon.h"
@@ -115,5 +112,5 @@ uint8_t SIMON::maxSize()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

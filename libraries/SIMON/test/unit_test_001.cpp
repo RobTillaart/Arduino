@@ -46,6 +46,12 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(10, SIMON_MAXSIZE);
+}
+
+
 unittest(test_constructor)
 {
   SIMON simon;

@@ -1,19 +1,11 @@
 //
 //    FILE: SGP30.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-06-24
 // PURPOSE: SGP30 library for Arduino
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
-//
-//  HISTORY:
-//  0.1.0   2021-06-24  initial version
-//  0.1.1   2021-06-26  add get/setBaseline ++
-//  0.1.2   2021-06-26  experimental add units  H2 + Ethanol
-//  0.1.3   2021-06-26  add get/setTVOCbaseline()
-//  0.1.4   2021-07-01  add CRC checking
-//  0.1.5   2021-12-28  update library,json, readme, license, minor edits
 
 
 #include "SGP30.h"
@@ -21,7 +13,7 @@
 
 /////////////////////////////////////////////////////
 //
-// CONSTRUCTOR
+//  CONSTRUCTOR
 //
 SGP30::SGP30(TwoWire *wire)
 {
@@ -70,7 +62,7 @@ bool SGP30::isConnected()
 }
 
 
-// INITIAL VERSION - needs optimization
+//  INITIAL VERSION - needs optimization
 bool SGP30::getID()
 {
   _command(0x3682);
@@ -97,7 +89,7 @@ bool SGP30::getID()
 }
 
 
-// expect to return 0x0022
+//  expect to return 0x0022
 uint16_t SGP30::getFeatureSet()
 {
   _command(0x202F);
@@ -121,7 +113,7 @@ uint16_t SGP30::getFeatureSet()
 }
 
 
-// WARNING: resets all devices on I2C bus.
+//  WARNING: resets all devices on I2C bus.
 void SGP30::GenericReset()
 {
   _command(0x0006);
@@ -133,7 +125,7 @@ bool SGP30::measureTest()
 {
   uint16_t rv = 0;
   _command(0x2032);
-  delay(220);  // Page 11
+  delay(220);             //  Page 11
   if (_wire->requestFrom(_address, (uint8_t)3) == 3)
   {
     rv = _wire->read() << 8;
@@ -154,13 +146,13 @@ bool SGP30::measureTest()
 
 /////////////////////////////////////////////////////
 //
-// MEASUREMENT
+//  MEASUREMENT
 //
 
-// SYNCHRONUOUS MODUS
-bool SGP30::measure(bool all)      // this is the workhorse
+//  SYNCHRONUOUS MODUS
+bool SGP30::measure(bool all)      //  this is the workhorse
 {
-  // 1 second between measurements. P.09
+  //  1 second between measurements. Page 9
   if (millis() - _lastTime < 1000) return false;
   _lastTime = millis();
 
@@ -177,7 +169,7 @@ bool SGP30::measure(bool all)      // this is the workhorse
 }
 
 
-// A-SYNCHRONUOUS INTERFACE
+//  A-SYNCHRONUOUS INTERFACE
 void SGP30::request()
 {
   _lastRequest = millis();
@@ -188,7 +180,7 @@ void SGP30::request()
 bool SGP30::read()
 {
   if (_lastRequest == 0) return false;
-  if (millis() - _lastRequest < 13) return false;  // P11
+  if (millis() - _lastRequest < 13) return false;  //  Page 11
   _lastRequest = 0;
 
   if (_wire->requestFrom(_address, (uint8_t)6) != 6)
@@ -227,7 +219,7 @@ void SGP30::requestRaw()
 bool SGP30::readRaw()
 {
   if (_lastRequest == 0) return false;
-  if (millis() - _lastRequest < 26) return false;  // P11
+  if (millis() - _lastRequest < 26) return false;  //  Page 11
   _lastRequest = 0;
 
   if (_wire->requestFrom(_address, (uint8_t)6) != 6)
@@ -256,34 +248,34 @@ bool SGP30::readRaw()
 }
 
 
-// experimental - datasheet P2 
-// 1.953125e-3 = 1/512
+//  experimental - datasheet Page 2 
+//  1.953125e-3 = 1/512
 float SGP30::getH2()
 {
-  float cref = 0.5;  // ppm
+  float cref = 0.5;  //  ppm
   return cref * exp((_srefH2 - _h2) * 1.953125e-3);
 }
 
 
 float SGP30::getEthanol()
 {
-  float cref = 0.4;  // ppm
+  float cref = 0.4;  //  ppm
   return cref * exp((_srefEth - _ethanol) * 1.953125e-3);
 }
 
 
 /////////////////////////////////////////////////////
 //
-// CALIBRATION
+//  CALIBRATION
 //
 
-// T  in °C
-// RH == RelativeHumidity
-float SGP30::setRelHumidity(float T, float RH)  // P10
+//  T  in °C
+//  RH == RelativeHumidity
+float SGP30::setRelHumidity(float T, float RH)      //  Page 10
 {
-  // page 10 datasheet
-  // AH = AbsoluteHumidity
-  // uint16_t AH = 216.7 * RH/100 * 6.117 * exp((17.62 * T)/(243.12 + T)) / (273.15 + T);
+  //  page 10 datasheet
+  //  AH = AbsoluteHumidity
+  //  uint16_t AH = 216.7 * RH/100 * 6.117 * exp((17.62 * T)/(243.12 + T)) / (273.15 + T);
   float absoluteHumidity = (2.167 * 6.112) * RH ;
   absoluteHumidity *= exp((17.62 * T)/(243.12 + T));
   absoluteHumidity /=  (273.15 + T);
@@ -299,7 +291,7 @@ void SGP30::setAbsHumidity(float absoluteHumidity)
   uint8_t tmp = (absoluteHumidity - AH) * 256;
   AH = (AH << 8) | tmp;
 
-  _command(0x2061, AH);     // P 11
+  _command(0x2061, AH);     //  Page 11
 }
 
 
@@ -367,7 +359,7 @@ bool SGP30::getTVOCBaseline(uint16_t *TVOC)
 
 /////////////////////////////////////////////////////
 //
-// MISC
+//  MISCELANEOUS
 //
 int SGP30::lastError()
 {
@@ -379,7 +371,7 @@ int SGP30::lastError()
 
 /////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 int SGP30::_command(uint16_t cmd)
 {
@@ -420,22 +412,22 @@ int SGP30::_command(uint16_t cmd, uint16_t v1, uint16_t v2)
 }
 
 
-// for sending command - CRC lib.
-// always 2 bytes
+//  for sending command - CRC lib.
+//  always 2 bytes
 uint8_t SGP30::_CRC8(uint16_t data)
 {
   uint8_t val[2];
   val[0] = data >> 8;
   val[1] = data & 0xFF;
 
-  uint8_t crc = 0xFF;             // start value
+  uint8_t crc = 0xFF;             //  start value
   for(uint8_t i = 0; i < 2; i++) 
   {
     crc ^= val[i];
     for (uint8_t b = 8; b > 0; b--)
     {
       if (crc & 0x80)
-        crc = (crc << 1) ^ 0x31;  // polynomial
+        crc = (crc << 1) ^ 0x31;  //  polynomial
       else
         crc <<= 1;
     }
@@ -450,5 +442,5 @@ void SGP30::_init()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

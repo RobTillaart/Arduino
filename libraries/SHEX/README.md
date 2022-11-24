@@ -133,27 +133,31 @@ See examples.
 Although no follow up release is planned, some ideas are kept here
 so they won't get lost.
 
-### Must
-
+#### Must
 - optimize code
   - print vs write
+
+
+#### should
 - more testing
   - performance measurement
   - different platforms. 
   - different streams incl SW Serial
 
-### Could
 
+#### Could
 - investigate **flushASCII()** for better solutions.
 - HEX reader: **RHEX** converts dump format to a normal stream again.
   - separate library.
+- void setSeparatorInterval()  ??
 
-### Wont
 
+#### Wont
 - line buffering for faster output (e.g Ethernet and SD card)
   could it support **write(array, length)** call.
   needs quite a rewrite..
   Needs a big buffer: ~150 bytes. (counter 8 + hex 96 + printable 32 + extra sep)
+  ==> go through a small buffer twice as data is same!!
 - header line: runtime configurable; 
   optional combined with separator
   and after how many lines the header should repeat

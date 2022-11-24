@@ -1,29 +1,10 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
-//
-//  HISTORY:
-//  0.1.0   2020-05-24  initial version
-//  0.1.1   2020-06-19  fix library.json
-//  0.2.0   2021-01-07  Arduino-CI + unit tests + modifiers.
-//  0.2.1   2021-12-28  update library.json, readme, license, minor edits
-//  0.2.2   2022-05-27  fix #6 set default length
-//                      add defines SHEX_DEFAULT_LENGTH + SHEX_MAX_LENGTH
-//  0.2.3   2022-05-28  add setVTAB(vtab) getVTAB()
-//                      add define SHEX_DEFAULT_VTAB
-//  0.3.0   2022-05-28  breaking!  
-//                      change default HEX output instead of pass through.
-//                      add get / setCountDigits() => 
-//                          #digits of count 4, 6 or 8 (4 = default)
-//                      replaces get / setCounterFlag()
-//                      add define SHEX_COUNTER_DIGITS + SHEX_MIN_LENGTH
-//                      add restartOutput() and getCounter()
-//                      add SHEXA class for ASCII column output
-//                      add SHEXA::flushASCII().
 
 
 #include "SHEX.h"
@@ -59,7 +40,7 @@ void SHEX::reset()
 
 ///////////////////////////////////////////
 //
-// WRITE - the core
+//  WRITE - the core
 //
 size_t SHEX::write(uint8_t c)
 {
@@ -115,7 +96,7 @@ void SHEX::setHEX(bool hexOutput)
 
 void SHEX::setBytesPerLine(const uint8_t length)
 {
-  // force multiple of 4; max 32
+  //  force multiple of 4; max 32
   _length = ((length + 3) / 4) * 4;
   if (_length > SHEX_MAX_LENGTH)
   {
@@ -165,7 +146,7 @@ SHEXA::SHEXA(Print* stream, uint8_t length) : SHEX(stream, length)
 
 size_t SHEXA::write(uint8_t c)
 {
-  // PASS THROUGH MODE
+  //  PASS THROUGH MODE
   if (_hexOutput == false) return _stream->write(c);
 
   //  HEX MODE
@@ -225,5 +206,6 @@ void SHEXA::flushASCII()
   }
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

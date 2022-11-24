@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "SHEX.h"
@@ -49,9 +50,9 @@ unittest(test_constants)
 {
   assertEqual(16, SHEX_DEFAULT_LENGTH);
   assertEqual(32, SHEX_MAX_LENGTH);
-  assertEqual(4, SHEX_MIN_LENGTH);
-  assertEqual(4, SHEX_COUNTER_DIGITS);
-  assertEqual(8, SHEX_DEFAULT_VTAB);
+  assertEqual(4,  SHEX_MIN_LENGTH);
+  assertEqual(4,  SHEX_COUNTER_DIGITS);
+  assertEqual(8,  SHEX_DEFAULT_VTAB);
 }
 
 
@@ -149,5 +150,6 @@ unittest(test_vtab)
 
 
 unittest_main()
+
 
 // --------

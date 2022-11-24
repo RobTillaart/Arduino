@@ -35,7 +35,7 @@
 #include "SHT85.h"
 
 
-int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
+int expect;  //  TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 
@@ -95,7 +95,7 @@ unittest(test_begin)
   Serial.println(sht.getRawTemperature());
   Serial.println(sht.getRawHumidity());
 
-  // default value == 0
+  //  default value == 0
   assertEqual(-45, sht.getTemperature());
   assertEqual(0, sht.getHumidity());
   assertEqual(0, sht.getRawTemperature());

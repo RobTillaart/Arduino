@@ -11,6 +11,8 @@
 Arduino library for the SHT85 temperature and humidity sensor.
 
 Based upon the SHT31 library - https://github.com/RobTillaart/SHT31
+however this one will be leading in the future as it implements classes for the following SHT sensors: **SHT30, SHT31 and SHT35.**
+
 
 **Warning:** to keep self-heating below 0.1°C, the SHT85 sensor should 
 not be used for more than 10% of the time.
@@ -197,15 +199,21 @@ See examples.
 - improve error handling / status. (all code paths)
 - add offsets for temperature and humidity.
   - like other sensors
+- move code from .h to .cpp
+
 
 #### could
 
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
 - merge with other SHT sensors if possible
+- separate release notes.
+
 
 #### won't
 
+- rename the library? to SHT ? or sensirion.h ?
+  - not on short term
 - create a SHT85 simulator 
   - I2C slave sketch with e.g. a DHT22 sensor/
   - not within this library.

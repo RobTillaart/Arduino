@@ -1,27 +1,12 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
 //     URL: https://github.com/RobTillaart/SHT85
-//
 
-//  HISTORY:
-//  0.1.0   2021-02-10  initial version
-//  0.1.1   2021-03-13  initial release
-//  0.1.2   2021-05-27  fix Arduino-lint
-//  0.1.3   2021-08-06  expose raw data from sensor
-//  0.1.4   2021-08-24  prevent heater to switch on too fast.
-//                      update readme
-//  0.2.0   2021-08-24  split off base class
-//                      create derived classes SHT85, 30, 31, 35
-//
-//  0.3.0   2021-10-20  Fix #6 image in documentation, 
-//                      update build-CI
-//  0.3.1   2021-12-28  update library.json, readme, license, minor edits
-//  0.3.2   2022-01-17  fix #8 add SHT_DEFAULT_ADDRESS + 2x begin()
 
 
 #include "SHT85.h"
@@ -123,45 +108,45 @@ bool SHT::isConnected()
 }
 
 #ifdef doc
-// bit - description
-// ==================
-// 15 Alert pending status
-//    '0': no pending alerts
-//    '1': at least one pending alert - default
-// 14 Reserved ‘0’
-// 13 Heater status
-//    '0’ : Heater OFF - default
-//    '1’ : Heater ON
-// 12 Reserved '0’
-// 11 Humidity tracking alert
-//    '0’ : no alert - default
-//    '1’ : alert
-// 10 Temp tracking alert
-//    '0’ : no alert - default
-//    '1’ : alert
-// 9:5 Reserved '00000’
-// 4 System reset detected
-//    '0': no reset since last ‘clear status register’ command
-//    '1': reset detected (hard or soft reset command or supply fail) - default
-// 3:2 Reserved ‘00’
-// 1 Command status
-//    '0': last command executed successfully
-//    '1': last command not processed. Invalid or failed checksum
-// 0 Write data checksum status
-//    '0': checksum of last write correct
-//    '1': checksum of last write transfer failed
+//  bit - description
+//  ==================
+//  15  Alert pending status
+//        '0': no pending alerts
+//        '1': at least one pending alert - default
+//  14  Reserved ‘0’
+//  13  Heater status
+//        '0’ : Heater OFF - default
+//        '1’ : Heater ON
+//  12  Reserved '0’
+//  11  Humidity tracking alert
+//        '0’ : no alert - default
+//        '1’ : alert
+//  10  Temp tracking alert
+//        '0’ : no alert - default
+//        '1’ : alert
+//  9:5 Reserved '00000’
+//  4   System reset detected
+//        '0': no reset since last ‘clear status register’ command
+//        '1': reset detected (hard or soft reset command or supply fail) - default
+//  3:2 Reserved ‘00’
+//  1   Command status
+//        '0': last command executed successfully
+//        '1': last command not processed. Invalid or failed checksum
+//  0   Write data checksum status
+//        '0': checksum of last write correct
+//        '1': checksum of last write transfer failed
 #endif
 
 
 uint16_t SHT::readStatus()
 {
   uint8_t status[3] = { 0, 0, 0 };
-  // page 13 datasheet
+  //  page 13 datasheet
   if (writeCmd(SHT_READ_STATUS) == false)
   {
     return 0xFFFF;
   }
-  // 16 bit status + CRC
+  //  16 bit status + CRC
   if (readBytes(3, (uint8_t*) &status[0]) == false)
   {
     return 0xFFFF;
@@ -184,7 +169,7 @@ bool SHT::reset(bool hard)
   {
     return false;
   }
-  delay(1);  // table 4 datasheet
+  delay(1);     //  table 4 datasheet
   return true;
 }
 
@@ -217,7 +202,7 @@ bool SHT::heatOn()
 
 bool SHT::heatOff()
 {
-  // always switch off the heater - ignore _heaterOn flag.
+  //  always switch off the heater - ignore _heaterOn flag.
   if (writeCmd(SHT_HEAT_OFF) == false)
   {
     _error = SHT_ERR_HEATER_OFF;  // can be serious!
@@ -235,7 +220,7 @@ bool SHT::isHeaterOn()
   {
     return false;
   }
-  // did not exceed time out
+  //  did not exceed time out
   if (millis() - _heaterStart < (_heatTimeout * 1000UL))
   {
     return true;
@@ -258,7 +243,7 @@ bool SHT::requestData()
 
 bool SHT::dataReady()
 {
-  return ((millis() - _lastRequest) > 15);  // TODO MAGIC NR
+  return ((millis() - _lastRequest) > 15);    //  TODO MAGIC NR
 }
 
 
@@ -355,7 +340,7 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 
 ////////////////////////////////////////////////////////
 //
-// DERIVED
+//  DERIVED
 //
 SHT30::SHT30()
 {
@@ -381,4 +366,4 @@ SHT85::SHT85()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

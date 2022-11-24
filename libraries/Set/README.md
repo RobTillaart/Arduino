@@ -82,6 +82,4 @@ See examples
 ## Future
 
 - update documentation
-- separate releaseNotes.md
-
 

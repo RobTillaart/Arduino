@@ -1,32 +1,10 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET
-//
-//  HISTORY:
-//  0.2.5   2021-12-28   update library.json, readme, license, minor edits
-//  0.2.4   2021-05-06   getNth(n)
-//  0.2.3   2021-05-05   Add addAll (256 elements) + setCurrent
-//  0.2.2   2021-01-07   Arduino-CI, unit test
-//  0.2.1   2020-06-19   fix library.json
-//  0.2.0   2020-05-02   refactored, removed pre 1.0 support
-//  0.1.11  2017-07-16   fix count() --> 16 bit when set is full !
-//  0.1.10  2017-07-16   performance refactor. isEmpty()
-//  0.1.09  2015-07-12   const + constructor
-//  0.1.08               memset for clr()
-//  0.1.07  faster first/next/last/prev; interface
-//  0.1.06  added flag to constructor to optimize +,-,*,
-//          set -> Set
-//  0.1.05  bug fixing + performance a.o. count()
-//  0.1.04  support for + - *, some optimizations
-//  0.1.03  changed &= to *= to follow Pascal conventions
-//  0.1.02  documentation
-//  0.1.01  extending/refactor etc (09/11/2014)
-//  0.1.00  initial version by Rob Tillaart (09/11/2014)
-//
 
 
 #include "set.h"
@@ -34,7 +12,7 @@
 
 /////////////////////////////////////////////////////
 //
-// CONSTRUCTORS
+//  CONSTRUCTORS
 //
 Set::Set(const bool clear)
 {
@@ -58,7 +36,7 @@ Set::Set(const Set &t)
 
 /////////////////////////////////////////////////////
 //
-// METHODS
+//  METHODS
 //
 void Set::add(const uint8_t value)
 {
@@ -101,7 +79,7 @@ uint16_t Set::count() const
     uint8_t i = 32;
     do
     {
-        // Kerningham bit count trick
+        //  Kerningham bit count trick
         uint8_t b = _mem[--i];
         for (; b; cnt++)
         {
@@ -144,10 +122,10 @@ bool Set::isEmpty()
 
 bool Set::isFull()
 {
-    // check two elements per loop
-    // is faster for full sets but slower for empty set.
-    // footprint is ~25 bytes larger
-    // overall performance gain
+    //  check two elements per loop
+    //  is faster for full sets but slower for empty set.
+    //  footprint is ~25 bytes larger
+    //  overall performance gain
     uint8_t i = 32;
     do
     {
@@ -228,7 +206,7 @@ int Set::findNext(const uint8_t p, uint8_t q)
         uint8_t b = _mem[i];
         if (b != 0)
         {
-            uint8_t mask = 1 << q;  // _masks[q]
+            uint8_t mask = 1 << q;  //  _masks[q]
             for (uint8_t j = q; j < 8; j++)
             {
                 if (b & mask)
@@ -325,7 +303,7 @@ Set Set::operator + (const Set &t)  // union
 }
 
 
-Set Set::operator - (const Set &t)  // diff
+Set Set::operator - (const Set &t)  //  diff
 {
     Set s(false);
     for (uint8_t i = 0; i < 32; i++)
@@ -336,7 +314,7 @@ Set Set::operator - (const Set &t)  // diff
 }
 
 
-Set Set::operator * (const Set &t)  // intersection
+Set Set::operator * (const Set &t)  //  intersection
 {
     Set s(false);
     for (uint8_t i = 0; i < 32; i++)
@@ -347,7 +325,7 @@ Set Set::operator * (const Set &t)  // intersection
 }
 
 
-void Set::operator += (const Set &t)  // union
+void Set::operator += (const Set &t)  //  union
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -356,7 +334,7 @@ void Set::operator += (const Set &t)  // union
 }
 
 
-void Set::operator -= (const Set &t)  // diff
+void Set::operator -= (const Set &t)  //  diff
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -365,7 +343,7 @@ void Set::operator -= (const Set &t)  // diff
 }
 
 
-void Set::operator *= (const Set &t)  // intersection
+void Set::operator *= (const Set &t)  //  intersection
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -374,7 +352,7 @@ void Set::operator *= (const Set &t)  // intersection
 }
 
 
-bool Set::operator == (const Set &t) const // equal
+bool Set::operator == (const Set &t) const  //  equal
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -384,7 +362,7 @@ bool Set::operator == (const Set &t) const // equal
 }
 
 
-bool Set::operator != (const Set &t) const // not equal
+bool Set::operator != (const Set &t) const  //  not equal
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -394,7 +372,7 @@ bool Set::operator != (const Set &t) const // not equal
 }
 
 
-bool Set::operator <= (const Set &t) const // subSet
+bool Set::operator <= (const Set &t) const  //  subSet
 {
     for (uint8_t i = 0; i < 32; i++)
     {
@@ -404,5 +382,5 @@ bool Set::operator <= (const Set &t) const // subSet
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

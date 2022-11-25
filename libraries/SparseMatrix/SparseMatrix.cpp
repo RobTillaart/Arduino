@@ -1,22 +1,10 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
-//
-//  HISTORY:
-//  0.1.0  2022-07-12  initial version
-//  0.1.1  2022-07-13  add clear();
-//                     add add(x, y, value);
-//                     fix set(x, y, 0);
-//  0.1.2  2022-07-14  increase size to uint16_t
-//                     add SPARSEMATRIX_MAX_SIZE
-//                     improve documentation
-//  0.1.3  2022-07-16  add boundingBox(...)
-//                     fix #4 set() add()
-
 
 
 #include "SparseMatrix.h"

@@ -119,7 +119,7 @@ unittest(test_add)
 }
 
 
-unittest(test_boundix_box)
+unittest(test_bounding_box)
 {
   SparseMatrix sm(10);
   //  10 x 10 matrix - 6 random elements in the middle

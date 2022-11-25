@@ -12,6 +12,7 @@ clear	KEYWORD2
 get	KEYWORD2
 set	KEYWORD2
 add	KEYWORD2
+boundingBox	KEYWORD2
 
 
 # Constants (LITERAL1)

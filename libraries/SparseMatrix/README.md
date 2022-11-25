@@ -28,8 +28,10 @@ Note: the library does not do matrix math operations.
 Note: the library does not hold the dimensions of the matrix
 and cannot check these.
 
-Relates somewhat to https://github.com/RobTillaart/distanceTable
-
+Relates to:
+- https://github.com/RobTillaart/SparseArray
+- https://github.com/RobTillaart/distanceTable
+ 
 
 #### Implementation
 
@@ -95,8 +97,13 @@ This can be useful for printing or processing the non zero elements.
 
 ## Future
 
-- documentation
-- test
+#### must
+- update documentation
+
+#### should
+- do tests
+
+#### could
 - template version to store other data types 
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
   - struct, complex number
@@ -104,18 +111,39 @@ This can be useful for printing or processing the non zero elements.
 - investigate performance optimizations
   - sort
   - linked list, tree, hashing?
+- SparseArray?
+  - derived class that only uses X and Value
+    - only need an extra get/set/add
+  - separate class memory efficient  (base class?)
+  - class tree - Sparse1D <- Sparse2D <- Sparse3D ...
+- dump should be in the class?
+  - or as static function...
+  - stream as parameter  dump(Stream str, 
 
 
 #### Functions
 
-- walk through the elements?
+- extend the add() math series.
+  - sub(uint8_t x, uint8_t y, float value);
+  - mul(uint8_t x, uint8_t y, float value);
+  - div(uint8_t x, uint8_t y, float value);
+  - sqrt(uint8_t x, uint8_t y, float value);
+  - pow(uint8_t x, uint8_t y, float value);
+  - exp(uint8_t x, uint8_t y, float value);
+  - log(uint8_t x, uint8_t y, float value);
+  - ln(uint8_t x, uint8_t y, float value);
+  - on request.
+- do we need 'vector' operations
+  - add(value) which adds to all elements.
+- walk through the elements.
   - in storage order.
   - bool first(uint8_t &x, uint8_t &y, float &value);
   - bool next(uint8_t &x, uint8_t &y, float &value);
   - bool prev(uint8_t &x, uint8_t &y, float &value);
   - bool last(uint8_t &x, uint8_t &y, float &value);
-  - returns false if there is no element anymore
+  - returns false if there is no element any more
   - if count = 0 or current == -1 or end of list.
+  - mutating values can disrupt the iteration..
 
 
 #### won't

@@ -47,8 +47,6 @@ This means minutes and seconds will overflow also after about 49 days.
 - **uint32_t elapsed()** returns the time in chosen units since last **start()**
 - **void reset()** resets the counting to 0.
 
-The use of value() is depreciated, use **elapsed()** instead.
-
 
 ### Status
 
@@ -71,10 +69,16 @@ To get output like "115 ms" or "159753 us" including the units.
 
 ### Calibration
 
-If processors internal clock are not accurately enough, one can adjust two constants in the StopWatch.h file. Use ar own risk..
+If processors internal clock are not accurately enough, one can adjust 
+the two constants in the StopWatch.h file. Use at your own risk.
 
 - **STOPWATCH_SECONDS_DIVIDER**  default 1000
 - **STOPWATCH_MINUTES_DIVIDER**  default 60000
+
+
+### Obsolete
+
+The use of **value()** is obsolete, use **elapsed()** instead.
 
 
 ## Operation
@@ -84,8 +88,13 @@ See examples
 
 ## Future
 
-- with rising of faster processors in Arduino ecosystem, 
-NANOS might added. Be aware that these short time frames are better measured e.g. by a hardware timer.
+#### must
+
+#### should
 - create getters and setters for the calibration constants so they can 
 changed runtime under program control. Must it be float + round() or uint32_t ?
-- 
+
+#### could
+- with rising of faster processors in Arduino ecosystem, NANOS might added. 
+Be aware that these short time frames are better measured e.g. by a hardware timer.
+- **resolution()** ==> **getResolution()**

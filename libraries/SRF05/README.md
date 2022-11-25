@@ -79,28 +79,29 @@ Should not be used to correct the speed of sound :)
 - **float getCorrectionFactor()** returns the current correction factor.
 
 
-normally a single read should be OK.
+Normally a single read should be OK.
 - **void setModeSingle()** read single time.
-- **void setModeAverage(uint8_t count)** read cnt times and take the average.
-- **void setModeMedian(uint8_t count)** read cnt times and take the median. cnt = 3..15
-- **void setModeRunningAverage(float alpha)** use a running average algorithm with a weight (depends on your application).
+- **void setModeAverage(uint8_t count)** read count times and take the average.
+- **void setModeMedian(uint8_t count)** read count times and take the median. count = 3..15
+- **void setModeRunningAverage(float alpha)** use a running average algorithm with a weight alpha.
+(value depends on your application).
 - **uint8_t getOperationalMode()** returns the operational mode 0..3.
 
 
-| mode  | meaning         |
-|:-----:|:---------------:|
-|  0    | single          |
-|  1    | average         |
-|  2    | median          |
-|  3    | running average |
-| other | error           |
+|  operational mode      |  value  |  Notes  |
+|:-----------------------|:-------:|:-------:|
+|  SRF_MODE_SINGLE       |    0    |         |
+|  SRF_MODE_AVERAGE      |    1    |         |
+|  SRF_MODE_MEDIAN       |    2    |         |
+|  SRF_MODE_RUN_AVERAGE  |    3    |         |
+|                        |  other  |  error  |
 
 
 ### Get distance
 
 - **uint32_t getTime()** returns distance in microseconds.
-- **uint32_t getMillimeter()** returns distance in millimeter.
-- **float getCentimeter()** returns distance in centimeter.
+- **uint32_t getMillimeter()** returns distance in millimetre.
+- **float getCentimeter()** returns distance in centimetre.
 - **float getMeter()** returns distance in meter.
 - **float getInch()** returns distance in inches. (1 inch = 2.54 cm).
 - **float getFeet()** returns distance in feet. (1 feet = 12 inch).
@@ -108,16 +109,13 @@ normally a single read should be OK.
 
 ### Experimental - calibration
 
-Experimental, put the sensor at exactly 1.00 meter from a wall,
-and based upon the timing it will give an estimate for the
-speed of sound. Current version seems accurate within 3 - 5 %.
+Put the sensor at e.g. exactly 1.00 meter from a wall, and based 
+upon the timing it will give an estimate for the speed of sound. 
+0.1.2 version seems accurate within 5 %.
 
-- **float determineSpeedOfSound()**
+- **float determineSpeedOfSound(uint16_t distance)** 
 
 Need to compensate for temperature and humidity.
-
-
-### Experimental - configuration
 
 
 ### Performance
@@ -125,7 +123,7 @@ Need to compensate for temperature and humidity.
 Assumes default speed of sound of 340 m/sec.
 Distance is in meters and equals total distance (forth and back).
 
-| Distance | time (us) | 
+| Distance | time (us) |
 |:--------:|----------:|
 |    1     |     2.94  |
 |    2     |     5.88  |
@@ -141,21 +139,30 @@ Distance is in meters and equals total distance (forth and back).
 
 ## Operational
 
-See examples..
+See examples.
 
 
 ## Future
 
-- print feet as 3'2" or  3-7/8 feet (is that needed in this lib)
-- enumerate mode operandi.
+#### must
 - investigate purpose of the OUT pin.
-- example sketch with a DHT22 and the formula for SOS
-- fix magic conversion numbers.
-- add ```float calcSOS(float temp, float humidity = 0);```
-- add ```float lastValue()``` ?  not all paths update this variable.
-- add ```float delta()``` difference with last value.
-  how to handle different units? or only time?
-- set default SOS to an SOS from the table iso 340.
-- add ```setTriggerLength()```
 
+#### should
+- add examples
+  - DHT22 and the formula for SOS
+- add ```get- setTriggerLength()```
+- add ```float calcSOS(float temp, float humidity = 0);```
+- fix magic conversion numbers.
+
+#### could
+- add ```float lastValue()``` ?  
+  - not all paths update this variable.
+- add ```float delta()``` difference with last value.
+  - how to handle different units? or only time?
+- set default SOS to an SOS from the table instead of 340.
+
+
+#### wont
+- print feet as 3'2" or  3-7/8 feet (is that needed in this lib)
+  - in printHelpers ?
 

@@ -1,16 +1,10 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05
-//
-//  HISTORY:
-//  0.1.0   2021-05-17  initial version
-//  0.1.1   2021-11-18  update build-CI, 
-//                      update readme.md, minor edits
-//  0.1.2   2021-12-28  update library.json, license, minor edits
 
 
 #include "SRF05.h"
@@ -18,7 +12,7 @@
 
 /////////////////////////////////////////////////////
 //
-// CONSTRUCTORS
+//  CONSTRUCTORS
 //
 SRF05::SRF05(const uint8_t trigger, const uint8_t echo, const uint8_t out)
 {
@@ -42,8 +36,23 @@ float SRF05::getSpeedOfSound()
   return _speedOfSound;
 }
 
-//////////////////////////////////////////////////
 
+void SRF05::setCorrectionFactor(float factor)
+{
+  _correctionFactor = factor;
+};
+
+
+float SRF05::getCorrectionFactor()
+{
+  return _correctionFactor;
+};
+
+
+//////////////////////////////////////////////////
+//
+//  MODE
+//
 void SRF05::setModeSingle()
 {
   _mode  = 0x00;
@@ -82,7 +91,9 @@ uint8_t SRF05::getOperationalMode()
 
 
 //////////////////////////////////////////////////
-
+//
+//  MEASUREMENTS
+//
 uint32_t SRF05::getTime()
 {
   switch(_mode)
@@ -150,8 +161,8 @@ float SRF05::getFeet()
 }
 
 
-// assumes a distance of 1.00 meter
-// typically use 100 or 500 meter for distance to calibrate
+//  assumes a distance of 1.00 meter
+//  typically use 100 or 500 meter for distance to calibrate
 float SRF05::determineSpeedOfSound(uint16_t distance)
 {
   float sum = 0;
@@ -187,11 +198,11 @@ void SRF05::_insertSort(uint32_t * array, uint8_t size)
 {
   uint8_t t, z;
   uint32_t temp;
-  for (t = 1; t < size; t++) 
+  for (t = 1; t < size; t++)
   {
     z = t;
     temp = array[z];
-    while( (z > 0) && (temp < array[z - 1] )) 
+    while( (z > 0) && (temp < array[z - 1] ))
     {
       array[z] = array[z - 1];
       z--;

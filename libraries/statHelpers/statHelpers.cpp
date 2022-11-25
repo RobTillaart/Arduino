@@ -1,7 +1,7 @@
 //
 //    FILE: statHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -12,12 +12,15 @@
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// PERMUTATIONS
+//  PERMUTATIONS
 //
 uint32_t permutations(uint8_t n, uint8_t k)
 {
   uint32_t rv = 1;
-  for (uint8_t i = n; i > (n - k); i--) rv *= i;
+  for (uint8_t i = n; i > (n - k); i--)
+  {
+    rv *= i;
+  }
   return rv;
 }
 
@@ -25,15 +28,22 @@ uint32_t permutations(uint8_t n, uint8_t k)
 uint64_t permutations64(uint8_t n, uint8_t k)
 {
   uint64_t rv = 1;
-  for (uint8_t i = n; i > (n - k); i--) rv *= i;
+  for (uint8_t i = n; i > (n - k); i--)
+  {
+    rv *= i;
+  }
   return rv;
 }
 
-// can be optimized similar to dfactorial
+
+//  can be optimized similar to dfactorial
 double dpermutations(uint8_t n, uint8_t k)
 {
   double rv = 1;
-  for (uint8_t i = n; i > (n - k); i--) rv *= i;
+  for (uint8_t i = n; i > (n - k); i--)
+  {
+    rv *= i;
+  }
   return rv;
 }
 
@@ -58,7 +68,7 @@ Walking back from the end of tail, the first element greater than 2 is 4.
 Swap the 2 and the 4
 
 8344 666211
-Since head has increased, we now have a greater permutation. To reduce to the next permutation, 
+Since head has increased, we now have a greater permutation. To reduce to the next permutation,
 we reverse tail, putting it into increasing order.
 
 8344 112666
@@ -111,10 +121,10 @@ bool nextPermutation(T * array,  uint16_t size)
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// FACTORIAL
+//  FACTORIAL
 //
 
-// exact ==> 12!
+//  exact ==> 12!
 uint32_t factorial(uint8_t n)
 {
   uint32_t f = 1;
@@ -123,21 +133,21 @@ uint32_t factorial(uint8_t n)
 }
 
 
-// exact ==> 20!
+//  exact ==> 20!
 uint64_t factorial64(uint8_t n)
 {
-  // to be tested
-  // if ( n <= 12) return factorial(12);
-  // uint64_t f = factorial(12);
-  // for (uint8_t t = 13; t <= n; t++) f *= t;
+  //  to be tested
+  //  if ( n <= 12) return factorial(12);
+  //  uint64_t f = factorial(12);
+  //  for (uint8_t t = 13; t <= n; t++) f *= t;
   uint64_t f = 1;
   while(n > 1) f *= (n--);
   return f;
 }
 
 
-// float  (4 byte) => 34!
-// double (8 byte) => 170!
+//  float  (4 byte) => 34!
+//  double (8 byte) => 170!
 double dfactorialReference(uint8_t n)
 {
   double f = 1;
@@ -146,12 +156,12 @@ double dfactorialReference(uint8_t n)
 }
 
 
-// FASTER VERSION 
-// does part of the math with integers.
-// tested on UNO and ESP32, roughly 3x faster
-// numbers differ slightly in the order of IEEE754 precision  => acceptable.
-// 10e-7  for 4 bit float 
-// 10e-16 for 8 bit double
+//  FASTER VERSION
+//  does part of the math with integers.
+//  tested on UNO and ESP32, roughly 3x faster
+//  numbers differ slightly in the order of IEEE754 precision  => acceptable.
+//  10e-7  for 4 bit float
+//  10e-16 for 8 bit double
 double dfactorial(uint8_t n)
 {
   double f = 1;
@@ -162,15 +172,15 @@ double dfactorial(uint8_t n)
     f *= val;
     n -= 4;
   }
-  while (n > 1) f *= (n--); // can be squeezed too.
+  while (n > 1) f *= (n--);   //  can be squeezed too.
   return f;
 }
 
 
-// stirling is an approximation function for factorial(n).
-// it is slower but constant in time.
-// float  => 26!
-// double => 143!
+//  stirling is an approximation function for factorial(n).
+//  it is slower but constant in time.
+//  float  => 26!
+//  double => 143!
 double stirling(uint8_t n)
 {
   double v = exp(-n) * pow(n, n) * sqrt(TWO_PI * n);
@@ -178,9 +188,9 @@ double stirling(uint8_t n)
 }
 
 
-// SEMIFACTORIAL
+//  SEMIFACTORIAL
 
-// exact ==> 20!!
+//  exact ==> 20!!
 uint32_t semiFactorial(uint8_t n)
 {
   uint32_t f = 1;
@@ -193,7 +203,7 @@ uint32_t semiFactorial(uint8_t n)
 }
 
 
-// exact ==> 33!!
+//  exact ==> 33!!
 uint64_t semiFactorial64(uint8_t n)
 {
   uint64_t f = 1;
@@ -206,8 +216,8 @@ uint64_t semiFactorial64(uint8_t n)
 }
 
 
-// float  (4 byte) => 56!!
-// double (8 byte) => 300!!
+//  float  (4 byte) => 56!!
+//  double (8 byte) => 300!!
 double dSemiFactorial(uint16_t n)
 {
   double f = 1;
@@ -228,10 +238,10 @@ double dSemiFactorial(uint16_t n)
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// COMBINATIONS
+//  COMBINATIONS
 //
 
-// works for n = 0..30 for all k
+//  works for n = 0..30 for all k
 uint32_t combinations(uint16_t n, uint16_t k)
 {
   if ((k == 0) || (k == n)) return 1;
@@ -240,7 +250,7 @@ uint32_t combinations(uint16_t n, uint16_t k)
   uint8_t p = 2;
   for (uint8_t i = n-1; i > k; i--)
   {
-    // if ((0xFFFFFFFF / i) < rv) return 0;   // overflow detect...
+    //  if ((0xFFFFFFFF / i) < rv) return 0;   // overflow detect...
     rv = (rv * i) / p;
     p++;
   }
@@ -248,16 +258,16 @@ uint32_t combinations(uint16_t n, uint16_t k)
 }
 
 
-// works for n = 0..61 for all k
+//  works for n = 0..61 for all k
 uint64_t combinations64(uint16_t n, uint16_t k)
 {
   if ((k == 0) || (k == n)) return 1;
-  if (k < (n-k)) k = n - k;   // symmetry
+  if (k < (n-k)) k = n - k;     //  symmetry
   uint64_t rv = n;
   uint8_t p = 2;
   for (uint8_t i = n-1; i > k; i--)
   {
-    // overflow detect here ?
+    //  overflow detect here ?
     rv = (rv * i) / p;
     p++;
   }
@@ -265,13 +275,13 @@ uint64_t combinations64(uint16_t n, uint16_t k)
 }
 
 
-// experimental - not exact but allows large values
-// float  (4 bits) works till n = 125    for all k
-// double (8 bits) works till n = 1020   for all k
+//  experimental - not exact but allows large values
+//  float  (4 bits) works till n = 125    for all k
+//  double (8 bits) works till n = 1020   for all k
 double dcombinations(uint16_t n, uint16_t k)
 {
   if ((k == 0) || (k == n)) return 1;
-  if (k < (n-k)) k = n - k; // symmetry
+  if (k < (n-k)) k = n - k;  //  symmetry
   double rv = n;
   uint16_t p = 2;
   for (uint16_t i = n-1; i > k; i--)
@@ -284,9 +294,9 @@ double dcombinations(uint16_t n, uint16_t k)
 }
 
 
-// recursive (mind your stack and time)
-// works for n = 0..30 for all k
-// educational purpose
+//  recursive (mind your stack and time)
+//  works for n = 0..30 for all k
+//  educational purpose
 uint32_t rcombinations(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -295,9 +305,9 @@ uint32_t rcombinations(uint16_t n, uint16_t k)
 }
 
 
-// recursive
-// works for n = 0..61 for all k
-// educational purpose
+//  recursive
+//  works for n = 0..61 for all k
+//  educational purpose
 uint64_t rcombinations64(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -306,9 +316,9 @@ uint64_t rcombinations64(uint16_t n, uint16_t k)
 }
 
 
-// very slow double recursive way by means of Pascals triangle.
-// works for n = 0..30 for all k  (but takes a lot of time)
-// educational purpose
+//  very slow double recursive way by means of Pascals triangle.
+//  works for n = 0..30 for all k  (but takes a lot of time)
+//  educational purpose
 uint32_t combPascal(uint16_t n, uint16_t k)
 {
   if (k > (n-k)) k = n - k; // symmetry
@@ -323,13 +333,13 @@ uint32_t combPascal(uint16_t n, uint16_t k)
 
 /////////////////////////////////////////////////
 //
-// EXPERIMENTAL 
+//  EXPERIMENTAL
 //
-// BIG SECTION
-// 
-// keep track of exponent myself in 32 bit unsigned integer
-// - can be extended to a 64 bit integer
-//   however it already takes hours to calculate with 32 bits
+//  BIG SECTION
+//
+//  keep track of exponent myself in 32 bit unsigned integer
+//  - can be extended to a 64 bit integer
+//    however it already takes hours to calculate with 32 bits
 
 /*
 
@@ -396,7 +406,7 @@ void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)  //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -405,15 +415,15 @@ void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)
 }
 
 
-// Should work full range for n = 518678059, k = { 0..n }
-// and n > 518678059 => max k is definitely smaller ==> expect n+1 ==> k-15 at start
-// performance: low. depends on k.
+//  Should work full range for n = 518678059, k = { 0..n }
+//  and n > 518678059 => max k is definitely smaller ==> expect n+1 ==> k-15 at start
+//  performance: low. depends on k.
 //
 //
-// for relative small k and large n (multiple orders of magnitude) one can get an estimate
-// P(n,k) ~  raw = log10(n - k/2) * k;
-//           exponent = int(raw);
-//           mantissa = pow(10, raw - int(raw));
+//  for relative small k and large n (multiple orders of magnitude) one can get an estimate
+//  P(n,k) ~  raw = log10(n - k/2) * k;
+//            exponent = int(raw);
+//            mantissa = pow(10, raw - int(raw));
 void bigPermutations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)
 {
   exponent = 0;
@@ -427,7 +437,7 @@ void bigPermutations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponen
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)      //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -440,7 +450,7 @@ void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponen
 {
   exponent = 0;
   if ((k == 0) || (k == n)) return;
-  if (k < (n-k)) k = n - k; // symmetry
+  if (k < (n-k)) k = n - k;     //  symmetry
 
   double f = n;
   uint32_t p = 2;
@@ -454,7 +464,7 @@ void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponen
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)    //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -464,9 +474,9 @@ void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponen
 
 
 ////////////////////////////////////////////////////////////
-// EXPERIMENTAL 64 BIT
 //
-
+//  EXPERIMENTAL 64 BIT
+//
 void bigFactorial64(uint64_t n, double &mantissa, uint64_t &exponent)
 {
   exponent = 0;
@@ -474,13 +484,13 @@ void bigFactorial64(uint64_t n, double &mantissa, uint64_t &exponent)
   while (n > 1)
   {
     f *= n--;
-    while (f > 1000000000)  // optimize - per 1e9 to save divisions.
+    while (f > 1000000000)  //  optimize - per 1e9 to save divisions.
     {
       f /= 1000000000;
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)    //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -502,7 +512,7 @@ void bigPermutations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &expon
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)    //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -529,7 +539,7 @@ void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &expon
       exponent += 9;
     }
   }
-  while (f > 10)  // fix exponent if needed.
+  while (f > 10)    //  fix exponent if needed.
   {
     f /= 10;
     exponent++;
@@ -538,5 +548,5 @@ void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &expon
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

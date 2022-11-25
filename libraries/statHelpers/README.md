@@ -16,6 +16,7 @@ Arduino library with a number of statistic helper functions.
 This library contains functions that have the goal to help with 
 some basic statistical calculations.
 
+To print very large numbers - https://github.com/RobTillaart/PrintHelpers
 
 ## Functions
 
@@ -43,9 +44,10 @@ other same code examples exist.
 ### Factorial
 
 - **uint32_t factorial(n)** exact up to n = 12.
-- **uint64_t factorial64(n)** exact up to n = 20.  (Print 64 bit ints with my printHelpers)
+- **uint64_t factorial64(n)** exact up to n = 20.  (Print 64 bit integers with my printHelpers)
 - **double dfactorial(n)** not exact up to n = 34 (4 byte) or n = 170 (8 byte).
 - **double stirling(n)** approximation function for factorial (right magnitude).
+Constant run-time.
 
 **dfactorial()** is quite accurate over the whole range.
 **stirling()** is up to 3x faster for large n (> 100), 
@@ -110,7 +112,7 @@ returns a double mantissa between 0 and 10, and an integer exponent.
 An experimental **bigFactorial(n)** calculation to get an idea of the big numbers. 
 it can calculate factorials up to an exponent of 4294967295 max.  100.000.000! can be 
 done in 38 minutes on an ESP32 at 240 MHz.  
-Maximum value for n is **518678059! ==  2.1718890e4294967292** a number that took ~10 hrs to calculate. 
+Maximum value for n is **518678059! ==  2.1718890e4294967292** a number that took ~10 hours to calculate. 
 
 An experimental **bigPermutation(n, k)** calculation, to handle big numbers too. 
 Maximum value for n is **518678059** to have full range support. For small(er) 
@@ -133,6 +135,8 @@ returns a double mantissa between 0 and 10, and an integer exponent.
 returns a double mantissa between 0 and 10, and an integer exponent. 
 - **void bigCombination64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
+
+If someone has found the limits of these 64 bit versions, please let me know.
 
 
 ## Operation

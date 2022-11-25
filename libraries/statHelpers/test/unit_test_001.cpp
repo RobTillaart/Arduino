@@ -82,7 +82,6 @@ unittest(test_permutations)
   fprintf(stderr, "\n\n");
 
   assertEqual(120, count);
-
 }
 
 
@@ -150,7 +149,7 @@ unittest(test_combinations)
     fprintf(stderr, "%d\t%d\n", k, combPascal(30, k));
   }
 
-  assertEqual(1, 1);  // keep unit test happy :)
+  assertEqual(1, 1);  //  keep unit test happy :)
 }
 
 

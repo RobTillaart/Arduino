@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
 //          template version 1.0.0 by Glen Cornell
-// VERSION: 1.0.0
+// VERSION: 1.0.1
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See CHANGELOG.md
 //
@@ -37,7 +37,7 @@
 // and HAVE_STDCXX_CSTDINT feature macros in your build environment.
 
 
-#define STATISTIC_LIB_VERSION                     (F("1.0.0"))
+#define STATISTIC_LIB_VERSION                     (F("1.0.1"))
 
 
 #if defined (ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_MEGA2560)

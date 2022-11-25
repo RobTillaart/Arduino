@@ -54,7 +54,6 @@ unittest(test_constructor)
 }
 
 
-
 unittest(test_basic)
 {
   Statistic myStats;

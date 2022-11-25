@@ -1,15 +1,10 @@
 //
 //    FILE: SparseArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-07-17
 // PURPOSE: Arduino library for sparse arrays of floats
 //     URL: https://github.com/RobTillaart/SparseArray
-//
-//  HISTORY:
-//  0.1.0  2022-07-17  initial version
-//                     derives from SparseMatrix
-
 
 
 #include "SparseArray.h"

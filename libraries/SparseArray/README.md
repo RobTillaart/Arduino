@@ -11,22 +11,20 @@
 Arduino library for sparse arrays of floats.
 
 
-TODO REDO DOCUMENTATION.
-
-
 ## Description
 
 SparseArray is an **experimental** library to implement a one
 dimensional sparse array of floats (a.k.a. vector) on an Arduino.
-A sparse array is a mn array with mostly zeros and a low percentage 
+A sparse array is an array with mostly zeros and a low percentage 
 non-zero values.
 The purpose of this library is efficient storage in memory. 
 
-The maximum array that can be represented is 65535 elements 
-with a theoretical maximum of 65535 non-zero elements. 
+The maximum array size this library can represent is 65535 elements 
+with a theoretical maximum of 65535 non-zero elements.
 (although that does not make sense due to overhead)
-In practice the library limits this to 1000 non-zero elements.
-Note: 255 elements would still fit in an UNO's 2K memory.
+In practice the library limits the number of non-zero elements to 1000.
+
+Note: 255 non-zero elements would fit in an UNO's 2K memory.
 
 Relates to: 
 - https://github.com/RobTillaart/SparseMatrix
@@ -37,14 +35,16 @@ Note: this library is derived from SparseMatrix.
 
 #### Implementation
 
-The implementation is based on 2 arrays holding ``` x, value``` 
+The implementation is based on 2 arrays holding ```x, value``` 
 where value is float, and x is an uint16_t.
 That are 6 bytes per element. 
-The number of elements that the sparse array object can hold are 
+The number of elements that the sparse array object can hold is 
 given as parameter to the constructor. 
 If the space cannot be allocated the size is set to zero.
 
 In the future other data types should be possible.
+
+Relates to https://github.com/RobTillaart/SET
 
 
 #### Performance
@@ -99,18 +99,29 @@ This can be useful for printing or processing the non zero elements.
 
 ## Future
 
-- documentation
-- test
+#### must
+- improve documentation
+
+#### should
+- do test
+- investigate optimizations
+  - derived sorted class ==> insertSort
 - keep in sync with SparseMatrix where possible
-- merge into one class hierarchy?
+  - merge into one class hierarchy?
+- Template class for the data type
+  - better than SparseArray64 SparseArray32 SparseArray16 SparseArray8  (signed / unsigned?)
+
+#### could
 - dump should be in the class?
   - or as static function...
   - stream as param  dump(Stream str, ...
-  
+
 #### ideas
 
 - array { uint32_t, float }; for logging  millis/micros + measurement
   delta coding of time stamp? if it fit in 16 bit?
   => sounds like a class on its own.
+- investigate index \[\] operator for **get()** and **set()**
+  - would break with sparse matrix
 
 

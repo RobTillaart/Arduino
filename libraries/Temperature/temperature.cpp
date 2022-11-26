@@ -1,10 +1,8 @@
 //
 //    FILE: temperature.cpp
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
-//
-// HISTORY: see CHANGELOG.md
 
 
 #include "temperature.h"
@@ -12,13 +10,13 @@
 
 float Fahrenheit(float celsius)
 {
-  return 1.8 * celsius + 32;    // 5.0 / 9.0 = 1.8
+  return 1.8 * celsius + 32;    //  5.0 / 9.0 = 1.8
 }
 
 
 float Celsius(float Fahrenheit)
 {
-  return (Fahrenheit - 32) * 0.55555555555;   // 5.0 / 9.0 = 0.555...
+  return (Fahrenheit - 32) * 0.55555555555;   //  5.0 / 9.0 = 0.555...
 }
 
 
@@ -28,35 +26,35 @@ float Kelvin(float celsius)
 }
 
 
-// reference:
-// [1] https://wahiduddin.net/calc/density_algorithms.htm
-// [2] https://web.archive.org/web/20100528030817/https://www.colorado.edu/geography/weather_station/Geog_site/about.htm
-// dewPoint function based on code of [2]
-// calculation of the saturation vapour pressure part is based upon NOAA ESGG(temp)
+//  reference:
+//  [1] https://wahiduddin.net/calc/density_algorithms.htm
+//  [2] https://web.archive.org/web/20100528030817/https://www.colorado.edu/geography/weather_station/Geog_site/about.htm
+//  dewPoint function based on code of [2]
+//  calculation of the saturation vapour pressure part is based upon NOAA ESGG(temp)
 float dewPoint(float celsius, float humidity)
 {
-  // Calculate saturation vapour pressure
-  // ratio 100C and actual temp in Kelvin
+  //  Calculate saturation vapour pressure
+  //  ratio 100C and actual temp in Kelvin
   float A0 = 373.15 / (273.15 + celsius);
-  // SVP = Saturation Vapor Pressure - based on ESGG() NOAA
+  //  SVP = Saturation Vapor Pressure - based on ESGG() NOAA
   float SVP = -7.90298 * (A0 - 1.0);
   SVP +=  5.02808 * log10(A0);
   SVP += -1.3816e-7 * (pow(10, (11.344 * ( 1.0 - 1.0/A0))) - 1.0 );
   SVP +=  8.1328e-3 * (pow(10, (-3.49149 * (A0 - 1.0 ))) - 1.0 ) ;
   SVP += log10(1013.246);
 
-  // calculate actual vapour pressure VP;
-  // note to convert to KPa the -3 is used
+  //  calculate actual vapour pressure VP;
+  //  note to convert to KPa the -3 is used
   float VP = pow(10, SVP - 3) * humidity;
   float T = log( VP / 0.61078);   // temp var
   return (241.88 * T) / (17.558 - T);
 }
 
 
-// dewPointFast() is > 5x faster than dewPoint() - run dewpoint_test.ino
-// delta mdewPointFastax with dewPoint() - run dewpoint_test.ino ==> ~0.347
-// (earlier version mentions ~0.6544 but that test code is gone :(
-// http://en.wikipedia.org/wiki/Dew_point
+//  dewPointFast() is > 5x faster than dewPoint() - run dewpoint_test.ino
+//  delta mdewPointFastax with dewPoint() - run dewpoint_test.ino ==> ~0.347
+//  (earlier version mentions ~0.6544 but that test code is gone :(
+//  http://en.wikipedia.org/wiki/Dew_point
 float dewPointFast(float celsius, float humidity)
 {
   float a = 17.271;
@@ -67,7 +65,7 @@ float dewPointFast(float celsius, float humidity)
 }
 
 
-// https://en.wikipedia.org/wiki/Humidex
+//  https://en.wikipedia.org/wiki/Humidex
 float humidex(float celsius, float dewPoint)
 {
   float e = 19.833625 - 5417.753 /(273.16 + dewPoint);
@@ -76,14 +74,16 @@ float humidex(float celsius, float dewPoint)
 }
 
 
-// 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
-//          previous  https://en.wikipedia.org/wiki/Heat_index
-// TF = temp in Fahrenheit
-// RH = relative humidity in %
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//           previous  https://en.wikipedia.org/wiki/Heat_index
+//  TF = temp in Fahrenheit
+//  RH = relative humidity in %
 float heatIndex(float TF, float RH)
 {
-  //  Steadman's formula  ==> can be optimized :: HI = TF * 1.1 - 10.3 + RH * 0.047
-  float HI =  0.5 * (TF + 61.0 + ((TF - 68.0) * 1.2) + (RH * 0.094));
+  //  Steadman's formula
+  //  float HI =  0.5 * (TF + 61.0 + ((TF - 68.0) * 1.2) + (RH * 0.094));
+  //  optimized to:
+  float HI =  TF * 1.1 - 10.3 + RH * 0.047;
 
 
   //  Rothfusz regression
@@ -118,10 +118,10 @@ float heatIndex(float TF, float RH)
 }
 
 
-// 0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
-//          previous  https://en.wikipedia.org/wiki/Heat_index
-// TC = temp in Celsius
-// RH = relative humidity in %
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//           previous  https://en.wikipedia.org/wiki/Heat_index
+//  TC = temp in Celsius
+//  RH = relative humidity in %
 float heatIndexC(float TC, float RH)
 {
   if ( (TC < 27) || (RH < 40)) return TC;
@@ -148,15 +148,15 @@ float heatIndexC(float TC, float RH)
 }
 
 
-// https://en.wikipedia.org/wiki/Wind_chill
-//    US     = Fahrenheit / miles / hour
-//    METRIC = Celsius    / meter / hour (sec)
-// wind speed @ 10 meter,
-// if convert is true => wind speed will be converted to 1.5 meter
-// else ==> formula assumes wind speed @ 1.5 meter
+//  https://en.wikipedia.org/wiki/Wind_chill
+//     US     = Fahrenheit / miles / hour
+//     METRIC = Celsius    / meter / hour (sec)
+//  wind speed @ 10 meter,
+//  if convert is true => wind speed will be converted to 1.5 meter
+//  else ==> formula assumes wind speed @ 1.5 meter
 
 
-// US
+//  US
 float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bool convert)
 {
   if ((milesPerHour < 3.0) || (Fahrenheit > 50)) return Fahrenheit;
@@ -166,7 +166,7 @@ float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bo
 }
 
 
-// METRIC - standard wind chill formula for Environment Canada
+//  METRIC - standard wind chill formula for Environment Canada
 float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const bool convert)
 {
   if ((kilometerPerHour < 4.8) || (Celsius > 10)) return Celsius;
@@ -182,12 +182,12 @@ float WindChill_C_mps(const float Celsius, const float meterPerSecond, const boo
 }
 
 
-// https://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-//   Does not have the temperature correction ==> it has almost the -5.257 exponent
-// https://www.omnicalculator.com/physics/air-pressure-at-altitude
-//   similar to https://en.wikipedia.org/wiki/Barometric_formula
+//  https://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+//    Does not have the temperature correction ==> it has almost the -5.257 exponent
+//  https://www.omnicalculator.com/physics/air-pressure-at-altitude
+//    similar to https://en.wikipedia.org/wiki/Barometric_formula
 //
-// Note: altitude in meters.
+//  Note: altitude in meters.
 float baroToSeaLevelC( float pressure, float celsius, float altitude)
 {
   float altitudeFactor = 0.0065 * altitude;
@@ -196,12 +196,12 @@ float baroToSeaLevelC( float pressure, float celsius, float altitude)
 }
 
 
-// https://www.omnicalculator.com/physics/air-pressure-at-altitude
-//   temperature (Celsius) at altitude (meter)
+//  https://www.omnicalculator.com/physics/air-pressure-at-altitude
+//    temperature (Celsius) at altitude (meter)
 float seaLevelToAltitude( float pressureSeaLevel, float celsius, float altitude)
 {
   float kelvin = celsius + 273.15;
-  // P = P0 * exp( -g.M.h / (R.T));
+  //  P = P0 * exp( -g.M.h / (R.T));
   float factor = -9.80655 * 0.0289644 / 8.31432;
   factor /= kelvin;
   return pressureSeaLevel * exp(factor * abs(altitude));
@@ -210,12 +210,12 @@ float seaLevelToAltitude( float pressureSeaLevel, float celsius, float altitude)
 float altitudeToSeaLevel( float pressure, float celsius, float altitude)
 {
   float kelvin = celsius + 273.15;
-  // P = P0 * exp( -g.M.h / (R.T));
+  //  P = P0 * exp( -g.M.h / (R.T));
   float factor = 9.80655 * 0.0289644 / 8.31432;
   factor /= kelvin;
   return pressure / exp(factor * abs(altitude));
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

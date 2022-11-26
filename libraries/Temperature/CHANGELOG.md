@@ -6,44 +6,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2022-11-26
+- added RP2040 to build-CI
+- simplified changelog
+- optimized Steadman's formula (HeatIndex).
+- update readme.md
+
+
 ## [0.3.4] - 2022-04-15
-
-### Added
-
-### Changed
-
-### Fixed
 - fix #16 Split .h in .h and .cpp 
 
-
 ## [0.3.3] - 2022-01-09
-
-### Added
-- added working limits to windchill() and heatIndex()
-
+- added working limits to windChill() and heatIndex()
 
 ## [0.3.2] - 2022-01-08
-
-### Added
 - added a TempConvertor class for more exotic scales.
 - added baroToSeaLevel() - kudos to RobertDB59
-
-### Fixed
--  Renamed Celcius to Celsius.
-
+- Renamed Celcius to Celsius.
 
 ## [0.3.1] - 2022-01-07
-
-### Fixed
-- fix adjustments
+- fix adjustments which were incorrectly added.
 
 ## [0.3.0] - 2022-01-05
-
-### Fixed
 - fix #10 update HeatIndex function
  compared with https://www.calculator.net/heat-index-calculator.html
 
-
+----
 
 ## [0.2.5] - 2021-12-28
 - Arduino-CI, library.json, readme.md, license, minor edits

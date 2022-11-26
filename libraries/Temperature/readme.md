@@ -8,7 +8,7 @@
 
 # Temperature
 
-Arduino library with dewPoint, humidex, heatIndex and wind-chill functions.
+Arduino library with temperature conversion and weather functions including dewPoint, humidex, heatIndex and wind-chill.
 
 
 ## Description
@@ -31,7 +31,7 @@ Note: pre-0.3.1 versions have incorrect heat-index.
 - **float Celsius(float Fahrenheit)** idem.
 - **float Kelvin(float Celsius)** idem.
 
-More converters are implemented in tne **temperatureConverter()** below.
+More converters are implemented in the **temperatureConverter** class below.
 
 
 ### DewPoint, humidex
@@ -51,22 +51,18 @@ More converters are implemented in tne **temperatureConverter()** below.
 
 The formula for the **heatIndex()** was taken from https://en.wikipedia.org/wiki/Heat_index.
 Since version 0.3.0 the more elaborated version of https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
-will be used. Note: there will be performance differences.
+will be used. 
+Note: there will be performance differences.
 
 Indicative table
 
-| Fahrenheit | Celsius | description | colour code |
-|:----------:|:-------:|:------------|------------:|
-|   70-79    |  21-26  | warm        |    green    |
-|   80-89    |  26-32  | very warm   |    yellow   |
-|   90-104   |  32-40  | hot         |    orange   |
-|  105-129   |  40-54  | very hot    |       red   |
-|  > 130     |  > 54   | extreme hot |    purple   |
-
-
-#### 0.3.1
-
-Fixed the adjustment which was incorrectly added.
+|  Fahrenheit  |  Celsius  |  description  |  colour code  |
+|:------------:|:---------:|:--------------|--------------:|
+|    70-79     |   21-26   |  warm         |     green     |
+|    80-89     |   26-32   |  very warm    |    yellow     |
+|    90-104    |   32-40   |  hot          |    orange     |
+|   105-129    |   40-54   |  very hot     |       red     |
+|   > 130      |   > 54    |  extreme hot  |    purple     |
 
 
 ### WindChill
@@ -81,14 +77,16 @@ else ==> formula assumes wind speed @ 1.5 meter
 
 Indicative table (subjective).
 
-| wind chill °C | description          |
-|:-------------:|:---------------------|
-|  > -10        |  cold                |
-|  -10 .. -25   |  very cold !         |
-|  -25 .. -35   |  very very cold !    |
-|  -35 .. -55   |  chance of frostbite |
-|  < -55        |  serious dangerous   |
+|  wind chill °C  |  description           |
+|:---------------:|:-----------------------|
+|    > -10        |  cold                  |
+|    -10 .. -25   |  very cold !           |
+|    -25 .. -35   |  very very cold !      |
+|    -35 .. -55   |  chance of frostbite   |
+|    < -55        |  serious dangerous     |
 
+
+----
 
 # temperatureConverter class
 
@@ -101,22 +99,24 @@ See example.
 The scales are typically named after their inventor. 
 Check Wikipedia for details about the scales.
 
-| Name        | units | 1° in °K |    0°C  |   100°C | notes |
-|:------------|:-----:|:--------:|--------:|--------:|:------|
-| Celsius     |  °C   | 1.000000 |    0.00 |  100.00 |
-| Delisle     |  °De  | 0.666666 | -100.00 |   50.00 |
-| Fahrenheit  |  °F   | 0.555556 |   32.00 |  212.00 |
-| Kelvin      |  °K   | 1.000000 |  273.15 |  373.15 |
-| Newton      |  --   | 3.030303 |    0.00 |   33.00 | not the force.
-| Rankine     |  °Ra  | 0.555556 |  491.76 |  671.67 | 0°Ra == 0°K, steps == Fahrenheit.
-| Reamur      |  °Re  | 1.250000 |    0.00 |   80.00 |
-| Romer       |  °Ro  | 1.904762 |    7.50 |   60.00 |
+|  Name         |  units  |  1° in °K  |     0°C   |    100°C  |  notes  |
+|:--------------|:-------:|:----------:|----------:|----------:|:--------|
+|  Celsius      |   °C    |  1.000000  |     0.00  |   100.00  |
+|  Delisle      |   °De   |  0.666666  |  -100.00  |    50.00  |
+|  Fahrenheit   |   °F    |  0.555556  |    32.00  |   212.00  |
+|  Kelvin       |   °K    |  1.000000  |   273.15  |   373.15  |
+|  Newton       |   --    |  3.030303  |     0.00  |    33.00  |  not the force.
+|  Rankine      |   °Ra   |  0.555556  |   491.76  |   671.67  |  0°Ra == 0°K, steps == Fahrenheit.
+|  Reamur       |   °Re   |  1.250000  |     0.00  |    80.00  |
+|  Romer        |   °Ro   |  1.904762  |     7.50  |    60.00  |
 
 Note: units to be verified.
 
 Note: this class is slightly slower than direct conversion, but it 
 prevents to have 8 x 7 optimized functions.
 
+
+## Interface
 
 #### Constructor
 
@@ -158,6 +158,14 @@ See examples for typical usage.
 
 # Future
 
+#### must
+
+#### should
 - improve documentation
   - add short explanation?
-- 
+- add formula for water boiling height 
+  - https://en.wikipedia.org/wiki/High-altitude_cooking
+  - multiMap needed?
+
+#### could
+

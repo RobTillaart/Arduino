@@ -2,7 +2,7 @@
 //
 //    FILE: Troolean.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino Library for a three state logic datatype supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 //          https://en.wikipedia.org/wiki/Three-valued_logic
@@ -13,10 +13,12 @@
 #include "Printable.h"
 
 
-#define TROOLEAN_LIB_VERSION            (F("0.1.5"))
+#define TROOLEAN_LIB_VERSION            (F("0.1.6"))
 
-
-// 0 = false, -1 = unknown anything else = true
+//  VALUE   MEANING
+//     0  =  false
+//    -1  =  unknown
+// other  =  true
 #define unknown                         -1
 
 
@@ -24,7 +26,7 @@ class Troolean: public Printable
 {
 public:
   Troolean();
-  Troolean(const int8_t);    // 0 = false, -1 = unknown anything else = true
+  Troolean(const int8_t);       //  0 = false, -1 = unknown anything else = true
   Troolean(const Troolean&);
 
   size_t printTo(Print&) const;
@@ -38,24 +40,24 @@ public:
 
   operator bool() const;
 
-  Troolean operator ! ();   // negation
+  Troolean operator ! ();   //  negation
 
   Troolean operator && (const Troolean&);
   Troolean operator && (const bool&);
   Troolean operator || (const Troolean&);
   Troolean operator || (const bool&);
 
-  // faster than ==
-  inline bool isTrue()    { return _value == 1; };
+  //  faster than ==
+  inline bool isTrue()    { return _value == 1; };  //  other values too ..
   inline bool isFalse()   { return _value == 0; };
   inline bool isUnknown() { return _value == -1; };
 
-  // ideas
-  // Troolean operator &&=
-  // Troolean operator ||=
-  //
-  // bool toBool(); // returns random true/false if unknown....
-  // extend with dontcare ?  ==> four state logic ?  Foolean?
+  //  Ideas
+  //  Troolean operator &&=
+  //  Troolean operator ||=
+  //  
+  //  bool toBool(); // returns random true/false if unknown....
+  //  extend with dontcare ?  ==> four state logic ?  Foolean?
 
 
 private:
@@ -64,5 +66,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

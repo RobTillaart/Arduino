@@ -1,20 +1,9 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
-//
-//  HISTORY:
-//  0.1.0  2018-01-10  initial version
-//  0.1.1  2018-01-28  adjust (in)equality so that unknown == unknown
-//                     although there could be arguments that unknown != unknown
-//                     added isTrue(), isFalse(), isUnknown()
-//                     first public release
-//  0.1.2  2020-06-07  small refactor; updated keywords.txt; metadata
-//  0.1.3  2020-06-19  fix library.json
-//  0.1.4  2021-01-09  Arduino-CI + unit test
-//  0.1.5  2021-12-29  update library.json, readme, license, minor edits
 
 
 #include "Troolean.h"
@@ -22,7 +11,7 @@
 
 /////////////////////////////////////////////////////
 //
-// PUBLIC
+//  PUBLIC
 //
 Troolean::Troolean()
 {
@@ -44,7 +33,7 @@ Troolean::Troolean(const Troolean &t)
 }
 
 
-// PRINTING
+//  PRINTING
 size_t Troolean::printTo(Print& p) const
 {
   size_t n = 0;
@@ -57,10 +46,10 @@ size_t Troolean::printTo(Print& p) const
 
 //////////////////////////////////////////////////
 //
-// EQUALITIES
-// t == t
-// f == f
-// u == u
+//  EQUALITIES
+//  t == t
+//  f == f
+//  u == u
 //
 bool Troolean::operator == (const Troolean &t)
 {
@@ -118,14 +107,14 @@ Troolean::operator bool() const
 
 //////////////////////////////////////////////////////////
 //
-// NEGATE
-// t -> f
-// f -> t
-// u -> u
+//  NEGATE
+//  t -> f
+//  f -> t
+//  u -> u
 //
 Troolean Troolean::operator ! ()
 {
-  if (_value == -1) return Troolean(-1);  // random 0 1 :)
+  if (_value == -1) return Troolean(-1);  //  random 0 1  :)
   if (_value == 1) return Troolean(0);
   return Troolean(1);
 }
@@ -133,13 +122,16 @@ Troolean Troolean::operator ! ()
 
 //////////////////////////////////////////////////////////
 //
-// LOGICAL OPERATORS
+//  LOGICAL OPERATORS
 //
 Troolean Troolean::operator && (const Troolean &t)
 {
   if (_value == 0 || t._value == 0) return Troolean(0);
   if (_value == 1 && t._value == 1) return Troolean(1);
   return Troolean(-1);
+  //  optimized version?
+  //  if (_value == -1 || t._value == -1) return Troolean(-1);
+  //  return Troolean(1);
 }
 
 
@@ -167,5 +159,5 @@ Troolean Troolean::operator || (const bool &b)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

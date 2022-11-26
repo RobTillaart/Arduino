@@ -107,14 +107,17 @@ See examples
 
 
 #### Must
-
+- buy TCA9555 / TCA9535
 - test all functionality (initial version is written with no hardware around)
-- add TCA9535 error codes
 
+#### Should
+- INPUT_PULLUP mappen op INPUT (pinMode ?)
+- investigate internal pull up etc.
+- add TCA9535 error codes
+- investigate TCA9535 differences
+  - elaborate derived class 
 
 #### Could
+- rethink class hierarchy
 
-- buy TCA9555 / TCA9535
-- rethink class hierarchy?
-- investigate internal pull up etc.
 

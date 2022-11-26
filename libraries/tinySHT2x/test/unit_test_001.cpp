@@ -47,6 +47,12 @@ unittest_teardown()
 }
 
 
+unittest(test_constant)
+{
+  assertEqual(-999, TINY_SHT2x_NO_VALUE);
+}
+
+
 unittest(test_constructor)
 {
   tinySHT2x sht;

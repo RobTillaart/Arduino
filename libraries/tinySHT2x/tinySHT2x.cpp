@@ -1,15 +1,11 @@
 //
 //    FILE: tinytinySHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-09-27
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor optimized for AVR tiny
 //     URL: https://github.com/RobTillaart/tinytinySHT2x
-//
 
-//  HISTORY:
-//  0.1.0   2021-09-27  initial version
-//  0.1.1   2021-12-29  update library.json, readme, license, minor edits
 
 
 #include "tinySHT2x.h"
@@ -61,7 +57,7 @@ float tinySHT2x::getHumidity()
   delay(30);
   if (readBytes(3, (uint8_t*) &buffer[0], 30) == false)
   {
-    return -999;
+    return TINY_SHT2x_NO_VALUE;
   }
   raw = buffer[0] << 8;
   raw += buffer[1];
@@ -111,5 +107,5 @@ bool tinySHT2x::readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

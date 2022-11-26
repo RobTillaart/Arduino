@@ -26,8 +26,16 @@ Based upon https://github.com/RobTillaart/SHT2x
 
 ## Future
 
+#### must
 - test test test test (Viktor)
 - improve documentation
+
+#### should
+
+#### could
 - Can a tiny have another Wire than Wire?
+- Check the status bit (temperature / humidity flag) 
+  - datasheet page 8, LSB bit 1 - bit 0 not used)
+  - needed?
 
 

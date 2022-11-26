@@ -24,11 +24,11 @@ Therefore they have the same restrictions as these functions with respect to
 overflow and accuracy. Depending on e.g. interrupts millis and micros can drift.
 
 
-| class        | overflow after           | Notes               |
-|:-------------|:-------------------------|:--------------------|
-| seconds      | 49 days, 17:02:47        | based upon millis() |
-| milliSeconds | 49 days, 17:02:47.297    |
-| microSeconds | 00 days  01:11:34.967296 |
+|  class         |  overflow after            |  Notes                |
+|:---------------|:---------------------------|:----------------------|
+|  seconds       |  49 days, 17:02:47         |  based upon millis()  |
+|  milliSeconds  |  49 days, 17:02:47.297     |
+|  microSeconds  |  00 days  01:11:34.967296  |
 
 
 ## Applications
@@ -59,19 +59,26 @@ See examples.
 
 ## Future
 
+#### must
 - test on ESP32
-- nanos() on ESP32 ?
-- implement printable interface (add unit)
-  - ?
-- implement toClock()
+
+#### should
+- implement toClock() 
   - idea to give it a clock print layout
   - seconds.toClock() -> DD 12:34:56
   - milliSeconds.toClock(3) -> 12:23:45.123    (3) == 3 decimals..
   - milliSeconds.toClock(1) -> 12:23:45.1
   - microSeconds.toCLock()  -> 12:23:45.123456  ???
+  - printHelpers class?
 - implement toSeconds()
   - double milliSeconds.toSeconds() -> 45.123
   - double microSeconds.toSeconds() -> 45.123456
+
+#### could
+- nanos() on ESP32 ?
+- implement printable interface
+  - add unit (s, ms, us)
+  - what layout to use?
 - update documentation
 - rounding effect, describe
 

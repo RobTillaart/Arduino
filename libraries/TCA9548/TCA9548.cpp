@@ -1,17 +1,9 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
-//
-//  HISTORY:
-//  0.1.0   2021-03-16  initial version
-//  0.1.1   2021-11-19  fix reset code (from datasheet)
-//                      implemented forced IO
-//                      update build-CI, readme.md, badges
-//  0.1.2   2021-12-28  update license, minor edits
-
 
 
 #include "TCA9548.h"
@@ -107,7 +99,7 @@ void TCA9548::setChannelMask(uint8_t mask)
 
 uint8_t TCA9548::getChannelMask()
 {
-  if (_forced) // read from device.
+  if (_forced)  //  read from device.
   {
     _wire->requestFrom(_address, 1);
     _mask = _wire->read();
@@ -120,25 +112,37 @@ void TCA9548::setResetPin(uint8_t resetPin)
 {
   _resetPin = resetPin;
   pinMode(_resetPin, OUTPUT);
-  digitalWrite(_resetPin, HIGH);  // page 3 HIGH is normal operation
+  digitalWrite(_resetPin, HIGH);  //  page 3 HIGH is normal operation
 }
 
 
 void TCA9548::reset()
 {
   digitalWrite(_resetPin, LOW);
-  delayMicroseconds(1);           // datasheet page 6 & 7 - 500 ns
+  delayMicroseconds(1);           //  datasheet page 6 & 7 - 500 ns
   digitalWrite(_resetPin, HIGH);
 }
 
 
+void TCA9548::setForced(bool forced) 
+{ 
+  _forced = forced; 
+};
+
+
+bool TCA9548::getForced() 
+{ 
+  return _forced; 
+};
+
+
 int TCA9548::getError()
 {
-  int e = _error;
+  int error = _error;
   _error = 0;
-  return e;
+  return error;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

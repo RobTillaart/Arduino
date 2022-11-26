@@ -46,11 +46,13 @@ This can be used to verify a certain device is available (or not) on an enabled 
 
 ### Channel functions
 
-- **void enableChannel(uint8_t channel)** enables channel 0 .. 7. Multiple channels can be enabled in parallel.
-- **void disableChannel(uint8_t channel)** disables channel 0 .. 7. Will not disable other channels.
-- **void selectChannel(uint8_t channel)** enables a single channel 0 .. 7 uniquely. 
-All other channels will be disabled, although these can be set again with enableChannel.
-- **bool isEnabled(uint8_t channel)** returns true is a channel is enabled.
+- **void enableChannel(uint8_t channel)** enables channel 0 .. 7 non-exclusive. 
+Multiple channels can be enabled in parallel.
+- **void disableChannel(uint8_t channel)** disables channel 0 .. 7. 
+Will not disable other channels.
+- **void selectChannel(uint8_t channel)** enables a single channel 0 .. 7 exclusive. 
+All other channels will be disabled in the same call, so not before or after.
+- **bool isEnabled(uint8_t channel)** returns true if the channel is enabled.
 - **void setChannelMask(uint8_t mask)** enables 0 or more channels simultaneously with a bit mask.
 - **uint8_t getChannelMask()** reads back the bit mask of the channels enabled.
 - **void setResetPin(uint8_t resetPin)** sets the pin to reset the chip. (Not tested)
@@ -65,7 +67,9 @@ If the flag is set to false it will cache the value of the channels enabled.
 This will result in more responsive / faster calls. 
 Note that writes are only optimized if the channels are already set.
 
-- **void setForced(bool forced = false)** set forced write, slower but more robust. Default off.
+- **void setForced(bool forced = false)** set forced write, slower but more robust.
+  - forced == false == fast mode (default).
+  - forced == true == robust mode.
 - **bool getForced()** returns set flag.
 
 
@@ -76,12 +80,18 @@ See example
 
 ## Future
 
-- improve error handling + documentation.
+#### must
+- improve documentation.
+- improve error handling 
+
+#### should
 - add examples
 - test test and test
-- improve documentation
 - write unit test
-- set an "always enabled" mask  (have to investigate the consequences)
+- add **disableAll()**  == setChannelMask(0)
 
+#### could
+- set an "always enabled" mask  (have to investigate the consequences)
+- check PCA9548 compatibility
 
 

@@ -1,32 +1,9 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2013-11-06
-// PURPOSE: Arduino library for creating XML 
-//
-//  HISTORY:
-//  0.1.00 2013-11-06  initial version
-//  0.1.01 2013-11-07  rework interfaces
-//  0.1.02 2013-11-07  +setIndentSize(), corrected history, +escape support
-//  0.1.03 2015-03-07  refactored - footprint + interface
-//  0.1.04 2015-05-21  refactored - reduce RAM -> used F() macro etc.
-//  0.1.05 2015-05-23  added XMLWRITER_MAXTAGSIZE 15 (to support KML coordinates tag)
-//  0.1.6  2016-03-16  added incrIndent(), decrIndent(), indent(), raw();
-//  0.1.7  2017-07-26  added const where possible
-//  0.1.8  2017-12-09  fix casting issue #83 (long -> int32_t);
-//  0.1.9  2017-12-09  add PROGMEM support for escape() strings
-//  0.2.0  2020-04-24  refactor, added examples, #pragma, print as base class
-//  0.2.1  2020-04-26  performance optimized, setconfig() + newLine() added
-//  0.2.2  2020-04-29  dynamic buffer size in constructor
-//  0.2.3  2020-06-19  fix library.json
-//  0.2.4  2020-07-07  fix #6 Print interface made public
-//  0.3.0  2021-01-09  Arduino-ci + unit tests
-//                     add getIndentSize(); version(); debug();
-//  0.3.1  2021-11-11  refactor naming to improve readability
-//                     update build-CI, 
-//                     update readme.md, Badges.
-//  0.3.2  2021-12-29  update library.json, readme, license, unit test, minor edits
+// PURPOSE: Arduino library for creating XML
 
 
 #include "XMLWriter.h"
@@ -202,7 +179,7 @@ void XMLWriter::writeNode(const char* tag, const char* str)
 
 ///////////////////////////////////////////////////////////////
 //
-// TAGFIELD
+//  TAGFIELD
 //
 void XMLWriter::tagField(const char *field, const uint8_t value, const uint8_t base)
 {
@@ -258,7 +235,7 @@ void XMLWriter::tagField(const char *field, const bool value)
 {
   print(' ');
   print(field);
-  // F() is slower & uses less RAM but 15 bytes saved
+  //  F() is slower & uses less RAM but 15 bytes saved
   print(value ? F("=\"true\"") : F("=\"false\""));
 }
 
@@ -275,7 +252,7 @@ void XMLWriter::tagField(const char *field, const double value, const uint8_t de
 
 ///////////////////////////////////////////////////////////////
 //
-// WRITENODE
+//  WRITENODE
 //
 void XMLWriter::writeNode(const char* tag, const uint8_t value, const uint8_t base)
 {
@@ -326,7 +303,7 @@ void XMLWriter::writeNode(const char* tag, const int32_t value, const uint8_t ba
 void XMLWriter::writeNode(const char* tag, const bool value)
 {
   tagOpen(tag, "", NONEWLINE);
-  // F() is slower & uses less RAM but saves 9 bytes
+  //  F() is slower & uses less RAM but saves 9 bytes
   print(value ? F("true") : F("false"));
   tagClose(NOINDENT);
 }
@@ -344,8 +321,8 @@ void XMLWriter::indent()
 {
   if (_config & XMLWRITER_INDENT)
   {
-    // as indentation is a multiple of 2 
-    // this is nice balance between speed and RAM.
+    //  as indentation is a multiple of 2
+    //  this is nice balance between speed and RAM.
     for (uint8_t i = _indent; i > 0; i-= 2) print("  ");
   }
 }
@@ -365,8 +342,8 @@ void XMLWriter::flush()
   if (_bufferIndex > 0)
   {
     _buffer[_bufferIndex] = 0;
-    _stream->write(_buffer, _bufferIndex);  // saves ~40 bytes on UNO.
-    // _stream->print(_buffer);
+    _stream->write(_buffer, _bufferIndex);  //  saves ~40 bytes on UNO.
+    //  _stream->print(_buffer);
     _bufferIndex = 0;
   }
 };
@@ -374,7 +351,7 @@ void XMLWriter::flush()
 
 ////////////////////////////////////////////////////////////////////
 //
-// ESCAPE
+//  ESCAPE
 //
 
 #ifdef XMLWRITER_ESCAPE_SUPPORT
@@ -393,7 +370,7 @@ PROGMEM const char* const expanded[] =
 };
 
 #else
-// NOTE: & and ; are handled in code.     // 25 bytes RAM
+//  NOTE: & and ; are handled in code.     //  25 bytes RAM
 static char expanded[][5] = { "quot", "apos","lt","gt","amp"};
 
 #endif
@@ -406,7 +383,7 @@ void XMLWriter::escape(const char* str)
     char* q = strchr(c, *p);
     if (q == NULL) print(*p);
 #ifdef __PROGMEM__
-    else 
+    else
     {
       char buf[8];
       strcpy_P(buf, (char*)pgm_read_word(&(expanded[q - c])));
@@ -416,7 +393,7 @@ void XMLWriter::escape(const char* str)
     else
     {
         print('&');
-        print(expanded[q - c]); // uint8_t idx = q-c;
+        print(expanded[q - c]); //  uint8_t idx = q-c;
         print(';');
     }
 #endif
@@ -426,5 +403,5 @@ void XMLWriter::escape(const char* str)
 #endif
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

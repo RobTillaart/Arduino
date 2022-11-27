@@ -28,11 +28,11 @@ and choose one that is appropriate.
 Indicative sizes based upon the examples.
 Run your tests to find your application optimum.
 
-| STREAM   |    SIZE    |
-|:---------|:-----------|
-| Ethernet |   20-30    |
-| Serial   |     5      |
-| SD File  |   10-16    |
+|  STREAM    |    SIZE    |
+|:-----------|:-----------|
+|  Ethernet  |   20-30    |
+|  Serial    |     5      |
+|  SD File   |   10-16    |
 
 **IMPORTANT:** When using buffering you should always call **XML.flush()** 
 at the end of the XML generation. This will flush the last bytes in the internal buffer into the output stream.
@@ -130,12 +130,12 @@ can inject strings.
 
 ## Configuration flags
 
-| Flag             | Value | Description       |
-|:-----------------|:------|:------------------|
-|XMLWRITER_NONE    | 0x00  | minimize output, smaller & faster |
-|XMLWRITER_COMMENT | 0x01  | allow comments    |
-|XMLWRITER_INDENT  | 0x02  | allow indentation |
-|XMLWRITER_NEWLINE | 0x04  | allow newlines    |
+|  Flag               |  Value  | Description         |
+|:--------------------|:--------|:--------------------|
+|  XMLWRITER_NONE     |  0x00   |  minimize output, smaller & faster |
+|  XMLWRITER_COMMENT  |  0x01   |  allow comments     |
+|  XMLWRITER_INDENT   |  0x02   |  allow indentation  |
+|  XMLWRITER_NEWLINE  |  0x04   |  allow newlines     |
 
 
 - **setConfig(XMLWRITER_NONE);** to minimize the output in bytes.
@@ -151,7 +151,12 @@ See examples
 
 ## Future
 
+#### must
 - update documentation
-- 
+
+#### should
+
+#### could
+- move code to .cpp
 
 

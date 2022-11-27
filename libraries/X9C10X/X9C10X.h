@@ -2,14 +2,14 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.2.1"))
+#define X9C10X_LIB_VERSION        (F("0.2.2"))
 
 
 /////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ public:
   //  forced = default false as that is safer and backwards compatible.
   //  returns new position 0..99
   uint8_t  setPosition(uint8_t position, bool forced = false);
-  uint8_t  getPosition() { return _position; };
+  uint8_t  getPosition();
 
   //  step size 1.
   //  return false if end of range reached. 
@@ -72,7 +72,7 @@ public:
   //  position = 0..99
   //             values > 99 are truncated.
   //  returns new position 0..99
-  uint8_t     restoreInternalPosition(uint8_t position);
+  uint8_t  restoreInternalPosition(uint8_t position);
 
   //  current resistance in ohm.
   uint32_t getOhm();
@@ -122,5 +122,5 @@ public:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -252,17 +252,23 @@ However that might not always be easy or possible, due to voltage used, etc.
 
 ## Future
 
+#### must
 - update documentation
   - concept of **read()** => put 2 X9C parallel and read one with analogRead().
+  
+#### should
 - test different platforms
+- investigate and test **store()**
+
+#### could
 - add error codes ?
 - add examples
-- investigate and test **store()**
 - test multiple devices configuration
-
+- would ohm in float be more precise/accurate?
+  - especially for the 1K?
+  - how exact is this device, does it make sense, linear enough?
 
 #### won't
-
 - voltage divider example
 - in the constructor rename **Ohm** parameter to value? 
   - The potentiometer can be used as a voltage divider (see above)

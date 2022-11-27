@@ -1,27 +1,9 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
-//
-// HISTORY
-//  0.1.0  2022-01-26  initial version
-//  0.1.1  2022-02-15  improve conditional delay
-//  0.1.2  2022-02-16  improve performance, add sweeper example
-//                     rounding in getOhm(), documentation
-//  0.1.3  2022-02-22  add forced parameter to setPosition()
-//                     incr() and decr() return bool (made a step)
-//  0.2.0  2022-07-09  fix #7 incorrect signal during initialize
-//                     remove position parameter from begin()
-//                       to make setting position more explicit.
-//                     update readme.md
-//                     add uint8_t Ohm2Position()
-//  0.2.1  2022-07-23  fix #9 add restoreInternalPosition(pos)
-//                     change return type setPosition() to indicate truncation
-//                     update readme.md and comments
-//                     update build-CI tests
-
 
 
 #include "X9C10X.h"
@@ -172,6 +154,12 @@ uint8_t X9C10X::setPosition(uint8_t position, bool forced)
 
   _position = position;
   return _position;
+}
+
+
+uint8_t X9C10X::getPosition() 
+{ 
+  return _position; 
 }
 
 

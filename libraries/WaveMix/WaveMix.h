@@ -2,15 +2,14 @@
 //
 //    FILE: WaveMix.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library to mix two signals (A and B) with an adaptive weight.
 //     URL: https://github.com/RobTillaart/WaveMix
-//
 
 
 #include "Arduino.h"
 
-#define WAVEMIX_LIB_VERSION               (F("0.1.2"))
+#define WAVEMIX_LIB_VERSION               (F("0.1.3"))
 
 
 class WaveMix
@@ -19,17 +18,17 @@ public:
   explicit WaveMix();
 
   //  weight1 + weight2 != 0
-  void  setWeight(float weight1, float weight2);
+  bool  setWeight(float weight1, float weight2);
   float getW1() { return _weight[0]; };
   float getW2() { return _weight[1]; };
   //  preferably 0 <= percentage <= 100
-  void  setPercentage(float percentage);
+  bool  setPercentage(float percentage);
 
-  void  setGain(float gain) { _gain = gain; };
-  float getGain() { return _gain; };
+  void  setGain(float gain);
+  float getGain();
 
-  void  setOffset(float offset) { _offset = offset; };
-  float getOffset() { return _offset; };
+  void  setOffset(float offset);
+  float getOffset();
 
   float mix(float s1, float s2 = 0);
 

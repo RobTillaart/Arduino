@@ -63,6 +63,8 @@ unittest(test_setWeight)
   assertEqualFloat(1.00, wm.getW1(), 0.001); 
   assertEqualFloat(0.00, wm.getW2(), 0.001); 
 
+  assertTrue(wm.setWeight(0.0, 3.0));
+  assertFalse(wm.setWeight(-3.0, 3.0));
 }
 
 
@@ -83,7 +85,12 @@ unittest(test_setPercentage)
   assertEqualFloat(0.27, wm.getW2(), 0.001); 
   wm.setPercentage(100);
   assertEqualFloat(1.00, wm.getW1(), 0.001); 
-  assertEqualFloat(0.00, wm.getW2(), 0.001); 
+  assertEqualFloat(0.00, wm.getW2(), 0.001);
+  
+  assertTrue(wm.setPercentage(0));
+  assertTrue(wm.setPercentage(100));
+  assertFalse(wm.setPercentage(-1));
+  assertFalse(wm.setPercentage(101));
 }
 
 

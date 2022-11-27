@@ -9,7 +9,7 @@
 #include "Arduino.h"
 
 
-#define TEMPERATURE_VERSION         (F("0.3.4"))
+#define TEMPERATURE_VERSION         (F("0.3.5"))
 
 
 float Fahrenheit(float celsius);

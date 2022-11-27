@@ -1,0 +1,19 @@
+# Syntax Colouring Map For TSL260R
+
+# Data types (KEYWORD1)
+TSL260R	KEYWORD1
+TSL261R	KEYWORD1
+TSL262R	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+irradiance	KEYWORD2
+setWavelength	KEYWORD2
+getWavelength	KEYWORD2
+getWaveLengthFactor	KEYWORD2
+calculateWaveLengthFactor	KEYWORD2
+
+
+# Constants (LITERAL1)
+TSL260R_LIB_VERSION	LITERAL1
+

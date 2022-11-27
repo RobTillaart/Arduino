@@ -1,0 +1,23 @@
+{
+  "name": "TSL260R",
+  "keywords": "TSL260R,TSL261R,TSL262R,infrared, voltage, wavelength",
+  "description": "Arduino library for the TSL260R, TSL261R and TSL262R infrared to voltage convertor. Includes wavelength compensation. 940 nanoMeter is default.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TSL260R.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TSL260R.h"
+}

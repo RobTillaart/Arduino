@@ -15,7 +15,7 @@ Arduino library for generating UUID strings.
 
 This **experimental** library provides a UUID generator.
 A UUID is an Universally Unique IDentifier of 128 bits.
-These are typically written in the following format, defined in RFC 4122.
+These are typically written in the following format, defined in RFC-4122.
 
 ```
     0ac82d02-002b-4ccb-b96c-1c7839cbc4c0
@@ -25,15 +25,16 @@ These are typically written in the following format, defined in RFC 4122.
 The length is 32 hexadecimal digits + four hyphens = 36 characters.
 Note that the hexadecimal digits are lower case.
 
-The 0.1.1 version of the lib tries to follow the RFC4122, 
+The 0.1.1 version of the lib tries to follow the RFC-4122, 
 for version 4 (random generated) and variant 1.
 In the format above the version 4 is indicated by the first arrow and must be 4.
 The variant 1 is at the position of the second arrow. 
-This nibble must be 8,9, a or b.
+This nibble must be 8, 9, A or B.
 All the remaining bits are random.
 
 The basis for the UUID class is a Marsaglia pseudo random number generator.
 This PRNG must be seeded with two real random uint32_t to get real random UUID's.
+Regular reseeding with external entropy improves randomness.
 
 Often one sees also the term GUID = Globally Unique Identifier.
 
@@ -69,6 +70,7 @@ until **generate()** is called again.
 ### Mode
 
 Only two modi are supported. Default is the **UUID_MODE_VARIANT4**.
+This is conform RFC-4122.
 
 - **void setVariant4Mode()** set mode to **UUID_MODE_VARIANT4**.
 - **void setRandomMode()** set mode to **UUID_MODE_RANDOM**.
@@ -101,32 +103,41 @@ Performance measured with **UUID_test.ino** shows the following times:
 
 #### microseconds per byte
 
-| Version |  Function   | UNO 16 MHz | ESP32 240 MHz |
-|:-------:|:------------|:----------:|:-------------:|
-| 0.1.0   | seed        |      4 us  |               |
-| 0.1.0   | generate    |    412 us  |               |
-| 0.1.0   | toCharArray |      4 us  |               |
-| 0.1.1   | seed        |      4 us  |               |
-| 0.1.1   | generate    |    248 us  |               |
-| 0.1.1   | toCharArray |      4 us  |               |
-| 0.1.2   | generate    |    156 us  |               |
-| 0.1.3   | generate    |    120 us  |               |
+|  Version  |   Function    |  UNO 16 MHz  |  ESP32 240 MHz  |
+|:---------:|:--------------|:------------:|:---------------:|
+|   0.1.0   |  seed         |      4 us    |                 |
+|   0.1.0   |  generate     |    412 us    |                 |
+|   0.1.0   |  toCharArray  |      4 us    |                 |
+|   0.1.1   |  seed         |      4 us    |                 |
+|   0.1.1   |  generate     |    248 us    |                 |
+|   0.1.1   |  toCharArray  |      4 us    |                 |
+|   0.1.2   |  generate     |    156 us    |                 |
+|   0.1.3   |  generate     |    120 us    |                 |
+|           |               |              |                 |
+|   0.1.4   |  seed         |      4 us    |       3 us      |
+|   0.1.4   |  generate     |    120 us    |      14 us      |
+|   0.1.4   |  toCharArray  |      4 us    |       0 us      |
 
-Note: generating the 16 random bytes already takes ~40 us.
+Note: generating the 16 random bytes already takes ~40 us (UNO).
 
 
 #### UUID's per second
 
-| Version |  UNO 16 MHz  |  ESP32 240 MHz  | notes  |
-|:-------:|:------------:|:---------------:|:------:|
-| 0.1.0   |    2000++    |                 |
-| 0.1.1   |    4000++    |                 | generate both modes
-| 0.1.2   |    6400++    |                 | generate both modes
-| 0.1.3   |    8200++    |                 | generate both modes
+indicative maximum performance (see example sketch)
+
+|  Version  |  UNO 16 MHz  |  ESP32 240 MHz  |  notes      |
+|:---------:|:------------:|:---------------:|:-----------:|
+|   0.1.0   |    2000++    |                 |  both modi  |
+|   0.1.1   |    4000++    |                 |  both modi  |
+|   0.1.2   |    6400++    |                 |  both modi  |
+|   0.1.3   |    8200++    |                 |  both modi  |
+|           |              |                 |             |
+|   0.1.4   |    8268      |     31970       |  VARIANT4   |
+|   0.1.4   |    8418      |     34687       |  RANDOM     |
 
 
-Note that this maximum is not realistic e.g. for a server where also
-other tasks need to be done (listening, transfer etc).
+Note that these maxima are not realistic e.g. for a server.
+Other tasks need to be done too (listening, transfer etc.).
 
 
 ## Operation
@@ -145,8 +156,10 @@ See examples.
 - investigate entropy harvesting
   - freeRAM, micros, timers, RAM, USB-ID, ...
   - compile constants __DATE__ and __TIME__
+  - see example
 - GUID as derived class?
   - (further identical?)
+
 
 ### Functions
 
@@ -169,6 +182,7 @@ See examples.
 - reduce footprint
   - can the buffer be reduced?
   - smaller random generator?
+- move code to .h so compiler can optimize more?
 
 ### Won't
 

@@ -1,0 +1,18 @@
+IDE:      1.8.19
+PLATFORM: UNO - 16 MHz
+
+UUID_performance.ino
+UUID_LIB_VERSION: 0.1.4
+Generate 4: 8268 uuid's per second.
+Generate R: 8418 uuid's per second.
+
+=====================================
+
+IDE:      1.8.19
+PLATFORM: ESP32 - 240 MHz
+
+UUID_performance.ino
+UUID_LIB_VERSION: 0.1.4
+Generate 4: 31951 uuid's per second.
+Generate R: 34688 uuid's per second.
+

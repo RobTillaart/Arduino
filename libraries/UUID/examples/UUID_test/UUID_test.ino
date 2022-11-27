@@ -22,7 +22,8 @@ void setup()
   Serial.println("UUID_test.ino");
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
-
+  delay(100);
+  
   start = micros();
   uuid.seed(2);
   stop = micros();

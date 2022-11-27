@@ -55,20 +55,31 @@ Functions are straightforward.
 See examples
 
 
-## Future (TBD)
+## Future
 
+#### must
 - improve documentation
+
+#### should
+- a class like the temperature convertor and pressure convertor
+  - internally grams?
+  - getters setters
+
+#### could
+- create data types of stone lbs kilo etc.?
+
+#### won't (unless)
+- large masses - sun planets ?   (see relativity library)
+- gravity constants of planets REL or ABS eg REL_GRAVITY_EARTH 1.0
 - mass of all elements
   - an array of floats
   - a compressed format with access function (1 byte/ element)
   - constants e.g. MASS_OXYGEN
+  - separate periodicTable.h file ?
 - molarity functions
 - mass of common substances.
-- large masses - sun planets ?
-- gravity constants of planets REL or ABS eg REL_GRAVITY_EARTH 1.0
 - teaspoon
-  - although that is a volume unit.
+  - that is a volume unit.
   - volume conversion too?
-- create data types of stone lbs kilo etc.?
 
 

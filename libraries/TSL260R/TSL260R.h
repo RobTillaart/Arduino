@@ -2,12 +2,12 @@
 //
 //    FILE: TSL260R.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-11-25
 // PURPOSE: library for the TSL260R IR to voltage convertor
 
 
-#define TSL260R_LIB_VERSION             (F("0.1.1"))
+#define TSL260R_LIB_VERSION             (F("0.1.2"))
 
 #include "Arduino.h"
 
@@ -36,12 +36,19 @@ public:
   //  useful for debugging too
   float    calculateWaveLengthFactor(uint16_t waveLength);
 
+  //  irradiance parameters
+  //  only change these with care.
+  void     setAA(float aa);
+  float    getAA();
+  void     setBB(float aa);
+  float    getBB();
+
 
 protected:
-  uint8_t  _pin;
-  float    _voltagePerStep;
-  uint16_t _waveLength;
-  float    _waveLengthFactor;
+  uint8_t  _pin              = 0;
+  float    _voltagePerStep   = 0;
+  uint16_t _waveLength       = 940;
+  float    _waveLengthFactor = 1;
   //       _aa and _bb are defined in constructor;
   //       need getter / setter to adjust values runtime
   float    _aa;

@@ -17,7 +17,7 @@ The TSL260R (TSL261R, TSL262R) is a IR sensor that outputs a voltage depending o
 
 This library does convert the output voltage to uW/cm2.
 
-As the sensors differ by sensitivity the library has three distinct classes.
+As the type sensor differ by sensitivity the library has three distinct classes.
 The table below is an approximation for the max irradiation at 3.3 Volt (output).
 For an Arduino UNO 3.3 V is about 650 ADC steps. 
 When using e.g. an external 16 bit ADS1115, one definitely has far more steps.
@@ -35,8 +35,18 @@ Of course I am very interested in your experiences and feedback to improve
 the library.
 
 
-
 ## Hardware Connection
+
+#### Power supply
+
+The maximum output voltage depends on the power supply voltage.
+This implies that the output range (uW/cm2) depends on power supply voltage.
+To maximize the measurement range a voltage of at leat 4.5 V is advised.
+
+See datasheet figure 14: Maximum Output Voltage vs Supply Voltage
+
+
+#### Schema
 
 Always check datasheet 
 
@@ -51,7 +61,7 @@ Always check datasheet
 
 ## Interface
 
-#### using internal ADC
+#### Internal ADC
 
 - **TSL260R(uint8_t pin, uint16_t maxADC, float voltage)** Constructor when using an 
 internal ADC and just one sample to measure the output voltage of the sensor.
@@ -65,7 +75,7 @@ Uses the analogRead() of the internal ADC.
 **Fails** by returning 0 when object is created with the other constructor.
 
 
-#### using external ADC
+#### External ADC
 
 - **TSL260R()** constructor when using an external ADC or more than one internal samples
 to measure the voltage.
@@ -94,7 +104,17 @@ E.g. if the sensor is 0.5 x as sensitive at a given wave length the factor shoul
 
 #### Calibration
 
-To elaborate.
+Since version 0.1.2 the following functions are added to calibrate the irradiance formula
+to some extend. The formula is ```irradiance = AA * voltage + BB```.
+
+See datasheet figure 12: Output Voltage vs Irradiance
+
+Use with care.
+
+- **void setAA(float aa)** set a new value for AA.
+- **float getAA()** return the current value.
+- **void setBB(float bb)** set a new value for BB.
+- **float getBB()** return the current value.
 
 
 ## Operations
@@ -108,15 +128,15 @@ See examples.
 - improve documentation
 - buy hardware (where)
 - test test test test
-- calibration
-  - getters/setters for A and B to calibrate the sensor.
+
 
 #### should
 - extend unit tests
 - write examples
 - fix the dependency of **irradiance()**
   - derived class?
-- optimize code.
+- optimize code
+- 
 
 #### could
 - test with different IR LEDS (e.g. remote)

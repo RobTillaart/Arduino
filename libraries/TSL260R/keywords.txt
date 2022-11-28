@@ -13,6 +13,11 @@ getWavelength	KEYWORD2
 getWaveLengthFactor	KEYWORD2
 calculateWaveLengthFactor	KEYWORD2
 
+setAA	KEYWORD2
+getAA	KEYWORD2
+setBB	KEYWORD2
+getBB	KEYWORD2
+
 
 # Constants (LITERAL1)
 TSL260R_LIB_VERSION	LITERAL1

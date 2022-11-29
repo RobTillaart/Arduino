@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.5
+// VERSION: 0.3.0
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.2.5"))
+#define PRINTHELPERS_VERSION      (F("0.3.0"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -74,6 +74,29 @@ void sci(Stream &str, double value, uint8_t decimals);
 //  To have some support the code uses lowercase for the next 8 levels
 //  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
 char * toBytes(double value, uint8_t decimals = 2);
+
+
+////////////////////////////////////////////////////////////
+//
+//  HEX  BIN
+//
+//  always leading zero's - no prefix - no separator
+//  cast if needed.
+char * hex(uint64_t value, uint8_t digits = 16);
+char * hex(uint32_t value, uint8_t digits = 8);  
+char * hex(uint16_t value, uint8_t digits = 4);  
+char * hex(uint8_t value, uint8_t digits = 2);  
+
+////////////////////////////////////////////////////////////
+//
+//  HEX  BIN
+//
+//  always leading zero's - no prefix - no separator
+//  cast if needed.
+char * bin(uint64_t value, uint8_t digits = 64);
+char * bin(uint32_t value, uint8_t digits = 32);
+char * bin(uint16_t value, uint8_t digits = 16);
+char * bin(uint8_t value, uint8_t digits = 8);
 
 
 //  -- END OF FILE --

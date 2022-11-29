@@ -6,16 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2022-11-29
+- add hex(value, digits) + bin(value, digits) 32 and 64 bit
+- leading zero's - no separators - no prefix.
+- add example show the difference
+- update readme.md
+- update unit test
+
+
 ## [0.2.5] - 2022-11-22
 - add changelog.md
 - add RP2040 to build-CI
-
 
 ## [0.2.4] - 2022-04-15
 - no info
 
 ## [0.2.3] - 2021-24-12
-
 
 ## [0.2.2] - 2021-11-13
 

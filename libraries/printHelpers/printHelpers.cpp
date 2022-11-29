@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.2.5
+// VERSION: 0.3.0
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -319,6 +319,83 @@ char * toBytes(double value, uint8_t decimals)
   }
   return buffer;
 }
+
+
+////////////////////////////////////////////////////////////
+//
+//  HEX
+//
+//  always leading zero's - no prefix - no separator
+char * hex(uint64_t value, uint8_t digits)
+{
+  uint64_t val = value;
+  char * buffer = __printbuffer;
+  buffer[digits] = '\0';
+  while (digits > 0)
+  {
+    uint8_t v = val & 0x0F;
+    val >>= 4;
+    digits--;
+    buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+  }
+  return buffer;
+}
+
+char * hex(uint32_t value, uint8_t digits)
+{
+  uint32_t val = value;
+  char * buffer = __printbuffer;
+  buffer[digits] = '\0';
+  while (digits > 0)
+  {
+    uint8_t v = val & 0x0F;
+    val >>= 4;
+    digits--;
+    buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
+  }
+  return buffer;
+}
+
+char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); }; 
+
+
+////////////////////////////////////////////////////////////
+//
+//  BIN
+//
+//  always leading zero's - no prefix - no separator
+
+char * bin(uint64_t value, uint8_t digits)
+{
+  uint64_t val = value;
+  char * buffer = __printbuffer;
+  buffer[digits] = '\0';
+  while (digits > 0)
+  {
+    digits--;
+    buffer[digits] = '0' + (val & 1);
+    val >>= 1;
+  }
+  return buffer;
+}
+
+char * bin(uint32_t value, uint8_t digits)
+{
+  uint64_t val = value;
+  char * buffer = __printbuffer;
+  buffer[digits] = '\0';
+  while (digits > 0)
+  {
+    digits--;
+    buffer[digits] = '0' + (val & 1);
+    val >>= 1;
+  }
+  return buffer;
+}
+
+char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); }; 
 
 
 //  -- END OF FILE --

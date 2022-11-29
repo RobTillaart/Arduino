@@ -16,7 +16,21 @@ Arduino library to help formatting data for printing.
 The printHelpers library contains a number of functions that help to print 
 data in a way not possible in the standard print library of the Arduino.
 
+
+#### thread safety
+
+Note the functions of this library all share an internal buffer, so the 
+library is not thread safe. Therefore one should copy / print the data 
+(returned pointer) as fast as possible.
+
+Thread-safe versions of these print functions might be made in the future.
+
+
+## Interface
+
 The following functions are implemented:
+
+#### print64()
 
 - **char \* print64(int64_t value, uint8_t base)**  converts a 64 bit integer 
 number to a char array. 
@@ -30,7 +44,7 @@ int number to a char array.
 No sign is printed, neither are leading zero's. 
 Base 10 (DEC) and 16 (HEX) are supported and bases up to 36 can be used.
 
-----
+#### sci() eng() 
 
 - **char \* sci(double value, uint8_t decimals)** converts a float or double to a 
 char array. 
@@ -59,7 +73,7 @@ The usability of other values than 1 and 3 are not known.
 Personally I like the multiple of 2 as I get 2 orders of magnitude in the
 mantissa.
 
-----
+#### toBytes()
 
 - **char \* toBytes(double value, uint8_t decimals = 2)** makes from a big number 
 representing an amount of bytes a shorter string usable for displaying.
@@ -77,6 +91,29 @@ As it is seldom used, "official" support stops with UDA.
 Should be big enough for some time.  
 To have some support the code uses lowercase for the next 8 levels:  
 treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
+
+#### hex() bin()
+
+The default print() function of Arduino does not have leading zero's
+for HEX and BIN. This often causes a "broken" layout especially if one
+wants to print in columns or so.
+
+To solve this the following functions are added that will generate a 
+constant length char array. 
+ 
+- **char \* hex(uint64_t value, uint8_t digits = 16)**
+- **char \* hex(uint32_t value, uint8_t digits = 8)**
+- **char \* hex(uint16_t value, uint8_t digits = 4)**
+- **char \* hex(uint8_t value, uint8_t digits = 2)**
+- **char \* bin(uint64_t value, uint8_t digits = 64)**
+- **char \* bin(uint32_t value, uint8_t digits = 32)**
+- **char \* bin(uint16_t value, uint8_t digits = 16)**
+- **char \* bin(uint8_t value, uint8_t digits = 8)**
+
+Note: Data types not supported, must be cast to an supported type.
+
+Note: There is overlap between **hex(value)** and **print64(value, HEX)**. 
+The latter does not produce the leading zero's or fixed length output.
 
 ----
 
@@ -119,11 +156,31 @@ See examples.
 
 ## Future
 
+#### must
+- check TODO's in the code
+
+#### should
+- Add distant print helpers.
+  - feet(float cm) as 3'2" or  3-7/8 feet
+  - inch(float cm) as 3'2" or  3-7/8 feet
+  - yards(), miles()
+
+#### could
 - Investigate the precision of **sci()** and **eng()**.
 - Investigate performance of **sci()** and **eng()**.
 - Investigate performance (local variables instead of modifying parameters)
-- Add option to pass char buffer as parameter (improve threadsafe)
-- Add more print helpers. 
-- improve readability of the code (even more)
-- check TODO's in the code
-- 
+- Investigate thread safe version
+  - pass char buffer as parameter (breaking)
+- improve readability of the code
+- investigate separators in bin() and hex()
+- investigate sci() version based upon use of log()
+  - performance
+  - accuracy
+
+#### wont
+- add **float()** as Arduino limits floats to "MAXLONG" by code.
+  - use dtostrf() - is that portable
+  - use sci() or eng()
+- add base(value, digits, base) for any base > 1.
+  - only upon request.
+

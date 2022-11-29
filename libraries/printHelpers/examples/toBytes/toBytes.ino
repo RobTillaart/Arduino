@@ -2,7 +2,6 @@
 //    FILE: toBytes.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo toBytes(double val);
-//    DATE: 2020-07-03
 
 
 #include "printHelpers.h"

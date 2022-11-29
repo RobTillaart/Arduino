@@ -72,7 +72,7 @@ unittest(test_eng)
 {
   int32_t value32 = 1UL << 25;
   
-  fprintf(stderr, "VALUE32 = %ld\n", value32);
+  fprintf(stderr, "VALUE32 = %d\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
   fprintf(stderr, "%s\n", eng(PI * 10, 6));
@@ -107,8 +107,33 @@ unittest(test_toBytes)
     fprintf(stderr, "%d\t%s\n", t, toBytes(t, 3));
   }
 
-  fprintf(stderr, "%.3f\n", 12345678 / 1024.0 /1024.0);
+  fprintf(stderr, "%.3f\n", 12345678 / 1024.0 / 1024.0);
   assertEqual(0, strcmp("11.773 MB", toBytes(12345678, 3)) );
+}
+
+
+unittest(test_hex)
+{
+  for (int i = 0; i < 30; i++)
+  {
+    uint32_t t = random(pow(2, i));
+    fprintf(stderr, "%d\t%s\n", t, hex(t));
+  }
+  assertEqual(8, strlen(hex((uint32_t)33615)) );
+  assertEqual(0, strcmp("0000834F", hex((uint32_t)33615)) );
+}
+
+
+unittest(test_bin)
+{
+  for (int i = 0; i < 30; i++)
+  {
+    uint32_t t = random(pow(2, i));
+    fprintf(stderr, "%d\t%s\n", t, bin(t));
+    assertEqual(32, strlen(bin(t)) );
+  }
+  assertEqual(32, strlen(bin((uint32_t)197493099)) );
+  assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
 }
 
 unittest_main()

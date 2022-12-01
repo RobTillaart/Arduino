@@ -1,0 +1,23 @@
+{
+  "name": "AD56X8",
+  "keywords": "AD5668, AD5648, AD5628, DAC, SPI",
+  "description": "Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD56X8.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "AD56X8.h"
+}

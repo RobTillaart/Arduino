@@ -1,0 +1,25 @@
+IDE:    1.18.19
+BOARD:  UNO
+
+AD56X8_performance.ino
+AD56X8_LIB_VERSION: 0.1.1
+HWSPI: 1
+HWSPI: 0
+HW SetValue:    21.76
+SW SetValue:    470.85
+
+HW SPI performance
+------------------
+100K    HW SetValue:    273.79
+200K    HW SetValue:    273.75
+400K    HW SetValue:    146.28
+800K    HW SetValue:    81.92
+1600K   HW SetValue:    49.78
+3200K   HW SetValue:    33.81
+6400K   HW SetValue:    25.77
+12800K  HW SetValue:    21.76
+
+Done...
+
+---------------------------------------
+

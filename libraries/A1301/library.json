@@ -1,0 +1,23 @@
+{
+  "name": "A1301",
+  "keywords": "A1301, A1302, magnetic",
+  "description": "Arduino library for A1301 A1302 magnetometer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/A1301.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "A1301.h"
+}

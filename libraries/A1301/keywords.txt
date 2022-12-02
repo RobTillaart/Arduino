@@ -1,0 +1,16 @@
+# Syntax Colouring Map For A1301
+
+# Data types (KEYWORD1)
+A1301	KEYWORD1
+A1302	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+xxxxx	KEYWORD2
+
+
+# Constants (LITERAL1)
+A1301_LIB_VERSION	LITERAL1
+
+

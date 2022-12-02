@@ -1,7 +1,7 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 
@@ -67,9 +67,9 @@ bool Troolean::operator == (const bool &b)
 
 bool Troolean::operator == (const int &i)
 {
-  if (_value == 0 && i == 0) return true;
+  if (_value == 0  && i == 0) return true;
   if (_value == -1 && i == -1) return true;
-  if (_value == 1 && i != 0 && i != -1) return true;
+  if (_value == 1  && i != 0 && i != -1) return true;
   return false;
 }
 
@@ -90,9 +90,9 @@ bool Troolean::operator != (const bool &b)
 
 bool Troolean::operator != (const int &i)
 {
-  if (_value == 0 && i != 0) return true;
+  if (_value == 0  && i != 0) return true;
   if (_value == -1 && i != -1) return true;
-  if (_value == 1 && (i == 0 || i == -1)) return true;
+  if (_value == 1  && (i == 0 || i == -1)) return true;
   return false;
 }
 
@@ -114,7 +114,7 @@ Troolean::operator bool() const
 //
 Troolean Troolean::operator ! ()
 {
-  if (_value == -1) return Troolean(-1);  //  random 0 1  :)
+  if (_value == -1) return Troolean(-1);
   if (_value == 1) return Troolean(0);
   return Troolean(1);
 }
@@ -127,11 +127,8 @@ Troolean Troolean::operator ! ()
 Troolean Troolean::operator && (const Troolean &t)
 {
   if (_value == 0 || t._value == 0) return Troolean(0);
-  if (_value == 1 && t._value == 1) return Troolean(1);
-  return Troolean(-1);
-  //  optimized version?
-  //  if (_value == -1 || t._value == -1) return Troolean(-1);
-  //  return Troolean(1);
+  if (_value == -1 || t._value == -1) return Troolean(-1);
+  return Troolean(1);
 }
 
 
@@ -153,9 +150,27 @@ Troolean Troolean::operator || (const Troolean &t)
 
 Troolean Troolean::operator || (const bool &b)
 {
-  if (_value == 1 || b) return Troolean(0);
-  if (_value == 0 && !b) return Troolean(1);
+  if (_value == 1 || b) return Troolean(1);
+  if (_value == 0 && !b) return Troolean(0);
   return Troolean(-1);
+}
+
+
+bool Troolean::isTrue()
+{ 
+  return ((_value != 0) && (_value != -1)); 
+}
+
+
+bool Troolean::isFalse()   
+{ 
+  return _value == 0; 
+}
+
+
+bool Troolean::isUnknown() 
+{ 
+  return _value == -1; 
 }
 
 

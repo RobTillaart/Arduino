@@ -49,7 +49,7 @@ to elaborate.
 - **Troolean operator || ** OR
 
 #### Value operators
-- **bool isTrue()** idem.
+- **bool isTrue()** if not false and if not unknown.
 - **bool isFalse()** idem.
 - **bool isUnknown()** idem.
 
@@ -71,6 +71,12 @@ See examples
 - add examples
 
 #### could
+- Troolean operator &&=
+- Troolean operator ||=
+- bool toBool(); // returns random true/false if unknown....
 
+#### wont
+- extend with don't care ?  ==> four state logic ?  Foolean?
+  - => new class.
 
 

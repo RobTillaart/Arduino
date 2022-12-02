@@ -48,14 +48,24 @@ unittest(test_constructor)
   HALL  H(4);
   A1301 A(5);
   A1302 B(6);
+  A1324 C(6);
+  A1325 D(6);
+  A1326 E(6);
 
   H.begin(3.3, 4095);
   A.begin(5.0, 1023);
   B.begin(5.0, 1023);
+  C.begin(5.0, 1023);
+  D.begin(5.0, 1023);
+  E.begin(5.0, 1023);
 
   assertEqualFloat(2.500, H.getSensitivity(), 0.001);
   assertEqualFloat(2.500, A.getSensitivity(), 0.001);
   assertEqualFloat(1.300, B.getSensitivity(), 0.001);
+
+  assertEqualFloat(5.000, C.getSensitivity(), 0.001);
+  assertEqualFloat(3.125, D.getSensitivity(), 0.001);
+  assertEqualFloat(2.500, E.getSensitivity(), 0.001);
 }
 
 
@@ -109,6 +119,19 @@ unittest(test_converters)
   assertEqualFloat(0.005, H.Tesla(50), 0.01);
   assertEqualFloat(5.00, H.mTesla(50), 0.01);
   assertEqualFloat(5000, H.uTesla(50), 0.01);
+}
+
+
+unittest(test_maxGauss)
+{
+  HALL  H(4);
+
+  H.begin(3.3, 4095);
+  H.setMidPoint(2047);
+
+  assertEqual(500, H.getMaxGauss());
+  H.setMaxGauss(400);
+  assertEqual(400, H.getMaxGauss());
 }
 
 

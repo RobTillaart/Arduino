@@ -7,7 +7,30 @@ A1302	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-xxxxx	KEYWORD2
+
+setMidPoint	KEYWORD2
+getMidPoint	KEYWORD2
+
+setSensitivity	KEYWORD2
+getSensitivity	KEYWORD2
+
+raw	KEYWORD2
+read	KEYWORD2
+readExt	KEYWORD2
+
+isNorth	KEYWORD2
+isSouth	KEYWORD2
+lastGauss	KEYWORD2
+prevGauss	KEYWORD2
+
+Tesla	KEYWORD2
+mTesla	KEYWORD2
+uTesla	KEYWORD2
+
+setMaxGauss	KEYWORD2
+getMaxGauss	KEYWORD2
+isSaturated	KEYWORD2
+
 
 
 # Constants (LITERAL1)

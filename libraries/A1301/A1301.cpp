@@ -1,7 +1,7 @@
 //
 //    FILE: A1301.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 
@@ -11,16 +11,19 @@
 
 HALL::HALL(uint8_t pin)
 {
-  _pin       = pin;
-  _midPoint  = 512;
-  _lastGauss = 0;
-  _mVGauss   = 2.5;
-  _mVStep    = 5000.0 / 1023;  //  default 10 bit 5V ADC
+  _pin         = pin;
+  _midPoint    = 512;
+  _prevGauss   = 0;
+  _lastGauss   = 0;
+  _mVGauss     = 2.5;
+  _mVStep      = 5000.0 / 1023;  //  default 10 bit 5V ADC
+  _maxADC      = 1023;
 }
 
 
 void HALL::begin(float voltage, uint16_t steps)
 {
+  _maxADC = steps;
   _mVStep = voltage / steps;
 }
 
@@ -88,13 +91,13 @@ float HALL::readExt(float raw)
 //
 //  ANALYSE
 //
-boolean HALL::isNorth()
+bool HALL::isNorth()
 {
   return (_lastGauss > 0);
 }
 
 
-boolean HALL::isSouth()
+bool HALL::isSouth()
 {
   return (_lastGauss < 0);
 }
@@ -133,6 +136,29 @@ float HALL::uTesla(float Gauss)
 
 /////////////////////////////////////////////////////////////////////////////
 //
+//  EXPERIMENTAL
+//
+void HALL::setMaxGauss(uint16_t maxGauss)
+{
+  _maxGauss = maxGauss;
+}
+
+
+float HALL::getMaxGauss()
+{
+  return _maxGauss;
+}
+
+
+bool HALL::isSaturated()
+{
+  //  experimental, depends on sensor? to elaborate
+  return (abs(_lastGauss) >= _maxGauss); 
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 //  DERIVED
 //
 A1301::A1301(uint8_t pin) : HALL(pin)
@@ -140,10 +166,24 @@ A1301::A1301(uint8_t pin) : HALL(pin)
   _mVGauss   = 2.5;
 }
 
-
 A1302::A1302(uint8_t pin) : HALL(pin)
 {
   _mVGauss   = 1.3;
+}
+
+A1324::A1324(uint8_t pin) : HALL(pin)
+{
+  _mVGauss   = 5.0;
+}
+
+A1325::A1325(uint8_t pin) : HALL(pin)
+{
+  _mVGauss   = 3.125;
+}
+
+A1326::A1326(uint8_t pin) : HALL(pin)
+{
+  _mVGauss   = 2.5;
 }
 
 

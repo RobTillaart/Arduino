@@ -21,17 +21,18 @@ field. These devices have a quiescent output voltage that is
 provided: 2.5 mV/G typical for the A1301, and 1.3 mV/G
 typical for the A1302. (from datasheet)
 
+The following 5 classes are supported:
 
 |  sensor  |  sensitivity    |  support  |
 |:---------|:---------------:|:---------:|
 |  A1301   |  2.5   mV/Gauss |     Y     |
 |  A1302   |  1.3   mV/Gauss |     Y     |
-|  A1324   |  5.000 mV/Gauss |     N     |
-|  A1325   |  3.125 mV/Gauss |     N     |
-|  A1326   |  2.500 mV/Gauss |     N     |
+|  A1324   |  5.000 mV/Gauss |     Y     |
+|  A1325   |  3.125 mV/Gauss |     Y     |
+|  A1326   |  2.500 mV/Gauss |     Y     |
 
 Other, more or less, compatible sensors are welcome.
-(see future)
+(see future below.)
 
 The library is experimental and need more testing.
 Feedback, issues and improvements are welcome, 
@@ -42,6 +43,7 @@ Please open an issue on GitHub.
 
 ```
 //  always check datasheet.
+//
 //    PIN    A1301
 //    ===============
 //     1     GND
@@ -58,6 +60,10 @@ Please open an issue on GitHub.
 pin is the analogPin to read from.
 - **A1301(uint8_t pin)** constructor.
 - **A1302(uint8_t pin)** constructor.
+- **A1324(uint8_t pin)** constructor.
+- **A1325(uint8_t pin)** constructor.
+- **A1326(uint8_t pin)** constructor.
+
 
 #### Configuration
 
@@ -79,16 +85,29 @@ Use with care.
 - **float raw(uint8_t times = 1)** raw analog measurement.
 - **float read(uint8_t times = 1)** raw measurement converted to Gauss.
 Can be positive (North) or negative (South).
+Returns Gauss.
 - **float readExt(float raw)** to be used with external ADC.
+Note: **raw** is an ADC measurement, not a voltage.
 Can be positive (North) or negative (South).
+Returns Gauss.
+
 
 
 #### Analyse
 
-- **boolean isNorth()** idem.
-- **boolean isSouth()** idem.
+- **bool isNorth()** idem.
+- **bool isSouth()** idem.
 - **float lastGauss()** returns last measurement in Gauss.
 - **float prevGauss()** returns previous measurement in Gauss.
+
+
+#### Experimental
+
+- **bool isSaturated()** true when ADC (lastRead) seems to max out. Experimental for now.
+
+
+#### Tesla 
+
 - **float Tesla(float Gauss)** convenience convertor.
 - **float mTesla(float Gauss)** convenience convertor.
 - **float uTesla(float Gauss)** convenience convertor.
@@ -97,6 +116,7 @@ Can be positive (North) or negative (South).
 ## Operation
 
 The examples show the basic working of the functions.
+(to elaborate more examples)
 
 
 ## Future
@@ -109,15 +129,16 @@ The examples show the basic working of the functions.
 #### Should 
 - plotter example
 - unit tests
+- test **isSaturated()**
+  - limits might be sensor dependant.
 
 #### Could
-- **boolean isSaturated()**
 - **float findZero()** how exactly.
+  - **float determineNoise()** related
 - printable interface
 - Possible compatible
   - HoneyWell - SS39ET/SS49E/SS59ET
   - HoneyWell - SS490 Series
-- add derived classes for - A1324/25/26 ?
 
 #### Won't
 

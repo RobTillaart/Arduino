@@ -32,7 +32,7 @@ void setup()
   // print the table
   for (int i = 0; i <= 90; i++)
   {
-    Serial.print(isinTable16[i]);
+    Serial.print(sinTable16[i]);
     Serial.print(", ");
     if (i % 10 == 0) Serial.println();
   }
@@ -52,14 +52,14 @@ int optimize()
   int rv = 0;
   for (int i = 1; i < 90; i++)   // for every angle
   {
-    int t = isinTable16[i];
+    int t = sinTable16[i];
     int idx = 0;
     float minError = getError(i);  // what is the current error
     bool flag = false;
     for (int j = -2; j <= 2; j++)   // try if adjacent numbers in table give less error.
     {
       if (j == 0) continue;
-      isinTable16[i] = t + j;
+      sinTable16[i] = t + j;
       float e = getError(i);
       if (e < minError)            // if less than we can update the table.
       {
@@ -70,8 +70,8 @@ int optimize()
       }
     }
     if (flag) Serial.print('*');    // comment if you do not want see changes.
-    isinTable16[i] = t + idx;
-    Serial.print(isinTable16[i]);
+    sinTable16[i] = t + idx;
+    Serial.print(sinTable16[i]);
     Serial.print(", ");
     if (i % 10 == 0) Serial.println();
   }

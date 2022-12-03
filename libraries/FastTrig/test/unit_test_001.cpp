@@ -39,55 +39,53 @@ unittest_teardown()
 }
 
 
-unittest(test_isinTable16)
+unittest(test_sinTable16)
 {
   fprintf(stderr,"Table16 error is < 0.1%% \n");
-  const float degrees2radians = PI/180.0;
+  const float degrees2radians = PI / 180.0;
   for (int i = 0; i < 91; i++)
   {
-    assertEqualFloat(sin(i * degrees2radians), isinTable16[i] / 65535.0, 0.001);
+    assertEqualFloat(sin(i * degrees2radians), sinTable16[i] / 65535.0, 0.001);
   }
 }
 
 
-unittest(test_isinTable8)
+unittest(test_sinTable8)
 {
-  fprintf(stderr,"Table8 error is < 1%% \n");
-  const float degrees2radians = PI/180.0;
+  fprintf(stderr,"Table8 error is < 1.0%% \n");
+  const float degrees2radians = PI / 180.0;
   for (int i = 0; i < 91; i++)
   {
-    assertEqualFloat(sin(i * degrees2radians), isinTable8[i] / 255.0, 0.01);
+    assertEqualFloat(sin(i * degrees2radians), sinTable8[i] / 255.0, 0.01);
   }
 }
 
 
 unittest(test_max_error_table16)
 {
-  fprintf(stderr,"Table16 max error: ");
-  const float degrees2radians = PI/180.0;
-  float m = 0;
+  const float degrees2radians = PI / 180.0;
+  float maxError = 0;
   for (int i = 0; i < 91; i++)
   {
-    float t = abs(sin(i * degrees2radians) - (isinTable16[i] / 65535.0));
-    if (t > m) m = t;
+    float t = abs(sin(i * degrees2radians) - (sinTable16[i] / 65535.0));
+    if (t > maxError) maxError = t;
   }
-  fprintf(stderr,"%2.4f\n", m);
-  assertEqualFloat(0, m, 0.001);
+  fprintf(stderr,"Table16 max error: %2.5f\n", maxError);
+  assertEqualFloat(0, maxError, 0.001);
 }
 
 
 unittest(test_max_error_table8)
 {
-  fprintf(stderr,"Table8 max error: ");
-  const float degrees2radians = PI/180.0;
-  float m = 0;
+  const float degrees2radians = PI / 180.0;
+  float maxError = 0;
   for (int i = 0; i < 91; i++)
   {
-    float t = abs(sin(i * degrees2radians) - (isinTable8[i] / 255.0));
-    if (t > m) m = t;
+    float t = abs(sin(i * degrees2radians) - (sinTable8[i] / 255.0));
+    if (t > maxError) maxError = t;
   }
-  fprintf(stderr,"%2.4f\n", m);
-  assertEqualFloat(0, m, 0.01);
+  fprintf(stderr,"Table8 max error: %2.5f\n", maxError);
+  assertEqualFloat(0, maxError, 0.01);
 }
 
 

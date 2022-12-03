@@ -68,7 +68,7 @@ void generate_bit_sin(int t)
 
   Serial.print("uint");
   Serial.print(t > 16 ? 32 : t > 8 ? 16 : 8);
-  Serial.print("_t isinTable");
+  Serial.print("_t sinTable");
   Serial.print(t);
   Serial.print("[] = {\n  ");
   for (int i = 0; i <= 90; i++)
@@ -99,7 +99,7 @@ void generate_bit_cos(int t)
 
   Serial.print("uint");
   Serial.print(t > 16 ? 32 : t > 8 ? 16 : 8);
-  Serial.print("_t icosTable");
+  Serial.print("_t cosTable");
   Serial.print(t);
   Serial.print("[] = {\n  ");
   for (int i = 0; i <= 90; i++)
@@ -130,7 +130,7 @@ void generate_bit_tan(int t)
 
   Serial.print("uint");
   Serial.print(t > 16 ? 32 : t > 8 ? 16 : 8);
-  Serial.print("_t itanTable");
+  Serial.print("_t tanTable");
   Serial.print(t);
   Serial.print("[] = {\n  ");
   for (int i = 0; i <= 90; i++)

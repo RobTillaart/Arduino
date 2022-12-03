@@ -44,10 +44,10 @@ This generator sketch can also generate tables with different resolution e.g. 24
 So depending on the application these tables can be ideal, but verify they meet your requirements.
 
 The lookup tables used by **isin()** can be used directly in your program, the names are:
-- **isinTable16\[\]** index 0..90, values need to be (float) divided by 65535.0
-- **isinTable8\[\]** index 0..90, values need to be (float) divided by 255.0
+- **sinTable16\[\]** index 0..90, values need to be (float) divided by 65535.0
+- **sinTable8\[\]** index 0..90, values need to be (float) divided by 255.0
 
-The **isinTable8** is not really for doing accurate math, 
+The **sinTable8** is not really for doing accurate math, 
 however it is great to use in a LEDstrip or motor movements when less accuracy is needed.
 
 Although the tables can be written to, it is advised not to do so.

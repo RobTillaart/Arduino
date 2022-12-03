@@ -6,14 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2022-12-02
+- merged PR #16 for ESP_IDF support
+- added <stdint.h>
+- added <stdbool.h>
+- renamed isinTable to sinTable for readability (breaking change)
+- edits code for readability
+- fix itan(90) now returns NAN instead of 0.
+
+----
+
 ## [0.1.11] - 2022-11-02
 - add changelog.md
 - add rp2040 to build-CI
 - moved version info from readme.md to changelog
 - no functional changes
 
-
-## [0.1.10  2022-04-15
+## [0.1.10] - 2022-04-15
 - fix #12 
 - split .h in .h and .cpp Needed in case of more complex projects.
 

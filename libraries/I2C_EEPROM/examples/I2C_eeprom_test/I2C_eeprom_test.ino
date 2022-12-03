@@ -17,7 +17,8 @@
 // #define SERIAL_OUT SerialUSB
 
 
-I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
+I2C_eeprom ee(0x50);
+//  I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
 
 uint32_t start, diff, totals = 0;
 

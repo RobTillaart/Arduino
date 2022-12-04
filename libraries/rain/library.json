@@ -1,0 +1,23 @@
+{
+  "name": "RAIN",
+  "keywords": "RAIN, wet",
+  "description": "Arduino library for rain sensor. (analog)",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/RAIN.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "rain.h"
+}

@@ -1,0 +1,15 @@
+# Syntax Colouring Map For RAIN
+
+# Data types (KEYWORD1)
+RAIN	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+read	KEYWORD2
+percentage	KEYWORD2
+
+
+# Constants (LITERAL1)
+RAIN_LIB_VERSION	LITERAL1
+
+

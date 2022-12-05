@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2022-12-05
+- add weightConverter class
+- update readme.md
+- update unit test
+
+
 ## [0.1.4] - 2022-11-26
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - update readme.md
-
 
 ## [0.1.3] - 2021-12-29
 - update library.json

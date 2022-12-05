@@ -15,7 +15,7 @@ Library of weight conversion functions.
 
 Weight.h is a library containing weight conversion functions.
 
-Open for additions, including obscure weight metrics or 
+Open for additions, including obscure weight metrics or
 weight related math functions and constants.
 
 
@@ -54,19 +54,85 @@ Functions are straightforward.
 
 See examples
 
+----
+
+# weightConverter class
+
+Since version 0.2.0 a weight convertor class is added to convert to and from
+other (less known) weight scales.
+The idea is to set a value in one scale and retrieve it in the other.
+As the converter holds the last value set, multiple conversions of the same 
+weight are easy.
+
+New conversions are possible by providing a setXYZ and getXYZ() function.
+These two should convert to and from grams respectively.
+Additions are welcome, please open an issue.
+
+Internal representation is the gram as it the standard.
+
+## Interface
+
+
+#### Constructor
+
+- **weightConverter()**
+
+#### setters
+
+- **void setKilogram(float value = 0)** 
+- **void setGram(float value = 0)** 
+- **void setLBS(float value = 0)**
+- **void setStone(float value = 0)**
+- **void setOunce(float value = 0)**
+- **void setLongTonUK(float value = 0)**
+- **void setShortTonUS(float value = 0)**
+- **void setQuarterUK(float value = 0)**
+- **void setQuarterUS(float value = 0)**
+- **void setSlug(float value = 0)**
+- **void setTroyPound(float value = 0)**
+- **void setTroyOunce(float value = 0)**
+- **void setRobie(float value = 0)**
+- **void setDram(float value = 0)**
+- **void setDrachme(float value = 0)**
+- **void setPoint(float value = 0)**
+- **void setGrain(float value = 0)**
+- **void setCarat(float value = 0)**
+
+
+#### getters
+
+- **float getKilogram()**
+- **float getGram()**
+- **float getLBS()**
+- **float getStone()**
+- **float getOunce()**
+- **float getLongTonUK()**
+- **float getShortTonUS()**
+- **float getQuarterUK()**
+- **float getQuarterUS()**
+- **float getSlug()**
+- **float getTroyPound()**
+- **float getTroyOunce()**
+- **float getRobie()**
+- **float getDram()**
+- **float getDrachme()**
+- **float getPoint()**
+- **float getGrain()**
+- **float getCarat()**
+
 
 ## Future
 
 #### must
 - improve documentation
+  - where are units used
 
 #### should
-- a class like the temperature convertor and pressure convertor
-  - internally grams?
-  - getters setters
+
 
 #### could
 - create data types of stone lbs kilo etc.?
+
 
 #### won't (unless)
 - large masses - sun planets ?   (see relativity library)

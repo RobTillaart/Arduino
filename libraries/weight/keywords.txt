@@ -1,6 +1,8 @@
 # Syntax Colouring Map For weight
 
 # Data types (KEYWORD1)
+weightConvertor	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 lbs2kilo	KEYWORD2
@@ -18,6 +20,48 @@ stone2kilo	KEYWORD2
 kilo2stone	KEYWORD2
 US2metric	KEYWORD2
 metric2US	KEYWORD2
+
+
+####################################
+
+setKilogram	KEYWORD2
+setGram	KEYWORD2
+setLBS	KEYWORD2
+setStone	KEYWORD2
+setOunce	KEYWORD2
+setLongTonUK	KEYWORD2
+setShortTonUS	KEYWORD2
+setQuarterUK	KEYWORD2
+setQuarterUS	KEYWORD2
+setSlug	KEYWORD2
+setTroyPound	KEYWORD2
+setTroyOunce	KEYWORD2
+setRobie	KEYWORD2
+setDram	KEYWORD2
+setDrachme	KEYWORD2
+setPoint	KEYWORD2
+setGrain	KEYWORD2
+setCarat	KEYWORD2
+
+
+getKilogram	KEYWORD2
+getGram	KEYWORD2
+getLBS	KEYWORD2
+getStone	KEYWORD2
+getOunce	KEYWORD2
+getLongTonUK	KEYWORD2
+getShortTonUS	KEYWORD2
+getQuarterUK	KEYWORD2
+getQuarterUS	KEYWORD2
+getSlug	KEYWORD2
+getTroyPound	KEYWORD2
+getTroyOunce	KEYWORD2
+getRobie	KEYWORD2
+getDram	KEYWORD2
+getDrachme	KEYWORD2
+getPoint	KEYWORD2
+getGrain	KEYWORD2
+getCarat	KEYWORD2
 
 
 # Instances (KEYWORD2)

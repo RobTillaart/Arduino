@@ -126,6 +126,84 @@ unittest(test_US2metric)
 }
 
 
+unittest(test_weightConvertor)
+{
+  weightConvertor WC;
+  
+  fprintf(stderr, "setKilogram\n");
+  WC.setKilogram(1);
+  assertEqualFloat(1, WC.getKilogram(), 0.0001);
+  
+  fprintf(stderr, "setGram\n");
+  WC.setGram(1);
+  assertEqualFloat(1, WC.getGram(), 0.0001);
+  
+  fprintf(stderr, "setLBS\n");
+  WC.setLBS(1);
+  assertEqualFloat(1, WC.getLBS(), 0.0001);
+  
+  fprintf(stderr, "setStone\n");
+  WC.setStone(1);
+  assertEqualFloat(1, WC.getStone(), 0.0001);
+  
+  fprintf(stderr, "setOunce\n");
+  WC.setOunce(1);
+  assertEqualFloat(1, WC.getOunce(), 0.0001);
+  
+  fprintf(stderr, "setLongTonUK\n");
+  WC.setLongTonUK(1);
+  assertEqualFloat(1, WC.getLongTonUK(), 0.0001);
+  
+  fprintf(stderr, "setShortTonUS\n");
+  WC.setShortTonUS(1);
+  assertEqualFloat(1, WC.getShortTonUS(), 0.0001);
+  
+  fprintf(stderr, "setQuarterUK\n");
+  WC.setQuarterUK(1);
+  assertEqualFloat(1, WC.getQuarterUK(), 0.0001);
+  
+  fprintf(stderr, "setQuarterUS\n");
+  WC.setQuarterUS(1);
+  assertEqualFloat(1, WC.getQuarterUS(), 0.0001);
+  
+  fprintf(stderr, "setSlug\n");
+  WC.setSlug(1);
+  assertEqualFloat(1, WC.getSlug(), 0.0001);
+  
+  fprintf(stderr, "setTroyPound\n");
+  WC.setTroyPound(1);
+  assertEqualFloat(1, WC.getTroyPound(), 0.0001);
+  
+  fprintf(stderr, "setTroyOunce\n");
+  WC.setTroyOunce(1);
+  assertEqualFloat(1, WC.getTroyOunce(), 0.0001);
+  
+  fprintf(stderr, "setRobie\n");
+  WC.setRobie(1);
+  assertEqualFloat(1, WC.getRobie(), 0.0001);
+  
+  fprintf(stderr, "setDram\n");
+  WC.setDram(1);
+  assertEqualFloat(1, WC.getDram(), 0.0001);
+  
+  fprintf(stderr, "setDrachme\n");
+  WC.setDrachme(1);
+  assertEqualFloat(1, WC.getDrachme(), 0.0001);
+  
+  fprintf(stderr, "setPoint\n");
+  WC.setPoint(1);
+  assertEqualFloat(1, WC.getPoint(), 0.0001);
+  
+  fprintf(stderr, "setGrain\n");
+  WC.setGrain(1);
+  assertEqualFloat(1, WC.getGrain(), 0.0001);
+  
+  fprintf(stderr, "setCarat\n");
+  WC.setCarat(1);
+  assertEqualFloat(1, WC.getCarat(), 0.0001);
+}
+
+
 unittest_main()
 
 // --------

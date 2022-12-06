@@ -1,0 +1,23 @@
+{
+  "name": "MSP300",
+  "keywords": "I2C,digital,pressure, transducer, MSP300",
+  "description": "Arduino Library for MSP300 pressure transducer (I2C).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MSP300"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MSP300.h"
+}

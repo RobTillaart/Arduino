@@ -1,0 +1,27 @@
+# Syntax Colouring Map For MSP300
+
+# Data types (KEYWORD1)
+MSP300	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+setAddress	KEYWORD2
+getAddress
+
+rawPressure	KEYWORD2
+readPressure	KEYWORD2
+
+rawTemperature	KEYWORD2
+readTemperature	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+MSP300_LIB_VERSION	LITERAL1
+
+MSP300_OK	LITERAL1
+MSP300_ERROR	LITERAL1
+

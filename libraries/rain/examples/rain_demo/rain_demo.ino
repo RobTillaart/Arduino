@@ -1,7 +1,7 @@
 //
 //    FILE: rain_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo read + percentage
 //     URL: https://github.com/RobTillaart/RAIN
 
 

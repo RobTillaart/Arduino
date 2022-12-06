@@ -1,7 +1,7 @@
 //
-//    FILE: rain_setLevel.ino
+//    FILE: rain_delta.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo setLevel + getLevel
+// PURPOSE: demo read + delta
 //     URL: https://github.com/RobTillaart/RAIN
 
 
@@ -19,14 +19,7 @@ void setup()
   Serial.println("EXPERIMENTAL:");
 
   RS.begin(5.000, 1023);
-
-  //  set the 4 levels in milliVolts
-  //  they do not need to be equi-distant
-  //  level 0 == 0 volts.
-  RS.setLevel(1, 0250);
-  RS.setLevel(2, 2750);
-  RS.setLevel(3, 3250);
-  RS.setLevel(4, 3500);
+  Serial.println("READ\tDELTA");
 }
 
 
@@ -34,7 +27,7 @@ void loop()
 {
   Serial.print(RS.read(), 3);
   Serial.print('\t');
-  Serial.print(RS.getLevel());
+  Serial.print(RS.delta(), 1);
   Serial.print('\n');
   delay(100);
 }

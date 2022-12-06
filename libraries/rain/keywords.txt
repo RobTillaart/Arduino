@@ -5,9 +5,12 @@ RAIN	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+raw	KEYWORD2
 read	KEYWORD2
-percentage	KEYWORD2
 
+percentage	KEYWORD2
+setLevel	KEYWORD2
+getLevel	KEYWORD2
 
 # Constants (LITERAL1)
 RAIN_LIB_VERSION	LITERAL1

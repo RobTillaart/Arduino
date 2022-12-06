@@ -33,11 +33,14 @@ public:
   //  ANALYSIS
   //  returns last read value as percentage of maxVoltage.
   //  indicating wetness?
+  //  it assumes / implies linear behaviour
   float    percentage();
+  float    delta();
+
 
   //  level = 1..4 (level 0 == 0 Volt)
   //  user is responsible that values are increasing voltages.
-  bool     setLevel(uint8_t nr, float voltage);
+  bool     setLevel(uint8_t nr, uint16_t milliVolts);
   uint8_t  getLevel();
 
 
@@ -47,7 +50,8 @@ private:
   uint16_t _maxSteps;
   float    _mVstep;
   float    _voltage;
-  float    _level[5] = { 0, 1, 2, 3, 4 };  // default
+  float    _previous;
+  uint16_t _level[5] = { 0, 1000, 2000, 3000, 4000 };  //  millivolts
 };
 
 

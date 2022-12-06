@@ -1,7 +1,7 @@
 //
 //    FILE: rain.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-12-03
 // PURPOSE: Arduino library for a rain sensor
 //     URL: https://github.com/RobTillaart/RAIN
@@ -43,6 +43,7 @@ float RAIN::raw(uint8_t times)
 
 float RAIN::read(uint8_t times)
 {
+  _previous = _voltage;
   _voltage = raw(times) * _mVstep;
   return _voltage;
 }
@@ -54,20 +55,27 @@ float RAIN::percentage()
 }
 
 
-bool RAIN::setLevel(uint8_t nr, float voltage)
+float RAIN::delta()
+{
+  return _voltage - _previous;
+}
+
+
+bool RAIN::setLevel(uint8_t nr, uint16_t milliVolts)
 {
   if (nr == 0) return false;
   if (nr > 4) return false;
-  _level[nr] = voltage;
+  _level[nr] = milliVolts;
   return true;
 }
 
 
 uint8_t RAIN::getLevel()
 {
+  uint16_t value = _voltage * 1000;
   for (int index = 4; index > 0; index--)
   {
-    if (_voltage >= _level[index]) return index;
+    if (value >= _level[index]) return index;
   }
   return 0;
 }

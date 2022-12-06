@@ -1,7 +1,7 @@
 {
   "name": "RAIN",
-  "keywords": "RAIN, wet",
-  "description": "Arduino library for rain sensor. (analog)",
+  "keywords": "RAIN, wet, FC-37, YL-83, HM-RD, LM393",
+  "description": "Arduino library for FC-37 analog rain sensor and compatibles.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/RAIN.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

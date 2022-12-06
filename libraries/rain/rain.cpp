@@ -1,7 +1,7 @@
 //
 //    FILE: rain.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-12-03
 // PURPOSE: Arduino library for a rain sensor
 //     URL: https://github.com/RobTillaart/RAIN
@@ -10,19 +10,28 @@
 
 #include "rain.h"
 
-RAIN::RAIN(uint8_t port)
+RAIN::RAIN(uint8_t port, uint8_t powerPin)
 {
   _port       = port;
+  _powerPin   = powerPin;
   _maxVoltage = 5;
   _maxSteps   = 1023;
+  _dryRefVoltage = _maxVoltage;
 }
 
 
 bool RAIN::begin(float maxVoltage, uint16_t maxSteps)
 {
-  _maxVoltage = maxVoltage;
-  _maxSteps   = maxSteps;
-  _mVstep = _maxVoltage / _maxSteps;
+  _maxVoltage    = maxVoltage;
+  _maxSteps      = maxSteps;
+  _mVstep        = _maxVoltage / _maxSteps;
+  _dryRefVoltage = _maxVoltage;
+
+  if (_powerPin != 255) 
+  {
+    pinMode(_powerPin, OUTPUT);
+    powerOn();
+  }
   read();
   return true;
 }
@@ -32,10 +41,14 @@ float RAIN::raw(uint8_t times)
 {
   if (times == 0) times = 1;
   float sum = 0;
+
+  powerOn();
   for (int i = 0; i < times; i++)
   {
     sum += analogRead(_port);
   }
+  powerOff();
+
   if (times > 1) sum /= times;
   return sum;
 }
@@ -49,9 +62,23 @@ float RAIN::read(uint8_t times)
 }
 
 
+void RAIN::setDryReference(float dryRef)
+{
+  _dryRefVoltage = dryRef;
+}
+
+
+float RAIN::getDryReference()
+{
+  return _dryRefVoltage;
+}
+
+
 float RAIN::percentage()
 {
-  return _voltage * 100.0 / _maxVoltage;
+  float p = 100.0 - (_voltage * 100.0 / _dryRefVoltage);
+  if (p < 0) p = 0;
+  return p;
 }
 
 
@@ -78,6 +105,25 @@ uint8_t RAIN::getLevel()
     if (value >= _level[index]) return index;
   }
   return 0;
+}
+
+
+void RAIN::powerOn()
+{
+  if (_powerPin != 255) 
+  {
+    digitalWrite(_powerPin, HIGH);
+    delayMicroseconds(100);  //  time to stabilize, adjust if needed.
+  }
+}
+
+
+void RAIN::powerOff()
+{
+  if (_powerPin != 255) 
+  {
+    digitalWrite(_powerPin, LOW);
+  }
 }
 
 

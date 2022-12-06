@@ -1,13 +1,16 @@
 //
-//    FILE: rain_demo.ino
+//    FILE: rain_demo_powerpin.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo read + percentage
+// PURPOSE: demo read power pin
 //     URL: https://github.com/RobTillaart/RAIN
 
 
 #include "rain.h"
 
-RAIN  RS(A0);
+#define ANALOGPIN     A0
+#define POWERPIN      7
+
+RAIN  RS(ANALOGPIN, POWERPIN);
 
 void setup()
 {
@@ -19,9 +22,6 @@ void setup()
   Serial.println("EXPERIMENTAL:");
 
   RS.begin(5.000, 1023);
-  
-  //  measured in an earlier run, adjust to your calibration.
-  RS.setDryReference(3.5);
 }
 
 
@@ -31,9 +31,8 @@ void loop()
   Serial.print('\t');
   Serial.print(RS.percentage(), 1);
   Serial.print('\n');
-  delay(1000);
+  delay(100);
 }
 
 
 // -- END OF FILE --
-

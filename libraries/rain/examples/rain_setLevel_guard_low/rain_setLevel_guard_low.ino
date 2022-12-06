@@ -46,14 +46,14 @@ void loop()
     int level = RS.getLevel();
     switch (level)
     {
-      case 4:
+      case 0:  //  max WET
         if (prevLevel != level)
         {
           Serial.println("Pump speed 100%");
         }
         analogWrite(PUMP_PIN, 255);
         break;
-      case 3:
+      case 1:
         if (prevLevel != level)
         {
           Serial.println("Pump speed 90%");
@@ -65,20 +65,20 @@ void loop()
         {
           Serial.println("Pump speed 75%");
         }
-        analogWrite(PUMP_PIN, 195);  //  ~75%
+        analogWrite(PUMP_PIN, 195);
         break;
-      case 1:
+      case 3:
         if (prevLevel != level)
         {
-          Serial.println("Start pumping");
+          Serial.println("Pump speed 50%");
         }
-        analogWrite(PUMP_PIN, 130);  //  ~50%
+        analogWrite(PUMP_PIN, 130);
         break;
-      case 0:
+      case 4:  //  DRY
       default:
         if (prevLevel != level)
         {
-          Serial.println("Stop pumping");
+          Serial.println("Stopped pumping");
         }
         analogWrite(PUMP_PIN, 0);
         break;
@@ -88,4 +88,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

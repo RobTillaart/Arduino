@@ -3,6 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo read + delta
 //     URL: https://github.com/RobTillaart/RAIN
+//
+//  e.g. use with Arduino IDE plotter tool.
 
 
 #include "rain.h"

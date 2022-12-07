@@ -1,0 +1,59 @@
+# Syntax Colouring Map For AngleConvertor
+
+# Data types (KEYWORD1)
+AngleConvertor	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+# setters
+
+setDegrees	KEYWORD2
+setRadians	KEYWORD2
+setGradians	KEYWORD2
+setAngularMil	KEYWORD2
+setBinaryRadians	KEYWORD2
+setCentiTurn	KEYWORD2
+setDiameterPart	KEYWORD2
+setHexacontade	KEYWORD2
+setHourAngle	KEYWORD2
+setMilliTurn	KEYWORD2
+setMinuteTime	KEYWORD2
+setOctant	KEYWORD2
+setPechus	KEYWORD2
+setPoints	KEYWORD2
+setQuadrant	KEYWORD2
+setQuarterPoint	KEYWORD2
+setSecondsTime	KEYWORD2
+setSextant	KEYWORD2
+setSign	KEYWORD2
+setTurn	KEYWORD2
+
+
+# getters
+
+getDegrees	KEYWORD2
+getRadians	KEYWORD2
+getGradians	KEYWORD2
+getAngularMil	KEYWORD2
+getBinaryRadians	KEYWORD2
+getCentiTurn	KEYWORD2
+getDiameterPart	KEYWORD2
+getHexacontade	KEYWORD2
+getHourAngle	KEYWORD2
+getMilliTurn	KEYWORD2
+getMinuteTime	KEYWORD2
+getOctant	KEYWORD2
+getPechus	KEYWORD2
+getPoints	KEYWORD2
+getQuadrant	KEYWORD2
+getQuarterPoint	KEYWORD2
+getSecondsTime	KEYWORD2
+getSextant	KEYWORD2
+getSign	KEYWORD2
+getTurn	KEYWORD2
+
+
+# Constants (LITERAL1)
+ANGLECONVERTOR_LIB_VERSION	LITERAL1
+

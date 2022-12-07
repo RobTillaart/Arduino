@@ -25,21 +25,21 @@ void setup()
   }
 
   //  values should be same after start
-  for (int ch = 0; ch < AD.pmCount(); ch++)
+  for (int potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    Serial.print(ch);
+    Serial.print(potMeter);
     Serial.print('\t');
-    Serial.print(AD.recallEEPROM(ch));
+    Serial.print(AD.recallEEPROM(potMeter));
     Serial.print('\t');
-    Serial.print(AD.readBackRDAC(ch));
+    Serial.print(AD.readBackRDAC(potMeter));
     Serial.println();
   }
 
   //  update values for after next (full) power up.
-  for (int ch = 0; ch < AD.pmCount(); ch++)
+  for (int potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    uint8_t val = AD.recallEEPROM(ch);
-    AD.storeEEPROM(ch, val + 1);
+    uint8_t value = AD.recallEEPROM(potMeter);
+    AD.storeEEPROM(potMeter, value + 1);
   }
 
   Serial.println("done...");
@@ -51,4 +51,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

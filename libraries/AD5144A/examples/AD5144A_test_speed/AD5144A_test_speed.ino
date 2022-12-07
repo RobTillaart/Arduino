@@ -52,17 +52,17 @@ void test_i2C_clock(uint32_t clock)
     return;
   }
 
-  for (int p = 0; p < AD.pmCount(); p++)
+  for (int potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    for (int val = 0; val < 256; val++)
+    for (int value = 0; value < 256; value++)
     {
-      AD.write(p, val);
-      if (AD.read(p) != val)
+      AD.write(potMeter, value);
+      if (AD.read(potMeter) != value)
       {
         Serial.print("error:\t");
-        Serial.print(p);
+        Serial.print(potMeter);
         Serial.print("\t");
-        Serial.print(val);
+        Serial.print(value);
         Serial.println();
       }
     }

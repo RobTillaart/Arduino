@@ -47,11 +47,12 @@ void test_preload()
   Serial.println();
   Serial.println(__FUNCTION__);
 
-  for (int val = 0; val < 256; val += 17)
+  for (int value = 0; value < 256; value += 17)
   {
-    for (uint8_t ch = 0; ch < AD.pmCount(); ch++) // all channels
+    //  loop over all channels / potmeters
+    for (uint8_t potMeter = 0; potMeter < AD.pmCount(); potMeter++)  
     {
-      AD.preload(ch, val);
+      AD.preload(potMeter, value);
     }
     AD.sync(0x0F);
     delay(100);
@@ -65,9 +66,9 @@ void test_preloadAll()
   Serial.println();
   Serial.println(__FUNCTION__);
 
-  for (int val = 0; val < 256; val += 17)
+  for (int value = 0; value < 256; value += 17)
   {
-    AD.preloadAll(val);
+    AD.preloadAll(value);
     AD.sync(0x0F);
     delay(100);
   }

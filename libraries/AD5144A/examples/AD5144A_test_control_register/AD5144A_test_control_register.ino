@@ -26,10 +26,10 @@ void setup()
 
   Serial.println("check datasheet");
   Serial.println("CH\tWP\tEE\tMODE\tBURST");
-  for (uint8_t ch = 0; ch < AD.pmCount(); ch++)
+  for (uint8_t potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    uint8_t mask = AD.readBackCONTROL(ch);
-    Serial.print(ch);
+    uint8_t mask = AD.readBackCONTROL(potMeter);
+    Serial.print(potMeter);
     Serial.print('\t');
     Serial.print(mask & 0x01);
     Serial.print('\t');
@@ -50,4 +50,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

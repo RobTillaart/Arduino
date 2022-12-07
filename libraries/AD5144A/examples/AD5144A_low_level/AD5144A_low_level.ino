@@ -5,7 +5,8 @@
 //     URL: https://github.com/RobTillaart/AD5144A
 
 //  THIS IS A LOW LEVEL WRITE TEST FOR AD5144A
-//  IT DOES NOT USE THE LIBRARY 
+//  IT DOES NOT USE THE LIBRARY
+//  IT USES Wire I2C bus
 
 
 #include "Arduino.h"
@@ -88,4 +89,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

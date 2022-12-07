@@ -10,37 +10,36 @@
 
 Arduino library for **I2C AD5144A** 4 channel digital potentiometer.
 
-Library has also classes for AD5123, AD5124, AD5143, AD5144, AD5144A, AD5122A, AD5142A, AD5121, AD5141
+Library also provides classes for AD5123, AD5124, AD5143, AD5144, AD5144A, AD5122A, AD5142A, AD5121, AD5141.
+These are have different number of potmeters, rheostats and range but are functional compatible, 
 
 ## Description
 
-The library is an experimental library for the **I2C AD5144A** 4 channel digital potentiometer.
-- it is not tested extensively, (AD5144A partly)
-- so use at own risk, and
-- please report problems and/or success.
+The library is an experimental library for the **I2C AD5144A** 4 channel digital potentiometer and compatibles.
+Tests have been done with the AD5144A only.
+From the datasheet it is expected that the library will work for the family of related AD devices. 
+See table below. However these are not tested.
 
-From the datasheet it is expected that the library will work more or less 
-for the family of related AD devices. However as said before this is not tested.
-If there are problems, please file an issue.
+If there are problems, please file an issue. Also interested in success stories :)
 
 This library uses the **I2C** interface to communicate with the device. 
-It does not work for the **SPI** versions of these devices. 
+The library does not work for the **SPI** versions of these devices. 
 See Future below.
 
 
 ### Types supported
 
-| device  |  #potmeters | # rheostats | range  | tested  |
-|:--------|:-----------:|:-----------:|:------:|:-------:|
-| AD5123  |   2         |   2         | 0..127 | no      |
-| AD5124  |   4         |   0         | 0..127 | no      |
-| AD5143  |   2         |   2         | 0..255 | no      |
-| AD5144  |   4         |   0         | 0..255 | partial |
-| AD5144A |   4         |   0         | 0..255 | partial |
-| AD5122A |   2         |   0         | 0..127 | no      |
-| AD5142A |   2         |   0         | 0..255 | no      |
-| AD5121  |   1         |   0         | 0..127 | no      |
-| AD5141  |   1         |   0         | 0..255 | no      |
+|  device   | #potmeters | #rheostats |  range   |  tested  |
+|:----------|:----------:|:----------:|:--------:|:--------:|
+|  AD5123   |     2      |     2      |  0..127  |  no      |
+|  AD5124   |     4      |     0      |  0..127  |  no      |
+|  AD5143   |     2      |     2      |  0..255  |  no      |
+|  AD5144   |     4      |     0      |  0..255  |  partial |
+|  AD5144A  |     4      |     0      |  0..255  |  partial |
+|  AD5122A  |     2      |     0      |  0..127  |  no      |
+|  AD5142A  |     2      |     0      |  0..255  |  no      |
+|  AD5121   |     1      |     0      |  0..127  |  no      |
+|  AD5141   |     1      |     0      |  0..255  |  no      |
 
 
 ### Type AD51xy decomposition
@@ -77,6 +76,8 @@ The developer is responsible for handling these differences correctly when using
 
 #### Derived classes
 
+Same as above.
+
 - **AD5123(uint8_t address, TwoWire \*wire = &Wire)**
 - **AD5124(uint8_t address, TwoWire \*wire = &Wire)**
 - **AD5143(uint8_t address, TwoWire \*wire = &Wire)**
@@ -101,7 +102,8 @@ Returns true if the address of the device can be found on the I2C bus.
 If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool isConnected()** returns true if the address of the device can be found on the I2C bus, false otherwise.
 - **uint8_t reset()** calls the built in RESET command.
-This loads the last values stored in EEPROM in the RDAC's. 
+This loads the last values stored in EEPROM in the RDAC's.
+Furthermore it reads back the values from EEPROM in to the cache.
 Factory default is **midScale()** check datasheet for details.
 
 
@@ -110,7 +112,7 @@ Factory default is **midScale()** check datasheet for details.
 Used to set one channel at the time. 
 
 - **uint8_t write(uint8_t rdac, uint8_t value)** set channel rdac 0..3 to value 0..255 
-(depending on type less channels and lower max value should be used)
+(depending on device type less channels and lower max value should be used)
 The value is also written into a cache of last set values for fast retrieval later.
 If value > maxValue an error **AD51XXA_INVALID_VALUE** is returned.
 - **uint8_t read(uint8_t rdac)** read back set value from the **cache**, not from the device.
@@ -133,16 +135,16 @@ Note: **reset()** resets all 4 channels from the last values stored in EEPROM.
 
 ### Asynchronous
 
-Sets values in sequence, not at exact same time
+Sets values in sequence, not at exact same time.
 
 - **uint8_t writeAll(uint8_t value)** write the same value to all channels.  
 If value > maxValue an error **AD51XXA_INVALID_VALUE** is returned.
 - **uint8_t zeroAll()** sets all channels to 0.
 - **uint8_t midScaleAll()** sets all channels to their midpoint 128 / 64.
 - **uint8_t maxAll()** sets all channels to the max 255 / 127.
-- **uint8_t zero(uint8_t rdac)** sets one channel to 0.
-- **uint8_t midScale(uint8_t rdac)** sets one channel to its midpoint = 128 / 64.
-- **uint8_t maxValue(uint8_t rdac)** sets one channel to the max 255 / 127.
+- **uint8_t zero(uint8_t rdac)** sets the selected channel to 0.
+- **uint8_t midScale(uint8_t rdac)** sets the selected channel to its midpoint = 128 / 64.
+- **uint8_t maxValue(uint8_t rdac)** sets the selected channel to the max 255 / 127.
 
 
 ### Synchronous
@@ -177,6 +179,12 @@ See page 27-28 datasheet REV-C
 - **uint8_t setPotentiometerMode(uint8_t rdac)**
 - **// 0 = potentiometer, 1 = linear
 - **uint8_t getOperationalMode(uint8_t rdac)**
+
+
+### Increment / decrement
+
+See page 27-28 datasheet REV-C
+
 - **uint8_t incrementLinear(uint8_t rdac)**
 - **uint8_t incrementLinearAll()**
 - **uint8_t decrementLineair(uint8_t rdac)**
@@ -205,7 +213,7 @@ Read the datasheet for the details of the individual bits.
 **Warning** use with care!
 
 
-### Misc
+### Miscellaneous
 
 - **uint8_t pmCount()** returns the number of potentiometers / channels the device has. 
 Useful when writing your own loops over all channels.
@@ -221,16 +229,19 @@ The examples show the basic working of the functions.
 ## Future
 
 #### must
-
 - update documentation
-- some functions can be performance optimized
-  - writing a value is not needed if last value is the same?
+
+#### should
+- move code from .h to .cpp (0.2.0)
+- more testing with hardware.
 
 #### could
-
+- some functions can be performance optimized
+  - writing a value is not needed if last value is the same?
+  - should be at least written once.
+  - flag cacheOn + cacheDirty or so?
 - improve unit testing CI
 - **stereo**, write one value to two channels.
-- more testing with hardware.
-- SPI based version of the library ?
+- SPI based version of the library (if requested)
 
 

@@ -93,19 +93,19 @@ void test_midScaleAll()
   Serial.println(stop - start);
   Serial.println();
 
-  for (int i = 0; i < AD.pmCount(); i++)
+  for (int potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    if (AD.read(i) != AD.maxValue()/2)
+    if (AD.read(potMeter) != AD.maxValue()/2)
     {
       Serial.print("non-mid:\t");
-      Serial.println(i);
+      Serial.println(potMeter);
     }
   }
   Serial.println();
 }
 
 
-void test_zeroAll()  //  todo test
+void test_zeroAll()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
@@ -117,16 +117,16 @@ void test_zeroAll()  //  todo test
   Serial.println(stop - start);
   Serial.println();
 
-  for (int i = 0; i < AD.pmCount(); i++)
+  for (int potMeter = 0; potMeter < AD.pmCount(); potMeter++)
   {
-    if (AD.read(i) != 0)
+    if (AD.read(potMeter) != 0)
     {
       Serial.print("non-zero:\t");
-      Serial.println(i);
+      Serial.println(potMeter);
     }
   }
   Serial.println();
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

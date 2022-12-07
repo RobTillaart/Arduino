@@ -82,7 +82,7 @@ unittest(test_autoReset)
 {
   MINMAX mm;
 
-  mm.autoReset(10);
+  mm.setAutoResetCount(10);
 
   for (int i = 0; i < 15; i++)
   {
@@ -91,6 +91,8 @@ unittest(test_autoReset)
   assertEqual(10, mm.minimum());
   assertEqual(14, mm.maximum());
   assertEqual(5, mm.count());
+
+  assertEqual(10, mm.getAutoResetCount());
 }
 
 
@@ -106,9 +108,7 @@ unittest(test_lastValue)
 }
 
 
-
-
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

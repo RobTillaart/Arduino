@@ -2,7 +2,6 @@
 //    FILE: minmax_new.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-10-14
 //     URL: https://github.com/RobTillaart/minmax
 
 

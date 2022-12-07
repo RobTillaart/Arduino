@@ -1,8 +1,7 @@
 //
-//    FILE: minmax_demot.ino
+//    FILE: minmax_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-10-14
 //     URL: https://github.com/RobTillaart/minmax
 
 
@@ -35,11 +34,14 @@ void loop()
     Serial.print(mm.minimum());
     Serial.print("\t");
     Serial.print(mm.maximum());
+    Serial.print("\t");
+    Serial.print(mm.lastMin());
+    Serial.print("\t");
+    Serial.print(mm.lastMax());
     Serial.print("\n");
     mm.reset();
   }
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

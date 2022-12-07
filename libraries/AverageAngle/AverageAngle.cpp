@@ -1,11 +1,10 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
+//    DATE: 2017-11-21
 // PURPOSE: class for averaging angles
 //     URL: https://github.com/RobTillaart/AverageAngle
-//
-//  HISTORY: see changelog.md
 
 
 #include "AverageAngle.h"

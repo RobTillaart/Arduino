@@ -9,6 +9,7 @@ AngleType	KEYWORD1
 add	KEYWORD2
 reset	KEYWORD2
 count	KEYWORD2
+
 getAverage	KEYWORD2
 getTotalLength	KEYWORD2
 getAverageLength	KEYWORD2

@@ -1,10 +1,9 @@
 //
 //    FILE: averageAngle.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2017-11-21
 // PURPOSE: demonstrates the usage of the AverageAngle Class
-//
+
 
 #include "AverageAngle.h"
 

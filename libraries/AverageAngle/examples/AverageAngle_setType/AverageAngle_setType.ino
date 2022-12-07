@@ -1,10 +1,8 @@
 //
 //    FILE: AverageAngle_setType.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-10-18
 // PURPOSE: demo
-//
 
 
 #include "AverageAngle.h"
@@ -35,10 +33,10 @@ void test_setType()
   AA.setType(AverageAngle::GRADIANS);
   AA.add(50);
 
-//  expected output
-//  45.00000
-//   0.78540
-//  50.00000
+  //  expected output
+  //  45.00000
+  //   0.78540
+  //  50.00000
   
   AA.setType(AverageAngle::DEGREES);
   Serial.println(AA.getAverage(), 5);
@@ -51,4 +49,4 @@ void test_setType()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

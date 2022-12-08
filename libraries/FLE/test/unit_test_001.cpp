@@ -30,6 +30,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "FLE_LIB_VERSION: %s\n", (char*) FLE_LIB_VERSION);
 }
 
 
@@ -375,16 +376,63 @@ unittest(test_bool)
 }
 
 
+unittest(test_in)
+{
+  FLE a(2, 0.1);
+  FLE b(3, 0.9);
+  FLE c(3, 1.0);
+
+  fprintf(stderr, "\nIN test\n");
+  assertFalse(a.in(b));
+  assertFalse(b.in(a));
+  assertTrue(b.in(c));
+  assertFalse(c.in(b));
+}
+
+
+unittest(test_shared)
+{
+  FLE a(2, 0.1);
+  FLE b(3, 0.9);
+  FLE c(3, 1.0);
+
+  fprintf(stderr, "\nSHARED test\n");
+
+  FLE x = a.shared(b);
+  fprintf(stderr, "x.value: %f\n", x.value());
+  fprintf(stderr, "x.error: %f\n", x.error());
+  assertEqualFloat(2.1, x.value(), 0.001);
+  assertEqualFloat(0.0, x.error(), 0.001);
+
+  x = a.shared(c);
+  fprintf(stderr, "x.value: %f\n", x.value());
+  fprintf(stderr, "x.error: %f\n", x.error());
+  assertEqualFloat(2.05, x.value(), 0.001);
+  assertEqualFloat(0.05, x.error(), 0.001);
+
+  x = b.shared(c);
+  fprintf(stderr, "x.value: %f\n", x.value());
+  fprintf(stderr, "x.error: %f\n", x.error());
+  assertEqualFloat(3.00, x.value(), 0.001);
+  assertEqualFloat(0.90, x.error(), 0.001);
+
+  fprintf(stderr, "\nNAN test\n");
+  
+  FLE d(5, 0.9);
+  x = c.shared(d);
+  assertNAN(x.value());
+  assertNAN(x.error());
+  x = d.shared(c);
+  assertNAN(x.value());
+  assertNAN(x.error());
+}
+
+
 unittest(test_experimental)
 {
   FLE a(2, 0.1);
   FLE b(3, 0.9);
   FLE c(3, 0.1);
-
-  assertFalse(a.in(b));
-  assertFalse(b.in(a));
-  assertFalse(b.in(c));
-  assertTrue(c.in(b));
 
   assertTrue(a.peq(a));
   assertTrue(a.peq(b));
@@ -394,7 +442,6 @@ unittest(test_experimental)
   assertFalse(c.peq(a));
   assertFalse(a.peq(c));
 }
-
 
 
 unittest_main()

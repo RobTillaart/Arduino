@@ -3,7 +3,7 @@
 //    FILE: FLE.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for float with error datatype
 //     URL: https://github.com/RobTillaart/FLE
 //
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 #include "math.h"
 
-#define FLE_LIB_VERSION      (F("0.1.2"))
+#define FLE_LIB_VERSION            (F("0.1.3"))
 
 
 class FLE: public Printable
@@ -51,6 +51,7 @@ class FLE: public Printable
   // BOOL OPERATORS
   //  for all value pairs of a and b
   bool operator == (const FLE&);
+  // bool operator == (const FLE);
   bool operator != (const FLE&);
   bool operator >  (const FLE&);
   bool operator <  (const FLE&);
@@ -60,31 +61,25 @@ class FLE: public Printable
   //  FLE lies completely in range a
   //  meaning FLE is more precise than a => smaller error.
   bool in(FLE a);
-
-
+  // returns overlap == common part, or FLE(NAN, NAN) otherwise
+  FLE shared(FLE a);
+  FLE lower(FLE a);     // part of this lower than a;
+  FLE higher(FLE a);    // part of this higher than a;
+  
 
   // EXPERIMENTAL - INVESTIGATE
-  //
-
   //  weak propositions.
-  bool peq (const FLE&);      // possible equal 
-  bool pne (const FLE&);      // possible not equal
-
-  // SET LIKE MATH
-  FLE shared(FLE b);      // overlap.
-
+  bool peq (const FLE& a);      // possible equal 
+  bool pne (const FLE& a);      // possible not equal
+  bool plt (const FLE& a);      // possible less than
+  bool ple (const FLE& a);      // possible less equal
+  bool pgt (const FLE& a);      // possible greater than
+  bool pge (const FLE& a);      // possible greater equal
 
 
   //  semantic meaning not 100% clear
   //  bool operator >= (const FLE&);
   //  bool operator <= (const FLE&);
-
-
-  // bool plt (const FLE&);  // possible less than
-  // bool ple (const FLE&);  // possible less equal
-  // bool pgt (const FLE&);  // possible greater than
-  // bool pge (const FLE&);  // possible greater equal
-
 
 
   // SET LIKE MATH

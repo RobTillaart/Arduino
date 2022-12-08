@@ -2,7 +2,7 @@
 //    FILE: FLE.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for float with error datatype
 //     URL: https://github.com/RobTillaart/FLE
 //
@@ -12,7 +12,7 @@
 //  0.1.1  2021-05-27  fix arduino-lint
 //  0.1.2  2021-06-15  add negation + unit tests
 //                     add first comparisons + some experimental
-//
+//  0.1.3  2021-06-16  add shared() 
 
 
 #include "FLE.h"
@@ -117,6 +117,11 @@ FLE FLE::operator /= (const FLE &in)
 //
 // BOOL OPERATORS
 //
+// bool FLE::operator == (const FLE in)
+//{
+//  return ((_v == in._v) && (_e == in._e));
+//}
+
 bool FLE::operator == (const FLE &in)
 {
   return ((_v == in._v) && (_e == in._e));
@@ -159,21 +164,85 @@ bool FLE::in(FLE a)
 }
 
 
+FLE FLE::shared(FLE a)
+{
+  float v, e;
+  // six possible cases.
+  // case 1, 6
+  if ((*this < a) || (*this > a)) return FLE(NAN, NAN);  // no overlap
+
+  // case 3, 4
+  if (a.in(*this)) return a;
+  if (this->in(a)) return *this;
+
+  // case 2
+  if (low() < a.low())
+  {
+    v = (a.low() + high())/2;
+    e = v - a.low();
+  }
+  // case 5
+  else
+  {
+    v = (low() + a.high())/2;
+    e = v - low();
+  }
+  return FLE(v, e);
+}
+
+
+FLE FLE::lower(FLE a)
+{
+  return FLE(0,0);   // TODO
+}
+
+
+FLE FLE::higher(FLE a)
+{
+  return FLE(0,0);   // TODO 
+}
+
 
 /////////////////////////////////////////////////
 //
-// EXPERIMENTAL
+// WEAK PROPOSITIONS    TODO  elaborate
 //
-bool FLE::peq(const FLE &in)
+// possible equal 
+bool FLE::peq(const FLE &a)
 {
-  if (in.low() <= low() && in.high() >= low() ) return true;
-  if (low() <= in.low() && high() >= in.low() ) return true;
+  if (a.low() <= low() && a.high() >= low() ) return true;
+  if (low() <= a.low() && high() >= a.low() ) return true;
   return false;
 }
 
-bool FLE::pne(const FLE &in)
+// possible not equal
+bool FLE::pne(const FLE &a)
 {
-  return !(*this == in);
+  return !(*this == a);
+}
+
+// possible less than
+bool FLE::plt(const FLE &a)
+{
+  return (this->low() < a.low());  // TODO
+}
+
+// possible less equal
+bool FLE::ple(const FLE &a)
+{
+  return (this->low() <= a.low());  // TODO
+}
+
+// possible greater than
+bool FLE::pgt(const FLE &a)
+{
+  return (this->high() > a.high());
+}
+
+// possible greater equal
+bool FLE::pge(const FLE &a)
+{
+  return (this->high() >= a.high());  // TODO
 }
 
 

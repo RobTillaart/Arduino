@@ -55,6 +55,21 @@ Although the tables can be written to, it is advised not to do so.
 *OK, the optimize example does a write to improve the table to minimize errors*
 
 
+#### atan, atan2
+
+Since version 0.2.1 two functions are added:
+- **float atanFast(float f)** input range -1 .. 1 is faster.
+Returns -PI/2 .. PI/2
+- **float atan2Fast(float y, float x)** all input possible except (0, 0).
+This (0,0) singularity returns NAN.
+Returns -PI .. PI for all other values.
+
+These functions do not use a lookup table but are faster than the default
+atan() and atan2() functions. 
+Use **fastTrig_atan_performance.ino** to check the gain on your board.
+Price is that the values are less accurate, but the difference is < 0.001.
+
+
 ## Performance isin icos itan
 
 time in us - calls 0 - 360 step 1 degree and calls 720 - 1080 (lib version 0.1.5)
@@ -166,6 +181,30 @@ UNO calls -1 ..+1 step 0.001 degree
 
 
 Please, verify the accuracy to see if it meets your requirements.
+
+
+## Performance atanFast, atan2Fast
+
+Times in microseconds (first  measurement)
+
+|  function  |  atan  |  atanF  |  atan2  |  atan2F  |  factor  |  notes  |
+|:----------:|:------:|:-------:|:-------:|:--------:|:--------:|:--------|
+|  UNO       |  188   |    96   |   196   |   124    |   ~1.6   | range -1 .. 1
+|  UNO       |  220   |   124   |   212   |   128    |   ~1.6   |  
+|  ESP32     |   50   |    15   |    44   |    13    |   ~3.3   |
+
+The range 
+
+Additional measurements are welcome.
+(use performance sketch)
+
+
+## Accuracy atanFast, atan2Fast
+
+The atan2Fast() uses atanFast() so the accuracy for both is the same.
+The test sketch indicates a maximum error is smaller than 0.001.
+
+To be elaborated
 
 
 ## versions

@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -218,6 +218,54 @@ float iatan(float f)
 {
   return 0 * f;
 }
+
+
+float atanFast(float x)
+{
+  //  remove two test will limit the input range but makes it even faster.
+  if ( x > 1)   return (M_PI/2)  - atanHelper(1.0 / x);
+  if ( x < - 1) return (-M_PI/2) - atanHelper(1.0 / x);
+  return atanHelper(x);
+}
+
+
+inline float atanHelper(float x)
+{
+  float x2 = x * x;
+  return (((0.079331 * x2) - 0.288679) * x2 + 0.995354) * x;
+
+  //  an even more accurate alternative, less fast
+  //  return ((((-0.0389929 * x2) + 0.1462766) * x2 - 0.3211819) * x2 + 0.9992150) * x;
+}
+
+
+float atan2Fast(float y, float x)
+{
+  //  catch singularity.
+  if (x== 0 && y == 0) return NAN;
+
+  if (x >= 0)
+  {
+    if (y >= 0)
+    {
+      if (fabs(y) >= fabs(x)) return M_PI / 2 - atanFast(x / y);
+      return atanFast(y / x);
+    }
+    if (fabs(y) >= fabs(x)) return -M_PI / 2 - atanFast(x / y);
+    return atanFast(y / x);
+  }
+  else
+  {
+    if (y >= 0)
+    {
+      if (fabs(y) >= fabs(x)) return M_PI / 2 - atanFast(x / y);
+      return M_PI + atanFast(y / x);
+    }
+    if (fabs(y) >= fabs(x)) return -M_PI / 2 - atanFast(x / y);
+    return -M_PI + atanFast(y / x);
+  }
+}
+
 
 
 //  -- END OF FILE --

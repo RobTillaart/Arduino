@@ -11,6 +11,9 @@ icot	KEYWORD2
 iasin	KEYWORD2
 iacos	KEYWORD2
 
+atanFast	KEYWORD2
+atan2Fast	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

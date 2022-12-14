@@ -1,0 +1,15 @@
+# Syntax Colouring Map For PIR
+
+# Data types (KEYWORD1)
+PIR	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+add	KEYWORD2
+read	KEYWORD2
+count	KEYWORD2
+
+
+# Constants (LITERAL1)
+PIR_LIB_VERSION	LITERAL1
+
+

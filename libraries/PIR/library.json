@@ -1,0 +1,23 @@
+{
+  "name": "PIR",
+  "keywords": "PIR,array",
+  "description": "PIR library for Arduino. Supports up to 8 PIR sensors.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PIR.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "PIR.h"
+}

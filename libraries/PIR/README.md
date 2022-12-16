@@ -12,12 +12,12 @@ PIR library for Arduino. Supports up to 8 PIR sensors.
 
 ## Description
 
-The PIR library implements a class to monitor 1 or more PIR sensors. 
+The PIR library implements a class to monitor 1 or more PIR sensors.
 The library supports up to 8 PIR sensors per object, which typically are added in **setup()**.
-It is possible to add a sensor (pin) multiple times. 
+It is possible to add a sensor (pin) multiple times.
 The library accepts duplicates.
 
-The library has two **read()** functions, one to read a specific sensor, and one to read all of them. 
+The library has two **read()** functions, one to read a specific sensor, and one to read all of them.
 The latter will return a mask indicating HIGH and LOW.
 The first added PIR will have the LSB.
 
@@ -28,18 +28,22 @@ Instead of PIR sensors one can add other DigitalOut sensors or even switches.
 
 #### Base
 
-- **PIR()** constructor. 
+- **PIR()** constructor. Allocated room for 8 PIRs.
 - **uint8_t add(uint8_t pin)** adds a PIR pin to the set of pins.
 Returns the index or PIR_ARRAY_FULL (0xFE)
 - **uint8_t count** returns number of PIR sensors added.
 
+
 #### Read
 
 - **uint8_t read()** read all PIR sensors in the set.
-Returns a mask of HIGH / LOW values.
+Returns a bit mask of HIGH / LOW values.
 Not used slots will return 0.
 - **uint8_t read(uint8_t index)** read a specific PIR sensor.
 Faster than read() above.
+- **uint8_t lastValue()** returns last values read (bit mask) with read().
+- **uint8_t changed()** returns bit mask of pins that changed since last read().
+This can improve processing in some cases.
 
 
 ## Future
@@ -54,12 +58,22 @@ Faster than read() above.
 #### Could
 - investigate PIR16 PIR32 class that can hold more
   - think MEGA2560.
-- investigate noise
+  - or dynamic allocation?  0.2.0
+- one lastRead for all?
+- **uint8_t pin(uint8_t index)** to get back configuration
+- **bool add(uint8_t array, length)** faster configuration. Return true if there was enough room.
+- **clear()** to reset whole object?
+
+#### Wont
+- PIR class based upon a PCF8574?
+  - separate class
+- timestamp per PIR
+  - lastRead, lastTriggered?
+  - taking "a lot of RAM" for every pin
 - add statistics?
   - # calls # high% # low%
   - duration
-- timestamp per PIR
-  - lastRead, lastTriggered?
-- PIR class based upon a PCF8574?
-
+- investigate noise (what noise)
+- **remove(pin)**
+  - difficult, more admin, expectations...
 

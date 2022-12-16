@@ -5,8 +5,11 @@ PIR	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2
-read	KEYWORD2
 count	KEYWORD2
+
+read	KEYWORD2
+lastValue	KEYWORD2
+changed	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -1,7 +1,7 @@
 //
 //    FILE: PIR.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-08-13
 // PURPOSE: PIR library for Arduino.
 //     URL: https://github.com/RobTillaart/PIR
@@ -52,6 +52,14 @@ uint8_t PIR::read()
   }
   _lastValue = rv;
   return rv;
+}
+
+
+uint8_t PIR::changed()
+{
+  uint8_t prev = _lastValue;
+  read();
+  return prev ^ _lastValue;
 }
 
 

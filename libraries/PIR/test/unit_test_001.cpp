@@ -52,7 +52,7 @@ unittest(test_add)
 
   for (int i = 0; i < 8; i++)
   {
-    assertEqual(i, P.add(i+2));
+    assertEqual(i, P.add(i + 2));
   }
 
   assertEqual(PIR_ERR_ARRAY_FULL, P.add(10));
@@ -80,10 +80,30 @@ unittest(test_read)
   PIR P;
 
   //  no PIR added yet
-  uint8_t p = P.read();
-  assertEqual(0, p);
+  uint8_t x = P.read();
+  assertEqual(0, x);
+  uint8_t y = P.lastValue();
+  assertEqual(x, y);
+  
+  P.add(3);
+  x = P.read();
+  assertEqual(0, x);
+  y = P.lastValue();
+  assertEqual(x, y);
+}
 
-  //  TODO add pins, HW stub etc
+
+unittest(test_single_read)
+{
+  PIR P;
+
+  //  no PIR added yet => error
+  uint8_t x = P.read(0);
+  assertEqual((int)PIR_ERR_NO_SENSOR, x);
+
+  P.add(3);
+  x = P.read(0);
+  assertNotEqual((int)PIR_ERR_INDEX, x);
 }
 
 

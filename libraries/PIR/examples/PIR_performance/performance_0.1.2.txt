@@ -1,0 +1,19 @@
+
+IDE:    1.8.19
+BOARD:  UNO
+
+8 pins
+
+PIR_LIB_VERSION: 0.1.2
+
+test_read
+TIME:	36
+VAL:	F7
+
+test_lastValue
+TIME:	4
+VAL:	F7
+
+test_changed
+TIME:	36
+VAL:	0

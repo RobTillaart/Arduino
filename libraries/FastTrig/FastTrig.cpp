@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -62,6 +62,78 @@ uint8_t sinTable8[] = {
 
 ///////////////////////////////////////////////////////
 //
+// GONIO INT EXPERIMENTAL
+// works with only whole degrees.
+//
+int isin256(uint32_t v)
+{
+  bool negative = false;
+
+  long whole = v;
+
+  if (whole >= 360) whole %= 360;
+
+  int y = whole;  //  16 bit math is faster than 32 bit
+
+  if (y >= 180)
+  {
+    y -= 180;
+    negative = true;
+  }
+
+  if (y >= 90)
+  {
+    y = 180 - y;
+  }
+
+  int g = sinTable16[y] >> 8;
+  if (negative) return -g;
+  return g;
+}
+
+
+int icos256(uint32_t v)
+{
+  return isin256(v + 90);
+}
+
+
+void isincos256(uint32_t v, int &si, int &co)
+{
+  bool sneg = false;
+  bool cneg = false;
+
+  long whole = v; 
+
+  if (whole >= 360) 
+  {
+    whole %= 360;
+  }
+
+  int y = whole;  //  16 bit math is faster than 32 bit
+
+  if (y >= 180)
+  {
+    y -= 180;
+    sneg = !sneg;
+    cneg = !cneg;
+  }
+
+  if (y >= 90)
+  {
+    y = 180 - y;
+    cneg = !cneg;
+  }
+
+  si = sinTable16[y] >> 8;
+  co = sinTable16[90-y] >> 8;
+  if (sneg) si = -si;
+  if (cneg) co = -co;
+}
+
+
+///////////////////////////////////////////////////////
+//
 //  GONIO LOOKUP
 //
 float isin(float f)
@@ -76,7 +148,13 @@ float isin(float f)
   long whole = f;
   uint8_t remain = (f - whole) * 256;
 
-  if (whole >= 360) whole %= 360;
+  if (whole >= 360) 
+  {
+    whole %= 360;
+    //  possible faster for 360-720
+    //  if (whole >= 720) whole %= 360;
+    //  else whole -= 360;
+  }
 
   int y = whole;  //  16 bit math is faster than 32 bit
 
@@ -91,7 +169,7 @@ float isin(float f)
     y = 180 - y;
     if (remain != 0)
     {
-      remain = 255 - remain;
+      remain = 256 - remain;
       y--;
     }
   }
@@ -115,6 +193,87 @@ float icos(float x)
   //  prevent modulo math if x in 0..360
   return isin(x - 270.0);  //  better than x + 90;
 }
+
+
+void isincos(float f, float &si, float &co)
+{
+  bool sneg = (f < 0);
+  bool cneg = false;
+  if (sneg)
+  {
+    f = -f;
+  }
+
+  long whole = f;
+  uint8_t remain = (f - whole) * 256;
+
+  if (whole >= 360) 
+  {
+    whole %= 360;
+    //  possible faster for 360-720
+    //  if (whole >= 720) whole %= 360;
+    //  else whole -= 360;
+  }
+
+  int y = whole;  //  16 bit math is faster than 32 bit
+
+  if (y >= 180)
+  {
+    y -= 180;
+    sneg = !sneg;
+    cneg = !cneg;
+  }
+
+  if (y >= 90)
+  {
+    y = 180 - y;
+    if (remain != 0)
+    {
+      remain =   - remain;
+      y--;
+    }
+    cneg = !cneg;
+  }
+
+  //  float value  improves ~4% on avg error  for ~60 bytes.
+  //  SIN
+  uint16_t value = sinTable16[y];
+  //  interpolate if needed
+  if (remain > 0) 
+  {
+    value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;  //  == * remain / 256
+  }
+  si = value * 0.0000152590219;  //  = / 65535.0
+  if (sneg) si = -si;
+
+  //  COS
+  value = sinTable16[90-y];
+  if (remain > 0)
+  {
+    value = sinTable16[89-y];
+    remain = 256 - remain;
+    value = value + ((sinTable16[90-y] - value) / 8 * remain) / 32;  //  == * remain / 256
+  }
+  co = value * 0.0000152590219;  //  = / 65535.0
+  if (cneg) co = -co;
+}
+
+
+///////////////////////////////////////////////
+//
+//  TAN
+//
+//  tan() should be done with isincos() 
+//  as icos() is less accurate => tan() less accurate.
+/*
+float itan(float f)
+{
+  float x, y;
+  isincos(f,x,y);
+  if (y != 0) return x/y;
+  return NAN;
+}
+*/
 
 
 float itan(float f)
@@ -267,5 +426,5 @@ float atan2Fast(float y, float x)
 }
 
 
-
 //  -- END OF FILE --
+

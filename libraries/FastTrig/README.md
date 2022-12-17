@@ -15,6 +15,11 @@ Arduino library with interpolated lookup for sin() and cos(). Trades speed for a
 
 **Warning: The library trades speed for accuracy so use at own risk**
 
+So please, verify the performance and accuracy to see if they meet
+the requirements of your project.
+
+----
+
 The library provides one lookup table that is used for
 **isin(degrees)** and **icos(degrees)** and **itan(degrees)**. 
 This lookup table is optimized for interpolation so the values for whole degrees are not optimal. 
@@ -28,11 +33,15 @@ Similar to ```cos(x) == sin(x + PI)``` it is also true that ```icos(x) == isin(x
 so **icos()** can use the very same lookup table at the cost of a single addition. 
 In fact it uses ```icos(x) == isin(x - 270)``` as that performs better, due to the folding.
 
-The **i** in the names stands for **int** and **interpolated** as the core is using integer math and lookup table of 91 uint16_t = 182 bytes. 
+The **i** in the names stands for **int** and **interpolated** as the core is 
+using integer math and lookup table of 91 uint16_t = 182 bytes. 
 By folding and mirroring the whole 360 degrees and beyond can be handled. 
-When **isin(x)** is called and ```x == int(x)``` then the library will not interpolate and this will improve performance. 
-When x is not a whole number the library will linear interpolate between **isin(int(x))** and **isin(int(x+1))**. 
-Of course this introduces an error but it is quite fast (which was the goal).
+When **isin(float x)** is called and ```x == int(x)``` then the library will not interpolate.
+This will improve performance even more.
+When x is not a whole number the library will linear interpolate 
+between **isin(int(x))** and **isin(int(x+1))**. 
+Of course this introduces an error but the error is small and performance is still 
+quite fast (which was the goal).
 
 
 #### Lookup tables
@@ -70,6 +79,30 @@ Use **fastTrig_atan_performance.ino** to check the gain on your board.
 Price is that the values are less accurate, but the difference is < 0.001.
 
 
+#### isin256, icos256, isincos256
+
+Version 0.3.0 added these experimental functions:
+
+- **int isin256(uint32_t v)** accepts only positive angles in degrees.
+Returns the sin(v)\*256 to keep all math integer (shift 8 later to correct value)
+- **int icos256(uint32_t v)** accepts only positive angles in degrees.
+Returns the cos(v)\*256 to keep all math integer (shift 8 later to correct value)
+- **int isincos256(uint32_t v, int &si, int &co)** accepts only positive angles in degrees.
+returns both the sin(v)\*256 and the cos(v)\*256 of the same angle.
+Faster than both individual calls together.
+
+
+#### isincos
+
+Version 0.3.0 added this experimental function:
+
+- **float isincos(float f, float &si, float &co)** accepts any angle in degrees.
+returns both the sin(v) and the cos(v) of the same angle. 
+Faster than both individual calls, see example.
+There is a minor difference between the value of the **float co** compared to **icos()**.
+This need some investigation ( truncating ?)
+
+
 ## Performance isin icos itan
 
 time in us - calls 0 - 360 step 1 degree and calls 720 - 1080 (lib version 0.1.5)
@@ -98,7 +131,8 @@ and needs to be normalized ( expensive modulo on AVR ). It is worth noting that 
 original **sin()** **cos()** and **tan()** only have a small overhead for 
 values outside the 0..360 range.
 
-Please, verify the performance to see if it meets your requirements.
+Please, verify the performance and accuracy to see if they meet
+the requirements of your project.
 
 
 ## Accuracy isin icos itan
@@ -166,7 +200,6 @@ ESP32 calls -1 ..+1 step 0.001 degree
 - **iatan()** is **Not** Implemented
 
 
-
 UNO calls -1 ..+1 step 0.001 degree
 
 | function | max abs error | avg abs error | max rel error | avg rel error |
@@ -185,7 +218,7 @@ Please, verify the accuracy to see if it meets your requirements.
 
 ## Performance atanFast, atan2Fast
 
-Times in microseconds (first  measurement)
+Indicative times in microseconds (first measurements)
 
 |  function  |  atan  |  atanF  |  atan2  |  atan2F  |  factor  |  notes  |
 |:----------:|:------:|:-------:|:-------:|:--------:|:--------:|:--------|
@@ -193,10 +226,12 @@ Times in microseconds (first  measurement)
 |  UNO       |  220   |   124   |   212   |   128    |   ~1.6   |  
 |  ESP32     |   50   |    15   |    44   |    13    |   ~3.3   |
 
-The range 
+The range of the second UNO is beyond the -1..1 range
 
 Additional measurements are welcome.
 (use performance sketch)
+
+To be elaborated.
 
 
 ## Accuracy atanFast, atan2Fast
@@ -204,7 +239,67 @@ Additional measurements are welcome.
 The atan2Fast() uses atanFast() so the accuracy for both is the same.
 The test sketch indicates a maximum error is smaller than 0.001.
 
-To be elaborated
+To be elaborated.
+
+
+## Performance isincos()
+
+**isincos()** calculates sin(f) and cos(f) in one call.
+
+1000 calls in microseconds.
+
+|  function   |  UNO 16  |  ESP32 240  |
+|:------------|:--------:|:-----------:|
+| sin         |  122872  |   10926     |
+| isin        |   70704  |    1086     |
+| cos         |  122636  |   10853     |
+| icos        |   66588  |    1151     |
+| isin + icos |  148368  |    2248     |
+| isincos     |  103788  |    1909     |
+
+Note the isincos() is faster than the original 
+sin() or cos() while being pretty accurate. 
+
+
+## Accuracy isincos()
+
+As the basic algorithm is very similar to isin() the accuracy is the same.
+
+
+## Performance isin256 icos256 isincos256
+
+**isin256()**, **icos256()** and **isincos256()** calculates the sin\*256 etc.
+These functions all return an integer value.
+There is no floating point math in there so it performs a bit better.
+At some moment you must correct this factor of 256 with a division or a shift 8.
+
+
+1000 calls in microseconds. Based upon **fastTrig_isincos256.ino**
+
+Note to test and compare, the values were multiplied by 100 and shifted by 8.
+
+|  function         |  UNO 16  |  ESP32 240  |
+|:------------------|:--------:|:-----------:|
+| sin               |  131260  |   11364     |
+| isin              |   79044  |    1119     |
+| isin256           |   28284  |     255     |
+| cos               |  131008  |   11298     |
+| icos              |   74928  |    1190     |
+| icos256           |   31704  |     289     |
+| isin256 + icos256 |   58352  |     478     | 
+| isincos256        |   32300  |     339     |
+
+Note the **Ixxx256()** series functions are Fast.
+The price is accuracy but might still be OK for many projects.
+
+
+## Accuracy isin256 icos256 isincos256
+
+The **Ixxx256()** only accept whole degrees. 
+Therefore the values come directly from the lookup tables. no interpolation.
+The error is less than 2% (first measurements.
+
+**To be quantified**
 
 
 ## versions
@@ -219,5 +314,23 @@ See examples
 
 ## Future
 
-- How to improve the accuracy of the whole degrees, as now the table is optimized for interpolation.
-- sinc(x)  = sin(x)/x function.?
+#### Must
+- improve documentation
+- verify math (tables etc) again.
+- write test sketches that output the tables for documentation :)
+
+#### Should
+- write more tests to verify values.
+- test performance on more platforms.
+- investigate the difference between **isincos()** and **icos()**.
+- investigate **itan256()**
+  - itan256(0) = 0 itan256(1) = 4 itan256(2) = 9 so there will be big steps... 
+  - max abs error should be 0.5 or less, it might have its uses.
+
+#### Could
+- How to improve the accuracy of the whole degrees, 
+  - now the table is optimized for interpolation.
+- add **sinc(x)**  = **sin(x)/x** function.?
+- **ixxx256()** functions need another lookup table?
+  - separate .h file?
+

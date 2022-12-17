@@ -1,0 +1,51 @@
+start
+test_hw_support
+172
+40
+0.21
+
+test_sin_cos_tan
+SIN	COS	TAN	360 calls - offset: 0
+120.42	120.29	147.66
+
+
+test_isin_icos_itan
+ISIN	ICOS	ITAN	360 calls - offset: 0
+44.21	51.33	112.71
+
+
+test_sin_cos_tan
+SIN	COS	TAN	360 calls - offset: 720
+124.19	123.98	151.39
+
+
+test_isin_icos_itan
+ISIN	ICOS	ITAN	360 calls - offset: 720
+84.93	91.36	134.70
+
+
+test_isin_error_1
+ISIN 0-3600 calls: 	
+max abs error: 0.00010270
+avg abs error: 0.00002059
+max rel error: 0.02955145
+avg rel error: 0.00035171
+
+
+test_icos_error_1
+ICOS 0-3600 calls:
+max abs error: 0.00010264
+avg abs error: 0.00002032
+max rel error: 0.02949960
+avg rel error: 0.00034869
+
+
+test_itan_error_1
+ITAN 0-3600 calls: 
+max abs error: 0.72760009
+avg abs error: 0.00641527
+max rel error: 0.00144703
+avg rel error: 0.00037889
+
+
+done...

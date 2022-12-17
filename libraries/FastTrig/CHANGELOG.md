@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2012-12-11
+- add isin256(), icos256() and isincos256() => integer math only version
+- add isincos(float f, float &si, float &co) => calculate sin and cos simultaneously.
+- fix rounding bug when mirroring 90° for remainder.
+- add examples.
+- update documentation.
+- update library.properties.
+
+----
+
 ## [0.2.1] - 2022-12-05
 - add atanFast(x) => faster and less accurate than atan(). 
   Input range (-1..1) is fastest.
@@ -14,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add example to measure performance atanFast
 - update readme.md
 - update keywords.txt
-
 
 ## [0.2.0] - 2022-12-02
 - merged PR #16 for ESP_IDF support

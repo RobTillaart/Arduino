@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2022-12-14
+- add experimental asynchronous interface
+- add async example
+
+
 ## [0.2.1] - 2022-11-24
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
-
 
 ## [0.2.0] - 2022-07-10
 - Fix #11 RawTemp + rawHum (kudos to theandy94)

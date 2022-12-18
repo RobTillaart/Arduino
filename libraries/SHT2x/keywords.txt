@@ -38,6 +38,14 @@ getEIDA	KEYWORD2
 getEIDB	KEYWORD2
 getFirmwareVersion	KEYWORD2
 
+requestTemperatureta	KEYWORD2
+requestHumidity	KEYWORD2
+reqTempReady	KEYWORD2
+reqHumReady	KEYWORD2
+readTemperature	KEYWORD2
+readHumidity	KEYWORD2
+lastRequest	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

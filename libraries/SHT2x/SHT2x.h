@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.2.1"))
+#define SHT2x_LIB_VERSION             (F("0.2.2"))
 
 
 //  fields getStatus
@@ -97,9 +97,9 @@ public:
   int getError(); // clears error flag
 
   //  Electronic ID bytes
-  uint32_t  getEIDA();
-  uint32_t  getEIDB();
-  uint8_t   getFirmwareVersion();
+  uint32_t getEIDA();
+  uint32_t getEIDB();
+  uint8_t  getFirmwareVersion();
 
   //  experimental 0.2.0 - needs testing.
   //  table 8 SHT20 datasheet
@@ -111,12 +111,20 @@ public:
   //   2      10 bit    13  bit
   //   3      11 bit    11  bit
   //   4..255 returns false
-  bool      setResolution(uint8_t res = 0);
+  bool     setResolution(uint8_t res = 0);
   //  returns RES set (cached value)
-  uint8_t   getResolution();
+  uint8_t  getResolution();
 
+  bool     batteryOK();
 
-  bool      batteryOK();
+  //  Experimental ASYNC interface
+  bool     requestTemperature();
+  bool     requestHumidity();
+  bool     reqTempReady();
+  bool     reqHumReady();
+  bool     readTemperature();
+  bool     readHumidity();
+  uint32_t lastRequest();
 
 
 protected:
@@ -127,9 +135,14 @@ protected:
   bool      readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration);
   TwoWire* _wire;
 
-  uint8_t   _heatTimeout;   //  seconds
   uint32_t  _lastRead;
-  uint32_t  _lastRequest;   //  for async interface
+
+  //  for async interface
+  uint32_t  _lastRequest;
+  //  0 = none  1 = temp  2 = hum
+  uint8_t   _requestType;
+
+  uint8_t   _heatTimeout;   //  seconds
   uint32_t  _heaterStart;
   uint32_t  _heaterStop;
   bool      _heaterOn;

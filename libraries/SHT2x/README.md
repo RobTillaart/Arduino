@@ -40,7 +40,7 @@ or one should switch sensors on/off like the select in SPI communication.
 
 ## Interface
 
-### Constructors
+#### Constructors
 
 All classes below are derived from SHT2x class.
 
@@ -55,7 +55,7 @@ All classes below are derived from SHT2x class.
 - **Si7021()** constructor.
 
 
-### Base interface
+#### Base interface
 
 - **bool begin(int dataPin, int clockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
@@ -79,7 +79,23 @@ after you've performed a new **read()**.
 Note: The raw temperature and raw humidity are ideal to minimize storage or to minimize communication.
 
 
-### Error interface
+#### Asynchronous interface
+
+Experimental since 0.2.2 this interface can change in the future
+Discussion see https://github.com/RobTillaart/SHT2x/issues/16
+
+- **bool requestTemperature()**
+- **bool requestHumidity()**
+- **bool reqTempReady()**
+- **bool reqHumReady()**
+- **bool readTemperature()**
+- **bool readHumidity()**
+- **uint32_t lastRequest()**
+
+TODO elaborate documentation.
+
+
+#### Error interface
 
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
@@ -100,7 +116,7 @@ Be sure to clear the error flag by calling **getError()** before calling any com
 Note: the HTU20 / HTU21 classes share the same error codes.
 
 
-### Heater interface
+#### Heater interface
 
 **WARNING:** Do not use heater for long periods.  
 Datasheet SHT2x does not mention max time so the maximum time of the SHT3x series is assumed here.
@@ -125,7 +141,7 @@ Returns false if fails, setting error to **SHT2x_ERR_HEATER_OFF**.
 - **bool isHeaterOn()** is the sensor still in heating cycle?
 
 
-### Electronic ID
+#### Electronic ID
 
 To be tested.
 
@@ -134,7 +150,7 @@ To be tested.
 - **uint8_t getFirmwareVersion()** returns firmware version.
   
 
-### Status fields
+#### Status fields
 
 From HTU20 datasheet
 
@@ -146,7 +162,7 @@ From HTU20 datasheet
 |  11    |   3    | closed circuit      |
 
 
-### Resolution
+#### Resolution
 
 **Warning experimental** 
 - needs more testing as results are not in line with the datasheet.
@@ -180,27 +196,37 @@ Timing in milliseconds.
 
 
  
-### Battery
+#### Battery
 
 - **bool batteryOK()** returns true if VCC > 2.5 Volts.
 
 
 ## Future
 
-#### must
+#### Must
 - improve documentation
+- clean up code.
 
 
 #### 0.3.0
 - add crc8 check (need sensor)
 - improve error handling (all code paths)
 - investigate blocking delay() in read 
-  - **ASYNC** NO HOLD call to read T or H
-  - **void requestTemperature()** ==> **void readTemperature()**
-  - **void requestHumidity()** ==> **void readHumidity()**
+- add offset for temperature and humidity
+- move code from .h to .cpp 
+- add GY21 as derived class name
 
 
-#### should
+#### ASYNC 0.3.0
+improvements for interface.
+
+- **bool requestReady()** checks both. 
+- **bool requestPending()** checks . 
+- **uint8_t getRequestType()** returns 0, 1, 2
+- documentation
+
+
+#### Should
 - test test test
   - get hardware
 - add examples
@@ -209,13 +235,13 @@ Timing in milliseconds.
   - test battery
 
 
-#### could
+#### Could
 - investigate resolution anomalies
-- fix TODO in code (.cpp and .h)
+- fix TODO in code (.cpp and .h) and documentation
 - update unit tests
 
 
-#### wont
+#### Wont
 
 - add **getSerialNumber()**
   **getEIDA()** and **getEIDB()** covers this

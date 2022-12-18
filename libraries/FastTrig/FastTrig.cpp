@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -424,6 +424,29 @@ float atan2Fast(float y, float x)
     return -M_PI + atanFast(y / x);
   }
 }
+
+
+///////////////////////////////////////////////////////
+//
+//  HYPOT
+//  related but not strict gonio.
+//
+//  hypotFast()  formula for faster hypot() at the price of accuracy
+//  experimental!
+float hypotFast(float x, float y)
+{
+  float a = fabs(x);
+  float b = fabs(y);
+  if (a > b)
+  {
+    a = fabs(y);
+    b = fabs(x);
+  }
+  float z = 0.917981 * (b + a / 2);
+  if (z > b) return z;
+  return b;
+}
+
 
 
 //  -- END OF FILE --

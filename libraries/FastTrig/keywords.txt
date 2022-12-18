@@ -20,6 +20,8 @@ isin256	KEYWORD2
 icos256	KEYWORD2
 isincos256	KEYWORD2
 
+hypotFast	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

@@ -103,6 +103,20 @@ There is a minor difference between the value of the **float co** compared to **
 This need some investigation ( truncating ?)
 
 
+#### hypotFast
+
+Strictly **hypot()** is no gonio function but it is often used 
+for calculating length in polar coordinates.
+```cpp
+angle = atan2(x,y);
+length = hypot(x, y);
+```
+
+- **float hypotFast(float x, float y)** faster approximation of the **hypot(x, y)**
+Experimental!
+
+
+
 ## Performance isin icos itan
 
 time in us - calls 0 - 360 step 1 degree and calls 720 - 1080 (lib version 0.1.5)
@@ -246,7 +260,7 @@ To be elaborated.
 
 **isincos()** calculates sin(f) and cos(f) in one call.
 
-1000 calls in microseconds.
+loop 1000 calls in microseconds.
 
 |  function   |  UNO 16  |  ESP32 240  |
 |:------------|:--------:|:-----------:|
@@ -266,6 +280,32 @@ sin() or cos() while being pretty accurate.
 As the basic algorithm is very similar to isin() the accuracy is the same.
 
 
+## Performance hypotFast
+
+**hypotFast()** approximates the hypot(x,y) function with a faster formula.
+Price is accuracy.
+
+loop 1000 calls in microseconds.
+
+|  function  |  UNO 16  |  ESP32 240  |
+|:-----------|:--------:|:-----------:|
+|  sqrt      |  58.856  |   4.472     |
+|  hypot     |  56.588  |   7.111     |
+|  hypotFast |  33.768  |   1.683     |
+
+
+Note that **sqrt(x^2, y^2)** will overflow faster than **hypot(x,y)** or **hypotFast(x,y)**.
+
+
+## Accuracy hypotFast
+
+First measurements indicate that the **maximum error** is 
+about 2.64% so on average about 1.32% (both + and -). 
+See test sketch.
+
+Please verify accuracy for the ranges used in your project!
+
+
 ## Performance isin256 icos256 isincos256
 
 **isin256()**, **icos256()** and **isincos256()** calculates the sin\*256 etc.
@@ -274,7 +314,8 @@ There is no floating point math in there so it performs a bit better.
 At some moment you must correct this factor of 256 with a division or a shift 8.
 
 
-1000 calls in microseconds. Based upon **fastTrig_isincos256.ino**
+loop 1000 calls in microseconds. 
+Based upon **fastTrig_isincos256.ino**
 
 Note to test and compare, the values were multiplied by 100 and shifted by 8.
 
@@ -297,7 +338,7 @@ The price is accuracy but might still be OK for many projects.
 
 The **Ixxx256()** only accept whole degrees. 
 Therefore the values come directly from the lookup tables. no interpolation.
-The error is less than 2% (first measurements.
+First measurements indicate that the error is less than 2%.
 
 **To be quantified**
 
@@ -319,6 +360,7 @@ See examples
 - verify math (tables etc) again.
 - write test sketches that output the tables for documentation :)
 
+
 #### Should
 - write more tests to verify values.
 - test performance on more platforms.
@@ -326,6 +368,7 @@ See examples
 - investigate **itan256()**
   - itan256(0) = 0 itan256(1) = 4 itan256(2) = 9 so there will be big steps... 
   - max abs error should be 0.5 or less, it might have its uses.
+
 
 #### Could
 - How to improve the accuracy of the whole degrees, 

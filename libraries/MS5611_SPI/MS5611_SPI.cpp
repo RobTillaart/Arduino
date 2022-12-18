@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: MS5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 //
@@ -48,7 +48,7 @@ MS5611_SPI::MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t 
 bool MS5611_SPI::begin()
 {
   //  print experimental message.
-  Serial.println(MS5611_SPI_LIB_VERSION);
+  //  Serial.println(MS5611_SPI_LIB_VERSION);
 
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
@@ -71,8 +71,9 @@ bool MS5611_SPI::begin()
       mySPI->begin(18, 19, 23, _select);   //  CLK=18 MISO=19 MOSI=23
     }
     #else              //  generic hardware SPI
-    Serial.println("HW_SPI");
+    //  Serial.println("HW_SPI");
     mySPI = &SPI;
+    mySPI->begin();  //  FIX #6  
     mySPI->end();
     mySPI->begin();
     #endif
@@ -80,7 +81,7 @@ bool MS5611_SPI::begin()
   }
   else
   {
-    Serial.println("SW_SPI");
+    //  Serial.println("SW_SPI");
     pinMode(_dataIn,  INPUT);
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock,   OUTPUT);
@@ -197,6 +198,12 @@ void MS5611_SPI::setOversampling(osr_t samplingRate)
 }
 
 
+osr_t MS5611_SPI::getOversampling() const
+{
+  return (osr_t) _samplingRate;
+};
+
+
 float MS5611_SPI::getTemperature() const
 {
   if (_temperatureOffset == 0) return _temperature * 0.01;
@@ -208,6 +215,60 @@ float MS5611_SPI::getPressure() const
 {
   if (_pressureOffset == 0) return _pressure * 0.01;
   return _pressure * 0.01 + _pressureOffset;
+};
+
+
+void MS5611_SPI::setPressureOffset(float offset)
+{
+  _pressureOffset = offset;
+};
+
+
+float MS5611_SPI::getPressureOffset()
+{
+  return _pressureOffset;
+};
+
+
+void MS5611_SPI::setTemperatureOffset(float offset)
+{
+  _temperatureOffset = offset;
+};
+
+
+float MS5611_SPI::getTemperatureOffset()
+{
+  return _temperatureOffset;
+};
+
+
+int MS5611_SPI::getLastResult() const
+{
+  return _result;
+};
+
+
+uint32_t MS5611_SPI::lastRead() const
+{
+  return _lastRead;
+};
+
+
+uint32_t MS5611_SPI::getDeviceID() const
+{
+  return _deviceID;
+};
+
+
+void MS5611_SPI::setCompensation(bool flag)
+{
+  _compensation = flag;
+};
+
+
+bool MS5611_SPI::getCompensation()
+{
+  return _compensation;
 };
 
 
@@ -231,7 +292,25 @@ void MS5611_SPI::setSPIspeed(uint32_t speed)
 };
 
 
+uint32_t MS5611_SPI::getSPIspeed()
+{
+  return _SPIspeed;
+};
+
+
+bool MS5611_SPI::usesHWSPI()
+{
+  return _hwSPI;
+};
+
+
 #if defined(ESP32)
+
+void MS5611_SPI::selectHSPI() { _useHSPI = true;  };
+void MS5611_SPI::selectVSPI() { _useHSPI = false; };
+bool MS5611_SPI::usesHSPI()   { return _useHSPI;  };
+bool MS5611_SPI::usesVSPI()   { return !_useHSPI; };
+
 void MS5611_SPI::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
 {
   _clock   = clk;
@@ -249,6 +328,7 @@ void MS5611_SPI::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t se
   mySPI->end();                 //  disable SPI and restart
   mySPI->begin(clk, miso, mosi, select);
 }
+
 #endif
 
 

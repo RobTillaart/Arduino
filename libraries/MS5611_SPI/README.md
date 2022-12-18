@@ -8,30 +8,30 @@
 
 # MS5611_SPI
 
-Arduino library (SPI) for MS5611 pressure (and temperature) sensor.
+Arduino library (SPI) for MS5611 pressure and temperature sensor.
 
 
 ## Description
 
-The MS5611 is a high resolution pressure (and temperature) sensor a.k.a GY-63.
+The MS5611 is a high resolution pressure and temperature sensor a.k.a GY-63.
 The high resolution is made possible by oversampling many times.
 
 This library only implements the SPI interface.
-
-Based upon the 0.3.6 version of the I2C library, 
+It is based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
 
 
 #### Compatibility
 
 The library should be compatible with MS56XX, MS57xx and MS58xx devices (to be tested). 
-Some device types will returns only 50% of the pressure value. 
+
+Note: Some device types will return only 50% of the pressure value. 
 This is solved by calling **reset(1)** to select the math used.
 
 
 #### Self heating
 
-In some configurations especially when using SPI the sensor showed a self heating. 
+In some configurations especially when using SPI the sensor showed a self heating effect. 
 First this was approached as a problem, so investigations were done to understand the 
 cause and how to solve it. During this process the view changed of seeing the higher 
 temperature as a problem to being the solution. 
@@ -51,7 +51,8 @@ Note: the self heating offset can be compensated with **setTemperatureOffset(off
 which allows you to match the temperature with the ambient temperature again.
 As the self heating effect is not expected to be linear over the full range of the
 temperature sensor the offset might work only in a smaller range.
-To have a reliable ambient temperature it is advised to use an dedicated temperature sensor for this (e.g. DS18B20).
+To have a reliable ambient temperature it is advised to use an 
+dedicated temperature sensor for this (e.g. DS18B20).
 
 
 #### Breakout GY-63
@@ -88,7 +89,7 @@ For temperature conversions see - https://github.com/RobTillaart/Temperature
 
 ## WARNING EXPERIMENTAL
 
-Note: This library is under development
+Note: This library is under development.
 
 SPI communication works and reasonable values are read, at least for pressure.
 
@@ -134,13 +135,6 @@ There are a few open ends to investigate.
 - investigate timing (clock) of the SPI. (both ESP and UNO)
 
 If you have experiences with this library please share them in the issues.
-
-
-## Release Notes
-
-### 0.1.0 initial release
-
-Based upon 0.3.8 of the I2C MS5611 library.
 
 
 ## Interface
@@ -269,7 +263,6 @@ See examples
 
 #### should
 - proper error handling.
-- move all code to .cpp
 
 #### could
 - redo lower level functions?

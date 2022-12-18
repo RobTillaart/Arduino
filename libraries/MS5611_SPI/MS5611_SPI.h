@@ -2,7 +2,7 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: S5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
@@ -29,7 +29,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.1.1 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.1.2 EXPERIMENTAL"))
 
 
 #define MS5611_READ_OK                        0
@@ -70,7 +70,7 @@ public:
   void     setOversampling(osr_t samplingRate);
 
   //  oversampling rate is in osr_t
-  osr_t    getOversampling() const { return (osr_t) _samplingRate; };
+  osr_t    getOversampling() const;
 
   //  temperature is in ²C
   float    getTemperature() const;
@@ -78,22 +78,22 @@ public:
   //  pressure is in mBar
   float    getPressure() const;
 
-  //  OFFSET - 0.3.6
-  void     setPressureOffset(float offset = 0)    { _pressureOffset = offset; };
-  float    getPressureOffset()    { return _pressureOffset; };
-  void     setTemperatureOffset(float offset = 0) { _temperatureOffset = offset; };
-  float    getTemperatureOffset() { return _temperatureOffset; };
+  //  OFFSET
+  void     setPressureOffset(float offset = 0);
+  float    getPressureOffset();
+  void     setTemperatureOffset(float offset = 0);
+  float    getTemperatureOffset();
 
   //  to check for failure
-  int      getLastResult() const   { return _result; };
+  int      getLastResult() const;
 
   //  last time in millis() when the sensor has been read.
-  uint32_t lastRead() const        { return _lastRead; };
+  uint32_t lastRead() const;
 
-  uint32_t getDeviceID() const     { return _deviceID; };
+  uint32_t getDeviceID() const;
 
-  void     setCompensation(bool flag = true) { _compensation = flag; };
-  bool     getCompensation() { return _compensation; };
+  void     setCompensation(bool flag = true);
+  bool     getCompensation();
 
   //  develop functions.
   /*
@@ -109,17 +109,17 @@ public:
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed() { return _SPIspeed; };
+  uint32_t getSPIspeed();
 
   //  debugging
-  bool     usesHWSPI() { return _hwSPI; };
+  bool     usesHWSPI();
 
   //  ESP32 specific
   #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
 
   //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
@@ -152,6 +152,7 @@ protected:
   bool     _hwSPI;
   uint32_t _SPIspeed = 1000000;
   uint8_t   swSPI_transfer(uint8_t value);
+
   SPIClass    * mySPI;
   SPISettings _spi_settings;
   #if defined(ESP32)

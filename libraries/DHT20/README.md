@@ -82,7 +82,7 @@ Please let me know if other platforms work (or not).
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
 - **bool begin()** initializer for non ESP32. Returns true if connected.
 - **bool isConnected()** returns true if the address of the DHT20 can be seen on the I2C bus.
-
+- **uint8_t getAddress()** returns the (fixed) address - convenience.
 
 ### Core
 
@@ -186,6 +186,7 @@ See examples
 #### must
 - improve documentation.
 - investigate the bug from #8 further
+  (is done in 0.2.1 see issue #8)
 
 #### should
 
@@ -197,7 +198,7 @@ See examples
 - investigate optimizing timing in readStatus()
   - delay(1) ==> microSeconds(???).
 - connected flag?
-- add **uint8_t getAddress()** to return the address (convenience).
+
 
 #### won't
 

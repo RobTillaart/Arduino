@@ -1,10 +1,8 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
-//
-// HISTORY: see changelog.md
 
 
 #include "DHT20.h"
@@ -59,6 +57,12 @@ bool DHT20::isConnected()
   _wire->beginTransmission(DHT20_ADDRESS);
   int rv = _wire->endTransmission();
   return rv == 0;
+}
+
+
+uint8_t DHT20::getAddress()
+{
+  return DHT20_ADDRESS;
 }
 
 
@@ -225,10 +229,6 @@ float DHT20::getTempOffset()
 //
 uint8_t DHT20::readStatus()
 {
-  _wire->beginTransmission(DHT20_ADDRESS);
-  _wire->write(0x71);
-  _wire->endTransmission();
-  delay(1);  //  needed to stabilize timing
   _wire->requestFrom(DHT20_ADDRESS, (uint8_t)1);
   delay(1);  //  needed to stabilize timing
   return (uint8_t) _wire->read();

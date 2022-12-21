@@ -1,12 +1,10 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
-//
-// HISTORY: see changelog.md
 
 
 #include "AS5600.h"
@@ -99,6 +97,12 @@ bool AS5600::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t AS5600::getAddress()
+{
+  return _address;
 }
 
 
@@ -306,13 +310,28 @@ uint8_t AS5600::getWatchDog()
 //
 uint16_t AS5600::rawAngle()
 {
-  uint16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
+  int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
+
+  //  whole rotation CW?
+  if ((_lastPosition > 2500) && ( value < 1500))
+  {
+    _position = _position + 4096 - _lastPosition + value;
+  }
+  //  whole rotation CCW?
+  else if ((value > 2500) && ( _lastPosition < 1500))
+  {
+    _position = _position - 4096 - _lastPosition + value;
+  }
+  else _position = _position - _lastPosition + value;
+  _lastPosition = value;
+
   if (_offset > 0) value = (value + _offset) & 0x0FFF;
 
   if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
   {
-    value = (4096 - value) & 4095;
+    value = (4096 - value) & 0x0FFF;
   }
+
   return value;
 }
 
@@ -324,7 +343,7 @@ uint16_t AS5600::readAngle()
 
   if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
   {
-    value = (4096 - value) & 4095;
+    value = (4096 - value) & 0x0FFF;
   }
   return value;
 }
@@ -434,6 +453,10 @@ float AS5600::getAngularSpeed(uint8_t mode)
   {
     return speed * AS5600_RAW_TO_RADIANS;
   }
+  if (mode == AS5600_MODE_RPM)
+  {
+    return speed * AS5600_RAW_TO_RPM;
+  }
   //  default return degrees
   return speed * AS5600_RAW_TO_DEGREES;
 }
@@ -441,7 +464,34 @@ float AS5600::getAngularSpeed(uint8_t mode)
 
 /////////////////////////////////////////////////////////
 //
-//  PRIVATE AS5600
+//  POSITION cumulative
+//
+int32_t AS5600::getCumulativePosition()
+{
+  return _position;
+}
+
+
+int32_t AS5600::getRevolutions()
+{
+  int32_t p =  _position >> 12;
+  return p;
+  // if (p < 0) p++;
+  // return p;
+}
+
+
+int32_t AS5600::resetPosition()
+{
+  int32_t old = _position;
+  _position  = 0;
+  return old;
+}
+
+
+/////////////////////////////////////////////////////////
+//
+//  PROTECTED AS5600
 //
 uint8_t AS5600::readReg(uint8_t reg)
 {
@@ -502,7 +552,7 @@ AS5600L::AS5600L(uint8_t address, TwoWire *wire) : AS5600(wire)
 
 bool AS5600L::setAddress(uint8_t address)
 {
-  //  skip reserved I2C addresses 
+  //  skip reserved I2C addresses
   if ((address < 8) || (address > 119)) return false;
 
   //  note address need to be shifted 1 bit.
@@ -517,7 +567,7 @@ bool AS5600L::setAddress(uint8_t address)
 
 bool AS5600L::setI2CUPDT(uint8_t address)
 {
-  //  skip reserved I2C addresses 
+  //  skip reserved I2C addresses
   if ((address < 8) || (address > 119)) return false;
   writeReg(AS5600_I2CUPDT, address << 1);
   return true;

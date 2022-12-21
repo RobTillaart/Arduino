@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.3.3] - 2022-12-19
+- add experimental continuous position.
+  - add **getCumulativePosition()**
+  - add **resetPosition()**
+  - add **getRevolutions()**
+- move code from .h to .cpp
+- add AS5600_MODE_RPM to **getAngularSpeed()**
+- add AS5600_RAW_TO_RPM
+- add example for AS5600_MODE_RPM.
+- add AS5600_DEFAULT_ADDRESS
+- add AS5600L_DEFAULT_ADDRESS
+- update readme.md
+
+
 ## [0.3.2] - 2022-10-16
 - add CHANGELOG.md
 - update readme.md

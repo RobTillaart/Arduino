@@ -35,6 +35,7 @@ Please share your experiences.
 Possible interesting related libraries.
 
 - https://github.com/RobTillaart/Angle
+- https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/runningAngle
 
@@ -145,10 +146,13 @@ const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4096;
 //  0.00153398078788564122971808758949;
 const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4096;
+//  4.06901041666666e-6
+const float   AS5600_RAW_TO_RPM         = 1.0 / 4096 / 60;
 
 //  getAngularSpeed
 const uint8_t AS5600_MODE_DEGREES       = 0;
 const uint8_t AS5600_MODE_RADIANS       = 1;
+const uint8_t AS5600_MODE_RPM           = 2;
 ```
 
 See AS5600.h file (and datasheet) for all constants.
@@ -200,15 +204,15 @@ See datasheet **Angle Programming**
 - **uint16_t getMaxAngle()** get limited range.
 
 
-- **bool setConfigure(uint16_t value)**
-Value = 0..0x4000
-Returns false if parameter is out of range.
-- **uint16_t getConfigure()**
-
-
 #### Configuration bits
 
 Please read datasheet for details.
+
+- **bool setConfigure(uint16_t value)** value == 0..0x3FFF
+Access the register as bit mask.
+Returns false if parameter is out of range.
+- **uint16_t getConfigure()** returns the current configuration register a bit mask.
+
 
 | Bit   | short | Description   | Values                                                | 
 |:-----:|:------|:--------------|:------------------------------------------------------|
@@ -222,28 +226,36 @@ Please read datasheet for details.
 | 15-14 |       | not used      |
 
 The library has functions to address these fields directly.
+The setters() returns false if parameter is out of range.
 
 - **bool setPowerMode(uint8_t powerMode)** 
-returns false if parameter is out of range.
-- **uint8_t getPowerMode()** returns the mode set.
-
-See the .h file for the other get/set functions.
-
-
-#### Hysteresis
-
-- **bool setHysteresis(uint8_t hysteresis)** Suppresses "noise" on the output when the magnet is not moving.
+- **uint8_t getPowerMode()**
+- **bool setHysteresis(uint8_t hysteresis)**
+Suppresses "noise" on the output when the magnet is not moving.
 In a way one is trading precision for stability.
-Returns false if parameter is out of range.
+- **uint8_t getHysteresis()**
+- **bool setOutputMode(uint8_t outputMode)**
+- **uint8_t getOutputMode()**
+- **bool setPWMFrequency(uint8_t pwmFreq)**
+- **uint8_t getPWMFrequency()**
+- **bool setSlowFilter(uint8_t mask)**
+- **uint8_t getSlowFilter()**
+- **bool setFastFilter(uint8_t mask)**
+- **uint8_t getFastFilter()**
+- **bool setWatchDog(uint8_t mask)**
+- **uint8_t getWatchDog()**
 
 
 ### Read Angle
 
-- **uint16_t rawAngle()** idem. returns 0 .. 4095. (12 bits) 
+- **uint16_t rawAngle()** returns 0 .. 4095. (12 bits) 
 Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625 
 or use AS5600_RAW_TO_RADIANS if needed. 
-- **uint16_t readAngle()** read the angle from the sensor. 
-This is the one most used.
+- **uint16_t readAngle()** returns 0 .. 4095. (12 bits) 
+Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625 
+or use AS5600_RAW_TO_RADIANS if needed.
+The value of this register can be affected by the configuration bits above.
+This is the one most used. 
 - **void setOffset(float degrees)** sets an offset in degrees,
 e.g. to calibrate the sensor after mounting.
 Typical values are -359.99 - 359.99 probably smaller. 
@@ -266,12 +278,14 @@ an approximation of the angular speed in rotations per second.
 The function needs to be called at least **four** times per rotation
 or once per second to get a reasonably precision. 
 
-- mode == AS5600_MODE_RADIANS (1): radians /second
-- mode == AS5600_MODE_DEGREES (0): degrees /second (default)
-- mode other => degrees /second
+|  mode                 |  value  |  description   |  notes  |
+|:----------------------|:-------:|:---------------|:--------|
+|  AS5600_MODE_RADIANS  |    1    |  radians /sec  |         |
+|  AS5600_MODE_DEGREES  |    0    |  degrees /sec  | default |
+|  other                |    -    |  degrees /sec  |         |
 
-Negative values indicate reverse rotation. 
-What that means depends on the setup of your project.
+Negative return values indicate reverse rotation. 
+What that exactly means depends on the setup of your project.
 
 Note: the first call will return an erroneous value as it has no
 reference angle or time. 
@@ -285,6 +299,22 @@ Also if one wants to detect minute movements, calling it more often is the way t
 An alternative implementation is possible in which the angle is measured twice 
 with a short interval. The only limitation then is that both measurements
 should be within 180° = half a rotation. 
+
+
+### Cumulative position
+
+```cpp
+  //  EXPERIMENTAL CUMULATIVE POSITION
+  int32_t  getCumulativePosition();
+  int32_t  getRevolutions();
+  int32_t  resetPosition();    //  resets position returns last value.
+```
+
+to elaborate
+
+- call rawAngle() often enough == at least 4x per rotation
+- example
+- only the revolutions are reset
 
 
 ### Status registers
@@ -304,23 +334,23 @@ Scale is unclear, can be used as relative scale.
 
 Please read datasheet for details.
 
-| Bit   | short | Description   | Values                | 
+|  Bit  | short | Description   | Values                | 
 |:-----:|:------|:-------------:|:----------------------|
-| 0-2   |       | not used      |                       |
-| 3     |  MH   | overflow      | 1 = magnet too strong |
-| 4     |  ML   | underflow     | 1 = magnet too weak   |
-| 5     |  MD   | magnet detect | 1 = magnet detected   |
-| 6-7   |       | not used      |                       |
+|  0-2  |       | not used      |                       |
+|  3    |  MH   | overflow      | 1 = magnet too strong |
+|  4    |  ML   | underflow     | 1 = magnet too weak   |
+|  5    |  MD   | magnet detect | 1 = magnet detected   |
+|  6-7  |       | not used      |                       |
 
 
 ### Make configuration persistent.
 
 **USE AT OWN RISK**
 
-Please read datasheet twice.
+Please read datasheet **twice** as these changes are not reversible.
 
 The burn functions are used to make settings persistent. 
-These burn functions are highly permanent, therefore they are commented in the library.
+These burn functions are permanent, therefore they are commented in the library.
 Please read datasheet twice, before uncomment them.
 
 The risk is that you make your AS5600 / AS5600L **USELESS**.
@@ -475,8 +505,9 @@ This output could be used to connect multiple sensors to different analogue port
 
 **Warning**: If and how well this analog option works is not verified or tested.
 
+----
 
-## AS5600L
+## AS5600L class
 
 - **AS5600L(uint8_t address = 0x40, TwoWire \*wire = &Wire)** constructor.
 As the I2C address can be changed in the AS5600L, the address is a parameter of the constructor.
@@ -498,6 +529,7 @@ UPDT = update  page 30 - AS5600L
 These functions seems to have only a function in relation to **setAddress()** so possibly obsolete in the future. 
 If you got other insights on these functions please let me know.
 
+----
 
 ## Operational
 
@@ -533,15 +565,16 @@ Some ideas are kept here so they won't get lost.
 priority is relative.
 
 
-#### high priority
+#### Must
 
+- re-organize readme (0.4.0 ?)
 - fix for AS5600L as it does not support analog OUT.
   - type field?
-  - other class hierarchy? base class with commonalities?
+  - other class hierarchy? 
+    - base class with commonalities?
   - just ignore?
 
-
-#### medium priority
+#### Should
 
 - investigate **readMagnitude()**
   - combination of AGC and MD, ML and MH flags?
@@ -564,7 +597,7 @@ priority is relative.
   - is there improvement possible.
 
 
-#### low priority
+#### Could
 
 - add error handling
 - investigate PGO programming pin.

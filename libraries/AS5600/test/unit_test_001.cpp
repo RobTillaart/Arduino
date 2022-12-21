@@ -54,9 +54,11 @@ unittest(test_constants)
 
   assertEqual(0, AS5600_MODE_DEGREES);
   assertEqual(1, AS5600_MODE_RADIANS);
+  assertEqual(2, AS5600_MODE_RPM);
 
-  assertEqualFloat(360.0/4096, AS5600_RAW_TO_DEGREES, 0.0001);
+  assertEqualFloat(360.0/4096,    AS5600_RAW_TO_DEGREES, 0.0001);
   assertEqualFloat((PI*2.0)/4096, AS5600_RAW_TO_RADIANS, 0.0001);
+  assertEqualFloat(60.0/4096,     AS5600_RAW_TO_RPM,     0.0001);
 
   assertEqual(0, AS5600_OUTMODE_ANALOG_100);
   assertEqual(1, AS5600_OUTMODE_ANALOG_90);
@@ -93,6 +95,9 @@ unittest(test_constants)
 
   assertEqual(0, AS5600_WATCHDOG_OFF);
   assertEqual(1, AS5600_WATCHDOG_ON);
+
+  assertEqual(0x36, AS5600_DEFAULT_ADDRESS);
+  assertEqual(0x40, AS5600L_DEFAULT_ADDRESS);
 }
 
 
@@ -117,7 +122,7 @@ unittest(test_address)
   AS5600L asl;
   as5600.begin(5);
   assertEqual(0x40, asl.getAddress());
-  
+
   AS5600L asl2(0x41);
   asl2.begin(6);
   assertEqual(0x41, asl2.getAddress());

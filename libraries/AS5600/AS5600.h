@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,12 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.3.2"))
+#define AS5600_LIB_VERSION              (F("0.3.3"))
+
+//  default addresses
+const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
+const uint8_t AS5600L_DEFAULT_ADDRESS   = 0x40;
+
 
 //  setDirection
 const uint8_t AS5600_CLOCK_WISE         = 0;  //  LOW
@@ -22,10 +27,13 @@ const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4096;
 //  0.00153398078788564122971808758949;
 const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4096;
+//  4.06901041666666e-6
+const float   AS5600_RAW_TO_RPM         = 60.0 / 4096;
 
 //  getAngularSpeed
 const uint8_t AS5600_MODE_DEGREES       = 0;
 const uint8_t AS5600_MODE_RADIANS       = 1;
+const uint8_t AS5600_MODE_RPM           = 2;
 
 //  CONFIGURE CONSTANTS
 //  check datasheet for details
@@ -85,10 +93,10 @@ public:
   bool     begin(int dataPin, int clockPin, uint8_t directionPin = 255);
 #endif
            //  255 is software controlled direction pin
-  bool     begin(uint8_t directionPin = 255);
+  bool     begin(uint8_t directionPin = 255);  //  MAGIC NR => const int?
   bool     isConnected();
 
-  uint8_t  getAddress() { return _address; };  //  0x36
+  uint8_t  getAddress();  //  0x36 for AS5600, 0x40 for AS5600L
 
 
   //  SET CONFIGURE REGISTERS
@@ -201,6 +209,11 @@ public:
   //  mode == 0: degrees /second  (default)
   float    getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES);
 
+  //  EXPERIMENTAL CUMULATIVE POSITION
+  int32_t  getCumulativePosition();
+  int32_t  getRevolutions();
+  int32_t  resetPosition();    //  resets counter returns last value.
+
 
 protected:
   uint8_t  readReg(uint8_t reg);
@@ -208,10 +221,10 @@ protected:
   uint8_t  writeReg(uint8_t reg, uint8_t value);
   uint8_t  writeReg2(uint8_t reg, uint16_t value);
 
-  uint8_t  _address      = 0x36;
-  uint8_t  _directionPin = 255;
-  uint8_t  _direction    = AS5600_CLOCK_WISE;
-  uint8_t  _error        = 0;
+  uint8_t  _address         = AS5600_DEFAULT_ADDRESS;
+  uint8_t  _directionPin    = 255;
+  uint8_t  _direction       = AS5600_CLOCK_WISE;
+  uint8_t  _error           = 0;
 
   TwoWire*  _wire;
 
@@ -221,6 +234,13 @@ protected:
 
   //  for readAngle() and rawAngle()
   uint16_t _offset          = 0;
+
+
+  //  EXPERIMENTAL
+  //  cumulative position counter
+  //  works only if the sensor is read often enough.
+  int32_t  _position        = 0;
+  int16_t  _lastPosition    = 0;
 };
 
 
@@ -231,7 +251,7 @@ protected:
 class AS5600L : public AS5600
 {
 public:
-  AS5600L(uint8_t address = 0x40, TwoWire *wire = &Wire);
+  AS5600L(uint8_t address = AS5600L_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
   bool     setAddress(uint8_t address);
 

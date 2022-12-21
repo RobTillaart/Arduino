@@ -5,7 +5,7 @@
 // VERSION: 0.1.0
 //    DATE: 2022-12-01
 // PURPOSE: angle conversion class
-//     URL: https://github.com/RobTillaart/AngleCOnvertor
+//     URL: https://github.com/RobTillaart/AngleConvertor
 
 
 #include "Arduino.h"

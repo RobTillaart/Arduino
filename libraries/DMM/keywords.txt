@@ -1,0 +1,25 @@
+# Syntax Colouring Map For DMM (Digital MultiMeter)
+
+# Data types (KEYWORD1)
+DMM	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+setMaxVoltage	KEYWORD2
+getMaxVoltage	KEYWORD2
+
+setGain	KEYWORD2
+getGain	KEYWORD2
+
+readVolts	KEYWORD2
+readMilliVolts	KEYWORD2
+
+readNoise	KEYWORD2
+
+
+# Constants (LITERAL1)
+DMM_LIB_VERSION	LITERAL1
+
+
+

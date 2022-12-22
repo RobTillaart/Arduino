@@ -301,20 +301,38 @@ with a short interval. The only limitation then is that both measurements
 should be within 180° = half a rotation. 
 
 
-### Cumulative position
+### Cumulative position (experimental)
+
+Since 0.3.3 an experimental cumulative position can be requested from the library.
+The sensor does not provide interrupts to indicate a movement or revolution
+Therefore one has to poll the sensor at a frequency at least 3 times per revolution with **getCumulativePosition()**
+
+The cumulative position consists of 3 parts
+
+|  bit    |  meaning      |  notes  |
+|:-------:|:--------------|:--------|
+|    31   |  sign         |  typical + == CW, - == CCW
+|  30-12  |  revolutions  |
+|  11-00  |  raw angle    |  call getCumulativePosition() 
+
+
+Functions are:
+
+- **int32_t getCumulativePosition()** reads sensor and updates cumulative position.
+- **int32_t getRevolutions()** converts last position to whole revolutions.
+Convenience function.
+- **int32_t resetPosition()** resets **revolutions**, returns last position. 
+The cumulative position does not reset to 0 but to the last known raw angle.
+This way the cumulative position always indicate the (absolute) angle too.
+
+As this code is experimental, names might change in the future.
+As the function are mostly about counting revolutions the current thoughts for new names are:
 
 ```cpp
-  //  EXPERIMENTAL CUMULATIVE POSITION
-  int32_t  getCumulativePosition();
-  int32_t  getRevolutions();
-  int32_t  resetPosition();    //  resets position returns last value.
+int32_t updateRevolutions()  replaces getCumulativePosition()
+int32_t getRevolutions()
+int32_t resetRevolutions()   replaces resetPosition()
 ```
-
-to elaborate
-
-- call rawAngle() often enough == at least 4x per rotation
-- example
-- only the revolutions are reset
 
 
 ### Status registers

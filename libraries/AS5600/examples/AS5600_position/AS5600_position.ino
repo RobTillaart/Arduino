@@ -39,9 +39,12 @@ void setup()
 void loop()
 {
   static uint32_t lastTime = 0;
-  //  Serial.print("\ta = ");
-  //  Serial.print(as5600.readAngle());
-  as5600.rawAngle();
+
+  //  set initial position
+  as5600.getCumulativePosition();
+
+  //  update every 100 ms
+  //  should be enough up to ~200 RPM
   if (millis() - lastTime >= 100)
   {
     lastTime = millis();
@@ -49,7 +52,12 @@ void loop()
     Serial.print("\t");
     Serial.println(as5600.getRevolutions());
   }
-  if (as5600.getRevolutions() >= 10) as5600.resetPosition();
+
+  //  just to show how reset can be used
+  if (as5600.getRevolutions() >= 10)
+  {
+    as5600.resetPosition();
+  }
 }
 
 

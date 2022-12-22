@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -311,27 +311,12 @@ uint8_t AS5600::getWatchDog()
 uint16_t AS5600::rawAngle()
 {
   int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
-
-  //  whole rotation CW?
-  if ((_lastPosition > 2500) && ( value < 1500))
-  {
-    _position = _position + 4096 - _lastPosition + value;
-  }
-  //  whole rotation CCW?
-  else if ((value > 2500) && ( _lastPosition < 1500))
-  {
-    _position = _position - 4096 - _lastPosition + value;
-  }
-  else _position = _position - _lastPosition + value;
-  _lastPosition = value;
-
   if (_offset > 0) value = (value + _offset) & 0x0FFF;
 
   if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
   {
     value = (4096 - value) & 0x0FFF;
   }
-
   return value;
 }
 
@@ -466,8 +451,24 @@ float AS5600::getAngularSpeed(uint8_t mode)
 //
 //  POSITION cumulative
 //
+
 int32_t AS5600::getCumulativePosition()
 {
+  int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
+
+  //  whole rotation CW?
+  if ((_lastPosition > 2048) && ( value < (_lastPosition - 2048)))  //  less than half a circle
+  {
+    _position = _position + 4096 - _lastPosition + value;
+  }
+  //  whole rotation CCW?
+  else if ((value > 2048) && ( _lastPosition < (value - 2048)))  //  less than half a circle
+  {
+    _position = _position - 4096 - _lastPosition + value;
+  }
+  else _position = _position - _lastPosition + value;
+  _lastPosition = value;
+
   return _position;
 }
 

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2022-12-22
+- fix #26 edges problem of the experimental cumulative position (CP).
+- decoupled CP from **rawAngle()**
+  - now one needs to call **getCumulativePosition()** to update the CP.
+- updated the readme.md section about CP.
+
+
 ## [0.3.3] - 2022-12-19
 - add experimental continuous position.
   - add **getCumulativePosition()**
@@ -17,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add AS5600_DEFAULT_ADDRESS
 - add AS5600L_DEFAULT_ADDRESS
 - update readme.md
-
 
 ## [0.3.2] - 2022-10-16
 - add CHANGELOG.md

@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.3.3"))
+#define AS5600_LIB_VERSION              (F("0.3.4"))
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
@@ -210,9 +210,12 @@ public:
   float    getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES);
 
   //  EXPERIMENTAL CUMULATIVE POSITION
+  //  reads sensor and updates cumulative position
   int32_t  getCumulativePosition();
+  //  converts last position to whole revolutions.
   int32_t  getRevolutions();
-  int32_t  resetPosition();    //  resets counter returns last value.
+  //  resets position, returns last position.
+  int32_t  resetPosition();
 
 
 protected:

@@ -24,7 +24,8 @@ void setup()
   }
   stop = micros();
   Serial.print("SIN: \t\t");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.println(" us");
   delay(10);
 
 
@@ -35,7 +36,8 @@ void setup()
   }
   stop = micros();
   Serial.print("ISIN: \t\t");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.println(" us");
   delay(10);
 
   start = micros();
@@ -45,7 +47,8 @@ void setup()
   }
   stop = micros();
   Serial.print("COS: \t\t");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.println(" us");
   delay(10);
 
 
@@ -56,12 +59,13 @@ void setup()
   }
   stop = micros();
   Serial.print("ICOS: \t\t");
-  Serial.println(stop - start);
+  Serial.print(stop - start);
+  Serial.println(" us");
   delay(10);
 
   for (uint32_t r = 0; r <= 360; r++)
   {
-    x = cos(r * PI / 180.0);
+    x = cos(r * (PI / 180.0));
     y = icos(r);
     if (abs(x - y) >= 1)
     {
@@ -70,6 +74,9 @@ void setup()
       Serial.print(x);
       Serial.print('\t');
       Serial.print(float(y));
+      Serial.print('\t');
+      Serial.print(100.0 - 100.0 * float(y) / x);
+      Serial.print("%");
       Serial.println();
     }
   }
@@ -80,12 +87,26 @@ void setup()
   start = micros();
   for (uint32_t r = 0; r < 1000; r++)
   {
+    sum += sin(r * (PI / 180.0)) + cos(r * (PI / 180.0));
+  }
+  stop = micros();
+  Serial.print("SIN + COS: \t");
+  Serial.print(stop - start);
+  Serial.println(" us");
+  Serial.println(sum, 4);
+  delay(10);
+
+  sum = 0;
+  start = micros();
+  for (uint32_t r = 0; r < 1000; r++)
+  {
     sum += isin(r) + icos(r);
   }
   stop = micros();
   Serial.print("ISIN + ICOS: \t");
-  Serial.println(stop - start);
-  Serial.println(sum);
+  Serial.print(stop - start);
+  Serial.println(" us");
+  Serial.println(sum, 4);
   delay(10);
 
   sum = 0;
@@ -93,23 +114,24 @@ void setup()
   for (uint32_t r = 0; r < 1000; r++)
   {
     float p, q;
-    isincos(r, p, q);
+    isincos(r, &p, &q);
     sum += p + q;
   }
   stop = micros();
   Serial.print("ISINCOS: \t");
-  Serial.println(stop - start);
-  Serial.println(sum);
+  Serial.print(stop - start);
+  Serial.println(" us");
+  Serial.println(sum, 4);
   delay(10);
 
 
   for (uint32_t r = 0; r < 100; r++)
   {
     float p, q, s, t;
-    isincos(r*0.1, p, q);
-    s = isin(r*0.1);
-    t = icos(r*0.1);
-    if ((abs(p-s) > 0.0001) || (abs(q-t) > 0.0001))
+    isincos(r * 0.1, &p, &q);
+    s = isin(r * 0.1);
+    t = icos(r * 0.1);
+    if ((abs(p - s) > 0.0001) || (abs(q - t) > 0.0001))
     {
       Serial.print(r);
       Serial.print("\t");

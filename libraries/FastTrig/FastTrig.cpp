@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -98,7 +98,7 @@ int icos256(uint32_t v)
 }
 
 
-void isincos256(uint32_t v, int &si, int &co)
+void isincos256(uint32_t v, int *si, int *co)
 {
   bool sneg = false;
   bool cneg = false;
@@ -125,10 +125,10 @@ void isincos256(uint32_t v, int &si, int &co)
     cneg = !cneg;
   }
 
-  si = sinTable16[y] >> 8;
-  co = sinTable16[90-y] >> 8;
-  if (sneg) si = -si;
-  if (cneg) co = -co;
+  *si = sinTable16[y] >> 8;
+  *co = sinTable16[90-y] >> 8;
+  if (sneg) *si = - *si;
+  if (cneg) *co = - *co;
 }
 
 
@@ -195,7 +195,7 @@ float icos(float x)
 }
 
 
-void isincos(float f, float &si, float &co)
+void isincos(float f, float *si, float *co)
 {
   bool sneg = (f < 0);
   bool cneg = false;
@@ -243,8 +243,8 @@ void isincos(float f, float &si, float &co)
   {
     value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;  //  == * remain / 256
   }
-  si = value * 0.0000152590219;  //  = / 65535.0
-  if (sneg) si = -si;
+  *si = value * 0.0000152590219;  //  = / 65535.0
+  if (sneg) *si = - *si;
 
   //  COS
   value = sinTable16[90-y];
@@ -254,8 +254,8 @@ void isincos(float f, float &si, float &co)
     remain = 256 - remain;
     value = value + ((sinTable16[90-y] - value) / 8 * remain) / 32;  //  == * remain / 256
   }
-  co = value * 0.0000152590219;  //  = / 65535.0
-  if (cneg) co = -co;
+  *co = value * 0.0000152590219;  //  = / 65535.0
+  if (cneg) *co = - *co;
 }
 
 
@@ -382,8 +382,8 @@ float iatan(float f)
 float atanFast(float x)
 {
   //  remove two test will limit the input range but makes it even faster.
-  if ( x > 1)   return (M_PI/2)  - atanHelper(1.0 / x);
-  if ( x < - 1) return (-M_PI/2) - atanHelper(1.0 / x);
+  if ( x > 1)  return ( M_PI / 2) - atanHelper(1.0 / x);
+  if ( x < -1) return (-M_PI / 2) - atanHelper(1.0 / x);
   return atanHelper(x);
 }
 
@@ -401,7 +401,7 @@ inline float atanHelper(float x)
 float atan2Fast(float y, float x)
 {
   //  catch singularity.
-  if (x== 0 && y == 0) return NAN;
+  if ((x == 0) && (y == 0)) return NAN;
 
   if (x >= 0)
   {
@@ -446,7 +446,6 @@ float hypotFast(float x, float y)
   if (z > b) return z;
   return b;
 }
-
 
 
 //  -- END OF FILE --

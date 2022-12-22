@@ -2,7 +2,7 @@
 //
 //    FILE: FastTrig.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -18,7 +18,7 @@
 #endif
 
 
-#define FAST_TRIG_LIB_VERSION             (F("0.3.1"))
+#define FAST_TRIG_LIB_VERSION             (F("0.3.2"))
 
 #ifdef __cplusplus
 extern "C"
@@ -37,7 +37,7 @@ int isin256(uint32_t v);
 int icos256(uint32_t v);
 
 //  calculate both in one call.
-void isincos256(uint32_t v, int &si, int &co);
+void isincos256(uint32_t v, int *si, int *co);
 
 
 ///////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ float isin(float f);
 float icos(float x);
 
 //  calculate both in one call.
-void isincos(float v, float &si, float &co);
+void isincos(float v, float *si, float *co);
  
 
 float itan(float f);

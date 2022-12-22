@@ -87,7 +87,7 @@ Version 0.3.0 added these experimental functions:
 Returns the sin(v)\*256 to keep all math integer (shift 8 later to correct value)
 - **int icos256(uint32_t v)** accepts only positive angles in degrees.
 Returns the cos(v)\*256 to keep all math integer (shift 8 later to correct value)
-- **int isincos256(uint32_t v, int &si, int &co)** accepts only positive angles in degrees.
+- **int isincos256(uint32_t v, int \*si, int \*co)** accepts only positive angles in degrees.
 returns both the sin(v)\*256 and the cos(v)\*256 of the same angle.
 Faster than both individual calls together.
 
@@ -96,7 +96,7 @@ Faster than both individual calls together.
 
 Version 0.3.0 added this experimental function:
 
-- **float isincos(float f, float &si, float &co)** accepts any angle in degrees.
+- **float isincos(float f, float \*si, float \*co)** accepts any angle in degrees.
 returns both the sin(v) and the cos(v) of the same angle. 
 Faster than both individual calls, see example.
 There is a minor difference between the value of the **float co** compared to **icos()**.

@@ -1,0 +1,16 @@
+UNO  1.8.19
+
+bcd_performance.ino
+FASTMATH_LIB_VERSION: 0.2.0
+
+dec2bcdRef:	592	153
+dec2bcd:	116	153
+dec2bcdRTC:	88	159
+bcd2dec:	220	63
+
+compare bcd2dec <-> dec2bcd (0..100)
+320	153
+compare bcd2dec <-> dec2bcdRTC (0..60)
+228	89
+
+done...

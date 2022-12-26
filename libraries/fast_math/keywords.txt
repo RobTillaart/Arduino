@@ -5,6 +5,12 @@
 
 # Methods and Functions (KEYWORD2)
 divmod10	KEYWORD2
+divmod3	KEYWORD2
+divmod5	KEYWORD2
+
+divmod12	KEYWORD2
+divmod24	KEYWORD2
+divmod60	KEYWORD2
 
 dec2bcdRef	KEYWORD2
 dec2bcd	KEYWORD2
@@ -16,7 +22,9 @@ polynome	KEYWORD2
 
 ping2cm	KEYWORD2
 ping2mm	KEYWORD2
+
 ping2inch	KEYWORD2
+ping2quarter	KEYWORD2
 ping2sixteenths	KEYWORD2
 
 ping2cm32	KEYWORD2
@@ -24,6 +32,7 @@ ping2mm32	KEYWORD2
 
 ping2cm_tempC	KEYWORD2
 ping2inch_tempC	KEYWORD2
+ping2inch_tempF	KEYWORD2
 
 
 # Constants (LITERAL1)

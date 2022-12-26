@@ -1,7 +1,7 @@
 //
-//    FILE: ping2cm.ino
+//    FILE: ping2_temp_compensated.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2013-05-11
+//    DATE: 2022-12-25
 // PUPROSE: test fast routines for PING))) sensor
 //     URL: https://github.com/RobTillaart/fast_math
 
@@ -24,7 +24,7 @@ void setup()
   Serial.println();
   delay(10);
 
-  Serial.print("pingRef\t");
+  Serial.print("ping2cm ref\t");
   delay(10);
   start = micros();
   for (uint16_t i = 0; i < 10000; i++)
@@ -35,87 +35,92 @@ void setup()
   Serial.println((stop - start) / 10000.0, 4);
   delay(10);
 
-  Serial.print("ping2cm\t");
+  Serial.print("ping2cm_tempC\t");
   delay(10);
   start = micros();
   for (uint16_t i = 0; i < 10000; i++)
   {
-    q = ping2cm(i);
+    q = ping2cm_tempC(i, 20);
   }
   stop = micros();
   Serial.println((stop - start) / 10000.0, 4);
   delay(10);
 
-  Serial.print("ping2mm\t");
-  delay(10);
-  start = micros();
-  for (uint16_t i = 0; i < 10000; i++)
-  {
-    q = ping2mm(i);
-  }
-  stop = micros();
-  Serial.println((stop - start) / 10000.0, 4);
-  delay(100);
 
-  Serial.print("ping2cm32\t");
+
+  Serial.print("ping2inch ref\t");
   delay(10);
   start = micros();
   for (uint16_t i = 0; i < 10000; i++)
   {
-    q = ping2cm32(i);
+    q = i / 74.70588235;
   }
   stop = micros();
   Serial.println((stop - start) / 10000.0, 4);
   delay(10);
 
-  Serial.print("ping2mm32\t");
+  Serial.print("ping2inch_tempC\t");
   delay(10);
   start = micros();
   for (uint16_t i = 0; i < 10000; i++)
   {
-    q = ping2mm32(i);
+    q = ping2inch_tempC(i, 20);
   }
   stop = micros();
   Serial.println((stop - start) / 10000.0, 4);
-  delay(100);
+  delay(10);
 
-  Serial.println("\n=======================================");
-  Serial.println("\nverify - 16 bit - up to 10 meter");
-  for (uint16_t i = 100; i < 30000; i *= 1.1)
+  Serial.print("ping2inch_tempF\t");
+  delay(10);
+  start = micros();
+  for (uint16_t i = 0; i < 10000; i++)
   {
-    Serial.print(i);
+    q = ping2inch_tempC(i, 68);
+  }
+  stop = micros();
+  Serial.println((stop - start) / 10000.0, 4);
+  delay(10);
+
+
+  Serial.println("\n==============================================");
+
+  Serial.println("\ndelta ping2cm_tempC");
+  for (uint16_t temp = 0; temp < 40; temp++)
+  {
+    Serial.print(temp);
     Serial.print("\t");
-    Serial.print(i * 0.034, 1);
+    Serial.print(15000 / 29.41176, 1);
     Serial.print("\t");
-    Serial.print(ping2cm(i));
+    Serial.print(ping2cm_tempC(15000, temp));
     Serial.print("\t");
-    Serial.print((1.0 * ping2cm(i)) / (i * 0.034) );
-    Serial.print("\t\t");
-    Serial.print(i * 0.34, 1);
+    Serial.print(ping2cm_tempC(15000, temp) / (15000 / 29.41176) );
+    Serial.println();
+  }
+
+  Serial.println("\ndelta ping2inch_tempC");
+  for (uint16_t temp = 0; temp < 40; temp++)
+  {
+    Serial.print(temp);
     Serial.print("\t");
-    Serial.print(ping2mm(i));
+    Serial.print(15000 / 74.70588235, 1);
     Serial.print("\t");
-    Serial.print((1.0 * ping2mm(i)) / (i * 0.34) );
+    Serial.print(ping2inch_tempC(15000, temp));
+    Serial.print("\t");
+    Serial.print(ping2inch_tempC(15000, temp) / (15000 / 74.70588235));
     Serial.println();
   }
 
 
-  Serial.println("\nverify - 32 bit - up to 100 meter");
-  for (uint32_t i = 100; i <= 300000; i *= 1.1)
+  Serial.println("\ndelta ping2inch_tempF");
+  for (uint16_t temp = 32; temp < 100; temp += 2)
   {
-    Serial.print(i);
+    Serial.print(temp);
     Serial.print("\t");
-    Serial.print(i * 0.034, 1);
+    Serial.print(15000 / 74.70588235, 1);
     Serial.print("\t");
-    Serial.print(ping2cm32(i));
+    Serial.print(ping2inch_tempF(15000, temp));
     Serial.print("\t");
-    Serial.print((1.0 * ping2cm32(i)) / (i * 0.034) );
-    Serial.print("\t\t");
-    Serial.print(i * 0.34, 1);
-    Serial.print("\t");
-    Serial.print(ping2mm32(i));
-    Serial.print("\t");
-    Serial.print((1.0 * ping2mm32(i)) / (i * 0.34) );
+    Serial.print(ping2inch_tempF(15000, temp) / (15000 / 74.70588235));
     Serial.println();
   }
 

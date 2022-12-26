@@ -2,7 +2,7 @@
 //
 //    FILE: fast_math.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -16,7 +16,7 @@
 #include "Arduino.h"
 #endif
 
-#define FASTMATH_LIB_VERSION          (F("0.2.0"))
+#define FASTMATH_LIB_VERSION          (F("0.2.1"))
 
 
 #ifdef __cplusplus
@@ -28,12 +28,19 @@ extern "C"
 //////////////////////////////////////////////////////////////////////////
 //
 //  ROUTINE: divmod10
-//  PURPOSE: fast routine that provides both /10 and %10 for integer math.
+//  PURPOSE: fast routine that provides both / 10 and % 10 for integer math.
 //      URL: https://forum.arduino.cc/t/divmod10-a-fast-replacement-for-10-and-10-unsigned/163586
 //  AUTHORS: see URL
 //     NOTE: assembler version for AVR exists (by Stimmer) - see URL
 //
 void divmod10(uint32_t in, uint32_t *div, uint8_t *mod);
+void divmod3(uint32_t in, uint32_t *div, uint8_t *mod);
+void divmod5(uint32_t in, uint32_t *div, uint8_t *mod);
+//  for clocks
+void divmod12(uint32_t in, uint32_t *div, uint8_t *mod);
+void divmod24(uint32_t in, uint32_t *div, uint8_t *mod);
+void divmod60(uint32_t in, uint32_t *div, uint8_t *mod);
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -62,7 +69,7 @@ float polynome(float x, float ar[], uint8_t degree);
 
 //////////////////////////////////////////////////////////////////////////
 //
-//  16 BIT PING MATH - for distances up to ~20 meter
+//  16 BIT PING MATH - for distances up to ~10 meter
 //
 //////////////////////////////////////////////////////////
 //
@@ -70,13 +77,16 @@ float polynome(float x, float ar[], uint8_t degree);
 //  PURPOSE: fast routines to calculate the distance in cm / mm for a ping sensor
 //
 uint16_t ping2cm(uint16_t in);
-uint16_t ping2mm(uint16_t in);
+uint16_t ping2mm(uint16_t in);  //  smaller units are more accurate.
+
 uint16_t ping2inch(uint16_t in);
+uint16_t ping2quarter(uint16_t in);
 uint16_t ping2sixteenths(uint16_t in);
+
 
 //////////////////////////////////////////////////////////
 //
-//  32 BIT PING MATH - for longer distances 
+//  32 BIT PING MATH - for distances > 10 meter (gaim ~10%)
 //
 uint32_t ping2cm32(uint32_t in);
 uint32_t ping2mm32(uint32_t in);
@@ -85,7 +95,7 @@ uint32_t ping2mm32(uint32_t in);
 //  temperature compensated speed of sound distance
 float ping2cm_tempC(uint16_t duration, int Celsius);
 float ping2inch_tempC(uint16_t duration, int Celsius);
-//  TODO ping2inch_tempF.
+float ping2inch_tempF(uint16_t duration, int Fahrenheit);
 
 
 #ifdef __cplusplus

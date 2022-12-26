@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2022-12
+- add divmod3()
+- add divmod5()
+- add divmod12(), divmod24(), divmod60() - time related.
+- update ping2cm(), ping2mm()
+- update ping2cm32(), ping2mm32()
+- add ping2quarter();
+- add ping2inch_tempF(duration, Fahrenheit);
+
+
 ## [0.2.0] - 2022-10-29
 - initial release as library
 - add examples

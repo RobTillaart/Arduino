@@ -53,10 +53,10 @@ Backgrounder - https://forum.arduino.cc/t/faster-dec2bcd-routine-especial-for-rt
 Indicative performance Arduino UNO.
 
 |  function       |   us   |  factor |  notes  |
-|:----------------|:------:|:-------:|:-------:|
+|:----------------|:------:|:-------:|:--------|
 |  dec2bcd (ref)  |  5.88  |   1.0   |  100 iterations
 |  dec2bcd        |  1.04  |   4.8   |
-|  dec2bcdRTC     |  0.88  |   5.7   |
+|  dec2bcdRTC     |  0.88  |   5.7   |  range 0..68
 |                 |        |         |
 |  bcd2dec (ref)  |  5.96  |   1.0   |
 |  bcd2dec        |  2.20  |   2.7   |
@@ -65,22 +65,39 @@ Indicative performance Arduino UNO.
 ### DIV
 
 - **void divmod10(uint32_t in, uint32_t \*div, uint8_t \*mod)**
-function calculates both divide and modulo 10 faster than the default  / 10 and % 10.
+  - calculates both divide and modulo 10 faster than the default / 10 and % 10.
 
-This function is very useful for extracting the individual digits.
-Typical use is print digits on a display, in a file or send them as ASCII.
+The divmod10() function is very useful for extracting the individual digits.
+Typical use is to print digits on a display, in a file or send them as ASCII over a network.
 
 Indicative performance Arduino UNO.
 
 |  function  |   us   |  factor |  notes  |
-|:-----------|:------:|:-------:|:-------:|
+|:-----------|:------:|:-------:|:--------|
 |  i % 10    |  38.2  |   1.0   |
 |  i / 10    |  38.1  |   1.0   |
-|  divmod10  |   9.1  |   4.1   | 
+|  divmod10  |   9.1  |   4.1   |
+
+Note that for printing the gain in time per digit is 65 us.
+E.g. for a 4 digit number this adds up to ~quarter millisecond.
+
 
 Backgrounder - https://forum.arduino.cc/t/divmod10-a-fast-replacement-for-10-and-10-unsigned/163586
 
-Note: For every element of N (natural numbers) one could develop a divmodN() function. 
+
+- **void divmod3(uint32_t in, uint32_t \*div, uint8_t \*mod)** used by divmod12/24
+- **void divmod5(uint32_t in, uint32_t \*div, uint8_t \*mod)** 
+- **void divmod12(uint32_t in, uint32_t \*div, uint8_t \*mod)** for hours
+- **void divmod24(uint32_t in, uint32_t \*div, uint8_t \*mod)** for hours
+- **void divmod60(uint32_t in, uint32_t \*div, uint8_t \*mod)** for minutes seconds
+
+
+For every element of N (natural numbers) one could develop a divmodN() function.
+The idea is to split the fraction 1/N into a sum of selected 1/(2^n) so the division 
+becomes a series of adds and shifts. 
+Sometimes there are patterns that can be optimized even more.
+
+Furthermore for limited ranges a division can be replaced by a single multiply shift pair.
 
 
 ### PING
@@ -102,34 +119,55 @@ The functions assume a speed of sound of 340 m/sec.
 16 bit interface
 - **uint16_t ping2cm(uint16_t in)**
 - **uint16_t ping2mm(uint16_t in)**
-- **uint16_t ping2inch(uint16_t in)**
-- **uint16_t ping2sixteenths(uint16_t in)**
 
 32 bit interface
-- **uint32_t ping2cm32(uint32_t in)**
-- **uint32_t ping2mm32(uint32_t in)**
+- **uint32_t ping2cm32(uint32_t in)** for lengths > 10 meter
+- **uint32_t ping2mm32(uint32_t in)** for lengths > 10 meter
+Performance wise the 32 bit versions have a gain ~10%.
 
-
-#### temperature corrected
-
-- **float ping2cm_tempC(uint16_t duration, int Celsius)** temperature corrected speed of sound.
-  - duration in us, temperature in Celsius.
-  - this function is relative slow, a faster version is not tested.
-- **float ping2inch_tempC(uint16_t duration, int Celsius)** temperature corrected speed of sound.
+Imperial
+- **uint16_t ping2inch(uint16_t in)**
+- **uint16_t ping2quarter(uint16_t in)**
+- **uint16_t ping2sixteenths(uint16_t in)**
 
 
 Indicative performance Arduino UNO.
 
 |  function         |   us   |  factor |  notes  |
-|:------------------|:------:|:-------:|:-------:|
-|  us / 29  (ref)   |  38.1  |   1.0   | sos == 345 m/s  (integer only)
-|  us \* 0.0345     |  18.5  |   2.0   |
+|:------------------|:------:|:-------:|:--------|
+|  us / 29  (ref)   |  38.3  |   1.0   | sos == 345 m/s  (integer only)
+|  us \* 0.0345     |  18.5  |   2.0   | sos == 345 m/s
 |  ping2cm          |  3.08  |  12.4   | sos == 340 m/s
 |  ping2mm          |  5.66  |   6.7   | sos == 340 m/s
-|  ping2cm_tempC    |  36.8  |   1.0   | adds temperature correction.
 |                   |        |         |
-|  ping2inch        |  3.90  |   9.8   | not as exact as inches are rather large units
-|  ping2sixteenths  |  8.11  |   4.8   | way more accurate than inches
+|  ping2inch        |  4.34  |   8.8   | not precise as inches are rather large units
+|  ping2quarter     |  7.55  |   5.0   | in between
+|  ping2sixteenths  |  8.55  |   4.4   | way more accurate than inches
+
+
+#### temperature corrected
+
+Instead of taking a fixed value a temperature corrected speed of sound will
+be 0-5% more accurate. Of course this depends on the temperature.
+
+The temperature is in whole degrees C or F. 
+
+- **float ping2cm_tempC(uint16_t duration, int Celsius)** 
+  - duration in us, temperature in Celsius.
+  - this function is relative slow, a faster version is not tested.
+- **float ping2inch_tempC(uint16_t duration, int Celsius)**
+- **float ping2inch_tempF(uint16_t duration, int Fahrenheit)**
+
+
+Indicative performance Arduino UNO.
+
+|  function         |   us   |  factor |  notes  |
+|:------------------|:------:|:-------:|:--------|
+|  normal division  |  38.3  |   1.0   |  not Temperature corrected
+|  ping2cm_tempC    |  17.2  |   2.2   |
+|  ping2inch_tempC  |  16.6  |   2.3   |
+|  ping2inch_tempF  |  16.4  |   2.3   |
+
 
 
 ### polynome
@@ -158,33 +196,31 @@ can be tuned (runtime).
 - unit tests
   - or examples that test a lot.
 - examples
+  - check output examples.
+- keep investigating faster versions.
+- divmod performance table other versions
+
 
 
 #### could
 - split up in multiple .h files, one per group.
   - fast_math.h includes all individual .h files.
-- There are several divide functions to be included.
-  div3(), div5(), div7(), div10(), mod10()
+- There are several divide functions to be included?
+  div3(), div5(), div7(), div10() depends on application.
   These need more testing (range)
 - constants?
   - GOLDEN_RATIO 1.61803398875
+- check temperature corrected float?
+
 
 #### TODO Functions
 
 DIV
-- **uint16_t divmod10()** 16 bit overload version 
-- **uint32_t div10(x, \*d)** would be a bit faster 
+- **uint16_t divmod10()** 16 bit overload version ?
+- **uint32_t div10(x, \*d)** would be a bit faster than divmod10()
 - **uint32_t mod10(x, \*m)** would be a bit faster too
-- clock
-  - **divmod24** == div3 >>3   (minutes to days)
-  - **divmod12** == div3 >>2
-  - **divmod60** == div15 >>2  of div5 div3 >>2 (seconds to minutes + minutes to hours)
-- **div7** days - weeks.
+- **div7()** days - weeks.
 
-
-PING
-- **float ping2inch_tempF(uint16_t in, int Fahrenheit)**
-- **uint32_t ping2inch(uint32_t in)** + sixteenth
-- **uint32_t ping2sixteenth(uint32_t in)**
-
+BCD
+- **uint16_t dec2bcd()** +  32 bit + back?
 

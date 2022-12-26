@@ -48,6 +48,30 @@ void setup()
   delay(10);
 
 
+  Serial.print("ping2quarter ref\t");
+  delay(10);
+  start = micros();
+  for (uint16_t i = 0; i < 10000; i++)
+  {
+    q = i / 18.6764705875;
+  }
+  stop = micros();
+  Serial.println((stop - start) / 10000.0, 4);
+  delay(10);
+
+
+  Serial.print("ping2quarter fast\t");
+  delay(10);
+  start = micros();
+  for (uint16_t i = 0; i < 10000; i++)
+  {
+    q = ping2quarter(i);
+  }
+  stop = micros();
+  Serial.println((stop - start) / 10000.0, 4);
+  delay(10);
+
+
   Serial.print("ping2sixteenths ref\t");
   delay(10);
   start = micros();
@@ -84,6 +108,12 @@ void setup()
     Serial.print("\t");
     Serial.print((1.0 * ping2inch(i)) / (i / 74.70588235), 2 );
     Serial.print("\t\t");
+    Serial.print(i / 18.6764705875, 0);
+    Serial.print("\t");
+    Serial.print(ping2quarter(i));
+    Serial.print("\t");
+    Serial.print((1.0 * ping2quarter(i)) / (i / 18.6764705875), 2 );
+    Serial.print("\t\t");
     Serial.print(i / 4.669117646875, 0);
     Serial.print("\t");
     Serial.print(ping2sixteenths(i));
@@ -94,7 +124,7 @@ void setup()
   }
 
   Serial.println("\nverify II");
-  for (uint16_t i = 200; i < 1000; i += 100)
+  for (uint16_t i = 200; i < 1000; i += 50)
   {
     Serial.print(i);
     Serial.print("\t");
@@ -105,6 +135,12 @@ void setup()
     Serial.print("\t");
     Serial.print((1.0 * ping2inch(i)) / (i / 74.70588235), 2 );
     Serial.print("\t\t");
+    Serial.print(i / 18.6764705875, 0);
+    Serial.print("\t");
+    Serial.print(ping2quarter(i));
+    Serial.print("\t");
+    Serial.print((1.0 * ping2quarter(i)) / (i / 18.6764705875), 2 );
+    Serial.print("\t\t");
     Serial.print(i / 4.669117646875, 0);
     Serial.print("\t");
     Serial.print(ping2sixteenths(i));
@@ -113,9 +149,9 @@ void setup()
     Serial.print("\t");
     Serial.println();
   }
-  
+
   Serial.println("\nverify III");
-  for (uint16_t i = 1000; i <= 10000; i += 1000)
+  for (uint16_t i = 1000; i <= 30000; i += 1000)
   {
     Serial.print(i);
     Serial.print("\t");
@@ -125,6 +161,12 @@ void setup()
     Serial.print(ping2inch(i));
     Serial.print("\t");
     Serial.print((1.0 * ping2inch(i)) / (i / 74.70588235), 2 );
+    Serial.print("\t\t");
+    Serial.print(i / 18.6764705875, 0);
+    Serial.print("\t");
+    Serial.print(ping2quarter(i));
+    Serial.print("\t");
+    Serial.print((1.0 * ping2quarter(i)) / (i / 18.6764705875), 2 );
     Serial.print("\t\t");
     Serial.print(i / 4.669117646875, 0);
     Serial.print("\t");

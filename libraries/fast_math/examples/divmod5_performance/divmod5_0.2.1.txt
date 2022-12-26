@@ -1,0 +1,23 @@
+UNO
+1.8.19
+
+divmod5_performance.ino
+FASTMATH_LIB_VERSION: 0.2.1
+
+div + mod: 	40	16807	3361	2
+divmod5:  	20	16807	3361	2
+
+Test 0 .. 1 million (1 minute UNO)
+0
+100000
+200000
+300000
+400000
+500000
+600000
+700000
+800000
+900000
+1000000
+58506880
+done...

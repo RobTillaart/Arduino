@@ -1,7 +1,7 @@
 //
 //    FILE: fast_math.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -28,6 +28,66 @@ void divmod10(uint32_t in, uint32_t *div, uint8_t *mod)
     *div = (x >> 1);
     *mod = in - ((q & ~0x7) + (*div << 1));
 }
+
+
+void divmod3(uint32_t in, uint32_t *div, uint8_t *mod)
+{
+    uint32_t q = (in >> 1) + (in >> 3);
+    q = q + (q >> 4);
+    q = q + (q >> 8);
+    q = q + (q >> 16);
+    q = q >> 1;
+    uint32_t r = in - q * 3;
+    q = q + (r * 86 >> 8);
+    *div = q;
+    *mod = in - q * 3;
+}
+
+
+void divmod5(uint32_t in, uint32_t *div, uint8_t *mod)
+{
+    uint32_t q = (in >> 1) + (in >> 2);
+    q = q + (q >> 4);
+    q = q + (q >> 8);
+    q = q + (q >> 16);
+    q = q >> 2;
+    uint32_t r = in - q * 5;  //  remainder  approx
+    q = q + (r * 56 >> 8);
+    *div = q;
+    *mod = in - q * 5;
+}
+
+
+void divmod12(uint32_t in, uint32_t *div, uint8_t *mod)
+{
+  uint32_t d;
+  uint8_t  m;
+  divmod3(in, &d, &m);
+  *div = d >> 2;
+  *mod = m + (d & 0x03) * 3;
+}
+
+
+void divmod24(uint32_t in, uint32_t *div, uint8_t *mod)
+{
+  uint32_t d;
+  uint8_t  m;
+  divmod3(in, &d, &m);
+  *div = d >> 3;
+  *mod = m + (d & 0x07) * 3;
+}
+
+
+void divmod60(uint32_t in, uint32_t *div, uint8_t *mod)
+{
+  uint32_t q = (in >> 1) + (in >> 5);
+  q = (q + (q >> 8) + (q >> 16) + (q >> 24) ) >> 5;
+  uint8_t r = in - q*60;
+  if (r > 59) { q++; r -= 60; };  // correction.
+  *div = q;
+  *mod = r;
+}
+
 
 
 ///////////////////////////////////////////////////////////
@@ -111,7 +171,7 @@ uint16_t ping2cm(uint16_t in)
   d >>= 1;  //  in >> 12
   q += d;
   d >>= 2;  //  in >> 14
-  q += d + 1;
+  q += d + 2;
   return q;
 }
 
@@ -130,7 +190,7 @@ uint16_t ping2mm(uint16_t in)
   d >>= 1;  //  in >> 8
   q += d;
   d >>= 5;  //  in >> 13
-  q += d + 2;
+  q += d + 3;
   return q;
 }
 
@@ -142,7 +202,7 @@ uint16_t ping2inch(uint16_t in)
   uint16_t q = d;
   d >>= 1;  //  in >> 8
   q += d;
-  d >>= 2;  //  in >> 10;
+  d >>= 2;  //  in >> 10
   q += d;
   d >>= 1;  //  in >> 11
   q += d;
@@ -150,6 +210,27 @@ uint16_t ping2inch(uint16_t in)
   q += d;
   d >>= 1;  //  in >> 14
   q += d + 2;  //  correction.
+  return q;
+}
+
+uint16_t ping2quarter(uint16_t in)
+{
+  //  divide by 18.6764705875 == * 0.05354330709
+  //  uint16_t q = (in >> 5) + (in >> 6) + (in >> 8) + (in >> 9) + (in >> 11) + (in >> 12) + (in >> 14) ;
+  uint16_t d = in >> 5;
+  uint16_t q = d;
+  d >>= 1;  //  in >> 6
+  q += d;
+  d >>= 2;  //  in >> 8
+  q += d;
+  d >>= 1;  //  in >> 9
+  q += d;
+  d >>= 2;  //  in >> 11
+  q += d;
+  d >>= 1;  //  in >> 12
+  q += d;
+  d >>= 2;  //  in >> 14
+  q += d + 3;  //  correction.
   return q;
 }
 
@@ -161,7 +242,7 @@ uint16_t ping2sixteenths(uint16_t in)
   uint16_t q = d;
   d >>= 1;  //  in >> 4
   q += d;
-  d >>= 2;  //  in >> 6;
+  d >>= 2;  //  in >> 6
   q += d;
   d >>= 1;  //  in >> 7
   q += d;
@@ -172,15 +253,19 @@ uint16_t ping2sixteenths(uint16_t in)
   d >>= 2;  //  in >> 12
   q += d;
   d >>= 2;  //  in >> 14
-  q += d + 2;  //  correction.
+  q += d + 3;  //  correction.
   return q;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 
 uint32_t ping2cm32(uint32_t in)
 {
   //  divide by 29.41176 == * 0.034
-  //  uint32_t q = (in >> 5) + (in >> 9) + (in >> 11) + (in >> 12) + (in >> 14);
+  //  uint32_t q = (in >> 5) + (in >> 9) + (in >> 11) + (in >> 12) + (in >> 14) 
+  //             + (in >> 19) + (in >> 20) + (In >> 21) + (in >> 24) + (26, 28 29...;
   uint32_t d = in >> 5;
   uint32_t q = d;
   d >>= 4;  //  in >> 9
@@ -189,8 +274,22 @@ uint32_t ping2cm32(uint32_t in)
   q += d;
   d >>= 1;  //  in >> 12
   q += d;
-  d >>= 2;  //  in >> 14    //  TODO more decimals?
+  d >>= 2;  //  in >> 14
   q += d;
+  d >>= 5;  //  in >> 19
+  // q += d;
+  // d >>= 1;  //  in >> 20
+  // q += d;
+  // d >>= 1;  //  in >> 21
+  // q += d;
+  // d >>= 3;  //  in >> 24
+  // q += d;
+  // d >>= 2;  //  in >> 26;
+  // q += d;
+  // d >>= 2;  //  in >> 28
+  // q += d;
+  // d >>= 1;  //  in >> 29
+  q += d + 3;   //  rounding correction
   return q;
 }
 
@@ -199,20 +298,42 @@ uint32_t ping2mm32(uint32_t in)
 {
   // divide by 2.941176 == * 0.34;
   // uint32_t q = (in >> 2) + (in >> 4) + (in >> 6) + (in >> 7) + (in >> 8) + (in >> 13);
+  //               15, 19, 20, 21, 22, 24, 26, 27, 28
   uint32_t d = in >> 2;
   uint32_t q = d;
   d >>= 2;  //  in >> 4
   q += d;
-  d >>= 2;  //  in >> 6;
+  d >>= 2;  //  in >> 6
   q += d;
   d >>= 1;  //  in >> 7
   q += d;
   d >>= 1;  //  in >> 8
   q += d;
-  d >>= 5;  //  in >> 13    //  TODO more decimals?
+  d >>= 5;  //  in >> 13
   q += d;
+  d >>= 2;  //  in >> 15
+  q += d;
+  d >>= 4;  //  in >> 19
+  // q += d;
+  // d >>= 1;  //  in >> 20
+  // q += d;
+  // d >>= 1;  //  in >> 21
+  // q += d;
+  // d >>= 1;  //  in >> 22
+  // q += d;
+  // d >>= 2;  //  in >> 24
+  // q += d;
+  // d >>= 2;  //  in >> 26
+  // q += d;
+  // d >>= 1;  //  in >> 27
+  // q += d;
+  // d >>= 1;  //  in >> 28
+  q += d + 3;   //  rounding correction.
   return q;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 
 //  temperature in Celsius
@@ -228,17 +349,26 @@ float ping2cm_tempC(uint16_t duration, int Celsius )
 
 float ping2inch_tempC(uint16_t duration, int Celsius )
 {
-  //
-  //  return duration * 331.45 * sqrt(1 + temp / 273.0) / 10000;
+  //  formula ping2cm_tempC converted
+  return duration * (0.013049 + Celsius * (0.013049 / 546.0));
+}
+
+
+float ping2inch_tempF(uint16_t duration, int Fahrenheit )
+{
+  //  formula ping2inch_tempC converted
   //  return duration * 331.45 * sqrt(1 + temp * (1.0 / 273.0)) * 0.0001;
-  //  return duration * 331.45 * (1 + temp * (1.0 / 546.0)) * 0.0001;  //  little less accurate sqrt
-  return duration * (0.013049 + Celsius * (0.013049 / 546.0));     //  minimized.
+  //  inches
+  //  return duration * 130.49 * (1 + temp * (1.0 / 546.0)) * 0.0001;  //  little less accurate sqrt
+  //  Fahrenheit
+  //  return duration * (0.013049 + (Fahrenheit - 32) * (5.0/9.0) * (0.013049 / 546.0));
+  return duration * (0.013049 + (Fahrenheit - 32) * ((5.0/9.0) * (0.013049 / 546.0)));
 }
 
 
 ///////////////////////////////////////////////////////////
 //
-//  TODO
+//  TODO ...
 //
 
 

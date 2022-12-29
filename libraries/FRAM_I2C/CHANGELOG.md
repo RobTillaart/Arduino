@@ -5,87 +5,59 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.4.2] - 2022-10-03
+## [0.4.3] - 2022-12-28
+- add writeFloat(), readFloat()
+- refactor
+- add nano_every to build-ci  (test)
+- update readme.md
+- update license
+- update Github actions to v3  (test)
+- simplified changelog
 
-### Added
+
+## [0.4.2] - 2022-10-03
 - FRAM_RINGBUFFER class - see FRAM_RINGBUFFER.md
 - build-ci support for RP2040 pico
-
-### Changed
 - updated documentation
 - moved code from FRAM.h to FRAM.cpp
 
-
 ## [0.4.1] - 2022-09-24
-
-### Added
 - changed ESP32 **begin()** parameters to **int** to prevent link error.
   see https://github.com/RobTillaart/PCA9635/issues/17
-
-### Changed
 - updated documentation
 
-
 ## [0.4.0] - 2022-05-02
-
-### Added
 - add **FRAM32** derived class to support the MB85RC1MT as it need 32 bits addressing. 
   This class uses 4 byte memory addresses internally.
   Note **FRAM32** can also address 16 bit FRAM devices.
-
-
-### Changed
 - updated documentation
 
-### Fixed
-
-
+----
 
 ## [0.3.6] - 2022-05-02
-
-### Added
 - add **void sleep()** experimental.
 - add **bool wakeup(trec = 400)** experimental. wakeup time of 400us. returns true if connected after call.
 - add example **FRAM_sleep.ino**
-
-### Changed
 - updated readme.md
 - updated keywords.txt
-
-### Fixed
 - minor edits
 
-
 ## [0.3.5] - 2022-03-23
-
-### Added
 - add **uint32_t clear(uint8_t value = 0)**
 - add **void setSizeBytes(uint32_t value)**
 - added defines for size of known types for e.g. **void setSizeBytes(uint32_t value)**
 - add \_sizeinBytes private var. Needed in clear a.o.
-
-### Changed
 - **getSize()** automatically called in **begin()**
 - updated example **FRAM_clear.ino**
 - renamed private functions with \_
 - updated readme.md
 
-### Fixed
-
-
 ## [0.3.4] - 2022-03-16
-
-### Added
 - add **uint16_t writeObject(memaddr, &obj)** see #13
 - add **uint16_t readObject(memaddr, &obj)** see #13
 - add examples for write- and readObject()
-
-### Changed
 - renamed releaseNotes.md => CHANGELOG.md
 - some edits in readme.md
-
-### Fixed
-
 
 ## [0.3.3] - 2022-02-08
 - added **getSizeBytes()**
@@ -106,6 +78,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.0] - 2021-01-13
 - fix #2 ESP32
 - add WireN support
+
+----
 
 ## [0.2.3] - 2021-01-11
 - fix getMetaData (kudos to PraxisSoft)

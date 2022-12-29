@@ -70,10 +70,16 @@ In the **FRAM32** class these functions have an **uin32_t memaddr**.
 - **void write8(uint16_t memaddr, uint8_t value)** uint8_t
 - **void write16(uint16_t memaddr, uint16_t value)** uint16_t
 - **void write32(uint16_t memaddr, uint32_t value)** uint32_t
+- **void writeFloat(uint16_t memaddr, float value)** float (since 0.4.3)
+- **void writeDouble(uint16_t memaddr, double value)** double (since 0.4.3)
+For board that have 8 byte double.
 - **void write(uint16_t memaddr, uint8_t \* obj, uint16_t size)** other types / sizes.
 - **uint8_t read8(uint16_t memaddr)**
 - **uint16_t read16(uint16_t memaddr)**
 - **uint32_t read32(uint16_t memaddr)**
+- **float readFloat(uint16_t memaddr)** (since 0.4.3)
+- **double readDouble(uint16_t memaddr)** (since 0.4.3)
+For board that have 8 byte double.
 - **void read(uint16_t memaddr, uint8_t uint8_t \* obj, uint16_t size)**
 One needs to allocate memory as the function won't.
 
@@ -186,7 +192,7 @@ The FRAM_ringbuffer.ino examples shows how the class can be used.
 - test more types of FRAM
 - **getSize()** scanning FRAM like EEPROM library?
 - remember last written address? why?
-- fill power usage table
+- fill power usage table (documentation)
 
 
 ### wont

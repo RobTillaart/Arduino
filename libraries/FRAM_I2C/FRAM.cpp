@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -94,21 +94,35 @@ bool FRAM::isConnected()
 void FRAM::write8(uint16_t memaddr, uint8_t value)
 {
   uint8_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 1);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint8_t));
 }
 
 
 void FRAM::write16(uint16_t memaddr, uint16_t value)
 {
   uint16_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 2);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint16_t));
 }
 
 
 void FRAM::write32(uint16_t memaddr, uint32_t value)
 {
   uint32_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 4);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint32_t));
+}
+
+
+void FRAM::writeFloat(uint16_t memaddr, float value)
+{
+  float val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(float));
+}
+
+
+void FRAM::writeDouble(uint16_t memaddr, double value)
+{
+  double val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(double));
 }
 
 
@@ -134,7 +148,7 @@ void FRAM::write(uint16_t memaddr, uint8_t * obj, uint16_t size)
 uint8_t FRAM::read8(uint16_t memaddr)
 {
   uint8_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 1);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint8_t));
   return val;
 }
 
@@ -142,7 +156,7 @@ uint8_t FRAM::read8(uint16_t memaddr)
 uint16_t FRAM::read16(uint16_t memaddr)
 {
   uint16_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 2);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint16_t));
   return val;
 }
 
@@ -150,7 +164,23 @@ uint16_t FRAM::read16(uint16_t memaddr)
 uint32_t FRAM::read32(uint16_t memaddr)
 {
   uint32_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 4);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint32_t));
+  return val;
+}
+
+
+float FRAM::readFloat(uint16_t memaddr)
+{
+  float val;
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(float));
+  return val;
+}
+
+
+double FRAM::readDouble(uint16_t memaddr)
+{
+  double val;
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(double));
   return val;
 }
 
@@ -345,21 +375,35 @@ FRAM32::FRAM32(TwoWire *wire):FRAM(wire)
 void FRAM32::write8(uint32_t memaddr, uint8_t value)
 {
   uint8_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 1);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint8_t));
 }
 
 
 void FRAM32::write16(uint32_t memaddr, uint16_t value)
 {
   uint16_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 2);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint16_t));
 }
 
 
 void FRAM32::write32(uint32_t memaddr, uint32_t value)
 {
   uint32_t val = value;
-  _writeBlock(memaddr, (uint8_t *)&val, 4);
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(uint32_t));
+}
+
+
+void FRAM32::writeFloat(uint32_t memaddr, float value)
+{
+  float val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(float));
+}
+
+
+void FRAM32::writeDouble(uint32_t memaddr, double value)
+{
+  double val = value;
+  _writeBlock(memaddr, (uint8_t *)&val, sizeof(double));
 }
 
 
@@ -385,7 +429,7 @@ void FRAM32::write(uint32_t memaddr, uint8_t * obj, uint16_t size)
 uint8_t FRAM32::read8(uint32_t memaddr)
 {
   uint8_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 1);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint8_t));
   return val;
 }
 
@@ -393,7 +437,7 @@ uint8_t FRAM32::read8(uint32_t memaddr)
 uint16_t FRAM32::read16(uint32_t memaddr)
 {
   uint16_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 2);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint16_t));
   return val;
 }
 
@@ -401,7 +445,23 @@ uint16_t FRAM32::read16(uint32_t memaddr)
 uint32_t FRAM32::read32(uint32_t memaddr)
 {
   uint32_t val;
-  _readBlock(memaddr, (uint8_t *)&val, 4);
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(uint32_t));
+  return val;
+}
+
+
+float FRAM32::readFloat(uint32_t memaddr)
+{
+  float val;
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(float));
+  return val;
+}
+
+
+double FRAM32::readDouble(uint32_t memaddr)
+{
+  double val;
+  _readBlock(memaddr, (uint8_t *)&val, sizeof(double));
   return val;
 }
 

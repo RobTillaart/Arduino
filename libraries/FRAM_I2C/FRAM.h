@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.4.2"))
+#define FRAM_LIB_VERSION              (F("0.4.3"))
 
 
 #define FRAM_OK                       0
@@ -49,11 +49,15 @@ public:
   void     write8(uint16_t memaddr, uint8_t value);
   void     write16(uint16_t memaddr, uint16_t value);
   void     write32(uint16_t memaddr, uint32_t value);
+  void     writeFloat(uint16_t memaddr, float value);
+  void     writeDouble(uint16_t memaddr, double value);
   void     write(uint16_t memaddr, uint8_t * obj, uint16_t size);
 
   uint8_t  read8(uint16_t memaddr);
   uint16_t read16(uint16_t memaddr);
   uint32_t read32(uint16_t memaddr);
+  float    readFloat(uint16_t memaddr);
+  double   readDouble(uint16_t memaddr);
   void     read(uint16_t memaddr, uint8_t * obj, uint16_t size);
 
   template <class T> uint16_t writeObject(uint16_t memaddr, T &obj)
@@ -112,11 +116,15 @@ public:
   void     write8(uint32_t memaddr, uint8_t value);
   void     write16(uint32_t memaddr, uint16_t value);
   void     write32(uint32_t memaddr, uint32_t value);
+  void     writeFloat(uint32_t memaddr, float value);
+  void     writeDouble(uint32_t memaddr, double value);
   void     write(uint32_t memaddr, uint8_t * obj, uint16_t size);
 
   uint8_t  read8(uint32_t memaddr);
   uint16_t read16(uint32_t memaddr);
   uint32_t read32(uint32_t memaddr);
+  float    readFloat(uint32_t memaddr);
+  double   readDouble(uint32_t memaddr);
   void     read(uint32_t memaddr, uint8_t * obj, uint16_t size);
 
   template <class T> uint32_t writeObject(uint32_t memaddr, T &obj);

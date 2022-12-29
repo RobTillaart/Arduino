@@ -1,5 +1,5 @@
 //
-//    FILE: TCA9555_digitalRead.ino
+//    FILE: TCA9535_digitalRead.ino
 //  AUTHOR: Rob Tillaart
 // PUPROSE: test TCA9555 library
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -9,7 +9,7 @@
 #include "TCA9555.h"
 
 
-TCA9555 TCA(0x27);
+TCA9535 TCA(0x27);
 
 
 void setup()

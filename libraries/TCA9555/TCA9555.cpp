@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9555.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -52,6 +52,12 @@ bool TCA9555::isConnected()
 {
   _wire->beginTransmission(_address);
   return (_wire->endTransmission() == 0);
+}
+
+
+uint8_t TCA9555::getAddress()
+{
+  return _address;
 }
 
 

@@ -1,7 +1,7 @@
 //
-//    FILE: TCA9555_digitalWrite.ino
+//    FILE: TCA9535_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test TCA9555 library
+// PUPROSE: test TCA9555 library - TCA9535 derived class
 //     URL: https://github.com/RobTillaart/TCA9555
 
 
@@ -9,7 +9,7 @@
 #include "TCA9555.h"
 
 
-TCA9555 TCA(0x27);
+TCA9535 TCA(0x27);
 
 
 void setup()
@@ -63,4 +63,3 @@ void loop()
 
 
 // -- END OF FILE --
-

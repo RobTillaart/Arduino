@@ -48,9 +48,18 @@ unittest_teardown()
 }
 
 
-unittest(test_constructor)
+unittest(test_constructor_TCA9555)
 {
   TCA9555 TCA(0x22);
+
+  assertTrue(TCA.begin());
+  assertTrue(TCA.isConnected());
+}
+
+
+unittest(test_constructor_TCA9535)
+{
+  TCA9535 TCA(0x22);
 
   assertTrue(TCA.begin());
   assertTrue(TCA.isConnected());

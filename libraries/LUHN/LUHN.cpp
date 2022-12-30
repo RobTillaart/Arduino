@@ -1,7 +1,7 @@
 //
 //    FILE: LUHN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -12,6 +12,8 @@
 
 LUHN::LUHN()
 {
+  _luhn = 0;
+  _count = 0;
 }
 
 
@@ -34,7 +36,9 @@ bool LUHN::isValid(char * buffer)
     else if (x < 5) checksum += x * 2;        //  weight 2
          else checksum += (x * 2 - 10 + 1);   //  weight 2 + handle overflow.
   }
-  return ((10000 - checksum) % 10) == (buffer[length-1] - '0');
+  uint8_t a = (10000UL - checksum) % 10;
+  uint8_t b = buffer[length-1] - '0';
+  return a == b;
 }
 
 
@@ -49,7 +53,7 @@ char LUHN::generateChecksum(char * buffer)
     else if (x < 5) checksum += x * 2;        //  weight 2
          else checksum += (x * 2 - 10 + 1);   //  weight 2 + handle overflow.
   }
-  return '0' + ((10000 - checksum) % 10);
+  return '0' + ((10000UL - checksum) % 10);
 }
 
 
@@ -76,6 +80,28 @@ bool LUHN::generate(char * buffer, uint8_t length, char * prefix)
   buffer[i++] = c;
   buffer[i] = '\0';
   return true;
+}
+
+
+char LUHN::add(char c)
+{
+  uint8_t x = c - '0';
+  if (_count % 2 == 0) _luhn += x;
+  else if (x < 5)      _luhn += x * 2;
+  else                 _luhn += (x * 2 - 10 + 1);
+  //  correct
+  if (_luhn > 9)       _luhn -= 10;
+  _count++;
+  return '0' + (10 - _luhn);
+}
+
+
+char LUHN::reset()
+{
+  uint8_t last = _luhn;
+  _luhn = 0;
+  _count = 0;
+  return '0' + (10 - last);
 }
 
 

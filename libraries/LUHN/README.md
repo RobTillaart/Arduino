@@ -22,12 +22,15 @@ Basic idea is to put all digits-1 through the formula and the output should equa
 
 Note: some LUHN validations uses the reversed product string.
 
+- https://en.wikipedia.org/wiki/Luhn_algorithm
+
 
 #### related
 
-- https://en.wikipedia.org/wiki/Luhn_algorithm
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/Fletcher
+- https://github.com/RobTillaart/LUHN
 
 
 ## Interface
@@ -48,6 +51,15 @@ Generates a char array including LUHN number with a defined prefix of max length
 Returns false if the prefix exceeds length -1.
 
 
+#### Stream
+
+- **char add(char c)** add char, return LUHN so far.
+- **char reset()** return last LUHN.
+
+The internal counter for the stream interface is 16 bit.
+This limits the nr of add() calls to about 65530.
+(if this is a problem, make it an uinit32_t)
+
 ## Future
 
 #### must
@@ -58,9 +70,6 @@ Returns false if the prefix exceeds length -1.
 
 - unit tests
 - look for optimization
-- stream interface
-  - **uint8_t add(char c)** add char, return luhn sofar
-  - **uint8_t reset()** reset luhn, return last luhn or void?
 
 #### could
 

@@ -1,0 +1,23 @@
+{
+  "name": "AtomicWeight",
+  "keywords": "Mass,atoms,weight,PTOE,periodic,elements",
+  "description": "Arduino library for atomic weights.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AtomicWeight.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "AtomicWeight.h"
+}

@@ -1,0 +1,22 @@
+# Syntax Colouring Map for AtomicWeight
+
+
+# Data types (KEYWORD1)
+PTOE	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+size	KEYWORD2
+
+protons	KEYWORD2
+neutrons	KEYWORD2
+electrons	KEYWORD2
+weight	KEYWORD2
+
+name	KEYWORD2
+find	KEYWORD2
+
+
+# Constants (	LITERAL1)
+ATOMIC_WEIGHT_LIB_VERSION	LITERAL1
+

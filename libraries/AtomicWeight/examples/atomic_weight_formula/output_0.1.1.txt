@@ -1,0 +1,12 @@
+UNO, 1.8.19
+
+atomic_weight_formula.ino
+
+ATOMIC_WEIGHT_LIB_VERSION: 0.1.1
+C 	12.01
+C6 	72.06
+He6 	24.01
+O6 	95.99
+C6H6O6 	174.10
+H2SO4 	98.08
+HHSOOOO 	98.08

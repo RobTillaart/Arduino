@@ -9,9 +9,13 @@
 
 PTOE ptoe;
 
-char formula1[24] = "C6H6O6";
+char formula0[24] = "C6H6O6";
+char formula1[24] = "((COH)3)2";
 char formula2[24] = "H2SO4";
-char formula3[24] = "HHSOOOO";
+char formula3[24] = "CuO2";
+// char formula4[24] = "(COH)3(COH)2COH";
+// char formula4[24] = "(CH)6O6";
+char formula4[24] = "xH2";  // fails => 0;
 
 void setup()
 {
@@ -33,9 +37,13 @@ void setup()
   Serial.print(" \t");
   Serial.println(ptoe.weight("He6"));
 
-  Serial.print("O6");
+  Serial.print("NaCl");
   Serial.print(" \t");
-  Serial.println(ptoe.weight("O6"));
+  Serial.println(ptoe.weight("NaCl"));
+
+  Serial.print(formula0);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula0));
 
   Serial.print(formula1);
   Serial.print(" \t");
@@ -48,6 +56,10 @@ void setup()
   Serial.print(formula3);
   Serial.print(" \t");
   Serial.println(ptoe.weight(formula3));
+
+  Serial.print(formula4);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula4));
 }
 
 void loop()

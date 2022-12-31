@@ -8,9 +8,9 @@ PTOE	KEYWORD1
 # Methods and Functions (KEYWORD2)
 size	KEYWORD2
 
+electrons	KEYWORD2
 protons	KEYWORD2
 neutrons	KEYWORD2
-electrons	KEYWORD2
 weight	KEYWORD2
 
 name	KEYWORD2

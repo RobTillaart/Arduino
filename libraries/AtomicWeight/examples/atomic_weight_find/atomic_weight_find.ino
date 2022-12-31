@@ -3,10 +3,12 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
+
 #include "Arduino.h"
 #include "AtomicWeight.h"
 
 PTOE ptoe;
+
 
 void setup()
 {
@@ -19,15 +21,18 @@ void setup()
 
   n = ptoe.find("Au");
   Serial.println(ptoe.protons(n));
-  
+
   n = ptoe.find("H");
   Serial.println(ptoe.protons(n));
-  
+
   Serial.println("\ndone...");
 }
+
 
 void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

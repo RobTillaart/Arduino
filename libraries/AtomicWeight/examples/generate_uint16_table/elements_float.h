@@ -3,22 +3,22 @@
 //    FILE: elements_float.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.1.0
-// PURPOSE: list of weights
+// PURPOSE: list of weights (float)
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
 
 /////////////////////////////////////////////////////////////////////////
 //
-//
+//  float periodic table
 //
 struct element
 {
   char  name[3];
   float weight;
 }
-elements[118] =
+elements[119] =
 {
+  {"n",  1.00794},      //  neutronium
   {"H" , 1.00794},
   {"He", 4.002602},
   {"Li", 9.80665},

@@ -2,7 +2,7 @@
 //  AUTHOR: Rob Tillaart
 //     URL: https://github.com/RobTillaart/AtomicWeight
 // PURPOSE: generate the 16 bit table for the AtomicWeight library
-//          instead of a float per element it uses an uint16_t 
+//          instead of a float per element it uses an uint16_t
 //          and a weight factor. The error is less than 0.3%.
 
 
@@ -16,12 +16,7 @@ void setup()
   while (!Serial);
   Serial.println(__FILE__);
 
-  /////////////////////////////////////////////////////////
-  //
-  // generate 16 bit table
-  //
-
-  // HEADER
+  //  HEADER
   Serial.println();
   Serial.println();
   Serial.println("/////////////////////////////////////////");
@@ -31,15 +26,14 @@ void setup()
   Serial.println("//");
   Serial.println("struct element");
   Serial.println("{");
-  Serial.println("  // uint8_t  nr;");
   Serial.println("  char     name[3];");
   Serial.println("  uint16_t weight;");
   Serial.println("}");
-  Serial.println("elements[118] =");
+  Serial.println("elements[119] =");
 
-  // ELEMENTS
+  //  ELEMENTS
   Serial.println("{");
-  for (int i = 0; i < 118; i++)
+  for (int i = 0; i < 119; i++)
   {
     Serial.print("  {\"");
     Serial.print(elements[i].name);
@@ -52,8 +46,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

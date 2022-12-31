@@ -3,10 +3,10 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
+
 #include "Arduino.h"
 #include "AtomicWeight.h"
 
-uint32_t start, stop;
 
 PTOE ptoe;
 
@@ -23,9 +23,9 @@ void setup()
   }
 }
 
+
 void loop()
 {
-  
 }
 
 
@@ -45,4 +45,5 @@ void printElem(uint8_t i)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

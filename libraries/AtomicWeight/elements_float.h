@@ -3,8 +3,7 @@
 //    FILE: elements_float.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.1.0
-// PURPOSE: list of weights
+// PURPOSE: list of weights (float)
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
 

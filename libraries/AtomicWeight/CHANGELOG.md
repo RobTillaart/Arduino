@@ -6,12 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2023-01-01
+- refactor interface
+- add **weight(formula, element)**
+- add **massPercentage(formula, element)**
+- fix version number in .cpp
+- update readme.md.
+- update keywords.txt
+
+
 ## [0.1.2] - 2023-01-01
 - add weight(formula) group () support
 - rewrote example
 - update readme.md.
 - add unit tests
-
 
 ## [0.1.1] - 2022-12-30
 - fix offset in some functions

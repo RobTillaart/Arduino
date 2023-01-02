@@ -2,7 +2,7 @@
 //    FILE: AtomicWeight.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.1.1
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -144,7 +144,7 @@ elements[119] =
 };
 
 
-PTOE::PTOE(uint8_t size)
+PTOE::PTOE(const uint8_t size)
 {
   _size = size;
 }
@@ -156,51 +156,84 @@ uint8_t PTOE::size()
 }
 
 
-uint8_t PTOE::electrons(uint8_t el)
+uint8_t PTOE::electrons(const uint8_t el)
 {
   return el;
 }
 
 
-uint8_t PTOE::neutrons(uint8_t el)
+uint8_t PTOE::neutrons(const uint8_t el)
 {
   return round(weight(el) - el);
 }
 
 
-uint8_t PTOE::protons(uint8_t el)
+uint8_t PTOE::protons(const uint8_t el)
 {
   return el;
 }
 
 
-float PTOE::weight(uint8_t el)
+float PTOE::weight(const uint8_t el)
 {
   return elements[el].weight * _weightFactor;
 }
 
 
-float PTOE::weight(const char * formula)
+float PTOE::weight(const char * formula, const char * el)
 {
-  return weight((char*) formula);
+  p = (char *)formula;
+  return _weight('\0', el);
 }
 
 
-float PTOE::weight(char * formula)
+float PTOE::massPercentage(const char * formula, const char * el)
 {
-  p = formula;
-  return _weight('\0');
+  float total = weight(formula);
+  if (total == 0) return 0;
+  p = (char *)formula;
+  return 100.0 * _weight('\0', el) / total;
 }
 
 
-float PTOE::_weight(char sep)
+char * PTOE::name(const uint8_t el)
+{
+  return elements[el].name;
+}
+
+
+uint8_t PTOE::find(const char * abbrev)
+{
+  //  how about caching here?
+  for (uint8_t i = 0; i < _size; i++)
+  {
+    if (strcmp(elements[i].name, abbrev) == 0) return i;
+  }
+  return 255;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
+//  DEBUG
+//
+float PTOE::weightFactor()
+{
+  return _weightFactor;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+float PTOE::_weight(const char sep, const char * el)
 {
   float sum = 0;
   float w   = 0;
   char elem[3] = { 0, 0, 0 };
   int count = 0;
 
-  //  char *p = formula;
   while (*p != sep)
   {
     w = 0;
@@ -208,8 +241,7 @@ float PTOE::_weight(char sep)
     if (*p == '(')
     {
       p++;   //  skip '('
-      w = _weight(')');
-      //  Serial.println(w);
+      w = _weight(')', el);
       p++;   //  skip ')'
     }
     else
@@ -224,9 +256,13 @@ float PTOE::_weight(char sep)
         elem[1] = *p;
         p++;
       }
-      int z = find(elem);
-      if (z == 255) return 0;  //  fail
-      w = weight(z);
+      //  can be optimized 
+      if ((el == NULL) || (strcmp(elem, el) == 0))
+      {
+        int z = find(elem);
+        if (z == 255) return 0;  //  fail
+        w = weight(z);
+      }
     }
 
     count = 0;
@@ -247,39 +283,6 @@ float PTOE::_weight(char sep)
   }
   return sum;
 }
-
-
-char * PTOE::name(uint8_t el)
-{
-  return elements[el].name;
-}
-
-
-uint8_t PTOE::find(const char * abbrev)
-{
-  return find((char *) abbrev);
-}
-
-
-uint8_t PTOE::find(char * abbrev)
-{
-  for (uint8_t i = 0; i < _size; i++)
-  {
-    if (strcmp(elements[i].name, abbrev) == 0) return i;
-  }
-  return 255;
-}
-
-
-////////////////////////////////////////////////////////////////
-//
-//  DEBUG
-//
-float PTOE::weightFactor()
-{
-  return _weightFactor;
-}
-
 
 
 // -- END OF FILE --

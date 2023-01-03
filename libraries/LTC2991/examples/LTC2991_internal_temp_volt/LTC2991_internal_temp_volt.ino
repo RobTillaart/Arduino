@@ -1,7 +1,6 @@
 //
 //    FILE: LTC2991_internal_temp_volt.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-13
 // PUPROSE: demo monitoring Tinternal and VCC
 
 

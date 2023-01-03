@@ -1,7 +1,6 @@
 //
 //    FILE: LTC2991_demo.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-10
 // PUPROSE: detect device on I2C bus
 
 

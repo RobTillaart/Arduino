@@ -2,7 +2,7 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 
@@ -16,7 +16,7 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.1.1"))
+#define A1301_LIB_VERSION        (F("0.1.2"))
 
 
 class HALL
@@ -37,8 +37,8 @@ public:
   //  READ
   //  times > 1 ==> more stable read / averaging.
   //  uses internal ADC
-  float     raw(uint8_t times = 1);   // return Gauss
-  float     read(uint8_t times = 1);  // return Gauss
+  float     raw(uint8_t times = 1);   //  returns raw ADC
+  float     read(uint8_t times = 1);  //  returns Gauss
   //  for external ADC
   float     readExt(float raw);
 

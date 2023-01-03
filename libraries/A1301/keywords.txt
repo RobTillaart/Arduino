@@ -32,7 +32,6 @@ getMaxGauss	KEYWORD2
 isSaturated	KEYWORD2
 
 
-
 # Constants (LITERAL1)
 A1301_LIB_VERSION	LITERAL1
 

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2023-03-01
+- update GitHub actions
+- update license
+- minor edits
+
+
 ## [0.1.1] - 2022-12-02
 - update keywords
 - boolean => bool
@@ -13,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - add A1324/25/26 derived classes.
 - update unit test
-
 
 ## [0.1.0] - 2022-12-01
 - initial version

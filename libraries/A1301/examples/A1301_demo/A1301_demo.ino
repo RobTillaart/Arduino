@@ -37,6 +37,8 @@ void loop()
     Serial.print("\t");
     Serial.print(mm.isSouth());
     Serial.print("\t");
+    Serial.print(mm.isSaturated());
+    Serial.print("\t");
     Serial.print(mm.prevGauss());
     Serial.print("\t");
     Serial.print(mm.lastGauss());

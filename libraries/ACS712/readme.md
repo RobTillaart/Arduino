@@ -340,10 +340,12 @@ The examples show the basic working of the functions.
 
 ## Future
 
+#### Must
+
+
 #### Should - 0.3.x
 
 - investigate noise suppression  #21 (0.3.1 and later)
-- add external history file = changelog.md
 
 
 #### Could

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2023-03-01
+- update GitHub actions
+- update license
+- add example
+- add URL in .h .cpp
+
+
 ## [0.3.2] - 2022-11-18
 - fix #26 revert data type \_midPoint to int
 - Add CHANGELOG.md

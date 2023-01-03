@@ -2,9 +2,10 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
+//     URL: https://github.com/RobTillaart/ACS712
 //
 // Tested with a RobotDyn ACS712 20A breakout + UNO.
 //
@@ -12,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.2"))
+#define ACS712_LIB_VERSION        (F("0.3.3"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)

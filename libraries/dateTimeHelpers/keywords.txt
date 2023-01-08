@@ -1,0 +1,31 @@
+# Syntax Colouring Map For datetimeHelpers
+
+# Data types (KEYWORD1)
+
+
+# Methods and Functions (KEYWORD2)
+secondsSplit	KEYWORD2
+seconds2duration	KEYWORD2
+seconds2clock24	KEYWORD2
+seconds2clock12	KEYWORD2
+seconds2clockAMPM	KEYWORD2
+
+millis2duration	KEYWORD2
+millis2clock	KEYWORD2
+
+
+seconds2weeks	KEYWORD2
+seconds2days	KEYWORD2
+seconds2hours	KEYWORD2
+seconds2minutes	KEYWORD2
+
+
+
+# Constants (LITERAL1)
+DATETIMEHELPER_LIB_VERSION	LITERAL1
+
+SECONDS_MINUTE	LITERAL1
+SECONDS_HOUR	LITERAL1
+SECONDS_DAY	LITERAL1
+SECONDS_WEEK	LITERAL1
+

@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.17
+// VERSION: 0.4.18
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -59,7 +59,7 @@ void DHTNEW::reset()
 #if defined(__AVR__)
   _disableIRQ    = false;
 #endif
-// #if defined(MKR1010)  // TODO find out real define
+// #if defined(ARDUINO_SAMD_MKRWIFI1010)  //  fix for issue #67
   // _disableIRQ    = false;
 // #endif
 }
@@ -79,7 +79,7 @@ void DHTNEW::setType(uint8_t type)
     _type = type;
     _wakeupDelay = DHTLIB_DHT11_WAKEUP;
   }
-  if (type == 22)
+  if ((type == 22) || (type == 23))
   {
     _type = type;
     _wakeupDelay = DHTLIB_DHT_WAKEUP;
@@ -124,6 +124,7 @@ int DHTNEW::read()
   //  make sure sensor had time to wake up.
   while (millis() < 1000);
 
+  //  NOTE: cannot differentiate between type 23 and 22
   _type = 22;
   _wakeupDelay = DHTLIB_DHT_WAKEUP;
   int rv = _read();

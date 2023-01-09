@@ -19,12 +19,33 @@ This is the main development library of all my DHT libraries.
 Supports DHT11, DHT22, DHT33, DHT44, AM2301, AM2302, AM2303 as these all have the same protocol.
 Note there are differences e.g. DHT11 has no negative temperature, no decimals, and a longer wakeup time.
 
+
 #### Sonoff Si7021
 
-Since 0.4.14 there is **experimental** support for the Sonoff Si7021 . 
-No hardware yet to test this myself, but it is confirmed to work.(see #79)
+Since 0.4.14 there is **experimental** support for the Sonoff Si7021. 
+No hardware yet to test this myself, but it is confirmed to work.
+See https://github.com/RobTillaart/DHTNew/issues/79.
 Seems the Sonoff Si7021 sensor is very sensitive in the wakeup timing.
 This behaviour needs to be investigated in the future. 
+
+To use the library one should call **setType(70)**.
+
+Feedback (both positive and negative) about the Sonoff Si7021 sensors is welcome.
+
+
+#### AM2320, AM2321 and AM2322
+
+Since 0.4.18 there is **experimental** support for the AM2320, AM2321 and AM2322.
+Not tested myself, but AM2320 is confirmed to work, see https://github.com/RobTillaart/AM232X/issues/26
+As the AM2321 and AM2322 are quite identical according to the datasheet, those are expected to work too.
+
+To use the library one should call **setType(22)** as the protocol is identical to the DHT22.
+If there are differences in operation type (23) will be implemented.
+The value 23 is now mapped upon 22 code.
+
+Feedback (both positive and negative) about the AM232X sensors is welcome.
+
+**Note: check the datasheet how to connect!**
 
 
 ## DHT PIN layout from left to right
@@ -35,6 +56,8 @@ This behaviour needs to be investigated in the future.
 | pin 2 |      | DATA          |
 | pin 3 |      | Not Connected |
 | pin 4 |      | GND           |
+
+**Note: check the datasheet how to connect!**
 
 
 ## Specification DHT22
@@ -143,11 +166,24 @@ from the IDE. Adding the line ```while(!Serial):``` fixes this. (added to the ex
 There might be more boards that need this line to work properly.
 
 
-#### ESP8266 & DHT22
+#### DHT22 and ESP8266
 
 - The DHT22 sensor has some problems in combination with specific pins of the ESP8266. See more details
   - https://github.com/RobTillaart/DHTNew/issues/31  (message Jan 3, 2021)
   - https://github.com/arendst/Tasmota/issues/3522
+
+
+#### Voltage AM2301 and ESP8266
+
+In a test an AM2301 had problems giving no humidity (99.9% overflow) when the
+DHTStable library was used with an ESP8266. (Reported by mail, no GH issue).
+As this DHTStable library is strongly related to the DHTNew it is mentioned here too.
+
+After days of testing and thinking and more testing the cause was found. 
+The AM2301 was powered by a 5V3 power supply which was apparently too high while having the
+data handshakes at 3V3. 
+When the VCC voltage was lowered to 5V1 it appeared to work as it should. 
+(Kudos to Viktor for finding the cause)
 
 
 ## History 
@@ -243,22 +279,34 @@ added experimental support for Si7021.
 Fix #81, recognize DHT22 as type 70. Add minimal wakeup delay.
 32. (0.4.16)
 Fix #84 correct the reading of type 70 for Sonoff Si7021.
+33. (0.4.17)
+fix #86, define constants explicit as float.
+34. (0.4.18)
+Update readme.md and library.\* about support for AM2320/21/22.
 
 
 ## Future
 
 #### must
 
-- move history to separate CHANGELOG.md file
+- update documentation
 
 #### should
 
 - test on more boards
-- investigate temperature constraining (type dependant.
-- update documentation
-- improve unit test
-- fix  DHTLIB_VALUE_OUT_OF_RANGE  code
-- #if defined(MKR1010)  // TODO find out real define 
+- #if defined(MKR1010)  // TODO find out real define  https://github.com/RobTillaart/DHTNew/issues/67
+  ```cpp
+  #ifdef ARDUINO_SAMD_MKRWIFI1010
+  #error found
+  #endif
+  ```
 
+
+#### could
+
+- improve unit test
+- investigate temperature constraining (type dependant)
+- fix  DHTLIB_VALUE_OUT_OF_RANGE  code
+- move all code from .h to .cpp
 
  

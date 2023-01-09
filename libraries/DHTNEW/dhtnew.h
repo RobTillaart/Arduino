@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.17
+// VERSION: 0.4.18
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 
@@ -19,7 +19,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.17"))
+#define DHTNEW_LIB_VERSION                (F("0.4.18"))
 
 
 #define DHTLIB_OK                         0
@@ -63,7 +63,10 @@ public:
   //  might help to reset a sensor behaving badly..
   void     reset();
 
-  //  0 = unknown, 11 or 22
+  //  0  = unknown
+  //  11 = DHT11 and compatibles
+  //  22 = DHT22 and compatibles
+  //  70 = Sonoff Si7021
   uint8_t  getType();
   void     setType(uint8_t type = 0);
   int      read();

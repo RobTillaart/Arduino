@@ -5,9 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.4.18] - 2023-01-09
+- update license to 2023
+- update GitHub actions
+- fix #89, add experimental support for AM2320, AM2321, AM2322.
+- update readme.md.
+
+
 ## [0.4.17] - 2022-11-05
 - fix #86, define constants explicit as float.
-
 
 ## [0.4.16] - 2022-10-17
 - Fix #84 correct the reading of type 70 for Sonoff Si7021.

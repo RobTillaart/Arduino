@@ -13,6 +13,8 @@ getType
 
 setValue	KEYWORD2
 getValue	KEYWORD2
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
 
 prepareChannel	KEYWORD2
 updateChannel	KEYWORD2

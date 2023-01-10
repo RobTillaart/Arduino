@@ -85,6 +85,8 @@ Sets internal values to zero.
 Returns false if channel out of range.
 - **uint16_t getValue(uint8_t channel)** returns set OR prepared value.
 At power up the DAC's will be reset to 0 V except the AD5668-3 (2.5V).
+- **bool setPercentage(uint8_t channel, float percentage)** idem.
+- **float getPercentage(uint8_t channel)** idem.
 - **bool prepareChannel(uint8_t channel, uint16_t value)** prepares the value for a channel.
 Returns false if channel out of range.
 - **bool updateChannel(uint8_t channel)** writes the prepared value to ADC.
@@ -185,6 +187,7 @@ Note that the library is not tested with hardware yet.
 ## Future
 
 #### Must
+
 - update and improve documentation
 - get test hardware
 - test the library
@@ -192,8 +195,8 @@ Note that the library is not tested with hardware yet.
 - check TODO's in code
 
 #### Should
+
 - write examples
-  - get/setValue
   - LDAC
   - power mode
 - support for RESET pin
@@ -202,12 +205,11 @@ Note that the library is not tested with hardware yet.
 - investigate value range checking for AD5648 and AD5628
   - now setValue() returns false if value > max, 
   - should value be clipped instead?
-- voltage interface(?)
-  - convenient.
 - **bool loadLDAC()** TODO?
 - investigate different type for AD5668_3 (as it does midscale)
 
 #### Could
+
 - CCmode + reset implies start value for getValue(ch)
   - is this implementable? costs?
 

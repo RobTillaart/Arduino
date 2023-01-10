@@ -2,12 +2,11 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
-//
-// HISTORY: see CHANGELOG.md
+
 
 #include "AD520X.h"
 
@@ -70,21 +69,10 @@ void AD520X::begin(uint8_t value)
 }
 
 
-#if defined(ESP32)
-void AD520X::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                 //  disable SPI and restart
-  mySPI->begin(clk, miso, mosi, select);
-}
-#endif
-
-
+/////////////////////////////////////////////////////////////////////////////
+//
+//  SET VALUE
+//
 bool AD520X::setValue(uint8_t pm, uint8_t value)
 {
   if (pm >= _pmCount) return false;
@@ -92,6 +80,14 @@ bool AD520X::setValue(uint8_t pm, uint8_t value)
   updateDevice(pm, value);
   return true;
 }
+
+
+uint8_t AD520X::getValue(uint8_t pm)
+{
+  if (pm >= _pmCount) return 0;
+  return _value[pm];
+}
+
 
 //  STEREO same value
 bool AD520X::setValue(uint8_t pmA, uint8_t pmB, uint8_t value)
@@ -115,25 +111,29 @@ void  AD520X::setAll(uint8_t value)
 }
 
 
-uint8_t AD520X::getValue(uint8_t pm)
+void  AD520X::setGroupValue(uint8_t mask, uint8_t value)
 {
-  if (pm >= _pmCount) return 0;
-  return _value[pm];
+  uint8_t m = 0x01;
+  for (uint8_t pm = 0; pm < _pmCount; pm++ )
+  {
+    if (mask & m)
+    {
+      _value[pm] = value;
+      updateDevice(pm, value);
+    }
+    m <<= 1;
+  }
 }
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  SET PERCENTAGE
+//
 bool AD520X::setPercentage(uint8_t pm, float percentage)
 {
   if ((percentage < 0) || (percentage > 100.0)) return false;
   return setValue(pm, round(percentage * (255.0 / 100.0)));
-}
-
-
-//  STEREO same percentage
-bool AD520X::setPercentage(uint8_t pmA, uint8_t pmB, float percentage)
-{
-  if ((percentage < 0) || (percentage > 100.0)) return false;
-  return setValue(pmA, pmB, round(percentage * (255.0 / 100.0)));
 }
 
 
@@ -146,6 +146,32 @@ float AD520X::getPercentage(uint8_t pm)
 }
 
 
+//  STEREO same percentage
+bool AD520X::setPercentage(uint8_t pmA, uint8_t pmB, float percentage)
+{
+  if ((percentage < 0) || (percentage > 100.0)) return false;
+  return setValue(pmA, pmB, round(percentage * (255.0 / 100.0)));
+}
+
+
+void AD520X::setGroupPercentage(uint8_t mask, float percentage)
+{
+  uint8_t m = 0x01;
+  for (uint8_t pm = 0; pm < _pmCount; pm++ )
+  {
+    if (mask & m)
+    {
+      setValue(pm, round(percentage * (255.0 / 100.0)));
+    }
+    m <<= 1;
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OTHER
+//
 void AD520X::reset(uint8_t value)
 {
   digitalWrite(_reset, LOW);
@@ -154,6 +180,34 @@ void AD520X::reset(uint8_t value)
 }
 
 
+uint8_t AD520X::pmCount()
+{
+  return _pmCount;
+}
+
+
+void AD520X::powerOn()
+{
+  digitalWrite(_shutdown, HIGH);
+}
+
+
+void AD520X::powerOff()
+{
+  digitalWrite(_shutdown, LOW);
+}
+
+
+bool AD520X::isPowerOn()
+{
+  return digitalRead(_shutdown) == HIGH;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  SPI
+//
 void AD520X::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
@@ -161,9 +215,62 @@ void AD520X::setSPIspeed(uint32_t speed)
 };
 
 
+uint32_t AD520X::getSPIspeed()
+{
+  return _SPIspeed;
+}
+
+
+bool AD520X::usesHWSPI()
+{
+  return _hwSPI;
+};
+
+
+#if defined(ESP32)
+
+void AD520X::selectHSPI()
+{
+  _useHSPI = true;
+}
+
+
+void AD520X::selectVSPI()
+{
+  _useHSPI = false;
+}
+
+
+bool AD520X::usesHSPI()
+{
+  return _useHSPI;
+}
+
+
+bool AD520X::usesVSPI()
+{
+  return !_useHSPI;
+}
+
+
+void AD520X::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _select  = select;
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+
+  mySPI->end();                 //  disable SPI and restart
+  mySPI->begin(clk, miso, mosi, select);
+}
+
+#endif
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
-// PROTECTED
+//  PROTECTED
 //
 void AD520X::updateDevice(uint8_t pm, uint8_t value)
 {

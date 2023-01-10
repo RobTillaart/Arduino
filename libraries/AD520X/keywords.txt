@@ -14,9 +14,11 @@ begin	KEYWORD2
 setValue	KEYWORD2
 setAll	KEYWORD2
 getValue	KEYWORD2
+setGroupValue	KEYWORD2
 
 setPercentage	KEYWORD2
 getPercentage	KEYWORD2
+setGroupPercentage	KEYWORD2
 
 reset	KEYWORD2
 

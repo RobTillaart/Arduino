@@ -82,7 +82,7 @@ unittest(test_setValue)
 
 unittest(test_setPercentage)
 {
-  AD5206 pot = AD5206(10, 12, 13);  // HW SPI
+  AD5206 pot = AD5206(10, 12, 13);  //  HW SPI
   pot.begin();
   assertEqualFloat(50, pot.getPercentage(0), 0.5);
 
@@ -96,7 +96,7 @@ unittest(test_setPercentage)
 
 unittest(test_reset)
 {
-  AD5204 pot = AD5204(10, 12, 13);  // HW SPI
+  AD5204 pot = AD5204(10, 12, 13);  //  HW SPI
   pot.begin();
   assertEqual(128, pot.getValue(0));
   
@@ -132,23 +132,23 @@ unittest(test_power)
 
 unittest(test_pm_count)
 {
-  AD5204 pot1 = AD5204(10, 12, 13);  // HW SPI
+  AD5204 pot1 = AD5204(10, 12, 13);  //  HW SPI
   pot1.begin();
   assertEqual(4, pot1.pmCount());
 
-  AD5206 pot2 = AD5206(10, 12, 13);  // HW SPI
+  AD5206 pot2 = AD5206(10, 12, 13);  //  HW SPI
   pot2.begin();
   assertEqual(6, pot2.pmCount());
 
-  AD8403 pot3 = AD8403(10, 12, 13);  // HW SPI
+  AD8403 pot3 = AD8403(10, 12, 13);  //  HW SPI
   pot3.begin();
   assertEqual(4, pot3.pmCount());
 
-  AD8402 pot4 = AD8402(10, 12, 13);  // HW SPI
+  AD8402 pot4 = AD8402(10, 12, 13);  //  HW SPI
   pot4.begin();
   assertEqual(2, pot4.pmCount());
 
-  AD8400 pot5 = AD8400(10, 12, 13);  // HW SPI
+  AD8400 pot5 = AD8400(10, 12, 13);  //  HW SPI
   pot5.begin();
   assertEqual(1, pot5.pmCount());
 }
@@ -156,4 +156,4 @@ unittest(test_pm_count)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

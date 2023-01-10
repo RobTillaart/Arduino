@@ -72,9 +72,10 @@ Returns true if successful, false if not.
 - **void setAll(uint8_t value = 128)** set all potentiometers to the same value e.g. 0 or max or mid value.
 Can typically be used for **mute**.
 - **uint8_t getValue(uint8_t pm = 0)** returns the last set value of a specific potentiometer.
+- **setGroupValue(mask, value)** bit mask to set 0..8 channels in one call.
 
 
-#### percentage
+#### Percentage
 
 - **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%  
 Returns true when successful, false if not.
@@ -82,7 +83,7 @@ Returns true when successful, false if not.
 Note, no default value.
 Returns true when successful, false if not.
 - **float getPercentage(uint8_t pm = 0)** return the value of potentiometer pm as percentage.
-
+- **setGroupPercentage(mask, value)** bit mask to set 0..8 channels in one call.
 
 The library has defined **#define AD520X_MIDDLE_VALUE  128**
 
@@ -130,27 +131,12 @@ See examples.
 ## Future
 
 
-#### 0.3.1
-
-- **setGroupValue(mask, value)** bit mask to set 0..8 channels in one call
-  - loop over mask ?
-- **setGroupPercentage(mask, value)** bit mask to set 0..8 channels in one call
-  - wrapper
-- move all code to .cpp file
-
-
 #### Must
 
 
 #### Should
 
-- **void setInvert(uint8_t pm)** invert flag per potentiometer.
-   - 0..255 -> 255..0
-   - 1 uint8_t can hold 8 flags
-   - will slow performance.
-   - how does this work with **stereo** functions.
-   - at what level should invert work.
-- **bool getInvert(uint8_t pm)**
+- extend unit tests
 
 
 #### Could (only if requested.)
@@ -159,7 +145,14 @@ See examples.
 - **setSWSPIdelay()** to tune software SPI?
   - bit delay / not byte delay
   - unit microseconds
-  
+- **void setInvert(uint8_t pm)** invert flag per potentiometer.
+   - 0..255 -> 255..0
+   - 1 uint8_t can hold 8 flags
+   - **will slow performance**
+   - how does this work with **stereo** functions.
+   - at what level should invert work.
+- **bool getInvert(uint8_t pm)**
+
 
 #### Wont
 

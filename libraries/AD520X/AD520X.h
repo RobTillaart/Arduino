@@ -3,7 +3,7 @@
 //    FILE: AD520X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
@@ -15,7 +15,7 @@
 #include "SPI.h"
 
 
-#define AD520X_LIB_VERSION              (F("0.3.0"))
+#define AD520X_LIB_VERSION              (F("0.3.1"))
 
 
 #ifndef AD520X_MIDDLE_VALUE
@@ -30,43 +30,52 @@ public:
 
   void     begin(uint8_t value = AD520X_MIDDLE_VALUE);
 
+
   //  MONO / SINGLE
   bool     setValue(uint8_t pm = 0, uint8_t value = AD520X_MIDDLE_VALUE);
+  uint8_t  getValue(uint8_t pm = 0);
   //  STEREO / DOUBLE
   bool     setValue(uint8_t pmA, uint8_t pmB, uint8_t value);
+  //  GROUP
   void     setAll(uint8_t value = AD520X_MIDDLE_VALUE);
-  uint8_t  getValue(uint8_t pm = 0);
+  void     setGroupValue(uint8_t mask, uint8_t value = AD520X_MIDDLE_VALUE);
+
 
   //  MONO / SINGLE
   bool     setPercentage(uint8_t pm = 0, float percentage = 50);
+  float    getPercentage(uint8_t pm = 0);
   //  STEREO / DOUBLE
   bool     setPercentage(uint8_t pmA, uint8_t pmB, float percentage);
-  float    getPercentage(uint8_t pm = 0);
+  //  GROUP
+  void     setGroupPercentage(uint8_t mask, float percentage);
+
 
   void     reset(uint8_t value = AD520X_MIDDLE_VALUE);
-  uint8_t  pmCount()   { return _pmCount; };
+  uint8_t  pmCount();
 
-  void     powerOn()   { digitalWrite(_shutdown, HIGH); };
-  void     powerOff()  { digitalWrite(_shutdown, LOW); };
-  bool     isPowerOn() { return digitalRead(_shutdown) == HIGH; };
+  void     powerOn();
+  void     powerOff();;
+  bool     isPowerOn();
+
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed() { return _SPIspeed; };
+  uint32_t getSPIspeed();
 
   // debugging
-  bool     usesHWSPI() { return _hwSPI; };
+  bool     usesHWSPI();
 
   // ESP32 specific
   #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
 
   // to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
+
 
 protected:
   uint8_t  _dataOut;
@@ -74,7 +83,7 @@ protected:
   uint8_t  _select;
   uint8_t  _reset;
   uint8_t  _shutdown;
-  bool     _hwSPI = 3;
+  bool     _hwSPI;
   uint32_t _SPIspeed = 16000000;
 
   uint8_t  _value[6];

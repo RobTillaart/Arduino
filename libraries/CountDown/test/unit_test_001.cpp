@@ -32,12 +32,21 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) COUNTDOWN_LIB_VERSION);
+  fprintf(stderr, "COUNTDOWN_LIB_VERSION: %s\n", (char *) COUNTDOWN_LIB_VERSION);
 }
 
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual('M', CountDown::MINUTES);
+  assertEqual('s', CountDown::SECONDS);
+  assertEqual('m', CountDown::MILLIS);
+  assertEqual('u', CountDown::MICROS);
 }
 
 
@@ -54,6 +63,12 @@ unittest(test_constructor)
   assertEqual(CountDown::MILLIS,  c.resolution());
   assertEqual(CountDown::MICROS,  d.resolution());
   assertEqual(CountDown::MILLIS,  e.resolution());
+
+  assertEqual('M', a.getUnits());
+  assertEqual('s', b.getUnits());
+  assertEqual('m',  c.getUnits());
+  assertEqual('u',  d.getUnits());
+  assertEqual('m',  e.getUnits());
 
   fprintf(stderr, "\nisRunning\n");
 
@@ -89,30 +104,37 @@ unittest(test_run)
   assertEqual(CountDown::MILLIS,  cd.resolution());
 
   assertFalse(cd.isRunning());
+  assertTrue(cd.isStopped());
   cd.start(10);
   assertTrue(cd.isRunning());
+  assertFalse(cd.isStopped());
   delay(5);
   cd.stop();
   assertFalse(cd.isRunning());
+  assertTrue(cd.isStopped());
   assertEqual(5, cd.remaining());
 
   cd.start(10);
   assertTrue(cd.isRunning());
+  assertFalse(cd.isStopped());
   delay(15);
   assertFalse(cd.isRunning());
+  assertTrue(cd.isStopped());
   assertEqual(0, cd.remaining());
-
 }
 
 
 unittest(test_overflow)
 {
   CountDown cd;
-  assertEqual(CountDown::MILLIS,  cd.resolution());
+  assertEqual(CountDown::MILLIS, cd.resolution());
 
   assertFalse(cd.isRunning());
   assertFalse(cd.start(50, 0, 0));
+  assertEqual(CountDown::MINUTES, cd.resolution());
+
   assertFalse(cd.start(50, 0, 0, 0));
+  assertEqual(CountDown::SECONDS, cd.resolution());
 
   assertFalse(cd.start(0, 1200, 0));
   assertFalse(cd.start(0, 1200, 0, 0));
@@ -123,6 +145,9 @@ unittest(test_overflow)
   assertFalse(cd.start(0, 0, 0, 4320000));
 }
 
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

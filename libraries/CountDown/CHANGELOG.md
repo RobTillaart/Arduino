@@ -6,11 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-01-10
+- fix #12 MINUTES bug
+- label enum resolution to be printable u, m, s, M.
+- add getUnits()
+- add isStopped() for convenience.
+- fix initialization of private variables.
+- update GitHub actions
+- update license
+- update readme.md
+- update unit tests
+
+----
+
 ## [0.2.7] - 2022-10-30
 - add changelog.md
 - add rp2040 to build-CI
 - minor edit unit test
-
 
 ## [0.2.6] - 2021-12-14
 - update library.json, license

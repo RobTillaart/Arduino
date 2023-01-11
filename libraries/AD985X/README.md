@@ -178,20 +178,25 @@ for SW SPI you need to define the data and clock pin too.
   - resetPin = reset
   - FQUD = Frequency UpDate Pin
 - **void reset()** resets the function generator.
-- **void powerDown()** idem
-- **void powerUp()** idem
-- **void setFrequency(uint32_t freq)** SetFrequency sets the frequency and is limited by the 
-MaxFrequency of the class used. For the AD9850 => 40 MHz, for the AD9851 => 70 MHz. 
+- **void powerDown()** idem.
+- **void powerUp()** idem.
+- **bool setFrequency(uint32_t freq)** SetFrequency sets the frequency and is limited by the 
+MaxFrequency of the class used.
+Returns false if limited. 
+For the AD9850 => 40 MHz, for the AD9851 => 70 MHz. 
   - Note that the quality of the signal gets less at higher frequencies. 
   - Note setFrequency is affected by the autoUpdateFlag.
-- **void setFrequencyF(float freq)** SetFrequencyF sets the frequency with a float with a maximum of **two** decimals. 
+- **bool setFrequencyF(float freq)** SetFrequencyF sets the frequency with a float with a maximum of **two** decimals. 
   - Note that a float only has a mantissa of 6-7 digits so for frequencies above above ~1.000.000 = 1MHz all decimals are lost.
   - Note setFrequencyF is affected by the autoUpdateFlag.
+The frequency is limited by the MaxFrequency of the class used.
+Returns false if limited. 
 - **uint32_t getMaxFrequency()** returns the maximum frequency that can be set. For the AD9850 this is 20 MHz.
 For the AD9851 this is 70 MHz.
 - **float getFrequency()** returns the frequency set. As it returns a float it might loose some accuracy at higher frequencies.
-- **void setPhase(uint8_t phase = 0)** set the phase in units of 11.25°  0..31 allowed. 
+- **bool setPhase(uint8_t phase = 0)** set the phase in units of 11.25°  0..31 allowed. 
 Default it sets the phase to 0.
+Returns false if phase > 31, no change to phase in that case.
 - **uint8_t getPhase()** returns the phase set, 0 by default. One need to multiply by 11.25° to get the actual angle.
 
 
@@ -270,7 +275,7 @@ The AD9850 has no specific functions.
 ### AD9851 specific
 
 - **void setRefClockHigh()** set reference clock to 180 Mhz.
-- **void setRefClockLow()**  set reference clock to 30 Mhz.
+- **void setRefClockLow()** set reference clock to 30 Mhz.
 - **uint8_t getRefClock()** returns 30 or 180.
 - **void setAutoRefClock(bool arc)** sets a flag so the library switches automatically
 to the reference clock of 180 MHz when the frequency is set above 10 MHz and 
@@ -278,7 +283,8 @@ to 30 MHz when the frequency is set to 10 MHz or lower.
 The initial value is **false** == OFF for backwards compatibility. 
 - **bool getAutoRefClock()** returns true if autoRefClock is set. 
 - **void setARCCutOffFreq(uint32_t Hz = 10000000UL )** set cut off frequency 
-for the auto reference clock. Maximum value is 30 MHz, typical 10 MHz.
+for the auto reference clock. 
+Maximum value is 30 MHz, typical is 10 MHz.
 - **uint32_t getARCCutOffFreq()** returns cut off frequency set.
 
 
@@ -303,8 +309,24 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 
 ## Future
 
+#### Must
+
+#### Should
+
 - examples for ESP32 HWSPI interface
 - do tests on ESP32
 - performance measurements
+- unit tests for 
+  - bool setFrequency
+  - bool setPhase
+
+#### Could
+
 - move code to .cpp
+- create defines for MAGIC numbers (defaults)
+- should other void function return bool?
+  - setARCCutOffFreq() ?
+
+
+#### Wont
 

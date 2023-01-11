@@ -27,12 +27,19 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "VERSION: %s\n", AD985X_LIB_VERSION);
+  fprintf(stderr, "AD985X_LIB_VERSION: %s\n", AD985X_LIB_VERSION);
 }
 
 
 unittest_teardown()
 {
+}
+
+
+unittest(test_constants)
+{
+  assertEqual((40UL * 1000UL * 1000UL), AD9850_MAX_FREQ);
+  assertEqual((70UL * 1000UL * 1000UL), AD9851_MAX_FREQ);
 }
 
 

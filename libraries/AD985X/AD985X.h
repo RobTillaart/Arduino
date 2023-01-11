@@ -2,18 +2,17 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
-//
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION    (F("0.3.4"))
+#define AD985X_LIB_VERSION    (F("0.3.5"))
 
 
 #define AD9850_MAX_FREQ       (40UL * 1000UL * 1000UL)
@@ -31,26 +30,30 @@ public:
   void     powerDown();
   void     powerUp();
 
-  void     setFrequency(uint32_t freq);         //  0..AD9850_MAX_FREQ
-  void     setFrequencyF(float freq);           //  works best for lower frequencies.
-  float    getFrequency()    { return _freq; };
-  uint32_t getMaxFrequency() { return AD9850_MAX_FREQ; };
+
+  //  returns false if limited to AD9850_MAX_FREQ
+  bool     setFrequency(uint32_t freq);         //  0..AD9850_MAX_FREQ
+  bool     setFrequencyF(float freq);           //  works best for low frequencies.
+  float    getFrequency();
+  uint32_t getMaxFrequency();
 
   //  0 .. 31  steps of 11.25 degrees
-  void     setPhase(uint8_t phase = 0);
-  uint8_t  getPhase()        { return (_config >> 3); };
+  //  returns false if phase > 31.
+  bool     setPhase(uint8_t phase = 0);
+  uint8_t  getPhase();
+
 
   //  offset to calibrate the frequency (internal counter)
   //  offset must be stored by the user.
   void     setCalibration(int32_t offset = 0) { _offset = offset; };
   int32_t  getCalibration()  { return _offset; };
-  //  internal chip factor used for frequency. (debugging only)
-  uint32_t getFactor()       { return _factor; };
+
 
   //       autoUpdate is default true;
-  void     setAutoUpdate(bool update = true) { _autoUpdate = update; };  
+  void     setAutoUpdate(bool update = true) { _autoUpdate = update; };
   bool     getAutoUpdate()   { return _autoUpdate; };
   void     update();
+
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
@@ -58,7 +61,10 @@ public:
 
   //  debugging
   bool     usesHWSPI() { return _hwSPI; };
-  
+  //  internal chip factor used for frequency. (debugging only)
+  uint32_t getFactor()       { return _factor; };
+
+
   //  ESP32 specific
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
@@ -102,24 +108,33 @@ protected:
 };
 
 
+/////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
 class AD9851 : public AD9850
 {
 public:
-  void     setFrequency(uint32_t freq);    //  0..AD9851_MAX_FREQ
-  void     setFrequencyF(float freq);
-  uint32_t getMaxFrequency()  { return AD9851_MAX_FREQ; };
+  //  returns false if limited to AD9851_MAX_FREQ
+  bool     setFrequency(uint32_t freq);    //  0..AD9851_MAX_FREQ
+  bool     setFrequencyF(float freq);      //  works best for low frequencies.
+  uint32_t getMaxFrequency();
 
-  void     setRefClockHigh();   //  180 MHz
-  void     setRefClockLow();    //   30 MHz
-  uint8_t  getRefClock();
+
+  void     setRefClockHigh();              //  180 MHz
+  void     setRefClockLow();               //   30 MHz
+  uint8_t  getRefClock();                  //  returns 180 or 30
+
 
   void     setAutoRefClock(bool arc);
-  bool     getAutoRefClock()  { return _autoRefClock; };
+  bool     getAutoRefClock();
+
 
   //  10 MHz is default, set in Hz.
   //  will be kept <= 30 MHz as that is the freq of LOW mode.
   void     setARCCutOffFreq(uint32_t Hz = 10000000UL );
-  uint32_t getARCCutOffFreq() { return _ARCCutOffFreq; };
+  uint32_t getARCCutOffFreq();
+
 
 protected:
   bool     _autoRefClock = false;

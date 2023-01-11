@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2023-01-11
+- update GitHub actions
+- update license
+- add bool return value to setFrequency()
+- add bool return value to setPhase()
+- add test_constants in unit test
+
+
 ## [0.3.4] - 2022-10-25
 - add changelog.md
 - add RP2040 in build-CI
 - add URL to examples
-
 
 ## [0.3.3] - 2021-12-10
 - update library.json, license, readme.md

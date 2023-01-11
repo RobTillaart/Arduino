@@ -47,10 +47,19 @@ unittest_teardown()
 }
 
 
-unittest(test_constants)
+unittest(test_constants_dividers)
 {
   assertEqual(STOPWATCH_SECONDS_DIVIDER,  1000);
   assertEqual(STOPWATCH_MINUTES_DIVIDER,  60000);
+}
+
+
+unittest(test_constants_units)
+{
+  assertEqual('u',  StopWatch::MICROS);
+  assertEqual('m',  StopWatch::MILLIS);
+  assertEqual('s',  StopWatch::SECONDS);
+  assertEqual('M',  StopWatch::MINUTES);
 }
 
 
@@ -78,24 +87,36 @@ unittest(test_run)
 {
   StopWatch stopwatch;
 
+  assertFalse(stopwatch.isRunning());
+  assertFalse(stopwatch.isStopped());
+  assertTrue(stopwatch.isReset());
+
   stopwatch.start();
   delay(101);
   assertTrue(stopwatch.isRunning());
+  assertFalse(stopwatch.isStopped());
+  assertFalse(stopwatch.isReset());
   assertEqual(StopWatch::RUNNING, stopwatch.state());
   assertLessOrEqual(100, stopwatch.elapsed());
 
   stopwatch.stop();
   assertFalse(stopwatch.isRunning());
+  assertTrue(stopwatch.isStopped());
+  assertFalse(stopwatch.isReset());
   assertEqual(StopWatch::STOPPED, stopwatch.state());
 
   uint32_t ti = stopwatch.elapsed();
   stopwatch.start();
   delay(10);
   assertTrue(stopwatch.isRunning());
+  assertFalse(stopwatch.isStopped());
+  assertFalse(stopwatch.isReset());
   assertLessOrEqual(110, stopwatch.elapsed());
 
   stopwatch.reset();
   assertFalse(stopwatch.isRunning());
+  assertFalse(stopwatch.isStopped());
+  assertTrue(stopwatch.isReset());
   assertEqual(StopWatch::RESET, stopwatch.state());
 }
 

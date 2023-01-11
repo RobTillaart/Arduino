@@ -1,7 +1,7 @@
 //
 //    FILE: StopWatch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2011-01-04
 // PURPOSE: Arduino Library implementing a stopwatch including seconds, milliseconds microseconds
 //     URL: https://github.com/RobTillaart/StopWatch_RT
@@ -16,6 +16,7 @@
 
 StopWatch::StopWatch(const enum Resolution resolution)
 {
+  reset();
   setResolution(resolution);
 }
 
@@ -26,8 +27,8 @@ void StopWatch::start()
   {
     _state = StopWatch::RUNNING;
     uint32_t t = _gettime();
-    _starttime += t - _stoptime;
-    _stoptime = t;
+    _startTime += t - _stopTime;
+    _stopTime = t;
   }
 }
 
@@ -36,7 +37,7 @@ void StopWatch::stop()
 {
   if (_state == StopWatch::RUNNING)
   {
-    _stoptime = _gettime();
+    _stopTime = _gettime();
     _state = StopWatch::STOPPED;
   }
 }
@@ -45,7 +46,7 @@ void StopWatch::stop()
 void StopWatch::reset()
 {
   _state      = StopWatch::RESET;
-  _starttime  = _stoptime = 0;
+  _startTime  = _stopTime = 0;
 }
 
 
@@ -54,16 +55,34 @@ uint32_t StopWatch::elapsed() const
 {
   if (_state == StopWatch::RUNNING)
   {
-    return _gettime() - _starttime;
+    return _gettime() - _startTime;
   }
-  return _stoptime - _starttime;
+  return _stopTime - _startTime;
 }
 
 
-bool StopWatch::isRunning() 
-{ 
-  return _state == StopWatch::RUNNING; 
-};
+char StopWatch::getUnits()
+{
+  return _resolution;
+}
+
+
+bool StopWatch::isRunning()
+{
+  return _state == StopWatch::RUNNING;
+}
+
+
+bool StopWatch::isStopped()
+{
+  return _state == StopWatch::STOPPED;
+}
+
+
+bool StopWatch::isReset()
+{
+  return _state == StopWatch::RESET;
+}
 
 
 void StopWatch::setResolution(const enum Resolution resolution)
@@ -104,9 +123,9 @@ size_t StopWatch::printTo(Print& p) const
   switch(_resolution)
   {
     case MICROS:   n += p.print(" us"); break;
+    case MILLIS:   n += p.print(" ms"); break;
     case SECONDS:  n += p.print(" s");  break;
     case MINUTES:  n += p.print(" m."); break;
-    case MILLIS:   n += p.print(" ms"); break;
   }
   return n;
 }

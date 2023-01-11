@@ -35,6 +35,11 @@ This library is based upon millis() and micros() and therefore has the same
 restrictions and limitations as these functions with respect to overflow and precision.
 This means minutes and seconds will overflow also after about 49 days.
 
+#### Links
+
+Relates to - https://github.com/RobTillaart/CountDown
+
+
 
 ## Interface
 
@@ -46,11 +51,14 @@ This means minutes and seconds will overflow also after about 49 days.
 - **void stop()** stop counting
 - **uint32_t elapsed()** returns the time in chosen units since last **start()**
 - **void reset()** resets the counting to 0.
+- **char getUnits()** returns u, s, m , M. 
 
 
 ### Status
 
 - **bool isRunning()** returns true if clock is counting.
+- **bool isStopped()** returns true if clock is stopped.
+- **bool isReset()** returns true if clock is reset.
 - **enum state()** returns RESET, RUNNING or STOPPED.
 - **void setResolution(Resolution resolution)** changes the resolution of the stopwatch and resets it. 
 Even when called with the current resolution a reset will take place. 

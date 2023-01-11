@@ -11,7 +11,7 @@
 Arduino library for **I2C AD5144A** 4 channel digital potentiometer.
 
 Library also provides classes for AD5123, AD5124, AD5143, AD5144, AD5144A, AD5122A, AD5142A, AD5121, AD5141.
-These are have different number of potmeters, rheostats and range but are functional compatible, 
+These are have different number of potentiometers, rheostats and range but are functional compatible, 
 
 ## Description
 
@@ -229,13 +229,15 @@ The examples show the basic working of the functions.
 ## Future
 
 #### must
+
 - update documentation
 
 #### should
-- move code from .h to .cpp (0.2.0)
+
 - more testing with hardware.
 
 #### could
+
 - some functions can be performance optimized
   - writing a value is not needed if last value is the same?
   - should be at least written once.

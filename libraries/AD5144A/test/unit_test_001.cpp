@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-04-30
 // PURPOSE: unit tests for I2C digital PotentioMeter AD5144A
 //          https://github.com/RobTillaart/AD5144A

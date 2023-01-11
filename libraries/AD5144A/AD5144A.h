@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.0
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION           (F("0.1.9"))
+#define AD51XXA_VERSION           (F("0.2.0"))
 
 
 #define AD51XXA_OK                0
@@ -45,15 +45,13 @@ public:
   uint8_t read(const uint8_t rdac);
 
   //  additional write functions
-  uint8_t writeAll(const uint8_t value);  // set all channels to same value
+  uint8_t writeAll(const uint8_t value);  //  set all channels to same value
   uint8_t zeroAll();
   uint8_t midScaleAll();                  //  _maxValue + 1)/2
   uint8_t maxAll();
   uint8_t zero(const uint8_t rdac);
   uint8_t midScale(const uint8_t rdac);   //  _maxValue + 1)/2
   uint8_t maxValue(const uint8_t rdac);
-
-  uint8_t mid(const uint8_t rdac)       { return midScale(rdac); };    // will be obsolete 0.2.0
 
 
   //  EEPROM functions
@@ -102,16 +100,16 @@ public:
 
 
   //  MISC
-  uint8_t pmCount()  { return _potCount; };
-  uint8_t maxValue() { return _maxValue; };
+  uint8_t pmCount();
+  uint8_t maxValue();
   uint8_t shutDown();
 
 
   //  returns the value from internal registers.
-  uint8_t readBackINPUT(const uint8_t rdac)   { return readBack(rdac, 0x00); };
-  uint8_t readBackEEPROM(const uint8_t rdac)  { return readBack(rdac, 0x01); };
-  uint8_t readBackCONTROL(const uint8_t rdac) { return readBack(rdac, 0x02); };
-  uint8_t readBackRDAC(const uint8_t rdac)    { return readBack(rdac, 0x03); };
+  uint8_t readBackINPUT(const uint8_t rdac);
+  uint8_t readBackEEPROM(const uint8_t rdac);
+  uint8_t readBackCONTROL(const uint8_t rdac);
+  uint8_t readBackRDAC(const uint8_t rdac);
 
 
   //  USE WITH CARE - READ DATASHEET

@@ -23,34 +23,38 @@ and can be set in 256 steps.
 An important property of the devices is that they defaults
 to their mid position at startup.
 
+The library also defines AD524X_MIDPOINT == 127.
+To be used to set to defined mid point.
+
 
 #### Related libraries
 
-This library is related to - https://github.com/RobTillaart/AD5245
-The AD5245 is a single port digital potentiometer.
+This library is related to 
+- https://github.com/RobTillaart/AD5245 single port digital potentiometer.
+- https://github.com/RobTillaart/AD520X multi port digital potentiometer.
 
 
 ## I2C address
 
 The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F 
 
-| Addr(dec)| Addr(Hex) | AD0  | AD1  |
-|:--------:|:---------:|:----:|:----:|
-|  44      |  0x2C     | GND  | GND  |
-|  45      |  0x2D     | GND  | +5V  |
-|  46      |  0x2E     | +5V  | GND  |
-|  47      |  0x2F     | +5V  | +5V  |
+| Addr(dec)| Addr(Hex) |  AD0  |  AD1  |
+|:--------:|:---------:|:-----:|:-----:|
+|  44      |  0x2C     |  GND  |  GND  |
+|  45      |  0x2D     |  GND  |  +5V  |
+|  46      |  0x2E     |  +5V  |  GND  |
+|  47      |  0x2F     |  +5V  |  +5V  |
 
 
 ## Interface
 
 The library has a number of functions which are all quite straightforward.
-One can get / set the value of (both) the potentiometer(s), and the O1 and O2 lines.
+One can get / set the value of (both) the potentiometer(s), and the O1 and O2 output lines.
 
 
-### Constructors
+#### Constructors
 
-- **AD524X(uint8_t address, TwoWire \*wire = &Wire)** base class, 
+- **AD524X(uint8_t address, TwoWire \*wire = &Wire)** constructor base class, 
 creates an instance with 2 potentiometer.
 This class does not distinguish between AD5241 and AD5242. 
 The developer is responsible for handling this correctly.
@@ -58,14 +62,14 @@ The developer is responsible for handling this correctly.
 - **AD5242(uint8_t address, TwoWire \*wire = &Wire)** create an instance with 2 potentiometer.
 
 
-### Wire initialization
+#### Wire initialization
 
 - **bool begin(uint8_t sda, uint8_t scl)** ESP32 a.o initializing of Wire.
 - **bool begin()** for UNO.
 - **bool isConnected()** See if address set in constructor is on the bus.
 
 
-### Basic IO
+#### Basic IO
 
 - **uint8_t write(uint8_t rdac, uint8_t value)** set channel rdac 0/1 to value 0..255.
 - **uint8_t write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)** idem + set output lines O1 and O2 too.
@@ -76,11 +80,11 @@ The developer is responsible for handling this correctly.
 - **uint8_t getO2()** read back O2 line.
 
 
-### Misc
+#### Misc
 
 - **uint8_t zeroAll()** sets potentiometer's to 0 and I/O to LOW.
-- **uint8_t reset()** sets potentiometer's to midpoint = 127 and I/O to LOW. (startup default)
-- **uint8_t midScaleReset(uint8_t rdac)** resets one potentiometer to midpoint = 127.
+- **uint8_t reset()** sets potentiometer's to midpoint == 127 and I/O to LOW. (startup default)
+- **uint8_t midScaleReset(uint8_t rdac)** resets one potentiometer to midpoint == 127.
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
@@ -104,10 +108,16 @@ The examples show the basic working of the functions.
 
 ## Future
 
-### should
+#### Must
+
+
+#### Should
+
 - improve error handling.
 - sync with AD520X library
 
+#### Could
 
-#### wont
+
+#### Wont
 - make midpoint 128

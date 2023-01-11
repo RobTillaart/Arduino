@@ -1,22 +1,21 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
-//
-// HISTORY see changelog.md
 
 
 #include "AD524X.h"
 
-#define AD524X_RDAC0    0x00
-#define AD524X_RDAC1    0x80
-#define AD524X_RESET    0x40
-#define AD524X_SHUTDOWN 0x20
-#define AD524X_O1_HIGH  0x10
-#define AD524X_O2_HIGH  0x08
+
+#define AD524X_RDAC0        0x00
+#define AD524X_RDAC1        0x80
+#define AD524X_RESET        0x40
+#define AD524X_SHUTDOWN     0x20
+#define AD524X_O1_HIGH      0x10
+#define AD524X_O2_HIGH      0x08
 
 
 AD524X::AD524X(const uint8_t address, TwoWire *wire)
@@ -24,7 +23,7 @@ AD524X::AD524X(const uint8_t address, TwoWire *wire)
   //  address: 0x01011xx = 0x2C - 0x2F
   _address = address;
   _wire = wire;
-  _lastValue[0] = _lastValue[1] = 127;  //  power on reset => mid position
+  _lastValue[0] = _lastValue[1] = AD524X_MIDPOINT;  //  power on reset => mid position
   _O1 = _O2 = 0;
   _pmCount = 2;
 }
@@ -65,8 +64,8 @@ bool AD524X::isConnected()
 
 uint8_t AD524X::reset()
 {
-  write(0, 127, LOW, LOW);
-  return write(1, 127);
+  write(0, AD524X_MIDPOINT, LOW, LOW);
+  return write(1, AD524X_MIDPOINT);
 }
 
 
@@ -153,7 +152,7 @@ uint8_t AD524X::midScaleReset(const uint8_t rdac)
   uint8_t cmd = AD524X_RESET;
   if (rdac == 1) cmd |= AD524X_RDAC1;
   cmd = cmd | _O1 | _O2;
-  _lastValue[rdac] = 127;
+  _lastValue[rdac] = AD524X_MIDPOINT;
   return send(cmd, _lastValue[rdac]);
 }
 
@@ -166,9 +165,15 @@ uint8_t AD524X::shutDown()
 }
 
 
+uint8_t AD524X::pmCount()
+{
+  return _pmCount;
+};
+
+
 //////////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 {

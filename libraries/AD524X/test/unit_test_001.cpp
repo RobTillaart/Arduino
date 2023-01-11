@@ -133,6 +133,7 @@ unittest(test_constants)
 {
   assertEqual(0, AD524X_OK);
   assertEqual(100, AD524X_ERROR);
+  assertEqual(127, AD524X_MIDPOINT);
 }
 
 

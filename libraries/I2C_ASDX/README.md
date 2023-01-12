@@ -19,7 +19,27 @@ Check the datasheet of your type for all the details.
 The I2C_ASDX library can read the sensor and give the pressure in millibar, 
 bar or PSI or many other units. See below.
 
+#### Links
+
 Related library: https://github.com/RobTillaart/pressure
+
+
+#### Hardware connection
+
+Always check datasheet for the exact pins.
+
+```
+        ASDX              ARDUINO
+    +----------+        +----------+
+    |          |        |          |
+    |     GND o|--------|o GND     |
+    |     VCC o|--------|o VCC     |
+    |     SDA o|--------|o SDA     |
+    |     SCL o|--------|o SCL     |
+    |          |        |          |
+    +----------+        +----------+
+```
+
 
 
 ## Interface
@@ -35,7 +55,8 @@ Returns true if address can be found  on I2C bus.
 Returns true if address can be found  on I2C bus.
 - **void reset()** resets internal variables, including pressure.
 - **bool isConnected()** tests if address can be found on I2C bus.
-- **bool available()** wrapper around isConnected. Obsolete in the future.
+- **uint8_t getAddress()** returns I2C address used.
+Mainly for debug message.
 
 
 #### Read
@@ -49,9 +70,11 @@ Returns **I2C_ASDX_OK** or an error code.
 
 #### Units
 
-- **int getPressure()** returns pressure (integer format) in milliBar, 
-will return 0 after reset() and no read done.
-- **float getMilliBar()** returns pressure in milliBar.
+- **int getPressure()** returns pressure in milliBar.
+(rounded integer!).
+Returns 0 after a reset() and no read() done yet.
+Calling **getPressure()** multiple times without read() will return the same value again.
+- **float getMilliBar()** returns pressure in milliBar (float).
 - **float getBar()** returns pressure in bar.
 - **float getPSI()** returns pressure in PSI = Pounds per Square Inch.
 - **float getATM()** returns pressure in Atmosphere.
@@ -80,6 +103,11 @@ Related library: https://github.com/RobTillaart/pressure
 | I2C_ASDX_READ_ERROR     | I2C error          |
 | I2C_ASDX_C000_ERROR     | sensor error       |
 | I2C_ASDX_CONNECT_ERROR  | I2C error          |
+
+
+#### Obsolete 0.3.3
+
+- **bool available()** wrapper around isConnected.
 
 
 ## Testing
@@ -119,9 +147,15 @@ more as long as they have the following raw read values.
 ```
 
 
-## Testing
+## Tested types
 
-TESTED TYPES - type A 10% - 90% only
+| Type number        |  result  |  notes  |
+|:-------------------|:--------:|:--------|
+|  SSCDANN 100PG 5A5 |    OK    |  type A 10% - 90% only
+|  SSCDANN 060PG 3A5 |    OK    |
+|  SSCDANN 030PG 2A5 |    OK    |
+
+(elaborate test table)
 
 
 ## Operation
@@ -131,7 +165,22 @@ See examples
 
 ## Future
 
+#### Must
 - update documentation
+
+#### Should
 - add real life examples if possible
+- add error/state code for after reset() and before read()
+  - I2C_ASDX_NO_READ or I2C_ASDX_RESET
+
+#### Could
+- remove less common pressure formats from lib
+  - are covered in pressure lib.
+- move code from .h to .cpp
+- **getPressure()** obsolete ? 
+  - **getMillibar()**  ==> 0.4.0 ??
+
+
+#### Wont
 - find a good reference for conversion formula constants.
 

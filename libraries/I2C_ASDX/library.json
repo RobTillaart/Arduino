@@ -1,7 +1,7 @@
 {
   "name": "I2C_ASDX",
-  "keywords": "ASDX, PSI,mBar,Pressure,I2C,Sensor",
-  "description": "Arduino library for I2C ASDX pressure sensor.",
+  "keywords": "ASDX,PSI,mBar,Pressure,I2C,Sensor",
+  "description": "Arduino library for I2C ASDX pressure sensor (Honeywell).",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2C_ASDX.git"
   },
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

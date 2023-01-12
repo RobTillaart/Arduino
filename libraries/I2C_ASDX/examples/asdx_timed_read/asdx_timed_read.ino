@@ -2,13 +2,13 @@
 //    FILE: asdx_timed_read.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-18
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
 
 #include "I2C_ASDX.h"
 
-// adjust to type of sensor  (address, psi)
+
+//  adjust to type of sensor  (address, psi)
 I2C_ASDX sensor(0x58, 100);
 
 const uint32_t interval = 1000;
@@ -21,10 +21,12 @@ void setup()
 
   sensor.begin();
 
-  if (!sensor.available())
+  if (sensor.begin() == false)
   {
-    Serial.println("sensor not found, check connections");
-    while (1);
+    Serial.print("Cannot find sensor:\t");
+    Serial.print(sensor.getAddress());
+    Serial.println("Check wires or try another address.");
+    while(1);
   }
 }
 
@@ -64,5 +66,5 @@ void loop()
 }
 
 
-// =- END OF FILE --
+//  -- END OF FILE --
 

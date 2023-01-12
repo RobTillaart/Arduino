@@ -2,13 +2,13 @@
 //    FILE: asdx_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-18
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
 
 #include "I2C_ASDX.h"
 
-// adjust to type of sensor
+
+//  adjust to type of sensor  (address, psi)
 I2C_ASDX sensor(0x58, 100);
 
 
@@ -40,5 +40,5 @@ void loop()
 }
 
 
-// =- END OF FILE --
+//  -- END OF FILE --
 

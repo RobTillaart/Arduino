@@ -40,7 +40,7 @@ default address = 0x50 .. 0x57 depending on three address lines
 The interface is kept quite identical to the I2C_24LC1025 library.
 https://github.com/RobTillaart/I2C_24LC1025
 
-Most important change is 32 bit memory addresses.
+Most important difference is 32 bit memory addresses.
 
 
 ### Constructor
@@ -135,6 +135,14 @@ Test results
 The function cannot detect smaller than 128 bit EEPROMS.
 
 
+Experimental since 1.7.1 can be used for debugging and overruling constructor.
+
+- **uint32_t setDeviceSize(uint32_t deviceSize)** overrules constructor setting.
+returns set size == 128, 256, ... 32768, 65536
+- **uint8_t setPageSize(uint8_t pageSize)** overrules constructor setting.
+returns set size == 8, 16, 32, 64, 128.
+
+
 #### UpdateBlock()
 
 (new since 1.4.2)
@@ -179,6 +187,10 @@ See examples
 - investigate multi-EEPROM storage
   - wrapper class?
 - improve error handling, write functions should return bytes written or so.
+- move code from .h to .cpp?
+- make deviceSize explicit in examples?
+- AT24C32 has a WriteCycle Time of max 20 ms 
+  - make a define of the 5000 ?
 
 #### could
 - investigate smarter strategy for **updateBlock()** 

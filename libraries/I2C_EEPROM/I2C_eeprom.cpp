@@ -1,11 +1,9 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.7.0
+// VERSION: 1.7.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
-//
-//  HISTORY: see changelog.md
 
 
 #include "I2C_eeprom.h"
@@ -46,11 +44,11 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire * wire) :
 I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, TwoWire * wire)
 {
     _deviceAddress = deviceAddress;
-    _deviceSize = deviceSize;
+    _deviceSize = setDeviceSize(deviceSize);
     _pageSize = getPageSize(_deviceSize);
     _wire = wire;
 
-    //  Chips 16Kbit (2048 Bytes) or smaller only have one-word addresses.
+    //  Chips 16 Kbit (2048 Bytes) or smaller only have one-word addresses.
     this->_isAddressSizeTwoWords = deviceSize > I2C_DEVICESIZE_24LC16;
 }
 
@@ -324,6 +322,35 @@ uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
     //  I2C_DEVICESIZE_24LC512
     return 128;
 }
+
+
+uint32_t I2C_eeprom::setDeviceSize(uint32_t deviceSize)
+{
+  uint32_t size = 128;
+  //  force power of 2.
+  while ((size <= 65536) && ( size <= deviceSize))
+  {
+    _deviceSize = size;
+    size *= 2;
+  }
+  //  Chips 16 Kbit (2048 Bytes) or smaller only have one-word addresses.
+  this->_isAddressSizeTwoWords = _deviceSize > I2C_DEVICESIZE_24LC16;
+  return _deviceSize;
+}
+
+
+uint8_t I2C_eeprom::setPageSize(uint8_t pageSize)
+{
+  uint8_t size = 8;
+  //  force power of 2.
+  while ((size <= 128) && ( size <= pageSize))
+  {
+    _pageSize = size;
+    size *= 2;
+  }
+  return _pageSize;
+}
+
 
 
 ////////////////////////////////////////////////////////////////////

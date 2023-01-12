@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.7.1] - 2023-01-12
+- add setDeviceSize() 
+- add setPageSize()
+- use setDeviceSize() in constructor to force power of 2.
+- update unit test
+- update GitHub actions
+- update license
+- update readme.md
+- minor edits 
+
+
 ## [1.7.0] - 2022-12-02
 - fix #48 rewrote constructor.
-
 
 ## [1.6.2] - 2022-10-30
 - Add RP2040 support to build-CI.
@@ -16,7 +26,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - remove **yield()** calls in writeBlock(), readBlock() and updateBlock()
   as these are already handled on a lower level. See #46
 - better explain **begin()** in readme.md
-
 
 ## [1.6.1] - 2022-06-11
 - update documentation

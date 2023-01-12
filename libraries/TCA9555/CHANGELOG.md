@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2022-12-30
+- add pin numbers TCA_P00 -- TCA_P17
+- add **uint8_t getType()** + example
+- update unit test
+
+
 ## [0.1.4] - 2022-12-29
 - Fix #7 missing public:
 - add unit test for TCA9535 constructor
@@ -14,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add **getAddress()** (debugging)
 - update readme.md
 - update GitHub actions -> v3
-
 
 ## [0.1.3] - 2022-11-25
 - Add RP2040 support to build-CI.

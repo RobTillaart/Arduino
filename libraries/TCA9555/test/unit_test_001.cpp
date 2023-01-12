@@ -54,6 +54,7 @@ unittest(test_constructor_TCA9555)
 
   assertTrue(TCA.begin());
   assertTrue(TCA.isConnected());
+  assertEqual(55, TCA.getType());
 }
 
 
@@ -63,10 +64,11 @@ unittest(test_constructor_TCA9535)
 
   assertTrue(TCA.begin());
   assertTrue(TCA.isConnected());
+  assertEqual(35, TCA.getType());
 }
 
 
-unittest(test_constants)
+unittest(test_constants_I)
 {
   assertEqual(0x00, TCA9555_OK);
   assertEqual(0x81, TCA9555_PIN_ERROR);
@@ -74,6 +76,27 @@ unittest(test_constants)
   assertEqual(0x83, TCA9555_VALUE_ERROR);
   assertEqual(0x84, TCA9555_PORT_ERROR);
   assertEqual(-100, TCA9555_INVALID_READ);
+}
+
+
+unittest(test_constants_II)
+{
+  assertEqual(0,  TCA_P00);
+  assertEqual(1,  TCA_P01);
+  assertEqual(2,  TCA_P02);
+  assertEqual(3,  TCA_P03);
+  assertEqual(4,  TCA_P04);
+  assertEqual(5,  TCA_P05);
+  assertEqual(6,  TCA_P06);
+  assertEqual(7,  TCA_P07);
+  assertEqual(8,  TCA_P10);
+  assertEqual(9,  TCA_P11);
+  assertEqual(10, TCA_P12);
+  assertEqual(11, TCA_P13);
+  assertEqual(12, TCA_P14);
+  assertEqual(13, TCA_P15);
+  assertEqual(14, TCA_P16);
+  assertEqual(15, TCA_P17);
 }
 
 

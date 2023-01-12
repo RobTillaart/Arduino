@@ -29,6 +29,7 @@ input and not driven. This reduces power consumption when the I/O is held low._
 There is a TCA9535 class which is a (convenience) wrapper around the TCA9555 class. 
 This allows one to create TCA9535 objects. 
 
+
 ## Hardware
 
 #### I2C addresses
@@ -49,6 +50,7 @@ Check the datasheet for details
 - **TCA9555(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface. 
 Can be overruled with Wire0..WireN.
 - **TCA9535(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **uint8_t getType()** returns 35 or 55 depending on type.
 
 
 - **bool begin()** for UNO, returns true if successful.
@@ -120,7 +122,8 @@ See examples
 #### Must
 
 - buy TCA9555 / TCA9535
-- test all functionality (initial version is written with no hardware around)
+- test all functionality
+  - library is written without hardware
 
 
 #### Should
@@ -130,16 +133,12 @@ See examples
 - investigate TCA9535 differences
   - pull up resistors
   - elaborate derived class
-- add **getType()** to distinguish derived classes.
-  - int or uint8_t => 4 or 2 digits, define?
-  - or even a string (no)?
-  - constructor
 
 
 #### Could
 
 - rethink class hierarchy
-  -5535 has less functions so should be base class?
+  - TCA9535 has less functions so should be base class?
 - valid address range?
 
 

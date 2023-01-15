@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.3] - 2023-03-01
+## [0.3.4] - 2023-01-14
+- experimental
+- add **void setADC()** to use an external ADC for measurements.
+- add **static uint16_t internalAnalog(uint8_t p)** wrapping analogRead() - solves casting.
+- add example ACS712_20_DC_external_ADC.ino
+
+
+## [0.3.3] - 2023-01-03
 - update GitHub actions
 - update license
 - add example
 - add URL in .h .cpp
-
 
 ## [0.3.2] - 2022-11-18
 - fix #26 revert data type \_midPoint to int

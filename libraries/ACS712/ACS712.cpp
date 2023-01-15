@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -14,13 +14,19 @@
 ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, float mVperAmpere)
 {
   _pin         = analogPin;
+  _mVperAmpere = mVperAmpere;
+  _formFactor  = ACS712_FF_SINUS;
+  _noisemV     = ACS712_DEFAULT_NOISE;    //  21mV according to datasheet
+
+  //  set in setADC() 
+  //  keep it here until after experimental.
   _maxADC      = maxADC;
   _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
-  _mVperAmpere = mVperAmpere;
   _mAPerStep   = 1000.0 * _mVperStep / _mVperAmpere;
-  _formFactor  = ACS712_FF_SINUS;
   _midPoint    = maxADC / 2;
-  _noisemV     = ACS712_DEFAULT_NOISE;    //  21mV according to datasheet
+
+  //  default ADC is internal.
+  setADC(_internalAnalog, volts, maxADC);
 }
 
 
@@ -36,16 +42,16 @@ float ACS712::mA_peak2peak(float frequency, uint16_t cycles)
   {
     int minimum, maximum;
     //  Better than using midPoint
-    minimum = maximum = analogRead(_pin);
+    minimum = maximum = _readADC(_pin);
 
     //  find minimum and maximum
     uint32_t start = micros();
-    while (micros() - start < period)  // UNO ~180 samples...
+    while (micros() - start < period)  //  UNO ~180 samples...
     {
-      int value = analogRead(_pin);
+      int value = _readADC(_pin);
       if (_suppresNoise)               //  average 2 samples.
       {
-        value = (value + analogRead(_pin))/2;
+        value = (value + _readADC(_pin))/2;
       }
       //  determine extremes
       if (value < minimum) minimum = value;
@@ -76,17 +82,17 @@ float ACS712::mA_AC(float frequency, uint16_t cycles)
     uint16_t zeros   = 0;
 
     int _min, _max;
-    _min = _max = analogRead(_pin);
+    _min = _max = _readADC(_pin);
 
     //  find minimum and maximum and count the zero-level "percentage"
     uint32_t start = micros();
     while (micros() - start < period)  // UNO ~180 samples...
     {
       samples++;
-      int value = analogRead(_pin);
+      int value = _readADC(_pin);
       if (_suppresNoise)  //  average 2 samples.
       {
-        value = (value + analogRead(_pin))/2;
+        value = (value + _readADC(_pin))/2;
       }
       //  determine extremes
       if (value < _min) _min = value;
@@ -138,10 +144,10 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
     while (micros() - start < period)
     {
       samples++;
-      int value = analogRead(_pin);
+      int value = _readADC(_pin);
       if (_suppresNoise)  //  average 2 samples.
       {
-        value = (value + analogRead(_pin))/2;
+        value = (value + _readADC(_pin))/2;
       }
       float current = value - _midPoint;
       sumSquared += (current * current);
@@ -163,15 +169,15 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
 float ACS712::mA_DC(uint16_t cycles)
 {
   //  read at least twice to stabilize the ADC
-  analogRead(_pin);
+  _readADC(_pin);
   if (cycles == 0) cycles = 1;
   float sum = 0;
   for (uint16_t i = 0; i < cycles; i++)
   {
-    int value = analogRead(_pin);
+    int value = _readADC(_pin);
     if (_suppresNoise)  //  average 2 samples.
     {
-      value = (value + analogRead(_pin))/2;
+      value = (value + _readADC(_pin))/2;
     }
     sum += (value - _midPoint);
   }
@@ -227,7 +233,7 @@ uint16_t ACS712::autoMidPoint(float frequency, uint16_t cycles)
     uint32_t start    = micros();
     while (micros() - start < twoPeriods)
     {
-      uint16_t reading = analogRead(_pin);
+      uint16_t reading = _readADC(_pin);
       subTotal += reading;
       samples++;
       //  Delaying prevents overflow
@@ -323,14 +329,14 @@ float ACS712::detectFrequency(float minimalFrequency)
 {
   int maximum = 0;
   int minimum = 0;
-  maximum = minimum = analogRead(_pin);
+  maximum = minimum = _readADC(_pin);
 
   //  determine maxima
   uint32_t timeOut = round(1000000.0 / minimalFrequency);
   uint32_t start = micros();
   while (micros() - start < timeOut)
   {
-    int value = analogRead(_pin);
+    int value = _readADC(_pin);
     if (value > maximum) maximum = value;
     if (value < minimum) minimum = value;
   }
@@ -346,13 +352,13 @@ float ACS712::detectFrequency(float minimalFrequency)
   timeOut *= 10;
   start = micros();
   //  casting to int to keep compiler happy.
-  while ((int(analogRead(_pin)) >  Q1) && ((micros() - start) < timeOut));
-  while ((int(analogRead(_pin)) <= Q3) && ((micros() - start) < timeOut));
+  while ((int(_readADC(_pin)) >  Q1) && ((micros() - start) < timeOut));
+  while ((int(_readADC(_pin)) <= Q3) && ((micros() - start) < timeOut));
   start = micros();
   for (int i = 0; i < 10; i++)
   {
-    while ((int(analogRead(_pin)) >  Q1) && ((micros() - start) < timeOut));
-    while ((int(analogRead(_pin)) <= Q3) && ((micros() - start) < timeOut));
+    while ((int(_readADC(_pin)) >  Q1) && ((micros() - start) < timeOut));
+    while ((int(_readADC(_pin)) <= Q3) && ((micros() - start) < timeOut));
   }
   uint32_t stop = micros();
 
@@ -380,13 +386,13 @@ float ACS712::getMicrosAdjust()
 //  DEBUG
 uint16_t ACS712::getMinimum(uint16_t milliSeconds)
 {
-  uint16_t minimum = analogRead(_pin);
+  uint16_t minimum = _readADC(_pin);
 
   //  find minimum
   uint32_t start = millis();
   while (millis() - start < milliSeconds)
   {
-    uint16_t value = analogRead(_pin);
+    uint16_t value = _readADC(_pin);
     if (value < minimum) minimum = value;
   }
   return minimum;
@@ -395,16 +401,27 @@ uint16_t ACS712::getMinimum(uint16_t milliSeconds)
 
 uint16_t ACS712::getMaximum(uint16_t milliSeconds)
 {
-  uint16_t maximum = analogRead(_pin);
+  uint16_t maximum = _readADC(_pin);
 
   //  find minimum
   uint32_t start = millis();
   while (millis() - start < milliSeconds)
   {
-    uint16_t value = analogRead(_pin);
+    uint16_t value = _readADC(_pin);
     if (value > maximum) maximum = value;
   }
   return maximum;
+}
+
+
+void ACS712::setADC(uint16_t (* f)(uint8_t), float volts, uint16_t maxADC)
+{
+  _readADC = f;
+
+  _maxADC      = maxADC;
+  _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
+  _mAPerStep   = 1000.0 * _mVperStep / _mVperAmpere;
+  _midPoint    = maxADC / 2;
 }
 
 

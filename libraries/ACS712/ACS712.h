@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.3"))
+#define ACS712_LIB_VERSION        (F("0.3.4"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -105,6 +105,9 @@ class ACS712
     uint16_t getMaximum(uint16_t milliSeconds = 20);
 
 
+    //  EXPERIMENTAL 0.3.4
+    void setADC(uint16_t (*)(uint8_t), float volts, uint16_t maxADC);
+
   private:
     uint8_t   _pin;
     uint16_t  _maxADC;
@@ -116,16 +119,20 @@ class ACS712
     uint8_t   _noisemV;
     float     _microsAdjust   = 1.0;  //  0.9986
     bool      _suppresNoise = false;
+
+    //  EXPERIMENTAL 0.3.4
+    //  supports up to 16 bits ADC.
+    uint16_t (* _readADC)(uint8_t);
 };
 
 
-// simulate analogRead() - develop only -
-// static int aRead(uint8_t pin)
-// {
-  // float t = micros();
-  // float value = 515 + 50 * sin(t * PI / 180.0);
-  // return value;
-// }
+//  wrapper for internal analogRead()
+//  solves platform specific casting.
+static uint16_t _internalAnalog(uint8_t pin)
+{
+  return analogRead(pin);
+}
+
 
 // -- END OF FILE --
 

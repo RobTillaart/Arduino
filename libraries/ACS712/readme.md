@@ -218,7 +218,6 @@ float formFactor = 2.0 * mA_AC_sampling() / ACS.mA_peak2peak();
 See - ACS712_20_determine_form_factor.ino
 
 
-
 #### Noise
 
 Default = 21 mV (datasheet)
@@ -272,6 +271,23 @@ to find the factor to adjust.
 Testing with my UNO I got a factor 0.9986.
 
 Current version is experimental and not performance optimized. 
+
+
+#### setADC (experimental 0.3.4)
+
+- **void setADC(uint16_t (\*)(uint8_t), float volts, uint16_t maxADC)** sets the ADC function and its parameters.
+Defaults the internal **analogRead()** by this wrapper in ACS712.h:
+```cpp
+static uint16_t _internalAnalog(uint8_t pin)
+{
+  return analogRead(pin);
+}
+```
+
+Be sure to set the parameters of the constructor correctly.
+
+- example ACS712_20_DC_external_ADC.ino
+- https://github.com/RobTillaart/ACS712/issues/31
 
 
 ## Voltage divider

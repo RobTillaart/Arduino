@@ -73,7 +73,7 @@ unittest(test_constructor)
   assertEqual(0, XML.bytesWritten());
   assertEqual(2, XML.getIndentSize());
 
-  // OK it is a debug function but should work
+  //  OK it is a debug function but should work
   assertEqual(0, XML.bufferIndex());
 }
 
@@ -150,10 +150,10 @@ unittest(test_header_comment_version_debug)
 
   XML.flush();
   assertEqual(229, XML.bytesWritten());
-  assertEqual(0, XML.bufferIndex());      // nothing to flush
+  assertEqual(0, XML.bufferIndex());      //  nothing to flush
 }
 
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

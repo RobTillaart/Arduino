@@ -2,7 +2,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.3.3"))
+#define XMLWRITER_VERSION         (F("0.3.4"))
 
 
 //  for comment()
@@ -45,7 +45,7 @@
 #define XMLWRITER_INDENT          0x02
 #define XMLWRITER_NEWLINE         0x04
 
-//  uncomment next line to reduce ~30bytes RAM in escape()  (AVR oonly)
+//  uncomment next line to reduce ~30bytes RAM in escape()  (AVR only)
 //  #define __PROGMEM__
 
 
@@ -60,7 +60,7 @@ public:
 
   //  to show/strip comment, indent, newLine
   //  to minimize the output setConfig(0);
-  void setConfig(uint8_t config) { _config = config; };
+  void setConfig(uint8_t config);
 
   //  standard XML header
   void header();
@@ -139,7 +139,7 @@ public:
 
 
 #ifdef XMLWRITER_ESCAPE_SUPPORT
-  //  expands the special xml chars
+  //  expands the special XML chars
   void escape(const char* str);
 #endif
 

@@ -90,10 +90,12 @@ multiline is default false.
 - **void tagField(char\* field, T value, uint8_t base = DEC)** standard math types,  field="value"
 - **void tagEnd(bool newline = true, bool addSlash = true);**  /\>
 
+
 ### Functions to make a node
 
 - **void writeNode(char\* tag, bool value);** \<tag\>value\</tag\>
 - **void writeNode(char\* tag, T value, uint8_t base = DEC);** standard math types.
+
 
 ### Helper 
 
@@ -130,7 +132,7 @@ can inject strings.
 
 ## Configuration flags
 
-|  Flag               |  Value  | Description         |
+|  Flag               |  Value  |  Description        |
 |:--------------------|:--------|:--------------------|
 |  XMLWRITER_NONE     |  0x00   |  minimize output, smaller & faster |
 |  XMLWRITER_COMMENT  |  0x01   |  allow comments     |

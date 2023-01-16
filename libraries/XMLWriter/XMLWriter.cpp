@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 
@@ -28,11 +28,17 @@ void XMLWriter::reset()
 {
   _indent      = 0;
   _indentStep  = 2;
-  _tagIndex        = 0;
+  _tagIndex    = 0;
   _bufferIndex = 0;
   _config      = XMLWRITER_COMMENT | XMLWRITER_INDENT | XMLWRITER_NEWLINE;
   _bytesOut    = 0;
 }
+
+
+void XMLWriter::setConfig(uint8_t config)
+{
+  _config = config;
+};
 
 
 void XMLWriter::header()

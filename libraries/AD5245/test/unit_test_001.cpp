@@ -39,6 +39,7 @@ unittest(test_constants)
 {
   assertEqual(000, AD5245_OK);
   assertEqual(100, AD5245_ERROR);
+  assertEqual(128, AD5245_MIDPOINT);
 }
 
 

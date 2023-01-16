@@ -2,8 +2,8 @@
 //
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.4
+// PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
+// VERSION: 0.3.5
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MCP4725_VERSION         (F("0.3.4"))
+#define MCP4725_VERSION         (F("0.3.5"))
 
 
 //  CONSTANTS
@@ -32,6 +32,8 @@
 #define MCP4725_PDMODE_100K     0x02
 #define MCP4725_PDMODE_500K     0x03
 
+#define MCP4725_MIDPOINT        2048
+
 
 class MCP4725
 {
@@ -44,7 +46,7 @@ public:
 
 #if defined (ARDUINO_ARCH_RP2040)
 
-  bool    begin(int sda, int scl);
+  bool     begin(int sda, int scl);
 
 #endif
 
@@ -94,5 +96,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

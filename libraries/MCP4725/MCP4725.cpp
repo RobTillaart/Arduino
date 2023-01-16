@@ -1,8 +1,8 @@
 //
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725 
-// VERSION: 0.3.4
+// PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
+// VERSION: 0.3.5
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 //  HISTORY see changelog.md
@@ -270,5 +270,5 @@ int MCP4725::_generalCall(const uint8_t gc)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

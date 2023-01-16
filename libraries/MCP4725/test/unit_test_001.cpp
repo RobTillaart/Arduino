@@ -67,6 +67,9 @@ unittest(test_constant)
   assertEqual(MCP4725_PDMODE_1K, 1);
   assertEqual(MCP4725_PDMODE_100K, 2);
   assertEqual(MCP4725_PDMODE_500K, 3);
+
+  fprintf(stderr, "other\n");
+  assertEqual(MCP4725_MIDPOINT, 2048);
 }
 
 

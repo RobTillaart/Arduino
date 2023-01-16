@@ -13,7 +13,7 @@ Arduino library for 12 bit I2C DAC - MCP4725.
 
 ## Description
 
-The MCP4725 is an I2C 12 bit Digital to Analog Converter (DAC). 
+The MCP4725 is an I2C single channel 12 bit Digital to Analog Converter (DAC). 
 It is possible to have up to 8 MCP4725 on one I2C bus. 
 The MCP4725 supports 100 KHz 400 KHz and 3.4 MHz bus speeds.
 
@@ -100,7 +100,13 @@ If one need more DAC's one might have a look at the MCP4728
 It has 4 channels per chip (no experience /library yet)
 
 
-### RP2040 specific
+#### RP2040 specific
+
+There are different RP2040 board files.
+This library works with RP2040 pico - https://github.com/earlephilhower/arduino-pico
+Will give an error on setSDA() and setSCL() with the "Arduino MBED OS" version.
+
+See remark PR #21.
 
 - **bool begin(int sda, int scl)** begin communication with the DAC. 
 It has the parameter for selecting on which pins the communication should happen. 
@@ -115,10 +121,16 @@ See examples
 
 ## Future
 
+#### Must
+
 - update documentation
+
+#### Should
+
 - test the powerDown modes / functions.
-- write a sketch to measure the **writeDac()** timing if possible.
+
+#### Could
+
 - extend unit tests
-- 
 
 

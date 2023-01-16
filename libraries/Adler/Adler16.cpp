@@ -1,14 +1,12 @@
 //
 //    FILE: Adler16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for calculating Adler-16 checksum
 //     URL: https://github.com/RobTillaart/Adler
 //          https://en.wikipedia.org/wiki/Adler-32
 //          (no Adler16 reference, implementation is experimental)
-//
-// HISTORY: see CHANGELOG.md
 
 
 #include "Adler16.h"
@@ -104,7 +102,7 @@ uint16_t Adler16::getAdler()
 
 
 uint16_t Adler16::count()
-{ 
+{
   return _count;
 };
 
@@ -131,5 +129,5 @@ uint16_t Adler16::addFast(char * array, uint16_t length)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

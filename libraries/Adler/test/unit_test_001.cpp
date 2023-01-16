@@ -49,6 +49,7 @@ unittest_setup()
   fprintf(stderr, "ADLER_LIB_VERSION: %s\n", (char *) ADLER_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -79,4 +80,6 @@ unittest(test_adler_static)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

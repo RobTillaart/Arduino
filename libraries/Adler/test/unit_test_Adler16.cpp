@@ -49,6 +49,7 @@ unittest_setup()
   fprintf(stderr, "ADLER16_LIB_VERSION: %s\n", (char *) ADLER16_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -65,7 +66,7 @@ unittest(test_ADLER16_lorem)
   Adler16 ad16;
 
   ad16.begin();
- 
+
   fprintf(stderr, "strlen lorem\n");
   assertEqual(868, strlen(lorem));
 
@@ -90,4 +91,6 @@ unittest(test_ADLER16_lorem)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

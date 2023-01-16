@@ -2,7 +2,7 @@
 //
 //    FILE: Adler.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2022-01-27
 // PURPOSE: Arduino Library for calculating Adler-32 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define ADLER32_LIB_VERSION        (F("0.2.2"))
+#define ADLER32_LIB_VERSION        (F("0.2.3"))
 
 
 //  largest prime below 2^16
@@ -26,12 +26,14 @@ public:
 
   void     begin(uint32_t s1 = 1, uint32_t s2 = 0);
 
+
   void     add(uint8_t value);
   //  returns current Adler value
   uint32_t add(uint8_t * array, uint16_t length);
   //  trade PROGMEM for speed
   //  returns current Adler value
   uint32_t addFast(uint8_t * array, uint16_t length);
+
 
   //  wrappers for strings
   void     add(char value);
@@ -44,6 +46,7 @@ public:
   uint32_t getAdler();
   uint32_t count();
 
+
 private:
   uint32_t _s1;
   uint32_t _s2;
@@ -51,6 +54,5 @@ private:
 };
 
 
-// -- END OF FILE -- 
-
+//  -- END OF FILE --
 

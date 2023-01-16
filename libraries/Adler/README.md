@@ -13,23 +13,30 @@ Arduino Library for Adler-32 and experimental Adler-16 checksum.
 
 ## Description
 
-This library provides a Adler32 checksum of a data array.
-Furthermore since 0.2.0 an experimental Adler-16 implementation is added.
+This library provides an Adler32 checksum of a data array.
+Furthermore since 0.2.0 an experimental Adler16 implementation is added.
 This one is often faster as it uses a smaller checksum than the Adler32.
 The price is that Adler16 is less sensitive than the Adler32.
 Still it will have its niches where it will be useful.
-
-Relates to https://github.com/RobTillaart/CRC
-
-Relates to https://github.com/RobTillaart/Fletcher
-
-Tested on Arduino UNO only.
 
 0.2.0 is a breaking change, file names have been changed to be more
 in line with the CRC library.
 - Adler.h for the static functions
 - Adler32.h for the Adler32 class
 - Adler16.h for the Adler16 class.
+
+
+#### related
+
+- https://github.com/RobTillaart/Adler
+- https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/Fletcher
+- https://github.com/RobTillaart/LUHN
+
+
+#### Tested
+
+Tested on Arduino UNO and ESP32.
 
 
 ## Interface
@@ -39,24 +46,24 @@ in line with the CRC library.
 
 Use **\#include "Adler32.h"** or **\#include "Adler16.h"**
 
-The interface for the Adler16 is very similar. 
+The interface for the Adler16 is very similar.
 
 - **Adler32()** Constructor, initializes internals.
 - **void begin(uint8_t s1 = 1, uint8_t s2 = 0)** resets the internals.
 optional setting start values for s1 and s2. Note this is not part of the standard.
-This allows a restart from a specific index in a buffer.
+These parameters allows a restart from a specific index in a buffer.
 - **void add(uint8_t value)** add a single value to the checksum.
 - **uint32_t add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
 Returns the current checksum.
-- **uint32_t addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum. 
+- **uint32_t addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
 Is faster by trading PROGMEM for performance.
 Returns the current checksum.
 - **uint32_t getAdler()** get the current checksum.
-- **uint32_t count()** get the number of items added. Merely a debugging feature, 
+- **uint32_t count()** get the number of items added. Merely a debugging feature,
 can overflow without affecting checksum.
 
 The class is typically used for streaming very large blocks of data,
-optional with intermediate checksum tests.
+optional with intermediate checksum tests (e.g after every 256 bytes)
 
 
 ## Performance Adler32
@@ -96,10 +103,10 @@ Note: **add()** is about 6.6 us per byte.
 
 ### addFast(lorem) 868 chars
 
-The **addFast(array, length)** is faster than the 
+The **addFast(array, length)** is faster than the
 reference **add(array, length)** and uses 108 bytes more (UNO).
-So the function has a larger footprint. 
-Depending on your needs, choose performance or footprint. 
+So the function has a larger footprint.
+Depending on your needs, choose performance or footprint.
 
 See **Adler32_performance_addFast.ino**
 
@@ -130,8 +137,9 @@ instead of a modulo.
 |:-------:|:---------|:----------:|:-------------:|
 | 0.2.0   | add      |   4.0 us   |     1.8 us    |
 
-The per byte performance of the Adler16 (on UNO) is faster 
-than the Adler32 **add(value)**. The reason is that a 16 bit 
+
+The per byte performance of the Adler16 (on UNO) is faster
+than the Adler32 **add(value)**. The reason is that a 16 bit
 subtraction on an UNO is faster than a 32 bit subtraction.
 
 
@@ -149,7 +157,7 @@ Note: **add()** is about 6.6 us per byte.
 
 ### addFast(lorem) 868 chars
 
-The **addFast(array, length)** is faster than the 
+The **addFast(array, length)** is faster than the
 reference **add(array, length)**.
 
 | Version | Function | UNO 16 MHz | ESP32 240 MHz |
@@ -166,10 +174,10 @@ The functions are straightforward.
 
 Use **\#include "Adler.h"**
 
-- **uint32_t adler32(uint8_t \*data, uint16_t length)** length in units of 1 byte = 8 bits.
-- **uint16_t adler16(uint8_t \*data, uint16_t length)** length in units of 1 byte = 8 bits.
+- **uint32_t adler32(uint8_t \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)** length in units of 1 byte = 8 bits.
+- **uint16_t adler16(uint8_t \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)** length in units of 1 byte = 8 bits.
 
-The functions are typically used for an in memory buffer to calculate the checksum once. 
+The functions are typically used for an in memory buffer to calculate the checksum once.
 Think of packets in a network, records in a database, or a checksum for an configuration in EEPROM.
 
 
@@ -195,11 +203,11 @@ Lorem Ipsum text = 868 bytes.
 Adler32 average 1116 / 868 = 1.29 us per byte.
 Adler16 average 1736 / 868 = 2.00 us per byte. (~1.5x slower !)
 
-Adler16 does more often the modulo math as it reaches halfway uint16_t 
+Adler16 does more often the modulo math as it reaches halfway uint16_t
 faster than Adler32 reaches halfway uint32_t.
 
-As the Adler16 is less performant as the Adler32 (on all tested platforms), 
-it is often the best to use the 32 bit version.
+As the Adler16 is less performant as the Adler32 (on all tested platforms),
+it is often the best choice to use the 32 bit version.
 
 
 ## Operation
@@ -209,19 +217,35 @@ See examples.
 
 ## Future
 
+#### Must
+
+#### Should
+
+- improve documentation
+- redo performance testing
+  - next major upgrade(0.3.0)
+  - other platforms?
+- extend unit tests
+  - s1 s2 param static functions
+  -
+
+#### Could
+
 - Adler64 ?
   - would need a large prime (which) => 4294967291
   - max uint32_t       = 4.294.967.296
   - max uint32_t prime = 4.294.967.291
   - need printHelpers library for printing.
   - only on request.
+- wrapper functions (static) for char array's in adler.h ?
+- fix MAGIC NRS in adler.cpp
 
 
 #### Wont
 
 - do the string wrappers need strlen() ? parameter.
   - yes, as string can be processed partially.
-- no return value for **add(value)** 
+- no return value for **add(value)**
   - would create too much overhead for repeated calls.
 
 

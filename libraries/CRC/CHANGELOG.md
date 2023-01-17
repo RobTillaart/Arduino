@@ -1,13 +1,23 @@
+# Change Log Complex
 
-# Release Notes
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## 0.3.2 - 2022-10-30
+## [0.3.3] - 2023-01-17
+- update GitHub actions
+- update license
+- renamed releaseNotes.md to CHANGELOG.md (in line with other libs)
+- update readme.md
+
+
+## [0.3.2] - 2022-10-30
 - add RP2040 to build-CI
 - fix version numbers
 
-
-## 0.3.1 - 2022-05-20
+## [0.3.1] - 2022-05-20
 - added constructors with all parameters. 
   CRC16(uint16_t polynome, uint16_t XORstart, uint16_t XORend, bool reverseIn, bool reverseOut);
   All five parameters are mandatory, no defaults in this first release. 
@@ -15,19 +25,19 @@
 - remove #ifndef Header guards as these are not needed.
 - update documentation
 
-## 0.3.0 - 2022-04-15
+## [0.3.0] - 2022-04-15
 - split CRC.h in CRC.h and CRC.cpp to fix #21 (again)
 - remove #ifndef Header guards as these are not needed.
 
 ----
 
-## 0.2.3 - 2022-04-13
+## [0.2.3] - 2022-04-13
 - replace #pragma once with #ifndef Header guards  #21
 
-## 0.2.2
+## [0.2.2]
 - fix #19 enable/disable yield call
 
-## 0.2.1
+## [0.2.1]
 - fix #17 yield() count in **add(array, length)**
   (kudo's to dlsloan)
 - added defaults for CRC64 static function.
@@ -36,7 +46,7 @@
   - added conditional yield().
 - added CRC_polynomes.h
 
-## 0.2.0
+## [0.2.0]
 - added getters for parameters 
 - made yield conditional in **add(array, length)**
 - improved examples
@@ -44,11 +54,11 @@
 
 ----
 
-## 0.1.6
+## [0.1.6]
 - add CRC12 function
 - add CRC12 class
 
-## 0.1.5
+## [0.1.5]
 - TODO (just as older versions)
 
 That's all folks!

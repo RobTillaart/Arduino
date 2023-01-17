@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.7] - 2022-11-07
+- update GitHub actions
+- update license
+- add s1 and s2 parameters to the static functions.
+- update readme.md
+
+
+## [0.1.7] - 2022-11-07
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.1.6] - 2022-09-10
 - stabilize optimizations

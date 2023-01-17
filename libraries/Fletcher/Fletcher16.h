@@ -14,7 +14,7 @@ class Fletcher16
 public:
   Fletcher16();
 
-  // set parameters to default
+  //  set parameters to default
   void     begin(uint8_t s1 = 0, uint8_t s2 = 0);
 
   void     add(uint8_t value);
@@ -34,5 +34,6 @@ private:
   uint32_t _count;
 };
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

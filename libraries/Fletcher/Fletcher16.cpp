@@ -7,8 +7,8 @@
 
 #include "Fletcher16.h"
 
-// UINT8_MAX = 255 = ((((uint16_t) 1) << 8) - 1)
-#define FLETCHER_16 UINT8_MAX
+//  UINT8_MAX = 255 = ((((uint16_t) 1) << 8) - 1)
+#define FLETCHER_16   UINT8_MAX
 
 
 Fletcher16::Fletcher16()
@@ -76,5 +76,5 @@ uint32_t Fletcher16::count()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -7,8 +7,8 @@
 
 #include "Fletcher64.h"
 
-// UINT32_MAX = 4294967295ULL = ((((uint64_t) 1) << 32) - 1)
-#define FLETCHER_64 UINT32_MAX
+//  UINT32_MAX = 4294967295ULL = ((((uint64_t) 1) << 32) - 1)
+#define FLETCHER_64   UINT32_MAX
 
 Fletcher64::Fletcher64()
 {
@@ -72,5 +72,5 @@ uint32_t Fletcher64::count()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

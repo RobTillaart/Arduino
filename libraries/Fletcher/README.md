@@ -26,6 +26,14 @@ Use https://github.com/RobTillaart/printHelpers to print the Fletcher64().
 Tested on Arduino UNO + ESP32 + SAMD (See PR #7).
 
 
+#### Related
+
+- https://github.com/RobTillaart/Adler
+- https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/Fletcher
+- https://github.com/RobTillaart/LUHN
+
+
 ## Interface
 
 
@@ -56,9 +64,13 @@ A string "abcdef" has length 2 for **fletcher64()** as it needs 2x4 bytes.
 
 Use **\#include "Fletcher.h"**
 
-- **uint16_t fletcher16(uint8_t \*data, uint16_t length)** length in units of 1 byte = 8 bits.
-- **uint32_t fletcher32(uint16_t \*data, uint16_t length)** length in units of 2 bytes = 16 bits.
-- **uint64_t fletcher64(uint32_t \*data, uint16_t length)** length in units of 4 bytes = 32 bits.
+- **uint16_t fletcher16(uint8_t \*data, uint16_t length, uint32_t s1 = 0, uint32_t s2 = 0)** length in units of 1 byte = 8 bits.
+- **uint32_t fletcher32(uint16_t \*data, uint16_t length, uint32_t s1 = 0, uint32_t s2 = 0)** length in units of 2 bytes = 16 bits.
+- **uint64_t fletcher64(uint32_t \*data, uint16_t length, uint64_t s1 = 0, uint64_t s2 = 0)** length in units of 4 bytes = 32 bits.
+
+Since 0.1.8: 
+Added parameters s1 and s2 to make the functions more versatile. 
+Defaults are backwards compatible.
 
 
 #### Performance I
@@ -102,16 +114,22 @@ See examples.
 
 ## Future ideas
 
-#### must
+#### Must
+
 - improve documentation
   - update performance figures.
 
-#### should
-- test other platforms
-- add parameter for start values for F in static functions
-  - would allow to use them in a stream too.
 
-#### could
+#### Should
+
+- test other platforms
+- extend unit tests
+  - start parameters static functions.
+- redo performance tests static functions after param addition.
+
+
+#### Could
+
 - others e.g. Fletcher24?
 - generic FletcherN(). for N = 1..32
 - add Print interface
@@ -119,6 +137,7 @@ See examples.
   - Stream ??
 - add getters for S1 and S2 in the classes
 
-#### wont
+
+#### Wont
 
 

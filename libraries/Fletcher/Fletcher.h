@@ -2,7 +2,7 @@
 //
 //    FILE: Fletcher.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2022-01-25
 // PURPOSE: Arduino Library for calculating Fletcher's checksum
 //     URL: https://github.com/RobTillaart/Fletcher
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define FLETCHER_LIB_VERSION              (F("0.1.7"))
+#define FLETCHER_LIB_VERSION              (F("0.1.8"))
 
 #define FLETCHER_16                       255
 #define FLETCHER_32                       65535UL
@@ -24,12 +24,14 @@
 //  max length buffer 65534.
 //  Wikipedia shows optimizations.
 //
-uint16_t fletcher16(uint8_t *data, uint16_t length);
+//  Since 0.1.8: added parameters s1 and s2 to make functions more versatile.
 
-uint32_t fletcher32(uint16_t *data, uint16_t length);
+uint16_t fletcher16(uint8_t *data, uint16_t length, uint32_t s1 = 0, uint32_t s2 = 0);
 
-uint64_t fletcher64(uint32_t *data, uint16_t length);
+uint32_t fletcher32(uint16_t *data, uint16_t length, uint32_t s1 = 0, uint32_t s2 = 0);
+
+uint64_t fletcher64(uint32_t *data, uint16_t length, uint64_t s1 = 0, uint64_t s2 = 0);
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

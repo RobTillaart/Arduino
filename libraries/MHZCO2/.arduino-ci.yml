@@ -14,15 +14,18 @@ packages:
     url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
 
 compile:
-  # Choosing to run compilation tests on 2 different Arduino platforms
+  #  Choosing to run compilation tests on 2 different Arduino platforms
   platforms:
     - uno
     # - due
     # - zero
     # - leonardo
-    # - m4
-    #- esp32
-    #- esp8266
+    - m4
+    - esp32
+    - esp8266
     # - mega2560
-    # - rpipico
+    - rpipico
 
+  #  external libraries
+  libraries:
+  #  - SoftwareSerial  #  does not work

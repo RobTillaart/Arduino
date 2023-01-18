@@ -91,20 +91,27 @@ The latter two might not be supported by all MH sensors.
 ## Future
 
 #### Must
+
 - improve documentation
 - buy hardware MHZ19B / MHZ19C
 - test with hardware
 - verify checksum
 - verify timeout
 
-#### Should 
+
+#### Should
+
 - plotter example
 - check 3000 PPM
+- fix SoftwareSerial - https://github.com/Arduino-CI/arduino_ci/issues/346
+
 
 #### Could
+
 - extend unit tests
 - add type info for derived classes?
 - save RAM? possible?
+
 
 #### Won't
 

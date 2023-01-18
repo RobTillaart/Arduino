@@ -23,6 +23,9 @@ compile:
     # - m4
     # - esp32
     # - esp8266
-    - mega2560      #  has a Serial1
+    # - mega2560
     # - rpipico
+  #  external libraries
+  libraries:
+    # - "SoftwareSerial" does not work
 

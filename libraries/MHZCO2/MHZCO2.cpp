@@ -1,7 +1,7 @@
 //
 //    FILE: MHZCO2.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 // PURPOSE: Arduino Library for MHZ series CO2 sensors
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -205,7 +205,6 @@ MHZ19E::MHZ19E() : MHZCO2()
 MTP40F::MTP40F() : MHZCO2()
 {
 }
-
 
 
 //  -- END OF FILE --

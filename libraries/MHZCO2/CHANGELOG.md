@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.1] - 2023-06-01
+## [0.1.2] - 2023-01-18
+- fix build - SoftwareSerial problem
+- fix version in .cpp
+- fix date in changelog
+- minor edit in readme.md
+
+
+## [0.1.1] - 2023-01-06
 - rename to MHZCO2
 - create derived classes
 - move code from .h to .cpp

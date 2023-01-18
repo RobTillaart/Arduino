@@ -2,7 +2,7 @@
 //
 //    FILE: datetimeHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library with date time helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/dateTimeHelpers
@@ -145,7 +145,7 @@ char * seconds2clock12(uint32_t seconds, bool displaySeconds = false)
 //  (false)  00:00 ..    12:59 AM/PM
 char * seconds2clockAMPM(uint32_t seconds, bool displaySeconds = false)
 {
-  bool PM = false;
+  bool PMflag = false;
   char * buf = __dateTimeHelperBuffer;
   uint8_t pos = 0;
 
@@ -155,7 +155,7 @@ char * seconds2clockAMPM(uint32_t seconds, bool displaySeconds = false)
 
   if (hours >= 12)
   {
-    PM = true;
+    PMflag = true;
     if (hours > 12) hours -= 12;
   }
   uint8_t t = hours / 10;
@@ -175,7 +175,7 @@ char * seconds2clockAMPM(uint32_t seconds, bool displaySeconds = false)
   }
 
   buf[pos++] = ' ';
-  if (PM) buf[pos++] = 'P';
+  if (PMflag == true) buf[pos++] = 'P';
   else buf[pos++] = 'A';
   buf[pos++] = 'M';
   buf[pos]  = '\0';

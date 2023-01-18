@@ -2,7 +2,7 @@
 //
 //    FILE: AD56X8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD56X8_LIB_VERSION        (F("0.1.2"))
+#define AD56X8_LIB_VERSION        (F("0.1.3"))
 
 
 #define AD56X8_PWR_NORMAL         0x00
@@ -73,18 +73,17 @@ public:
   //  SPI
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed() { return _SPIspeed; };
+  uint32_t getSPIspeed();
+  bool     usesHWSPI();
 
-  bool     usesHWSPI() { return _hwSPI; };
-
-  // ESP32 specific
+  //  ESP32 specific
   #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
 
-  // to overrule ESP32 default hardware pins
+  //  to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

@@ -85,7 +85,7 @@ unittest(get_type)
 
 unittest(get_setValue)
 {
-  AD56X8 AD0(8);
+  AD5628 AD0(8);  //  12 bit  0..4096
 
   AD0.begin();
 
@@ -101,6 +101,33 @@ unittest(get_setValue)
 
   //  channel out of range test.
   assertFalse(AD0.setValue(8, 0));
+  //  value out of range
+  assertFalse(AD0.setValue(0, 4096));
+  assertFalse(AD0.setValue(0, 65535));
+}
+
+
+unittest(get_setPercentage)
+{
+  AD5648 AD0(8);  //  14 bit  0..16383
+
+  AD0.begin();
+
+  //  valid channels
+  for (uint8_t chan = 0; chan < 8; chan++)
+  {
+    assertTrue(AD0.setPercentage(chan, chan * 8));
+  }
+  for (uint8_t chan = 0; chan < 8; chan++)
+  {
+    assertEqualFloat(chan * 8, AD0.getPercentage(chan), 0.1);
+  }
+
+  //  channel out of range test.
+  assertFalse(AD0.setPercentage(8, 0));
+  //  value out of range
+  assertFalse(AD0.setPercentage(0, -1));
+  assertFalse(AD0.setPercentage(0, 101));
 }
 
 

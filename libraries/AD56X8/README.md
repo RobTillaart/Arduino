@@ -10,7 +10,7 @@
 
 Experimental Library for the AD56X8 series digital analog convertor.
 
-NOTE: not yet tested, TODO buy hardware.
+Note: not yet tested, TODO buy hardware.
 
 Feedback, issues, improvements are welcome. 
 Please file an issue on GitHub.
@@ -93,7 +93,7 @@ Returns false if channel out of range.
 Returns false if channel out of range.
 - **void updateAllChannels()** writes all prepared channels to their ADC simultaneously by applying a SW latch pulse (LDAC).
 
-NOte: the valid range of **value** is not checked by the library. 
+Note: the valid range of **value** is not checked by the library. 
 
 
 #### LDAC
@@ -192,7 +192,11 @@ Note that the library is not tested with hardware yet.
 - get test hardware
 - test the library
 - write unit test
-- check TODO's in code
+- check TODO in code
+- investigate different type for AD5668_3 
+  - it does midscale
+  - need different reset?
+
 
 #### Should
 
@@ -200,17 +204,26 @@ Note that the library is not tested with hardware yet.
   - LDAC
   - power mode
 - support for RESET pin
+  - void **setResetPin(uint8_t pin)**
+  - void **triggerReset()**
 - support for LDAC pin
+  - void **setLDACPin(uint8_t pin)**
+  - void **triggerLDAC()**
 - support for EXTERNAL VREF
+  - ?
 - investigate value range checking for AD5648 and AD5628
-  - now setValue() returns false if value > max, 
+  - now **setValue()** returns false if value > max, 
   - should value be clipped instead?
+  - **setPercentage()** idem.
 - **bool loadLDAC()** TODO?
-- investigate different type for AD5668_3 (as it does midscale)
+
 
 #### Could
 
 - CCmode + reset implies start value for getValue(ch)
   - is this implementable? costs?
+
+
+#### Wont
 
 

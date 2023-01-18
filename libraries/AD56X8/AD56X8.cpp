@@ -1,7 +1,7 @@
 //
 //    FILE: AD56X8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -18,7 +18,7 @@
 #define AD56X8_REG_LOAD_CLR       0x05
 #define AD56X8_REG_LOAD_LDAC      0x06
 #define AD56X8_REG_RESET          0x07
-#define AD56X8_REG_SETUP_REF      0x08
+#define AD56X8_REG_SETUP_REF      0x08    //  not implemented
 
 
 AD56X8::AD56X8(uint8_t slaveSelect)
@@ -92,21 +92,6 @@ uint8_t AD56X8::getType()
 }
 
 
-#if defined(ESP32)
-void AD56X8::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                            //  disable SPI
-  mySPI->begin(clk, miso, mosi, select);   //  enable SPI
-}
-#endif
-
-
 //  value = 0..65535 (16 bit), 16383 (14 bit), 4095 (12 bit) depending on type)
 bool AD56X8::setValue(uint8_t channel, uint16_t value)
 {
@@ -130,9 +115,10 @@ uint16_t AD56X8::getValue(uint8_t channel)
 bool AD56X8::setPercentage(uint8_t channel, float percentage)
 {
   uint16_t value = 0;
+  if ((percentage < 0) || (percentage > 100)) return false;
   if      (_type == 16) value = round(655.35 * percentage);
   else if (_type == 14) value = round(163.83 * percentage);
-  else /* type = 12 */  value = round( 40.95 * percentage):
+  else /* type = 12 */  value = round( 40.95 * percentage);
   return setValue(channel, value);
 }
 
@@ -219,11 +205,68 @@ bool AD56X8::setClearCode(uint8_t CCmode)
 }
 
 
+//
+//  SPI
+//
 void AD56X8::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 };
+
+
+uint32_t AD56X8::getSPIspeed()
+{
+  return _SPIspeed;
+};
+
+
+bool AD56X8::usesHWSPI() 
+{
+  return _hwSPI; 
+}
+
+
+//  ESP32 specific
+#if defined(ESP32)
+
+void AD56X8::selectHSPI() 
+{
+  _useHSPI = true;  
+}
+
+
+void AD56X8::selectVSPI() 
+{
+  _useHSPI = false; 
+}
+
+
+bool AD56X8::usesHSPI()   
+{
+  return _useHSPI;  
+}
+
+
+bool AD56X8::usesVSPI()   
+{
+  return !_useHSPI; 
+}
+
+
+void AD56X8::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _select  = select;
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+
+  mySPI->end();                            //  disable SPI
+  mySPI->begin(clk, miso, mosi, select);   //  enable SPI
+}
+
+#endif
 
 
 //////////////////////////////////////////////////////////////////

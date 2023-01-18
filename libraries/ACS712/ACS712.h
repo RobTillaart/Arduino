@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.4"))
+#define ACS712_LIB_VERSION        (F("0.3.5"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -123,15 +123,9 @@ class ACS712
     //  EXPERIMENTAL 0.3.4
     //  supports up to 16 bits ADC.
     uint16_t (* _readADC)(uint8_t);
+    uint16_t _analogRead(uint8_t pin);
+    
 };
-
-
-//  wrapper for internal analogRead()
-//  solves platform specific casting.
-static uint16_t _internalAnalog(uint8_t pin)
-{
-  return analogRead(pin);
-}
 
 
 // -- END OF FILE --

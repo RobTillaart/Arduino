@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2023-01-18
+- fix #33 failing build => issue 345 created @ arduino-ci
+- redo **setADC()**
+- allows reset to internal **analogRead()** too now.
+- update README.md
+
+
 ## [0.3.4] - 2023-01-14
 - experimental
 - add **void setADC()** to use an external ADC for measurements.
 - add **static uint16_t internalAnalog(uint8_t p)** wrapping analogRead() - solves casting.
 - add example ACS712_20_DC_external_ADC.ino
-
 
 ## [0.3.3] - 2023-01-03
 - update GitHub actions

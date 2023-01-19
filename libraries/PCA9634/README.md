@@ -16,7 +16,7 @@ Arduino library for PCA9634 I2C 8 bit PWM LED driver, 8 channel.
 This library is to control the I2C PCA9634 PWM extender.
 The 8 channels are independently configurable in steps of 1/256.
 this allows for better than 1% fine tuning of the duty-cycle
-of the PWM signal. 
+of the PWM signal.
 
 library is a 8 channel derived variation of the PCA9635 class.
 (these might merge in the future)
@@ -27,15 +27,15 @@ library is a 8 channel derived variation of the PCA9635 class.
 
 ### Constructor
 
-- **PCA9634(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address, 
+- **PCA9634(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
 and optional the Wire interface as parameter.
-- **bool begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
-initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers. 
+- **bool begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)**
+initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers.
 See PCA9634.h and datasheet for settings possible.
-- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)** 
-idem, ESP32 ESP8266 only. 
-- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
-To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
+- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, uint8_t mode2_mask = PCA9634_MODE2_NONE)**
+idem, ESP32 ESP8266 only.
+- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)**
+To configure the library after startup one can set the MODE1 and MODE2 configuration registers.
 See PCA9634.h and datasheet for settings possible.
 - **bool isConnected()** checks if address is visible on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 8.
@@ -55,22 +55,23 @@ Configure LED behaviour.
 | PCA9634_LEDPWM     | 0x02  | set LED in PWM mode, 0..255       |
 | PCA9634_LEDGRPPWM  | 0x03  | add LED to the GRPPWM*            |
 
+
 \* all LEDs in the group GRPPWM can be set to the same PWM value in one set.
 This is ideal to trigger e.g. multiple LEDs (servo's) at same time.
 
 
 ### Read and write
 
-Read and write individual values to LED channels. 
+Read and write individual values to LED channels.
 Requires LEDs' DriverMode of the specific channels to be in PWM mode.
 
 - **uint8_t write1(uint8_t channel, uint8_t value)** writes a single 8 bit PWM value.
-- **uint8_t write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)** 
+- **uint8_t write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)**
 writes three consecutive PWM registers.
 typical use is to write R, G, B values for a full colour LED.
-- **uint8_t writeN(uint8_t channel, uint8_t \* array, uint8_t count)** 
-write count consecutive PWM registers. 
-May return **PCA9634_ERR_WRITE** if array has too many elements 
+- **uint8_t writeN(uint8_t channel, uint8_t \* array, uint8_t count)**
+write count consecutive PWM registers.
+May return **PCA9634_ERR_WRITE** if array has too many elements
 (including channel as offset).
 
 
@@ -80,7 +81,7 @@ Used to configure the PCA963x general behaviour.
 
 - **uint8_t writeMode(uint8_t reg, uint8_t value)** configuration of one of the two configuration registers.
 Check datasheet for details.
-- **uint8_t readMode(uint8_t reg)** reads back the configured mode, 
+- **uint8_t readMode(uint8_t reg)** reads back the configured mode,
 useful to add or remove a single flag (bit masking).
 - **uint8_t setMode1(uint8_t value)** convenience wrapper.
 - **uint8_t setMode2(uint8_t value)** convenience wrapper.
@@ -103,12 +104,13 @@ useful to add or remove a single flag (bit masking).
 | PCA9634_MODE1_SUB3      | 0x02  | 0 = disable       1 = enable       |
 | PCA9634_MODE1_ALLCALL   | 0x01  | 0 = disable       1 = enable       |
 | PCA9634_MODE1_NONE      | 0x00  |                                    |
-|                         |       |                                    |
+| ----                    |       |                                    |
 | PCA9634_MODE2_BLINK     | 0x20  | 0 = dim           1 = blink        |
 | PCA9634_MODE2_INVERT    | 0x10  | 0 = normal        1 = inverted     |
 | PCA9634_MODE2_STOP      | 0x08  | 0 = on STOP       1 = on ACK       |
 | PCA9634_MODE2_TOTEMPOLE | 0x04  | 0 = open drain    1 = totem-pole   |
 | PCA9634_MODE2_NONE      | 0x00  |                                    |
+
 
 These constants makes it easier to set modes without using a non descriptive
 bit mask. The constants can be merged by OR-ing them together, see snippet:
@@ -134,8 +136,8 @@ Check datasheet for the details.
 
 - **void setGroupPWM(uint8_t value)** sets all channels that are part of the PWM group to value.
 - **uint8_t getGroupPWM()** get the current PWM setting of the group.
-- **void setGroupFREQ(uint8_t value)** is used for blinking the group of configured LED. 
-Value goes from 0 to 255 with each step representing an increase of approx. 41 ms. 
+- **void setGroupFREQ(uint8_t value)** is used for blinking the group of configured LED.
+Value goes from 0 to 255 with each step representing an increase of approx. 41 ms.
 So 0x00 results in 41 ms blinking period (on AND off) and 0xFF in approx. 10.5 s.
 - **uint8_t getGroupFREQ()** returns the set frequency of the PWM group.
 
@@ -164,13 +166,14 @@ It needs more testing and if there are issues, please report.
 
 AllCall is automatically activated for each device on startup.
 
+
 #### Description
 
 **SUB CALL** allows one to make groups of PCA9634 devices and control them on group level.
 The number of groups one can make depends on free I2C addresses on one I2C bus.
-Using multiple I2C buses or multiplexers will even increase the possible number. 
-Every PCA9634 device can be member of up to three of these groups. 
-To become member one needs to set the **setSubCallAddress(nr, address)** and enable 
+Using multiple I2C buses or multiplexers will even increase the possible number.
+Every PCA9634 device can be member of up to three of these groups.
+To become member one needs to set the **setSubCallAddress(nr, address)** and enable
 it with **enableSubCall(nr)**.
 
 In the same way one can become member of an **ALL CALL** group.
@@ -196,26 +199,26 @@ The functions to enable all/sub-addresses are straightforward:
 
 ### I2C Software reset
 
-The goal of this function is to reset ALL PCA9634 devices on the bus. 
+The goal of this function is to reset ALL PCA9634 devices on the bus.
 When using the software reset, ALL devices attached to the bus are set to their hardware startup conditions.
-Generally, there are multiple definitions of software resets by the I²C inventor NXP. 
+Generally, there are multiple definitions of software resets by the I²C inventor NXP.
 To accommodate this, two different modes for this function have been defined and tested (library version 0.2.2).
 
 - Method 1 is a tested method which is specific to the PCA9634.
-Since the number of different types of I²C chips is very large, side-effects on other chips might be possible. 
+Since the number of different types of I²C chips is very large, side-effects on other chips might be possible.
 Before using this method, consult the data sheets of all chips on the bus to mitigate potential undefined states.
-- Method 0 is a somewhat “general” method which resets many chips on the I²C-bus. 
-However, this method DOES NOT reset the PCA9634 chip. 
+- Method 0 is a somewhat “general” method which resets many chips on the I²C-bus.
+However, this method DOES NOT reset the PCA9634 chip.
 Therefore, consult the data sheet of all different chips on the bus to mitigate potential undefined states.
 
 When only working with PCA9634 chips on a bus, only method 1 is required.
 
 ```cpp
-ledArray.I2C_SoftwareReset(1); // for method 1
-ledArray.I2C_SoftwareReset(0); // for method 0
+ledArray.I2C_SoftwareReset(1);  //  for method 1
+ledArray.I2C_SoftwareReset(0);  //  for method 0
 ```
 
-In case you experience issues with this function on your chips (non-PCA9634), 
+In case you experience issues with this function on your chips (non-PCA9634),
 please give feedback, so the documentation can be improved.
 
 For further details of the development, see - #10 (comment)
@@ -228,16 +231,21 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - unit tests
   - SUB CALL if possible?
   - ALL CALL if possible?
 - add examples
 
-#### could
+
+#### Could
+
+- move code from .h to .cpp
 - sync with PCA9635 developments
 - merge with PCA9635 and a PCA963X base class if possible
 

@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2023-01-19
+- fix #22 update readme.md
+- update GitHub actions
+- update license
+- minor edits (comments)
+
+
 ## [0.2.4] - 2022-11-19
 - add RP2040 in build-CI
 - add changelog.md
-
-
 
 ## [0.2.3] - 2022-09-11
 - update documentation
@@ -32,11 +37,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.1.2] - 2022-04-13 
+## [0.1.2] - 2022-04-13
 - issue #7 add constants and functions for mode registers.
 
-## [0.1.1] - 2022-01-04 
-- minor fixes 
+## [0.1.1] - 2022-01-04
+- minor fixes
 
 ## [0.1.0] - 2022-01-03
 - initial version -- based upon 0.3.2 PCA9635

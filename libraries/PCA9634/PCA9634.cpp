@@ -1,8 +1,8 @@
 //
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 03-01-2022
-// VERSION: 0.2.4
+//    DATE: 2022-01-03
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -66,15 +66,15 @@ void PCA9634::configure(uint8_t mode1_mask, uint8_t mode2_mask)
 }
 
 
-// write value to single PWM registers
+//  write value to single PWM registers
 uint8_t PCA9634::write1(uint8_t channel, uint8_t value)
 {
   return writeN(channel, &value, 1);
 }
 
 
-// write three values in consecutive PWM registers
-// typically for RGB values
+//  write three values in consecutive PWM registers
+//  typically for RGB values
 uint8_t PCA9634::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 {
   uint8_t arr[3] = { R, G, B };
@@ -82,8 +82,8 @@ uint8_t PCA9634::write3(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 }
 
 
-// write count values in consecutive PWM registers
-// checks if [channel + count - 1 > 8]
+//  write count values in consecutive PWM registers
+//  checks if [channel + count - 1 > 8]
 uint8_t PCA9634::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 {
   if (channel + count > _channelCount)
@@ -108,6 +108,37 @@ uint8_t PCA9634::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 }
 
 
+uint8_t PCA9634::writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count)
+{
+  if (channel + count > _channelCount)
+  {
+    _error = PCA9634_ERR_WRITE;
+    return PCA9634_ERROR;
+  }
+  uint8_t base = PCA9634_PWM(channel);
+  _wire->beginTransmission(_address);
+  _wire->write(base);
+  for(uint8_t i = 0; i < count; i++)
+  {
+    _wire->write(arr[i]);
+  }
+  //  OK so far
+  return PCA9634_OK;  
+}
+
+
+uint8_t PCA9634::writeStop()
+{
+  _error = _wire->endTransmission();
+  if (_error != 0)
+  {
+    _error = PCA9634_ERR_I2C;
+    return PCA9634_ERROR;
+  }
+  return PCA9634_OK;
+}
+
+
 uint8_t PCA9634::writeMode(uint8_t reg, uint8_t value)
 {
   if ((reg == PCA9634_MODE1) || (reg == PCA9634_MODE2))
@@ -120,7 +151,7 @@ uint8_t PCA9634::writeMode(uint8_t reg, uint8_t value)
 }
 
 
-// Note 0xFF can also mean an error....  check error flag..
+//  Note 0xFF can also mean an error....  ==>  check error flag.
 uint8_t PCA9634::readMode(uint8_t reg)
 {
   if ((reg == PCA9634_MODE1) || (reg == PCA9634_MODE2))
@@ -148,8 +179,8 @@ uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
   }
 
   uint8_t reg = PCA9634_LEDOUT_BASE + (channel >> 2);
-  // some bit magic
-  uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
+  //  some bit magic
+  uint8_t shift = (channel & 0x03) * 2;  //  0, 2, 4, 6 places
   uint8_t setmask = mode << shift;
   uint8_t clrmask = ~(0x03 << shift);
   uint8_t value = (readReg(reg) & clrmask) | setmask;
@@ -158,7 +189,7 @@ uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
 }
 
 
-// returns 0..3 if OK, other values indicate an error
+//  returns 0..3 if OK, other values indicate an error
 uint8_t PCA9634::getLedDriverMode(uint8_t channel)
 {
   if (channel >= _channelCount)
@@ -168,13 +199,13 @@ uint8_t PCA9634::getLedDriverMode(uint8_t channel)
   }
 
   uint8_t reg = PCA9634_LEDOUT_BASE + (channel >> 2);
-  uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
+  uint8_t shift = (channel & 0x03) * 2;  //  0, 2, 4, 6 places
   uint8_t value = (readReg(reg) >> shift ) & 0x03;
   return value;
 }
 
 
-// note error flag is set to PCA9634_OK after read!
+//  note error flag is set to PCA9634_OK after read!
 int PCA9634::lastError()
 {
   int e = _error;
@@ -186,7 +217,7 @@ int PCA9634::lastError()
 
 /////////////////////////////////////////////////////
 //
-// SUB CALL  -   ALL CALL
+//  SUB CALL  -   ALL CALL
 //
 bool PCA9634::enableSubCall(uint8_t nr)
 {
@@ -310,7 +341,7 @@ int PCA9634::I2C_SoftwareReset(uint8_t method)
 
 /////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 uint8_t PCA9634::writeReg(uint8_t reg, uint8_t value)
 {
@@ -340,5 +371,5 @@ uint8_t PCA9634::readReg(uint8_t reg)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

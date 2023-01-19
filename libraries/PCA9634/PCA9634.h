@@ -2,8 +2,8 @@
 //
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
-//    DATE: 03-01-2022
-// VERSION: 0.2.4
+//    DATE: 2022-01-03
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.4"))
+#define PCA9634_LIB_VERSION         (F("0.2.5"))
 
 #define PCA9634_MODE1               0x00
 #define PCA9634_MODE2               0x01
@@ -24,7 +24,7 @@
 #define PCA9634_GRPPWM              0x0A
 #define PCA9634_GRPFREQ             0x0B
 
-// check datasheet for details
+//  check datasheet for details
 #define PCA9634_LEDOUT_BASE         0x0C    //  0x0C..0x0D
 #define PCA9634_LEDOFF              0x00    //  default @ startup
 #define PCA9634_LEDON               0x01
@@ -59,9 +59,17 @@
 #define PCA9634_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole
 #define PCA9634_MODE2_NONE          0x00
 
-//  (since 0.2.0)
+//  Registers in which the ALLCALL and sub-addresses are stored
 #define PCA9634_SUBADR(x)           (0x0D +(x))  // x = 1..3
 #define PCA9634_ALLCALLADR          0x11
+
+//  Standard ALLCALL and sub-addresses --> only work for write commands and NOT for read commands
+#define PCA9634_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
+                                                    //  in this library the LSB is added during the write command
+                                                    //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
+#define PCA9634_SUB1                0x71            //  see line above (0xE2 --> 0x71)
+#define PCA9634_SUB2                0x72            //  see line above (0xE4 --> 0x72)
+#define PCA9634_SUB3                0x74            //  see line above (0xE8 --> 0x74)
 
 
 class PCA9634
@@ -70,11 +78,11 @@ public:
   explicit PCA9634(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl, 
-                     uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, 
+  bool     begin(int sda, int scl,
+                     uint8_t mode1_mask = PCA9634_MODE1_ALLCALL,
                      uint8_t mode2_mask = PCA9634_MODE2_NONE);
 #endif
-  bool     begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL, 
+  bool     begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL,
                  uint8_t mode2_mask = PCA9634_MODE2_NONE);
   void     configure(uint8_t mode1_mask, uint8_t mode2_mask);
   bool     isConnected();
@@ -93,10 +101,16 @@ public:
   //  generic worker, write N consecutive PWM registers
   uint8_t  writeN(uint8_t channel, uint8_t* arr, uint8_t count);
 
+  //  generic worker, write N consecutive PWM registers without Stop command
+  uint8_t  writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count);
+
+  //  write stop command to end transmission
+  uint8_t  writeStop();
+
   //  reg = 1, 2  check datasheet for values
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
-  //   convenience wrappers
+  //  convenience wrappers
   uint8_t  setMode1(uint8_t value) { return writeMode(PCA9634_MODE1, value); };
   uint8_t  setMode2(uint8_t value) { return writeMode(PCA9634_MODE2, value); };
   uint8_t  getMode1()              { return readMode(PCA9634_MODE1); };
@@ -112,6 +126,7 @@ public:
   uint8_t  getGroupFREQ() { return readReg(PCA9634_GRPFREQ); };
 
   int      lastError();
+
 
   /////////////////////////////////////////////////////
   //

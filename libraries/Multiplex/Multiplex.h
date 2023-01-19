@@ -2,7 +2,7 @@
 //
 //    FILE: Multiplex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -11,10 +11,10 @@
 #include "Arduino.h"
 
 
-#define MULTIPLEX_LIB_VERSION         (F("0.2.5"))
+#define MULTIPLEX_LIB_VERSION         (F("0.2.6"))
 
 
-// MAX 254 (in theory) as 0xFF is a special value
+//  MAX 254 (in theory) as 0xFF is a special value
 #ifndef MAX_MULTIPLEX
 #define MAX_MULTIPLEX                 4
 #endif
@@ -39,7 +39,7 @@ public:
   bool     remove(Print * stream);
   bool     remove(uint8_t index);
 
-  //  see issue 13
+  //  see issue #13
   virtual void flush() override;
 
   //  CONTROL
@@ -78,5 +78,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

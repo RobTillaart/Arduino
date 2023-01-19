@@ -153,7 +153,10 @@ See examples
 
 ## Future
 
-#### 0.3.0
+#### Must
+
+
+#### Should
 
 - set size in constructor 
   - dynamic memory for all internal arrays
@@ -163,7 +166,8 @@ See examples
   - breaking change  ==> 0.3.0
 - add **removeAll()** ==> reset()
 
-#### should
+
+#### Could
 
 - error handling
   - add an error flag if one of the streams does not **write()**
@@ -173,7 +177,7 @@ correctly and returns 0 or less than it should.
   - KB / second
 - move all code to .cpp
 
-#### wont
+#### Wont
 
 - pack enabled flag in one or more bytes. 
   (not much faster + need to encode/decode)

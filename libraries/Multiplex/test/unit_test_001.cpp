@@ -1,9 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-01
-// PURPOSE: unit tests for the XXXXXX
-//          https://github.com/RobTillaart/
+//    DATE: 2021-01-09
+// PURPOSE: unit tests for the Multiplex
+//          https://github.com/RobTillaart/Multiplex
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -35,9 +35,10 @@
 #include "Arduino.h"
 #include "Multiplex.h"
 
-// A simple implementation of Print that outputs
-// to Serial, prefixing each call to write(buffer, size)
-// with an id.
+
+//  A simple implementation of Print that outputs
+//  to Serial, prefixing each call to write(buffer, size)
+//  with an id.
 class FakeStream : public Print
 {
   public:
@@ -129,4 +130,4 @@ unittest(test_enable)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

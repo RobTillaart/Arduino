@@ -1,13 +1,10 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
-//
-//  HISTORY: see changelog.md
-
 
 
 #include "Multiplex.h"
@@ -105,14 +102,14 @@ size_t Multiplex::write(const uint8_t *buffer, size_t size)
 }
 
 
-void Multiplex::flush()  //  see issue 13
+void Multiplex::flush()  //  see issue #13
 {
   for (uint8_t i = 0; i < _count; i++)
   {
     if (_enabled[i])
     {
-      _stream[i]->flush(); 
-    } 
+      _stream[i]->flush();
+    }
   }
 }
 
@@ -188,5 +185,5 @@ bool Multiplex::isEnabledStream(Print *stream)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

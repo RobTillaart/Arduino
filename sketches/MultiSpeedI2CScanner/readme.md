@@ -9,7 +9,7 @@
 # Arduino MultiSpeed I2C Scanner
 
 
-## Version: 0.1.14
+## Version: 0.1.16
 
 
 ## Description
@@ -21,13 +21,18 @@ The scanner provides an overview of which addresses can be found
 at which speed. This allows one to optimize the I2C performance of
 many devices above the standard 100KHz speed.
 
+#### Related
+
+build your own I2C scanner with:
+- https://github.com/RobTillaart/I2C_SCANNER
+
 
 ## Menu dialog
 
 ```
 <speeds = 50 100 150 200 250 300 350 400 >
 
-Arduino MultiSpeed I2C Scanner - 0.1.13
+Arduino MultiSpeed I2C Scanner - 0.1.15
 
 I2C ports: 1  Current: Wire0
 	@ = toggle Wire - Wire1 - Wire2 [TEENSY 3.5 or Arduino Due]
@@ -42,19 +47,20 @@ Output:
 	h = toggle header - noHeader.
 	a = toggle address range, 0..127 - 8..119 (default)
 Speeds:
-	0 = 100..800 Khz - step 100  (warning - can block!!)
+	0 = 100..800 KHz - step 100  (warning - can block!!)
 	1 = 100 KHz
 	2 = 200 KHz
 	4 = 400 KHz
-	9 = 50..400 Khz - step 50     < DEFAULT >
+	9 = 50..400 KHz - step 50     < DEFAULT >
 
 	!! HIGH SPEEDS - WARNING - can block - not applicable for UNO
 	8 =  800 KHz
 	M = 1000 KHz
 	N = 3400 KHz
-	O = 5000 Khz
-	P =  100 400 1000 3400 5000 Khz (standards)
+	O = 5000 KHz
+	P =  100 400 1000 3400 5000 KHz (standards)
 
+	r = reset to startup defaults.
 	? = help - this page
 ```
 
@@ -108,7 +114,14 @@ Check your datasheet to see which speeds are applicable for the processor in use
 
 ## Future
 
+#### Must
+
+#### Should
+
+#### Could
+
 - add watchdog reset (at least AVR - 8 seconds 0.2.0 )
-- create an I2Scanner class
-- r = reset (defaults)
 - non-AVR command behind a ```#ifdef``` ?
+- rename releaseNotes.md to changelog.md (in line with libraries)
+- I2C GENERIC RESET address 0x00 CMD 0x06
+

@@ -1,12 +1,10 @@
 //
 //    FILE: I2C_bus_counter.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: I2C bus counter
 //    DATE: 2021-11-10
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
 //     URL: http://forum.arduino.cc/index.php?topic=197360
-//
 
 
 #include <Arduino.h>

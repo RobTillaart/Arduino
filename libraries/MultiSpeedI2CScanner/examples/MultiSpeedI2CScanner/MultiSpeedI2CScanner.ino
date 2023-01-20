@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.15
+// VERSION: 0.1.16
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
@@ -12,18 +12,22 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+//  FOR INTERNAL I2C BUS NANO 33 BLE
+//  #define WIRE_IMPLEMENT_WIRE1 1
+//  extern TwoWire Wire1;
+
 TwoWire *wire;
 
-const char version[] = "0.1.15";
+const char version[] = "0.1.16";
 
 
-// INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
+//  INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
 int wirePortCount = 1;
 int selectedWirePort = 0;
 
 
-// scans devices from 50 to 800 KHz I2C speeds.
-// speed lower than 50 and above 400 can cause problems
+//  scans devices from 50 to 800 KHz I2C speeds.
+//  speed lower than 50 and above 400 can cause problems
 long speed[10] = { 100, 200, 300, 400 };
 int speeds;
 
@@ -31,44 +35,46 @@ int addressStart = 8;
 int addressEnd = 119;
 
 
-// DELAY BETWEEN TESTS
+//  DELAY BETWEEN TESTS
+//  for delay between tests of found devices.
 #ifndef RESTORE_LATENCY
-#define RESTORE_LATENCY  5    // for delay between tests of found devices.
+#define RESTORE_LATENCY       5
 #endif
 
 bool delayFlag = false;
 
 
-// MINIMIZE OUTPUT
+//  MINIMIZE OUTPUT
 bool printAll = true;
 bool header = true;
 bool disableIRQ = false;
 
 
-// STATE MACHINE
+//  STATE MACHINE
 enum states {
   STOP, ONCE, CONT, HELP
 };
 states state = STOP;
 
 
-// TIMING
+//  TIMING
 uint32_t startScan;
 uint32_t stopScan;
 
 
-///////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 //
 // MAIN CODE
 //
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
 
 #if defined (ESP8266) || defined(ESP32)
-  uint8_t sda = 14;  // 21
-  uint8_t scl = 15;  // 22
-  Wire.begin(sda, scl, 100000);  // ESP32 - change config pins if needed.
+  uint8_t sda = 14;  //  21
+  uint8_t scl = 15;  //  22
+  Wire.begin(sda, scl, 100000);  //  ESP32 - change config pins if needed.
 #else
   Wire.begin();
 #endif
@@ -97,8 +103,7 @@ void setup()
   wire = &Wire;
 
   Serial.println();
-  setSpeed('9');
-  displayHelp();
+  reset();
 }
 
 
@@ -191,6 +196,10 @@ void loop()
       setSpeed(command);
       break;
 
+    case 'r':
+      reset();
+      break;
+
     case 'a':
       setAddress();
       break;
@@ -222,6 +231,25 @@ void loop()
     default: // ignore all non commands
       break;
   }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void reset()
+{
+  setSpeed('9');
+  selectedWirePort = 0;
+  addressStart     = 8;
+  addressEnd       = 119;
+  
+  delayFlag  = false;
+  printAll   = true;
+  header     = true;
+  disableIRQ = false;
+
+  state = STOP;
+
+  displayHelp();
 }
 
 
@@ -354,7 +382,8 @@ void displayHelp()
   Serial.println(F("\tN = 3400 KHz"));
   Serial.println(F("\tO = 5000 KHz"));
   Serial.println(F("\tP = 100 400 1000 3400 5000 KHz (standards)"));
-  Serial.println(F("\n\t? = help - this page"));
+  Serial.println(F("\n\tr = reset to startup defaults."));
+  Serial.println(F("\t? = help - this page"));
   Serial.println();
 }
 
@@ -433,6 +462,26 @@ void I2Cscan()
       Serial.println();
     }
   }
+
+/*
+  //  FOOTER
+  if (header)
+  {
+    for (uint8_t s = 0; s < speeds + 5; s++)
+    {
+      Serial.print(F("--------"));
+    }
+    Serial.println();
+
+    Serial.print(F("TIME\tDEC\tHEX\t"));
+    for (uint8_t s = 0; s < speeds; s++)
+    {
+      Serial.print(F("\t"));
+      Serial.print(speed[s]);
+    }
+    Serial.println(F("\t[KHz]"));
+  }
+*/
 
   stopScan = millis();
   if (header)

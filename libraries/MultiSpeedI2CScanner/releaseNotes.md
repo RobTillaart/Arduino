@@ -8,7 +8,13 @@ https://github.com/RobTillaart/MultiSpeedI2CScanner
 
 ## Version 
 
-0.1.15
+0.1.16
+
+
+### 0.1.16  2023-01-20
+
+- update build-ci
+- add link to I2C scanner class in readme.md
 
 
 ### 0.1.15  2021-12-22

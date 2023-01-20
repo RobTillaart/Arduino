@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2023-01-19
+- update GitHub actions
+- update license 2023
+- update readme.md
+- add **setPowerDelay()** + getter
+- update readme.md
+- add unit tests
+
+
 ## [0.1.2] - 2022-12-06
 - add powerPin to constructor. Optional.
 - add powerPin example
@@ -16,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix percentage() => 0% == DRY and 100% == WET
 - add get- and setDryReference() for better percentage() behaviour.
 - update keywords.txt
-
 
 ## [0.1.1] - 2022-12-03
 - change levels to milliVolts (uint16_t).

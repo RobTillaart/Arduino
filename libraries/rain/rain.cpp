@@ -1,7 +1,7 @@
 //
 //    FILE: rain.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-12-03
 // PURPOSE: Arduino library for a rain sensor
 //     URL: https://github.com/RobTillaart/RAIN
@@ -10,9 +10,10 @@
 
 #include "rain.h"
 
-RAIN::RAIN(uint8_t port, uint8_t powerPin)
+
+RAIN::RAIN(uint8_t analogPort, uint8_t powerPin)
 {
-  _port       = port;
+  _analogPort = analogPort;
   _powerPin   = powerPin;
   _maxVoltage = 5;
   _maxSteps   = 1023;
@@ -27,7 +28,7 @@ bool RAIN::begin(float maxVoltage, uint16_t maxSteps)
   _mVstep        = _maxVoltage / _maxSteps;
   _dryRefVoltage = _maxVoltage;
 
-  if (_powerPin != 255) 
+  if (_powerPin != 255)
   {
     pinMode(_powerPin, OUTPUT);
     powerOn();
@@ -45,7 +46,7 @@ float RAIN::raw(uint8_t times)
   powerOn();
   for (int i = 0; i < times; i++)
   {
-    sum += analogRead(_port);
+    sum += analogRead(_analogPort);
   }
   powerOff();
 
@@ -62,6 +63,10 @@ float RAIN::read(uint8_t times)
 }
 
 
+//////////////////////////////////////////////////////////////////
+//
+//  ANALYSIS
+//
 void RAIN::setDryReference(float dryRef)
 {
   _dryRefVoltage = dryRef;
@@ -76,9 +81,9 @@ float RAIN::getDryReference()
 
 float RAIN::percentage()
 {
-  float p = 100.0 - (_voltage * 100.0 / _dryRefVoltage);
-  if (p < 0) p = 0;
-  return p;
+  float perc = 100.0 - (_voltage * 100.0 / _dryRefVoltage);
+  if (perc < 0) perc = 0;
+  return perc;
 }
 
 
@@ -88,6 +93,10 @@ float RAIN::delta()
 }
 
 
+//////////////////////////////////////////////////////////////////
+//
+//  LEVEL
+//
 bool RAIN::setLevel(uint8_t nr, uint16_t milliVolts)
 {
   if (nr == 0) return false;
@@ -108,22 +117,37 @@ uint8_t RAIN::getLevel()
 }
 
 
+//////////////////////////////////////////////////////////////////
+//
+//  POWER
+//
 void RAIN::powerOn()
 {
-  if (_powerPin != 255) 
+  if (_powerPin != 255)
   {
     digitalWrite(_powerPin, HIGH);
-    delayMicroseconds(100);  //  time to stabilize, adjust if needed.
+    delayMicroseconds(_powerDelay);  //  time to stabilize, adjust if needed.
   }
 }
 
 
 void RAIN::powerOff()
 {
-  if (_powerPin != 255) 
+  if (_powerPin != 255)
   {
     digitalWrite(_powerPin, LOW);
   }
+}
+
+void RAIN::setPowerDelay(uint8_t powerDelay)
+{
+  _powerDelay = powerDelay;
+}
+
+
+uint8_t RAIN::getPowerDelay()
+{
+  return _powerDelay;
 }
 
 

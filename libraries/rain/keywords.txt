@@ -19,6 +19,9 @@ getLevel	KEYWORD2
 
 powerOn	KEYWORD2
 powerOff	KEYWORD2
+setPowerDelay	KEYWORD2
+getPowerDelay	KEYWORD2
+
 
 # Constants (LITERAL1)
 RAIN_LIB_VERSION	LITERAL1

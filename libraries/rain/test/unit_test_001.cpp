@@ -32,6 +32,7 @@ unittest_setup()
     fprintf(stderr, "RAIN_LIB_VERSION: %s\n", (char *) RAIN_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -40,6 +41,61 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(1, 1);
+}
+
+
+unittest(test_dryReference)
+{
+  RAIN rainSensor(0, 255);
+
+  for (int ref = 0; ref < 5000; ref += 500)
+  {
+    rainSensor.setDryReference(ref);
+    assertEqualFloat(ref, rainSensor.getDryReference(), 0.001);
+  }
+}
+
+
+unittest(test_percentage)
+{
+  RAIN rainSensor(0, 255);
+
+  assertEqual(100, rainSensor.percentage());
+  //  EXTEND ?
+}
+
+
+unittest(test_delta)
+{
+  RAIN rainSensor(0, 255);
+
+  assertEqual(0, rainSensor.delta());
+  //  EXTEND ?
+}
+
+
+unittest(test_level)
+{
+  RAIN rainSensor(0, 255);
+
+  assertTrue(rainSensor.setLevel(1, 1000));
+  assertTrue(rainSensor.setLevel(2, 2000));
+  assertTrue(rainSensor.setLevel(3, 3000));
+  assertTrue(rainSensor.setLevel(4, 4000));
+  assertFalse(rainSensor.setLevel(0, 1000));
+  assertFalse(rainSensor.setLevel(5, 1000));
+}
+
+
+unittest(test_powerDelay)
+{
+  RAIN rainSensor(0, 255);
+
+  for (int i = 0; i < 250; i+= 50)
+  {
+    rainSensor.setPowerDelay(i);
+    assertEqual(i, rainSensor.getPowerDelay() );
+  }
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //     URL: https://github.com/RobTillaart/AM2315
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -16,14 +16,14 @@
 //       |o  |       SCL          GREY
 //       +---+
 //
-// do not forget pull up resistors between SDA, SCL and VDD.
+//  do not forget pull up resistors between SDA, SCL and VDD.
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.6"))
+#define AM2315_LIB_VERSION                    (F("0.1.7"))
 
 
 #define AM2315_OK                             0
@@ -55,20 +55,20 @@ public:
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
   bool     begin();
-  // datasheet- wake up is min 800 us max 3000 us
+  //  datasheet- wake up is min 800 us max 3000 us
   bool     isConnected(uint16_t timeout = 3000);
 
   int      read();
 
-  // lastRead is in MilliSeconds since start sketch
+  //  lastRead is in MilliSeconds since start sketch
   uint32_t lastRead()                    { return _lastRead; };
 
-  // preferred interface
+  //  preferred interface
   float    getHumidity();
   float    getTemperature();
 
-  // adding offsets works well in normal range
-  // might introduce under- or overflow at the ends of the sensor range
+  //  adding offsets works well in normal range
+  //  might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset = 0)  { _humOffset = offset; };
   void     setTempOffset(float offset = 0) { _tempOffset = offset; };
   float    getHumOffset()             { return _humOffset; };
@@ -78,14 +78,14 @@ public:
   void     setWaitForReading(bool b ) { _waitForRead = b; };
 
 
-  // suppress error values of -999 => check return value of read() instead
+  //  suppress error values of -999 => check return value of read() instead
   bool     getSuppressError()         { return _suppressError; };
   void     setSuppressError(bool b)   { _suppressError = b; };
 
   bool     wakeUp() { return isConnected(); };
 
 private:
-  uint8_t  _bits[8];    // buffer to hold raw data
+  uint8_t  _bits[8];    //  buffer to hold raw data
   float    _humidity      = 0.0;
   float    _temperature   = 0.0;
   float    _humOffset     = 0.0;

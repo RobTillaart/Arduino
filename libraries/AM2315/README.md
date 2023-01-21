@@ -27,8 +27,8 @@ The AM232X library allows to read some internal registers.
 
 |             |  range     | accuracy | repeatability |
 |:------------|:----------:|:--------:|:-------------:|
-| Temperature | -40 - 125  | 0.5°C    |  ±0.2         |
-| Humidity    | 0.0 - 99.9 | ±2%      |  ±0.1         |
+| Temperature | -40 - 125  | 0.5Â°C    |  Â±0.2         |
+| Humidity    | 0.0 - 99.9 | Â±2%      |  Â±0.1         |
 | Sample time | 2 seconds  |          |               |
 
 
@@ -49,7 +49,7 @@ The AM232X library allows to read some internal registers.
 ```
 
 
-### I2C clock speed
+#### I2C clock speed
 
 The datasheet states the AM2315 should be used on 100 KHz I2C only. 
 When overclocking I got good readings up to 190 KHz in a test with 
@@ -79,7 +79,7 @@ If performance is mandatory do not go beyond 170 KHz.
 ## Interface
 
 
-### Constructor
+#### Constructor
 
 - **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
@@ -91,7 +91,7 @@ As the device can be in sleep modus it will retry for the defined timeout (in mi
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
-### Core
+#### Core
 
 - **int8_t read()** read the sensor and store the values internally.
 It returns the status of the read which should be **AM2315_OK** == 0.
@@ -104,7 +104,7 @@ This error can be suppressed, see below.
 - **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
 
 
-### Offset
+#### Offset
 
 - **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
 Default offset = 0, so no parameter will reset the offset.
@@ -114,7 +114,7 @@ Default offset = 0, so no parameter will reset the offset.
 - **float getTempOffset()** return current temperature offset, default 0.
 
 
-### Control
+#### Control
 
 Functions to adjust the communication with the sensor.
 
@@ -128,8 +128,7 @@ This can be used to keep spikes out of your graphs / logs.
 - **bool getSuppressError()**  returns the above setting.
 
 
-### Error codes
-
+#### Error codes
 
 | name                              | value | notes       |
 |:----------------------------------|------:|:------------|
@@ -151,9 +150,9 @@ without the error.
 
 See examples
 
-In **setup()** you must call the **begin()** to initialize the Wire library used 
-and do an initial **read()** to fill the variables temperature and humidity. 
-To access these values use **getTemperature()** and **getHumidity()**. 
+In **setup()** you have to call the **begin()** to initialize 
+the Wire library and do an initial **read()** to fill the variables temperature and humidity. 
+To access these values one must use **getTemperature()** and **getHumidity()**. 
 Multiple calls will give the same values until **read()** is called again.
 
 Note that the AM2315 can go into sleep mode after 3 seconds after last read, 
@@ -181,13 +180,21 @@ Which method fit your application depends on your requirements and constraints.
 
 ## Future
 
+#### Must
+
 - update documentation
 - test more (other platforms)
+
+#### Should
+
 - keep in sync with AM232X class
   - merge in a far future.
 - update unit test
 - add examples
 
+#### Could
+
+- move code from .h to .cpp
 
 #### Won't
 

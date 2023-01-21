@@ -14,11 +14,11 @@ AM2315 sensor;
 void setup()
 {
   sensor.begin();
-  // adjust your offsets if needed
-  // sensor.setTempOffset(-0.8);
-  // sensor.setHumOffset(1.2);
+  //  adjust your offsets if needed
+  //  sensor.setTempOffset(-0.8);
+  //  sensor.setHumOffset(1.2);
 
-  // Wire.setClock(100000);
+  //  Wire.setClock(100000);
 
   Serial.begin(115200);
   Serial.println(__FILE__);
@@ -37,7 +37,7 @@ void loop()
 {
   if (millis() - sensor.lastRead() >= 2000)
   {
-    // READ DATA
+    //  READ DATA
     uint32_t start = micros();
     int status = sensor.read();
     uint32_t stop = micros();
@@ -56,10 +56,12 @@ void loop()
       Serial.print("Bytes error,\t");
       break;
     default:
-      Serial.print("Unknown error,\t");
+      Serial.print("error <");
+      Serial.print(status);
+      Serial.print(">,\t");
       break;
     }
-    // DISPLAY DATA, sensor has only one decimal.
+    //  DISPLAY DATA, sensor has only one decimal.
     Serial.print("AM2315, \t");
     Serial.print(sensor.getHumidity(), 1);
     Serial.print(",\t");
@@ -71,4 +73,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

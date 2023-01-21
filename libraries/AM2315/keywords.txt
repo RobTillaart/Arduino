@@ -7,6 +7,7 @@ AM2315	KEYWORD1
 begin	KEYWORD2
 isConnected	KEYWORD2
 read	KEYWORD2
+lastRead	KEYWORD2
 
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
@@ -21,7 +22,6 @@ setWaitForReading	KEYWORD2
 getSuppressError	KEYWORD2
 setSuppressError	KEYWORD2
 
-lastRead	KEYWORD2
 wakeUp	KEYWORD2
 
 

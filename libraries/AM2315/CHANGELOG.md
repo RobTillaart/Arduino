@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2023-01-21
+- update GitHub actions
+- update license 2023
+- update keywords.txt
+- minor edits comments
+- add offset example 
+- minor edit README.md
+
+
 ## [0.1.6] - 2022-10-27
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md

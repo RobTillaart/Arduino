@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
 //
@@ -12,13 +12,14 @@
 
 
 const uint8_t AM2315_ADDRESS = 0x5C;
-// READ_DELAY for blocking read
+
+//  READ_DELAY for blocking read
 const uint16_t AM2315_READ_DELAY = 2000;
 
 
 /////////////////////////////////////////////////////
 //
-// PUBLIC
+//  PUBLIC
 //
 AM2315::AM2315(TwoWire *wire)
 {
@@ -73,7 +74,7 @@ bool AM2315::isConnected(uint16_t timeout)
 }
 
 
-// return values:
+//  return values:
 //    AM2315_OK
 //    AM2315_ERROR_CONNECT
 //    AM2315_MISSING_BYTES
@@ -114,7 +115,7 @@ float AM2315::getTemperature()
 //  PRIVATE
 //
 
-// return values:
+//  return values:
 //    AM2315_OK
 //    AM2315_ERROR_CONNECT
 //    AM2315_MISSING_BYTES
@@ -133,7 +134,7 @@ int AM2315::_read()
       _humidity    = AM2315_INVALID_VALUE;
       _temperature = AM2315_INVALID_VALUE;
     }
-    return rv;  // propagate error value
+    return rv;  //  propagate error value
   }
 
   //  EXTRACT HUMIDITY AND TEMPERATURE
@@ -153,7 +154,7 @@ int AM2315::_read()
   }
 
 #ifdef AM2315_VALUE_OUT_OF_RANGE
-  // TEST OUT OF RANGE
+  //  TEST OUT OF RANGE
   if (_humidity > 100)
   {
     return AM2315_HUMIDITY_OUT_OF_RANGE;
@@ -168,14 +169,14 @@ int AM2315::_read()
 }
 
 
-// return values:
+//  return values:
 //    AM2315_OK
 //    AM2315_ERROR_CONNECT
 //    AM2315_MISSING_BYTES
 //    AM2315_ERROR_CHECKSUM;
 int AM2315::_readSensor()
 {
-  // HANDLE PENDING IRQ etc.
+  //  HANDLE PENDING IRQ etc.
   yield();
 
   // WAKE UP the sensor
@@ -201,7 +202,7 @@ int AM2315::_readSensor()
     _bits[i] = _wire->read();
   }
 
-  // TEST CHECKSUM
+  //  TEST CHECKSUM
   uint16_t crc = _bits[bytes - 1] * 256 + _bits[bytes - 2];
   if (_crc16(_bits, bytes - 2) != crc)
   {
@@ -234,5 +235,5 @@ uint16_t AM2315::_crc16(uint8_t *ptr, uint8_t len)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

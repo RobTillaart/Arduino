@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.9] - 2023-01-21
+- update GitHub actions
+- update license 2023
+- update readme.md
+- minor edits
+
+
 ## [0.3.8] - 2022-10-17
 - add RP2040 support (kudos to intubun)
 - simplified changelog.md
@@ -26,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.3.4] - 2021-12-11
 - add unit test constants.
-- update library.json, license, 
+- update library.json, license,
 - minor edits including layout
 
 ## [0.3.3] - 2021-10-17
@@ -34,11 +41,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.3.2] - 2021-10-07
 - added examples
-- update readme 
-- fix build-CI; 
+- update readme
+- fix build-CI;
 
 ## [0.3.1] - 2021-04-25
-- add get/setClock() for Wire speed 
+- add get/setClock() for Wire speed
 - add reset()
 - fix issue #22
 
@@ -74,13 +81,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix issue #2 gain
 
 ### [0.2.0] - 2020-04-08
-- initial release; 
+- initial release;
 - refactor ad fundum;
 
 ----
 
 ### [0.1.0] - 2017-07-31
-- removed pre 1.0 support; 
+- removed pre 1.0 support;
 - added getVoltage
 
 ### [0.0.1] - 2013-03-24

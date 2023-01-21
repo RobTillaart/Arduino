@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-12
-// PURPOSE: unit tests for the AGS02NA tvoc sensor
+// PURPOSE: unit tests for the AGS02NA TVOC sensor
 //          https://github.com/RobTillaart/AGS02MA
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
@@ -28,6 +28,7 @@
 // writing to a virtual device does not work
 // as millis() function is not implemented in 
 // the Arduino-CI environment
+
 
 unittest_setup()
 {
@@ -97,4 +98,4 @@ unittest(test_mode)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

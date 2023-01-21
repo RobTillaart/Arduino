@@ -11,29 +11,41 @@ isConnected	KEYWORD2
 reset	KEYWORD2
 
 isHeated	KEYWORD2
-lastRead	KEYWORD2
+
 
 setAddress	KEYWORD2
 getAddress	KEYWORD2
 
 getSensorVersion	KEYWORD2
+getSensorDate	KEYWORD2
+
+setI2CResetSpeed	KEYWORD2
+getI2CResetSpeed	KEYWORD2
+
+zeroCalibration	KEYWORD2
+manualZeroCalibration	KEYWORD2
+getZeroCalibrationData	KEYWORD2
 
 setPPBMode	KEYWORD2
 setUGM3Mode	KEYWORD2
 getMode	KEYWORD2
 
-readPPM	KEYWORD2
 readPPB	KEYWORD2
 readUGM3	KEYWORD2
+readPPM	KEYWORD2
+readMGM3	KEYWORD2
+readUGF3	KEYWORD2
+
 lastPPM	KEYWORD2
 lastPPB	KEYWORD2
 lastUGM3	KEYWORD2
 
-zeroCalibration	KEYWORD2
+lastRead	KEYWORD2
 lastError	KEYWORD2
 lastStatus	KEYWORD2
 dataReady	KEYWORD2
 
+readRegister	KEYWORD2
 
 # Constants (	LITERAL1)
 AGS02MA_LIB_VERSION	LITERAL1

@@ -1,10 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-12-06
-// PURPOSE: unit tests for the SHT31 temperature and humidity sensor
-//          https://github.com/RobTillaart/SHT31
-//          https://www.adafruit.com/product/2857
+//    DATE: 2021-09-25
+// PURPOSE: unit tests for an analogue UV sensor.
+//          https://github.com/RobTillaart/AnalogUVSensor
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -46,7 +45,7 @@ unittest(constructor)
 
   AUV.begin(A0);
   fprintf(stderr, "UV: %f\n", AUV.read());
-  
+
   assertEqualFloat(0.000000, AUV.read(), 0.01);
 }
 
@@ -63,17 +62,17 @@ unittest(mv2index)
     fprintf(stderr, "%d\t %f\n", milliVolt, uvi);
   }
 
-  assertEqualFloat(0.000000, AUV.mV2index(0), 0.01);
-  assertEqualFloat(0.000000, AUV.mV2index(50), 0.01);
-  assertEqualFloat(0.282486, AUV.mV2index(100), 0.01);
-  assertEqualFloat(0.847458, AUV.mV2index(200), 0.01);
-  assertEqualFloat(1.856804, AUV.mV2index(300), 0.01);
-  assertEqualFloat(2.905457, AUV.mV2index(400), 0.01);
-  assertEqualFloat(3.954111, AUV.mV2index(500), 0.01);
-  assertEqualFloat(5.002764, AUV.mV2index(600), 0.01);
-  assertEqualFloat(6.051417, AUV.mV2index(700), 0.01);
-  assertEqualFloat(7.100070, AUV.mV2index(800), 0.01);
-  assertEqualFloat(8.148723, AUV.mV2index(900), 0.01);
+  assertEqualFloat(0.000000, AUV.mV2index(0),    0.01);
+  assertEqualFloat(0.000000, AUV.mV2index(50),   0.01);
+  assertEqualFloat(0.282486, AUV.mV2index(100),  0.01);
+  assertEqualFloat(0.847458, AUV.mV2index(200),  0.01);
+  assertEqualFloat(1.856804, AUV.mV2index(300),  0.01);
+  assertEqualFloat(2.905457, AUV.mV2index(400),  0.01);
+  assertEqualFloat(3.954111, AUV.mV2index(500),  0.01);
+  assertEqualFloat(5.002764, AUV.mV2index(600),  0.01);
+  assertEqualFloat(6.051417, AUV.mV2index(700),  0.01);
+  assertEqualFloat(7.100070, AUV.mV2index(800),  0.01);
+  assertEqualFloat(8.148723, AUV.mV2index(900),  0.01);
   assertEqualFloat(9.197376, AUV.mV2index(1000), 0.01);
   assertEqualFloat(10.24602, AUV.mV2index(1100), 0.01);
 }
@@ -84,7 +83,7 @@ unittest(index2color)
   AnalogUVSensor AUV;
 
   AUV.begin(A0);
-  
+
   assertEqual('G', AUV.index2color(0));
   assertEqual('G', AUV.index2color(1));
   assertEqual('G', AUV.index2color(2));
@@ -104,4 +103,4 @@ unittest(index2color)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

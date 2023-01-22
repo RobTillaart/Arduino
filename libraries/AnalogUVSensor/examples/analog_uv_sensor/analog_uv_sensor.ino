@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //    DATE: 2021-09-21
-
+//     URL: https://github.com/RobTillaart/AnalogUVSensor
+//
 //  this example is not using the library,
 //  sort of minimal version
 
@@ -29,6 +30,7 @@ float indexUV(uint16_t pin, int16_t analog_max, float voltage_max)
 
   if (millivolt < 50)
   {
+    //  assume noise.
     return 0.0;
   }
   if (millivolt < 227)
@@ -44,4 +46,4 @@ float indexUV(uint16_t pin, int16_t analog_max, float voltage_max)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

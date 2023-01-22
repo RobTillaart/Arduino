@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
 //    DATE: 2021-10-17
+//     URL: https://github.com/RobTillaart/AnalogUVSensor
 
 //  Use the Arduino IDE -> Tools -> Serial plotter 
 //  to get a graph.
@@ -46,5 +47,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

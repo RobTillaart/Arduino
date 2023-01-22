@@ -1,12 +1,10 @@
 //
 //    FILE: AnalogUVSensor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for an analogue UV sensor.
-//
-//  HISTORY: see changelog
-
+//     URL: https://github.com/RobTillaart/AnalogUVSensor
 
 
 #include "AnalogUVSensor.h"
@@ -46,12 +44,21 @@ float AnalogUVSensor::read(uint8_t times)
 
 float AnalogUVSensor::mV2index(uint16_t milliVolt)
 {
-  if (milliVolt < 50)  return 0.0;
+  if (milliVolt < 50)
+  {
+    return 0.0;
+  }
   //  linear interpolation between 0..1
-  if (milliVolt < 227) return 0.0 + (1.0 * milliVolt - 50.0) / (227.0 - 50.0);
+  if (milliVolt < 227)
+  {
+    return 0.0 + (1.0 * milliVolt - 50.0) / (227.0 - 50.0);
+  }
   //  linear interpolation between 1..11
   //  formula derived with spreadsheet.
-  if (milliVolt < 1200) return 0.0104865310 * milliVolt - 1.289154988;
+  if (milliVolt < 1200)
+  {
+    return 0.0104865310 * milliVolt - 1.289154988;
+  }
   return 12;
 }
 
@@ -75,5 +82,17 @@ void AnalogUVSensor::setPowerPin(uint8_t powerPin, bool invert)
 }
 
 
-// -- END OF FILE --
+void AnalogUVSensor::switchOff()
+{
+  digitalWrite(_powerPin, _invert ? HIGH : LOW);
+}
+
+
+void AnalogUVSensor::switchOn()
+{
+  digitalWrite(_powerPin, _invert ? LOW : HIGH);
+}
+
+
+//  -- END OF FILE --
 

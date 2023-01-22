@@ -1,8 +1,9 @@
 //
-//    FILE: demUV.ino
+//    FILE: uvi_color.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
 //    DATE: 2021-09-25
+//     URL: https://github.com/RobTillaart/AnalogUVSensor
 
 
 #include "AnalogUVSensor.h"
@@ -33,4 +34,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

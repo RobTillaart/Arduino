@@ -1,4 +1,4 @@
-# Change Log AD520X
+# Change Log AnalogUVSensor
 
 All notable changes to this project will be documented in this file.
 

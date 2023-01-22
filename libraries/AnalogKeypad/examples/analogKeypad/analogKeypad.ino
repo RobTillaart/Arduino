@@ -9,8 +9,7 @@
 
 #include "AnalogKeypad.h"
 
-AnalogKeypad AKP(A0);
-uint32_t start, stop;
+AnalogKeypad AKP(A0);  //  adjust if needed
 
 
 void setup()
@@ -21,18 +20,18 @@ void setup()
   Serial.println(ANALOGKEYPAD_LIB_VERSION);
 
   Serial.println();
-  test3();
-  
+
   for (int i = 0; i < 100; i++) test1();
   for (int i = 0; i < 100; i++) test2();
 }
+
 
 void loop()
 {
 }
 
 
-// 
+//  pressed interface
 void test1()
 {
   int button = AKP.pressed();
@@ -45,44 +44,34 @@ void test1()
 }
 
 
-// use the "event" interface
+//  event interface
 void test2()
 {
   uint8_t e = AKP.event();
   switch (e)
   {
-    case 0x80:
+    case PRESSED:
       Serial.print("press\t");
       Serial.println(AKP.key());
       break;
-    case 0x40:
+    case RELEASED:
       Serial.print("release\t");
       Serial.println(AKP.key());
       break;
-    case 0x20:
+    case REPEATED:
       Serial.print("repeat\t");
       Serial.println(AKP.key());
       break;
-    case 0x10:
+    case CHANGED:
       Serial.print("change\t");
       Serial.println(AKP.key());
       break;
-    default:
+    default:  //  NOKEY
       break;
   }
   delay(100);
 }
 
-// timing test
-void test3()
-{
-  start = micros();
-  int button = AKP.read();
-  stop = micros();
-  Serial.print(stop - start);
-  Serial.print("\t");
-  Serial.println(button);
-  delay(100);
-}
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

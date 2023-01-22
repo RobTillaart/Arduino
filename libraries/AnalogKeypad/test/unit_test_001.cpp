@@ -30,6 +30,7 @@ unittest_setup()
   fprintf(stderr, "ANALOGKEYPAD_LIB_VERSION: %s\n", (char *) ANALOGKEYPAD_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -75,4 +76,5 @@ unittest(test_event)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

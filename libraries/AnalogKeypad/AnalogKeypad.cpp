@@ -1,11 +1,9 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
-//
-//  HISTORY: see changelog.md
 
 
 #include "AnalogKeypad.h"
@@ -15,7 +13,7 @@
 //  as 8 bit compares are fast
 //
 //  The _analogShift takes care if the ADC has more
-//  than e.g. 10 bits. 
+//  than e.g. 10 bits.
 //
 //  Arduino UNO3 build in ==>  10 bits
 //  Other may have 12 or even 16 bits.
@@ -51,21 +49,21 @@ uint8_t AnalogKeypad::pressed()
   int rv = NOKEY;
 
   uint8_t _key = _rawRead();
-  if (_key == _lastKey)           // NOKEY OR REPEAT
+  if (_key == _lastKey)           //  NOKEY OR REPEAT
   {
     rv = _lastKey;
   }
-  else if (_key == 0 && _lastKey != 0)      // RELEASE
-  {
-    _lastKey = _key;
-    rv = _lastKey;
-  }
-  else if (_key != 0 && _lastKey == 0)      // PRESS
+  else if (_key == 0 && _lastKey != 0)      //  RELEASE
   {
     _lastKey = _key;
     rv = _lastKey;
   }
-  else if (_key != 0 && _lastKey != 0 && _key != _lastKey)  // SUPPRESS CHANGE
+  else if (_key != 0 && _lastKey == 0)      //  PRESS
+  {
+    _lastKey = _key;
+    rv = _lastKey;
+  }
+  else if (_key != 0 && _lastKey != 0 && _key != _lastKey)  //  SUPPRESS CHANGE
   {
     rv = _lastKey;
   }
@@ -84,7 +82,7 @@ uint8_t AnalogKeypad::read()
 //  Adjust numbers for other than 4x4 keypad
 uint8_t AnalogKeypad::_rawRead()
 {
-  //  spends most time in analogRead (UNO ~110 microseconds) 
+  //  spends most time in analogRead (UNO ~110 microseconds)
   uint8_t val = (analogRead(_analogPin) >> _analogShift);
 
   //  handle NOKEY first
@@ -113,5 +111,11 @@ uint8_t AnalogKeypad::_rawRead()
 }
 
 
-// -- END OF FILE --
+uint8_t AnalogKeypad::key()
+{
+  return _lastKey;
+}
+
+
+//  -- END OF FILE --
 

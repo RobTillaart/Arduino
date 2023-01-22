@@ -1,7 +1,7 @@
 //
 //    FILE: analogKeypad_values.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: helper for adjust 4x4 analogue keypad
+// PURPOSE: helper for adjust 4x4 analogue keypad MAGIC numbers
 //
 
 
@@ -61,12 +61,12 @@ void testChar(const char * str)
   {
     y = analogRead(ANALOGPORT);
   }
-  while (abs(x - y) < 4);      // ADAPT THRESHOLD IF NEEDED
+  while (abs(x - y) < 4);      //  ADAPT THRESHOLD IF NEEDED
   Serial.print(y);
   Serial.print("\t");
-  Serial.println(y / 4);       // assume 10 bits.
+  Serial.println(y / 4);       //  assume 10 bits.
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

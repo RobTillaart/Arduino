@@ -2,17 +2,16 @@
 //
 //    FILE: AnalogKeypad.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analogue keypad
 //     URL: https://github.com/RobTillaart/AnalogKeypad
-//
 
 
 #include "Arduino.h"
 
 
-#define ANALOGKEYPAD_LIB_VERSION      (F("0.2.2"))
+#define ANALOGKEYPAD_LIB_VERSION      (F("0.2.3"))
 
 #define NOKEY         0x00
 #define PRESSED       0x80
@@ -38,7 +37,8 @@ public:
   //  event alike approach
   //  switch(int e = event()) see examples
   uint8_t event();
-  uint8_t key() { return _lastKey; } ;
+  uint8_t key();
+
 
 private:
   uint8_t _rawRead();
@@ -48,4 +48,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

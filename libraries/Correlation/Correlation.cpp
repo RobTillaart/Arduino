@@ -1,10 +1,9 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
-//
-//  HISTORY: see cjhangelog.md
+//     URL: https://github.com/RobTillaart/Correlation
 
 
 #include "Correlation.h"
@@ -243,5 +242,23 @@ float Correlation::getY(uint8_t index)
 }
 
 
-// -- END OF FILE --
+float  Correlation::getSumXY()
+{
+  return _sumXiYi;
+}
+
+
+float  Correlation::getSumX2()
+{
+  return _sumXi2;
+}
+
+
+float  Correlation::getSumY2()
+{
+  return _sumYi2;
+}
+
+
+//  -- END OF FILE --
 

@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-17
 // PUPROSE: demo of the Correlation Library
-//
+//     URL: https://github.com/RobTillaart/Correlation
 
 
 #include "Correlation.h"

@@ -13,9 +13,9 @@ Arduino Library to determine linear correlation between X and Y datasets.
 
 ## Description
 
-This library calculates the coefficients of the linear correlation 
-between two (relative small) datasets. The size of these datasets is 
-20 by default. The size can be set in the constructor. 
+This library calculates the coefficients of the linear correlation
+between two (relative small) datasets. The size of these datasets is
+20 by default. The size can be set in the constructor.
 
 Please note that the correlation uses about ~50 bytes per instance,
 and 2 floats == 8 bytes per pair of elements.
@@ -24,34 +24,48 @@ So ~120 elements will use up 50% of the RAM of an UNO.
 The formula of the correlation is expressed as **Y = A + B \* X**.
 
 If all points are on a vertical line, the parameter B will be NAN,
-This will happen if the **sumXi2** is zero or very small. 
+This will happen if the **sumXi2** is zero or very small.
 
 Use with care.
 
 
+#### Related
+
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/RunningAngle
+- https://github.com/RobTillaart/RunningAverage
+- https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/statHelpers - combinations & permutations
+- https://github.com/RobTillaart/Statistic
+
+
 ## Interface
 
+```cpp
+#include "Correlation.h"
+```
 
-### Constructor
+#### Constructor
 
-- **Correlation(uint8_t size = 20)** allocates the array needed and resets internal admin. 
+- **Correlation(uint8_t size = 20)** allocates the array needed and resets internal admin.
 Size should be between 1 and 255. Size = 0 will set the size to 20.
 - **~Correlation()** frees the allocated arrays.
 
 
-### Base functions
+#### Base functions
 
 - **bool add(float x, float y)** adds a pair of **floats** to the internal storage array's.
 Returns true if the value is added, returns false when internal array is full.
 When running correlation is set, **add()** will replace the oldest element and return true.
 Warning: **add()** does not check if the floats are NAN or INFINITE.
-- **uint8_t count()** returns the amount of items in the internal arrays. 
+- **uint8_t count()** returns the amount of items in the internal arrays.
 This number is always between 0 ..**size()**
 - **uint8_t size()** returns the size of the internal arrays.
 - **void clear()** resets the data structures to the start condition (zero elements added).
-- **bool calculate()** does the math to calculate the correlation parameters A, B and R. 
+- **bool calculate()** does the math to calculate the correlation parameters A, B and R.
 This function will be called automatically when needed.
-You can call it on a more convenient time. 
+You can call it on a more convenient time.
 Returns false if nothing to calculate **count == 0**
 - **void setR2Calculation(bool)** enables / disables the calculation of Rsquared.
 - **bool getR2Calculation()** returns the flag set.
@@ -62,8 +76,8 @@ After the calculation the following functions can be called to return the core v
 - **float getA()** returns the A parameter of formula **Y = A + B \* X**
 - **float getB()** returns the B parameter of formula **Y = A + B \* X**
 - **float getR()** returns the correlation coefficient R which is always between -1 .. 1
-The closer to 0 the less correlation there is between X and Y. 
-Correlation can be positive or negative. 
+The closer to 0 the less correlation there is between X and Y.
+Correlation can be positive or negative.
 Most often the Rsquared **R x R** is used.
 - **float getRsquare()** returns **R x R** which is always between 0.. 1.
 - **float getEsquare()** returns the error squared to get an indication of the
@@ -76,37 +90,37 @@ quality of the correlation.
 
 #### Correlation Coefficient R
 
-Indicative description of the correlation
+Indicative description of the correlation value.
 
-|  R            |  correlation  |
-|:-------------:|:--------------|
-| +1.0          | Perfect       |
-| +0.8 to +1.0  | Very strong   |
-| +0.6 to +0.8  | Strong        |
-| +0.4 to +0.6  | Moderate      |
-| +0.2 to +0.4  | Weak          |
-|  0.0 to +0.2  | Very weak     |
-|  0.0 to -0.2  | Very weak     |
-| -0.2 to -0.4  | Weak          |
-| -0.4 to -0.6  | Moderate      |
-| -0.6 to -0.8  | Strong        |
-| -0.8 to -1.0  | Very strong   |
-| -1.0          | Perfect       |
+|  R             |  correlation  |
+|:--------------:|:--------------|
+|  +1.0          |  Perfect      |
+|  +0.8 to +1.0  |  Very strong  |
+|  +0.6 to +0.8  |  Strong       |
+|  +0.4 to +0.6  |  Moderate     |
+|  +0.2 to +0.4  |  Weak         |
+|   0.0 to +0.2  |  Very weak    |
+|   0.0 to -0.2  |  Very weak    |
+|  -0.2 to -0.4  |  Weak         |
+|  -0.4 to -0.6  |  Moderate     |
+|  -0.6 to -0.8  |  Strong       |
+|  -0.8 to -1.0  |  Very strong  |
+|  -1.0          |  Perfect      |
 
 
-### Running correlation
+#### Running correlation
 
-- **void setRunningCorrelation(bool rc)** sets the internal variable runningMode 
-which allows **add()** to overwrite old elements in the internal arrays. 
+- **void setRunningCorrelation(bool rc)** sets the internal variable runningMode
+which allows **add()** to overwrite old elements in the internal arrays.
 - **bool getRunningCorrelation()** returns the runningMode flag.
 
-The running correlation will be calculated over the last **count** elements. 
+The running correlation will be calculated over the last **count** elements.
 If the array is full, count will be size.
-This running correlation allows for more adaptive formula finding e.g. find the 
+This running correlation allows for more adaptive formula finding e.g. find the
 relation between temperature and humidity per hour, and how it changes over time.
 
 
-### Statistical
+#### Statistical
 
 These functions give an indication of the "trusted interval" for estimations.
 The idea is that for **getEstimateX()** the further outside the range defined
@@ -119,7 +133,7 @@ It also depends on **R** of course. Idem for **getEstimateY()**
 - **float getMaxY()** idem
 
 
-### Debugging / educational
+#### Debugging / educational
 
 Normally not used. For all these functions index should be < count!
 
@@ -134,33 +148,35 @@ Returns true if succeeded.
 - **float getSumY2()** returns sum(Yi \* Yi).
 
 
-### Obsolete in 0.3.0
+#### Obsolete since 0.3.0
 
-To improve readability the following functions are replaced 
+To improve readability the following functions are replaced.
 
-- **float getAvgX()** returns average X. 
-- **float getAvgY()** returns average Y.
-- **float getSumXiYi()** returns sum(Xi \* Yi).
-- **float getSumXi2()** returns sum(Xi \* Xi).
-- **float getSumYi2()** returns sum(Yi \* Yi).
+- **float getAvgX()**    ==> **getAverageX()**
+- **float getAvgY()**    ==> **getAverageY()**
+- **float getSumXiYi()** ==> **getSumXY()**
+- **float getSumXi2()**  ==> **getSumX2()**
+- **float getSumYi2()**  ==> **getSumY2()**
 
 
 ## Future
 
-- Template version?
-The constructor should get a TYPE parameter, as this
-allows smaller data types to be analysed taking less memory.
+#### Must
+
+- improve documentation
+
+#### Should
+
 - examples
   - real world if possible.
 
+#### Could
 
-### 0.3.0
+- Template version?
+The constructor should get a TYPE parameter, as this
+allows smaller data types to be analysed taking less memory.
+- move code from .h to .cpp
 
-- fix naming in examples as some function names are replaced.
-- are the getSUmXiYi indeed worse?
+#### Wont
 
 
-
-## Operation 
-
-See example

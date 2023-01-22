@@ -3,9 +3,10 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
 // PUPROSE: demo of the Correlation Library
+//     URL: https://github.com/RobTillaart/Correlation
 
-// performance test: only ADD and CALCULATE as these are the most used
-// and could be optimized in the future
+//  performance test: only ADD and CALCULATE as these are the most used
+//  and could be optimized in the future
 
 
 #include "Correlation.h"

@@ -1,0 +1,43 @@
+
+correlation_performance.ino
+
+CORRELATION_LIB_VERSION: 0.3.0
+ADD
+12.20
+
+CALCULATE - needed 
+2768
+
+CALCULATE - no new values added
+12
+
+getEstimateX
+24
+
+getEstimateY
+20
+
+getMaxX
+84
+
+getMinX
+84
+
+===================================
+
+
+ADD - fill arrays again
+11.80
+
+disable R2 and E2 math from calculate
+
+CALCULATE - needed 
+1776
+
+CALCULATE - no new values added
+8
+
+CALCULATE - no new values added but forced
+1780
+
+Done...

@@ -2,16 +2,15 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 // PURPOSE: Calculate Correlation from a small dataset.
-// HISTORY: See Correlation.cpp
-//
+//     URL: https://github.com/RobTillaart/Correlation
 
 
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.2.3"))
+#define CORRELATION_LIB_VERSION          (F("0.3.0"))
 
 
 class Correlation
@@ -72,10 +71,10 @@ public:
 
 
   //  get the average values of the datasets (if count > 0)
-  float   getAverageX(){ return _avgX; };  //  will replace getAvgX() in time
-  float   getAverageY(){ return _avgY; };  //  will replace getAvgY() in time
-  float   getAvgX()    { return _avgX; };  //  will be obsolete in future
-  float   getAvgY()    { return _avgY; };  //  will be obsolete in future
+  float   getAverageX() { return _avgX; };  //  will replace getAvgX() in time
+  float   getAverageY() { return _avgY; };  //  will replace getAvgY() in time
+  // float   getAvgX()  { return _avgX; };  //  obsolete in 0.3.0
+  // float   getAvgY()  { return _avgY; };  //  obsolete in 0.3.0
 
 
   //  based on the dataset get the estimated values for X and Y
@@ -86,25 +85,26 @@ public:
 
 
   //  STATISTICAL
-  float   getMinX();    // idem
-  float   getMaxX();    // idem
-  float   getMinY();    // idem
-  float   getMaxY();    // idem
+  //  to get bounding box of all x,y pairs.
+  float   getMinX();    //  idem
+  float   getMaxX();    //  idem
+  float   getMinY();    //  idem
+  float   getMaxY();    //  idem
 
 
   //  DEBUGGING - access to internal arrays.
   bool    setXY(uint8_t index, float x, float y);  //  returns true if succeeded
   bool    setX(uint8_t index, float x);            //  returns true if succeeded
-  bool    setY(uint8_t index, float y);            // ss returns true if succeeded
+  bool    setY(uint8_t index, float y);            //  returns true if succeeded
   float   getX(uint8_t index);    //  idem
   float   getY(uint8_t index);    //  idem
 
-  float   getSumXY()   { return _sumXiYi; };  //  replaces getSumXiYi()
-  float   getSumX2()   { return _sumXi2;  };  //  replaces getSumXi2()
-  float   getSumY2()   { return _sumYi2;  };  //  replaces getSumYi2()
-  float   getSumXiYi() { return _sumXiYi; };  //  obsolete in version 0.3.0
-  float   getSumXi2()  { return _sumXi2;  };  //  obsolete in version 0.3.0
-  float   getSumYi2()  { return _sumYi2;  };  //  obsolete in version 0.3.0
+  float   getSumXY();  //  replaces getSumXiYi()
+  float   getSumX2();  //  replaces getSumXi2()
+  float   getSumY2();  //  replaces getSumYi2()
+  // float   getSumXiYi() { return _sumXiYi; };  //  obsolete in version 0.3.0
+  // float   getSumXi2()  { return _sumXi2;  };  //  obsolete in version 0.3.0
+  // float   getSumYi2()  { return _sumYi2;  };  //  obsolete in version 0.3.0
 
 
 private:
@@ -132,5 +132,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

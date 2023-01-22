@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-17
 // PUPROSE: demo of the Correlation Library
-//
+//     URL: https://github.com/RobTillaart/Correlation
 
 
 #include "Correlation.h"
@@ -49,11 +49,11 @@ void setup()
   Serial.print("Esq:\t");
   Serial.println(C.getEsquare(), 3);
   Serial.print("SumXiYi:\t");
-  Serial.println(C.getSumXiYi(), 1);
+  Serial.println(C.getSumXY(), 1);
   Serial.print("SumXi2:\t\t");
-  Serial.println(C.getSumXi2(), 1);
+  Serial.println(C.getSumX2(), 1);
   Serial.print("SumYi2:\t\t");
-  Serial.println(C.getSumYi2(), 1);
+  Serial.println(C.getSumY2(), 1);
   Serial.println();
   Serial.println();
 
@@ -149,4 +149,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

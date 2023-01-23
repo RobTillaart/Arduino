@@ -21,50 +21,49 @@ This small (type-less) UV-sensor is powered by 3.3 .. 5 V so it can be used by a
 The sensor has an analogue output that is roughly linear with the UV-index (sunlight assumed, see notes)
 
 
-| Voltage | UV index |
-|:-------:|:--------:|
-| <0.050  |     0    |
-|  0.227  |     1    |
-|  0.318  |     2    |
-|  0.408  |     3    |
-|  0.503  |     4    |
-|  0.606  |     5    |
-|  0.696  |     6    |
-|  0.795  |     7    |
-|  0.881  |     8    |
-|  0.976  |     9    |
-|  1.079  |    10    |
-|  1.170> |    11    |
+|  Voltage  |  UV index  |  risk of harm  |  Colour   |
+|:---------:|:----------:|:---------------|:---------:|
+|   <0.050  |     0      |  low           |  Green    |
+|   0.227   |     1      |  low           |  Green    |
+|   0.318   |     2      |  low           |  Green    |
+|   0.408   |     3      |  moderate      |  Yellow   |
+|   0.503   |     4      |  moderate      |  Yellow   |
+|   0.606   |     5      |  moderate      |  Yellow   |
+|   0.696   |     6      |  high          |  Orange   |
+|   0.795   |     7      |  high          |  Orange   |
+|   0.881   |     8      |  very high     |  Red      |
+|   0.976   |     9      |  very high     |  Red      |
+|   1.079   |    10      |  very high     |  Red      |
+|   1.170>  |    11      |  extreme       |  Purple   |
+
 
 From this table the formula is derived (spreadsheet) which is pretty linear between UV 1 and 11.
 
-Related to: https://github.com/RobTillaart/AnalogUVSensor
+There is an extended library version which has more functionality and documentation.
+- https://github.com/RobTillaart/AnalogUVSensor
 
 
 ### Notes
 
-Note: The sensor is not calibrated and the table is indicative for sunlight (assumption!) and therefore not suitable for e.g. medical or industrial usage. 
+Note: The sensor is not calibrated and the table is indicative for sunlight (assumption!)
+and therefore not suitable for e.g. medical or industrial usage.
 
-Note: UV radiation will not go through glass, so inside you will most likely always read  zero. This may help to calibrate the zero level of the sensor.
+Note: UV radiation will not go through glass, so inside you will most likely always read zero.
+This may help to calibrate the zero level of the sensor.
 
 Note: depending on the light source used, the table above is incorrect.
 
 
+#### Sensitivity
 
-### Sensitivity
-
-The sensor is sensitive for wavelengths from 200 - 370 nm, so mostly in UVB and UVA region and less in the UVC. 
+The sensor is sensitive for wavelengths from 200 - 370 nm, so mostly in UVB and UVA region and less in the UVC.
 
 https://en.wikipedia.org/wiki/Ultraviolet
 
 
-### Future
+## Future
 
-- verify vs calibrated sensor.
-- investigate angle sensitivity (if the UV light comes from an angle).
-- investigate response time to stabilize (e.g. does it react fast on clouds).
-- investigate with different light sources (UVled, TL, sunlight).
-- allow use of internal / external ADC.
-- add a pin to control the power of the sensor (low energy applications).
-- 
+Future development will be done in the library version only.
+- https://github.com/RobTillaart/AnalogUVSensor
+
 

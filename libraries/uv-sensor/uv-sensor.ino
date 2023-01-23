@@ -1,7 +1,6 @@
 //
 //    FILE: UV_sensor.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
 //    DATE: 2021-09-21
 

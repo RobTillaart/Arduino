@@ -31,10 +31,10 @@
 // assertNotNAN(arg);                              // !isnan(a)
 
 /*
-  most unit tests will test for fail 
+  most unit tests will test for fail
   as there is no sensor connected
   and there is no mockup.
-  
+
   It appears that Wire.write does not fail without sensor...
 */
 
@@ -45,7 +45,7 @@
 #include "TCA9548.h"
 
 
-int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
+int expect;  //  TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 
@@ -113,4 +113,4 @@ unittest(test_select)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

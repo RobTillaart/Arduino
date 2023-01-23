@@ -18,6 +18,10 @@ getChannelMask	KEYWORD2
 
 setResetPin	KEYWORD2
 reset	KEYWORD2
+
+setForced	KEYWORD2
+getForced	KEYWORD2
+
 getError	KEYWORD2
 
 

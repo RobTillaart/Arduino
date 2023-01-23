@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 
@@ -60,23 +60,33 @@ bool TCA9548::isConnected(uint8_t address)
 
 
 
-void TCA9548::enableChannel(uint8_t channel)
+bool TCA9548::enableChannel(uint8_t channel)
 {
-  if (isEnabled(channel)) return;
-  setChannelMask(_mask | (0x01 << channel));
+  if (channel > 7) return false;
+  if (!isEnabled(channel))
+  {
+    setChannelMask(_mask | (0x01 << channel));
+  }
+  return true;
 }
 
 
-void TCA9548::disableChannel(uint8_t channel)
+bool TCA9548::disableChannel(uint8_t channel)
 {
-  if (!isEnabled(channel)) return;
-  setChannelMask(_mask & ~(0x01 << channel));
+  if (channel > 7) return false;
+  if (!isEnabled(channel))
+  {
+    setChannelMask(_mask & ~(0x01 << channel));
+  }
+  return true;
 }
 
 
-void TCA9548::selectChannel(uint8_t channel)
+bool TCA9548::selectChannel(uint8_t channel)
 {
+  if (channel > 7) return false;
   setChannelMask(0x01 << channel);
+  return true;
 }
 
 
@@ -87,13 +97,20 @@ bool TCA9548::isEnabled(uint8_t channel)
 }
 
 
-void TCA9548::setChannelMask(uint8_t mask)
+bool TCA9548::disableAllChannels()
 {
-  if ((_mask == mask) && (! _forced)) return;
+  return setChannelMask(0x00);
+}
+
+
+bool TCA9548::setChannelMask(uint8_t mask)
+{
+  if ((_mask == mask) && (! _forced)) return true;
   _mask = mask;
   _wire->beginTransmission(_address);
   _wire->write(_mask);
   _error = _wire->endTransmission();
+  return (_error == 0);
 }
 
 
@@ -124,15 +141,15 @@ void TCA9548::reset()
 }
 
 
-void TCA9548::setForced(bool forced) 
-{ 
-  _forced = forced; 
+void TCA9548::setForced(bool forced)
+{
+  _forced = forced;
 };
 
 
-bool TCA9548::getForced() 
-{ 
-  return _forced; 
+bool TCA9548::getForced()
+{
+  return _forced;
 };
 
 

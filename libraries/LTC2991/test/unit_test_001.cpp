@@ -1,9 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-07
-// PURPOSE: unit tests for the SET library
-//          https://github.com/RobTillaart/SET
+//    DATE: 2021-05-10
+// PURPOSE: unit tests for the LTC2991 library
+//          https://github.com/RobTillaart/LTC2991
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -28,6 +28,7 @@
 // assertNotInfinity(actual);                      // !isinf(a)
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
+
 
 #include <ArduinoUnitTests.h>
 
@@ -57,4 +58,6 @@ unittest(test_constructor)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

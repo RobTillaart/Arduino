@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2991.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -11,7 +11,8 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define LTC2991_LIB_VERSION         (F("0.1.3"))
+
+#define LTC2991_LIB_VERSION         (F("0.1.4"))
 
 
 class LTC2991
@@ -26,48 +27,52 @@ public:
   bool    begin();
   bool    isConnected();
 
-
-  // channel = 1..8
-  bool    new_data(uint8_t channel);  // external
-  bool    new_temperature();          // internal
-  bool    new_voltage();              // VCC
+  //
+  //  CORE functions
+  //
+  //  channel = 1..8
+  bool    new_data(uint8_t channel);  //  external
+  bool    new_temperature();          //  internal
+  bool    new_voltage();              //  VCC
   bool    is_busy();
 
 
   //
-  // EXTERNAL CHANNELS  (8 voltage, 4 differentials or 4 temperature)
+  //  EXTERNAL CHANNELS  (8 voltage, 4 differentials or 4 temperature)
   //
-  // n = 1 ==> V1 V2  T1
-  // n = 2 ==> V3 V4  T2
-  // n = 3 ==> V5 V6  T3
-  // n = 4 ==> V7 V8  T4
-  void    trigger_conversion(uint8_t n) { enable(n, true); };
+  //      n = 1 ==> V1 V2  T1
+  //      n = 2 ==> V3 V4  T2
+  //      n = 3 ==> V5 V6  T3
+  //      n = 4 ==> V7 V8  T4
+  void    trigger_conversion(uint8_t n);  //  wrapper around enable()
   void    trigger_conversion_all();
   void    enable(uint8_t n, bool enable);
   bool    is_enabled(uint8_t n);
 
 
-  //    n: 1..4
+  //      n: 1..4
   void    enable_filter(uint8_t n, bool enable);
   bool    is_enabled_filter(uint8_t n);
-  void    set_Kelvin(uint8_t n);      // implicit set_mode_temperature
-  void    set_Celsius(uint8_t n);     // implicit set_mode_temperature
+
+  void    set_Kelvin(uint8_t n);      //  implicit set_mode_temperature
+  void    set_Celsius(uint8_t n);     //  implicit set_mode_temperature
   void    set_temp_scale(uint8_t n, bool Kelvin = true);
-  char    get_temp_scale(uint8_t n);         // returns 'C' or 'K'
+  char    get_temp_scale(uint8_t n);           //  returns 'C' or 'K'
   void    set_mode_temperature(uint8_t n);
+
   void    set_mode_voltage_differential(uint8_t n);
   void    set_mode_voltage_normal(uint8_t n);
-  uint8_t get_operational_mode(uint8_t n);          // enumeration?
+  uint8_t get_operational_mode(uint8_t n);     //  enumeration?
   uint8_t get_differential_mode(uint8_t n);
-  float   get_value(uint8_t channel);      // chan = 1..8
+  float   get_value(uint8_t channel);          //  chan = 1..8
 
 
   //
-  // PWM
+  //  PWM functions
   //
-  // value = 0..511
+  //  value = 0..511
   void     set_PWM(uint16_t value = 0);
-  void     set_PWM_fast(uint16_t value = 0);   // less resolution
+  void     set_PWM_fast(uint16_t value = 0);   //  less resolution
   uint16_t get_PWM();
   void     invert_PWM(bool invert = false);
   bool     is_inverted_PWM();
@@ -76,7 +81,7 @@ public:
 
 
   //
-  // CONFIGURATION
+  //  CONFIGURATION
   //
   void     set_acquisition_repeat();
   void     set_acquisition_single();
@@ -84,14 +89,15 @@ public:
 
 
   //
-  // INTERNAL SENSORS
+  //  INTERNAL SENSORS
   //
   void     enable_Tintern_Vcc(bool enable);
   bool     is_enabled_Tintern_Vcc();
   void     enable_filter_Tintern(bool enable);
   bool     is_enabled_filter_Tintern();
-  void     set_Kelvin_Tintern()   { set_temp_scale_Tintern(true); };
-  void     set_Celsius_Tintern()  { set_temp_scale_Tintern(false); };
+
+  void     set_Kelvin_Tintern();
+  void     set_Celsius_Tintern();
   void     set_temp_scale_Tintern(bool Kelvin = true);
   char     get_temp_scale_Tintern();         // returns 'C' or 'K'
   float    get_Tintern();
@@ -115,5 +121,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

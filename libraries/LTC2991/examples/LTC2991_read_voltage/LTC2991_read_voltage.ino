@@ -27,13 +27,13 @@ void setup()
 
   for (uint8_t channel = 1; channel <= 4; channel++)
   {
-    // enable all channels  ==> are enabled in pairs! )
+    //  enable all channels  ==> are enabled in pairs! )
     LTC.enable(channel, true);
     LTC.enable_filter(channel, false);
     LTC.set_mode_voltage_normal(channel);
   }
 
-  // to get multiple readings in loop()
+  //  to get multiple readings in loop()
   LTC.set_acquisition_repeat();
 }
 
@@ -56,4 +56,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

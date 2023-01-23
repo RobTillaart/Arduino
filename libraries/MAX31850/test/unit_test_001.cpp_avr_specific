@@ -40,39 +40,71 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0, MAX31850_OK);  
+  assertEqual(1, MAX31850_ERR_SHORT_OPEN);
+  assertEqual(2, MAX31850_ERR_SHORT_GND);
+  assertEqual(4, MAX31850_ERR_SHORT_VDD);
+}
+
+
 unittest(test_constructor)
 {
   OneWire oneWire(4);
   MAX31850 sensor(&oneWire);
 
   sensor.begin();
-  
-  assertEqual(MAX31850_CLEAR, sensor.getConfig());
-  
-  sensor.setConfig(MAX31850_CRC);
-  assertEqual(MAX31850_CRC, sensor.getConfig());
-  
-  sensor.setConfig(MAX31850_CLEAR);
-  assertEqual(MAX31850_CLEAR, sensor.getConfig());
+  assertEqual(1,1);
+
 }
 
-unittest(test_try_read)
+
+unittest(test_setTypeTC)
 {
   OneWire oneWire(4);
   MAX31850 sensor(&oneWire);
 
   sensor.begin();
-  for (int res = 9; res < 13; res++)
-  {
-    sensor.setResolution(res);
-    sensor.requestTemperatures();
-    delay(750);
-    assertFalse(sensor.isConversionComplete());
-    assertEqual(DEVICE_DISCONNECTED, sensor.getTempC());
-  }
+
+  //  default = K
+  assertEqual('K', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('E'));
+  assertEqual('E', sensor.getTypeTC());
   
+  assertTrue(sensor.setTypeTC('J'));
+  assertEqual('J', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('K'));
+  assertEqual('K', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('N'));
+  assertEqual('N', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('R'));
+  assertEqual('R', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('S'));
+  assertEqual('S', sensor.getTypeTC());
+
+  assertTrue(sensor.setTypeTC('T'));
+  assertEqual('T', sensor.getTypeTC());
+
+  //  set default
+  assertTrue(sensor.setTypeTC());
+  assertEqual('K', sensor.getTypeTC());
+
+  //  lower case ?
+
+  //  failing chars.
+  assertFalse(sensor.setTypeTC('a'));
+
 }
+
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

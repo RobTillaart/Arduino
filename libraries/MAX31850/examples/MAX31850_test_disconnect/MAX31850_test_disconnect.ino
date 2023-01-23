@@ -4,7 +4,6 @@
 // PURPOSE: Minimal MAX31850 lib with async support.
 
 
-
 #include "OneWire.h"
 #include "MAX31850.h"
 

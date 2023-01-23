@@ -4,7 +4,6 @@
 // PURPOSE: MAX31850 lib getAddress demo
 
 
-
 #include "OneWire.h"
 #include "MAX31850.h"
 
@@ -43,8 +42,8 @@ void setup()
   Serial.print("Address: ");
   for (uint8_t i = 0; i < 8; i++)
   {
-	  if (da[i] < 0x10) Serial.print('0');
-	  Serial.print(da[i], HEX);
+    if (da[i] < 0x10) Serial.print('0');
+    Serial.print(da[i], HEX);
   }
   Serial.println();
 }
@@ -52,7 +51,6 @@ void setup()
 
 void loop()
 {
-
 }
 
 

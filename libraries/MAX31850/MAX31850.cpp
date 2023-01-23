@@ -1,20 +1,18 @@
 //
 //    FILE: MAX31850.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-06-03
 // PUPROSE: Arduino library for the MAX31850 thermocouple temperature sensor.
-//
-// HISTORY: see changelog.md
 
 
 #include "MAX31850.h"
 
 
 //  OneWire commands
-#define STARTCONVO      0x44
-#define READSCRATCH     0xBE
-#define WRITESCRATCH    0x4E
+#define STARTCONVO                 0x44
+#define READSCRATCH                0xBE
+#define WRITESCRATCH               0x4E
 
 
 //   SCRATCHPAD registers
@@ -27,7 +25,7 @@
 #define INTERN_TEMP_MSB               3
 
 //   4  address bits  0..15
-#define CONFIGURATION                 4        
+#define CONFIGURATION                 4
 #define RESERVED_1                    5
 #define RESERVED_2                    6
 #define RESERVED_3                    7
@@ -42,6 +40,7 @@ MAX31850::MAX31850(OneWire* oneWire)
 {
   _oneWire      = oneWire;
   _addresFound  = false;
+  _typeTC       = 'K';     //  most used.
   _TCTemp       = 0;
   _internalTemp = 0;
   _errorBits    = 0;
@@ -50,10 +49,10 @@ MAX31850::MAX31850(OneWire* oneWire)
 }
 
 
-bool MAX31850::begin(void)
+bool MAX31850::begin(uint8_t retries)
 {
   _addresFound = false;
-  for (uint8_t retries = 3; (retries > 0) && (_addresFound == false); retries--)
+  for (uint8_t r = retries; (r > 0) && (_addresFound == false); r--)
   {
     _oneWire->reset();
     _oneWire->reset_search();
@@ -139,31 +138,30 @@ uint8_t MAX31850::getAddressPins()
 };
 
 
-// bool MAX31850::setType(char typeTC)
-// {
-//   switch(typeTC)
-//   {
-//     case 'E':
-//     case 'J':
-//     case 'K':
-//     case 'N':
-//     case 'R':
-//     case 'S':
-//     case 'T':
-//     _typeTC = typeTC;
-//     return true;
-//   }
-//   return false;
-// }
-// 
-// 
-// char MAX31850::getType()
-// {
-//   return _typeTC;
-// }
-  
-  
-  
+bool MAX31850::setTypeTC(char typeTC)
+{
+  switch(toupper(typeTC))
+  {
+    case 'E':
+    case 'J':
+    case 'K':
+    case 'N':
+    case 'R':
+    case 'S':
+    case 'T':
+    _typeTC = toupper(typeTC);
+    return true;
+  }
+  return false;
+}
+
+
+char MAX31850::getTypeTC()
+{
+  return _typeTC;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 //  PROTECTED
@@ -191,4 +189,6 @@ MAX31851::MAX31851(OneWire * onewire) : MAX31850(onewire)
 {
 }
 
+
 //  -- END OF FILE --
+

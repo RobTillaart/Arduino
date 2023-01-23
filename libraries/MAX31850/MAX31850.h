@@ -2,13 +2,12 @@
 //
 //    FILE: MAX31850.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-06-03
 // PUPROSE: Arduino library for the MAX31850 thermocouple temperature sensor.
-//
 
 
-#define MAX31850_LIB_VERSION     (F("0.1.1"))
+#define MAX31850_LIB_VERSION     (F("0.1.2"))
 
 #include "Arduino.h"
 #include "OneWire.h"
@@ -30,8 +29,8 @@ class MAX31850
 {
 public:
   explicit  MAX31850(OneWire * oneWire);
-  bool      begin(void);
-  bool      getAddress(uint8_t* buffer);
+  bool      begin(uint8_t retries = 3);
+  bool      getAddress(uint8_t * buffer);
 
   void      requestTemperatures(void);
   bool      isConversionComplete(void);
@@ -45,6 +44,10 @@ public:
   uint8_t   getErrorCode();
   //  TODO
   uint8_t   getAddressPins();
+
+  //  type is a char from  E J K N R S T  (lowercase will be converted)
+  bool      setTypeTC(char typeTC = 'K');  //  K is most used
+  char      getTypeTC();
 
 
 protected:

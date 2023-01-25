@@ -13,21 +13,56 @@ HC4067 is an Arduino library for a HC4067 16 channel multiplexer.
 
 ## Description
 
-A HC4067 class is a simple library to control the CD74HC4067 16 channel
-multiplexer and compatible devices.
+HC4067 is a library to control the CD74HC4067 16 channel
+multiplexer / demultiplexer and compatible devices.
+
+The HC4067 allows e.g one analog port read up to 16 different analog channels,
+or one digital port to read the state of 16 buttons.
+
+
+The channel selection is done with four select lines **S0..S3**
+
+The device can be enabled/disabled by the enable line **E**
 
 
 #### Compatibles
 
-TODO
+Not tested, considered compatible.
+- CD74HC4067, 74HC4067, 74HCT4067
 
 
 ## Hardware connection
 
-Typical connection is to connect the 4 select pins to 4 IO Pins of your board.
+Typical connection is to connect the four **select pins** to four IO Pins of your board.
 
-The optional enable Pin must be connected to GND is not used, to enable
-the device constantly.
+The optional **enablePin E** must be connected to GND if not used.
+This way the device is continuous enabled.
+
+Example multiplexing analog in.
+
+```
+        processor                      HC4067
+     +-------------+              +-------------+
+     |             |              |             |
+     |          S0 |------------->| S0       Y0 |
+     |          S1 |------------->| S1       Y1 |
+     |          S2 |------------->| S2       Y2 |
+     |          S3 |------------->| S3       Y3 |
+     |             |              |          Y4 |
+     |          E  |------------->| Enable   Y5 |
+     |             |              |          Y6 |
+     |             |              |          Y7 |
+     |         A0  |<-------------| Z        Y8 |
+     |             |              |          Y9 |
+     |             |              |         Y10 |
+     |             |              |         Y11 |
+     |             |              |         Y12 |
+     |             |              |         Y13 |
+     |        GND  |--------------| GND     Y14 |
+     |             |              | VCC     Y15 |
+     |             |              |             |
+     +-------------+              +-------------+
+```
 
 
 ## Interface
@@ -38,10 +73,12 @@ the device constantly.
 
 #### Core
 
-- **HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enable = 255)** constructor.
-Set the 4 select pins and optional the enable pins.
-- **uint8_t  setChannel(uint8_t chan)** set the current channel.
-- **uint8_t  getChannel()** get current channel.
+- **HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enablePin = 255)** constructor.
+Set the 4 select pins and optional the enable pin.
+If the enablePin == 255 it is considered not used.
+- **void setChannel(uint8_t channel)** set the current channel.
+Valid values 0..15, this value is not checked, only the lower 4 bits will be used.
+- **uint8_t getChannel()** get current channel 0..15.
 
 
 #### Enable
@@ -65,7 +102,7 @@ Also returns true if enablePin is not set.
 #### Should
 
 - optimizations
-  - ?
+  - performance setChannel
 - investigate how to use with only 3 lines or 2 lines.
   - set s3 / s2 to LOW always or so
 
@@ -73,17 +110,16 @@ Also returns true if enablePin is not set.
 #### Could
 
 - next() and prev() as channel selector.
-  - internal channel var. needed.
-- code to .cpp file
-- example
-  - scan all 16 channels into a uint16_t - IO not analog.
+  - internal channel variable needed.
+- move code to .cpp file
 - investigate
-  - can it be used as 16 channel OUTPUT
+  - can it be used as 16 channel OUTPUT (yes but)
   - is it buffered?
 
 
 #### Won't (unless requested)
 
 - optimizations
-  - only DW when changed? gain is minimal.
+  - only do digitalWrite when changed? gain is minimal.
+  - now takes 24 micros on UNO if set.
 

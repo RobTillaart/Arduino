@@ -4,10 +4,13 @@
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
 //
 
-//  setup description
-//
+//  connect analog channel A0 to the multiplexer
+//  connect 4 analog signals to input 0..3 of the multiplexer
+//  can be used on IDE-> plotter
+
 
 #include "HC4067.h"
+
 
 //  4..7 channel select pins
 //  8 = enable pin

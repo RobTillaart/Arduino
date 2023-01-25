@@ -1,5 +1,5 @@
 //
-//    FILE: HC4067_demo.ino
+//    FILE: HC4067_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
 
@@ -8,6 +8,7 @@
 
 HC4067 mp(4, 5, 6, 7);
 
+uint32_t start, stop;
 
 void setup()
 {
@@ -18,19 +19,28 @@ void setup()
   Serial.println();
 
   delay(1000);
+  start = micros();
+  mp.setChannel(10);
+  stop = micros();
+
+  Serial.print("SetChannel: \t");
+  Serial.println(stop - start);
+  delay(100);
+
+  start = micros();
+  mp.setChannel(10);
+  stop = micros();
+
+  Serial.print("SetChannel: \t");
+  Serial.println(stop - start);
+  delay(100);
+
 }
 
 
 void loop()
 {
-  for (uint8_t channel = 0; channel < 16; channel++)
-  {
-    mp.setChannel(channel);
-    Serial.println(analogRead(A0));
-    delay(100);
-  }
 }
 
 
 //  -- END OF FILE --
-

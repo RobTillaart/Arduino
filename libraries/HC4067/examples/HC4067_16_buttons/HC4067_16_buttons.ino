@@ -2,12 +2,15 @@
 //    FILE: HC4067_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
+//          read 16 buttons / switches.
 
 
 #include "HC4067.h"
 
 HC4067 mp(4, 5, 6, 7);
 
+const int inputPin = 10;
+uint16_t values;
 
 void setup()
 {
@@ -17,20 +20,25 @@ void setup()
   Serial.println(HC4067_LIB_VERSION);
   Serial.println();
 
-  delay(1000);
+  pinMode(inputPin, INPUT);
+
 }
 
 
 void loop()
 {
-  for (uint8_t channel = 0; channel < 16; channel++)
+  int channel = 16;
+  values = 0;
+  while (channel > 0)
   {
+    channel--;
     mp.setChannel(channel);
-    Serial.println(analogRead(A0));
-    delay(100);
+    values <<= 1;
+    if (digitalRead(inputPin) == HIGH) values += 1;
   }
+  Serial.println(values, HEX);
+  delay(1000);
 }
 
 
 //  -- END OF FILE --
-

@@ -1,0 +1,7 @@
+
+HC4067_performance.ino
+HC4067 LIBRARY VERSION: 0.1.1
+
+SetChannel: 	24
+SetChannel: 	4
+

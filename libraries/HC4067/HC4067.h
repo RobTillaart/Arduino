@@ -3,7 +3,7 @@
 //    FILE: HC4067.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for CD74HC4067 16 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4067
 
@@ -11,13 +11,13 @@
 
 #include "Arduino.h"
 
-#define HC4067_LIB_VERSION         (F("0.1.0"))
+#define HC4067_LIB_VERSION         (F("0.1.1"))
 
 
 class HC4067
 {
 public:
-  explicit HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enable = 255)
+  explicit HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enablePin = 255)
   {
     _pins[0] = s0;
     _pins[1] = s1;
@@ -31,31 +31,32 @@ public:
     }
     _channel = 0;
 
-    if (enable != 255)
+    if (enablePin != 255)
     {
-      _enablePin = enable;
+      _enablePin = enablePin;
       pinMode(_enablePin, OUTPUT);
       digitalWrite(_enablePin, HIGH);
     }
   }
 
 
-  uint8_t setChannel(uint8_t chan)
+  void setChannel(uint8_t channel)
   {
-    if (chan != _channel)
+    if ((channel & 0x0F) != _channel)
     {
-      _channel = chan;
-      uint8_t i = 4;
-      while (i--)
+      _channel = channel & 0x0F;
+      uint8_t mask = 0x08;
+      uint8_t i = 3;
+      while (mask)
       {
-        digitalWrite(_pins[i], i & chan);
+        digitalWrite(_pins[i--], (mask & _channel));
+        mask >>= 1;
       }
     }
-    return _channel;
   }
 
 
-  uint8_t  getChannel()
+  uint8_t getChannel()
   {
     return _channel;
   }
@@ -94,28 +95,6 @@ private:
   uint8_t  _enablePin = 255;
   uint8_t  _channel   = 0;
 };
-
-
-/*
-class HC4067
-{
-public:
-  explicit HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3);
-
-  uint8_t  setChannel(uint8_t chan);
-  uint8_t  getChannel();
-
-  void enable();
-  void disable();
-  bool isEnabled();
-
-private:
-  uint8_t  _pins[4];
-  uint8_t  _enablePin = 255;
-  uint8_t  _channel   = 0;
-}
-*/
-
 
 
 //  -- END OF FILE --

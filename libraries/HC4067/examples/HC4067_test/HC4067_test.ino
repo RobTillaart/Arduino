@@ -2,11 +2,11 @@
 //    FILE: HC4067_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
-//
+
 
 #include "HC4067.h"
 
-HC4067 mp(4, 5, 6, 7, 8);
+HC4067 mp(4, 5, 6, 7, 8);  //  explicitly set enable pin
 
 
 void setup()

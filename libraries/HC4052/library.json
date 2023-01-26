@@ -1,0 +1,23 @@
+{
+  "name": "HC4052",
+  "keywords": "",
+  "description": "Arduino library for a HC4052 2x4 channel multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/HC4052.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "HC4052.h"
+}

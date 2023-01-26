@@ -1,0 +1,23 @@
+{
+  "name": "HC4051",
+  "keywords": "",
+  "description": "Arduino library for a HC4051 1x8 channel multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/HC4051.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "HC4051.h"
+}

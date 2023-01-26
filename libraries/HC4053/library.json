@@ -1,0 +1,23 @@
+{
+  "name": "HC4053",
+  "keywords": "",
+  "description": "Arduino library for a HC4053 3x2 channel multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/HC4053.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "HC4053.h"
+}

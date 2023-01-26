@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-01-26
+- optimize **setGamma()** especially for ESP32
+- optimize **get[]**  especially for ESP32
+- update GitHub actions
+- update license 2023
+- update readme.md
+
+----
+
 ## [0.3.1] - 2022-11-08
 - add changelog.md
 - add rp2040 to build-CI
@@ -28,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix distinct()
 
 ## [0.2.1   2021-12-18
-- update library.json, license, 
+- update library.json, license,
 - add constants, minor edits.
 
 ## [0.2.0   2021-11-02

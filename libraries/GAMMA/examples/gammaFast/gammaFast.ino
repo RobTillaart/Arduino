@@ -9,9 +9,9 @@
 
 GAMMA gt1(256);
 
-// fastGamma is based upon values found with GAMMA(8).setGamma(2.8);
-// it is however not fast enough...
-// binary search
+//  fastGamma is based upon values found with GAMMA(8).setGamma(2.8);
+//  it is however not fast enough...
+//  binary search
 int fastGamma(uint8_t idx)
 {
   if (idx < 128)
@@ -93,4 +93,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

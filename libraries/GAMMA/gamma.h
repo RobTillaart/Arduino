@@ -2,14 +2,14 @@
 //
 //    FILE: gamma.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2020-08-08
 // PURPOSE: Arduino Library to efficiently hold a gamma lookup table
 
 
 #include "Arduino.h"
 
-#define GAMMA_LIB_VERSION                 (F("0.3.1"))
+#define GAMMA_LIB_VERSION                 (F("0.4.0"))
 
 #define GAMMA_DEFAULT_SIZE                32
 #define GAMMA_MAX_SIZE                    256
@@ -57,5 +57,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

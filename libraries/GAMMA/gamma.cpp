@@ -1,11 +1,9 @@
 //
 //    FILE: gamma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2020-08-08
 // PURPOSE: Arduino Library to efficiently hold a gamma lookup table
-//
-// HISTORY: see changelog.md
 
 
 #include "gamma.h"
@@ -39,7 +37,7 @@ bool GAMMA::begin()
 {
   if (_table == NULL)
   {
-    _table = (uint8_t *)malloc(_size + 1);
+    _table = (uint8_t *) malloc(_size + 1);
   }
   if (_table == NULL) return false;
   setGamma(2.8);
@@ -53,24 +51,27 @@ bool GAMMA::setGamma(float gamma)
   if (gamma <= 0) return false;
   if (_gamma != gamma)
   {
-    yield();  // try to keep ESP happy
+    yield();  //  try to keep ESP happy
     _gamma = gamma;
-    //  marginally faster
-    // uint16_t iv = _interval;
-    // _table[0] = 0;
-    // for (uint16_t i = 1; i < _size; i++)
-    // {
-      // float x = log(i * iv) + log(1.0 / 255);
-      // _table[i] = exp(x * _gamma) * 255 + 0.5;
-    // }
-    //  REFERENCE
-    //  rounding factor 0.444 optimized with error example.
+#if defined(ESP32)
+    //  confirmed faster for ESP32.
+    float tmp = log(_interval / 255.0);
     for (uint16_t i = 1; i < _size; i++)
     {
-      _table[i] = pow(i * _interval * (1.0/ 255.0), _gamma) * 255 + 0.444;
+      float x = log(i) + tmp;
+      _table[i] = exp(x * _gamma) * 255 + 0.444;
     }
+#else
+    //  REFERENCE
+    //  rounding factor 0.444 optimized with error example.
+    float tmp = (_interval / 255.0);
+    for (uint16_t i = 1; i < _size; i++)
+    {
+      _table[i] = pow(i * tmp, _gamma) * 255 + 0.444;
+    }
+#endif
     _table[0] = 0;
-    _table[_size] = 255;  // anchor for interpolation.
+    _table[_size] = 255;  //  anchor for interpolation.
   }
   return true;
 };
@@ -87,17 +88,41 @@ uint8_t GAMMA::operator[] (uint8_t index)
   //  0.3.0 _table test slows performance ~0.4 us.
   if (_table == NULL) return 0;
   if (_interval == 1) return _table[index];
-  // else interpolate
-  uint8_t  i = index >> _shift;
-  uint8_t  m = index & _mask;
-  // exact element shortcut
+
+  //  else interpolate
+#if defined(ESP32)
+  uint32_t  i = index >> _shift;
+  uint32_t  m = index & _mask;
+  //  exact element shortcut
   if ( m == 0 ) return _table[i];
+
+  //  interpolation
+  //  delta must be uint16_t to prevent overflow. (small tables)
+  //        delta * m can be > 8 bit.
+  uint32_t delta = _table[i+1] - _table[i];
+  delta = ( delta * m + _interval/2 ) >> _shift;  //  == /_interval;
+  return _table[i] + delta;
+
+#else
+  uint16_t  i = index >> _shift;
+  uint16_t  m = index & _mask;
+  //  exact element shortcut
+  if ( m == 0 ) return _table[i];
+
   //  interpolation
   //  delta must be uint16_t to prevent overflow. (small tables)
   //        delta * m can be > 8 bit.
   uint16_t delta = _table[i+1] - _table[i];
-  delta = (delta * m + _interval/2) >> _shift;  //  == /_interval;
+  //  for AVR UNO this speeds up
+  if (delta != 0)
+  {
+    // delta = ( delta * m + _interval/2 ) >> _shift;  //  == /_interval;
+    delta += m;
+    delta +=_interval/2;
+    delta >>= _shift;  //  == /_interval;
+  }
   return _table[i] + delta;
+#endif
 };
 
 
@@ -139,7 +164,7 @@ bool GAMMA::dumpArray(Stream *str)
   str->print("uint8_t gamma[");
   str->print(_size + 1);
   str->print("] = {");
-  
+
   for (uint16_t i = 0; i <= _size; i++)
   {
     if (i % 8 == 0) str->print("\n  ");
@@ -152,7 +177,6 @@ bool GAMMA::dumpArray(Stream *str)
 
 
 //  performance investigation
-//  https://stackoverflow.com/questions/43429238/using-boost-cpp-int-for-functions-like-pow-and-rand
 inline float GAMMA::fastPow(float a, float b)
 {
   //  reference
@@ -160,5 +184,5 @@ inline float GAMMA::fastPow(float a, float b)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

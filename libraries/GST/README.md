@@ -26,6 +26,17 @@ These sites describe the functions in more detail.
 - https://en.wikipedia.org/wiki/Confusion_matrix
 
 
+#### Related
+
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/RunningAngle
+- https://github.com/RobTillaart/RunningAverage
+- https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/statHelpers - combinations & permutations
+- https://github.com/RobTillaart/Statistic
+
+
 #### Performance
 
 The math functions are from pretty straightforward to rather complex.
@@ -34,16 +45,15 @@ It is possible to optimize functions with intermediate values if needed.
 However the right way to optimize depends on the way the library is used. 
 
 
-#### Related libraries
-
-- https://github.com/RobTillaart/Statistic
-
-
 ## Interface
+
+```cpp
+#include "GST.h"
+```
 
 See .h file for all functions. Many function exist in a long descriptive name and an acronym version. Here only the long names are given.
 
-For the definitions please check - https://en.wikipedia.org/wiki/Sensitivity_and_specificity or 
+For the definitions please check - https://en.wikipedia.org/wiki/Sensitivity_and_specificity or
 https://en.wikipedia.org/wiki/Confusion_matrix
 
 
@@ -98,15 +108,17 @@ Basic output
 - **float specificity()** equals trueNegativeRate()
 
 
-- **float truePositiveRate()**
-- **float trueNegativeRate()**
-- **float falseNegativeRate()**
-- **float falsePositiveRate()**
+**Rate** functions can be multiplied by 100.0 to get percentage.
+
+- **float truePositiveRate()** returns value between 0.0 and 1.0
+- **float trueNegativeRate()** returns value between 0.0 and 1.0
+- **float falseNegativeRate()** returns value between 0.0 and 1.0
+- **float falsePositiveRate()** returns value between 0.0 and 1.0
 
 
 ### Output functions II
 
-These are the more 'complex' functions.
+These output functions are the more 'complex' functions.
 Read the Wikipedia pages for their uses.
 
 - **float positivePredictiveValue()**
@@ -142,11 +154,22 @@ Read the Wikipedia pages for their uses.
 
 ## Future
 
+#### Must
+
 - improve documentation
+
+
+#### Should
+
 - add functions
-  - percentage functions for TP TN FP and  FN?
+  - percentage functions for TP TN FP and FN?
 - test
   - complete the CI test coverage.
+
+
+#### Could
+
 - examples
   - add real life examples.
   - combination with a sensor? batch testing?
+

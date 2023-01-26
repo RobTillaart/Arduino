@@ -1,12 +1,12 @@
 //
 //    FILE: GST.cpp
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
 //          https://en.wikipedia.org/wiki/Sensitivity_and_specificity
 //          https://en.wikipedia.org/wiki/Confusion_matrix
 //
-// formula's based upon Wikipedia.
+//  formula's based upon Wikipedia.
 
 
 #include "GST.h"
@@ -222,5 +222,5 @@ float GST::DOR()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

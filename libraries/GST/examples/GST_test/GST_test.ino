@@ -3,10 +3,12 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/GST
 
+
 #include "Arduino.h"
 #include "GST.h"
 
 GST gst;
+
 
 void setup()
 {
@@ -29,6 +31,7 @@ void setup()
   Serial.println("\ndone...");
 
 }
+
 
 void loop()
 {
@@ -163,4 +166,4 @@ void test_6()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

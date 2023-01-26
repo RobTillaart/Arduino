@@ -45,9 +45,7 @@ void loop()
       break;
   }
   confusion_matrix();
-  // confusion_matrix_normalized();
-
-
+  //  confusion_matrix_normalized();
 }
 
 
@@ -117,5 +115,5 @@ void confusion_matrix_normalized()
 }
 
 
+//  -- END OF FILE --
 
-// -- END OF FILE --

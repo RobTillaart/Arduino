@@ -54,7 +54,7 @@ unittest(test_constructor)
 {
   GST gst;
 
-  // default 0;
+  //  default 0;
   assertEqualFloat(gst.getTruePositive()  , 0, 0.001);
   assertEqualFloat(gst.getTrueNegative()  , 0, 0.001);
   assertEqualFloat(gst.getFalsePositive() , 0, 0.001);
@@ -88,7 +88,7 @@ unittest(test_add)
 }
 
 
-unittest(test_one)
+unittest(test_output_functions_I)
 {
   GST gst;
 
@@ -112,6 +112,36 @@ unittest(test_one)
 }
 
 
+unittest(test_output_functions_II)
+{
+  GST gst;
+
+  gst.setTruePositive(653);
+  gst.setTrueNegative(312);
+  gst.setFalsePositive(124);
+  gst.setFalseNegative(423);
+
+  assertEqualFloat(gst.LRplus(),               2.133860, 0.0001);
+  assertEqualFloat(gst.LRminus(),              0.549364, 0.0001);
+  assertEqualFloat(gst.prevalenceThreshold(),  0.406376, 0.0001);
+  assertEqualFloat(gst.threatScore(),          0.544167, 0.0001);
+
+  assertEqualFloat(gst.criticalSuccessIndex(), 0.544167, 0.0001);
+  assertEqualFloat(gst.prevalence(),           0.711640, 0.0001);
+  assertEqualFloat(gst.accuracy(),             0.638228, 0.0001);
+  assertEqualFloat(gst.balancedAccuracy(),     0.661237, 0.0001);
+  assertEqualFloat(gst.F1Score(),              0.704803, 0.0001);
+
+  assertEqualFloat(gst.MCC(),                  0.292273, 0.0001);
+  assertEqualFloat(gst.FM(),                   0.714162, 0.0001);
+  assertEqualFloat(gst.BM(),                   0.322474, 0.0001);
+  assertEqualFloat(gst.MK(),                   0.264902, 0.0001);
+  assertEqualFloat(gst.DOR(),                  3.884240, 0.0001);
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

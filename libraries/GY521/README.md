@@ -21,27 +21,29 @@ It needs to be tested a lot more.
 
 #### Examples
 
-- calibration example to determine the offsets needed
-- example to read values.
-- test sketch to test get / set values.
-- example to get pitch roll yaw.
-- performance sketch.
+- **GY521_angle** read angleX, angleY, angleZ.
+- **GY521_performance** measure performance.
+- **GY521_pitch_roll_yaw** to get pitch roll yaw.
+- **GY521_readCalibration_1** read calibration values / errors for a flat sensor.
+- **GY521_readCalibration_2** generate calibration code snippet.
+- **GY521_test_1** test working of the sensor.
+- **GY521_test_2** test set/get functions.
 
 
 ## Breakout board
 
 From left to right
 
-|  pin | pinName | description     |
-|:----:|:--------|:----------------|
-|  0   |  VCC    | +5V             |
-|  1   |  GND    | ground          |
-|  2   |  SCL    | I2C clock       |
-|  3   |  SDA    | I2C data        |
-|  4   |  XDA    | auxiliary data  | see datasheet
-|  5   |  XCL    | auxiliary clock | see datasheet
-|  6   |  AD0    | address         | 
-|  7   |  INT    | interrupt       |
+|  pin  |  pinName  |  description      |  notes  |
+|:-----:|:---------:|:------------------|:-------:|
+|   0   |    VCC    |  +5V              |
+|   1   |    GND    |  ground           |
+|   2   |    SCL    |  I2C clock        |
+|   3   |    SDA    |  I2C data         |
+|   4   |    XDA    |  auxiliary data   | see datasheet
+|   5   |    XCL    |  auxiliary clock  | see datasheet
+|   6   |    AD0    |  address          | 
+|   7   |    INT    |  interrupt        |
 
 
 #### Address
@@ -60,6 +62,9 @@ AD0 connected to VCC => 0x69
 
 ## Interface
 
+```cpp
+#include "GY521.h"
+```
 
 ### Constructor
 
@@ -80,7 +85,7 @@ AD0 connected to VCC => 0x69
 - **uint16_t getThrottleTime()** returns throttle time set.
 
 
-### READ
+### Read
 
 #### Set before read
 
@@ -104,7 +109,7 @@ returns status = GY521_OK on success.
 
 Since version 0.3.8 the **read()** and **readGyro()** function is updated to keep the range of **getPitch()**,
  **getRoll()** and **getYaw()** in the range 0..360 degrees. (Issue #36). 
-Problem is  that with continuous roatation in a same direction internal variables will overflow and new 
+Problem is  that with continuous rotation in a same direction internal variables will overflow and new 
 movements (angles) will get lost as insignificant digits.
 
 
@@ -147,13 +152,22 @@ See examples, use with care
 
 ## Future
 
-**Should**
-- test test and test ...(ESP too)
+#### Must
+
 - improve documentation
-- look for maths optimizations  (atan, hypot, performance)
 
+#### Should
 
-**Could**
-- calibrate function in the lib ?  (think not as lib might grow?)
+- test test and test ...(ESP too)
+
+#### Could
+
 - calibrate sketch could print code snippet to include...
 
+#### Wont
+
+- look for maths optimizations  (atan, hypot, performance)
+  - ==> hypot optimized.
+  - other ideas affect accuracy, so unless new ideas arise.
+- calibrate function in the lib
+  - not as lib will grow too large.

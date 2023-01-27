@@ -1,7 +1,7 @@
 //
 //    FILE: GY521_angle.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo pitch roll yaw
+// PURPOSE: read angleX, angleY, angleZ
 //    DATE: 2022-06-06
 
 
@@ -29,13 +29,13 @@ void setup()
     Serial.println("\tCould not connect to GY521");
     delay(1000);
   }
-  sensor.setAccelSensitivity(2);  // 8g
-  sensor.setGyroSensitivity(1);   // 500 degrees/s
+  sensor.setAccelSensitivity(2);  //  8g
+  sensor.setGyroSensitivity(1);   //  500 degrees/s
 
   sensor.setThrottle();
   Serial.println("start...");
 
-  // set calibration values from calibration sketch.
+  //  set calibration values from calibration sketch.
   sensor.axe = 0.574;
   sensor.aye = -0.002;
   sensor.aze = -1.043;
@@ -54,11 +54,11 @@ void loop()
 
   if (counter % 10 == 0)
   {
-    // Serial.println("\nCNT\tX\tY\tZ");
+    //  Serial.println("\nCNT\tX\tY\tZ");
   }
 
-  //Serial.print(counter);
-  //Serial.print('\t');
+  // Serial.print(counter);
+  // Serial.print('\t');
   Serial.print(x, 1);
   Serial.print('\t');
   Serial.print(y, 1);
@@ -70,5 +70,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

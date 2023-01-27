@@ -29,13 +29,13 @@ void setup()
     Serial.println("\tCould not connect to GY521");
     delay(1000);
   }
-  sensor.setAccelSensitivity(0);  // 2g
-  sensor.setGyroSensitivity(0);   // 250 degrees/s
+  sensor.setAccelSensitivity(0);  //  2g
+  sensor.setGyroSensitivity(0);   //  250 degrees/s
 
   sensor.setThrottle();
   Serial.println("start...");
   
-  // set calibration values from calibration sketch.
+  //  set calibration values from calibration sketch.
   sensor.axe = 0;
   sensor.aye = 0;
   sensor.aze = 0;
@@ -84,5 +84,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

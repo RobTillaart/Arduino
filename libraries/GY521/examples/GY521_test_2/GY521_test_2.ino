@@ -66,7 +66,7 @@ void setup()
     Serial.println("\tThrot err:\tfalse");
   }
 
-  for (uint16_t n = 0; n < 1000; n++)  // 0 - 1 second.
+  for (uint16_t n = 0; n < 1000; n++)  //  0 - 1 second.
   {
     sensor.setThrottleTime(n);
     if (sensor.getThrottleTime() != n)
@@ -85,5 +85,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

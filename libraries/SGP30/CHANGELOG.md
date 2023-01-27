@@ -6,21 +6,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-01-27
+- Fix setBaseline() ==> PR #11 (kudos to countrysidecowboy)
+- update GitHub actions
+- update license 2023
+- update readme.md
+- update keywords.txt
+- edit unit test.
+- minor edits
+
+----
+
 ## [0.1.6] - 2022-10-28
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 
-
-## [0.1.5] - 2021-12-28  
+## [0.1.5] - 2021-12-28
 - update library,json
 - update readme
 - update license
 - minor edits
 
-## [0.1.4] - 2021-07-01  
+## [0.1.4] - 2021-07-01
 - add CRC checking
 
-## [0.1.3] - 2021-06-26 
+## [0.1.3] - 2021-06-26
 - add get/setTVOCbaseline()
 
 ## [0.1.2] - 2021-06-26

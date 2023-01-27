@@ -2,9 +2,9 @@
 //
 //    FILE: SGP30.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-06-24
-// PURPOSE: SGP30 library for Arduino
+// PURPOSE: Arduino library for SGP30 environment sensor.
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define SGP30_LIB_VERSION               (F("0.1.6"))
+#define SGP30_LIB_VERSION               (F("0.2.0"))
 
 #define SGP30_OK                        0x00
 #define SGP30_ERROR_CRC                 0xFF
@@ -36,7 +36,7 @@ public:
   //  META
   bool     getID();
   uint16_t getFeatureSet();
-  bool     measureTest();   // need a better name
+  bool     measureTest();   //  need a better name
 
 
   //  MEASUREMENTS
@@ -46,7 +46,7 @@ public:
   //  all == false ==> only TVOC and eCO2
   //  blocks 15 - 40 milliseconds  (depends on parameter all).
   bool     measure(bool all = false);
-  
+
   //  async interface
   void     request();
   bool     read();
@@ -72,7 +72,7 @@ public:
 
   void     setBaseline(uint16_t CO2, uint16_t TVOC);
   bool     getBaseline(uint16_t *CO2, uint16_t *TVOC);
-  
+
   //  See Inceptive Baseline for TVOC measurements in data sheet
   void     setTVOCBaseline(uint16_t TVOC);
   bool     getTVOCBaseline(uint16_t *TVOC);
@@ -87,16 +87,18 @@ public:
   uint16_t  getSrefEthanol()                   { return _srefEth; };
 
 
-  //  MISC
-  int      lastError();   //  TODO extend in code
+  //  MISCELLANEOUS
+  int      lastError();
 
-  uint8_t  _id[6];        //  TODO private ...
+  //  need an access function to prevent writing _id[]
+  //  for now it is OK.  TODO private?
+  uint8_t  _id[6];
 
 
 private:
   uint8_t  _address;
   int      _error;
-  uint32_t _lastTime = 0;
+  uint32_t _lastTime    = 0;
   uint32_t _lastRequest = 0;
 
   //  TODO improve?
@@ -110,9 +112,9 @@ private:
   uint16_t _co2;
   uint16_t _h2;
   uint16_t _ethanol;
-  
+
   //  experimental
-  //  average raw values measured outside 22°C 
+  //  average raw values measured outside 22°C
   uint16_t _srefH2  = 13119;
   uint16_t _srefEth = 18472;
 
@@ -120,5 +122,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

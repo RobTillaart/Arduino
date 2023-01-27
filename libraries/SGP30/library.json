@@ -1,7 +1,7 @@
 {
   "name": "SGP30",
   "keywords": "CO2, H2, VOC, TVOC, Ethanol",
-  "description": "Library for SGP30 environment sensor.",
+  "description": "Arduino library for SGP30 environment sensor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SGP30.git"
   },
-  "version": "0.1.6",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

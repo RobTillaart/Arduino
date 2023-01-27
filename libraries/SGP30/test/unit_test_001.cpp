@@ -1,9 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-07
-// PURPOSE: unit tests for the SET library
-//          https://github.com/RobTillaart/SET
+//    DATE: 2021-06-24
+// PURPOSE: unit tests for Arduino library for SGP30 environment sensor.
+//          https://github.com/RobTillaart/SGP30
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -50,7 +51,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   SGP30 SGP;
-  
+
   assertTrue(SGP.begin());
   assertTrue(SGP.isConnected());
 
@@ -91,7 +92,7 @@ unittest(test_sref_H2)
 
   SGP.setSrefH2(10000);
   assertEqual(10000, SGP.getSrefH2());
-  
+
   SGP.setSrefH2();
   assertEqual(13119, SGP.getSrefH2());
 }
@@ -108,7 +109,7 @@ unittest(test_sref_Ethanol)
 
   SGP.setSrefEthanol(10000);
   assertEqual(10000, SGP.getSrefEthanol());
-  
+
   SGP.setSrefEthanol();
   assertEqual(18472, SGP.getSrefEthanol());
 }
@@ -117,4 +118,4 @@ unittest(test_sref_Ethanol)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

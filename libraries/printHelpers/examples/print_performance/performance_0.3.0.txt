@@ -1,0 +1,33 @@
+
+Arduino UNO
+IDE 1.8.19
+
+print_sci_eng_performance.ino
+PRINTHELPERS_VERSION: 0.3.0
+
+4
+4
+
+     Mass moon M = 7.34767309E+20
+Speed of light c = 2.99792458E+8
+         Print E = Mc^2 = 6.6037592413026551656653076E+37
+
+6.6037592887878417
+
+SCI
+TIME: 5076
+6.603759288787841E+0
+
+ENG
+TIME: 5652
+6.603759288787841E+0
+
+dtostrf
+TIME: 1784
+6.603759300000000
+
+dtostre
+TIME: 1432
+6.6037593e+00
+
+done...

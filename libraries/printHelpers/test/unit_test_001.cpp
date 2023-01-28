@@ -29,6 +29,7 @@
 // assertNAN(arg);                                 // isnan(a)
 // assertNotNAN(arg);                              // !isnan(a)
 
+
 #include <ArduinoUnitTests.h>
 
 
@@ -63,8 +64,8 @@ unittest(test_sci)
   fprintf(stderr, "%s\n", sci(EULER * 10, 6));
   fprintf(stderr, "\n");
 
-  assertEqual(0, strcmp("3.141593E+1", sci(PI * 10, 6)) );
-  assertEqual(0, strcmp("2.718282E+1", sci(EULER * 10, 6)) );
+  assertEqual(0, strcmp("3.141593E+01", sci(PI * 10, 6)) );
+  assertEqual(0, strcmp("2.718282E+01", sci(EULER * 10, 6)) );
 }
 
 
@@ -81,8 +82,8 @@ unittest(test_eng)
   fprintf(stderr, "%s\n", eng(EULER * 10, 6));
   fprintf(stderr, "\n");
 
-  assertEqual(0, strcmp("3.141593E+3", eng(PI * 1000, 6)) );
-  assertEqual(0, strcmp("27.182818E+0", eng(EULER * 10, 6)) );
+  assertEqual(0, strcmp("3.141593E+03", eng(PI * 1000, 6)) );
+  assertEqual(0, strcmp("27.182818E+00", eng(EULER * 10, 6)) );
 }
 
 
@@ -136,6 +137,8 @@ unittest(test_bin)
   assertEqual(0, strcmp("00001011110001011000000101101011", bin((uint32_t)197493099)) );
 }
 
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

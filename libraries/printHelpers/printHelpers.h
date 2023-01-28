@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.3.0"))
+#define PRINTHELPERS_VERSION      (F("0.3.1"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -20,6 +20,7 @@
 //  not usable in multi-threading environments (use with care)
 //
 //  24 is a pretty safe minimum
+//
 #ifndef PRINTBUFFERSIZE
 #define PRINTBUFFERSIZE       66
 #endif
@@ -28,9 +29,8 @@
 
 ////////////////////////////////////////////////////////////
 //
-//  PRINT 64 BIT
+//  print64()
 //
-
 //  print64 note
 //  buffer size 66 will work for base 2 -36
 //  buffer size 34 will work for base 4 -36
@@ -44,26 +44,24 @@ char * print64(uint64_t value, uint8_t base = 10);
 
 ////////////////////////////////////////////////////////////
 //
-//  SCIENTIFIC NOTATIION
+//  Scientific + Engineering notation
 //
-
 //  typical buffer size for 8 byte double is 22 bytes
 //  15 bytes mantissa, sign dot E-xxx
 //  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em);
 
-char * eng(double value, uint8_t decimals);
+char * eng(double value, uint8_t decimals);  //  em == 3
 
-char * sci(double value, uint8_t decimals);
+char * sci(double value, uint8_t decimals);  //  em == 1
 
 void sci(Stream &str, double value, uint8_t decimals);
 
 
 ////////////////////////////////////////////////////////////
 //
-//  toBytes
+//  toBytes()
 //
-
 //  official support to UDA == 1024^12
 //  kilo mega giga tera peta exa (1024^6)
 //  zetta yotta xona weka vunda uda (1024^12)
@@ -78,20 +76,21 @@ char * toBytes(double value, uint8_t decimals = 2);
 
 ////////////////////////////////////////////////////////////
 //
-//  HEX  BIN
+//  hex()
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 //  cast if needed.
 char * hex(uint64_t value, uint8_t digits = 16);
-char * hex(uint32_t value, uint8_t digits = 8);  
-char * hex(uint16_t value, uint8_t digits = 4);  
-char * hex(uint8_t value, uint8_t digits = 2);  
+char * hex(uint32_t value, uint8_t digits = 8);
+char * hex(uint16_t value, uint8_t digits = 4);
+char * hex(uint8_t value, uint8_t digits = 2);
+
 
 ////////////////////////////////////////////////////////////
 //
-//  HEX  BIN
+//  BIN
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 //  cast if needed.
 char * bin(uint64_t value, uint8_t digits = 64);
 char * bin(uint32_t value, uint8_t digits = 32);

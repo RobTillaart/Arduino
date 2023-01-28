@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -137,12 +137,14 @@ char * print64(uint64_t value, uint8_t base)
 //   em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em)
 {
-  char * buffer = __printbuffer;
-  int exponent = 0;
-  int pos = 0;
-  double e1 = 10;
-  double e2 = 0.1;
-  for (int i = 1; i < em; i++)
+  char *  buffer   = __printbuffer;
+  int     exponent = 0;
+  uint8_t pos = 0;
+  double  e1 = 10;
+  double  e2 = 0.1;
+
+  //  scale to multiples of em.
+  for (uint8_t i = 1; i < em; i++)
   {
     e1 *= 10;
     e2 *= 0.1;
@@ -201,14 +203,21 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   uint32_t d = (uint32_t)value;
   double remainder = value - d;
 
+
   //  print whole part
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
   itoa(d, &buffer[pos], 10);
+#else
+  sprintf(&buffer[pos], "%ld", d);
+#endif
   pos = strlen(buffer);
+
 
   //  print remainder part
   if (decimals > 0)
   {
-    buffer[pos++] = '.';    // decimal point
+    buffer[pos++] = '.';    //  decimal point
   }
 
   //  Extract decimals from the remainder one at a time
@@ -231,6 +240,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   }
   else buffer[pos++] = '+';
 
+  if (exponent < 10) buffer[pos++] = '0';
   itoa(exponent, &buffer[pos], 10);
   return buffer;
 }
@@ -357,7 +367,7 @@ char * hex(uint32_t value, uint8_t digits)
 }
 
 char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
-char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); }; 
+char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); };
 
 
 ////////////////////////////////////////////////////////////
@@ -395,7 +405,7 @@ char * bin(uint32_t value, uint8_t digits)
 }
 
 char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
-char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); }; 
+char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
 
 
 //  -- END OF FILE --

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2023-01-27 
+- fix **scieng()** itoa() => sprintf()  + conditional ESP32
+- add leading 0 for exponents smaller than 10, to better align columns.
+- update GitHub actions
+- update license 2023
+- add performance example
+- update readme.md
+- minor edits
+
+
 ## [0.3.0] - 2022-11-29
 - add hex(value, digits) + bin(value, digits) 32 and 64 bit
 - leading zero's - no separators - no prefix.
@@ -13,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - update unit test
 
+----
 
 ## [0.2.5] - 2022-11-22
 - add changelog.md

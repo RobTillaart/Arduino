@@ -15,13 +15,14 @@ void setup()
   Serial.println(sizeof(double));
 
 
-  double c = 2.99792458E8;  // speed of light;
-  double m = 7.34767309E20; // mass of moon
+  double c = 2.99792458E8;   //  speed of light;
+  double m = 7.34767309E20;  //  mass of moon
   double E = m * c * c;
 
-  Serial.println("\n     Mass moon M = 7.34767309E+20");
+  Serial.println();
+  Serial.println("     Mass moon M = 7.34767309E+20");
   Serial.println("Speed of light c = 2.99792458E+8");
-  Serial.println("         Print E = Mc^2 = 6.6037592413026551656653076‬E+21\n");
+  Serial.println("         Print E = Mc^2 = 6.6037592413026551656653076‬E+37\n");
 
   Serial.print(" normal print:\t");
   Serial.println(E, 4);
@@ -67,7 +68,6 @@ void setup()
     Serial.println(scieng(E, 8, em));
   }
 
-
   Serial.println("\ndone...");
 }
 
@@ -77,5 +77,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

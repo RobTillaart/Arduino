@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -187,7 +187,8 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  //  TODO: can we remove loop to reduce rounding errors
+  //  TODO: can we remove loop to reduce rounding errors?
+  //        additional loop that steps per 1000?
   for (uint8_t i = 0; i < decimals; ++i)
   {
     rounding *= 0.1;
@@ -222,7 +223,6 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  Extract decimals from the remainder one at a time
   //  to prevent missing leading zero's
-  //  TODO: can we remove loop to reduce rounding errors
   while (decimals-- > 0)
   {
     remainder *= 10;
@@ -280,9 +280,13 @@ void sci(Stream &str, double value, uint8_t decimals)
 //  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
 char * toBytes(double value, uint8_t decimals)
 {
-  static char buffer[12];
-  char  t[] = " KMGTPEZYXWVUtsrqponml";
-  uint8_t i = 0;    // i is index of the array == powers of 1024.
+  char * buffer = __printbuffer;
+  //  to enable full range uncomment the following line
+  //  char  units[] = " KMGTPEZYXWVUtsrqponml";
+
+  char  units[] = " KMGTPEZYXWVU";
+  uint8_t i = 0;    //  i is index of the unit array == powers of 1024.
+
   if (isinf(value))
   {
     strcpy(buffer, "<inf>");
@@ -316,16 +320,16 @@ char * toBytes(double value, uint8_t decimals)
   }
 
   //  UNITS
-  if (i <= strlen(t))
+  if (i <= strlen(units))
   {
     if (i > 0) buffer[pos++] = ' ';
-    buffer[pos++] = t[i];
+    buffer[pos++] = units[i];
     buffer[pos++] = 'B';
     buffer[pos]   = 0;
   }
   else
   {
-    //  TODO   e.g. E99 B
+    //  no units available
   }
   return buffer;
 }
@@ -351,6 +355,7 @@ char * hex(uint64_t value, uint8_t digits)
   return buffer;
 }
 
+//  faster than 64 bit.
 char * hex(uint32_t value, uint8_t digits)
 {
   uint32_t val = value;
@@ -375,7 +380,6 @@ char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits
 //  BIN
 //
 //  always leading zero's - no prefix - no separator
-
 char * bin(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -390,6 +394,7 @@ char * bin(uint64_t value, uint8_t digits)
   return buffer;
 }
 
+//  faster than 64 bit.
 char * bin(uint32_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -406,6 +411,69 @@ char * bin(uint32_t value, uint8_t digits)
 
 char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
 char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
+
+
+////////////////////////////////////////////////////////////
+//
+//  toRoman
+//
+//  experimental
+//  extended with 10K units generated with the same but lower case chars.
+//  would expect a special char for 5000?
+//  need investigation.
+char * toRoman(uint32_t value)
+{
+  char * buffer = __printbuffer;
+  uint32_t      val = value;
+  uint16_t    n[13] = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+  char roman[13][3] = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+  buffer[0] = 0;
+  int idx = 0;
+  if (value == 0)
+  {
+    strcat(buffer, "N");  //  NULL
+    return buffer;
+  }
+
+  if (value > 100000000UL)
+  {
+    strcat(buffer, "OVF");  //  overflow
+    return buffer;
+  }
+
+  if (val >= 10000UL)
+  {
+    //  10K units
+    while(val >= 10000UL)
+    {
+      while (val >= (10000UL * n[idx]))
+      {
+        strcat(buffer, roman[idx]);
+        val -= (10000UL * n[idx]);
+      };
+      idx++;
+    }
+    //  set chars to lower
+    for (int i = 0; i < strlen(buffer); i++)
+    {
+      buffer[i] = tolower(buffer[i]);
+    }
+  }
+
+  //  Official part UPPER case letters
+  while(val > 0)
+  {
+    while (val >= n[idx])
+    {
+      strcat(buffer, roman[idx]);
+      val -= n[idx];
+    };
+    idx++;
+  }
+
+  return buffer;
+}
 
 
 //  -- END OF FILE --

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.3.1"))
+#define PRINTHELPERS_VERSION      (F("0.4.0"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -96,6 +96,15 @@ char * bin(uint64_t value, uint8_t digits = 64);
 char * bin(uint32_t value, uint8_t digits = 32);
 char * bin(uint16_t value, uint8_t digits = 16);
 char * bin(uint8_t value, uint8_t digits = 8);
+
+
+////////////////////////////////////////////////////////////
+//
+//  toRoman()
+//
+//  value should be in range 1..9999
+//  values 10K-100M are experimental (see readme.md)
+char * toRoman(uint32_t value);
 
 
 //  -- END OF FILE --

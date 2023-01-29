@@ -27,7 +27,7 @@ void setup()
   Serial.println();
   Serial.println("     Mass moon M = 7.34767309E+20");
   Serial.println("Speed of light c = 2.99792458E+8");
-  Serial.println("         Print E = Mc^2 = 6.6037592413026551656653076‬E+37\n");
+  Serial.println("         Print E = Mc^2 = 6.6037592413026551656653076E+37 \n");
   Serial.println();
 
   E = 660375924130265516;
@@ -148,10 +148,19 @@ void setup()
   delay(100);
 
 
-
-
-
-
+  Serial.println();
+  Serial.println("toRoman");
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = toRoman(i);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
 
   Serial.println();
   Serial.println("done...");

@@ -23,11 +23,12 @@ data in a way not possible in the standard print library of the Arduino.
 - **toBytes()** generates KB MB GB etc.
 - **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
 - **bin()** generates binary output with leading zeros up to **uint64_t**.
+- **toRoman()** generates a ROMAN representation of a (positive) number.
 
 Details, see below.
 
 
-#### thread safety
+#### Thread safety
 
 Note the functions of this library all share an internal buffer, so the library is 
 definitely **not** thread safe. 
@@ -85,7 +86,7 @@ thousands, millions etc which are powers of 3.
 float or double to a char array. 
 **sci()** and **eng()** use the same underlying function called **scieng()** 
 as the initial code for converting was almost identical.
-Although not intended to be used directly, one can use it. 
+Although not intended to be used directly, one may use it. 
 The last parameter **exponentMultiple** defines where the exponent is a multiple of.
 For the **sci()** function this is 1, for the **eng()** function this is 3.
 The **scieng()** function works for multiples from 1..9 for the exponent.
@@ -100,18 +101,30 @@ mantissa.
 representing an amount of bytes a shorter string usable for displaying.
 The number of decimals is max 3
     Example  3.292.528 ==> "3.140 MB" 
+
 Value ranges supported are in steps of powers of 1024. 
-These will all be shown in UPPERCASE so KB, MB etc.  
-List of prefixes:
-- kilo mega giga tera (1024\^4)
-- peta exa zetta yotta (1024\^8)
-- xona weka vunda uda (1024\^12)  
-treda Byte == TDB uses 2 chars to indicate the magnitude so that would 
-take extra memory or more complex code.  
-As it is seldom used, "official" support stops with UDA. 
-Should be big enough for some time.  
-To have some support the code uses lowercase for the next 8 levels:  
+These will all be shown in UPPERCASE so KB, MB etc.
+
+|  Unit       |  abbrev.  |  size    |  Unit        |  abbrev.  |  size    |
+|:-----------:|:---------:|:--------:|:------------:|:---------:|:--------:|
+|  kilobytes  |    KB     |  1024    |  zettabytes  |    KB     |  1024^7  |
+|  megabytes  |    MB     |  1024^2  |  yottabytes  |    MB     |  1024^8  |
+|  gigabytes  |    GB     |  1024^3  |  xonaytes    |    GB     |  1024^9  |
+|  terabytes  |    TB     |  1024^4  |  wekabytes   |    TB     |  1024^10 |
+|  petabytes  |    PB     |  1024^5  |  vundabytes  |    PB     |  1024^11 |
+|  exabytes   |    EB     |  1024^6  |  udabytes    |    EB     |  1024^12 |
+
+
+Treda Byte is shortened as "TDB" and uses 2 chars to indicate the magnitude. 
+That would take extra memory or slightly more complex code.  
+As it is very seldom used, "official" support stops with UDA. 
+Should be big enough for some time.
+
+Note: max uint64_t 2^64 is in the order of exa or zetta bytes.
+
+To have some support for the really big sizes the code uses lowercase for the next 8 levels:
 treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
+To enable this patch the function in the **printHelpers.cpp** file.
 
 
 #### hex() bin()
@@ -138,12 +151,46 @@ Note: Data types not supported, must be cast to an supported type.
 Note: There is overlap between **hex(value)** and **print64(value, HEX)**. 
 The latter does not produce the leading zero's or fixed length output.
 
-----
 
-More formatting functions might be added in the future.
+#### toRoman()
+
+https://en.wikipedia.org/wiki/Roman_numerals
+
+A less used but well known print format are the Roman digits. 
+The library function **toRoman()** will convert any number from 0..100 million into a Roman number.
+The numbers 1..5000 ("official" range) are the well known UPPER case characters.
+
+- **char \* toRoman(uint32_t value)** returns Roman string.
+
+|  char  |  unit  |  notes      |
+|:------:|:-------|:------------|
+|   M    |  1000  |  M = Mille  |
+|   D    |  500   |
+|   C    |  100   |  C = Cent   |
+|   L    |  50    |
+|   X    |  10    |
+|   V    |  5     |
+|   I    |  1     |
+|   N    |  0     |  extension  |
 
 
-## Shared buffer
+Note: The maximum length returned is 16 characters in the "official" supported range.
+4888 == MMMMDCCCLXXXVIII.
+
+Notes:
+- value == 0 => N is not part of the "official" numbers but we need it.
+- values < 0 are not supported (note parameter is unsigned)
+- values between 5K-10K are extended with extra M chars.
+- values 10K-100M are represented with lower case characters.
+  This is not a standard, but it sort of works well.
+- values > 100M return OVF == overflow. 
+- There is no special 'subtract code' for 9000 to have a clear distinction between
+  "official" and extended numbers.
+- The number 4 is often written as IIII on clocks with Roman digits,
+  although IV would be (more?) correct and therefore IV is used.
+
+
+## Shared print buffer
 
 The implementation of the function all use a shared buffer to hold the 
 generated string. 
@@ -172,32 +219,26 @@ In practice a size of 22 will work for most applications.
 When functions are added, the recommended minimum size might increase.
 
 
-## Operation
-
-See examples.
-
-
 ## Future
 
 #### Must
 
 - check TODO's in the code
 
+
 #### Should
 
 - documentation
-  - table for toBytes() - values KB, MB etc. (21 entries  3 x 7 ?) range etc.
 - improve readability of the code
 
 
 #### Could
 
+- investigate separators in **hex()**
+  - space per 8, 4 or 2
 - investigate thread safe version
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
-- investigate **toRoman()**
-- investigate separators in **hex()**
-  - space per 8, 4 or 2
 - investigate distance print helpers.
   - feet(float cm) as 3'2" or  3-7/8 feet
   - inch(float cm) as 32" 

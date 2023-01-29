@@ -1,6 +1,6 @@
 {
   "name": "printHelpers",
-  "keywords": "Convert, int64, uint64, print, scientific, notation, toBytes",
+  "keywords": "Convert,int64,uint64,print,scientific,notation,toBytes,HEX,BIN,Roman",
   "description": "Arduino library to help printing. int64 and uint64 support base 10 (DEC) and 16 (HEX). Scientific notation of floats.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/printHelpers"
   },
-  "version": "0.3.1",
+  "version": "0.4.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

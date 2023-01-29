@@ -1,19 +1,12 @@
 //
 //    FILE: DHT2pin.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
-// PURPOSE: demo reading an DHT with 2 pins iso 1
+// VERSION: 0.2.0
+// PURPOSE: demo reading an DHT with 2 pins instead of 1
 //    DATE: 2016 sep 5
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
-//
-// HISTORY:
-// 0.1.2   nade it arduino-CI compatible
-// 0.1.01  changed name to DHT2pin
-// 0.1.00  initial version
-//
-// Released to the public domain
-//
+
 
 #include <DHT2pin.h>
 
@@ -38,7 +31,7 @@ uint32_t stop;
 void setup()
 {
   DHT.begin();
-  
+
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("LIBRARY VERSION: ");
@@ -53,7 +46,7 @@ void loop()
   Serial.print("DHT22, \t");
 
   uint32_t start = micros();
-  int chk = DHT.read22();
+  int chk = DHT.read();
   uint32_t stop = micros();
 
   counter.total++;
@@ -89,9 +82,9 @@ void loop()
       break;
   }
   // DISPLAY DATA
-  Serial.print(DHT.humidity, 1);
+  Serial.print(DHT.humidity(), 1);
   Serial.print(",\t");
-  Serial.print(DHT.temperature, 1);
+  Serial.print(DHT.temperature(), 1);
   Serial.print(",\t");
   Serial.print(stop - start);
   Serial.println();
@@ -118,6 +111,7 @@ void loop()
   }
   delay(2000);
 }
-//
-// END OF FILE
-//
+
+
+//  -- END OF FILE --
+

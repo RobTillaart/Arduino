@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-01-29
+- add temperature() and humidity() as access function.
+- move code to .cpp
+- removed inline wrappers (minimize concept)
+- update GitHub actions
+- update license 2023
+- update metadata
+- add constants to unit test
+- minor edits
+
+----
+
 ## [0.1.3] - 2022-11-01
 - add changelog.md
 - add rp2040 to build-CI
@@ -19,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] - 2020-06-30
 - own repository
 - #pragma once
+
+----
 
 ## [0.0.3] 
 - Fix issue #33

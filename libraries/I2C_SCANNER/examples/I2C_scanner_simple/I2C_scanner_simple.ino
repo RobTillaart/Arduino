@@ -8,6 +8,7 @@
 
 I2C_SCANNER scanner;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -36,8 +37,11 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

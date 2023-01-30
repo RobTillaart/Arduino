@@ -1,11 +1,9 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
-//
-// HISTORY: see changelog.md
 
 
 #include "I2C_SCANNER.h"
@@ -88,6 +86,7 @@ TwoWire* I2C_SCANNER::getWire()
   return _wire;
 }
 
+
 //
 //  RESET
 //
@@ -167,6 +166,26 @@ uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
   return cnt;
 }
 
+
+bool I2C_SCANNER::setWireTimeout(uint32_t timeOut)
+{
+  if (_timeout != timeOut)
+  {
+    _timeout = timeOut;
+    //  not all platforms support this.
+    //  _wire->setWireTimeout(timeOut);
+    return true;
+  }
+  return false;
+}
+
+
+uint32_t I2C_SCANNER::getWireTimeout()
+{
+  return _timeout;
+}
+
+
 ////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -174,6 +193,7 @@ uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
 int I2C_SCANNER::_init()
 {
   Wire.begin();
+
   _wirePortCount = 1;
 #if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1
   Wire1.begin();
@@ -199,5 +219,5 @@ int I2C_SCANNER::_init()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

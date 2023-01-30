@@ -8,6 +8,7 @@
 
 I2C_SCANNER scanner;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -64,4 +65,6 @@ int simpleScan()
   Serial.println();
   return count;
 }
-// -- END OF FILE --
+
+
+//  -- END OF FILE --

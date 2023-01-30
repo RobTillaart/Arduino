@@ -1,0 +1,18 @@
+IDE 1.8.19
+UNO
+
+Kelvin2RGB_timing.ino
+
+test_timing
+KELVIN2RGB_LIB_VERSION: 0.1.5
+
+TH:	514.05
+NB:	557.81
+ratio:	0.9216
+
+RGB:	760
+CMYK:	936
+BGR:	44540
+RGB565:	552
+
+done...

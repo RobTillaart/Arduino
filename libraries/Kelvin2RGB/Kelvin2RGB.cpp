@@ -1,12 +1,10 @@
 //
 //    FILE: Kelvin2RGB.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
-//
-// HISTORY: see changelog.md
 
 
 #include "Kelvin2RGB.h"
@@ -169,11 +167,11 @@ uint32_t Kelvin2RGB::RGB()
 uint16_t Kelvin2RGB::RGB565()
 {
   uint16_t val = 0;
-  val  = uint8_t(_red * 32);
+  val  = uint8_t(_red   * 32);
   val <<= 6;
   val |= uint8_t(_green * 64);
   val <<= 5;
-  val |= uint8_t(_blue * 32);
+  val |= uint8_t(_blue  * 32);
   return val;
 }
 
@@ -183,10 +181,14 @@ uint32_t Kelvin2RGB::CMYK()
   float k = _red;
   if (k < _green) k = _green;
   if (k < _blue) k = _blue;
+
+  float t1 = k;
   k = 1 - k;
-  uint32_t c = 255 * (1 - _red   - k) / (1 - k);
-  uint32_t m = 255 * (1 - _green - k) / (1 - k);
-  uint32_t y = 255 * (1 - _blue  - k) / (1 - k);
+  float t2 = 255.0 / (1 - k);
+
+  uint32_t c = (t1 - _red  ) * t2;
+  uint32_t m = (t1 - _green) * t2;
+  uint32_t y = (t1 - _blue ) * t2;
 
   return (c << 24) + (m << 16) + (y << 8) + (k * 255);
 }
@@ -194,7 +196,8 @@ uint32_t Kelvin2RGB::CMYK()
 
 uint32_t Kelvin2RGB::BGR()
 {
-  return round(255 * _blue) * 65536UL + round(255 * _green) * 256UL + round(255 * _red);
+  return uint8_t(255 * _blue + 0.5) * 65536UL + uint8_t(255 * _green + 0.5) * 256UL + uint8_t(255 * _red + 0.5);
+  //  return round(255 * 65536UL * _blue) + round(255 * 256UL * _green) + round(255 * _red);
 }
 
 

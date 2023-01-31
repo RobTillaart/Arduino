@@ -42,6 +42,7 @@ unittest_setup()
   fprintf(stderr, "ANGLE_LIB_VERSION: %s\n", (char *) ANGLE_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -131,7 +132,7 @@ unittest(test_Radians)
 }
 
 
-// mainly tests if operators still work, not a quality test (yet)
+//  mainly tests if operators still work, not a quality test (yet)
 unittest(test_math)
 {
   Angle a(1, 2, 3, 4);
@@ -182,4 +183,6 @@ unittest(test_compare)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

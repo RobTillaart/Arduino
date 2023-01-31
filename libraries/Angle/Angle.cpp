@@ -1,12 +1,10 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.13
+// VERSION: 0.1.14
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
-//
-//  HISTORY: see changelog.md
 
 
 #include "Angle.h"
@@ -31,7 +29,6 @@ Angle::Angle(int dd, int mm, int ss, int tt)
     m = mm;
     s = ss;
     t = tt;
-    //  TODO
     //  normalize();
     //  assume only one (largest) parameter is negative at most...
     if (d < 0) { d = -d; neg = true; }
@@ -318,7 +315,7 @@ int Angle::compare(const Angle &a, const Angle &b)
 }
 
 
-void Angle::normalize()  //  TODO CHECK
+void Angle::normalize()
 {
     while (t < 0)      { s--; t += 10000; }
     while (t >= 10000) { s++; t -= 10000; }

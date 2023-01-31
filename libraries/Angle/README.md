@@ -25,17 +25,31 @@ The library implements the Printable interface, allowing one to call
 
 **Serial.println(angle)** or **SD.print(angle)**.
 
+Degree sign ° = ALT-0176 (Windows)
+
+
+#### Related
+
+- https://github.com/RobTillaart/AngleConvertor
+- https://github.com/RobTillaart/AverageAngle
+- https://github.com/RobTillaart/Angle
+- https://github.com/RobTillaart/runningAngle
+
 
 ## Interface
 
-### Constructors
+```cpp
+#include "Angle.h"
+```
+
+#### Constructors
 
 - **Angle(int dd = 0, int mm = 0, int ss = 0, int tt = 0)** create an Angle, default is zero.
 - **Angle(double alpha)** create an Angle from a double.
 - **Angle(char \* str)** create an Angle from a string e.g. "45.31234".
 
 
-### base
+#### Base
 
 - **int sign()** returns -1 or 1.
 - **int degree()** returns # degrees.
@@ -44,19 +58,21 @@ The library implements the Printable interface, allowing one to call
 - **int tenthousand()** returns # ten-thousands of a second.
 
 
-### Conversions
+#### Conversions
 
 - **double toDouble()** returns the angle as a double (0..360.0, float on UNO).
 - **double toRadians()** returns the angle in radians (0..TWO_PI).
 - **void fromRadian(double rad)** create an angle from radians.
 
+More conversions - https://github.com/RobTillaart/AngleConvertor
 
-### Equality operators
+
+#### Equality operators
 
 The library supports equality operator "==", "!=", "<" "<=" ">" and ">=" .
 
 
-### Math operators
+#### Math operators
 
 - **negate** returns -angle.
 - **addition** and **subtract** add angles to angles.
@@ -71,19 +87,33 @@ See examples.
 
 ## Note
 
-The library has not been tested extensively and it could still contain
-bugs. Especially the constructor does not check input so use it carefully.
+The library has not been tested extensively and it could still contain bugs. 
+Especially the constructor does not check input so use it carefully.
 
 
 ## Future
 
+#### Must
+
 - improve documentation
-- test more
-- optimize code where possible
-  - performance sketch
+
+#### Should
+
+- Test normalize code
+  - unit tests, sketch?
+- test more 
+  - TOCHECK in code
 - improve code quality
-  - fix TODO in code
   - use better variable names in code
-  - move all code to .cpp
+
+
+#### Could
+
+- optimize code where possible
+  - low priority
+- move all code to .cpp
+- change output format to confirm standard 4°12'14.1234"
+
+#### Wont
 
 

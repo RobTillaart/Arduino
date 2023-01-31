@@ -43,7 +43,9 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 |  Turn           |            1  |
 
 
-#### Related to
+#### Related
+
+- https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/runningAngle
@@ -51,12 +53,17 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 
 ## Interface
 
+```cpp
+#include "AngleConvertor.h"
+```
+
+
 #### Constructor
 
 - **AngleConvertor()** create an AngleConvertor, default value is zero.
 
 
-#### setters
+#### Setters
 
 - **void setDegrees(float value = 0)**
 - **void setRadians(float value = 0)**
@@ -80,7 +87,7 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 - **void setTurn(float value = 0)**
 
 
-#### getters
+#### Getters
 
 - **float getDegrees()**
 - **float getRadians()**
@@ -103,6 +110,18 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 - **float getSign()**
 - **float getTurn()**
 
+#### WindRose
+
+
+From: https://forum.arduino.cc/t/function-optimization-wind-direction-open-for-ideas/92493/10
+
+Converts an angle in degrees to a char array like "WSW".
+0 and 360 degrees is considered North. 
+
+- **char \* windrose()** converter version.
+- **char \* windrose(float degrees)** stand alone version.
+degrees should be between 0 and 360, as function does no normalization.
+
 
 ## Operation
 
@@ -111,16 +130,17 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
 
 
-#### could
+#### Could
+
 - add dedicated functions == faster (on request only).
 - add more conversions
 - integrate with **Angle class** ?
   - printing can be a lot of work
-
 

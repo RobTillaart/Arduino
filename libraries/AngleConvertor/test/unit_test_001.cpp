@@ -42,6 +42,7 @@ unittest_setup()
   fprintf(stderr, "ANGLECONVERTOR_LIB_VERSION: %s\n", (char *) ANGLECONVERTOR_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -115,4 +116,6 @@ unittest(test_conversions)
 
 unittest_main()
 
+
 //  -- END OF FILE --
+

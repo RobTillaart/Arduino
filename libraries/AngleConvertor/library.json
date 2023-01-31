@@ -1,6 +1,6 @@
 {
   "name": "AngleConvertor",
-  "keywords": "Angle,convert,degrees,radians",
+  "keywords": "Angle,convert,degrees,radians,windrose",
   "description": "Library to convert between different less known angle formats.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AngleConvertor.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

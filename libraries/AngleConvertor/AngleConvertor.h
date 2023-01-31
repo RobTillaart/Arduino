@@ -2,7 +2,7 @@
 //
 //    FILE: AngleConvertor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-12-01
 // PURPOSE: angle conversion class
 //     URL: https://github.com/RobTillaart/AngleConvertor
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define ANGLECONVERTOR_LIB_VERSION        (F("0.1.0"))
+#define ANGLECONVERTOR_LIB_VERSION        (F("0.1.1"))
 
 
 /////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ public:
   void setHexacontade(float value = 0)   { _v = value * (M_PI / 30.0); };
   void setHourAngle(float value = 0)     { _v = value * (M_PI / 12.0); };
   void setMilliTurn(float value = 0)     { _v = value * (M_PI / 500.0); };
-  
+
   void setMinuteTime(float value = 0)    { _v = value * (M_PI / 720.0); };
   void setOctant(float value = 0)        { _v = value * (M_PI / 4.0); };
   void setPechus(float value = 0)        { _v = value * (M_PI / 90.0); };    //  assumes 2°
@@ -58,7 +58,7 @@ public:
   float getHexacontade()    { return _v * (30.0   / M_PI); };
   float getHourAngle()      { return _v * (12.0   / M_PI); };
   float getMilliTurn()      { return _v * (500.0  / M_PI); };
-  
+
   float getMinuteTime()     { return _v * (720.0  / M_PI); };
   float getOctant()         { return _v * (4.0    / M_PI); };
   float getPechus()         { return _v * (90.0   / M_PI); };     //  assumes 2°
@@ -71,8 +71,24 @@ public:
   float getTurn()           { return _v * (0.5    / M_PI); };
 
 
+  //  WINDROSE
+  //
+  char * windrose()
+  {
+    return windrose(_v * (180.0  / M_PI));
+  }
+
+  char * windrose(float degrees)
+  {
+    uint8_t idx = (degrees + 11.25) * 0.044444444444444;  //  1.0 / 22.5
+    return _wr2[idx];
+  }
+
 private:
-  float _v;  // internal use radians.
+  float _v;  //  internal use radians.
+  char _wr2[17][4] = {
+  "N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW", "N"};
+
 };
 
 

@@ -53,6 +53,10 @@ getSextant	KEYWORD2
 getSign	KEYWORD2
 getTurn	KEYWORD2
 
+# Windrose
+
+windrose	KEYWORD2
+
 
 # Constants (LITERAL1)
 ANGLECONVERTOR_LIB_VERSION	LITERAL1

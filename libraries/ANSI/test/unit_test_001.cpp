@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-11
-// PURPOSE: unit tests for the SHT31 temperature and humidity sensor
+// PURPOSE: unit tests for the Arduino ANSI library
 //          https://github.com/RobTillaart/ANSI
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

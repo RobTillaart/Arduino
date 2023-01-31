@@ -6,12 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.7] - 2022-110-28
+## [0.1.8] - 2023-01-31
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edit unit test
+- add example ansi_clock.ino
+- add example ansi_132_columns.ino
+- minor edits
+
+
+## [0.1.7] - 2022-10-28
 - add RP2040 to build-CI
 - minor edits
 - start simplifying changelog
 - minor change unit test
-
 
 ## [0.1.6] - 2022-04-11
 - add CHANGELOG.md
@@ -37,9 +46,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.1] - 2020-05-27
 - update library.json
 
-
 ## [0.1.0] - 2020-04-28
 - initial release
-
+  Based upon my VT100 library (from 2013) which is now obsolete.
+  This vt100 lib had just a list of escape sequences #defined. 
 
 

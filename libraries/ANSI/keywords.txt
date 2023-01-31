@@ -34,6 +34,15 @@ rgb2color	KEYWORD2
 deviceType	KEYWORD2
 
 
+# EXPERIMENTAL
+
+set132columns	KEYWORD2
+set80columns	KEYWORD2
+moveWindowDown	KEYWORD2
+moveWindowUp	KEYWORD2
+printScreen	KEYWORD2
+reset	KEYWORD2
+
 
 # Constants (LITERAL1)
 toEnd	LITERAL1

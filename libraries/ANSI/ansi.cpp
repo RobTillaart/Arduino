@@ -1,12 +1,10 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
-//
-// HISTORY: See CHANGELOG.md
 
 
 #include "ansi.h"
@@ -37,6 +35,7 @@ int ANSI::peek()
 
 void ANSI::clearScreen()
 {
+  // print(F("\033[2J\033[H"));
   print("\033[2J");
   home();
 }
@@ -48,6 +47,13 @@ void ANSI::clearLine(uint8_t clear)
   print(clear);
   print("K");
 }
+
+
+void ANSI::home()
+{
+  print("\033[H");
+};
+
 
 
 //  ANSI has three different color spaces: 4-bit color, 8-bit color, and 24-bit color
@@ -97,8 +103,8 @@ void ANSI::color(uint8_t fgcolor, uint8_t bgcolor)
 
 uint8_t ANSI::rgb2color(uint8_t r, uint8_t g, uint8_t b) {
   return 16 +
-    36 * (uint16_t(r) * 6 / 256) + 
-     6 * (uint16_t(g) * 6 / 256) + 
+    36 * (uint16_t(r) * 6 / 256) +
+     6 * (uint16_t(g) * 6 / 256) +
          (uint16_t(b) * 6 / 256);
 }
 
@@ -149,7 +155,7 @@ int ANSI::deviceType(uint32_t timeout)
 {
   int type = -1;        //  -1 = unknown
   print("\033[0c");
-  
+
   uint32_t start = millis();
   int read_len = 0;
   char buffer[8];
@@ -161,8 +167,8 @@ int ANSI::deviceType(uint32_t timeout)
     {
       type = buffer[2] - '0';
     }
-    // Serial.write(buffer, 3);
-    // Serial.println();
+    //  Serial.write(buffer, 3);
+    //  Serial.println();
   }
   return type;
 }
@@ -174,7 +180,7 @@ int ANSI::deviceType(uint32_t timeout)
 //
 size_t ANSI::write(uint8_t c)
 {
-  //  TODO add line buffer? - interference with write(array, length) !?
+  //  add line buffer? - interference with write(array, length) !?
   return _stream->write(c);
 }
 
@@ -222,5 +228,5 @@ void ANSI::color8(uint8_t base, uint8_t color) {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

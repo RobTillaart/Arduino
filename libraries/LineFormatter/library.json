@@ -1,7 +1,7 @@
 {
   "name": "LineFormatter",
   "keywords": "Stream, Serial, flex tab positions",
-  "description": "Wrapper class for Serial to enhance layout of tabular data. Set flexible tab positions, repeating strings.",
+  "description": "Wrapper class for Stream / Serial to enhance layout of tabular data. Set flexible tab positions, repeating strings.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/LineFormatter.git"
   },
-  "version": "0.1.5",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

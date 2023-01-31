@@ -63,9 +63,9 @@ void test_graph()
   L.println(__FUNCTION__);
   L.repeat(strlen(__FUNCTION__), "=", 2);
 
-  for (int i = 0; i < 30; i++)
+  for (int i = 0; i < 62; i++)
   {
-    uint8_t n = 40 + 20 * sin(i * 0.3);
+    uint8_t n = 40 + 30 * sin(i * 0.1);
     L.repeat(n, ' ');
     L.println('*');
   }
@@ -87,5 +87,4 @@ void test_setMaxLength()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

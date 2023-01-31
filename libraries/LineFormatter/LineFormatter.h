@@ -2,20 +2,20 @@
 //
 //    FILE: LineFormatter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Simple positioning wrapper class for Serial / Stream
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
-//
+
 
 #include "Arduino.h"
 #include "Print.h"
 
 #ifndef MAX_TAB_STOPS
-#define MAX_TAB_STOPS       12
+#define MAX_TAB_STOPS                       12
 #endif
 
-#define LINEFORMATTER_LIB_VERSION           (F("0.1.5"))
+#define LINEFORMATTER_LIB_VERSION           (F("0.2.0"))
 
 
 class LineFormatter: public Print
@@ -29,12 +29,12 @@ public:
 
 
   //  set the maximum line length - bold cut off
-  void      setMaxLength(uint8_t maxPos) { _maxPos = maxPos; };
-  uint8_t   getMaxLength()  { return _maxPos; };
+  void      setMaxLength(uint8_t maxPos);
+  uint8_t   getMaxLength();
 
 
   //  if position is smaller than n, move to the right
-  uint8_t   gotoPos(uint8_t pos) { while (_pos < pos) write(' '); return _pos; };
+  uint8_t   gotoPos(uint8_t pos);
 
 
   //  repeat a char or a "string" n times
@@ -44,26 +44,33 @@ public:
 
 
   //  n = 0 switches autoNewLine off
-  void      setAutoNewLine(uint8_t n);
-  uint8_t   getAutoNewLine() { return _autoNewLine; };
+  void      setAutoNewLine(uint8_t n = 1);
+  uint8_t   getAutoNewLine();
 
 
   //  Add a tab at (absolute/relative) position
   //  returns true on success
-  bool      addTab(uint8_t n);
+  bool      addTab(uint8_t pos);
   bool      addRelTab(uint8_t n);
   //  remove all the tabs,
   void      clearTabs();
-  //  print zero or more tabs, similar as e.g. "\t\t\t"
-  void      tab(uint8_t n = 1) { while (n--) write('\t'); };
+  //  remove tab at position pos
+  //  returns false if it does not exist.
+  bool      removeTab(uint8_t pos);
+  bool      existTab(uint8_t pos);
 
-  //  DEBUGGING
-  uint8_t   getPos()              { return _pos; };
-  void      resetLineCount()      { _lineCount = 0; };
-  uint16_t  getLineCount()        { return _lineCount; };
-  uint8_t   getTabCount()         { return _tabCount; };
-  uint8_t   getTabStop(uint8_t n) { return _tabStop[n]; };
-  void      printRuler(uint8_t n);
+  //  print zero or more tabs, similar as e.g. "\t\t\t"
+  //  optimized repeat
+  void      tab(uint8_t n = 1);
+
+
+  //  MISCELLANEOUS
+  uint8_t   getPos();
+  void      resetLineCount();
+  uint32_t  getLineCount();
+  uint8_t   getTabCount();
+  uint8_t   getTabStop(uint8_t n);
+  void      printRuler(uint8_t length);
 
 
 private:
@@ -71,14 +78,14 @@ private:
 
   uint8_t   _pos         = 0;
   uint8_t   _maxPos      = 0;
-  uint16_t  _lineCount   = 0;
-  uint8_t   _anl         = 0;
-  uint8_t   _autoNewLine = 0;
+  uint32_t  _lineCount   = 0;
+  uint8_t   _anl         = 0;  //  counter
+  uint8_t   _autoNewLine = 0;  //  position for the newline.
 
   uint8_t   _tabStop[MAX_TAB_STOPS];
   uint8_t   _tabCount = 0;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

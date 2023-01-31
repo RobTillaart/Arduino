@@ -42,6 +42,7 @@ unittest_setup()
   fprintf(stderr, "LINEFORMATTER_LIB_VERSION: %s\n", (char*) LINEFORMATTER_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -89,7 +90,7 @@ unittest(test_tab)
   for (int i = 0; i < Line.getTabCount(); i++)
   {
     fprintf(stderr, "%d\t", 8 + i*8);
-    assertEqual(8 + i*8, Line.getTabStop(i));
+    assertEqual(8 + i*8, (int)Line.getTabStop(i));
   }
 
   fprintf(stderr, "tab test - !! cur position is one before tab position\n");
@@ -103,6 +104,75 @@ unittest(test_tab)
 }
 
 
+unittest(test_removeTab)
+{
+  LineFormatter Line;
+
+  fprintf(stderr, "tab setting\n");
+  for (int i = 8; i <= 80; i += 8)
+  {
+    Line.addTab(i);
+  }
+  assertEqual(10, Line.getTabCount());
+  for (int i = 0; i < Line.getTabCount(); i++)
+  {
+    fprintf(stderr, "%d\t", 8 + i*8);
+    assertEqual(8 + i*8, (int)Line.getTabStop(i));
+  }
+
+  fprintf(stderr, "remove tabs\n");
+  for (int i = 8; i <= 80; i += 16)
+  {
+    Line.removeTab(i);
+  }
+  assertEqual(5, Line.getTabCount());
+  for (int i = 0; i < Line.getTabCount(); i++)
+  {
+    fprintf(stderr, "%d\t", 16 + i*16);
+    assertEqual(16 + i*16, (int)Line.getTabStop(i));
+  }
+
+}
+
+
+unittest(test_existTab)
+{
+  LineFormatter Line;
+
+  for (int i = 8; i <= 80; i += 8)
+  {
+    assertFalse(Line.existTab(i));
+    Line.addTab(i);
+    assertTrue(Line.existTab(i));
+  }
+  Line.clearTabs();
+
+  for (int i = 8; i <= 80; i += 8)
+  {
+    assertFalse(Line.existTab(i));
+  }
+}
+
+
+unittest(test_addTab)
+{
+  LineFormatter Line;
+
+  //  cannot add position 0.
+  assertFalse(Line.addTab(0));
+
+    //  cannot add twice
+  for (int i = 8; i <= 80; i += 8)
+  {
+    assertTrue(Line.addTab(i));
+    assertFalse(Line.addTab(i));
+  }
+  assertEqual(10, Line.getTabCount());
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

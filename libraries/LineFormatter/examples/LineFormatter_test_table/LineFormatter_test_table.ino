@@ -142,6 +142,7 @@ void test_table_2()
 
   L.println("\tIdx\tTime\tValue\tA0\tA1\tA2\tA3\tA4\tA5");
   L.repeat(8, "----+----|", 1);
+  //  L.printRuler(80);
 
   L.setAutoNewLine(5);
   for (int i = 0; i < 20; i++)
@@ -180,5 +181,4 @@ void test_table_2()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

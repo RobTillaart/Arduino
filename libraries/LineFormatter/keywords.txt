@@ -8,20 +8,26 @@ LineFormatter	KEYWORD1
 reset	KEYWORD2
 write	KEYWORD2
 setMaxLength	KEYWORD2
+getMaxLength	KEYWORD2
+
 gotoPos	KEYWORD2
-getPos	KEYWORD2
 repeat	KEYWORD2
 
-resetLineCount	KEYWORD2
-getLineCount	KEYWORD2
 setAutoNewLine	KEYWORD2
+getAutoNewLine	KEYWORD2
 
 addTab	KEYWORD2
 addRelTab	KEYWORD2
 clearTabs	KEYWORD2
-getTabCount	KEYWORD2
-
+removeTab	KEYWORD2
+existsTab	KEYWORD2
 tab	KEYWORD2
+
+getPos	KEYWORD2
+resetLineCount	KEYWORD2
+getLineCount	KEYWORD2
+getTabCount	KEYWORD2
+getTabStop	KEYWORD2
 printRuler	KEYWORD2
 
 

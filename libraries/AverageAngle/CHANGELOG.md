@@ -6,10 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-02-01
+- add experimental OVERFLOW detection in **add()**
+- add **lastError()**
+  - OK, OVERFLOW, SINGULARITY
+- update GitHub actions
+- update license 2023
+- update readme.md
+- update keywords.txt
+
+----
+
 ## [0.1.9] - 2022-12-07
 - fix #7 update readme.md
--
-
 
 ## [0.1.8] - 2022-10-29
 - add RP2040 support to build-CI.

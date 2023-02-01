@@ -1,13 +1,16 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.0
 //    DATE: 2017-11-21
 // PURPOSE: class for averaging angles
 //     URL: https://github.com/RobTillaart/AverageAngle
 
 
 #include "AverageAngle.h"
+
+
+const float  AA_OVERFLOW_THRESHOLD = 10000;
 
 
 AverageAngle::AverageAngle(const enum AngleType type)
@@ -27,8 +30,20 @@ uint32_t AverageAngle::add(float alpha, float length)
   {
     alpha *= GRAD_TO_RAD;             //  (PI / 200.0);
   }
-  _sumx += (cos(alpha) * length);
-  _sumy += (sin(alpha) * length);
+  float dx = cos(alpha);
+  float dy = sin(alpha);
+  if (length != 1.0)
+  {
+    dx *= length;
+    dy *= length;
+  }
+  _sumx += dx;
+  _sumy += dy;
+  _error = AVERAGE_ANGLE_OK;
+  if ((abs(_sumx) > AA_OVERFLOW_THRESHOLD) || (abs(_sumy) > AA_OVERFLOW_THRESHOLD))
+  {
+    _error = AVERAGE_ANGLE_OVERFLOW;
+  }
   _count++;
   return _count;
 }
@@ -36,16 +51,17 @@ uint32_t AverageAngle::add(float alpha, float length)
 
 void AverageAngle::reset()
 {
-  _sumx = 0;
-  _sumy = 0;
+  _sumx  = 0;
+  _sumy  = 0;
   _count = 0;
+  _error = AVERAGE_ANGLE_OK;
 }
 
 
 uint32_t AverageAngle::count()
 {
   return _count;
-};
+}
 
 
 float AverageAngle::getAverage()
@@ -59,6 +75,16 @@ float AverageAngle::getAverage()
   else if (_type == AverageAngle::GRADIANS )
   {
     angle *= RAD_TO_GRAD;              //  (200.0 / PI);
+  }
+
+  //  error reporting
+  if (isnan(angle))
+  {
+    _error = AVERAGE_ANGLE_SINGULARITY;
+  }
+  else
+  {
+    _error = AVERAGE_ANGLE_OK;
   }
   return angle;
 }
@@ -92,5 +118,13 @@ bool AverageAngle::setType(const enum AngleType type)
 }
 
 
-// -- END OF FILE --
+int AverageAngle::lastError()
+{
+  int e = _error;
+  _error = AVERAGE_ANGLE_OK;
+  return e;
+}
+
+
+//  -- END OF FILE --
 

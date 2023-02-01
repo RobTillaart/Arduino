@@ -30,6 +30,7 @@ unittest_setup()
   fprintf(stderr, "AVERAGE_ANGLE_LIB_VERSION: %s\n", (char*) AVERAGE_ANGLE_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -41,6 +42,11 @@ unittest(test_constants)
   assertEqualFloat(180.0 / PI, RAD_TO_DEG, 0.00001);
   assertEqualFloat(PI / 200.0, GRAD_TO_RAD, 0.00001);
   assertEqualFloat(200.0 / PI, RAD_TO_GRAD, 0.00001);
+
+  //  ERROR CODES
+  assertEqual(0,    AVERAGE_ANGLE_OK);
+  assertEqual(-10,  AVERAGE_ANGLE_OVERFLOW);
+  assertEqual(-20,  AVERAGE_ANGLE_SINGULARITY);
 }
 
 
@@ -53,6 +59,10 @@ unittest(test_constructor)
   assertEqual(AverageAngle::DEGREES, dd.type());
   assertEqual(AverageAngle::RADIANS, rr.type());
   assertEqual(AverageAngle::GRADIANS, gg.type());
+
+  assertEqual(AVERAGE_ANGLE_OK, dd.lastError());
+  assertEqual(AVERAGE_ANGLE_OK, rr.lastError());
+  assertEqual(AVERAGE_ANGLE_OK, gg.lastError());
 }
 
 
@@ -118,4 +128,6 @@ unittest(test_gradians)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

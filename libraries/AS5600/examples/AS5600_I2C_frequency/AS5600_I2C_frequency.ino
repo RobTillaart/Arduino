@@ -21,7 +21,12 @@ void setup()
 
   Wire.begin();
 
+  //  UNO
   as5600.begin(4);  //  set direction pin.
+  //  ESP32
+  //  as5600.begin(14, 15);     // no direction pin.
+  //  as5600.setAddress(0x40);  // AS5600L only
+
   as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
   int b = as5600.isConnected();
   Serial.print("Connect: ");
@@ -32,7 +37,7 @@ void setup()
 void loop()
 {
   clk += 100000;
-  if (clk >= 800000) clk = 100000;
+  if (clk > 800000) clk = 100000;
   Wire.setClock(clk);
 
   Serial.print(clk);

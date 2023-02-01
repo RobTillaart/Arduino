@@ -26,7 +26,7 @@ void setup()
 
   Serial.println(as5600.getAddress());
 
-  // as5600.setAddress(0x40);  // AS5600L only
+  //  as5600.setAddress(0x40);  // AS5600L only
 
   int b = as5600.isConnected();
   Serial.print("Connect: ");

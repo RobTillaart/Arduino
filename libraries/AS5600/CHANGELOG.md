@@ -5,12 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2023-02-01
+- update GitHub actions
+- update license 2023
+- update readme.md
+
+
 ## [0.3.4] - 2022-12-22
 - fix #26 edges problem of the experimental cumulative position (CP).
 - decoupled CP from **rawAngle()**
   - now one needs to call **getCumulativePosition()** to update the CP.
 - updated the readme.md section about CP.
-
 
 ## [0.3.3] - 2022-12-19
 - add experimental continuous position.

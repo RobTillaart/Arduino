@@ -2,9 +2,9 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
-//     URL: https://github.com/RobTillaart/CH8305
+//     URL: https://github.com/RobTillaart/CHT8305
 //
 
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.5"))
+#define CHT8305_LIB_VERSION              (F("0.1.6"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS

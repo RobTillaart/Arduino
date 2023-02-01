@@ -5,13 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-----
+
+## [0.1.6] - 2023-02-01
+- update GitHub actions
+- update license 2023
+- update readme.md
+- minor edits
+
 
 ## [0.1.5] - 2022-10-29
 - fix changelog.md
 - add readTemperature()
 - add readHumidity()
-
 
 ## [0.1.4] - 2022-10-15
 - add CHT8305_DEFAULT_ADDRESS (0x40).

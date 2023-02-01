@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-10-06
 // PURPOSE: unit tests for the CHT8305 temperature and humidity sensor
-//          https://github.com/RobTillaart/CH8305
+//          https://github.com/RobTillaart/CHT8305
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -30,6 +30,7 @@ unittest_setup()
 {
   fprintf(stderr, "CHT8305_LIB_VERSION: %s\n", (char *) CHT8305_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -138,4 +139,4 @@ unittest(test_setAlertLevels)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -1,9 +1,9 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
-//     URL: https://github.com/RobTillaart/CH8305
+//     URL: https://github.com/RobTillaart/CHT8305
 //
 //  HISTORY: see changelog.md
 
@@ -109,7 +109,10 @@ int CHT8305::readTemperature()
   uint16_t tmp = data[0] << 8 | data[1];
   _temperature = tmp * (165.0 / 65535.0) - 40.0;
 
-  if (_tempOffset != 0.0) _temperature += _tempOffset;
+  if (_tempOffset != 0.0)
+  {
+    _temperature += _tempOffset;
+  }
 
   return CHT8305_OK;
 }
@@ -130,7 +133,10 @@ int CHT8305::readHumidity()
   uint16_t tmp = data[0] << 8 | data[1];
   _humidity    = tmp / 655.35;  //  == / 65535 * 100%
 
-  if (_humOffset  != 0.0) _humidity    += _humOffset;
+  if (_humOffset  != 0.0)
+  {
+    _humidity += _humOffset;
+  }
 
   return CHT8305_OK;
 }

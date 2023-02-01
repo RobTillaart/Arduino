@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CHT8305/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CHT8305.svg?maxAge=3600)](https://github.com/RobTillaart/CHT8305/releases)
 
+
 # CHT8305
 
 Arduino library for CHT8305 temperature and humidity sensor.
@@ -31,7 +32,7 @@ This prevents the need for continuous polling of the sensor.
 
 #### Tests
 
-- Temperature() and humidity() works on AVR.
+- Temperature and humidity functions works on AVR.
   - default about 14 milliseconds at 14 bit resolution.
 - offset functions work.
 - getVoltage() function works on AVR but meaning unclear.
@@ -44,7 +45,7 @@ The reason is that the sensor I have does not expose the ALERT pin.
 If you are able to test the ALERT functions, please let me know your experiences.
 
 
-### Hardware
+## Hardware
 
 Always check datasheet for connections.
 
@@ -67,23 +68,10 @@ Always check datasheet for connections.
 //  SCL     WHITE
 ```
 
-
-### Register map 
-
-See datasheet page 10 for details
-
-|  Address  |  Register name             |
-|:---------:|:---------------------------|
-|   0x00    |  CHT8305_REG_TEMPERATURE   |
-|   0x01    |  CHT8305_REG_HUMIDITY      |
-|   0x02    |  CHT8305_REG_CONFIG        |
-|   0x03    |  CHT8305_REG_ALERT         |
-|   0x04    |  CHT8305_REG_VOLTAGE       |
-|   0xFE    |  CHT8305_REG_MANUFACTURER  |
-|   0xFF    |  CHT8305_REG_VERSION       |
+Pull ups are needed on SDA, SCL and optional to ALERT.
 
 
-### Alert
+#### Alert
 
 The CHT8305 has an ALERT logic output pin with an open drain structure.
 This output is active low. (if the breakout supports this.)
@@ -91,7 +79,12 @@ This output is active low. (if the breakout supports this.)
 
 ## I2C 
 
-I2C bus speeds supported up to 400 KHz.
+#### performance
+
+I2C bus speeds is supported up to 400 KHz.
+
+
+#### Addresses
 
 |  AD0  |   Address  |  Notes  |
 |:-----:|:----------:|:--------|
@@ -105,25 +98,36 @@ Pull ups are needed on SDA, SCL and optional to ALERT.
 
 ## Interface
 
+```cpp
+#include "CHT8305.h"
+```
+
+#### Constructor
+
 - **CHT8305(TwoWire \*wire = &Wire)** Constructor with default I2C bus.
 - **int begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS)** sets address, default = 0x40.
-- **int begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS)** idem ESP32 et. al.
-- **bool isConnected()** checks if address can be seen on the I2C bus.
+- **int begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS)** idem for ESP32 et. al.
+- **bool isConnected()** checks if address (default 0x40) can be seen on the I2C bus.
+
+
+#### Core
+
 - **int read()** reads both the temperature and humidity.
 Can be called once per second.
 - **int readTemperature()** read only temperature (slightly faster than read)
 - **int readHumidity()** read only humidity (slightly faster than read)
 - **uint32_t lastRead()** returns lastRead in MilliSeconds since start sketch.
+Useful to check when it is time to call **read()** again, or for logging.
 - **float getHumidity()** returns last humidity read.
-Will return the same value until **read()** is called again.
+Will return the same value until **read()** or **readTemperature()** is called again.
 - **float getTemperature()** returns last temperature read.
-Will return the same value until **read()** is called again.
+Will return the same value until **read()** or **readHumidity()** is called again.
 
 Note: read(), readTemperature() and readHumidity() blocks each other,
-so you can call one of them every second.
+so you can call only one of them every second.
 
 
-### Conversion delay
+#### Conversion delay
 
 - **void setConversionDelay(uint8_t cd = 14)** default is 14 milliseconds (datasheet).
 7 ms failed. 8 ms worked, so values below 8 are mapped to 8 in the library.
@@ -132,10 +136,11 @@ It might be that lower resolutions allow shorter delays. This is not tested.
 - **uint8_t getConversionDelay()** returns set value.
 
 
-### Offset
+#### Offset
 
 Adding offsets works well in the "normal range" but might introduce 
 under- or overflow at the ends of the sensor range.
+These are not handled by the library (yet).
   
 - **void setHumOffset(float offset)** idem.
 - **void setTempOffset(float offset)** idem.
@@ -144,9 +149,10 @@ under- or overflow at the ends of the sensor range.
 
 If the offset is not the same over the operational range, 
 consider a mapping function for temperature and humidity.
+e.g. https://github.com/RobTillaart/MultiMap
 
 
-### Configuration register
+#### Configuration register
 
 Check the datasheet for details of the register bits.
 
@@ -170,7 +176,7 @@ Check the datasheet for details of the register bits.
 |  1-0  | 0x0003 |  reserved.      |  do not change. 
 
 
-#### Getters / setters config register
+#### Getters / setters configuration register
 
 Note: setting **setConfigRegister(bitmask)** can be faster.
 
@@ -178,7 +184,7 @@ Wrapper functions for easy configuration.
 
 - **void softReset()** sets the soft reset bit in the configuration, causing the sensor to reset.
 - **void setI2CClockStretch(bool on = false)** check datasheet.
-- **bool getI2CClockStretch()**
+- **bool getI2CClockStretch()** check datasheet.
 - **void setHeaterOn(bool on = false)** switch on internal heater. 
 Can improve humidity readings.
 See datasheet for (limited) details.
@@ -195,7 +201,7 @@ See datasheet for (limited) details.
 - **bool getVCCenable()** idem.
 
 
-### Alert
+#### Alert
 
 See register 3 datasheet page 12 for details.
 
@@ -223,7 +229,7 @@ See register 3 datasheet page 12 for details.
 The ALERT pin triggers with a falling edge (from HIGH to LOW).
 
 
-### Voltage
+#### Voltage
 
 VCC measurement should be enabled by means of **void setVCCenable(true)**
 or by **setConfigRegister(0x0004)**.
@@ -236,19 +242,37 @@ Varied slightly 5.000 - 4.999 also for 3V3 power supply.
 Conclusion: it is unclear how to interpret this register.
 
 
-### Meta data
+#### Meta data
 
 - **uint16_t getManufacturer()** returns 0x5959.
 - **uint16_t getVersionID()** return value may differ. 
 Test returned 0x8305.
 
 
+#### Register map 
+
+See datasheet page 10 for details
+
+|  Address  |  Register name             |
+|:---------:|:---------------------------|
+|   0x00    |  CHT8305_REG_TEMPERATURE   |
+|   0x01    |  CHT8305_REG_HUMIDITY      |
+|   0x02    |  CHT8305_REG_CONFIG        |
+|   0x03    |  CHT8305_REG_ALERT         |
+|   0x04    |  CHT8305_REG_VOLTAGE       |
+|   0xFE    |  CHT8305_REG_MANUFACTURER  |
+|   0xFF    |  CHT8305_REG_VERSION       |
+
+
 ## Future
 
-- test (see below)
-- elaborate documentation.
+#### Must
 
-#### test
+- elaborate documentation.
+- more testing (platforms)
+
+
+#### Should
 
 - test ESP32, other platforms?
 - test performance.
@@ -258,6 +282,14 @@ Test returned 0x8305.
 - test ALERT functions.
 - test write / readRegister with a single uint16_t to simplify code.
 
+
 #### Could
+
+- make offset functions "full name" e.g. **setHumidityOffset()**  (0.2,0)
+- fix offset over- underflow for humidity (can never exceed 0..100%)
+- parameter testing
+- parameter defaults?
+
+#### Wont
 
 

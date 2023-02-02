@@ -1,0 +1,11 @@
+IDE 1.8.19
+Arduino UNO
+
+SIMON_performance.ino
+SIMON_LIB_VERSION:	0.1.2
+10x GENERATE
+time:	3668
+10x ADD + CLEAR
+time:	16
+10x VERIFY
+time:	4

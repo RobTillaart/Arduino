@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.0
 //    DATE: 2022-05-26
-// PURPOSE: unit tests for SIMON
+// PURPOSE: unit tests for SIMON library
 //          https://github.com/RobTillaart/SIMON
 //
 
@@ -40,6 +40,7 @@ unittest_setup()
 {
   fprintf(stderr, "SIMON_LIB_VERSION: %s\n", (char *) SIMON_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -167,4 +168,5 @@ unittest(test_verify)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

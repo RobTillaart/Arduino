@@ -2,7 +2,7 @@
 //    FILE: simon.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-05-26
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for SIMON
 //     URL: https://github.com/RobTillaart/SIMON
 

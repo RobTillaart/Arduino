@@ -123,4 +123,5 @@ unittest(test_soundex_getLength)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

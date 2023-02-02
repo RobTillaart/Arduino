@@ -51,6 +51,7 @@ void setup()
     start = micros();
     char * key = SDX.soundex(token);
     stop = micros();
+
     Serial.print(stop - start);
     total += (stop - start);
     Serial.print("\t");
@@ -60,6 +61,7 @@ void setup()
     Serial.print("\n");
     token = strtok(NULL, " ,");
     words++;
+
     delay(10);
   }
 

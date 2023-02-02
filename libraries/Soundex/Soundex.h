@@ -2,7 +2,7 @@
 //
 //    FILE: Soundex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-02-05
 // PURPOSE: Arduino Library for calculating Soundex hash
 //     URL: https://github.com/RobTillaart/Soundex
@@ -11,21 +11,23 @@
 #include "Arduino.h"
 
 
-#define SOUNDEX_LIB_VERSION              (F("0.1.3"))
+#define SOUNDEX_LIB_VERSION              (F("0.1.4"))
 
 
 #define SOUNDEX_MIN_LENGTH               4
-#define SOUNDEX_MAX_LENGTH               12
 
+#ifndef SOUNDEX_MAX_LENGTH
+#define SOUNDEX_MAX_LENGTH               12
+#endif
 
 
 class Soundex
 {
 public:
-  Soundex(); 
+  Soundex();
 
   void     setLength(uint8_t length = 4);
-  uint8_t  getLength() { return _length; };
+  uint8_t  getLength();
 
   char *   soundex(const char * str);       //  Russel and Odell
   uint16_t soundex16(const char * str);     //  Russel and Odell  length = 5
@@ -40,5 +42,5 @@ private:
 };
 
 
-// -- END OF FILE -- 
+//  -- END OF FILE --
 

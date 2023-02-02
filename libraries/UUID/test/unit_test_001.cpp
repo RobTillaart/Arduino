@@ -33,6 +33,7 @@ unittest_setup()
   fprintf(stderr, "UUID_LIB_VERSION: %s\n", (char *) UUID_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -115,5 +116,5 @@ unittest(test_printTo)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
 

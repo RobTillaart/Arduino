@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2022-11-26
+- update GitHub actions
+- update license 2023
+- update readme.md
+- add **UUID_random_ESP32.ino** seed UUID with build in RNG.
+- move code to .cpp
+- minor edits
+
+
 ## [0.1.4] - 2022-11-26
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
@@ -26,7 +35,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix bug in generator
 - define UUID_MODE_VARIANT4
 - define UUID_MODE_RANDOM
-
 
 ## [0.1.0] - 2022-06-14
 - initial version

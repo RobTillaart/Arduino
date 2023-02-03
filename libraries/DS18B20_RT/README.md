@@ -24,15 +24,29 @@ to save a few dozen bytes. I reworked that minimalistic version into a library a
 added a number of Arduino examples to help you get started.
 
 
+#### Related
+
+This library is related to 
+- https://github.com/RobTillaart/DS18B20_INT
+- https://github.com/milesburton/Arduino-Temperature-Control-Library
+
+
 ## Interface
+
+```cpp
+#include "DS18B20.h"
+```
+
+#### Core
 
 The DS18B20 library supports only the DS18B20, only one sensor per pin, no parasite 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
 - **DS18B20(OneWire \* ow)** constructor needs a reference to OneWire object.
-- **bool begin(uint8_t retries = 3)** resets oneWire and set resolution to 9 bit.  
-returns true if all is OK. there will be a number of retries to connect, default 3. 
+- **bool begin(uint8_t retries = 3)** resets oneWire and set resolution default to 9 bit.  
+returns true if all is OK. 
+There will be a number of retries to connect, default 3. 
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
 - **float getTempC()** returns temperature
@@ -65,36 +79,34 @@ This library supports only one DS18B20 per Arduino/ MCU pin.
     //  |  o |  2    DATA
     //  \  o |  3    VCC
     //   \---+
-
 ```
+(always check datasheet)
 
 Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. 
 When the wires are longer this resistor needs to be smaller.
 
-Check examples.
 
-
-### Pull up resistor
+#### Pull up resistor
 
 An **indicative** table for pull up resistors, (E12 series), to get started.
 
 Note: thicker wires require smaller resistors (typically 1 step in E12 series) 
 
 
-| Length        | - 5.0 Volt  | - 3.3 Volt |
-|--------------:|------------:|-----------:|
-| 10cm (4")     |    10K0     |    6K8     |
-| 20cm (8")     |     8K2     |    4K7     |
-| 50cm (20")    |     4K7     |    3K3     | 
-| 100cm (3'4")  |     3K3     |    2K2     | 
-| 200cm (6'8")  |     2K2     |    1K0     | 
-| 500cm (16'8") |     1K0     |    \*      |  
-| longer        |     \*        |    \*      |
+|  Length         |   5.0 Volt  |  3.3 Volt  |  Notes  |
+|----------------:|------------:|-----------:|:--------|
+|  10cm (4")      |    10K0     |    6K8     |  might work without  |
+|  20cm (8")      |     8K2     |    4K7     |
+|  50cm (20")     |     4K7     |    3K3     | 
+|  100cm (3'4")   |     3K3     |    2K2     | 
+|  200cm (6'8")   |     2K2     |    1K0     | 
+|  500cm (16'8")  |     1K0     |    \*      |  
+|  longer         |     \*      |    \*      |
 
-\* = no info, smaller 
+\* = no info, smaller?
 
 
-### Diagnosis notes
+#### Diagnosis notes
 
 It was noted that the library sometimes give unexpected values, and keep 
 sending these values.
@@ -128,7 +140,24 @@ and all people who contributed to that lib.
 
 ## Future
 
+#### Must
+
+- elaborate performance connected state.
+
+#### Should
+
+- add examples
+  - a multi sensor == multiple pins, no bus
+
+#### Could
+
+- add rounding for **getTempC()**.
+  - now it truncates, so it can be 0.5°C off.
+  - add "0.5" to raw and truncate improves only for 10 bits and higher.
+
+#### Wont
+
 - unit tests
-  - add constants
   - get it working
+
 

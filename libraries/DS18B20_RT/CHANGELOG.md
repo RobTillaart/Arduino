@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.14] - 2023-02-03
+- update readme.md
+- add **getResolution()**
+- move code from .h to .cpp.
+- minor refactor
+- update keywords
+- update GitHub actions
+- update license 2023
+
+
 ## [0.1.13] - 2022-11-02
 - add changelog.md
 - add rp2040 to build-CI
 - update unit test constants
-
 
 ## [0.1.12] - 2021-12-17
 - update library.json

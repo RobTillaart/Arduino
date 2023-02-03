@@ -3,8 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: scan for 1-Wire devices + code snippet generator
 //    DATE: 2015-june-30
-//     URL: http://forum.arduino.cc/index.php?topic=333923
 //     URL: https://github.com/RobTillaart/DS18B20_RT
+//     URL: http://forum.arduino.cc/index.php?topic=333923
 //
 // inspired by http://www.hacktronics.com/Tutorials/arduino-1-wire-address-finder.html
 

@@ -2,15 +2,15 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.14
-// PURPOSE: Arduino library to implement a Fraction datatype
+// VERSION: 0.1.15
+// PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 //
 
 
 #include "Arduino.h"
 
-#define FRACTION_LIB_VERSION            (F("0.1.14"))
+#define FRACTION_LIB_VERSION            (F("0.1.15"))
 
 
 class Fraction: public Printable
@@ -20,6 +20,7 @@ public:
     explicit Fraction(float);
     Fraction(int32_t, int32_t);
 
+    //  CONSTRUCTORS
     explicit Fraction(int32_t p)   : n(p), d(1) {}
     explicit Fraction(int16_t p)   : n(p), d(1) {}
     explicit Fraction(int8_t p)    : n(p), d(1) {}
@@ -30,19 +31,19 @@ public:
 
     size_t printTo(Print& p) const;
 
-    // equalities
+    //  EQUALITIES
     bool operator == (const Fraction&);
-    // bool operator == (const float&);
+    //  bool operator == (const float&);
     bool operator != (const Fraction&);
     bool operator >  (const Fraction&);
     bool operator >= (const Fraction&);
     bool operator <  (const Fraction&);
     bool operator <= (const Fraction&);
 
-    // negation
+    //  NEGATE
     Fraction operator - ();
 
-    // basic maths
+    //  BASIC MATH
     Fraction operator + (const Fraction&);
     Fraction operator - (const Fraction&);
     Fraction operator * (const Fraction&);
@@ -53,22 +54,20 @@ public:
     Fraction& operator *= (const Fraction&);
     Fraction& operator /= (const Fraction&);
 
-
-    float   toDouble();
-    float   toFloat()   { return toDouble(); };
-    bool    isProper();   // abs(f) < 1
+    //  CONVERSION
+    double  toDouble();
+    float   toFloat();
+    bool    isProper();     //  abs(f) < 1
     float   toAngle();
 
+    int32_t  nominator();
+    int32_t  denominator();
 
-    int32_t  nominator() { return n; };
-    int32_t  denominator() { return d; };
-
-
+    //  MISCELLANEOUS (static)
     static Fraction mediant(const Fraction&, const Fraction&);
     static Fraction middle(const Fraction&, const Fraction&);
 
-
-    // approximate a fraction with defined denominator
+    //  approximate a fraction with defined denominator
     static Fraction setDenominator(const Fraction&, uint16_t);
 
 
@@ -83,4 +82,4 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -35,6 +35,7 @@ unittest_setup()
   fprintf(stderr, "FRACTION_LIB_VERSION: %s\n", (char*) FRACTION_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -82,11 +83,13 @@ unittest(test_math)
 {
   Fraction pi(PI);
   Fraction ee(EULER);
-  // TODO
+  //  TODO
   assertEqual(1, 1);
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

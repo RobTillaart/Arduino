@@ -13,12 +13,13 @@ Arduino library for I2C MCP9808 temperature sensor.
 
 ## Description
 
-The MCP9808 is a temperature sensor that measures typically in 1/16th == 0.0625 ° Celsius.
+The MCP9808 is a temperature sensor that measures typically in 1/16th == 0.0625° Celsius.
 What makes this sensor interesting is the **ALERT** pin, which allows triggering of any piece
-of electronics if the temperature hits a predefined value or zone.
+of electronics if the temperature hits a predefined value or temperature zone.
 
 
 ### MCP9808 breakout board
+
 ```
 //
 //       Adafruit MCP9808 breakout board
@@ -40,7 +41,11 @@ of electronics if the temperature hits a predefined value or zone.
 
 ## Interface
 
-### Constructor
+```cpp
+#include "mcp9808.h"
+```
+
+#### Constructor
 
 - **MCP9808(const uint8_t address)** constructor for e.g. UNO.
 - **MCP9808(const uint8_t address, const uint8_t dataPin = 255, const uint8_t clockPin = 255)** constructor for ESP32 and ESP8266.
@@ -68,7 +73,7 @@ On request manufacturer will provide 1001xxx as base address
 allowing up to 16 temp sensors on one bus.
 
 
-### Temperature and status
+#### Temperature and status
 
 - **void setOffset(float offset = 0.0)** set an offset to calibrate or to correct for self heating. 
 The value of offset is not validated to keep footprint small.
@@ -87,7 +92,7 @@ A value of 6 == mask == 110 means that TA is above the upper and above the criti
 |   2   |  0x04  |  TA ≥ TCRIT   |  larger or equal |
 
 
-### Resolution
+#### Resolution
 
 - **void setResolution(uint8_t resolution = 3)** set the resolution, if resolution > 3, it is not set.
 - **uint8_t getResolution()** returns the resolution set.
@@ -103,7 +108,7 @@ A value of 6 == mask == 110 means that TA is above the upper and above the criti
 Note: for the same resolution it is about 3x faster than a DS18B20.
 
 
-### Configuration
+#### Configuration
 
 - **void setConfigRegister(uint16_t configuration)** see table below + read datasheet.
 - **uint16_t getConfigRegister()** return set value.
@@ -125,7 +130,7 @@ Note: for the same resolution it is about 3x faster than a DS18B20.
 Check datasheet for the details...
 
 
-### Temperature limits / thresholds
+#### Temperature limits / thresholds
 
 - **void setTupper(float temp)** write upper register, accuracy 0.25°C.
 - **float getTupper()** idem.
@@ -141,7 +146,7 @@ value of these triggers.
 The values set are not validated to keep footprint of the library small.
 
 
-### Miscellaneous
+#### Miscellaneous
 
 - **uint16_t getManufacturerID()** returns 84 (my version).
 - **uint8_t getDeviceID()** returns 0 (my version).
@@ -149,33 +154,33 @@ The values set are not validated to keep footprint of the library small.
 - **uint16_t getRFU()** returns 29 (my version). Reserved for future use. 
 
 
-### Hidden registers
+#### Hidden registers
 
 The MCP9808 has hidden registers mentioned only on p.16 of the datasheet.
 These are for testing and calibration.
 The library prevents reading / writing them to keep sensors working.
 
 
-## Operation
-
-See examples
-
-
 ## Future
 
-#### must
+#### Must
+
 - update documentation
   - compare DS18B20?
 - test more
   - negative temperatures
 
-#### should
+#### Should
+
 - do unit test
 - check for optimizations
 
-#### could
+#### Could
+
 - add examples 
   - for the **ALERT**
   - multi sensor
 
+
+#### Wont
 

@@ -1,13 +1,14 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
 
 
 #include "mcp9808.h"
+
 
 #define MCP9808_RFU     0x00
 #define MCP9808_CONFIG  0x01
@@ -68,8 +69,8 @@ bool MCP9808::setAddress(const uint8_t address, TwoWire *wire)
 
 bool MCP9808::isConnected()
 {
-  Wire.beginTransmission(_address);
-  return (Wire.endTransmission() == 0);
+  _wire->beginTransmission(_address);
+  return (_wire->endTransmission() == 0);
 }
 
 
@@ -213,47 +214,47 @@ float MCP9808::readFloat(uint8_t reg)
 void MCP9808::writeReg8(uint8_t reg, uint8_t value)
 {
   if (reg > MCP9808_RES) return;      //  see p.16
-  Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.write(value);
-  Wire.endTransmission();
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->write(value);
+  _wire->endTransmission();
 }
 
 
 uint8_t MCP9808::readReg8(uint8_t reg)
 {
   if (reg > MCP9808_RES) return 0;    //  see p.16
-  Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.endTransmission();
-  Wire.requestFrom(_address, (uint8_t)1);
-  return Wire.read();
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->endTransmission();
+  _wire->requestFrom(_address, (uint8_t)1);
+  return _wire->read();
 }
 
 
 void MCP9808::writeReg16(uint8_t reg, uint16_t value)
 {
   if (reg > MCP9808_RES) return;      //  see p.16
-  Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.write(value >> 8);       //  hi byte
-  Wire.write(value & 0xFF);     //  lo byte
-  Wire.endTransmission();
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->write(value >> 8);       //  hi byte
+  _wire->write(value & 0xFF);     //  lo byte
+  _wire->endTransmission();
 }
 
 
 uint16_t MCP9808::readReg16(uint8_t reg)
 {
   if (reg > MCP9808_RES) return 0;    //  see p.16
-  Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.endTransmission();
-  Wire.requestFrom(_address, (uint8_t)2);
-  uint16_t val = Wire.read() << 8;
-  val += Wire.read();
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->endTransmission();
+  _wire->requestFrom(_address, (uint8_t)2);
+  uint16_t val = _wire->read() << 8;
+  val += _wire->read();
   return val;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

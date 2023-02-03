@@ -42,6 +42,7 @@ unittest_setup()
   fprintf(stderr, "MCP9808_LIB_VERSION: %s\n", (char *) MCP9808_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -62,7 +63,7 @@ unittest(test_constants)
 }
 
 
-// TODO more can be tested if there is a Godmode->Wire stub
+//  TODO more can be tested if there is a Godmode->Wire stub
 unittest(test_constructor)
 {
   MCP9808 ts(24);
@@ -85,4 +86,6 @@ unittest(test_offset)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

@@ -2,7 +2,7 @@
 //
 //    FILE: mcp9808.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -17,7 +17,7 @@
 //  24..31  ==  0x18..0x1F
 
 
-#define MCP9808_LIB_VERSION               (F("0.2.2"))
+#define MCP9808_LIB_VERSION               (F("0.3.0"))
 
 
 //  CONFIGURATION REGISTER MASKS
@@ -92,5 +92,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -71,7 +71,7 @@ This can improve processing in some cases.
   - lastRead, lastTriggered?
   - taking "a lot of RAM" for every pin
 - add statistics?
-  - # calls # high% # low%
+  - nr of  calls - high% - low%
   - duration
 - investigate noise (what noise)
 - **remove(pin)**

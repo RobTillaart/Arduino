@@ -1,7 +1,7 @@
 //
 //    FILE: AD5245.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for I2C digital potentiometer AD5245.
 //    DATE: 2022-07-31
 //     URL: https://github.com/RobTillaart/AD5245
@@ -80,8 +80,8 @@ uint8_t AD5245::read()
 
 uint8_t AD5245::readDevice()
 {
-  Wire.requestFrom(_address, (uint8_t)1);
-  return Wire.read();
+  _wire->requestFrom(_address, (uint8_t)1);
+  return _wire->read();
 }
 
 
@@ -99,10 +99,10 @@ uint8_t AD5245::shutDown()
 //
 uint8_t AD5245::send(const uint8_t cmd, const uint8_t value)
 {
-  Wire.beginTransmission(_address);
-  Wire.write(cmd);
-  Wire.write(value);
-  return Wire.endTransmission();
+  _wire->beginTransmission(_address);
+  _wire->write(cmd);
+  _wire->write(value);
+  return _wire->endTransmission();
 }
 
 

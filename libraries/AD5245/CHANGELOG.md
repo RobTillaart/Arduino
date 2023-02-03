@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-01-16
+- Fix #4 Wire bug
+
+----
+
 ## [0.1.2] - 2023-01-16
 - update GitHub actions
 - update license

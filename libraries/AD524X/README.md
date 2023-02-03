@@ -29,14 +29,14 @@ To be used to set to defined mid point.
 
 #### Related libraries
 
-This library is related to 
+This library is related to
 - https://github.com/RobTillaart/AD5245 single port digital potentiometer.
 - https://github.com/RobTillaart/AD520X multi port digital potentiometer.
 
 
 ## I2C address
 
-The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F 
+The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F
 
 | Addr(dec)| Addr(Hex) |  AD0  |  AD1  |
 |:--------:|:---------:|:-----:|:-----:|
@@ -54,9 +54,9 @@ One can get / set the value of (both) the potentiometer(s), and the O1 and O2 ou
 
 #### Constructors
 
-- **AD524X(uint8_t address, TwoWire \*wire = &Wire)** constructor base class, 
+- **AD524X(uint8_t address, TwoWire \*wire = &Wire)** constructor base class,
 creates an instance with 2 potentiometer.
-This class does not distinguish between AD5241 and AD5242. 
+This class does not distinguish between AD5241 and AD5242.
 The developer is responsible for handling this correctly.
 - **AD5241(uint8_t address, TwoWire \*wire = &Wire)** create an instance with 1 potentiometer.
 - **AD5242(uint8_t address, TwoWire \*wire = &Wire)** create an instance with 2 potentiometer.
@@ -118,6 +118,10 @@ The examples show the basic working of the functions.
 
 #### Could
 
+- consider adding write(value) with default PM == 0 ? (wrapper)
+  - see issue #16 / #17
 
 #### Wont
+
 - make midpoint 128
+

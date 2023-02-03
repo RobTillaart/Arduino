@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
 //    DATE: 2020-12-03
 // PURPOSE: unit tests for I2C digital PotentioMeter AD5241 AD5242
 //          https://github.com/RobTillaart/AD524X
@@ -19,6 +18,7 @@
 // assertTrue(actual)
 // assertFalse(actual)
 // assertNull(actual)
+
 
 #include <ArduinoUnitTests.h>
 
@@ -139,4 +139,5 @@ unittest(test_constants)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

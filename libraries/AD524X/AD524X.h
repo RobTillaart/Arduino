@@ -2,7 +2,7 @@
 //
 //    FILE: AD524X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 // PURPOSE: I2C digital PotentioMeter AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AD524X_LIB_VERSION    (F("0.3.6"))
+#define AD524X_LIB_VERSION    (F("0.4.0"))
 
 
 #define AD524X_OK             0
@@ -92,5 +92,5 @@ public:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

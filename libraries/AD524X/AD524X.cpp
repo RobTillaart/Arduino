@@ -1,7 +1,7 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -138,10 +138,10 @@ uint8_t AD524X::read(const uint8_t rdac)
 
 uint8_t AD524X::readBackRegister()
 {
-  Wire.beginTransmission(_address);
-  Wire.endTransmission();
-  Wire.requestFrom(_address, (uint8_t)1);
-  return Wire.read();
+  _wire->beginTransmission(_address);
+  _wire->endTransmission();
+  _wire->requestFrom(_address, (uint8_t)1);
+  return _wire->read();
 }
 
 
@@ -177,10 +177,10 @@ uint8_t AD524X::pmCount()
 //
 uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 {
-  Wire.beginTransmission(_address);
-  Wire.write(cmd);
-  Wire.write(value);
-  return Wire.endTransmission();
+  _wire->beginTransmission(_address);
+  _wire->write(cmd);
+  _wire->write(value);
+  return _wire->endTransmission();
 }
 
 

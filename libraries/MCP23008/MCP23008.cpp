@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -97,7 +97,7 @@ bool MCP23008::pinMode(uint8_t pin, uint8_t mode)
     return false;
   }
   uint8_t mask = 1 << pin;
-  // only work with valid
+  //  only work with valid
   if ((mode == INPUT) || (mode == INPUT_PULLUP))
   {
     val |= mask;
@@ -106,7 +106,7 @@ bool MCP23008::pinMode(uint8_t pin, uint8_t mode)
   {
     val &= ~mask;
   }
-  // other values won't change val ....
+  //  other values won't change val ....
   writeReg(dataDirectionRegister, val);
   if (_error != MCP23008_OK)
   {
@@ -362,8 +362,8 @@ int MCP23008::lastError()
 
 ////////////////////////////////////////////////////
 //
-// PRIVATE
-// 
+//  PRIVATE
+//
 
 bool MCP23008::writeReg(uint8_t reg, uint8_t value)
 {
@@ -403,5 +403,5 @@ uint8_t MCP23008::readReg(uint8_t reg)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

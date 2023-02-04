@@ -22,7 +22,27 @@ Since 0.1.1 the **digitalWrite(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
+
 ## Interface
+
+```cpp
+#include "MCP23008.h"
+```
 
 ### Constructor
 

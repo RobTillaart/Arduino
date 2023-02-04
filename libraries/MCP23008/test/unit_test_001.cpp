@@ -58,7 +58,7 @@ unittest(test_constants)
 }
 
 
-// TODO more tests if godmode->wire works
+//  TODO more tests if godmode->wire works
 unittest(test_constructor)
 {
   Wire.resetMocks();
@@ -67,7 +67,7 @@ unittest(test_constructor)
 
   assertFalse(Wire.didBegin());
   MCP.begin();
-  // in fact invalid ...
+  //  in fact invalid ...
   assertTrue(Wire.didBegin());
   assertTrue(MCP.isConnected());
 }
@@ -81,7 +81,7 @@ unittest(test_lastError)
   MCP.begin();
   assertEqual(MCP23008_OK, MCP.lastError());
 
-  // MCP23008_PIN_ERROR
+  //  MCP23008_PIN_ERROR
   MCP.pinMode(8, INPUT);
   assertEqual(MCP23008_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23008_OK, MCP.lastError());
@@ -95,7 +95,7 @@ unittest(test_lastError)
   assertEqual(MCP23008_OK, MCP.lastError());
 
 
-  // MCP23008_VALUE_ERROR  - 3 is not INPUT, INPUT_PULLUP, OUTPUT)
+  //  MCP23008_VALUE_ERROR  - 3 is not INPUT, INPUT_PULLUP, OUTPUT)
   MCP.pinMode(0, 3);
   assertEqual(MCP23008_VALUE_ERROR, MCP.lastError());
   assertEqual(MCP23008_OK, MCP.lastError());
@@ -104,4 +104,6 @@ unittest(test_lastError)
 
 unittest_main()
 
-// --------
+
+//  --END OF FILE --
+

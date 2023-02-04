@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-10
-// PURPOSE: unit tests for the MCP23017
-//          https://github.com/RobTillaart/MCP2308
+// PURPOSE: unit tests for the MCP23S08
+//          https://github.com/RobTillaart/MCP23S08
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -66,4 +66,6 @@ unittest(test_constructor)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

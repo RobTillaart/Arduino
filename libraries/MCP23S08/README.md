@@ -22,7 +22,27 @@ Since 0.1.1 the **digitalWrite(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
+
 ## Interface
+
+```cpp
+#include "MCP23S08.h"
+```
 
 ### Constructor
 
@@ -71,14 +91,14 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23S08_OK**.
 
-| NAME                    | VALUE  | DESCRIPTION |
-|:------------------------|:------:|:------------|
-| MCP23S08_OK             |  0x00  | No error    |
-| MCP23S08_PIN_ERROR      |  0x81  |
-| MCP23S08_SPI_ERROR      |  0x82  |
-| MCP23S08_VALUE_ERROR    |  0x83  |
-| MCP23S08_PORT_ERROR     |  0x84  |
-| MCP23S08_REGISTER_ERROR |  0xFF  | low level.
+|  Name                     |  Value  |  description  |
+|:--------------------------|:-------:|:--------------|
+|  MCP23S08_OK              |   0x00  |  No error     |
+|  MCP23S08_PIN_ERROR       |   0x81  |
+|  MCP23S08_SPI_ERROR       |   0x82  |
+|  MCP23S08_VALUE_ERROR     |   0x83  |
+|  MCP23S08_PORT_ERROR      |   0x84  |
+|  MCP23S08_REGISTER_ERROR  |   0xFF  |  low level.
 
 
 ## Operation
@@ -88,14 +108,21 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - keep documentation in sync with MCP23S17
 
-#### should
+#### Should
+
 - keep functional in sync with MCP23017_RT and MCP23S17
 
-#### could
+#### Could
+
 - MCP23S17 sync
   - add enableIO controlRegister functions
   - add registers.h file
+
+
+#### Wont
+
 

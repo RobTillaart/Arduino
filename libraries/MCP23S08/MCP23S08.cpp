@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -11,29 +11,23 @@
 #include "MCP23S08.h"
 
 
-//  Registers                         // description                 datasheet
-#define MCP23S08_DDR_A        0x00    // Data Direction Register A   P..
-#define MCP23S08_POL_A        0x01    // Input Polarity A            P..
-#define MCP23S08_GPINTEN_A    0x02    // NOT USED interrupt enable   P..
-#define MCP23S08_DEFVAL_A     0x03    // NOT USED interrupt def      P..
-#define MCP23S08_INTCON_A     0x04    // NOT USED interrupt control  P..
-#define MCP23S08_IOCR         0x05    // IO control register         P..
-#define MCP23S08_PUR_A        0x06    // Pull Up Resistors A         P..
-#define MCP23S08_INTF_A       0x07    // NOT USED interrupt flag     P..
-#define MCP23S08_INTCAP_A     0x08    // NOT USED interrupt capture  P..
-#define MCP23S08_GPIO_A       0x09    // General Purpose IO A        P..
-#define MCP23S08_OLAT_A       0x0A    // NOT USED output latch       P..
+//  Registers                        //  description              datasheet P9
+#define MCP23S08_DDR_A        0x00   //  Data Direction Register A   P 10
+#define MCP23S08_POL_A        0x01   //  Input Polarity A            P 11
+#define MCP23S08_GPINTEN_A    0x02   //  NOT USED interrupt enable   P 12
+#define MCP23S08_DEFVAL_A     0x03   //  NOT USED interrupt def      P 13
+#define MCP23S08_INTCON_A     0x04   //  NOT USED interrupt control  P 14
+#define MCP23S08_IOCR         0x05   //  IO control register         P 15
+#define MCP23S08_PUR_A        0x06   //  Pull Up Resistors A         P 16
+#define MCP23S08_INTF_A       0x07   //  NOT USED interrupt flag     P 17
+#define MCP23S08_INTCAP_A     0x08   //  NOT USED interrupt capture  P 18
+#define MCP23S08_GPIO_A       0x09   //  General Purpose IO A        P 19
+#define MCP23S08_OLAT_A       0x0A   //  NOT USED output latch       P 20
 
 
 // low level read / write masks
 #define MCP23S08_WRITE_REG    0x40
 #define MCP23S08_READ_REG     0x41
-
-/*
-MCP23S08::MCP23S08()
-{
-}
-*/
 
 
 MCP23S08::MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address)
@@ -62,7 +56,8 @@ bool MCP23S08::begin()
   ::pinMode(_select, OUTPUT);
   ::digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);//  8 MHz - datasheet page 8
+  //  8 MHz - datasheet page 8
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if (_hwSPI)
   {
@@ -84,7 +79,7 @@ bool MCP23S08::begin()
   if (! isConnected()) return false;
 
   //  disable address increment (datasheet)
-  if (! writeReg(MCP23S08_IOCR, 0b00100000)) return false;   // TODO MAGIC NR
+  if (! writeReg(MCP23S08_IOCR, 0b00100000)) return false;   //  TODO MAGIC NR
   //  Force INPUT_PULLUP
   if (! writeReg(MCP23S08_PUR_A, 0xFF)) return false;
   return true;
@@ -385,7 +380,7 @@ bool MCP23S08::getPullup8(uint8_t &mask)
 int MCP23S08::lastError()
 {
   int e = _error;
-  _error = MCP23S08_OK;  // reset error after read.
+  _error = MCP23S08_OK;  //  reset error after read.
   return e;
 }
 
@@ -474,5 +469,5 @@ uint8_t  MCP23S08::swSPI_transfer(uint8_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

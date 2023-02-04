@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S08.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP23S08_LIB_VERSION              (F("0.1.2"))
+#define MCP23S08_LIB_VERSION              (F("0.1.3"))
 
 #define MCP23S08_OK                       0x00
 #define MCP23S08_PIN_ERROR                0x81
@@ -27,11 +27,13 @@
 class MCP23S08
 {
 public:
+  //  SOFTWARE SPI
   MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00);
+  //  HARDWARE SPI
   MCP23S08(uint8_t select, uint8_t address = 0x00);
 
   bool     begin();
-  bool     isConnected();  // needed ?
+  bool     isConnected();  //  needed ?
 
 
   //  single pin interface
@@ -80,7 +82,7 @@ private:
 
   bool        _hwSPI = false;
   //  1 MHz is a safe value TODO CHECK datasheet
-  uint32_t    _SPIspeed = 8000000UL;   
+  uint32_t    _SPIspeed = 8000000UL;
   SPIClass    * mySPI;
   SPISettings _spi_settings;
 

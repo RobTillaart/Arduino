@@ -21,8 +21,44 @@ Programming Interface is kept the same as much as possible.
 Since 0.3.1 the **digitalWrite(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+#### REV D - june 2022
+
+The I2C IO expander MCP23017 has changed according to the new data sheet. It is now a 14/16-bit IO expander.
+The pins GPA7 and GPB7 have lost their input mode, output mode still works.
+The chips look the same and did not change names.
+This implies it not possible to read 8 bits in parallel at the exact same moment any more.
+The REV D version now need reading both A and B register to get 8 bits parallel (with a minor delay).
+
+Details see:
+
+- https://hackaday.com/2023/02/03/mcp23017-went-through-shortage-hell-lost-two-inputs/
+- https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf
+
+Note: the library has no provisions (yet) for detecting DEV D chips or handle them in a special way.
+
+
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
 
 ## Interface
+
+```cpp
+#include "MCP23017.h"
+```
+
 
 ### Constructor
 
@@ -82,18 +118,13 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23017_OK**.
 
-| DESCRIPTION           | VALUE |
-|:----------------------|:-----:|
-| MCP23017_OK           |  0x00 |
-| MCP23017_PIN_ERROR    |  0x81 |
-| MCP23017_I2C_ERROR    |  0x82 |
-| MCP23017_VALUE_ERROR  |  0x83 |
-| MCP23017_PORT_ERROR   |  0x84 |
-
-
-## Operation
-
-See examples.
+|  Description           |  Value  |
+|:-----------------------|:-------:|
+|  MCP23017_OK           |  0x00   |
+|  MCP23017_PIN_ERROR    |  0x81   |
+|  MCP23017_I2C_ERROR    |  0x82   |
+|  MCP23017_VALUE_ERROR  |  0x83   |
+|  MCP23017_PORT_ERROR   |  0x84   |
 
 
 ## Future
@@ -109,11 +140,14 @@ See examples.
 
 - extend error codes
 - optimize code - squeeze footprint
-
+- investigate if REV D chips can be detected.
 
 #### Could
 
 - initial value (16 bit?) as begin parameter (breaking change)
-  - depends on input output pull-up etc?
-- investigate auto address increment?
+  - depends on input output pull-up etc
+- investigate auto address increment
+
+
+#### Wont
 

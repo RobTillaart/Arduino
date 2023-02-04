@@ -2,17 +2,20 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
+
+
+// WARNING: please read REV D note in readme.md.
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.3.2"))
+#define MCP23017_LIB_VERSION              (F("0.4.0"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81

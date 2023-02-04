@@ -259,4 +259,6 @@ unittest(test_SPIspeed)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

@@ -19,19 +19,39 @@ This IC is strongly related to the MCP23017 I2C port expander - https://github.c
 Programming Interface is kept the same as much as possible.
 
 
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
+
 ## Interface
+
+```cpp
+#include "MCP23S17.h"
+```
 
 ### Constructor
 
-- **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SW SPI.
-- **MCP23S17(uint8_t select, SPIClass\* spi)** constructor HW SPI with explicit SPI interface selected.
-- **MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HW SPI with optional address pins and SPI interface.
+- **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
+- **MCP23S17(uint8_t select, SPIClass\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
+- **MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **bool begin()** returns true if successful.
 - **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
 - **uint8_t getAddress()** returns the address set in the constructor. 
 Default = 0, range = 0..7.
 
-The two constructors allow to call 4 different constructors.
+The two hardware constructors allow to call 4 different constructors.
 
 ```cpp
 - MCP23S17(10);            // select pin only
@@ -103,14 +123,15 @@ Read the datasheet carefully!
 
 |  constant              |  mask  |  description  |
 |:-----------------------|:------:|:--------------|
-|  MCP23S17_IOCR_BANK    |  0x80  | Controls how the registers are addressed.
-|  MCP23S17_IOCR_MIRROR  |  0x40  | INT Pins Mirror bit.
-|  MCP23S17_IOCR_SEQOP   |  0x20  | Sequential Operation mode bit.
-|  MCP23S17_IOCR_DISSLW  |  0x10  | Slew Rate control bit for SDA output.
-|  MCP23S17_IOCR_HAEN    |  0x08  | Hardware Address Enable bit (MCP23S17 only).
-|  MCP23S17_IOCR_ODR     |  0x04  | Configures the INT pin as an open-drain output.
-|  MCP23S17_IOCR_INTPOL  |  0x02  | This bit sets the polarity of the INT output pin.
-|  MCP23S17_IOCR_NI      |  0x01  | Not implemented. 
+|  MCP23S17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
+|  MCP23S17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
+|  MCP23S17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23S17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23S17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
+|  MCP23S17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23S17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23S17_IOCR_NI      |  0x01  |  Not implemented. 
+
 
 ### Error codes
 
@@ -119,14 +140,14 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23S17_OK**.
 
-| NAME                    | VALUE  | DESCRIPTION |
-|:------------------------|:------:|:------------|
-| MCP23S17_OK             |  0x00  | No error    |
-| MCP23S17_PIN_ERROR      |  0x81  |
-| MCP23S17_I2C_ERROR      |  0x82  | (compatibility)
-| MCP23S17_VALUE_ERROR    |  0x83  |
-| MCP23S17_PORT_ERROR     |  0x84  |
-| MCP23S17_REGISTER_ERROR |  0xFF  | low level.
+|  name                     |  value  |  description  |
+|:--------------------------|:-------:|:--------------|
+|  MCP23S17_OK              |  0x00   |  No error     |
+|  MCP23S17_PIN_ERROR       |  0x81   |
+|  MCP23S17_I2C_ERROR       |  0x82   |  (compatibility)
+|  MCP23S17_VALUE_ERROR     |  0x83   |
+|  MCP23S17_PORT_ERROR      |  0x84   |
+|  MCP23S17_REGISTER_ERROR  |  0xFF   |  low level.
 
 
 ## Operation
@@ -136,16 +157,15 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
 
 - improve documentation
-  - references to I2C version?
 
-#### should
+#### Should
 
 - keep functional in sync with MCP23017_RT
 
-#### could 
+#### Could 
 
 - check need for writing in all functions (Polarity / pullup)
   - check if bit mask changes.
@@ -155,7 +175,7 @@ See examples.
   - SW_SPI is roughly equal in performance as HW SPI on ESP32.
 - investigate and reimplement the INPUT_PULLUP for pinMode() ?
 
-#### wont
+#### Wont
 
 - check address range in constructor.
 

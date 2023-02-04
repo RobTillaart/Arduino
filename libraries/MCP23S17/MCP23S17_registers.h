@@ -42,5 +42,5 @@
 #define MCP23S17_IOCR_NI        0x01    //  Not implemented.
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

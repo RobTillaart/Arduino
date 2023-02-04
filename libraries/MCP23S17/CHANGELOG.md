@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2023-02-04
+- update readme.md
+- update GitHub actions
+- update license 2023
+
+
 ## [0.2.3] - 2022-10-20
 - add CHANGELOG.md
 - add **enableControlRegister(uint8_t mask)**
@@ -21,21 +27,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add getAddress() + optimized (_address << 1)
 - update readme.md
 
-## [0.2.0] - 2022-06-28  
+## [0.2.0] - 2022-06-28
 - fix #10 incorrect mask
 
 ----
 
-## [0.1.3] - 2022-04-13  
+## [0.1.3] - 2022-04-13
 - fix compiling for NANO33 BLE
 
-## [0.1.2] - 2022-01-12  
+## [0.1.2] - 2022-01-12
 - change the URL for library manager
 
-## [0.1.1] - 2022-01-10  
+## [0.1.1] - 2022-01-10
 - add 16 bit interface
 
-## [0.1.0] - 2021-12-30  
+## [0.1.0] - 2021-12-30
 - initial version (a 2019 version did not make it)
 
 

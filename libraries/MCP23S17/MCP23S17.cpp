@@ -1,12 +1,10 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
-//
-//  HISTORY see changelog.md
 
 
 #include "MCP23S17.h"
@@ -47,7 +45,8 @@ bool MCP23S17::begin()
   ::pinMode(_select, OUTPUT);
   ::digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);  //  8 MHz - datasheet page 8
+  //  8 MHz - datasheet page 8
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if (_hwSPI)
   {
@@ -68,9 +67,9 @@ bool MCP23S17::begin()
   if (! isConnected()) return false;
 
   //  disable address increment (datasheet P20
-  //   SEQOP: Sequential Operation mode bit
-  //   1 = Sequential operation disabled, address pointer does not increment.
-  //   0 = Sequential operation enabled, address pointer increments.
+  //    SEQOP: Sequential Operation mode bit
+  //    1 = Sequential operation disabled, address pointer does not increment.
+  //    0 = Sequential operation enabled, address pointer increments.
   if (! writeReg(MCP23S17_IOCR, MCP23S17_IOCR_SEQOP)) return false;
 
   //  Force INPUT_PULLUP
@@ -391,7 +390,7 @@ int MCP23S17::read8(uint8_t port)
   }
   _error = MCP23S17_OK;
   if (port == 0) return readReg(MCP23S17_GPIO_A);
-  return readReg(MCP23S17_GPIO_B);  // port == 1
+  return readReg(MCP23S17_GPIO_B);  //  port == 1
 }
 
 
@@ -606,7 +605,7 @@ bool MCP23S17::writeReg(uint8_t reg, uint8_t value)
   {
     _mySPI->beginTransaction(_spi_settings);
     //  _address already shifted
-    _mySPI->transfer(MCP23S17_WRITE_REG | _address ); 
+    _mySPI->transfer(MCP23S17_WRITE_REG | _address );
     _mySPI->transfer(reg);
     _mySPI->transfer(value);
     _mySPI->endTransaction();
@@ -675,5 +674,5 @@ uint8_t  MCP23S17::swSPI_transfer(uint8_t val)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

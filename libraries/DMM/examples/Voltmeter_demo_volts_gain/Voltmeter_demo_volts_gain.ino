@@ -3,6 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DMM 
 //     URL: https://github.com/RobTillaart/DMM
+//
+//  add a 25 -> 5 volt converter before A0
 
 
 #include "DMM.h"
@@ -19,10 +21,14 @@ void setup()
   Serial.print("DMM_LIB_VERSION: ");
   Serial.println(DMM_LIB_VERSION);
 
-  dmm.begin(A0, 5, 1023);
+  dmm.begin(A0, 5.000, 1023);
 
   //  add a 25 -> 5 volt converter before A0
   dmm.setGain(5);
+
+  //  alternative
+  //  dmm.begin(A0, 25.000, 1023);
+
 }
 
 
@@ -39,4 +45,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

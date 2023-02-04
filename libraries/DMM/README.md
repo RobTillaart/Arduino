@@ -8,7 +8,7 @@
 
 # DMM = Digital MultiMeter.
 
-Arduino library for a DMM class.
+Arduino library for a DMM (digital multimeter) class.
 
 
 ## Description
@@ -20,38 +20,86 @@ The first version only works as a voltmeter, DC only.
 It is meant to be extended in the future to be a complete Digital MultiMeter class.
 that includes amps ohms, diode testing etc.
 
-(this is an old 'toy' project, wrapped into a class)
+This is an old 'toy' project, wrapped into a class. 
+Do not expect high precision or accuracy.
 
 
-#### Related 
+#### Related
 
 - https://github.com/RobTillaart/ACS712 (current measurement).
 
 
 ## Interface
 
+```cpp
+#include "DMM.h"
+```
+
+#### Constructor
+
 - **DMM()** constructor.
 
 #### Configuration
-- **begin(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023)** configuration. 
+
+- **begin(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023)** configuration.
+Note these are the specifications of the ADC used. 
 - **void  setMaxVoltage(float maxVoltage)**
 - **float getMaxVoltage()**
 - **void  setGain(float factor = 1.0)** GAIN e.g. due to voltage divider.
-a 25V to 5V divider has a factor = 5.
+A 25V to 5V divider has a factor = 5.
 - **float getGain()** returns the set gain.
 
-#### Read
-- **float readVolts(uint8_t times = 1)** read voltage. 
+
+#### ReadVolts
+
+One must connect GND of Arduino to the GND of the device.
+```
+    [A0]---- V unknown
+   [GND]---- GND
+
+or with a divider => setGain(x)
+
+    [A0]----[divider]---- V unknown
+   [GND]----[divider]---- GND
+
+```
+
+- **float readVolts(uint8_t times = 1)** read voltage.
 Times can be set to average multiple measurements.
 - **float readMilliVolts(uint8_t times = 1)** convenience wrapper.
+- **float readNoise(uint8_t times = 1)** measure the noise on the wire.
+Assumes connected to constant voltage e.g. GND.
+
+
+#### ReadOhm
+
+The schema for measuring resistors is based on a simple voltage divider.
+See below. This schema can be extended with a selector switch that can
+switch between different reference resistors.
+
+```
+   [GND] ----[ R reference ]----[A0]----[ R unknown ]----[+5V]
+```
+
+- **void setReferenceR(uint32_t ohm = 1000)** set the reference resistor.
+units are Ohm, default = 1K.
+- **uint32_t readOhm(uint8_t times = 1)** read ohm.
+Times can be set to average multiple measurements.
+- **uint32_t readKiloOhm(uint8_t times = 1)** read ohm.
+Times can be set to average multiple measurements.
+
+Character ohm = Ω  (ALT-234 or ALT-0216 might work)
+
 
 #### Calibration
+
 - **float readNoise(uint8_t times = 1)** get noise level for accuracy.
+
 
 ## Operation
 
-Basic operation is to connect the Arduino GND to the projects GND (or -)
-and use the configured analog pin to measure (positive) voltage.
+Basic operation is to connect the Arduino GND to the projects GND (or - )
+and use the configured analog pin to measure a (positive) voltage.
 
 By adding a voltage divider one can measure larger voltages.
 The divider factor can be set with **setGain(factor)**.
@@ -63,20 +111,29 @@ To elaborate.
 ## Future
 
 #### Functional
+
 - AMPS  (how -> measure voltage over a known resistor)
-- OHM   (how -> known divider)
-- DIODE (how -> 5V or 0V)
 - CAPS  (how -> RC timing)
+  - RC (load 5 seconds)
+  - disconnect
+  - measure drop rate / time in micros.
+- DIODE (how -> 5V or 0V)
+  - DigitalRead(INPUT PULLUP) => HIGH or LOW
+  - or 0.7 volt drop from 5V
 
 
 #### Must
+
 - update documentation
 - update examples
-- add use of AREF 
+- add use of AREF
   - external or internal 1.1 Volt
+- **float setOffset(float offset)** adjust the voltage used.
+  - this is not the voltage the ADC uses internally.
 
 
 #### Should
+
 - investigate noise
 - analogReference(EXTERNAL) for external voltage for build in ADC
 - support external ADC e.g. ADS1115 for 16 bit resolution.
@@ -84,8 +141,9 @@ To elaborate.
 
 
 #### Could
+
 - multichannel compare
-- schema for 
+- schema for
 - scope functionality?
 
 

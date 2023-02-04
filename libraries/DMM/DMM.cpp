@@ -1,7 +1,7 @@
 //
 //    FILE: DMM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-12-19
 // PURPOSE: Library for a DMM class for Arduino UNO.
 //     URL: https://github.com/RobTillaart/DMM
@@ -49,18 +49,28 @@ float DMM::getGain()
 }
 
 
+/////////////////////////////////////////////////
+//
+//  READ VOLTAGE
+//
 float DMM::readVolts(uint8_t times)
 {
   uint32_t total = 0;
-  if (times == 0) times = 1;
+  if (times == 0) 
+  {
+    times = 1;
+  }
   for (int i = 0; i < times; i++)
   {
     total += analogRead(_pin);
   }
-  float v = (total * _voltageStep) / times;
+  float volts = (total * _voltageStep) / times;
 
-  if (_gain != 1.0) v *= _gain;
-  return v;
+  if (_gain != 1.0) 
+  {
+    volts *= _gain;
+  }
+  return volts;
 }
 
 
@@ -86,6 +96,32 @@ float DMM::readNoise(uint8_t times)
 
   if (_gain != 1.0) v *= _gain;
   return v;
+}
+
+
+/////////////////////////////////////////////////
+//
+//  READ OHM
+//
+void DMM::setReferenceR(float ohm)
+{
+  _ReferenceR = ohm;
+}
+
+
+float DMM::readOhm(uint8_t times)
+{
+  float voltage = readVolts(times);
+  
+  float R = _ReferenceR / voltage * _maxVoltage - _ReferenceR;
+  // float R = (_maxVoltage - voltage) * _ReferenceR / voltage;
+  return R;
+}
+
+
+float DMM::readKiloOhm(uint8_t times)
+{
+  return readOhm(times) * 0.001;
 }
 
 

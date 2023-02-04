@@ -36,6 +36,7 @@ unittest_setup()
     fprintf(stderr, "DMM_LIB_VERSION: %s\n", (char *) DMM_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -53,4 +54,4 @@ unittest(test_first)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

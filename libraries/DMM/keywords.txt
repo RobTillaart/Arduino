@@ -17,6 +17,10 @@ readMilliVolts	KEYWORD2
 
 readNoise	KEYWORD2
 
+setReferenceR	KEYWORD2
+readOhm	KEYWORD2
+readKiloOhm	KEYWORD2
+
 
 # Constants (LITERAL1)
 DMM_LIB_VERSION	LITERAL1

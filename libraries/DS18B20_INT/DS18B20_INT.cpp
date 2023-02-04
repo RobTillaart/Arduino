@@ -1,13 +1,11 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 //          https://github.com/RobTillaart/DS18B20_RT
-//
-// HISTORY: see changelog.md
 
 
 #include "DS18B20_INT.h"
@@ -20,10 +18,10 @@
 
 
 //  Device resolution
-#define TEMP_9_BIT              0x1F    //  9 bit
-#define TEMP_10_BIT             0x3F    // 10 bit
-#define TEMP_11_BIT             0x5F    // 11 bit
-#define TEMP_12_BIT             0x7F    // 12 bit
+#define TEMP_9_BIT              0x1F    //   9 bit
+#define TEMP_10_BIT             0x3F    //  10 bit
+#define TEMP_11_BIT             0x5F    //  11 bit
+#define TEMP_12_BIT             0x7F    //  12 bit
 
 
 DS18B20_INT::DS18B20_INT(OneWire* ow)
@@ -36,6 +34,17 @@ DS18B20_INT::DS18B20_INT(OneWire* ow)
 
 bool DS18B20_INT::begin(uint8_t retries)
 {
+  isConnected(retries);
+  if (_addressFound)
+  {
+    _setResolution();
+  }
+  return _addressFound;
+}
+
+
+bool DS18B20_INT::isConnected(uint8_t retries)
+{
   _addressFound = false;
   for (uint8_t rtr = retries; (rtr > 0) && (_addressFound == false); rtr--)
   {
@@ -45,18 +54,6 @@ bool DS18B20_INT::begin(uint8_t retries)
     _oneWire->search(_deviceAddress);
     _addressFound = _deviceAddress[0] != 0x00 &&
                 _oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7];
-  }
-
-  if (_addressFound)
-  {
-    _oneWire->reset();
-    _oneWire->select(_deviceAddress);
-    _oneWire->write(WRITESCRATCH);
-    //  two dummy values for LOW & HIGH ALARM
-    _oneWire->write(0);
-    _oneWire->write(100);
-    _oneWire->write(_resolution);     //  lowest as we do only integer math.
-    _oneWire->reset();
   }
   return _addressFound;
 }
@@ -78,14 +75,21 @@ bool DS18B20_INT::isConversionComplete(void)
 
 int16_t DS18B20_INT::getTempC(void)
 {
+  if (isConnected(3) == false)
+  {
+    return DEVICE_DISCONNECTED;
+  }
   int16_t rawTemperature = _readRaw();
   rawTemperature >>= 4;
-  if (rawTemperature < -55) return DEVICE_DISCONNECTED;
+  if (rawTemperature < -55)
+  {
+    return DEVICE_DISCONNECTED;
+  }
   return rawTemperature;
 }
 
 
-bool  DS18B20_INT::getAddress(uint8_t* buf)
+bool DS18B20_INT::getAddress(uint8_t* buf)
 {
   if (_addressFound)
   {
@@ -98,21 +102,16 @@ bool  DS18B20_INT::getAddress(uint8_t* buf)
 }
 
 
-void DS18B20_INT::setResolution(uint8_t bits)
+bool DS18B20_INT::setResolution(uint8_t bits)
 {
-  uint8_t newRes = 0;
   switch (bits)
   {
-    case 12: newRes = TEMP_12_BIT;  break;
-    case 11: newRes = TEMP_11_BIT;  break;
-    case 10: newRes = TEMP_10_BIT;  break;
-    default: newRes = TEMP_9_BIT;   break;
+    case 12: _resolution = TEMP_12_BIT;  break;
+    case 11: _resolution = TEMP_11_BIT;  break;
+    case 10: _resolution = TEMP_10_BIT;  break;
+    default: _resolution = TEMP_9_BIT;   break;
   }
-  if (newRes != _resolution)
-  {
-    _resolution = newRes;
-    begin();
-  }
+  return begin();
 }
 
 
@@ -131,12 +130,19 @@ uint8_t DS18B20_INT::getResolution()
 
 int16_t DS18B20_INT::getTempCentiC(void)
 {
+  if (isConnected(3) == false)
+  {
+    return DEVICE_DISCONNECTED;
+  }
   int16_t rawTemperature = _readRaw();
   //  rawTemperature = rawTemperature * 100 / 16;
   rawTemperature *= 25;
   rawTemperature >>= 2;
-  //  use at own risk.
-  //  if (rawTemperature < -5500) return DEVICE_DISCONNECTED * 100;
+  //  use at own risk. (not tested)
+  if (rawTemperature < -5500)
+  {
+    return DEVICE_DISCONNECTED * 100;
+  }
   return rawTemperature;
 }
 
@@ -157,6 +163,22 @@ int16_t DS18B20_INT::_readRaw(void)
 }
 
 
+bool DS18B20_INT::_setResolution()
+{
+  if (_addressFound)
+  {
+    _oneWire->reset();
+    _oneWire->select(_deviceAddress);
+    _oneWire->write(WRITESCRATCH);
+    //  two dummy values for LOW & HIGH ALARM
+    _oneWire->write(0);
+    _oneWire->write(100);
+    //  lowest as default as we do only integer math.
+    _oneWire->write(_resolution);
+    _oneWire->reset();
+  }
+  return _addressFound;
+}
 
 
 //  -- END OF FILE --

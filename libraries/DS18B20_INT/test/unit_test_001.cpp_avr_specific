@@ -40,6 +40,12 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(-127, DEVICE_DISCONNECTED);
+}
+
+
 unittest(test_constructor)
 {
   OneWire oneWire(4);

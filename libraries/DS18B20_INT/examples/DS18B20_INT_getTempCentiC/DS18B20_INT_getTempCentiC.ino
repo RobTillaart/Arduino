@@ -2,6 +2,7 @@
 //    FILE: DS18B20_INT_getTempCentiC.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Minimalistic demo
+//     URL: https://github.com/RobTillaart/DS18B20_INT
 
 
 #include "DS18B20_INT.h"
@@ -18,6 +19,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DS18B20_INT_LIB_VERSION: ");
+  Serial.println(DS18B20_INT_LIB_VERSION);
+
   sensor.begin();
   sensor.setResolution(12);
   Serial.println(sensor.getResolution());

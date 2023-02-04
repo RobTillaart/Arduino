@@ -2,6 +2,7 @@
 //    FILE: DS18B20_minimum.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: most minimal sketch
+//     URL: https://github.com/RobTillaart/DS18B20_INT
 //
 // WARNING: this sketch does not wait for isConversionComplete()
 //          and therefore temperature read is probably incorrect
@@ -22,6 +23,8 @@ void setup(void)
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DS18B20_INT_LIB_VERSION: ");
+  Serial.println(DS18B20_INT_LIB_VERSION);
 
   sensor.begin();
 }

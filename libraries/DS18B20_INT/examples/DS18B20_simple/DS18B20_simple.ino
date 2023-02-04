@@ -2,6 +2,7 @@
 //    FILE: DS18B20_simple.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: equivalent of DallasTemperature library Simple
+//     URL: https://github.com/RobTillaart/DS18B20_INT
 
 
 #include <OneWire.h>
@@ -21,7 +22,10 @@ void setup(void)
   Serial.print("DS18B20_INT_LIB_VERSION: ");
   Serial.println(DS18B20_INT_LIB_VERSION);
 
-  sensor.begin();
+  if (sensor.begin() == false)
+  {
+    Serial.println("not connected!");
+  }
 }
 
 

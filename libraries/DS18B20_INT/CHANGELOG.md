@@ -6,10 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2023-02-03
+- improve disconnect detection
+- add **isConnected(retries)**
+- change signature **bool setResolution(bits)** to see if device is still available.
+- update GitHub actions
+- update license 2023
+- add example DS18B20_performance.ino (start not complete)
+- add example DS18B20_two_sensor.ino
+- add example oneWireSearch.ino
+- update readme.md
+
+
 ## [0.2.1] - 2022-11-02
 - add changelog.md
 - add rp2040 to build-CI
-
 
 ## [0.2.0] - 2022-06-23
 - fix #10 getTempCentiC() (thanks negroKiordi)

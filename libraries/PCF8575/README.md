@@ -19,9 +19,10 @@ The library gives easy control over the 16 pins of the PCF8575 chips.
 
 Base address = 0x20 + 0..7 depending on address pins A0..A2.
 
-| TYPE     | ADDRESS-RANGE | notes                    |
-|:---------|:-------------:|:------------------------:|
-|PCF8575   | 0x20 to 0x27  | same range as PCF8574 !! |
+|  type      | address-range  |  notes                    |
+|:-----------|:--------------:|:-------------------------:|
+|  PCF8575   |  0x20 to 0x27  |  same range as PCF8574 !  |
+
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 
 to 8 x 16 = 128 IO lines. 
@@ -45,6 +46,22 @@ There is one example to show how interrupts can be used:
 - PCF8575_interrupt.ino
 
 
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
+
 ## I2C Clock
 
 Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
@@ -55,6 +72,10 @@ TODO table (see PCF8574)
 
 
 ## Interface
+
+```cpp
+#include "PCF8575.h"
+```
 
 **PCF8575_INITIAL_VALUE** is a define that can be set compile time or before
 the include of "pcf8575.h" to overrule the default value used with the 
@@ -138,11 +159,11 @@ This can typical be used to implement a VU meter.
 
 ## Error codes
 
-| name               | value | description             |
-|:-------------------|:-----:|:------------------------|
-| PCF8575_OK         |  0x00 | no error                |
-| PCF8575_PIN_ERROR  |  0x81 | pin number out of range |
-| PCF8575_I2C_ERROR  |  0x82 | I2C communication error |
+|  name               |  value  |  description              |
+|:--------------------|:-------:|:--------------------------|
+|  PCF8575_OK         |  0x00   |  no error                 |
+|  PCF8575_PIN_ERROR  |  0x81   |  pin number out of range  |
+|  PCF8575_I2C_ERROR  |  0x82   |  I2C communication error  |
 
 
 ## Testing
@@ -160,7 +181,20 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 
 ## Future
 
+#### Must
+
 - update documentation.
+
+
+#### Should
+
 - keep in sync with pcf8574 (as far as meaningful)
+
+
+#### Could
+
 - **value()** => **lastRead16()**  ??
+
+
+#### Wont
 

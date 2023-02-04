@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-03
-// PURPOSE: unit tests for the PCF8575 I2C port expander
+// PURPOSE: unit tests for the PCF8575 - 16 channel I2C IO expander.
 //          https://github.com/RobTillaart/PCF8575
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
@@ -99,4 +99,6 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

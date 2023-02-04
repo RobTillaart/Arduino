@@ -3,7 +3,7 @@
 //    FILE: PCF8575.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8575_LIB_VERSION      (F("0.1.7"))
+#define PCF8575_LIB_VERSION      (F("0.1.8"))
 
 
 #ifndef PCF8575_INITIAL_VALUE
@@ -39,8 +39,8 @@ public:
 
   //  note: setting the address may corrupt internal buffer values
   //  a read16() / write16() call updates them.
-  bool    setAddress(const uint8_t deviceAddress);
-  uint8_t getAddress();
+  bool     setAddress(const uint8_t deviceAddress);
+  uint8_t  getAddress();
 
 
   uint16_t read16();

@@ -18,10 +18,11 @@ Related to the PCF8575 16 channel IO expander library  https://github.com/RobTil
 This library gives easy control over the 8 pins of a PCF8574 and PCF8574A chip.
 These chips are identical in behaviour although there are two distinct address ranges.
 
-| TYPE     | ADDRESS-RANGE | notes                    |
-|:---------|:-------------:|:------------------------:|
-|PCF8574   |  0x20 to 0x27 | same range as PCF8575 !! |
-|PCF8574A  |  0x38 to 0x3F |                          |
+|  type      |  address-range  |  notes                    |
+|:-----------|:---------------:|:-------------------------:|
+|  PCF8574   |  0x20 to 0x27   |  same range as PCF8575 !  |
+|  PCF8574A  |  0x38 to 0x3F   |
+
 
 So you can connect up to 16 PCF8574 on one I2C bus, giving access 
 to 16 x 8 = 128 IO lines. To maximize IO lines combine 8 x PCF8575 + 8 x PCF8574A giving
@@ -34,13 +35,31 @@ Furthermore some additional functions are implemented that are playful and usefu
 
 #### Interrupts
 
-The PCF8574 has an interrupt output line (INT) to notice a MCU that one of the input lines has changed.
+The PCF8574 has an interrupt output line (INT) to notify an MCU that one of the input lines has changed.
 This can be used to prevent active polling of the PCF8574, which can be more efficient.
-The library does not support this internally.
+
+The library cannot handle the PCF8574 interrupts as it has no code for it. 
+The user should catch the interrupt in his own code and can use the library to see which line has changed.
 
 There are two examples to show how interrupts can be used:
 - PCF8574_interrupt.ino
 - PCF8574_rotaryEncoder.ino
+
+
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
 
 
 ## I2C Clock
@@ -49,17 +68,21 @@ Tested on UNO with **PCF8574_performance** showed that the PCF8574 still works a
 These values are outside the specs of the datasheet so they are not recommended.
 However when performance is needed you can try to overclock the chip. 
 
-| clock speed |  Read  |  Write  |  Notes            |
-|:-----------:|:------:|:-------:|:------------------|
-|  100000     |  236   |   240   | spec datasheet    |
+| clock speed |  Read  |  Write  |  Notes              |
+|:-----------:|:------:|:-------:|:--------------------|
+|  100000     |  236   |   240   |  spec datasheet     |
 |  200000     |  132   |   140   |
 |  300000     |  104   |   108   |
-|  400000     |   96   |    96   | max advised speed |
-|  500000     |   92   |    92   | not recommended   |
+|  400000     |   96   |    96   |  max advised speed  |
+|  500000     |   92   |    92   |  not recommended    |
 |  600000     | crash  |  crash  | 
 
 
 ## Interface
+
+```cpp
+#include "PCF8574.h"
+```
 
 **PCF8574_INITIAL_VALUE** is a define that can be set compile time or before
 the include of "pcf8574.h" to overrule the default value used with the **begin()** call.
@@ -142,11 +165,11 @@ This can typical be used to implement a VU meter.
 
 ## Error codes
 
-| name               | value | description             |
-|:-------------------|:-----:|:------------------------|
-| PCF8574_OK         |  0x00 | no error                |
-| PCF8574_PIN_ERROR  |  0x81 | pin number out of range |
-| PCF8574_I2C_ERROR  |  0x82 | I2C communication error |
+|  name               |  value  |  description              |
+|:--------------------|:-------:|:--------------------------|
+|  PCF8574_OK         |  0x00   |  no error                 |
+|  PCF8574_PIN_ERROR  |  0x81   |  pin number out of range  |
+|  PCF8574_I2C_ERROR  |  0x82   |  I2C communication error  |
 
 
 ## Operation
@@ -158,6 +181,17 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 
 ## Future
 
-- 
+#### Must
+
+- keep in sync with PCF8575
+
+#### Should
+
+
+#### Could
+
+- move code to .cpp
+
+#### Wont
 
 

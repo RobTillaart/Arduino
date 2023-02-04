@@ -3,18 +3,17 @@
 //    FILE: PCF8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define PCF8574_LIB_VERSION         (F("0.3.7"))
+#define PCF8574_LIB_VERSION         (F("0.3.8"))
 
 #ifndef PCF8574_INITIAL_VALUE
 #define PCF8574_INITIAL_VALUE       0xFF
@@ -40,7 +39,7 @@ public:
   //  note: setting the address corrupt internal buffer values
   //  a read8() / write8() call updates them.
   bool    setAddress(const uint8_t deviceAddress);
-  uint8_t getAddress();  
+  uint8_t getAddress();
 
 
   uint8_t read8();
@@ -63,7 +62,8 @@ public:
 
   //  rotate, shift, toggle, reverse expect all lines are output
   void    toggle(const uint8_t pin);
-  void    toggleMask(const uint8_t mask = 0xFF);    // default 0xFF ==> invertAll()
+  //      default 0xFF ==> invertAll()
+  void    toggleMask(const uint8_t mask = 0xFF);
   void    shiftRight(const uint8_t n = 1);
   void    shiftLeft(const uint8_t n = 1);
   void    rotateRight(const uint8_t n = 1);
@@ -91,5 +91,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

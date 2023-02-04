@@ -2,13 +2,11 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
-//
-// HISTORY: See CHANGELOG.md
-//
+
 
 #include "PCF8574.h"
 
@@ -186,7 +184,7 @@ void PCF8574::rotateLeft(const uint8_t n)
 }
 
 
-void PCF8574::reverse()  //  quite fast: 14 shifts, 3 or, 3 assignment.
+void PCF8574::reverse()  //  quite fast: 4 and, 14 shifts, 3 or, 3 assignment.
 {
   uint8_t x = _dataOut;
   x = (((x & 0xAA) >> 1) | ((x & 0x55) << 1));
@@ -240,6 +238,5 @@ void PCF8574::selectN(const uint8_t pin)
 };
 
 
-
-// -- END OF FILE --
+//  -- END OF FILE --
 

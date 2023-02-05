@@ -41,6 +41,7 @@ unittest_setup()
   fprintf(stderr, "RS485_LIB_VERSION: %s\n", (char *) RS485_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -99,4 +100,6 @@ unittest(test_communication_mode)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

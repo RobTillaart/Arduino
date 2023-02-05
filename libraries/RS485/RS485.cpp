@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -116,20 +116,21 @@ void RS485::setMicrosPerByte(uint32_t baudRate)
 //
 ///////////////////////////////////////////////////////
 //
-// commando   value   meaning
+//  commando   value  meaning
 //
 //    SOH      0x01   start of header
 //    STX      0x02   start of text
 //    ETX      0x03   end of text
+//    EOT      0x04   end of transmission
 //
-// optional
+//  optional
 //    ACK      0x06   ACKnowledge
 //    NAK      0x15   Not Acknowledge
 //    CAN      0x18   CANcel
 //
 ///////////////////////////////////////////////////////
 //
-// A message has the following layout
+//  A message has the following layout
 //
 //     SOH          start of header
 //     deviceID     to
@@ -141,7 +142,6 @@ void RS485::setMicrosPerByte(uint32_t baudRate)
 //        ETX          end of text
 //     EOT          end of transmission
 //
-
 
 void RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
 {
@@ -186,7 +186,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
     case 0:
       if (v == SOH)
       {
-        _bidx = 0;        // start new packet
+        _bidx = 0;        //  start new packet
         state = 1;
       }
       break;
@@ -223,7 +223,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
         state = 6;
         break;
       }
-      // error handling  if v not ascii ?
+      //  error handling  if v not ASCII ?
       _buffer[_bidx++] = v;
       CHKSUM ^= v;
       length--;
@@ -266,12 +266,11 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
 }
 
 
-
 //////////////////////////////////////////////////
 //
 //  PRIVATE
 //
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

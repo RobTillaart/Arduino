@@ -3,7 +3,7 @@
 //    FILE: RS485.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for RS485 modules
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "ASCII_CONTROL.h"
 
-#define RS485_LIB_VERSION        (F("0.2.3"))
+#define RS485_LIB_VERSION        (F("0.2.4"))
 
 
 class RS485 : public Stream
@@ -66,5 +66,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

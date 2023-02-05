@@ -5,7 +5,7 @@
 //    DATE: 2020-08-26
 // PURPOSE: ASCII control characters
 //     URL: https://github.com/RobTillaart/RS485
-//
+
 
 #define NUL     0x00    //  NULL char
 #define SOH     0x01    //  Start Of Header
@@ -40,6 +40,7 @@
 #define RS      0x1E    //  Record Separator
 #define US      0x1F    //  Unit Separator
 #define DEL     0x7F    //  DELete
+
 
 //  -- END OF FILE --
 

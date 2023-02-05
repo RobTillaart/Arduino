@@ -8,7 +8,7 @@
 
 # RS485
 
-Arduino library for RS485.
+Arduino library for RS485 communication.
 
 
 ## Description
@@ -18,13 +18,19 @@ The library implements the Stream interface so the user can use
 **print()** and **write()** calls just like one does with **Serial**.
 
 Preferably the library is to be used with a hardwareSerial as these 
-can buffer incoming characters in the background.
+can buffer incoming characters in the background. 
+A software Serial that uses pin interrupts would also work quite well.
 
 The 0.2.0 version of the library has no (tested) protocol for multi-byte 
 messages so the user must implement such on top of this class.
 
 
 ## Interface
+
+```cpp
+#include "RS485.h"
+```
+
 
 #### Base
 
@@ -34,7 +40,7 @@ The stream is typically Serial, and the baud rate, timeout etc. should be set
 via the Serial class. 
 The sendPin is the pin that connects to the transmit/receive enable pins.
 The library sets the pinMode and defaults it to LOW (receiving mode).
-- **void     setMicrosPerByte(uint32_t baudRate)** set the delay per character needed.
+- **void setMicrosPerByte(uint32_t baudRate)** set the delay per character needed.
 This gives the hardware enough time to flush the buffer. 
 - **uint32_t getMicrosPerByte()** returns the current delay in micros used.
 - **void setTXmode()** explicitly set mode to transmitting / sending.
@@ -58,7 +64,7 @@ All variations of **print()**, **println()** and **write()** can be used,
 the library calculates the time needed to set the RS485 chip in transmit mode.
 
 An important command from the stream interface is the **setTimeOut()** as
-this allows reads on the RS485 bus that are limited
+this allows reads on the RS485 bus that are limited.
 
 
 ## Operation
@@ -74,7 +80,7 @@ resumes with listening.
 
 Do not forget to use one pull up (A line) and one pull down (B line) 
 at only one end of the bus.
-Values depend on the length of the cables, start with 1 KΩ.
+Values depend on the length of the cables, start with 1 KΩ (kilo ohm)
 
 
 #### Wires
@@ -100,12 +106,12 @@ To enable **yield()** uncomment the following line in **RS485.cpp**
 
 // #define RS485_YIELD_ENABLE  1
 
-or use this flag in the compile line option
+or set this flag in the command line compile option.
 
 Note: the **yield()** calling version is substantial slower, depending 
 on the baud rate. Use with care.
 
-TODO: to be tested on ESP32 - RTOS .
+TODO: to be tested on ESP32 - RTOS.
 
 
 #### Protocol design
@@ -115,10 +121,12 @@ response of one module would trigger another module to also send a response.
 Of course these two responses interacted quite consistent but wrong.
 It took some time to find the cause and to redesign the protocol used.
 
-Lesson learned was to spend more time designing the protocol.
+Lesson learned was to spend more time designing the protocol up front.
+And keep commands and responses 100% disjunct.
 
 An example of a simple byte protocol could use commands all with 
 bit 7 set to 1, and all responses with bit 7 set to 0 (E.g ASCII).
+Would allow 127 different 1 byte commands.
 
 
 #### Useful links
@@ -130,18 +138,24 @@ bit 7 set to 1, and all responses with bit 7 set to 0 (E.g ASCII).
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - setUsPerByte() parameter does not feel 100% (investigate)
 
-#### could
+#### Could
+
 - add **send()** and **receive()** for longer messages.
   - which handshake?
   - dynamic buffer size?
   - should this be a sort of message class / struct. fixed size?
 - add examples
 - add unit tests
+- investigate yield() on ESP32/RTOS behaviour
+
+#### Wont
 
 

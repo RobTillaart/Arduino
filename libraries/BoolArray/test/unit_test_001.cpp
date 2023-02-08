@@ -31,6 +31,7 @@ unittest_setup()
   fprintf(stderr, "\tVERSION:\t %s\n", (char *) BOOLARRAY_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -132,4 +133,6 @@ unittest(test_clear)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

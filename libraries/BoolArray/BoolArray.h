@@ -2,7 +2,7 @@
 //
 //    FILE: BoolArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray.git
 
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define BOOLARRAY_LIB_VERSION     (F("0.2.6"))
+#define BOOLARRAY_LIB_VERSION     (F("0.2.7"))
 
 #define BOOLARRAY_MAXSIZE         (250 * 8)       // 2000
 
@@ -32,11 +32,11 @@ public:
 
   uint8_t  begin(const uint16_t size);
 
-  uint16_t size()   { return _size; };
-  uint8_t  memory() { return _bytes; };
+  uint16_t size();
+  uint8_t  memory();
 
   uint8_t  setAll(const uint8_t value);
-  uint8_t  clear()  { return setAll(0); };
+  uint8_t  clear();
   uint8_t  get(const uint16_t index);
   uint8_t  set(const uint16_t index, const uint8_t value);
   uint8_t  toggle(const uint16_t index);
@@ -44,10 +44,10 @@ public:
 private:
   uint8_t   _masks[8] = {1, 2, 4, 8, 16, 32, 64, 128};
   uint8_t * _array;
-  uint16_t  _size = 0;
+  uint16_t  _size  = 0;
   uint8_t   _bytes = 0;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

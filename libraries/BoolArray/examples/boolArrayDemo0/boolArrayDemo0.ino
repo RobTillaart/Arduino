@@ -1,11 +1,9 @@
 //
 //    FILE: boolArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
 // PURPOSE: demo performance reading boolean array
 //    DATE: 2015-12-06
-//     URL: https://forum.arduino.cc/index.php?topic=361167.0
-//
+//     URL: https://github.com/RobTillaart/BoolArray
 
 
 #include "BoolArray.h"
@@ -56,6 +54,7 @@ void test0()
 {
   Serial.println();
   Serial.println("TEST SET(1)");
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -65,6 +64,7 @@ void test0()
   duration1 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration1);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -86,6 +86,7 @@ void test1()
 {
   Serial.println();
   Serial.println("TEST SET(0)");
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -95,6 +96,7 @@ void test1()
   duration1 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration1);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -116,6 +118,7 @@ void test2()
 {
   Serial.println();
   Serial.println("TEST GET(i)");
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -125,6 +128,7 @@ void test2()
   duration1 = micros() - start;
   Serial.print("DURATION:\t");
   Serial.println(duration1);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -145,6 +149,7 @@ void test2()
 void test3()
 {
   Serial.println();
+  delay(10);
 
   start = micros();
   for (int i = 0; i < BOOLARRAY_MAXSIZE; i++)
@@ -185,4 +190,6 @@ void test3()
   Serial.println(1.0 * duration1 / duration2);
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

@@ -120,4 +120,6 @@ unittest(test_bitsNeeded)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

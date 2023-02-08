@@ -26,31 +26,45 @@ New bit functions can be added or investigated, please file an issue on GitHub.
 
 ## Interface
 
+```cpp
+#include "bitHelpers.h"
+```
 
-### 0.1.0
+#### BitCount
 
-BitCount, several implementations to compare performance.
+several implementations to compare performance.
 
 - **uint8_t bitCountReference(uint32_t value)** returns number of bits set in a value.
 - **uint8_t bitCountKR(uint32_t value)** Kerningham Ritchie bitCount.
-- **uint8_t bitCountArray(uint32_t value)** count per nybble with lookup table.
+- **uint8_t bitCountArray(uint32_t value)** count per nibble with lookup table.
 - **uint8_t bitCountF1(uint32_t value)** SWAG algorithm variant.
 - **uint8_t bitCountF2(uint32_t value)** SWAG algorithm variant.
 
 BitCount - fastest version, SWAG algorithm
 
-- **uint8_t  bitCount(uint8_t value)** available for 16, 32 and 64 bit.
+- **uint8_t  bitCount(uint8_t value)**
+- **uint8_t  bitCount(uint16_t value)**
+- **uint8_t  bitCount(uint32_t value)**
+- **uint8_t  bitCount(uint64_t value)**
 
-Reverse: uint8_t .. uint64_t
 
-- **T bitReverse(T value)** reverses bits in a uint8_t .. uint64_t.
+#### Reverse
+
+T = uint8_t .. uint64_t
+
+- **T bitReverse(T value)** reverses bits.
 - **T nybbleReverse(T value)** reverses nibbles (4 bit) in a uint8_t .. uint64_t.
 - **T byteReverse(T value)** reverses bytes (8 bit) in a uint16_t .. uint64_t.
 - **T wordReverse(T value)** reverses words (16 bit) in uint32_t and uint64_t.
 
-Swap upper and lower half: uint8_t .. uint64_t.
+#### Swap 
+
+swap upper and lower half: uint8_t .. uint64_t. Is like rotate 50%
 
 - **T swap(T value)** 0x12345678 ==> 0x56781234.
+
+
+#### BitRotate
 
 Rotate Left / Right: uint8_t .. uint64_t
 if pos larger than # bits original value is returned.
@@ -58,26 +72,36 @@ if pos larger than # bits original value is returned.
 - **T bitRotateLeft(T value, uint8_t pos)**
 - **T bitRotateRight(T value, uint8_t pos)** 
 
+
+#### BitFlip
+
 BitFlip: uint8_t .. uint64_t  a.k.a toggle
 if pos larger than # bits original value is returned.
 
 - **T bitFlip(T value, uint8_t pos)** flips a single bit at pos
 
+
+#### BitRot
+
 BitRot: uint8_t .. uint64_t
 
+- **T bitRotRef(T value, float chance = 0.5, uint8_t times = 1)** reference implementation.
 - **T bitRot(T value, float chance = 0.5, uint8_t times = 1)** random damage to a single bit of a value,
 chance = float 0.0 .. 1.0 that one random bit is toggled. 
 The times parameter allows to apply this n times.
-**bitRot()** is a function that can be used to mimic single bit errors in communication protocols.  
+**bitRot()** is a function that can be used to mimic (single) bit errors in communication protocols.  
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
 
-### 0.1.1 added
+#### BitsNeeded
 
 How many bits are needed to store / transmit a number?
 
 - **bitsNeededReference(n)** reference implementation for uint8_t to uint64_t.
 - **bitsNeeded(n)** A 'recursive strategy' for uint8_t .. uint64_t provides a fast answer. 
+
+
+#### BitSet64 et al.
 
 The following functions are made as the normal **bitset()** etcetera do not work for 64 bit.
 These functions are optimized for speed for **AVR**, **ESP32** and **ESP8266**. 
@@ -97,45 +121,45 @@ Also added are macro versions of these five functions.
 - **mbitRead64(x, bit)** reads bit from uint64_t 
 
 
-### 0.1.2 and beyond
-
-See CHANGELOG.md
-
-
-## Operations
-
-See examples.
-
-
 ## Future
+
+#### Must
 
 - improve documentation
 - improve readability of code
+
+#### Should
+
 - add performance tests
+- **bitRotateLeftRight()** should it do modulo pos?
+- **bitsNeededRef()** correct for value 0?
+- **nybbleReverse()** => **nibbleReverse()**
 
 
-#### Functions add
+#### Could
 
 - besides **bitRot()** one can also have timing issues when clocking in bits. 
 A function could be created to mimic such timing error, by shifting bits from a 
 specific position. e.g. 
 - **parShiftLeft(00001010, 3)** ==> 00011010
 - **bitBurst(00000000, 3)** ==>  00111000 any group of 3 bits will toggle. edges?
+- **bitRot(value, chance = 50%, times = 1)** extension...
 - **bitNoggle(value, bit)** - toggle all but one bit. (why?)
 - **bitSort(value)** 00101001 ==> 00000111
 or with minimal # toggles?
-- **bitReverse(uint32_t x, uint8_t n)**
+- **bitReverse(uint32_t x, uint8_t n)** see below.
 - **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
 - **byteInverse(uint32_t x)** (a,b,c,d) => (255-a, 255-b, 255-c, 255-d) = rather simple ~?
 - **isBitPalindrome()** byte, word ...
 - **bitSwap(value, p, q)** 
+- many more :)
 
 
-#### Functions fix
+#### Wont
 
-- **bitRotateLeftRight()** should it do modulo pos?
-- **bitsNeededRef()** correct for value 0?
 
+
+## ideas
 
 #### BitReverse n bit number
 
@@ -147,14 +171,14 @@ not as fast as a dedicated version.
 uint32_t bitReverse(uint32_t x, uint8_t n)
 {
   uint32_t r = bitReverse(x);
-  return r >> (32 - n);
+  return r >> (32 - n);       // reverse only top n bits.
 }
 ```
 Could be added in next release...
 
 Q: what to do with the first (32-n) bits?
 Just reverse the last 24 bits and clear bit 24-31 is different than
-reversing the last 24 bits and keel bit 24-31 as is.
+reversing the last 24 bits and keep bit 24-31 as is.
 ```cpp
 uint32_t bitReverse(uint32_t x, uint8_t n)
 {
@@ -164,25 +188,3 @@ uint32_t bitReverse(uint32_t x, uint8_t n)
   return y | r;
 }
 ```
-
-## Future
-
-#### Must
-
-- redo documentation 
-  - logical groups
-
-#### Should
-
-#### Could
-
-- besides **bitRot()** one can also have timing issues when clocking in bits. 
-A function could be created to mimic such timing error, by shifting bits from a 
-specific position. e.g. 
-- parShiftLeft(00001010, 4) ==> 00011010
-- bitBurst(00000000, 3) ==>  00111000 any group of 3 bits will toggle.
-- bitRot(value, chance = 50%, times = 1) extention...
-- bitNoggle(value, bit) - toggle all but one bit. (why?)
-- bitSort(value) ==> 00101001 ==> 00000111
-- many more :)
-

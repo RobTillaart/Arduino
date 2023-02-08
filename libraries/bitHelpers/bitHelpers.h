@@ -2,18 +2,17 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
-//
-// HISTORY: See CHANGELOG.md
-
 
 
 #include "Arduino.h"
 
-#define BITHELPER_LIB_VERSION         (F("0.1.9"))
+
+#define BITHELPER_LIB_VERSION         (F("0.1.10"))
+
 
 //  used by bitRot()
 //  power of 2 gives better uniform distribution in the last bits

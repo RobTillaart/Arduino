@@ -1,12 +1,10 @@
 //
 //    FILE: bitHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
-//
-// HISTORY: See CHANGELOG.md
 
 
 #include "bitHelpers.h"
@@ -656,5 +654,5 @@ uint8_t bitsNeeded(uint64_t x)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

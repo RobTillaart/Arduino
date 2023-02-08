@@ -5,13 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.10] - 2023-02-08
+- reorganize readme.md
+- update GitHub actions
+- update license 2023
+
 
 ## [0.1.9] - 2022-10-29
 - add RP2040 to build-CI
 - simplified changelog.md
 - minor edit unit test
 - add printHelpers lib in build-CI
-
 
 ## [0.1.8] - 2022-04-13
 - split bitHelpers.h file into a .h and a .cpp file to prevent multiple declarations in some complexer projects.

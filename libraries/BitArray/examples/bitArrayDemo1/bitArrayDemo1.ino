@@ -1,13 +1,13 @@
 //
 //    FILE: bitArrayDemo1.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
 // PURPOSE: demo
 //    DATE: 14-11-2015
 //     URL: https://github.com/RobTillaart/BitArray
 
 
 #include "BitArray.h"
+
 
 BitArray b;
 
@@ -20,10 +20,10 @@ void setup()
   Serial.print("LIB VERSION:\t");
   Serial.println(BITARRAY_LIB_VERSION);
 
-  // shows reclaiming memory
-  test(10, 1000);  // 1024 steps
-  test(6, 1000);   // 64 steps
-  test(4, 3000);   // 16 steps
+  //  shows reclaiming memory
+  test(10, 1000);  //  1024 steps
+  test(6, 1000);   //  64 steps
+  test(4, 3000);   //  16 steps
 }
 
 
@@ -42,7 +42,7 @@ void test(byte bits, uint16_t samples)
 
   for (int i = 0; i < samples; i++)
   {
-    uint16_t x = analogRead(A0) >> (10 - bits);  // note resized sample!
+    uint16_t x = analogRead(A0) >> (10 - bits);  //  note resized sample!
     b.set(i, x);
   }
   Serial.println("\nSAMPLES:\t");
@@ -60,10 +60,11 @@ void test(byte bits, uint16_t samples)
   Serial.println("\n\nDone...");
 }
 
+
 void loop()
 {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,12 +1,10 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 //          http://forum.arduino.cc/index.php?topic=361167
-//
-// HISTORY: see changelog.md
 
 
 #include "BitArray.h"
@@ -32,12 +30,12 @@ BitArray::~BitArray()
 
 uint8_t BitArray::begin(const uint8_t bits, const uint16_t size)
 {
-    if (bits == 0 || bits > 32)
+    if ((bits == 0) || (bits > 32))
     {
         _error = BA_ELEMENT_SIZE_ERR;
         return _error;
     }
-    if ((1UL * bits * size)/8 > (1UL * BA_MAX_SEGMENTS * BA_SEGMENT_SIZE))
+    if (((1UL * bits * size)/8) > (1UL * BA_MAX_SEGMENTS * BA_SEGMENT_SIZE))
     {
         _error = BA_SIZE_ERR;
         return _error;
@@ -166,6 +164,7 @@ void BitArray::setAll(uint32_t value)
     // }
 // }
 
+
 /////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -183,7 +182,7 @@ inline uint8_t BitArray::_bitget(uint16_t pos)
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
 
-    return (p[by] >> bi) & 0x01;    //  bitRead(p[by], bi);
+    return (p[by] >> bi) & 0x01;          //  bitRead(p[by], bi);
 }
 
 
@@ -191,7 +190,7 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
 {
     uint8_t se = 0;
     uint16_t re = pos;
-    while (re >= (BA_SEGMENT_SIZE * 8))  //  8 == #bits in uint8_t
+    while (re >= (BA_SEGMENT_SIZE * 8))   //  8 == #bits in uint8_t
     {
         se++;
         re -= (BA_SEGMENT_SIZE * 8);
@@ -200,8 +199,8 @@ inline void BitArray::_bitset(uint16_t pos, uint8_t value)
     uint8_t bi = re & 7;
     uint8_t * p = _ar[se];
 
-    if (value == 0) p[by] &= ~(1 << bi); //  bitClear(p[by], bi);
-    else p[by] |= (1 << bi);             //  bitSet(p[by], bi);
+    if (value == 0) p[by] &= ~(1 << bi);  //  bitClear(p[by], bi);
+    else p[by] |= (1 << bi);              //  bitSet(p[by], bi);
 }
 
 
@@ -209,7 +208,7 @@ inline uint8_t BitArray::_bittoggle(const uint16_t pos)
 {
     uint8_t se = 0;
     uint16_t re = pos;
-    while (re >= (BA_SEGMENT_SIZE * 8))  //  8 == #bits in uint8_t
+    while (re >= (BA_SEGMENT_SIZE * 8))   //  8 == #bits in uint8_t
     {
         se++;
         re -= (BA_SEGMENT_SIZE * 8);
@@ -221,8 +220,9 @@ inline uint8_t BitArray::_bittoggle(const uint16_t pos)
     uint8_t mask = 1 << bi;
     p[by] ^= mask;
     return (mask > 0);
+    //  return ((p[by] & mask) > 0);  0.3.0
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -20,10 +20,11 @@
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION              (F("0.2.5"))
+#define BITARRAY_LIB_VERSION              (F("0.2.6"))
 
 
 #define BA_SEGMENT_SIZE                   200
+
 
 //  max memory is board type dependent
 //  note the bitArray does not use all of the RAM
@@ -52,6 +53,7 @@
 #else
 #define BA_MAX_SEGMENTS 5
 #endif
+
 
 #define BA_ERR                            0xFFFFFFFF
 #define BA_OK                             0x00
@@ -94,5 +96,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

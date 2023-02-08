@@ -1,15 +1,14 @@
 //
 //    FILE: bitArrayDemo2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
-// PURPOSE: demo performance reading boolean array
+// PURPOSE: demo performance bit array
 //    DATE: 2015-12-06
 //     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
-//
 
 
 #include "BitArray.h"
+
 
 BitArray b;
 
@@ -106,5 +105,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

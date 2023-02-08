@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-13
 // PURPOSE: unit tests for the BitArray
-//          https://github.com/RobTillaart/
+//          https://github.com/RobTillaart/BitArray
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -161,4 +161,5 @@ unittest(test_setAll)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

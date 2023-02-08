@@ -23,31 +23,16 @@ into multiple bytes, and byte borders. Depending where an element is located wri
 can take more time. You need to check if your application needs more performance than
 this library can deliver. 
 
+#### Related
+
 The BitArray library is one from a set of three:
 
-- **BitArray** for elements of user defined size in bits (values 0 .. 2^n-1).
-- **BoolArray** for elements of 1 bit (values 0 .. 1).
-- **nybbleArray** for elements of 4 bits (values 0 .. 15).
+- https://github.com/RobTillaart/BitArray for elements of user defined size in bits (values 0 .. 2^n-1).
+- https://github.com/RobTillaart/BoolArray for elements of 1 bit (values 0 .. 1).
+- https://github.com/RobTillaart/nibbleArray for elements of 4 bits or smaller (values 0 .. 15).
 
 
-## Operations
-
-In the function **begin(elementSize, elements)** the element size and number of elements 
-needs to be defined. The maximum number of elements is 65535 if memory allows, 
-the maximum element size is 32.
-
-The basic functions of the class are
-
-- **set(uint16_t index, uint32_t value)**
-- **get(uint16_t index)**
-- **toggle(uint16_t index)**
-- **setAll(uint32_t value)**
-- **clear()**
-
-Check out the examples.
-
-
-## Notes
+#### Notes
 
 The BitArray class allocates dynamic memory, so called BA_SEGMENTS, 
 each of 200 bytes.
@@ -57,12 +42,67 @@ depends on architecture.
 The library is tested on AVR architecture only.
 
 
+## Interface
+
+```cpp
+#include "BitArray.h"
+
+```
+
+#### Constructor
+
+- **BitArray()** Constructor
+- **~BitArray()** Destructor, frees dynamic memory
+- **uint8_t begin(const uint8_t bits, const uint16_t size)** Frees memory used and allocates the memory requested. 
+The maximum number of elements is 65535 if memory allows, 
+the maximum element size is 32.
+
+Better names could be **bits == elementSize** and **size == elementCount**.
+
+
+#### Admin
+
+- **uint16_t capacity()** idem.
+- **uint16_t memory()** idem.
+- **uint16_t bits()** idem.
+- **uint16_t segments()** idem.
+- **uint8_t  getError()** idem.
+
+
+#### base functions
+
+- **void clear()** sets all elements to 0.
+- **uint32_t get(const uint16_t index)** gets the value of the element at index.
+- **uint32_t set(const uint16_t index, uint32_t value)** sets index to value.
+Overwrites existing value.
+Returns value.
+- **void setAll(uint32_t value)** sets whole array to value.
+- **uint32_t toggle(const uint16_t index)** toggles value at index.
+Return value is maxValue (debug info).
+
+
 ## Future
 
-- improve documentation.
+#### Must
+
+
+#### Should
+
 - testing.
+- is returning value in **set()** needed? (0.3.0)
+  - as value is a parameter **void** seems good enough.
+- return value **toggle()** could be new value? (0.3.0)
+  - code prep is working (commented for now)
+- naming parameters ** begin()** (0.3.0)
+
+
+#### Could
+
 - functional examples.
 - investigate element size of 64 (for doubles) and beyond.
-- move code to .cpp
+- move code to .cpp (0.3.0)
+
+
+#### Wont
 
 

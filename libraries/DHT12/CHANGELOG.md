@@ -6,10 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-02-09
+- fix **lastRead()** initial value.
+- add defaults to functions.
+- update readme.md
+- move code to .cpp
+- update GitHub actions
+- update license 2023
+
+----
+
 ## [0.3.3] - 2022-11-01
 - add changelog.md
 - add rp2040 to build-CI
-
 
 ## [0.3.2] - 2021-12-16  
 - update library.json

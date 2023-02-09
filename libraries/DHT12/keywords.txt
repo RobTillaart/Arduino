@@ -1,13 +1,13 @@
-# Syntax Coloring Map For DHT_I2C
+# Syntax Colouring Map For DHT12
 
-# Datatypes (KEYWORD1)
+# Data types (KEYWORD1)
 DHT12	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
-read	KEYWORD2
 
+read	KEYWORD2
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
 
@@ -15,6 +15,7 @@ setHumOffset	KEYWORD2
 setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
+
 lastRead	KEYWORD2
 
 

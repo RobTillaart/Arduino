@@ -1,10 +1,9 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
-// PURPOSE: I2C library for DHT12 for Arduino.
-//
-// HISTORY: see changelog.md
+// VERSION: 0.4.0
+// PURPOSE: Arduino library for I2C DHT12 temperature and humidity sensor.
+//     URL: https://github.com/RobTillaart/DHT12
 
 
 #include "DHT12.h"
@@ -19,6 +18,7 @@ DHT12::DHT12(TwoWire *wire)
   _humidity    = 0;
   _humOffset   = 0;
   _tempOffset  = 0;
+  _lastRead    = 0;
 }
 
 
@@ -53,11 +53,11 @@ bool DHT12::isConnected()
 
 int8_t DHT12::read()
 {
-  // READ SENSOR
+  //  READ SENSOR
   int status = _readSensor();
   if (status < 0) return status;
 
-  // CONVERT AND STORE
+  //  CONVERT AND STORE
   _humidity    = _bits[0] + _bits[1] * 0.1;
   _temperature = _bits[2] + (_bits[3] & 0x7F) * 0.1;
   if (_bits[3] & 0x80)
@@ -65,9 +65,12 @@ int8_t DHT12::read()
     _temperature = -_temperature;
   }
 
-  // TEST CHECKSUM
+  //  TEST CHECKSUM
   uint8_t checksum = _bits[0] + _bits[1] + _bits[2] + _bits[3];
-  if (_bits[4] != checksum) return DHT12_ERROR_CHECKSUM;
+  if (_bits[4] != checksum)
+  {
+    return DHT12_ERROR_CHECKSUM;
+  }
 
   _lastRead = millis();
 
@@ -75,20 +78,71 @@ int8_t DHT12::read()
 }
 
 
+float DHT12::getHumidity()
+{
+  return _humidity + _humOffset;
+}
+
+
+float DHT12::getTemperature()
+{
+  return _temperature + _tempOffset;
+}
+
+
+void DHT12::setHumOffset(float offset)
+{
+  _humOffset = offset;
+}
+
+
+void DHT12::setTempOffset(float offset)
+{
+  _tempOffset = offset;
+}
+
+
+float DHT12::getHumOffset()
+{
+  return _humOffset;
+}
+
+
+float DHT12::getTempOffset()
+{
+  return _tempOffset;
+}
+
+
+uint32_t DHT12::lastRead()
+{
+  return _lastRead;
+}
+
+
 int DHT12::_readSensor()
 {
-  // GET CONNECTION
+  //  GET CONNECTION
   _wire->beginTransmission(DHT12_ADDRESS);
   _wire->write(0);
   int rv = _wire->endTransmission();
-  if (rv < 0) return rv;
+  if (rv < 0)
+  {
+    return rv;
+  }
 
-  // GET DATA
+  //  GET DATA
   const uint8_t length = 5;
   int bytes = _wire->requestFrom(DHT12_ADDRESS, length);
 
-  if (bytes == 0)     return DHT12_ERROR_CONNECT;
-  if (bytes < length) return DHT12_MISSING_BYTES;
+  if (bytes == 0)
+  {
+    return DHT12_ERROR_CONNECT;
+  }
+  if (bytes < length)
+  {
+    return DHT12_MISSING_BYTES;
+  }
 
   for (int i = 0; i < bytes; i++)
   {
@@ -99,4 +153,5 @@ int DHT12::_readSensor()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

@@ -34,6 +34,7 @@ unittest_setup()
   fprintf(stderr, "DHT12_LIB_VERSION: %s \n", (char *) DHT12_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -91,4 +92,6 @@ unittest(test_offset)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

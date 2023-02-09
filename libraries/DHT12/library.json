@@ -1,7 +1,7 @@
 {
   "name": "DHT12",
   "keywords": "Temperature, Humidity, DHT12, I2C",
-  "description": "Arduino library for I2C DHT12 temperature and humidity sensor. ",
+  "description": "Arduino library for I2C DHT12 temperature and humidity sensor.\nTemperature and humidity can be calibrated with an offset. ",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DHT12.git"
   },
-  "version": "0.3.3",
+  "version": "0.4.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

@@ -38,8 +38,9 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) NIBBLEARRAY_LIB_VERSION);
+  fprintf(stderr, "NIBBLEARRAY_LIB_VERSION: %s\n", (char *) NIBBLEARRAY_LIB_VERSION);
 }
+
 
 unittest_teardown()
 {
@@ -87,11 +88,13 @@ unittest(test_all)
     assertEqual(15, na.get(i));
     sum += na.get(i);
   }
-  assertEqual(330, sum);  // not all 500 all summed!
+  assertEqual(330, sum);  //  not all 500 all summed!
 
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

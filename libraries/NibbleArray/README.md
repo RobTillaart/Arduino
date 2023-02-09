@@ -20,53 +20,71 @@ The nibbleArray is an array that stores 2 nibbles in a byte therefore it is
 twice as small as a normal array.
 
 The current implementation can hold 510 elements. This is due a limitation of
-the UNO which can **alloc** max 255 bytes in one **malloc()** call.
+the UNO which can **allocate** max 255 bytes in one **malloc()** call.
 
 This **NIBBLEARRAY_MAXSIZE** can be defined compile time "-D NIBBLEARRAY_MAXSIZE" 
 or one can adjust it in the library if other platforms can allocate more memory.
 
 
+#### Related
+
+The BitArray library is one from a set of three:
+
+- https://github.com/RobTillaart/BitArray for elements of user defined size in bits (values 0 .. 2^n-1).
+- https://github.com/RobTillaart/BoolArray for elements of 1 bit (values 0 .. 1).
+- https://github.com/RobTillaart/nibbleArray for elements of 4 bits or smaller (values 0 .. 15).
+
+
+
 ## Interface
 
-The interface of the nibbleArray is straightforward:
+```cpp
+#include "nibbleArray.h"
+```
+
+#### Constructor
 
 - **nibbleArray(uint16_t size)** constructor
+- **uint16_t size()** returns the size of the array.
+- **uint16_t memory()** returns the memory used in bytes.
+
+
+#### Base
+
 - **uint8_t set(uint16_t index, uint8_t value)** set a value in the nibbleArray.
 Index must be in range otherwise 0xFF = NIBBLEARRAY_ERROR_INDEX will be returned.
 If value > 15 it will be truncated. 
 - **uint8_t get(uint16_t index)** get value from the nibbleArray. 
 Index must be in range otherwise 0xFF = NIBBLEARRAY_ERROR_INDEX will be returned.
-- **uint16_t size()** returns the size of the array.
-- **uint16_t memory()** returns the memory used in bytes.
 - **void clear()** set all elements to 0.
 - **void SetAll(uint8_t value)** set all elements to value (0..15). 
 If value > 15 it will be truncated.
 
 
-## Operation
-
-See examples
-
-
 ## Future
 
-#### must
+#### Must
 
-- align interface with boolArray and bitArray.
+- add a begin() function that does the work now done in constructor (0.3.0)
+  - similar to bitArray and BoolArray classes.
+
+
+#### Should
+
+- align interface with BoolArray and bitArray.
   - is there some base class?
   - align error codes.
-- add a begin() function that does the work now done in constructor
 - allow larger allocations for non AVR, how?
   - don't test for size, user responsibility?
 
 
-#### could
+#### Could
 
 - implement NIBBLEARRAY_ERROR_VALUE for set and setAll ??
   - for now user responsibility.
 
 
-#### won't
+#### Won't
 
 - setAll( f() ) - fill the array by calling a function n times?
 

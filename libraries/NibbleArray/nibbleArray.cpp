@@ -1,7 +1,7 @@
 //
 //    FILE: nibbleArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for a compact array of nibbles (4 bits)
 //     URL: https://github.com/RobTillaart/nibbleArray
 
@@ -32,9 +32,10 @@ nibbleArray::~nibbleArray()
 
 uint8_t nibbleArray::get(const uint16_t index)
 {
+  //  disable this check for more speed
   if (index > _size)
   {
-    return NIBBLEARRAY_ERROR_INDEX; // disable this check for more speed
+    return NIBBLEARRAY_ERROR_INDEX;
   }
   if (index & 1) return _arr[index/2] & 0x0F;
   return _arr[index/2] >> 4;
@@ -43,15 +44,28 @@ uint8_t nibbleArray::get(const uint16_t index)
 
 uint8_t nibbleArray::set(const uint16_t index, uint8_t value)
 {
+  //  disable this check for more speed
   if (index > _size)
   {
-    return NIBBLEARRAY_ERROR_INDEX; // disable this check for more speed
+    return NIBBLEARRAY_ERROR_INDEX;
   }
   uint8_t v = value & 0x0F;
   if (index & 1) _arr[index/2] = (_arr[index/2] & 0xF0) | v;
   else _arr[index/2] = (_arr[index/2] & 0x0F) | (v << 4);
   return NIBBLEARRAY_OK;
 }
+
+
+uint16_t nibbleArray::size()
+{
+  return _size;
+};
+
+
+uint16_t nibbleArray::memory()
+{
+  return _bytes;
+};
 
 
 void nibbleArray::clear()
@@ -68,5 +82,5 @@ void nibbleArray::setAll(uint8_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

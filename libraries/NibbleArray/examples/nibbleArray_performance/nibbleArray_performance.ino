@@ -8,6 +8,7 @@
 
 #include "nibbleArray.h"
 
+
 // AVR UNO can handle only 510
 // ESP32 can do more but depends on RTOS limits
 
@@ -43,6 +44,8 @@ void test_size()
 {
   Serial.print("Nibble array size:\t");
   Serial.println(na.size());
+  Serial.print("Nibble array mem:\t");
+  Serial.println(na.memory());
   delay(100);
 }
 
@@ -50,8 +53,9 @@ void test_size()
 void test_get()
 {
   Serial.println("\nget");
+  delay(10);
   start = micros();
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     x += na.get(i);
   }
@@ -62,7 +66,7 @@ void test_get()
   delay(100);
 
   start = micros();
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     x += na.get(i);
     x += na.get(i);
@@ -82,8 +86,9 @@ void test_get()
 void test_set()
 {
   Serial.println("\nset");
+  delay(10);
   start = micros();
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     na.set(i, 5);
   }
@@ -94,7 +99,7 @@ void test_set()
   delay(100);
 
   start = micros();
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     na.set(i, 5);
     na.set(i, 10);
@@ -112,6 +117,7 @@ void test_set()
 void test_clear()
 {
   Serial.println("\nclear");
+  delay(10);
   start = micros();
   na.clear();
   stop = micros();
@@ -130,7 +136,7 @@ void test_clear()
   Serial.print("DELTA:\t\t");
   Serial.println(d2 - d1);
   delay(100);
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     if (na.get(i) != 0)
     {
@@ -144,6 +150,7 @@ void test_clear()
 void test_setAll()
 {
   Serial.println("\nsetAll");
+  delay(10);
   start = micros();
   na.setAll(1);
   stop = micros();
@@ -151,7 +158,7 @@ void test_setAll()
   d1 = stop - start;
   Serial.println(d1);
   delay(100);
-  for (int i = 0; i < na.size(); i++)
+  for (uint16_t i = 0; i < na.size(); i++)
   {
     if (na.get(i) != 1)
     {
@@ -178,5 +185,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

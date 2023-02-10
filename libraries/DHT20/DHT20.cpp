@@ -1,7 +1,7 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 
 
@@ -23,7 +23,7 @@ DHT20::DHT20(TwoWire *wire)
   _humidity    = 0;
   _humOffset   = 0;
   _tempOffset  = 0;
-  _status      = 0;
+  _status      = DHT20_OK;
   _lastRequest = 0;
   _lastRead    = 0;
 }
@@ -89,7 +89,7 @@ uint8_t DHT20::resetSensor()
 //
 int DHT20::read()
 {
-  //  do not read to fast
+  //  do not read to fast == more than once per second.
   if (millis() - _lastRead < 1000)
   {
     return DHT20_ERROR_LASTREAD;
@@ -115,7 +115,7 @@ int DHT20::requestData()
 {
   //  reset sensor if needed.
   resetSensor();
-  
+
   //  GET CONNECTION
   _wire->beginTransmission(DHT20_ADDRESS);
   _wire->write(0xAC);
@@ -201,7 +201,7 @@ float DHT20::getTemperature()
 
 void DHT20::setHumOffset(float offset)
 {
-  _humOffset  = offset;
+  _humOffset = offset;
 };
 
 
@@ -319,7 +319,7 @@ bool DHT20::_resetRegister(uint8_t reg)
   if (_wire->endTransmission() != 0) return false;
   delay(5);
 
-  int bytes = _wire->requestFrom(DHT20_ADDRESS, (uint8_t)3); 
+  int bytes = _wire->requestFrom(DHT20_ADDRESS, (uint8_t)3);
   for (int i = 0; i < bytes; i++)
   {
     value[i] = _wire->read();

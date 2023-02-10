@@ -3,8 +3,7 @@
 //    FILE: DHT20.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
-// VERSION: 0.2.1
-// HISTORY: See DHT20.cpp
+// VERSION: 0.2.2
 //     URL: https://github.com/RobTillaart/DHT20
 //
 
@@ -21,7 +20,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT20_LIB_VERSION                    (F("0.2.1"))
+#define DHT20_LIB_VERSION                    (F("0.2.2"))
 
 #define DHT20_OK                             0
 #define DHT20_ERROR_CHECKSUM                -10
@@ -53,11 +52,11 @@ public:
   int      requestData();
   //  read the raw data.
   int      readData();
-  //  converts raw databits to temperature and humidity.
+  //  converts raw data bits to temperature and humidity.
   int      convert();
 
 
-  //  SYNCHRONUOUS CALL
+  //  SYNCHRONOUS CALL
   //  blocking read call to read + convert data
   int      read();
   //  access the converted temperature & humidity
@@ -66,8 +65,8 @@ public:
 
 
   //  OFFSET  1st order adjustments
-  void     setHumOffset(float offset);
-  void     setTempOffset(float offset);
+  void     setHumOffset(float offset = 0);
+  void     setTempOffset(float offset = 0);
   float    getHumOffset();
   float    getTempOffset();
 
@@ -88,13 +87,13 @@ public:
 
 
   //  RESET  (new since 0.1.4)
-  //  use with care 
+  //  use with care
   //  returns number of registers reset => must be 3
   //  3     = OK
   //  0,1,2 = error.
   //  255   = no reset needed.
   //  See datasheet 7.4 Sensor Reading Process, point 1
-  //  use with care 
+  //  use with care
   uint8_t  resetSensor();
 
 
@@ -118,5 +117,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

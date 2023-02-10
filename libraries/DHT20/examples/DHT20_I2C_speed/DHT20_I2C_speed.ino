@@ -19,6 +19,8 @@
 
 DHT20 DHT;
 
+uint32_t start, stop;
+
 void setup()
 {
   Serial.begin(115200);
@@ -38,6 +40,47 @@ void setup()
     Serial.print(speed);
     Serial.print("\t");
     Serial.print(DHT.read());  // status
+    Serial.print("\t");
+    Serial.print(DHT.getHumidity(), 1);
+    Serial.print("\t");
+    Serial.print(DHT.getTemperature(), 1);
+    Serial.println();
+    delay(1000);
+  }
+
+  Serial.println();
+  for (uint32_t speed = 50000; speed < 850000; speed += 50000)
+  {
+    Wire.setClock(speed);
+    start = micros();
+    DHT.read();
+    stop = micros();
+
+    Serial.print(speed);
+    Serial.print("\t");
+    Serial.print(stop - start);  // time
+    Serial.print("\t");
+    Serial.print(DHT.getHumidity(), 1);
+    Serial.print("\t");
+    Serial.print(DHT.getTemperature(), 1);
+    Serial.println();
+    delay(1000);
+  }
+
+
+  Serial.println();
+  for (uint32_t speed = 50000; speed < 850000; speed += 50000)
+  {
+    DHT.requestData();
+    while (DHT.isMeasuring());
+    Wire.setClock(speed);
+    start = micros();
+    DHT.readData();
+    stop = micros();
+    DHT.convert();
+    Serial.print(speed);
+    Serial.print("\t");
+    Serial.print(stop - start);  // time
     Serial.print("\t");
     Serial.print(DHT.getHumidity(), 1);
     Serial.print("\t");

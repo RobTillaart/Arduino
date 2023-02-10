@@ -13,7 +13,7 @@ Arduino library for I2C DHT20 temperature and humidity sensor.
 
 ## Description
 
-The DHT20 is a humidity an temperature sensor. 
+The DHT20 is a humidity and temperature sensor. 
 
 The sensor has a fixed address of **0x38**.
 It is not known if the address can be changed.
@@ -53,7 +53,21 @@ This keeps the API simple. The reads are 1-2 ms slower than 0.1.4. (< 50 ms).
 Still far below the 80 ms mentioned in the datasheet. 
 
 
-### Connection
+#### Tested
+
+Verified to work with Arduino UNO and ESP32 and ESP8266 (see #8)
+Please let me know if other platforms work (or not).
+
+
+## I2C
+
+#### Address
+
+The sensor has a fixed address of **0x38**.
+It is not known if the address can be changed.
+
+
+#### Connection
 
 Always check datasheet!
 
@@ -67,16 +81,63 @@ Front view
           +--------------+
 ```
 
-### Tested
+#### Performance
 
-Verified to work with Arduino UNO and ESP32 and ESP8266 (see #8)
-Please let me know if other platforms work (or not).
+The datasheet states 400 KHz as the maximum speed.
+Below the results of a small test that works well up to 800 KHz.
+
+ - Arduino UNO + 10 cm wires + no pull up + DHT20_I2C_speed.ino
+
+Speed in KHz, Time in microseconds. 
+
+
+**read()**
+
+|  Speed  |  Time   |  notes  |
+|:-------:|:-------:|:--------|
+|   100   |  44588  |  default I2C speed  |
+|   200   |  43988  |
+|   400   |  44040  |  datasheet maximum  |
+|   600   |  43224  |
+|   800   |  43988  |
+
+
+**ASYNC: requestData()**
+
+|  Speed  |  Time   |  notes  |
+|:-------:|:-------:|:--------|
+|   100   |  1676   |  default I2C speed  |
+|   200   |  1384   |
+|   400   |  1240   |  datasheet maximum  |
+|   600   |  1188   |
+|   800   |  1168   |
+
+
+**ASYNC: readData()**
+
+|  Speed  |  Time   |  notes  |
+|:-------:|:-------:|:--------|
+|   100   |   832   |  default I2C speed  |
+|   200   |   464   |
+|   400   |   284   |  datasheet maximum  |
+|   600   |   212   |
+|   800   |   188   |
+
+The numbers indicate that the conversion takes > 40 milliseconds.
+Requesting the measurement and fetching the data < 2.5 milliseconds.
+
+Using the asynchronous interface frees up a lot of clock cycles.
+Going beyond 400 KHz (datasheet max) does not save much extra time,
+and should only be used if you are in a need for speed.
 
 
 ## Interface
 
+```cpp
+#include "DHT20.h"
+```
 
-### Constructor
+#### Constructor
 
 - **DHT20(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
@@ -84,7 +145,7 @@ Please let me know if other platforms work (or not).
 - **bool isConnected()** returns true if the address of the DHT20 can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 
-### Core
+#### Core
 
 - **int8_t read()** read the sensor and store the values internally. 
 Returns the status of the read which should be 0 == **DHT20_OK**.
@@ -94,15 +155,17 @@ Multiple calls will return same value until a new **read()** is made.
 Multiple calls will return same value until a new **read()** is made.
 
 
-### Offset
+#### Offset
 
-- **void setHumOffset(float offset)** set an offset to calibrate the sensor (1st order).
+- **void setHumOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
+Default offset is 0.
 - **float getHumOffset()** return current humidity offset, default 0.
-- **void setTempOffset(float offset)** set an offset to calibrate the sensor (1st order).
+- **void setTempOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
+Default offset is 0.
 - **float getTempOffset()** return current temperature offset, default 0.
 
 
-### Asynchronous interface
+#### Asynchronous interface
 
 There are two timings that need to be considered (from datasheet):
 - time between requests = 1000 ms.
@@ -126,7 +189,7 @@ Note there must be at least 1000 milliseconds between requests!
 See the example **DHT20_async.ino**
 
 
-### Status
+#### Status
 
 - **uint8_t readStatus()** forced read of the status only.
 This function blocks a few milliseconds to optimize communication.
@@ -157,53 +220,52 @@ The call is needed to get the **read()** working well so it has been embedded in
 the read calls. (0.2.0)
 
 
-### Timing
+#### Timing
 
 - **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
 - **uint32_t lastRequest()** last time a request is made to make a measurement.
 
 
-### Return codes
+#### Return codes
 
-| name                        |  value  |  notes  |
-|:----------------------------|:-------:|:--------|
-| DHT20_OK                    |    00   |  OK
-| DHT20_ERROR_CHECKSUM        |   -10   |  values might be OK if they are like recent previous ones.
-| DHT20_ERROR_CONNECT         |   -11   |  check connection
-| DHT20_MISSING_BYTES         |   -12   |  check connection
-| DHT20_ERROR_BYTES_ALL_ZERO  |   -13   |  check connection
-| DHT20_ERROR_READ_TIMEOUT    |   -14   |
-| DHT20_ERROR_LASTREAD        |   -15   |  wait 1 second between reads
-
-
-## Operation
-
-See examples
+|  name                        |  value  |  notes  |
+|:-----------------------------|:-------:|:--------|
+|  DHT20_OK                    |    00   |  OK
+|  DHT20_ERROR_CHECKSUM        |   -10   |  values might be OK if they are like recent previous ones.
+|  DHT20_ERROR_CONNECT         |   -11   |  check connection
+|  DHT20_MISSING_BYTES         |   -12   |  check connection
+|  DHT20_ERROR_BYTES_ALL_ZERO  |   -13   |  check connection
+|  DHT20_ERROR_READ_TIMEOUT    |   -14   |
+|  DHT20_ERROR_LASTREAD        |   -15   |  wait 1 second between reads
 
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation.
 - investigate the bug from #8 further
   (is done in 0.2.1 see issue #8)
 
-#### should
+
+#### Should
 
 
-#### could
+#### Could
+
 - improve unit tests.
 - investigate 
   - sensor calibration (website aosong?)
+  - can sensor address be changed?
 - investigate optimizing timing in readStatus()
   - delay(1) ==> microSeconds(???).
 - connected flag?
+- keep in sync DHT12 ?
 
 
-#### won't
+#### Wont
 
 - **void setIgnoreChecksum(bool = false)** ignore checksum flag speeds up communication a bit
 - **bool getIgnoreChecksum()** get checksum flag. for completeness.
-- 
 
 

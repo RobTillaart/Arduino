@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2023-02-10
+- update readme.md
+- implement **toSeconds()** -> 45.123 or 45.123456
+- add **add()** to adjust the offset.
+- update keywords.txt
+- test on ESP32.
+- update GitHub actions
+- update license 2023
+
+
 ## [0.2.4] - 2022-11-26
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - update readme.md
-
 
 ## [0.2.3] - 2021-12-29
 - update library.json

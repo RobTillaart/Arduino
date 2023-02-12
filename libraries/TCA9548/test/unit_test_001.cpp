@@ -61,6 +61,14 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(0,   TCA9548_OK);
+  assertEqual(-10, TCA9548_ERROR_I2C);
+  assertEqual(-20, TCA9548_ERROR_CHANNEL);
+}
+
+
 unittest(test_begin)
 {
   TCA9548 tca(0x70);
@@ -69,7 +77,6 @@ unittest(test_begin)
   assertEqual(b, true);
 
   assertTrue(tca.isConnected());
-
 }
 
 
@@ -113,4 +120,6 @@ unittest(test_select)
 
 unittest_main()
 
+
 //  -- END OF FILE --
+

@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 
@@ -16,7 +16,7 @@ TCA9548::TCA9548(const uint8_t deviceAddress, TwoWire *wire)
   _mask     = 0x00;
   _resetPin = -1;
   _forced   = false;
-  _error    = 0;
+  _error    = TCA9548_OK;
 }
 
 
@@ -118,7 +118,7 @@ uint8_t TCA9548::getChannelMask()
 {
   if (_forced)  //  read from device.
   {
-    _wire->requestFrom(_address, 1);
+    _wire->requestFrom(_address, (uint8_t)1);
     _mask = _wire->read();
   }
   return _mask;
@@ -156,7 +156,7 @@ bool TCA9548::getForced()
 int TCA9548::getError()
 {
   int error = _error;
-  _error = 0;
+  _error = TCA9548_OK;
   return error;
 }
 

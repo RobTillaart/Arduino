@@ -40,7 +40,7 @@ This library is expected to work for the PCA9548(a) too as the TCA is pin compat
 |  PCA9548a  |    n     |
 
 
-There are however small differences, check the datasheets to see the details.
+There are however small differences, check the data sheets to see the details.
 - [difference TCA PCA](https://e2e.ti.com/support/interface-group/interface/f/interface-forum/815758/faq-what-is-the-difference-between-an-i2c-device-with-the-family-name-pca-and-tca)
 - https://electronics.stackexchange.com/questions/209616/is-nxps-pca9548a-compatible-with-tis-tca9548a
 - https://www.nxp.com/docs/en/application-note/AN262.pdf
@@ -100,8 +100,19 @@ Note that writes are only optimized if the channels are already set.
 
 - **void setForced(bool forced = false)** set forced write, slower but more robust.
   - forced == false == fast mode (default).
-  - forced == true == robust mode.
+  - forced == true == slower, robust mode.
 - **bool getForced()** returns set flag.
+
+
+## Error Codes
+
+Not implemented yet, preparation for 0.2.0.
+
+|  name                   |  value  |  description            |
+|:------------------------|:-------:|:------------------------|
+|  TCA9548_OK             |  00     |  no error               |
+|  TCA9548_ERROR_I2C      |  -10    |  detected an I2C error  |
+|  TCA9548_ERROR_CHANNEL  |  -20    |  channel out of range   |
 
 
 ## Future
@@ -109,23 +120,22 @@ Note that writes are only optimized if the channels are already set.
 #### Must
 
 - improve documentation.
-- improve error handling
-
+- improve error handling.
 
 #### Should
 
-- add examples
-- test test and test
-- write unit test
-- create derived classes for compatible devices
-
+- add examples.
+- test test and test.
+- write unit test.
+- create derived classes for compatible devices (0.2.0).
+  - see above PCA9548 and PCA9548a.
+- **bool isConnected(channel, address)**  (0.2.0)
+  - keep previous mask?
 
 #### Could
 
-- set an "always enabled" mask  (have to investigate the consequences)
-- verify channel in range
-  - e.g. **bool enableChannel(uint8_t channel)**, disable(), select()
-
+- set an "always enabled" mask.
+  - investigate the consequences!
 
 #### Wont
 

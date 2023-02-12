@@ -15,8 +15,28 @@ Arduino library for PID controller.
 
 The PID_RT class allows the user to instantiate a PID controller.
 
+This library allows one to 
+- adjust the K parameters runtime.
+- stop / start computing runtime.
+
+(to be elaborated)
+
+
+#### Some PID background
+
+- https://en.wikipedia.org/wiki/PID_controller
+- https://www.ni.com/nl-nl/innovations/white-papers/06/pid-theory-explained.html
+- https://www.youtube.com/watch?v=wkfEZmsQqiA
+
+E-book
+- https://www.elektor.nl/pid-based-practical-digital-control-with-raspberry-pi-and-arduino-uno-e-book
+
 
 ## Interface
+
+```cpp
+#include "PID_RT.h"
+```
 
 ### Constructor
 
@@ -26,14 +46,14 @@ The PID_RT class allows the user to instantiate a PID controller.
 
 ### Core
 
-- **void reset()** resets internals to startup.
-- **void setPoint(float sp)** sets setPoint, that needs to be reached.
-- **float getSetPoint()** read back setPoint.
-- **bool  compute(float input)** does one iteration of the PID controller. 
-Returns **true** after calculation. 
+- **void reset()** resets internals to startup (Kp == Ki == Kd == 0).
+- **void setPoint(float sp)** sets the setPoint, that needs to be reached.
+- **float getSetPoint()** read back the setPoint.
+- **bool compute(float input)** does one iteration of the PID controller. 
+Returns **true** after a calculation is done. 
 Returns **false** if not computed, either due to stop flag or not yet time to do the calculation.
 - **float getOutput()** get the last calculated output value. 
-- **bool  setK(float Kp, float Ki, float Kd)** Set the initial P I D parameters as a group.
+- **bool setK(float Kp, float Ki, float Kd)** Set the initial **P I D** parameters as a group.
 Overwrites the values set in the constructor.
 
 
@@ -86,25 +106,30 @@ almost sure that no iterations are missed.
 
 ## Operations
 
-See examples.
+See examples and 
+- https://wokwi.com/projects/356437164264235009  (thanks to drf5n)
 
 
 ## Future
 
-#### must
+#### Must
 
 - update / improve documentation
 - more testing
 
-#### should
 
-- add examples to test more
-- improve unit test
-- move all code to .cpp
+#### Should
 
-#### could
-
-- add reference to PID book / website?
 - investigate if it works as PI or P controller too.
   - PI as derived or base class?
+- add examples to test more
+- improve unit test
 
+
+#### Could
+
+- add reference to PID book / website?
+- move all code to .cpp
+
+
+#### Wont

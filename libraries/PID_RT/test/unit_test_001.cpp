@@ -103,4 +103,5 @@ unittest(test_compute)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

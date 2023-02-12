@@ -2,7 +2,7 @@
 //
 //    FILE: PID_RT.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID_RT
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define PID_LIB_VERSION               (F("0.1.5"))
+#define PID_LIB_VERSION               (F("0.1.6"))
 
 
 class PID_RT
@@ -64,7 +64,7 @@ public:
 
 
   //  set Proportional on Input or on Error
-  void setPropOnInput() { _POI = true; };      // default
+  void setPropOnInput() { _POI = true; };      //  default
   void setPropOnError() { _POI = false; };
   bool isPropOnInput()  { return _POI == true; };
   bool isPropOnError()  { return _POI == false; };

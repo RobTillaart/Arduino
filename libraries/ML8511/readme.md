@@ -28,6 +28,14 @@ ML8511 - UV sensor - library for Arduino UNO.
 - do not forget to connect the EN to either an enablePIN or to 3V3 (constantly enabled).
 
 
+#### Related
+
+- https://github.com/RobTillaart/TSL235R pulse based irradiance variant.
+- https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511  UV sensor
+
+
 #### Breakout
 
 ```
@@ -47,7 +55,7 @@ As the sensor / breakout is 3V3 one need to connect to Arduino 3V3.
 The library converts the **analogRead()** to voltages, and it uses a
 reference of 5.0 Volt == 1023 steps as default.
 
-If one wants to use other ratio e.g. 3.3 volts == 4095 steps, one
+If one wants to use another ratio e.g. 3.3 volts == 4095 steps, one
 can set those with **setVoltagePerStep()**.
 
 ```cpp
@@ -66,11 +74,21 @@ Use a voltage divider (10K + 20K) to convert the 5 Volts to ~3.3 Volts.
 
 ## Interface
 
+```cpp
+#include "ML8511.h"
+```
+
+#### Constructor
+
 - **ML8511(uint8_t analogPin, uint8_t enablePin = 0xFF)** Constructor, 
 if enable is connected to 3V3 constantly one does not need to set the enablePin parameter.
+
+#### Core
+
 - **float getUV(uint8_t energyMode = HIGH)** returns mW per cm2, energyMode = HIGH or LOW.
-LOW will disable the sensor after reading.
-- **float voltage2mW(float voltage)** returns mW per cm2 from voltage. To be used when one uses an external ADC e.g. ADS1115
+LOW will disable the sensor after each read.
+- **float voltage2mW(float voltage)** returns mW per cm2 from voltage. 
+To be used when one uses an external ADC e.g. ADS1115
 - **void setVoltsPerStep(float voltage, uint32_t steps)** to calibrate the **internal** ADC used. 
 Voltage must be > 0 otherwise it is not set and the default of 5 volts 1023 steps is used.
 This function has no meaning for an external ADC.
@@ -123,14 +141,14 @@ The DUV index can be used for warning for sunburn etc.
 
 Based upon https://en.wikipedia.org/wiki/Ultraviolet_index,
 
-| DUV INDEX | Description |
-|:---------:|:------------|
-|   0 - 2   |  LOW        |
-|   3 - 5   |  MODERATE   |
-|   6 - 7   |  HIGH       |
-|   8 - 10  |  VERY HIGH  |
-|   11+     |  EXTREME    |
-|           |             |
+|  DUV INDEX  |  Description  |
+|:-----------:|:--------------|
+|    0 - 2    |   LOW         |
+|    3 - 5    |   MODERATE    |
+|    6 - 7    |   HIGH        |
+|    8 - 10   |   VERY HIGH   |
+|    11+      |   EXTREME     |
+
 
 
 #### Calibrate estimateDUVindex()
@@ -191,18 +209,20 @@ https://en.wikipedia.org/wiki/Ultraviolet_index
 
 ## Future
 
-#### must
+#### Must
 - improve documentation
 - refactor / reorganize readme.md
 
-#### should
+#### Should
 - test more
 - get unit tests up and running
 - investigate in calibration 
 - check performance
 
-#### could
+#### Could
 - investigate serial UV communication with UV led
 - voltage2mW -> handle negative voltages by taking abs value?
+
+#### Wont
 
 

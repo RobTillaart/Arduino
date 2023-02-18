@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.10] - 2023-02-18
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.1.9] - 2022-11-17
 - add RP2040 in build-CI
 - add changelog.md
 - moved all code to .cpp file
 - edit readme.md
 - minor edits
-
 
 ## [0.1.8] - 2021-12-21
 - update library.json
@@ -22,7 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.7] - 2021-11-09
 - update Arduino-CI, badges
 - add voltage2mW() for external ADC
-
 
 ## [0.1.6] - 2021-06-19
 - add get/setDUVfactor()

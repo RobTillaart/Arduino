@@ -28,11 +28,13 @@ As the display is only tested with a 6 digit display, this is used as the defaul
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
 - **void displayFloat(float value)** idem
+- **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
 - **void displayHex(uint32_t value)** idem
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
 - **void setBrightness(uint8_t b)** brightness = 0 .. 7 default = 3.
 - **uint8_t getBrightness()** returns value set.
-- **uint8_t keyscan(void)** scans the keyboard once and return result. The keyscan() function cannot detect multiple keys.
+- **uint8_t keyscan(void)** scans the keyboard once and return result. 
+The keyscan() function cannot detect multiple keys.
 
 
 **displayRaw()** can display multiple decimal points, by setting the high bit (0x80) 
@@ -46,7 +48,7 @@ Or you can use the pointPos argument to light just one decimal at that position.
    - g-z are coded as 0x12-0x25.  Characters that cannot be represented in 7 segments render as blank.
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
    
-**void displayPChar(char \*buff)** Attempts to display every ascii character 0x30 to 0x5F. 
+**void displayPChar(char \*buff)** Attempts to display every ASCII character 0x30 to 0x5F. 
 See example TM1637_custom.ino to insert your own 7 segment patterns.
 Also displayed are  '  ' , '.' and '-' . Decimal points may also be displayed by setting the character sign bit.
 
@@ -61,7 +63,6 @@ Routine **button_poll()** in the same example shows one way of polling and de-bo
 - **void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** replaced by begin().
 
 
-
 ### Display support
 
 The library is tested with a 6 (=2x3) digit - decimal point - display and a 4 (=1x4) digit - clock - display. 
@@ -71,7 +72,7 @@ To adjust the order for a not supported display, the following function can be u
 - **void setDigitOrder(uint8_t a, uint8_t b,... uint8_t h)** sets the order in which up to 8 digits should be clocked in.
 
 If you have a (7 segment) display that is not supported by the library, 
-please open an issue on Github so it can be build in.
+please open an issue on GitHub so it can be build in.
 
 
 ### Tuning function
@@ -92,7 +93,9 @@ Feel free to file an issue to get your processor supported.
 ### Keyboard Scanner usage and notes
 
 
-Calling keyscan() returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  The TM1637 can only see one key press at a time, and there is no "rollover".  If a key is pressed, then the values are as follows:
+Calling keyscan() returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
+The TM1637 can only see one key press at a time, and there is no "rollover".  
+If a key is pressed, then the values are as follows:
 
 <CENTER>
 <TABLE>
@@ -147,12 +150,12 @@ The scope photos were taken using the TM1637_keyscan_raw example, with the scope
 Implemented in version 0.3.0  Please read the datasheet to understand the limitations.
 
 ```
-// NOTE: 
-// on the TM1637 boards tested by @wfdudley, keyscan() works well 
-// if you add a 910 ohm or 1 Kohm pull-up resistor from DIO to 3.3v
-// This reduces the rise time of the DIO signal when reading the key info.
-// If one only uses the pull-up inside the microcontroller, 
-// the rise time is too long for the data to be read reliably.
+//  NOTE: 
+//  on the TM1637 boards tested by @wfdudley, keyscan() works well 
+//  if you add a 910 ohm or 1 Kohm pull-up resistor from DIO to 3.3v
+//  This reduces the rise time of the DIO signal when reading the key info.
+//  If one only uses the pull-up inside the microcontroller, 
+//  the rise time is too long for the data to be read reliably.
 ```
 
 
@@ -163,16 +166,35 @@ See examples
 
 ## Future
 
-### 0.4.0
+#### Must
 
-- remove obsolete **init()** from code
+- remove obsolete **init()** from code (0.4.0)
+
+#### Should
+
 - investigate if code can be optimized
   - performance measurement
-
-
-### other
-
 - testing other platforms.
-- **keyScan()** camelCase ?
+- move code from .h to .cpp
+- **setLeadingZeros(bool on = false)** leading zeros flag
+  - getter.
+  - set data array to 0.
+  - 0.4.0
 
+#### Could
+
+- **keyScan()** camelCase ?
+- add debug flag for test without hardware.
+  - simulate output to Serial? (HEX)?
+- **displayTest()** function ?
+
+
+#### Wont (unless requested)
+
+- **rotate(bool rot = false)**
+  - 180 degree rotation of all digits for mounting  
+  - reverse digit order
+  - flip every digit (function to overwrite the char array)
+- **HUD(bool hud = false)** = Heads Up Display
+  - flip every digit
 

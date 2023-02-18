@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2021-04-16
 // PURPOSE: unit tests for the TM1637 library
 //          https://github.com/RobTillaart/TM_1637_RT
@@ -97,4 +96,6 @@ unittest(test_set_bit_delay)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

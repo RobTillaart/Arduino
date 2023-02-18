@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PUPROSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.4"))
+#define TM1637_LIB_VERSION      (F("0.3.5"))
 
 
 class TM1637
@@ -28,11 +28,12 @@ public:
   void displayRaw(uint8_t * data, uint8_t pointPos);
   void displayInt(long value);
   void displayFloat(float value);
+  void displayFloat(float value, uint8_t fixedPoint);
   void displayHex(uint32_t value);
   void displayClear();
 
-  void    setBrightness(uint8_t b);
-  uint8_t getBrightness() { return _brightness; };
+  void    setBrightness(uint8_t brightness);
+  uint8_t getBrightness();
 
   //  tune the timing of writing bytes.
   void    setBitDelay(uint8_t bitDelay = 10) { _bitDelay = bitDelay; };
@@ -67,9 +68,9 @@ private:
   void nanoDelay(uint16_t n);
 
   // Override in your own derived class for custom character translation
-  virtual uint8_t asciiTo7Segment ( char c ) ; 
+  virtual uint8_t asciiTo7Segment ( char c ) ;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

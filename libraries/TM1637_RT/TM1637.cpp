@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -70,7 +70,7 @@ TM1637::TM1637()
 }
 
 
-//  wrapper, will become obsolete 0.4.0.
+//  wrapper, init() will become obsolete 0.4.0.
 void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 {
   begin(clockPin, dataPin, digits);
@@ -89,13 +89,13 @@ void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
   digitalWrite(_data, HIGH);
 
   //  TODO: replace _digits by a display enumeration?
-  if (_digits == 4 )
+  if (_digits == 4)
   {
-    setDigitOrder(3,2,1,0);
+    setDigitOrder(3, 2, 1, 0);
   }
-  else  // (_digits == 6 ) // default
+  else  // (_digits == 6 )    //  default
   {
-    setDigitOrder(3,4,5,0,1,2);
+    setDigitOrder(3, 4, 5, 0, 1, 2);
   }
 }
 
@@ -111,13 +111,13 @@ void TM1637::displayInt(long value)
   {
     v = -v;
     last--;
-    data[last] = 17;   // minus sign;
+    data[last] = 17;        //  minus sign;
   }
 
   for (int i = 0; i < last; i++)
   {
     long t = v / 10;
-    data[i] = v - 10 * t;  // faster than %
+    data[i] = v - 10 * t;   //  faster than %
     v = t;
   }
 
@@ -129,8 +129,8 @@ void TM1637::displayFloat(float value)
 {
   uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
 
-  float v = value;
-  int dpos = _digits-1;
+  float v  = value;
+  int dpos = _digits - 1;
   int last = _digits;
   bool neg = (v < 0);
 
@@ -139,7 +139,7 @@ void TM1637::displayFloat(float value)
     v = -v;
     dpos--;
     last--;
-    data[last] = 17;   // minus sign;
+    data[last] = 17;        //  minus sign;
   }
 
   while (v >= 10)
@@ -158,6 +158,51 @@ void TM1637::displayFloat(float value)
 }
 
 
+void TM1637::displayFloat(float value, uint8_t fixedPoint)
+{
+  //  DEBUG
+  //  Serial.println(value);
+
+  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+
+  float v   = value;
+  int dpos  = _digits - 1;
+  int last  = _digits;
+  bool neg  = (v < 0);
+  int point = fixedPoint + 1;
+
+  if (neg)
+  {
+    v = -v;
+    dpos--;
+    last--;
+  }
+  //  v += 0.0001; //  Bug fix for 12.999 <> 13.000
+  v += 0.001;     //  Bug fix for 12.99 <> 13.00
+
+  while (v >= 10)
+  {
+    v /= 10;
+    dpos--;
+    point++;
+  }
+
+  if (neg)
+  {
+    data[point] = 17;   //  minus sign;
+  }
+
+  for (int i = point - 1; i > -1; i--)
+  {
+    int d = v;
+    data[i] = d;
+    v -= d;
+    v *= 10;
+  }
+  displayRaw(data, fixedPoint);
+}
+
+
 void TM1637::displayHex(uint32_t value)
 {
   uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
@@ -166,7 +211,7 @@ void TM1637::displayHex(uint32_t value)
   for (int i = 0; i < _digits; i++)
   {
     uint32_t t = v / 16;
-    data[i] = v & 0x0F;  // faster than %
+    data[i] = v & 0x0F;     //  faster than %
     v = t;
   }
   displayRaw(data, -1);
@@ -180,10 +225,16 @@ void TM1637::displayClear()
 }
 
 
-void TM1637::setBrightness(uint8_t b)
+void TM1637::setBrightness(uint8_t brightness)
 {
-  _brightness = b;
+  _brightness = brightness;
   if (_brightness > 0x07) _brightness = 0x07;
+}
+
+
+uint8_t TM1637::getBrightness()
+{
+  return _brightness;
 }
 
 
@@ -202,7 +253,7 @@ void TM1637::setDigitOrder(uint8_t a, uint8_t b,
 }
 
 
-// Set sign bit on any char to display decimal point
+//  Set sign bit on any char to display decimal point
 void TM1637::displayPChar( char * data )
 {
   start();
@@ -227,6 +278,16 @@ void TM1637::displayPChar( char * data )
 
 void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 {
+  //  DEBUG
+  // for (uint8_t d = 0; d < _digits; d++)
+  // {
+    // uint8_t x = data[_digits - d];
+    // if (x < 0x10) Serial.print('0');
+    // Serial.print(x, HEX);
+    // Serial.print(' ');
+  // }
+  // Serial.println();
+
   uint8_t b = 0;
 
   start();
@@ -269,7 +330,7 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 //
 uint8_t TM1637::writeByte(uint8_t data)
 {
-  // shift out data 8 bits LSB first
+  //  shift out data 8 bits LSB first
   for (uint8_t i = 8; i > 0; i--)
   {
     writeSync(_clock, LOW);
@@ -282,12 +343,12 @@ uint8_t TM1637::writeByte(uint8_t data)
   writeSync(_data, HIGH);
   writeSync(_clock, HIGH);
 
-  // get ACKNOWLEDGE
+  //  get ACKNOWLEDGE
   pinMode(_data, INPUT);
   delayMicroseconds(_bitDelay);
   uint8_t rv = digitalRead(_data);
 
-  // FORCE OUTPUT LOW
+  //  FORCE OUTPUT LOW
   pinMode(_data, OUTPUT);
   digitalWrite(_data, LOW);
   delayMicroseconds(_bitDelay);
@@ -318,18 +379,19 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
   digitalWrite(pin, val);
 
   #if defined(ESP32)
-    nanoDelay(2);
+    nanoDelay(21);  //  delay(2) is not enough in practice.
   #endif
-  // other processors may need other "nanoDelay(n)"
+  //  other processors may need other "nanoDelay(n)"
 }
 
 
-// keyscan results are reversed left for right from the data sheet.
-// here are the values returned by keyscan():
-// pin       2    3    4    5    6    7    8    9
-//         sg1  sg2  sg3  sg4  sg5  sg6  sg7  sg8
-// 19  k1 0xf7 0xf6 0xf5 0xf4 0xf3 0xf2 0xf1 0xf0
-// 20  k2 0xef 0xee 0xed 0xec 0xeb 0xea 0xe9 0xe8
+//  keyscan results are reversed left for right from the data sheet.
+//  here are the values returned by keyscan():
+//
+//  pin         2     3     4     5     6     7     8     9
+//            sg1   sg2   sg3   sg4   sg5   sg6   sg7   sg8
+//  19   k1  0xf7  0xf6  0xf5  0xf4  0xf3  0xf2  0xf1  0xf0
+//  20   k2  0xef  0xee  0xed  0xec  0xeb  0xea  0xe9  0xe8
 
 uint8_t TM1637::keyscan(void)
 {
@@ -337,7 +399,7 @@ uint8_t TM1637::keyscan(void)
   uint8_t key;
   start();
   key = 0;
-  writeByte(TM1637_READ_KEYSCAN);	// includes the ACK, leaves DATA low
+  writeByte(TM1637_READ_KEYSCAN);  //  includes the ACK, leaves DATA low
   pinMode(_data, INPUT_PULLUP);
 
   for (uint8_t i = 0; i <= 7; i++) {
@@ -353,10 +415,10 @@ uint8_t TM1637::keyscan(void)
   delayMicroseconds(halfDelay);
   writeSync(_clock, HIGH);
 
-  // wait for ACK
+  //  wait for ACK
   delayMicroseconds(halfDelay);
 
-  // FORCE OUTPUT LOW
+  //  FORCE OUTPUT LOW
   pinMode(_data, OUTPUT);
   digitalWrite(_data, LOW);
   delayMicroseconds(halfDelay);
@@ -365,8 +427,8 @@ uint8_t TM1637::keyscan(void)
 }
 
 
-// nanoDelay() makes it possible to go into the sub micron delays.
-// It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
+//  nanoDelay() makes it possible to go into the sub micron delays.
+//  It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
 void TM1637::nanoDelay(uint16_t n)
 {
   volatile uint16_t i = n;
@@ -381,13 +443,13 @@ uint8_t TM1637::asciiTo7Segment ( char c )
   20 |    | 02
       -40-
   10 |    | 04
-      -08-    .80
+      -08-     .80
   */
   //  7+1  Segment patterns for ASCII 0x30-0x5F
-  const uint8_t asciiToSegments[] = { 
-    0x3f,0x06,0x5b,0x4f, 0x66,0x6d,0x7d,0x07,  //  0123 4567 
+  const uint8_t asciiToSegments[] = {
+    0x3f,0x06,0x5b,0x4f, 0x66,0x6d,0x7d,0x07,  //  0123 4567
     0x7f,0x6f,0x09,0x89, 0x58,0x48,0x4c,0xD3,  //  89:; <=>?
-    0x5f,0x77,0x7c,0x39, 0x5E,0x79,0x71,0x3d,  //  @ABC DEFG 
+    0x5f,0x77,0x7c,0x39, 0x5E,0x79,0x71,0x3d,  //  @ABC DEFG
     0x76,0x06,0x0E,0x75, 0x38,0x37,0x54,0x5c,  //  HIJK LMNO
     0x73,0x67,0x50,0x6D, 0x78,0x3E,0x1C,0x9c,  //  PQRS TUVW
     0x76,0x6E,0x5B,0x39, 0x52,0x0F,0x23,0x08   //  XYZ[ /]^_
@@ -405,5 +467,5 @@ uint8_t TM1637::asciiTo7Segment ( char c )
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

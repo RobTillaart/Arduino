@@ -30,9 +30,17 @@ When using e.g. an external 16 bit ADS1115, one definitely has far more steps.
 
 
 **Warning** this library is experimental so you should use it with care.
-It is written on the datasheet, and I have no hardware yet to test it. 
+It is written on the datasheet as I have no hardware yet to test it. 
 Of course I am very interested in your experiences and feedback to improve
 the library.
+
+
+#### Related
+
+- https://github.com/RobTillaart/TSL235R pulse based irradiance variant.
+- https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511  UV sensor
 
 
 ## Hardware Connection
@@ -60,6 +68,10 @@ Always check datasheet
 
 
 ## Interface
+
+```CPP
+#include "TSL260R.h"
+```
 
 #### Internal ADC
 
@@ -124,13 +136,14 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 - buy hardware (where)
 - test test test test
 
+#### Should
 
-#### should
 - extend unit tests
 - write examples
 - fix the dependency of **irradiance()**
@@ -138,10 +151,14 @@ See examples.
 - optimize code
 - 
 
-#### could
+#### Could
+
 - test with different IR LEDS (e.g. remote)
 - Normalized Output Voltage vs Angular Displacement correction
   - figure 11
 - temperature correction
 - 
+
+
+#### Wont
 

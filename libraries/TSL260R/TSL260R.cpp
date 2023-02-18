@@ -1,9 +1,10 @@
 //
 //    FILE: TSL260R.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-11-25
 // PURPOSE: library for the TSL260R IR to voltage convertor
+//     URL: https://github.com/RobTillaart/TSL260R
 
 
 #include "TSL260R.h"
@@ -17,13 +18,16 @@ TSL260R::TSL260R(uint8_t pin, uint16_t maxADC, float voltage)
   //  irradiance parameters
   _aa = 10.0067;
   _bb = -0.02013423;
+  //  waveLength parameters
+  _waveLength       = 940;
+  _waveLengthFactor = 1.0;
 }
 
 
 TSL260R::TSL260R()
 {
   TSL260R(0, 1, 0); //  prevent divide by zero
-  //  datasheet page 9
+  //  datasheet page 9 figure 12
   //  irradiance parameters
   _aa = 10.0067;
   _bb = -0.02013423;

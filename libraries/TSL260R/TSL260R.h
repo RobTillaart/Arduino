@@ -2,12 +2,13 @@
 //
 //    FILE: TSL260R.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-11-25
 // PURPOSE: library for the TSL260R IR to voltage convertor
+//     URL: https://github.com/RobTillaart/TSL260R
 
 
-#define TSL260R_LIB_VERSION             (F("0.1.2"))
+#define TSL260R_LIB_VERSION             (F("0.1.3"))
 
 #include "Arduino.h"
 
@@ -51,10 +52,11 @@ protected:
   float    _waveLengthFactor = 1;
   //       _aa and _bb are defined in constructor;
   //       need getter / setter to adjust values runtime
-  float    _aa;
-  float    _bb;
+  float    _aa = 10.0067;
+  float    _bb = -0.02013423;
   float    multiMap(float value, float * _in, float * _out, uint8_t size);
 };
+
 
 
 ///////////////////////////////////////////////////////

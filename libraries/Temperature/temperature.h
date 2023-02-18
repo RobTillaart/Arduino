@@ -1,15 +1,17 @@
 #pragma once
 //
 //    FILE: temperature.h
-// VERSION: 0.3.5
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.3.6
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
+//     URL: https://github.com/RobTillaart/Temperature
 
 
 #include "Arduino.h"
 
 
-#define TEMPERATURE_VERSION         (F("0.3.5"))
+#define TEMPERATURE_VERSION         (F("0.3.6"))
 
 
 float Fahrenheit(float celsius);
@@ -56,6 +58,12 @@ float heatIndex(float TF, float RH);
 float heatIndexC(float TC, float RH);
 
 
+//  https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+//  Absolute Humidity (grams/m3) = 6.112 × e^[(17.67 × T)/(T+243.5)] × rh × 2.1674
+//                                 -----------------------------------------------
+//                                                 (273.15+T)
+float absoluteHumidity(float Celsius, float relHumidity);
+
 
 //  https://en.wikipedia.org/wiki/Wind_chill
 //     US     = Fahrenheit / miles / hour
@@ -90,7 +98,20 @@ float altitudeToSeaLevel( float pressure, float celsius, float altitude);
 
 
 
-/////////////////////////////////////////////////////////////
+//  https://en.wikipedia.org/wiki/High-altitude_cooking
+//  temperature at which water cooks
+//  1 feet = 0.3048 meter
+float boilingFahrenheit(float feet);   //  feet  = 0..15000
+float boilingCelsius(float meter);     //  meter = 0..4500 
+
+//  inverse function 
+//  Celsius = 80°..100°
+float boilingMeter(float Celsius);
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //  TEMPERATURE CONVERTER CLASS
 //

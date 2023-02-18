@@ -1,8 +1,10 @@
 //
 //    FILE: temperature.cpp
-// VERSION: 0.3.5
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.3.6
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
+//     URL: https://github.com/RobTillaart/Temperature
 
 
 #include "temperature.h"
@@ -74,7 +76,7 @@ float humidex(float celsius, float dewPoint)
 }
 
 
-//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 //           previous  https://en.wikipedia.org/wiki/Heat_index
 //  TF = temp in Fahrenheit
 //  RH = relative humidity in %
@@ -118,7 +120,7 @@ float heatIndex(float TF, float RH)
 }
 
 
-//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 //           previous  https://en.wikipedia.org/wiki/Heat_index
 //  TC = temp in Celsius
 //  RH = relative humidity in %
@@ -146,6 +148,21 @@ float heatIndexC(float TC, float RH)
   return A + B + C;
 */
 }
+
+
+//  https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+//  Absolute Humidity (grams/m3) = 6.112 × e^[(17.67 × T)/(T+243.5)] × rh × 2.1674
+//                                 -----------------------------------------------
+//                                                 (273.15+T)
+float absoluteHumidity(float Celsius, float relHumidity)
+{
+  float TC = Celsius;
+  float AH = (2.1674 * 6.112) * relHumidity;
+  AH *= exp((17.67 * TC)/(243.5 + TC));
+  AH /=  (273.15 + TC);
+  return AH;
+}
+
 
 
 //  https://en.wikipedia.org/wiki/Wind_chill
@@ -214,6 +231,28 @@ float altitudeToSeaLevel( float pressure, float celsius, float altitude)
   float factor = 9.80655 * 0.0289644 / 8.31432;
   factor /= kelvin;
   return pressure / exp(factor * abs(altitude));
+}
+
+
+//  https://en.wikipedia.org/wiki/High-altitude_cooking
+float boilingFahrenheit(float feet)
+{
+  if (feet >= 0) return 212.1309 - feet * 1.86176954e-3;
+  return 212;
+}
+
+
+float boilingCelsius(float meter)
+{
+  if (meter > 0) return 100.08143 - meter * 3.39670635e-3;
+  return 100;
+}
+
+//  Celsius = 80..100
+float boilingMeter(float Celsius)
+{
+  if (Celsius >= 100) return 0;
+  return 29458.542 - Celsius * 294.34149;
 }
 
 

@@ -6,12 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2023-02-17
+- add **absoluteHumidity(TC, RH)** from relative humidity
+- add **boilingFahrenheit(feet)** boiling temperature Fahrenheit at height in feet.
+- add **boilingCelsius(meter)** boiling temperature Celsius at height in meter.
+- add **boilingMeter(Celsius)** inverse function of above.
+- add example
+- update keywords.txt
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.3.5] - 2022-11-26
 - added RP2040 to build-CI
 - simplified changelog
 - optimized Steadman's formula (HeatIndex).
 - update readme.md
-
 
 ## [0.3.4] - 2022-04-15
 - fix #16 Split .h in .h and .cpp 

@@ -9,14 +9,24 @@ temperatureConverter	KEYWORD1
 Fahrenheit	KEYWORD2
 Celsius	KEYWORD2
 Kelvin	KEYWORD2
+
 dewPoint	KEYWORD2
 dewPointFast	KEYWORD2
 humidex	KEYWORD2
+
 heatIndex	KEYWORD2
 heatIndexC	KEYWORD2
+
 WindChill_F_mph	KEYWORD2
 WindChill_C_kmph	KEYWORD2
 WindChill_C_mps	KEYWORD2
+
+absoluteHumidity	KEYWORD2
+
+boilingFahrenheit	KEYWORD2
+boilingCelsius	KEYWORD2
+boilingMeter	KEYWORD2
+
 
 
 # temperatureConverter class

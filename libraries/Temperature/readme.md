@@ -24,6 +24,9 @@ Note: pre-0.3.1 versions have incorrect heat-index.
 
 ## Interface
 
+```cpp
+#include "temperature.h"
+```
 
 ### Conversion
 
@@ -65,6 +68,13 @@ Indicative table
 |   > 130      |   > 54    |  extreme hot  |    purple     |
 
 
+### Absolute Humidity
+
+- **float absoluteHumidity(float Celsius, float relHumidity)**
+Converts relative humidity and temperature to absolute humidity.
+Return unit is grams/m3.
+
+
 ### WindChill
 
 Wind speed @ 10 meter, if **convert** is true => wind speed will be converted to 1.5 meter
@@ -86,9 +96,33 @@ Indicative table (subjective).
 |    < -55        |  serious dangerous     |
 
 
+### Boiling temperature water
+
+When you are in the mountains the cooking point of water drops.
+This can be so much that you can't boil an egg on mount Everest.
+
+Temperature in F and C at which water cooks.
+Based upon: https://en.wikipedia.org/wiki/High-altitude_cooking
+
+- **boilingFahrenheit(feet)** boiling temperature Fahrenheit at height in feet.
+- **boilingCelsius(meter)** boiling temperature Celsius at height in meter.
+- **boilingMeter(Celsius)** returns height in meters for a given the boiling point in Celsius.
+Note this is an approximation by reversing the formula.
+Do not expect it to be very exact.
+
+
+For Celsius from feet call:
+```cpp
+C = boilingCelsius(feet * 0.3048);
+```
+For Fahrenheit from meters call:
+```cpp
+F = boilingFahrenheit(meter * 3.2808);  //  * 3.280839895  == / 0.3048
+```
+
 ----
 
-# temperatureConverter class
+# TemperatureConverter class
 
 Since version 0.3.2 a temperature convertor class is added to convert to and from 
 other (less known) temperature scales. 
@@ -117,6 +151,10 @@ prevents to have 8 x 7 optimized functions.
 
 
 ## Interface
+
+```cpp
+#include "temperature.h"
+```
 
 #### Constructor
 
@@ -158,14 +196,24 @@ See examples for typical usage.
 
 # Future
 
-#### must
+#### Must
 
-#### should
+- split of TemperatureConversion class as a library of its own.
+  - 0.4.0
+
+#### Should
+
 - improve documentation
-  - add short explanation?
-- add formula for water boiling height 
-  - https://en.wikipedia.org/wiki/High-altitude_cooking
-  - multiMap needed?
+  - add short explanation per conversion unit? 
+  - freeze/boil temps.
+- unit tests
+  - absoluteHumidity
+  - boiling tests.
 
-#### could
+#### Could
+
+- TEMPERATURE_VERSION => TEMPERATURE_LIB_VERSION
+  - when split of the converter? 0.4.0
+
+#### Wont
 

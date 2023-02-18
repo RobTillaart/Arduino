@@ -1,8 +1,10 @@
 //
 //    FILE: TSL235R.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
+//    DATE: 2020-05-29
 // PURPOSE: library for the TSL235R light to frequency convertor
+//     URL: https://github.com/RobTillaart/TSL235R
 
 
 #include "TSL235R.h"
@@ -10,7 +12,10 @@
 
 TSL235R::TSL235R(float voltage)
 {
-  _voltage = voltage;
+  _waveLength       = 635;
+  _waveLengthFactor = 1.0;
+  _voltageFactor    = 1.0;
+  _voltage          = voltage;
   calculateFactor();
 }
 
@@ -26,9 +31,16 @@ float TSL235R::irradiance(uint32_t pulses, uint32_t milliseconds)
   return (pulses * 1000.0 * _factor) / milliseconds;
 }
 
+
 float TSL235R::irradiance_HS(uint32_t pulses, uint32_t microseconds)
 {
   return (pulses * 1000000.0 * _factor) / microseconds;
+}
+
+
+float TSL235R::getFactor()
+{
+  return _factor;
 }
 
 
@@ -39,6 +51,18 @@ void TSL235R::setWavelength(uint16_t wavelength)
 }
 
 
+uint16_t TSL235R::getWavelength()
+{
+  return _waveLength;
+}
+
+
+float TSL235R::getWaveLengthFactor()
+{
+  return _waveLengthFactor;
+}
+
+
 void TSL235R::setVoltage(float voltage)
 {
   _voltage = voltage;
@@ -46,14 +70,26 @@ void TSL235R::setVoltage(float voltage)
 }
 
 
+float TSL235R::getVoltage()
+{
+  return _voltage;
+}
+
+
+float TSL235R::getVoltageFactor()
+{
+  return _voltageFactor;
+}
+
+
 void TSL235R::calculateFactor()
 {
   //  figure 1 datasheet
   //  1 KHz crosses the line at 35/230 between 1 and 10.
-  //  so the correction factor is 10^0.15217 = 1.419659 = 1.42 (as all math has 3 decimals)
+  //  so the correction factor is 10^0.15217 = 1.419659
   //  as the graph is in kHz we need to correct a factor 1000
   //  as the irradiance function gets Hz
-  const float cf = 0.00142;
+  const float cf = 0.001419659;
   _waveLengthFactor = calculateWaveLengthFactor(_waveLength);
 
   _voltageFactor = 0.988 + (_voltage - 2.7) * (0.015 / 2.8);
@@ -72,6 +108,7 @@ float TSL235R::calculateWaveLengthFactor(uint16_t _waveLength)
 }
 
 
+//  from https://github.com/RobTillaart/MultiMap
 float TSL235R::multiMap(float value, float * _in, float * _out, uint8_t size)
 {
   //  take care the value is within range
@@ -80,7 +117,7 @@ float TSL235R::multiMap(float value, float * _in, float * _out, uint8_t size)
   if (value >= _in[size-1]) return _out[size-1];
 
   //  search right interval
-  uint8_t pos = 1;  // _in[0] already tested
+  uint8_t pos = 1;  //  _in[0] already tested
   while(value > _in[pos]) pos++;
 
   //  this will handle all exact "points" in the _in array

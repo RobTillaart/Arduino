@@ -28,7 +28,15 @@ Above 1 uW/cm2 1 second or shorter is OK.
 
 Note that for longer and shorter measurements than 1 second one must 
 convert the value to Hz, which is the number of pulses in 1 second.
-The library provides functions **irradiance()** to do that for you.
+The library provides two **irradiance()** functions to do that for you.
+
+
+#### Related
+
+- https://github.com/RobTillaart/TSL235R pulse based irradiance variant.
+- https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511  UV sensor
 
 
 ## Connection
@@ -44,9 +52,19 @@ Always check the datasheet.
 
 ## Interface
 
-- **TSL235R(float voltage = 5.0)** constructor, optionally one can give the operational voltage 
+```cpp
+#include "TSL235R.h"
+```
+
+#### Constructor
+
+- **TSL235R(float voltage = TSL235_DEFAULT_VOLTAGE)** constructor, optionally one can give the operational voltage 
 to add a small correction (< 1.5%).
-Default voltage is 5.0 Volts.
+Default voltage is 5.0 Volts, this define can be overruled from command line.
+
+
+#### Irradiance
+
 - **float irradiance(uint32_t Hz)** returns the irradiance in uW/cm2.
 Note that Hz implies the measured pulses for 1 second.
 - **float irradiance(uint32_t pulses, uint32_t milliseconds)** returns the irradiance in uW/cm2.
@@ -55,6 +73,9 @@ To get irradiance in W/m2 one must divide by 100.
 - **float irradiance_HS(uint32_t pulses, uint32_t microseconds)** returns the irradiance in uW/cm2.
 This formula is used when the time is measured in microseconds. 
 This is the most accurate measurement.
+
+#### Configuration
+
 - **float getFactor()** returns the inner conversion factor from Hz to Watt/cm2.
 - **void setWavelength(uint16_t wavelength = 635)** sets the wavelength so the formulas can use a 
 correction factor. 
@@ -63,7 +84,7 @@ At the default wavelength of 635 nm the wavelength correction factor == 1.0.
 - **float getWaveLengthFactor()** returns the wavelength correction factor. 
 As the sensor is most sensitive around 750 nm this value helps to normalize the signal.
 This works only for (almost) monochromatic light.
-- **void setVoltage(float voltage)** sets the voltage so the formulas can use a correction factor.
+- **void setVoltage(float voltage = TSL235_DEFAULT_VOLTAGE)** sets the voltage so the formulas can use a correction factor.
 This voltage correction factor is rather small < 1.5%.
 Note: this voltage can be changed runtime.
 - **float getVoltage()** returns the set voltage, by constructor or by **setVoltage()**.
@@ -77,19 +98,22 @@ See examples for typical usage.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 - test test test
 
-#### should
-- default voltage should be a #define so people who use 3.3V processor
-  can change the library with minimal effort.
-- irradiance(pulses, millis) can be given a default of 1000 millis.
-  makes irradiance(Hz) obsolete. 
-- move code from .h to .cpp
+#### Should
 
-#### could
+#### Could
+
 - investigate hardware solutions for e.g. divide by 100 or 1000 or so.
 - investigate correction factor for white light and mixed light sources.
 - investigate calibration factor for timing of processor used.
+
+#### Wont
+
+- irradiance(pulses, millis) can be given a default of 1000 millis.
+  - makes irradiance(Hz) obsolete.
+  - performance is less!
 

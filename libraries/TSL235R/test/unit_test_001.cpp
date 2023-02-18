@@ -48,14 +48,21 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqualFloat(5.0, TSL235_DEFAULT_VOLTAGE, 0.001);
+}
+
+
 unittest(test_constructor)
 {
   TSL235R mysensor;
+
   assertEqual(635, mysensor.getWavelength() );
   assertEqualFloat(1.0, mysensor.getWaveLengthFactor(), 0.001);
   assertEqualFloat(5.0, mysensor.getVoltage(), 0.001);
   assertEqualFloat(1.0, mysensor.getVoltageFactor(), 0.001);
-  assertEqualFloat(0.00142, mysensor.getFactor(), 0.001);
+  assertEqualFloat(0.001419659, mysensor.getFactor(), 0.001);
 
   fprintf(stderr, "%1.6f\n", mysensor.getFactor() );
 }
@@ -64,6 +71,7 @@ unittest(test_constructor)
 unittest(test_wavelength)
 {
   TSL235R mysensor;
+
   assertEqual(635, mysensor.getWavelength() );
   assertEqualFloat(1.0, mysensor.getWaveLengthFactor(), 0.001);
   fprintf(stderr,"\n");
@@ -90,6 +98,7 @@ unittest(test_wavelength)
 unittest(test_voltage)
 {
   TSL235R mysensor(2.7);
+
   assertEqualFloat(2.7, mysensor.getVoltage(), 0.001);
   assertEqualFloat(0.988, mysensor.getVoltageFactor(), 0.001);
   fprintf(stderr,"\n");
@@ -116,6 +125,7 @@ unittest(test_voltage)
 unittest(test_conversion1)
 {
   TSL235R mysensor;
+
   assertEqualFloat(1.0, mysensor.getVoltageFactor(), 0.001);
   assertEqualFloat(1.0, mysensor.getWaveLengthFactor(), 0.001);
 
@@ -125,7 +135,7 @@ unittest(test_conversion1)
   for (uint32_t Hz = 10; Hz < 1000000; Hz *= 2)
   {
     float rad = mysensor.irradiance(Hz);
-    assertEqualFloat(0.00142 * Hz, mysensor.irradiance(Hz), 0.001 * Hz);  // we must have a relative error here!
+    assertEqualFloat(0.001419659 * Hz, mysensor.irradiance(Hz), 0.001 * Hz);  // we must have a relative error here!
   }
 }
 
@@ -133,6 +143,7 @@ unittest(test_conversion1)
 unittest(test_conversion2)
 {
   TSL235R mysensor;
+
   assertEqualFloat(1.0, mysensor.getVoltageFactor(), 0.001);
   assertEqualFloat(1.0, mysensor.getWaveLengthFactor(), 0.001);
   fprintf(stderr,"\n");
@@ -151,4 +162,5 @@ unittest(test_conversion2)
 unittest_main()
 
 
-// --------
+//  --  END OF FILE --
+

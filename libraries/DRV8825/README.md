@@ -32,6 +32,9 @@ See datasheet.
 
 ## Interface
 
+```cpp
+#include "DRV8825.h"
+```
 
 ### Constants
 
@@ -114,10 +117,13 @@ Default the value = 2.
 
 ### Enable (EN)
 
-- **void enable()** sets the enable line LOW.
-- **void disable()** sets the enable line HIGH.
+- **bool enable()** sets the enable line LOW.
+Returns false if enable line is not defined.
+- **bool disable()** sets the enable line HIGH.
+Returns false if enable line is not defined.
 - **bool isEnabled()** reads back the line state.
-True means enabled.
+True means enabled (or enable line not defined)
+False means disabled.
 
 After **enable()** the system needs 650 ns before **step()**
 can be called. See 7.6 Timing Requirements.
@@ -125,13 +131,16 @@ can be called. See 7.6 Timing Requirements.
 
 ### Reset (RST)
 
-- **void reset()** sends a reset pulse to the device.
+- **bool reset()** sends a reset pulse to the device.
+Returns false if reset line is not defined.
 
 
 ### Sleep (SLP)
 
-- **void sleep()** sets the enable line LOW.
-- **void wakeup()** sets the enable line HIGH.
+- **bool sleep()** sets the enable line LOW.
+Returns false if sleep line is not defined.
+- **bool wakeup()** sets the enable line HIGH.
+Returns false if sleep line is not defined.
 - **bool isSleeping()** reads back the line state.
 True means enabled.
 
@@ -166,8 +175,8 @@ The library does not monitor this pin as that would need a background process.
 The user is advised to check this pin at regular intervals
 or connect the FLT pin to an interrupt pin of the processor. 
 
-- LOW  == fault condition (overtemp, overcurrent)
-- HIGH == OK
+- **LOW**  == fault condition (overtemp, overcurrent)
+- **HIGH** == OK
 
 The device does not provide means to interpret the type of 
 error, but one could at least call **disable()**.
@@ -207,7 +216,7 @@ See examples.
 Ideas are kept here so they won't get lost.
 Some will only be worked on if requested and time permits.
 
-#### must
+#### Must
 
 - test test test
 - add examples
@@ -216,7 +225,7 @@ Some will only be worked on if requested and time permits.
   - decay mode          8.3.3 there are 3 modi)
   - other?
 
-#### should
+#### Should
 
 - step(uint16_t steps)
   - multiple steps in one call.
@@ -226,7 +235,7 @@ Some will only be worked on if requested and time permits.
 - should begin return bool?
 
 
-#### could
+#### Could
 
 - stepCW() + stepCCW()
 - base class STEPDIR
@@ -235,7 +244,7 @@ Some will only be worked on if requested and time permits.
   - which others are similar?
     - A4988, DRV8824, more?
 
-#### wont
+#### Wont
 
 - left() + right();
 - if stepsPerRotation is set to zero, should pos be set to zero?

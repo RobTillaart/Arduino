@@ -11,8 +11,9 @@ begin	KEYWORD2
 setDirection	KEYWORD2
 getDirection	KEYWORD2
 
+setStepsPerRotation	KEYWORD2
 getStepsPerRotation	KEYWORD2
-setStep	KEYWORD2
+step	KEYWORD2
 resetSteps	KEYWORD2
 getSteps	KEYWORD2
 
@@ -23,6 +24,7 @@ enable	KEYWORD2
 disable	KEYWORD2
 isEnabled	KEYWORD2
 reset	KEYWORD2
+
 sleep	KEYWORD2
 wakeup	KEYWORD2
 isSleeping	KEYWORD2

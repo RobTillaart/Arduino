@@ -1,13 +1,10 @@
 //
 //    FILE: DRV8825.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
-//
-// HISTORY: see changelog.md
-
 
 
 #include "DRV8825.h"
@@ -33,7 +30,7 @@ bool DRV8825::begin(uint8_t DIR, uint8_t STEP, uint8_t EN, uint8_t RST, uint8_t 
   {
     _enablePin = EN;
     pinMode(_enablePin, OUTPUT);
-    digitalWrite(_enablePin, LOW);  //  page 3
+    digitalWrite(_enablePin, LOW);   //  page 3
   }
   if (RST != 255)
   {
@@ -145,20 +142,18 @@ uint16_t DRV8825::getPosition()
 }
 
 //  Table page 3
-void DRV8825::enable()
+bool DRV8825::enable()
 {
-  if (_enablePin != 255)
-  {
-    digitalWrite(_enablePin, LOW);
-  }
+  if (_enablePin == 255) return false;
+  digitalWrite(_enablePin, LOW);
+  return true;
 }
 
-void DRV8825::disable()
+bool DRV8825::disable()
 {
-  if (_enablePin != 255)
-  {
-    digitalWrite(_enablePin, HIGH);
-  }
+  if (_enablePin == 255) return false;
+  digitalWrite(_enablePin, HIGH);
+  return true;
 }
 
 bool DRV8825::isEnabled()
@@ -171,31 +166,28 @@ bool DRV8825::isEnabled()
 }
 
 
-void DRV8825::reset()
+bool DRV8825::reset()
 {
-  if (_resetPin != 255)
-  {
-    digitalWrite(_resetPin, HIGH);
-    delay(1);
-    digitalWrite(_resetPin, LOW);
-  }
+  if (_resetPin == 255) return false;
+  digitalWrite(_resetPin, HIGH);
+  delay(1);
+  digitalWrite(_resetPin, LOW);
+  return true;
 }
 
 
-void DRV8825::sleep()
+bool DRV8825::sleep()
 {
-  if (_sleepPin != 255)
-  {
-    digitalWrite(_sleepPin, LOW);
-  }
+  if (_sleepPin == 255) return false;
+  digitalWrite(_sleepPin, LOW);
+  return true;
 }
 
-void DRV8825::wakeup()
+bool DRV8825::wakeup()
 {
-  if (_sleepPin != 255)
-  {
-    digitalWrite(_sleepPin, HIGH);
-  }
+  if (_sleepPin == 255) return false;
+  digitalWrite(_sleepPin, HIGH);
+  return true;
 }
 
 bool DRV8825::isSleeping()

@@ -41,6 +41,16 @@ It is advised to upgrade to the DHTNEW library if one needs the new functionalit
 
 See examples.
 
+#### Voltage AM2301 
+
+In a test an AM2301 had problems giving no humidity (99.9% overflow) when this
+DHTStable library was used with an ESP8266. (Reported by mail, no GH issue)
+After days of testing and thinking and more testing the cause was found. 
+The AM2301 was powered by a 5V3 power supply which was apparently too high while having the
+data handshakes at 3V3. 
+When the VCC voltage was lowered to 5V1 it appeared to work as it should. 
+(Kudos to Viktor for finding the cause)
+
 
 ## Future
 

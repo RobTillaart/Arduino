@@ -1,0 +1,30 @@
+IDE:   1.8.19
+Board: UNO
+
+example fastShiftOut: 0.3.1
+
+Performance - time in us
+        write: 23.41
+        write: 45.89
+        Delta: 22.48
+
+writeLSBFIRST: 22.51
+writeLSBFIRST: 45.88
+        Delta: 23.37
+
+writeMSBFIRST: 23.02
+writeMSBFIRST: 44.88
+        Delta: 21.86
+
+Standard shiftOut1: 89.85
+Standard shiftOut2: 179.59
+             Delta: 89.74
+
+
+Test print interface
+println("Hello world"): 	328.92
+println(1357): 			313.56
+println(3.14159265, 4): 	717.36
+
+done ...
+

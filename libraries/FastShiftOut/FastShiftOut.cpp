@@ -1,12 +1,10 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.3.1
 // PURPOSE: ShiftOut that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
-//
-// HISTORY: see changelog.md
 
 
 #include "FastShiftOut.h"
@@ -33,7 +31,7 @@ FastShiftOut::FastShiftOut(uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder)
 #else   //  reference implementation
 
   _dataPinOut = dataOut;
-  _clockPin = clockPin;
+  _clockPin   = clockPin;
 
 #endif
 }
@@ -41,7 +39,6 @@ FastShiftOut::FastShiftOut(uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder)
 
 size_t FastShiftOut::write(uint8_t data)
 {
-  _value = data;
   if (_bitOrder == LSBFIRST)
   {
     return writeLSBFIRST(data);
@@ -50,11 +47,35 @@ size_t FastShiftOut::write(uint8_t data)
 }
 
 
+/* experimental
+size_t write(const uint8_t \*buffer, size_t size)
+{
+  size_t n = 0;
+  if (_bitOrder == LSBFIRST)
+  {
+    for (size_t i = size; i > 0; )      //  from end to begin ????
+    {
+      i--;
+      n += writeLSBFIRST(buffer[i]);
+    }
+  }
+  else
+  {
+    for (size_t i = 0; i < size; i++)   //  from begin to end..
+    {
+      n += writeMSBFIRST(buffer[i]);
+    }
+  }
+  return n;
+}
+*/
+
+
 size_t FastShiftOut::writeLSBFIRST(uint8_t data)
 {
   uint8_t value = data;
-  _value = value;
-  
+  _lastValue = value;
+
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   uint8_t cbmask1  = _clockBit;
@@ -86,8 +107,8 @@ size_t FastShiftOut::writeLSBFIRST(uint8_t data)
 size_t FastShiftOut::writeMSBFIRST(uint8_t data)
 {
   uint8_t value = data;
-  _value = value;
-  
+  _lastValue = value;
+
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   uint8_t cbmask1  = _clockBit;
@@ -113,14 +134,13 @@ size_t FastShiftOut::writeMSBFIRST(uint8_t data)
 #endif
 
   return 1;
-
 }
 
 
 uint8_t FastShiftOut::lastWritten(void)
 {
-  return _value;
-};
+  return _lastValue;
+}
 
 
 bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
@@ -137,8 +157,8 @@ bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
 uint8_t FastShiftOut::getBitOrder(void)
 {
   return _bitOrder;
-};
+}
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

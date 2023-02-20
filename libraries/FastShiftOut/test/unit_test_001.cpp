@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-03
 // PURPOSE: unit tests for the FastShiftIn library
-//          https://github.com/RobTillaart/FastShiftIn
+//          https://github.com/RobTillaart/FastShiftOut
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -94,4 +94,6 @@ unittest(test_print)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

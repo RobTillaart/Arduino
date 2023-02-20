@@ -35,20 +35,28 @@ The performance of **write()** is substantially faster than the default Arduino
 Exact how big the performance gain is can be seen with the example sketch.
 It does a comparison and shows how the class is to be used.
 
-test 0.2.4  Arduino UNO
+Time in microseconds, Arduino UNO
 
-|  function             | time (us) |
-|:----------------------|----------:|
-|  write()              |    21.66  |
-|  writeLSBFIRST()      |    22.94  |
-|  writeMSBFIRST()      |    20.30  |
-|  reference shiftOut() |    89.74  |
+|  function                |  0.2.4  |   0.3.1  |
+|:-------------------------|--------:|---------:|
+|  write()                 |  21.66  |   22.48  |
+|  writeLSBFIRST()         |  22.94  |   23.37  |
+|  writeMSBFIRST()         |  20.30  |   21.86  |
+|  reference shiftOut()    |  89.74  |   89.74  |
+|  println("Hello world")  |         |  328.92  |
+|  println(1357)           |         |  313.56  |
+|  println(3.14159265, 4)  |         |  717.36  |
 
 
 ## Interface
 
-The interface exists of the following functions:
+```cpp
+#include "FastShiftOut.h"
+```
 
+#### Functions
+
+- **FastShiftOut(uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** Constructor.
 - **size_t write(const uint8_t data)** send a byte, also the workhorse of the **Print** interface.
 - **uint8_t lastWritten()** returns last byte written.
 - **bool setBitOrder(uint8_t bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
@@ -56,7 +64,9 @@ The interface exists of the following functions:
 - **size_t writeLSBFIRST(const uint8_t data);**  most optimized.
 - **size_t writeMSBFIRST(const uint8_t data);**  most optimized.
 
+
 As a FastShiftOut object implements the Print interface, one can also call
+
 - **FSO.print(any type);** or 
 - **FSO.println(any type);** 
 
@@ -72,15 +82,21 @@ Note: **FSO.print()** returns the number of characters printed, including an opt
 pull up resistors, especially if wires are exceeding 10 cm (4").
 
 
-## Operation
-
-See examples
-
-
 ## Future
+
+
+#### Must
+
+#### Should
+
+- extend unit tests
+
+#### Could
 
 - performance ESP32
 - check optimized ESP32
 - add **size_t write(const uint8_t \*buffer, size_t size)**
 - example schema
+
+#### Wont
 

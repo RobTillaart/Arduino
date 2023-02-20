@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: shiftOut class that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Print.h"
 
-#define FASTSHIFTOUT_LIB_VERSION        (F("0.3.0"))
+#define FASTSHIFTOUT_LIB_VERSION        (F("0.3.1"))
 
 
 class FastShiftOut : public Print
@@ -21,6 +21,8 @@ public:
   FastShiftOut(uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder = LSBFIRST);
 
   size_t  write(uint8_t data);
+  //  experimental
+  //  size_t write(const uint8_t \*buffer, size_t size);
   uint8_t lastWritten(void);
 
   bool    setBitOrder(uint8_t bitOrder);
@@ -32,7 +34,7 @@ public:
 
 private:
   uint8_t _bitOrder;
-  int     _value;
+  int     _lastValue;
 
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)

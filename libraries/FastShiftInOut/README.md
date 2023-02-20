@@ -30,39 +30,45 @@ Experimental.
 performance of **write()**
 
 |  version  |  UNO (us)  |  ESP32 (us)  |
-|:---------:|:----------:|:------------:|
+|:---------:|-----------:|-------------:|
 |   0.1.0   |   181.08   |     4.32     |
 |   0.1.1   |    26.84   |     4.32     |
+|   0.1.2   |    26.84   |   no data    |
+|   0.1.3   |    25.52   |     4.32     |
 
 
 ## Interface
 
+```cpp
+#include "FastShiftInOut.h"
+```
+
+#### Functions
+
 bitOrder = { LSBFIRST, MSBFIRST };
 
-- **FastShiftInOut(uint8_t dataIn, uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)**
+- **FastShiftInOut(uint8_t dataIn, uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** Constructor.
 - **uint8_t write(uint8_t data)** reads and writes simultaneously.
-- **uint8_t lastWritten(void)** returns last written value.
-- **bool setBitOrder(uint8_t bitOrder)** idem.
+- **uint8_t lastWritten(void)** returns last byte written.
+- **uint8_t lastRead(void)** returns last byte read.
+- **bool setBitOrder(uint8_t bitOrder)** bitOrder must be LSBFIRST or MSBFIRST.
 - **uint8_t getBitOrder(void)** idem.
-- **uint8_t writeLSBFIRST(uint8_t data)**
-- **uint8_t writeMSBFIRST(uint8_t data)**
-
-
-## Operation
-
-See examples
+- **uint8_t writeLSBFIRST(uint8_t data)** optimized version, in practice almost no difference.
+- **uint8_t writeMSBFIRST(uint8_t data)** optimized version, in practice almost no difference.
 
 
 ## Future
 
-#### must
+#### Must
+
 - documentation
+- follow FastShiftIn and FastShiftOut
 
 #### should
-- performance measurements
-- optimize for AVR
+
 
 #### could
+
 - **void ignoreRead()**
 - add Print interface?
 

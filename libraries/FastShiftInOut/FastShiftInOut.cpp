@@ -1,11 +1,9 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
-//
-// HISTORY: see changelog.md
 
 
 #include "FastShiftInOut.h"
@@ -42,17 +40,18 @@ FastShiftInOut::FastShiftInOut(uint8_t dataIn, uint8_t dataOut, uint8_t clockPin
   _clockPin   = clockPin;
 
 #endif
+  _lastValue = 0;
+  _lastRead  = 0;
 }
 
 
 uint8_t FastShiftInOut::write(uint8_t data)
 {
-  _value = data;
   if (_bitOrder == LSBFIRST)
   {
-    return writeLSBFIRST(_value);
+    return writeLSBFIRST(data);
   }
-  return writeMSBFIRST(_value);
+  return writeMSBFIRST(data);
 }
 
 
@@ -60,7 +59,7 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
 {
   uint8_t rv    = 0;
   uint8_t value = data;
-  _value = value;
+  _lastValue = value;
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -70,10 +69,10 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
   uint8_t outmask1 = _dataOutBit;
   uint8_t outmask2 = ~_dataOutBit;
 
+  uint8_t oldSREG = SREG;
+  noInterrupts();
   for (uint8_t m = 1; m > 0; m <<= 1)
   {
-    uint8_t oldSREG = SREG;
-    noInterrupts();
     //  write one bit
     if ((value & m) == 0) *_dataOutRegister &= outmask2;
     else                  *_dataOutRegister |= outmask1;
@@ -83,10 +82,9 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
     if ((*_dataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
     *_clockRegister &= cbmask2;
-    SREG = oldSREG;
   }
-  return rv;
-
+  SREG = oldSREG;
+  
 #else
 
   for (uint8_t i = 0; i < 8; i++)
@@ -105,6 +103,7 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
 
 #endif
 
+  _lastRead = rv;
   return rv;
 }
 
@@ -113,7 +112,7 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
 {
   uint8_t rv    = 0;
   uint8_t value = data;
-  _value = value;
+  _lastValue = value;
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -123,10 +122,10 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
   uint8_t outmask1 = _dataOutBit;
   uint8_t outmask2 = ~_dataOutBit;
 
+  uint8_t oldSREG = SREG;
+  noInterrupts();
   for (uint8_t m = 0x80; m > 0; m >>= 1)
   {
-    uint8_t oldSREG = SREG;
-    noInterrupts();
     //  write one bit
     if ((value & m) == 0) *_dataOutRegister &= outmask2;
     else                  *_dataOutRegister |= outmask1;
@@ -136,9 +135,8 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
     if ((*_dataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
     *_clockRegister &= cbmask2;
-    SREG = oldSREG;
   }
-  return rv;
+  SREG = oldSREG;
 
 #else
 
@@ -158,13 +156,20 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
 
 #endif
 
+  _lastRead = rv;
   return rv;
 }
 
 
 uint8_t FastShiftInOut::lastWritten(void)
 {
-  return _value;
+  return _lastValue;
+};
+
+
+uint8_t FastShiftInOut::lastRead(void)
+{
+  return _lastRead;
 };
 
 
@@ -185,5 +190,5 @@ uint8_t FastShiftInOut::getBitOrder(void)
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

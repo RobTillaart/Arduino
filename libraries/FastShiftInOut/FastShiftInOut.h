@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define FASTSHIFTINOUT_LIB_VERSION        (F("0.1.2"))
+#define FASTSHIFTINOUT_LIB_VERSION        (F("0.1.3"))
 
 
 class FastShiftInOut
@@ -21,7 +21,9 @@ public:
 
   //  reads and writes simultaneously
   uint8_t write(uint8_t data);
+
   uint8_t lastWritten(void);
+  uint8_t lastRead(void);
 
   bool    setBitOrder(uint8_t bitOrder);
   uint8_t getBitOrder(void);
@@ -32,7 +34,8 @@ public:
 
 private:
   uint8_t _bitOrder;
-  int     _value;
+  int     _lastValue;
+  int     _lastRead;
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -55,5 +58,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

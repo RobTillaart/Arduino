@@ -6,9 +6,12 @@ FastShiftInOut	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
+
 lastWritten	KEYWORD2
+
 setBitOrder	KEYWORD2
 getBitOrder	KEYWORD2
+
 writeLSBFIRST	KEYWORD2
 writeMSBFIRST	KEYWORD2
 

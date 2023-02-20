@@ -6,14 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2023-02-20
+- add (experimental) read16(), read24(), read32() functions.
+- changed return types of some functions.
+- update keywords.txt
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.3.1] - 2022-11-06
 - redo clock pulse
-
 
 ## [0.3.0] - 2022-11-05
 - fix inputRegister bug
 - refactor for code size
 
+----
 
 ## [0.2.4] - 2022-11-05
 - add changelog.md
@@ -27,9 +37,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.2.2] - 2020-12-22
 
+----
 
 ## No history ...
-
 
 ## [0.1.0 - 2013-09-29
 - initial version

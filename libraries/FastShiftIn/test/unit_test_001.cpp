@@ -40,6 +40,7 @@ unittest_setup()
   fprintf(stderr, "FASTSHIFTIN_LIB_VERSION: %s\n", (char *) FASTSHIFTIN_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -104,4 +105,6 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

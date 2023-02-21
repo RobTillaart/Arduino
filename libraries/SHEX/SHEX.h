@@ -2,7 +2,7 @@
 //
 //    FILE: SHEX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -12,13 +12,24 @@
 #include "Print.h"
 
 
-#define SHEX_LIB_VERSION                (F("0.3.0"))
+#define SHEX_LIB_VERSION                (F("0.3.2"))
 
+
+#if not defined(SHEX_DEFAULT_LENGTH)
 #define SHEX_DEFAULT_LENGTH             16
+#endif
+#if not defined(SHEX_MAX_LENGTH)
 #define SHEX_MAX_LENGTH                 32
+#endif
+#if not defined(SHEX_MIN_LENGTH)
 #define SHEX_MIN_LENGTH                 4
+#endif
+#if not defined(SHEX_COUNTER_DIGITS)
 #define SHEX_COUNTER_DIGITS             4
+#endif
+#if not defined(SHEX_DEFAULT_VTAB)
 #define SHEX_DEFAULT_VTAB               8
+#endif
 
 
 class SHEX: public Print
@@ -31,23 +42,23 @@ public:
   size_t   write(uint8_t c);
 
   void     setHEX(bool hexOutput = true);
-  bool     getHEX() { return _hexOutput; };
+  bool     getHEX();
 
   void     setBytesPerLine(const uint8_t length = SHEX_DEFAULT_LENGTH);
-  uint8_t  getBytesPerLine() { return _length; };
+  uint8_t  getBytesPerLine();
 
-  void     setSeparator(char c = ' ') { _separator = c; };
-  char     getSeparator() { return _separator; };
+  void     setSeparator(char c = ' ');
+  char     getSeparator();
 
   //       must be 0, 4, 6 or 8
   void     setCountDigits(uint8_t digits = SHEX_COUNTER_DIGITS);
-  uint8_t  getCountDigits() { return _digits; }
+  uint8_t  getCountDigits();
   //  restarts the output - use with care
   void     restartOutput();
-  uint32_t getCounter() { return _charCount; };
+  uint32_t getCounter();
 
   void     setVTAB(uint8_t vtab = SHEX_DEFAULT_VTAB);
-  uint8_t  getVTAB() { return _vtab; };
+  uint8_t  getVTAB();
 
 
 protected:

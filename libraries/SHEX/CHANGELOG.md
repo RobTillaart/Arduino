@@ -6,14 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2023-02-20
+- fix **flushASCII()**
+- fix LIB version number.
+- fix command line defines.
+- move code from .h to .cpp
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.3.1] - 2022-11-24
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 
-
-## [0.3.0   2022-05-28  breaking!  
+## [0.3.0   2022-05-28  breaking!
 - change default HEX output instead of pass through.
-- add get / setCountDigits() => 
+- add get / setCountDigits() =>
 -     #digits of count 4, 6 or 8 (4 = default)
 - replaces get / setCounterFlag()
 - add define SHEX_COUNTER_DIGITS + SHEX_MIN_LENGTH
@@ -23,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.2.3] - 2022-05-28  
+## [0.2.3] - 2022-05-28
 - add setVTAB(vtab) getVTAB()
 - add define SHEX_DEFAULT_VTAB
 

@@ -152,4 +152,5 @@ unittest(test_vtab)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

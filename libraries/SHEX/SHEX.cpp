@@ -1,7 +1,7 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -14,7 +14,7 @@ SHEX::SHEX(Print* stream, uint8_t length)
 {
   _stream  = stream;
   reset();
-  // force multiple of 4; max 32
+  //  force multiple of 4;  max 32
   _length = ((length + 3) / 4) * 4;
   if (_length > SHEX_MAX_LENGTH)
   {
@@ -24,7 +24,7 @@ SHEX::SHEX(Print* stream, uint8_t length)
   {
     _length = SHEX_MIN_LENGTH;
   }
-};
+}
 
 
 void SHEX::reset()
@@ -52,7 +52,7 @@ size_t SHEX::write(uint8_t c)
   if ((_charCount % _length) == 0)
   {
     //  insert ASCII array here
-    
+
     _stream->println();
     //  separator line every _vtab (default 8) lines
     if ((_charCount % (_length * _vtab)) == 0)
@@ -91,7 +91,13 @@ void SHEX::setHEX(bool hexOutput)
 {
   _hexOutput = hexOutput;
   restartOutput();
-};
+}
+
+
+bool SHEX::getHEX()
+{
+  return _hexOutput;
+}
 
 
 void SHEX::setBytesPerLine(const uint8_t length)
@@ -110,6 +116,36 @@ void SHEX::setBytesPerLine(const uint8_t length)
 }
 
 
+uint8_t SHEX::getBytesPerLine()
+{
+  return _length;
+}
+
+
+void SHEX::setSeparator(char c)
+{
+  _separator = c;
+}
+
+
+char SHEX::getSeparator()
+{
+  return _separator;
+}
+
+
+uint8_t SHEX::getCountDigits()
+{
+  return _digits;
+}
+
+
+uint32_t SHEX::getCounter()
+{
+  return _charCount;
+}
+
+
 void SHEX::setVTAB(uint8_t vtab)
 {
   _vtab = vtab;
@@ -117,7 +153,13 @@ void SHEX::setVTAB(uint8_t vtab)
 };
 
 
-void SHEX::setCountDigits(uint8_t digits) 
+uint8_t SHEX::getVTAB()
+{
+  return _vtab;
+}
+
+
+void SHEX::setCountDigits(uint8_t digits)
 {
   _digits = digits;
   if (_digits == 0) return;
@@ -154,7 +196,10 @@ size_t SHEXA::write(uint8_t c)
   if ((_charCount % _length) == 0)
   {
     //  printable ASCII column
-    if (_charCount != 0) flushASCII();
+    if (_charCount != 0) 
+    {
+      flushASCII();
+    }
 
     _stream->println();
     //  separator line every _vtab (default 8) lines
@@ -196,13 +241,30 @@ size_t SHEXA::write(uint8_t c)
 
 void SHEXA::flushASCII()
 {
-  int len = _charCount % _length;
-  if (len == 0) len = _length;
-  //  else  print about (_length - len) * 3 of spaces ...
+  uint8_t len = _charCount % _length;
+  if (len == 0)
+  {
+    len = _length;
+  }
+  if (len < _length)
+  {
+    for (uint8_t i = len; i < _length; i++)
+    {
+      _stream->print("   ");
+    }
+    for (uint8_t i = 0; i < (_length/4 - len/4); i++)
+    {
+      _stream->print(" ");
+    }
+  }
+
   for (uint8_t i = 0; i < len;)
   {
     _stream->write(_txtbuf[i++]);
-    if ((i % 8) == 0)_stream->print("  ");
+    if ((i % 8) == 0)
+    {
+      _stream->print("  ");
+    }
   }
 }
 

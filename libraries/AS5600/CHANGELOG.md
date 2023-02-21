@@ -5,11 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2023-02-20
+- add **resetCumulativePosition(int32_t position)** to completely reset the cumulative counter. 
+This includes the delta since last call to **getCumulativePosition()**.
+- add parameter position to **resetPosition(int32_t position)** so a new position can be set. 
+This does not reset the delta since last call to **getCumulativePosition()**.
+- update readme.md
+
+
 ## [0.3.5] - 2023-02-01
 - update GitHub actions
 - update license 2023
 - update readme.md
-
 
 ## [0.3.4] - 2022-12-22
 - fix #26 edges problem of the experimental cumulative position (CP).

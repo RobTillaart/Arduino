@@ -16,7 +16,7 @@ Arduino library for AS5600 and AS5600L magnetic rotation meter.
 #### AS5600
 
 **AS5600** is a library for an AS5600 / AS5600L based magnetic **rotation** meter.
-More exact, it measures the angle (rotation wrt reference) and not RPM.
+More exact, it measures the angle (rotation w.r.t. reference) and not RPM.
 Multiple angle measurements allows one to calculate / estimate the RPM.
 
 The AS5600 and AS5600L sensors are pin compatible (always check datasheet).
@@ -345,11 +345,14 @@ Functions are:
 - **int32_t getCumulativePosition()** reads sensor and updates cumulative position.
 - **int32_t getRevolutions()** converts last position to whole revolutions.
 Convenience function.
-- **int32_t resetPosition()** resets **revolutions**, returns last position. 
-The cumulative position does not reset to 0 but to the last known raw angle.
-This way the cumulative position always indicate the (absolute) angle too.
+- **int32_t resetPosition(int32_t position = 0)** resets the "revolutions" to position (default 0).
+It does not reset the delta (rotation) since last call to **getCumulativePosition()**.
+Returns last position (before reset).
+- **int32_t resetCumulativePosition(int32_t position = 0)** completely resets the cumulative counter. 
+This includes the delta (rotation) since last call to **getCumulativePosition()**.
+Returns last position (before reset).
 
-As this code is experimental, names might change in the future (0.4.0).
+As this code is experimental, names might change in the future (0.4.0)?
 As the function are mostly about counting revolutions the current thoughts for new names are:
 
 ```cpp
@@ -649,6 +652,8 @@ priority is relative.
 
 - add error handling
 - investigate PGO programming pin.
+- check for compatible devices
+  - AS5200 ?
 
 
 #### Wont

@@ -45,6 +45,7 @@ getAngularSpeed	KEYWORD2
 getCumulativePosition	KEYWORD2
 getRevolutions	KEYWORD2
 resetPosition	KEYWORD2
+resetCumulativePosition	KEYWORD2
 
 
 #  CONFIGURATION FIELDS

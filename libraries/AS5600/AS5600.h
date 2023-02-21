@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.3.5"))
+#define AS5600_LIB_VERSION              (F("0.3.6"))
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
@@ -214,8 +214,12 @@ public:
   int32_t  getCumulativePosition();
   //  converts last position to whole revolutions.
   int32_t  getRevolutions();
-  //  resets position, returns last position.
-  int32_t  resetPosition();
+  //  resets position only (not the i)
+  //  returns last position but not internal lastPosition.
+  int32_t  resetPosition(int32_t position = 0);
+  //  resets position and internal lastPosition
+  //  returns last position.
+  int32_t  resetCumulativePosition(int32_t position = 0);
 
 
 protected:

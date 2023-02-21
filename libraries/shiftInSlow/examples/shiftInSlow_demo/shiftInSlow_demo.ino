@@ -19,7 +19,7 @@ void setup()
   Serial.println(__FILE__); 
   Serial.println(SHIFTINSLOW_LIB_VERSION);
 
-  for (uint16_t d = 0; d < 1000; d += 10)
+  for (uint16_t d = 0; d <= 1000; d += 10)
   {
     SIS.setDelay(d);
     uint32_t start = micros();
@@ -28,7 +28,10 @@ void setup()
     float duration = stop - start;
     Serial.print(stop - start);
     Serial.print("\t");
-    Serial.println(duration / 8, 1);
+    Serial.print(d);
+    Serial.print("\t");
+    Serial.print(duration / 8, 1);
+    Serial.print("\n");
   }
 
   Serial.println("done...");
@@ -41,4 +44,3 @@ void loop()
 
 
 // -- END OF FILE --
-

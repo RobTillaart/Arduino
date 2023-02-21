@@ -31,45 +31,58 @@ The dataPin and clockPin are set in the constructor, the delay is configurable p
 The performance of **read()** with a delay of 0 microseconds is slower than the default Arduino 
 **shiftIn()** due to some overhead. 
 
-The delay requested is split in two (expect rounding errors) to have "nice" looking pulses.
-This keeps the duty cycle ~50%.
+The delay requested is split in two (expect rounding errors) to have "nice" looking pulse
+with the duty cycle around 50%.
+
+Performance measurements are meaningless, as the purpose of this library is to 
+slow the pulse train to a working level.
 
 
 ## Interface
 
+```cpp
+#include "ShiftInSlow.h"
+```
+
+#### Functions
+
 The interface exists of the following functions:
 - **ShiftInSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor, 
 bit order is default set to LSBFIRST.
-- **int read(void)** reads a new value
-- **int lastRead()** returns last value read
-- **void setDelay(uint16_t microseconds)** set delay per bit from 0 .. 65535 microseconds. 
-Note that the delay is split in two parts to keep ~ 50% duty cycle.
+- **int read()** reads a new value.
+- **int lastRead()** returns last value read.
+- **void setDelay(uint16_t microseconds = 0)** set delay per bit from 0 .. 65535 microseconds. 
+Note that the delay is split in two parts to keep the duty cycle around 50%.
 - **uint16_t getDelay()** returns the set delay in microseconds.
-- **bool setBitOrder(uint8_t bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
-- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST
+- **bool setBitOrder(uint8_t bitOrder = LSBFIRST)** set LSBFIRST or MSBFIRST. Returns false for other values.
+- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST.
 
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Future
 
-#### must
-- improve documentation
-- move code from .h to .cpp
+#### Must
 
-#### should
+- improve documentation
+
+#### Should
+
 - add examples
   - adaptive speed example?
 
+#### Could
 
-#### could
 - Add a select pin to be more SPI alike?
-- increase max delay uint32_t ? 
+- increase max delay uint32_t ?
+
+#### Wont
+
+- get set dutyCycle(0 .. 99%)
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
-- set default delay = 0, is no delay ?
-- get set dutyCycle(0 .. 99%)
+- read16/24/32 to read more bytes is a user task.
 

@@ -31,7 +31,7 @@
 //  PATCH FOR DUE & ZERO FOR UNIT TEST - https://github.com/Arduino-CI/arduino_ci/issues/252
 #if defined(ARDUINO_ARCH_SAM) || defined(ARDUINO_ARCH_SAMD)
 //  - due         #  ARDUINO_ARCH_SAM    does not support shiftIn apparently
-//  - zero        #  ARDUINO_ARCH_SAMD   
+//  - zero        #  ARDUINO_ARCH_SAMD
 #endif
 
 
@@ -52,9 +52,12 @@ unittest(test_constructor)
 
   assertEqual(0, SIS.lastRead());
   assertEqual(LSBFIRST, SIS.getBitOrder());
-  
+
   SIS.setBitOrder(MSBFIRST);
   assertEqual(MSBFIRST, SIS.getBitOrder());
+
+  SIS.setBitOrder();
+  assertEqual(LSBFIRST, SIS.getBitOrder());
 }
 
 
@@ -64,7 +67,7 @@ unittest(test_constructor_LSB)
 
   assertEqual(0, SIS.lastRead());
   assertEqual(LSBFIRST, SIS.getBitOrder());
-  
+
   SIS.setBitOrder(MSBFIRST);
   assertEqual(MSBFIRST, SIS.getBitOrder());
 }
@@ -76,7 +79,7 @@ unittest(test_constructor_MSB)
 
   assertEqual(0, SIS.lastRead());
   assertEqual(MSBFIRST, SIS.getBitOrder());
-  
+
   SIS.setBitOrder(LSBFIRST);
   assertEqual(LSBFIRST, SIS.getBitOrder());
 }
@@ -91,6 +94,9 @@ unittest(test_setDelay)
     SIS.setDelay(d);
     assertEqual(d, SIS.getDelay());
   }
+
+  SIS.setDelay();
+  assertEqual(0, SIS.getDelay());
 }
 
 
@@ -105,4 +111,4 @@ unittest(test_read)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

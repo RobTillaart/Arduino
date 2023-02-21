@@ -40,19 +40,29 @@ resulting in "better" pulses.
 
 ## Interface
 
+```cpp
+#include "ShiftOutSlow.h"
+```
+
+#### Functions
+
 The interface exists of the following functions:
 
 - **ShiftOutSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor.
-- **size_t write(uint8_t data)** writes a new value. Returns the bytes written.
-- **size_t write(const uint8_t \*buffer, size_t size)** writes an array of size over shift out. Uses **write(uint8_t)** so expect about equal performance. Returns the bytes written.
+- **size_t write(uint8_t data)** writes a new value. 
+Returns the bytes written.
+- **size_t write(const uint8_t \*buffer, size_t size)** writes an array of size over shift out. 
+Uses **write(uint8_t)** so expect about equal performance.
+Returns the bytes written.
 - **uint8_t lastWritten()** returns last value written.
-- **void setDelay(uint16_t microSeconds)** set delay per bit from 0 .. 65535 microseconds. 
-Note that the delay is not the time per bit but an additional time per bit.
+- **void setDelay(uint16_t microSeconds = 0)** set delay per **bit** from 0 .. 65535 microseconds. 
+Note: the delay is not the time per bit but an additional time per bit.
 Note: the delay can be set runtime per write / print call.
 - **uint16_t getDelay()** returns the set delay in microseconds.
-- **bool setBitOrder(uint8_t bitOrder)** set LSBFIRST or MSBFIRST. Returns false for other values.
+- **bool setBitOrder(uint8_t bitOrder = LSBFIRST)** set LSBFIRST or MSBFIRST.
+Returns false for other values.
 Note: bit order can be changed runtime per write / print call.
-- **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST (typical 0 and 1).
+- **uint8_t getBitOrder()** returns LSBFIRST or MSBFIRST (typical 0 and 1).
 
 
 ### Print interface
@@ -70,19 +80,22 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - add examples
   - adaptive speed example?
   
-#### could
+#### Could
 - Add a select pin to be more SPI alike?
 - increase max delay uint32_t ? 
+
+#### Wont
+
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
-- set default delay = 0, is no delay ?
 - get set dutyCycle(0 .. 99%)
 - optimize the place to yield() ?
-

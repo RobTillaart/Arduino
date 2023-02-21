@@ -40,6 +40,7 @@ unittest_setup()
   fprintf(stderr, "SHIFTOUTSLOW_LIB_VERSION:\t%s\n", (char *) SHIFTOUTSLOW_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -55,6 +56,9 @@ unittest(test_constructor)
 
   SOS.setBitOrder(MSBFIRST);
   assertEqual(MSBFIRST, SOS.getBitOrder());
+
+  SOS.setBitOrder();
+  assertEqual(LSBFIRST, SOS.getBitOrder());
 }
 
 
@@ -93,6 +97,8 @@ unittest(test_setDelay)
     SOS.setDelay(d);
     assertEqual(d, SOS.getDelay());
   }
+  SOS.setDelay();
+  assertEqual(0, SOS.getDelay());
 }
 
 
@@ -112,6 +118,9 @@ unittest(test_print_interface)
   assertEqual(8, z);
 }
 
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

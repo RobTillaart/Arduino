@@ -1,11 +1,10 @@
 //
 //    FILE: map2colour_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: map2colour demo
-//    DATE: 2021-12-04
 //     URL: https://github.com/RobTillaart/map2colour
 
+//  NOTE: perfomance depends on colours used (amount of interpolation!)
 
 #include "Arduino.h"
 #include "map2colour.h"
@@ -71,6 +70,8 @@ void setup()
     delay(10);
   }
   Serial.println();
+  Serial.print("TOTAL:\t");
+  Serial.println(total);
   Serial.print("AVG:\t");
   Serial.println(total / 103.0);
   Serial.println();
@@ -94,6 +95,8 @@ void setup()
     delay(10);
   }
   Serial.println();
+  Serial.print("TOTAL:\t");
+  Serial.println(total);
   Serial.print("AVG:\t");
   Serial.println(total / 103.0);
   Serial.println();

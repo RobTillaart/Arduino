@@ -50,6 +50,12 @@ If returned false the code might behave in unexpected ways.
 
 ## Interface
 
+```cpp
+#include "map2colour.h"
+```
+
+#### Functions
+
 - **map2colour()** constructor.
 - **map2colourFast()** constructor, (larger code base, more RAM and faster)
 - **bool begin(float \* values, uint32_t \* colourMap = NULL)** load the array with **7** 
@@ -59,11 +65,13 @@ If the colour array is not given the last given (or the default) colour array is
 The function returns false if the array of values is not in increasing order.
 - **uint32_t map2RGB(float value)** returns RGB colour packed in an uint32_t **0x00RRGGBB**.  
 If the value is out of range of the original values array, the value is always mapped upon the first colour.
-- **uint16_t map2_565(float value)** often used 16 bit colour format. Currently a wrapper around **map2RGB**.
+- **uint16_t map2_565(float value)** often used 16 bit colour format. 
+Currently a wrapper around **map2RGB**.
 
 Note: the arrays passed to **begin()** should both have at least 7 elements!
 
-The colour array can be filled with decimal or HEX values or predefined colours can be used. See below.
+The colour array can be filled with decimal or HEX values or predefined colours can be used.
+See below.
 
 
 ## Predefined colours
@@ -71,24 +79,16 @@ The colour array can be filled with decimal or HEX values or predefined colours 
 Colours are represented as 24 bit RGB values and have the pattern **0x00RRGGBB**.
 
 
-| define      | value      |
-|:------------|:----------:|
-| M2C_BLACK   | 0x00000000 |
-| M2C_SILVER  | 0x00C0C0C0 |
-| M2C_GRAY    | 0x00808080 |
-| M2C_WHITE   | 0x00FFFFFF |
-| M2C_MAROON  | 0x00800000 |
-| M2C_RED     | 0x00FF0000 |
-| M2C_PURPLE  | 0x00800080 |
-| M2C_FUCHSIA | 0x00FF00FF |
-| M2C_GREEN   | 0x00008000 |
-| M2C_LIME    | 0x000FF000 |
-| M2C_OLIVE   | 0x00808000 |
-| M2C_YELLOW  | 0x00FFFF00 |
-| M2C_NAVY    | 0x00000080 |
-| M2C_BLUE    | 0x000000FF |
-| M2C_TEAL    | 0x00008080 |
-| M2C_AQUA    | 0x0000FFFF |
+|  define       |  value       |  define      |  value       |
+|:--------------|:------------:|:-------------|:------------:|
+|  M2C_BLACK    |  0x00000000  |  M2C_GREEN   |  0x00008000  |
+|  M2C_SILVER   |  0x00C0C0C0  |  M2C_LIME    |  0x000FF000  |
+|  M2C_GRAY     |  0x00808080  |  M2C_OLIVE   |  0x00808000  |
+|  M2C_WHITE    |  0x00FFFFFF  |  M2C_YELLOW  |  0x00FFFF00  |
+|  M2C_MAROON   |  0x00800000  |  M2C_NAVY    |  0x00000080  |
+|  M2C_RED      |  0x00FF0000  |  M2C_BLUE    |  0x000000FF  |
+|  M2C_PURPLE   |  0x00800080  |  M2C_TEAL    |  0x00008080  |
+|  M2C_FUCHSIA  |  0x00FF00FF  |  M2C_AQUA    |  0x0000FFFF  |
 
 
 More colour definitions can be found on the internet 
@@ -104,17 +104,19 @@ The minimum to implement is an intensity effect going from black towards a colou
 More complex colour schemes are possible, up to 7 different colours. 
 This number 7 is hardcoded (for now) and that might change in the future.
 
+
 #### Experimental in 0.1.5
 
 (was planned for 0.2.0)
-If you create a non-decreasing array of values one can create a break in the gradient. See example.
+If you create a non-decreasing array of values one can create a break in the colour gradient. 
+See example.
 
 ```cpp
 float values[7] = { -200, -90, 0, 45,                                   45, 150, 180 };
 uint32_t colours[7] = { M2C_BLUE, M2C_AQUA, M2C_LIME, M2C_YELLOW,       M2C_RED, M2C_YELLOW, M2C_BLUE};
 ```
 
-with the double 45 in the values array there would be no gradient between the **M2C_YELLOW** and **M2C_RED**
+With the double 45 in the values array there would be no gradient between the **M2C_YELLOW** and **M2C_RED**
 effectively having 2 continuous gradients.
 
 Note: **begin()** will report such array as false.
@@ -125,38 +127,37 @@ Note: **begin()** will report such array as false.
 Indicative performance figures measured with performance example.
 Performance depends on colours chosen, platform etc.
 
+Note: time in microseconds
+Note: UNO at 16 MHz, ESP32 at 240 MHz
 
 #### version 0.1.2
 
-| function call          | time us UNO | time us ESP32 |
-|:-----------------------|------------:|--------------:|
-| begin(values)          | 4           | 4             |
-| begin(values, colours) | 12          | 4             |
-| map2RGB(value)         | 124 - 152   | 2 - 4         |
-| map2_565(value)        | 124 - 168   | 2 - 4         |
+|  function call           |  time UNO   |  time ESP32  |
+|:-------------------------|------------:|-------------:|
+|  begin(values)           |  4          |   4          |
+|  begin(values, colours)  |  12         |   4          |
+|  map2RGB(value)          |  124 - 152  |   2 - 4      |
+|  map2_565(value)         |  124 - 168  |   2 - 4      |
 
 
 #### version 0.1.3
 
-| function call          | time us UNO | time us ESP32 |
-|:-----------------------|------------:|--------------:|
-| begin(values)          | 4           | 4             |
-| begin(values, colours) | 12          | 4             |
-| map2RGB(value)         | 64 - 132    | 2 - 3         |
-| map2_565(value)        | 68 - 140    | 2 - 3         |
+|  function call           |  time UNO   |  time ESP32  |
+|:-------------------------|------------:|-------------:|
+|  begin(values)           |   4         |   4          |
+|  begin(values, colours)  |   12        |   4          |
+|  map2RGB(value)          |   64 - 132  |   2 - 3      |
+|  map2_565(value)         |   68 - 140  |   2 - 3      |
 
 
 #### version 0.1.4
 
-| function call          | time us UNO | time us ESP32 | notes                 |
-|:-----------------------|------------:|--------------:|:----------------------|
-| begin(values)          | 284         | 15            | unexpected peak ESP32 |
-| begin(values, colours) | 304         | 6             |
-| map2RGB(value)         | 40 - 104    | 1 - 2         |
-| map2_565(value)        | 44 - 112    | 1 - 2         |
-
-
-Note: UNO at 16 MHz, ESP32 at 240 MHz
+|  function call           |  time UNO   |  time ESP32  |  notes                  |
+|:-------------------------|------------:|-------------:|:------------------------|
+|  begin(values)           |   284       |   15         |  unexpected peak ESP32  |
+|  begin(values, colours)  |   304       |   6          |
+|  map2RGB(value)          |   40 - 104  |   1 - 2      |
+|  map2_565(value)         |   44 - 112  |   1 - 2      |
 
 
 #### optimization 0.1.4
@@ -174,30 +175,41 @@ Note: the gain for the ESP32 is less pronounced, but can still be interesting.
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 
-#### should
+#### Should
+
 - redo **begin()** of map2colour to allow all values. (0.2.0)
   - non-decreasing array (already experimental in 0.1.5, will still return false! )
-  - any array of numbers.  (return value will always be true then)
+  - any array of numbers. (return value will always be true then)
 - look for optimizations.
   - cache last value?
 
-#### could
+#### Could
+
 - make size configurable ?
+  - at least smaller than 7 (speeds up)
+  - ...
 - **void adjustColour(uint8_t index, uint32_t RGB)**    
   - single colour adjust
   - faster than calling begin() again
+  - divfactors need to be calculated again.
 - map2RGB variant that gives a colour to the delta with previous value
   - user can do that fairly easy => example
-- map2HSL() as extra colour space.
 - add **reset()** for default array? (RAM)
 
-#### wont
+#### Wont
+
 - **uint32_t dumpColourMap()** ==> not needed
 - PROGMEM for default array? ==> slower, AVR specific.
 - move up the test for non-increase in **begin()** ==> fail fast.
   - conflicts with begin of fast version.
-
+- should a 4th (alpha) channel be enabled?
+  - not needed yet, would need new constants
+- faster 16 bit 565 version?
+  - only on request as a separate class map2colour565.
+- map2HSL() as extra colour space.
+  - not seen much HSL displays in "arduino" world
 

@@ -31,6 +31,7 @@ unittest_setup()
   fprintf(stderr, "MAP2COLOUR_LIB_VERSION: %s\n", (char *) MAP2COLOUR_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -95,7 +96,6 @@ unittest(test_constants)
 }
 
 
-
 unittest(test_compare_RGB)
 {
   map2colour mc;
@@ -148,8 +148,8 @@ unittest(test_compare_RGB565)
 }
 
 
-
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

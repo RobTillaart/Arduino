@@ -1,11 +1,9 @@
 //
 //    FILE: map2colour.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
-//
-//  HISTORY see changelog.md
 
 
 #include "map2colour.h"
@@ -18,7 +16,7 @@ map2colour::map2colour()
 
 bool map2colour::begin(float * values, uint32_t * colourMap)
 {
-  //  split colour map in channels
+  //  split colour map in channels to allow interpolation per channel
   if (colourMap != NULL)
   {
     for (int i = 0; i < 7; i++)
@@ -44,7 +42,7 @@ bool map2colour::begin(float * values, uint32_t * colourMap)
 
 uint32_t map2colour::map2RGB(float value)
 {
-  int index = 1;
+  uint8_t index = 1;
   //  default values + out of lower range
   uint8_t R = _Red[0];
   uint8_t G = _Green[0];
@@ -52,7 +50,7 @@ uint32_t map2colour::map2RGB(float value)
 
   if (_values[0] < value)
   {
-    if (value <= _values[6] )
+    if (value < _values[6] )
     {
       //  search the interval
       while (_values[index] < value) index++;
@@ -61,6 +59,7 @@ uint32_t map2colour::map2RGB(float value)
       R = _Red[index];
       G = _Green[index];
       B = _Blue[index];
+
       //  calculate the interpolation factor
       //  map2colourFast uses pre calculated dividers (costs 24 bytes extra RAM).
       float factor = (_values[index] - value) / (_values[index] - _values[index - 1]);
@@ -97,20 +96,19 @@ uint16_t map2colour::map2_565(float value)
   uint32_t RGB = map2RGB(value);
   uint16_t colour = 0x0000;
   RGB >>= 3;
-  colour |= (RGB & 0x001F);  // B channel 5 bits
+  colour |= (RGB & 0x001F);  //  B channel 5 bits
   RGB >>= 2;
-  colour |= (RGB & 0x07E0);  // G channel 6 bits
+  colour |= (RGB & 0x07E0);  //  G channel 6 bits
   RGB >>= 3;
-  colour |= (RGB & 0xF800);  // R channel 5 bits
+  colour |= (RGB & 0xF800);  //  R channel 5 bits
   return colour;
 }
 
 
 /////////////////////////////////////////////////////////////////////////
 //
-// DERIVED CLASS
+//  DERIVED CLASS
 //
-
 map2colourFast::map2colourFast() : map2colour()
 {
 }
@@ -147,7 +145,7 @@ uint32_t map2colourFast::map2RGB(float value)
 
   if (_values[0] < value)
   {
-    if (value <= _values[6] )
+    if (value < _values[6] )
     {
       //  search the interval
       while (_values[index] < value) index++;
@@ -171,7 +169,7 @@ uint32_t map2colourFast::map2RGB(float value)
     }
     else
     {
-      // out of upper range
+      //  out of upper range
       R = _Red[6];
       G = _Green[6];
       B = _Blue[6];
@@ -186,19 +184,21 @@ uint32_t map2colourFast::map2RGB(float value)
 }
 
 
+//  could be slightly faster (~0.4 us) for AVR by
+//  - split of R = RGB >> 16   (one third could be 16 bit math.
 uint16_t map2colourFast::map2_565(float value)
 {
   uint32_t RGB = map2RGB(value);
   uint16_t colour = 0x0000;
   RGB >>= 3;
-  colour |= (RGB & 0x001F);  // B channel 5 bits
+  colour |= (RGB & 0x001F);  //  B channel 5 bits
   RGB >>= 2;
-  colour |= (RGB & 0x07E0);  // G channel 6 bits
+  colour |= (RGB & 0x07E0);  //  G channel 6 bits
   RGB >>= 3;
-  colour |= (RGB & 0xF800);  // R channel 5 bits
+  colour |= (RGB & 0xF800);  //  R channel 5 bits
   return colour;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

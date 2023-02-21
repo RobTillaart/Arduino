@@ -6,25 +6,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2023-02-21
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.1.5] - 2022-10-19
 - redo **begin()** of map2colourFast to always create divFactors.
 - add compare example to compare map2colour and map2colourFast.
 - extent unit test with compare map2colour and map2colourFast.
-- update examples 
+- update examples
 - add RP2040 in build-CI
 - add changelog.md
 - fix keywords.txt
 
-## [0.1.4] - 2021-12-08  
+## [0.1.4] - 2021-12-08
 - add derived class map2colourFast: faster + uses more MEMORY / RAM
 
-## [0.1.3] - 2021-12-07  
+## [0.1.3] - 2021-12-07
 - improve performance map2RGB()
 
-## [0.1.2] - 2021-12-06  
-- add map2_565(), 
+## [0.1.2] - 2021-12-06
+- add map2_565()
 - add + improve examples.
-- fix value > upper bug
+- fix value > upper bug.
 
 ## [0.1.1] - 2021-12-05
 - add user defined colour-map.

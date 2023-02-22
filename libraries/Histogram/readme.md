@@ -50,14 +50,16 @@ with the formula **(1.0 \* bucket(i))/count()**.
 
 #### Experimental: Histogram8 Histogram16
 
-Histogram8 and Histogram16 are classes with same interface but smaller buckets. 
-Histogram can count to ±2^31 while often ±2^15 or even ±2^7 is sufficient. Saves memory.
+Histogram8 and Histogram16 are derived classes with same interface but smaller buckets. 
+Histogram can count to ± 2^31 while often ± 2^15 or even ± 2^7 is sufficient. 
+Saves substantial memory.
 
-| class name  | length | count/bucket | max memory |
-|:------------|-------:|-------------:|-----------:|
-| Histogram   | 65534  | ±2147483647  |    260 KB  |
-| Histogram8  | 65534  | ±127         |     65 KB  |
-| Histogram16 | 65534  | ±32767       |    130 KB  |
+|  class name   |  length  |  count/bucket  |  max memory  |
+|:--------------|---------:|---------------:|-------------:|
+|  Histogram    |   65534  |  ± 2147483647  |      260 KB  |
+|  Histogram8   |   65534  |  ± 127         |       65 KB  |
+|  Histogram16  |   65534  |  ± 32767       |      130 KB  |
+
 
 The difference is the **\_data** array, to reduce the memory footprint.
 
@@ -77,7 +79,11 @@ the experimental version.
 
 - **Histogram(uint16_t length, float \*bounds)** constructor, get an array of boundary values and array length. 
 Length should be less than 65534.
+- **Histogram8(uint16_t length, float \*bounds)** idem as above.
+- **Histogram16(uint16_t length, float \*bounds)** idem as above.
 - **~Histogram()** destructor.
+- **~Histogram8()** destructor.
+- **~Histogram16()** destructor.
 
 
 ### Base
@@ -106,17 +112,21 @@ Length should be less than 65534.
 
 There are three functions:
 
-- **float PMF(float value)** Probability Mass Function. Quite similar to **frequency()**, 
-but uses a value as parameter.
+- **float PMF(float value)** Probability Mass Function. 
+Quite similar to **frequency()**, but uses a value as parameter.
 - **float CDF(float value)** Cumulative Distribution Function. 
 Returns the sum of frequencies <= value. Always between 0.0 and 1.0.
-- **float VAL(float prob)** Value Function, is **CDF()** inverted. 
+- **float VAL(float probability)** Value Function, is **CDF()** inverted. 
 Returns the value of the original array for which the CDF is at least probability.
 
 As the Arduino typical uses a small number of buckets these functions are quite 
 coarse and/or inaccurate (linear interpolation within bucket is still to be investigated)
 
 Note **PDF()** is a continuous function and therefore not applicable in discrete histogram.
+
+
+- https://en.wikipedia.org/wiki/Probability_mass_function  PMF()
+- https://en.wikipedia.org/wiki/Cumulative_distribution_function CDF() + VAL()
 
 
 ## Operation
@@ -127,13 +137,14 @@ See examples
 ## Future
 
 
-#### must
+#### Must
+
 - improve documentation
   - explain **PMF()**, **CDF()** and **VAL()** functions.
   - or a link to a good site?
 
+#### Should
 
-#### should
 - investigate performance - **find()** the right bucket. 
   - Binary search is faster 
   - need testing.
@@ -141,8 +152,8 @@ See examples
 - performance - merge loops in **PMF()**
 - performance - reverse loops - compare to zero.
 
+#### Could
 
-#### could
 - bucket full / overflow warning. 
   - The **add()** **sub()** could return a bool to indicate that a bucket is (almost) full.
   - return index ...
@@ -156,7 +167,8 @@ See examples
   - getBucketPercent(idx).. 
 - clear selected bins?
 
-#### wont
+#### Wont
+
 - merge bins
 
 

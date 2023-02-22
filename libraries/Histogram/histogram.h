@@ -2,15 +2,14 @@
 //
 //    FILE: Histogram.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
-//
 
 
 #include "Arduino.h"
 
-#define HISTOGRAM_LIB_VERSION       (F("0.3.2"))
+#define HISTOGRAM_LIB_VERSION       (F("0.3.3"))
 
 
 class Histogram
@@ -36,7 +35,7 @@ public:
   float    frequency(const uint16_t index);
   float    PMF(const float value);
   float    CDF(const float value);
-  float    VAL(const float prob);
+  float    VAL(const float probability);
 
   uint16_t find(const float value);
   uint16_t findMin();
@@ -58,7 +57,6 @@ protected:
 //
 // DERIVED CLASS
 //
-
 class Histogram16 : public Histogram
 {
 public:
@@ -79,5 +77,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

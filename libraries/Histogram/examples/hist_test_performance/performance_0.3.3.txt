@@ -1,0 +1,27 @@
+Board: UNO
+IDE:   1.8.19
+
+hist_test_performance.ino
+
+Histogram version: 0.3.3
+
+# buckets: 101
+BELOW 0: 0
+LEVEL 0: 101
+ABOVE 0: 0
+COUNT  : 0
+
+add 1000 random numbers
+    VAL: 910.00
+   TIME: 872
+FINDMIN: 19
+   TIME: 220
+FINDMAX: 88
+   TIME: 220
+BELOW 0: 0
+   TIME: 96
+LEVEL 0: 0
+   TIME: 112
+ABOVE 0: 101
+   TIME: 124
+done...

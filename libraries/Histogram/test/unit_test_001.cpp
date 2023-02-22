@@ -34,6 +34,7 @@ unittest_setup()
   fprintf(stderr, "HISTOGRAM_LIB_VERSION: %s\n", (char *) HISTOGRAM_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -89,4 +90,6 @@ unittest(test_dice)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

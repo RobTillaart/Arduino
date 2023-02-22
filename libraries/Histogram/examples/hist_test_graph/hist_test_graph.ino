@@ -33,10 +33,11 @@ void setup()
 void loop()
 {
   // "generator" for histogram data
-  int x = analogRead(A0);
+  // int x = analogRead(A0);
+  int x = random(1024);
   hist.add(x);
 
-  // update output 
+  // update output
   uint32_t now = millis();
   if (now - lastTime > threshold)
   {
@@ -64,4 +65,3 @@ void loop()
 
 
 // -- END OF FILE --
-

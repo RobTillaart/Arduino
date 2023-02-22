@@ -1,11 +1,9 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
-//
-// HISTORY: see changelog.md
 
 
 #include "histogram.h"
@@ -16,30 +14,42 @@ Histogram::Histogram(const uint16_t length, float *bounds)
   _bounds = bounds;
   _length = length + 1;
   _data = (int32_t *) malloc((_length) * sizeof(int32_t));
-  if (_data) clear();
-  else _length = 0;
+  if (_data != NULL)
+  {
+    clear();
+  }
+  else
+  {
+    _length = 0;
+  }
   _count = 0;
 }
 
 
 Histogram::~Histogram()
 {
-  if (_data) free(_data);
+  if (_data != NULL)
+  {
+    free(_data);
+  }
 }
 
 
 //  resets all counters to value (default 0)
 void Histogram::clear(int32_t value)
 {
-  for (uint16_t i = 0; i < _length; i++) _data[i] = value;
+  for (uint16_t i = 0; i < _length; i++)
+  {
+    _data[i] = value;
+  }
   _count = 0;
 }
 
 
 void Histogram::setBucket(const uint16_t index, int32_t value)
-{ 
-  _data[index] = value; 
-};
+{
+  _data[index] = value;
+}
 
 
 //  adds a new value to the histogram - increasing
@@ -69,17 +79,17 @@ void Histogram::sub(const float value)
 
 
 //  number of buckets
-uint16_t Histogram::size() 
-{ 
-  return _length; 
-};
+uint16_t Histogram::size()
+{
+  return _length;
+}
 
 
 //  number of values added to all buckets
 uint32_t Histogram::count()
-{ 
+{
   return _count;
-};
+}
 
 
 //  returns the count of a bucket
@@ -95,7 +105,7 @@ float Histogram::frequency(const uint16_t index)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
 
-  if (index > _length) return 0;   // differs from PMF()
+  if (index > _length) return 0;   //  differs from PMF()
   return (1.0 * _data[index]) / _count;
 }
 
@@ -131,21 +141,22 @@ float Histogram::CDF(const float value)
 
 //  EXPERIMENTAL
 //  returns the value of the original array for
-//  which the CDF is at least prob(ability).
-float Histogram::VAL(const float prob)
+//  which the CDF is at least probability.
+//  must start at 0.
+float Histogram::VAL(const float probability)
 {
   if ((_count == 0) || (_length == 0)) return NAN;
 
-  float p = prob;
-  if (p < 0.0) p = 0.0;
-  if (p > 1.0) p = 1.0;
+  float prob = probability;
+  if      (prob < 0.0) prob = 0.0;
+  else if (prob > 1.0) prob = 1.0;
 
-  float probability = p * _count;
+  prob *= _count;
   int32_t sum = 0;
   for (uint16_t i = 0; i < _length; i++)
   {
     sum += _data[i];
-    if (sum >= probability && (i < (_length - 1)) )
+    if ((sum >= prob) && (i < (_length - 1)))
     {
       return _bounds[i];
     }
@@ -154,7 +165,7 @@ float Histogram::VAL(const float prob)
 }
 
 
-// returns the bucket number for value 
+// returns the bucket number for value
 // - binary search, more memory ;  faster for #buckets > 20 ?
 // uint16_t Histogram::find(const float value)
 // {
@@ -180,6 +191,7 @@ float Histogram::VAL(const float prob)
 
 
 //  returns the bucket number for value
+//  must start at 0.
 uint16_t Histogram::find(const float value)
 {
   if (_length <= 0) return -1;
@@ -199,11 +211,12 @@ uint16_t Histogram::find(const float value)
 uint16_t Histogram::findMin()
 {
   if (_length <= 0) return -1;
-
   uint16_t index = 0;
-  for (uint16_t i = 1; i < _length; i++)
+  uint16_t n = _length;
+  while (n > 1)
   {
-    if (_data[i] < _data[index]) index = i;
+    n--;
+    if (_data[n] <  _data[index]) index = n;
   }
   return index;
 }
@@ -213,25 +226,28 @@ uint16_t Histogram::findMin()
 uint16_t Histogram::findMax()
 {
   if (_length <= 0) return -1;
-
   uint16_t index = 0;
-  for (uint16_t i = 1; i < _length; i++)
+  uint16_t n = _length;
+  while (n > 1)
   {
-    if (_data[i] > _data[index]) index = i;
+    n--;
+    if (_data[n] >  _data[index]) index = n;
   }
   return index;
 }
 
 
-//  returns the number of buckets above a certain level.
+//  returns the number of buckets with an exact level.
 uint16_t Histogram::countLevel(const int32_t level)
 {
   if (_length <= 0) return -1;
 
   uint16_t buckets = 0;
-  for (uint16_t i = 0; i < _length; i++)
+  uint16_t n = _length;
+  while (n > 0)
   {
-    if (_data[i] == level) buckets++;
+    n--;
+    if (_data[n] == level) buckets++;
   }
   return buckets;
 }
@@ -243,9 +259,11 @@ uint16_t Histogram::countAbove(const int32_t level)
   if (_length <= 0) return -1;
 
   uint16_t buckets = 0;
-  for (uint16_t i = 0; i < _length; i++)
+  uint16_t n = _length;
+  while (n > 0)
   {
-    if (_data[i] > level) buckets++;
+    n--;
+    if (_data[n] > level) buckets++;
   }
   return buckets;
 }
@@ -257,9 +275,11 @@ uint16_t Histogram::countBelow(const int32_t level)
   if (_length <= 0) return -1;
 
   uint16_t buckets = 0;
-  for (uint16_t i = 0; i < _length; i++)
+  uint16_t n = _length;
+  while (n > 0)
   {
-    if (_data[i] < level) buckets++;
+    n--;
+    if (_data[n] < level) buckets++;
   }
   return buckets;
 }
@@ -272,13 +292,13 @@ uint16_t Histogram::countBelow(const int32_t level)
 
 Histogram16::Histogram16(const uint16_t length, float *bounds) : Histogram(length, bounds)
 {
-};
+}
 
 
 Histogram8::Histogram8(const uint16_t length, float *bounds) : Histogram(length, bounds)
 {
-};
+}
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

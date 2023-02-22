@@ -1,0 +1,10 @@
+
+IDE:      1.8.19
+Board:    UNO:
+version:  0.2.0
+
+both mode 0 and mode 1
+
+Average angle: 61.56 deg
+Average time: 681.09 CPU cycles
+

@@ -28,41 +28,77 @@ The library only supports it for the mode 0 (plain ADC, no differential).
 The **lastRead()** function is needed to get access to the values.
 First tests shows it is 2.6 x faster than 4 individual reads.
 
-**analogRead4()** needs investigation in the future for the other modi.
-
 
 ## Interface
 
-### Generic
+```cpp
+#include "PCF8591.h"
+```
 
-- **PCF8591(const uint8_t address, TwoWire \*wire = &Wire)** constructor with I2C address, 
-default is 0x48, optional set the WireN I2C bus.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t value = 0)** set wire pins for ESP series.   
-Also set initial value for the DAC. Returns **true** if successful.
-- **bool begin(uint8_t value = 0)** Set initial value for the DAC. Returns **true** if successful.
+
+#### Constructor
+
+- **PCF8591(const uint8_t address = 0x48, TwoWire \*wire = &Wire)** constructor with I2C address.
+Default is 0x48, optional set the WireN I2C bus.
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t value = 0)** set wire pins for ESP series.
+Also set initial value for the DAC. 
+Returns **true** if successful.
+- **bool begin(uint8_t value = 0)** Set initial value for the DAC. 
+Returns **true** if successful.
 - **bool isConnected()** test to see if chip can be reached.
 
 
-### ADC channels
+#### ADC channels
 
 The PCF8591 has four 8 bit ADC channels. Values = 0..255.
 
-- **void enableINCR()** used in analogRead4(). Could become private in the future.
+- **void enableINCR()** used in analogRead4(). 
+Could become private in the future.
 - **void disableINCR()** idem.
 - **bool isINCREnabled()** idem.
-- **uint8_t analogRead(uint8_t channel, uint8_t mode = 0)** read one of the 4 analogue ports.  
-Default mode is single ports. For comparator modes test datasheet.
-- **uint8_t analogRead4()** read all 4 channels in one call. 
+- **uint8_t analogRead(uint8_t channel, uint8_t mode = 0)** returns value of the analogue channel.
+Return 0 in case of an error, so check **lastError()** to be verify validity.
+Default mode is PCF8591_FOUR_SINGLE_CHANNEL, see table below.
+For details comparator modes see datasheet figure 4 page 6.
+- **uint8_t analogRead4()** read all 4 channels in one call.
+Works in PCF8591_FOUR_SINGLE_CHANNEL mode only.
 Uses **enableINCR()** to do that efficiently. 
-It is about 2.6 x faster than 4 individual **analogRead()**, although the latter 
-allows for optimized timing per channel. 
-Only 4x single ports mode supported for now, comparator modi needs investigation.
-Returns **PCF8591_OK** or an error code.
+It is about 2.6 times faster than 4 individual **analogRead()** calls.
+The latter allows for optimized timing per channel and the order 
+in which the channels are read.
+Use **lastRead()** to access the 4 values.
+Returns **PCF8591_OK** or an error code if appropriate.
 - **uint8_t lastRead(uint8_t channel)** get last read value from cache.  
-This cache is filled both by **analogRead()** and **analogRead4()**. See example sketch.
+This cache is filled both by **analogRead()** and **analogRead4()**. 
+See example sketch.
 
 
-### DAC channel
+|  ADC mode                     |  Value  |  Notes    |
+|:------------------------------|:-------:|:----------|
+|  PCF8591_FOUR_SINGLE_CHANNEL  |  0x00   |  default  |
+|  PCF8591_THREE_DIFFERENTIAL   |  0x01   |
+|  PCF8591_MIXED                |  0x02   |
+|  PCF8591_TWO_DIFFERENTIAL     |  0x03   |
+
+
+#### Comparator
+
+Since 0.2.0 four direct comparator calls are added to make the code more explicit.
+These four calls are in fact wrappers around the **analogRead()**.
+These still need to be tested as I had no hardware available.
+
+- **int readComparator_01()** == analogRead(channel = 0, mode = 3);
+- **int readComparator_23()** == analogRead(channel = 1, mode = 3);
+- **int readComparator_03()** == analogRead(channel = 0, mode = 1);
+- **int readComparator_13()** == analogRead(channel = 1, mode = 1);
+
+The values of the comparator calls are cached and can be accessed with **lastRead()**.
+Be sure to select the right channel for **lastRead()**.
+
+Note: these functions do never use PCF8591_MIXED (2) mode.
+
+
+#### DAC channel
 
 The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet).
 
@@ -71,16 +107,15 @@ The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet).
 - **bool isDACEnabled()** check the modus operandi.
 - **bool analogWrite(uint8_t value = 0)** writes a value 0..255 to the DAC. Check datasheet for voltage.
 Note, this is a real voltage not a PWM signal like **analogWrite()** on an UNO.
-- **uint8_t lastWrite()** get last written value from cache.
+- **uint8_t lastWrite()** get last value written (from cache).
 
-### Error codes
+
+#### Error codes
 
 - **int lastError()** always check this value after a read / write to see if it was OK (== 0).
 After the read the error value is reset to OK.
 
-To elaborate
-
-|  error code             |  Value  |  Notes  |
+|  Error code             |  Value  |  Notes  |
 |:------------------------|:-------:|:--------|
 |  PCF8591_OK             |  0x00   |
 |  PCF8591_PIN_ERROR      |  0x81   |
@@ -97,21 +132,21 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
+- test / verify comparator calls with hardware.
+  - datasheet (par.8.2 figure 4)
 
-#### should
-- add / improve comparator modi support,  datasheet (par.8.2 figure 4)
-  - int16_t readComparator10()
-  - int16_t readComparator30() - return type correct?
-  - int16_t readComparator31()
-  - int16_t readComparator32()
-  - set modi and read.
+#### Should
+
+- add examples for comparator calls.
+  - schema?
 
 
-#### could
-- **analogRead4()** needs investigation for the other modi. 
-  - Does it work?  
-  - Is it user understandable?
-  - good example
+#### Could
+
+
+#### Wont
+
 

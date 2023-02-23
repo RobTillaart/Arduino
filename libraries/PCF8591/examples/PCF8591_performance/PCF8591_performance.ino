@@ -6,7 +6,7 @@
 //     URL: https://github.com/RobTillaart/PCF8591
 //
 // NOTE: output is written in markdown format of a table
-//       (so oeasy to include in the readme.md ;)
+//       (so easy to include in the readme.md ;)
 //       can be changed to tab based or comma based output
 
 
@@ -152,4 +152,3 @@ void test_ADC_error()
 
 
 // -- END OF FILE --
-

@@ -9,6 +9,7 @@ DeviceAddress	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
+isConnected KEYWORD2
 
 requestTemperatures	KEYWORD2
 isConversionComplete	KEYWORD2

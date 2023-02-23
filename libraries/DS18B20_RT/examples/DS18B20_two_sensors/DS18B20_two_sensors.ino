@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_two_sensors.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo with two sensors (on two pins)
+// PURPOSE: demo with two sensors on two different pins
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 

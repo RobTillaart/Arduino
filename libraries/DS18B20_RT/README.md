@@ -47,12 +47,15 @@ the asynchronous reading of the temperature by means of three core functions:
 - **bool begin(uint8_t retries = 3)** resets oneWire and set resolution default to 9 bit.  
 returns true if all is OK. 
 There will be a number of retries to connect, default 3. 
+- **bool isConnected(uint8_t retries = 3)** resets oneWire checks if a device can be found.  
+Returns true if a device is found.
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
 - **float getTempC()** returns temperature
 -127 = DEVICE_DISCONNECTED  
 - **void setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default)
-- **bool getAddress()** returns true if the sensor is configured (available)
+- **uint8_t getResolution()** return resolution set.
+- **bool getAddress()** returns true if the sensor is configured (available).
 
 This allowed the class to be both minimal in size and non-blocking. In fact the class
 has no support for a synchronous read in one call. This choice will teach people
@@ -65,10 +68,19 @@ few problems when you need more functionality like multiple sensors on one pin.
 Finally this library will probably make it easier to use a DS18B20 with processing 
 boards or IC's with small memory footprint.
 
+#### Config
+
+- **void setConfig(uint8_t config)** set DS18B20_CLEAR or DS18B20_CRC. 
+If DS18B20_CRC flag is set the library will check the CRC, otherwise it won't.
+Not checking the CRC is faster.
+- **uint8_t getConfig()** get current configuration 
+  - 1 == DS18B20_CRC
+  - 0 == no flag set.
+
 
 ## Operation
 
-This library supports only one DS18B20 per Arduino/ MCU pin.
+This library supports only **one** DS18B20 per Arduino/ MCU pin.
 
 ```
     //  BOTTOM VIEW
@@ -147,13 +159,9 @@ and all people who contributed to that lib.
 #### Should
 
 - add examples
-  - a multi sensor == multiple pins, no bus
+- investigate performance gain of no CRC.
 
 #### Could
-
-- add rounding for **getTempC()**.
-  - now it truncates, so it can be 0.5°C off.
-  - add "0.5" to raw and truncate improves only for 10 bits and higher.
 
 #### Wont
 

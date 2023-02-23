@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.15] - 2023-02-22
+- fix #20 improve disconnect detection
+- add **bool isConnected(uint8_t retries)**
+- update keywords.txt
+- update readme.md
+- minor edits
+
+
 ## [0.1.14] - 2023-02-03
 - update readme.md
 - add **getResolution()**
@@ -14,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords
 - update GitHub actions
 - update license 2023
-
 
 ## [0.1.13] - 2022-11-02
 - add changelog.md

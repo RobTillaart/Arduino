@@ -1,10 +1,11 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.14
+// VERSION: 0.1.15
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
+//          https://github.com/RobTillaart/DS18B20_INT
 
 
 #include "DS18B20.h"
@@ -47,6 +48,17 @@ DS18B20::DS18B20(OneWire* ow)
 bool DS18B20::begin(uint8_t retries)
 {
   _config = DS18B20_CLEAR;
+  isConnected(retries);
+  if (_addressFound)
+  {
+     setResolution();
+  }
+  return _addressFound;
+}
+
+
+bool DS18B20::isConnected(uint8_t retries)
+{
   _addressFound = false;
   for (uint8_t rtr = retries; (rtr > 0) && (_addressFound == false); rtr--)
   {
@@ -56,19 +68,6 @@ bool DS18B20::begin(uint8_t retries)
     _oneWire->search(_deviceAddress);
     _addressFound = _deviceAddress[0] != 0x00 &&
                 _oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7];
-  }
-
-  if (_addressFound)
-  {
-    _oneWire->reset();
-    _oneWire->select(_deviceAddress);
-    _oneWire->write(WRITESCRATCH);
-    //  two dummy values for LOW & HIGH ALARM
-    _oneWire->write(0);
-    _oneWire->write(100);
-    //  lowest as default as we do only integer math.
-    _oneWire->write(_resolution);
-    _oneWire->reset();
   }
   return _addressFound;
 }
@@ -91,6 +90,10 @@ bool DS18B20::isConversionComplete(void)
 float DS18B20::getTempC(void)
 {
   ScratchPad scratchPad;
+  if (isConnected(3) == false)
+  {
+    return DEVICE_DISCONNECTED;
+  }
 
   if (_config & DS18B20_CRC)
   {

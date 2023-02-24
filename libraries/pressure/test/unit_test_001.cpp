@@ -42,6 +42,7 @@ unittest_setup()
   fprintf(stderr, "PRESSURE_LIB_VERSION: %s\n", (char *) PRESSURE_LIB_VERSION);
 }
 
+
 unittest_teardown()
 {
 }
@@ -156,4 +157,6 @@ unittest(test_get_set)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

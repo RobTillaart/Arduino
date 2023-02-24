@@ -6,13 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-02-23
+- refactor getter constants
+- add return value to **change()** functions.
+- rename **change()** functions, more descriptive
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+----
+
 ## [0.2.2] - 2022-11-22
 - add changelog.md
 - add RP2040 to build-CI
 - minor edits
 
-
-## [0.2.1] - 2021-12-23 
+## [0.2.1] - 2021-12-23
 - update library.json
 - update  license
 - add experimental gas law

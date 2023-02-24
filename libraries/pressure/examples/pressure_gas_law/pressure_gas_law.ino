@@ -20,19 +20,19 @@ void setup()
   Serial.println();
 
   P.setMilliBar(1019.1);
-  P.changeT(273.15 + 25, 273.15 + 50);
+  P.changeTemperature(273.15 + 25, 273.15 + 50);
   Serial.print(1019.1);
   Serial.print(" heated from 25 to 50C gives ");
   Serial.println(P.getMilliBar());
 
   P.setMilliBar(1019.1);
-  P.changeV(2, 1);
+  P.changeVolume(2, 1);
   Serial.print(1019.1);
   Serial.print(" with volume in half gives ");
   Serial.println(P.getMilliBar());
 
   P.setMilliBar(1019.1);
-  P.changeN(2, 4);
+  P.changeMole(2, 4);
   Serial.print(1019.1);
   Serial.print(" with atoms doubled gives ");
   Serial.println(P.getMilliBar());
@@ -45,9 +45,9 @@ void setup()
   Serial.println(P.getMilliBar());
 
   P.setMilliBar(1019.1);
-  P.changeT(273.15 + 25, 273.15 + 50);
-  P.changeV(2, 1);
-  P.changeN(2, 4);
+  P.changeTemperature(273.15 + 25, 273.15 + 50);
+  P.changeVolume(2, 1);
+  P.changeMole(2, 4);
   Serial.print(1019.1);
   Serial.print(" check the last one: ");
   Serial.println(P.getMilliBar());

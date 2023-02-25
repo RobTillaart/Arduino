@@ -3,17 +3,20 @@
 //    FILE: MAX14661.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define MAX14661_LIB_VERSION                (F("0.1.3"))
+#define MAX14661_LIB_VERSION                (F("0.1.4"))
+
+#define MAX14661_OK                         0x00
+#define MAX14661_ERR_I2C                    0x80   //  Not implemented yet
+#define MAX14661_ERR_CHANNEL                0x81   //  Not implemented yet
 
 
 class MAX14661
@@ -30,7 +33,7 @@ public:
 
   //  PAIR INTERFACE
   //  - keeps A and B line in sync, ideal for an I2C bus or Serial.
-  //  - returns false if channel nr > 15
+  //  - returns false if channel > 15
   //
   //  open ==> connect
   bool     openChannel(uint8_t channel);
@@ -55,7 +58,8 @@ public:
   //  - prepares channels to be set in one activateShadow().
   //
   void     shadowClear();
-  void     activateShadow();   //  should we have activateShadowA() and activateShadowB() ?
+  //  should we have activateShadowA() and activateShadowB() ?
+  void     activateShadow();
 
   void     setShadowChannelMaskA(uint16_t mask);
   uint16_t getShadowChannelMaskA();
@@ -81,9 +85,9 @@ public:
   uint8_t  getMUXB();
 
 
-  //  FULL CONTROL PER A B LINE
+  //  FULL CONTROL PER A and B LINE
   //  - selective open and close A and B
-  //  - returns false if channel nr > 15
+  //  - returns false if channel > 15
   //
   bool     openA(uint8_t channel);
   bool     openB(uint8_t channel);
@@ -108,8 +112,6 @@ private:
   TwoWire* _wire;
 
   int      _error;
-
-  //  cache direct registers?
 };
 
 

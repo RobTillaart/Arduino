@@ -2,11 +2,10 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
-//
-// HISTORY: see changelog.md
+
 
 
 #include "MAX14661.h"
@@ -32,6 +31,7 @@ MAX14661::MAX14661(const uint8_t deviceAddress, TwoWire *wire)
 {
   _address = deviceAddress;
   _wire    = wire;
+  _error   = MAX14661_OK;
 }
 
 
@@ -45,9 +45,8 @@ bool MAX14661::begin(uint8_t dataPin, uint8_t clockPin)
   } else {
     _wire->begin();
   }
-  _error = 0;
-  if (! isConnected()) return false;
-  return true;
+  _error = MAX14661_OK;
+  return isConnected();
 }
 #endif
 
@@ -55,17 +54,17 @@ bool MAX14661::begin(uint8_t dataPin, uint8_t clockPin)
 bool MAX14661::begin()
 {
   _wire->begin();
-  _error = 0;
-
-  if (! isConnected()) return false;
-  return true;
+  _error = MAX14661_OK;
+  return isConnected();
 }
 
 
 bool MAX14661::isConnected()
 {
   _wire->beginTransmission(_address);
-  return ( _wire->endTransmission() == 0);
+  _error = _wire->endTransmission();
+  //  set MAX14661_ERR_I2C
+  return ( _error == 0);
 }
 
 
@@ -431,7 +430,11 @@ uint8_t MAX14661::readRegister(uint8_t reg)
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _error = _wire->endTransmission();
-  if (_error != 0) return 0;
+  if (_error != 0) 
+  {
+    //  set MAX14661_ERR_I2C
+    return 0;
+  }
   if (_wire->requestFrom(_address, (uint8_t)1) != 1)
   {
     _error = -1;
@@ -447,6 +450,7 @@ int MAX14661::writeRegister(uint8_t reg, uint8_t value)
   _wire->write(reg);
   _wire->write(value);
   _error = _wire->endTransmission();
+  //  set MAX14661_ERR_I2C
   return _error;
 }
 
@@ -454,7 +458,7 @@ int MAX14661::writeRegister(uint8_t reg, uint8_t value)
 int MAX14661::lastError()
 {
   int e = _error;
-  _error = 0;
+  _error = MAX14661_OK;
   return e;
 }
 

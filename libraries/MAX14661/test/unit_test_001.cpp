@@ -48,13 +48,51 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  //  error constants
+  assertEqual(0x00, MAX14661_OK);
+  assertEqual(0x80, MAX14661_ERR_I2C);
+  assertEqual(0x81, MAX14661_ERR_CHANNEL);
+}
+
+
 unittest(test_constructor)
 {
   MAX14661 MUX(0x4C);
+  assertEqual(MAX14661_OK, MUX.lastError());
+
   MUX.begin();
+  assertEqual(MAX14661_OK, MUX.lastError());
+}
+
+
+unittest(test_channel_out_Of_range)
+{
+  MAX14661 MUX(0x4C);
+  MUX.begin();
+
+  assertFalse(MUX.openChannel(16));
+  assertFalse(MUX.closeChannel(16));
+  assertFalse(MUX.isOpenChannel(16));
+
+  assertFalse(MUX.openShadowChannelA(16));
+  assertFalse(MUX.openShadowChannelA(16));
+  assertFalse(MUX.isOpenShadowChannelA(16));
+
+  assertFalse(MUX.openShadowChannelB(16));
+  assertFalse(MUX.openShadowChannelB(16));
+  assertFalse(MUX.isOpenShadowChannelB(16));
+
+  assertFalse(MUX.openA(16));
+  assertFalse(MUX.openB(16));
+  assertFalse(MUX.closeA(16));
+  assertFalse(MUX.closeB(16));
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

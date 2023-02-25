@@ -87,7 +87,7 @@ void loop()
     Serial.print(sensor.gye, 7);
     Serial.print(";\n");
 
-    Serial.print("sensor.aze = ");
+    Serial.print("sensor.gze = ");
     Serial.print(sensor.gze, 7);
     Serial.print(";\n");
 

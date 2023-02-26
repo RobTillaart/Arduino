@@ -48,6 +48,10 @@ The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F
 
 ## Interface
 
+```cpp
+#include "AD524X.h"
+```
+
 The library has a number of functions which are all quite straightforward.
 One can get / set the value of (both) the potentiometer(s), and the O1 and O2 output lines.
 
@@ -88,9 +92,19 @@ The developer is responsible for handling this correctly.
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
-### Experimental
+#### Experimental
 
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
+
+
+## Interface AD5421 specific
+
+Since 0.4.1 the library supports writing explicit to port 0
+as that is the only port.
+
+- **uint8_t write(const uint8_t value)** set rdac 0 to value 0..255.
+- **uint8_t write(const uint8_t value, const uint8_t O1, const uint8_t O2)**
+idem + set output lines O1 and O2 too.
 
 
 ## Operation
@@ -118,8 +132,6 @@ The examples show the basic working of the functions.
 
 #### Could
 
-- consider adding write(value) with default PM == 0 ? (wrapper)
-  - see issue #16 / #17
 
 #### Wont
 

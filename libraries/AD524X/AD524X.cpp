@@ -1,7 +1,7 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -23,7 +23,9 @@ AD524X::AD524X(const uint8_t address, TwoWire *wire)
   //  address: 0x01011xx = 0x2C - 0x2F
   _address = address;
   _wire = wire;
-  _lastValue[0] = _lastValue[1] = AD524X_MIDPOINT;  //  power on reset => mid position
+
+  //  power on reset => mid position
+  _lastValue[0] = _lastValue[1] = AD524X_MIDPOINT;
   _O1 = _O2 = 0;
   _pmCount = 2;
 }
@@ -81,7 +83,7 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value)
   if (rdac >= _pmCount) return AD524X_ERROR;
 
   uint8_t cmd = (rdac == 0) ? AD524X_RDAC0 : AD524X_RDAC1;
-  // apply the output lines
+  //  apply the output lines
   cmd = cmd | _O1 | _O2;
   _lastValue[rdac] = value;
   return send(cmd, value);
@@ -92,10 +94,11 @@ uint8_t AD524X::write(const uint8_t rdac, const uint8_t value, const uint8_t O1,
 {
   if (rdac >= _pmCount) return AD524X_ERROR;
 
-  uint8_t cmd = (rdac == 0) ? AD524X_RDAC0 : AD524X_RDAC1;
   _O1 = (O1 == LOW) ? 0 : AD524X_O1_HIGH;
   _O2 = (O2 == LOW) ? 0 : AD524X_O2_HIGH;
-  // apply the output lines
+
+  uint8_t cmd = (rdac == 0) ? AD524X_RDAC0 : AD524X_RDAC1;
+  //  apply the output lines
   cmd = cmd | _O1 | _O2;
   _lastValue[rdac] = value;
   return send(cmd, value);
@@ -168,7 +171,7 @@ uint8_t AD524X::shutDown()
 uint8_t AD524X::pmCount()
 {
   return _pmCount;
-};
+}
 
 
 //////////////////////////////////////////////////////////
@@ -191,13 +194,46 @@ uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 AD5241::AD5241(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {
   _pmCount = 1;
-};
+}
+
+
+uint8_t AD5241::write(const uint8_t value)
+{
+  //  apply the output lines
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
+  _lastValue[0] = value;
+  return send(cmd, value);
+}
+
+
+uint8_t AD5241::write(const uint8_t value, const uint8_t O1, const uint8_t O2)
+{
+  _O1 = (O1 == LOW) ? 0 : AD524X_O1_HIGH;
+  _O2 = (O2 == LOW) ? 0 : AD524X_O2_HIGH;
+
+  //  apply the output lines
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
+  _lastValue[0] = value;
+  return send(cmd, value);
+}
+
+
+uint8_t AD5241::write(const uint8_t rdac, const uint8_t value)
+{
+  return AD524X::write(rdac, value);
+}
+
+
+uint8_t AD5241::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
+{
+  return AD524X::write(rdac, value, O1, O2);
+}
 
 
 AD5242::AD5242(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {
   _pmCount = 2;
-};
+}
 
 
 //  -- END OF FILE --

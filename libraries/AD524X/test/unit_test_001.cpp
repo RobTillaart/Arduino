@@ -40,7 +40,7 @@ unittest(test_constructors)
 {
   Wire.begin();
 
-  AD524X ADx(0x2C);  // AD0 & AD1 == GND
+  AD524X ADx(0x2C);  //  AD0 & AD1 == GND
   assertEqual(127, ADx.read(0));
   assertEqual(127, ADx.read(1));
 
@@ -56,7 +56,7 @@ unittest(test_constructors)
 
 unittest(test_reset)
 {
-  AD524X AD(0x2C);  // AD0 & AD1 == GND
+  AD524X AD(0x2C);  //  AD0 & AD1 == GND
   Wire.begin();
 
   assertEqual(127, AD.read(0));
@@ -83,7 +83,7 @@ unittest(test_reset)
 
 unittest(test_write_read)
 {
-  AD524X AD(0x2C);  // AD0 & AD1 == GND
+  AD524X AD(0x2C);  //  AD0 & AD1 == GND
   Wire.begin();
 
   assertEqual(127, AD.read(0));
@@ -101,7 +101,7 @@ unittest(test_write_read)
 
 unittest(test_O1_O2)
 {
-  AD524X AD(0x2C);  // AD0 & AD1 == GND
+  AD524X AD(0x2C);  //  AD0 & AD1 == GND
   Wire.begin();
 
   assertEqual(0, AD.getO1());

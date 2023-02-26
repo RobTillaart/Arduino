@@ -2,27 +2,26 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
+// VERSION: 0.5.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.4.3"))
+#define FRAM_LIB_VERSION              (F("0.5.0"))
 
 
-#define FRAM_OK                       0
+#define FRAM_OK                         0
 #define FRAM_ERROR_ADDR               -10
 #define FRAM_ERROR_I2C                -11
 #define FRAM_ERROR_CONNECT            -12
 
-// Size known types
-#define FRAM_MB85RC04                 512  
+//  Size known types (Fujitsu)
+#define FRAM_MB85RC04                 512
 #define FRAM_MB85RC16                2048
 #define FRAM_MB85RC64T               8192
 #define FRAM_MB85RC128A             16384
@@ -37,12 +36,12 @@ public:
   FRAM(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  // address and writeProtectPin is optional
-  int      begin(int sda, int scl, const uint8_t address = 0x50, 
+  //  address and writeProtectPin is optional
+  int      begin(int sda, int scl, const uint8_t address = 0x50,
                                    const int8_t writeProtectPin = -1);
 #endif
-  // address and writeProtectPin is optional
-  int      begin(const uint8_t address = 0x50, 
+  //  address and writeProtectPin is optional
+  int      begin(const uint8_t address = 0x50,
                  const int8_t writeProtectPin = -1);
   bool     isConnected();
 
@@ -76,17 +75,25 @@ public:
   bool     getWriteProtect();
 
   //  meta info
-  uint16_t getManufacturerID();   //  Fujitsu = 0x000A
-  uint16_t getProductID();        //  Proprietary
-  uint16_t getSize();             //  Returns size in KILO-BYTE (or 0)
-  uint32_t getSizeBytes();        //  Returns size in BYTE
-  void     setSizeBytes(uint32_t value);  //  override when getSize() fails == 0
+  //  Fujitsu = 0x000A, Ramtron = 0x0004
+  uint16_t getManufacturerID();
+  //  Proprietary
+  uint16_t getProductID();
+  //  Returns size in KILO-BYTE (or 0)
+  //  TODO verify for all manufacturers.
+  uint16_t getSize();
+  //  Returns size in BYTE
+  uint32_t getSizeBytes();
+  //  override when getSize() fails == 0
+  void     setSizeBytes(uint32_t value);
 
-  uint32_t clear(uint8_t value = 0);  // fills FRAM with value
+  //  fills FRAM with value
+  uint32_t clear(uint8_t value = 0);
 
   //  0.3.6
   void sleep();
-  bool wakeup(uint32_t trec = 400);  // trec <= 400us  P12
+  //  trec <= 400us  P12
+  bool wakeup(uint32_t trec = 400);
 
 
 protected:
@@ -102,12 +109,11 @@ protected:
 };
 
 
-/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
 //
 //  FRAM32
 //
-
-
 class FRAM32 : public FRAM
 {
 public:
@@ -138,5 +144,41 @@ protected:
 };
 
 
-// -- END OF FILE --
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  FRAM11  for FRAM that use 11 bits addresses - e.g. MB85RC16
+//
+class FRAM11 : public FRAM
+{
+public:
+  FRAM11(TwoWire *wire = &Wire);
+
+  uint16_t getSize();
+
+protected:
+  void     _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  void     _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  FRAM9  for FRAM that use 9 bits addresses - e.g. MB85RC04
+//
+class FRAM9 : public FRAM
+{
+public:
+  FRAM9(TwoWire *wire = &Wire);
+
+  uint16_t getSize();
+
+protected:
+  void     _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  void     _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+};
+
+
+//  -- END OF FILE --
 

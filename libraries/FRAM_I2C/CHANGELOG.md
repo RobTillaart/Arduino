@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-02-15
+- add FRAM11 - 11 bit addresses
+- add FRAM9 - 9 bit addresses
+- update readme.md
+- add example **FRAM9_test.ino**
+- add example **FRAM11_test.ino**
+
+----
+
 ## [0.4.3] - 2022-12-28
 - add writeFloat(), readFloat()
 - refactor
@@ -13,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update license
 - update Github actions to v3  (test)
 - simplified changelog
-
 
 ## [0.4.2] - 2022-10-03
 - FRAM_RINGBUFFER class - see FRAM_RINGBUFFER.md

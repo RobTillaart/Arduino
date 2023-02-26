@@ -14,9 +14,13 @@ Arduino library for I2C FRAM.
 ## Description
 
 FRAM is a library to read from and write to (over I2C) an FRAM module.
-The library has (since 0.4.0) two classes **FRAM** and **FRAM32**.
-The first is for the 16 bit devices and the latter for the 32 bit devices.
-Currently only the **MB85RC1MT** is known to be 32 bit.
+The library has (since 0.5.0) four classes 
+- **FRAM** 16 bit address.
+- **FRAM32** 32 (17) bit address.
+- **FRAM11** 11 bit address (new since 0.5.0).
+- **FRAM9** 9 bit address (new since 0.5.0).
+
+Currently only the **MB85RC1MT** is known to use 32 bit.
 **FRAM32** can also address 16 bit devices although there is some overhead in footprint.
 
 FRAM stands for Ferroelectric RAM - https://en.wikipedia.org/wiki/Ferroelectric_RAM
@@ -28,15 +32,19 @@ That makes it ideal to store configuration or logging data in a project.
 
 Types of FRAM that should work with this library:
 
-|  TYPE      | SIZE   | TESTED | NOTES                |
-|:----------:|-------:|:------:|:---------------------|
-| MB85RC04   |   512  |        | no deviceID register |
-| MB85RC16   |   2 KB |        | no deviceID register |
-| MB85RC64T  |   8 KB |   Y    |                      |
-| MB85RC128A |  16 KB |        | no deviceID register |
-| MB85RC256V |  32 KB |   Y    |                      |
-| MB85RC512T |  64 KB |   Y    |                      |
-| MB85RC1MT  | 128 KB |   Y    | since 0.4.0  FRAM32 only |
+|  TYPE        |  SIZE    |  TESTED  |  NOTES                 |  uses    |
+|:------------:|---------:|:--------:|:-----------------------|:---------|
+|  MB85RC04    |    512   |    N     |  no deviceID register  |  FRAM9   |
+|  MB85RC16    |    2 KB  |    N     |  no deviceID register  |  FRAM11  |
+|  MB85RC64T   |    8 KB  |    Y     |                        |  FRAM    |
+|  MB85RC128A  |   16 KB  |    N     |  no deviceID register  |  FRAM    |
+|  MB85RC256V  |   32 KB  |    Y     |                        |  FRAM    |
+|  MB85RC512T  |   64 KB  |    Y     |                        |  FRAM    |
+|  MB85RC1MT   |  128 KB  |    Y     |                        |  FRAM32  |
+
+
+MB85RC128A has no size / deviceID, **clear()** will not work correctly.
+For the FRAM11/FRAM9 this is solved by a separate class.
 
 
 #### Notes
@@ -44,18 +52,33 @@ Types of FRAM that should work with this library:
 - Not all types of FRAM are tested. Please let me know if you have verified one that is not in the list.
 - If there is no deviceID **getSize()** will not work correctly.
 - Address = 0x50 (default) .. 0x57, depends on the lines A0..A2.
-- **MB85RC1MT** uses even addresses only as it uses the next odd one internally. So 0x50 uses 0x51 internally for the upper 64 KB block.
+- **MB85RC1MT** uses even addresses only as it uses the next odd one internally.
+So 0x50 uses 0x51 internally for the upper 64 KB block.
 This latter will not be shown on an I2C scanner (to be tested).
+Not tested: expect the **MB85RC1MT** can be addressed with 2 instances of **FRAM**
+too with adjacent addresses.
 
 
 ## Interface
 
+```cpp
+#include "FRAM.h"
+```
 
-### Constructor
+
+### Constructors
 
 - **FRAM(TwoWire \*wire = &Wire)** Constructor with optional Wire interface.
 - **FRAM32(TwoWire \*wire = &Wire)** Constructor with optional Wire interface,
-specific for **MB85RC1MT** type of device.
+specific for **MB85RC1MT** type of device, 17 bit address.
+- **FRAM11(TwoWire \*wire = &Wire)** Constructor with optional Wire interface,
+specific for devices with 11 bit address e.g. **Cypress/Infineon 24CL16B**.
+- **FRAM9(TwoWire \*wire = &Wire)** Constructor with optional Wire interface,
+specific for devices with 9 bit address e.g. **MB85RC04**.
+
+
+### Begin
+
 - **int begin(uint8_t address = 0x50, int8_t writeProtectPin = -1)** address and writeProtectPin is optional.
 Note the **MB85RC1MT** only uses even addresses.
 - **int begin(int sda, int scl, uint8_t address = 0x50, int8_t writeProtectPin = -1)** idem for ESP32 a.o.
@@ -64,7 +87,7 @@ Note the **MB85RC1MT** only uses even addresses.
 
 ### Write & read
 
-Support for basic types and 2 calls for generic object, use casting if needed.
+Support for basic types and two calls for generic objects, use casting if needed.
 In the **FRAM32** class these functions have an **uin32_t memaddr**.
 
 - **void write8(uint16_t memaddr, uint8_t value)** uint8_t
@@ -83,15 +106,17 @@ For board that have 8 byte double.
 - **void read(uint16_t memaddr, uint8_t uint8_t \* obj, uint16_t size)**
 One needs to allocate memory as the function won't.
 
+
 (0.3.4 added template functions, see issue #13 )
 - **uint16_t writeObject(uint16_t memaddr, T &obj)** writes an object to memaddr (and following bytes).
 Returns memaddr + sizeof(obj) to get the next address to write to.
 - **uint16_t readObject(uint16_t memaddr, T &obj)** reads an object from memaddr and next bytes.
 Returns memaddr + sizeof(obj) to get the next address to read from.
 
-(0.3.5 added)
+
 - **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses - default zero's.
 Returns the number of bytes written.
+**clear()** does not work for **MB85RC128A** unless **setSizeBytes()** is used.
 
 
 ### Miscellaneous
@@ -167,35 +192,55 @@ Its interface is pretty straightforward and described in FRAM_RINGBUFFER.md.
 The FRAM_ringbuffer.ino examples shows how the class can be used.
 
 
+## FRAM11 + FRAM9
+
+(0.5.0 added, see issue #28)
+Experimental in 0.5.0 to support smaller FRAM's with 11 and 9 bits addresses.
+
+- FRAM11 e.g. Cypress/Infineon 24CL16B (see #28)
+- FRAM9 e.g. MB85RC04  (not tested)
+
+#### FRAM9
+
+- **getSize()** will return 0 as it is only 0.5 KB and rounded down.
+
+
 ## Future
 
-### high
+#### Must
+
+- improve documentation
+- test more types of FRAM 
+  - FRAM11 / FRAM9
+  - other people might help.
+
+
+#### Should
+
+- improve **getSize()** to have **clear()** working properly. 
+  - **MB85RC128A** only.
+  - **getSize()** scanning FRAM like EEPROM library?
+
+#### Could
 
 - improve **FRAM32** that can write over the 64 KB border without problems.
-  - Would cause extra checking ==> overhead.
-  - now it is responsibility user.
+  - Would need extra checking ==> overhead.
+  - now it is responsibility of the user.
   - do we want/need this?
-
-### medium
-
 - **write()** and **writeBlock()** might write beyond the end of FRAM
-  - now it is responsibility user.
-  - testing would degrade performance?
+  - now it is responsibility of the user.
+  - range check would degrade performance
   - error flag ?
 - extend examples
   - FRAM for multi language string storage
   - FRAM logging, unequal length strings.
   - FRAM (8x) concatenated as one continuous memory.
-
-### low
-
-- test more types of FRAM
-- **getSize()** scanning FRAM like EEPROM library?
-- remember last written address? why?
+    - a wrapper class?
 - fill power usage table (documentation)
+  - is in data sheet.
 
 
-### wont
+#### Wont
 
 - extend current **clear()** with partial **clear(begin, end, value)**?
   - can be done by **writeBlock()** calls by user too
@@ -203,4 +248,5 @@ The FRAM_ringbuffer.ino examples shows how the class can be used.
   - ==> wont for now
 - **dump(stream)** or printable interface?
   - Print interface? expensive in performance per char..
+- remember last written address? why?
 

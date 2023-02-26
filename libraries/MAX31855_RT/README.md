@@ -24,7 +24,7 @@ For every type of TC there exist an MAX31855 variant, this library is primary
 developed for the K-type sensor. However it has experimental support for all
 other types of TC's. See details below.
 
-Library tested with breakout board
+Library tested with breakout board.
 
 ```
          +---------+
@@ -42,37 +42,40 @@ Library tested with breakout board
 
 Default pin connections. ESP32 can overrule with **setGPIOpins()**.
 
- | HW SPI   |  UNO  |  ESP32 VSPI |  ESP32 HSPI | Notes
- |:---------|:-----:|:-----------:|:-----------:|:----------|
- | CLOCKPIN |   13  |   18        |   14        |
- | MISO     |   12  |   19        |   12        |
- | MOSI     |   11  |   23        |   13        |  *not used...*
- | SELECT   | eg. 4 |    5        |   15        |  *can be others too.*
+ |  HW SPI    |  UNO  |  ESP32 VSPI  |  ESP32 HSPI  |  Notes
+ |:-----------|:-----:|:------------:|:------------:|:----------|
+ |  CLOCKPIN  |   13  |     18       |     14       |
+ |  MISO      |   12  |     19       |     12       |
+ |  MOSI      |   11  |     23       |     13       |  *not used...*
+ |  SELECT    |    4  |      5       |     15       |  *can be others too.*
 
 
 Performance read() function, timing in us.  (ESP32 @240MHz)
 
-| mode   | clock    | timing UNO | timing ESP32 | Notes
-|:-------|---------:|-----------:|-------------:|:----------|
-| HW SPI | 32000000 |     ni     |      ~15     | *less reliable*
-| HW SPI | 16000000 |    ~68     |      ~16     |
-| HW SPI |  4000000 |    ~72     |      ~23     |
-| HW SPI |  1000000 |    ~100    |      ~51     |
-| HW SPI |   500000 |    ~128    |      ~89     |
-| SW SPI | bit bang |    ~500    |      ~17 (!) |
+|   mode   |  clock     |  timing UNO  |  timing ESP32  |  Notes
+|:---------|-----------:|-------------:|---------------:|:----------|
+|  HW SPI  |  32000000  |       ni     |      ~15       |  *less reliable*
+|  HW SPI  |  16000000  |      ~68     |      ~16       |
+|  HW SPI  |   4000000  |      ~72     |      ~23       |
+|  HW SPI  |   1000000  |      ~100    |      ~51       |
+|  HW SPI  |    500000  |      ~128    |      ~89       |
+|  SW SPI  |  bit bang  |      ~500    |      ~17 (!)   |
 
 
 ## Interface
 
+```cpp
+#include "MAX31855.h"
+```
 
-### Constructor
+#### Constructor
 
 - **MAX31855()** create object.
 - **void begin(const uint8_t select)** set select pin => hardware SPI
 - **void begin(const uint8_t sclk, const uint8_t select, const uint8_t miso)** set clock, select and miso pin => software SPI
 
 
-### Hardware SPI
+#### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -82,7 +85,7 @@ To be used only if one needs a specific speed.
 - **uint16_t getSWSPIdelay()** get set value in micros.
 
 
-### ESP32 specific
+#### ESP32 specific
 
 - **void selectHSPI()** must be called before **begin()**
 - **void selectVSPI()** must be called before **begin()**
@@ -91,7 +94,7 @@ To be used only if one needs a specific speed.
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)**  to overrule ESP32 default hardware pins
 
 
-### Reading
+#### Reading
 
 To make a temperature reading call **read()**.
 It returns the status of the read which is a value between 0..7
@@ -129,7 +132,7 @@ the value of **getTemperature()** can become incorrect. So it is important to ch
 the return value of **read()**.
 
 
-### Offset
+#### Offset
 
 The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
@@ -138,7 +141,7 @@ This offset is "added" in the **getTemperature()** function.
 Note the offset used is a float, so decimals can be used.
 
 
-### Delta analysis
+#### Delta analysis
 
 As the **tc** object holds its last known temperature it is easy to determine the delta 
 with the last known temperature, e.g. for trend analysis.
@@ -155,7 +158,7 @@ with the last known temperature, e.g. for trend analysis.
 ```
 
 
-### Last time read
+#### Last time read
 
 The **tc** object keeps track of the last time **read()** is called in the function **uint32_t lastRead()**.
 The time is tracked in **millis()**. This makes it easy to read the sensor at certain intervals.
@@ -177,7 +180,7 @@ if (millis() - tc.lastRead() >= interval)
 ```
 
 
-### GetRawData 
+#### GetRawData 
 
 The function **uint32_t getRawData()** allows you to get all the 32 bits raw data from the board, 
 after the standard **uint8_t tc.read()** call.
@@ -195,10 +198,10 @@ This allows one to compact the measurement e.g. for storage or sending over a ne
 ## Pull Up Resistor 
 
 To have proper working of the MAX31855 board, you need to add a pull-up resistor 
-(e.g. 4K7 - 1K depending on wirelength) between the MISO pin (from constructor call) and the 
-VCC (5Volt). This improves the signal quality and will allow you to detect if there is
-proper communication with the board. WIthout pull-up one might get random noise that could 
-look like real data.
+(e.g. 4K7 - 1K depending on length of the wires) between the MISO pin (from constructor call) 
+and the VCC (5Volt). 
+This improves the signal quality and will allow you to detect if there is proper communication 
+with the board. Without pull-up one might get random noise that could look like real data.
 
 **Note:** the MISO pin can be different from each board, please refer to your board datasheet.
 
@@ -234,12 +237,10 @@ See examples
 #### breaking change 0.4.0 
 
 In issue #21 it became clear that the code in the constructor is not always executed correctly.
-Therefore this code + parameters is moved to the **Begin()** function.
+Therefore this code + parameters is moved to the **begin()** function.
 
 
 ## Experimental part (to be tested)
-
-(to be tested)
 
 **NOTE:** 
 The support for other thermocouples is experimental **use at your own risk**.
@@ -285,13 +286,14 @@ as one does not set the Seebeck Coefficient it will use the K_TC as default.
 
 ## Future
 
-#### must
+#### Must
 
+#### Should
 
-#### should
 - investigate other TC's 
-- 
 
+#### Could
 
-#### could
+- move code to .cpp
 
+#### Wont

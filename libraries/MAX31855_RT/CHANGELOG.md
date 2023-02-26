@@ -6,17 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2023-02-26
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.4.2] - 2022-11-16
 - add RP2040 in build-CI
 - add changelog.md
 - minor edit readme.md
 - minor edit unit test
 
-
 ## [0.4.1] - 2021-12-10
 - add SWSPI delay + getter/setter
 
-## [0.4.0] - 2021-12-09  
+## [0.4.0] - 2021-12-09
 - fix #21 breaking change for HW SPI
 - move constructor code to begin()
 - read() removed "premature" return on status.
@@ -27,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - VSPI / HSPI support for ESP32
 - add setGIOpins - ESP32 specific
 - add get/setSPIspeed() - all
+
+----
 
 ## [0.2.5] - 2021-07-04
 - fix #14 CS for STM32.

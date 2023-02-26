@@ -1,12 +1,10 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
-//
-// HISTORY: see changelog.md
 
 
 #include "MAX31855.h"
@@ -178,7 +176,7 @@ uint32_t MAX31855::_read(void)
   {
     //  split _swSPIdelay in equal dLow and dHigh
     //  dLow should be longer one when _swSPIdelay = odd.
-    uint16_t dHigh = _swSPIdelay/2;
+    uint16_t dHigh = _swSPIdelay / 2;
     uint16_t dLow = _swSPIdelay - dHigh;
     digitalWrite(_select, LOW);
     for (int8_t i = 31; i >= 0; i--)
@@ -216,5 +214,5 @@ float MAX31855::getTemperature()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

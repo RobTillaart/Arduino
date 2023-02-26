@@ -9,6 +9,7 @@ HT16K33	KEYWORD1
 
 HT16K33	KEYWORD2
 begin	KEYWORD2
+
 reset	KEYWORD2
 clearCache	KEYWORD2
 cacheOn	KEYWORD2
@@ -46,6 +47,8 @@ displayVURight	KEYWORD2
 
 
 # Experimental
+getOverflow	KEYWORD2
+clrOverflow	KEYWORD2
 displayFixedPoint0	KEYWORD2
 displayFixedPoint1	KEYWORD2
 displayFixedPoint2	KEYWORD2

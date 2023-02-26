@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.8] - 2023-02-26
+- add **getBrightness()**
+- moved code to .cpp file (prep 0.4.0)
+- update readme.md
+- added OBSOLETE section (prep 0.4.0)
+- update GitHub actions
+- update license 2023
+- minor edits
+
 
 ## [0.3.7] - 2022-11-19
 - add displayUnit(float, char);
@@ -12,12 +21,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add degree symbol
 - moved code to .cpp file (prep 0.4.0)
 
-
 ## [0.3.6] - 2022-11-09
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.3.5] - 2022-09-23
 - fix #21 additional LEDs on the display

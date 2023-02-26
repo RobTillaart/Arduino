@@ -1,25 +1,23 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
-//
-// HISTORY: see changelog.md
 
 
 #include "HT16K33.h"
 
 
 //  Commands
-#define HT16K33_ON              0x21  //  0=off 1=on
+#define HT16K33_ON              0x21  //  0 = off   1 = on
 #define HT16K33_STANDBY         0x20  //  bit xxxxxxx0
 
 
 //  bit pattern 1000 0xxy
 //  y    =  display on / off
-//  xx   =  00=off     01=2Hz     10=1Hz     11=0.5Hz
+//  xx   =  00=off     01=2Hz     10 = 1Hz     11 = 0.5Hz
 #define HT16K33_DISPLAYON       0x81
 #define HT16K33_DISPLAYOFF      0x80
 #define HT16K33_BLINKON0_5HZ    0x87
@@ -42,7 +40,7 @@
 //  10      04
 //      08
 //
-static const uint8_t charmap[] = {  //  TODO PROGMEM ?
+static const uint8_t charmap[] = {  //  TODO PROGMEM = slower?
 
   0x3F,   //  0
   0x06,   //  1
@@ -184,6 +182,12 @@ void HT16K33::brightness(uint8_t value)
   _bright = value;
   if (_bright > 0x0F) _bright = 0x0F;
   writeCmd(HT16K33_BRIGHTNESS | _bright);
+}
+
+
+uint8_t HT16K33::getBrightness()
+{
+  return _bright;
 }
 
 
@@ -598,6 +602,18 @@ void HT16K33::dumpSerial()
 }
 
 
+uint8_t HT16K33::getAddress()
+{
+  return _address;
+}
+
+
+
+
+
+
+
+
 //////////////////////////////////////////////////////////
 //
 // PRIVATE
@@ -635,11 +651,10 @@ void HT16K33::writePos(uint8_t pos, uint8_t mask)
 void HT16K33::writePos(uint8_t pos, uint8_t mask, bool point)
 {
   if (point) mask |= 0x80;
-  //  if (_overflow) mask |= 0x80;
   else mask &= 0x7F;
   writePos(pos, mask);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

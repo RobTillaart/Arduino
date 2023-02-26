@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.7"))
+#define HT16K33_LIB_VERSION         (F("0.3.8"))
 
 
 //  Characters
@@ -39,64 +39,61 @@
 #define HT16K33_DEGREE           19     //  °
 #define HT16K33_NONE             99
 
-//  P for Pascal / Pressure ?
-//  J for joule?
 
 class HT16K33
 {
 public:
-  HT16K33(const uint8_t address, TwoWire *wire = &Wire);   // 0x70 .. 0x77
+  HT16K33(const uint8_t address, TwoWire *wire = &Wire);   //  0x70 .. 0x77
 
 #if defined (ESP8266) || defined(ESP32)
-  bool begin(uint8_t sda, uint8_t scl);
+  bool    begin(uint8_t sda, uint8_t scl);
 #endif
-  bool begin();
-  void reset();
+  bool    begin();
+  void    reset();
 
-  bool isConnected();
+  bool    isConnected();
 
   //  default _cache is true as it is ~3x faster but if one has noise
   //  on the I2C and wants to force refresh one can disable caching
   //  for one or more calls.
-  void clearCache();
-  void cacheOn();
-  void cacheOff();
-  void refresh();     //  force writing of cache to display
+  void    clearCache();
+  void    cacheOn();
+  void    cacheOff();
+  void    refresh();     //  force writing of cache to display
 
-  void displayOn();
-  void displayOff();
+  void    displayOn();
+  void    displayOff();
 
-  void brightness(uint8_t value);             // 0 .. 15
-  void blink(uint8_t value);                  // 0 .. 3     0 = off
+  void    brightness(uint8_t value);             //  0 .. 15
+  uint8_t getBrightness();
+  void    blink(uint8_t value);                  //  0 .. 3     0 = off
 
 
   //  0,1,2,3,4 digits - will replace suppressLeadingZeroPlaces
-  void setDigits(uint8_t value);
-  //  0 = off, 1,2,3,4 digits  space instead of 0
-  void suppressLeadingZeroPlaces(uint8_t value);    // will be obsolete
+  void    setDigits(uint8_t value);
 
-  void displayClear();
-  bool displayInt(int n);                   // -999 .. 9999
-  bool displayHex(uint16_t n);              // 0000 .. FFFF
+  void    displayClear();
+  bool    displayInt(int n);                   //  -999 .. 9999
+  bool    displayHex(uint16_t n);              //  0000 .. FFFF
 
   //  Date could be {month.day} or {day.hour}           . as separator
   //  Time could be hh:mm or mm:ss or ss:uu (hundreds   : as separator
   //     colon displays :   lz = Leading Zero or space
-  bool displayDate(uint8_t left, uint8_t right, bool lz = true);                     // 00.00 .. 99.99
-  bool displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true);  // 00:00 .. 99:99
-  bool displaySeconds(uint16_t seconds, bool colon = true, bool lz = true);          // 00:00 .. 99:99
+  bool    displayDate(uint8_t left, uint8_t right, bool lz = true);                     //  00.00 .. 99.99
+  bool    displayTime(uint8_t left, uint8_t right, bool colon = true, bool lz = true);  //  00:00 .. 99:99
+  bool    displaySeconds(uint16_t seconds, bool colon = true, bool lz = true);          //  00:00 .. 99:99
 
   // -999 .. 0.000 .. 9999
-  bool displayFloat(float f, uint8_t decimals = 3);
+  bool    displayFloat(float f, uint8_t decimals = 3);
 
   // -99 .. 0.00 .. 999
-  bool displayUnit(float f, uint8_t decimals = 2, uint8_t unitChar = HT16K33_SPACE);
+  bool    displayUnit(float f, uint8_t decimals = 2, uint8_t unitChar = HT16K33_SPACE);
 
 
-  void display(uint8_t *array);                  // array with 4 elements
-  void display(uint8_t *array, uint8_t point);   // point = digit with . (0..3)
-  void displayColon(uint8_t on);                 // 0 = off
-  void displayRaw(uint8_t *array, bool colon = false);  // max control
+  void    display(uint8_t *array);                  //  array with 4 elements
+  void    display(uint8_t *array, uint8_t point);   //  point = digit with . (0..3)
+  void    displayColon(uint8_t on);                 //  0 = off
+  void    displayRaw(uint8_t *array, bool colon = false);  //  max control
 
   //  from issue #21 - used in special layout   :88:8'8   normal = 88:88 or 8.8.8.8
   //  value = 0 ==> all off.
@@ -104,10 +101,10 @@ public:
   //   4 = upper left point, left of the 1st digit
   //   8 = lower left point, left of the 1st digit
   //  16 = upper point between 3rd and 4th digit
-  void displayExtraLeds(uint8_t value);
+  void    displayExtraLeds(uint8_t value);
 
-  bool displayVULeft(uint8_t value);        // 0..8
-  bool displayVURight(uint8_t value);       // 0..8
+  bool    displayVULeft(uint8_t value);        //  0..8
+  bool    displayVURight(uint8_t value);       //  0..8
 
 
   //  DEBUG
@@ -116,18 +113,23 @@ public:
   void    dumpSerial(uint8_t *array, uint8_t point);
   //  display cache in HEX format
   void    dumpSerial();
-  uint8_t getAddress() { return _address; };
-  uint8_t getAddr()    { return getAddress(); };  //  TODO obsolete in future
+  uint8_t getAddress();
 
 
   //  EXPERIMENTAL
-  bool    getOverflow() { return _overflow; };
-  void    clrOverflow() { _overflow = false; };
-
   bool    displayFixedPoint0(float f);
   bool    displayFixedPoint1(float f);
   bool    displayFixedPoint2(float f);
   bool    displayFixedPoint3(float f);
+
+
+  //  OBSOLETE SOON
+  //  use getAddress(); instead.
+  uint8_t getAddr()    { return getAddress(); };
+  
+  //  use setDigits(); instead.
+  //  0 = off, 1,2,3,4 digits  space instead of 0
+  void suppressLeadingZeroPlaces(uint8_t value);
 
 
 private:
@@ -143,11 +145,8 @@ private:
   uint8_t _bright;
 
   TwoWire*  _wire;
-
-  //  EXPERIMENTAL
-  bool    _overflow = false;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

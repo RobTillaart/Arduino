@@ -55,8 +55,12 @@ get leading/trailing zero's correctly.
 
 ## Interface
 
+```CPP
+#include "HT16K33.h"
+```
 
-### Setup behaviour
+
+#### Setup behaviour
 
 - **HT16K33(const uint8_t address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
 - **bool begin(uint8_t sda, uint8_t scl)** for ESP32, select I2C pins, initialize I2C and calls **reset()**. 
@@ -65,9 +69,15 @@ Returns false if device not seen on I2C bus.
 Returns false if device not seen on I2C bus.
 - **bool isConnected()** Returns false if device not seen on I2C bus.
 - **void reset()** resets display.
+
+#### Cache
+
 - **void clearCache()** forced clearing of the cache, to be used to switch the cache off just for one write.
 - **void cacheOn()** enable caching, this is default behaviour.
 - **void cacheOff()** disable caching, will force writing to every position.
+
+#### Display
+
 - **void displayOn()** enable display.
 - **void displayOff()** disable display, fast way to darken display e.g. for energy consumption.
 - **void brightness(uint8_t value)** values (dim) 0..15 (bright).
@@ -76,7 +86,7 @@ Returns false if device not seen on I2C bus.
 - **uint8_t getAddress()** idem.
 
 
-### Data types
+#### Data types
 
 The bool return value indicates that the value displayed is in range.
 
@@ -102,7 +112,7 @@ The unitChar must be one of the chars supported like HT16K33_C, HT16K33_TOP_C or
 So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 
 
-### Experimental fixed point
+#### Experimental fixed point
 
 These functions are new and still under investigation.
 
@@ -112,13 +122,13 @@ These functions are new and still under investigation.
 - **bool displayFixedPoint3(float f)** displays values 0.000 .. 9.999 with 3 decimals.
 
 
-### Special VU meters
+#### Special VU meters
 
 - **bool displayVULeft(uint8_t value)** display used as sort VU meter, values 0..8  Vales > 8 are treated as 8 (but return false).
 - **bool displayVURight(uint8_t value)** display used as sort VU meter, values 0..8 Vales > 8 are treated as 8 (but return false).
 
 
-### Lower level workers
+#### Lower level workers
 
 - **void display(uint8_t \* array)** array of 4 bytes to control one 7seg display.
 - **void display(uint8_t \* array, uint8_t point)** idem + point = position of the digit with point (0..3).
@@ -126,6 +136,7 @@ These functions are new and still under investigation.
 - **void displayRaw(uint8_t \* array, bool colon)** array of 4 bytes to control one 7seg display + colon flag.
 - **void displayExtraLeds(uint8_t value)** switch on extra leds.
 value is in fact a bit mask see table below. 0 = all off.
+
 
 #### Extra LEDs table
 
@@ -140,7 +151,7 @@ value is in fact a bit mask see table below. 0 = all off.
 ( based upon issue #21 )
 
 
-### Debugging
+#### Debugging
 
 - **void displayTest(uint8_t del)** debugging / test function.
 - **void dumpSerial(uint8_t \* array, uint8_t point)** debugging equivalent of the display.
@@ -148,9 +159,11 @@ Prints to Serial.
 - **void dumpSerial()** print HEX codes equivalent of the display to Serial.
 
 
-### Obsolete
+#### Obsolete
 
-- **void suppressLeadingZeroPlaces(uint8_t value)** obsolete, replaced by setDigits
+- suppressLeadingZeroPlaces(uint8_t value) use **setDigits()**
+- getAddr() use **getAddress()**
+
 
 ## Characters supported
 
@@ -190,21 +203,41 @@ See examples
 
 ## Future
 
-#### 0.4.0
+
+#### Must
+
+Mainly for a 0.4.0
 
 - **bool isDisplayOn()** and similar state functions
   - configuration byte: 4 bits brightness, 1 bit on off flag, 1 bit cache flag, 2 blink rate
-- **void setBrightness()** and **uint8_t getBrightness()**
+  
+  
+#### Should 
+
+- **void setBrightness()**
 - **void setBlink()** and **uint8_t getBlink()**
 - **void getDigits()**
 - **FixedPoint()** regular (experimental in 0.3.2)
-- overflow flag ? or not decision
-- move all code to .cpp file
-  - even the small functions.
 
-#### unknown
+
+#### Could
+
 - VU metering using halve bars allows two VU from 0..8   **new**
 - VU metering using halve bars allows one VU from 0..17. extension of current VUleft/right
-- optimize the math if possible - performance and footprint. +float + int division
+- optimize math if possible - performance and footprint. + float + int division
 - low level I2C error detection
+- write single position - **writePos(uint8_t pos, uint8_t mask)**
+  - [status] dd.d
+- add examples
+  - car battery monitor (voltage divider & analogRead)
+  
+
+#### Wont (unless sponsored)
+
+- **rotate(bool rot = false)**
+  - 180 degree rotation of all digits for mounting  
+  - reverse digit order
+  - flip every digit (function to overwrite the char array)
+- **HUD(bool hud = false)** = Heads Up Display
+  - flip every digit
 

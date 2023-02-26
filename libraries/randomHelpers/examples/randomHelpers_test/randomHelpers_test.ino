@@ -17,7 +17,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-
+  Serial.print("RANDOM_HELPERS_VERSION: ");
+  Serial.println(RANDOM_HELPERS_VERSION);
+  Serial.println();
+  
   test_getRandom1();
   test_getRandom6();
   test_getRandom8();
@@ -243,5 +246,4 @@ void test_throwDice()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

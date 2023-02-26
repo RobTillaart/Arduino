@@ -1,0 +1,41 @@
+
+IDE:   1.8.19
+Board: UNO
+
+randomHelpers_test.ino
+RANDOM_HELPERS_VERSION: 0.2.5
+
+test_getRandom1
+TIME 1:	912028
+TIME 2:	34272
+RATIO :	26.61
+
+test_getRandom6
+TIME 1:	907848
+TIME 2:	80224
+RATIO :	11.32
+
+test_getRandom8
+TIME 1:	905068
+TIME 2:	60996
+RATIO :	14.84
+
+test_getRandom16
+TIME 1:	897320
+TIME 2:	92432
+RATIO :	9.71
+
+test_getRandom24
+TIME 1:	889948
+TIME 2:	133292
+RATIO :	6.68
+
+test_getRandom32
+TIME 1:	510464
+TIME 2:	132660
+RATIO :	3.85
+
+test_throwDice
+TIME 1:	912204
+TIME 2:	445904
+RATIO :	2.05

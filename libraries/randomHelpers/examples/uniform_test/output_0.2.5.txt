@@ -1,0 +1,12 @@
+IDE: 1.8.19
+board: UNO
+
+uniform_test.ino
+RANDOM_HELPERS_VERSION: 0.2.5
+
+test_throwDice
+	16481	16746	16570	16688	16624	16891	0	0	0	0
+	-1.11%	0.48%	-0.58%	0.13%	-0.26%	1.35%
+
+44.46
+

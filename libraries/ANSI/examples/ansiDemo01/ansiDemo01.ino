@@ -1,12 +1,8 @@
 //
 //    FILE: ansiDemo01.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
-//
 
 
 #include "ansi.h"
@@ -42,7 +38,7 @@ void setup()
   ansi.clearScreen();
   for (int i = 1; i < 25; i++)
   {
-    ansi.gotoXY(i, 2 * i);
+    ansi.gotoXY(2 * i, i);
     ansi.println("Hello world");
     delay(100);
   }
@@ -98,4 +94,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

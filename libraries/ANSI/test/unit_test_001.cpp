@@ -19,6 +19,7 @@
 // assertFalse(actual)
 // assertNull(actual)
 
+
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
@@ -58,4 +59,4 @@ unittest(test_gray2color)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

@@ -1,12 +1,8 @@
 //
 //    FILE: ansi_IO.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2021-10-18
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
-//
 
 
 #include "ansi.h"
@@ -26,7 +22,7 @@ void setup()
   ansi.print("ANSI_LIB_VERSION: ");
   ansi.print(ANSI_LIB_VERSION);
 
-  ansi.gotoXY(4, 2);
+  ansi.gotoXY(2, 4);
   ansi.print("Username: ");
   char c = '\0';
   while (c != '\r')
@@ -42,7 +38,7 @@ void setup()
     }
   }
 
-  ansi.gotoXY(5, 2);
+  ansi.gotoXY(2, 5);
   ansi.print("Password: ");
   c = '\0';
   while (c != '\r')
@@ -58,7 +54,7 @@ void setup()
     }
   }
 
-  ansi.gotoXY(10, 2);
+  ansi.gotoXY(2, 10);
   ansi.print(user);
   ansi.print("\t\t");
   ansi.print(password);
@@ -71,4 +67,4 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -76,9 +76,9 @@ void display_time_1()
   if (now - lastTime >= 1000)
   {
     lastTime = now;
-    ansi.gotoXY(2, 10);
+    ansi.gotoXY(10, 2);
     ansi.print("TIME:         ");
-    ansi.gotoXY(2, 16);
+    ansi.gotoXY(16, 2);
     if (hh < 10) ansi.print(0);
     ansi.print(hh);
     ansi.print(':');
@@ -99,9 +99,9 @@ void display_time_2()
   if (now - lastTime >= 1000 && (ss % 5 == 0))
   {
     lastTime = now;
-    ansi.gotoXY(4, 10);
+    ansi.gotoXY(10, 4);
     ansi.print("TIME:         ");
-    ansi.gotoXY(4, 16);
+    ansi.gotoXY(16, 4);
     if (hh < 10) ansi.print(0);
     ansi.print(hh);
     ansi.print(':');
@@ -122,9 +122,9 @@ void display_time_3()
   if (now - lastTime >= 1000)
   {
     lastTime = now;
-    ansi.gotoXY(6, 10);
+    ansi.gotoXY(10, 6);
     ansi.print("TIME:         ");
-    ansi.gotoXY(6, 16);
+    ansi.gotoXY(16, 6);
     if (hh < 10) ansi.print(0);
     ansi.print(hh);
     if (ss & 0x01) ansi.print(':');
@@ -133,7 +133,6 @@ void display_time_3()
     ansi.print(mm);
   }
 }
-
 
 
 //  -- END OF FILE --

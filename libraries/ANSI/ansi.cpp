@@ -16,6 +16,10 @@ ANSI::ANSI(Stream * stream)
 }
 
 
+//////////////////////////////////////////////////////
+//
+//  STREAM INTERFACE
+//
 int ANSI::available()
 {
   return _stream->available();
@@ -27,34 +31,118 @@ int ANSI::read()
   return _stream->read();
 }
 
+
 int ANSI::peek()
 {
   return _stream->peek();
 }
 
 
-void ANSI::clearScreen()
+void ANSI::flush()
 {
-  // print(F("\033[2J\033[H"));
-  print("\033[2J");
-  home();
+  return;
 }
 
+
+//////////////////////////////////////////////////////
+//
+//  CHAR MODES
+//
+void ANSI::normal()
+{
+  _stream->write("\033[0m", 3);
+}
+
+void ANSI::bold()
+{
+  _stream->write("\033[1m", 3);
+}
+
+void ANSI::low()
+{
+  _stream->write("\033[2m", 3);
+}
+
+void ANSI::underline()
+{
+  _stream->write("\033[4m", 3);
+}
+
+void ANSI::blink()
+{
+  _stream->write("\033[5m", 3);
+}
+
+void ANSI::reverse()
+{
+  _stream->write("\033[7m", 3);
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  POSITION COMMANDS
+//
+void ANSI::clearScreen()
+{
+  _stream->write("\033[2J\033[H", 7);
+}
 
 void ANSI::clearLine(uint8_t clear)
 {
-  print("\033[");
+  _stream->write("\033[", 2);
   print(clear);
-  print("K");
+  _stream->write('K');
 }
-
 
 void ANSI::home()
 {
-  print("\033[H");
-};
+  _stream->write("\033[H", 3);
+}
+
+//  changed 0.2.0 see #13
+void ANSI::gotoXY(uint8_t column, uint8_t row)
+{
+  _stream->write("\033[", 2);
+  print(row);
+  _stream->write(';');
+  print(column);
+  _stream->write('H');
+}
+
+void ANSI::cursorUp(uint8_t x)
+{
+  _stream->write("\033[", 2);
+  print(x);
+  _stream->write('A');
+}
+
+void ANSI::cursorDown(uint8_t x)
+{
+  _stream->write("\033[", 2);
+  print(x);
+  _stream->write('B');
+}
+
+void ANSI::cursorForward(uint8_t x)
+{
+  _stream->write("\033[", 2);
+  print(x);
+  _stream->write('C');
+}
+
+void ANSI::cursorBack(uint8_t x)
+{
+  _stream->write("\033[", 2);
+  print(x);
+  _stream->write('D');
+}
 
 
+//////////////////////////////////////////////////////
+//
+//  COLOR COMMANDS
+//
 
 //  ANSI has three different color spaces: 4-bit color, 8-bit color, and 24-bit color
 //  These are rendered with SGR 30-37,90-97/40-47,100-107, SGR 38;5/48;5, and SGR 38;2/48;2, respectively
@@ -109,47 +197,6 @@ uint8_t ANSI::rgb2color(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 
-void ANSI::gotoXY(uint8_t x, uint8_t y)
-{
-  print("\033[");
-  print(x);
-  print(";");
-  print(y);
-  print("H");
-}
-
-
-void ANSI::cursorUp(uint8_t x)
-{
-  print("\033[");
-  print(x);
-  print("A");
-}
-
-
-void ANSI::cursorDown(uint8_t x)
-{
-  print("\033[");
-  print(x);
-  print("B");
-}
-
-
-void ANSI::cursorForward(uint8_t x)
-{
-  print("\033[");
-  print(x);
-  print("C");
-}
-
-
-void ANSI::cursorBack(uint8_t x)
-{
-  print("\033[");
-  print(x);
-  print("D");
-}
-
 
 int ANSI::deviceType(uint32_t timeout)
 {
@@ -172,6 +219,13 @@ int ANSI::deviceType(uint32_t timeout)
   }
   return type;
 }
+
+
+//////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
+
 
 
 //////////////////////////////////////////////////

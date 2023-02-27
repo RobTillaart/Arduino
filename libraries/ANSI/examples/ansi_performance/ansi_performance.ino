@@ -1,12 +1,8 @@
 //
 //    FILE: ansi_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: start of performance print statement.
-//    DATE: 2021-12-13
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
-//
 
 
 #include "ansi.h"
@@ -55,10 +51,13 @@ void setup()
   Serial.println(stop - start);
   delay(100);
 
+  Serial.println("\ndone...");
 }
+
 
 void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

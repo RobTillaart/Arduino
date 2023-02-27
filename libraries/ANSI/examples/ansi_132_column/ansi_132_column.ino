@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo clock
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
 //
 //  use Tera Term to view 132 columns.
 
@@ -28,7 +27,6 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 #include "ansi.h"
 
 ANSI ansi(&Serial);
-
 
 
 void setup()

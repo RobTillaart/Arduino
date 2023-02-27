@@ -1,11 +1,8 @@
 //
 //    FILE: ansi_char_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: brute force char test
-//    DATE: 2021-10-18
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
 
 
 #include "ansi.h"
@@ -36,4 +33,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

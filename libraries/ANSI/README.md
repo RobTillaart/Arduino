@@ -21,6 +21,17 @@ The set of codes is large, however not all terminal types do support all codes.
 Sending these ANSI codes to a simple ASCII only terminal like the one in the Arduino
 IDE might result in garbage. So use with care.
 
+#### Breaking change 0.2.0
+
+The **gotoXY(x, y)** has changed as the X and Y coordinates were swapped.
+
+The code has been updated to explicitly mention which is row and which is column.
+- **gotoXY(uint8_t column, uint8_t row)** 
+
+#### Related
+
+https://en.wikipedia.org/wiki/ANSI_escape_code
+
 
 ## Terminals tested
 
@@ -51,19 +62,19 @@ Can be a software serial too.
 
 #### Stream interface
 
-- **int available()**
-- **int read()**
-- **int peek()**
-- **void flush()**
+- **int available()** to check if chars are available on the stream.
+- **int read()** read a byte from the stream.
+- **int peek()** preview the byte in the stream without fetching.
+- **void flush()** 
 
 Stream interface also includes print(), println(), write().
 
 
 #### Character modi
 
-- **void normal()** idem.
-- **void bold()** idem.
-- **void low()** idem.
+- **void normal()** normal intensity.
+- **void bold()** bold or high intensity.
+- **void low()** low intensity.
 - **void underline()** idem.
 - **void blink()** idem.
 - **void reverse()** idem.
@@ -74,25 +85,28 @@ Stream interface also includes print(), println(), write().
 - **void foreground(uint8_t fgcolor)**
 - **void background(uint8_t bgcolor)**
 - **void color(uint8_t fgcolor, uint8_t bgcolor)**
+
+Three helpers to map to the nearest colour.
 - **uint8_t gray2color(uint8_t gray)**
 - **uint8_t grey2color(uint8_t grey)** idem
 - **uint8_t rgb2color(uint8_t r, uint8_t g, uint8_t b)**
 
 
-todo colour table
+To do colour table
 
 
 #### Positioning
 
-- **void clearScreen()**
+- **void clearScreen()** clears screen and sets cursor to 0,0.
 - **void clearLine(uint8_t clear = toEnd)** toEnd = 0,
-  toStart = 1,en tireLine = 2,
-- **void home()** go to 0,0
-- **void gotoXY(uint8_t x, uint8_t y)**
-- **void cursorUp(uint8_t x)**
-- **void cursorDown(uint8_t x)**
-- **void cursorForward(uint8_t x)**
-- **void cursorBack(uint8_t x)**
+  toStart = 1, entireLine = 2,
+- **void home()** set cursor to 0, 0
+- **void gotoXY(uint8_t column, uint8_t row)** set cursor to position. 
+Note X == row and Y == column. See #13.
+- **void cursorUp(uint8_t x)** idem.
+- **void cursorDown(uint8_t x)** idem.
+- **void cursorForward(uint8_t x)** idem.
+- **void cursorBack(uint8_t x)** idem.
 
 
 #### Experimental
@@ -114,6 +128,9 @@ Since 0.1.5 there is some focus on performance.
 Using **ansi.print()** and **ansi.println()** for printing text and numbers is
 improved a bit since 0.1.4 by adding the private **write(array, length)**.
 
+Since 0.2.0 the print() statements are replaced by write().
+Although it are small improvements these add up.
+
 
 ## Future
 
@@ -130,21 +147,19 @@ improved a bit since 0.1.4 by adding the private **write(array, length)**.
 - add examples
   - DOS emulator?
   - experimental section
+- evaluate experimental code
+  - move code from .h to .cpp
 
 #### Could
 
 - increase functionality
   - which codes are generic / useful ?
 - investigate performance.
-  - first step made in 0.1.5 but more possible
   - add line buffer in write(c) to improve throughput?
   - need for flush() with line buffer?
-  - rewrite functions, replace print() by **\_stream->write()** calls?  (effect on size?)
-  - move static strings to PROGMEM? as defines?
-    roughly ~20 bytes progmem for 4 bytes RAM...
-  - print(char) iso print(string) where possible
-
 
 #### Wont
 
+- move static strings to PROGMEM? as defines?
+  roughly ~20 bytes progmem for 4 bytes RAM...
 

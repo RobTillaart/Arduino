@@ -3,6 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo TM1637 library
 //     URL: https://github.com/RobTillaart/TM1637
+//
+//  Since 0.3.6 the library has the function displayTime(hh, mm, colon).
+//  so part of this sketch is "historical".
 
 
 #include "TM1637.h"
@@ -62,9 +65,5 @@ void loop2()
 }
 
 
-// todo: make a HH:MM clock
-//       with the  :  flashing every second.
-
-
-
 // -- END OF FILE --
+

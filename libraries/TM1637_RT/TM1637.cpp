@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -215,6 +215,18 @@ void TM1637::displayHex(uint32_t value)
     v = t;
   }
   displayRaw(data, -1);
+}
+
+
+void TM1637::displayTime(uint8_t hh, uint8_t mm, bool colon)
+{
+  if (_digits != 4) return;
+  uint8_t data[4] = { 16, 16, 16, 16 };
+  data[3] = hh / 10;
+  data[2] = hh % 10;
+  data[1] = mm / 10;
+  data[0] = mm % 10;
+  displayRaw(data, colon ? 2 : -1);
 }
 
 

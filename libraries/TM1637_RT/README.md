@@ -14,28 +14,54 @@ Library for TM1637 driven displays and keyscans.
 
 The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
-Library is tested with Arduino UNO and a 6 digits display.
+Library is tested with Arduino UNO and a 6 digits display and 4 digit (clock) display.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
 
 
 ## Interface
 
+```cpp
+#include "TM1637.h"
+```
+
+#### Core
+
 - **TM1637()** constructor
-- **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** set up the connection of the pins to the display.
-As the display is only tested with a 6 digit display, this is used as the default of the digits parameter.
-- **void displayPChar(char \*buff)** display the buffer. Experimental - Tested on STM32 and Arduino Nano
+- **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)**
+ set up the connection of the pins to the display.
+As the display is only tested with a 6 digit display, 
+this is used as the default of the digits parameter.
+
+#### Display functions
+
+- **void displayPChar(char \*buff)** display the buffer. 
+Experimental - Tested on STM32 and Arduino Nano
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 - **void displayInt(long value)** idem
-- **void displayFloat(float value)** idem
+- **void displayFloat(float value)** idem, position of point may vary!
 - **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
 - **void displayHex(uint32_t value)** idem
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
+- **void displayTime(uint8_t hh, uint8_t mm, bool colon)** displays time format.
+The function does not check for overflow e.g. hh > 59 or mm > 59.
+Works only on 4 digit display.
+  - hours + minutes HH:MM 
+  - minutes + seconds MM:SS
+  - can also be used for temperature + humidity TT:HH or any pair of ints side by side.
+
+#### Brightness
+
 - **void setBrightness(uint8_t b)** brightness = 0 .. 7 default = 3.
 - **uint8_t getBrightness()** returns value set.
+
+#### KeyScan
+
 - **uint8_t keyscan(void)** scans the keyboard once and return result. 
 The keyscan() function cannot detect multiple keys.
 
+
+#### DisplayRaw explained
 
 **displayRaw()** can display multiple decimal points, by setting the high bit (0x80) 
 in each character for which you wish to have a decimal lit.  
@@ -47,7 +73,10 @@ Or you can use the pointPos argument to light just one decimal at that position.
    - a-f are coded as 0x0a-0x0f
    - g-z are coded as 0x12-0x25.  Characters that cannot be represented in 7 segments render as blank.
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
-   
+
+
+#### displayPChar explained
+
 **void displayPChar(char \*buff)** Attempts to display every ASCII character 0x30 to 0x5F. 
 See example TM1637_custom.ino to insert your own 7 segment patterns.
 Also displayed are  '  ' , '.' and '-' . Decimal points may also be displayed by setting the character sign bit.
@@ -63,7 +92,7 @@ Routine **button_poll()** in the same example shows one way of polling and de-bo
 - **void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** replaced by begin().
 
 
-### Display support
+#### Display support
 
 The library is tested with a 6 (=2x3) digit - decimal point - display and a 4 (=1x4) digit - clock - display. 
 At low level these displays differ in the order the digits have to be clocked in.
@@ -75,25 +104,26 @@ If you have a (7 segment) display that is not supported by the library,
 please open an issue on GitHub so it can be build in.
 
 
-### Tuning function
+#### Tuning function
 
-To tune the timing of writing bytes.
+To tune the timing of writing bytes. 
+An UNO can gain ~100 micros per call by setting it to 0.
 
-- **void    setBitDelay(uint8_t bitDelay = 10)**
+- **void setBitDelay(uint8_t bitDelay = 10)**
 - **uint8_t getBitDelay()**
 
 
-### Tuning minimum pulse length
+#### Tuning minimum pulse length
 
 The class has a conditional code part in writeSync to guarantee the length of pulses
 when the library is used with an ESP32. The function called there **nanoDelay(n)**
 needs manual adjustment depending upon processor frequency and time needed for a digitalWrite.
 Feel free to file an issue to get your processor supported.
 
-### Keyboard Scanner usage and notes
 
+## Keyboard Scanner usage and notes
 
-Calling keyscan() returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
+Calling **keyscan()** returns a uint8_t, whose value is 0xff if no keys are being pressed at the time.  
 The TM1637 can only see one key press at a time, and there is no "rollover".  
 If a key is pressed, then the values are as follows:
 
@@ -168,7 +198,11 @@ See examples
 
 #### Must
 
-- remove obsolete **init()** from code (0.4.0)
+- (0.4.0)
+  - remove obsolete **init()** from code
+  - **setLeadingZeros(bool on = false)** leading zeros flag, set data array to 0.
+  - **getLeadingZeros()**
+
 
 #### Should
 
@@ -176,10 +210,10 @@ See examples
   - performance measurement
 - testing other platforms.
 - move code from .h to .cpp
-- **setLeadingZeros(bool on = false)** leading zeros flag
-  - getter.
-  - set data array to 0.
-  - 0.4.0
+- add **void displayTwoInt(uint8_t x, uint8_t y, bool colon)**
+  - should work for 4 and 6 digit displays
+- refactor readme.md
+
 
 #### Could
 

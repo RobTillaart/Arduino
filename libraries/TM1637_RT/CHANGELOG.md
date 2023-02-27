@@ -6,14 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2023-02-27
+- add **void displayTime(uint8_t hh, uint8_t mm, bool colon)**
+- add examples
+- update readme.md
+- update keywords.txt
+
+
 ## [0.3.5] - 2023-02-18
 - add **void displayFloat(float value, byte fixpoint)** Thanks to marshalab
-- edd example TM1637_float_point.ino
+- add example TM1637_float_point.ino
 - update readme.md
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [0.3.4] - 2022-10-07
 - added CHANGELOG.md

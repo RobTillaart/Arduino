@@ -269,6 +269,11 @@ float SGP30::getEthanol()
 //  CALIBRATION
 //
 
+//  slightly different formula
+//  https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+//  Absolute Humidity (grams/m3) = 6.112 × e^[(17.67 × T)/(T+243.5)] × rh × 2.1674
+//                                                 (273.15+T)
+
 //  T  in °C
 //  RH == RelativeHumidity
 float SGP30::setRelHumidity(float T, float RH)      //  Page 10
@@ -276,7 +281,7 @@ float SGP30::setRelHumidity(float T, float RH)      //  Page 10
   //  page 10 datasheet
   //  AH = AbsoluteHumidity
   //  uint16_t AH = 216.7 * RH/100 * 6.117 * exp((17.62 * T)/(243.12 + T)) / (273.15 + T);
-  float absoluteHumidity = (2.167 * 6.112) * RH ;
+  float absoluteHumidity = (2.167 * 6.112) * RH;
   absoluteHumidity *= exp((17.62 * T)/(243.12 + T));
   absoluteHumidity /=  (273.15 + T);
 

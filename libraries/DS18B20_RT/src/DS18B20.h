@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.15
+// VERSION: 0.1.16
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -19,7 +19,7 @@
 //
 
 
-#define DS18B20_LIB_VERSION     (F("0.1.15"))
+#define DS18B20_LIB_VERSION     (F("0.1.16"))
 
 #include <OneWire.h>
 
@@ -39,7 +39,7 @@ typedef uint8_t ScratchPad[9];
 class DS18B20
 {
 public:
-  explicit  DS18B20(OneWire * ow);
+  explicit  DS18B20(OneWire * ow, uint8_t resolution = 9);
   bool      begin(uint8_t retries = 3);
   bool      isConnected(uint8_t retries = 3);
 

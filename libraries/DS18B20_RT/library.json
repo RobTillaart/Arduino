@@ -23,7 +23,7 @@
       "version": "^2.3.5"
     }
   ],
-  "version": "0.1.15",
+  "version": "0.1.16",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

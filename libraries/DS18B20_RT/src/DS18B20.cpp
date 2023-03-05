@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.15
+// VERSION: 0.1.16
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -36,11 +36,11 @@
 #define TEMP_12_BIT             0x7F    //  12 bit
 
 
-DS18B20::DS18B20(OneWire* ow)
+DS18B20::DS18B20(OneWire* ow, uint8_t resolution)
 {
   _oneWire      = ow;
   _addressFound = false;
-  _resolution   = TEMP_9_BIT;
+  _resolution   = resolution;
   _config       = DS18B20_CLEAR;
 }
 
@@ -51,7 +51,15 @@ bool DS18B20::begin(uint8_t retries)
   isConnected(retries);
   if (_addressFound)
   {
-     setResolution();
+      _oneWire->reset();
+      _oneWire->select(_deviceAddress);
+      _oneWire->write(WRITESCRATCH);
+      //  two dummy values for LOW & HIGH ALARM
+      _oneWire->write(0);
+      _oneWire->write(100);
+      //  lowest as default as we do only integer math.
+      _oneWire->write(_resolution);
+      _oneWire->reset();
   }
   return _addressFound;
 }

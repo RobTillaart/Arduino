@@ -50,9 +50,9 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  LTC2991(0x20);
+  LTC2991 LTC(0x48);  //  all address lines GND
 
-  fprintf(stderr, "no tests yet");
+  assertEqual(0x48, LTC.getAddress());
 }
 
 

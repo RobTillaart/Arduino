@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -95,12 +95,19 @@ bool LTC2991::isConnected()
 }
 
 
+uint8_t LTC2991::getAddress()
+{
+  return _address;
+}
+
+
 //
 //  CORE functions
 //
 bool LTC2991::new_data(uint8_t channel)
 {
   uint8_t x = _readRegister(STATUS_LOW);
+  // LTC2991_NEW_DATA / NONE
   return (x & (1 << (channel - 1))) > 0;
 }
 
@@ -108,6 +115,7 @@ bool LTC2991::new_data(uint8_t channel)
 bool LTC2991::new_temperature()
 {
   uint8_t x = _readRegister(STATUS_HIGH);
+  //  LTC2991_NEW_DATA / NONE
   return (x & 0x02) > 0;
 }
 
@@ -115,6 +123,7 @@ bool LTC2991::new_temperature()
 bool LTC2991::new_voltage()
 {
   uint8_t x = _readRegister(STATUS_HIGH);
+  //  LTC2991_NEW_DATA / ??
   return (x & 0x01) > 0;
 }
 
@@ -122,6 +131,7 @@ bool LTC2991::new_voltage()
 bool LTC2991::is_busy()
 {
   uint8_t x = _readRegister(STATUS_HIGH);
+  //  LTC2991_BUSY / IDLE
   return (x & 0x04) > 0;
 }
 
@@ -152,6 +162,7 @@ void LTC2991::enable(uint8_t n, bool enable)
 bool LTC2991::is_enabled(uint8_t n)
 {
   uint8_t x = _readRegister(STATUS_HIGH);
+  //  LTC2991_TRIGGER_ENABLED / DISABLED
   return (x & (0x08 << n)) > 0;
 }
 
@@ -181,6 +192,7 @@ bool LTC2991::is_enabled_filter(uint8_t n)
   }
   uint8_t    mask = 0x08;
   if (n > 1) mask = 0x80;
+  //  LTC2991_FILTER_ENABLED / DISABLED
   return _getRegisterMask(reg, mask) > 0;
 }
 
@@ -305,6 +317,7 @@ uint8_t LTC2991::get_differential_mode(uint8_t n)
   }
   uint8_t    mask = 0x01;
   if (n > 1) mask = 0x10;
+  //  LTC2991_VOLTAGE_MODE_DIFFERENTIAL / NORMAL ???
   if (_getRegisterMask(reg, mask) > 0) return 1;
   return 0;
 }
@@ -327,7 +340,7 @@ float LTC2991::get_value(uint8_t channel)
     {
       return TEMPERATURE_FACTOR * (float)v;
     }
-    //  CELSIUS neg two complements  (page 13, 2nd colom.)
+    //  CELSIUS neg two complements  (page 13, 2nd column.)
     v = (v^0x1FFF) + 1;
     return TEMPERATURE_FACTOR * (float)v * -1.0;
   }
@@ -394,6 +407,7 @@ void LTC2991::invert_PWM(bool invert)
 
 bool LTC2991::is_inverted_PWM()
 {
+  //   LTC2991_PWM_INVERTED /  LTC2991_PWM_NORMAL
   return _getRegisterMask(PWM_THRESHOLD_LSB, 0x40) > 0;
 }
 
@@ -407,6 +421,7 @@ void LTC2991::enable_PWM(bool enable)
 
 bool LTC2991::is_enabled_PWM()
 {
+  //  LTC2991_PWM_ENABLED /  LTC2991_PWM_DISABLED
   return _getRegisterMask(PWM_THRESHOLD_LSB, 0x20) > 0;
 }
 
@@ -429,6 +444,7 @@ void LTC2991::set_acquisition_single()
 
 uint8_t LTC2991::get_acquisition_mode()
 {
+  //  LTC2991_MODE_REPEAT / LTC2991_MODE_SINGLE
   if (_getRegisterMask(PWM_THRESHOLD_LSB, 0x10) > 0) return 1;
   return 0;
 }
@@ -448,6 +464,7 @@ void LTC2991::enable_Tintern_Vcc(bool enable)
 bool LTC2991::is_enabled_Tintern_Vcc()
 {
   uint8_t x = _readRegister(STATUS_HIGH);
+  //  LTC2991_TINTERN_ENABLED / DISABLED
   return ((x & 0x08) > 0);
 }
 
@@ -461,6 +478,7 @@ void LTC2991::enable_filter_Tintern(bool enable)
 
 bool LTC2991::is_enabled_filter_Tintern()
 {
+  //  LTC2991_TINTERN_FILTER_ENABLED / DISABLED
   return _getRegisterMask(PWM_THRESHOLD_LSB, 0x08) > 0;
 }
 
@@ -489,9 +507,9 @@ char LTC2991::get_temp_scale_Tintern()
 {
   if (_getRegisterMask(PWM_THRESHOLD_LSB, 0x04) > 0)
   {
-    return 'K';
+    return 'K';   //  LTC2991_TEMPSCALE_KELVIN
   }
-  return 'C';
+  return 'C';     //  LTC2991_TEMPSCALE_CELSIUS
 }
 
 
@@ -565,7 +583,7 @@ uint16_t LTC2991::_readRegister16(const uint8_t reg)
 void LTC2991::_setRegisterMask(const uint8_t reg, uint8_t mask)
 {
   uint8_t x = _readRegister(reg);
-  if ((x & mask) != mask)   // if not all bits set, set them
+  if ((x & mask) != mask)   //  if not all bits set, set them
   {
     x |= mask;
     _writeRegister(reg, x);
@@ -576,7 +594,7 @@ void LTC2991::_setRegisterMask(const uint8_t reg, uint8_t mask)
 void LTC2991::_clrRegisterMask(const uint8_t reg, uint8_t mask)
 {
   uint8_t x = _readRegister(reg);
-  if (x | mask)         // if any bit of the mask set clear it
+  if (x | mask)         //  if any bit of the mask set clear it
   {
     x &= ~mask;
     _writeRegister(reg, x);

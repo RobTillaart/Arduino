@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2991.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2991_LIB_VERSION         (F("0.1.4"))
+#define LTC2991_LIB_VERSION         (F("0.1.5"))
 
 
 class LTC2991
@@ -26,6 +26,7 @@ public:
 
   bool    begin();
   bool    isConnected();
+  uint8_t getAddress();
 
   //
   //  CORE functions
@@ -44,13 +45,14 @@ public:
   //      n = 2 ==> V3 V4  T2
   //      n = 3 ==> V5 V6  T3
   //      n = 4 ==> V7 V8  T4
+  //
   void    trigger_conversion(uint8_t n);  //  wrapper around enable()
   void    trigger_conversion_all();
   void    enable(uint8_t n, bool enable);
   bool    is_enabled(uint8_t n);
 
 
-  //      n: 1..4
+  //      n: 1..4  see above
   void    enable_filter(uint8_t n, bool enable);
   bool    is_enabled_filter(uint8_t n);
 
@@ -99,7 +101,7 @@ public:
   void     set_Kelvin_Tintern();
   void     set_Celsius_Tintern();
   void     set_temp_scale_Tintern(bool Kelvin = true);
-  char     get_temp_scale_Tintern();         // returns 'C' or 'K'
+  char     get_temp_scale_Tintern();         //  returns 'C' or 'K'
   float    get_Tintern();
   float    get_VCC();
 
@@ -111,9 +113,9 @@ private:
   uint16_t _readRegister16(const uint8_t reg);
 
 
-  void    _setRegisterMask(const uint8_t reg, uint8_t mask);
-  void    _clrRegisterMask(const uint8_t reg, uint8_t mask);
-  uint8_t _getRegisterMask(const uint8_t reg, uint8_t mask);
+  void     _setRegisterMask(const uint8_t reg, uint8_t mask);
+  void     _clrRegisterMask(const uint8_t reg, uint8_t mask);
+  uint8_t  _getRegisterMask(const uint8_t reg, uint8_t mask);
 
   uint8_t   _address;
   TwoWire * _wire;

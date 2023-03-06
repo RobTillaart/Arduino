@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-03-06
+- fix examples default address to 0x48
+- add getAddress() function
+- update keywords.txt
+- update readme.md
+
+
 ## [0.1.4] - 2023-01-22
 - update GitHub actions
 - update license 2023
@@ -14,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix header unit test
 - minor edits
 - move code to .cpp
-
 
 ## [0.1.3] - 2022-11-15
 - Add RP2040 support to build-CI.
@@ -30,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - some default values
 - clean up code
 
-## [0.1.0] - 2021-05-10 
+## [0.1.0] - 2021-05-10
 - initial version
 
 

@@ -7,10 +7,13 @@
 #include "Wire.h"
 #include "LTC2991.h"
 
-LTC2991 LTC(0x20);
+
+LTC2991 LTC(0x48);  //  all address lines GND
+
 
 int speed = 10;
 int incr = 1;
+
 
 void setup()
 {
@@ -29,7 +32,6 @@ void setup()
   }
 
   LTC.enable_PWM(true);
-
 }
 
 
@@ -42,8 +44,8 @@ void loop()
     lastTime = millis();
 
     LTC.set_PWM(speed);
-    if (speed == 511) incr = -1; // reverse speed
-    if (speed == 0) incr = 1; // reverse speed
+    if (speed == 511) incr = -1;   //  reverse speed
+    if (speed == 0)   incr = 1;    //  reverse speed
     speed += incr;
 
     Serial.print(lastTime);

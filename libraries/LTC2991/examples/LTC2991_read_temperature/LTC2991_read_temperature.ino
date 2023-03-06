@@ -7,7 +7,9 @@
 #include "Wire.h"
 #include "LTC2991.h"
 
-LTC2991 LTC(0x20);
+
+LTC2991 LTC(0x48);  //  all address lines GND
+
 
 void setup()
 {
@@ -27,7 +29,7 @@ void setup()
 
   for (uint8_t channel = 1; channel <= 4; channel++)
   {
-    //  enable all 4 temp sensors
+    //  enable all 4 temperature sensors
     LTC.enable(channel, true);
     LTC.enable_filter(channel, false);
     LTC.set_Celsius(channel);

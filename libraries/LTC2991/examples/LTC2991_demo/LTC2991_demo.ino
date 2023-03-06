@@ -7,7 +7,8 @@
 #include "Wire.h"
 #include "LTC2991.h"
 
-LTC2991 LTC(0x20);
+LTC2991 LTC(0x48);  //  all address lines GND
+
 
 void setup()
 {
@@ -19,16 +20,23 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   LTC.begin();
-  while (!LTC.isConnected())
-  {
-    Serial.println("Could not connect to device");
-    delay(2000);
-  }
+
 }
 
 
 void loop()
 {
+  while (!LTC.isConnected())
+  {
+    Serial.println("Could not connect to device");
+    delay(2000);
+  }
+
+  Serial.print(millis());
+  Serial.print("\taddress: ");
+  Serial.println(LTC.getAddress());
+  
+  delay(2000);
 }
 
 

@@ -7,7 +7,9 @@
 #include "Wire.h"
 #include "LTC2991.h"
 
-LTC2991 LTC(0x20);
+
+LTC2991 LTC(0x48);  //  all address lines GND
+
 
 void setup()
 {

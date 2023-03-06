@@ -6,6 +6,7 @@ LTC2991	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 
 new_data	KEYWORD2

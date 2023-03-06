@@ -43,23 +43,28 @@ The DS18B20 library supports only the DS18B20, only one sensor per pin, no paras
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
 the asynchronous reading of the temperature by means of three core functions:
 
-- **DS18B20(OneWire \* ow)** constructor needs a reference to OneWire object.
+- **DS18B20(OneWire \* ow, uint8_t resolution = 9)** constructor needs a reference to OneWire object.
+Also sets the resolution, default to 9 bits.
 - **bool begin(uint8_t retries = 3)** resets oneWire and set resolution default to 9 bit.  
-returns true if all is OK. 
-There will be a number of retries to connect, default 3. 
+Returns true if all is OK.
+There will be a number of retries to connect, default 3.
 - **bool isConnected(uint8_t retries = 3)** resets oneWire checks if a device can be found.  
 Returns true if a device is found.
+There will be a number of retries to connect, default 3.
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
-- **float getTempC()** returns temperature
--127 = DEVICE_DISCONNECTED  
-- **void setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default)
+- **float getTempC()** returns temperature in Celsius.
+  - -127 = DEVICE_DISCONNECTED
+  - -128 = DEVICE_CRC_ERROR
+- **bool setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default).
+Returns false if no device is found.
 - **uint8_t getResolution()** return resolution set.
-- **bool getAddress()** returns true if the sensor is configured (available).
+- **bool getAddress(uint8_t \* buf)** returns true if the sensor is configured (available).
+Buf must be a byte array of at least 8 bytes.
 
-This allowed the class to be both minimal in size and non-blocking. In fact the class
-has no support for a synchronous read in one call. This choice will teach people
-how to work in a non-blocking way from the start.
+This "async only" allows the class to be both minimal in size and non-blocking. 
+In fact the class has no support for a synchronous read in one call. 
+This choice will teach people how to work in a non-blocking way from the start.
 
 Effort has been taken to keep the code, variables and function names compatible with 
 ATCL library mentioned above. This way you can step over to that one with relatively
@@ -68,11 +73,12 @@ few problems when you need more functionality like multiple sensors on one pin.
 Finally this library will probably make it easier to use a DS18B20 with processing 
 boards or IC's with small memory footprint.
 
+
 #### Config
 
 - **void setConfig(uint8_t config)** set DS18B20_CLEAR or DS18B20_CRC. 
 If DS18B20_CRC flag is set the library will check the CRC, otherwise it won't.
-Not checking the CRC is faster.
+Not checking the CRC is a few milliseconds faster.
 - **uint8_t getConfig()** get current configuration 
   - 1 == DS18B20_CRC
   - 0 == no flag set.
@@ -96,6 +102,23 @@ This library supports only **one** DS18B20 per Arduino/ MCU pin.
 
 Connect a pull-up resistor 4.7 KOhm between pin3 and pin2. 
 When the wires are longer this resistor needs to be smaller.
+
+
+#### -127 and 85
+
+Two specific return values from reading the sensor:
+
+- minus 127 == DEVICE_DISCONNECTED
+- plus 85 is the power on default. 
+If you get this unexpected it may indicate a power problem
+
+
+#### Disconnect
+
+During tests with **DS18B20_test_disconnect.ino** I noticed:
+- set resolution to 9 bits + disconnected data line ==> sensor blocks and keeps 9 bits resolution.
+- set resolution to 9 bits + disconnected VCC line ==> sensor stops and restarts at 12 bits resolution.
+- set resolution to 9 bits + disconnected GND line ==> sensor keeps running at 9 bits resolution.
 
 
 #### Pull up resistor
@@ -166,6 +189,6 @@ and all people who contributed to that lib.
 #### Wont
 
 - unit tests
-  - get it working
+  - get it working is too time consuming.
 
 

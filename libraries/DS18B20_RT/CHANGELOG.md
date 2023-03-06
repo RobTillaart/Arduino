@@ -6,13 +6,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-03-05
+- fix #24 - remove resolution parameter from constructor.
+- refactor code to keep in sync with DS18B20_INT
+- refactor resolution handling
+- update readme.md
+- minor edits
+
+----
+
+## [0.1.16] - 2023-03-05
+- Thanks to SherifMEldeeb.
+- Fix issue Infinite loop #22
+- Add resolution parameter with constructor.
+- Move source files under src/ to comply with PlatformIO dependency system.
+- Update library.json
+- Update library.properties
+
 ## [0.1.15] - 2023-02-22
 - fix #20 improve disconnect detection
 - add **bool isConnected(uint8_t retries)**
 - update keywords.txt
 - update readme.md
 - minor edits
-
 
 ## [0.1.14] - 2023-02-03
 - update readme.md

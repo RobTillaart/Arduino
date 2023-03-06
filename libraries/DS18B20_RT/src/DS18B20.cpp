@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.16
+// VERSION: 0.2.0
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -48,18 +48,9 @@ DS18B20::DS18B20(OneWire* ow, uint8_t resolution)
 bool DS18B20::begin(uint8_t retries)
 {
   _config = DS18B20_CLEAR;
-  isConnected(retries);
-  if (_addressFound)
+  if (isConnected(retries))
   {
-      _oneWire->reset();
-      _oneWire->select(_deviceAddress);
-      _oneWire->write(WRITESCRATCH);
-      //  two dummy values for LOW & HIGH ALARM
-      _oneWire->write(0);
-      _oneWire->write(100);
-      //  lowest as default as we do only integer math.
-      _oneWire->write(_resolution);
-      _oneWire->reset();
+    _setResolution();
   }
   return _addressFound;
 }
@@ -138,29 +129,20 @@ bool DS18B20::getAddress(uint8_t* buf)
 }
 
 
-bool DS18B20::setResolution(uint8_t bits)
+bool DS18B20::setResolution(uint8_t resolution)
 {
-  switch (bits)
+  if (isConnected())
   {
-    case 12: _resolution = TEMP_12_BIT;  break;
-    case 11: _resolution = TEMP_11_BIT;  break;
-    case 10: _resolution = TEMP_10_BIT;  break;
-    default: _resolution = TEMP_9_BIT;   break;
+    _resolution = resolution;
+    _setResolution();
   }
-  return begin();
+  return _addressFound;
 }
 
 
 uint8_t DS18B20::getResolution()
 {
-  switch (_resolution)
-  {
-    case TEMP_12_BIT: return 12;
-    case TEMP_11_BIT: return 11;
-    case TEMP_10_BIT: return 10;
-    case TEMP_9_BIT:  return 9;
-  }
-  return 0;
+  return _resolution;
 }
 
 
@@ -180,8 +162,6 @@ uint8_t DS18B20::getConfig()
 //
 //  PRIVATE
 //
-
-
 void DS18B20::readScratchPad(uint8_t *scratchPad, uint8_t fields)
 {
   _oneWire->reset();
@@ -192,6 +172,29 @@ void DS18B20::readScratchPad(uint8_t *scratchPad, uint8_t fields)
   {
     scratchPad[i] = _oneWire->read();
   }
+  _oneWire->reset();
+}
+
+
+void DS18B20::_setResolution()
+{
+  uint8_t res;
+  switch (_resolution)
+  {
+    case 12: res = TEMP_12_BIT;  break;
+    case 11: res = TEMP_11_BIT;  break;
+    case 10: res = TEMP_10_BIT;  break;
+    //  lowest as default as we do only integer math.
+    default: res = TEMP_9_BIT;   break;
+  }
+
+  _oneWire->reset();
+  _oneWire->select(_deviceAddress);
+  _oneWire->write(WRITESCRATCH);
+  //  two dummy values for LOW & HIGH ALARM
+  _oneWire->write(0);
+  _oneWire->write(100);
+  _oneWire->write(res);
   _oneWire->reset();
 }
 

@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -28,14 +28,13 @@ DS18B20_INT::DS18B20_INT(OneWire* ow)
 {
   _oneWire      = ow;
   _addressFound = false;
-  _resolution   = TEMP_9_BIT;
+  _resolution   = 9;
 }
 
 
 bool DS18B20_INT::begin(uint8_t retries)
 {
-  isConnected(retries);
-  if (_addressFound)
+  if (isConnected(retries))
   {
     _setResolution();
   }
@@ -102,29 +101,20 @@ bool DS18B20_INT::getAddress(uint8_t* buf)
 }
 
 
-bool DS18B20_INT::setResolution(uint8_t bits)
+bool DS18B20_INT::setResolution(uint8_t resolution)
 {
-  switch (bits)
+  if (isConnected())
   {
-    case 12: _resolution = TEMP_12_BIT;  break;
-    case 11: _resolution = TEMP_11_BIT;  break;
-    case 10: _resolution = TEMP_10_BIT;  break;
-    default: _resolution = TEMP_9_BIT;   break;
+    _resolution = resolution;
+    _setResolution();
   }
-  return begin();
+  return _addressFound;
 }
 
 
 uint8_t DS18B20_INT::getResolution()
 {
-  switch (_resolution)
-  {
-    case TEMP_12_BIT: return 12;
-    case TEMP_11_BIT: return 11;
-    case TEMP_10_BIT: return 10;
-    case TEMP_9_BIT:  return 9;
-  }
-  return 0;
+  return _resolution;
 }
 
 
@@ -163,21 +153,26 @@ int16_t DS18B20_INT::_readRaw(void)
 }
 
 
-bool DS18B20_INT::_setResolution()
+void DS18B20_INT::_setResolution()
 {
-  if (_addressFound)
+  uint8_t res;
+  switch (_resolution)
   {
-    _oneWire->reset();
-    _oneWire->select(_deviceAddress);
-    _oneWire->write(WRITESCRATCH);
-    //  two dummy values for LOW & HIGH ALARM
-    _oneWire->write(0);
-    _oneWire->write(100);
+    case 12: res = TEMP_12_BIT;  break;
+    case 11: res = TEMP_11_BIT;  break;
+    case 10: res = TEMP_10_BIT;  break;
     //  lowest as default as we do only integer math.
-    _oneWire->write(_resolution);
-    _oneWire->reset();
+    default: res = TEMP_9_BIT;   break;
   }
-  return _addressFound;
+
+  _oneWire->reset();
+  _oneWire->select(_deviceAddress);
+  _oneWire->write(WRITESCRATCH);
+  //  two dummy values for LOW & HIGH ALARM
+  _oneWire->write(0);
+  _oneWire->write(100);
+  _oneWire->write(res);
+  _oneWire->reset();
 }
 
 

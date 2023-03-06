@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2017-07-25
 // PUPROSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -21,13 +21,14 @@
 //
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.2.2"))
+#define DS18B20_INT_LIB_VERSION       (F("0.3.0"))
 
 #include "Arduino.h"
 #include "OneWire.h"
 
 //  Error Code
 #define DEVICE_DISCONNECTED           -127
+
 
 typedef uint8_t DeviceAddress[8];
 
@@ -44,7 +45,7 @@ public:
   bool      isConversionComplete(void);
   bool      getAddress(uint8_t* buf);
 
-  bool      setResolution(uint8_t bits = 9);
+  bool      setResolution(uint8_t resolution = 9);
   uint8_t   getResolution();  //  returns cached value
 
   int16_t   getTempCentiC(void);
@@ -57,7 +58,7 @@ private:
 
   uint8_t       _resolution;
   int16_t       _readRaw();
-  bool          _setResolution();
+  void          _setResolution();
 };
 
 

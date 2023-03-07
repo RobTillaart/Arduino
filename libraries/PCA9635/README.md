@@ -15,17 +15,20 @@ Arduino library for PCA9635 I2C 8 bit PWM LED driver, 16 channel.
 
 This library is to control the I2C PCA9635 PWM extender.
 The 16 channels are independently configurable in steps of 1/256.
-this allows for better than 1% fine tuning of the duty-cycle
+This allows for better than 1% fine tuning of the duty-cycle
 of the PWM signal. 
 
-library is related to the 8 channel PCA9634 class.
+library is related to the 8 channel https://github.com/RobTillaart/PCA9634 class.
 (these might merge in the future)
 
 
 ## Interface
 
+```cpp
+#include "PCA9635.h"
+```
 
-### Constructor
+#### Constructor
 
 - **PCA9635(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address, 
 and optional the Wire interface as parameter.
@@ -41,25 +44,25 @@ See PCA9635.h and datasheet for settings possible.
 - **uint8_t channelCount()** returns the number of channels = 16.
 
 
-### LedDriverMode
+#### LedDriverMode
 
 Configure LED behaviour.
 
 - **uint8_t setLedDriverMode(uint8_t channel, uint8_t mode)** mode is 0..3 See datasheet for full details.
 - **uint8_t getLedDriverMode(uint8_t channel)** returns the current mode of the channel.
 
-| LED mode           | Value | Description                       |
-|:-------------------|:-----:|:----------------------------------|
-| PCA9635_LEDOFF     | 0x00  | led is 100% off, default @startup |
-| PCA9635_LEDON      | 0x01  | led is 100% on.                   |
-| PCA9635_LEDPWM     | 0x02  | set LED in PWM mode, 0..255       |
-| PCA9635_LEDGRPPWM  | 0x03  | add LED to the GRPPWM*            |
+|  LED mode           |  Value  |  Description                        |
+|:--------------------|:-------:|:------------------------------------|
+|  PCA9635_LEDOFF     |   0x00  |  led is 100% off, default @startup  |
+|  PCA9635_LEDON      |   0x01  |  led is 100% on.                    |
+|  PCA9635_LEDPWM     |   0x02  |  set LED in PWM mode, 0..255        |
+|  PCA9635_LEDGRPPWM  |   0x03  |  add LED to the GRPPWM*             |
 
 \* all LEDs in the group GRPPWM can be set to the same PWM value in one set.
 This is ideal to trigger e.g. multiple LEDs (servo's) at same time.
 
 
-### Read and write
+#### Read and write
 
 Read and write individual values to LED channels. 
 Requires LEDs' DriverMode of the specific channels to be in PWM mode.
@@ -74,7 +77,7 @@ May return **PCA9635_ERR_WRITE** if array has too many elements
 (including channel as offset).
 
 
-### Mode registers
+#### Mode registers
 
 Used to configure the PCA963x general behaviour.
 
@@ -92,21 +95,21 @@ useful to add or remove a single flag (bit masking).
 
 (added 0.3.4)
 
-| Name                    | Value | Description                        |
-|:------------------------|:-----:|:-----------------------------------|
-| PCA9635_MODE1_AUTOINCR2 | 0x80  | Read Only, 0 = disable  1 = enable |
-| PCA9635_MODE1_AUTOINCR1 | 0x40  | Read Only, bit1                    |
-| PCA9635_MODE1_AUTOINCR0 | 0x20  | Read Only, bit0                    |
-| PCA9635_MODE1_SLEEP     | 0x10  | 0 = normal        1 = sleep        |
-| PCA9635_MODE1_SUB1      | 0x08  | 0 = disable       1 = enable       |
-| PCA9635_MODE1_SUB2      | 0x04  | 0 = disable       1 = enable       |
-| PCA9635_MODE1_SUB3      | 0x02  | 0 = disable       1 = enable       |
-| PCA9635_MODE1_ALLCALL   | 0x01  | 0 = disable       1 = enable       |
-|                         |       |                                    |
-| PCA9635_MODE2_BLINK     | 0x20  | 0 = dim           1 = blink        |
-| PCA9635_MODE2_INVERT    | 0x10  | 0 = normal        1 = inverted     |
-| PCA9635_MODE2_STOP      | 0x08  | 0 = on STOP       1 = on ACK       |
-| PCA9635_MODE2_TOTEMPOLE | 0x04  | 0 = open drain    1 = totem-pole   |
+|  Name                     |  Value  |  Description                         |
+|:--------------------------|:-------:|:-------------------------------------|
+|  PCA9635_MODE1_AUTOINCR2  |  0x80   |  Read Only, 0 = disable  1 = enable  |
+|  PCA9635_MODE1_AUTOINCR1  |  0x40   |  Read Only, bit1                     |
+|  PCA9635_MODE1_AUTOINCR0  |  0x20   |  Read Only, bit0                     |
+|  PCA9635_MODE1_SLEEP      |  0x10   |  0 = normal        1 = sleep         |
+|  PCA9635_MODE1_SUB1       |  0x08   |  0 = disable       1 = enable        |
+|  PCA9635_MODE1_SUB2       |  0x04   |  0 = disable       1 = enable        |
+|  PCA9635_MODE1_SUB3       |  0x02   |  0 = disable       1 = enable        |
+|  PCA9635_MODE1_ALLCALL    |  0x01   |  0 = disable       1 = enable        |
+|  ----                     |         |                                      |
+|  PCA9635_MODE2_BLINK      |  0x20   |  0 = dim           1 = blink         |
+|  PCA9635_MODE2_INVERT     |  0x10   |  0 = normal        1 = inverted      |
+|  PCA9635_MODE2_STOP       |  0x08   |  0 = on STOP       1 = on ACK        |
+|  PCA9635_MODE2_TOTEMPOLE  |  0x04   |  0 = open drain    1 = totem-pole    |
 
 These constants makes it easier to set modes without using a non descriptive
 bit mask. The constants can be merged by OR-ing them together, see snippet:
@@ -125,7 +128,7 @@ ledArray.setMode2(PCA9635_MODE2_BLINK | PCA9635_MODE2_INVERT | PCA9635_MODE2_TOT
 ```
 
 
-### Group PWM and frequency
+#### Group PWM and frequency
 
 Check datasheet for the details.
 
@@ -137,22 +140,22 @@ So 0x00 results in 41 ms blinking period (on AND off) and 0xFF in approx. 10.5 s
 - **uint8_t getGroupFREQ()** returns the set frequency of the PWM group.
 
 
-### Miscellaneous
+#### Miscellaneous
 
 - **int lastError()** returns **PCA9635_OK** if all is OK, and other error codes otherwise.
 
-| Error code        | Value | Description          |
-|:------------------|:-----:|:---------------------|
-| PCA9635_OK        | 0x00  | Everything went well
-| PCA9635_ERROR     | 0xFF  | Generic error
-| PCA9635_ERR_WRITE | 0xFE  | Tries to write more elements than PWM channels
-| PCA9635_ERR_CHAN  | 0xFD  | Channel out of range
-| PCA9635_ERR_MODE  | 0xFC  | Invalid mode
-| PCA9635_ERR_REG   | 0xFB  | Invalid register
-| PCA9635_ERR_I2C   | 0xFA  | I2C communication error
+|  Error code         |  Value  |  Description          |
+|:--------------------|:-------:|:----------------------|
+|  PCA9635_OK         |   0x00  |  Everything went well
+|  PCA9635_ERROR      |   0xFF  |  Generic error
+|  PCA9635_ERR_WRITE  |   0xFE  |  Tries to write more elements than PWM channels
+|  PCA9635_ERR_CHAN   |   0xFD  |  Channel out of range
+|  PCA9635_ERR_MODE   |   0xFC  |  Invalid mode
+|  PCA9635_ERR_REG    |   0xFB  |  Invalid register
+|  PCA9635_ERR_I2C    |   0xFA  |  I2C communication error
 
 
-### SUB CALL and ALL CALL
+## SUB CALL and ALL CALL
 
 Please read the datasheet to understand the working of **SUB CALL** and **ALL CALL**.
 
@@ -192,24 +195,56 @@ The functions to enable all/sub-addresses are straightforward:
 - **uint8_t getAllCallAddress()**
 
 
-## Operation
+#### OutputEnable
 
-See examples
+Since 0.4.3 (experimental) support to control the OE (Output Enable) pin of the PCA9635.
+This OE pin can control all LEDs simultaneously. It also allows to 
+control multiple PCA9635.
+Think of simultaneous switching ON/OFF of get dimming with a high frequency PWM.
+
+See datasheet for the details
+
+- **bool setOutputEnablePin(uint8_t pin = 255)** sets the IO pin to connect to the OE pin of the PCA9635.
+A value of 255 indicates no pin set/selected.
+Sets the OE pin to LOW.
+Returns true on success.
+- **bool setOutputEnable(uint8_t value)** Sets the OE pin HIGH or LOW.
+All non zero values are HIGH.
+Returns true on success.
+- **uint8_t getOutputEnable()** get the current value of the OE pin.
+If pin is not set/selected it will return LOW.
+
+Note: the OE is LOW active. The user has to set the power on value 
+by means of a PULL UP / DOWN resistor.
 
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - move code from .h to .cpp
 - unit tests
   - SUB CALL if possible?
   - ALL CALL if possible?
 - add examples
+- improve error handling (0.5.0)
+  - return values etc.
+  - documentation.
 
-#### could
+
+#### Could
+
 - sync with PCA9634 developments
 - merge with PCA9634 and a PCA963X base class if possible
+- restructure function groups 
+  - in  .cpp to match .h
+  - readme.md
+
+
+#### Wont
+
 

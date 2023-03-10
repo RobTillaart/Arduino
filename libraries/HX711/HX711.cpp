@@ -1,11 +1,9 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711
-//
-// HISTORY: see CHANGELOG.md
 
 
 #include "HX711.h"
@@ -226,7 +224,7 @@ float HX711::read_medavg(uint8_t times)
   }
   _insertSort(samples, times);
   float sum = 0;
-  // iterate over 1/4 to 3/4 of the array
+  //  iterate over 1/4 to 3/4 of the array
   uint8_t count = 0;
   uint8_t first = (times + 2) / 4;
   uint8_t last  = times - first - 1;
@@ -308,7 +306,7 @@ float HX711::get_units(uint8_t times)
 
 void HX711::power_down()
 {
-  // at least 60 us HIGH
+  //  at least 60 us HIGH
   digitalWrite(_clockPin, HIGH);
   delayMicroseconds(64);
 }
@@ -324,7 +322,7 @@ void HX711::power_up()
 //  see datasheet page 5 for timing
 uint8_t HX711::_shiftIn()
 {
-  // local variables are faster.
+  //  local variables are faster.
   uint8_t clk   = _clockPin;
   uint8_t data  = _dataPin;
   uint8_t value = 0;
@@ -345,5 +343,5 @@ uint8_t HX711::_shiftIn()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

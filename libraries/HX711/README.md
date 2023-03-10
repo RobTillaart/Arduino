@@ -56,6 +56,9 @@ Steps to take for calibration
 
 ## Interface
 
+```cpp
+#include "HX711.h"
+```
 
 #### Base
 
@@ -124,7 +127,7 @@ Get and set the operational mode for **get_value()** and indirect **get_units()*
 
 Constants (see .h file)
 
-- **HX711_RAW_MODE**  new in 0.3.3 
+- **HX711_RAW_MODE** new in 0.3.3 
 - **HX711_AVERAGE_MODE**
 - **HX711_MEDIAN_MODE**
 - **HX711_MEDAVG_MODE**
@@ -134,7 +137,7 @@ Constants (see .h file)
 In **HX711_MEDIAN_MODE** and **HX711_MEDAVG_MODE** mode only 3..15 samples are allowed
 to keep memory footprint relative low.
 
-- **void set_raw_mode()** - will cause **read()** to be called only once!
+- **void set_raw_mode()** will cause **read()** to be called only once!
 - **void set_average_mode()** take the average of n measurements.
 - **void set_median_mode()** take the median of n measurements.
 - **void set_medavg_mode()** take the average of n/2 median measurements.
@@ -195,7 +198,7 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 ## Notes
 
 
-### Scale values for load cells
+#### Scale values for load cells
 
 These scale values worked pretty well with a set of load cells I have, 
 Use calibrate to find your favourite values.
@@ -204,7 +207,7 @@ Use calibrate to find your favourite values.
 - 20 KG load cell  scale.set_scale(127.15);
 
 
-### Connections HX711
+#### Connections HX711
 
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
@@ -221,7 +224,7 @@ Colour scheme wires of two devices.
 |    B+     |  not connected |  not connected |
 
 
-### Temperature
+#### Temperature
 
 Load cells do have a temperature related error. (see datasheet load cell)
 This can be reduced by doing the calibration and take the tare
@@ -232,21 +235,19 @@ Another way to handle this is to add a good temperature sensor
 differences in your code.
 
 
-## Operation
-
-See examples
-
-
 ## Future
 
 
-#### must
-- update documentation
+#### Must
+
+- update documentation HX711
 - test B channel explicitly.
 - test reset and reboot behaviours.
+- keep in sync with HX711_MP
 
 
-#### should
+#### Should
+
 - add examples
 - optimize the build-in **ShiftIn()** function to improve performance again.
 - investigate read()
@@ -258,13 +259,15 @@ See examples
   - code moves to both get/set_gain() so footprint might rise.
 
 
-#### could
+#### Could
+
 - test different load cells
 - make enum of the MODE's
 - move code to .cpp
+- example the adding scale
+  - void weight_clr(), void weight_add(), float weight_get() - adding scale
 
 
-#### the adding scale
-- void weight_clr(), void weight_add(), float weight_get() - adding scale
-  - might be a nice example
+#### Wont
+
 

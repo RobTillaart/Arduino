@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.4]
+## [0.3.5] - 2023-03-10
+- update readme.md
+- update GitHub actions
+- update license 2023
+- add MulitMap example
+- minor edits
+
+
+## [0.3.4] - 2022-11-11
 - simplified changelog
 - add RP2040 to build-CI
 - refactored **set_gain()** to return bool to confirm valid parameter.

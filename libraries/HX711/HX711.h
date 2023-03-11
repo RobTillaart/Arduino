@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.5"))
+#define HX711_LIB_VERSION               (F("0.3.6"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;

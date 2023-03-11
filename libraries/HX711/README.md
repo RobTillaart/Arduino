@@ -21,7 +21,7 @@ The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well.
 Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
 
-### Breaking change 0.3.0
+#### Breaking change 0.3.0
 
 In issue #11 it became clear that the timing of the default **shiftIn()** function to 
 read the value of the internal ADC was too fast on some processor boards for the HX711.
@@ -34,6 +34,24 @@ coded delayMicroseconds to keep the timing of the clock within HX711 datasheet p
 This should guarantee that the sign bit is always read correctly on all platforms. 
 Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
+
+
+#### HX711_MP
+
+- https://github.com/RobTillaart/HX711_MP
+
+The library HX711_MP is derived from this HX711 library version 0.3.5.
+
+The HX711_MP is not compatible, see readme.md of HX711_MP
+
+The main difference is that the HX711_MP uses a multi-point calibration
+which replaces the "offset + scale" concept.
+Functions related to this concept are removed in HX711_MP and replaced by
+its own set of calibration functions.
+
+This multi-point calibration allows to compensate for non-linear behaviour 
+in the sensor readings.
+
 
 
 ## Main flow

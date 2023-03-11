@@ -1,0 +1,23 @@
+{
+  "name": "HX711_MP",
+  "keywords": "loadcell,weight,kilo,pound,gram,price,lbs,ounce,pound",
+  "description": "Arduino library for HX711 load cell amplifier. Multipoint calibration version.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/HX711_MP"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "HX711_MP.h"
+}

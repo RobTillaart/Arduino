@@ -1,0 +1,61 @@
+# Syntax Colouring Map For HX711_MP
+
+# Data types (KEYWORD1)
+HX711_MP	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+reset	KEYWORD2
+
+is_ready	KEYWORD2
+wait_ready	KEYWORD2
+wait_ready_retry	KEYWORD2
+wait_ready_timeout	KEYWORD2
+
+read	KEYWORD2
+read_average	KEYWORD2
+read_median	KEYWORD2
+read_medavg	KEYWORD2
+read_runavg	KEYWORD2
+
+get_value	KEYWORD2
+get_units	KEYWORD2
+
+set_raw_mode	KEYWORD2
+set_average_mode	KEYWORD2
+set_median_mode	KEYWORD2
+set_medavg_mode	KEYWORD2
+set_runavg_mode	KEYWORD2
+get_mode	KEYWORD2
+
+set_gain	KEYWORD2
+get_gain	KEYWORD2
+
+setCalibrate	KEYWORD2
+getCalibrateSize	KEYWORD2
+getCalibrateRaw	KEYWORD2
+adjustCalibrateRaw	KEYWORD2
+getCalibrateWeight	KEYWORD2
+
+power_down	KEYWORD2
+power_up	KEYWORD2
+last_read	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+HX711_MP_LIB_VERSION	LITERAL1
+
+HX711_RAW_MODE	LITERAL1
+HX711_AVERAGE_MODE	LITERAL1
+HX711_MEDIAN_MODE	LITERAL1
+HX711_MEDAVG_MODE	LITERAL1
+HX711_RUNAVG_MODE	LITERAL1
+
+HX711_CHANNEL_A_GAIN_128	LITERAL1
+HX711_CHANNEL_A_GAIN_64	LITERAL1
+HX711_CHANNEL_B_GAIN_32	LITERAL1
+

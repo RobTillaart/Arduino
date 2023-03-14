@@ -167,7 +167,7 @@ void testSetGroupPWM_FREQ()
     }
   }
 
-  // reset to LEDPWM
+  //  reset to LEDPWM
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
     ledArray.setLedDriverMode(channel, PCA9634_LEDPWM);
@@ -181,7 +181,7 @@ void testSetAndReadMode()
   Serial.print("\t");
   Serial.println("Test - readMode");
   uint8_t regval = ledArray.readMode(PCA9634_MODE1);
-  ledArray.writeMode(PCA9634_MODE1, regval);     // non destructive;
+  ledArray.writeMode(PCA9634_MODE1, regval);     //  non destructive;
   Serial.print(millis());
   Serial.print("\t");
   Serial.print("PCA9634_MODE1: ");
@@ -219,5 +219,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

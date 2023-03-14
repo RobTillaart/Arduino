@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.5"))
+#define PCA9634_LIB_VERSION         (F("0.2.6"))
 
 #define PCA9634_MODE1               0x00
 #define PCA9634_MODE2               0x01
@@ -84,14 +84,38 @@ public:
 #endif
   bool     begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL,
                  uint8_t mode2_mask = PCA9634_MODE2_NONE);
-  void     configure(uint8_t mode1_mask, uint8_t mode2_mask);
   bool     isConnected();
 
-  uint8_t  channelCount() { return _channelCount; };
+
+  /////////////////////////////////////////////////////
+  //
+  //  CONFIGURATION
+  //
+  uint8_t  configure(uint8_t mode1_mask, uint8_t mode2_mask);
+  uint8_t  channelCount();
 
   uint8_t  setLedDriverMode(uint8_t channel, uint8_t mode);
   uint8_t  getLedDriverMode(uint8_t channel);
 
+  //  reg = 1, 2  check datasheet for values
+  uint8_t  writeMode(uint8_t reg, uint8_t value);
+  uint8_t  readMode(uint8_t reg);
+  //  convenience wrappers
+  uint8_t  setMode1(uint8_t value);
+  uint8_t  setMode2(uint8_t value);
+  uint8_t  getMode1();
+  uint8_t  getMode2();
+
+  void     setGroupPWM(uint8_t value);
+  uint8_t  getGroupPWM();
+  void     setGroupFREQ(uint8_t value);
+  uint8_t  getGroupFREQ();
+
+
+  /////////////////////////////////////////////////////
+  //
+  //  WRITE
+  //
   //  single PWM setting
   uint8_t  write1(uint8_t channel, uint8_t value);
 
@@ -107,24 +131,12 @@ public:
   //  write stop command to end transmission
   uint8_t  writeStop();
 
-  //  reg = 1, 2  check datasheet for values
-  uint8_t  writeMode(uint8_t reg, uint8_t value);
-  uint8_t  readMode(uint8_t reg);
-  //  convenience wrappers
-  uint8_t  setMode1(uint8_t value) { return writeMode(PCA9634_MODE1, value); };
-  uint8_t  setMode2(uint8_t value) { return writeMode(PCA9634_MODE2, value); };
-  uint8_t  getMode1()              { return readMode(PCA9634_MODE1); };
-  uint8_t  getMode2()              { return readMode(PCA9634_MODE2); };
 
-
-  //  TODO PWM also in %% ?
-  void     setGroupPWM(uint8_t value) { writeReg(PCA9634_GRPPWM, value); };
-  uint8_t  getGroupPWM() { return readReg(PCA9634_GRPPWM); };
-
-  //  TODO set time in milliseconds and round to nearest value?
-  void     setGroupFREQ(uint8_t value) { writeReg(PCA9634_GRPFREQ, value); };
-  uint8_t  getGroupFREQ() { return readReg(PCA9634_GRPFREQ); };
-
+  /////////////////////////////////////////////////////
+  //
+  //  ERROR
+  //
+  //  note error flag is reset after read!
   int      lastError();
 
 
@@ -145,6 +157,16 @@ public:
   bool     setAllCallAddress(uint8_t address);
   uint8_t  getAllCallAddress();
 
+
+  /////////////////////////////////////////////////////
+  //
+  //  OE - Output Enable control
+  //
+  bool     setOutputEnablePin(uint8_t pin);
+  bool     setOutputEnable(bool on);
+  uint8_t  getOutputEnable();
+
+
   //  EXPERIMENTAL 0.2.2
   int I2C_SoftwareReset(uint8_t method);
 
@@ -159,6 +181,7 @@ private:
   uint8_t  _data;
   int      _error;
   uint8_t  _channelCount = 8;
+  uint8_t  _OutputEnablePin;
 
   TwoWire*  _wire;
 };

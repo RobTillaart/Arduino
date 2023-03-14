@@ -6,12 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2023-03-07
+- add OutputEnable control functions.
+- add example **PCA9634_OE_control.ino**
+- update unit test.
+- **configure()** now returns error state
+- moved code from .h to .cpp
+- update readme.md
+- minor edits
+
+
 ## [0.2.5] - 2023-01-19
 - fix #22 update readme.md
 - update GitHub actions
 - update license
 - minor edits (comments)
-
 
 ## [0.2.4] - 2022-11-19
 - add RP2040 in build-CI

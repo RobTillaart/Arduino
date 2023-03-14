@@ -92,7 +92,33 @@ unittest(test_LedDriverMode)
 }
 
 
+unittest(test_OutputEnable)
+{
+  PCA9634 ledArray(0x20);
+
+  assertTrue(ledArray.begin());
+
+  assertEqual(HIGH, ledArray.getOutputEnable());
+
+  assertTrue(ledArray.setOutputEnablePin(12));
+  assertEqual(HIGH, ledArray.getOutputEnable());
+
+  assertTrue(ledArray.setOutputEnable(true));
+  assertEqual(LOW, ledArray.getOutputEnable());
+
+  assertTrue(ledArray.setOutputEnable(false));
+  assertEqual(HIGH, ledArray.getOutputEnable());
+
+  assertTrue(ledArray.setOutputEnable(true));
+  assertEqual(LOW, ledArray.getOutputEnable());
+
+  assertFalse(ledArray.setOutputEnablePin(255));
+  assertEqual(HIGH, ledArray.getOutputEnable());
+}
+
+
 unittest_main()
+
 
 //  -- END OF FILE --
 

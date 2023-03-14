@@ -36,6 +36,12 @@ enableAllCall	KEYWORD2
 disableAllCall	KEYWORD2
 isEnabledAllCall	KEYWORD2
 
+setOutputEnablePin	KEYWORD2
+setOutputEnable	KEYWORD2
+getOutputEnable	KEYWORD2
+
+I2C_SoftwareReset	KEYWORD2
+
 
 # Constants (LITERAL1)
 PCA9685_LIB_VERSION	LITERAL1

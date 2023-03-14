@@ -5,10 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.4.2] - 2023-03-14
+- add OutputEnable control functions.
+- add example **PCA9685_OE_control.ino**
+- update unit test.
+- **configure()** now returns error state
+- add I2C_SoftwareReset()
+- moved code from .h to .cpp
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.4.1] - 2022-11-19
 - add RP2040 in build-CI
 - add changelog.md
-
 
 ## [0.4.0] - 2022-06-09
 - breaking changes (sync with pca9634)

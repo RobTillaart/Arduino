@@ -198,6 +198,58 @@ The functions to enable all/sub-addresses are straightforward:
 - **uint8_t getAllCallAddress()**
 
 
+#### OutputEnable
+
+Since 0.2.6 (experimental) support to control the OE (Output Enable) pin of the PCA9634.
+This OE pin can control all LEDs simultaneously. 
+It also allows to control multiple PCA9634 modules by connecting the OE pins.
+Think of simultaneous switching ON/OFF or get dimming with a high frequency PWM.
+Or use 2 modules alternatively by placing an inverter in between.
+
+See datasheet for the details
+
+- **bool setOutputEnablePin(uint8_t pin = 255)** sets the IO pin to connect to the OE pin of the PCA9634.
+A value of 255 indicates no pin set/selected.
+Sets the OE pin to HIGH.
+Returns true on success.
+- **bool setOutputEnable(uint8_t value)** Sets the OE pin HIGH or LOW.
+All non zero values are LOW.
+Returns true on success.
+- **uint8_t getOutputEnable()** get the current value of the OE pin.
+If pin is not set/selected it will return HIGH.
+
+Note: the OE is LOW active. 
+The user has to set the power on value by means of a PULL DOWN resistor.
+
+
+#### I2C Software reset
+
+The goal of this function is to reset ALL PCA9685 devices on the bus.
+When using the software reset, ALL devices attached to the bus are set to their hardware startup conditions.
+Generally, there are multiple definitions of software resets by the I2C inventor NXP.
+To accommodate this, two different modes for this function have been defined and tested (See PCA9634).
+
+- Method 1 is a tested method which is specific to the PCA9634.
+Since the number of different types of I2C chips is very large, side-effects on other chips might be possible.
+Before using this method, consult the data sheets of all chips on the bus to mitigate potential undefined states.
+- Method 0 is a somewhat “general” method which resets many chips on the I2C-bus.
+However, this method DOES NOT reset the PCA9685 chip.
+Therefore, consult the data sheet of all different chips on the bus to mitigate potential undefined states.
+
+When only working with PCA9685 chips on a bus, only method 1 is required.
+
+```cpp
+ledArray.I2C_SoftwareReset(1);  //  for method 1
+ledArray.I2C_SoftwareReset(0);  //  for method 0
+```
+
+In case you experience issues with this function on your chips (non-PCA9685),
+please give feedback, so the documentation can be improved.
+
+For further details of the development, see - #10 (PCA9634 repo)
+
+
+
 ## Operation
 
 See examples

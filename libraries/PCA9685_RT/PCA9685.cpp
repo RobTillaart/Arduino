@@ -2,8 +2,8 @@
 //    FILE: PCA9685.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.4.1
-// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM 
+// VERSION: 0.4.2
+// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
 
@@ -16,10 +16,11 @@
 //
 PCA9685::PCA9685(const uint8_t deviceAddress, TwoWire *wire)
 {
-  _address      = deviceAddress;
-  _wire         = wire;
-  _channelCount = 16;
-  _error        = PCA9685_OK;
+  _address         = deviceAddress;
+  _wire            = wire;
+  _channelCount    = 16;
+  _error           = PCA9685_OK;
+  _OutputEnablePin = 255;
 }
 
 
@@ -49,6 +50,21 @@ bool PCA9685::begin(uint8_t mode1_mask, uint8_t mode2_mask)
 }
 
 
+uint8_t PCA9685::configure(uint8_t mode1_mask, uint8_t mode2_mask)
+{
+  _error = PCA9685_OK;
+
+  uint8_t r1 = setMode1(mode1_mask);
+  uint8_t r2 = setMode2(mode2_mask);
+
+  if ((r1 != PCA9685_OK) || (r2 != PCA9685_OK))
+  {
+    return PCA9685_ERROR;
+  }
+  return _error;
+}
+
+
 bool PCA9685::isConnected()
 {
   _wire->beginTransmission(_address);
@@ -57,12 +73,9 @@ bool PCA9685::isConnected()
 }
 
 
-void PCA9685::configure(uint8_t mode1_mask, uint8_t mode2_mask)
+uint8_t PCA9685::channelCount()
 {
-  _error = PCA9685_OK;
-
-  setMode1(mode1_mask);
-  setMode2(mode2_mask);
+  return _channelCount;
 }
 
 
@@ -88,6 +101,30 @@ uint8_t PCA9685::readMode(uint8_t reg)
   }
   _error = PCA9685_ERR_MODE;
   return PCA9685_ERROR;
+}
+
+
+uint8_t PCA9685::setMode1(uint8_t value)
+{
+  return writeMode(PCA9685_MODE1, value);
+}
+
+
+uint8_t PCA9685::setMode2(uint8_t value)
+{
+  return writeMode(PCA9685_MODE2, value);
+}
+
+
+uint8_t PCA9685::getMode1()
+{
+  return readMode(PCA9685_MODE1);
+}
+
+
+uint8_t PCA9685::getMode2()
+{
+  return readMode(PCA9685_MODE2);
 }
 
 
@@ -173,7 +210,7 @@ int PCA9685::getFrequency(bool cache)
 }
 
 
-//  datasheet P.18 - fig. 9:  
+//  datasheet P.18 - fig. 9:
 //  Note: bit[11-0] ON should NOT equal timer OFF in ON mode
 //  in OFF mode it doesn't matter.
 void PCA9685::digitalWrite(uint8_t channel, uint8_t mode)
@@ -304,6 +341,70 @@ uint8_t PCA9685::getAllCallAddress()
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  OE - Output Enable control
+//
+//  active LOW see datasheet
+//
+bool PCA9685::setOutputEnablePin(uint8_t pin)
+{
+  _OutputEnablePin = pin;
+  if (_OutputEnablePin != 255)
+  {
+    pinMode(_OutputEnablePin, OUTPUT);
+    digitalWrite(_OutputEnablePin, HIGH);
+    return true;
+  }
+  //  must it be set to HIGH now?
+  return false;
+}
+
+
+bool PCA9685::setOutputEnable(bool on)
+{
+  if (_OutputEnablePin != 255)
+  {
+    digitalWrite(_OutputEnablePin, on ? LOW : HIGH);
+    return true;
+  }
+  return false;
+}
+
+
+uint8_t PCA9685::getOutputEnable()
+{
+  if (_OutputEnablePin != 255)
+  {
+    return digitalRead(_OutputEnablePin);
+  }
+  return HIGH;
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
+int PCA9685::I2C_SoftwareReset(uint8_t method)
+{
+  //  only support 0 and 1
+  if (method > 1) return -999;
+  if (method == 1)
+  {
+    //  from https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
+   const uint8_t SW_RESET = 0x03;
+   _wire->beginTransmission(SW_RESET);
+   _wire->write(0xA5);
+   _wire->write(0x5A);
+   return _wire->endTransmission(true);
+  }
+
+  //  default - based upon NXP specification - UM10204.pdf - page 16
+  _wire->beginTransmission(0x00);
+  _wire->write(0x06);
+  return _wire->endTransmission(true);
+}
 
 
 //////////////////////////////////////////////////////////////

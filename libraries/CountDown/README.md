@@ -26,7 +26,17 @@ Note the countdown object is as accurate as the underlying **millis()** or **mic
 Interrupts etc might cause deviations.
 
 
+#### Links
+
+Relates to - https://github.com/RobTillaart/StopWatch_RT
+
+
 ## Interface
+
+```cpp
+#include "CountDown.h"
+```
+
 
 The main functions of the CountDown clock are:
 
@@ -46,6 +56,8 @@ Note that **remaining()** will report in MINUTES.
 - **void stop()** stop the count down.
 - **void cont()** resumes / continue the count down.
 *(note continue is a C-Keyword)*
+- **void restart()** restart the CountDown with the same resolution and ticks as before.
+resets the \_ticks and starts again.
 - **uint32_t remaining()** returns the remaining ticks in current resolution.
 - **bool isRunning()** idem.
 - **bool isStopped()** idem.
@@ -121,6 +133,11 @@ One can call **start(...)** at any time to reset the running clock to a new valu
 This allows to implement a sort of watchdog clock in which e.g. 
 the user must press a button at least once per minute to show he is still awake.
 
+Since version 0.3.1 the library supports **restart()** to start the countdown with
+the last used parameters of **start()**. The user does not need to remember the 
+number of ticks or hours + minutes + seconds any more. Much easier tom implement 
+a repeating (timed) function or a watchdog. See examples.
+
 
 ## Future
 
@@ -133,14 +150,13 @@ the user must press a button at least once per minute to show he is still awake.
 
 #### could
 
+- does **restart()** need to return some information? what?
 - add examples
   - visualisations - hexadecimal - alphabetical (radix 26)
   - depends on sensor
-  - (semi)watchdog()
 - add resolution::HOURS + **start(days, hours)**
   - extend adaptive display example
-- add call-back function when **0** is reached
-  - example
+  - or default 00 minutes?
 
 
 #### wont (unless)
@@ -158,4 +174,6 @@ the user must press a button at least once per minute to show he is still awake.
     but drift / interrupts would make it fail in practice.
 - countdown with a big number e.g. billions/ second ==> national deficit counter.
   - not time triggered (is just a big variable)
-  
+- printable interface (stopwatch_rt)
+- add call-back function when **0** is reached
+  - cannot be guaranteed as interface polls.

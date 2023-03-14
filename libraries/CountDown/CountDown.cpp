@@ -1,11 +1,9 @@
 //
 //    FILE: CountDown.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
-//
-//  HISTORY: see changelog.md
 
 
 #include "CountDown.h"
@@ -97,6 +95,12 @@ void CountDown::cont()
   {
     start(_remaining);
   }
+}
+
+
+void CountDown::restart()
+{
+  start(_ticks);
 }
 
 

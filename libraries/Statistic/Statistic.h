@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
 //          template version 1.0.0 by Glen Cornell
-// VERSION: 1.0.1
+// VERSION: 1.0.2
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See CHANGELOG.md
 //
@@ -37,7 +37,7 @@
 // and HAVE_STDCXX_CSTDINT feature macros in your build environment.
 
 
-#define STATISTIC_LIB_VERSION                     (F("1.0.1"))
+#define STATISTIC_LIB_VERSION                     (F("1.0.2"))
 
 
 #if defined (ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_MEGA2560)
@@ -61,34 +61,34 @@
 #include <type_traits>
 #else
 namespace std {
-  // substitute for std::conditional if not in your tool chain
+  //  substitute for std::conditional if not in your tool chain
   template<bool B, class T, class F>
   struct conditional { typedef T type; };
   template<class T, class F>
   struct conditional<false, T, F> { typedef F type; };
 };
-#endif /* HAVE_STDCXX_TYPE_TRAITS */
+#endif  /*  HAVE_STDCXX_TYPE_TRAITS */
 
 
 #if HAVE_STDCXX_CMATH || defined(_GLIBCXX_CMATH)
 #include <cmath>
 #else
 #include <math.h>
-// substitute for std::sqrt functions if not in your tool chain
+//  substitute for std::sqrt functions if not in your tool chain
 #undef sqrt
 namespace std {
   inline float sqrt(float n) { return __builtin_sqrtf(n); }
   inline double sqrt(double n) { return __builtin_sqrt(n); }
   inline long double sqrt(long double n) { return __builtin_sqrtl(n); }
 };
-#endif /* HAVE_STDCXX_CMATH */
+#endif  /*  HAVE_STDCXX_CMATH */
 
 
 #if HAVE_STDCXX_CSTDINT || defined(_GLIBCXX_CSTDINT)
 #include <cstdint>
 #else
-#include <stdint.h> // uint32_t, etc.
-#endif /* HAVE_STDCXX_CSTDINT */
+#include <stdint.h>  //  uint32_t, etc.
+#endif  /*  HAVE_STDCXX_CSTDINT */
 
 
 #if HAVE_STDCXX_LIMITS || defined(_GLIBCXX_NUMERIC_LIMITS)
@@ -121,7 +121,7 @@ namespace std {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// STATISTICS CLASS
+//  STATISTICS CLASS
 //
 
 namespace statistic {
@@ -144,13 +144,13 @@ public:
     _min = 0;
     _max = 0;
     _extra.clear();
-    // NOTE: _extra "guards" the conditional code e.g. ssqdiff
-    // NOTE: ssqdiff = not _ssq but sum of square differences
-    // which is SUM(from i = 1 to N) of f(i)-_ave_N)**2
+    //  NOTE: _extra "guards" the conditional code e.g. ssqdiff
+    //  NOTE: ssqdiff = not _ssq but sum of square differences
+    //  which is SUM(from i = 1 to N) of f(i)-_ave_N)**2
   }
 
 
-  // returns value actually added
+  //  returns value actually added
   value_type add(const value_type value) {
     value_type previousSum = _sum;
     if (_cnt == 0)
@@ -169,37 +169,37 @@ public:
       value_type _store = (_sum / _cnt - value);
       _extra.ssqdif(_extra.ssqdif() + _cnt * _store * _store / (_cnt - 1));
 
-      // NOTE: pre 1.0.0 code
-      // ~10% faster but limits the amount of samples to 65K as _cnt*_cnt overflows
-      // value_type _store = _sum - _cnt * value;
-      // _ssqdif = _ssqdif + _store * _store / (_cnt*_cnt - _cnt);
+      //  NOTE: pre 1.0.0 code
+      //  ~10% faster but limits the amount of samples to 65K as _cnt*_cnt overflows
+      //  value_type _store = _sum - _cnt * value;
+      //  _ssqdif = _ssqdif + _store * _store / (_cnt*_cnt - _cnt);
       //
-      // solution:  TODO verify
-      // _ssqdif = _ssqdif + (_store * _store / _cnt) / (_cnt - 1);
+      //  solution:  TODO verify
+      //  _ssqdif = _ssqdif + (_store * _store / _cnt) / (_cnt - 1);
     }
     return _sum - previousSum;
   }
 
 
-  // returns the number of values added
-  count_type count() const   { return _cnt; };   // zero if count == zero
-  value_type sum() const     { return _sum; };   // zero if count == zero
-  value_type minimum() const { return _min; };   // zero if count == zero
-  value_type maximum() const { return _max; };   // zero if count == zero
+  //  returns the number of values added
+  count_type count() const   { return _cnt; };   //  zero if count == zero
+  value_type sum() const     { return _sum; };   //  zero if count == zero
+  value_type minimum() const { return _min; };   //  zero if count == zero
+  value_type maximum() const { return _max; };   //  zero if count == zero
 
 
-  // NAN if count == zero
+  //  NAN if count == zero
   value_type average() const {
-    if (_cnt == 0) return NaN; // prevent DIV0 error
+    if (_cnt == 0) return NaN;  //  prevent DIV0 error
     return _sum / _cnt;
   }
 
 
-  // useStdDev must be true to use next three
-  // all return NAN if count == zero
+  //  useStdDev must be true to use next three
+  //  all return NAN if count == zero
   value_type variance() const {
     if (!_useStdDev) return NaN;
-    if (_cnt == 0) return NaN; // prevent DIV0 error
+    if (_cnt == 0) return NaN;  //  prevent DIV0 error
     return _extra.ssqdif() / _cnt;
   }
 
@@ -207,19 +207,19 @@ public:
   // Population standard deviation
   value_type pop_stdev() const {
     if (!_useStdDev) return NaN;
-    if (_cnt == 0) return NaN; // prevent DIV0 error
+    if (_cnt == 0) return NaN;  //  prevent DIV0 error
     return std::sqrt( _extra.ssqdif() / _cnt);
   }
 
 
   value_type unbiased_stdev() const {
     if (!_useStdDev) return NaN;
-    if (_cnt < 2) return NaN; // prevent DIV0 error
+    if (_cnt < 2) return NaN;  //  prevent DIV0 error
     return std::sqrt( _extra.ssqdif() / (_cnt - 1));
   }
 
 
-  // deprecated methods:
+  //  deprecated methods:
   Statistic(bool) {
   } __attribute__ ((deprecated ("use default constructor instead")));
   void clear(bool) {
@@ -234,7 +234,7 @@ protected:
   value_type _max { 0.0 };
 
 
-  // Conditionally compile to reduce dead code if not used
+  //  Conditionally compile to reduce dead code if not used
   struct Empty {
     void clear() { }
     value_type ssqdif() const { return NaN; }
@@ -243,7 +243,7 @@ protected:
 
 
   struct StdDev {
-    value_type    _ssqdif { 0.0 };    // sum of squares difference
+    value_type    _ssqdif { 0.0 };    //  sum of squares difference
     void clear() { _ssqdif = 0.0; }
     value_type ssqdif() const { return _ssqdif; }
     void ssqdif(value_type v) { _ssqdif = v; }
@@ -253,18 +253,18 @@ protected:
   typename std::conditional<_useStdDev, StdDev, Empty>::type _extra;
 };
 
-} // namespace statistic
+} //  namespace statistic
 
 
-// This typedef maintains backwards API compatibility with library
-// versions <= 0.4.4.
+//  This typedef maintains backwards API compatibility with library
+//  versions <= 0.4.4.
 typedef statistic::Statistic<float, uint32_t, true> Statistic;
 
 
-// NOTE: Do not issue 'using statistic;' in your code because the
-// compiler will not be able to distinguish between the template
-// '::Statistic' and the typedef 'statistic::Statistic'
+//  NOTE: Do not issue 'using statistic;' in your code because the
+//  compiler will not be able to distinguish between the template
+//  '::Statistic' and the typedef 'statistic::Statistic'
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

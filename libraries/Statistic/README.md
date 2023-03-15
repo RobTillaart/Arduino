@@ -38,8 +38,24 @@ The stability of the formulas is improved by the help of Gil Ross (Thanks!).
 
 The template version (1.0.0) is created by Glen Cornell  (Thanks!).
 
+#### Related
+
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/RunningAngle
+- https://github.com/RobTillaart/RunningAverage
+- https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/statHelpers - combinations & permutations
+- https://github.com/RobTillaart/Statistic
+
 
 ## Interface
+
+```cpp
+#include "Statistic.h"
+```
+
+#### Constructor
 
 - **Statistic(void)** Default constructor.
 - **statistic::Statistic<float, uint32_t, true>** Constructor, with value type, count type, and standard deviation flag.
@@ -47,6 +63,9 @@ The types mentioned are the defaults of the template.
 You can override e.g. **statistic::Statistic<double, uint64_t, false>** for many high precision values. 
 (assumes double >> float).
 - **void clear()** resets all internal variables and counters.
+
+#### Core
+
 - **typename T add(const typename T value)** returns value actually added to internal sum.
 If this differs from what should have been added, or even zero, the internal administration is running out of precision.
 If this happens after a lot of **add()** calls, it might become time to call **clear()**.
@@ -59,11 +78,13 @@ Alternatively one need to define the statistic object with a more precise data t
 
 These three functions only work if **useStdDev == true** (in the template).
 
-- **variance()**            returns NAN if count == zero.
-- **pop_stdev()**           returns NAN if count == zero.  pop_stdev = population standard deviation, 
-- **unbiased_stdev()**      returns NAN if count == zero.
+- **typename T variance()**      returns NAN if count == zero.
+- **typename T pop_stdev()**     returns NAN if count == zero.
+pop_stdev = population standard deviation, 
+- **typename T unbiased_stdev()** returns NAN if count == zero.
 
-Deprecated methods:
+
+#### Deprecated methods:
 
 - **Statistic(bool)** Constructor previously used to enable/disable the standard deviation functions. 
 This argument now has no effect.  It is recommended to migrate your code to the default constructor 
@@ -79,21 +100,33 @@ See examples.
 
 ## Faq
 
-See faq.md
+See https://github.com/RobTillaart/Statistic/blob/master/FAQ.md
 
 
 ## Future
 
+#### Must
+
 - update documentation
   - links that explain statistics in more depth
+
+#### Should
+
 - return values of **sum(), minimum(), maximum()** when **count()** == zero
   - should these be NaN, which is technically more correct?
   - for now user responsibility to check **count()** first.
+
+#### Could
+
 - add **expected average EA** compensation trick
   - every add will subtract EA before added to sum, 
   - this will keep the **\_sum** to around zero.
   - this will move **average()** to around zero.
   - do not forget to add **EA** to average.
+  - do not forget to add **EA** times count for sum.
   - does not affect the **std_dev()**
+  - all functions will become slightly slower.
 
+
+#### Wont
 

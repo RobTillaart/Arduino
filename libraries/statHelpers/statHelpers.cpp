@@ -1,7 +1,7 @@
 //
 //    FILE: statHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -188,7 +188,10 @@ double stirling(uint8_t n)
 }
 
 
+///////////////////////////////////////////////////////////////////////////
+//
 //  SEMIFACTORIAL
+//
 
 //  exact ==> 20!!
 uint32_t semiFactorial(uint8_t n)
@@ -475,7 +478,7 @@ void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponen
 
 ////////////////////////////////////////////////////////////
 //
-//  EXPERIMENTAL 64 BIT
+//  EXPERIMENTAL 64 BIT (not tested)
 //
 void bigFactorial64(uint64_t n, double &mantissa, uint64_t &exponent)
 {
@@ -524,8 +527,9 @@ void bigPermutations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &expon
 void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)
 {
   exponent = 0;
+  mantissa = 0;
   if ((k == 0) || (k == n)) return;
-  if (k < (n-k)) k = n - k; // symmetry
+  if (k < (n-k)) k = n - k;  //  symmetry
 
   double f = n;
   uint64_t p = 2;

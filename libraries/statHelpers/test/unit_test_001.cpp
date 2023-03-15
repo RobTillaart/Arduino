@@ -155,4 +155,6 @@ unittest(test_combinations)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

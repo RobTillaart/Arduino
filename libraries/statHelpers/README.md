@@ -14,11 +14,20 @@ Arduino library with a number of statistic helper functions.
 ## Description
 
 This library contains functions that have the goal to help with 
-some basic statistical calculations.
+basic statistical calculations like permutations, combinations,
+and factorials.
+
+It includes an experimental section for large numbers. 
+Note that these are very computation (time) intensive so not suited for real time math :)
 
 To print very large numbers - https://github.com/RobTillaart/PrintHelpers
 
-## Functions
+
+## Interface
+
+```cpp
+#include "statHelpers.h"
+```
 
 ### Permutation
 
@@ -56,6 +65,8 @@ but accuracy is less than the **dfactorial()**, see example.
 
 ### SemiFactorial
 
+SemiFactorials are like factorials but skipping every other.
+
 - **uint32_t semiFactorial(n)** exact up to 20!!
 - **uint64_t semiFactorial64(n)** exact up to 33!!  (Print 64 bit integers with my printHelpers)
 - **double dSemiFactorial(n)** not exact up to 56!! (4 byte) or 300!! (8 byte)
@@ -63,6 +74,7 @@ but accuracy is less than the **dfactorial()**, see example.
 SemiFactorial are defined for
 - **odd** values:  n x (n-2) x (n-4) ... x 1
 - **even** values: n x (n-2) x (n-4) ... x 2
+
 
 Notes:  
 ```n! = n!! x (n-1)!!``` this formula allows to calculate the value of n! indirectly
@@ -94,13 +106,13 @@ Uses Pascal's triangle.
 ## Notes
 
 - **perm1** is a sketch in the examples that shows a recursive permutation algorithm. 
-It generates all permutations of a given char string. 
-It allows you to process every instance.
-It is added to this library as it fits in the context.
+It generates all permutations of a given char string and allows you to process every instance.
+This sketch is added to this library as it fits in the context.
 
 
-### Experimental - large numbers
+## Experimental 
 
+#### 32 bit numbers
 
 - **void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
@@ -123,18 +135,18 @@ Not investigated what its maximum value is, but it should be higher than **51867
 of combinations is always smaller than number of permutations.
 
 
-#### Experimental - not investigated yet
+#### 64 bit numbers- not investigated
 
 To have support for huge numbers one could upgrade the code to use uint64_t as parameter and 
 internally but calculating these values could take a lot of time, although **bigPermutations64(n, k)** 
 and **bigCombinations64(n, k)** would work fast for small values of k. 
 
 - **void bigFactorial64(uint64_t n, double &mantissa, uint64_t &exponent)** 
-returns a double mantissa between 0 and 10, and an integer exponent. 
+returns a double mantissa between 0 and 10, and an integer exponent.
 - **void bigPermutation64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
-returns a double mantissa between 0 and 10, and an integer exponent. 
+returns a double mantissa between 0 and 10, and an integer exponent.
 - **void bigCombination64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
-returns a double mantissa between 0 and 10, and an integer exponent. 
+returns a double mantissa between 0 and 10, and an integer exponent.
 
 If someone has found the limits of these 64 bit versions, please let me know.
 
@@ -146,9 +158,22 @@ See examples
 
 ## Future
 
-- code & example for get Nth Permutation
+#### Must
+
+#### Should
+
 - investigate valid range detection for a given (n, k) for combinations and permutations.
-- investigate a bigFloat class to do math for permutations and combinations to substantially larger values.
 - Look for optimizations
+
+
+#### Could
+
+- investigate a bigFloat class to do math for permutations and combinations to substantially larger values.
 - Look for ways to extend the scope
+- **skipFactorial(uint32_t n, uint32_t skip)** == n x (n-skip) x (n -skip -skip) ... x S (depends on size of skip)
+  - e.g. skipFactorial(12, 4) = 12 x 8 x 4.
+  - skipFactorial(n, 2) == semiFactorial(n);
+
+
+#### Wont
 

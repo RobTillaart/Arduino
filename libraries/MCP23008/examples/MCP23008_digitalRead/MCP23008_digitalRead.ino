@@ -20,7 +20,7 @@ void setup()
   Wire.begin();
   MCP.begin();
 
-  MCP.pinMode8(0x00);
+  MCP.pinMode8(0xFF);
 
   Serial.println("TEST digitalRead(pin)");
   for (int pin = 0; pin < 8; pin++)
@@ -37,4 +37,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

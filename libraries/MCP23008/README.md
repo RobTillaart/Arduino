@@ -55,7 +55,9 @@ Can be overruled with Wire0..WireN.
 
 ### Single pin interface
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..7, mode = INPUT, OUTPUT. Returns true if successful.
+- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..7, mode = INPUT, OUTPUT.
+0xFF is all pins are input, 0x1F are 5 inputs and 3 outputs.
+Returns true if successful.
 - **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t digitalRead(uint8_t pin)** pin = 0..7, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..7, set reversed flag. Returns true if successful.

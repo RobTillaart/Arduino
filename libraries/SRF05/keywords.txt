@@ -25,6 +25,11 @@ getInch	KEYWORD2
 getFeet	KEYWORD2
 
 determineSpeedOfSound	KEYWORD2
+setTriggerLength	KEYWORD2
+getTriggerLength	KEYWORD2
+
+lastTime	KEYWORD2
+
 
 # Constants (LITERAL1)
 SRF05_LIB_VERSION	LITERAL1

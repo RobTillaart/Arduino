@@ -102,6 +102,31 @@ unittest(test_operationalMode)
 }
 
 
+unittest(test_lastTime)
+{
+  SRF05 SRF(7, 6);
+
+  assertEqual(0, SRF.lastTime());  //  minimal
+}
+
+
+unittest(test_triggerLength)
+{
+  SRF05 SRF(7, 6);
+
+  assertEqual(10, SRF.getTriggerLength());
+  for (uint8_t len = 1; len < 20; len += 3)
+  {
+    SRF.setTriggerLength(len);
+    assertEqual(len, SRF.getTriggerLength());
+  }
+  SRF.setTriggerLength();
+  assertEqual(10, SRF.getTriggerLength());
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

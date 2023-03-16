@@ -13,10 +13,13 @@ Arduino library for the SRF05 distance sensor and compatibles.
 
 ## Description
 
-The library allows to adjust to the speed of sound.
+The library allows to adjust to the speed of sound (sos).
 Reasons to use a different value are temperature, humidity, type of gas, composition etc.
 
-Default value for the speed of sound is set to 343 m/s. (~20°C)
+Default value for the speed of sound is set to 340 m/s. (~15°C)
+
+
+#### Effect temperature and humidity
 
 Several correction formulas for the speed of sound are available on the internet.
 
@@ -27,7 +30,7 @@ v = 331.4 + 0.606 * temperature + 0.0124 * rel_humidity (m/s)
 v = 20.05 * sqrt(273.16 + temperature) (m/s)
 ```
 
-In fact humidity has an effect which increases with temperature so the formula is more complex
+In fact humidity has an effect which increases with temperature so the formula is more complex.
 See - https://forum.arduino.cc/t/ultrasonic-sensor-to-determine-water-level/64890/12
 
 
@@ -57,47 +60,66 @@ See - https://forum.arduino.cc/t/ultrasonic-sensor-to-determine-water-level/6489
 
 
 The library has several ways to improve the quality of the measurements.
-By taking the average or the median of multiple readings.
+E.g. by taking the average or the median of multiple readings.
+This can be set with the mode commands.
 
 The library allows to set a correction factor to compensate for the timing of 
 the **pulseIn()** function. This has in the end the same effect as changing the 
-speed of sound however it is technically more correct to split the two.
+speed of sound however it is technically more correct to keep the two separated.
 
 
 ## Interface
 
+```cpp
+#include "SRF05.h"
+```
+
+
+#### Constructor
+
 - **SRF05(const uint8_t trigger, const uint8_t echo, const uint8_t out = 0)** constructor to set the trigger and echo pin.
-It is not clear yet what the purpose of the OUT pin is.
+It is not clear what the purpose of the OUT pin is, effectively it is not used yet.
 
 
-### Configuration
+#### Configuration
 
 - **void setSpeedOfSound(float sos)** adjust the speed of sound.
+See table above.
 - **float getSpeedOfSound()** return set value.
-- **void setCorrectionFactor(float cf = 1)** adjust the timing by a few percentage e.g. to adjust clocks. 
+- **bool setCorrectionFactor(float factor = 1)** adjust the timing by a few percentage e.g. to adjust clocks.
+Typical values are between 0.95 and 1.05 to correct up to 5%.
 Should not be used to correct the speed of sound :)
+Returns false if factor <= 0.
 - **float getCorrectionFactor()** returns the current correction factor.
 
 
+#### Operational mode
+
 Normally a single read should be OK.
-- **void setModeSingle()** read single time.
+
+- **void setModeSingle()** read a single time. 
+This is the default and typical the fastest.
 - **void setModeAverage(uint8_t count)** read count times and take the average.
-- **void setModeMedian(uint8_t count)** read count times and take the median. count = 3..15
-- **void setModeRunningAverage(float alpha)** use a running average algorithm with a weight alpha.
-(value depends on your application).
+Note: between the reads there is a delay of 1 millisecond.
+- **void setModeMedian(uint8_t count)** read count times and take the median. 
+count must between 3 and 15 otherwise it is clipped.
+Note: between the reads there is a delay of 1 millisecond.
+- **void setModeRunningAverage(float alpha)** use a running average algorithm 
+with a weight alpha. Value for alpha depends on your application.
 - **uint8_t getOperationalMode()** returns the operational mode 0..3.
+See table below.
 
 
-|  operational mode      |  value  |  Notes  |
-|:-----------------------|:-------:|:-------:|
-|  SRF_MODE_SINGLE       |    0    |         |
-|  SRF_MODE_AVERAGE      |    1    |         |
-|  SRF_MODE_MEDIAN       |    2    |         |
-|  SRF_MODE_RUN_AVERAGE  |    3    |         |
-|                        |  other  |  error  |
+|  operational mode        |  value  |  Notes  |
+|:-------------------------|:-------:|:-------:|
+|  SRF05_MODE_SINGLE       |    0    |         |
+|  SRF05_MODE_AVERAGE      |    1    |         |
+|  SRF05_MODE_MEDIAN       |    2    |         |
+|  SRF05_MODE_RUN_AVERAGE  |    3    |         |
+|                          |  other  |  error  |
 
 
-### Get distance
+#### Get distance
 
 - **uint32_t getTime()** returns distance in microseconds.
 - **uint32_t getMillimeter()** returns distance in millimetre.
@@ -107,34 +129,51 @@ Normally a single read should be OK.
 - **float getFeet()** returns distance in feet. (1 feet = 12 inch).
 
 
-### Experimental - calibration
+#### Experimental - setTriggerLength
 
-Put the sensor at e.g. exactly 1.00 meter from a wall, and based 
+Since 0.1.4 two experimental functions are added to tune the length
+of the trigger signal. 
+The idea is that shorter triggers can be used with harder surfaces
+or short distances. Longer trigger for longer distances.
+
+The effects and value of adjusting trigger length needs investigation.
+Experiences are welcome.
+
+- **void setTriggerLength(uint8_t length = 10)** default length == 10 us.
+- **uint8_t getTriggerLength()** returns set length.
+
+
+#### Experimental - calibration
+
+Put the sensor at exactly 1.00 meter from a wall, and based 
 upon the timing it will give an estimate for the speed of sound. 
-0.1.2 version seems accurate within 5 %.
+0.1.2 version seems to be accurate within 5 %.
 
-- **float determineSpeedOfSound(uint16_t distance)** 
+- **float determineSpeedOfSound(uint16_t distance)** distance is between 
+sensor and the wall - not forth and back.
+The distance is averaged over 16 measurements.
 
-Need to compensate for temperature and humidity.
+Function can be used to compensate for temperature and humidity.
 
 
-### Performance
+#### Performance
 
 Assumes default speed of sound of 340 m/sec.
-Distance is in meters and equals total distance (forth and back).
 
-| Distance | time (us) |
-|:--------:|----------:|
-|    1     |     2.94  |
-|    2     |     5.88  |
-|    5     |    14.71  |
-|    10    |    29.41  |
-|    20    |    58.82  |
-|    50    |   147.06  |
-|    100   |   294.12  |
-|    200   |   588.24  |
-|    300   |   882.35  |
-|    400   |  1176.47  |
+| distance (cm) | time (us) |
+|:-------------:|----------:|
+|        1      |     29.4  |
+|        2      |     58.8  |
+|        5      |    147.1  |
+|       10      |    294.1  |
+|       20      |    588.2  |
+|       50      |   1470.6  |
+|      100      |   2941.2  |
+|      200      |   5882.4  |
+|      300      |   8823.5  |
+|      400      |  11764.7  |
+
+to be elaborated.
 
 
 ## Operational
@@ -144,25 +183,34 @@ See examples.
 
 ## Future
 
-#### must
-- investigate purpose of the OUT pin.
+#### Must
 
-#### should
+- investigate purpose/possibilities of the OUT pin.
+
+
+#### Should
+
 - add examples
   - DHT22 and the formula for SOS
-- add ```get- setTriggerLength()```
-- add ```float calcSOS(float temp, float humidity = 0);```
-- fix magic conversion numbers.
+- add **float calcSOS(float temp, float humidity = 0)**
+- investigate 
+  - should **setSpeedOfSound(float sos)** return bool if sos <=0 ?
+  - value of **setTriggerLength()**
 
-#### could
+
+#### Could
+
+- set default SOS to an SOS from the table instead of 340.
+- add example to determine the correction factor?
+- delay(1) in average configurable?
+
+
+#### Wont
+
+- print feet as 3'2" or  3-7/8 feet (is that needed in this lib)
+  - in printHelpers ?
+- fix magic conversion numbers.
 - add ```float lastValue()``` ?  
   - not all paths update this variable.
 - add ```float delta()``` difference with last value.
   - how to handle different units? or only time?
-- set default SOS to an SOS from the table instead of 340.
-
-
-#### wont
-- print feet as 3'2" or  3-7/8 feet (is that needed in this lib)
-  - in printHelpers ?
-

@@ -1,7 +1,7 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05
@@ -37,9 +37,11 @@ float SRF05::getSpeedOfSound()
 }
 
 
-void SRF05::setCorrectionFactor(float factor)
+bool SRF05::setCorrectionFactor(float factor)
 {
+  if (factor <= 0) return false;
   _correctionFactor = factor;
+  return true;
 };
 
 
@@ -51,25 +53,26 @@ float SRF05::getCorrectionFactor()
 
 //////////////////////////////////////////////////
 //
-//  MODE
+//  OPERATIONAL MODE
 //
 void SRF05::setModeSingle()
 {
-  _mode  = 0x00;
+  _mode  = SRF05_MODE_SINGLE;
   _count = 1;
 }
 
 
 void SRF05::setModeAverage(uint8_t count)
 {
-  _mode  = 0x01;
+  _mode  = SRF05_MODE_AVERAGE;
+  if (_count == 0)  _count = 1;
   _count = count;
 }
 
 
 void SRF05::setModeMedian(uint8_t count)
 {
-  _mode  = 0x02;
+  _mode  = SRF05_MODE_MEDIAN;
   _count = count;
   if (_count < 3)  _count = 3;
   if (_count > 15) _count = 15;
@@ -78,7 +81,7 @@ void SRF05::setModeMedian(uint8_t count)
 
 void SRF05::setModeRunningAverage(float alpha)
 {
-  _mode  = 0x03;
+  _mode  = SRF05_MODE_RUN_AVERAGE;
   _count = 1;
   _alpha = alpha;
 }
@@ -96,13 +99,15 @@ uint8_t SRF05::getOperationalMode()
 //
 uint32_t SRF05::getTime()
 {
+  _lastTime = millis();
+
   switch(_mode)
   {
     default:
-    case 0x00:
+    case SRF05_MODE_SINGLE:
       return _read();
 
-    case 0x01:
+    case SRF05_MODE_AVERAGE:
     {
       float sum = 0;
       for (uint8_t s = 0; s < _count; s++)
@@ -112,7 +117,8 @@ uint32_t SRF05::getTime()
       }
       return round(sum / _count);
     }
-    case 0x02:
+
+    case SRF05_MODE_MEDIAN:
     {
       uint32_t samples[15];
       for (uint8_t s = 0; s < _count; s++)
@@ -124,7 +130,8 @@ uint32_t SRF05::getTime()
       if (_count & 0x01) return samples[_count / 2];
       return (samples[(_count + 1) / 2] + samples[_count / 2]) / 2;
     }
-    case 0x03:
+
+    case SRF05_MODE_RUN_AVERAGE:
       _value = (1 - _alpha) * _value + _alpha * _read();
       return _value;
   }
@@ -161,24 +168,41 @@ float SRF05::getFeet()
 }
 
 
-//  assumes a distance of 1.00 meter
-//  typically use 100 or 500 meter for distance to calibrate
+//  EXPERIMENTAL
 float SRF05::determineSpeedOfSound(uint16_t distance)
 {
   float sum = 0;
-  for (uint16_t i = 0; i < distance; i++)
+  for (uint16_t i = 0; i < 16; i++)
   {
     sum += _read();
     delay(1);
   }
-  float sos = 2e6 * distance / sum;
+  float sos = (16 * 2e6) * distance / sum;
   return sos;
+}
+
+
+void SRF05::setTriggerLength(uint8_t length)
+{
+  _triggerLength = length;
+}
+
+
+uint8_t SRF05::getTriggerLength()
+{
+  return _triggerLength;
+}
+
+
+uint32_t SRF05::lastTime()
+{
+  return _lastTime;
 }
 
 
 //////////////////////////////////////////////////
 //
-// private
+//  PRIVATE
 //
 uint32_t SRF05::_read()
 {

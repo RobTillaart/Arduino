@@ -2,7 +2,7 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -155,12 +155,12 @@ uint8_t PCA9635::setLedDriverMode(uint8_t channel, uint8_t mode)
   if (channel >= _channelCount)
   {
     _error  = PCA9635_ERR_CHAN;
-    return PCA9635_ERROR;
+    return _error;
   }
   if (mode > 3)
   {
     _error  = PCA9635_ERR_MODE;
-    return PCA9635_ERROR;
+    return _error;
   }
 
   uint8_t reg = PCA9635_LEDOUT_BASE + (channel >> 2);
@@ -181,7 +181,7 @@ uint8_t PCA9635::getLedDriverMode(uint8_t channel)
   if (channel >= _channelCount)
   {
     _error  = PCA9635_ERR_CHAN;
-    return PCA9635_ERROR;
+    return _error;
   }
 
   uint8_t reg = PCA9635_LEDOUT_BASE + (channel >> 2);
@@ -198,7 +198,7 @@ uint8_t PCA9635::getLedDriverMode(uint8_t channel)
 int PCA9635::lastError()
 {
   int e = _error;
-  _error = 0;
+  _error = PCA9635_OK;
   return e;
 }
 
@@ -364,6 +364,31 @@ uint8_t PCA9635::getOutputEnable()
     return digitalRead(_OutputEnablePin);
   }
   return HIGH;
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
+int PCA9635::I2C_SoftwareReset(uint8_t method)
+{
+  //  only support 0 and 1
+  if (method > 1) return -999;
+  if (method == 1)
+  {
+    //  from https://github.com/RobTillaart/PCA9634/issues/10#issuecomment-1206326417
+   const uint8_t SW_RESET = 0x03;
+   _wire->beginTransmission(SW_RESET);
+   _wire->write(0xA5);
+   _wire->write(0x5A);
+   return _wire->endTransmission(true);
+  }
+
+  //  default - based upon NXP specification - UM10204.pdf - page 16
+  _wire->beginTransmission(0x00);
+  _wire->write(0x06);
+  return _wire->endTransmission(true);
 }
 
 

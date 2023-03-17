@@ -42,6 +42,8 @@ setOutputEnablePin	KEYWORD2
 setOutputEnable	KEYWORD2
 getOutputEnable	KEYWORD2
 
+I2C_SoftwareReset	KEYWORD2
+
 #
 # Constants (	LITERAL1)
 #

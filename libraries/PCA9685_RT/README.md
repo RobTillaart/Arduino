@@ -200,9 +200,9 @@ The functions to enable all/sub-addresses are straightforward:
 
 #### OutputEnable
 
-Since 0.2.6 (experimental) support to control the OE (Output Enable) pin of the PCA9634.
+Since 0.4.2 (experimental) support to control the OE (Output Enable) pin of the PCA9685.
 This OE pin can control all LEDs simultaneously. 
-It also allows to control multiple PCA9634 modules by connecting the OE pins.
+It also allows to control multiple PCA9685 modules by connecting the OE pins.
 Think of simultaneous switching ON/OFF or get dimming with a high frequency PWM.
 Or use 2 modules alternatively by placing an inverter in between.
 

@@ -2,7 +2,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -10,16 +10,16 @@
 
 
 #include "Arduino.h"
-#include "Wire.h"
+#include "Wire.h" 
 
 
-#define SHT31_LIB_VERSION             (F("0.3.7"))
+#define SHT31_LIB_VERSION             (F("0.3.8"))
 
 #ifndef SHT_DEFAULT_ADDRESS   
 #define SHT_DEFAULT_ADDRESS           0x44
 #endif
 
-// fields readStatus
+//  fields readStatus
 #define SHT31_STATUS_ALERT_PENDING    (1 << 15)
 #define SHT31_STATUS_HEATER_ON        (1 << 13)
 #define SHT31_STATUS_HUM_TRACK_ALERT  (1 << 11)
@@ -28,7 +28,7 @@
 #define SHT31_STATUS_COMMAND_STATUS   (1 << 1)
 #define SHT31_STATUS_WRITE_CRC_STATUS (1 << 0)
 
-// error codes
+//  error codes
 #define SHT31_OK                      0x00
 #define SHT31_ERR_WRITECMD            0x81
 #define SHT31_ERR_READBYTES           0x82
@@ -48,30 +48,30 @@ public:
 
 #if defined(ESP8266) || defined(ESP32)
   bool begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
-  // use SHT_DEFAULT_ADDRESS
+  //  use SHT_DEFAULT_ADDRESS
   bool begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
   bool begin(const uint8_t address,  TwoWire *wire = &Wire);
-  // use SHT_DEFAULT_ADDRESS
+  //  use SHT_DEFAULT_ADDRESS
   bool begin(TwoWire *wire = &Wire);
 
-  // blocks 15 milliseconds + actual read + math
+  //  blocks 15 milliseconds + actual read + math
   bool read(bool fast = true);
 
-  // check sensor is reachable over I2C
-  bool isConnected();
+  //  check sensor is reachable over I2C
+  virtual bool isConnected();
 
-  // details see datasheet; summary in SHT31.cpp file
+  //  details see datasheet; summary in SHT31.cpp file
   uint16_t readStatus();
 
-  // lastRead is in milliSeconds since start
+  //  lastRead is in milliSeconds since start
   uint32_t lastRead() { return _lastRead; };
 
   bool reset(bool hard = false);
 
-  // do not use heater for long periods,
-  // use it for max 3 minutes to heat up
-  // and let it cool down at least 3 minutes.
+  //  do not use heater for long periods,
+  //  use it for max 3 minutes to heat up
+  //  and let it cool down at least 3 minutes.
   void setHeatTimeout(uint8_t seconds);
   uint8_t getHeatTimeout() { return _heatTimeout; };
   bool heatOn();
@@ -91,18 +91,13 @@ public:
   bool dataReady();
   bool readData(bool fast = true);
 
-  int getError(); // clears error flag
+  int getError();  //  clears error flag
 
-private:
-  uint8_t crc8(const uint8_t *data, uint8_t len);
-  bool writeCmd(uint16_t cmd);
-  bool readBytes(uint8_t n, uint8_t *val);
-  TwoWire* _wire;
-
+protected:
   uint8_t   _address;
-  uint8_t   _heatTimeout;   // seconds
+  uint8_t   _heatTimeout;   //  seconds
   uint32_t  _lastRead;
-  uint32_t  _lastRequest;   // for async interface
+  uint32_t  _lastRequest;   //  for async interface
   uint32_t  _heaterStart;
   uint32_t  _heaterStop;
   bool      _heaterOn;
@@ -111,6 +106,15 @@ private:
   uint16_t _rawTemperature;
 
   uint8_t _error;
+
+private:
+  uint8_t crc8(const uint8_t *data, uint8_t len);
+  virtual bool writeCmd(uint16_t cmd);
+  virtual bool readBytes(uint8_t n, uint8_t *val);
+  TwoWire* _wire;
 };
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+
+

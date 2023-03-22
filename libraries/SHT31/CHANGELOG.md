@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.8] - 2023-03-23
+- prepare for derived class SHT31_SW
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.3.7] - 2022-11-24
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - update readme.md
-
 
 ## [0.3.6] - 2022-01-18
 - sync with SHT85 lib

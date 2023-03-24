@@ -1,0 +1,18 @@
+---
+name: Arduino CI
+
+on: [push, pull_request]
+
+jobs:
+  runTest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - run: |
+          gem install arduino_ci
+          ./.github/scripts/patch_arduino_ci.sh
+          arduino_ci.rb

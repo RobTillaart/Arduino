@@ -2,24 +2,22 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
-//
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.8"))
-
+#define MCP_DAC_LIB_VERSION       (F("0.2.0"))
 
 
 ///////////////////////////////////////////////////////////////
 //
-// BASE CLASS
+//  BASE CLASS
 //
 class MCP_DAC
 {
@@ -31,20 +29,20 @@ public:
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *mySPI = &SPI);
 #endif
 
-  // if only select is given ==> HW SPI
+  //       if only select is given ==> HW SPI
   void     begin(uint8_t select);
 
   //       0 or 1
-  uint8_t  channels() { return _channels; };
+  uint8_t  channels();
   //       255 (8 bit) or 1023 (10 bit) or 4095 (12 bit)
-  uint16_t maxValue() { return _maxValue; };
+  uint16_t maxValue();
 
   //       gain = 1 or 2
   bool     setGain(uint8_t gain = 1);
-  uint8_t  getGain()  { return _gain; };
+  uint8_t  getGain();
 
   bool     analogWrite(uint16_t value, uint8_t channel = 0);
-  uint16_t lastValue(uint8_t channel = 0) { return _value[channel]; };
+  uint16_t lastValue(uint8_t channel = 0);
   void     fastWriteA(uint16_t value);
   void     fastWriteB(uint16_t value);
 
@@ -62,30 +60,30 @@ public:
 
   //       shutDown - Page 21  ==> write will wake up.
   void     shutDown();
-  bool     isActive()  { return _active; };
+  bool     isActive();
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed() { return _SPIspeed; };
+  uint32_t getSPIspeed();
 
   //
   //       MCP49xxx series only
   //
   //       see page 20 ==> not functional for MCP48xx series.
-  void     setBufferedMode(bool mode = false) { _buffered = mode; };
-  bool     getBufferedMode() { return _buffered; };
+  void     setBufferedMode(bool mode = false);
+  bool     getBufferedMode();
 
   // debugging
   void     reset();
-  bool     usesHWSPI() { return _hwSPI; };
+  bool     usesHWSPI();
 
 
 #if defined(ESP32)                    // ESP32 specific
 
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
 
   // to overrule the ESP32s default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
@@ -99,19 +97,19 @@ public:
 
 
 protected:
-  uint8_t  _dataOut;                // Data out Pin (MOSI)
-  uint8_t  _clock;                  // Clock Pin (SCK)
-  uint8_t  _select;                 // Chip Select Pin (CS)
-  uint8_t  _latchPin = 255;         // Latch-DAC Pin (LDAC)
-  bool     _hwSPI;                  // Hardware SPI (true) or Software SPI (false)
-  uint32_t _SPIspeed = 16000000;    // SPI-Bus Frequency
+  uint8_t  _dataOut;              //  Data out Pin (MOSI)
+  uint8_t  _clock;                //  Clock Pin (SCK)
+  uint8_t  _select;               //  Chip Select Pin (CS)
+  uint8_t  _latchPin = 255;       //  Latch-DAC Pin (LDAC)
+  bool     _hwSPI;                //  Hardware SPI (true) or Software SPI (false)
+  uint32_t _SPIspeed = 16000000;  //  SPI-Bus Frequency
 
-  uint8_t  _channels;               // Number of DAC-Channels of a given Chip
-  uint16_t _maxValue;               // Maximum value of a given Chip
-  uint16_t _value[2];               // Current value  (cache for performance)
-  uint8_t  _gain;                   // Programmable Gain Amplifier variable
-  bool     _buffered = false;       // Buffer for the Reference Voltage of the MCP49XX Series Chips
-  bool     _active   = true;        // Indicates shutDown mode.
+  uint8_t  _channels;             //  Number of DAC-Channels of a given Chip
+  uint16_t _maxValue;             //  Maximum value of a given Chip
+  uint16_t _value[2];             //  Current value  (cache for performance)
+  uint8_t  _gain;                 //  Programmable Gain Amplifier variable
+  bool     _buffered = false;     //  Buffer for the Reference Voltage of the MCP49XX Series Chips
+  bool     _active   = true;      //  Indicates shutDown mode.
 
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
@@ -140,7 +138,7 @@ protected:
 
 ///////////////////////////////////////////////////////////////
 //
-// MCP4800 Series
+//  MCP4800 Series
 //
 
 class MCP4801 : public MCP_DAC
@@ -181,7 +179,7 @@ public:
 
 ///////////////////////////////////////////////////////////////
 //
-// MCP4900 Series
+//  MCP4900 Series
 //
 
 class MCP4901 : public MCP_DAC
@@ -225,7 +223,7 @@ public:
 
 ///////////////////////////////////////////////////////////////
 //
-// MCP4800 Series
+//  MCP4800 Series
 //
 
 class MCP4801 : public MCP_DAC
@@ -266,7 +264,7 @@ public:
 
 ///////////////////////////////////////////////////////////////
 //
-// MCP4900 Series
+//  MCP4900 Series
 //
 
 class MCP4901 : public MCP_DAC

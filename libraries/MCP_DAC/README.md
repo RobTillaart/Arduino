@@ -40,20 +40,24 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 ## Interface
 
+```cpp
+#include "MCP_DAC.h"
+```
 
-### Constructor
+#### Constructor
 
 - **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040.
 - **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass \*mySPI = &SPI)** Constructor base class.
   Other devices just use their name as class object e.g. MCP4801 with same parameters.
 - **begin(uint8_t select)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
-- **uint8_t channels()** returns the number of channels.
+- **uint8_t channels()** returns the number of channels, 1 or 2.
+(note channel numbers are 0 or 1).
 - **uint16_t maxValue()** returns the maximum value that can be set.
 This relates to the number of bits, see table above.
 
 
-### Gain
+#### Gain
 
 - **bool setGain(uint8_t gain = 1)** gain is 1 (default) or 2.
 - **uint8_t getGain()** returns gain set, default 1.
@@ -62,15 +66,22 @@ The analog output cannot go beyond the supply voltage.
 So if Vref is connected to 5V, gain=2 will not output 10 Volts.
 
 
-### Write
+#### Write
 
-- **bool analogWrite(uint16_t value, uint8_t channel = 0)** writes value to channel. The value is limited to maxValue.
+- **bool analogWrite(uint16_t value, uint8_t channel = 0)** writes value to channel.
+Default for channel 0 as that works for the single DAC devices.
+The value is limited to maxValue.
 Returns false in case of an invalid channel.
-- **uint16_t lastValue(uint8_t channel = 0)** returns last written value, default for channel 0 as that works for the single DAC devices.
-- **void setPercentage(float percentage)** percentage = 0..100.0%  Wrapper around **analogWrite()**.
-- **float getPercentage(uint8_t channel = 0)** returns percentage. Wrapper around **lastValue()**.
-- **void fastWriteA(uint16_t value)** faster version to write to channel 0. Does not check flags and does not update **lastValue()**
-- **void fastWriteB(uint16_t value)** faster version to write to channel 1. Does not check flags and does not update **lastValue()**
+- **uint16_t lastValue(uint8_t channel = 0)** returns last written value. 
+Default for channel 0 as that works for the single DAC devices.
+- **void setPercentage(float percentage, uint8_t channel = 0)** percentage = 0..100.0%.  
+Wrapper around **analogWrite()**.
+- **float getPercentage(uint8_t channel = 0)** returns percentage. 
+Reads from cache.
+- **void fastWriteA(uint16_t value)** faster version to write to channel 0. 
+Does not check flags and does not update **lastValue()**
+- **void fastWriteB(uint16_t value)** faster version to write to channel 1. 
+Does not check flags and does not update **lastValue()**
 - **bool increment(uint8_t channel = 0)** returns true if channel is incremented, false otherwise.
 - **bool decrement(uint8_t channel = 0)** returns true if channel is decremented, false otherwise.
 
@@ -79,44 +90,51 @@ That squeezes the most performance out of it for now.
 Code for the other MCP4xxx can be written in same way.
 
 
-### Shutdown
+#### Shutdown
 
-- **void shutDown()** shuts down the device, optional one might need to **triggerLatch()**
+- **void shutDown()** shuts down the device, optional one might need to **triggerLatch()**.
 - **bool isActive()** returns false if device is in shutdown mode.
-Note: **write()** will set active to true again.
+Note: any **write()** operation will set active to true again.
 
 
-### Hardware SPI
+#### Hardware SPI
 
 To be used only if one needs a specific speed.
+Check datasheet for details.
 
-- **void setSPIspeed(uint32_t speed)** set SPI transfer rate
-- **uint32_t getSPIspeed()** returns SPI transfer rate
+- **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
+- **uint32_t getSPIspeed()** returns SPI transfer rate.
 
 
-### LDAC
+#### LDAC
 
-- **void setLatchPin(uint8_t latchPin)** defines the latchPin, this is optional. The latchPin is used for simultaneous setting a value in multiple devices. Note the latchPin must be the same for all instances that need to be triggered together.
+- **void setLatchPin(uint8_t latchPin)** defines the latchPin, this is optional. 
+The latchPin is used for simultaneous setting a value in both DAC registers.
+It can also be used to synchronize the setting of multiple devices.
+Note the latchPin must be the same for all instances that need to be triggered together.
 - **triggerLatch()** toggles the defined latchPin, and all devices that are connected to it.
 
-
-### Buffered
-
-MCP49xxx series only, see page 20 ==> not functional for MCP48xx series.
-
-- **void setBufferedMode(bool mode = false)** set buffered mode on/off. The default = false, unbuffered.
-- **bool getBufferedMode()** returns set value
+Note: pre 0.2.0 versions have the LDAC signal incorrectly inverted.
 
 
-### Debug
+#### Buffered
 
-- **void reset()** resets internal variables to initial value. (use with care!)
+**MCP49xxx series only**, see page 20 ==> not functional for MCP48xx series.
+
+- **void setBufferedMode(bool mode = false)** set buffered mode on/off. 
+The default mode == false == unbuffered.
+- **bool getBufferedMode()** returns set value.
+
+
+#### Debug
+
+- **void reset()** resets internal variables to initial value. (use with care!).
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
 ## ESP32 specific
 
-### SPI port selection
+#### SPI port selection
 
 This functionality is new in 0.1.2 and it is expected that the interface will change
 in the future.
@@ -130,10 +148,11 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called
 BEFORE the **begin()** function.
 
 
-### Experimental
+#### Experimental
 
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called
-AFTER the **begin()** function.
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of ESP32 for hardware SPI. 
+Needs to be called AFTER the **begin()** function.
 
 ```cpp
 void setup()
@@ -148,19 +167,20 @@ This interface can change in the future as the **select** pin is known
 in the code.
 
 
-### ESP32 connections to MCP4922 (example)
+#### ESP32 connections to MCP4922 (example)
 
 ESP32 has **four** SPI peripherals from which two can be used.
 
-SPI0 and SPI1 are used to access flash memory. SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
+SPI0 and SPI1 are used to access flash memory. 
+SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
 
 
-| MCP4922  |  HSPI = SPI2  |  VSPI = SPI3  |
-|:--------:|:-------------:|:-------------:|
-|  CS      |  SELECT = 15  |  SELECT = 5   |
-|  SCK     |  SCLK   = 14  |  SCLK   = 18  |
-|  SDI     |  MOSI   = 13  |  MOSI   = 23  |
-| not used |  MISO   = 12  |  MISO   = 19  |
+|   MCP4922  |  HSPI = SPI2  |  VSPI = SPI3  |
+|:----------:|:-------------:|:-------------:|
+|    CS      |  SELECT = 15  |  SELECT = 5   |
+|    SCK     |  SCLK   = 14  |  SCLK   = 18  |
+|    SDI     |  MOSI   = 13  |  MOSI   = 23  |
+|  not used  |  MISO   = 12  |  MISO   = 19  |
 
 By using different **SELECT** pins multiple DAC's can be controlled over
 one SPI bus.
@@ -168,15 +188,23 @@ one SPI bus.
 
 ## RP2040 specific
 
-### SPI port selection
+#### SPI port selection
 
-The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. For the pin swap, you need the call the experimental feature **void setGPIOpins**. In the constructor you need to call the parameter dataOut and clock both with 255 (0xff) or otherwise it will use SoftSPI. 
+The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. 
+For the pin swap, you need the call the experimental feature **void setGPIOpins**. 
+In the constructor you need to call the parameter dataOut and clock both 
+with 255 (0xff) or otherwise it will use SoftSPI. 
 
 
-### Experimental
+#### Experimental
 
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of RP2040 for different SPI pins. needs to be called
-AFTER the **begin()** function. Selected pins must match the RP2040 pinout! Warning! This command changes the Pins of the Bus not only of a specific device, but all devices, that are connected on that Bus!
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of RP2040 for different SPI pins. 
+Needs to be called AFTER the **begin()** function. 
+Selected pins must match the RP2040 pinout!
+
+Warning! This command changes the Pins of the bus not only of a specific device, 
+but all devices, that are connected on that bus!
 
 
 ```cpp
@@ -189,7 +217,7 @@ void setup()
 }
 ```
 
-### Pico connections to MCP4922 (example)
+#### Pico connections to MCP4922 (example)
 
 The RP2040 has **two** SPI peripherals from which two can be used.
 
@@ -219,7 +247,18 @@ See examples
 - test test test and ....
 - improve documentation.
 
+
 #### Should
+
+
+#### Could
+
+- refactor the API (how).
+- minimize conditional in code if possible.
+- functional names for magic masks.
+
+
+#### Wont
 
 - **useSPI1** and **useHSPI** are functional identical indicators.
   - how to refactor to a generic model? Should work for all libraries.
@@ -227,10 +266,5 @@ See examples
     - numbers are not self-documenting.
     - **selectSPIport(int)** ?
   - would reduce conditional code.
-
-#### Could
-
-- refactor the API (how).
-- minimize conditional in code if possible.
-- move code from .h to .cpp
+  - does not improve library
 

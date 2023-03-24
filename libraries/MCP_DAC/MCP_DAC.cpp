@@ -1,15 +1,14 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
-//
-//  HISTORY see changelog.md
 
 
 #include "MCP_DAC.h"
+
 
 #if defined (ARDUINO_ARCH_RP2040)
 MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock, SPIClassRP2040 *inSPI)
@@ -26,6 +25,7 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock, SPIClass *inSPI)
   _maxValue = 255;
   reset();
 }
+
 
 void MCP_DAC::reset()
 {
@@ -76,6 +76,18 @@ void MCP_DAC::begin(uint8_t select)
 }
 
 
+uint8_t MCP_DAC::channels()
+{
+  return _channels;
+}
+
+
+uint16_t MCP_DAC::maxValue()
+{
+  return _maxValue;
+}
+
+
 #if defined(ESP32) or defined(ARDUINO_ARCH_RP2040)
 void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
 {
@@ -112,6 +124,12 @@ bool MCP_DAC::setGain(uint8_t gain)
 }
 
 
+uint8_t MCP_DAC::getGain()
+{
+  return _gain;
+}
+
+
 bool MCP_DAC::analogWrite(uint16_t value, uint8_t channel)
 {
   if (channel >= _channels) return false;
@@ -132,6 +150,12 @@ bool MCP_DAC::analogWrite(uint16_t value, uint8_t channel)
   else                        data |= (_val << 4);
   transfer(data);
   return true;
+}
+
+
+uint16_t MCP_DAC::lastValue(uint8_t channel)
+{
+  return _value[channel];
 }
 
 
@@ -167,7 +191,7 @@ void MCP_DAC::setPercentage(float perc, uint8_t channel)
 {
   if (perc < 0) perc = 0;
   if (perc > 100) perc = 100;
-  analogWrite(perc * _maxValue, channel);
+  analogWrite((0.01 * perc * _maxValue), channel);
 }
 
 
@@ -181,7 +205,7 @@ void MCP_DAC::setLatchPin(uint8_t latchPin)
 {
   _latchPin = latchPin;
   pinMode(_latchPin, OUTPUT);
-  digitalWrite(_latchPin, LOW);
+  digitalWrite(_latchPin, HIGH);
 }
 
 
@@ -189,9 +213,11 @@ void MCP_DAC::triggerLatch()
 {
   if (_latchPin != 255)
   {
-    digitalWrite(_latchPin, HIGH);
-    delayMicroseconds(1);     // 100 ns - Page 7
     digitalWrite(_latchPin, LOW);
+    //  delay needed == 100 ns - Page 7
+    //  on "slow" devices the next delay can be commented
+    delayMicroseconds(1);
+    digitalWrite(_latchPin, HIGH);
   }
 }
 
@@ -199,7 +225,13 @@ void MCP_DAC::triggerLatch()
 void MCP_DAC::shutDown()
 {
   _active = false;
-  transfer(0x0000);  // a write will reset the values..
+  transfer(0x0000);  //  a write will reset the values.
+}
+
+
+bool MCP_DAC::isActive()
+{
+  return _active;
 }
 
 
@@ -208,6 +240,59 @@ void MCP_DAC::setSPIspeed(uint32_t speed)
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
+
+
+uint32_t MCP_DAC::getSPIspeed()
+{
+  return _SPIspeed;
+}
+
+
+void MCP_DAC::setBufferedMode(bool mode)
+{
+  _buffered = mode;
+}
+
+
+bool MCP_DAC::getBufferedMode()
+{
+  return _buffered;
+}
+
+
+bool MCP_DAC::usesHWSPI()
+{
+  return _hwSPI;
+}
+
+
+#if defined(ESP32)
+
+void MCP_DAC::selectHSPI()
+{
+  _useHSPI = true;
+}
+
+
+void MCP_DAC::selectVSPI()
+{
+  _useHSPI = false;
+}
+
+
+bool MCP_DAC::usesHSPI()
+{
+  return _useHSPI;
+}
+
+
+bool MCP_DAC::usesVSPI()
+{
+  return !_useHSPI;
+}
+
+#endif
+
 
 
 //////////////////////////////////////////////////////////////////
@@ -249,11 +334,13 @@ uint8_t MCP_DAC::swSPI_transfer(uint8_t val)
   return 0;
 }
 
+
 #if defined(ARDUINO_ARCH_RP2040)
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// MCP4800 series
+//  MCP4800 series
 //
 MCP4801::MCP4801(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
@@ -299,7 +386,7 @@ MCP4822::MCP4822(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DA
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// MCP4900 series
+//  MCP4900 series
 //
 MCP4901::MCP4901(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
@@ -343,11 +430,13 @@ MCP4922::MCP4922(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DA
   _maxValue = 4095;
 };
 
+
 #else
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// MCP4800 series
+//  MCP4800 series
 //
 MCP4801::MCP4801(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
@@ -393,7 +482,7 @@ MCP4822::MCP4822(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(data
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// MCP4900 series
+//  MCP4900 series
 //
 MCP4901::MCP4901(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
@@ -439,5 +528,5 @@ MCP4922::MCP4922(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(data
 #endif
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

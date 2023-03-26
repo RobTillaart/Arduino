@@ -8,7 +8,6 @@
 //  depending on the platform, the range of "smooth" sinus is limited.
 //  other signals are less difficult so have a slightly larger range.
 //  see readme.md for mac frequency table.
-//
 
 
 #include "functionGenerator.h"
@@ -21,11 +20,13 @@ float value   = 0;
 float frequency = 40;
 float amplitude  = 1.0;
 
-// q = square
-// s = sinus
-// w = sawtooth
-// t = stair
-// r = random
+float d = 0;
+
+//  q = square
+//  s = sinus
+//  w = sawtooth
+//  t = stair
+//  r = random
 char mode = 's';
 
 MCP4725 MCP(0x63);
@@ -91,6 +92,17 @@ void setup()
           break;
         case 'a':
           break;
+        case 'D':
+          d = gen.getDutyCycle();
+          d++;
+          gen.setDutyCycle(d);
+          break;
+        case 'd':
+          d = gen.getDutyCycle();
+          d--;
+          gen.setDutyCycle(d);
+          break;
+          break;
         case 'q':
         case 's':
         case 'w':
@@ -134,5 +146,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

@@ -21,6 +21,7 @@ void setup()
 
   gen.setAmplitude(50);
   gen.setFrequency(1);
+  gen.setDutyCycle(25);
 }
 
 
@@ -29,32 +30,38 @@ void loop()
   float t = millis() * 0.001;
 
   //  UNCOMMENT WAVES YOU WANT TO SEE
-  //  DO NOT FORGET THE '\t' SEPARATOR PRINT
-  
-//  Serial.print(t, 3);
-//  Serial.print("\t");
-//  Serial.print(gen.square(t));
-//  Serial.print("\t");
-//  Serial.print(gen.sawtooth(t, 0));  //  up    /|   signal
-//  Serial.print("\t");
-//  Serial.print(gen.sawtooth(t, 1));  //  down  |\   signal
-//  Serial.print("\t");
-//  Serial.print(gen.triangle(t));
-//  Serial.print("\t");
-//  Serial.print(gen.sinus(t));
-//  Serial.print("\t");
-    Serial.print(gen.stair(t, 16, 0));  //  step up
-    Serial.print("\t");
-    Serial.print(gen.stair(t, 16, 1));  //  step down
-    Serial.print("\t");
-//  Serial.print(gen.random());
-//  Serial.print("\t");
-//  Serial.print(gen.line());
-//  Serial.print("\t");
-//  Serial.print(gen.zero());
+  //  DO NOT FORGET TO PRINT THE '\t' SEPARATOR
+
+  //  Serial.print(t, 3);
+  //  Serial.print("\t");
+  Serial.print(80);
+  Serial.print("\t");
+  Serial.print(-80);
+  Serial.print("\t");
+  Serial.print(gen.square(t));
+  Serial.print("\t");
+  //  Serial.print(gen.sawtooth(t, 0));  //  up    /|   signal
+  //  Serial.print("\t");
+  //  Serial.print(gen.sawtooth(t, 1));  //  down  |\   signal
+  //  Serial.print("\t");
+  Serial.print(gen.triangle(t));
+  //  Serial.print("\t");
+  //  Serial.print(gen.sinus(t));
+  //  Serial.print("\t");
+  //    Serial.print(gen.stair(t, 16, 0));  //  step up
+  //    Serial.print("\t");
+  //    Serial.print(gen.stair(t, 16, 1));  //  step down
+  //    Serial.print("\t");
+  //  Serial.print(gen.random());
+  //  Serial.print("\t");
+  //  Serial.print(gen.random_DC());
+  //  Serial.print("\t");
+  //  Serial.print(gen.line());
+  //  Serial.print("\t");
+  //  Serial.print(gen.zero());
   Serial.println();
+  delay(10);
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

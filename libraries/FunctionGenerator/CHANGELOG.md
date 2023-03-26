@@ -6,11 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2023-03-25
+- add **setDutyCycle()**, **getDutyCycle()**
+- implement duty cycle for square(), triangle() and random()
+- add **seedRandom(a, b)**
+- add some optimizations
+- move code from .h to .cpp
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.2.4] - 2022-11-07
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.2.3] - 2021-12-18
 - update library.json, license, minor edits

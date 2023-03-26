@@ -4,7 +4,6 @@
 // PURPOSE: demo function generators
 //    DATE: 2015-01-03
 //     URL: https://github.com/RobTillaart/FunctionGenerator
-//
 
 
 #include "functionGenerator.h"
@@ -33,11 +32,11 @@ void loop()
   {
     choice = Serial.read();
   }
-  // wave selection by potMeter
+  //  wave selection by potMeter
   // int choice = analogRead(A0) / 200;
 
   float value;
-  // wait for next millisecond;
+  //  wait for next millisecond;
   if (millis() - lastTime > 0)
   {
     lastTime = millis();
@@ -58,5 +57,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -13,15 +13,23 @@ setAmplitude	KEYWORD2
 getAmplitude	KEYWORD2
 setPhase	KEYWORD2
 getPhase	KEYWORD2
+
 setYShift	KEYWORD2
 getYShift	KEYWORD2
+setDutyCycle	KEYWORD2
+getDutyCycle	KEYWORD2
+
+setRandomSeed	KEYWORD2
 
 sawtooth	KEYWORD2
 triangle	KEYWORD2
 square	KEYWORD2
+
 sinus	KEYWORD2
 stair	KEYWORD2
 random	KEYWORD2
+random_DC	KEYWORD2
+
 line	KEYWORD2
 zero	KEYWORD2
 

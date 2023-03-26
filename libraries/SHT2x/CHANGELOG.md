@@ -6,10 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-03-26
+- fix setResolution #13, #18
+- fix heater settings
+- add GY21 as derived class
+- fix derived constructors
+- move code from .h to .cpp
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+----
+
 ## [0.2.2] - 2022-12-14
 - add experimental asynchronous interface
 - add async example
-
 
 ## [0.2.1] - 2022-11-24
 - Add RP2040 support to build-CI.

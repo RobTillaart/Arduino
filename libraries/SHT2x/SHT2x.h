@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.2.2"))
+#define SHT2x_LIB_VERSION             (F("0.3.0"))
 
 
 //  fields getStatus
@@ -53,13 +53,18 @@ public:
   //  check sensor is reachable over I2C
   bool isConnected();
 
+
+  /////////////////////////////////////////////////////////
+  //
+  //  TEMPERATURE AND HUMIDTY
+  //
   //  read must be called get getTemperature / getHumidity
-  bool read();
+  bool     read();
 
   float    getTemperature();
   float    getHumidity();
-  uint16_t getRawTemperature() { return _rawTemperature; };
-  uint16_t getRawHumidity()    { return _rawHumidity; };
+  uint16_t getRawTemperature();
+  uint16_t getRawHumidity();
 
   //  might take up to 15 milliseconds.
   bool reset();
@@ -76,15 +81,18 @@ public:
   uint8_t getStatus();
 
   // lastRead is in milliSeconds since start
-  uint32_t lastRead() { return _lastRead; };
+  uint32_t lastRead();
 
 
+  /////////////////////////////////////////////////////////
+  //
   //  HEATER
+  //
   //  do not use heater for long periods,
   //  use it for max 3 minutes to heat up
   //  and let it cool down at least 3 minutes.
   void    setHeatTimeout(uint8_t seconds);
-  uint8_t getHeatTimeout() { return _heatTimeout; };
+  uint8_t getHeatTimeout();
 
   bool heatOn();
   bool heatOff();
@@ -96,11 +104,22 @@ public:
 
   int getError(); // clears error flag
 
+
+  /////////////////////////////////////////////////////////
+  //
+  //  Electronic Identification Code
+  //
+  //  Sensirion_Humidity_SHT2x_Electronic_Identification_Code_V1.1.pdf
   //  Electronic ID bytes
   uint32_t getEIDA();
   uint32_t getEIDB();
   uint8_t  getFirmwareVersion();
 
+
+  /////////////////////////////////////////////////////////
+  //
+  //  RESOLUTION
+  //
   //  experimental 0.2.0 - needs testing.
   //  table 8 SHT20 datasheet
   //  table 7 shows different timing per resolution
@@ -115,9 +134,11 @@ public:
   //  returns RES set (cached value)
   uint8_t  getResolution();
 
-  bool     batteryOK();
 
-  //  Experimental ASYNC interface
+  /////////////////////////////////////////////////////////
+  //
+  //  ASYNCHRONOUS INTERFACE (experimental)
+  //
   bool     requestTemperature();
   bool     requestHumidity();
   bool     reqTempReady();
@@ -125,6 +146,13 @@ public:
   bool     readTemperature();
   bool     readHumidity();
   uint32_t lastRequest();
+
+
+  /////////////////////////////////////////////////////////
+  //
+  //  OTHER
+  //
+  bool     batteryOK();
 
 
 protected:
@@ -160,7 +188,7 @@ protected:
 
 ////////////////////////////////////////////////////////
 //
-//  DERIVED SHT
+//  DERIVED SHT classes
 //
 class SHT20 : public SHT2x
 {
@@ -185,7 +213,7 @@ public:
 
 ////////////////////////////////////////////////////////
 //
-//  DERIVED HTU
+//  DERIVED HTU classes
 //
 class HTU20 : public SHT2x
 {
@@ -203,7 +231,7 @@ public:
 
 ////////////////////////////////////////////////////////
 //
-//  DERIVED Si70xx
+//  DERIVED Si70xx classes
 //
 class Si7013 : public SHT2x
 {
@@ -226,4 +254,16 @@ public:
 };
 
 
-// -- END OF FILE --
+////////////////////////////////////////////////////////
+//
+//  DERIVED GY21 classes
+//
+class GY21 : public SHT2x
+{
+public:
+  GY21();
+};
+
+
+//  -- END OF FILE --
+

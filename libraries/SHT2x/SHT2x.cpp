@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -253,6 +253,18 @@ float SHT2x::getHumidity()
 }
 
 
+uint16_t SHT2x::getRawTemperature()
+{
+  return _rawTemperature;
+}
+
+
+uint16_t SHT2x::getRawHumidity()
+{
+  return _rawHumidity;
+}
+
+
 bool SHT2x::reset()
 {
   bool b = writeCmd(SHT2x_SOFT_RESET);
@@ -265,6 +277,13 @@ uint8_t SHT2x::getStatus()
   return _status;
 }
 
+
+uint32_t SHT2x::lastRead()
+{
+  return _lastRead;
+}
+
+
 /////////////////////////////////////////////////////////
 //
 //  HEATER
@@ -273,6 +292,12 @@ void SHT2x::setHeatTimeout(uint8_t seconds)
 {
   _heatTimeout = seconds;
   if (_heatTimeout > 180) _heatTimeout = 180;
+}
+
+
+uint8_t SHT2x::getHeatTimeout()
+{
+  return _heatTimeout;
 }
 
 
@@ -296,7 +321,7 @@ bool SHT2x::heatOn()
   //  HEAT BIT ON
   userReg |= SHT2x_USRREG_HEATER;
 
-  if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
+  if (writeCmd(SHT2x_WRITE_USER_REGISTER, userReg) == false)
   {
     _error = SHT2x_ERR_HEATER_ON;
     return false;
@@ -320,7 +345,7 @@ bool SHT2x::heatOff()
   //  HEAT BIT OFF
   userReg &= ~SHT2x_USRREG_HEATER;
 
-  if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
+  if (writeCmd(SHT2x_WRITE_USER_REGISTER, userReg) == false)
   {
     _error = SHT2x_ERR_HEATER_OFF;  // can be serious!
     return false;
@@ -477,7 +502,7 @@ bool SHT2x::setResolution(uint8_t res)
   userReg |= ((res & 0x02) << 6);
   userReg |= (res & 0x01);
 
-  if (writeCmd(SHT2x_READ_USER_REGISTER, userReg) == false)
+  if (writeCmd(SHT2x_WRITE_USER_REGISTER, userReg) == false)
   {
     _error = SHT2x_ERR_RESOLUTION;
     return false;
@@ -508,8 +533,6 @@ bool SHT2x::batteryOK()
   }
   return (userReg & SHT2x_USRREG_BATTERY) == 0;
 }
-
-
 
 
 //////////////////////////////////////////////////////////
@@ -590,53 +613,62 @@ bool SHT2x::readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration)
 //
 //  DERIVED SHT
 //
-SHT20::SHT20()
+SHT20::SHT20() : SHT2x()
 {
-};
+}
 
 
-SHT21::SHT21()
+SHT21::SHT21() : SHT2x()
 {
-};
+}
 
 
-SHT25::SHT25()
+SHT25::SHT25() : SHT2x()
 {
-};
+}
 
 
 ////////////////////////////////////////////////////////
 //
 //  DERIVED HTU
 //
-HTU20::HTU20()
+HTU20::HTU20() : SHT2x()
 {
-};
+}
 
 
-HTU21::HTU21()
+HTU21::HTU21() : SHT2x()
 {
-};
+}
 
 
 ////////////////////////////////////////////////////////
 //
 //  DERIVED Si70xx
 //
-Si7013::Si7013()
+Si7013::Si7013() : SHT2x()
 {
-};
+}
 
 
-Si7020::Si7020()
+Si7020::Si7020() : SHT2x()
 {
-};
+}
 
 
-Si7021::Si7021()
+Si7021::Si7021() : SHT2x()
 {
-};
+}
 
 
+////////////////////////////////////////////////////////
+//
+//  DERIVED Si70xx
+//
+GY21::GY21() : SHT2x()
+{
+}
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

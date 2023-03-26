@@ -21,16 +21,17 @@ Furthermore there are a number of compatible sensors, these are not tested eithe
 
 Accuracy table
 
-| Sensor  | Temperature | Humidity | Notes  |
-|:-------:|:-----------:|:--------:|:-------|
-| SHT20   |   ~0.3      |  ±3.0    |        |
-| SHT21   |   ~0.3      |  ±3.0    |        |
-| SHT25   |   ~0.3      |  ±1.8    |        |
-| HTU20   |             |          |  to-do |
-| HTU21   |             |          |  to-do |
-| Si7013  |             |          |  to-do |
-| Si7020  |             |          |  to-do |
-| Si7021  |             |          |  to-do |
+|  Sensor   | Temperature | Humidity |  Notes  |
+|:---------:|:-----------:|:--------:|:--------|
+|  SHT20    |   ~0.3      |  ±3.0    |         |
+|  SHT21    |   ~0.3      |  ±3.0    |         |
+|  SHT25    |   ~0.3      |  ±1.8    |         |
+|  HTU20    |             |          |  to-do  |
+|  HTU21    |             |          |  to-do  |
+|  Si7013   |             |          |  to-do  |
+|  Si7020   |             |          |  to-do  |
+|  Si7021   |             |          |  to-do  |
+|  GY21     |             |          |  to-do  |
 
 
 All sensors in this family of sensors have address 0x40 (64 decimal).
@@ -39,6 +40,10 @@ or one should switch sensors on/off like the select in SPI communication.
 
 
 ## Interface
+
+```cpp
+#include "SHT2x.h"
+```
 
 #### Constructors
 
@@ -100,18 +105,18 @@ TODO elaborate documentation.
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
-| Value  | Symbolic                  | Description                 | Notes    |
-|:------:|:--------------------------|:----------------------------|:---------|
-|  0x00  | SHT2x_OK                  | no error                    |          |
-|  0x81  | SHT2x_ERR_WRITECMD        | I2C write failed            |          |
-|  0x82  | SHT2x_ERR_READBYTES       | I2C read failed             |          |
-|  0x83  | SHT2x_ERR_HEATER_OFF      | Could not switch off heater |          |
-|  0x84  | SHT2x_ERR_NOT_CONNECT     | Could not connect           |          |
-|  0x85  | SHT2x_ERR_CRC_TEMP        | CRC error in temperature    |          |
-|  0x86  | SHT2x_ERR_CRC_HUM         | CRC error in humidity       |          |
-|  0x87  | SHT2x_ERR_CRC_STATUS      | CRC error in status field   | not used |
-|  0x88  | SHT2x_ERR_HEATER_COOLDOWN | Heater need to cool down    |          |
-|  0x88  | SHT2x_ERR_HEATER_ON       | Could not switch on heater  |          |
+|  Value  |  Symbolic                   |  Description                  |  Notes     |
+|:-------:|:----------------------------|:------------------------------|:-----------|
+|  0x00   |  SHT2x_OK                   |  no error                     |            |
+|  0x81   |  SHT2x_ERR_WRITECMD         |  I2C write failed             |            |
+|  0x82   |  SHT2x_ERR_READBYTES        |  I2C read failed              |            |
+|  0x83   |  SHT2x_ERR_HEATER_OFF       |  Could not switch off heater  |            |
+|  0x84   |  SHT2x_ERR_NOT_CONNECT      |  Could not connect            |            |
+|  0x85   |  SHT2x_ERR_CRC_TEMP         |  CRC error in temperature     |            |
+|  0x86   |  SHT2x_ERR_CRC_HUM          |  CRC error in humidity        |            |
+|  0x87   |  SHT2x_ERR_CRC_STATUS       |  CRC error in status field    |  not used  |
+|  0x88   |  SHT2x_ERR_HEATER_COOLDOWN  |  Heater need to cool down     |            |
+|  0x88   |  SHT2x_ERR_HEATER_ON        |  Could not switch on heater   |            |
 
 Note: the HTU20 / HTU21 classes share the same error codes.
 
@@ -175,12 +180,12 @@ From HTU20 datasheet
 
 Datasheet SHT20 Table 8: (resolution)
 
-|  RES  |  Humidity | Temperature |
-|:-----:|:---------:|:-----------:|
-|   0   |  12 bit   |    14 bit   |
-|   1   |  08 bit   |    12 bit   |
-|   2   |  10 bit   |    13 bit   |
-|   3   |  11 bit   |    11 bit   |
+|  RES  |  Humidity  |  Temperature  |
+|:-----:|:----------:|:-------------:|
+|   0   |   12 bit   |    14 bit     |
+|   1   |   08 bit   |    12 bit     |
+|   2   |   10 bit   |    13 bit     |
+|   3   |   11 bit   |    11 bit     |
 
 Datasheet SHT20 Table 7: (timing) and results of real measurements.
 ( https://github.com/RobTillaart/SHT2x/pull/11 )
@@ -205,25 +210,24 @@ Timing in milliseconds.
 
 #### Must
 - improve documentation
+  - reorganize interface
 - clean up code.
 
 
-#### 0.3.0
-- add crc8 check (need sensor)
+#### 0.4.0
+- add crc8 check (need sensor to test)
 - improve error handling (all code paths)
 - investigate blocking delay() in read 
 - add offset for temperature and humidity
-- move code from .h to .cpp 
-- add GY21 as derived class name
 
 
-#### ASYNC 0.3.0
+#### ASYNC 0.4.0
 improvements for interface.
 
-- **bool requestReady()** checks both. 
-- **bool requestPending()** checks . 
-- **uint8_t getRequestType()** returns 0, 1, 2
-- documentation
+- **bool requestReady()** checks both.
+- **bool requestPending()** checks.
+- **uint8_t getRequestType()** returns 0, 1, 2.
+- async documentation
 
 
 #### Should
@@ -236,9 +240,9 @@ improvements for interface.
 
 
 #### Could
-- investigate resolution anomalies
 - fix TODO in code (.cpp and .h) and documentation
 - update unit tests
+- add type info in derived classes?
 
 
 #### Wont

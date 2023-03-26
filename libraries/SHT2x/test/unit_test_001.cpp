@@ -23,12 +23,15 @@
 // assertEqualFloat(expected, actual, epsilon);    // fabs(a - b) <= epsilon
 
 /*
-  most unit tests will test for fail 
+  most unit tests will test for fail
   as there is no sensor connected
   and there is no mockup.
-  
+
   It appears that Wire.write does not fail without sensor...
 */
+
+
+//  TODO test for derives classes?
 
 
 #include <ArduinoUnitTests.h>
@@ -88,7 +91,6 @@ unittest(test_constructor)
 }
 
 
-
 unittest(test_begin)
 {
   SHT2x sht;
@@ -123,7 +125,7 @@ unittest(test_read)
   expect = SHT2x_OK;
   assertEqual(expect, sht.getError());
 
-  // assertion wire.available fails ... 
+  // assertion wire.available fails ...
   // assertFalse(sht.read());
   // expect = SHT2x_ERR_READBYTES;
   // assertEqual(expect, sht.getError());
@@ -149,7 +151,7 @@ unittest(test_getStatus)
   SHT2x sht;
   bool b = sht.begin();
   assertEqual(b, true);
-  
+
   assertEqual(0x00, sht.getStatus());
   expect = SHT2x_OK;
   assertEqual(expect, sht.getError());
@@ -161,8 +163,8 @@ unittest(test_heater)
   SHT2x sht;
   bool b = sht.begin();
   assertEqual(b, true);
-  
-  // assertion wire.available fails ... 
+
+  // assertion wire.available fails ...
   // assertFalse(sht.heatOn());
   // expect = SHT2x_ERR_READBYTES;
   // assertEqual(expect, sht.getError());
@@ -177,6 +179,21 @@ unittest(test_heater)
 }
 
 
+unittest(test_resolution)
+{
+  SHT2x sht;
+  bool b = sht.begin();
+  assertEqual(b, true);
+
+  //  not set yet
+  assertEqual(0, sht.getResolution());
+  //  out of range
+  assertFalse(sht.setResolution(4));
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

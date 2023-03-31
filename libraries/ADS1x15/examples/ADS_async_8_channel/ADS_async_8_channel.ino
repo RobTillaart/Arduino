@@ -46,7 +46,7 @@ void setup()
   //  Serial.println(ADS2.isConnected());
   //  Serial.println(ADS3.isConnected());
 
-  ADS0.setDataRate(4);  // 7 is fastest, but more noise
+  ADS0.setDataRate(4);  // 0 = slow   4 = medium   7 = fast but more noise
   ADS1.setDataRate(4);
   //  ADS2.setDataRate(4);
   //  ADS3.setDataRate(4);

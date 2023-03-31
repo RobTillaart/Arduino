@@ -1,9 +1,8 @@
 //
 //    FILE: ADS_RP2040_WIRE1.ino
 //  AUTHOR: Rob.Tillaart / Intubun
-// VERSION: 0.1.1
 // PURPOSE: read analog input
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect 1 potmeter
@@ -35,7 +34,7 @@ void setup()
 
   ADS.begin(26, 27);   // SDA (Pin 26), SCL(Pin 27)
   ADS.setGain(0);      // 6.144 volt
-  ADS.setDataRate(7);  // fast
+  ADS.setDataRate(7);  // 0 = slow   4 = medium   7 = fast
   ADS.setMode(0);      // continuous mode
   ADS.readADC(0);      // first read to trigger
 }

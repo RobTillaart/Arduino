@@ -1,10 +1,9 @@
 //
 //    FILE: ADS_high_speed_differential.ino.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.0
 // PURPOSE: read from 2 IC's for high speed differential
 //          interrupt driven to catch all conversions.
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test setup (not tested yet)
 // - connect 2 ADS1x15 to I2C bus
@@ -38,7 +37,7 @@ void setup()
   // SETUP FIRST ADS1115
   ADS_1.begin();
   ADS_1.setGain(0);        // 6.144 volt
-  ADS_1.setDataRate(7);    // fastest conversion rate.
+  ADS_1.setDataRate(7);    // 0 = slow   4 = medium   7 = fast
 
   // SET ALERT RDY PIN
   ADS_1.setComparatorThresholdHigh(0x8000);

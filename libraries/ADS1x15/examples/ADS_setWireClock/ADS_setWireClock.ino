@@ -1,9 +1,8 @@
 //
 //    FILE: ADS_setWireClock.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.0
 // PURPOSE: read analog inputs - straightforward.
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect 1 potmeter per port.

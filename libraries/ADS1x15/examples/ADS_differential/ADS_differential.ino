@@ -1,9 +1,8 @@
 //
 //    FILE: ADS_differential.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.1
 // PURPOSE: read differential
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test 1
 // connect 2 potmeters in series

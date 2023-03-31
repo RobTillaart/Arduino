@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+- update and add examples
+
+
 ## [0.3.9] - 2023-01-21
 - update GitHub actions
 - update license 2023

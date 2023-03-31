@@ -39,7 +39,7 @@ void setup()
     Serial.print("  ");
     Serial.println(ADS[i].begin() ? "connected" : "not connected");
 
-    ADS[i].setDataRate(4);  // 7 is fastest, but more noise
+    ADS[i].setDataRate(4);  // 0 = slow   4 = medium   7 = fast, but more noise
   }
   ADS_request_all();
 }

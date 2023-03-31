@@ -1,9 +1,8 @@
 //
 //    FILE: ADS_read_RDY.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.0
 // PURPOSE: read analog inputs - straightforward.
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect 1 potmeter per port.
@@ -34,7 +33,7 @@ void setup()
 
   ADS.begin();
   ADS.setGain(0);      // 6.144 volt
-  ADS.setDataRate(7);  // fast
+  ADS.setDataRate(7);  // 0 = slow   4 = medium   7 = fast
   ADS.setMode(1);      // continuous mode
   ADS.readADC(0);      // first read to trigger
   

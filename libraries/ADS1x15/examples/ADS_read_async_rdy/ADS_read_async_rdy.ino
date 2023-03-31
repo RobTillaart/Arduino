@@ -1,9 +1,8 @@
 //
 //    FILE: ADS_read_async_rdy.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.1
 // PURPOSE: read analog inputs - straightforward.
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect 1 potmeter per port.
@@ -35,7 +34,8 @@ void setup()
 
   ADS.begin();
   ADS.setGain(0);      // 6.144 volt
-  ADS.setDataRate(0);  // slow so the led blinks visible for the eye.
+  // select slow so the led blinks visible for the eye.
+  ADS.setDataRate(0);  // 0 = slow   4 = medium   7 = fast
   f = ADS.toVoltage(); // voltage factor
   ADS.requestADC(0);
   

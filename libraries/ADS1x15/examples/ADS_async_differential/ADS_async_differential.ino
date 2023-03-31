@@ -3,7 +3,7 @@
 //  AUTHOR: Rob.Tillaart
 // VERSION: 0.1.0
 // PURPOSE: read multiple differential continuously
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect 4 potmeters
@@ -42,7 +42,7 @@ void setup()
 
   ADS.begin();
   ADS.setGain(0);        // 6.144 volt
-  ADS.setDataRate(4);    // medium
+  ADS.setDataRate(4);    // 0 = slow   4 = medium   7 = fast
 
   // single shot mode
   ADS.setMode(1);

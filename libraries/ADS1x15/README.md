@@ -46,7 +46,11 @@ is connected to:
 
 ## Interface
 
-### Initializing
+```cpp
+#include "ADS1X15.h"
+```
+
+#### Initializing
 
 To initialize the library you must call constructor as described below.
 
@@ -87,7 +91,7 @@ void begin() {
 ```
 
 
-### I2C clock speed
+#### I2C clock speed
 
 The function **void setWireClock(uint32_t speed = 100000)** is used to set the clock speed
 in Hz of the used I2C interface. typical value is 100 KHz.
@@ -104,7 +108,7 @@ See - https://github.com/arduino/Arduino/issues/11457
 Question: should this functionality be in this library?
 
 
-### Programmable Gain
+#### Programmable Gain
 
 - **void setGain(uint8_t gain)** set the gain value, indicating the maxVoltage that can be measured
 Adjusting the gain allowing to make more precise measurements.
@@ -138,7 +142,7 @@ Check the [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples
 ```
 
 
-### Operational mode
+#### Operational mode
 
 The ADS sensor can operate in single shot or continuous mode.
 Depending on how often conversions needed you can tune the mode.
@@ -147,7 +151,7 @@ Note: the mode is not set in the device until an explicit read/request of the AD
 - **uint8_t getMode()** returns current mode 0 or 1, or ADS1X15_INVALID_MODE = 0xFE.
 
 
-### Data rate
+#### Data rate
 
 - **void setDataRate(uint8_t dataRate)** Data rate depends on type of device.
 For all devices the index 0..7 can be used, see table below.
@@ -172,7 +176,7 @@ Data rate in samples per second, based on datasheet is described on table below.
 |     7       |   3300    |    860    |  fastest  |
 
 
-### ReadADC Single mode
+#### ReadADC Single mode
 
 Reading the ADC is very straightforward, the **readADC()** function handles all in one call.
 Under the hood it uses the asynchronous calls.
@@ -221,7 +225,7 @@ in terms of code
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_read_async/ADS_read_async.ino).
 
 
-## ReadADC Differential
+#### ReadADC Differential
 
 For reading the ADC in a differential way there are 4 calls possible.
 
@@ -250,7 +254,7 @@ After one of these calls you need to call
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_differential/ADS_differential.ino).
 
 
-### ReadADC continuous mode
+#### ReadADC continuous mode
 
 To use the continuous mode you need call three functions:
 - **void setMode(0)** 0 = CONTINUOUS, 1 = SINGLE (default).
@@ -283,7 +287,7 @@ Instead you can configure the threshold registers to allow the **ALERT/RDY**
 pin to trigger an interrupt signal when conversion data ready.
 
 
-### Threshold registers
+#### Threshold registers
 
 If the thresholdHigh is set to 0x0100 and the thresholdLow to 0x0000
 the **ALERT/RDY** pin is triggered when a conversion is ready.
@@ -296,7 +300,7 @@ the **ALERT/RDY** pin is triggered when a conversion is ready.
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_read_RDY/ADS_read_RDY.ino).
 
 
-## Comparator
+#### Comparator
 
 Please read Page 15 of the datasheet as the behaviour of the
 comparator is not trivial.
@@ -305,7 +309,7 @@ NOTE: all comparator settings are copied to the device only after calling
 **readADC()** or **requestADC()** functions.
 
 
-### Comparator Mode
+#### Comparator Mode
 
 When configured as a **TRADITIONAL** comparator, the **ALERT/RDY** pin asserts
 (active low by default) when conversion data exceed the limit set in the
@@ -326,7 +330,7 @@ the high threshold register or falls below the low threshold register.
 In this mode the alert is held if the **LATCH** is set. This is similar as above.
 
 
-### Polarity
+#### Polarity
 
 Default state of the **ALERT/RDY** pin is **LOW**, can be to set **HIGH**.
 
@@ -335,7 +339,7 @@ Flag is only explicitly set after a **readADC()** or a **requestADC()**
 - **uint8_t getComparatorPolarity()** returns value set.
 
 
-### Latch
+#### Latch
 
 Holds the **ALERT/RDY** to **HIGH** (or **LOW** depending on polarity) after triggered
 even if actual value has been 'restored to normal' value.
@@ -344,7 +348,7 @@ even if actual value has been 'restored to normal' value.
 - **uint8_t getComparatorLatch()** returns value set.
 
 
-### QueConvert
+#### QueConvert
 
 Set the number of conversions before trigger activates.
 The **void setComparatorQueConvert(uint8_t mode)** is used to set the number of
@@ -362,7 +366,7 @@ A value of 3 (or above) effectively disables the comparator. See table below.
 |    3    |  Disable comparator                 |  default  |
 
 
-### Threshold registers comparator mode
+#### Threshold registers comparator mode
 
 Depending on the comparator mode **TRADITIONAL** or **WINDOW** the thresholds registers
 mean something different see - Comparator Mode above or datasheet.
@@ -373,7 +377,7 @@ mean something different see - Comparator Mode above or datasheet.
 - **int16_t getComparatorThresholdHigh()** reads value from device.
 
 
-### RP2040 specific
+## RP2040 specific
 
 - **bool begin(int sda, int scl)** begin communication with the ADC.
 It has the parameter for selecting on which pins the communication should happen.

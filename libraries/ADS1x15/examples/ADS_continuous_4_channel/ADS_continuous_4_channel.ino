@@ -1,10 +1,9 @@
 //
 //    FILE: ADS_continuous_4_channel.ino
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.2
 // PURPOSE: read multiple analog inputs continuously
 //          interrupt driven to catch all conversions.
-//
+//     URL: https://github.com/RobTillaart/ADS1X15
 
 // test
 // connect multiple potmeters
@@ -47,7 +46,7 @@ void setup()
 
   ADS.begin();
   ADS.setGain(0);        // 6.144 volt
-  ADS.setDataRate(7);    // slow
+  ADS.setDataRate(7);    // 0 = slow   4 = medium   7 = fast
 
   // SET ALERT RDY PIN
   ADS.setComparatorThresholdHigh(0x8000);

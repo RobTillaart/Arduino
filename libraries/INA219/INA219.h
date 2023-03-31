@@ -1,12 +1,12 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
 //
-//  Read the datasheet for the details
+//  Read the datasheet for the details how to connect!
 //
 
 
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.1.2"))
+#define INA219_LIB_VERSION              (F("0.1.3"))
 
 
 class INA219
@@ -30,11 +30,13 @@ public:
   bool     isConnected();
 
 
-  //  CORE FUNCTIONS            //  Register
-  float    getShuntVoltage();   //  01
-  float    getBusVoltage();     //  02
-  float    getPower();          //  03
-  float    getCurrent();        //  04
+  //  CORE FUNCTIONS               //  Register
+  float    getShuntVoltage();      //  01
+  float    getBusVoltage();        //  02
+  float    getPower();             //  03
+  float    getCurrent();           //  04
+  bool     getMathOverflowFlag();  //  02
+  bool     getConversionFlag();    //  02
 
 
   //  SCALE HELPERS
@@ -71,7 +73,7 @@ public:
   bool     setModeADCOff()             { return setMode(4); };
   bool     setModeShuntContinuous()    { return setMode(5); };
   bool     setModeBusContinuous()      { return setMode(6); };
-  bool     setModeShuntBusContinuous() { return setMode(7); };  // default.
+  bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
   
   //  CALIBRATION
@@ -109,5 +111,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

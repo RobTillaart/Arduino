@@ -2,7 +2,6 @@
 //    FILE: INA219_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA219
 
 
@@ -22,42 +21,50 @@ void setup()
   Wire.begin();
   if (!INA.begin() )
   {
-    Serial.println("could not connect. Fix and Reboot");
+    Serial.println("Could not connect. Fix and Reboot");
   }
-  INA.setMaxCurrentShunt(1, 0.002);
-  delay(1000);
-  INA.setMaxCurrentShunt(2.5, 0.002);
-  delay(1000);
+  //  INA.setMaxCurrentShunt(1, 0.002);
+  //  delay(1000);
+  //  INA.setMaxCurrentShunt(2.5, 0.002);
+  //  delay(1000);
   INA.setMaxCurrentShunt(5, 0.002);
   delay(1000);
-  INA.setMaxCurrentShunt(7.5, 0.002);
-  delay(1000);
-  INA.setMaxCurrentShunt(10, 0.002);
-  delay(1000);
-  INA.setMaxCurrentShunt(15, 0.002);
-  delay(1000);
-  INA.setMaxCurrentShunt(20, 0.002);
-  delay(10000);
+  //  INA.setMaxCurrentShunt(7.5, 0.002);
+  //  delay(1000);
+  //  INA.setMaxCurrentShunt(10, 0.002);
+  //  delay(1000);
+  //  INA.setMaxCurrentShunt(15, 0.002);
+  //  delay(1000);
+  //  INA.setMaxCurrentShunt(20, 0.002);
+  //  delay(10000);
+
+  Serial.println(INA.getBusVoltageRange());
+
 }
 
 
 void loop()
 {
-  Serial.println("\nBUS\tSHUNT\tCURRENT\tPOWER");
+  Serial.println("\n\tBUS\t\tSHUNT\t\tCURRENT\t\tPOWER\t\tOVF\t\tCNVR");
   for (int i = 0; i < 20; i++)
   {
-    Serial.print(INA.getBusVoltage(), 3);
     Serial.print("\t");
-    Serial.print(INA.getShuntVoltage_mV(), 3);
-    Serial.print("\t");
-    Serial.print(INA.getCurrent_mA(), 3);
-    Serial.print("\t");
-    Serial.print(INA.getPower_mW(), 3);
+    Serial.print(INA.getBusVoltage(), 2);
+    Serial.print("\t\t");
+    Serial.print(INA.getShuntVoltage_mV(), 2);
+    Serial.print("\t\t");
+    Serial.print(INA.getCurrent_mA(), 2);
+    Serial.print("\t\t");
+    Serial.print(INA.getPower_mW(), 2);
+    Serial.print("\t\t");
+    Serial.print(INA.getMathOverflowFlag());
+    Serial.print("\t\t");
+    Serial.print(INA.getConversionFlag());
     Serial.println();
     delay(1000);
   }
-  delay(10000);
+  delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

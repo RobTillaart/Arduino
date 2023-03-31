@@ -13,6 +13,8 @@ getShuntVoltage	KEYWORD2
 getBusVoltage	KEYWORD2
 getPower	KEYWORD2
 getCurrent	KEYWORD2
+getMathOverflowFlag	KEYWORD2
+getConversionFlag	KEYWORD2
 
 getBusVoltage_mV	KEYWORD2
 getShuntVoltage_uV	KEYWORD2

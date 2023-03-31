@@ -59,7 +59,14 @@ unittest(test_constructor)
   assertEqualFloat(0.0, INA.getCurrentLSB(), 0.001);
   assertEqualFloat(0.0, INA.getShunt(), 0.001);
   assertEqualFloat(0.0, INA.getMaxCurrent(), 0.001);
-  
+
+  //  fails but will set the vars
+  INA.setMaxCurrentShunt(5, 0.002);
+
+  assertTrue(INA.isCalibrated());
+  assertEqualFloat(5.0/32768, INA.getCurrentLSB(), 0.0001);
+  assertEqualFloat(0.002,     INA.getShunt(), 0.001);
+  assertEqualFloat(5.000,     INA.getMaxCurrent(), 0.001);
 }
 
 
@@ -111,4 +118,6 @@ unittest(test_calibration)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

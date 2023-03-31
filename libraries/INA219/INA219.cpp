@@ -1,11 +1,9 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
-//
-// HISTORY: see changelog.md
 
 
 #include "INA219.h"
@@ -90,7 +88,7 @@ float INA219::getBusVoltage()
 {
   uint16_t value = _readRegister(INA219_BUS_VOLTAGE);
   uint8_t flags = value & 0x03;
-  //  overflow handling
+  //  math overflow handling
   if (flags & 0x01) return -100;
   float voltage = (value >> 3)  * 4e-3;   //  fixed 4 mV
   return voltage;
@@ -109,6 +107,20 @@ float INA219::getCurrent()
 {
   int16_t value = _readRegister(INA219_CURRENT);
   return value * _current_LSB;
+}
+
+
+bool INA219::getMathOverflowFlag()
+{
+  uint16_t value = _readRegister(INA219_BUS_VOLTAGE);
+  return ((value & 0x0001) == 0x0001);
+}
+
+
+bool INA219::getConversionFlag()
+{
+  uint16_t value = _readRegister(INA219_BUS_VOLTAGE);
+  return ((value & 0x0002) == 0x0002);
 }
 
 
@@ -178,7 +190,7 @@ uint8_t INA219::getGain()
 
 bool INA219::setBusADC(uint8_t mask)
 {
-  if (mask > 0x000F) return false;
+  if (mask > 0x0F) return false;
 
   //  TODO improve this one. datasheet.
   //       two functions
@@ -204,7 +216,7 @@ uint8_t INA219::getBusADC()
 
 bool INA219::setShuntADC(uint8_t mask)
 {
-  if (mask > 0x000F) return false;
+  if (mask > 0x0F) return false;
 
   //  TODO improve this one. datasheet.
   //       two functions
@@ -227,7 +239,7 @@ uint8_t INA219::getShuntADC()
 
 bool INA219::setMode(uint8_t mode)
 {
-  if (mode > 8) return false;
+  if (mode > 7) return false;
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config &= ~INA219_CONF_MODE;
   config |= mode;
@@ -250,7 +262,7 @@ uint8_t INA219::getMode()
 //
 bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
-  #define printdebug true
+  // #define printdebug
   uint16_t calib = 0;
 
   if (maxCurrent < 0.001) return false;
@@ -288,7 +300,7 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 
 ////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
 uint16_t INA219::_readRegister(uint8_t reg)
@@ -315,5 +327,5 @@ uint16_t INA219::_writeRegister(uint8_t reg, uint16_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

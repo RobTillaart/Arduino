@@ -2,7 +2,6 @@
 //    FILE: INA219_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-09-06
 //     URL: https://github.com/RobTillaart/INA219
 
 
@@ -34,7 +33,9 @@ void loop()
   Serial.print("\t");
   Serial.print(INA.getShuntVoltage_mV(), 3);
   Serial.println();
+  delay(10);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

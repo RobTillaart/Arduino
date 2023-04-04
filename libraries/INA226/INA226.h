@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.4.1"))
+#define INA226_LIB_VERSION              (F("0.4.2"))
 
 
 //  set by setAlertRegister
@@ -55,17 +55,19 @@ public:
 
 
   //  Core functions
-  float    getBusVoltage();
-  float    getShuntVoltage();
-  float    getCurrent();
-  float    getPower();
+  float    getBusVoltage();    //  Volt
+  float    getShuntVoltage();  //  Volt
+  float    getCurrent();       //  Ampere
+  float    getPower();         //  Watt
 
 
-  //  Scale helpers
+  //  Scale helpers milli range
   float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
   float    getCurrent_mA()      { return getCurrent() * 1e3; };
   float    getPower_mW()        { return getPower() * 1e3; };
+  //  Scale helpers micro range
+  float    getBusVoltage_uV()   { return getBusVoltage() * 1e6; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
   float    getCurrent_uA()      { return getCurrent() * 1e6; };
   float    getPower_uW()        { return getPower() * 1e6; };
@@ -86,7 +88,7 @@ public:
   //  shunt * maxCurrent < 81 mV
   //  maxCurrent >= 0.001
   //  shunt      >= 0.001
-  int      setMaxCurrentShunt(float macCurrent = 20.0, 
+  int      setMaxCurrentShunt(float macCurrent = 20.0,
                               float shunt = 0.002,
                               bool normalize = true);
   bool     isCalibrated()     { return _current_LSB != 0.0; };
@@ -108,7 +110,7 @@ public:
   bool     setModeShuntBusTrigger()    { return setMode(3); };
   bool     setModeShuntContinuous()    { return setMode(5); };
   bool     setModeBusContinuous()      { return setMode(6); };
-  bool     setModeShuntBusContinuous() { return setMode(7); };  // default.
+  bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
 
   //  Alert
@@ -124,8 +126,8 @@ public:
 
 
   //  Meta information
-  uint16_t getManufacturerID();   // should return 0x5449
-  uint16_t getDieID();            // should return 0x2260
+  uint16_t getManufacturerID();   //  should return 0x5449
+  uint16_t getDieID();            //  should return 0x2260
 
 
   //  DEBUG
@@ -146,5 +148,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

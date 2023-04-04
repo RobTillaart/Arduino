@@ -15,10 +15,12 @@ getBusVoltage	KEYWORD2
 getPower	KEYWORD2
 getCurrent	KEYWORD2
 
+getBusVoltage_mV	KEYWORD2
 getShuntVoltage_mV	KEYWORD2
 getPower_mW	KEYWORD2
 getCurrent_mA	KEYWORD2
 
+getBusVoltage_uV	KEYWORD2
 getShuntVoltage_uV	KEYWORD2
 getPower_uW	KEYWORD2
 getCurrent_uA	KEYWORD2
@@ -32,6 +34,7 @@ setShuntVoltageConversionTime	KEYWORD2
 getShuntVoltageConversionTime	KEYWORD2
 
 setMaxCurrentShunt	KEYWORD2
+isCalibrated	KEYWORD2
 getCurrentLSB	KEYWORD2
 getCurrentLSB_mA	KEYWORD2
 getCurrentLSB_uA	KEYWORD2

@@ -1,11 +1,9 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
-//
-// HISTORY: see changelog.md
 
 
 #include "INA226.h"
@@ -99,7 +97,7 @@ float INA226::getBusVoltage()
 float INA226::getPower()
 {
   uint16_t val = _readRegister(INA226_POWER);
-  return val * 25 * _current_LSB;  //  fixed 25 Watt 
+  return val * 25 * _current_LSB;  //  fixed 25 Watt
 }
 
 
@@ -196,7 +194,7 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 
   //  fix #16 - datasheet 6.5 Electrical Characteristics
   //            rounded value to 80 mV
-  float shuntVoltage = abs(maxCurrent * shunt);  
+  float shuntVoltage = abs(maxCurrent * shunt);
   if (shuntVoltage > 0.080) return INA226_ERR_SHUNTVOLTAGE_HIGH;
   if (maxCurrent < 0.001)   return INA226_ERR_MAXCURRENT_LOW;
   if (shunt < 0.001)        return INA226_ERR_SHUNT_LOW;
@@ -298,7 +296,7 @@ uint8_t INA226::getMode()
 
 ////////////////////////////////////////////////////////
 //
-// alert
+//  alert
 //
 void INA226::setAlertRegister(uint16_t mask)
 {
@@ -326,7 +324,7 @@ uint16_t INA226::getAlertLimit()
 
 ////////////////////////////////////////////////////////
 //
-// meta information
+//  meta information
 //
 uint16_t INA226::getManufacturerID()
 {
@@ -367,5 +365,5 @@ uint16_t INA226::_writeRegister(uint8_t reg, uint16_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

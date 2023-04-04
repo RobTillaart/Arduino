@@ -13,8 +13,10 @@ Arduino library for the INA226 power sensor.
 
 ## Description
 
-Experimental library for the INA226 power sensor.
+**Experimental** library for the INA226 power sensor.
 Not all functionality is tested / investigated.
+
+Read datasheet for details.
 
 ==> **USE WITH CARE**
 
@@ -28,13 +30,31 @@ A few important maxima, see datasheet, chapter 6.
 | current       |  20   | Ampere | 
 
 
+#### Special characters
+
+- Ω == Ohm = ALT-234 (Windows)
+- µ == micro = ALT-0181 (Windows)
+
+
+#### Links
+
+Relates to https://github.com/RobTillaart/INA219
+
+
+## I2C
+
+#### Address
+
 The sensor can have 16 different I2C addresses, 
 which depends on how the A0 and A1 address lines 
 are connected to the SCL, SDA, GND and VCC pins.
 
 See datasheet - table 2 - datasheet.
 
-https://github.com/RobTillaart/INA219
+
+#### Performance
+
+To be elaborated, example sketch available.
 
 
 ## About Measurements
@@ -60,62 +80,63 @@ compensate slightly if readings are structural too low or too high.
 I noted that the **getPower()** function does not always equal **getBusVoltage()** times **getCurrent()**.
 Cause is rounding/trunking maths and time of measurement.
 You might prefer to multiply those values yourself to get extra digits. 
-Please be aware that more digits is not always more exact (think significant digits)
+Please be aware that more digits is not always more exact (think significant digits).
 
 The example sketch **INA226_setMaxCurrentShunt.ino** switches between two calibration modes.
 It shows the **INA266** sensor needs time to accommodate to this change. 
 In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
 
-## Versions
-
-moved to releaseNotes.md.
-
-
 ## Interface
 
-read datasheet for details.
+```cpp
+#include "INA226.h"
+```
 
 
-### Constructor
+#### Constructor
 
 - **INA226(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
 the address and optional Wire interface.
 - **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266;  
 initializes the class. Sets I2C pins. 
 Returns true if the INA226 address is on the I2C bus.
-- **bool begin()** UNO ea. initializes the class. 
+- **bool begin()** UNO ea. initializes the class.
 returns true if the INA226 address is on the I2C bus.
 - **bool isConnected()** returns true if the INA226 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
 
-### Core Functions
+#### Core Functions
 
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
 
-- **float getShuntVoltage()** idem.
-- **float getBusVoltage()** idem. Max 36 Volt.
+- **float getShuntVoltage()** idem, in volts.
+- **float getBusVoltage()** idem. in volts. Max 36 Volt.
 - **float getCurrent()** is the current through the shunt in Ampere.
 - **float getPower()** is the current x BusVoltage in Watt.
 
-Helper functions to get the right scale.
+Helper functions for the milli scale.
 
-- **float getBusVoltage_mV()** idem, in millivolts.
-- **float getShuntVoltage_mV()** idem, in millivolts.
-- **float getCurrent_mA()** idem in milliAmpere.
-- **float getPower_mW()** idem in milliWatt.
-- **float getShuntVoltage_uV()** idem microVolt.
-- **float getCurrent_uA()** idem in microAmpere.
+- **float getBusVoltage_mV()** idem, in milliVolts.
+- **float getShuntVoltage_mV()** idem, in milliVolts.
+- **float getCurrent_mA()** idem, in milliAmpere.
+- **float getPower_mW()** idem, in milliWatt.
+
+Helper functions for the micro scale.
+
+- **float getBusVoltage_mV()** idem, in microVolts.
+- **float getShuntVoltage_uV()** idem, in microVolts.
+- **float getCurrent_uA()** idem, in microAmpere.
 - **float getPower_uW()** idem, in microWatt.
 
 
-### Configuration
+#### Configuration
 
 Note: the conversion time runs in the background and if done value is stored in a register. 
-The core functions read from the registers, so they are not blocked, 
-but just get the same value if no new is ready.
+The core functions read from the registers, so they are not blocked.
+They return the same value if no new data is available / ready.
 
 - **void reset()** software power on reset. 
 This implies calibration with **setMaxCurrentShunt()** needs to be redone.
@@ -163,21 +184,23 @@ Note: times are typical, check datasheet for operational range.
 Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 
-### Calibration
+#### Calibration
 
-See datasheet
+See datasheet.
 
 Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 
-- **bool setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
-set the calibration register based upon the shunt and the max ampere. 
+- **int setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
+set the calibration register based upon the shunt and the max Ampere. 
 From this the LSB is derived.
 The function may force normalization if underflow is detected.
-- **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**. 
+Returns Error code, see below.
+- **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**.
+Value should not be zero.
 - **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
-- **float getCurrentLSB_mA()** returns the LSB in milliampere.
-- **float getCurrentLSB_uA()** returns the LSB in microampere.
-- **float getShunt()** returns the value set for the shunt.
+- **float getCurrentLSB_mA()** returns the LSB in milliAmpere.
+- **float getCurrentLSB_uA()** returns the LSB in microAmpere.
+- **float getShunt()** returns the value set for the shunt in ohm.
 - **float getMaxCurrent()** returns the value for the maxCurrent which can be corrected.
 
 To print these values in scientific notation use https://github.com/RobTillaart/printHelpers 
@@ -194,32 +217,32 @@ Solution is not to normalize if this max range is needed.
 
 #### Error codes setMaxCurrentShunt
 
-| descriptive name error       | value  | meaning |
-|:-----------------------------|-------:|:--------|
-| INA226_ERR_NONE              | 0x0000 | OK
-| INA226_ERR_SHUNTVOLTAGE_HIGH | 0x8000 | maxCurrent \* shunt > 80 mV 
-| INA226_ERR_MAXCURRENT_LOW    | 0x8001 | maxCurrent < 0.001
-| INA226_ERR_SHUNT_LOW         | 0x8002 | shunt      < 0.001
+| descriptive name error        |  value   |  meaning  |
+|:------------------------------|---------:|:----------|
+| INA226_ERR_NONE               |  0x0000  | OK
+| INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  | maxCurrent \* shunt > 80 mV 
+| INA226_ERR_MAXCURRENT_LOW     |  0x8001  | maxCurrent < 0.001
+| INA226_ERR_SHUNT_LOW          |  0x8002  | shunt      < 0.001
 
 
-### Operating mode
+#### Operating mode
 
 See datasheet, partially tested.
 
-Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference.
+Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference with mode == 0.
 
 - **bool setMode(uint8_t mode = 7)** mode = 0 .. 7
 - **bool shutDown()** mode 0 - not tested yet
 - **bool setModeShuntTrigger()** mode 1 - not tested yet - how to trigger to be investigated
-- **bool setModeBusTrigger()** mode 2 - not tested yet -
-- **bool setModeShuntBusTrigger()** mode 3 - not tested yet -
+- **bool setModeBusTrigger()** mode 2 - not tested yet
+- **bool setModeShuntBusTrigger()** mode 3 - not tested yet
 - **bool setModeShuntContinuous()** mode 5
 - **bool setModeBusContinuous()** mode 6
-- **bool setModeShuntBusContinuous()** mode 7 - default
+- **bool setModeShuntBusContinuous()** mode 7 - default.
 - **uint8_t getMode()** returns the mode (0..7) set by one of the functions above.
 
 
-### Alert functions
+#### Alert functions
 
 See datasheet, not tested yet.
 
@@ -253,13 +276,13 @@ Another feature that can be set is the conversion ready flag.
 The alert line falls when alert is reached.
 
 
-### Meta information
+#### Meta information
 
 - **uint16_t getManufacturerID()** should return 0x5449
 - **uint16_t getDieID()** should return 0x2260
 
 
-### debugging
+#### debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 
@@ -270,6 +293,10 @@ See examples..
 
 
 ## Future
+
+
+#### Must
+
 
 #### Should
 
@@ -282,12 +309,9 @@ See examples..
 
 #### Could
 
-- can the calibration math be optimized?
-  - integer only?
-  - less iterations?
-  - ??
 - make defines of "magic" numbers
   - const floats (most used only once)
+- default address 0x40 ?
 
 
 #### Won't
@@ -303,6 +327,10 @@ See examples..
   - what is gained? updates are faster. footprint code?
   - how often operational?
   - 15 times used..
+- can the calibration math be optimized?
+  - integer only?
+  - less iterations?
+  - would cause rounding errors
   
 
 ## Resources

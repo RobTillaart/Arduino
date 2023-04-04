@@ -1,4 +1,4 @@
-# Change Log I2CKeyPad8x8
+# Change Log INA226
 
 All notable changes to this project will be documented in this file.
 
@@ -6,11 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2023-04-03
+
+- added **getBusVoltage_uV()** for completeness
+- INA226_test_I2C.ino to prep performance tests
+- fix changelog.md
+- fix keywords.txt
+- update readme.md
+- update GitHub actions
+- update license 2023
+- minor edits
+
+
 ## [0.4.1] - 2022-11-12
 - Add RP2040 support to build-CI.
-- Add CHANGELOG.md - replaces release notes to be consistent over libraries.
+- Add CHANGELOG.md, replaces release_notes to be consistent over my libraries.
 - minor edit unit test
-
 
 ## [0.4.0] - 2022-08-26
 - fix #16 - change error to warning for max current

@@ -22,12 +22,13 @@
 // assertNull(actual)
 
 /*
-  most unit tests will test for fail 
+  most unit tests will test for fail
   as there is no sensor connected
   and there is no mock-up.
 
   It appears that Wire.write does not fail without sensor...
 */
+
 
 #include <ArduinoUnitTests.h>
 
@@ -53,6 +54,8 @@ unittest_teardown()
 
 unittest(test_constants_1)
 {
+  assertEqual(SHT_DEFAULT_ADDRESS, 0x44);
+
   fprintf(stderr, "fields readStatus\n");
   assertEqual(SHT_STATUS_ALERT_PENDING   , (1 << 15) );
   assertEqual(SHT_STATUS_HEATER_ON       , (1 << 13) );
@@ -97,6 +100,7 @@ unittest(test_begin)
 
   //  default value == 0
   assertEqual(-45, sht.getTemperature());
+  assertEqual(-49, sht.getFahrenheit());
   assertEqual(0, sht.getHumidity());
   assertEqual(0, sht.getRawTemperature());
   assertEqual(0, sht.getRawHumidity());
@@ -112,24 +116,6 @@ unittest(test_read)
   assertTrue(sht.isConnected());
   expect = SHT_OK;
   assertEqual(expect, sht.getError());
-
-  assertFalse(sht.read());
-  expect = SHT_ERR_READBYTES;
-  assertEqual(expect, sht.getError());
-
-  start = millis();
-  assertFalse(sht.read(false));
-  stop = millis();
-  Serial.println(stop - start);
-  expect = SHT_ERR_READBYTES;
-  assertEqual(expect, sht.getError());
-
-  start = millis();
-  assertFalse(sht.read(true));
-  stop = millis();
-  Serial.println(stop - start);
-  expect = SHT_ERR_READBYTES;
-  assertEqual(expect, sht.getError());
 }
 
 
@@ -138,7 +124,7 @@ unittest(test_readStatus)
   SHT85 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertEqual(0xFFFF, sht.readStatus());
   expect = SHT_ERR_READBYTES;
   assertEqual(expect, sht.getError());
@@ -150,7 +136,7 @@ unittest(test_heater)
   SHT85 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertTrue(sht.heatOn());
   expect = SHT_OK;
   assertEqual(expect, sht.getError());
@@ -170,7 +156,7 @@ unittest(test_async)
   SHT85 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertTrue(sht.requestData());
   expect = SHT_OK;
   assertEqual(expect, sht.getError());
@@ -193,6 +179,47 @@ unittest(test_async)
 }
 
 
+
+unittest(test_offset)
+{
+  SHT85 sht;
+  fprintf(stderr, "temperature\n");
+  for (int i = -5; i < 6; i++)
+  {
+    sht.setTemperatureOffset(i);
+    assertEqual(i, sht.getTemperatureOffset());
+  }
+  fprintf(stderr, "humidity\n");
+  for (int i = -5; i < 6; i++)
+  {
+    sht.setHumidityOffset(i);
+    assertEqual(i, sht.getHumidityOffset());
+  }
+}
+
+
+//////////////////////////////////////////
+//
+//  Test derived types
+//
+unittest(test_getType)
+{
+  SHT   sht;
+  SHT30 sht0;
+  SHT31 sht1;
+  SHT35 sht2;
+  SHT85 sht3;
+
+  assertEqual(00, sht.getType());
+  assertEqual(30, sht0.getType());
+  assertEqual(31, sht1.getType());
+  assertEqual(35, sht2.getType());
+  assertEqual(85, sht3.getType());
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

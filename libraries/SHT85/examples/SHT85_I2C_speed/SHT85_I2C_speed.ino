@@ -32,7 +32,7 @@ void setup()
 
   Wire.begin();
   sht.begin(SHT85_ADDRESS);
-  for (uint32_t clk = 100000; clk < 550000; clk += 50000)
+  for (uint32_t clk = 50000; clk < 550000; clk += 50000)
   {
     Wire.setClock(clk);
     start = micros();
@@ -52,4 +52,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

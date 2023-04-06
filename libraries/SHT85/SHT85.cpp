@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.4.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -12,33 +12,36 @@
 #include "SHT85.h"
 
 
-// SUPPORTED COMMANDS - single shot mode only
+//  SUPPORTED COMMANDS - single shot mode only
 #define SHT_READ_STATUS       0xF32D
 #define SHT_CLEAR_STATUS      0x3041
 
 #define SHT_SOFT_RESET        0x30A2
 #define SHT_HARD_RESET        0x0006
 
-#define SHT_MEASUREMENT_FAST  0x2416    // page 10 datasheet
-#define SHT_MEASUREMENT_SLOW  0x2400    // no clock stretching
+#define SHT_MEASUREMENT_FAST  0x2416    //  page 10 datasheet
+#define SHT_MEASUREMENT_SLOW  0x2400    //  no clock stretching
 
 #define SHT_HEAT_ON           0x306D
 #define SHT_HEAT_OFF          0x3066
-#define SHT_HEATER_TIMEOUT    180000UL  // milliseconds
+#define SHT_HEATER_TIMEOUT    180000UL  //  milliseconds
 
 
 SHT::SHT()
 {
-  _address        = 0;
-  _lastRead       = 0;
-  _rawTemperature = 0;
-  _rawHumidity    = 0;
-  _heatTimeout    = 0;
-  _heaterStart    = 0;
-  _heaterStop     = 0;
-  _heaterOn       = false;
-  _error          = SHT_OK;
-  _type           = 0;
+  _address           = 0;
+  _wire              = NULL;
+  _lastRead          = 0;
+  _rawTemperature    = 0;
+  _rawHumidity       = 0;
+  _heatTimeout       = 0;
+  _heaterStart       = 0;
+  _heaterStop        = 0;
+  _heaterOn          = false;
+  _error             = SHT_OK;
+  _type              = 0;
+  _temperatureOffset = 0;
+  _humidityOffset    = 0;
 }
 
 
@@ -88,17 +91,86 @@ bool SHT::begin(TwoWire *wire)
 }
 
 
+uint8_t SHT::getType()
+{
+  return _type;
+};
+
+
+///////////////////////////////////////////////////
+//
+//  SYNCHRONUOUS interface
+//
 bool SHT::read(bool fast)
+{
+  requestData(fast);
+  while(dataReady(fast) == false) yield();
+  return readData(fast);
+}
+
+
+///////////////////////////////////////////////////
+//
+//  ASYNCHRONUOUS interface
+//
+bool SHT::requestData(bool fast)
 {
   if (writeCmd(fast ? SHT_MEASUREMENT_FAST : SHT_MEASUREMENT_SLOW) == false)
   {
     return false;
   }
-  delay(fast ? 4 : 15); // table 4 datasheet
-  return readData(fast);
+  _lastRequest = millis();
+  return true;
 }
 
 
+bool SHT::dataReady(bool fast)
+{
+  return ((millis() - _lastRequest) > (fast ? 4 : 15));
+}
+
+
+bool SHT::readData(bool fast)
+{
+  uint8_t buffer[6];
+  if (readBytes(6, (uint8_t*) &buffer[0]) == false)
+  {
+    return false;
+  }
+
+  if (!fast)
+  {
+    if (buffer[2] != crc8(buffer, 2))
+    {
+      _error = SHT_ERR_CRC_TEMP;
+      return false;
+    }
+    if (buffer[5] != crc8(buffer + 3, 2))
+    {
+      _error = SHT_ERR_CRC_HUM;
+      return false;
+    }
+  }
+
+  _rawTemperature = (buffer[0] << 8) + buffer[1];
+  _rawHumidity    = (buffer[3] << 8) + buffer[4];
+
+  _lastRead = millis();
+
+  return true;
+}
+
+
+uint32_t SHT::lastRequest()
+{
+  return _lastRequest;
+};
+
+
+///////////////////////////////////////////////////
+//
+//  STATUS
+//
 bool SHT::isConnected()
 {
   _wire->beginTransmission(_address);
@@ -152,7 +224,7 @@ uint16_t SHT::readStatus()
     return 0xFFFF;
   }
 
-  if (status[2] != crc8(status, 2)) 
+  if (status[2] != crc8(status, 2))
   {
     _error = SHT_ERR_CRC_STATUS;
     return 0xFFFF;
@@ -160,6 +232,12 @@ uint16_t SHT::readStatus()
 
   return (uint16_t) (status[0] << 8) + status[1];
 }
+
+
+uint32_t SHT::lastRead()
+{
+  return _lastRead;
+};
 
 
 bool SHT::reset(bool hard)
@@ -174,11 +252,29 @@ bool SHT::reset(bool hard)
 }
 
 
+int SHT::getError()
+{
+  int rv = _error;
+  _error = SHT_OK;
+  return rv;
+}
+
+
+///////////////////////////////////////////////////
+//
+//  HEATER
+//
 void SHT::setHeatTimeout(uint8_t seconds)
 {
   _heatTimeout = seconds;
   if (_heatTimeout > 180) _heatTimeout = 180;
 }
+
+
+uint8_t SHT::getHeatTimeout()
+{
+  return _heatTimeout;
+};
 
 
 bool SHT::heatOn()
@@ -230,75 +326,88 @@ bool SHT::isHeaterOn()
 }
 
 
-bool SHT::requestData()
+//////////////////////////////////////////////////////////
+//
+//  TEMPERATURE & HUMIDITY
+//
+float SHT::getHumidity()
 {
-  if (writeCmd(SHT_MEASUREMENT_SLOW) == false)
-  {
-    return false;
-  }
-  _lastRequest = millis();
-  return true;
+  float hum = _rawHumidity * (100.0 / 65535);
+  if (_humidityOffset != 0) hum += _humidityOffset;
+  return hum;
 }
 
 
-bool SHT::dataReady()
+float SHT::getTemperature()
 {
-  return ((millis() - _lastRequest) > 15);    //  TODO MAGIC NR
+  float temp = _rawTemperature * (175.0 / 65535) - 45;
+  if (_temperatureOffset != 0) temp += _temperatureOffset;
+  return temp;
 }
 
 
-bool SHT::readData(bool fast)
+float SHT::getFahrenheit()
 {
-  uint8_t buffer[6];
-  if (readBytes(6, (uint8_t*) &buffer[0]) == false)
-  {
-    return false;
-  }
-
-  if (!fast)
-  {
-    if (buffer[2] != crc8(buffer, 2)) 
-    {
-      _error = SHT_ERR_CRC_TEMP;
-      return false;
-    }
-    if (buffer[5] != crc8(buffer + 3, 2)) 
-    {
-      _error = SHT_ERR_CRC_HUM;
-      return false;
-    }
-  }
-
-  _rawTemperature = (buffer[0] << 8) + buffer[1];
-  _rawHumidity    = (buffer[3] << 8) + buffer[4];
-
-  _lastRead = millis();
-
-  return true;
+  float temp = _rawTemperature * (63.0 / 13107.0) - 49;
+  if (_temperatureOffset != 0) temp += _temperatureOffset * 1.8;
+  return temp;
 }
 
 
-int SHT::getError()
+uint16_t SHT::getRawHumidity()
 {
-  int rv = _error;
-  _error = SHT_OK;
-  return rv;
+  return _rawHumidity;
 }
+
+
+uint16_t SHT::getRawTemperature()
+{
+  return _rawTemperature;
+}
+
+
+void  SHT::setTemperatureOffset(float offset)
+{
+  _temperatureOffset = offset;
+}
+
+
+float SHT::getTemperatureOffset()
+{
+  return _temperatureOffset;
+}
+
+
+void  SHT::setHumidityOffset(float offset)
+{
+  _humidityOffset = offset;
+}
+
+
+float SHT::getHumidityOffset()
+{
+  return _humidityOffset;
+}
+
+
+
 
 
 //////////////////////////////////////////////////////////
-
-uint8_t SHT::crc8(const uint8_t *data, uint8_t len) 
+//
+//  PROTECTED
+//
+uint8_t SHT::crc8(const uint8_t *data, uint8_t len)
 {
   // CRC-8 formula from page 14 of SHT spec pdf
   const uint8_t POLY(0x31);
   uint8_t crc(0xFF);
 
-  for (uint8_t j = len; j; --j) 
+  for (uint8_t j = len; j; --j)
   {
     crc ^= *data++;
 
-    for (uint8_t i = 8; i; --i) 
+    for (uint8_t i = 8; i; --i)
     {
       crc = (crc & 0x80) ? (crc << 1) ^ POLY : (crc << 1);
     }
@@ -337,10 +446,9 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 }
 
 
-
 ////////////////////////////////////////////////////////
 //
-//  DERIVED
+//  DERIVED CLASSES
 //
 SHT30::SHT30()
 {
@@ -367,3 +475,4 @@ SHT85::SHT85()
 
 
 //  -- END OF FILE --
+

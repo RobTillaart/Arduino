@@ -6,10 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2022-12-14
+- redo asynchronous interface
+- add **uint32_t getLastRequest()** timestamp.
+- add offset functions for temperature and humidity.
+- update readme.md
+- move code from .h to .cpp
+- updated unit test
+- add examples
+- update keywords.txt
+- update GitHub actions
+- update license 2023
+- minor edits
+
+----
+
 ## [0.3.3] - 2022-11-24
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
-
 
 ## [0.3.2] - 2022-01-17
 - fix #8 add SHT_DEFAULT_ADDRESS + 2x begin()

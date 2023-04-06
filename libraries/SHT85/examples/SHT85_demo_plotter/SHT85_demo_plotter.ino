@@ -58,7 +58,7 @@ void loop()
   Serial.print(sht.getTemperature(), 2);
   Serial.print("\t");
   Serial.println(sht.getHumidity(), 2);
-  if (millis() - last >= 100)
+  if (millis() - last >= 1000)
   {
     last = millis();
     count = 0;
@@ -66,5 +66,6 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+
 

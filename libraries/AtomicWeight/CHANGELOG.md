@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2023-04-12
+- add **splitElements()** split a formula in an internal list of elements.
+- add **element()** access to split elements. See example.
+- add **count()** to count atoms in a formula.
+- add **atomPercentage()** to calculate percentage of atoms of an element.
+- add examples.
+- update readme.md 
+- update keywords.txt
+- minor edits.
+
+
 ## [0.1.3] - 2023-01-01
 - refactor interface
 - add **weight(formula, element)**
@@ -13,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix version number in .cpp
 - update readme.md.
 - update keywords.txt
-
 
 ## [0.1.2] - 2023-01-01
 - add weight(formula) group () support

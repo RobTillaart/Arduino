@@ -1,0 +1,14 @@
+ATOMIC_WEIGHT_LIB_VERSION: 0.1.3 (output adjusted after release)
+
+form.	elem.	perc.
+
+C 	 C 	100.00
+C6 	 C 	100.00
+He6 	 C 	0.00
+NaCl 	 Na 	39.34
+NaCl 	 Cl 	60.66
+C6H6O6 	 H 	3.48
+((COH)3)2 	 H 	3.48
+H2SO4 	 H 	2.06
+CuO2 	 H 	0.00
+xH2 	 H 	0.00

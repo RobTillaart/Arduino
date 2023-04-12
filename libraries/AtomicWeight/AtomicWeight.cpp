@@ -2,7 +2,7 @@
 //    FILE: AtomicWeight.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -146,7 +146,8 @@ elements[119] =
 
 PTOE::PTOE(const uint8_t size)
 {
-  _size = size;
+  _size  = size;
+  _found = 0;
 }
 
 
@@ -164,7 +165,7 @@ uint8_t PTOE::electrons(const uint8_t el)
 
 uint8_t PTOE::neutrons(const uint8_t el)
 {
-  return round(weight(el) - el);
+  return round(weight(el)) - el;
 }
 
 
@@ -225,6 +226,107 @@ float PTOE::weightFactor()
 
 ////////////////////////////////////////////////////////////////
 //
+//  EXPERIMENTAL
+//
+uint8_t PTOE::splitElements(const char * formula)
+{
+  uint8_t count = 0;
+  char elem[3] = { 0, 0, 0 };
+
+  char * p = (char *) formula;
+  while (*p != '\0')
+  {
+    //  SKIP non element info
+    if (*p == '(')
+    {
+      p++;   //  skip '('
+      continue;
+    }
+    if (*p == ')')
+    {
+      p++;   //  skip ')'
+      continue;
+    }
+    if (isdigit(*p))
+    {
+      p++;   //  skip digit
+      continue;
+    }
+
+    //  GET ELEMENT := [ Upper | Upper,lower ]
+    elem[0] = 0;
+    elem[1] = 0;
+    if (! isupper(*p)) return 0;  //  fail
+    elem[0] = *p;
+    p++;
+    if (islower(*p))
+    {
+      elem[1] = *p;
+      p++;
+    }
+    //  FIND INDEX OF ELEMENT
+    int z = find(elem);
+    if (z == 255)
+    {
+      return 0;  //  fail
+    }
+
+    //  DO WE HAVE IDENTIFIED IT ALREADY?
+    bool found = false;
+    for (int i = 0; i < count; i++)
+    {
+      if (_elems[i] == z)
+      {
+        found = true;
+      }
+    }
+    if (found == false)
+    {
+      _elems[count] = z;
+      count++;
+    }
+  }
+
+  // //  DEBUG
+  // for (int i = 0; i < count; i++)
+  // {
+    // Serial.print(i);
+    // Serial.print('\t');
+    // Serial.print(_elems[i]);
+    // Serial.print('\t');
+    // Serial.println(name(_elems[i]));
+  // }
+
+  _found = count;
+  return count;
+}
+
+
+uint8_t PTOE::element(uint8_t el)
+{
+  if (el >= _found) return 255;
+  return _elems[el];
+}
+
+
+uint32_t PTOE::count(const char * formula, const char * el)
+{
+  p = (char *)formula;
+  return _count('\0', el);
+}
+
+
+float PTOE::atomPercentage(const char * formula, const char * el)
+{
+  float total = count(formula);
+  if (total == 0) return 0;
+  p = (char *)formula;
+  return 100.0 * _count('\0', el) / total;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
 //  PRIVATE
 //
 float PTOE::_weight(const char sep, const char * el)
@@ -256,7 +358,7 @@ float PTOE::_weight(const char sep, const char * el)
         elem[1] = *p;
         p++;
       }
-      //  can be optimized 
+      //  can be optimized?
       if ((el == NULL) || (strcmp(elem, el) == 0))
       {
         int z = find(elem);
@@ -285,5 +387,63 @@ float PTOE::_weight(const char sep, const char * el)
 }
 
 
-// -- END OF FILE --
+uint32_t PTOE::_count(const char sep, const char * el)
+{
+  uint32_t sum = 0;
+  char elem[3] = { 0, 0, 0 };
+  int count = 0;
+  int w = 0;
+
+  while (*p != sep)
+  {
+    //  HANDLE GROUP  (...)
+    if (*p == '(')
+    {
+      p++;   //  skip '('
+      w = _count(')', el);
+      p++;   //  skip ')'
+    }
+    else
+    {
+      w = 0;
+      //  GET ELEMENT := [ Upper | Upper,lower ]
+      elem[1] = 0;
+      if (! isupper(*p)) return 0;  //  fail
+      elem[0] = *p;
+      p++;
+      if (islower(*p))
+      {
+        elem[1] = *p;
+        p++;
+      }
+      //  can be optimized
+      if ((el == NULL) || (strcmp(elem, el) == 0))
+      {
+        int z = find(elem);
+        if (z == 255) return 0;  //  fail
+        w = 1;
+      }
+    }
+
+    count = 0;
+    //  get optional digits
+    while (isdigit(*p))
+    {
+      count = count * 10 + (*p - '0');
+      p++;
+    }
+    //  correct for no digits
+    if (count == 0) count = 1;
+
+    //  DEBUG
+    // Serial.println(w);
+    // Serial.println(count);
+
+    sum += w * count;
+  }
+  return sum;
+}
+
+
+//  -- END OF FILE --
 

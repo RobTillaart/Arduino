@@ -1,0 +1,87 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+atomic_count_split.ino
+ATOMIC_WEIGHT_LIB_VERSION: 0.1.4
+
+C	1 atoms.
+C	100.000
+
+
+C6	6 atoms.
+C	100.000
+
+
+CCCCCCC	7 atoms.
+C	100.000
+
+
+He6	6 atoms.
+He	100.000
+
+
+NaCl	2 atoms.
+Na	50.000
+Cl	50.000
+
+
+C6H6O6	18 atoms.
+C	33.333
+H	33.333
+O	33.333
+
+
+Al2Si2O5(OH)4	17 atoms.
+Al	11.765
+Si	11.765
+O	52.941
+H	23.529
+
+
+H2SO4	7 atoms.
+H	28.571
+S	14.286
+O	57.143
+
+
+CuO2	3 atoms.
+Cu	33.333
+O	66.667
+
+
+(COH)3(COH)2COH	18 atoms.
+C	33.333
+O	33.333
+H	33.333
+
+
+YBa2Cu3O7	13 atoms.
+Y	7.692
+Ba	15.385
+Cu	23.077
+O	53.846
+
+
+Al(NO2)3	10 atoms.
+Al	10.000
+N	30.000
+O	60.000
+
+
+Ba(C2H3O2)2	15 atoms.
+Ba	6.667
+C	26.667
+H	40.000
+O	26.667
+
+
+Ca2SbMg4FeBe2Si4O20	34 atoms.
+Ca	5.882
+Sb	2.941
+Mg	11.765
+Fe	2.941
+Be	5.882
+Si	11.765
+O	58.824
+
+done

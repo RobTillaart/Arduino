@@ -157,7 +157,46 @@ unittest(test_massPercentage)
 }
 
 
+unittest(test_count)
+{
+  PTOE ptoe;
+  assertEqual(  2, ptoe.count("Cl2"));
+  assertEqual(  2, ptoe.count("NaCl"));
+  assertEqual(  1, ptoe.count("NaCl", "Na"));
+  assertEqual(  1, ptoe.count("NaCl", "Cl"));
+
+  assertEqual( 18, ptoe.count("C6H6O6"));
+  assertEqual( 17, ptoe.count("Al2Si2O5(OH)4"));
+  assertEqual(  9, ptoe.count("Al2Si2O5(OH)4", "O"));
+  assertEqual(  4, ptoe.count("Al2Si2O5(OH)4", "H"));
+
+  assertEqual( 13, ptoe.count("YBa2Cu3O7"));
+  assertEqual(  3, ptoe.count("C(O(H2)2)3", "O"));
+  assertEqual( 12, ptoe.count("C(O(H2)2)3", "H"));
+}
+
+
+unittest(test_atomPercentage)
+{
+  PTOE ptoe;
+  assertEqualFloat(  7.692, ptoe.atomPercentage("YBa2Cu3O7", "Y"), 0.1);
+  assertEqualFloat( 15.385, ptoe.atomPercentage("YBa2Cu3O7", "Ba"), 0.1);
+  assertEqualFloat( 23.077, ptoe.atomPercentage("YBa2Cu3O7", "Cu"), 0.1);
+  assertEqualFloat( 53.846, ptoe.atomPercentage("YBa2Cu3O7", "O"), 0.1);
+
+  assertEqualFloat( 10.000, ptoe.atomPercentage("Al(NO2)3", "Al"), 0.1);
+  assertEqualFloat( 30.000, ptoe.atomPercentage("Al(NO2)3", "N"), 0.1);
+  assertEqualFloat( 60.000, ptoe.atomPercentage("Al(NO2)3", "O"), 0.1);
+
+  assertEqualFloat(  6.667, ptoe.atomPercentage("Ba(C2H3O2)2", "Ba"), 0.1);
+  assertEqualFloat( 26.667, ptoe.atomPercentage("Ba(C2H3O2)2", "C"), 0.1);
+  assertEqualFloat( 40.000, ptoe.atomPercentage("Ba(C2H3O2)2", "H"), 0.1);
+  assertEqualFloat( 26.667, ptoe.atomPercentage("Ba(C2H3O2)2", "O"), 0.1);
+}
+
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

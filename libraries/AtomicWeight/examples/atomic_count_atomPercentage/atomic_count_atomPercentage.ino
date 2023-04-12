@@ -1,8 +1,7 @@
-//    FILE: atomic_weight_massPercentage.ino
+//    FILE: atomic_count_atomPercentage.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AtomicWeight
-
 
 #include "Arduino.h"
 #include "AtomicWeight.h"
@@ -28,46 +27,62 @@ void setup()
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
 
+
+  //  COUNT
+  Serial.println(ptoe.count("C"));
+  Serial.println(ptoe.count("C", "C"));
+  Serial.println(ptoe.count("H2SO4"));
+  Serial.println(ptoe.count("H2SO4", "C"));
+  Serial.println(ptoe.count("H2SO4", "H"));
+  Serial.println(ptoe.count("H2SO4", "S"));
+  Serial.println(ptoe.count("H2SO4", "O"));
+
+
+  //  PERCENTAGE
   Serial.println("\nform.\telem.\tperc.\n");
   Serial.print("C");
   Serial.print(" \t C \t");
-  Serial.println(ptoe.massPercentage("C", "C"));
+  Serial.println(ptoe.atomPercentage("C", "C"));
 
   Serial.print("C6");
   Serial.print(" \t C \t");
-  Serial.println(ptoe.massPercentage("C6", "C"));
+  Serial.println(ptoe.atomPercentage("C6", "C"));
 
   Serial.print("He6");
   Serial.print(" \t C \t");
-  Serial.println(ptoe.massPercentage("He6", "C"));
+  Serial.println(ptoe.atomPercentage("He6", "C"));
 
   Serial.print("NaCl");
   Serial.print(" \t Na \t");
-  Serial.println(ptoe.massPercentage("NaCl", "Na"));
+  Serial.println(ptoe.atomPercentage("NaCl", "Na"));
 
   Serial.print("NaCl");
   Serial.print(" \t Cl \t");
-  Serial.println(ptoe.massPercentage("NaCl", "Cl"));
+  Serial.println(ptoe.atomPercentage("NaCl", "Cl"));
 
   Serial.print(formula0);
   Serial.print(" \t H \t");
-  Serial.println(ptoe.massPercentage(formula0, "H"));
+  Serial.println(ptoe.atomPercentage(formula0, "H"));
 
   Serial.print(formula1);
   Serial.print(" \t H \t");
-  Serial.println(ptoe.massPercentage(formula1, "H"));
+  Serial.println(ptoe.atomPercentage(formula1, "H"));
 
   Serial.print(formula2);
   Serial.print(" \t H \t");;
-  Serial.println(ptoe.massPercentage(formula2, "H"));
+  Serial.println(ptoe.atomPercentage(formula2, "H"));
 
   Serial.print(formula3);
   Serial.print(" \t H \t");
-  Serial.println(ptoe.massPercentage(formula3, "H"));
+  Serial.println(ptoe.atomPercentage(formula3, "Cu"));
+
+  Serial.print(formula3);
+  Serial.print(" \t H \t");
+  Serial.println(ptoe.atomPercentage(formula3, "O"));
 
   Serial.print(formula4);
   Serial.print(" \t H \t");
-  Serial.println(ptoe.massPercentage(formula4, "H"));
+  Serial.println(ptoe.atomPercentage(formula4, "H"));
 
 }
 
@@ -78,4 +93,4 @@ void loop()
 
 
 
-//  -- END OF FILE --
+// -- END OF FILE --

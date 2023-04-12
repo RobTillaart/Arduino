@@ -1,0 +1,74 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+D:\Rob\WORK\Arduino\libraries\AtomicWeight\examples\atomic_weight_split\atomic_weight_split.ino
+ATOMIC_WEIGHT_LIB_VERSION: 0.1.3
+
+C
+C	100.000
+TIME:	28 us.
+
+
+C6
+C	100.000
+TIME:	28 us.
+
+
+CCCCCCC
+C	100.000
+TIME:	160 us.
+
+
+He6
+He	100.000
+TIME:	24 us.
+
+
+NaCl
+Na	39.338
+Cl	60.662
+TIME:	88 us.
+
+
+C6H6O6
+C	41.388
+H	3.479
+O	55.133
+TIME:	76 us.
+
+
+((COH)3)2
+C	41.388
+O	55.133
+H	3.479
+TIME:	76 us.
+
+
+H2SO4
+H	2.058
+S	32.696
+O	65.246
+TIME:	92 us.
+
+
+CuO2
+Cu	66.512
+O	33.488
+TIME:	108 us.
+
+
+(COH)3(COH)2COH
+C	41.388
+O	55.133
+H	3.479
+TIME:	204 us.
+
+
+YBa2Cu3O7
+Y	13.346
+Ba	41.228
+Cu	28.617
+O	16.810
+TIME:	328 us.
+
+done

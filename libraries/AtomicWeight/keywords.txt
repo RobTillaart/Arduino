@@ -11,11 +11,18 @@ size	KEYWORD2
 electrons	KEYWORD2
 protons	KEYWORD2
 neutrons	KEYWORD2
+
 weight	KEYWORD2
 massPercentage	KEYWORD2
 
 name	KEYWORD2
 find	KEYWORD2
+
+splitElements	KEYWORD2
+element	KEYWORD2
+
+count	KEYWORD2
+atomPercentage	KEYWORD2
 
 
 # Constants (	LITERAL1)

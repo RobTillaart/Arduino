@@ -9,6 +9,9 @@
 #include "Arduino.h"
 #include "elements_float.h"
 
+//  VERSION   FACTOR
+//  0.1.x     222.909
+//  0.2.x     201.3868
 
 void setup()
 {

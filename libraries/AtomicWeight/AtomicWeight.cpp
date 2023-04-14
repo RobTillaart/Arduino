@@ -2,7 +2,7 @@
 //    FILE: AtomicWeight.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -177,40 +177,65 @@ uint8_t PTOE::protons(const uint8_t el)
 
 float PTOE::weight(const uint8_t el)
 {
+  if (el > _size) return 0;  //  catch out of range.
   return elements[el].weight * _weightFactor;
 }
 
 
-float PTOE::weight(const char * formula, const char * el)
+float PTOE::weight(const char * formula, const char * abbrev)
 {
   p = (char *)formula;
-  return _weight('\0', el);
+  return _weight('\0', abbrev);
 }
 
 
-float PTOE::massPercentage(const char * formula, const char * el)
+float PTOE::massPercentage(const char * formula, const char * abbrev)
 {
   float total = weight(formula);
   if (total == 0) return 0;
   p = (char *)formula;
-  return 100.0 * _weight('\0', el) / total;
+  return 100.0 * _weight('\0', abbrev) / total;
 }
 
 
 char * PTOE::name(const uint8_t el)
 {
+  //  catch out of range.
+  if (el > _size) return NULL;
   return elements[el].name;
 }
 
 
 uint8_t PTOE::find(const char * abbrev)
 {
-  //  how about caching here?
+  //  case insensitive?
+  //  caching?
+  //  param check?
+  //  uint8_t len = strlen(abbrev);
+  //  if ((len == 1) || (len == 2))
+  //  {
   for (uint8_t i = 0; i < _size; i++)
   {
     if (strcmp(elements[i].name, abbrev) == 0) return i;
   }
+  // }
   return 255;
+}
+
+
+////////////////////////////////////////////////////////////////
+//
+//  CONVERSION
+//
+float PTOE::moles2grams(const char * formula, float moles)
+{
+  return moles * weight(formula);
+}
+
+
+float PTOE::grams2moles(const char * formula, float grams)
+{
+  return grams / weight(formula);
 }
 
 
@@ -275,14 +300,14 @@ uint8_t PTOE::splitElements(const char * formula)
     bool found = false;
     for (int i = 0; i < count; i++)
     {
-      if (_elems[i] == z)
+      if (_splitList[i] == z)
       {
         found = true;
       }
     }
-    if (found == false)
+    if ((found == false) && (count < ATOMIC_WEIGHT_MAX_SPLIT_LIST))
     {
-      _elems[count] = z;
+      _splitList[count] = z;
       count++;
     }
   }
@@ -292,9 +317,9 @@ uint8_t PTOE::splitElements(const char * formula)
   // {
     // Serial.print(i);
     // Serial.print('\t');
-    // Serial.print(_elems[i]);
+    // Serial.print(_splitList[i]);
     // Serial.print('\t');
-    // Serial.println(name(_elems[i]));
+    // Serial.println(name(_splitList[i]));
   // }
 
   _found = count;
@@ -305,7 +330,7 @@ uint8_t PTOE::splitElements(const char * formula)
 uint8_t PTOE::element(uint8_t el)
 {
   if (el >= _found) return 255;
-  return _elems[el];
+  return _splitList[el];
 }
 
 
@@ -329,7 +354,7 @@ float PTOE::atomPercentage(const char * formula, const char * el)
 //
 //  PRIVATE
 //
-float PTOE::_weight(const char sep, const char * el)
+float PTOE::_weight(const char sep, const char * abbrev)
 {
   float sum = 0;
   float w   = 0;
@@ -343,7 +368,7 @@ float PTOE::_weight(const char sep, const char * el)
     if (*p == '(')
     {
       p++;   //  skip '('
-      w = _weight(')', el);
+      w = _weight(')', abbrev);
       p++;   //  skip ')'
     }
     else
@@ -359,7 +384,7 @@ float PTOE::_weight(const char sep, const char * el)
         p++;
       }
       //  can be optimized?
-      if ((el == NULL) || (strcmp(elem, el) == 0))
+      if ((abbrev == NULL) || (strcmp(elem, abbrev) == 0))
       {
         int z = find(elem);
         if (z == 255) return 0;  //  fail
@@ -381,13 +406,13 @@ float PTOE::_weight(const char sep, const char * el)
     // Serial.println(w);
     // Serial.println(count);
 
-    sum += w * count;
+    sum += (w * count);
   }
   return sum;
 }
 
 
-uint32_t PTOE::_count(const char sep, const char * el)
+uint32_t PTOE::_count(const char sep, const char * abbrev)
 {
   uint32_t sum = 0;
   char elem[3] = { 0, 0, 0 };
@@ -400,7 +425,7 @@ uint32_t PTOE::_count(const char sep, const char * el)
     if (*p == '(')
     {
       p++;   //  skip '('
-      w = _count(')', el);
+      w = _count(')', abbrev);
       p++;   //  skip ')'
     }
     else
@@ -417,7 +442,7 @@ uint32_t PTOE::_count(const char sep, const char * el)
         p++;
       }
       //  can be optimized
-      if ((el == NULL) || (strcmp(elem, el) == 0))
+      if ((abbrev == NULL) || (strcmp(elem, abbrev) == 0))
       {
         int z = find(elem);
         if (z == 255) return 0;  //  fail

@@ -6,16 +6,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-04-13
+- add **moles2grams(formula, moles)**
+- add **grams2moles(formula, grams)**
+- add example.
+- add guarding with **size** parameter in **weight()**
+- improved usage **abbrev**(name) versus **el**(index).
+- improved readme.md.
+- add define for **ATOMIC_WEIGHT_MAX_SPLIT_LIST**
+- update keywords.txt.
+- minor edits.
+
+
 ## [0.1.4] - 2023-04-12
 - add **splitElements()** split a formula in an internal list of elements.
 - add **element()** access to split elements. See example.
 - add **count()** to count atoms in a formula.
 - add **atomPercentage()** to calculate percentage of atoms of an element.
 - add examples.
-- update readme.md 
+- update readme.md
 - update keywords.txt
 - minor edits.
-
 
 ## [0.1.3] - 2023-01-01
 - refactor interface

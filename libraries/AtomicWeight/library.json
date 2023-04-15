@@ -1,6 +1,6 @@
 {
   "name": "AtomicWeight",
-  "keywords": "Mass,atoms,weight,PTOE,periodic,elements,massPercentage",
+  "keywords": "Mass,atoms,weight,PTOE,periodic,elements,massPercentage,atomPercentage,mole,gram",
   "description": "Arduino library for atomic weights, calculate massPercentage of elements in a formula.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AtomicWeight.git"
   },
-  "version": "0.1.5",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

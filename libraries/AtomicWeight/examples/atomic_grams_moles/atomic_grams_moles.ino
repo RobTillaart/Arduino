@@ -7,10 +7,12 @@
 #include "Arduino.h"
 #include "AtomicWeight.h"
 
+
 PTOE ptoe;
 
 char formula[24] = "KOH";
 //  char formula[24] = "NaCl";
+
 
 void setup()
 {

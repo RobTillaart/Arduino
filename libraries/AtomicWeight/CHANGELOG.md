@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-04-15
+- use new weight factor 201.3868 to reduce maximum relative error
+- create **elements_uint16.h** file.
+- move **ATOMIC_WEIGHT_FACTOR** to **elements_uint16.h** file.
+- create **elements_name.h** file with full element names. Uses ~1670 bytes of RAM.
+  so will **NOT** work on all boards.
+- add related constants
+  - **AVOGADRO** = 6.02214076e+23; number of particles in one mole.
+  - **DALTON** = 1.66053907e-24; weight of one nucleon in grams.
+  - **ELEKTRON_VOLT_JOULE** = 1.602176565e-19; eV in Joule
+  - **ELEKTRON_VOLT_GRAM**  = 1.7826619e-39; eV in grams
+  - **DALTON_EV** = 931.4940954e12 = DALTON / ELEKTRON_VOLT_GRAM
+  - **DALTON_JOULE** = 1.036427015e5 = DALTON / ELEKTRON_VOLT_JOULE
+- update unit tests.
+- update readme.md
+- update keywords.txt.
+
+
 ## [0.1.5] - 2023-04-13
 - add **moles2grams(formula, moles)**
 - add **grams2moles(formula, grams)**
@@ -16,7 +34,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add define for **ATOMIC_WEIGHT_MAX_SPLIT_LIST**
 - update keywords.txt.
 - minor edits.
-
 
 ## [0.1.4] - 2023-04-12
 - add **splitElements()** split a formula in an internal list of elements.

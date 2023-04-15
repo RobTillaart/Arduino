@@ -10,6 +10,7 @@
 
 PTOE ptoe;
 
+
 char formula0[24] = "C6H6O6";
 char formula1[24] = "((COH)3)2";
 char formula2[24] = "H2SO4";
@@ -18,9 +19,6 @@ char formula4[24] = "(COH)3(COH)2COH";
 // char formula4[24] = "(CH)6O6";
 // char formula4[24] = "xH2";  // fails => 0;
 char formula5[24] = "YBa2Cu3O7";
-
-
-uint8_t cnt;
 
 
 void setup()
@@ -53,7 +51,7 @@ void loop()
 }
 
 
-void test(char * formula)
+void test(const char * formula)
 {
   Serial.println();
   Serial.println(formula);

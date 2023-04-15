@@ -48,14 +48,21 @@ unittest_teardown()
 
 unittest(test_constants)
 {
+  assertEqualFloat(6.02214076e+23, AVOGADRO, 1e17);
+  assertEqualFloat(1.66053907e-24, DALTON, 1e-30);
+  assertEqualFloat(1.0, DALTON * AVOGADRO, 1e-5);
 
+  assertEqualFloat(1.602176565e-19, ELEKTRON_VOLT_JOULE, 1e-5);
+  assertEqualFloat(1.7826619e-39, ELEKTRON_VOLT_GRAM, 1e-5);
+  assertEqualFloat(DALTON / ELEKTRON_VOLT_GRAM, DALTON_EV, 1e-5);
+  assertEqualFloat(DALTON / ELEKTRON_VOLT_JOULE, DALTON_JOULE, 1e-5);
 }
 
 
 unittest(test_constructor)
 {
   PTOE ptoe;
-  
+
   assertEqual(118, ptoe.size());
 }
 
@@ -75,7 +82,7 @@ unittest(test_find)
   assertEqual(54, ptoe.find("Xe"));
   assertEqual(79, ptoe.find("Au"));
   assertEqual(92, ptoe.find("U"));
-  
+
   assertEqual(255, ptoe.find("XX"));  //  Fail test
 }
 
@@ -114,46 +121,76 @@ unittest(test_basic_atom)
 unittest(test_weight_formula_I)
 {
   PTOE ptoe;
-  assertEqualFloat( 22.9914, ptoe.weight("Na"), 0.1);
-  assertEqualFloat( 58.4454, ptoe.weight("NaCl"), 0.1);
-  assertEqualFloat( 100.081, ptoe.weight("CaCO3"), 0.1);
-  assertEqualFloat( 98.0759, ptoe.weight("H2SO4"), 0.1);
-  assertEqualFloat( 116.065, ptoe.weight("C2H2(COOH)2"), 0.1);
-  assertEqualFloat( 666.178, ptoe.weight("YBa2Cu3O7"), 0.1);
-  assertEqualFloat( 72.1146, ptoe.weight("C(O(H2)2)3"), 0.1);
+
+  //  fprintf(stderr, "%f\n", ptoe.weight("Na"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("NaCl"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("CaCO3"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("H2SO4"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("C2H2(COOH)2"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("YBa2Cu3O7"));
+  //  fprintf(stderr, "%f\n", ptoe.weight("C(O(H2)2)3"));
+
+  assertEqualFloat(  22.990588, ptoe.weight("Na"), 0.1);
+  assertEqualFloat(  58.444748, ptoe.weight("NaCl"), 0.1);
+  assertEqualFloat( 100.086006, ptoe.weight("CaCO3"), 0.1);
+  assertEqualFloat(  98.074951, ptoe.weight("H2SO4"), 0.1);
+  assertEqualFloat( 116.075134, ptoe.weight("C2H2(COOH)2"), 0.1);
+  assertEqualFloat( 666.185669, ptoe.weight("YBa2Cu3O7"), 0.1);
+  assertEqualFloat(  72.105026, ptoe.weight("C(O(H2)2)3"), 0.1);
 }
 
 
 unittest(test_weight_formula_II)
 {
   PTOE ptoe;
-  assertEqualFloat( 22.9914, ptoe.weight("NaCl", "Na"), 0.1);
-  assertEqualFloat( 35.4539, ptoe.weight("NaCl", "Cl"), 0.1);
-  
-  assertEqualFloat( 40.0791, ptoe.weight("CaCO3", "Ca"), 0.1);
-  assertEqualFloat( 12.0094, ptoe.weight("CaCO3", "C"), 0.1);
-  assertEqualFloat( 47.9927, ptoe.weight("CaCO3", "O"), 0.1);
-  
-  assertEqualFloat( 12.0094, ptoe.weight("C(O(H2)2)3", "C"), 0.1);
-  assertEqualFloat( 47.9927, ptoe.weight("C(O(H2)2)3", "O"), 0.1);
-  assertEqualFloat( 12.1126, ptoe.weight("C(O(H2)2)3", "H"), 0.1);
+
+  // fprintf(stderr, "%f\n", ptoe.weight("NaCl", "Na"));
+  // fprintf(stderr, "%f\n", ptoe.weight("NaCl", "Cl"));
+  // fprintf(stderr, "%f\n", ptoe.weight("CaCO3", "Ca"));
+  // fprintf(stderr, "%f\n", ptoe.weight("CaCO3", "C"));
+  // fprintf(stderr, "%f\n", ptoe.weight("CaCO3", "O"));
+  // fprintf(stderr, "%f\n", ptoe.weight("C(O(H2)2)3", "C"));
+  // fprintf(stderr, "%f\n", ptoe.weight("C(O(H2)2)3", "O"));
+  // fprintf(stderr, "%f\n", ptoe.weight("C(O(H2)2)3", "H"));
+
+  assertEqualFloat( 22.990583, ptoe.weight("NaCl", "Na"), 0.1);
+  assertEqualFloat( 35.454163, ptoe.weight("NaCl", "Cl"), 0.1);
+
+  assertEqualFloat( 40.077106, ptoe.weight("CaCO3", "Ca"), 0.1);
+  assertEqualFloat( 12.011711, ptoe.weight("CaCO3", "C"), 0.1);
+  assertEqualFloat( 47.997189, ptoe.weight("CaCO3", "O"), 0.1);
+
+  assertEqualFloat( 12.011711, ptoe.weight("C(O(H2)2)3", "C"), 0.1);
+  assertEqualFloat( 47.997189, ptoe.weight("C(O(H2)2)3", "O"), 0.1);
+  assertEqualFloat( 12.096127, ptoe.weight("C(O(H2)2)3", "H"), 0.1);
 }
 
 
 unittest(test_massPercentage)
 {
   PTOE ptoe;
-  assertEqualFloat( 100.000, ptoe.massPercentage("Cl2", "Cl"), 0.1);
-  assertEqualFloat( 39.3383, ptoe.massPercentage("NaCl", "Na"), 0.1);
-  assertEqualFloat( 60.6617, ptoe.massPercentage("NaCl", "Cl"), 0.1);
 
-  assertEqualFloat( 40.0466, ptoe.massPercentage("CaCO3", "Ca"), 0.1);
-  assertEqualFloat( 11.9996, ptoe.massPercentage("CaCO3", "C"), 0.1);
-  assertEqualFloat( 47.9537, ptoe.massPercentage("CaCO3", "O"), 0.1);
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("Cl2", "Cl"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("NaCl", "Na"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("NaCl", "Cl"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("CaCO3", "Ca"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("CaCO3", "C"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("CaCO3", "O"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("C(O(H2)2)3", "C"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("C(O(H2)2)3", "O"));
+  // fprintf(stderr, "%f\n", ptoe.massPercentage("C(O(H2)2)3", "H"));
 
-  assertEqualFloat( 16.6532, ptoe.massPercentage("C(O(H2)2)3", "C"), 0.1);
-  assertEqualFloat( 66.5505, ptoe.massPercentage("C(O(H2)2)3", "O"), 0.1);
-  assertEqualFloat( 16.7963, ptoe.massPercentage("C(O(H2)2)3", "H"), 0.1);
+  assertEqualFloat(100.000000, ptoe.massPercentage("Cl2", "Cl"), 0.1);
+  assertEqualFloat( 39.337296, ptoe.massPercentage("NaCl", "Na"), 0.1);
+  assertEqualFloat( 60.662701, ptoe.massPercentage("NaCl", "Cl"), 0.1);
+
+  assertEqualFloat( 40.042667, ptoe.massPercentage("CaCO3", "Ca"), 0.1);
+  assertEqualFloat( 12.001390, ptoe.massPercentage("CaCO3", "C"), 0.1);
+  assertEqualFloat( 47.955944, ptoe.massPercentage("CaCO3", "O"), 0.1);
+
+  assertEqualFloat( 16.658632, ptoe.massPercentage("C(O(H2)2)3", "C"), 0.1);
+  assertEqualFloat( 66.565666, ptoe.massPercentage("C(O(H2)2)3", "O"), 0.1);
+  assertEqualFloat( 16.775705, ptoe.massPercentage("C(O(H2)2)3", "H"), 0.1);
 }
 
 

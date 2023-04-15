@@ -7,11 +7,14 @@
 #include "Arduino.h"
 #include "AtomicWeight.h"
 
+
 PTOE ptoe;
 uint32_t start, stop;
 
+
 volatile char *p = 0;
 volatile int n;
+
 
 void setup()
 {

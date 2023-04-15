@@ -14,6 +14,7 @@
 #include "Arduino.h"
 #include "elements_float.h"
 
+
 float best  = 202;
 float error = 10000;
 
@@ -52,8 +53,6 @@ void setup()
       Serial.println(val);
     }
   }
-
-
   Serial.println("\ndone");
 }
 
@@ -64,3 +63,4 @@ void loop()
 
 
 //  -- END OF FILE --
+

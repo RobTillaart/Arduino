@@ -16,6 +16,8 @@ displayHex	KEYWORD2
 displayClear	KEYWORD2
 
 displayTime	KEYWORD2
+displayTwoInt	KEYWORD2
+displayCelsius	KEYWORD2
 
 setBrightness	KEYWORD2
 getBrightness	KEYWORD2

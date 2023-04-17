@@ -6,12 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2023-04-xx
+- move code from .h to .cpp
+- add **displayTwoInt(int ll, int rr, bool colon = true)**
+- add **displayCelsius(int temp, bool colon = false)**
+- add '°' degree character (18)
+- add examples
+- update readme.md
+
+
 ## [0.3.6] - 2023-02-27
 - add **void displayTime(uint8_t hh, uint8_t mm, bool colon)**
 - add examples
 - update readme.md
 - update keywords.txt
-
 
 ## [0.3.5] - 2023-02-18
 - add **void displayFloat(float value, byte fixpoint)** Thanks to marshalab

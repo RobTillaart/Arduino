@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -24,6 +24,11 @@
 #define TM1637_CMD_SET_DATA        0x40
 #define TM1637_CMD_SET_ADDR        0xC0
 #define TM1637_CMD_DISPLAY         0x88
+
+//  Special chars
+#define TM1637_SPACE      16
+#define TM1637_MINUS      17
+#define TM1637_DEGREE     18
 
 
 /***************
@@ -49,7 +54,7 @@
 static uint8_t seg[] =
 {
   0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f,   // 0 - 9
-  0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40                // A - F, ' ', '-'
+  0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40, 0x63          // A - F, ' ', '-', '°'
 };
 
 
@@ -65,7 +70,8 @@ static uint8_t alpha_seg[] =
 
 TM1637::TM1637()
 {
-  _brightness = 0x03;
+  _digits     = 6;
+  _brightness = 3;
   _bitDelay   = 10;
 }
 
@@ -111,7 +117,7 @@ void TM1637::displayInt(long value)
   {
     v = -v;
     last--;
-    data[last] = 17;        //  minus sign;
+    data[last] = TM1637_MINUS;
   }
 
   for (int i = 0; i < last; i++)
@@ -139,7 +145,7 @@ void TM1637::displayFloat(float value)
     v = -v;
     dpos--;
     last--;
-    data[last] = 17;        //  minus sign;
+    data[last] = TM1637_MINUS;
   }
 
   while (v >= 10)
@@ -189,7 +195,7 @@ void TM1637::displayFloat(float value, uint8_t fixedPoint)
 
   if (neg)
   {
-    data[point] = 17;   //  minus sign;
+    data[point] = TM1637_MINUS;
   }
 
   for (int i = point - 1; i > -1; i--)
@@ -222,10 +228,66 @@ void TM1637::displayTime(uint8_t hh, uint8_t mm, bool colon)
 {
   if (_digits != 4) return;
   uint8_t data[4] = { 16, 16, 16, 16 };
+  //  optional
+  //  if (hh > 99) hh = 99;
+  //  if (mm > 99) mm = 99;
   data[3] = hh / 10;
   data[2] = hh % 10;
   data[1] = mm / 10;
   data[0] = mm % 10;
+  displayRaw(data, colon ? 2 : -1);
+}
+
+
+void TM1637::displayTwoInt(int ll, int rr, bool colon)
+{
+  if (_digits != 4) return;
+  uint8_t data[4] = { 16, 16, 16, 16 };
+  //  optional
+  //  if (ll < -9) ll = -9;
+  //  if (ll > 99) ll = 99;
+  //  if (rr < -9) rr = -9;
+  //  if (rr > 99) rr = 99;
+  if (ll < 0)
+  {
+    data[3] = TM1637_MINUS;
+    data[2] = -ll;
+  }
+  else
+  {
+    data[3] = ll / 10;
+    data[2] = ll % 10;
+  }
+  if (rr < 0)
+  {
+    data[1] = TM1637_MINUS;
+    data[0] = -rr;
+  }
+  else
+  {
+    data[1] = rr / 10;
+    data[0] = rr % 10;
+  }
+  displayRaw(data, colon ? 2 : -1);
+}
+
+
+void TM1637::displayCelsius(int temp, bool colon)
+{
+  if (_digits != 4) return;
+  uint8_t data[4] = { 12, 18, 16, 16 };
+  if (temp < -9) temp = -9;
+  if (temp > 99) temp = 99;
+  if (temp < 0)
+  {
+    data[3] = TM1637_MINUS;
+    data[2] = -temp;
+  }
+  else
+  {
+    data[3] = temp / 10;
+    data[2] = temp % 10;
+  }
   displayRaw(data, colon ? 2 : -1);
 }
 
@@ -247,6 +309,18 @@ void TM1637::setBrightness(uint8_t brightness)
 uint8_t TM1637::getBrightness()
 {
   return _brightness;
+}
+
+
+void TM1637::setBitDelay(uint8_t bitDelay)
+{
+  _bitDelay = bitDelay;
+}
+
+
+uint8_t TM1637::getBitDelay()
+{
+  return _bitDelay;
 }
 
 
@@ -313,7 +387,7 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   {
     uint8_t i = _digitOrder[d];
     data[i] &= 0x7f;
-    if (data[i] <= 17)        //  HEX DIGIT
+    if (data[i] <= 18)        //  HEX DIGIT
     {
       b = seg[data[i]];
     }
@@ -440,7 +514,8 @@ uint8_t TM1637::keyscan(void)
 
 
 //  nanoDelay() makes it possible to go into the sub micron delays.
-//  It is used to lengthen pulses to be minimal 400 ns but not much longer. See datasheet.
+//  It is used to lengthen pulses to be minimal 400 ns but not much longer.
+//  See datasheet.
 void TM1637::nanoDelay(uint16_t n)
 {
   volatile uint16_t i = n;

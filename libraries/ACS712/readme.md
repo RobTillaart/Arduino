@@ -151,21 +151,27 @@ Since 0.3.0 all midpoint functions return the actual midPoint.
 
 - **uint16_t setMidPoint(uint16_t midPoint)** sets midpoint for the ADC conversion.
 Parameter must be between 0 and maxADC/2, otherwise midpoint is not changed.
-- **uint16_t autoMidPoint(float frequency = 50, uint16_t cycles = 1)** Auto midPoint,
-assuming zero DC current or any AC current.
-The function takes the average of many measurements during one or more full cycles.
-Note the function therefore blocks for at least 2 periods.
-By increasing the number of cycles the function averages even more measurements,
-possibly resulting in a better midPoint. Idea is that noise will average out.
-This function is mandatory for measuring AC.
-  - 0.2.2 frequencies other than 50 and 60 are supported.
-  - 0.2.8 the parameter cycles allow to average over a number of cycles.
 - **uint16_t getMidPoint()** read the value set / determined.
 - **uint16_t incMidPoint()** manual increase midpoint, e.g. useful in an interactive application.
 Will not increase if midpoint equals macADC.
 - **uint16_t decMidPoint()** manual decrease midpoint.
 Will not decrease if midpoint equals 0.
 - **uint16_t resetMidPoint()** resets the midpoint to the initial value of maxADC / 2 as in the constructor.
+- **uint16_t autoMidPointDC(uint16_t cycles = 1)** Auto midPoint for DC only.
+Assuming zero DC current. To reduce the noise cycles must be increased even up to 100.
+This method is typically much faster for DC than the **autoMidPoint(freq, cycles)** 
+for the same number of cycles. (See issue #35)
+- **uint16_t autoMidPoint(float frequency = 50, uint16_t cycles = 1)** Auto midPoint, for any AC current or zero DC current.  
+For DC one can use a high frequency e.g. 1000 Hz to reduce the time blocking.
+The function takes the average of many measurements during one or more full cycles.
+Note the function therefore blocks for at least 2 periods which is about 
+40 ms for 50 Hz.
+By increasing the number of cycles the function averages even more measurements,
+possibly resulting in a better midPoint. Idea is that noise will average out.
+This function is mandatory for measuring AC.
+  - 0.2.2 frequencies other than 50 and 60 are supported.
+  - 0.2.8 the parameter cycles allow to average over a number of cycles.
+
 
 Since version 0.3.0 there is another way to determine the midPoint.
 One can use the two debug functions.
@@ -393,16 +399,24 @@ The examples show the basic working of the functions.
 
 #### Must
 
+- test more
+  - other than the 20A module
+  - 5, 10, 30, 50 ...
+  - need to buy extra hardware
+
 
 #### Should - 0.3.x
 
+- investigate **estimateMidPoint(confidence)** See issue #35
+  - is less blocking by spreading the sampling over many calls.
+    returning a confidence level.
 - investigate noise suppression  #21 (0.3.1 and later)
 - investigate blocking calls:
   - **mA_AC()** blocks for about 20 ms at 50 Hz.
   This might affect task scheduling on a ESP32. Needs to be investigated.
   Probably need a separate thread that wakes up when new analogRead is available?
   - RTOS specific class?
-  - **detectFrequency(float)** blocks pretty long.
+- investigate **detectFrequency(float)** blocks pretty long.
 
 
 #### Could
@@ -410,6 +424,9 @@ The examples show the basic working of the functions.
 - merge **mA_AC()** and **mA_AC_sampling()** into one. (0.4.0)
   - or remove - depreciate - the worst one
 - add range check to (all) set functions?
+- add unit test for **autoMidPointDC()** (needed?)
+- **setMidPoint()**
+  - Q: could midpoint be set beyond maxADC? is there any use case?
 
 
 #### Won't (unless requested)

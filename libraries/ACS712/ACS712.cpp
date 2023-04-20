@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -242,7 +242,20 @@ uint16_t ACS712::autoMidPoint(float frequency, uint16_t cycles)
     }
     total += (subTotal / samples);
   }
-  _midPoint = total / cycles;
+  _midPoint = (total + (cycles/2))/ cycles;    //  rounding.
+  return _midPoint;
+}
+
+
+uint16_t ACS712::autoMidPointDC(uint16_t cycles)
+{
+  if (cycles == 0) cycles = 1;
+  uint32_t total = 0;
+  for (uint16_t i = 0; i < cycles; i++)
+  {
+    total += analogRead(_pin);
+  }
+  _midPoint = (total + (cycles/2))/ cycles;    //  rounding.
   return _midPoint;
 }
 

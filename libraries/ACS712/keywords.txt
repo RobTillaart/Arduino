@@ -15,6 +15,7 @@ incMidPoint	KEYWORD2
 decMidPoint	KEYWORD2
 resetMidPoint	KEYWORD2
 autoMidPoint	KEYWORD2
+autoMidPointDC	KEYWORD2
 
 setFormFactor	KEYWORD2
 getFormFactor	KEYWORD2

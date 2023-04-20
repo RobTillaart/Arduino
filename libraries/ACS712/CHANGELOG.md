@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2023-04-19
+- add **autoMidPointDC(cycles)** see issue #35
+- add rounding to **autoMidPoint()**
+- update README.md
+
+
 ## [0.3.5] - 2023-01-18
 - fix #33 failing build => issue 345 created @ arduino-ci
 - redo **setADC()**
 - allows reset to internal **analogRead()** too now.
 - update README.md
-
 
 ## [0.3.4] - 2023-01-14
 - experimental

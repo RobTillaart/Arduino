@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define ACS712_LIB_VERSION        (F("0.3.5"))
+#define ACS712_LIB_VERSION        (F("0.3.6"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -68,7 +68,10 @@ class ACS712
     uint16_t incMidPoint();
     uint16_t decMidPoint();
     //  Auto midPoint, assuming zero DC current or any AC current
+    //  For DC current set the frequency to 1000 or so to reduce blocking.
     uint16_t autoMidPoint(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    //  Auto midPoint, dedicated for zero DC current (much faster ==> less blocking)
+    uint16_t autoMidPointDC(uint16_t cycles = 1);
     //  resets to half maxADC
     uint16_t resetMidPoint();
 
@@ -106,7 +109,9 @@ class ACS712
 
 
     //  EXPERIMENTAL 0.3.4
+    //  function returning 16 bit max, with pin or channel as parameter
     void setADC(uint16_t (*)(uint8_t), float volts, uint16_t maxADC);
+
 
   private:
     uint8_t   _pin;

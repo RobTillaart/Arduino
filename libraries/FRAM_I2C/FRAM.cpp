@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -200,6 +200,46 @@ void FRAM::read(uint16_t memaddr, uint8_t * obj, uint16_t size)
     _readBlock(memaddr, p, size);
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////
+
+
+int32_t FRAM::readUntil(uint16_t memaddr, char * buf, uint16_t buflen, char separator)
+{
+  //  read and fill the buffer at once.
+  read(memaddr, (uint8_t *)buf, buflen);
+  for (uint16_t length = 0; length < buflen; length++)
+  {
+    if (buf[length] == separator)
+    {
+      buf[length] = 0;    //  replace separator => \0 EndChar
+      return length;
+    }
+  }
+  //  entry does not fit in given buffer.
+  return (int32_t)-1;
+}
+
+
+int32_t FRAM::readLine(uint16_t memaddr, char * buf, uint16_t buflen)
+{
+  //  read and fill the buffer at once.
+  read(memaddr, (uint8_t *)buf, buflen);
+  for (uint16_t length = 0; length < buflen-1; length++)
+  {
+    if (buf[length] == '\n')
+    {
+      buf[length + 1] = 0;    //  add \0 EndChar after '\n'
+      return length + 1;
+    }
+  }
+  //  entry does not fit in given buffer.
+  return (int32_t)-1;
+}
+
+
+////////////////////////////////////////////////////////////////////////
 
 
 bool FRAM::setWriteProtect(bool b)
@@ -482,6 +522,23 @@ void FRAM32::read(uint32_t memaddr, uint8_t * obj, uint16_t size)
   {
     _readBlock(memaddr, p, size);
   }
+}
+
+
+int32_t FRAM32::readUntil(uint32_t memaddr, char * buf, uint16_t buflen, char separator)
+{
+  //  read and fill the buffer at once.
+  read(memaddr, (uint8_t *)buf, buflen);
+  for (uint16_t length = 0; length < buflen; length++)
+  {
+    if (buf[length] == separator)
+    {
+      buf[length] = 0;    //  replace separator => \0 EndChar
+      return length;
+    }
+  }
+  //  entry does not fit in given buffer.
+  return (int32_t)-1;
 }
 
 

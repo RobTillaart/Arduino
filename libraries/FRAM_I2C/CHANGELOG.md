@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2023-04-20
+- add **readUntil(uint16_t memaddr, char \* buf, uint16_t buflen, char separator)**.
+- add **readLine(uint16_t memaddr, char \* buf, uint16_t buflen)** (separator = '\n').
+- add examples.
+- update readme.md.
+
+
 ## [0.5.0] - 2023-02-15
 - add FRAM11 - 11 bit addresses
 - add FRAM9 - 9 bit addresses
@@ -15,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
 ## [0.4.3] - 2022-12-28
-- add writeFloat(), readFloat()
+- add **writeFloat()**, **readFloat()**
 - refactor
 - add nano_every to build-ci  (test)
 - update readme.md

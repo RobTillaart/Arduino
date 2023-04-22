@@ -25,6 +25,7 @@ read32	KEYWORD2
 readFloat	KEYWORD2
 readDouble	KEYWORD2
 read	KEYWORD2
+readUntil	KEYWORD2
 
 writeObject	KEYWORD2
 readObject	KEYWORD2

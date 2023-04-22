@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.5.0"))
+#define FRAM_LIB_VERSION              (F("0.5.1"))
 
 
 #define FRAM_OK                         0
@@ -58,6 +58,19 @@ public:
   float    readFloat(uint16_t memaddr);
   double   readDouble(uint16_t memaddr);
   void     read(uint16_t memaddr, uint8_t * obj, uint16_t size);
+
+  //  Experimental 0.5.1
+  //  readUntil returns length 0.. n of the buffer.
+  //  readUntil does NOT include separator.
+  //  readUntil returns -1 if data does not fit into buffer,
+  //  =>  separator not encountered.
+  int32_t readUntil(uint16_t memaddr, char * buf, uint16_t buflen, char separator);
+  //  readLine returns length 0.. n of the buffer.
+  //  readLine does include '\n' as endchar.
+  //  readLine returns -1 if data does not fit into buffer.
+  //  buffer needs one place for end char '\0'.
+  int32_t readLine(uint16_t memaddr, char * buf, uint16_t buflen);
+
 
   template <class T> uint16_t writeObject(uint16_t memaddr, T &obj)
   {
@@ -133,6 +146,11 @@ public:
   double   readDouble(uint32_t memaddr);
   void     read(uint32_t memaddr, uint8_t * obj, uint16_t size);
 
+  //  readUntil returns length 0.. n of the buffer.
+  //  readUntil returns -1 if data does not fit into buffer,
+  //  =>  separator not encountered.
+  int32_t readUntil(uint32_t memaddr, char * buf, uint16_t buflen, char separator);
+  
   template <class T> uint32_t writeObject(uint32_t memaddr, T &obj);
   template <class T> uint32_t readObject(uint32_t memaddr, T &obj);
 

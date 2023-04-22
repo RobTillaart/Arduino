@@ -105,6 +105,9 @@ For board that have 8 byte double.
 For board that have 8 byte double.
 - **void read(uint16_t memaddr, uint8_t uint8_t \* obj, uint16_t size)**
 One needs to allocate memory as the function won't.
+- **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses - default zero's.
+Returns the number of bytes written.
+**clear()** does not work for **MB85RC128A** unless **setSizeBytes()** is used.
 
 
 (0.3.4 added template functions, see issue #13 )
@@ -114,28 +117,61 @@ Returns memaddr + sizeof(obj) to get the next address to write to.
 Returns memaddr + sizeof(obj) to get the next address to read from.
 
 
-- **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses - default zero's.
-Returns the number of bytes written.
-**clear()** does not work for **MB85RC128A** unless **setSizeBytes()** is used.
+(Experimental in 0.5.1, see issue #30)
+- **int32_t readUntil(uint16_t memaddr, char \*buf, uint16_t buflen, char separator)**
+Reads FRAM from an address into **buf** until separator is encountered.
+The separator is replaced by an '\0' - end of char array.
+**ReadUntil()** returns the length of the buffer.
+To get the address of the next "field" one must add ```memaddr += (length + 1)```.  
+If the separator is not found after **buflen** characters the function returns -1.
+However the buffer does contain the data read, which might be useful. 
+Handle with care as buffer has probably no '\0' end char.
+- **int32_t readLine(uint16_t memaddr, char \* buf, uint16_t buflen)**
+Similar to **readUntil()**, reads a line from FRAM including the '\n'.
+This '\n' is mandatory as end separator!.  
+Note: The buffer needs one extra char for the delimiting '\0' end char.
+To get the address of the next "field" one must add ```memaddr += length```.
+This is an minor but important difference with **readUntil()**.
+Note: the returning buffer contains the '\n' so one need to take care when
+printing the buffer.
+
+
+### ReadUntil
+
+**readUntil()** can be used to read lines and/or fields from an FRAM filled with text e.g. logging written.
+with the FRAM_logging.ino example.
+Note: if memaddr + buflen >= size of FRAM, memory wrapping may occur.
+The library does not check, so the user should.
+
+Note: internally **readUntil()** reads buflen bytes to fill the buffer.
+Then it searches for the separator. 
+This is chosen to optimize performance for relative small buffers that are used most.
+For large buffers this fetching of the whole buffer will take much time.
+This can results in less responsiveness. 
+Increasing the I2C bus speed might compensate this a bit.
+Furthermore FRAM_readUntil.ino sketch has a readUntil() implementation
+that uses a per byte fetching.
 
 
 ### Miscellaneous
 
-- **bool setWriteProtect(bool b)** make the FRAM write-protected by pulling line HIGH / LOW.
-Returns true if a writeProtectPin was defined.
+- **bool setWriteProtect(bool b)** make the FRAM write-protected by pulling the WP line HIGH or LOW.
+Returns true if a writeProtectPin was defined in **begin()**.
 Otherwise the FRAM cannot be write protected.
-Note the pin should be defined in **begin()**.
 - **bool getWriteProtect()** get current write protect status.
+If there is no WP defined, it will always return false.
 - **uint16_t getManufacturerID()** idem. Fujitsu = 0x00A.
 - **uint16_t getProductID()** idem. Proprietary.
-- **uint16_t getSize()** returns size in kiloBYTE.
+- **uint16_t getSize()** returns the size in kiloBYTE.
 If the FRAM has no device ID, the size cannot be read.
-- **uint32_t getSizeBytes()** returns size in BYTES.
+- **uint32_t getSizeBytes()** returns the size in BYTES.
 Convenience wrapper, useful for iterating over the whole memory,
 or testing the upper boundary.
-- **void setSizeBytes(uint32_t value)** sets size in bytes for **getSizeBytes()**.
+- **void setSizeBytes(uint32_t value)** sets the size in bytes for **getSizeBytes()**.
 To be used only if **getSize()** cannot determine the size.
 See also remark in Future section below.
+Can also be used to "virtually" reduce the size, e.g. to speed up clean()
+if the FRAM is used only partial.
 
 
 ### Sleep
@@ -180,15 +216,10 @@ Indicative power usage in uA in three modi (if supported).
 _TODO: fill the table_
 
 
-## Operational
-
-See examples
-
-
 ## FRAM_RINGBUFFER
 
-Since version 0.4.2 a separate class **FRAM_RINGBUFFER** is added.= to this repo.
-Its interface is pretty straightforward and described in FRAM_RINGBUFFER.md.
+Since version 0.4.2 a separate class **FRAM_RINGBUFFER** is added to this repo.
+Its interface is straightforward and described in FRAM_RINGBUFFER.md.
 The FRAM_ringbuffer.ino examples shows how the class can be used.
 
 
@@ -220,6 +251,9 @@ Experimental in 0.5.0 to support smaller FRAM's with 11 and 9 bits addresses.
 - improve **getSize()** to have **clear()** working properly. 
   - **MB85RC128A** only.
   - **getSize()** scanning FRAM like EEPROM library?
+- investigate a better strategy for **readUntil()**
+  - search for separator per block (e.g. 16 bytes) read.
+
 
 #### Could
 
@@ -233,7 +267,6 @@ Experimental in 0.5.0 to support smaller FRAM's with 11 and 9 bits addresses.
   - error flag ?
 - extend examples
   - FRAM for multi language string storage
-  - FRAM logging, unequal length strings.
   - FRAM (8x) concatenated as one continuous memory.
     - a wrapper class?
 - fill power usage table (documentation)
@@ -248,5 +281,8 @@ Experimental in 0.5.0 to support smaller FRAM's with 11 and 9 bits addresses.
   - ==> wont for now
 - **dump(stream)** or printable interface?
   - Print interface? expensive in performance per char..
+  - see example **FRAM_hexdump.ino**
 - remember last written address? why?
+- do we need a **write(memaddr, char \* buf)** for completeness?
+  - it is just a wrapper
 

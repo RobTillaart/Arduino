@@ -46,18 +46,22 @@ void setup()
   {
     fram.write8(addr, 0x00);
   }
+  //  set initial entry.
   fram.write32(0, 0x00000004);
+
+  for (int i = 0; i < 10; i++)
+  {
+    char buffer[24];
+    sprintf(buffer, "%ld\t%ld\n", millis(), random(1000000000UL));
+    Serial.print(buffer);
+    log2fram(buffer);
+    delay(1000);
+  }
 }
 
 
 void loop()
 {
-  char buffer[24];
-
-  sprintf(buffer, "%ld\t%ld\n", millis(), random(1000000000UL));
-  Serial.print(buffer);
-  log2fram(buffer);
-  delay(1000);
 }
 
 

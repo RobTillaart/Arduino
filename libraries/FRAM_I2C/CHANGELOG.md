@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2023-04-22
+- add **FRAM_ML** class - see FRAM_MULTILANGUAGE.md
+- add examples.
+- update readme.md.
+- update keywords.txt
+
+
 ## [0.5.1] - 2023-04-20
 - add **readUntil(uint16_t memaddr, char \* buf, uint16_t buflen, char separator)**.
 - add **readLine(uint16_t memaddr, char \* buf, uint16_t buflen)** (separator = '\n').
 - add examples.
 - update readme.md.
-
 
 ## [0.5.0] - 2023-02-15
 - add FRAM11 - 11 bit addresses
@@ -31,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - simplified changelog
 
 ## [0.4.2] - 2022-10-03
-- FRAM_RINGBUFFER class - see FRAM_RINGBUFFER.md
+- add **FRAM_RINGBUFFER** class - see FRAM_RINGBUFFER.md
 - build-ci support for RP2040 pico
 - updated documentation
 - moved code from FRAM.h to FRAM.cpp

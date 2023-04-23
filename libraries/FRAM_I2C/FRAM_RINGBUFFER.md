@@ -46,6 +46,9 @@ it has no separate version number.
 
 ## Interface
 
+```cpp
+#include "FRAM_RINGBUFFER.h"
+```
 
 ### Admin
 

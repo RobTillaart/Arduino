@@ -223,6 +223,14 @@ Its interface is straightforward and described in FRAM_RINGBUFFER.md.
 The FRAM_ringbuffer.ino examples shows how the class can be used.
 
 
+## FRAM_MULTILANGUAGE
+
+Since version 0.5.2 the **FRAM_ML** class is added.
+Its purpose is to store tables of strings in FRAM.
+Its interface is described in FRAM_MULTILANGUAGE.md.
+See examples
+
+
 ## FRAM11 + FRAM9
 
 (0.5.0 added, see issue #28)

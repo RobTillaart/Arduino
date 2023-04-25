@@ -2,9 +2,11 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
+//     URL: https://github.com/RobTillaart/A1301
+
 
 //  always check datasheet.
 //    PIN    A1301
@@ -16,7 +18,7 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.1.2"))
+#define A1301_LIB_VERSION        (F("0.2.0"))
 
 
 class HALL
@@ -27,12 +29,14 @@ public:
   //  ADC parameters
   void      begin(float voltage, uint16_t steps);
 
+
   //  midpoint depends on ADC.
   void      setMidPoint(float midPoint);
   float     getMidPoint();
   //  to override default sensitivity
   void      setSensitivity(float sensitivity);
   float     getSensitivity();
+
 
   //  READ
   //  times > 1 ==> more stable read / averaging.
@@ -42,36 +46,42 @@ public:
   //  for external ADC
   float     readExt(float raw);
 
+
   //  ANALYSE
+  bool      isNull();
   bool      isNorth();
   bool      isSouth();
   float     lastGauss();
   float     prevGauss();
+
 
   //  CONVERTERs
   float     Tesla(float Gauss);
   float     mTesla(float Gauss);
   float     uTesla(float Gauss);
 
-  //  EXPERIMENTAL
+
+  //  SATURATION LEVEL = EXPERIMENTAL
   //  manual override default maxGauss
-  void      setMaxGauss(uint16_t maxGauss);
+  void      setMaxGauss(float maxGauss);
   float     getMaxGauss();
   bool      isSaturated();
+  float     saturationLevel();
 
 
 protected:
-  uint8_t  _pin         = 0;
-  float    _midPoint    = 512;
-  float    _prevGauss   = 0;
-  float    _lastGauss   = 0;
-  float    _mVGauss     = 2.5;
-  float    _mVStep      = 5000.0 / 1023;
-  uint16_t _maxADC      = 1023;
+  uint8_t  _pin;
+  float    _midPoint;
+  float    _prevGauss;
+  float    _lastGauss;
+  float    _mVGauss;
+  float    _mVStep;
+  uint16_t _maxADC;
   
   //  Experimental
-  float    _maxGauss    = 500;
+  float    _maxGauss;
 };
+
 
 ////////////////////////////////////////////////////
 //

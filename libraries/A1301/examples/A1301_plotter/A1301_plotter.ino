@@ -2,6 +2,7 @@
 //    FILE: A1301_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo A1301 A1302 magnetometer.
+//     URL: https://github.com/RobTillaart/A1301
 //
 //  to be used with Arduino Serial plotter
 

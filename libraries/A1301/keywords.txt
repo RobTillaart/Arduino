@@ -1,8 +1,12 @@
 # Syntax Colouring Map For A1301
 
 # Data types (KEYWORD1)
+HALL	KEYWORD1
 A1301	KEYWORD1
 A1302	KEYWORD1
+A1324	KEYWORD1
+A1325	KEYWORD1
+A1326	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -18,6 +22,7 @@ raw	KEYWORD2
 read	KEYWORD2
 readExt	KEYWORD2
 
+isNull	KEYWORD2
 isNorth	KEYWORD2
 isSouth	KEYWORD2
 lastGauss	KEYWORD2
@@ -30,6 +35,7 @@ uTesla	KEYWORD2
 setMaxGauss	KEYWORD2
 getMaxGauss	KEYWORD2
 isSaturated	KEYWORD2
+saturationLevel	KEYWORD2
 
 
 # Constants (LITERAL1)

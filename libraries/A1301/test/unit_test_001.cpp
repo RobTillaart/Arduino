@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-12-01
 // PURPOSE: unit tests for the A1301 magnetic sensor
-//          https://github.com/RobTillaart/A1301
+//     URL: https://github.com/RobTillaart/A1301
 //          https://www.adafruit.com/product/2857
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
@@ -75,7 +75,15 @@ unittest(test_midPoint)
 
   H.begin(3.3, 4095);
   H.setMidPoint(2020);
-  assertEqual(2020, H.getMidPoint());
+  assertEqualFloat(2020, H.getMidPoint(), 0.1);
+
+
+  H.begin(2.5, 1000);
+  assertEqualFloat(500, H.getMidPoint(), 0.1);
+
+
+  H.begin(2.5, 1023);
+  assertEqualFloat(511.5, H.getMidPoint(), 0.1);
 }
 
 
@@ -100,10 +108,13 @@ unittest(test_read_external_ADC)
 
   assertEqualFloat(-0.337494, H.readExt(1000.0), 0.01);
   assertTrue(H.isSouth());
+
   assertEqualFloat(-0.176322, H.readExt(1500.0), 0.01);
   assertTrue(H.isSouth());
+
   assertEqualFloat(-0.0151502, H.readExt(2000.0), 0.01);
   assertTrue(H.isSouth());
+
   assertEqualFloat(0.307194, H.readExt(3000.0), 0.01);
   assertTrue(H.isNorth());
 }
@@ -114,11 +125,12 @@ unittest(test_converters)
   HALL  H(4);
 
   H.begin(3.3, 4095);
-  H.setMidPoint(2047);
 
-  assertEqualFloat(0.005, H.Tesla(50), 0.01);
-  assertEqualFloat(5.00, H.mTesla(50), 0.01);
-  assertEqualFloat(5000, H.uTesla(50), 0.01);
+  float Gauss = 50;
+
+  assertEqualFloat(0.005, H.Tesla(Gauss), 0.01);
+  assertEqualFloat(5.00, H.mTesla(Gauss), 0.01);
+  assertEqualFloat(5000, H.uTesla(Gauss), 0.01);
 }
 
 
@@ -127,11 +139,10 @@ unittest(test_maxGauss)
   HALL  H(4);
 
   H.begin(3.3, 4095);
-  H.setMidPoint(2047);
 
-  assertEqual(500, H.getMaxGauss());
+  assertEqualFloat(500, H.getMaxGauss(), 0.1);
   H.setMaxGauss(400);
-  assertEqual(400, H.getMaxGauss());
+  assertEqualFloat(400, H.getMaxGauss(), 0.1);
 }
 
 

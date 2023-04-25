@@ -13,13 +13,14 @@ Arduino library for A1301 and A1302 magnetometer.
 
 ## Description
 
-The A1301 and A1302 are continuous-time, ratiometric, linear
-Hall-effect sensors. They are optimized to accurately provide
-a voltage output that is proportional to an applied magnetic
-field. These devices have a quiescent output voltage that is
-50% of the supply voltage. Two output sensitivity options are
-provided: 2.5 mV/G typical for the A1301, and 1.3 mV/G
-typical for the A1302. (from datasheet)
+The A1301 and A1302 are continuous-time, Ratio-metric, linear Hall-effect sensors. 
+They are optimized to accurately provide a voltage output that is proportional to 
+an applied magnetic field. 
+These devices have a quiescent output voltage that is 50% of the supply voltage. 
+This voltage level is a.k.a. the midPoint.
+
+Two output sensitivity options are provided: 2.5 mV/G typical for the A1301, 
+and 1.3 mV/G typical for the A1302. (from datasheet)
 
 The following 5 classes are supported:
 
@@ -53,6 +54,11 @@ Please open an issue on GitHub.
 
 
 ## Interface
+
+```cpp
+#include "A1301.h"
+```
+
 
 #### Constructor
 
@@ -90,7 +96,7 @@ Returns Gauss.
 Note: **raw** is an ADC measurement, not a voltage.
 Can be positive (North) or negative (South).
 Returns Gauss.
-
+Can also be used for testing, e.g. replay of a series of data.
 
 
 #### Analyse
@@ -101,9 +107,15 @@ Returns Gauss.
 - **float prevGauss()** returns previous measurement in Gauss.
 
 
-#### Experimental
+#### Saturation.
 
-- **bool isSaturated()** true when ADC (lastRead) seems to max out. Experimental for now.
+Experimental saturation level.
+
+- **void setMaxGauss(float maxGauss)** set the saturation level.
+If maxGauss < 0 the absolute value is set.
+- **float getMaxGauss()** returns the set saturation level.
+- **bool isSaturated()** true when ADC (lastRead) seems to max out. 
+- **float saturationLevel()** returns value between 0..100%.
 
 
 #### Tesla 
@@ -122,23 +134,54 @@ The examples show the basic working of the functions.
 ## Future
 
 #### Must
+
 - improve documentation
-- buy hardware A1301 / A1302 / ...
+- buy hardware A1301 / A1302 / etc...
 - test with hardware (again)
 
+
 #### Should 
-- plotter example
+
 - unit tests
-- test **isSaturated()**
+- test **isSaturated()** + **saturationLevel()**
   - limits might be sensor dependant.
+- optimize math
+  - multiplications instead of divisions.
+  - other constants needed?
+
 
 #### Could
-- **float findZero()** how exactly.
-  - **float determineNoise()** related
-- printable interface
+
+- **float findZero()** how exactly => ACS712 **autoMidPoint()**
+- investigate **float determineNoise()** (set/get)
+- add examples.
+  - performance read()
 - Possible compatible
   - HoneyWell - SS39ET/SS49E/SS59ET
   - HoneyWell - SS490 Series
+- temperature correction functions?
+  - see datasheet.
+
+
+#### Ideas
+
+(thinking out loud section)
+- isEast() and isWest() meaning?
+  - **isEast()** field strength is "rising" ==> lastGauss > prevGauss
+  - **isWest()** field strength is "sinking" ==> lastGauss < prevGauss
+  - should that be absolute or not? or just **bool isRising()**
+- **float readDelta(uint8_t times = 1)** returns the relative change.
+- atan2(prevGauss, lastGauss)?
+  - angle indicates relative delta compared to magnitude and direction.
+  - 45 135 degrees is no change. 
+- can the strength of the signal be converted to distance?
+  - for a given magnet
+  - repeatability + noise.
+- influence of angle of the field-lines?
+- defaults for parameters of some functions?
+
 
 #### Won't
 
+- printable interface
+  - does not add much.

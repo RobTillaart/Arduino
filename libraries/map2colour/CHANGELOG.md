@@ -6,12 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-04-24
+- add dynamic size in constructor (minimum 7 for backwards)
+- add destructor.
+- add **uint8_t size()**
+- add **m2c_colours.h** for colour constants
+- add **M2C_GRAY** constants
+- array of values now may be non-decreasing (iso increasing)
+- update readme.md
+- minor edits
+
+----
+
 ## [0.1.6] - 2023-02-21
 - update readme.md
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [0.1.5] - 2022-10-19
 - redo **begin()** of map2colourFast to always create divFactors.

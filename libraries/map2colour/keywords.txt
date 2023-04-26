@@ -7,6 +7,8 @@ map2colourFast	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+size	KEYWORD2
+
 map2RGB	KEYWORD2
 map2_565	KEYWORD2
 

@@ -59,7 +59,7 @@ unittest(test_constructor_II)
   map2colour mc;
 
   float values[7] = { 1, 2, 3, 4, 5, 6, 7 };
-  uint32_t colours[7] = 
+  uint32_t colours[7] =
   {
     M2C_WHITE, M2C_BLACK, M2C_FUCHSIA, M2C_OLIVE, M2C_NAVY, M2C_GREEN, M2C_YELLOW
   };
@@ -75,7 +75,7 @@ unittest(test_constructor_II)
 }
 
 
-unittest(test_constants)
+unittest(test_constants_I)
 {
   assertEqual(M2C_BLACK   ,0x00000000);
   assertEqual(M2C_SILVER  ,0x00C0C0C0);
@@ -96,6 +96,28 @@ unittest(test_constants)
 }
 
 
+unittest(test_constants_II)
+{
+  assertEqual(M2C_GRAY_0  ,0x00000000);
+  assertEqual(M2C_GRAY_1  ,0x00101010);
+  assertEqual(M2C_GRAY_2  ,0x00202020);
+  assertEqual(M2C_GRAY_3  ,0x00303030);
+  assertEqual(M2C_GRAY_4  ,0x00404040);
+  assertEqual(M2C_GRAY_5  ,0x00505050);
+  assertEqual(M2C_GRAY_6  ,0x00606060);
+  assertEqual(M2C_GRAY_7  ,0x00707070);
+  assertEqual(M2C_GRAY_8  ,0x00808080);
+  assertEqual(M2C_GRAY_9  ,0x00909090);
+  assertEqual(M2C_GRAY_10 ,0x00A0A0A0);
+  assertEqual(M2C_GRAY_11 ,0x00B0B0B0);
+  assertEqual(M2C_GRAY_12 ,0x00C0C0C0);
+  assertEqual(M2C_GRAY_13 ,0x00D0D0D0);
+  assertEqual(M2C_GRAY_14 ,0x00E0E0E0);
+  assertEqual(M2C_GRAY_15 ,0x00F0F0F0);
+  assertEqual(M2C_GRAY_16 ,0x00FFFFFF);
+}
+
+
 unittest(test_compare_RGB)
 {
   map2colour mc;
@@ -105,7 +127,7 @@ unittest(test_compare_RGB)
 
   mc.begin(values);
   mcf.begin(values);
-  
+
   int fails = 0;
   for (float i = 0; i <= 1024; i++)
   {
@@ -131,7 +153,7 @@ unittest(test_compare_RGB565)
 
   mc.begin(values);
   mcf.begin(values);
-  
+
   int fails = 0;
   for (float i = 0; i <= 1024; i++)
   {

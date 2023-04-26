@@ -1,25 +1,54 @@
 //
 //    FILE: map2colour.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 
 
 #include "map2colour.h"
 
+#define M2C_MIN_SIZE        7
 
-map2colour::map2colour()
+map2colour::map2colour(uint8_t size)
 {
+  _size = size;
+  if (_size < M2C_MIN_SIZE) _size = M2C_MIN_SIZE;
+
+  _Red   = (uint8_t *)malloc(_size);
+  _Green = (uint8_t *)malloc(_size);
+  _Blue  = (uint8_t *)malloc(_size);
+
+  // for backwards compatibility
+  uint8_t r[7] = { 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF };
+  uint8_t g[7] = { 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0xFF };
+  uint8_t b[7] = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF };
+
+  memcpy(_Red,   r, 7);
+  memcpy(_Green, g, 7);
+  memcpy(_Blue,  b, 7);
+}
+
+
+map2colour::~map2colour()
+{
+  if (_Red)   free(_Red);
+  if (_Green) free(_Green);
+  if (_Blue)  free(_Blue);
 }
 
 
 bool map2colour::begin(float * values, uint32_t * colourMap)
 {
+  if ((_Red == NULL) || (_Green == NULL) || (_Blue == NULL))
+  {
+    //  need error codes?
+    return false;
+  }
   //  split colour map in channels to allow interpolation per channel
   if (colourMap != NULL)
   {
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < _size; i++)
     {
       uint32_t val = colourMap[i];
       _Blue[i]  = val & 0xFF;
@@ -30,13 +59,18 @@ bool map2colour::begin(float * values, uint32_t * colourMap)
     }
   }
   _values = values;
-  for (int index = 1; index < 7; index++)
+  for (int index = 1; index < _size; index++)
   {
-    //  catch non increasing values.
     float den = _values[index] - _values[index - 1];
-    if (den <= 0.0) return false;
+    if (den < 0.0) return false;
   }
   return true;
+}
+
+
+uint8_t map2colour::size()
+{
+  return _size;
 }
 
 
@@ -50,7 +84,7 @@ uint32_t map2colour::map2RGB(float value)
 
   if (_values[0] < value)
   {
-    if (value < _values[6] )
+    if (value < _values[_size-1] )
     {
       //  search the interval
       while (_values[index] < value) index++;
@@ -77,9 +111,9 @@ uint32_t map2colour::map2RGB(float value)
     else
     {
       // out of upper range
-      R = _Red[6];
-      G = _Green[6];
-      B = _Blue[6];
+      R = _Red[_size-1];
+      G = _Green[_size-1];
+      B = _Blue[_size-1];
     }
   }
   uint32_t colour = R;
@@ -109,9 +143,17 @@ uint16_t map2colour::map2_565(float value)
 //
 //  DERIVED CLASS
 //
-map2colourFast::map2colourFast() : map2colour()
+map2colourFast::map2colourFast(uint8_t size) : map2colour(size)
 {
+  divFactor = (float *) malloc(size * sizeof(float));
 }
+
+
+map2colourFast::~map2colourFast()
+{
+  if (divFactor) free(divFactor);
+}
+
 
 
 bool map2colourFast::begin(float * values, uint32_t * colourMap)
@@ -119,7 +161,7 @@ bool map2colourFast::begin(float * values, uint32_t * colourMap)
   //  load the colour-map and check non-decreasing order.
   bool OK = map2colour::begin(values, colourMap);
   //  pre-calculate dividers
-  for (int index = 1; index < 7; index++)
+  for (int index = 1; index < _size; index++)
   {
     float divider = _values[index] - _values[index - 1];
     if (divider > 0)
@@ -145,7 +187,7 @@ uint32_t map2colourFast::map2RGB(float value)
 
   if (_values[0] < value)
   {
-    if (value < _values[6] )
+    if (value < _values[_size-1] )
     {
       //  search the interval
       while (_values[index] < value) index++;
@@ -170,9 +212,9 @@ uint32_t map2colourFast::map2RGB(float value)
     else
     {
       //  out of upper range
-      R = _Red[6];
-      G = _Green[6];
-      B = _Blue[6];
+      R = _Red[_size-1];
+      G = _Green[_size-1];
+      B = _Blue[_size-1];
     }
   }
   uint32_t colour = R;

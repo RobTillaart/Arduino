@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.5.2"))
+#define FRAM_LIB_VERSION              (F("0.5.3"))
 
 
 #define FRAM_OK                         0
@@ -61,12 +61,12 @@ public:
 
   //  Experimental 0.5.1
   //  readUntil returns length 0.. n of the buffer.
-  //  readUntil does NOT include separator.
+  //  readUntil does NOT include the separator character.
   //  readUntil returns -1 if data does not fit into buffer,
   //  =>  separator not encountered.
   int32_t readUntil(uint16_t memaddr, char * buf, uint16_t buflen, char separator);
   //  readLine returns length 0.. n of the buffer.
-  //  readLine does include '\n' as endchar.
+  //  readLine does include '\n' as end character.
   //  readLine returns -1 if data does not fit into buffer.
   //  buffer needs one place for end char '\0'.
   int32_t readLine(uint16_t memaddr, char * buf, uint16_t buflen);
@@ -83,24 +83,26 @@ public:
     return memaddr + sizeof(obj);
   }
 
-  //  works only if pin is defined in begin.
+  //  works only if pin is defined in begin().
   bool     setWriteProtect(bool b);
   bool     getWriteProtect();
 
   //  meta info
-  //  Fujitsu = 0x000A, Ramtron = 0x0004
+  //  Fujitsu = 0x000A, Ramtron = 0x004
   uint16_t getManufacturerID();
   //  Proprietary
   uint16_t getProductID();
+
+  //  virtual so derived classes FRAM9/11 use their implementation.
   //  Returns size in KILO-BYTE (or 0)
-  //  TODO verify for all manufacturers.
-  uint16_t getSize();
+  //  Verify for all manufacturers.
+  virtual uint16_t getSize();
   //  Returns size in BYTE
   uint32_t getSizeBytes();
-  //  override when getSize() fails == 0
+  //  override when getSize() fails == 0 (see readme.md)
   void     setSizeBytes(uint32_t value);
 
-  //  fills FRAM with value
+  //  fills FRAM with value, default 0.
   uint32_t clear(uint8_t value = 0);
 
   //  0.3.6
@@ -116,9 +118,10 @@ protected:
   int8_t   _writeProtectPin = -1;
   TwoWire* _wire;
 
-  uint16_t _getMetaData(uint8_t id);
-  void     _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
-  void     _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  uint16_t      _getMetaData(uint8_t id);
+  //  virtual so derived classes FRAM9/11 use their implementation.
+  virtual void  _writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
+  virtual void  _readBlock(uint16_t memaddr, uint8_t * obj, uint8_t size);
 };
 
 
@@ -150,7 +153,9 @@ public:
   //  readUntil returns -1 if data does not fit into buffer,
   //  =>  separator not encountered.
   int32_t readUntil(uint32_t memaddr, char * buf, uint16_t buflen, char separator);
-  
+  //  buffer needs one place for end char '\0'.
+  int32_t readLine(uint32_t memaddr, char * buf, uint16_t buflen);
+
   template <class T> uint32_t writeObject(uint32_t memaddr, T &obj);
   template <class T> uint32_t readObject(uint32_t memaddr, T &obj);
 
@@ -172,6 +177,15 @@ class FRAM11 : public FRAM
 public:
   FRAM11(TwoWire *wire = &Wire);
 
+#if defined (ESP8266) || defined(ESP32)
+  //  address and writeProtectPin is optional
+  int      begin(int sda, int scl, const uint8_t address = 0x50,
+                                   const int8_t writeProtectPin = -1);
+#endif
+  //  address and writeProtectPin is optional
+  int      begin(const uint8_t address = 0x50,
+                 const int8_t writeProtectPin = -1);
+
   uint16_t getSize();
 
 protected:
@@ -189,6 +203,15 @@ class FRAM9 : public FRAM
 {
 public:
   FRAM9(TwoWire *wire = &Wire);
+
+#if defined (ESP8266) || defined(ESP32)
+  //  address and writeProtectPin is optional
+  int      begin(int sda, int scl, const uint8_t address = 0x50,
+                                   const int8_t writeProtectPin = -1);
+#endif
+  //  address and writeProtectPin is optional
+  int      begin(const uint8_t address = 0x50,
+                 const int8_t writeProtectPin = -1);
 
   uint16_t getSize();
 

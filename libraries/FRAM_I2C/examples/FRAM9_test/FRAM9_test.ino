@@ -78,7 +78,9 @@ void test()
       Serial.print("Read\t");
       Serial.print(addr);
       Serial.print("\t");
-      Serial.println(value);
+      Serial.print(value);
+      Serial.print("\t");
+      Serial.println(x);
     }
   }
 

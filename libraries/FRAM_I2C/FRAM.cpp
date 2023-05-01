@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -295,13 +295,13 @@ void FRAM::setSizeBytes(uint32_t value)
 
 uint32_t FRAM::clear(uint8_t value)
 {
-  uint8_t buf[16];
-  for (uint8_t i = 0; i < 16; i++) buf[i] = value;
+  uint8_t buffer[16];
+  for (uint8_t i = 0; i < 16; i++) buffer[i] = value;
   uint32_t start = 0;
   uint32_t end = _sizeBytes;
-  for (uint32_t addr = start; addr < end; addr += 16)
+  for (uint32_t address = start; address < end; address += 16)
   {
-    _writeBlock(addr, buf, 16);
+    _writeBlock(address, buffer, 16);
   }
   return end - start;
 }
@@ -542,6 +542,23 @@ int32_t FRAM32::readUntil(uint32_t memaddr, char * buf, uint16_t buflen, char se
 }
 
 
+int32_t FRAM32::readLine(uint32_t memaddr, char * buf, uint16_t buflen)
+{
+  //  read and fill the buffer at once.
+  read(memaddr, (uint8_t *)buf, buflen);
+  for (uint16_t length = 0; length < buflen-1; length++)
+  {
+    if (buf[length] == '\n')
+    {
+      buf[length + 1] = 0;    //  add \0 EndChar after '\n'
+      return length + 1;
+    }
+  }
+  //  entry does not fit in given buffer.
+  return (int32_t)-1;
+}
+
+
 template <class T> uint32_t FRAM32::writeObject(uint32_t memaddr, T &obj)
 {
   write(memaddr, (uint8_t *) &obj, sizeof(obj));
@@ -623,12 +640,35 @@ FRAM11::FRAM11(TwoWire *wire) : FRAM(wire)
 }
 
 
+#if defined (ESP8266) || defined(ESP32)
+int FRAM11::begin(int sda, int scl, const uint8_t address,
+                                   const int8_t writeProtectPin)
+{
+  int rv = FRAM::begin(sda, scl, address, writeProtectPin);
+  _sizeBytes = 2048;
+  return rv;
+}
+#endif
+
+
+int FRAM11::begin(const uint8_t address, const int8_t writeProtectPin)
+{
+  int rv = FRAM::begin(address, writeProtectPin);
+  _sizeBytes = 2048;
+  return rv;
+}
+
+
 uint16_t FRAM11::getSize()
 {
   return _sizeBytes / 1024;
 }
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  FRAM11  PROTECTED
+//
 void FRAM11::_writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   // Device uses Address Pages
@@ -674,16 +714,40 @@ FRAM9::FRAM9(TwoWire *wire) : FRAM(wire)
 }
 
 
+#if defined (ESP8266) || defined(ESP32)
+int FRAM9::begin(int sda, int scl, const uint8_t address,
+                                   const int8_t writeProtectPin)
+{
+  int rv = FRAM::begin(sda, scl, address, writeProtectPin);
+  _sizeBytes = 512;
+  return rv;
+}
+#endif
+
+
+int FRAM9::begin(const uint8_t address, const int8_t writeProtectPin)
+{
+  int rv = FRAM::begin(address, writeProtectPin);
+  _sizeBytes = 512;
+  return rv;
+}
+
+
 uint16_t FRAM9::getSize()
 {
   return _sizeBytes / 1024;  //  == 0.
 }
 
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  FRAM9  PROTECTED
+//
 void FRAM9::_writeBlock(uint16_t memaddr, uint8_t * obj, uint8_t size)
 {
   // Device uses Address Pages
-  uint8_t  DeviceAddrWithPageBits = _address | ((memaddr & 0x0100) >> 8);
+  uint8_t DeviceAddrWithPageBits = _address | ((memaddr & 0x0100) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memaddr & 0xFF));
 

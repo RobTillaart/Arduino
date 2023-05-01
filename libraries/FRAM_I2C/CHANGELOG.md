@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2023-04-28
+- major redo FRAM9 and FRAM11, see #35
+- update FRAM32 to match FRAM
+- update readme.md.
+- minor edits
+
+
 ## [0.5.2] - 2023-04-22
 - add **FRAM_ML** class - see FRAM_MULTILANGUAGE.md
 - add examples.
 - update readme.md.
 - update keywords.txt
-
 
 ## [0.5.1] - 2023-04-20
 - add **readUntil(uint16_t memaddr, char \* buf, uint16_t buflen, char separator)**.

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.7.1
+// VERSION: 1.7.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -53,7 +53,7 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, T
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32)
 bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
 {
    //  if (_wire == 0) Serial.println("zero");  //  test #48
@@ -63,6 +63,21 @@ bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
   }
   else
   {
+    _wire->begin();
+  }
+  _lastWrite = 0;
+  return isConnected();
+}
+#endif
+
+
+#if defined(PICO_RP2040)
+bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
+{
+  if ((sda < 255) && (scl < 255))
+  {
+    _wire->setSCL(scl);
+    _wire->setSDA(sda);
     _wire->begin();
   }
   _lastWrite = 0;
@@ -248,6 +263,7 @@ bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t *
   return memcmp(data, buffer, length) == 0;
 }
 
+
 /////////////////////////////////////////////////////////////
 //
 //  METADATA SECTION
@@ -311,6 +327,18 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
 }
 
 
+uint32_t I2C_eeprom::getDeviceSize()
+{
+  return _deviceSize;
+}
+
+
+uint8_t I2C_eeprom::getPageSize()
+{
+  return _pageSize;
+}
+
+
 uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
 {
     //  determine page size from device size
@@ -321,6 +349,12 @@ uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
     if (deviceSize <= I2C_DEVICESIZE_24LC256) return 64;
     //  I2C_DEVICESIZE_24LC512
     return 128;
+}
+
+
+uint32_t I2C_eeprom::getLastWrite()
+{
+  return _lastWrite;
 }
 
 
@@ -349,6 +383,18 @@ uint8_t I2C_eeprom::setPageSize(uint8_t pageSize)
     size *= 2;
   }
   return _pageSize;
+}
+
+
+void I2C_eeprom::setExtraWriteCycleTime(uint8_t ms)
+{
+  _extraTWR = ms;
+}
+
+
+uint8_t I2C_eeprom::getExtraWriteCycleTime()
+{
+  return _extraTWR;
 }
 
 
@@ -390,7 +436,7 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
   if (this->_isAddressSizeTwoWords)
   {
   _wire->beginTransmission(_deviceAddress);
-    // Address High Byte
+    //  Address High Byte
     _wire->write((memoryAddress >> 8));
   }
   else
@@ -399,7 +445,8 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
     _wire->beginTransmission(addr);
   }
 
-  // Address Low Byte (or single byte for chips 16K or smaller that have one-word addresses)
+  //  Address Low Byte
+  //  (or single byte for chips 16K or smaller that have one-word addresses)
   _wire->write((memoryAddress & 0xFF));
 }
 
@@ -449,10 +496,10 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
 //      Serial.print("\t");
 //      Serial.println(rv);
 //    }
-    return 0;  // error
+    return 0;  //  error
   }
 
-  // readBytes will always be equal or smaller to length
+  //  readBytes will always be equal or smaller to length
   uint8_t readBytes = 0;
   if (this->_isAddressSizeTwoWords)
   {
@@ -463,7 +510,7 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
     uint8_t addr = _deviceAddress | ((memoryAddress >> 8) & 0x07);
     readBytes = _wire->requestFrom(addr, length);
   }
-  yield();     // For OS scheduling
+  yield();     //  For OS scheduling
   uint8_t cnt = 0;
   while (cnt < readBytes)
   {
@@ -475,21 +522,20 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
 
 void I2C_eeprom::_waitEEReady()
 {
-#define I2C_WRITEDELAY  5000
   //  Wait until EEPROM gives ACK again.
   //  this is a bit faster than the hardcoded 5 milliSeconds
   //  TWR = WriteCycleTime
-  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  // do the math once.
+  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;
   while ((micros() - _lastWrite) <= waitTime)
   {
     _wire->beginTransmission(_deviceAddress);
     int x = _wire->endTransmission();
     if (x == 0) return;
-    yield();     // For OS scheduling
+    yield();     //  For OS scheduling
   }
   return;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

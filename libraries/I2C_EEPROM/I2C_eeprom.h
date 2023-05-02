@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.7.1
+// VERSION: 1.7.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.7.1"))
+#define I2C_EEPROM_VERSION          (F("1.7.2"))
 
 
 #define I2C_DEVICESIZE_24LC512      65536
@@ -24,6 +24,15 @@
 #define I2C_DEVICESIZE_24LC04         512
 #define I2C_DEVICESIZE_24LC02         256
 #define I2C_DEVICESIZE_24LC01         128
+
+
+//  AT24C32 has a WriteCycle Time of max 20 ms
+//  so one need to set I2C_WRITEDELAY to 20000.
+//  can also be done on command line.
+//  (see private _waitEEReady() function)
+#ifndef I2C_WRITEDELAY
+#define I2C_WRITEDELAY              5000
+#endif
 
 
 #ifndef UNIT_TEST_FRIEND
@@ -50,7 +59,7 @@ public:
     */
   I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32) || defined(PICO_RP2040)
   //  set the I2C pins explicitly (overrule)
   bool     begin(uint8_t sda, uint8_t scl);
 #endif
@@ -98,10 +107,11 @@ public:
 
   //  Meta data functions
   uint32_t determineSize(const bool debug = false);
-  uint32_t getDeviceSize() { return _deviceSize; };
-  uint8_t  getPageSize()   { return _pageSize; };
+  uint32_t getDeviceSize();
+  uint8_t  getPageSize();
   uint8_t  getPageSize(uint32_t deviceSize);
-  uint32_t getLastWrite()  { return _lastWrite; };
+  uint32_t getLastWrite();
+
 
   //  for overruling and debugging.
   //  forces a power of 2
@@ -111,8 +121,8 @@ public:
 
   //  TWR = WriteCycleTime
   //  5 ms is minimum, one can add extra ms here to adjust timing of both read() and write()
-  void     setExtraWriteCycleTime(uint8_t ms) { _extraTWR = ms; };
-  uint8_t  getExtraWriteCycleTime() { return _extraTWR; };
+  void     setExtraWriteCycleTime(uint8_t ms);
+  uint8_t  getExtraWriteCycleTime();
 
 
 private:
@@ -146,5 +156,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,11 +1,9 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
-//
-// HISTORY: See changelog.md
 
 
 #include "I2C_24LC1025.h"
@@ -33,7 +31,7 @@ I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32)
 bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
 {
   if ((sda < 255) && (scl < 255))
@@ -49,6 +47,20 @@ bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
 }
 #endif
 
+
+#if defined(PICO_RP2040)
+bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
+{
+  if ((sda < 255) && (scl < 255))
+  {
+    _wire->setSCL(scl);
+    _wire->setSDA(sda);
+    _wire->begin();
+  }
+  _lastWrite = 0;
+  return isConnected();
+}
+#endif
 
 bool I2C_24LC1025::begin()
 {
@@ -240,6 +252,41 @@ bool I2C_24LC1025::updateBlockVerify(const uint32_t memoryAddress, const uint8_t
 
 ////////////////////////////////////////////////////////////////////
 //
+//  METADATA SECTION
+//
+uint32_t I2C_24LC1025::getDeviceSize()
+{
+  return _deviceSize;
+}
+
+
+uint8_t I2C_24LC1025::getPageSize()
+{
+  return _pageSize;
+}
+
+
+uint32_t I2C_24LC1025::getLastWrite()
+{
+  return _lastWrite;
+}
+
+
+void I2C_24LC1025::setExtraWriteCycleTime(uint8_t ms)
+{
+  _extraTWR = ms;
+}
+
+
+uint8_t I2C_24LC1025::getExtraWriteCycleTime()
+{
+  return _extraTWR;
+}
+
+
+
+////////////////////////////////////////////////////////////////////
+//
 // PRIVATE
 //
 
@@ -275,11 +322,9 @@ void I2C_24LC1025::_beginTransmission(uint32_t memoryAddress)
   _actualAddress = _deviceAddress;
   if (memoryAddress >= 0x10000) _actualAddress |= 0x04;  // addresbit 16
 
-#define I2C_WRITEDELAY  5000
-
 
   //  Wait until EEPROM gives ACK again.
-  //  this is a bit faster than the hardcoded 5 milliSeconds  // chapter 7 
+  //  this is a bit faster than the hardcoded 5 milliSeconds  // chapter 7
   //  TWR = WriteCycleTime
   uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  // do the math once.
   while ((micros() - _lastWrite) <= waitTime)
@@ -360,11 +405,10 @@ uint8_t I2C_24LC1025::_ReadBlock(uint32_t memoryAddress, uint8_t * buffer, const
 
 void I2C_24LC1025::_waitEEReady()
 {
-#define I2C_WRITEDELAY  5000
   //  Wait until EEPROM gives ACK again.
   //  this is a bit faster than the hardcoded 5 milliSeconds
   //  TWR = WriteCycleTime
-  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  // do the math once.
+  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;
   while ((micros() - _lastWrite) <= waitTime)
   {
     _wire->beginTransmission(_deviceAddress);

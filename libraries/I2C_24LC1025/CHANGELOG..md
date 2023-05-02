@@ -5,20 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2023-05-02
+- improve support for RP2040
+- move code from .h to .cpp
+- update readme.md
+- minor edits
+
+
 ## [0.2.2]
 - add changelog.md
 - add RP2040 to build-CI
 - minor edits
 
-
-## [0.2.0] - 2022-06-08
-- add verify functions
-- improve documentation / comments
 ## [0.2.1] - 2022-06-11
 - update documentation
 - minor edits
 - minor improvements / bug fixes
 - add get/setExtraWriteCycleTime()
+
+## [0.2.0] - 2022-06-08
+- add verify functions
+- improve documentation / comments
 
 ----
 

@@ -2,22 +2,27 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
-//
-// HISTORY: See changelog.md
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define I2C_24LC1025_VERSION        (F("0.2.2"))
+#define I2C_24LC1025_VERSION        (F("0.2.3"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072
 #define I2C_PAGESIZE_24LC1025       128
+
+
+//  to adjust low level timing (use with care)
+//  can also be done on command line.
+#ifndef I2C_WRITEDELAY
+#define I2C_WRITEDELAY              5000
+#endif
 
 
 class I2C_24LC1025
@@ -26,7 +31,7 @@ public:
 
   I2C_24LC1025(uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32) || defined(PICO_RP2040)
   bool      begin(uint8_t sda, uint8_t scl);
 #endif
   bool      begin();
@@ -71,23 +76,24 @@ public:
 
 
   //  Meta data functions
-  uint32_t getDeviceSize() { return _deviceSize; };
-  uint8_t  getPageSize()   { return _pageSize; };
-  uint32_t getLastWrite()  { return _lastWrite; };
+  uint32_t getDeviceSize();
+  uint8_t  getPageSize();
+  uint32_t getLastWrite();
+
 
   //  TWR = WriteCycleTime
   //  5 ms is minimum, one can add extra ms here to adjust timing of both read() and write()
-  void     setExtraWriteCycleTime(uint8_t ms) { _extraTWR = ms; };
-  uint8_t  getExtraWriteCycleTime() { return _extraTWR; };
+  void     setExtraWriteCycleTime(uint8_t ms);
+  uint8_t  getExtraWriteCycleTime();
 
 private:
   uint8_t  _deviceAddress;
-  uint8_t  _actualAddress;   // a.k.a. controlByte
-  uint32_t _lastWrite  = 0;  // for waitEEReady
+  uint8_t  _actualAddress;   //  a.k.a. controlByte
+  uint32_t _lastWrite  = 0;  //  for waitEEReady
   uint32_t _deviceSize = I2C_DEVICESIZE_24LC1025;
   uint8_t  _pageSize   = I2C_PAGESIZE_24LC1025;
-  uint8_t  _extraTWR = 0;    // milliseconds
-  int      _error    = 0;    // TODO.
+  uint8_t  _extraTWR = 0;    //  milliseconds
+  int      _error    = 0;    //  TODO.
 
 
   void      _beginTransmission(uint32_t memoryAddress);
@@ -108,5 +114,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

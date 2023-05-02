@@ -21,8 +21,19 @@ A2 = Non-Configurable Chip Select.
 This pin must be connected to VCC (+5V). 
 The device will **NOT** work when this pin floats or is connected to GND (0V).
 
+This library follows the I2C_EEPROM library, see links below.
+
+
+#### Links
+
+- https://github.com/RobTillaart/I2C_EEPROM
+
 
 ## Interface
+
+```cpp
+#include "I2C_24LC1025.h"
+```
 
 The interface is kept quite identical to the I2C_EEPROM library.
 https://github.com/RobTillaart/I2C_EEPROM
@@ -34,7 +45,7 @@ Most important change is 32 bit memory addresses.
 
 - **I2C_24LC1025(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
 - **bool begin()** initializes the I2C bus and checks if the device is available on the I2C bus.
-- **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 and alike.
+- **bool begin(uint8_t sda, uint8_t scl)** idem for ESP32 / ESP8266 / RP2040 and alike.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
 
 

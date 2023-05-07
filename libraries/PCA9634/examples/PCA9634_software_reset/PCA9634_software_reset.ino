@@ -21,12 +21,12 @@ void setup()
 
   ledArray.begin();
 
-  ledArray.setLedDriverMode(0, PCA9634_LEDON);
+  ledArray.setLedDriverMode(0, PCA963X_LEDON);
   delay(100);
   ledArray.I2C_SoftwareReset(0);
   delay(100);
   Serial.print("I2C_SoftwareReset(0) did ");
-  if (ledArray.getLedDriverMode(0) == PCA9634_LEDON)
+  if (ledArray.getLedDriverMode(0) == PCA963X_LEDON)
   {
     Serial.print("not ");
   }
@@ -34,12 +34,12 @@ void setup()
   delay(2000);
 
   ledArray.begin();
-  ledArray.setLedDriverMode(0, PCA9634_LEDON);
+  ledArray.setLedDriverMode(0, PCA963X_LEDON);
   delay(100);
   ledArray. I2C_SoftwareReset(1);
   delay(100);
   Serial.print("I2C_SoftwareReset(1) did ");
-  if (ledArray.getLedDriverMode(0) == PCA9634_LEDON)
+  if (ledArray.getLedDriverMode(0) == PCA963X_LEDON)
   {
     Serial.print("not ");
   }
@@ -47,7 +47,7 @@ void setup()
   delay(2000);
 
   //  Forced led off.
-  ledArray.setLedDriverMode(0, PCA9634_LEDOFF);
+  ledArray.setLedDriverMode(0, PCA963X_LEDOFF);
 
   Serial.println("done...");
 }

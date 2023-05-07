@@ -44,8 +44,8 @@ void testSetLedDriverModeLEDON()
   Serial.println("Test - Switch all on");
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.setLedDriverMode(channel, PCA9634_LEDON);
-    if (ledArray.getLedDriverMode(channel) != PCA9634_LEDON)
+    ledArray.setLedDriverMode(channel, PCA963X_LEDON);
+    if (ledArray.getLedDriverMode(channel) != PCA963X_LEDON)
     {
       Serial.print(millis());
       Serial.print("\t");
@@ -63,10 +63,10 @@ void testPWMMode()
   Serial.println("Test - set pwm mode");
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.setLedDriverMode(channel, PCA9634_LEDON);
+    ledArray.setLedDriverMode(channel, PCA963X_LEDON);
     delay(200);
-    ledArray.setLedDriverMode(channel, PCA9634_LEDPWM);
-    if (ledArray.getLedDriverMode(channel) != PCA9634_LEDPWM)
+    ledArray.setLedDriverMode(channel, PCA963X_LEDPWM);
+    if (ledArray.getLedDriverMode(channel) != PCA963X_LEDPWM)
     {
       Serial.print(millis());
       Serial.print("\t");
@@ -135,7 +135,7 @@ void testSetGroupPWM_FREQ()
   Serial.println("Test - GroupPWM");
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.setLedDriverMode(channel, PCA9634_LEDGRPPWM);
+    ledArray.setLedDriverMode(channel, PCA963X_LEDGRPPWM);
   }
   for (int pwm = 0; pwm < 256; pwm++)
   {
@@ -170,7 +170,7 @@ void testSetGroupPWM_FREQ()
   //  reset to LEDPWM
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.setLedDriverMode(channel, PCA9634_LEDPWM);
+    ledArray.setLedDriverMode(channel, PCA963X_LEDPWM);
   }
 }
 
@@ -180,17 +180,17 @@ void testSetAndReadMode()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - readMode");
-  uint8_t regval = ledArray.readMode(PCA9634_MODE1);
-  ledArray.writeMode(PCA9634_MODE1, regval);     //  non destructive;
+  uint8_t regval = ledArray.readMode(PCA963X_MODE1);
+  ledArray.writeMode(PCA963X_MODE1, regval);     //  non destructive;
   Serial.print(millis());
   Serial.print("\t");
-  Serial.print("PCA9634_MODE1: ");
+  Serial.print("PCA963X_MODE1: ");
   Serial.println(regval);
-  regval = ledArray.readMode(PCA9634_MODE2);
-  ledArray.writeMode(PCA9634_MODE2, regval);
+  regval = ledArray.readMode(PCA963X_MODE2);
+  ledArray.writeMode(PCA963X_MODE2, regval);
   Serial.print(millis());
   Serial.print("\t");
-  Serial.print("PCA9634_MODE2: ");
+  Serial.print("PCA963X_MODE2: ");
   Serial.println(regval);
 }
 
@@ -202,8 +202,8 @@ void testSetLedDriverModeLEDOFF()
   Serial.println("Test - Switch all off");
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.setLedDriverMode(channel, PCA9634_LEDOFF);
-    if (ledArray.getLedDriverMode(channel) != PCA9634_LEDOFF)
+    ledArray.setLedDriverMode(channel, PCA963X_LEDOFF);
+    if (ledArray.getLedDriverMode(channel) != PCA963X_LEDOFF)
     {
       Serial.print(millis());
       Serial.print("\t");

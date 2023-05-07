@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.7] - 2023-05-01
+- add **writeLedOut(reg, mask)** experimental
+- add **readLedOut(reg)** experimental
+- add **setLedDriverMode(mode)** experimental
+- add example PCA9634_shift_rotate.ino
+- start renaming #defines PCA963X... to prepare merge with PCA9634.
+  - old defines will work until next major release
+- add **writeN_noStop** and **writeStop** (from PCA9634)
+- move code from .h to .cpp
+- reorder + refactor code
+- update readme.md
+- minor edits
+
+
 ## [0.2.6] - 2023-03-07
 - add OutputEnable control functions.
 - add example **PCA9634_OE_control.ino**
@@ -14,7 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - moved code from .h to .cpp
 - update readme.md
 - minor edits
-
 
 ## [0.2.5] - 2023-01-19
 - fix #22 update readme.md

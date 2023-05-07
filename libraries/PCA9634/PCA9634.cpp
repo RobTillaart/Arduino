@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,15 +12,14 @@
 
 //////////////////////////////////////////////////////////////
 //
-// Constructor
+//  Constructor
 //
 PCA9634::PCA9634(const uint8_t deviceAddress, TwoWire *wire)
 {
   _address         = deviceAddress;
   _wire            = wire;
   _channelCount    = 8;
-  _data            = 0;
-  _error           = PCA9634_OK;
+  _error           = PCA963X_OK;
   _OutputEnablePin = 255;
 }
 
@@ -51,27 +50,30 @@ bool PCA9634::begin(uint8_t mode1_mask, uint8_t mode2_mask)
 }
 
 
-uint8_t PCA9634::configure(uint8_t mode1_mask, uint8_t mode2_mask)
-{
-  _data = 0;
-  _error = PCA9634_OK;
-
-  uint8_t r1 = setMode1(mode1_mask);
-  uint8_t r2 = setMode2(mode2_mask);
-
-  if ((r1 != PCA9634_OK) || (r2 != PCA9634_OK))
-  {
-    return PCA9634_ERROR;
-  }
-  return _error;
-}
-
-
 bool PCA9634::isConnected()
 {
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();
   return (_error == 0);
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  CONFIGURATION
+//
+uint8_t PCA9634::configure(uint8_t mode1_mask, uint8_t mode2_mask)
+{
+  _error = PCA963X_OK;
+
+  uint8_t r1 = setMode1(mode1_mask);
+  uint8_t r2 = setMode2(mode2_mask);
+
+  if ((r1 != PCA963X_OK) || (r2 != PCA963X_OK))
+  {
+    return PCA963X_ERROR;
+  }
+  return _error;
 }
 
 
@@ -81,6 +83,138 @@ uint8_t PCA9634::channelCount()
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  LED DRIVER MODE
+//
+uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
+{
+  if (channel >= _channelCount)
+  {
+    _error  = PCA963X_ERR_CHAN;
+    return _error;
+  }
+  if (mode > 3)
+  {
+    _error  = PCA963X_ERR_MODE;
+    return _error;
+  }
+
+  uint8_t reg = PCA963X_LEDOUT_BASE + (channel >> 2);
+  //  some bit magic
+  uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
+  uint8_t setmask = mode << shift;
+  uint8_t clrmask = ~(0x03 << shift);
+  uint8_t value = (readReg(reg) & clrmask) | setmask;
+  writeReg(reg, value);
+  _error = PCA963X_OK;
+  return _error;
+}
+
+
+//  returns 0..3 if OK, other values indicate an error
+uint8_t PCA9634::getLedDriverMode(uint8_t channel)
+{
+  if (channel >= _channelCount)
+  {
+    _error  = PCA963X_ERR_CHAN;
+    return _error;
+  }
+
+  uint8_t reg = PCA963X_LEDOUT_BASE + (channel >> 2);
+  uint8_t shift = (channel & 0x03) * 2;  //  0, 2, 4, 6 places
+  uint8_t value = (readReg(reg) >> shift ) & 0x03;
+  _error = PCA963X_OK;
+  return value;
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  WRITE MODE
+//
+uint8_t PCA9634::writeMode(uint8_t reg, uint8_t value)
+{
+  if ((reg == PCA963X_MODE1) || (reg == PCA963X_MODE2))
+  {
+    writeReg(reg, value);
+    return PCA963X_OK;
+  }
+  _error = PCA963X_ERR_REG;
+  return _error;
+}
+
+
+//  Note 0xFF can also mean an error....  ==>  check error flag
+uint8_t PCA9634::readMode(uint8_t reg)
+{
+  if ((reg == PCA963X_MODE1) || (reg == PCA963X_MODE2))
+  {
+    _error = PCA963X_OK;
+    uint8_t value = readReg(reg);
+    return value;
+  }
+  _error = PCA963X_ERR_REG;
+  return _error;
+}
+
+
+uint8_t PCA9634::setMode1(uint8_t value)
+{
+  return writeMode(PCA963X_MODE1, value);
+}
+
+
+uint8_t PCA9634::setMode2(uint8_t value)
+{
+  return writeMode(PCA963X_MODE2, value);
+}
+
+
+uint8_t PCA9634::getMode1()
+{
+  return readMode(PCA963X_MODE1);
+}
+
+
+uint8_t PCA9634::getMode2()
+{
+  return readMode(PCA963X_MODE2);
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  GROUP PWM
+//
+void PCA9634::setGroupPWM(uint8_t value)
+{
+  writeReg(PCA963X_GRPPWM, value);
+}
+
+
+uint8_t PCA9634::getGroupPWM()
+{
+  return readReg(PCA963X_GRPPWM);
+}
+
+
+void PCA9634::setGroupFREQ(uint8_t value)
+{
+  writeReg(PCA963X_GRPFREQ, value);
+}
+
+
+uint8_t PCA9634::getGroupFREQ()
+{
+  return readReg(PCA963X_GRPFREQ);
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  WRITE
+//
 //  write value to single PWM registers
 uint8_t PCA9634::write1(uint8_t channel, uint8_t value)
 {
@@ -103,10 +237,10 @@ uint8_t PCA9634::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 {
   if (channel + count > _channelCount)
   {
-    _error = PCA9634_ERR_CHAN;
-    return PCA9634_ERROR;
+    _error = PCA963X_ERR_CHAN;
+    return PCA963X_ERROR;
   }
-  uint8_t base = PCA9634_PWM(channel);
+  uint8_t base = PCA963X_PWM(channel);
   _wire->beginTransmission(_address);
   _wire->write(base);
   for(uint8_t i = 0; i < count; i++)
@@ -116,10 +250,10 @@ uint8_t PCA9634::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
   _error = _wire->endTransmission();
   if (_error != 0)
   {
-    _error = PCA9634_ERR_I2C;
-    return PCA9634_ERROR;
+    _error = PCA963X_ERR_I2C;
+    return PCA963X_ERROR;
   }
-  _error = PCA9634_OK;
+  _error = PCA963X_OK;
   return _error;
 }
 
@@ -128,10 +262,10 @@ uint8_t PCA9634::writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count)
 {
   if (channel + count > _channelCount)
   {
-    _error = PCA9634_ERR_WRITE;
-    return PCA9634_ERROR;
+    _error = PCA963X_ERR_WRITE;
+    return PCA963X_ERROR;
   }
-  uint8_t base = PCA9634_PWM(channel);
+  uint8_t base = PCA963X_PWM(channel);
   _wire->beginTransmission(_address);
   _wire->write(base);
   for(uint8_t i = 0; i < count; i++)
@@ -139,7 +273,7 @@ uint8_t PCA9634::writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count)
     _wire->write(arr[i]);
   }
   //  OK so far
-  return PCA9634_OK;
+  return PCA963X_OK;
 }
 
 
@@ -148,125 +282,10 @@ uint8_t PCA9634::writeStop()
   _error = _wire->endTransmission();
   if (_error != 0)
   {
-    _error = PCA9634_ERR_I2C;
-    return PCA9634_ERROR;
+    _error = PCA963X_ERR_I2C;
+    return PCA963X_ERROR;
   }
-  return PCA9634_OK;
-}
-
-
-uint8_t PCA9634::writeMode(uint8_t reg, uint8_t value)
-{
-  if ((reg == PCA9634_MODE1) || (reg == PCA9634_MODE2))
-  {
-    writeReg(reg, value);
-    return PCA9634_OK;
-  }
-  _error = PCA9634_ERR_REG;
-  return _error;
-}
-
-
-//  Note 0xFF can also mean an error....  ==>  check error flag
-uint8_t PCA9634::readMode(uint8_t reg)
-{
-  if ((reg == PCA9634_MODE1) || (reg == PCA9634_MODE2))
-  {
-    _error = PCA9634_OK;
-    uint8_t value = readReg(reg);
-    return value;
-  }
-  _error = PCA9634_ERR_REG;
-  return _error;
-}
-
-
-uint8_t PCA9634::setMode1(uint8_t value)
-{
-  return writeMode(PCA9634_MODE1, value);
-}
-
-
-uint8_t PCA9634::setMode2(uint8_t value)
-{
-  return writeMode(PCA9634_MODE2, value);
-}
-
-
-uint8_t PCA9634::getMode1()
-{
-  return readMode(PCA9634_MODE1);
-}
-
-
-uint8_t PCA9634::getMode2()
-{
-  return readMode(PCA9634_MODE2);
-}
-
-
-void PCA9634::setGroupPWM(uint8_t value)
-{
-  writeReg(PCA9634_GRPPWM, value);
-}
-
-
-uint8_t PCA9634::getGroupPWM()
-{
-  return readReg(PCA9634_GRPPWM);
-}
-
-
-void PCA9634::setGroupFREQ(uint8_t value)
-{
-  writeReg(PCA9634_GRPFREQ, value);
-}
-
-
-uint8_t PCA9634::getGroupFREQ()
-{
-  return readReg(PCA9634_GRPFREQ);
-}
-
-
-uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
-{
-  if (channel >= _channelCount)
-  {
-    _error  = PCA9634_ERR_CHAN;
-    return _error;
-  }
-  if (mode > 3)
-  {
-    _error  = PCA9634_ERR_MODE;
-    return _error;
-  }
-
-  uint8_t reg = PCA9634_LEDOUT_BASE + (channel >> 2);
-  //  some bit magic
-  uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
-  uint8_t setmask = mode << shift;
-  uint8_t clrmask = ~(0x03 << shift);
-  uint8_t value = (readReg(reg) & clrmask) | setmask;
-  writeReg(reg, value);
-  _error = PCA9634_OK;
-  return _error;
-}
-
-
-//  returns 0..3 if OK, other values indicate an error
-uint8_t PCA9634::getLedDriverMode(uint8_t channel)
-{
-  if (channel >= _channelCount)
-  {
-    _error  = PCA9634_ERR_CHAN;
-    return _error;
-  }
-
-  uint8_t reg = PCA9634_LEDOUT_BASE + (channel >> 2);
-  uint8_t shift = (channel & 0x03) * 2;  //  0, 2, 4, 6 places
-  uint8_t value = (readReg(reg) >> shift ) & 0x03;
-  return value;
+  return PCA963X_OK;
 }
 
 
@@ -277,7 +296,7 @@ uint8_t PCA9634::getLedDriverMode(uint8_t channel)
 int PCA9634::lastError()
 {
   int e = _error;
-  _error = PCA9634_OK;
+  _error = PCA963X_OK;
   return e;
 }
 
@@ -407,7 +426,7 @@ uint8_t PCA9634::getAllCallAddress()
 
 /////////////////////////////////////////////////////
 //
-//  OE - Output Enable control
+//  OUTPUT ENABLE (OE) control
 //
 //  active LOW see page 5 par 6.2 datasheet
 //
@@ -471,6 +490,53 @@ int PCA9634::I2C_SoftwareReset(uint8_t method)
 }
 
 
+///////////////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL LEDOUT
+//
+uint8_t PCA9634::writeLedOut(uint8_t reg, uint8_t mask)
+{
+  if (reg > 1) return PCA963X_ERROR;
+  writeReg(PCA963X_LEDOUT_BASE + reg, mask);
+  return PCA963X_OK;
+}
+
+
+uint8_t PCA9634::readLedOut(uint8_t reg)
+{
+  if (reg > 1) return 0x00;
+  return readReg(PCA963X_LEDOUT_BASE + reg);
+}
+
+
+//  todo move to right section after testing.
+uint8_t PCA9634::setLedDriverMode(uint8_t mode)
+{
+  if (mode > 3) return PCA963X_ERR_MODE;
+  uint8_t mask = 0b00000000;
+  switch(mode)
+  {
+    case PCA963X_LEDGRPPWM:
+      mask = 0b11111111;
+      break;
+    case PCA963X_LEDPWM:
+      mask = 0b10101010;
+      break;
+    case PCA963X_LEDON:
+      mask = 0b01010101;
+      break;
+    default:
+      mask = 0b00000000;
+      break;
+  }
+  for (int reg = 0; reg < 1; reg++)
+  {
+    writeLedOut(reg, mask);
+  }
+  return PCA963X_OK;
+}
+
+
 /////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -481,8 +547,9 @@ uint8_t PCA9634::writeReg(uint8_t reg, uint8_t value)
   _wire->write(reg);
   _wire->write(value);
   _error = _wire->endTransmission();
-  if (_error == 0) _error = PCA9634_OK;
-  else _error = PCA9634_ERR_I2C;
+
+  if (_error == 0) _error = PCA963X_OK;
+  else _error = PCA963X_ERR_I2C;
   return _error;
 }
 
@@ -495,12 +562,11 @@ uint8_t PCA9634::readReg(uint8_t reg)
 
   if (_wire->requestFrom(_address, (uint8_t)1) != 1)
   {
-    _error = PCA9634_ERROR;
+    _error = PCA963X_ERROR;
     return 0;
   }
-  _error = PCA9634_OK;
-  _data = _wire->read();
-  return _data;
+  _error = PCA963X_OK;
+  return _wire->read();
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,19 +12,38 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.4.4"))
+#define PCA9635_LIB_VERSION         (F("0.4.5"))
 
+
+//  mode codes
+// NEW
+#define PCA963X_MODE1               0x00
+#define PCA963X_MODE2               0x01
+//  OLD
 #define PCA9635_MODE1               0x00
 #define PCA9635_MODE2               0x01
 
+
 //  0x80 bit ==> Auto-Increment for all registers.
 //               used in writeN() - see issue #9 PCA9634
+//  NEW
+#define PCA963X_PWM(x)              (0x82+(x))
+#define PCA963X_GRPPWM              0x12
+#define PCA963X_GRPFREQ             0x13
+//  OLD
 #define PCA9635_PWM(x)              (0x82+(x))
-
 #define PCA9635_GRPPWM              0x12
 #define PCA9635_GRPFREQ             0x13
 
+
 //  check datasheet for details
+//  NEW
+#define PCA963X_LEDOUT_BASE         0x14    //  0x14..0x17
+#define PCA963X_LEDOFF              0x00    //  default @ startup
+#define PCA963X_LEDON               0x01
+#define PCA963X_LEDPWM              0x02
+#define PCA963X_LEDGRPPWM           0x03
+//  OLD 
 #define PCA9635_LEDOUT_BASE         0x14    //  0x14..0x17
 #define PCA9635_LEDOFF              0x00    //  default @ startup
 #define PCA9635_LEDON               0x01
@@ -32,6 +51,15 @@
 #define PCA9635_LEDGRPPWM           0x03
 
 //  Error codes
+// NEW
+#define PCA963X_OK                  0x00
+#define PCA963X_ERROR               0xFF
+#define PCA963X_ERR_WRITE           0xFE
+#define PCA963X_ERR_CHAN            0xFD
+#define PCA963X_ERR_MODE            0xFC
+#define PCA963X_ERR_REG             0xFB
+#define PCA963X_ERR_I2C             0xFA
+// OLD
 #define PCA9635_OK                  0x00
 #define PCA9635_ERROR               0xFF
 #define PCA9635_ERR_WRITE           0xFE
@@ -42,6 +70,7 @@
 
 
 //  Configuration bits MODE1 register
+//  OLD (todo)
 #define PCA9635_MODE1_AUTOINCR2     0x80  //  ReadOnly, 0 = disable  1 = enable
 #define PCA9635_MODE1_AUTOINCR1     0x40  //  ReadOnly, bit1
 #define PCA9635_MODE1_AUTOINCR0     0x20  //  ReadOnly, bit0
@@ -52,18 +81,26 @@
 #define PCA9635_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
 #define PCA9635_MODE1_NONE          0x00
 
+
 //  Configuration bits MODE2 register
+//  OLD (todo)
 #define PCA9635_MODE2_BLINK         0x20  //  0 = dim          1 = blink
 #define PCA9635_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
 #define PCA9635_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
 #define PCA9635_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole
 #define PCA9635_MODE2_NONE          0x00
 
-//  NOT IMPLEMENTED YET
+
+
+//  NOT IMPLEMENTED YET (todo check)
 #define PCA9635_SUBADR(x)           (0x17+(x))  //  x = 1..3
 #define PCA9635_ALLCALLADR          0x1B
 
 
+/////////////////////////////////////////////////////
+//
+//  CLASS
+//
 class PCA9635
 {
 public:
@@ -93,18 +130,16 @@ public:
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
   //  convenience wrappers
-  uint8_t  setMode1(uint8_t value) { return writeMode(PCA9635_MODE1, value); };
-  uint8_t  setMode2(uint8_t value) { return writeMode(PCA9635_MODE2, value); };
-  uint8_t  getMode1()              { return readMode(PCA9635_MODE1); };
-  uint8_t  getMode2()              { return readMode(PCA9635_MODE2); };
+  uint8_t  setMode1(uint8_t value);
+  uint8_t  setMode2(uint8_t value);
+  uint8_t  getMode1();
+  uint8_t  getMode2();
 
-  //  TODO PWM also in %% ?
-  void     setGroupPWM(uint8_t value) { writeReg(PCA9635_GRPPWM, value); };
-  uint8_t  getGroupPWM() { return readReg(PCA9635_GRPPWM); };
+  void     setGroupPWM(uint8_t value);
+  uint8_t  getGroupPWM();
 
-  //  TODO set time in milliseconds and round to nearest value?
-  void     setGroupFREQ(uint8_t value) { writeReg(PCA9635_GRPFREQ, value); };
-  uint8_t  getGroupFREQ() { return readReg(PCA9635_GRPFREQ); };
+  void     setGroupFREQ(uint8_t value);
+  uint8_t  getGroupFREQ();
 
 
   /////////////////////////////////////////////////////
@@ -119,6 +154,12 @@ public:
 
   //  generic worker, write N consecutive PWM registers
   uint8_t  writeN(uint8_t channel, uint8_t* arr, uint8_t count);
+
+  //  generic worker, write N consecutive PWM registers without Stop command
+  uint8_t  writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count);
+
+  //  write stop command to end transmission
+  uint8_t  writeStop();
 
 
   /////////////////////////////////////////////////////
@@ -156,8 +197,22 @@ public:
   uint8_t  getOutputEnable();
 
 
-  //  EXPERIMENTAL 0.4.4
+  /////////////////////////////////////////////////////
+  //
+  //  EXPERIMENTAL
+  //
+  //  0.4.4
   int I2C_SoftwareReset(uint8_t method);
+  //  0.4.5
+  //  writing reg 14-17  LEDOUT
+  //  reg   LEDS
+  //  0     0..3
+  //  1     4..7
+  //  2     8..11
+  //  3     12..15
+  uint8_t  writeLedOut(uint8_t reg, uint8_t mask);
+  uint8_t  readLedOut(uint8_t reg);
+  uint8_t  setLedDriverMode(uint8_t mode);
 
 
 private:
@@ -166,7 +221,6 @@ private:
   uint8_t  readReg(uint8_t reg);
 
   uint8_t  _address;
-  uint8_t  _data;
   int      _error;
   uint8_t  _channelCount = 16;
   uint8_t  _OutputEnablePin;

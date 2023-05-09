@@ -1,0 +1,40 @@
+Arduino UNO
+IDE 1.8.19
+
+luhn_check_stream.ino
+LUHN_LIB_VERSION: 0.2.0
+run I: add() per character
+7	5
+9	4
+9	7
+2	1
+7	0
+3	8
+9	8
+8	2
+7	5
+1	3
+
+LUHN:	3
+time:	256
+
+run II: should have same 2nd column as run 1.
+	0
+7	5
+79	4
+799	7
+7992	1
+79927	0
+799273	8
+7992739	8
+79927398	2
+799273987	5
+7992739871	3
+
+
+run III: generateChecksum()
+LUHN:	3
+time:	64
+
+
+done...

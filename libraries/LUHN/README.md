@@ -20,13 +20,28 @@ The LUHN check uses very few resources and is pretty fast.
 
 Basic idea is to put all digits-1 through the formula and the output should equal the last digit.
 
-Note: some LUHN validations uses the reversed product string.
+This LUHN library also includes a "stream" based LUHN calculation, in which digits can be add 
+one at a time (from a stream) and it will return the LUHN checksum so far.
+This is a new application as LUHN depends on the length of the input being odd or even.
+To handle this two values are maintained (for odd and even lengths) and the correct one is returned.
+
+Maintaining two checksums makes the stream **add(c)** algorithm substantial slower (~4x) than 
+the normally used **generateChecksum(buffer)** or the **isValid(buffer)**. 
+However that is a small price for the new functionality.
+
+The amount of data that can be added in stream mode is infinite in theory.
+However that is not tested for obvious reasons, internally a 32 bit counter exists.
+
+
+#### Notes
+
+- some LUHN validations uses the reversed product string.
+- 0.1.x versions are obsolete due to incorrect math.
+
+
+#### Links
 
 - https://en.wikipedia.org/wiki/Luhn_algorithm
-
-
-#### related
-
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
 - https://github.com/RobTillaart/Fletcher
@@ -46,6 +61,7 @@ The parameter buffer is a '\0' terminated char array. Length should be less than
 - **char generateChecksum(char \* buffer)**
 Returns the char '0'..'9' which is the checksum of the code in the parameter buffer.
 The parameter buffer is a '\0' terminated char array. Length should be less than 254.
+- **char generateChecksum(const char \* buffer)** idem.
 - **bool generate(char \* buffer, uint8_t length, char \* prefix)**
 Generates a char array including LUHN number with a defined prefix of max length.
 Returns false if the prefix exceeds length -1.
@@ -53,26 +69,37 @@ Returns false if the prefix exceeds length -1.
 
 #### Stream
 
-- **char add(char c)** add char, return LUHN so far.
+- **char add(char c)** add char, returns LUHN so far.
 - **char reset()** return last LUHN.
+- **uint32_t count()** return internal counter.
+If this value is zero, a new LUHN can be calculated, otherwise call **reset()** first.
 
-The internal counter for the stream interface is 16 bit.
-This limits the nr of add() calls to about 65530.
-(if this is a problem, make it an uinit32_t)
+The internal counter for the stream interface is 32 bit.
+This limits the number of add() calls to about 4 billion.
+For current implementation the counter is used for even/odd detection,
+and even when it overflows one gets the correct **LUHN**.
+
 
 ## Future
 
-#### must
+#### Must
 
-- update documentation
 
-#### should
+#### Should
 
-- unit tests
-- look for optimization
+- look for optimizations
 
-#### could
+#### Could
 
+
+#### Won't (unless)
+
+- create a HEX equivalent of LUHN
+  - LUHN16 ?
+  - easy to enter HEX code with verify / line.
+  - mod N configurable so not only 10 but any N?
+- uint64_t interface for up to 17 digits.
+  - expensive on small processors.
 - uint32_t interface for up to 8 digit ID's (99.999.999)
   - **isValid(uint32_t)**
   - **generateChecksum(uint32_t)**

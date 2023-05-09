@@ -24,8 +24,10 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("LUHN_LIB_VERSION: ");
+  Serial.println(LUHN_LIB_VERSION);
 
-  Serial.println("run I: debug");
+  Serial.println("run I: add() per character");
   for (uint8_t i = 0; i < strlen(ID) - 1; i++)
   {
     c = checker.add(ID[i]);
@@ -46,12 +48,45 @@ void setup()
   }
   c = checker.reset();
   stop = micros();
-  Serial.println();
-  Serial.print("run II:\t");
-  Serial.println(c);     //  should also print 3 .
-  Serial.print("  time:\t");
+  Serial.print("LUHN:\t");
+  Serial.println(c);     //  should print 3.
+  Serial.print("time:\t");
   Serial.print(stop - start);
   Serial.println();
+  Serial.println();
+  delay(10);
+
+  Serial.println("run II: should have same 2nd column as run 1.");
+  for (uint8_t i = 0; i < strlen(ID); i++)
+  {
+    char tmp[32];
+    strcpy(tmp, ID);
+    tmp[i] = 0;
+    c = checker.generateChecksum(tmp);
+    Serial.print(tmp);
+    Serial.print("\t");
+    Serial.println(c);
+  }
+  Serial.println();
+  delay(10);
+
+
+  char tmp[32];
+  strcpy(tmp, ID);
+  tmp[strlen(ID)-1] = 0;
+  start = micros();
+  c = checker.generateChecksum(tmp);
+  stop = micros();
+  Serial.println();
+  Serial.println("run III: generateChecksum()");
+  Serial.print("LUHN:\t");
+  Serial.println(c);     //  should print 3.
+  Serial.print("time:\t");
+  Serial.print(stop - start);
+  Serial.println();
+  Serial.println();
+  delay(10);
+
 
   Serial.println("\ndone...");
 }

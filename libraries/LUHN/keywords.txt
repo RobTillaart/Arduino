@@ -11,6 +11,8 @@ generateChecksum	KEYWORD2
 randomize	KEYWORD2
 generate	KEYWORD2
 
+add	KEYWORD2
+reset	KEYWORD2
 
 # Constants (LITERAL1)
 LUHN_LIB_VERSION	LITERAL1

@@ -22,6 +22,10 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("LUHN_LIB_VERSION: ");
+  Serial.println(LUHN_LIB_VERSION);
+  Serial.println();
+  delay(10);
 }
 
 
@@ -35,7 +39,8 @@ void loop()
   Serial.print(checker.isValid(number));
   Serial.print("\t");
   Serial.print(stop - start);
-  //  Serial.print((1.0*(stop - start))/ strlen(number));  per digit
+  Serial.print("\t");
+  Serial.print((1.0 * (stop - start)) / strlen(number));  //  per digit
   Serial.print("\t");
   Serial.println(number);
   delay(100);

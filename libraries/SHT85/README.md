@@ -12,7 +12,7 @@ Arduino library for the SHT85 temperature and humidity sensor.
 
 Based upon the SHT31 library - https://github.com/RobTillaart/SHT31
 however this library will be leading in the future as it implements derived classes 
-for the following sensors: **SHT30, SHT31, SHT35 and SHT85.**.
+for the following sensors: **SHT30, SHT31, SHT35 and SHT85**.
 
 
 **WARNING** to keep self-heating below 0.1°C, the SHT85 sensor should 
@@ -63,9 +63,9 @@ At 10% load the SHT85 can be used to make about 10-15 SPS.
 
 #### Compatibility
 
-The SHT85 is protocom compatible with the SHT3x series.
+The SHT85 is protocol compatible with the SHT3x series.
 Main difference is the accuracy. 
-Compare the datasheets to see all differences.
+Compare the data sheets to see all differences.
 
 Accuracy table:
 
@@ -91,7 +91,7 @@ The SHT4x series is slightly faster than the SHT3x series.
 An elaborated library for the SHT31 sensor can be found here
 - https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 
-Dewpoint, heatindex  and related functions
+Dewpoint, heatindex, related functions and conversions.
 - https://github.com/RobTillaart/Temperature
 
 
@@ -111,18 +111,19 @@ Dewpoint, heatindex  and related functions
 - **SHT85()** constructor.
 - **uint8_t getType()** returns numeric part of sensor type.
 Returns 0 for the base class.
-- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32; **WARNING: not verified yet**
-returns false if device address is incorrect or device cannot be reset.
+- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266, ESP32 and similar. **WARNING: not verified yet**.
+Returns false if device address is incorrect or device cannot be reset.
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. 
 Uses SHT_DEFAULT_ADDRESS (0x44) as address.
-- **bool begin(uint8_t address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses. Default Wire as I2C bus.
+- **bool begin(uint8_t address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses. The default I2C bus is Wire.
+Returns false if device address is incorrect or device cannot be reset.
 - **bool begin(TwoWire \*wire = &Wire)** same as above.
 Uses SHT_DEFAULT_ADDRESS (0x44) as address.
 
 
 #### Status
 
-- **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
+- **bool isConnected()** checks if address of the sensor is reachable over I2C. Returns false if not connected.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
@@ -131,7 +132,7 @@ Uses SHT_DEFAULT_ADDRESS (0x44) as address.
 #### Synchronous read
 
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
-Does read both the temperature and humidity.
+Reads both the temperature and humidity from the device.
 
 Note: the medium level is not supported (yet).
 
@@ -142,34 +143,38 @@ See async example for usage.
 
 - **bool requestData(bool fast = true)** requests a new measurement. 
 Returns false if the request fails.
-Set a timestamp.
+Records the timestamp of the request if successful.
 - **bool dataReady(bool fast = true)** Checks if appropriate time (4 / 15 ms) 
 has past since request to read the data.
+The parameter **fast** should be the same as in requestData().
 - **bool readData(bool fast = true)** fast = true skips the CRC check. 
 Returns false if reading the data fails or if CRC check failed.
-- **uint32_t getLastRequest()** returns timestamp of last requestData.
+- **uint32_t getLastRequest()** returns timestamp of last successful call  to requestData.
+This function is used to check if the request is too long ago.
 
 
 #### Temperature and humidity
 
 Note that the temperature and humidity values are recalculated on every call to **getHumidity()** and **getTemperature()**. 
 If you're worried about the extra cycles, you should make sure to cache these values or only request them after 
-you've performed a new reading.
+you've performed a new **read()**.
 
-- **float getHumidity()** computes the relative humidity in % based on the latest raw reading, and returns it.
-- **float getTemperature()** computes the temperature in °C based on the latest raw reading, and returns it.
+- **float getHumidity()** computes the relative humidity in % based on the latest raw reading. This includes the optional offset.
+- **float getTemperature()** computes the temperature in °C based on the latest raw reading. This includes the optional offset.
 - **float getFahrenheit()** computes the temperature in °F based on the latest raw reading, and returns it.
 Note that the optional offset is set in °Celsius.
 
 
-The **getRawHumidity()** and **getRawTemperature()** can be used to minimize storage or communication. 
+The **getRawHumidity()** and **getRawTemperature()** can be used to minimize storage or communication as the data type is 50% smaller.
 Another application is faster comparison with a previous value or threshold.
+However comparisons are quite fast.
 
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
 The library has no **CelsiusToRaw()** function although this is relative easy.
-``` 
+
+```cpp
 rawTemperatureC = (tempC + 45) * (65535 / 175.0); 
 rawTemperatureF = (tempF + 49) * (65535 / 315.0); 
 rawHumidity     = humidity * 655.35;
@@ -179,15 +184,15 @@ rawHumidity     = humidity * 655.35;
 #### Temperature and humidity offset
 
 Default the offset is zero for both temperature and humidity.
-These functions allows one to adjust them a little.
+These functions allows one to adjust them a little. Note there is no limit to the offset so one can use huge values. This allows to use an offset of 273.15 effectively creating **°Kelvin** instead of Celsius.
 
-Note: the offset is in degrees Celsius.
-To set an offset in degrees Fahrenheit, multiply the Fahrenheit offset with 0.55555556 to get Celsius steps.
-So 4°F becomes 2.2222°C.
+Note: the offset is defined in degrees Celsius.
+To set an offset in degrees Fahrenheit, multiply the Fahrenheit offset with 0.55555556 to get Celsius steps (divide by 1.8 is slower).
+So an offset of 4 °F becomes 2.2222 °C.
 
 
-- **void setTemperatureOffset(float offset = 0)** set the offset, default is zero removing the offset.
-- **float getTemperatureOffset()** returns the set offset.
+- **void setTemperatureOffset(float offset = 0)** set the offset in °C, default is zero removing the offset. The library converts this internally
+- **float getTemperatureOffset()** returns the set offset in °C.
 - **void setHumidityOffset(float offset = 0)** set the offset, default is zero removing the offset.
 - **float getHumidityOffset()** returns the set offset.
 
@@ -198,18 +203,19 @@ So 4°F becomes 2.2222°C.
 Be sure to clear the error flag by calling **getError()** before calling 
 any command as the error flag could be from a previous command.
 
-|  Error  |  Symbolic                 |  Description                  |
-|:-------:|:--------------------------|:------------------------------|
-|   0x00  |  SHT_OK                   |  no error                     |
-|   0x81  |  SHT_ERR_WRITECMD         |  I2C write failed             |
-|   0x82  |  SHT_ERR_READBYTES        |  I2C read failed              |
-|   0x83  |  SHT_ERR_HEATER_OFF       |  Could not switch off heater  |
-|   0x84  |  SHT_ERR_NOT_CONNECT      |  Could not connect            |
-|   0x85  |  SHT_ERR_CRC_TEMP         |  CRC error in temperature     |
-|   0x86  |  SHT_ERR_CRC_HUM          |  CRC error in humidity        |
-|   0x87  |  SHT_ERR_CRC_STATUS       |  CRC error in status field    |
-|   0x88  |  SHT_ERR_HEATER_COOLDOWN  |  Heater need to cool down     |
-|   0x89  |  SHT_ERR_HEATER_ON        |  Could not switch on heater   |
+|  Error  |  Symbolic                 |  Description                   |
+|:-------:|:--------------------------|:-------------------------------|
+|   0x00  |  SHT_OK                   |  no error                      |
+|   0x81  |  SHT_ERR_WRITECMD         |  I2C write failed              |
+|   0x82  |  SHT_ERR_READBYTES        |  I2C read failed               |
+|   0x83  |  SHT_ERR_HEATER_OFF       |  Could not switch off heater   |
+|   0x84  |  SHT_ERR_NOT_CONNECT      |  Could not connect             |
+|   0x85  |  SHT_ERR_CRC_TEMP         |  CRC error in temperature      |
+|   0x86  |  SHT_ERR_CRC_HUM          |  CRC error in humidity         |
+|   0x87  |  SHT_ERR_CRC_STATUS       |  CRC error in status field     |
+|   0x88  |  SHT_ERR_HEATER_COOLDOWN  |  Heater need to cool down      |
+|   0x89  |  SHT_ERR_HEATER_ON        |  Could not switch on heater    |
+|   0x8A  |  SHT_ERR_SERIAL           |  Could not read serial number  |
 
 
 #### Heater interface
@@ -261,6 +267,13 @@ Will switch the heater off if maximum heating time has passed.
 |       |                            |  1      | checksum of last write transfer failed
 
 
+#### SHT85 specific
+
+- **uint32_t GetSerialNumber()** Returns a 32 bit unique serial number. 
+  This command seems to be timing sensitive, it uses a delay of 500us
+  which may need "tuning". So function is bit experimental.
+
+
 ## Future
 
 
@@ -273,21 +286,20 @@ Will switch the heater off if maximum heating time has passed.
 
 - more testing (including heater)
 - verify working with ESP32
-- improve error handling / status.
-  - all code paths
-  - reset to OK 
 - support for medium level read.
   - 3 levels iso 2.
 
 
 #### Could
 
+- remember the fast parameter of **requestData()** so it
+  can become obsolete for **radaReady()**.
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
 - test SHT30/35
 
 
-#### won't
+#### Won't
 
 - rename the library? to SHT ? or sensirion.h ?
   - not on short term
@@ -299,4 +311,5 @@ Will switch the heater off if maximum heating time has passed.
 - merge with other SHT sensors if possible?
   - derived classes fixes this enough.
 - **getKelvin()** wrapper? (no => check temperature class)
+  ==> set Offset to 273.15 !
 

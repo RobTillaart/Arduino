@@ -2,7 +2,7 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -25,7 +25,7 @@
 #include "Wire.h"
 
 
-#define SHT_LIB_VERSION                 (F("0.4.0"))
+#define SHT_LIB_VERSION                 (F("0.4.1"))
 #define SHT85_LIB_VERSION               SHT_LIB_VERSION
 
 #ifndef SHT_DEFAULT_ADDRESS
@@ -52,6 +52,7 @@
 #define SHT_ERR_CRC_STATUS              0x87
 #define SHT_ERR_HEATER_COOLDOWN         0x88
 #define SHT_ERR_HEATER_ON               0x89
+#define SHT_ERR_SERIAL                  0x8A
 
 
 class SHT
@@ -183,6 +184,8 @@ class SHT85 : public SHT
 {
 public:
   SHT85();
+    //  EXPERIMENTAL for 0.4.1
+  uint32_t GetSerialNumber();
 };
 
 

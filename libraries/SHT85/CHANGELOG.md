@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2022-05-09
+- add **uint32_t getSerialNumber()** for SHT85 (no CRC check).
+- improve error handling.
+- update readme.md
+
+
 ## [0.4.0] - 2022-12-14
 - redo asynchronous interface
 - add **uint32_t getLastRequest()** timestamp.
@@ -28,14 +34,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.2] - 2022-01-17
 - fix #8 add SHT_DEFAULT_ADDRESS + 2x begin()
 
-## [0.3.1] - 2021-12-28  
+## [0.3.1] - 2021-12-28
 - update library.json
 - update readme.md
 - update license
 - minor edits
 
-## [0.3.0] - 2021-10-20  
-- Fix #6 image in documentation, 
+## [0.3.0] - 2021-10-20
+- Fix #6 image in documentation,
 - pdate build-CI
 
 ----
@@ -46,7 +52,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.1.4] - 2021-08-24  
+## [0.1.4] - 2021-08-24
 - prevent heater to switch on too fast.
 - update readme
 

@@ -42,6 +42,8 @@ getTemperatureOffset	KEYWORD2
 setHumidityOffset	KEYWORD2
 getHumidityOffset	KEYWORD2
 
+GetSerialNumber	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

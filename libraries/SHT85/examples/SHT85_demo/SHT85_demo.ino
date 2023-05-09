@@ -37,6 +37,11 @@ void setup()
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
   Serial.println();
+
+  uint32_t ser = sht.GetSerialNumber();
+  Serial.print(ser, HEX);
+  Serial.println();
+  delay(1000);
 }
 
 

@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
 //          template version 1.0.0 by Glen Cornell
-// VERSION: 1.0.2
+// VERSION: 1.0.3
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See CHANGELOG.md
 //
@@ -37,7 +37,7 @@
 // and HAVE_STDCXX_CSTDINT feature macros in your build environment.
 
 
-#define STATISTIC_LIB_VERSION                     (F("1.0.2"))
+#define STATISTIC_LIB_VERSION                     (F("1.0.3"))
 
 
 #if defined (ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_MEGA2560)
@@ -72,6 +72,11 @@ namespace std {
 
 #if HAVE_STDCXX_CMATH || defined(_GLIBCXX_CMATH)
 #include <cmath>
+//  substitute for std::sqrtf function, patch for issue #13
+#undef sqrtf
+namespace std {
+  inline float sqrtf(float n) { return __builtin_sqrtf(n); }
+};
 #else
 #include <math.h>
 //  substitute for std::sqrt functions if not in your tool chain
@@ -140,9 +145,9 @@ public:
 
   void clear() {
     _cnt = 0;
-    _sum = 0;
-    _min = 0;
-    _max = 0;
+    _sum = 0;  //  NaN;
+    _min = 0;  //  NaN;
+    _max = 0;  //  NaN;
     _extra.clear();
     //  NOTE: _extra "guards" the conditional code e.g. ssqdiff
     //  NOTE: ssqdiff = not _ssq but sum of square differences
@@ -229,9 +234,9 @@ public:
 
 protected:
   count_type _cnt { 0 };
-  value_type _sum { 0.0 };
-  value_type _min { 0.0 };
-  value_type _max { 0.0 };
+  value_type _sum { 0.0 };   //  NaN;
+  value_type _min { 0.0 };   //  NaN;
+  value_type _max { 0.0 };   //  NaN;
 
 
   //  Conditionally compile to reduce dead code if not used

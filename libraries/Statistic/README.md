@@ -114,7 +114,11 @@ See https://github.com/RobTillaart/Statistic/blob/master/FAQ.md
 
 - return values of **sum(), minimum(), maximum()** when **count()** == zero
   - should these be NaN, which is technically more correct?
+  - does it exist for all value types? => No!
   - for now user responsibility to check **count()** first.
+  - refactor \_cnt to \_count
+- remove deprecated methods. (1.1.0)
+
 
 #### Could
 

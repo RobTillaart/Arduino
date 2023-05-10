@@ -5,13 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.3] - 2023-05-09
+- fix #13 **sqrtf()** missing
+- prep more correct NaN when \_cnt == 0;
+
 ## [1.0.2] - 2023-03-14
 - update readme.md
 - update FAQ.md
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [1.0.1] - 2022-11-25
 - simplified changelog.md

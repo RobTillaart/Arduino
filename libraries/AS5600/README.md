@@ -185,14 +185,14 @@ Also Configuration bits below for configuration related ones.
 
 - **AS5600(TwoWire \*wire = &Wire)** Constructor with optional Wire 
 interface as parameter.
-- **bool begin(uint8_t directionPin = 255)** set the value for the 
-directionPin. 
-If the pin is set to 255, the default value, there will be software 
-direction control instead of hardware control.
+- **bool begin(uint8_t directionPin = AS5600_SW_DIRECTION_PIN)** 
+  set the value for the directionPin. 
+If the pin is set to AS5600_SW_DIRECTION_PIN, the default value, 
+there will be software direction control instead of hardware control.
 See below.
-- **bool begin(int dataPin, int clockPin, uint8_t directionPin = 255)** idem, 
+- **bool begin(int dataPin, int clockPin, uint8_t directionPin = AS5600_SW_DIRECTION_PIN)** idem, 
 for the ESP32 where one can choose the I2C pins.
-If the pin is set to 255, the default value, there will be software 
+If the pin is set to AS5600_SW_DIRECTION_PIN, the default value, there will be software 
 direction control instead of hardware control.
 See below.
 - **bool isConnected()** checks if the address 0x36 (AS5600) is on the I2C bus.
@@ -614,23 +614,15 @@ priority is relative.
 
 #### Must
 
-- re-organize readme (0.4.0 ?)
-- fix for AS5600L as it does not support analog OUT.
-  - type field?
-  - other class hierarchy? 
-    - base class with commonalities?
-  - just ignore?
+- re-organize readme (0.4.0)
 - rename revolution functions (0.4.0)
+  - to what?
 
 
 #### Should
 
 - investigate **readMagnitude()**
   - combination of AGC and MD, ML and MH flags?
-- investigate performance
-  - basic performance per function
-  - I2C improvements
-  - software direction
 - investigate OUT behaviour in practice
   - analogue
   - PWM
@@ -638,8 +630,6 @@ priority is relative.
 - write examples:
   - as5600_calibration.ino (needs HW and lots of time)
   - different configuration options
-- add mode parameter to offset functions.
-  - see getAngularSpeed()
 - check / verify Power-up time
   - 1 minute (need HW)
 - check Timing Characteristics (datasheet)
@@ -654,7 +644,20 @@ priority is relative.
 - investigate PGO programming pin.
 - check for compatible devices
   - AS5200 ?
+- investigate performance
+  - basic performance per function
+  - I2C improvements
+  - software direction
 
 
-#### Wont
+#### Wont (unless)
+
+- fix for AS5600L as it does not support analog OUT.
+  - type field?
+  - other class hierarchy? 
+    - base class with commonalities?
+  - ==> just ignore for now.
+- add mode parameter to offset functions.
+  - see getAngularSpeed()
+
 

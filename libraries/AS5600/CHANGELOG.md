@@ -5,13 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2023-05-09
+- change **getCumulativePosition()** to use **AS5600_ANGLE**
+  so filters can be applied.
+- add **AS5600_DEGREES_TO_RAW** to constants.
+- add **AS5600_SW_DIRECTION_PIN** to constants.
+- minor edits.
+
+
 ## [0.3.6] - 2023-02-20
-- add **resetCumulativePosition(int32_t position)** to completely reset the cumulative counter. 
+- add **resetCumulativePosition(int32_t position)** to completely reset the cumulative counter.
 This includes the delta since last call to **getCumulativePosition()**.
-- add parameter position to **resetPosition(int32_t position)** so a new position can be set. 
+- add parameter position to **resetPosition(int32_t position)** so a new position can be set.
 This does not reset the delta since last call to **getCumulativePosition()**.
 - update readme.md
-
 
 ## [0.3.5] - 2023-02-01
 - update GitHub actions

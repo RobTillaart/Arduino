@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,12 +12,12 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.3.6"))
+#define AS5600_LIB_VERSION              (F("0.3.7"))
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
 const uint8_t AS5600L_DEFAULT_ADDRESS   = 0x40;
-
+const uint8_t AS5600_SW_DIRECTION_PIN   = 255;
 
 //  setDirection
 const uint8_t AS5600_CLOCK_WISE         = 0;  //  LOW
@@ -25,6 +25,7 @@ const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 
 //  0.087890625;
 const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4096;
+const float   AS5600_DEGREES_TO_RAW     = 4096 / 360.0;
 //  0.00153398078788564122971808758949;
 const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4096;
 //  4.06901041666666e-6
@@ -89,14 +90,14 @@ public:
   AS5600(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-           //  255 is software controlled direction pin
-  bool     begin(int dataPin, int clockPin, uint8_t directionPin = 255);
+  //  AS5600_SW_DIRECTION_PIN is software controlled direction pin
+  bool     begin(int dataPin, int clockPin, uint8_t directionPin = AS5600_SW_DIRECTION_PIN);
 #endif
-           //  255 is software controlled direction pin
-  bool     begin(uint8_t directionPin = 255);  //  MAGIC NR => const int?
+  bool     begin(uint8_t directionPin = AS5600_SW_DIRECTION_PIN);
   bool     isConnected();
 
-  uint8_t  getAddress();  //  0x36 for AS5600, 0x40 for AS5600L
+  //  address = 0x36 for AS5600, 0x40 for AS5600L
+  uint8_t  getAddress();
 
 
   //  SET CONFIGURE REGISTERS

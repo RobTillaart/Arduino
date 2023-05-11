@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,10 +12,10 @@
 
 //  CONFIGURATION REGISTERS
 const uint8_t AS5600_ZMCO = 0x00;
-const uint8_t AS5600_ZPOS = 0x01;  // + 0x02
-const uint8_t AS5600_MPOS = 0x03;  // + 0x04
-const uint8_t AS5600_MANG = 0x05;  // + 0x06
-const uint8_t AS5600_CONF = 0x07;  // + 0x08
+const uint8_t AS5600_ZPOS = 0x01;   //  + 0x02
+const uint8_t AS5600_MPOS = 0x03;   //  + 0x04
+const uint8_t AS5600_MANG = 0x05;   //  + 0x06
+const uint8_t AS5600_CONF = 0x07;   //  + 0x08
 
 //  CONFIGURATION BIT MASKS - byte level
 const uint8_t AS5600_CONF_POWER_MODE    = 0x03;
@@ -30,8 +30,8 @@ const uint8_t AS5600_CONF_WATCH_DOG     = 0x20;
 //  UNKNOWN REGISTERS 0x09-0x0A
 
 //  OUTPUT REGISTERS
-const uint8_t AS5600_RAW_ANGLE = 0x0C;  // + 0x0D
-const uint8_t AS5600_ANGLE     = 0x0E;  // + 0x0F
+const uint8_t AS5600_RAW_ANGLE = 0x0C;   //  + 0x0D
+const uint8_t AS5600_ANGLE     = 0x0E;   //  + 0x0F
 
 // I2C_ADDRESS REGISTERS (AS5600L)
 const uint8_t AS5600_I2CADDR   = 0x20;
@@ -40,7 +40,7 @@ const uint8_t AS5600_I2CUPDT   = 0x21;
 //  STATUS REGISTERS
 const uint8_t AS5600_STATUS    = 0x0B;
 const uint8_t AS5600_AGC       = 0x1A;
-const uint8_t AS5600_MAGNITUDE = 0x1B;  // + 0x1C
+const uint8_t AS5600_MAGNITUDE = 0x1B;   //  + 0x1C
 const uint8_t AS5600_BURN      = 0xFF;
 
 //  STATUS BITS
@@ -59,7 +59,7 @@ AS5600::AS5600(TwoWire *wire)
 bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 {
   _directionPin = directionPin;
-  if (_directionPin != 255)
+  if (_directionPin != AS5600_SW_DIRECTION_PIN)
   {
     pinMode(_directionPin, OUTPUT);
   }
@@ -81,7 +81,7 @@ bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 bool AS5600::begin(uint8_t directionPin)
 {
   _directionPin = directionPin;
-  if (_directionPin != 255)
+  if (_directionPin != AS5600_SW_DIRECTION_PIN)
   {
     pinMode(_directionPin, OUTPUT);
   }
@@ -113,7 +113,7 @@ uint8_t AS5600::getAddress()
 void AS5600::setDirection(uint8_t direction)
 {
   _direction = direction;
-  if (_directionPin != 255)
+  if (_directionPin != AS5600_SW_DIRECTION_PIN)
   {
     digitalWrite(_directionPin, _direction);
   }
@@ -122,7 +122,7 @@ void AS5600::setDirection(uint8_t direction)
 
 uint8_t AS5600::getDirection()
 {
-  if (_directionPin != 255)
+  if (_directionPin != AS5600_SW_DIRECTION_PIN)
   {
     _direction = digitalRead(_directionPin);
   }
@@ -182,6 +182,10 @@ uint16_t AS5600::getMaxAngle()
 }
 
 
+/////////////////////////////////////////////////////////
+//
+//  CONFIGURATION
+//
 bool AS5600::setConfigure(uint16_t value)
 {
   if (value > 0x3FFF) return false;
@@ -208,10 +212,12 @@ bool AS5600::setPowerMode(uint8_t powerMode)
   return true;
 }
 
+
 uint8_t AS5600::getPowerMode()
 {
   return readReg(AS5600_CONF + 1) & 0x03;
 }
+
 
 bool AS5600::setHysteresis(uint8_t hysteresis)
 {
@@ -223,10 +229,12 @@ bool AS5600::setHysteresis(uint8_t hysteresis)
   return true;
 }
 
+
 uint8_t AS5600::getHysteresis()
 {
   return (readReg(AS5600_CONF + 1) >> 2) & 0x03;
 }
+
 
 bool AS5600::setOutputMode(uint8_t outputMode)
 {
@@ -238,10 +246,12 @@ bool AS5600::setOutputMode(uint8_t outputMode)
   return true;
 }
 
+
 uint8_t AS5600::getOutputMode()
 {
   return (readReg(AS5600_CONF + 1) >> 4) & 0x03;
 }
+
 
 bool AS5600::setPWMFrequency(uint8_t pwmFreq)
 {
@@ -253,10 +263,12 @@ bool AS5600::setPWMFrequency(uint8_t pwmFreq)
   return true;
 }
 
+
 uint8_t AS5600::getPWMFrequency()
 {
   return (readReg(AS5600_CONF + 1) >> 6) & 0x03;
 }
+
 
 bool AS5600::setSlowFilter(uint8_t mask)
 {
@@ -268,10 +280,12 @@ bool AS5600::setSlowFilter(uint8_t mask)
   return true;
 }
 
+
 uint8_t AS5600::getSlowFilter()
 {
   return readReg(AS5600_CONF) & 0x03;
 }
+
 
 bool AS5600::setFastFilter(uint8_t mask)
 {
@@ -283,10 +297,12 @@ bool AS5600::setFastFilter(uint8_t mask)
   return true;
 }
 
+
 uint8_t AS5600::getFastFilter()
 {
   return (readReg(AS5600_CONF) >> 2) & 0x07;
 }
+
 
 bool AS5600::setWatchDog(uint8_t mask)
 {
@@ -297,6 +313,7 @@ bool AS5600::setWatchDog(uint8_t mask)
   writeReg(AS5600_CONF, value);
   return true;
 }
+
 
 uint8_t AS5600::getWatchDog()
 {
@@ -313,7 +330,8 @@ uint16_t AS5600::rawAngle()
   int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
   if (_offset > 0) value = (value + _offset) & 0x0FFF;
 
-  if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
+  if ((_directionPin == AS5600_SW_DIRECTION_PIN) && 
+      (_direction == AS5600_COUNTERCLOCK_WISE))
   {
     value = (4096 - value) & 0x0FFF;
   }
@@ -326,7 +344,8 @@ uint16_t AS5600::readAngle()
   uint16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
   if (_offset > 0) value = (value + _offset) & 0x0FFF;
 
-  if ((_directionPin == 255) && (_direction == AS5600_COUNTERCLOCK_WISE))
+  if ((_directionPin == AS5600_SW_DIRECTION_PIN) && 
+      (_direction == AS5600_COUNTERCLOCK_WISE))
   {
     value = (4096 - value) & 0x0FFF;
   }
@@ -336,12 +355,12 @@ uint16_t AS5600::readAngle()
 
 bool AS5600::setOffset(float degrees)
 {
-  // expect loss of precision.
+  //  expect loss of precision.
   if (abs(degrees) > 36000) return false;
   bool neg = (degrees < 0);
   if (neg) degrees = -degrees;
 
-  uint16_t offset = round(degrees * (4096 / 360.0));
+  uint16_t offset = round(degrees * AS5600_DEGREES_TO_RAW);
   offset &= 4095;
   if (neg) offset = 4096 - offset;
   _offset = offset;
@@ -433,7 +452,8 @@ float AS5600::getAngularSpeed(uint8_t mode)
   //  remember last time & angle
   _lastMeasurement = now;
   _lastAngle       = angle;
-  //  return degrees or radians
+
+  //  return radians, RPM or degrees.
   if (mode == AS5600_MODE_RADIANS)
   {
     return speed * AS5600_RAW_TO_RADIANS;
@@ -453,7 +473,7 @@ float AS5600::getAngularSpeed(uint8_t mode)
 //
 int32_t AS5600::getCumulativePosition()
 {
-  int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
+  int16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
 
   //  whole rotation CW?
   //  less than half a circle

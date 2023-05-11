@@ -47,7 +47,7 @@ unittest_teardown()
 }
 
 
-unittest(test_constants)
+unittest(test_constants_base)
 {
   assertEqual(0, AS5600_CLOCK_WISE);
   assertEqual(1, AS5600_COUNTERCLOCK_WISE);
@@ -57,9 +57,19 @@ unittest(test_constants)
   assertEqual(2, AS5600_MODE_RPM);
 
   assertEqualFloat(360.0/4096,    AS5600_RAW_TO_DEGREES, 0.0001);
+  assertEqualFloat(4096/360.0,    AS5600_DEGREES_TO_RAW, 0.0001);
   assertEqualFloat((PI*2.0)/4096, AS5600_RAW_TO_RADIANS, 0.0001);
   assertEqualFloat(60.0/4096,     AS5600_RAW_TO_RPM,     0.0001);
 
+  assertEqual(0x36, AS5600_DEFAULT_ADDRESS);
+  assertEqual(0x40, AS5600L_DEFAULT_ADDRESS);
+
+  assertEqual(255, AS5600_SW_DIRECTION_PIN);
+}
+
+
+unittest(test_constants_configuration)
+{
   assertEqual(0, AS5600_OUTMODE_ANALOG_100);
   assertEqual(1, AS5600_OUTMODE_ANALOG_90);
   assertEqual(2, AS5600_OUTMODE_PWM);
@@ -95,9 +105,6 @@ unittest(test_constants)
 
   assertEqual(0, AS5600_WATCHDOG_OFF);
   assertEqual(1, AS5600_WATCHDOG_ON);
-
-  assertEqual(0x36, AS5600_DEFAULT_ADDRESS);
-  assertEqual(0x40, AS5600L_DEFAULT_ADDRESS);
 }
 
 
@@ -212,9 +219,10 @@ unittest(test_failing_set_commands)
 }
 
 
-
 // FOR REMAINING ONE NEED A STUB
+
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

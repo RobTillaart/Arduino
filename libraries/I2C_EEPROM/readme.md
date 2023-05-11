@@ -20,6 +20,16 @@ MicroChip 24LC512, 24LC256, 24LC64, 24LC32, 24LC16, 24LC08, 24LC04, 24LC02, 24LC
 The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_store.md)
 
 
+#### RP2040
+
+There are at least two boards modules for the RP2040 that use a different Wire libraries. 
+One from "Earle F. Philhower" and an "MBED" one. See issues #53 and #55 for details.
+
+In 1.7.3 defines are checked to select between these two and as far as tested this seems
+to solve the issue #53 while being backwards compatible.
+If a better solution is found, it will be implemented. 
+
+
 #### Links
 
 - https://github.com/RobTillaart/I2C_24LC1025

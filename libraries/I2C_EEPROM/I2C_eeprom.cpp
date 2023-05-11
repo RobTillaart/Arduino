@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.7.2
+// VERSION: 1.7.3
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -24,7 +24,7 @@
 
 //  I2C buffer needs max 2 bytes for EEPROM address
 //  1 byte for EEPROM register address is available in transmit buffer
-#if defined(ESP32) || defined(ESP8266)
+#if defined(ESP32) || defined(ESP8266) || defined(PICO_RP2040)
 #define I2C_BUFFERSIZE           128
 #else
 #define I2C_BUFFERSIZE           30   //  AVR, STM
@@ -43,17 +43,18 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire * wire) :
 
 I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, TwoWire * wire)
 {
-    _deviceAddress = deviceAddress;
-    _deviceSize = setDeviceSize(deviceSize);
-    _pageSize = getPageSize(_deviceSize);
-    _wire = wire;
+  _deviceAddress = deviceAddress;
+  _deviceSize = setDeviceSize(deviceSize);
+  _pageSize = getPageSize(_deviceSize);
+  _wire = wire;
 
-    //  Chips 16 Kbit (2048 Bytes) or smaller only have one-word addresses.
-    this->_isAddressSizeTwoWords = deviceSize > I2C_DEVICESIZE_24LC16;
+  //  Chips 16 Kbit (2048 Bytes) or smaller only have one-word addresses.
+  this->_isAddressSizeTwoWords = deviceSize > I2C_DEVICESIZE_24LC16;
 }
 
 
 #if defined(ESP8266) || defined(ESP32)
+
 bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
 {
    //  if (_wire == 0) Serial.println("zero");  //  test #48
@@ -68,10 +69,9 @@ bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
   _lastWrite = 0;
   return isConnected();
 }
-#endif
 
+#elif defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__)
 
-#if defined(PICO_RP2040)
 bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
 {
   if ((sda < 255) && (scl < 255))
@@ -83,6 +83,7 @@ bool I2C_eeprom::begin(uint8_t sda, uint8_t scl)
   _lastWrite = 0;
   return isConnected();
 }
+
 #endif
 
 

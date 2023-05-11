@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.7.3] - 2023-05-10
+- fix #55 ==> redo fix #53
+  - add test to detect **MBED** and **RP2040**
+- adjust **I2C_BUFFERSIZE** for RP2040 to 128.
+- update readme.md
+
+
 ## [1.7.2] - 2023-05-02
 - fix #53 support RP2040 (kudos to jotamachuca)
 - move code from .h to .cpp
 - make I2C_WRITEDELAY overridable
 - minor edits
-
 
 ## [1.7.1] - 2023-01-12
 - add setDeviceSize()
@@ -25,6 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.7.0] - 2022-12-02
 - fix #48 rewrote constructor.
+
+----
 
 ## [1.6.2] - 2022-10-30
 - Add RP2040 support to build-CI.

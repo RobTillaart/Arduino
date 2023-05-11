@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -24,6 +24,37 @@ RS485::RS485(Stream * stream, uint8_t sendPin, uint8_t deviceID)
 }
 
 
+//  0.3.0
+// void RS485::begin(uint32_t baudRate)
+// {
+  // _stream->begin(baudRate);
+  // setMicrosPerByte(baudRate);
+// }
+
+
+void RS485::setMicrosPerByte(uint32_t baudRate)
+{
+  //  count 11 bits time per byte
+  _microsPerByte = (11 * 1000000) / baudRate ;
+}
+
+
+uint32_t RS485::getMicrosPerByte()
+{
+  return _microsPerByte;
+}
+
+
+uint8_t RS485::getDeviceID()
+{
+  return _deviceID;
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  STREAM INTERFACE
+//
 int RS485::available()
 {
   return _stream->available();
@@ -102,17 +133,10 @@ size_t RS485::write(uint8_t * array, uint8_t length)
 #endif
 
 
-void RS485::setMicrosPerByte(uint32_t baudRate)
-{
-  //  count 11 bits / byte
-  _microsPerByte = (11 * 1000000UL) / baudRate;
-}
-
-
 
 ///////////////////////////////////////////////////////
 //
-//  EXPERIMENTAL - to be tested - use at own risk.
+//  EXPERIMENTAL - use at own risk.
 //
 ///////////////////////////////////////////////////////
 //
@@ -170,15 +194,17 @@ void RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
 bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
 {
   static uint8_t state  = 0;
-  static uint8_t sender = 255;  //  unknown / anonymous.
   static uint8_t length = 0;
   static bool    forMe  = false;
-  uint8_t        CHKSUM = 0;
+  static uint8_t CHKSUM = 0;
 
   if (_stream->available() == 0) return false;
 
   uint8_t v = _stream->read();
   //  if (debug) Serial.print(v, HEX);
+  // Serial.print(state, HEX);
+  // Serial.print('\t');
+  // Serial.println(v, HEX);
 
   switch(state)
   {
@@ -187,6 +213,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       if (v == SOH)
       {
         _bidx = 0;        //  start new packet
+        CHKSUM = 0;
         state = 1;
       }
       break;
@@ -200,14 +227,15 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
 
     //  extract sender
     case 2:
-      sender = v;
+      senderID = v;
       state = 3;
       break;
 
     //  extract length
     case 3:
       msglen = v;
-      state = 3;
+      length = v;
+      state = 4;
       break;
 
     //  expect STX
@@ -220,7 +248,16 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
     case 5:
       if (length == 0)
       {
-        state = 6;
+        //  expect checksum
+        if (CHKSUM == v) state = 6;
+        else 
+        {
+          //  debug failing checksum
+          //  Serial.print(CHKSUM, HEX);
+          //  Serial.print('\t');
+          //  Serial.println(v, HEX);
+          state = 99;  //  for debug change to state = 6;
+        }
         break;
       }
       //  error handling  if v not ASCII ?
@@ -229,31 +266,25 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       length--;
       break;
 
-    //  expect checksum
+    //  expect ETX
     case 6:
-      if (CHKSUM == v) state = 7;
-      else state = 99;
-      break;
-
-    //  expect STX
-    case 7:
-      if (v == STX) state = 8;
+      if (v == ETX) state = 7;
       else state = 99;
       break;
 
     //  expect EOT
-    case 8:
+    case 7:
       if (v == EOT)
       {
-        senderID = sender;
-        msglen   = _bidx -1;
+        msglen = _bidx;
         for (int i = 0; i < msglen; i++)
         {
           msg[i] = _buffer[i];
         }
+        state = 0;
         return true;
       }
-      state = 0;
+      state = 99;
       break;
 
     //  SKIP until next packet
@@ -264,6 +295,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
 
   return false;
 }
+
 
 
 //////////////////////////////////////////////////

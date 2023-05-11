@@ -1,13 +1,30 @@
 
 # Messages
 
-Examples of command/answer protocols.
+Examples of command/answer protocols over RS485.
 (to be elaborated)
+
+This is part of the RS485 class - https://github.com/RobTillaart/RS485
+
 
 #### Guidelines
 
+Designing a protocol is most often not trivial and might need more
+than one iteration. 
+
 - Keep protocols as simple as possible.
-- be aware of implications of future expansion.
+- Make sure that baud rates match between the nodes in the network.
+- Software Serial can work when time between requests is long enough.
+  It depends on how much processing is needed. 
+- Be aware of implications of future expansion.
+  Design your protocol with room for additional commands.
+  Or even a version number in it.
+- In designing a protocol be aware of ambiguities.
+  An request or answer may contain bytes (sequences) 
+  that might trigger other nodes.
+- If you request data from a node, it might happen 
+  that it won't answer or that the answer fails to
+  arrive in correct state (missing bytes, flipped bits etc.)
 
 
 #### ASCII codes
@@ -24,6 +41,7 @@ Possible useful char codes.
 |    NAK     |  0x15   |  Not Acknowledge
 |    CAN     |  0x18   |  CANcel
 
+See also **ASCII_CONTROL.h**
 
 
 ----
@@ -42,10 +60,11 @@ requirement:
 - All devices listen to a disjunct command set.
 
 
+----
 
 ##  example 2
 
-using a device id to send the command to.
+Using a device id to send the command to.
 
 
 command :=
@@ -60,9 +79,11 @@ answer :=
    bytes        requested bytes     (send them back)
 
 
+----
+
 ##  example 3
 
-command and answer have same layout. 
+Command and answer have same layout. 
 Uses device ID's to address specific device.
 
    SOH          start of header        0x01
@@ -75,6 +96,8 @@ optional extend with:
    checksum     optional
    EOT          optional (end of transmission)
 
+
+----
 
 ##  example 4
 
@@ -99,8 +122,22 @@ More complex package with multiple fields and crc per message.
 
 ----
 
+##  example 5 (still alive)
+
+Maybe most simple protocol, just send an ID, 
+and if the slave is alive it responds with its ID.
+Think of it as the **PING** command
+
+command = ID
+answer  = ID
+
+Could be embedded in other protocols too,
+
+----
+
+
 ## Future
 
 - binary protocols
-- example code
+
 

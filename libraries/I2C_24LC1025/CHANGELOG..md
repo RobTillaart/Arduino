@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2023-05-11
+- redo support for RP2040 
+  - see issue #53 / #55 I2C_EEPROM
+
+
 ## [0.2.3] - 2023-05-02
 - improve support for RP2040
 - move code from .h to .cpp
 - update readme.md
 - minor edits
-
 
 ## [0.2.2]
 - add changelog.md

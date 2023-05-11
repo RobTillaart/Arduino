@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_24LC1025_VERSION        (F("0.2.3"))
+#define I2C_24LC1025_VERSION        (F("0.2.4"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072
@@ -31,7 +31,9 @@ public:
 
   I2C_24LC1025(uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32) || defined(PICO_RP2040)
+
+//  MBED test ==> see #55, #53  I2C_EEPROM
+#if defined(ESP8266) || defined(ESP32) || (defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__))
   bool      begin(uint8_t sda, uint8_t scl);
 #endif
   bool      begin();

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -11,7 +11,7 @@
 
 //  I2C buffer needs max 2 bytes for EEPROM address
 //  1 byte for EEPROM register address is available in transmit buffer
-#if defined(ESP32) || defined(ESP8266)
+#if defined(ESP32) || defined(ESP8266) || defined(PICO_RP2040)
 #define I2C_BUFFERSIZE           128
 #else
 #define I2C_BUFFERSIZE           30   //  AVR, STM
@@ -32,6 +32,7 @@ I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 
 
 #if defined(ESP8266) || defined(ESP32)
+
 bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
 {
   if ((sda < 255) && (scl < 255))
@@ -45,10 +46,9 @@ bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
   _lastWrite = 0;
   return isConnected();
 }
-#endif
 
+#elif defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__)
 
-#if defined(PICO_RP2040)
 bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
 {
   if ((sda < 255) && (scl < 255))
@@ -61,6 +61,7 @@ bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
   return isConnected();
 }
 #endif
+
 
 bool I2C_24LC1025::begin()
 {

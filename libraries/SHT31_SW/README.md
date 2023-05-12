@@ -13,12 +13,13 @@ Arduino library for the SHT31 temperature and humidity sensor - using **SoftWire
 
 ## Description
 
-This library features the class SHT31_SW derived from - https://github.com/RobTillaart/SHT31
+This experimental library features the class SHT31_SW derived from - https://github.com/RobTillaart/SHT31
 It has the same interface as the SHT31 class so please use that documentation 
 as it will be the "leading class".
 
 The main difference is that this SHT31_SW class uses the **SoftWire** 
 library for communication instead of the **TwoWire** based **Wire** class.
+See SHT31 PR #35.
 
 **SoftWire** is a software I2C bus library to be able to select other pins 
 than the default (AVR) hardware I2C pins (SDA and SCL).
@@ -26,10 +27,18 @@ An important reason to use this version is when you want more than two
 devices on one Arduino.
 
 
-#### Status
+#### SoftwareWire (AVR only)
 
-- experimental
-- created as alternative for SHT31 PR #35.
+The **SoftWire** library is portable, but seems less stable as it could not read 
+the SHT85 sensor which is command compatible with the SHT3x. 
+The cause is not found yet, so until then an alternative **SoftwareWire** is included.
+(If you know a solution, please let me know).
+
+The **SoftwareWire** library is an AVR specific and worked for the SHT85.
+See https://github.com/RobTillaart/SHT31_SW/issues/5
+
+You need to comment/uncomment the .h and .cpp file and of course use **SoftwareWire**
+instead of **SoftWire** in your project.
 
 
 #### SHT sensors
@@ -40,21 +49,22 @@ This library should also work for SHT30/35/85 but these are not tested yet.
 
 Accuracy table
 
-|  SENSOR  |  Temperature  |  Humidity  |
-|:--------:|:-------------:|:----------:|
-|  SHT30   |  ~0.3         |  2.0       |
-|  SHT31   |  ~0.3         |  1.5       |
-|  SHT35   |  ~0.2         |  1.5       |
-|  SHT85   |  ~0.2         |  1.5       |
+|  SENSOR  |  Temperature  |  Humidity  |  works with    |
+|:--------:|:-------------:|:----------:|:---------------|
+|  SHT30   |  ~0.3         |  2.0       |  (not tested)  |
+|  SHT31   |  ~0.3         |  1.5       |  SoftWire      |
+|  SHT35   |  ~0.2         |  1.5       |  (not tested)  |
+|  SHT85   |  ~0.2         |  1.5       |  SoftwareWire  |
 
 
 #### Links
 
 These libraries need to be installed to get SHT31_SW working:
 
+- https://github.com/RobTillaart/SHT31
 - https://github.com/stevemarple/SoftWire
 - https://github.com/stevemarple/AsyncDelay
-- https://github.com/RobTillaart/SHT31
+- https://github.com/Testato/SoftwareWire      //   AVR only
 
 
 ## Interface
@@ -169,6 +179,15 @@ Returns false if reading fails or in case of a CRC failure.
 
 ## Future
 
-- keep in sync with (leading) SHT31 library
+#### Must
 
+- keep in sync with (leading) SHT31 library.
+- remove script for atomic if not needed any more.
+- investigate why SHT85 does not work with SoftWire.
+
+#### Should
+
+#### Could
+
+#### Wont
 

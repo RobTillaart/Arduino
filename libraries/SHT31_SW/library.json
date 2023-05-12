@@ -1,6 +1,6 @@
 {
   "name": "SHT31_SW",
-  "keywords": "SoftWire,I2C,SHT30,SHT35,SHT85",
+  "keywords": "SoftWire,I2C,SHT30,SHT31,SHT35,SHT85",
   "description": "Arduino library for the I2C SHT31 temperature and humidity sensor.",
   "authors":
   [
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT31_SW"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

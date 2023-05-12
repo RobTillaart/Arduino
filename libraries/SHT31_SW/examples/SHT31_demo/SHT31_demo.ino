@@ -27,8 +27,13 @@ void setup()
   Serial.println(SHT31_SW_LIB_VERSION);
 
   sw.begin();
-  sht.begin(SHT31_ADDRESS, &sw);
   sw.setClock(100000);
+  sht.begin(SHT31_ADDRESS, &sw);
+
+  Serial.print("CON:\t");
+  Serial.println(sht.isConnected());
+  delay(100);
+
 
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
@@ -48,7 +53,7 @@ void loop()
   Serial.print(sht.getTemperature(), 1);
   Serial.print("\t");
   Serial.println(sht.getHumidity(), 1);
-  delay(100);
+  delay(3000);
 }
 
 

@@ -1,0 +1,23 @@
+{
+  "name": "TOPMIN",
+  "keywords": "minima",
+  "description": "Arduino library to track top n minima.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TOPMIN"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "TOPMIN.h"
+}

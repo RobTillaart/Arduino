@@ -1,0 +1,20 @@
+# Syntax Colouring Map For TOPMAX
+
+
+# Data types (KEYWORD1)
+TOPMAX	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+count	KEYWORD2
+size	KEYWORD2
+reset	KEYWORD2
+add	KEYWORD2
+get	KEYWORD2
+fill	KEYWORD2
+
+
+# Constants (LITERAL1)
+TOPMAX_LIB_VERSION	LITERAL1
+
+

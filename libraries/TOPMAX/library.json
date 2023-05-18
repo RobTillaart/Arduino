@@ -1,0 +1,23 @@
+{
+  "name": "TOPMAX",
+  "keywords": "maxima",
+  "description": "Arduino library to track top n maxima.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TOPMAX"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "TOPMAX.h"
+}

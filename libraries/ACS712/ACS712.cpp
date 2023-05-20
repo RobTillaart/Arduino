@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -133,7 +133,7 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
   if (cycles == 0) cycles = 1;
   float sum = 0;
 
-  // float noiseLevel = _noisemV/_mVperStep;
+  //  float noiseLevel = _noisemV/_mVperStep;
 
   for (uint16_t i = 0; i < cycles; i++)
   {
@@ -151,11 +151,11 @@ float ACS712::mA_AC_sampling(float frequency, uint16_t cycles)
       }
       float current = value - _midPoint;
       sumSquared += (current * current);
-      // not adding noise squared might be more correct for small currents.
-      // if (abs(current) > noiseLevel)
-      // {
-      //   sumSquared += (current * current);
-      // }
+      //  not adding noise squared might be more correct for small currents.
+      //  if (abs(current) > noiseLevel)
+      //  {
+      //    sumSquared += (current * current);
+      //  }
     }
     sum += sqrt(sumSquared / samples);
   }
@@ -416,7 +416,7 @@ uint16_t ACS712::getMaximum(uint16_t milliSeconds)
 {
   uint16_t maximum = _analogRead(_pin);
 
-  //  find minimum
+  //  find maximum
   uint32_t start = millis();
   while (millis() - start < milliSeconds)
   {
@@ -444,11 +444,11 @@ void ACS712::setADC(uint16_t (* f)(uint8_t), float volts, uint16_t maxADC)
 //
 uint16_t ACS712::_analogRead(uint8_t pin)
 {
-  //  if extern ADC is defined use it.
+  //  if external ADC is defined use it.
   if (_readADC != NULL) return _readADC(pin);
   return analogRead(pin);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -112,6 +112,11 @@ Not tested, but looks compatible - same formula as above
 
 ## Interface
 
+```cpp
+#include ACS712.h
+```
+
+
 #### Base
 
 - **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, float mVperAmpere = 100)** constructor.
@@ -141,6 +146,23 @@ A negative value indicates the current flows in the opposite direction.
   - 0.2.8 the parameter samples allow to average over a number of samples.
 
 
+#### mA_AC_sampling performance trick.
+
+A trick to sample faster is to set the frequency to 2 times the actual frequency so to 100 or 120 Hz.
+This results in sampling only half a period and the same current will be measured.
+Advantage is that the function only blocks for ~10 ms @ 50Hz (8.5 @ 60Hz).
+The drawback is about 4x as many variation.
+So only use if the performance (or less blocking) is needed.
+
+In a similar way one can increase the accuracy (reducing the variation) 
+by setting the frequency a factor 2 lower (25 and 30 Hz).
+Drawback is a far longer blocking time.
+
+Use with care!
+
+See - https://github.com/RobTillaart/ACS712/issues/38
+
+
 #### Midpoint
 
 The midpoint is the (raw) zero-reference for all current measurements.
@@ -153,7 +175,7 @@ Since 0.3.0 all midpoint functions return the actual midPoint.
 Parameter must be between 0 and maxADC/2, otherwise midpoint is not changed.
 - **uint16_t getMidPoint()** read the value set / determined.
 - **uint16_t incMidPoint()** manual increase midpoint, e.g. useful in an interactive application.
-Will not increase if midpoint equals macADC.
+Will not increase if midpoint equals maxADC.
 - **uint16_t decMidPoint()** manual decrease midpoint.
 Will not decrease if midpoint equals 0.
 - **uint16_t resetMidPoint()** resets the midpoint to the initial value of maxADC / 2 as in the constructor.

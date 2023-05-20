@@ -1,5 +1,5 @@
 //
-//    FILE: ACS712_20_AC.ino
+//    FILE: ACS712_20_AC_simulation.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo AC measurement with point to point
 //     URL: https://github.com/RobTillaart/ACS712
@@ -30,8 +30,7 @@ void setup()
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
 
-
-  //  use simulation
+  //  select simulated signal
   ACS.setADC(signal, 5, 1024);
 
   ACS.autoMidPoint();
@@ -47,24 +46,21 @@ void loop()
   delay(100);
   start = micros();
   //  int mA = ACS.mA_AC();
-  int mA = ACS.mA_AC_sampling();
+  int mA = ACS.mA_AC_sampling(50);
   stop = micros();
   Serial.print("mA: ");
   Serial.print(mA);
-  Serial.print(". Form factor: ");
-  Serial.print(ACS.getFormFactor());
   Serial.print("  time: ");
   Serial.println(stop - start);
   delay(5000);
 }
 
 
-//  simulated 50 Hz signal
+//  simulation.
 uint16_t signal(uint8_t p)
 {
-  return 512 + 400 * sin((micros() % 1000000) * (TWO_PI * 50 / 1e6));
+  return round(512 + 400 * sin((micros() % 1000000) * (TWO_PI * 50 / 1e6)));
 }
 
 
 //  -- END OF FILE --
-

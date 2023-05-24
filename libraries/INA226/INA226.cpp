@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -195,9 +195,9 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   //  fix #16 - datasheet 6.5 Electrical Characteristics
   //            rounded value to 80 mV
   float shuntVoltage = abs(maxCurrent * shunt);
-  if (shuntVoltage > 0.080) return INA226_ERR_SHUNTVOLTAGE_HIGH;
-  if (maxCurrent < 0.001)   return INA226_ERR_MAXCURRENT_LOW;
-  if (shunt < 0.001)        return INA226_ERR_SHUNT_LOW;
+  if (shuntVoltage > 0.080)         return INA226_ERR_SHUNTVOLTAGE_HIGH;
+  if (maxCurrent < 0.001)           return INA226_ERR_MAXCURRENT_LOW;
+  if (shunt < INA226_MINIMAL_SHUNT) return INA226_ERR_SHUNT_LOW;
 
   _current_LSB = maxCurrent * 3.0517578125e-5;      // maxCurrent / 32768;
 

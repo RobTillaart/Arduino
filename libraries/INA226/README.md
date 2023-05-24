@@ -287,6 +287,26 @@ The alert line falls when alert is reached.
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 
 
+## Adjusting the range of the INA226
+
+**use at own risk**
+In issue #26 a hack is made to scale the INA226 to 300A by using a very small shunt.
+The library has a minimal limit for the shunt of 0.001 ohm.
+This limit can be overruled to support other ranges like the one discussed in #26.
+Overruling can be done by patching the following value in the INA226.h file.
+
+```cpp
+#define INA226_MINIMAL_SHUNT             (0.001)
+```
+
+Be aware that
+- **you should NOT do this unless you understand the implications**.
+- you do this at your own risk.
+- the resistance of wires used affect measurements with very small shunts.
+- solder might change the resistance too.
+- you do this at your own risk.
+
+
 ## Operational
 
 See examples.. 

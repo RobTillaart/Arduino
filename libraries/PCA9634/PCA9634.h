@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.7"))
+#define PCA9634_LIB_VERSION         (F("0.2.8"))
 
 
 //  mode codes
@@ -50,6 +50,7 @@
 #define PCA9634_LEDPWM              0x02
 #define PCA9634_LEDGRPPWM           0x03
 
+
 //  Error codes
 // NEW
 #define PCA963X_OK                  0x00
@@ -69,10 +70,18 @@
 #define PCA9634_ERR_I2C             0xFA
 
 
-//  TODO PCA963X_ constants below here
-
-
 //  Configuration bits MODE1 register
+// NEW
+#define PCA963X_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
+#define PCA963X_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
+#define PCA963X_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
+#define PCA963X_MODE1_SLEEP         0x10  //  0 = normal       1 = sleep
+#define PCA963X_MODE1_SUB1          0x08  //  0 = disable      1 = enable
+#define PCA963X_MODE1_SUB2          0x04  //  0 = disable      1 = enable
+#define PCA963X_MODE1_SUB3          0x02  //  0 = disable      1 = enable
+#define PCA963X_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
+#define PCA963X_MODE1_NONE          0x00
+// OLD
 #define PCA9634_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
 #define PCA9634_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
 #define PCA9634_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
@@ -85,6 +94,13 @@
 
 
 //  Configuration bits MODE2 register
+//  NEW
+#define PCA963X_MODE2_BLINK         0x20  //  0 = dim          1 = blink
+#define PCA963X_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
+#define PCA963X_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
+#define PCA963X_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole
+#define PCA963X_MODE2_NONE          0x00
+//  OLD
 #define PCA9634_MODE2_BLINK         0x20  //  0 = dim          1 = blink
 #define PCA9634_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
 #define PCA9634_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
@@ -93,11 +109,23 @@
 
 
 //  Registers in which the ALLCALL and sub-addresses are stored
-#define PCA9634_SUBADR(x)           (0x0D +(x))  // x = 1..3
+//  NEW
+#define PCA963X_SUBADR(x)           (0x0D +(x))  //  x = 1..3
+#define PCA963X_ALLCALLADR          0x11
+//  OLD
+#define PCA9634_SUBADR(x)           (0x0D +(x))  //  x = 1..3
 #define PCA9634_ALLCALLADR          0x11
 
 
 //  Standard ALLCALL and sub-addresses --> only work for write commands and NOT for read commands
+//  NEW
+#define PCA963X_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
+                                                    //  in this library the LSB is added during the write command
+                                                    //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
+#define PCA963X_SUB1                0x71            //  see line above (0xE2 --> 0x71)
+#define PCA963X_SUB2                0x72            //  see line above (0xE4 --> 0x72)
+#define PCA963X_SUB3                0x74            //  see line above (0xE8 --> 0x74)
+//  OLD
 #define PCA9634_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
                                                     //  in this library the LSB is added during the write command
                                                     //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
@@ -117,11 +145,11 @@ public:
 
 #if defined (ESP8266) || defined(ESP32)
   bool     begin(int sda, int scl,
-                     uint8_t mode1_mask = PCA9634_MODE1_ALLCALL,
-                     uint8_t mode2_mask = PCA9634_MODE2_NONE);
+                     uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
+                     uint8_t mode2_mask = PCA963X_MODE2_NONE);
 #endif
-  bool     begin(uint8_t mode1_mask = PCA9634_MODE1_ALLCALL,
-                 uint8_t mode2_mask = PCA9634_MODE2_NONE);
+  bool     begin(uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
+                 uint8_t mode2_mask = PCA963X_MODE2_NONE);
   bool     isConnected();
 
 

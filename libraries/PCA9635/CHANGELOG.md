@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.6] - 2023-05-24
+- renaming #defines PCA963X... to prepare merge with PCA9634.
+  - old defines will work until next major release
+- update keywords.txt
+
+
 ## [0.4.5] - 2023-04-26
 - add **writeLedOut(reg, mask)** experimental
 - add **readLedOut(reg)** experimental
@@ -18,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - reorder + refactor code
 - update readme.md
 - minor edits
-
 
 ## [0.4.4] - 2023-01-23
 - fix #22 update documentation

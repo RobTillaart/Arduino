@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.5
+// VERSION: 0.4.6
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.4.5"))
+#define PCA9635_LIB_VERSION         (F("0.4.6"))
 
 
 //  mode codes
@@ -70,7 +70,17 @@
 
 
 //  Configuration bits MODE1 register
-//  OLD (todo)
+// NEW
+#define PCA963X_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
+#define PCA963X_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
+#define PCA963X_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
+#define PCA963X_MODE1_SLEEP         0x10  //  0 = normal       1 = sleep
+#define PCA963X_MODE1_SUB1          0x08  //  0 = disable      1 = enable
+#define PCA963X_MODE1_SUB2          0x04  //  0 = disable      1 = enable
+#define PCA963X_MODE1_SUB3          0x02  //  0 = disable      1 = enable
+#define PCA963X_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
+#define PCA963X_MODE1_NONE          0x00
+// OLD
 #define PCA9635_MODE1_AUTOINCR2     0x80  //  ReadOnly, 0 = disable  1 = enable
 #define PCA9635_MODE1_AUTOINCR1     0x40  //  ReadOnly, bit1
 #define PCA9635_MODE1_AUTOINCR0     0x20  //  ReadOnly, bit0
@@ -83,7 +93,13 @@
 
 
 //  Configuration bits MODE2 register
-//  OLD (todo)
+//  NEW
+#define PCA963X_MODE2_BLINK         0x20  //  0 = dim          1 = blink
+#define PCA963X_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
+#define PCA963X_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
+#define PCA963X_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole
+#define PCA963X_MODE2_NONE          0x00
+//  OLD
 #define PCA9635_MODE2_BLINK         0x20  //  0 = dim          1 = blink
 #define PCA9635_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
 #define PCA9635_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
@@ -91,10 +107,28 @@
 #define PCA9635_MODE2_NONE          0x00
 
 
-
-//  NOT IMPLEMENTED YET (todo check)
+//  NOT IMPLEMENTED YET (TODO check)
+//
+//  Registers in which the ALLCALL and sub-addresses are stored
+//  NEW
+#define PCA963X_SUBADR(x)           (0x17 +(x))  //  x = 1..3
+#define PCA963X_ALLCALLADR          0x1B
+//  OLD
 #define PCA9635_SUBADR(x)           (0x17+(x))  //  x = 1..3
 #define PCA9635_ALLCALLADR          0x1B
+
+
+//  Standard ALLCALL and sub-addresses --> only work for write commands and NOT for read commands
+//  TODO
+//#define PCA963X_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
+                                                    //  in this library the LSB is added during the write command
+                                                    //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
+//#define PCA963X_SUB1                0x71            //  see line above (0xE2 --> 0x71)
+//#define PCA963X_SUB2                0x72            //  see line above (0xE4 --> 0x72)
+//#define PCA963X_SUB3                0x74            //  see line above (0xE8 --> 0x74)
+
+
+
 
 
 /////////////////////////////////////////////////////
@@ -108,11 +142,11 @@ public:
 
 #if defined (ESP8266) || defined(ESP32)
   bool     begin(int sda, int scl,
-                     uint8_t mode1_mask = PCA9635_MODE1_ALLCALL,
-                     uint8_t mode2_mask = PCA9635_MODE2_NONE);
+                     uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
+                     uint8_t mode2_mask = PCA963X_MODE2_NONE);
 #endif
-  bool     begin(uint8_t mode1_mask = PCA9635_MODE1_ALLCALL,
-                 uint8_t mode2_mask = PCA9635_MODE2_NONE);
+  bool     begin(uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
+                 uint8_t mode2_mask = PCA963X_MODE2_NONE);
   bool     isConnected();
 
 

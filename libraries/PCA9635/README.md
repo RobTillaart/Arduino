@@ -32,18 +32,19 @@ of the PWM signal.
 #include "PCA9635.h"
 ```
 
+
 #### Constructor
 
-- **PCA9635(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address, 
+- **PCA9635(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
 and optional the Wire interface as parameter.
-- **bool begin(uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, uint8_t mode2_mask = PCA9635_MODE2_NONE)** 
+- **bool begin(uint8_t mode1_mask = PCA963X_MODE1_ALLCALL, uint8_t mode2_mask = PCA963X_MODE2_NONE)**
 initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers.
 See PCA9635.h and datasheet for settings possible.
-- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA9635_MODE1_ALLCALL, uint8_t mode2_mask = PCA9635_MODE2_NONE)** 
+- **bool begin(int sda, int scl, uint8_t mode1_mask = PCA963X_MODE1_ALLCALL, uint8_t mode2_mask = PCA963X_MODE2_NONE)**
 idem, ESP32 ESP8266 only.
-- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
+- **void configure(uint8_t mode1_mask, uint8_t mode2_mask)**
 To configure the library after startup one can set the MODE1 and MODE2 configuration registers.
-See PCA9635.h and datasheet for settings possible. 
+See PCA9635.h and datasheet for settings possible.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t channelCount()** returns the number of channels = 16.
 
@@ -100,25 +101,24 @@ useful to add or remove a single flag (bit masking).
 
 #### Constants for mode registers
 
-(added 0.3.4)
 
 |  Name                     |  Value  |  Description                         |
 |:--------------------------|:-------:|:-------------------------------------|
-|  PCA9635_MODE1_AUTOINCR2  |  0x80   |  Read Only, 0 = disable  1 = enable  |
-|  PCA9635_MODE1_AUTOINCR1  |  0x40   |  Read Only, bit1                     |
-|  PCA9635_MODE1_AUTOINCR0  |  0x20   |  Read Only, bit0                     |
-|  PCA9635_MODE1_SLEEP      |  0x10   |  0 = normal        1 = sleep         |
-|  PCA9635_MODE1_SUB1       |  0x08   |  0 = disable       1 = enable        |
-|  PCA9635_MODE1_SUB2       |  0x04   |  0 = disable       1 = enable        |
-|  PCA9635_MODE1_SUB3       |  0x02   |  0 = disable       1 = enable        |
-|  PCA9635_MODE1_ALLCALL    |  0x01   |  0 = disable       1 = enable        |
-|  PCA9635_MODE1_NONE       |  0x00   |                                      |
+|  PCA963X_MODE1_AUTOINCR2  |  0x80   |  Read Only, 0 = disable  1 = enable  |
+|  PCA963X_MODE1_AUTOINCR1  |  0x40   |  Read Only, bit1                     |
+|  PCA963X_MODE1_AUTOINCR0  |  0x20   |  Read Only, bit0                     |
+|  PCA963X_MODE1_SLEEP      |  0x10   |  0 = normal        1 = sleep         |
+|  PCA963X_MODE1_SUB1       |  0x08   |  0 = disable       1 = enable        |
+|  PCA963X_MODE1_SUB2       |  0x04   |  0 = disable       1 = enable        |
+|  PCA963X_MODE1_SUB3       |  0x02   |  0 = disable       1 = enable        |
+|  PCA963X_MODE1_ALLCALL    |  0x01   |  0 = disable       1 = enable        |
+|  PCA963X_MODE1_NONE       |  0x00   |                                      |
 |  ----                     |         |                                      |
-|  PCA9635_MODE2_BLINK      |  0x20   |  0 = dim           1 = blink         |
-|  PCA9635_MODE2_INVERT     |  0x10   |  0 = normal        1 = inverted      |
-|  PCA9635_MODE2_STOP       |  0x08   |  0 = on STOP       1 = on ACK        |
-|  PCA9635_MODE2_TOTEMPOLE  |  0x04   |  0 = open drain    1 = totem-pole    |
-|  PCA9635_MODE2_NONE       |  0x00   |                                      |
+|  PCA963X_MODE2_BLINK      |  0x20   |  0 = dim           1 = blink         |
+|  PCA963X_MODE2_INVERT     |  0x10   |  0 = normal        1 = inverted      |
+|  PCA963X_MODE2_STOP       |  0x08   |  0 = on STOP       1 = on ACK        |
+|  PCA963X_MODE2_TOTEMPOLE  |  0x04   |  0 = open drain    1 = totem-pole    |
+|  PCA963X_MODE2_NONE       |  0x00   |                                      |
 
 
 These constants makes it easier to set modes without using a non descriptive
@@ -129,12 +129,12 @@ ledArray.writeMode(PCA963X_MODE2, 0b00110100);
 
 // would become
 
-uint8_t mode2_mask = PCA9635_MODE2_BLINK | PCA9635_MODE2_INVERT | PCA9635_MODE2_TOTEMPOLE;
+uint8_t mode2_mask = PCA963X_MODE2_BLINK | PCA963X_MODE2_INVERT | PCA963X_MODE2_TOTEMPOLE;
 ledArray.writeMode(PCA963X_MODE2, mode2_mask);
 
 // or even
 
-ledArray.setMode2(PCA9635_MODE2_BLINK | PCA9635_MODE2_INVERT | PCA9635_MODE2_TOTEMPOLE);
+ledArray.setMode2(PCA963X_MODE2_BLINK | PCA963X_MODE2_INVERT | PCA963X_MODE2_TOTEMPOLE);
 ```
 
 
@@ -209,13 +209,13 @@ The functions to enable all/sub-addresses are straightforward:
 
 Since 0.4.3 (experimental) support to control the OE (Output Enable) pin of the PCA9635.
 This OE pin can control all LEDs simultaneously. 
-It also allows to control multiple PCA9635 modules by connecting the OE pins.
+It also allows to control multiple devices by connecting the OE pins.
 Think of simultaneous switching ON/OFF or get dimming with a high frequency PWM.
 Or use 2 modules alternatively by placing an inverter in between.
 
 See datasheet for the details
 
-- **bool setOutputEnablePin(uint8_t pin = 255)** sets the IO pin to connect to the OE pin of the PCA9635.
+- **bool setOutputEnablePin(uint8_t pin = 255)** sets the IO pin to connect to the OE pin of the device.
 A value of 255 indicates no pin set/selected.
 Sets the OE pin to HIGH.
 Returns true on success.
@@ -317,19 +317,21 @@ PCA.writeLedOut(1, mask);
   - read/writeLedOut()
 - **setOutputEnablePWM(uint16_t value)** PWM support ?
   - getter?
-- merge with PCA9635 and a PCA963X base class if possible
 - restructure function groups 
   - in  .cpp to match .h
   - readme.md
-- **setGroupPWM()**
-  - PWM also in %% ?
 - **setGroupFreq()**
   -  set time in milliseconds and round to nearest value?
 
 
 #### Wont
+
 - consider implementing 
   - clearMode1() and clearMode2() functions.
   - only upon request.
 - merge with PCA9634/5 and a PCA963X base class if possible
+  - not easy, more alignment is desirable.
   - only upon request.
+- **setGroupPWM()**
+  - PWM also in %% ?  (trivial for user)
+

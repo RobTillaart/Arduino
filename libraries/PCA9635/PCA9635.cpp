@@ -2,7 +2,7 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.5
+// VERSION: 0.4.6
 // PURPOSE: Arduino library for PCA9635 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -310,9 +310,9 @@ bool PCA9635::enableSubCall(uint8_t nr)
   if ((nr == 0) || (nr > 3)) return false;
   uint8_t prev = getMode1();
   uint8_t mask = prev;
-  if (nr == 1)      mask |= PCA9635_MODE1_SUB1;
-  else if (nr == 2) mask |= PCA9635_MODE1_SUB2;
-  else              mask |= PCA9635_MODE1_SUB3;
+  if (nr == 1)      mask |= PCA963X_MODE1_SUB1;
+  else if (nr == 2) mask |= PCA963X_MODE1_SUB2;
+  else              mask |= PCA963X_MODE1_SUB3;
   //  only update if changed.
   if (mask != prev)
   {
@@ -328,9 +328,9 @@ bool PCA9635::disableSubCall(uint8_t nr)
   if ((nr == 0) || (nr > 3)) return false;
   uint8_t prev = getMode1();
   uint8_t mask = prev;
-  if (nr == 1)      mask &= ~PCA9635_MODE1_SUB1;
-  else if (nr == 2) mask &= ~PCA9635_MODE1_SUB2;
-  else              mask &= ~PCA9635_MODE1_SUB3;
+  if (nr == 1)      mask &= ~PCA963X_MODE1_SUB1;
+  else if (nr == 2) mask &= ~PCA963X_MODE1_SUB2;
+  else              mask &= ~PCA963X_MODE1_SUB3;
   //  only update if changed.
   if (mask != prev)
   {
@@ -345,9 +345,9 @@ bool PCA9635::isEnabledSubCall(uint8_t nr)
 {
   if ((nr == 0) || (nr > 3)) return false;
   uint8_t mask = getMode1();
-  if (nr == 1) return (mask & PCA9635_MODE1_SUB1) > 0;
-  if (nr == 2) return (mask & PCA9635_MODE1_SUB2) > 0;
-  return (mask & PCA9635_MODE1_SUB3) > 0;
+  if (nr == 1) return (mask & PCA963X_MODE1_SUB1) > 0;
+  if (nr == 2) return (mask & PCA963X_MODE1_SUB2) > 0;
+  return (mask & PCA963X_MODE1_SUB3) > 0;
 }
 
 
@@ -358,7 +358,7 @@ bool PCA9635::setSubCallAddress(uint8_t nr, uint8_t address)
     //  _error = ??  TODO
     return false;
   }
-  writeReg(PCA9635_SUBADR(nr), address);
+  writeReg(PCA963X_SUBADR(nr), address);
   return true;
 }
 
@@ -370,7 +370,7 @@ uint8_t PCA9635::getSubCallAddress(uint8_t nr)
     //  _error = ??  TODO
     return 0;
   }
-  uint8_t address = readReg(PCA9635_SUBADR(nr));
+  uint8_t address = readReg(PCA963X_SUBADR(nr));
   return address;
 }
 
@@ -378,7 +378,7 @@ uint8_t PCA9635::getSubCallAddress(uint8_t nr)
 bool PCA9635::enableAllCall()
 {
   uint8_t prev = getMode1();
-  uint8_t mask = prev | PCA9635_MODE1_ALLCALL;
+  uint8_t mask = prev | PCA963X_MODE1_ALLCALL;
   //  only update if changed.
   if (mask != prev)
   {
@@ -392,7 +392,7 @@ bool PCA9635::enableAllCall()
 bool PCA9635::disableAllCall()
 {
   uint8_t prev = getMode1();
-  uint8_t mask = prev & ~PCA9635_MODE1_ALLCALL;
+  uint8_t mask = prev & ~PCA963X_MODE1_ALLCALL;
   //  only update if changed.
   if (mask != prev)
   {
@@ -406,20 +406,20 @@ bool PCA9635::disableAllCall()
 bool PCA9635::isEnabledAllCall()
 {
   uint8_t mask = getMode1();
-  return mask & PCA9635_MODE1_ALLCALL;
+  return mask & PCA963X_MODE1_ALLCALL;
 }
 
 
 bool PCA9635::setAllCallAddress(uint8_t address)
 {
-  writeReg(PCA9635_ALLCALLADR, address);
+  writeReg(PCA963X_ALLCALLADR, address);
   return true;
 }
 
 
 uint8_t PCA9635::getAllCallAddress()
 {
-  uint8_t address = readReg(PCA9635_ALLCALLADR);
+  uint8_t address = readReg(PCA963X_ALLCALLADR);
   return address;
 }
 

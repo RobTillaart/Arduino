@@ -6,13 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-06-11
+- fix #42 roll + pitch "jumps" after full rotation.
+- fixed normalization code.
+- made normalization conditional
+  - add **void setNormalize(bool normalize = true)**
+  - add **bool getNormalize()**
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.9] - 2023-01-27
 - update GitHub actions
 - update license 2023
 - edit changelog.md
 - update readme.md
 - minor edits
-
 
 ## [0.3.8] - 2022-10-07
 - added CHANGELOG.md

@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.3.9"))
+#define GY521_LIB_VERSION           (F("0.4.0"))
 
 
 //  THROTTLE TIMING
@@ -58,6 +58,18 @@ public:
   uint16_t getThrottleTime()                 { return _throttleTime; };
 
 
+  //  SET BEFORE READ
+  //  as = 0,1,2,3 ==> 2g 4g 8g 16g
+  bool     setAccelSensitivity(uint8_t as);
+  uint8_t  getAccelSensitivity();          //  returns 0,1,2,3
+  //  gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
+  bool     setGyroSensitivity(uint8_t gs);
+  uint8_t  getGyroSensitivity();           //  returns 0,1,2,3
+  //  normalizes Pitch Roll and Yaw.
+  void     setNormalize(bool normalize = true) { _normalize = normalize; };
+  bool     getNormalize() { return _normalize; };
+
+
   //  READ THE SENSOR
   //  returns GY521_OK or one of the error codes above.
   int16_t  read();
@@ -70,13 +82,6 @@ public:
   //  read temperature only, does not affect throttle.
   int16_t readTemperature();
 
-  //  SET BEFORE READ
-  //  as = 0,1,2,3 ==> 2g 4g 8g 16g
-  bool     setAccelSensitivity(uint8_t as);
-  uint8_t  getAccelSensitivity();          //  returns 0,1,2,3
-  //  gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
-  bool     setGyroSensitivity(uint8_t gs);
-  uint8_t  getGyroSensitivity();           //  returns 0,1,2,3
 
   //  CALL AFTER READ
   float    getAccelX()   { return _ax; };
@@ -128,10 +133,12 @@ private:
   uint8_t  _gfs = 0;
   float    _raw2dps = GY521_RAW2DPS;
   float    _gx, _gy, _gz;           //  gyro raw
-  float    _gax, _gay, _gaz;        //  gyro processed.
+  float    _gax, _gay, _gaz;        //  gyro processed
   float    _pitch, _roll, _yaw;     //  used by user
 
   float    _temperature = 0;
+
+  bool     _normalize = true;       //  default true.
 
   //  to read register of 2 bytes.
   int16_t  _WireRead2();

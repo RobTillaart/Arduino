@@ -18,6 +18,8 @@ Experimental library for GY521 a.k.a. MCU-6050.
 Library is work in progress, in fact it is extracted and extended from an old project.
 It needs to be tested a lot more.
 
+See changelog.md for latest updates.
+
 
 #### Examples
 
@@ -93,6 +95,8 @@ AD0 connected to VCC => 0x69
 - **uint8_t getAccelSensitivity()** returns 0, 1, 2, 3
 - **bool setGyroSensitivity(uint8_t gs)** gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
 - **uint8_t getGyroSensitivity()** returns 0, 1, 2, 3  
+= **void setNormalize(bool normalize = true)** normalizes pitch roll yaw or not. Default true.
+= **bool getNormalize()** returns flag.
 
 
 #### Actual read
@@ -108,28 +112,33 @@ returns status = GY521_OK on success.
 - **uint32_t lastTime()** last time sensor is actually read. In milliseconds. Not updated by readTemperature().
 
 Since version 0.3.8 the **read()** and **readGyro()** function is updated to keep the range of **getPitch()**,
- **getRoll()** and **getYaw()** in the range 0..360 degrees. (Issue #36). 
-Problem is  that with continuous rotation in a same direction internal variables will overflow and new 
+ **getRoll()** and **getYaw()** in the range 0..359.999 degrees. (Issue #36). 
+Problem is that with continuous rotation in a same direction internal variables will overflow and new 
 movements (angles) will get lost as insignificant digits.
 
+In version 0.4.0 the normalization of pitch, roll and yaw is fixed and made conditional. (Issue #42).
 
-#### Call after read
+
+#### Calls after read
 
 Note that multiple calls will return the same value. One must explicitly call **read()** to get new values. 
 
-- **float getAccelX()** idem
-- **float getAccelY()** idem
-- **float getAccelZ()** idem
-- **float getAngleX()** idem
-- **float getAngleY()** idem
-- **float getAngleZ()** idem
-- **float getTemperature()** idem
-- **float getGyroX()** idem
-- **float getGyroY()** idem
-- **float getGyroZ()** idem
-- **float getPitch()** idem. Returns 0.00 - 359.99.
-- **float getRoll()** idem. Returns 0.00 - 359.99.
-- **float getYaw()** idem. Returns 0.00 - 359.99.
+- **float getAccelX()** idem.
+- **float getAccelY()** idem.
+- **float getAccelZ()** idem.
+- **float getAngleX()** idem.
+- **float getAngleY()** idem.
+- **float getAngleZ()** idem.
+- **float getTemperature()** idem.
+- **float getGyroX()** idem.
+- **float getGyroY()** idem.
+- **float getGyroZ()** idem.
+- **float getPitch()** idem. May return any number.
+If **setNormalize(true)** return value will be 0-359.999
+- **float getRoll()** idem. May return any number.
+If **setNormalize(true)** return value will be 0-359.999
+- **float getYaw()** idem. May return any number.
+If **setNormalize(true)** return value will be 0-359.999
 
 
 ### Register access
@@ -155,10 +164,10 @@ See examples, use with care
 #### Must
 
 - improve documentation
+- test test and test ...(ESP too)
+
 
 #### Should
-
-- test test and test ...(ESP too)
 
 #### Could
 

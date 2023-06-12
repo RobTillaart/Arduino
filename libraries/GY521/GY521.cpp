@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -128,7 +128,7 @@ int16_t GY521::read()
   _lastMicros = now;
 
 
-  //  next lines might be merged per axis.
+  //  next lines might be merged per axis. (performance)
 
   //  Convert raw acceleration to g's
   _ax *= _raw2g;
@@ -170,23 +170,37 @@ int16_t GY521::read()
   _gay += _gy * duration;
   _gaz += _gz * duration;
 
-  //  normalize internal vars
-  if (_gax < 0) _gax += 360.0;
-  else if (_gax >= 360.0) _gax -= 360.0;
-  if (_gay < 0) _gay += 360.0;
-  else if (_gay >= 360.0) _gay -= 360.0;
-  if (_gaz < 0) _gaz += 360.0;
-  else if (_gaz >= 360.0) _gaz -= 360.0;
+  //  normalize
+  //  _gax etc might loose precision after many iterations #36
+  if (_normalize)
+  {
+    //  correction at 375 due to the factor 0.96 in roll
+    if (_gax >= 375)   _gax -= 375;
+    else if (_gax < 0) _gax += 375;
+    //  correction at 375 due to the factor 0.96 in pitch
+    if (_gay >= 375)   _gay -= 375;
+    else if (_gay < 0) _gay += 375;
+    // correction at 360
+    if (_gaz >= 360)   _gaz -= 360;
+    else if (_gaz < 0) _gaz += 360;
+  }
 
+
+  //  Calculate Pitch Roll Yaw
   _yaw   = _gaz;
-  _pitch = 0.96 * _gay + 0.04 * _aay;
   _roll  = 0.96 * _gax + 0.04 * _aax;
+  _pitch = 0.96 * _gay + 0.04 * _aay;
 
-  //  normalize external vars.
-  if (_pitch < 0) _pitch += 360;
-  else if (_pitch >= 360) _pitch -= 360;
-  if (_roll  < 0) _roll  += 360;
-  else if (_roll  >= 360) _roll  -= 360;
+
+  if (_normalize)
+  {
+    if (_pitch >= 360)   _pitch -= 360;
+    else if (_pitch < 0) _pitch += 360;
+    if (_roll >= 360)    _roll -= 360;
+    else if (_roll < 0)  _roll += 360;
+    if (_yaw >= 360)     _yaw -= 360;
+    else if (_yaw < 0)   _yaw += 360;
+  }
 
   return GY521_OK;
 }
@@ -310,14 +324,21 @@ int16_t GY521::readGyro()
   _gay += _gy * duration;
   _gaz += _gz * duration;
 
-  //  normalize internal vars
-  if (_gax < 0) _gax += 360.0;
-  else if (_gax >= 360.0) _gax -= 360.0;
-  if (_gay < 0) _gay += 360.0;
-  else if (_gay >= 360.0) _gay -= 360.0;
-  if (_gaz < 0) _gaz += 360.0;
-  else if (_gaz >= 360.0) _gaz -= 360.0;
 
+  //  normalize
+  //  _gax etc might loose precision after many iterations #36
+  if (_normalize)
+  {
+    //  correction at 375 due to the factor 0.96 in roll
+    if (_gax >= 375)   _gax -= 375;
+    else if (_gax < 0) _gax += 375;
+    //  correction at 375 due to the factor 0.96 in pitch
+    if (_gay >= 375)   _gay -= 375;
+    else if (_gay < 0) _gay += 375;
+    // correction at 360
+    if (_gaz >= 360)   _gaz -= 360;
+    else if (_gaz < 0) _gaz += 360;
+  }
   return GY521_OK;
 }
 

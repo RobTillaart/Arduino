@@ -20,6 +20,8 @@ setThrottle	KEYWORD2
 getThrottle	KEYWORD2
 setThrottleTime	KEYWORD2
 getThrottleTime	KEYWORD2
+setNormalize	KEYWORD2
+getNormalize	KEYWORD2
 
 setAccelSensitivity	KEYWORD2
 getAccelSensitivity	KEYWORD2

@@ -1,5 +1,5 @@
 //
-//    FILE: TOPMAX_demo.ino
+//    FILE: TOPMAXext_millis.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: TOPMAX demo
 //     URL: https://github.com/RobTillaart/TOPMAX
@@ -8,7 +8,7 @@
 #include "TOPMAX.h"
 
 
-TOPMAX tm(10);
+TOPMAXext tme(5);
 uint32_t cnt = 0;
 
 
@@ -20,8 +20,8 @@ void setup()
   Serial.println(TOPMAX_LIB_VERSION);
   Serial.println();
 
-  tm.fill(0);
-  tm.reset();
+  tme.fill(0, 0);
+  tme.reset();
 }
 
 
@@ -33,18 +33,19 @@ void loop()
   Serial.print("\t");
   Serial.print(x);
   Serial.print("\t");
-  for (int i = 0; i < tm.count(); i++)
+  for (int i = 0; i < tme.count(); i++)
   {
-    Serial.print(tm.getValue(i));
-    Serial.print("\t");
+    Serial.print(tme.getValue(i));
+    Serial.print(":(");
+    Serial.print(tme.getTag(i));
+    Serial.print(")\t");
   }
   Serial.println();
 
-  tm.add(x);
+  tme.add(x, millis());
 
-  delay(100);
+  delay(random(200));
 }
 
 
 //  -- END OF FILE --
-

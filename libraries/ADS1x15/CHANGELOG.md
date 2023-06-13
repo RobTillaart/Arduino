@@ -8,12 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update and add examples
 
 
+## [0.3.10] - 2023-06-07
+- fix NANO RP2040
+- update and add examples
+- minor edits
+
+
 ## [0.3.9] - 2023-01-21
 - update GitHub actions
 - update license 2023
 - update readme.md
 - minor edits
-
 
 ## [0.3.8] - 2022-10-17
 - add RP2040 support (kudos to intubun)

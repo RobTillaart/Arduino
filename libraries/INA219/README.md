@@ -80,12 +80,12 @@ use **INA219_test_I2C.ino**
 #### Constructor
 
 - **INA219(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set address and optional Wire interface.
-- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266; initializes the class.
-sets I2C pins. 
-Returns true if the INA219 address is on the I2C bus.
+- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266 et al.
+Initializes the class and  sets I2C pins. 
+Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **bool begin()** UNO ea. initializes the class. 
-Returns true if the INA219 address is on the I2C bus.
-- **bool isConnected()** returns true if the INA219 address is on the I2C bus.
+Returns true if the INA219 address (set in the constructor) is on the I2C bus.
+- **bool isConnected()** Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 
 
 #### Core Functions
@@ -98,10 +98,11 @@ Also the value is not meaningful if there is no shunt connected.
 - **float getPower()** returns the current times BusVoltage in Watt.
 - **float getCurrent()** returns the current through the shunt in Ampere.
 
-Helper functions to convert above output to a more appropriate scale of units.
+The library has helper functions to convert above output to a more appropriate scale of units.
 
-- **float getBusVoltage_mV()** idem, in millivolts.
-- **float getShuntVoltage_mV()** idem, in millivolts.
+- **float getBusVoltage_mV()** idem, returns millivolts.
+Note: returns -100 if the math overflow bit is set.
+- **float getShuntVoltage_mV()** idem, returns millivolts.
 - **float getCurrent_mA()** idem in milliAmpere.
 - **float getPower_mW()** idem in milliWatt.
 - **float getShuntVoltage_uV()** idem microVolt.
@@ -109,10 +110,17 @@ Helper functions to convert above output to a more appropriate scale of units.
 - **float getPower_uW()** idem, in microWatt.
 
 
+##### Indicator flags
+
+- **bool getMathOverflowFlag()** internal math overflow.
+- **bool getConversionFlag()** conversion is ready.
+Especially useful in non-continuous modi.
+
+
 #### Configuration
 
-Note: the conversion time runs in the background and if done the value is stored in a register. 
-The core functions always read from the registers, so they are not blocked.
+Note: the conversion runs in the background and if done the value is stored in a register. 
+The core functions can always be read from the registers, so they will not block.
 Result can be that you get the very same value if no new value is ready.
 
 - **void reset()** software power on reset. 
@@ -121,7 +129,7 @@ See section below.
 - **bool setBusVoltageRange(uint8_t voltage = 16)** set to 16 or 32.
 Values < 16 map to 16 and values between 16 and 32 map to 32.
 Values above 32 return false.
-- **uint8_t getBusVoltageRange()** returns 16 or 32.
+- **uint8_t getBusVoltageRange()** returns 16 or 32. (Volts)
 - **bool setGain(uint8_t factor = 1)** factor = 1, 2, 4, 8.
 Determines the shunt voltage range. 40, 80, 160 or 320 mV. 
 Returns false if factor is not a valid value.
@@ -163,7 +171,7 @@ See details datasheet,
 The value 7 == ShuntBusContinuous mode 
 - **uint8_t getMode()** returns the mode (0..7) set.
 
-Descriptive mode functions (wrappers).
+Descriptive mode functions (convenience wrappers).
 
 - **bool shutDown()** mode 0
 - **bool setModeShuntTrigger()** mode 1 - how to trigger to be investigated.
@@ -177,7 +185,7 @@ Descriptive mode functions (wrappers).
 
 #### Calibration
 
-See details datasheet,
+See details datasheet.
 
 Calibration is mandatory for **getCurrent()** and **getPower()** to work.
 
@@ -200,12 +208,7 @@ to get the values in scientific notation like "3.5e-6"
 
 #### debugging
 
-- **uint16_t getRegister(uint8_t reg)** fetch registers directly, meant for debugging only.
-
-
-## Operational
-
-See examples.. 
+- **uint16_t getRegister(uint8_t reg)** fetch registers directly, meant for debugging only. Check datasheet.
 
 
 ## Future
@@ -216,7 +219,6 @@ See examples..
   - test different loads
   - all functions.
 - update documentation
-- Math overflow flag  (8.6.3.2)
 
 
 #### Should 
@@ -225,7 +227,6 @@ See examples..
 - test performance
   - verify conversion time
 - write and verify examples
-- Conversion ready flag  (8.6.3.2)
 - add a **setCurrentLSB(uint16_t mA)** function ?
   - maxAmpere as derived value
 
@@ -247,6 +248,7 @@ See examples..
     a few milliseconds per call?
   - about a dozen times used,
   - flag for forced read in functions **setMode(uint8_t mode, bool forced = false)**
+- create defines for several masks / magic numbers
 
 
 #### Wont

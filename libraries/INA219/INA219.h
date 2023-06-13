@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.1.3"))
+#define INA219_LIB_VERSION              (F("0.1.4"))
 
 
 class INA219
@@ -24,6 +24,8 @@ public:
   explicit INA219(const uint8_t address, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
+  bool     begin(const uint8_t sda, const uint8_t scl);
+#elif defined (ARDUINO_ARCH_RP2040) && !defined(__MBED__)
   bool     begin(const uint8_t sda, const uint8_t scl);
 #endif
   bool     begin();
@@ -39,11 +41,14 @@ public:
   bool     getConversionFlag();    //  02
 
 
-  //  SCALE HELPERS
+  //  SCALE HELPERS - milli range
   float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
   float    getCurrent_mA()      { return getCurrent() * 1e3; };
   float    getPower_mW()        { return getPower() * 1e3; };
+
+  //  SCALE HELPERS - micro range
+  float    getBusVoltage_uV()   { return getBusVoltage() * 1e6; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
   float    getCurrent_uA()      { return getCurrent() * 1e6; };
   float    getPower_uW()        { return getPower() * 1e6; };
@@ -63,6 +68,7 @@ public:
   uint8_t  getBusADC();
   bool     setShuntADC(uint8_t mask = 0x03);
   uint8_t  getShuntADC();
+
   // Operating mode = 0..7
   bool     setMode(uint8_t mode = 7);
   uint8_t  getMode();

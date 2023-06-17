@@ -1,7 +1,7 @@
 //
 //    FILE: TOPMAX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2023-05-18
 // PURPOSE: Arduino library to track top n maxima.
 //     URL: https://github.com/RobTillaart/TOPMAX
@@ -27,13 +27,13 @@ TOPMAX::~TOPMAX()
 
 uint8_t TOPMAX::count()
 {
-  return _count; 
+  return _count;
 }
 
 
 uint8_t TOPMAX::size()
 {
-  return _size; 
+  return _size;
 }
 
 
@@ -45,6 +45,7 @@ void TOPMAX::reset()
 
 bool TOPMAX::add(float value)
 {
+  if (_arr == NULL) return false;
   //  initial
   if (_count == 0)
   {
@@ -82,20 +83,22 @@ bool TOPMAX::add(float value)
 }
 
 
-float TOPMAX::getValue(uint8_t index)
+bool TOPMAX::fill(float value)
 {
-  if (index > _count) return NAN;
-  return _arr[index];
-}
-
-
-void TOPMAX::fill(float value)
-{
+  if (_arr == NULL) return false;
   for (int i = 0; i < _size; i++)
   {
     _arr[i] = value;
   }
   _count = _size;
+  return true;
+}
+
+
+float TOPMAX::getValue(uint8_t index)
+{
+  if ((_arr == NULL) || (index >= _count)) return NAN;
+  return _arr[_count - 1 - index];
 }
 
 
@@ -113,10 +116,12 @@ TOPMAXext::~TOPMAXext()
 {
   if (_tag) free(_tag);
 }
-  
-  
+
+
 bool TOPMAXext::add(float value, uint32_t tag)
 {
+  if (_arr == NULL) return false;
+  if (_tag == NULL) return false;
   //  initial
   if (_count == 0)
   {
@@ -156,25 +161,27 @@ bool TOPMAXext::add(float value, uint32_t tag)
   _arr[i - 1] = value;
   _tag[i - 1] = tag;
   return true;
-  
 }
 
 
-uint32_t TOPMAXext::getTag(uint8_t index)
+bool TOPMAXext::fill(float value, uint32_t tag)
 {
-  if (index > _count) return 0xFFFFFFFF;
-  return _tag[index];
-}
-
-
-void TOPMAXext::fill(float value, uint32_t tag)
-{
+  if (_arr == NULL) return false;
+  if (_tag == NULL) return false;
   for (int i = 0; i < _size; i++)
   {
     _arr[i] = value;
     _tag[i] = tag;
   }
   _count = _size;
+  return true;
+}
+
+
+uint32_t TOPMAXext::getTag(uint8_t index)
+{
+  if ((_tag == NULL) || (index >= _count)) return 0xFFFFFFFF;
+  return _tag[_count - 1 - index];
 }
 
 

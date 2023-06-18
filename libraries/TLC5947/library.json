@@ -1,0 +1,23 @@
+{
+  "name": "TLC5947",
+  "keywords": "",
+  "description": "Arduino library for TLC5947 24 channel 12 bit PWM.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TLC5947.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "TLC5947.h"
+}

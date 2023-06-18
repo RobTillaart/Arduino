@@ -75,23 +75,40 @@ unittest(test_add)
 }
 
 
-unittest(test_getValue)
+unittest(test_getValue_I)
 {
   TOPMIN tm(5);
   assertEqual(5, tm.size());
 
-  for (int i = 10; i > 0; i--)
+  for (int i = 0; i < 10; i++)
+  {
+    assertNAN(tm.getValue(i));
+  }
+
+  for (int i = 0; i < 5; i++)
   {
     tm.add(i);
-    int idx = tm.count();
-    assertEqualFloat(i, tm.getValue(idx - 1), 0.001);
+    assertNotNAN(tm.getValue(i));
+  }
+  assertNAN(tm.getValue(5));
+}
+
+
+unittest(test_getValue_II)
+{
+  TOPMIN tm(5);
+  assertEqual(5, tm.size());
+
+  for (int i = 0; i < 10; i++)
+  {
+    tm.add(i);
+    assertEqualFloat(0, tm.getValue(0), 0.001);
   }
 
   for (int i = 0; i < tm.count(); i++)
   {
     fprintf(stderr, "%f\t", tm.getValue(i));
   }
-
   fprintf(stderr, "\n");
 }
 

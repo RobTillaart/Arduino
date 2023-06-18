@@ -10,7 +10,6 @@
 
 Arduino library to track the top N minima.
 
-
 ## Description
 
 This experimental library tracks the top N minima of a series of values. 
@@ -36,6 +35,18 @@ be used more creatively e.g. 2x 16 bit numbers or even 32 booleans.
 Any mapping is possible (but not part of the library).
 
 
+#### 0.2.0 breaking change
+
+Since version 0.2.0 the minima is found with **getValue(index == 0)**.
+In earlier versions the minima was found with **index == count()**.
+
+The advantage of this change is that independent of the size of the TOPMIN
+object the true minima will always at index == 0. So if you change your code
+and the size of the TOPMIN object, far less code needs to be changed. 
+It also allows to have two or more TOPMIN objects of different size and use one 
+index to access both.
+
+
 #### Links
 
 - https://github.com/RobTillaart/TOPMAX
@@ -54,17 +65,18 @@ Any mapping is possible (but not part of the library).
 
 - **TOPMIN(uint8_t size = 5)** Constructor, defines the number of elements it can hold.
 Default number of elements is 5. If **size** < 3 it will be set to 3.
-The maximum size is currently 255.
+The maximum size is currently 255, or less if there is not enough memory.
 - **uint8_t count()** returns the number of elements in the internal array. 0.. size.
 - **uint8_t size()** returns the maximum number of elements in the internal array. 
 - **void reset()** reset the internal counter to 0, logical clearing of the system.
-- **bool add(float value)** add a value to the TOPMIN object to check of it needs to be 
-in the top N of minima.
+- **bool add(float value)** add a value to the TOPMIN object if it is in the top N of minima.
+If so the largest element is removed.
+Returns false if not added or if there was an allocation error.
 - **float getValue(uint8_t index)** get an element of the internal array.
 The index must be <= **count()**, if not the function currently returns **NaN**.
 This may or may not be a valid value, so the user should guard the **index** parameter carefully.
 - **bool fill(float value)** convenience function to fill the internal array 
-with a single value e.g. 0.
+with a single value e.g. 0. Returns true on success.
 
 
 #### TOPMINext
@@ -73,7 +85,7 @@ Derived from TOPMIN, extended with a tag field.
 
 - **TOPMINext(uint8_t size = 5)** Constructor, defines the number of elements it can hold.
 Default number of elements is 5. If **size** < 3 it will be set to 3.
-The maximum size is currently 255.
+The maximum size is currently 255, or less if there is not enough memory.
 - **bool add(float value, uint32_t tag)** add a value to the TOPMINext object to check if
 it needs to be in the top N of minima. If so add the 32-bit **tag** too (at same index).
 The 32-bit **tag** is typical an index, counter or timestamp, but any semantic is possible.
@@ -88,36 +100,41 @@ with a single value e.g. 0. (tag idem).
 
 #### Must
 
-- keep functional in sync with TOPMAX.
+- keep TOPMIN and TOPMAX functional in sync.
 - improve documentation.
-- 0.2.0 
-  - reverse **getValue() / getTag()** be
-  - index = 0 must be the absolute minima (maxima).
-  - if you change size of TOPMIN object the "winner" gets a different index
-  - better would be to have to reverse ```index = count() - index```
-  - then less code adaptions are needed. 
+
 
 #### Should
 
 - add unit tests.
-  - for the TOPMINext version if possible
-- add more examples.
-  - example creative use of tag field.
-  - example performance measurements (depends on size + inserted values).
-    (Marsaglia PRNG, to be repeatable over platforms).
+  - for extended version if possible.
+
 
 #### Could
 
+- add more examples.
+  - example creative use of tag field.
+- add error handling
+  - TOP_ERR_ALLOCATION
+  - TOP_ERR_INDEX
+  - TOP_NOT_ADDED
+  - TOP_OK
+  - int error; **int lastError()**
 - create template class.
 - **bool check(float value)** and **bool check(float value, uint32_t tag)**
   - if (value < getValue(0)) or so.
+  - **inRange(value)**
   - checks if this value would be added to the TOP-N
 - **TOP** class, in which the condition can be set as parameter.
-  - a function() returning true or false when comparing 2 values. 
-
+  - a function() returning true or false when comparing 2 values.
+- **bool hasValue(float value)** and **bool hasTag(uint32_t tag)**
+  - or **int getIndex(...)** duplicates?
 
 
 #### Wont
 
 - how to handle double/triple etc. entries with same value
   - they are handled as unique elements, that is what I had in mind.
+- optimize loops in **fill()** (maybe upon request)
+  - pointer math
+

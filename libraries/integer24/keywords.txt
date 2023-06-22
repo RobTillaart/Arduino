@@ -1,0 +1,13 @@
+# Syntax Colouring Map For integer24
+
+# Data types (KEYWORD1)
+integer24	KEYWORD1
+uint24_t	KEYWORD1
+int24_t	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+
+# Constants (LITERAL1)
+INTEGER24_LIB_VERSION	LITERAL1
+
+

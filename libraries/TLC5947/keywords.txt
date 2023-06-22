@@ -12,6 +12,10 @@ setPWM	KEYWORD2
 getPWM	KEYWORD2
 setAll	KEYWORD2
 
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+setPercentageAll	KEYWORD2
+
 enable	KEYWORD2
 disable	KEYWORD2
 

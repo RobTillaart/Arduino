@@ -2,20 +2,20 @@
 //
 //    FILE: TLC5947.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
-#define TLC5947_LIB_VERSION             (F("0.1.0"))
+#define TLC5947_LIB_VERSION             (F("0.1.1"))
 
 
 #include "Arduino.h"
 
 
 #define  TLC5947_MAX_CHANNELS           24
-    
+
 
 class TLC5947
 {
@@ -26,10 +26,15 @@ public:
   bool begin();
 
   //  fill the buffer
-  void     setPWM(uint8_t channel, uint16_t PWM);
+  bool     setPWM(uint8_t channel, uint16_t PWM);
   void     setAll(uint16_t PWM);
   //  get from the buffer, might differ from device!
   uint16_t getPWM(uint8_t channel);
+
+  //  percentage wrappers
+  bool     setPercentage(uint8_t channel, float perc);
+  void     setPercentageAll(float perc);
+  float    getPercentage(uint8_t channel);
 
   //  write the buffer to the device
   void     write();

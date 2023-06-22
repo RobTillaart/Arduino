@@ -61,7 +61,7 @@ unittest(test_setPWM_I)
 {
   TLC5947 tlc(13, 12, 11, 10);
   tlc.begin();
-  
+
   for (uint8_t chan = 0; chan < 24; chan++)
   {
     tlc.setPWM(chan, chan * 170);
@@ -81,6 +81,37 @@ unittest(test_setPWM_II)
     assertEqual(tlc.getPWM(chan), 421);
   }
 }
+
+
+unittest(test_setPercentage_I)
+{
+  TLC5947 tlc(13, 12, 11, 10);
+  tlc.begin();
+
+  for (uint8_t chan = 0; chan < 24; chan++)
+  {
+    float val = chan * 4.3478;
+    tlc.setPercentage(chan, val);
+    float rval = tlc.getPercentage(chan);
+    assertEqualFloat(rval, val, 0.02);
+
+    fprintf(stderr, "%d\t%.4f\d%.4f\n", chan, val, rval);
+  }
+}
+
+
+unittest(test_setPercentage_II)
+{
+  TLC5947 tlc(13, 12, 11, 10);
+  tlc.begin();
+
+  tlc.setPercentageAll(12.34);
+  for (uint8_t chan = 0; chan < 24; chan++)
+  {
+    assertEqualFloat(tlc.getPercentage(chan), 12.34, 0.02);
+  }
+}
+
 
 
 unittest_main()

@@ -2,7 +2,7 @@
 //
 //    FILE: MultiMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2011-01-26
 // PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
 //     URL: https://github.com/RobTillaart/MultiMap
@@ -10,53 +10,50 @@
 
 
 
-#define MULTIMAP_LIB_VERSION                (F("0.1.6"))
+#define MULTIMAP_LIB_VERSION                (F("0.1.7"))
 
 
 #include "Arduino.h"
 
 
-// note: the in array should have increasing values
+// note: the in array must have increasing values
 template<typename T>
 T multiMap(T value, T* _in, T* _out, uint8_t size)
 {
-    // take care the value is within range
-    // value = constrain(value, _in[0], _in[size-1]);
-    if (value <= _in[0]) return _out[0];
-    if (value >= _in[size-1]) return _out[size-1];
+  //  output is constrained to out array
+  if (value <= _in[0]) return _out[0];
+  if (value >= _in[size-1]) return _out[size-1];
 
-    // search right interval
-    uint8_t pos = 1;  // _in[0] already tested
-    while(value > _in[pos]) pos++;
+  // search right interval
+  uint8_t pos = 1;  // _in[0] already tested
+  while(value > _in[pos]) pos++;
 
-    // this will handle all exact "points" in the _in array
-    if (value == _in[pos]) return _out[pos];
+  // this will handle all exact "points" in the _in array
+  if (value == _in[pos]) return _out[pos];
 
-    // interpolate in the right segment for the rest
-    return (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+  // interpolate in the right segment for the rest
+  return (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
 }
 
 
-/*
-//  speed optimized version if inputs do not change often e.g.  2 2 2 2 2 3 3 3 3 5 5 5 5 5 5 8 8 8 8 5 5 5 5 5 
-//  implements a minimal cache
+//  performance optimized version if inputs do not change often 
+//     e.g.  2 2 2 2 2 3 3 3 3 5 5 5 5 5 5 8 8 8 8 5 5 5 5 5 
+//  implements a minimal cache of the lastValue.
 //
-//  note: the in array should have increasing values
-
+//  note: the in array must have increasing values
 template<typename T>
-T multiMap(T value, T* _in, T* _out, uint8_t size)
+T multiMapCache(T value, T* _in, T* _out, uint8_t size)
 {
-  static T lastvalue = -1;
+  static T lastValue = -1;
   static T cache = -1;  
 
-  if (value == lastvalue)
+  if (value == lastValue)
   {
     return cache;
   }
-  lastvalue = value;
+  lastValue = value;
 
-  // take care the value is within range
-  // value = constrain(value, _in[0], _in[size-1]);
+  //  output is constrained to out array
   if (value <= _in[0])
   {
     cache = _out[0];
@@ -67,7 +64,7 @@ T multiMap(T value, T* _in, T* _out, uint8_t size)
   }
   else
   {
-    // search right interval; index 0 _in[0] already tested
+    //  search right interval; index 0 _in[0] already tested
     uint8_t pos = 1;  
     while(value > _in[pos]) pos++;
     
@@ -84,8 +81,32 @@ T multiMap(T value, T* _in, T* _out, uint8_t size)
   }
   return cache;
 }
-*/
 
 
-// -- END OF FILE --
+//  binary search version, should be faster for size > 10 
+//  (rule of thumb)
+//
+// note: the in array must have increasing values
+template<typename T>
+T multiMapBS(T value, T* _in, T* _out, uint16_t size)
+{
+  //  output is constrained to out array
+  if (value <= _in[0]) return _out[0];
+  if (value >= _in[size-1]) return _out[size-1];
+
+  // Binary Search
+  uint16_t lower = 0;
+  uint16_t upper = size - 1;
+  while (lower < upper - 1)
+  {
+    uint16_t mid = (lower + upper) / 2;
+    if (value >= _in[mid]) lower = mid;
+    else upper = mid;
+  }
+
+  return (value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower]) + _out[lower];
+}
+
+
+//  -- END OF FILE --
 

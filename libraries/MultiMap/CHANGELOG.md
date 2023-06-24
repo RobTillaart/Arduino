@@ -6,12 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2023-06-24
+- add **multiMapCache()**, experimental version that caches the last value.
+  to be used with input that do not change often.
+- add **multiMapBS()**, experimental version that uses binary search.
+  to be used with arrays > 10 (rule of thumb)
+- add examples
+- major rewrite readme.md
+
+
 ## [0.1.6] - 2022-11-17
 - add RP2040 in build-CI
 - add changelog.md
 - update readme.md
 - clean up unit test
-
 
 ## [0.1.5] - 2021-12-22
 - update library.json

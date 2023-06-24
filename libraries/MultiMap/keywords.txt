@@ -5,6 +5,8 @@
 
 # Methods and Functions (KEYWORD2)
 multiMap	KEYWORD2
+multiMapCache	KEYWORD2
+multiMapBS	KEYWORD2
 
 
 # Constants (LITERAL1)

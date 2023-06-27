@@ -21,7 +21,10 @@ for the following two 24 bit data types:
 Version 0.1.0 implements a **typedef** for both types.
 
 Note: AVR does support __uint24 and __int24 which uses only 3 bytes.
-This allows an UNO to have 30% more elements (in theory).
+This allows an UNO to have ~30% more elements (in theory).
+
+This library is only (limited) tested with AVR - UNO.  
+So use with care.
 
 
 #### Range
@@ -37,12 +40,13 @@ Note the range for other platforms may change in the future to
 those matching AVR.
 
 If other platforms are known to implement (3byte) int24 data types
-please let me know so I can add these. 
+please let me know so I can add these.
 
 
 #### Known limitations
 
 - The AVR uint24_t and int24_t cannot be printed without casting.
+  - see integer24_explore_printing.ino
 - Arduino-CI does not implement __int24 __uint24 so no tests can be done.
 
 
@@ -51,15 +55,22 @@ please let me know so I can add these.
 #### Must
 
 - get hands on experience, especially AVR
+- document what is learned.
+
 
 #### Should
 
-- improve documentation
+- implement **char \* convert24(int24_t)** and **char \* convert24(uint24_t)**
+  - length = 8 + \0 = 9
+  - fprintf(buf, "%d", (uint32_t)val); ?
+  - char *  itoa ( int value, char * str, int base );
+  - see integer24_explore_printing.ino
 
 #### Could
 
-- implement a class for both types?
+- implement a class for both types
   - implement **printTo()**
+  - basic math, comparison, negation, ...
 
 #### Won't 
 

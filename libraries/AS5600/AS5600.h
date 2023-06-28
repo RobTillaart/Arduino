@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.3.8"))
+#define AS5600_LIB_VERSION              (F("0.4.0"))
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;

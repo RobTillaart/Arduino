@@ -45,13 +45,21 @@ Please share your experiences.
 
 The I2C address of the **AS5600** is always 0x36.
 
-The AS5600 datasheet states it supports Fast-Mode == 400 KHz
-and Fast-Mode-Plus == 1000 KHz. 
-Tests with an AS5600L (UNO) failed at 400 KHz (needs investigation).
-
 The sensor should connect the I2C lines SDA and SCL and the
 VCC and GND to communicate with the processor.
 Do not forget to add the pull up resistors to improve the I2C signals.
+
+The AS5600 datasheet states it supports Fast-Mode == 400 KHz
+and Fast-Mode-Plus == 1000 KHz.
+
+#### Pull ups
+
+I2C performance tests with an AS5600L with an UNO failed at 400 KHz. 
+After investigation it became clear that pull ups are mandatory.
+The UNO expects 5 Volt I2C signals from the AS5600.
+However the device only provides 3V3 pulses on the bus.
+So the signal was not stable fast enough (not "square enough").
+After applying pull ups the AS5600L worked up to 1000 KHz.
 
 
 #### DIR pin
@@ -630,8 +638,8 @@ priority is relative.
 
 #### Must
 
-- re-organize readme (0.4.0)
-- rename revolution functions (0.4.0)
+- re-organize readme
+- rename revolution functions
   - to what?
 
 
@@ -650,8 +658,6 @@ priority is relative.
   - 1 minute (need HW)
 - check Timing Characteristics (datasheet)
   - is there improvement possible.
-- investigate why AS5600L failed at 400 KHz I2C
-  - repeatable?
 
 
 #### Could

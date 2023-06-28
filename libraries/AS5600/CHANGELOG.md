@@ -5,12 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-06-27
+- fix #39 support for Wire2 on ESP32
+- update readme.md
+
+----
+
 ## [0.3.8] - 2023-06-18
 - add **void burnSetting()** improvements from #38
   - use with care
   - add sketches to burn settings (use with care!)
 - minor edits.
-
 
 ## [0.3.7] - 2023-05-09
 - change **getCumulativePosition()** to use **AS5600_ANGLE**

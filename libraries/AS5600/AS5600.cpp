@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -56,6 +56,7 @@ AS5600::AS5600(TwoWire *wire)
 
 
 #if defined (ESP8266) || defined(ESP32)
+
 bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
 {
   _directionPin = directionPin;
@@ -65,7 +66,6 @@ bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
   }
   setDirection(AS5600_CLOCK_WISE);
 
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -75,6 +75,7 @@ bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
   if (! isConnected()) return false;
   return true;
 }
+
 #endif
 
 

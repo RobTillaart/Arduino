@@ -20,6 +20,11 @@ Another important difference is that this library uses floats.
 The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well. 
 Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
+Note that the 24 bits of the HX711 contains some noise so depending on setup, 
+load etc. only 16 to 20 of the bits are expected significant in practice. 
+This translates roughly to 4 or max 5 significant digits in a single measurement
+That's why multiple measurements are advised to average and reduce the noise.
+
 
 #### Breaking change 0.3.0
 
@@ -53,13 +58,17 @@ This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
+#### Links
+
+-  https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+
 
 ## Main flow
 
 First action is to call **begin(dataPin, clockPin)** to make connection to the **HX711**.
 
 Second step is calibration for which a number of functions exist.
-- **tare()** measures zero point
+- **tare()** measures zero point.
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
 - **calibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
 
@@ -170,26 +179,62 @@ Note that in **HX711_RAW_MODE** times will be ignored => just call **read()** on
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
-- **void set_scale(float scale = 1.0)** set scale factor; scale > 0.
+- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive number larger than 50. Depends on load-cell used.
+Returns false if scale == 0.
 - **float get_scale()** returns set scale factor.
 - **void set_offset(long offset = 0)** idem.
 - **long get_offset()** idem.
 
 
-#### Tare & calibration
+#### Tare & calibration I
 
 Steps to take for calibration
-1. clear the scale
-1. call tare() to set the zero offset
-1. put a known weight on the scale 
-1. call calibrate_scale(weight) 
+1. clear the scale.
+1. call **tare()** to determine and set the zero offset.
+1. put a known weight on the scale.
+1. call **calibrate_scale(weight)**.
 1. scale is calculated.
 1. save the offset and scale for later use e.g. EEPROM.
 
-- **void tare(uint8_t times = 10)** call tare to calibrate zero level
-- **float get_tare()** idem.
+- **void tare(uint8_t times = 10)** call tare to determine the offset
+to calibrate the zero (reference) level. See below.
+- **float get_tare()** returns the offset \* scale.
+Note this differs after calls to **calibrate_scale()**.
+Use **get_offset()** to get only the offset.
 - **bool tare_set()** checks if a tare has been set.
+Assumes offset is not zero, which is true for all load cells tested.
 - **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
+
+
+#### Tare & calibration II
+
+A load cell + HX711 module without weight gives a raw value, mostly not equal to zero.
+The function **get_tare()** is used to measure this raw value and allows the user
+to define this value as a zero weight (force) point.
+This zero point is normally without any load, however it is possible to define 
+a zero point with a "fixed" load e.g. a cup, a dish, even a spring or whatever.
+This allows the system to automatically subtract the weight of the cup etc.
+
+Warning: The user must be aware that the "fixed" load together with the 
+"variable" load does not exceed the specifications of the load cell.
+
+E.g. a load cell which can handle 1000 grams with a cup of 300 grams should not 
+be calibrated with a weight of more than 700 grams.
+In fact it is better to calibrate with a weight in the order of 80 to 90% of 
+the maximum load so in this example a weight of 500 to 600 grams.
+
+Furthermore it is also important to do the calibration at the temperature you 
+expect to do the weight measurements. See temperature section below.
+
+
+#### Inner formula
+
+Weight = **get_scale()** x raw + **get_tare()**.
+
+With the two parameters one can interpolate the inner formula.
+This can be used e.g to make an ideal graph of the conversion.
+This can be compared with actual values to get an indication
+of the accuracy of the load cell.
 
 
 #### Power management
@@ -266,26 +311,25 @@ differences in your code.
 
 #### Should
 
-- add examples
-- optimize the build-in **ShiftIn()** function to improve performance again.
 - investigate read()
   - investigate the need of yield after interrupts
-  - investigate blocking loop at begin of read()
-- why store the gain as \_gain while the iterations m = 1..3 is used most
-  - read() less code (changes from explanatory code to vague)
-  - very small performance gain.
-  - code moves to both get/set_gain() so footprint might rise.
+  - investigate blocking loop at begin => less yield() calls ?
 
 
 #### Could
 
 - test different load cells
 - make enum of the MODE's
-- move code to .cpp
-- example the adding scale
+- add examples
+  - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
+- decide pricing keep/not => move to .cpp
 
 
 #### Wont
 
-
+- why store the gain as \_gain while the iterations m = 1..3 is used most
+  - read() less code
+  - **changes from explanatory code to vague**
+  - very small performance gain.
+  - code moves to both get/set_gain() so footprint might rise.

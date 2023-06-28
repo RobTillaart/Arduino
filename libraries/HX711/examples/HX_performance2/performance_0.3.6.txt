@@ -1,0 +1,18 @@
+
+Run with no HW
+----------------------
+LIBRARY VERSION: 0.3.6
+
+Counting get_units() calls for 1 minute...
+calls per minute: 157918
+calls per second: 2631.97
+
+
+
+Run with HW
+----------------------
+LIBRARY VERSION: 0.3.6
+
+Counting get_units() calls for 1 minute...
+calls per minute: 636
+calls per second: 10.60

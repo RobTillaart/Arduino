@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 
@@ -15,7 +15,9 @@ HX711::HX711()
 }
 
 
-HX711::~HX711() {}
+HX711::~HX711()
+{
+}
 
 
 void HX711::begin(uint8_t dataPin, uint8_t clockPin)
@@ -49,6 +51,42 @@ bool HX711::is_ready()
 }
 
 
+void HX711::wait_ready(uint32_t ms)
+{
+  while (!is_ready())
+  {
+    delay(ms);
+  }
+}
+
+
+bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms)
+{
+  while (retries--)
+  {
+    if (is_ready()) return true;
+    delay(ms);
+  }
+  return false;
+}
+
+
+bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
+{
+  uint32_t start = millis();
+  while (millis() - start < timeout)
+  {
+    if (is_ready()) return true;
+    delay(ms);
+  }
+  return false;
+}
+
+
+///////////////////////////////////////////////////////////
+//
+//  READ
+//
 //  From datasheet page 4
 //  When output data is not ready for retrieval,
 //       digital output pin DOUT is HIGH.
@@ -108,78 +146,6 @@ float HX711::read()
 
   _lastRead = millis();
   return 1.0 * v.value;
-}
-
-
-//  note: if parameter gain == 0xFF40 some compilers
-//  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
-//  solution: use uint32_t or larger parameters everywhere.
-//  note that changing gain/channel may take up to 400 ms (page 3)
-bool HX711::set_gain(uint8_t gain, bool forced)
-{
-  if ( (not forced) && (_gain == gain)) return true;
-  switch(gain)
-  {
-    case HX711_CHANNEL_B_GAIN_32:
-    case HX711_CHANNEL_A_GAIN_64:
-    case HX711_CHANNEL_A_GAIN_128:
-      _gain = gain;
-      read();     //  next user read() is from right channel / gain
-      return true;
-  }
-  return false;   //  unchanged, but incorrect value.
-}
-
-
-uint8_t HX711::get_gain()
-{
-  return _gain;
-}
-
-
-//  assumes tare() has been set.
-void HX711::calibrate_scale(uint16_t weight, uint8_t times)
-{
-  _scale = (1.0 * weight) / (read_average(times) - _offset);
-}
-
-
-//  OBSOLETE 0.4.0  (LL is wrong)
-void HX711::callibrate_scale(uint16_t weight, uint8_t times)
-{
-  calibrate_scale(weight, times);
-};
-
-
-void HX711::wait_ready(uint32_t ms)
-{
-  while (!is_ready())
-  {
-    delay(ms);
-  }
-}
-
-
-bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms)
-{
-  while (retries--)
-  {
-    if (is_ready()) return true;
-    delay(ms);
-  }
-  return false;
-}
-
-
-bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
-{
-  uint32_t start = millis();
-  while (millis() - start < timeout)
-  {
-    if (is_ready()) return true;
-    delay(ms);
-  }
-  return false;
 }
 
 
@@ -252,22 +218,44 @@ float HX711::read_runavg(uint8_t times, float alpha)
 }
 
 
-void HX711::_insertSort(float * array, uint8_t size)
+///////////////////////////////////////////////////////
+//
+//  MODE
+//
+void HX711::set_raw_mode()
 {
-  uint8_t t, z;
-  float temp;
-  for (t = 1; t < size; t++)
-  {
-    z = t;
-    temp = array[z];
-    while( (z > 0) && (temp < array[z - 1] ))
-    {
-      array[z] = array[z - 1];
-      z--;
-    }
-    array[z] = temp;
-    yield();
-  }
+  _mode = HX711_RAW_MODE;
+}
+
+
+void HX711::set_average_mode()
+{
+  _mode = HX711_AVERAGE_MODE;
+}
+
+
+void HX711::set_median_mode()
+{
+  _mode = HX711_MEDIAN_MODE;
+}
+
+
+void HX711::set_medavg_mode()
+{
+  _mode = HX711_MEDAVG_MODE;
+}
+
+
+//  set_run_avg will use a default alpha of 0.5.
+void HX711::set_runavg_mode()
+{
+  _mode = HX711_RUNAVG_MODE;
+}
+
+
+uint8_t HX711::get_mode()
+{
+  return _mode;
 }
 
 
@@ -304,6 +292,99 @@ float HX711::get_units(uint8_t times)
 };
 
 
+///////////////////////////////////////////////////////
+//
+//  TARE
+//
+void HX711::tare(uint8_t times)
+{
+  _offset = read_average(times);
+}
+
+
+float HX711::get_tare()
+{
+  return -_offset * _scale;
+}
+
+
+bool HX711::tare_set()
+{
+  return _offset != 0;
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  GAIN
+//
+//  note: if parameter gain == 0xFF40 some compilers
+//  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
+//  solution: use uint32_t or larger parameters everywhere.
+//  note that changing gain/channel may take up to 400 ms (page 3)
+bool HX711::set_gain(uint8_t gain, bool forced)
+{
+  if ( (not forced) && (_gain == gain)) return true;
+  switch(gain)
+  {
+    case HX711_CHANNEL_B_GAIN_32:
+    case HX711_CHANNEL_A_GAIN_64:
+    case HX711_CHANNEL_A_GAIN_128:
+      _gain = gain;
+      read();     //  next user read() is from right channel / gain
+      return true;
+  }
+  return false;   //  unchanged, but incorrect value.
+}
+
+
+uint8_t HX711::get_gain()
+{
+  return _gain;
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  CALIBRATION AND SETUP
+//
+bool HX711::set_scale(float scale)
+{
+  if (scale == 0) return false;
+  _scale = 1.0 / scale;
+  return true;
+}
+
+
+float HX711::get_scale()
+{
+  return 1.0 / _scale;
+}
+
+
+void HX711::set_offset(long offset)
+{
+  _offset = offset;
+}
+
+
+long HX711::get_offset()
+{
+  return _offset;
+}
+
+
+//  assumes tare() has been set.
+void HX711::calibrate_scale(uint16_t weight, uint8_t times)
+{
+  _scale = (1.0 * weight) / (read_average(times) - _offset);
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  POWER
+//
 void HX711::power_down()
 {
   //  at least 60 us HIGH
@@ -315,6 +396,40 @@ void HX711::power_down()
 void HX711::power_up()
 {
   digitalWrite(_clockPin, LOW);
+}
+
+
+///////////////////////////////////////////////////////
+//
+//  MISC
+//
+uint32_t HX711::last_read()
+{
+  return _lastRead;
+}
+
+
+/////////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+
+void HX711::_insertSort(float * array, uint8_t size)
+{
+  uint8_t t, z;
+  float temp;
+  for (t = 1; t < size; t++)
+  {
+    z = t;
+    temp = array[z];
+    while( (z > 0) && (temp < array[z - 1] ))
+    {
+      array[z] = array[z - 1];
+      z--;
+    }
+    array[z] = temp;
+    yield();
+  }
 }
 
 

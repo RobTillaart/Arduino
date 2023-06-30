@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
 //          template version 1.0.0 by Glen Cornell
-// VERSION: 1.0.4
+// VERSION: 1.0.5
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See CHANGELOG.md
 //
@@ -37,7 +37,7 @@
 // and HAVE_STDCXX_CSTDINT feature macros in your build environment.
 
 
-#define STATISTIC_LIB_VERSION                     (F("1.0.4"))
+#define STATISTIC_LIB_VERSION                     (F("1.0.5"))
 
 
 #if defined(__AVR__)
@@ -191,6 +191,13 @@ public:
   value_type sum() const     { return _sum; };   //  zero if count == zero
   value_type minimum() const { return _min; };   //  zero if count == zero
   value_type maximum() const { return _max; };   //  zero if count == zero
+  value_type range() const   { return _max - _min; };   //  zero if count == zero
+  value_type middle() const
+  {
+    //  prevent over- or underflow if value_type is an int type
+    double mid = _max * 0.5 + _min * 0.5;
+    return (value_type) mid;
+  };   //  zero if count == zero
 
 
   //  NAN if count == zero

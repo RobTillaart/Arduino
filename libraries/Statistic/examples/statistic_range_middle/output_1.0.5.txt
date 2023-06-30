@@ -1,0 +1,104 @@
+D:\Rob\WORK\Arduino\libraries\Statiop stdev: 28.8965
+ range/stddev: 3.4589
+=====================================
+D:\Rob\WORK\Arduino\libraries\Statistic\examples\statistic_range_middle\statistic_range_middle.ino
+STATISTIC_LIB_VERSION: 1.0.5
+        Count: 10000
+          Min: 1.0100
+          Max: 100.9600
+        Range: 99.9500
+       Middle: 50.9850
+      Average: 50.9408
+ middle - avg: 0.0442
+     variance: 835.0057
+    pop stdev: 28.8965
+ range/stddev: 3.4589
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 51.4161
+ middle - avg: -0.4261
+     variance: 839.9565
+    pop stdev: 28.9820
+ range/stddev: 3.4497
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 50.9561
+ middle - avg: 0.0339
+     variance: 833.2212
+    pop stdev: 28.8656
+ range/stddev: 3.4636
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9700
+        Range: 99.9700
+       Middle: 50.9850
+      Average: 51.4648
+ middle - avg: -0.4798
+     variance: 849.5839
+    pop stdev: 29.1476
+ range/stddev: 3.4298
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 50.8610
+ middle - avg: 0.1290
+     variance: 842.0071
+    pop stdev: 29.0174
+ range/stddev: 3.4455
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 51.2327
+ middle - avg: -0.2427
+     variance: 816.5170
+    pop stdev: 28.5748
+ range/stddev: 3.4989
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 50.8115
+ middle - avg: 0.1785
+     variance: 835.1608
+    pop stdev: 28.8991
+ range/stddev: 3.4596
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9800
+        Range: 99.9800
+       Middle: 50.9900
+      Average: 50.7948
+ middle - avg: 0.1952
+     variance: 842.5279
+    pop stdev: 29.0263
+ range/stddev: 3.4445
+=====================================
+        Count: 10000
+          Min: 1.0000
+          Max: 100.9500
+        Range: 99.9500
+       Middle: 50.9750
+      Average: 51.0943
+ middle - avg: -0.1193
+     variance: 831.8248
+    pop stdev: 28.8414
+ range/stddev: 3.4655
+=====================================

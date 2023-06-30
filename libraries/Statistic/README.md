@@ -38,10 +38,12 @@ The stability of the formulas is improved by the help of Gil Ross (Thanks!).
 
 The template version (1.0.0) is created by Glen Cornell  (Thanks!).
 
+
 #### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/Histogram
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
@@ -64,6 +66,7 @@ You can override e.g. **statistic::Statistic<double, uint64_t, false>** for many
 (assumes double >> float).
 - **void clear()** resets all internal variables and counters.
 
+
 #### Core
 
 - **typename T add(const typename T value)** returns value actually added to internal sum.
@@ -74,7 +77,9 @@ Alternatively one need to define the statistic object with a more precise data t
 - **typename T sum()**      returns zero if count == zero.
 - **typename T minimum()**  returns zero if count == zero.
 - **typename T maximum()**  returns zero if count == zero.
-- **typename T average()**  returns NAN  if count == zero.
+- **typename T range()**    returns maximum - minimum. 
+- **typename T middle()**   returns (minimum + maximum)/2. If T is an integer type rounding errors are possible.
+- **typename T average()**  returns NAN if count == zero.
 
 These three functions only work if **useStdDev == true** (in the template).
 
@@ -84,13 +89,27 @@ pop_stdev = population standard deviation,
 - **typename T unbiased_stdev()** returns NAN if count == zero.
 
 
-#### Deprecated methods:
+#### Deprecated methods
 
 - **Statistic(bool)** Constructor previously used to enable/disable the standard deviation functions. 
 This argument now has no effect.  It is recommended to migrate your code to the default constructor 
 (which now also implicitly calls `clear()`).
 - **void clear(bool)** resets all variables.  The boolean argument is ignored. 
 It is recommended to migrate your code to `clear()` (with no arguments).
+
+
+#### Range() and middle()
+
+**Range()** and **middle()** are fast functions with limited statistical value. 
+Still they have their uses.
+
+Given enough samples (e.g. 100+) and a normal distribution of the samples the **range()** is expected 
+to be 3 to 4 times the **pop_stdev()**. 
+If the range is larger than 4 standard deviations one might have added one or more outliers.
+
+Given enough samples (e.g. 100+) and a normal distribution, the **middle()** and **average()** are 
+expected to be close to each other.
+Note: outliers can disrupt the **middle()**, Several non-normal distributions do too.
 
 
 ## Operational
@@ -112,13 +131,7 @@ See https://github.com/RobTillaart/Statistic/blob/master/FAQ.md
 
 #### Should
 
-- return values of **sum(), minimum(), maximum()** when **count()** == zero
-  - should these be NaN, which is technically more correct?
-  - does it exist for all value types? => No!
-  - for now user responsibility to check **count()** first.
-  - refactor \_cnt to \_count
 - remove deprecated methods. (1.1.0)
-
 
 #### Could
 
@@ -130,7 +143,14 @@ See https://github.com/RobTillaart/Statistic/blob/master/FAQ.md
   - do not forget to add **EA** times count for sum.
   - does not affect the **std_dev()**
   - all functions will become slightly slower.
-
+  - maybe in a derived class?
+- **lastTimeAdd()** convenience, user can track timestamp
+- **largestDelta()** largest difference between two consecutive additions.
+  - need lastValue + delta so far.
 
 #### Wont
 
+- return values of **sum(), minimum(), maximum()** when **count()** == zero
+  - should these be NaN, which is technically more correct?
+  - does it exist for all value types? => No!
+  - user responsibility to check **count()** first.

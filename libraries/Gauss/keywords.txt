@@ -1,0 +1,23 @@
+# Syntax Colouring Map For Gauss
+
+# Data types (KEYWORD1)
+Gauss	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+
+begin	KEYWORD2
+
+P_smaller	KEYWORD2
+P_larger	KEYWORD2
+P_between	KEYWORD2
+P_equal	KEYWORD2
+
+stddevs	KEYWORD2
+normalize	KEYWORD2
+bellCurve	KEYWORD2
+
+
+# Constants (LITERAL1)
+GAUSS_LIB_VERSION	LITERAL1
+
+

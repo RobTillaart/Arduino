@@ -1,0 +1,31 @@
+{
+  "name": "Gauss",
+  "keywords": "Probability",
+  "description": "Library for the Gauss probability math.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Gauss.git"
+  },
+  "dependencies":
+  [
+    {
+      "owner": "Rob Tillaart",
+      "name": "MultiMap",
+      "version": "^0.1.7"
+    }
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "Gauss.h"
+}

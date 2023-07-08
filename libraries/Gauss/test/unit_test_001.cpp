@@ -40,10 +40,14 @@ unittest_teardown()
 unittest(test_constructor)
 {
   Gauss G;
+ 
+  assertEqualFloat(0.0, G.getMean(), 0.0001);
+  assertEqualFloat(1.0, G.getStdDev(), 0.0001);
+  assertEqualFloat(0.5, G.P_smaller(0), 0.0001);
 
-  G.begin(0, 1);
-
-  assertEqualFloat(0.5, G.P_smaller(0), 0.001);
+  G.begin(10, 3);
+  assertEqualFloat(10.0, G.getMean(), 0.0001);
+  assertEqualFloat(3.0,  G.getStdDev(), 0.0001);
 }
 
 
@@ -53,13 +57,17 @@ unittest(test_P_smaller)
 
   G.begin(0, 1);
 
-  assertEqualFloat(0.0013, G.P_smaller(-3.0), 0.001);
-  assertEqualFloat(0.0228, G.P_smaller(-2.0), 0.001);
-  assertEqualFloat(0.1587, G.P_smaller(-1.0), 0.001);
-  assertEqualFloat(0.5000, G.P_smaller(0.0), 0.001);
-  assertEqualFloat(0.8413, G.P_smaller(1.0), 0.001);
-  assertEqualFloat(0.9772, G.P_smaller(2.0), 0.001);
-  assertEqualFloat(0.9987, G.P_smaller(3.0), 0.001);
+  assertEqualFloat(0.0000, G.P_smaller(-6.0), 0.0001);
+  assertEqualFloat(0.0001, G.P_smaller(-4.0), 0.0001);
+  assertEqualFloat(0.0013, G.P_smaller(-3.0), 0.0001);
+  assertEqualFloat(0.0228, G.P_smaller(-2.0), 0.0001);
+  assertEqualFloat(0.1587, G.P_smaller(-1.0), 0.0001);
+  assertEqualFloat(0.5000, G.P_smaller(0.0), 0.0001);
+  assertEqualFloat(0.8413, G.P_smaller(1.0), 0.0001);
+  assertEqualFloat(0.9772, G.P_smaller(2.0), 0.0001);
+  assertEqualFloat(0.9987, G.P_smaller(3.0), 0.0001);
+  assertEqualFloat(0.9999, G.P_smaller(4.0), 0.0001);
+  assertEqualFloat(1.0000, G.P_smaller(6.0), 0.0001);
 }
 
 
@@ -69,13 +77,13 @@ unittest(test_P_larger)
 
   G.begin(0, 1);
 
-  assertEqualFloat(0.9987, G.P_larger(-3.0), 0.001);
-  assertEqualFloat(0.9772, G.P_larger(-2.0), 0.001);
-  assertEqualFloat(0.8413, G.P_larger(-1.0), 0.001);
-  assertEqualFloat(0.5000, G.P_larger(0.0), 0.001);
-  assertEqualFloat(0.1587, G.P_larger(1.0), 0.001);
-  assertEqualFloat(0.0228, G.P_larger(2.0), 0.001);
-  assertEqualFloat(0.0013, G.P_larger(3.0), 0.001);
+  assertEqualFloat(0.9987, G.P_larger(-3.0), 0.0001);
+  assertEqualFloat(0.9772, G.P_larger(-2.0), 0.0001);
+  assertEqualFloat(0.8413, G.P_larger(-1.0), 0.0001);
+  assertEqualFloat(0.5000, G.P_larger(0.0), 0.0001);
+  assertEqualFloat(0.1587, G.P_larger(1.0), 0.0001);
+  assertEqualFloat(0.0228, G.P_larger(2.0), 0.0001);
+  assertEqualFloat(0.0013, G.P_larger(3.0), 0.0001);
 }
 
 
@@ -85,13 +93,13 @@ unittest(test_P_between)
 
   G.begin(0, 1);
 
-  assertEqualFloat(0.4987, G.P_between(-3.0, 0.0), 0.001);
-  assertEqualFloat(0.4772, G.P_between(-2.0, 0.0), 0.001);
-  assertEqualFloat(0.3413, G.P_between(-1.0, 0.0), 0.001);
-  assertEqualFloat(0.0000, G.P_between(0.0, 0.0), 0.001);
-  assertEqualFloat(0.3413, G.P_between(0.0, 1.0), 0.001);
-  assertEqualFloat(0.4772, G.P_between(0.0, 2.0), 0.001);
-  assertEqualFloat(0.4987, G.P_between(0.0, 3.0), 0.001);
+  assertEqualFloat(0.4987, G.P_between(-3.0, 0.0), 0.0001);
+  assertEqualFloat(0.4772, G.P_between(-2.0, 0.0), 0.0001);
+  assertEqualFloat(0.3413, G.P_between(-1.0, 0.0), 0.0001);
+  assertEqualFloat(0.0000, G.P_between(0.0, 0.0), 0.0001);
+  assertEqualFloat(0.3413, G.P_between(0.0, 1.0), 0.0001);
+  assertEqualFloat(0.4772, G.P_between(0.0, 2.0), 0.0001);
+  assertEqualFloat(0.4987, G.P_between(0.0, 3.0), 0.0001);
 }
 
 
@@ -101,13 +109,29 @@ unittest(test_P_equal)
 
   G.begin(0, 1);
 
-  assertEqualFloat(0.004432, G.P_equal(-3.0), 0.001);
-  assertEqualFloat(0.053991, G.P_equal(-2.0), 0.001);
-  assertEqualFloat(0.241971, G.P_equal(-1.0), 0.001);
-  assertEqualFloat(0.398942, G.P_equal(0.0), 0.001);
-  assertEqualFloat(0.241971, G.P_equal(1.0), 0.001);
-  assertEqualFloat(0.053991, G.P_equal(2.0), 0.001);
-  assertEqualFloat(0.004432, G.P_equal(3.0), 0.001);
+  assertEqualFloat(0.004432, G.P_equal(-3.0), 0.0001);
+  assertEqualFloat(0.053991, G.P_equal(-2.0), 0.0001);
+  assertEqualFloat(0.241971, G.P_equal(-1.0), 0.0001);
+  assertEqualFloat(0.398942, G.P_equal(0.0), 0.0001);
+  assertEqualFloat(0.241971, G.P_equal(1.0), 0.0001);
+  assertEqualFloat(0.053991, G.P_equal(2.0), 0.0001);
+  assertEqualFloat(0.004432, G.P_equal(3.0), 0.0001);
+}
+
+
+unittest(test_normailze)
+{
+  Gauss G;
+
+  G.begin(100, 25);
+
+  assertEqualFloat(-3.0, G.normalize(25), 0.0001);
+  assertEqualFloat(-2.0, G.normalize(50), 0.0001);
+  assertEqualFloat(-1.0, G.normalize(75), 0.0001);
+  assertEqualFloat(0.0, G.normalize(100), 0.0001);
+  assertEqualFloat(1.0, G.normalize(125), 0.0001);
+  assertEqualFloat(2.0, G.normalize(150), 0.0001);
+  assertEqualFloat(3.0, G.normalize(175), 0.0001);
 }
 
 
@@ -115,3 +139,4 @@ unittest_main()
 
 
 //  -- END OF FILE --
+

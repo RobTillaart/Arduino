@@ -17,9 +17,9 @@ void setup(void)
   Serial.println();
 
   test_1();
-  test_2();
-  test_3();
-  test_4();
+//  test_2();
+//  test_3();
+//  test_4();
 
   Serial.println("\ndone...");
 }

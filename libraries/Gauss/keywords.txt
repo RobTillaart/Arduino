@@ -6,6 +6,8 @@ Gauss	KEYWORD1
 # Methods and Functions (KEYWORD2)
 
 begin	KEYWORD2
+getMean	KEYWORD2
+getStdDev	KEYWORD2
 
 P_smaller	KEYWORD2
 P_larger	KEYWORD2

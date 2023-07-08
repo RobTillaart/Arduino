@@ -20,7 +20,7 @@ void setup(void)
   Serial.print("GAUSS_LIB_VERSION: ");
   Serial.println(GAUSS_LIB_VERSION);
   Serial.println();
-  Serial.println("Timing in micros");
+  Serial.println("Timing in micros (1000 calls)");
   Serial.println();
   
   test_1();

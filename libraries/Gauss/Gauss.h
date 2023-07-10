@@ -2,15 +2,14 @@
 //
 //    FILE: Gauss.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Library for the Gauss probability math.
 //    DATE: 2023-07-06
 
 
 #include "Arduino.h"
-#include "MultiMap.h"
 
-#define GAUSS_LIB_VERSION       (F("0.1.1"))
+#define GAUSS_LIB_VERSION       (F("0.2.0"))
 
 
 class Gauss
@@ -19,7 +18,6 @@ public:
   Gauss()
   {
     _mean = 0;
-    _stddev = 1;
     _reciprokeSD = 1;
   }
 
@@ -27,8 +25,8 @@ public:
   bool begin(float mean = 0, float stddev = 1)
   {
     _mean = mean;
-    _stddev = stddev;  //  should be positive
-    _reciprokeSD = 1.0 / _stddev;
+    if (stddev == 0) _reciprokeSD = NAN;
+    else _reciprokeSD = 1.0 / stddev;
     return (stddev > 0);
   }
 
@@ -41,14 +39,13 @@ public:
 
   float getStdDev()
   {
-    return _stddev;
+    return 1.0 / _reciprokeSD;
   }
 
 
   float P_smaller(float value)
   {
-    if (_stddev == 0) return NAN;
-    //  normalize(value)
+    if (_reciprokeSD == NAN) return NAN;
     return _P_smaller((value - _mean) * _reciprokeSD);
   }
 
@@ -61,18 +58,25 @@ public:
 
   float P_between(float p, float q)
   {
-    if (_stddev == 0) return NAN;
+    if (_reciprokeSD == NAN) return NAN;
     if (p >= q) return 0;
     return P_smaller(q) - P_smaller(p);
   }
 
 
+  float P_outside(float p, float q)
+  {
+    return 1.0 - P_between(p, q);
+  }
+
+
   float P_equal(float value)
   {
-    if (_stddev == 0) return NAN;
+    if (_reciprokeSD == NAN) return NAN;
     float n = (value - _mean) * _reciprokeSD;
+    //  gain of ~10% if we allocate a global var for 'constant' c
     float c = _reciprokeSD * (1.0 / sqrt(TWO_PI));
-    return c * exp(-0.5 * n * n);
+    return c * exp(-0.5 * (n * n));
   }
 
 
@@ -88,9 +92,21 @@ public:
   }
 
 
+  float denormalize(float value)
+  {
+    return value / _reciprokeSD + _mean;
+  }
+
+
   float bellCurve(float value)
   {
     return P_equal(value);
+  }
+
+
+  float CDF(float value)
+  {
+    return P_smaller(value);
   }
 
 
@@ -100,6 +116,8 @@ private:
   float _P_smaller(float x)
   {
     //  NORM.DIST(mean, stddev, x, true)
+    //  these points correspond with
+    //  0.0 .. 3.0 in steps of 0.1 followed by 4.0, 5.0 and 6.0 
     float __gauss[] = {
       0.50000000, 0.53982784, 0.57925971, 0.61791142,
       0.65542174, 0.69146246, 0.72574688, 0.75803635,
@@ -112,24 +130,37 @@ private:
       0.99999971, 1.00000000
     };
 
-    //  0..60000  uint16_t = 68 bytes less
-    float __z[] = {
-      0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
-      0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5,
-      1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3,
-      2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 4,0,
-      5.0, 6.0
-    };
+    bool neg = false;
+    if (x < 0)
+    {
+      neg = true;
+      x = -x;
+    }
 
-    //  a dedicated MultiMap could exploit the fact that
-    //  the __z[] array is largely equidistant.
-    //  that could remove the __z[] array (almost) completely.
-    if (x < 0) return 1.0 - multiMap<float>(-x, __z, __gauss, 34);
-    return multiMap<float>(x, __z, __gauss, 34);
+    if (x >= 6.0)
+    {
+      if (neg) return 0.0;
+      return 1.0;
+    }
+
+    if (x <= 3.0)
+    {
+      int idx  = x * 10;
+      float rv = __gauss[idx] + ((x * 10) - idx) * (__gauss[idx+1] - __gauss[idx]);
+      if (neg) return 1.0 - rv;
+      return rv;
+    }
+
+    //  3.0 .. 6.0
+    int xint = x;
+    int idx  = 27 + xint;
+    float rv = __gauss[idx] + (x - xint) * (__gauss[idx+1] - __gauss[idx]);
+    if (neg) return 1.0 - rv;
+    return rv;
   }
 
   float _mean = 0;
-  float _stddev = 1;       //  not needed as _reciprokeSD holds same info?
+  //  reciprokeSD = 1.0 / stddev is faster in most math (MUL vs DIV)
   float _reciprokeSD = 1;
 };
 

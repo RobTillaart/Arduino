@@ -103,6 +103,22 @@ unittest(test_P_between)
 }
 
 
+unittest(test_P_outside)
+{
+  Gauss G;
+
+  G.begin(0, 1);
+
+  assertEqualFloat(0.5013, G.P_outside(-3.0, 0.0), 0.0001);
+  assertEqualFloat(0.5228, G.P_outside(-2.0, 0.0), 0.0001);
+  assertEqualFloat(0.6587, G.P_outside(-1.0, 0.0), 0.0001);
+  assertEqualFloat(1.0000, G.P_outside(0.0, 0.0),  0.0001);
+  assertEqualFloat(0.6587, G.P_outside(0.0, 1.0), 0.0001);
+  assertEqualFloat(0.5228, G.P_outside(0.0, 2.0), 0.0001);
+  assertEqualFloat(0.5013, G.P_outside(0.0, 3.0), 0.0001);
+}
+
+
 unittest(test_P_equal)
 {
   Gauss G;
@@ -132,6 +148,14 @@ unittest(test_normailze)
   assertEqualFloat(1.0, G.normalize(125), 0.0001);
   assertEqualFloat(2.0, G.normalize(150), 0.0001);
   assertEqualFloat(3.0, G.normalize(175), 0.0001);
+
+  assertEqualFloat(25, G.denormalize(-3.0), 0.0001);
+  assertEqualFloat(50, G.denormalize(-2.0), 0.0001);
+  assertEqualFloat(75, G.denormalize(-1.0), 0.0001);
+  assertEqualFloat(100, G.denormalize(0.0), 0.0001);
+  assertEqualFloat(125, G.denormalize(1.0), 0.0001);
+  assertEqualFloat(150, G.denormalize(2.0), 0.0001);
+  assertEqualFloat(175, G.denormalize(3.0), 0.0001);
 }
 
 

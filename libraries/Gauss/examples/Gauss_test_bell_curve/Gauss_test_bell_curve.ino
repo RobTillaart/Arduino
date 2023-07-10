@@ -2,7 +2,8 @@
 //    FILE: Gauss_test_bell_curve.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-
+//
+//  use plotter to create the graph in two ways
 
 #include "Gauss.h"
 
@@ -42,6 +43,7 @@ void get_bell_curve()
 }
 
 
+//  approximation of the bell curve
 void approximate()
 {
   G.begin(0, 1);
@@ -49,8 +51,9 @@ void approximate()
   for (float f = -5.0; f <= 5.0; f += 0.01)
   {
     //  width == 2x 0.5233 == 1.0466
-    //  0.0466 heuristic correction factor to match peak of bellCurve()
-    //  not exact match but almost perfect
+    //  0.0466 heuristic correction factor to match peak of the bell curve()
+    //  not an exact match but almost perfect
+    //  cf found with separate function below
     float cf = 0.52330751;
     float a = G.P_smaller(f - cf);
     float b = G.P_smaller(f + cf);
@@ -60,7 +63,7 @@ void approximate()
 }
 
 
-//  find the correction factor for the appoximate function
+//  find the correction factor for the approximate function
 //  so the peak matches the bell curve function.
 //  ==>  0.52330751
 void find_correction_factor()

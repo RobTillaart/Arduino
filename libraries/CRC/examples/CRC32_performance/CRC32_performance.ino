@@ -1,11 +1,3 @@
-//
-//    FILE: CRC32_performance.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 2022-01-28
-//    (c) : MIT
-
-
 #include "CRC32.h"
 
 char str[] = "Lorem ipsum dolor sit amet, \
@@ -22,8 +14,6 @@ consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, \
 viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus \
 varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies \
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
-
-CRC32 crc;
 
 uint32_t start, stop;
 
@@ -43,32 +33,29 @@ void loop()
 
 void test()
 {
-  uint16_t length = strlen(str);
+  crc_size_t length = strlen(str);
 
-  crc.reset();
-  crc.setPolynome(0x04C11DB7);
+  CRC32 crc;
   start = micros();
   crc.add((uint8_t*)str, length);
   stop = micros();
   Serial.print("DATA: \t");
   Serial.println(length);
   Serial.print(" CRC:\t");
-  Serial.println(crc.getCRC(), HEX);
+  Serial.println(crc.calc(), HEX);
   Serial.print("TIME: \t");
   Serial.println(stop - start);
   Serial.println();
   delay(100);
 
-  crc.reset();
-  crc.setPolynome(0x04C11DB7);
-  crc.setReverseIn(true);
+  CRC32 nonReversedCrc(CRC32_POLYNOME, CRC32_INITIAL, CRC32_XOR_OUT, false, false);
   start = micros();
-  crc.add((uint8_t*)str, length);
+  nonReversedCrc.add((uint8_t*)str, length);
   stop = micros();
   Serial.print("DATA: \t");
   Serial.println(length);
   Serial.print(" CRC:\t");
-  Serial.println(crc.getCRC(), HEX);
+  Serial.println(nonReversedCrc.calc(), HEX);
   Serial.print("TIME: \t");
   Serial.println(stop - start);
   delay(100);

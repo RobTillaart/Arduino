@@ -30,11 +30,9 @@
 // assertNotNAN(arg);                              // !isnan(a)
 
 
+#include "CRC.h"
 #include <ArduinoUnitTests.h>
-
-
-#include "Arduino.h"
-#include "CRC64.h"
+#include <Arduino.h>
 
 
 char str[24] = "123456789";
@@ -42,62 +40,19 @@ uint8_t * data = (uint8_t *) str;
 
 
 unittest_setup()
-{
-}
+{}
+
 
 unittest_teardown()
-{
-}
-
-
-unittest(test_crc64_getters)
-{
-  fprintf(stderr, "TEST CRC64 GETTERS\n");
-
-  CRC64 crc;
-  crc.setPolynome(0x04C11DB704C11DB7);
-  crc.setStartXOR(0xCE5CA2AD34A16112);
-  crc.setEndXOR(0x2AD34A16112CE5CA);
-  crc.setReverseIn(false);
-  crc.setReverseOut(false);
-  
-  assertEqual(0x04C11DB704C11DB7, crc.getPolynome());
-  assertEqual(0xCE5CA2AD34A16112, crc.getStartXOR());
-  assertEqual(0x2AD34A16112CE5CA, crc.getEndXOR());
-  assertFalse(crc.getReverseIn());
-  assertFalse(crc.getReverseOut());
-}
+{}
 
 
 unittest(test_crc64)
 {
   fprintf(stderr, "TEST CRC64\n");
-
-  fprintf(stderr, "no reference yet\n");
-  assertEqual(1, 1);
   
-  // just a dummy test
-  CRC64 crc;
-  crc.setPolynome(0x04C11DB704C11DB7);
-  crc.add(data, 9);
-  assertEqual(0xCE5CA2AD34A16112, crc.getCRC());  // 14869938934466568466
-}
-
-
-unittest(test_crc64_param)
-{
-  fprintf(stderr, "TEST CRC64 PARAM\n");
-
-  fprintf(stderr, "no reference yet\n");
-  assertEqual(1, 1);
-  
-  // just a dummy test
-  CRC64 crc(0x04C11DB704C11DB7, 0, 0, false, false);
-  crc.add(data, 9);
-  assertEqual(0xCE5CA2AD34A16112, crc.getCRC());  // 14869938934466568466
+  assertEqual(0xCE5CA2AD34A16112, calcCRC64(data, 9, 0x04C11DB704C11DB7));  // 14869938934466568466
 }
 
 
 unittest_main()
-
-// --------

@@ -1,9 +1,9 @@
 
 #include "Arduino.h"
 #include "foo.h"
-#include "CRC.h"
+#include "CrcFastReverse.h"
 
 int foo(int n)
 {
-  return reverse8(n);
+  return reverse8bits(n);
 }

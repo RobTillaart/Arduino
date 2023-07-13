@@ -1,11 +1,3 @@
-//
-//    FILE: CRC16_test.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 2022-01-24
-//    (c) : MIT
-
-
 #include "CRC12.h"
 #include "CRC.h"
 
@@ -34,40 +26,23 @@ void loop()
 void test()
 {
   Serial.println(crc_check((uint8_t *) str1, 9), HEX);
-  Serial.println(crc12((uint8_t *) str1, 9, 0x180D, 0, 0, false, false), HEX);
+  Serial.println(calcCRC12((uint8_t *) str1, 9), HEX);
   Serial.println(crc_check((uint8_t *) str2, 18), HEX);
-  Serial.println(crc12((uint8_t *) str2, 18, 0x180D, 0, 0, false, false), HEX);
+  Serial.println(calcCRC12((uint8_t *) str2, 18), HEX);
 
-  crc.setPolynome(0x080D);
   crc.add((uint8_t*)str1, 9);
-  Serial.println(crc.getCRC(), HEX);
-  crc.reset();
-  crc.setPolynome(0x080D);
-  crc.add((uint8_t*)str2, 18);
-  Serial.println(crc.getCRC(), HEX);
-
-
-  crc.reset();
-  crc.setPolynome(0x180D);
-  for (int i = 0; i < 9; i++)
-  {
-    crc.add(str1[i]);
-    Serial.print(i);
-    Serial.print("\t");
-    Serial.println(crc.getCRC(), HEX);
-  }
+  Serial.println(crc.calc(), HEX);
+  crc.add((uint8_t*)str2, 9);
+  Serial.println(crc.calc(), HEX);
 
   crc.restart();
   for (int i = 0; i < 9; i++)
   {
     crc.add(str1[i]);
+    Serial.print(i);
+    Serial.print("\t");
+    Serial.println(crc.calc(), HEX);
   }
-  Serial.println(crc.getCRC(), HEX);
-  for (int i = 0; i < 9; i++)
-  {
-    crc.add(str1[i]);
-  }
-  Serial.println(crc.getCRC(), HEX);
   Serial.println(crc.count());
 }
 
@@ -95,8 +70,3 @@ uint16_t crc_check(uint8_t * ptr, uint8_t length)   // crc12
   crc12out >>= 1;
   return crc12out;
 }
-
-
-
-
-// -- END OF FILE --

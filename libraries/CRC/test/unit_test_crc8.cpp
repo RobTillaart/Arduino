@@ -30,11 +30,9 @@
 // assertNotNAN(arg);                              // !isnan(a)
 
 
+#include "CRC.h"
 #include <ArduinoUnitTests.h>
-
-
-#include "Arduino.h"
-#include "CRC8.h"
+#include <Arduino.h>
 
 
 char str[24] = "123456789";
@@ -42,124 +40,27 @@ uint8_t * data = (uint8_t *) str;
 
 
 unittest_setup()
-{
-}
+{}
 
 
 unittest_teardown()
-{
-}
-
-
-unittest(test_crc8_getters)
-{
-  fprintf(stderr, "TEST CRC8 GETTERS\n");
-
-  CRC8 crc;
-  crc.setPolynome(0x07);
-  crc.setStartXOR(0x55);
-  crc.setEndXOR(0xAA);
-  crc.setReverseIn(false);
-  crc.setReverseOut(true);
-  
-  assertEqual(0x07, crc.getPolynome());
-  assertEqual(0x55, crc.getStartXOR());
-  assertEqual(0xAA, crc.getEndXOR());
-  assertFalse(crc.getReverseIn());
-  assertTrue(crc.getReverseOut());
-}
+{}
 
 
 unittest(test_crc8)
 {
   fprintf(stderr, "TEST CRC8\n");
 
-  CRC8 crc;
-  crc.setPolynome(0x07);
-  crc.add(data, 9);
-  assertEqual(0xF4, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x39);
-  crc.setReverseIn(true);
-  crc.setReverseOut(true);
-  crc.add(data, 9);
-  assertEqual(0x15, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0xD5);
-  crc.add(data, 9);
-  assertEqual(0xBC, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x1D);
-  crc.setStartXOR(0xFF);
-  crc.setReverseIn(true);
-  crc.setReverseOut(true);
-  crc.add(data, 9);
-  assertEqual(0x97, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x1D);
-  crc.setStartXOR(0xFD);
-  crc.add(data, 9);
-  assertEqual(0x7E, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x07);
-  crc.setStartXOR(0x00);
-  crc.setEndXOR(0x55);
-  crc.add(data, 9);
-  assertEqual(0xA1, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x31);
-  crc.setReverseIn(true);
-  crc.setReverseOut(true);
-  crc.add(data, 9);
-  assertEqual(0xA1, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x07);
-  crc.setStartXOR(0xFF);
-  crc.setReverseIn(true);
-  crc.setReverseOut(true);
-  crc.add(data, 9);
-  assertEqual(0xD0, crc.getCRC());
-
-  crc.reset();
-  crc.setPolynome(0x9B);
-  crc.setReverseIn(true);
-  crc.setReverseOut(true);
-  crc.add(data, 9);
-  assertEqual(0x25, crc.getCRC());
-
-
-  /*
-  // DONE
-  assertEqual(0xDA, crc8(data, 9, 0x9B, 0xFF));
-  assertEqual(0x15, crc8(data, 9, 0x39, 0x00, 0x00, true, true));
-  assertEqual(0xBC, crc8(data, 9, 0xD5));
-  assertEqual(0x97, crc8(data, 9, 0x1D, 0xFF, 0x00, true, true));
-  assertEqual(0x7E, crc8(data, 9, 0x1D, 0xFD));
-  assertEqual(0xA1, crc8(data, 9, 0x07, 0x00, 0x55));
-  assertEqual(0xA1, crc8(data, 9, 0x31, 0x00, 0x00, true, true));
-  assertEqual(0xD0, crc8(data, 9, 0x07, 0xFF, 0x00, true, true));
-  assertEqual(0x25, crc8(data, 9, 0x9B, 0x00, 0x00, true, true));
-  */
-}
-
-
-unittest(test_crc8_param)
-{
-  fprintf(stderr, "TEST CRC8 PARAM\n");
-
-  CRC8 crc(0x07, 0, 0, false, false);
-  crc.add(data, 9);
-  assertEqual(0xF4, crc.getCRC());
+  assertEqual(0xDA, calcCRC8(data, 9, 0x9B, 0xFF));
+  assertEqual(0x15, calcCRC8(data, 9, 0x39, 0x00, 0x00, true, true));
+  assertEqual(0xBC, calcCRC8(data, 9, 0xD5));
+  assertEqual(0x97, calcCRC8(data, 9, 0x1D, 0xFF, 0x00, true, true));
+  assertEqual(0x7E, calcCRC8(data, 9, 0x1D, 0xFD));
+  assertEqual(0xA1, calcCRC8(data, 9, 0x07, 0x00, 0x55));
+  assertEqual(0xA1, calcCRC8(data, 9, 0x31, 0x00, 0x00, true, true));
+  assertEqual(0xD0, calcCRC8(data, 9, 0x07, 0xFF, 0x00, true, true));
+  assertEqual(0x25, calcCRC8(data, 9, 0x9B, 0x00, 0x00, true, true));
 }
 
 
 unittest_main()
-
-// --------

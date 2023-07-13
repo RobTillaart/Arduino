@@ -32,7 +32,7 @@ are explicitly set.
 
 
 **Note** the classes have same names as the static functions, except the class
-is UPPER case. So **CRC8** is a class and **crc8()** is the function.
+is UPPER case. So **CRC8** is a class and **calcCRC8()** is the function.
 
 Deeper tech info - https://en.wikipedia.org/wiki/Cyclic_redundancy_check
 and many other websites.
@@ -57,59 +57,39 @@ and the returned CRC.
 
 Use **\#include "CRC8.h"**
 
-- **CRC8()** default - parameterless - constructor.
-- **CRC8(polynome, XORstart, XORend, reverseIn, reverseOut)** Constructor to set all parameters at once.
+- **CRC8(polynome, initial, xorOut, reverseIn, reverseOut)** Constructor to set all parameters at once.
 - **void reset()** set all internals to defaults of the **CRC8()** parameterless constructor.
 - **void restart()** reset internal CRC and count only;
 reuse values for other e.g polynome, XOR masks and reverse flags.
-- **void add(value)** add a single value to CRC calculation.
-- **void add(array, uint16_t length)** add an array of values to the CRC.
-In case of a warning/error for the array type, use casting to (uint8_t \*).
-- **uint8_t getCRC()** returns CRC calculated so far. This allows to check the CRC of
+- **uint8_t calc()** returns CRC calculated so far. This allows to check the CRC of
 a really large stream at intermediate moments, e.g. to link multiple packets.
-- **uint32_t count()** returns number of values added so far. Default 0.
-
+- **crc_size_t count()** returns number of values added so far. Default 0.
+- **void add(value)** add a single value to CRC calculation.
+- **void add(array, length)** add an array of values to the CRC.
+In case of a warning/error for the array type, use casting to (uint8_t \*).
+- **void add(array, length, yieldPeriod)** as CRC calculations of large blocks can take serious time (in milliseconds),
+the classes call **yield()** after every **yieldPeriod** calls to keep RTOS environments happy. The call allows to add values with
+**yield()** to get optimal performance. The risk is missing context switching to handle interrupts etc. So use at own risk.
 
 #### Parameters
 
 The parameters do not have defaults so the user must set them explicitly.
 
 - **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
-- **void setStartXOR(start)** set start-mask, default 0.
-- **void setEndXOR(end)** set end-mask, default 0.
-- **void setReverseIn(bool reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
-- **void setReverseOut(bool reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
-- **uint8_t getPolyNome()** return parameter set above or default.
-- **uint8_t getStartXOR()** return parameter set above or default.
-- **uint8_t getEndXOR()** return parameter set above or default.
+- **void setInitial(initial)** set start-mask, default 0.
+- **void setXorOut(xorOut)** set end-mask, default 0.
+- **void setReverseIn(reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
+- **void setReverseOut(reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
+- **uint8_t getPolynome()** return parameter set above or default.
+- **uint8_t getInitial()** return parameter set above or default.
+- **uint8_t getXorOut()** return parameter set above or default.
 - **bool getReverseIn()** return parameter set above or default.
 - **bool getReverseOut()** return parameter set above or default.
-
-
-#### Power users only
-
-As CRC calculations of large blocks can take serious time (in milliseconds),
-the classes call **yield()** after every 256 **add()** calls to keep RTOS
-environments happy.
-
-The following two calls allows one to enable and disable these calls to
-**yield()** to get optimal performance. The risk is missing context switching
-to handle interrupts etc. So use at own risk.
-
-- **void enableYield()** enables the calls to **yield()**.
-- **void disableYield()** disables the calls to **yield()**.
-
-_Note: the static functions in this library also call **yield()** but this
-cannot be disabled (for now)._
-
-_Note: a parameter could be a future option to set the number of adds before
-**yield()** is called. **setYield(0)** would be disable it._
-
 
 ### Example snippet
 
 A minimal usage only needs:
-- the constructor, the add() function and the getCRC() function.
+- the constructor, the add() function and the calc() function.
 
 ```cpp
 #include "CRC32.h"
@@ -122,7 +102,7 @@ CRC32 crc;
     int c = Serial.read();
     crc.add(c);
   }
-  Serial.println(crc.getCRC());
+  Serial.println(crc.calc());
 ```
 
 
@@ -135,33 +115,31 @@ However these parameters allow one to tweak the CRC in all aspects known.
 In all the examples encountered the reverse flags were set both to false or both to true.
 For flexibility both parameters are kept available.
 
-- **uint8_t crc8(array, length, polynome = 0xD5, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint16_t crc12(array, length, polynome = 0x080D, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint16_t crc16(array, length, polynome = 0x8001, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint16_t crc16-CCITT(array, length)** fixed polynome **0x1021**, non zero start / end masks.
-- **uint32_t crc32(array, length, polynome = 0x04C11DB7, start = 0, end = 0, reverseIn = false, reverseOut = false)** idem with default polynome.
-- **uint64_t crc64(array, length, polynome = 0x42F0E1EBA9EA3693, start = 0, end = 0, reverseIn = false, reverseOut = false)** - experimental version, no reference found except on Wikipedia.
+- **uint8_t calcCRC8(array, length)** idem with default polynome.
+- **uint16_t calcCRC12(array, length)** idem with default polynome.
+- **uint16_t calcCRC16(array, length)** idem with default polynome.
+- **uint32_t calcCRC32(array, length)** idem with default polynome.
+- **uint64_t calcCRC64(array, length)** - experimental version, no reference found except on Wikipedia.
 
-Note these functions are limited to one call per block of data.
-These functions will call **yield()** every 256 bytes to keep RTOS happy.
-For more flexibility use the specific classes.
+
+The static functions **calcCRC..()** in this library also support yield.
 
 The static CRC functions use fast reverse functions that can be also be
 used outside CRC context. Their usage is straightforward.
 
-- **uint8_t reverse8(uint8_t in)** idem.
-- **uint16_t reverse16(uint16_t in)** idem.
-- **uint16_t reverse12(uint16_t in)** idem.
-- **uint32_t reverse32(uint32_t in)** idem.
-- **uint64_t reverse64(uint64_t in)** idem.
+- **uint8_t reverse8bits(uint8_t in)** idem.
+- **uint16_t reverse16bits(uint16_t in)** idem.
+- **uint16_t reverse12bits(uint16_t in)** idem.
+- **uint32_t reverse32bits(uint32_t in)** idem.
+- **uint64_t reverse64bits(uint64_t in)** idem.
 
-Reverse12 is based upon reverse16, with a final shift.
+reverse12bits is based upon reverse16bits, with a final shift.
 Other reverses can be created in similar way.
 
 
-## CRC_polynomes.h
+## CrcParameters.h
 
-Since version 0.2.1 the file CRC_polynomes.h is added to hold symbolic names for certain polynomes.
+Since version 1.0.0 the file CrcParameters.h is added to hold symbolic names for certain parameters (polynomes, etc..).
 These can be used in your code too to minimize the number of "magic HEX codes".
 If standard polynomes are missing, please open an issue and report, with reference.
 
@@ -177,7 +155,7 @@ See examples.
 - http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64 is supported.)
 - https://crccalc.com/ - online CRC calculator to verify.
 - https://www.lddgo.net/en/encrypt/crc - online CRC calculator
-
+- http://www.sunshine2k.de/coding/javascript/crc/crc_js.html - online CRC calculator
 
 ## Future
 
@@ -205,7 +183,7 @@ See examples.
 #### Exotic CRC's ?
 
 - **CRC1()** // parity :)
-- **CRC4(array, length, polynome, start, end, reverseIn, reverseOut)** nibbles?
+- **CRC4()** nibbles?
   - default polynome 0x03  ITU
 - One CRC() with #bits as parameter?
   - up to 64 bit for all missing ones?

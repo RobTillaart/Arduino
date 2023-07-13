@@ -5,13 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2023-05-19
+- new library interface
+- changed CRC32 defaults
+- added FastCRC32
+- reused parameters and algorithms
 
 ## [0.3.3] - 2023-01-17
 - update GitHub actions
 - update license
 - renamed releaseNotes.md to CHANGELOG.md (in line with other libs)
 - update readme.md
-
 
 ## [0.3.2] - 2022-10-30
 - add RP2040 to build-CI

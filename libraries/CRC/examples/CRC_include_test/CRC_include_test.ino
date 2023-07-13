@@ -1,11 +1,6 @@
-//    FILE: CRC_include_test.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: test namespaces
-//     URL: https://github.com/RobTillaart/CRC
-
 #include "Arduino.h"
 #include "foo.h"
-#include "CRC.h"
+#include "CrcFastReverse.h"
 
 
 void setup() 
@@ -14,7 +9,7 @@ void setup()
   while(!Serial);
   Serial.println(__FILE__);
 
-  int x = reverse8(0xAA);
+  int x = reverse8bits(0xAA);
   Serial.println(x, HEX);
   Serial.println(millis());
   

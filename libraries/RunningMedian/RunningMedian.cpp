@@ -1,7 +1,7 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: RunningMedian library for Arduino
 //
 //  HISTORY: see changelog.md
@@ -112,6 +112,47 @@ float RunningMedian::getAverage(uint8_t nMedians)
   if (_count < nMedians) nMedians = _count;
 
   uint8_t start = ((_count - nMedians) / 2);
+  uint8_t stop = start + nMedians;
+
+  if (_sorted == false) sort();
+
+  float sum = 0;
+  for (uint8_t i = start; i < stop; i++)
+  {
+    sum += _values[_sortIdx[i]];
+  }
+  return sum / nMedians;
+}
+
+
+//  nMedians is the spread, or the middle N
+//  this version compensated for bias #22
+
+float RunningMedian::getMedianAverage(uint8_t nMedians)
+{
+  //  handle special cases.
+  if ((_count == 0) || (nMedians == 0)) return NAN;
+  if (_count == 1) return _values[0];
+  if (_count == 2) return (_values[0] + _values[1]) * 0.5;
+
+  //  nMedians can not be larger than current nr of elements.
+  if (_count <= nMedians) return getAverage();
+
+  //  _count is at least 3 from here
+
+  //  Eliminate the bias when the nMedians would fall slightly
+  //  to the left or right of the centre.
+  //  If count and nMedians are not both odd or both even reduce
+  //  the spread by 1 to make them the same.
+  //  If nMedians becomes 0 correct this. to 2.
+  if ((_count & 0x01) != (nMedians & 0x01))
+  {
+     --nMedians;
+     //  nmedians can not become 0
+     if (nMedians == 0) nMedians = 2;
+  }
+
+  uint8_t start = (_count - nMedians) / 2;
   uint8_t stop = start + nMedians;
 
   if (_sorted == false) sort();

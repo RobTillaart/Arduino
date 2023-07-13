@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.8] - 2023-07-11
+- add **getMedianAverage(nMedians)**  removing bias - #22
+  - thanks to Peter Kowald
+- add example **RunningMedian_getMedianAverage.ino**
+- extended performance test
+- update readme.md
+
+
 ## [0.3.7] - 2022-10-28
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
@@ -13,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add performance test sketch (to test sort efficiency)
 - add setSearchMode() for selecting fastest median search mode.  
   EXPERIMENTAL, select between LINEAR or BINARY search.  
-
 
 ## [0.3.6} - 2022-06-06
 - bump version for platformio

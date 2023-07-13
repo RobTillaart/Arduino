@@ -45,10 +45,16 @@ void setup()
 #endif
 
   samples.setSearchMode(0);
-  test1();
+  test_median();
 
   samples.setSearchMode(1);
-  test1();
+  test_median();
+
+  samples.setSearchMode(0);
+  test_average();
+
+  samples.setSearchMode(1);
+  test_average();
 
   Serial.println("\ndone..\n");
 }
@@ -57,7 +63,7 @@ void loop()
 {
 }
 
-void test1()
+void test_median()
 {
   uint32_t start = 0;
   uint32_t stop  = 0;
@@ -65,6 +71,7 @@ void test1()
 
   samples.clear();
   Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.print(F("Allocated size = "));
   Serial.println(samples.getSize());
   Serial.print(F("nr of elements = "));
@@ -92,7 +99,7 @@ void test1()
   stop = micros();
   Serial.print(F(" 1 x get: "));
   Serial.print(stop - start);
-  Serial.println(F("       == sorting"));
+  Serial.println(F("\t\t== sorting"));
   Serial.print(  "  median: ");
   Serial.println(result);
   delay(100);
@@ -103,11 +110,65 @@ void test1()
   stop = micros();
   Serial.print(F(" 1 x get: "));
   Serial.print(stop - start);
-  Serial.println(F("       == no sorting"));
+  Serial.println(F("\t\t== no sorting"));
   Serial.print(  "  median: ");
   Serial.println(result);
   delay(100);
-
 }
 
-// -- END OF FILE --
+
+void test_average()
+{
+  uint32_t start = 0;
+  uint32_t stop  = 0;
+  uint32_t total = 0;
+
+  samples.clear();
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  Serial.print(F("Allocated size = "));
+  Serial.println(samples.getSize());
+  Serial.print(F("nr of elements = "));
+  Serial.println(samples.getCount());
+  Serial.print(F("    searchMode = "));
+  Serial.println(samples.getSearchMode());
+  Serial.println();
+  delay(50);
+
+  for (uint8_t i = 0; i < sourceSize; i++)
+  {
+    start = micros();
+    samples.add(sourceData[i]);
+    total += (micros() - start);
+  }
+  Serial.print(F("50 x add: "));
+  Serial.println(total);
+  Serial.print(F("     avg: "));
+  Serial.println(total / 50.0);
+  delay(100);
+
+  // time to access the data
+  start = micros();
+  float result = samples.getAverage(20);
+  stop = micros();
+  Serial.print(F(" 1 x get: "));
+  Serial.print(stop - start);
+  Serial.println(F("\t\t== sorting"));
+  Serial.print(  " average: ");
+  Serial.println(result);
+  delay(100);
+
+  // time to access the data
+  start = micros();
+  result = samples.getAverage(20);
+  stop = micros();
+  Serial.print(F(" 1 x get: "));
+  Serial.print(stop - start);
+  Serial.println(F("\t\t== no sorting"));
+  Serial.print(  " average: ");
+  Serial.println(result);
+  delay(100);
+}
+
+
+//  -- END OF FILE --

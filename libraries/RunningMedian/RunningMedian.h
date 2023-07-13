@@ -3,7 +3,7 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //     URL: https://github.com/RobTillaart/RunningMedian
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.7"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.8"))
 
 
 //  fall back to fixed storage for dynamic version => remove true
@@ -61,6 +61,9 @@ public:
   float   getAverage();
   //  returns average of the middle nMedian values, removes noise from outliers
   float   getAverage(uint8_t nMedian);
+  //  returns average of the middle nMedian values, removes noise from outliers
+  //  Bias compensated see #22.
+  float   getMedianAverage(uint8_t nMedian);
 
   float   getHighest() { return getSortedElement(_count - 1); };
   float   getLowest()  { return getSortedElement(0); };

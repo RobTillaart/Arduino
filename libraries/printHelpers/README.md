@@ -24,8 +24,12 @@ data in a way not possible in the standard print library of the Arduino.
 - **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
 - **bin()** generates binary output with leading zeros up to **uint64_t**.
 - **toRoman()** generates a ROMAN representation of a (positive) number.
+- **printInch(float inch, uint16_t step)** experimental.
+- **printFeet(float feet)** experimental.
 
 Details, see below.
+
+If a (generic) print format is missing, please open an issue.
 
 
 #### Thread safety
@@ -48,31 +52,36 @@ The following functions are implemented:
 
 #### print64()
 
-- **char \* print64(int64_t value, uint8_t base)**  converts a 64 bit integer 
+- **char \* print64(int64_t value, uint8_t base = 10)**  converts a 64 bit integer 
 number to a char array. 
 The plus sign is not printed, neither are leading zero's.
 Base 10 (DEC) and 16 (HEX) are supported and other bases up to 36 can be used.
+Default base == 10 == decimal.
 Note that negative numbers will always get a minus sign for any base.
 Cast the number to uint64_t to suppress the sign.
 
-- **char \* print64(uint64_t value, uint8_t base)** converts a unsigned 64 bit 
+- **char \* print64(uint64_t value, uint8_t base = 10)** converts a unsigned 64 bit 
 int number to a char array. 
 No sign is printed, neither are leading zero's. 
 Base 10 (DEC) and 16 (HEX) are supported and bases up to 36 can be used.
+Default base == 10 == decimal.
 
 
 #### sci() eng() 
 
 - **char \* sci(double value, uint8_t decimals)** converts a float or double to a 
 char array. 
-E.g. **print(sci(f, 4))** ==> results in "6.7407E+21".
+E.g. **print(sci(f, 4))** ==> results in **"6.7407E+21"**.
 The existing Arduino print library only supports printing of floats and
 doubles up to about 4E9 while the range of floats goes up to ~1E38. 
 The smallest float values will often be printed as 0.00 while floats 
 support down to about 1E-38 (subnormal even to 1E-45).
 Existing (AVR) library functions **dtostrf()** has no scientific notation 
 and **dtostre()** is limited to 7 decimals. These latter two are faster.
-Values printed with **sci()** do look pretty in column output.
+Values printed with **sci()** do look often pretty in column output.
+
+- **size_t sci(Stream &str, double value, uint8_t decimals)** as above.
+Prints directly to a stream, returning bytes printed.
 
 - **char \* eng(double value, uint8_t decimals)** converts a float or double to a 
 char array. 
@@ -80,26 +89,27 @@ E.g. print(eng(f, 4)) ==> results in "6.7407E+21".
 Note the exponent created by **eng()** is always a multiple of 3.
 Values printed with **eng()** do not always look pretty in column output.
 This is due to the exponent power of 3. However its output translates easy to
-thousands, millions etc which are powers of 3.
+thousands, millions, billions, and millis, micros, nano etc which are powers of 3.
 
 - **char \* scieng(double value, uint8_t decimals, uint8_t exponentMultiple)** converts a 
 float or double to a char array. 
 **sci()** and **eng()** use the same underlying function called **scieng()** 
 as the initial code for converting was almost identical.
-Although not intended to be used directly, one may use it. 
+Although not intended to be used directly, feel free to use it.
 The last parameter **exponentMultiple** defines where the exponent is a multiple of.
 For the **sci()** function this is 1, for the **eng()** function this is 3.
 The **scieng()** function works for multiples from 1..9 for the exponent.
 The usability of other values than 1 and 3 are not known.
 Personally I like the multiple of 2 as I get 2 orders of magnitude in the
-mantissa.
+mantissa. This is e.g. useful for temperature Celsius or percentages.
 
 
 #### toBytes()
 
-- **char \* toBytes(double value, uint8_t decimals = 2)** makes from a big number 
-representing an amount of bytes a shorter string usable for displaying.
-The number of decimals is max 3
+- **char \* toBytes(double value, uint8_t decimals = 2)** converts a big number 
+representing an amount of bytes to a shorter string usable for displaying.
+The string uses official extensions.
+The number of decimals is max 3:
     Example  3.292.528 ==> "3.140 MB" 
 
 Value ranges supported are in steps of powers of 1024. 
@@ -107,12 +117,13 @@ These will all be shown in UPPERCASE so KB, MB etc.
 
 |  Unit       |  abbrev.  |  size    |  Unit        |  abbrev.  |  size    |
 |:-----------:|:---------:|:--------:|:------------:|:---------:|:--------:|
-|  kilobytes  |    KB     |  1024    |  zettabytes  |    KB     |  1024^7  |
-|  megabytes  |    MB     |  1024^2  |  yottabytes  |    MB     |  1024^8  |
-|  gigabytes  |    GB     |  1024^3  |  xonaytes    |    GB     |  1024^9  |
-|  terabytes  |    TB     |  1024^4  |  wekabytes   |    TB     |  1024^10 |
-|  petabytes  |    PB     |  1024^5  |  vundabytes  |    PB     |  1024^11 |
-|  exabytes   |    EB     |  1024^6  |  udabytes    |    EB     |  1024^12 |
+|  bytes      |     B     |  1024^0  |              |           |          |
+|  kilobytes  |    KB     |  1024^1  |  zettabytes  |    ZB     |  1024^7  |
+|  megabytes  |    MB     |  1024^2  |  yottabytes  |    YB     |  1024^8  |
+|  gigabytes  |    GB     |  1024^3  |  xonaytes    |    XB     |  1024^9  |
+|  terabytes  |    TB     |  1024^4  |  wekabytes   |    WB     |  1024^10 |
+|  petabytes  |    PB     |  1024^5  |  vundabytes  |    VB     |  1024^11 |
+|  exabytes   |    EB     |  1024^6  |  udabytes    |    UB     |  1024^12 |
 
 
 Treda Byte is shortened as "TDB" and uses 2 chars to indicate the magnitude. 
@@ -123,7 +134,7 @@ Should be big enough for some time.
 Note: max uint64_t 2^64 is in the order of exa or zetta bytes.
 
 To have some support for the really big sizes the code uses lowercase for the next 8 levels:
-treda sorta rinta quexa pepta ocha nena minga luma (1024\^21 ~~ 10\^63)
+treda sorta rinta quexa pepta ocha nena minga luma (1024\^13 ~~ 1024\^21)
 To enable this patch the function in the **printHelpers.cpp** file.
 
 
@@ -132,7 +143,7 @@ To enable this patch the function in the **printHelpers.cpp** file.
 The default print() function of Arduino does not have leading zero's 
 for **HEX** and **BIN**. 
 This often causes a "broken" layout especially if one wants to print 
-in columns or so.
+the output in columns or so.
 
 To solve this the following functions are added that will generate a 
 constant length char array. 
@@ -150,6 +161,10 @@ Note: Data types not supported, must be cast to an supported type.
 
 Note: There is overlap between **hex(value)** and **print64(value, HEX)**. 
 The latter does not produce the leading zero's or fixed length output.
+
+Note: hex() does not print hex indicator like "0x" or "H" in front.
+
+Note: bin() does not print bin indicator like "b" at the end.
 
 
 #### toRoman()
@@ -188,6 +203,18 @@ Notes:
   "official" and extended numbers.
 - The number 4 is often written as IIII on clocks with Roman digits,
   although IV would be (more?) correct and therefore IV is used.
+  The reason for IIII is that it is opposite of VIII giving a visual balance.
+
+
+#### Distance feet inch
+
+Experimental 0.4.1
+
+- **char \* printInch(float inch, uint16_t step = 16)** prints a float inch distance default in sixteenth ```a b/16```.
+The parameter step must be a power of 2 == 2, 4, 8, 16, 32, 64, 128.
+
+- **char \* printFeet(float feet)** prints a float feet distance as
+``` a'b"``` e.g. 4.5 feet prints as ```4'6"```
 
 
 ## Shared print buffer
@@ -230,6 +257,7 @@ When functions are added, the recommended minimum size might increase.
 
 - documentation
 - improve readability of the code
+  - em ==> exponentFactor?
 
 
 #### Could
@@ -239,15 +267,13 @@ When functions are added, the recommended minimum size might increase.
 - investigate thread safe version
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
-- investigate distance print helpers.
-  - feet(float cm) as 3'2" or  3-7/8 feet
-  - inch(float cm) as 32" 
-  - yards(float meter), 
-  - miles(float kilometre)
+- optimize **char \* hex(uint8_t / uint16_t ...)**
+- make this library a .h file only?
 
 
 #### Wont
 
+- add **oct()** along BIN, HEX
 - add **float()** as Arduino limits floats to "MAXLONG" by code.
   - use dtostrf() - is that portable?
   - use sci() or eng()
@@ -260,3 +286,4 @@ When functions are added, the recommended minimum size might increase.
   - **sci()** and **eng()**.
   - investigate sci() version based upon use of log()
   - done => see examples.
+

@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -134,7 +134,7 @@ char * print64(uint64_t value, uint8_t base)
 
 //  typical buffer size for 8 byte double is 22 bytes
 //  15 bytes mantissa, sign dot E-xxx
-//   em = exponentMultiple.
+//  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em)
 {
   char *  buffer   = __printbuffer;
@@ -258,9 +258,9 @@ char * sci(double value, uint8_t decimals)
 }
 
 
-void sci(Stream &str, double value, uint8_t decimals)
+size_t sci(Stream &str, double value, uint8_t decimals)
 {
-  str.print(sci(value, decimals));
+  return str.print(sci(value, decimals));
 }
 
 
@@ -277,7 +277,8 @@ void sci(Stream &str, double value, uint8_t decimals)
 //  so code wise difficult and as it is seldom used, support stops there.
 //
 //  To have some support the code uses lowercase for the next 8 levels
-//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
+//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^13 ~~ 1024^21)
+//
 char * toBytes(double value, uint8_t decimals)
 {
   char * buffer = __printbuffer;
@@ -417,7 +418,6 @@ char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits
 //
 //  toRoman
 //
-//  experimental
 //  extended with 10K units generated with the same but lower case chars.
 //  would expect a special char for 5000?
 //  need investigation.
@@ -455,7 +455,7 @@ char * toRoman(uint32_t value)
       idx++;
     }
     //  set chars to lower
-    for (int i = 0; i < strlen(buffer); i++)
+    for (uint16_t i = 0; i < strlen(buffer); i++)
     {
       buffer[i] = tolower(buffer[i]);
     }
@@ -472,6 +472,61 @@ char * toRoman(uint32_t value)
     idx++;
   }
 
+  return buffer;
+}
+
+
+////////////////////////////////////////////////////////////
+//
+//  Distances
+//  Experimental
+
+//  step == 2,4,8,16,32,64,128,256 (default 16)
+char * printInch(float inch, uint16_t step)
+{
+  char * buffer = __printbuffer;
+  uint32_t whole = inch;
+  uint8_t num = round((inch - whole) * step);
+  if (num == step)
+  {
+    whole++;
+    num = 0;
+  }
+  uint8_t den = step;
+  //  optional reduce
+  while ((num > 0) && ((num & 1) == 0))
+  {
+    num >>= 1;
+    den >>= 1;
+  }
+  
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
+  sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+  sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+  return buffer;
+}
+
+
+char * printFeet(float feet)
+{
+  char * buffer = __printbuffer;
+  uint32_t ft = feet;
+  uint8_t inch = round((feet - ft) * 12);
+  if (inch == 12)
+  {
+    ft++;
+    inch = 0;
+  }
+#if defined(ESP32)
+  //  ESP32 does not support %ld  or ltoa()
+  sprintf(buffer, "%d\"%d\'", ft, inch);
+#else
+  sprintf(buffer, "%d\"%d\'", ft, inch);
+#endif
+  sprintf(buffer, "%d\"%d\'", ft, inch);
   return buffer;
 }
 

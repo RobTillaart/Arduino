@@ -45,6 +45,14 @@ void setup()
   Serial.println(b);
   delay(1000);
 
+  //  for (int i = 1; i <= 5000; i++)
+  //  {
+  //    Serial.print(i);
+  //    Serial.print('\t');
+  //    Serial.println(toRoman(i));
+  //  }
+  //  delay(1000);
+
   Serial.println("\ndone...");
 }
 

@@ -67,6 +67,16 @@ void setup()
     Serial.print("\t");
     Serial.println(scieng(E, 8, em));
   }
+  Serial.println();
+  
+  if (sizeof(double) == 8)
+  {
+    while (E < 1e308)
+    {
+      E *= 1e5;
+      Serial.println(sci(E, 16));
+    }
+  }
 
   Serial.println("\ndone...");
 }

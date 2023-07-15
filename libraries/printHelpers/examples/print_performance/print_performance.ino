@@ -162,6 +162,36 @@ void setup()
   Serial.println(b);
   delay(100);
 
+
+  Serial.println();
+  Serial.println("printInch");
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = printInch(i);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
+
+
+  Serial.println();
+  Serial.println("printFeet");
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = printFeet(i);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
+
   Serial.println();
   Serial.println("done...");
 }

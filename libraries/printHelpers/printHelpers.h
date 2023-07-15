@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.4.0"))
+#define PRINTHELPERS_VERSION      (F("0.4.1"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -55,7 +55,7 @@ char * eng(double value, uint8_t decimals);  //  em == 3
 
 char * sci(double value, uint8_t decimals);  //  em == 1
 
-void sci(Stream &str, double value, uint8_t decimals);
+size_t sci(Stream &str, double value, uint8_t decimals);
 
 
 ////////////////////////////////////////////////////////////
@@ -103,8 +103,18 @@ char * bin(uint8_t value, uint8_t digits = 8);
 //  toRoman()
 //
 //  value should be in range 1..9999
-//  values 10K-100M are experimental (see readme.md)
+//  values 10K-100M are experimental in lower case (see readme.md)
 char * toRoman(uint32_t value);
+
+
+////////////////////////////////////////////////////////////
+//
+//  Distances
+//  Experimental
+//
+//  step == 2,4,8,16,32,64,128,256 (default 16)
+char * printInch(float inch, uint16_t step = 16);
+char * printFeet(float feet);
 
 
 //  -- END OF FILE --

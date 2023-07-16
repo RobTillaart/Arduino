@@ -1,0 +1,36 @@
+# Syntax Colouring Map for PCA9553
+
+
+# Data types (KEYWORD1)
+PCA9553	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+configure	KEYWORD2
+
+isConnected	KEYWORD2
+channelCount	KEYWORD2
+
+getInput	KEYWORD2
+
+setPrescaler0	KEYWORD2
+getPrescaler0	KEYWORD2
+setPrescaler1	KEYWORD2
+getPrescaler1	KEYWORD2
+
+setPWM0	KEYWORD2
+getPWM0	KEYWORD2
+setPWM1	KEYWORD2
+getPWM1	KEYWORD2
+
+setLEDSource	KEYWORD2
+getLEDSource	KEYWORD2
+
+
+#
+# Constants (	LITERAL1)
+#
+PCA9553_LIB_VERSION	LITERAL1
+PCA9553_OK	LITERAL1
+PCA9553_ERROR	LITERAL1

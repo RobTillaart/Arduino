@@ -76,7 +76,6 @@ useful to add or remove a single flag (bit masking).
 | PCA9685_MODE1_ALLCALL   | 0x01  | 0 = disable       1 = enable       |
 | PCA9685_MODE1_NONE      | 0x00  |                                    |
 |                         |       |                                    |
-| PCA9685_MODE2_BLINK     | 0x20  | 0 = dim           1 = blink        |
 | PCA9685_MODE2_INVERT    | 0x10  | 0 = normal        1 = inverted     |
 | PCA9685_MODE2_STOP      | 0x08  | 0 = on STOP       1 = on ACK       |
 | PCA9685_MODE2_TOTEMPOLE | 0x04  | 0 = open drain    1 = totem-pole   |
@@ -87,16 +86,16 @@ These constants makes it easier to set modes without using a non descriptive
 bit mask. The constants can be merged by OR-ing them together, see snippet:
 
 ```cpp
-ledArray.writeMode(PCA9685_MODE2, 0b00110100);
+ledArray.writeMode(PCA9685_MODE2, 0b00010100);
 
 // would become
 
-uint8_t mode2_mask = PCA9685_MODE2_BLINK | PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE;
+uint8_t mode2_mask = PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE;
 ledArray.writeMode(PCA9685_MODE2, mode2_mask);
 
 // or even
 
-ledArray.setMode2(PCA9685_MODE2_BLINK | PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE);
+ledArray.setMode2(PCA9685_MODE2_INVERT | PCA9685_MODE2_TOTEMPOLE);
 
 ```
 

@@ -2,7 +2,7 @@
 //    FILE: PCA9685.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 

@@ -3,7 +3,7 @@
 //    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION         (F("0.4.2"))
+#define PCA9685_LIB_VERSION         (F("0.5.0"))
 
 // ERROR CODES
 #define PCA9685_OK                  0x00
@@ -42,7 +42,6 @@
 #define PCA9685_MODE1_NONE          0x00
 
 //  Configuration bits MODE2 register
-#define PCA9685_MODE2_BLINK         0x20  //  0 = dim          1 = blink
 #define PCA9685_MODE2_INVERT        0x10  //  0 = normal       1 = inverted
 #define PCA9685_MODE2_ACK           0x08  //  0 = on STOP      1 = on ACK
 #define PCA9685_MODE2_TOTEMPOLE     0x04  //  0 = open drain   1 = totem-pole

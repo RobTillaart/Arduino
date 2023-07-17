@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-07-16
+- fix #21, remove PCA9685_MODE2_BLINK
+  - is breaking (for some)
+
+----
+
 ## [0.4.2] - 2023-03-14
 - add OutputEnable control functions.
 - add example **PCA9685_OE_control.ino**

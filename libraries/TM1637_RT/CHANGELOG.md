@@ -6,14 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.7] - 2023-04-xx
+## [0.3.8] - 2023-07-15
+- fix #27
+- replaced function data\[8] with a class level data\[8].
+- add **hideSegment(uint8_t n)** hide a single segment
+- add **hideMultiSegment(uint8_t mask)** hide multiple segments
+- add **displayFahrenheit()** -9..99F
+- add **displayRefresh()** to refresh last written data.
+- update keywords.txt
+- fix bug in **displayRaw()** (add bool hasPoint).
+- update readme.md
+
+
+## [0.3.7] - 2023-04-17
 - move code from .h to .cpp
 - add **displayTwoInt(int ll, int rr, bool colon = true)**
 - add **displayCelsius(int temp, bool colon = false)**
 - add '°' degree character (18)
 - add examples
 - update readme.md
-
 
 ## [0.3.6] - 2023-02-27
 - add **void displayTime(uint8_t hh, uint8_t mm, bool colon)**

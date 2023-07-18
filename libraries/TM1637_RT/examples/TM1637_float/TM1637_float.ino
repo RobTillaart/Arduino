@@ -22,10 +22,15 @@ void setup()
   TM.begin(2, 3);       //  clockpin, datapin
 
   TM.displayFloat(1.42425);
+  //  TM.dumpCache();
   delay(2000);
+  
   TM.displayFloat(-1.42425);
+  //  TM.dumpCache();
   delay(2000);
+  
   TM.displayClear();
+  //  TM.dumpCache();
   delay(2000);
 }
 

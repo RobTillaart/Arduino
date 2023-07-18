@@ -35,26 +35,38 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - **TM1637()** constructor
 - **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)**
  set up the connection of the pins to the display.
-As the display is only tested with a 6 digit display, 
+As the display was tested with a 6 digit display first, 
 this is used as the default of the digits parameter.
 
 
-#### Display functions
+#### Display functions I
+
+- **void displayClear()** writes spaces to all positions, effectively clearing the display.
+- **void displayRefresh()** refreshes last written data on display.
+To be used e.g. after a **hideSegment()** call.
+- **void hideSegment(uint8_t idx)** writes space to a single segment.
+- **void hideMultiSegment(uint8_t mask)** writes spaces to 0 or more segments depending on the mask.
+
+
+#### Display functions II
 
 - **void displayPChar(char \*buff)** display the buffer. 
-Experimental - Tested on STM32 and Arduino Nano
+Experimental - Tested on STM32 and Arduino Nano.
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
-- **void displayInt(long value)** idem
-- **void displayFloat(float value)** idem, position of point may vary!
-- **void displayFloat(float value, uint8_t fixedPoint)** display float with fixed point position.
-- **void displayHex(uint32_t value)** idem
-- **void displayClear()** writes spaces to all positions, effectively clearing the display.
+Display a point at pointPos (see below).
+- **void displayInt(long value)** displays an integer value.
+- **void displayFloat(float value)** displays a float value.
+Position of point may vary!
+- **void displayFloat(float value, uint8_t fixedPoint)** displays a float value with a fixed point position.
+- **void displayHex(uint32_t value)** display a number in hexadecimal notation.
 - **void displayTime(uint8_t hh, uint8_t mm, bool colon)** displays time format.
 The function does not check for overflow e.g. hh > 59 or mm > 59.
 Works only on a 4 digit display.
+Can be used for 
   - hours + minutes HH:MM 
   - minutes + seconds MM:SS
   - seconds + hundreds SS:hh
+The colon can be used e.g. as pulses to indicate seconds etc.
 - **void displayTwoInt(int ll, int rr, bool colon = true)** print two integers,
  one left and one right of the colon. 
 The function allows a range from -9 .. 99 (not checked).
@@ -62,19 +74,35 @@ The colon is default on as separator.
 Works only on a 4 digit display.
 Applications include:
   - temperature + humidity TT:HH  (humidity to 99%)
-  - heartbeat + oxygen HH:OO
+  - heartbeat + oxygen HH:OO (both max to 99)
   - meters + centimetre MM:CC  (e.g distance sensor)
   - feet + inches FF:II
   - any pair of integers (-9 .. 99) side by side.
-- **void displayCelsius(int temp, bool colon = false)** print temperature **Celsius**.
+- **void displayCelsius(int temp, bool colon = false)** print temperature in **Celsius** format.
 The function allows a range from -9 .. 99 + °C.
 The colon is default false.
 Works only on a 4 digit display.
-It can be used e.g. to indicate under- or overflow, or any other threshold.
+Colon can be used e.g. to indicate under- or overflow, or any other threshold.
+- **void displayFahrenheit(int temp, bool colon = false)** print temperature in **Fahrenheit** format.
+The function allows a range from -9 .. 99 + °F.
+The colon is default false.
+Works only on a 4 digit display.
+Colon can be used e.g. to indicate under- or overflow, or any other threshold.
 
 ```cpp
 TM.displayCelsius(temperature, (temperature < -9) || (temperature > 99));
 ```
+
+##### Notes on temperature
+
+Note that the effective range of C and F differs
+|   F   |   C   |   F   |   C   |
+|:-----:|:-----:|:-----:|:-----:|
+|  -9   | -26   |   16  |  -9   |
+|  99   |  37   |  210  |  99   |
+
+Need to think about a 3 digit temperature to extend the range -99 .. 999
+or to have one decimal.
 
 
 #### Brightness
@@ -92,7 +120,7 @@ The keyscan() function cannot detect multiple keys.
 #### DisplayRaw explained
 
 **displayRaw()** can display multiple decimal points, by setting the high bit (0x80) 
-in each character for which you wish to have a decimal lit.  
+in each character for which you wish to have a decimal point lit.  
 Or you can use the pointPos argument to light just one decimal at that position.
 
 **displayRaw()** can display some of the alphabet as follows:
@@ -113,6 +141,31 @@ See routine **ascii_to_7segment()** in the example TM1637_keyscan_cooked.ino.
 It presents a more convenient interface for displaying text messages on the display.
 
 Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
+
+
+#### hideSegment() explained
+
+- **void hideSegment(uint8_t idx)** hides a single segment until any other call to display.
+- **void hideMultiSegment(uint8_t mask)** hides 0 or more segments depending on the mask.
+A 0 bit shows the segment, and a 1 bit hides the segment. 
+A mask of 0x00 == 0b00000000 will show all segments.
+A mask 0f 0xFF == 0b11111111 will hide all segments. 
+- **void displayRefresh()** refreshes last written data on display.
+
+The function **hideSegment()** can be used to
+- set focus on an digit, e.g. during an input
+- to create an animation e.g. "wave"
+
+The function **hideMultiSegment()** can be used to
+- hide a partial display, e.g. in combination with the **displayTwoInt()** 
+to alternate between the two values.
+- put a display in a LOW ENERGY mode. **displayRefresh()** will refresh the last written data.
+- put a display in a DARK mode, e.g. only show the data when a key is pressed (any trigger).
+- create an animation, 
+- implement blinking in combination with **displayRefresh()**.
+
+Note: **hideMultiSegment()** and **hideMultiSegment()** do not affect the "display cache" 
+where **displayClear()** fills the "display cache" with spaces.
 
 
 #### Obsolete (0.4.0)
@@ -238,16 +291,24 @@ See examples
 
 - testing other platforms.
 - refactor readme.md
+- remove degree sign from **displayCelsius()** ?
+  - would allow one extra digit.
+  - **displayFahrenheit()** idem.
+  - could be optional when needed e.g. below -9 or above 99
 
 
 #### Could
 
 - **keyScan()** camelCase ?
-- add debug flag for test without hardware.
-  - simulate output to Serial? (HEX)?
-- extend some functions to 6 digit display too?
-  - time, celsius, twoint
-- 
+- add parameter for **hideSegement(idx, character == SPACE)** to overrule hide char.
+  - space underscore or - are possible.
+- add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```
+- return bytes written as return value for display functions.
+- **void displayHumidity(int hum, bool colon = false)** print humidity in **percent** format.
+The function allows a range from 0.00H .. 99.9H or 00.0H ?
+Colon to indicate rising / falling ????
+- generic function that displays three digits and one char ACDEFH ???
+  - common for celsius and fahrenheit and humidity?
 
 #### Wont (unless requested)
 
@@ -262,3 +323,13 @@ See examples
   - performance measurement
 - **displayTest()** function ?
   - not needed just print 88888888
+- add debug flag for test without hardware.
+  - simulate output to Serial? (HEX)?
+  - is now commented code, good enough + dumpcache()
+- extend some functions to 6 digit display too?
+  - time(hh.mm.ss)
+  - Celsius (nn.nn°C)
+  - twoInt => threeInt
+  - on request only
+
+

@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -85,14 +85,14 @@ void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 
 void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 {
-  _clock  = clockPin;
-  _data   = dataPin;
-  _digits = digits;
+  _clockPin = clockPin;
+  _dataPin  = dataPin;
+  _digits   = digits;
 
-  pinMode(_clock, OUTPUT);
-  digitalWrite(_clock, HIGH);
-  pinMode(_data, OUTPUT);
-  digitalWrite(_data, HIGH);
+  pinMode(_clockPin, OUTPUT);
+  digitalWrite(_clockPin, HIGH);
+  pinMode(_dataPin, OUTPUT);
+  digitalWrite(_dataPin, HIGH);
 
   //  TODO: replace _digits by a display enumeration?
   if (_digits == 4)
@@ -108,7 +108,7 @@ void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 
 void TM1637::displayInt(long value)
 {
-  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
   long v = value;
   int last = _digits;
@@ -117,23 +117,23 @@ void TM1637::displayInt(long value)
   {
     v = -v;
     last--;
-    data[last] = TM1637_MINUS;
+    _data[last] = TM1637_MINUS;
   }
 
   for (int i = 0; i < last; i++)
   {
     long t = v / 10;
-    data[i] = v - 10 * t;   //  faster than %
+    _data[i] = v - 10 * t;   //  faster than %
     v = t;
   }
 
-  displayRaw(data, -1);
+  displayRaw(_data, -1);
 }
 
 
 void TM1637::displayFloat(float value)
 {
-  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
   float v  = value;
   int dpos = _digits - 1;
@@ -145,7 +145,7 @@ void TM1637::displayFloat(float value)
     v = -v;
     dpos--;
     last--;
-    data[last] = TM1637_MINUS;
+    _data[last] = TM1637_MINUS;
   }
 
   while (v >= 10)
@@ -156,20 +156,17 @@ void TM1637::displayFloat(float value)
   for (int i = last-1; i > -1; i--)
   {
     int d = v;
-    data[i] = d;
+    _data[i] = d;
     v -= d;
     v *= 10;
   }
-  displayRaw(data, dpos);
+  displayRaw(_data, dpos);
 }
 
 
 void TM1637::displayFloat(float value, uint8_t fixedPoint)
 {
-  //  DEBUG
-  //  Serial.println(value);
-
-  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
   float v   = value;
   int dpos  = _digits - 1;
@@ -195,107 +192,165 @@ void TM1637::displayFloat(float value, uint8_t fixedPoint)
 
   if (neg)
   {
-    data[point] = TM1637_MINUS;
+    _data[point] = TM1637_MINUS;
   }
 
   for (int i = point - 1; i > -1; i--)
   {
     int d = v;
-    data[i] = d;
+    _data[i] = d;
     v -= d;
     v *= 10;
   }
-  displayRaw(data, fixedPoint);
+  displayRaw(_data, fixedPoint);
 }
 
 
 void TM1637::displayHex(uint32_t value)
 {
-  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
   uint32_t v = value;
   for (int i = 0; i < _digits; i++)
   {
     uint32_t t = v / 16;
-    data[i] = v & 0x0F;     //  faster than %
+    _data[i] = v & 0x0F;     //  faster than %
     v = t;
   }
-  displayRaw(data, -1);
+  displayRaw(_data, -1);
 }
 
 
-void TM1637::displayTime(uint8_t hh, uint8_t mm, bool colon)
+void TM1637::displayTime(uint8_t hour, uint8_t minute, bool colon)
 {
   if (_digits != 4) return;
-  uint8_t data[4] = { 16, 16, 16, 16 };
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+
   //  optional
-  //  if (hh > 99) hh = 99;
-  //  if (mm > 99) mm = 99;
-  data[3] = hh / 10;
-  data[2] = hh % 10;
-  data[1] = mm / 10;
-  data[0] = mm % 10;
-  displayRaw(data, colon ? 2 : -1);
+  //  if (hour > 99) hour = 99;
+  //  if (minute > 99) minute = 99;
+  _data[3] = hour / 10;
+  _data[2] = hour % 10;
+  _data[1] = minute / 10;
+  _data[0] = minute % 10;
+  displayRaw(_data, colon ? 2 : -1);
 }
 
 
-void TM1637::displayTwoInt(int ll, int rr, bool colon)
+void TM1637::displayTwoInt(int left, int right, bool colon)
 {
   if (_digits != 4) return;
-  uint8_t data[4] = { 16, 16, 16, 16 };
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+
   //  optional
-  //  if (ll < -9) ll = -9;
-  //  if (ll > 99) ll = 99;
-  //  if (rr < -9) rr = -9;
-  //  if (rr > 99) rr = 99;
-  if (ll < 0)
+  //  if (left < -9)  left = -9;
+  //  if (left > 99)  left = 99;
+  //  if (right < -9) right = -9;
+  //  if (right > 99) right = 99;
+  if (left < 0)
   {
-    data[3] = TM1637_MINUS;
-    data[2] = -ll;
+    _data[3] = TM1637_MINUS;
+    _data[2] = -left;
   }
   else
   {
-    data[3] = ll / 10;
-    data[2] = ll % 10;
+    _data[3] = left / 10;
+    _data[2] = left % 10;
   }
-  if (rr < 0)
+  if (right < 0)
   {
-    data[1] = TM1637_MINUS;
-    data[0] = -rr;
+    _data[1] = TM1637_MINUS;
+    _data[0] = -right;
   }
   else
   {
-    data[1] = rr / 10;
-    data[0] = rr % 10;
+    _data[1] = right / 10;
+    _data[0] = right % 10;
   }
-  displayRaw(data, colon ? 2 : -1);
+  displayRaw(_data, colon ? 2 : -1);
 }
 
 
 void TM1637::displayCelsius(int temp, bool colon)
 {
   if (_digits != 4) return;
-  uint8_t data[4] = { 12, 18, 16, 16 };
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+  _data[0] = 12;             //  C
+  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
   if (temp < 0)
   {
-    data[3] = TM1637_MINUS;
-    data[2] = -temp;
+    _data[3] = TM1637_MINUS;
+    _data[2] = -temp;
   }
   else
   {
-    data[3] = temp / 10;
-    data[2] = temp % 10;
+    _data[3] = temp / 10;
+    _data[2] = temp % 10;
   }
-  displayRaw(data, colon ? 2 : -1);
+  displayRaw(_data, colon ? 2 : -1);
+}
+
+
+void TM1637::displayFahrenheit(int temp, bool colon)
+{
+  if (_digits != 4) return;
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+  _data[0] = 15;             //  F
+  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+
+  if (temp < -9) temp = -9;
+  if (temp > 99) temp = 99;
+  if (temp < 0)
+  {
+    _data[3] = TM1637_MINUS;
+    _data[2] = -temp;
+  }
+  else
+  {
+    _data[3] = temp / 10;
+    _data[2] = temp % 10;
+  }
+  displayRaw(_data, colon ? 2 : -1);
 }
 
 
 void TM1637::displayClear()
 {
-  uint8_t data[8] = { 16, 16, 16, 16, 16, 16, 16, 16};
-  displayRaw(data, -1);
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+  displayRaw(_data, -1);
+}
+
+
+void TM1637::displayRefresh()
+{
+  //  display internal buffer again.
+  displayRaw(_data, _lastPointPos);
+}
+
+
+void TM1637::hideSegment(uint8_t idx)
+{
+  if (idx > 7) return;
+  uint8_t tmp[8];
+  for (int i = 0; i < 8; i++) tmp[i] = _data[i];
+  tmp[idx] = TM1637_SPACE;
+  displayRaw(tmp, _lastPointPos);
+}
+
+
+void TM1637::hideMultiSegment(uint8_t mask)
+{
+  uint8_t tmp[8];
+  for (int i = 0; i < 8; i++)
+  {
+    if ((mask & 0x01) == 0x01) tmp[i] = TM1637_SPACE;
+    else tmp[i] = _data[i];
+    mask >>= 1;
+  }
+  displayRaw(tmp, _lastPointPos);
 }
 
 
@@ -349,7 +404,7 @@ void TM1637::displayPChar( char * data )
   start();
   writeByte(TM1637_CMD_SET_ADDR);
 
-  for (int d = _digits-1; d >=0 ; d--)
+  for (int d = _digits-1; d >= 0 ; d--)
   {
     uint8_t i = _digitOrder[d];
     writeByte( asciiTo7Segment(data[i]) );
@@ -362,19 +417,20 @@ void TM1637::displayPChar( char * data )
 }
 
 
-void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
+void TM1637::displayRaw(uint8_t * raw, uint8_t pointPos)
 {
   //  DEBUG
   // for (uint8_t d = 0; d < _digits; d++)
   // {
-    // uint8_t x = data[_digits - d];
+    // uint8_t x = raw[_digits - d - 1];
     // if (x < 0x10) Serial.print('0');
     // Serial.print(x, HEX);
-    // Serial.print(' ');
+    // Serial.print('-');
   // }
   // Serial.println();
 
   uint8_t b = 0;
+  _lastPointPos = pointPos;
 
   start();
   writeByte(TM1637_ADDR_AUTO);
@@ -386,17 +442,18 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
   for (uint8_t d = 0; d < _digits; d++)
   {
     uint8_t i = _digitOrder[d];
-    data[i] &= 0x7f;
-    if (data[i] <= 18)        //  HEX DIGIT
+    bool hasPoint = raw[i] & 0x80;
+    raw[i] &= 0x7f;
+    if (raw[i] <= 18)        //  HEX DIGIT
     {
-      b = seg[data[i]];
+      b = seg[raw[i]];
     }
-    else if (data[i] <= 37)   //  ASCII
+    else if (raw[i] <= 37)   //  ASCII
     {
-      b = alpha_seg[data[i] - 18];
+      b = alpha_seg[raw[i] - 18];
     }
     //  do we need a decimal point
-    if ((i == pointPos) || (data[i] & 0x80))
+    if ((i == pointPos) || hasPoint)
     {
       b |= 0x80;
     }
@@ -410,6 +467,17 @@ void TM1637::displayRaw(uint8_t * data, uint8_t pointPos)
 }
 
 
+void TM1637::dumpCache()
+{
+  for (int i = 0; i < 8; i++)
+  {
+    Serial.print(_data[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+}
+
+
 //////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -419,24 +487,24 @@ uint8_t TM1637::writeByte(uint8_t data)
   //  shift out data 8 bits LSB first
   for (uint8_t i = 8; i > 0; i--)
   {
-    writeSync(_clock, LOW);
-    writeSync(_data, data & 0x01);
-    writeSync(_clock, HIGH);
+    writeSync(_clockPin, LOW);
+    writeSync(_dataPin, data & 0x01);
+    writeSync(_clockPin, HIGH);
     data >>= 1;
   }
 
-  writeSync(_clock, LOW);
-  writeSync(_data, HIGH);
-  writeSync(_clock, HIGH);
+  writeSync(_clockPin, LOW);
+  writeSync(_dataPin, HIGH);
+  writeSync(_clockPin, HIGH);
 
   //  get ACKNOWLEDGE
-  pinMode(_data, INPUT);
+  pinMode(_dataPin, INPUT);
   delayMicroseconds(_bitDelay);
-  uint8_t rv = digitalRead(_data);
+  uint8_t rv = digitalRead(_dataPin);
 
   //  FORCE OUTPUT LOW
-  pinMode(_data, OUTPUT);
-  digitalWrite(_data, LOW);
+  pinMode(_dataPin, OUTPUT);
+  digitalWrite(_dataPin, LOW);
   delayMicroseconds(_bitDelay);
   return rv;
 }
@@ -444,19 +512,19 @@ uint8_t TM1637::writeByte(uint8_t data)
 
 void TM1637::start()
 {
-  writeSync(_clock, HIGH);
-  writeSync(_data, HIGH);
-  writeSync(_data, LOW);
-  writeSync(_clock, LOW);
+  writeSync(_clockPin, HIGH);
+  writeSync(_dataPin, HIGH);
+  writeSync(_dataPin, LOW);
+  writeSync(_clockPin, LOW);
 }
 
 
 void TM1637::stop()
 {
-  writeSync(_clock, LOW);
-  writeSync(_data, LOW);
-  writeSync(_clock, HIGH);
-  writeSync(_data, HIGH);
+  writeSync(_clockPin, LOW);
+  writeSync(_dataPin, LOW);
+  writeSync(_clockPin, HIGH);
+  writeSync(_dataPin, HIGH);
 }
 
 
@@ -486,27 +554,27 @@ uint8_t TM1637::keyscan(void)
   start();
   key = 0;
   writeByte(TM1637_READ_KEYSCAN);  //  includes the ACK, leaves DATA low
-  pinMode(_data, INPUT_PULLUP);
+  pinMode(_dataPin, INPUT_PULLUP);
 
   for (uint8_t i = 0; i <= 7; i++) {
-    writeSync(_clock, LOW);
+    writeSync(_clockPin, LOW);
     delayMicroseconds(halfDelay);
-    writeSync(_clock, HIGH);
+    writeSync(_clockPin, HIGH);
     delayMicroseconds(halfDelay);
     key >>= 1;
-    key |= (digitalRead(_data)) ? 0x80 : 0x00 ;
+    key |= (digitalRead(_dataPin)) ? 0x80 : 0x00 ;
   }
 
-  writeSync(_clock, LOW);
+  writeSync(_clockPin, LOW);
   delayMicroseconds(halfDelay);
-  writeSync(_clock, HIGH);
+  writeSync(_clockPin, HIGH);
 
   //  wait for ACK
   delayMicroseconds(halfDelay);
 
   //  FORCE OUTPUT LOW
-  pinMode(_data, OUTPUT);
-  digitalWrite(_data, LOW);
+  pinMode(_dataPin, OUTPUT);
+  digitalWrite(_dataPin, LOW);
   delayMicroseconds(halfDelay);
   stop();
   return key;

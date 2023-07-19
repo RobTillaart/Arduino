@@ -20,9 +20,21 @@ void setup()
   Wire.begin();
   MCP.begin();
 
-  MCP.pinMode8(0xFF);
+  Serial.print("Connect: ");
+  Serial.println(MCP.isConnected());
 
+  //  all at once.
+  //  MCP.pinMode8(0xFF);
+  //  set individual pins
+  for (int pin = 0; pin < 8; pin++)
+  {
+    MCP.pinMode(pin, INPUT);
+  }
   Serial.println("TEST digitalRead(pin)");
+}
+
+void loop()
+{
   for (int pin = 0; pin < 8; pin++)
   {
     int val = MCP.digitalRead(pin);
@@ -30,10 +42,7 @@ void setup()
     Serial.print('\t');
   }
   Serial.println();
-}
-
-void loop()
-{
+  delay(1000);
 }
 
 

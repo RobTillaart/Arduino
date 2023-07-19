@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -357,6 +357,17 @@ int MCP23008::lastError()
   int e = _error;
   _error = MCP23008_OK;  //  reset error after read.
   return e;
+}
+
+
+////////////////////////////////////////////////////
+//
+//  DEBUG
+//
+
+uint8_t MCP23008::getPinMode8()
+{
+  return readReg(0);
 }
 
 

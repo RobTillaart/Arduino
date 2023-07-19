@@ -17,23 +17,26 @@
 #include "MCP4725.h"
 #include "Wire.h"
 
-uint16_t     freq = 100;
-uint32_t   period = 0;
-uint32_t   halvePeriod = 0;
+uint16_t   freq = 100;
+uint32_t period = 0;
+uint32_t halvePeriod = 0;
 
-// q = square
-// s = sinus
-// w = sawtooth
-// t = stair
-// r = random
+
+//  q = square       z = zero
+//  s = sinus        m = mid
+//  w = sawtooth     h = high
+//  t = stair
+//  r = random
 char mode = 'q';
+
 
 MCP4725 MCP(0x63, &Wire1);
 uint16_t count;
 uint32_t lastTime = 0;
 
-// LOOKUP TABLE SINE
-uint16_t sine[360];
+
+//  LOOKUP TABLE SINE
+uint16_t sine[361];
 
 
 void setup()
@@ -68,7 +71,8 @@ void setup()
     if (now - lastTime > 100000)
     {
       lastTime = now;
-      // Serial.println(count); // show # updates per 0.1 second
+      //  show # updates per 0.1 second
+      //  Serial.println(count);
       count = 0;
       if (Serial.available())
       {
@@ -156,7 +160,7 @@ void setup()
         // MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
-        MCP.setValue(sine[idx]);  // lookuptable
+        MCP.setValue(sine[idx]);   //  fetch from lookup table
         break;
     }
   }

@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 //  HISTORY see changelog.md
@@ -111,6 +111,12 @@ int MCP4725::setPercentage(float percentage)
 }
 
 
+float MCP4725::getPercentage()
+{
+  return getValue() * (100.0 / MCP4725_MAXVALUE);
+};
+
+
 //  unfortunately it is not possible to write a different value
 //  to the DAC and EEPROM simultaneously or write EEPROM only.
 int MCP4725::writeDAC(const uint16_t value, const bool EEPROM)
@@ -145,6 +151,12 @@ uint16_t MCP4725::readEEPROM()
   value = value + buffer[4];
   return value;
 }
+
+
+uint32_t MCP4725::getLastWriteEEPROM()
+{
+  return _lastWriteEEPROM;
+};
 
 
 //  depending on bool EEPROM the value of PDM is written to
@@ -197,6 +209,7 @@ int MCP4725::powerOnWakeUp()
   _powerDownMode = readPowerDownModeDAC();  // update to actual value;
   return rv;
 }
+
 
 //  PAGE 18 DATASHEET
 int MCP4725::_writeFastMode(const uint16_t value)

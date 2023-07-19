@@ -5,13 +5,13 @@
 //    DATE: 2020-12-26
 //     URL: https://github.com/RobTillaart/MCP4725
 //
-// test to see behaviour when sensor is not connected and reconnected again. E.g. loose wires..
+//  test to see behaviour when sensor is not connected and reconnected again. E.g. loose wires..
 
 
 #include "Wire.h"
 #include "MCP4725.h"
 
-MCP4725 MCP(0x62);  // 0x62 or 0x63
+MCP4725 MCP(0x62);  //  0x62 or 0x63
 
 bool connected = false;
 
@@ -48,5 +48,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -9,7 +9,7 @@
 #include "Wire.h"
 #include "MCP4725.h"
 
-MCP4725 MCP(0x62);  // 0x62 or 0x63
+MCP4725 MCP(0x62);  //  0x62 or 0x63
 
 
 void setup()
@@ -57,7 +57,7 @@ void setup()
 
 void loop()
 {
-  // different gradients
+  //  different gradients
   smooth2Value(4095, 4096);
   smooth2Value(0, 4096);
   smooth2Value(4095, 2048);
@@ -81,10 +81,10 @@ int smooth2Value(uint16_t value, uint16_t steps)
       MCP.setValue( round(startValue + i * delta) );
     }
   }
-  // get the end value right
+  //  get the end value right
   return MCP.setValue(value);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

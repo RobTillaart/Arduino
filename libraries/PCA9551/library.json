@@ -1,0 +1,23 @@
+{
+  "name": "PCA9551",
+  "keywords": "I2C,PCA9551,PWM",
+  "description": "Arduino library for PCA9551 I2C LED driver, 8 channel",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9551.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "PCA9551.h"
+}

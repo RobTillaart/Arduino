@@ -1,6 +1,6 @@
 {
   "name": "PCA9553",
-  "keywords": "I2C,PCA9635,PWM",
+  "keywords": "I2C,PCA9553,PWM",
   "description": "Arduino library for PCA9553 I2C LED driver, 4 channel",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCA9553.git"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

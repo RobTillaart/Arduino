@@ -1,0 +1,23 @@
+{
+  "name": "PCA9552",
+  "keywords": "I2C,PCA9552,PWM",
+  "description": "Arduino library for PCA9552 I2C LED driver, 16 channel",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9552.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "PCA9552.h"
+}

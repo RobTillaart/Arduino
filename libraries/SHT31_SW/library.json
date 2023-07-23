@@ -18,7 +18,20 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT31_SW"
   },
-  "version": "0.1.1",
+  "dependencies":
+  [
+    {
+      "owner": "Steve Marple",
+      "name": "SoftWire",
+      "version": "^2.0.9"
+    },    
+    {
+      "owner": "Steve Marple",
+      "name": "AsyncDelay",
+      "version": "^1.1.2"
+    }
+  ],
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "*",

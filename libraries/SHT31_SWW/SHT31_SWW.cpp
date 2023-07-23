@@ -1,14 +1,14 @@
 //
 //    FILE: SHT31_SWW.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2019-02-08 (base SHT31 lib)
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          to be used with the SoftwareWire library instead of (hardware) Wire.
 //          derives from SHT31 0.3.8
-//          https://www.adafruit.com/product/2857
-//     URL: https://github.com/RobTillaart/SHT31_SWWW
-//     URL: https://github.com/RobTillaart/SHT31
+//     URL: https://www.adafruit.com/product/2857
+//          https://github.com/RobTillaart/SHT31_SWW
+//          https://github.com/RobTillaart/SHT31
 
 
 #include "SHT31_SWW.h"
@@ -31,7 +31,7 @@
 
 SHT31_SWW::SHT31_SWW()
 {
-  _softWire       = NULL;
+  _softwareWire   = NULL;
   _address        = 0;
   _lastRead       = 0;
   _rawTemperature = 0;
@@ -44,29 +44,29 @@ SHT31_SWW::SHT31_SWW()
 }
 
 
-bool SHT31_SWW::begin(const uint8_t address,  SoftwareWire *softWire)
+bool SHT31_SWW::begin(const uint8_t address,  SoftwareWire * wire)
 {
   if ((address != 0x44) && (address != 0x45))
   {
     return false;
   }
   _address  = address;
-  _softWire = softWire;
-  _softWire->begin();
+  _softwareWire = wire;
+  _softwareWire->begin();
   return reset();
 }
 
 
-bool SHT31_SWW::begin(SoftwareWire *softWire)
+bool SHT31_SWW::begin(SoftwareWire * wire)
 {
-  return begin(SHT_DEFAULT_ADDRESS, softWire);
+  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 
 bool SHT31_SWW::isConnected()
 {
-  _softWire->beginTransmission(_address);
-  int rv = _softWire->endTransmission();
+  _softwareWire->beginTransmission(_address);
+  int rv = _softwareWire->endTransmission();
   if (rv != 0) _error = SHT31_ERR_NOT_CONNECT;
   return (rv == 0);
 }
@@ -78,10 +78,10 @@ bool SHT31_SWW::isConnected()
 //
 bool SHT31_SWW::writeCmd(uint16_t cmd)
 {
-  _softWire->beginTransmission(_address);
-  _softWire->write(cmd >> 8 );
-  _softWire->write(cmd & 0xFF);
-  if (_softWire->endTransmission() != 0)
+  _softwareWire->beginTransmission(_address);
+  _softwareWire->write(cmd >> 8 );
+  _softwareWire->write(cmd & 0xFF);
+  if (_softwareWire->endTransmission() != 0)
   {
     _error = SHT31_ERR_WRITECMD;
     return false;
@@ -92,12 +92,12 @@ bool SHT31_SWW::writeCmd(uint16_t cmd)
 
 bool SHT31_SWW::readBytes(uint8_t n, uint8_t *val)
 {
-  int rv = _softWire->requestFrom(_address, (uint8_t) n);
+  int rv = _softwareWire->requestFrom(_address, (uint8_t) n);
   if (rv == n)
   {
     for (uint8_t i = 0; i < n; i++)
     {
-      val[i] = _softWire->read();
+      val[i] = _softwareWire->read();
     }
     return true;
   }

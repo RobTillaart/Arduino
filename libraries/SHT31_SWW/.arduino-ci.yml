@@ -1,4 +1,7 @@
 unittest:
+  platforms:
+    - uno
+    # - mega2560
   libraries:
     - "SoftwareWire"
     - "SHT31"

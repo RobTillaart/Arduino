@@ -1,53 +1,62 @@
 
-[![Arduino CI](https://github.com/robtillaart/SHT31_SW/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml)
-[![Arduino-lint](https://github.com/RobTillaart/SHT31_SW/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SW/actions/workflows/arduino-lint.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT31_SW/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT31_SW.svg?maxAge=3600)](https://github.com/RobTillaart/SHT31_SW/releases)
+[![Arduino CI](https://github.com/robtillaart/SHT31_SWW/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![JSON check](https://github.com/RobTillaart/SHT31_SWW/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SWW/actions/workflows/jsoncheck.yml)
+[![Arduino-lint](https://github.com/RobTillaart/SHT31_SWW/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SWW/actions/workflows/arduino-lint.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT31_SWW/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT31_SWW.svg?maxAge=3600)](https://github.com/RobTillaart/SHT31_SWW/releases)
 
 
-# SHT31_SW
+# SHT31_SWW
 
 Arduino library for the SHT31 temperature and humidity sensor - using **SoftwareWire**.
 
 
 ## Description
 
-This library features the class SHT31_SW derived from - https://github.com/RobTillaart/SHT31
+This **experimental**  library features the class SHT31_SWW derived from - https://github.com/RobTillaart/SHT31
 It has the same interface as the SHT31 class so please use that documentation 
 as it will be the "leading class".
 
-The main difference is that this SHT31_SW class uses the **SoftwareWire** 
+The main difference is that the SHT31_SWW class uses the **SoftwareWire** 
 library for communication instead of the **TwoWire** based **Wire** class.
+See SHT31 PR #35.
 
 **SoftwareWire** is a software I2C bus library to be able to select other pins 
 than the default (AVR) hardware I2C pins (SDA and SCL).
 An important reason to use this version is when you want more than two 
 devices on one Arduino.
 
-
-#### Status 
-
-- experimental
-- created as alternative for SHT31 PR #35.
-- 0.1.0 uses SoftwareWire which also works for the SHT85. (see issue #5)
-  - The footprint for SoftwareWire is ~500 bytes smaller (on UNO).
+Note: this library is AVR specific.
 
 
-#### SHT sensors
+#### SoftWire vs SoftwareWire
 
-The SHT3x family of sensors should work up to 1 MHz I2C (although 
+The **SoftWire** library is portable, however it could not read (on AVR)
+the SHT85 sensor which is command compatible with the SHT3x.
+The cause is not found yet.
+Therefore a separate repo is created based upon the AVR specific **SoftwareWire**
+see links below. 
+If you know a solution to get softWire working on AVR, please let me know.
+
+The **SoftwareWire** library is an AVR specific and worked for the SHT85.
+See https://github.com/RobTillaart/SHT31_SW/issues/5
+
+
+#### SHT3x SHT85 sensors
+
+The SHT3x family of sensors should work up to 1 MHz I2C although not tested above 400 MHz.
 
 This library should also work for SHT30/35/85 but these are not tested yet.
 
 Accuracy table
 
-|  SENSOR  |  Temperature  |  Humidity  |
-|:--------:|:-------------:|:----------:|
-|  SHT30   |  ~0.3         |  2.0       |
-|  SHT31   |  ~0.3         |  1.5       |
-|  SHT35   |  ~0.2         |  1.5       |
-|  SHT85   |  ~0.2         |  1.5       |
+|  SENSOR  |  Temperature  |  Humidity  |  works         |
+|:--------:|:-------------:|:----------:|:---------------|
+|  SHT30   |  ~0.3         |  2.0       |  (not tested)  |
+|  SHT31   |  ~0.3         |  1.5       |  yes           |
+|  SHT35   |  ~0.2         |  1.5       |  (not tested)  |
+|  SHT85   |  ~0.2         |  1.5       |  yes           |
+
 
 
 #### Links
@@ -55,7 +64,11 @@ Accuracy table
 These libraries need to be installed to get SHT31_SW working:
 
 - https://github.com/RobTillaart/SHT31
-- https://github.com/Testato/SoftwareWire
+- https://github.com/Testato/SoftwareWire      //   AVR only
+
+Related
+- https://github.com/stevemarple/AsyncDelay
+- https://github.com/stevemarple/SoftWire
 
 
 ## Interface
@@ -92,7 +105,8 @@ you've performed a new reading.
 #### Error interface
 
 - **int getError()** returns last set error flag and clear it. 
-Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
+Be sure to clear the error flag by calling **getError()** before calling 
+any command as the error flag could be from a previous command.
 
 |  Error  |  Symbolic                   |  Description                  |
 |:-------:|:----------------------------|:------------------------------|
@@ -172,8 +186,7 @@ Returns false if reading fails or in case of a CRC failure.
 
 #### Must
 
-- keep in sync with (leading) SHT31 library
-- remove script for atomic if not needed any more.
+- keep in sync with (leading) SHT31 and SHT31_SW library.
 
 #### Should
 

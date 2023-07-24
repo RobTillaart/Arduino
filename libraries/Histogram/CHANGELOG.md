@@ -6,13 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2023-06-30
+- change return type **uint8_t clear()**, return status bucket
+- change return type **uint8_t setBucket(value)**, return status bucket
+- change return type **uint8_t add(value)**, return status bucket
+- change return type **uint8_t sub(value)**, return status bucket
+- add **uint8_t status()** last known status.
+- add **int32_t sum()**, adds up all buckets.
+- made **setBucket()** virtual.
+- update / clean up readme.md
+- minor improvements derived classes - still experimental
+
+
 ## [0.3.3] - 2023-02-21
 - optimize loops
 - update readme.md
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [0.3.2] - 2022-11-09
 - add changelog.md

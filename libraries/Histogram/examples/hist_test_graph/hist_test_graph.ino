@@ -14,7 +14,7 @@ float bounds[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900
 Histogram hist(14, bounds);
 
 uint32_t lastTime = 0;
-const uint32_t threshold = 1000;  // milliseconds, for updating display
+const uint32_t threshold = 5000;  //  milliseconds, for updating display
 
 
 void setup()
@@ -43,7 +43,7 @@ void loop()
   {
     lastTime = now;
 
-    for (int i = 0; i < hist.size(); i++)
+    for (uint16_t i = 0; i < hist.size(); i++)
     {
       Serial.print(i);
       Serial.print("\t");

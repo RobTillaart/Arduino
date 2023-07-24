@@ -29,14 +29,14 @@ void setup()
   Serial.print("# buckets: ");
   Serial.println(hist.size());
 
-  for (uint16_t i = 0; i < hist.size()-1; i++)
+  for (uint16_t i = 0; i < hist.size() - 1; i++)
   {
     Serial.print("\t");
     Serial.print(b[i], 2);
   }
   Serial.println();
 
-  for (uint16_t i = 0; i < hist.size()-1; i++)
+  for (uint16_t i = 0; i < hist.size() - 1; i++)
   {
     Serial.print("\t");
     Serial.print(hist.find(b[i]));
@@ -59,7 +59,13 @@ void loop()
   //  Serial.print(x);
   //  Serial.print("\t");
   //  Serial.println(hist.find(x));
-  hist.add(x);
+  if (hist.add(x) == false)
+  {
+    Serial.print("ERR: \t");
+    Serial.print(x);
+    Serial.print("\t");
+    Serial.println(hist.find(x));
+  }
 
   // update output
   uint32_t now = millis();

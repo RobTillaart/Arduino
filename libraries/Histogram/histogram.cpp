@@ -1,7 +1,7 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 
@@ -23,6 +23,8 @@ Histogram::Histogram(const uint16_t length, float *bounds)
     _length = 0;
   }
   _count = 0;
+  _status = HISTO_OK;
+  _maxBucket = 2147483647;
 }
 
 
@@ -36,45 +38,75 @@ Histogram::~Histogram()
 
 
 //  resets all counters to value (default 0)
-void Histogram::clear(int32_t value)
+uint8_t Histogram::clear(int32_t value)
 {
   for (uint16_t i = 0; i < _length; i++)
   {
     _data[i] = value;
   }
   _count = 0;
+  _status = HISTO_OK;
+  if (value == _maxBucket) _status = HISTO_FULL;
+  return _status;
 }
 
 
-void Histogram::setBucket(const uint16_t index, int32_t value)
+uint8_t Histogram::setBucket(const uint16_t index, int32_t value)
 {
   _data[index] = value;
+  _status = HISTO_OK;
+  if (value == _maxBucket) _status = HISTO_FULL;
+  return _status;
 }
 
 
 //  adds a new value to the histogram - increasing
-void Histogram::add(const float value)
+uint8_t Histogram::add(const float value)
 {
-  if (_length > 0)
+  if (_length == 0)
   {
-    uint16_t index = find(value);
-    _data[index]++;
-    _count++;
+    _status = HISTO_ERR_LENGTH;
+    return _status;
   }
-  //  return index or count.
+  uint16_t index = find(value);
+  if (_data[index] == _maxBucket)
+  {
+    _status = HISTO_ERR_FULL;
+    return _status;
+  }
+  _data[index]++;
+  _count++;
+  _status = HISTO_OK;
+  if (_data[index] == _maxBucket) _status = HISTO_FULL;
+  return _status;
 }
 
 
 //  adds a new value to the histogram - decreasing
-void Histogram::sub(const float value)
+uint8_t Histogram::sub(const float value)
 {
-  if (_length > 0)
+  if (_length == 0)
   {
-    uint16_t index = find(value);
-    _data[index]--;
-    _count++;
+    _status = HISTO_ERR_LENGTH;
+    return _status;
   }
-  //  return index or count.
+  uint16_t index = find(value);
+  if (_data[index] == -_maxBucket)
+  {
+    _status = HISTO_ERR_FULL;
+    return _status;
+  }
+  _data[index]--;
+  _count++;
+  _status = HISTO_OK;
+  if (_data[index] == _maxBucket) _status = HISTO_FULL;
+  return _status;
+}
+
+
+uint8_t  Histogram::status()
+{
+  return _status;
 }
 
 
@@ -162,6 +194,17 @@ float Histogram::VAL(const float probability)
     }
   }
   return INFINITY;
+}
+
+
+int32_t Histogram::sum()
+{
+  int32_t _sum = 0;
+  for (uint16_t i = 0; i < _length; i++)
+  {
+    _sum += _data[i];
+  }
+  return _sum;
 }
 
 
@@ -285,18 +328,93 @@ uint16_t Histogram::countBelow(const int32_t level)
 }
 
 
-//////////////////////////////////////////////////////////////
-//
-//  DERIVED CLASS
-//
 
-Histogram16::Histogram16(const uint16_t length, float *bounds) : Histogram(length, bounds)
+//  experimental use with care
+int32_t Histogram::getMaxBucket()
 {
+  return _maxBucket;
 }
 
 
+void Histogram::setMaxBucket(int32_t value)
+{
+  _maxBucket = value;
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS - HISTOGRAM16
+//
+Histogram16::Histogram16(const uint16_t length, float *bounds) : Histogram(length, bounds)
+{
+  _bounds = bounds;
+  _length = length + 1;
+  _data = (int16_t *) malloc((_length) * sizeof(int16_t));
+  if (_data != NULL)
+  {
+    clear();
+  }
+  else
+  {
+    _length = 0;
+  }
+  _count = 0;
+  _status = HISTO_OK;
+  _maxBucket = 32767;
+}
+
+
+Histogram16::~Histogram16()
+{
+  if (_data) free(_data);
+}
+
+
+uint8_t Histogram16::setBucket(const uint16_t index, int16_t value)
+{
+  _data[index] = value;
+  _status = HISTO_OK;
+  if (value == _maxBucket) _status = HISTO_FULL;
+  return _status;
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS - HISTOGRAM8
+//
 Histogram8::Histogram8(const uint16_t length, float *bounds) : Histogram(length, bounds)
 {
+  _bounds = bounds;
+  _length = length + 1;
+  _data = (int8_t *) malloc((_length) * sizeof(int8_t));
+  if (_data != NULL)
+  {
+    clear();
+  }
+  else
+  {
+    _length = 0;
+  }
+  _count = 0;
+  _status = HISTO_OK;
+  _maxBucket = 127;
+}
+
+
+Histogram8::~Histogram8()
+{
+  if (_data) free(_data);
+}
+
+
+uint8_t Histogram8::setBucket(const uint16_t index, int8_t value)
+{
+  _data[index] = value;
+  _status = HISTO_OK;
+  if (value == _maxBucket) _status = HISTO_FULL;
+  return _status;
 }
 
 

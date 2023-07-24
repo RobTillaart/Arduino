@@ -1,0 +1,17 @@
+# Syntax Colouring Map For ADG731
+
+# Data types (KEYWORD1)
+ADG731	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setChannel	KEYWORD2
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+channelCount	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADG731_LIB_VERSION	LITERAL1
+
+ADG731_ALLOFF	LITERAL1

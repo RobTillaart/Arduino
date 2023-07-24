@@ -1,0 +1,23 @@
+{
+  "name": "ADG731",
+  "keywords": "ADG731,32,1, multiplexer, MUX",
+  "description": "Arduino library for ADG731 - 32 to 1 channel multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADG731"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADG731.h"
+}

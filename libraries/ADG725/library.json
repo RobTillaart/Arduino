@@ -1,0 +1,23 @@
+{
+  "name": "ADG725",
+  "keywords": "ADG725,16,2, multiplexer, MUX",
+  "description": "Arduino library for ADG725 - 16 to 1 channel (2x) multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADG725"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADG725.h"
+}

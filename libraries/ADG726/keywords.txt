@@ -1,0 +1,20 @@
+# Syntax Colouring Map For ADG726
+
+# Data types (KEYWORD1)
+ADG726	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setChannel	KEYWORD2
+setChannelA	KEYWORD2
+setChannelB	KEYWORD2
+getChannelA	KEYWORD2
+getChannelB	KEYWORD2
+channelCount	KEYWORD2
+allOff	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADG726_LIB_VERSION	LITERAL1
+
+ADG726_ALLOFF	LITERAL1

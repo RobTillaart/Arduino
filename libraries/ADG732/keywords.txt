@@ -1,0 +1,17 @@
+# Syntax Colouring Map For ADG732
+
+# Data types (KEYWORD1)
+ADG732	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+channelCount	KEYWORD2
+allOff	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADG732_LIB_VERSION	LITERAL1
+
+ADG732_ALLOFF	LITERAL1

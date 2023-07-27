@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2023-07-27
+- fix #12 add time out to read function
+
+
 ## [0.2.2] - 2022-12-21
 - update keywords.txt
 - add defaults to offset functions.
 - update readme.md
 - update GitHub actions
 - update license 2023
-
 
 ## [0.2.1] - 2022-12-21
 - first part of the **readStatus()** not part of the protocol 

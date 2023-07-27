@@ -1,0 +1,23 @@
+{
+  "name": "MTP40F",
+  "keywords": "MTP40F, CO2, serial",
+  "description": "Arduino library for MTP40F CO2 sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MTP40F.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "MTP40F.h"
+}

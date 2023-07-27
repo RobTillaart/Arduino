@@ -1,9 +1,12 @@
 //
 //    FILE: MHZCO2_analog.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo MHZ library / sensor
 //    DATE: 2020-09-01
+
+
+#include "Arduino.h"
+#include "MHZCO2.h"
 
 
 /*
@@ -20,21 +23,23 @@
 void setup()
 {
   Serial.begin(115200);
-  // Serial.println(__FILE__);
+  //  Serial.println(__FILE__);
+  //  Serial.print("MHZCO2_LIB_VERSION: ");
+  //  Serial.println(MHZCO2_LIB_VERSION);
 }
 
 
 void loop()
 {
-  uint16_t  C = concentration(A0, 2000);
+  uint16_t C = concentration(A0, 2000);
   Serial.println(C);
 }
 
 
-uint16_t concentration(int port, uint16_t maxC)
+uint16_t concentration(int port, uint16_t maxConcentration)
 {
   float volt = analogRead(port) * (5.0 / 1023.0);
-  uint16_t C = (volt - 0.4) * maxC / 1.6;
+  uint16_t C = (volt - 0.4) * maxConcentration / 1.6;
   return C;
 }
 

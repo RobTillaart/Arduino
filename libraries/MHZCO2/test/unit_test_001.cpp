@@ -48,11 +48,9 @@ unittest(test_constructor)
 {
   MHZCO2 A;
   MHZ19B B;
-  MTP40F C;
 
   assertEqual(   0, A.uptime());
   assertEqual(   0, B.uptime());
-  assertEqual(   0, C.uptime());
 }
 
 

@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2023-07-27
+- remove MTP40F as it is not compatible
+- update examples.
+- minor edits.
+
+
 ## [0.1.2] - 2023-01-18
 - fix build - SoftwareSerial problem
 - fix version in .cpp
 - fix date in changelog
 - minor edit in readme.md
-
 
 ## [0.1.1] - 2023-01-06
 - rename to MHZCO2
@@ -20,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add lastMeasurement()
 - improve documentation
 - refactor, rewrite, optimize
-
 
 ## [0.1.x] - 2020-09-01
 - add PWM and analog examples for MHZ19B

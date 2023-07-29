@@ -1,0 +1,29 @@
+# Syntax Colouring Map For MATRIX7219
+
+# Data types (KEYWORD1)
+MATRIX7219	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+getMatrixCount	KEYWORD2
+setBrightness	KEYWORD2
+clear	KEYWORD2
+setPixel	KEYWORD2
+clearPixel	KEYWORD2
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Constants (LITERAL1)
+MATRIX7219_LIB_VERSION	LITERAL1
+
+

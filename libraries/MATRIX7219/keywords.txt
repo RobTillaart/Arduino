@@ -5,21 +5,22 @@ MATRIX7219	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
+begin	KEYWORD2
 getMatrixCount	KEYWORD2
 setBrightness	KEYWORD2
+displayOff	KEYWORD2
+displayOn	KEYWORD2
+displayTest	KEYWORD2
+
 clear	KEYWORD2
-setPixel	KEYWORD2
-clearPixel	KEYWORD2
+setRow	KEYWORD2
 
-
-
-
-
-
-
-
-
-
+setInvert	KEYWORD2
+getInvert	KEYWORD2
+setReverse	KEYWORD2
+getReverse	KEYWORD2
+setSwap	KEYWORD2
+getSwap	KEYWORD2
 
 
 

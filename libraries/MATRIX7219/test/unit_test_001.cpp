@@ -46,6 +46,24 @@ unittest(test_constructor)
 }
 
 
+unittest(test_layout)
+{
+  MATRIX7219 mx(3, 4, 5, 1);
+
+  assertFalse(mx.getInvert());
+  assertFalse(mx.getReverse());
+  assertFalse(mx.getSwap());
+
+  mx.setInvert(true);
+  mx.setReverse(true);
+  mx.setSwap(true);
+
+  assertTrue(mx.getInvert());
+  assertTrue(mx.getReverse());
+  assertTrue(mx.getSwap());
+}
+
+
 unittest_main()
 
 

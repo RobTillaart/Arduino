@@ -79,16 +79,48 @@ For adapting the layout if needed.
 
 ## Performance 
 
-Preliminary tests - MATRIX7219_performance.ino
+#### 0.1.0 UNO
 
-|  version  |  function     |  time (us)  |  notes  |
-|:---------:|:-------------:|:-----------:|:--------|
-|   0.1.0   | begin         |    796      |
-|   0.1.0   | clear         |    1572     |
-|   0.1.0   | count         |    4        |
-|   0.1.0   | setRow(255)   |    204      | setReverse has minimal influence
-|   0.1.0   | setRow(0)     |    200      |
-|   0.1.0   | setBrightness |    208      |
+MATRIX7219_performance.ino with UNO 16 MHz
+
+|  board  |  function     |  time (us)  |  notes  |
+|:-------:|:-------------:|:-----------:|:--------|
+|   UNO   | begin         |     796     |
+|   UNO   | clear         |    1572     |
+|   UNO   | count         |       4     |
+|   UNO   | setRow(255)   |     204     | setReverse has minimal influence
+|   UNO   | setRow(0)     |     200     |
+|   UNO   | setBrightness |     208     |
+
+
+#### 0.1.1 UNO
+
+Optimized registers for UNO  (for AVR from FastShiftOut).
+2.5 to 4.2 times faster. (price: a few bytes storage).
+
+
+|  board  |  function     |  time (us)  |  notes  |
+|:-------:|:-------------:|:-----------:|:--------|
+|   UNO   | begin         |     196     |  2.5x
+|   UNO   | clear         |     368     |  4.2x
+|   UNO   | count         |       4     |  idem
+|   UNO   | setRow(255)   |      56     |  3.5x
+|   UNO   | setRow(0)     |      56     |  3.5x
+|   UNO   | setBrightness |      56     |  3.5x
+
+
+#### 0.1.1 ESP32
+
+First test ESP32
+
+|  board  |  function     |  time (us)  |  notes  |
+|:-------:|:-------------:|:-----------:|:--------|
+|  ESP32  | begin         |      37     |
+|  ESP32  | clear         |      47     |
+|  ESP32  | count         |       2     |
+|  ESP32  | setRow(255)   |      12     |
+|  ESP32  | setRow(0)     |       8     |
+|  ESP32  | setBrightness |       8     |
 
 
 ## Future
@@ -96,31 +128,26 @@ Preliminary tests - MATRIX7219_performance.ino
 #### Must
 
 - improve documentation
-- Buffering version => 8 bytes per Matrix.
-- Single matrix version (faster)
-- 
 
 #### Should
 
-- test other platforms
-- performance testing
-  - increase.
-- add unit tests
-- create a derived class for a single 8x8 matrix.
-  - if performance gain is enough?
-- create a derived class with a buffer
+- create a derived class with a buffer => 8 bytes per Matrix.
   - goal is to have **setPixel(x,y)** and **clearPixel(x,y)**
-- reverse from CRC for real reverse
-
+  - design first (performance)
 
 #### Could
 
 - examples
   - 8x8 as debugger (dump variables)
-  - clock ? binary - other?
-- store last set brightness. 
-  - **uint8_t getBrightness()**
-  
+- add unit tests
+  - need simulator / mock-up
+- defaults for invert, reverse, swap?  (false).
 
-#### Wont
+#### Wont (unless requested)
+
+- create a derived class for a single 8x8 matrix.
+  - if performance gain is enough?
+- store last set brightness.
+  - **uint8_t getBrightness()**
+  - not needed yet
 

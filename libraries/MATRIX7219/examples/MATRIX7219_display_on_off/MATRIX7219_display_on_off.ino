@@ -34,7 +34,6 @@ void setup()
   mx.displayTest(true);
   delay(1000);
   mx.displayTest(false);
-  
 }
 
 
@@ -58,3 +57,4 @@ void loop()
 
 
 //  -- END OF FILE --
+

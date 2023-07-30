@@ -1,7 +1,7 @@
 //
 //    FILE: MATRIX7219.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for 8x8 LED MATRIX MAX7219
 //     URL: https://github.com/RobTillaart/MATRIX7219
@@ -30,6 +30,16 @@ MATRIX7219::MATRIX7219(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uin
    digitalWrite(_dataPin,  HIGH);
    digitalWrite(_selectPin,HIGH);
    digitalWrite(_clockPin, HIGH);
+
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+  uint8_t _port    = digitalPinToPort(_dataPin);
+  _dataOutRegister = portOutputRegister(_port);
+  _dataOutBit      = digitalPinToBitMask(_dataPin);
+
+  _port            = digitalPinToPort(_clockPin);
+  _clockRegister   = portOutputRegister(_port);
+  _clockBit        = digitalPinToBitMask(_clockPin);
+#endif
 }
 
 
@@ -52,7 +62,7 @@ void MATRIX7219::begin()
   {
     digitalWrite(_selectPin, LOW);
     _write(MATRIX7219_DECODE_MODE);
-    _write(0x00);                       //  No decode for digits 7–0
+    _writeZero();                       //  No decode for digits 7–0
     digitalWrite(_selectPin, HIGH);
   }
   for (int m = 0; m < _matrices; m++)
@@ -66,7 +76,7 @@ void MATRIX7219::begin()
   {
     digitalWrite(_selectPin, LOW);
     _write(MATRIX7219_DISPLAY_TEST);
-    _write(0x00);                       //  normal mode
+    _writeZero();                       //  normal mode
     digitalWrite(_selectPin, HIGH);
   }
 }
@@ -92,7 +102,7 @@ void MATRIX7219::displayOff()
   for (int m = 0; m < _matrices; m++)
   {
     _write(MATRIX7219_SHUT_DOWN);
-    _write(0x00);
+    _writeZero();
   }
   digitalWrite(_selectPin, HIGH);
 }
@@ -117,7 +127,7 @@ void MATRIX7219::displayTest(bool on)
   {
     _write(MATRIX7219_DISPLAY_TEST);
     if (on) _write(0x01);
-    else _write(0x00);
+    else _writeZero();
   }
   digitalWrite(_selectPin, HIGH);
 }
@@ -131,7 +141,7 @@ void MATRIX7219::clear()
     for (int m = 0; m < _matrices; m++)
     {
       _write(row);
-      _write(0);
+      _writeZero();
     }
     digitalWrite(_selectPin, HIGH);
   }
@@ -143,8 +153,8 @@ void MATRIX7219::setRow(uint8_t row, uint8_t value, uint8_t matrix)
   digitalWrite(_selectPin, LOW);
   for (int m = _matrices; m > matrix; m--)
   {
-    _write(0);
-    _write(0);
+    _writeZero();
+    _writeZero();
   }
 
   if (_swap) row = 9 - row;
@@ -153,10 +163,10 @@ void MATRIX7219::setRow(uint8_t row, uint8_t value, uint8_t matrix)
   if (_reverse) value = _reverse8(value);
   _write(value);
 
-  for (int m = matrix-1; m > 0; m--)
+  for (int m = matrix - 1; m > 0; m--)
   {
-    _write(0);
-    _write(0);
+    _writeZero();
+    _writeZero();
   }
   digitalWrite(_selectPin, HIGH);
 }
@@ -208,24 +218,71 @@ bool MATRIX7219::getSwap()
 //
 void MATRIX7219::_write(uint8_t b)
 {
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+
+  uint8_t cbmask1  = _clockBit;
+  uint8_t cbmask2  = ~_clockBit;
+  uint8_t outmask1 = _dataOutBit;
+  uint8_t outmask2 = ~_dataOutBit;
+
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
   {
-    digitalWrite(_clockPin, LOW);
-    digitalWrite(_dataPin, (b & mask) > 0);
-    digitalWrite(_clockPin, HIGH);
+    uint8_t oldSREG = SREG;
+    noInterrupts();
+    if ((b & mask) == 0) *_dataOutRegister &= outmask2;
+    else                 *_dataOutRegister |= outmask1;
+    *_clockRegister |= cbmask1;
+    *_clockRegister &= cbmask2;
+    SREG = oldSREG;
   }
+
+#else
+  
+  uint8_t clk = _clockPin;
+  uint8_t dat = _dataPin;
+  for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
+  {
+    digitalWrite(clk, LOW);
+    digitalWrite(dat, (b & mask) > 0);
+    digitalWrite(clk, HIGH);
+  }
+
+#endif
 }
 
 
-//  optimization not for release 0.1.0
+//  optimization
 void MATRIX7219::_writeZero()
 {
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+
+  uint8_t cbmask1  = _clockBit;
+  uint8_t cbmask2  = ~_clockBit;
+  //  uint8_t outmask1 = _dataOutBit;
+  uint8_t outmask2 = ~_dataOutBit;
+  
+  *_dataOutRegister &= outmask2;
+  
+  for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
+  {
+    uint8_t oldSREG = SREG;
+    noInterrupts();
+    *_clockRegister |= cbmask1;
+    *_clockRegister &= cbmask2;
+    SREG = oldSREG;
+  }
+
+#else
+  
+  uint8_t clk = _clockPin;
   digitalWrite(_dataPin, LOW);
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
   {
-    digitalWrite(_clockPin, LOW);
-    digitalWrite(_clockPin, HIGH);
+    digitalWrite(clk, LOW);
+    digitalWrite(clk, HIGH);
   }
+  
+#endif
 }
 
 

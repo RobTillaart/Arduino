@@ -1,0 +1,23 @@
+{
+  "name": "PT2314",
+  "keywords": "PT2314, PT7314, I2C",
+  "description": "Arduino library for PT2314 i2C 4 channel audio processor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PT2314.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PT2314.h"
+}

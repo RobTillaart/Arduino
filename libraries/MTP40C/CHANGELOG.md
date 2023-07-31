@@ -6,10 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-07-30
+- replace CRC with other algorithm for AVR
+  - less RAM, less code, faster (AVR only)
+- add **MTP40C_CRC_test.ino** (equal CRC and performance)
+- add **MTP40D_PWM_demo_test.ino** test PWM algorithm
+- improve readability
+- update readme.md
+- minor edits
+
+----
+
 ## [0.2.2] - 2022-11-17
 - add RP2040 in build-CI
 - add changelog.md
-
 
 ## [0.2.1] - 2021-12-22
 - update library.json

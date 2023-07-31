@@ -36,6 +36,8 @@ need to be tested if and how well these work.
 
 #### MTP40-C
 
+Has no I2C, only TTL level RS232.
+
 ```
                TOPVIEW MTP40-C
               +-------------+---+
@@ -59,6 +61,8 @@ need to be tested if and how well these work.
 
 
 #### MTP40-D
+
+Has TTL level RS232, I2C and PWM IO.
 
 ```
                TOPVIEW MTP40-D
@@ -86,9 +90,22 @@ need to be tested if and how well these work.
 |  9   | GND     | idem                        |
 
 
+#### Links
+
+- https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
+- https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
+- https://github.com/RobTillaart/MTP40F
+- https://github.com/RobTillaart/MHZCO2  MHZ19 series
+- https://github.com/RobTillaart/Cozir
+
+
 ## Interface
 
-### Warnings
+```cpp
+#include "MTP40C.h"
+```
+
+#### Warnings
 
 During tests with an UNO the communication over Software Serial did fail sometimes.
 Therefore it is important to **always check return values** to make your project more robust.
@@ -100,7 +117,7 @@ everything ran far more stable (within my test). Todo seek optimum delay(), adde
 The CRC of the sensor responses are not verified by the library.
 
 
-### Constructors
+#### Constructors
 
 - **MTP40(Stream \* str)** constructor. should get a Serial port as parameter e.g. \&Serial, \&Serial1. This is the base class.
 - **MTP40C(Stream \* str)** constructor. should get a Serial port as parameter e.g. \&Serial, \&Serial1 
@@ -113,11 +130,17 @@ Uses the factory default value of 0x64 when no parameter is given.
 Also resets internal settings.
 - **bool isConnected()** returns true if the address as set by **begin()** 
 or the default address of 0x64 (decimal 100) can be found on the Serial 'bus'.
-- **uint8_t getType()** returns 2 for the MTP40C and 3 for the MTP40D sensor.
+- **uint8_t getType()** returns type, see below.
 Return 255 for the MTP40 base class.
 
+|  Type  |  Model   |  Notes   |
+|:------:|:--------:|:--------:|
+|   2    |  MTP40C  |
+|   3    |  MTP40D  |
+|  255   |  MTP40   |  base class
 
-### CO2 Measurement
+
+#### CO2 Measurement
 
 - **uint16_t getGasConcentration()** returns the CO2 concentration in PPM (parts per million).
 The function returns **MTP40_INVALID_GAS_LEVEL** if the request fails.
@@ -132,7 +155,7 @@ or by **getAirPressureReference()**
 Reading resets internal error to MTP40_OK;
 
 
-### Configuration
+#### Configuration
 
 - **uint8_t getAddress()** request the address from the device.
 Expect a value from 0 .. 247.
@@ -159,9 +182,15 @@ If no parameter is given a default timeout of 100 milliseconds is set.
 Value returned is time in milliseconds.
 
 
-### Calibration
+## Calibration
 
 Please read datasheet before using these functions to understand the process of calibration.
+
+Note the outdoor calibration CO2 level differs per day and one should check 
+a local airport or weather station for a good reference.
+
+The University of San Diego keeps track of CO2 for a long time now.
+See - https://keelingcurve.ucsd.edu/ 
 
 
 #### Air pressure calibration
@@ -204,31 +233,33 @@ moments. Valid values are 24 - 720 .
 - **uint16_t getSelfCalibrationHours()** returns the value set above.
 
 
-## Operations
-
-See examples.
-
-
 ## Future
 
-#### CRC
+#### Must
 
-- CRC in PROGMEM
-- CRC test responses sensor
 
-#### Performance
+#### Should
+
+- CRC verify responses from sensor
+- improve readability code (e.g. parameter names)
+- move code from .h to .cpp file
+
+
+#### Could
 
 - performance measurements
-- optimize performance if possible
-- caching? what?
-- seek optimum delay() between calls.
+- optimize performance
+  - caching? what?
+  - seek optimum delay() between calls.
+- reuse cmd buffer as response buffer?
 - investigate wire length
+- investigate serial bus with multiple devices? 
+  - diodes
+  - multiplexer
+- investigate commands in PROGMEM?
 
-#### Other
 
-- serial bus with multiple devices? => diodes
-- improve readability code (e.g. parameter names)
-- move all code from .h to .cpp file
+#### Wont (unless on request)
 
 
 ## Sponsor 

@@ -3,7 +3,7 @@
 //    FILE: PT2314.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PT2314_LIB_VERSION                   (F("0.1.0"))
+#define PT2314_LIB_VERSION                   (F("0.1.1"))
 
 
 class PT2314
@@ -81,6 +81,31 @@ class PT7314 : public PT2314
 public:
   PT7314(TwoWire *wire = &Wire);
 };
+
+
+//  3 input  2 output version
+class PT7313 : public PT2314
+{
+public:
+  PT7313(TwoWire *wire = &Wire);
+  
+  void    setMute(bool on);
+  void    setChannel(uint8_t channel = 0);        //  0..2
+  
+  void    setAttnLeftBack(uint8_t value = 31);    //  0..31
+  uint8_t getAttnLeftBack();
+  void    setAttnRightBack(uint8_t value = 31);   //  0..31
+  uint8_t getAttnRightBack();
+  void    setAttnLeftFront(uint8_t value = 31);   //  0..31
+  uint8_t getAttnLeftFront();
+  void    setAttnRightFront(uint8_t value = 31);  //  0..31
+  uint8_t getAttnRightFront();
+
+protected:
+  uint8_t  _attnLeftFront  = 0;
+  uint8_t  _attnRightFront = 0;
+};
+
 
 //  -- END OF FILE --
 

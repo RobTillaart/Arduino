@@ -2,7 +2,7 @@
 //    FILE: PT2314.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -243,7 +243,93 @@ void PT2314::updateAudioRegister()
 //
 PT7314::PT7314(TwoWire *wire) : PT2314(wire)
 {
-};
+}
+
+
+PT7313::PT7313(TwoWire *wire) : PT2314(wire)
+{
+}
+
+
+void PT7313::setMute(bool on)
+{
+  _mute = on;
+  if (_mute)
+  {
+    write(0xDF);  //  left  back
+    write(0xFF);  //  right back
+    write(0x9F);  //  left  front
+    write(0xBF);  //  right front
+  }
+  else
+  {
+    write(0xC0 | _attnLeft);   //  back
+    write(0xE0 | _attnRight);  //  back
+    write(0x80 | _attnLeftFront);
+    write(0xA0 | _attnRightFront);
+  }
+}
+
+void PT7313::setChannel(uint8_t channel)
+{
+  if (channel > 2) channel = 2;
+  _channel = channel;
+  updateAudioRegister();
+}
+  
+  
+void PT7313::setAttnLeftBack(uint8_t value)
+{
+  setAttnLeft(value);
+}
+
+
+uint8_t PT7313::getAttnLeftBack()
+{
+  return getAttnLeft();
+}
+
+
+void PT7313::setAttnRightBack(uint8_t value)
+{
+  setAttnRight(value);
+}
+
+
+uint8_t PT7313::getAttnRightBack()
+{
+  return getAttnRight();
+}
+
+
+void PT7313::setAttnLeftFront(uint8_t value)
+{
+   if (value > 31) value = 31;
+  _attnLeftFront = value;
+  write(0x80 | _attnLeftFront);
+}
+
+
+uint8_t PT7313::getAttnLeftFront()
+{
+  return _attnLeftFront;
+}
+
+
+void PT7313::setAttnRightFront(uint8_t value)
+{
+   if (value > 31) value = 31;
+  _attnRightFront = value;
+  write(0xA0 | _attnRightFront);
+}
+
+
+uint8_t PT7313::getAttnRightFront()
+{
+  return _attnRightFront;
+}
+
+  
 
 //  -- END OF FILE --
 

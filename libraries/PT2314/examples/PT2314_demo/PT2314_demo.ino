@@ -7,7 +7,9 @@
 
 #include "PT2314.h"
 
-PT7314 pt;
+//  PT2413 pt;
+//  PT7314 pt;
+PT7313 pt;
 
 
 void setup()

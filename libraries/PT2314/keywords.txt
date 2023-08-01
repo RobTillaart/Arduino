@@ -3,6 +3,7 @@
 # Data types (KEYWORD1)
 PT2314	KEYWORD1
 PT7314	KEYWORD1
+PT7313	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -34,9 +35,17 @@ getAttnRight	KEYWORD2
 setAttn	KEYWORD2
 
 
+# PT7313 specific
+setAttnLeftBack	KEYWORD2
+getAttnLeftBack	KEYWORD2
+setAttnRightBack	KEYWORD2
+getAttnRightBack	KEYWORD2
+setAttnLeftFront	KEYWORD2
+getAttnLeftFront	KEYWORD2
+setAttnRightFront	KEYWORD2
+getAttnRightFront	KEYWORD2
+
+
 # Constants (LITERAL1)
 PT2314_LIB_VERSION	LITERAL1
-
-
-
 

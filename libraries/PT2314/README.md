@@ -13,27 +13,44 @@ Arduino library for PT2314 i2C 4 channel audio processor.
 ## Description
 
 The PT2314 library is experimental as it is not tested with hardware.
-The library should also work with the PT7314, a separate constructor 
-exist for it. 
 
-Feedback is welcome.
+The PT2314 is a audio processor that can select from four stereo
+inputs, and provides one stereo output.
+Attributes to control are volume, gain, attenuation, bass, treble,
+mute and loudness.
+The library should also work with the PT7314, a separate constructor 
+exist for it.
+
+A separate derived class is created for the PT7313, an compatible 
+audio processor with only three stereo inputs and two stereo outputs.
+It is used in automotive to control front and back speakers.
+
+|  processor  |  inputs  |  outputs  |  datasheet        |
+|:-----------:|:--------:|:---------:|:-----------------:|
+|    PT2314   |    4     |    1      |  V1.4 July, 2005  |
+|    PT7314   |    4     |    1      |  V1.0 Jan,  2010  |
+|    PT7313   |    3     |    2      |  V1.0 feb,  2010  |
+
+Feedback as always, is welcome.
 
 The library is based upon Datasheet: PT2314 V1.4 July, 2005
 
 
 #### I2C
 
-According to the datasheet:
-- PT2314 only work on 100 KHz.
-- PT7314 can support 400 KHz.
-- check if higher speeds work?
-
-Datasheet PT7314 states that the device needs 50 ms to wake up 
-before it can process I2C commands.
-The datasheet of the PT2314 does not mention such timeout.
+|  processor  |  MAX KHz |  tested  |
+|:-----------:|:--------:|:--------:|
+|    PT2314   |   100    |    N     |
+|    PT7314   |   400    |    N     |
+|    PT7313   |   400    |    N     |
 
 
-## Interface
+Note: Datasheet PT7314 states that the device needs at least 50 ms 
+to wake up before it can process I2C commands. So one might need
+to give it some time to get started.
+
+
+## Interface PT2314 PT7314
 
 ```cpp
 #include "PT2314.h"
@@ -41,64 +58,109 @@ The datasheet of the PT2314 does not mention such timeout.
 
 #### Constructors
 
-- **PT2314(TwoWire \*wire = &Wire)** constructor.
-- **PT7314(TwoWire \*wire = &Wire)** constructor.
+- **PT2314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
+- **PT7314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
 - **bool begin(int sda, int scl)** for ESP32 et al.
-- **bool begin()** other
-- **bool isConnected()** device address can be seen on I2C bus.
+- **bool begin()** other platforms.
+- **bool isConnected()** device (0x44) can be seen on I2C bus.
 
 #### Channel
 
-- **void setChannel(uint8_t channel = 0)**  0..3
-- **uint8_t getChannel()**
+- **void setChannel(uint8_t channel = 0)** Select the input channel 0..3.
+- **uint8_t getChannel()** return selected input channel.
 
 #### Volume
 
-- **void    setMute(bool on = true)**
-- **bool    getMute()**
-- **void    setLoudness(bool on = true)**
-- **bool    getLoudness()**
-- **void    setVolume(uint8_t volume = 0)** 0..63
-- **uint8_t getVolume()**
+- **void setMute(bool on = true)** mute all output channels.
+- **bool getMute()** get current mute state.
+- **void setLoudness(bool on = true)** set loudness on.
+- **bool getLoudness()** get current loudness state.
+- **void setVolume(uint8_t volume = 0)** set the volume between 0..63.
+- **uint8_t getVolume()** get current volume.
 
 #### Bass Treble
 
-- **void    setBass(int8_t bass = 0)** -14..14 dB
-- **int8_t  getBass()**
-- **void    setTreble(int8_t treble = 0)** -14..14 dB
-- **int8_t  getTreble()**
+- **void setBass(int8_t bass = 0)** bass can be set to -14..14 dB,
+will be rounded to even numbers only. So 15 levels in total.
+- **int8_t getBass()** get current bass level.
+- **void setTreble(int8_t treble = 0)** treble can be set to -14..14 dB,
+will be rounded to even numbers only. So 15 levels in total.
+- **int8_t getTreble()** get current treble level.
 
 #### Gain
 
-- **void    setGain(uint8_t gain = 0)**  0..3
+- **void setGain(uint8_t gain = 0)**  Gain can be 0..3. 
+CHeck datasheet for mapping.
 - **uint8_t getGain()**
+
+|  Gain  |   dB   |
+|:------:|:------:|
+|    0   |  11.25 |
+|    1   |   7.50 |
+|    2   |   3.75 |
+|    3   |   0.00 |
+
 
 #### Attenuation
 
-- **void    setAttnLeft(uint8_t value = 31)**  0..31
-- **uint8_t getAttnLeft()**
-- **void    setAttnRight(uint8_t value = 31)**  0..31
-- **uint8_t getAttnRight()**
-- **void    setAttn(uint8_t attnLeft, uint8_t attnRight)**
+- **void setAttnLeft(uint8_t value = 31)** set the left attenuation from 0..31.
+- **uint8_t getAttnLeft()** get current left attenuation level.
+- **void setAttnRight(uint8_t value = 31)** set the right attenuation from 0..31.
+- **uint8_t getAttnRight()** get current right attenuation level.
+- **void setAttn(uint8_t attnLeft, uint8_t attnRight)** set both in one call.
+Convenience function.
+
+Formula attenuation:
+```cpp
+Attn = value * -1.25;  //  dB  0..-37.50,  31 ==> MUTE.
+```
+
+## Interface PT7313
+
+```cpp
+#include "PT2314.h"
+```
+
+Additional constructor:
+- **PT7313(TwoWire \*wire = &Wire)** constructor.
+
+- **void setMute(bool on)** idem, four channel version.
+- **void setChannel(uint8_t channel = 0)** idem, 0..2.
+  
+Additional attenuation:
+- **void setAttnLeftBack(uint8_t value = 31)** idem, 0..31.
+- **uint8_t getAttnLeftBack()** get current level.
+- **void setAttnRightBack(uint8_t value = 31)** idem, 0..31
+- **uint8_t getAttnRightBack()** get current level.
+- **void setAttnLeftFront(uint8_t value = 31)** idem, 0..31
+- **uint8_t getAttnLeftFront()** get current level.
+- **void setAttnRightFront(uint8_t value = 31)** idem, 0..31
+- **uint8_t getAttnRightFront()** get current level.
+
 
 ## Future
 
 #### Must
 
-- improve documentation
 - test with hardware
+- improve documentation
 
 #### Should
 
-- error handling
+- investigate **setAttn(value)** function for all channels.
+  - better also for the 7313
+  - 0.2.0 ==> remove the setAttn(left, right) ?
 - add more examples.
-- check parameters range (0..63 => -63..0?
+- check parameters range:  0..63 => -63..0?
   - some are in dB others not.
 
 #### Could
 
 - replace magic numbers with defines.
+  - PT2413_MAX_ATTN  31   etc.
 - extend unit test
+- add **getType()** 7313  or 13 / 14  (16 or 8 bit)
+- error handling
 
 #### Wont (unless on request)
 

@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: CRC16.h
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC16
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
@@ -8,14 +15,14 @@ public:
   CRC16(uint16_t polynome = CRC16_POLYNOME,
         uint16_t initial  = CRC16_INITIAL,
         uint16_t xorOut   = CRC16_XOR_OUT,
-        bool reverseIn    = CRC16_REF_IN,
-        bool reverseOut   = CRC16_REF_OUT);
+        bool reverseIn    = CRC16_REV_IN,
+        bool reverseOut   = CRC16_REV_OUT);
 
   void reset(uint16_t polynome = CRC16_POLYNOME,
              uint16_t initial  = CRC16_INITIAL,
              uint16_t xorOut   = CRC16_XOR_OUT,
-             bool reverseIn    = CRC16_REF_IN,
-             bool reverseOut   = CRC16_REF_OUT);
+             bool reverseIn    = CRC16_REV_IN,
+             bool reverseOut   = CRC16_REV_OUT);
 
   void restart();
   uint16_t calc() const;
@@ -62,3 +69,7 @@ private:
   uint16_t _crc;
   crc_size_t _count;
 };
+
+
+// -- END OF FILE --
+

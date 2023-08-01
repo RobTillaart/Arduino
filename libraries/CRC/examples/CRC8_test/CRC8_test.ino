@@ -1,3 +1,11 @@
+//
+//    FILE: CRC8_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2021-01-20
+//    (c) : MIT
+
+
 #include "CRC8.h"
 #include "CRC.h"
 

@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: CrcFastReverse.h
+//  AUTHOR: vovagorodok
+// PURPOSE: Arduino class for CRC
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "Arduino.h"
 
 uint8_t reverse8bits(uint8_t in);

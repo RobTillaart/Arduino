@@ -1,3 +1,11 @@
+//
+//    FILE: CRC32_performance.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2022-01-28
+//    (c) : MIT
+
+
 #include "CRC32.h"
 
 char str[] = "Lorem ipsum dolor sit amet, \
@@ -59,9 +67,6 @@ void test()
   Serial.print("TIME: \t");
   Serial.println(stop - start);
   delay(100);
-
-  
-
 }
 
 

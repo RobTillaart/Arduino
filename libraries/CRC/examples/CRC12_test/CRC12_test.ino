@@ -1,3 +1,11 @@
+//
+//    FILE: CRC16_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2022-01-24
+//    (c) : MIT
+
+
 #include "CRC12.h"
 #include "CRC.h"
 
@@ -25,6 +33,7 @@ void loop()
 
 void test()
 {
+  //  calcCRCxx() uses default parameters
   Serial.println(crc_check((uint8_t *) str1, 9), HEX);
   Serial.println(calcCRC12((uint8_t *) str1, 9), HEX);
   Serial.println(crc_check((uint8_t *) str2, 18), HEX);
@@ -70,3 +79,6 @@ uint16_t crc_check(uint8_t * ptr, uint8_t length)   // crc12
   crc12out >>= 1;
   return crc12out;
 }
+
+
+// -- END OF FILE --

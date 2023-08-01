@@ -1,3 +1,11 @@
+//
+//    FILE: CRC64_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2021-01-20
+//    (c) : MIT
+
+
 #include "CRC64.h"
 #include "printHelpers.h"     // https://github.com/RobTillaart/printHelpers
 

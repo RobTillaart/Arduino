@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: CRC32.h
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC32
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
@@ -8,14 +15,14 @@ public:
   CRC32(uint32_t polynome = CRC32_POLYNOME,
         uint32_t initial  = CRC32_INITIAL,
         uint32_t xorOut   = CRC32_XOR_OUT,
-        bool reverseIn    = CRC32_REF_IN,
-        bool reverseOut   = CRC32_REF_OUT);
+        bool reverseIn    = CRC32_REV_IN,
+        bool reverseOut   = CRC32_REV_OUT);
 
   void reset(uint32_t polynome = CRC32_POLYNOME,
              uint32_t initial  = CRC32_INITIAL,
              uint32_t xorOut   = CRC32_XOR_OUT,
-             bool reverseIn    = CRC32_REF_IN,
-             bool reverseOut   = CRC32_REF_OUT);
+             bool reverseIn    = CRC32_REV_IN,
+             bool reverseOut   = CRC32_REV_OUT);
 
   void restart();
   uint32_t calc() const;
@@ -62,3 +69,7 @@ private:
   uint32_t _crc;
   crc_size_t _count;
 };
+
+
+// -- END OF FILE --
+

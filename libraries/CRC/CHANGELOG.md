@@ -5,11 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.0.1] - 2023-07-13
+- added headers in examples
+- added headers in src
+- bumped version number
+- update readme.md
+- replaced ..._REF_IN ==> ..._REV_IN (OUT iden)
+
+
 ## [1.0.0] - 2023-05-19
+- See issue #32 / #31
 - new library interface
 - changed CRC32 defaults
 - added FastCRC32
 - reused parameters and algorithms
+- added platformio.ini
+
+----
 
 ## [0.3.3] - 2023-01-17
 - update GitHub actions

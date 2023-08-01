@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: FastCRC32.h
+//  AUTHOR: vovagorodok
+// PURPOSE: Arduino class for CRC
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
@@ -20,3 +27,4 @@ private:
   uint32_t _crc;
   crc_size_t _count;
 };
+

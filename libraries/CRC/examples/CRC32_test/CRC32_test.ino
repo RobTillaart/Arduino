@@ -1,3 +1,11 @@
+//
+//    FILE: CRC32_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2021-01-20
+//    (c) : MIT
+
+
 #include "CRC32.h"
 
 char str[24] =  "123456789";
@@ -34,3 +42,7 @@ void test()
   Serial.println(crc.calc(), HEX);
   Serial.println(crc.count());
 }
+
+
+// -- END OF FILE --
+

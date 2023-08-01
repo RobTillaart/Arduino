@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: CRC64.h
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC64
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
@@ -8,14 +15,14 @@ public:
   CRC64(uint64_t polynome = CRC64_POLYNOME,
         uint64_t initial  = CRC64_INITIAL,
         uint64_t xorOut   = CRC64_XOR_OUT,
-        bool reverseIn    = CRC64_REF_IN,
-        bool reverseOut   = CRC64_REF_OUT);
+        bool reverseIn    = CRC64_REV_IN,
+        bool reverseOut   = CRC64_REV_OUT);
 
   void reset(uint64_t polynome = CRC64_POLYNOME,
              uint64_t initial  = CRC64_INITIAL,
              uint64_t xorOut   = CRC64_XOR_OUT,
-             bool reverseIn    = CRC64_REF_IN,
-             bool reverseOut   = CRC64_REF_OUT);
+             bool reverseIn    = CRC64_REV_IN,
+             bool reverseOut   = CRC64_REV_OUT);
 
   void restart();
   uint64_t calc() const;
@@ -62,3 +69,6 @@ private:
   uint64_t _crc;
   crc_size_t _count;
 };
+
+
+// -- END OF FILE --

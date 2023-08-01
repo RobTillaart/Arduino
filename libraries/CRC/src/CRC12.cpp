@@ -1,3 +1,10 @@
+//
+//    FILE: CRC12.cpp
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC12
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CRC12.h"
 #include "CrcFastReverse.h"
 
@@ -100,3 +107,7 @@ uint16_t CRC12::getCRC() const
 {
   return calc();
 }
+
+
+// -- END OF FILE --
+

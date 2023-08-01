@@ -1,3 +1,12 @@
+//
+//    FILE: CRC_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2020
+//    (c) : MIT
+//
+
+
 #include "CRC.h"
 #include "printHelpers.h"  // for the 64 bit...
 
@@ -13,6 +22,7 @@ void setup()
 
   Serial.println("Verified with - https://crccalc.com/ \n");
 
+  //  use default parameters for calcCRCxx()
   Serial.print("TEST:\t");
   Serial.println(str);
   Serial.print("CRC8:\t");
@@ -32,3 +42,6 @@ void setup()
 void loop()
 {
 }
+
+
+// -- END OF FILE --

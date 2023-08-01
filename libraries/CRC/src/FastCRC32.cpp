@@ -1,3 +1,10 @@
+//
+//    FILE: FastCRC32.cpp
+//  AUTHOR: vovagorodok
+// PURPOSE: Arduino class for CRC
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "FastCRC32.h"
 
 namespace

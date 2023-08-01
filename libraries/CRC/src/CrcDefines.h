@@ -1,4 +1,11 @@
 #pragma once
+//
+//    FILE: CrcDefines.h
+//  AUTHOR: vovagorodok
+// PURPOSE: Arduino class for CRC
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include <Arduino.h>
 
 #if defined(CRC_CUSTOM_SIZE)

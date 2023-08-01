@@ -1,0 +1,12 @@
+
+Tested on UNO
+IDE 1.18.19
+
+CRC32_performance\CRC32_performance.ino
+DATA: 	868
+ CRC:	5E22D36F
+TIME: 	18440
+
+DATA: 	868
+ CRC:	7B50E355
+TIME: 	16688

@@ -1,4 +1,10 @@
 #pragma once
+//
+//    FILE: CRC8.h
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC8
+//     URL: https://github.com/RobTillaart/CRC
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
@@ -8,14 +14,14 @@ public:
   CRC8(uint8_t polynome = CRC8_POLYNOME,
        uint8_t initial  = CRC8_INITIAL,
        uint8_t xorOut   = CRC8_XOR_OUT,
-       bool reverseIn   = CRC8_REF_IN,
-       bool reverseOut  = CRC8_REF_OUT);
+       bool reverseIn   = CRC8_REV_IN,
+       bool reverseOut  = CRC8_REV_OUT);
 
   void reset(uint8_t polynome = CRC8_POLYNOME,
              uint8_t initial  = CRC8_INITIAL,
              uint8_t xorOut   = CRC8_XOR_OUT,
-             bool reverseIn   = CRC8_REF_IN,
-             bool reverseOut  = CRC8_REF_OUT);
+             bool reverseIn   = CRC8_REV_IN,
+             bool reverseOut  = CRC8_REV_OUT);
 
   void restart();
   uint8_t calc() const;
@@ -62,3 +68,7 @@ private:
   uint8_t _crc;
   crc_size_t _count;
 };
+
+
+// -- END OF FILE --
+

@@ -31,11 +31,10 @@ Finally the class version gives more readable code (IMHO) as the parameters
 are explicitly set.
 
 
-**Note** the classes have same names as the static functions, except the class
-is UPPER case. So **CRC8** is a class and **calcCRC8()** is the function.
+**Note** the classes have similar names as the static functions
+The class name is always (full) UPPER case.
+So **CRC8** is a class and **calcCRC8()** is the function.
 
-Deeper tech info - https://en.wikipedia.org/wiki/Cyclic_redundancy_check
-and many other websites.
 
 #### Related
 
@@ -43,41 +42,57 @@ and many other websites.
 - https://github.com/RobTillaart/CRC
 - https://github.com/RobTillaart/Fletcher
 - https://github.com/RobTillaart/LUHN
+- https://github.com/RobTillaart/PrintHelpers (for CRC64)
 
+Deeper tech info
 
+- https://en.wikipedia.org/wiki/Cyclic_redundancy_check - generic background.
+- http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64 is supported.)
+- https://crccalc.com/ - online CRC calculator to verify.
+- https://www.lddgo.net/en/encrypt/crc - online CRC calculator
+- http://www.sunshine2k.de/coding/javascript/crc/crc_js.html - online CRC calculator
+
+and many other websites.
 
 ## Interface CRC classes
 
 The interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
-The only difference is the data type for polynome, start- and end-mask,
+The difference is the data type for polynome, start- and end-mask,
 and the returned CRC.
+The start mask is named ```initial``` and end-mask is named ```XOR-out```.
 
 
 #### Base
 
 Use **\#include "CRC8.h"**
 
+The interfaces for CRC12, CRC16, CRC32 and CRC64 are similar to CRC8.
 - **CRC8(polynome, initial, xorOut, reverseIn, reverseOut)** Constructor to set all parameters at once.
-- **void reset()** set all internals to defaults of the **CRC8()** parameterless constructor.
+- **void reset()** set all internals to defaults of the constructor.
 - **void restart()** reset internal CRC and count only;
-reuse values for other e.g polynome, XOR masks and reverse flags.
+reuses values for the other flags e.g polynome, XOR masks and reverse flags.
 - **uint8_t calc()** returns CRC calculated so far. This allows to check the CRC of
 a really large stream at intermediate moments, e.g. to link multiple packets.
-- **crc_size_t count()** returns number of values added so far. Default 0.
-- **void add(value)** add a single value to CRC calculation.
-- **void add(array, length)** add an array of values to the CRC.
-In case of a warning/error for the array type, use casting to (uint8_t \*).
-- **void add(array, length, yieldPeriod)** as CRC calculations of large blocks can take serious time (in milliseconds),
-the classes call **yield()** after every **yieldPeriod** calls to keep RTOS environments happy. The call allows to add values with
-**yield()** to get optimal performance. The risk is missing context switching to handle interrupts etc. So use at own risk.
+- **crc_size_t count()** returns number of values added since (re)start. 
+The default == 0.
+- **void add(value)** add a single value to the CRC calculation.
+- **void add(array, length)** add an array of length values to the CRC calculation.
+In case of a warning/error for the array type, use casting e.g. (uint8_t \*).
+- **void add(array, length, yieldPeriod)** as CRC calculations of large blocks 
+can take serious time (in milliseconds), the classes call **yield()** after every 
+**yieldPeriod** calls to keep RTOS environments happy.
+The call allows to add values with **yield()** to get optimal performance. 
+The risk is missing context switching to handle interrupts etc. So use at own risk.
 
 #### Parameters
 
+These functions allows to set individual parameters of the CRC at runtime.
 The parameters do not have defaults so the user must set them explicitly.
 
-- **void setPolynome(polynome)** set polynome, note reset sets a default polynome.
-- **void setInitial(initial)** set start-mask, default 0.
-- **void setXorOut(xorOut)** set end-mask, default 0.
+- **void setPolynome(polynome)** set polynome.
+Note: **reset()** and **restart()** sets a default polynome.
+- **void setInitial(initial)** set the start-mask.
+- **void setXorOut(xorOut)** set the end-mask.
 - **void setReverseIn(reverseIn)** reverse the bit pattern of input data (MSB vs LSB).
 - **void setReverseOut(reverseOut)** reverse the bit pattern of CRC (MSB vs LSB).
 - **uint8_t getPolynome()** return parameter set above or default.
@@ -86,9 +101,10 @@ The parameters do not have defaults so the user must set them explicitly.
 - **bool getReverseIn()** return parameter set above or default.
 - **bool getReverseOut()** return parameter set above or default.
 
+
 ### Example snippet
 
-A minimal usage only needs:
+A minimal usage needs:
 - the constructor, the add() function and the calc() function.
 
 ```cpp
@@ -139,27 +155,19 @@ Other reverses can be created in similar way.
 
 ## CrcParameters.h
 
-Since version 1.0.0 the file CrcParameters.h is added to hold symbolic names for certain parameters (polynomes, etc..).
+Since version 1.0.0 the file **CrcParameters.h** is added to hold symbolic names for certain parameters (polynomes, etc..).
 These can be used in your code too to minimize the number of "magic HEX codes".
 If standard polynomes are missing, please open an issue and report, with reference.
 
+(CrcParameters.h replaces and extends CRC_polynomes.h)
 
-## Operational
-
-See examples.
-
-
-## Links
-
-- https://en.wikipedia.org/wiki/Cyclic_redundancy_check - generic background.
-- http://zorc.breitbandkatze.de/crc.html - online CRC calculator (any base up to 64 is supported.)
-- https://crccalc.com/ - online CRC calculator to verify.
-- https://www.lddgo.net/en/encrypt/crc - online CRC calculator
-- http://www.sunshine2k.de/coding/javascript/crc/crc_js.html - online CRC calculator
 
 ## Future
 
 #### Must
+
+- extended performance measurements 1.x.x version
+  - both class and functions.
 
 
 #### Should
@@ -174,10 +182,8 @@ See examples.
 - table versions for performance?  (performance - memory discussion).
 - stream version - 4 classes class?
 - **setCRC(value)** to be able to pick up where one left ?
-  - can be done with **setStartXOR()**
+  - can be done with **setInitial()**
   - needs **getRawCRC()**  without reverse and end mask
-- Think about default parameters for constructor **CRC8(polynome, XORstart, XORend, reverseIn, reverseOut)**
-  - same as reset so constructors merge? Note the CRC-functions do have defaults too.
 
 
 #### Exotic CRC's ?

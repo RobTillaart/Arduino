@@ -1,3 +1,12 @@
+//
+//    FILE: CRC_performance.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2020
+//    (c) : MIT
+//
+
+
 #include "CRC.h"
 
 char str[122] =  "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";

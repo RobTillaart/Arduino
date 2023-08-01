@@ -1,3 +1,11 @@
+//
+//    FILE: CRC16_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2021-01-20
+//    (c) : MIT
+
+
 #include "CRC16.h"
 #include "CRC.h"
 
@@ -37,3 +45,7 @@ void test()
   Serial.println(crc.calc(), HEX);
   Serial.println(crc.count());
 }
+
+
+// -- END OF FILE --
+

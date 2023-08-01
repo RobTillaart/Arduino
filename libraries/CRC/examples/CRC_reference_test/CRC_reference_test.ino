@@ -1,3 +1,12 @@
+//
+//    FILE: CRC_reference_test.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo
+//    DATE: 2020
+//    (c) : MIT
+//
+
+
 #include "CRC.h"
 #include "printHelpers.h"  // for the 64 bit...
 

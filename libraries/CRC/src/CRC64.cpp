@@ -1,3 +1,10 @@
+//
+//    FILE: CRC64.cpp
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino class for CRC64;
+//     URL: https://github.com/RobTillaart/CRC
+
+
 #include "CRC64.h"
 #include "CrcFastReverse.h"
 
@@ -100,3 +107,7 @@ uint64_t CRC64::getCRC() const
 {
   return calc();
 }
+
+
+// -- END OF FILE --
+

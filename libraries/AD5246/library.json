@@ -1,0 +1,23 @@
+{
+  "name": "AD5246",
+  "keywords": "I2C,digital,rheostat, potentiometer, AD5246",
+  "description": "Arduino Library for AD5246, I2C 128 step rheostat.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5246.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "AD5246.h"
+}

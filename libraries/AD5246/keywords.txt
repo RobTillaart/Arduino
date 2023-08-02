@@ -1,0 +1,27 @@
+# Syntax Colouring Map For AD5246
+
+# Data types (KEYWORD1)
+AD5246	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+reset	KEYWORD2
+
+read	KEYWORD2
+readDevice	KEYWORD2
+write	KEYWORD2
+
+shutDown	KEYWORD2
+
+
+# Constants (LITERAL1)
+AD5246_LIB_VERSION	LITERAL1
+
+AS5246_OK	LITERAL1
+AS5246_ERROR	LITERAL1
+
+AD5246_MIDPOINT	LITERAL1
+
+

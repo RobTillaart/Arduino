@@ -2,7 +2,7 @@
 //    FILE: MTP40F.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -13,9 +13,9 @@
 //  #define MTP40F_DEBUG    1
 
 
-MTP40F::MTP40F(Stream * str)
+MTP40F::MTP40F(Stream * stream)
 {
-  _ser = str;
+  _ser = stream;
   _buffer[0] = '\0';
   _type = 5;
 }
@@ -37,10 +37,6 @@ int MTP40F::getAirPressureReference()
 {
   _lastError = MTP40F_OK;
 
-  //  max read freq 1x per 4 seconds  //  TODO CHECK.
-  if (millis() - _lastRead < 4000) return _airPressureReference;  //  last value
-  _lastRead = millis();
-
   uint8_t cmd[9] = { 0x42, 0x4D, 0xA0, 0x00, 0x02, 0x00, 0x00, 0x01, 0x31 };
   if (request(cmd, 9, 11))
   {
@@ -56,7 +52,10 @@ int MTP40F::getAirPressureReference()
 
 bool MTP40F::setAirPressureReference(int apr)
 {
-  if ((apr < 700) || (apr > 1100)) return false;  //  TODO CHECK
+  if ((apr < 700) || (apr > 1100))  //  page 5 datasheet
+  {
+    return false;
+  }
 
   uint8_t cmd[11] = { 0x42, 0x4D, 0xA0, 0x00, 0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00 };
   cmd[7] = apr / 256;
@@ -73,32 +72,46 @@ uint32_t MTP40F::getGasConcentration()
 {
   _lastError = MTP40F_OK;
 
-  //  max read freq 1x per 4 seconds
-  if (millis() - _lastRead < 4000) return _gasLevel;  //  last value
+  //  max read freq 1x per 2 seconds
+  //  datasheet measurement interval = 2s
+  if (millis() - _lastRead < 2000)
+  {
+    return _gasLevel;  //  last value
+  }
   _lastRead = millis();
 
   uint8_t cmd[9] = { 0x42, 0x4D, 0xA0, 0x00, 0x03, 0x00, 0x00, 0x01, 0x32 };
   if (request(cmd, 9, 14) )
   {
-    //  TODO  optimize shift.
-    _gasLevel =  _buffer[7] * (256L * 256L * 256L);
-    _gasLevel += _buffer[8] * (256L * 256L);
-    _gasLevel += _buffer[9] * (256L);
-    _gasLevel += _buffer[10];
-
     uint8_t status = _buffer[11];
-    if (status == 0x00) return _gasLevel;
+    if (status == 0x00) 
+    {
+      _gasLevel =  _buffer[7];
+      _gasLevel <<= 8;
+      _gasLevel |= _buffer[8];
+      _gasLevel <<= 8;
+      _gasLevel |= _buffer[9];
+      _gasLevel <<= 8;
+      _gasLevel += _buffer[10];
+      return _gasLevel;
+    }
+    _lastError = MTP40F_INVALID_GAS_LEVEL;
+    if (_suppressError) return _gasLevel;  //  last level
+    return _lastError;
   }
 
-  _lastError = MTP40F_INVALID_GAS_LEVEL;
-  if (_suppressError) return _gasLevel;
+  _lastError = MTP40F_REQUEST_FAILED;
+  if (_suppressError) return _gasLevel;  //  last level
   return _lastError;
 }
 
 
 bool MTP40F::setSinglePointCorrection(uint32_t spc)
 {
-  if ((spc < 400) || (spc > 2000)) return false;  //  TODO CHECK
+  if ((spc < 400) || (spc > 2000))  //  datasheet unclear 0x2000???
+  {
+    return false;
+  }
 
   uint8_t cmd[13] = { 0x42, 0x4D, 0xA0, 0x00, 0x04, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
   cmd[7]  = 0;
@@ -153,7 +166,8 @@ uint8_t MTP40F::getSelfCalibrationStatus()
   {
     return _buffer[7];   //  0x00 or 0xFF
   }
-  return 0x02;  //  TODO define error constant
+  _lastError = MTP40F_REQUEST_FAILED;
+  return _lastError;
 }
 
 
@@ -162,19 +176,23 @@ uint16_t MTP40F::getSelfCalibrationHours()
   uint8_t cmd[9] = { 0x42, 0x4D, 0xA0, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00 };
   if (request(cmd, 9, 11) )
   {
-    uint16_t hrs = _buffer[7] * 256 + _buffer[8];
-    return hrs;
+    uint16_t hours = _buffer[7] * 256 + _buffer[8];
+    return hours;
   }
-  return 0xFFFF;  //  TODO define error constant
+  _lastError = MTP40F_REQUEST_FAILED;
+  return _lastError;
 }
 
 
-bool MTP40F::setSelfCalibrationHours(uint16_t hrs)
+bool MTP40F::setSelfCalibrationHours(uint16_t hours)
 {
-  if ((hrs < 24) || (hrs > 720)) return false;
+  if ((hours < 24) || (hours > 720))
+  {
+    return false;
+  }
   uint8_t cmd[11] = { 0x42, 0x4D, 0xA0, 0x00, 0x09, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00 };
-  cmd[7] = hrs / 256;
-  cmd[8] = hrs & 0xFF;
+  cmd[7] = hours / 256;
+  cmd[8] = hours & 0xFF;
   if (request(cmd, 11, 10) )
   {
     return (_buffer[7] == 0x00);
@@ -195,7 +213,7 @@ int MTP40F::lastError()
 //
 //  PRIVATE
 //
-bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
+bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t responseLength)
 {
   //  calculate CRC of command
   uint16_t crc = CRC(data, commandLength - 2);
@@ -215,7 +233,7 @@ bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 
   uint32_t start = millis();
   uint8_t i = 0;
-  while (i < answerLength)
+  while (i < responseLength)
   {
     if (millis() - start > _timeout) return false;
     if (_ser->available())
@@ -228,10 +246,10 @@ bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 }
 
 
-uint16_t MTP40F::CRC(uint8_t *data, uint16_t len)
+uint16_t MTP40F::CRC(uint8_t *data, uint16_t length)
 {
   uint16_t sum = 0;
-  for (uint16_t i= 0; i < len; i++)
+  for (uint16_t i= 0; i < length; i++)
   {
     sum += *data++;
   }

@@ -1,0 +1,23 @@
+{
+  "name": "M5ROTATE8",
+  "keywords": "M5ROTATE8,rotary,encoder,8encoder",
+  "description": "Arduino library for M5 8ROTATE 8x rotary encoders.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/M5ROTATE8"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "M5ROTATE8.h"
+}

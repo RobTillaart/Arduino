@@ -22,66 +22,103 @@ void setup()
 
   Wire.begin();
   MM.begin();
- 
-  start = micros();
-  for (int ch = 0; ch < 8; ch++)
+
+  for (uint32_t speed = 100000; speed <= 400000; speed += 100000)
   {
-    MM.writeRGB(ch, 128, 128, 128);
+    Wire.setClock(speed);
+    Serial.println();
+    Serial.print("I2C:\t");
+    Serial.println(speed);
+    performance();
+  }
+}
+
+void performance()
+{
+  start = micros();
+  for (int i = 0; i < 100; i++)
+  {
+    for (int ch = 0; ch < 8; ch++)
+    {
+      MM.writeRGB(ch, 128, 128, 128);
+    }
   }
   stop = micros();
   Serial.print("writeRGB:\t");
-  Serial.println((stop - start) / 8.0);
-  delay(100);
-
-  start = micros();
+  Serial.println((stop - start) / 800.0);
   MM.allOff();
-  stop = micros();
-  Serial.print("allOff:\t");
-  Serial.println(stop - start);
   delay(100);
 
   start = micros();
-  x = MM.inputSwitch();
+  for (int i = 0; i < 100; i++)
+  {
+    MM.allOff();
+  }
+  stop = micros();
+  Serial.print("allOff:\t\t");
+  Serial.println((stop - start) / 100.0);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.inputSwitch();
+  }
   stop = micros();
   Serial.print("inputSwitch:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
 
   start = micros();
-  x = MM.getAbsCounter(3);
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.getAbsCounter(3);
+  }
   stop = micros();
   Serial.print("getAbsCounter:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
 
   start = micros();
-  x = MM.getRelCounter(5);
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.getRelCounter(5);
+  }
   stop = micros();
   Serial.print("getRelCounter:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
 
   start = micros();
-  x = MM.getKeyPressed(7);
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.getKeyPressed(7);
+  }
   stop = micros();
   Serial.print("getKeyPressed:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
 
   start = micros();
-  MM.setAbsCounter(1, 1000);
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.setAbsCounter(1, 1000);
+  }
   stop = micros();
   Serial.print("setAbsCounter:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
 
   start = micros();
-  x = MM.resetCounter(1);
+  for (int i = 0; i < 100; i++)
+  {
+    x = MM.resetCounter(1);
+  }
   stop = micros();
   Serial.print("resetCounter:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 100.0);
   delay(100);
-  
+
   Serial.println("\ndone...");
 }
 

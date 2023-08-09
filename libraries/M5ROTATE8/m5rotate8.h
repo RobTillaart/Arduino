@@ -2,7 +2,7 @@
 //
 //    FILE: m5rotate8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ROTATE8_LIB_VERSION          (F("0.1.0"))
+#define M5ROTATE8_LIB_VERSION          (F("0.2.0"))
 
 #define M5ROTATE8_DEFAULT_ADDRESS      0x41
 
@@ -35,7 +35,7 @@ public:
   uint8_t getAddress();
   uint8_t getVersion();
 
-  //  IO PART
+  //  ROTARY ENCODER PART
   //  channel    = 0..7
   int32_t  getAbsCounter(uint8_t channel);
   bool     setAbsCounter(uint8_t channel, int32_t value);
@@ -44,10 +44,14 @@ public:
   bool     resetCounter(uint8_t channel);
   void     resetAll();
 
+  //  INPUT SWITCH PART
   uint8_t  inputSwitch();
+
+  //  LED PART
   //  channel    = 0..7
   //  R,G,B      = 0..255
   bool     writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B);
+  bool     setAll(uint8_t R, uint8_t G, uint8_t B);
   bool     allOff();
 
 

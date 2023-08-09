@@ -1,5 +1,5 @@
 //
-//    FILE: M5ROTATE8_demo_rel_counter.ino
+//    FILE: M5ROTATE8_demo_abs_counter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/M5ROTATE8
@@ -10,7 +10,6 @@
 
 M5ROTATE8 MM;
 
-
 void setup()
 {
   Serial.begin(115200);
@@ -20,19 +19,23 @@ void setup()
 
   Wire.begin();
   MM.begin();
+  MM.resetAll();
 }
 
 
 void loop()
-{
+{ 
   for (int ch = 0; ch < 8; ch++)
   {
-    Serial.print(MM.getRelCounter(ch));
+    Serial.print(MM.getAbsCounter(ch));
     Serial.print("\t");
     Serial.print(MM.getKeyPressed(ch));
-    Serial.print("\n");
+    Serial.print("\t");
     delay(125);
   }
+  Serial.print(MM.inputSwitch());
+  Serial.print("\n");
+  delay(1000);
 }
 
 

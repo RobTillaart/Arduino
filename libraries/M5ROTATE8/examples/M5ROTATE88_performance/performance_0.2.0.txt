@@ -1,0 +1,54 @@
+Board:  Arduino UNO
+IDE:    1.8.19
+
+Numbers are averages and are indicative.
+
+M5ROTATE8_LIB_VERSION: 0.2.0
+
+I2C:	100000
+writeRGB:	538.63
+allOff:		4847.52
+inputSwitch:	840.28
+getAbsCounter:	776.00
+getRelCounter:	775.52
+getKeyPressed:	829.76
+setAbsCounter:	637.88
+resetCounter:	339.52
+
+done...
+
+I2C:	200000
+writeRGB:	320.01
+allOff:		2879.64
+inputSwitch:	693.48
+getAbsCounter:	451.04
+getRelCounter:	452.60
+getKeyPressed:	682.92
+setAbsCounter:	366.64
+resetCounter:	199.08
+
+done...
+
+I2C:	300000
+writeRGB:	267.05
+allOff:		2401.32
+inputSwitch:	653.24
+getAbsCounter:	363.68
+getRelCounter:	365.72
+getKeyPressed:	641.72
+setAbsCounter:	292.84
+resetCounter:	161.84
+
+done...
+
+I2C:	400000
+writeRGB:	245.62
+allOff:		2210.12
+inputSwitch:	635.68
+getAbsCounter:	324.20
+getRelCounter:	327.12
+getKeyPressed:	624.44
+setAbsCounter:	260.64
+resetCounter:	145.28
+
+done...

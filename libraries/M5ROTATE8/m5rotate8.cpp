@@ -1,7 +1,7 @@
 //
 //    FILE: m5rotate8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -71,7 +71,7 @@ uint8_t M5ROTATE8::getAddress()
 }
 
 
-uint8_t M5ROTATE8::getVersion() 
+uint8_t M5ROTATE8::getVersion()
 {
   return read8(M5ROTATE8_REG_VERSION);
 }
@@ -79,34 +79,22 @@ uint8_t M5ROTATE8::getVersion()
 
 ////////////////////////////////////////////////
 //
-//  INPUT PART
+//  ROTARY ENCODER PART
 //
 int32_t M5ROTATE8::getAbsCounter(uint8_t channel)
 {
-  // if (channel > 7)
-  // {
-    // return M5ROTATE8_ERR_CHANNEL;
-  // }
   return read32(M5ROTATE8_REG_BASE_ABS + (channel << 2));
 }
 
 
 bool M5ROTATE8::setAbsCounter(uint8_t channel, int32_t value)
 {
-  // if (channel > 7)
-  // {
-    // return M5ROTATE8_ERR_CHANNEL;
-  // }
   return write32(M5ROTATE8_REG_BASE_ABS + (channel << 2), value);
 }
 
 
 int32_t M5ROTATE8::getRelCounter(uint8_t channel)
 {
-  // if (channel > 7)
-  // {
-    // return M5ROTATE8_ERR_CHANNEL;
-  // }
   return read32(M5ROTATE8_REG_BASE_REL + (channel << 2));
 }
 
@@ -117,7 +105,7 @@ bool M5ROTATE8::getKeyPressed(uint8_t channel)
   {
     return false;
   }
-  return read8(M5ROTATE8_REG_BASE_BUTTON + channel);
+  return (0 == read8(M5ROTATE8_REG_BASE_BUTTON + channel));
 }
 
 
@@ -141,15 +129,23 @@ void M5ROTATE8::resetAll()
 }
 
 
+////////////////////////////////////////////////
+//
+//  INPUT SWITCH PART
+//
 uint8_t M5ROTATE8::inputSwitch()
 {
   return read8(M5ROTATE8_REG_SWITCH);
 }
-  
-  
+
+
+////////////////////////////////////////////////
+//
+//  LED PART
+//
 bool M5ROTATE8::writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 {
-  if (channel > 7)
+  if (channel > 8)
   {
     return false;
   }
@@ -158,13 +154,19 @@ bool M5ROTATE8::writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)
 }
 
 
-bool M5ROTATE8::allOff()
+bool M5ROTATE8::setAll(uint8_t R, uint8_t G, uint8_t B)
 {
-  for (uint8_t ch = 0; ch < 8; ch++)
+  for (uint8_t ch = 0; ch < 9; ch++)
   {
-    write24(M5ROTATE8_REG_RGB + (ch * 3), 0, 0, 0);
+    write24(M5ROTATE8_REG_RGB + (ch * 3), R, G, B);
   }
   return true;
+}
+
+
+bool M5ROTATE8::allOff()
+{
+  return setAll(0, 0, 0);
 }
 
 
@@ -239,7 +241,7 @@ uint32_t M5ROTATE8::read32(uint8_t reg)
     //  error handling
     return 0;
   }
-  if (_wire->requestFrom(_address, (uint8_t)1) != 1)
+  if (_wire->requestFrom(_address, (uint8_t)4) != 4)
   {
     //  error handling
     return 0;

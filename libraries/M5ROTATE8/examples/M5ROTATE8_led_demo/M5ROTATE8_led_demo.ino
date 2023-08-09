@@ -24,13 +24,14 @@ void setup()
 
 void loop()
 {
-  for (int ch = 0; ch < 8; ch++)
+  for (int ch = 0; ch < 9; ch++)
   {
-    Serial.println(ch);
+    Serial.print(ch);
     MM.writeRGB(ch, 0, 0, 255);
-    delay(125);
+    delay(MM.getAbsCounter(0));
     MM.writeRGB(ch, 0, 0, 0);
-    delay(125);
+    delay(MM.getAbsCounter(0));
+    Serial.println(MM.getAbsCounter(0));
   }
 }
 

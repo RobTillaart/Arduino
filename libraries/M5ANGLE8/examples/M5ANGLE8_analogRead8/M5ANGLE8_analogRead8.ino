@@ -1,5 +1,5 @@
 //
-//    FILE: M5ANGLE8_led_follow.ino
+//    FILE: M5ANGLE8_analogRead8.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (works well with build in plotter)
 //     URL: https://github.com/RobTillaart/M5ANGLE8
@@ -24,19 +24,15 @@ void setup()
 
 void loop()
 {
-  uint16_t val;
   for (int ch = 0; ch < 8; ch++)
   {
-    val = MM.analogRead(ch);
-    MM.writeRGB(ch, val / 16, 0, 0, 50);
-    Serial.print(val);
+    Serial.print(MM.analogRead(ch, 8));  //  low resolution 0..255
     Serial.print("\t");
     delay(1);
   }
-  val = MM.inputSwitch();
-  MM.writeRGB(8, 0, 0, val * 255, 50);
+  Serial.print(MM.inputSwitch());
   Serial.print("\n");
-  delay(0);
+  delay(10);
 }
 
 

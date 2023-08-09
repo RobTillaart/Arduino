@@ -2,7 +2,7 @@
 //
 //    FILE: m5angle8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for M58ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ANGLE8_LIB_VERSION          (F("0.1.0"))
+#define M5ANGLE8_LIB_VERSION          (F("0.2.0"))
 
 #define M5ANGLE8_DEFAULT_ADDRESS      0x43
 
@@ -36,21 +36,36 @@ public:
   uint8_t getAddress();
   uint8_t getVersion();
 
-  //  IO PART
+
+  //  ANALOGREAD PART
   //  channel    = 0..7
-  //  resolution = 8 (0..255) anything else ==> 12 (0..4095)
+  //  resolution = 1..12 (max 0..4095)
   uint16_t analogRead(uint8_t channel, uint8_t resolution = 12);
+  //  reverse potentiometers range
+  //  false = 0..n
+  //  true  = n..0
+  void     setReverse(bool reverse);
+  bool     getReverse();
+  //  maps the analogRead upon 0..steps-1 steps.
+  uint16_t selectorRead(uint8_t channel, uint8_t steps);
+
+
+  //  INPUT SWITCH PART
   uint8_t  inputSwitch();
+
+
+  //  LED PART
   //  channel    = 0..7
   //  R,G,B      = 0..255
   //  brightness = 0..100 (will be constrained).
   bool     writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B, uint8_t brightness);
+  bool     setAll(uint8_t R, uint8_t G, uint8_t B, uint8_t brightness);
   bool     allOff();
 
 
 private:
   uint8_t  _address;
-
+  bool     _reverse;
   int      _error;
 
   TwoWire* _wire;

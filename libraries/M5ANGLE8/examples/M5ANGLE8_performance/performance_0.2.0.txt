@@ -1,0 +1,43 @@
+Board:  UNO
+IDE:    1.8.19
+
+Notice there is quite some spread over calls,
+so these average numbers are indicative
+
+M5ANGLE8_LIB_VERSION: 0.2.0
+
+I2C:	100000
+writeRGB:	952.91
+allOff:		9220.52
+inputSwitch:	595.96
+a-read H:	653.56
+a-read L:	597.00
+
+I2C:	200000
+writeRGB:	868.86
+allOff:		7139.24
+inputSwitch:	373.44
+a-read H:	426.12
+a-read L:	357.80
+
+I2C:	300000
+writeRGB:	778.54
+allOff:		6938.44
+inputSwitch:	286.68
+a-read H:	326.20
+a-read L:	286.64
+
+I2C:	400000
+writeRGB:	693.80
+allOff:		6515.64
+inputSwitch:	253.12
+a-read H:	291.96
+a-read L:	250.52
+
+I2C:	500000
+writeRGB:	668.09
+allOff:		6237.24
+inputSwitch:	250.00
+a-read H:	283.72
+a-read L:	249.00
+

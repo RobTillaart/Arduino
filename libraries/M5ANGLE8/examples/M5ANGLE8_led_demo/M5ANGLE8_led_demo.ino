@@ -7,7 +7,6 @@
 
 #include "m5angle8.h"
 
-
 M5ANGLE8 MM;
 
 void setup()
@@ -24,13 +23,14 @@ void setup()
 
 void loop()
 {
-  for (int ch = 0; ch < 8; ch++)
+
+  for (int ch = 0; ch < 9; ch++)
   {
     Serial.println(ch);
     MM.writeRGB(ch, 0, 0, 255, 100);
-    delay(125);
+    uint32_t d = 1 + MM.analogRead(0, 10);
+    delay(d);
     MM.writeRGB(ch, 0, 0, 0, 0);
-    delay(125);
   }
 }
 

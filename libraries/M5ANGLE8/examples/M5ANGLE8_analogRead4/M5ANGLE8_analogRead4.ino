@@ -1,5 +1,5 @@
 //
-//    FILE: M5ANGLE8_analog12_demo.ino
+//    FILE: M5ANGLE8_analogRead4.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (works well with build in plotter)
 //     URL: https://github.com/RobTillaart/M5ANGLE8
@@ -26,12 +26,13 @@ void loop()
 {
   for (int ch = 0; ch < 8; ch++)
   {
-    Serial.print(MM.analogRead(ch));
+    Serial.print(MM.analogRead(ch, 4));  //  low resolution 0..15
     Serial.print("\t");
+    delay(1);
   }
   Serial.print(MM.inputSwitch());
   Serial.print("\n");
-  delay(100);
+  delay(10);
 }
 
 

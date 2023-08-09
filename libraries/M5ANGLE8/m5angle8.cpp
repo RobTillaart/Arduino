@@ -1,7 +1,7 @@
 //
 //    FILE: m5angle8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for M5 8ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -22,6 +22,8 @@ M5ANGLE8::M5ANGLE8(uint8_t address, TwoWire *wire)
 {
   _address = address;
   _wire = wire;
+  _reverse = false;
+  _error = M5ANGLE8_OK;
 }
 
 
@@ -77,7 +79,7 @@ uint8_t M5ANGLE8::getVersion()
 
 ////////////////////////////////////////////////
 //
-//  INPUT PART
+//  ANALOG PART
 //
 uint16_t M5ANGLE8::analogRead(uint8_t channel, uint8_t resolution)
 {
@@ -85,27 +87,60 @@ uint16_t M5ANGLE8::analogRead(uint8_t channel, uint8_t resolution)
   {
     return M5ANGLE8_ERR_CHANNEL;
   }
-  if (resolution <= 8)
+  uint16_t value;
+  if (resolution > 8)
   {
-    return (uint16_t) read8(M5ANGLE8_REG_BASE_ANA8 + channel);
+    value = read16(M5ANGLE8_REG_BASE_ANA12 + (channel << 1));
+    if (_reverse == false) value = 4095 - value;
+    if (resolution < 12)  value >>= (12 - resolution);
   }
-  uint16_t value = read16(M5ANGLE8_REG_BASE_ANA12 + (channel << 1));
-  if      (resolution == 11) value >>= 1;
-  else if (resolution == 10) value >>= 2;
-  else if (resolution == 9)  value >>= 3;
+  else
+  {
+    value = read8(M5ANGLE8_REG_BASE_ANA8 + channel);
+    if (_reverse == false) value = 255 - value;
+    if (resolution < 8)  value >>= (8 - resolution);
+  }
   return value;
 }
 
 
+void M5ANGLE8::setReverse(bool reverse)
+{
+  _reverse = reverse;
+}
+
+
+bool M5ANGLE8::getReverse()
+{
+  return _reverse;
+}
+
+
+uint16_t M5ANGLE8::selectorRead(uint8_t channel, uint8_t steps)
+{
+  uint32_t value = analogRead(channel, 12);
+  return (value * steps) >> 12;
+}
+
+
+
+////////////////////////////////////////////////
+//
+//  INPUT SWITCH PART
+//
 uint8_t M5ANGLE8::inputSwitch()
 {
   return read8(M5ANGLE8_REG_SWITCH);
 }
 
 
+////////////////////////////////////////////////
+//
+//  LED PART
+//
 bool M5ANGLE8::writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B, uint8_t brightness)
 {
-  if (channel > 7)
+  if (channel > 8)
   {
     return false;
   }
@@ -115,13 +150,19 @@ bool M5ANGLE8::writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B, uint8_
 }
 
 
-bool M5ANGLE8::allOff()
+bool M5ANGLE8::setAll(uint8_t R, uint8_t G, uint8_t B, uint8_t brightness)
 {
-  for (uint8_t ch = 0; ch < 8; ch++)
+  for (uint8_t ch = 0; ch < 9; ch++)
   {
-    write32(M5ANGLE8_REG_RGB + (ch << 2), 0, 0, 0, 0);
+    write32(M5ANGLE8_REG_RGB + (ch << 2), R, G, B, brightness);
   }
   return true;
+}
+
+
+bool M5ANGLE8::allOff()
+{
+  return setAll(0,0,0,0);
 }
 
 
@@ -175,8 +216,7 @@ uint16_t M5ANGLE8::read16(uint8_t reg)
     return 0;
   }
   value += _wire->read();
-  value <<= 8;
-  value += _wire->read();
+  value += _wire->read() << 8;
   return value;
 }
 

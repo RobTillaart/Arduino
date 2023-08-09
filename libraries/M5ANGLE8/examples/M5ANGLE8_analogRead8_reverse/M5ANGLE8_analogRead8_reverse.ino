@@ -1,5 +1,5 @@
 //
-//    FILE: M5ANGLE8_led_follow.ino
+//    FILE: M5ANGLE8_analogRead8_reverse.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (works well with build in plotter)
 //     URL: https://github.com/RobTillaart/M5ANGLE8
@@ -19,24 +19,24 @@ void setup()
 
   Wire.begin();
   MM.begin();
+
+  MM.setReverse(true);
 }
 
 
 void loop()
 {
-  uint16_t val;
   for (int ch = 0; ch < 8; ch++)
   {
-    val = MM.analogRead(ch);
-    MM.writeRGB(ch, val / 16, 0, 0, 50);
-    Serial.print(val);
+    Serial.print(MM.analogRead(ch, 8));
     Serial.print("\t");
     delay(1);
   }
-  val = MM.inputSwitch();
-  MM.writeRGB(8, 0, 0, val * 255, 50);
+  int x = MM.inputSwitch();
+  Serial.print(x);
   Serial.print("\n");
-  delay(0);
+  MM.setReverse(x);
+  delay(10);
 }
 
 

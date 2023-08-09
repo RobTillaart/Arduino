@@ -12,8 +12,14 @@ getAddress	KEYWORD2
 getVersion	KEYWORD2
 
 analogRead	KEYWORD2
+setReverse	KEYWORD2
+getReverse	KEYWORD2
+selectorRead	KEYWORD2
+
 inputSwitch	KEYWORD2
+
 writeRGB	KEYWORD2
+setAll	KEYWORD2
 allOff	KEYWORD2
 
 

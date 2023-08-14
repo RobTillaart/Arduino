@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -12,7 +12,8 @@
 #include "SPI.h"
 #include "MCP23S17_registers.h"
 
-#define MCP23S17_LIB_VERSION              (F("0.2.4"))
+
+#define MCP23S17_LIB_VERSION              (F("0.2.5"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -40,11 +41,11 @@ public:
 
   bool     begin();
   bool     isConnected();
-  uint8_t  getAddress();   //  typically returns 0x00
+  uint8_t  getAddress();   //  default returns 0x00
 
 
   //  single pin interface
-  //  mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //  mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
   bool     pinMode(uint8_t pin, uint8_t mode);
   bool     digitalWrite(uint8_t pin, uint8_t value);
   uint8_t  digitalRead(uint8_t pin);
@@ -91,6 +92,22 @@ public:
   //       set/clear IOCR bit fields  (0.2.3 experimental)
   void     enableControlRegister(uint8_t mask);
   void     disableControlRegister(uint8_t mask);
+  //       0.2.5 experimental
+  void     enableHardwareAddress();
+  void     disableHardwareAddress();
+
+  //  ESP32 specific
+#if defined(ESP32)
+
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
+
+  // to overrule the ESP32s default hardware pins
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+
+#endif
 
 
 private:
@@ -115,6 +132,10 @@ private:
   SPISettings _spi_settings;
 
   uint8_t  swSPI_transfer(uint8_t val);
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 

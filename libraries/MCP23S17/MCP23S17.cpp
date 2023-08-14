@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -50,9 +50,24 @@ bool MCP23S17::begin()
 
   if (_hwSPI)
   {
-    //  _mySPI = &SPI;  //  set in constructor  #10
+    #if defined(ESP32)
+    if (_useHSPI)      //  HSPI
+    {
+      _mySPI = new SPIClass(HSPI);
+      _mySPI->end();
+      _mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
+    }
+    else               //  VSPI
+    {
+      _mySPI = new SPIClass(VSPI);
+      _mySPI->end();
+      _mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
+    }
+    #else              //  generic hardware SPI
+    _mySPI = &SPI;
     _mySPI->end();
     _mySPI->begin();
+    #endif
   }
   else
   {
@@ -578,6 +593,62 @@ void MCP23S17::disableControlRegister(uint8_t mask)
   reg &= ~mask;
   writeReg(MCP23S17_IOCR, reg);
 }
+
+
+void MCP23S17::enableHardwareAddress()
+{
+  enableControlRegister(MCP23S17_IOCR_HAEN);
+}
+
+
+void MCP23S17::disableHardwareAddress()
+{
+  disableControlRegister(MCP23S17_IOCR_HAEN);
+}
+
+
+#if defined(ESP32)
+
+void MCP23S17::selectHSPI()
+{
+  _useHSPI = true;
+}
+
+
+void MCP23S17::selectVSPI()
+{
+  _useHSPI = false;
+}
+
+
+bool MCP23S17::usesHSPI()
+{
+  return _useHSPI;
+}
+
+
+bool MCP23S17::usesVSPI()
+{
+  return !_useHSPI;
+}
+
+
+void MCP23S17::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _dataIn  = miso;
+  _select  = select;
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+
+  _mySPI->end();  //  disable old SPI
+
+  _mySPI->begin(clk, miso, mosi, select);  //  enable new pins
+}
+
+#endif
+
 
 
 ////////////////////////////////////////////////////

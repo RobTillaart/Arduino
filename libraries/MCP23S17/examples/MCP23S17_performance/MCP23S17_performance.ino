@@ -1,8 +1,8 @@
 //
 //    FILE: MCP23S17_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-12-30
-// PUPROSE: test MCP23017 library
+// PURPOSE: test MCP23S17 library
+//     URL: https://github.com/RobTillaart/MCP23S17
 
 
 #include "MCP23S17.h"
@@ -36,7 +36,7 @@ void setup()
 
   MCP.setSPIspeed(10000000);
 
-  MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
 
   Serial.println("\ntime in microseconds\n");
@@ -48,7 +48,7 @@ void setup()
   start = micros();
   for (int i = 0; i < 16; i++)
   {
-    MCP.digitalWrite(0, i & 0x01);  // alternating HIGH/LOW
+    MCP.digitalWrite(0, i & 0x01);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
@@ -59,7 +59,7 @@ void setup()
   start = micros();
   for (int pin = 0; pin < 16; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
@@ -79,13 +79,13 @@ void setup()
 
   //////////////////////////////////////////////////
   //
-  // write8 read8 interface
+  //  write8 read8 interface
   //
   Serial.print("TEST write8(port, mask):\t");
   delay(100);
   start = micros();
-  MCP.write8(0, 0xAA); // alternating HIGH/LOW
-  MCP.write8(1, 0xAA); // alternating HIGH/LOW
+  MCP.write8(0, 0xAA);  //  alternating HIGH/LOW
+  MCP.write8(1, 0xAA);  //  alternating HIGH/LOW
   stop = micros();
   Serial.println((stop - start) / 2.0);
 
@@ -102,12 +102,12 @@ void setup()
 
   //////////////////////////////////////////////////
   //
-  // write16 read16 interface
+  //  write16 read16 interface
   //
   Serial.print("TEST write16(mask):\t");
   delay(100);
   start = micros();
-  MCP.write16(0xAAAA); // alternating HIGH/LOW
+  MCP.write16(0xAAAA);  //  alternating HIGH/LOW
   stop = micros();
   Serial.println((stop - start) / 2.0);
 
@@ -120,7 +120,7 @@ void setup()
   Serial.println((stop - start) / 2.0);
   Serial.println();
 
-  // keep compiler happy
+  //  keep compiler happy
   Serial.print("VAL1:\t");
   Serial.println(val1);
   Serial.print("VAL8:\t");
@@ -137,4 +137,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

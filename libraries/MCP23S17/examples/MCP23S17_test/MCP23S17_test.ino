@@ -1,8 +1,8 @@
 //
 //    FILE: MCP23S17_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-06-28
-// PUPROSE: test MCP23017 library
+// PURPOSE: test MCP23S17 library
+//     URL: https://github.com/RobTillaart/MCP23S17
 
 
 #include "MCP23S17.h"
@@ -26,7 +26,7 @@ void setup()
   bool b = MCP.begin();
   Serial.println(b ? "true" : "false");
 
-  MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0, 0x00);  //  0 = output, 1 = input
   MCP.pinMode8(1, 0x00);
 
 
@@ -148,4 +148,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

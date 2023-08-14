@@ -61,12 +61,28 @@ The two hardware constructors allow to call 4 different constructors.
 ```
 
 
-#### sharing select lines
+#### Sharing SELECT lines
 
-(not tested)
-Technically two chips could use the same select pin and a different address. 
-The constructors would allow to setup such a configuration.
-I assume that this is less used and IMHO not recommended.
+(verified in #19)  
+Technically two chips could use the same SELECT pin and a different address. 
+Since 0.2.5 the constructors allow to setup such a configuration.
+The added value is that one can use up to 8 devices (= 128 IO lines) with only 
+four lines (MISO, MOSI, CLOCK, SELECT).
+
+I assume that this configuration is less used and IMHO not recommended.
+NB it is more difficult to detect which device is selected when debugging.
+
+To use the hardware addresses the Hardware Address ENable register must be set.
+See datasheet 3.3.2 ADDRESSING SPI DEVICES, need to set IOCON.HAEN.
+
+The library supports two ways:
+```cpp
+MCP.enableControlRegister(MCP23S17_IOCR_HAEN);  //  or 0x08
+or
+MCP.enableHardwareAddress();  //  0.2.5 version and up
+```
+
+See also **IO Control Register** section below.
 
 
 ### Single pin interface
@@ -112,7 +128,7 @@ Returns true if successful.
 Returns true if successful.
 
 
-###  IO Control Register
+### IO Control Register
 
 Since 0.2.3 the library supports setting bit fields in the IO control register.
 Read the datasheet carefully!
@@ -131,6 +147,44 @@ Read the datasheet carefully!
 |  MCP23S17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
 |  MCP23S17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
 |  MCP23S17_IOCR_NI      |  0x01  |  Not implemented. 
+
+
+Two dedicated functions are added since 0.2.5.
+
+- **void enableHardwareAddress()** set IOCR_HAEN  bit.
+- **void disableHardwareAddress()** clear IOCR_HAEN bit.
+
+
+### ESP32 HW SPI port selection
+
+This functionality is new in 0.2.5.
+
+- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
+- **void selectVSPI()** see above.
+- **bool usesHSPI()** returns true if HSPI is used.
+- **bool usesVSPI()** returns true if VSPI is used.
+
+The **selectVSPI()** or the **selectHSPI()** needs to be called
+BEFORE the **begin()** function.
+
+
+#### Experimental
+
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
+overrule GPIO pins of ESP32 for hardware SPI. 
+Needs to be called AFTER the **begin()** function.
+
+```cpp
+void setup()
+{
+  MCP.selectVSPI();
+  MCP.begin(15);
+  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
+}
+```
+
+This interface can change in the future as the **select** pin is known
+in the code.
 
 
 ### Error codes
@@ -163,20 +217,27 @@ See examples.
 
 #### Should
 
+- buy additional hardware
 - keep functional in sync with MCP23017_RT
+- test with multiple devices.
+  - multi SELECT lines
+- add example with interrupts
+  - test 
+- IOCON.HAEN, Hardware Address ENable.
+  - should this be enabled in **begin()** by default?  0.3.0
+  - check address range in constructor.
 
 #### Could 
 
-- check need for writing in all functions (Polarity / pullup)
+- check need for writing in all functions (Polarity / Pull-up)
   - check if bit mask changes.
   - what is performance gain vs footprint?
-- implement ESP32 specific support in begin()
-  - see MCP_ADC.begin()
-  - SW_SPI is roughly equal in performance as HW SPI on ESP32.
 - investigate and reimplement the INPUT_PULLUP for pinMode() ?
+- RP2040 support for SPI, setGPIOpins() etc
+  - See MCP_DAC
+- AVR software SPI optimize 0.3.0
+  - dao and clock - see fastShiftOut.
 
 #### Wont
-
-- check address range in constructor.
 
 

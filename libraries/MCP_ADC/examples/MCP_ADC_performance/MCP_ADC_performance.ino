@@ -13,8 +13,8 @@
 
 MCP3002 mcp2;
 MCP3004 mcp4;
-MCP3008 mcp8(11, 12, 13);     // software spi
-// MCP3008 mcp8;               // hardware spi
+MCP3008 mcp8(11, 12, 13);     //  software SPI
+// MCP3008 mcp8;               //  hardware SPI
 MCP3202 mcp22;
 MCP3204 mcp24;
 MCP3208 mcp28;
@@ -26,6 +26,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP_ADC_LIB_VERSION: ");
+  Serial.println(MCP_ADC_LIB_VERSION);
 
   mcp2.begin(8);
   mcp4.begin(9);
@@ -72,7 +74,7 @@ void setup()
   test_2();
   test_3();
 
-  // on UNO there is no difference above 8MHz (half CPU clock)
+  //  on UNO there is no difference above 8MHz (half CPU clock)
   Serial.println("***************************************\n");
   for (int s = 1; s <= 16; s *= 2)
   {
@@ -81,7 +83,7 @@ void setup()
     test_3();
   }
 
-  // on UNO there is no difference above 8MHz (half CPU clock)
+  //  on UNO there is no difference above 8MHz (half CPU clock)
   Serial.println("***************************************\n");
   for (int s = 1; s <= 16; s *= 2)
   {
@@ -90,7 +92,7 @@ void setup()
     test_4();
   }
 
-  // on UNO there is no difference above 8MHz (half CPU clock)
+  //  on UNO there is no difference above 8MHz (half CPU clock)
   Serial.println("***************************************\n");
   for (int s = 1; s <= 16; s *= 2)
   {
@@ -99,7 +101,7 @@ void setup()
     test_5();
   }
 
-  // on UNO there is no difference above 8MHz (half CPU clock)
+  //  on UNO there is no difference above 8MHz (half CPU clock)
   Serial.println("***************************************\n");
   for (int s = 1; s <= 16; s *= 2)
   {
@@ -339,5 +341,5 @@ void test_6()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

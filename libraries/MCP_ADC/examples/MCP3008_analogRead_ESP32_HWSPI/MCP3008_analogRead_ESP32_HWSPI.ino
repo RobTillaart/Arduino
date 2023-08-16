@@ -20,17 +20,19 @@
 //   MISO: 19,
 
 
-MCP3008 mcp1;                  // use HWSPI  on ESP32 (apparently VSPI)
-// MCP3008 mcp1(23, 19, 21);   // ESP32 use SWSPI  dataIn, dataOut, Clock
-// MCP3008 mcp1(6, 7, 8);      // UNO   use SWSPI  dataIn, dataOut, Clock
+MCP3008 mcp1;                  //  use HWSPI on ESP32 (apparently VSPI)
+// MCP3008 mcp1(23, 19, 21);   //  ESP32 use SWSPI  dataIn, dataOut, Clock
+// MCP3008 mcp1(6, 7, 8);      //  UNO   use SWSPI  dataIn, dataOut, Clock
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP_ADC_LIB_VERSION: ");
+  Serial.println(MCP_ADC_LIB_VERSION);
 
-  mcp1.begin(5);                // chip select pin.
+  mcp1.begin(5);                //  chip select pin.
 
   Serial.println();
   Serial.println("ADC\tCHAN\tMAXVALUE");
@@ -39,7 +41,7 @@ void setup()
   Serial.print("\t");
   Serial.println(mcp1.maxValue());
 
-  mcp1.setSPIspeed(4000000);  // seems to be the max speed. use 1MHz (default) to be safe
+  mcp1.setSPIspeed(4000000);  //  seems to be the max speed. use 1MHz (default) to be safe
 }
 
 
@@ -52,7 +54,7 @@ void loop()
     uint16_t val = mcp1.analogRead(channel);
     Serial.print(val);
     Serial.print("\t");
-    delay(1);       // added so single reads are better visible on a scope
+    delay(1);       //  added so single reads are better visible on a scope
   }
   Serial.println();
 
@@ -60,5 +62,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

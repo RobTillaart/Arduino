@@ -1,15 +1,16 @@
 //
-//    FILE: MCP3008_analogRead.ino
+//    FILE: MCP3201_analogRead.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-08-13
+//    DATE: 2023-08-15
 
 
 #include "MCP_ADC.h"
 
-MCP3008 mcp1;        //  use HWSPI
-MCP3004 mcp2(6, 7);  //  use SWSPI
+MCP3201 mcp1;        //  use HWSPI
+MCP3201 mcp2(6, 7);  //  use SWSPI
 
+uint32_t start, stop;
 
 void setup()
 {
@@ -27,10 +28,29 @@ void setup()
   Serial.print(mcp1.channels());
   Serial.print("\t");
   Serial.println(mcp1.maxValue());
+  delay(10);
+  start = micros();
+  uint16_t val = mcp1.analogRead(0);
+  stop = micros();
+  Serial.print("hwspi:\t");
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(val);
+
   Serial.print("mcp2\t");
   Serial.print(mcp2.channels());
   Serial.print("\t");
   Serial.println(mcp2.maxValue());
+  delay(10);
+  start = micros();
+  val = mcp2.analogRead(0);
+  stop = micros();
+  Serial.print("swspi:\t");
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(val);
+
+  Serial.println();
 }
 
 
@@ -53,9 +73,8 @@ void loop()
   }
   Serial.println();
 
-  delay(1000);
+  delay(5000);
 }
 
 
 //  -- END OF FILE --
-

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-08-15
+- add analogReadMultiple(channels\[], numChannels, readings\[]) 
+  - Kudo's to Alex Uta.
+- add performance example
+  - add performance output files.
+- add support MCP3201 (experimental)
+- fix differentialRead()
+- update examples (print lib version).
+- update readme.md
+- update library.properties
+- minor edits
+
+----
+
 ## [0.1.9] - 2022-11-16
 - add RP2040 in build-CI
 - add changelog.md

@@ -1,0 +1,167 @@
+
+IDE:    1.8.19
+Board:  UNO
+
+MCP3208_performance.ino
+MCP_ADC_LIB_VERSION: 0.1.9
+
+ADC	CHAN	MAXVALUE
+mcp28	8	4095
+
+Timing in micros().
+
+***************************************
+
+1000000
+mcp28.ancnogRead()	8x: 	512
+mcp28.analogReadMultiple()	8x: 	368
+analogRead() time / analogReadMultiple() time 	1.39
+mcp28.differentialRead() 8x: 	472
+mcp28.deltaRead()	8x: 	932
+
+2000000
+mcp28.ancnogRead()	8x: 	408
+mcp28.analogReadMultiple()	8x: 	272
+analogRead() time / analogReadMultiple() time 	1.50
+mcp28.differentialRead() 8x: 	372
+mcp28.deltaRead()	8x: 	736
+
+3000000
+mcp28.ancnogRead()	8x: 	388
+mcp28.analogReadMultiple()	8x: 	276
+analogRead() time / analogReadMultiple() time 	1.41
+mcp28.differentialRead() 8x: 	372
+mcp28.deltaRead()	8x: 	740
+
+4000000
+mcp28.ancnogRead()	8x: 	356
+mcp28.analogReadMultiple()	8x: 	224
+analogRead() time / analogReadMultiple() time 	1.59
+mcp28.differentialRead() 8x: 	324
+mcp28.deltaRead()	8x: 	648
+
+5000000
+mcp28.ancnogRead()	8x: 	348
+mcp28.analogReadMultiple()	8x: 	224
+analogRead() time / analogReadMultiple() time 	1.55
+mcp28.differentialRead() 8x: 	320
+mcp28.deltaRead()	8x: 	636
+
+6000000
+mcp28.ancnogRead()	8x: 	344
+mcp28.analogReadMultiple()	8x: 	224
+analogRead() time / analogReadMultiple() time 	1.54
+mcp28.differentialRead() 8x: 	328
+mcp28.deltaRead()	8x: 	640
+
+7000000
+mcp28.ancnogRead()	8x: 	344
+mcp28.analogReadMultiple()	8x: 	228
+analogRead() time / analogReadMultiple() time 	1.51
+mcp28.differentialRead() 8x: 	324
+mcp28.deltaRead()	8x: 	648
+
+8000000
+mcp28.ancnogRead()	8x: 	328
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.64
+mcp28.differentialRead() 8x: 	300
+mcp28.deltaRead()	8x: 	596
+
+9000000
+mcp28.ancnogRead()	8x: 	332
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.66
+mcp28.differentialRead() 8x: 	300
+mcp28.deltaRead()	8x: 	596
+
+10000000
+mcp28.ancnogRead()	8x: 	332
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.66
+mcp28.differentialRead() 8x: 	300
+mcp28.deltaRead()	8x: 	596
+
+11000000
+mcp28.ancnogRead()	8x: 	328
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.64
+mcp28.differentialRead() 8x: 	296
+mcp28.deltaRead()	8x: 	588
+
+12000000
+mcp28.ancnogRead()	8x: 	328
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.64
+mcp28.differentialRead() 8x: 	304
+mcp28.deltaRead()	8x: 	592
+
+13000000
+mcp28.ancnogRead()	8x: 	324
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.62
+mcp28.differentialRead() 8x: 	304
+mcp28.deltaRead()	8x: 	592
+
+14000000
+mcp28.ancnogRead()	8x: 	328
+mcp28.analogReadMultiple()	8x: 	208
+analogRead() time / analogReadMultiple() time 	1.58
+mcp28.differentialRead() 8x: 	300
+mcp28.deltaRead()	8x: 	596
+
+15000000
+mcp28.ancnogRead()	8x: 	328
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.64
+mcp28.differentialRead() 8x: 	300
+mcp28.deltaRead()	8x: 	596
+
+16000000
+mcp28.ancnogRead()	8x: 	332
+mcp28.analogReadMultiple()	8x: 	200
+analogRead() time / analogReadMultiple() time 	1.66
+mcp28.differentialRead() 8x: 	296
+mcp28.deltaRead()	8x: 	600
+
+***************************************
+
+8000000
+mcp28.analogRead()	1: 	40
+mcp28.analogReadMultiple()	1: 	36
+analogRead() time / analogReadMultiple() time 	1.11
+
+
+mcp28.analogRead()	2: 	76
+mcp28.analogReadMultiple()	2: 	56
+analogRead() time / analogReadMultiple() time 	1.36
+
+
+mcp28.analogRead()	3: 	112
+mcp28.analogReadMultiple()	3: 	88
+analogRead() time / analogReadMultiple() time 	1.27
+
+
+mcp28.analogRead()	4: 	148
+mcp28.analogReadMultiple()	4: 	104
+analogRead() time / analogReadMultiple() time 	1.42
+
+
+mcp28.analogRead()	5: 	184
+mcp28.analogReadMultiple()	5: 	132
+analogRead() time / analogReadMultiple() time 	1.39
+
+
+mcp28.analogRead()	6: 	224
+mcp28.analogReadMultiple()	6: 	156
+analogRead() time / analogReadMultiple() time 	1.44
+
+
+mcp28.analogRead()	7: 	256
+mcp28.analogReadMultiple()	7: 	176
+analogRead() time / analogReadMultiple() time 	1.45
+
+
+mcp28.analogRead()	8: 	296
+mcp28.analogReadMultiple()	8: 	200
+analogRead() time / analogReadMultiple() time 	1.48

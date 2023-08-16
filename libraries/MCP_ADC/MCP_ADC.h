@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.0
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP_ADC
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.1.9"))
+#define MCP_ADC_LIB_VERSION       (F("0.2.0"))
 
 
 class MCP_ADC
@@ -24,7 +24,9 @@ public:
 
   uint8_t  channels() { return _channels; };
   int16_t  maxValue() { return _maxValue; };
+
   int16_t  analogRead(uint8_t channel);
+  void     analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
   int16_t  differentialRead(uint8_t channel);
   int16_t  deltaRead(uint8_t channel);
 
@@ -34,6 +36,7 @@ public:
 
   //       debugging
   bool     usesHWSPI() { return _hwSPI; };
+  uint32_t count();  //  number of channels read.
 
   //  ESP32 specific
   #if defined(ESP32)
@@ -46,8 +49,6 @@ public:
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
-  uint32_t count();
-
 
 protected:
   uint8_t  _dataIn;
@@ -57,12 +58,15 @@ protected:
   bool     _hwSPI;
   uint8_t  _channels;
   int16_t  _maxValue;
-  uint32_t _SPIspeed = 1000000;   //  1 MHz is a safe value (datasheet); in a test 4 MHz worked.
+  //  1 MHz is a safe value (datasheet); in a test 4 MHz worked.
+  uint32_t _SPIspeed = 1000000;
 
   //  derived classes must implement buildRequest() function.
   virtual uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data) = 0;
 
   int16_t  readADC(uint8_t channel, bool single);
+  void     readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
+
   uint8_t  swSPI_transfer(uint8_t d);
 
   SPIClass    * mySPI;
@@ -100,6 +104,14 @@ class MCP3008 : public MCP_ADC
 {
 public:
   MCP3008(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
+};
+
+
+class MCP3201 : public MCP_ADC
+{
+public:
+  MCP3201(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 

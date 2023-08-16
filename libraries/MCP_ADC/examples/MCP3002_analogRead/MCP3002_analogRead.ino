@@ -7,14 +7,16 @@
 
 #include "MCP_ADC.h"
 
-MCP3002 mcp1;       // use HWSPI
-MCP3002 mcp2(6, 7); // use SWSPI
+MCP3002 mcp1;        //  use HWSPI
+MCP3002 mcp2(6, 7);  //  use SWSPI
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP_ADC_LIB_VERSION: ");
+  Serial.println(MCP_ADC_LIB_VERSION);
 
   mcp1.begin(10);
   mcp2.begin(5);
@@ -29,6 +31,7 @@ void setup()
   Serial.print(mcp2.channels());
   Serial.print("\t");
   Serial.println(mcp2.maxValue());
+  Serial.println();
 }
 
 
@@ -55,5 +58,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

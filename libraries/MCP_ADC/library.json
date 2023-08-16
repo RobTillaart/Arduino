@@ -1,6 +1,6 @@
 {
   "name": "MCP_ADC",
-  "keywords": "MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208",
+  "keywords": "MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208",
   "description": "Arduino library for MCP_ADC, e.g. MCP3008 SPI 10 bit, 8 channel ADC",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP_ADC.git"
   },
-  "version": "0.1.9",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

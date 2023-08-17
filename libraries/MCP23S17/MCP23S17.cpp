@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -359,7 +359,6 @@ void MCP23S17::setSPIspeed(uint32_t speed)
 };
 
 
-
 ///////////////////////////////////////////////////////////////////
 //
 //  8 pins interface
@@ -489,8 +488,7 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 //  value = 0x0000..0xFFFF bit pattern
 bool MCP23S17::pinMode16(uint16_t value)
 {
-  writeReg(MCP23S17_DDR_A, value >> 8);
-  writeReg(MCP23S17_DDR_B, value & 0xFF);
+  writeReg16(MCP23S17_DDR_A, value);
   _error = MCP23S17_OK;
   return true;
 }
@@ -499,8 +497,7 @@ bool MCP23S17::pinMode16(uint16_t value)
 //  value = 0x0000..0xFFFF   bit pattern
 bool MCP23S17::write16(uint16_t value)
 {
-  writeReg(MCP23S17_GPIO_A, value >> 8);
-  writeReg(MCP23S17_GPIO_B, value & 0xFF);
+  writeReg16(MCP23S17_GPIO_A, value);
   _error = MCP23S17_OK;
   return true;
 }
@@ -510,9 +507,7 @@ bool MCP23S17::write16(uint16_t value)
 uint16_t MCP23S17::read16()
 {
   _error = MCP23S17_OK;
-  uint16_t value = readReg(MCP23S17_GPIO_A);
-  value <<= 8;
-  value += readReg(MCP23S17_GPIO_B);
+  uint16_t value = readReg16(MCP23S17_GPIO_A);
   return value;
 }
 
@@ -520,8 +515,7 @@ uint16_t MCP23S17::read16()
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::setPolarity16(uint16_t mask)
 {
-  writeReg(MCP23S17_POL_A, mask >> 8);
-  writeReg(MCP23S17_POL_B, mask & 0xFF);
+  writeReg16(MCP23S17_POL_A, mask);
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -533,9 +527,7 @@ bool MCP23S17::setPolarity16(uint16_t mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::getPolarity16(uint16_t &mask)
 {
-  mask = readReg(MCP23S17_POL_A);
-  mask <<= 8;
-  mask += readReg(MCP23S17_POL_B);
+  mask = readReg16(MCP23S17_POL_A);
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -547,8 +539,7 @@ bool MCP23S17::getPolarity16(uint16_t &mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::setPullup16(uint16_t mask)
 {
-  writeReg(MCP23S17_PUR_A, mask >> 8);
-  writeReg(MCP23S17_PUR_B, mask & 0xFF);
+  writeReg16(MCP23S17_PUR_A, mask);
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -560,9 +551,7 @@ bool MCP23S17::setPullup16(uint16_t mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23S17::getPullup16(uint16_t &mask)
 {
-  mask = readReg(MCP23S17_PUR_A);
-  mask <<= 8;
-  mask += readReg(MCP23S17_PUR_B);
+  mask = readReg16(MCP23S17_PUR_A);
   if (_error != MCP23S17_OK)
   {
     return false;
@@ -721,6 +710,96 @@ uint8_t MCP23S17::readReg(uint8_t reg)
     swSPI_transfer(MCP23S17_READ_REG | _address );
     swSPI_transfer(reg);
     rv = swSPI_transfer(0xFF);
+  }
+  ::digitalWrite(_select, HIGH);
+  return rv;
+}
+
+
+//  writes HIGH byte first, LOW byte last
+bool MCP23S17::writeReg16(uint8_t reg, uint16_t value)
+{
+  _error = MCP23S17_OK;
+
+  if (reg > MCP23S17_OLAT_B)
+  {
+    _error = MCP23S17_REGISTER_ERROR;
+    return false;
+  }
+  ::digitalWrite(_select, LOW);
+  if (_hwSPI)
+  {
+    _mySPI->beginTransaction(_spi_settings);
+    //  _address already shifted
+    _mySPI->transfer(MCP23S17_WRITE_REG | _address );
+    _mySPI->transfer(reg);
+    _mySPI->transfer(value >> 8);
+    ::digitalWrite(_select, HIGH);
+
+    ::digitalWrite(_select, LOW);
+    _mySPI->transfer(MCP23S17_WRITE_REG | _address );
+    _mySPI->transfer(reg + 1);
+    _mySPI->transfer(value & 0xFF);
+    _mySPI->endTransaction();
+  }
+  else
+  {
+    //  _address already shifted
+    swSPI_transfer(MCP23S17_WRITE_REG | _address );
+    swSPI_transfer(reg);
+    swSPI_transfer(value >> 8);
+    ::digitalWrite(_select, HIGH);
+
+    ::digitalWrite(_select, LOW);
+    swSPI_transfer(MCP23S17_WRITE_REG | _address );
+    swSPI_transfer(reg + 1);
+    swSPI_transfer(value & 0xFF);
+  }
+  ::digitalWrite(_select, HIGH);
+  return true;
+}
+
+
+uint16_t MCP23S17::readReg16(uint8_t reg)
+{
+  uint16_t rv = 0;
+
+  _error = MCP23S17_OK;
+
+  if (reg > MCP23S17_OLAT_B)
+  {
+    _error = MCP23S17_REGISTER_ERROR;
+    return false;
+  }
+
+  ::digitalWrite(_select, LOW);
+  if (_hwSPI)
+  {
+    _mySPI->beginTransaction(_spi_settings);
+    //  _address already shifted
+    _mySPI->transfer(MCP23S17_READ_REG | _address );
+    _mySPI->transfer(reg);
+    rv = _mySPI->transfer(0xFF) << 8;
+    ::digitalWrite(_select, HIGH);
+
+    ::digitalWrite(_select, LOW);
+    _mySPI->transfer(MCP23S17_READ_REG | _address );
+    _mySPI->transfer(reg + 1);
+    rv += _mySPI->transfer(0xFF);
+    _mySPI->endTransaction();
+  }
+  else
+  {
+    //  _address already shifted
+    swSPI_transfer(MCP23S17_READ_REG | _address );
+    swSPI_transfer(reg);
+    rv = swSPI_transfer(0xFF) << 8;
+    ::digitalWrite(_select, HIGH);
+
+    ::digitalWrite(_select, LOW);
+    swSPI_transfer(MCP23S17_READ_REG | _address );
+    swSPI_transfer(reg + 1);
+    rv += swSPI_transfer(0xFF);
   }
   ::digitalWrite(_select, HIGH);
   return rv;

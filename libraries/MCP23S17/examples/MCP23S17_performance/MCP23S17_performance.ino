@@ -34,10 +34,26 @@ void setup()
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
 
-  MCP.setSPIspeed(10000000);
+  MCP.setSPIspeed(1000000);
+  test();
+  MCP.setSPIspeed(2000000);
+  test();
+  MCP.setSPIspeed(4000000);
+  test();
+  MCP.setSPIspeed(8000000);
+  test();
 
+  Serial.println("\ndone...");
+}
+
+
+void test()
+{
   MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
+
+  Serial.print("\nSPISpeed:\t");
+  Serial.println(MCP.getSPIspeed());
 
   Serial.println("\ntime in microseconds\n");
   delay(100);
@@ -127,8 +143,6 @@ void setup()
   Serial.println(val8);
   Serial.print("VAL16:\t");
   Serial.println(val16);
-
-  Serial.println("\ndone...");
 }
 
 

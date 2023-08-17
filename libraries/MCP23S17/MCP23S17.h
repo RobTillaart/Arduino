@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23S17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.2.5"))
+#define MCP23S17_LIB_VERSION              (F("0.2.6"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -115,6 +115,8 @@ private:
   //       USE WITH CARE !!!
   bool     writeReg(uint8_t reg, uint8_t value);
   uint8_t  readReg(uint8_t reg);
+  bool     writeReg16(uint8_t reg, uint16_t value);
+  uint16_t readReg16(uint8_t reg);
 
 
   uint8_t  _address = 0;

@@ -127,6 +127,9 @@ Returns true if successful.
 - **bool getPullup16(uint16_t &mask)** reads pull-up for 16 channels.
 Returns true if successful.
 
+Since 0.2.6 the reading and writing to registers have been performance optimized for the 16 bit interface.
+If there are problems please open an issue.
+
 
 ### IO Control Register
 

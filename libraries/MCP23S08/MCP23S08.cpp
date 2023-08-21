@@ -1,38 +1,19 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
 
 
-#include "Arduino.h"
 #include "MCP23S08.h"
 
 
-//  Registers                        //  description              datasheet P9
-#define MCP23S08_DDR_A        0x00   //  Data Direction Register A   P 10
-#define MCP23S08_POL_A        0x01   //  Input Polarity A            P 11
-#define MCP23S08_GPINTEN_A    0x02   //  NOT USED interrupt enable   P 12
-#define MCP23S08_DEFVAL_A     0x03   //  NOT USED interrupt def      P 13
-#define MCP23S08_INTCON_A     0x04   //  NOT USED interrupt control  P 14
-#define MCP23S08_IOCR         0x05   //  IO control register         P 15
-#define MCP23S08_PUR_A        0x06   //  Pull Up Resistors A         P 16
-#define MCP23S08_INTF_A       0x07   //  NOT USED interrupt flag     P 17
-#define MCP23S08_INTCAP_A     0x08   //  NOT USED interrupt capture  P 18
-#define MCP23S08_GPIO_A       0x09   //  General Purpose IO A        P 19
-#define MCP23S08_OLAT_A       0x0A   //  NOT USED output latch       P 20
-
-
-// low level read / write masks
-#define MCP23S08_WRITE_REG    0x40
-#define MCP23S08_READ_REG     0x41
-
-
+//  SOFTWARE SPI
 MCP23S08::MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address)
 {
-  _address = address;
+  _address = (address << 1);
   _select  = select;
   _dataIn  = dataIn;
   _dataOut = dataOut;
@@ -42,11 +23,20 @@ MCP23S08::MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t cloc
 }
 
 
-MCP23S08::MCP23S08(uint8_t select, uint8_t address)
+//  HARDWARE SPI
+MCP23S08::MCP23S08(uint8_t select, SPIClass* spi)
 {
-  _address = address;
+  MCP23S08(select, 0x00, spi);
+}
+
+
+//  HARDWARE SPI
+MCP23S08::MCP23S08(uint8_t select, uint8_t address, SPIClass* spi)
+{
+  _address = (address << 1);
   _select  = select;
   _error   = MCP23S08_OK;
+  _mySPI   = spi;
   _hwSPI   = true;
 }
 
@@ -61,10 +51,24 @@ bool MCP23S08::begin()
 
   if (_hwSPI)
   {
-    //  TODO - ESP32 specific support - see MCP_ADC.
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
+    #if defined(ESP32)
+    if (_useHSPI)      //  HSPI
+    {
+      _mySPI = new SPIClass(HSPI);
+      _mySPI->end();
+      _mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
+    }
+    else               //  VSPI
+    {
+      _mySPI = new SPIClass(VSPI);
+      _mySPI->end();
+      _mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
+    }
+    #else              //  generic hardware SPI
+    _mySPI = &SPI;
+    _mySPI->end();
+    _mySPI->begin();
+    #endif
   }
   else
   {
@@ -78,10 +82,14 @@ bool MCP23S08::begin()
   //  check connected
   if (! isConnected()) return false;
 
-  //  disable address increment (datasheet)
-  if (! writeReg(MCP23S08_IOCR, 0b00100000)) return false;   //  TODO MAGIC NR
+  //  disable address increment (datasheet P20
+  //    SEQOP: Sequential Operation mode bit
+  //    1 = Sequential operation disabled, address pointer does not increment.
+  //    0 = Sequential operation enabled, address pointer increments.
+  if (! writeReg(MCP23S08_IOCR, MCP23S08_IOCR_SEQOP)) return false;
+
   //  Force INPUT_PULLUP
-  if (! writeReg(MCP23S08_PUR_A, 0xFF)) return false;
+  if (! writeReg(MCP23S08_PUR_A, 0xFF)) return false;   //  0xFF == all UP
   return true;
 }
 
@@ -93,7 +101,16 @@ bool MCP23S08::isConnected()
 }
 
 
+uint8_t MCP23S08::getAddress()
+{
+  return (_address >> 1);
+}
+
+
+///////////////////////////////////////////////////////////////////
+//
 //  single pin interface
+//
 //  pin  = 0..7
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
@@ -151,6 +168,7 @@ bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
   {
     return false;
   }
+
   uint8_t mask = 1 << pin;
   if (value)
   {
@@ -160,6 +178,7 @@ bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
+  //  only write when changed.
   if (pre != val)
   {
     writeReg(IOR, val);
@@ -302,10 +321,10 @@ void MCP23S08::setSPIspeed(uint32_t speed)
 };
 
 
-
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  8 pins interface
+//
 //  whole register at once
 //  value = 0..0xFF  bit pattern
 bool MCP23S08::pinMode8(uint8_t value)
@@ -385,10 +404,88 @@ int MCP23S08::lastError()
 }
 
 
+void MCP23S08::enableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23S08_IOCR);
+  reg |= mask;
+  writeReg(MCP23S08_IOCR, reg);
+}
+
+
+void MCP23S08::disableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23S08_IOCR);
+  reg &= ~mask;
+  writeReg(MCP23S08_IOCR, reg);
+}
+
+
+void MCP23S08::enableHardwareAddress()
+{
+  enableControlRegister(MCP23S08_IOCR_HAEN);
+}
+
+
+void MCP23S08::disableHardwareAddress()
+{
+  disableControlRegister(MCP23S08_IOCR_HAEN);
+}
+
+
+#if defined(ESP32)
+
+void MCP23S08::selectHSPI()
+{
+  _useHSPI = true;
+}
+
+
+void MCP23S08::selectVSPI()
+{
+  _useHSPI = false;
+}
+
+
+bool MCP23S08::usesHSPI()
+{
+  return _useHSPI;
+}
+
+
+bool MCP23S08::usesVSPI()
+{
+  return !_useHSPI;
+}
+
+
+void MCP23S08::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _dataIn  = miso;
+  _select  = select;
+  pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+
+  _mySPI->end();  //  disable old SPI
+
+  _mySPI->begin(clk, miso, mosi, select);  //  enable new pins
+}
+
+#endif
+
+
+
 ////////////////////////////////////////////////////
 //
 //  PRIVATE
 //
+
+
+//  low level read / write masks
+#define MCP23S08_WRITE_REG    0x40
+#define MCP23S08_READ_REG     0x41
+
 
 bool MCP23S08::writeReg(uint8_t reg, uint8_t value)
 {
@@ -402,15 +499,17 @@ bool MCP23S08::writeReg(uint8_t reg, uint8_t value)
   ::digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(MCP23S08_WRITE_REG | (_address << 1) );
-    mySPI->transfer(reg);
-    mySPI->transfer(value);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    //  _address already shifted
+    _mySPI->transfer(MCP23S08_WRITE_REG | _address );
+    _mySPI->transfer(reg);
+    _mySPI->transfer(value);
+    _mySPI->endTransaction();
   }
   else
   {
-    swSPI_transfer(MCP23S08_WRITE_REG | (_address << 1) );
+    //  _address already shifted
+    swSPI_transfer(MCP23S08_WRITE_REG | _address );
     swSPI_transfer(reg);
     swSPI_transfer(value);
   }
@@ -434,15 +533,17 @@ uint8_t MCP23S08::readReg(uint8_t reg)
   ::digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(MCP23S08_READ_REG | (_address << 1) );  // TODO OPTIMIZE n times
-    mySPI->transfer(reg);
-    rv = mySPI->transfer(0xFF);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    //  _address already shifted
+    _mySPI->transfer(MCP23S08_READ_REG | _address );  // TODO OPTIMIZE n times
+    _mySPI->transfer(reg);
+    rv = _mySPI->transfer(0xFF);
+    _mySPI->endTransaction();
   }
   else
   {
-    swSPI_transfer(MCP23S08_READ_REG | (_address << 1) );
+    //  _address already shifted
+    swSPI_transfer(MCP23S08_READ_REG | _address );
     swSPI_transfer(reg);
     rv = swSPI_transfer(0xFF);
   }

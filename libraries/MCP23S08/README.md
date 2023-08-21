@@ -46,15 +46,53 @@ If a pin is not changed it will not be written again to save time.
 
 ### Constructor
 
-- **MCP23S08(uint8_t select, uint8_t data, uint8_t clock)** constructor SW SPI.
-- **MCP23S08(uint8_t select)** constructor HW SPI.
+- **MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
+- **MCP23S08(uint8_t select, SPIClass\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
+- **MCP23S08(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **bool begin()** returns true if successful.
-- **bool isConnected()** returns true if connected, false otherwise. (dummy)
+- **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
+- **uint8_t getAddress()** returns the address set in the constructor. 
+Default = 0, range = 0..3.
+
+The two hardware constructors allow to call 4 different constructors.
+
+```cpp
+- MCP23S08(10);            //  select pin only
+- MCP23S08(10, 7);         //  select pin + address pins
+- MCP23S08(10, 7, &SPI2);  //  select pin + address pins + SPI port
+- MCP23S08(10, &SPI2);     //  select pin + SPI port
+```
+
+
+#### Sharing SELECT lines
+
+(verified in MCP23S17 issue 19)  
+Technically two chips could use the same SELECT pin and a different address. 
+Since 0.2.0 the constructors allow to setup such a configuration.
+The added value is that one can use up to 4 devices (= 32 IO lines) with only 
+four lines (MISO, MOSI, CLOCK, SELECT).
+
+I assume that this configuration is less used and IMHO not recommended.
+NB it is more difficult to detect which device is selected when debugging.
+
+To use the hardware addresses the Hardware Address ENable register must be set.
+See datasheet 1.6.6 ADDRESSING SPI DEVICES, need to set IOCON.HAEN.
+
+The library supports two ways:
+```cpp
+MCP.enableControlRegister(MCP23S08_IOCR_HAEN);  //  or 0x08
+or
+MCP.enableHardwareAddress();  //  0.2.0 version and up
+```
+
+See also **IO Control Register** section below.
 
 
 ### Single pin interface
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..7, mode = INPUT, OUTPUT. 
+mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
+
+- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..7. 
 Returns true if successful.
 - **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). 
 Returns true if successful.
@@ -82,6 +120,39 @@ Returns true if successful.
 Returns true if successful.
 - **bool getPullup8(uint8_t &mask)** reads pull-up for 8 channels at once.
 Returns true if successful.
+
+
+### Other
+
+- **void setSPIspeed(uint32_t speed)** set hardware speed (8Mb default).
+- **uint32_t getSPIspeed()** returns set speed.
+
+
+### Debugging
+
+- **bool usesHWSPI()** returns true = hardware SPI, false = software SPI.
+- **int lastError()** idem.
+
+
+### ControlRegister
+
+Since 0.2.0
+
+- **void enableControlRegister(uint8_t mask)** set IOCR bit fields
+- **void disableControlRegister(uint8_t mask)** clear IOCR bit fields
+- **void enableHardwareAddress()** specific for HAEN field.
+- **void disableHardwareAddress()** specific for HAEN field.
+
+
+### ESP32
+
+Since 0.2.0
+
+- **void selectHSPI()** idem
+- **void selectVSPI()** idem
+- **bool usesHSPI()** idem
+- **bool usesVSPI()** idem
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule the ESP32s default hardware pins.
 
 
 ### Error codes
@@ -118,10 +189,7 @@ See examples.
 
 #### Could
 
-- MCP23S17 sync
-  - add enableIO controlRegister functions
-  - add registers.h file
-
+- ESP32 example code
 
 #### Wont
 

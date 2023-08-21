@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-08-19
+- add ESP32 support
+- sync with MCP23S17
+- add **getAddress()**
+- add **MCP23S08_registers.h**
+- update readme.md
+- update examples
+- minor edits
+
+
 ## [0.1.3] - 2023-02-04
 - UPDATE README.MD
 - update GitHub actions
 - update license 2023
-
 
 ## [0.1.2] - 2022-11-17
 - add RP2040 in build-CI

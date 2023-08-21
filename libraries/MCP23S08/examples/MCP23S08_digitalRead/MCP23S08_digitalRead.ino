@@ -17,8 +17,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print("MCP23S08_test version: ");
+  Serial.print("MCP23S08_LIB_VERSION: ");
   Serial.println(MCP23S08_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   SPI.begin();

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S08.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -10,10 +10,12 @@
 
 #include "Arduino.h"
 #include "SPI.h"
+#include "MCP23S08_registers.h"
 
 
-#define MCP23S08_LIB_VERSION              (F("0.1.3"))
+#define MCP23S08_LIB_VERSION              (F("0.2.0"))
 
+//  ERROR CODES
 #define MCP23S08_OK                       0x00
 #define MCP23S08_PIN_ERROR                0x81
 #define MCP23S08_SPI_ERROR                0x82
@@ -24,20 +26,26 @@
 #define MCP23S08_INVALID_READ             -100
 
 
+const uint32_t MCP23S08_TYP_SPI_SPEED =  8000000;
+const uint32_t MCP23S08_MAX_SPI_SPEED = 10000000;
+
+
+
 class MCP23S08
 {
 public:
   //  SOFTWARE SPI
   MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00);
   //  HARDWARE SPI
-  MCP23S08(uint8_t select, uint8_t address = 0x00);
+  MCP23S08(uint8_t select, SPIClass* spi);
+  MCP23S08(uint8_t select, uint8_t address = 0x00, SPIClass* spi = &SPI);
 
   bool     begin();
-  bool     isConnected();  //  needed ?
-
+  bool     isConnected();
+  uint8_t  getAddress();
 
   //  single pin interface
-  //  mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //  mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
   bool     pinMode(uint8_t pin, uint8_t mode);
   bool     digitalWrite(uint8_t pin, uint8_t value);
   uint8_t  digitalRead(uint8_t pin);
@@ -49,7 +57,6 @@ public:
 
 
   //  8 pins interface
-  //  port  = 0..1
   //  value = bit pattern
   bool     pinMode8(uint8_t value);
   bool     write8(uint8_t value);
@@ -69,7 +76,30 @@ public:
   bool     usesHWSPI() { return _hwSPI; };
   int      lastError();
 
+  //       set/clear IOCR bit fields  (0.2.0 experimental)
+  void     enableControlRegister(uint8_t mask);
+  void     disableControlRegister(uint8_t mask);
+  //       0.2.0 experimental
+  void     enableHardwareAddress();
+  void     disableHardwareAddress();
+
+  //  ESP32 specific
+#if defined(ESP32)
+
+  void     selectHSPI();
+  void     selectVSPI();
+  bool     usesHSPI();
+  bool     usesVSPI();
+
+  //       to overrule the ESP32s default hardware pins
+  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
+
+#endif
+
+
 private:
+  //       access to low level registers (just make these two functions public).
+  //       USE WITH CARE !!!
   bool     writeReg(uint8_t reg, uint8_t value);
   uint8_t  readReg(uint8_t reg);
 
@@ -80,15 +110,20 @@ private:
   uint8_t  _clock   = 0;
   uint8_t  _error   = MCP23S08_OK;
 
-  bool        _hwSPI = false;
-  //  1 MHz is a safe value TODO CHECK datasheet
-  uint32_t    _SPIspeed = 8000000UL;
-  SPIClass    * mySPI;
+  bool     _hwSPI   = false;
+
+  //  10 MHz is maximum, 8 is a better clock divider on AVR.
+  uint32_t    _SPIspeed = MCP23S08_TYP_SPI_SPEED;
+  SPIClass  * _mySPI;
   SPISettings _spi_settings;
 
   uint8_t  swSPI_transfer(uint8_t val);
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

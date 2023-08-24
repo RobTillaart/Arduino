@@ -6,12 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-08-21
+- changed interface for **uint16_t ping(address, uint16_t count = 1)**
+  - allows multiple tries, for extended diagnosis.
+- add example
+- update readme.md
+- add issue-count badge
+- add PlatformIO badge
+- minor edits
+
+----
+
 ## [0.1.4] - 2022-10-30
 - update GitHub actions
 - update license 2023
 - add experimental **setWireTimeout()**
 - minor edit examples
-
 
 ## [0.1.3] - 2022-10-30
 - Add RP2040 support to build-CI.

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2022-08-29
 // PURPOSE: I2C scanner class
 
@@ -51,13 +51,6 @@ uint8_t I2C_SCANNER::getWirePortCount()
 }
 
 
-bool I2C_SCANNER::setWire(TwoWire *wire)
-{
-  _wire = wire;
-  return true;
-}
-
-
 //  0 == Wire, 1 = Wire1 etc.
 bool I2C_SCANNER::setWire(uint8_t n)
 {
@@ -78,6 +71,13 @@ bool I2C_SCANNER::setWire(uint8_t n)
   if (n == 5) { _wire = &Wire5; return true; };
 #endif
   return false;
+}
+
+
+bool I2C_SCANNER::setWire(TwoWire *wire)
+{
+  _wire = wire;
+  return true;
 }
 
 
@@ -104,7 +104,7 @@ int I2C_SCANNER::softwareReset(uint8_t method)
    return _wire->endTransmission(true);
   }
 
-  //  default 
+  //  default
   //  based upon NXP specification - UM10204.pdf - page 16
   _wire->beginTransmission(0x00);
   _wire->write(0x06);
@@ -133,16 +133,24 @@ uint32_t I2C_SCANNER::getClock()
 //
 //  SCANNING
 //
-bool I2C_SCANNER::ping(uint8_t address)
+uint16_t I2C_SCANNER::ping(uint8_t address, uint16_t count)
 {
-  return diag(address) == 0;
+  if (count == 0) count = 1;
+  uint16_t success = 0;
+  while (count > 0)
+  {
+    count--;
+    if (diag(address) == 0) success++;
+  }
+  return success;
 }
 
 
 int I2C_SCANNER::diag(uint8_t address)
 {
   _wire->beginTransmission(address);
-  return _wire->endTransmission();
+  int x = _wire->endTransmission();
+  return x;
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //     URL: https://github.com/RobTillaart/MCP4725
 //
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MCP4725_VERSION         (F("0.3.6"))
+#define MCP4725_VERSION         (F("0.3.7"))
 
 
 //  CONSTANTS
@@ -41,7 +41,9 @@ public:
   explicit MCP4725(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined(ESP8266) || defined(ESP32)
+
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
+
 #endif
 
 #if defined (ARDUINO_ARCH_RP2040)
@@ -60,16 +62,22 @@ public:
   uint16_t getValue();
 
 
-  //  0..100.0% - no input check.
+  //  0..100.0% - input checked.
+  //  will set the closest integer value in range 0..4095
   int      setPercentage(float percentage = 0);
+  //  due to rounding the returned value can differ slightly.
   float    getPercentage();
 
 
+  //  unfortunately it is not possible to write a different value
+  //  to the DAC and EEPROM simultaneously or write EEPROM only.
   int      writeDAC(const uint16_t value, const bool EEPROM = false);
+  //  ready checks if the last write to EEPROM has been written.
+  //  until ready all writes to the MCP4725 are ignored!
   bool     ready();
   uint16_t readDAC();
   uint16_t readEEPROM();
-  uint32_t getLastWriteEEPROM();
+  uint32_t getLastWriteEEPROM();  //  returns timestamp
 
 
   //  experimental

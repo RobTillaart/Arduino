@@ -2,10 +2,8 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //     URL: https://github.com/RobTillaart/MCP4725
-//
-//  HISTORY see changelog.md
 
 
 #include "MCP4725.h"
@@ -31,6 +29,7 @@ MCP4725::MCP4725(const uint8_t deviceAddress, TwoWire *wire)
 
 
 #if defined(ESP8266) || defined(ESP32)
+
 bool MCP4725::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
   _wire  = &Wire;
@@ -48,7 +47,9 @@ bool MCP4725::begin(const uint8_t dataPin, const uint8_t clockPin)
   }
   return false;
 }
+
 #endif
+
 
 #if defined (ARDUINO_ARCH_RP2040)
 
@@ -129,6 +130,17 @@ int MCP4725::writeDAC(const uint16_t value, const bool EEPROM)
 }
 
 
+//  ready checks if the last write to EEPROM has been written.
+//  until ready all writes to the MCP4725 are ignored!
+bool MCP4725::ready()
+{
+  yield();
+  uint8_t buffer[1];
+  _readRegister(buffer, 1);
+  return ((buffer[0] & 0x80) > 0);
+}
+
+
 uint16_t MCP4725::readDAC()
 {
   while(!ready());
@@ -181,7 +193,7 @@ uint8_t MCP4725::readPowerDownModeEEPROM()
 
 uint8_t MCP4725::readPowerDownModeDAC()
 {
-  while(!ready());  // TODO needed?
+  while(!ready());  //  TODO needed?
   uint8_t buffer[1];
   _readRegister(buffer, 1);
   uint8_t value = (buffer[0] >> 1) & 0x03;
@@ -195,7 +207,7 @@ uint8_t MCP4725::readPowerDownModeDAC()
 int MCP4725::powerOnReset()
 {
   int rv = _generalCall(MCP4725_GC_RESET);
-  _lastValue = readDAC(); // update cache to actual value;
+  _lastValue = readDAC(); //  update cache to actual value;
   return rv;
 }
 
@@ -206,7 +218,7 @@ int MCP4725::powerOnReset()
 int MCP4725::powerOnWakeUp()
 {
   int rv = _generalCall(MCP4725_GC_WAKEUP);
-  _powerDownMode = readPowerDownModeDAC();  // update to actual value;
+  _powerDownMode = readPowerDownModeDAC();  //  update to actual value;
   return rv;
 }
 
@@ -215,24 +227,13 @@ int MCP4725::powerOnWakeUp()
 int MCP4725::_writeFastMode(const uint16_t value)
 {
   uint8_t l = value & 0xFF;
-  uint8_t h = ((value / 256) & 0x0F);  // set C0 = C1 = 0, no PDmode
+  uint8_t h = ((value / 256) & 0x0F);  //  set C0 = C1 = 0, no PDmode
   h = h | (_powerDownMode << 4);
 
   _wire->beginTransmission(_deviceAddress);
   _wire->write(h);
   _wire->write(l);
   return _wire->endTransmission();
-}
-
-
-//  ready checks if the last write to EEPROM has been written.
-//  until ready all writes to the MCP4725 are ignored!
-bool MCP4725::ready()
-{
-  yield();
-  uint8_t buffer[1];
-  _readRegister(buffer, 1);
-  return ((buffer[0] & 0x80) > 0);
 }
 
 
@@ -261,9 +262,9 @@ uint8_t MCP4725::_readRegister(uint8_t* buffer, const uint8_t length)
 {
   _wire->beginTransmission(_deviceAddress);
   int rv = _wire->endTransmission();
-  if (rv != 0) return 0;  // error
+  if (rv != 0) return 0;  //  error
 
-  //  readbytes will always be equal or smaller to length
+  //  readBytes will always be equal or smaller to length
   uint8_t readBytes = _wire->requestFrom(_deviceAddress, length);
   uint8_t cnt = 0;
   while (cnt < readBytes)
@@ -277,7 +278,7 @@ uint8_t MCP4725::_readRegister(uint8_t* buffer, const uint8_t length)
 //  name comes from datasheet
 int MCP4725::_generalCall(const uint8_t gc)
 {
-  _wire->beginTransmission(0);  // _deviceAddress
+  _wire->beginTransmission(0);  //  _deviceAddress
   _wire->write(gc);
   return _wire->endTransmission();
 }

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP4725/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP4725/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP4725/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP4725/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP4725/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP4725.svg)](https://github.com/RobTillaart/MCP4725/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP4725/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP4725.svg?maxAge=3600)](https://github.com/RobTillaart/MCP4725/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP4725.svg)](https://registry.platformio.org/libraries/robtillaart/MCP4725)
 
 
 # MCP4725
@@ -23,6 +26,10 @@ of 2.7V .. 5.5V. Check datasheet for the details.
 
 ## Interface
 
+```cpp
+#include "MCP4725.h"
+```
+
 ### Constructor
 
 - **MCP4725(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor, needs I2C address, optional set Wire bus
@@ -32,7 +39,7 @@ Returns true if deviceAddress can be found on the I2C bus.
 - **bool isConnected()** returns true if device (address) can be seen on the I2C bus.
 
 
-### base
+### Base
 
 - **int setValue(uint16_t value = 0)** value = 0 .. 4095.  
 Uses writeFastMode and does not write to EEPROM.
@@ -114,9 +121,44 @@ Check RP2040 Pinout for compatible pins.
 When Wire1 is used, it needs to be specified in the constructor with "&Wire1"
 
 
-## Operation
+## Multi devices on one I2C bus
 
-See examples
+Normal one can have 1 to 8 MCP4725 on a I2C bus. This depends on the right
+choice of devices as 2 address bits are hard coded in the device. 
+See paragraph 7.2 datasheet + address notes section above.
+
+But one cannot always order the right devices.
+Especially breakout boards often have the same address-range.
+
+
+#### TCA9548 I2C multiplexer
+
+Use an I2C multiplexer to create multiple "I2C channels" which allows then 
+up to 8 devices per channel. Selecting the right devices includes setting 
+the I2C multiplexer to the right channel to address the right device. 
+This implies access is a bit slower and uses more code.
+
+One (TCA9548) multiplexer allows one to control up to 64 MCP4725's.
+
+- https://github.com/RobTillaart/TCA9548
+
+Note that other multiplexers do exist.
+
+
+#### Use A0 address pin as a SELECT pin
+
+(Experimental)  
+Need to do more tests to see how this solution behaves in practice.  
+Verified to work - see https://forum.arduino.cc/t/using-digital-pins-to-control-two-mcp4725-modules/1161482/7.
+
+The assumption here is that the devices are all from the same address range.
+
+You can control multiple MCP4725 over the hardware I2C bus with an extra IO pin per device.
+- Connect the address pin of every MCP4725 to an IO pin which will work as a **SELECT** pin.
+- Keep all IO pins **LOW** so the all have effectively the same address == 0x60.
+- To select a specific MCP4725 you set the related IO pin to **HIGH** and that one will have address == 0x61.
+- Now you can access and control the associated MCP4725 with address 0x61.
+- See **mcp4725_multiple.ino** and **mcp4725_multiple_minimal.ino**
 
 
 ## Future
@@ -128,9 +170,18 @@ See examples
 #### Should
 
 - test the powerDown modes / functions.
+- test A0 (address bit) as SELECT pin.
 
 #### Could
 
 - extend unit tests
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

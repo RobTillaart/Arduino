@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2023-08-25
+- fix #27 - support for multiple MCP4725
+  - add two examples.
+- update readme.md
+- minor edits
+
+
 ## [0.3.6] - 2023-07-19
 - fix #25 - buffer overflow in examples
 - update keywords.txt
-- moved code to .cpp
+- moved code to MCP4725.cpp
 - minor edits
-
 
 ## [0.3.5] - 2023-01-17
 - update GitHub actions

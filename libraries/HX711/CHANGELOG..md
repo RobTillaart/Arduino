@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.8] - 2023-08-??
+- fix #41 #40 add example **HX_loadcell_array.ino**
+  - test support array of loadcells.
+- update readme.md
+- add issue-count badge
+- add PlatformIO badge
+- minor edits
+
+
 ## [0.3.7] - 2023-06-27
 - add example to measure noise level
 - moved code to .cpp
@@ -13,9 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add scale == 0 in **set_scale(scale)**
 - changed return type to  **bool set_scale(scale)**
 - add example is_ready
-- add example pulse-length decoder (morse)
+- add example pulse-length decoder (Morse)
 - update readme.md
-
 
 ## [0.3.6] - 2023-03-11
 - update readme.md to reference HX711_MP

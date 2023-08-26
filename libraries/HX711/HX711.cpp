@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 

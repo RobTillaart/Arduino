@@ -35,9 +35,9 @@ tare_set	KEYWORD2
 
 set_gain	KEYWORD2
 get_gain	KEYWORD2
-set_chanA_gain128	KEYWORD2
-set_chanA_gain64	KEYWORD2
-set_chanB_gain32	KEYWORD2
+# set_chanA_gain128	KEYWORD2
+# set_chanA_gain64	KEYWORD2
+# set_chanB_gain32	KEYWORD2
 
 set_scale	KEYWORD2
 get_scale	KEYWORD2

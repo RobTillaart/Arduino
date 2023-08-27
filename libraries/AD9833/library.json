@@ -1,0 +1,23 @@
+{
+  "name": "AD9833",
+  "keywords": "wave,frequency,sinus,square,triangle,generator",
+  "description": "Arduino library for AD9833 function generator.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD9833.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD9833.h"
+}

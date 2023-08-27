@@ -1,0 +1,19 @@
+
+Board:  ESP32 (240 Mhz)
+IDE:    1.8.19
+
+AD9833_performance.ino
+
+hardware:	1
+setFrequency:	32
+setPhase:	11
+setWave:	13
+
+
+hardware:	0  (software SPI)
+setFrequency:	22
+setPhase:	8
+setWave:	10
+
+
+

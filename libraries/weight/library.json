@@ -13,11 +13,11 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/RobTillaart/weight"
+    "url": "https://github.com/RobTillaart/weight.git"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "weight.h"
 }

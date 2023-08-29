@@ -16,7 +16,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.println();
 
-  weightConvertor WC;
+  weightConverter WC;
 
   WC.setKilogram(1);
   Serial.print(WC.getKilogram(), 4);
@@ -118,4 +118,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

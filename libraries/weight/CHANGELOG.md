@@ -1,4 +1,4 @@
-# Change Log tinySHT2x
+# Change Log Weight
 
 All notable changes to this project will be documented in this file.
 
@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-08-29
+- rename class **weightConvertor** to **weightConverter**
+- add **adders** to the weightConverter to add different units of weight.
+- update readme.md
+- update keywords.txt
+- minor edits
+
+----
+
 ## [0.2.0] - 2022-12-05
 - add weightConverter class
 - update readme.md
 - update unit test
 
+----
 
 ## [0.1.4] - 2022-11-26
 - Add RP2040 support to build-CI.

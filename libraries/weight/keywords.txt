@@ -1,7 +1,7 @@
 # Syntax Colouring Map For weight
 
 # Data types (KEYWORD1)
-weightConvertor	KEYWORD1
+weightConverter	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -42,6 +42,26 @@ setDrachme	KEYWORD2
 setPoint	KEYWORD2
 setGrain	KEYWORD2
 setCarat	KEYWORD2
+
+
+addKilogram	KEYWORD2
+addGram	KEYWORD2
+addLBS	KEYWORD2
+addStone	KEYWORD2
+addOunce	KEYWORD2
+addLongTonUK	KEYWORD2
+addShortTonUS	KEYWORD2
+addQuarterUK	KEYWORD2
+addQuarterUS	KEYWORD2
+addSlug	KEYWORD2
+addTroyPound	KEYWORD2
+addTroyOunce	KEYWORD2
+addRobie	KEYWORD2
+addDram	KEYWORD2
+addDrachme	KEYWORD2
+addPoint	KEYWORD2
+addGrain	KEYWORD2
+addCarat	KEYWORD2
 
 
 getKilogram	KEYWORD2

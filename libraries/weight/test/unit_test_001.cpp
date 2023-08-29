@@ -126,9 +126,9 @@ unittest(test_US2metric)
 }
 
 
-unittest(test_weightConvertor)
+unittest(test_weightConverter)
 {
-  weightConvertor WC;
+  weightConverter WC;
   
   fprintf(stderr, "setKilogram\n");
   WC.setKilogram(1);
@@ -206,4 +206,6 @@ unittest(test_weightConvertor)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

@@ -1,0 +1,23 @@
+{
+  "name": "VolumeConverter",
+  "keywords": "liter,ton,barrel,gallon,quart,pint,cup,tablespoon,teaspoon",
+  "description": "Arduino library to convert volume units.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/VolumeConverter.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "VolumeConverter.h"
+}

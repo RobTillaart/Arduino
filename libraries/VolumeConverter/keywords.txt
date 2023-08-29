@@ -1,0 +1,58 @@
+# Syntax Colouring Map For VolumeConverter
+
+# Data types (KEYWORD1)
+VolumeConverter	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+setLiters	KEYWORD2
+setMilliLiters	KEYWORD2
+setCubicMeters	KEYWORD2
+setLongTons	KEYWORD2
+setShortTons	KEYWORD2
+setBarrels	KEYWORD2
+setGallons	KEYWORD2
+setQuarts	KEYWORD2
+setPints	KEYWORD2
+setCups	KEYWORD2
+setFluidOunces	KEYWORD2
+setTableSpoons	KEYWORD2
+setTeaSpoons	KEYWORD2
+
+addLiters	KEYWORD2
+addMilliLiters	KEYWORD2
+addCubicMeters	KEYWORD2
+addLongTons	KEYWORD2
+addShortTons	KEYWORD2
+addBarrels	KEYWORD2
+addGallons	KEYWORD2
+addQuarts	KEYWORD2
+addPints	KEYWORD2
+addCups	KEYWORD2
+addFluidOunces	KEYWORD2
+addTableSpoons	KEYWORD2
+addTeaSpoons	KEYWORD2
+
+getLiters	KEYWORD2
+getLiters	KEYWORD2
+getMilliLiters	KEYWORD2
+getCubicMeters	KEYWORD2
+getLongTons	KEYWORD2
+getShortTons	KEYWORD2
+getBarrels	KEYWORD2
+getGallons	KEYWORD2
+getQuarts	KEYWORD2
+getPints	KEYWORD2
+getCups	KEYWORD2
+getFluidOunces	KEYWORD2
+getTableSpoons	KEYWORD2
+getTeaSpoons	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+VOLUME_LIB_VERSION	LITERAL1
+

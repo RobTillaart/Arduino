@@ -1,0 +1,20 @@
+# Syntax Colouring Map For WaterMix
+
+# Data types (KEYWORD1)
+WaterMix	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+add	KEYWORD2
+sub	KEYWORD2
+div	KEYWORD2
+
+volume	KEYWORD2
+temperature	KEYWORD2
+
+
+# Constants (LITERAL1)
+WATERMIX_LIB_VERSION	LITERAL1
+
+

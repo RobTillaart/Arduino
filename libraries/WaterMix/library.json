@@ -1,0 +1,23 @@
+{
+  "name": "WaterMix",
+  "keywords": "water, mix, liters, temperature",
+  "description": "Arduino library for mixing water with different temperatures.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/WaterMix.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "WaterMix.h"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "MiniMP3",
+  "keywords": "MP3,DFURobotics",
+  "description": "Arduino library for DFRobotics MP3 player and compatibles.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MiniMP3.git"
+  },
+  "version":"0.1.2",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MiniMP3.h"
+}

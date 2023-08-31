@@ -7,11 +7,18 @@ WaterMix	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 add	KEYWORD2
+addExact	KEYWORD2
+
 sub	KEYWORD2
 div	KEYWORD2
+mul	KEYWORD2
 
 volume	KEYWORD2
 temperature	KEYWORD2
+mass	KEYWORD2
+
+volume2mass	KEYWORD2
+mass2volume	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.10
+// VERSION: 0.3.11
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -173,19 +173,6 @@ bool ADS1X15::begin()
 }
 
 
-bool ADS1X15::isBusy()
-{
-  return isReady() == false;
-}
-
-
-bool ADS1X15::isReady()
-{
-  uint16_t val = _readRegister(_address, ADS1X15_REG_CONFIG);
-  return ((val & ADS1X15_OS_NOT_BUSY) > 0);
-}
-
-
 bool ADS1X15::isConnected()
 {
   _wire->beginTransmission(_address);
@@ -307,23 +294,9 @@ int16_t ADS1X15::readADC(uint8_t pin)
 }
 
 
-void  ADS1X15::requestADC_Differential_0_1()
-{
-  _requestADC(ADS1X15_MUX_DIFF_0_1);
-}
-
-
 int16_t ADS1X15::readADC_Differential_0_1()
 {
   return _readADC(ADS1X15_MUX_DIFF_0_1);
-}
-
-
-void ADS1X15::requestADC(uint8_t pin)
-{
-  if (pin >= _maxPorts) return;
-  uint16_t mode = ((4 + pin) << 12);   //  pin to mask
-  _requestADC(mode);
 }
 
 
@@ -335,10 +308,85 @@ int16_t ADS1X15::getValue()
 }
 
 
+void ADS1X15::requestADC(uint8_t pin)
+{
+  if (pin >= _maxPorts) return;
+  uint16_t mode = ((4 + pin) << 12);   //  pin to mask
+  _requestADC(mode);
+}
+
+
+void  ADS1X15::requestADC_Differential_0_1()
+{
+  _requestADC(ADS1X15_MUX_DIFF_0_1);
+}
+
+
+bool ADS1X15::isBusy()
+{
+  return isReady() == false;
+}
+
+
+bool ADS1X15::isReady()
+{
+  uint16_t val = _readRegister(_address, ADS1X15_REG_CONFIG);
+  return ((val & ADS1X15_OS_NOT_BUSY) > 0);
+}
+
+
+void ADS1X15::setComparatorMode(uint8_t mode)
+{
+  _compMode = mode == 0 ? 0 : 1;
+}
+
+
+uint8_t ADS1X15::getComparatorMode()
+{
+  return _compMode;
+}
+
+
+void ADS1X15::setComparatorPolarity(uint8_t pol)
+{
+  _compPol = pol ? 0 : 1;
+}
+
+
+uint8_t ADS1X15::getComparatorPolarity()
+{
+  return _compPol;
+}
+
+
+void ADS1X15::setComparatorLatch(uint8_t latch)
+{
+  _compLatch = latch ? 0 : 1;
+}
+
+
+uint8_t ADS1X15::getComparatorLatch()
+{
+  return _compLatch;
+}
+
+
+void ADS1X15::setComparatorQueConvert(uint8_t mode)
+{
+  _compQueConvert = (mode < 3) ? mode : 3;
+}
+
+
+uint8_t ADS1X15::getComparatorQueConvert()
+{
+  return _compQueConvert;
+}
+
+
 void ADS1X15::setComparatorThresholdLow(int16_t lo)
 {
   _writeRegister(_address, ADS1X15_REG_LOW_THRESHOLD, lo);
-};
+}
 
 
 int16_t ADS1X15::getComparatorThresholdLow()
@@ -367,17 +415,16 @@ int8_t ADS1X15::getError()
 }
 
 
+//////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
 void ADS1X15::setWireClock(uint32_t clockSpeed)
 {
   _clockSpeed = clockSpeed;
   _wire->setClock(_clockSpeed);
 }
 
-
-//////////////////////////////////////////////////////
-//
-//  EXPERIMENTAL
-//
 //  see https://github.com/RobTillaart/ADS1X15/issues/22
 //      https://github.com/arduino/Arduino/issues/11457
 //  TODO: get the real clock speed from the I2C interface if possible.
@@ -396,7 +443,7 @@ uint32_t ADS1X15::getWireClock()
 //  not supported.
 //  return -1;
 
-#else  // best effort is remembering it
+#else  //  best effort is remembering it
   return _clockSpeed;
 #endif
 }

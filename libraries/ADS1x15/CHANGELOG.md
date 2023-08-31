@@ -8,11 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update and add examples
 
 
+## [0.3.11] - 2023-08-31
+- update readme.md
+- move code from .h to .cpp
+- reordered code in .cpp to follow .h
+- minor edits
+
+
 ## [0.3.10] - 2023-06-07
 - fix NANO RP2040
 - update and add examples
 - minor edits
-
 
 ## [0.3.9] - 2023-01-21
 - update GitHub actions
@@ -25,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - simplified changelog.md
 
 ## [0.3.7] - 2022-06-21
-- fix ESP32 Wire.begin datatype
+- fix ESP32 Wire.begin data type
 
 ## [0.3.6] - 2022-03-10
 

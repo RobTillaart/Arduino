@@ -1,0 +1,19 @@
+
+Board:  UNO
+IDE:    1.8.19
+
+AD9833_performance.ino
+
+AD9833_LIB_VERSION: 0.1.1
+hardware:	1
+setFrequency:	36
+setPhase:	20
+setWave:	24
+
+hardware:	0  (software SPI)
+setFrequency:	432
+setPhase:	224
+setWave:	216
+
+
+

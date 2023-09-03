@@ -7,6 +7,8 @@ AD9833	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 reset	KEYWORD2
+hardwareReset	KEYWORD2
+setPowerMode	KEYWORD2
 
 setWave	KEYWORD2
 getWave	KEYWORD2

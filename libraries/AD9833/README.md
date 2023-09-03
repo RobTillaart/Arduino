@@ -16,7 +16,7 @@ Arduino library for AD9833 function generator.
 
 ## Description
 
-Experimental library for the AD9833 function generator.
+Experimental library for the AD9833 function (waveform) generator.
 The library supports both hardware SPI and software SPI.
 
 TODO: test with hardware.
@@ -25,22 +25,45 @@ The AD9833 is a signal generator that has two channels for frequency and
 two channels for the phase. These channels can be set separately to give
 maximum flexibility.
 
-The AD9833 can generate three types of wave: sine, square (2x) and triangle.
+The AD9833 can generate three waveforms: sine, square (2x) and triangle.
 The frequency of the waves cover a range from 0 to 12.5 MHz.
 The step size for frequency is ~0.1 Hz (using 25 MHz reference clock).
 
 The library also can set the phase of each wave from 0° to 360°.
 The step size for phase is ~0.1°.
 
-|   type   |  freq max  |  freq step  |  phase   | phase step  |
-|:--------:|:----------:|:-----------:|:--------:|:-----------:|
+|   type   |  freq max  |  freq step  |  phase   | phase step  |  Notes  |
+|:--------:|:----------:|:-----------:|:--------:|:-----------:|:--------|
 |  AD9833  |  12.5 MHz  |  0.1 Hz     |  0..360  |     0.1°    |
+
+Note: With an external 1 MHz clock smaller frequency steps 0.004 Hz. can be made.
+This is not tested yet.
+
+
+#### Compatibles ??
+
+List of (partially) compatibles in the series, that might work (partially) with this library.
+
+TODO: Investigations needed, verify table below.
+
+|   type   |  freq max  |  freq step  |  wave forms  |  Notes  |
+|:--------:|:----------:|:-----------:|:------------:|:--------|
+|  AD9832  |  12.5 MHz  |             |  SI          |
+|  AD9833  |  12.5 MHz  |   0.1  Hz   |  SI  TR  SQ  |  for reference
+|  AD9834  |  37.5 MHz  |   0.28 Hz   |  SI  TR      |  has extra HW lines.
+|  AD9835  |  50.0 MHz  |   0.01 Hz   |      ??      |  looks not compatible
+|  AD9837  |  16.0 MHz  |   0.06 Hz   |  SI  TR  SQ  |
+|  AD9837  |   8.0 MHz  |   0.06 Hz   |  SI  TR      |
+
+If you have experience with one of the above "compatibles" and this library, 
+please let me know by opening an issue. 
+Probably they need a dedicated library based on this one.
 
 
 #### Related
 
 - https://github.com/RobTillaart/AD985X
-- https://github.com/RobTillaart/functionGenerator
+- https://github.com/RobTillaart/functionGenerator  software waveform generator
 
 
 ## Connection
@@ -88,17 +111,34 @@ Read datasheet for detailed description of the pins.
 For hardware SPI only use the first two parameters, 
 for SW SPI you need to define the data and clock pin too.
   - selectPin = chip select.
+If the selectPin is set to 255, external FSYNC is used. 
+See section below
 - **void begin(uint8_t selectPin, SPIClass \* spi)**
 For hardware SPI only, to select a specific hardware SPI port e.g. SPI2.
-- **void reset()** resets the function generator.
+If the selectPin is set to 255, external FSYNC is used. 
+See section below
+- **void reset()** does a **hardwareReset()**, 
+and sets the control register to B28 for the **setFrequency()**
+- **void hardwareReset()** resets all registers to 0.
+- **bool setPowerMode(uint8_t mode = 0)** set the powerMode.
+Default is 0, wake up. So use ```setPowerMode(0)``` to wake up the device.
+Returns false if mode is out of range.
+Details see datasheet.
+
+|  powerMode  |  meaning                      |
+|:-----------:|:------------------------------|
+|     0       |  no power saving              |
+|     1       |  powers down the on-chip DAC  |
+|     2       |  disable internal MCLK clock  |
+|     3       |  combination of mode 1 & 2    |
 
 
-#### Wave
+#### Waveform
 
-- **void setWave(uint8_t wave)**
+- **void setWave(uint8_t waveform)**
 - **uint8_t getWave()**
 
-|  wave type  |  define name      |  value  |  notes  |
+|  waveform   |  define name      |  value  |  notes  |
 |:-----------:|:-----------------:|:-------:|:--------|
 |  No output  |  AD9833_OFF       |    0    |
 |  Sine       |  AD9833_SINE      |    1    |
@@ -118,6 +158,9 @@ Returns the frequency set.
 - **float getFrequency(uint8_t channel = 0)** returns the frequency set.
 - **float getMaxFrequency()** returns the maximum frequency to set (convenience).
 - **void selectFreqChannel(uint8_t channel)** select the active frequency channel (0 or 1).
+
+Note: the frequency depends on the internal reference clock which is default 25 MHz.
+The library does not support other reference clocks yet.
 
 
 #### Phase
@@ -167,33 +210,78 @@ void setup()
 }
 ```
 
+#### Low level API
+
+Use at your own risk, please read the datasheet carefully.
+
+Since version 0.1.1 writing to the registers is made public.
+By using the low level API to access the registers directly, one has maximum
+control over the AD9833 device.
+Especially frequency setting is improved as the float **setFrequency()** does 
+not have the 28 bits precision of the register.
+
+- **void writeControlRegister(uint16_t value)** see datasheet
+- **void writeFreqRegister(uint8_t reg, uint32_t freq)** reg = 0 or 1, freq = 0 .. 134217728
+- **void writePhaseRegister(uint8_t reg, uint16_t value)** reg = 0 or 1, freq = 0 .. 4095
+  
+
+## External FSYNC
+
+Experimental => use with care!
+
+If in the **begin()** function the selectPin is set to 255 external FSYNC is used. 
+This allows to control e.g many AD9833 devices in parallel, with multi-IO chips.
+Think of the SPI based **MCP23S08/17**, or the I2C based **PCF8574/75**.
+
+The advantage is that one can control many (e.g. 16 devices) with a minimum of IO lines.
+
+The disadvantage is that you need to add extra code lines to set / clear the FSYNC line(s).
+Furthermore one should know that using this "external FSYNC" is slower than direct control 
+with MCU pins from within the library.
+
+Pin count wise this concept is only interesting for 3 or more AD9833 devices.
+
+Code wise you need to "manual" control the FSYNC.
+
+```cpp
+  setFsyncLow(5);        //  select device 5
+  AD.setFrequency(440);  //  set a new frequency
+  setFsyncHigh(5);       //  update the setting.
+```
+
+As this implementation is experimental, the interface might change in the future.
+
 
 ## Future
 
 #### Must
 
-- test with hardware
 - update documentation
 
 
 #### Should
 
-- examples 
-  - for ESP32 HWSPI interface
-  - use of channels (freq & phase)
-- do tests on ESP32
-- performance measurements
+- investigate HLB mode versus B28 mode
+- investigate external clock
+- investigate timing (response time)
+  - change freq
+  - change channels etc
+- test on ESP32 (3V3)
 
 
 #### Could
 
 - extend unit tests
+- add examples
+  - for ESP32 HWSPI interface
+  - use of channels (freq & phase)
+  - multi device example (array?)
 - move code to .cpp
 - solve MAGIC numbers (defaults)
 - setting half freq register for performance mode.
-- investigate different power down / sleep modi (page 16)
-- investigate hardware reset (page 16)
-
+  - HLB mode
+- extend performance measurements
+- investigate compatibility AD9834 a.o.
 
 #### Wont
 

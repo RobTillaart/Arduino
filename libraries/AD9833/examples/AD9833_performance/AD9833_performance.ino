@@ -15,17 +15,19 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("AD9833_LIB_VERSION: ");
+  Serial.println(AD9833_LIB_VERSION);
   delay(10);
 
-  AD.begin(7, 8, 9);  //  software SPI
-  // AD.begin(10);   //  hardware SPI
+  AD.begin(10, 11, 13);  //  software SPI
+  //  AD.begin(10);       //  hardware SPI
 
   Serial.print("hardware:\t");
   Serial.println(AD.usesHWSPI());
   delay(10);
 
   start = micros();
-  AD.setFrequency(1000, 0);
+  AD.setFrequency(2000, 0);
   stop = micros();
   Serial.print("setFrequency:\t");
   Serial.println(stop - start);

@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //     URL: https://github.com/RobTillaart/AD9833
 //
 
@@ -32,8 +32,12 @@ void AD9833::begin(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)
   _dataPin   = dataPin;
   _clockPin  = clockPin;
 
-  pinMode(_selectPin, OUTPUT);
-  digitalWrite(_selectPin, HIGH);
+  _useSelect = (_selectPin != 255);
+  if (_useSelect)
+  {
+    pinMode(_selectPin, OUTPUT);
+    digitalWrite(_selectPin, HIGH);
+  }
 
   _hwSPI = ((dataPin == 0) || (clockPin == 0));
 
@@ -65,7 +69,7 @@ void AD9833::begin(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)
     pinMode(_dataPin,  OUTPUT);
     pinMode(_clockPin, OUTPUT);
     digitalWrite(_dataPin,  LOW);
-    digitalWrite(_clockPin, LOW);
+    digitalWrite(_clockPin, HIGH);
   }
   reset();
 }
@@ -74,8 +78,12 @@ void AD9833::begin(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)
 void AD9833::begin(uint8_t selectPin, SPIClass * spi)
 {
   _selectPin = selectPin;
-  pinMode(_selectPin, OUTPUT);
-  digitalWrite(_selectPin, HIGH);
+  _useSelect = (_selectPin != 255);
+  if (_useSelect)
+  {
+    pinMode(_selectPin, OUTPUT);
+    digitalWrite(_selectPin, HIGH);
+  }
 
   _hwSPI = true;
   _spi_settings = SPISettings(8000000, MSBFIRST, SPI_MODE2);
@@ -90,26 +98,45 @@ void AD9833::begin(uint8_t selectPin, SPIClass * spi)
 
 void AD9833::reset()
 {
-  setWave(AD9833_OFF);
-  setFrequency(1000, 0);
-  setFrequency(1000, 1);
-  setPhase(0, 0);
-  setPhase(0, 1);
+  hardwareReset();
+  _control = AD9833_B28;
+  writeControlRegister(_control);
 }
 
 
-void AD9833::setWave(uint8_t waveType)
+void AD9833::hardwareReset()
 {
-  if (waveType > 4) return;
+  writeControlRegister(_control | 0x0100);
+  //  reset all library variables to be in "sync" with hardware.
+  _control  = 0;
+  _waveform = AD9833_OFF;
+  _freq[0]  = _freq[1]  = 0;
+  _phase[0] = _phase[1] = 0;
+}
 
-  //  store wave type
-  _waveType = waveType;
+
+bool AD9833::setPowerMode(uint8_t mode)
+{
+  if (mode > 3) return false;
+  _control &= 0xFF3F;       //  clear previous power flags
+  _control |= (mode << 6);  //  set the new power flags
+  writeControlRegister(_control);
+  return true;
+}
+
+
+void AD9833::setWave(uint8_t waveform)
+{
+  if (waveform > 4) return;
+
+  //  store waveform
+  _waveform = waveform;
 
   //  clear bits in control register
   _control &= ~(AD9833_SLEEP1 | AD9833_SLEEP12 | AD9833_OPBITEN | AD9833_MODE);
 
   //  set bits in control register
-  switch(_waveType)
+  switch(_waveform)
   {
     case AD9833_OFF:
       _control |= (AD9833_SLEEP1 | AD9833_SLEEP12);
@@ -133,7 +160,7 @@ void AD9833::setWave(uint8_t waveType)
 
 uint8_t AD9833::getWave()
 {
-  return _waveType;
+  return _waveform;
 }
 
 
@@ -147,10 +174,8 @@ float AD9833::setFrequency(float freq, uint8_t channel)
   //  convert to bit pattern
   //  fr = round(freq * pow(2, 28) / 25 MHz));
   //  rounding
-  uint32_t fr = (_freq[channel] * (268435456.0 / 25000000.0) + 0.5);
+  uint32_t fr = round(_freq[channel] * (268435456.0 / 25000000.0));
 
-  _control |= AD9833_B28;
-  writeControlRegister(_control);
   writeFreqRegister(channel, fr);
 
   return _freq[channel];
@@ -253,10 +278,11 @@ void AD9833::writeFreqRegister(uint8_t reg, uint32_t freq)
   if (reg == 1) data = 0x8000;  //  bit 15 and 14    10
 
   //  28 bits in two sets of 14
-  data |= (freq & 0x3FFF);
+  data |= (freq & 0x3FFF);  //  least significant 14 bits
   writeData(data);
-  data &= 0xC000;
-  data |= (freq >> 14);
+
+  data &= 0xC000;           //  remove freq data LSB
+  data |= (freq >> 14);     //  most significant  14 bits
   writeData(data);
 }
 
@@ -275,7 +301,7 @@ void AD9833::writePhaseRegister(uint8_t reg, uint16_t value)
 
 void AD9833::writeData(uint16_t data)
 {
-  digitalWrite(_selectPin, LOW);
+  if (_useSelect) digitalWrite(_selectPin, LOW);
   if (_hwSPI)
   {
     mySPI->beginTransaction(_spi_settings);
@@ -290,13 +316,13 @@ void AD9833::writeData(uint16_t data)
     //  MSBFIRST
     for (uint16_t mask = 0x8000; mask; mask >>= 1)
     {
-      digitalWrite(dao, (data & mask));
+      digitalWrite(dao, (data & mask) !=0 ? HIGH : LOW);
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
     digitalWrite(dao, LOW);
   }
-  digitalWrite(_selectPin, HIGH);
+  if (_useSelect) digitalWrite(_selectPin, HIGH);
 }
 
 

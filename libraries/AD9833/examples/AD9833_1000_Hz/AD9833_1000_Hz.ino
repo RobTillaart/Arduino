@@ -13,17 +13,15 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  AD.begin(10);
-  AD.setFrequency(1000, 0);   
+  AD.begin(10, 11, 13);  //  SW SPI over the HW SPI pins (UNO)
+  //  AD.begin(10);      //  HW SPI 
+
+  AD.setWave(AD9833_SQUARE1);
+  Serial.println(AD.getWave());
+
+  AD.setFrequency(1000.0, 0);
   Serial.println(AD.getFrequency(0));
   AD.setFrequencyChannel(0);
-  
-  AD.setPhase(0, 0);   
-  Serial.println(AD.getPhase(0));
-  AD.setPhaseChannel(0);
-
-  AD.setWave(AD9833_SINE);
-  Serial.println(AD.getWave());
 }
 
 

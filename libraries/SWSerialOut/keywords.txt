@@ -1,0 +1,20 @@
+# Syntax Colouring Map For SWSerialOut
+
+# Data types (KEYWORD1)
+SWSerialOut	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+disableInterrupts	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+SWSERIALOUT_LIB_VERSION	LITERAL1
+
+
+

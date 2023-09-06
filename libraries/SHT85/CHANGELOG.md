@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2023-09-05
+- fix #19 SHT85 cannot be address 0x45
+- rewrote begin()
+- removed example SHT85_duo
+- add example SHT85_multiplex
+- add section about multiple SHT85 to readme.md
+- redo badges in readme.md
+- minor edits
+
+
 ## [0.4.1] - 2022-05-09
 - add **uint32_t getSerialNumber()** for SHT85 (no CRC check).
 - improve error handling.
 - update readme.md
-
 
 ## [0.4.0] - 2022-12-14
 - redo asynchronous interface

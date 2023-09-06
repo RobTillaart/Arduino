@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/robtillaart/SHT85/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino CI](https://github.com/RobTillaart/SHT85/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SHT85/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT85/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT85/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SHT85.svg)](https://github.com/RobTillaart/SHT85/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT85/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT85.svg?maxAge=3600)](https://github.com/RobTillaart/SHT85/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SHT85.svg)](https://registry.platformio.org/libraries/robtillaart/SHT85)
 
 
 # SHT85
@@ -34,7 +37,7 @@ Always check datasheet before connecting!
 ```
 
 
-The SHT85 sensors should work up to 1000 KHz. 
+The SHT85 sensors should work (I2C) up to 1000 KHz. 
 During tests with an Arduino UNO it stopped between 500 - 550 KHz.
 So to be safe I recommend not to use the sensor above 400 KHz.
 Also the differences in read time becomes quite small. (max 15% gain).
@@ -58,13 +61,13 @@ SPS (= samples per second) are added later.
 |  550 KHz  |  ----   |       |  fail 
 
 
-At 10% load the SHT85 can be used to make about 10-15 SPS.
+At 10% load the SHT85 can be used to make about 10 - 15 SPS.
 
 
 #### Compatibility
 
 The SHT85 is protocol compatible with the SHT3x series.
-Main difference is the accuracy. 
+Main difference is the accuracy and the SHT85 only has address 0x44.
 Compare the data sheets to see all differences.
 
 Accuracy table:
@@ -81,6 +84,16 @@ Note: The SHT40, SHT41 and SHT45 are not protocol compatible with SHT3x and SHT8
 The SHT4x series is slightly faster than the SHT3x series.
 
 
+#### Multiple SHT85
+
+The SHT3x comes with two I2C address options, 0x44 and 0x45.
+The SHT85 only has 0x44 as I2C address, so it is not possible to have more than
+one on a single I2C bus. 
+This means you need to use multiple I2C buses (if your board support this), 
+a software I2C (below) or an I2C multiplexer e.g. https://github.com/RobTillaart/TCA9548
+
+
+
 #### Related libraries
 
 - https://github.com/RobTillaart/SHT2x
@@ -93,6 +106,9 @@ An elaborated library for the SHT31 sensor can be found here
 
 Dewpoint, heatindex, related functions and conversions.
 - https://github.com/RobTillaart/Temperature
+
+I2C multiplexer
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -312,4 +328,13 @@ Will switch the heater off if maximum heating time has passed.
   - derived classes fixes this enough.
 - **getKelvin()** wrapper? (no => check temperature class)
   ==> set Offset to 273.15 !
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

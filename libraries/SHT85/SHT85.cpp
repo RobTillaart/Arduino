@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -482,6 +482,21 @@ SHT35::SHT35()
 SHT85::SHT85()
 {
   _type = 85;
+}
+
+#if defined(ESP8266) || defined(ESP32)
+bool SHT85::begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin)
+{
+  if (address != 0x44) return false;
+  return SHT::begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
+}
+#endif
+
+
+bool SHT85::begin(const uint8_t address,  TwoWire *wire)
+{
+  if (address != 0x44) return false;
+  return SHT::begin(address, wire);
 }
 
 

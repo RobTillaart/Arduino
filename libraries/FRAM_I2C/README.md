@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/FRAM_I2C/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/FRAM_I2C/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/FRAM_I2C/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/FRAM_I2C/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/FRAM_I2C/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/FRAM_I2C.svg)](https://github.com/RobTillaart/FRAM_I2C/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FRAM_I2C/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/FRAM_I2C.svg?maxAge=3600)](https://github.com/RobTillaart/FRAM_I2C/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/FRAM_I2C.svg)](https://registry.platformio.org/libraries/robtillaart/FRAM_I2C)
 
 
 # FRAM_I2C
@@ -37,14 +40,15 @@ Types of FRAM that should work with this library:
 |  MB85RC04    |    512   |    Y     |  no deviceID register  |  FRAM9   |  #35  |
 |  MB85RC16    |    2 KB  |    Y     |  no deviceID register  |  FRAM11  |  #28  |
 |  MB85RC64T   |    8 KB  |    Y     |                        |  FRAM    |       |
+|  MB85RC64V   |    8 KB  |    Y     |  no deviceID register  |  FRAM    |  #38  |
 |  MB85RC128A  |   16 KB  |    N     |  no deviceID register  |  FRAM    |       |
 |  MB85RC256V  |   32 KB  |    Y     |                        |  FRAM    |       |
 |  MB85RC512T  |   64 KB  |    Y     |                        |  FRAM    |       |
 |  MB85RC1MT   |  128 KB  |    Y     |                        |  FRAM32  |  #19  |
 
 
-MB85RC128A has no size / deviceID, **clear()** will not work correctly, unless 
-one calls **setSizeBytes(16 \* 1024)** to set the size manually.
+MB85RC128A and MB85RC64V have no size / deviceID, **clear()** will not work correctly, unless 
+one calls **setSizeBytes(16 \* 1024)** or **setSizeBytes(8 \* 1024)** to set the size manually.
 
 For the FRAM9 and FRAM11 the size problem is solved (hard coded) in their class.
 
@@ -91,23 +95,25 @@ Note the **MB85RC1MT** only uses even addresses.
 ### Write & read
 
 Support for basic types and two calls for generic objects, use casting if needed.  
-In the **FRAM32** class these functions have an **uin32_t memaddr**.
+In the **FRAM32** class these functions have an **uin32_t memAddr**.
 
-- **void write8(uint16_t memaddr, uint8_t value)** uint8_t
-- **void write16(uint16_t memaddr, uint16_t value)** uint16_t
-- **void write32(uint16_t memaddr, uint32_t value)** uint32_t
-- **void writeFloat(uint16_t memaddr, float value)** float
-- **void writeDouble(uint16_t memaddr, double value)** double
+- **void write8(uint16_t memAddr, uint8_t value)** uint8_t
+- **void write16(uint16_t memAddr, uint16_t value)** uint16_t
+- **void write32(uint16_t memAddr, uint32_t value)** uint32_t
+- **void write64(uint16_t memAddr, uint64_t value)** uint64_t
+- **void writeFloat(uint16_t memAddr, float value)** float
+- **void writeDouble(uint16_t memAddr, double value)** double
   - For boards that have an 8 byte double.
-- **void write(uint16_t memaddr, uint8_t \* obj, uint16_t size)** other types / sizes.
-  - typical used for structs.
-- **uint8_t read8(uint16_t memaddr)**
-- **uint16_t read16(uint16_t memaddr)**
-- **uint32_t read32(uint16_t memaddr)**
-- **float readFloat(uint16_t memaddr)**
-- **double readDouble(uint16_t memaddr)**
+- **void write(uint16_t memAddr, uint8_t \* obj, uint16_t size)** other types / sizes.
+  - typical used for structs or text.
+- **uint8_t read8(uint16_t memAddr)**
+- **uint16_t read16(uint16_t memAddr)**
+- **uint32_t read32(uint16_t memAddr)**
+- **uint64_t read64(uint16_t memAddr)**
+- **float readFloat(uint16_t memAddr)**
+- **double readDouble(uint16_t memAddr)**
   - For board that have 8 byte double.
-- **void read(uint16_t memaddr, uint8_t uint8_t \* obj, uint16_t size)**
+- **void read(uint16_t memAddr, uint8_t uint8_t \* obj, uint16_t size)**
   - One needs to allocate memory as the function won't.
 - **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses
   - default value is all zero's.
@@ -116,26 +122,26 @@ In the **FRAM32** class these functions have an **uin32_t memaddr**.
 
 
 (Template functions, see issue #13)
-- **uint16_t writeObject(uint16_t memaddr, T &obj)** writes an object to memaddr (and following bytes).
-  - Returns memaddr + sizeof(obj) to get the next address to write to.
-- **uint16_t readObject(uint16_t memaddr, T &obj)** reads an object from memaddr and next bytes.
-  - Returns memaddr + sizeof(obj) to get the next address to read from.
+- **uint16_t writeObject(uint16_t memAddr, T &obj)** writes an object to memAddr (and following bytes).
+  - Returns memAddr + sizeof(obj) to get the next address to write to.
+- **uint16_t readObject(uint16_t memAddr, T &obj)** reads an object from memAddr and next bytes.
+  - Returns memAddr + sizeof(obj) to get the next address to read from.
 
 
 (Experimental 0.5.1, see issue #30)
-- **int32_t readUntil(uint16_t memaddr, char \*buf, uint16_t buflen, char separator)**
-Reads FRAM from an address into **buf** until separator is encountered.
+- **int32_t readUntil(uint16_t memAddr, char \* buffer, uint16_t bufferLength, char separator)**
+Reads FRAM from an address into **buffer** until separator is encountered.
 The separator is replaced by an '\0' - end of char array.
 **ReadUntil()** returns the length of the buffer.
-To get the address of the next "field" one must add ```memaddr += (length + 1)```.  
-If the separator is not found after **buflen** characters the function returns -1.
+To get the address of the next "field" one must add ```memAddr += (length + 1)```.  
+If the separator is not found after **bufferLength** characters the function returns -1.
 However the buffer does contain the data read, which might be useful. 
 Handle with care as buffer has probably no '\0' end char.
-- **int32_t readLine(uint16_t memaddr, char \* buf, uint16_t buflen)**
+- **int32_t readLine(uint16_t memAddr, char \* buffer, uint16_t bufferLength)**
 Similar to **readUntil()**, reads a line from FRAM including the '\n'.
 This '\n' is mandatory as end separator!.  
 Note: The buffer needs one extra char for the delimiting '\0' end char.
-To get the address of the next "field" one must add ```memaddr += length```.
+To get the address of the next "field" one must add ```memAddr += length```.
 This is an minor but important difference with **readUntil()**.
 Note: the returning buffer contains the '\n' so one need to take care when
 printing the buffer.
@@ -145,10 +151,10 @@ printing the buffer.
 
 **readUntil()** can be used to read lines and/or fields from an FRAM filled with text.
 For example logging written with the FRAM_logging.ino example.
-Note: if memaddr + buflen >= size of FRAM, memory wrapping may occur.
+Note: if memAddr + bufferLength >= size of FRAM, memory wrapping may occur.
 The library does not check, so the user should.
 
-Note: internally **readUntil()** reads buflen bytes to fill the buffer.
+Note: internally **readUntil()** reads bufferLength bytes to fill the buffer.
 Then it searches for the separator. 
 This is chosen to optimize performance for relative small buffers that are used most.
 For large buffers this fetching of the whole buffer will take much time.
@@ -178,7 +184,9 @@ These may not work for devices that have no **deviceID** register.
 So use with care.
 
 - **uint16_t getManufacturerID()** see table below.
+Returns 0x0FFF means **getMetaData()** had a read error.
 - **uint16_t getProductID()** idem. Proprietary.
+Returns 0x0FFF means **getMetaData()** had a read error.
 - **uint16_t getSize()** returns the size in kiloBYTE.
 If the FRAM has no device ID register, the size cannot be read.
   - FRAM9 will return 0 as it is less than 1 KB. use GetSizeBytes() instead.
@@ -187,7 +195,7 @@ If the FRAM has no device ID register, the size cannot be read.
 or testing the upper boundary.
 - **void setSizeBytes(uint32_t value)** sets the size in bytes for **getSizeBytes()**.
 To be used only if **getSize()** cannot determine the size.
-As far as known this is for the **MB85RC128A** only.
+As far as known this is for the **MB85RC128A** and **MB85RC64V** only.
 See also remark in Future section below.
 Can also be used to "virtually" reduce the size, e.g. to speed up **clear()**
 if the FRAM is used only partial.
@@ -195,12 +203,13 @@ if the FRAM is used only partial.
 
 ### Manufacturers ID
 
-|  Name                 |  ID     |
-|:----------------------|:-------:|
-|  Fujitsu              |  0x00A  |
-|  Ramtron              |  0x004  |
+|  Name                    |  ID     |  Notes  |
+|:-------------------------|:-------:|:--------|
+|  Fujitsu                 |  0x00A  |
+|  Ramtron                 |  0x004  |
+|  getMetaData read error  |  0xFFF  |  See #38  
 
-Additions are welcome.
+Additions for manufacturers ID's are welcome.
 
 
 ### Sleep
@@ -310,13 +319,7 @@ Use **getSizeBytes()** to get 512.
     - a wrapper class?
 - fill power usage table (documentation)
   - is in data sheet.
-- refactor for readability
-  - improve / add comments where needed.
-  - memaddr ==> memoryAddress or memAddr (camelCase)
-  - buf ==> buffer, 
-  - buflen ==> bufferLength / bufferSize
-  - obj ==> object 
-  - use SDA/SCL as name
+- improve comments where needed.
 
 
 #### Wont
@@ -329,6 +332,15 @@ Use **getSizeBytes()** to get 512.
   - Print interface? expensive in performance per char..
   - see example **FRAM_hexdump.ino**
 - remember last written address? why?
-- do we need a **write(memaddr, char \* buf)** for completeness?
+- do we need a **write(memAddr, char \* buffer)** for completeness?
   - it is just a wrapper
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

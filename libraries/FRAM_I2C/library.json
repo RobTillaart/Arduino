@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/FRAM_I2C.git"
   },
-  "version": "0.5.3",
+  "version": "0.5.4",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "FRAM.h"
 }

@@ -49,6 +49,7 @@ unittest(test_constants)
   assertEqual(512,    FRAM_MB85RC04  );
   assertEqual(2048,   FRAM_MB85RC16  );
   assertEqual(8192,   FRAM_MB85RC64T );
+  assertEqual(8192,   FRAM_MB85RC64V );
   assertEqual(16384,  FRAM_MB85RC128A);
   assertEqual(32768,  FRAM_MB85RC256V);
   assertEqual(65536,  FRAM_MB85RC512T);
@@ -84,8 +85,8 @@ unittest(test_constructor)
   assertFalse(fram57.getWriteProtect());
 
   fprintf(stderr, "\n all fail as nothing connected\n");
-  assertEqual(65535, fram50.getManufacturerID());
-  assertEqual(65535, fram50.getProductID());
+  assertEqual(0xFFF, fram50.getManufacturerID());
+  assertEqual(0xFFF, fram50.getProductID());
   assertEqual(0, fram50.getSize());
 }
 
@@ -99,6 +100,11 @@ unittest(test_getSizeBytes)
   assertEqual(0, fram.getSizeBytes());
   fram.setSizeBytes(FRAM_MB85RC256V);
   assertEqual(32768, fram.getSizeBytes());
+
+  FRAM32 f32;
+  assertEqual(0, f32.getSizeBytes());
+  f32.setSizeBytes(FRAM_MB85RC1MT);
+  assertEqual(131072, f32.getSizeBytes());
 
   FRAM11 f11;
   assertEqual(2, f11.getSize());

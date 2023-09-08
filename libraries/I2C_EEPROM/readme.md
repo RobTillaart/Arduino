@@ -2,8 +2,12 @@
 [![Arduino CI](https://github.com/RobTillaart/I2C_EEPROM/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2C_EEPROM/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/I2C_EEPROM.svg)](https://github.com/RobTillaart/I2C_EEPROM/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_EEPROM/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_EEPROM.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_EEPROM/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/I2C_EEPROM.svg)](https://registry.platformio.org/libraries/robtillaart/I2C_EEPROM)
+
 
 
 # I2C_EEPROM
@@ -67,13 +71,17 @@ Most important difference is 32 bit memory addresses.
 optional Wire interface.
 - **I2C_eeprom(uint8_t deviceAddress, uint32_t deviceSize, TwoWire \*wire = &Wire)** 
 constructor, with optional Wire interface.
-- **bool begin()** initializes the I2C bus with the default pins.
+- **bool begin(uint8_t writeProtectPin = -1)** initializes the I2C bus with the default pins.
 Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32 / ESP8266  / RP2040 and alike.
+Optionally one can set the **WP** writeProtect pin. (see section below).
+If the **WP** pin is defined the default will be to **not** allow writing.
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t writeProtectPin = -1)** for ESP32 / ESP8266  / RP2040 and alike.
 Initializes the I2C bus with the specified pins, thereby overruling the default pins.
 Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
+Optionally one can set the **WP** writeProtect pin. (see section below).
+If the **WP** pin is defined the default will be to **not** allow writing.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
 
 
@@ -162,7 +170,7 @@ returns set size == 128, 256, ... 32768, 65536
 returns set size == 8, 16, 32, 64, 128.
 
 
-#### UpdateBlock()
+### UpdateBlock()
 
 (new since 1.4.2)
 
@@ -177,7 +185,7 @@ If data is changed often between writes, **updateBlock()** is slower than **writ
 So you should verify if your sketch can make use of the advantages of **updateBlock()**
 
 
-#### ExtraWriteCycleTime (experimental)
+### ExtraWriteCycleTime (experimental)
 
 To improve support older I2C EEPROMs e.g. IS24C16 two functions were 
 added to increase the waiting time before a read and/or write as some 
@@ -189,6 +197,36 @@ than 5 milliseconds which is the minimum.
 
 Since 1.7.2 it is also possible to adjust the **I2C_WRITEDELAY** in the .h file
 or overrule the define on the command line.
+
+
+### WriteProtectPin WP (experimental)
+
+(since 1.7.4)
+
+The library can control the **WP** = WriteProtect pin of the EEPROM.
+To do this one should connect a GPIO pin of the MCU to the **WP** pin of the EEPROM.
+Furthermore the **WP** should be defined as a parameter in **begin()**.
+If the **WP** pin is defined the default will be to **not** allow writing.
+The user has to enable writing either by manual or automatic control.
+
+In the automatic mode the library only allows writing to the EEPROM when it
+actually writes to the EEPROM. 
+So it keeps the EEPROM in a read only mode as much as possible.
+This prevents accidental writes due to (noisy) signals on the I2C bus. (#57)
+
+
+Status
+- **bool hasWriteProtectPin()** returns true if **WP** has been set.
+
+Automatic control
+- **void setAutoWriteProtect(bool b)** if set to true, the library enables writing
+only when the EEPROM is actually written. This setting **overrules** the manual control.
+If **setAutoWriteProtect()** is set to false (== default) the manual control is leading.
+- **bool getAutoWriteProtect()** get current setting.
+
+Manual control
+- **void allowWrite()** allows writing by setting **WP** to LOW.
+- **void preventWrite()** disables writing by setting **WP** to HIGH.
 
 
 ## Limitation
@@ -220,10 +258,20 @@ See examples
 - investigate smarter strategy for **updateBlock()** 
   => find first and last changed position could possibly result in less writes.
 - can **setBlock()** use strategies from **updateBlock()**
-- **\_waitEEReady();** can return bool and could use isConnected() internally.
-  - added value?
+
+
+#### Wont
+
 - investigate the print interface?
   - circular buffer? (see FRAM library)
   - dump function?
 
-#### Wont
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

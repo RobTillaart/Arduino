@@ -3,32 +3,34 @@
 //    FILE: WaterMix.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for mixing water with different temperatures.
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/WaterMix
 
 
 #include "Arduino.h"
 
 
-#define WATERMIX_LIB_VERSION     (F("0.1.1"))
+#define WATERMIX_LIB_VERSION     (F("0.1.2"))
 
 
-class WaterMix
+////////////////////////////////////////////
+//
+//  LIQUIDMIX
+//
+class LiquidMix
 {
 public:
-  WaterMix()
+  LiquidMix()
   {
     _volume = 0;
     _temperature = 0;
   }
-
 
   void begin(float volume = 0, float temperature = 0)
   {
     _volume = volume;
     _temperature = temperature;
   }
-
 
   void add(float volume, float temperature)
   {
@@ -38,30 +40,10 @@ public:
     _volume = vol;
   }
 
-
-  void addExact(float volume, float temperature)
+  void add(LiquidMix &lm)
   {
-    if (volume <= 0) return;  //  false
-    float mass0     = _volume * _density(_temperature);
-    float mass1     =  volume * _density(temperature);
-    float totalMass =  mass0 + mass1;
-
-    _temperature = (mass0 * _temperature + mass1 * temperature) / totalMass;
-    _volume = totalMass / _density(_temperature);
+    add(lm.volume(), lm.temperature());
   }
-
-
-  void add(WaterMix &wm)
-  {
-    add(wm.volume(), wm.temperature());
-  }
-
-
-  void addExact(WaterMix &wm)
-  {
-    addExact(wm.volume(), wm.temperature());
-  }
-
 
   void sub(float volume)
   {
@@ -70,13 +52,11 @@ public:
     //  temperature does not change.
   }
 
-
   void div(float nr)
   {
     _volume /= nr;
     //  temperature does not change.
   }
-
 
   void mul(float nr)
   {
@@ -84,12 +64,10 @@ public:
     //  temperature does not change.
   }
 
-
   float volume()
   {
     return _volume;
   }
-
 
   float temperature()
   {
@@ -97,31 +75,67 @@ public:
   }
 
 
-  float mass()
+protected:
+  float   _volume;
+  float   _temperature;
+};
+
+
+////////////////////////////////////////////
+//
+//  WATERMIX
+//
+class WaterMix : public LiquidMix
+{
+public:
+  WaterMix() : LiquidMix()
   {
-    return _volume * _density(_temperature);
   }
 
+  void add(float volume, float temperature)
+  {
+    LiquidMix::add(volume, temperature);
+  }
+
+  void addExact(float volume, float temperature)
+  {
+    if (volume <= 0) return;  //  false
+    float mass0     = _volume * density(_temperature);
+    float mass1     =  volume * density(temperature);
+    float totalMass =  mass0 + mass1;
+
+    _temperature = (mass0 * _temperature + mass1 * temperature) / totalMass;
+    _volume = totalMass / density(_temperature);
+  }
+
+  void add(WaterMix &wm)
+  {
+    LiquidMix::add(wm.volume(), wm.temperature());
+  }
+
+  void addExact(WaterMix &wm)
+  {
+    addExact(wm.volume(), wm.temperature());
+  }
+
+  float mass()
+  {
+    return _volume * density(_temperature);
+  }
 
   float volume2mass(float volume, float temperature)
   {
-    return volume * _density(temperature);
+    return volume * density(temperature);
   }
-
 
   float mass2volume(float mass, float temperature)
   {
-    return mass / _density(temperature);
+    return mass / density(temperature);
   }
 
 
-private:
-  float   _volume;
-  float   _temperature;
-
-
-  //  _density is in fact multiMap code
-  float  _density(float temperature)
+  //  density is in fact multiMap code
+  float  density(float temperature)
   {
     //  strip table size?
     uint8_t size = 22;
@@ -133,7 +147,6 @@ private:
       0.9777600,  0.9748400,  0.9717900,  0.9686100,  0.9653100,
       0.9618900,  0.9583500
     };
-
 
     //  take care the temperature is within range
     //  temperature = constrain(temperature, _in[0], _in[size-1]);

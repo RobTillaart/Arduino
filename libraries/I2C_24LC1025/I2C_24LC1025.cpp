@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -33,7 +33,7 @@ I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 
 #if defined(ESP8266) || defined(ESP32)
 
-bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
+bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
 {
   if ((sda < 255) && (scl < 255))
   {
@@ -44,12 +44,18 @@ bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
     _wire->begin();
   }
   _lastWrite = 0;
+  _writeProtectPin = writeProtectPin;
+  if (_writeProtectPin >= 0)
+  {
+    pinMode(_writeProtectPin, OUTPUT);
+    preventWrite();
+  }
   return isConnected();
 }
 
 #elif defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__)
 
-bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
+bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
 {
   if ((sda < 255) && (scl < 255))
   {
@@ -58,15 +64,28 @@ bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl)
     _wire->begin();
   }
   _lastWrite = 0;
+  _writeProtectPin = writeProtectPin;
+  if (_writeProtectPin >= 0)
+  {
+    pinMode(_writeProtectPin, OUTPUT);
+    preventWrite();
+  }
   return isConnected();
 }
+
 #endif
 
 
-bool I2C_24LC1025::begin()
+bool I2C_24LC1025::begin(int8_t writeProtectPin)
 {
   _wire->begin();
   _lastWrite = 0;
+  _writeProtectPin = writeProtectPin;
+  if (_writeProtectPin >= 0)
+  {
+    pinMode(_writeProtectPin, OUTPUT);
+    preventWrite();
+  }
   return isConnected();
 }
 
@@ -149,7 +168,6 @@ uint32_t I2C_24LC1025::readBlock(const uint32_t memoryAddress, uint8_t * buffer,
     addr   += cnt;
     buffer += cnt;
     len    -= cnt;
-    yield();    // For OS scheduling
   }
   return rv;
 }
@@ -188,7 +206,6 @@ uint32_t I2C_24LC1025::updateBlock(const uint32_t memoryAddress, const uint8_t *
     addr   += cnt;
     buffer += cnt;
     len    -= cnt;
-    yield();    // For OS scheduling
   }
   return rv;
 }
@@ -251,7 +268,7 @@ bool I2C_24LC1025::updateBlockVerify(const uint32_t memoryAddress, const uint8_t
 }
 
 
-////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
 //
 //  METADATA SECTION
 //
@@ -285,10 +302,51 @@ uint8_t I2C_24LC1025::getExtraWriteCycleTime()
 }
 
 
+//
+//  WRITEPROTECT
+//
+bool I2C_24LC1025::hasWriteProtectPin()
+{
+  return (_writeProtectPin >= 0);
+}
+
+
+void I2C_24LC1025::allowWrite()
+{
+  if (hasWriteProtectPin())
+  {
+    digitalWrite(_writeProtectPin, LOW);
+  }
+}
+
+
+void I2C_24LC1025::preventWrite()
+{
+  if (hasWriteProtectPin())
+  {
+    digitalWrite(_writeProtectPin, HIGH);
+  }
+}
+
+
+void I2C_24LC1025::setAutoWriteProtect(bool b)
+{
+  if (hasWriteProtectPin())
+  {
+    _autoWriteProtect = b;
+  }
+}
+
+
+bool I2C_24LC1025::getAutoWriteProtect()
+{
+  return _autoWriteProtect;
+}
+
 
 ////////////////////////////////////////////////////////////////////
 //
-// PRIVATE
+//  PRIVATE
 //
 
 //  _pageBlock aligns buffer to page boundaries for writing.
@@ -348,13 +406,23 @@ void I2C_24LC1025::_beginTransmission(uint32_t memoryAddress)
 int I2C_24LC1025::_WriteBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint8_t length)
 {
   _waitEEReady();
+  if (_autoWriteProtect)
+  {
+    digitalWrite(_writeProtectPin, LOW);
+  }
 
   this->_beginTransmission(memoryAddress);
   _wire->write(buffer, length);
   int rv = _wire->endTransmission();
+
+  if (_autoWriteProtect)
+  {
+    digitalWrite(_writeProtectPin, HIGH);
+  }
+
   _lastWrite = micros();
 
-  yield();
+  yield();     // For OS scheduling
 
 //  if (rv != 0)
 //  {
@@ -389,16 +457,16 @@ uint8_t I2C_24LC1025::_ReadBlock(uint32_t memoryAddress, uint8_t * buffer, const
 //      Serial.print("\t");
 //      Serial.println(rv);
 //    }
-    return 0;  // error
+    return 0;  //  error
   }
 
   // readBytes will always be equal or smaller to length
   uint8_t readBytes = _wire->requestFrom(_actualAddress, length);
+  yield();     //  For OS scheduling
   uint8_t cnt = 0;
   while (cnt < readBytes)
   {
     buffer[cnt++] = _wire->read();
-    yield();
   }
   return readBytes;
 }
@@ -412,14 +480,16 @@ void I2C_24LC1025::_waitEEReady()
   uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;
   while ((micros() - _lastWrite) <= waitTime)
   {
-    _wire->beginTransmission(_deviceAddress);
-    int x = _wire->endTransmission();
-    if (x == 0) return;
-    yield();
+    if (isConnected()) return;
+    //  TODO remove previous code
+    // _wire->beginTransmission(_deviceAddress);
+    // int x = _wire->endTransmission();
+    // if (x == 0) return;
+    yield();     //  For OS scheduling
   }
   return;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

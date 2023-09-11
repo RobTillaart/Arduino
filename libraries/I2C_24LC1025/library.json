@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2C_24LC1025"
   },
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "I2C_24LC1025.h"
 }

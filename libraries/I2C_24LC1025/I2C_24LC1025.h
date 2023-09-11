@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_24LC1025_VERSION        (F("0.2.4"))
+#define I2C_24LC1025_VERSION        (F("0.2.5"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072
@@ -20,6 +20,7 @@
 
 //  to adjust low level timing (use with care)
 //  can also be done on command line.
+//  (see private _waitEEReady() function)
 #ifndef I2C_WRITEDELAY
 #define I2C_WRITEDELAY              5000
 #endif
@@ -34,28 +35,30 @@ public:
 
 //  MBED test ==> see #55, #53  I2C_EEPROM
 #if defined(ESP8266) || defined(ESP32) || (defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__))
-  bool      begin(uint8_t sda, uint8_t scl);
+  //  set the I2C pins explicitly (overrule)
+  bool     begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin = -1);
 #endif
-  bool      begin();
-  bool      isConnected();
+  //  use default I2C pins.
+  bool     begin(int8_t writeProtectPin = -1);
+  bool     isConnected();
 
 
   //  writes a byte to memoryAddress
   //  returns I2C status, 0 = OK
-  int       writeByte(const uint32_t memoryAddress, const uint8_t value);
+  int      writeByte(const uint32_t memoryAddress, const uint8_t value);
   //  writes length bytes from buffer to EEPROM
   //  returns I2C status, 0 = OK
-  int       writeBlock(const uint32_t memoryAddress, const uint8_t *buffer, const uint32_t length);
+  int      writeBlock(const uint32_t memoryAddress, const uint8_t *buffer, const uint32_t length);
   //  set length bytes in the EEPROM to the same value.
   //  returns I2C status, 0 = OK
-  int       setBlock(const uint32_t memoryAddress, const uint8_t value, const uint32_t length);
+  int      setBlock(const uint32_t memoryAddress, const uint8_t value, const uint32_t length);
 
 
   //  returns the value stored in memoryAddress
-  uint8_t   readByte(const uint32_t memoryAddress);
+  uint8_t  readByte(const uint32_t memoryAddress);
   //  reads length bytes into buffer
   //  returns bytes read.
-  uint32_t  readBlock(const uint32_t memoryAddress, uint8_t * buffer, const uint32_t length);
+  uint32_t readBlock(const uint32_t memoryAddress, uint8_t * buffer, const uint32_t length);
 
 
   //  updates a byte at memoryAddress, writes only if there is a new value.
@@ -88,6 +91,17 @@ public:
   void     setExtraWriteCycleTime(uint8_t ms);
   uint8_t  getExtraWriteCycleTime();
 
+
+  //  WRITEPROTECT
+  //  works only if WP pin is defined in begin().
+  //  see readme.md
+  inline bool hasWriteProtectPin();
+  void     allowWrite();
+  void     preventWrite();
+  void     setAutoWriteProtect(bool b);
+  bool     getAutoWriteProtect();
+
+
 private:
   uint8_t  _deviceAddress;
   uint8_t  _actualAddress;   //  a.k.a. controlByte
@@ -98,12 +112,12 @@ private:
   int      _error    = 0;    //  TODO.
 
 
-  void      _beginTransmission(uint32_t memoryAddress);
+  void     _beginTransmission(uint32_t memoryAddress);
 
   //  returns I2C status, 0 = OK
-  int       _pageBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
+  int      _pageBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
   //  returns I2C status, 0 = OK
-  int       _WriteBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint8_t length);
+  int      _WriteBlock(uint32_t memoryAddress, const uint8_t * buffer, const uint8_t length);
   //  returns bytes read.
   uint8_t  _ReadBlock(uint32_t memoryAddress, uint8_t * buffer, const uint8_t length);
 
@@ -112,7 +126,10 @@ private:
 
   TwoWire * _wire;
 
-  bool      _debug = false;
+  bool     _debug = false;
+
+  int8_t   _writeProtectPin = -1;
+  bool     _autoWriteProtect = false;
 };
 
 

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2023-09-10
+- fix #21 example for elaborated async.
+- improve async interface
+  - add **getRequestType()** to async interface
+  - add three request constants to .h file
+  - add **bool requestReady()** checks both.
+- update readme.md
+- minor edits
+
+
 ## [0.3.0] - 2023-03-26
 - fix setResolution #13, #18
 - fix heater settings
@@ -41,16 +51,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fix getEIDB() bug.
 
 ## [0.1.3] - 2021-12-28
-- update library.json 
+- update library.json
 - update license
 - minor edits
 
-## [0.1.2] - 2021-09-29  
+## [0.1.2] - 2021-09-29
 - Add Si70xx derived classes
 - add getEIDA(), getEIDB(), getFirmwareVersion()
 - update build-CI, readme.md badges
 
-## [0.1.1] - 2021-09-28  
+## [0.1.1] - 2021-09-28
 - Add HTU2x derived classes,
 - update readme.md + add some status info
 

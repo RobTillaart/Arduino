@@ -18,9 +18,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT2x.git"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "SHT2x.h"
 }

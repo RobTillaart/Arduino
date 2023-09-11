@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.3.0"))
+#define SHT2x_LIB_VERSION             (F("0.3.1"))
 
 
 //  fields getStatus
@@ -32,11 +32,16 @@
 #define SHT2x_ERR_NOT_CONNECT         0x84
 #define SHT2x_ERR_CRC_TEMP            0x85
 #define SHT2x_ERR_CRC_HUM             0x86
-#define SHT2x_ERR_CRC_STATUS          0x87     // not used
+#define SHT2x_ERR_CRC_STATUS          0x87     //  not used
 #define SHT2x_ERR_HEATER_COOLDOWN     0x88
 #define SHT2x_ERR_HEATER_ON           0x89
 //  0.2.0
 #define SHT2x_ERR_RESOLUTION          0x8A
+
+//  Request types
+#define SHT2x_REQ_NONE                0x00
+#define SHT2x_REQ_TEMPERATURE         0x01
+#define SHT2x_REQ_HUMIDITY            0x02
 
 
 
@@ -80,7 +85,7 @@ public:
   //
   uint8_t getStatus();
 
-  // lastRead is in milliSeconds since start
+  //  lastRead is in milliSeconds since start
   uint32_t lastRead();
 
 
@@ -96,13 +101,14 @@ public:
 
   bool heatOn();
   bool heatOff();
-  bool isHeaterOn();  // is the sensor still heating up?
+  bool isHeaterOn();  //  is the sensor still heating up?
 
-  bool setHeaterLevel(uint8_t level);    // level = 0..15
-  bool getHeaterLevel(uint8_t & level);  // 0..15
+  bool setHeaterLevel(uint8_t level);    //  level = 0..15
+  bool getHeaterLevel(uint8_t & level);  //  0..15
 
 
-  int getError(); // clears error flag
+  //  reading clears error flag
+  int getError();
 
 
   /////////////////////////////////////////////////////////
@@ -143,9 +149,11 @@ public:
   bool     requestHumidity();
   bool     reqTempReady();
   bool     reqHumReady();
+  bool     requestReady();
   bool     readTemperature();
   bool     readHumidity();
   uint32_t lastRequest();
+  uint8_t  getRequestType();
 
 
   /////////////////////////////////////////////////////////

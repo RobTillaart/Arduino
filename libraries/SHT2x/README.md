@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/robtillaart/SHT2x/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/SHT2x/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT2x/actions/workflows/jsoncheck.yml)
+[![Arduino CI](https://github.com/RobTillaart/SHT2x/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SHT2x/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT2x/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/SHT2x/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT2x/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SHT2x.svg)](https://github.com/RobTillaart/SHT2x/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT2x/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT2x.svg?maxAge=3600)](https://github.com/RobTillaart/SHT2x/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SHT2x.svg)](https://registry.platformio.org/libraries/robtillaart/SHT2x)
 
 
 # SHT2x
@@ -37,6 +40,13 @@ Accuracy table
 All sensors in this family of sensors have address 0x40 (64 decimal).
 If you want to use more on one I2C bus one needs either an I2C multiplexer
 or one should switch sensors on/off like the select in SPI communication.
+
+
+#### Related
+
+- https://github.com/RobTillaart/SHT31
+- https://github.com/RobTillaart/SHT85
+- https://github.com/RobTillaart/tinySHT2x
 
 
 ## Interface
@@ -89,13 +99,24 @@ Note: The raw temperature and raw humidity are ideal to minimize storage or to m
 Experimental since 0.2.2 this interface can change in the future
 Discussion see https://github.com/RobTillaart/SHT2x/issues/16
 
-- **bool requestTemperature()**
-- **bool requestHumidity()**
-- **bool reqTempReady()**
-- **bool reqHumReady()**
-- **bool readTemperature()**
-- **bool readHumidity()**
-- **uint32_t lastRequest()**
+- **bool requestTemperature()** starts new temperature request.
+Overrules optional existing / running request.
+- **bool requestHumidity()** starts new humidity request.
+Overrules optional existing / running request.
+- **bool reqTempReady()** returns true if temperature request is ready.
+- **bool reqHumReady()** returns true if humidity request is ready.
+- **bool requestReady()** checks if either temperature or humidity is ready.
+- **bool readTemperature()** calculates the temperature from raw measurement.
+- **bool readHumidity()** calculates the humidity from raw measurement.
+- **uint32_t lastRequest()** timestamp of last request.
+- **uint8_t getRequestType()** get current request type.
+
+
+|  Value  | Symbolic                    |  Description                  |  Notes     |
+|:-------:|:----------------------------|:------------------------------|:-----------|
+|  0x00   |  SHT2x_REQ_NONE             |  no request pending           |            |
+|  0x01   |  SHT2x_REQ_TEMPERATURE      |  temperature request pending  |            |
+|  0x02   |  SHT2x_REQ_HUMIDITY         |  humidity request pending     |            |
 
 TODO elaborate documentation.
 
@@ -157,20 +178,20 @@ To be tested.
 
 #### Status fields
 
-From HTU20 datasheet
+From HTU20 datasheet (read for details).
 
-|  bits  | value  | meaning             |
-|:------:|:------:|:--------------------|
-|  00    |   0    | open circuit        |
-|  01    |   1    | temperature reading |
-|  10    |   2    | humidity reading    |
-|  11    |   3    | closed circuit      |
+|  bits  |  value  |  Symbolic                     |  Description          |
+|:------:|:-------:|:------------------------------|:----------------------|
+|   00   |    0    |  SHT2x_STATUS_OPEN_CIRCUIT    |  open circuit         |
+|   01   |    1    |  SHT2x_STATUS_TEMPERATURE     |  temperature reading  |
+|   10   |    2    |  SHT2x_STATUS_HUMIDITY        |  humidity reading     |
+|   11   |    3    |  SHT2x_STATUS_CLOSED_CIRCUIT  |  closed circuit       |
 
 
 #### Resolution
 
 **Warning experimental** 
-- needs more testing as results are not in line with the datasheet.
+- needs more testing as the results are not in line with the datasheet.
 - only tested on a HTUxx sensor.
 - tested with **SHT2X_resolution.ino**
 
@@ -178,7 +199,7 @@ From HTU20 datasheet
 - **uint8_t getResolution()** returns resolution set 0..3.
 
 
-Datasheet SHT20 Table 8: (resolution)
+Datasheet SHT20 Table 8: resolution
 
 |  RES  |  Humidity  |  Temperature  |
 |:-----:|:----------:|:-------------:|
@@ -187,7 +208,8 @@ Datasheet SHT20 Table 8: (resolution)
 |   2   |   10 bit   |    13 bit     |
 |   3   |   11 bit   |    11 bit     |
 
-Datasheet SHT20 Table 7: (timing) and results of real measurements.
+
+Datasheet SHT20 Table 7: timing versus results of real measurements.
 ( https://github.com/RobTillaart/SHT2x/pull/11 )
 
 |  RES  |  HUM  |  TEMP  |  TOTAL  |  REAL  |
@@ -209,28 +231,21 @@ Timing in milliseconds.
 ## Future
 
 #### Must
+
 - improve documentation
   - reorganize interface
+  - async documentation
 - clean up code.
 
-
 #### 0.4.0
+
 - add crc8 check (need sensor to test)
 - improve error handling (all code paths)
 - investigate blocking delay() in read 
 - add offset for temperature and humidity
 
-
-#### ASYNC 0.4.0
-improvements for interface.
-
-- **bool requestReady()** checks both.
-- **bool requestPending()** checks.
-- **uint8_t getRequestType()** returns 0, 1, 2.
-- async documentation
-
-
 #### Should
+
 - test test test
   - get hardware
 - add examples
@@ -238,15 +253,23 @@ improvements for interface.
   - performance different resolutions
   - test battery
 
-
 #### Could
+
 - fix TODO in code (.cpp and .h) and documentation
 - update unit tests
 - add type info in derived classes?
-
 
 #### Wont
 
 - add **getSerialNumber()**
   **getEIDA()** and **getEIDB()** covers this
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -26,10 +26,6 @@
 #define SHT2x_USRREG_BATTERY            0x20
 #define SHT2x_USRREG_HEATER             0x04
 
-#define SHT2x_REQ_NONE                  0x00
-#define SHT2x_REQ_TEMPERATURE           0x01
-#define SHT2x_REQ_HUMIDITY              0x02
-
 
 //////////////////////////////////////////////////////////////
 //
@@ -39,7 +35,7 @@ SHT2x::SHT2x()
 {
   _lastRead       = 0;
   _lastRequest    = 0;
-  _requestType    = 0;
+  _requestType    = SHT2x_REQ_NONE;
   _rawTemperature = 0;
   _rawHumidity    = 0;
   _heatTimeout    = 0;
@@ -165,6 +161,11 @@ bool SHT2x::reqHumReady()
 }
 
 
+bool SHT2x::requestReady()
+{
+  return (reqTempReady() || reqHumReady());
+}
+
 bool SHT2x::readTemperature()
 {
   uint8_t buffer[3];
@@ -177,7 +178,7 @@ bool SHT2x::readTemperature()
   if (crc8(buffer, 2) != buffer[2])
   {
     _error = SHT2x_ERR_CRC_TEMP;
-  //  return false;  // do not fail yet
+  //  return false;  //  do not fail yet
   }
   _rawTemperature  = buffer[0] << 8;
   _rawTemperature += buffer[1];
@@ -187,7 +188,7 @@ bool SHT2x::readTemperature()
   _requestType = SHT2x_REQ_NONE;
 
   _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)  // TODO  != 0x01  (need HW to test)
+  if (_status == 0xFF)  //  TODO  != 0x01  (need HW to test)
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -207,7 +208,7 @@ bool SHT2x::readHumidity()
   if (crc8(buffer, 2) != buffer[2])
   {
     _error = SHT2x_ERR_CRC_HUM;
-  //    return false;  // do not fail yet
+  //    return false;  //  do not fail yet
   }
   _rawHumidity  = buffer[0] << 8;
   _rawHumidity += buffer[1];
@@ -235,20 +236,26 @@ uint32_t SHT2x::lastRequest()
 }
 
 
+uint8_t SHT2x::getRequestType()
+{
+  return _requestType;
+}
+
+
 /////////////////////////////////////////////////////////
 //
 //  TEMPERATURE AND HUMIDTY
 //
 float SHT2x::getTemperature()
 {
-  // par 6.2
+  //  par 6.2
   return -46.85 + (175.72 / 65536.0) * _rawTemperature;
 }
 
 
 float SHT2x::getHumidity()
 {
-  // par  6.1
+  //  par 6.1
   return -6.0 + (125.0 / 65536.0) * _rawHumidity;
 }
 
@@ -347,7 +354,7 @@ bool SHT2x::heatOff()
 
   if (writeCmd(SHT2x_WRITE_USER_REGISTER, userReg) == false)
   {
-    _error = SHT2x_ERR_HEATER_OFF;  // can be serious!
+    _error = SHT2x_ERR_HEATER_OFF;  //  can be serious!
     return false;
   }
   _heaterStop = millis();
@@ -362,7 +369,7 @@ bool SHT2x::isHeaterOn()
   {
     return false;
   }
-  // did not exceed time out
+  //  did not exceed time out
   if (millis() - _heaterStart < (_heatTimeout * 1000UL))
   {
     return true;
@@ -380,7 +387,7 @@ bool SHT2x::setHeaterLevel(uint8_t level)
   }
 
   uint8_t heaterReg = 0;
-  writeCmd(0x11);  // Read Heater Control Register
+  writeCmd(0x11);  //  Read Heater Control Register
   if (readBytes(1, (uint8_t *) &heaterReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -400,7 +407,7 @@ bool SHT2x::setHeaterLevel(uint8_t level)
 bool SHT2x::getHeaterLevel(uint8_t & level)
 {
   uint8_t heaterReg = 0;
-  writeCmd(0x11);  // Read Heater Control Register
+  writeCmd(0x11);  //  Read Heater Control Register
   if (readBytes(1, (uint8_t *) &heaterReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -541,8 +548,8 @@ bool SHT2x::batteryOK()
 //
 uint8_t SHT2x::crc8(const uint8_t *data, uint8_t len)
 {
-  // CRC-8 formula from page 14 of SHT spec pdf
-  // Sensirion_Humidity_Sensors_SHT2x_CRC_Calculation.pdf
+  //  CRC-8 formula from page 14 of SHT spec pdf
+  //  Sensirion_Humidity_Sensors_SHT2x_CRC_Calculation.pdf
   const uint8_t POLY = 0x31;
   uint8_t crc = 0x00;
 

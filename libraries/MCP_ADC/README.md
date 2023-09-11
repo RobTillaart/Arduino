@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP_ADC/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP_ADC/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP_ADC/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP_ADC/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP_ADC/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP_ADC.svg)](https://github.com/RobTillaart/MCP_ADC/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP_ADC/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP_ADC.svg?maxAge=3600)](https://github.com/RobTillaart/MCP_ADC/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP_ADC.svg)](https://registry.platformio.org/libraries/robtillaart/MCP_ADC)
 
 
 # MCP_ADC
 
-Arduino library for MCP3002 MCP3004 MCP3008 MCP3201 MCP3202 MCP3204 MCP3208 and compatibles.
+Arduino library for MCP3001 MCP3002 MCP3004 MCP3008 MCP3201 MCP3202 MCP3204 MCP3208 and compatibles.
 
 
 ## Description
@@ -19,10 +22,11 @@ The chips are communicates with SPI and support both hardware SPI or optional so
 
 |  type     |  bits  |  chan  |  notes  |
 |:----------|:------:|:------:|:--------|
+|  MCP3001  |   10   |    1   |  not tested yet.
 |  MCP3002  |   10   |    2   |
 |  MCP3004  |   10   |    4   |
 |  MCP3008  |   10   |    8   |
-|  MCP3201  |   12   |    1   |  not tested yet.
+|  MCP3201  |   12   |    1   |  test, see #13
 |  MCP3202  |   12   |    2   |
 |  MCP3204  |   12   |    4   |
 |  MCP3208  |   12   |    8   |
@@ -39,17 +43,29 @@ Build into the library is a delta mode which is a software enhanced differential
 This delta mode can return negative values too. 
 
 
+#### Related
+
+- https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
+- https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
+- https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
+
+
+- https://github.com/RobTillaart/MCP_DAC
+
+
+
 ## Interface
 
 ```cpp
 #include "MCP_ADC.h"
 ```
 
-#### Base
+#### Constructors
 
 If the pins are not set in the constructor, the class will automatically
 use the hardware SPI, otherwise it will use software SPI.
 
+- **MCP3001(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 1 channel.
 - **MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 2 channel.
 - **MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 4 channel.
 - **MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 8 channel.
@@ -59,8 +75,12 @@ use the hardware SPI, otherwise it will use software SPI.
 - **MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 12 bit ADC 8 channel.
 - **void begin(uint8_t select)** set select pin.
 - **uint8_t channels()** returns the number of channels.
-- **int16_t maxValue()** returns maxReading of adc, e.g. 1023.
+- **int16_t maxValue()** returns maxReading of ADC, typical 1023 or 4095.
 This makes it easy to calculate relative measurements.
+
+
+#### Base
+
 - **int16_t analogRead(uint8_t channel)** reads the value of a single channel.
 - **void analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])**
 reads multiple channels in one call. See section below.
@@ -87,6 +107,8 @@ of the ADC first to get optimal speed.
 |   6     |    6     |    7     |           3x08 |
 |   7     |    7     |    6     |           3x08 |
 
+Note: the MCP3x01 are not included in this table, not investigated yet.
+
 
 ### Debug
 
@@ -108,8 +130,10 @@ BEFORE the **begin()** function.
 #### setGPIOpins() experimental
 
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. needs to be called AFTER the **begin()** function.
+overrule GPIO pins of ESP32 for hardware SPI. 
+This function needs to be called AFTER the **begin()** function.
 
+in code:
 ```cpp
 void setup()
 {
@@ -165,16 +189,15 @@ Finally **analogReadMultiple()** can be used to read only one channel too
 by using numChannels = 1.
 
 
-## MCP3201 experimental
+## MCP3001, MCP3201 experimental
 
-Since 0.2.0 code for the MCP3201 has been added however this 12 bit single
-channel device has not been tested yet.
+Since 0.2.0 code for the MCP3201 has been added.
+The first tests are done (see #13) which showed that the 0.2.0 implementation
+was not correct. 
+This has been fixed in the 0.2.1 version.
 
-As the SPI transfer looked quite a bit like the MCP3202 it is expected to work
-but the proof is in the hardware test.
-
-Note that not all function calls make sense for the MCP3201 as this device only
-has one channel. So use the library carefully.
+Note that not all function calls make sense for the MCP3201 and MCP3001 as these 
+devices only have one channel. So use the library carefully.
 
 Feedback is as always welcome. 
 
@@ -201,4 +224,13 @@ Feedback is as always welcome.
 - get / setF(float A, float B) => float readF(channel)   output = A\*value + B;
   it actually does float mapping. As it implies the same mapping for all it might 
   not be that useful => check multiMap library.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

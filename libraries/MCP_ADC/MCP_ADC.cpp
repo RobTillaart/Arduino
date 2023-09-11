@@ -1,9 +1,9 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.1
 //    DATE: 2019-10-24
-// PURPOSE: Arduino library for MCP3002, MCP3004, MCP3008, MCP3202, MCP3204, MCP3208
+// PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
 
 
@@ -24,6 +24,8 @@ void MCP_ADC::begin(uint8_t select)
 {
   _select = select;
   pinMode(_select, OUTPUT);
+  digitalWrite(_select, HIGH);
+  digitalWrite(_select, LOW);    //  force communication See datasheet)
   digitalWrite(_select, HIGH);
 
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
@@ -153,7 +155,16 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
   }
   digitalWrite(_select, HIGH);
 
-  if (bytes == 2) return ((256 * data[0] + data[1]) & _maxValue);
+  if (bytes == 2)
+  {
+    //  combine bytes
+    int16_t raw = 256 * data[0] + data[1];
+    //  patch bit pattern MCP3001
+    if ((_channels == 1) && (_maxValue == 1023)) raw >>= 3;
+    //  patch bit pattern MCP3201
+    if ((_channels == 1) && (_maxValue == 4095)) raw >>= 1;
+    return raw & _maxValue;
+  }
   // data[0]?
   return ((256 * data[1] + data[2]) & _maxValue);
 }
@@ -185,7 +196,13 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
     }
 
     if (bytes == 2) {
-      readings[i] = ((256 * data[0] + data[1]) & _maxValue);
+      //  combine bytes
+      int16_t raw = 256 * data[0] + data[1];
+      //  patch bit pattern MCP3001
+      if ((_channels == 1) && (_maxValue == 1023)) raw >>= 3;
+      //  patch bit pattern MCP3201
+      if ((_channels == 1) && (_maxValue == 4095)) raw >>= 1;
+      readings[i] = raw & _maxValue;
     } else {
       readings[i] = ((256 * data[1] + data[2]) & _maxValue);
     }
@@ -217,6 +234,28 @@ uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
   return rv;
 }
 
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  MCP3001
+//
+MCP3001::MCP3001(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
+        :MCP_ADC(dataIn, dataOut, clock)
+{
+  _channels = 1;
+  _maxValue = 1023;
+}
+
+uint8_t MCP3001::buildRequest(uint8_t channel, bool single, uint8_t * data)
+{
+  //  P16  fig 6.1   MCP3001
+  //  no specific data needed
+  //  keep build CI compiler (ESP32) happy next statement
+  data[0] = data[1] = 0;
+  if ((channel == 0) || (single == false)) return 2;
+  return 2;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -297,7 +336,8 @@ uint8_t MCP3201::buildRequest(uint8_t channel, bool single, uint8_t * data)
 {
   //  P21  fig 6.1   MCP3201
   //  no specific data needed
-  //  keep build CI compiler (ESP32) happy next statement
+  //  keep build CI compiler (ESP32) happy next statements
+  data[0] = data[1] = 0;
   if ((channel == 0) || (single == false)) return 2;
   return 2;
 }

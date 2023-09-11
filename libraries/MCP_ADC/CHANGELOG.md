@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-09-08
+- fix #13 support **MCP3201**
+- add **MCP3001** support
+- fix startup pulse for **select** pin.
+- update readme.md
+- fix version number in .cpp
+- update keywords.txt
+
+
 ## [0.2.0] - 2023-08-15
 - add analogReadMultiple(channels\[], numChannels, readings\[]) 
   - Kudo's to Alex Uta.

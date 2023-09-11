@@ -2,9 +2,9 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2019-10-24
-// PURPOSE: Arduino library for MCP_ADC
+// PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
 //
 
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.2.0"))
+#define MCP_ADC_LIB_VERSION       (F("0.2.1"))
 
 
 class MCP_ADC
@@ -84,6 +84,14 @@ protected:
 //
 //  DERIVED CLASSES
 //
+class MCP3001 : public MCP_ADC
+{
+public:
+  MCP3001(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
+};
+
+
 class MCP3002 : public MCP_ADC
 {
 public:

@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.12] - 2023-09-11
 - update and add examples
+- add **getLastRequest()** to track last type of measurement.
+- update readme.md
+- minor edits.
 
 
 ## [0.3.11] - 2023-08-31
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - move code from .h to .cpp
 - reordered code in .cpp to follow .h
 - minor edits
-
 
 ## [0.3.10] - 2023-06-07
 - fix NANO RP2040

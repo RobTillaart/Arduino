@@ -1,8 +1,8 @@
 #pragma once
 //
-//    FILE: ADS1X15.H
+//    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.11
+// VERSION: 0.3.12
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.3.11"))
+#define ADS1X15_LIB_VERSION               (F("0.3.12"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -78,6 +78,7 @@ public:
   int16_t  readADC_Differential_0_1();
 
   //  used by continuous mode and async mode.
+  [[deprecated("Use getValue() instead")]]
   int16_t  getLastValue() { return getValue(); };  // will be obsolete in the future 0.4.0
   int16_t  getValue();
 
@@ -89,6 +90,12 @@ public:
   void     requestADC_Differential_0_1();
   bool     isBusy();
   bool     isReady();
+
+
+  //  returns a pin 0x0[0..3] or 
+  //          a differential "mode" 0x[pin second][pin first] or
+  //          0xFF (no request / invalid request)
+  uint8_t   lastRequest();
 
 
   //  COMPARATOR
@@ -161,6 +168,11 @@ protected:
   uint8_t  _compPol;
   uint8_t  _compLatch;
   uint8_t  _compQueConvert;
+
+  //  variable to track the last pin requested, 
+  //  to allow for round robin query of
+  //  pins based on this state == if no last request then == 0xFFFF.
+  uint16_t  _lastRequest;
 
   int16_t  _readADC(uint16_t readmode);
   void     _requestADC(uint16_t readmode);

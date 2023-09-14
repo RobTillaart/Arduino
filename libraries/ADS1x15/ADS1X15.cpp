@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.11
+// VERSION: 0.3.12
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -136,6 +136,7 @@ void ADS1X15::reset()
   _compPol        = 1;
   _compLatch      = 0;
   _compQueConvert = 3;
+  _lastRequest    = 0xFFFF;  //  no request yet
 }
 
 
@@ -335,6 +336,24 @@ bool ADS1X15::isReady()
 }
 
 
+uint8_t ADS1X15::lastRequest()
+{
+  switch (_lastRequest)
+  {
+    case ADS1X15_READ_0:       return 0x00;
+    case ADS1X15_READ_1:       return 0x01;
+    case ADS1X15_READ_2:       return 0x02;
+    case ADS1X15_READ_3:       return 0x03;
+    //  technically 0x01 -- but would collide with READ_1
+    case ADS1X15_MUX_DIFF_0_1: return 0x10;
+    case ADS1X15_MUX_DIFF_0_3: return 0x30;
+    case ADS1X15_MUX_DIFF_1_3: return 0x31;
+    case ADS1X15_MUX_DIFF_2_3: return 0x32;
+  }
+  return 0xFF;
+}
+
+
 void ADS1X15::setComparatorMode(uint8_t mode)
 {
   _compMode = mode == 0 ? 0 : 1;
@@ -462,7 +481,8 @@ int16_t ADS1X15::_readADC(uint16_t readmode)
   }
   else
   {
-    delay(_conversionDelay);      //  TODO needed in continuous mode?
+    //  needed in continuous mode too, otherwise one get old value.
+    delay(_conversionDelay);
   }
   return getValue();
 }
@@ -484,6 +504,9 @@ void ADS1X15::_requestADC(uint16_t readmode)
   else            config |= ADS1X15_COMP_NON_LATCH;           //  bit 2      ALERT latching
   config |= _compQueConvert;                                  //  bit 0..1   ALERT mode
   _writeRegister(_address, ADS1X15_REG_CONFIG, config);
+
+  //  remember last request type.
+    _lastRequest = readmode;
 }
 
 

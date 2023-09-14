@@ -33,6 +33,8 @@ readADC_Differential_1_3	KEYWORD2
 readADC_Differential_2_3	KEYWORD2
 getValue	KEYWORD2
 
+getLastRequest	KEYWORD2
+
 setComparatorMode	KEYWORD2
 getComparatorMode	KEYWORD2
 setComparatorPolarity	KEYWORD2

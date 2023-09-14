@@ -1,0 +1,34 @@
+# Syntax Colouring Map For PulseDivider
+
+# Data types (KEYWORD1)
+PulseDivider	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setInPin	KEYWORD2
+getInPin	KEYWORD2
+setOutPin	KEYWORD2
+getOutPin	KEYWORD2
+
+setRatio	KEYWORD2
+getRatio	KEYWORD2
+setDuration	KEYWORD2
+getDuration	KEYWORD2
+
+setEdge	KEYWORD2
+getEdge	KEYWORD2
+setInvert	KEYWORD2
+getInvert	KEYWORD2
+
+start	KEYWORD2
+stop	KEYWORD2
+isRunning	KEYWORD2
+
+check	KEYWORD2
+doPulse	KEYWORD2
+
+
+# Constants (LITERAL1)
+PULSEDIVIDER_LIB_VERSION	LITERAL1
+
+

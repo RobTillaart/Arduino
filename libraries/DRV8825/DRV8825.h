@@ -2,7 +2,7 @@
 //
 //    FILE: DRV8825.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DRV8825_LIB_VERSION              (F("0.1.4"))
+#define DRV8825_LIB_VERSION              (F("0.2.0"))
 
 
 //  setDirection
@@ -41,14 +41,14 @@ public:
 
   //       POSITION
   //       only works if stepsPerRotation > 0
-  //       returns false if pos > stepsPerRotation.
-  bool     setPosition(uint16_t pos = 0);
+  //       returns false if position > stepsPerRotation.
+  bool     setPosition(uint16_t position = 0);
   uint16_t getPosition();
 
   //       CONFIGURATION
   //       step pulse length is in microseconds
   //       datasheet default = 1.9 us
-  void     setStepPulseLength(uint16_t us = 2);
+  void     setStepPulseLength(uint16_t stepPulseLength = 2);
   uint16_t getStepPulseLength();
 
   //       ENABLE pin should be set.
@@ -76,8 +76,8 @@ protected:
 
   uint16_t _stepsPerRotation = 0;
   uint32_t _steps            = 0;
-  uint16_t _pos              = 0;
-  uint16_t _us               = 2;
+  uint16_t _position         = 0;
+  uint16_t _stepPulseLength  = 2;
 };
 
 

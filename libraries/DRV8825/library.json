@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DRV8825.git"
   },
-  "version": "0.1.4",
+  "version": "0.2.0",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "DRV8825.h"
 }

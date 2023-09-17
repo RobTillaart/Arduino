@@ -1,7 +1,7 @@
 //
 //    FILE: DRV8825.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -36,7 +36,7 @@ bool DRV8825::begin(uint8_t DIR, uint8_t STEP, uint8_t EN, uint8_t RST, uint8_t 
   {
     _resetPin = RST;
     pinMode(_resetPin, OUTPUT);
-    digitalWrite(_resetPin, LOW);    //  page 3
+    digitalWrite(_resetPin, HIGH);   //  page 3
   }
   if (SLP != 255)
   {
@@ -81,22 +81,22 @@ uint8_t DRV8825::getDirection()
 void DRV8825::step()
 {
   digitalWrite(_stepPin, HIGH);
-  if (_us > 0) delayMicroseconds(_us);
+  if (_stepPulseLength > 0) delayMicroseconds(_stepPulseLength);
   digitalWrite(_stepPin, LOW);
-  if (_us > 0) delayMicroseconds(_us);
+  if (_stepPulseLength > 0) delayMicroseconds(_stepPulseLength);
 
   _steps++;
   if (_stepsPerRotation > 0)
   {
     if (_direction == DRV8825_CLOCK_WISE)
     {
-      _pos++;
-      if (_pos >= _stepsPerRotation) _pos = 0;
+      _position++;
+      if (_position >= _stepsPerRotation) _position = 0;
     }
     else
     {
-      if (_pos == 0) _pos = _stepsPerRotation;
-      _pos--;
+      if (_position == 0) _position = _stepsPerRotation;
+      _position--;
     }
   }
 }
@@ -116,29 +116,29 @@ uint32_t DRV8825::getSteps()
 }
 
 
-void DRV8825::setStepPulseLength(uint16_t us)
+void DRV8825::setStepPulseLength(uint16_t stepPulseLength)
 {
-  _us = us;
+  _stepPulseLength = stepPulseLength;
 }
 
 
 uint16_t DRV8825::getStepPulseLength()
 {
-  return _us;
+  return _stepPulseLength;
 }
 
 
-bool DRV8825::setPosition(uint16_t pos)
+bool DRV8825::setPosition(uint16_t position)
 {
-  if (pos >= _stepsPerRotation) return false;
-  _pos = pos;
+  if (position >= _stepsPerRotation) return false;
+  _position = position;
   return true;
 }
 
 
 uint16_t DRV8825::getPosition()
 {
-  return _pos;
+  return _position;
 }
 
 //  Table page 3
@@ -169,9 +169,9 @@ bool DRV8825::isEnabled()
 bool DRV8825::reset()
 {
   if (_resetPin == 255) return false;
-  digitalWrite(_resetPin, HIGH);
-  delay(1);
   digitalWrite(_resetPin, LOW);
+  delay(1);
+  digitalWrite(_resetPin, HIGH);
   return true;
 }
 

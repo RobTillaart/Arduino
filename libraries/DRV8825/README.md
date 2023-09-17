@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DRV8825/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DRV8825/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DRV8825/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DRV8825/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DRV8825/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DRV8825.svg)](https://github.com/RobTillaart/DRV8825/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DRV8825/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DRV8825.svg?maxAge=3600)](https://github.com/RobTillaart/DRV8825/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DRV8825.svg)](https://registry.platformio.org/libraries/robtillaart/DRV8825)
 
 
 # DRV8825
@@ -19,7 +22,8 @@ Arduino library for DRV8825 stepper motor driver.
 
 The DRV8825 stepper motor library controls a stepper motor with
 a direction signal and a step pulse.
-The library has a default pulse length of 2 us however this can be adjusted to the specific requirements of the motor.
+The library has a default pulse length of 2 us however this can be 
+adjusted to the specific requirements of the motor.
 
 The library will probably work for similar controllers.
 This is not tested. If you have some working, please let me know.
@@ -80,9 +84,9 @@ default to zero.
 Returns the last value of internal steps counter.
 - **uint32_t getSteps()** returns the steps made since start of the program or the last **resetSteps()**.
 Its purpose is  to have an indication of usage (wear and tear).
-- **bool setPosition(uint16_t pos = 0)** to calibrate the position of the motor. Default value is zero.
+- **bool setPosition(uint16_t position = 0)** to calibrate the position of the motor. Default value is zero.
 Works only if stepsPerRotation > 0.
-Returns false if pos > stepsPerRotation.  
+Returns false if position > stepsPerRotation.  
 Note: it does not rotate the motor to a position.  
 Note: there is no relation between position and steps.
 - **uint16_t getPosition()** returns the position which is kin the range 0 .. stepsPerRotation - 1.
@@ -108,7 +112,7 @@ This is done as the library added the position functions.
 
 ### Configuration
 
-- **void setStepPulseLength(uint16_t us = 2)** configures the pulse length of one step.
+- **void setStepPulseLength(uint16_t pulseLength = 2)** configures the pulse length of one step.
 This is defined in microseconds, default is 2 which is almost the 1.9 from the datasheet. 
 Normally these need not to be changed.
 - **uint16_t getStepPulseLength()** returns the set value in microseconds. 
@@ -234,7 +238,6 @@ Some will only be worked on if requested and time permits.
   - optimize "position admin"
 - should begin return bool?
 
-
 #### Could
 
 - stepCW() + stepCCW()
@@ -258,4 +261,13 @@ Some will only be worked on if requested and time permits.
   - needs steps(n) above? for loop!
   - shortest angle/path or via current CW/CCW mode.
   - user can implement his own strategy.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

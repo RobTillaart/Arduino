@@ -14,7 +14,7 @@ FRAM fram;
 uint32_t start;
 uint32_t stop;
 
-int ar[600];  // 1200 bytes
+int ar[600];  //  1200 bytes
 
 
 void setup()

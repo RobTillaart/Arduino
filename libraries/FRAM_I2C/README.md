@@ -121,7 +121,7 @@ In the **FRAM32** class these functions have an **uin32_t memAddr**.
   - **clear()** does not work for **MB85RC128A** unless **setSizeBytes()** is used.
 
 
-(Template functions, see issue #13)
+(Template functions, see issue #13, #42)
 - **uint16_t writeObject(uint16_t memAddr, T &obj)** writes an object to memAddr (and following bytes).
   - Returns memAddr + sizeof(obj) to get the next address to write to.
 - **uint16_t readObject(uint16_t memAddr, T &obj)** reads an object from memAddr and next bytes.
@@ -175,7 +175,6 @@ Will work only if a writeProtectPin was defined in **begin()**
 - **bool getWriteProtect()** get current write protect status.
   - returns status (true/false).
   - Returns false if the writeProtectPin was not defined.
-
 
 
 ### Metadata

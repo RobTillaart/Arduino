@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.6.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.5.4"))
+#define FRAM_LIB_VERSION              (F("0.6.0"))
 
 
 #define FRAM_OK                         0
@@ -83,6 +83,7 @@ public:
   int32_t readLine(uint16_t memAddr, char * buffer, uint16_t bufferLength);
 
 
+  //  template function must be in .h file
   template <class T> uint16_t writeObject(uint16_t memAddr, T &obj)
   {
     write(memAddr, (uint8_t *) &obj, sizeof(obj));
@@ -117,11 +118,10 @@ public:
   void     setSizeBytes(uint32_t value);
 
 
-
   //  SLEEP - 0.3.6
   void sleep();
-  //  trec <= 400us  P12
-  bool wakeup(uint32_t trec = 400);
+  //  timeRecover <= 400us  see trec P12
+  bool wakeup(uint32_t timeRecover = 400);
 
 
 protected:
@@ -173,8 +173,19 @@ public:
   //  buffer needs one place for end char '\0'.
   int32_t readLine(uint32_t memAddr, char * buffer, uint16_t bufferLength);
 
-  template <class T> uint32_t writeObject(uint32_t memAddr, T &obj);
-  template <class T> uint32_t readObject(uint32_t memAddr, T &obj);
+
+  //  template function must be in .h file
+  template <class T> uint32_t writeObject(uint32_t memAddr, T &obj)
+  {
+    write(memAddr, (uint8_t *) &obj, sizeof(obj));
+    return memAddr + sizeof(obj);
+  };
+  
+  template <class T> uint32_t readObject(uint32_t memAddr, T &obj)
+  {
+    read(memAddr, (uint8_t *) &obj, sizeof(obj));
+    return memAddr + sizeof(obj);
+  }
 
   uint32_t clear(uint8_t value = 0);  // fills FRAM with value
 

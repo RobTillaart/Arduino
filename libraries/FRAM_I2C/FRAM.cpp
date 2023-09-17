@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.6.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -346,12 +346,12 @@ void FRAM::sleep()
 
 
 //  page 12 datasheet   trec <= 400us
-bool FRAM::wakeup(uint32_t trec)
+bool FRAM::wakeup(uint32_t timeRecover)
 {
   bool b = isConnected();  //  wakeup
-  if (trec == 0) return b;
+  if (timeRecover == 0) return b;
   //  wait recovery time
-  delayMicroseconds(trec);
+  delayMicroseconds(timeRecover);
   return isConnected();    //  check recovery OK
 }
 
@@ -583,20 +583,6 @@ int32_t FRAM32::readLine(uint32_t memAddr, char * buffer, uint16_t bufferLength)
   }
   //  entry does not fit in given buffer.
   return (int32_t)-1;
-}
-
-
-template <class T> uint32_t FRAM32::writeObject(uint32_t memAddr, T &obj)
-{
-  write(memAddr, (uint8_t *) &obj, sizeof(obj));
-  return memAddr + sizeof(obj);
-};
-
-
-template <class T> uint32_t FRAM32::readObject(uint32_t memAddr, T &obj)
-{
-  read(memAddr, (uint8_t *) &obj, sizeof(obj));
-  return memAddr + sizeof(obj);
 }
 
 

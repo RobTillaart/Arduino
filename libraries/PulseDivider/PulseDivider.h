@@ -2,17 +2,16 @@
 //
 //    FILE: PulseDivider.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-09-13
-// PURPOSE: Arduino library to divide a pulsestream with a float factor.
+// PURPOSE: Arduino library to divide a pulse stream with a float factor.
 //     URL: https://github.com/RobTillaart/PulseDivider
 //
-// Tested with UNO.
-//
+
 
 #include "Arduino.h"
 
-#define PULSEDIVIDER_LIB_VERSION        (F("0.1.0"))
+#define PULSEDIVIDER_LIB_VERSION        (F("0.1.1"))
 
 
 class PulseDivider
@@ -25,11 +24,11 @@ public:
     setInPin(inPin);
     setOutPin(outPin);
     setRatio(inCount, outCount);
-    _duration  = duration;
-    _edge      = edge;
-    _prevState = digitalRead(_inPin);
-    _invert    = invert;
+    setDuration(duration);
+    setEdge(edge);
+    setInvert(invert);
 
+    _prevState = _read();
     stop();
   }
 
@@ -53,6 +52,7 @@ public:
   {
     _outPin = outPin;
     pinMode(_outPin, OUTPUT);
+    _write(_invert ? HIGH : LOW);
   }
 
   uint8_t getOutPin()
@@ -84,6 +84,7 @@ public:
 
   void setEdge(uint8_t edge)
   {
+    if ((edge != FALLING) && (edge != RISING)) return;
     _edge = edge;
   }
 
@@ -95,6 +96,7 @@ public:
   void setInvert(bool invert)
   {
     _invert = invert;
+    _write(_invert ? HIGH : LOW);
   }
 
   bool getInvert()
@@ -109,7 +111,7 @@ public:
 //
   void start()
   {
-    _prevState = digitalRead(_inPin);
+    _prevState = _read();
     _counter   = _inCount / 2;
     _running   = true;
   }
@@ -118,7 +120,7 @@ public:
   void stop()
   {
     _running  = false;
-    digitalWrite(_outPin, _invert ? HIGH : LOW);
+    _write(_invert ? HIGH : LOW);
   }
 
 
@@ -134,55 +136,68 @@ public:
 //
   void check()
   {
-    if (!_running) return;
-    uint8_t  value = digitalRead(_inPin);
-    // handle EDGE
-    if ((_edge == RISING) and (_prevState == LOW) and (value == HIGH))
+    if (_running == false) return;
+
+    uint8_t value = _read();
+    if (_prevState != value)
     {
-      //  RISING
-      doPulse();
-    }
-    if ((_edge == FALLING) and (_prevState == HIGH) and (value == LOW))
-    {
-      //  FALLING
-      doPulse();
+       if (((_edge == RISING) and (value == HIGH)) or
+           ((_edge == FALLING) and (value == LOW)))
+       {
+           doPulse();
+       }
     }
     _prevState = value;
 
-    //  reset the output.
-    if (micros() - _start >= _duration)
+    //  reset the output?
+    if (_pulseStarted and (micros() - _start >= _duration))
     {
-      digitalWrite(_outPin, _invert ? HIGH : LOW);
+      _write(_invert ? HIGH : LOW);
+      _pulseStarted = false;
     }
   }
 
 
-  void doPulse()
+  inline void doPulse()
   {
     _counter += _outCount;
     if (_counter >= _inCount)
     {
       _counter -= _inCount;
       _start = micros();
-      digitalWrite(_outPin, _invert ? LOW : HIGH);
+      _write(_invert ? LOW : HIGH);
+      _pulseStarted = true;
     }
   }
 
 
 private:
+
+  //  default reference
+  void _write(uint8_t value)
+  {
+    digitalWrite(_outPin, value);
+  }
+
+  uint8_t _read()
+  {
+    return digitalRead(_inPin);
+  }
+
   uint8_t  _inPin;
   uint8_t  _outPin;
-  uint16_t _inCount;
-  uint16_t _outCount;
-  uint16_t _counter;
+  uint16_t _inCount   = 1;
+  uint16_t _outCount  = 1;
+  uint16_t _counter   = 0;
 
-  uint32_t _duration;
-  uint8_t  _edge;
-  bool     _invert;
+  uint32_t _duration  = 1;
+  uint8_t  _edge      = RISING;
+  bool     _invert    = false;
 
-  bool     _running;
-  uint8_t  _prevState;
-  uint32_t _start;
+  bool     _running   = false;
+  uint8_t  _prevState = LOW;
+  uint32_t _start     = 0;
+  bool     _pulseStarted = false;
 };
 
 

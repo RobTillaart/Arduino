@@ -16,10 +16,13 @@ Arduino library to divide a pulse stream with a fraction factor.
 
 ## Description
 
+**Experimental**
+
 The PulseDivider (PD) is an **experimental** library to be used to scale down pulse streams.
 The most important feature is that the library can reduce a pulse stream with fractions.
 This means that e.g. for every 17 input pulses there are 3 output pulses,
 or for every 355 input pulses it gives 113 output pulses.
+Of course one can reduce the pulse stream with **n to 1**.
 
 The library **polls** for an input pulse and if there is one, the math is done and a decision 
 is made if there will be an output pulse or not. This approach has a number of consequences.
@@ -53,6 +56,8 @@ The library is still **experimental** and under test, so as always feedback is w
 Indicative maximum input frequencies.
 (based upon **PulseDivider_multi.ino**)
 
+**version 0.1.0**
+
 For the Arduino UNO the maximum sum of polling is around 62 KHz, so in practice 
 assume 50 KHz. As the signal has to restore from HIGH to LOW the 
 effective input frequency is max 25 KHz.
@@ -60,14 +65,39 @@ One has to divide this "range" over the number of parallel running objects.
 This can be done with equal load or with an optimized schedule.
 (See example.)
 
+Tested with a 1 KHz base signal (from a scope) in combination with the example
+**PulseDivider_same_input.ino** which divides the input signal by 10, 100 and 1000.
+This setup worked very well.
+
 For ESP32 the maximum sum of polling is around 430 KHz, so in practice 400 KHz, 
 so the effective input frequency is max 200 KHz. 
 However in the first tests the ESP32 seems to scale "very optimistically", so 
 this need to be investigated in more detail.
 
+**Version 0.1.1**
+
+Optimized scanning for change and optimized resetting the output.
+This means for all that the system is more reactive.
+This does not mean that higher frequencies can be handled correctly.
+
+Actual performance is more complex and depends on ratio and duration.
+
+- For the Arduino UNO the maximum check frequency (idle state) is around 190 KHz.
+- For ESP32 the maximum check frequency (idle state) is around 4600 KHz.
+The scaling for checking multiple dividers now looks far more linear (good).
+
+
+**Conclusion**
+
 In short, it is strongly advised to run your own tests to see if the library
 meets your performance and quality needs. 
 As said before the numbers above are indicative at best.
+
+
+**TODO**
+
+test with calibrated pulse generator and highest division rate 1->1.
+And rewrite this section.
 
 
 #### Accuracy
@@ -94,32 +124,39 @@ In the first tests the library seems to work well, however more testing is neede
 
 - **PulseDivider(uint8_t inPin, uint8_t outPin, uint16_t inCount, uint16_t outCount, uint32_t duration = 1, uint8_t edge = RISING, bool invert = false)**
   - Define input pin and output pin.
-  - inCount and outCount define the ratio, (8,1) defines 1 output for 8 input pulses.
-    these numbers may be a fraction e.g. (355, 113). inCount >= outCount > 0.
-    The range for both should be 1..30000 max, typically both less 1000.
+  - inCount and outCount define the ratio, (8,1) defines 8 input pulses will have 1 output pulse.
+    These numbers may be a fraction e.g. (355, 113) = 3.141592...  
+    The user must take care that inCount >= outCount > 0.
+    The range for inCount can be 1..65534 max, the sum of inCount and outCount should not exceed 65535.
+    Typically both are less than 1000.
   - duration, default 1 is the number of micros the output pulse will minimally take. 
-    the accuracy is board dependent. 
+    The accuracy is board dependent. 
   - edge is RISING or FALLING (same as interrupt parameter).
   - invert, inverts the output pulse with respect to the input pulse.
+
+The PulseDivider can do an 65534 to 1 reduction. 
 
 
 #### Getters / Setters
 
 See description Constructor.
 
-- **void  setInPin(uint8_t inPin)**
-- **uint8_t getInPin()**
-- **void  setOutPin(uint8_t outPin)**
-- **uint8_t getOutPin()**
-- **void setRatio(uint16_t inCount, uint16_t outCount = 1)** inCount >= outCount > 0.
-Range 1..30000 max, typically both less 1000.
+- **void setInPin(uint8_t inPin)** set or change the input pin (runtime).
+- **uint8_t getInPin()** returns the set input pin.
+- **void setOutPin(uint8_t outPin)** set or change the output pin (runtime).
+- **uint8_t getOutPin()** returns the set output pin.
+- **void setRatio(uint16_t inCount, uint16_t outCount = 1)** set the ratio between
+input pulses and the output pulses. inCount >= outCount > 0.
+The range for inCount can be 1..65534 max, the sum of inCount and outCount should not exceed 65535, 
+Typically both are less than 1000.
 - **float getRatio()** returns float(inCount)/outCount;
-- **void setDuration(uint32_t duration)**
-- **uint32_t getDuration()**
-- **void setEdge(uint8_t edge)**
-- **uint8_t getEdge()**
-- **void setInvert(bool invert)**
-- **bool getInvert()**
+- **void setDuration(uint32_t duration)** set the duration of the pulse.
+Note the unit is microseconds.
+- **uint32_t getDuration()** returns the set duration.
+- **void setEdge(uint8_t edge)** sets the "trigger" edge, RISING or FALLING.
+- **uint8_t getEdge()** returns the set trigger.
+- **void setInvert(bool invert)** inverts the output pulse with respect to the input pulse.
+- **bool getInvert()** returns the set flag.
 
 
 #### Control
@@ -130,8 +167,8 @@ Note that running other code besides the PulseDivider object(s)
 scales down the max frequency the library can handle.
 
 - **void start()** needed to get the PulseDIvider started.
-Default is not running.
-- **void stop()** stops the PulseDivider, and will also bring the
+Default the PulseDivider is not running.
+- **void stop()** stops the PulseDivider, will also bring the
 output to "default" state LOW (unless inverted).
 - **bool isRunning()** returns true if running .
 
@@ -139,7 +176,7 @@ output to "default" state LOW (unless inverted).
 #### Worker
 
 - **void check()** Call as often as possible as this worker does the
-math and calls **doPulse()** when an output pulse is needed. 
+polling, math and calls **doPulse()** when an output pulse is needed. 
 - **void doPulse()** start a pulse on the output line.
 
 
@@ -147,7 +184,7 @@ math and calls **doPulse()** when an output pulse is needed.
 
 #### Must
 
-- documentation
+- update / rewrite documentation
 - test with (calibrated) hardware.
 
 
@@ -168,7 +205,7 @@ math and calls **doPulse()** when an output pulse is needed.
   - platform specific ?
 - **uint8_t check()** return status of in as that is most often polled?
   - can this give a performance gain?
-- make inCount and outCount 32 bit?
+- make inCount and outCount 32 bit? even finer fractions.
   - would slow it down
   - would 8 bit make it faster?
 

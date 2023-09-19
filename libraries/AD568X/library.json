@@ -1,0 +1,23 @@
+{
+  "name": "AD568X",
+  "keywords": "AD5681R, AD5682R, AD5683, AD5683R, DAC, SPI",
+  "description": "Arduino library for AD568X series Digital Analog Convertor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD568X.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD568X.h"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "AD5680",
+  "keywords": "DAC, SPI",
+  "description": "Arduino library for AD5680 Digital Analog Convertor (18 bit).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5680.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5680.h"
+}

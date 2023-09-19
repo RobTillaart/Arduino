@@ -1,0 +1,35 @@
+# Syntax Colouring Map For AD5680
+
+# Data types (KEYWORD1)
+AD5680	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+getType	KEYWORD2
+
+setValue	KEYWORD2
+getValue	KEYWORD2
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+
+usesHWSPI	KEYWORD2
+
+selectHSPI	KEYWORD2
+selectVSPI	KEYWORD2
+usesHSPI	KEYWORD2
+usesVSPI	KEYWORD2
+
+setGPIOpins	KEYWORD2
+
+
+# Constants (LITERAL1)
+AD5680_LIB_VERSION	LITERAL1
+
+
+
+

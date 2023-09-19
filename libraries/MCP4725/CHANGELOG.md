@@ -5,12 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.8] - 2023-09-18
+- fix #30 Voltage functions (wrapper).
+  - **void setMaxVoltage(float v)**
+  - **void getMaxVoltage(float v)**
+  - **void setVoltage(float v)**
+  - **float getVoltage()**
+- add examples
+- update readme.md
+
+
 ## [0.3.7] - 2023-08-25
 - fix #27 - support for multiple MCP4725
   - add two examples.
 - update readme.md
 - minor edits
-
 
 ## [0.3.6] - 2023-07-19
 - fix #25 - buffer overflow in examples

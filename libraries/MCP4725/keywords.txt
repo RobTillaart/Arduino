@@ -15,6 +15,11 @@ getValue	KEYWORD2
 setPercentage	KEYWORD2
 getPercentage	KEYWORD2
 
+setMaxVoltage	KEYWORD2
+getMaxVoltage	KEYWORD2
+setVoltage	KEYWORD2
+getVoltage	KEYWORD2
+
 writeDAC	KEYWORD2
 ready	KEYWORD2
 getLastWriteEEPROM	KEYWORD2

@@ -66,6 +66,23 @@ When writing to EEPROM with **writeDAC()** one should check it is at least 50 ms
 If one know the specific timing of a sensor one can tune this or even make it adaptive.  
 
 
+### Voltage interface
+
+(Since 0.3.8) 
+Assumes linear behaviour over 12 bit from 0..4095 == 0 .. maxVoltage.
+The default value is 5.0 volt.
+Allows sort of calibration e.g. setting maxVoltage to 4.9 Volt.
+Furthermore it can be a preferred interface over percentage and raw values.
+
+- **void setMaxVoltage(float v = 5.0)** configures maximum voltage of Vout.
+- **float getMaxVoltage()** return set maximum.
+- **void setVoltage(float v)** set the DAC to voltage v.
+- **float getVoltage()** get the current setting as a voltage
+
+If this behaviour is not precise enough or should be more "complex" the user can 
+always define its own set of wrapper functions around **getValue()** and **setValue()**.
+
+
 ## Experimental
 
 Check datasheet for these functions, (not tested enough yet).

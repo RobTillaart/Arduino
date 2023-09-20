@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2023-09-16
+- fix #45 support STM32 set I2C pins  ARDUINO_ARCH_STM32
+- update readme badges
+- minor edits
+
+
 ## [0.4.0] - 2023-06-27
 - fix #39 support for Wire2 on ESP32
 - update readme.md

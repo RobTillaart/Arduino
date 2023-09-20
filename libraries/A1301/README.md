@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/A1301/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/A1301/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/A1301/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/A1301/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/A1301/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/A1301.svg)](https://github.com/RobTillaart/A1301/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/A1301/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/A1301.svg?maxAge=3600)](https://github.com/RobTillaart/A1301/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/A1301.svg)](https://registry.platformio.org/libraries/robtillaart/A1301)
 
 
 # A1301
@@ -76,6 +79,7 @@ pin is the analogPin to read from.
 - **void begin(float voltage, uint16_t steps)**
 Sets the parameters voltage and number of steps of the internal ADC.
 Note this allows to update the voltage runtime.
+Steps must be larger than zero.
 - **void setMidPoint(float midPoint)** the value of midPoint depends on the internal ADC.
 It is the value where there is no (zero) magnetic field.
 Note it does not need to be a whole value. 
@@ -83,7 +87,7 @@ This allows quite precise tuning.
 - **float getMidPoint()** returns the current midPoint.
 - **void setSensitivity(float sensitivity)** overrule default sensitivity.
 Use with care.
-- **float getSensitivity()** return current sensitivity.
+- **float getSensitivity()** return the set / current sensitivity.
 
 
 #### Read
@@ -101,10 +105,23 @@ Can also be used for testing, e.g. replay of a series of data.
 
 #### Analyse
 
-- **bool isNorth()** idem.
-- **bool isSouth()** idem.
+- **bool isNull()** last read is zero.
+- **bool isNorth()** last read is above than zero.
+- **bool isSouth()** last read is below zero.
+- **bool isRising()** trend (last 2 reads) is upward.
+- **bool isFalling()** trend (last 2 reads) is downward.
 - **float lastGauss()** returns last measurement in Gauss.
 - **float prevGauss()** returns previous measurement in Gauss.
+- **float deltaGauss()** returns last - previous measurement.
+
+Experimental.
+
+- **float determineNoise(uint8_t times = 2)** estimates noise level
+around measurements. **times** will be forced to be at least 2.
+Does not affect lastGauss or prevGauss values. 
+- **float angle()** returns atan2(prevGauss, lastGauss).
+Indicator of change.
+Returns angle in radians. For degrees multiply by 180/PI.
 
 
 #### Saturation.
@@ -115,7 +132,7 @@ Experimental saturation level.
 If maxGauss < 0 the absolute value is set.
 - **float getMaxGauss()** returns the set saturation level.
 - **bool isSaturated()** true when ADC (lastRead) seems to max out. 
-- **float saturationLevel()** returns value between 0..100%.
+- **float saturationLevel()** returns value between 0..100%, or beyond!
 
 
 #### Tesla 
@@ -145,15 +162,14 @@ The examples show the basic working of the functions.
 - unit tests
 - test **isSaturated()** + **saturationLevel()**
   - limits might be sensor dependant.
-- optimize math
-  - multiplications instead of divisions.
-  - other constants needed?
+- investigate **atan2(prevGauss, lastGauss)**
+  - angle indicates relative delta compared to magnitude and direction.
+  - 45 & 315 degrees is no change.
 
 
 #### Could
 
 - **float findZero()** how exactly => ACS712 **autoMidPoint()**
-- investigate **float determineNoise()** (set/get)
 - add examples.
   - performance read()
 - Possible compatible
@@ -167,16 +183,6 @@ The examples show the basic working of the functions.
 
 (thinking out loud section)
 - isEast() and isWest() meaning?
-  - **isEast()** field strength is "rising" ==> lastGauss > prevGauss
-  - **isWest()** field strength is "sinking" ==> lastGauss < prevGauss
-  - should that be absolute or not? or just **bool isRising()**
-- **float readDelta(uint8_t times = 1)** returns the relative change.
-- atan2(prevGauss, lastGauss)?
-  - angle indicates relative delta compared to magnitude and direction.
-  - 45 135 degrees is no change. 
-- can the strength of the signal be converted to distance?
-  - for a given magnet
-  - repeatability + noise.
 - influence of angle of the field-lines?
 - defaults for parameters of some functions?
 
@@ -185,3 +191,17 @@ The examples show the basic working of the functions.
 
 - printable interface
   - does not add much.
+
+- can the strength of the signal be converted to distance?
+  - for a given magnet maybe
+  - repeatability + noise is a problem.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

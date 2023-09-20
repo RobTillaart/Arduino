@@ -2,7 +2,7 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -18,7 +18,7 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.2.0"))
+#define A1301_LIB_VERSION        (F("0.2.1"))
 
 
 class HALL
@@ -43,6 +43,7 @@ public:
   //  uses internal ADC
   float     raw(uint8_t times = 1);   //  returns raw ADC
   float     read(uint8_t times = 1);  //  returns Gauss
+
   //  for external ADC
   float     readExt(float raw);
 
@@ -51,8 +52,15 @@ public:
   bool      isNull();
   bool      isNorth();
   bool      isSouth();
+  bool      isRising();
+  bool      isFalling();
+
   float     lastGauss();
   float     prevGauss();
+  float     deltaGauss();
+  float     angle();         //  == atan2(prevGauss, lastGauss);
+  float     determineNoise(uint8_t times = 2);  //  in Gauss
+
 
 
   //  CONVERTERs
@@ -74,10 +82,10 @@ protected:
   float    _midPoint;
   float    _prevGauss;
   float    _lastGauss;
-  float    _mVGauss;
+  float    _GaussmV;     //  == 1.0 / mVGauss
   float    _mVStep;
   uint16_t _maxADC;
-  
+
   //  Experimental
   float    _maxGauss;
 };

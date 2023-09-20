@@ -1,7 +1,7 @@
 //
 //    FILE: A1301.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -22,7 +22,7 @@ HALL::HALL(uint8_t pin)
   _midPoint    = _maxADC * 0.5;     //  default middle
   _prevGauss   = 0;
   _lastGauss   = 0;
-  _mVGauss     = 2.5;
+  _GaussmV     = 1.0 / 2.5;
   _maxGauss    = 500.0;
 }
 
@@ -57,13 +57,13 @@ float HALL::getMidPoint()
 //
 void HALL::setSensitivity(float sensitivity)
 {
-  _mVGauss = sensitivity;
+  _GaussmV = 1.0 / sensitivity;
 }
 
 
 float HALL::getSensitivity()
 {
-  return _mVGauss;
+  return 1.0 / _GaussmV;
 }
 
 
@@ -89,8 +89,23 @@ float HALL::read(uint8_t times)
 {
   float milliVolts = (raw(times) - _midPoint) * _mVStep;
   _prevGauss = _lastGauss;
-  _lastGauss = milliVolts / _mVGauss;
+  _lastGauss = milliVolts * _GaussmV;
   return _lastGauss;
+}
+
+
+float HALL::determineNoise(uint8_t times)
+{
+  uint16_t ma = 0;
+  uint16_t mi = 65535;
+  if (times < 2) times = 2;
+  for (uint8_t i = 0; i < times; i++)
+  {
+    uint16_t r = analogRead(_pin);
+    if (r < mi) mi = r;
+    if (r > ma) ma = r;
+  }
+  return (ma - mi) * _mVStep * _GaussmV;
 }
 
 
@@ -98,7 +113,7 @@ float HALL::readExt(float raw)
 {
   float milliVolts = (raw - _midPoint) * _mVStep;
   _prevGauss = _lastGauss;
-  _lastGauss = milliVolts / _mVGauss;
+  _lastGauss = milliVolts * _GaussmV;
   return _lastGauss;
 }
 
@@ -125,6 +140,18 @@ bool HALL::isSouth()
 }
 
 
+bool HALL::isRising()
+{
+  return _lastGauss > _prevGauss;
+}
+
+
+bool HALL::isFalling()
+{
+  return  _lastGauss < _prevGauss;
+}
+
+
 float HALL::lastGauss()
 {
   return _lastGauss;
@@ -134,6 +161,18 @@ float HALL::lastGauss()
 float HALL::prevGauss()
 {
   return _prevGauss;
+}
+
+
+float HALL::deltaGauss()
+{
+  return _lastGauss - _prevGauss;
+}
+
+
+float HALL::angle()
+{
+  return atan2(_prevGauss, _lastGauss);
 }
 
 
@@ -193,27 +232,27 @@ float HALL::saturationLevel()
 //
 A1301::A1301(uint8_t pin) : HALL(pin)
 {
-  _mVGauss   = 2.5;
+  _GaussmV   = 1.0 / 2.5;
 }
 
 A1302::A1302(uint8_t pin) : HALL(pin)
 {
-  _mVGauss   = 1.3;
+  _GaussmV   = 1.0 / 1.3;
 }
 
 A1324::A1324(uint8_t pin) : HALL(pin)
 {
-  _mVGauss   = 5.0;
+  _GaussmV   = 1.0 / 5.0;
 }
 
 A1325::A1325(uint8_t pin) : HALL(pin)
 {
-  _mVGauss   = 3.125;
+  _GaussmV   = 1.0 / 3.125;
 }
 
 A1326::A1326(uint8_t pin) : HALL(pin)
 {
-  _mVGauss   = 2.5;
+  _GaussmV   = 1.0 / 2.5;
 }
 
 

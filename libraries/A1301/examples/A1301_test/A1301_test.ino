@@ -47,11 +47,17 @@ void test(float raw)
   Serial.print("\t");
   Serial.print(mm.isSouth());
   Serial.print("\t");
+  Serial.print(mm.isRising());
+  Serial.print("\t");
+  Serial.print(mm.isFalling());
+  Serial.print("\t");
   Serial.print(mm.isSaturated());
   Serial.print("\t");
   Serial.print(mm.prevGauss());
   Serial.print("\t");
   Serial.print(mm.lastGauss());
+  Serial.print("\t");
+  Serial.print(mm.deltaGauss());
   Serial.print("\t");
   Serial.print(mm.saturationLevel());
   Serial.print("\n");

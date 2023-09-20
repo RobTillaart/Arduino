@@ -25,8 +25,14 @@ readExt	KEYWORD2
 isNull	KEYWORD2
 isNorth	KEYWORD2
 isSouth	KEYWORD2
+isRising	KEYWORD2
+isFalling	KEYWORD2
+
 lastGauss	KEYWORD2
 prevGauss	KEYWORD2
+deltaGauss	KEYWORD2
+angle	KEYWORD2
+determineNoise	KEYWORD2
 
 Tesla	KEYWORD2
 mTesla	KEYWORD2

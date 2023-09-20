@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-09-19
+- add **bool isRising()** and **bool isFalling()**
+- add **float deltaGauss()**
+- add **float determineNoise(uint8_t times = 2)**
+- add **angle()** experimental.
+- add / update examples.
+- replaced internal mVGauss by GaussmV to improve math performance.
+- update readme.md
+
+
 ## [0.2.0] - 2023-04-24
 - add **isNull()** is no magnetic field is detected.
 - add **saturationLevel()** returns 0..100%

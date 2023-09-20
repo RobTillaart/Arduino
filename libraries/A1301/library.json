@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/A1301.git"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "A1301.h"
 }

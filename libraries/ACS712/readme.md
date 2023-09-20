@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/ACS712/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ACS712/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ACS712/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ACS712/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ACS712/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ACS712.svg)](https://github.com/RobTillaart/ACS712/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ACS712/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ACS712.svg?maxAge=3600)](https://github.com/RobTillaart/ACS712/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ACS712.svg)](https://registry.platformio.org/libraries/robtillaart/ACS712)
 
 
 # ACS712
@@ -16,14 +19,17 @@ Library for the ACS712 Current Sensor - 5A, 20A, 30A and compatibles.
 The ACS712 is a chip to measure current, both AC or DC. The chip has an
 analogue output that provides a voltage that is linear with the current.
 The ACS712 library supports only a built in ADC by means of **analogRead()**.
-There are 4 core functions:
+
+However since 0.3.4 there is an experimental **setADC()**.
+
+The library has 4 core functions:
 
 - **float mA_peak2peak(frequency = 50, cycles = 1)**
 - **float mA_DC(cycles = 1)**
 - **float mA_AC(frequency = 50, cycles = 1)**
 - **float mA_AC_sampling(frequency = 50, cycles = 1)**
 
-The parameter cycles is used to do measure multiple cycles and average them.
+The parameter cycles is used to measure multiple cycles and average them.
 
 To measure DC current a single **analogRead()** with conversion math is
 sufficient to get a value.
@@ -36,8 +42,10 @@ This factor depends heavily on the signal form, hence its name.
 For a perfect sinus the value is sqrt(2)/2 == 1/sqrt(2).
 See **Form factor** below.
 
+For a 60 Hz environment the blocking is ~16.7 milliseconds, still pretty long.
+
 The **mA_AC_sampling()** calculates the average of the sumSquared of many measurements.
-It should be used when the form factor is not known.
+This function should be used when the form factor is not known.
 
 Note to make precise measurements, the power supply of both the ACS712 and the ADC of
 the processor should be as stable as possible.
@@ -59,8 +67,8 @@ mA LSB = (1000 * 5000 mV) / (maxADC * mVperA);
 ```
 
 Although no 16 bit ADC built in are known, it indicates what resolution
-could be obtained with such an ADC. It triggered the thought for supporting
-external ADC's with this library or a derived version. See future.
+could be obtained with such an ADC. It triggered the experimental supporting
+of external ADC's with this library.
 
 
 #### Tests
@@ -75,8 +83,7 @@ The library is at least confirmed to work with the following boards:
 | ESP32        |  3.3V   |   4096    | #15
 | Promicro     |  5.0V   |   1024    | #15
 
-Please let me know of other working platforms / processors.
-
+Please let me know of other working platforms / processors (and failing ones!).
 
 
 ## Compatibles
@@ -84,8 +91,8 @@ Please let me know of other working platforms / processors.
 Robodyn has a breakout for the ACS758 - 50 A. - See resolution below.
 This sensor has versions up to 200 Amps, so use with care!
 
-Allegromicro offers a lot of different current sensors, that might be compatible.
-These include bidirectional and unidirectional.
+Allegromicro offers a lot of different current sensors that might be compatible.
+These include bidirectional and unidirectional ones.
 The unidirectional seem to be for DC only.
 
 https://www.allegromicro.com/en/products/sense/current-sensor-ics/current-sensors-innovations
@@ -215,7 +222,7 @@ The library does not support this yet.
 
 #### Form factor
 
-The form factor is also known as the crest factor.
+The form factor is also known as the **crest factor**.
 It is only used for signals measured with **mA_AC()**.
 
 - **void setFormFactor(float formFactor = ACS712_FF_SINUS)** manually sets the form factor.
@@ -224,12 +231,12 @@ Must typical be between 0.0 and 1.0, see constants below.
 
 The library has a number of predefined form factors:
 
-|  definition          | value         | approx |  notes  |
-|:---------------------|:--------------|:------:|:--------|
-| ACS712_FF_SQUARE     | 1.0           | 1.000  |         |
-| ACS712_FF_SINUS      | 1.0 / sqrt(2) | 0.707  | default |
-| ACS712_FF_TRIANGLE   | 1.0 / sqrt(3) | 0.577  |         |
-| ACS712_FF_SAWTOOTH   | 1.0 / sqrt(3) | 0.577  |         |
+|  definition          |  value          |  approx  |  notes    |
+|:---------------------|:----------------|:--------:|:----------|
+|  ACS712_FF_SQUARE    |  1.0            |  1.000   |
+|  ACS712_FF_SINUS     |  1.0 / sqrt(2)  |  0.707   |  default  |
+|  ACS712_FF_TRIANGLE  |  1.0 / sqrt(3)  |  0.577   |
+|  ACS712_FF_SAWTOOTH  |  1.0 / sqrt(3)  |  0.577   |
 
 It is important to measure the current with a calibrated multimeter
 and determine / verify the form factor of the signal.
@@ -412,6 +419,16 @@ Schema with PULL-UP.
 The library does not support this "extreme values" detection.
 
 
+## ESPhome
+
+For people who want to use this library for ESPhome, there exists a wrapper 
+class for this ACS712 library.
+- https://github.com/marianomd/acs712-esphome
+
+As I do not have ESPhome know how, please share your experiences.
+This can be done by an issue.
+
+
 ## Operation
 
 The examples show the basic working of the functions.
@@ -469,4 +486,13 @@ The examples show the basic working of the functions.
   - which?
 - setADC() to support > 16 bit?
   - uint32_t performance penalty?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.2.0] - 2023-01-11
+- add support for Wire1 for ESP32
+- update readme.md
+- minor edits
+
+
+## [0.2.0] - 2023-01-11
 - update GitHub actions
 - update license
 - removed mid() ==> use midScale() instead

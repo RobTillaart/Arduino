@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AD5144A/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AD5144A/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD5144A/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AD5144A/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD5144A/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD5144A.svg)](https://github.com/RobTillaart/AD5144A/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD5144A/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD5144A.svg?maxAge=3600)](https://github.com/RobTillaart/AD5144A/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD5144A.svg)](https://registry.platformio.org/libraries/robtillaart/AD5144A)
 
 
 # AD5144A
@@ -228,15 +231,15 @@ The examples show the basic working of the functions.
 
 ## Future
 
-#### must
+#### Must
 
 - update documentation
 
-#### should
+#### Should
 
 - more testing with hardware.
 
-#### could
+#### Could
 
 - some functions can be performance optimized
   - writing a value is not needed if last value is the same?
@@ -244,6 +247,19 @@ The examples show the basic working of the functions.
   - flag cacheOn + cacheDirty or so?
 - improve unit testing CI
 - **stereo**, write one value to two channels.
+
+
+#### Wont (unless requested)
+
 - SPI based version of the library (if requested)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

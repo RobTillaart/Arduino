@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -56,7 +56,6 @@ bool SHT::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cloc
   }
   _address = address;
 
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2023-09-21
+- fix #21, again ...
+
 ## [0.5.0] - 2023-09-21
 - fix #21, support Wire1 for ESP32
 - move TwoWire selection to constructor.

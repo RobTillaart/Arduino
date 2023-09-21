@@ -1,7 +1,7 @@
 //
 //    FILE: AD56X8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -92,6 +92,23 @@ uint8_t AD56X8::getType()
 }
 
 
+void AD56X8::setLDACPin(uint8_t ldac)
+{
+  _ldac = ldac;
+  pinMode(_ldac, OUTPUT);
+  digitalWrite(_ldac, HIGH);
+}
+
+
+bool AD56X8::triggerLDAC()
+{
+  if (_ldac == 255) return false;
+  digitalWrite(_ldac, LOW);
+  digitalWrite(_ldac, HIGH);
+  return true;
+}
+
+
 //  value = 0..65535 (16 bit), 16383 (14 bit), 4095 (12 bit) depending on type)
 bool AD56X8::setValue(uint8_t channel, uint16_t value)
 {
@@ -126,7 +143,7 @@ bool AD56X8::setPercentage(uint8_t channel, float percentage)
 float AD56X8::getPercentage(uint8_t channel)
 {
   float value = getValue(channel);
-  if (value > 0) 
+  if (value > 0)
   {
     if (_type == 16) return value * ( 1.0 / 655.35);
     if (_type == 14) return value * ( 1.0 / 163.83);
@@ -221,36 +238,36 @@ uint32_t AD56X8::getSPIspeed()
 };
 
 
-bool AD56X8::usesHWSPI() 
+bool AD56X8::usesHWSPI()
 {
-  return _hwSPI; 
+  return _hwSPI;
 }
 
 
 //  ESP32 specific
 #if defined(ESP32)
 
-void AD56X8::selectHSPI() 
+void AD56X8::selectHSPI()
 {
-  _useHSPI = true;  
+  _useHSPI = true;
 }
 
 
-void AD56X8::selectVSPI() 
+void AD56X8::selectVSPI()
 {
-  _useHSPI = false; 
+  _useHSPI = false;
 }
 
 
-bool AD56X8::usesHSPI()   
+bool AD56X8::usesHSPI()
 {
-  return _useHSPI;  
+  return _useHSPI;
 }
 
 
-bool AD56X8::usesVSPI()   
+bool AD56X8::usesVSPI()
 {
-  return !_useHSPI; 
+  return !_useHSPI;
 }
 
 
@@ -326,9 +343,8 @@ void AD56X8::swSPI_transfer(uint8_t value)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  DERIVED
+//  DERIVED CLASSES
 //
-
 AD5668_3::AD5668_3(uint8_t slaveSelect) : AD56X8(slaveSelect)
 {
   _type = 16;

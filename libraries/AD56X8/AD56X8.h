@@ -2,7 +2,7 @@
 //
 //    FILE: AD56X8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD56X8_LIB_VERSION        (F("0.1.3"))
+#define AD56X8_LIB_VERSION        (F("0.1.4"))
 
 
 #define AD56X8_PWR_NORMAL         0x00
@@ -34,6 +34,10 @@ public:
 
   void     begin();
   uint8_t  getType();
+
+  //  optional hardware LDAC interface
+  void     setLDACPin(uint8_t ldac);
+  bool     triggerLDAC();  //  return false if pin not set.
 
 
   //  SET DAC
@@ -93,6 +97,7 @@ protected:
   uint8_t  _dataOut     = 255;
   uint8_t  _clock       = 255;
   uint8_t  _select      = 255;
+  uint8_t  _ldac        = 255;
 
   uint16_t _value[8];
   uint8_t  _ldacMask    = 0;
@@ -115,7 +120,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  DERIVED
+//  DERIVED CLASSES
 //
 class AD5668_3 : public AD56X8
 {
@@ -151,5 +156,4 @@ public:
 };
 
 
-
-// -- END OF FILE --
+//  -- END OF FILE --

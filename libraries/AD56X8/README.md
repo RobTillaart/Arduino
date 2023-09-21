@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AD56X8/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AD56X8/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD56X8/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AD56X8/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD56X8/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD56X8.svg)](https://github.com/RobTillaart/AD56X8/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD56X8/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD56X8.svg?maxAge=3600)](https://github.com/RobTillaart/AD56X8/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD56X8.svg)](https://registry.platformio.org/libraries/robtillaart/AD56X8)
 
 
 # AD56X8
@@ -37,17 +40,14 @@ The device allows to set the outputs directly, or prepare them and update them s
 The library is usable but not functional complete yet. 
 At least it lacks support for:
 - RESET pin,
-- LDAC pin,
 - VREF pin.
 - other points mentioned in future section below.
 
 
-## Links
+## Related
 
 This library is partly inspired by https://github.com/bobhart/AD5668-Library, kudo's to Bob!
 Discussed here - https://forum.arduino.cc/t/new-library-for-the-ad5668-dac/340393
-
-Furthermore it has the SPI part from https://github.com/RobTillaart/MCP_DAC a.o.
 
 Some differences between this library and Bob Harts. This library
 - caches the values of all channels, so they can be read back.
@@ -58,6 +58,11 @@ This allows value range checking in the future. Not Implemented Yet.
 - allows to set SPI-speed.
 - has faster software SPI transfer, on ESP32 this rivals HW SPI.
 - MIT license instead of GNU v3
+
+
+- https://github.com/RobTillaart/AD568X (single channel 12, 14, 16 bit)
+- https://github.com/RobTillaart/AD5680 (single channel 18 bit)
+- https://github.com/RobTillaart/MCP_DAC (SPI interface)
 
 
 ## Interface
@@ -106,6 +111,18 @@ Read datasheet for details.
 - **uint8_t getLDACmask()** return the current (cached) LDAC bit mask, default = 0x00.
 - **bool inLDACmask(uint8_t channel)** returns true if a channel is in the current LDAC bit mask.
 Returns also false if channel is out of range.
+
+
+### LDAC (hardware pin)
+
+The use of the LDAC interface is optional.
+It allows a prepared value to be set in in the DAC register.
+See **prepareValue()**.
+If you control multiple devices the hardware LDAC allows you to 
+set a new value on all devices simultaneously.
+
+- void **setLDACPin(uint8_t ldac)** set the LDAC pin.
+- void **triggerLDAC()** give a pulse over the LDAC line.
 
 
 #### Powermode
@@ -206,16 +223,8 @@ Note that the library is not tested with hardware yet.
 - support for RESET pin
   - void **setResetPin(uint8_t pin)**
   - void **triggerReset()**
-- support for LDAC pin
-  - void **setLDACPin(uint8_t pin)**
-  - void **triggerLDAC()**
 - support for EXTERNAL VREF
-  - ?
-- investigate value range checking for AD5648 and AD5628
-  - now **setValue()** returns false if value > max, 
-  - should value be clipped instead?
-  - **setPercentage()** idem.
-- **bool loadLDAC()** TODO?
+  - how?
 
 
 #### Could
@@ -223,7 +232,21 @@ Note that the library is not tested with hardware yet.
 - CCmode + reset implies start value for getValue(ch)
   - is this implementable? costs?
 
-
 #### Wont
+
+- investigate value range checking for AD5648 and AD5628
+  - now **setValue()** returns false if value > max, 
+  - should value be clipped instead?
+  - **setPercentage()** idem.
+  - user responsibility
+  
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

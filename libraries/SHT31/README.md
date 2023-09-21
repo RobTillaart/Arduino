@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/robtillaart/SHT31/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/SHT31/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31/actions/workflows/jsoncheck.yml)
+[![Arduino CI](https://github.com/RobTillaart/SHT31/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SHT31/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT31/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/SHT31/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SHT31.svg)](https://github.com/RobTillaart/SHT31/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT31/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT31.svg?maxAge=3600)](https://github.com/RobTillaart/SHT31/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SHT31.svg)](https://registry.platformio.org/libraries/robtillaart/SHT31)
 
 
 # SHT31
@@ -31,20 +34,27 @@ Accuracy table
 
 
 An elaborated library for the SHT31 sensor can be found here
-https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
+- https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
+
+A derived class for using the SHT31 sensor with SoftWire (soft I2C) can be found here
+- https://github.com/RobTillaart/SHT31_SW
 
 
 ## Interface
 
+```cpp
+#include "SHT31.h"
+```
+
+
 #### Base interface
 
-- **SHT31()** constructor.
+- **SHT31(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
 - **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. With default SHT_DEFAULT_ADDRESS.
-- **bool begin(uint8_t address,  TwoWire \*wire = &Wire)** for platforms with multiple I2C buses.
-- **bool begin(TwoWire \*wire = &Wire)** same as above. 
-With default SHT_DEFAULT_ADDRESS.
+- **bool begin(uint8_t address = SHT_DEFAULT_ADDRESS)** 
+Returns false if device address is incorrect or device cannot be reset.
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
 - **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
@@ -149,7 +159,29 @@ See examples.
 
 ## Future
 
-- keep in sync with SHT85 library
-- check TODO in code
+#### Must
+
+- keep in sync with SHT85 library.
+- keep derived SHT31_SW builds green
+
+#### Should
+
+- check TODO in code.
+- rename MAGIC numbers.  e.g. in dataReady()
+
+#### Could
+
+- move code from .h to .cpp
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

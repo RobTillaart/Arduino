@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.4.0
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -26,9 +26,9 @@
 #define SHT31_HEATER_TIMEOUT    180000UL   //  milliseconds
 
 
-SHT31::SHT31()
+SHT31::SHT31(TwoWire *wire)
 {
-  _wire           = NULL;
+  _wire           = wire;
   _address        = 0;
   _lastRead       = 0;
   _rawTemperature = 0;
@@ -50,7 +50,6 @@ bool SHT31::begin(const uint8_t address, const uint8_t dataPin, const uint8_t cl
   }
   _address = address;
 
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -68,22 +67,15 @@ bool SHT31::begin(const uint8_t dataPin, const uint8_t clockPin)
 #endif
 
 
-bool SHT31::begin(const uint8_t address,  TwoWire *wire)
+bool SHT31::begin(const uint8_t address)
 {
   if ((address != 0x44) && (address != 0x45))
   {
     return false;
   }
   _address = address;
-  _wire    = wire;
   _wire->begin();
   return reset();
-}
-
-
-bool SHT31::begin(TwoWire *wire)
-{
-  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 
@@ -151,7 +143,7 @@ uint16_t SHT31::readStatus()
     return 0xFFFF;
   }
 
-  if (status[2] != crc8(status, 2)) 
+  if (status[2] != crc8(status, 2))
   {
     _error = SHT31_ERR_CRC_STATUS;
     return 0xFFFF;
@@ -256,12 +248,12 @@ bool SHT31::readData(bool fast)
 
   if (!fast)
   {
-    if (buffer[2] != crc8(buffer, 2)) 
+    if (buffer[2] != crc8(buffer, 2))
     {
       _error = SHT31_ERR_CRC_TEMP;
       return false;
     }
-    if (buffer[5] != crc8(buffer + 3, 2)) 
+    if (buffer[5] != crc8(buffer + 3, 2))
     {
       _error = SHT31_ERR_CRC_HUM;
       return false;
@@ -287,17 +279,17 @@ int SHT31::getError()
 
 //////////////////////////////////////////////////////////
 
-uint8_t SHT31::crc8(const uint8_t *data, uint8_t len) 
+uint8_t SHT31::crc8(const uint8_t *data, uint8_t len)
 {
   //  CRC-8 formula from page 14 of SHT spec pdf
   const uint8_t POLY(0x31);
   uint8_t crc(0xFF);
 
-  for (uint8_t j = len; j; --j) 
+  for (uint8_t j = len; j; --j)
   {
     crc ^= *data++;
 
-    for (uint8_t i = 8; i; --i) 
+    for (uint8_t i = 8; i; --i)
     {
       crc = (crc & 0x80) ? (crc << 1) ^ POLY : (crc << 1);
     }

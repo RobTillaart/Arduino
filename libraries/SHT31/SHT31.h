@@ -2,7 +2,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.4.0
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -10,12 +10,12 @@
 
 
 #include "Arduino.h"
-#include "Wire.h" 
+#include "Wire.h"
 
 
-#define SHT31_LIB_VERSION             (F("0.3.8"))
+#define SHT31_LIB_VERSION             (F("0.4.0"))
 
-#ifndef SHT_DEFAULT_ADDRESS   
+#ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS           0x44
 #endif
 
@@ -44,16 +44,14 @@
 class SHT31
 {
 public:
-  SHT31();
+  SHT31(TwoWire *wire = &Wire);
 
 #if defined(ESP8266) || defined(ESP32)
   bool begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
   //  use SHT_DEFAULT_ADDRESS
   bool begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
-  bool begin(const uint8_t address,  TwoWire *wire = &Wire);
-  //  use SHT_DEFAULT_ADDRESS
-  bool begin(TwoWire *wire = &Wire);
+  bool begin(const uint8_t address = SHT_DEFAULT_ADDRESS);
 
   //  blocks 15 milliseconds + actual read + math
   bool read(bool fast = true);

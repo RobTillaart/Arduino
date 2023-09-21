@@ -13,13 +13,12 @@
 #include "SHT31.h"
 
 
-// TwoWire myWire(&sercom5, 0, 1);
-TwoWire myWire = Wire1;
+TwoWire myWire(&sercom5, 0, 1);
+//  TwoWire myWire = Wire1;
 
 
 uint8_t addr[4]   = { 0x44, 0x45, 0x44, 0x45 };
-TwoWire * wireAr[4] = { &Wire, &Wire, &myWire, &myWire };
-SHT31 sht[4];
+SHT31 sht[4] = { SHT31(&Wire), SHT31(&Wire), SHT31(&myWire), SHT31(&myWire) };
 bool b[4];
 
 
@@ -36,12 +35,12 @@ void setup()
   myWire.setClock(100000);
 
   // see datasheet for details
-  // pinPeripheral(0, PIO_SERCOM_ALT);
-  // pinPeripheral(1, PIO_SERCOM_ALT);
+  pinPeripheral(0, PIO_SERCOM_ALT);
+  pinPeripheral(1, PIO_SERCOM_ALT);
 
   for (uint8_t i = 0; i < 4; i++)
   {
-    b[i] = sht[i].begin(addr[i], wireAr[i]);
+    b[i] = sht[i].begin(addr[i]);
   }
 
   // see if they are connected
@@ -80,4 +79,3 @@ void loop()
 
 
 // -- END OF FILE --
-

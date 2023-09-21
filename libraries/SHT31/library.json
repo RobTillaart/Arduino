@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT31"
   },
-  "version": "0.3.8",
+  "version": "0.4.0",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "SHT31.h"
 }

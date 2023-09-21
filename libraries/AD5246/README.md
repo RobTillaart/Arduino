@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AD5246/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AD5246/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD5246/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AD5246/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD5246/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD5246.svg)](https://github.com/RobTillaart/AD5246/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD5246/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD5246.svg?maxAge=3600)](https://github.com/RobTillaart/AD5246/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD5246.svg)](https://registry.platformio.org/libraries/robtillaart/AD5246)
 
 
 # AD5246
@@ -90,4 +93,13 @@ The examples show the basic working of the functions.
 ## Future
 
 - keep in sync with AD5245 library
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

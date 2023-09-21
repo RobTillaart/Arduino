@@ -1,7 +1,7 @@
 {
   "name": "AD5245",
-  "keywords": "I2C,digital,PotentioMeter, AD5245",
-  "description": "Library to control digital potentiometer AD5245",
+  "keywords": "I2C, digital, potentioMeter, AD5245",
+  "description": "Arduino Library for AD524e, I2C 256 step potentiometer.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AD5245"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "AD5245.h"
 }

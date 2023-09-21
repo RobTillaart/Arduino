@@ -14,7 +14,7 @@
 
 uint8_t uid[8];
 
-DS28CM00 DS28(10, 12);
+DS28CM00 DS28(&Wire1);
 
 
 void setup()
@@ -25,7 +25,7 @@ void setup()
   Serial.print(F("DS28CM00 library: "));
   Serial.println(DS28CM00_LIB_VERSION);
 
-  DS28.begin();
+  DS28.begin(10, 12);
 
   Serial.println();
 }
@@ -94,5 +94,6 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+
 

@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-09-21
+- add Wire1 support for ESP32
+- refactored ESP32 interface, no constructor => but a begin()
+- add parameter size to **bool getUID(uint8_t \* buffer, uint8_t size = 8)**
+- add example **DS28CM00_getUID.ino**
+- renamed some internal constants for readability
+
+----
+
 ## [0.2.5] - 2022-11.02
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.2.4] - 2021-12-17
 - update library.json

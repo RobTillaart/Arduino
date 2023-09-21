@@ -2,7 +2,7 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -25,7 +25,7 @@
 #include "Wire.h"
 
 
-#define SHT_LIB_VERSION                 (F("0.4.2"))
+#define SHT_LIB_VERSION                 (F("0.5.0"))
 #define SHT85_LIB_VERSION               SHT_LIB_VERSION
 
 #ifndef SHT_DEFAULT_ADDRESS
@@ -58,7 +58,7 @@
 class SHT
 {
 public:
-  SHT();
+  SHT(TwoWire *wire = &Wire);
 
 #if defined(ESP8266) || defined(ESP32)
   bool     begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
@@ -66,9 +66,7 @@ public:
   bool     begin(const uint8_t dataPin, const uint8_t clockPin);
 #endif
 
-  bool     begin(const uint8_t address,  TwoWire *wire = &Wire);
-  //  use SHT_DEFAULT_ADDRESS
-  bool     begin(TwoWire *wire = &Wire);
+  bool     begin(const uint8_t address = SHT_DEFAULT_ADDRESS);
 
   uint8_t  getType();
 
@@ -162,34 +160,34 @@ protected:
 class SHT30 : public SHT
 {
 public:
-  SHT30();
+  SHT30(TwoWire *wire = &Wire);
 };
 
 
 class SHT31 : public SHT
 {
 public:
-  SHT31();
+  SHT31(TwoWire *wire = &Wire);
 };
 
 
 class SHT35 : public SHT
 {
 public:
-  SHT35();
+  SHT35(TwoWire *wire = &Wire);
 };
 
 
 class SHT85 : public SHT
 {
 public:
-  SHT85();
+  SHT85(TwoWire *wire = &Wire);
 
 //  catch incorrect calls with an address, only 0x44 allowed, see #19
 #if defined(ESP8266) || defined(ESP32)
   bool     begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
 #endif
-  bool     begin(const uint8_t address,  TwoWire *wire = &Wire);
+  bool     begin(const uint8_t address = SHT_DEFAULT_ADDRESS);
 
     //  EXPERIMENTAL for 0.4.1
   uint32_t GetSerialNumber();

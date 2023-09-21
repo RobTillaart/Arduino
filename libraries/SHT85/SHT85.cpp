@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -29,10 +29,10 @@
 #define SHT_GET_SERIAL        0x3682
 
 
-SHT::SHT()
+SHT::SHT(TwoWire *wire)
 {
   _address           = 0;
-  _wire              = NULL;
+  _wire              = wire;
   _lastRead          = 0;
   _rawTemperature    = 0;
   _rawHumidity       = 0;
@@ -74,22 +74,15 @@ bool SHT::begin(const uint8_t dataPin, const uint8_t clockPin)
 #endif
 
 
-bool SHT::begin(const uint8_t address,  TwoWire *wire)
+bool SHT::begin(const uint8_t address)
 {
   if ((address != 0x44) && (address != 0x45))
   {
     return false;
   }
   _address = address;
-  _wire    = wire;
   _wire->begin();
   return reset();
-}
-
-
-bool SHT::begin(TwoWire *wire)
-{
-  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 
@@ -461,25 +454,25 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 //
 //  DERIVED CLASSES
 //
-SHT30::SHT30()
+SHT30::SHT30(TwoWire *wire) : SHT(wire)
 {
   _type = 30;
 }
 
 
-SHT31::SHT31()
+SHT31::SHT31(TwoWire *wire) : SHT(wire)
 {
   _type = 31;
 }
 
 
-SHT35::SHT35()
+SHT35::SHT35(TwoWire *wire) : SHT(wire)
 {
   _type = 35;
 }
 
 
-SHT85::SHT85()
+SHT85::SHT85(TwoWire *wire) : SHT(wire)
 {
   _type = 85;
 }
@@ -493,10 +486,10 @@ bool SHT85::begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin)
 #endif
 
 
-bool SHT85::begin(const uint8_t address,  TwoWire *wire)
+bool SHT85::begin(const uint8_t address)
 {
   if (address != 0x44) return false;
-  return SHT::begin(address, wire);
+  return SHT::begin(address);
 }
 
 

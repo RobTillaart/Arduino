@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-09-21
+- fix #21, support Wire1 for ESP32
+- move TwoWire selection to constructor.
+- update readme.md
+
+----
+
 ## [0.4.2] - 2023-09-05
 - fix #19 SHT85 cannot be address 0x45
 - rewrote begin()
@@ -14,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add section about multiple SHT85 to readme.md
 - redo badges in readme.md
 - minor edits
-
 
 ## [0.4.1] - 2022-05-09
 - add **uint32_t getSerialNumber()** for SHT85 (no CRC check).

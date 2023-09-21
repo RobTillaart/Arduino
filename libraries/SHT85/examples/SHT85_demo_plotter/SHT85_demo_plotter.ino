@@ -23,6 +23,7 @@ uint32_t stop;
 uint16_t count = 0;
 uint32_t last = 0;
 
+// SHT85 sht(&Wire1);
 SHT85 sht;
 
 
@@ -67,5 +68,3 @@ void loop()
 
 
 //  -- END OF FILE --
-
-

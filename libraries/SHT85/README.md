@@ -120,21 +120,20 @@ I2C multiplexer
 
 #### Base interface
 
-- **SHT()** constructor of the base class. **getType()** will return 0.
-- **SHT30()** constructor.
-- **SHT31()** constructor.
-- **SHT35()** constructor.
-- **SHT85()** constructor.
+- **SHT(TwoWire \*wire = &Wire)** constructor of the base class. **getType()** will return 0.
+- **SHT30(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
+- **SHT31(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
+- **SHT35(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
+- **SHT85(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
 - **uint8_t getType()** returns numeric part of sensor type.
 Returns 0 for the base class.
-- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266, ESP32 and similar. **WARNING: not verified yet**.
+- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266, ESP32 and similar. 
+**WARNING: not verified yet**.
 Returns false if device address is incorrect or device cannot be reset.
 - **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. 
 Uses SHT_DEFAULT_ADDRESS (0x44) as address.
-- **bool begin(uint8_t address, TwoWire \*wire = &Wire)** for platforms with multiple I2C buses. The default I2C bus is Wire.
+- **bool begin(uint8_t address = SHT_DEFAULT_ADDRESS)**
 Returns false if device address is incorrect or device cannot be reset.
-- **bool begin(TwoWire \*wire = &Wire)** same as above.
-Uses SHT_DEFAULT_ADDRESS (0x44) as address.
 
 
 #### Status

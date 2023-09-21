@@ -59,23 +59,23 @@ or one should switch sensors on/off like the select in SPI communication.
 
 All classes below are derived from SHT2x class.
 
-- **SHT2x()** constructor base class.
-- **SHT20()** constructor.
-- **SHT21()** constructor.
-- **SHT25()** constructor.
-- **HTU20()** constructor.
-- **HTU21()** constructor.
-- **Si7013()** constructor.
-- **Si7020()** constructor.
-- **Si7021()** constructor.
+- **SHT2x(TwoWire \*wire = &Wire)** constructor base class. 
+Optional set the wire interface for platforms with multiple I2C buses. 
+- **SHT20(TwoWire \*wire = &Wire)** constructor.
+- **SHT21(TwoWire \*wire = &Wire)** constructor.
+- **SHT25(TwoWire \*wire = &Wire)** constructor.
+- **HTU20(TwoWire \*wire = &Wire)** constructor.
+- **HTU21(TwoWire \*wire = &Wire)** constructor.
+- **Si7013(TwoWire \*wire = &Wire)** constructor.
+- **Si7020(TwoWire \*wire = &Wire)** constructor.
+- **Si7021(TwoWire \*wire = &Wire)** constructor.
 
 
 #### Base interface
 
 - **bool begin(int dataPin, int clockPin)** begin function for ESP8266 & ESP32;
 returns false if device address is incorrect or device cannot be reset.
-- **bool begin(TwoWire \*wire = &Wire)** optional set the wire interface 
-for platforms with multiple I2C buses. **begin()** calls **reset()** which can take up to 15 ms. 
+- **bool begin()** calls **reset()** which can take up to 15 ms. 
 - **bool read()** Reads both the temperature and humidity.  
 Initial release has a blocking delay. 
 - **bool isConnected()** check if sensor is reachable over I2C. Returns false if not connected.

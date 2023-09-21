@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.3.1"))
+#define SHT2x_LIB_VERSION             (F("0.4.0"))
 
 
 //  fields getStatus
@@ -48,12 +48,12 @@
 class SHT2x
 {
 public:
-  SHT2x();
+  SHT2x(TwoWire *wire = &Wire);
 
 #if defined(ESP8266) || defined(ESP32)
   bool begin(const int dataPin, const int clockPin);
 #endif
-  bool begin(TwoWire *wire = &Wire);
+  bool begin();
 
   //  check sensor is reachable over I2C
   bool isConnected();
@@ -201,21 +201,21 @@ protected:
 class SHT20 : public SHT2x
 {
 public:
-  SHT20();
+  SHT20(TwoWire *wire = &Wire);
 };
 
 
 class SHT21 : public SHT2x
 {
 public:
-  SHT21();
+  SHT21(TwoWire *wire = &Wire);
 };
 
 
 class SHT25 : public SHT2x
 {
 public:
-  SHT25();
+  SHT25(TwoWire *wire = &Wire);
 };
 
 
@@ -226,14 +226,14 @@ public:
 class HTU20 : public SHT2x
 {
 public:
-  HTU20();
+  HTU20(TwoWire *wire = &Wire);
 };
 
 
 class HTU21 : public SHT2x
 {
 public:
-  HTU21();
+  HTU21(TwoWire *wire = &Wire);
 };
 
 
@@ -244,21 +244,21 @@ public:
 class Si7013 : public SHT2x
 {
 public:
-  Si7013();
+  Si7013(TwoWire *wire = &Wire);
 };
 
 
 class Si7020 : public SHT2x
 {
 public:
-  Si7020();
+  Si7020(TwoWire *wire = &Wire);
 };
 
 
 class Si7021 : public SHT2x
 {
 public:
-  Si7021();
+  Si7021(TwoWire *wire = &Wire);
 };
 
 
@@ -269,7 +269,7 @@ public:
 class GY21 : public SHT2x
 {
 public:
-  GY21();
+  GY21(TwoWire *wire = &Wire);
 };
 
 

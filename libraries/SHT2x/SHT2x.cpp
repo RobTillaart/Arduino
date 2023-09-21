@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -31,8 +31,9 @@
 //
 //  PUBLIC
 //
-SHT2x::SHT2x()
+SHT2x::SHT2x(TwoWire *wire)
 {
+  _wire           = wire;
   _lastRead       = 0;
   _lastRequest    = 0;
   _requestType    = SHT2x_REQ_NONE;
@@ -51,7 +52,6 @@ SHT2x::SHT2x()
 #if defined(ESP8266) || defined(ESP32)
 bool SHT2x::begin(const int dataPin, const int clockPin)
 {
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -63,9 +63,8 @@ bool SHT2x::begin(const int dataPin, const int clockPin)
 #endif
 
 
-bool SHT2x::begin(TwoWire *wire)
+bool SHT2x::begin()
 {
-  _wire = wire;
   _wire->begin();
   return reset();
 }
@@ -620,17 +619,17 @@ bool SHT2x::readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration)
 //
 //  DERIVED SHT
 //
-SHT20::SHT20() : SHT2x()
+SHT20::SHT20(TwoWire *wire) : SHT2x(wire)
 {
 }
 
 
-SHT21::SHT21() : SHT2x()
+SHT21::SHT21(TwoWire *wire) : SHT2x(wire)
 {
 }
 
 
-SHT25::SHT25() : SHT2x()
+SHT25::SHT25(TwoWire *wire) : SHT2x(wire)
 {
 }
 
@@ -639,31 +638,12 @@ SHT25::SHT25() : SHT2x()
 //
 //  DERIVED HTU
 //
-HTU20::HTU20() : SHT2x()
+HTU20::HTU20(TwoWire *wire) : SHT2x(wire)
 {
 }
 
 
-HTU21::HTU21() : SHT2x()
-{
-}
-
-
-////////////////////////////////////////////////////////
-//
-//  DERIVED Si70xx
-//
-Si7013::Si7013() : SHT2x()
-{
-}
-
-
-Si7020::Si7020() : SHT2x()
-{
-}
-
-
-Si7021::Si7021() : SHT2x()
+HTU21::HTU21(TwoWire *wire) : SHT2x(wire)
 {
 }
 
@@ -672,7 +652,26 @@ Si7021::Si7021() : SHT2x()
 //
 //  DERIVED Si70xx
 //
-GY21::GY21() : SHT2x()
+Si7013::Si7013(TwoWire *wire) : SHT2x(wire)
+{
+}
+
+
+Si7020::Si7020(TwoWire *wire) : SHT2x(wire)
+{
+}
+
+
+Si7021::Si7021(TwoWire *wire) : SHT2x(wire)
+{
+}
+
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED Si70xx
+//
+GY21::GY21(TwoWire *wire) : SHT2x(wire)
 {
 }
 

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-09-21
+- moved TwoWire param from begin() to Constructor
+- FIx #23 support for Wire1 for ESP32
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.1] - 2023-09-10
 - fix #21 example for elaborated async.
 - improve async interface
@@ -14,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - add **bool requestReady()** checks both.
 - update readme.md
 - minor edits
-
 
 ## [0.3.0] - 2023-03-26
 - fix setResolution #13, #18

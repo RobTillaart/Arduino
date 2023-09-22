@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -26,7 +26,6 @@ bool rotaryDecoder::begin(uint8_t sda, uint8_t scl, uint8_t count)
 {
   _count = count;
   if (_count > 4) _count = 4;
-  _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   return true;
@@ -143,6 +142,23 @@ bool rotaryDecoder::updateSingle()
   return true;
 }
 
+
+int32_t rotaryDecoder::getValue(uint8_t re)
+{
+  return _encoder[re];
+}
+
+
+void rotaryDecoder::setValue(uint8_t re, int32_t value)
+{
+  _encoder[re] = value;
+}
+
+
+uint8_t rotaryDecoder::getLastPosition(uint8_t re)
+{
+  return _lastPos[re];
+};
 
 /////////////////////////////////////////////////////
 //

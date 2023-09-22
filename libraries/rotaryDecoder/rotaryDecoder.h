@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoder.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_LIB_VERSION         (F("0.1.3"))
+#define ROTARY_DECODER_LIB_VERSION         (F("0.1.4"))
 
 
 class rotaryDecoder
@@ -38,18 +38,18 @@ public:
   bool    updateSingle();   //  assumes single direction => + ++ +++
 
   //  re = rotary encoder
-  int32_t getValue(uint8_t re) { return _encoder[re]; };
-  void    setValue(uint8_t re, int32_t value = 0) { _encoder[re] = value; };
+  int32_t getValue(uint8_t re);
+  void    setValue(uint8_t re, int32_t value = 0);
 
   //  DEBUG
-  uint8_t getLastPosition(uint8_t re) { return _lastPos[re]; };
+  uint8_t getLastPosition(uint8_t re);
 
 
 private:
   uint8_t   _count = 0;
   uint8_t   _lastValue = 0;
-  uint8_t   _lastPos[4] = { 0,0,0,0 };
-  int32_t   _encoder[4] = { 0,0,0,0 };
+  uint8_t   _lastPos[4] = { 0, 0, 0, 0 };
+  int32_t   _encoder[4] = { 0, 0, 0, 0 };
 
   uint8_t   _read8();
   uint8_t   _address;

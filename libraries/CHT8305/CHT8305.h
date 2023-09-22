@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.1.6"))
+#define CHT8305_LIB_VERSION              (F("0.1.7"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
@@ -57,10 +57,10 @@ public:
   CHT8305(TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  //  address and writeProtectPin is optional
+  //  address is optional
   int      begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS);
 #endif
-  //  address and writeProtectPin is optional
+  //  address is optional
   int      begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS);
   bool     isConnected();
   uint8_t  getAddress();
@@ -82,8 +82,8 @@ public:
 
 
   //  adding offsets works well in normal range
-  //  might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset);
+  //  might introduce under- or overflow at the ends of the sensor range
   void     setTempOffset(float offset);
   float    getHumOffset();
   float    getTempOffset();

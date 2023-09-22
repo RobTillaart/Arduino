@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -26,7 +26,6 @@ int CHT8305::begin(int sda, int scl, const uint8_t address)
 {
   if ((address < 0x40) || (address > 0x43)) return CHT8305_ERROR_ADDR;
 
-  _wire = &Wire;
   _address = address;
   if ((sda < 255) && (scl < 255))
   {
@@ -85,10 +84,15 @@ int CHT8305::read()
   uint16_t tmp = data[0] << 8 | data[1];
   _temperature = tmp * (165.0 / 65535.0) - 40.0;
    tmp = data[2] << 8 | data[3];
-  _humidity    = tmp / 655.35;  //  == / 65535 * 100%
+  _humidity    = tmp * (1.0 / 655.35);  //  == / 65535 * 100%
 
   if (_tempOffset != 0.0) _temperature += _tempOffset;
-  if (_humOffset  != 0.0) _humidity    += _humOffset;
+  if (_humOffset  != 0.0) 
+  {
+    _humidity += _humOffset;
+    if (_humidity < 0.0)   _humidity = 0.0;
+    if (_humidity > 100.0) _humidity = 100.0;
+  }
 
   return CHT8305_OK;
 }
@@ -131,11 +135,13 @@ int CHT8305::readHumidity()
   _readRegister(CHT8305_REG_HUMIDITY, &data[0], 2);
 
   uint16_t tmp = data[0] << 8 | data[1];
-  _humidity    = tmp / 655.35;  //  == / 65535 * 100%
+  _humidity    = tmp * (1.0 / 655.35);  //  == / 65535 * 100%
 
   if (_humOffset  != 0.0)
   {
     _humidity += _humOffset;
+    if (_humidity < 0.0)   _humidity = 0.0;
+    if (_humidity > 100.0) _humidity = 100.0;
   }
 
   return CHT8305_OK;

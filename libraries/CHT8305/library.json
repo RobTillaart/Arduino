@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/CHT8305.git"
   },
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "CHT8305.h"
 }

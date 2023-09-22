@@ -1,8 +1,12 @@
+
 [![Arduino CI](https://github.com/RobTillaart/CHT8305/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/CHT8305/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/CHT8305/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/CHT8305/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/CHT8305/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/CHT8305.svg)](https://github.com/RobTillaart/CHT8305/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CHT8305/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CHT8305.svg?maxAge=3600)](https://github.com/RobTillaart/CHT8305/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/CHT8305.svg)](https://registry.platformio.org/libraries/robtillaart/CHT8305)
 
 
 # CHT8305
@@ -140,7 +144,7 @@ It might be that lower resolutions allow shorter delays. This is not tested.
 
 Adding offsets works well in the "normal range" but might introduce 
 under- or overflow at the ends of the sensor range.
-These are not handled by the library (yet).
+These are not handled for temperature by the library (humidity since 0.1.7).
   
 - **void setHumOffset(float offset)** idem.
 - **void setTempOffset(float offset)** idem.
@@ -286,10 +290,19 @@ See datasheet page 10 for details
 #### Could
 
 - make offset functions "full name" e.g. **setHumidityOffset()**  (0.2,0)
-- fix offset over- underflow for humidity (can never exceed 0..100%)
 - parameter testing
 - parameter defaults?
 
+
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

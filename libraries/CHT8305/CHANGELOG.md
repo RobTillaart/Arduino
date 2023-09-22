@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2023-09-21
+- add Wire1 support for ESP32
+- fix humidity offset underflow + overflow.
+- update readme.md
+- minor performance optimization in humidity math
+
+
 ## [0.1.6] - 2023-02-01
 - update GitHub actions
 - update license 2023
 - update readme.md
 - minor edits
-
 
 ## [0.1.5] - 2022-10-29
 - fix changelog.md

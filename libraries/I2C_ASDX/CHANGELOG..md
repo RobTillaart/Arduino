@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2023-09-22
+- add Wire1 support for ESP32
+- update readme.md
+- removed **available()** => **isConnected()**
+- removed commented converters from .h file.
+
+
 ## [0.3.3] - 2023-01-12
 - fix keywords
 - add getAddress() - debugging
@@ -14,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix changelog.md
 - update GitHub actions
 - update license
-
 
 ## [0.3.2] - 2022-11-12
 - add changelog.md

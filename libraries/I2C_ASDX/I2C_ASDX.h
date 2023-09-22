@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for I2C ASDX pressure sensor.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
@@ -25,7 +25,7 @@
 #include "Arduino.h"
 
 
-#define I2C_ASDX_VERSION                  (F("0.3.3"))
+#define I2C_ASDX_VERSION                  (F("0.3.4"))
 
 
 //  factors to convert PSI to mBar and back
@@ -35,7 +35,7 @@
 #define BAR2PSI                           14.503773773
 
 //  factors to convert from mBar to different units
-//  note: different sources give slightly different values 
+//  note: different sources give slightly different values
 #define MILLIBAR2BAR                      0.001
 #define MILLIBAR2ATM                      9.872e-4
 #define MILLIBAR2DYNES                    1000
@@ -69,7 +69,6 @@ public:
   void     reset();
   bool     isConnected();
   uint8_t  getAddress();
-  //  bool     available() { return isConnected(); };  // obsolete 0.3.3
 
 
   //  returns status OK (0) or ERROR ( not 0 )
@@ -108,22 +107,12 @@ private:
 
   float    _maxPressure;
   float    _pressure;
-  
+
   uint8_t  _state;
   uint32_t _errorCount;
   uint32_t _lastRead;
 };
 
 
-//  Convertors ==> see https://github.com/RobTillaart/pressure library.
-/*
-static float MilliBar2PSI( float mbar ) { return mbar * MILLIBAR2PSI; };
-static float MilliBar2Bar( float mbar ) { return mbar * 0.001; };
-static float Bar2MilliBar( float bar )  { return bar * 1000; };
-static float Bar2PSI( float bar )       { return bar * BAR2PSI; };
-static float PSI2MilliBar( float PSI )  { return PSI * PSI2MILLIBAR; };
-static float PSI2Bar( float PSI )       { return PSI * PSI2BAR; };
-*/
-
-// -- END OF FILE --
+//  -- END OF FILE --
 

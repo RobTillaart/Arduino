@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2C_ASDX.git"
   },
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "I2C_ASDX.h"
 }

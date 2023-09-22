@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/I2C_ASDX/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/I2C_ASDX/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2C_ASDX/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/I2C_ASDX/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2C_ASDX/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/I2C_ASDX.svg)](https://github.com/RobTillaart/I2C_ASDX/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2C_ASDX/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2C_ASDX.svg?maxAge=3600)](https://github.com/RobTillaart/I2C_ASDX/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/I2C_ASDX.svg)](https://registry.platformio.org/libraries/robtillaart/I2C_ASDX)
 
 
 # I2C_ASDX
@@ -41,8 +44,11 @@ Always check datasheet for the exact pins.
 ```
 
 
-
 ## Interface
+
+```cpp
+#include "I2C_ASDX.h"
+```
 
 
 #### Constructor
@@ -73,7 +79,8 @@ Returns **I2C_ASDX_OK** or an error code.
 - **int getPressure()** returns pressure in milliBar.
 (rounded integer!).
 Returns 0 after a reset() and no read() done yet.
-Calling **getPressure()** multiple times without read() will return the same value again.
+Calling **getPressure()** (Or any of the other pressure functions) multiple times 
+without read() will return the same value again.
 - **float getMilliBar()** returns pressure in milliBar (float).
 - **float getBar()** returns pressure in bar.
 - **float getPSI()** returns pressure in PSI = Pounds per Square Inch.
@@ -96,18 +103,13 @@ Related library: https://github.com/RobTillaart/pressure
 - **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
 - **int state()** last known state of read, also returned by **read()**
 
-| state                   | meaning            |
-|:------------------------|:-------------------|
-| I2C_ASDX_OK             | no error           |
-| I2C_ASDX_INIT           | begin() not called |
-| I2C_ASDX_READ_ERROR     | I2C error          |
-| I2C_ASDX_C000_ERROR     | sensor error       |
-| I2C_ASDX_CONNECT_ERROR  | I2C error          |
-
-
-#### Obsolete 0.3.3
-
-- **bool available()** wrapper around isConnected.
+|  state                   |  meaning             |
+|:-------------------------|:---------------------|
+|  I2C_ASDX_OK             |  no error            |
+|  I2C_ASDX_INIT           |  begin() not called  |
+|  I2C_ASDX_READ_ERROR     |  I2C error           |
+|  I2C_ASDX_C000_ERROR     |  sensor error        |
+|  I2C_ASDX_CONNECT_ERROR  |  I2C error           |
 
 
 ## Testing
@@ -149,11 +151,11 @@ more as long as they have the following raw read values.
 
 ## Tested types
 
-| Type number        |  result  |  notes  |
-|:-------------------|:--------:|:--------|
-|  SSCDANN 100PG 5A5 |    OK    |  type A 10% - 90% only
-|  SSCDANN 060PG 3A5 |    OK    |
-|  SSCDANN 030PG 2A5 |    OK    |
+|  Type number        |  result  |  notes  |
+|:--------------------|:--------:|:--------|
+|  SSCDANN 100PG 5A5  |    OK    |  type A 10% - 90% only
+|  SSCDANN 060PG 3A5  |    OK    |
+|  SSCDANN 030PG 2A5  |    OK    |
 
 (elaborate test table)
 
@@ -166,21 +168,36 @@ See examples
 ## Future
 
 #### Must
-- update documentation
+
+- update documentation.
+
 
 #### Should
-- add real life examples if possible
+
+- add real life examples if possible.
 - add error/state code for after reset() and before read()
   - I2C_ASDX_NO_READ or I2C_ASDX_RESET
 
+
 #### Could
-- remove less common pressure formats from lib
+
+- remove less common pressure formats from lib (0.4.0 ?)
   - are covered in pressure lib.
+  - but they do no harm either.
 - move code from .h to .cpp
 - **getPressure()** obsolete ? 
   - **getMillibar()**  ==> 0.4.0 ??
+- find a good reference for conversion formula constants.
 
 
 #### Wont
-- find a good reference for conversion formula constants.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

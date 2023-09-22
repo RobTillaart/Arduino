@@ -1,7 +1,7 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -34,7 +34,6 @@ AD524X::AD524X(const uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool AD524X::begin(uint8_t dataPin, uint8_t clockPin)
 {
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);

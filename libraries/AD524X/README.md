@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AD524X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AD524X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD524X/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AD524X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD524X/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD524X.svg)](https://github.com/RobTillaart/AD524X/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD524X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD524X.svg?maxAge=3600)](https://github.com/RobTillaart/AD524X/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD524X.svg)](https://registry.platformio.org/libraries/robtillaart/AD524X)
 
 
 # AD524X
@@ -24,7 +27,7 @@ An important property of the devices is that they defaults
 to their mid position at startup.
 
 The library also defines AD524X_MIDPOINT == 127.
-To be used to set to defined mid point.
+To be used to set to defined mid-point.
 
 
 #### Related libraries
@@ -32,6 +35,12 @@ To be used to set to defined mid point.
 This library is related to
 - https://github.com/RobTillaart/AD5245 single port digital potentiometer.
 - https://github.com/RobTillaart/AD520X multi port digital potentiometer.
+
+
+#### Compatibles (?)
+
+The AD5243 (fixed address) and AD5248 (2 address pins) are very close but 
+not compatible with this library. See future.
 
 
 ## I2C address
@@ -132,8 +141,20 @@ The examples show the basic working of the functions.
 
 #### Could
 
+- investigate AD5243 compatibility (or separate library?)
+  - has no O1 and O2 lines.
+  
 
 #### Wont
 
 - make midpoint 128
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

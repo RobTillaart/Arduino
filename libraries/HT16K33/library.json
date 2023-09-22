@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HT16K33.git"
   },
-  "version": "0.3.8",
+  "version": "0.3.9",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "HT16K33.h"
 }

@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -79,7 +79,6 @@ HT16K33::HT16K33(const uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool HT16K33::begin(uint8_t sda, uint8_t scl)
 {
-  _wire = &Wire;
   if ((sda < 255) && (scl < 255))
   {
     _wire->begin(sda, scl);

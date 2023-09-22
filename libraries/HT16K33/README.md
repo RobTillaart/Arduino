@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/HT16K33/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HT16K33/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HT16K33/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HT16K33/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HT16K33/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HT16K33.svg)](https://github.com/RobTillaart/HT16K33/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HT16K33/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HT16K33.svg?maxAge=3600)](https://github.com/RobTillaart/HT16K33/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HT16K33.svg)](https://registry.platformio.org/libraries/robtillaart/HT16K33)
 
 
 # HT16K33
@@ -55,7 +58,7 @@ get leading/trailing zero's correctly.
 
 ## Interface
 
-```CPP
+```cpp
 #include "HT16K33.h"
 ```
 
@@ -230,7 +233,12 @@ Mainly for a 0.4.0
   - [status] dd.d
 - add examples
   - car battery monitor (voltage divider & analogRead)
-  
+  - 
+- add more "special chars"?
+  - #define HT16K33_P  Pascal / Pressure   0x73
+  - #define HT16K33_J  joule               0x0E
+  - #define HT16K33_H  humidity            0x76
+
 
 #### Wont (unless sponsored)
 
@@ -240,4 +248,16 @@ Mainly for a 0.4.0
   - flip every digit (function to overwrite the char array)
 - **HUD(bool hud = false)** = Heads Up Display
   - flip every digit
+- **lastTime()** in millis  too much overhead.
+- add special chars to keywords?  nope
+- **readCache(int n)** access internal cache => dumpSerial()
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

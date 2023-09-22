@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/rotaryDecoderSwitch/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/rotaryDecoderSwitch/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/rotaryDecoderSwitch/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/rotaryDecoderSwitch/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/rotaryDecoderSwitch/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/rotaryDecoderSwitch.svg)](https://github.com/RobTillaart/rotaryDecoderSwitch/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/rotaryDecoderSwitch/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/rotaryDecoderSwitch.svg?maxAge=3600)](https://github.com/RobTillaart/rotaryDecoderSwitch/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/rotaryDecoderSwitch.svg)](https://registry.platformio.org/libraries/robtillaart/rotaryDecoderSwitch)
 
 
 # rotaryDecoderSwitch
@@ -47,8 +50,19 @@ The interface is kept the same as much as possible.
 Note the above mapping is sort of compatible to using the rotaryDecoder class and using device 0 and 2 only,
 
 
+#### Links 
+
+- https://github.com/RobTillaart/rotaryDecoder
+- https://github.com/RobTillaart/PCF8574
+
 
 ## Interface
+
+```cpp
+#include "rotaryDecoderSwitch.h"
+```
+
+#### Constructor
 
 - **rotaryDecoderSwitch(const int8_t address, TwoWire \*wire = Wire);** constructor to set the address and optional the Wire bus.
 - **bool begin(uint8_t sda, uint8_t scl, uint8_t count = 2)** ESP32 ea initializes the class.
@@ -61,7 +75,7 @@ returns true if the PCF8574 is on the I2C bus.
 - **bool isConnected()** returns true if the PCF8574 is on the I2C bus.
 
 
-## Core functions
+#### Core functions
 
 - **void readInitialState()** read the initial state of the 2 rotary encoders. 
 Typically called in setup only, or after a sleep e.g. in combination with **setValue()**
@@ -70,11 +84,11 @@ Typically called in setup only, or after a sleep e.g. in combination with **setV
 The counters will add +1 or -1 depending on direction. 
 Need to be called before **getValue()** or before **getKeyPressed()**. 
 Note that **update()** must be called as soon as possible after the interrupt occurs (or as often as possible when polling).
-- **void updateSingle()** update the internal counters of the RE. This will add +1 +2 or +3 as it 
-assumes that the rotary encoder only goes into a single direction. 
+- **void updateSingle()** update the internal counters of the RE. 
+This will add +1 +2 or +3 as it assumes that the rotary encoder only goes into a single direction. 
 
 
-## Counters & keypresses
+#### Counters & keypresses
 
 - **uint32_t getValue(uint8_r re)** returns the RE counter. (re = 0 or 1).
 - **void setValue(uint8_r re, uint32_t val = 0)** (re)set the internal counter to val, default 0
@@ -91,7 +105,8 @@ Note one needs to call **update()** first!
 ## Performance
 
 As the decoder is based upon a PCF8574, a I2C device, the performance is affected by the 
-clock speed of the I2C bus. All four core functions have one call to **\_read()** which is the most expensive part.
+clock speed of the I2C bus. 
+All four core functions have one call to **\_read()** which is the most expensive part.
 
 Early tests gave the following indicative times (Arduino UNO) for the **update()** 
 function. Note that above 500KHz the gain becomes less
@@ -99,15 +114,15 @@ while reliability of signal decreases. (500KHz is ~3x faster than 100 KHz)
 As 400 KHz is a standard I2C clock speed it is the preferred one.
 
 
-| I2C speed | time (us) | delta |  %%  |
-|:---------:|:---------:|:-----:|:-----:|
-| 100 KHz   |    234    |       |       |
-| 200 KHz   |    136    |  98   | 42%   |
-| 300 KHz   |    100    |  36   | 26%   |
-| 400 KHz   |     85    |  15   | 15%   | preferred max
-| 500 KHz   |     78    |   7   |  8%   |
-| 600 KHz   |     67    |  11   | 14%   | (strange outlier)
-| 700 KHz   |     63    |   4   |  6%   |
+|  I2C speed  |  time (us)  |  delta  |   %%  |  Notes  |
+|:-----------:|:-----------:|:-------:|:-----:|:---------|
+|   100 KHz   |      234    |         |       |
+|   200 KHz   |      136    |    98   |  42%  |
+|   300 KHz   |      100    |    36   |  26%  |
+|   400 KHz   |       85    |    15   |  15%  |  preferred max
+|   500 KHz   |       78    |     7   |   8%  |
+|   600 KHz   |       67    |    11   |  14%  |  (strange outlier)
+|   700 KHz   |       63    |     4   |   6%  |
 
 (test results differ slightly from the rotaryEncoder class)
 
@@ -127,14 +142,30 @@ See examples..
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
   - add schema
 - keep in sync with rotaryDecoder library
 
-#### should
+
+#### Should
+
 - think of what to do with the two "idle lines"
 
-#### could
+
+#### Could
+
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

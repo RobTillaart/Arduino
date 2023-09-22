@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoderSwitch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -26,7 +26,6 @@ bool rotaryDecoderSwitch::begin(uint8_t sda, uint8_t scl, uint8_t count)
 {
   _count = count;
   if (_count > 2) _count = 2;
-  _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   return true;
@@ -74,7 +73,7 @@ bool rotaryDecoderSwitch::checkChange()
 bool rotaryDecoderSwitch::update()
 {
   uint8_t value = _read8();
-  if (_lastValue == value) 
+  if (_lastValue == value)
   {
     return false;
   }
@@ -107,7 +106,7 @@ bool rotaryDecoderSwitch::update()
 bool rotaryDecoderSwitch::updateSingle()
 {
   uint8_t value = _read8();
-  if (_lastValue == value) 
+  if (_lastValue == value)
   {
     return false;
   }
@@ -144,11 +143,35 @@ bool rotaryDecoderSwitch::updateSingle()
 }
 
 
+int32_t rotaryDecoderSwitch::getValue(uint8_t re)
+{
+  return _encoder[re];
+}
+
+
+void rotaryDecoderSwitch::setValue(uint8_t re, int32_t value)
+{
+  _encoder[re] = value;
+}
+
+
 bool rotaryDecoderSwitch::isKeyPressed(uint8_t re)
 {
   uint8_t mask = 0x04;
   if (re > 0) mask = 0x40;
   return (_lastValue & mask) == 0;
+}
+
+
+uint8_t rotaryDecoderSwitch::getLastPosition(uint8_t re)
+{
+  return _lastPos[re];
+}
+
+
+uint8_t rotaryDecoderSwitch::getRaw()
+{
+  return _read8();
 }
 
 

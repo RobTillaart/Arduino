@@ -459,6 +459,10 @@ If, "Wire1" is used, you need to add "&Wire1" in the constructor.
 
 #### Should
 
+- investigate of remove the begin(sda, scl) versions 
+  as the responsibility for the Wire configuration 
+  should not be in this library. 
+
 
 #### Could
 

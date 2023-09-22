@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.13] - 2023-09-20
+- fix #61 ESP32 begin()
+
+
 ## [0.3.12] - 2023-09-11
 - update and add examples
 - add **getLastRequest()** to track last type of measurement.

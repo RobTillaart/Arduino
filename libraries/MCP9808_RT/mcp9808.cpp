@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -40,7 +40,6 @@ MCP9808::MCP9808(const uint8_t address, const uint8_t dataPin, const uint8_t clo
 {
   _address = address;
   if ((address < 24) || (_address > 31)) return;
-  _wire = &Wire;
 
   if ((dataPin < 255) && (clockPin < 255))
   {

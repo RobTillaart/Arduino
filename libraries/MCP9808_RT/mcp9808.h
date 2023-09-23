@@ -2,7 +2,7 @@
 //
 //    FILE: mcp9808.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -17,7 +17,7 @@
 //  24..31  ==  0x18..0x1F
 
 
-#define MCP9808_LIB_VERSION               (F("0.3.0"))
+#define MCP9808_LIB_VERSION               (F("0.3.1"))
 
 
 //  CONFIGURATION REGISTER MASKS
@@ -62,7 +62,7 @@ public:
   float     getTemperature();
 
   //  getStatus() returns 0..7
-  //  to get latest status, getTemperature() must be called first 
+  //  to get latest status, getTemperature() must be called first
   uint8_t   getStatus();
 
   void      setResolution(uint8_t resolution = 3);

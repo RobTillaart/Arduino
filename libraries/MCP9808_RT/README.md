@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MCP9808_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/arduino-lint.yml)
-[![Arduino-lint](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP9808_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP9808_RT.svg)](https://github.com/RobTillaart/MCP9808_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP9808_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP9808_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP9808_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP9808_RT.svg)](https://registry.platformio.org/libraries/robtillaart/MCP9808_RT)
 
 
 # MCP9808_RT
@@ -165,15 +168,19 @@ The library prevents reading / writing them to keep sensors working.
 
 #### Must
 
+- refactor the constructor to include Wire param
+- add begin() function.
+
+
+#### Should
+
 - update documentation
   - compare DS18B20?
 - test more
   - negative temperatures
-
-#### Should
-
 - do unit test
 - check for optimizations
+
 
 #### Could
 
@@ -183,4 +190,13 @@ The library prevents reading / writing them to keep sensors working.
 
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -10,6 +10,10 @@
 
 M5ROTATE8 MM;
 
+uint8_t R = 0, G = 0, B = 0;  //  colors
+uint16_t D = 0;               //  delay
+
+
 void setup()
 {
   Serial.begin(115200);
@@ -26,12 +30,25 @@ void loop()
 {
   for (int ch = 0; ch < 9; ch++)
   {
+    D = 1 + (abs(MM.getAbsCounter(0)) & 0xFF);
+    R = MM.getAbsCounter(1) & 0x7F;
+    G = MM.getAbsCounter(2) & 0x7F;
+    B = MM.getAbsCounter(3) & 0x7F;
+
     Serial.print(ch);
-    MM.writeRGB(ch, 0, 0, 255);
-    delay(MM.getAbsCounter(0));
+    Serial.print('\t');
+    Serial.print(R);
+    Serial.print('\t');
+    Serial.print(G);
+    Serial.print('\t');
+    Serial.print(B);
+    Serial.print('\t');
+    Serial.println(D);
+
+    MM.writeRGB(ch, R, G, B);
+    delay(D);
     MM.writeRGB(ch, 0, 0, 0);
-    delay(MM.getAbsCounter(0));
-    Serial.println(MM.getAbsCounter(0));
+    delay(D);
   }
 }
 

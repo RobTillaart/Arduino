@@ -1,7 +1,7 @@
 //
 //    FILE: m5rotate8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -29,7 +29,6 @@ M5ROTATE8::M5ROTATE8(uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool M5ROTATE8::begin(int dataPin, int clockPin)
 {
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -253,7 +252,6 @@ uint32_t M5ROTATE8::read32(uint8_t reg)
   value += (((uint32_t)_wire->read()) << 24);
   return value;
 }
-
 
 
 //  -- END OF FILE --

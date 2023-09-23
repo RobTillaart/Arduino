@@ -7,6 +7,7 @@ M5ROTATE8	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+
 setAddress	KEYWORD2
 getAddress	KEYWORD2
 getVersion	KEYWORD2
@@ -21,6 +22,7 @@ resetAll	KEYWORD2
 inputSwitch	KEYWORD2
 
 writeRGB	KEYWORD2
+setAll	KEYWORD2
 allOff	KEYWORD2
 
 

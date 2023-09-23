@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MAX14661.git"
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "MAX14661.h"
 }

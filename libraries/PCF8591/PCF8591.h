@@ -3,7 +3,7 @@
 //    FILE: PCF8591.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: I2C PCF8591 library for Arduino
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8591_LIB_VERSION                 (F("0.2.0"))
+#define PCF8591_LIB_VERSION                 (F("0.2.1"))
 
 #define PCF8591_OK                          0x00
 #define PCF8591_PIN_ERROR                   0x81

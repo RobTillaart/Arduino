@@ -2,7 +2,7 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: I2C PCF8591 library for Arduino
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -37,7 +37,6 @@ PCF8591::PCF8591(const uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool PCF8591::begin(uint8_t sda, uint8_t scl, uint8_t val)
 {
-  _wire = &Wire;
   if ((sda < 255) && (scl < 255))
   {
     _wire->begin(sda, scl);

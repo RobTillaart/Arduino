@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9555.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -33,7 +33,6 @@ TCA9555::TCA9555(uint8_t address, TwoWire *wire)
 #if defined(ESP8266) || defined(ESP32)
 bool TCA9555::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
-  _wire = &Wire;
   _wire->begin(dataPin, clockPin);
   if (! isConnected()) return false;
   return true;

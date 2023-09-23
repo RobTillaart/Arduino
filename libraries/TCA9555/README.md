@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/TCA9555/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TCA9555/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TCA9555/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TCA9555/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TCA9555/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TCA9555.svg)](https://github.com/RobTillaart/TCA9555/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TCA9555/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TCA9555.svg?maxAge=3600)](https://github.com/RobTillaart/TCA9555/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TCA9555.svg)](https://registry.platformio.org/libraries/robtillaart/TCA9555)
 
 
 # TCA9555
@@ -121,6 +124,7 @@ See examples
 
 #### Must
 
+- update documentation
 - buy TCA9555 / TCA9535
 - test all functionality
   - library is written without hardware
@@ -143,5 +147,16 @@ See examples
 
 
 #### Wont (unless)
+
 - add TCA9535 error codes
   - better reuse them?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

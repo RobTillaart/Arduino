@@ -2,7 +2,7 @@
 //
 //    FILE: MSP300.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C MSP300 pressure transducer.
 //     URL: https://github.com/RobTillaart/MSP300
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define MSP300_LIB_VERSION          (F("0.1.1"))
+#define MSP300_LIB_VERSION          (F("0.1.2"))
 
 
 //  ERROR CODES

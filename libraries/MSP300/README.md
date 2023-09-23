@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MSP300/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MSP300/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MSP300/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MSP300/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MSP300/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MSP300.svg)](https://github.com/RobTillaart/MSP300/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MSP300/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MSP300.svg?maxAge=3600)](https://github.com/RobTillaart/MSP300/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MSP300.svg)](https://registry.platformio.org/libraries/robtillaart/MSP300)
 
 
 # MSP300
@@ -40,7 +43,7 @@ please open an issue on https://github.com/RobTillaart/MSP300.
 
 |  colour  |  description  |
 |:--------:|:-------------:|
-|  RED     |  2.7 – 5.0V   |
+|  RED     |  2.7 â€“ 5.0V   |
 |  BLACK   |  GND          |
 |  GREEN   |  SCL          |
 |  WHITE   |  SDA          |
@@ -115,7 +118,7 @@ maxValue is the maximum the sensor can read.
 Returns the raw value which is useful for debugging.
 - **float getPressure()** returns the pressure in PSI or BAR (whatever sensor you have).
 - **float getTemperature()** returns the temperature in degrees Celsius. 
-Range 0..55° Celsius
+Range 0..55Â° Celsius
 
 
 #### Calibration
@@ -150,10 +153,12 @@ The examples show the basic working of the functions.
 - get hardware
 - test 
 
+
 #### Should
 
 - add examples
 - elaborate error handling.
+
 
 #### Could
 
@@ -164,5 +169,15 @@ The examples show the basic working of the functions.
 - add simple class for the analog version
   - MSP300A
 
-#### wont
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

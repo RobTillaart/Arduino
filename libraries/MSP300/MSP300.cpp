@@ -1,7 +1,7 @@
 //
 //    FILE: MSP300.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C MSP300 pressure transducer.
 //     URL: https://github.com/RobTillaart/MSP300
 
@@ -22,7 +22,6 @@ MSP300::MSP300(const uint8_t deviceAddress, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool MSP300::begin(int dataPin, int clockPin, int maxValue)
 {
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);

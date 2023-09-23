@@ -7,14 +7,15 @@ MSP300	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+
 setAddress	KEYWORD2
-getAddress
+getAddress	KEYWORD2
 
-rawPressure	KEYWORD2
-readPressure	KEYWORD2
+readPT	KEYWORD2
+getPressure	KEYWORD2
+getTemperature	KEYWORD2
 
-rawTemperature	KEYWORD2
-readTemperature	KEYWORD2
+setPressureCounts	KEYWORD2
 
 lastError	KEYWORD2
 

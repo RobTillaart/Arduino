@@ -2,11 +2,8 @@
 //    FILE: DAC8551.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 //     URL: https://github.com/RobTillaart/DAC8551
-//
-//  HISTORY: see changelog.md
-
 
 
 #include "DAC8551.h"
@@ -81,7 +78,7 @@ void DAC8551::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  mySPI->end();  // disable SPI 
+  mySPI->end();  // disable SPI
   mySPI->begin(clk, miso, mosi, select);
 }
 #endif
@@ -139,7 +136,7 @@ void DAC8551::updateDevice()
     mySPI->transfer(_value & 0xFF);
     mySPI->endTransaction();
   }
-  else //  Software SPI 
+  else //  Software SPI
   {
     swSPI_transfer(configRegister);
     swSPI_transfer(_value >> 8);
@@ -166,7 +163,7 @@ void DAC8551::swSPI_transfer(uint8_t value)
 /////////////////////////////////////////////////////////
 //
 //  derive 8501, 8531 and 8550 from 8551
-// 
+//
 
 DAC8501::DAC8501(uint8_t slaveSelect) : DAC8551(slaveSelect)
 {
@@ -201,5 +198,5 @@ DAC8550::DAC8550(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

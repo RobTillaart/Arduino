@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DAC8551"
   },
-  "version": "0.2.6",
+  "version": "0.2.7",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "DAC8551.h"
 }

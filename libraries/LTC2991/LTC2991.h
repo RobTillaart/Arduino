@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2991.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -12,7 +12,43 @@
 #include "Wire.h"
 
 
-#define LTC2991_LIB_VERSION         (F("0.1.5"))
+#define LTC2991_LIB_VERSION               (F("0.1.6"))
+
+//
+// DEFINES for readability
+//
+#define LTC2991_NEW_DATA                  0x01
+#define LTC2991_NO_DATA                   0x00
+
+#define LTC2991_BUSY                      0x01
+#define LTC2991_IDLE                      0x00
+
+#define LTC2991_TRIGGER_ENABLED           0x01
+#define LTC2991_TRIGGER_DISABLED          0x00
+
+#define LTC2991_FILTER_ENABLED            0x01
+#define LTC2991_FILTER_DISABLED           0x00
+
+#define LTC2991_VOLTAGE_DIFF              0x01
+#define LTC2991_VOLTAGE_NORMAL            0x00
+
+#define LTC2991_PWM_INVERTED              0x01
+#define LTC2991_PWM_NORMAL                0x00
+
+#define LTC2991_PWM_ENABLED               0x01
+#define LTC2991_PWM_DISABLED              0x00
+
+#define LTC2991_MODE_REPEAT               0x01
+#define LTC2991_MODE_SINGLE               0x00
+
+#define LTC2991_TINTERN_ENABLED           0x01
+#define LTC2991_TINTERN_DISABLED          0x00
+
+#define LTC2991_TINTERN_FILTER_ENABLED    0x01
+#define LTC2991_TINTERN_FILTER_DISABLED   0x00
+
+#define LTC2991_KELVIN                    0x01
+#define LTC2991_CELSIUS                   0x00
 
 
 class LTC2991

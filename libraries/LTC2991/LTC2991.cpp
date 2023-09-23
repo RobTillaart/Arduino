@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -72,7 +72,6 @@ LTC2991::LTC2991(const int8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool LTC2991::begin(const uint8_t sda, const uint8_t scl)
 {
-  _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   return true;
@@ -107,7 +106,7 @@ uint8_t LTC2991::getAddress()
 bool LTC2991::new_data(uint8_t channel)
 {
   uint8_t x = _readRegister(STATUS_LOW);
-  // LTC2991_NEW_DATA / NONE
+  //  LTC2991_NEW_DATA / NONE
   return (x & (1 << (channel - 1))) > 0;
 }
 
@@ -317,7 +316,7 @@ uint8_t LTC2991::get_differential_mode(uint8_t n)
   }
   uint8_t    mask = 0x01;
   if (n > 1) mask = 0x10;
-  //  LTC2991_VOLTAGE_MODE_DIFFERENTIAL / NORMAL ???
+  //  LTC2991_VOLTAGE_DIFF / NORMAL ???
   if (_getRegisterMask(reg, mask) > 0) return 1;
   return 0;
 }
@@ -407,7 +406,7 @@ void LTC2991::invert_PWM(bool invert)
 
 bool LTC2991::is_inverted_PWM()
 {
-  //   LTC2991_PWM_INVERTED /  LTC2991_PWM_NORMAL
+  //  LTC2991_PWM_INVERTED /  LTC2991_PWM_NORMAL
   return _getRegisterMask(PWM_THRESHOLD_LSB, 0x40) > 0;
 }
 
@@ -507,9 +506,9 @@ char LTC2991::get_temp_scale_Tintern()
 {
   if (_getRegisterMask(PWM_THRESHOLD_LSB, 0x04) > 0)
   {
-    return 'K';   //  LTC2991_TEMPSCALE_KELVIN
+    return 'K';   //  LTC2991_KELVIN
   }
-  return 'C';     //  LTC2991_TEMPSCALE_CELSIUS
+  return 'C';     //  LTC2991_CELSIUS
 }
 
 

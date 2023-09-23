@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/LTC2991/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/LTC2991/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/LTC2991/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/LTC2991/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/LTC2991/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/LTC2991.svg)](https://github.com/RobTillaart/LTC2991/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/LTC2991/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/LTC2991.svg?maxAge=3600)](https://github.com/RobTillaart/LTC2991/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/LTC2991.svg)](https://registry.platformio.org/libraries/robtillaart/LTC2991)
 
 
 # LTC2991
@@ -24,6 +27,7 @@ These can be combined in a mix.
 As the IC has only 8 inputs available one has to choose what.
 
 Read the datasheet for the details.
+
 
 #### Address
 
@@ -188,4 +192,13 @@ if you happen to have performance figures, please share them in an issue.
   - need an enum
   - would interface # functions increase too much?
   - == > Users can do this conversion.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

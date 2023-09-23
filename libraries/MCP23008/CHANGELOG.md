@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-09-23
+- add Wire1 support for ESP32
+- update readme.md
+
+
 ## [0.1.4] - 2023-06-20
 - add CMakeLists.txt #8
 - add debug function **uint8_t getPinMode8()**
 - add keywords.txt
 - update examples
-
 
 ## [0.1.3] - 2023-02-04
 - update readme.md

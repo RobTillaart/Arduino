@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP23008/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP23008/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP23008/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP23008/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP23008/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP23008.svg)](https://github.com/RobTillaart/MCP23008/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23008/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23008.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23008/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP23008.svg)](https://registry.platformio.org/libraries/robtillaart/MCP23008)
 
 
 # MCP23008
@@ -100,5 +103,26 @@ See examples.
 
 ## Future
 
+#### Must
+
+- improve documentation
+
+#### Should
+
 - keep in sync with MCP23017
+
+
+#### Could
+
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

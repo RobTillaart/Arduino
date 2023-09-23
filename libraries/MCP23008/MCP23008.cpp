@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -35,7 +35,6 @@ MCP23008::MCP23008(uint8_t address, TwoWire *wire)
 #if defined(ESP8266) || defined(ESP32)
 bool MCP23008::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
-  _wire = &Wire;
   _wire->begin(dataPin, clockPin);
   //  check connected
   if (! isConnected()) return false;
@@ -364,7 +363,6 @@ int MCP23008::lastError()
 //
 //  DEBUG
 //
-
 uint8_t MCP23008::getPinMode8()
 {
   return readReg(0);
@@ -375,7 +373,6 @@ uint8_t MCP23008::getPinMode8()
 //
 //  PRIVATE
 //
-
 bool MCP23008::writeReg(uint8_t reg, uint8_t value)
 {
   _wire->beginTransmission(_address);

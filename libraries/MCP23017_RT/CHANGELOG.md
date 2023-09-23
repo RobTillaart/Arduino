@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] 2023-09-23
+- add Wire1 support for ESP32
+- update readme.md
+- add CMakeLists.txt - See #8 mcp23008
+- fix keywords.txt
+
+
 ## [0.4.0] - 2023-02-04
 - breaking REV D chips => new release
 - no change in code compared to 0.3.3

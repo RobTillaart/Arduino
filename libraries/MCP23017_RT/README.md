@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP23017_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP23017_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP23017_RT.svg)](https://github.com/RobTillaart/MCP23017_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23017_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23017_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23017_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP23017_RT.svg)](https://registry.platformio.org/libraries/robtillaart/MCP23017_RT)
 
 
 # MCP23017_RT
@@ -21,7 +24,7 @@ Programming Interface is kept the same as much as possible.
 Since 0.3.1 the **digitalWrite(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
-#### REV D - june 2022
+#### REV D - June 2022
 
 The I2C IO expander MCP23017 has changed according to the new data sheet. It is now a 14/16-bit IO expander.
 The pins GPA7 and GPB7 have lost their input mode, output mode still works.
@@ -141,6 +144,7 @@ Reading it will reset the flag to **MCP23017_OK**.
 - extend error codes
 - optimize code - squeeze footprint
 - investigate if REV D chips can be detected.
+- add keywords.txt
 
 #### Could
 
@@ -150,4 +154,13 @@ Reading it will reset the flag to **MCP23017_OK**.
 
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

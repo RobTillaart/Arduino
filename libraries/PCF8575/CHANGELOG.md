@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.10] - 2023-09-24
+- fix Wire1 support for ESP32 (again)
+
+
 ## [0.1.9] - 2023-09-23
 - add Wire1 support for ESP32
 - update readme.md
-
 
 ## [0.1.8] - 2023-02-04
 - update readme.md

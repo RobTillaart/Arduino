@@ -2,12 +2,13 @@
 //    FILE: PT2314.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
 
 #include "PT2314.h"
+
 
 PT2314::PT2314(TwoWire *wire)
 {
@@ -18,7 +19,6 @@ PT2314::PT2314(TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool PT2314::begin(int dataPin, int clockPin)
 {
-  _wire = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -276,8 +276,8 @@ void PT7313::setChannel(uint8_t channel)
   _channel = channel;
   updateAudioRegister();
 }
-  
-  
+
+
 void PT7313::setAttnLeftBack(uint8_t value)
 {
   setAttnLeft(value);
@@ -329,7 +329,6 @@ uint8_t PT7313::getAttnRightFront()
   return _attnRightFront;
 }
 
-  
 
 //  -- END OF FILE --
 

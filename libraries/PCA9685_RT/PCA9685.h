@@ -3,8 +3,8 @@
 //    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.5.0
-// PURPOSE: Arduino library for I2C PCA9685 16 channel PWM
+// VERSION: 0.5.1
+// PURPOSE: Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION         (F("0.5.0"))
+#define PCA9685_LIB_VERSION         (F("0.5.1"))
 
 // ERROR CODES
 #define PCA9685_OK                  0x00

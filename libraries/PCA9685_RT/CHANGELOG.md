@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2023-09-23
+- add Wire1 support for ESP32
+- update readme.md
+- minor edits
+
+
 ## [0.5.0] - 2023-07-16
 - fix #21, remove PCA9685_MODE2_BLINK
   - is breaking (for some)

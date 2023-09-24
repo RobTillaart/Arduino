@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/PCA9685_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PCA9685_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCA9685_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PCA9685_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCA9685_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PCA9685_RT.svg)](https://github.com/RobTillaart/PCA9685_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9685_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9685_RT.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9685_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PCA9685.svg)](https://registry.platformio.org/libraries/robtillaart/PCA9685)
 
 
 # PCA9685_RT
 
-Arduino library for PCA9685 I2C 12 bit PWM LED driver, 16 channel.
+Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 
 
 ## Description
@@ -29,6 +32,9 @@ Lower frequencies do better than higher frequencies.
 
 ## Interface
 
+```cpp
+#include "PCA9685.h"
+```
 
 ### Constructor
 
@@ -248,7 +254,6 @@ please give feedback, so the documentation can be improved.
 For further details of the development, see - #10 (PCA9634 repo)
 
 
-
 ## Operation
 
 See examples
@@ -256,16 +261,30 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - add unit tests (if possible)
 
-#### could
+#### Could
+
 - investigate int vs uint16_t ?
   - **setFrequency(), getFrequency(), \_freq**
 - sync with PCA9634/35/85 where possible
   - error handling?
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

@@ -2,8 +2,8 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.6
-// PURPOSE: Arduino library for PCA9635 I2C LED driver
+// VERSION: 0.4.7
+// PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9635
 
 
@@ -12,7 +12,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//  Constructor
+//  CONSTRUCTOR
 //
 PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 {
@@ -27,7 +27,6 @@ PCA9635::PCA9635(const uint8_t deviceAddress, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool PCA9635::begin(int sda, int scl, uint8_t mode1_mask, uint8_t mode2_mask)
 {
-  _wire = &Wire;
   if ((sda < 255) && (scl < 255))
   {
     _wire->begin(sda, scl);
@@ -509,7 +508,7 @@ uint8_t PCA9635::readLedOut(uint8_t reg)
 }
 
 
-//  todo move to right section after testing.
+//  TODO move to right section after testing.
 uint8_t PCA9635::setLedDriverMode(uint8_t mode)
 {
   if (mode > 3) return PCA963X_ERR_MODE;

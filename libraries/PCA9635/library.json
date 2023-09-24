@@ -1,7 +1,7 @@
 {
   "name": "PCA9635",
   "keywords": "I2C,PCA9635,PWM",
-  "description": "Arduino library for PCA9635 I2C LED driver, 16 channel",
+  "description": "Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCA9635.git"
   },
-  "version": "0.4.6",
+  "version": "0.4.7",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "PCA9635.h"
 }

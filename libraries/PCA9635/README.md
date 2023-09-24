@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/PCA9635/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PCA9635/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCA9635/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PCA9635/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCA9635/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PCA9635.svg)](https://github.com/RobTillaart/PCA9635/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9635/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9635.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9635/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PCA9635.svg)](https://registry.platformio.org/libraries/robtillaart/PCA9635)
 
 
 # PCA9635
 
-Arduino library for PCA9635 I2C 8 bit PWM LED driver, 16 channel.
+Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit.
 
 
 ## Description
@@ -334,4 +337,13 @@ PCA.writeLedOut(1, mask);
   - only upon request.
 - **setGroupPWM()**
   - PWM also in %% ?  (trivial for user)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

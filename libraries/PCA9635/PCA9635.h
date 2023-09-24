@@ -3,8 +3,8 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.4.6
-// PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel
+// VERSION: 0.4.7
+// PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9635
 
 
@@ -12,11 +12,11 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.4.6"))
+#define PCA9635_LIB_VERSION         (F("0.4.7"))
 
 
 //  mode codes
-// NEW
+//  NEW
 #define PCA963X_MODE1               0x00
 #define PCA963X_MODE2               0x01
 //  OLD
@@ -51,7 +51,7 @@
 #define PCA9635_LEDGRPPWM           0x03
 
 //  Error codes
-// NEW
+//  NEW
 #define PCA963X_OK                  0x00
 #define PCA963X_ERROR               0xFF
 #define PCA963X_ERR_WRITE           0xFE
@@ -70,7 +70,7 @@
 
 
 //  Configuration bits MODE1 register
-// NEW
+//  NEW
 #define PCA963X_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
 #define PCA963X_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
 #define PCA963X_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
@@ -80,7 +80,7 @@
 #define PCA963X_MODE1_SUB3          0x02  //  0 = disable      1 = enable
 #define PCA963X_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
 #define PCA963X_MODE1_NONE          0x00
-// OLD
+//  OLD
 #define PCA9635_MODE1_AUTOINCR2     0x80  //  ReadOnly, 0 = disable  1 = enable
 #define PCA9635_MODE1_AUTOINCR1     0x40  //  ReadOnly, bit1
 #define PCA9635_MODE1_AUTOINCR0     0x20  //  ReadOnly, bit0

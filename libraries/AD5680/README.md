@@ -55,8 +55,8 @@ Sets internal values to zero.
 - **bool setValue(uint16_t value)** set value to the output immediately, 
 effectively a prepare + update in one call.
 Returns false if value out of range.
-- **uint16_t getValue()** returns set OR prepared value.
-At power up the DAC's will be reset to 0 Volt.
+- **uint16_t getValue()** returns set value.
+At power up the AD5680 will be reset to 0 (== 0 volt).
 - **bool setPercentage(float percentage)** idem.
 - **float getPercentage()** idem.
 
@@ -85,10 +85,30 @@ BEFORE the **begin()** function.
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
 overrule GPIO pins of ESP32 for hardware SPI. Needs to be called AFTER the **begin()** function.
 
-Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as 
-HW-SPI and in fact a bit more stable. 
+Note: earlier experiments (other device) shows that on a ESP32 
+SW-SPI is equally fast as HW-SPI and in fact a bit more stable. 
 The SW pulses are a bit slower than the HW pulses and therefore more square. 
-The HW-SPI has some overhead SW-SPI hasn't. 
+The HW-SPI has some overhead SW-SPI hasn't.
+
+
+## Performance
+
+Measurements with AD5680_demo.ino - setValue() most important.
+(numbers are rounded).
+
+|  version  |  board  |  clock    |  SPI  |  samples / second  |  Notes  |
+|:---------:|:-------:}:---------:|:-----:}:------------------:|:--------|
+|   0.1.1   |  UNO    |   16 MHz  |  HW   |    53500           |
+|   0.1.1   |  UNO    |   16 MHz  |  SW   |     2800           |
+|   0.1.1   |  ESP32  |  240 MHz  |  HW   |    91000           |  1
+|   0.1.1   |  ESP32  |  240 MHz  |  SW   |   111000           |
+
+
+1. ESP32 HW is equal performant for HSPI and VSPI. 
+   Unknown why HW SPI is 20% slower than SW SPI (transaction overhead?)
+
+50000 - 100000 samples per second means that a 1 KHz wave can be 
+constructed with 50-100 values per period.
 
 
 ## Future
@@ -99,12 +119,9 @@ The HW-SPI has some overhead SW-SPI hasn't.
 - get test hardware
 - test the library
 
-
 #### Should
 
 - add examples
-  - performance
-
 
 #### Could
 
@@ -120,6 +137,4 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-
-
 

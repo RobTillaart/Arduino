@@ -1,7 +1,7 @@
 //
 //    FILE: AD5680.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -34,7 +34,7 @@ void AD5680::begin()
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if(_hwSPI)
   {
@@ -117,14 +117,14 @@ float AD5680::getPercentage()
 void AD5680::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
 
 
 uint32_t AD5680::getSPIspeed()
 {
   return _SPIspeed;
-};
+}
 
 
 bool AD5680::usesHWSPI()
@@ -184,7 +184,7 @@ void AD5680::updateDevice(uint32_t value)
 {
   uint8_t a = (value >> 14) & 0x0F;  //  bit 14-17
   uint8_t b = (value >> 6)  & 0xFF;  //  bit 06-13
-  uint8_t c = (value << 2)  & 0xF0;  //  bit 00-05
+  uint8_t c = (value << 2)  & 0xFC;  //  bit 00-05
 
   digitalWrite(_select, LOW);
   if (_hwSPI)

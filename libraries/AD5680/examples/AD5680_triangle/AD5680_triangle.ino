@@ -1,5 +1,5 @@
 //
-//    FILE: AD5680_demo.ino
+//    FILE: AD5680_triangle.ino
 //  AUTHOR: Rob Tillaart
 // PUPROSE: test basic behaviour and performance
 
@@ -9,6 +9,8 @@
 AD5680 AD16_HW(8);
 AD5680 AD16_SW(9, 10, 11);
 
+float frequency = 1.0;
+float amplitude = 262144;  //  18 bits
 
 void setup()
 {
@@ -18,8 +20,6 @@ void setup()
   Serial.print("AD5680_LIB_VERSION: ");
   Serial.println(AD5680_LIB_VERSION);
 
-  //  AD16_HW.selectVSPI();
-  
   AD16_HW.begin();
   AD16_SW.begin();
 
@@ -27,24 +27,24 @@ void setup()
   Serial.println(AD16_HW.usesHWSPI());
   Serial.print("HWSPI: ");
   Serial.println(AD16_SW.usesHWSPI());
-  delay(100);
 }
 
 
 void loop()
 {
-  uint32_t start = micros();
-  for (uint32_t i = 0; i < 1000; i++)
+  float period = 1000000.0 / frequency;
+  float value = 2 * fmod(micros(), period);   //  0..period
+  if (value < period)
   {
-     AD16_HW.setValue(i);
-     // AD16_SW.setValue(i);
+    value = amplitude * value / period;
   }
-  uint32_t duration = micros() - start;
-  Serial.print(duration);
-  Serial.print("\t");
-  Serial.println(1e9 / duration);
-  
-  delay(1000);
+  else
+  {
+    value -= period;
+    value = amplitude * (1 - value / period);
+  }
+  AD16_HW.setValue(value);
+  Serial.println(value);
 }
 
 

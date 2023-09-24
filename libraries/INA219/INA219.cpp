@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -40,7 +40,7 @@ INA219::INA219(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
-  // not calibrated values by default.
+  //  not calibrated values by default.
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
@@ -50,7 +50,6 @@ INA219::INA219(const uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool INA219::begin(const uint8_t sda, const uint8_t scl)
 {
-  _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   return true;
@@ -305,8 +304,6 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 
   return true;
 }
-
-
 
 
 ////////////////////////////////////////////////////////

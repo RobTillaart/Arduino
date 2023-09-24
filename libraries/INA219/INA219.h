@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.1.4"))
+#define INA219_LIB_VERSION              (F("0.1.5"))
 
 
 class INA219
@@ -63,7 +63,7 @@ public:
   //  factor = 1, 2, 4, 8
   bool     setGain(uint8_t factor = 1);
   uint8_t  getGain();
-  //  mask 
+  //  mask
   bool     setBusADC(uint8_t mask = 0x03);
   uint8_t  getBusADC();
   bool     setShuntADC(uint8_t mask = 0x03);
@@ -81,12 +81,12 @@ public:
   bool     setModeBusContinuous()      { return setMode(6); };
   bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
-  
+
   //  CALIBRATION
   //  mandatory to set these! read datasheet.
   //  maxCurrent >= 0.001
   //  shunt      >= 0.001
-  bool     setMaxCurrentShunt(float maxCurrent = 3.4, 
+  bool     setMaxCurrentShunt(float maxCurrent = 3.4,
                               float shunt = 0.002);
 
   bool     isCalibrated()     { return _current_LSB != 0.0; };
@@ -104,7 +104,7 @@ public:
 
 
 private:
- 
+
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
   float    _current_LSB;

@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-09-24
+- Add Wire1 support for ESP32
+- update readme.md
+
+
 ## [0.1.4] - 2023-06-12
 - improve RP2040 support
 - add address test in isConnected()
 - update readme.md
 - add array example
-
 
 ## [0.1.3] - 2023-03-31
 - fix setBusADC() range check

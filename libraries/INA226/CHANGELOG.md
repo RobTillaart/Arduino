@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.4] - 2023-09-23
+- add Wire1 support for ESP32
+- update readme.md
+
+
 ## [0.4.3] - 2023-05-07
 - add constant INA226_MINIMAL_SHUNT
-
 
 ## [0.4.2] - 2023-04-03
 - added **getBusVoltage_uV()** for completeness

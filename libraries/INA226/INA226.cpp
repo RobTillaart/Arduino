@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -47,7 +47,6 @@ INA226::INA226(const uint8_t address, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool INA226::begin(const uint8_t sda, const uint8_t scl)
 {
-  _wire = &Wire;
   _wire->begin(sda, scl);
   if (! isConnected()) return false;
   return true;
@@ -199,7 +198,7 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   if (maxCurrent < 0.001)           return INA226_ERR_MAXCURRENT_LOW;
   if (shunt < INA226_MINIMAL_SHUNT) return INA226_ERR_SHUNT_LOW;
 
-  _current_LSB = maxCurrent * 3.0517578125e-5;      // maxCurrent / 32768;
+  _current_LSB = maxCurrent * 3.0517578125e-5;      //  maxCurrent / 32768;
 
   #ifdef printdebug
     Serial.println();
@@ -330,6 +329,7 @@ uint16_t INA226::getManufacturerID()
 {
   return _readRegister(INA226_MANUFACTURER);
 }
+
 
 uint16_t INA226::getDieID()
 {

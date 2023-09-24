@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PCA9634/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PCA9634/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCA9634/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PCA9634/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCA9634/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PCA9634.svg)](https://github.com/RobTillaart/PCA9634/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9634/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9634.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9634/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PCA9634.svg)](https://registry.platformio.org/libraries/robtillaart/PCA9634)
 
 
 # PCA9634
@@ -256,7 +259,6 @@ please give feedback, so the documentation can be improved.
 For further details of the development, see - #10 (comment)
 
 
-
 #### LEDOUT
 
 Experimental, needs testing, read datasheet 7.3.6
@@ -356,4 +358,13 @@ when all previously send commands since the last STOP command will be executed.
   - only upon request.
 - **setGroupPWM()**
   - PWM also in %% ?  (trivial for user)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

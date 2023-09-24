@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,11 +12,11 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.8"))
+#define PCA9634_LIB_VERSION         (F("0.2.9"))
 
 
 //  mode codes
-// NEW
+//  NEW
 #define PCA963X_MODE1               0x00
 #define PCA963X_MODE2               0x01
 //  OLD
@@ -38,21 +38,21 @@
 
 //  check datasheet for details
 //  NEW
-#define PCA963X_LEDOUT_BASE         0x0C    //  0x0C..0x0D
-#define PCA963X_LEDOFF              0x00    //  default @ startup
+#define PCA963X_LEDOUT_BASE         0x0C  //  0x0C..0x0D
+#define PCA963X_LEDOFF              0x00  //  default @ startup
 #define PCA963X_LEDON               0x01
 #define PCA963X_LEDPWM              0x02
 #define PCA963X_LEDGRPPWM           0x03
-//  OLD 
-#define PCA9634_LEDOUT_BASE         0x0C    //  0x0C..0x0D
-#define PCA9634_LEDOFF              0x00    //  default @ startup
+//  OLD
+#define PCA9634_LEDOUT_BASE         0x0C  //  0x0C..0x0D
+#define PCA9634_LEDOFF              0x00  //  default @ startup
 #define PCA9634_LEDON               0x01
 #define PCA9634_LEDPWM              0x02
 #define PCA9634_LEDGRPPWM           0x03
 
 
 //  Error codes
-// NEW
+//  NEW
 #define PCA963X_OK                  0x00
 #define PCA963X_ERROR               0xFF
 #define PCA963X_ERR_WRITE           0xFE
@@ -60,7 +60,7 @@
 #define PCA963X_ERR_MODE            0xFC
 #define PCA963X_ERR_REG             0xFB
 #define PCA963X_ERR_I2C             0xFA
-// OLD
+//  OLD
 #define PCA9634_OK                  0x00
 #define PCA9634_ERROR               0xFF
 #define PCA9634_ERR_WRITE           0xFE
@@ -71,7 +71,7 @@
 
 
 //  Configuration bits MODE1 register
-// NEW
+//  NEW
 #define PCA963X_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
 #define PCA963X_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
 #define PCA963X_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
@@ -81,7 +81,7 @@
 #define PCA963X_MODE1_SUB3          0x02  //  0 = disable      1 = enable
 #define PCA963X_MODE1_ALLCALL       0x01  //  0 = disable      1 = enable
 #define PCA963X_MODE1_NONE          0x00
-// OLD
+//  OLD
 #define PCA9634_MODE1_AUTOINCR2     0x80  //  ReadOnly,  0 = disable  1 = enable
 #define PCA9634_MODE1_AUTOINCR1     0x40  //  ReadOnly,  bit1
 #define PCA9634_MODE1_AUTOINCR0     0x20  //  ReadOnly,  bit0
@@ -119,19 +119,19 @@
 
 //  Standard ALLCALL and sub-addresses --> only work for write commands and NOT for read commands
 //  NEW
-#define PCA963X_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
-                                                    //  in this library the LSB is added during the write command
-                                                    //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
-#define PCA963X_SUB1                0x71            //  see line above (0xE2 --> 0x71)
-#define PCA963X_SUB2                0x72            //  see line above (0xE4 --> 0x72)
-#define PCA963X_SUB3                0x74            //  see line above (0xE8 --> 0x74)
+#define PCA963X_ALLCALL             0x70  //  TDS of chip says 0xE0, however,
+                                          //  in this library the LSB is added during the write command
+                                          //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
+#define PCA963X_SUB1                0x71  //  see line above (0xE2 --> 0x71)
+#define PCA963X_SUB2                0x72  //  see line above (0xE4 --> 0x72)
+#define PCA963X_SUB3                0x74  //  see line above (0xE8 --> 0x74)
 //  OLD
-#define PCA9634_ALLCALL             0x70            //  TDS of chip says 0xE0, however,
-                                                    //  in this library the LSB is added during the write command
-                                                    //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
-#define PCA9634_SUB1                0x71            //  see line above (0xE2 --> 0x71)
-#define PCA9634_SUB2                0x72            //  see line above (0xE4 --> 0x72)
-#define PCA9634_SUB3                0x74            //  see line above (0xE8 --> 0x74)
+#define PCA9634_ALLCALL             0x70  //  TDS of chip says 0xE0, however,
+                                          //  in this library the LSB is added during the write command
+                                          //                 (0xE0 --> 0b11100000, 0x70 --> 0b1110000)
+#define PCA9634_SUB1                0x71  //  see line above (0xE2 --> 0x71)
+#define PCA9634_SUB2                0x72  //  see line above (0xE4 --> 0x72)
+#define PCA9634_SUB3                0x74  //  see line above (0xE8 --> 0x74)
 
 
 /////////////////////////////////////////////////////
@@ -163,6 +163,7 @@ public:
   uint8_t  setLedDriverMode(uint8_t channel, uint8_t mode);
   uint8_t  getLedDriverMode(uint8_t channel);
 
+
   //  reg = 1, 2  check datasheet for values
   uint8_t  writeMode(uint8_t reg, uint8_t value);
   uint8_t  readMode(uint8_t reg);
@@ -172,8 +173,10 @@ public:
   uint8_t  getMode1();
   uint8_t  getMode2();
 
+
   void     setGroupPWM(uint8_t value);
   uint8_t  getGroupPWM();
+
 
   void     setGroupFREQ(uint8_t value);
   uint8_t  getGroupFREQ();

@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -27,7 +27,6 @@ PCA9634::PCA9634(const uint8_t deviceAddress, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool PCA9634::begin(int sda, int scl, uint8_t mode1_mask, uint8_t mode2_mask)
 {
-  _wire = &Wire;
   if ((sda < 255) && (scl < 255))
   {
     _wire->begin(sda, scl);

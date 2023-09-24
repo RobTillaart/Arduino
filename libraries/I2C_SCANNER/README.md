@@ -114,6 +114,16 @@ The value -999 indicates invalid method selected.
 Other are I2C specific error codes.
 
 
+#### Timeout
+
+Experimental
+
+Not all platforms support this functionality, you need to patch I2C_SCANNER.cpp file to get 
+this working for your platform.
+- **bool setWireTimeout(uint32_t timeOut)**
+- **uint32_t getWireTimeout()**
+
+
 ## Future ideas
 
 #### Must

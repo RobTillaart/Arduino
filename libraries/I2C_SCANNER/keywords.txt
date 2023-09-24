@@ -5,9 +5,6 @@ I2C_SCANNER	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-ping	KEYWORD2
-setClock	KEYWORD2
-getClock	KEYWORD2
 
 getWirePortCount	KEYWORD2
 setWire	KEYWORD2
@@ -15,10 +12,16 @@ getWire	KEYWORD2
 
 softwareReset	KEYWORD2
 
+setClock	KEYWORD2
+getClock	KEYWORD2
+
 ping	KEYWORD2
 diag	KEYWORD2
 pingTime	KEYWORD2
 count	KEYWORD2
+
+setWireTimeout	KEYWORD2
+getWireTimeout	KEYWORD2
 
 
 # Constants (LITERAL1)

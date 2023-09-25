@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PCA9553/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PCA9553/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCA9553/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PCA9553/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCA9553/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PCA9553.svg)](https://github.com/RobTillaart/PCA9553/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9553/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9553.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9553/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PCA9553.svg)](https://registry.platformio.org/libraries/robtillaart/PCA9553)
 
 
 # PCA9553
@@ -52,9 +55,9 @@ all zeroes, causing the bits to be set HIGH (LED off).
 - https://github.com/RobTillaart/PCA9553  (4 channel)
 
 Follow up series
-- https://github.com/RobTillaart/PCA9634 (8 channel)
-- https://github.com/RobTillaart/PCA9635 (16 channel)
-- https://github.com/RobTillaart/PCA9685_RT (16 channel)
+- https://github.com/RobTillaart/PCA9634  (8 channel)
+- https://github.com/RobTillaart/PCA9635  (16 channel)
+- https://github.com/RobTillaart/PCA9685_RT  (16 channel)
 
 
 
@@ -67,8 +70,9 @@ Follow up series
 
 #### Constructor
 
-- **PCA9553(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,  Address = 0x62 or 0x63.
-and optional the Wire interface as parameter.
+- **PCA9553(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,  
+Address = 0x62 or 0x63.
+Optional the Wire interface as parameter.
 - **bool begin()** initializes the library after startup.
 Returns true if device address is available on I2C bus.
 - **bool begin(int sda, int scl)**
@@ -208,7 +212,16 @@ These are kept similar to PCA9635 et al error codes.
 
 - no usage of autoincrement register
 - percent interface for PWM
-- time interface for prescaler
+- time interface for pre-scaler
 - default setup in begin (what how)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

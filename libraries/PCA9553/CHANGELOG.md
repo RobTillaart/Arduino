@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-09-25
+- add Wire1 support for ESP32
+- update readme.md
+
+
 ## [0.2.0] - 2023-07-17
 - refactor interface (breaking)
   - for compatibility with PCA9552, PCA9551
@@ -20,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add examples
 - update readme.md
 - internal refactor
-
 
 ----
 

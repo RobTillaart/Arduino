@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -42,7 +42,6 @@ int FRAM::begin(int sda, int scl, const uint8_t address,
 {
   if ((address < 0x50) || (address > 0x57)) return FRAM_ERROR_ADDR;
 
-  _wire = &Wire;
   _address = address;
   if ((sda < 255) && (scl < 255))
   {

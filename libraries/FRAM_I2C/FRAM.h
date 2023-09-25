@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.6.0"))
+#define FRAM_LIB_VERSION              (F("0.6.1"))
 
 
 #define FRAM_OK                         0
@@ -180,7 +180,7 @@ public:
     write(memAddr, (uint8_t *) &obj, sizeof(obj));
     return memAddr + sizeof(obj);
   };
-  
+
   template <class T> uint32_t readObject(uint32_t memAddr, T &obj)
   {
     read(memAddr, (uint8_t *) &obj, sizeof(obj));

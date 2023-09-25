@@ -66,6 +66,12 @@ Not tested: expect the **MB85RC1MT** can be addressed with 2 instances of **FRAM
 too with adjacent addresses.
 
 
+#### Related
+
+- https://github.com/RobTillaart/I2C_EEPROM  (eeprom)
+- https://github.com/RobTillaart/I2C_24LC1025  (eeprom)
+
+
 ## Interface
 
 ```cpp

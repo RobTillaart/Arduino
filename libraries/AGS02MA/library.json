@@ -21,9 +21,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AGS02MA.git"
   },
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "AGS02MA.h"
 }

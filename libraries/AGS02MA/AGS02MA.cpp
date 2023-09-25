@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -29,8 +29,7 @@ AGS02MA::AGS02MA(const uint8_t deviceAddress, TwoWire *wire)
 #if defined (ESP8266) || defined(ESP32)
 bool AGS02MA::begin(uint8_t dataPin, uint8_t clockPin)
 {
-  _startTime = millis();  // PREHEAT
-  _wire      = &Wire;
+  _startTime = millis();  //  PREHEAT
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);
@@ -54,8 +53,8 @@ bool AGS02MA::isConnected()
 {
 #if defined (__AVR__)
   //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ 
-  TWSR = 0x01;       //  prescaler = 4
+  TWBR = 78;         //  == 25.0 KHZ
+  TWSR = 0x01;       //  pre-scaler = 4
 #else
   _wire->setClock(AGS02MA_I2C_CLOCK);
 #endif
@@ -303,8 +302,8 @@ bool AGS02MA::_readRegister(uint8_t reg)
 
 #if defined (__AVR__)
   //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ 
-  TWSR = 0x01;       //  prescaler = 4
+  TWBR = 78;         //  == 25.0 KHZ
+  TWSR = 0x01;       //  pre-scaler = 4
 #else
   _wire->setClock(AGS02MA_I2C_CLOCK);
 #endif
@@ -320,7 +319,7 @@ bool AGS02MA::_readRegister(uint8_t reg)
   {
     _error = AGS02MA_ERROR_READ;
 #if defined (__AVR__)
-    TWSR = 0x00;   //  reset prescaler = 1
+    TWSR = 0x00;   //  reset pre-scaler = 1
 #endif
     _wire->setClock(_I2CResetSpeed);
     return false;
@@ -330,7 +329,7 @@ bool AGS02MA::_readRegister(uint8_t reg)
     _buffer[i] = _wire->read();
   }
 #if defined (__AVR__)
-  TWSR = 0x00;   //  reset prescaler = 1
+  TWSR = 0x00;   //  reset pre-scaler = 1
 #endif
   _wire->setClock(_I2CResetSpeed);
   return true;
@@ -344,8 +343,8 @@ bool AGS02MA::_writeRegister(uint8_t reg)
 
 #if defined (__AVR__)
   //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ 
-  TWSR = 0x01;       //  prescaler = 4
+  TWBR = 78;         //  == 25.0 KHZ
+  TWSR = 0x01;       //  pre-scaler = 4
 #else
   _wire->setClock(AGS02MA_I2C_CLOCK);
 #endif

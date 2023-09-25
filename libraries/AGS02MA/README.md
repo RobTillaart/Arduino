@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AGS02MA/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AGS02MA/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AGS02MA/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AGS02MA/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AGS02MA/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AGS02MA.svg)](https://github.com/RobTillaart/AGS02MA/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AGS02MA/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AGS02MA.svg?maxAge=3600)](https://github.com/RobTillaart/AGS02MA/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AGS02MA.svg)](https://registry.platformio.org/libraries/robtillaart/AGS02MA)
 
 
 # AGS02MA
@@ -94,6 +97,10 @@ with the sensor and this (or other) library.
 
 ## Interface
 
+```cpp
+#include "AGS02MA.h"
+```
+
 
 #### Constructor
 
@@ -150,6 +157,19 @@ The default mode at startup of the sensor is PPB = parts per billion.
 - **bool setUGM3Mode()** sets device in micro gram per cubic meter mode. Returns true on success.
 - **uint8_t getMode()** returns mode set. 0 = PPB, 1 = UGm3, 255 = not set.
 
+#### Air quality classification
+
+| ppm     | Class               |
+|---------|---------------------|
+| <= 220  | Good                |
+| <= 660  | Moderate            |
+| <= 1430 | Bad                 |
+| <= 2200 | Unhealthy           |
+| <= 3300 | Very unhealthy      |
+| <= 5500 | Extremely unhealthy |
+| > 5500  | Hazardous           |
+
+[Source](https://learn.kaiterra.com/en/resources/understanding-tvoc-volatile-organic-compounds)
 
 #### PPB versus UGM3
 
@@ -256,11 +276,11 @@ Read datasheet or table below for details. A new read is needed to update this.
 
 #### Must
 
+- improve documentation
+  - add indicative table for PPB health zone (source)
 
 #### Should
 
-- improve documentation
-  - add indicative table for PPB health zone (source)
 - put the I2C speed code in 2 inline functions
   - less repeating conditional code places
   - setLowSpeed() + setNormalSpeed()
@@ -278,4 +298,13 @@ Read datasheet or table below for details. A new read is needed to update this.
 
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

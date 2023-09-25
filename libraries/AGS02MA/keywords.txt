@@ -47,6 +47,7 @@ dataReady	KEYWORD2
 
 readRegister	KEYWORD2
 
+
 # Constants (	LITERAL1)
 AGS02MA_LIB_VERSION	LITERAL1
 

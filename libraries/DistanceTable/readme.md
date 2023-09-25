@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/RobTillaart/Distancetable/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino CI](https://github.com/RobTillaart/DistanceTable/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DistanceTable/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DistanceTable/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DistanceTable/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DistanceTable/actions/workflows/jsoncheck.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Distancetable/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/Distancetable.svg?maxAge=3600)](https://github.com/RobTillaart/Distancetable/releases)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DistanceTable.svg)](https://github.com/RobTillaart/DistanceTable/issues)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DistanceTable/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/DistanceTable.svg?maxAge=3600)](https://github.com/RobTillaart/DistanceTable/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DistanceTable.svg)](https://registry.platformio.org/libraries/robtillaart/DistanceTable)
 
 
 # DistanceTable
@@ -25,9 +28,11 @@ Within the 2K RAM of an Arduino one could store normally a 21 x 21 matrix (1764 
 The class therefore saves around 50% of RAM. 
 The price is performance as it takes more time to access the elements.
 
-Relates to:
--  https://github.com/RobTillaart/SparseArray
--  https://github.com/RobTillaart/SparseMatrix
+#### Related
+
+- https://github.com/RobTillaart/SparseArray
+- https://github.com/RobTillaart/SparseMatrix
+- https://www.codeproject.com/Tips/5368686/From-Linear-to-Upper-Triangular-Matrix-Indices
 
 
 ## Interface
@@ -41,7 +46,7 @@ Relates to:
 - **DistanceTable(uint8_t size, float value = 0.0)** Constructor, allocates memory and 
 sets initial value to all elements. 
 If memory cannot be allocated, the size will be set to 0.
-- **~DistanceTable();** Destructor, frees allocated memory.
+- **~DistanceTable()** Destructor, frees allocated memory.
 - **void clear()** sets all entries to 0.0.
 - **void setAll(float value)** sets all entries to value.
 - **bool set(uint8_t x, uint8_t y, float value )** sets a value for (x,y) and automatically for (y, x).
@@ -92,12 +97,12 @@ functions need to test it.
 In practice this means slower, especially when the flag is set to true.
 
 Some application thoughts:
-- difference in height
-- energy levels e.g. transitions of electrons, other physics
-- transactions between players of a game
+- difference in height between points on a route or map.
+- energy levels e.g. transitions of electrons, other physics phenomena.
+- transactions between players of a game, + for one is - for the other.
 - hold a 2D colour space
 
-Note: this function is not tested extensively.
+Note: this functionality is not tested extensively.
 
 
 ### Debug
@@ -117,29 +122,46 @@ See examples.
 
 ## Future
 
+#### Must
+
 - improve documentation
+
+
+#### Should
+
 - improve unit tests
+- rethink class hierarchy (see ideas below).
+
+
+#### Could
+
 - add examples
   - Note: table can be used for other symmetrical 2D tables. 
   - And therefore include negative values
 - investigate behaviour of **count()** functions a bit more.
   - include diagonal?
-
-
-#### derived or related classes 
-
-- int64_t int32_t int16_t int8_t  + unsigned variants? (8 variations? invert flag)
-  - Template class?  (release 0.4.0 ?)
-- should the "non-inverted" distance table be a derived (performant) class?
+- could the "non-inverted" distance table be a derived or base class?
+  - more performant
 - diagonal not zero class, 
-  - uses a more bytes but allows also extra functionality while staying symmetrical.
-
-
+  - uses more bytes but allows also extra functionality while staying symmetrical.
+- what if dimension(x) = 2x dimension(y) - non square tables.
+  - is there a spectrum of sparsity of a matrix?
+- int64_t int32_t int16_t int8_t + unsigned variants? (8 variations? invert flag)
+  - Template class?  (release 0.4.0 ?)
 
 #### won't 
 
 - **clear()** could set all to NAN? is that better as it indicates unknown?  
   - setAll() let the user decide.
 - Hamilton paths? 
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

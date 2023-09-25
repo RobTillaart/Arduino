@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2023-09-25
+- update changelog
+- update readme.md
+
+
 ## [0.3.2] - 2022-11.02
 - add changelog.md
 - add rp2040 to build-CI
@@ -56,15 +61,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.3] - 2017-07-27
 - Fix issue #33
 
-## [0.1.2]
+## [0.1.2] - 2017-07-15
 - fix overflow
 - add some error detection
 - revert float to float to memory
 
-## [0.1.01]
+## [0.1.01] - 2015-06-19
 - refactor
 
-## [0.1.00]
+## [0.1.00] - 2015-06-18
 - initial version
 
 

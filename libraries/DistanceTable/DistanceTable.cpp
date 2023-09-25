@@ -1,11 +1,9 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
-//
-//  HISTORY: see changelog.md
 
 
 #include "DistanceTable.h"
@@ -53,7 +51,7 @@ void DistanceTable::setAll(float value)
 
 bool DistanceTable::set(uint8_t x, uint8_t y, float value )
 {
-  // comment next line to skip range check (squeeze performance)
+  //  comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return false;
   if (x == y) return (value == 0.0);
 
@@ -62,7 +60,7 @@ bool DistanceTable::set(uint8_t x, uint8_t y, float value )
     uint8_t t = x; x = y; y = t;  // swap
     if (_invert) value = -value;
   }
-  // prevent overflow by moving to 16 bit
+  //  prevent overflow by moving to 16 bit
   uint16_t index = x;
   index = (index * (index - 1)) / 2 + y;
   _distanceTable[index] = value;
@@ -72,7 +70,7 @@ bool DistanceTable::set(uint8_t x, uint8_t y, float value )
 
 float DistanceTable::get (uint8_t x, uint8_t y)
 {
-  // comment next line to skip range check (squeeze performance)
+  //  comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return -1;  // NAN ?
   if ( x == y ) return 0.0;
 
@@ -90,7 +88,7 @@ float DistanceTable::get (uint8_t x, uint8_t y)
 };
 
 
-// triangular dump
+//  triangular dump
 void DistanceTable::dump(Print * stream)
 {
   stream->println();
@@ -204,7 +202,7 @@ uint16_t DistanceTable::count(float value, float epsilon)
     }
   }
   if (_invert) return cnt;
-  return cnt * 2;  // count the symmetrical elements too.
+  return cnt * 2;  //  count the symmetrical elements too.
 }
 
 
@@ -238,9 +236,9 @@ uint16_t DistanceTable::countBelow(float value)
     }
   }
   if (_invert) return cnt;
-  return cnt * 2;  // count the symmetrical elements too.
+  return cnt * 2;  //  count the symmetrical elements too.
 }
 
 
-// --- END OF FILE ---
+//  --- END OF FILE ---
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PCA9551/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PCA9551/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCA9551/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PCA9551/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCA9551/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PCA9551.svg)](https://github.com/RobTillaart/PCA9551/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCA9551/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCA9551.svg?maxAge=3600)](https://github.com/RobTillaart/PCA9551/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PCA9551.svg)](https://registry.platformio.org/libraries/robtillaart/PCA9551)
 
 
 # PCA9551
@@ -47,9 +50,9 @@ all zeroes, causing the bits to be set HIGH (LED off).
 - https://github.com/RobTillaart/PCA9553  (4 channel)
 
 Follow up series
-- https://github.com/RobTillaart/PCA9634 (8 channel)
-- https://github.com/RobTillaart/PCA9635 (16 channel)
-- https://github.com/RobTillaart/PCA9685_RT (16 channel)
+- https://github.com/RobTillaart/PCA9634  (8 channel)
+- https://github.com/RobTillaart/PCA9635  (16 channel)
+- https://github.com/RobTillaart/PCA9685_RT  (16 channel)
 
 
 
@@ -194,4 +197,12 @@ These are kept similar to PCA9635 et al error codes.
 
 #### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

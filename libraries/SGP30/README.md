@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SGP30/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SGP30/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SGP30/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SGP30/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SGP30/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SGP30.svg)](https://github.com/RobTillaart/SGP30/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SGP30/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SGP30.svg?maxAge=3600)](https://github.com/RobTillaart/SGP30/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SGP30.svg)](https://registry.platformio.org/libraries/robtillaart/SGP30)
 
 
 # SGP30
@@ -67,13 +70,20 @@ or switch the VCC as a sort of ChipSelect signal.
 - https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
 
 
+#### Links
+
+- https://www.adafruit.com/product/3709 - the sensor.
+- https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
+- https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
+
+
 ## Interface
 
 ```cpp
 #include "SGP30.h"
 ```
 
-### Constructor
+#### Constructor
 
 - **SGP30(TwoWire \*wire = &Wire)** Constructor with optional the Wire interface as parameter.
 - **bool begin()** starts the I2C bus and returns true if the device address 0x58 is visible on the I2C bus.
@@ -82,14 +92,14 @@ or switch the VCC as a sort of ChipSelect signal.
 - **void GenericReset()** WARNING resets all I2C devices on the bus that support this call!
 
 
-### Meta
+#### Meta
 
 - **bool getID()** reads the sensor ID into 12 bytes. (needs rework).
 - **uint16_t getFeatureSet()** returns 0x0022, indicates that commands used in this library are supported.
 - **bool measureTest()** verify the chip is working.
 
 
-### Synchronous measurements
+#### Synchronous measurements
 
 - **uint32_t lastMeasurement()** timestamp in milliseconds of the last sync measurement made. 
 This convenience function is useful to prevent reading the sensor too often.
@@ -99,7 +109,7 @@ Note the measurement is slow as there is an active blocking until the sensor is 
 If the last measurement is less than a second ago, no measurement is made and the function returns false.
 
 
-### A-synchronous measurements
+#### A-synchronous measurements
 
 With the async interface, the user should control that reads are at least one second apart. 
 The user should also take care not to mix up different requests. See examples. 
@@ -112,7 +122,7 @@ CO2 and TVOC are read and updated. Otherwise false is returned.
 H2 and Ethanol are read and updated. Otherwise false is returned.
 
 
-### Get the data
+#### Get the data
 
 The library caches the last read values, and these are the functions to access them. 
 
@@ -122,7 +132,7 @@ The library caches the last read values, and these are the functions to access t
 - **uint16_t getEthanol_raw()** gets the raw Ethanol. Units unknown.
 
 
-### Calibration
+#### Calibration
 
 Check the datasheet for operating range, figure 7.
 
@@ -133,7 +143,7 @@ The function returns the absolute humidity.
 Concentration is in gram per cubic meter (g/m3)
 
 
-### Baseline functions
+#### Baseline functions
 
 The baseline functions give the sensor a reference value. 
 After running in a known condition e.g. outside in open air, one can get the baseline values as a sort of calibration. 
@@ -145,6 +155,12 @@ This is because the baselines are based upon recent reads.
 - **bool getBaseline(uint16_t \*CO2, uint16_t \*TVOC)** retrieves the baseline values from the sensor.
 - **void setBaseline(uint16_t CO2, uint16_t TVOC)** sets the baseline values.
 
+Note the outdoor calibration CO2 level differs per day and one should check 
+a local airport or weather station for a good reference.
+
+The University of San Diego keeps track of CO2 for a long time now.
+See - https://keelingcurve.ucsd.edu/ 
+
 
 For faster accurate results for the TVOC under bad air conditions, read **Inceptive Baseline for TVOC measurements**
 (not tested)
@@ -152,12 +168,12 @@ For faster accurate results for the TVOC under bad air conditions, read **Incept
 - **void setTVOCBaseline(uint16_t TVOC)** sets the TVOC start value.
 
 
-### Miscellaneous
+#### Miscellaneous
 
 - **int lastError()** returns last error. (needs rework)
 
 
-### Experimental H2 Ethanol
+#### Experimental H2 Ethanol
 
 use at own risk.
 
@@ -180,28 +196,23 @@ The used references are based upon
 - **uint16_t getSrefEthanol()** returns value set.
 
 
-## Operational
-
-See examples
-
-
-## Links
-
-https://www.adafruit.com/product/3709 - the sensor.
-
-
 ## Future
 
 
 #### Must
+
 - improve documentation
 
+
 #### Should
+
 - test 
   - different boards
-  - different gasses / afmosphere if possible.
+  - different gasses / atmosphere if possible.
+
 
 #### Could
+
 - redo **getID()**
 - make defines for the magic numbers (commands)
 - move code from .h to .cpp
@@ -213,6 +224,16 @@ The CRC checking + error handling (since 0.1.4) adds around 330 bytes PROGMEM on
 There might be a need for a minimal class that only reads CO2 and TVOC, no baselines etc.
 for the smallest platforms. 
 
+
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

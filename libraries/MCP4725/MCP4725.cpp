@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 //     URL: https://github.com/RobTillaart/MCP4725
 
 
@@ -33,7 +33,6 @@ MCP4725::MCP4725(const uint8_t deviceAddress, TwoWire *wire)
 
 bool MCP4725::begin(const uint8_t dataPin, const uint8_t clockPin)
 {
-  _wire  = &Wire;
   if ((dataPin < 255) && (clockPin < 255))
   {
     _wire->begin(dataPin, clockPin);

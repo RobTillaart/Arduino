@@ -1,12 +1,10 @@
 //
 //    FILE: Max44009.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.6.0
+//    DATE: 2010-??-??
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
-//
-// HISTORY: see changelog.md
-
 
 
 #include "Max44009.h"
@@ -16,47 +14,12 @@
 #define MAX44009_MAX_LUX                       (188006.0)
 
 
-#if defined(ESP8266) || defined(ESP32)
-Max44009::Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
-{
-  _address = address;
-  _data    = 0;
-  _error   = MAX44009_OK;
-  _wire    = &Wire;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-}
-#endif
-
-
-Max44009::Max44009(const uint8_t address, const Boolean begin)
-{
-  Max44009::configure(address, &Wire, begin);
-}
-
-
-Max44009::Max44009(const Boolean begin)
-{
-  Max44009::configure(MAX44009_DEFAULT_ADDRESS, &Wire, begin);
-}
-
-
-void Max44009::configure(const uint8_t address, TwoWire *wire, const Boolean begin)
+Max44009::Max44009(const uint8_t address, TwoWire *wire)
 {
   _address = address;
   _data    = 0;
   _error   = MAX44009_OK;
   _wire    = wire;
-
-  if (begin == Boolean::True)
-  {
-    _wire->begin();
-  }
 }
 
 

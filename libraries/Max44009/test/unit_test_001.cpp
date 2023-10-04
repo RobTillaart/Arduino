@@ -104,4 +104,5 @@ unittest(test_convertToLux)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

@@ -16,10 +16,10 @@
 #include "Max44009.h"
 
 // Don't begin I2C interface (Wire). Will be called in setup()
-Max44009 myLuxA(Max44009::Boolean::False);
-Max44009 myLuxB(Max44009::Boolean::False);
-Max44009 myLuxC(Max44009::Boolean::False);
-Max44009 myLuxD(Max44009::Boolean::False);
+Max44009 myLuxA(MAX44009_DEFAULT_ADDRESS, &Wire);
+Max44009 myLuxB(MAX44009_ALT_ADDRESS, &Wire);
+Max44009 myLuxC(MAX44009_DEFAULT_ADDRESS, &Wire1);
+Max44009 myLuxD(MAX44009_ALT_ADDRESS, &Wire1);
 
 uint32_t lastDisplay = 0;
 
@@ -27,15 +27,12 @@ uint32_t lastDisplay = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start max44009_test02 : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44009_LIB_VERSION: ");
   Serial.println(MAX44009_LIB_VERSION);
 
   Wire.begin(19, 18);
   Wire1.begin(22, 23);
-  myLuxA.configure(MAX44009_DEFAULT_ADDRESS, &Wire);
-  myLuxB.configure(MAX44009_ALT_ADDRESS, &Wire);
-  myLuxC.configure(MAX44009_DEFAULT_ADDRESS, &Wire1);
-  myLuxD.configure(MAX44009_ALT_ADDRESS, &Wire1);
 }
 
 

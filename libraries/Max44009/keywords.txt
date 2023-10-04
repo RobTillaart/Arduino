@@ -5,7 +5,6 @@ Max44009	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-configure	KEYWORD2
 isConnected	KEYWORD2
 getLux	KEYWORD2
 getError	KEYWORD2

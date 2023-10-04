@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2023-10-02
+- refactor constructor around I2C interface (simpler)
+- remove **configure()**
+- update readme.md
+- update examples
+
+----
+
 ## [0.5.3] - 2022-11-16
 - add RP2040 in build-CI
 - add changelog.md
 - minor edit readme.md
-
 
 ## [0.5.2] - 2022-01-05
 - minor edits after creating Max44007 library

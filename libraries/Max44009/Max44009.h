@@ -1,10 +1,11 @@
 #pragma once
 
 //    FILE: Max44009.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.5.3
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.6.0
+//    DATE: 2010-??-??
 // PURPOSE: library for MAX44009 lux sensor Arduino
-// HISTORY: See changelog.md
+
 
 
 //      breakout MAX44009 / GY-49
@@ -32,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION                  (F("0.5.3"))
+#define MAX44009_LIB_VERSION                  (F("0.6.0"))
 
 #define MAX44009_DEFAULT_ADDRESS              0x4A
 #define MAX44009_ALT_ADDRESS                  0x4B
@@ -67,20 +68,7 @@
 class Max44009
 {
 public:
-  //  enum class to prevent bool to be implicitly casted to int
-  enum class Boolean { True, False };
-
-#if defined(ESP8266) || defined(ESP32)
-  //  dataPin and clockPin can be used for ESP8266
-  Max44009(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin);
-#endif
-
-  //  constructor for UNO
-  Max44009(const uint8_t address, const Boolean begin = Boolean::True);
-  //  default constructor with default address
-  Max44009(const Boolean begin = Boolean::True);
-  //  Change I2C interface and address
-  void configure(const uint8_t address, TwoWire *wire, const Boolean begin = Boolean::True);
+  Max44009(const uint8_t address = MAX44009_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
   bool    isConnected();
   float   getLux();
@@ -105,7 +93,6 @@ public:
   void    setAutomaticMode();
   void    setContinuousMode();    //  uses more power
   void    clrContinuousMode();    //  uses less power
-
   //      CDR = Current Divisor Ratio
   //      CDR = 1 ==> only 1/8th is measured
   //      TIM = Time Integration Measurement (table)

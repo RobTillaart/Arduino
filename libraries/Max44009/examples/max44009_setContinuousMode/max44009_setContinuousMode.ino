@@ -25,7 +25,8 @@ int count = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\nStart max44009_setContinuousMode : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44009_LIB_VERSION: ");
   Serial.println(MAX44009_LIB_VERSION);
 
   Wire.begin();

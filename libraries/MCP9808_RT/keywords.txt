@@ -6,7 +6,6 @@ MCP9808	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-setAddress	KEYWORD2
 setConfigRegister	KEYWORD2
 getConfigRegister	KEYWORD2
 

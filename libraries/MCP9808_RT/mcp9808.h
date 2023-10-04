@@ -2,7 +2,7 @@
 //
 //    FILE: mcp9808.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -17,7 +17,7 @@
 //  24..31  ==  0x18..0x1F
 
 
-#define MCP9808_LIB_VERSION               (F("0.3.1"))
+#define MCP9808_LIB_VERSION               (F("0.4.0"))
 
 
 //  CONFIGURATION REGISTER MASKS
@@ -37,14 +37,8 @@
 class MCP9808
 {
 public:
-#if defined(ESP8266) || defined(ESP32)
-  //  dataPin and clockPin can be used for ESP8266
-  MCP9808(const uint8_t address, const uint8_t dataPin = 255, const uint8_t clockPin = 255);
-#else
-  MCP9808(const uint8_t address);
-#endif
+  MCP9808(const uint8_t address, TwoWire *wire = &Wire);
 
-  bool      setAddress(const uint8_t address, TwoWire *wire = &Wire);
   bool      isConnected();
 
   void      setConfigRegister(uint16_t configuration);

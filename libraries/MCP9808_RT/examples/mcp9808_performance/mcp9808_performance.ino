@@ -16,6 +16,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP9808_LIB_VERSION: ");
+  Serial.println(MCP9808_LIB_VERSION);
+
+  Wire.begin();
 
   // UNO can do max 850 Kbits / sec
   Serial.println("\nCLOCK\tTEMP\tMICROS");
@@ -44,4 +48,3 @@ void loop()
 
 
 // -- END OF FILE --
-

@@ -6,10 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-10-04
+- Fix #13 Refactor constructor - (simpler)
+- removed **setAddress()** - (force one sensor one object)
+  as different addresses can have e.g. different offsets.
+- add ESP32 specific example.
+- Fix #15 PlatformIO badge
+-
+
+----
+
 ## [0.3.1] - 2023-09-23
 - Add Wire1 support for ESP32
 - update readme.md
-
 
 ## [0.3.0] - 2023-02-03
 - Fix #11 Wire2

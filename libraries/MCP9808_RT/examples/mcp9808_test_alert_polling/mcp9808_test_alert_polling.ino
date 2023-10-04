@@ -22,21 +22,25 @@
 
 MCP9808 ts(24);
 
-const uint8_t ALERTPIN = 5;     // ADJUST IF NEEDED
+const uint8_t ALERTPIN = 5;     //  ADJUST IF NEEDED
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP9808_LIB_VERSION: ");
+  Serial.println(MCP9808_LIB_VERSION);
 
-  // SET TEMPERATURE WINDOW FOR COMPERATOR MODE °C
-  // small window for 'fast' effect
+  Wire.begin();
+
+  //  SET TEMPERATURE WINDOW FOR COMPERATOR MODE ï¿½C
+  //  small window for 'fast' effect
   ts.setTlower(22);
   ts.setTupper(23);
-  // SET AUTO RESET  (p32 datasheet)
-  // same value as Tupper to have auto reset in comparator mode.
-  // note no hysteresis set
+  //  SET AUTO RESET  (p32 datasheet)
+  //  same value as Tupper to have auto reset in comparator mode.
+  //  note no hysteresis set
   ts.setTcritical(23);
 
   Serial.print("LOW:\t");
@@ -50,19 +54,19 @@ void setup()
 
   // SET ALERT PARAMETERS
   uint16_t cfg = ts.getConfigRegister();
-  cfg &= ~0x0001;      // set comparator mode
-  // cfg &= ~0x0002;      // set polarity HIGH
-  cfg |= 0x0002;       // set polarity LOW
-  cfg &= ~0x0004;      // use upper lower and critical
-  cfg |= 0x0008;       // enable alert
+  cfg &= ~0x0001;      //  set comparator mode
+  // cfg &= ~0x0002;      //  set polarity HIGH
+  cfg |= 0x0002;       //  set polarity LOW
+  cfg &= ~0x0004;      //  use upper lower and critical
+  cfg |= 0x0008;       //  enable alert
   ts.setConfigRegister(cfg);
 }
 
 
 void loop()
 {
-  // will keep on alerting until pin = LOW again  
-  // real difference with irq-RISING or CHANGE
+  //  will keep on alerting until pin = LOW again
+  //  real difference with irq-RISING or CHANGE
   if (digitalRead(ALERTPIN) == HIGH)
   {
     Serial.println("---> ALERT !!!");
@@ -77,5 +81,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

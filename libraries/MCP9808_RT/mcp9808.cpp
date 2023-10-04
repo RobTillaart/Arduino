@@ -22,47 +22,25 @@
 
 
 /*
-    0000  =  RFU, Reserved for Future Use (Read-Only register)
-    0001  =  Configuration register (CONFIG)
-    0010  =  Alert Temperature Upper Boundary Trip register (TUPPER)
-    0011  =  Alert Temperature Lower Boundary Trip register (TLOWER)
-    0100  =  Critical Temperature Trip register (TCRIT)
-    0101  =  Temperature register (TA)
-    0110  =  Manufacturer ID register
-    0111  =  Device ID/Revision register
-    1000  =  Resolution register
-    1xxx  =  Reserved(1)
+    0x00 = 0000 = RFU, Reserved for Future Use (Read-Only register)
+    0x01 = 0001 = Configuration register (CONFIG)
+    0x02 = 0010 = Alert Temperature Upper Boundary Trip register (TUPPER)
+    0x03 = 0011 = Alert Temperature Lower Boundary Trip register (TLOWER)
+    0x04 = 0100 = Critical Temperature Trip register (TCRIT)
+    0x05 = 0101 = Temperature register (TA)
+    0x06 = 0110 = Manufacturer ID register
+    0x07 = 0111 = Device ID/Revision register
+    0x08 = 1000 = Resolution register
+           1xxx = Reserved(1)
 */
 
 
-#if defined(ESP8266) || defined(ESP32)
-MCP9808::MCP9808(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
+MCP9808::MCP9808(const uint8_t address, TwoWire *wire)
 {
   _address = address;
-  if ((address < 24) || (_address > 31)) return;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-}
-#else
-MCP9808::MCP9808(const uint8_t address)
-{
-  MCP9808::setAddress(address, &Wire);
-}
-#endif
-
-
-bool MCP9808::setAddress(const uint8_t address, TwoWire *wire)
-{
-  if ((address < 24) || (address > 31)) return false;
-  _address = address;
-  _wire = wire;
-  _wire->begin();
-  return true;
+  _wire    = wire;
+  _offset  = 0;
+  _status  = 0;
 }
 
 
@@ -129,7 +107,7 @@ void MCP9808::setOffset(float offset)
 
 float MCP9808::getOffset()
 {
-  return _offset; 
+  return _offset;
 };
 
 

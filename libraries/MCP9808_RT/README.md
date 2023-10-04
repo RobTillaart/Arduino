@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP9808_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP9808_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP9808_RT/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP9808_RT.svg)](https://registry.platformio.org/libraries/robtillaart/MCP9808_RT)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP9808.svg)](https://registry.platformio.org/libraries/robtillaart/MCP9808)
 
 
 # MCP9808_RT
@@ -50,10 +50,14 @@ of electronics if the temperature hits a predefined value or temperature zone.
 
 #### Constructor
 
-- **MCP9808(const uint8_t address)** constructor for e.g. UNO.
-- **MCP9808(const uint8_t address, const uint8_t dataPin = 255, const uint8_t clockPin = 255)** constructor for ESP32 and ESP8266.
-- **bool setAddress(const uint8_t address, TwoWire \*wire = &Wire)** if multiple I2C buses are present one can choose.
+- **MCP9808(const uint8_t address, TwoWire \*wire = &Wire)** Set the device address.
+Option one can set the I2C bus if multiple I2C buses are present.
 Default I2C bus is Wire.
+
+**0.4.0 Breaking change**
+
+The user must initialize the I2C bus in **setup()**, the library doesn't do that
+since 0.4.0. So one need to call **Wire.begin()** or **Wire.begin(SDA, SCL)**.
 
 
 #### Address
@@ -86,7 +90,7 @@ The value of offset is not validated to keep footprint small.
 
 The value returned by **getStatus()** is the last value read by the call to **GetTemperature()**.  
 There are three bits, see table below. 
-A value of 6 == mask == 110 means that TA is above the upper and above the critical temperature.
+A value of 6 == mask == 110 means that TA is above the upper AND above the critical temperature.
 
 |  Bit  |  Mask  |  Description  |  Notes           |
 |:-----:|:------:|:--------------|:-----------------|
@@ -100,15 +104,16 @@ A value of 6 == mask == 110 means that TA is above the upper and above the criti
 - **void setResolution(uint8_t resolution = 3)** set the resolution, if resolution > 3, it is not set.
 - **uint8_t getResolution()** returns the resolution set.
 
-|  Value  |  Resolution  |  Conv time (ms)  |  Samples/s  |  Notes   |
-|:-------:|:-------------|:----------------:|:-----------:|:--------:|
-|    0    |  0.5°C       |   30             |   33        |          |
-|    1    |  0.25°C      |   65             |   15        |          |
-|    2    |  0.125°C     |   130            |   7         |          |
-|    3    |  0.0625°C    |   250            |   4         |  default |
+|  Value  |  Resolution  |  Conversion  |  Samples/s  |  Notes   |
+|:-------:|:-------------|:------------:|:-----------:|:--------:|
+|    0    |  0.5°C       |     30 ms    |   33        |          |
+|    1    |  0.25°C      |     65 ms    |   15        |          |
+|    2    |  0.125°C     |    130 ms    |   7         |          |
+|    3    |  0.0625°C    |    250 ms    |   4         |  default |
 
 
-Note: for the same resolution it is about 3x faster than a DS18B20.
+Note: for the same resolution the MCP9808 is about 3x faster than 
+the popular DS18B20.
 
 
 #### Configuration

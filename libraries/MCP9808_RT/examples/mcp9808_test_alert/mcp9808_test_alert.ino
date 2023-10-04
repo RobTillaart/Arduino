@@ -27,8 +27,12 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MCP9808_LIB_VERSION: ");
+  Serial.println(MCP9808_LIB_VERSION);
 
-  // SET TEMPERATURE WINDOW FOR COMPERATOR MODE °C
+  Wire.begin();
+
+  // SET TEMPERATURE WINDOW FOR COMPERATOR MODE ï¿½C
   ts.setTlower(21);
   ts.setTupper(23);
 
@@ -68,4 +72,3 @@ void loop()
 
 
 // -- END OF FILE --
-

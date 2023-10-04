@@ -18,7 +18,8 @@ uint32_t count = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start Max44007_two_sensors : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
@@ -60,4 +61,3 @@ void loop()
 
 
 // -- END OF FILE --
-

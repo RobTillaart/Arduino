@@ -7,7 +7,7 @@
 #include "Wire.h"
 #include "Max44007.h"
 
-Max44007 myLux(0x5A);
+Max44007 myLux;
 
 uint32_t lastDisplay = 0;
 uint32_t lastChangeCDRTIM = 0;
@@ -19,7 +19,8 @@ uint8_t TIM = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\nStart Max44007_setManualMode : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
@@ -70,4 +71,3 @@ void loop()
 
 
 // -- END OF FILE --
-

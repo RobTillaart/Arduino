@@ -2,9 +2,10 @@
 
 //    FILE: Max44007.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
+//    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
-// HISTORY: See Max44007.cpp
+//     URL: https://github.com/RobTillaart/MAX44007
 
 
 //       breakout MAX44007
@@ -32,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44007_LIB_VERSION                  (F("0.1.2"))
+#define MAX44007_LIB_VERSION                  (F("0.2.0"))
 
 #define MAX44007_DEFAULT_ADDRESS              0x5A
 #define MAX44007_ALT_ADDRESS                  0x5B
@@ -68,20 +69,7 @@
 class Max44007
 {
 public:
-  //  enum class to prevent bool to be implicitly casted to int
-  enum class Boolean { True, False };
-
-#if defined(ESP8266) || defined(ESP32)
-  //  dataPin and clockPin can be used for ESP8266
-  Max44007(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin);
-#endif
-
-  //  constructor for UNO
-  Max44007(const uint8_t address, const Boolean begin = Boolean::True);
-  //  default constructor with default address
-  Max44007(const Boolean begin = Boolean::True);
-  //  Change I2C interface and address
-  void configure(const uint8_t address, TwoWire *wire, const Boolean begin = Boolean::True);
+  Max44007(const uint8_t address = MAX44007_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
   bool    isConnected();
   float   getLux();
@@ -100,7 +88,7 @@ public:
   bool    interruptEnabled()   { return read(MAX44007_INTERRUPT_ENABLE) & 0x01; };
   uint8_t getInterruptStatus() { return read(MAX44007_INTERRUPT_STATUS) & 0x01; };
 
-  //  check datasheet for detailed behavior
+  //  check datasheet for detailed behaviour
   void    setConfiguration(uint8_t);
   uint8_t getConfiguration();
   void    setAutomaticMode();

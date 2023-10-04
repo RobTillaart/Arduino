@@ -1,12 +1,10 @@
 //
 //    FILE: Max44007.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
+//    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
-//     URL: https://github.com/RobTillaart/Max44007
-//
-// HISTORY: see changelog.md
-
+//     URL: https://github.com/RobTillaart/MAX44007
 
 
 #include "Max44007.h"
@@ -17,48 +15,12 @@
 #define MAX44007_MAX_LUX                       (104448.0)
 
 
-
-#if defined(ESP8266) || defined(ESP32)
-Max44007::Max44007(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
-{
-  _address = address;
-  _data    = 0;
-  _error   = MAX44007_OK;
-  _wire    = &Wire;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-}
-#endif
-
-
-Max44007::Max44007(const uint8_t address, const Boolean begin)
-{
-  Max44007::configure(address, &Wire, begin);
-}
-
-
-Max44007::Max44007(const Boolean begin)
-{
-  Max44007::configure(MAX44007_DEFAULT_ADDRESS, &Wire, begin);
-}
-
-
-void Max44007::configure(const uint8_t address, TwoWire *wire, const Boolean begin)
+Max44007::Max44007(const uint8_t address, TwoWire *wire)
 {
   _address = address;
   _data    = 0;
   _error   = MAX44007_OK;
   _wire    = wire;
-
-  if (begin == Boolean::True)
-  {
-    _wire->begin();
-  }
 }
 
 
@@ -257,4 +219,4 @@ void Max44007::write(uint8_t reg, uint8_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

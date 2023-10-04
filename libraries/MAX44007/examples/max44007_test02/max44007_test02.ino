@@ -15,10 +15,10 @@
 
 
 // Don't begin I2C interface (Wire). Will be called in setup()
-Max44007 myLuxA(Max44007::Boolean::False);
-Max44007 myLuxB(Max44007::Boolean::False);
-Max44007 myLuxC(Max44007::Boolean::False);
-Max44007 myLuxD(Max44007::Boolean::False);
+Max44007 myLuxA(MAX44007_DEFAULT_ADDRESS, &Wire);
+Max44007 myLuxB(MAX44007_ALT_ADDRESS, &Wire);
+Max44007 myLuxC(MAX44007_DEFAULT_ADDRESS, &Wire1);
+Max44007 myLuxD(MAX44007_ALT_ADDRESS, &Wire1);
 
 uint32_t lastDisplay = 0;
 
@@ -26,15 +26,12 @@ uint32_t lastDisplay = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start Max44007_test02 : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin(19, 18);
   Wire1.begin(22, 23);
-  myLuxA.configure(MAX44007_DEFAULT_ADDRESS, &Wire);
-  myLuxB.configure(MAX44007_ALT_ADDRESS, &Wire);
-  myLuxC.configure(MAX44007_DEFAULT_ADDRESS, &Wire1);
-  myLuxD.configure(MAX44007_ALT_ADDRESS, &Wire1);
 }
 
 
@@ -52,4 +49,3 @@ void loop() {
 
 
 // -- END OF FILE --
-

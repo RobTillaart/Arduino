@@ -1,7 +1,13 @@
 compile:
-  # Choosing to run compilation tests on 2 different Arduino platforms
+  #  Choosing to run compilation tests on 2 different Arduino platforms
+  #  ESP32 specific application
   platforms:
     # - uno
-    # - leonardo
     # - due
     # - zero
+    # - leonardo
+    # - m4
+    - esp32
+    # - esp8266
+    # - mega2560
+    # - rpipico

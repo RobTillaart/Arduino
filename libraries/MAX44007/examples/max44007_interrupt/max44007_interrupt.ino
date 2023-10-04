@@ -16,7 +16,8 @@ uint32_t lastDisplay = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\nStart Max44007_interrupt : ");
+  Serial.println(__FILE__);
+  Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
 
   Wire.begin();
@@ -62,4 +63,3 @@ void loop()
 
 
 // -- END OF FILE --
-

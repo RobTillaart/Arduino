@@ -1,0 +1,41 @@
+# Syntax Colouring Map For ACD10
+
+# Data types (KEYWORD1)
+ACD10	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+preHeatDone	KEYWORD2
+preHeatMillisLeft	KEYWORD2
+
+requestSensor	KEYWORD2
+requestReady	KEYWORD2
+readSensor	KEYWORD2
+getCO2Concentration	KEYWORD2
+getTemperature	KEYWORD2
+lastRead	KEYWORD2
+
+setRequestTime	KEYWORD2
+getRequestTime	KEYWORD2
+
+setCalibrationMode	KEYWORD2
+readCallibrationMode	KEYWORD2
+setManualCalibration	KEYWORD2
+readManualCalibration	KEYWORD2
+
+factoryReset	KEYWORD2
+readFactorySet	KEYWORD2
+readFirmwareVersion	KEYWORD2
+readSensorCode	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+ACD10_LIB_VERSION	LITERAL1
+
+

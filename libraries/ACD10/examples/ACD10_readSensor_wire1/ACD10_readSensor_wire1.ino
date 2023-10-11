@@ -8,7 +8,7 @@
 #include "ACD10.h"
 
 
-ACD10 mySensor(&Wire);  //  explicit default, not needed.
+ACD10 mySensor(&Wire1);
 
 
 void setup()
@@ -19,7 +19,7 @@ void setup()
   Serial.print("ACD10_LIB_VERSION: ");
   Serial.println(ACD10_LIB_VERSION);
 
-  Wire.begin();
+  Wire1.begin();
   mySensor.begin();
 }
 

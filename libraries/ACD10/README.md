@@ -19,42 +19,56 @@ Arduino library for the ACD10 CO2 sensor (I2C).
 **Experimental**
 
 This library is to use the Aosong ACD10 CO2 sensor.
-Besides CO2 concentration it also provides a temperature reading.
-
-The sensor can be read over I2C and over Serial, however this library
-only support the I2C interface.
-The device has a fixed I2C address of 0x2A (42). 
+Besides CO2 concentration this sensor also provides a temperature reading.
 
 The CO2 concentration supported by the sensor has a range from 400 ~ 5000 ppm ±(50ppm + 5% reading).
 This makes the sensor applicable for outdoor and indoor measurements in
-a normal building setting. It is not suitable for CO2 heavy "industrial" environments.
+a normal building setting. 
+The sensor is not suitable for CO2 heavy "industrial" environments. 
+
+The temperature range the sensor can measure is: **TODO UNKNOWN YET**
+
+
+#### Pre-heat period
 
 When the sensor starts up it has a pre-heat period of 120 seconds.
-The library provides functions to check the time since the constructor is called,
-but note that this not necessarily implies the sensor is ON.
+The library provides functions to check the time since the constructor is called.
+Note that this not necessarily implies that the sensor is ON.
 During the preheat period one can make measurements but one should use those
 carefully as these are less accurate than after the preheat period.
+
+
+#### Calibration
 
 Also important is the calibration of the sensor, although done in the factory,
 a CO2 sensor needs regular calibration. See datasheet for details.
 
-The temperature range it can measure is: **TODO UNKNOWN YET**
 
-The sensor must be powered with 5V and usese about 225 mW.
-This implies it uses 50 mA and needs a separate power supply. (Do not forget to connect GND.)
+#### Power
+
+The sensor must be powered with 5V and uses about 225 mW.
+This implies the sensor uses 50 mA (@5V) and needs a separate power supply. 
+One must connect GND from the power supply to the GND of the MCU.
+
+
+#### I2C
+
+The sensor can be read over I2C and over Serial.
+This library only support the I2C interface (see hardware notes below).
+The device has a fixed I2C address of 0x2A (42). 
 The I2C communication supports 3-5V so any 3.3V MCU should be able to connect.
-(Do not forget pull up resistors).
+Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
 
 
 #### Datasheet warning
 
-Do not apply this product to safety protection devices or emergency stop equipment, and any other
-applications that may cause personal injury due to the product's failure.
+Do not apply this product to safety protection devices or emergency stop equipment, 
+and any other applications that may cause personal injury due to the product's failure.
 
 
 #### Operating conditions
 
-- temperature: 0°C~ +50°C ==> so keep away from freezing cold or direct sunlight.
+- temperature: 0°C~ +50°C ==> keep away from freezing cold or direct sunlight.
 - humidity: 0% ~ 95% RH ==> non-condensing conditions.
 - Data refresh frequency: 2 seconds
 
@@ -78,13 +92,13 @@ applications that may cause personal injury due to the product's failure.
 |   1   |  SDA/RX  |  I2C data         |  3-5V
 |   2   |  SCL/TX  |  I2C clock        |  3-5V
 |   3   |  GND     |  Ground           |
-|   4   |  VCC     |  Power +5V        |
-|   5   |  SET     |  select com mode  |  HIGH (or nc) => I2C, LOW => Serial
+|   4   |  VCC     |  Power +5V        |  separate power supply needed.
+|   5   |  SET     |  select com mode  |  HIGH (or n.c.) => I2C, LOW => Serial
 |   6   |   -      |  not connected    |
 
-If pin 5 is not connected, the default (HIGH) is to select I2C.
-If pin 5 is connected to GND, Serial / UART mode is selected.
-This latter mode is **NOT** supported by this library.
+If pin 5 is not connected or connected to HIGH, **I2C** is selected (default).
+If pin 5 is connected to GND (LOW), Serial / UART mode is selected.
+This latter serial mode is **NOT** supported by this library.
 
 
 #### Related
@@ -101,28 +115,29 @@ This latter mode is **NOT** supported by this library.
 
 #### Tested
 
-TODO: Test on Arduino UNO and ESP32 ?
-
+TODO: Test on Arduino UNO and ESP32
 
 
 ## I2C
 
 The device has a fixed I2C address of 0x2A (42). 
 The I2C communication supports 3-5V so any 3.3V - 5.0V MCU should be able to connect.
-Do not forget pull up resistors on SDA and SCL lines.
+Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
 
 
 #### Multiple sensors.
 
-The ACD10 sensor has a fixed I2C address 0x2A (42) so only
-one sensor per I2C bus can be used.
+The ACD10 sensor has a fixed I2C address 0x2A (42) so only one sensor per I2C bus can be used.
+
 If one needs more sensors there are some options.
 - One could use an I2C multiplexer - https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
 - One could use an MCU with multiple I2C buses.
-- One could use a Two-Wire compatible SW I2C (outside scope of this library).
+- One could use a (Two-Wire compatible) SW I2C (outside scope of this library).
 
 Using the VCC as a Chip Select is not advised as the ACD10
-has a preheat time of 2 minutes.
+has a preheat time of 2 minutes. 
+Every time the power is shut off the pre-heat would run again internally.
+It is unclear what effect this has on the lifetime and quality of the sensor.
 
 
 #### Performance I2C
@@ -151,10 +166,8 @@ TODO: run performance sketch.
 
 #### Constructor
 
-- **ACD10(uint8_t address = ACD10_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)**
-- **bool begin(uint8_t sda, uint8_t scl)** (ESP32) initializes I2C, 
-and checks if device is visible on the I2C bus.
-- **bool begin()** initializes I2C, and checks if device is visible on the I2C bus.
+- **ACD10(TwoWire \*wire = &Wire)** optional select I2C bus.
+- **bool begin()** checks if device is visible on the I2C bus.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
 - **uint8_t getAddress()** Returns address set in the constructor.
 
@@ -188,9 +201,10 @@ Multiple calls will give the same value until new measurement is made.
 - **uint32_t lastRead()** returns the moment of last **readSensor()** in milliseconds
 since start.
 Note the sensor can be read only once every two seconds, less often is better.
+The library does not guard this two seconds interval (yet).
 - **void setRequestTime(uint8_t milliseconds = 80)** set the time to make a measurement.
 Default = 80 milliseconds.
-This can be used to tweak / optimize performance a bit. 
+This can be used to tweak / optimize the performance, so use with care!
 Use 5~10 milliseconds above the minimal value the sensor still works.
 - **uint8_t getRequestTime()** returns the current request time in milliseconds.
 

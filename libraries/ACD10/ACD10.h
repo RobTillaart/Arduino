@@ -3,7 +3,7 @@
 //    FILE: ACD10.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PUPROSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ACD10_LIB_VERSION         (F("0.1.0"))
+#define ACD10_LIB_VERSION         (F("0.1.1"))
 #define ACD10_DEFAULT_ADDRESS     0x2A
 
 //  ERROR CODES
@@ -29,9 +29,6 @@ class ACD10
 public:
   ACD10(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  getAddress();
@@ -52,7 +49,7 @@ public:
   uint8_t  getRequestTime();
 
 
-  //  CALIBRATION
+  //  CALIBRATION  (! read datasheet)
   //       0 = manual  1 = auto
   bool     setCalibrationMode(uint8_t mode);
   uint8_t  readCallibrationMode();
@@ -60,7 +57,7 @@ public:
   uint16_t readManualCalibration();
 
 
-  //  MISC
+  //  MISCELLANEOUS
   void     factoryReset();
   bool     readFactorySet();
   void     readFirmwareVersion(char * arr);  //  should have length 11++
@@ -70,6 +67,7 @@ public:
   //  DEBUG
   int  getLastError();
 
+
 private:
   uint8_t  _address = 0x2A;
   TwoWire* _wire;
@@ -78,8 +76,8 @@ private:
   int      _request(uint8_t * arr, uint8_t size);
   uint8_t  _crc8(uint8_t * arr, uint8_t size);
 
-  uint32_t _start = 0;
-  uint32_t _lastRead = 0;
+  uint32_t _preHeatStart  = 0;
+  uint32_t _lastRead      = 0;
   uint32_t _concentration = 0;    //  why datasheet states 32 bit as 400-5000 fit in 16 bit??
   uint16_t _temperature   = 0;
   uint8_t  _requestTime   = 80;

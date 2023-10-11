@@ -2,7 +2,7 @@
 //    FILE: ACD10.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PUPROSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -18,26 +18,17 @@ ACD10::ACD10(TwoWire *wire)
   _lastRead = 0;
   _concentration = 0;
   _temperature = 0;
-  _start = millis();
+  _preHeatStart = millis();
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool ACD10::begin(uint8_t sda, uint8_t scl)
-{
-  _wire->begin(sda, scl);
-  if (! isConnected())
-  {
-    return false;
-  }
-  return true;
-}
-#endif
 
 
 bool ACD10::begin()
 {
-  _wire->begin();
+  //  reset variables
+  _error = 0;
+  _lastRead = 0;
+  _concentration = 0;
+  _temperature = 0;
   if (! isConnected())
   {
     return false;
@@ -71,7 +62,7 @@ bool ACD10::preHeatDone()
 
 uint32_t ACD10::preHeatMillisLeft()
 {
-  uint32_t delta = millis() - _start;
+  uint32_t delta = millis() - _preHeatStart;
   if (delta >= 120000UL) return 0;
   return 120000UL - delta;
 }

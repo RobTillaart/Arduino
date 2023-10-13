@@ -21,13 +21,11 @@ Arduino library for I2C digital potentiometer AD5263 and compatibles.
 The AD5263 is a digital potentiometer with 4 channels.
 This digital potentiometers come in 20, 50 and 200 kΩ
 and can be set in 256 steps.
+This library only implements the I2C interface (See future for SPI).
 
-This library only implements the I2C interface.
-
-An important property of the device is that it defaults
+An important property of the AD5263 device is that it defaults
 to their mid position at startup.
-
-The library also defines **AD5263_MIDPOINT** == 128.
+The library defines **AD5263_MIDPOINT** == 128 (as per datasheet).
 To be used to set to defined mid-point.
 
 (Library is based on datasheet Rev.F )
@@ -45,8 +43,44 @@ This library is related to
 
 #### Compatibles
 
-The AD5280 and AD5282 are one and two channel devices that might be compatible.
-Not tested yet. See future.
+None known so far. 
+
+
+## Hardware connection AD5263
+
+Please read datasheet for all details!
+
+|  Pin |   Name    |  Description (short)                   |
+|:----:|:----------|:---------------------------------------|
+|   1  |       B1  |  Resistor Terminal B1.                 |
+|   2  |       A1  |  Resistor Terminal A1 (ADDR = 00).     |
+|   3  |       W1  |  Wiper Terminal W1.                    |
+|   4  |       B3  |  Resistor Terminal B3.                 |
+|   5  |       A3  |  Resistor Terminal A3.                 |
+|   6  |       W3  |  Wiper Terminal W3 (ADDR = 10).        |
+|   7  |      VDD  |  Positive Power Supply                 |
+|   8  |      GND  |  Ground.                               |
+|   9  |      DIS  |  SPI/I2C Select.  SPI = 0, I2C = 1     |
+|  10  |   VLOGIC  |  2.7 - 5.5V Logic Supply Voltage.      |  
+|  11  |  SDI/SDA  |  (SPI data in)    I2C SDA              |
+|  12  |  CLK/SCL  |  Serial Clock     I2C SCL              |
+|  13  |   CS/AD0  |  (SPI Chip Select). I2C address bit 0  |
+|  14  |  RES/AD1  |  (SPI RESET) I2C Address bit 1         |
+|  15  |     SHDN  |  Shutdown. Tie to +5 V if not used.    |
+|  16  |   SDO/O1  |  (SPI data out)   I2C  Output O1       |
+|  17  |    NC/O2  |  (SPI No Connect) I2C Output O2        |
+|  18  |      VSS  |  Negative Power Supply.                |
+|  19  |       W4  |  Wiper Terminal W4 (ADDR = 11).        |
+|  20  |       A4  |  Resistor Terminal A4.                 |
+|  21  |       B4  |  Resistor Terminal B4.                 |
+|  22  |       W2  |  Wiper Terminal W2 (ADDR = 01).        |
+|  23  |       A2  |  Resistor Terminal A2.                 |
+|  24  |       B2  |  Resistor Terminal B2.                 |
+
+
+VLOGIC: 
+The logic supply voltage should always be less than or equal to VDD. 
+In addition, logic levels must be limited to the logic supply voltage regardless of VDD.
 
 
 ## I2C
@@ -67,9 +101,16 @@ Note the AD5263 uses the same range as the AD524X devices.
 
 #### Performance
 
-- TODO
-- table
-- test sketch
+- TODO: Test with UNO / ESP32 / RP2040 / ...
+
+|  Speed   |  UNO (us)  |  ESP32 (us)  |
+|:--------:|:----------:|:------------:|
+|  100000  |            |              |
+|  200000  |            |              |
+|  400000  |            |              |
+|  600000  |            |              |
+|  800000  |            |              |
+| 1000000  |            |              |
 
 
 ## Interface
@@ -129,7 +170,7 @@ rdac should be 0..3.
 #### Must
 
 - update documentation.
-- get hardware (breakout or so).
+- get hardware (breakout).
 - test with hardware.
 
 
@@ -138,10 +179,10 @@ rdac should be 0..3.
 
 #### Could
 
-- investigate AD5280/82 compatibility.
 - improve error handling.
 - sync with AD520X / AD524X library
 - optimize footprint **write()** and **midScaleReset()**
+- investigate SPI interface (performance better)
 
 
 #### Wont

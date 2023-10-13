@@ -1,7 +1,7 @@
 //
 //    FILE: AD5263.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C digital potentiometer AD5263 and compatibles.
 //    DATE: 2023-10-09
 //     URL: https://github.com/RobTillaart/AD5263
@@ -193,55 +193,14 @@ uint8_t AD5263::send(const uint8_t cmd, const uint8_t value)
 }
 
 
+
 //////////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
 //
-/*
-AD5280::AD5280(const uint8_t address, TwoWire *wire) : AD5263(address, wire)
-{
-  _pmCount = 1;
-}
+//  None known so far.
 
 
-uint8_t AD5280::write(const uint8_t value)
-{
-  //  apply the output lines
-  uint8_t cmd = AD5263_RDAC0 | _O1 | _O2;
-  _lastValue[0] = value;
-  return send(cmd, value);
-}
-
-
-uint8_t AD5280::write(const uint8_t value, const uint8_t O1, const uint8_t O2)
-{
-  _O1 = (O1 == LOW) ? 0 : AD5263_O1_HIGH;
-  _O2 = (O2 == LOW) ? 0 : AD5263_O2_HIGH;
-
-  //  apply the output lines
-  uint8_t cmd = AD5263_RDAC0 | _O1 | _O2;
-  _lastValue[0] = value;
-  return send(cmd, value);
-}
-
-
-uint8_t AD5280::write(const uint8_t rdac, const uint8_t value)
-{
-  return AD5263::write(rdac, value);
-}
-
-
-uint8_t AD5280::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
-{
-  return AD5263::write(rdac, value, O1, O2);
-}
-
-
-AD5242::AD5282(const uint8_t address, TwoWire *wire) : AD5263(address, wire)
-{
-  _pmCount = 2;
-}
-*/
 
 //  -- END OF FILE --
 

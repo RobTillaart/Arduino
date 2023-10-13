@@ -1,6 +1,6 @@
 {
   "name": "AD5263",
-  "keywords": "I2C,digital,PotentioMeter, AD5241, AD5242",
+  "keywords": "I2C,digital,PotentioMeter",
   "description": "Library to control digital potentiometer AD5263 and compatibles.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AD5263"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

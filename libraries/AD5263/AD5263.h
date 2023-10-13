@@ -2,8 +2,8 @@
 //
 //    FILE: AD5263.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: 
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for I2C digital potentiometer AD5263 and compatibles.
 //    DATE: 2023-10-09
 //     URL: https://github.com/RobTillaart/AD5263
 //          based upon AD524X interface.
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AD5263_LIB_VERSION    (F("0.1.0"))
+#define AD5263_LIB_VERSION    (F("0.1.1"))
 
 
 #define AD5263_OK             0
@@ -76,28 +76,8 @@ protected:
 //
 //  DERIVED CLASSES
 //
-/*
-//  ONE CHANNEL
-class AD5280 : public AD5263
-{
-public:
-  AD5280(const uint8_t address, TwoWire *wire = &Wire);
+//  None known so far.
 
-  uint8_t write(const uint8_t value);
-  uint8_t write(const uint8_t value, const uint8_t O1, const uint8_t O2);
-
-  uint8_t write(const uint8_t rdac, const uint8_t value);
-  uint8_t write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2);
-};
-
-
-//  TWO CHANNEL
-class AD5282 : public AD5263
-{
-public:
-  AD5262(const uint8_t address, TwoWire *wire = &Wire);
-};
-*/
 
 //  -- END OF FILE --
 

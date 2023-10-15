@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315C.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AM2315C I2C temperature and humidity sensor.
 
 
@@ -31,25 +31,9 @@ AM2315C::AM2315C(TwoWire *wire)
 
 bool AM2315C::begin()
 {
-  _wire->begin();
   //  _wire->setWireTimeout(AM2315C_WIRE_TIME_OUT, true);
   return isConnected();
 }
-
-
-#if defined(ESP8266) || defined(ESP32)
-bool AM2315C::begin(const uint8_t dataPin, const uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  //  _wire->setWireTimeout(AM2315C_WIRE_TIME_OUT, true);
-  return isConnected();
-}
-#endif
 
 
 bool AM2315C::isConnected()

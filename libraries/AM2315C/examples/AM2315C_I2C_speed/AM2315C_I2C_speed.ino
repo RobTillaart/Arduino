@@ -17,21 +17,25 @@
 
 #include "AM2315C.h"
 
-AM2315C DHT;
+AM2315C DHT;  //  default Wire
 
 uint32_t start, stop;
+
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AM2315C LIBRARY VERSION: ");
   Serial.println(AM2315C_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
+  DHT.begin();    //  ESP32 default pins 21 22
+
   Serial.println("\nNOTE: datasheet states 400 KHz as maximum.\n");
 
-  DHT.begin();  //  ESP32 default pins 21, 22
   delay(2000);
 
   for (uint32_t speed = 50000; speed < 850000; speed += 50000)

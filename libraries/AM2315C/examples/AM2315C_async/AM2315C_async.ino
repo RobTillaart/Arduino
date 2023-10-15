@@ -20,23 +20,23 @@ AM2315C DHT;
 
 uint32_t counter = 0;
 
+
 void setup()
 {
-  DHT.begin();  //  ESP32 default 21, 22
-
-  Wire.setClock(400000);
-
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AM2315C LIBRARY VERSION: ");
   Serial.println(AM2315C_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
+  DHT.begin();
+
   delay(2000);
 
   //  start with initial request
   Serial.println(DHT.requestData());
-
 }
 
 

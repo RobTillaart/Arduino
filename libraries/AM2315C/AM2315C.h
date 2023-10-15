@@ -3,7 +3,7 @@
 //    FILE: AM2315C.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AM2315C I2C temperature and humidity sensor.
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/AM2315C
 //
 
@@ -21,7 +21,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define AM2315C_LIB_VERSION                    (F("0.1.0"))
+#define AM2315C_LIB_VERSION                    (F("0.2.0"))
 
 #define AM2315C_OK                             0
 #define AM2315C_ERROR_CHECKSUM                -10
@@ -40,9 +40,6 @@ public:
   AM2315C(TwoWire *wire = &Wire);
 
   //  start the I2C
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  getAddress();

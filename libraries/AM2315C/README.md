@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AM2315C/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AM2315C/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AM2315C/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AM2315C/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AM2315C/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AM2315C.svg)](https://github.com/RobTillaart/AM2315C/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AM2315C/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/AM2315C.svg?maxAge=3600)](https://github.com/RobTillaart/DHT20/releases)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/AM2315C.svg?maxAge=3600)](https://github.com/RobTillaart/AM2315C/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AM2315C.svg)](https://registry.platformio.org/libraries/robtillaart/AM2315C)
 
 
 # AM2315C
@@ -68,8 +71,7 @@ Front view
 #### Constructor
 
 - **AM2315C(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
-- **bool begin()** initializer for non ESP32. Returns true if connected.
+- **bool begin()** initializer. Returns true if connected.
 - **bool isConnected()** returns true if the address of the AM2315C can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 
@@ -182,4 +184,12 @@ the read calls. (0.2.0)
 
 #### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

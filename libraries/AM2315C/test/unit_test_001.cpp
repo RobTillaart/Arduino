@@ -61,6 +61,7 @@ unittest(test_constructor)
   assertEqualFloat(0, DHT.getTempOffset(), 0.001);
   assertEqualFloat(0, DHT.getHumOffset(), 0.001);
 
+  Wire.begin();
   DHT.begin();
   assertEqual(AM2315C_ERROR_LASTREAD, DHT.read());
 
@@ -73,8 +74,7 @@ unittest(test_constructor)
 
 unittest(test_offset)
 {
-  AM2315C DHT(&Wire);
-  DHT.begin();
+  AM2315C DHT;  //  default Wire
 
   assertEqualFloat(0, DHT.getTempOffset(), 0.001);
   assertEqualFloat(0, DHT.getHumOffset(), 0.001);

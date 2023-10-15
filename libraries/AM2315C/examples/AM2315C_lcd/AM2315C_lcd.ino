@@ -16,7 +16,7 @@
 
 #include "AM2315C.h"
 
-AM2315C DHT;
+AM2315C DHT;  //  default Wire
 
 uint8_t count = 0;
 
@@ -55,12 +55,14 @@ uint32_t stop, start;
   #define LED_ON  1
 */
 
+
 int displayAddress = 0x27;
 
 // lcd object is created as a placeholder as the actual address is determined in setupDisplay()
 // constructor needs an I2C address. Better solution would be a function to set the address
 // runtime in the class.
 LiquidCrystal_I2C  lcd(displayAddress);
+
 
 void setupDisplay()
 {
@@ -92,18 +94,20 @@ void display()
 }
 
 
-
+/////////////////////////////////////////////////////////
 
 
 void setup()
 {
-  DHT.begin();    //  ESP32 default pins 21 22
-
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AM2315C LIBRARY VERSION: ");
   Serial.println(AM2315C_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  DHT.begin();
 
   setupDisplay();
 

@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2023-10-13
+- update readme.md
+- minor edits
+
+
 ## [0.3.1] - 2023-01-10
 - update GitHub actions
 - update license
 - add setGroupValue(mask, value)
 - add setGroupPercentage(mask, percentage)
 - move all code to .cpp file
-
 
 ## [0.3.0] - 2022-10-12
 - Fix 13 shutdown / reset. (kudos to Ale11Re)

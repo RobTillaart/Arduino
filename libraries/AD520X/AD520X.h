@@ -3,19 +3,17 @@
 //    FILE: AD520X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
-//
-// HISTORY: see CHANGELOG.md
 
 
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define AD520X_LIB_VERSION              (F("0.3.1"))
+#define AD520X_LIB_VERSION              (F("0.3.2"))
 
 
 #ifndef AD520X_MIDDLE_VALUE

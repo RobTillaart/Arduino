@@ -1,7 +1,7 @@
 {
   "name": "AD520X",
   "keywords": "AD520X, SPI, AD5204, AD5206, AD8400, AD8402, AD8403, potentiometers",
-  "description": "Arduino library for SPI AD5204 and AD5206 digital potentiometers\n Should work for AD8400, AD8402 and AD8403.",
+  "description": "Arduino library for SPI AD5204 and AD5206 digital potentiometers\n Also for AD8400 and AD8403. AD8402 not confirmed yet.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AD520X.git"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "AD520X.h"
 }

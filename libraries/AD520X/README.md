@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AD520X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AD520X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD520X/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AD520X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD520X/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD520X.svg)](https://github.com/RobTillaart/AD520X/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD520X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD520X.svg?maxAge=3600)](https://github.com/RobTillaart/AD520X/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD520X.svg)](https://registry.platformio.org/libraries/robtillaart/AD520X)
 
 
 # AD520X
@@ -34,8 +37,22 @@ The library is not yet confirmed to work for **AD8402** (2 channels).
 This device has  a very similar interface (datasheet comparison) so it should work. If you can confirm the AD8402 works, please let me know.
 
 
+#### Related
+
+- https://github.com/RobTillaart/AD520x
+- https://github.com/RobTillaart/AD524X
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
+
+
 ## Interface
 
+```cpp
+#include "AD520X.h"
+```
 
 ### Constructors
 
@@ -61,7 +78,7 @@ and value is default the **AD520X_MIDDLE_VALUE** of 128.
 - **void begin(uint8_t value = 128)** value is the initial value of all potentiometer.
 - **void reset(uint8_t value = 128)** resets the device and sets all potentiometers to value, default 128.
 
-#### Value
+### Value
 
 - **bool setValue(uint8_t pm = 0, uint8_t value = 128)** set a potentiometer to a value. 
 Default value is middle value.  
@@ -75,7 +92,7 @@ Can typically be used for **mute**.
 - **setGroupValue(mask, value)** bit mask to set 0..8 channels in one call.
 
 
-#### Percentage
+### Percentage
 
 - **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%  
 Returns true when successful, false if not.
@@ -123,16 +140,12 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 - **void powerDown()** OBSOLETE since 0.3.0 => use powerOff() instead.
 
 
-## Operations
-
-See examples.
-
-
 ## Future
 
 
 #### Must
 
+- improve documentation
 
 #### Should
 
@@ -142,9 +155,10 @@ See examples.
 #### Could (only if requested.)
 
 - **AD520X_MIDDLE_VALUE** 127 ?   (0.4.0?)
-- **setSWSPIdelay()** to tune software SPI?
+- **setSWSPIdelay(uint8_t del = 0)** to tune software SPI?
   - bit delay / not byte delay
   - unit microseconds
+  - if (_del) delayMicroseconds(_del/2); // pre and post pulse.
 - **void setInvert(uint8_t pm)** invert flag per potentiometer.
    - 0..255 -> 255..0
    - 1 uint8_t can hold 8 flags
@@ -158,10 +172,19 @@ See examples.
 
 - **void setGamma(uint8_t pm, float gamma)**
   - logarithmic effect? easier with setPercentage()
-  - see gamma library.
+  - see https://github.com/RobTillaart/GAMMA library.
 - **void follow(pm_B, pm_A, float percentage = 100)**
   - makes pm_B follow pm_A unless pm_B is addressed explicitly
   - e.g. to be used for **stereo** channels.
   - array cascade = 0xFF or pm_A.
   - It will follow pm_A for certain percentage default 100.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

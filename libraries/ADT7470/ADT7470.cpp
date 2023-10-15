@@ -1,20 +1,11 @@
 //
 //    FILE: ADT7470.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for I2C ADT7470 Fan Monitoring
 //     URL: https://github.com/RobTillaart/ADT7470
 //          http://forum.arduino.cc/index.php?topic=363218.0
 //
-//  HISTORY:
-//  0.0.00  2015-12-02  initial version
-//  0.0.01  2015-12-03  first beta
-//  0.1.0   2020-07-15  major refactor - first public version
-//  0.1.1   2020-08     fixes after testing
-//  0.1.2   2020-12-09  Arduino-CI
-//  0.1.3   2021-10-17  update Arduino-CI
-//  0.1.4   2021-12-11  update library.json, license, readme.md
-//                      idx => index, val => value for readability.
 
 
 #include "ADT7470.h"
@@ -66,34 +57,27 @@
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// PUBLIC INTERFACE
+//  PUBLIC
 //
 
-ADT7470::ADT7470(uint8_t address)
+ADT7470::ADT7470(uint8_t address, TwoWire *wire)
 {
-    // allowed 0x2C, 0x2E, 0x2F
-    _address = address;
+  _wire = wire;
+  // allowed 0x2C, 0x2E, 0x2F
+  _address = address;
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-void ADT7470::begin(uint8_t sda, uint8_t scl)
+bool ADT7470::begin()
 {
-  Wire.begin(sda, scl);
-}
-#endif
-
-
-void ADT7470::begin()
-{
-  Wire.begin();
+  return isConnected();
 }
 
 
 //
-// GENERIC
+//  GENERIC
 //
-boolean ADT7470::isConnected()
+bool ADT7470::isConnected()
 {
   return ((getDeviceID() == 0x70) && (getCompanyID() == 0x41));
 }
@@ -142,24 +126,24 @@ void ADT7470::powerUp()
 
 
 //
-// MEASURE TEMPERATURE
+//  MEASURE TEMPERATURE
 //
 
-// TODO:
-// make these calls async as waiting up to 2 seconds is an 'eternity'
-// void startConversion();
-// bool conversionReady();
-// int8_t getTemperature(uin8_t index);
+//  TODO:
+//  make these calls async as waiting up to 2 seconds is an 'eternity'
+//  void startConversion();
+//  bool conversionReady();
+//  int8_t getTemperature(uin8_t index);
 int8_t ADT7470::getTemperature(uint8_t index)
 {
   if (index >= 10) return 0;
-  // 1. Set Register 40 Bit[7] = 1. This starts the temperature measurements.
+  //  1. Set Register 40 Bit[7] = 1. This starts the temperature measurements.
   setRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_T05_STB);
-  // 2. Wait 200 ms for each TMP05/TMP06 in the loop.
+  //  2. Wait 200 ms for each TMP05/TMP06 in the loop.
   delay(2000);  // way to long
-  // 3. Set Register 40 Bit[7] = 0.
-  clrRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_T05_STB); 
-  // 4. Read the temperature registers.
+  //  3. Set Register 40 Bit[7] = 0.
+  clrRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_T05_STB);
+  //  4. Read the temperature registers.
   return (int8_t) getReg8(ADT7470_TEMP_BASE + index);
 }
 
@@ -194,7 +178,7 @@ int8_t ADT7470::getTemperatureHighLimit(uint8_t index)
 
 
 //
-// SET FAN SPEED
+//  SET FAN SPEED
 //
 bool ADT7470::setPWM(uint8_t index, uint8_t value)
 {
@@ -215,13 +199,13 @@ bool ADT7470::setFanLowFreq(uint8_t value)
 {
   if (value > 7) return false;
   setRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_LOW_FREQ_DRIVE);
-  // make sure all bits are 0.          
-  // Can be more efficient  check previous value.
-  // getReg8()
-  // if equal co change
-  // else clr bits & set
-  // write them
-  clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  // clr 3 bits 
+  //  make sure all bits are 0.
+  //  Can be more efficient  check previous value.
+  //  getReg8()
+  //  if equal co change
+  //  else clear bits & set
+  //  write them
+  clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  // clear 3 bits
   setRegMask(ADT7470_CONFIG_REGISTER_2, (value << 4));
   return true;
 }
@@ -231,8 +215,9 @@ bool ADT7470::setFanHighFreq(uint8_t value)
 {
   if (value > 7) return false;
   clrRegMask(ADT7470_CONFIG_REGISTER_1, ADT7470_LOW_FREQ_DRIVE);
-  // make sure all bits are 0 first.    // Can be more efficient  check previous value.
-  clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  // clr 3 bits 
+  //  make sure all bits are 0 first.
+  //  Can be more efficient  check previous value.
+  clrRegMask(ADT7470_CONFIG_REGISTER_2, (0x07 << 4));  //  clear 3 bits
   setRegMask(ADT7470_CONFIG_REGISTER_2, (value << 4));
   return true;
 }
@@ -240,8 +225,8 @@ bool ADT7470::setFanHighFreq(uint8_t value)
 
 void ADT7470::setInvertPWM(uint8_t index)
 {
-  if (index == 0) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x10);  // bit 5
-  if (index == 1) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x80);  // bit 4
+  if (index == 0) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x10);  //  bit 5
+  if (index == 1) setReg8(ADT7470_FAN_PWM_CONFIG_1, 0x80);  //  bit 4
   if (index == 2) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x10);
   if (index == 3) setReg8(ADT7470_FAN_PWM_CONFIG_2, 0x80);
 }
@@ -258,7 +243,7 @@ uint8_t ADT7470::getInvertPWM(uint8_t index)
 
 
 //
-// MEASURE FAN SPEED
+//  MEASURE FAN SPEED
 //
 bool ADT7470::setPulsesPerRevolution(uint8_t index, uint8_t value)
 {
@@ -308,11 +293,13 @@ uint32_t ADT7470::getRPM(uint8_t index)
   uint32_t clock = 90000UL;
   uint16_t measurementsPerMinute = 60;
   uint16_t tach = getTach(index);
-  // P23 stalling tach or very slow < 100 ==> 0xFFFF
+
+  //  P23 stalling tach or very slow < 100 ==> 0xFFFF
   if (tach == 0xFFFF) return 0;
-  if (tach == 0) return 0;  // explicit prevents divide by zero
-  // formula P24            // tach/2 == integer rounding of division.
-  return (clock * measurementsPerMinute + tach/2) / tach;
+  if (tach == 0) return 0;   //  explicit prevents divide by zero
+
+  //  formula P24            //  tach/2 == integer rounding of division.
+  return (clock * measurementsPerMinute + tach / 2) / tach;
 }
 
 
@@ -342,12 +329,12 @@ uint16_t ADT7470::getTachHighLimits(uint8_t index)
 
 
 //
-// INTERRUPTS
+//  INTERRUPTS
 //
 uint16_t ADT7470::getTemperatureIRQstatus()
 {
-  // TODO -  NORM bit not handled
-  // uint8_t NORM = (getReg8(ADT7470_IRQ_STATUS_2) & 0x08) >> 3;
+  //  TODO -  NORM bit not handled
+  //  uint8_t NORM = (getReg8(ADT7470_IRQ_STATUS_2) & 0x08) >> 3;
 
   uint16_t value = 0;
   value = (getReg8(ADT7470_IRQ_STATUS_2) & 0x07) << 7;
@@ -363,7 +350,7 @@ uint8_t ADT7470::getFanIRQstatus()
 }
 
 
-// TODO MERGE? setTemperatureIRQMask(index, value);  ?
+//  TODO MERGE? setTemperatureIRQMask(index, value);  ?
 void ADT7470::setTemperatureIRQMask(uint8_t index)
 {
   uint8_t reg = ADT7470_IRQ_MASK_REG_1;
@@ -428,23 +415,23 @@ uint8_t ADT7470::getFanIRQMask(uint8_t index)
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// REGISTER OPERATORS
+//  REGISTER OPERATORS
 //
 void ADT7470::setRegMask(uint8_t reg, uint8_t mask)
 {
-  uint8_t t;
-  _read(reg, &t, (uint8_t)1);
-  t |= mask;
-  _write(reg, t);
+  uint8_t prevMask;
+  _read(reg, &prevMask, (uint8_t)1);
+  prevMask |= mask;
+  _write(reg, prevMask);
 }
 
 
 void ADT7470::clrRegMask(uint8_t reg, uint8_t mask)
 {
-  uint8_t t;
-  _read(reg, &t, (uint8_t)1);
-  t &= ~mask;
-  _write(reg, t);
+  uint8_t prevMask;
+  _read(reg, &prevMask, (uint8_t)1);
+  prevMask &= ~mask;
+  _write(reg, prevMask);
 }
 
 
@@ -480,47 +467,50 @@ void ADT7470::setReg16(uint8_t reg, uint16_t value)
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// PRIVATE - LOW LEVEL I2C
+//  PRIVATE - LOW LEVEL I2C
 //
 int ADT7470::_write(const uint8_t reg, uint8_t value)
 {
-    return _write(reg, &value, 1);
+  return _write(reg, &value, 1);
 }
 
 
 int ADT7470::_write(const uint8_t reg, uint8_t *buffer, uint8_t length)
 {
-    Wire.beginTransmission(_address);
-    Wire.write(reg);
-    for (uint8_t i = 0; i < length; i++) Wire.write(buffer[i]);
-    int rv = Wire.endTransmission();
-    return rv;
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  for (uint8_t i = 0; i < length; i++)
+  {
+    _wire->write(buffer[i]);
+  }
+  int rv = _wire->endTransmission();
+  return rv;
 }
 
 
 int ADT7470::_read(const uint8_t reg, uint8_t *value)
 {
-    return _read(reg, value, 1);
+  return _read(reg, value, 1);
 }
 
 
 int ADT7470::_read(const uint8_t reg, uint8_t *buffer, uint8_t length)
 {
-    Wire.beginTransmission(_address);
-    Wire.write(reg);
-    int rv = Wire.endTransmission(false);
-    if (rv != 0) return 0;                  // nothing read
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  int rv = _wire->endTransmission(false);
+  if (rv != 0) return 0;                  //  nothing read
 
-    uint8_t len = Wire.requestFrom(_address, length);
-    uint8_t cnt = 0;
-    uint32_t before = millis();
-    while ((cnt < len) && ((millis() - before) < ADT7470_TIMEOUT))
-    {
-        if (Wire.available()) buffer[cnt++] = Wire.read();
-    }
-    return cnt;
+  uint8_t len = _wire->requestFrom(_address, length);
+  uint8_t cnt = 0;
+  uint32_t before = millis();
+  while ((cnt < len) && ((millis() - before) < ADT7470_TIMEOUT))
+  {
+    if (_wire->available()) buffer[cnt++] = _wire->read();
+  }
+  return cnt;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

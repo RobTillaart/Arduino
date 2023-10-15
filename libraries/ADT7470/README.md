@@ -2,11 +2,14 @@
 [![Arduino CI](https://github.com/RobTillaart/ADT7470/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ADT7470/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ADT7470/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ADT7470/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ADT7470/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ADT7470.svg)](https://github.com/RobTillaart/ADT7470/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ADT7470/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ADT7470.svg?maxAge=3600)](https://github.com/RobTillaart/ADT7470/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ADT7470.svg)](https://registry.platformio.org/libraries/robtillaart/ADT7470)
 
 
-# ADT7470 Library
+# ADT7470
 
 Arduino library for I2C ADT7470 Fan Monitoring.
 
@@ -46,6 +49,10 @@ inductive pulse when switched off. (see also datasheet).
 
 
 ## Interface
+
+```cpp
+#include "ADT7470.h"
+```
 
 The interface consists of:
 
@@ -120,8 +127,16 @@ See examples
 
 This library will only be worked on on request as I have no hardware to test.
 
+#### Must
+
+#### Should
+
+#### Could
+
 - improve documentation, readme.md file.
   - The descriptions are short and need to be extended.
+- implement async interface - getTemperature()
+- fix TODO's in code
 - get the hardware to test
 - change pins from PWM to digital IO
 - do we need default values for parameters e.g. index = 0 ?
@@ -132,5 +147,14 @@ https://ez.analog.com/temperature_sensors/f/discussions/77540/adt7470-and-tmp05-
   - software version ==> fullSpeed(uint8_t index)
 - investigate auto mode (datasheet?)
 - ...
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

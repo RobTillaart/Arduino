@@ -13,16 +13,21 @@ AM2315 sensor(&Wire);
 
 void setup()
 {
-  sensor.begin();
-  //  adjust your offsets if needed
-  //  sensor.setTempOffset(-0.8);
-  //  sensor.setHumOffset(1.2);
-
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AM2315_LIB_VERSION: ");
   Serial.println(AM2315_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+
+  while (sensor.begin() == false)
+  {
+    Serial.print(millis());
+    Serial.println("\tCould not connect to sensor.");
+    delay(1000);
+  }
 
   delay(2000);
 

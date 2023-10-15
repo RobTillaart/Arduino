@@ -63,7 +63,9 @@ unittest(test_constructor)
   assertEqualFloat(0, sensor.getTempOffset(), 0.001);
   assertEqualFloat(0, sensor.getHumOffset(), 0.001);
 
+  Wire.begin();
   sensor.begin();
+
   assertEqual(AM2315_WAITING_FOR_READ, sensor.read());
 
   assertEqualFloat(0, sensor.getTemperature(), 0.001);
@@ -75,8 +77,7 @@ unittest(test_constructor)
 
 unittest(test_offset)
 {
-  AM2315 sensor(&Wire);
-  sensor.begin();
+  AM2315 sensor;  //  default Wire
 
   assertEqualFloat(0, sensor.getTempOffset(), 0.001);
   assertEqualFloat(0, sensor.getHumOffset(), 0.001);

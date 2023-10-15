@@ -1,11 +1,9 @@
 //
 //    FILE: AM2315.cpp
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.7
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.2.0
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //     URL: https://github.com/RobTillaart/AM2315
-//
-//  HISTORY: see changelog.md
 
 
 #include "AM2315.h"
@@ -35,25 +33,8 @@ AM2315::AM2315(TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool AM2315::begin(const uint8_t dataPin, const uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  this->read();
-  return true;
-}
-#endif
-
-
 bool AM2315::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   this->read();
   return true;

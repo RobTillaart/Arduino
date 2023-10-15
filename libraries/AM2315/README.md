@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AM2315/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AM2315/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AM2315/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AM2315/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AM2315/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AM2315.svg)](https://github.com/RobTillaart/AM2315/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AM2315/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AM2315.svg?maxAge=3600)](https://github.com/RobTillaart/AM2315/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AM2315.svg)](https://registry.platformio.org/libraries/robtillaart/AM2315)
 
 
 # AM2315
@@ -13,7 +16,7 @@ Arduino library for an AM2315 I2C temperature and humidity sensor.
 
 ## Description
 
-The AM2315 is a sensor similar to the DHT12 with an I2C interface. 
+The AM2315 is a sensor similar to the DHT12 with an I2C interface.
 
 Although in theory this could enable multiple sensors on one bus
 the AM2315 has a fixed address **0x5C** so one need to implement a 
@@ -61,7 +64,7 @@ The C-version has a fixed address of **0x38** so easy to detect.
 The datasheet states the AM2315 should be used on 100 KHz I2C only. 
 When overclocking I got good readings up to 190 KHz in a test with 
 - Arduino UNO
-- very short wires (< 1 meter)
+- very short wires ( < 1 meter)
 - not using pull ups.
 - version 0.1.1 of this library
 
@@ -82,7 +85,6 @@ If robustness is mandatory stick to the default of 100 KHz.
 If performance is mandatory do not go beyond 170 KHz.
 
 
-
 ## Interface
 
 ```cpp
@@ -93,9 +95,7 @@ If performance is mandatory do not go beyond 170 KHz.
 #### Constructor
 
 - **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
-Returns true if device address 0x5C is connected.
-- **bool begin()** initializer for non ESP32 e.g. AVR.
+- **bool begin()** initializer.
 Returns true if device address 0x5C is connected.
 - **bool isConnected(uint16_t timeout = 3000)** returns true if the device address 0x5C is found on I2C bus.
 As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
@@ -200,17 +200,25 @@ Which method fit your application depends on your requirements and constraints.
 
 - keep in sync with AM232X class
   - merge in a far future.
-- update unit test
-- add examples
+
 
 #### Could
 
 - move code from .h to .cpp
 
-#### Won't
+#### Wont
 
 - add calls for meta information (no description yet)
   - 0x07 status register
   - 0x08-0x0B user register HIGH LOW HIGH2 LOW2
   (use AM232x library to access those)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

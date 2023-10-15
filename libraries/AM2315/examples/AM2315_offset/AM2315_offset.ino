@@ -2,7 +2,6 @@
 //    FILE: AM2315_offset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for AM2315 I2C humidity & temperature sensor
-//
 
 
 #include "AM2315.h"
@@ -14,13 +13,23 @@ AM2315 sensor(&Wire);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AM2315_LIB_VERSION: ");
   Serial.println(AM2315_LIB_VERSION);
   Serial.println();
 
-  sensor.begin();
-  // adjust your offsets if needed
+  Wire.begin();
+  //  Wire.setClock(100000);
+
+  while (sensor.begin() == false)
+  {
+    Serial.print(millis());
+    Serial.println("\tCould not connect to sensor.");
+    delay(1000);
+  }
+
+  //  adjust your offsets if needed
   sensor.setTempOffset(-0.8);
   sensor.setHumOffset(1.2);
 
@@ -31,7 +40,6 @@ void setup()
   Serial.println();
 
   delay(2000);
-
 
   Serial.println("Type,\tStatus,\tHumidity (%),\tTemperature (C)");
   delay(100);

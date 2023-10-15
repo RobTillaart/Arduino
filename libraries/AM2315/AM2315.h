@@ -3,7 +3,7 @@
 //    FILE: AM2315.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
-// VERSION: 0.1.7
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/AM2315
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM2315_LIB_VERSION                    (F("0.1.7"))
+#define AM2315_LIB_VERSION                    (F("0.2.0"))
 
 
 #define AM2315_OK                             0
@@ -51,9 +51,6 @@ public:
 
   AM2315(TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
   //  datasheet- wake up is min 800 us max 3000 us
   bool     isConnected(uint16_t timeout = 3000);
@@ -61,7 +58,7 @@ public:
   int      read();
 
   //  lastRead is in MilliSeconds since start sketch
-  uint32_t lastRead()                    { return _lastRead; };
+  uint32_t lastRead()                 { return _lastRead; };
 
   //  preferred interface
   float    getHumidity();

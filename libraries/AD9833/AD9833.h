@@ -3,7 +3,7 @@
 //    FILE: AD9833.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.1.1"))
+#define AD9833_LIB_VERSION     (F("0.1.2"))
 
 
 #define AD9833_MAX_FREQ       (12500000UL)  //  12.5 MHz.
@@ -41,7 +41,6 @@ public:
   bool     setPowerMode(uint8_t mode = 0);
 
 
-
   void     setWave(uint8_t waveform = AD9833_OFF);
   uint8_t  getWave();
 
@@ -53,7 +52,7 @@ public:
   float    getMaxFrequency();
   void     setFrequencyChannel(uint8_t channel);
 
-  //       returns phase set
+  //       returns phase set (degrees)
   //       [0 .. 360>
   float    setPhase(float phase, uint8_t channel = 0);
   float    getPhase(uint8_t channel = 0);

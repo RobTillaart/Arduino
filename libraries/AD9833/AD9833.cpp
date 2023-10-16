@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/AD9833
 //
 
@@ -133,7 +133,7 @@ void AD9833::setWave(uint8_t waveform)
   _waveform = waveform;
 
   //  clear bits in control register
-  _control &= ~(AD9833_SLEEP1 | AD9833_SLEEP12 | AD9833_OPBITEN | AD9833_MODE);
+  _control &= ~(AD9833_SLEEP1 | AD9833_SLEEP12 | AD9833_OPBITEN | AD9833_MODE | AD9833_DIV2);
 
   //  set bits in control register
   switch(_waveform)

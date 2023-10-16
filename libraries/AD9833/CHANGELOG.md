@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2023-10-16
+- release for #5 set DIV2 flag
+- add examples switching phase and frequency channel
+- add example for multi device
+- minor edits
+
+
 ## [0.1.1] - 2023-08-25
 - fix #2 - external FSYNC control
 - add **setPowerMode(uint8_t mode = 0)**  //  mode = 0..3
@@ -20,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - **void writePhaseRegister(uint8_t reg, uint16_t value)**
 - update readme.md
 - minor edits
-
 
 ## [0.1.0] - 2023-08-25
 - initial version

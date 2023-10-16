@@ -19,10 +19,8 @@ Arduino library for AD9833 function generator.
 Experimental library for the AD9833 function (waveform) generator.
 The library supports both hardware SPI and software SPI.
 
-TODO: test with hardware.
-
 The AD9833 is a signal generator that has two channels for frequency and
-two channels for the phase. These channels can be set separately to give
+two channels for the phase. These channels can be set separately to have
 maximum flexibility.
 
 The AD9833 can generate three waveforms: sine, square (2x) and triangle.
@@ -44,7 +42,7 @@ This is not tested yet.
 
 List of (partially) compatibles in the series, that might work (partially) with this library.
 
-TODO: Investigations needed, verify table below.
+TODO: Investigations needed, verify table below (hardware needed).
 
 |   type   |  freq max  |  freq step  |  wave forms  |  Notes  |
 |:--------:|:----------:|:-----------:|:------------:|:--------|
@@ -64,6 +62,7 @@ Probably they need a dedicated library based on this one.
 
 - https://github.com/RobTillaart/AD985X
 - https://github.com/RobTillaart/functionGenerator  software waveform generator
+- https://pages.mtu.edu/~suits/notefreqs.html  frequency table for notes.
 
 
 ## Connection
@@ -112,11 +111,11 @@ For hardware SPI only use the first two parameters,
 for SW SPI you need to define the data and clock pin too.
   - selectPin = chip select.
 If the selectPin is set to 255, external FSYNC is used. 
-See section below
+See section below.
 - **void begin(uint8_t selectPin, SPIClass \* spi)**
 For hardware SPI only, to select a specific hardware SPI port e.g. SPI2.
 If the selectPin is set to 255, external FSYNC is used. 
-See section below
+See section below.
 - **void reset()** does a **hardwareReset()**, 
 and sets the control register to B28 for the **setFrequency()**
 - **void hardwareReset()** resets all registers to 0.
@@ -157,7 +156,7 @@ SetFrequency sets the frequency and is limited by the MaxFrequency of 12.5 MHz.
 Returns the frequency set.
 - **float getFrequency(uint8_t channel = 0)** returns the frequency set.
 - **float getMaxFrequency()** returns the maximum frequency to set (convenience).
-- **void selectFreqChannel(uint8_t channel)** select the active frequency channel (0 or 1).
+- **void setFrequencyChannel(uint8_t channel)** select the active frequency of channel (0 or 1).
 
 Note: the frequency depends on the internal reference clock which is default 25 MHz.
 The library does not support other reference clocks yet.
@@ -170,10 +169,12 @@ when only using one channel.
 
 - **float setPhase(float phase, uint8_t channel = 0)**
 setPhase sets the phase and is limited to 0° - 360°.
-Returns the phase set.
-- **float getPhase(uint8_t channel = 0)** returns the phase set.
+Returns the phase set in degrees.
+- **float getPhase(uint8_t channel = 0)** returns the phase set in degrees.
 - **float getMaxPhase()** returns the maximum phase to set (convenience).
-- **void selectPhaseChannel(uint8_t channel)** select the active phase channel (0 or 1).
+- **void setPhaseChannel(uint8_t channel)** select the active phase channel (0 or 1).
+
+The library does not support get and set the phase in radians (yet).
 
 
 #### Hardware SPI
@@ -257,6 +258,7 @@ As this implementation is experimental, the interface might change in the future
 #### Must
 
 - update documentation
+- get hardware to test
 
 
 #### Should
@@ -265,7 +267,7 @@ As this implementation is experimental, the interface might change in the future
 - investigate external clock
 - investigate timing (response time)
   - change freq
-  - change channels etc
+  - change channels etc.
 - test on ESP32 (3V3)
 
 
@@ -274,14 +276,15 @@ As this implementation is experimental, the interface might change in the future
 - extend unit tests
 - add examples
   - for ESP32 HWSPI interface
-  - use of channels (freq & phase)
-  - multi device example (array?)
 - move code to .cpp
 - solve MAGIC numbers (defaults)
 - setting half freq register for performance mode.
   - HLB mode
 - extend performance measurements
 - investigate compatibility AD9834 a.o.
+- add **setPhaseRadians(float radians, uint8_t channel)** wrapper.
+- add **getPhaseRadians(uint8_t channel)** wrapper.
+
 
 #### Wont
 

@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/AD985X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.ym)l
 [![Arduino-lint](https://github.com/RobTillaart/AD985X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AD985X/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AD985X/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AD985X.svg)](https://github.com/RobTillaart/AD985X/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AD985X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AD985X.svg?maxAge=3600)](https://github.com/RobTillaart/AD985X/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AD985X.svg)](https://registry.platformio.org/libraries/robtillaart/AD985X)
 
 
 # AD985X
@@ -16,13 +19,13 @@ Arduino library for AD9850 and AD9851 function generators.
 Library for the AD9850 and AD9851 function generators.
 These devices can produce a square and a sine wave 
 
-|   type   | max frequency  |  phase (stepsize)  |
-|:---------|---------------:|-------------------:|
-|  AD9850  |      40 MHz    |  0..31 x 11.25°    |
-|  AD9851  |      70 MHz    |  0..31 x 11.25°    |
+|   type   | max frequency  |  phase (step size)  |
+|:--------:|:--------------:|:-------------------:|
+|  AD9850  |      40 MHz    |     0..31 x 11.25°  |
+|  AD9851  |      70 MHz    |     0..31 x 11.25°  |
 
 
-Note that at the max frequency the devices do not give a nice sine anymore.
+Note that at the max frequency the devices do not give a nice sine any more.
 You need to check what is acceptable for your project.
 
 The library has a AD9850 as base class that implements the commonalities.
@@ -64,7 +67,6 @@ Schema break-out
   L    = LED
   C    = chip
   P    = potentiometer => for duty cycle square wave
-
 ```
 
 
@@ -191,13 +193,17 @@ For the AD9850 => 40 MHz, for the AD9851 => 70 MHz.
   - Note setFrequencyF is affected by the autoUpdateFlag.
 The frequency is limited by the MaxFrequency of the class used.
 Returns false if limited. 
-- **uint32_t getMaxFrequency()** returns the maximum frequency that can be set. For the AD9850 this is 20 MHz.
-For the AD9851 this is 70 MHz.
-- **float getFrequency()** returns the frequency set. As it returns a float it might loose some accuracy at higher frequencies.
+- **uint32_t getMaxFrequency()** returns the maximum frequency that can be set. 
+  - For the AD9850 this is 20 MHz.
+  - For the AD9851 this is 70 MHz.
+- **float getFrequency()** returns the frequency set. 
+As it returns a float it might loose some accuracy at higher frequencies.
 - **bool setPhase(uint8_t phase = 0)** set the phase in units of 11.25°  0..31 allowed. 
 Default it sets the phase to 0.
 Returns false if phase > 31, no change to phase in that case.
-- **uint8_t getPhase()** returns the phase set, 0 by default. One need to multiply by 11.25° to get the actual angle.
+- **uint8_t getPhase()** returns the phase set, 0 by default. 
+  - multiply by 11.25° to get the actual phase angle in degrees.
+  - multiply by (PI \* 0.0625) to get actual phase angle in radians.
 
 
 ### Calibration
@@ -313,20 +319,28 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 
 #### Should
 
-- examples for ESP32 HWSPI interface
 - do tests on ESP32
 - performance measurements
-- unit tests for 
-  - bool setFrequency
-  - bool setPhase
+
 
 #### Could
 
 - move code to .cpp
 - create defines for MAGIC numbers (defaults)
-- should other void function return bool?
-  - setARCCutOffFreq() ?
+- should **setSPIspeed(uint32_t speed)** return bool?
+  - out of range?
 
 
 #### Wont
+
+- **bool setARCCutOffFreq()** no need
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

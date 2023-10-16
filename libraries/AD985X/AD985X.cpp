@@ -1,19 +1,17 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.6
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
-//
-//  HISTORY: see changelog.md
 
 
 #include "AD985X.h"
 
 
 //  UNO HARDWARE SPI         PINS
-#define SPI_CLOCK             13          //  not portable...
+#define SPI_CLOCK             13          //  not portable.
 #define SPI_MISO              12
 #define SPI_MOSI              11
 
@@ -58,13 +56,13 @@ void AD9850::begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t da
     {
       mySPI = new SPIClass(HSPI);
       mySPI->end();
-      mySPI->begin(14, 12, 13, select);   //  CLK=14 MISO=12 MOSI=13
+      mySPI->begin(14, 12, 13, select);   //  CLK = 14  MISO = 12  MOSI = 13
     }
     else               //  VSPI
     {
       mySPI = new SPIClass(VSPI);
       mySPI->end();
-      mySPI->begin(18, 19, 23, select);   //  CLK=18 MISO=19 MOSI=23
+      mySPI->begin(18, 19, 23, select);   //  CLK = 18  MISO = 19  MOSI = 23
     }
     #else              //  generic hardware SPI
     mySPI = &SPI;
@@ -143,8 +141,8 @@ void AD9850::powerUp()
 bool AD9850::setPhase(uint8_t phase)
 {
   if (phase > 31) return false;
-  _config &= 0x07;
-  _config |= (phase << 3);
+  _config &= 0x07;          //  keep last three bits
+  _config |= (phase << 3);  //  set new phase
   writeData();
   return true;
 }
@@ -176,7 +174,8 @@ void AD9850::writeData()
   //  Serial.println(_config, HEX);
   uint32_t data = _factor;
 
-  //  used for multi device configuration only - https://github.com/RobTillaart/AD985X/issues/13
+  //  used for multi device configuration only
+  //  see https://github.com/RobTillaart/AD985X/issues/13
   digitalWrite(_select, HIGH);
   if (_hwSPI)
   {
@@ -233,7 +232,7 @@ bool AD9850::setFrequency(uint32_t freq)
     rv = false;
     freq = AD9850_MAX_FREQ;
   }
-  //  _factor = round(freq * 34.359738368);             // 4294967296 / 125000000
+  //  _factor = round(freq * 34.359738368);             //  4294967296 / 125000000
   _factor = (147573952589ULL * freq) >> 32;
   _freq = freq;
   _factor += _offset;

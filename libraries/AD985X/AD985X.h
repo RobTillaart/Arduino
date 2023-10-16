@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -12,13 +12,19 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION    (F("0.3.5"))
+#define AD985X_LIB_VERSION        (F("0.3.6"))
 
 
-#define AD9850_MAX_FREQ       (40UL * 1000UL * 1000UL)
-#define AD9851_MAX_FREQ       (70UL * 1000UL * 1000UL)
+#define AD9850_MAX_FREQ           (40UL * 1000UL * 1000UL)
+#define AD9851_MAX_FREQ           (70UL * 1000UL * 1000UL)
+
+#define AD9851_ARC_CUTOFF_FREQ    (10000000UL)
 
 
+/////////////////////////////////////////////////////////////////////
+//
+//  BASE CLASS AD9850
+//
 class AD9850
 {
 public:
@@ -46,12 +52,12 @@ public:
   //  offset to calibrate the frequency (internal counter)
   //  offset must be stored by the user.
   void     setCalibration(int32_t offset = 0) { _offset = offset; };
-  int32_t  getCalibration()  { return _offset; };
+  int32_t  getCalibration() { return _offset; };
 
 
   //       autoUpdate is default true;
   void     setAutoUpdate(bool update = true) { _autoUpdate = update; };
-  bool     getAutoUpdate()   { return _autoUpdate; };
+  bool     getAutoUpdate() { return _autoUpdate; };
   void     update();
 
 
@@ -62,7 +68,7 @@ public:
   //  debugging
   bool     usesHWSPI() { return _hwSPI; };
   //  internal chip factor used for frequency. (debugging only)
-  uint32_t getFactor()       { return _factor; };
+  uint32_t getFactor() { return _factor; };
 
 
   //  ESP32 specific
@@ -110,7 +116,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASS
+//  DERIVED CLASS AD9851
 //
 class AD9851 : public AD9850
 {
@@ -132,16 +138,17 @@ public:
 
   //  10 MHz is default, set in Hz.
   //  will be kept <= 30 MHz as that is the freq of LOW mode.
-  void     setARCCutOffFreq(uint32_t Hz = 10000000UL );
+  //  ARC = AutoRefClock
+  void     setARCCutOffFreq(uint32_t Hz = AD9851_ARC_CUTOFF_FREQ);
   uint32_t getARCCutOffFreq();
 
 
 protected:
   bool     _autoRefClock = false;
-  uint32_t _ARCCutOffFreq = 10000000UL;
+  uint32_t _ARCCutOffFreq = AD9851_ARC_CUTOFF_FREQ;
 
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

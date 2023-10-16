@@ -74,7 +74,59 @@ unittest(test_auto_update)
 }
 
 
-unittest(test_ad9850)
+unittest(test_ad9850_frequency)
+{
+  AD9850 funcgen;
+  funcgen.begin(4, 5, 6);
+
+  for (uint32_t freq = 500; freq <= 10000; freq += 500)
+  {
+    funcgen.setFrequency(freq);
+    assertEqual(freq, funcgen.getFrequency());
+  }
+}
+
+
+unittest(test_ad9851_frequency)
+{
+  AD9851 funcgen;
+  funcgen.begin(4, 5, 6);
+
+  for (uint32_t freq = 500; freq <= 10000; freq += 500)
+  {
+    funcgen.setFrequency(freq);
+    assertEqual(freq, funcgen.getFrequency());
+  }
+}
+
+
+unittest(test_ad9850_frequency_float)
+{
+  AD9850 funcgen;
+  funcgen.begin(4, 5, 6);
+
+  for (float freq = 1; freq <= 5; freq += 0.31415)
+  {
+    funcgen.setFrequencyF(freq);
+    assertEqualFloat(freq, funcgen.getFrequency(), 0.01);
+  }
+}
+
+
+unittest(test_ad9851_frequency_float)
+{
+  AD9851 funcgen;
+  funcgen.begin(4, 5, 6);
+
+  for (float freq = 1; freq <= 5; freq += 0.31415)
+  {
+    funcgen.setFrequencyF(freq);
+    assertEqualFloat(freq, funcgen.getFrequency(), 0.01);
+  }
+}
+
+
+unittest(test_ad9850_phase)
 {
   AD9850 funcgen;
   funcgen.begin(4, 5, 6);
@@ -92,7 +144,7 @@ unittest(test_ad9850)
 }
 
 
-unittest(test_ad9851)
+unittest(test_ad9851_phase)
 {
   AD9851 funcgen;
   funcgen.begin(4, 5, 6);
@@ -215,4 +267,4 @@ unittest(test_ad9851_float_freq)
 
 unittest_main()
 
-// --------
+//  END OF FILE --

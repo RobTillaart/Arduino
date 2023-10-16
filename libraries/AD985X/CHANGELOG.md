@@ -6,13 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2023-10-15
+- add ESP32 HSPI example
+- add unit tests for setFrequency setFrequencyF
+- update readme.md
+- fix version number in .cpp
+- minor edits
+
+
 ## [0.3.5] - 2023-01-11
 - update GitHub actions
 - update license
 - add bool return value to setFrequency()
 - add bool return value to setPhase()
 - add test_constants in unit test
-
 
 ## [0.3.4] - 2022-10-25
 - add changelog.md

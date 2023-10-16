@@ -1,7 +1,7 @@
 //
 //    FILE: Adler16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for calculating Adler-16 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -78,7 +78,7 @@ uint16_t Adler16::addFast(uint8_t * array, uint16_t length)
   for (uint16_t i = 0; i < length;)
   {
     // if S2 is halfway it is time to do modulo
-    while ((i < length) && (s2 < 32768))
+    while ((i < length) && (s2 < 32768))  //  MAGIC NUMBER 2^15
     {
       s1 += array[i++];
       s2 += s1;
@@ -109,7 +109,7 @@ uint16_t Adler16::count()
 
 //////////////////////////////////////////////////////////////
 //
-//  wrappers for strings.
+//  wrappers for char arrays (strings).
 //
 void Adler16::add(char value)
 {

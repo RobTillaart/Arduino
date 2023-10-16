@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Adler/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Adler/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Adler/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Adler/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Adler/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Adler.svg)](https://github.com/RobTillaart/Adler/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Adler/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Adler.svg?maxAge=3600)](https://github.com/RobTillaart/Adler/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Adler.svg)](https://registry.platformio.org/libraries/robtillaart/Adler)
 
 
 # Adler
@@ -13,10 +16,11 @@ Arduino Library for Adler-32 and experimental Adler-16 checksum.
 
 ## Description
 
-This library provides an Adler32 checksum of a data array.
-Furthermore since 0.2.0 an experimental Adler16 implementation is added.
-This one is often faster as it uses a smaller checksum than the Adler32.
-The price is that Adler16 is less sensitive than the Adler32.
+This library provides an Adler32 checksum of a data block, typical an array of bytes.
+Since 0.2.0 the library also supports an experimental Adler16 implementation.
+This Adler16 is often faster as it uses a smaller checksum than the Adler32.
+The price is that Adler16 is less sensitive than Adler32 as less possible checksums
+are possible. 
 Still it will have its niches where it will be useful.
 
 0.2.0 is a breaking change, file names have been changed to be more
@@ -26,8 +30,9 @@ in line with the CRC library.
 - Adler16.h for the Adler16 class.
 
 
-#### related
+#### Related
 
+- https://en.wikipedia.org/wiki/Adler-32
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
 - https://github.com/RobTillaart/Fletcher
@@ -44,18 +49,22 @@ Tested on Arduino UNO and ESP32.
 
 ### Adler class
 
-Use **\#include "Adler32.h"** or **\#include "Adler16.h"**
+```cpp
+#include "Adler32.h"
+// or 
+#include "Adler16.h"
+```
 
 The interface for the Adler16 is very similar.
 
 - **Adler32()** Constructor, initializes internals.
-- **void begin(uint8_t s1 = 1, uint8_t s2 = 0)** resets the internals.
+- **void begin(uint32_t s1 = 1, uint32_t s2 = 0)** resets the internals.
 optional setting start values for s1 and s2. Note this is not part of the standard.
 These parameters allows a restart from a specific index in a buffer.
 - **void add(uint8_t value)** add a single value to the checksum.
-- **uint32_t add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
+- **uint32_t add(uint8_t \* array, uint16_t length)** add an array of values to the checksum.
 Returns the current checksum.
-- **uint32_t addFast(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
+- **uint32_t addFast(uint8_t \* array, uint16_t length)** add an array of values to the checksum.
 Is faster by trading PROGMEM for performance.
 Returns the current checksum.
 - **uint32_t getAdler()** get the current checksum.
@@ -64,6 +73,12 @@ can overflow without affecting checksum.
 
 The class is typically used for streaming very large blocks of data,
 optional with intermediate checksum tests (e.g after every 256 bytes)
+
+Wrappers exist for adding char and char array. Functional identical to above.
+
+- **void add(char value)**
+- **uint32_t add(char \* array, uint16_t length)**
+- **uint32_t addFast(char \* array, uint16_t length)**
 
 
 ## Performance Adler32
@@ -170,15 +185,22 @@ doing the modulo more often.
 
 ## Interface static functions
 
-The functions are straightforward.
+```cpp
+#include "Adler.h"
+```
 
-Use **\#include "Adler.h"**
-
-- **uint32_t adler32(uint8_t \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)** length in units of 1 byte = 8 bits.
-- **uint16_t adler16(uint8_t \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)** length in units of 1 byte = 8 bits.
-
-The functions are typically used for an in memory buffer to calculate the checksum once.
+The static functions are typically used for an in memory buffer to calculate the checksum once.
 Think of packets in a network, records in a database, or a checksum for an configuration in EEPROM.
+
+The functions are straightforward. Length is in bytes (8 bits).
+
+- **uint32_t adler32(uint8_t \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)**
+- **uint16_t adler16(uint8_t \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)**
+
+Two wrapper functions added in 0.2.4 for char array's (convenience).
+
+- **uint32_t adler32(char \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)**
+- **uint16_t adler16(char \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)**
 
 
 ### Performance
@@ -226,8 +248,8 @@ See examples.
   - next major upgrade(0.3.0)
   - other platforms?
 - extend unit tests
-  - s1 s2 param static functions
-  -
+  - s1 s2 parameter static functions
+
 
 #### Could
 
@@ -237,8 +259,7 @@ See examples.
   - max uint32_t prime = 4.294.967.291
   - need printHelpers library for printing.
   - only on request.
-- wrapper functions (static) for char array's in adler.h ?
-- fix MAGIC NRS in adler.cpp
+- **void add(String str);**?
 
 
 #### Wont
@@ -249,4 +270,11 @@ See examples.
   - would create too much overhead for repeated calls.
 
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

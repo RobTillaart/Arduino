@@ -1,0 +1,23 @@
+D:\Rob\WORK\Arduino\libraries\Adler\examples\Adler_test\Adler_test.ino
+ADLER_LIB_VERSION: 0.2.4
+
+E1F5
+4660
+4634
+40A7
+
+5C801F0
+81E0256
+E000325
+11E60398
+
+E1F5
+4660
+4634
+40A7
+
+5C801F0
+81E0256
+E000325
+11E60398
+

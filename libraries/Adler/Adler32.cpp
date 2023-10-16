@@ -1,7 +1,7 @@
 //
 //    FILE: Adler32.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2022-01-27
 // PURPOSE: Arduino Library for calculating Adler-32 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -77,7 +77,7 @@ uint32_t Adler32::addFast(uint8_t * array, uint16_t length)
   for (uint16_t i = 0; i < length;)
   {
     // if S2 is halfway it is time to do modulo
-    while ((i < length) && (s2 < 2147483648ULL))
+    while ((i < length) && (s2 < 2147483648UL))  //  MAGIC NUMBER 2^31
     {
       s1 += array[i++];
       s2 += s1;
@@ -108,7 +108,7 @@ uint32_t Adler32::count()
 
 //////////////////////////////////////////////////////////////
 //
-//  wrappers for strings.
+//  wrappers for char arrays (strings).
 //
 void Adler32::add(char value)
 {

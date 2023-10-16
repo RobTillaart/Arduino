@@ -26,7 +26,7 @@
 char str1[24] = "abcde";
 char str2[24] = "abcdef";
 char str3[24] = "abcdefgh";
-char str4[24] = "Wikipedia";   // example from Wikipedia page.
+char str4[24] = "Wikipedia";   //  example from Wikipedia page.
 
 
 void setup()
@@ -35,6 +35,7 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("ADLER_LIB_VERSION: ");
   Serial.println(ADLER_LIB_VERSION);
   Serial.println();
@@ -50,6 +51,18 @@ void setup()
   Serial.println(adler32((uint8_t *) str3, 8), HEX);
   Serial.println(adler32((uint8_t *) str4, 9), HEX);
   Serial.println();
+
+  Serial.println(adler16(str1, 5), HEX);
+  Serial.println(adler16(str2, 6), HEX);
+  Serial.println(adler16(str3, 8), HEX);
+  Serial.println(adler16(str4, 9), HEX);
+  Serial.println();
+
+  Serial.println(adler32(str1, 5), HEX);
+  Serial.println(adler32(str2, 6), HEX);
+  Serial.println(adler32(str3, 8), HEX);
+  Serial.println(adler32(str4, 9), HEX);
+  Serial.println();
 }
 
 
@@ -58,4 +71,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

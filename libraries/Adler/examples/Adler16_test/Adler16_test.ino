@@ -19,8 +19,8 @@
 Adler16 ad;
 
 uint8_t arr1[5]  = { 100, 120, 130, 135, 140 };
-uint8_t arr2[5]  = { 101, 120, 130, 135, 140 };  // minimal diff.
-uint8_t arr3[5]  = { 100, 120, 130, 135, 141 };  // minimal diff.
+uint8_t arr2[5]  = { 101, 120, 130, 135, 140 };  //  minimal diff.
+uint8_t arr3[5]  = { 100, 120, 130, 135, 141 };  //  minimal diff.
 
 void setup()
 {
@@ -51,4 +51,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

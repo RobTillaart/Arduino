@@ -31,6 +31,7 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("ADLER_LIB_VERSION: ");
   Serial.println(ADLER_LIB_VERSION);
 
@@ -75,4 +76,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

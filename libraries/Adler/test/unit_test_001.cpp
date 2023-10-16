@@ -75,6 +75,14 @@ unittest(test_adler_static)
   assertEqual(57845, adler16((uint8_t *) str1, 5));
   assertEqual(18016, adler16((uint8_t *) str2, 6));
   assertEqual(17972, adler16((uint8_t *) str3, 8));
+
+  assertEqual(96993776, adler32(str1, 5));
+  assertEqual(136184406, adler32(str2, 6));
+  assertEqual(234881829, adler32(str3, 8));
+
+  assertEqual(57845, adler16(str1, 5));
+  assertEqual(18016, adler16(str2, 6));
+  assertEqual(17972, adler16(str3, 8));
 }
 
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AM232X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AM232X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AM232X/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AM232X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AM232X/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AM232X.svg)](https://github.com/RobTillaart/AM232X/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AM232X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AM232X.svg?maxAge=3600)](https://github.com/RobTillaart/AM232X/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AM232X.svg)](https://registry.platformio.org/libraries/robtillaart/AM232X)
 
 
 # AM232X
@@ -70,17 +73,20 @@ file the issues under DHTNew.
 
 ## Interface
 
+```cpp
+#include "AM232X.h"
+```
+
 Since 0.4.2 the library provides specific classes for the AM2320, AM2321 and AM2322 which have the same interface.
 
 
 #### Constructor
 
-- **AM232X(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
-Returns true if device address 0x5C is connected.
-- **bool begin()** initializer for non ESP32 e.g. AVR.
-Returns true if device address 0x5C is connected.
-- **bool isConnected(uint16_t timeout = 3000)** returns true if the device address 0x5C is found on I2C bus.
+- **AM232X(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), 
+optionally set to Wire0 .. WireN.
+- **bool begin()** initializer for class.
+Returns true if fixed device address 0x5C is connected.
+- **bool isConnected(uint16_t timeout = 3000)** returns true if the fixed device address 0x5C is found on I2C bus.
 As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
@@ -101,26 +107,27 @@ This error can be suppressed, see below.
 #### Offset
 
 - **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
-Default offset = 0, so no parameter will reset the offset.
-- **float getHumOffset()** return current humidity offset, default 0.
+Default offset = 0, so no parameter will reset the offset to 0.
+- **float getHumOffset()** return the current humidity offset, default 0.
 - **void setTempOffset(float offset = 0)** set an offset for temperature to calibrate (1st order) the sensor.
-Default offset = 0, so no parameter will reset the offset.
-- **float getTempOffset()** return current temperature offset, default 0.
+Default offset = 0, so no parameter will reset the offset to 0.
+- **float getTempOffset()** return the current temperature offset, default 0.
 
 
 #### Control
 
 Functions to adjust the communication with the sensor.
 
-- **void setReadDelay(uint16_t rd = 0)** Tunes the time it waits before actual read can be done.
+- **void setReadDelay(uint16_t readDelay = 0)** Tunes the time it waits before actual read can be done.
 Set readDelay to 0 will reset it to 2000 ms effective the next **read()**.
-- **uint16_t getReadDelay()** returns the above setting. 
+- **uint16_t getReadDelay()** returns the current readDelay in milliseconds. 
 Note that a value of zero (reset) will return 0 before the call and 2000 after the call to **read()**.
 - **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
 This can be done before an actual read to minimize the **read()** call.
-- **void setSuppressError(bool b)** suppress error values of **AM232X_INVALID_VALUE** == -999 => you need to check the return value of read() instead.  
+- **void setSuppressError(bool b)** suppress error values of **AM232X_INVALID_VALUE** == -999.
+=> you need to check the return value of read() instead.  
 This can be used to keep spikes out of your graphs / logs. 
-- **bool getSuppressError()**  returns the above setting.
+- **bool getSuppressError()**  returns the current suppression setting.
 
 
 #### Metadata
@@ -215,5 +222,17 @@ Which method fit your application depends on your requirements and constraints.
 
 - I2C performance measurements
   - clock speed > 170 - see AM2315
+
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

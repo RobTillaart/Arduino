@@ -29,6 +29,7 @@ void setup()
   Serial.println(AM232X_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
   if (! AM2320.begin() )
   {
     Serial.println("Sensor not found");

@@ -3,6 +3,9 @@
 
 # Data types (KEYWORD1)
 AM232X	KEYWORD1
+AM2320	KEYWORD1
+AM2321	KEYWORD1
+AM2322	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -10,6 +13,11 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 
 read	KEYWORD2
+lastRead	KEYWORD2
+
+getReadDelay	KEYWORD2
+setReadDelay	KEYWORD2
+
 getModel	KEYWORD2
 getVersion	KEYWORD2
 getDeviceID	KEYWORD2
@@ -24,19 +32,17 @@ setUserRegisterB	KEYWORD2
 
 getHumidity	KEYWORD2
 getTemperature	KEYWORD2
-wakeUp	KEYWORD2
 
 setHumOffset	KEYWORD2
 setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
 
-getReadDelay	KEYWORD2
-setReadDelay	KEYWORD2
-lastRead	KEYWORD2
-
 getSuppressError	KEYWORD2
 setSuppressError	KEYWORD2
+
+wakeUp	KEYWORD2
+
 
 # Constants (LITERAL1)
 AM232X_LIB_VERSION	LITERAL1

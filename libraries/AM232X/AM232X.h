@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
-// VERSION: 0.4.5
+// VERSION: 0.5.0
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.4.5"))
+#define AM232X_LIB_VERSION              (F("0.5.0"))
 
 
 #define AM232X_OK                        0
@@ -68,9 +68,6 @@ class AM232X
 public:
   explicit AM232X(TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
   //  datasheet 8.2 - wake up is min 800 us max 3000 us
   bool     isConnected(uint16_t timeout = 3000);
@@ -81,7 +78,7 @@ public:
 
   //  set readDelay to 0 will reset to datasheet values
   uint16_t getReadDelay() { return _readDelay; };
-  void     setReadDelay(uint16_t rd = 0);
+  void     setReadDelay(uint16_t readDelay = 0);
 
   //  negative return values are errors
   int      getModel();

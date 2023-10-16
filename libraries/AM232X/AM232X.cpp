@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.5
+// VERSION: 0.5.0
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //     URL: https://github.com/RobTillaart/AM232X
 
@@ -30,25 +30,8 @@ AM232X::AM232X(TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool AM232X::begin(const uint8_t dataPin, const uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  this->read();
-  return true;
-}
-#endif
-
-
 bool AM232X::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   this->read();
   return true;
@@ -139,9 +122,9 @@ float AM232X::getTemperature()
 }
 
 
-void AM232X::setReadDelay(uint16_t rd)
+void AM232X::setReadDelay(uint16_t readDelay)
 {
-  _readDelay = rd;
+  _readDelay = readDelay;
   if (_readDelay == 0)
   {
     _readDelay = 2000;  // reset

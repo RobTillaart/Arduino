@@ -14,7 +14,7 @@
 //       |o  |       SCL          GREY
 //       +---+
 //
-// do not forget pull up resistors between SDA, SCL and VDD..
+//  do not forget pull up resistors between SDA, SCL and VDD..
 
 
 #include "AM232X.h"
@@ -22,11 +22,11 @@
 #define pd_scl_dht 14
 #define pd_sda_dht 27
 
-TwoWire I2CIMU = TwoWire(0);   //  I2C1 bus
-TwoWire I2CDHT = TwoWire(1);   //  I2C2 bus
+TwoWire I2C_IMU = TwoWire(0);   //  I2C1 bus
+TwoWire I2C_DHT = TwoWire(1);   //  I2C2 bus
 
 
-AM232X AM2320(&I2CDHT);
+AM232X AM2320(&I2C_DHT);
 
 
 void setup()
@@ -37,7 +37,9 @@ void setup()
   Serial.println(AM232X_LIB_VERSION);
   Serial.println();
 
-  I2CDHT.begin(pd_sda_dht, pd_scl_dht, 100000ul); 
+  I2C_IMU.begin();
+  I2C_DHT.begin(pd_sda_dht, pd_scl_dht, 100000ul);
+  
   if (! AM2320.begin() )
   {
     Serial.println("Sensor not found");
@@ -52,7 +54,7 @@ void setup()
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   Serial.print("AM2320, \t");
   int status = AM2320.read();
   switch (status)
@@ -65,7 +67,7 @@ void loop()
       Serial.print("\t");
       break;
   }
-  // DISPLAY DATA, sensor only returns one decimal.
+  //  DISPLAY DATA, sensor only returns one decimal.
   Serial.print(AM2320.getHumidity(), 1);
   Serial.print(",\t");
   Serial.println(AM2320.getTemperature(), 1);
@@ -74,4 +76,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

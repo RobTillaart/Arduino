@@ -24,7 +24,12 @@ AM232X AM2322;
 void setup()
 {
   Serial.begin(115200);
-
+  // Serial.println(__FILE__);
+  // Serial.print("LIBRARY VERSION: ");
+  // Serial.println(AM232X_LIB_VERSION);
+  // Serial.println();
+  
+  Wire.begin();
   if (! AM2322.begin() )
   {
     Serial.println("Sensor not found");

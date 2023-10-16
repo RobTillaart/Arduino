@@ -65,7 +65,7 @@ unittest(test_AM232X_constructor)
   assertTrue(AM.isConnected());   // TODO - GODMODE
 
   assertEqual(0, AM.lastRead());
-  // assertEqual(-10, AM.read());
+  //  assertEqual(-10, AM.read());
 }
 
 
@@ -98,7 +98,7 @@ unittest(test_AM232X_hum_temp)
   assertEqualFloat(0, AM.getHumOffset(), 0.001);
   AM.setHumOffset(1.5);
   assertEqualFloat(1.5, AM.getHumOffset(), 0.001);
-  
+
   assertEqualFloat(0, AM.getTemperature(), 0.001);
   assertEqualFloat(0, AM.getTempOffset(), 0.001);
   AM.setTempOffset(-1.5);
@@ -114,7 +114,7 @@ unittest(test_hum_AM2320_temp)
   assertEqualFloat(0, AM.getHumOffset(), 0.001);
   AM.setHumOffset(1.5);
   assertEqualFloat(1.5, AM.getHumOffset(), 0.001);
-  
+
   assertEqualFloat(0, AM.getTemperature(), 0.001);
   assertEqualFloat(0, AM.getTempOffset(), 0.001);
   AM.setTempOffset(-1.5);
@@ -130,7 +130,7 @@ unittest(test_hum_AM2321_temp)
   assertEqualFloat(0, AM.getHumOffset(), 0.001);
   AM.setHumOffset(1.5);
   assertEqualFloat(1.5, AM.getHumOffset(), 0.001);
-  
+
   assertEqualFloat(0, AM.getTemperature(), 0.001);
   assertEqualFloat(0, AM.getTempOffset(), 0.001);
   AM.setTempOffset(-1.5);
@@ -146,7 +146,7 @@ unittest(test_AM2322_hum_temp)
   assertEqualFloat(0, AM.getHumOffset(), 0.001);
   AM.setHumOffset(1.5);
   assertEqualFloat(1.5, AM.getHumOffset(), 0.001);
-  
+
   assertEqualFloat(0, AM.getTemperature(), 0.001);
   assertEqualFloat(0, AM.getTempOffset(), 0.001);
   AM.setTempOffset(-1.5);
@@ -173,4 +173,6 @@ unittest(test_AM232X_surpress_error)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

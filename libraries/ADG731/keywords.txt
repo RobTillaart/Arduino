@@ -6,9 +6,9 @@ ADG731	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 setChannel	KEYWORD2
-setChannel	KEYWORD2
 getChannel	KEYWORD2
 channelCount	KEYWORD2
+allOff	KEYWORD2
 
 
 # Constants (LITERAL1)

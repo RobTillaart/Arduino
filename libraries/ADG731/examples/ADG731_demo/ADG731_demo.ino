@@ -20,10 +20,13 @@ void setup()
   delay(100);
   
   start = micros();
-  ADG.setChannel(0);
+  for (int ch = 0; ch < 32; ch++)
+  {
+    ADG.setChannel(ch);
+  }
   stop = micros();
   Serial.print("Time:\t");
-  Serial.println(stop - start);
+  Serial.println((stop - start) / 32.0);
   delay(100);
 
   start = micros();

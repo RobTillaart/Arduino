@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AtomicWeight/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AtomicWeight/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AtomicWeight/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AtomicWeight/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AtomicWeight/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AtomicWeight.svg)](https://github.com/RobTillaart/AtomicWeight/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AtomicWeight/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AtomicWeight.svg?maxAge=3600)](https://github.com/RobTillaart/AtomicWeight/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AtomicWeight.svg)](https://registry.platformio.org/libraries/robtillaart/AtomicWeight)
 
 
 # AtomicWeight
@@ -291,6 +294,7 @@ minimize the memory used for the elements mass lookup table.
   - ==> more memory...
 - support \[] square brackets too.
   - (NH4)2\[Pt(SCN)6]
+- add a derived class PERIODIC_TABLE?
 
 
 #### Wont (unless)
@@ -314,8 +318,18 @@ minimize the memory used for the elements mass lookup table.
   - K L M etc?
   - valence
 - temperatures,
-  - melt
-  - evaporate
+  - melting point
+  - evaporate point
   - 2 bytes per temp 4 x 118 = 476 bytes
   - compression 3 bytes for 2 temps 2x 12 bits = 0..4095 K = 354 bytes
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

@@ -3,7 +3,7 @@
 //    FILE: AtomicWeight.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define ATOMIC_WEIGHT_LIB_VERSION         (F("0.2.0"))
+#define ATOMIC_WEIGHT_LIB_VERSION         (F("0.2.1"))
 
 
 #ifndef ATOMIC_WEIGHT_MAX_SPLIT_LIST

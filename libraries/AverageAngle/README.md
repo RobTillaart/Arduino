@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AverageAngle/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AverageAngle/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AverageAngle/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AverageAngle/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AverageAngle/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AverageAngle.svg)](https://github.com/RobTillaart/AverageAngle/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AverageAngle/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AverageAngle.svg?maxAge=3600)](https://github.com/RobTillaart/AverageAngle/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AverageAngle.svg)](https://registry.platformio.org/libraries/robtillaart/AverageAngle)
 
 
 # AverageAngle
@@ -165,7 +168,7 @@ just change the type runtime.
 #### Must
 
 - investigate if and how the internal math can be made more robust against overflow.
-  - use double iso float (will work on certain platforms) (must)
+  - use double instead of float (will work on certain platforms) (must) => 0.3.0
   - uint32_t?
   - accuracy threshold depends on float/double usage.  (sizeof(double)==8)
   - threshold depends on the units of length. 
@@ -192,4 +195,13 @@ just change the type runtime.
   - maybe better for the AngleConvertor class.
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

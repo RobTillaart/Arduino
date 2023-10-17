@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/arduino_test_runner.yml/badge.svg)](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/arduino_test_runner.yml)
+[![Arduino CI](https://github.com/RobTillaart/AnalogUVSensor/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AnalogUVSensor/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AnalogUVSensor.svg)](https://github.com/RobTillaart/AnalogUVSensor/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AnalogUVSensor/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AnalogUVSensor.svg?maxAge=3600)](https://github.com/RobTillaart/AnalogUVSensor/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AnalogUVSensor.svg)](https://registry.platformio.org/libraries/robtillaart/AnalogUVSensor)
 
 
 # AnalogUVSensor
@@ -16,7 +19,7 @@ Arduino library for an analogue UV sensor.
 ![Foo](https://www.tinytronics.nl/shop/image/cache/catalog/products/product-003601/uv-light-sensor-module-200-370nm-80x80w.jpg)
 Image courtesy Tinytronics
 
-This small (type-less) UV-sensor is powered by 3.3 .. 5 V so it can be used by almost any microprocessor.
+This small (type-less) UV-sensor is powered by 3.3 .. 5.0 V so it can be used by almost any microprocessor.
 
 The sensor has an analogue output that is roughly linear with the UV-index (sunlight assumed, see notes).
 
@@ -76,9 +79,14 @@ More about UV see - https://en.wikipedia.org/wiki/Ultraviolet
 #### Related
 
 - https://github.com/RobTillaart/ML8511
+- https://github.com/RobTillaart/map2colour
 
 
 ## Interface
+
+```cpp
+#include "AnalogUVSensor.h"
+```
 
 - **AnalogUVSensor()** Constructor.
 - **void begin(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023)**
@@ -130,8 +138,6 @@ e.g. when the analogue sensor is switched through a MOSFET.
 - investigate response time to stabilize e.g. does it react fast on clouds.
 - investigate time needed to first (stable) measurement.
 - add code for external ADC (see ACS712)
-- add mV to RGB colour?
-
 
 #### Wont
 
@@ -141,7 +147,16 @@ e.g. when the analogue sensor is switched through a MOSFET.
   - created a https://github.com/RobTillaart/map2colour lib for this feature
     to keep footprint in this library small.
 
-
 ## Sponsor
 
 The development of this library is sponsored by [TinyTronics, Netherlands](https://www.tinytronics.nl/shop/nl).
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

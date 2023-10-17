@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogUVSensor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for an analogue UV sensor.
 //     URL: https://github.com/RobTillaart/AnalogUVSensor
@@ -13,7 +13,7 @@
 AnalogUVSensor::AnalogUVSensor()
 {
   //  defaults from UNO.
-  _analogPin = 14;  // A0
+  _analogPin = 14;  //  A0  for UNO
   _volts     = 5;
   _maxADC    = 1023;
   _powerPin  = -1;

@@ -2,16 +2,16 @@
 //
 //    FILE: AngleConvertor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-12-01
-// PURPOSE: angle conversion class
+// PURPOSE: Angle conversion class
 //     URL: https://github.com/RobTillaart/AngleConvertor
 
 
 #include "Arduino.h"
 
 
-#define ANGLECONVERTOR_LIB_VERSION        (F("0.1.1"))
+#define ANGLECONVERTOR_LIB_VERSION        (F("0.1.2"))
 
 
 /////////////////////////////////////////////////////////////

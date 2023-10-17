@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/AngleConvertor/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/AngleConvertor/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/AngleConvertor/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/AngleConvertor/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/AngleConvertor/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/AngleConvertor.svg)](https://github.com/RobTillaart/AngleConvertor/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/AngleConvertor/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/AngleConvertor.svg?maxAge=3600)](https://github.com/RobTillaart/AngleConvertor/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/AngleConvertor.svg)](https://registry.platformio.org/libraries/robtillaart/AngleConvertor)
 
 
 # AngleConvertor
@@ -143,4 +146,17 @@ See examples.
 - add more conversions
 - integrate with **Angle class** ?
   - printing can be a lot of work
+- windrose array in PROGMEM
+
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -40,8 +40,10 @@ unittest_teardown()
 unittest(test_constructor)
 {
   ANSI ansi(&Serial);
-
   assertEqual(12, ansi.println("1234567890") );
+
+  VT100 vt(&Serial);
+  assertEqual(10, vt.print("1234567890") );
 }
 
 

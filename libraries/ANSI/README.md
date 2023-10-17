@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/ANSI/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ANSI/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ANSI/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ANSI/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ANSI/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ANSI.svg)](https://github.com/RobTillaart/ANSI/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ANSI/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ANSI.svg?maxAge=3600)](https://github.com/RobTillaart/ANSI/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ANSI.svg)](https://registry.platformio.org/libraries/robtillaart/ANSI)
 
 
 # ANSI
@@ -54,10 +57,11 @@ See examples
 #include "ansi.h"
 ```
 
-#### Constructor
+#### Constructors
 
 - **ANSI(Stream \* stream = &Serial)** wrapper around Serial.
 Can be a software serial too.
+- **VT100(Stream \* stream = &Serial)** derived class (wrapper)
 
 
 #### Stream interface
@@ -91,8 +95,7 @@ Three helpers to map to the nearest colour.
 - **uint8_t grey2color(uint8_t grey)** idem
 - **uint8_t rgb2color(uint8_t r, uint8_t g, uint8_t b)**
 
-
-To do colour table
+- https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
 
 
 #### Positioning
@@ -111,13 +114,26 @@ Note X == row and Y == column. See #13.
 
 #### Experimental
 
-look into **ansi.h** for experimental functions and notes.
+Look into **ansi.h** for experimental functions and notes.
 
 Version 0.1.6 added a number of experimental function that need more testing.
 Some are working with Teraterm, others are unclear of fail.
 The user can uncomment these and verify if these work with their terminal.
 
-Also added is the **int deviceType()** function which also need more testing.
+
+##### Experimental device type
+
+The **int deviceType()** function needs more testing.
+
+See - https://github.com/RobTillaart/ANSI/issues/9
+
+|  Type   |  Description  |
+|:-------:|:--------------|
+|   -1    |  unknown      |
+|    1    |  VT52         |
+|    2    |  VT100        |
+|    3    |  VT220        |
+|  other  |  unknown      |
 
 As always, constructive feedback is welcome.
 
@@ -128,7 +144,7 @@ Since 0.1.5 there is some focus on performance.
 Using **ansi.print()** and **ansi.println()** for printing text and numbers is
 improved a bit since 0.1.4 by adding the private **write(array, length)**.
 
-Since 0.2.0 the print() statements are replaced by write().
+Since 0.2.0 the (internal) print() statements are replaced by write().
 Although it are small improvements these add up.
 
 
@@ -148,7 +164,6 @@ Although it are small improvements these add up.
   - DOS emulator?
   - experimental section
 - evaluate experimental code
-  - move code from .h to .cpp
 
 #### Could
 
@@ -157,9 +172,20 @@ Although it are small improvements these add up.
 - investigate performance.
   - add line buffer in write(c) to improve throughput?
   - need for flush() with line buffer?
+- move code from .h to .cpp
+- more derived classes
 
 #### Wont
 
 - move static strings to PROGMEM? as defines?
   roughly ~20 bytes progmem for 4 bytes RAM...
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

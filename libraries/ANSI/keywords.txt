@@ -3,6 +3,7 @@
 
 # Data types (KEYWORD1)
 ANSI	KEYWORD1
+VT100	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

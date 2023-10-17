@@ -1,7 +1,7 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.1
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -197,7 +197,6 @@ uint8_t ANSI::rgb2color(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 
-
 int ANSI::deviceType(uint32_t timeout)
 {
   int type = -1;        //  -1 = unknown
@@ -223,14 +222,7 @@ int ANSI::deviceType(uint32_t timeout)
 
 //////////////////////////////////////////////////
 //
-//  EXPERIMENTAL
-//
-
-
-
-//////////////////////////////////////////////////
-//
-//  PRIVATE
+//  PROTECTED
 //
 size_t ANSI::write(uint8_t c)
 {
@@ -243,7 +235,6 @@ size_t ANSI::write(uint8_t * array, uint8_t length)
 {
   return _stream->write(array, length);
 }
-
 
 
 void ANSI::color4_code(uint8_t base, uint8_t color) {
@@ -279,6 +270,15 @@ void ANSI::color8(uint8_t base, uint8_t color) {
   print(";");
   print(color);
   print("m");
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  DERIVED
+//
+VT100::VT100(Stream * stream) : ANSI(stream)
+{
 }
 
 

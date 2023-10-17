@@ -1,9 +1,13 @@
-# Change Log analogKeypad
+# Change Log AnalogKeypad
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+## [0.2.4] - 2023-10-17
+- update readme.md (badges)
 
 
 ## [0.2.3] - 2023-01-21
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - add performance example for **read()**
 - minor edits
-
 
 ## [0.2.2] - 2022-10-27
 - Add RP2040 support to build-CI.

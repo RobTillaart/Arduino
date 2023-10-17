@@ -2,7 +2,7 @@
 //
 //    FILE: AnalogKeypad.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analogue keypad
 //     URL: https://github.com/RobTillaart/AnalogKeypad
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define ANALOGKEYPAD_LIB_VERSION      (F("0.2.3"))
+#define ANALOGKEYPAD_LIB_VERSION      (F("0.2.4"))
 
 #define NOKEY         0x00
 #define PRESSED       0x80

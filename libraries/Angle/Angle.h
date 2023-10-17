@@ -2,7 +2,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.14
+// VERSION: 0.1.15
 // PURPOSE: angle library for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -16,7 +16,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION               (F("0.1.14"))
+#define ANGLE_LIB_VERSION               (F("0.1.15"))
 
 
 class Angle;

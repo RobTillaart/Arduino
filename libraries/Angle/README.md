@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Angle/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Angle/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Angle/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Angle/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Angle/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Angle.svg)](https://github.com/RobTillaart/Angle/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Angle/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Angle.svg?maxAge=3600)](https://github.com/RobTillaart/Angle/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Angle.svg)](https://registry.platformio.org/libraries/robtillaart/Angle)
 
 
 # Angle
@@ -115,5 +118,14 @@ Especially the constructor does not check input so use it carefully.
 - change output format to confirm standard 4°12'14.1234"
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

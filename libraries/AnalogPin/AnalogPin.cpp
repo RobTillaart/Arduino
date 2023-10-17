@@ -1,12 +1,9 @@
 //
 //    FILE: AnalogPin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
-//
-//  HISTORY: see changelog
-
 
 
 #include "AnalogPin.h"
@@ -87,5 +84,5 @@ void AnalogPin::_rawRead()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -18,8 +18,14 @@ Arduino library to investigate the heap of an avr processor, e.g. UNO (AVR328).
 
 ## Description
 
-This library can analyse runtime the structure of the heap, 
-this is useful for debugging memory allocation.
+This library can analyse runtime the structure of the heap.
+This can be useful for debugging memory allocation.
+
+
+#### Related
+
+- http://forum.arduino.cc/index.php?topic=27536.15
+- http://forum.arduino.cc/index.php?topic=355660
 
 
 ## Operation

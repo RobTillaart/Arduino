@@ -1,28 +1,14 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.6
+//    DATE: 2015-10-??
 // PURPOSE: experimental library for heap Arduino UNO
 //     URL: https://github.com/RobTillaart/avrheap
 //
 // REFERENCES
 // http://forum.arduino.cc/index.php?topic=27536.15
 // http://forum.arduino.cc/index.php?topic=355660
-//
-// HISTORY
-//  0.2.5  2021-12-13  update library.json, license
-//  0.2.4  2021-10-19  update Arduino-CI + add badges
-//  0.2.3  2021-05027  add Arduino-CI
-//  0.2.2  2020-12-13  Arduino-CI + minimal unit tests
-//  0.2.1  2020-05-27  update library.json
-//  0.2.0  2020-03-27  Removed support for pre 1.0 version
-//  0.1.5  fix typo #116 - Thanks to DMNC
-//  0.1.04 new methods including PrintTo support - Thanks to Whandall
-//         !! breaking interface
-//  0.1.03 refactoring
-//  0.1.02 added followHeap()
-//  0.1.01 refactor, added startAddress()
-//  0.1.00 initial version
 
 
 #include "avrheap.h"
@@ -133,6 +119,10 @@ size_t dumpAlloced(Print& p, byte *ptr, bool withDump)
 }
 
 
+//////////////////////////////////////////////////////
+//
+//  AVRHEAP
+//
 Avrheap::Avrheap()
 {
 };
@@ -247,7 +237,7 @@ size_t Avrheap::heapWalk(Print& pr, bool withDump) const
   size_t len = pr.println(F("Heap\n"));
   while ((int)p < (int)__brkval)
   {
-    len += hWord(pr, (uint16_t)p); // p+2 ?
+    len += hWord(pr, (uint16_t)p);  //  p+2 ?
     len += pr.write(' ');
     len += pr.print(*p, DEC);
     if ( (fp != NULL) && ((uint16_t)p == (uint16_t)fp))
@@ -294,4 +284,4 @@ size_t Avrheap::printTo(Print& p) const
 }
 
 
-// --- END OF FILE ---
+//  --- END OF FILE ---

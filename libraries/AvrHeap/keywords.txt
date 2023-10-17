@@ -1,0 +1,23 @@
+# Syntax Colouring Map For Avrheap
+
+# Data types (KEYWORD1)
+Avrheap	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+isFragmented	KEYWORD2
+freeListCount	KEYWORD2
+freeListSize	KEYWORD2
+freeListWalk	KEYWORD2
+freeListLargest	KEYWORD2
+
+startAddress	KEYWORD2
+
+dumpHeap	KEYWORD2
+heapWalk	KEYWORD2
+heapWalk	KEYWORD2
+printTo	KEYWORD2
+
+# Constants (LITERAL1)
+AVRHEAP_LIB_VERSION	LITERAL1
+

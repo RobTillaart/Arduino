@@ -2,10 +2,9 @@
 //
 //    FILE: avrheap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
-// PURPOSE: experimental library for heap Arduino UNO
-// HISTORY: See avrheap.cpp
-//
+// VERSION: 0.2.6
+//    DATE: 2015-10-??
+// PURPOSE: Experimental Arduino library to investigate the avr heap Arduino UNO
 
 
 #if !defined(ARDUINO_ARCH_AVR)
@@ -17,7 +16,7 @@
 #include "Printable.h"
 
 
-#define AVRHEAP_LIB_VERSION                   (F("0.2.5"))
+#define AVRHEAP_LIB_VERSION                   (F("0.2.6"))
 
 
 class Avrheap : public Printable
@@ -51,4 +50,4 @@ size_t dumpAlloced(Print& p, byte *ptr, bool withDump = true);
 size_t dumpAlloced(byte *ptr, bool withDump = true);
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

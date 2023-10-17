@@ -1,23 +1,14 @@
 //
 //    FILE: AsyncAnalog.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2018-09-05
-// PURPOSE: async version of analogRead, prevent blocking wait
-//
-// backgrounder
-// https://www.avrfreaks.net/forum/tut-c-newbies-guide-avr-adc?name=PNphpBB2&file=viewtopic&t=56429
-//
-// HISTORY:
-//  0.1.0  2018-09-05  initial version, based upon analogRead()
-//  0.1.1  2020-03-26  minor refactor
-//  0.1.2  2020-05-27  update library.json
-//  0.1.3  2020-12-12  added Arduino CI, minor fixes
-//  0.1.4  2020-12-12  update Arduino CI, minor fixes
-//  0.1.5  2021-12-13  update library.json, license, readme
+// PURPOSE: Async version of analogRead, prevent blocking wait
+//     URL: https://github.com/RobTillaart/AsyncAnalog
 
 
 #include "AsyncAnalog.h"
+
 
 #if defined(ARDUINO_ARCH_AVR)
 
@@ -60,17 +51,18 @@ bool AsyncAnalog::ready()
 
 int AsyncAnalog::value()
 {
-  // we have to read ADCL first; doing so locks both ADCL
-  // and ADCH until ADCH is read.  reading ADCL second would
-  // cause the results of each conversion to be discarded,
-  // as ADCL and ADCH would be locked when it completed.
-  int low  = ADCL;
-  int high = ADCH;
-  // combine the two bytes
-  return (high << 8) | low;
+  //  ADCL has to be read first.
+  //  Doing so locks both ADCL and ADCH until ADCH is read.
+  //  Reading ADCL second would cause the results of each conversion to
+  //  be discarded as ADCL and ADCH would be locked when it completed.
+  uint16_t lo = ADCL;
+  uint16_t hi = ADCH;
+  //  Combine two parts.
+  //  _lastValue = (hi * 256) + lo;
+  return (hi * 256) + lo;
 }
 
-#endif        // ARDUINO_ARCH_AVR
+#endif        //  ARDUINO_ARCH_AVR
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

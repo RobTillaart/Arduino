@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Complex/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Complex/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Complex/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Complex/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Complex/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Complex.svg)](https://github.com/RobTillaart/Complex/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Complex/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Complex.svg?maxAge=3600)](https://github.com/RobTillaart/Complex/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Complex.svg)](https://registry.platformio.org/libraries/robtillaart/Complex)
 
 
 # Complex
@@ -22,6 +25,10 @@ in any stream e.g. Serial.
 
 
 ## Interface
+
+```cpp
+#include "Complex.h"
+```
 
 See Complex.h for a full list of functions implemented.
 
@@ -58,9 +65,31 @@ so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 
 ## Future
 
+#### Must
+
+- improve documentation
+
+#### Should
+
+#### Could
+
 - create a (8 byte) double based variant for high precision e.g. Complex8()  
-Note that some platforms map double to float, others support float in hardware etc  
-so there is a big difference expected in both memory and performance
+  - Note that some platforms map double to float
+  - others support float in hardware etc.  
+  - so expect a big difference in both memory and performance.
+
+#### Wont
+
 - create the constant **i** ??
+  - => expect conflicts with int i...
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.8] - 2023-02-08
+- update readme.md
+- optimize begin - test for need to reallocate.
+
+
 ## [0.2.7] - 2023-02-08
 - update readme.md
 - update GitHub actions
 - update license 2023
 - move code to .cpp
 - improved measurement of performance - boolArrayDemo2.ino
-
 
 ## [0.2.6] - 2022-10-29
 - add RP2040 to build-CI

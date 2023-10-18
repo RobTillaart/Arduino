@@ -2,7 +2,8 @@
 //
 //    FILE: BoolArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
+//    DATE: 2015-12-06
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray.git
 
@@ -14,7 +15,7 @@
 #include "Arduino.h"
 
 
-#define BOOLARRAY_LIB_VERSION     (F("0.2.7"))
+#define BOOLARRAY_LIB_VERSION     (F("0.2.8"))
 
 #define BOOLARRAY_MAXSIZE         (250 * 8)       // 2000
 

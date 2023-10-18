@@ -1,7 +1,8 @@
 //
 //  FILE: BoolArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
+//    DATE: 2015-12-06
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray
 //          http://forum.arduino.cc/index.php?topic=361167
@@ -26,14 +27,17 @@ BoolArray::~BoolArray()
 uint8_t BoolArray::begin(const uint16_t size)
 {
   if (size > BOOLARRAY_MAXSIZE) return BOOLARRAY_SIZE_ERROR;
-  //  if (_size == size) no need to reallocate...
-  _size  = size;
-  _bytes = (_size + 7) / 8;
-  if (_array) 
+  // do we need to re-allocate?
+  if (_size != size)
   {
-    free(_array);
+    _size  = size;
+    _bytes = (_size + 7) / 8;
+    if (_array) 
+    {
+      free(_array);
+    }
+    _array = (uint8_t *) malloc(_bytes);
   }
-  _array = (uint8_t *) malloc(_bytes);
   return BOOLARRAY_OK;
 }
 

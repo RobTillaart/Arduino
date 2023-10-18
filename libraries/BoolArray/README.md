@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/BoolArray/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/BoolArray/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/BoolArray/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/BoolArray/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/BoolArray/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/BoolArray.svg)](https://github.com/RobTillaart/BoolArray/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/BoolArray/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/BoolArray.svg?maxAge=3600)](https://github.com/RobTillaart/BoolArray/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/BoolArray.svg)](https://registry.platformio.org/libraries/robtillaart/BoolArray)
 
 
 # BoolArray
@@ -70,7 +73,6 @@ So one need to check these carefully.
 - **uint8_t toggle(uint16_t index)** Toggles element at index. Returns **BOOLARRAY_OK** on success.
 
 
-
 ## Future
 
 #### Must
@@ -85,12 +87,9 @@ So one need to check these carefully.
 - performance intern 16 bit iso 8 bit. (0.3.0)
   - faster on UNO
   - does allocation work as it should?
-  
 
 #### Could
 
-- **begin()**
-  - if (_size == size) no need to reallocate...
 - update examples.
 - boolArray32() class
   - begin(uint32_t size);
@@ -98,4 +97,11 @@ So one need to check these carefully.
 #### Wont
 
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

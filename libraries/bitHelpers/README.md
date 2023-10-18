@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/RobTillaart/bitHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![Arduino-lint](https://github.com/RobTillaart/bitHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/bitHelpers/actions/workflows/arduino-lint.yml)
-[![JSON check](https://github.com/RobTillaart/bitHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/bitHelpers/actions/workflows/jsoncheck.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/bitHelpers/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/bitHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/bitHelpers/releases)
+[![Arduino CI](https://github.com/RobTillaart/BitHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/BitHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/BitHelpers/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/BitHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/BitHelpers/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/BitHelpers.svg)](https://github.com/RobTillaart/BitHelpers/issues)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/BitHelpers/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/BitHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/BitHelpers/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/BitHelpers.svg)](https://registry.platformio.org/libraries/robtillaart/BitHelpers)
 
 
 # bitHelpers
@@ -188,3 +191,13 @@ uint32_t bitReverse(uint32_t x, uint8_t n)
   return y | r;
 }
 ```
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

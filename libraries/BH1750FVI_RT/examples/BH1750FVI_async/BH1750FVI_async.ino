@@ -1,17 +1,15 @@
 //
 //    FILE: BH1750FVI_async.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of BH1750FVI lux scanner library
 //    DATE: 2020-08-20
-//
 
 
 #include "BH1750FVI.h"
 
 BH1750FVI myLux(0x23);
 
-float correctionFactor = 0.45;     // min value see datasheet
+float correctionFactor = 0.45;     //  min value see datasheet
 uint32_t count = 0;
 
 
@@ -50,7 +48,7 @@ void loop()
     Serial.print("\t");
     Serial.println(val / myLux.getCorrectionFactor(), 1);
 
-    // note correction factor are steps of 1/69 internally, see datasheet
+    //  note correction factor are steps of 1/69 internally, see datasheet
     correctionFactor += 0.05;
     if (correctionFactor > 3.68)  // 0.45 - 3.68 = 45 steps of 0.05
     {
@@ -62,9 +60,8 @@ void loop()
     count++;
   }
   delay(1000);
-  // do other things here
+  //  do other things here
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

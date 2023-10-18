@@ -58,6 +58,7 @@ void setup()
   Serial.println();
 
   Wire.begin();
+
   myLux.powerOn();
   myLux.setContHighRes();
 
@@ -93,5 +94,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

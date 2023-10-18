@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/BH1750FVI_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/BH1750FVI_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/BH1750FVI_RT.svg)](https://github.com/RobTillaart/BH1750FVI_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/BH1750FVI_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/BH1750FVI_RT.svg?maxAge=3600)](https://github.com/RobTillaart/BH1750FVI_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/BH1750FVI_RT.svg)](https://registry.platformio.org/libraries/robtillaart/BH1750FVI_RT)
 
 
 # BH1750FVI_RT
@@ -59,6 +62,10 @@ Note: the breakout board was 5 volt tolerant.
 
 
 ## Interface
+
+```cpp
+#include "BH1750FVI.h"
+```
 
 ### Constructor
 
@@ -178,6 +185,12 @@ See samples...
 
 ## Future
 
+#### Must
+
+#### Should
+
+#### Could
+
 - **Intelligent isReady()**
 After a **getLux()** call one can clean the data register explicitly with
 **reset()**. Then a call to **isReady()** fetches data and as long as
@@ -185,3 +198,14 @@ data equals zero the sensor is not ready.
 - **DVI interface**
 To investigate, sort of external reset?
 - move code to .cpp
+
+#### Wont
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

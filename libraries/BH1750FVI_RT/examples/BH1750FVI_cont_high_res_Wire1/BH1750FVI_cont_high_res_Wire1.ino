@@ -1,17 +1,16 @@
 //
-//    FILE: BH1750FVI_cont_high_res.ino
+//    FILE: BH1750FVI_cont_high_res_Wire1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of BH1750FVI lux scanner library
-//    DATE: 2020-02-02
+//    DATE: 2023-10-18
 //
-//  This is a minimal version, which can be optimized by
-//  using mylux.getRaw() instead of myLux.getLux();  line 38
-//  gain on UNO: ~350 bytes smaller
+//  This sketch only works on platforms with a Wire1
+//  e.g. ESP32 and RPIpico
 
 
 #include "BH1750FVI.h"
 
-BH1750FVI myLux(0x23);
+BH1750FVI myLux(0x23, &Wire1);  //  explicit I2C bus.
 
 uint32_t lastUpdate = 0;
 
@@ -39,7 +38,6 @@ void loop()
     float val = myLux.getLux();
     Serial.println(val, 1);
   }
-
 }
 
 

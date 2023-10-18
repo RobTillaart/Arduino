@@ -1,39 +1,34 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.10
+// VERSION: 0.3.0
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI
-//
-//  HISTORY: see changelog.md
 
 
 #include "BH1750FVI.h"
 
 
-#if defined(ESP8266) || defined(ESP32)
-BH1750FVI::BH1750FVI(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
-{
-  _address            = address;
-  _wire               = &Wire;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  begin();
-}
-#endif
+// COMMANDS P5
+#define BH1750FVI_POWER_ON                    0x00
+#define BH1750FVI_POWER_OFF                   0x01
+#define BH1750FVI_RESET                       0x07
+#define BH1750FVI_CONT_HIGH                   0x10
+#define BH1750FVI_CONT_HIGH2                  0x11
+#define BH1750FVI_CONT_LOW                    0x13
+#define BH1750FVI_ONCE_HIGH                   0x20
+#define BH1750FVI_ONCE_HIGH2                  0x21
+#define BH1750FVI_ONCE_LOW                    0x23
 
 
 BH1750FVI::BH1750FVI(const uint8_t address, TwoWire *wire)
 {
   _address            = address;
   _wire               = wire;
-  _wire->begin();
-  begin();
+  _data               = 0;
+  _error              = BH1750FVI_OK;
+  _sensitivityFactor  = BH1750FVI_REFERENCE_TIME;
+  _mode               = BH1750FVI_MODE_HIGH;
 }
 
 
@@ -112,6 +107,24 @@ int BH1750FVI::getError()
   int e = _error;
   _error = BH1750FVI_OK;
   return e;
+}
+
+
+void BH1750FVI::powerOn()
+{
+  command(BH1750FVI_POWER_ON);
+}
+
+
+void BH1750FVI::powerOff()
+{
+  command(BH1750FVI_POWER_OFF);
+}
+
+
+void BH1750FVI::reset()
+{
+  command(BH1750FVI_RESET);
 }
 
 

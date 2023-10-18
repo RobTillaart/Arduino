@@ -1,10 +1,8 @@
 //
 //    FILE: BH1750FVI_setAngle.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo of BH1750FVI lux scanner library
 //    DATE: 2020-08-31
-//
 
 
 #include "BH1750FVI.h"
@@ -44,5 +42,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

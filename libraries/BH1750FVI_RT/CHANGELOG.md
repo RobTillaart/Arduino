@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+##[0.3.0] - 2023-10-18
+- simplify constructor / begin()
+- update examples
+- add Wire1 specific example
+- moved code from .h to .cpp
+- update readme.md
+- update keywords.txt
+
+----
+
 ## [0.2.10] - 2022-10-28
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - update unit test
-
 
 ##[0.2.9] - 2021-12-14
 - update library.json

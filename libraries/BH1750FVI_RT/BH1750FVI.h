@@ -2,7 +2,7 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.10
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
 // HISTORY: see changelog.md
 //
@@ -28,23 +28,11 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION                 (F("0.2.10"))
+#define BH1750FVI_LIB_VERSION                 (F("0.3.0"))
 
 
 #define BH1750FVI_DEFAULT_ADDRESS             0x23
 #define BH1750FVI_ALT_ADDRESS                 0x5C
-
-
-// COMMANDS P5          
-#define BH1750FVI_POWER_ON                    0x00
-#define BH1750FVI_POWER_OFF                   0x01
-#define BH1750FVI_RESET                       0x07
-#define BH1750FVI_CONT_HIGH                   0x10
-#define BH1750FVI_CONT_HIGH2                  0x11
-#define BH1750FVI_CONT_LOW                    0x13
-#define BH1750FVI_ONCE_HIGH                   0x20
-#define BH1750FVI_ONCE_HIGH2                  0x21
-#define BH1750FVI_ONCE_LOW                    0x23
 
 #define BH1750FVI_REFERENCE_TIME              0x45   //  69 = default
 
@@ -62,15 +50,9 @@ class BH1750FVI
 {
 public:
 
-#if defined(ESP8266) || defined(ESP32)
-  //  dataPin and clockPin can be used for ESP8266
-  BH1750FVI(const uint8_t address , const uint8_t dataPin, const uint8_t clockPin);
-#endif
-
   BH1750FVI(const uint8_t address, TwoWire *wire = &Wire);
   //  returns true if isConnected()
   bool    begin();       //  resets to constructor defaults. (use with care)
-
   bool    isConnected(); //  returns true if address is on I2C bus
 
 
@@ -79,16 +61,16 @@ public:
   int     getError();
 
 
-  void    powerOn()          { command(BH1750FVI_POWER_ON); };
-  void    powerOff()         { command(BH1750FVI_POWER_OFF); };
-  void    reset()            { command(BH1750FVI_RESET); };
+  void    powerOn();
+  void    powerOff();
+  void    reset();
 
 
   //      MODE        TIME        RESOLUTION
   //   2  HIGH2       120 ms      0.5 lux        //  recommended max * 1.5 = 180 ms
   //   1  HIGH        120 ms      1.0 lux
   //   0  LOW          16 ms      4.0 lux
-  uint8_t getMode()          { return _mode; };
+  uint8_t getMode() { return _mode; };
 
 
   void    setContHighRes();
@@ -106,8 +88,8 @@ public:
   //  to be used for very high and very low brightness
   //  or to correct for e.g. transparency
   void    changeTiming(uint8_t time = BH1750FVI_REFERENCE_TIME);   // 69 is default
-  
-  
+
+
   //  returns changeTiming() parameter
   uint8_t setCorrectionFactor(float factor = 1);  // 0.45 .. 3.68
   //  returns percentage set.
@@ -130,7 +112,7 @@ public:
 
 
   //  datasheet Page 3 figure 1  (experimental correction)
-  //  Effect of wavelength can be substantial, 
+  //  Effect of wavelength can be substantial,
   //  correction is calculated by multiple linear approximations.
   //  wavelength of 580 ==> correction == 1
   //  returns the wavelength correction factor
@@ -160,5 +142,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

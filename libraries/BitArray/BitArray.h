@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -20,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION              (F("0.2.6"))
+#define BITARRAY_LIB_VERSION              (F("0.2.7"))
 
 
 #define BA_SEGMENT_SIZE                   200

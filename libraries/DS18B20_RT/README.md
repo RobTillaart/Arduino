@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DS18B20_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DS18B20_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DS18B20_RT.svg)](https://github.com/RobTillaart/DS18B20_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS18B20_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DS18B20_RT.svg?maxAge=3600)](https://github.com/RobTillaart/DS18B20_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DS18B20.svg)](https://registry.platformio.org/libraries/robtillaart/DS18B20)
 
 
 # DS18B20
@@ -28,7 +31,9 @@ added a number of Arduino examples to help you get started.
 
 This library is related to 
 - https://github.com/RobTillaart/DS18B20_INT
+- https://github.com/RobTillaart/DS18B20_RT
 - https://github.com/milesburton/Arduino-Temperature-Control-Library
+- https://github.com/milesburton/Arduino-Temperature-Control-Library/issues/244#event-9253126638
 
 
 ## Interface
@@ -183,6 +188,8 @@ and all people who contributed to that lib.
 
 - add examples
 - investigate performance gain of no CRC.
+- Extend oneWireSearch with devicetypes
+  - see oneWireScanner.ino (2016 version)
 
 #### Could
 
@@ -191,4 +198,12 @@ and all people who contributed to that lib.
 - unit tests
   - get it working is too time consuming.
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-10-19
+- update readme.md
+- add oneWireScanner.ino example
+- add oneWireSearch.ino example
+- minor edits
+
+
 ## [0.2.0] - 2023-03-05
 - fix #24 - remove resolution parameter from constructor.
 - refactor code to keep in sync with DS18B20_INT

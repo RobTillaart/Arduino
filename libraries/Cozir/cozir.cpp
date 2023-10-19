@@ -1,13 +1,11 @@
 //
 //    FILE: Cozir.cpp
 //  AUTHOR: DirtGambit & Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
-//
-// HISTORY: see changelog.md
 //
 // READ DATASHEET BEFORE USE OF THIS LIB !
 //

@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: Cozir.h
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.6"))
+#define COZIR_LIB_VERSION           (F("0.3.7"))
 
 
 //  OUTPUT FIELDS

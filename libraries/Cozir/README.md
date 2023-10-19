@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Cozir/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Cozir/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Cozir/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Cozir/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Cozir/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Cozir.svg)](https://github.com/RobTillaart/Cozir/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Cozir/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Cozir.svg?maxAge=3600)](https://github.com/RobTillaart/Cozir/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Cozir.svg)](https://registry.platformio.org/libraries/robtillaart/Cozir)
 
 
 # Cozir
@@ -41,10 +44,26 @@ It needs to be set to **CZR_POLLING** mode.
 - Not all COZIR devices support all calls of this library.
 
 
+#### Related
+
+- https://emariete.com/en/sensor-co2-mh-z19b/
+- https://emariete.com/en/sensor-co2-low-consumption-mh-z1311a-winsen/
+- https://revspace.nl/MHZ19
+- https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
+- https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
+- https://github.com/RobTillaart/ACD10
+- https://github.com/RobTillaart/MTP40C
+- https://github.com/RobTillaart/MTP40F
+- https://github.com/RobTillaart/Cozir
+
+
 ## Interface Cozir
 
-Read the datasheet (again).
+```cpp
+#include "Cozir.h"
+```
 
+Read the datasheet (again).
 
 ### Constructor and initialisation
 
@@ -221,9 +240,10 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
 
-#### should
+#### Should
+
 - improve documentation
 - COZIR Parser
   - separate readme.md
@@ -232,12 +252,14 @@ See examples.
 - add examples
   - example COZIR with I2C LCD display?
 
-#### could
+#### Could
+
 - COZIR I2C class for newer generation 
   ~ same functional interface
   - multiWire / pin a la PCF8574 lib
 
-#### won't
+#### Won't
+
 - add a **setEEPROMFactoryDefault()**?
   - unknown if all sensors have same values
 - build a Arduino COZIR simulator for testing.
@@ -304,8 +326,15 @@ The remainder of the interface are getters for the different fields.
 
 ## Future
 
+#### Must
+
 - improve documentation
-  - COZIR Parser a separate readme?
+
+#### Should
+
+#### Could 
+
+- COZIR Parser a separate readme?
 - support splitting output of Y and \* command.
   - separate parser COZIRParserY()
   - separate parser COZIRParserStar()
@@ -313,4 +342,14 @@ The remainder of the interface are getters for the different fields.
 - add examples
   - examples for COZIRParser.
 
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

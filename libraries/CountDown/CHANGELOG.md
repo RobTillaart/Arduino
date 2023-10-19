@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2023-10-18
+- update readme.md (badges)
+
+
 ## [0.3.1] - 2023-03-14
 - fix #14 add **restart()** function.
 - add demo for restart **countdown_restart.ino**
-
 
 ## [0.3.0] - 2023-01-10
 - fix #12 MINUTES bug

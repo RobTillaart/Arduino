@@ -1,7 +1,7 @@
 //
 //    FILE: CountDown.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 
@@ -11,11 +11,11 @@
 
 CountDown::CountDown(const enum Resolution res)
 {
-  //  _res = MILLIS;  //  set in setResolution
-  //  _ticks = 0;     //  set in setResolution
   _state = CountDown::STOPPED;
   _remaining = 0;
   _startTime = 0;
+  //  _res = MILLIS;  //  set in setResolution
+  //  _ticks = 0;     //  set in setResolution
   setResolution(res);
   stop();
 }

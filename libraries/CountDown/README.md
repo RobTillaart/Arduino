@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/CountDown/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/CountDown/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/CountDown/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/CountDown/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/CountDown/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/CountDown.svg)](https://github.com/RobTillaart/CountDown/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CountDown/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CountDown.svg?maxAge=3600)](https://github.com/RobTillaart/CountDown/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/CountDown.svg)](https://registry.platformio.org/libraries/robtillaart/CountDown)
 
 
 # CountDown
 
-Arduino Library to implement a CountDown clock (in SW polling, no HW timer).
+Arduino Library to implement a CountDown clock (in software polling, no hardware timer).
 
 
 ## Description
@@ -23,12 +26,12 @@ of 4294 seconds in micros (1h 10m) or about 49+ days when using milliseconds.
 For longer periods one could cascade countDown objects, so when one is finished the next one starts.
 
 Note the countdown object is as accurate as the underlying **millis()** or **micros()**.
-Interrupts etc might cause deviations.
+Interrupts etc. might cause deviations.
 
 
-#### Links
+#### Related
 
-Relates to - https://github.com/RobTillaart/StopWatch_RT
+- https://github.com/RobTillaart/StopWatch_RT
 
 
 ## Interface
@@ -91,14 +94,14 @@ It also uses **millis()** under the hood.
 The resolution is implicitly set to **CountDown::MINUTES**.
 
 
-| Call to start()                      | resolution       | max time | comments |
-|:-------------------------------------|:-----------------|:--------:|:---------|
-| start(days, hours, minutes, seconds) | SECONDS = millis | 49+ days |          |
-| start(days, hours, minutes)          | MINUTES = millis | 49+ days |          |
-| start(ticks)                         | MILLIS  = millis | 49+ days | default  |
-| start(ticks)                         | MICROS  = micros | ~70 min  | setResolution(CountDown::MICROS)  |
-| start(ticks)                         | SECONDS = millis | 49+ days | setResolution(CountDown::SECONDS) |
-| start(ticks)                         | MINUTES = millis | 49+ days | setResolution(CountDown::MINUTES) |
+|  Call to start()                       |  resolution        |  max time  |  comments  |
+|:---------------------------------------|:-------------------|:----------:|:-----------|
+|  start(days, hours, minutes, seconds)  |  SECONDS = millis  |  49+ days  |            |
+|  start(days, hours, minutes)           |  MINUTES = millis  |  49+ days  |            |
+|  start(ticks)                          |  MILLIS  = millis  |  49+ days  |  default   |
+|  start(ticks)                          |  MICROS  = micros  |  ~70 min   |  setResolution(CountDown::MICROS)  |
+|  start(ticks)                          |  SECONDS = millis  |  49+ days  |  setResolution(CountDown::SECONDS) |
+|  start(ticks)                          |  MINUTES = millis  |  49+ days  |  setResolution(CountDown::MINUTES) |
 
 
 The Countdown clock uses by default **millis()** to do the time keeping,
@@ -141,14 +144,14 @@ a repeating (timed) function or a watchdog. See examples.
 
 ## Future
 
-#### must
+#### Must
 
 - documentation
 
-#### should
+#### Should
 
 
-#### could
+#### Could
 
 - does **restart()** need to return some information? what?
 - add examples
@@ -159,7 +162,7 @@ a repeating (timed) function or a watchdog. See examples.
   - or default 00 minutes?
 
 
-#### wont (unless)
+#### Wont (unless)
 
 - if counting MINUTES and reaching 1 MINUTES and automatic
   change to SECONDS could be NICE
@@ -177,3 +180,13 @@ a repeating (timed) function or a watchdog. See examples.
 - printable interface (stopwatch_rt)
 - add call-back function when **0** is reached
   - cannot be guaranteed as interface polls.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

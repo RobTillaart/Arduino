@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DAC8554"
   },
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "DAC8554.h"
 }

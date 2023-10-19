@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Calculate Correlation from a small dataset.
 //     URL: https://github.com/RobTillaart/Correlation
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.3.0"))
+#define CORRELATION_LIB_VERSION          (F("0.3.1"))
 
 
 class Correlation

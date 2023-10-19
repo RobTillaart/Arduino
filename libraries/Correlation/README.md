@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Correlation/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Correlation/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Correlation/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Correlation/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Correlation/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Correlation.svg)](https://github.com/RobTillaart/Correlation/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Correlation/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Correlation.svg?maxAge=3600)](https://github.com/RobTillaart/Correlation/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Correlation.svg)](https://registry.platformio.org/libraries/robtillaart/Correlation)
 
 
 # Correlation
@@ -33,6 +36,7 @@ Use with care.
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/Histogram
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
@@ -179,4 +183,12 @@ allows smaller data types to be analysed taking less memory.
 
 #### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

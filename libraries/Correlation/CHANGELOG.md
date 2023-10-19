@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-10-18
+- update readme.md
+
+
 ## [0.3.0] - 2023-01-22
 - update GitHub actions
 - update license 2023
@@ -14,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords.txt
 - fix unit test
 
+----
 
 ## [0.2.3] - 2022-10-30
 - add changelog.md
@@ -53,5 +58,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix library.json
 
 ## [0.1.0] - 2020-05-17
-- initial version
+- initial version (release)
+
+----
+
+## [0.1] - 2010-10-29
+- never released statistic2
 

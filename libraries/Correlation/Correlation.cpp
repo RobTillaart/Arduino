@@ -1,7 +1,7 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //     URL: https://github.com/RobTillaart/Correlation
 

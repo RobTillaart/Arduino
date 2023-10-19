@@ -2,7 +2,7 @@
 //
 //    FILE: DMM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-12-19
 // PURPOSE: Library for a DMM class for Arduino.
 //     URL: https://github.com/RobTillaart/DMM
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define DMM_LIB_VERSION        (F("0.1.2"))
+#define DMM_LIB_VERSION        (F("0.1.3"))
 
 
 class DMM

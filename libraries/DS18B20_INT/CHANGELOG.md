@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2023-10-19
+- update readme.md
+
+
 ## [0.3.0] - 2023-03-05
 - fix #15 infinite loop
 - move sources to src folder to comply with PlatformIO dependency system. 
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - refactor resolution handling
 - update readme.md
 - fix changelog.md
-
 
 ----
 

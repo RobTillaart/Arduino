@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2017-07-25
 // PUPROSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -21,7 +21,7 @@
 //
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.3.0"))
+#define DS18B20_INT_LIB_VERSION       (F("0.3.1"))
 
 #include "Arduino.h"
 #include "OneWire.h"

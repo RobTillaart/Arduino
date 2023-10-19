@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2017-07-25
 // PUPROSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT

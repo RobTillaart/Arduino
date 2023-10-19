@@ -1,20 +1,22 @@
 
 [![Arduino CI](https://github.com/RobTillaart/currency/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![Arduino-lint](https://github.com/RobTillaart/Currency/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Currency/actions/workflows/arduino-lint.yml)
-[![JSON check](https://github.com/RobTillaart/Currency/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Currency/actions/workflows/jsoncheck.yml)
+[![Arduino-lint](https://github.com/RobTillaart/currency/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/currency/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/currency/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/currency/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/currency.svg)](https://github.com/RobTillaart/currency/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/currency/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/currency.svg?maxAge=3600)](https://github.com/RobTillaart/currency/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/currency.svg)](https://registry.platformio.org/libraries/robtillaart/currency)
 
 
 # Currency
 
 Arduino library to help formatting integers for printing as currency.
 
-#### Warning: experimental
-
-
 
 ## Description
+
+**Experimental**
 
 The currency library contains a number of functions that help to print 
 integers as currency.
@@ -37,10 +39,17 @@ There is a relation with the printHelpers class - https://github.com/RobTillaart
 When this currency library has matured it might be merged with printHelpers.
 
 
+#### Related
+
+- https://github.com/RobTillaart/printHelpers
+
 ## Interface
 
-The following functions are implemented:
+```cpp
+#include "currency.h"
+```
 
+The following functions are implemented:
 
 ### Core function
 
@@ -98,18 +107,31 @@ individual digits (div / mod 10).
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation.
 
-#### should
+#### Should
 
-#### could
+#### Could
+
 - More wrapper functions?
 - test double parameters.
   - should decimals be a parameter too?
 - add BTC, USD, EUR, GBP, RUB, JPY, CNY, etc. (3+1 chars)
 - https://www.easymarkets.com/eu/learn-centre/discover-trading/currency-acronyms-and-abbreviations/
 
-#### won't
+#### Won't
+
 - currency conversion?
   - intern all in ???
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

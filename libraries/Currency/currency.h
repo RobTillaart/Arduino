@@ -1,9 +1,8 @@
 #pragma once
-
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -11,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.7"))
+#define CURRENCY_VERSION                        (F("0.1.8"))
 
 
 //  TODO 
@@ -55,5 +54,5 @@ char * yenf(double value);
 char * yuanf(double value);
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,11 +1,9 @@
 //
 //    FILE: currency.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
-//
-//  HISTORY: see changelog.md
 
 
 #include "currency.h"
@@ -20,11 +18,11 @@ char * currency(int32_t value, int decimals, char decimalSeparator, char thousan
   bool negative = v < 0;
   if (negative) v = -v;
 
-  int pos = -decimals; // decimal places
+  int pos = -decimals;  //  decimal places
 
   while ((pos < 1) || (v > 0))
   {
-    // separators
+    //  separators
     if ((pos == 0) && (decimals > 0) ) tmp[index++] = decimalSeparator;
     if ((pos > 0)  && (pos % 3 == 0) ) tmp[index++] = thousandSeparator;
     pos++;
@@ -37,7 +35,7 @@ char * currency(int32_t value, int decimals, char decimalSeparator, char thousan
   tmp[index++] = symbol;
   tmp[index]   = '\0';
 
-  // reverse string
+  //  reverse string
   for (uint8_t i = 0, j = index - 1; i < index / 2; i++, j--)
   {
     char c = tmp[i];
@@ -57,7 +55,7 @@ char * currency64(int64_t value, int decimals, char decimalSeparator, char thous
   bool negative = v < 0;
   if (negative) v = -v;
 
-  int pos = -decimals; // decimal places
+  int pos = -decimals;  //  decimal places
 
   while ((pos < 1) || (v > 0))
   {
@@ -74,7 +72,7 @@ char * currency64(int64_t value, int decimals, char decimalSeparator, char thous
   tmp[index++] = symbol;
   tmp[index]   = '\0';
 
-  // reverse string
+  //  reverse string
   for (uint8_t i = 0, j = index - 1; i < index / 2; i++, j--)
   {
     char c = tmp[i];
@@ -113,4 +111,4 @@ char * yenf(double value)       { return currency64(round(value * 100), 2,  '.',
 char * yuanf(double value)      { return currency64(round(value * 100), 2,  '.',  ',',  'R'); }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

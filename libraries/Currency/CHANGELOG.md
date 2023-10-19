@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.8] - 2023-10-19
+- update readme.md
+
+
 ## [0.1.7] - 2022-10-30
 - add changelog.md
 - add rp2040 to build-CI
-
 
 ## [0.1.6] - 2022-04-15
 - fix #5 split .h in .h and .cpp

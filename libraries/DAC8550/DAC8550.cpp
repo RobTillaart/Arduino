@@ -2,10 +2,9 @@
 //    FILE: DAC8550.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor
-// VERSION: 0.1.3
+// VERSION: 0.1.4
+//    DATE: 2021-02-04
 //     URL: https://github.com/RobTillaart/DAC8550
-//
-//  HISTORY: see changelog.md
 
 
 #include "DAC8550.h"
@@ -162,5 +161,5 @@ void DAC8550::swSPI_transfer(uint8_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

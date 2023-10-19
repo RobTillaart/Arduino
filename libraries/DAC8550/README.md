@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DAC8550/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DAC8550/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DAC8550/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DAC8550/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DAC8550/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DAC8550.svg)](https://github.com/RobTillaart/DAC8550/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DAC8550/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DAC8550.svg?maxAge=3600)](https://github.com/RobTillaart/DAC8550/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DAC8550.svg)](https://registry.platformio.org/libraries/robtillaart/DAC8550)
 
 
 # DAC8550 - experimental
@@ -21,6 +24,9 @@ It is derived from the DAC8551 library.
 
 ## Interface
 
+```cpp
+#include "DAC8550"
+```
 
 ### Core
 
@@ -50,7 +56,7 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called
 BEFORE the **begin()** function.
 
 
-#### experimental
+#### Experimental
 
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
 AFTER the **begin()** function.
@@ -79,9 +85,28 @@ See examples
 
 ## Future
 
-- testing with real hardware
+#### Must
+
 - improve documentation
+
+#### Should
+
+- testing with real hardware
+
+#### Could
+
 - improve code incl readability
   - spiData => spiDataOut
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

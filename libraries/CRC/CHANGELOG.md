@@ -1,9 +1,14 @@
-# Change Log Complex
+# Change Log CRC
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+## [1.0.2] - 2023-10-19
+- update readme.md (badges)
+- fix changelog
 
 
 ## [1.0.1] - 2023-07-13
@@ -12,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - bumped version number
 - update readme.md
 - replaced ..._REF_IN ==> ..._REV_IN (OUT iden)
-
 
 ## [1.0.0] - 2023-05-19
 - See issue #32 / #31

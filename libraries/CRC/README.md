@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/CRC/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/CRC/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/CRC/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/CRC/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/CRC/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/CRC.svg)](https://github.com/RobTillaart/CRC/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/CRC/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/CRC.svg?maxAge=3600)](https://github.com/RobTillaart/CRC/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/CRC.svg)](https://registry.platformio.org/libraries/robtillaart/CRC)
 
 
 # CRC
@@ -54,7 +57,14 @@ Deeper tech info
 
 and many other websites.
 
+
 ## Interface CRC classes
+
+```cpp
+#include "CRC8.h"
+```
+
+#### Base
 
 The interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The difference is the data type for polynome, start- and end-mask,
@@ -203,3 +213,10 @@ If standard polynomes are missing, please open an issue and report, with referen
   user can access parameters, so no need.
 
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,

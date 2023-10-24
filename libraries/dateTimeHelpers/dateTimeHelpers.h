@@ -2,7 +2,7 @@
 //
 //    FILE: datetimeHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library with date time helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/dateTimeHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DATETIMEHELPER_LIB_VERSION      (F("0.1.1"))
+#define DATETIMEHELPER_LIB_VERSION      (F("0.1.3"))
 
 #define SECONDS_MINUTE                  60UL
 #define SECONDS_HOUR                    3600UL
@@ -255,4 +255,4 @@ float seconds2minutes(uint32_t seconds)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

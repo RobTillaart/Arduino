@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/dateTimeHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/dateTimeHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/dateTimeHelpers/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/dateTimeHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/dateTimeHelpers/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/dateTimeHelpers.svg)](https://github.com/RobTillaart/dateTimeHelpers/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/dateTimeHelpers/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/dateTimeHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/dateTimeHelpers/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/dateTimeHelpers.svg)](https://registry.platformio.org/libraries/robtillaart/dateTimeHelpers)
 
 
 # dateTimeHelpers
@@ -87,6 +90,7 @@ Note: the following functions use float math so there might occur rounding.
 
 - optimize for performance
   - secondssplit() (see fast math lib)
+  - seconds2clock24 => divmod10
 - merge code where possible
 - extend examples
 - add unit tests
@@ -108,10 +112,20 @@ Note: the following functions use float math so there might occur rounding.
   - 12x60x60 = 360° in 1/12th parts
   - idem radians..
 - minute2angle(mm.ss) = angle of the minute hand (mm x 6 + ss x 0.1
-- seconds2angle(ss) = angle of the seconds hand (ssx6)
+- seconds2angle(ss) = angle of the seconds hand (ss x 6)
 - "classify" ?
   - extern "C" ?
 
+
 #### Won't
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

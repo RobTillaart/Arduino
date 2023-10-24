@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHT12/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHT12/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHT12/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHT12/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHT12/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHT12.svg)](https://github.com/RobTillaart/DHT12/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHT12/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHT12.svg?maxAge=3600)](https://github.com/RobTillaart/DHT12/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHT12.svg)](https://registry.platformio.org/libraries/robtillaart/DHT12)
 
 
 # DHT12
@@ -13,12 +16,16 @@ Arduino library for I2C DHT12 temperature and humidity sensor.
 
 ## Description
 
-The library should be initiated by calling the **begin()** function, 
-optionally **begin(dataPin, clockPin)** for **ESP32** and similar platforms.
+The DHT12 is an I2C temperature and humidity sensor.
+
+The constructor is called only with a TwoWire object (Wire, Wire1 etc) as the device 
+has a fixed address. The user should call **Wire.begin()** in setup before calling
+the **begin()** function.
 
 Thereafter one has to call the **read()** function to do the actual reading,
 and with **getTemperature()** and **getHumidity()** to get the read values.
 Calling these latter again will return the same values until a new **read()** is called.
+
 
 #### I2C
 
@@ -39,7 +46,6 @@ The DHT12 should work up to 400 KHz however this is not tested (yet).
 
 - **DHT12(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
 Default is set to Wire.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
 - **bool begin()** initializer for non ESP32. Returns true if connected.
 - **bool isConnected()** returns true if the address of the DHT12 can be seen on the I2C bus. (since 0.3.2)
 
@@ -67,6 +73,8 @@ Default offset is 0.
 
 #### Must
 
+- documentation 
+  - related?
 
 #### Should
 
@@ -79,7 +87,7 @@ Default offset is 0.
 
 - check for optimizations. although I2C overhead is much more.
 - add **void setIgnoreChecksum(bool = false)** ignore checksum flag speeds up communication a bit
-- add **bool getIgnoreChecksum()** get status. for completeness.
+- add **bool getIgnoreChecksum()** get status. For completeness.
 - investigate if it is possible to extract temp and hum separately
   - faster?
 - add **void suppressErrorReads(bool)** prevents the -999, returns previous value
@@ -87,5 +95,14 @@ Default offset is 0.
 
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

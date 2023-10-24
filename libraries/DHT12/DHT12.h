@@ -2,7 +2,7 @@
 //
 //    FILE: DHT12.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for I2C DHT12 temperature and humidity sensor.
 //     URL: https://github.com/RobTillaart/DHT12
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT12_LIB_VERSION                    (F("0.4.0"))
+#define DHT12_LIB_VERSION                    (F("0.5.0"))
 
 #define DHT12_OK                             0
 #define DHT12_ERROR_CHECKSUM                -10
@@ -23,9 +23,6 @@ class DHT12
 public:
   DHT12(TwoWire *wire = &Wire);        //  to be tested explicitly
 
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
 
   bool     isConnected();

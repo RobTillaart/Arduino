@@ -1,9 +1,7 @@
 //
-//    FILE: DHT12 _plotter.ino
+//    FILE: DHT12_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT12 I2C humidity & temperature sensor
-//
-
 
 #include "DHT12.h"
 
@@ -12,7 +10,9 @@ DHT12 DHT(&Wire);
 
 void setup()
 {
+  Wire.begin();
   DHT.begin();
+
   Serial.begin(115200);
   Serial.println("Humidity, Temperature");
 }
@@ -31,5 +31,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

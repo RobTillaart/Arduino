@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-10-24
+- update readme.md
+
+
 ## [0.2.0] - 2023-01-29
 - add temperature() and humidity() as access function.
 - move code to .cpp

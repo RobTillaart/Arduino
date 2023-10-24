@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DEVRANDOM/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DEVRANDOM/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DEVRANDOM/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DEVRANDOM/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DEVRANDOM/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DEVRANDOM.svg)](https://github.com/RobTillaart/DEVRANDOM/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DEVRANDOM/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DEVRANDOM.svg?maxAge=3600)](https://github.com/RobTillaart/DEVRANDOM/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DEVRANDOM.svg)](https://registry.platformio.org/libraries/robtillaart/DEVRANDOM)
 
 
 # DEVRANDOM
@@ -17,7 +20,18 @@ The library implements a stream class that mimics the /dev/random
 device of a Linux system. It can be used for testing with streams.
 
 
+#### Related
+
+- https://github.com/RobTillaart/DEVFULL
+- https://github.com/RobTillaart/DEVNULL
+- https://github.com/RobTillaart/DEVRANDOM
+
+
 ## Interface
+
+```cpp
+#include "DEVRANDOM.h"
+```
 
 ### Constructor
 
@@ -106,7 +120,14 @@ So a password generator is a bit more difficult (and a good exercise).
 
 ## Future
 
+#### Must
+
 - improve documentation.
+
+#### Should
+
+#### Could
+
 - add examples.
 - add other (portable) PRNG.
 - **available()** returns 1, 
@@ -116,4 +137,14 @@ So a password generator is a bit more difficult (and a good exercise).
 - when changing mode should \_next == **peek()** be reset?
   - yes, think so ```_next = _rnd();```
   - when already in that mode? (=> complex)
-  
+
+#### Wont
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2023-10-24
+- update readme.md
+- fix version in .cpp
+
+
 ## [0.2.1] - 2022-10-31
 - add changelog.md
 - add rp2040 to build-CI
-
 
 ## [0.2.0] - 2022-07-02
 - add Marsaglia PRNG, is portable over platforms, becomes mode 3

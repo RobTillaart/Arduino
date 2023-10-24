@@ -1,11 +1,9 @@
 //
 //    FILE: DEVRANDOM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
-//
-//  HISTORY: see changelog.md
 
 
 #include "DEVRANDOM.h"
@@ -168,5 +166,5 @@ uint32_t DEVRANDOM::_marsaglia()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

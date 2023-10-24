@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DEVNULL/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DEVNULL/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DEVNULL/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DEVNULL/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DEVNULL/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DEVNULL.svg)](https://github.com/RobTillaart/DEVNULL/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DEVNULL/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DEVNULL.svg?maxAge=3600)](https://github.com/RobTillaart/DEVNULL/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DEVNULL.svg)](https://registry.platformio.org/libraries/robtillaart/DEVNULL)
 
 
 # DEVNULL
@@ -30,7 +33,18 @@ with only a return 0; (or at least **print(Type)** as the **println(T)** would o
 call once extra for the "\n".
 
 
+#### Related
+
+- https://github.com/RobTillaart/DEVFULL
+- https://github.com/RobTillaart/DEVNULL
+- https://github.com/RobTillaart/DEVRANDOM
+
+
 ## Interface
+
+```cpp
+#include "DEVNULL.h"
+```
 
 - **DEVNULL()** constructor, sets the timeout to zero.
 - **int available()** always return zero.
@@ -53,6 +67,10 @@ See examples.
 
 ## Future
 
+#### Must
+
+#### Should
+
 #### Could
 
 - add byte counter (uint32_t)
@@ -71,4 +89,13 @@ See examples.
   - out of scope for /dev/null => separate class?
 - implement Print class to increase performance?
   - derived class?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

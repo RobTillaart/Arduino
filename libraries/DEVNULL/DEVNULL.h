@@ -2,14 +2,14 @@
 //
 //    FILE: DEVNULL.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for a /dev/null stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVNULL
 
 
 #include "Arduino.h"
 
-#define DEVNULL_LIB_VERSION     (F("0.1.5"))
+#define DEVNULL_LIB_VERSION     (F("0.1.6"))
 
 
 class DEVNULL : public Stream
@@ -32,5 +32,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

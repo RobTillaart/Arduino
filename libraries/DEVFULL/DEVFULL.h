@@ -2,18 +2,16 @@
 //
 //    FILE: DEVFULL.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for a /dev/full stream - useful for testing / debugging.
 //     URL: https://github.com/RobTillaart/DEVFULL
-//
-// HISTORY: see changelog.md
 
 
 #include "Arduino.h"
 #include "limits.h"
 
 
-#define DEVFULL_LIB_VERSION     (F("0.1.2"))
+#define DEVFULL_LIB_VERSION     (F("0.1.3"))
 
 
 #ifndef ENOSPC
@@ -57,5 +55,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

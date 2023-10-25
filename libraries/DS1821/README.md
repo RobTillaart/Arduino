@@ -17,10 +17,14 @@ The DS1821 is a temperature sensor that uses the oneWire protocol.
 This library supports one sensor per pin.
 As this library is tested minimally please consider it experimental.
 
-The sensor is hard to get however still available on internet.
+The sensor is hard to get however still available on the Internet.
 
 
 ## Interface (temperature sensor)
+
+```cpp
+#include "DS1821.h"
+```
 
 The interface of the library is an async interface so there are no blocking calls.
 
@@ -88,8 +92,26 @@ See examples.
 
 ## Future
 
+#### Must
+
+- update documentation
+
+#### Should
+
+#### Could
+
+#### Wont
+
 - updates only on request 
 - Get new sensors to test test test...
 - merge clrLowFlag() into getLowFlag() ? high idem?
-- update documentation
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

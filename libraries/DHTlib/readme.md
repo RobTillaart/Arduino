@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHTlib/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHTlib/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTlib/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHTlib/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTlib/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHTlib.svg)](https://github.com/RobTillaart/DHTlib/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTlib/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTlib.svg?maxAge=3600)](https://github.com/RobTillaart/DHTlib/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHTlib.svg)](https://registry.platformio.org/libraries/robtillaart/DHTlib)
 
 
 # DHTlib
@@ -46,48 +49,81 @@ For latest version for the DHT, check https://github.com/RobTillaart/DHTNEW
 | pin 4 |      | GND           |
 
 
+## Interface
+
+```cpp
+#include "dht.h"
+```
+
+
+#### Constructor
+
+- **dht()** Constructor
+
+
+#### Read functions per type
+
+- **int8_t read11(uint8_t pin)**
+- **int8_t read(uint8_t pin)**
+- **int8_t read12(uint8_t pin)**
+
+- **inline int8_t read21(uint8_t pin)**
+- **inline int8_t read22(uint8_t pin)**
+- **inline int8_t read33(uint8_t pin)**
+- **inline int8_t read44(uint8_t pin)**
+- **inline int8_t read2301(uint8_t pin)**
+- **inline int8_t read2302(uint8_t pin)**
+- **inline int8_t read2303(uint8_t pin)**
+- **inline int8_t read2320(uint8_t pin)**
+- **inline int8_t read2322(uint8_t pin)**
+
+- **float humidity** public class variable to access last read humidity.
+- **float temperature** public class variable to access last read temperature.
+
+
+#### Enable / disable interrupts
+
+- **bool getDisableIRQ()**
+- **void setDisableIRQ(bool b )**
+
 
 ## Operational
 
 See examples
 
 
-## Versions:
+## Versions
 
-==> See DHTStable library for latest stable version for all platforms.
-
-- version 0.1.13 is the last stable version for both AVR and ARM 
-- version 0.1.14 and up are not compatible any more with pre 1.0 Arduino. 
-These have breaking changes wrt ARM based Arduino's e.g DUE.
-- version 0.1.15 is stable version for AVR only
-- version 0.1.16 and 0.1.17 have breaking changes for DHT11
-- version 0.1.18 works again for DHT11 (AVR only)
-- version 0.1.19 fixed masking bug DHT11 (AVR only)
-- version 0.1.20 Reduce footprint (34 bytes) by using int8_t as error codes. (thanks to chaveiro)
-- version 0.1.21 replace delay with delayMicroseconds() + small fix (thanks to codingforfun)
-- version 0.1.22 undo delayMicroseconds() for wakeups larger than 8
-- version 0.1.23 fix https://github.com/RobTillaart/Arduino/issues/31
-- version 0.1.24 fix https://github.com/RobTillaart/Arduino/issues/33
-- version 0.1.25 fix https://github.com/RobTillaart/Arduino/issues/80
-- version 0.1.26 Explicit support for AM23XX series and DHT12
-- version 0.1.27 added \_disableIRQ flag
-- version 0.1.28 refactor
-- version 0.1.29 fix negative temperature DHT12 - issue #111
-- version 0.1.30 own repo version
-- version 0.1.31 fix negative temperature DHT22 (code from DHTNew)
-- version 0.1.32 fix negative temperature DHT22 again (code from DHTNew)
-- version 0.1.33 fix #6 T-GO signal in handshake. (needed for long wires)
-- version 0.1.34 fix negative temperature DHT22 again (code from DHTNew)
-- version 0.1.35 update license, library.json, #pragma once, minor edits
+- See changelog.md
+- See DHTNEW or DHTStable library for latest stable version for all platforms.
 
 
 ## Future
 
-- updates only on request basis (bugs)
+#### Must
+
 - improve documentation
+
+#### Should
+
+- separate history versions CHANGELOG.md file ?
+
+#### Could
+
 - improve unit tests
   - constants
 - move non public part of #defines to .cpp
-- separate history versions releasenotes file ?
-- 
+
+#### Wont
+
+- updates only on request basis (bugs)
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

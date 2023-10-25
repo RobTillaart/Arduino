@@ -1,4 +1,4 @@
-# Syntax Colouring Map For DHT
+# Syntax Colouring Map For DHTlib
 
 
 # Data types (KEYWORD1)

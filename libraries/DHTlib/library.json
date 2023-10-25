@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DHTlib.git"
   },
-  "version": "0.1.35",
+  "version": "0.1.36",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "dht.h"
 }

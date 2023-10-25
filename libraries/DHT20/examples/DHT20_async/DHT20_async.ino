@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
-
 //  Always check datasheet - front view
 //
 //          +--------------+
@@ -22,21 +21,21 @@ uint32_t counter = 0;
 
 void setup()
 {
-  DHT.begin();  //  ESP32 default 21, 22
-
-  Wire.setClock(400000);
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");
   Serial.println(DHT20_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
+  Wire.setClock(400000);
+
+  DHT.begin();  //  ESP32 default 21, 22
+
   delay(2000);
 
   //  start with initial request
   Serial.println(DHT.requestData());
-
 }
 
 
@@ -65,4 +64,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

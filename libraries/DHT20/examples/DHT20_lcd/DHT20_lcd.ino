@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
-
 //  Always check datasheet - front view
 //
 //          +--------------+
@@ -57,16 +56,16 @@ uint32_t stop, start;
 
 int displayAddress = 0x27;
 
-// lcd object is created as a placeholder as the actual address is determined in setupDisplay()
-// constructor needs an I2C address. Better solution would be a function to set the address
-// runtime in the class.
+//  LCD object is created as a placeholder as the actual address is determined in setupDisplay()
+//  constructor needs an I2C address. Better solution would be a function to set the address
+//  runtime in the class.
 LiquidCrystal_I2C  lcd(displayAddress);
 
 void setupDisplay()
 {
   lcd = LiquidCrystal_I2C(displayAddress, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin);
   lcd.begin(20, 4);
-  // lcd.setBacklightPin(BACKLIGHT_PIN, NEGATIVE);
+  //  lcd.setBacklightPin(BACKLIGHT_PIN, NEGATIVE);
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
   lcd.setBacklight(BL_ON);
 }
@@ -97,13 +96,14 @@ void display()
 
 void setup()
 {
-  DHT.begin();    //  ESP32 default pins 21 22
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");
   Serial.println(DHT20_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  DHT.begin();    //  ESP32 default pins 21 22
 
   setupDisplay();
 
@@ -115,7 +115,7 @@ void loop()
 {
   if (millis() - DHT.lastRead() >= 1000)
   {
-    // READ DATA
+    //  READ DATA
     start = micros();
     int status = DHT.read();
     stop = micros();
@@ -131,7 +131,7 @@ void loop()
     count++;
 
     Serial.print("DHT20 \t");
-    // DISPLAY DATA, sensor has only one decimal.
+    //  DISPLAY DATA, sensor has only one decimal.
     Serial.print(DHT.getHumidity(), 1);
     Serial.print("\t\t");
     Serial.print(DHT.getTemperature(), 1);
@@ -170,4 +170,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

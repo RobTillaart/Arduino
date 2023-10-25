@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
-
 //  Always check datasheet - front view
 //
 //          +--------------+
@@ -31,6 +30,7 @@ void setup()
 
   Serial.println("\nNOTE: datasheet states 400 KHz as maximum.\n");
 
+  Wire.begin();
   DHT.begin();  //  ESP32 default pins 21, 22
   delay(2000);
 
@@ -98,4 +98,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

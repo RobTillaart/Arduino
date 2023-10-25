@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
 //
-
 //  Always check datasheet - front view
 //
 //          +--------------+
@@ -13,6 +12,7 @@
 //  SCL ----| 4            |
 //          +--------------+
 
+
 #include "DHT20.h"
 
 DHT20 DHT(&Wire);
@@ -20,7 +20,9 @@ DHT20 DHT(&Wire);
 
 void setup()
 {
+  Wire.begin();
   DHT.begin();  //  ESP32 default pins 21 22
+
   Serial.begin(115200);
   Serial.println("Humidity, Temperature");
 }
@@ -30,7 +32,7 @@ void loop()
 {
   if (millis() - DHT.lastRead() >= 1000)
   {
-    // note no error checking
+    //  note no error checking
     DHT.read();
     Serial.print(DHT.getHumidity(), 1);
     Serial.print(", ");
@@ -39,4 +41,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

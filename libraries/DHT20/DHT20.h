@@ -3,7 +3,7 @@
 //    FILE: DHT20.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 //     URL: https://github.com/RobTillaart/DHT20
 //
 
@@ -20,7 +20,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT20_LIB_VERSION                    (F("0.2.3"))
+#define DHT20_LIB_VERSION                    (F("0.3.0"))
 
 #define DHT20_OK                             0
 #define DHT20_ERROR_CHECKSUM                -10
@@ -38,10 +38,6 @@ public:
   //  fixed address 0x38
   DHT20(TwoWire *wire = &Wire);
 
-  //  start the I2C
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  getAddress();

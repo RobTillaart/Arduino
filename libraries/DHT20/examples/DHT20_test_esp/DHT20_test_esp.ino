@@ -13,25 +13,22 @@
 //  SCL ----| 4            |
 //          +--------------+
 
+
 #include "DHT20.h"
 
-DHT20 DHT(&Wire);
+DHT20 DHT(&Wire1);  //  2nd I2C interface
 
 
 void setup()
 {
-  
-#if defined(ESP8266) || defined(ESP32)
-  DHT.begin(12, 13);  //  select your pin numbers here
-#else
-  DHT.begin();
-#endif
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");
   Serial.println(DHT20_LIB_VERSION);
   Serial.println();
+
+  Wire1.begin(12, 13);  //  select your pin numbers here
+
   delay(2000);
 
   Serial.println("Type,\tStatus,\tHumidity (%),\tTemperature (C)");

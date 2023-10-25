@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-10-25
+- simplify begin()
+- updated all examples
+- update readme.md
+
+----
+
 ## [0.2.3] - 2023-07-27
 - fix #12 add time out to read function
-
 
 ## [0.2.2] - 2022-12-21
 - update keywords.txt

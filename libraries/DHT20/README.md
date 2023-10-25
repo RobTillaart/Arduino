@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHT20/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHT20/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHT20/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHT20/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHT20/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHT20.svg)](https://github.com/RobTillaart/DHT20/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHT20/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHT20.svg?maxAge=3600)](https://github.com/RobTillaart/DHT20/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHT20.svg)](https://registry.platformio.org/libraries/robtillaart/DHT20)
 
 
 # DHT20
@@ -51,6 +54,11 @@ The 0.2.0 version embeds the **resetSensor()** into **requestData()** to
 reset the sensor if needed in both synchronous and asynchronous calls.
 This keeps the API simple. The reads are 1-2 ms slower than 0.1.4. (< 50 ms).
 Still far below the 80 ms mentioned in the datasheet. 
+
+### 0.3.0
+
+User should call Wire.begin(), and setting I2C pins himself.
+It is removed from the specific ESP32 begin() call to be more generic.
 
 
 #### Tested
@@ -140,7 +148,6 @@ and should only be used if you are in a need for speed.
 #### Constructor
 
 - **DHT20(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** begin for ESP32 et al, to set I2C bus pins.
 - **bool begin()** initializer for non ESP32. Returns true if connected.
 - **bool isConnected()** returns true if the address of the DHT20 can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
@@ -267,5 +274,14 @@ the read calls. (0.2.0)
 
 - **void setIgnoreChecksum(bool = false)** ignore checksum flag speeds up communication a bit
 - **bool getIgnoreChecksum()** get checksum flag. for completeness.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

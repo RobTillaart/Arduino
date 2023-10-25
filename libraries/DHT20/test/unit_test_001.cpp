@@ -61,6 +61,7 @@ unittest(test_constructor)
   assertEqualFloat(0, DHT.getTempOffset(), 0.001);
   assertEqualFloat(0, DHT.getHumOffset(), 0.001);
 
+  Wire.begin();
   DHT.begin();
   assertEqual(DHT20_ERROR_LASTREAD, DHT.read());
 
@@ -74,6 +75,8 @@ unittest(test_constructor)
 unittest(test_offset)
 {
   DHT20 DHT(&Wire);
+
+  Wire.begin();
   DHT.begin();
 
   assertEqualFloat(0, DHT.getTempOffset(), 0.001);

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DS1821/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DS1821/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DS1821/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DS1821/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DS1821/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DS1821.svg)](https://github.com/RobTillaart/DS1821/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DS1821/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DS1821.svg?maxAge=3600)](https://github.com/RobTillaart/DS1821/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DS1821.svg)](https://registry.platformio.org/libraries/robtillaart/DS1821)
 
 
 # DS1821

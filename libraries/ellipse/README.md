@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/ellipse/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ellipse/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ellipse/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ellipse/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ellipse/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ellipse.svg)](https://github.com/RobTillaart/ellipse/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ellipse/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ellipse.svg?maxAge=3600)](https://github.com/RobTillaart/ellipse/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ellipse.svg)](https://registry.platformio.org/libraries/robtillaart/ellipse)
 
 
 # ellipse
@@ -22,6 +25,10 @@ Trigger was a video of Dr. Matt Parker.
 
 ## Interface
 
+```cpp
+#include "ellipse.h"
+```
+
 - **ellipse(float a, float b)** constructor, a >= b 
 - **float area()** returns the area of the ellipse.
 - **float circumference()** good algorithm (= Ramanujan 1).
@@ -36,6 +43,8 @@ This is an indication of flatness of the ellipse. 0 is a circle 1 is flat line.
 
 #### Perimeter algorithms
 
+Perimeter == circumference
+
 - **float perimeter_ref()** slower but best known algorithm (Ramanujan 2)
 - **float perimeter_Keppler()** good and fast algorithm for eccentricity between 1 and 2.
 - **float perimeter_Ramanujan1()** good algorithm.
@@ -44,7 +53,7 @@ This is an indication of flatness of the ellipse. 0 is a circle 1 is flat line.
 See performance example for differences in timing.
 
 
-#### Misc
+#### Convenience functions
 
 - **bool isCircle(float epsilon = 0.0)**  | a - b | < eps.
 - **bool isFlat()** true if a > 4b, where a = longest radius.
@@ -63,10 +72,30 @@ See examples.
 
 ## Future
 
+#### Must
+
+- improve documentation
+  - refer Wikipedia.
+  
+#### Should
+
 - make constructor symmetric (a < b or a > b ==> all possible.
 - make other code symmetric.
+
+#### Could
+
+- replace float by double?
 - additional functions
   - Bresenham to draw ellipse?
-- documentation
-  - refer Wikipedia.
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHTINT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHTINT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTINT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHTINT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTINT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHTINT.svg)](https://github.com/RobTillaart/DHTINT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTINT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTINT.svg?maxAge=3600)](https://github.com/RobTillaart/DHTINT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHTINT.svg)](https://registry.platformio.org/libraries/robtillaart/DHTINT)
 
 
 # DHTINT
@@ -46,6 +49,15 @@ replaced DHTINT with DHTNEW
 Gain is most substantial for the UNO platform.
 
 
+## Interface
+
+```cpp
+#include "dhtint.h"
+```
+
+To elaborate
+
+
 ### Raw data access
 
 To access the decimal part the following two functions are added.
@@ -73,6 +85,25 @@ Note these functions have no equivalent in the DHTNew library (yet).
 
 ## Future
 
+No active development.
+
+#### Must
+
+#### Should
+
 - Keep in sync with DHTNEW.
 - Test more
+
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHTstable/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHTstable/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTstable/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHTstable/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTstable/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHTstable.svg)](https://github.com/RobTillaart/DHTstable/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTstable/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTstable.svg?maxAge=3600)](https://github.com/RobTillaart/DHTstable/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHTstable.svg)](https://registry.platformio.org/libraries/robtillaart/DHTstable)
 
 
 # DHTStable
@@ -37,6 +40,49 @@ There are some interface differences, these are relative small but can be time c
 It is advised to upgrade to the DHTNEW library if one needs the new functionality.
 
 
+## Interface
+
+```cpp
+#include "DHTStable.h"
+```
+
+
+
+#### Constructor
+
+- **dht()** Constructor
+
+
+#### Read functions per type
+
+- **int read11(uint8_t pin)**
+- **int read(uint8_t pin)**
+
+
+- **int read12(uint8_t pin)**
+- **int read21(uint8_t pin)**
+- **int read22(uint8_t pin)**
+- **int read33(uint8_t pin)**
+- **int read44(uint8_t pin)**
+- **int read2301(uint8_t pin)**
+- **int read2302(uint8_t pin)**
+- **int read2303(uint8_t pin)**
+- **int read2320(uint8_t pin)**
+- **int read2322(uint8_t pin)**
+
+
+- **float getHumidity()**
+- **float getTemperature()**
+
+
+#### Enable / disable interrupts
+
+- **bool getDisableIRQ()**
+- **void setDisableIRQ(bool b )**
+
+
+
+
 ## Operational
 
 See examples.
@@ -57,9 +103,26 @@ When the VCC voltage was lowered to 5V1 it appeared to work as it should.
 - no active development 
   - follow bug fixes from DHTnew
   - on request.
+
+#### Must
+
+#### Should
+
+#### Could
+
+#### Wont
+
 - move some const int to .cpp file
 - improve unit test
   - add constants test
-- add release_notes
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

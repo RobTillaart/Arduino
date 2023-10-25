@@ -1,7 +1,7 @@
 //
 //    FILE: DS1821.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2014-10-05
 // PURPOSE: Arduino library for DS1821 temperature sensor
 //     URL: https://github.com/RobTillaart/DS1821

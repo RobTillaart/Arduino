@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/DHTNew/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHTNew/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHTNew/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHTNew/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHTNew/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHTNew.svg)](https://github.com/RobTillaart/DHTNew/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHTNew/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHTNew.svg?maxAge=3600)](https://github.com/RobTillaart/DHTNew/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHTNew.svg)](https://registry.platformio.org/libraries/robtillaart/DHTNew)
 
 
 # DHTNew
@@ -48,6 +51,13 @@ Feedback (both positive and negative) about the AM232X sensors is welcome.
 **Note: check the datasheet how to connect!**
 
 
+#### Related
+
+- https://github.com/RobTillaart/DHTNew
+- https://github.com/RobTillaart/DHTStable
+- https://github.com/RobTillaart/DHT_Simulator
+
+
 ## DHT PIN layout from left to right
 
 | Front |      | Description   |
@@ -80,6 +90,9 @@ Feedback (both positive and negative) about the AM232X sensors is welcome.
 
 ## Interface
 
+```cpp
+#include "dhtnew.h"
+```
 
 ### Constructor
 
@@ -283,15 +296,17 @@ Fix #84 correct the reading of type 70 for Sonoff Si7021.
 fix #86, define constants explicit as float.
 34. (0.4.18)
 Update readme.md and library.\* about support for AM2320/21/22.
+35. (0.4.19) 
+Update readme.md
 
 
 ## Future
 
-#### must
+#### Must
 
 - update documentation
 
-#### should
+#### Should
 
 - test on more boards
 - #if defined(MKR1010)  // TODO find out real define  https://github.com/RobTillaart/DHTNew/issues/67
@@ -301,12 +316,22 @@ Update readme.md and library.\* about support for AM2320/21/22.
   #endif
   ```
 
-
-#### could
+#### Could
 
 - improve unit test
 - investigate temperature constraining (type dependant)
 - fix  DHTLIB_VALUE_OUT_OF_RANGE  code
 - move all code from .h to .cpp
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
  

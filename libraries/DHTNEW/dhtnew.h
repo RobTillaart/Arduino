@@ -2,11 +2,10 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.18
+// VERSION: 0.4.19
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
-
-
+//
 //  DHT PIN layout from left to right
 //  =================================
 //  FRONT  :  DESCRIPTION
@@ -19,7 +18,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.18"))
+#define DHTNEW_LIB_VERSION                (F("0.4.19"))
 
 
 #define DHTLIB_OK                         0
@@ -45,8 +44,8 @@
 
 
 //  bits are timing based (datasheet)
-//  26-28us ==> 0
-//  70 us   ==> 1
+//    26-28us ==> 0
+//    70 us   ==> 1
 //  See https://github.com/RobTillaart/DHTNew/issues/11
 #ifndef DHTLIB_BIT_THRESHOLD
 #define DHTLIB_BIT_THRESHOLD             50
@@ -126,5 +125,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

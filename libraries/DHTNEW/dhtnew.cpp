@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.18
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.4.19
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -385,7 +385,7 @@ int DHTNEW::_readSensor()
 
     //  PREPARE FOR NEXT BIT
     mask >>= 1;
-    if (mask == 0)   // next byte?
+    if (mask == 0)   //  next byte?
     {
       mask = 0x80;
       idx++;
@@ -423,5 +423,5 @@ bool DHTNEW::_waitFor(uint8_t state, uint32_t timeout)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

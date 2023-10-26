@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/LUHN/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/LUHN/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/LUHN/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/LUHN/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/LUHN/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/LUHN.svg)](https://github.com/RobTillaart/LUHN/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/LUHN/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/LUHN.svg?maxAge=3600)](https://github.com/RobTillaart/LUHN/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/LUHN.svg)](https://registry.platformio.org/libraries/robtillaart/LUHN)
 
 
 # LUHN
@@ -39,7 +42,7 @@ However that is not tested for obvious reasons, internally a 32 bit counter exis
 - 0.1.x versions are obsolete due to incorrect math.
 
 
-#### Links
+#### Related
 
 - https://en.wikipedia.org/wiki/Luhn_algorithm
 - https://github.com/RobTillaart/Adler
@@ -84,13 +87,12 @@ and even when it overflows one gets the correct **LUHN**.
 
 #### Must
 
-
 #### Should
 
 - look for optimizations
+  - common code **isValid()** and **generateChecksum()**
 
 #### Could
-
 
 #### Won't (unless)
 
@@ -104,4 +106,14 @@ and even when it overflows one gets the correct **LUHN**.
   - **isValid(uint32_t)**
   - **generateChecksum(uint32_t)**
   - how about leading zero's
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

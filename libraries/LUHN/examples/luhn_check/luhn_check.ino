@@ -1,6 +1,5 @@
 //    FILE: luhn_check.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-24
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/LUHN
 
@@ -28,6 +27,8 @@ void setup()
 
   //  SHOULD PRINT 3
   Serial.println(checker.generateChecksum((char *)"7992739871"));
+  //  SHOULD PRINT 0
+  Serial.println(checker.generateChecksum((char *)""));
 }
 
 void loop()

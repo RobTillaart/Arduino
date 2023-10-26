@@ -1,7 +1,7 @@
 //
 //    FILE: LUHN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -82,7 +82,7 @@ bool LUHN::generate(char * buffer, uint8_t length, char * prefix)
   int i;
   for (i = len; i < length-1;)
   {
-    buffer[i++] = '0' + Marsaglia_mod10();
+    buffer[i++] = '0' + _Marsaglia_mod10();
     buffer[i] = '\0';
   }
   char c = generateChecksum(buffer);
@@ -145,7 +145,7 @@ uint32_t LUHN::count()
 //  to seed the generator.
 //  this is derived work.
 //
-uint8_t LUHN::Marsaglia_mod10()
+uint8_t LUHN::_Marsaglia_mod10()
 {
     m_z = 36969L * (m_z & 65535L) + (m_z >> 16);
     m_w = 18000L * (m_w & 65535L) + (m_w >> 16);
@@ -155,7 +155,7 @@ uint8_t LUHN::Marsaglia_mod10()
 
 //  EXPERIMENTAL
 //  ~8% faster and 58 bytes bigger (UNO)
-// uint8_t LUHN::Marsaglia_mod10()
+// uint8_t LUHN::_Marsaglia_mod10()
 // {
   // static uint32_t value;
   // static uint8_t  digits = 0;

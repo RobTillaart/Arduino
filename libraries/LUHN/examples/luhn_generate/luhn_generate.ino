@@ -1,6 +1,5 @@
 //    FILE: luhn_generate.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-24
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/LUHN
 

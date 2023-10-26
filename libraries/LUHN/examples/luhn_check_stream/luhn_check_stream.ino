@@ -1,6 +1,5 @@
 //    FILE: luhn_check_stream.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-29
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/LUHN
 

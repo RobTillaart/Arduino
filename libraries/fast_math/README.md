@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/fast_math/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/fast_math/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/fast_math/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/fast_math/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/fast_math/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/fast_math.svg)](https://github.com/RobTillaart/fast_math/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/fast_math/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/fast_math.svg?maxAge=3600)](https://github.com/RobTillaart/fast_math/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/fast_math.svg)](https://registry.platformio.org/libraries/robtillaart/fast_math)
 
 
 # fast_math
@@ -20,13 +23,14 @@ Only tested on Arduino UNO as one of the "slower" boards.
 
 **Warning:** verify if the algorithms works for your project. (no warranty).
 
-Note: I am interested in your feedback e.g. results on other platforms.
-Also improvements or other fast code is welcome. Please open an issue.
-
 These algorithms are collected and improved over a long time, and started
 with improving decades ago when computers were slower than an Arduino UNO.
 
-Related libraries:
+Note: I am interested in your feedback e.g. results on other platforms.
+Also improvements or other fast code is welcome. Please open an issue.
+
+
+#### Related
 
 - https://github.com/RobTillaart/fastTrig Gonio functions (less exact but faster)
 
@@ -62,12 +66,14 @@ Indicative performance Arduino UNO.
 |  bcd2dec        |  2.20  |   2.7   |
 
 
-### DIV
+### DIVMOD
+
+Calculation of DIV and MOD simultaneous.
 
 - **void divmod10(uint32_t in, uint32_t \*div, uint8_t \*mod)**
   - calculates both divide and modulo 10 faster than the default / 10 and % 10.
 
-The divmod10() function is very useful for extracting the individual digits.
+The **divmod10()** function is very useful for extracting the individual digits.
 Typical use is to print digits on a display, in a file or send them as ASCII over a network.
 
 Indicative performance Arduino UNO.
@@ -100,11 +106,11 @@ Sometimes there are patterns that can be optimized even more.
 Furthermore for limited ranges a division can be replaced by a single multiply shift pair.
 
 
-### PING
+### PING distance sensor
 
 For distance sensors that work with a acoustic pulse, one often see the formula:
 ```cm = us / 29;``` to calculate the distance in cm.
-In float it should be ``cm = us / 29.15;``` or ``cm = us * 0.0345;```
+In float it should be ```cm = us / 29.15;``` or ```cm = us * 0.0345;```
 Note that as this is the turnaround distance (forth & back) so one 
 need a divide by two often. (maybe I should include that)
 
@@ -133,19 +139,19 @@ Imperial
 
 Indicative performance Arduino UNO.
 
-|  function         |   us   |  factor |  notes  |
-|:------------------|:------:|:-------:|:--------|
-|  us / 29  (ref)   |  38.3  |   1.0   | sos == 345 m/s  (integer only)
-|  us \* 0.0345     |  18.5  |   2.0   | sos == 345 m/s
-|  ping2cm          |  3.08  |  12.4   | sos == 340 m/s
-|  ping2mm          |  5.66  |   6.7   | sos == 340 m/s
-|                   |        |         |
-|  ping2inch        |  4.34  |   8.8   | not precise as inches are rather large units
-|  ping2quarter     |  7.55  |   5.0   | in between
-|  ping2sixteenths  |  8.55  |   4.4   | way more accurate than inches
+|  function         |   us   |  factor  |  notes  |
+|:------------------|:------:|:--------:|:--------|
+|  us / 29  (ref)   |  38.3  |    1.0   | sos == 345 m/s  (integer only)
+|  us \* 0.0345     |  18.5  |    2.0   | sos == 345 m/s
+|  ping2cm          |  3.08  |   12.4   | sos == 340 m/s
+|  ping2mm          |  5.66  |    6.7   | sos == 340 m/s
+|                   |        |          |
+|  ping2inch        |  4.34  |    8.8   | not precise as inches are rather large units
+|  ping2quarter     |  7.55  |    5.0   | in between
+|  ping2sixteenths  |  8.55  |    4.4   | way more accurate than inches
 
 
-#### temperature corrected
+#### Temperature corrected
 
 Instead of taking a fixed value a temperature corrected speed of sound will
 be 0-5% more accurate. Of course this depends on the temperature.
@@ -161,16 +167,16 @@ The temperature is in whole degrees C or F.
 
 Indicative performance Arduino UNO.
 
-|  function         |   us   |  factor |  notes  |
-|:------------------|:------:|:-------:|:--------|
-|  normal division  |  38.3  |   1.0   |  not Temperature corrected
-|  ping2cm_tempC    |  17.2  |   2.2   |
-|  ping2inch_tempC  |  16.6  |   2.3   |
-|  ping2inch_tempF  |  16.4  |   2.3   |
+|  function         |   us   |  factor  |  notes  |
+|:------------------|:------:|:--------:|:--------|
+|  normal division  |  38.3  |    1.0   |  not Temperature corrected
+|  ping2cm_tempC    |  17.2  |    2.2   |
+|  ping2inch_tempC  |  16.6  |    2.3   |
+|  ping2inch_tempF  |  16.4  |    2.3   |
 
 
 
-### polynome
+### Polynome
 
 Routine to evaluate a polynome and be able to change its weights runtime.
 E.g   y = 3x^2 + 5x + 7 ==> ar\[3] = { 7, 5, 3 };  degree = 2;
@@ -187,22 +193,22 @@ can be tuned (runtime).
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
   - links, research?
 
+#### Should
 
-#### should
 - unit tests
   - or examples that test a lot.
 - examples
   - check output examples.
 - keep investigating faster versions.
-- divmod performance table other versions
+- **divmod()** performance table other versions
 
+#### Could
 
-
-#### could
 - split up in multiple .h files, one per group.
   - fast_math.h includes all individual .h files.
 - There are several divide functions to be included?
@@ -211,7 +217,6 @@ can be tuned (runtime).
 - constants?
   - GOLDEN_RATIO 1.61803398875
 - check temperature corrected float?
-
 
 #### TODO Functions
 
@@ -223,4 +228,17 @@ DIV
 
 BCD
 - **uint16_t dec2bcd()** +  32 bit + back?
+
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

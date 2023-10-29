@@ -1,7 +1,7 @@
 //
 //    FILE: fast_math.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -12,7 +12,7 @@
 
 ///////////////////////////////////////////////////////////
 //
-//  DIV
+//  DIV MOD
 //
 void divmod10(uint32_t in, uint32_t *div, uint8_t *mod)
 {

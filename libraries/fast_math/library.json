@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/fast_math.git"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "fast_math.h"
 }

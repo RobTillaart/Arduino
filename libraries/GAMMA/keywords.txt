@@ -7,8 +7,10 @@ GAMMA	KEYWORD1
 begin	KEYWORD2
 setGamma	KEYWORD2
 getGamma	KEYWORD2
+
 size	KEYWORD2
 distinct	KEYWORD2
+
 dump	KEYWORD2
 dumpArray	KEYWORD2
 

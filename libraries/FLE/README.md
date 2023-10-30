@@ -2,23 +2,34 @@
 [![Arduino CI](https://github.com/RobTillaart/FLE/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/FLE/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/FLE/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/FLE/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/FLE/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/FLE.svg)](https://github.com/RobTillaart/FLE/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FLE/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/FLE.svg?maxAge=3600)](https://github.com/RobTillaart/FLE/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/FLE.svg)](https://registry.platformio.org/libraries/robtillaart/FLE)
 
 
 # FLE
 
-Arduino library for Arduino library for float with error datatype
+Arduino library for Arduino library for float with error data type
 
 
 ## Description
 
-This experimental library provides basic math when have a quantity with a certain 
+This **experimental** library provides basic math when have a quantity with a certain 
 error margin. E.g. when you approximate PI as 22/7 it is not exact. By doing the 
 math with FLE's one can see how much error adds up in an calculation.
 
+Note: This library is experimental and only usable for educational purposes.
+There is no active development.
+
 
 ## Interface
+
+```cpp
+#include "FLE.h"
+```
+
 
 ### Printable
 
@@ -71,9 +82,23 @@ Experimental.
 - **bool pge(FLE &y)** possible greater equal.
 
 
-## Todo
+## Operation
+
+- negative numbers not tested yet
+
+See example
+
+
+## Future
+
+#### Must
 
 - update documentation
+
+#### Should
+
+#### Could
+
 - comparison (investigate, what means equal or less than ..)
 - functions log, exp,
 - functions sqr, sqrt, pow
@@ -85,10 +110,14 @@ Experimental.
 - test other separator
 - more demo sketches...
 
+#### Wont
 
-## Operation
 
-- negative numbers not tested yet
+## Support
 
-See example
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

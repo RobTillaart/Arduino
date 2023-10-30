@@ -5,10 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.0] - 2023-10-30
+- refactor / simplify begin() =>  
+  - User has to call Wire.begin() explicitly.
+  - improves support for RP2040 (setSDA/SetSCL).
+- add example for ESP32 => use Wire1 and set pins (SDA/SCL).
+- Add example for RP2040 => setSDA() + setSCL()
+- update badges in some document.md files.
+
+----
+
 ## [0.6.1] - 2023-09-16
 - add Wire1 support for ESP32
 - fix changelog.md
-
 
 ## [0.6.0] - 2023-09-16
 - fix #42 ReadObject, WriteObject for FRAM32

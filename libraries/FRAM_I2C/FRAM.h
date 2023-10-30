@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.7.0
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.6.1"))
+#define FRAM_LIB_VERSION              (F("0.7.0"))
 
 
 #define FRAM_OK                         0
@@ -36,12 +36,8 @@ class FRAM
 public:
   FRAM(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
   //  address and writeProtectPin is optional
-  int      begin(int sda, int scl, const uint8_t address = 0x50,
-                                   const int8_t writeProtectPin = -1);
-#endif
-  //  address and writeProtectPin is optional
+  //  user has to call Wire.begin() before FRAM.begin().
   int      begin(const uint8_t address = 0x50,
                  const int8_t writeProtectPin = -1);
   bool     isConnected();
@@ -206,11 +202,6 @@ class FRAM11 : public FRAM
 public:
   FRAM11(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  //  address and writeProtectPin is optional
-  int      begin(int sda, int scl, const uint8_t address = 0x50,
-                                   const int8_t writeProtectPin = -1);
-#endif
   //  address and writeProtectPin is optional
   int      begin(const uint8_t address = 0x50,
                  const int8_t writeProtectPin = -1);
@@ -234,11 +225,6 @@ class FRAM9 : public FRAM
 public:
   FRAM9(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  //  address and writeProtectPin is optional
-  int      begin(int sda, int scl, const uint8_t address = 0x50,
-                                   const int8_t writeProtectPin = -1);
-#endif
   //  address and writeProtectPin is optional
   int      begin(const uint8_t address = 0x50,
                  const int8_t writeProtectPin = -1);

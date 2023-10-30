@@ -18,9 +18,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Fletcher.git"
   },
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "Fletcher.h"
 }

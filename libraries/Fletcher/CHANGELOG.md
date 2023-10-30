@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.7] - 2022-11-07
-- update GitHub actions
-- update license
-- add s1 and s2 parameters to the static functions.
-- update readme.md
+## [0.1.9] - 2023-10-30
+- update readme.md (badges)
+- fix changelog.md
+- minor edits
 
+
+## [0.1.8] - 2023-01-17
+- add parameters to static functions (#17)
+- fix unit test
 
 ## [0.1.7] - 2022-11-07
 - add changelog.md

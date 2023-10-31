@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/FastMap/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/FastMap/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/FastMap/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/FastMap/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/FastMap/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/FastMap.svg)](https://github.com/RobTillaart/FastMap/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastMap/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/FastMap.svg?maxAge=3600)](https://github.com/RobTillaart/FastMap/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/FastMap.svg)](https://registry.platformio.org/libraries/robtillaart/FastMap)
 
 
 # FastMap
@@ -22,6 +25,7 @@ accepts floats as parameters.
 This allows mapping that would be hard to achieve with the normal **map()** function.
 
 Since 0.4.0 the **init()** function will not accept zero range defining input or output parameters. 
+
 
 ## Performance notes
 
@@ -54,6 +58,13 @@ Furthermore using double might imply a performance penalty on some platforms.
 
 ## Interface
 
+```cpp
+#include "FastMap.h"
+```
+
+### Base
+
+- **FastMap()** Constructor
 - **bool init(float in_min, float in_max, float out_min, float out_max)** defines the linear mapping parameters.  
 The **init()** function calculates all needed values for the **map()**, the **back()** call and the **constrainXX()** functions.
 The **init()** function can be called again with new values when needed to do other mapping,
@@ -84,6 +95,8 @@ To display doubles one might need the **sci()** function of my **printHelpers** 
 https://github.com/RobTillaart/printHelpers
 
 Note that on most embedded platforms the performance of doubles is less than floats.
+See below.
+
 
 #### boards supporting double
 
@@ -112,22 +125,58 @@ void loop() {}
 ```
 
 
-## Usage
+## Performance 
 
-See examples.
+Tested version 0.4.1 with **fastMap_performance_test.ino**
+
+|         |  MAP     |  FASTMAP  |  FASTMAP dbl  |  Notes  |
+|:--------|:--------:|:---------:|:-------------:|:-------:|
+|  UNO    |  496072  |  211888   |  211888       |  float == double
+|  ESP32  |  1814    |  627      |  6924         |  
+
+
+UNO scores factor 2.34
+ESP32 scores factor 2.89
+
+Note: the 8 byte double (ESP32) is ~11 x slower than the float version,
+and ~4 x slower than the default map function.
+So unless the precision of 8 bytes double is required one better
+uses the float version.
+
+Note: always do your own performance measurements!
+
+If you have additional performance figures for other boards,
+please let me know (report via an issue).
 
 
 ## Future
 
-#### must
+#### Must
 
-#### should
 - update documentation
-- test performance fastMapDouble on ESP32.
 
-#### could
+#### Should
+
+- test performance fastMapDouble on ESP32.
+  - need good test example
+
+#### Could
+
 - investigate map function for complex numbers? / coordinates?
-- can fastMap and fastMapDouble be in a class hierarchy? gain?
 - Template class?
+
+#### Wont
+
+- can fastMap and fastMapDouble be in a class hierarchy? limited gain?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 
 

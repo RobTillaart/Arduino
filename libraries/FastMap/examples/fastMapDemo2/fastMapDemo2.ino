@@ -8,8 +8,8 @@
 
 #include "FastMap.h"
 
-FastMap CtoF;
-FastMap FtoC;
+FastMap CtoF;  //  Celsius to Fahrenheit
+FastMap FtoC;  //  Fahrenheit to Celsius
 
 
 void setup()
@@ -39,5 +39,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

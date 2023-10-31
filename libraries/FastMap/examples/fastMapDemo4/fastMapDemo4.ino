@@ -25,10 +25,10 @@ void setup()
   Serial.println(FASTMAP_LIB_VERSION);
   Serial.println();
 
-  // Get a non optimizable value;
+  //  Get a non optimizable value;
   int z = analogRead(A0);
 
-  // REFERENCE
+  //  REFERENCE
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
@@ -43,7 +43,7 @@ void setup()
   Serial.println(x);
   Serial.println();
 
-  // FASTMAP
+  //  FASTMAP
   mapper.init(0, 1023, yy, zz);
   start = micros();
   for (int i = 0; i < 10000; i++)
@@ -57,12 +57,12 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
 
-  // GAIN
+  //  GAIN
   Serial.print("Performance factor: ");
   Serial.println((float)reference/(stop-start));
   Serial.println();
 
-  // constrainedMap
+  //  constrainedMap
   mapper.init(0, 1023, yy, zz);
   start = micros();
   for (int i = 0; i < 10000; i++)
@@ -76,12 +76,12 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
 
-  // GAIN
+  //  GAIN
   Serial.print("Performance factor: ");
   Serial.println((float)reference/(stop-start));
   Serial.println();
 
- // lowerConstrainedMap
+ //  lowerConstrainedMap
   mapper.init(0, 1023, yy, zz);
   start = micros();
   for (int i = 0; i < 10000; i++)
@@ -95,12 +95,12 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
 
-  // GAIN
+  //  GAIN
   Serial.print("Performance factor: ");
   Serial.println((float)reference/(stop-start));
   Serial.println();
 
- // upperConstrainedMap
+ //  upperConstrainedMap
   mapper.init(0, 1023, yy, zz);
   start = micros();
   for (int i = 0; i < 10000; i++)
@@ -114,7 +114,7 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
 
-  // GAIN
+  //  GAIN
   Serial.print("Performance factor: ");
   Serial.println((float)reference/(stop-start));
   Serial.println();
@@ -128,5 +128,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

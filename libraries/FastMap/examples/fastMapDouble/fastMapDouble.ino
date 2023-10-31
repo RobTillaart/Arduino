@@ -11,7 +11,7 @@
 
 #include "FastMap.h"
 
-#include "printHelpers.h"    // https://github.com/RobTillaart/printHelpers
+#include "printHelpers.h"    //  https://github.com/RobTillaart/printHelpers
 
 uint32_t start, stop;
 volatile double x;
@@ -27,11 +27,11 @@ void setup()
   Serial.println(FASTMAP_LIB_VERSION);
   Serial.println();
 
-  // Get a non optimizable value;
+  //  Get a non optimizable value;
   volatile double pie = PI;
 
-  // FASTMAP
-  // map 0 .. 100% to lightspeed in km/hr
+  //  FASTMAP
+  //  map 0 .. 100% to lightspeed in km/hr
   mapper.init(0, 100, 0, 1.0792528488E+12);
   start = micros();
   for (int i = 0; i < 10000; i++)
@@ -65,5 +65,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

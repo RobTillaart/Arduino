@@ -1,0 +1,13 @@
+fastMap_performance_test.ino
+FASTMAP_LIB_VERSION: 0.4.1
+
+MAP:	1814
+0 -> 20000.00
+
+FASTMAP:	627
+0 -> 20000.00
+Performance factor: 2.89
+
+FASTMAPD:	6924
+0 -> 20000.00
+Performance factor: 0.26

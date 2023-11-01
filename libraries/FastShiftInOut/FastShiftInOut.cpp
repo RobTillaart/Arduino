@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
@@ -84,12 +84,12 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
     *_clockRegister &= cbmask2;
   }
   SREG = oldSREG;
-  
+
 #else
 
   for (uint8_t i = 0; i < 8; i++)
   {
-    // write one bit
+    //  write one bit
     digitalWrite(_dataPinOut, value & 0x01);
     value >>= 1;
     //  clock pulse

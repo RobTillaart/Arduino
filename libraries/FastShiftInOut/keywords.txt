@@ -8,6 +8,7 @@ FastShiftInOut	KEYWORD1
 write	KEYWORD2
 
 lastWritten	KEYWORD2
+lastRead	KEYWORD2
 
 setBitOrder	KEYWORD2
 getBitOrder	KEYWORD2

@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define FASTSHIFTINOUT_LIB_VERSION        (F("0.1.3"))
+#define FASTSHIFTINOUT_LIB_VERSION        (F("0.1.4"))
 
 
 class FastShiftInOut

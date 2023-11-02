@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Fraction/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Fraction/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Fraction/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Fraction/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Fraction/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Fraction.svg)](https://github.com/RobTillaart/Fraction/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Fraction/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Fraction.svg?maxAge=3600)](https://github.com/RobTillaart/Fraction/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Fraction.svg)](https://registry.platformio.org/libraries/robtillaart/Fraction)
 
 
 # Fraction
@@ -51,7 +54,7 @@ In short, use fractions with care otherwise your sketch might get broken ;)
 
 #### Printable
 
-The Fraction library implements Printable, so one can do.
+The Fraction library implements the Printable interface, so one can do.
 
 ```cpp
 Fraction fr(PI);
@@ -102,7 +105,6 @@ The library is reasonably tested. If problems arise please open an issue.
 #### Should
 
 - performance testing
-  
 - investigate divide by zero errors
   - NAN in fraction?  =>  0/0 ?
   - INF in fraction?  =>  1/0 and -1/0?
@@ -119,4 +121,13 @@ The library is reasonably tested. If problems arise please open an issue.
   - FRAC_E  = 3985/1466
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

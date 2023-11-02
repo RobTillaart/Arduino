@@ -1,9 +1,14 @@
-# Change Log fraction
+# Change Log Fraction
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+## [0.1.16] - 2023-11-02
+- update readme.md
+- minor edits
 
 
 ## [0.1.15] - 2023-02-02
@@ -13,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - move code to .cpp
 - change signature **double toDouble()**
 - add **Fraction_performance.ino** to start performance testing.
-
 
 ## [0.1.14] - 2022-11-07
 - add changelog.md

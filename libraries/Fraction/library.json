@@ -15,8 +15,8 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Fraction.git"
   },
-  "version": "0.1.15",
-  "frameworks": "arduino",
+  "version": "0.1.16",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "fraction.h"
 }

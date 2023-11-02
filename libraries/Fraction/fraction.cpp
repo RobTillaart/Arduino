@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.15
+// VERSION: 0.1.16
 // PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 
@@ -27,29 +27,29 @@ Fraction::Fraction(float f)
 
 void Fraction::split(float f)
 {
-    //  handle special cases?
-    //  PI = 355/113;      // 2.7e-7
-    //  PI*2 = 710/113;
-    //  PI/2 = 335/226;
-    //  EULER = 2721/1001; // 1.1e-7
-    //  EULER = 1264/465;  // 2.2e-6
+  //  handle special cases?
+  //  PI = 355/113;      // 2.7e-7
+  //  PI*2 = 710/113;
+  //  PI/2 = 335/226;
+  //  EULER = 2721/1001; // 1.1e-7
+  //  EULER = 1264/465;  // 2.2e-6
 
-    //  get robust for small values. (effectively zero)
-    if (abs(f) < 0.00001)
-    {
-        n = 0;
-        d = 1;
-        return;
-    }
-    if (int32_t(f) == f)
-    {
-        n = int32_t(f);
-        d = 1;
-        return;
-    }
-    // Normalize to 0.0 ... 1.0
-    bool negative = f < 0;
-    if (negative) f = -f;
+  //  get robust for small values. (effectively zero)
+  if (abs(f) < 0.00001)
+  {
+    n = 0;
+    d = 1;
+    return;
+  }
+  if (int32_t(f) == f)
+  {
+    n = int32_t(f);
+    d = 1;
+    return;
+  }
+  // Normalize to 0.0 ... 1.0
+  bool negative = f < 0;
+  if (negative) f = -f;
 
 //  TODO investigate different strategy:
 //  intpart = int32_t(f);   //  strip of the integer part.
@@ -57,29 +57,29 @@ void Fraction::split(float f)
 //  determine n, d
 //  n += intpart * d;       //  add integer part * denominator to fraction.
 
-    bool reciproke = f > 1;
-    if (reciproke) f = 1/f;
+  bool reciproke = f > 1;
+  if (reciproke) f = 1/f;
 
-    fractionize(f);
-    simplify();
+  fractionize(f);
+  simplify();
 
-    //  denormalize
-    if (reciproke)
-    {
-        int32_t t = n;
-        n = d;
-        d = t;
-    }
-    if (negative)
-    {
-        n = -n;
-    }
+  //  denormalize
+  if (reciproke)
+  {
+    int32_t t = n;
+    n = d;
+    d = t;
+  }
+  if (negative)
+  {
+      n = -n;
+  }
 }
 
 
 Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
 {
-    simplify();
+  simplify();
 }
 
 
@@ -89,20 +89,20 @@ Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
 //
 size_t Fraction::printTo(Print& p) const
 {
-    size_t s = 0;
-    //  TODO split of sign first
-    //
-    //  vs 22/7 => 3_1/7
-    // if (n >= d)
-    // {
-    // s += p.print(n/d, DEC);
-    // s += p.print("_");
-    // }
-    // s += p.print(n%d, DEC);
-    s += p.print(n, DEC);
-    s += p.print('/');
-    s += p.print(d, DEC);
-    return s;
+  size_t s = 0;
+  //  TODO split of sign first
+  //
+  //  vs 22/7 => 3_1/7
+  // if (n >= d)
+  // {
+  // s += p.print(n/d, DEC);
+  // s += p.print("_");
+  // }
+  // s += p.print(n%d, DEC);
+  s += p.print(n, DEC);
+  s += p.print('/');
+  s += p.print(d, DEC);
+  return s;
 };
 
 
@@ -112,7 +112,7 @@ size_t Fraction::printTo(Print& p) const
 //
 bool Fraction::operator == (const Fraction &c)
 {
-    return (n * c.d) == (d * c.n);
+  return (n * c.d) == (d * c.n);
 }
 
 // bool Fraction::operator == (const float &f)
@@ -124,31 +124,31 @@ bool Fraction::operator == (const Fraction &c)
 
 bool Fraction::operator != (const Fraction &c)
 {
-    return (n * c.d) != (d * c.n);
+  return (n * c.d) != (d * c.n);
 }
 
 
 bool Fraction::operator > (const Fraction &c)
 {
-    return (n * c.d) > (d * c.n);
+  return (n * c.d) > (d * c.n);
 }
 
 
 bool Fraction::operator >= (const Fraction &c)
 {
-    return (n * c.d) >= (d * c.n);
+  return (n * c.d) >= (d * c.n);
 }
 
 
 bool Fraction::operator < (const Fraction &c)
 {
-    return (n * c.d) < (d * c.n);
+  return (n * c.d) < (d * c.n);
 }
 
 
 bool Fraction::operator <= (const Fraction &c)
 {
-    return (n * c.d) <= (d * c.n);
+  return (n * c.d) <= (d * c.n);
 }
 
 
@@ -158,7 +158,7 @@ bool Fraction::operator <= (const Fraction &c)
 //
 Fraction Fraction::operator - ()
 {
-    return Fraction(-n, d);
+  return Fraction(-n, d);
 }
 
 
@@ -168,111 +168,111 @@ Fraction Fraction::operator - ()
 //
 Fraction Fraction::operator + (const Fraction &c)
 {
-    if (d == c.d)
-    {
-        return Fraction(n + c.n, d);
-    }
-    return Fraction(n*c.d + c.n*d, d * c.d);
+  if (d == c.d)
+  {
+    return Fraction(n + c.n, d);
+  }
+  return Fraction(n*c.d + c.n*d, d * c.d);
 }
 
 
 Fraction Fraction::operator - (const Fraction &c)
 {
-    if (d == c.d)
-    {
-        return Fraction(n - c.n, d);
-    }
-    return Fraction(n*c.d - c.n*d, d * c.d);
+  if (d == c.d)
+  {
+    return Fraction(n - c.n, d);
+  }
+  return Fraction(n*c.d - c.n*d, d * c.d);
 }
 
 
 Fraction Fraction::operator * (const Fraction &c)
 {
-    return Fraction(n * c.n, d * c.d);
+  return Fraction(n * c.n, d * c.d);
 }
 
 
 Fraction Fraction::operator / (const Fraction &c)
 {
-    //  division by zero returns 0
-    return Fraction(n * c.d, d * c.n);
+  //  division by zero returns 0
+  return Fraction(n * c.d, d * c.n);
 }
 
 
 Fraction& Fraction::operator += (const Fraction &c)
 {
-    if (d == c.d)
-    {
-        n += c.n;
-    }
-    else
-    {
-        n = n * c.d + c.n * d;
-        d *= c.d;
-    }
-    simplify();
-    return *this;
+  if (d == c.d)
+  {
+    n += c.n;
+  }
+  else
+  {
+    n = n * c.d + c.n * d;
+    d *= c.d;
+  }
+  simplify();
+  return *this;
 }
 
 
 Fraction& Fraction::operator -= (const Fraction &c)
 {
-    if (d == c.d)
-    {
-        n -= c.n;
-    }
-    else
-    {
-        n = n * c.d - c.n * d;
-        d *= c.d;
-    }
-    simplify();
-    return *this;
+  if (d == c.d)
+  {
+    n -= c.n;
+  }
+  else
+  {
+    n = n * c.d - c.n * d;
+    d *= c.d;
+  }
+  simplify();
+  return *this;
 }
 
 
 Fraction& Fraction::operator *= (const Fraction &c)
 {
-    n *= c.n;
-    d *= c.d;
-    simplify();
-    return *this;
+  n *= c.n;
+  d *= c.d;
+  simplify();
+  return *this;
 }
 
 
 Fraction& Fraction::operator /= (const Fraction &c)
 {
-    //  division by zero returns 0
-    n *= c.d;
-    d *= c.n;
-    simplify();
-    return *this;
+  //  division by zero returns 0
+  n *= c.d;
+  d *= c.n;
+  simplify();
+  return *this;
 }
 
 
 double Fraction::toDouble()
 {
-    return double(n) / d;
+  return double(n) / d;
 }
 
 
 float Fraction::toFloat()
 {
-    return float(n) / d;
+  return float(n) / d;
 }
 
 
 //  fraction is proper if abs(fraction) < 1
 bool Fraction::isProper()
 {
-    return abs(n) < abs(d);
+  return abs(n) < abs(d);
 }
 
 
 //  visualize fraction as an angle in degrees
 float Fraction::toAngle()
 {
-    return atan2(n, d) * (180.0 / PI);
+  return atan2(n, d) * (180.0 / PI);
 }
 
 
@@ -305,7 +305,7 @@ int32_t Fraction::denominator()
 //  at least if within precision.
 Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 {
-    return Fraction(a.n + b.n, a.d + b.d);
+  return Fraction(a.n + b.n, a.d + b.d);
 }
 
 
@@ -313,7 +313,7 @@ Fraction Fraction::mediant(const Fraction &a, const Fraction &b)
 //  at least if within precision.
 Fraction Fraction::middle(const Fraction &a, const Fraction &b)
 {
-    return Fraction(a.n*b.d + b.n*a.d, 2 * a.d * b.d);
+  return Fraction(a.n*b.d + b.n*a.d, 2 * a.d * b.d);
 }
 
 
@@ -321,9 +321,9 @@ Fraction Fraction::middle(const Fraction &a, const Fraction &b)
 //  sort of setDenominator(uint16_t den);
 Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 {
-    int32_t n = round((a.n * b * 1.0) / a.d);
-    int32_t d = b;
-    return Fraction(n, d);
+  int32_t n = round((a.n * b * 1.0) / a.d);
+  int32_t d = b;
+  return Fraction(n, d);
 }
 
 
@@ -334,44 +334,44 @@ Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 //
 int32_t Fraction::gcd(int32_t a , int32_t b)
 {
-    while ( a != 0 )
-    {
-        int32_t c = a;
-        a = b % a;
-        b = c;
-    }
-    return b;
+  while ( a != 0 )
+  {
+    int32_t c = a;
+    a = b % a;
+    b = c;
+  }
+  return b;
 }
 
 
 //  not that simple ...
 void Fraction::simplify()
 {
-    if (n == 0)
-    {
-        d = 1;
-        return;
-    }
-    bool neg = (n < 0) != (d < 0);
-    int32_t p = abs(n);
-    int32_t q = abs(d);
-    int32_t x = gcd(p,q);
+  if (n == 0)
+  {
+    d = 1;
+    return;
+  }
+  bool neg = (n < 0) != (d < 0);
+  int32_t p = abs(n);
+  int32_t q = abs(d);
+  int32_t x = gcd(p,q);
+  p = p / x;
+  q = q / x;
+
+  //  denominator max 4 digits keeps mul and div simple
+  //  in preventing overflow
+  while (q > 10000)
+  {
+    //  rounding might need improvement
+    p = (p + 5)/10;
+    q = (q + 5)/10;
+    x = gcd(p, q);
     p = p / x;
     q = q / x;
-
-    //  denominator max 4 digits keeps mul and div simple
-    //  in preventing overflow
-    while (q > 10000)
-    {
-        //  rounding might need improvement
-        p = (p + 5)/10;
-        q = (q + 5)/10;
-        x = gcd(p, q);
-        p = p / x;
-        q = q / x;
-    }
-    n = (neg) ? -p : p;
-    d = q;
+  }
+  n = (neg) ? -p : p;
+  d = q;
 }
 
 
@@ -394,50 +394,51 @@ void Fraction::simplify()
 //  showed errors for very small values around 0
 void Fraction::fractionize(float val)
 {
-    //  find nearest fraction
-    float Precision = 0.0000001;
-    Fraction low(0, 1);             // "A" = 0/1
-    Fraction high(1, 1);            // "B" = 1/1
-    for (int i = 0; i < 100; ++i)
-    {
-        float testLow = low.d * val - low.n;
-        float testHigh = high.n - high.d * val;
-        if (testHigh < Precision * high.d)
-        break; //  high is answer
-        if (testLow < Precision * low.d)
-        {  //  low is answer
-            high = low;
-            break;
-        }
-        if (i & 1)
-        {  //  odd step: add multiple of low to high
-            float test = testHigh / testLow;
-            int32_t count = (int32_t)test;    //  "N"
-            int32_t n = (count + 1) * low.n + high.n;
-            int32_t d = (count + 1) * low.d + high.d;
-            if ((n > 0x8000) || (d > 0x10000))
-            break;
-            high.n = n - low.n;  //  new "A"
-            high.d = d - low.d;
-            low.n = n;           //  new "B"
-            low.d = d;
-        }
-        else
-        {   //  even step: add multiple of high to low
-            float test = testLow / testHigh;
-            int32_t count = (int32_t)test;     //  "N"
-            int32_t n = low.n + (count + 1) * high.n;
-            int32_t d = low.d + (count + 1) * high.d;
-            if ((n > 0x10000) || (d > 0x10000))
-            break;
-            low.n = n - high.n;  //  new "A"
-            low.d = d - high.d;
-            high.n = n;          //  new "B"
-            high.d = d;
-        }
+  //  find nearest fraction
+  float Precision = 0.0000001;
+  Fraction low(0, 1);             // "A" = 0/1
+  Fraction high(1, 1);            // "B" = 1/1
+  for (int i = 0; i < 100; ++i)
+  {
+    float testLow = low.d * val - low.n;
+    float testHigh = high.n - high.d * val;
+    if (testHigh < Precision * high.d)
+    break; //  high is answer
+
+    if (testLow < Precision * low.d)
+    {  //  low is answer
+      high = low;
+      break;
     }
-    n = high.n;
-    d = high.d;
+    if (i & 1)
+    {  //  odd step: add multiple of low to high
+      float test = testHigh / testLow;
+      int32_t count = (int32_t)test;    //  "N"
+      int32_t n = (count + 1) * low.n + high.n;
+      int32_t d = (count + 1) * low.d + high.d;
+      if ((n > 0x8000) || (d > 0x10000))
+      break;
+      high.n = n - low.n;  //  new "A"
+      high.d = d - low.d;
+      low.n = n;           //  new "B"
+      low.d = d;
+    }
+    else
+    {   //  even step: add multiple of high to low
+      float test = testLow / testHigh;
+      int32_t count = (int32_t)test;     //  "N"
+      int32_t n = low.n + (count + 1) * high.n;
+      int32_t d = low.d + (count + 1) * high.d;
+      if ((n > 0x10000) || (d > 0x10000))
+      break;
+      low.n = n - high.n;  //  new "A"
+      low.d = d - high.d;
+      high.n = n;          //  new "B"
+      high.d = d;
+    }
+  }
+  n = high.n;
+  d = high.d;
 }
 
 

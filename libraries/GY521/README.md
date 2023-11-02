@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/GY521/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/GY521/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/GY521/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/GY521/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/GY521/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/GY521.svg)](https://github.com/RobTillaart/GY521/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/GY521/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/GY521.svg?maxAge=3600)](https://github.com/RobTillaart/GY521/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/GY521.svg)](https://registry.platformio.org/libraries/robtillaart/GY521)
 
 
 # GY521
@@ -164,19 +167,33 @@ See examples, use with care
 #### Must
 
 - improve documentation
+  - add tables where appropriate
+  - sensitivity, error codes etc
 - test test and test ...(ESP too)
 
-
 #### Should
+
+- add performance sketch
 
 #### Could
 
 - calibrate sketch could print code snippet to include...
+- add examples
+- improve unit tests?
 
 #### Wont
 
 - look for maths optimizations  (atan, hypot, performance)
-  - ==> hypot optimized.
+  - ==> hypot optimized (fastTrig?)
   - other ideas affect accuracy, so unless new ideas arise.
 - calibrate function in the lib
   - not as lib will grow too large.
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

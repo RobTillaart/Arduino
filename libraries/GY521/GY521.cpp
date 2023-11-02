@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -124,7 +124,7 @@ int16_t GY521::read()
 
   //  duration interval
   now = micros();
-  float duration = (now - _lastMicros) * 1e-6;  // duration in seconds.
+  float duration = (now - _lastMicros) * 1e-6;  //  duration in seconds.
   _lastMicros = now;
 
 
@@ -180,7 +180,7 @@ int16_t GY521::read()
     //  correction at 375 due to the factor 0.96 in pitch
     if (_gay >= 375)   _gay -= 375;
     else if (_gay < 0) _gay += 375;
-    // correction at 360
+    //  correction at 360
     if (_gaz >= 360)   _gaz -= 360;
     else if (_gaz < 0) _gaz += 360;
   }
@@ -335,7 +335,7 @@ int16_t GY521::readGyro()
     //  correction at 375 due to the factor 0.96 in pitch
     if (_gay >= 375)   _gay -= 375;
     else if (_gay < 0) _gay += 375;
-    // correction at 360
+    //  correction at 360
     if (_gaz >= 360)   _gaz -= 360;
     else if (_gaz < 0) _gaz += 360;
   }
@@ -376,7 +376,7 @@ bool GY521::setAccelSensitivity(uint8_t as)
   {
     return false;
   }
-  // no need to write same value
+  //  no need to write same value
   if (((val >> 3) & 3) != _afs)
   {
     val &= 0xE7;
@@ -386,7 +386,7 @@ bool GY521::setAccelSensitivity(uint8_t as)
       return false;
     }
   }
-  // calculate conversion factor.  // 4 possible values => lookup table?
+  //  calculate conversion factor.  //  4 possible values => lookup table?
   _raw2g = (1 << _afs) * GY521_RAW2G;
   return true;
 }
@@ -397,7 +397,7 @@ uint8_t GY521::getAccelSensitivity()
   uint8_t val = getRegister(GY521_ACCEL_CONFIG);
   if (_error != GY521_OK)
   {
-    return _error; // return and propagate error (best thing to do)
+    return _error; //  return and propagate error (best thing to do)
   }
   _afs = (val >> 3) & 3;
   return _afs;
@@ -423,7 +423,7 @@ bool GY521::setGyroSensitivity(uint8_t gs)
       return false;
     }
   }
-  //  calculate conversion factor..  
+  //  calculate conversion factor..
   //  4 possible values => lookup table?
   _raw2dps = (1 << _gfs) * GY521_RAW2DPS;
   return true;
@@ -487,5 +487,5 @@ int16_t GY521::_WireRead2()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,6 +1,6 @@
 //
 //    FILE: GST.cpp
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
 //          https://en.wikipedia.org/wiki/Sensitivity_and_specificity

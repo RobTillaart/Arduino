@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: GST.h
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
 //          https://en.wikipedia.org/wiki/Sensitivity_and_specificity
@@ -10,7 +10,7 @@
 //  formula's based upon Wikipedia.
 
 
-#define GST_LIB_VERSION           (F("0.1.3"))
+#define GST_LIB_VERSION           (F("0.1.4"))
 
 
 #include "Arduino.h"

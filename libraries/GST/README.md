@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/GST/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/GST/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/GST/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/GST/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/GST/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/GST.svg)](https://github.com/RobTillaart/GST/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/GST/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/GST.svg?maxAge=3600)](https://github.com/RobTillaart/GST/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/GST.svg)](https://registry.platformio.org/libraries/robtillaart/GST)
 
 
 # GST
@@ -30,6 +33,7 @@ These sites describe the functions in more detail.
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/Histogram
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
@@ -158,7 +162,6 @@ Read the Wikipedia pages for their uses.
 
 - improve documentation
 
-
 #### Should
 
 - add functions
@@ -166,10 +169,20 @@ Read the Wikipedia pages for their uses.
 - test
   - complete the CI test coverage.
 
-
 #### Could
 
 - examples
   - add real life examples.
   - combination with a sensor? batch testing?
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

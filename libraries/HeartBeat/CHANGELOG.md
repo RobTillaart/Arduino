@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2022-11-09
+- update readme.md
+- fix version in .cpp
+- update keywords.txt
+
+
 ## [0.3.2] - 2022-11-09
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.3.1] - 2022-07-26
 - move all code to .cpp

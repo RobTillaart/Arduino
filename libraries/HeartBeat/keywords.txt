@@ -19,6 +19,7 @@ disable	KEYWORD2
 beat	KEYWORD2
 getState	KEYWORD2
 
+# Methods from derived class
 code	KEYWORD2
 codeOff	KEYWORD2
 

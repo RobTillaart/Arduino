@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/HeartBeat/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HeartBeat/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HeartBeat/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HeartBeat/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HeartBeat/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HeartBeat.svg)](https://github.com/RobTillaart/HeartBeat/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HeartBeat/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HeartBeat.svg?maxAge=3600)](https://github.com/RobTillaart/HeartBeat/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HeartBeat.svg)](https://registry.platformio.org/libraries/robtillaart/HeartBeat)
 
 
 # HeartBeat
@@ -225,15 +228,29 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - test HeartBeatDiag version in more detail.
 
-#### should
+#### Should
+
 - add examples
   - ACS712 current sensor
   - buffer % filled (e.g. stream)
 
-#### could
+#### Could
+
 - investigate a pattern recognizer (fun)
   - e.g. with an LDR or lux sensor.
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -1,12 +1,10 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
-//
-// HISTORY: see changelog
 
 
 #include "HeartBeat.h"
@@ -57,19 +55,19 @@ float HeartBeat::getDutyCycle()
 };
 
 
-void HeartBeat::enable()    
-{ 
-  _running = true;  
+void HeartBeat::enable()
+{
+  _running = true;
 };
 
 
-void HeartBeat::disable()   
-{ 
-  _running = false; 
+void HeartBeat::disable()
+{
+  _running = false;
 };
 
 
-bool HeartBeat::isEnabled() 
+bool HeartBeat::isEnabled()
 {
   return _running;
 };
@@ -95,7 +93,7 @@ void HeartBeat::beat()
 
 uint8_t HeartBeat::getState()
 {
-  return _state; 
+  return _state;
 };
 
 
@@ -113,7 +111,7 @@ void HeartBeat::_setFreqDuty()
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// HEARTBEATDIAG
+//  HEARTBEATDIAG
 //
 HeartBeatDiag::HeartBeatDiag():HeartBeat()
 {
@@ -122,7 +120,7 @@ HeartBeatDiag::HeartBeatDiag():HeartBeat()
 
 void HeartBeatDiag::beat()
 {
-  // normal mode
+  //  normal mode
   if (_codeMask == 0)
   {
     _codeStart = 0;
@@ -139,7 +137,7 @@ void HeartBeatDiag::beat()
   }
   else
   {
-    uint32_t period = (_dutyCycleLow + _dutyCycleHigh)/2;
+    uint32_t period = (_dutyCycleLow + _dutyCycleHigh) / 2;
     uint32_t now = micros();
     if ((now - _lastHeartBeat) < period) return;
     _lastHeartBeat = now;
@@ -169,7 +167,7 @@ void HeartBeatDiag::beat()
 
 bool HeartBeatDiag::code(uint32_t pattern)
 {
-  // already running an errorCode?
+  //  already running an errorCode?
   if (_code > 0) return false;
   // pattern too long
   if (pattern > 999999999) return false;
@@ -188,9 +186,9 @@ void HeartBeatDiag::codeOff()
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// HEARTBEATSL
+//  HEARTBEATSL
 //
-// string LS version is simpler and somewhat smaller footprint,
+//  string LS version is simpler and somewhat smaller footprint,
 //
 
 #define HEARTBEATSL_SHORT     1
@@ -204,7 +202,7 @@ HeartBeatSL::HeartBeatSL():HeartBeat()
 
 void HeartBeatSL::beat()
 {
-  // normal mode
+  //  normal mode
   if (_codeMask == 0)
   {
     _codeStart = 0;
@@ -221,14 +219,14 @@ void HeartBeatSL::beat()
   }
   else
   {
-    uint32_t period = (_dutyCycleLow + _dutyCycleHigh)/2;
+    uint32_t period = (_dutyCycleLow + _dutyCycleHigh) / 2;
     uint32_t now = micros();
     if ((now - _lastHeartBeat) < period) return;
     _lastHeartBeat = now;
     if (_state == LOW)
     {
       _pulseLength = HEARTBEATSL_SHORT;
-      if (_code & _codeMask)  // 1 ==> LONG
+      if (_code & _codeMask)  //  1 ==> LONG
       {
         _pulseLength = HEARTBEATSL_LONG;
       }
@@ -250,9 +248,9 @@ void HeartBeatSL::beat()
 
 bool HeartBeatSL::code(const char * str)
 {
-  // already running an errorCode?
+  //  already running an errorCode?
   if (_codeMask > 0) return false;
-  // pattern too long
+  //  pattern too long
   uint8_t len = strlen(str);
   if (len > 7) return false;
 
@@ -273,5 +271,5 @@ void HeartBeatSL::codeOff()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

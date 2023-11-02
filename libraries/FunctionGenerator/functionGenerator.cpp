@@ -1,7 +1,7 @@
 //
 //    FILE: functionGenerator.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 
@@ -88,7 +88,7 @@ float funcgen::getYShift()
 
 void funcgen::setDutyCycle(float dutyCycle)
 {
-  // negative dutyCycle? => 1-dc? or abs()?
+  //  negative dutyCycle? => 1-dc? or abs()?
   if (dutyCycle < 0)        _dutyCycle = 0.0;
   else if (dutyCycle > 100) _dutyCycle = 1.0;
   else                      _dutyCycle = dutyCycle * 0.01;
@@ -225,7 +225,7 @@ float funcgen::stair(float t, uint16_t steps, uint8_t mode)
 
 float funcgen::random()
 {
-  float rv = _yShift + _amplitude * _random() * 0.2328306436E-9;  // div 0xFFFFFFFF
+  float rv = _yShift + _amplitude * _random() * 0.2328306436E-9;  //  div 0xFFFFFFFF
   return rv;
 }
 

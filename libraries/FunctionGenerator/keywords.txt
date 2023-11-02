@@ -1,4 +1,4 @@
-# Syntax Colouring Map for funcgen
+# Syntax Colouring Map for functionGenerator
 
 # Data types (KEYWORD1)
 funcgen	KEYWORD1
@@ -21,17 +21,18 @@ getDutyCycle	KEYWORD2
 
 setRandomSeed	KEYWORD2
 
+line	KEYWORD2
+zero	KEYWORD2
+
 sawtooth	KEYWORD2
 triangle	KEYWORD2
 square	KEYWORD2
-
 sinus	KEYWORD2
 stair	KEYWORD2
+
 random	KEYWORD2
 random_DC	KEYWORD2
 
-line	KEYWORD2
-zero	KEYWORD2
 
 # Constants (LITERAL1)
 FUNCTIONGENERATOR_LIB_VERSION	LITERAL1

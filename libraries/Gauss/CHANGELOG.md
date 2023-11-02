@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-11-02
+- update readme.md
+- minor edits.
+
+
 ## [0.2.0] - 2023-07-10
 - improve performance => faster lookup.
   - removed __z[] saves 136 bytes RAM
@@ -17,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add examples DS18B20 and HX711 and BMI
 - update readme.md
 - minor edits.
-
 
 ----
 

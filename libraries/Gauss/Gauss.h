@@ -2,14 +2,14 @@
 //
 //    FILE: Gauss.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Library for the Gauss probability math.
 //    DATE: 2023-07-06
 
 
 #include "Arduino.h"
 
-#define GAUSS_LIB_VERSION       (F("0.2.0"))
+#define GAUSS_LIB_VERSION       (F("0.2.1"))
 
 
 class Gauss
@@ -18,7 +18,7 @@ public:
   Gauss()
   {
     _mean = 0;
-    _reciprokeSD = 1;
+    _reciprokeSD = 1;  //  math optimization.
   }
 
   //  stddev should be positive.

@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.8] - 2023-11-02
+- update readme.md
+- add **isNan()** (experimental).
+- minor edits.
+
+
 ## [0.1.7] - 2022-11-07
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
 - update keywords.txt
-
 
 ## [0.1.6] - 2021-12-18
 - update library.json

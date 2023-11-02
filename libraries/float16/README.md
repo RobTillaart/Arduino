@@ -1,11 +1,12 @@
 
-
 [![Arduino CI](https://github.com/RobTillaart/float16/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/float16/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/float16/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/float16/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/float16/actions/workflows/jsoncheck.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/float16/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/float16.svg?maxAge=3600)](https://github.com/RobTillaart/Complex/releases)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/float16.svg)](https://github.com/RobTillaart/float16/issues)
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/float16/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/float16.svg?maxAge=3600)](https://github.com/RobTillaart/float16/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/float16.svg)](https://registry.platformio.org/libraries/robtillaart/float16)
 
 # float16
 
@@ -30,7 +31,7 @@ a floating point number. As it uses only 2 bytes where float and double have typ
 
 | attribute | value        |  notes  |
 |:----------|:-------------|:--------|
-| size      | 2 bytes      | layout s  eeeee  mmmmmmmmmm
+| size      | 2 bytes      | layout s  eeeee  mmmmmmmmmm  (1,5,10)
 | sign      | 1 bit        |
 | exponent  | 5 bit        |
 | mantissa  | 11 bit       | ~ 3 digits
@@ -66,9 +67,16 @@ a floating point number. As it uses only 2 bytes where float and double have typ
 ```
 
 
+#### Related
+
+- https://wokwi.com/projects/376313228108456961  (demo of its usage)
+
+
 ## Interface
 
-to elaborate
+```cpp
+#include "float16.h"
+```
 
 #### Constructors
 
@@ -126,20 +134,25 @@ negation operator.
 - **bool isInf()** returns true if value is (-)infinite.
 
 
+#### Experimental 0.1.8
+
+- **bool isNaN()** returns true if value is not a number.
+
+
 ## Notes
 
 
 ## Future
 
-
-#### 0.1.x
+#### Must
 
 - update documentation.
+
+#### Should
+
 - unit tests of the above.
-- isNan().
 
-
-#### later
+#### Could
 
 - update documentation.
 - error handling.
@@ -148,4 +161,15 @@ negation operator.
 - rewrite **f16tof32()** with bit magic.
 - add storage example - with SD card, FRAM or EEPROM
 - add communication example - serial or Ethernet?
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

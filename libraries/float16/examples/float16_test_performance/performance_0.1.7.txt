@@ -1,0 +1,88 @@
+
+//
+// test: UNO 
+//  IDE: 1.8.13
+//
+
+FLOAT16_LIB_VERSION: 0.1.7
+
+CONSTRUCTORS
+Constructor: 	28
+a = b: 	4
+
+CONVERSION
+toDouble(): 	428
+
+COMPARE
+compare == : 	4
+compare != : 	4
+compare <  : 	4
+compare <= : 	4
+compare >= : 	4
+compare >  : 	8
+
+MATH I
+math +  : 	864
+math -  : 	812
+math *  : 	812
+math /  : 	812
+
+MATH II
+math += : 	872
+math -= : 	820
+math *= : 	804
+math /= : 	804
+
+17.8125
+MATH III - negation
+negation : 	4
+
+-17.8125
+
+done
+
+------------------------------------------
+
+//
+// test: RP2040 
+//  IDE: 1.8.13
+//
+
+FLOAT16_LIB_VERSION: 0.1.7
+
+CONSTRUCTORS
+Constructor:    19
+a = b:  2
+
+CONVERSION
+toDouble():     96
+
+COMPARE
+compare == :    4
+compare != :    3
+compare <  :    7
+compare <= :    6
+compare >= :    6
+compare >  :    6
+
+MATH I
+math +  :       67
+math -  :       60
+math *  :       58
+math /  :       54
+
+MATH II
+math += :       62
+math -= :       61
+math *= :       61
+math /= :       45
+
+767.0000
+MATH III - negation
+negation :      7
+
+-767.0000
+
+done
+
+-------------------------------------------

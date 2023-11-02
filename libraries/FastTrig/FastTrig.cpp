@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -46,7 +46,7 @@ uint16_t sinTable16[] = {
 
 
 // use 255.0 as divider
-uint8_t sinTable8[] = { 
+uint8_t sinTable8[] = {
   0, 4, 9, 13, 18, 22, 27, 31, 35, 40, 44,
   49, 53, 57, 62, 66, 70, 75, 79, 83, 87,
   91, 96, 100, 104, 108, 112, 116, 120, 124, 128,
@@ -103,9 +103,9 @@ void isincos256(uint32_t v, int *si, int *co)
   bool sneg = false;
   bool cneg = false;
 
-  long whole = v; 
+  long whole = v;
 
-  if (whole >= 360) 
+  if (whole >= 360)
   {
     whole %= 360;
   }
@@ -148,7 +148,7 @@ float isin(float f)
   long whole = f;
   uint8_t remain = (f - whole) * 256;
 
-  if (whole >= 360) 
+  if (whole >= 360)
   {
     whole %= 360;
     //  possible faster for 360-720
@@ -176,9 +176,9 @@ float isin(float f)
 
   //  float value  improves ~4% on avg error  for ~60 bytes.
   uint16_t value = sinTable16[y];
-  
+
   //  interpolate if needed
-  if (remain > 0) 
+  if (remain > 0)
   {
     value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;   //  == * remain / 256
   }
@@ -207,7 +207,7 @@ void isincos(float f, float *si, float *co)
   long whole = f;
   uint8_t remain = (f - whole) * 256;
 
-  if (whole >= 360) 
+  if (whole >= 360)
   {
     whole %= 360;
     //  possible faster for 360-720
@@ -239,7 +239,7 @@ void isincos(float f, float *si, float *co)
   //  SIN
   uint16_t value = sinTable16[y];
   //  interpolate if needed
-  if (remain > 0) 
+  if (remain > 0)
   {
     value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;  //  == * remain / 256
   }
@@ -263,7 +263,7 @@ void isincos(float f, float *si, float *co)
 //
 //  TAN
 //
-//  tan() should be done with isincos() 
+//  tan() should be done with isincos()
 //  as icos() is less accurate => tan() less accurate.
 /*
 float itan(float f)
@@ -280,10 +280,10 @@ float itan(float f)
 {
   //  reference
   //  return isin(f)/icos(f);
-  
-  //  idea is to divide two (interpolated) values from the table 
+
+  //  idea is to divide two (interpolated) values from the table
   //  so no divide by 65535
-  
+
   //  FOLDING
   bool mirror = false;
   bool negative = (f < 0);
@@ -357,12 +357,12 @@ float iasin(float f)
     }
     if (sinTable16[mi] < value) lo = mi;
     else hi = mi;
-  }  
+  }
   float delta = value - sinTable16[lo];
   uint16_t range = sinTable16[hi] - sinTable16[lo];
   delta /= range;
-  if (negative) return -(lo + delta); 
-  return (lo + delta);  
+  if (negative) return -(lo + delta);
+  return (lo + delta);
 }
 
 

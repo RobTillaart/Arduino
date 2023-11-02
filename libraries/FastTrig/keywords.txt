@@ -3,22 +3,22 @@
 # Data types (KEYWORD1)
 
 # Methods and Functions (KEYWORD2)
+
+isin256	KEYWORD2
+icos256	KEYWORD2
+isincos256	KEYWORD2
+
 isin	KEYWORD2
 icos	KEYWORD2
 isincos	KEYWORD2
-
 itan	KEYWORD2
 icot	KEYWORD2
 
 iasin	KEYWORD2
 iacos	KEYWORD2
-
+iatan	KEYWORD2
 atanFast	KEYWORD2
 atan2Fast	KEYWORD2
-
-isin256	KEYWORD2
-icos256	KEYWORD2
-isincos256	KEYWORD2
 
 hypotFast	KEYWORD2
 

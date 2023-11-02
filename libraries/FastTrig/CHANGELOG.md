@@ -6,20 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.2] - 2012-12-20
+## [0.3.3] - 2023-11-02
+- update readme.md
+- update keywords.txt
+- update changelog.md
+
+
+## [0.3.2] - 2022-12-20
 - fix changelog
 - fix #25 change reference parameters to pointer 
   - isincos(float f, float \*si, float \*co)
   - isincos256(uint32_t v, int \*si, int \*co);
   - fix examples
 
-
-## [0.3.1] - 2012-12-18
+## [0.3.1] - 2022-12-18
 - add hypotFast
 - add examples hypotFast
 - update readme.md
 
-## [0.3.0] - 2012-12-11
+## [0.3.0] - 2022-12-11
 - add isin256(), icos256() and isincos256() => integer math only version
 - add isincos(float f, float &si, float &co) => calculate sin and cos simultaneously.
 - fix rounding bug when mirroring 90° for remainder.

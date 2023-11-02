@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/FastTrig/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/FastTrig/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/FastTrig/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/FastTrig/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/FastTrig/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/FastTrig.svg)](https://github.com/RobTillaart/FastTrig/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/FastTrig/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/FastTrig.svg?maxAge=3600)](https://github.com/RobTillaart/FastTrig/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/FastTrig.svg)](https://registry.platformio.org/libraries/robtillaart/FastTrig)
 
 
 # FastTrig
@@ -42,6 +45,13 @@ When x is not a whole number the library will linear interpolate
 between **isin(int(x))** and **isin(int(x+1))**. 
 Of course this introduces an error but the error is small and performance is still 
 quite fast (which was the goal).
+
+
+## Interface
+
+```cpp
+#include "FastTrig.h"
+```
 
 
 #### Lookup tables
@@ -114,7 +124,6 @@ length = hypot(x, y);
 
 - **float hypotFast(float x, float y)** faster approximation of the **hypot(x, y)**
 Experimental!
-
 
 
 ## Performance isin icos itan
@@ -343,11 +352,6 @@ First measurements indicate that the error is less than 2%.
 **To be quantified**
 
 
-## versions
-
-See changelog.md
-
-
 ## Operation
 
 See examples
@@ -356,12 +360,13 @@ See examples
 ## Future
 
 #### Must
+
 - improve documentation
 - verify math (tables etc) again.
 - write test sketches that output the tables for documentation :)
 
-
 #### Should
+
 - write more tests to verify values.
 - test performance on more platforms.
 - investigate the difference between **isincos()** and **icos()**.
@@ -369,11 +374,22 @@ See examples
   - itan256(0) = 0 itan256(1) = 4 itan256(2) = 9 so there will be big steps... 
   - max abs error should be 0.5 or less, it might have its uses.
 
-
 #### Could
+
 - How to improve the accuracy of the whole degrees, 
   - now the table is optimized for interpolation.
 - add **sinc(x)**  = **sin(x)/x** function.?
 - **ixxx256()** functions need another lookup table?
   - separate .h file?
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

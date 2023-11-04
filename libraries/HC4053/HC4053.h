@@ -3,7 +3,7 @@
 //    FILE: HC4053.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for CD74HC4053 8 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4053
 
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define HC4053_LIB_VERSION         (F("0.1.0"))
+#define HC4053_LIB_VERSION         (F("0.1.1"))
 
 
 class HC4053

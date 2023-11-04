@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/HC4067/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HC4067/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HC4067/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HC4067/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HC4067/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HC4067.svg)](https://github.com/RobTillaart/HC4067/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HC4067/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HC4067.svg?maxAge=3600)](https://github.com/RobTillaart/HC4067/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HC4067.svg)](https://registry.platformio.org/libraries/robtillaart/HC4067)
 
 
 # HC4067
 
-HC4067 is an Arduino library for a HC4067 16 channel multiplexer.
+HC4067 is an Arduino library for a HC4067 1 x 16 channel multiplexer.
 
 
 ## Description
@@ -29,6 +32,14 @@ The device can be enabled/disabled by the enable line **E**
 
 Not tested, considered compatible.
 - CD74HC4067, 74HC4067, 74HCT4067
+
+
+#### Related
+
+- https://github.com/RobTillaart/HC4051  (1x8 mux)
+- https://github.com/RobTillaart/HC4052  (2x4 mux)
+- https://github.com/RobTillaart/HC4053  (3x2 mux)
+- https://github.com/RobTillaart/HC4067  (1x16 mux)
 
 
 ## Hardware connection
@@ -122,4 +133,13 @@ Also returns true if enablePin is not set.
 - optimizations
   - only do digitalWrite when changed? gain is minimal.
   - now takes 24 micros on UNO if set.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

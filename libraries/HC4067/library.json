@@ -1,7 +1,7 @@
 {
   "name": "HC4067",
   "keywords": "CD74HC4067,74HC4067,74HCT4067",
-  "description": "Arduino library for a HC4067 16 channel multiplexer.",
+  "description": "Arduino library for a HC4067 1 x 16 channel multiplexer.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HC4067.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "HC4067.h"
 }

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/HC4051/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HC4051/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HC4051/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HC4051/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HC4051/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HC4051.svg)](https://github.com/RobTillaart/HC4051/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HC4051/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HC4051.svg?maxAge=3600)](https://github.com/RobTillaart/HC4051/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HC4051.svg)](https://registry.platformio.org/libraries/robtillaart/HC4051)
 
 
 # HC4051
@@ -95,4 +98,13 @@ Also returns true if enablePin is not set.
 ## Future
 
 - keep in sync with HC4067 et.al.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

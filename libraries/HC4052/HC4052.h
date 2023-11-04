@@ -3,7 +3,7 @@
 //    FILE: HC4052.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for HC4052 2x4 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4052
 
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define HC4052_LIB_VERSION         (F("0.1.0"))
+#define HC4052_LIB_VERSION         (F("0.1.1"))
 
 
 class HC4052

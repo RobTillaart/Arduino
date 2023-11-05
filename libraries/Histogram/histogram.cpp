@@ -1,7 +1,7 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 
@@ -326,7 +326,6 @@ uint16_t Histogram::countBelow(const int32_t level)
   }
   return buckets;
 }
-
 
 
 //  experimental use with care

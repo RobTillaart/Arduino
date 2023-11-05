@@ -2,14 +2,14 @@
 //
 //    FILE: Histogram.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
 
 
 #include "Arduino.h"
 
-#define HISTOGRAM_LIB_VERSION       (F("0.3.4"))
+#define HISTOGRAM_LIB_VERSION       (F("0.3.5"))
 
 //  return STATUS add(), sub(), clear(), setBucket();
 #define HISTO_OK                     0x00    //  idem

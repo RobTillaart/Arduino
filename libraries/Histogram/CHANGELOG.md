@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2023-11-04
+- update readme.md
+- minor fix in changelog.md
+- update keywords.txt
+
+
 ## [0.3.4] - 2023-06-30
 - change return type **uint8_t clear()**, return status bucket
 - change return type **uint8_t setBucket(value)**, return status bucket
@@ -16,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - made **setBucket()** virtual.
 - update / clean up readme.md
 - minor improvements derived classes - still experimental
-
 
 ## [0.3.3] - 2023-02-21
 - optimize loops
@@ -29,8 +34,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
-## [0.3.2] - 2022-07-27
 - clean-up code
 - update documentation
 

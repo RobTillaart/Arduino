@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Histogram/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Histogram/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Histogram/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Histogram/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Histogram/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Histogram.svg)](https://github.com/RobTillaart/Histogram/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Histogram/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Histogram.svg?maxAge=3600)](https://github.com/RobTillaart/Histogram/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Histogram.svg)](https://registry.platformio.org/libraries/robtillaart/Histogram)
 
 
 # Histogram
@@ -219,4 +222,14 @@ Note **PDF()** is a continuous function and therefore not applicable in a discre
 - merge bins
 - 2D histograms ? e.g. positions on a grid.
   - see SparseMatrix
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

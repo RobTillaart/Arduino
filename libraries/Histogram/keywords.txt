@@ -12,6 +12,7 @@ clear	KEYWORD2
 setBucket	KEYWORD2
 add	KEYWORD2
 sub	KEYWORD2
+status	KEYWORD2
 
 size	KEYWORD2
 count	KEYWORD2
@@ -21,6 +22,7 @@ frequency	KEYWORD2
 PMF	KEYWORD2
 CDF	KEYWORD2
 VAL	KEYWORD2
+sum	KEYWORD2
 
 find	KEYWORD2
 findMin	KEYWORD2
@@ -29,6 +31,9 @@ findMax	KEYWORD2
 countLevel	KEYWORD2
 countAbove	KEYWORD2
 countBelow	KEYWORD2
+
+getMaxBucket	KEYWORD2
+setMaxBucket	KEYWORD2
 
 
 # Constants (LITERAL1)

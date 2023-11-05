@@ -1,5 +1,4 @@
 
-
 [![Arduino CI](https://github.com/RobTillaart/HX711/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml)
@@ -78,7 +77,9 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 
 #### Related
 
+- https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP
 
 
@@ -364,13 +365,13 @@ See https://github.com/RobTillaart/HX711/issues/40
 #### Must
 
 - update documentation HX711
-- test B channel explicitly.
-- test reset and reboot behaviours.
 - keep in sync with HX711_MP
 
 
 #### Should
 
+- test B channel explicitly.
+- test reset and reboot behaviours.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?

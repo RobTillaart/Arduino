@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.8"))
+#define HX711_LIB_VERSION               (F("0.3.9"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -145,7 +145,7 @@ public:
   uint32_t last_read();
 
 
-  //  PRICING  (idem calories?)
+  //  PRICING
   float    get_price(uint8_t times = 1) { return get_units(times) * _price; };
   void     set_unit_price(float price = 1.0) { _price = price; };
   float    get_unit_price() { return _price; };
@@ -155,7 +155,7 @@ private:
   uint8_t  _dataPin;
   uint8_t  _clockPin;
 
-  uint8_t  _gain     = 128;     // default channel A
+  uint8_t  _gain     = 128;     //  default channel A
   long     _offset   = 0;
   float    _scale    = 1;
   uint32_t _lastRead = 0;

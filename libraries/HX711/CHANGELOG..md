@@ -5,14 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.8] - 2023-08-??
+## [0.3.9] - 2023-11-04
+- update readme.md
+- minor edits
+
+
+## [0.3.8] - 2023-08-26
 - fix #41 #40 add example **HX_loadcell_array.ino**
   - test support array of loadcells.
 - update readme.md
 - add issue-count badge
 - add PlatformIO badge
 - minor edits
-
 
 ## [0.3.7] - 2023-06-27
 - add example to measure noise level

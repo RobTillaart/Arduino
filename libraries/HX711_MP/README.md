@@ -1,8 +1,12 @@
+
 [![Arduino CI](https://github.com/RobTillaart/HX711_MP/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HX711_MP/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HX711_MP/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HX711_MP/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HX711_MP/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HX711_MP.svg)](https://github.com/RobTillaart/HX711_MP/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HX711_MP/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HX711_MP.svg?maxAge=3600)](https://github.com/RobTillaart/HX711_MP/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HX711_MP.svg)](https://registry.platformio.org/libraries/robtillaart/HX711_MP)
 
 
 # HX711_MP
@@ -30,9 +34,25 @@ interpolate beyond the calibration data points.**
 If problems occur or there are questions, please open an issue at GitHub.
 
 
-#### Related 
 
+#### 10 or 80 SPS
+
+The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
+To select this mode connect the **RATE** pin(15) of the chip to Vcc (HIGH).
+Connecting **RATE** to GND gives 10 SPS.
+
+All breakout boards I tested have **RATE** connected to GND and offer no
+pin to control this from the outside.
+
+This library does not provide means to control the **RATE**.
+
+
+#### Related
+
+- https://github.com/bogde/HX711
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX711
+- https://github.com/RobTillaart/HX711_MP
 
 
 #### Differences HX711
@@ -241,20 +261,18 @@ Points from HX711 are not repeated here
 
 - keep in sync with HX711 library where relevant.
 - update documentation
-- test a lot
-  - different load cells.
-- investigate interpolation beyond calibration range.
-
 
 #### Should
 
+- test a lot
+  - different load cells.
+- investigate interpolation beyond calibration range.
 - add examples
   - runtime changing of the mapping.
 - investigate malloc/free for the mapping arrays
 - add performance figures
 - Calibration
   - Returns 0 is index is out of range ==> NaN ?
-
 
 #### Could
 
@@ -264,5 +282,14 @@ Points from HX711 are not repeated here
 - investigate temperature compensation.
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/HX711_MP"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "HX711_MP.h"
 }

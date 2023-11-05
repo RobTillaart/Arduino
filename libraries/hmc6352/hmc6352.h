@@ -2,7 +2,7 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: HMC6352 library for Arduino
 
 
@@ -10,14 +10,14 @@
 #include "Arduino.h"
 
 
-#define HMC6352_LIB_VERSION                    (F("0.3.2"))
+#define HMC6352_LIB_VERSION                    (F("0.3.3"))
 
-// status function calls
+//  status function calls
 #define HMC6532_OK                               0
 #define HMC6352_ERROR_PARAM1                   -20
 #define HMC6352_ERROR_PARAM2                   -21
 
-// I2C related errors
+//  I2C related errors
 #define HMC6532_I2C_OK                          0
 #define HMC6532_I2C_ERROR_BUFFEROVERFLOW       -1
 #define HMC6532_I2C_ERROR_ADDR_NACK            -2
@@ -51,8 +51,8 @@ public:
   bool isConnected();
 
 
-  // BASIC CALLS FOR STANDBY MODE
-  int getHeading(void);   // short for askHeading() & readHeading()
+  //  BASIC CALLS FOR STANDBY MODE
+  int getHeading(void);   //  short for askHeading() & readHeading()
   int askHeading(void);
   int readHeading(void);
 
@@ -60,7 +60,7 @@ public:
   int sleep(void);
 
 
-  // EXPERT CALLS
+  //  EXPERT CALLS
   int factoryReset();
 
   int setOperationalModus(hmcMode mode, uint8_t frequency, bool periodicReset);
@@ -72,7 +72,7 @@ public:
   int callibrationOn();
   int callibrationOff();
 
-  // to change the start up address.
+  //  to change the start up address.
   int setI2CAddress(uint8_t address);
   int getI2CAddress();
 
@@ -82,14 +82,14 @@ public:
   int writeRAM(uint8_t address, uint8_t data);
   int readRAM(uint8_t address);
 
-  // allow power users to set operational mode flags
+  //  allow power users to set operational mode flags
   int saveOpMode(byte OpMode);
 
-  // NOT TESTED
+  //  NOT TESTED
   int setTimeDelay(uint8_t milliSeconds);
   int getTimeDelay();
 
-  // nosm = NumberOfSummedMeasurements 1..16
+  //  nosm = NumberOfSummedMeasurements 1..16
   int setMeasurementSumming(uint8_t nosm);
   int getMeasurementSumming();
   int updateOffsets();
@@ -106,5 +106,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

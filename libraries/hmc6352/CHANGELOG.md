@@ -1,4 +1,4 @@
-# Change Log HMC6532
+# Change Log HMC6352
 
 All notable changes to this project will be documented in this file.
 
@@ -6,11 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2023-11-04
+- update readme.md
+- minor edits
+
+
 ## [0.3.2] - 2022-11-09
 - add changelog.md
 - add rp2040 to build-CI
 - update readme.md
-
 
 ## [0.3.1] - 2021-12-19
 - update library.json

@@ -16,6 +16,11 @@ byte x[8];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("IEEE754_LIB_VERSION: ");
+  Serial.println(IEEE754_LIB_VERSION);
+  Serial.println();
 
   test1();
   test2();
@@ -49,9 +54,9 @@ void test2()
   Serial.println(__FUNCTION__);
   Serial.println("\n0.15625");
   dumpFloat(0.15625);
-  //     sign = 0
-  // exponent = 7C
-  // mantissa = 0020 0000
+  //      sign = 0
+  //  exponent = 7C
+  //  mantissa = 0020 0000
 }
 
 
@@ -79,7 +84,7 @@ void test4()
   float2DoublePacked(1.23456789e38, x);
   dumpByteArray(x);
   float f = doublePacked2Float(x, LSBFIRST);
-  Serial.println(f / 1e38, 20);          // divide prevents ovf in output
+  Serial.println(f / 1e38, 20);          //  divide prevents overflow (ovf) in output
   dumpFloat(f);
   Serial.println();
 }
@@ -102,5 +107,5 @@ void dumpByteArray(byte *ar)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

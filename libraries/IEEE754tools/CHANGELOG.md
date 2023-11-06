@@ -1,4 +1,4 @@
-# Change Log I2CKeyPad8x8
+# Change Log IEEE754tools
 
 All notable changes to this project will be documented in this file.
 
@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2023-11-06
+- update readme.md
+- fix CHANGELOG.md
+- renamed IEEE754_VERSION to IEEE754_LIB_VERSION
+- minor edits examples.
+
+
 ## [0.2.4] - 2022-11-12
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - minor edit unit test
-
 
 ## [0.2.3] - 2021-12-20
 - update library.json, license, minor edits

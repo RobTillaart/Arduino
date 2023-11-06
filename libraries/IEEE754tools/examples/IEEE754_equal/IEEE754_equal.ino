@@ -17,7 +17,11 @@ volatile bool b;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("IEEE754_LIB_VERSION: ");
+  Serial.println(IEEE754_LIB_VERSION);
+  Serial.println();
 
   test_FLOAT_EQ_1();
   test_FLOAT_EQ_2();
@@ -186,5 +190,5 @@ void test_POW2()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

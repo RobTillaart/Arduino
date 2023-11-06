@@ -39,7 +39,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "IEEE754_VERSION: %s\n", (char*) IEEE754_VERSION);
+  fprintf(stderr, "IEEE754_LIB_VERSION: %s\n", (char*) IEEE754_LIB_VERSION);
 }
 
 
@@ -58,7 +58,7 @@ unittest(test_all)
   assertEqualFloat(p, q, 0.0001);
 
   fprintf(stderr, "IEEE_NAN %f\n", 0.0 / 0.0);
-  // assertTrue(IEEE_NAN(0.0 / 0.0));   // -nan ?
+  // assertTrue(IEEE_NAN(0.0 / 0.0));   //  -nan ?
 
   fprintf(stderr, "IEEE_INF\n");
   assertEqual(1,  IEEE_INF(exp(800)));
@@ -106,4 +106,6 @@ unittest(test_all)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE -- 
+

@@ -4,8 +4,6 @@
 // PURPOSE: demo - shows difference between 2 convert functions for the 565 16 bit coding
 //    DATE: 2021-06-01
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
-//
-// shows difference between the two calculations
 
 
 #include "Kelvin2RGB.h"
@@ -18,6 +16,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("KELVIN2RGB_LIB_VERSION: ");
+  Serial.println(KELVIN2RGB_LIB_VERSION);
+  Serial.println();
 
   KRGB.begin();
   KRGB2.begin();
@@ -47,5 +48,5 @@ void test_difference()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

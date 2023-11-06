@@ -17,6 +17,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("KELVIN2RGB_LIB_VERSION: ");
+  Serial.println(KELVIN2RGB_LIB_VERSION);
+  Serial.println();
 
   KRGB.begin();
 
@@ -34,12 +37,10 @@ void loop()
 void test_timing()
 {
   Serial.println(__FUNCTION__);
-  Serial.print("KELVIN2RGB_LIB_VERSION: ");
-  Serial.println(KELVIN2RGB_LIB_VERSION);
   Serial.println();
   delay(100);
 
-  // volatile to minimize optimization
+  //  volatile to minimize optimization
   volatile float bright = 100.0;
   volatile float temp   = 6500.0;
 
@@ -68,6 +69,7 @@ void test_timing()
   Serial.println();
   delay(100);
 
+
   volatile uint32_t RGB;
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -80,6 +82,7 @@ void test_timing()
   Serial.print("\t");
   Serial.println(RGB);
   delay(100);
+
 
   volatile uint32_t CMYK;
   start = micros();
@@ -94,6 +97,7 @@ void test_timing()
   Serial.println(CMYK);
   delay(100);
 
+
   volatile uint32_t BGR;
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -106,6 +110,7 @@ void test_timing()
   Serial.print("\t");
   Serial.println(BGR);
   delay(100);
+
 
   volatile uint16_t RGB565;
   start = micros();
@@ -121,4 +126,5 @@ void test_timing()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

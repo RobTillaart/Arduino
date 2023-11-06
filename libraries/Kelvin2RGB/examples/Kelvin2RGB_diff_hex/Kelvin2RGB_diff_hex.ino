@@ -18,6 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("KELVIN2RGB_LIB_VERSION: ");
+  Serial.println(KELVIN2RGB_LIB_VERSION);
+  Serial.println();
 
   KRGB.begin();
   KRGB2.begin();
@@ -47,5 +50,5 @@ void test_difference()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

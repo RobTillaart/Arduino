@@ -47,20 +47,6 @@ unittest_teardown()
 }
 
 
-/*
-unittest(test_new_operator)
-{
-  assertEqualINF(exp(800));
-  assertEqualINF(0.0/0.0);
-  assertEqualINF(42);
-
-  assertEqualNAN(INFINITY - INFINITY);
-  assertEqualNAN(0.0/0.0);
-  assertEqualNAN(42);
-}
-*/
-
-
 unittest(test_constants)
 {
   assertEqual(DLS_dark           ,     0);
@@ -95,6 +81,8 @@ unittest(test_constructor)
 {
   Kelvin2RGB tempColor;
 
+  tempColor.begin();
+
   assertEqualFloat(0, tempColor.temperature(), 0.0001);
   assertEqualFloat(0, tempColor.brightness(), 0.0001);
   assertEqualFloat(0, tempColor.red(), 0.0001);
@@ -107,6 +95,8 @@ unittest(test_constructor)
 unittest(test_Tanner_Helland)
 {
   Kelvin2RGB tempColor;
+
+  tempColor.begin();
 
   fprintf(stderr, "DLS_warmWhite\n");
   tempColor.convert_TH(DLS_warmWhite, 100);
@@ -124,6 +114,8 @@ unittest(test_Neil_Bartlett)
 {
   Kelvin2RGB tempColor;
 
+  tempColor.begin();
+
   fprintf(stderr, "DLS_warmWhite\n");
   tempColor.convert_NB(DLS_warmWhite, 100);
 
@@ -139,6 +131,8 @@ unittest(test_Neil_Bartlett)
 unittest(test_colour_spaces)
 {
   Kelvin2RGB tempColor;
+
+  tempColor.begin();
 
   fprintf(stderr, "test_colour_spaces\n");
   tempColor.setRGB(0.50, 1.00, 0.75, 90);  // brightness in %
@@ -165,4 +159,6 @@ unittest(test_colour_spaces)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE ---
+

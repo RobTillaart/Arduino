@@ -2,13 +2,13 @@
 //
 //    FILE: Kelvin2RGB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 
 
-#define KELVIN2RGB_LIB_VERSION            (F("0.1.6"))
+#define KELVIN2RGB_LIB_VERSION            (F("0.1.7"))
 
 #include "Arduino.h"
 
@@ -50,14 +50,15 @@
 #define DLS_polewardSky3         27000
 
 
-
 class Kelvin2RGB
 {
 public:
   Kelvin2RGB();
 
-  void begin();   //  empty function for now, remove?
-  void reset();
+  //  resets all variables to zero.
+  void begin();
+  [[deprecated("Use begin() instead")]]
+  void reset() { begin(); };  // obsolete soon
 
   //  temperature = 0..65500   brightness = 0.0 .. 100.0%
   void convert_TH(float temperature, float brightness = 100.0);
@@ -77,7 +78,7 @@ public:
   uint32_t setRGB(float red, float green, float blue, float brightness = 100.0);
 
   uint32_t RGB();       //  32 bit colour  (only 3 bytes used)
-  uint16_t RGB565();    //  16 bit colour
+  uint16_t RGB565();    //  16 bit colour  (2 bytes)
 
   //  Experimental 0.1.3
   uint32_t CMYK();

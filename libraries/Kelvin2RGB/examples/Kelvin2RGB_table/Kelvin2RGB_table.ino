@@ -15,6 +15,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("KELVIN2RGB_LIB_VERSION: ");
+  Serial.println(KELVIN2RGB_LIB_VERSION);
+  Serial.println();
 
   KRGB.begin();
   test();
@@ -28,7 +31,7 @@ void loop()
 
 void test()
 {
-  float bright = 100.0;  // change to 0.0
+  float bright = 100.0;  //  change to 0.0
   while (bright <= 100.0)
   {
     bright += 5;
@@ -59,5 +62,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

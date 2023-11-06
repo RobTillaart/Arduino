@@ -5,8 +5,8 @@
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 
-
 //  https://www.w3.org/wiki/CSS/Properties/color/keywords
+
 #define M2C_BLACK                       0x00000000
 #define M2C_SILVER                      0x00C0C0C0
 #define M2C_GRAY                        0x00808080

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/map2colour/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/map2colour/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/map2colour/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/map2colour/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/map2colour/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/map2colour.svg)](https://github.com/RobTillaart/map2colour/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/map2colour/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/map2colour.svg?maxAge=3600)](https://github.com/RobTillaart/map2colour/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/map2colour.svg)](https://registry.platformio.org/libraries/robtillaart/map2colour)
 
 
 # map2colour
@@ -58,6 +61,12 @@ If colours are missing please make a PullRequest (preferred) or file an issue.
 If returned false the code might behave in unexpected ways.
 
 Please note that the colourMap can have duplicate entries even side by side.
+
+
+#### Related
+
+- https://github.com/RobTillaart/Kelvin2RGB
+- https://github.com/RobTillaart/map2colour
 
 
 ## Interface
@@ -116,7 +125,6 @@ e.g. https://www.w3.org/wiki/CSS/Properties/color/keywords
 
 Note that only 3 bytes of 4 of the 32 bit colour patterns are used.
 The 4th byte might be used in the future.
-
 
 
 ## Operation
@@ -245,7 +253,6 @@ Note that the larger the size the more time it takes to find the correct interva
 - look for optimizations.
   - cache last value?
 
-
 #### Could
 
 - create a memory efficient version 
@@ -253,6 +260,8 @@ Note that the larger the size the more time it takes to find the correct interva
   - split RGB channels for every mapping.
   - is this useful? only for smallest RAM devices.
 - remove default array and break backwards compatibility.
+- rename **map2_565()** to **map2RGB565()**
+- add **map2CMYK()**
 
 
 #### Wont
@@ -286,3 +295,11 @@ Note that the larger the size the more time it takes to find the correct interva
   - divfactors need to be calculated again?
   - see no real use case.
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,

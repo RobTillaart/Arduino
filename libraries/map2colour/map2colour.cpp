@@ -1,7 +1,7 @@
 //
 //    FILE: map2colour.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 
@@ -9,6 +9,7 @@
 #include "map2colour.h"
 
 #define M2C_MIN_SIZE        7
+
 
 map2colour::map2colour(uint8_t size)
 {

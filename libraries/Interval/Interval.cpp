@@ -2,11 +2,9 @@
 //    FILE: Interval.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
-//
-// HISTORY: see changelog.md
 
 
 #include "Interval.h"
@@ -18,7 +16,7 @@ Interval::Interval(float lo, float hi)
   {
     _lo = lo;
     _hi = hi;
-  } 
+  }
   else
   {
   _lo = hi;
@@ -150,22 +148,22 @@ bool Interval::operator != (const Interval &in)
 // {
 //   return this->value() > in.value();
 // }
-// 
+//
 // bool Interval::operator >= (const Interval &in)
 // {
 //   return this->value() >= in.value();
 // }
-// 
+//
 // bool Interval::operator <  (const Interval &in)
 // {
 //   return this->value() < in.value();
 // }
-// 
+//
 // bool Interval::operator <= (const Interval &in)
 // {
 //   return this->value() <= in.value();
 // }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

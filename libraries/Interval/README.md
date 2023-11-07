@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Interval/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Interval/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Interval/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Interval/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Interval/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Interval.svg)](https://github.com/RobTillaart/Interval/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Interval/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Interval.svg?maxAge=3600)](https://github.com/RobTillaart/Interval/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Interval.svg)](https://registry.platformio.org/libraries/robtillaart/Interval)
 
 
 # Interval
@@ -13,7 +16,7 @@ Arduino library for the Interval data type. **Experimental**
 
 ## Description
 
-This experimental library provides basic math when you do not know a quantity.
+This **experimental** library provides basic math when you do not know a quantity.
 The only thing you do know is the value is in a certain interval. 
 After doing some math you want to know the interval of possible outcomes.
 
@@ -26,6 +29,10 @@ Frink itself is not investigated, so semantics are not necessary similar.
 
 
 ## Interface
+
+```cpp
+#include "Interval.h"
+```
 
 The Interval class implements the public interface of Printable.
 This allows you to print an Interval in human readable form.
@@ -134,7 +141,26 @@ See example
 
 ## Future
 
+#### Must
+
+- improve documentation
+  - clean up
+
+#### Should
+
 - play and extend the library.
 - check all to be investigated above.
-- clean up the documentation.
+
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

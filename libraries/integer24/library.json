@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/integer24.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "integer24.h"
 }

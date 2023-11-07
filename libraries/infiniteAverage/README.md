@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/infiniteAverage/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/infiniteAverage/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/infiniteAverage/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/infiniteAverage/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/infiniteAverage/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/infiniteAverage.svg)](https://github.com/RobTillaart/infiniteAverage/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/infiniteAverage/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/infiniteAverage.svg?maxAge=3600)](https://github.com/RobTillaart/infiniteAverage/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/infiniteAverage.svg)](https://registry.platformio.org/libraries/robtillaart/infiniteAverage)
 
 
 # infiniteAverage
@@ -70,6 +73,10 @@ First get more hands-on experience with it.
 
 ## Interface
 
+```cpp
+#include "infiniteAverage.h"
+```
+
 - **IAVG()** constructor, resets the internal counters to 0
 - **void reset()** resets the internal counters to 0
 - **void add(float value)** adds value to the internal float uint32_t pair.
@@ -115,6 +122,12 @@ See examples
 
 ## Future
 
+#### Must
+
+- improve documentation
+
+#### Should
+
 This library has its limits which needs to be investigated.
 
 One could upgrade the idea to a combination of a 8 byte double and a uint64_t
@@ -127,12 +140,26 @@ to get around 28 significant digits => 18.10 format
 - investigate other math with this data type, starting with + - / \* ?
 - printable interface?  sprintf() ?
 - play if time permits.
-- update documentation
 - add examples
 - \_overflow => \_wholePart
 
 #### 0.2.0
+
 - add negative numbers
 - test negative numbers / mixed numbers.
-- move code paer from .h to .cpp
+- move code from .h to .cpp
+
+
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

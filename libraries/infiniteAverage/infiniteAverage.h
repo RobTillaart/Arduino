@@ -2,14 +2,14 @@
 //
 //    FILE: infiniteAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Calculate the average of a very large number of values.
 //     URL: https://github.com/RobTillaart/infiniteAverage
 
 
 #include "Arduino.h"
 
-#define IAVG_LIB_VERSION            (F("0.1.6"))
+#define IAVG_LIB_VERSION            (F("0.1.7"))
 
 
 class IAVG
@@ -26,7 +26,7 @@ public:
     _sum = 0;
     _overflow = 0;
     _count = 0;
-    // cannot reset _minimum or maximum;
+    //  cannot reset _minimum or maximum;
   };
 
 
@@ -56,7 +56,7 @@ public:
     //  TODO abs(_overflow)
     if ( (_overflow >= _threshold) || (_count >= 4294967000 ) )
     {
-      if (_overflow & 1) _sum += 1.0;    // fix rounding error.
+      if (_overflow & 1) _sum += 1.0;    //  fix rounding error.
       _count /= 2;
       _overflow /= 2;
       _sum /= 2;
@@ -125,5 +125,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

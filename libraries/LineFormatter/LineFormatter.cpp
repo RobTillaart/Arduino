@@ -1,7 +1,7 @@
 //
 //    FILE: LineFormatter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Simple positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter

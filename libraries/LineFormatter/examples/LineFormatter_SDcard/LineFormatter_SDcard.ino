@@ -8,12 +8,14 @@
 
 #include <SPI.h>
 #include <SD.h>
-// SPI     PINS
-// MOSI   11
-// MISO   12
-// CLOCK  13
-// CS   10
-#define CS          10      // adjust this ChipSelect line if needed !
+
+//  SPI     PINS UNO
+//  MOSI     11
+//  MISO     12
+//  CLOCK    13
+//  CS       10
+
+#define CS          10      //  adjust this ChipSelect line if needed !
 
 #include <LineFormatter.h>
 
@@ -23,14 +25,14 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // initialize the SD card
+  //  initialize the SD card
   if (!SD.begin(CS))
   {
     Serial.println("Error: SD card failure");
     while (1);
   }
 
-  // remove file for proper timing
+  //  remove file for proper timing
   SD.remove("data.txt");
   delay(1000);
 
@@ -70,7 +72,7 @@ void test_table(LineFormatter L)
   L.addRelTab(10);
   L.addRelTab(6);
   L.addRelTab(6);
-  // L.println(L.getTabCount());
+  //  L.println(L.getTabCount());
 
   int measurement = 1;
 
@@ -117,5 +119,5 @@ void test_table(LineFormatter L)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

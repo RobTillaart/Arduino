@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/LineFormatter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/LineFormatter/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/LineFormatter/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/LineFormatter/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/LineFormatter/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/LineFormatter.svg)](https://github.com/RobTillaart/LineFormatter/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/LineFormatter/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/LineFormatter.svg?maxAge=3600)](https://github.com/RobTillaart/LineFormatter/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/LineFormatter.svg)](https://registry.platformio.org/libraries/robtillaart/LineFormatter)
 
 
 # LineFormatter
@@ -51,6 +54,11 @@ Setting the value to 0 results in no maximum line length.
 
 Note: the maximum line length is 255 as all internal positions are 8 bit.
 A 16 bit lineFormatter is planned for future (on request).
+
+
+#### Related
+
+- https://github.com/RobTillaart/ANSI
 
 
 ## Interface
@@ -134,10 +142,10 @@ Line is length long.
   - insert sort - bit like in removeTab()
   - would allow dynamic inserting.
 - add examples
+  - DS18B20 demo  - 6 readings per line, followed by average?
 - investigate correct working of maxPosition handling.
 - investigate position 1 as tabStop?
   - 0 is ignored but 1 is ambiguous
-
 
 #### Could
 
@@ -154,12 +162,19 @@ Line is length long.
 - investigate macros again.
 - filter for unprintable characters,
   - isAscii() test
-  - define replace char, default point?
+  - define replace char, default point / space?
   
-
 #### Wont
 
 - check if print interface is completely covered.
   - due to tab parsing it is, so no speed up.
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

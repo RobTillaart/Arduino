@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-11-08
+- update readme.md
+- simplified begin()
+- add **bool writeBrightness(channel, brightness)**
+
+----
+
 ## [0.2.0] - 2023-08-08
 - tested with hardware led to major changes.
 - add reverse flag
@@ -22,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - minor edits
 
+----
 
 ## [0.1.0] - 2023-08-03
 - initial version

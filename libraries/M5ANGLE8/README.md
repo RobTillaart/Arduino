@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/M5ANGLE8/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/M5ANGLE8/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/M5ANGLE8/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/M5ANGLE8/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/M5ANGLE8/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/M5ANGLE8.svg)](https://github.com/RobTillaart/M5ANGLES8/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/M5ANGLE8/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/M5ANGLE8.svg?maxAge=3600)](https://github.com/RobTillaart/M5ANGLE8/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/M5ANGLE8.svg)](https://registry.platformio.org/libraries/robtillaart/M5ANGLE8)
 
 
 # M5ANGLE8
@@ -86,8 +89,8 @@ Roughly determined with led_demo.
 
 - **M5ANGLE8(uint8_t address = M5ANGLE8_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Default address = 0x43, default Wire.
-- **bool begin(int sda, int scl)** ESP32 et al.
-- **bool begin()** initialize I2C, check if connected.
+- **bool begin()** check if device is connected. 
+User must call wire.begin() before this one.
 - **bool isConnected()** checks if address is on the I2C bus.
 - **bool setAddress(uint8_t address = M5ANGLE8_DEFAULT_ADDRESS)** set a new address for the device.
 Default 0x43.
@@ -119,6 +122,7 @@ brightness - 0..100
 - **bool setAll(uint8_t R, uint8_t G, uint8_t B, uint8_t brightness)** set all LEDS.
 - **bool allOff()** switch all LEDs off.
 Returns true.
+- **bool writeBrightness(channel, uint8_t brightness)** Set brightness only.
 
 
 ## Future
@@ -131,7 +135,6 @@ Returns true.
 #### Should
 
 - error handling
-- **bool writeBrightness(channel)**
 - **bool readRGB(channel, &R, &G, &B, &brightness)**
   - or **uint32_t readRGB(uint8_t channel)**
 - improve on return values of functions.
@@ -162,4 +165,13 @@ Returns true.
 - caching?
   - version (not interesting), 
   - RGB values = 32 bytes
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

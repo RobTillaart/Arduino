@@ -1,7 +1,7 @@
 //
 //    FILE: m5angle8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for M5 8ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -27,24 +27,8 @@ M5ANGLE8::M5ANGLE8(uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool M5ANGLE8::begin(int dataPin, int clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool M5ANGLE8::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   return true;
 }
@@ -163,6 +147,18 @@ bool M5ANGLE8::setAll(uint8_t R, uint8_t G, uint8_t B, uint8_t brightness)
 bool M5ANGLE8::allOff()
 {
   return setAll(0,0,0,0);
+}
+
+
+bool M5ANGLE8::writeBrightness(uint8_t channel, uint8_t brightness)
+{
+  if (channel > 8)
+  {
+    return false;
+  }
+  if (brightness > 100) brightness = 100;
+  write8(M5ANGLE8_REG_RGB + (channel << 2) + 3, brightness);
+  return true;
 }
 
 

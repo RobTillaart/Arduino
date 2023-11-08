@@ -2,7 +2,7 @@
 //
 //    FILE: m5angle8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for M58ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ANGLE8_LIB_VERSION          (F("0.2.0"))
+#define M5ANGLE8_LIB_VERSION          (F("0.3.0"))
 
 #define M5ANGLE8_DEFAULT_ADDRESS      0x43
 
@@ -25,9 +25,6 @@ class M5ANGLE8
 public:
   M5ANGLE8(uint8_t address = M5ANGLE8_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(int sda, int scl);
-#endif
   bool    begin();
   bool    isConnected();
 
@@ -61,6 +58,8 @@ public:
   bool     writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B, uint8_t brightness);
   bool     setAll(uint8_t R, uint8_t G, uint8_t B, uint8_t brightness);
   bool     allOff();
+
+  bool     writeBrightness(uint8_t channel, uint8_t brightness);
 
 
 private:

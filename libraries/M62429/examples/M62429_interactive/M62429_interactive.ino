@@ -17,9 +17,9 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  AMP.begin(4, 5);  // data, clock
+  AMP.begin(4, 5);  //  data, clock
 
-  // sweep to start
+  //  sweep to start
   /*
     for (int v = 0; v < 256; v++)
     {
@@ -30,7 +30,8 @@ void setup()
     {
     AMP.setVolume(2, v);
     delay(10);
-    }*/
+    }
+  */
 }
 
 
@@ -69,5 +70,4 @@ void loop()
 }
 
 
-
-// -- END OF FILE --
+//  -- END OF FILE --

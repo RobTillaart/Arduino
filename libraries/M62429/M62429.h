@@ -3,14 +3,14 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //     URL: https://github.com/RobTillaart/M62429
 
 
 #include "Arduino.h"
 
 
-#define M62429_VERSION              (F("0.3.6"))
+#define M62429_VERSION              (F("0.3.7"))
 
 
 // minimum pulse width CLOCK = 1.6 us (datasheet);
@@ -39,14 +39,16 @@
 class M62429
 {
 public:
+  M62429();
 
-  void begin(uint8_t dataPin, uint8_t clockPin);
+  void     begin(uint8_t dataPin, uint8_t clockPin);
 
-  // channel = { 0, 1 }
+  //  channel = { 0, 1 }
   int     getVolume(uint8_t channel);
-  // channel = { 0, 1, 2 = both; volume = {0 .. 255 }
+  //  channel = { 0, 1, 2 = both;
+  //  volume  = {0 .. 255 }
   int     setVolume(uint8_t channel, uint8_t volume);
-  // increment /decrement until min/max = 0..255
+  //  increment / decrement until min/max = 0..255
   int     incr(uint8_t channel = 2);
   int     decr(uint8_t channel = 2);
 
@@ -54,7 +56,7 @@ public:
 
   void    muteOn();
   void    muteOff();
-  bool    isMuted()  { return _muted; };
+  bool    isMuted();
 
 
 private:
@@ -73,9 +75,10 @@ public:
 
   void begin(uint8_t dataPin, uint8_t clockPin);
 
-  // channel = { 0, 1 }
+  //  channel = { 0, 1 }
   int     getAttn(uint8_t channel);
-  // channel = { 0, 1, 2 = both; attn = {0 .. 87 }
+  //  channel = { 0, 1, 2 = both;
+  //  attn    = {0 .. 87 }
   void    setAttn(uint8_t channel, uint8_t attn);
 
 private:
@@ -85,5 +88,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

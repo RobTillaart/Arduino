@@ -2,17 +2,22 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // HISTORY: See M62429.cpp2
 //     URL: https://github.com/RobTillaart/M62429
-
-// HISTORY: see changelog.md
-
 
 
 #include "M62429.h"
 
 #define M62429_MAX_ATTN           87      //  decibel
+
+
+M62429::M62429()
+{
+  _vol[0] = 0;
+  _vol[1] = 0;
+  _muted  = false;
+}
 
 
 void M62429::begin(uint8_t dataPin, uint8_t clockPin)
@@ -117,6 +122,12 @@ void M62429::muteOff()
 }
 
 
+bool M62429::isMuted()
+{
+  return _muted;
+}
+
+
 ////////////////////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -210,7 +221,7 @@ void M62429_RAW::setAttn(uint8_t channel, uint8_t attn)
     digitalWrite(_data, databits & 0x01);
     databits >>= 1;
     digitalWrite(_clock, HIGH);
-    // Note if _clock pulses are long enough, _data pulses are too.
+    //  Note if _clock pulses are long enough, _data pulses are too.
     #if M62429_CLOCK_DELAY > 0
     delayMicroseconds(M62429_CLOCK_DELAY);
     #endif
@@ -249,5 +260,5 @@ void M62429_RAW::setAttn(uint8_t channel, uint8_t attn)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

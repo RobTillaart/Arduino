@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2023-11-08
+- update readme.md
+- moved isMuted to .cpp
+- update keywords.txt
+- minor edits
+
+
 ## [0.3.6] - 2022-11-15
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
-
 
 ## [0.3.5] - 2022-02-21
 - add minimal M62429_RAW class

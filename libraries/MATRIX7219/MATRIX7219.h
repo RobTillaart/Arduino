@@ -2,7 +2,7 @@
 //
 //    FILE: MATRIX7219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for 8x8 LED MATRIX MAX7219
 //     URL: https://github.com/RobTillaart/MATRIX7219
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MATRIX7219_LIB_VERSION        (F("0.1.1"))
+#define MATRIX7219_LIB_VERSION        (F("0.1.2"))
 
 
 class MATRIX7219
@@ -40,7 +40,7 @@ public:
   void     setSwap(bool swap);
   bool     getSwap();
 
-private:
+protected:
 
   void     _write(uint8_t b);
   void     _writeZero();         //  optimized  writing of all 0
@@ -56,7 +56,7 @@ private:
   uint8_t _clockBit;
 
 #endif
-  
+
   uint8_t  _dataPin;
   uint8_t  _selectPin;
   uint8_t  _clockPin;
@@ -69,5 +69,16 @@ private:
 
 
 
-//  -- END OF FILE -- 
+///////////////////////////////////////////////////////////////
+//
+//  DERIVED MATRIX7221 CLASS
+//
+class MATRIX7221 : public MATRIX7219
+{
+public:
+  MATRIX7221(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices = 1);
+};
+
+
+//  -- END OF FILE --
 

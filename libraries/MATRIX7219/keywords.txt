@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 MATRIX7219	KEYWORD1
+MATRIX7221	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

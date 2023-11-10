@@ -1,7 +1,7 @@
 {
   "name": "MATRIX7219",
   "keywords": "MATRIX, 8x8, LED, 7219, 7221",
-  "description": "Arduino Library for 8x8 LED MATRIX MAX7219.",
+  "description": "Arduino Library for 8x8 LED MATRIX MAX7219, MAX7221.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MATRIX7219.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "MATRIX7219.h"
 }

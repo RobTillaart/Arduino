@@ -1,7 +1,7 @@
 //
 //    FILE: MATRIX7219.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for 8x8 LED MATRIX MAX7219
 //     URL: https://github.com/RobTillaart/MATRIX7219
@@ -214,7 +214,7 @@ bool MATRIX7219::getSwap()
 
 ///////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 void MATRIX7219::_write(uint8_t b)
 {
@@ -237,7 +237,7 @@ void MATRIX7219::_write(uint8_t b)
   }
 
 #else
-  
+
   uint8_t clk = _clockPin;
   uint8_t dat = _dataPin;
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
@@ -260,9 +260,9 @@ void MATRIX7219::_writeZero()
   uint8_t cbmask2  = ~_clockBit;
   //  uint8_t outmask1 = _dataOutBit;
   uint8_t outmask2 = ~_dataOutBit;
-  
+
   *_dataOutRegister &= outmask2;
-  
+
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
   {
     uint8_t oldSREG = SREG;
@@ -273,7 +273,7 @@ void MATRIX7219::_writeZero()
   }
 
 #else
-  
+
   uint8_t clk = _clockPin;
   digitalWrite(_dataPin, LOW);
   for (uint8_t mask = 0x80; mask > 0; mask >>= 1)
@@ -281,7 +281,7 @@ void MATRIX7219::_writeZero()
     digitalWrite(clk, LOW);
     digitalWrite(clk, HIGH);
   }
-  
+
 #endif
 }
 
@@ -295,6 +295,17 @@ uint8_t MATRIX7219::_reverse8(uint8_t in)
   x =          ((x >> 4) | (x << 4));
   return x;
 }
+
+
+///////////////////////////////////////////////////////////////
+//
+//  DERIVED MATRIX7221 CLASS
+//
+MATRIX7221::MATRIX7221(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)
+          : MATRIX7219(dataPin, selectPin, clockPin, matrices)
+          {
+          }
+
 
 //  -- END OF FILE --
 

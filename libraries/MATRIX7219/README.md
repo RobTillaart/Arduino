@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/MATRIX7219/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MATRIX7219/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MATRIX7219/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MATRIX7219/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MATRIX7219/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MATRIX7219.svg)](https://github.com/RobTillaart/MATRIX7219/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MATRIX7219/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MATRIX7219.svg?maxAge=3600)](https://github.com/RobTillaart/MATRIX7219/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MATRIX7219.svg)](https://registry.platformio.org/libraries/robtillaart/MATRIX7219)
 
 
 # MATRIX7219
 
-Arduino Library for controlling one or more 8x8 LED MATRIX with a MAX7219.
+Arduino Library for controlling one or more 8x8 LED MATRIX with a MAX7219 / MAX7221.
 
 
 ## Description
@@ -21,6 +24,8 @@ For the future two (derived) classes are planned:
 - a class that is optimized to use for a single 8x8 matrix.
 - a class that buffers the state of the LEDS, allowing more functionality.
 
+MAX7221 derived class is identical (for now).
+
 
 #### Tests
 
@@ -32,7 +37,7 @@ implementation of the **inverse, reverse** and **swap** functions.
 
 #### Related
 
-- TODO
+- https://embed.plnkr.co/3VUsekP3jC5xwSIQDVHx Sprite Generator by Miro Božík
 
 
 #### Tested
@@ -42,12 +47,16 @@ Tested on Arduino UNO.
 
 ## Interface
 
-**\#include "MATRIX7219.h"**
+```cpp
+#include "MATRIX7219.h"
+```
 
 Not all functionality works, matrix parameter et al.
 
 - **MATRIX7219(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)** 
 Constructor, initializes IO pins and the number of 8x8 matrices on same pins.
+- **MATRIX7221(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)** 
+Constructor (derived class) idem as above.
 - **void begin()** resets the internals of the connected device.
 - **uint8_t  getMatrixCount()** returns number of matrices set in constructor.
 Convenience function.
@@ -150,4 +159,13 @@ First test ESP32
 - store last set brightness.
   - **uint8_t getBrightness()**
   - not needed yet
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

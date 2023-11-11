@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.2.1"))
+#define ANSI_LIB_VERSION        (F("0.3.0"))
 
 
 class ANSI : public Stream
@@ -31,6 +31,7 @@ public:
   void low();
   void underline();
   void blink();
+  void blinkFast();
   void reverse();
 
 
@@ -92,15 +93,30 @@ public:
 
 
   //  EXPERIMENTAL SECTION
-  //  use at own risk
-  //  META
-  //  deviceType is discussed
-  //    - https://github.com/RobTillaart/ANSI/issues/9
+  //    use at own risk
+
+  //  TERMINAL TYPE
+  //  - https://github.com/RobTillaart/ANSI/issues/9
   //  timeout in milliseconds.
   //  note this function blocks for timeout or less.
-  //  -1 = unknown;
-  //   1 = VT52, 2 = VT100, 3 = VT220,
+  enum {
+    UNKNOWN = -1,
+    //  known types
+    VT52  = 1,
+    VT100 = 2,
+    VT220 = 3,
+    //  add others if needed.
+  };
   int deviceType(uint32_t timeout = 100);
+
+
+  //  SCREENSIZE 
+  //  - https://github.com/RobTillaart/ANSI/pull/16
+  bool readCursorPosition(uint16_t &w, uint16_t &h, uint32_t timeout = 100);
+  bool getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout = 100);
+  //  to be used after successful call of getScreenSize();
+  inline uint16_t screenWidth() { return _width; };
+  inline uint16_t screenHeight() { return _height; };
 
 
   //  check if it works on your terminal
@@ -148,6 +164,9 @@ protected:
 
   Stream *   _stream;
 
+  //  screen size parameters
+  uint16_t _width = 0;
+  uint16_t _height = 0;
 };
 
 

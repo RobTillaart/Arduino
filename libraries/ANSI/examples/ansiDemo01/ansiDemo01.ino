@@ -15,9 +15,12 @@ void setup()
   Serial.begin(115200);
 
   ansi.clearScreen();
+  ansi.println("Hello world");
   ansi.bold();
   ansi.println("Hello world");
   ansi.blink();
+  ansi.println("Hello world");
+  ansi.blinkFast();
   ansi.println("Hello world");
   ansi.underline();
   ansi.println("Hello world");

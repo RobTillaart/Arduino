@@ -12,6 +12,7 @@ bold	KEYWORD2
 low	KEYWORD2
 underline	KEYWORD2
 blink	KEYWORD2
+blinkFast	KEYWORD2
 reverse	KEYWORD2
 
 clearScreen	KEYWORD2
@@ -32,10 +33,15 @@ gray2color	KEYWORD2
 grey2color	KEYWORD2
 rgb2color	KEYWORD2
 
+# EXPERIMENTAL
+
 deviceType	KEYWORD2
 
+readCursorPosition	KEYWORD2
+getScreenSize	KEYWORD2
+screenWidth	KEYWORD2
+screenHeight	KEYWORD2
 
-# EXPERIMENTAL
 
 set132columns	KEYWORD2
 set80columns	KEYWORD2
@@ -46,6 +52,8 @@ reset	KEYWORD2
 
 
 # Constants (LITERAL1)
+ANSI_LIB_VERSION	LITERAL1
+
 toEnd	LITERAL1
 toStart	LITERAL1
 entireLine	LITERAL1

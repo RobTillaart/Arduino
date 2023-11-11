@@ -76,11 +76,14 @@ Stream interface also includes print(), println(), write().
 
 #### Character modi
 
+Most of these are supported (more or less) in terminal apps.
+
 - **void normal()** normal intensity.
 - **void bold()** bold or high intensity.
 - **void low()** low intensity.
 - **void underline()** idem.
 - **void blink()** idem.
+- **void blinkFast()** idem.
 - **void reverse()** idem.
 
 
@@ -121,7 +124,23 @@ Some are working with Teraterm, others are unclear of fail.
 The user can uncomment these and verify if these work with their terminal.
 
 
-##### Experimental device type
+##### Experimental getScreenSize()
+
+Added in 0.2.2 (From PR #16 refactored)  use with care.
+
+- **bool readCursorPosition(uint16_t &w, uint16_t &h, uint32_t timeout = 100)**
+returns true if width and height are reported.
+Be sure to test the return value!
+- **bool getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout = 100)**
+returns true if width and height are reported.
+Be sure to test the return value!
+- **inline uint16_t screenWidth()** used after successful 
+call of getScreenSize();
+- **inline uint16_t screenHeight()** used after successful
+call of getScreenSize();
+
+
+##### Experimental deviceType()
 
 The **int deviceType()** function needs more testing.
 

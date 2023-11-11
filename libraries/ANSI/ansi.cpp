@@ -1,7 +1,7 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -50,32 +50,37 @@ void ANSI::flush()
 //
 void ANSI::normal()
 {
-  _stream->write("\033[0m", 3);
+  _stream->write("\033[0m", 4);
 }
 
 void ANSI::bold()
 {
-  _stream->write("\033[1m", 3);
+  _stream->write("\033[1m", 4);
 }
 
 void ANSI::low()
 {
-  _stream->write("\033[2m", 3);
+  _stream->write("\033[2m", 4);
 }
 
 void ANSI::underline()
 {
-  _stream->write("\033[4m", 3);
+  _stream->write("\033[4m", 4);
 }
 
 void ANSI::blink()
 {
-  _stream->write("\033[5m", 3);
+  _stream->write("\033[5m", 4);
+}
+
+void ANSI::blinkFast()
+{
+  _stream->write("\033[6m", 4);
 }
 
 void ANSI::reverse()
 {
-  _stream->write("\033[7m", 3);
+  _stream->write("\033[7m", 4);
 }
 
 
@@ -202,21 +207,83 @@ int ANSI::deviceType(uint32_t timeout)
   int type = -1;        //  -1 = unknown
   print("\033[0c");
 
+  char buffer[4];
+  int len = 0;
+  char c;
   uint32_t start = millis();
-  int read_len = 0;
-  char buffer[8];
-  while ((read_len != 3) && ((millis() - start) < timeout))
+  while ((len < 3) && ((millis() - start) < timeout))
   {
-    delay(1);
-    read_len = Serial.readBytes(buffer, 3);
-    if ((buffer[0] == '1') && (buffer[1] == ';'))
+    if (_stream->available())
     {
-      type = buffer[2] - '0';
+      c = _stream->read();
+      buffer[len++] = c;
+      buffer[len] = 0;
     }
-    //  Serial.write(buffer, 3);
-    //  Serial.println();
+  }
+
+  if ((buffer[0] == '1') && (buffer[1] == ';'))
+  {
+    type = buffer[2] - '0';
   }
   return type;
+}
+
+
+bool ANSI::readCursorPosition(uint16_t &w, uint16_t &h, uint32_t timeout)
+{
+  print("\033[6n");
+
+  char buffer[16];
+  int len = 0;
+  char c;
+  uint32_t start = millis();
+  while (millis() - start < timeout)
+  {
+    if (_stream->available())
+    {
+      c = _stream->read();
+      buffer[len++] = c;
+      buffer[len] = 0;
+      if (c == 'R') break;
+    }
+  }
+  //  do we have enough chars
+  //  typical (8) = \e[24;80R
+  //  minimal (6) = \e[1;1R
+  if (len < 6) return false;
+  //  last char must be R to have them all.
+  if (c != 'R') return false;
+
+  //  parse the buffer
+  int number[2] = {0, 0};
+  int i = 0;
+  // read digits.
+  for (int n = 0; n < 2; n++)
+  {
+    //  skip until digits
+    while ((i < len) && !isdigit(buffer[i])) i++;
+    // read number
+    while ((i < len) && isdigit(buffer[i]))
+    {
+      number[n] *= 10;
+      number[n] += buffer[i] - '0';
+      i++;
+    }
+  }
+  w = number[1];
+  h = number[0];
+  return ((w > 0) && (h > 0));
+}
+
+
+bool ANSI::getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout)
+{
+  //  gotoXY(9999,9999);
+  print("\033[9999;9999H");
+  bool rv = readCursorPosition(w, h, timeout);
+  _width  = w;
+  _height = h;
+  return rv;
 }
 
 

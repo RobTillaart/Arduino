@@ -1,0 +1,16 @@
+IDE: 1.8.19
+Board: UNO
+
+ansi_performance.ino
+0.3.0
+
+PERFORMANCE TEST ANSI TERMINAL PRINT
+ANSITERM:	352
+PERFORMANCE TEST ANSI TERMINAL PRINT
+SERIAL:		300
+
+(cleaned output of clearScreen(); test)
+ANSITERM:	52
+SERIAL:		56
+
+done...

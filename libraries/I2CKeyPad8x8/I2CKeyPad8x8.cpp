@@ -1,11 +1,9 @@
 //
 //    FILE: I2CKeyPad8x8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for 8x8 or smaller KeyPad connected to an I2C PCF8575.
 //     URL: https://github.com/RobTillaart/I2CKeyPad8x8
-//
-// HISTORY: see changelog.md
 
 
 #include "I2CKeyPad8x8.h"
@@ -19,23 +17,18 @@ I2CKeyPad8x8::I2CKeyPad8x8(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool I2CKeyPad8x8::begin(uint8_t sda, uint8_t scl)
+bool I2CKeyPad8x8::begin()
 {
-  _wire->begin(sda, scl);
   //  enable interrupts
   _read(0xFF00);
   return isConnected();
 }
-#endif
 
 
-bool I2CKeyPad8x8::begin()
+bool I2CKeyPad8x8::isConnected()
 {
-  _wire->begin();
-  //  enable interrupts
-  _read(0xFF00);
-  return isConnected();
+  _wire->beginTransmission(_address);
+  return (_wire->endTransmission() == 0);
 }
 
 
@@ -79,8 +72,8 @@ uint8_t I2CKeyPad8x8::getKey()
 }
 
 
-uint8_t I2CKeyPad8x8::getLastKey()   
-{ 
+uint8_t I2CKeyPad8x8::getLastKey()
+{
   return _lastKey;
 };
 
@@ -94,22 +87,15 @@ bool I2CKeyPad8x8::isPressed()
 }
 
 
-bool I2CKeyPad8x8::isConnected()
-{
-  _wire->beginTransmission(_address);
-  return (_wire->endTransmission() == 0);
-}
-
-
 uint8_t I2CKeyPad8x8::getChar()
-{ 
-  return _keyMap[getKey()]; 
+{
+  return _keyMap[getKey()];
 };
 
 
 uint8_t I2CKeyPad8x8::getLastChar()
-{ 
-  return _keyMap[_lastKey]; 
+{
+  return _keyMap[_lastKey];
 };
 
 
@@ -143,5 +129,5 @@ uint16_t I2CKeyPad8x8::_read(uint16_t mask)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

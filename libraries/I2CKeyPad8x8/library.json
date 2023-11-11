@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2CKeyPad8x8.git"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "I2CKeyPad8x8.h"
 }

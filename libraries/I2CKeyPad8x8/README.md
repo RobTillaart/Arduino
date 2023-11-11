@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/I2CKeyPad8x8/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/I2CKeyPad8x8/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2CKeyPad8x8/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/I2CKeyPad8x8/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2CKeyPad8x8/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/I2CKeyPad8x8.svg)](https://github.com/RobTillaart/I2CKeyPad8x8/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2CKeyPad8x8/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2CKeyPad8x8.svg?maxAge=3600)](https://github.com/RobTillaart/I2CKeyPad8x8/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/I2CKeyPad8x8.svg)](https://registry.platformio.org/libraries/robtillaart/I2CKeyPad8x8)
 
 
 # I2CKeyPad8x8
@@ -18,13 +21,19 @@ EXPERIMENTAL (first tests ==> OK)
 The I2CKeyPad8x8 library implements the reading of a 8x8 keypad by means of a PCF8575.
 Smaller keypads, meaning less columns or rows (e.g. 5x4) can be read with it too.
 
-Relates to https://github.com/RobTillaart/I2CKeyPad. which is an version using PCF8574.
+#### Related
+
+Relates strongly to https://github.com/RobTillaart/I2CKeyPad. which is an 8x8 version using **PCF8574**.
+
+- https://github.com/RobTillaart/AnalogKeypad
+- https://github.com/RobTillaart/I2CKeyPad8x8
 
 
 ## Connection
 
 The PCF8575 is connected between the processor and the (default) 8x8 keypad.
 See the conceptual schema below. 
+It might take some trying to get the correct pins connected.
 
 ```
           PROC             PCF8575              KEYPAD
@@ -45,12 +54,18 @@ See the conceptual schema below.
 
 ## Interface
 
+```cpp
+#include "I2CKeyPad8x8.h"
+```
+
+
+#### Base
+
 - **I2CKeyPad8x8(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
 The constructor sets the device address and optionally 
 allows to selects the I2C bus to use.
 - **bool begin()** The return value shows if the PCF8575 with the given address is connected properly.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32.
-The return value shows if the PCF8575 with the given address is connected properly.
+Call wire.begin() first!
 - **bool isConnected()** returns false if the PCF8575 cannot be connected to.
 - **uint8_t getKey()** Returns default 0..63 for regular keys, 
 Returns 64 if no key is pressed and 65 in case of an error.
@@ -81,7 +96,7 @@ The length is **NOT** checked upon loading (as it may contain a NULL char).
 #### Basic working
 
 After the **keypad.begin()** the sketch calls the **keyPad.getKey()** to read values from the keypad. 
-- If no key is pressed **I2CKeyPad8x8_NOKEY** code (16) is returned.
+- If no key is pressed **I2C_KEYPAD8x8_NOKEY** code (16) is returned.
 - If the read value is not valid, e.g. two keys pressed, **I2CKeyPad8x8_FAIL** code (17) is returned.
 - Otherwise a number 0..63 is returned.
 
@@ -107,16 +122,29 @@ See examples
 ## Future
 
 
-#### must
-- update documentation
+#### Must
 
-#### should
+- update documentation
+- keep in sync with **I2CKeyPad** as much as possible.
+
+#### Should
+
 - test extensively
   - basic working (OK)
   - interrupts
   - keymapping
   - performance
-- keep in sync with **I2CKeyPad** as much as possible.
 
-#### would
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

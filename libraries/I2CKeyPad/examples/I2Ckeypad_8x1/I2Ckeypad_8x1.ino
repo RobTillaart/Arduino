@@ -6,7 +6,6 @@
 //
 //  PCF8574
 //    pin p0-p7 rows
-//
 
 
 #include "Wire.h"
@@ -41,7 +40,7 @@ void loop()
 {
   uint32_t now = millis();
   //  adjust keymap if needed
-  char keys[] = "12345678        NF";  // N = NoKey, F = Fail
+  char keys[] = "12345678        NF";  //  N = NoKey, F = Fail
 
   if (now - lastKeyPressed >= 100)
   {
@@ -62,4 +61,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

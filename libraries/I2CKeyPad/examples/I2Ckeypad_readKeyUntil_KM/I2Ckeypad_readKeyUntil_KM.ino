@@ -4,13 +4,12 @@
 // PURPOSE: demo reading until specific keyPress - using build in key mapping
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
-// 4x4 or smaller keypad.
+//  4x4 or smaller keypad.
 //
 //  This demo doesn't use the build in key mapping.
-//
 
 
 #include "Wire.h"
@@ -67,15 +66,14 @@ void loop()
 }
 
 
-//
-// until   = end character
-// buffer  = buffer to fill
-// length  = length of buffer (including '\0'
-// timeout = timeout in milliseconds
-// returns 0 = success
-//        -1 = keyPad fail
-//        -2 = timeout
-//        -3 = buffer overflow
+//  until   = end character
+//  buffer  = buffer to fill
+//  length  = length of buffer (including '\0'
+//  timeout = timeout in milliseconds
+//  returns 0 = success
+//         -1 = keyPad fail
+//         -2 = timeout
+//         -3 = buffer overflow
 //
 int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
 {
@@ -90,15 +88,15 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
   {
     char ch = keyPad.getChar();
     if (ch == 'N')        lastChar = 'N';
-    else if (ch == until) return 0;       // success
-    else if (ch == 'F')   return -1;      // keyPad fail
+    else if (ch == until) return 0;       //  success
+    else if (ch == 'F')   return -1;      //  keyPad fail
     else
     {
       if (ch != lastChar)
       {
         lastChar = ch;
-        if ( bufferIndex == length ) return -3;  // overflow
-        // add key to buffer
+        if ( bufferIndex == length ) return -3;  //  overflow
+        //  add key to buffer
         buffer[bufferIndex++] = ch;
         buffer[bufferIndex]   = 0;
       }
@@ -109,5 +107,5 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

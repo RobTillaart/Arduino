@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/I2CKeyPad/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/I2CKeyPad/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/I2CKeyPad/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/I2CKeyPad/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/I2CKeyPad/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/I2CKeyPad.svg)](https://github.com/RobTillaart/I2CKeyPad/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/I2CKeyPad/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/I2CKeyPad.svg?maxAge=3600)](https://github.com/RobTillaart/I2CKeyPad/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/I2CKeyPad.svg)](https://registry.platformio.org/libraries/robtillaart/I2CKeyPad)
 
 
 # I2CKeyPad
@@ -18,7 +21,13 @@ Smaller keypads, meaning less columns or rows (4x3) can be read with it too.
 
 Since 0.3.2 the library allows a 5x3, 6x2 or 8x1 or smaller keypad to be connected too.
 
-Relates to https://github.com/RobTillaart/I2CKeyPad8x8. which is an 8x8 version using PCF8575.
+#### Related
+
+Relates strongly to https://github.com/RobTillaart/I2CKeyPad8x8. which is an 8x8 version using **PCF8575**.
+
+- https://github.com/RobTillaart/AnalogKeypad
+- https://github.com/RobTillaart/I2CKeyPad8x8
+- https://github.com/WK-Software56/AdvKeyPad (derived work with keyboard alike interface)
 
 
 ## Connection
@@ -45,12 +54,17 @@ It might take some trying to get the correct pins connected.
 
 ## Interface
 
-- **I2CKEYPAD(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
+```cpp
+#include "I2CKeyPad.h"
+```
+
+#### Base
+
+- **I2CKeyPad(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
 The constructor sets the device address and optionally 
 allows to selects the I2C bus to use.
 - **bool begin()** The return value shows if the PCF8574 with the given address is connected properly.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32.
-The return value shows if the PCF8574 with the given address is connected properly.
+Call wire.begin() first!
 - **bool isConnected()** returns false if the PCF8574 cannot be connected to.
 - **uint8_t getKey()** Returns default 0..15 for regular keys, 
 Returns 16 if no key is pressed and 17 in case of an error.
@@ -141,5 +155,24 @@ See examples
 
 ## Future
 
+#### Must
+
 - update documentation
+
+#### Should
+
 - test key mapping functions.
+
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

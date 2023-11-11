@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-11-09
+- simplify begin()
+- added I2Ckeypad_Wire1_ESP32.ino
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.3] - 2022-11-12
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
-
 
 ## [0.3.2] - 2022-09-19
 - experimental version

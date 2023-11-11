@@ -41,7 +41,7 @@ void loop()
 {
   uint32_t now = millis();
   //  adjust keymap if needed
-  char keys[] = "1234567890ABC   NF";  // N = NoKey, F = Fail
+  char keys[] = "1234567890ABC   NF";  //  N = NoKey, F = Fail
 
   if (now - lastKeyPressed >= 100)
   {
@@ -62,4 +62,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -4,10 +4,10 @@
 // PURPOSE: demo key mapping
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
-// 4x4 or smaller keypad.
+//  4x4 or smaller keypad.
 //
 
 
@@ -20,7 +20,7 @@ const uint8_t KEYPAD_ADDRESS = 0x38;
 I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
 // minimal calculator layout
-char calculator_layout[19] = "789+456-123  0  NF";  // N = NoKey, F = Fail
+char calculator_layout[19] = "789+456-123  0  NF";  //  N = NoKey, F = Fail
 int32_t sum = 0;
 int32_t val = 0;
 
@@ -73,5 +73,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,11 +1,9 @@
 //
 //    FILE: I2CKeyPad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for 4x4 KeyPad connected to an I2C PCF8574
 //     URL: https://github.com/RobTillaart/I2CKeyPad
-//
-// HISTORY: see changelog.md
 
 
 #include "I2CKeyPad.h"
@@ -20,20 +18,8 @@ I2CKeyPad::I2CKeyPad(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool I2CKeyPad::begin(uint8_t sda, uint8_t scl)
-{
-  _wire->begin(sda, scl);
-  //  enable interrupts
-  _read(0xF0);
-  return isConnected();
-}
-#endif
-
-
 bool I2CKeyPad::begin()
 {
-  _wire->begin();
   //  enable interrupts
   _read(0xF0);
   return isConnected();
@@ -145,9 +131,9 @@ uint8_t I2CKeyPad::_getKey4x4()
   else if (rows == 0x70) key = 3;
   else return I2C_KEYPAD_FAIL;
 
-  // 4 columns as input pull up, 4 rows as output
+  //  4 columns as input pull up, 4 rows as output
   uint8_t cols = _read(0x0F);
-  // check if single line has gone low.
+  //  check if single line has gone low.
   if (cols == 0x0F)      return I2C_KEYPAD_NOKEY;
   else if (cols == 0x0E) key += 0;
   else if (cols == 0x0D) key += 4;
@@ -157,7 +143,7 @@ uint8_t I2CKeyPad::_getKey4x4()
 
   _lastKey = key;
 
-  return key;   // 0..15
+  return key;   //  0..15
 }
 
 
@@ -189,7 +175,7 @@ uint8_t I2CKeyPad::_getKey5x3()
 
   _lastKey = key;
 
-  return key;   // 0..14
+  return key;   //  0..14
 }
 
 
@@ -211,9 +197,9 @@ uint8_t I2CKeyPad::_getKey6x2()
   else if (rows == 0x7C) key = 5;
   else return I2C_KEYPAD_FAIL;
 
-  // 2 columns as input pull up, 6 rows as output
+  //  2 columns as input pull up, 6 rows as output
   uint8_t cols = _read(0x03);
-  // check if single line has gone low.
+  //  check if single line has gone low.
   if (cols == 0x03)      return I2C_KEYPAD_NOKEY;
   else if (cols == 0x02) key += 0;
   else if (cols == 0x01) key += 6;
@@ -221,7 +207,7 @@ uint8_t I2CKeyPad::_getKey6x2()
 
   _lastKey = key;
 
-  return key;   // 0..11
+  return key;   //  0..11
 }
 
 
@@ -247,9 +233,9 @@ uint8_t I2CKeyPad::_getKey8x1()
 
   _lastKey = key;
 
-  return key;   // 0..7
+  return key;   //  0..7
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

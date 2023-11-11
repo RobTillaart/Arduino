@@ -4,10 +4,10 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
-// 4x4 or smaller keypad.
+//  4x4 or smaller keypad.
 
 
 #include "Wire.h"
@@ -55,7 +55,7 @@ void loop()
     Serial.print("\t");
     Serial.print(index);
     Serial.print("\t");
-    Serial.print((char)"123A456B789C*0#DNF"[index]);  // NoKey, Fail
+    Serial.print((char)"123A456B789C*0#DNF"[index]);  //  NoKey, Fail
     Serial.print("\t");
     Serial.print(lastKey);
     Serial.print("\t");
@@ -68,5 +68,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -4,10 +4,10 @@
 // PURPOSE: demo key mapping
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
-// 4x4 or smaller keypad.
+//  4x4 or smaller keypad.
 
 
 #include "Wire.h"

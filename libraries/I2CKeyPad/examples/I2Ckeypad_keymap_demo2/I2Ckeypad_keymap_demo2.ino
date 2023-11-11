@@ -4,10 +4,10 @@
 // PURPOSE: demo key mapping
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 //
-// PCF8574
+//  PCF8574
 //    pin p0-p3 rows
 //    pin p4-p7 columns
-// 4x4 or smaller keypad.
+//  4x4 or smaller keypad.
 
 
 #include "Wire.h"
@@ -20,8 +20,8 @@ I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
 
 // two different lay out styles of a nummeric keyPad
-char phone_layout[19]      = "123A456B789C*0#DNF";  // N = NoKey, F = Fail
-char calculator_layout[19] = "789A456B123C*0#DNF";  // N = NoKey, F = Fail
+char phone_layout[19]      = "123A456B789C*0#DNF";  //  N = NoKey, F = Fail
+char calculator_layout[19] = "789A456B123C*0#DNF";  //  N = NoKey, F = Fail
 
 
 void setup()
@@ -60,5 +60,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -39,7 +39,7 @@ void setup()
 void loop()
 {
   uint32_t now = millis();
-  char keys[] = "123A456B789C*0#DNF";  // N = NoKey, F = Fail
+  char keys[] = "123A456B789C*0#DNF";  //  N = NoKey, F = Fail
 
   if (now - lastKeyPressed >= 100)
   {
@@ -60,5 +60,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

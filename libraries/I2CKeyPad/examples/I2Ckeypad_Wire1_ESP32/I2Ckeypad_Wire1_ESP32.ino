@@ -1,5 +1,5 @@
 //
-//    FILE: I2CKeyPad_demo03.ino
+//    FILE: I2Ckeypad_Wire1_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo reading a larger value from the keyPad
 //     URL: https://github.com/RobTillaart/I2CKeyPad
@@ -15,7 +15,7 @@
 
 const uint8_t KEYPAD_ADDRESS = 0x38;
 
-I2CKeyPad keyPad(KEYPAD_ADDRESS);
+I2CKeyPad keyPad(KEYPAD_ADDRESS, &Wire1);
 
 uint32_t start, stop;
 uint32_t lastKeyPressed = 0;
@@ -27,8 +27,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  Wire.begin();
-  Wire.setClock(400000);
+  Wire1.begin(22, 23);  //  adjust pins if needed
+  Wire1.setClock(400000);
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");
@@ -109,4 +109,3 @@ char handleKeyPadValue(uint32_t &value)
 
 
 //  -- END OF FILE --
-

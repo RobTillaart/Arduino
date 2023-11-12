@@ -1,13 +1,13 @@
 #pragma once
 //
 //    FILE: MAX31850.h
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.3
 //    DATE: 2021-06-03
 // PUPROSE: Arduino library for the MAX31850 thermocouple temperature sensor.
 
 
-#define MAX31850_LIB_VERSION     (F("0.1.2"))
+#define MAX31850_LIB_VERSION     (F("0.1.3"))
 
 #include "Arduino.h"
 #include "OneWire.h"
@@ -39,7 +39,7 @@ public:
   float     read(void);
   //        Call read first!!
   float     getTempTC(void);
-  float     getTempInternal(void);  
+  float     getTempInternal(void);
 
   uint8_t   getErrorCode();
   //  TODO

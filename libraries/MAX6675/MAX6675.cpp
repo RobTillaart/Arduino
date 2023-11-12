@@ -1,12 +1,10 @@
 //
 //    FILE: MAX6675.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-11
 //     URL: https://github.com/RobTillaart/MAX6675
-//
-// HISTORY: see changelog.md
 
 
 #include "MAX6675.h"
@@ -106,7 +104,7 @@ uint8_t MAX6675::read()
   //       15    SIGN
   uint16_t value = _read();
 
-  // needs a pull up on MISO pin to work properly!
+  //  needs a pull up on MISO pin to work properly!
   if (value == 0xFFFF)
   {
     _status = STATUS_NO_COMMUNICATION;
@@ -146,7 +144,7 @@ uint32_t MAX6675::_read(void)
   {
     //  split _swSPIdelay in equal dLow and dHigh
     //  dLow should be longer one when _swSPIdelay = odd.
-    uint16_t dHigh = _swSPIdelay/2;
+    uint16_t dHigh = _swSPIdelay / 2;
     uint16_t dLow = _swSPIdelay - dHigh;
     digitalWrite(_select, LOW);
     for (int8_t i = 15; i >= 0; i--)
@@ -165,5 +163,5 @@ uint32_t MAX6675::_read(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

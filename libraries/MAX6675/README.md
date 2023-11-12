@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MAX6675/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MAX6675/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MAX6675/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MAX6675/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MAX6675/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MAX6675.svg)](https://github.com/RobTillaart/MAX6675/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX6675/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX6675.svg?maxAge=3600)](https://github.com/RobTillaart/MAX6675/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MAX6675.svg)](https://registry.platformio.org/libraries/robtillaart/MAX6675)
 
 
 # MAX6675
@@ -31,7 +34,7 @@ Different TC's have a different Seebeck Coefficient (SC) expressed in µV/°C.
 See http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
 
 
-### Breakout
+#### Breakout
 
 The library is tested with a breakout board with following pins:
 
@@ -45,11 +48,17 @@ The library is tested with a breakout board with following pins:
              +---------------------+
 ```
 
+#### Related
+
+- https://github.com/RobTillaart/MAX6675
+- https://github.com/RobTillaart/MAX31850
+- https://github.com/RobTillaart/MAX31855_RT
+
 
 ## Hardware SPI vs software SPI
 
 
-### Pins
+#### Pins
 
 Default pin connections. ESP32 can overrule with **setGPIOpins()**.
 
@@ -61,7 +70,7 @@ Default pin connections. ESP32 can overrule with **setGPIOpins()**.
  | SELECT   | eg. 4 |    5        |   15        |  *can be others too.*
 
 
-### Performance 
+#### Performance 
 
 Performance read() function, timing in us.  
 - UNO @ 16 MHz
@@ -86,8 +95,11 @@ Tested with **MAX6675_test_HWSPI.ino**
 
 ## Interface
 
+```cpp
+#include "MAX6675.h"
+```
 
-### Constructor
+#### Constructor
 
 - **MAX6675()** create object.
 - **void begin(const uint8_t select)** set select pin => hardware SPI
@@ -95,7 +107,7 @@ Tested with **MAX6675_test_HWSPI.ino**
 set CLOCK, SELECT and MISO pin => software SPI
 
 
-### Hardware SPI
+#### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -106,7 +118,7 @@ Del is the time in micros added per bit. Even numbers keep the duty cycle of the
 - **uint16_t getSWSPIdelay()** get set value in micros.
 
 
-### ESP32 specific
+#### ESP32 specific
 
 - **void selectHSPI()** must be called before **begin()**
 - **void selectVSPI()** must be called before **begin()**
@@ -115,7 +127,7 @@ Del is the time in micros added per bit. Even numbers keep the duty cycle of the
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)**  to overrule ESP32 default hardware pins.
 
 
-### Reading
+#### Reading
 
 To make a temperature reading call **read()**.
 It returns the status of the read which is a value between 0..7
@@ -141,7 +153,7 @@ the value of **getTemperature()** can become incorrect. So it is important to ch
 the return value of **read()**.
 
 
-### Offset
+#### Offset
 
 The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
@@ -153,7 +165,7 @@ A typical usage is to call **setOffset(273.15)** to get ° Kelvin.
 - the offset can cause negative temperatures.
 
 
-### Delta analysis
+#### Delta analysis
 
 As the **tc** object holds its last known temperature it is easy to determine the delta 
 with the last known temperature, e.g. for trend analysis.
@@ -170,7 +182,7 @@ with the last known temperature, e.g. for trend analysis.
 ```
 
 
-### Last time read
+#### Last time read
 
 The **tc** object keeps track of the last time **read()** is called in the function **uint32_t lastRead()**.
 The time is tracked in **millis()**. This makes it easy to read the sensor at certain intervals.
@@ -192,7 +204,7 @@ if (millis() - tc.lastRead() >= interval)
 ```
 
 
-### GetRawData 
+#### GetRawData 
 
 The function **uint32_t getRawData()** allows you to get all the 32 bits raw data from the board, 
 after the standard **uint8_t tc.read()** call.
@@ -249,7 +261,26 @@ See examples
 
 ## Future
 
+#### Must
+
+#### Should
+
 - update and verify documentation (as it is copied from MAX31855 lib)
 - keep interface in sync with MAX31855 if possible.
-- 
+
+#### Could
+
+- create example to distinguish between MAX6675 and MAX31855
+  - https://github.com/RobTillaart/MAX6675/issues/5
+
+#### Wont
+ 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

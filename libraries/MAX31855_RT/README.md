@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MAX31855_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MAX31855_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MAX31855_RT.svg)](https://github.com/RobTillaart/MAX31855_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX31855_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX31855_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MAX31855_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MAX31855.svg)](https://registry.platformio.org/libraries/robtillaart/MAX31855)
 
 
 # MAX31855_RT
@@ -37,6 +40,14 @@ Library tested with breakout board.
          +---------+
 
 ```
+
+
+#### Related
+
+- https://github.com/RobTillaart/MAX6675
+- https://github.com/RobTillaart/MAX31850
+- https://github.com/RobTillaart/MAX31855_RT
+
 
 ## Hardware SPI vs software SPI
 
@@ -297,3 +308,13 @@ as one does not set the Seebeck Coefficient it will use the K_TC as default.
 - move code to .cpp
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

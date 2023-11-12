@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -163,7 +163,7 @@ uint32_t MAX31855::_read(void)
   if (_hwSPI)
   {
     mySPI->beginTransaction(_spi_settings);
-    digitalWrite(_select, LOW);         // must be after mySPI->beginTransaction() - see #14 STM32
+    digitalWrite(_select, LOW);         //  must be after mySPI->beginTransaction() - see #14 STM32
     for (uint8_t i = 0; i < 4; i++)
     {
       _rawData <<= 8;

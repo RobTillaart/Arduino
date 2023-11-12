@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2023-11-12
+- update readme.md
+- renamed TEMPERATURE_VERSION => TEMPERATURE_LIB_VERSION
+- updated examples to show LIB version
+- update keywords.txt
+- minor edits
+
+
 ## [0.3.6] - 2023-02-17
 - add **absoluteHumidity(TC, RH)** from relative humidity
 - add **boilingFahrenheit(feet)** boiling temperature Fahrenheit at height in feet.
@@ -17,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [0.3.5] - 2022-11-26
 - added RP2040 to build-CI
@@ -64,6 +71,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - #pragma once, removed WProgram.h, readme.md, comments
 - replaced obsolete links with new ones,
 - tested and removed some code
+
+----
 
 ## [0.1.1] - 2017-07-26
 - double to float (issue #33)

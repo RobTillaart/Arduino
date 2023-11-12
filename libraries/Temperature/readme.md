@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Temperature/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Temperature/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Temperature/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Temperature/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Temperature/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Temperature.svg)](https://github.com/RobTillaart/Temperature/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Temperature/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Temperature.svg?maxAge=3600)](https://github.com/RobTillaart/Temperature/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Temperature.svg)](https://registry.platformio.org/libraries/robtillaart/Temperature)
 
 
 # Temperature
@@ -20,6 +23,14 @@ These functions can be used with temperature and humidity sensors e.g.
 DHT22 or Sensirion, to make a weather station application.
 
 Note: pre-0.3.1 versions have incorrect heat-index.
+
+
+#### Related
+
+- https://en.wikipedia.org/wiki/Heat_index.
+- https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
+- https://wahiduddin.net/calc/density_algorithms.htm
+- https://github.com/RobTillaart/pressure
 
 
 ## Interface
@@ -209,11 +220,19 @@ See examples for typical usage.
 - unit tests
   - absoluteHumidity
   - boiling tests.
+- add function freezing point shift due to pressure.
 
 #### Could
 
-- TEMPERATURE_VERSION => TEMPERATURE_LIB_VERSION
-  - when split of the converter? 0.4.0
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

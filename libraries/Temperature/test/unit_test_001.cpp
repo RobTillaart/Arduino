@@ -40,7 +40,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "TEMPERATURE_VERSION: %s\n", (char *) TEMPERATURE_VERSION);
+  fprintf(stderr, "TEMPERATURE_LIB_VERSION: %s\n", (char *) TEMPERATURE_LIB_VERSION);
 }
 
 

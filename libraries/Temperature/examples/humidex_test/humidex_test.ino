@@ -18,6 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("TEMPERATURE_LIB_VERSION: ");
+  Serial.println(TEMPERATURE_LIB_VERSION);
+  Serial.println();
 
   Serial.println(humidex(25, 50), 2);
 
@@ -42,5 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

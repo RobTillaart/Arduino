@@ -11,6 +11,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("TEMPERATURE_LIB_VERSION: ");
+  Serial.println(TEMPERATURE_LIB_VERSION);
+  Serial.println();
 
   Serial.println(WindChill_F_mph (0, 10, true), 3);
   Serial.println(WindChill_C_kmph(0, 10, true), 3);
@@ -32,4 +35,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -2,7 +2,7 @@
 //
 //    FILE: temperature.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -11,7 +11,8 @@
 #include "Arduino.h"
 
 
-#define TEMPERATURE_VERSION         (F("0.3.6"))
+#define TEMPERATURE_LIB_VERSION         (F("0.3.7"))
+#define TEMPERATURE_VERSION             (F("0.3.7"))    //  obsolete in 0.4.0
 
 
 float Fahrenheit(float celsius);

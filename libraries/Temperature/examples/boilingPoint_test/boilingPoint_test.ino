@@ -15,8 +15,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("TEMPERATURE_VERSION: ");
-  Serial.println(TEMPERATURE_VERSION);
+  Serial.print("TEMPERATURE_LIB_VERSION: ");
+  Serial.println(TEMPERATURE_LIB_VERSION);
   Serial.println();
 
   for (int meters = 0; meters < 5000; meters += 100)
@@ -30,7 +30,6 @@ void setup()
   }
   Serial.println();
 
-
   for (int feet = 0; feet <= 15000; feet += 100)
   {
     Serial.print(feet);
@@ -41,7 +40,6 @@ void setup()
     Serial.print("\n");
   }
   Serial.println();
-
 
   for (float temp = 100; temp >= 80; temp -= 1)
   {
@@ -60,13 +58,11 @@ void setup()
     Serial.print("\n");
   }
   Serial.println();
-
 }
 
 
 void loop()
 {
-
 }
 
 

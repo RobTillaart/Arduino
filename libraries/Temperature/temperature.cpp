@@ -1,7 +1,7 @@
 //
 //    FILE: temperature.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -37,12 +37,12 @@ float dewPoint(float celsius, float humidity)
 {
   //  Calculate saturation vapour pressure
   //  ratio 100C and actual temp in Kelvin
-  float A0 = 373.15 / (273.15 + celsius);
+  float AA0 = 373.15 / (273.15 + celsius);
   //  SVP = Saturation Vapor Pressure - based on ESGG() NOAA
-  float SVP = -7.90298 * (A0 - 1.0);
-  SVP +=  5.02808 * log10(A0);
-  SVP += -1.3816e-7 * (pow(10, (11.344 * ( 1.0 - 1.0/A0))) - 1.0 );
-  SVP +=  8.1328e-3 * (pow(10, (-3.49149 * (A0 - 1.0 ))) - 1.0 ) ;
+  float SVP = -7.90298 * (AA0 - 1.0);
+  SVP +=  5.02808 * log10(AA0);
+  SVP += -1.3816e-7 * (pow(10, (11.344 * ( 1.0 - 1.0/AA0))) - 1.0 );
+  SVP +=  8.1328e-3 * (pow(10, (-3.49149 * (AA0 - 1.0 ))) - 1.0 ) ;
   SVP += log10(1013.246);
 
   //  calculate actual vapour pressure VP;

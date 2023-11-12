@@ -17,11 +17,15 @@ humidex	KEYWORD2
 heatIndex	KEYWORD2
 heatIndexC	KEYWORD2
 
+absoluteHumidity	KEYWORD2
+
 WindChill_F_mph	KEYWORD2
 WindChill_C_kmph	KEYWORD2
 WindChill_C_mps	KEYWORD2
 
-absoluteHumidity	KEYWORD2
+baroToSeaLevelC	KEYWORD2
+seaLevelToAltitude	KEYWORD2
+altitudeToSeaLevel	KEYWORD2
 
 boilingFahrenheit	KEYWORD2
 boilingCelsius	KEYWORD2
@@ -50,4 +54,5 @@ getRomer	KEYWORD2
 
 
 # Constants (LITERAL1)
+TEMPERATURE_LIB_VERSION	LITERAL1
 

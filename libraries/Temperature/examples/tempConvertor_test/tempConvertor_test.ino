@@ -14,7 +14,8 @@ void setup()
   Serial.begin(115200);
   while(!Serial);
   Serial.println(__FILE__);
-
+  Serial.print("TEMPERATURE_LIB_VERSION: ");
+  Serial.println(TEMPERATURE_LIB_VERSION);
   Serial.println();
 
   for (int celsius = -20; celsius <= 125; celsius++)
@@ -103,4 +104,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

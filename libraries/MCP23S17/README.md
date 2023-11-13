@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP23S17/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP23S17/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP23S17/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP23S17/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP23S17/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP23S17.svg)](https://github.com/RobTillaart/MCP23S17/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23S17/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23S17.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23S17/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP23S17.svg)](https://registry.platformio.org/libraries/robtillaart/MCP23S17)
 
 
 # MCP23S17
@@ -242,5 +245,14 @@ See examples.
   - dao and clock - see fastShiftOut.
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

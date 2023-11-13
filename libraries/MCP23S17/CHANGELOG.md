@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.7] - 2023-11-13
+- update readme.md
+- add ledbar example
+
+
 ## [0.2.6] - 2023-08-15
 - optimize 16 bit interface
   - add readReg16() + writeReg16()
@@ -13,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update performance test sketch (multi speeds in one run)
 - update readme.md
 - minor edits
-
 
 ## [0.2.5] - 2023-08-14
 - add ESP32 HSPI / VSPI support (Kudo's to Alex Uta, PR #22)

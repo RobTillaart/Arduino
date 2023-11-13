@@ -14,7 +14,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   for (int i = 80; i < 512; i++)
   {
@@ -33,13 +36,13 @@ void loop()
 }
 
 
-// for a sharp distance range finder
+//  for a sharp distance range finder
 float sharp2cm(int val)
 {
-  // out[] holds the distances in cm
+  //  out[] holds the distances in cm
   float out[] = {150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20};
 
-  // in[] holds the measured analogRead() values for that distance
+  //  in[] holds the measured analogRead() values for that distance
   float in[]  = { 90, 97, 105, 113, 124, 134, 147, 164, 185, 218, 255, 317, 408, 506};
 
   float dist = multiMap<float>(val, in, out, 14);
@@ -47,5 +50,5 @@ float sharp2cm(int val)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

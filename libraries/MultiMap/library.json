@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MultiMap.git"
   },
-  "version": "0.1.7",
+  "version": "0.2.0",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "MultiMap.h"
 }

@@ -4,6 +4,7 @@
 // PURPOSE: demo
 //    DATE: 2023-06-23
 
+
 #include "MultiMap.h"
 
 long in[100];
@@ -11,11 +12,15 @@ long out[100];
 
 volatile int x;
 
+
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   for (int i = 0; i < 100; i++)
   {

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-11-12
+- add multi type **multiMap<T1, T2>** to reduce RAM and speed up lookup.
+- add multi type **multiMapBS<T1, T2>** binary search version.
+- add example for multi type
+- update examples
+- update readme.md
+- minor edits
+
+----
+
 ## [0.1.7] - 2023-06-24
 - add **multiMapCache()**, experimental version that caches the last value.
   to be used with input that do not change often.
@@ -13,7 +23,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   to be used with arrays > 10 (rule of thumb)
 - add examples
 - major rewrite readme.md
-
 
 ## [0.1.6] - 2022-11-17
 - add RP2040 in build-CI
@@ -31,7 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix Arduino-lint
 
 ## [0.1.3] - 2021-01-02
-- add Arduino-CI 
+- add Arduino-CI
 
 ## [0.1.2] - 2020-06-19
 - fix library.json

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MultiMap/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MultiMap/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MultiMap/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MultiMap/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MultiMap/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MultiMap.svg)](https://github.com/RobTillaart/MultiMap/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MultiMap/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MultiMap.svg?maxAge=3600)](https://github.com/RobTillaart/MultiMap/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MultiMap.svg)](https://registry.platformio.org/libraries/robtillaart/MultiMap)
 
 
 # MultiMap
@@ -39,7 +42,25 @@ Of course this approximation introduces an error.
 By increasing the number of points and choose their position strategically the average error will be reduced.
 
 Note: some functions are hard to approximate with multiMap as they go to infinity or have a singularity.
-Think of **tan(x)** around x = PI/2 (90°) or **sin(1/x)** around zero.
+Think of **tan(x)** around x = PI/2 (90Â°) or **sin(1/x)** around zero.
+
+
+#### Related
+
+Other mapping libraries 
+
+- https://github.com/RobTillaart/FastMap
+- https://github.com/RobTillaart/Gamma
+- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/moduloMap
+- https://github.com/RobTillaart/MultiMap
+
+
+## Interface
+
+```cpp
+#include "MultiMap.h"
+```
 
 
 #### Usage
@@ -66,7 +87,7 @@ This is a explicit difference with the **map()** function.
 Therefore it is important to extend the range of the arrays to cover all possible values.
 
 
-#### Performance
+## Performance
 
 **multiMap()** does a linear search for the inputValue in the inputArray.
 This implies that usage of larger and more precise arrays will take more time.
@@ -96,7 +117,8 @@ Experimental 0.1.7 => use with care.
 
 **multiMapCache()** MMC for short, is a very similar function as **multiMap()**.
 The main difference is that MMC caches the last input and output value.
-The goal is to improve the performance by preventing 
+The goal is to improve the performance by preventing searching the same 
+value again and again.
 
 If the input sequence has a lot of repeating values e.g. 2 2 2 2 2 2 5 5 5 5 5 4 4 4 4 2 2 2 2 2 2
 MMC will be able to return the value from cache often. 
@@ -104,16 +126,50 @@ Otherwise keeping cache is overhead.
 
 Be sure to do your own tests to see if MMC improves your performance.
 
+A possible variation is to cache the last interval - lower and upper index.
+It would allow a to test that value and improve the linear search.
+(to be investigated).
 
-#### Related
 
-Other mapping libraries 
+#### MultiMap two types
 
-- https://github.com/RobTillaart/FastMap
-- https://github.com/RobTillaart/Gamma
-- https://github.com/RobTillaart/map2colour
-- https://github.com/RobTillaart/moduloMap
-- https://github.com/RobTillaart/MultiMap
+Experimental 0.2.0 => use with care.
+
+**multiMap<T1, T2>()** MMTT for short, is a very similar function as **multiMap()**.
+The main difference is that MMTT uses two different types, typical the input 
+is an integer type and the output is a float or double type.
+It is expected that there will be a gain if two different sized integer types are used.
+This is not tested.
+
+See the example **multimap_distance_two_types.ino**
+
+```cpp
+// for a sharp distance range finder
+float sharp2cm2(int val)
+{
+  // out[] holds the distances in cm
+  float out[] = {150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20};
+
+  // in[] holds the measured analogRead() values for that distance
+  int in[]  = { 90, 97, 105, 113, 124, 134, 147, 164, 185, 218, 255, 317, 408, 506};
+
+  float dist = multiMap<int, float>(val, in, out, 14);
+  return dist;
+}
+```
+
+A first test indicate that using the int type for the input in the example
+is substantial (~37%) faster per call. Test on UNO, time in micros per call.
+
+|  types  |  time us  |  call  |
+|:-------:|:---------:|:-------|
+|    1    |  194.93   |  ```float dist = multiMap<float>(val, in, out, 14);```       |
+|    2    |  121.97   |  ```float dist = multiMap<int, float>(val, in, out, 14);```  |
+
+Furthermore it is obvious that there is less need for RAM if the integer type is smaller
+in size than the float type.
+
+Be sure to do your own tests to see if MMTT improves your performance.
 
 
 ## Operation
@@ -129,22 +185,17 @@ Please note the fail example as this shows that in the intern math overflow can 
 
 - improve documentation
 
-
 #### Should
 
 - investigate multiMapCache behaviour
   - determine overhead.
-- investigate binary search multiMapBS behaviour
-  - expect a constant time
-  - where is the tipping point between linear and binary search.
-    (expect around size = 8)
 - extend unit tests
-
+  - multi type versions
 
 #### Could
 
 - Investigate class implementation
-  - basic call out = mm.map(value);
+  - basic call ```out = mm.map(value);```
   - runtime adjusting input and output array **begin(in[], out[])**
   - performance / footprint
   - less parameter passing
@@ -154,14 +205,19 @@ Please note the fail example as this shows that in the intern math overflow can 
     now it is constrained without user being informed.
 - Investigate a 2D multiMap e.g. for complex numbers?
   - is it possible / feasible?
-- data type input array does not need to be equal to the output array.
-  - template<typename T1, typename T2>
-    ```T2 multiMapBS(T1 value, T1* _in, T2* _out, uint16_t size)```
-
 
 #### Wont
 
 - should the lookup tables be merged into one array of pairs?
   - you cannot reuse e.g. the input array or the output array then. 
     this would not improve the memory footprint.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

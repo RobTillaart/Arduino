@@ -26,11 +26,11 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
+  delay(100);
 
-
-  //  make sure print has ended
-  delay(10);
   //  determine gain
   performance();
   delay(5000);

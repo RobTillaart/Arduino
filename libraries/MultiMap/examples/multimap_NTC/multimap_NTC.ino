@@ -15,8 +15,8 @@ uint32_t stop;
 
 volatile float x, y, z;
 
-// Note this is a bit an extreme example,
-// normally you only make a multimap of the working range
+//  Note this is a bit an extreme example,
+//  normally you only make a multimap of the working range
 
 
 float in[] = {
@@ -28,7 +28,6 @@ float out[] = {
   8.08, 16.34, 24.30, 32.64, 37.17, 42.13, 48.05, 54.19, 58.75, 66.03, 72.87, 83.85, 96.51, 111.46, 129.49, 182.82, 301.82
 };
 
-
 int sz = 33;
 
 
@@ -36,20 +35,22 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
-  delay(10);  // make sure print has ended
+  delay(100);
 
   start = micros();
   x = val(z);
   stop = micros();
   Serial.println(stop - start);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   start = micros();
   x = multiMap<float>(z, in, out, sz);
   stop = micros();
   Serial.println(stop - start);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   for (int i = 0; i < 1024; i++)
   {
@@ -75,7 +76,7 @@ void loop()
 }
 
 
-// NTC formula
+//  NTC formula
 float val(int sensorValueA1)
 {
   int   R10k_ntc = 9870;
@@ -88,5 +89,5 @@ float val(int sensorValueA1)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

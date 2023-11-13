@@ -6,13 +6,13 @@
 //    (c) : MIT
 //
 //
-// NOTE:
-// use integers instead of floats to minimize RAM. uses ~320 bytes PROGMEM ~120 bytes RAM less on UNO than float version
+//  NOTE:
+//  use integers instead of floats to minimize RAM. uses ~320 bytes PROGMEM ~120 bytes RAM less on UNO than float version
 //
-// this example is added to show how to reduce memory but also how it can FAIL due to math overflow
-// E.g. see around 196-200; 340-400
-// to prevent this one must have more values which increases the memory usage again.
-// 
+//  this example is added to show how to reduce memory but also how it can FAIL due to math overflow
+//  E.g. see around 196-200; 340-400
+//  to prevent this one must have more values which increases the memory usage again.
+
 
 
 #include "MultiMap.h"
@@ -40,19 +40,19 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println();
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   start = micros();
   x = val(z);
   stop = micros();
   Serial.println(stop - start);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   start = micros();
   x = 0.01 * multiMap<int>(z, in, out, sz);
   stop = micros();
   Serial.println(stop - start);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   for (int i = 0; i < 1024; i++)
   {
@@ -77,7 +77,7 @@ void loop()
 }
 
 
-// NTC formula
+//  NTC formula
 float val(int sensorValueA1)
 {
   int   R10k_ntc = 9870;
@@ -90,5 +90,5 @@ float val(int sensorValueA1)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

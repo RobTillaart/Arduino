@@ -24,8 +24,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
-  delay(10);  // make sure print has ended
+  delay(100);
 
   start = micros();
   float x = multiMap<int>(12, in, out, 3);
@@ -33,7 +35,7 @@ void setup()
   Serial.print("time <int>: \t");
   Serial.println(stop - start);
   Serial.println(x, 4);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   start = micros();
   float y = multiMap<float>(12, fin, fout, 3);
@@ -41,7 +43,7 @@ void setup()
   Serial.print("time <float>: \t");
   Serial.println(stop - start);
   Serial.println(y, 4);
-  delay(10);  // make sure print has ended
+  delay(10);  //  make sure print has ended
 
   Serial.println("\ndone...");
 }
@@ -52,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

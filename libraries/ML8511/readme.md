@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/ML8511/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ML8511/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ML8511/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ML8511/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ML8511/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ML8511.svg)](https://github.com/RobTillaart/ML8511/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ML8511/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ML8511.svg?maxAge=3600)](https://github.com/RobTillaart/ML8511/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ML8511.svg)](https://registry.platformio.org/libraries/robtillaart/ML8511)
 
 
 # ML8511
@@ -185,13 +188,10 @@ This is the most lethal the sensor can sense > 80%.
 (Erythemal action spectrum) 
 As we cannot differentiate wavelengths, this is the safest choice.
 
-
 #### 0.1.6 
 
 The formula is simplified to a single factor that the user needs to determine.
-Below is described how to do the calibration. 
-
-
+Below is described how to do the calibration.
 
 ## External ADC
 
@@ -210,19 +210,30 @@ https://en.wikipedia.org/wiki/Ultraviolet_index
 ## Future
 
 #### Must
+
 - improve documentation
 - refactor / reorganize readme.md
 
 #### Should
+
 - test more
 - get unit tests up and running
 - investigate in calibration 
 - check performance
 
 #### Could
+
 - investigate serial UV communication with UV led
 - voltage2mW -> handle negative voltages by taking abs value?
 
 #### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

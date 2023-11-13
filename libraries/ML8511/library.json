@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/ML8511.git"
   },
-  "version": "0.1.10",
+  "version": "0.1.11",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "ML8511.h"
 }

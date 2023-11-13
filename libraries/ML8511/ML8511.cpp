@@ -1,7 +1,7 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.10
+// VERSION: 0.1.11
 //    DATE: 2020-02-03
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511

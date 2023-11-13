@@ -1,7 +1,7 @@
 //
 //    FILE: MT8870.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2019-02-11
 // PURPOSE: Arduino library for MT8870 DTMF decoder (breakout)
 //     URL: https://github.com/RobTillaart/MT8870
@@ -20,7 +20,7 @@ void MT8870::begin(uint8_t STQ, uint8_t Q1, uint8_t Q2, uint8_t Q3, uint8_t Q4)
   _q[3] = Q4;
   for (uint8_t p = 0; p < 4; p++)
   {
-    pinMode(_q[p], INPUT);    // PULLUP ?
+    pinMode(_q[p], INPUT);    //  PULLUP ?
   }
   pinMode(_STQ, INPUT);
 }
@@ -68,5 +68,5 @@ uint32_t MT8870::lastTimeRead()
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,7 +1,7 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: Arduino library to multiplex streams
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex

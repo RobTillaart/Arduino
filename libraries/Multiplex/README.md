@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Multiplex/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/Multiplex/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Multiplex/actions/workflows/jsoncheck.yml)
 [![Arduino-lint](https://github.com/RobTillaart/Multiplex/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Multiplex/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Multiplex/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Multiplex/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Multiplex.svg)](https://github.com/RobTillaart/Multiplex/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Multiplex/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Multiplex.svg?maxAge=3600)](https://github.com/RobTillaart/Multiplex/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Multiplex.svg)](https://registry.platformio.org/libraries/robtillaart/Multiplex)
 
 
 # Multiplex
@@ -46,6 +49,9 @@ If you want to prevent this effect, you should use **reset()** and repopulate th
 
 ## Interface
 
+```cpp
+#include "Multiplex.h"
+```
 
 ### Constructor
 
@@ -155,6 +161,7 @@ See examples
 
 #### Must
 
+- improve documentation
 
 #### Should
 
@@ -165,7 +172,6 @@ See examples
   - usable idea
   - breaking change  ==> 0.3.0
 - add **removeAll()** ==> reset()
-
 
 #### Could
 
@@ -185,4 +191,13 @@ correctly and returns 0 or less than it should.
   (too much memory)
 - test to prevent circular addition of streams?
   - no, is risk of the user.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

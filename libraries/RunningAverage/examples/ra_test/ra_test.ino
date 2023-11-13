@@ -1,5 +1,5 @@
 //
-//    FILE: runningAverageTest.ino
+//    FILE: ra_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
 // PUPROSE: show working of runningAverage
@@ -11,17 +11,31 @@ RunningAverage myRA(10);
 int samples = 0;
 
 
-void setup(void) 
+void setup(void)
 {
   Serial.begin(115200);
-  Serial.println("Demo RunningAverage lib");
-  Serial.print("Version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
-  myRA.clear(); // explicitly start clean
+
+  myRA.clear();  //   explicitly start clean
+
+  for (int i = 0; i < 10; i++)
+  {
+    myRA.add(i * 0.01 + 1 );
+    //    Serial.print(myRA.getCount());
+    //    Serial.print("\t");
+    //    Serial.print(myRA.getAverage(), 3);
+    //    Serial.print("\t");
+    Serial.print(myRA.getStandardDeviation(), 3);
+    Serial.print("\t");
+    Serial.println(myRA.getMaxInBuffer(), 3);
+  }
 }
 
 
-void loop(void) 
+void loop(void)
 {
   long rn = random(0, 1000);
   myRA.addValue(rn * 0.001);
@@ -40,5 +54,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

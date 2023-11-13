@@ -1,8 +1,8 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
-//    DATE: 2015-July-10
+// VERSION: 0.4.4
+//    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
 //
@@ -39,7 +39,7 @@ void RunningAverage::clear()
   _max = NAN;
   for (uint16_t i = _size; i > 0; )
   {
-    _array[--i] = 0.0; // keeps addValue simpler
+    _array[--i] = 0.0;  //  keeps addValue simpler
   }
 }
 
@@ -57,7 +57,7 @@ void RunningAverage::addValue(const float value)
   _sum += _array[_index];
   _index++;
 
-  if (_index == _partial) _index = 0;  // faster than %
+  if (_index == _partial) _index = 0;  //  faster than %
 
   //  handle min max
   if (_count == 0) _min = _max = value;
@@ -82,7 +82,7 @@ float RunningAverage::getAverage()
   {
     _sum += _array[i];
   }
-  return _sum / _count;   // multiplication is faster ==> extra admin
+  return _sum / _count;   //  multiplication is faster ==> extra admin
 }
 
 
@@ -246,10 +246,6 @@ void RunningAverage::setPartial(const uint16_t partial)
 }
 
 
-////////////////////////////////////////////////////////////////
-//
-//  0.4.1 added.
-//
 float RunningAverage::getAverageLast(uint16_t count)
 {
   uint16_t cnt = count;
@@ -308,11 +304,6 @@ float RunningAverage::getMaxInBufferLast(uint16_t count)
 }
 
 
-
-////////////////////////////////////////////////////////////////
-//
-//  Experimental 0.4.3
-//
 float RunningAverage::getAverageSubset(uint16_t start, uint16_t count)
 {
   if (_count == 0)
@@ -334,5 +325,5 @@ float RunningAverage::getAverageSubset(uint16_t start, uint16_t count)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

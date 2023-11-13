@@ -14,10 +14,12 @@ int samples = 0;
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.println("Demo RunningAverage lib");
-  Serial.print("Version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
-  myRA.clear(); // explicitly start clean
+
+  myRA.clear();  //  explicitly start clean
 
   for (int i = 0; i < 20; i++)
   {
@@ -34,7 +36,7 @@ void setup(void)
   Serial.println();
   delay(10000);
 
-  myRA.clear(); // explicitly start clean
+  myRA.clear();  //  explicitly start clean
 }
 
 
@@ -59,4 +61,4 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

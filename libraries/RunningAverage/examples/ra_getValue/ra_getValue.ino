@@ -14,10 +14,11 @@ int samples = 0;
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.println("Demo RunningAverage lib");
-  Serial.print("Version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
-  myRA.clear(); // explicitly start clean
+  myRA.clear();  //  explicitly start clean
 }
 
 
@@ -39,7 +40,7 @@ void loop(void)
   }
   Serial.println();
 
-  // note first values (0..2) will be overwritten by 10..12
+  //  note first values (0..2) will be overwritten by 10..12
   myRA.clear();
   for (uint16_t i = 0; i < 13; i++)
   {
@@ -55,7 +56,7 @@ void loop(void)
   Serial.println();
 
   Serial.print("\t get last 5 elements added: ");
-  int last = myRA.getCount() - 1;     // -1 as first idx == 0
+  int last = myRA.getCount() - 1;     //  -1 as first idx == 0
   for (int i = last; i > last - 5 && i >= 0; i--)
   {
     Serial.print("\t");
@@ -67,5 +68,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

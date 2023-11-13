@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/RunningAverage.git"
   },
-  "version": "0.4.3",
+  "version": "0.4.4",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "RunningAverage.h"
 }

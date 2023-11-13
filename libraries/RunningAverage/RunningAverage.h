@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: RunningAverage.h
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.4.3
-//    DATE: 2016-dec-01
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.4.4
+//    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.3"))
+#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.4"))
 
 
 class RunningAverage
@@ -26,7 +26,7 @@ public:
   void     fillValue(const float value, const uint16_t number);
   float    getValue(const uint16_t position);
 
-  float    getAverage();      //  iterates over all elements.
+  float    getAverage();            //  iterates over all elements.
   float    getFastAverage() const;  //  reuses previous calculated values.
 
   //  return statistical characteristics of the running average
@@ -76,5 +76,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

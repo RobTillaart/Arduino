@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.4] - 2023-10-18
+- update readme.md badges
+- update examples
+- add two step example
+- minor edits
+
+
 ## [0.4.3] - 2022-11-23
 - add changelog.md
 - add RP2040 to build-CI
 - add examples
 - add getAverageSubset(start, count) - experimental
 - update readme.md
-
 
 ## [0.4.2] - 2021-12-28
 - update license

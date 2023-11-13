@@ -17,7 +17,7 @@ void setup(void)
 {
   Serial.begin(115200);
   Serial.print("Demo RunningAverage lib - fillValue ");
-  Serial.print("Version: ");
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
   delay(10);
 
@@ -60,5 +60,5 @@ void measure_duration(int n)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

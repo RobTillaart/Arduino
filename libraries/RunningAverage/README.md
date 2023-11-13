@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/RunningAverage/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/RunningAverage/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RunningAverage/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/RunningAverage/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RunningAverage/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/RunningAverage.svg)](https://github.com/RobTillaart/RunningAverage/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/RunningAverage/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/RunningAverage.svg?maxAge=3600)](https://github.com/RobTillaart/RunningAverage/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/RunningAverage.svg)](https://registry.platformio.org/libraries/robtillaart/RunningAverage)
 
 
 # RunningAverage
@@ -21,13 +24,30 @@ The size of the internal buffer can be set in the constructor.
 
 By keeping track of the **\_sum** the runningAverage can be calculated fast (only 1 division)
 at any time. This is done with **getFastAverage()**. 
-However the constant adding and subtracting when adding new elements possibly introduces an ever increasing error. 
+However the constant adding and subtracting when adding new elements to the RA object possibly 
+introduces an ever increasing error. 
 In tests adding up to 1500000 numbers this error was always small. But that is no proof.
 In version 0.2.16 a fix was added that uses the calculation of the sum in **getAverage()** to 
 update the internal **\_sum**.
 
 
+#### Related
+
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/RunningAngle
+- https://github.com/RobTillaart/RunningAverage
+- https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/statHelpers - combinations & permutations
+- https://github.com/RobTillaart/Statistic
+
+
 ## Interface
+
+```cpp
+#include "RunningAverage.h"
+```
 
 ### Constructor
 
@@ -40,8 +60,10 @@ No default size (yet).
 
 - **void clear()** empties the internal buffer.
 - **void add(float value)** wrapper for **addValue()**
-- **void addValue(float value)** adds a new value to the object, if internal buffer is full, the oldest element is removed.
-- **void fillValue(float value, uint16_t number)**  adds number elements of value. Good for initializing the system to z certain starting average.
+- **void addValue(float value)** adds a new value to the object, if the internal buffer is full, 
+the oldest element is removed.
+- **void fillValue(float value, uint16_t number)**  adds number elements of value. 
+Good for initializing the system to a certain starting average.
 - **float getValue(uint16_t position)** returns the value at **position** from the additions. 
 Position 0 is the first one to disappear.
 - **float getAverage()** iterates over all elements to get the average, slower but accurate. 
@@ -68,7 +90,7 @@ Needs more than one element to be calculable.
 - **uint16_t getCount()** returns the number of slots used of the internal array.
 
 
-## Partial
+## Partial functions
 
 - **void setPartial(uint16_t partial = 0)** use only a part of the internal array. 
 Allows to change the weight and history factor. 
@@ -76,7 +98,7 @@ Allows to change the weight and history factor.
 - **uint16_t getPartial()** returns the set value for partial.
 
 
-## Last
+## Last functions
 
 These functions get the basic statistics of the last N added elements. 
 Returns NAN if there are no elements and it will reduce count if there are less than 
@@ -92,7 +114,7 @@ numbers of the whole buffer to notice changes earlier.
 Otherwise one should create multiple RunningAverage objects each with its own length, 
 effectively having multiple copies of the data added. 
 
-Note: if called with a value larger or equal to **getCount()**  (incl **getSize()**) as 
+Note: if called with a value larger or equal to **getCount()**  (including **getSize()**) as 
 parameter, the functions will return the statistics of the whole buffer. 
 
 
@@ -109,15 +131,40 @@ See examples
 
 ## Future 
 
-#### must
+
+#### Must
+
 - update documentation, explain better
 
-#### should
-- add error handling  (important?)
+#### Should
+
 - check for optimizations.
+  - divide by count happens often ...
 - clear(bool zero = true) to suppress setting all to 0. ?
 
-#### could
-- default size for constructor
+#### Could
+
 - create a double based derived class? Template class?
+- add error handling (important?).
+- investigate **modus()** most frequently occurring value.
+  - difficult with floats ?
+  - what to do when on two or more values are on par?
+
+#### Wont
+
+- default size for constructor
+  - unknown what would be a good choice.
+- clear(bool zero = true) to suppress setting all to 0. ?
+  - makes **addValue()** slightly more complex
+  - could introduce conflicts due to randomness data?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

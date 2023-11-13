@@ -16,8 +16,9 @@ uint32_t start, stop;
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.print("Demo RunningAverage lib - fillValue ");
-  Serial.print("Version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
   delay(10);
 
@@ -68,4 +69,4 @@ void check_statistics()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

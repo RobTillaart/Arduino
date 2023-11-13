@@ -17,11 +17,13 @@ volatile float x;
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.print("\nPerformance RunningAverage lib: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
   Serial.println();
 
-  myRA.clear(); // explicitly start clean
+  myRA.clear();  //  explicitly start clean
 
   for (int i = 0; i < 10; i++)
   {
@@ -30,6 +32,7 @@ void setup(void)
 
   test_clear();
   test_addvalue();
+
   test_fillValue();
   test_getValue();
 
@@ -235,5 +238,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

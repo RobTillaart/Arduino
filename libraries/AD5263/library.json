@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AD5263"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

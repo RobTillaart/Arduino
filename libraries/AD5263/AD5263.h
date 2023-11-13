@@ -2,7 +2,7 @@
 //
 //    FILE: AD5263.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C digital potentiometer AD5263 and compatibles.
 //    DATE: 2023-10-09
 //     URL: https://github.com/RobTillaart/AD5263
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AD5263_LIB_VERSION    (F("0.1.1"))
+#define AD5263_LIB_VERSION    (F("0.1.2"))
 
 
 #define AD5263_OK             0
@@ -34,6 +34,8 @@ public:
   //  RESET
   uint8_t reset();    //  reset all channels to AD5263_MIDPOINT and O1/O2 to LOW
   uint8_t zeroAll();  //  set all channels to 0 and O1/O2 to LOW
+  uint8_t setAll(const uint8_t value);  //  set all channels to value and O1/O2 to LOW
+
 
   //  READ WRITE
   uint8_t read(const uint8_t rdac);

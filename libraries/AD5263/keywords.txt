@@ -5,8 +5,11 @@ AD5263	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+isConnected	KEYWORD2
+
 reset	KEYWORD2
 zeroAll	KEYWORD2
+setAll	KEYWORD2
 
 read	KEYWORD2
 write	KEYWORD2
@@ -18,6 +21,8 @@ getO2	KEYWORD2
 
 midScaleReset	KEYWORD2
 pmCount	KEYWORD2
+
+readBackRegister	KEYWORD2
 shutDown	KEYWORD2
 
 

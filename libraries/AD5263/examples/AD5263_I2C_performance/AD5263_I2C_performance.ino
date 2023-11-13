@@ -18,14 +18,15 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
+  Serial.print("AD5263_LIB_VERSION: ");
   Serial.println(AD5263_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
   Serial.println("\nWRITE");
   delay(10);
-  for (uint32_t speed = 100000; speed <= 800000; speed += 100000)
+  for (uint32_t speed = 100000; speed <= 600000; speed += 50000)
   {
     Wire.setClock(speed);
     bool b = AD01.begin();
@@ -45,7 +46,7 @@ void setup()
 
   Serial.println("\nREAD");
   delay(10);
-  for (uint32_t speed = 100000; speed <= 800000; speed += 100000)
+  for (uint32_t speed = 100000; speed <= 600000; speed += 50000)
   {
     Wire.setClock(speed);
     bool b = AD01.begin();
@@ -70,4 +71,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

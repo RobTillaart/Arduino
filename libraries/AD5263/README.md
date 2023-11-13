@@ -16,8 +16,6 @@ Arduino library for I2C digital potentiometer AD5263 and compatibles.
 
 ## Description
 
-**Experimental** needs testing with hardware.
-
 The AD5263 is a digital potentiometer with 4 channels.
 This digital potentiometers come in 20, 50 and 200 kΩ
 and can be set in 256 steps.
@@ -43,43 +41,44 @@ This library is related to
 
 #### Compatibles
 
-None known so far. 
+None known so far.
 
 
 ## Hardware connection AD5263
 
 Please read datasheet for all details!
 
-|  Pin |   Name    |  Description (short)                   |
-|:----:|:----------|:---------------------------------------|
-|   1  |       B1  |  Resistor Terminal B1.                 |
-|   2  |       A1  |  Resistor Terminal A1 (ADDR = 00).     |
-|   3  |       W1  |  Wiper Terminal W1.                    |
-|   4  |       B3  |  Resistor Terminal B3.                 |
-|   5  |       A3  |  Resistor Terminal A3.                 |
-|   6  |       W3  |  Wiper Terminal W3 (ADDR = 10).        |
-|   7  |      VDD  |  Positive Power Supply                 |
-|   8  |      GND  |  Ground.                               |
-|   9  |      DIS  |  SPI/I2C Select.  SPI = 0, I2C = 1     |
-|  10  |   VLOGIC  |  2.7 - 5.5V Logic Supply Voltage.      |  
-|  11  |  SDI/SDA  |  (SPI data in)    I2C SDA              |
-|  12  |  CLK/SCL  |  Serial Clock     I2C SCL              |
-|  13  |   CS/AD0  |  (SPI Chip Select). I2C address bit 0  |
-|  14  |  RES/AD1  |  (SPI RESET) I2C Address bit 1         |
-|  15  |     SHDN  |  Shutdown. Tie to +5 V if not used.    |
-|  16  |   SDO/O1  |  (SPI data out)   I2C  Output O1       |
-|  17  |    NC/O2  |  (SPI No Connect) I2C Output O2        |
-|  18  |      VSS  |  Negative Power Supply.                |
-|  19  |       W4  |  Wiper Terminal W4 (ADDR = 11).        |
-|  20  |       A4  |  Resistor Terminal A4.                 |
-|  21  |       B4  |  Resistor Terminal B4.                 |
-|  22  |       W2  |  Wiper Terminal W2 (ADDR = 01).        |
-|  23  |       A2  |  Resistor Terminal A2.                 |
-|  24  |       B2  |  Resistor Terminal B2.                 |
+|  Pin  |   Name    |  Description (short)                   |  notes  |
+|:-----:|:----------|:---------------------------------------|:--------|
+|   1   |       B1  |  Resistor Terminal B1.                 |
+|   2   |       A1  |  Resistor Terminal A1    (ADDR = 00)   |
+|   3   |       W1  |  Wiper Terminal W1.                    |
+|   4   |       B3  |  Resistor Terminal B3.                 |
+|   5   |       A3  |  Resistor Terminal A3.                 |
+|   6   |       W3  |  Wiper Terminal W3       (ADDR = 10)   |
+|   7   |      VDD  |  Positive Power Supply                 |
+|   8   |      GND  |  Ground.                               |
+|   9   |      DIS  |  SPI/I2C Select.  SPI = 0, I2C = 1     | connect to VDD |
+|  10   |   VLOGIC  |  2.7 - 5.5V Logic Supply Voltage.      | connect to VDD |
+|  11   |  SDI/SDA  |  (SPI data in)    I2C SDA              |
+|  12   |  CLK/SCL  |  Serial Clock     I2C SCL              |
+|  13   |   CS/AD0  |  (SPI Chip Select). I2C address bit 0  | see Address below |
+|  14   |  RES/AD1  |  (SPI RESET) I2C Address bit 1         | see Address below |
+|  15   |     SHDN  |  Shutdown. Tie to +5 V if not used.    |
+|  16   |   SDO/O1  |  (SPI data out)   I2C  Output O1       |
+|  17   |    NC/O2  |  (SPI No Connect) I2C Output O2        |
+|  18   |      VSS  |  Negative Power Supply.                |
+|  19   |       W4  |  Wiper Terminal W4       (ADDR = 11)   |
+|  20   |       A4  |  Resistor Terminal A4.                 |
+|  21   |       B4  |  Resistor Terminal B4.                 |
+|  22   |       W2  |  Wiper Terminal W2       (ADDR = 01)   |
+|  23   |       A2  |  Resistor Terminal A2.                 |
+|  24   |       B2  |  Resistor Terminal B2.                 |
 
 
-VLOGIC: 
-The logic supply voltage should always be less than or equal to VDD. 
+#### VLOGIC
+
+The logic supply voltage should always be less than or equal to VDD.
 In addition, logic levels must be limited to the logic supply voltage regardless of VDD.
 
 
@@ -101,16 +100,25 @@ Note the AD5263 uses the same range as the AD524X devices.
 
 #### Performance
 
-- TODO: Test with UNO / ESP32 / RP2040 / ...
+Timing in microseconds, writing a new value to device.
 
-|  Speed   |  UNO (us)  |  ESP32 (us)  |
-|:--------:|:----------:|:------------:|
-|  100000  |            |              |
-|  200000  |            |              |
-|  400000  |            |              |
-|  600000  |            |              |
-|  800000  |            |              |
-| 1000000  |            |              |
+|  Speed   |  UNO  |  ESP32  |  RP2040  |  notes  |
+|:--------:|:-----:|:-------:|:--------:|:--------|
+|  100000  |  340  |         |          |
+|  150000  |  240  |         |          |
+|  200000  |  196  |         |          |
+|  250000  |  168  |         |          |
+|  300000  |  148  |         |          |
+|  350000  |  140  |         |          |
+|  400000  |  136  |         |          |  max advised speed  |
+|  450000  |  128  |         |          |
+|  500000  |  124  |         |          |  max working speed  |
+
+
+The Arduino UNO failed to communicate above 500K, therefor
+the max speed advised is 400K
+
+**TODO** Test with ESP32 / RP2040 / ... to fill
 
 
 ## Interface
@@ -147,8 +155,9 @@ rdac should be 0..3.
 #### Misc
 
 - **uint8_t zeroAll()** sets potentiometer's to 0 and I/O to LOW.
-- **uint8_t reset()** sets potentiometer's to midpoint == 127 and I/O to LOW. (startup default)
-- **uint8_t midScaleReset(uint8_t rdac)** resets one potentiometer to midpoint == 127.
+- **uint8_t reset()** sets potentiometer's to midpoint == 128 and O1 and O2 to LOW. (startup default)
+- **uint8_t setAll(uint8_t value)** sets potentiometer's to value and O1 and O2 to LOW.
+- **uint8_t midScaleReset(uint8_t rdac)** resets one potentiometer to midpoint == 128.
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
@@ -170,9 +179,6 @@ rdac should be 0..3.
 #### Must
 
 - update documentation.
-- get hardware (breakout).
-- test with hardware.
-
 
 #### Should
 
@@ -181,7 +187,9 @@ rdac should be 0..3.
 
 - improve error handling.
 - sync with AD520X / AD524X library
-- optimize footprint **write()** and **midScaleReset()**
+- optimize footprint **write()** versions.
+- optimize **midScaleReset()** = ```return write(rdac, AD5263_MIDPOINT);``` 
+  - is this the same?
 - investigate SPI interface (performance better)
 
 

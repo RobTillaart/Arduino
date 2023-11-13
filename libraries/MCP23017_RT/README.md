@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP23017_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP23017_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MCP23017_RT/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP23017_RT.svg)](https://registry.platformio.org/libraries/robtillaart/MCP23017_RT)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP23017.svg)](https://registry.platformio.org/libraries/robtillaart/MCP23017)
 
 
 # MCP23017_RT
@@ -138,20 +138,17 @@ Reading it will reset the flag to **MCP23017_OK**.
 - Improve and extend documentation
 - add examples
 
-
 #### Should
 
 - extend error codes
 - optimize code - squeeze footprint
 - investigate if REV D chips can be detected.
-- add keywords.txt
 
 #### Could
 
 - initial value (16 bit?) as begin parameter (breaking change)
   - depends on input output pull-up etc
 - investigate auto address increment
-
 
 #### Wont
 

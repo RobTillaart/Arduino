@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP23S08.git"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "MCP23S08.h"
 }

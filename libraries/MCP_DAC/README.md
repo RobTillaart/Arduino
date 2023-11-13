@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MCP_DAC/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MCP_DAC/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MCP_DAC/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MCP_DAC/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MCP_DAC/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MCP_DAC.svg)](https://github.com/RobTillaart/MCP_DAC/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MCP_DAC/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MCP_DAC.svg?maxAge=3600)](https://github.com/RobTillaart/MCP_DAC/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MCP_DAC.svg)](https://registry.platformio.org/libraries/robtillaart/MCP_DAC)
 
 
 # MCP_DAC
@@ -247,15 +250,21 @@ See examples
 - test test test and ....
 - improve documentation.
 
-
 #### Should
-
 
 #### Could
 
+- functional names for magic masks.
 - refactor the API (how).
 - minimize conditional in code if possible.
-- functional names for magic masks.
+  - would this work?
+```cpp
+#if defined(ARDUINO_ARCH_RP2040)
+  #define _mySPIClass SPIClassRP2040
+#else
+  #define _mySPIClass SPIClass
+#endif
+```
 
 
 #### Wont
@@ -267,4 +276,13 @@ See examples
     - **selectSPIport(int)** ?
   - would reduce conditional code.
   - does not improve library
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

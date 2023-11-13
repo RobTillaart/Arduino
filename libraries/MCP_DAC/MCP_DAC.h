@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.2.0"))
+#define MCP_DAC_LIB_VERSION       (F("0.2.1"))
 
 
 ///////////////////////////////////////////////////////////////
@@ -23,6 +23,7 @@ class MCP_DAC
 {
 public:
 
+  //  if no pins defined, => HW-SPI
 #if defined(ARDUINO_ARCH_RP2040)
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 *mySPI = &SPI);
 #else
@@ -32,9 +33,9 @@ public:
   //       if only select is given ==> HW SPI
   void     begin(uint8_t select);
 
-  //       0 or 1
+  //       returns 0 or 1
   uint8_t  channels();
-  //       255 (8 bit) or 1023 (10 bit) or 4095 (12 bit)
+  //       returns 255 (=8 bit) or 1023 (=10 bit) or 4095 (=12 bit)
   uint16_t maxValue();
 
   //       gain = 1 or 2

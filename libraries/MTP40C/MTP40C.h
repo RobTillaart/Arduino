@@ -3,20 +3,17 @@
 //    FILE: MTP40C.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for MTP40C + MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// HISTORY: see changelog.md
-//
 // Based upon datasheet June 2020, version 2.0
-//
 
 
 #include "Arduino.h"
 
 
-#define MTP40_LIB_VERSION                     (F("0.3.0"))
+#define MTP40_LIB_VERSION                     (F("0.3.1"))
 
 
 #define MTP40_DEFAULT_ADDRESS                 0x64
@@ -25,12 +22,13 @@
 #define MTP40_INVALID_AIR_PRESSURE            0x01
 #define MTP40_INVALID_GAS_LEVEL               0x02
 #define MTP40_INVALID_ADDRESS                 0xFF
+#define MTP40_REQUEST_FAILED                  0xFFFF
 
 
 class MTP40
 {
 public:
-  MTP40(Stream * str);
+  MTP40(Stream * stream);
 
   bool     begin(uint8_t address = MTP40_DEFAULT_ADDRESS);
   bool     isConnected();
@@ -53,7 +51,7 @@ public:
 
   bool     openSelfCalibration();
   bool     closeSelfCalibration();
-  uint8_t  getSelfCalibrationStatus();
+  uint16_t getSelfCalibrationStatus();
   bool     setSelfCalibrationHours(uint16_t hours);
   uint16_t getSelfCalibrationHours();
 
@@ -108,7 +106,7 @@ protected:
 
 /////////////////////////////////////////////////////////////
 //
-// DERIVED CLASSES
+//  DERIVED CLASSES
 //
 class MTP40C : public MTP40
 {
@@ -122,11 +120,11 @@ class MTP40D : public MTP40
 public:
   MTP40D(Stream * str);
 
-  // TODO
-  // I2C interface
+  //  TODO
+  //  I2C interface
   // PWM interface
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

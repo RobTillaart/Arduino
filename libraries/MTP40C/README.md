@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MTP40C/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/MTP40C/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MTP40C/actions/workflows/jsoncheck.yml)
 [![Arduino-lint](https://github.com/RobTillaart/MTP40C/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MTP40C/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MTP40C/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MTP40C/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MTP40C.svg)](https://github.com/RobTillaart/MTP40C/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MTP40C/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MTP40C.svg?maxAge=3600)](https://github.com/RobTillaart/MTP40C/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MTP40C.svg)](https://registry.platformio.org/libraries/robtillaart/MTP40C)
 
 
 # MTP40C / MTP40D
@@ -90,7 +93,7 @@ Has TTL level RS232, I2C and PWM IO.
 |  9   | GND     | idem                        |
 
 
-#### Links
+#### Related
 
 - https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
 - https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
@@ -237,13 +240,13 @@ moments. Valid values are 24 - 720 .
 
 #### Must
 
+- documentation
 
 #### Should
 
 - CRC verify responses from sensor
 - improve readability code (e.g. parameter names)
 - move code from .h to .cpp file
-
 
 #### Could
 
@@ -258,10 +261,19 @@ moments. Valid values are 24 - 720 .
   - multiplexer
 - investigate commands in PROGMEM?
 
-
 #### Wont (unless on request)
 
 
 ## Sponsor 
 
 The development of this MTP40C library is sponsored by [TinyTronics, Netherlands](https://www.tinytronics.nl/shop/nl).
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

@@ -17,6 +17,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MINMAX_LIB_VERSION: ");
+  Serial.println(MINMAX_LIB_VERSION);
+  Serial.println();
 
   mm.setAutoResetCount(10000);
 }
@@ -26,7 +29,7 @@ void loop()
 {
   int r = random(10001) - 5000;
 
-  if (mm.add(r) != 0x00)  // changed minimum or maximum or reset
+  if (mm.add(r) != 0x00)  //  changed minimum or maximum or reset
   {
     Serial.print(mm.count());
     Serial.print("\t");
@@ -38,5 +41,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

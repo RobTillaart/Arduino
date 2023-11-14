@@ -1,9 +1,13 @@
 
+
 [![Arduino CI](https://github.com/RobTillaart/MINMAX/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MINMAX/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MINMAX/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MINMAX/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MINMAX/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MINMAX.svg)](https://github.com/RobTillaart/MINMAX/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MINMAX/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MINMAX.svg?maxAge=3600)](https://github.com/RobTillaart/MINMAX/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MINMAX.svg)](https://registry.platformio.org/libraries/robtillaart/MINMAX)
 
 
 # MINMAX
@@ -31,9 +35,13 @@ Finally the library keeps track when the last peaks occurred.
 
 ## Interface
 
+```cpp
+#include "MINMAX.h"
+```
+
 #### Core
 
-- **MINMAX** Constructor,
+- **MINMAX()** Constructor,
 - **uint8_t add(float value)** add next value. Returns status (bit flags), see table below.
 - **void reset()** resets the minimum and maximum to 0.
 - **float minimum()** returns last minimum. Can be higher than previous call due to **reset()** or **autoReset()**.
@@ -83,7 +91,7 @@ See examples.
 ## Obsolete
 
 - **void autoReset(uint32_t count)** obsolete since 0.2.0
-Replaced by **void setAutoResetCount()**
+Replaced by **void setAutoResetCount(uint32_t count)**
 
 
 ## Operation
@@ -93,21 +101,26 @@ The examples show the basic working of the functions.
 
 ## Future
 
-#### must
+#### Must
 
-#### should
+- documentation
+
+#### Should
+
 - separate call back for MINMAX_MIN_CHANGED and MINMAX_MAX_CHANGED
 - add getLastEvent()?
 - add AVG **average()** **sum()**
   - like a digital multimeter (DMM)
   - **sum()** would be sufficient as average can be derived.
 
-#### could
+#### Could
+
 - Template class to allow other types
   - int32_t uint64_t double etc.
   - now you loose precision
 
-#### wont (unless)
+#### Wont (unless)
+
 - thresholds, windowing + triggers  (separate class?)
 - auto-reset after time? (would affect all functions  ?)
   - need a uint32_t start;
@@ -116,4 +129,11 @@ The examples show the basic working of the functions.
   - should be tested for in every function call.
 
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

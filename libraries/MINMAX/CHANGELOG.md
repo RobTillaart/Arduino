@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2023-11-14
+- update readme.md
+- update examples
+
+
 ## [0.2.0] - 2022-12-07
 - fix #6 split in .cpp and .h
 - remove obsolete autoReset()
@@ -13,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords.txt
 - update unit test
 - update examples
-
 
 ----
 

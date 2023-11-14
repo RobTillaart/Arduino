@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/nibbleArray/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/nibbleArray/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/nibbleArray/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/nibbleArray/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/nibbleArray/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/nibbleArray.svg)](https://github.com/RobTillaart/nibbleArray/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/nibbleArray/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/nibbleArray.svg?maxAge=3600)](https://github.com/RobTillaart/nibbleArray/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/nibbleArray.svg)](https://registry.platformio.org/libraries/robtillaart/nibbleArray)
 
 
 # nibbleArray
@@ -33,7 +36,6 @@ The BitArray library is one from a set of three:
 - https://github.com/RobTillaart/BitArray for elements of user defined size in bits (values 0 .. 2^n-1).
 - https://github.com/RobTillaart/BoolArray for elements of 1 bit (values 0 .. 1).
 - https://github.com/RobTillaart/nibbleArray for elements of 4 bits or smaller (values 0 .. 15).
-
 
 
 ## Interface
@@ -68,7 +70,6 @@ If value > 15 it will be truncated.
 - add a begin() function that does the work now done in constructor (0.3.0)
   - similar to bitArray and BoolArray classes.
 
-
 #### Should
 
 - align interface with BoolArray and bitArray.
@@ -77,14 +78,21 @@ If value > 15 it will be truncated.
 - allow larger allocations for non AVR, how?
   - don't test for size, user responsibility?
 
-
 #### Could
 
 - implement NIBBLEARRAY_ERROR_VALUE for set and setAll ??
   - for now user responsibility.
 
-
-#### Won't
+#### Wont
 
 - setAll( f() ) - fill the array by calling a function n times?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

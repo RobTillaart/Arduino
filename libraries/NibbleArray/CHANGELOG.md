@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2023-11-14
+- update readme.md
+
+
 ## [0.2.5] - 2023-02-08
 - update readme.md
 - fix keywords.txt
 - improve measurement - nibbleArray_performance.ino
 - update GitHub actions
 - update license 2023
-
 
 ## [0.2.4] - 2022-11-18
 - add RP2040 in build-CI

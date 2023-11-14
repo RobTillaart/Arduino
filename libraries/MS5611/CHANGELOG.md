@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-11-14
+- simplify begin()
+- refactor constructor
+- update readme.md
+- update examples
+- add ESP32 and RP2040 minimal example.
+- update keywords.txt
+
+----
+
 ## [0.3.9] - 2022-10-26
 - add RP2040 support to build-CI
 - add CHANGELOG.md

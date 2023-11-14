@@ -8,6 +8,7 @@
 
 #include "MS5611.h"
 
+
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -26,6 +27,7 @@
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 
+
 MS5611 MS5611(0x77);
 
 #ifndef LED_BUILTIN
@@ -39,14 +41,15 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
-  pinMode(LED_BUILTIN, OUTPUT);
-
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
+  Serial.println();
 
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  Wire.begin();
   if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");
@@ -133,5 +136,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

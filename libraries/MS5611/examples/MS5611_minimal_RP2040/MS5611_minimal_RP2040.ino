@@ -1,8 +1,8 @@
 //
-//    FILE: MS5611_minimal.ino
+//    FILE: MS5611_minimal_RP2040.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2021-12-24
+//    DATE: 2023-11-14
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -42,6 +42,8 @@ void setup()
   Serial.println();
 
   Wire.begin();
+  Wire.setSDA(14);  //  adjust RP2040 pins if needed
+  Wire.setSCL(15);  //  adjust RP2040 pins if needed
   if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");

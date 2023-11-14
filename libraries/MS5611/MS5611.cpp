@@ -2,8 +2,8 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.9
-// PURPOSE: MS5611 Temperature & Humidity library for Arduino
+// VERSION: 0.4.0
+// PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 //
 //  HISTORY see changelog.md
@@ -24,9 +24,10 @@
 //
 //  PUBLIC
 //
-MS5611::MS5611(uint8_t deviceAddress)
+MS5611::MS5611(uint8_t deviceAddress, TwoWire * wire)
 {
   _address           = deviceAddress;
+  _wire              = wire;
   _samplingRate      = OSR_ULTRA_LOW;
   _temperature       = MS5611_NOT_READ;
   _pressure          = MS5611_NOT_READ;
@@ -39,30 +40,9 @@ MS5611::MS5611(uint8_t deviceAddress)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool MS5611::begin(uint8_t dataPin, uint8_t clockPin, TwoWire * wire)
+bool MS5611::begin()
 {
   if ((_address < 0x76) || (_address > 0x77)) return false;
-
-  _wire = wire;
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-
-  return reset();
-}
-#endif
-
-
-bool MS5611::begin(TwoWire * wire)
-{
-  if ((_address < 0x76) || (_address > 0x77)) return false;
-  _wire = wire;
-  _wire->begin();
   if (! isConnected()) return false;
 
   return reset();

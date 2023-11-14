@@ -1,8 +1,8 @@
 //
-//    FILE: MS5611_minimal.ino
+//    FILE: MS5611_minimal_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2021-12-24
+//    DATE: 2023-11-14
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -41,7 +41,7 @@ void setup()
   Serial.println(MS5611_LIB_VERSION);
   Serial.println();
 
-  Wire.begin();
+  Wire.begin(22, 23);  //  adjust ESP32 pins if needed
   if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");

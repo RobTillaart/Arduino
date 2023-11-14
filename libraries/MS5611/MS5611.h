@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -30,7 +30,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.3.9"))
+#define MS5611_LIB_VERSION                    (F("0.4.0"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77
@@ -54,12 +54,9 @@ enum osr_t
 class MS5611
 {
 public:
-  explicit MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS);
+  explicit MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl, TwoWire *wire = &Wire);
-#endif
-  bool     begin(TwoWire *wire = &Wire);
+  bool     begin();
   bool     isConnected();
 
   //       reset command + get constants
@@ -97,7 +94,7 @@ public:
   //  last time in millis() when the sensor has been read.
   uint32_t lastRead() const        { return _lastRead; };
 
-  //       _deviceID is a SHIFT XOR merge of 7 PROM registers, reasonable unique
+  //  _deviceID is a SHIFT XOR merge of 7 PROM registers, reasonable unique
   uint32_t getDeviceID() const     { return _deviceID; };
 
   void     setCompensation(bool flag = true) { _compensation = flag; };
@@ -138,5 +135,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

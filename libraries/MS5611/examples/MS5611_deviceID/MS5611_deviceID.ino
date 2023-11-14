@@ -26,6 +26,7 @@
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 
+
 MS5611 MS5611(0x77);
 
 
@@ -36,14 +37,15 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
-  pinMode(LED_BUILTIN, OUTPUT);
-
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
+  Serial.println();
 
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  Wire.begin();
   if (MS5611.begin() == true)
   {
     Serial.print("MS5611 found: ");
@@ -69,4 +71,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

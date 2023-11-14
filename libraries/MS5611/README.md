@@ -2,13 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/MS5611/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MS5611/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MS5611/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MS5611/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MS5611/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MS5611.svg)](https://github.com/RobTillaart/MS5611/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MS5611/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MS5611.svg?maxAge=3600)](https://github.com/RobTillaart/MS5611/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS5611.svg)](https://registry.platformio.org/libraries/robtillaart/MS5611)
 
 
 # MS5611
 
-Arduino library for MS5611 pressure (and temperature) sensor.
+Arduino library for MS5611 temperature and pressure sensor.
 
 
 ## Description
@@ -118,19 +121,29 @@ The library implements **reset(uint8_t mathMode = 0)** to select the mathMode.
 
 See issue #33.
 
+#### 0.4.0 breaking change
+
+refactored the Wire dependency. Affected are:
+- constructor
+- begin()
+
+User has to call **Wire.begin()** (or equivalent) before calling **ms5611.begin()**
+
 
 ## Interface
 
+```cpp
+#include "MS5611.h"
+```
+
 #### Base
 
-- **MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS)** constructor.
-Since 0.3.7 a default address 0x77 is added.
-- **bool begin(uint8_t sda, uint8_t scl, TwoWire \*wire = &Wire)** for ESP and alike, optionally set Wire interface. 
+- **MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
+Since 0.3.7 a default address 0x77 is added. Optionally set Wire interface.
+- **bool begin()**
 Initializes internals by calling reset().
-Return false indicates either isConnected() error or reset() error.
-- **bool begin(TwoWire \*wire = &Wire)** for UNO and alike, optionally set Wire interface. 
-Initializes internals by calling reset().
-Return false indicates either isConnected() error or reset() error.
+Return false indicates either isConnected() error or reset() error.  
+One must call **Wire.begin()** (or equivalent) before calling **begin()**.
 - **bool isConnected()** checks availability of device address on the I2C bus.
 (see note above NANO 33 BLE).
 - **bool reset(uint8_t mathMode = 0)** resets the chip and loads constants from its ROM.
@@ -218,22 +231,30 @@ Disabling the compensation will be slightly faster but you loose precision.
 - **getCompensation()** returns flag set above.
 
 
-## Operation
-
-See examples
-
-
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 
-#### should
+#### Should
+
 - proper error handling.
 - move all code to .cpp
 
-#### could
+#### Could
+
 - redo lower level functions?
 - handle the read + math of temperature first?
 
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

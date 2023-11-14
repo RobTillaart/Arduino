@@ -6,8 +6,8 @@
 //     URL: https://github.com/RobTillaart/MS5611
 
 
-#include "Arduino.h"
-#include "Wire.h"
+#include "MS5611.h"
+
 
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
@@ -31,12 +31,18 @@
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MS5611_LIB_VERSION: ");
+  Serial.println(MS5611_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.beginTransmission(0x76);
   Wire.write(0);
   int x = Wire.endTransmission();
+
   Wire.beginTransmission(0x77);
   Wire.write(0);
   int y = Wire.endTransmission();
@@ -45,9 +51,9 @@ void setup()
   Serial.println(y);
   delay(1000);
 
-  if (x == 0) Serial.println("MS5611 found at 0x76");
+  if (x == 0)      Serial.println("MS5611 found at 0x76");
   else if (y == 0) Serial.println("MS5611 found at 0x77");
-  else Serial.println("no MS5611 found");
+  else             Serial.println("no MS5611 found");
 
   Serial.println("done...");
 }
@@ -58,4 +64,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

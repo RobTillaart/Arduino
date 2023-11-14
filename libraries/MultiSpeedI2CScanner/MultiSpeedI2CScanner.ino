@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.16
+// VERSION: 0.1.17
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
@@ -393,7 +393,10 @@ void I2Cscan()
   startScan = millis();
   uint8_t count = 0;
 
-  if (disableIRQ) noInterrupts();
+  if (disableIRQ)
+  {
+    noInterrupts();
+  }
 
   if (header)
   {

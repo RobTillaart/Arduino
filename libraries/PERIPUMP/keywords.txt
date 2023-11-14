@@ -1,4 +1,4 @@
-# Syntax Colouring Map For peristaltic
+# Syntax Colouring Map For PERIPUMP
 
 # Data types (KEYWORD1)
 PERIPUMP	KEYWORD1

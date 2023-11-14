@@ -6,8 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.1] - 2022-10-14
+## [0.1.2] - 2023-11-14
+- update readme.md
+- update keywords.txt
 
+
+## [0.1.1] - 2022-10-14
 - add parameter to begin(float percentage)
 - refactored stop()
 - refactored setPercentage()
@@ -18,9 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add setInvert(flag = false)
 - updated readme.md
 
-
 ## [0.1.0] - 2022-10-13
-
 - initial version
 - add stop(), get- and setPercentage()
 - add getSeconds(), resetSeconds() for simple duration management.

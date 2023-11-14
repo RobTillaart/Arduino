@@ -1,7 +1,7 @@
 //
 //    FILE: PERIPUMP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
 
@@ -118,5 +118,5 @@ float PERIPUMP::resetRunTime()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

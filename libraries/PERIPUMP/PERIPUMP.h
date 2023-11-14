@@ -2,7 +2,7 @@
 //
 //    FILE: PERIPUMP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 #include "Servo.h"
 
-#define PERIPUMP_LIB_VERSION                  (F("0.1.1"))
+#define PERIPUMP_LIB_VERSION                  (F("0.1.2"))
 
 
 class PERIPUMP
@@ -59,5 +59,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PERIPUMP/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PERIPUMP/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PERIPUMP/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PERIPUMP/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PERIPUMP/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PERIPUMP.svg)](https://github.com/RobTillaart/PERIPUMP/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PERIPUMP/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PERIPUMP.svg?maxAge=3600)](https://github.com/RobTillaart/PERIPUMP/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PERIPUMP.svg)](https://registry.platformio.org/libraries/robtillaart/PERIPUMP)
 
 
 # PERIPUMP
@@ -13,7 +16,7 @@ Arduino library for peristaltic pump DFR0523 and compatibles.
 
 ## Description
 
-VERY EXPERIMENTAL - AVR (UNO) only for now. 
+**VERY EXPERIMENTAL - AVR (UNO) only for now** 
 
 The DFR0523 is a peristaltic pump which can be controlled by a PWM signal. 
 This PWM (Pulse Width Modulation) is provided by the Arduino Servo library.
@@ -66,6 +69,11 @@ This implies an external power supply of 5 (or 6) volts is mandatory.
 
 ## Interface
 
+```cpp
+#include "PERIPUMP.h"
+```
+
+
 ### Base
 
 - **PERIPUMP(uint8_t pumpPin)** constructor. pumpPin should be a PWM supporting pin.
@@ -107,21 +115,19 @@ The examples show the basic working of the functions.
 
 #### Must (next release)
 
+- documentation
 - investigate calibration process
   - function to set the ranges for percentage.
   - four values needed  500-VAR1    VAR2-2500
   - defaults for these variables.
   - could that be command line #defines?
 
-
 #### Should
 
-- update readme.md
 - test more
 - examples
 - investigate flow rate == (non) linear 
 - investigate startup behaviour (had some hickups)
-
 
 #### Could
 
@@ -129,7 +135,6 @@ The examples show the basic working of the functions.
   - add **void setVolumePerSecond(float flow)** indication cm^3 / sec
   - at full speed only?
   - linear / non linear interpolatable (multiMap).
-
 
 #### Won't (for now lowest prio)
 
@@ -143,3 +148,13 @@ The examples show the basic working of the functions.
   - sum += time x speed - is that better?
   - two counters needed, one per direction
 - **incr()** and **decr()** as they are direction dependant.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

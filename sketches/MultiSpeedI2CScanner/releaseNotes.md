@@ -1,27 +1,26 @@
 
-# Release Notes
-
-MultiSpeedI2CScanner
+# Release Notes MultiSpeedI2CScanner
 
 https://github.com/RobTillaart/MultiSpeedI2CScanner
 
 
 ## Version 
 
-0.1.16
+0.1.17
 
+
+### 0.1.17  2023-11-14
+- update readme.md
 
 ### 0.1.16  2023-01-20
 
 - update build-ci
 - add link to I2C scanner class in readme.md
 
-
 ### 0.1.15  2021-12-22
 
 - change Khz =>KHz
 - update license
-
 
 ### 0.1.14  2021-11-10
 
@@ -32,13 +31,11 @@ https://github.com/RobTillaart/MultiSpeedI2CScanner
 - added an I2C bus counter sketch (very minimal)
 - minor edits release notes.
 
-
 ### 0.1.13  2020-12-12
 
 - Add Arduino-CI build process.
 - Added a dummy examples folder with the same .ino source.
 - This shows that the sketch compiles well.
-
 
 ### 0.1.12  2020-12-12
 
@@ -91,5 +88,5 @@ note the latter one must adjust the pins in the code.
 (started 2013-11-05 ?)
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

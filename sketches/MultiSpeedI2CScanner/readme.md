@@ -1,15 +1,23 @@
 
+
 [![Arduino CI](https://github.com/RobTillaart/MultiSpeedI2CScanner/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MultiSpeedI2CScanner.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MultiSpeedI2CScanner/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MultiSpeedI2CScanner.svg?maxAge=3600)](https://github.com/RobTillaart/MultiSpeedI2CScanner/releases)
+
+```
+not used.
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MultiSpeedI2CScanner.svg)](https://registry.platformio.org/libraries/robtillaart/MultiSpeedI2CScanner)
+```
 
 
 # Arduino MultiSpeed I2C Scanner
 
 
-## Version: 0.1.16
+## Version: 0.1.17
 
 
 ## Description
@@ -116,6 +124,9 @@ Check your datasheet to see which speeds are applicable for the processor in use
 
 #### Must
 
+- update documentation
+- test on RP2040
+
 #### Should
 
 #### Could
@@ -124,4 +135,15 @@ Check your datasheet to see which speeds are applicable for the processor in use
 - non-AVR command behind a ```#ifdef``` ?
 - rename releaseNotes.md to changelog.md (in line with libraries)
 - I2C GENERIC RESET address 0x00 CMD 0x06
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

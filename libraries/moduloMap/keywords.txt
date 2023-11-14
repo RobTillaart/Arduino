@@ -6,6 +6,11 @@ moduloMap	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+
+getMinimum	KEYWORD2
+getMaximum	KEYWORD2
+getRange	KEYWORD2
+
 map	KEYWORD2
 rotations	KEYWORD2
 

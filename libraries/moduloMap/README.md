@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/moduloMap/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/moduloMap/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/moduloMap/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/moduloMap/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/moduloMap/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/moduloMap.svg)](https://github.com/RobTillaart/moduloMap/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/moduloMap/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/moduloMap.svg?maxAge=3600)](https://github.com/RobTillaart/moduloMap/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/moduloMap.svg)](https://registry.platformio.org/libraries/robtillaart/moduloMap)
 
 
 # moduloMap
@@ -46,7 +49,22 @@ wheels with known circumference.
 - math fun  
 
 
+#### Related
+
+Other mapping libraries
+
+- https://github.com/RobTillaart/FastMap
+- https://github.com/RobTillaart/Gamma
+- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/moduloMap
+- https://github.com/RobTillaart/MultiMap
+
+
 ## Interface
+
+```cpp
+#include "moduloMap.h"
+```
 
 - **moduloMap()** constructor.
 - **bool begin(float minimum, float maximum)** define the range the numbers should be mapped to.
@@ -80,24 +98,31 @@ The examples show the basic working of the functions.
 
 ## Future
 
-#### must
+#### Must
 
 - elaborate documentation
 - add examples
 
-#### should
+#### Should
 
 - move code to .cpp file
 
-#### could
+#### Could
 
-- are there other than circular modulos
+- are there other than circular modulo?
   - triangular, square, pentagram, fractal?
   - increasing length per rotation (complex)
-- add link to related libraries
-  - angles + fastmap?
 - add **begin(float radius)**
   - assumes circle from 0..max
 
-#### wont
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

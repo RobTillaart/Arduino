@@ -2,7 +2,7 @@
 //
 //    FILE: moduloMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for modulo mapping
 //    DATE: 2022-10-15
 //     URL: https://github.com/RobTillaart/moduloMap
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MODMAP_LIB_VERSION               (F("0.1.1"))
+#define MODMAP_LIB_VERSION               (F("0.1.2"))
 
 
 class MODMAP

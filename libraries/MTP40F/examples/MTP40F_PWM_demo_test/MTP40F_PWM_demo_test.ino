@@ -7,7 +7,7 @@
 //  This sketch is meant to test the PWM conversion formula.
 //  Written for an Arduino UNO.
 //  - it first loops through all possible values.
-//  - then it generates a random pulselength (within range) on pin 7
+//  - then it generates a random pulse length (within range) on pin 7
 //  - connect pin 7 to interrupt pin 3 as test.
 //
 //  Connect the PWM output to the interrupt pin 2 or 3 of the UNO.

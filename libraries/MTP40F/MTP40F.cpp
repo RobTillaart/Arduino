@@ -2,7 +2,7 @@
 //    FILE: MTP40F.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -211,7 +211,7 @@ int MTP40F::lastError()
 
 //////////////////////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t responseLength)
 {

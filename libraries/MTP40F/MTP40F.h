@@ -3,7 +3,7 @@
 //    FILE: MTP40F.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MTP40F_LIB_VERSION                    (F("0.1.1"))
+#define MTP40F_LIB_VERSION                    (F("0.1.2"))
 
 
 #define MTP40F_DEFAULT_ADDRESS                0x64
@@ -64,8 +64,9 @@ public:
 
 
 //////////////////////////////////////////////////////
-
-
+//
+//  PROTECTED
+//
 protected:
   Stream * _ser;
   uint8_t  _buffer[16];

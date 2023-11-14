@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/MTP40F/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/MTP40F/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MTP40F/actions/workflows/jsoncheck.yml)
 [![Arduino-lint](https://github.com/RobTillaart/MTP40F/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MTP40F/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/MTP40F/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MTP40F/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MTP40F.svg)](https://github.com/RobTillaart/MTP40F/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MTP40F/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MTP40F.svg?maxAge=3600)](https://github.com/RobTillaart/MTP40F/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MTP40F.svg)](https://registry.platformio.org/libraries/robtillaart/MTP40F)
 
 
 # MTP40F
@@ -45,7 +48,7 @@ commands e.g. **setSelfCalibration()**.
 The CRC of the sensor responses are not verified by the library (yet).
 
 
-###s# Hardware interface MTP40-F  
+#### Hardware interface MTP40-F  
 
 Has TTL level RS232, I2C and PWM IO.
 
@@ -54,25 +57,25 @@ Has TTL level RS232, I2C and PWM IO.
                        +-------------+
                        |             | 
     VCC (3v3 out)  5 --|             |-- 1 Vin
-    TX             6 --|             |-- 2 GND
-    RX             7 --|             |-- 3 ALARM
-    R?T            8 --|             |-- 4 PWM / I2C
+    TX / SDA       6 --|             |-- 2 GND
+    RX / SCL       7 --|             |-- 3 ALARM
+    R/T            8 --|             |-- 4 PWM / I2C
     GND            9 --|             |
                        |             |
                        +-------------+
 ```
 
-|  Pin  |  Name     |  Description                 |
-|:-----:|:----------|:-----------------------------|
-|   1   |  Vin      |  4.2V - 5.5V                 |
-|   2   |  GND      |  idem                        |
-|   3   |  ALARM    |  HIGH above 1000 PPM, LOW below 800 PPM (hysteresis) |
-|   4   |  PWM/I2C  |  PWM out                     |
-|   5   |  VCC_O    |  3V3 out for serial          |
-|   6   |  TX       |  Transmit 9600 baud or SDA   |
-|   7   |  RX       |  Receive 9600 baud or SCL    |
-|   8   |  R/T      |  select I2C / Serial         |
-|   9   |  GND      |  idem                        |
+|  Pin  |  Name      |  Description                 |
+|:-----:|:-----------|:-----------------------------|
+|   1   |  Vin       |  4.2V - 5.5V                 |
+|   2   |  GND       |  idem                        |
+|   3   |  ALARM     |  HIGH above 1000 PPM, LOW below 800 PPM (hysteresis) |
+|   4   |  PWM/I2C   |  PWM out                     |
+|   5   |  VCC_O     |  3V3 out for serial          |
+|   6   |  TX / SDA  |  Transmit 9600 baud  or SDA  |
+|   7   |  RX / SCL  |  Receive  9600 baud  or SCL  |
+|   8   |  R/T       |  select   Serial     or I2C  |
+|   9   |  GND       |  idem                        |
 
 
 #### Links
@@ -208,7 +211,6 @@ Note: read datasheet!
   datasheet states 0x2000 but that is 8192 which is rather strange.
   Assumption 2000 decimal is meant.
 
-
 #### Could 
 
 - serial bus with multiple devices? => diodes
@@ -224,8 +226,16 @@ Note: read datasheet!
   - some functions returning bool should return int
     to handle errors better MTP40F_OK or ERROR flag.
 
-
 #### Wont
 
 - store SPC point in the class?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

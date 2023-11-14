@@ -1,7 +1,7 @@
 //
 //    FILE: palindrome.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library to do palindrome experiments.
 //     URL: https://github.com/RobTillaart/palindrome
 
@@ -139,10 +139,10 @@ float palindrome::palindromePercentage(const char * str)
   if (str == NULL) return 0;
   int sl = strlen(str);
   if (sl == 0) return 0;
-  if (sl % 2 == 1) sl++;  // correction for odd length strings
+  if (sl % 2 == 1) sl++;  //  correction for odd length strings
   return (200.0 * palindromeCount(str)) / sl;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

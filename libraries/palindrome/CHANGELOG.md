@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2023-11-14
+- update readme.md
+
+
 ## [0.1.2] - 2022-11-19
 - add RP2040 in build-CI
 - add changelog.md
 - update keywords.txt
-
 
 ## [0.1.1] - 2021-12-03
 - add palindromeCount()

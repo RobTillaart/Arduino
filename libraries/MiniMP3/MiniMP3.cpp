@@ -1,7 +1,7 @@
 //
 //    FILE: MiniMP3.cpp
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DFRobotics MP3 player and compatibles.
 
 

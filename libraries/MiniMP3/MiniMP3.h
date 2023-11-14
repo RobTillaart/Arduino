@@ -2,14 +2,14 @@
 //
 //    FILE: MiniMP3.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for DFRobotics MP3 player and compatibles.
 //     URL: https://github.com/RobTillaart/MINIMP3
 
 
 #include "Arduino.h"
 
-#define MINIMP3_LIB_VERSION     (F("0.1.2"))
+#define MINIMP3_LIB_VERSION     (F("0.1.3"))
 
 
 //  EQUALIZER MODI
@@ -45,7 +45,7 @@ public:
 
   //  plays SD:/MP3/####.mp3
   void play(uint16_t track);
-  // void playFolder(uint8_t folder, uint8_t track);
+  //  void playFolder(uint8_t folder, uint8_t track);
   void next();
   void prev();
   void stop();

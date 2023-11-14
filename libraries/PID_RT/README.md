@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PID_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PID_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PID_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PID_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PID_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PID_RT.svg)](https://github.com/RobTillaart/PID_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PID_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PID_RT.svg?maxAge=3600)](https://github.com/RobTillaart/PID_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PID_RT.svg)](https://registry.platformio.org/libraries/robtillaart/PID_RT)
 
 
 # PID_RT
@@ -117,7 +120,6 @@ See examples and
 - update / improve documentation
 - more testing
 
-
 #### Should
 
 - investigate if it works as PI or P controller too.
@@ -125,11 +127,19 @@ See examples and
 - add examples to test more
 - improve unit test
 
-
 #### Could
 
 - add reference to PID book / website?
 - move all code to .cpp
 
-
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

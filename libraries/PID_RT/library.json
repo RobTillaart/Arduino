@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PID_RT"
   },
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "PID_RT.h"
 }

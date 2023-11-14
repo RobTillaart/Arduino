@@ -2,13 +2,14 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: S5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
 
 #include "Arduino.h"
 #include "SPI.h"
+
 
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
@@ -29,7 +30,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.1.2 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.1.3 EXPERIMENTAL"))
 
 
 #define MS5611_READ_OK                        0
@@ -39,11 +40,11 @@
 
 enum osr_t
 {
-    OSR_ULTRA_HIGH = 12,        // 10 millis
-    OSR_HIGH       = 11,        //  5 millis
-    OSR_STANDARD   = 10,        //  3 millis
-    OSR_LOW        = 9,         //  2 millis
-    OSR_ULTRA_LOW  = 8          //  1 millis    Default = backwards compatible
+  OSR_ULTRA_HIGH = 12,        // 10 millis
+  OSR_HIGH       = 11,        //  5 millis
+  OSR_STANDARD   = 10,        //  3 millis
+  OSR_LOW        = 9,         //  2 millis
+  OSR_ULTRA_LOW  = 8          //  1 millis    Default = backwards compatible
 };
 
 
@@ -161,5 +162,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

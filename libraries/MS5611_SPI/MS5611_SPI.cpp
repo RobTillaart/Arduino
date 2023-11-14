@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: MS5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 //
@@ -478,15 +478,15 @@ void MS5611_SPI::initConstants(uint8_t mathMode)
   C[5] = 256;             //  Tref     = C[5] * 2^8     |    * 2^8
   C[6] = 1.1920928955E-7; //  TEMPSENS = C[6] / 2^23    |    / 2^23
 
-  if (mathMode == 1)  //  Appnote version for pressure.
+  if (mathMode == 1)      //  Appnote version for pressure.
   {
-    C[1] = 65536L;          //  SENSt1
-    C[2] = 131072L;         //  OFFt1
-    C[3] = 7.8125E-3;       //  TCS
-    C[4] = 1.5625e-2;       //  TCO
+    C[1] = 65536L;        //  SENSt1
+    C[2] = 131072L;       //  OFFt1
+    C[3] = 7.8125E-3;     //  TCS
+    C[4] = 1.5625e-2;     //  TCO
   }
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

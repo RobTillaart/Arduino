@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MS5611_SPI/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MS5611_SPI/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MS5611_SPI/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MS5611_SPI/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MS5611_SPI/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MS5611_SPI.svg)](https://github.com/RobTillaart/MS5611_SPI/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MS5611_SPI/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MS5611_SPI.svg?maxAge=3600)](https://github.com/RobTillaart/MS5611_SPI/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS5611_SPI.svg)](https://registry.platformio.org/libraries/robtillaart/MS5611_SPI)
 
 
 # MS5611_SPI
@@ -43,7 +46,7 @@ Depending on the configuration self heating can be as low as 0.1°C to as high a
 **WARNING** One should **NOT** use 5V to control I2C address line, SPI select, or 
 the protocol select line. This causes extreme heat build up > 10°C. 
 
-One should only use 3V3 lines for these "selection lines".
+**One should only use 3V3 lines for these "selection lines".**
 
 See also - https://github.com/RobTillaart/MS5611_SPI/issues/3
 
@@ -139,6 +142,10 @@ If you have experiences with this library please share them in the issues.
 
 ## Interface
 
+```cpp
+#include "MS5611_SPI.h"
+```
+
 #### Base
 
 - **MS5611_SPI(uint8_t select, uint8_t dataOut = 255, uint8_t dataIn = 255, uint8_t clock = 255)** constructor.
@@ -175,7 +182,6 @@ Some numbers from datasheet, page 3 MAX column rounded up. (see #23)
 | OSR_STANDARD   |  10   |        1024        |      0.027        |   2300    |
 | OSR_LOW        |  9    |        512         |      0.042        |   1200    |
 | OSR_ULTRA_LOW  |  8    |        256         |      0.065        |    600    | Default = backwards compatible
-
 
 
 #### Offset 
@@ -256,15 +262,30 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 - follow I2C library.
 - investigate internal heating with SPI.
 
-#### should
+#### Should
+
 - proper error handling.
 
-#### could
+#### Could
+
 - redo lower level functions?
 - handle the read + math of temperature first?
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

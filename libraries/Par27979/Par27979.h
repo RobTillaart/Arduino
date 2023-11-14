@@ -2,13 +2,13 @@
 //
 //    FILE: PAR27979.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for Parallax 27979 _serial LCD display
 //     URL: https://github.com/RobTillaart/PAR27979
 
 
 
-#define PAR27929_LIB_VERSION      (F("0.2.4"))
+#define PAR27929_LIB_VERSION      (F("0.2.5"))
 
 #include "Arduino.h"
 

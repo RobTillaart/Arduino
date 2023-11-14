@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PAR27979.git"
   },
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "PAR27979.h"
 }

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PAR27979/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PAR27979/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PAR27979/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PAR27979/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PAR27979/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PAR27979.svg)](https://github.com/RobTillaart/PAR27979/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PAR27979/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PAR27979.svg?maxAge=3600)](https://github.com/RobTillaart/PAR27979/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PAR27979.svg)](https://registry.platformio.org/libraries/robtillaart/PAR27979)
 
 
 # PAR27979
@@ -22,12 +25,15 @@ Should work for 27976 and 27977 display although not tested.
 
 ## Interface
 
+```cpp
+#include "PAR27979.h"
+```
+
 The library implements the **Print** interface to print integers
 floats and strings and all printable types.
 
 The library does not keep any state information, it only implements a few
 methods to make working with it easier.
-
 
 ### Base
 
@@ -83,4 +89,13 @@ only extend on a per request basis
 - more testing.
 - test 27976 and 27977 display 
 - extend unit test
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

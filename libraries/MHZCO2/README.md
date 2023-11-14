@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/MHZCO2/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/MHZCO2/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/MHZCO2/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/MHZCO2/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/MHZCO2/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/MHZCO2.svg)](https://github.com/RobTillaart/MHZCO2/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MHZCO2/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MHZCO2.svg?maxAge=3600)](https://github.com/RobTillaart/MHZCO2/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MHZCO2.svg)](https://registry.platformio.org/libraries/robtillaart/MHZCO2)
 
 
 # MHZCO2
@@ -61,6 +64,10 @@ In previous versions the MTP40F was incorrectly mentioned as compatible.
 
 ## Interface
 
+```cpp
+#include "MHZCO2.h"
+```
+
 #### Constructor
 
 - **MHZCO2()** base class constructor.
@@ -117,7 +124,6 @@ See - https://keelingcurve.ucsd.edu/
 
 #### Should
 
-- plotter example
 - check 3000 PPM
 - fix SoftwareSerial - https://github.com/Arduino-CI/arduino_ci/issues/346
 
@@ -131,4 +137,13 @@ See - https://keelingcurve.ucsd.edu/
 
 
 #### Won't
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

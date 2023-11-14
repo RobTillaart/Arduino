@@ -8,7 +8,7 @@
 /*
    DATASHEET P.?
    Conversion between PWM output and concentration,
-  use interrupt pin 3 of Arduino UNO.
+   use interrupt pin 3 of Arduino UNO.
 */
 
 

@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2023-11-14
+- update readme.md
+- add plotter example (MEGA)
+- update keywords.
+- minor edits
+
+
 ## [0.1.3] - 2023-07-27
 - remove MTP40F as it is not compatible
 - update examples.
 - minor edits.
-
 
 ## [0.1.2] - 2023-01-18
 - fix build - SoftwareSerial problem

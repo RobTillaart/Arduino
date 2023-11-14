@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/ParallelPrinter/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ParallelPrinter/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ParallelPrinter.svg)](https://github.com/RobTillaart/ParallelPrinter/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ParallelPrinter/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ParallelPrinter.svg?maxAge=3600)](https://github.com/RobTillaart/ParallelPrinter/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ParallelPrinter.svg)](https://registry.platformio.org/libraries/robtillaart/ParallelPrinter)
 
 
 # ParallelPrinter
@@ -29,6 +32,10 @@ Have fun!
 
 
 ## Interface
+
+```cpp
+#include "ParallelPrinter.h"
+```
 
 ### Constructor
 
@@ -89,23 +96,34 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 
-#### should
+#### Should
+
 - extend unit tests?
 - test more.
 - extend simulator sketch.
   - Make a front end of a parallel printer, 
   - Accepts the clocked bytes and print them e.g. over serial.
 
-#### could
+#### Could
+
 - derive e.g. an HP or an EPSON printer from this class.
   - special modes e.g. bold italic underline.
 - **write(uint8_t \* buf, uint8_t length)** should be added
   - might not really add to performance..
 - fix blocking TODO in sendByte
 
-#### wont
+#### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

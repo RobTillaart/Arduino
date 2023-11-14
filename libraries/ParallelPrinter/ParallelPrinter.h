@@ -2,7 +2,7 @@
 //
 //    FILE: ParallelPrinter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: parallel printer class that implements the Print interface
 //    DATE: 2013-09-30
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define PARALLELPRINTER_VERSION               (F("0.2.5"))
+#define PARALLELPRINTER_VERSION               (F("0.2.6"))
 
 #define FORMFEED                              12
 #define LINEFEED                              10

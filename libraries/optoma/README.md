@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Optoma/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Optoma/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Optoma/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Optoma/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Optoma/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Optoma.svg)](https://github.com/RobTillaart/Optoma/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Optoma/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Optoma.svg?maxAge=3600)](https://github.com/RobTillaart/Optoma/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Optoma.svg)](https://registry.platformio.org/libraries/robtillaart/Optoma)
 
 
 # Optoma
@@ -34,6 +37,10 @@ Command structure
 
 ## Interface
 
+```cpp
+#include "optoma.h"
+```
+
 The following functions are implemented:
 
 - **Optoma(HardwareSerial\* stream = &Serial)** constructor, default uses Serial, 
@@ -51,6 +58,26 @@ In theory one could have multiple beamers on one RS232 port (never seen or teste
 
 ## Future
 
-- More functionality will be added on a need to basis.
+More functionality will be added on a need to basis.
+
+#### Must
+
+- documentation
+
+#### Should
+
+#### Could
+
 - Create examples.
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -1,7 +1,7 @@
 //
 //    FILE: optoma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2017-11-27
 // PUPROSE: Arduino library to control Optoma W305ST beamer over RS232.
 //     URL: https://github.com/RobTillaart/optoma

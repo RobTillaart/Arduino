@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-11-14
+- update readme.md
+
+
 ## [0.1.4] - 2022-11-18
 - released 0.1.3 after (to prevent gap)
 - add RP2040 in build-CI
 - add changelog.md
 - moved code to .cpp
 - redo constructor.
-
 
 ## [0.1.3] - 2021-12-22  (not released)
 - update library.json

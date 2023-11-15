@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: PinInGroup.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.8
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.9
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define PININGROUP_LIB_VERSION        (F("0.1.8"))
+#define PININGROUP_LIB_VERSION        (F("0.1.9"))
 
 
 //  smaller MAXSIZE will reduce memory footprint with ditto bytes.

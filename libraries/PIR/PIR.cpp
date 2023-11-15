@@ -1,7 +1,7 @@
 //
 //    FILE: PIR.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-08-13
 // PURPOSE: PIR library for Arduino.
 //     URL: https://github.com/RobTillaart/PIR

@@ -2,7 +2,7 @@
 //
 //    FILE: PIR.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-08-13
 // PURPOSE: PIR library
 //     URL: https://github.com/RobTillaart/PIR
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define PIR_LIB_VERSION        (F("0.1.2"))
+#define PIR_LIB_VERSION        (F("0.1.3"))
 
 //
 #define PIR_OK                0x00
@@ -51,7 +51,6 @@ public:
   //  returns 0 or 1.  (in fact just a digitalRead(pin).
   //  does not affect lastValue()
   uint8_t read(uint8_t index);
-
 
 
 protected:

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PIR/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PIR/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PIR/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PIR/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PIR/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PIR.svg)](https://github.com/RobTillaart/PIR/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PIR/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PIR.svg?maxAge=3600)](https://github.com/RobTillaart/PIR/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PIR.svg)](https://registry.platformio.org/libraries/robtillaart/PIR)
 
 
 # PIR
@@ -26,6 +29,10 @@ Instead of PIR sensors one can add other DigitalOut sensors or even switches.
 
 ## Interface
 
+```cpp
+#include "PIR.h"
+```
+
 #### Base
 
 - **PIR()** constructor. Allocated room for 8 PIRs.
@@ -41,6 +48,7 @@ Returns a bit mask of HIGH / LOW values.
 Not used slots will return 0.
 - **uint8_t read(uint8_t index)** read a specific PIR sensor.
 Faster than read() above.
+Does not affect **lastValue()**
 - **uint8_t lastValue()** returns last values read (bit mask) with read().
 - **uint8_t changed()** returns bit mask of pins that changed since last read().
 This can improve processing in some cases.
@@ -49,13 +57,16 @@ This can improve processing in some cases.
 ## Future
 
 #### Must
+
 - update documentation
 
 #### Should
+
 - add examples
   - interrupts?
 
 #### Could
+
 - investigate PIR16 PIR32 class that can hold more
   - think MEGA2560.
   - or dynamic allocation?  0.2.0
@@ -65,6 +76,7 @@ This can improve processing in some cases.
 - **clear()** to reset whole object?
 
 #### Wont
+
 - PIR class based upon a PCF8574?
   - separate class
 - timestamp per PIR
@@ -76,4 +88,13 @@ This can improve processing in some cases.
 - investigate noise (what noise)
 - **remove(pin)**
   - difficult, more admin, expectations...
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -1,7 +1,7 @@
 //
 //    FILE: PinOutGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2017-04-26
 // PURPOSE: PinOutGroup library for Arduino
 //          goal is to easily change a group of pins that logically
@@ -9,7 +9,6 @@
 //          these pins can be in any order.
 //     URL: https://github.com/RobTillaart/PinOutGroup
 //          http://forum.arduino.cc/index.php?topic=469599.0
-
 
 
 #include "PinOutGroup.h"

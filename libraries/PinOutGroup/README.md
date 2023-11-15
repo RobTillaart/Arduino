@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PinOutGroup/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PinOutGroup/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PinOutGroup/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PinOutGroup/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PinOutGroup/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PinOutGroup.svg)](https://github.com/RobTillaart/PinOutGroup/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PinOutGroup/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PinOutGroup.svg?maxAge=3600)](https://github.com/RobTillaart/PinOutGroup/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PinOutGroup.svg)](https://registry.platformio.org/libraries/robtillaart/PinOutGroup)
 
 
 # PinOutGroup
@@ -21,7 +24,12 @@ If a (group of) pin(s) is updated often this saves CPU cycles however this featu
 has overhead which works contra productive when you toggle the pins in a group. 
 So use with care.
 
-Default PINOUTGROUP_MAXSIZE = 16.
+Default **PINOUTGROUP_MAXSIZE** = 16.
+
+
+#### Related
+
+- https://github.com/RobTillaart/PinInGroup
 
 
 ## Performance 
@@ -40,11 +48,13 @@ This is platform, group size and pin state dependent.
 
 ## Interface
 
+```cpp
+#include "PinOutGroup.h"
+```
 
 ### Constructor
 
 - **PinOutGroup()** Constructor.
-
 
 ### Administration
 
@@ -80,14 +90,17 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 
-#### should 
+#### Should 
+
 - move code from .h to .cpp
 - should clear() have a flag to set to LOW/HIGH/NOCHANGE when clearing?
 
-#### could
+#### Could
+
 - Optimize the low level writing
   For AVR this could be interesting (performance).
 - extend to 32 bits / pins. class hierarchy. 8, 24 ?
@@ -95,4 +108,14 @@ See examples
 - remove function? 
 - check PinInGroup to stay in "sync" API wise.
 
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

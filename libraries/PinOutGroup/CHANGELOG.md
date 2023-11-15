@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [ 0.1.8] - 2023-11-15
+- update readme.md
+
+
 ## [ 0.1.7] - 2022-11-22
 - add changelog.md
 - add RP2040 to build-CI
 - add PINOUTGROUP_ERROR_PIN
 - update unit test
 - obsolete getIdx()
-
 
 ## [0.1.6] - 2021-12-23
 - update library.json

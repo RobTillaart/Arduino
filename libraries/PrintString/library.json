@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PrintString.git"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "PrintString.h"
 }

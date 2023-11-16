@@ -2,8 +2,8 @@
 //
 //    FILE: PrintString.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
-// PURPOSE: Class that captures prints into a String 
+// VERSION: 0.2.4
+// PURPOSE: Class that captures prints into a String
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintString
 
@@ -12,7 +12,7 @@
 #include "Print.h"
 
 
-#define PRINTSTRING_VERSION       (F("0.2.3"))
+#define PRINTSTRING_VERSION       (F("0.2.4"))
 
 
 class PrintString: public Print
@@ -47,12 +47,16 @@ public:
   }
 
 
-  String getString() { return buffer; }
+  String getString()
+  {
+    return buffer;
+  }
+
 
 private:
   String buffer;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

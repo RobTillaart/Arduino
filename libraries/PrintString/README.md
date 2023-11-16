@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PrintString/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PrintString/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PrintString/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PrintString/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PrintString/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PrintString.svg)](https://github.com/RobTillaart/PrintString/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PrintString/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PrintString.svg?maxAge=3600)](https://github.com/RobTillaart/PrintString/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PrintString.svg)](https://registry.platformio.org/libraries/robtillaart/PrintString)
 
 
 # PrintString
@@ -22,12 +25,19 @@ This String can be requested to process later.
   use to prevent "display line overflow"
   (e.g. floats)
 
-This library is related to
-- https://github.com/RobTillaart/PrintCharArray 
-- https://github.com/RobTillaart/PrintSize.
+
+#### Related
+
+- https://github.com/RobTillaart/PrintCharArray (captures data in a char buffer)
+- https://github.com/RobTillaart/PrintSize (counts length of a number of print commands)
+- https://github.com/RobTillaart/PrintString (captures data in a String)
 
 
 ## Interface
+
+```cpp
+#include "PrintString.h"
+```
 
 - **PrintString()** constructor.
 - **size_t write(uint8_t c)** workhorse I of Print interface.
@@ -44,10 +54,31 @@ See examples.
 
 ## Future
 
+#### Must
+
+- documentation
+
+#### Should
+
 - testing
 - examples
   - add new ones
   - rename examples
 - add functions like **repeat(char c)** to inject e.g. 7 spaces etc.
 - add error flag
-- 
+
+#### Could
+
+- PRINTSTRING_LIB_VERSION
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

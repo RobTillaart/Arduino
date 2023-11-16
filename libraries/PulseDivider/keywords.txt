@@ -20,6 +20,8 @@ getEdge	KEYWORD2
 setInvert	KEYWORD2
 getInvert	KEYWORD2
 
+getCounter	KEYWORD2
+
 start	KEYWORD2
 stop	KEYWORD2
 isRunning	KEYWORD2

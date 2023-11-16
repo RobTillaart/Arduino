@@ -1,7 +1,7 @@
 {
   "name": "PulseDivider",
   "keywords": "Pulse In, Out",
-  "description": "Arduino library to divide a pulsestream with a float factor.",
+  "description": "Arduino library to divide a pulse stream with a float factor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PulseDivider.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

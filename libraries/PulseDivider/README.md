@@ -96,7 +96,7 @@ As said before the numbers above are indicative at best.
 
 **TODO**
 
-test with calibrated pulse generator and highest division rate 1->1.
+test with calibrated pulse generator and highest division rate 1 -> 1 .
 And rewrite this section.
 
 
@@ -157,6 +157,7 @@ Note the unit is microseconds.
 - **uint8_t getEdge()** returns the set trigger.
 - **void setInvert(bool invert)** inverts the output pulse with respect to the input pulse.
 - **bool getInvert()** returns the set flag.
+- **uint16_t getCounter()** returns the internal counter (for debugging).
 
 
 #### Control
@@ -187,13 +188,14 @@ polling, math and calls **doPulse()** when an output pulse is needed.
 - update / rewrite documentation
 - test with (calibrated) hardware.
 
-
 #### Should
 
 - performance measurements
 - test different platforms, configurations, ratios etc.
 - optimize math possible? (16 bit instead of 32 bit for UNO).
-
+- for many pulses - **PulseDivider(32 bit counters)**
+  - allow e.g. 100000 to 1 or even 1000000 to 1 or more.
+  - separate PulseDivider32 class?
 
 #### Could
 
@@ -209,9 +211,7 @@ polling, math and calls **doPulse()** when an output pulse is needed.
   - would slow it down
   - would 8 bit make it faster?
 
-
 #### Won't (unless requested)
-
 
 
 ## Support

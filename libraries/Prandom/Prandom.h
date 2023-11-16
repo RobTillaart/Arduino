@@ -1,8 +1,8 @@
 #pragma once
 //
 //    FILE: Prandom.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.5
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for random numbers with Python Random interface
 //          The underlying pseudo-random number generator is a
 //          Multiply-with-carry method invented by George Marsaglia.
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define PRANDOM_LIB_VERSION                 (F("0.1.5"))
+#define PRANDOM_LIB_VERSION                 (F("0.1.6"))
 
 
 class Prandom
@@ -69,5 +69,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

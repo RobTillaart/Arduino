@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Prandom.git"
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "Prandom.h"
 }

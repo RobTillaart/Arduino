@@ -1,7 +1,7 @@
 //
 //    FILE: randomHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
@@ -54,9 +54,10 @@ bool seedMarsaglia(uint32_t a, uint32_t b)
   return true;
 }
 
+
 //////////////////////////////////////////////////////////
 //
-//
+//  GETTERS
 //
 bool getRandom1()
 {
@@ -250,9 +251,6 @@ uint8_t throwDice()
   // __randomIdx -= 3;
   // return rv;
 }
-
-
-
 
 
 /*

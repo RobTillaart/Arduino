@@ -2,14 +2,14 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION                (F("0.2.6"))
+#define RANDOM_HELPERS_VERSION                (F("0.2.7"))
 
 
 //  the idea is to have one buffer ( __randomBuffer) which holds 32 random bits.
@@ -69,7 +69,7 @@ uint8_t throwDice();     //  1..6
 
 
 /*
-// works well for 1..16; but above it is worse
+//  works well for 1..16; but above it is worse
 uint32_t getRandomBits(uint8_t n)
 {
   if (__randomIdx < n)
@@ -85,8 +85,8 @@ uint32_t getRandomBits(uint8_t n)
 */
 
 
-// n = 1..31
-// TODO: performance gain too low for n > 16
+//  n = 1..31
+//  TODO: performance gain too low for n > 16
 uint32_t getRandomBits(uint8_t n);
 
 

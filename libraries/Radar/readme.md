@@ -1,9 +1,12 @@
 
 [![Arduino CI](https://github.com/RobTillaart/Radar/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![Arduino-lint](https://github.com/RobTillaart/RADAR/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RADAR/actions/workflows/arduino-lint.yml)
-[![JSON check](https://github.com/RobTillaart/RADAR/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RADAR/actions/workflows/jsoncheck.yml)
+[![Arduino-lint](https://github.com/RobTillaart/Radar/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Radar/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/Radar/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Radar/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Radar.svg)](https://github.com/RobTillaart/Radar/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Radar/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Radar.svg?maxAge=3600)](https://github.com/RobTillaart/Radar/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Radar.svg)](https://registry.platformio.org/libraries/robtillaart/Radar)
 
 
 # Radar
@@ -36,6 +39,10 @@ Note: no active development.
 
 
 ## Interface
+
+```cpp
+#include "radar.h"
+```
 
 ### Constructor and config
 
@@ -81,21 +88,32 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - build the thing when time permits!
 - improve documentation.
 
-#### should
+#### Should
+
 - test more (e.g. continuous servo versus 180 servo).
 - add sketches.
 - remember lastPing (angle pan tilt).
 - check TODO's in code.
 - move code from .h to .cpp
 
+#### Could
 
-#### could
 - single servo radar (Pan only) as derived class.
 - dynamic allocation of position arrays.
 - store positions in EEPROM/FRAM for reboot?
 
+#### Wont
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,

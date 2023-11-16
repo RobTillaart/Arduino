@@ -33,6 +33,7 @@ gray2color	KEYWORD2
 grey2color	KEYWORD2
 rgb2color	KEYWORD2
 
+#################################
 # EXPERIMENTAL
 
 deviceType	KEYWORD2
@@ -42,13 +43,25 @@ getScreenSize	KEYWORD2
 screenWidth	KEYWORD2
 screenHeight	KEYWORD2
 
-
 set132columns	KEYWORD2
 set80columns	KEYWORD2
 moveWindowDown	KEYWORD2
 moveWindowUp	KEYWORD2
+
 printScreen	KEYWORD2
+setPrintingMode	KEYWORD2
+
 reset	KEYWORD2
+
+setSmoothScroll	KEYWORD2
+setJumpScroll	KEYWORD2
+printLine	KEYWORD2
+
+invisible	KEYWORD2
+strikeThrough	KEYWORD2
+
+setRGBforeground	KEYWORD2
+setRGBbackground	KEYWORD2
 
 
 # Constants (LITERAL1)

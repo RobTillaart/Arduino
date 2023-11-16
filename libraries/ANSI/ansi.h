@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.3.0"))
+#define ANSI_LIB_VERSION        (F("0.3.1"))
 
 
 class ANSI : public Stream
@@ -92,8 +92,13 @@ public:
   uint8_t rgb2color(uint8_t r, uint8_t g, uint8_t b);
 
 
+  ///////////////////////////////////////////////////////
+  //
   //  EXPERIMENTAL SECTION
-  //    use at own risk
+  //
+  //  use at own risk
+  //  check if it works on your terminal
+
 
   //  TERMINAL TYPE
   //  - https://github.com/RobTillaart/ANSI/issues/9
@@ -119,16 +124,24 @@ public:
   inline uint16_t screenHeight() { return _height; };
 
 
-  //  check if it works on your terminal
-  //                                                  TERATERM
+  //  COLUMNS
+  //  check if it works on your terminal              TERATERM
   void set132columns()   { print("\033[?3h");  };  //  +
   void set80columns()    { print("\033[?3l");  };  //  +
 
+
+  //  MOVE WINDOW
+  //  check if it works on your terminal              TERATERM
   void moveWindowDown()  { print("\033M");     };  //  +
   void moveWindowUp()    { print("\033D");     };  //  +
 
+
   //  PRINTING
+  //  check if it works on your terminal              TERATERM
   void printScreen()     { print("\033[i");    };  //  +
+  void setPrintingMode(bool on)                    //  +
+       { print( on ? "\e[5i" : "\e[4i"); }
+
 
   //  RESET terminal to initial state
   void reset()           { print("\033c");     };  //  +
@@ -137,20 +150,37 @@ public:
   //  NOT working on TERATERM (or need more testing)
   //  use at own risk
   //  check if it works on your terminal              TERATERM
-  /*
   void setSmoothScroll() { print("\033[?4h");  };  //  -
   void setJumpScroll()   { print("\033[?4l");  };  //  -
+  void printLine()       { print("\033[1i");   };  //  -
 
   //  to be used for password?
   void invisible()       { print("\033[8m");   };  //  -
+  void strikeThrough()   { print("\033[9m");   };  //  -  (mobaXterm works)
 
-  //  PRINTING
-  //  use at own risk
-  //  check if it works on your terminal              TERATERM
-  void printLine()       { print("\033[1i");   };  //  ?
-  void startPrintLog()   { print("\033[4i");   };  //  ?
-  void stopPrintLog()    { print("\033[5i");   };  //  ?
-  */
+
+  //  RGB_COLOR
+  void setRGBforeground(uint8_t r, uint8_t g, uint8_t b)  //  -
+  {
+    print("\033[38;2;");
+    write(r);
+    write(';');
+    write(g);
+    write(';');
+    write(b);
+    print("m");
+  };
+
+  void setRGBbackground(uint8_t r, uint8_t g, uint8_t b)  //  -
+  {
+    print("\033[48;2;");
+    write(r);
+    write(';');
+    write(g);
+    write(';');
+    write(b);
+    print("m");
+  };
 
 
 protected:
@@ -162,7 +192,7 @@ protected:
   void colors4(uint8_t fgcolor, uint8_t bgcolor);
   void color8(uint8_t base, uint8_t color);
 
-  Stream *   _stream;
+  Stream * _stream;
 
   //  screen size parameters
   uint16_t _width = 0;

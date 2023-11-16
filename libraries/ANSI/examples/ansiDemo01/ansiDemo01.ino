@@ -88,6 +88,29 @@ void setup()
   delay(1000);
   ansi.normal();
 
+  //////////////////////////////////////////////////////////
+  //
+  //  EXPERIMENTAL PART
+  //
+  ansi.clearScreen();
+  ansi.println("Experimental");
+  ansi.invisible();
+  ansi.println("invisible");
+  ansi.normal();
+  ansi.strikeThrough();
+  ansi.println("strikethrough");
+  ansi.normal();
+    
+  // RGB color test
+  ansi.println("Experimental");
+  ansi.setRGBforeground(180, 0, 158);
+  ansi.print("foreground");
+  ansi.normal();
+  ansi.setRGBbackground(180, 0, 158);
+  ansi.println("background");
+  ansi.normal();
+
+
   ansi.println("\ndone...");
 }
 

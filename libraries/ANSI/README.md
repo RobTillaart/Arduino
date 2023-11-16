@@ -31,6 +31,7 @@ The **gotoXY(x, y)** has changed as the X and Y coordinates were swapped.
 The code has been updated to explicitly mention which is row and which is column.
 - **gotoXY(uint8_t column, uint8_t row)** 
 
+
 #### Related
 
 https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -42,13 +43,10 @@ Tests are done with
 - TeraTerm 4.102 + 4.106 (VT100, VT202, VT525 mode)
 - Putty 0.71
 
+See **supportMatrix.md** (limited)
+
 Other terminal program's exist so please let me know if yours is working too.
 If not, please open an issue.
-
-
-## Operation
-
-See examples
 
 
 ## Interface
@@ -120,7 +118,7 @@ Note X == row and Y == column. See #13.
 Look into **ansi.h** for experimental functions and notes.
 
 Version 0.1.6 added a number of experimental function that need more testing.
-Some are working with Teraterm, others are unclear of fail.
+Some are working with TeraTerm, others are unclear of fail.
 The user can uncomment these and verify if these work with their terminal.
 
 
@@ -157,6 +155,39 @@ See - https://github.com/RobTillaart/ANSI/issues/9
 As always, constructive feedback is welcome.
 
 
+##### Experimental (working TeraTerm)
+
+These functions need more testing and might work on
+your favourite terminal.
+As always feedback is welcome.
+
+COLUMNS
+- **void set132columns()**
+- **void set80columns()**
+
+MOVE WINDOW
+- **void moveWindowDown()**
+- **void moveWindowUp()**
+
+PRINTING
+- **void printScreen()**
+- **void setPrintingMode(bool on)**
+
+RESET 
+- **void reset()** terminal to initial state
+
+
+##### Experimental (NOT working TeraTerm)
+
+- **void setSmoothScroll()**
+- **void setJumpScroll()**
+- **void printLine()**
+- **void invisible()** to be used for password?
+- **void strikeThrough()**
+- **void setRGBforeground(uint8_t r, uint8_t g, uint8_t b)**
+- **void setRGBbackground(uint8_t r, uint8_t g, uint8_t b)**
+
+
 ## Performance
 
 Since 0.1.5 there is some focus on performance.
@@ -167,6 +198,7 @@ Since 0.2.0 the (internal) print() statements are replaced by write().
 Although it are small improvements these add up.
 
 
+
 ## Future
 
 #### Must
@@ -175,6 +207,7 @@ Although it are small improvements these add up.
   - elaborate interface
   - colour info
 
+
 #### Should
 
 - test experimental functions
@@ -182,10 +215,12 @@ Although it are small improvements these add up.
 - add examples
   - DOS emulator?
   - experimental section
-- evaluate experimental code
+
 
 #### Could
 
+- investigate a class hierarchy?
+  - base class vs more extended class? (footprint?)
 - increase functionality
   - which codes are generic / useful ?
 - investigate performance.

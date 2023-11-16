@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2023-11-15
+- update readme.md
+- update keywords.txt
+
+
 ## [0.4.1] - 2023-07-13
 - fix #16  signed/unsigned warning
 - update example **print_toRoman.ino** to print 1..5000
@@ -15,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - change return type of **size_t sci(Stream, value, decimals)**
 - add **printInch(inch, step)** e.g 7 7/16
 - add **printFeet(feet)**
-
 
 ## [0.4.0] - 2023-01-28
 - bump version number as fix in 0.3.1 was serious

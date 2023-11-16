@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -499,7 +499,7 @@ char * printInch(float inch, uint16_t step)
     num >>= 1;
     den >>= 1;
   }
-  
+
 #if defined(ESP32)
   //  ESP32 does not support %ld  or ltoa()
   sprintf(buffer, "%d %d/%d", whole, num, den);

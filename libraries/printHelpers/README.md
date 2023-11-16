@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/printHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/printHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/printHelpers/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/printHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/printHelpers/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/printHelpers.svg)](https://github.com/RobTillaart/printHelpers/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/printHelpers/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/printHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/printHelpers/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/printHelpers.svg)](https://registry.platformio.org/libraries/robtillaart/printHelpers)
 
 
 # printHelpers
@@ -252,13 +255,11 @@ When functions are added, the recommended minimum size might increase.
 
 - check TODO's in the code
 
-
 #### Should
 
 - documentation
 - improve readability of the code
   - em ==> exponentFactor?
-
 
 #### Could
 
@@ -269,7 +270,7 @@ When functions are added, the recommended minimum size might increase.
   - could be the log10 pow version?
 - optimize **char \* hex(uint8_t / uint16_t ...)**
 - make this library a .h file only?
-
+- PRINTHELPERS_LIB_VERSION
 
 #### Wont
 
@@ -286,4 +287,13 @@ When functions are added, the recommended minimum size might increase.
   - **sci()** and **eng()**.
   - investigate sci() version based upon use of log()
   - done => see examples.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

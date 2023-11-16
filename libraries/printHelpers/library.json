@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/printHelpers"
   },
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "printHelpers.h"
 }

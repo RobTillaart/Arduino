@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/RAIN/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/RAIN/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RAIN/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/RAIN/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RAIN/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/RAIN.svg)](https://github.com/RobTillaart/RAIN/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/RAIN/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/RAIN.svg?maxAge=3600)](https://github.com/RobTillaart/RAIN/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/RAIN.svg)](https://registry.platformio.org/libraries/robtillaart/RAIN)
 
 
 # RAIN
@@ -13,7 +16,9 @@ RAIN is an Arduino library for a rain sensor (analog).
 
 ## Description
 
-A rain sensor like the FC-37, YL-83, HM-RD a.o. is a relative simple device.
+**Experimental**
+
+A rain sensor like the **FC-37, YL-83, HM-RD** a.o. is a relative simple device.
 It measures the resistance between wires when these are put in a liquid, water or in the ground.
 The device converts the resistance to a voltage typical 0 .. 5 Volt.
 The more the wires are covered by the liquid, the lower the voltage.
@@ -23,7 +28,7 @@ The breakout (LM393 comparator) I used to test also has a digital output,
 which goes LOW if a threshold (to be set with a potentiometer on the breakout) is reached.
 
 The library is EXPERIMENTAL as it needs more testing.
-(changes of the interface are definitely possible).
+Changes of the interface are definitely possible.
 
 
 ## Hardware connection
@@ -46,6 +51,10 @@ Typical connection
 
 
 ## Interface
+
+```cpp
+#include "rain.h"
+```
 
 - **RAIN(uint8_t analogPort, uint8_t powerPin = 255)** constructor.
 analogPort is the internal analog port to use.
@@ -137,7 +146,6 @@ For other applications it depends.
 - update documentation
   - links etc.
 
-
 #### Should
 
 - optimizations
@@ -145,7 +153,6 @@ For other applications it depends.
 - getLevel() split into level() + getLevel(nr);  //  semantics
   - breaking change == 0.2.0
   - level(0) should be settable too
-
 
 #### Could
 
@@ -160,7 +167,6 @@ For other applications it depends.
   - different liquids? which?
   - how linear is the device?
 
-
 #### Won't (unless requested)
 
 - example with multiMap
@@ -171,4 +177,13 @@ For other applications it depends.
   - user should poll ==> keeps the lib simple.
 - make the number of levels configurable
   - dynamic array allocation.?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

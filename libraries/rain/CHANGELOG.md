@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2023-11-16
+- update readme.md
+
+
 ## [0.1.3] - 2023-01-19
 - update GitHub actions
 - update license 2023
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add **setPowerDelay()** + getter
 - update readme.md
 - add unit tests
-
 
 ## [0.1.2] - 2022-12-06
 - add powerPin to constructor. Optional.
@@ -35,8 +38,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add delta() => delta with previous read().
 
 ## [0.1.0] - 2022-12-03
-- initial version
+- initial release
 
+----
 
 ## [0.0.1] - 2021-12-??
 - experimental version (not released)

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/relativity/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/relativity/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/relativity/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/relativity/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/relativity/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/relativity.svg)](https://github.com/RobTillaart/relativity/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/relativity/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/relativity.svg?maxAge=3600)](https://github.com/RobTillaart/relativity/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/relativity.svg)](https://registry.platformio.org/libraries/robtillaart/relativity)
 
 
 # relativity
@@ -20,6 +23,10 @@ Goal: Educational purposes or when one puts a cube-sat into space :)
 
 
 ## Interface
+
+```cpp
+#include "relativity.h"
+```
 
 - **relativity()** constructor.
 - **double getC()** returns speed of light.
@@ -66,14 +73,33 @@ See examples for typical usage.
 
 ## Future
 
+#### Must
+
+- documentation
+
+#### Should
+
 - test test test test
+
+#### Could
+
 - Split .h into .h and .cpp
 - add more functions
   - Schwarzschild horizon etc
-  - 
 - fix some overflow conditions.
 - add moons?
   - need a database :)
 - add caching version of mass / radius;
 - move code to .cpp
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

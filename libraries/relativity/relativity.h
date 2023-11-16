@@ -2,7 +2,7 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.4"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.5"))
 
 
 class relativity
@@ -25,22 +25,22 @@ public:
   }
 
   double getC()
-  { 
+  {
     return _c;
   };
 
   double getG()
-  { 
+  {
     return _G;
   };
 
-  
+
   double factor(double speed)
   {
     double alpha = speed * _divc;
     return sqrt(1 - alpha * alpha);
   }
-  
+
   double gamma(double speed)
   {
     return 1.0 / factor(speed);
@@ -124,14 +124,14 @@ public:
     //  https://www.youtube.com/watch?v=hYMvJum9_Do  @ 8:00
     //  radius polar:    6357 km
     //  radius equator:  6378 km
-    //  difference:      21 km      
+    //  difference:      21 km
     double radians = longitude * (PI / 180.0);
 
     //  approx of the graph in YouTube with a cosine
     return 6367.5 + 10.5 * cos(radians * 2);
   }
 
-  //  mass in 
+  //  mass in
   double getPlanetMass(uint8_t n)  // sun = 0; mercury = 1 etc
   {
     return massPlanets[n];

@@ -2,7 +2,7 @@
 //
 //    FILE: PrintCharArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Class that captures prints into a char array
 //    DATE: 2017-12-07
 //     URL: https://github.com/RobTillaart/PrintCharArray
@@ -12,7 +12,7 @@
 #include "Print.h"
 
 
-#define PRINTCHARARRAY_VERSION            (F("0.3.3"))
+#define PRINTCHARARRAY_VERSION            (F("0.3.4"))
 
 #ifndef PRINTCHARARRAY_MAX_BUFFER_SIZE
 #define PRINTCHARARRAY_MAX_BUFFER_SIZE    250
@@ -72,7 +72,7 @@ public:
   }
 
 
-  // int length() { return _index; };   //  better as size()?
+  //  int length() { return _index; };   //  better as size()?
   int size()
   { 
     return _index;

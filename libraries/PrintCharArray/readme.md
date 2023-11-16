@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/PrintCharArray/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/PrintCharArray/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PrintCharArray/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/PrintCharArray/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PrintCharArray/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/PrintCharArray.svg)](https://github.com/RobTillaart/PrintCharArray/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PrintCharArray/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PrintCharArray.svg?maxAge=3600)](https://github.com/RobTillaart/PrintCharArray/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/PrintCharArray.svg)](https://registry.platformio.org/libraries/robtillaart/PrintCharArray)
 
 
 # PrintCharArray
@@ -25,12 +28,20 @@ Applications
 - print to buffer to see how many chars the output will be.
   - use to prevent "display line overflow" (e.g. floats).
   - use to right align output (see examples).
-  - 
 
-Related to https://github.com/RobTillaart/PrintSize and https://github.com/RobTillaart/PrintString.
+
+#### Related
+
+- https://github.com/RobTillaart/PrintCharArray (captures data in a char buffer)
+- https://github.com/RobTillaart/PrintSize (counts length of a number of print commands)
+- https://github.com/RobTillaart/PrintString (captures data in a String)
 
 
 ## Interface
+
+```cpp
+#include "PrintCharArray.h"
+```
 
 - **PrintCharArray(uint8_t size = 100)** constructor, default size of 100 bytes. 
 - **size_t write(uint8_t c)** workhorse I of Print interface.
@@ -51,19 +62,34 @@ See examples.
 
 ## Future
 
-#### must
+#### Must
+
 - documentation
 
-#### should 
+#### Should
+
 - move code to .cpp file
 - testing
 
-#### could
+#### Could
+
 - examples
   - inject spaces in "middle align" example? possible?
   - rename some
   - add real live examples.
 - add functions like **repeat(char c)** to inject e.g. 7 spaces etc.
 - add error flag
-- 
+- PRINTCHARARRAY_LIB_VERSION
+
+
+#### Wont
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

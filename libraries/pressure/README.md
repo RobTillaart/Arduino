@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/pressure/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/pressure/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/pressure/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/pressure/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/pressure/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/pressure.svg)](https://github.com/RobTillaart/pressure/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/pressure/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/pressure.svg?maxAge=3600)](https://github.com/RobTillaart/pressure/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/pressure.svg)](https://registry.platformio.org/libraries/robtillaart/pressure)
 
 
 # pressure
@@ -169,11 +172,9 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
 - find a good reference for conversion constants.
   - https://www.semicore.com/reference/pressure-conversion-reference
 
-
 #### Should
 
 - test with gas law.
-
 
 #### Could
 
@@ -182,7 +183,6 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
   - does **subtractMillibar()** make more sense?
 - **float setMillibar(float value)** return pressure in millibar all setters
   - ```return _pressure = value * factor;```
-
 
 #### Wont (unless requested)
 
@@ -199,3 +199,13 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
   - none  <<<<<<<<<<<<<<<<<<<<<<<<<<<
   - 0 like constructor?
   - 1 to get conversion constant?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

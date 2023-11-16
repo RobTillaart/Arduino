@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2023-11-15
+- update readme.md
+
+
 ## [0.3.0] - 2023-02-23
 - refactor getter constants
 - add return value to **change()** functions.

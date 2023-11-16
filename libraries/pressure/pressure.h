@@ -2,13 +2,13 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 
 
 
-#define PRESSURE_LIB_VERSION        (F("0.3.0"))
+#define PRESSURE_LIB_VERSION        (F("0.3.1"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED

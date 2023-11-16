@@ -1,8 +1,8 @@
 #pragma once
 //
 //    FILE: PulsePattern.h
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.6
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.7
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //          sends a pulse pattern to a digital pin (continuously)
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 
 
-#define PULSEPATTERN_LIB_VERSION        (F("0.1.6"))
+#define PULSEPATTERN_LIB_VERSION        (F("0.1.7"))
 
 //  RUNNING STATES
 #define NOTINIT                         -1

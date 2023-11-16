@@ -1,10 +1,9 @@
 //
 //    FILE: PulsePattern.cpp
-//  AUTHOR: Rob dot Tillaart at gmail dot com
-// VERSION: 0.1.6
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.7
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
-//
 
 
 #include "PulsePattern.h"
@@ -48,8 +47,8 @@ const uint8_t level, const uint8_t prescaler)
   digitalWrite(_pin, _level);
   _state = STOPPED;
 
-  // fast low level AVR ports
-  uint8_t _pinport   = digitalPinToPort(_pin);
+  //  fast low level AVR ports
+  uint8_t _pinport = digitalPinToPort(_pin);
   _pinout = portOutputRegister(_pinport);
   _pinbit = digitalPinToBitMask(_pin);
 }
@@ -124,7 +123,7 @@ void PulsePattern::worker()
 //  TIMER code based upon - http://www.gammon.com.au/forum/?id=11504
 void PulsePattern::stopTimer()
 {
-  TCCR1A = 0;        // reset timer 1
+  TCCR1A = 0;        //  reset timer 1
   TCCR1B = 0;
 }
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/runningAngle/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/runningAngle/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/runningAngle/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/runningAngle/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/runningAngle/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/runningAngle.svg)](https://github.com/RobTillaart/runningAngle/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/runningAngle/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/runningAngle.svg?maxAge=3600)](https://github.com/RobTillaart/runningAngle/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/runningAngle.svg)](https://registry.platformio.org/libraries/robtillaart/runningAngle)
 
 
 # runningAngle
@@ -195,7 +198,6 @@ Being the most important worker function, doing float math.
   - AS5600 angle measurement sensor
 - update unit tests.
 
-
 #### Wont
 
 - get statistics about the noise in the angles (stats on the delta?).
@@ -208,4 +210,13 @@ Being the most important worker function, doing float math.
   - conversion needed?
   - add mixed types.  45° + 3 radians = ??
   ==> user can do this. 
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SET/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SET/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SET/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SET/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SET/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SET.svg)](https://github.com/RobTillaart/SET/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SET/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SET.svg?maxAge=3600)](https://github.com/RobTillaart/SET/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SET.svg)](https://registry.platformio.org/libraries/robtillaart/SET)
 
 
 # SET
@@ -21,6 +24,9 @@ data types.
 
 ## Interface
 
+```cpp
+#include "SET.h"
+```
 
 ### Constructor
 
@@ -81,5 +87,22 @@ See examples
 
 ## Future
 
+#### Must
+
 - update documentation
+
+#### Should
+
+#### Could
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

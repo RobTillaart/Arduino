@@ -1,7 +1,7 @@
 //
 //    FILE: set.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 //    DATE: 2014-09-11
 // PURPOSE: SET library for Arduino
 //     URL: https://github.com/RobTillaart/SET

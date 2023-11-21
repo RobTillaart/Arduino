@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -21,23 +21,11 @@ rotaryDecoder::rotaryDecoder(const int8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool rotaryDecoder::begin(uint8_t sda, uint8_t scl, uint8_t count)
-{
-  _count = count;
-  if (_count > 4) _count = 4;
-  _wire->begin(sda, scl);
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool rotaryDecoder::begin(uint8_t count)
 {
   _count = count;
   if (_count > 4) _count = 4;
-  _wire->begin();
+
   if (! isConnected()) return false;
   return true;
 }

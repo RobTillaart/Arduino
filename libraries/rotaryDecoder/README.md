@@ -25,6 +25,12 @@ library assumes these are used. Furthermore it is advised to connect the free PC
 pins to GND so you will not get unintended interrupts.
 
 
+#### Related
+
+- https://github.com/RobTillaart/rotaryDecoderSwitch
+- https://github.com/RobTillaart/PCF8574
+
+
 ## Interface
 
 ```cpp
@@ -34,10 +40,6 @@ pins to GND so you will not get unintended interrupts.
 #### Constructor
 
 - **rotaryDecoder(const int8_t address, TwoWire \*wire = Wire);**
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t count = 4)** ESP32 ea initializes the class
-by setting the I2C sda and scl pins.
-count is the number of rotary encoders connected. (Max 4 per PCF8574)
-Returns true if the PCF8574 is on the I2C bus.
 - **bool begin(uint8_t count = 4)** UNO ea. initializes the class. 
 count is the number of rotary encoders connected. (Max 4 per PCF8574)
 Returns true if the PCF8574 is on the I2C bus.
@@ -114,11 +116,9 @@ See examples..
 - update documentation
 - picture how to connect e.g two rotary encoders which pins to used
 
-
 #### Should
 
 - test with a high speed drill like a Dremel-tool.
-
 
 #### Could
 
@@ -126,9 +126,7 @@ See examples..
   - setInvert(bool);  getInvert();
   - per channel / all?
 
-
 #### Wont
-
 
 
 ## Support

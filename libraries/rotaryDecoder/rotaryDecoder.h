@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoder.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-05-08
 // PURPOSE: rotary decoder library for Arduino
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -11,17 +11,13 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_LIB_VERSION         (F("0.1.4"))
+#define ROTARY_DECODER_LIB_VERSION         (F("0.2.0"))
 
 
 class rotaryDecoder
 {
 public:
   explicit rotaryDecoder(const int8_t address, TwoWire *wire = &Wire);
-
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t sda, uint8_t scl, uint8_t count = 4);
-#endif
 
   bool    begin(uint8_t count = 4);
   bool    isConnected();

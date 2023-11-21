@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SIMON/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SIMON/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SIMON/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SIMON/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SIMON/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SIMON.svg)](https://github.com/RobTillaart/SIMON/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SIMON/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SIMON.svg?maxAge=3600)](https://github.com/RobTillaart/SIMON/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SIMON.svg)](https://registry.platformio.org/libraries/robtillaart/SIMON)
 
 
 # SIMON
@@ -109,7 +112,6 @@ For real security, other methods are needed.
   - simon says game
   - digital lock
 
-
 ### Could
 
 - encrypted sequence (one way hash)
@@ -122,7 +124,6 @@ For real security, other methods are needed.
   - class of its own.
   - MM solver and MM master
 
-
 #### Wont
 
 - add use of EEPROM to store a sequence over reboots
@@ -132,3 +133,10 @@ For real security, other methods are needed.
   - dynamic allocation of array's? Nope
   
   
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,

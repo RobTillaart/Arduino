@@ -50,7 +50,7 @@ The interface is kept the same as much as possible.
 Note the above mapping is sort of compatible to using the rotaryDecoder class and using device 0 and 2 only,
 
 
-#### Links 
+#### Related
 
 - https://github.com/RobTillaart/rotaryDecoder
 - https://github.com/RobTillaart/PCF8574
@@ -65,10 +65,6 @@ Note the above mapping is sort of compatible to using the rotaryDecoder class an
 #### Constructor
 
 - **rotaryDecoderSwitch(const int8_t address, TwoWire \*wire = Wire);** constructor to set the address and optional the Wire bus.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t count = 2)** ESP32 ea initializes the class.
-sets I2C pins.
-count is the number of rotary encoders connected.
-returns true if the PCF8574 is on the I2C bus.
 - **bool begin(uint8_t count = 2)** UNO ea. initializes the class. 
 count is the number of rotary encoders connected.
 returns true if the PCF8574 is on the I2C bus.
@@ -148,14 +144,11 @@ See examples..
   - add schema
 - keep in sync with rotaryDecoder library
 
-
 #### Should
 
 - think of what to do with the two "idle lines"
 
-
 #### Could
-
 
 #### Wont
 

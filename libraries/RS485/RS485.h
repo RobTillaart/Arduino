@@ -3,7 +3,7 @@
 //    FILE: RS485.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for RS485 modules
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "ASCII_CONTROL.h"
 
-#define RS485_LIB_VERSION        (F("0.2.5"))
+#define RS485_LIB_VERSION        (F("0.2.6"))
 
 
 class RS485 : public Stream
@@ -51,7 +51,8 @@ public:
   uint8_t     getMode()   { return digitalRead(_sendPin) == HIGH; };
 
 
-  //  EXPERIMENTAL - use at own risk.- (for 0.3.0)
+  //  EXPERIMENTAL 
+  //  - use at own risk.- (for 0.3.0)
   //  send ASCII encoded messages from one master to multiple clients.
   //       msg[] = 32..127
   //       len   = 1..48 ?
@@ -65,7 +66,7 @@ private:
   uint8_t  _deviceID      = 0;
   uint16_t _microsPerByte = 1000;
 
-  //  EXPERIMENTAL (for 0.3.0)
+  //       EXPERIMENTAL (for 0.3.0)
   uint8_t _bidx = 0;
   uint8_t _buffer[50];  //  internal receive buffer
 };

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2023-11-21
+- update readme.md
+
+
 ## [0.2.5] - 2023-04-28
 - fix send / receive protocol bugs (as far as known)
 - add **RS485_master_send_receive.ino** demo
@@ -15,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update examples.
 - move some code from .h to .cpp
 - update readme.md
-
 
 ## [0.2.4] - 2023-02-05
 - update readme.md

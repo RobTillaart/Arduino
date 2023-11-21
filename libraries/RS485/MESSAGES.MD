@@ -18,7 +18,7 @@ than one iteration.
   It depends on how much processing is needed. 
 - Be aware of implications of future expansion.
   Design your protocol with room for additional commands.
-  Or even a version number in it.
+  Or even add a version number in it.
 - In designing a protocol be aware of ambiguities.
   An request or answer may contain bytes (sequences) 
   that might trigger other nodes.
@@ -46,7 +46,7 @@ See also **ASCII_CONTROL.h**
 
 ----
 
-## example 1
+## example 1 - simplest?
 
 A minimal message protocol consisting of 1 byte commands
 
@@ -57,35 +57,37 @@ All command are coded in a single byte with 0x80 bit set.
 All answers bytes 0 or more (sender knows how many to expect, or a specific end char.
 
 requirement: 
-- All devices listen to a disjunct command set.
+- All devices listen to a (possibly) disjunct command set.
 
 
 ----
 
-##  example 2
+##  example 2 - add device ID
 
 Using a device id to send the command to.
 
 
 command :=
-
+{
    SOH          start of header,    (attention new command)
-   deviceID     to                  (is it for me?)
+   deviceID     to                  (is it for me?)   should not equal SOH
    command                          (if so, exec command)
    bytes expected                   (to generate the bytes)
+}
 
 answer :=
-
+{
    bytes        requested bytes     (send them back)
-
+}
 
 ----
 
-##  example 3
+##  example 3 - PRO I
 
 Command and answer have same layout. 
 Uses device ID's to address specific device.
 
+{
    SOH          start of header        0x01
    deviceID     to
    deviceID     sender
@@ -95,23 +97,27 @@ Uses device ID's to address specific device.
 optional extend with:
    checksum     optional
    EOT          optional (end of transmission)
-
+}
 
 ----
 
-##  example 4
+##  example 4 - PRO II
 
-More complex package with multiple fields and crc per message.
+More complex package with multiple fields and Checksum / CRC per message.
+In fact this is an elaborated variation on previous example.
+
 
    SOH          start of header
    deviceID     to
    deviceID     sender
    fields       0 or more
+
       length       length of field 1
       STX          start of text
       message      idem
       CHECKSUM     idem, message only!
       ETX          end of text
+
       length       length of field 2
       STX          start of text
       message      idem
@@ -122,7 +128,7 @@ More complex package with multiple fields and crc per message.
 
 ----
 
-##  example 5 (still alive)
+##  example 5 - PING still alive
 
 Maybe most simple protocol, just send an ID, 
 and if the slave is alive it responds with its ID.
@@ -131,7 +137,31 @@ Think of it as the **PING** command
 command = ID
 answer  = ID
 
-Could be embedded in other protocols too,
+If the slave is a single function device (light switch) it might just
+toggle upon receiving its ID.
+
+Note this simple protocol cannot discriminate between an command and answer.
+
+
+A **PING** command could be embedded in other protocols too,
+
+----
+
+##  example 6 - Get value
+
+Reading a simple slave could be done with a one byte command. 
+
+command = ID
+answer  = returns value. //  this should never contain an ID of another device.  
+
+An example is remote reading a sensor or an analog port.
+
+To improve the reliability the answer can be a "packet".
+
+command = ID
+answer  = { SOH, IDmaster, IDslave, length, value } 
+
+
 
 ----
 

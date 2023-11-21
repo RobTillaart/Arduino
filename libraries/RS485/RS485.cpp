@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -35,7 +35,7 @@ RS485::RS485(Stream * stream, uint8_t sendPin, uint8_t deviceID)
 void RS485::setMicrosPerByte(uint32_t baudRate)
 {
   //  count 11 bits time per byte
-  _microsPerByte = (11 * 1000000) / baudRate ;
+  _microsPerByte = (11 * 1000000) / baudRate;
 }
 
 
@@ -184,7 +184,7 @@ void RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
   _stream->write(CHKSUM);
   _stream->write(ETX);
   _stream->write(EOT);
-  delayMicroseconds((len + 8 + 2) * _microsPerByte);  // + 2 to be sure...
+  delayMicroseconds((len + 8 + 2) * _microsPerByte);  //  + 2 to be sure...
   setRXmode();
 }
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/RS485/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/RS485/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RS485/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/RS485/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RS485/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/RS485.svg)](https://github.com/RobTillaart/RS485/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/RS485/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/RS485.svg?maxAge=3600)](https://github.com/RobTillaart/RS485/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/RS485.svg)](https://registry.platformio.org/libraries/robtillaart/RS485)
 
 
 # RS485
@@ -49,6 +52,14 @@ messages so the user must implement such on top of this class.
                                       DE = Driver Output Enable
 ```
 
+#### Related
+
+- https://www.gammon.com.au/forum/?id=11428
+- http://en.wikipedia.org/wiki/RS485
+- https://www.ti.com/lit/an/snla049b/snla049b.pdf - 10 ways to bulletproof your RS485
+- https://github.com/RobTillaart/CRC
+- https://www.arduino.cc/reference/en/language/functions/communication/stream/
+
 
 ## Interface
 
@@ -59,7 +70,7 @@ messages so the user must implement such on top of this class.
 
 #### Base
 
-- **RS485(Stream stream, uint8_t sendPin, uint8_t deviceID = 0)** constructor.
+- **RS485(Stream \* stream, uint8_t sendPin, uint8_t deviceID = 0)** constructor.
 The default device ID is 0 (typically master uses this, or if deviceID is not used).
 The stream is typically Serial, and the baud rate, timeout etc. should be set 
 via the Serial class. 
@@ -125,7 +136,7 @@ resumes with listening.
 
 #### Sniffer hex dump
 
-Since 0.2.5 an example is added that snifs the bytes on the RS485 bus 
+Since 0.2.5 an example is added that sniffs the bytes on the RS485 bus 
 and prints them as a HEX dump.
 
 Can be used for debugging.
@@ -143,6 +154,7 @@ Values depend on the length of the cables, start with 1 KΩ (kilo ohm)
 Preferred wire for RS485 is STP (Shielded Twisted Pair), however 
 UTP (Unshielded) will works in many cases.
 Typical for most applications CAT5 (100 Mbit) will do the job.
+Do not forget to connect GND to the shield later of the STP.
 
 Note CAT5 has 4 x 2 twisted wires so there are 6 cables to spare.
 These could be used e.g. to build a FULL DUPLEX version in which
@@ -186,19 +198,11 @@ bit 7 set to 1, and all responses with bit 7 set to 0 (E.g ASCII).
 Would allow 127 different 1 byte commands.
 
 
-#### Useful links
-
-- https://www.ti.com/lit/an/snla049b/snla049b.pdf
-- https://www.gammon.com.au/forum/?id=11428
-- https://www.arduino.cc/reference/en/language/functions/communication/stream/
-
-
 ## Future
 
 #### Must
 
 - improve documentation
-
 
 #### Should
 
@@ -211,7 +215,6 @@ Would allow 127 different 1 byte commands.
 - test other platforms
   - ESP32.
 
-
 #### Could
 
 - setUsPerByte() parameter does not feel 100% (investigate)
@@ -222,7 +225,15 @@ Would allow 127 different 1 byte commands.
 - add unit tests
 - investigate yield() on ESP32/RTOS behaviour
 
-
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

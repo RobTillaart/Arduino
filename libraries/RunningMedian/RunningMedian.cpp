@@ -1,10 +1,8 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 // PURPOSE: RunningMedian library for Arduino
-//
-//  HISTORY: see changelog.md
 
 
 #include "RunningMedian.h"
@@ -370,5 +368,6 @@ void RunningMedian::sort()
 }
 */
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

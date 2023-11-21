@@ -3,16 +3,15 @@
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 //     URL: https://github.com/RobTillaart/RunningMedian
 //     URL: http://arduino.cc/playground/Main/RunningMedian
 // HISTORY: See RunningMedian.cpp
-//
 
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.8"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.9"))
 
 
 //  fall back to fixed storage for dynamic version => remove true
@@ -80,6 +79,7 @@ public:
   uint8_t getCount()   { return _count; };
   bool    isFull()     { return (_count == _size); }
 
+
   //  EXPERIMENTAL  (might change in the future)
   //  searchMode defines how the internal insertionSort works
   //  can be used to optimize performance.
@@ -109,5 +109,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

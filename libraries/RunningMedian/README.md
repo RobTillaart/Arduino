@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/RunningMedian/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/RunningMedian/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/RunningMedian/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/RunningMedian/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/RunningMedian/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/RunningMedian.svg)](https://github.com/RobTillaart/RunningMedian/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/RunningMedian/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/RunningMedian.svg?maxAge=3600)](https://github.com/RobTillaart/RunningMedian/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/RunningMedian.svg)](https://registry.platformio.org/libraries/robtillaart/RunningMedian)
 
 
 # RunningMedian
@@ -70,6 +73,10 @@ There are several options that can be configured via defines at compile time, th
 
 
 ## Interface
+
+```cpp
+#include "RunningMedian.h"
+```
 
 
 #### Constructor
@@ -158,9 +165,25 @@ See examples.
 
 ## Future
 
+#### Must
+
 - improve documentation.
+
+#### Should
+
+#### Could
+
 - check for optimizations.
   - get the median without (full) sorting. QuickSelect()
 - move all code to .cpp file
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

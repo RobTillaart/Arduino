@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.9] - 2023-11-21
+- update readme.md
+
+
 ## [0.3.8] - 2023-07-11
 - add **getMedianAverage(nMedians)**  removing bias - #22
   - thanks to Peter Kowald
 - add example **RunningMedian_getMedianAverage.ino**
 - extended performance test
 - update readme.md
-
 
 ## [0.3.7] - 2022-10-28
 - Add RP2040 support to build-CI.

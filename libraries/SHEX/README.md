@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SHEX/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SHEX/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHEX/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SHEX/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHEX/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SHEX.svg)](https://github.com/RobTillaart/SHEX/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHEX/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHEX.svg?maxAge=3600)](https://github.com/RobTillaart/SHEX/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SHEX.svg)](https://registry.platformio.org/libraries/robtillaart/SHEX)
 
 
 # SHEX
@@ -137,7 +140,6 @@ See examples.
 
 ## Future
 
-
 #### Must
 
 - documentation
@@ -172,3 +174,13 @@ See examples.
   and after how many lines the header should repeat
   **header(str, lines)** ?
   Can also be done by just calling Serial.print.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

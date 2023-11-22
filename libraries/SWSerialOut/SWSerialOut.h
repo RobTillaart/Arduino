@@ -2,7 +2,7 @@
 //
 //    FILE: SWSerialOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SWSerialOut, supports only data out (TX).
 //    DATE: 2023-09-02
 //     URL: https://github.com/RobTillaart/SWSerialOut
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SWSERIALOUT_LIB_VERSION              (F("0.1.0"))
+#define SWSERIALOUT_LIB_VERSION              (F("0.1.1"))
 
 
 class SWSerialOut : public Stream

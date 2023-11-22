@@ -127,12 +127,10 @@ interrupts during the transfer of the data.
 - update documentation
 - test bits, parity, stop bits
 
-
 #### Should
 
 - examples
   - performance sketch
-
 
 #### Could
 
@@ -143,12 +141,10 @@ interrupts during the transfer of the data.
 - investigate optimized transfer per platform 
   - higher baud rates, especially AVR.
 
-
 #### Wont
 
 - read()
 - non blocking version 
-
 
 ## Support
 

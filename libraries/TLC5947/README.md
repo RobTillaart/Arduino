@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/TLC5947/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TLC5947/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TLC5947/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TLC5947/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TLC5947/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TLC5947.svg)](https://github.com/RobTillaart/TLC5947/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TLC5947/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TLC5947.svg?maxAge=3600)](https://github.com/RobTillaart/TLC5947/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TLC5947.svg)](https://registry.platformio.org/libraries/robtillaart/TLC5947)
 
 
 # TLC5947
@@ -34,7 +37,7 @@ The data can be shared (to be tested) as data won't be clocked in if
 the **clock** line is not shared.
 
 
-#### Links
+#### Related
 
 - https://www.adafruit.com/product/1429
 - https://github.com/RobTillaart/TLC5947
@@ -54,8 +57,8 @@ Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
 - **bool begin()** set the pinModes of the pins and their initial values.
-- **bool setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to the buffer to
-be written later.  
+- **bool setPWM(uint8_t channel, uint16_t PWM)**. set a PWM value to 
+the buffer to be written later.  
 channel = 0..23, PWM = 0..4095  
 Returns true if successful.
 - **void setAll(uint16_t PWM)** set the same PWM value for all channels to the buffer, and writes them to device.
@@ -118,9 +121,10 @@ Measured with **TLC5947_performance.ino**.
 - buy hardware
   - test test test 
 
-
 #### Should
 
+- **setPWM()** should return set value or error
+  - revisit all functions..
 - add examples
   - extend performance sketch
 - test if partial write (e.g. first N channels) works.
@@ -129,19 +133,25 @@ Measured with **TLC5947_performance.ino**.
   - set by **setPWM()** if value changes.
   - would speed up unneeded **write()** too.
 
-
 #### Could
 
 - add unit-tests
-- add **void setPercentage(float perc)** and **float getPercentage()** wrappers.
 - investigate how to reduce memory usage (now 48 bytes)
-  - could be 36 (12 bits / channel) or even 24 (8 bits/channel)
-  - derived class?
+  - could be 36 (12 bits / channel) 
+  - or even 24 (8 bits/channel) = derived class?
 - add **setRGB(LED, R, G, B)** wrapper (channel 0..7)
   24 channels == 3 x 8 RGB LEDs
 - return value for **setPWM()** ? 
 
+#### Wont
 
-#### Won't
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5947.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
@@ -50,7 +50,7 @@ bool TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 
 uint16_t TLC5947::getPWM(uint8_t channel)
 {
-  if (channel >= 24) return 0xFFFF;
+  if (channel >= 24) return TLC5947_CHANNEL_ERROR;
   return _buffer[channel] & 0x0FFF;
 }
 
@@ -68,12 +68,14 @@ void TLC5947::setAll(uint16_t PWM)
 
 bool TLC5947::setPercentage(uint8_t channel, float perc)
 {
+  if (perc < 0) perc = 0;
   return setPWM(channel, round(perc * 40.95));
 }
 
 
 void TLC5947::setPercentageAll(float perc)
 {
+  if (perc < 0) perc = 0;
   setAll(round(perc * 40.95));
 }
 

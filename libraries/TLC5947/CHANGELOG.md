@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2023-11-22
+- update readme.md
+- add **TLC5947_CHANNEL_ERROR**
+- catch negative percentages.
+
+
 ## [0.1.1] - 2023-06-21
 - improve performance AVR
 - add percentage wrappers

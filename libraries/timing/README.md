@@ -1,13 +1,17 @@
+
 [![Arduino CI](https://github.com/RobTillaart/timing/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/timing/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/timing/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/timing/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/timing/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/timing.svg)](https://github.com/RobTillaart/timing/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/timing/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/timing.svg?maxAge=3600)](https://github.com/RobTillaart/timing/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/timing.svg)](https://registry.platformio.org/libraries/robtillaart/timing)
 
 
 # Timing
 
-Arduino library with wrappers for seconds, millis, and micros.
+Arduino library with wrappers for seconds, milliseconds, and microseconds.
 
 
 ## Description
@@ -113,8 +117,18 @@ Only for the seconds class for now.
   - measureable?
 - implement printable interface
   - add unit (s, ms, us)
-  - what layout to use?
-- move code to .cpp file?
+  - what layout to use? (culture dependent)
+- create a uint64_t seconds type?
 
 #### Wont
+- move code to .cpp file?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

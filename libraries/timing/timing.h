@@ -2,12 +2,12 @@
 //
 //    FILE: timing.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library with wrapper classes for seconds millis micros
 //     URL: https://github.com/RobTillaart/timing
 
 
-#define TIMING_LIB_VERSION        (F("0.2.5"))
+#define TIMING_LIB_VERSION        (F("0.2.6"))
 
 
 class microSeconds
@@ -52,6 +52,7 @@ public:
   double toSeconds()              { return millis() * 0.001 - _offset; };
 
   //  experimental
+  //  does not include days (beyond 99 hrs)
   char * toClock()
   {
     static char buf[12];

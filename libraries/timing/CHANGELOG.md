@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2023-11-22
+- update readme.md
+
+
 ## [0.2.5] - 2023-02-10
 - update readme.md
 - implement **toSeconds()** -> 45.123 or 45.123456

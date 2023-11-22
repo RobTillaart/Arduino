@@ -18,6 +18,9 @@ variance	KEYWORD2
 pop_stdev	KEYWORD2
 unbiased_stdev	KEYWORD2
 
+range	KEYWORD2
+middle	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

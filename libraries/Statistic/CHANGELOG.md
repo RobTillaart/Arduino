@@ -5,13 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.6] - 2023-11-22
+- update readme.md
+
+
 ## [1.0.5] - 2023-06-29
 - fix #18 add **range()** and **middle()**
   - fast first order functions, based on minimum() and maximum()
   - statistic value is (very) limited.
   - add example.
 - update readme.md
-
 
 ## [1.0.4] - 2023-05-09
 - fix #16 => defined(__AVR__) to catch all ARCH_AVR

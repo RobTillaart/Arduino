@@ -21,9 +21,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Statistic.git"
   },
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "Statistic.h"
 }

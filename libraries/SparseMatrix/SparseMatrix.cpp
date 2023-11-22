@@ -1,7 +1,7 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -168,5 +168,5 @@ bool SparseMatrix::newElement(uint8_t x, uint8_t y, float value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

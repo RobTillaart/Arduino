@@ -2,7 +2,7 @@
 //
 //    FILE: SparseMatrix.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define SPARSEMATRIX_LIB_VERSION        (F("0.1.4"))
+#define SPARSEMATRIX_LIB_VERSION        (F("0.1.5"))
 
 #ifndef SPARSEMATRIX_MAX_SIZE
 #define SPARSEMATRIX_MAX_SIZE           1000
@@ -62,5 +62,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

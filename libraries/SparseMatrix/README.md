@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/RobTillaart/SparseMatrix/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![Arduino-lint](https://github.com/RobTillaart/SparseMatrix/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SparseMatrix/actions/workflows/arduino-lint.yml)
-[![JSON check](https://github.com/RobTillaart/SparseMatrix/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SparseMatrix/actions/workflows/jsoncheck.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SparseMatrix/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/RobTillaart/SparseMatrix.svg?maxAge=3600)](https://github.com/RobTillaart/SparseMatrix/releases)
+[![Arduino CI](https://github.com/RobTillaart/XXXXXXXX/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/XXXXXXXX/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/XXXXXXXX/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/XXXXXXXX/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/XXXXXXXX/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/XXXXXXXX.svg)](https://github.com/RobTillaart/XXXXXXXX/issues)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/XXXXXXXX/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/XXXXXXXX.svg?maxAge=3600)](https://github.com/RobTillaart/XXXXXXXX/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/XXXXXXXX.svg)](https://registry.platformio.org/libraries/robtillaart/XXXXXXXX)
 
 
 # SparseMatrix
@@ -28,7 +31,8 @@ Note: the library does not do matrix math operations.
 Note: the library does not hold the dimensions of the matrix
 and cannot check these.
 
-Relates to:
+#### Related
+
 - https://github.com/RobTillaart/SparseArray
 - https://github.com/RobTillaart/distanceTable
  
@@ -97,13 +101,16 @@ This can be useful for printing or processing the non zero elements.
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
 
-#### should
+#### Should
+
 - do tests
 
-#### could
+#### Could
+
 - template version to store other data types 
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
   - struct, complex number
@@ -118,7 +125,7 @@ This can be useful for printing or processing the non zero elements.
   - class tree - Sparse1D <- Sparse2D <- Sparse3D ...
 - dump should be in the class?
   - or as static function...
-  - stream as parameter  dump(Stream str, 
+  - stream as parameter **dump(Stream str, ...)**
 
 
 #### Functions
@@ -145,8 +152,7 @@ This can be useful for printing or processing the non zero elements.
   - if count = 0 or current == -1 or end of list.
   - mutating values can disrupt the iteration..
 
-
-#### won't
+#### Won't
 
 - should **set()** and **add()** return the number of free places?
   - more informative than just a bool.
@@ -163,4 +169,13 @@ This can be useful for printing or processing the non zero elements.
   - N queens game.
   - battleship game
   - minesweeper game
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/statHelpers/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/statHelpers/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/statHelpers/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/statHelpers/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/statHelpers/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/statHelpers.svg)](https://github.com/RobTillaart/statHelpers/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/statHelpers/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/statHelpers.svg?maxAge=3600)](https://github.com/RobTillaart/statHelpers/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/statHelpers.svg)](https://registry.platformio.org/libraries/robtillaart/statHelpers)
 
 
 # statHelpers
@@ -21,6 +24,18 @@ It includes an experimental section for large numbers.
 Note that these are very computation (time) intensive so not suited for real time math :)
 
 To print very large numbers - https://github.com/RobTillaart/PrintHelpers
+
+
+#### Related
+
+- https://github.com/RobTillaart/Correlation
+- https://github.com/RobTillaart/GST - Golden standard test metrics
+- https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/RunningAngle
+- https://github.com/RobTillaart/RunningAverage
+- https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/statHelpers - combinations & permutations
+- https://github.com/RobTillaart/Statistic
 
 
 ## Interface
@@ -165,7 +180,6 @@ See examples
 - investigate valid range detection for a given (n, k) for combinations and permutations.
 - Look for optimizations
 
-
 #### Could
 
 - investigate a bigFloat class to do math for permutations and combinations to substantially larger values.
@@ -174,6 +188,14 @@ See examples
   - e.g. skipFactorial(12, 4) = 12 x 8 x 4.
   - skipFactorial(n, 2) == semiFactorial(n);
 
-
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

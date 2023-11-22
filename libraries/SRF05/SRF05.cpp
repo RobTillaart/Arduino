@@ -1,7 +1,7 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05

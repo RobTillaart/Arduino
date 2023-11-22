@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SRF05/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SRF05/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SRF05/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SRF05/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SRF05/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SRF05.svg)](https://github.com/RobTillaart/SRF05/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SRF05/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SRF05.svg?maxAge=3600)](https://github.com/RobTillaart/SRF05/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SRF05.svg)](https://registry.platformio.org/libraries/robtillaart/SRF05)
 
 
 # SRF05
@@ -73,7 +76,6 @@ speed of sound however it is technically more correct to keep the two separated.
 ```cpp
 #include "SRF05.h"
 ```
-
 
 #### Constructor
 
@@ -187,7 +189,6 @@ See examples.
 
 - investigate purpose/possibilities of the OUT pin.
 
-
 #### Should
 
 - add examples
@@ -197,13 +198,11 @@ See examples.
   - should **setSpeedOfSound(float sos)** return bool if sos <=0 ?
   - value of **setTriggerLength()**
 
-
 #### Could
 
 - set default SOS to an SOS from the table instead of 340.
 - add example to determine the correction factor?
 - delay(1) in average configurable?
-
 
 #### Wont
 
@@ -214,3 +213,13 @@ See examples.
   - not all paths update this variable.
 - add ```float delta()``` difference with last value.
   - how to handle different units? or only time?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

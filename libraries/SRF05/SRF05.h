@@ -2,7 +2,7 @@
 //
 //    FILE: SRF05.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for SRF05 distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SRF05_LIB_VERSION                 (F("0.1.4"))
+#define SRF05_LIB_VERSION                 (F("0.1.5"))
 
 
 const uint8_t SRF05_MODE_SINGLE      = 0;

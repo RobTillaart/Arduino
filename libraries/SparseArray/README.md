@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/SparseArray/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SparseArray/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SparseArray/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/SparseArray/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SparseArray/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SparseArray.svg)](https://github.com/RobTillaart/SparseArray/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SparseArray/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SparseArray.svg?maxAge=3600)](https://github.com/RobTillaart/SparseArray/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SparseArray.svg)](https://registry.platformio.org/libraries/robtillaart/SparseArray)
 
 
 # SparseArray
@@ -23,14 +26,17 @@ The maximum array size this library can represent is 65535 elements
 with a theoretical maximum of 65535 non-zero elements.
 (although that does not make sense due to overhead)
 In practice the library limits the number of non-zero elements to 1000.
+Optionally adjust **SPARSEARRAY_MAX_SIZE** in the .h file.
 
 Note: 255 non-zero elements would fit in an UNO's 2K memory.
 
-Relates to: 
+Note: this library is derived from SparseMatrix.
+
+
+#### Related
+
 - https://github.com/RobTillaart/SparseMatrix
 - https://github.com/RobTillaart/distanceTable
-
-Note: this library is derived from SparseMatrix.
 
 
 #### Implementation
@@ -99,10 +105,12 @@ This can be useful for printing or processing the non zero elements.
 
 ## Future
 
-#### must
+#### Must
+
 - improve documentation
 
-#### should
+#### Should
+
 - do test
 - investigate optimizations
   - derived sorted class ==> insertSort
@@ -111,10 +119,11 @@ This can be useful for printing or processing the non zero elements.
 - Template class for the data type
   - better than SparseArray64 SparseArray32 SparseArray16 SparseArray8  (signed / unsigned?)
 
-#### could
+#### Could
+
 - dump should be in the class?
   - or as static function...
-  - stream as param  dump(Stream str, ...
+  - stream as param **dump(Stream str, ...)**
 
 #### ideas
 
@@ -124,4 +133,11 @@ This can be useful for printing or processing the non zero elements.
 - investigate index \[\] operator for **get()** and **set()**
   - would break with sparse matrix
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

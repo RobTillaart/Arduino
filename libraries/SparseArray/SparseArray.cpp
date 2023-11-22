@@ -1,7 +1,7 @@
 //
 //    FILE: SparseArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-07-17
 // PURPOSE: Arduino library for sparse arrays of floats
 //     URL: https://github.com/RobTillaart/SparseArray
@@ -159,5 +159,5 @@ bool SparseArray::newElement(uint16_t x, float value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

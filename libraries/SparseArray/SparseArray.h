@@ -2,7 +2,7 @@
 //
 //    FILE: SparseArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2022-07-17
 // PURPOSE: Arduino library for sparse arrays of floats
 //     URL: https://github.com/RobTillaart/SparseArray
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define SPARSEARRAY_LIB_VERSION        (F("0.1.1"))
+#define SPARSEARRAY_LIB_VERSION        (F("0.1.2"))
 
 #ifndef SPARSEARRAY_MAX_SIZE
 #define SPARSEARRAY_MAX_SIZE           1000
@@ -45,7 +45,7 @@ protected:
   uint16_t  _size   = 0;
   uint16_t  _count  = 0;
 
-  uint16_t  *_x     = NULL;  // support array's [0..65535]
+  uint16_t  *_x     = NULL;  //  support array's [0..65535]
   float     *_value = NULL;
 
   //  returns index of x if in set
@@ -60,5 +60,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

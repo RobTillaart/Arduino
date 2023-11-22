@@ -1,7 +1,7 @@
 //
 //    FILE: tinytinySHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-09-27
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor optimized for AVR tiny
 //     URL: https://github.com/RobTillaart/tinytinySHT2x
@@ -92,7 +92,7 @@ bool tinySHT2x::readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration)
   uint32_t start = millis();
   while (_wire->available() < n)
   {
-    if (millis() - start > maxDuration) 
+    if (millis() - start > maxDuration)
     {
       return false;
     }

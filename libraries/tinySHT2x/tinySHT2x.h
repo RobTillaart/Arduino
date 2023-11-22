@@ -2,7 +2,7 @@
 //
 //    FILE: tinySHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.1
+// VERSION: 0.1.3
 //    DATE: 2021-09-27
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor optimized for AVR tiny
 //     URL: https://github.com/RobTillaart/tinySHT2x
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define TINY_SHT2x_LIB_VERSION            (F("0.1.1"))
+#define TINY_SHT2x_LIB_VERSION            (F("0.1.3"))
 
 #define TINY_SHT2x_NO_VALUE               -999
 
@@ -34,5 +34,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

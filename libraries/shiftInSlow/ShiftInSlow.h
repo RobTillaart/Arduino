@@ -2,7 +2,7 @@
 //
 //    FILE: ShiftInSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for shiftIn with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftInSlow
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SHIFTINSLOW_LIB_VERSION           (F("0.1.3"))
+#define SHIFTINSLOW_LIB_VERSION           (F("0.1.4"))
 
 
 class ShiftInSlow

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Stopwatch_RT/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Stopwatch_RT/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Stopwatch_RT/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Stopwatch_RT/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Stopwatch_RT/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Stopwatch_RT.svg)](https://github.com/RobTillaart/Stopwatch_RT/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Stopwatch_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Stopwatch_RT.svg?maxAge=3600)](https://github.com/RobTillaart/Stopwatch_RT/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Stopwatch.svg)](https://registry.platformio.org/libraries/robtillaart/Stopwatch)
 
 
 # Stopwatch_RT
@@ -35,14 +38,16 @@ This library is based upon millis() and micros() and therefore has the same
 restrictions and limitations as these functions with respect to overflow and precision.
 This means minutes and seconds will overflow also after about 49 days.
 
-#### Links
+#### Related
 
-Relates to - https://github.com/RobTillaart/CountDown
-
+- https://github.com/RobTillaart/CountDown
 
 
 ## Interface
 
+```cpp
+#include "StopWatch.h"
+```
 
 ### Core
 
@@ -96,13 +101,29 @@ See examples
 
 ## Future
 
-#### must
+#### Must
 
-#### should
+- improve documentation
+
+#### Should
+
 - create getters and setters for the calibration constants so they can 
 changed runtime under program control. Must it be float + round() or uint32_t ?
 
-#### could
+#### Could
+
 - with rising of faster processors in Arduino ecosystem, NANOS might added. 
 Be aware that these short time frames are better measured e.g. by a hardware timer.
 - **resolution()** ==> **getResolution()**
+
+#### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

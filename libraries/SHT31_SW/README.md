@@ -1,9 +1,12 @@
 
-[![Arduino CI](https://github.com/robtillaart/SHT31_SW/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![JSON check](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml)
+[![Arduino CI](https://github.com/RobTillaart/SHT31_SW/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/SHT31_SW/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SW/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/SHT31_SW/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/SHT31_SW.svg)](https://github.com/RobTillaart/SHT31_SW/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/SHT31_SW/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/SHT31_SW.svg?maxAge=3600)](https://github.com/RobTillaart/SHT31_SW/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/SHT31_SW.svg)](https://registry.platformio.org/libraries/robtillaart/SHT31_SW)
 
 
 # SHT31_SW
@@ -56,7 +59,7 @@ Test on UNO
 |  SHT85   |  ~0.2         |  1.5       |  no            |  See SHT31_SWW
 
 
-#### Links
+#### Related
 
 These libraries need to be installed to get SHT31_SW working:
 
@@ -193,4 +196,13 @@ Returns false if reading fails or in case of a CRC failure.
 #### Could
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

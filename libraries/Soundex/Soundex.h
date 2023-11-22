@@ -2,7 +2,7 @@
 //
 //    FILE: Soundex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-02-05
 // PURPOSE: Arduino Library for calculating Soundex hash
 //     URL: https://github.com/RobTillaart/Soundex
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SOUNDEX_LIB_VERSION              (F("0.1.4"))
+#define SOUNDEX_LIB_VERSION              (F("0.1.5"))
 
 
 #define SOUNDEX_MIN_LENGTH               4

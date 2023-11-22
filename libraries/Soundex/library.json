@@ -1,7 +1,7 @@
 {
   "name": "Soundex",
   "keywords": "Soundex,hash,Soundex16,Soundex32",
-  "description": "Arduino Library for soundex.",
+  "description": "Arduino Library for soundex.\nExperimental Soundex16, Soundex32.",
   "authors":
   [
     {
@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Soundex.git"
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "Soundex.h"
 }

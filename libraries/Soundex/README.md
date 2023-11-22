@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Soundex/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Soundex/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Soundex/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Soundex/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Soundex/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Soundex.svg)](https://github.com/RobTillaart/Soundex/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Soundex/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Soundex.svg?maxAge=3600)](https://github.com/RobTillaart/Soundex/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Soundex.svg)](https://registry.platformio.org/libraries/robtillaart/Soundex)
 
 
 # Soundex
@@ -24,14 +27,16 @@ followed by 3 digits replacing the consonants.
 
 The base Soundex has 26 x 7 x 7 x 7 = 8918 possible outcomes,
 this could be easily encoded in an uint16_t.
-This insight triggered the experimental functions.
+This insight triggered the experimental functions **soundex16()** and **soundex32()**.
+These experimental functions can be used e.g. to optimize word-searching 
+as less bytes need to be compared / stored.
 
 
 #### 0.1.2 Experimental
 
 The library has two experimental functions, **soundex16()** and **soundex32()**.
 These functions pack a Soundex length 5 hash in a uint16_t and a length 10 in a uint32_t.
-These compress soundex() results.
+They effectively compress the **soundex()** results.
 
 Advantages (16 bit version):
 - better hash as it adds 1 extra character
@@ -56,11 +61,14 @@ The hash codes of these new SoundexNN() are a continuous numeric range.
 Note that soundex16() and soundex32() compresses info much better than
 the standard soundex().
 
-A soundex64() is possible and uses 8 bytes.
-It would allow to compress very long soundex() results (up to 22 chars) in 8 bytes.
+
+A **soundex64()** is technically possible and would use 8 bytes (not implemented).
+It would allow to compress very long **soundex()** results (up to 22 chars) in 8 bytes.
+Application might be chemical formulas.
+It could use the **printHelper** library to print the uint64_t as HEX.
 
 
-#### Links
+#### Related
 
 - https://en.wikipedia.org/wiki/Soundex
 - https://en.wikipedia.org/wiki/Metaphone  (not implemented)
@@ -94,7 +102,7 @@ Note: preferably printed in HEX.
 
 Not tested on other platforms.
 
-First numbers of **.soundex("Trichloroethylene")** measured with
+First numbers of **soundex("Trichloroethylene")** measured with
 a test sketch shows the following timing per word.
 
 |  Checksum   |  digits  |  UNO 16 MHz  |  ESP32 240 MHz  |  notes  |
@@ -109,13 +117,12 @@ a test sketch shows the following timing per word.
 See examples.
 
 
-## Future ideas
+## Future
 
 #### Must
 
 - improve documentation
 - add examples
-
 
 #### Should
 
@@ -125,11 +132,11 @@ See examples.
   - string lengths
   - performance
 
-
 #### Could
 
 - use spare bits of soundex16/32 as parity / checksum.
-
+- add String interface e.g.
+  - **String soundex(String str)**
 
 #### Wont
 
@@ -142,4 +149,13 @@ See examples.
   - Daitch–Mokotoff Soundex
   - Beider-Morse Soundex
   - Metaphone
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

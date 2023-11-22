@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2023-11-22
+- update readme.md
+
+
 ## [0.1.4] - 2023-02-21
 - add default **LSBFIRST** for **setBitOrder()**
 - add default **0** for **setDelay()**
@@ -14,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub actions
 - update license 2023
 - minor edits
-
 
 ## [0.1.3] - 2022-11-24
 - Add RP2040 support to build-CI.

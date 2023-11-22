@@ -2,20 +2,16 @@
 [![Arduino CI](https://github.com/RobTillaart/ShiftOutSlow/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/ShiftOutSlow/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/ShiftOutSlow/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/ShiftOutSlow/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/ShiftOutSlow/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/ShiftOutSlow.svg)](https://github.com/RobTillaart/ShiftOutSlow/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/ShiftOutSlow/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/ShiftOutSlow.svg?maxAge=3600)](https://github.com/RobTillaart/ShiftOutSlow/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/ShiftOutSlow.svg)](https://registry.platformio.org/libraries/robtillaart/ShiftOutSlow)
 
 
 # ShiftOutSlow
 
 Arduino library for shiftOut with build-in delay - e.g. for 74HC595
-
-Related libraries
-- https://github.com/RobTillaart/FastShiftIn
-- https://github.com/RobTillaart/FastShiftOut
-- https://github.com/RobTillaart/FastShiftInOut
-- https://github.com/RobTillaart/ShiftInSlow
-- https://github.com/RobTillaart/ShiftOutSlow
 
 
 ## Description
@@ -29,6 +25,15 @@ The data pin and clock pin are set in the constructor, the delay can be set per 
 ShiftOutSlow implements the print interface.
 
 
+#### Related
+
+- https://github.com/RobTillaart/FastShiftIn
+- https://github.com/RobTillaart/FastShiftOut
+- https://github.com/RobTillaart/FastShiftInOut
+- https://github.com/RobTillaart/ShiftInSlow
+- https://github.com/RobTillaart/ShiftOutSlow
+
+
 ## Performance
 
 The performance of **write()** with a delay of 0 microseconds is slower than the default Arduino
@@ -36,6 +41,9 @@ The performance of **write()** with a delay of 0 microseconds is slower than the
 
 The delay requested is divided by two to minimize disruption of the duty cycle of the clock pulse,
 resulting in "better" pulses.
+
+Performance measurements are meaningless, as the purpose of this library is to 
+slow the pulse train to a working level.
 
 
 ## Interface
@@ -86,16 +94,32 @@ See examples.
 
 #### Should
 
+- Add a select pin to be more SPI alike?
+  - would allow SPI debugging?
+- increase max delay uint32_t ?
+  - would allow pulses in "second" domain.
+
+#### Could
+
 - add examples
   - adaptive speed example?
-  
-#### Could
-- Add a select pin to be more SPI alike?
-- increase max delay uint32_t ? 
 
 #### Wont
 
+- delay/2 is not exact half when delay is odd.
+  - no big issue.
+  - del_before and del_after could prepare for duty cycle.
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
 - get set dutyCycle(0 .. 99%)
 - optimize the place to yield() ?
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

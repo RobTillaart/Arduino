@@ -129,7 +129,6 @@ See examples
 - test all functionality
   - library is written without hardware
 
-
 #### Should
 
 - investigate map INPUT_PULLUP on INPUT (pinMode ?)
@@ -138,13 +137,11 @@ See examples
   - pull up resistors
   - elaborate derived class
 
-
 #### Could
 
 - rethink class hierarchy
   - TCA9535 has less functions so should be base class?
 - valid address range?
-
 
 #### Wont (unless)
 

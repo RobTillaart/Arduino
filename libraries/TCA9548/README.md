@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/TCA9548/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TCA9548/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TCA9548/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TCA9548/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TCA9548/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TCA9548.svg)](https://github.com/RobTillaart/TCA9548/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TCA9548/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TCA9548.svg?maxAge=3600)](https://github.com/RobTillaart/TCA9548/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TCA9548.svg)](https://registry.platformio.org/libraries/robtillaart/TCA9548)
 
 
 # TCA9548
@@ -129,8 +132,7 @@ Not implemented yet, preparation for 0.2.0.
 - write unit test.
 - create derived classes for compatible devices (0.2.0).
   - see above PCA9548 and PCA9548a.
-- **bool isConnected(channel, address)**  (0.2.0)
-  - keep previous mask?
+
 
 #### Could
 
@@ -138,6 +140,15 @@ Not implemented yet, preparation for 0.2.0.
   - investigate the consequences!
 
 #### Wont
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 
 

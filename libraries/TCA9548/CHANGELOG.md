@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2023-11-22
+- update readme.md
+- update keywords.txt
+
+
 ## [0.1.5] - 2023-02-12
 - fix #8 ambiguity
 - update keywords.txt
@@ -13,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - prepare error handling (constants)
 - some minor edits.
-
 
 ## [0.1.4] - 2023-01-23
 - update GitHub actions

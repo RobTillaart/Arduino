@@ -1,4 +1,4 @@
-# Syntax Colouring Map For SHT31 temperature and humidity sensor
+# Syntax Colouring Map For SHT31_SWW temperature and humidity sensor
 
 
 # Data types (KEYWORD1)

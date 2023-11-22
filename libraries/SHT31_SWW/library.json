@@ -26,9 +26,9 @@
       "version": "^1.6.0"
     }
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*",
+  "platforms": "avr",
   "headers": "SHT31_SWW.h"
 }

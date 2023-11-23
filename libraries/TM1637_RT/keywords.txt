@@ -25,13 +25,19 @@ displayTwoInt	KEYWORD2
 displayCelsius	KEYWORD2
 displayFahrenheit	KEYWORD2
 
+displayClear	KEYWORD2
+displayRefresh	KEYWORD2
+
+hideSegment	KEYWORD2
+hideMultiSegment	KEYWORD2
+
 setBrightness	KEYWORD2
 getBrightness	KEYWORD2
 
 setBitDelay	KEYWORD2
 getBitDelay	KEYWORD2
 
-keyscan	KEYWORD2
+keyScan	KEYWORD2
 
 setDigitOrder	KEYWORD2
 

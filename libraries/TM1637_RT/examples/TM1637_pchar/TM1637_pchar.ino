@@ -21,9 +21,9 @@ void setup()
   delay(1000);
   Serial.println(__FILE__);
 
-  // set clockpin, datapin to your own board pin names
-  // e.g.  myTM.begin(PB8, PB9 , DISPLAY_DIGITS_6 );
-  TM.begin( 14, 15 , DISPLAY_DIGITS_6 ); // clockpin, datapin, and digits
+  //  set clockpin, datapin to your own board pin names
+  //  e.g.  myTM.begin(PB8, PB9 , DISPLAY_DIGITS_6 );
+  TM.begin( 14, 15 , DISPLAY_DIGITS_6 );  //  clockpin, datapin, and digits
 
   TM.setBrightness(2);
   
@@ -35,10 +35,10 @@ void loop()
   char buff[20];
   static int seconds;
   sprintf(buff,"Sec=%02x", seconds++&0xFF );
-  TM.displayPChar(buff); // send buffer to display
-  Serial.println(buff);  //  and serial port.
+  TM.displayPChar(buff);  //  send buffer to display
+  Serial.println(buff);   //       and serial port.
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

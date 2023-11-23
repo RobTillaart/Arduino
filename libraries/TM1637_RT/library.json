@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/TM1637_RT"
   },
-  "version": "0.3.8",
+  "version": "0.3.9",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "TM1637.h"
 }

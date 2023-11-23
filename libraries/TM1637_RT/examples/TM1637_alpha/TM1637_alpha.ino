@@ -36,10 +36,10 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
       data[j--] = buff[i] - 'g' + 18;
     }
     else if(buff[i] == '.') {
-      data[j+1] |= 0x80;        // decimal point on previous digit
+      data[j+1] |= 0x80;        //  decimal point on previous digit
     }
     else {
-      data[j--] = 0x10; // blank
+      data[j--] = 0x10;  //  blank
     }
   }
 }
@@ -59,5 +59,5 @@ uint8_t data[10];
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

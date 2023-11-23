@@ -2,12 +2,12 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
-//  on the inexpensive TM1637 boards @wfdudley has used, keyscan
+//  on the inexpensive TM1637 boards @wfdudley has used, keyScan
 //  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller,
@@ -54,7 +54,7 @@
 static uint8_t seg[] =
 {
   0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f,   // 0 - 9
-  0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40, 0x63          // A - F, ' ', '-', '°'
+  0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x00, 0x40, 0x63          // A - F, ' ', '-', 'Â°'
 };
 
 
@@ -99,7 +99,7 @@ void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
   {
     setDigitOrder(3, 2, 1, 0);
   }
-  else  // (_digits == 6 )    //  default
+  else  //  (_digits == 6 )    //  default
   {
     setDigitOrder(3, 4, 5, 0, 1, 2);
   }
@@ -181,7 +181,7 @@ void TM1637::displayFloat(float value, uint8_t fixedPoint)
     last--;
   }
   //  v += 0.0001; //  Bug fix for 12.999 <> 13.000
-  v += 0.001;     //  Bug fix for 12.99 <> 13.00
+  v += 0.001;      //  Bug fix for 12.99 <> 13.00
 
   while (v >= 10)
   {
@@ -276,7 +276,7 @@ void TM1637::displayCelsius(int temp, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 12;             //  C
-  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+  _data[1] = TM1637_DEGREE;  //  Â° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
@@ -299,7 +299,7 @@ void TM1637::displayFahrenheit(int temp, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
   _data[0] = 15;             //  F
-  _data[1] = TM1637_DEGREE;  //  ° degreee sign
+  _data[1] = TM1637_DEGREE;  //  Â° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
@@ -539,15 +539,15 @@ void TM1637::writeSync(uint8_t pin, uint8_t val)
 }
 
 
-//  keyscan results are reversed left for right from the data sheet.
-//  here are the values returned by keyscan():
+//  keyScan results are reversed left for right from the data sheet.
+//  here are the values returned by keyScan():
 //
 //  pin         2     3     4     5     6     7     8     9
 //            sg1   sg2   sg3   sg4   sg5   sg6   sg7   sg8
 //  19   k1  0xf7  0xf6  0xf5  0xf4  0xf3  0xf2  0xf1  0xf0
 //  20   k2  0xef  0xee  0xed  0xec  0xeb  0xea  0xe9  0xe8
 
-uint8_t TM1637::keyscan(void)
+uint8_t TM1637::keyScan(void)
 {
   uint8_t halfDelay = _bitDelay >> 1;
   uint8_t key;

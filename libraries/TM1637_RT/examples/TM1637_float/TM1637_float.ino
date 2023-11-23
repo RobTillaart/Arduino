@@ -24,11 +24,11 @@ void setup()
   TM.displayFloat(1.42425);
   //  TM.dumpCache();
   delay(2000);
-  
+
   TM.displayFloat(-1.42425);
   //  TM.dumpCache();
   delay(2000);
-  
+
   TM.displayClear();
   //  TM.dumpCache();
   delay(2000);
@@ -47,7 +47,7 @@ void test()
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
-    TM.displayFloat(f);  // there is loop overhead etc
+    TM.displayFloat(f);  //  there is loop overhead etc
     f += 1;
   }
   stop = millis();
@@ -57,5 +57,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

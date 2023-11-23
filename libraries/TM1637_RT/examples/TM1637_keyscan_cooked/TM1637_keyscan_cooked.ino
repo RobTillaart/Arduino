@@ -2,7 +2,7 @@
 //    FILE: TM1637_keypress_cooked.ino
 //  AUTHOR: William F. Dudley Jr.
 // VERSION: 0.1.0
-// PURPOSE: demo TM1637 library - keyscan() cooked output
+// PURPOSE: demo TM1637 library - keyScan() cooked output
 //    DATE: 2021-10-26
 //     URL: https://github.com/RobTillaart/TM1637
 
@@ -12,9 +12,9 @@
 TM1637 TM;
 
 
-// Note: In my experience, the TM1637 boards need a pull up
-// resistor from DIO to 3.3V for keyscan() to work.  1000 ohms
-// seems to work well, but value isn't critical.
+//  Note: In my experience, the TM1637 boards need a pull up
+//  resistor from DIO to 3.3V for keyScan() to work.  1000 ohms
+//  seems to work well, but value isn't critical.
 
 
 char buff[8];
@@ -49,10 +49,11 @@ void setup()
 char button_poll(void) {
 char c;
 static unsigned long last_key_time;
-  uint8_t keypress = TM.keyscan();
+  uint8_t keypress = TM.keyScan();
   c = '\0';
-  // TM.displayHex(keypress);  // uncomment to see raw data on LED
-  // Serial.print("kp "); Serial.println(keypress, HEX); // uncomment to see raw
+  //  TM.displayHex(keypress);        //  uncomment to see raw data on LED
+  //  Serial.print("kp ");            //  uncomment to see raw
+  //  Serial.println(keypress, HEX);  //  uncomment to see raw
   if(keypress < 0xfe) {
     if(last_keypress != keypress || (millis() - last_key_time) > 500) {
       last_keypress = keypress;
@@ -97,10 +98,10 @@ void ascii_to_7segment(char *buff, uint8_t *data) {
       data[j--] = buff[i] - 'g' + 18;
     }
     else if(buff[i] == '.') {
-      data[j+1] |= 0x80;        // decimal point on previous digit
+      data[j+1] |= 0x80;        //  decimal point on previous digit
     }
     else {
-      data[j--] = 0x10; // blank
+      data[j--] = 0x10;  //  blank
     }
   }
 }
@@ -115,7 +116,7 @@ char c;
     buff[bptr++] = c;
     if(bptr > 5) { bptr = 0; }
     Serial.println(buff);
-    // convert ASCII chars in "buff" to 7 segment representations in "data"
+    //  convert ASCII chars in "buff" to 7 segment representations in "data"
     ascii_to_7segment(buff, data);
     TM.displayRaw(data, -1);
   }
@@ -123,5 +124,5 @@ char c;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

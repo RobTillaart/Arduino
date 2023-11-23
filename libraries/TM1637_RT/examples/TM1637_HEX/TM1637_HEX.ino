@@ -43,7 +43,7 @@ void test()
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
-    TM.displayHex(val);  // there is loop overhead etc
+    TM.displayHex(val);  //  there is loop overhead etc
     val++;
   }
   stop = millis();
@@ -65,5 +65,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

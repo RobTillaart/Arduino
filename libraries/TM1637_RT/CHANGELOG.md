@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.9] - 2023-11-22
+- update readme.md
+  - section about hardware performance (Kudos to SteveMicroCode #29)
+  - badges to platformIO + issues
+  - improve related section
+- update keywords.txt
+- **keyScan()** replaces keyscan() => prefer camelCase (prep 0.4.0)
+  - patched examples.
+- minor edits
+
+
 ## [0.3.8] - 2023-07-15
 - fix #27
 - replaced function data\[8] with a class level data\[8].
@@ -17,12 +28,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix bug in **displayRaw()** (add bool hasPoint).
 - update readme.md
 
-
 ## [0.3.7] - 2023-04-17
 - move code from .h to .cpp
 - add **displayTwoInt(int ll, int rr, bool colon = true)**
 - add **displayCelsius(int temp, bool colon = false)**
-- add '°' degree character (18)
+- add 'Â°' degree character (18)
 - add examples
 - update readme.md
 

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2023-11-23
+- updated readme.md
+
+
 ## [0.1.3] - 2022-11-27
 - add RP2040 to build-CI
 - add test for 0 in setWeight()
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update unit test
 - move code from .h to .cpp
 - simplified changelog
-
 
 ## [0.1.2] - 2022-03-26
 - add **setOffset(offset)** and **getOffset()**

@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/WaveMix/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/WaveMix/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/WaveMix/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/WaveMix/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/WaveMix/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/WaveMix.svg)](https://github.com/RobTillaart/WaveMix/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/WaveMix/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/WaveMix.svg?maxAge=3600)](https://github.com/RobTillaart/WaveMix/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/WaveMix.svg)](https://registry.platformio.org/libraries/robtillaart/WaveMix)
 
 
 # WaveMix
@@ -27,6 +30,10 @@ Differences
 
 
 ## Interface
+
+```cpp
+#include "WaveMix.h"
+```
 
 The main functions of the WaveMix:
 
@@ -73,10 +80,7 @@ By constantly updating the gain (0..max) one can implement **Amplitude Modulatio
 When the gain is negative, the output is effectively inverted.
 
 
-## Future ideas
-
-
-#### N channel variant.
+## IDEA: N channel variant.
 
 - add **setValue(uint8_t channel, float value)** allow update of channels at a different frequency.
 - add **getValue()**, read the current output given the value of the channels. OR
@@ -95,12 +99,19 @@ Not normalized allows easier increment per channel. Needs a **float getTotalWeig
 More channels will be much slower, so upon request the 16 and 32 variant? other variants can be obtained by masking.
 
 
-#### Medium
+## Future
+
+
+#### Must
+
+- improve documentation
+
+#### Should
 
 - performance test.
+- investigate N channel idea.
 
-
-#### Low
+#### Could
 
 - think of integer version
   - performance
@@ -119,10 +130,20 @@ More channels will be much slower, so upon request the 16 and 32 variant? other 
   - offset = 0.0
   - **reset()** needed?
 
+#### Wont
 
-#### wont
 - add top clipping
   - add **setMaximum(float)**
   - add **setMinimum(float)**
   - needs an enable/disable per limit. 
     becomes more complex than let the user constrain the output.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

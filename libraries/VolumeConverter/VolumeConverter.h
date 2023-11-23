@@ -2,7 +2,7 @@
 //
 //    FILE: VolumeConverter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library to convert volume units.
 //     URL: https://github.com/RobTillaart/VolumeConverter
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define VOLUMECONVERTER_LIB_VERSION        (F("0.1.0"))
+#define VOLUMECONVERTER_LIB_VERSION        (F("0.1.1"))
 
 
 /////////////////////////////////////////////////////////////
@@ -75,5 +75,5 @@ public:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

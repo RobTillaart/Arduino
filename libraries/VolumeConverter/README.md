@@ -43,15 +43,11 @@ E.g. Long tons to teaspoons will loose significant digits.
 
 ## Interface
 
-
 ```cpp
 #include "VolumeConverter.h"
 ```
 
-Internal representation is the liter as it the ISO standard.
-
-## Interface
-
+Internal representation is the **liter** as it the ISO standard.
 
 #### Constructor
 

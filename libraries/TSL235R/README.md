@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/TSL235R/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TSL235R/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TSL235R/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TSL235R/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TSL235R/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TSL235R.svg)](https://github.com/RobTillaart/TSL235R/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TSL235R/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TSL235R.svg?maxAge=3600)](https://github.com/RobTillaart/TSL235R/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TSL235R.svg)](https://registry.platformio.org/libraries/robtillaart/TSL235R)
 
 
 # TSL235R
@@ -37,6 +40,7 @@ The library provides two **irradiance()** functions to do that for you.
 - https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
 - https://github.com/RobTillaart/AnalogUVSensor
 - https://github.com/RobTillaart/ML8511  UV sensor
+- https://github.com/RobTillaart/BH1750FVI_RT  lux sensor
 
 
 ## Connection
@@ -116,4 +120,13 @@ See examples for typical usage.
 - irradiance(pulses, millis) can be given a default of 1000 millis.
   - makes irradiance(Hz) obsolete.
   - performance is less!
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

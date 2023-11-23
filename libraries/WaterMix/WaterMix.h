@@ -3,14 +3,14 @@
 //    FILE: WaterMix.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for mixing water with different temperatures.
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //     URL: https://github.com/RobTillaart/WaterMix
 
 
 #include "Arduino.h"
 
 
-#define WATERMIX_LIB_VERSION     (F("0.1.2"))
+#define WATERMIX_LIB_VERSION     (F("0.1.3"))
 
 
 ////////////////////////////////////////////

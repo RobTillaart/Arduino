@@ -238,14 +238,12 @@ Source: - https://www.engineeringtoolbox.com/cubical-expansion-coefficients-d_12
 - update documentation
   - library can be used for water and salinity and other linear related things.
 
-
 #### Should
 
 - investigate linear expansion 
   - VCE as parameter.
 - do not make the library too complex (see could below).
 - extend unit tests
-
 
 #### Could
 
@@ -257,7 +255,6 @@ Source: - https://www.engineeringtoolbox.com/cubical-expansion-coefficients-d_12
   - specific heat needed.  (WaterMix only?)
 - replace div and mul with operators \* and \/
 - investigate injection of density function to make LiquidMix generic?
-
 
 #### Wont (or on special request)
 
@@ -276,7 +273,6 @@ Source: - https://www.engineeringtoolbox.com/cubical-expansion-coefficients-d_12
 - catch temperature below zero?
   - must use defined liquid and temp scale.
   - user responsibility for now.
-
 
 ## Support
 

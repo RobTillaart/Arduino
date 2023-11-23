@@ -2,14 +2,14 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.2.2"))
+#define X9C10X_LIB_VERSION        (F("0.2.3"))
 
 
 /////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ public:
   void begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin);
 
   //  step size 1.
-  //  return false if end of range reached. 
+  //  return false if end of range reached.
   bool     incr();
   bool     decr();
 
@@ -61,7 +61,7 @@ public:
   uint8_t  getPosition();
 
   //  step size 1.
-  //  return false if end of range reached. 
+  //  return false if end of range reached.
   bool     incr();
   bool     decr();
 

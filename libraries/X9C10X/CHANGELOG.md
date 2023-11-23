@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2023-11-23
+- update readme.md
+
+
 ## [0.2.2] - 2022-11-27
 - Add RP2040 support to build-CI.
 - Add CHANGELOG.md
 - update readme.md
 - move getPosition() to .cpp
-
 
 ## [0.2.1] - 2022-07-23
 - fix #9 add restoreInternalPosition(pos)

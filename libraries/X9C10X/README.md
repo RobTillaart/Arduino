@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/X9C10X/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/X9C10X/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/X9C10X/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/X9C10X/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/X9C10X/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/X9C10X.svg)](https://github.com/RobTillaart/X9C10X/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/X9C10X/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/X9C10X.svg?maxAge=3600)](https://github.com/RobTillaart/X9C10X/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/X9C10X.svg)](https://registry.platformio.org/libraries/robtillaart/X9C10X)
 
 
 # X9C10X
@@ -39,7 +42,7 @@ to set the internal position with the value from the latest **store()** call.
 See the examples.
 
 
-### Multiple devices
+#### Multiple devices
 
 Multiple devices can be controlled by assigning them an unique selectPin (CS).
 This behaviour is similar to the SPI select pin.
@@ -52,7 +55,7 @@ Sharing a CS pin or sending pulses to multiple devices at the same time will
 cause the library and devices get out of sync.
 
 
-### PINOUT
+#### PINOUT
 
 
 ```cpp
@@ -80,6 +83,17 @@ This will help the lines to start in a defined state and will
 improve the signal quality. 
 The pulses esp. INC can be quite short, so especially with longer lines the
 quality can become an issue. (not investigated further)
+
+
+#### Related
+
+- https://github.com/RobTillaart/AD520x
+- https://github.com/RobTillaart/AD524X
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
 
 
 ## Interface
@@ -155,7 +169,6 @@ gives some means to solve this, see examples.
 Be aware that if a system resets and the position has been changed since last 
 **store()** the restore and therefore the library will not be in sync with the device. 
 To create a fool proof system additional hardware is needed, see Concept read position below.
-
 
 
 #### Ohm
@@ -252,15 +265,18 @@ However that might not always be easy or possible, due to voltage used, etc.
 
 ## Future
 
-#### must
+#### Must
+
 - update documentation
   - concept of **read()** => put 2 X9C parallel and read one with analogRead().
   
-#### should
+#### Should
+
 - test different platforms
 - investigate and test **store()**
 
-#### could
+#### Could
+
 - add error codes ?
 - add examples
 - test multiple devices configuration
@@ -268,7 +284,8 @@ However that might not always be easy or possible, due to voltage used, etc.
   - especially for the 1K?
   - how exact is this device, does it make sense, linear enough?
 
-#### won't
+#### Wont
+
 - voltage divider example
 - in the constructor rename **Ohm** parameter to value? 
   - The potentiometer can be used as a voltage divider (see above)
@@ -277,4 +294,14 @@ However that might not always be easy or possible, due to voltage used, etc.
   - **getMaxOhm()** ==> **getMaxValue()**
   - think milliVolt, ohm, lux, speed, etc. 
     User can do this too with **getPosition() \* factor**
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+
 

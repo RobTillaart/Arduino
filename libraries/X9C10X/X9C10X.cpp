@@ -1,7 +1,7 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //     URL: https://github.com/RobTillaart/X9C10X
 
@@ -41,7 +41,7 @@ void X9C::begin(uint8_t pulsePin, uint8_t directionPin, uint8_t selectPin)
 
   //  #7 order of the initialization does matter
   //     as it might introduce an unwanted STORE pulse.
-  //     use of pull ups might be wise.  
+  //     use of pull ups might be wise.
   digitalWrite(_selectPin,    HIGH);
   digitalWrite(_pulsePin,     HIGH);
   digitalWrite(_directionPin, HIGH);
@@ -130,14 +130,14 @@ uint8_t X9C10X::setPosition(uint8_t position, bool forced)
   }
 
   //  force to nearest end position first to minimize number of steps.
-  if (forced)  
+  if (forced)
   {
     if (position < 50)
     {
       _move(X9C10X_DOWN, 99);
       _position = 0;
     }
-    else 
+    else
     {
       _move(X9C10X_UP, 99);
       _position = 99;
@@ -157,9 +157,9 @@ uint8_t X9C10X::setPosition(uint8_t position, bool forced)
 }
 
 
-uint8_t X9C10X::getPosition() 
-{ 
-  return _position; 
+uint8_t X9C10X::getPosition()
+{
+  return _position;
 }
 
 
@@ -253,6 +253,6 @@ X9C503::X9C503(uint32_t ohm) : X9C10X(ohm)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 
 

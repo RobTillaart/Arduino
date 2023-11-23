@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/uv-sensor/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/uv-sensor/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/uv-sensor/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/uv-sensor/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/uv-sensor/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/uv-sensor.svg)](https://github.com/RobTillaart/uv-sensor/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/uv-sensor/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/uv-sensor.svg?maxAge=3600)](https://github.com/RobTillaart/uv-sensor/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/uv-sensor.svg)](https://registry.platformio.org/libraries/robtillaart/uv-sensor)
 
 
 # uv-sensor
@@ -43,7 +46,7 @@ There is an extended library version which has more functionality and documentat
 - https://github.com/RobTillaart/AnalogUVSensor
 
 
-### Notes
+#### Notes
 
 Note: The sensor is not calibrated and the table is indicative for sunlight (assumption!)
 and therefore not suitable for e.g. medical or industrial usage.
@@ -56,7 +59,8 @@ Note: depending on the light source used, the table above is incorrect.
 
 #### Sensitivity
 
-The sensor is sensitive for wavelengths from 200 - 370 nm, so mostly in UVB and UVA region and less in the UVC.
+The sensor is sensitive for wavelengths from 200 - 370 nm, 
+so mostly in UVB and UVA region and less in the UVC.
 
 https://en.wikipedia.org/wiki/Ultraviolet
 
@@ -67,3 +71,10 @@ Future development will be done in the library version only.
 - https://github.com/RobTillaart/AnalogUVSensor
 
 
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,

@@ -2,7 +2,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.3.4"))
+#define XMLWRITER_VERSION         (F("0.3.5"))
 
 
 //  for comment()

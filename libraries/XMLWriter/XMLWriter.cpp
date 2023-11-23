@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 
@@ -399,7 +399,7 @@ void XMLWriter::escape(const char* str)
     else
     {
         print('&');
-        print(expanded[q - c]); //  uint8_t idx = q-c;
+        print(expanded[q - c]);  //  uint8_t idx = q-c;
         print(';');
     }
 #endif

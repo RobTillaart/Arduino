@@ -2,7 +2,7 @@
 //
 //    FILE: UUID.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define UUID_LIB_VERSION              (F("0.1.5"))
+#define UUID_LIB_VERSION              (F("0.1.6"))
 
 //  TODO an enum?
 const uint8_t UUID_MODE_VARIANT4 = 0;

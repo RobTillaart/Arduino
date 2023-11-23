@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -59,7 +59,7 @@ void UUID::generate()
     //  note we are processing 2 digits in one loop.
     if ((i & 0x1) == 0)
     {
-      if ((4 <= i) && (i <= 10)) 
+      if ((4 <= i) && (i <= 10))
       {
         _buffer[j++] = '-';
       }

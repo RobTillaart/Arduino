@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/UUID/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/UUID/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/UUID/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/UUID/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/UUID/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/UUID.svg)](https://github.com/RobTillaart/UUID/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/UUID/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/UUID.svg?maxAge=3600)](https://github.com/RobTillaart/UUID/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/UUID.svg)](https://registry.platformio.org/libraries/robtillaart/UUID)
 
 
 # UUID
@@ -148,13 +151,11 @@ Other tasks need to be done too (listening, transfer etc.).
 
 ## Future
 
-
 #### Must
 
 - improve documentation
   - background
 - test other platforms
-
 
 #### Should
 
@@ -164,7 +165,6 @@ Other tasks need to be done too (listening, transfer etc.).
   - buffer as static char in generate is ~2% faster on AVR
     (not shocking, impact ?)
   - smaller / faster random generator?
-
 
 #### Could
 
@@ -187,7 +187,6 @@ Other tasks need to be done too (listening, transfer etc.).
   - RTC for entropy
   - EEPROM to store last seeds? (n)
 
-
 ### Won't
 
 - support for { and }
@@ -196,4 +195,12 @@ Other tasks need to be done too (listening, transfer etc.).
 - move code to .h so compiler can optimize more?
 - **next()** add 1 to UUID to generate a continuous sequence ?
 
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

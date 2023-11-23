@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2023-11-23
+- update readme.md
+
+
 ## [0.1.5] - 2022-11-26
 - update GitHub actions
 - update license 2023
@@ -13,7 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add **UUID_random_ESP32.ino** seed UUID with build in RNG.
 - move code to .cpp
 - minor edits
-
 
 ## [0.1.4] - 2022-11-26
 - Add RP2040 support to build-CI.

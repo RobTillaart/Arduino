@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/TOPMIN/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/TOPMIN/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/TOPMIN/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/TOPMIN/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/TOPMIN/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/TOPMIN.svg)](https://github.com/RobTillaart/TOPMIN/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/TOPMIN/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/TOPMIN.svg?maxAge=3600)](https://github.com/RobTillaart/TOPMIN/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/TOPMIN.svg)](https://registry.platformio.org/libraries/robtillaart/TOPMIN)
 
 
 # TOPMIN
@@ -47,7 +50,7 @@ It also allows to have two or more TOPMIN objects of different size and use one
 index to access both.
 
 
-#### Links
+#### Related
 
 - https://github.com/RobTillaart/TOPMAX
 - https://github.com/RobTillaart/TOPMIN
@@ -100,15 +103,13 @@ with a single value e.g. 0. (tag idem).
 
 #### Must
 
-- keep TOPMIN and TOPMAX functional in sync.
 - improve documentation.
-
+- keep TOPMIN and TOPMAX functional in sync.
 
 #### Should
 
 - add unit tests.
   - for extended version if possible.
-
 
 #### Could
 
@@ -130,11 +131,19 @@ with a single value e.g. 0. (tag idem).
 - **bool hasValue(float value)** and **bool hasTag(uint32_t tag)**
   - or **int getIndex(...)** duplicates?
 
-
 #### Wont
 
 - how to handle double/triple etc. entries with same value
   - they are handled as unique elements, that is what I had in mind.
 - optimize loops in **fill()** (maybe upon request)
   - pointer math
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

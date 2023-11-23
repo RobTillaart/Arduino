@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2023-11-23
+- update readme.md
+
+
 ## [0.3.0] - 2023-08-29
 - rename class **weightConvertor** to **weightConverter**
 - add **adders** to the weightConverter to add different units of weight.

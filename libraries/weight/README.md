@@ -21,6 +21,19 @@ Weight.h is a library containing weight conversion functions.
 Open for additions, including obscure weight metrics or
 weight related math functions and constants.
 
+
+#### Overview of conversions:
+
+```
+          stone - lbs - ounce
+            |      |      |
+           kilo   kilo - gram
+
+
+           kilo - (stone, lbs, ounce)
+```
+
+
 #### Related
 
 - https://github.com/RobTillaart/AtomicWeight
@@ -31,15 +44,8 @@ weight related math functions and constants.
 
 ## Interface
 
-Overview of conversions:
-
-```
-          stone - lbs - ounce
-            |      |      |
-           kilo   kilo - gram
-
-
-           kilo - (stone, lbs, ounce)
+```cpp
+#include "weight.h"
 ```
 
 Functions are straightforward.
@@ -85,6 +91,9 @@ Since version 0.3.0 the converter can also add different units.
 
 ## Interface
 
+```cpp
+#include "weight.h"
+```
 
 #### Constructor
 
@@ -153,9 +162,11 @@ Since version 0.3.0 the converter can also add different units.
 - **float getGrain()**
 - **float getCarat()**
 
+
 ## Future
 
 #### Must
+
 - improve documentation
   - where are units used
 
@@ -163,10 +174,12 @@ Since version 0.3.0 the converter can also add different units.
 
 
 #### Could
-- create data types of stone lbs kilo etc.?
 
+- create data types of stone lbs kilo etc.?
+- should float be double?
 
 #### Won't (unless)
+
 - large masses - sun planets ?   (see relativity library)
 - gravity constants of planets REL or ABS eg REL_GRAVITY_EARTH 1.0
 - molarity functions

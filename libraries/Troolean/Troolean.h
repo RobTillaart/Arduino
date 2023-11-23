@@ -2,8 +2,8 @@
 //
 //    FILE: Troolean.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
-// PURPOSE: Arduino Library for a three state logic datatype supporting {true false unknown}
+// VERSION: 0.1.8
+// PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 //          https://en.wikipedia.org/wiki/Three-valued_logic
 //          Kleene and Priest logics
@@ -13,12 +13,12 @@
 #include "Printable.h"
 
 
-#define TROOLEAN_LIB_VERSION            (F("0.1.7"))
+#define TROOLEAN_LIB_VERSION            (F("0.1.8"))
 
-//  VALUE   MEANING
-//     0  =  false
-//    -1  =  unknown
-// other  =  true
+//  VALUE     MEANING
+//      0  =  false
+//     -1  =  unknown
+//  other  =  true
 #define unknown                         -1
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 
@@ -157,20 +157,20 @@ Troolean Troolean::operator || (const bool &b)
 
 
 bool Troolean::isTrue()
-{ 
-  return ((_value != 0) && (_value != -1)); 
+{
+  return ((_value != 0) && (_value != -1));
 }
 
 
-bool Troolean::isFalse()   
-{ 
-  return _value == 0; 
+bool Troolean::isFalse()
+{
+  return _value == 0;
 }
 
 
-bool Troolean::isUnknown() 
-{ 
-  return _value == -1; 
+bool Troolean::isUnknown()
+{
+  return _value == -1;
 }
 
 

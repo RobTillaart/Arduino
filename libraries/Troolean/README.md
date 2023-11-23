@@ -2,8 +2,11 @@
 [![Arduino CI](https://github.com/RobTillaart/Troolean/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/Troolean/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/Troolean/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/Troolean/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/Troolean/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/Troolean.svg)](https://github.com/RobTillaart/Troolean/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Troolean/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Troolean.svg?maxAge=3600)](https://github.com/RobTillaart/Troolean/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/Troolean.svg)](https://registry.platformio.org/libraries/robtillaart/Troolean)
 
 
 # Troolean
@@ -31,7 +34,9 @@ See also https://en.wikipedia.org/wiki/Three-valued_logic
 
 ## Interface
 
-to elaborate.
+```cpp
+#include "Troolean.h"
+```
 
 #### Constructor
 - **Troolean()** value is unknown.
@@ -61,22 +66,35 @@ See examples
 
 ## Future
 
-#### must
+#### Must
+
 - fix **isTrue()** to allow internal values to be anything except 0 and -1  (0.2.0)
 - check logical operators.
 - update documentation
 
-#### should
+#### Should
+
 - add unit tests  (derive from test troolean.ino?)
 - add examples
 
-#### could
+#### Could
+
 - Troolean operator &&=
 - Troolean operator ||=
 - bool toBool(); // returns random true/false if unknown....
 
-#### wont
+#### Wont
+
 - extend with don't care ?  ==> four state logic ?  Foolean?
   - => new class.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 
 

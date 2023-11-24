@@ -26,7 +26,8 @@ This makes the sensor applicable for outdoor and indoor measurements in
 a normal building setting. 
 The sensor is not suitable for CO2 heavy "industrial" environments. 
 
-The temperature range the sensor can measure is: **TODO UNKNOWN YET**
+**Warning** The temperature range the sensor can measure is **UNKNOWN**
+as there is no documentation how to convert the raw data to meaningfull one.
 
 
 #### Pre-heat period
@@ -169,7 +170,7 @@ TODO: run performance sketch.
 - **ACD10(TwoWire \*wire = &Wire)** optional select I2C bus.
 - **bool begin()** checks if device is visible on the I2C bus.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
-- **uint8_t getAddress()** Returns address set in the constructor.
+- **uint8_t getAddress()** Returns the fixed address 0x2A (42).
 
 
 #### PreHeat
@@ -215,7 +216,7 @@ Read the datasheet about calibration process (twice).
 Incorrect calibration leads to incorrect output.
 
 - **bool setCalibrationMode(uint8_t mode)** 0 = manual mode, 1 = automatic mode.
-returns false if mode out of range.
+returns false if mode out of range ( > 1).
 - **uint8_t readCallibrationMode()** return set mode. 
 - **void setManualCalibration(uint16_t value)** as the range of the device is 
 from 400 to 5000, the parameter value should be in this range.

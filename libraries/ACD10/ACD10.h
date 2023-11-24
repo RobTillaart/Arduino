@@ -3,7 +3,7 @@
 //    FILE: ACD10.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PUPROSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ACD10_LIB_VERSION         (F("0.1.1"))
+#define ACD10_LIB_VERSION         (F("0.1.2"))
 #define ACD10_DEFAULT_ADDRESS     0x2A
 
 //  ERROR CODES
@@ -34,7 +34,7 @@ public:
   uint8_t  getAddress();
 
 
-  //  READ
+  //       READ
   bool     preHeatDone();
   uint32_t preHeatMillisLeft();
 
@@ -49,7 +49,7 @@ public:
   uint8_t  getRequestTime();
 
 
-  //  CALIBRATION  (! read datasheet)
+  //       CALIBRATION  (! read datasheet)
   //       0 = manual  1 = auto
   bool     setCalibrationMode(uint8_t mode);
   uint8_t  readCallibrationMode();
@@ -57,19 +57,19 @@ public:
   uint16_t readManualCalibration();
 
 
-  //  MISCELLANEOUS
+  //       MISCELLANEOUS
   void     factoryReset();
   bool     readFactorySet();
-  void     readFirmwareVersion(char * arr);  //  should have length 11++
-  void     readSensorCode(char * arr);       //  should have length 11++
+  void     readFirmwareVersion(char * arr);  //  length(arr) > 11
+  void     readSensorCode(char * arr);       //  length(arr) > 11
 
 
-  //  DEBUG
-  int  getLastError();
+  //       DEBUG
+  int      getLastError();
 
 
 private:
-  uint8_t  _address = 0x2A;
+  uint8_t  _address = 0x2A;       //  fixed
   TwoWire* _wire;
 
   int      _command(uint8_t * arr, uint8_t size);

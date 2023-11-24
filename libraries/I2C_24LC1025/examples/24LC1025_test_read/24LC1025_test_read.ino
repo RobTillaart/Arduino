@@ -2,8 +2,6 @@
 //    FILE: 24LC1025_test_read.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020
-//    (c) : MIT
 
 
 #include "I2C_24LC1025.h"
@@ -17,6 +15,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("I2C_24LC1025_LIB_VERSION: ");
+  Serial.println(I2C_24LC1025_LIB_VERSION);
+
+  Wire.begin();
 
   if (! ee.begin())
   {
@@ -116,7 +118,7 @@ void loop()
 
 void dump(uint32_t from, uint32_t to)
 {
-  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_24LC1025
+  for (uint32_t i = from; i < to; i++)  //  I2C_DEVICESIZE_24LC1025
   {
     char buffer[24];
     if (i % 16 == 0)
@@ -159,5 +161,5 @@ void test(uint32_t offset)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -8,6 +8,7 @@ I2C_24LC1025	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 
 # 24LC1025

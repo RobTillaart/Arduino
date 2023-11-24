@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.3.0
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -31,54 +31,8 @@ I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-
-bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  }
-  else
-  {
-    _wire->begin();
-  }
-  _lastWrite = 0;
-  _writeProtectPin = writeProtectPin;
-  if (_writeProtectPin >= 0)
-  {
-    pinMode(_writeProtectPin, OUTPUT);
-    preventWrite();
-  }
-  return isConnected();
-}
-
-#elif defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__)
-
-bool I2C_24LC1025::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->setSCL(scl);
-    _wire->setSDA(sda);
-    _wire->begin();
-  }
-  _lastWrite = 0;
-  _writeProtectPin = writeProtectPin;
-  if (_writeProtectPin >= 0)
-  {
-    pinMode(_writeProtectPin, OUTPUT);
-    preventWrite();
-  }
-  return isConnected();
-}
-
-#endif
-
-
 bool I2C_24LC1025::begin(int8_t writeProtectPin)
 {
-  _wire->begin();
   _lastWrite = 0;
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
@@ -94,6 +48,12 @@ bool I2C_24LC1025::isConnected()
 {
   _wire->beginTransmission(_deviceAddress);
   return (_wire->endTransmission() == 0);
+}
+
+
+uint8_t I2C_24LC1025::getAddress()
+{
+  return _deviceAddress;
 }
 
 

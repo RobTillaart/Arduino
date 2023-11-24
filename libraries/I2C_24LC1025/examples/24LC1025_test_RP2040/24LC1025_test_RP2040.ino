@@ -1,7 +1,8 @@
 //
-//    FILE: 24LC1025_test.ino
+//    FILE: 24LC1025_test_RP2040.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo RP2040 specific
+
 
 
 #include "I2C_24LC1025.h"
@@ -18,6 +19,9 @@ void setup()
   Serial.print("I2C_24LC1025_LIB_VERSION: ");
   Serial.println(I2C_24LC1025_LIB_VERSION);
 
+  //  adjust pins if needed
+  //  Wire.setSDA(12);
+  //  Wire.setSCL(13);
   Wire.begin();
 
   if (! ee.begin())

@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-11-24
+- simplify **begin()**, remove setting Wire pins from library.
+- add **getAddress()**
+- update readme.md
+- update examples
+- changed version string to I2C_24LC1025_LIB_VERSION
+
+----
+
 ## [0.2.5] - 2023-09-09
 - Sync I2C_EEPROM
 - add writeProtectPin as optional parameter in **begin()**
@@ -16,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - optimized **waitEEReady()**
 - update keywords.txt
 - update readme.md
-
 
 ## [0.2.4] - 2023-05-11
 - redo support for RP2040 

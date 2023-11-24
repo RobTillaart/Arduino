@@ -26,8 +26,16 @@ The device will **NOT** work when this pin floats or is connected to GND (0V).
 
 This library follows the I2C_EEPROM library, see links below.
 
+#### Breaking change
 
-#### Links
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
 
 - https://github.com/RobTillaart/I2C_EEPROM
 
@@ -69,13 +77,8 @@ Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
 Optionally one can set the **WP** writeProtect pin. (see section below).
 If the **WP** pin is defined the default will be to **not** allow writing.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t writeProtectPin = -1)** for ESP32 / ESP8266  / RP2040 and alike.
-Initializes the I2C bus with the specified pins, thereby overruling the default pins.
-Furthermore it checks if the deviceAddress is available on the I2C bus.
-Returns true if deviceAddress is found on the bus, false otherwise.
-Optionally one can set the **WP** writeProtect pin. (see section below).
-If the **WP** pin is defined the default will be to **not** allow writing.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
+- **uint8_t getAddress()** returns device address set in constructor.
 
 ### Write functions
 
@@ -202,4 +205,13 @@ See examples
 
 - See I2C EEPROM as this library is following.
 - add examples
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
 

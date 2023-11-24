@@ -1,7 +1,7 @@
 //
-//    FILE: 24LC1025_test.ino
+//    FILE: 24LC1025_test_ESP32.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo ESP32 specific
 
 
 #include "I2C_24LC1025.h"
@@ -18,6 +18,8 @@ void setup()
   Serial.print("I2C_24LC1025_LIB_VERSION: ");
   Serial.println(I2C_24LC1025_LIB_VERSION);
 
+  //  adjust pins if needed
+  //  Wire.begin(20, 21);
   Wire.begin();
 
   if (! ee.begin())

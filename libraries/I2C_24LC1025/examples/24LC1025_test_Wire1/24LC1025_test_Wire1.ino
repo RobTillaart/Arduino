@@ -1,12 +1,12 @@
 //
-//    FILE: 24LC1025_test.ino
+//    FILE: 24LC1025_test_Wire1.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo Wire1 (e.g. ESP32) specific
 
 
 #include "I2C_24LC1025.h"
 
-I2C_24LC1025 ee(0x50);
+I2C_24LC1025 ee(0x50, &Wire1);
 
 
 uint32_t start, stop;
@@ -18,7 +18,9 @@ void setup()
   Serial.print("I2C_24LC1025_LIB_VERSION: ");
   Serial.println(I2C_24LC1025_LIB_VERSION);
 
-  Wire.begin();
+  //  adjust pins if needed
+  //  Wire1.begin(20, 21);
+  Wire1.begin();
 
   if (! ee.begin())
   {

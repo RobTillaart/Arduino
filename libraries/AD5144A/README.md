@@ -30,7 +30,16 @@ The library does not work for the **SPI** versions of these devices.
 See Future below.
 
 
-### Types supported
+#### Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Types supported
 
 |  device   | #potmeters | #rheostats |  range   |  tested  |
 |:----------|:----------:|:----------:|:--------:|:--------:|
@@ -45,7 +54,7 @@ See Future below.
 |  AD5141   |     1      |     0      |  0..255  |  no      |
 
 
-### Type AD51xy decomposition
+#### Type AD51xy decomposition
 
 - x = 2 => range = 0..127
 - x = 4 => range = 0..255
@@ -53,6 +62,17 @@ See Future below.
 - y = 2 => 2 potentiometers
 - y = 4 => 4 potentiometers
 - y = 3 => 2 potentiometers + 2 rheostats
+
+
+#### Related
+
+- https://github.com/RobTillaart/AD520x
+- https://github.com/RobTillaart/AD524X
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
 
 
 ## I2C
@@ -69,6 +89,9 @@ The library has a number of functions which are all quite straightforward.
 
 As the library is experimental, function signatures might change in the future.
 
+```cpp
+#include "AD5144A.h"
+```
 
 ### Constructor
 
@@ -94,16 +117,12 @@ Same as above.
 
 ### I2C / device initialization
 
-- **bool begin(int dataPin, int clockPin, bool doReset = true)** ESP32 a.o initializing of the I2C data and clock pins.
-If these pins are set to 255 (or above)  the default pins will be used.
-If **doReset** == true (default) **reset()** is called, to load last values stored in EEPROM. 
-Returns true if the address of the device can be found on the I2C bus. 
-If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool begin(bool doReset = true)** for UNO, if **doReset** == true (default) **reset()** is called, 
 to load last values stored in EEPROM. 
 Returns true if the address of the device can be found on the I2C bus. 
 If the device cannot be found, **reset()** won't be called, even if **doReset** == true.
 - **bool isConnected()** returns true if the address of the device can be found on the I2C bus, false otherwise.
+- **uint8_t getAddress()** returns address set in the constructor.
 - **uint8_t reset()** calls the built in RESET command.
 This loads the last values stored in EEPROM in the RDAC's.
 Furthermore it reads back the values from EEPROM in to the cache.

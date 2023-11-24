@@ -1,7 +1,7 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -28,28 +28,17 @@ AD51XX::AD51XX(const uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool AD51XX::begin(int dataPin, int clockPin, bool doReset)
+bool AD51XX::begin(bool doReset)
 {
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
   if (! isConnected()) return false;
   if (doReset) reset();    //  See page 28 datasheet
   return true;
 }
-#endif
 
 
-bool AD51XX::begin(bool doReset)
+uint8_t AD51XX::getAddress()
 {
-  _wire->begin();
-  if (! isConnected()) return false;
-  if (doReset) reset();    //  See page 28 datasheet
-  return true;
+  return _address;
 }
 
 

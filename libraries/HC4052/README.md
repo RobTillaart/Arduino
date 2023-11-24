@@ -11,22 +11,23 @@
 
 # HC4052
 
-HC4052 is an Arduino library for a HC4052 2 x 4 channel multiplexer.
+HC4052 is an Arduino library for a HC4052 4 x 2 channel multiplexer.
 
 
 ## Description
 
-HC4052 is a library to control the CD74HC4052 2 x 4 channel
+HC4052 is a library to control the CD74HC4052 4 x 2 channels
 multiplexer / demultiplexer and compatible devices.
 
 The HC4052 allows e.g to multiplex an I2C bus (SDA+SCL) simultaneous to read multiple
 sensors that have a fixed address. 
 Another application is to switch Serial (UNO has only one HW Serial) between different
 devices.
+Or to switch audio channels (not tested) etc.
 
-The channel selection is done with four select lines **A, B, C**.
+The channel selection is done with two select lines **A, B** or **s0, s1**.
 
-The device can be enabled/disabled by the enable line **INH**.
+The device can be enabled/disabled by the enable line **INH** or **E**.
 
 
 #### Compatibles
@@ -48,9 +49,9 @@ To elaborate.
 
 ## Hardware connection
 
-Typical connection is to connect the four **select pins** to four IO Pins of your board.
+Typical connection is to connect the two **select pins** to two IO Pins of your board.
 
-The optional **enablePin (INH)** must be connected to GND if not used.
+The optional **enablePin(INH)** must be connected to GND if not used.
 This way the device is continuous enabled.
 
 Example multiplexing analog in.
@@ -85,8 +86,9 @@ Example multiplexing analog in.
 - **HC4052(uint8_t A, uint8_t B, uint8_t enablePin = 255)** constructor.
 Set the two select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
-- **void setChannel(uint8_t channel)** set the current channel.
-Valid values 0..3, this value is not checked, only the lower 2 bits will be used.
+- **bool setChannel(uint8_t channel)** set the current channel.
+Valid values 0..3, returns false if channel out of range.
+If the right channel is already set it does not change it
 - **uint8_t getChannel()** get current channel 0..3.
 
 
@@ -107,10 +109,6 @@ Also returns true if enablePin is not set.
 - keep in sync with HC4067 et.al.
 
 #### Should
-
-- check channel in setChannel() ?
-  - return true if in range, false otherwise.
-- performance measurements (UNO)
 
 #### Could
 

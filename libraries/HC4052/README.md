@@ -16,21 +16,26 @@ HC4052 is an Arduino library for a HC4052 2 x 4 channel multiplexer.
 
 ## Description
 
-HC4052 is a library to control the CD74HC4052 8 channel
+HC4052 is a library to control the CD74HC4052 2 x 4 channel
 multiplexer / demultiplexer and compatible devices.
 
-The HC4052 allows e.g one analog port read up to 8 different analog channels,
-or one digital port to read the state of 8 buttons.
+The HC4052 allows e.g to multiplex an I2C bus (SDA+SCL) simultaneous to read multiple
+sensors that have a fixed address. 
+Another application is to switch Serial (UNO has only one HW Serial) between different
+devices.
 
+The channel selection is done with four select lines **A, B, C**.
 
-The channel selection is done with four select lines **A, B, C**
-
-The device can be enabled/disabled by the enable line **INH**
+The device can be enabled/disabled by the enable line **INH**.
 
 
 #### Compatibles
 
-to elaborate.
+- https://assets.nexperia.com/documents/data-sheet/74HC_HCT4052.pdf
+  - 74HC4052 (CMOS level)
+  - 74HCT4052 (TTL level)
+
+To elaborate.
 
 
 #### Related to 
@@ -97,7 +102,23 @@ Also returns true if enablePin is not set.
 
 ## Future
 
+#### Must
+
 - keep in sync with HC4067 et.al.
+
+#### Should
+
+- check channel in setChannel() ?
+  - return true if in range, false otherwise.
+- performance measurements (UNO)
+
+#### Could
+
+- add examples
+  - i2c scan ?
+  - performance
+
+#### Wont
 
 
 ## Support

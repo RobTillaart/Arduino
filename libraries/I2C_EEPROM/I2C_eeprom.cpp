@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.7.4
+// VERSION: 1.8.0
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -53,56 +53,9 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, T
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-
-bool I2C_eeprom::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
-{
-   //  if (_wire == 0) Serial.println("zero");  //  test #48
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  }
-  else
-  {
-    _wire->begin();
-  }
-  _lastWrite = 0;
-  _writeProtectPin = writeProtectPin;
-  if (_writeProtectPin >= 0)
-  {
-    pinMode(_writeProtectPin, OUTPUT);
-    preventWrite();
-  }
-  return isConnected();
-}
-
-#elif defined(ARDUINO_ARCH_RP2040) && !defined(__MBED__)
-
-bool I2C_eeprom::begin(uint8_t sda, uint8_t scl, int8_t writeProtectPin)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->setSCL(scl);
-    _wire->setSDA(sda);
-    _wire->begin();
-  }
-  _lastWrite = 0;
-  _writeProtectPin = writeProtectPin;
-  if (_writeProtectPin >= 0)
-  {
-    pinMode(_writeProtectPin, OUTPUT);
-    preventWrite();
-  }
-  return isConnected();
-}
-
-#endif
-
-
 bool I2C_eeprom::begin(int8_t writeProtectPin)
 {
   //  if (_wire == 0) Serial.println("zero");  //  test #48
-  _wire->begin();
   _lastWrite = 0;
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
@@ -118,6 +71,12 @@ bool I2C_eeprom::isConnected()
 {
   _wire->beginTransmission(_deviceAddress);
   return (_wire->endTransmission() == 0);
+}
+
+
+uint8_t I2C_eeprom::getAddress()
+{
+  return _deviceAddress;
 }
 
 
@@ -394,12 +353,21 @@ uint32_t I2C_eeprom::setDeviceSize(uint32_t deviceSize)
 
 uint8_t I2C_eeprom::setPageSize(uint8_t pageSize)
 {
-  uint8_t size = 8;
-  //  force power of 2.
-  while ((size <= 128) && ( size <= pageSize))
-  {
-    _pageSize = size;
-    size *= 2;
+  // force power of 2.
+  if (pageSize >= 128) {
+      _pageSize = 128;
+  }
+  else if (pageSize >= 64) {
+      _pageSize = 64;
+  }
+  else if (pageSize >= 32) {
+      _pageSize = 32;
+  }
+  else if (pageSize >= 16) {
+      _pageSize = 16;
+  }
+  else {
+      _pageSize = 8;
   }
   return _pageSize;
 }

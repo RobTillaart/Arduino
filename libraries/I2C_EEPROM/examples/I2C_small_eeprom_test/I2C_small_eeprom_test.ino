@@ -105,6 +105,8 @@ void setup()
   SERIAL_DEBUG.println("IT IS BEGINNING");
   SERIAL_DEBUG.println("WAIT FOR IT");
 
+  Wire.begin();
+
   eeprom.begin();
 
   readAndWriteVar();

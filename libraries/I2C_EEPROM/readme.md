@@ -31,7 +31,16 @@ One from "Earle F. Philhower" and an "MBED" one. See issues #53 and #55 for deta
 
 In 1.7.3 defines are checked to select between these two and as far as tested this seems
 to solve the issue #53 while being backwards compatible.
-If a better solution is found, it will be implemented. 
+If a better solution is found, it will be implemented.
+
+
+#### Breaking change
+
+Version 1.8.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **I2C_eeprom.begin()**.
 
 
 #### Links
@@ -76,13 +85,8 @@ Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
 Optionally one can set the **WP** writeProtect pin. (see section below).
 If the **WP** pin is defined the default will be to **not** allow writing.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t writeProtectPin = -1)** for ESP32 / ESP8266  / RP2040 and alike.
-Initializes the I2C bus with the specified pins, thereby overruling the default pins.
-Furthermore it checks if the deviceAddress is available on the I2C bus.
-Returns true if deviceAddress is found on the bus, false otherwise.
-Optionally one can set the **WP** writeProtect pin. (see section below).
-If the **WP** pin is defined the default will be to **not** allow writing.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
+- **uint8_t getAddress()** returns device address set in the constructor.
 
 
 ### Write functions
@@ -195,7 +199,7 @@ than 5 milliseconds which is the minimum.
 - **void     setExtraWriteCycleTime(uint8_t ms)** idem
 - **uint8_t  getExtraWriteCycleTime()** idem
 
-Since 1.7.2 it is also possible to adjust the **I2C_WRITEDELAY** in the .h file
+It is also possible to adjust the **I2C_WRITEDELAY** in the .h file
 or overrule the define on the command line.
 
 
@@ -252,20 +256,17 @@ See examples
   - write functions should return bytes written or so.
 - make deviceSize explicit in examples?
 
-
 #### Could
 
 - investigate smarter strategy for **updateBlock()** 
   => find first and last changed position could possibly result in less writes.
 - can **setBlock()** use strategies from **updateBlock()**
 
-
 #### Wont
 
 - investigate the print interface?
   - circular buffer? (see FRAM library)
   - dump function?
-
 
 ## Support
 

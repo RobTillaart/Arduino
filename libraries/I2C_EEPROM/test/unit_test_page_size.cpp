@@ -40,11 +40,12 @@ unittest_teardown()
 /**
  * Verify that an instance gets the default page size
  * when the constructor without device size is used.
- * The expected outcome is I2C_EEPROM_PAGESIZE 
+ * The expected outcome is I2C_EEPROM_PAGESIZE
  */
 unittest(i2c_eeprom_default_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR);
 
@@ -61,6 +62,7 @@ unittest(i2c_eeprom_default_page_size)
 unittest(i2c_eeprom_1k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x80);
 
@@ -76,6 +78,7 @@ unittest(i2c_eeprom_1k_page_size)
 unittest(i2c_eeprom_2k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x100);
 
@@ -91,6 +94,7 @@ unittest(i2c_eeprom_2k_page_size)
 unittest(i2c_eeprom_4k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x200);
 
@@ -106,6 +110,7 @@ unittest(i2c_eeprom_4k_page_size)
 unittest(i2c_eeprom_8k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x400);
 
@@ -121,6 +126,7 @@ unittest(i2c_eeprom_8k_page_size)
 unittest(i2c_eeprom_16k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x800);
 
@@ -136,6 +142,7 @@ unittest(i2c_eeprom_16k_page_size)
 unittest(i2c_eeprom_32k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x1000);
 
@@ -151,6 +158,7 @@ unittest(i2c_eeprom_32k_page_size)
 unittest(i2c_eeprom_64k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x2000);
 
@@ -166,6 +174,7 @@ unittest(i2c_eeprom_64k_page_size)
 unittest(i2c_eeprom_128k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x4000);
 
@@ -181,6 +190,7 @@ unittest(i2c_eeprom_128k_page_size)
 unittest(i2c_eeprom_256k_page_size)
 {
   Wire.resetMocks();
+  Wire.begin();
 
   I2C_eeprom eeprom(I2C_EEPROM_ADDR, 0x8000);
 
@@ -191,4 +201,6 @@ unittest(i2c_eeprom_256k_page_size)
 
 unittest_main()
 
-// ------------------
+
+//  -- END OF FILE --
+

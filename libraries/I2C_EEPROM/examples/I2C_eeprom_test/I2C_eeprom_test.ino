@@ -26,8 +26,12 @@ uint32_t start, diff, totals = 0;
 void setup()
 {
   SERIAL_OUT.begin(115200);
-  while (!SERIAL_OUT); // wait for SERIAL_OUT port to connect. Needed for Leonardo only
+  while (!SERIAL_OUT);  //  wait for SERIAL_OUT port to connect. Needed for Leonardo only
   SERIAL_OUT.println(__FILE__);
+  SERIAL_OUT.print("I2C_EEPROM_VERSION: ");
+  SERIAL_OUT.println(I2C_EEPROM_VERSION);
+
+  Wire.begin();
 
   ee.begin();
   if (! ee.isConnected())

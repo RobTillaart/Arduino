@@ -32,6 +32,8 @@ void setup()
   Serial.begin(115200);
   while(!Serial);
 
+  Wire.begin();
+
   ee.begin();
 
   cs.begin(ee, PAGE_SIZE, MEMORY_SIZE/PAGE_SIZE);

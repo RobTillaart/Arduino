@@ -21,12 +21,12 @@ uint8_t ar[100];
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial); // wait for SERIAL_OUT port to connect. Needed for Leonardo only
-
+  while (!Serial);  //  wait for Serial port to connect. Needed for Leonardo only
   Serial.println(__FILE__);
-  Serial.print("VERSION: ");
+  Serial.print("I2C_EEPROM_VERSION: ");
   Serial.println(I2C_EEPROM_VERSION);
-  Serial.println();
+
+  Wire.begin();
 
   ee.begin();
   if (! ee.isConnected())

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.8.0] - 2023-11-24  (breaking change)
+- simplify **begin()**, remove setting Wire pins from library.
+- add **getAddress()**
+- update readme.md
+- update examples
+
+
 ## [1.7.4] - 2023-09-06
 - solve #57 add support for WriteProtectPin
 - add writeProtectPin as optional parameter in **begin()**
@@ -17,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - optimized **waitEEReady()**
 - update keywords.txt
 - update readme.md
-
 
 ## [1.7.3] - 2023-05-10
 - fix #55 ==> redo fix #53

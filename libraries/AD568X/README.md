@@ -45,6 +45,16 @@ Feedback, issues, improvements are welcome.
 Please file an issue on GitHub.
 
 
+#### 0.2.0 breaking change
+
+The version 0.2.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+Note the order of the parameters of the software SPI constructor has changed in 0.2.0.
+
+
 ## Related
 
 - https://github.com/RobTillaart/AD56x8 (multi channel DAC's)
@@ -63,23 +73,24 @@ Please file an issue on GitHub.
 Should not be used to instantiate a device as the derived types have 
 set the correct number of bits. 
 
-- **AD568X(uint8_t slaveSelect)** constructor base class, sets HW SPI.
-Sets internal values to zero.
+- **AD568X(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor HW SPI (RP2040 specific). Sets internal value to zero.
+- **AD568X(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor HW SPI.
+Sets internal value to zero.
 - **AD568X(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)** constructor, 
 sets SW SPI.
 Sets internal values to zero.
 - **begin()** initializes the SPI and sets internal state.
-
+- **uint8_t getType()** returns bit depth (see below).
 
 #### Derived classes (preferred use)
 
 The parameters for the specific constructors are identical to the base class.
 One should use these, as these set the bit resolution!
 
-- **AD5681R(..)** constructor, 12 bit.
-- **AD5682R(..)** constructor, 14 bit.
-- **AD5683R(..)** constructor, 16 bit.
-- **AD5683(..)** constructor,  16 bit.
+- **AD5681R(uint8_t slaveSelect, ..)** constructor, 12 bit.
+- **AD5682R(uint8_t slaveSelect, ..)** constructor, 14 bit.
+- **AD5683R(uint8_t slaveSelect, ..)** constructor, 16 bit.
+- **AD5683(uint8_t slaveSelect, ..)** constructor,  16 bit.
 
 
 ### LDAC
@@ -162,20 +173,6 @@ please read datasheet of the ADC first to get optimal speed.
 
 #### SPI ESP32 specific
 
-("inherited" from MPC_DAC library)
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-(experimental)
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. Needs to be called AFTER the **begin()** function.
-
 Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as 
 HW-SPI and in fact a bit more stable. 
 The SW pulses are a bit slower than the HW pulses and therefore more square. 
@@ -190,7 +187,6 @@ The HW-SPI has some overhead SW-SPI hasn't.
 - get hardware for testing
 - test the library
 
-
 #### Should
 
 - write examples
@@ -200,7 +196,7 @@ The HW-SPI has some overhead SW-SPI hasn't.
   - multi device (LDAC sync)
 - Clean up / improve code.
   - move conditional code to variable. (setValue etc).
-
+- sync with AD5680
 
 #### Could
 

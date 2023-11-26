@@ -1,7 +1,7 @@
 //
 //    FILE: AD568X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
 
@@ -17,20 +17,24 @@
 #define AD568X_REG_CONTROL        0x40
 
 
-AD568X::AD568X(uint8_t slaveSelect)
+
+//  HARDWARE SPI
+AD568X::AD568X(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
-  _hwSPI  = true;
   _select = slaveSelect;
+  _hwSPI  = true;
+  _mySPI  = mySPI;
   _value  = 0;
 }
 
-
-AD568X::AD568X(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
+//  SOFTWARE SPI
+AD568X::AD568X(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
 {
+  _select  = slaveSelect;
   _hwSPI   = false;
+  _mySPI   = NULL;
   _dataOut = spiData;
   _clock   = spiClock;
-  _select  = slaveSelect;
   _value   = 0;
 }
 
@@ -46,27 +50,11 @@ void AD568X::begin()
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
@@ -239,48 +227,6 @@ bool AD568X::usesHWSPI()
 }
 
 
-//  ESP32 specific
-#if defined(ESP32)
-
-void AD568X::selectHSPI()
-{
-  _useHSPI = true;
-}
-
-
-void AD568X::selectVSPI()
-{
-  _useHSPI = false;
-}
-
-
-bool AD568X::usesHSPI()
-{
-  return _useHSPI;
-}
-
-
-bool AD568X::usesVSPI()
-{
-  return !_useHSPI;
-}
-
-
-void AD568X::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                            //  disable SPI
-  mySPI->begin(clk, miso, mosi, select);   //  enable SPI
-}
-
-#endif
-
-
 //////////////////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -302,11 +248,11 @@ void AD568X::updateDevice(uint8_t a, uint8_t b, uint8_t c)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(a);
-    mySPI->transfer(b);
-    mySPI->transfer(c);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(a);
+    _mySPI->transfer(b);
+    _mySPI->transfer(c);
+    _mySPI->endTransaction();
   }
   else //  Software SPI
   {
@@ -354,17 +300,15 @@ void AD568X::swSPI_transfer(uint8_t value)
 //
 //  DERIVED  AD5681
 //
-AD5681R::AD5681R(uint8_t slaveSelect) : AD568X(slaveSelect)
+AD5681R::AD5681R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD568X(slaveSelect, mySPI)
 {
   _type  = 12;
-  _value = 0;
 }
 
-AD5681R::AD5681R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD568X(spiData, spiClock, slaveSelect)
+AD5681R::AD5681R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD568X(slaveSelect, spiData, spiClock)
 {
   _type = 12;
-  _value = 0;
 }
 
 
@@ -372,17 +316,15 @@ AD5681R::AD5681R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 //
 //  DERIVED  AD5682
 //
-AD5682R::AD5682R(uint8_t slaveSelect) : AD568X(slaveSelect)
+AD5682R::AD5682R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD568X(slaveSelect, mySPI)
 {
   _type  = 14;
-  _value = 0;
 }
 
-AD5682R::AD5682R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD568X(spiData, spiClock, slaveSelect)
+AD5682R::AD5682R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD568X(slaveSelect, spiData, spiClock)
 {
   _type  = 14;
-  _value = 0;
 }
 
 
@@ -390,17 +332,15 @@ AD5682R::AD5682R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 //
 //  DERIVED  AD5683
 //
-AD5683R::AD5683R(uint8_t slaveSelect) : AD568X(slaveSelect)
+AD5683R::AD5683R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD568X(slaveSelect, mySPI)
 {
   _type  = 16;
-  _value = 0;
 }
 
-AD5683R::AD5683R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD568X(spiData, spiClock, slaveSelect)
+AD5683R::AD5683R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD568X(slaveSelect, spiData, spiClock)
 {
   _type  = 16;
-  _value = 0;
 }
 
 
@@ -408,17 +348,15 @@ AD5683R::AD5683R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
 //
 //  DERIVED  AD5683
 //
-AD5683::AD5683(uint8_t slaveSelect) : AD568X(slaveSelect)
+AD5683::AD5683(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD568X(slaveSelect, mySPI)
 {
   _type  = 16;
-  _value = 0;
 }
 
-AD5683::AD5683(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD568X(spiData, spiClock, slaveSelect)
+AD5683::AD5683(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD568X(slaveSelect, spiData, spiClock)
 {
   _type  = 16;
-  _value = 0;
 }
 
 

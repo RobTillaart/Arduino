@@ -2,7 +2,7 @@
 //
 //    FILE: AD568X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
 
@@ -10,7 +10,14 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD568X_LIB_VERSION        (F("0.1.0"))
+#define AD568X_LIB_VERSION        (F("0.2.0"))
+
+
+#if defined(ARDUINO_ARCH_RP2040)
+#define __SPI_CLASS__   SPIClassRP2040
+#else
+#define __SPI_CLASS__   SPIClass
+#endif
 
 
 #define AD568X_PWR_NORMAL         0x00
@@ -22,8 +29,11 @@
 class AD568X
 {
 public:
-  AD568X(uint8_t slaveSelect);
-  AD568X(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  //  HARDWARE SPI
+  AD568X(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD568X(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
+
 
   void     begin();
   uint8_t  getType();
@@ -71,17 +81,6 @@ public:
   uint32_t getSPIspeed();
   bool     usesHWSPI();
 
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI();
-  void     selectVSPI();
-  bool     usesHSPI();
-  bool     usesVSPI();
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
 
 protected:
   uint8_t  _type        = 0;      //  # bits
@@ -100,8 +99,8 @@ protected:
   void     updateDevice(uint8_t a, uint8_t b, uint8_t c);
   void     swSPI_transfer(uint8_t value);
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 
   #if defined(ESP32)
   bool        _useHSPI = true;
@@ -124,36 +123,44 @@ protected:
 class AD5681R : public AD568X
 {
 public:
-  AD5681R(uint8_t slaveSelect);
-  AD5681R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
-
-  //  SHORT WRITE ?
+  //  HARDWARE SPI
+  AD5681R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5681R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
 };
 
 
 class AD5682R : public AD568X
 {
 public:
-  AD5682R(uint8_t slaveSelect);
-  AD5682R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  //  HARDWARE SPI
+  AD5682R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5682R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
 };
 
 
 class AD5683R : public AD568X
 {
 public:
-  AD5683R(uint8_t slaveSelect);
-  AD5683R(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  //  HARDWARE SPI
+  AD5683R(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5683R(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
+
 };
 
 
 class AD5683 : public AD568X
 {
 public:
-  AD5683(uint8_t slaveSelect);
-  AD5683(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  //  HARDWARE SPI
+  AD5683(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5683(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
+
 };
 
 
+//  -- END OF FILE --
 
-// -- END OF FILE --

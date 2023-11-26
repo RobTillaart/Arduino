@@ -28,18 +28,10 @@ setReference	KEYWORD2
 enableGain	KEYWORD2
 enableDaisyChain	KEYWORD2
 
-
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
 
 usesHWSPI	KEYWORD2
-
-selectHSPI	KEYWORD2
-selectVSPI	KEYWORD2
-usesHSPI	KEYWORD2
-usesVSPI	KEYWORD2
-
-setGPIOpins	KEYWORD2
 
 
 # Constants (LITERAL1)

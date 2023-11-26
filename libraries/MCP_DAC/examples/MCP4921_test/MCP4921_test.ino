@@ -1,15 +1,15 @@
 //
 //    FILE: MCP4921_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test MCP4921 lib
+// PURPOSE: test MCP_DAC lib
 //    DATE: 2021-02-03
 //     URL: https://github.com/RobTillaart/MCP4921
 
 
 #include "MCP_DAC.h"
 
-// MCP4921 MCP(11, 13);  // SW SPI
-MCP4921 MCP;  // HW SPI
+MCP4921 MCP(11, 13);  // SW SPI
+// MCP4921 MCP;  // HW SPI
 
 volatile int x;
 uint32_t start, stop;

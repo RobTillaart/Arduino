@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-11-21
+- refactor constructor interface - breaking changes.
+  - minimize conditional code.
+  -- create __SPI_CLASS__ macro to solve it.
+- fix #24 support for ESP32-S3
+  - remove ESP32 specific functions and dependencies.
+- update readme.md
+- update examples
+
+----
+
 ## [0.2.1] - 2023-11-13
 - update readme.md
-
 
 ## [0.2.0] - 2023-03-23
 - fix #21 bug LDAC invert

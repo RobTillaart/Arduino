@@ -52,7 +52,7 @@ uint32_t   halvePeriod = 0;
 char mode = 'q';
 
 
-MCP4921 MCP(255, 255, &SPI1);
+MCP4921 MCP(&SPI1);
 uint16_t count;
 uint32_t lastTime = 0;
 

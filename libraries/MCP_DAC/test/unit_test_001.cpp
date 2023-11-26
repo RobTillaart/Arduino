@@ -119,4 +119,6 @@ unittest(test_buffered_mode)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

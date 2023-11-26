@@ -30,7 +30,7 @@ uint32_t   halvePeriod = 0;
 char mode = 'q';
 
 
-MCP4921 MCP;
+MCP4921 MCP;  //  default SPI == HSPI
 uint16_t count;
 uint32_t lastTime = 0;
 
@@ -49,11 +49,6 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  MCP.begin(10);
-
-  MCP.selectVSPI();     // needs to be called before begin()
-                        // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
-                        // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
   MCP.begin(15);        // 5 for VSPI and 15 for HSPI
 
   MCP.fastWriteA(0);

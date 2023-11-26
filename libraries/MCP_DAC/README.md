@@ -17,8 +17,9 @@ Arduino library for Microchip SPI DAC's:  8, 10, 12 bits, 1, 2 channel.
 ## Description
 
 The MCP_DAC is a library for DAC's from Microchip in the MCP48xx en MCP49xx series.
-The library is experimental as it is not tested with all different devices.
-Please post an issue if there are problems.
+The library is not tested with all different devices however stable.
+
+Please post an issue if there are problems with a specific device.
 
 
 |  Type   | Channels | Bits | MaxValue | Voltage reference |
@@ -41,6 +42,19 @@ The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
+#### 0.3.0 breaking change
+
+The version 0.3.0 has breaking changes in the interface. The essence is that the
+dependency of Wire (ESP32 / RP2040) is removed from the library.
+This makes it possible to support the **ESP32-S3** and other processors in the future.
+Also it makes the library a bit simpler to maintain.
+
+
+#### Related
+
+- https://github.com/RobTillaart/MCP_ADC
+
+
 ## Interface
 
 ```cpp
@@ -49,9 +63,10 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 #### Constructor
 
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040.
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass \*mySPI = &SPI)** Constructor base class.
-  Other devices just use their name as class object e.g. MCP4801 with same parameters.
+- **MCP_DAC(SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040, hardware SPI.
+- **MCP_DAC(SPIClass \*mySPI = &SPI)** Constructor base class other platforms, hardware SPI.
+- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255)** Constructor base class, software SPI.
+Other devices just use their name as class object e.g. **MCP4801()** with same parameters.
 - **begin(uint8_t select)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
 - **uint8_t channels()** returns the number of channels, 1 or 2.
@@ -65,8 +80,8 @@ This relates to the number of bits, see table above.
 - **bool setGain(uint8_t gain = 1)** gain is 1 (default) or 2.
 - **uint8_t getGain()** returns gain set, default 1.
 
-The analog output cannot go beyond the supply voltage.
-So if Vref is connected to 5V, gain=2 will not output 10 Volts.
+The analog output cannot go beyond the supply voltage.  
+So if Vref is connected to 5V, gain = 2 will not output 10 Volts.
 
 
 #### Write
@@ -137,42 +152,13 @@ The default mode == false == unbuffered.
 
 ## ESP32 specific
 
-#### SPI port selection
-
-This functionality is new in 0.1.2 and it is expected that the interface will change
-in the future.
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called
-BEFORE the **begin()** function.
-
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. 
-Needs to be called AFTER the **begin()** function.
-
-```cpp
-void setup()
-{
-  MCP.selectVSPI();
-  MCP.begin(15);
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-}
-```
-
-This interface can change in the future as the **select** pin is known
-in the code.
+Several functions removed in 0.3.0 as they were too processor specific,
+and prevented support for the ESP32-S3.
 
 
 #### ESP32 connections to MCP4922 (example)
 
-ESP32 has **four** SPI peripherals from which two can be used.
+ESP32 (first series) has **four** SPI peripherals from which two can be used.
 
 SPI0 and SPI1 are used to access flash memory. 
 SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
@@ -185,40 +171,33 @@ SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
 |    SDI     |  MOSI   = 13  |  MOSI   = 23  |
 |  not used  |  MISO   = 12  |  MISO   = 19  |
 
-By using different **SELECT** pins multiple DAC's can be controlled over
-one SPI bus.
+By using different **SELECT** pins multiple DAC's can be controlled over one SPI bus.
 
+
+The ESP32-S3 introduces user access to FSPI (which is reused from flash memory).
+Depending on ESP32 series e.g. HSPI is different, see code snippet below.
+
+```cpp
+#if CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32S3
+#define FSPI  0
+#define HSPI  1  
+#else  
+#define FSPI  1 //SPI bus attached to the flash (can use the same data lines but different SS)  
+#define HSPI  2 //SPI bus normally mapped to pins 12 - 15, but can be matrixed to any pins  
+#if CONFIG_IDF_TARGET_ESP32  
+#define VSPI  3 //SPI bus normally attached to pins 5, 18, 19 and 23, but can be matrixed to any pins  
+#endif  
+#endif
+```
 
 ## RP2040 specific
 
 #### SPI port selection
 
-The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. 
-For the pin swap, you need the call the experimental feature **void setGPIOpins**. 
-In the constructor you need to call the parameter dataOut and clock both 
-with 255 (0xff) or otherwise it will use SoftSPI. 
+The SPI Port selections happens in the hardware constructor with e.g. &SPI, &SPI1 etc.
+In pre-0.3.0 an experimental feature **void setGPIOpins** was supported to adjust the
+hardware pins however this should now be handled by the user outside the library.
 
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of RP2040 for different SPI pins. 
-Needs to be called AFTER the **begin()** function. 
-Selected pins must match the RP2040 pinout!
-
-Warning! This command changes the Pins of the bus not only of a specific device, 
-but all devices, that are connected on that bus!
-
-
-```cpp
-MCP4822 MCP(255, 255, &SPI1)
-
-void setup()
-{
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-  MCP.begin(17);
-}
-```
 
 #### Pico connections to MCP4922 (example)
 
@@ -234,8 +213,7 @@ SPI (SPI0) and SPI1 can both be used to connect devices.
 |  SDI     |  MOSI   = 19  |  MOSI   = 15  |
 | not used |  MISO   = 16  |  MISO   = 12  |
 
-By using different **SELECT** pins multiple DAC's can be controlled over
-one SPI bus.
+By using different **SELECT** pins multiple DAC's can be controlled over one SPI bus.
 
 
 ## Operation
@@ -252,20 +230,13 @@ See examples
 
 #### Should
 
+- **analogWrite()** is defined as a macro in io_pin_remap.h for the Arduino NANO ESP32.
+  - This gives a compile error. No solution yet (See #24)
+
 #### Could
 
 - functional names for magic masks.
 - refactor the API (how).
-- minimize conditional in code if possible.
-  - would this work?
-```cpp
-#if defined(ARDUINO_ARCH_RP2040)
-  #define _mySPIClass SPIClassRP2040
-#else
-  #define _mySPIClass SPIClass
-#endif
-```
-
 
 #### Wont
 

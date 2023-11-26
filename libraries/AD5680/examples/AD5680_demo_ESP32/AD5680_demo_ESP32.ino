@@ -3,12 +3,19 @@
 //  AUTHOR: Rob Tillaart
 // PUPROSE: test basic behaviour and performance
 
-
 #include "SPI.h"
 #include "AD5680.h"
 
 
-AD5680 AD16_HW(5, &SPI);
+#ifndef ESP32
+#error ESP32 only example, please select appropriate board
+#endif
+
+
+//  HSPI uses default   SCLK=14, MISO=12, MOSI=13, SELECT=15
+//  VSPI uses default   SCLK=18, MISO=19, MOSI=23, SELECT=5
+SPIClass * myspi = new SPIClass(VSPI);
+AD5680 AD16_HW(5, myspi);
 AD5680 AD16_SW(15, 13, 14);
 
 

@@ -6,8 +6,8 @@
 
 #include "AD5680.h"
 
-AD5680 AD16_HW(8);
-AD5680 AD16_SW(9, 10, 11);
+AD5680 AD16_HW(8, &SPI);
+AD5680 AD16_SW(5, 6, 7);
 
 float frequency = 50;
 float amplitude = 262144;  //  18 bits

@@ -39,8 +39,8 @@ unittest_teardown()
 
 unittest(constructors)
 {
-  AD5680 AD0(8);           //  18 bit
-  AD5680 AD1(8, 9, 10);    //  18 bit
+  AD5680 AD0(8, &SPI);    //  18 bit
+  AD5680 AD1(5, 6, 7);    //  18 bit
 
   assertTrue(AD0.usesHWSPI());
   assertFalse(AD1.usesHWSPI());
@@ -49,14 +49,14 @@ unittest(constructors)
 
 unittest(get_type)
 {
-  AD5680 AD0(8);
+  AD5680 AD0(8);  //  implicit HW SPI
   assertEqual(18, AD0.getType());
 }
 
 
 unittest(get_setValue)
 {
-  AD5680 AD0(8);
+  AD5680 AD0(8);  //  implicit HW SPI
 
   AD0.begin();
   for (int v = 0; v < 2000; v += 100)
@@ -69,7 +69,7 @@ unittest(get_setValue)
 
 unittest(get_setPercentage)
 {
-  AD5680 AD0(8);
+  AD5680 AD0(8);  //  implicit HW SPI
 
   AD0.begin();
   for (float p = 0; p < 100; p += 9)

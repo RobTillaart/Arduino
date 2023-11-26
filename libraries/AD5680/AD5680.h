@@ -2,7 +2,7 @@
 //
 //    FILE: AD5680.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -10,13 +10,22 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5680_LIB_VERSION        (F("0.1.1"))
+#define AD5680_LIB_VERSION        (F("0.2.0"))
+
+#if defined(ARDUINO_ARCH_RP2040)
+#define __SPI_CLASS__   SPIClassRP2040
+#else
+#define __SPI_CLASS__   SPIClass
+#endif
+
 
 class AD5680
 {
 public:
-  AD5680(uint8_t slaveSelect);
-  AD5680(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  //  HARDWARE SPI
+  AD5680(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
 
   void     begin();
   uint8_t  getType();
@@ -24,7 +33,7 @@ public:
 
   //  SET DAC
   //  sets output immediately = prepare + update.
-  bool     setValue(uint32_t value);
+  bool     setValue(uint32_t value = 0);
   uint32_t getValue();
   bool     setPercentage(float percentage);
   float    getPercentage();
@@ -34,17 +43,6 @@ public:
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed();
   bool     usesHWSPI();
-
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI();
-  void     selectVSPI();
-  bool     usesHSPI();
-  bool     usesVSPI();
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
 
 
 protected:
@@ -61,13 +59,9 @@ protected:
   void     updateDevice(uint32_t value);
   void     swSPI_transfer(uint8_t value);
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -1,7 +1,7 @@
 //
 //    FILE: AD5680.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -9,20 +9,23 @@
 #include "AD5680.h"
 
 
-AD5680::AD5680(uint8_t slaveSelect)
+//  HARDWARE SPI
+AD5680::AD5680(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
-  _hwSPI  = true;
   _select = slaveSelect;
+  _hwSPI  = true;
+  _mySPI  = mySPI;
   _value  = 0;
 }
 
-
-AD5680::AD5680(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
+//  SOFTWARE SPI
+AD5680::AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
 {
+  _select  = slaveSelect;
   _hwSPI   = false;
+  _mySPI   = NULL;
   _dataOut = spiData;
   _clock   = spiClock;
-  _select  = slaveSelect;
   _value   = 0;
 }
 
@@ -38,27 +41,11 @@ void AD5680::begin()
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
@@ -133,48 +120,6 @@ bool AD5680::usesHWSPI()
 }
 
 
-//  ESP32 specific
-#if defined(ESP32)
-
-void AD5680::selectHSPI()
-{
-  _useHSPI = true;
-}
-
-
-void AD5680::selectVSPI()
-{
-  _useHSPI = false;
-}
-
-
-bool AD5680::usesHSPI()
-{
-  return _useHSPI;
-}
-
-
-bool AD5680::usesVSPI()
-{
-  return !_useHSPI;
-}
-
-
-void AD5680::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                            //  disable SPI
-  mySPI->begin(clk, miso, mosi, select);   //  enable SPI
-}
-
-#endif
-
-
 //////////////////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -189,11 +134,11 @@ void AD5680::updateDevice(uint32_t value)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(a);
-    mySPI->transfer(b);
-    mySPI->transfer(c);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(a);
+    _mySPI->transfer(b);
+    _mySPI->transfer(c);
+    _mySPI->endTransaction();
   }
   else  //  Software SPI
   {

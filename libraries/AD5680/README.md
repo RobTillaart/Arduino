@@ -27,6 +27,17 @@ advises to add a LOW pass filter after the output.
 Feedback, issues, improvements are welcome. 
 Please file an issue on GitHub.
 
+
+#### 0.2.0 breaking change
+
+The version 0.2.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+Note the order of the parameters of the software SPI constructor has changed in 0.2.0.
+
+
 #### Related
 
 - https://github.com/RobTillaart/AD56x8 (multi channel)
@@ -42,20 +53,22 @@ Please file an issue on GitHub.
 
 ### Base class
 
-- **AD5680(uint8_t slaveSelect)** constructor base class, sets HW SPI.
-Sets internal values to zero.
-- **AD5680(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)** constructor, 
+- **AD5680(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor HW SPI (RP2040 specific). Sets internal value to zero.
+- **AD5680(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor HW SPI. 
+Sets internal value to zero.
+- **AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)** constructor SW SPI.
 sets SW SPI.
-Sets internal values to zero.
-- **begin()** initializes the SPI and sets internal state.
+Sets internal value to zero.
+- **void begin()** initializes the SPI and sets internal state.
+- **uint8_t getType()** returns 18 (for now).
 
 
 ### Set DAC
 
-- **bool setValue(uint16_t value)** set value to the output immediately, 
+- **bool setValue(uint32_t value)** set value to the output immediately, 
 effectively a prepare + update in one call.
 Returns false if value out of range.
-- **uint16_t getValue()** returns set value.
+- **uint32_t getValue()** returns set value.
 At power up the AD5680 will be reset to 0 (== 0 volt).
 - **bool setPercentage(float percentage)** idem.
 - **float getPercentage()** idem.
@@ -67,28 +80,6 @@ At power up the AD5680 will be reset to 0 (== 0 volt).
 please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** gets current speed in **Hz**.
 - **bool usesHWSPI()** returns true if HW SPI is used.
-
-
-#### SPI ESP32 specific
-
-("inherited" from MPC_DAC library)
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-(experimental)
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. Needs to be called AFTER the **begin()** function.
-
-Note: earlier experiments (other device) shows that on a ESP32 
-SW-SPI is equally fast as HW-SPI and in fact a bit more stable. 
-The SW pulses are a bit slower than the HW pulses and therefore more square. 
-The HW-SPI has some overhead SW-SPI hasn't.
 
 
 ## Performance
@@ -125,7 +116,6 @@ constructed with 50-100 values per period.
 
 #### Could
 
-- make a 16 bit interface?
 
 #### Wont
 

@@ -3,7 +3,7 @@
 //    FILE: AD520X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
@@ -13,21 +13,30 @@
 #include "SPI.h"
 
 
-#define AD520X_LIB_VERSION              (F("0.3.2"))
-
+#define AD520X_LIB_VERSION              (F("0.4.0"))
 
 #ifndef AD520X_MIDDLE_VALUE
 #define AD520X_MIDDLE_VALUE             128
 #endif
 
 
+#if defined(ARDUINO_ARCH_RP2040)
+#define __SPI_CLASS__   SPIClassRP2040
+#else
+#define __SPI_CLASS__   SPIClass
+#endif
+
+
 class AD520X
 {
 public:
+  //  HARDWARE SPI
+  AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
   AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 
   void     begin(uint8_t value = AD520X_MIDDLE_VALUE);
-
+  void     reset(uint8_t value = AD520X_MIDDLE_VALUE);
 
   //  MONO / SINGLE
   bool     setValue(uint8_t pm = 0, uint8_t value = AD520X_MIDDLE_VALUE);
@@ -48,31 +57,20 @@ public:
   void     setGroupPercentage(uint8_t mask, float percentage);
 
 
-  void     reset(uint8_t value = AD520X_MIDDLE_VALUE);
-  uint8_t  pmCount();
+  //       speed in Hz
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed();
 
+
+  //       MISC
+  uint8_t  pmCount();
   void     powerOn();
   void     powerOff();;
   bool     isPowerOn();
 
 
-  //       speed in Hz
-  void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed();
-
-  // debugging
+  //       Debugging
   bool     usesHWSPI();
-
-  // ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI();
-  void     selectVSPI();
-  bool     usesHSPI();
-  bool     usesVSPI();
-
-  // to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
 
 
 protected:
@@ -90,12 +88,8 @@ protected:
   void     updateDevice(uint8_t pm, uint8_t value);
   void     swSPI_transfer(uint8_t value);
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 };
 
 
@@ -106,35 +100,40 @@ protected:
 class AD5206 : public AD520X
 {
 public:
-  AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
+  AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 };
 
 
 class AD5204 : public AD520X
 {
 public:
-  AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
+  AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 };
 
 
 class AD8400 : public AD520X
 {
 public:
-  AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
+  AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 };
 
 
 class AD8402 : public AD520X
 {
 public:
-  AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
+  AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 };
 
 
 class AD8403 : public AD520X
 {
 public:
-  AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255);
+  AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI = &SPI);
+  AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock);
 };
 
-// -- END OF FILE --
+//  -- END OF FILE --

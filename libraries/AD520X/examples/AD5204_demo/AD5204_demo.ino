@@ -11,11 +11,11 @@
 uint32_t start, stop;
 
 
-//  select, reset, shutdown, data, clock
-AD5206 pot(10, 255, 255, 8, 9);  // SW SPI
+//  select, reset, shutdown, data, clock == SOFTWARE SPI
+// AD5206 pot(10, 255, 255, 8, 9);
 
-//  select, reset, shutdown
-//  AD5206 pot = AD5206(5, 6, 7);     // HW SPI UNO clock = 13, data = 11
+//  select, reset, shutdown, &SPI === HW SPI UNO clock = 13, data = 11
+AD5206 pot = AD5206(5, 6, 7, &SPI);
 
 
 void setup()
@@ -25,9 +25,9 @@ void setup()
 
   pot.begin(4);
 
-  // test_extremes();
-  // test_sinus();
-  // test_sawtooth();
+  //  test_extremes();
+  //  test_sinus();
+  //  test_sawtooth();
   test_timing();
 
   Serial.println("\nDone...");
@@ -89,7 +89,7 @@ void test_sawtooth()
   uint8_t i = 0;
   while (millis() - start < 25500)
   {
-    pot.setValue(0, i++); // auto wrap is fast...
+    pot.setValue(0, i++);  //  auto wrap is fast...
     delay(100);
   }
 }
@@ -103,7 +103,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setValue(0, i++); // auto wrap is fast...
+    pot.setValue(0, i++);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setValue():\t");
@@ -136,4 +136,4 @@ void test_timing()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

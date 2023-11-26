@@ -11,9 +11,9 @@
 uint32_t start, stop;
 
 
-//  select, reset, shutdown, data, clock
-//  AD5204 pot(10, 255, 255, 8, 9);  // SW SPI
-AD5204 pot = AD5204(10, 12, 13);     // HW SPI
+//  select, reset, shutdown, data, clock == SOFTWARE SPI
+//  AD5204 pot(10, 255, 255, 8, 9);
+AD5204 pot = AD5204(10, 12, 13);     //  HW SPI by default
 
 
 void setup()
@@ -51,4 +51,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

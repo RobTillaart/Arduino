@@ -36,6 +36,13 @@ The interface is straightforward, one can set a value per channels between 0..25
 The library is not yet confirmed to work for **AD8402** (2 channels).
 This device has  a very similar interface (datasheet comparison) so it should work. If you can confirm the AD8402 works, please let me know.
 
+#### 0.4.0 breaking change
+
+The version 0.4.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
 
 #### Related
 
@@ -56,18 +63,19 @@ This device has  a very similar interface (datasheet comparison) so it should wo
 
 ### Constructors
 
-- **AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut = 255, uint8_t clock = 255)** constructor  
+- **AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, SPIClassRP2040 \* mySPI = &SPI)** constructor HW SPI (RP2040 specific)
+- **AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, SPIClass \* mySPI = &SPI)** constructor HW SPI
+- **AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)** constructor SW SPI
 Base class, not to be used directly.
-If dataOut and clock are set to 255 (default) it uses hardware SPI. 
-If dataOut and clock are set to another (valid) value) it uses software SPI.
-reset and shutdown may be set to 255 too, which effectively disables them.  
-- **AD5204(select, reset, shutdown, dataOut = 255, clock = 255)** has 4 channels.
-- **AD5206(select, reset, shutdown, dataOut = 255, clock = 255)** has 6 channels.
-- **AD8400(select, reset, shutdown, dataOut = 255, clock = 255)** has 1 channel.
-- **AD8402(select, reset, shutdown, dataOut = 255, clock = 255)** has 2 channels.
-- **AD8403(select, reset, shutdown, dataOut = 255, clock = 255)** has 4 channels.
+- **AD5204(select, reset, shutdown, ...)** has 4 channels. As above.
+- **AD5206(select, reset, shutdown, ...)** has 6 channels. As above.
+- **AD8400(select, reset, shutdown, ...)** has 1 channel. As above.
+- **AD8402(select, reset, shutdown, ...)** has 2 channels. As above.
+- **AD8403(select, reset, shutdown, ...)** has 4 channels. As above.
 
-Note: hardware SPI is 10+ times faster on an UNO than software SPI. 
+Note: 
+- hardware SPI is 10+ times faster on an UNO than software SPI.
+- software SPI on ESP32 is about equally fast than hardware SPI.
 
 
 ### Base
@@ -92,17 +100,18 @@ Can typically be used for **mute**.
 - **setGroupValue(mask, value)** bit mask to set 0..8 channels in one call.
 
 
+The library has defined **#define AD520X_MIDDLE_VALUE  128**
+
+
 ### Percentage
 
-- **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%  
+- **bool setPercentage(uint8_t pm = 0, float percentage = 50)** similar to setValue, percentage from 0..100%, default potmeter 0 and 50%. 
 Returns true when successful, false if not.
 - **bool setPercentage(uint8_t pmA, uint8_t pmB, float percentage)** similar to setValue, percentage from 0..100%.
 Note, no default value.
 Returns true when successful, false if not.
 - **float getPercentage(uint8_t pm = 0)** return the value of potentiometer pm as percentage.
 - **setGroupPercentage(mask, value)** bit mask to set 0..8 channels in one call.
-
-The library has defined **#define AD520X_MIDDLE_VALUE  128**
 
 
 ### Hardware SPI
@@ -114,19 +123,6 @@ Has no effect on software SPI.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 
 
-### ESP32 specific
-
-This functionality is new in 0.1.2 and it is expected that the interface will change
-in the future. 
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **begin()** function.
-
-
 ### Misc
 
 - **uint8_t pmCount()** returns the number of internal potentiometers.
@@ -135,9 +131,9 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 - **bool isPowerOn()** returns true if on (default) or false if off.
 
 
-### Obsolete
+### Debugging
 
-- **void powerDown()** OBSOLETE since 0.3.0 => use powerOff() instead.
+- **bool usesHWSPI()** returns true / false depending on constructor.
 
 
 ## Future
@@ -150,7 +146,7 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
 #### Should
 
 - extend unit tests
-
+- extent examples
 
 #### Could (only if requested.)
 
@@ -166,7 +162,6 @@ The **selectVSPI()** or the **selectHSPI()** needs to be called BEFORE the **beg
    - how does this work with **stereo** functions.
    - at what level should invert work.
 - **bool getInvert(uint8_t pm)**
-
 
 #### Wont
 

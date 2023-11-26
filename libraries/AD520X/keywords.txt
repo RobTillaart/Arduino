@@ -11,6 +11,8 @@ AD8403	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+reset	KEYWORD2
+
 setValue	KEYWORD2
 setAll	KEYWORD2
 getValue	KEYWORD2
@@ -20,23 +22,13 @@ setPercentage	KEYWORD2
 getPercentage	KEYWORD2
 setGroupPercentage	KEYWORD2
 
-reset	KEYWORD2
-
-powerOn	KEYWORD2
-powerOff	KEYWORD2
-isPowerOn	KEYWORD2
-
-pmCount	KEYWORD2
-
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
 
-selectHSPI	KEYWORD2
-selectVSPI	KEYWORD2
-usesHSPI	KEYWORD2
-usesVSPI	KEYWORD2
-
-setGPIOpins	KEYWORD2
+pmCount	KEYWORD2
+powerOn	KEYWORD2
+powerOff	KEYWORD2
+isPowerOn	KEYWORD2
 
 
 # Constants (LITERAL1)

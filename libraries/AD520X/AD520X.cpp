@@ -2,7 +2,7 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
@@ -11,15 +11,30 @@
 #include "AD520X.h"
 
 
+//  HARDWARE SPI
+AD520X::AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+{
+  _pmCount  = 6;
+  _select   = select;
+  _reset    = reset;
+  _shutdown = shutdown;
+  _dataOut  = 255;
+  _clock    = 255;
+  _hwSPI    = true;
+  _mySPI    = mySPI;
+}
+
+//  SOFTWARE SPI
 AD520X::AD520X(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
 {
   _pmCount  = 6;
   _select   = select;
-  _dataOut  = dataOut;
-  _clock    = clock;
   _reset    = reset;
   _shutdown = shutdown;
-  _hwSPI    = (dataOut == 255) && (clock == 255);
+  _dataOut  = dataOut;
+  _clock    = clock;
+  _hwSPI    = false;
+  _mySPI    = NULL;
 }
 
 
@@ -37,24 +52,8 @@ void AD520X::begin(uint8_t value)
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14 MISO=12 MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18 MISO=19 MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
   else
@@ -65,6 +64,14 @@ void AD520X::begin(uint8_t value)
     digitalWrite(_clock,   LOW);
   }
 
+  reset(value);
+}
+
+
+void AD520X::reset(uint8_t value)
+{
+  digitalWrite(_reset, LOW);
+  digitalWrite(_reset, HIGH);
   setAll(value);
 }
 
@@ -172,14 +179,6 @@ void AD520X::setGroupPercentage(uint8_t mask, float percentage)
 //
 //  OTHER
 //
-void AD520X::reset(uint8_t value)
-{
-  digitalWrite(_reset, LOW);
-  digitalWrite(_reset, HIGH);
-  setAll(value);
-}
-
-
 uint8_t AD520X::pmCount()
 {
   return _pmCount;
@@ -227,47 +226,6 @@ bool AD520X::usesHWSPI()
 };
 
 
-#if defined(ESP32)
-
-void AD520X::selectHSPI()
-{
-  _useHSPI = true;
-}
-
-
-void AD520X::selectVSPI()
-{
-  _useHSPI = false;
-}
-
-
-bool AD520X::usesHSPI()
-{
-  return _useHSPI;
-}
-
-
-bool AD520X::usesVSPI()
-{
-  return !_useHSPI;
-}
-
-
-void AD520X::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                 //  disable SPI and restart
-  mySPI->begin(clk, miso, mosi, select);
-}
-
-#endif
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //  PROTECTED
@@ -277,10 +235,10 @@ void AD520X::updateDevice(uint8_t pm, uint8_t value)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(pm);
-    mySPI->transfer(value);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(pm);
+    _mySPI->transfer(value);
+    _mySPI->endTransaction();
   }
   else      //  Software SPI
   {
@@ -309,6 +267,13 @@ void AD520X::swSPI_transfer(uint8_t val)
 //
 //  DERIVED CLASSES
 //
+AD5206::AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+             : AD520X(select, reset, shutdown, mySPI)
+{
+  _pmCount = 6;
+}
+
+
 AD5206::AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
              : AD520X(select, reset, shutdown, dataOut, clock)
 {
@@ -316,8 +281,22 @@ AD5206::AD5206(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut,
 }
 
 
+AD5204::AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+             : AD520X(select, reset, shutdown, mySPI)
+{
+  _pmCount = 4;
+}
+
+
 AD5204::AD5204(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
              : AD520X(select, reset, shutdown, dataOut, clock)
+{
+  _pmCount = 4;
+}
+
+
+AD8403::AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+             : AD520X(select, reset, shutdown, mySPI)
 {
   _pmCount = 4;
 }
@@ -330,6 +309,13 @@ AD8403::AD8403(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut,
 }
 
 
+AD8402::AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+             : AD520X(select, reset, shutdown, mySPI)
+{
+  _pmCount = 2;
+}
+
+
 AD8402::AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
              : AD520X(select, reset, shutdown, dataOut, clock)
 {
@@ -337,10 +323,18 @@ AD8402::AD8402(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut,
 }
 
 
+AD8400::AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
+             : AD520X(select, reset, shutdown, mySPI)
+{
+  _pmCount = 1;
+}
+
 AD8400::AD8400(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
              : AD520X(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 1;
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

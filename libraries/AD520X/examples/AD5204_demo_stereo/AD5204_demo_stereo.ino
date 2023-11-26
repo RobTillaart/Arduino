@@ -11,8 +11,8 @@ uint32_t start, stop;
 
 
 //  select, reset, shutdown, data, clock
-//  AD5204 pot(10, 255, 255, 8, 9);  // SW SPI
-AD5204 pot = AD5204(10, 12, 13);     // HW SPI
+//  AD5204 pot(10, 255, 255, 8, 9);  //  SW SPI
+AD5204 pot = AD5204(10, 12, 13);     //  HW SPI  (default SPI)
 
 
 void setup()
@@ -25,8 +25,8 @@ void setup()
 
   pot.begin(4);
 
-  // test_sinus();
-  // test_sawtooth();
+  //  test_sinus();
+  //  test_sawtooth();
   test_timing();
 
   Serial.println("\nDone...");
@@ -68,7 +68,7 @@ void test_sawtooth()
   uint8_t i = 0;
   while (millis() - start < 10000)
   {
-    pot.setValue(0, 5, i++); //  auto wrap is fast...
+    pot.setValue(0, 5, i++);  //  auto wrap is fast...
   }
 }
 
@@ -81,7 +81,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setValue(0, i); // auto wrap is fast...
+    pot.setValue(0, i);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setValue(0, value):\t");
@@ -91,7 +91,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setValue(0, 1, i); // auto wrap is fast...
+    pot.setValue(0, 1, i);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setValue(0, 1, value):\t");
@@ -102,8 +102,8 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setValue(0, i); // auto wrap is fast...
-    pot.setValue(0, i); // auto wrap is fast...
+    pot.setValue(0, i);  //  auto wrap is fast...
+    pot.setValue(0, i);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x 2x setValue(0, value):\t");
@@ -113,7 +113,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setPercentage(0, 50); // auto wrap is fast...
+    pot.setPercentage(0, 50);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setPercentage(0, value):\t");
@@ -123,7 +123,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setPercentage(0, 1, 50); // auto wrap is fast...
+    pot.setPercentage(0, 1, 50);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setPercentage(0, 1, value):\t");
@@ -168,4 +168,4 @@ void test_timing()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

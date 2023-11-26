@@ -14,9 +14,9 @@ uint32_t start, stop;
 
 #define TWOPI    (3.14159265 * 2)
 
-//  param: select, reset, shutdown, data, clock
-AD5204 pot(10, 255, 255, 8, 9);   // SW SPI
-//  AD5204 pot = AD5204(10, 12, 13);     // HW SPI
+//  param: select, reset, shutdown, data, clock == SOFTWARE SPI
+AD5204 pot(10, 255, 255, 8, 9);
+//  AD5204 pot = AD5204(10, 12, 13);     //  HW SPI by default
 
 
 void setup()
@@ -78,7 +78,7 @@ void test_sawtooth()
   uint8_t i = 0;
   while (millis() - start < 10000)
   {
-    pot.setValue(0, i++); // auto wrap is fast...
+    pot.setValue(0, i++);  //  auto wrap is fast...
   }
 }
 
@@ -91,7 +91,7 @@ void test_timing()
   start = micros();
   for (int i = 0; i < 10000; i++)
   {
-    pot.setValue(0, i++); // auto wrap is fast...
+    pot.setValue(0, i++);  //  auto wrap is fast...
   }
   stop = micros();
   Serial.print("10000 x setValue():\t");
@@ -124,4 +124,4 @@ void test_timing()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

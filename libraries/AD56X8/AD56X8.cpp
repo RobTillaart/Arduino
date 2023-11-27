@@ -1,7 +1,7 @@
 //
 //    FILE: AD56X8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -21,22 +21,23 @@
 #define AD56X8_REG_SETUP_REF      0x08    //  not implemented
 
 
-AD56X8::AD56X8(uint8_t slaveSelect)
+//  HARDWARE SPI
+AD56X8::AD56X8(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
-  _hwSPI  = true;
   _select = slaveSelect;
-
+  _hwSPI  = true;
+  _mySPI  = mySPI;
   for (int i = 0; i < 8; i++) _value[i] = 0;
 }
 
-
-AD56X8::AD56X8(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
+//  SOFTWARE SPI
+AD56X8::AD56X8(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
 {
+  _select  = slaveSelect;
   _hwSPI   = false;
+  _mySPI   = NULL;
   _dataOut = spiData;
   _clock   = spiClock;
-  _select  = slaveSelect;
-
   for (int i = 0; i < 8; i++) _value[i] = 0;
 }
 
@@ -52,37 +53,17 @@ void AD56X8::begin()
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
     digitalWrite(_dataOut, LOW);
     digitalWrite(_clock, LOW);
   }
-
-  //  TODO RESET REGISTERS
-  //  _register = 0;
-  //  _value = 0;
 }
 
 
@@ -244,48 +225,6 @@ bool AD56X8::usesHWSPI()
 }
 
 
-//  ESP32 specific
-#if defined(ESP32)
-
-void AD56X8::selectHSPI()
-{
-  _useHSPI = true;
-}
-
-
-void AD56X8::selectVSPI()
-{
-  _useHSPI = false;
-}
-
-
-bool AD56X8::usesHSPI()
-{
-  return _useHSPI;
-}
-
-
-bool AD56X8::usesVSPI()
-{
-  return !_useHSPI;
-}
-
-
-void AD56X8::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();                            //  disable SPI
-  mySPI->begin(clk, miso, mosi, select);   //  enable SPI
-}
-
-#endif
-
-
 //////////////////////////////////////////////////////////////////
 //
 //  PRIVATE
@@ -309,12 +248,12 @@ void AD56X8::updateDevice(uint8_t a, uint8_t b, uint8_t c, uint8_t d)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(a);
-    mySPI->transfer(b);
-    mySPI->transfer(c);
-    mySPI->transfer(d);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(a);
+    _mySPI->transfer(b);
+    _mySPI->transfer(c);
+    _mySPI->transfer(d);
+    _mySPI->endTransaction();
   }
   else //  Software SPI
   {
@@ -345,15 +284,15 @@ void AD56X8::swSPI_transfer(uint8_t value)
 //
 //  DERIVED CLASSES
 //
-AD5668_3::AD5668_3(uint8_t slaveSelect) : AD56X8(slaveSelect)
+AD5668_3::AD5668_3(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
   _type = 16;
   //  AD5668_3 starts up at midscale
   for (int i = 0; i < 8; i++) _value[i] = 32768;  //  MIDSCALE
 }
 
-AD5668_3::AD5668_3(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD56X8(spiData, spiClock, slaveSelect)
+AD5668_3::AD5668_3(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD56X8(slaveSelect, spiData, spiClock)
 {
   _type = 16;
   //  AD5668_3 starts up at midscale
@@ -368,40 +307,38 @@ void AD5668_3::reset()
 }
 
 
-AD5668::AD5668(uint8_t slaveSelect) : AD56X8(slaveSelect)
+AD5668::AD5668(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
+{
+  _type = 16;
+}
+
+AD5668::AD5668(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD56X8(slaveSelect, spiData, spiClock)
 {
   _type = 16;
 }
 
 
-AD5668::AD5668(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD56X8(spiData, spiClock, slaveSelect)
+AD5648::AD5648(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
-  _type = 16;
+  _type = 14;
 }
 
-
-AD5648::AD5648(uint8_t slaveSelect) : AD56X8(slaveSelect)
+AD5648::AD5648(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD56X8(slaveSelect, spiData, spiClock)
 {
   _type = 14;
 }
 
 
-AD5648::AD5648(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD56X8(spiData, spiClock, slaveSelect)
-{
-  _type = 14;
-}
-
-
-AD5628::AD5628(uint8_t slaveSelect) : AD56X8(slaveSelect)
+AD5628::AD5628(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
   _type = 12;
 }
 
 
-AD5628::AD5628(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : AD56X8(spiData, spiClock, slaveSelect)
+AD5628::AD5628(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+                : AD56X8(slaveSelect, spiData, spiClock)
 {
   _type = 12;
 }

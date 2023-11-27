@@ -44,6 +44,16 @@ At least it lacks support for:
 - other points mentioned in future section below.
 
 
+#### 0.2.0 breaking change
+
+The version 0.2.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+Note the order of the parameters of the software SPI constructor has changed in 0.2.0.
+
+
 ## Related
 
 This library is partly inspired by https://github.com/bobhart/AD5668-Library, kudo's to Bob!
@@ -52,9 +62,8 @@ Discussed here - https://forum.arduino.cc/t/new-library-for-the-ad5668-dac/34039
 Some differences between this library and Bob Harts. This library
 - caches the values of all channels, so they can be read back.
 - has derived classes for every specific type DAC.
-This allows value range checking in the future. Not Implemented Yet.
+This allows value range checking.
 - caches the LDAC mask, so it can be read back and updated.
-- has extended (ESP32) SPI interface (similar and tested with MCP_DAC)
 - allows to set SPI-speed.
 - has faster software SPI transfer, on ESP32 this rivals HW SPI.
 - MIT license instead of GNU v3
@@ -75,18 +84,32 @@ This allows value range checking in the future. Not Implemented Yet.
 
 Should not be used to instantiate a device as the derived types have correct number of bits. 
 
-- **AD56X8(uint8_t slaveSelect)** constructor base class, sets HW SPI. 
-Uses default a 16 bit interface.
+- **AD56X8(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor HW SPI (RP2040 specific). 
+Sets internal value to zero.
+- **AD56X8(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor HW SPI.
+Sets internal value to zero.
+- **AD56X8(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)** constructor, 
+sets SW SPI.
 Sets internal values to zero.
-- **AD56X8(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)** constructor, sets SW SPI.
-Uses default a 16 bit interface.
-Sets internal values to zero.
-- **begin()** initializes the SPI and sets internal state.
+- **void begin()** initializes the SPI and sets internal state.
+- **uint8_t getType()** returns bit depth (see below).
+
+
+#### Derived classes (preferred use)
+
+The parameters for the specific constructors are identical to the base class.
+One should use these, as these set the bit resolution!
+
+- **AD5628(uint8_t slaveSelect, ..)** constructor,  16 bit. Starts up at **midscale = 32768**.
+- **AD5648(uint8_t slaveSelect, ..)** constructor, 14 bit.
+- **AD5668(uint8_t slaveSelect, ..)** constructor, 16 bit.
+- **AD5668_3(uint8_t slaveSelect, ..)** constructor, 16 bit.
 
 
 #### Set DAC
 
-- **bool setValue(uint8_t channel, uint16_t value)** set value to the output immediately, effectively a prepare + update in one call.
+- **bool setValue(uint8_t channel, uint16_t value)** set value to the output immediately, 
+effectively a prepare + update in one call.
 Returns false if channel out of range.
 - **uint16_t getValue(uint8_t channel)** returns set OR prepared value.
 At power up the DAC's will be reset to 0 V except the AD5668-3 (2.5V).
@@ -96,7 +119,8 @@ At power up the DAC's will be reset to 0 V except the AD5668-3 (2.5V).
 Returns false if channel out of range.
 - **bool updateChannel(uint8_t channel)** writes the prepared value to ADC.
 Returns false if channel out of range.
-- **void updateAllChannels()** writes all prepared channels to their ADC simultaneously by applying a SW latch pulse (LDAC).
+- **void updateAllChannels()** writes all prepared channels to their ADC simultaneously 
+by applying a SW latch pulse (LDAC).
 
 Note: the valid range of **value** is not checked by the library. 
 
@@ -164,34 +188,10 @@ of the ADC first to get optimal speed.
 
 #### SPI ESP32 specific
 
-("inherited" from MPC_DAC library)
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-(experimental)
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. needs to be called AFTER the **begin()** function.
-
-Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as HW-SPI and in fact a bit more stable. 
-The SW pulses are a bit slower than the HW pulses and therefore more square. The HW-SPI has some overhead SW-SPI hasn't. 
-
-
-### Derived classes (preferred use)
-
-The parameters for the specific constructors are identical 
-to the base class.
-
-- **AD5668_3(..)** constructor, 16 bit. 
-Starts up at **midscale = 32768**.
-- **AD5668(..)** constructor, 16 bit.
-- **AD5648(..)** constructor, 14 bit.
-- **AD5628(..)** constructor, 12 bit.
+Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as 
+HW-SPI and in fact a bit more stable. 
+The SW pulses are a bit slower than the HW pulses and therefore more square. 
+The HW-SPI has some overhead SW-SPI hasn't.
 
 
 ## Operation
@@ -210,10 +210,7 @@ Note that the library is not tested with hardware yet.
 - test the library
 - write unit test
 - check TODO in code
-- investigate different type for AD5668_3 
-  - it does midscale
-  - need different reset?
-
+- keep in sync with AD5680 + AD568X library
 
 #### Should
 
@@ -225,7 +222,6 @@ Note that the library is not tested with hardware yet.
   - void **triggerReset()**
 - support for EXTERNAL VREF
   - how?
-
 
 #### Could
 
@@ -239,7 +235,7 @@ Note that the library is not tested with hardware yet.
   - should value be clipped instead?
   - **setPercentage()** idem.
   - user responsibility
-  
+
 
 ## Support
 

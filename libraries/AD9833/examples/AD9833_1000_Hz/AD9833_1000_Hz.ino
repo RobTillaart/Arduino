@@ -4,17 +4,20 @@
 //    DATE: 2023-08-25
 // PURPOSE: create a 1000 Hz reference signal
 
+
 #include "AD9833.h"
 
-AD9833 AD;
+
+AD9833 AD(10, 11, 13);  //  SW SPI over the HW SPI pins (UNO);
+//  AD(10);      //  HW SPI 
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  AD.begin(10, 11, 13);  //  SW SPI over the HW SPI pins (UNO)
-  //  AD.begin(10);      //  HW SPI 
+  AD.begin();
 
   AD.setWave(AD9833_SQUARE1);
   Serial.println(AD.getWave());

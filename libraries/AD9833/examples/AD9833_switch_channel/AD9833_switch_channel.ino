@@ -3,18 +3,23 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo AD9833 wave form generator
 
+
 #include "AD9833.h"
 
-AD9833 AD;
+
+AD9833 AD(10);  //  HW SPI, select = pin 10
+
 uint32_t lastTime = 0;
 uint8_t  channel = 0;
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  AD.begin(10);  //  HW SPI, select = pin 10
+  AD.begin();
+
   AD.setWave(AD9833_SINE);
   AD.setFrequency(440, 0);    //  A0
   AD.setFrequency(880, 1);    //  one octave higher.

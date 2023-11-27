@@ -4,9 +4,12 @@
 //    DATE: 2023-08-25
 // PURPOSE: demo AD9833 wave form generator
 
+
 #include "AD9833.h"
 
-AD9833 AD;
+
+//  AD9833 AD(10, 11, 13);  //  software SPI
+AD9833 AD(10);       //  hardware SPI
 
 
 uint32_t start, stop;
@@ -19,8 +22,7 @@ void setup()
   Serial.println(AD9833_LIB_VERSION);
   delay(10);
 
-  AD.begin(10, 11, 13);  //  software SPI
-  //  AD.begin(10);       //  hardware SPI
+  AD.begin();
 
   Serial.print("hardware:\t");
   Serial.println(AD.usesHWSPI());

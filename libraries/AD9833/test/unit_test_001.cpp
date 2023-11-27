@@ -51,11 +51,11 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  AD9833 funcgen;
-  AD9833 fgsw;
+  AD9833 funcgen(10);
+  AD9833 fgsw(4,5,6);
 
-  funcgen.begin(10);
-  fgsw.begin(4,5,6);
+  funcgen.begin();
+  fgsw.begin();
 
   assertEqual(AD9833_MAX_FREQ, funcgen.getMaxFrequency());
   assertEqual(AD9833_MAX_PHASE, funcgen.getMaxPhase());
@@ -67,8 +67,8 @@ unittest(test_constructor)
 
 unittest(test_wave)
 {
-  AD9833 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9833 funcgen(4, 5, 6);
+  funcgen.begin();
 
   for (long wave = 0; wave < 5; wave++)
   {
@@ -81,8 +81,8 @@ unittest(test_wave)
 
 unittest(test_frequency)
 {
-  AD9833 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9833 funcgen(4, 5, 6);
+  funcgen.begin();
 
   for (long freq = 0; freq < 10000000; freq += 1000000)
   {
@@ -95,8 +95,8 @@ unittest(test_frequency)
 
 unittest(test_phase)
 {
-  AD9833 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9833 funcgen(4, 5, 6);
+  funcgen.begin();
 
   for (int ph = 0; ph < 360; ph += 30)
   {

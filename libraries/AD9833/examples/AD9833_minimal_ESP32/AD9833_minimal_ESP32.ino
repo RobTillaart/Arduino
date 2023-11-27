@@ -7,8 +7,16 @@
 
 #include "AD9833.h"
 
+#ifndef ESP32
+#error ESP32 only example, please select appropriate board
+#endif
 
-AD9833 AD(10);  //  HW SPI, select pin 10
+
+//  HSPI uses default   SCLK=14, MISO=12, MOSI=13, SELECT=15
+//  VSPI uses default   SCLK=18, MISO=19, MOSI=23, SELECT=5
+SPIClass * myspi = new SPIClass(VSPI);
+AD9833 AD(5, myspi);
+//  AD9833 AD(15, 13, 14); //  SW SPI
 
 
 void setup()

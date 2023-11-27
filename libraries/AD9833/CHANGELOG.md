@@ -6,12 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-11-26
+- refactor constructor/begin interface - breaking changes.
+  - minimize conditional code. -- create SPI_CLASS macro to solve it.
+- reordered parameters software SPI constructor.
+- update readme.md
+- update examples
+
+----
+
 ## [0.1.2] - 2023-10-16
 - release for #5 set DIV2 flag
 - add examples switching phase and frequency channel
 - add example for multi device
 - minor edits
-
 
 ## [0.1.1] - 2023-08-25
 - fix #2 - external FSYNC control

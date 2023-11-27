@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/AD9833
 //
 
@@ -21,17 +21,28 @@
 #define AD9833_MODE     (1 << 1)
 
 
-AD9833::AD9833()
+
+//  HARDWARE SPI
+AD9833::AD9833(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
+  _selectPin = slaveSelect;
+  _hwSPI     = true;
+  _mySPI     = mySPI;
+}
+
+//  SOFTWARE SPI
+AD9833::AD9833(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+{
+  _selectPin = slaveSelect;
+  _dataPin   = spiData;
+  _clockPin  = spiClock;
+  _hwSPI     = false;
+  _mySPI     = NULL;
 }
 
 
-void AD9833::begin(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)
+void AD9833::begin()
 {
-  _selectPin = selectPin;
-  _dataPin   = dataPin;
-  _clockPin  = clockPin;
-
   _useSelect = (_selectPin != 255);
   if (_useSelect)
   {
@@ -39,59 +50,20 @@ void AD9833::begin(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)
     digitalWrite(_selectPin, HIGH);
   }
 
-  _hwSPI = ((dataPin == 0) || (clockPin == 0));
-
   _spi_settings = SPISettings(8000000, MSBFIRST, SPI_MODE2);
 
   if (_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, selectPin);   //  CLK = 14  MISO = 12  MOSI = 13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, selectPin);   //  CLK = 18  MISO = 19  MOSI = 23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataPin,  OUTPUT);
     pinMode(_clockPin, OUTPUT);
     digitalWrite(_dataPin,  LOW);
     digitalWrite(_clockPin, HIGH);
   }
-  reset();
-}
-
-
-void AD9833::begin(uint8_t selectPin, SPIClass * spi)
-{
-  _selectPin = selectPin;
-  _useSelect = (_selectPin != 255);
-  if (_useSelect)
-  {
-    pinMode(_selectPin, OUTPUT);
-    digitalWrite(_selectPin, HIGH);
-  }
-
-  _hwSPI = true;
-  _spi_settings = SPISettings(8000000, MSBFIRST, SPI_MODE2);
-
-  mySPI = spi;
-  mySPI->end();
-  mySPI->begin();
-
   reset();
 }
 
@@ -304,9 +276,9 @@ void AD9833::writeData(uint16_t data)
   if (_useSelect) digitalWrite(_selectPin, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer16(data);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer16(data);
+    _mySPI->endTransaction();
   }
   else
   {

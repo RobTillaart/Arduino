@@ -2,21 +2,31 @@
 //    FILE: AD9833_multi_device.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo AD9833 wave form generator on 4 devices
+//
+// todo: test with hardware
 
 #include "AD9833.h"
 
-AD9833 AD[4];  //  4 devices.
+
+//  each device needs its own select pin.
+AD9833 AD[4] = 
+{
+  AD9833(4),
+  AD9833(5),
+  AD9833(6),
+  AD9833(7)
+};  //  4 devices.
+
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  //  each device needs its own select pin.
-  AD[0].begin(4);   //  HW SPI, select pin 4
-  AD[1].begin(5);
-  AD[2].begin(6);
-  AD[3].begin(7);
+  for (int i = 0; i < 3; i++)
+  {
+    AD[i].begin();
+  }
 
   //  A major chord
   AD[0].setFrequency(440.00, 0);     //  A

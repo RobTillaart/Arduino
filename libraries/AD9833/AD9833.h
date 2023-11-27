@@ -3,7 +3,7 @@
 //    FILE: AD9833.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -11,7 +11,14 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.1.2"))
+#define AD9833_LIB_VERSION     (F("0.2.0"))
+
+
+#if defined(ARDUINO_ARCH_RP2040)
+#define __SPI_CLASS__   SPIClassRP2040
+#else
+#define __SPI_CLASS__   SPIClass
+#endif
 
 
 #define AD9833_MAX_FREQ       (12500000UL)  //  12.5 MHz.
@@ -29,11 +36,13 @@
 class AD9833
 {
 public:
-  AD9833();
+  //       slaveSelect == selectPin == fsyncPin
+  //  HARDWARE SPI
+  AD9833(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD9833(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
 
-  //       selectPin == fsyncPin
-  void     begin(uint8_t selectPin, uint8_t dataPin = 0, uint8_t clockPin = 0);
-  void     begin(uint8_t selectPin, SPIClass * spi);
+  void     begin();
 
   void     reset();
   void     hardwareReset();
@@ -66,18 +75,6 @@ public:
   bool     usesHWSPI();
 
 
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
-
   //  LOW LEVEL API - Expert users only
   void     writeControlRegister(uint16_t value);
   void     writeFreqRegister(uint8_t reg, uint32_t freq);
@@ -85,25 +82,19 @@ public:
 
 
 private:
-
   void     writeData(uint16_t data);
 
   bool     _hwSPI    = true;
   uint32_t _SPIspeed = 8000000;
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-#if defined(ESP32)
-  bool        _useHSPI = true;
-#endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings     _spi_settings;
 
   //  PINS
   uint8_t  _dataPin   = 0;
   uint8_t  _clockPin  = 0;
   uint8_t  _selectPin = 0;
   bool     _useSelect = false;
-
 
   //  SIGNAL
   uint16_t _control   = 0;
@@ -112,7 +103,6 @@ private:
   float    _freq[2]   = { 0, 0 };  //  Hz
   float    _phase[2]  = { 0, 0 };  //  angle 0..360
 };
-
 
 
 //  --  END OF FILE --

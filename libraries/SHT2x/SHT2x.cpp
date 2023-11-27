@@ -1,8 +1,8 @@
 //
 //    FILE: SHT2x.cpp
-//  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.4.0
-//    DATE: 2021-09-25
+//  AUTHOR: Rob Tillaart, Viktor Balint, JensB
+// VERSION: 0.4.1
+//    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
 
@@ -11,20 +11,20 @@
 
 
 //  SUPPORTED COMMANDS
-#define SHT2x_GET_TEMPERATURE_NO_HOLD   0xF3
-#define SHT2x_GET_HUMIDITY_NO_HOLD      0xF5
-#define SHT2x_SOFT_RESET                0xFE
-#define SHT2x_WRITE_USER_REGISTER       0xE6
-#define SHT2x_READ_USER_REGISTER        0xE7
+#define SHT2x_GET_TEMPERATURE_NO_HOLD      0xF3
+#define SHT2x_GET_HUMIDITY_NO_HOLD         0xF5
+#define SHT2x_SOFT_RESET                   0xFE
+#define SHT2x_WRITE_USER_REGISTER          0xE6
+#define SHT2x_READ_USER_REGISTER           0xE7
 
-#define SHT2x_HEATER_TIMEOUT            180000UL  //  milliseconds
+#define SHT2x_HEATER_TIMEOUT               180000UL  //  milliseconds
 
-#define SHT2x_ADDRESS                   0x40
+#define SHT2x_ADDRESS                      0x40
 
 
-#define SHT2x_USRREG_RESOLUTION         0x81
-#define SHT2x_USRREG_BATTERY            0x20
-#define SHT2x_USRREG_HEATER             0x04
+#define SHT2x_USRREG_RESOLUTION            0x81
+#define SHT2x_USRREG_BATTERY               0x20
+#define SHT2x_USRREG_HEATER                0x04
 
 
 //////////////////////////////////////////////////////////////
@@ -273,8 +273,14 @@ uint16_t SHT2x::getRawHumidity()
 
 bool SHT2x::reset()
 {
-  bool b = writeCmd(SHT2x_SOFT_RESET);
-  return b;
+  bool success = writeCmd(SHT2x_SOFT_RESET);
+  if (success)
+  {
+    _resolution = 0;
+    _heaterOn = false;
+    _error = SHT2x_OK;
+  }
+  return success;
 }
 
 

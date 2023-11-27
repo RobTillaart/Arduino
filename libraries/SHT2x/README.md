@@ -26,9 +26,9 @@ Accuracy table
 
 |  Sensor   | Temperature | Humidity |  Notes  |
 |:---------:|:-----------:|:--------:|:--------|
-|  SHT20    |   ~0.3      |  ±3.0    |         |
-|  SHT21    |   ~0.3      |  ±3.0    |         |
-|  SHT25    |   ~0.3      |  ±1.8    |         |
+|  SHT20    |   ~0.3      |  Â±3.0    |         |
+|  SHT21    |   ~0.3      |  Â±3.0    |         |
+|  SHT25    |   ~0.3      |  Â±1.8    |         |
 |  HTU20    |             |          |  to-do  |
 |  HTU21    |             |          |  to-do  |
 |  Si7013   |             |          |  to-do  |
@@ -83,7 +83,7 @@ Initial release has a blocking delay.
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **bool reset()** resets the sensor, soft reset, no hard reset supported.
 - **float getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it.
-- **float getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it.
+- **float getTemperature()** computes the temperature in Â°C based off the latest raw reading, and returns it.
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
@@ -243,6 +243,9 @@ Timing in milliseconds.
 - improve error handling (all code paths)
 - investigate blocking delay() in read 
 - add offset for temperature and humidity
+
+#### 0.4.1
+- fix reset(): clear state of resolution, heater and error
 
 #### Should
 

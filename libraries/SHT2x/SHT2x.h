@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: SHT2x.h
-//  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.4.0
-//    DATE: 2021-09-25
+//  AUTHOR: Rob Tillaart, Viktor Balint, JensB
+// VERSION: 0.4.1
+//    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.4.0"))
+#define SHT2x_LIB_VERSION             (F("0.4.1"))
 
 
 //  fields getStatus
@@ -63,7 +63,7 @@ public:
   //
   //  TEMPERATURE AND HUMIDTY
   //
-  //  read must be called get getTemperature / getHumidity
+  //  read must be called before calling getTemperature / getHumidity
   bool     read();
 
   float    getTemperature();

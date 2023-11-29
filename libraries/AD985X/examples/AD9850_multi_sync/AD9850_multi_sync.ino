@@ -4,9 +4,9 @@
 // PURPOSE: demo multi device
 //     URL: https://github.com/RobTillaart/AD985X
 
-// measure speed difference when updating multiple devices
-// - sequentially
-// - simultaneously
+//  measure speed difference when updating multiple devices
+//  - sequentially
+//  - simultaneously
 
 
 #include "AD985X.h"
@@ -20,13 +20,13 @@
 #define RESET     9
 #define FQ_UD     10
 
-// we want to control four hardware devices
-// so we declare three software objects
-AD9850 freqGen0;
-AD9850 freqGen1;
-AD9850 freqGen2;
-AD9850 freqGen3;
-AD9850 freqGen4;
+//  we want to control four hardware devices
+//  so we declare three software objects
+AD9850 freqGen0(SELECT1, RESET, FQ_UD, 11, 12);
+AD9850 freqGen1(SELECT2, RESET, FQ_UD, 11, 12);
+AD9850 freqGen2(SELECT3, RESET, FQ_UD, 11, 12);
+AD9850 freqGen3(SELECT4, RESET, FQ_UD, 11, 12);
+AD9850 freqGen4(SELECT5, RESET, FQ_UD, 11, 12);
 
 float    freq = 10000;
 
@@ -40,15 +40,15 @@ void setup()
   Serial.println(AD985X_LIB_VERSION);
 
   // initialize three devices
-  freqGen0.begin(SELECT1, RESET, FQ_UD, 11, 12);
+  freqGen0.begin();
   freqGen0.powerUp();
-  freqGen1.begin(SELECT2, RESET, FQ_UD, 11, 12);
+  freqGen1.begin();
   freqGen1.powerUp();
-  freqGen2.begin(SELECT3, RESET, FQ_UD, 11, 12);
+  freqGen2.begin();
   freqGen2.powerUp();
-  freqGen3.begin(SELECT4, RESET, FQ_UD, 11, 12);
+  freqGen3.begin();
   freqGen3.powerUp();
-  freqGen4.begin(SELECT5, RESET, FQ_UD, 11, 12);
+  freqGen4.begin();
   freqGen4.powerUp();
 
   test1();

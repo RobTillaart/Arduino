@@ -8,7 +8,7 @@
 #include "AD985X.h"
 
 
-AD9851 freqGen; 
+AD9851 freqGen(10, 9, 8, 7, 6); 
 
 
 void setup()
@@ -18,7 +18,7 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  freqGen.begin(10, 9, 8, 7, 6);
+  freqGen.begin();
 }
 
 
@@ -46,4 +46,4 @@ float readFreq(bool KHZ)
   return freq;
 }
 
-// END OF FILE
+//  -- END OF FILE --

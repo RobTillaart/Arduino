@@ -8,7 +8,7 @@
 #include "AD985X.h"
 
 
-AD9851 freqGen;
+AD9851 freqGen(10, 9, 8, 7, 6);
 
 uint32_t freq    = 0;
 uint32_t maxFreq = 2000000UL;
@@ -23,7 +23,7 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  freqGen.begin(10, 9, 8, 7, 6);
+  freqGen.begin();
   freqGen.powerUp();
   freqGen.setAutoRefClock(true);
 
@@ -53,4 +53,4 @@ void loop()
   delay(50);
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

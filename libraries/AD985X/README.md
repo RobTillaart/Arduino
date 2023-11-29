@@ -19,10 +19,10 @@ Arduino library for AD9850 and AD9851 function generators.
 Library for the AD9850 and AD9851 function generators.
 These devices can produce a square and a sine wave 
 
-|   type   | max frequency  |  phase (step size)  |
-|:--------:|:--------------:|:-------------------:|
-|  AD9850  |      40 MHz    |     0..31 x 11.25°  |
-|  AD9851  |      70 MHz    |     0..31 x 11.25°  |
+|   type   | max freq |  phase (step size)  |  Notes  |
+|:--------:|:--------:|:-------------------:|:--------|
+|  AD9850  |  40 MHz  |     0..31 x 11.25°  |
+|  AD9851  |  70 MHz  |     0..31 x 11.25°  | has more options.
 
 
 Note that at the max frequency the devices do not give a nice sine any more.
@@ -38,7 +38,17 @@ This feature improves the tuning for both low and high frequencies.
 The library is not suitable for AD9852 as that is a function generator with
 way more functionality.
 
-Note: mainly tested on Arduino UNO. Tweaking for other platforms is expected.
+Note: mainly tested on Arduino UNO.
+
+
+#### 0.4.0 breaking change
+
+The version 0.4.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+Furthermore it moved parameters from **begin()** to the constructor.
+Finally made a specific constructor for HW SPI and SW SPI.
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
 
 
 ## Connection
@@ -70,15 +80,23 @@ Schema break-out
 ```
 
 
+#### Related
+
+- https://github.com/RobTillaart/AD9833
+- https://github.com/RobTillaart/AD985X
+- https://github.com/RobTillaart/functionGenerator  software waveform generator
+- https://pages.mtu.edu/~suits/notefreqs.html  frequency table for notes.
+
+
 ### Multi device 
 
 See **Multi_AD985X_devices.pdf**
 
-
 Discussion leading to the document see - https://github.com/RobTillaart/AD985X/issues/13 
 
 The AD985X board can be connected with a SPI bus like interface. 
-However there is **no Chip Select pin (CS)** so one must take other measures to control multiple AD985X devices.
+However there is **no Chip Select pin (CS)** so one must take 
+other measures to control multiple AD985X devices.
 
 
 #### Trivial solution
@@ -162,23 +180,26 @@ If the FQ_UD line can be shared directly it offers a way to start / change multi
 devices at the same time. 
 
 
-
 ## Interface
 
-### Constructors
+```cpp
+#include "AD985X.h"
+```
 
-- **AD9850()** 40 MHz signal generator
-- **AD9851()** 70 MHz signal generator, derived from AD9850 with some extra options.
+#### Constructors
 
-
-### Common interface
-
-- **void begin(uint8_t selectPin, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut = 0, uint8_t clock = 0)**  
-For hardware SPI only use the first three parameters, 
-for SW SPI you need to define the data and clock pin too.
-  - selectPin = chip select. The library uses HIGH as active and LOW as not selected.  
+- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI, uint8_t spiClock)** hardware SPI constructor RP2040
+- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI, uint8_t spiClock)** hardware SPI constructor 
+- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
+  - slaveSelect = chip select. The library uses HIGH as active and LOW as not selected.  
   - resetPin = reset
-  - FQUD = Frequency UpDate Pin
+  - FQUDPin = Frequency UpDate Pin
+- **AD9851(...)** constructors with same interface as AD9850
+
+
+#### Common interface
+
+- **void begin()** initializes library internals.
 - **void reset()** resets the function generator.
 - **void powerDown()** idem.
 - **void powerUp()** idem.
@@ -206,7 +227,7 @@ Returns false if phase > 31, no change to phase in that case.
   - multiply by (PI \* 0.0625) to get actual phase angle in radians.
 
 
-### Calibration
+#### Calibration
 
 **Warning:** use with care.
 
@@ -218,7 +239,7 @@ Note: **reset()** resets the offset to 0..
 Note: setting the offset reduces the range of frequencies (at the ends of scale).
 
 
-### Auto update / manual update
+#### Auto update / manual update
 
 (new since 0.2.2)
 
@@ -235,7 +256,7 @@ Note: The default of the autoUpdate flag is true.
 Note: **reset()** resets the autoUpdateFlag to true.
 
 
-### Hardware SPI
+#### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -244,41 +265,7 @@ To be used only if one needs a specific speed.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
-### ESP32 specific
-
-This functionality is new in 0.3.1.
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-
-#### ESP32 experimental
-
-- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. 
-Needs to be called AFTER the **begin()** function.
-
-```cpp
-void setup()
-{
-  freqGen.selectVSPI();
-  freqGen.begin(15);
-  freqGen.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-  ...
-}
-```
-
-
-### AD9850 specific
-
-The AD9850 has no specific functions.
-
-
-### AD9851 specific
+## AD9851 additional
 
 - **void setRefClockHigh()** set reference clock to 180 Mhz.
 - **void setRefClockLow()** set reference clock to 30 Mhz.
@@ -303,7 +290,7 @@ Maximum value is 30 MHz, typical is 10 MHz.
 See examples.
 
 
-### Operational notes
+#### Operational notes
 
 - The quality of the signal becomes less at higher frequencies.
 Switch the reference clock to find your optimal quality.
@@ -317,23 +304,25 @@ The user is also responsible to store it e.g. in EEPROM to make it persistent.
 
 #### Must
 
+- improve documentation
+
 #### Should
 
-- do tests on ESP32
-- performance measurements
-
+- test on ESP32
+- test on RP2040
 
 #### Could
 
+- performance measurements
 - move code to .cpp
 - create defines for MAGIC numbers (defaults)
-- should **setSPIspeed(uint32_t speed)** return bool?
-  - out of range?
-
 
 #### Wont
 
 - **bool setARCCutOffFreq()** no need
+- should **setSPIspeed(uint32_t speed)** return bool?
+  - out of range?
+- wave quality measurements
 
 
 ## Support

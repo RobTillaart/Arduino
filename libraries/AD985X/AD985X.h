@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -12,7 +12,16 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION        (F("0.3.6"))
+#define AD985X_LIB_VERSION        (F("0.4.0"))
+
+
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
 
 
 #define AD9850_MAX_FREQ           (40UL * 1000UL * 1000UL)
@@ -28,10 +37,13 @@
 class AD9850
 {
 public:
-  AD9850();
+  //  HARDWARE SPI
+  //  spiClock needed for RESET(). TODO: nicer solution?
+  AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  //  SOFTWARE SPI
+  AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
 
-  //  for HW SPI only use lower 3 parameters.
-  void     begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut = 0, uint8_t clock = 0);
+  void     begin();
   void     reset();
   void     powerDown();
   void     powerUp();
@@ -71,18 +83,6 @@ public:
   uint32_t getFactor() { return _factor; };
 
 
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
-
 protected:
   void     pulsePin(uint8_t pin);
   void     writeData();
@@ -91,12 +91,8 @@ protected:
   bool     _hwSPI    = true;
   uint32_t _SPIspeed = 2000000;
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-#if defined(ESP32)
-  bool        _useHSPI = true;
-#endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings     _spi_settings;
 
   //  PINS
   uint8_t  _dataOut = 0;
@@ -121,6 +117,13 @@ protected:
 class AD9851 : public AD9850
 {
 public:
+  //  HARDWARE SPI
+  //  spiClock needed for RESET(). TODO: nicer solution?
+  AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  //  SOFTWARE SPI
+  AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
+
+
   //  returns false if limited to AD9851_MAX_FREQ
   bool     setFrequency(uint32_t freq);    //  0..AD9851_MAX_FREQ
   bool     setFrequencyF(float freq);      //  works best for low frequencies.

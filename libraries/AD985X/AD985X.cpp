@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -24,77 +24,62 @@
 //  AD9850
 //
 
-AD9850::AD9850()
+//  HARDWARE SPI
+//  spiClock needed for RESET(). TODO: nicer solution?
+AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock)
 {
+  _select  = slaveSelect;
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _hwSPI   = true;
+  _mySPI   = mySPI;
+  _dataOut = 0;
+  _clock   = spiClock;
+}
+
+//  SOFTWARE SPI
+AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+{
+  _select  = slaveSelect;
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _hwSPI   = false;
+  _mySPI   = NULL;
+  _dataOut = 0;
+  _clock   = spiClock;
 }
 
 
-void AD9850::begin(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t dataOut , uint8_t clock)
+void AD9850::begin()
 {
-  _select  = select;
-  _reset   = resetPin;
-  _fqud    = FQUDPin;
-  _dataOut = dataOut;
-  _clock   = clock;
+
   //  following 3 are always set.
   pinMode(_select, OUTPUT);
   pinMode(_reset,  OUTPUT);
   pinMode(_fqud,   OUTPUT);
+  pinMode(_clock,   OUTPUT);
+
   //  device select = HIGH  See - https://github.com/RobTillaart/AD985X/issues/13
   digitalWrite(_select, LOW);
   digitalWrite(_reset,  LOW);
   digitalWrite(_fqud,   LOW);
-
-  _hwSPI = ((dataOut == 0) || (clock == 0));
+  digitalWrite(_clock,   LOW);
 
   _spi_settings = SPISettings(2000000, LSBFIRST, SPI_MODE0);
 
   if (_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, select);   //  CLK = 14  MISO = 12  MOSI = 13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, select);   //  CLK = 18  MISO = 19  MOSI = 23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
-    pinMode(_clock,   OUTPUT);
     digitalWrite(_dataOut, LOW);
-    digitalWrite(_clock,   LOW);
   }
 
   reset();
 }
-
-
-#if defined(ESP32)
-void AD9850::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, LOW);
-
-  mySPI->end();  // disable SPI
-  mySPI->begin(clk, miso, mosi, select);
-}
-#endif
 
 
 void AD9850::reset()
@@ -102,17 +87,7 @@ void AD9850::reset()
   //  be sure to select the correct device
   digitalWrite(_select, HIGH);
   pulsePin(_reset);
-  if (_hwSPI)
-  {
-    #if defined(ESP32)
-    if (_useHSPI) pulsePin(14);   //  HSPI magic number clock
-    else          pulsePin(18);   //  VSPI magic number clock
-    #else
-    // UNO hardware SPI
-    pulsePin(SPI_CLOCK);
-    #endif
-  }
-  else pulsePin(_clock);
+  pulsePin(_clock);
   digitalWrite(_select, LOW);
 
   _config = 0;    //  0 phase   no power down
@@ -179,15 +154,15 @@ void AD9850::writeData()
   digitalWrite(_select, HIGH);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(data & 0xFF);
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(data & 0xFF);
     data >>= 8;
-    mySPI->transfer(data & 0xFF);
+    _mySPI->transfer(data & 0xFF);
     data >>= 8;
-    mySPI->transfer(data & 0xFF);
-    mySPI->transfer(data >> 8);
-    mySPI->transfer(_config & 0xFC);  //  mask factory test bit
-    mySPI->endTransaction();
+    _mySPI->transfer(data & 0xFF);
+    _mySPI->transfer(data >> 8);
+    _mySPI->transfer(_config & 0xFC);  //  mask factory test bit
+    _mySPI->endTransaction();
   }
   else
   {
@@ -287,6 +262,15 @@ void AD9850::update()
 
 //  bit is a 6x multiplier bit P.14 datasheet
 #define AD9851_REFCLK        0x01
+
+AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, mySPI, spiClock)
+{
+}
+
+
+AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, spiData, spiClock)
+{
+}
 
 
 bool AD9851::setFrequency(uint32_t freq)

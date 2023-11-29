@@ -8,7 +8,7 @@
 #include "AD985X.h"
 
 
-AD9851 freqGen;
+AD9851 freqGen(10, 9, 8, 7, 6);
 
 uint32_t freq = 0;
 uint32_t prev = 0;
@@ -24,7 +24,8 @@ void setup()
 
   help();
 
-  freqGen.begin(10, 9, 8, 7, 6);
+  freqGen.begin();
+
   freqGen.powerUp();
   maxFreq = freqGen.getMaxFrequency();
   Serial.print(" MAX_FREQ: ");

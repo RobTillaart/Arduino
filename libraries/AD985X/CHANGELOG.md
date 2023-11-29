@@ -6,13 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-11-27
+- refactor constructor interface - breaking changes.
+  - minimize conditional code. -- create SPI_CLASS macro to solve it.
+- reordered parameters software SPI constructor.
+- update readme.md
+- update examples
+
+----
+
 ## [0.3.6] - 2023-10-15
 - add ESP32 HSPI example
 - add unit tests for setFrequency setFrequencyF
 - update readme.md
 - fix version number in .cpp
 - minor edits
-
 
 ## [0.3.5] - 2023-01-11
 - update GitHub actions

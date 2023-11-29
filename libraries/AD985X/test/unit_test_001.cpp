@@ -27,7 +27,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "AD985X_LIB_VERSION: %s\n", AD985X_LIB_VERSION);
+  fprintf(stderr, "AD985X_LIB_VERSION: %s\n", (char *) AD985X_LIB_VERSION);
 }
 
 
@@ -45,8 +45,8 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  AD9850 funcgen0;
-  AD9851 funcgen1;
+  AD9850 funcgen0(10, 9, 8, 7, 6);  //  SW SPI
+  AD9851 funcgen1(10, 11, 12, 13, 14);
 
   assertEqual(AD9850_MAX_FREQ, funcgen0.getMaxFrequency());
   assertEqual(AD9851_MAX_FREQ, funcgen1.getMaxFrequency());
@@ -55,10 +55,10 @@ unittest(test_constructor)
 
 unittest(test_auto_update)
 {
-  AD9850 funcgen0;
-  AD9851 funcgen1;
-  funcgen0.begin(4, 5, 6);
-  funcgen1.begin(10, 11, 16);
+  AD9850 funcgen0(10, 9, 8, 7, 6);  //  SW SPI
+  AD9851 funcgen1(10, 11, 12, 13, 14);
+  funcgen0.begin();
+  funcgen1.begin();
 
 
   assertTrue(funcgen0.getAutoUpdate());
@@ -76,8 +76,8 @@ unittest(test_auto_update)
 
 unittest(test_ad9850_frequency)
 {
-  AD9850 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9850 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   for (uint32_t freq = 500; freq <= 10000; freq += 500)
   {
@@ -89,8 +89,8 @@ unittest(test_ad9850_frequency)
 
 unittest(test_ad9851_frequency)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   for (uint32_t freq = 500; freq <= 10000; freq += 500)
   {
@@ -102,8 +102,8 @@ unittest(test_ad9851_frequency)
 
 unittest(test_ad9850_frequency_float)
 {
-  AD9850 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9850 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   for (float freq = 1; freq <= 5; freq += 0.31415)
   {
@@ -115,8 +115,8 @@ unittest(test_ad9850_frequency_float)
 
 unittest(test_ad9851_frequency_float)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   for (float freq = 1; freq <= 5; freq += 0.31415)
   {
@@ -128,8 +128,8 @@ unittest(test_ad9851_frequency_float)
 
 unittest(test_ad9850_phase)
 {
-  AD9850 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9850 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   funcgen.setFrequency(1000);
   long freq = funcgen.getFrequency();
@@ -146,8 +146,8 @@ unittest(test_ad9850_phase)
 
 unittest(test_ad9851_phase)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
   
   funcgen.setFrequency(1000);
   long freq = funcgen.getFrequency();
@@ -169,8 +169,8 @@ unittest(test_ad9851_phase)
 
 unittest(test_ad9851_reset)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
   
   funcgen.setFrequency(1000);
   assertEqual(1000, funcgen.getFrequency());
@@ -189,8 +189,8 @@ unittest(test_ad9851_reset)
 
 unittest(test_ad9851_autoRefClock)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   assertFalse(funcgen.getAutoRefClock());
   for (uint32_t freq = 70; freq <= 70000000; freq *= 10)
@@ -232,8 +232,8 @@ unittest(test_ad9851_autoRefClock)
 
 unittest(test_ad9851_offset)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   assertEqual(0, funcgen.getCalibration());
   funcgen.setFrequency(1000000);
@@ -253,8 +253,8 @@ unittest(test_ad9851_offset)
 
 unittest(test_ad9851_float_freq)
 {
-  AD9851 funcgen;
-  funcgen.begin(4, 5, 6);
+  AD9851 funcgen(10, 9, 8, 7, 6);  //  SW SPI
+  funcgen.begin();
 
   for (float f = 100.0; f < 110.0; f += 0.1)
   {
@@ -267,4 +267,4 @@ unittest(test_ad9851_float_freq)
 
 unittest_main()
 
-//  END OF FILE --
+//  -- END OF FILE --

@@ -7,7 +7,18 @@
 
 #include "AD985X.h"
 
-AD9850 freqGen;
+
+#ifndef ESP32
+#error ESP32 only example, please select appropriate board
+#endif
+
+
+//  HSPI uses default   SCLK=14, MISO=12, MOSI=13, SELECT=15
+//  VSPI uses default   SCLK=18, MISO=19, MOSI=23, SELECT=5
+SPIClass * myspi = new SPIClass(VSPI);
+AD9850 freqGen(10, 9, 8, myspi, 18);  //  HW SPI  note the CLOCK pin param 18.
+//  AD9850 freqGen(10, 9, 8, 7, 6);  //  SW SPI
+
 
 uint32_t freq = 0;
 uint32_t prev = 0;
@@ -23,9 +34,7 @@ void setup()
 
   help();
 
-  //  Select HW SPI for ESP32
-  freqGen.selectHSPI();
-  freqGen.begin(15, 16, 17);  //   selectPin, resetPin, FQUDPin
+  freqGen.begin();
 
   freqGen.powerUp();
   maxFreq = freqGen.getMaxFrequency();

@@ -8,13 +8,12 @@
 
 #include "MAX6675.h"
 
-// note: pins are slightly different than other examples!
 const int dataPin   = 7;
 const int clockPin  = 6;
 const int selectPin = 5;
 
 
-MAX6675 thermoCouple;
+MAX6675 thermoCouple(selectPin, dataPin, clockPin);
 
 uint32_t start, stop;
 
@@ -24,11 +23,12 @@ void setup()
 {
   Serial.begin(115200);
   //  Serial.println(__FILE__);
+  //  Serial.print("MAX6675_LIB_VERSION: ");
   //  Serial.println(MAX6675_LIB_VERSION);
   //  Serial.println();
+  delay(250);
 
-  // thermoCouple.begin(clockPin, selectPin, dataPin);
-  thermoCouple.begin(selectPin);  // HW SPI
+  thermoCouple.begin();
 
   thermoCouple.setSPIspeed(4000000);
   thermoCouple.setOffset(273);
@@ -49,7 +49,7 @@ void loop()
   float newValue = thermoCouple.getTemperature();
   //  0.2 is low pass filter
   temp += 0.2 * (newValue - temp);
-  // temp = newValue;
+  //  temp = newValue;
 
   Serial.print(status);
   Serial.print("\t");
@@ -62,4 +62,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

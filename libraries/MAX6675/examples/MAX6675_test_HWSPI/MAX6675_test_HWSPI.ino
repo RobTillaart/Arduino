@@ -8,9 +8,9 @@
 
 #include "MAX6675.h"
 
-const int selectPin   = 5;
+const int selectPin = 5;
 
-MAX6675 thermoCouple;
+MAX6675 thermoCouple(selectPin, &SPI);
 
 uint32_t start, stop;
 
@@ -19,12 +19,12 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAX6675_LIB_VERSION: ");
   Serial.println(MAX6675_LIB_VERSION);
   Serial.println();
+  delay(250);
 
-  thermoCouple.begin(selectPin);  // HW SPI
-
-
+  thermoCouple.begin();
 }
 
 
@@ -61,7 +61,4 @@ void testPerformance(uint32_t speed)
 }
 
 
-
-
-
-// -- END OF FILE --
+//  -- END OF FILE --

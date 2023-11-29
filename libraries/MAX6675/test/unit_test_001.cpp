@@ -60,12 +60,12 @@ unittest(test_constants)
 
 unittest(test_status)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX6675 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX6675 tc(selectPin, dataPin, clockPin);
+  tc.begin();
 
   fprintf(stderr, "Status...\n");
   assertEqual(STATUS_NOREAD, (int)tc.getStatus());
@@ -76,12 +76,12 @@ unittest(test_status)
 
 unittest(test_temperature)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX6675 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX6675 tc(selectPin, dataPin, clockPin);
+  tc.begin();
 
   fprintf(stderr, "Temperature...\n");
   assertEqualFloat(MAX6675_NO_TEMPERATURE, tc.getTemperature(), 0.001);
@@ -98,12 +98,12 @@ unittest(test_temperature)
 
 unittest(test_SPIspeed_SWSPIdelay)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX6675 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX6675 tc(selectPin, dataPin, clockPin);
+  tc.begin();
 
   fprintf(stderr, "SPIspeed...\n");
   for (uint32_t sp = 100000; sp <= 1000000; sp += 100000)

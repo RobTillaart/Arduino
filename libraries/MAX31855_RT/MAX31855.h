@@ -2,7 +2,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -25,7 +25,16 @@
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.4.4"))
+#define MAX31855_VERSION              (F("0.5.0"))
+
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
+
 
 #define MAX31855_NO_TEMPERATURE       -999
 
@@ -63,13 +72,12 @@
 class MAX31855
 {
 public:
+  // HW SPI
+  MAX31855(uint8_t select, __SPI_CLASS__ * mySPI);
+  // SW SPI
+  MAX31855(uint8_t select, uint8_t miso, uint8_t clock);
 
-  MAX31855();
-
-  //  HW SPI
-  void     begin(uint8_t select);
-  //  SW SPI
-  void     begin(uint8_t clock, uint8_t select, uint8_t miso);
+  void     begin();
 
   //  returns state - bit field: 0 = STATUS_OK
   uint8_t  read();
@@ -104,19 +112,6 @@ public:
   uint16_t getSWSPIdelay() { return _swSPIdelay; };
 
 
-
-  //       ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
-
 private:
   uint32_t _read();
 
@@ -135,12 +130,8 @@ private:
 
   uint16_t    _swSPIdelay = 0;
   uint32_t    _SPIspeed;
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 };
 
 

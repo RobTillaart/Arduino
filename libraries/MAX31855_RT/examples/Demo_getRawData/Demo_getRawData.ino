@@ -1,42 +1,44 @@
 //
 //    FILE: Demo_getRawData.ino
 //  AUTHOR: FabioBrondo
-// VERSION: 0.4.0
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2020-08-24
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
 
-#include <SPI.h>
-#include <MAX31855.h>
+#include "MAX31855.h"
 
 
-#define MAXDO     7 // Defining the MISO pin
-#define MAXCS     6 // Defining the CS pin
-#define MAXCLK    5 // Defining the SCK pin
+const int selectPin = 7;
+const int dataPin   = 6;
+const int clockPin  = 5;
 
-
-MAX31855 thermocouple;
+MAX31855 thermoCouple(selectPin, dataPin, clockPin);
 
 
 void setup ()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("MAX31855_VERSION : ");
+  Serial.println(MAX31855_VERSION);
+  Serial.println();
   delay(250);
-  thermocouple.begin(MAXCLK, MAXCS, MAXDO);
+
+  thermoCouple.begin();
 }
 
 
 void loop ()
 {
-  int status = thermocouple.read();
+  int status = thermoCouple.read();
   if (status == STATUS_NO_COMMUNICATION)
   {
     Serial.println("NO COMMUNICATION");
   }
 
-  uint32_t value = thermocouple.getRawData();  // Read the raw Data value from the module
+  uint32_t value = thermoCouple.getRawData();  // Read the raw Data value from the module
   Serial.print("RAW:\t");
 
   // Display the raw data value in BIN format
@@ -50,11 +52,11 @@ void loop ()
   Serial.println();
 
   Serial.print("TMP:\t");
-  Serial.println(thermocouple.getTemperature(), 3);
+  Serial.println(thermoCouple.getTemperature(), 3);
 
   delay(100);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

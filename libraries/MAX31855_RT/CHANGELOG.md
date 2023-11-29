@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-11-29
+- refactor constructor/begin interface - breaking changes.
+  - minimize conditional code. -- create SPI_CLASS macro to solve it.
+- update readme.md
+- update examples
+
+----
+
 ## [0.4.4] - 2023-11-11
 - update readme.md
-
 
 ## [0.4.3] - 2023-02-26
 - update readme.md

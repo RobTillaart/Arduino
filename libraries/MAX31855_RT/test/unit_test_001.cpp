@@ -63,80 +63,80 @@ unittest(test_constants)
 
 unittest(test_status)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX31855 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX31855 thermoCouple(selectPin, dataPin, clockPin);
+  thermoCouple.begin();
 
   fprintf(stderr, "Status...\n");
-  assertEqual(STATUS_NOREAD, (int)tc.getStatus());
-  assertEqual(0, tc.lastRead());
-  assertEqual(0, tc.getRawData());
-  assertFalse(tc.openCircuit());
-  assertFalse(tc.shortToGND());
-  assertFalse(tc.shortToVCC());
-  assertFalse(tc.genericError());
-  assertFalse(tc.noCommunication());
-  assertTrue(tc.noRead());
+  assertEqual(STATUS_NOREAD, (int)thermoCouple.getStatus());
+  assertEqual(0, thermoCouple.lastRead());
+  assertEqual(0, thermoCouple.getRawData());
+  assertFalse(thermoCouple.openCircuit());
+  assertFalse(thermoCouple.shortToGND());
+  assertFalse(thermoCouple.shortToVCC());
+  assertFalse(thermoCouple.genericError());
+  assertFalse(thermoCouple.noCommunication());
+  assertTrue(thermoCouple.noRead());
 }
 
 
 unittest(test_temperature)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX31855 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX31855 thermoCouple(selectPin, dataPin, clockPin);
+  thermoCouple.begin();
 
   fprintf(stderr, "Temperature...\n");
-  assertEqualFloat(MAX31855_NO_TEMPERATURE, tc.getInternal(), 0.001);
-  assertEqualFloat(MAX31855_NO_TEMPERATURE, tc.getTemperature(), 0.001);
+  assertEqualFloat(MAX31855_NO_TEMPERATURE, thermoCouple.getInternal(), 0.001);
+  assertEqualFloat(MAX31855_NO_TEMPERATURE, thermoCouple.getTemperature(), 0.001);
 
   fprintf(stderr, "\nOffset...\n");
   for (int of = 0; of < 10; of++)
   {
-    tc.setOffset(of * 0.1);
+    thermoCouple.setOffset(of * 0.1);
     fprintf(stderr, "%f\t", of * 0.1);
-    assertEqualFloat(of * 0.1, tc.getOffset(), 0.001);
+    assertEqualFloat(of * 0.1, thermoCouple.getOffset(), 0.001);
   }
 
   fprintf(stderr, "\nSeebeckCoefficient...\n");
   for (float sbc = 9; sbc < 100; sbc += 12.345)    //  non existent still good for test.
   {
-    tc.setSeebeckCoefficient(sbc);
+    thermoCouple.setSeebeckCoefficient(sbc);
     fprintf(stderr, "%f\t", sbc);
-    assertEqualFloat(sbc, tc.getSeebeckCoefficient(), 0.001);
+    assertEqualFloat(sbc, thermoCouple.getSeebeckCoefficient(), 0.001);
   }
 }
 
 
 unittest(test_SPIspeed_SWSPIdelay)
 {
-  const int doPin = 7;
-  const int csPin = 6;
-  const int clPin = 5;
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
 
-  MAX31855 tc;
-  tc.begin(clPin, csPin, doPin);
+  MAX31855 thermoCouple(selectPin, dataPin, clockPin);
+  thermoCouple.begin();
 
   fprintf(stderr, "SPIspeed...\n");
   for (uint32_t sp = 100000; sp <= 1000000; sp += 100000)
   {
-    tc.setSPIspeed(sp);
+    thermoCouple.setSPIspeed(sp);
     fprintf(stderr, "%ld\t", sp);
-    assertEqual(sp, tc.getSPIspeed());
+    assertEqual(sp, thermoCouple.getSPIspeed());
   }
 
   fprintf(stderr, "\nsetSWSPIdelay...\n");
   for (uint16_t del = 0; del < 11; del++)
   {
-    tc.setSWSPIdelay(del);
+    thermoCouple.setSWSPIdelay(del);
     fprintf(stderr, "%d\t", del);
-    assertEqual(del, tc.getSWSPIdelay());
+    assertEqual(del, thermoCouple.getSWSPIdelay());
   }
 }
 

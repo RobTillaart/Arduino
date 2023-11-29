@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31855.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -10,24 +10,30 @@
 #include "MAX31855.h"
 
 
-MAX31855::MAX31855()
+//  HW SPI
+MAX31855::MAX31855(uint8_t select, __SPI_CLASS__ * mySPI)
 {
+  _select = select;
+  _miso   = 255;
+  _clock  = 255;
+  _mySPI  = mySPI;
+  _hwSPI  = true;
 }
 
 
-void MAX31855::begin(const uint8_t select)
+// SW SPI
+MAX31855::MAX31855(uint8_t select, uint8_t miso, uint8_t clock)
 {
-  begin(255, select, 255);
+  _select = select;
+  _miso   = miso;
+  _clock  = clock;
+  _mySPI  = NULL;
+  _hwSPI  = false;
 }
 
 
-void MAX31855::begin(const uint8_t clock, const uint8_t select, const uint8_t miso)
+void MAX31855::begin()
 {
-  _clock        = clock;
-  _miso         = miso;
-  _select       = select;
-  _hwSPI        = (_clock == 255);
-
   _lastTimeRead = 0;
   _offset       = 0;
   _SeebeckC     = K_TC;
@@ -42,24 +48,8 @@ void MAX31855::begin(const uint8_t clock, const uint8_t select, const uint8_t mi
 
   if (_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
   else
@@ -76,22 +66,6 @@ void MAX31855::setSPIspeed(uint32_t speed)
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
-
-
-#if defined(ESP32)
-void MAX31855::setGPIOpins(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clock;
-  _miso    = miso;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  //  disable SPI and enable again
-  mySPI->end();
-  mySPI->begin(clock, miso, mosi, select);
-}
-#endif
 
 
 uint8_t MAX31855::read()
@@ -162,15 +136,16 @@ uint32_t MAX31855::_read(void)
   //  DATA TRANSFER
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    digitalWrite(_select, LOW);         //  must be after mySPI->beginTransaction() - see #14 STM32
+    _mySPI->beginTransaction(_spi_settings);
+    //  must be after mySPI->beginTransaction() - see #14 STM32
+    digitalWrite(_select, LOW);
     for (uint8_t i = 0; i < 4; i++)
     {
       _rawData <<= 8;
-      _rawData += mySPI->transfer(0);
+      _rawData += _mySPI->transfer(0);
     }
     digitalWrite(_select, HIGH);
-    mySPI->endTransaction();
+    _mySPI->endTransaction();
   }
   else  //  Software SPI
   {

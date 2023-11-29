@@ -29,36 +29,35 @@
 // | MOSI     |   11  |   23    |   13    |  * not used...
 // | SELECT   | eg. 4 |    5    |   15    |  * can be others too.
 
-const int csPin   = 25;
+const int selectPin = 5;
+const int dataPin   = 19;
+const int clockPin  = 18;
+
+SPIClass * myspi = new SPIClass(VSPI);
+MAX31855 thermoCouple(selectPin, myspi);
+//  MAX31855 thermoCouple(selectPin, dataPin, clockPin);  //  SW SPI to test
 
 uint32_t start, stop;
-
-
-MAX31855 tc;
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-
-  Serial.print("MAX31855_VERSION: ");
+  Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);
   Serial.println();
+  delay(250);
 
-  tc.selectVSPI();     // needs to be called before begin()
-
-  tc.begin(csPin);
-  // tc.begin(18, csPin, 19);  // SW SPI for testing
-
-  tc.setSPIspeed(16000000);
+  thermoCouple.begin();
+  thermoCouple.setSPIspeed(16000000);
 }
 
 
 void loop()
 {
   start = micros();
-  int status = tc.read();
+  int status = thermoCouple.read();
   stop = micros();
 
   Serial.println();
@@ -68,7 +67,7 @@ void loop()
   Serial.print("stat:\t\t");
   Serial.println(status);
 
-  uint32_t raw = tc.getRawData();
+  uint32_t raw = thermoCouple.getRawData();
   Serial.print("raw:\t\t");
   uint32_t mask = 0x80000000;
   for (int i = 0; i < 32; i++)
@@ -79,16 +78,15 @@ void loop()
   }
   Serial.println();
 
-  float internal = tc.getInternal();
+  float internal = thermoCouple.getInternal();
   Serial.print("internal:\t");
   Serial.println(internal, 3);
 
-  float temp = tc.getTemperature();
+  float temp = thermoCouple.getTemperature();
   Serial.print("temperature:\t");
   Serial.println(temp, 3);
   delay(1000);
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

@@ -30,32 +30,34 @@
 // | SELECT   | eg. 4 |    5    |   15    |  * can be others too.
 
 
-const int csPin   = 15;
-const int clkPin  = 14;
-const int dataPin = 12;
-
 uint32_t start, stop;
 
-MAX31855 tc;
+const int selectPin = 7;
+const int dataPin   = 6;
+const int clockPin  = 5;
+
+//  MAX31855 thermoCouple(selectPin, &SPI);  //  HW SPI
+MAX31855 thermoCouple(selectPin, dataPin, clockPin);  //  SW SPI
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("Start max31855_demo0: ");
+  Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);
   Serial.println();
+  delay(250);
 
-  tc.begin(clkPin, csPin, dataPin);  // sw SPI
-  tc.setSWSPIdelay(4);               // add 4 us per bit to improve signal.
+  thermoCouple.begin();
+  thermoCouple.setSWSPIdelay(4);  //  add 4 us per bit to improve signal.
 }
 
 
 void loop()
 {
   start = micros();
-  int status = tc.read();
+  int status = thermoCouple.read();
   stop = micros();
 
   Serial.println();
@@ -65,7 +67,7 @@ void loop()
   Serial.print("stat:\t\t");
   Serial.println(status);
 
-  uint32_t raw = tc.getRawData();
+  uint32_t raw = thermoCouple.getRawData();
   Serial.print("raw:\t\t");
   uint32_t mask = 0x80000000;
   for (int i = 0; i < 32; i++)
@@ -76,16 +78,16 @@ void loop()
   }
   Serial.println();
 
-  float internal = tc.getInternal();
+  float internal = thermoCouple.getInternal();
   Serial.print("internal:\t");
   Serial.println(internal, 3);
 
-  float temp = tc.getTemperature();
+  float temp = thermoCouple.getTemperature();
   Serial.print("temperature:\t");
   Serial.println(temp, 3);
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -35,12 +35,18 @@
 
 // MS5611_SPI(select, dataOut, dataIn, clock);
 // --------------------------------------------
-
-
 // MS5611_SPI MS5611(10, 11, 12, 13);   // UNO SW SPI (5V problem?
 // MS5611_SPI MS5611(10);               // UNO  HW SPI
-MS5611_SPI MS5611( 5, 23, 19, 18);   // ESP32 SW SPI
-// MS5611_SPI MS5611(5);                // ESP32 HW SPI
+//
+// MS5611_SPI MS5611( 5, 23, 19, 18);   // ESP32 SW SPI
+MS5611_SPI MS5611(15, 13, 12, 14);   // ESP32 SW SPI
+//
+// SPIClass *mySPI = new SPIClass(HSPI);
+// MS5611_SPI MS5611(15, mySPI);        // ESP32 HW SPI (HSPI)
+//
+// SPIClass *mySPI = new SPIClass(VSPI);
+// MS5611_SPI MS5611(5, mySPI);                // ESP32 HW SPI (VSPI)
+
 
 uint32_t start, stop, count;
 
@@ -49,7 +55,6 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
-
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_SPI_LIB_VERSION: ");

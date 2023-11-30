@@ -31,7 +31,10 @@
 void setup()
 {
   Serial.begin(115200);
+  while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+
 
   Wire.begin();
   Wire.beginTransmission(0x76);
@@ -58,4 +61,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -2,7 +2,7 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: S5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
@@ -30,7 +30,15 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.1.3 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.2.0 EXPERIMENTAL"))
+
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
 
 
 #define MS5611_READ_OK                        0
@@ -51,7 +59,10 @@ enum osr_t
 class MS5611_SPI
 {
 public:
-  explicit MS5611_SPI(uint8_t select, uint8_t dataOut = 255, uint8_t dataIn = 255, uint8_t clock = 255);
+  //       HARDWARE SPI
+  explicit MS5611_SPI(uint8_t select, __SPI_CLASS__ * mySPI = &SPI);
+  //       SOFTWARE SPI
+  explicit MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t clock);
 
   bool     begin();
   bool     isConnected();
@@ -115,17 +126,6 @@ public:
   //  debugging
   bool     usesHWSPI();
 
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI();
-  void     selectVSPI();
-  bool     usesHSPI();
-  bool     usesVSPI();
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
 
 protected:
   void     convert(const uint8_t addr, uint8_t bits);
@@ -154,11 +154,8 @@ protected:
   uint32_t _SPIspeed = 1000000;
   uint8_t   swSPI_transfer(uint8_t value);
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 };
 
 

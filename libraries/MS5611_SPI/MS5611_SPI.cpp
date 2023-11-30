@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 // PURPOSE: MS5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 //
@@ -23,7 +23,7 @@
 //
 //  PUBLIC
 //
-MS5611_SPI::MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t clock)
+MS5611_SPI::MS5611_SPI(uint8_t select, __SPI_CLASS__ * mySPI)
 {
   //  _address           = deviceAddress;  // TODO
   _samplingRate      = OSR_ULTRA_LOW;
@@ -38,10 +38,34 @@ MS5611_SPI::MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t 
 
   //  SPI
   _select   = select;
+  _dataIn   = 255;
+  _dataOut  = 255;
+  _clock    = 255;
+  _hwSPI    = true;
+  _mySPI    = mySPI;
+}
+
+
+MS5611_SPI::MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t clock)
+{
+  //  _address           = deviceAddress;  // TODO
+  _samplingRate      = OSR_ULTRA_LOW;
+  _temperature       = MS5611_NOT_READ;
+  _pressure          = MS5611_NOT_READ;
+  _result            = MS5611_NOT_READ;
+  _lastRead          = 0;
+  _deviceID          = 0;
+  _pressureOffset    = 0;
+  _temperatureOffset = 0;
+  _compensation      = false;
+
+  //  SPI
+  _select   = select;
   _dataIn   = dataIn;
   _dataOut  = dataOut;
   _clock    = clock;
-  _hwSPI    = (dataIn == 255) && (dataOut == 255) && (clock == 255);
+  _hwSPI    = false;
+  _mySPI    = NULL;
 }
 
 
@@ -57,26 +81,9 @@ bool MS5611_SPI::begin()
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14 MISO=12 MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18 MISO=19 MOSI=23
-    }
-    #else              //  generic hardware SPI
-    //  Serial.println("HW_SPI");
-    mySPI = &SPI;
-    mySPI->begin();  //  FIX #6  
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->begin();  //  FIX #6  
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
   else
@@ -114,7 +121,7 @@ bool MS5611_SPI::reset(uint8_t mathMode)
   //  initialize the C[] array
   initConstants(mathMode);
 
-  // read factory calibrations from EEPROM.
+  //  read factory calibrations from EEPROM.
   bool ROM_OK = true;
   for (uint8_t reg = 0; reg < 7; reg++)
   {
@@ -201,75 +208,75 @@ void MS5611_SPI::setOversampling(osr_t samplingRate)
 osr_t MS5611_SPI::getOversampling() const
 {
   return (osr_t) _samplingRate;
-};
+}
 
 
 float MS5611_SPI::getTemperature() const
 {
   if (_temperatureOffset == 0) return _temperature * 0.01;
   return _temperature * 0.01 + _temperatureOffset;
-};
+}
 
 
 float MS5611_SPI::getPressure() const
 {
   if (_pressureOffset == 0) return _pressure * 0.01;
   return _pressure * 0.01 + _pressureOffset;
-};
+}
 
 
 void MS5611_SPI::setPressureOffset(float offset)
 {
   _pressureOffset = offset;
-};
+}
 
 
 float MS5611_SPI::getPressureOffset()
 {
   return _pressureOffset;
-};
+}
 
 
 void MS5611_SPI::setTemperatureOffset(float offset)
 {
   _temperatureOffset = offset;
-};
+}
 
 
 float MS5611_SPI::getTemperatureOffset()
 {
   return _temperatureOffset;
-};
+}
 
 
 int MS5611_SPI::getLastResult() const
 {
   return _result;
-};
+}
 
 
 uint32_t MS5611_SPI::lastRead() const
 {
   return _lastRead;
-};
+}
 
 
 uint32_t MS5611_SPI::getDeviceID() const
 {
   return _deviceID;
-};
+}
 
 
 void MS5611_SPI::setCompensation(bool flag)
 {
   _compensation = flag;
-};
+}
 
 
 bool MS5611_SPI::getCompensation()
 {
   return _compensation;
-};
+}
 
 
 //       EXPERIMENTAL
@@ -289,47 +296,19 @@ void MS5611_SPI::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
-};
+}
 
 
 uint32_t MS5611_SPI::getSPIspeed()
 {
   return _SPIspeed;
-};
+}
 
 
 bool MS5611_SPI::usesHWSPI()
 {
   return _hwSPI;
-};
-
-
-#if defined(ESP32)
-
-void MS5611_SPI::selectHSPI() { _useHSPI = true;  };
-void MS5611_SPI::selectVSPI() { _useHSPI = false; };
-bool MS5611_SPI::usesHSPI()   { return _useHSPI;  };
-bool MS5611_SPI::usesVSPI()   { return !_useHSPI; };
-
-void MS5611_SPI::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataIn  = miso;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_clock,   OUTPUT);
-  pinMode(_dataIn,  INPUT);
-  pinMode(_dataOut, OUTPUT);
-  pinMode(_select,  OUTPUT);
-  digitalWrite(_clock,   HIGH);
-  digitalWrite(_dataOut, LOW);
-  digitalWrite(_select,  HIGH);
-
-  mySPI->end();                 //  disable SPI and restart
-  mySPI->begin(clk, miso, mosi, select);
 }
-
-#endif
 
 
 
@@ -370,12 +349,12 @@ uint16_t MS5611_SPI::readProm(uint8_t reg)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(MS5611_CMD_READ_PROM + reg * 2);
-    value += mySPI->transfer(0x00);
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(MS5611_CMD_READ_PROM + reg * 2);
+    value += _mySPI->transfer(0x00);
     value <<= 8;
-    value += mySPI->transfer(0x00);
-    mySPI->endTransaction();
+    value += _mySPI->transfer(0x00);
+    _mySPI->endTransaction();
   }
   else      //  Software SPI
   {
@@ -398,14 +377,14 @@ uint32_t MS5611_SPI::readADC()
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(0x00);
-    value += mySPI->transfer(0x00);
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(0x00);
+    value += _mySPI->transfer(0x00);
     value <<= 8;
-    value += mySPI->transfer(0x00);
+    value += _mySPI->transfer(0x00);
     value <<= 8;
-    value += mySPI->transfer(0x00);
-    mySPI->endTransaction();
+    value += _mySPI->transfer(0x00);
+    _mySPI->endTransaction();
   }
   else      //  Software SPI
   {
@@ -428,9 +407,9 @@ int MS5611_SPI::command(const uint8_t command)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(command);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(command);
+    _mySPI->endTransaction();
   }
   else      //  Software SPI
   {

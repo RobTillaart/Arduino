@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-11-30
+- refactor constructor interface - breaking changes.
+  - minimize conditional code. -- create SPI_CLASS macro to solve it.
+- update readme.md
+- update examples
+
+----
+
 ## [0.1.3] - 2023-11-14
 - update readme.md
 - update keywords
-
 
 ## [0.1.2] - 2022-12-14
 - fix #6 support for Nano33, 

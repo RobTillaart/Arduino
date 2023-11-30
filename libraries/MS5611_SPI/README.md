@@ -16,12 +16,22 @@ Arduino library (SPI) for MS5611 pressure and temperature sensor.
 
 ## Description
 
+**WARNING: the MS5611 has problems with self heating when using SPI interface so use with care.**
+
 The MS5611 is a high resolution pressure and temperature sensor a.k.a GY-63.
 The high resolution is made possible by oversampling many times.
 
 This library only implements the SPI interface.
 It is based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
+
+
+#### 0.2.0 Breaking change
+
+The version 0.2.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
 
 
 #### Compatibility
@@ -32,7 +42,7 @@ Note: Some device types will return only 50% of the pressure value.
 This is solved by calling **reset(1)** to select the math used.
 
 
-#### Self heating
+#### Self heating problem
 
 In some configurations especially when using SPI the sensor showed a self heating effect. 
 First this was approached as a problem, so investigations were done to understand the 
@@ -84,10 +94,9 @@ dedicated temperature sensor for this (e.g. DS18B20).
 
 #### Related libraries
 
-For pressure conversions see - https://github.com/RobTillaart/pressure
-
-For temperature conversions see - https://github.com/RobTillaart/Temperature
-
+- https://github.com/RobTillaart/MS5611 - I2C version - working OK.
+- https://github.com/RobTillaart/pressure - conversions.
+- https://github.com/RobTillaart/Temperature - conversions.
 
 
 ## WARNING EXPERIMENTAL
@@ -148,7 +157,9 @@ If you have experiences with this library please share them in the issues.
 
 #### Base
 
-- **MS5611_SPI(uint8_t select, uint8_t dataOut = 255, uint8_t dataIn = 255, uint8_t clock = 255)** constructor.
+- **MS5611_SPI(uint8_t select, SPIClassRP2040 \* myspi = &SPI)** constructor, HW SPI RP2040.
+- **MS5611_SPI(uint8_t select, SPIClass \* myspi = &SPI)** constructor, HW SPI other.
+- **MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t clock)** constructor, SW SPI
 - **bool begin()** initializes internals,
 - **bool isConnected()** checks device by calling **read()**.
 - **bool reset(uint8_t mathMode = 0)** resets the chip and loads constants from its ROM.

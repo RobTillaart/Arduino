@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -10,13 +10,27 @@
 #include "MCP_ADC.h"
 
 
-MCP_ADC::MCP_ADC(uint8_t dataIn, uint8_t dataOut,  uint8_t clock)
+  //       HARDWARE SPI
+MCP_ADC::MCP_ADC(__SPI_CLASS__ * mySPI)
 {
-  _dataIn   = dataIn;
-  _dataOut  = dataOut;
-  _clock    = clock;
-  _select   = 0;
-  _hwSPI    = (dataIn == 255) || (dataOut == 255) || (clock == 255);
+  _dataIn = 255;
+  _dataOut= 255;
+  _clock  = 255;
+  _select = 255;
+  _hwSPI  = true;
+  _mySPI  = mySPI;
+}
+
+
+//       SOFTWARE SPI
+MCP_ADC::MCP_ADC(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
+{
+  _dataIn  = dataIn;
+  _dataOut = dataOut;
+  _clock   = clock;
+  _select  = 255;
+  _hwSPI   = false;
+  _mySPI   = NULL;
 }
 
 
@@ -32,24 +46,8 @@ void MCP_ADC::begin(uint8_t select)
 
   if (_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
   }
   else                 //  software SPI
   {
@@ -62,20 +60,16 @@ void MCP_ADC::begin(uint8_t select)
 }
 
 
-#if defined(ESP32)
-void MCP_ADC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+uint8_t MCP_ADC::channels()
 {
-  _clock   = clk;
-  _dataIn  = miso;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();     //  disable SPI
-  mySPI->begin(clk, miso, mosi, select);
+  return _channels;
 }
-#endif
+
+
+int16_t MCP_ADC::maxValue()
+{
+  return _maxValue;
+}
 
 
 uint32_t MCP_ADC::count()
@@ -124,9 +118,25 @@ void MCP_ADC::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
-};
+}
 
 
+uint32_t MCP_ADC::getSPIspeed()
+{
+  return _SPIspeed;
+}
+
+
+bool MCP_ADC::usesHWSPI()
+{
+  return _hwSPI;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  PROTECTED
+//
 int16_t MCP_ADC::readADC(uint8_t channel, bool single)
 {
   if (channel >= _channels) return 0;
@@ -139,12 +149,12 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
+    _mySPI->beginTransaction(_spi_settings);
     for (uint8_t b = 0; b < bytes; b++)
     {
-      data[b] = mySPI->transfer(data[b]);
+      data[b] = _mySPI->transfer(data[b]);
     }
-    mySPI->endTransaction();
+    _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
@@ -175,7 +185,7 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
   _count += numChannels;
 
   if (_hwSPI) {
-    mySPI->beginTransaction(_spi_settings);
+    _mySPI->beginTransaction(_spi_settings);
   }
 
   for (uint8_t i = 0; i < numChannels; i++) {
@@ -187,7 +197,7 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
 
     if (_hwSPI) {
       for (uint8_t b = 0; b < bytes; b++) {
-        data[b] = mySPI->transfer(data[b]);
+        data[b] = _mySPI->transfer(data[b]);
       }
     } else {
       for (uint8_t b = 0; b < bytes; b++) {
@@ -211,7 +221,7 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
   }
 
   if (_hwSPI) {
-    mySPI->endTransaction();
+    _mySPI->endTransaction();
   }
 }
 
@@ -235,11 +245,22 @@ uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
 }
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //  MCP3001
 //
+MCP3001::MCP3001(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 1;
+  _maxValue = 1023;
+}
+
 MCP3001::MCP3001(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -262,6 +283,13 @@ uint8_t MCP3001::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3002
 //
+MCP3002::MCP3002(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 2;
+  _maxValue = 1023;
+}
+
 MCP3002::MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -283,6 +311,13 @@ uint8_t MCP3002::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3004
 //
+MCP3004::MCP3004(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 4;
+  _maxValue = 1023;
+}
+
 MCP3004::MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -304,6 +339,13 @@ uint8_t MCP3004::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3008
 //
+MCP3008::MCP3008(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 8;
+  _maxValue = 1023;
+}
+
 MCP3008::MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -325,6 +367,13 @@ uint8_t MCP3008::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3201
 //
+MCP3201::MCP3201(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 1;
+  _maxValue = 4095;
+}
+
 MCP3201::MCP3201(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -347,6 +396,13 @@ uint8_t MCP3201::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3202
 //
+MCP3202::MCP3202(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 2;
+  _maxValue = 4095;
+}
+
 MCP3202::MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -369,6 +425,13 @@ uint8_t MCP3202::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3204
 //
+MCP3204::MCP3204(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 4;
+  _maxValue = 4095;
+}
+
 MCP3204::MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -391,6 +454,13 @@ uint8_t MCP3204::buildRequest(uint8_t channel, bool single, uint8_t * data)
 //
 //  MCP3208
 //
+MCP3208::MCP3208(__SPI_CLASS__ * mySPI)
+        :MCP_ADC(mySPI)
+{
+  _channels = 8;
+  _maxValue = 4095;
+}
+
 MCP3208::MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
         :MCP_ADC(dataIn, dataOut, clock)
 {
@@ -409,5 +479,5 @@ uint8_t MCP3208::buildRequest(uint8_t channel, bool single, uint8_t * data)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

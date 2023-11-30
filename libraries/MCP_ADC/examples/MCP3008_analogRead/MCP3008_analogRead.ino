@@ -7,8 +7,8 @@
 
 #include "MCP_ADC.h"
 
-MCP3008 mcp1;        //  use HWSPI
-MCP3004 mcp2(6, 7);  //  use SWSPI
+MCP3008 mcp1;           //  use HWSPI
+MCP3004 mcp2(6, 7, 8);  //  use SWSPI
 
 
 void setup()

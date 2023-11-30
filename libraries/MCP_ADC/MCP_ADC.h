@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -13,17 +13,29 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.2.1"))
+#define MCP_ADC_LIB_VERSION       (F("0.3.0"))
+
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
 
 
 class MCP_ADC
 {
 public:
-  MCP_ADC(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  //       HARDWARE SPI
+  MCP_ADC(__SPI_CLASS__ * mySPI = &SPI);
+  //       SOFTWARE SPI
+  MCP_ADC(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
+
   void     begin(uint8_t select);
 
-  uint8_t  channels() { return _channels; };
-  int16_t  maxValue() { return _maxValue; };
+  uint8_t  channels();
+  int16_t  maxValue();
 
   int16_t  analogRead(uint8_t channel);
   void     analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
@@ -32,22 +44,11 @@ public:
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed()               { return _SPIspeed; };
+  uint32_t getSPIspeed();
 
   //       debugging
-  bool     usesHWSPI() { return _hwSPI; };
+  bool     usesHWSPI();
   uint32_t count();  //  number of channels read.
-
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
-
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
 
 
 protected:
@@ -69,12 +70,8 @@ protected:
 
   uint8_t  swSPI_transfer(uint8_t d);
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 
   uint32_t _count;
 };
@@ -87,7 +84,8 @@ protected:
 class MCP3001 : public MCP_ADC
 {
 public:
-  MCP3001(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3001(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3001(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -95,7 +93,8 @@ public:
 class MCP3002 : public MCP_ADC
 {
 public:
-  MCP3002(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3002(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -103,7 +102,8 @@ public:
 class MCP3004 : public MCP_ADC
 {
 public:
-  MCP3004(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3004(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -111,7 +111,8 @@ public:
 class MCP3008 : public MCP_ADC
 {
 public:
-  MCP3008(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3008(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -119,7 +120,8 @@ public:
 class MCP3201 : public MCP_ADC
 {
 public:
-  MCP3201(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3201(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3201(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -127,7 +129,8 @@ public:
 class MCP3202 : public MCP_ADC
 {
 public:
-  MCP3202(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3202(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -135,7 +138,8 @@ public:
 class MCP3204 : public MCP_ADC
 {
 public:
-  MCP3204(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3204(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -143,10 +147,11 @@ public:
 class MCP3208 : public MCP_ADC
 {
 public:
-  MCP3208(uint8_t dataIn = 255, uint8_t dataOut = 255, uint8_t clock = 255);
+  MCP3208(__SPI_CLASS__ * mySPI = &SPI);
+  MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

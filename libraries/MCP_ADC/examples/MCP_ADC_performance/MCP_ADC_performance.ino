@@ -13,8 +13,8 @@
 
 MCP3002 mcp2;
 MCP3004 mcp4;
-MCP3008 mcp8(11, 12, 13);     //  software SPI
-// MCP3008 mcp8;               //  hardware SPI
+MCP3008 mcp8(11, 12, 13);  //  software SPI
+// MCP3008 mcp8;           //  hardware SPI
 MCP3202 mcp22;
 MCP3204 mcp24;
 MCP3208 mcp28;
@@ -342,4 +342,3 @@ void test_6()
 
 
 //  -- END OF FILE --
-

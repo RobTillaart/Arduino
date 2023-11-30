@@ -7,8 +7,8 @@
 
 #include "MCP_ADC.h"
 
-MCP3201 mcp1;        //  use HWSPI
-MCP3201 mcp2(6, 7);  //  use SWSPI
+MCP3201 mcp1;           //  use HWSPI
+MCP3201 mcp2(6, 7, 8);  //  use SWSPI
 
 uint32_t start, stop;
 

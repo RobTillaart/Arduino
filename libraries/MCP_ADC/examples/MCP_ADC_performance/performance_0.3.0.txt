@@ -1,0 +1,138 @@
+
+IDE:    1.8.19
+Board:  UNO
+
+MCP_ADC_performance.ino
+MCP_ADC_LIB_VERSION: 0.3.0
+
+ADC	CHAN	MAXVALUE
+mcp2	2	1023
+mcp4	4	1023
+mcp8	8	1023
+mcp22	2	4095
+mcp24	4	4095
+mcp28	8	4095
+
+Timing in micros().
+
+mcp2.analogRead()	2x: 	88
+mcp2.differentialRead() 2x: 	92
+mcp2.deltaRead()	2x: 	176
+
+mcp4.analogRead()	4x: 	216
+mcp4.differentialRead() 4x: 	220
+mcp4.deltaRead()	4x: 	436
+
+mcp8.analogRead()	8x: 	3712
+mcp8.differentialRead() 8x: 	3712
+mcp8.deltaRead()	8x: 	7432
+
+***************************************
+
+1000000
+mcp8.analogRead()	8x: 	4036
+mcp8.differentialRead() 8x: 	3712
+mcp8.deltaRead()	8x: 	7432
+
+2000000
+mcp8.analogRead()	8x: 	3764
+mcp8.differentialRead() 8x: 	3704
+mcp8.deltaRead()	8x: 	7440
+
+4000000
+mcp8.analogRead()	8x: 	3768
+mcp8.differentialRead() 8x: 	3712
+mcp8.deltaRead()	8x: 	7432
+
+8000000
+mcp8.analogRead()	8x: 	3764
+mcp8.differentialRead() 8x: 	3704
+mcp8.deltaRead()	8x: 	7440
+
+16000000
+mcp8.analogRead()	8x: 	3776
+mcp8.differentialRead() 8x: 	3712
+mcp8.deltaRead()	8x: 	7436
+
+***************************************
+
+1000000
+mcp22.analogRead()	2x: 	120
+mcp22.differentialRead() 2x: 	116
+mcp22.deltaRead()	2x: 	224
+
+2000000
+mcp22.analogRead()	2x: 	108
+mcp22.differentialRead() 2x: 	84
+mcp22.deltaRead()	2x: 	176
+
+4000000
+mcp22.analogRead()	2x: 	84
+mcp22.differentialRead() 2x: 	76
+mcp22.deltaRead()	2x: 	152
+
+8000000
+mcp22.analogRead()	2x: 	76
+mcp22.differentialRead() 2x: 	68
+mcp22.deltaRead()	2x: 	140
+
+16000000
+mcp22.analogRead()	2x: 	76
+mcp22.differentialRead() 2x: 	72
+mcp22.deltaRead()	2x: 	140
+
+***************************************
+
+1000000
+mcp24.analogRead()	4x: 	232
+mcp24.differentialRead() 4x: 	220
+mcp24.deltaRead()	4x: 	444
+
+2000000
+mcp24.analogRead()	4x: 	196
+mcp24.differentialRead() 4x: 	172
+mcp24.deltaRead()	4x: 	352
+
+4000000
+mcp24.analogRead()	4x: 	160
+mcp24.differentialRead() 4x: 	148
+mcp24.deltaRead()	4x: 	300
+
+8000000
+mcp24.analogRead()	4x: 	160
+mcp24.differentialRead() 4x: 	136
+mcp24.deltaRead()	4x: 	276
+
+16000000
+mcp24.analogRead()	4x: 	152
+mcp24.differentialRead() 4x: 	136
+mcp24.deltaRead()	4x: 	280
+
+***************************************
+
+1000000
+mcp28.analogRead()	8x: 	464
+mcp28.differentialRead() 8x: 	444
+mcp28.deltaRead()	8x: 	892
+
+2000000
+mcp28.analogRead()	8x: 	380
+mcp28.differentialRead() 8x: 	340
+mcp28.deltaRead()	8x: 	700
+
+4000000
+mcp28.analogRead()	8x: 	324
+mcp28.differentialRead() 8x: 	292
+mcp28.deltaRead()	8x: 	604
+
+8000000
+mcp28.analogRead()	8x: 	308
+mcp28.differentialRead() 8x: 	268
+mcp28.deltaRead()	8x: 	556
+
+16000000
+mcp28.analogRead()	8x: 	296
+mcp28.differentialRead() 8x: 	268
+mcp28.deltaRead()	8x: 	556
+
+done...

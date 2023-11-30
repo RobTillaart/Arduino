@@ -43,15 +43,20 @@ Build into the library is a delta mode which is a software enhanced differential
 This delta mode can return negative values too. 
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+
 #### Related
 
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
-
-
 - https://github.com/RobTillaart/MCP_DAC
-
 
 
 ## Interface
@@ -62,17 +67,19 @@ This delta mode can return negative values too.
 
 #### Constructors
 
-If the pins are not set in the constructor, the class will automatically
-use the hardware SPI, otherwise it will use software SPI.
+- **MCP_ADC(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
+- **MCP_ADC(SPIClass \* mySPI = &SPI)** hardware constructor other
+- **MCP_ADC(uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
 
-- **MCP3001(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 1 channel.
-- **MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 2 channel.
-- **MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 4 channel.
-- **MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 10 bit ADC 8 channel.
-- **MCP3201(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 12 bit ADC 1 channel.
-- **MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 12 bit ADC 2 channel.
-- **MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 12 bit ADC 4 channel.
-- **MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor 12 bit ADC 8 channel.
+The derived classes have both constructors with same parameters.
+- **MCP3001(...)** constructor 10 bit ADC 1 channel.
+- **MCP3002(...)** constructor 10 bit ADC 2 channel.
+- **MCP3004(...)** constructor 10 bit ADC 4 channel.
+- **MCP3008(...)** constructor 10 bit ADC 8 channel.
+- **MCP3201(...)** constructor 12 bit ADC 1 channel.
+- **MCP3202(...)** constructor 12 bit ADC 2 channel.
+- **MCP3204(...)** constructor 12 bit ADC 4 channel.
+- **MCP3208(...)** constructor 12 bit ADC 8 channel.
 - **void begin(uint8_t select)** set select pin.
 - **uint8_t channels()** returns the number of channels.
 - **int16_t maxValue()** returns maxReading of ADC, typical 1023 or 4095.

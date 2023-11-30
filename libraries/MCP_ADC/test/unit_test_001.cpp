@@ -106,4 +106,4 @@ unittest(test_MCP3002)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

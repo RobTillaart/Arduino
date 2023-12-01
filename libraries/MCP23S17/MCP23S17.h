@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23S17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.2.7"))
+#define MCP23S17_LIB_VERSION              (F("0.3.0"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -24,10 +24,17 @@
 #define MCP23S17_REGISTER_ERROR           0xFF
 #define MCP23S17_INVALID_READ             0xFF
 
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
+
 
 const uint32_t MCP23S17_TYP_SPI_SPEED =  8000000;
 const uint32_t MCP23S17_MAX_SPI_SPEED = 10000000;
-
 
 
 class MCP23S17
@@ -36,8 +43,8 @@ public:
   //  SOFTWARE SPI
   MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00);
   //  HARDWARE SPI
-  MCP23S17(uint8_t select, SPIClass* spi);
-  MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClass* spi = &SPI);
+  MCP23S17(uint8_t select, __SPI_CLASS__ * spi);
+  MCP23S17(uint8_t select, uint8_t address = 0x00, __SPI_CLASS__ * spi = &SPI);
 
   bool     begin();
   bool     isConnected();
@@ -96,19 +103,6 @@ public:
   void     enableHardwareAddress();
   void     disableHardwareAddress();
 
-  //  ESP32 specific
-#if defined(ESP32)
-
-  void     selectHSPI();
-  void     selectVSPI();
-  bool     usesHSPI();
-  bool     usesVSPI();
-
-  // to overrule the ESP32s default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-
-#endif
-
 
 private:
   //       access to low level registers (just make these two functions public).
@@ -126,18 +120,14 @@ private:
   uint8_t  _clock   = 0;
   uint8_t  _error   = MCP23S17_OK;
 
-  bool       _hwSPI = true;
+  bool     _hwSPI = true;
 
   //  10 MHz is maximum, 8 is a better clock divider on AVR.
   uint32_t    _SPIspeed = MCP23S17_TYP_SPI_SPEED;
-  SPIClass *  _mySPI;
-  SPISettings _spi_settings;
+  __SPI_CLASS__ * _mySPI;
+  SPISettings     _spi_settings;
 
   uint8_t  swSPI_transfer(uint8_t val);
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
 };
 
 

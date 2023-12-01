@@ -46,12 +46,6 @@ disableControlRegister	KEYWORD2
 enableHardwareAddress	KEYWORD2
 disableHardwareAddress	KEYWORD2
 
-selectHSPI	KEYWORD2
-selectVSPI	KEYWORD2
-usesHSPI	KEYWORD2
-usesVSPI	KEYWORD2
-setGPIOpins	KEYWORD2
-
 
 # Instances (KEYWORD2)
 

@@ -22,6 +22,14 @@ This IC is strongly related to the MCP23017 I2C port expander - https://github.c
 Programming Interface is kept the same as much as possible.
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+
 #### Related
 
 16 bit port expanders
@@ -47,7 +55,9 @@ Programming Interface is kept the same as much as possible.
 ### Constructor
 
 - **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
+- **MCP23S17(uint8_t select, SPIClassRP2040\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
 - **MCP23S17(uint8_t select, SPIClass\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
+- **MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClassRP2040\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **MCP23S17(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **bool begin()** returns true if successful.
 - **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
@@ -159,38 +169,6 @@ Two dedicated functions are added since 0.2.5.
 
 - **void enableHardwareAddress()** set IOCR_HAEN  bit.
 - **void disableHardwareAddress()** clear IOCR_HAEN bit.
-
-
-### ESP32 HW SPI port selection
-
-This functionality is new in 0.2.5.
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called
-BEFORE the **begin()** function.
-
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. 
-Needs to be called AFTER the **begin()** function.
-
-```cpp
-void setup()
-{
-  MCP.selectVSPI();
-  MCP.begin(15);
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-}
-```
-
-This interface can change in the future as the **select** pin is known
-in the code.
 
 
 ### Error codes

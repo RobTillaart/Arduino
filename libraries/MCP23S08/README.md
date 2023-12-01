@@ -25,6 +25,14 @@ Since 0.1.1 the **digitalWrite(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+
 #### Related
 
 16 bit port expanders
@@ -50,7 +58,9 @@ If a pin is not changed it will not be written again to save time.
 ### Constructor
 
 - **MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
+- **MCP23S08(uint8_t select, SPIClassRP2040\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
 - **MCP23S08(uint8_t select, SPIClass\* spi)** constructor HARDWARE SPI with explicit SPI interface selected.
+- **MCP23S08(uint8_t select, uint8_t address = 0x00, SPIClassRP2040\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **MCP23S08(uint8_t select, uint8_t address = 0x00, SPIClass\* spi = &SPI)** constructor HARDWARE SPI with optional address pins and SPI interface.
 - **bool begin()** returns true if successful.
 - **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
@@ -145,17 +155,6 @@ Since 0.2.0
 - **void disableControlRegister(uint8_t mask)** clear IOCR bit fields
 - **void enableHardwareAddress()** specific for HAEN field.
 - **void disableHardwareAddress()** specific for HAEN field.
-
-
-### ESP32
-
-Since 0.2.0
-
-- **void selectHSPI()** idem
-- **void selectVSPI()** idem
-- **bool usesHSPI()** idem
-- **bool usesVSPI()** idem
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule the ESP32s default hardware pins.
 
 
 ### Error codes

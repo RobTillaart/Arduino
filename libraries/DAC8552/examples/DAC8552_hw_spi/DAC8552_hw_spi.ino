@@ -2,22 +2,22 @@
 //    FILE: DAC8552_hw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8552 library Arduino with hardware SPI
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8552
-//
 
 
 #include "DAC8552.h"
 
 
-// HW SPI
+//  HW SPI
 DAC8552 mydac(10);
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8552_LIB_VERSION: ");
   Serial.println(DAC8552_LIB_VERSION);
+
   mydac.begin();
 }
 
@@ -26,7 +26,7 @@ void loop()
 {
   uint8_t channel = 0;
 
-  // minimal sawtooth
+  //  minimal sawtooth
   for (uint16_t val = 0; val < 65500; val+= 30)
   {
     mydac.setValue(channel, val);
@@ -39,7 +39,7 @@ void loop()
   }
   Serial.println();
 
-  // minimal sinus
+  //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {
     long s = 32768 + 32768 * sin( i * (PI / 180.0));
@@ -55,4 +55,6 @@ void loop()
   
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

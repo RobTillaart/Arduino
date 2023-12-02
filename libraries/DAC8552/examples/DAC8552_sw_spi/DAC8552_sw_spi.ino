@@ -10,7 +10,7 @@
 #include "DAC8552.h"
 
 
-// SW SPI pins 4,5,6
+//  SW SPI pins select, data, clock
 DAC8552 mydac(4, 5, 6);
 
 
@@ -18,7 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8552_LIB_VERSION: ");
   Serial.println(DAC8552_LIB_VERSION);
+
   mydac.begin();
 }
 
@@ -27,7 +29,7 @@ void loop()
 {
   uint8_t channel = 0;
 
-  // minimal sawtooth
+  //  minimal sawtooth
   for (uint16_t val = 0; val < 65500; val+= 30)
   {
     mydac.setValue(channel, val);
@@ -40,7 +42,7 @@ void loop()
   }
   Serial.println();
 
-  // minimal sinus
+  //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {
     long s = 32768 + 32768 * sin( i * (PI / 180.0));
@@ -56,5 +58,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

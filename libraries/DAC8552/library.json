@@ -1,7 +1,7 @@
 {
   "name": "DAC8552",
-  "keywords": "DAC8552, SPI, digital, analog, convertor",
-  "description": "Arduino library for DAC8552 SPI Digital Analog Convertor",
+  "keywords": "DAC8532, DAC8552, SPI, digital, analog, convertor",
+  "description": "Arduino library for DAC8532 and DAC8552 SPI Digital Analog Convertor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DAC8552"
   },
-  "version": "0.2.5",
+  "version": "0.3.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

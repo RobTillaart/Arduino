@@ -2,9 +2,7 @@
 //    FILE: DAC8552_powerdown.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8552 library Arduino
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8552
-//
 
 
 #include "DAC8552.h"
@@ -20,7 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8552_LIB_VERSION: ");
   Serial.println(DAC8552_LIB_VERSION);
+
   mydac.begin();
 
   mydac.setValue(chanA, 0);
@@ -55,4 +55,6 @@ void loop()
   mydac.setPowerDown(chanA, DAC8552_POWERDOWN_NORMAL);
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

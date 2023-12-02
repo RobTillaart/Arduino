@@ -15,8 +15,8 @@
 #include "DAC8552.h"
 
 
-DAC8552 mydac(12, 13, 14);   // SW SPI
-// DAC8552 mydac(10);   // HW SPI
+DAC8552 mydac(12, 13, 14);   //  SW SPI
+//  DAC8552 mydac(10);   //  HW SPI
 
 uint16_t value = 0;
 uint32_t start, stop;
@@ -26,14 +26,16 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8552_LIB_VERSION: ");
   Serial.println(DAC8552_LIB_VERSION);
+
   mydac.begin();
 }
 
 
 void loop()
 {
-  // simulate fast sawtooth;
+  //  simulate fast sawtooth;
   start = micros();
   mydac.setValue(0, value);
   stop = micros();
@@ -43,4 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

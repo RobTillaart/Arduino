@@ -1,0 +1,19 @@
+# Syntax Colouring Map For NeumannCorrector
+
+# Data types (KEYWORD1)
+NeumannCorrector	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+clear	KEYWORD2
+available	KEYWORD2
+size	KEYWORD2
+add	KEYWORD2
+get	KEYWORD2
+
+
+# Constants (LITERAL1)
+NEUMANNCORRECTOR_LIB_VERSION	LITERAL1
+
+NEUMANNCORRECTOR_MAX_SIZE	LITERAL1
+
+

@@ -1,0 +1,23 @@
+{
+  "name": "NeumannCorrector",
+  "keywords": "",
+  "description": "Arduino library for a NeumannCorrector. (randomizing streams of bits).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/NeumannCorrector.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "NeumannCorrector.h"
+}

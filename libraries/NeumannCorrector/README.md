@@ -49,12 +49,22 @@ As always remarks are welcome.
 
 #### Core
 
-- **NeumannCorrector()** constructor.
+- **NeumannCorrector()** constructor, internal seize = 32 bits.
 - **void clear()** sets the internal buffer to 0.
 - **uint8_t available()** returns bits available in internal buffer.
-- **uint8_t size()** returns the size of the internal buffer. (32).
+- **uint8_t size()** returns the size of the internal buffer. (32 hardcoded).
+
+#### Add
+
 - **void add(uint8_t in)** adds zero or more bits of the param to the internal buffer.
+
+#### Get
+
 - **uint8_t get()** returns 8 bits from the internal buffer,
+even if these are not available.
+- **uint16_t get16()** returns 16 bits from the internal buffer,
+even if these are not available.
+- **uint32_t get32()** returns 32 bits from the internal buffer,
 even if these are not available.
 
 
@@ -62,20 +72,22 @@ even if these are not available.
 
 #### Must
 
-- update documentation
+- documentation
 
 #### Should
 
-- investigate performance
 
 #### Could
 
-- add xor mask in constructor, to xor every incoming byte
-  - or a multiply add mask?
-- add a non-zero starting value for internal buffer?
+- add xor mask in constructor, to xor every incoming value
+  - or a multiply add shift mask?
 - extend unit tests.
+- add16() + add32() ?
+
 
 #### Wont
+
+- add a non-zero starting value for internal buffer?
 
 
 ## Support

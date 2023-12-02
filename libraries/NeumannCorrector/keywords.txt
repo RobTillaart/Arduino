@@ -7,8 +7,12 @@ NeumannCorrector	KEYWORD1
 clear	KEYWORD2
 available	KEYWORD2
 size	KEYWORD2
+
 add	KEYWORD2
+
 get	KEYWORD2
+get16	KEYWORD2
+get32	KEYWORD2
 
 
 # Constants (LITERAL1)

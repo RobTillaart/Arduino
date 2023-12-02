@@ -2,7 +2,6 @@
 //    FILE: demo_powerdown.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8550 library Arduino
-// VERSION: 0.1.0
 //     URL: https://github.com/RobTillaart/DAC8550
 
 
@@ -16,6 +15,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8550_LIB_VERSION: ");
+  Serial.println(DAC8550_LIB_VERSION);
+
   myDAC.begin();
   
   myDAC.setValue(0);
@@ -45,4 +47,6 @@ void loop()
 
 }
 
-// END OF FILE
+
+//  -- END OF FILE --
+

@@ -2,7 +2,6 @@
 //    FILE: demo_hw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8550 library Arduino with hardware SPI
-// VERSION: 0.1.1
 //     URL: https://github.com/RobTillaart/DAC8550
 
 
@@ -16,12 +15,15 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8550_LIB_VERSION: ");
+  Serial.println(DAC8550_LIB_VERSION);
+
   myDAC.begin();
 }
 
 void loop()
 {
-  //  // minimal sawtooth
+  //  //  minimal sawtooth
   //  for (uint16_t val = 0; val < 65500; val+= 30)
   //  {
   //    myDAC.setValue(val);
@@ -32,7 +34,7 @@ void loop()
   //    Serial.println(av);
   //  }
 
-  // minimal sinus
+  //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {
     long sinValue = 32767 + 32767 * sin( i * (PI / 180.0));
@@ -45,4 +47,5 @@ void loop()
   }
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

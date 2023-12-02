@@ -3,7 +3,7 @@
 //    FILE: DAC8550.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor  
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 //    DATE: 2021-02-04
 //     URL: https://github.com/RobTillaart/DAC8550
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define DAC8550_LIB_VERSION            (F("0.1.4"))
+#define DAC8550_LIB_VERSION            (F("0.2.0"))
 
 
 #define DAC8550_POWERDOWN_NORMAL        0
@@ -21,11 +21,20 @@
 #define DAC8550_POWERDOWN_HIGH_IMP      3
 
 
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
+#endif
+
+
 class DAC8550
 {
 public:
-  DAC8550(uint8_t slaveSelect);
-  DAC8550(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect);
+  DAC8550(uint8_t select, __SPI_CLASS__ * spi = &SPI);
+  DAC8550(uint8_t select, uint8_t spiData, uint8_t spiClock);
 
   void     begin();
 
@@ -41,18 +50,8 @@ public:
 
   bool     usesHWSPI() { return _hwSPI; };
 
-  //  ESP32 specific
-  #if defined(ESP32)
-  void     selectHSPI() { _useHSPI = true;  };
-  void     selectVSPI() { _useHSPI = false; };
-  bool     usesHSPI()   { return _useHSPI;  };
-  bool     usesVSPI()   { return !_useHSPI; };
 
-  //  to overrule ESP32 default hardware pins
-  void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
-  #endif
-
-private:
+protected:
   uint8_t  _dataOut     = 255;
   uint8_t  _clock       = 255;
   uint8_t  _select      = 255;
@@ -67,12 +66,8 @@ private:
   void     swSPI_transfer(uint8_t value);
 
 
-  SPIClass    * mySPI;
-  SPISettings _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
+  __SPI_CLASS__ * _mySPI;
+  SPISettings   _spi_settings;
 };
 
 

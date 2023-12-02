@@ -10,15 +10,17 @@
 #include "DAC8551.h"
 
 
-// HW SPI uses slave spin since 0.2.0
-DAC8551 mydac(10);
+//  select, address HW SPI
+DAC8551 mydac(10);  //  uses default
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
   mydac.begin();
 }
 
@@ -51,5 +53,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

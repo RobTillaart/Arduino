@@ -2,26 +2,30 @@
 //    FILE: DAC8551.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor
-// VERSION: 0.2.7
+// VERSION: 0.3.0
 //     URL: https://github.com/RobTillaart/DAC8551
 
 
 #include "DAC8551.h"
 
 
-DAC8551::DAC8551(uint8_t slaveSelect)
+DAC8551::DAC8551(uint8_t select, __SPI_CLASS__ * spi)
 {
-  _hwSPI  = true;
-  _select = slaveSelect;
+  _select  = select;
+  _dataOut = 255;
+  _clock   = 255;
+  _mySPI   = spi;
+  _hwSPI   = true;
 }
 
 
-DAC8551::DAC8551(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
+DAC8551::DAC8551(uint8_t select, uint8_t spiData, uint8_t spiClock)
 {
-  _hwSPI   = false;
+  _select  = select;
   _dataOut = spiData;
   _clock   = spiClock;
-  _select  = slaveSelect;
+  _mySPI   = NULL;
+  _hwSPI   = false;
 }
 
 
@@ -36,27 +40,11 @@ void DAC8551::begin()
 
   if(_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, _select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, _select);   //  CLK=18  MISO=19  MOSI=23
-    }
-    #else              //  generic hardware SPI
-    mySPI = &SPI;
-    mySPI->end();
-    mySPI->begin();
-    #endif
+    _mySPI->end();
+    _mySPI->begin();
     delay(1);
   }
-  else                 //  software SPI
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
@@ -67,21 +55,6 @@ void DAC8551::begin()
   _register = 0;
   _value = 0;
 }
-
-
-#if defined(ESP32)
-void DAC8551::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
-{
-  _clock   = clk;
-  _dataOut = mosi;
-  _select  = select;
-  pinMode(_select, OUTPUT);
-  digitalWrite(_select, HIGH);
-
-  mySPI->end();  // disable SPI
-  mySPI->begin(clk, miso, mosi, select);
-}
-#endif
 
 
 //  value = 0..65535
@@ -121,7 +94,7 @@ void DAC8551::setSPIspeed(uint32_t speed)
 
 //////////////////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 void DAC8551::updateDevice()
 {
@@ -130,11 +103,11 @@ void DAC8551::updateDevice()
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    mySPI->beginTransaction(_spi_settings);
-    mySPI->transfer(configRegister);
-    mySPI->transfer(_value >> 8);
-    mySPI->transfer(_value & 0xFF);
-    mySPI->endTransaction();
+    _mySPI->beginTransaction(_spi_settings);
+    _mySPI->transfer(configRegister);
+    _mySPI->transfer(_value >> 8);
+    _mySPI->transfer(_value & 0xFF);
+    _mySPI->endTransaction();
   }
   else //  Software SPI
   {
@@ -162,38 +135,34 @@ void DAC8551::swSPI_transfer(uint8_t value)
 
 /////////////////////////////////////////////////////////
 //
-//  derive 8501, 8531 and 8550 from 8551
+//  DERIVED CLASSES  DAC8501, DAC8531, DAC8550
 //
+DAC8501::DAC8501(uint8_t select, __SPI_CLASS__ * spi) : DAC8551(select, spi)
+{
+}
 
-DAC8501::DAC8501(uint8_t slaveSelect) : DAC8551(slaveSelect)
+DAC8501::DAC8501(uint8_t select, uint8_t spiData, uint8_t spiClock)
+                : DAC8551(select, spiData, spiClock)
+{
+} 
+
+
+DAC8531::DAC8531(uint8_t select, __SPI_CLASS__ * spi) : DAC8551(select, spi)
+{
+}
+
+DAC8531::DAC8531(uint8_t select, uint8_t spiData, uint8_t spiClock)
+                : DAC8551(select, spiData, spiClock)
 {
 }
 
 
-DAC8501::DAC8501(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : DAC8551(spiData, spiClock, slaveSelect)
+DAC8550::DAC8550(uint8_t select, __SPI_CLASS__ * spi) : DAC8551(select, spi)
 {
 }
 
-
-DAC8531::DAC8531(uint8_t slaveSelect) : DAC8551(slaveSelect)
-{
-}
-
-
-DAC8531::DAC8531(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : DAC8551(spiData, spiClock, slaveSelect)
-{
-}
-
-
-DAC8550::DAC8550(uint8_t slaveSelect) : DAC8551(slaveSelect)
-{
-}
-
-
-DAC8550::DAC8550(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect)
-                : DAC8551(spiData, spiClock, slaveSelect)
+DAC8550::DAC8550(uint8_t select, uint8_t spiData, uint8_t spiClock)
+                : DAC8551(select, spiData, spiClock)
 {
 }
 

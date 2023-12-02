@@ -9,22 +9,24 @@
 
 #include "DAC8551.h"
 
-// HW SPI uses slave spin since 0.2.0
-DAC8551 mydac(10);
+//  select, address HW SPI
+DAC8551 mydac(10, &SPI);  //  explicit SPI
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
   mydac.begin();
 }
 
 
 void loop()
 {
-  // minimal sawtooth
+  //  minimal sawtooth
   for (uint16_t val = 0; val < 65500; val += 30)
   {
     mydac.setValue(val);
@@ -37,7 +39,7 @@ void loop()
   }
   Serial.println();
 
-  // minimal sinus
+  //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {
     long s = 32768 + 32768 * sin( i * (PI / 180.0));

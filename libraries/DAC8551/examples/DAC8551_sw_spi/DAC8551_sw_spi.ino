@@ -10,7 +10,7 @@
 #include "DAC8551.h"
 
 
-// SW SPI pins 4,5,6
+// SW SPI pins select, data, clock
 DAC8551 mydac(4, 5, 6);
 
 
@@ -18,7 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
   mydac.begin();
 }
 

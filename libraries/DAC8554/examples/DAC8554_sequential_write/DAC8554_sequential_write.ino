@@ -2,16 +2,13 @@
 //    FILE: DAC8554_sequential_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8554
-//
+
 
 #include "DAC8554.h"
 
-
-// HW SPI
-DAC8554 mydac(10);
-
+//  HW SPI
+DAC8534 mydac(10);
 
 uint32_t lastTime = 0;
 uint16_t state = 0;
@@ -21,7 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
+
   mydac.begin();
 }
 
@@ -33,9 +32,9 @@ void loop()
   uint8_t chanC = 2;
   uint8_t chanD = 3;
 
-  // opposite square waves by setting A and B sequentially
-  // first buffer one value and then set the other.
-  // freq 10 Hz
+  //  opposite square waves by setting A and B sequentially
+  //  first buffer one value and then set the other.
+  //  freq 10 Hz
   if (millis() - lastTime > 100)
   {
     lastTime = millis();
@@ -59,5 +58,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -21,6 +21,26 @@ The DAC8554 is a SPI based 16 bit DAC with four channels.
 **Warning** This library is not tested extensively
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The essence is removal of ESP32 specific code from the library. 
+This makes it possible to support the ESP32-S3 and other processors in the future. 
+Also it makes the library a bit simpler to maintain.
+
+Note order of parameters changed.
+
+
+#### Related
+
+- https://github.com/RobTillaart/DAC8550
+- https://github.com/RobTillaart/DAC8551
+- https://github.com/RobTillaart/DAC8552
+- https://github.com/RobTillaart/DAC8554
+- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/AD5680  (18 bit DAC)
+
+
 ## Interface
 
 ```cpp
@@ -29,10 +49,10 @@ The DAC8554 is a SPI based 16 bit DAC with four channels.
 
 ### Core
 
-- **DAC8554(uint8_t slaveSelect, uint8_t address = 0)** Constructor for hardware SPI,
-since 0.2.0 the slaveSelect pin needs to be defined.
-- **DAC8554(uint8_t spiData, uint8_t spiClock, uint8_t slaveSelect, uint8_t address = 0)** 
-Constructor for the software SPI
+- **DAC8554(uint8_t select, SPIClassRP2040 \* spi = &SPI)** Constructor HW SPI RP2040.
+- **DAC8554(uint8_t select, SPIClass \* spi = &SPI)** Constructor HW SPI other.
+- **DAC8554(uint8_t select, uint8_t spiData, uint8_t spiClock)** Constructor SW SPI.
+- **DAC8534(...)** idem constructors for DAC8534.
 - **void begin()** initializes all pins to default state
 - **void setValue(uint8_t channel, uint16_t value)** set the value of the channel to 0 - 65535
 - **void setSingleValue(uint8_t channel, uint16_t value)** writes the value to the channel but 
@@ -47,24 +67,6 @@ To be used only if one needs a specific speed.
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true if HW SPI is used.
-
-
-### ESP32 specific
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. 
-Needs to be called AFTER the **begin()** function.
 
 
 ### Power down
@@ -126,7 +128,7 @@ See examples
 #### Could
 
 - performance measurements
-
+- add channels?
 
 #### Wont
 

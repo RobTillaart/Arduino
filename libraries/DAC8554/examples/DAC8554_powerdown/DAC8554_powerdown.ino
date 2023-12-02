@@ -2,13 +2,10 @@
 //    FILE: DAC8554_powerdown.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/Arduino/DAC8554
-//
 
 
 #include "DAC8554.h"
-
 
 //  HW SPI
 DAC8554 mydac(10);
@@ -23,7 +20,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
+
   mydac.begin();
 
   mydac.setValue(chanA, 0);
@@ -61,5 +60,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

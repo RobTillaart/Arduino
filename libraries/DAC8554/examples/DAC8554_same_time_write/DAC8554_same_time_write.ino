@@ -2,14 +2,12 @@
 //    FILE: DAC8554_same_time_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8554 library Arduino with hardware SPI
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/Arduino/DAC8554
-//
 
 
 #include "DAC8554.h"
 
-// HW SPI
+//  HW SPI
 DAC8554 mydac(10);
 
 uint32_t lastTime = 0;
@@ -20,7 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
+
   mydac.begin();
 }
 
@@ -32,9 +32,9 @@ void loop()
   uint8_t chanC = 2;
   uint8_t chanD = 3;
 
-  // opposite square waves by setting 4 channels simultaneous
-  // first buffer three values and then set the last.
-  // freq 10 Hz
+  //  opposite square waves by setting 4 channels simultaneous
+  //  first buffer three values and then set the last.
+  //  freq 10 Hz
   if (millis() - lastTime > 100)
   {
     lastTime = millis();
@@ -58,5 +58,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

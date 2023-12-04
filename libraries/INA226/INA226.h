@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.5.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              (F("0.4.4"))
+#define INA226_LIB_VERSION              (F("0.5.0"))
 
 
 //  set by setAlertRegister
@@ -49,9 +49,6 @@ public:
   //  address between 0x40 and 0x4F
   explicit INA226(const uint8_t address, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t sda, const uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  getAddress();
@@ -105,7 +102,7 @@ public:
 
 
   //  Operating mode
-  bool     setMode(uint8_t mode = 7);
+  bool     setMode(uint8_t mode = 7);  //  default ModeShuntBusContinuous
   uint8_t  getMode();
   bool     shutDown()                  { return setMode(0); };
   bool     setModeShuntTrigger()       { return setMode(1); };

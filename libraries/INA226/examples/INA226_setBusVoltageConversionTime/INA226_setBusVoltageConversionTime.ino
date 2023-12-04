@@ -2,13 +2,12 @@
 //    FILE: INA226_BusVoltageConversionTime.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
 //
 //  run this sketch in the IDE plotter
 //  change the setBusVoltageConversionTime(7)  (line 33)   0..7
 //  change the bus voltage
-//  0 reads fast  ...  7 staircasing, slower reads)
+//  0 reads fast  ...  7 stair-casing, slower reads)
 
 
 #include "INA226.h"
@@ -21,6 +20,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("INA226_LIB_VERSION: ");
+  Serial.println(INA226_LIB_VERSION);
 
   Wire.begin();
   if (!INA.begin() )
@@ -42,5 +43,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

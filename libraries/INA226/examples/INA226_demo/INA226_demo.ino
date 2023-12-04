@@ -2,7 +2,6 @@
 //    FILE: INA226_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-05-18
 //     URL: https://github.com/RobTillaart/INA226
 
 
@@ -16,6 +15,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("INA226_LIB_VERSION: ");
+  Serial.println(INA226_LIB_VERSION);
 
   Wire.begin();
   if (!INA.begin() )
@@ -44,5 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

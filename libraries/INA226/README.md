@@ -33,21 +33,28 @@ A few important maxima, see datasheet, chapter 6.
 | current       |  20   | Ampere | 
 
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Links
+#### Related
 
-Relates to https://github.com/RobTillaart/INA219
-
-
-## Resources
-
-- [TI - INA226 Details](https://www.ti.com/product/INA226#params)
-- [TI - INA226 datasheet](https://www.ti.com/document-viewer/INA226/datasheet)
+- https://www.ti.com/product/INA226#tech-docs
+- https://www.ti.com/product/INA226#params
+- https://www.ti.com/document-viewer/INA226/datasheet
+- https://github.com/RobTillaart/INA219
+- https://github.com/RobTillaart/INA226
 
 
 ## I2C
@@ -64,6 +71,11 @@ See datasheet - table 2 - datasheet.
 #### Performance
 
 To be elaborated, example sketch available.
+
+(From Datasheet)  
+_The INA226 supports the transmission protocol for fast mode (1 kHz to 400 kHz) 
+and high-speed mode (1 kHz to 2.94 MHz).
+All data bytes are transmitted most significant byte first._
 
 
 ## About Measurements
@@ -95,6 +107,8 @@ The example sketch **INA226_setMaxCurrentShunt.ino** switches between two calibr
 It shows the **INA266** sensor needs time to accommodate to this change. 
 In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
+Also see #30 for another typical deviation problem.
+
 
 ## Interface
 
@@ -107,11 +121,9 @@ In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
 - **INA226(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
 the address and optional Wire interface.
-- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266;  
-initializes the class. Sets I2C pins. 
-Returns true if the INA226 address is on the I2C bus.
-- **bool begin()** UNO ea. initializes the class.
+- **bool begin()** initializes the class.
 returns true if the INA226 address is on the I2C bus.
+Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **bool isConnected()** returns true if the INA226 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
@@ -126,6 +138,8 @@ Also the value is not meaningful if there is no shunt connected.
 - **float getCurrent()** is the current through the shunt in Ampere.
 - **float getPower()** is the current x BusVoltage in Watt.
 
+The library has helper functions to convert above output to a more appropriate scale of units.
+
 Helper functions for the milli scale.
 
 - **float getBusVoltage_mV()** idem, in milliVolts.
@@ -135,7 +149,7 @@ Helper functions for the milli scale.
 
 Helper functions for the micro scale.
 
-- **float getBusVoltage_mV()** idem, in microVolts.
+- **float getBusVoltage_uV()** idem, in microVolts.
 - **float getShuntVoltage_uV()** idem, in microVolts.
 - **float getCurrent_uA()** idem, in microAmpere.
 - **float getPower_uW()** idem, in microWatt.
@@ -240,7 +254,12 @@ See datasheet, partially tested.
 
 Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference with mode == 0.
 
-- **bool setMode(uint8_t mode = 7)** mode = 0 .. 7
+- **bool setMode(uint8_t mode = 7)** mode = 0..7.
+The value 7 == ShuntBusContinuous mode.
+- **uint8_t getMode()** returns the mode (0..7).
+
+Descriptive mode functions (convenience wrappers).
+
 - **bool shutDown()** mode 0 - not tested yet
 - **bool setModeShuntTrigger()** mode 1 - not tested yet - how to trigger to be investigated
 - **bool setModeBusTrigger()** mode 2 - not tested yet
@@ -248,7 +267,6 @@ Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference 
 - **bool setModeShuntContinuous()** mode 5
 - **bool setModeBusContinuous()** mode 6
 - **bool setModeShuntBusContinuous()** mode 7 - default.
-- **uint8_t getMode()** returns the mode (0..7) set by one of the functions above.
 
 
 #### Alert functions
@@ -326,7 +344,8 @@ See examples..
 
 #### Must
 
-- keep in sync with INA219 where possible
+- update documentation.
+- keep in sync with INA219 where possible.
 
 #### Should
 
@@ -336,12 +355,7 @@ See examples..
 - disconnected load.
   - can it be recognized? => current drop?
 
-
 #### Could
-
-- make defines of "magic" numbers
-  - const floats (most used only once)
-- default address 0x40 ?
 
 
 #### Won't
@@ -361,6 +375,10 @@ See examples..
   - integer only?
   - less iterations?
   - would cause rounding errors
+- make defines of "magic" numbers
+  - const floats (most used only once)
+- default address 0x40 ?
+  - the the user set it makes it always explicit.
 
 
 ## Support

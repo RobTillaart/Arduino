@@ -15,6 +15,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("INA226_LIB_VERSION: ");
+  Serial.println(INA226_LIB_VERSION);
 
   Wire.begin();
   if (!INA.begin() )
@@ -34,6 +36,20 @@ void setup()
   Serial.println(INA.getMaxCurrent(), 3);
   Serial.print("currentLSB:\t");
   Serial.println(INA.getCurrentLSB(), 5);
+
+  INA.setMaxCurrentShunt(8, 0.01, true);
+
+  INA.setMaxCurrentShunt(8, 0.01, false);
+
+  INA.setMaxCurrentShunt(1, 0.01, true);
+
+  INA.setMaxCurrentShunt(1, 0.01, false);
+
+  INA.setMaxCurrentShunt(0.5, 0.01, true);
+
+  INA.setMaxCurrentShunt(0.5, 0.001, true);
+
+  Serial.println("done...");
 }
 
 
@@ -42,4 +58,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

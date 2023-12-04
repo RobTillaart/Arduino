@@ -51,6 +51,7 @@ unittest(test_constructor)
 
   INA226 INA(0x40);
 
+  Wire.begin();
   assertTrue(INA.begin());
   assertTrue(INA.isConnected());
   assertEqual(0x40, INA.getAddress());
@@ -87,7 +88,8 @@ unittest(test_core_functions)
 {
   INA226 INA(0x40);
 
-  // assertTrue(INA.begin());
+  Wire.begin();
+  //  assertTrue(INA.begin());
 
   fprintf(stderr, "need mock up\n");
   /*
@@ -102,9 +104,11 @@ unittest(test_core_functions)
 unittest(test_configuration)
 {
   INA226 INA(0x40);
-  // assertTrue(INA.begin());
 
-  // only errors can be tested
+  Wire.begin();
+  //  assertTrue(INA.begin());
+
+  //  only errors can be tested
   assertFalse(INA.setAverage(8));
   assertFalse(INA.setAverage(255));
 
@@ -119,7 +123,9 @@ unittest(test_configuration)
 unittest(test_calibration)
 {
   INA226 INA(0x40);
-  // assertTrue(INA.begin());
+
+  Wire.begin();
+  //  assertTrue(INA.begin());
 
   assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(30, 0.002));
   assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(1,  0.05));
@@ -141,9 +147,11 @@ unittest(test_calibration)
 unittest(test_setMode)
 {
   INA226 INA(0x40);
-  // assertTrue(INA.begin());
 
-  // only errors can be tested
+  Wire.begin();
+  //  assertTrue(INA.begin());
+
+  //  only errors can be tested
   assertFalse(INA.setMode(8));
   assertFalse(INA.setMode(255));
   assertFalse(INA.setMode(-1));
@@ -161,4 +169,6 @@ unittest(test_setMode)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

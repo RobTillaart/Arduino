@@ -42,13 +42,14 @@ getEIDA	KEYWORD2
 getEIDB	KEYWORD2
 getFirmwareVersion	KEYWORD2
 
-requestTemperatureta	KEYWORD2
+requestTemperature	KEYWORD2
 requestHumidity	KEYWORD2
 reqTempReady	KEYWORD2
 reqHumReady	KEYWORD2
 requestReady	KEYWORD2
 readTemperature	KEYWORD2
 readHumidity	KEYWORD2
+readCachedTemperature	KEYWORD2
 lastRequest	KEYWORD2
 getRequestType	KEYWORD2
 

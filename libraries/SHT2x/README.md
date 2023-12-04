@@ -16,11 +16,13 @@ Arduino library for the SHT2x, HTU2x and Si70xx temperature and humidity sensors
 
 ## Description
 
-This library is not tested extensively yet. 
+This library is not tested extensively yet.
+It works for the Si7021 incl. the asynchronous interface.
 It should work for SHT20, SHT21 and SHT25 but these are not tested yet.
 The SHT2x family of sensors should work up to 400 KHz I2C.
 
-Furthermore there are a number of compatible sensors, these are not tested either.
+Furthermore there are several other sensors that should be compatible
+(see table below), but have not been tested either.
 
 Accuracy table
 
@@ -33,7 +35,7 @@ Accuracy table
 |  HTU21    |             |          |  to-do  |
 |  Si7013   |             |          |  to-do  |
 |  Si7020   |             |          |  to-do  |
-|  Si7021   |             |          |  to-do  |
+|  Si7021   |   ~0.3      |  ~2.0    |         |
 |  GY21     |             |          |  to-do  |
 
 
@@ -93,6 +95,16 @@ after you've performed a new **read()**.
 
 Note: The raw temperature and raw humidity are ideal to minimize storage or to minimize communication.
 
+The Si70xx sensors also support reading the temperature that was established with the last
+measurement and that includes the humidity measurement. It can be used after a call to 
+**getHumidity()** (base interface) or **requestHumidity()** (asynchronous interface)  without
+requiring a separate acquisition. It can also be used in combination with a temperature
+measurement and will return the same value as **getTemperature()**. Several calling sequences
+have be tested and the results can be found in a [comment](https://github.com/RobTillaart/SHT2x/pull/27#issuecomment-1836718214)
+of [pull request #27](https://github.com/RobTillaart/SHT2x/pull/27).
+
+- **bool readCachedTemperature()** calculates the humidity from raw measurement.
+
 
 #### Asynchronous interface
 
@@ -123,7 +135,7 @@ TODO elaborate documentation.
 
 #### Error interface
 
-- **int getError()** returns last set error flag and clear it. 
+- **int getError()** returns last set error flag and clears it. 
 Be sure to clear the error flag by calling **getError()** before calling any command as the error flag could be from a previous command.
 
 |  Value  |  Symbolic                   |  Description                  |  Notes     |
@@ -169,7 +181,8 @@ Returns false if fails, setting error to **SHT2x_ERR_HEATER_OFF**.
 
 #### Electronic ID
 
-To be tested.
+- needs more testing
+- only tested with a Si7021 sensor
 
 - **uint32_t getEIDA()** returns unique ID part A.
 - **uint32_t getEIDB()** returns unique ID part B.
@@ -192,7 +205,7 @@ From HTU20 datasheet (read for details).
 
 **Warning experimental** 
 - needs more testing as the results are not in line with the datasheet.
-- only tested on a HTUxx sensor.
+- only tested on a HTUxx and a Si7021 sensor.
 - tested with **SHT2X_resolution.ino**
 
 - **void setResolution(uint8_t res)** res = 0..3, other values return false.
@@ -247,6 +260,9 @@ Timing in milliseconds.
 #### 0.4.1
 - fix reset(): clear state of resolution, heater and error
 
+#### 0.4.2
+- add readCachedTemperature()
+
 #### Should
 
 - test test test
@@ -275,4 +291,3 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-

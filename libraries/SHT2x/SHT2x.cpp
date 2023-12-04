@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -12,6 +12,7 @@
 
 //  SUPPORTED COMMANDS
 #define SHT2x_GET_TEMPERATURE_NO_HOLD      0xF3
+#define SHT2x_GET_TEMPERATURE_FOR_HUMIDITY 0xE0
 #define SHT2x_GET_HUMIDITY_NO_HOLD         0xF5
 #define SHT2x_SOFT_RESET                   0xFE
 #define SHT2x_WRITE_USER_REGISTER          0xE6
@@ -226,6 +227,29 @@ bool SHT2x::readHumidity()
   _error = SHT2x_OK;
   _lastRead = millis();
   return true;
+}
+
+
+bool SHT2x::readCachedTemperature()
+{
+  if (_error == SHT2x_OK)
+  {
+    writeCmd(SHT2x_GET_TEMPERATURE_FOR_HUMIDITY);
+    uint8_t buffer[2];
+    if (readBytes(2, (uint8_t*) &buffer[0], 10) == false)
+    {
+      _error = SHT2x_ERR_READBYTES;
+      return false;
+    }
+    _rawTemperature  = buffer[0] << 8;
+    _rawTemperature += buffer[1];
+    _rawTemperature &= 0xFFFC;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 

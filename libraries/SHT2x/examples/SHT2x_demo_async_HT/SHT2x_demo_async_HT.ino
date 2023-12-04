@@ -63,7 +63,7 @@ void loop()
   {
     lastTemp = now;
     sht.readHumidity();
-    Serial.print("TEMP:\t");
+    Serial.print("HUMI:\t");
     Serial.println(sht.getHumidity(), 1);
   }
 

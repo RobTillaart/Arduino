@@ -17,7 +17,6 @@ Arduino library for INA219 voltage, current and power sensor.
 ## Description
 
 **Experimental** library for the INA219 power sensor.
-
 Minimal tested, so usage remarks and comments are welcome.
 
 Read datasheet for details.
@@ -33,15 +32,27 @@ Maxima, see datasheet, chapter 7, esp 7.5
 |  shunt voltage  |  320  |  mVolt  |  depends on PGA setting
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Links
+#### Related
 
-Relates to https://github.com/RobTillaart/INA226
+- https://www.ti.com/product/INA219#tech-docs
+- https://www.ti.com/document-viewer/INA219/datasheet
+- https://github.com/RobTillaart/INA219
+- https://github.com/RobTillaart/INA226
 
 
 ## I2C
@@ -83,9 +94,6 @@ use **INA219_test_I2C.ino**
 #### Constructor
 
 - **INA219(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set address and optional Wire interface.
-- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266 et al.
-Initializes the class and  sets I2C pins. 
-Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **bool begin()** UNO ea. initializes the class. 
 Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **bool isConnected()** Returns true if the INA219 address (set in the constructor) is on the I2C bus.
@@ -103,11 +111,17 @@ Also the value is not meaningful if there is no shunt connected.
 
 The library has helper functions to convert above output to a more appropriate scale of units.
 
+Helper functions for the milli scale.
+
 - **float getBusVoltage_mV()** idem, returns millivolts.
 Note: returns -100 if the math overflow bit is set.
 - **float getShuntVoltage_mV()** idem, returns millivolts.
 - **float getCurrent_mA()** idem in milliAmpere.
 - **float getPower_mW()** idem in milliWatt.
+
+Helper functions for the micro scale.
+
+- **float getBusVoltage_uV()** idem microVolt.
 - **float getShuntVoltage_uV()** idem microVolt.
 - **float getCurrent_uA()** idem in microAmpere.
 - **float getPower_uW()** idem, in microWatt.
@@ -170,8 +184,8 @@ minus - == don't care
 
 See details datasheet,
 
-- **bool setMode(uint8_t mode = 7)** mode = 0..7
-The value 7 == ShuntBusContinuous mode 
+- **bool setMode(uint8_t mode = 7)** mode = 0..7.
+The value 7 == ShuntBusContinuous mode.
 - **uint8_t getMode()** returns the mode (0..7) set.
 
 Descriptive mode functions (convenience wrappers).

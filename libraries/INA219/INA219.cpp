@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -47,28 +47,8 @@ INA219::INA219(const uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool INA219::begin(const uint8_t sda, const uint8_t scl)
-{
-  _wire->begin(sda, scl);
-  if (! isConnected()) return false;
-  return true;
-}
-#elif defined (ARDUINO_ARCH_RP2040) && !defined(__MBED__)
-bool INA219::begin(const uint8_t sda, const uint8_t scl)
-{
-  _wire->setSDA(sda);
-  _wire->setSCL(scl);
-  _wire->begin();
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool INA219::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   return true;
 }
@@ -79,6 +59,12 @@ bool INA219::isConnected()
   if ((_address < 0x40) || (_address > 0x4F)) return false;
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t INA219::getAddress()
+{
+  return _address;
 }
 
 

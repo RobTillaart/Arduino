@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.1.5"))
+#define INA219_LIB_VERSION              (F("0.2.0"))
 
 
 class INA219
@@ -23,13 +23,9 @@ public:
   //  address between 0x40 and 0x4F
   explicit INA219(const uint8_t address, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t sda, const uint8_t scl);
-#elif defined (ARDUINO_ARCH_RP2040) && !defined(__MBED__)
-  bool     begin(const uint8_t sda, const uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   //  CORE FUNCTIONS               //  Register

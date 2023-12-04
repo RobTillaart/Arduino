@@ -53,6 +53,7 @@ unittest(test_constructor)
   Wire.begin();
   assertTrue(INA.begin());
   assertTrue(INA.isConnected());
+  assertEqual(0x40, INA.getAddress());
 
   //  default is not calibrated.
   assertFalse(INA.isCalibrated());
@@ -73,7 +74,7 @@ unittest(test_constructor)
 unittest(test_core_functions)
 {
   INA219 INA(0x40);
-  // assertTrue(INA.begin());
+  //  assertTrue(INA.begin());
 
   fprintf(stderr, "need mock up\n");
   /*
@@ -88,9 +89,9 @@ unittest(test_core_functions)
 unittest(test_configuration)
 {
   INA219 INA(0x40);
-  // assertTrue(INA.begin());
+  //  assertTrue(INA.begin());
 
-  // only errors can be tested
+  //  only errors can be tested
   assertFalse(INA.setBusVoltageRange(33));
   assertFalse(INA.setGain(3));
   assertFalse(INA.setGain(5));
@@ -105,9 +106,9 @@ unittest(test_configuration)
 unittest(test_calibration)
 {
   INA219 INA(0x40);
-  // assertTrue(INA.begin());
+  //  assertTrue(INA.begin());
 
-  // only errors can be tested
+  //  only errors can be tested
   assertFalse(INA.setMaxCurrentShunt(0.0009));
   assertFalse(INA.setMaxCurrentShunt(0));
   assertFalse(INA.setMaxCurrentShunt(-1));

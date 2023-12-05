@@ -2,7 +2,7 @@
 //
 //    FILE: m5rotate8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ROTATE8_LIB_VERSION          (F("0.2.1"))
+#define M5ROTATE8_LIB_VERSION          (F("0.3.0"))
 
 #define M5ROTATE8_DEFAULT_ADDRESS      0x41
 
@@ -25,9 +25,6 @@ class M5ROTATE8
 public:
   M5ROTATE8(uint8_t address = M5ROTATE8_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(int sda, int scl);
-#endif
   bool    begin();
   bool    isConnected();
 

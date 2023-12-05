@@ -44,6 +44,14 @@ all 8 rotary encoders in one call.
 
 Feedback is welcome!
 
+#### Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
 
 #### I2C
 
@@ -73,6 +81,9 @@ The step size needs investigation as I would expect step size 1, always.
 
 - https://github.com/RobTillaart/M5ANGLE8
 - https://github.com/RobTillaart/M5ROTATE8
+- https://github.com/RobTillaart/rotaryDecoder
+- https://github.com/RobTillaart/rotaryDecoderSwitch
+
 
 ## Interface
 
@@ -84,8 +95,8 @@ The step size needs investigation as I would expect step size 1, always.
 
 - **M5ROTATE8(uint8_t address = M5ROTATE8_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Default address = 0x41, default Wire.
-- **bool begin(int sda, int scl)** ESP32 et al.
-- **bool begin()** initialize I2C, checks if connected.
+- **bool begin()** checks if address is on the I2C bus.
+User must call wire.begin() before this one.
 - **bool isConnected()** checks if address is on the I2C bus.
 - **bool setAddress(uint8_t address = M5ROTATE8_DEFAULT_ADDRESS)** set a new address for the device.
 Default address = 0x41.

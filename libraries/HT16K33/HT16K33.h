@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.3.9"))
+#define HT16K33_LIB_VERSION         (F("0.4.0"))
 
 
 //  Characters
@@ -45,12 +45,8 @@ class HT16K33
 public:
   HT16K33(const uint8_t address, TwoWire *wire = &Wire);   //  0x70 .. 0x77
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t sda, uint8_t scl);
-#endif
   bool    begin();
   void    reset();
-
   bool    isConnected();
 
   //  default _cache is true as it is ~3x faster but if one has noise
@@ -64,13 +60,16 @@ public:
   void    displayOn();
   void    displayOff();
 
-  void    brightness(uint8_t value);             //  0 .. 15
+  void    setBrightness(uint8_t value);          //  0 .. 15
   uint8_t getBrightness();
-  void    blink(uint8_t value);                  //  0 .. 3     0 = off
+  void    setBlink(uint8_t value);               //  0 .. 3     0 = off
+  uint8_t getBlink();
 
 
   //  0,1,2,3,4 digits - will replace suppressLeadingZeroPlaces
   void    setDigits(uint8_t value);
+  uint8_t getDigits();
+
 
   void    displayClear();
   bool    displayInt(int n);                   //  -999 .. 9999
@@ -122,14 +121,14 @@ public:
   bool    displayFixedPoint2(float f);
   bool    displayFixedPoint3(float f);
 
-
-  //  OBSOLETE SOON
-  //  use getAddress(); instead.
-  uint8_t getAddr()    { return getAddress(); };
-  
   //  use setDigits(); instead.
   //  0 = off, 1,2,3,4 digits  space instead of 0
-  void suppressLeadingZeroPlaces(uint8_t value);
+  void    suppressLeadingZeroPlaces(uint8_t value);
+
+
+  //  OBSOLETE 0.4.x
+  void    brightness(uint8_t value) { setBrightness(value); };
+  void    blink(uint8_t value)      { setBlink(value); };
 
 
 private:
@@ -143,6 +142,7 @@ private:
   bool    _cache = true;
   uint8_t _digits = 0;
   uint8_t _bright;
+  uint8_t _blink;
 
   TwoWire*  _wire;
 };

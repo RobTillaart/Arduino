@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -76,25 +76,8 @@ HT16K33::HT16K33(const uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool HT16K33::begin(uint8_t sda, uint8_t scl)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  reset();
-  return true;
-}
-#endif
-
-
 bool HT16K33::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   reset();
   return true;
@@ -113,7 +96,8 @@ void HT16K33::reset()
   displayClear();
   setDigits(1);
   clearCache();
-  brightness(8);
+  setBrightness(8);
+  setBlink(0);
 }
 
 
@@ -136,7 +120,6 @@ void HT16K33::cacheOn()
 }
 
 
-
 void HT16K33::cacheOff()
 {
   _cache = false;
@@ -157,7 +140,7 @@ void HT16K33::displayOn()
 {
   writeCmd(HT16K33_ON);
   writeCmd(HT16K33_DISPLAYON);
-  brightness(_bright);
+  setBrightness(_bright);
 }
 
 
@@ -168,14 +151,21 @@ void HT16K33::displayOff()
 }
 
 
-void HT16K33::blink(uint8_t value)
+void HT16K33::setBlink(uint8_t value)
 {
   if (value > 0x03) value = 0x00;
+  _blink = value;
   writeCmd(HT16K33_BLINKOFF | (value << 1) );
 }
 
 
-void HT16K33::brightness(uint8_t value)
+uint8_t HT16K33::getBlink()
+{
+  return _blink;
+}
+
+
+void HT16K33::setBrightness(uint8_t value)
 {
   if (value == _bright) return;
   _bright = value;
@@ -193,6 +183,12 @@ uint8_t HT16K33::getBrightness()
 void HT16K33::setDigits(uint8_t value)
 {
   _digits = value > 4 ? 4 : value;
+}
+
+
+uint8_t HT16K33::getDigits()
+{
+  return _digits;
 }
 
 
@@ -433,12 +429,14 @@ bool HT16K33::displayFixedPoint0(float f)
   return inRange;
 }
 
+
 bool HT16K33::displayFixedPoint1(float f)
 {
   bool inRange = ((-99.5 < f) && (f < 999.95));
   displayFloat(f, 1);
   return inRange;
 }
+
 
 bool HT16K33::displayFixedPoint2(float f)
 {
@@ -447,12 +445,14 @@ bool HT16K33::displayFixedPoint2(float f)
   return inRange;
 }
 
+
 bool HT16K33::displayFixedPoint3(float f)
 {
   bool inRange = ((0 < f) && (f < 9.9995));
   displayFloat(f, 3);
   return inRange;
 }
+
 
 /////////////////////////////////////////////////////////////////////
 
@@ -608,11 +608,6 @@ uint8_t HT16K33::getAddress()
 
 
 
-
-
-
-
-
 //////////////////////////////////////////////////////////
 //
 // PRIVATE
@@ -627,6 +622,7 @@ void HT16K33::_refresh()
     _wire->endTransmission();
   }
 }
+
 
 void HT16K33::writeCmd(uint8_t cmd)
 {

@@ -15,12 +15,17 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("HT16K33_LIB_VERSION: ");
+  Serial.println(HT16K33_LIB_VERSION);
+
+  Wire.begin();
+  Wire.setClock(100000);
 
   if (! seg.begin())
   {
     Serial.println("not connected");
   }
-  Wire.setClock(100000);
+
   seg.displayOn();
 
   seg.displayFixedPoint0(1.945);

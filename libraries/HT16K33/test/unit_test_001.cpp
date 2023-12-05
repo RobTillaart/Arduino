@@ -43,6 +43,7 @@ unittest(test_constructor)
 {
   HT16K33 seg(0x70);
 
+  Wire.begin();
   fprintf(stderr, "None of the functions return anything...\n");
 
   assertEqual(1, 1);
@@ -79,5 +80,5 @@ unittest(test_constants)
 unittest_main()
 
 
-//  --END OF FILE --
+//  -- END OF FILE --
 

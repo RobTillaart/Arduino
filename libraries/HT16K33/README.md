@@ -25,6 +25,15 @@ it is faster for writing on average. The actual gain depends on the
 application and of course the values. 
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 ## Perfomance 
 
 Version 0.3.0 allows one to switch the caching on/off to enforce
@@ -66,12 +75,11 @@ get leading/trailing zero's correctly.
 #### Setup behaviour
 
 - **HT16K33(const uint8_t address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32, select I2C pins, initialize I2C and calls **reset()**. 
-Returns false if device not seen on I2C bus.
-- **bool begin()** initialize I2C and calls **reset()**.
-Returns false if device not seen on I2C bus.
-- **bool isConnected()** Returns false if device not seen on I2C bus.
+- **bool begin()** initialize library and calls **reset()**.
+Returns false if address not seen on I2C bus.
+- **bool isConnected()** Returns false if address not seen on I2C bus.
 - **void reset()** resets display.
+
 
 #### Cache
 
@@ -83,10 +91,12 @@ Returns false if device not seen on I2C bus.
 
 - **void displayOn()** enable display.
 - **void displayOff()** disable display, fast way to darken display e.g. for energy consumption.
-- **void brightness(uint8_t value)** values (dim) 0..15 (bright).
-- **void blink(uint8_t value)** values 0..3   0 = off.
+- **void setBrightness(uint8_t value)** values (dim) 0..15 (bright).
+- **void getBrightness()** returns (dim) 0..15 (bright).
+- **void setBlink(uint8_t value)** values 0..3   0 = off.
+- **void getBlink(uint8_t value)** values 0..3   0 = off.
 - **void setDigits(uint8_t value)** values 0..4, minimal number of digits shown, mandatory for large numbers on dual display.
-- **uint8_t getAddress()** idem.
+
 
 
 #### Data types
@@ -115,9 +125,7 @@ The unitChar must be one of the chars supported like HT16K33_C, HT16K33_TOP_C or
 So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 
 
-#### Experimental fixed point
-
-These functions are new and still under investigation.
+#### Fixed point
 
 - **bool displayFixedPoint0(float f)** displays values -999  .. 9999 without decimals.
 - **bool displayFixedPoint1(float f)** displays values -99.9 .. 999.9 with 1 decimals.
@@ -137,7 +145,7 @@ These functions are new and still under investigation.
 - **void display(uint8_t \* array, uint8_t point)** idem + point = position of the digit with point (0..3).
 - **void displayColon(uint8_t on)** 0 = off, all values other are on.
 - **void displayRaw(uint8_t \* array, bool colon)** array of 4 bytes to control one 7seg display + colon flag.
-- **void displayExtraLeds(uint8_t value)** switch on extra leds.
+- **void displayExtraLeds(uint8_t value)** switch on extra LEDs.
 value is in fact a bit mask see table below. 0 = all off.
 
 
@@ -160,12 +168,13 @@ value is in fact a bit mask see table below. 0 = all off.
 - **void dumpSerial(uint8_t \* array, uint8_t point)** debugging equivalent of the display.
 Prints to Serial.
 - **void dumpSerial()** print HEX codes equivalent of the display to Serial.
+- **uint8_t getAddress()** idem.
 
 
-#### Obsolete
+#### Obsolete soon
 
-- suppressLeadingZeroPlaces(uint8_t value) use **setDigits()**
-- getAddr() use **getAddress()**
+- brightness() use setBrightness()
+- blink() use setBlink()
 
 
 ## Characters supported
@@ -209,18 +218,13 @@ See examples
 
 #### Must
 
-Mainly for a 0.4.0
+Mainly for a 0.4.x
 
 - **bool isDisplayOn()** and similar state functions
   - configuration byte: 4 bits brightness, 1 bit on off flag, 1 bit cache flag, 2 blink rate
-  
-  
+
 #### Should 
 
-- **void setBrightness()**
-- **void setBlink()** and **uint8_t getBlink()**
-- **void getDigits()**
-- **FixedPoint()** regular (experimental in 0.3.2)
 
 
 #### Could
@@ -233,7 +237,6 @@ Mainly for a 0.4.0
   - [status] dd.d
 - add examples
   - car battery monitor (voltage divider & analogRead)
-  - 
 - add more "special chars"?
   - #define HT16K33_P  Pascal / Pressure   0x73
   - #define HT16K33_J  joule               0x0E

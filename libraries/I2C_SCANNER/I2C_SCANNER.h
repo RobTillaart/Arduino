@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_SCANNER.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_SCANNER_LIB_VERSION        (F("0.2.1"))
+#define I2C_SCANNER_LIB_VERSION        (F("0.3.0"))
 
 
 class I2C_SCANNER
@@ -21,9 +21,6 @@ public:
 
   //  CONFIGURATION
   bool     begin();
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl);
-#endif
 
   //  I2C PORT
   uint8_t  getWirePortCount();

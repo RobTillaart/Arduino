@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
 
@@ -21,24 +21,8 @@ I2C_SCANNER::I2C_SCANNER(TwoWire *wire)
 bool I2C_SCANNER::begin()
 {
   _init();
-  _wire->begin();
   return true;
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool I2C_SCANNER::begin(int dataPin, int clockPin)
-{
-  _init();
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  return true;
-}
-#endif
 
 
 //

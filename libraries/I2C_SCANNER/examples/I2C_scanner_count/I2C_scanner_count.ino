@@ -18,6 +18,7 @@ void setup()
   Serial.print("I2C_SCANNER_LIB_VERSION: ");
   Serial.println(I2C_SCANNER_LIB_VERSION);
 
+  Wire.begin();
   scanner.begin();
 
   int ports = scanner.getWirePortCount();

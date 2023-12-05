@@ -33,6 +33,15 @@ The user may use other values for address at his own risk.
 If there is missing functionality in this library, please file an issue.
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Testing
 
 The library is tested with the following boards:
@@ -63,7 +72,6 @@ Please file an issue if your board does work (or not).
 
 - **I2C_SCANNER(TwoWire \*wire = &Wire)** Constructor with the default Wire I2C bus.
 - **bool begin()** To start the Wire library.
-- **bool begin(int sda, int scl)** idem for ESP32 et al.
 
 
 #### Configuration

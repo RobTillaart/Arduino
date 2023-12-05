@@ -53,6 +53,7 @@ unittest(test_constructor)
 
   assertEqual(I2C_ASDX_INIT, sensor.state());
 
+  Wire.begin();
   assertTrue(sensor.begin());
   assertTrue(sensor.isConnected());    //  incorrect, keep build happy
 
@@ -97,6 +98,7 @@ unittest(test_read_zero)
 {
   I2C_ASDX sensor(0x58, 100);
 
+  Wire.begin();
   assertTrue(sensor.begin());
   assertTrue(sensor.isConnected());  //  incorrect, keep build happy
 
@@ -128,4 +130,6 @@ unittest(test_read_zero)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

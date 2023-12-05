@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-12-05
+- refactor API, begin()
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.4] - 2023-09-22
 - add Wire1 support for ESP32
 - update readme.md
 - removed **available()** => **isConnected()**
 - removed commented converters from .h file.
-
 
 ## [0.3.3] - 2023-01-12
 - fix keywords

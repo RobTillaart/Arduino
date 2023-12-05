@@ -22,9 +22,19 @@ Check the datasheet of your type for all the details.
 The I2C_ASDX library can read the sensor and give the pressure in millibar, 
 bar or PSI or many other units. See below.
 
-#### Links
 
-Related library: https://github.com/RobTillaart/pressure
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/pressure conversions
 
 
 #### Hardware connection
@@ -55,9 +65,7 @@ Always check datasheet for the exact pins.
 
 - **I2C_ASDX(uint8_taddress, uint8_t psi, TwoWire \*wire = &Wire)** Constructor, 
 I2C address and maximum pressure. Optional the wire interface can be defined.
-- **bool begin(uint8_t sda, uint8_t scl)** I2C parameters for ESP32 a.o. 
-Returns true if address can be found  on I2C bus.
-- **bool begin()** for UNO and other boards supporting Wire. 
+- **bool begin()** initializes internals. 
 Returns true if address can be found  on I2C bus.
 - **void reset()** resets internal variables, including pressure.
 - **bool isConnected()** tests if address can be found on I2C bus.
@@ -171,13 +179,11 @@ See examples
 
 - update documentation.
 
-
 #### Should
 
 - add real life examples if possible.
 - add error/state code for after reset() and before read()
   - I2C_ASDX_NO_READ or I2C_ASDX_RESET
-
 
 #### Could
 
@@ -185,9 +191,6 @@ See examples
   - are covered in pressure lib.
   - but they do no harm either.
 - move code from .h to .cpp
-- **getPressure()** obsolete ? 
-  - **getMillibar()**  ==> 0.4.0 ??
-- find a good reference for conversion formula constants.
 
 
 #### Wont

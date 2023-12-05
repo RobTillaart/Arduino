@@ -18,7 +18,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("I2C_ASDX_VERSION: ");
+  Serial.println(I2C_ASDX_VERSION);
 
+  Wire.begin();
   sensor.begin();
 
   if (sensor.begin() == false)
@@ -57,7 +60,7 @@ void loop()
         Serial.print("E:\tC000 error\t");
         Serial.println(sensor.errorCount());
         break;
-      default:        // catch all other...
+      default:        //  catch all other...
         Serial.print("E:\t");
         Serial.println(state);
         break;

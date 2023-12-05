@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for I2C ASDX pressure sensor.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
@@ -25,7 +25,7 @@
 #include "Arduino.h"
 
 
-#define I2C_ASDX_VERSION                  (F("0.3.4"))
+#define I2C_ASDX_VERSION                  (F("0.4.0"))
 
 
 //  factors to convert PSI to mBar and back
@@ -61,10 +61,6 @@ public:
   //      psi: 100, 60, 30, 15, 5 or 1
   I2C_ASDX(uint8_t address, uint8_t psi, TwoWire *wire = &Wire);
 
-
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   void     reset();
   bool     isConnected();
@@ -81,7 +77,7 @@ public:
   float    getBar()       { return _pressure * MILLIBAR2BAR; };
   float    getPSI()       { return _pressure * MILLIBAR2PSI; };
 
-  //  conversions added 0.2.3
+  //  conversions - see also https://github.com/RobTillaart/pressure
   float    getATM()       { return _pressure * MILLIBAR2ATM; }
   float    getDynes()     { return _pressure * MILLIBAR2DYNES; }
   float    getInchHg()    { return _pressure * MILLIBAR2INHG; }

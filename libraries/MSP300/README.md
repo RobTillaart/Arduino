@@ -33,6 +33,15 @@ Issues, remarks, experience and improvements are welcome,
 please open an issue on https://github.com/RobTillaart/MSP300.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Available pressure ranges
 
 - PSI := 100, 200, 300, 500, 1K, 3K, 5K, 10K, 15K
@@ -101,15 +110,13 @@ The sensor should work at 100 - 400 KHz I2C.
 
 The library has a number of functions which are all quite straightforward.
 
-- **MSP300(uint8_t address, TwoWire \*wire = &Wire)** constructor
-- **bool begin(uint8_t sda, uint8_t scl, int maxValue)** ESP32 a.o initializing of Wire.
-maxValue is the maximum the sensor can read.
-This can be either PSI or BAR.
-- **bool begin(int maxValue)** for UNO.
+- **MSP300(uint8_t address = 0x20, TwoWire \*wire = &Wire)** constructor, 
+default address and I2C bus.
+- **bool begin(int maxValue)** initialize internals.
 maxValue is the maximum the sensor can read.
 - **bool isConnected()** See if address set in constructor is on the bus.
-- **bool setAddress(const uint8_t deviceAddress)**
-- **uint8_t getAddress()**
+- **bool setAddress(const uint8_t deviceAddress)** set address for e.g. second sensor.
+- **uint8_t getAddress()** returns address set.
 
 
 #### Read

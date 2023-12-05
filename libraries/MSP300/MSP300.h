@@ -2,7 +2,7 @@
 //
 //    FILE: MSP300.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for I2C MSP300 pressure transducer.
 //     URL: https://github.com/RobTillaart/MSP300
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define MSP300_LIB_VERSION          (F("0.1.2"))
+#define MSP300_LIB_VERSION          (F("0.2.0"))
 
 
 //  ERROR CODES
@@ -29,9 +29,6 @@ class MSP300
 public:
   explicit MSP300(const uint8_t deviceAddress = 0x20, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(int sda, int scl, int maxValue);
-#endif
   bool    begin(int maxValue);
   bool    isConnected();
 

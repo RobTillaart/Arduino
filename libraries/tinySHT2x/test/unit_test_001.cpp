@@ -56,16 +56,19 @@ unittest(test_constant)
 unittest(test_constructor)
 {
   tinySHT2x sht;
-  
+
+  Wire.begin();
+
   sht.begin();
   assertTrue(sht.reset());
-  // need godmode for these
-  // assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getTemperature(), 0.01);
-  // assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getHumidity(), 0.01);
+  //  need godmode for these
+  //  assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getTemperature(), 0.01);
+  //  assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getHumidity(), 0.01);
 }
 
 
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

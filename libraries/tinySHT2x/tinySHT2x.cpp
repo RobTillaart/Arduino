@@ -1,10 +1,10 @@
 //
-//    FILE: tinytinySHT2x.cpp
+//    FILE: tinySHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 //    DATE: 2021-09-27
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor optimized for AVR tiny
-//     URL: https://github.com/RobTillaart/tinytinySHT2x
+//     URL: https://github.com/RobTillaart/tinySHT2x
 
 
 
@@ -16,25 +16,46 @@
 #define SHT2x_ADDRESS                       0x40
 
 
-tinySHT2x::tinySHT2x()
-{
-}
-
-
-void tinySHT2x::begin(TwoWire *wire)
+tinySHT2x::tinySHT2x(TwoWire *wire)
 {
   _wire = wire;
-  _wire->begin();
 }
 
 
-float tinySHT2x::getTemperature()
+bool tinySHT2x::begin()
+{
+  return isConnected();
+}
+
+
+bool tinySHT2x::isConnected()
+{
+  _wire->beginTransmission(SHT2x_ADDRESS);
+  return (_wire->endTransmission() == 0);
+}
+
+
+bool tinySHT2x::reset()
+{
+  return writeCmd(SHT2x_SOFT_RESET);
+}
+
+
+///////////////////////////////////
+//
+//  ASYNC INTERFACE
+//
+void tinySHT2x::requestTemperature()
+{
+  writeCmd(SHT2x_GET_TEMPERATURE_NO_HOLD);
+}
+
+
+float tinySHT2x::readTemperature()
 {
   uint8_t buffer[3];
   uint16_t raw;
 
-  writeCmd(SHT2x_GET_TEMPERATURE_NO_HOLD);
-  delay(70);
   if (readBytes(3, (uint8_t*) &buffer[0], 90) == false)
   {
     return TINY_SHT2x_NO_VALUE;
@@ -47,14 +68,17 @@ float tinySHT2x::getTemperature()
 }
 
 
-float tinySHT2x::getHumidity()
+void tinySHT2x::requestHumidity()
+{
+  writeCmd(SHT2x_GET_HUMIDITY_NO_HOLD);
+}
+
+
+float tinySHT2x::readHumidity()
 {
   uint8_t buffer[3];
   uint16_t raw;
 
-  //  HUMIDITY
-  writeCmd(SHT2x_GET_HUMIDITY_NO_HOLD);
-  delay(30);
   if (readBytes(3, (uint8_t*) &buffer[0], 30) == false)
   {
     return TINY_SHT2x_NO_VALUE;
@@ -67,9 +91,23 @@ float tinySHT2x::getHumidity()
 }
 
 
-bool tinySHT2x::reset()
+///////////////////////////////////
+//
+//  SYNC INTERFACE
+//
+float tinySHT2x::getTemperature(uint8_t del)
 {
-  return writeCmd(SHT2x_SOFT_RESET);
+  requestTemperature();
+  delay(del);
+  return readTemperature();
+}
+
+
+float tinySHT2x::getHumidity(uint8_t del)
+{
+  requestHumidity();
+  delay(del);
+  return readHumidity();
 }
 
 
@@ -77,7 +115,6 @@ bool tinySHT2x::reset()
 //
 //  PRIVATE
 //
-
 bool tinySHT2x::writeCmd(uint8_t cmd)
 {
   _wire->beginTransmission(SHT2x_ADDRESS);
@@ -86,7 +123,7 @@ bool tinySHT2x::writeCmd(uint8_t cmd)
 }
 
 
-bool tinySHT2x::readBytes(uint8_t n, uint8_t *val, uint8_t maxDuration)
+bool tinySHT2x::readBytes(uint8_t n, uint8_t * val, uint8_t maxDuration)
 {
   _wire->requestFrom((uint8_t)SHT2x_ADDRESS, (uint8_t) n);
   uint32_t start = millis();

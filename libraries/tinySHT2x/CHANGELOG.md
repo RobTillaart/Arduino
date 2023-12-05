@@ -6,10 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-12-04
+- refactor API, more in line with other Wire based libs.
+- update readme.md
+- added **isConnected()**
+- added asynchronous interface.
+- rewrote the synchronous interface.
+- add examples.
+
+----
+
 ## [0.1.3] - 2023-11-22
 - update readme.md
 - fix version number
-
 
 ## [0.1.2] - 2022-11-26
 - Add RP2040 support to build-CI.

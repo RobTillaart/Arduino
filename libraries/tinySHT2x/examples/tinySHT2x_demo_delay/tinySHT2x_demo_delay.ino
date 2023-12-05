@@ -1,5 +1,5 @@
 //
-//    FILE: tinySHT2x_demo.ino
+//    FILE: tinySHT2x_demo_delay.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/tinySHT2x
@@ -23,12 +23,11 @@ void setup()
 
 void loop()
 {
-  Serial.print(sht.getTemperature());
+  Serial.print(sht.getTemperature(65));  //  adjust delay if needed
   Serial.print("\t");
-  Serial.println(sht.getHumidity());
+  Serial.println(sht.getHumidity(28));  //  adjust delay if needed
   delay(1000);
 }
 
 
 //  -- END OF FILE --
-

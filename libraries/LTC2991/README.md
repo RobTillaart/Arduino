@@ -47,6 +47,12 @@ The address template is   0  1  0  0  - 1 A2 A1 A0  ==>  0x48 if all address pin
 |   1    |    1   |    1   |    0x4F   |
 
 
+#### Related
+
+- https://github.com/RobTillaart/LTC2991
+- https://github.com/RobTillaart/temperature converters
+
+
 ## Interface
 
 ```cpp
@@ -58,11 +64,9 @@ The address template is   0  1  0  0  - 1 A2 A1 A0  ==>  0x48 if all address pin
 - **LTC2991(const uint8_t address, TwoWire \*wire = Wire)**
 The address is 0x48..0x4F depending on the address pins.
 The library does not check the range.
-- **bool begin(const uint8_t sda, const uint8_t scl)** for ESP32 and ESP8266.
-Initializes the class and sets the I2C pins.
-Returns true if the LTC2991 address is on the I2C bus.
 - **bool begin()** UNO ea. initializes the class.
-Returns true if the LTC2991 address is on the I2C bus.
+Returns true if the LTC2991 address is on the I2C bus.  
+Note: do call **Wire.begin()** before **begin()**
 - **bool isConnected()** Returns true if the LTC2991 address is on the I2C bus.
 - **uint8_t getAddress()** Returns the address set in the constructor.
 

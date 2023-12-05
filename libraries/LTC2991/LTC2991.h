@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2991.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2991_LIB_VERSION               (F("0.1.6"))
+#define LTC2991_LIB_VERSION               (F("0.2.0"))
 
 //
 // DEFINES for readability
@@ -54,13 +54,9 @@
 class LTC2991
 {
 public:
-  explicit LTC2991(const int8_t address, TwoWire *wire = &Wire);
+  explicit LTC2991(const uint8_t address, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(const uint8_t sda, const uint8_t scl);
-#endif
-
-  bool    begin();
+    bool    begin();
   bool    isConnected();
   uint8_t getAddress();
 

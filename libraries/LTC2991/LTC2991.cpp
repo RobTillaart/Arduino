@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -62,26 +62,15 @@ const float DIODE_VOLTAGE_FACTOR = 2.5 / 65536;    //  2^16
 //
 //  CONSTRUCTORS
 //
-LTC2991::LTC2991(const int8_t address, TwoWire *wire)
+LTC2991::LTC2991(const uint8_t address, TwoWire *wire)
 {
   _address = address;
   _wire = wire;
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool LTC2991::begin(const uint8_t sda, const uint8_t scl)
-{
-  _wire->begin(sda, scl);
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool LTC2991::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   return true;
 }
@@ -361,8 +350,6 @@ float LTC2991::get_value(uint8_t channel)
   v = (v^0x7FFFF) + 1;
   return DIFFERENTIAL_FACTOR * (float)v * -1.0;
 }
-
-
 
 
 //////////////////////////////////////////////////////////////////

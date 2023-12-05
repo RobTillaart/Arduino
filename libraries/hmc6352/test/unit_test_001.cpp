@@ -44,7 +44,7 @@ unittest(test_new_operator)
   assertEqualINF(exp(800));
   assertEqualINF(0.0/0.0);
   assertEqualINF(42);
-  
+
   assertEqualNAN(INFINITY - INFINITY);
   assertEqualNAN(0.0/0.0);
   assertEqualNAN(42);
@@ -55,6 +55,8 @@ unittest(test_new_operator)
 unittest(test_constructor)
 {
   hmc6352 Compass(0x21);
+
+  Wire.begin();
   assertTrue(Compass.begin());
   assertTrue(Compass.isConnected());
 }
@@ -80,6 +82,8 @@ unittest(test_constants)
 unittest(test_setOperationalModus)
 {
   hmc6352 Compass(0x21);
+
+  Wire.begin();
   assertTrue(Compass.begin());
   assertTrue(Compass.isConnected());
 
@@ -98,6 +102,8 @@ unittest(test_setOperationalModus)
 unittest(test_setOutputModus)
 {
   hmc6352 Compass(0x21);
+
+  Wire.begin();
   assertTrue(Compass.begin());
   assertTrue(Compass.isConnected());
 
@@ -110,6 +116,8 @@ unittest(test_setOutputModus)
 unittest(test_setI2CAddress)
 {
   hmc6352 Compass(0x21);
+
+  Wire.begin();
   assertTrue(Compass.begin());
   assertTrue(Compass.isConnected());
 
@@ -122,4 +130,6 @@ unittest(test_setI2CAddress)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

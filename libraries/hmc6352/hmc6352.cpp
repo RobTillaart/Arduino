@@ -1,7 +1,7 @@
 //
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for HMC6352 digital compass sensor
 
 
@@ -43,27 +43,13 @@
 
 hmc6352::hmc6352(uint8_t address, TwoWire *wire)
 {
-  _address = constrain(address, 0x10, 0xF6);
+  _address = address;
   _wire    = wire;
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool hmc6352::begin(uint8_t sda, uint8_t scl)
-{
-  _wire->begin(sda, scl);
-  if (! isConnected())
-  {
-    return false;
-  }
-  return true;
-}
-#endif
-
-
 bool hmc6352::begin()
 {
-  _wire->begin();
   if (! isConnected())
   {
     return false;
@@ -132,7 +118,7 @@ int hmc6352::sleep()
 //  values obtained from dump
 int hmc6352::factoryReset()
 {
-  writeRAM(0x74, 0x50); // is needed !!
+  writeRAM(0x74, 0x50);  //  is needed !!
   writeCmd(HMC_WRITE_EEPROM, 0, 66);
   writeCmd(HMC_WRITE_EEPROM, 1, 0);
   writeCmd(HMC_WRITE_EEPROM, 2, 0);

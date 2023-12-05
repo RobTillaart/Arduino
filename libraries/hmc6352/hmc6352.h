@@ -2,7 +2,7 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.4.0
 // PURPOSE: HMC6352 library for Arduino
 
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define HMC6352_LIB_VERSION                    (F("0.3.3"))
+#define HMC6352_LIB_VERSION                    (F("0.4.0"))
 
 //  status function calls
 #define HMC6532_OK                               0
@@ -41,12 +41,8 @@ enum hmcOutputMode
 class hmc6352
 {
 public:
-  hmc6352(uint8_t device, TwoWire *wire = &Wire);
+  hmc6352(uint8_t address, TwoWire *wire = &Wire);
 
-
-#if defined (ESP8266) || defined(ESP32)
-  bool begin(uint8_t sda, uint8_t scl);
-#endif
   bool begin();
   bool isConnected();
 

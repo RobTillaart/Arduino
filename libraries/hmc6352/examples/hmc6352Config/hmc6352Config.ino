@@ -4,7 +4,7 @@
 // PURPOSE: test HMC6352 library for Arduino
 
 
-#include <hmc6352.h>
+#include "hmc6352.h"
 
 hmc6352 Compass(33);
 
@@ -13,9 +13,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.println("LIB: ");
+  Serial.print("HMC6352_LIB_VERSION: ");
   Serial.println(HMC6352_LIB_VERSION);
 
+  Wire.begin();
   Compass.begin();
 
   dumpEEPROM();
@@ -24,7 +25,7 @@ void setup()
 
 void loop()
 {
-  // SHOWMENU
+  //  SHOW MENU
   Serial.println("\n\n\t\tHMC6352 MENU\n");
   Serial.println("F : Factory Reset");
   Serial.println("E : Dump EEPROM & 2 RAM addresses");
@@ -51,11 +52,11 @@ void loop()
 
   Serial.println("Enter your choice ...");
 
-  // WAIT FOR COMMAND
+  //  WAIT FOR COMMAND
   while (Serial.available() == 0);
   char cmd = Serial.read();
 
-  // EXECUTE COMMAND
+  //  EXECUTE COMMAND
   switch (cmd)
   {
     case 'F':
@@ -83,16 +84,16 @@ void loop()
       OutPutModusMenu();
       break;
     case '7':
-      // mode , freq , reset
-      Compass.setOperationalModus(STANDBY, 1, true);  // 10 default val
+      //  mode , freq , reset
+      Compass.setOperationalModus(STANDBY, 1, true);  //  10 default val
       Serial.println("Reboot Arduino");
       break;
     case '8':
-      Compass.setOperationalModus(QUERY, 1, true);  // 10 default val
+      Compass.setOperationalModus(QUERY, 1, true);    //  10 default val
       Serial.println("Reboot Arduino");
       break;
     case '9':
-      Compass.setOperationalModus(CONT, 20, true);  // 10 default val
+      Compass.setOperationalModus(CONT, 20, true);    //  10 default val
       Serial.println("Reboot Arduino");
       break;
     case 'U':
@@ -134,7 +135,8 @@ void OutPutModusMenu()
   Serial.println("2 Raw Magnetometer Y");
   Serial.println("3 Magnetometer X");
   Serial.println("4 Magnetometer Y");
-  // WAIT FOR PARAM
+
+  //  WAIT FOR PARAM
   while (Serial.available() == 0);
   char cmd = Serial.read();
   cmd -= '0'; // make a digit out of it
@@ -245,5 +247,5 @@ void setI2Caddress()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

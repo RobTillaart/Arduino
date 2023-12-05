@@ -26,6 +26,23 @@ For switching operational mode one must reboot the device.
 **WARNING: BETA: WARNING: BETA: WARNING: BETA: WARNING:**
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/Angle
+- https://github.com/RobTillaart/AngleConvertor
+- https://github.com/RobTillaart/AverageAngle
+- https://github.com/RobTillaart/AS5600
+
+
 ## Interface
 
 ```cpp
@@ -35,9 +52,10 @@ For switching operational mode one must reboot the device.
 ### Constructor
 
 - **hmc6352(uint8_t address, TwoWire \*wire = &Wire)** set the I2C address and optional the Wire interface.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32 ea. Returns true if address can be seen on the I2C bus.
-- **bool begin()** for UNO, Returns true if address can be seen on the I2C bus.
-- **bool isConnected()** Returns true if address can be seen on the I2C bus. Can be used as 1st order diagnostics.
+- **bool begin()** initializes library.
+Returns true if address can be seen on the I2C bus.
+- **bool isConnected()** Returns true if address can be seen on the I2C bus. 
+Can be used as first order diagnostics.
 
 
 ### Base calls standby mode
@@ -45,7 +63,7 @@ For switching operational mode one must reboot the device.
 - **int getHeading()** is a combination of **askHeading()** and **readHeading()**
 - **int askHeading()** requests a new read of the heading (compass direction).
 - **int readHeading()** reads the new value from the device.
-- **int wakeUp()** if the deivice is in sleep mode, wake it up.
+- **int wakeUp()** if the device is in sleep mode, wake it up.
 - **int sleep()** puts the device in sleep mode.
 
 

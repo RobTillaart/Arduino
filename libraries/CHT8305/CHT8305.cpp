@@ -1,11 +1,10 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
-//
-//  HISTORY: see changelog.md
+
 
 #include "CHT8305.h"
 
@@ -14,39 +13,16 @@
 //
 // PUBLIC
 //
-CHT8305::CHT8305(TwoWire *wire)
+CHT8305::CHT8305(const uint8_t address, TwoWire *wire)
 {
-  _wire            = wire;
-  _address         = CHT8305_DEFAULT_ADDRESS;   //  default AD0 to GND.
+  _wire    = wire;
+  _address = address;
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-int CHT8305::begin(int sda, int scl, const uint8_t address)
+int CHT8305::begin()
 {
-  if ((address < 0x40) || (address > 0x43)) return CHT8305_ERROR_ADDR;
-
-  _address = address;
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  } else {
-    _wire->begin();
-  }
-
-  if (! isConnected()) return CHT8305_ERROR_CONNECT;
-  return CHT8305_OK;
-}
-#endif
-
-
-int CHT8305::begin(const uint8_t address)
-{
-  if ((address < 0x40) || (address > 0x43)) return CHT8305_ERROR_ADDR;
-
-  _address = address;
-  _wire->begin();
-
+  if ((_address < 0x40) || (_address > 0x43)) return CHT8305_ERROR_ADDR;
   if (! isConnected()) return CHT8305_ERROR_CONNECT;
   return CHT8305_OK;
 }
@@ -180,28 +156,29 @@ uint8_t CHT8305::getConversionDelay()
 }
 
 
-void CHT8305::setHumOffset(float offset)
+void CHT8305::setHumidityOffset(float offset)
 {
   _humOffset = offset;
 };
 
 
-void CHT8305::setTempOffset(float offset)
+void CHT8305::setTemperatureOffset(float offset)
 {
   _tempOffset = offset;
 };
 
 
-float CHT8305::getHumOffset()
+float CHT8305::getHumidityOffset()
 {
   return _humOffset;
 };
 
 
-float CHT8305::getTempOffset()
+float CHT8305::getTemperatureOffset()
 {
   return _tempOffset;
 };
+
 
 ////////////////////////////////////////////////
 //
@@ -484,5 +461,5 @@ void CHT8305::_clrConfigMask(uint16_t mask)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

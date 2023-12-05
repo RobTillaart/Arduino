@@ -34,6 +34,17 @@ One of the interesting functions is the support of an ALERT function.
 This prevents the need for continuous polling of the sensor.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+Moved the address parameter from **begin()** to constructor.
+
+
 #### Tests
 
 - Temperature and humidity functions works on AVR.
@@ -108,9 +119,10 @@ Pull ups are needed on SDA, SCL and optional to ALERT.
 
 #### Constructor
 
-- **CHT8305(TwoWire \*wire = &Wire)** Constructor with default I2C bus.
-- **int begin(const uint8_t address = CHT8305_DEFAULT_ADDRESS)** sets address, default = 0x40.
-- **int begin(int sda, int scl, const uint8_t address = CHT8305_DEFAULT_ADDRESS)** idem for ESP32 et. al.
+- **CHT8305(const uint8_t address = CHT8305_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor 
+with default address (0x40) and I2C bus.
+- **int begin()** initializes internals.
+Returns error status.
 - **bool isConnected()** checks if address (default 0x40) can be seen on the I2C bus.
 
 
@@ -146,10 +158,10 @@ Adding offsets works well in the "normal range" but might introduce
 under- or overflow at the ends of the sensor range.
 These are not handled for temperature by the library (humidity since 0.1.7).
   
-- **void setHumOffset(float offset)** idem.
-- **void setTempOffset(float offset)** idem.
-- **float getHumOffset()** idem.
-- **float getTempOffset()** idem.
+- **void setHumidityOffset(float offset)** idem.
+- **void setTemperatureOffset(float offset)** idem.
+- **float getHumidityOffset()** idem.
+- **float getTemperatureOffset()** idem.
 
 If the offset is not the same over the operational range, 
 consider a mapping function for temperature and humidity.
@@ -289,7 +301,6 @@ See datasheet page 10 for details
 
 #### Could
 
-- make offset functions "full name" e.g. **setHumidityOffset()**  (0.2,0)
 - parameter testing
 - parameter defaults?
 

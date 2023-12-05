@@ -25,15 +25,20 @@
 
 #include "CHT8305.h"
 
-CHT8305 CHT;
+CHT8305 CHT(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("CHT8305_LIB_VERSION: ");
+  Serial.println(CHT8305_LIB_VERSION);
+  Serial.println();
 
-  CHT.begin(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
+  Wire.begin();
   Wire.setClock(400000);
+  CHT.begin();
 
   delay(1000);
 }
@@ -43,7 +48,7 @@ void loop()
 {
   if (millis() - CHT.lastRead() >= 1000)
   {
-    // READ DATA
+    //  READ DATA
     CHT.read();
 
     Serial.print(millis());
@@ -55,4 +60,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

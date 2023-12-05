@@ -81,27 +81,31 @@ unittest(test_constants_III)
 
 unittest(test_offset)
 {
-  CHT8305 cht;
+  CHT8305 cht(0x40);
+
+  Wire.begin();
 
   //  default hum = 0
-  assertEqualFloat(0.0, cht.getHumOffset(), 0.01);
-  cht.setHumOffset(12.34);
-  assertEqualFloat(12.34, cht.getHumOffset(), 0.01);
-  cht.setHumOffset(0.0);
-  assertEqualFloat(0.0, cht.getHumOffset(), 0.01);
+  assertEqualFloat(0.0, cht.getHumidityOffset(), 0.01);
+  cht.setHumidityOffset(12.34);
+  assertEqualFloat(12.34, cht.getHumidityOffset(), 0.01);
+  cht.setHumidityOffset(0.0);
+  assertEqualFloat(0.0, cht.getHumidityOffset(), 0.01);
 
   //  default temp = 0
-  assertEqualFloat(0.0, cht.getTempOffset(), 0.01);
-  cht.setTempOffset(12.34);
-  assertEqualFloat(12.34, cht.getTempOffset(), 0.01);
-  cht.setTempOffset(0.0);
-  assertEqualFloat(0.0, cht.getTempOffset(), 0.01);
+  assertEqualFloat(0.0, cht.getTemperatureOffset(), 0.01);
+  cht.setTemperatureOffset(12.34);
+  assertEqualFloat(12.34, cht.getTemperatureOffset(), 0.01);
+  cht.setTemperatureOffset(0.0);
+  assertEqualFloat(0.0, cht.getTemperatureOffset(), 0.01);
 }
 
 
 unittest(test_lastRead)
 {
   CHT8305 cht;
+
+  Wire.begin();
 
   assertEqual(0, cht.lastRead());
 }
@@ -110,6 +114,8 @@ unittest(test_lastRead)
 unittest(test_AlertTriggerMode)
 {
   CHT8305 cht;
+
+  Wire.begin();
 
   //  test range check only false can be checked
   for (int mode = 4; mode < 10; mode++)
@@ -123,6 +129,8 @@ unittest(test_AlertTriggerMode)
 unittest(test_setAlertLevels)
 {
   CHT8305 cht;
+
+  Wire.begin();
 
   //  temp range check only false can be checked
   assertFalse(cht.setAlertLevels(-41, 50));

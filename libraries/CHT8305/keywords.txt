@@ -15,10 +15,10 @@ getHumidity	KEYWORD2
 setConversionDelay	KEYWORD2
 getConversionDelay	KEYWORD2
 
-setHumOffset	KEYWORD2
-setTempOffset	KEYWORD2
-getHumOffset	KEYWORD2
-getTempOffset	KEYWORD2
+setHumidityOffset	KEYWORD2
+setTemperatureOffset	KEYWORD2
+getHumidityOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
 
 setConfigRegister	KEYWORD2
 getConfigRegister	KEYWORD2
@@ -27,7 +27,7 @@ softReset	KEYWORD2
 setI2CClockStretch	KEYWORD2
 getI2CClockStretch	KEYWORD2
 setHeaterOn	KEYWORD2
-getHeate	KEYWORD2
+getHeater	KEYWORD2
 
 setMeasurementMode	KEYWORD2
 getMeasurementMode	KEYWORD2

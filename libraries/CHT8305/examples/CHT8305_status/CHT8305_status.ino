@@ -25,22 +25,22 @@
 
 #include "CHT8305.h"
 
-CHT8305 CHT;
+CHT8305 CHT(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
 
 uint8_t count = 0;
 
 
 void setup()
 {
-  CHT.begin(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
-
-  Wire.setClock(400000);
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("CHT8305_LIB_VERSION: ");
   Serial.println(CHT8305_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  Wire.setClock(400000);
+  CHT.begin();
 
   Serial.println(CHT.getManufacturer(), HEX);
   Serial.println(CHT.getVersionID(), HEX);
@@ -54,7 +54,7 @@ void loop()
 {
   if (millis() - CHT.lastRead() >= 1000)
   {
-    // READ DATA
+    //  READ DATA
     uint32_t start = micros();
     int status = CHT.read();
     uint32_t stop = micros();
@@ -68,7 +68,7 @@ void loop()
     count++;
 
     Serial.print("CHT8305\t");
-    // DISPLAY DATA, sensor has only one decimal.
+    //  DISPLAY DATA, sensor has only one decimal.
     Serial.print(CHT.getHumidity(), 1);
     Serial.print("\t\t");
     Serial.print(CHT.getTemperature(), 1);
@@ -101,4 +101,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

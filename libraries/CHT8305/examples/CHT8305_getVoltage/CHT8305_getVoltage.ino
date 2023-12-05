@@ -27,20 +27,20 @@
 
 #include "CHT8305.h"
 
-CHT8305 CHT;
+CHT8305 CHT(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
 
 
 void setup()
 {
-  CHT.begin(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
-
-  Wire.setClock(400000);
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("CHT8305_LIB_VERSION: ");
   Serial.println(CHT8305_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  Wire.setClock(400000);
+  CHT.begin();
 
   CHT.setVCCenable(true);
 
@@ -54,7 +54,7 @@ void loop()
   if (millis() - CHT.lastRead() >= 1000)
   {
     CHT.read();
-    // READ DATA
+    //  READ DATA
     uint32_t start = micros();
     float voltage = CHT.getVoltage();
     uint32_t stop = micros();
@@ -71,4 +71,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

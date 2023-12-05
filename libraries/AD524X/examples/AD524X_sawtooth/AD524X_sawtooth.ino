@@ -8,7 +8,7 @@
 
 #include "AD524X.h"
 
-AD524X AD01(0x2C);  // AD0 & AD1 == GND
+AD524X AD01(0x2C);  //  AD0 & AD1 == GND
 
 
 void setup()
@@ -16,7 +16,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
+  Serial.print("AD524X_LIB_VERSION: ");
   Serial.println(AD524X_LIB_VERSION);
 
   Wire.begin();
@@ -39,5 +39,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

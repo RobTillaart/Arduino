@@ -1,7 +1,7 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -31,25 +31,8 @@ AD524X::AD524X(const uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool AD524X::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  reset();
-  return true;
-}
-#endif
-
-
 bool AD524X::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   reset();
   return true;
@@ -188,7 +171,7 @@ uint8_t AD524X::send(const uint8_t cmd, const uint8_t value)
 
 //////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES
+//  DERIVED CLASSES  AD5241 AD5242
 //
 AD5241::AD5241(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {
@@ -230,6 +213,55 @@ uint8_t AD5241::write(const uint8_t rdac, const uint8_t value, const uint8_t O1,
 
 
 AD5242::AD5242(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
+{
+  _pmCount = 2;
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES  AD5280 AD5282
+//
+AD5280::AD5280(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
+{
+  _pmCount = 1;
+}
+
+
+uint8_t AD5280::write(const uint8_t value)
+{
+  //  apply the output lines
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
+  _lastValue[0] = value;
+  return send(cmd, value);
+}
+
+
+uint8_t AD5280::write(const uint8_t value, const uint8_t O1, const uint8_t O2)
+{
+  _O1 = (O1 == LOW) ? 0 : AD524X_O1_HIGH;
+  _O2 = (O2 == LOW) ? 0 : AD524X_O2_HIGH;
+
+  //  apply the output lines
+  uint8_t cmd = AD524X_RDAC0 | _O1 | _O2;
+  _lastValue[0] = value;
+  return send(cmd, value);
+}
+
+
+uint8_t AD5280::write(const uint8_t rdac, const uint8_t value)
+{
+  return AD524X::write(rdac, value);
+}
+
+
+uint8_t AD5280::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
+{
+  return AD524X::write(rdac, value, O1, O2);
+}
+
+
+AD5282::AD5282(const uint8_t address, TwoWire *wire) : AD524X(address, wire)
 {
   _pmCount = 2;
 }

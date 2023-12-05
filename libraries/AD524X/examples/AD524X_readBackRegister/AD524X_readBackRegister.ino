@@ -16,7 +16,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
+  Serial.print("AD524X_LIB_VERSION: ");
   Serial.println(AD524X_LIB_VERSION);
 
   Wire.begin();
@@ -56,5 +56,5 @@ void test(uint8_t rdac, uint8_t val)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

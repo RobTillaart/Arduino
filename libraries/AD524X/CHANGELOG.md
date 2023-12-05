@@ -6,15 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-11-29
+- remove ESP32 specific **begin()**
+- add (experimental) support or AD5280 / AD5282.
+- fix #23 in readme
+- update and add examples.
+
+----
+
 ## [0.4.2] - 2023-09-21
 - add Wire1 support for ESP32
 - update readme.md
 
-
 ## [0.4.1] - 2023-02-26
 - fix #17 support **AD5241::write()**
 - update readme.md
-
 
 ## [0.4.0] - 2023-02-03
 - fix #18 support Wire2 (RP2040 etc)

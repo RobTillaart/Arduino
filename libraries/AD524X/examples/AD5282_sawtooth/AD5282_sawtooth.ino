@@ -1,14 +1,15 @@
 //
-//    FILE: AD524X_write.ino
+//    FILE: AD5282_sawtooth.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD524X demo program
 //     URL: https://github.com/RobTillaart/AD524X
 //
+//  to be viewed with the IDE plotter
 
 
 #include "AD524X.h"
 
-AD524X AD01(0x2C);  //  AD0 & AD1 == GND
+AD5282 AD01(0x2C);  //  AD0 & AD1 == GND
 
 
 void setup()
@@ -30,17 +31,13 @@ void setup()
 
 void loop()
 {
-  for (int val = 0; val < 255; val++)
+  for (int val = 0; val < 256; val++)
   {
+    //  two "inverted" sawtooths
+    AD01.write(0, 255 - val);
     AD01.write(1, val);
-    if (val == 200)
-    {
-      AD01.write(1, val, HIGH, LOW);
-    }
-    if (val == 0)
-    {
-      AD01.write(1, val, LOW, LOW);
-    }
+    Serial.print(255 - val);
+    Serial.print("\t");
     Serial.println(val);
     delay(20);
   }
@@ -48,4 +45,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

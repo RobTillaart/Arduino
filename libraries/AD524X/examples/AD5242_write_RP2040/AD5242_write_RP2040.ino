@@ -1,5 +1,5 @@
 //
-//    FILE: AD524X_write.ino
+//    FILE: AD5242_write_RP2040.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD524X demo program
 //     URL: https://github.com/RobTillaart/AD524X
@@ -8,7 +8,7 @@
 
 #include "AD524X.h"
 
-AD524X AD01(0x2C);  //  AD0 & AD1 == GND
+AD5242 AD01(0x2C);  //  AD0 & AD1 == GND
 
 
 void setup()
@@ -19,6 +19,8 @@ void setup()
   Serial.print("AD524X_LIB_VERSION: ");
   Serial.println(AD524X_LIB_VERSION);
 
+  Wire.setSDA(12);  //  adjust if needed
+  Wire.setSCL(13);  //  adjust if needed
   Wire.begin();
   Wire.setClock(400000);
   
@@ -48,4 +50,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

@@ -44,6 +44,7 @@ unittest(test_constructor)
 {
   GY521 sensor(0x69);
 
+  Wire.begin();
   sensor.begin();
   assertEqual(GY521_OK, sensor.getError());
 
@@ -54,6 +55,8 @@ unittest(test_constructor)
 unittest(test_get_set_throttle)
 {
   GY521 sensor(0x69);
+
+  Wire.begin();
   sensor.begin();
   assertEqual(GY521_OK, sensor.getError());
 
@@ -76,6 +79,8 @@ unittest(test_get_set_throttle)
 unittest(test_get_set_sensitivity)
 {
   GY521 sensor(0x69);
+
+  Wire.begin();
   sensor.begin();
 
   fprintf(stderr, "setAccelSensitivity() - fails \n");
@@ -116,6 +121,8 @@ unittest(test_initial_values)
 {
   GY521 sensor(0x69);
 
+  Wire.begin();
+
   assertEqualFloat(0, sensor.getAccelX(), 0.0001);
   assertEqualFloat(0, sensor.getAccelY(), 0.0001);
   assertEqualFloat(0, sensor.getAccelZ(), 0.0001);
@@ -143,6 +150,8 @@ unittest(test_initial_calibration_errors)
 {
   GY521 sensor(0x69);
 
+  Wire.begin();
+
   assertEqualFloat(0, sensor.axe, 0.0001);
   assertEqualFloat(0, sensor.aye, 0.0001);
   assertEqualFloat(0, sensor.aze, 0.0001);
@@ -154,6 +163,7 @@ unittest(test_initial_calibration_errors)
 
 
 unittest_main()
+
 
 //  -- END OF FILE --
 

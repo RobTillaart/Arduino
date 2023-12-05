@@ -23,6 +23,14 @@ It needs to be tested a lot more.
 
 See changelog.md for latest updates.
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
 
 #### Examples
 
@@ -75,8 +83,8 @@ AD0 connected to VCC => 0x69
 
 - **GY521(uint8_t address = 0x69, , TwoWire \*wire = &Wire)** Constructor with default address. 
 0x68 is also a valid address. The wire argument is optional to select Wire1 Wire2 etc. on some boards.
-- **bool begin(uint8_t sda, uint8_t scl)** begin for ESP32 et al. Returns true if address can be found on I2C bus.
 - **bool begin()** Returns true if address can be found on I2C bus.
+Note call **Wire.begin()** before **begin()**.
 - **bool isConnected()** returns true if device can be found on I2C bus.
 - **void reset()** set all internal values to 0 and throttle time to 10 ms.
 - **bool wakeUp()** idem.

@@ -2,7 +2,6 @@
 //    FILE: readCalibration_2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read the calibration values / errors for a flat sensor.
-//    DATE: 2022-06-07
 
 
 #include "GY521.h"

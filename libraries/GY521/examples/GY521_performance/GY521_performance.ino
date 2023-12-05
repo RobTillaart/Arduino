@@ -2,7 +2,6 @@
 //    FILE: GY521_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo
-//    DATE: 2021-06-13
 
 
 #include "GY521.h"
@@ -47,5 +46,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

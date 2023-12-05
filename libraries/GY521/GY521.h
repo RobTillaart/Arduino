@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.4.1"))
+#define GY521_LIB_VERSION           (F("0.5.0"))
 
 
 //  THROTTLE TIMING

@@ -2,7 +2,6 @@
 //    FILE: GY521_pitch_roll_yaw.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo pitch roll yaw
-//    DATE: 2020-08-06
 
 
 #include "GY521.h"
@@ -29,13 +28,13 @@ void setup()
     Serial.println("\tCould not connect to GY521");
     delay(1000);
   }
-  sensor.setAccelSensitivity(2);  // 8g
-  sensor.setGyroSensitivity(1);   // 500 degrees/s
+  sensor.setAccelSensitivity(2);  //  8g
+  sensor.setGyroSensitivity(1);   //  500 degrees/s
 
   sensor.setThrottle();
   Serial.println("start...");
 
-  // set calibration values from calibration sketch.
+  //  set calibration values from calibration sketch.
   sensor.axe = 0.574;
   sensor.aye = -0.002;
   sensor.aze = -1.043;
@@ -70,5 +69,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

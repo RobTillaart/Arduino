@@ -2,7 +2,6 @@
 //    FILE: GY521_test_2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test set/get functions
-//    DATE: 2020-08-06
 
 
 #include "GY521.h"

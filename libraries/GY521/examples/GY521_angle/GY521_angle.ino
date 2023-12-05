@@ -2,7 +2,6 @@
 //    FILE: GY521_angle.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read angleX, angleY, angleZ
-//    DATE: 2022-06-06
 
 
 #include "GY521.h"

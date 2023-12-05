@@ -2,7 +2,6 @@
 //    FILE: GY521_readCalibration_1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read the calibration values / errors for a flat sensor.
-//    DATE: 2020-07-14
 
 
 #include "GY521.h"
@@ -31,11 +30,11 @@ void setup()
     Serial.println("Could not connect to GY521");
   }
   // adjust when needed.
-  sensor.setAccelSensitivity(0);  // 2g
-  sensor.setGyroSensitivity(0);   // 250 degrees/s
+  sensor.setAccelSensitivity(0);  //  2g
+  sensor.setGyroSensitivity(0);   //  250 degrees/s
   sensor.setThrottle(false);
 
-  // set all calibration errors to zero
+  //  set all calibration errors to zero
   sensor.axe = 0;
   sensor.aye = 0;
   sensor.aze = 0;
@@ -100,7 +99,7 @@ void loop()
   Serial.print(t * 0.05, 2);
   Serial.println();
 
-  // adjust calibration errors so table should get all zero's.
+  //  adjust calibration errors so table should get all zero's.
   sensor.axe += ax * 0.05;
   sensor.aye += ay * 0.05;
   sensor.aze += az * 0.05;
@@ -113,5 +112,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

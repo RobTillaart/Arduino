@@ -12,7 +12,6 @@ reset	KEYWORD2
 
 isHeated	KEYWORD2
 
-
 setAddress	KEYWORD2
 getAddress	KEYWORD2
 

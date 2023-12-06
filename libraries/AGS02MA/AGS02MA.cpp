@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -26,25 +26,9 @@ AGS02MA::AGS02MA(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool AGS02MA::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  _startTime = millis();  //  PREHEAT
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  return isConnected();
-}
-#endif
-
-
 bool AGS02MA::begin()
 {
   _startTime = millis();  //  PREHEAT TIMING
-  _wire->begin();
   return isConnected();
 }
 

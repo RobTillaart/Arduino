@@ -1,15 +1,13 @@
 //
 //    FILE: AGS02MA_calibrate.ino
 //  AUTHOR: Rob Tillaart, Beanow
-// VERSION: 0.2.0
 // PURPOSE: test application
-//    DATE: 2021-08-12
 //     URL: https://github.com/RobTillaart/AGS02MA
-//
+
 
 #include "AGS02MA.h"
 
-// You can decrease/disable warmup when you're certain the chip already warmed up.
+//  You can decrease/disable warmup when you're certain the chip already warmed up.
 #define WARMUP_MINUTES 6
 #define READ_INTERVAL 3000
 
@@ -22,13 +20,12 @@ AGS02MA AGS(26);
 
 void setup()
 {
-  // ESP devices typically mis the first serial log lines after flashing.
-  // Delay somewhat to include all output.
+  //  ESP devices typically miss the first serial log lines after flashing.
+  //  Delay somewhat to include all output.
   delay(1000);
 
   Serial.begin(115200);
   Serial.println(__FILE__);
-
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
   Serial.println();
@@ -49,7 +46,7 @@ void setup()
   Serial.println(version);
   int err = AGS.lastError();
 
-  // Reading version correctly matters, as we display additional comments based on it.
+  //  Reading version correctly matters, as we display additional comments based on it.
   if(err != AGS02MA_OK)
   {
     Serial.print("Error reading version:\t");
@@ -101,7 +98,7 @@ void setup()
 
   delay(1000);
 
-  // returns 1 if successful written
+  //  returns 1 if successful written
   b = AGS.zeroCalibration();
   Serial.println();
   Serial.print("CALIB:\t");
@@ -123,8 +120,8 @@ void setup()
 
   Serial.println();
   Serial.println("Showing what PPB values look like post calibration.");
-  // A 125 status is typically shown on v118's after they've been powered off.
-  // Either having this version at all, or seeing this status, we'll display a notice.
+  //  A 125 status is typically shown on v118's after they've been powered off.
+  //  Either having this version at all, or seeing this status, we'll display a notice.
   if (version == 118 || initialValue.status == 125)
   {
     Serial.println("NOTICE: v118 sensors are known to give different results after powering off!");
@@ -162,4 +159,5 @@ void printPPB()
   Serial.println();
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

@@ -21,10 +21,18 @@ uint8_t cnt = 0;
 
 void setup()
 {
+  //  ESP devices typically miss the first serial log lines after flashing.
+  //  Delay somewhat to include all output.
+  delay(1000);
+
   Serial.begin(115200);
+  //  Serial.println(__FILE__);
+  //  Serial.print("AGS02MA_LIB_VERSION: ");
+  //  Serial.println(AGS02MA_LIB_VERSION);
+  //  Serial.println();
 
   Wire.begin();
-  Wire.setClock(30400);      // lowest speed an UNO supports that works with sensor.
+  Wire.setClock(30400);      //  lowest speed an UNO supports that works with sensor.
 }
 
 
@@ -34,14 +42,14 @@ void loop()
   for ( int i = 0; i < 5; i++)
   {
     buffer[i] = Wire.read();
-    // Serial.print(buffer[i], HEX);  // for debugging.
+    // Serial.print(buffer[i], HEX);  //  for debugging.
     // Serial.print('\t');
   }
   // Serial.println();
 
   if (cnt == 0)
   {
-    // CONVERT RAW DATA
+    //  CONVERT RAW DATA
     Serial.println("\nSTAT\tPPB\tCRC");
     cnt = 20;
   }
@@ -59,4 +67,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

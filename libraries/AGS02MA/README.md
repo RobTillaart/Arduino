@@ -13,9 +13,21 @@
 
 Arduino library for AGS02MA TVOC sensor.
 
+
+#### Description
+
 This library is still experimental, so please use with care.
 Note the warning about the I2C low speed, the device works at max 30 KHz.
 Since 0.3.1 this library uses 25 KHz.
+
+
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
 
 
 ## I2C
@@ -101,12 +113,11 @@ with the sensor and this (or other) library.
 #include "AGS02MA.h"
 ```
 
-
 #### Constructor
 
-- **AGS02MA(uint8_t deviceAddress = 26, TwoWire \*wire = &Wire)** constructor, with default address and default I2C interface.
-- **bool begin(uint8_t sda, uint8_t scl)** begin for ESP32 and ESP8266.
-- **bool begin()** initializer for Arduino UNO a.o.
+- **AGS02MA(uint8_t deviceAddress = 26, TwoWire \*wire = &Wire)** constructor, 
+with default address and default I2C interface.
+- **bool begin()** initialize the library.
 - **bool isConnected()** returns true if device address can be seen on I2C.
 - **void reset()** reset internal variables.
 
@@ -157,6 +168,7 @@ The default mode at startup of the sensor is PPB = parts per billion.
 - **bool setUGM3Mode()** sets device in micro gram per cubic meter mode. Returns true on success.
 - **uint8_t getMode()** returns mode set. 0 = PPB, 1 = UGm3, 255 = not set.
 
+
 #### Air quality classification
 
 | ppm     | Class               |
@@ -170,6 +182,7 @@ The default mode at startup of the sensor is PPB = parts per billion.
 | > 5500  | Hazardous           |
 
 [Source](https://learn.kaiterra.com/en/resources/understanding-tvoc-volatile-organic-compounds)
+
 
 #### PPB versus UGM3
 

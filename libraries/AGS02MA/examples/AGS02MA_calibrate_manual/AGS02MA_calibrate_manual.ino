@@ -1,15 +1,14 @@
 //
 //    FILE: AGS02MA_calibrate_manual.ino
 //  AUTHOR: Rob Tillaart, Beanow
-// VERSION: 0.2.0
 // PURPOSE: test application
 //    DATE: 2022-04-22
 //     URL: https://github.com/RobTillaart/AGS02MA
-//
+
 
 #include "AGS02MA.h"
 
-// The zero calibration value we'll (temporarily) set in the example.
+//  The zero calibration value we'll (temporarily) set in the example.
 #define ZC_VALUE 700
 
 #define READS 10
@@ -24,13 +23,12 @@ uint8_t version;
 
 void setup()
 {
-  // ESP devices typically mis the first serial log lines after flashing.
-  // Delay somewhat to include all output.
+  //  ESP devices typically miss the first serial log lines after flashing.
+  //  Delay somewhat to include all output.
   delay(1000);
 
   Serial.begin(115200);
   Serial.println(__FILE__);
-
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
   Serial.println();
@@ -51,7 +49,7 @@ void setup()
   Serial.println(version);
   int err = AGS.lastError();
 
-  // Reading version correctly matters, as we display additional comments based on it.
+  //  Reading version correctly matters, as we display additional comments based on it.
   if(err != AGS02MA_OK)
   {
     Serial.print("Error reading version:\t");
@@ -130,7 +128,6 @@ void setup()
 
     printZeroCalibrationData(restoredValue);
     Serial.println();
-
   }
 
 }
@@ -171,4 +168,5 @@ void printPPB()
   Serial.println();
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

@@ -3,7 +3,7 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.3.4"))
+#define AGS02MA_LIB_VERSION         (F("0.4.0"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
@@ -51,9 +51,6 @@ public:
   //  address 26 = 0x1A
   explicit AGS02MA(const uint8_t deviceAddress = 26, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
   void     reset();
@@ -102,7 +99,7 @@ public:
 
   float    lastPPM()    { return _lastPPB   * 0.001; };
   uint32_t lastPPB()    { return _lastPPB;  };    //  fetch last PPB measurement
-  uint32_t lastUGM3()   { return _lastUGM3; };    // fetch last UGM3 measurement
+  uint32_t lastUGM3()   { return _lastUGM3; };    //  fetch last UGM3 measurement
 
 
   //  STATUS

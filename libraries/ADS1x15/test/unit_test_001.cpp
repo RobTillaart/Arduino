@@ -27,6 +27,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "ADS1X15_LIB_VERSION: %s\n", (char *) ADS1X15_LIB_VERSION);
 }
 
 
@@ -37,8 +38,6 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  fprintf(stderr, "ADS1X15_LIB_VERSION: %s\n", (char *) ADS1X15_LIB_VERSION);
-
   assertEqual(0x48, ADS1015_ADDRESS);
   assertEqual(0x48, ADS1115_ADDRESS);
   assertEqual(   0, ADS1X15_OK);
@@ -51,6 +50,9 @@ unittest(test_constants)
 unittest(test_begin)
 {
   ADS1115 ADS(0x48);
+
+  Wire.begin();
+
   assertTrue(ADS.begin());
   assertTrue(ADS.isConnected());
   assertTrue(ADS.isBusy());
@@ -60,6 +62,9 @@ unittest(test_begin)
 unittest(test_gain)
 {
   ADS1115 ADS(0x48);
+
+  Wire.begin();
+
   assertTrue(ADS.begin());
 
   assertEqual(0, ADS.getGain());
@@ -78,6 +83,9 @@ unittest(test_gain)
 unittest(test_Voltage)
 {
   ADS1115 ADS(0x48);
+
+  Wire.begin();
+
   assertTrue(ADS.begin());
 
   // should test all values?
@@ -96,4 +104,5 @@ unittest(test_Voltage)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --
+

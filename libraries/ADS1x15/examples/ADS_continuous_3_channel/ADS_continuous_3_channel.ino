@@ -52,18 +52,19 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
   Wire.setClock(400000);
 
   ADS.begin();
-  ADS.setGain(0);        // 6.144 volt
-  ADS.setDataRate(7);    // 0 = slow   4 = medium   7 = fast
+  ADS.setGain(0);        //  6.144 volt
+  ADS.setDataRate(7);    //  0 = slow   4 = medium   7 = fast
 
-  // SET ALERT RDY PIN
+  //  SET ALERT RDY PIN
   ADS.setComparatorThresholdHigh(0x8000);
   ADS.setComparatorThresholdLow(0x0000);
   ADS.setComparatorQueConvert(0);
 
-  // SET INTERRUPT HANDLER TO CATCH CONVERSION READY
+  //  SET INTERRUPT HANDLER TO CATCH CONVERSION READY
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(2), adsReady, RISING);
 
@@ -81,7 +82,7 @@ void loop()
   {
     SPS++;
     val[channel] = ADS.getValue();
-    // request next channel asap
+    //  request next channel asap
     channel++;
     if (channel >= 3) channel = 0;
     ADS.requestADC(channel);

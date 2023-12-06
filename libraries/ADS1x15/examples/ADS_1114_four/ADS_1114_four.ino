@@ -27,6 +27,8 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
+
   for (uint8_t i = 0; i < 4; i++)
   {
     uint8_t address = 0x48 + i;
@@ -36,7 +38,8 @@ void setup()
     Serial.print("  ");
     Serial.println(ADS[i].begin() ? "connected" : "not connected");
 
-    ADS[i].setDataRate(4);        // 0 = slow   4 = medium   7 = fast, but more noise
+    //  0 = slow   4 = medium   7 = fast, but more noise
+    ADS[i].setDataRate(4);
   }
   ADS_request_all();
 }
@@ -44,14 +47,14 @@ void setup()
 
 void loop()
 {
-  // Serial.println(__FUNCTION__);
-  // wait until all is read...
+  //  Serial.println(__FUNCTION__);
+  //  wait until all is read...
   while(ADS_read_all());
 
-  // we have all values, so process (print) them
+  //  we have all values, so process (print) them
   ADS_print_all();
 
-  delay(1000);      // wait a second, comment this line for more samples.
+  delay(1000);      //  wait a second, comment this line for more samples.
   ADS_request_all();
 }
 
@@ -107,4 +110,4 @@ void ADS_print_all()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -23,6 +23,9 @@ void setup()
   while(!Serial);
   Serial.println(__FILE__);
 
+  Wire.begin();
+  Wire.setClock(100000);
+
   ADS.begin();  //  use defaults
   
   readADC = analogRead;  //  start with internal 
@@ -45,4 +48,4 @@ int wrapper(uint8_t x)
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

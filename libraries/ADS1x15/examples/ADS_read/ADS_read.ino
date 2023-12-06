@@ -26,6 +26,7 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
   ADS.begin();
 }
 
@@ -51,5 +52,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

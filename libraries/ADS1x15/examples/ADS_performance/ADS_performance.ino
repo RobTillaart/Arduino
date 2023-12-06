@@ -38,10 +38,10 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
-  ADS.begin();
-
+  Wire.begin();
   Wire.setClock(100000);
 
+  ADS.begin();
   ADS.setGain(0);  // 6.144 volt
 
   for (int dr = 0; dr < 8; dr++)

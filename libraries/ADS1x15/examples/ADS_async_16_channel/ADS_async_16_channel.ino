@@ -1,9 +1,7 @@
 //
 //    FILE: ADS_async_16_channel.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo reading four ADS1115 modules in parallel
-//    DATE: 2021-07-06
 //     URL: https://github.com/RobTillaart/ADS1X15
 
 
@@ -30,6 +28,8 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
+
   for (uint8_t i = 0; i < 4; i++)
   {
     uint8_t address = 0x48 + i;
@@ -39,7 +39,8 @@ void setup()
     Serial.print("  ");
     Serial.println(ADS[i].begin() ? "connected" : "not connected");
 
-    ADS[i].setDataRate(4);  // 0 = slow   4 = medium   7 = fast, but more noise
+    //  0 = slow   4 = medium   7 = fast, but more noise
+    ADS[i].setDataRate(4);
   }
   ADS_request_all();
 }
@@ -47,14 +48,14 @@ void setup()
 
 void loop()
 {
-  // Serial.println(__FUNCTION__);
-  // wait until all is read...
+  //  Serial.println(__FUNCTION__);
+  //  wait until all is read...
   while (ADS_read_all());
 
-  // we have all values
+  //  we have all values
   ADS_print_all();
 
-  delay(1000);      // wait a second.
+  delay(1000);      //  wait a second.
   ADS_request_all();
 }
 
@@ -75,8 +76,8 @@ bool ADS_read_all()
   {
     if (ADS[i].isConnected() && ADS[i].isBusy()) return true;
   }
-  // Serial.print("IDX:\t");
-  // Serial.println(idx);
+  //  Serial.print("IDX:\t");
+  //  Serial.println(idx);
   for (int i = 0; i < 4; i++)
   {
     if (ADS[i].isConnected())
@@ -97,14 +98,14 @@ bool ADS_read_all()
 
 void ADS_print_all()
 {
-  // Serial.println(__FUNCTION__);
-  // TIMESTAMP
+  //  Serial.println(__FUNCTION__);
+  //  TIMESTAMP
   now = millis();
   Serial.print(now - last);
   last = now;
   Serial.println();
 
-  // PRINT ALL VALUES
+  //  PRINT ALL VALUES
   for (int i = 0; i < 4; i++)
   {
     for (int j = 0; j < 4; j++)
@@ -118,5 +119,5 @@ void ADS_print_all()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

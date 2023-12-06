@@ -27,18 +27,19 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
 
-  // SETUP FIRST ADS1114
+  //  SETUP FIRST ADS1114
   ADS_1.begin();
   ADS_1.setGain(0);         //  0 == 6.144 volt, default
   ADS_1.setDataRate(7);     //  0 = slow   4 = medium   7 = fast
 
-  // SET ALERT RDY PIN
+  //  SET ALERT RDY PIN
   ADS_1.setComparatorThresholdHigh(0x8000);
   ADS_1.setComparatorThresholdLow(0x0000);
   ADS_1.setComparatorQueConvert(0);
 
-  // SET INTERRUPT HANDLER TO CATCH CONVERSION READY
+  //  SET INTERRUPT HANDLER TO CATCH CONVERSION READY
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(2), adsReady_1, RISING);
 
@@ -46,17 +47,17 @@ void setup()
   ADS_1.readADC();          //  0 == default channel,  trigger first read
 
 
-  // SETUP SECOND ADS1114
+  //  SETUP SECOND ADS1114
   ADS_2.begin();
   ADS_2.setGain(0);         //  0 == 6.144 volt, default
   ADS_2.setDataRate(7);     //  7 == highest
 
-  // SET ALERT RDY PIN
+  //  SET ALERT RDY PIN
   ADS_2.setComparatorThresholdHigh(0x8000);
   ADS_2.setComparatorThresholdLow(0x0000);
   ADS_2.setComparatorQueConvert(0);
 
-  // SET INTERRUPT HANDLER TO CATCH CONVERSION READY
+  //  SET INTERRUPT HANDLER TO CATCH CONVERSION READY
   pinMode(3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(3), adsReady_2, RISING);
 
@@ -78,26 +79,26 @@ void loop()
 }
 
 
-// catch interrupt and set flag device 1
+//  catch interrupt and set flag device 1
 void adsReady_1()
 {
   RDY_1 = true;
 }
 
-// catch interrupt and set flag device 1
+//  catch interrupt and set flag device 1
 void adsReady_2()
 {
   RDY_2 = true;
 }
 
 
-// handle conversions that are ready
+//  handle conversions that are ready
 bool handleConversion()
 {
   bool rv = false;
   if (RDY_1)
   {
-    // save the last value
+    //  save the last value
     val_1 = ADS_1.getValue();
     ADS_1.readADC(0);
     RDY_1 = false;
@@ -105,7 +106,7 @@ bool handleConversion()
   }
   if (RDY_2)
   {
-    // save the last value
+    //  save the last value
     val_2 = ADS_2.getValue();
     ADS_2.readADC(0);
     RDY_2 = false;
@@ -115,5 +116,5 @@ bool handleConversion()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

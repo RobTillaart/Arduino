@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.13
+// VERSION: 0.4.0
 //    DATE: 2013-03-24
 // PUPROSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -140,33 +140,8 @@ void ADS1X15::reset()
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-
-bool ADS1X15::begin(int sda, int scl)
-{
-  _wire->begin(sda, scl);
-  if ((_address < 0x48) || (_address > 0x4B)) return false;
-  if (! isConnected()) return false;
-  return true;
-}
-
-#elif defined (ARDUINO_ARCH_RP2040) && !defined(__MBED__)
-
-bool ADS1X15::begin(int sda, int scl)
-{
-  _wire->setSDA(sda);
-  _wire->setSCL(scl);
-  _wire->begin();
-  if ((_address < 0x48) || (_address > 0x4B)) return false;
-  if (! isConnected()) return false;
-  return true;
-}
-
-#endif
-
 bool ADS1X15::begin()
 {
-  _wire->begin();
   if ((_address < 0x48) || (_address > 0x4B)) return false;
   if (! isConnected()) return false;
   return true;

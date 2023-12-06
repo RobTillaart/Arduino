@@ -2,7 +2,6 @@
 //    FILE: ADS_async_8_channel.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo reading two ADS1115 modules in parallel
-//    DATE: 2021-07-05
 //     URL: https://github.com/RobTillaart/ADS1X15
 
 
@@ -36,6 +35,8 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
+
   ADS0.begin();
   ADS1.begin();
   //  ADS2.begin();
@@ -46,7 +47,8 @@ void setup()
   //  Serial.println(ADS2.isConnected());
   //  Serial.println(ADS3.isConnected());
 
-  ADS0.setDataRate(4);  // 0 = slow   4 = medium   7 = fast but more noise
+  //  0 = slow   4 = medium   7 = fast but more noise
+  ADS0.setDataRate(4);
   ADS1.setDataRate(4);
   //  ADS2.setDataRate(4);
   //  ADS3.setDataRate(4);
@@ -58,13 +60,14 @@ void setup()
 
 void loop()
 {
-  // wait until all is read...
+  //  wait until all is read...
   while (ADS_read_all());
 
-  // we have all 8 values
+  //  we have all 8 values
   ADS_print_all();
 
-  delay(1000);      // wait a second.
+  //  wait a second.
+  delay(1000);
   ADS_request_all();
 }
 
@@ -106,13 +109,13 @@ void ADS_print_all()
   Serial.println(now - lastTime);
   lastTime = now;
 
-  // PRINT ALL VALUES OF ADC0
+  //  PRINT ALL VALUES OF ADC0
   for (int i = 0; i < 4; i++)
   {
     Serial.print(val0[i]);
     Serial.print("\t");
   }
-  // PRINT ALL VALUES OF ADC1
+  //  PRINT ALL VALUES OF ADC1
   for (int i = 0; i < 4; i++)
   {
     Serial.print(val1[i]);
@@ -135,5 +138,5 @@ void ADS_print_all()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

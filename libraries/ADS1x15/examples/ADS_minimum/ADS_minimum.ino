@@ -35,6 +35,8 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
+
   ADS.begin();
   ADS.setGain(0);  // 6.144 volt
   Serial.println("Voltage");
@@ -48,5 +50,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

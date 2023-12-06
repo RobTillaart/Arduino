@@ -27,9 +27,11 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
+  Wire.begin();
+
   ADS.begin();
   ADS.setGain(0);
-  f = ADS.toVoltage();      // voltage factor
+  f = ADS.toVoltage();      //  voltage factor
   ADS.requestADC(0);
 }
 
@@ -39,16 +41,17 @@ void loop()
   if (ADS.isBusy() == false)
   {
     int16_t val_0 = ADS.getValue();
-    ADS.requestADC(0);  // request a new one
+    //  request a new one
+    ADS.requestADC(0);
     Serial.print("\tAnalog0: ");
     Serial.print(val_0);
     Serial.print('\t');
     Serial.println(val_0 * f, 3);
   }
-  // simulate other tasks...
+  //  simulate other tasks...
   delay(2000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

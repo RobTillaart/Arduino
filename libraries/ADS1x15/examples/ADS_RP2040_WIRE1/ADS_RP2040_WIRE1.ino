@@ -4,13 +4,13 @@
 // PURPOSE: read analog input
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect 1 potmeter
+//  test
+//  connect 1 potentiometer
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x (connect to AIN0).
+//  measure at x (connect to AIN0).
 
 
 #include "ADS1X15.h"
@@ -32,19 +32,24 @@ void setup()
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
 
-  ADS.begin(26, 27);   // SDA (Pin 26), SCL(Pin 27)
-  ADS.setGain(0);      // 6.144 volt
-  ADS.setDataRate(7);  // 0 = slow   4 = medium   7 = fast
-  ADS.setMode(0);      // continuous mode
-  ADS.readADC(0);      // first read to trigger
+  //  SDA (Pin 26), SCL(Pin 27)
+  Wire1.begin();
+  Wire1.setSDA(26);
+  Wire1.setSCL(27);
+  
+  ADS.begin();
+  ADS.setGain(0);      //  6.144 volt
+  ADS.setDataRate(7);  //  0 = slow   4 = medium   7 = fast
+  ADS.setMode(0);      //  continuous mode
+  ADS.readADC(0);      //  first read to trigger
 }
 
 
 void loop()
 {
   Serial.println(ADS.getValue());
-  // optional other code here
+  //  optional other code here
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

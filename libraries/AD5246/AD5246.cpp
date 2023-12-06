@@ -1,7 +1,7 @@
 //
 //    FILE: AD5246.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for AD5246, I2C 128 step rheostat.
 //    DATE: 2023-08-02
 //     URL: https://github.com/RobTillaart/AD5246
@@ -14,29 +14,13 @@ AD5246::AD5246(TwoWire *wire)
 {
   //  fixed address 0x2E.
   _wire = wire;
-  _lastValue = AD5246_MIDPOINT;   //  power on reset => mid position
+  //  power on reset => mid position
+  _lastValue = AD5246_MIDPOINT;
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool AD5246::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  reset();
-  return true;
-}
-#endif
 
 
 bool AD5246::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   reset();
   return true;

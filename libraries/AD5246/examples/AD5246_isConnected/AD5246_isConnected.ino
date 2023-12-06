@@ -17,7 +17,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
+  Serial.print("AD5246_LIB_VERSION: ");
   Serial.println(AD5246_LIB_VERSION);
 
   Wire.begin();

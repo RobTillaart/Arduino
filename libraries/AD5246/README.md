@@ -35,15 +35,28 @@ An important property is that the device defaults to the mid-scale position at s
 One can use **AD5246_MIDPOINT** == 64 to reset to the mid-scale position.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 This library is based upon the AD5245 library.
 
 - https://www.analog.com/en/products/ad5246.html
-- https://github.com/RobTillaart/AD520X/
-- https://github.com/RobTillaart/AD524X/
-- https://github.com/RobTillaart/AD5245/
-- https://github.com/RobTillaart/AD5246/
+- https://github.com/RobTillaart/AD520x
+- https://github.com/RobTillaart/AD524X
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
+- https://github.com/RobTillaart/AD5246/  rheostat
 
 
 ## I2C address
@@ -65,7 +78,6 @@ The library has a number of functions which are all quite straightforward.
 One can get / set the value of the rheostat.
 
 - **AD5246(TwoWire \*wire = &Wire)** constructor
-- **bool begin(uint8_t sda, uint8_t scl)** ESP32 a.o initializing of Wire.
 - **bool begin()** for UNO.
 - **bool isConnected()** See if address set in constructor is on the bus.
 - **uint8_t reset()** sets rheostat to midpoint = 64. (startup default)

@@ -2,7 +2,7 @@
 //
 //    FILE: AD5246.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for AD5246, I2C 128 step rheostat.
 //    DATE: 2023-08-02
 //     URL: https://github.com/RobTillaart/AD5246
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define AD5246_LIB_VERSION   (F("0.1.1"))
+#define AD5246_LIB_VERSION   (F("0.2.0"))
 
 
 #define AD5246_OK             0
@@ -28,9 +28,6 @@ class AD5246
 public:
   explicit AD5246(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t sda, uint8_t scl);
-#endif
   bool    begin();
   bool    isConnected();
 

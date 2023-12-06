@@ -57,7 +57,9 @@ messages so the user must implement such on top of this class.
 - https://www.gammon.com.au/forum/?id=11428
 - http://en.wikipedia.org/wiki/RS485
 - https://www.ti.com/lit/an/snla049b/snla049b.pdf - 10 ways to bulletproof your RS485
-- https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/Adler - checksum
+- https://github.com/RobTillaart/CRC - checksum
+- https://github.com/RobTillaart/Fletcher - checksum
 - https://www.arduino.cc/reference/en/language/functions/communication/stream/
 
 
@@ -77,9 +79,6 @@ via the Serial class.
 The sendPin is the pin that connects to the transmit/receive enable (DE/RE) pins.
 See connection schema above.
 The library sets the pinMode and defaults it to LOW (receiving mode).
-- **void setMicrosPerByte(uint32_t baudRate)** set the delay per character needed.
-This gives the hardware enough time to flush the buffer. 
-- **uint32_t getMicrosPerByte()** returns the current delay in micros used.
 - **void setTXmode()** explicitly set mode to transmitting / sending.
 This implies that the device will stop listening on the RS485 bus.
 - **void setRXmode()** explicitly set mode to receiving / listening.
@@ -93,8 +92,8 @@ The most important commands of the Stream interface are:
 
 - **int available()** returns the number of characters available in the buffer.
 - **int read()** read a character from the RS485 stream.
+- **void flush()** flush the stream.
 - **int peek()** peeks a character ahead. (less used).
-- **void flush()** flush the stream. (less used).
 - https://www.arduino.cc/reference/en/language/functions/communication/stream/
 
 All variations of **print()**, **println()** and **write()** can be used,
@@ -106,7 +105,7 @@ this allows reads on the RS485 bus that are limited.
 
 #### Experimental
 
-Work in progress. The library has an experimental protocol implemented to
+Work in progress. The library has an **experimental** protocol implemented to
 send and receive larger messages between the nodes in the network. 
 This network consists of one master that can poll multiple slaves. 
 
@@ -147,6 +146,8 @@ Can be used for debugging.
 Do not forget to use one pull up (A line) and one pull down (B line) 
 at only one end of the bus.
 Values depend on the length of the cables, start with 1 KΩ (kilo ohm)
+
+Note Ω = alt-234.
 
 
 #### Wires
@@ -211,14 +212,11 @@ Would allow 127 different 1 byte commands.
   - extract from this lib (for now in the library).
   - dynamic receive buffer size?
 - investigate error handling?
-- expand write to other data types?
 - test other platforms
   - ESP32.
 
 #### Could
 
-- setUsPerByte() parameter does not feel 100% (investigate)
-  - rename to begin().
 - improve the examples.
   - add binary protocol example
   - multi-master?
@@ -226,6 +224,9 @@ Would allow 127 different 1 byte commands.
 - investigate yield() on ESP32/RTOS behaviour
 
 #### Wont
+
+- expand write to other data types?
+  - user protocol 
 
 
 ## Support

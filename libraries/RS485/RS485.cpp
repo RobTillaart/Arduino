@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.2.6
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -20,28 +20,7 @@ RS485::RS485(Stream * stream, uint8_t sendPin, uint8_t deviceID)
   _deviceID = deviceID;
 
   pinMode(_sendPin, OUTPUT);
-  setRXmode();    //  receiver mode
-}
-
-
-//  0.3.0
-// void RS485::begin(uint32_t baudRate)
-// {
-  // _stream->begin(baudRate);
-  // setMicrosPerByte(baudRate);
-// }
-
-
-void RS485::setMicrosPerByte(uint32_t baudRate)
-{
-  //  count 11 bits time per byte
-  _microsPerByte = (11 * 1000000) / baudRate;
-}
-
-
-uint32_t RS485::getMicrosPerByte()
-{
-  return _microsPerByte;
+  setRXmode();    //  receiver mode ==>  _sendPin == LOW
 }
 
 
@@ -81,10 +60,10 @@ void RS485::flush()
 
 size_t RS485::write(uint8_t c)
 {
-  setTXmode();    //  transmit mode
+  setTXmode();       //  transmit mode
   size_t n = _stream->write(c);
-  delayMicroseconds(_microsPerByte);
-  setRXmode();    //  receiver mode
+  _stream->flush();  //  wait for all data transmitted
+  setRXmode();       //  receiver mode
   return n;
 }
 
@@ -111,7 +90,7 @@ size_t RS485::write(uint8_t * array, uint8_t length)
   uint8_t n = 0;
   for (uint8_t i = 0; i < length; i++)
   {
-    n += write(array[i]);
+    n += _stream->write(array[i]);
     yield();
   }
   return n;
@@ -123,10 +102,10 @@ size_t RS485::write(uint8_t * array, uint8_t length)
 //  no yield() calls - might be blocking...
 size_t RS485::write(uint8_t * array, uint8_t length)
 {
-  setTXmode();    //  transmit mode
+  setTXmode();       //  transmit mode
   size_t n = _stream->write(array, length);
-  delayMicroseconds(length * _microsPerByte);
-  setRXmode();    //  receiver mode
+  _stream->flush();  //  wait for all data transmitted
+  setRXmode();       //  receiver mode
   return n;
 }
 
@@ -170,7 +149,7 @@ size_t RS485::write(uint8_t * array, uint8_t length)
 void RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
 {
   uint8_t CHKSUM = 0;
-  setTXmode();    //  transmit mode
+  setTXmode();                 //  transmit mode
   _stream->write(SOH);
   _stream->write(receiverID);  //  TO
   _stream->write(_deviceID);   //  FROM
@@ -184,8 +163,8 @@ void RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
   _stream->write(CHKSUM);
   _stream->write(ETX);
   _stream->write(EOT);
-  delayMicroseconds((len + 8 + 2) * _microsPerByte);  //  + 2 to be sure...
-  setRXmode();
+  _stream->flush();
+  setRXmode();                 //  receive mode
 }
 
 
@@ -250,7 +229,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       {
         //  expect checksum
         if (CHKSUM == v) state = 6;
-        else 
+        else
         {
           //  debug failing checksum
           //  Serial.print(CHKSUM, HEX);

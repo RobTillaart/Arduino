@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-12-05
+- Fix #15 - use flush() instead of calculation.
+- remove **setMicrosPerByte()** and **getMicrosPerByte()**
+  - not needed any more.
+- optimize **write(array, length)** when yield flag is set
+
+----
+
 ## [0.2.6] - 2023-11-21
 - update readme.md
-
 
 ## [0.2.5] - 2023-04-28
 - fix send / receive protocol bugs (as far as known)

@@ -43,9 +43,10 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("RS485_LIB_VERSION: ");
+  Serial.println(RS485_LIB_VERSION);
 
   Serial2.begin(38400);
-  rs485.setMicrosPerByte(38400);
 }
 
 

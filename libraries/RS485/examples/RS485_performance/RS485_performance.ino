@@ -19,8 +19,11 @@ void setup()
 {
   Serial.begin(4800);
   while (!Serial);
-  // Serial.println(__FILE__);
-
+  //  Serial.println();
+  //  Serial.println(__FILE__);
+  //  Serial.print("RS485_LIB_VERSION: ");
+  //  Serial.println(RS485_LIB_VERSION);
+  
   test(4800);
 
   Serial.println("\ndone...");
@@ -34,9 +37,11 @@ void loop()
 
 void test(uint32_t baudrate)
 {
+  Serial.begin(baudrate);
+
   delay(10);
   char buffer[64] = "123456789012345678901234567890123456789012345678901234567890";
-  rs485.setMicrosPerByte(baudrate);
+
   start = micros();
   rs485.write((uint8_t *)buffer, 60);
   stop = micros();

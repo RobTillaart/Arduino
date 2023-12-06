@@ -7,8 +7,7 @@ RS485	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-setMicrosPerByte	KEYWORD2
-getMicrosPerByte	KEYWORD2
+
 getDeviceID	KEYWORD2
 
 setTXmode	KEYWORD2
@@ -23,4 +22,6 @@ receive	KEYWORD2
 
 # Constants (LITERAL1)
 RS485_LIB_VERSION	LITERAL1
+
+RS485_YIELD_ENABLE	LITERAL1
 

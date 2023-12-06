@@ -1,7 +1,7 @@
 //
 //    FILE: AD5245.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for I2C digital potentiometer AD5245.
 //    DATE: 2022-07-31
 //     URL: https://github.com/RobTillaart/AD5245
@@ -9,9 +9,9 @@
 
 #include "AD5245.h"
 
-#define AD5245_WRITE    0x00
-#define AD5245_RESET    0x40
-#define AD5245_SHUTDOWN 0x20
+#define AD5245_WRITE            0x00
+#define AD5245_RESET            0x40
+#define AD5245_SHUTDOWN         0x20
 
 
 AD5245::AD5245(const uint8_t address, TwoWire *wire)
@@ -19,29 +19,14 @@ AD5245::AD5245(const uint8_t address, TwoWire *wire)
   //  address: 0x010110x = 0x2C or 0x2D
   _address = address;
   _wire = wire;
-  _lastValue = AD5245_MIDPOINT;   //  power on reset => mid position
+  //  power on reset => mid position
+  _lastValue = AD5245_MIDPOINT;
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool AD5245::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  reset();
-  return true;
-}
-#endif
 
 
 bool AD5245::begin()
 {
-  _wire->begin();
+  if ((_address != 0x2C) || (_address != 0x2D)) return false;
   if (! isConnected()) return false;
   reset();
   return true;

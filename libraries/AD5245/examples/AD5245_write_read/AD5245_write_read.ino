@@ -17,7 +17,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
+  Serial.print("AD5245_LIB_VERSION: ");
   Serial.println(AD5245_LIB_VERSION);
 
   Wire.begin();
@@ -50,4 +50,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

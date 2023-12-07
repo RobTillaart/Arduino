@@ -2,7 +2,7 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 
@@ -26,7 +26,6 @@
 #define MAX14661_CMD_B      0x15
 
 
-
 MAX14661::MAX14661(const uint8_t deviceAddress, TwoWire *wire)
 {
   _address = deviceAddress;
@@ -35,24 +34,8 @@ MAX14661::MAX14661(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool MAX14661::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  _error = MAX14661_OK;
-  return isConnected();
-}
-#endif
-
-
 bool MAX14661::begin()
 {
-  _wire->begin();
   _error = MAX14661_OK;
   return isConnected();
 }
@@ -64,6 +47,12 @@ bool MAX14661::isConnected()
   _error = _wire->endTransmission();
   //  set MAX14661_ERR_I2C
   return ( _error == 0);
+}
+
+
+uint8_t MAX14661::getAddress()
+{
+  return _address;
 }
 
 

@@ -9,15 +9,17 @@
 #include "Wire.h"
 #include "MAX14661.h"
 
-MAX14661 mux(0x4C);  // 0x4C..0x4F
+MAX14661 mux(0x4C);  //  0x4C..0x4F
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAX14661_LIB_VERSION: ");
   Serial.println(MAX14661_LIB_VERSION);
 
+  Wire.begin();
   if (mux.begin() == false)
   {
     Serial.println("Could not find MAX14661");
@@ -34,7 +36,8 @@ void setup()
 
 void test1()
 {
-  Serial.println("\nTEST 1");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int ch = 0; ch < 16; ch++)
   {
     mux.openChannel(ch);
@@ -47,7 +50,8 @@ void test1()
 
 void test2()
 {
-  Serial.println("\nTEST 2");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int ch = 0; ch < 16; ch++)
   {
     mux.openChannel(ch);
@@ -61,7 +65,8 @@ void test2()
 
 void test3()
 {
-  Serial.println("\nTEST 3");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.println(mux.getChannels(), HEX);
   mux.openAllChannels();
   mux.closeAllChannels();
@@ -71,7 +76,8 @@ void test3()
 
 void test4()
 {
-  Serial.println("\nTEST 4");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.println(mux.getChannels(), HEX);
   mux.openAllChannels();
   Serial.println(mux.getChannels(), HEX);
@@ -82,7 +88,8 @@ void test4()
 
 void test5()
 {
-  Serial.println("\nTEST 5");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int i = 0; i < 10; i++)
   {
     uint16_t mask = random(65535);
@@ -99,5 +106,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

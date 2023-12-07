@@ -3,7 +3,7 @@
 //    FILE: MAX14661.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MAX14661_LIB_VERSION                (F("0.1.5"))
+#define MAX14661_LIB_VERSION                (F("0.2.0"))
 
 #define MAX14661_OK                         0x00
 #define MAX14661_ERR_I2C                    0x80   //  Not implemented yet
@@ -24,11 +24,9 @@ class MAX14661
 public:
   explicit MAX14661(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   //  PAIR INTERFACE

@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [0.1.4] - 2023-09-23
+## [0.2.0] - 2023-12-07
+- refactor API, begin()
+- add **getAddress()**
+- update readme.md
+- update examples
+- minor edits
+
+----
+
+## [0.1.5] - 2023-09-23
 - Add Wire1 support for ESP32
 - update readme.md
-
 
 ## [0.1.4] - 2023-02-25
 - update readme.md

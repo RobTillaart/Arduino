@@ -9,15 +9,17 @@
 #include "Wire.h"
 #include "MAX14661.h"
 
-MAX14661 mux(0x4C);  // 0x4C..0x4F
+MAX14661 mux(0x4C);  //  0x4C..0x4F
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAX14661_LIB_VERSION: ");
   Serial.println(MAX14661_LIB_VERSION);
 
+  Wire.begin();
   if (mux.begin() == false)
   {
     Serial.println("Could not find MAX14661");
@@ -104,5 +106,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -47,6 +47,15 @@ According to the datasheet the I2C Serial-Clock Frequency is max 400 kHz.
 (SPI can do 10 MHz)
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 - https://github.com/RobTillaart/TCA9548 specific I2C multiplexer.
@@ -65,10 +74,10 @@ According to the datasheet the I2C Serial-Clock Frequency is max 400 kHz.
 
 #### Constructor
 
-- **MAX14661(deviceAddress, TwoWire \*wire = &Wire)** Constructor with device address, 
+- **MAX14661(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with device address, 
 and optional the Wire interface as parameter.
 - **bool begin()** initializes the wire interface.
-- **bool begin(sda, scl)** idem, for the ESP32 where one can choose the I2C pins.
+Returns true if device address is seen on I2C bus.
 - **bool isConnected()** checks if the device address is visible on the I2C bus.
 
 

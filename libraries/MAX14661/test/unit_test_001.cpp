@@ -60,6 +60,9 @@ unittest(test_constants)
 unittest(test_constructor)
 {
   MAX14661 MUX(0x4C);
+
+  Wire.begin();
+
   assertEqual(MAX14661_OK, MUX.lastError());
 
   MUX.begin();
@@ -70,6 +73,8 @@ unittest(test_constructor)
 unittest(test_channel_out_Of_range)
 {
   MAX14661 MUX(0x4C);
+
+  Wire.begin();
   MUX.begin();
 
   assertFalse(MUX.openChannel(16));

@@ -16,8 +16,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("MAX14661_LIB_VERSION: ");
   Serial.println(MAX14661_LIB_VERSION);
 
+  Wire.begin();
   if (mux.begin() == false)
   {
     Serial.println("Could not find MAX14661");
@@ -32,7 +34,8 @@ void setup()
 
 void test1()
 {
-  Serial.println("\nTEST 1");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int ch = 0; ch < 16; ch++)
   {
     mux.MUXA(ch);
@@ -45,7 +48,8 @@ void test1()
 
 void test2()
 {
-  Serial.println("\nTEST 1");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int ch = 0; ch < 16; ch++)
   {
     mux.MUXB(ch);
@@ -58,7 +62,8 @@ void test2()
 
 void test3()
 {
-  Serial.println("\nTEST 1");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   for (int ch = 0; ch < 16; ch++)
   {
     mux.MUXB(ch);
@@ -74,5 +79,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

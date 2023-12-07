@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -50,23 +50,9 @@ SHT2x::SHT2x(TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool SHT2x::begin(const int dataPin, const int clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  return reset();
-}
-#endif
-
-
 bool SHT2x::begin()
 {
-  _wire->begin();
+  if (! isConnected()) return false;
   return reset();
 }
 
@@ -187,8 +173,8 @@ bool SHT2x::readTemperature()
   //  clear requestType
   _requestType = SHT2x_REQ_NONE;
 
-  _status = buffer[1] & 0x0003;
-  if (_status == 0xFF)  //  TODO  != 0x01  (need HW to test)
+  _status = buffer[1] & 0x03;
+  if (_status == 0xFF)       //  TODO  != 0x01  (need HW to test)
   {
     _error = SHT2x_ERR_READBYTES;
     return false;
@@ -212,12 +198,12 @@ bool SHT2x::readHumidity()
   }
   _rawHumidity  = buffer[0] << 8;
   _rawHumidity += buffer[1];
-  _rawHumidity &= 0xFFFC;     //  TODO is this mask OK? as humidity is max 12 bit..
+  _rawHumidity &= 0xFFFC;
 
   //  clear requestType
   _requestType = SHT2x_REQ_NONE;
 
-  _status = buffer[1] & 0x0003;
+  _status = buffer[1] & 0x03;
   if (_status == 0xFF)        //  TODO  != 0x02  (need HW to test)
   {
     _error = SHT2x_ERR_READBYTES;

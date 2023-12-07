@@ -24,7 +24,7 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
-  // connect to sensor
+  //  connect to sensor
   Wire.begin();
   while (!dhtSensor.isConnected())
   {
@@ -33,9 +33,10 @@ void setup()
   }
   Serial.println();
 
-  // soft reset sensor
+  //  soft reset sensor
   dhtSensor.reset();
-  delay(5); // ~5 ms for soft reset to complete
+  //  ~5 ms for soft reset to complete
+  delay(5);
   while (!dhtSensor.isConnected())
   {
     Serial.print("*");
@@ -43,8 +44,8 @@ void setup()
   }
   Serial.println();
 
-  // change resolution to 11 bits
-  if (!dhtSensor.setResolution(3)) // 3: 11 bits / 0.08 °C / 0.05 % / ~18 ms - see datasheet
+  //  change resolution to 11 bits
+  if (!dhtSensor.setResolution(3))  //  3: 11 bits / 0.08 °C / 0.05 % / ~18 ms - see datasheet
   {
     Serial.print("set resolution error:\t");
     Serial.println(dhtSensor.getError());
@@ -58,15 +59,15 @@ void loop()
 
   if (dhtSensor.isConnected())
   {
-    // async request humidity and wait for completion
+    //  async request humidity and wait for completion
     dhtSensor.requestHumidity();
-    int available = 20; // [ms] choose a value that is at least 10 % higher that the measurement time from the datasheet
+    int available = 20;  //  [ms] choose a value that is at least 10 % higher that the measurement time from the datasheet
     while (!dhtSensor.reqHumReady() && (available-- > 0))
     {
-      delay(1); // or do something else here
+      delay(1);  //  or do something else here
     }
 
-    // retrieve humidity and temperature values
+    //  retrieve humidity and temperature values
     if (available)
     {
       if (!dhtSensor.readHumidity())
@@ -103,7 +104,7 @@ void loop()
     Serial.println("sensor not connected");
   }
 
-  // do other things here
+  //  do other things here
   delay(1000);
 }
 

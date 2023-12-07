@@ -6,17 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-12-07
+- update API, begin()
+- update readme.md
+- update examples
+- minor edits
+
+----
+
 ## [0.4.2] - 2023-11-25
-- add **readCachedTemperature()** to async interface
+- add **bool readCachedTemperature()** to async interface
 - update readme.md
 
 ## [0.4.1] - 2023-11-25
-- fix **reset()**: clear state of resolution, heater and error
+- fix **bool reset()** clear state of resolution, heater and error
 - update readme.md
 - minor edits
 
 ## [0.4.0] - 2023-09-21
-- moved TwoWire param from begin() to Constructor
+- moved TwoWire parameter from begin() to Constructor
 - FIx #23 support for Wire1 for ESP32
 - update readme.md
 - minor edits

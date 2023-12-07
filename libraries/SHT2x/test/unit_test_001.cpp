@@ -39,7 +39,7 @@
 #include "Arduino.h"
 #include "SHT2x.h"
 
-int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
+int expect;  //  TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 
@@ -86,6 +86,7 @@ unittest(test_constructor)
 {
   SHT2x sht;
 
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 }
@@ -95,6 +96,7 @@ unittest(test_begin)
 {
   SHT2x sht;
 
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 
@@ -118,6 +120,8 @@ unittest(test_begin)
 unittest(test_read)
 {
   SHT2x sht;
+
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 
@@ -149,6 +153,8 @@ unittest(test_read)
 unittest(test_getStatus)
 {
   SHT2x sht;
+
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 
@@ -161,6 +167,8 @@ unittest(test_getStatus)
 unittest(test_heater)
 {
   SHT2x sht;
+
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 
@@ -182,6 +190,8 @@ unittest(test_heater)
 unittest(test_resolution)
 {
   SHT2x sht;
+
+  Wire.begin();
   bool b = sht.begin();
   assertEqual(b, true);
 

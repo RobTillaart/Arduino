@@ -44,6 +44,15 @@ If you want to use more on one I2C bus one needs either an I2C multiplexer
 or one should switch sensors on/off like the select in SPI communication.
 
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 - https://github.com/RobTillaart/SHT31
@@ -75,15 +84,17 @@ Optional set the wire interface for platforms with multiple I2C buses.
 
 #### Base interface
 
-- **bool begin(int dataPin, int clockPin)** begin function for ESP8266 & ESP32;
-returns false if device address is incorrect or device cannot be reset.
-- **bool begin()** calls **reset()** which can take up to 15 ms. 
+- **bool begin()** calls **reset()** which can take up to 15 ms.
+Returns false if device address is nor reachable or device cannot be reset.
 - **bool read()** Reads both the temperature and humidity.  
 Initial release has a blocking delay. 
 - **bool isConnected()** check if sensor is reachable over I2C. Returns false if not connected.
 - **uint16_t getStatus()** returns a 2 bit status. See Status fields below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **bool reset()** resets the sensor, soft reset, no hard reset supported.
+
+#### Temperature and humidity
+
 - **float getHumidity()** computes the relative humidity in % based off the latest raw reading, and returns it.
 - **float getTemperature()** computes the temperature in °C based off the latest raw reading, and returns it.
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
@@ -249,19 +260,6 @@ Timing in milliseconds.
   - reorganize interface
   - async documentation
 - clean up code.
-
-#### 0.4.0
-
-- add crc8 check (need sensor to test)
-- improve error handling (all code paths)
-- investigate blocking delay() in read 
-- add offset for temperature and humidity
-
-#### 0.4.1
-- fix reset(): clear state of resolution, heater and error
-
-#### 0.4.2
-- add readCachedTemperature()
 
 #### Should
 

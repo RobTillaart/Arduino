@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.4.2"))
+#define SHT2x_LIB_VERSION             (F("0.5.0"))
 
 
 //  fields getStatus
@@ -50,11 +50,7 @@ class SHT2x
 public:
   SHT2x(TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32)
-  bool begin(const int dataPin, const int clockPin);
-#endif
   bool begin();
-
   //  check sensor is reachable over I2C
   bool isConnected();
 

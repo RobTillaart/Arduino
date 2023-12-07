@@ -8,8 +8,7 @@
 #include "Wire.h"
 #include "SHT2x.h"
 
-uint32_t start;
-uint32_t stop;
+uint32_t start, stop;
 
 SHT2x sht;
 
@@ -21,6 +20,7 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
+  Wire.begin();
   sht.begin();
 
   uint32_t EIDA = sht.getEIDA();
@@ -44,5 +44,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

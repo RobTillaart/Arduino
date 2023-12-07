@@ -22,9 +22,11 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
+  Wire.begin();
   sht.begin();
 
-  sht.setHeatTimeout(30);  // heater timeout 30 seconds, just for demo.
+  //  heater timeout 30 seconds, just for demo.
+  sht.setHeatTimeout(30);
 
   status = sht.getStatus();
   printHeaterStatus(status);
@@ -46,7 +48,7 @@ void setup()
 
 void loop()
 {
-  // forced switch off
+  //  forced switch off
   sht.heatOff();
   delay(1000);
 }
@@ -56,7 +58,7 @@ void printHeaterStatus(uint8_t status)
 {
   Serial.print(millis());
   Serial.print("\tHEATER: ");
-  if (status == 0x00)  // TODO - elaborate
+  if (status == 0x00)          //  TODO - elaborate
   {
     Serial.println("ON");
   } else {
@@ -65,4 +67,4 @@ void printHeaterStatus(uint8_t status)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

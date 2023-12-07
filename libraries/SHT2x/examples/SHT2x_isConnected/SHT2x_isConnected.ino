@@ -8,8 +8,7 @@
 #include "Wire.h"
 #include "SHT2x.h"
 
-uint32_t start;
-uint32_t stop;
+uint32_t start, stop;
 
 SHT2x sht;
 uint32_t connectionFails = 0;
@@ -22,6 +21,7 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
+  Wire.begin();
   sht.begin();
 
   uint8_t stat = sht.getStatus();
@@ -61,11 +61,11 @@ void loop()
     Serial.print(millis());
     Serial.print("\tNot connected:\t");
     Serial.print(connectionFails);
-    // sht.reset();
+    //  sht.reset();
   }
   Serial.println();
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

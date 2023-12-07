@@ -27,6 +27,7 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
+  Wire.begin();
   sht.begin();
 
   uint8_t stat = sht.getStatus();
@@ -67,7 +68,7 @@ void loop()
     Serial.println(sht.getHumidity(), 1);
   }
 
-  // do other things here
+  //  do other things here
   delay(1000);
 }
 

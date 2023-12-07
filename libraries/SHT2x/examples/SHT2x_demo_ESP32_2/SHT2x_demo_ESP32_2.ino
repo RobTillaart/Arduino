@@ -6,8 +6,10 @@
 //
 // ESP32 specific - see issue #7
 
+
 #include "Wire.h"
 #include "SHT2x.h"
+
 
 #define SDA_1   21
 #define SCL_1   22
@@ -17,8 +19,7 @@
 SHT2x internal(&Wire);
 SHT2x external(&Wire1);
 
-uint32_t start;
-uint32_t stop;
+uint32_t start, stop;
 
 
 void setup()
@@ -65,4 +66,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

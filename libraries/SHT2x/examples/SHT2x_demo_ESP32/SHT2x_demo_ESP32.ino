@@ -21,7 +21,8 @@ void setup()
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
 
-  sht.begin(12, 13);
+  Wire.begin(12, 13);
+  sht.begin();
 
   uint8_t stat = sht.getStatus();
   Serial.print(stat, HEX);
@@ -45,5 +46,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

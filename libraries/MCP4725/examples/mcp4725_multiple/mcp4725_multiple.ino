@@ -37,6 +37,8 @@ void setup()
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
 
+  Wire.begin();
+
   for (int i = 0; i < 4; i++)
   {
     pinMode(selectPin[i], OUTPUT);
@@ -54,7 +56,6 @@ void setup()
 }
 
 
-
 void select(uint8_t nr)
 {
   for (int i = 0; i < 4; i++)
@@ -63,7 +64,6 @@ void select(uint8_t nr)
     else         digitalWrite(selectPin[i], HIGH);
   }
 }
-
 
 
 void loop()

@@ -20,7 +20,7 @@
 //  assume the 4 devices have the same A1 and A2
 //  hard-coded address bits. (par 7.2 datasheet)
 //  we will access all devices with as 0x63.
-MCP4725 MCP(0x63);  //  0x62 or 0x63
+MCP4725 MCP(0x63);
 
 
 //  connect the select pins to the A0 pins
@@ -35,6 +35,8 @@ void setup()
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
 
+  Wire.begin();
+
   for (int i = 0; i < 4; i++)
   {
     pinMode(selectPin[i], OUTPUT);
@@ -46,7 +48,6 @@ void setup()
 }
 
 
-
 void select(uint8_t nr)
 {
   for (int i = 0; i < 4; i++)
@@ -55,7 +56,6 @@ void select(uint8_t nr)
     else         digitalWrite(selectPin[i], HIGH);
   }
 }
-
 
 
 void loop()

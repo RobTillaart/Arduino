@@ -2,7 +2,6 @@
 //    FILE: MCP4725_wave_generator_RP2040.ino
 //  AUTHOR: Rob Tillaart / Intubun
 // PURPOSE: demo function generators
-//    DATE: 2021-01-07
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 //  depending on the platform, the range of "smooth" sinus is limited.
@@ -42,6 +41,13 @@ uint16_t sine[361];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("MCP4725_VERSION: ");
+  Serial.println(MCP4725_VERSION);
+
+  //  Wire.setSDA(16);  //  adjust if needed
+  //  Wire.setSCL(17);
+  Wire.begin();
 
   // fill table
   for (int i = 0; i < 361; i++)
@@ -49,7 +55,7 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  MCP.begin(26, 27);
+  MCP.begin();
   Wire1.setClock(800000);
 
   MCP.setValue(0);
@@ -155,9 +161,9 @@ void setup()
         break;
       default:
       case 's':
-        // reference
-        // float f = ((PI * 2) * t)/period;
-        // MCP.setValue(2047 + 2047 * sin(f));
+        //  reference
+        //  float f = ((PI * 2) * t)/period;
+        //  MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
         MCP.setValue(sine[idx]);   //  fetch from lookup table
@@ -172,4 +178,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

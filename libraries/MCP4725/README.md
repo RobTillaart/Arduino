@@ -24,6 +24,22 @@ The output of the MCP4725 depends on the voltage supplied, which is in the range
 of 2.7V .. 5.5V. Check datasheet for the details.
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/AD56x8 (multi channel)
+- https://github.com/RobTillaart/AD568X (single channel lower resolution)
+- https://github.com/RobTillaart/MCP_DAC (SPI interface)
+
+
 ## Interface
 
 ```cpp
@@ -33,11 +49,11 @@ of 2.7V .. 5.5V. Check datasheet for the details.
 ### Constructor
 
 - **MCP4725(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor, needs I2C address, optional set Wire bus
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** for ESP32. Returns true if connected.
-- **bool begin()** for UNO and other boards with hard wired I2C pins. 
+- **bool begin()** initializes internals.
+Returns false if address out of range.
 Returns true if deviceAddress can be found on the I2C bus.
 - **bool isConnected()** returns true if device (address) can be seen on the I2C bus.
-
+- **uint8_t getAddress())** returns address set in constructor.
 
 ### Base
 
@@ -71,12 +87,13 @@ If one know the specific timing of a sensor one can tune this or even make it ad
 (Since 0.3.8) 
 Assumes linear behaviour over 12 bit from 0..4095 == 0 .. maxVoltage.
 The default value is 5.0 volt.
-Allows sort of calibration e.g. setting maxVoltage to 4.9 Volt.
+Allows sort of calibration e.g. setting maxVoltage to 4.952 Volt.
 Furthermore it can be a preferred interface over percentage and raw values.
 
 - **void setMaxVoltage(float v = 5.0)** configures maximum voltage of Vout.
 - **float getMaxVoltage()** return set maximum.
 - **void setVoltage(float v)** set the DAC to voltage v.
+This maps the voltage to 0..4095 and calls **setValue()**
 - **float getVoltage()** get the current setting as a voltage
 
 If this behaviour is not precise enough or should be more "complex" the user can 
@@ -121,7 +138,7 @@ MCP4725A3T-E/CH:  0110 011U   0x66 - 0x67
 ```
 
 If one need more DAC's one might have a look at the MCP4728
-It has 4 channels per chip (no experience /library yet)
+It has 4 channels per chip (no experience / library yet)
 
 
 #### RP2040 specific
@@ -168,7 +185,7 @@ Note that other multiplexers do exist.
 Need to do more tests to see how this solution behaves in practice.  
 Verified to work - see https://forum.arduino.cc/t/using-digital-pins-to-control-two-mcp4725-modules/1161482/7.
 
-The assumption here is that the devices are all from the same address range.
+The assumption here is that the devices are all from the same address range (factory bits).
 
 You can control multiple MCP4725 over the hardware I2C bus with an extra IO pin per device.
 - Connect the address pin of every MCP4725 to an IO pin which will work as a **SELECT** pin.
@@ -188,10 +205,17 @@ You can control multiple MCP4725 over the hardware I2C bus with an extra IO pin 
 
 - test the powerDown modes / functions.
 - test A0 (address bit) as SELECT pin.
+- optimize
+  - voltage interface uses float divisions => store reciprocate?
+  - takes 2 extra floats.
 
 #### Could
 
 - extend unit tests
+
+#### Wont
+
+- MCP4725_VERSION ==> MCP4725_LIB_VERSION
 
 
 ## Support

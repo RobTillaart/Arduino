@@ -39,10 +39,14 @@ unittest_teardown()
 }
 
 
+//  MCP.begin() has blocking calls
+//  cannot be tested without stub
 unittest(test_constructor)
 {
   MCP4725 MCP(0x62);
   Wire.begin();
+
+  assertEqual(0x62, MCP.getAddress());
 
   assertEqual(0, MCP.getValue());
   assertEqual(0, MCP.getLastWriteEEPROM());
@@ -50,6 +54,13 @@ unittest(test_constructor)
   fprintf(stderr, "test start\n");
   assureTrue(MCP.isConnected());
   // assertTrue(MCP.begin());
+}
+
+
+unittest(test_invalid_address)
+{
+  MCP4725 MCP_F(0x22);
+  assertFalse(MCP_F.begin());
 }
 
 
@@ -102,4 +113,6 @@ unittest(test_writeDAC)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

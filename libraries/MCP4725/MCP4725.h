@@ -3,16 +3,15 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 //     URL: https://github.com/RobTillaart/MCP4725
-//
 
 
 #include "Wire.h"
 #include "Arduino.h"
 
 
-#define MCP4725_VERSION         (F("0.3.9"))
+#define MCP4725_VERSION         (F("0.4.0"))
 
 
 //  CONSTANTS
@@ -38,23 +37,12 @@
 class MCP4725
 {
 public:
+  //  address = 0x60..0x67
   explicit MCP4725(const uint8_t deviceAddress, TwoWire *wire = &Wire);
-
-#if defined(ESP8266) || defined(ESP32)
-
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-
-#endif
-
-#if defined (ARDUINO_ARCH_RP2040)
-
-  bool     begin(int sda, int scl);
-
-#endif
 
   bool     begin();
   bool     isConnected();
-
+  uint8_t  getAddress();
 
   //  uses writeFastMode
   int      setValue(const uint16_t value = 0);

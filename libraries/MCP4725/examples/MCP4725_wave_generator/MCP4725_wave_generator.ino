@@ -2,7 +2,6 @@
 //    FILE: MCP4725_wave_generator.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo function generators
-//    DATE: 2021-01-07
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 //  depending on the platform, the range of "smooth" sinus is limited.
@@ -42,17 +41,19 @@ uint16_t sine[361];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("MCP4725_VERSION: ");
+  Serial.println(MCP4725_VERSION);
 
+  Wire.begin();
+  //  Wire.setClock(3400000);
+  
   //  fill table
   for (int i = 0; i < 361; i++)
   {
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  Wire.begin();
-  // ESP32
-  // MCP.begin(27, 26);
-  // Wire.setClock(3400000);
   MCP.begin();
   Wire.setClock(800000);
 

@@ -15,6 +15,7 @@ TCA9555 TCA(0x27);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("TCA9555_LIB_VERSION: ");
   Serial.println(TCA9555_LIB_VERSION);
 
@@ -26,7 +27,7 @@ void setup()
   Serial.println("TEST digitalWrite(0)");
   for (int i = 0; i < 16; i++)
   {
-    TCA.digitalWrite(0, i % 2);  // alternating HIGH/LOW
+    TCA.digitalWrite(0, i % 2);  //  alternating HIGH/LOW
     Serial.print(i % 2);
     Serial.print('\t');
     delay(250);
@@ -37,7 +38,7 @@ void setup()
   Serial.println("TEST digitalWrite(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    TCA.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    TCA.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
     Serial.print(1 - pin % 2);
     Serial.print('\t');
   }
@@ -62,5 +63,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -15,6 +15,7 @@ TCA9555 TCA(0x27);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("TCA9555_LIB_VERSION: ");
   Serial.println(TCA9555_LIB_VERSION);
 
@@ -37,5 +38,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -52,6 +52,8 @@ unittest(test_constructor_TCA9555)
 {
   TCA9555 TCA(0x22);
 
+  Wire.begin();
+
   assertTrue(TCA.begin());
   assertTrue(TCA.isConnected());
   assertEqual(55, TCA.getType());
@@ -61,6 +63,8 @@ unittest(test_constructor_TCA9555)
 unittest(test_constructor_TCA9535)
 {
   TCA9535 TCA(0x22);
+
+  Wire.begin();
 
   assertTrue(TCA.begin());
   assertTrue(TCA.isConnected());
@@ -102,4 +106,6 @@ unittest(test_constants_II)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

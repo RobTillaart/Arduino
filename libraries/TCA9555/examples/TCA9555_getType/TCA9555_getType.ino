@@ -16,8 +16,11 @@ TCA9535 TCA1(0x21);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("TCA9555_LIB_VERSION: ");
   Serial.println(TCA9555_LIB_VERSION);
+
+  Wire.begin();
 
   Serial.println(TCA0.getType());
   Serial.println(TCA1.getType());
@@ -29,4 +32,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

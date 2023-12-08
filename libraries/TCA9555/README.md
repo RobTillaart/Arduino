@@ -18,7 +18,12 @@ Arduino library for TCA9555 16 channel I2C port expander.
 
 This library gives easy control over the 16 pins of a TCA9555 chip.
 
-The TCA9555 supports up to 400 kHz I2C.
+The pins can be used for input and output, and allow to set polarity.
+
+The pins can be set per pin, or with a mask to set either 8 or 16 pins
+in one call. 
+Note that for the 16 bit interface settings are not simultaneous as the
+16 bit interface does 2 calls to the 8 bit interface.
 
 
 #### TCA9535
@@ -33,11 +38,37 @@ There is a TCA9535 class which is a (convenience) wrapper around the TCA9555 cla
 This allows one to create TCA9535 objects. 
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCF8575
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08
+- https://github.com/RobTillaart/PCF8574
+
+
 ## Hardware
 
-#### I2C addresses
+#### I2C
 
 Allowed addresses are 0x20..0x27. to be set with pin A0, A1, A2.
+
+The TCA9555 supports up to 400 kHz I2C.
 
 
 ## Interface
@@ -54,11 +85,9 @@ Check the datasheet for details
 Can be overruled with Wire0..WireN.
 - **TCA9535(uint8_t address, TwoWire \*wire = &Wire)** idem.
 - **uint8_t getType()** returns 35 or 55 depending on type.
-
-
-- **bool begin()** for UNO, returns true if successful.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32, returns true if successful.
-- **bool isConnected()** returns true if connected, false otherwise.
+- **bool begin()** initializes library.
+Returns true if device can be seen on I2C bus, false otherwise.
+- **bool isConnected()** returns true if device can be seen on I2C bus, false otherwise.
 - **uint8_t getAddress()** returns set address, (debugging).
 
 
@@ -114,11 +143,6 @@ Reading it will reset the flag to **TCA9555_OK**.
 |  TCA9555_INVALID_READ  |  -100   |
 
 
-## Operation
-
-See examples
-
-
 ## Future
 
 
@@ -140,13 +164,13 @@ See examples
 #### Could
 
 - rethink class hierarchy
-  - TCA9535 has less functions so should be base class?
+  - TCA9535 has less functions so should be base class
 - valid address range?
 
 #### Wont (unless)
 
 - add TCA9535 error codes
-  - better reuse them?
+  - better reuse them?  ==> TCA95X5 codes
 
 
 ## Support

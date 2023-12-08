@@ -2,7 +2,6 @@
 //    FILE: AS5600_outmode_pwm_interrupt.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-05-28
 
 
 #include "AS5600.h"
@@ -57,4 +56,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

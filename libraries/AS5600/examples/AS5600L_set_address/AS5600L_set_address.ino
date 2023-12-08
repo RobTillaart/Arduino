@@ -2,7 +2,6 @@
 //    FILE: AS5600L_set_address.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-08-30
 
 
 #include "AS5600.h"
@@ -21,7 +20,7 @@ void setup()
   Wire.begin();
 
   ASL.begin(4);  //  set direction pin.
-  ASL.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
+  ASL.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
   int b = ASL.isConnected();
   Serial.print("Connect: ");
   Serial.println(b);
@@ -48,4 +47,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

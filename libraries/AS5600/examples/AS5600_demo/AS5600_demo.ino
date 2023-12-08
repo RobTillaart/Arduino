@@ -2,13 +2,12 @@
 //    FILE: AS5600_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-05-28
 
 
 #include "AS5600.h"
 #include "Wire.h"
 
-AS5600 as5600;   //  use default Wire
+AS5600L as5600;   //  use default Wire
 
 
 void setup()
@@ -17,12 +16,11 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
+  
+  Wire.begin();
 
-  //  ESP32
-  //  as5600.begin(14,15);
-  //  AVR
   as5600.begin(4);  //  set direction pin.
-  as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
+  as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
   int b = as5600.isConnected();
   Serial.print("Connect: ");
   Serial.println(b);
@@ -43,4 +41,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

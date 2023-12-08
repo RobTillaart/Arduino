@@ -19,9 +19,8 @@ void setup()
 
   Wire.begin();
 
-  //  as5600.begin(11, 12, 4);  //  test for STM32 or ESP32
   as5600.begin(4);  //  set direction pin.
-  as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
+  as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
 }
 
 
@@ -37,4 +36,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -55,56 +55,6 @@ AS5600::AS5600(TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-
-bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
-{
-  _directionPin = directionPin;
-  if (_directionPin != AS5600_SW_DIRECTION_PIN)
-  {
-    pinMode(_directionPin, OUTPUT);
-  }
-  setDirection(AS5600_CLOCK_WISE);
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  return true;
-}
-
-#endif
-
-
-#if defined (ARDUINO_ARCH_STM32)
-
-bool AS5600::begin(int dataPin, int clockPin, uint8_t directionPin)
-{
-  _directionPin = directionPin;
-  if (_directionPin != AS5600_SW_DIRECTION_PIN)
-  {
-    pinMode(_directionPin, OUTPUT);
-  }
-  setDirection(AS5600_CLOCK_WISE);
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->setSDA(dataPin);
-    _wire->setSCL(clockPin);
-    _wire->begin();
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  return true;
-}
-
-#endif
-
-
 bool AS5600::begin(uint8_t directionPin)
 {
   _directionPin = directionPin;
@@ -114,7 +64,6 @@ bool AS5600::begin(uint8_t directionPin)
   }
   setDirection(AS5600_CLOCK_WISE);
 
-  _wire->begin();
   if (! isConnected()) return false;
   return true;
 }

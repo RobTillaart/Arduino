@@ -4,7 +4,7 @@
 // PURPOSE: demo software direction control
 
 
-//  connect the DIR pin of teh AS5600 to GND
+//  connect the DIR pin of the AS5600 to GND
 
 
 #include "AS5600.h"
@@ -24,7 +24,7 @@ void setup()
   Wire.begin();
 
   as5600.begin();      //  set software direction control. default param = 255
-  as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
+  as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
 }
 
 
@@ -48,4 +48,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -13,7 +13,13 @@ AS5600L as5600;   //  use default Wire
 void setup()
 {
   Serial.begin(115200);
-  as5600.begin(14, 15);      //  ESP32
+  Serial.println(__FILE__);
+  Serial.print("AS5600_LIB_VERSION: ");
+  Serial.println(AS5600_LIB_VERSION);
+  
+  Wire.begin(14, 15);      //  ESP32
+
+  as5600.begin();
   as5600.setAddress(0x40);   //  AS5600L has address
 
   as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.

@@ -2,11 +2,11 @@
 //    FILE: AS5600_demo_two_I2C.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo two I2C busses
-//    DATE: 2023-03-07
 //
-//  Works only if Wire1 bus is present
+//  Works only if Wire1 bus is present e.g.
 //  - nano33 ble
 //  - teensy 4.1
+//  - RP2040
 
 
 #include "AS5600.h"
@@ -22,6 +22,9 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
+
+  Wire.begin();
+  Wire1.begin();
 
   as5600_0.begin(4);  //  set direction pin.
   as5600_0.setDirection(AS5600_CLOCK_WISE);

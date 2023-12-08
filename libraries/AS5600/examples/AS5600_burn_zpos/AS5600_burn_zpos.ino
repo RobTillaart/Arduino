@@ -2,7 +2,6 @@
 //    FILE: AS5600_burn_zpos.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (not tested yet - see issue #38)
-//    DATE: 2023-06-18
 
 
 //  WARNING
@@ -31,11 +30,10 @@ void setup()
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
 
-  //  ESP32
-  //  as5600.begin(14, 15);
-  //  AVR
+  Wire.begin();
+
   as5600.begin(4);  //  set direction pin.
-  as5600.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
+  as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
 
   if (as5600.isConnected())
   {
@@ -111,4 +109,4 @@ void burn_zpos()
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

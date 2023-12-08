@@ -36,6 +36,15 @@ or fluctuating power supply.
 Please share your experiences.
 
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related libraries
 
 - https://github.com/RobTillaart/Angle
@@ -159,11 +168,17 @@ When polling the AS5600 with an ESP32 to measure RPM an issue has been reported.
 See https://github.com/RobTillaart/AS5600/issues/28
 
 The problem is that the ESP32 can be blocking for up to one second if there is a
-problem in the connection with the sensor. Using **setWireTimeout()** does not seem
-to solve the problem (2023-01-31). In the issue the goal was to measure the turns 
-of a rotating device at around 3800 RPM. To do this one need roughly 1 angle measurement
-per 5 milliseconds. 
-which  
+problem in the connection with the sensor. 
+Using **setWireTimeout()** does not seem to solve the problem (2023-01-31). 
+In the issue the goal was to measure the turns of a rotating device at around 3800 RPM.
+
+3800 RPM == 64 rounds / second.
+
+To measure speed one need at least 3 angle measurements per rotation.
+This results in at least 192 measurements per second which is about 1 per 5 milliseconds.
+
+Given that the ESP32 can block for a second, it can not be guaranteed to be up to date.
+Not for speed, but also not for total number of rotations.
 
 
 ## Interface

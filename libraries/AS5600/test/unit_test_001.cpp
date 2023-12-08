@@ -111,6 +111,9 @@ unittest(test_constants_configuration)
 unittest(test_constructor)
 {
   AS5600 as5600;
+
+  Wire.begin();
+
   as5600.begin(4);
   assertTrue(as5600.isConnected());  //  keep CI happy
 
@@ -123,6 +126,9 @@ unittest(test_constructor)
 unittest(test_address)
 {
   AS5600 as5600;
+
+  Wire.begin();
+
   as5600.begin(4);
   assertEqual(0x36, as5600.getAddress());
 
@@ -139,6 +145,8 @@ unittest(test_address)
 unittest(test_hardware_direction)
 {
   AS5600 as5600;
+
+  Wire.begin();
 
   as5600.begin(4);
   assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
@@ -158,6 +166,8 @@ unittest(test_software_direction)
 {
   AS5600 as5600;
 
+  Wire.begin();
+
   as5600.begin(255);
   assertEqual(AS5600_CLOCK_WISE, as5600.getDirection());
 
@@ -175,6 +185,8 @@ unittest(test_software_direction)
 unittest(test_offset)
 {
   AS5600 as5600;
+
+  Wire.begin();
 
   as5600.begin();
 
@@ -202,6 +214,8 @@ unittest(test_failing_set_commands)
 {
   AS5600 as5600;
 
+  Wire.begin();
+
   as5600.begin();
 
   assertFalse(as5600.setZPosition(4096));
@@ -219,7 +233,7 @@ unittest(test_failing_set_commands)
 }
 
 
-// FOR REMAINING ONE NEED A STUB
+//  FOR REMAINING ONE NEED A STUB
 
 
 unittest_main()

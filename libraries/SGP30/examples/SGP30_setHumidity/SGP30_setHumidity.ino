@@ -21,22 +21,22 @@ void setup()
     delay(1);
     yield();
   };
-
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
+
   SGP.begin();
-
   Serial.println(SGP.setRelHumidity(21, 50), HEX);
-
   Serial.println();
 }
 
 
 void loop()
 {
-  SGP.measure(false);      // returns false if no measurement is made
+  SGP.measure(false);      //  returns false if no measurement is made
 
   if (count == 0)
   {
@@ -54,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

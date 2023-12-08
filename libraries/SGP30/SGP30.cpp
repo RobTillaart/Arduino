@@ -1,7 +1,7 @@
 //
 //    FILE: SGP30.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-06-24
 // PURPOSE: Arduino library for SGP30 environment sensor.
 //     URL: https://github.com/RobTillaart/SGP30
@@ -30,24 +30,8 @@ SGP30::SGP30(TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool SGP30::begin(uint8_t dataPin, uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool SGP30::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   _init();
   return true;
@@ -61,30 +45,30 @@ bool SGP30::isConnected()
 }
 
 
-//  INITIAL VERSION - needs optimization
 bool SGP30::getID()
 {
   _command(0x3682);
   delay(1);
-  if (_wire->requestFrom(_address, (uint8_t)9) == 9)
+  if (_wire->requestFrom(_address, (uint8_t)9) != 9)
   {
-    for (uint8_t i = 0, j = 0; i < 3; i++)
-    {
-      _id[j++] = _wire->read();
-      _id[j++] = _wire->read();
-      uint8_t crc = _wire->read();
-      uint16_t val = _id[j-2] * 256 + _id[j-1];
-      if (_CRC8(val) != crc)
-      {
-        _error = SGP30_ERROR_CRC;
-        return false;
-      }
-    }
-    _error = SGP30_OK;
-    return true;
+    _error = SGP30_ERROR_I2C;
+    return false;
   }
-  _error = SGP30_ERROR_I2C;
-  return false;
+  for (uint8_t i = 0; i < 6; )
+  {
+    _id[i++] = _wire->read();
+    _id[i++] = _wire->read();
+    uint8_t crc = _wire->read();
+    uint16_t val = _id[i-2] * 256 + _id[i-1];
+    if (_CRC8(val) != crc)
+    {
+      _error = SGP30_ERROR_CRC;
+      return false;
+    }
+  }
+  _error = SGP30_OK;
+  return true;
+
 }
 
 

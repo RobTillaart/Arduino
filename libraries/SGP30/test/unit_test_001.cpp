@@ -52,6 +52,7 @@ unittest(test_constructor)
 {
   SGP30 SGP;
 
+  Wire.begin();
   assertTrue(SGP.begin());
   assertTrue(SGP.isConnected());
 
@@ -71,7 +72,8 @@ unittest(test_constants)
 unittest(test_defaults_core)
 {
   SGP30 SGP;
-
+  
+  Wire.begin();
   assertEqual(0x00, SGP.getCO2());
   assertEqual(0x00, SGP.getTVOC());
   assertEqual(0x00, SGP.getH2_raw());
@@ -85,6 +87,7 @@ unittest(test_sref_H2)
 {
   SGP30 SGP;
 
+  Wire.begin();
   assertEqual(13119, SGP.getSrefH2());
 
   SGP.setSrefH2(0);
@@ -102,6 +105,7 @@ unittest(test_sref_Ethanol)
 {
   SGP30 SGP;
 
+  Wire.begin();
   assertEqual(18472, SGP.getSrefEthanol());
 
   SGP.setSrefEthanol(0);

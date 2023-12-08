@@ -2,7 +2,6 @@
 //    FILE: SGP30_I2C_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SGP30
-//    DATE: 2021-06-25
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
 
@@ -22,9 +21,12 @@ void setup()
     yield();
   };
 
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   Serial.print("BEGIN:\t");
   Serial.println(SGP.begin());
@@ -33,7 +35,7 @@ void setup()
 
   delay(1000);
 
-  // has 12 millisecond delay build in...
+  //  has 12 millisecond delay build in...
   Serial.println("\nMEASURE()");
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
@@ -47,7 +49,8 @@ void setup()
     delay(1000);
   }
 
-  // has 40 millisecond delay build in...
+
+  //  has 40 millisecond delay build in...
   Serial.println("\nMEASURE()");
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
@@ -75,6 +78,7 @@ void setup()
     delay(1000);
   }
 
+
   Serial.println("\nREAD()");
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
@@ -96,5 +100,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

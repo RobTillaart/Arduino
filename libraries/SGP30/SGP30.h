@@ -2,7 +2,7 @@
 //
 //    FILE: SGP30.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-06-24
 // PURPOSE: Arduino library for SGP30 environment sensor.
 //     URL: https://github.com/RobTillaart/SGP30
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define SGP30_LIB_VERSION               (F("0.2.1"))
+#define SGP30_LIB_VERSION               (F("0.3.0"))
 
 #define SGP30_OK                        0x00
 #define SGP30_ERROR_CRC                 0xFF
@@ -24,9 +24,6 @@ class SGP30
 public:
   explicit SGP30(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
   //  WARNING resets all I2C devices that support this call !!

@@ -2,13 +2,11 @@
 //    FILE: SGP30_baseline.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SGP30
-//    DATE: 2021-06-25
 //     URL: https://github.com/RobTillaart/SGP30
 //          https://www.adafruit.com/product/3709
 
 
 #include "SGP30.h"
-
 
 SGP30 SGP;
 
@@ -23,9 +21,12 @@ void setup()
     yield();
   };
 
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   SGP.begin();
 }
@@ -33,7 +34,7 @@ void setup()
 
 void loop()
 {
-  SGP.measure(true);      // returns false if no measurement is made
+  SGP.measure(true);      //  returns false if no measurement is made
 
   if (count == 0)
   {
@@ -67,4 +68,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

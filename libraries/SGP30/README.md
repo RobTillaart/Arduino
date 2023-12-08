@@ -34,6 +34,15 @@ Note: the sync interface is implemented with the async interface.
 Note: versions prior to 0.2.0 are obsolete due to a bug in **setBaseline()**.
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Sample frequency
 
 The CO2 and TVOC values can be read up to once per second (1 Hz). 
@@ -70,11 +79,20 @@ or switch the VCC as a sort of ChipSelect signal.
 - https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
 
 
-#### Links
+#### Related
 
-- https://www.adafruit.com/product/3709 - the sensor.
+CO2 sensors and more. 
+
+- https://www.adafruit.com/product/3709 - the SGP30 sensor.
+- https://emariete.com/en/sensor-co2-mh-z19b/
+- https://emariete.com/en/sensor-co2-low-consumption-mh-z1311a-winsen/
+- https://revspace.nl/MHZ19
 - https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
 - https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
+- https://github.com/RobTillaart/ACD10
+- https://github.com/RobTillaart/MTP40C
+- https://github.com/RobTillaart/MTP40F
+- https://github.com/RobTillaart/Cozir
 
 
 ## Interface
@@ -86,9 +104,9 @@ or switch the VCC as a sort of ChipSelect signal.
 #### Constructor
 
 - **SGP30(TwoWire \*wire = &Wire)** Constructor with optional the Wire interface as parameter.
-- **bool begin()** starts the I2C bus and returns true if the device address 0x58 is visible on the I2C bus.
-- **bool begin(uint8_t sda, uint8_t scl)** idem, for the ESP32 where one can choose the I2C pins.
-- **bool isConnected()** checks if the address 0x58 is visible on the I2C bus.
+- **bool begin()** initializes the library.
+Returns true if the (fixed) device address 0x58 is visible on the I2C bus.
+- **bool isConnected()** checks if the device address 0x58 is visible on the I2C bus.
 - **void GenericReset()** WARNING resets all I2C devices on the bus that support this call!
 
 
@@ -198,11 +216,9 @@ The used references are based upon
 
 ## Future
 
-
 #### Must
 
 - improve documentation
-
 
 #### Should
 
@@ -210,11 +226,8 @@ The used references are based upon
   - different boards
   - different gasses / atmosphere if possible.
 
-
 #### Could
 
-- redo **getID()**
-- make defines for the magic numbers (commands)
 - move code from .h to .cpp
 - improve/merge the private **command()** function
 - add/extend error handling
@@ -222,10 +235,12 @@ The used references are based upon
 
 The CRC checking + error handling (since 0.1.4) adds around 330 bytes PROGMEM on an UNO.
 There might be a need for a minimal class that only reads CO2 and TVOC, no baselines etc.
-for the smallest platforms. 
+for the smallest platforms e.g. tiny.
 
+#### Wont (unless)
 
-#### Wont
+- make defines for the magic numbers (commands)
+  - only used once.
 
 
 ## Support

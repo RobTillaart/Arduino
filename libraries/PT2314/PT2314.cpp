@@ -2,7 +2,7 @@
 //    FILE: PT2314.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -12,36 +12,12 @@
 
 PT2314::PT2314(TwoWire *wire)
 {
-  _wire       = wire;
+  _wire = wire;
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool PT2314::begin(int dataPin, int clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  setChannel();
-  setMute();
-  setLoudness();
-  setVolume();
-  setBass();
-  setTreble();
-  setGain();
-  //  setAttn(31,31);  //  already muted
-  return true;
-}
-#endif
 
 
 bool PT2314::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   setChannel();
   setMute();
@@ -50,7 +26,7 @@ bool PT2314::begin()
   setBass();
   setTreble();
   setGain();
-  //  setAttn(31,31);  //  already muted
+  //  setAttn(31, 31);  //  already muted
   return true;
 }
 
@@ -131,7 +107,7 @@ uint8_t PT2314::getVolume()
 void PT2314::setBass(int8_t bass)
 {
   if (bass < -14) bass = -14;
-  if (bass > 14) bass = 14;
+  if (bass >  14) bass = 14;
   _bass = bass;
   uint8_t value;
   if (_bass <= 0) value = 7  + (_bass / 2);
@@ -149,7 +125,7 @@ int8_t PT2314::getBass()
 void PT2314::setTreble(int8_t treble)
 {
   if (treble < -14) treble = -14;
-  if (treble > 14) treble = 14;
+  if (treble >  14) treble = 14;
   _treble = treble;
   uint8_t value;
   if (_treble <= 0) value = 7  + (_treble / 2);
@@ -206,11 +182,12 @@ uint8_t PT2314::getAttnRight()
 }
 
 
-void PT2314::setAttn(uint8_t attnLeft, uint8_t attnRight)
+void PT2314::setAttn(uint8_t attn)
 {
-  setAttnLeft(attnLeft);
-  setAttnRight(attnRight);
+  setAttnLeft(attn);
+  setAttnRight(attn);
 }
+
 
 
 
@@ -327,6 +304,15 @@ void PT7313::setAttnRightFront(uint8_t value)
 uint8_t PT7313::getAttnRightFront()
 {
   return _attnRightFront;
+}
+
+
+void PT7313::setAttn(uint8_t attn)
+{
+  setAttnLeft(attn);
+  setAttnRight(attn);
+  setAttnLeftFront(attn);
+  setAttnRightFront(attn);
 }
 
 

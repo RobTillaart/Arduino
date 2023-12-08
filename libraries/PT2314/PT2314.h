@@ -3,7 +3,7 @@
 //    FILE: PT2314.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PT2314_LIB_VERSION                   (F("0.1.2"))
+#define PT2314_LIB_VERSION                   (F("0.2.0"))
 
 
 class PT2314
@@ -20,9 +20,6 @@ class PT2314
 public:
   PT2314(TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(int sda, int scl);
-#endif
   bool    begin();
   bool    isConnected();
 
@@ -42,14 +39,18 @@ public:
   void    setTreble(int8_t treble = 0);   //  -14..14
   int8_t  getTreble();
 
+  //      GAIN
   void    setGain(uint8_t gain = 0);      //  0..3
   uint8_t getGain();
 
+  //      ATTENUATION
   void    setAttnLeft(uint8_t value = 31);  //  0..31
   uint8_t getAttnLeft();
   void    setAttnRight(uint8_t value = 31);  //  0..31
   uint8_t getAttnRight();
-  void    setAttn(uint8_t attnLeft, uint8_t attnRight);
+
+  //  set all to same level
+  void    setAttn(uint8_t attn);
 
 
 protected:
@@ -72,6 +73,7 @@ protected:
   int      _error     = 0;
 };
 
+
 ///////////////////////////////////////////////////////////////
 //
 //  DERIVED
@@ -92,14 +94,20 @@ public:
   void    setMute(bool on);
   void    setChannel(uint8_t channel = 0);        //  0..2
 
+  //  BACK
   void    setAttnLeftBack(uint8_t value = 31);    //  0..31
   uint8_t getAttnLeftBack();
   void    setAttnRightBack(uint8_t value = 31);   //  0..31
   uint8_t getAttnRightBack();
+
+  //  FRONT
   void    setAttnLeftFront(uint8_t value = 31);   //  0..31
   uint8_t getAttnLeftFront();
   void    setAttnRightFront(uint8_t value = 31);  //  0..31
   uint8_t getAttnRightFront();
+
+  //  ALL
+  void    setAttn(uint8_t attn);
 
 protected:
   uint8_t  _attnLeftFront  = 0;

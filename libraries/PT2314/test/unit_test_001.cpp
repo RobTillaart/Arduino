@@ -57,13 +57,14 @@ unittest_teardown()
 {
 }
 
-
+//  not testable withour proper mock-up
 unittest(test_constructor)
 {
   PT2314 pt2;
+  PT7313 pt3;
   PT7314 pt7;
 
-  assertEqual(1,1);
+  assertEqual(1, 1);
 }
 
 

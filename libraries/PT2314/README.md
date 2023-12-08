@@ -35,9 +35,24 @@ It is used in automotive to control front and back speakers.
 |    PT7314   |    4     |    1      |  V1.0 Jan,  2010  |
 |    PT7313   |    3     |    2      |  V1.0 feb,  2010  |
 
+
+|  processor  |  volume  |  attn   |  gain  |  bass     |  treble   |
+|:-----------:|:--------:|:-------:|:------:|:---------:|:---------:|
+|    PT2314   |   0..63  |  0..31  |  0..3  |  -14..14  |  -14..14  |
+|    PT7314   |   0..63  |  0..31  |  0..3  |  -14..14  |  -14..14  |
+|    PT7313   |   0..63  |  0..31  |  0..3  |  -14..14  |  -14..14  |
+
+
 Feedback as always, is welcome.
 
-The library is based upon Datasheet: PT2314 V1.4 July, 2005
+
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
 
 
 #### I2C
@@ -50,8 +65,24 @@ The library is based upon Datasheet: PT2314 V1.4 July, 2005
 
 
 Note: Datasheet PT7314 states that the device needs at least 50 ms 
-to wake up before it can process I2C commands. So one might need
-to give it some time to get started.
+to wake up before it can process I2C commands. 
+So one might need to give it some time to get started.
+
+
+#### Multiplexing
+
+If you want to put more than one PT2314 on an I2C bus you need an 
+I2C multiplexer as the device has a fixed address.
+
+See https://github.com/RobTillaart/TCA9548
+
+(not tested, feedback welcome).
+
+
+#### Related
+
+- https://github.com/RobTillaart/HC4052 (multiplexer for more inputs)
+- https://github.com/RobTillaart/TCA9548 (I2C multiplexer)
 
 
 ## Interface PT2314 PT7314
@@ -63,10 +94,11 @@ to give it some time to get started.
 #### Constructors
 
 - **PT2314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
+- **PT7313(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
 - **PT7314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
-- **bool begin(int sda, int scl)** for ESP32 et al.
-- **bool begin()** other platforms.
-- **bool isConnected()** device (0x44) can be seen on I2C bus.
+- **bool begin()** initialized library.
+Returns true if device can be seen on the I2C bus.
+- **bool isConnected()** returns true if device (0x44) can be seen on I2C bus.
 
 #### Channel
 
@@ -111,13 +143,15 @@ CHeck datasheet for mapping.
 - **uint8_t getAttnLeft()** get current left attenuation level.
 - **void setAttnRight(uint8_t value = 31)** set the right attenuation from 0..31.
 - **uint8_t getAttnRight()** get current right attenuation level.
-- **void setAttn(uint8_t attnLeft, uint8_t attnRight)** set both in one call.
-Convenience function.
+- **void setAttn(uint8_t attn)** set all channels in one call.
+
 
 Formula attenuation:
 ```cpp
 Attn = value * -1.25;  //  dB  0..-37.50,  31 ==> MUTE.
 ```
+
+----
 
 ## Interface PT7313
 
@@ -125,13 +159,14 @@ Attn = value * -1.25;  //  dB  0..-37.50,  31 ==> MUTE.
 #include "PT2314.h"
 ```
 
-Additional constructor:
-- **PT7313(TwoWire \*wire = &Wire)** constructor.
+#### Additional
 
+- **PT7313(TwoWire \*wire = &Wire)** constructor.
 - **void setMute(bool on)** idem, four channel version.
 - **void setChannel(uint8_t channel = 0)** idem, 0..2.
   
-Additional attenuation:
+#### PT7313 attenuation
+
 - **void setAttnLeftBack(uint8_t value = 31)** idem, 0..31.
 - **uint8_t getAttnLeftBack()** get current level.
 - **void setAttnRightBack(uint8_t value = 31)** idem, 0..31
@@ -151,9 +186,6 @@ Additional attenuation:
 
 #### Should
 
-- investigate **setAttn(value)** function for all channels.
-  - better also for the 7313
-  - 0.2.0 ==> remove the setAttn(left, right) ?
 - add more examples.
 - check parameters range:  0..63 => -63..0?
   - some are in dB others not.

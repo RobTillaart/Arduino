@@ -83,9 +83,11 @@ unittest(test_constants_2)
 
 unittest(test_begin)
 {
-  SHT31 sht;
+  SHT31 sht(0x44);
 
-  bool b = sht.begin(0x44);
+  Wire.begin();
+
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.reset());
@@ -107,8 +109,11 @@ unittest(test_begin)
 
 unittest(test_read)
 {
-  SHT31 sht;
-  bool b = sht.begin(0x44);
+  SHT31 sht(0x44);
+
+  Wire.begin();
+
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.isConnected());
@@ -137,8 +142,11 @@ unittest(test_read)
 
 unittest(test_readStatus)
 {
-  SHT31 sht;
-  bool b = sht.begin(0x44);
+  SHT31 sht(0x44);
+
+  Wire.begin();
+
+  bool b = sht.begin();
   assertEqual(b, true);
   
   assertEqual(0xFFFF, sht.readStatus());
@@ -149,8 +157,11 @@ unittest(test_readStatus)
 
 unittest(test_heater)
 {
-  SHT31 sht;
-  bool b = sht.begin(0x44);
+  SHT31 sht(0x44);
+
+  Wire.begin();
+
+  bool b = sht.begin();
   assertEqual(b, true);
   
   assertTrue(sht.heatOn());
@@ -169,8 +180,11 @@ unittest(test_heater)
 
 unittest(test_async)
 {
-  SHT31 sht;
-  bool b = sht.begin(0x44);
+  SHT31 sht(0x44);
+
+  Wire.begin();
+
+  bool b = sht.begin();
   assertEqual(b, true);
   
   assertTrue(sht.requestData());
@@ -197,4 +211,4 @@ unittest(test_async)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE -- 

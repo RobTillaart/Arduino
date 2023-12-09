@@ -10,7 +10,7 @@
 
 #define SHT31_ADDRESS   0x44
 
-SHT31 sht;
+SHT31 sht(SHT31_ADDRESS);
 uint16_t status;
 
 
@@ -22,10 +22,10 @@ void setup()
   Serial.println(SHT31_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(SHT31_ADDRESS);
   Wire.setClock(100000);
+  sht.begin();
 
-  sht.setHeatTimeout(30);  // heater timeout 30 seconds, just for demo.
+  sht.setHeatTimeout(30);  //  heater timeout 30 seconds, just for demo.
 
   status = sht.readStatus();
   printHeaterStatus(status);
@@ -47,7 +47,7 @@ void setup()
 
 void loop()
 {
-  // forced switch off
+  //  forced switch off
   if (status & SHT31_STATUS_HEATER_ON) sht.heatOff();
 }
 
@@ -65,5 +65,5 @@ void printHeaterStatus(uint16_t status)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

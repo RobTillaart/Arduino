@@ -14,7 +14,7 @@ uint32_t start;
 uint32_t stop;
 uint32_t cnt;
 
-SHT31 sht;
+SHT31 sht(SHT31_ADDRESS);  //  uses explicit address
 
 
 void setup()
@@ -25,8 +25,8 @@ void setup()
   Serial.println(SHT31_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(SHT31_ADDRESS);
   Wire.setClock(100000);
+  sht.begin();
 
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
@@ -45,9 +45,9 @@ void loop()
   if (sht.dataReady())
   {
     start = micros();
-    bool success  = sht.readData();   // default = true = fast
+    bool success  = sht.readData();   //  default = true = fast
     stop = micros();
-    sht.requestData();                // request for next sample
+    sht.requestData();                //  request for next sample
 
     Serial.print("\t");
     Serial.print(stop - start);
@@ -62,19 +62,23 @@ void loop()
       rawHumidity = sht.getRawHumidity();
       Serial.print(rawTemperature, HEX);
       Serial.print(" = ");
-      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1); // This formula comes from page 14 of the SHT31 datasheet
+
+      //  This formula comes from page 14 of the SHT31 datasheet
+      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1); 
       Serial.print("°C\t");
       Serial.print(sht.getRawHumidity(), HEX);
       Serial.print(" = ");
-      Serial.print(rawHumidity * (100.0 / 65535), 1); // This formula comes from page 14 of the SHT31 datasheet
+      
+      //  This formula comes from page 14 of the SHT31 datasheet
+      Serial.print(rawHumidity * (100.0 / 65535), 1); 
       Serial.print("%\t");
       Serial.println(cnt);
       cnt = 0;
     }
   }
-  cnt++; // simulate other activity
+  cnt++;  //  simulate other activity
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -40,24 +40,43 @@ A derived class for using the SHT31 sensor with SoftWire (soft I2C) can be found
 - https://github.com/RobTillaart/SHT31_SW
 
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/SHT31
+- https://github.com/RobTillaart/SHT31_SW
+- https://github.com/RobTillaart/SHT31_SWW
+- https://github.com/RobTillaart/SHT85
+
+
 ## Interface
 
 ```cpp
 #include "SHT31.h"
 ```
 
+#### Constructor
 
-#### Base interface
-
-- **SHT31(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
-- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266 & ESP32;
-returns false if device address is incorrect or device cannot be reset.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. With default SHT_DEFAULT_ADDRESS.
-- **bool begin(uint8_t address = SHT_DEFAULT_ADDRESS)** 
+- **SHT31(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor. 
+Optional select address and the I2C bus (Wire, Wire1 etc).
+- **bool begin()** 
 Returns false if device address is incorrect or device cannot be reset.
+- **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
+- **uint8_t getAddress()** returns address set in the constructor.
+
+
+#### Read
+
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
-- **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
 - **uint16_t readStatus()** details see datasheet and **Status fields** below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
 - **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if it fails.

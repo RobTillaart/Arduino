@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -26,10 +26,10 @@
 #define SHT31_HEATER_TIMEOUT    180000UL   //  milliseconds
 
 
-SHT31::SHT31(TwoWire *wire)
+SHT31::SHT31(uint8_t address, TwoWire *wire)
 {
   _wire           = wire;
-  _address        = 0;
+  _address        = address;
   _lastRead       = 0;
   _rawTemperature = 0;
   _rawHumidity    = 0;
@@ -41,41 +41,28 @@ SHT31::SHT31(TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool SHT31::begin(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
+bool SHT31::begin()
 {
-  if ((address != 0x44) && (address != 0x45))
+  if ((_address != 0x44) && (_address != 0x45))
   {
     return false;
-  }
-  _address = address;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
   }
   return reset();
 }
 
 
-bool SHT31::begin(const uint8_t dataPin, const uint8_t clockPin)
+bool SHT31::isConnected()
 {
-  return begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
+  _wire->beginTransmission(_address);
+  int rv = _wire->endTransmission();
+  if (rv != 0) _error = SHT31_ERR_NOT_CONNECT;
+  return (rv == 0);
 }
-#endif
 
 
-bool SHT31::begin(const uint8_t address)
+uint8_t SHT31::getAddress()
 {
-  if ((address != 0x44) && (address != 0x45))
-  {
-    return false;
-  }
-  _address = address;
-  _wire->begin();
-  return reset();
+  return _address;
 }
 
 
@@ -89,14 +76,6 @@ bool SHT31::read(bool fast)
   return readData(fast);
 }
 
-
-bool SHT31::isConnected()
-{
-  _wire->beginTransmission(_address);
-  int rv = _wire->endTransmission();
-  if (rv != 0) _error = SHT31_ERR_NOT_CONNECT;
-  return (rv == 0);
-}
 
 #ifdef doc
 //  bit - description

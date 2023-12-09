@@ -13,7 +13,7 @@
 
 
 // TwoWire myWire(&sercom5, 0, 1);
-TwoWire myWire = Wire1;       // test.
+TwoWire myWire = Wire1;       //  test.
 
 
 // note: address reuse on second I2C bus
@@ -23,10 +23,10 @@ TwoWire myWire = Wire1;       // test.
 #define SHT31_ADDRESS_4   0x45
 
 
-SHT31 sht_1(&Wire);
-SHT31 sht_2(&Wire);
-SHT31 sht_3(&myWire);
-SHT31 sht_4(&myWire);
+SHT31 sht_1(SHT31_ADDRESS_1, &Wire);
+SHT31 sht_2(SHT31_ADDRESS_2, &Wire);
+SHT31 sht_3(SHT31_ADDRESS_3, &myWire);
+SHT31 sht_4(SHT31_ADDRESS_4, &myWire);
 
 
 bool b1, b2, b3, b4;
@@ -44,16 +44,16 @@ void setup()
   myWire.begin();
   myWire.setClock(100000);
 
-  // see datasheet for details
-//  pinPeripheral(0, PIO_SERCOM_ALT);
-//  pinPeripheral(1, PIO_SERCOM_ALT);
+  //  see datasheet for details
+  //  pinPeripheral(0, PIO_SERCOM_ALT);
+  //  pinPeripheral(1, PIO_SERCOM_ALT);
 
-  b1 = sht_1.begin(SHT31_ADDRESS_1);
-  b2 = sht_2.begin(SHT31_ADDRESS_2);
-  b3 = sht_3.begin(SHT31_ADDRESS_3);
-  b4 = sht_4.begin(SHT31_ADDRESS_4);
+  b1 = sht_1.begin();
+  b2 = sht_2.begin();
+  b3 = sht_3.begin();
+  b4 = sht_4.begin();
 
-  // see if they are connected
+  //  see if they are connected
   Serial.print("BEGIN:\t");
   Serial.print(b1);
   Serial.print("\t");
@@ -69,7 +69,7 @@ void setup()
 
 void loop()
 {
-  // read all sensors that are found
+  //  read all sensors that are found
   if (b1) sht_1.read();
   if (b2) sht_2.read();
   if (b3) sht_3.read();
@@ -96,4 +96,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

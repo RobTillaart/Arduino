@@ -2,7 +2,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT31_LIB_VERSION             (F("0.4.0"))
+#define SHT31_LIB_VERSION             (F("0.5.0"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS           0x44
@@ -44,20 +44,16 @@
 class SHT31
 {
 public:
-  SHT31(TwoWire *wire = &Wire);
+  SHT31(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32)
-  bool begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin);
-  //  use SHT_DEFAULT_ADDRESS
-  bool begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
-  bool begin(const uint8_t address = SHT_DEFAULT_ADDRESS);
-
-  //  blocks 15 milliseconds + actual read + math
-  bool read(bool fast = true);
+  bool    begin();
+  uint8_t getAddress();
 
   //  check sensor is reachable over I2C
   virtual bool isConnected();
+
+  //  blocks 15 milliseconds + actual read + math
+  bool read(bool fast = true);
 
   //  details see datasheet; summary in SHT31.cpp file
   uint16_t readStatus();
@@ -92,18 +88,16 @@ public:
   int getError();  //  clears error flag
 
 protected:
-  uint8_t   _address;
-  uint8_t   _heatTimeout;   //  seconds
-  uint32_t  _lastRead;
-  uint32_t  _lastRequest;   //  for async interface
-  uint32_t  _heaterStart;
-  uint32_t  _heaterStop;
-  bool      _heaterOn;
-
+  uint8_t  _address;
+  uint8_t  _heatTimeout;   //  seconds
+  uint32_t _lastRead;
+  uint32_t _lastRequest;   //  for async interface
+  uint32_t _heaterStart;
+  uint32_t _heaterStop;
+  bool     _heaterOn;
   uint16_t _rawHumidity;
   uint16_t _rawTemperature;
-
-  uint8_t _error;
+  uint8_t  _error;
 
 private:
   uint8_t crc8(const uint8_t *data, uint8_t len);

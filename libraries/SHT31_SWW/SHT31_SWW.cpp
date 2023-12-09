@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31_SWW.cpp
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+//  AUTHOR: Rob Tillaart, Gunter Haug
+// VERSION: 0.2.0
 //    DATE: 2019-02-08 (base SHT31 lib)
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          to be used with the SoftwareWire library instead of (hardware) Wire.
@@ -29,10 +29,10 @@
 #define SHT31_HEATER_TIMEOUT    180000UL   //  milliseconds
 
 
-SHT31_SWW::SHT31_SWW()
+SHT31_SWW::SHT31_SWW(uint8_t address,  SoftwareWire * wire)
 {
-  _softwareWire   = NULL;
-  _address        = 0;
+  _address        = address;
+  _softwareWire   = wire;
   _lastRead       = 0;
   _rawTemperature = 0;
   _rawHumidity    = 0;
@@ -44,22 +44,14 @@ SHT31_SWW::SHT31_SWW()
 }
 
 
-bool SHT31_SWW::begin(const uint8_t address,  SoftwareWire * wire)
+bool SHT31_SWW::begin()
 {
-  if ((address != 0x44) && (address != 0x45))
+  if ((_address != 0x44) && (_address != 0x45))
   {
     return false;
   }
-  _address  = address;
-  _softwareWire = wire;
   _softwareWire->begin();
   return reset();
-}
-
-
-bool SHT31_SWW::begin(SoftwareWire * wire)
-{
-  return begin(SHT_DEFAULT_ADDRESS, wire);
 }
 
 

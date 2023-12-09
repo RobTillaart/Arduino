@@ -62,7 +62,13 @@ Accuracy table
 
 
 
-#### Links
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change in constructor and begin().
+Parameters have moved from begin() to the constructor.
+
+
+#### Related
 
 These libraries need to be installed to get SHT31_SW working:
 

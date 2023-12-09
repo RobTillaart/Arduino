@@ -14,7 +14,7 @@ SoftwareWire sw(6, 7);
 uint32_t start;
 uint32_t stop;
 
-SHT31_SWW sht;
+SHT31_SWW sht(SHT31_ADDRESS, &sw);
 
 
 void setup()
@@ -25,10 +25,10 @@ void setup()
   Serial.println(SHT31_SWW_LIB_VERSION);
 
   sw.begin();
-  bool b = sht.begin(SHT31_ADDRESS, &sw);
+  //  sw.setClock(50000);
+  bool b = sht.begin();
   Serial.print("CON: ");
   Serial.println(b);
-  // sw.setClock(50000);
 
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);

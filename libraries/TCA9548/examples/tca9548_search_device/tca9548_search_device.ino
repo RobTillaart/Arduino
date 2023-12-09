@@ -9,7 +9,8 @@
 
 TCA9548 MP(0x70);
 
-uint8_t searchAddress = 0x38;   //  dummy, adjust to your needs.
+//  0x38 is a dummy (in fact a PCF8574), adjust to your needs.
+uint8_t searchAddress = 0x38;
 
 
 void setup()

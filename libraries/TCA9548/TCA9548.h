@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9548.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 //     URL: https://github.com/RobTillaart/TCA9548
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define TCA9548_LIB_VERSION             (F("0.1.6"))
+#define TCA9548_LIB_VERSION             (F("0.2.0"))
 
 
 //  ERROR CODES (to be elaborated)
@@ -26,11 +26,8 @@ class TCA9548
 {
 public:
   //  deviceAddress = 0x70 .. 0x77
-  TCA9548(const uint8_t deviceAddress, TwoWire *wire = &Wire);
+  TCA9548(uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool    begin(uint8_t dataPin, uint8_t clockPin, uint8_t mask = 0x00);  //  default no channels enabled
-#endif
   bool    begin(uint8_t mask = 0x00);         //  default no channels enabled
   bool    isConnected();                      //  find multiplexer on I2C bus
   bool    isConnected(uint8_t address);       //  find any address on I2C bus
@@ -58,13 +55,25 @@ public:
   int     getError();
 
 
-private:
+protected:
   uint8_t   _address;
   TwoWire*  _wire;
   uint8_t   _mask;             //  caching mask = status of channels
   uint8_t   _resetPin;         //  default not set == -1 (255)
   bool      _forced;
   int       _error;
+  //  uint8_t   _channels;     //  future PCA954x support.
+};
+
+
+/////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
+class PCA9548 : public TCA9548
+{
+public:
+  PCA9548(uint8_t deviceAddress, TwoWire *wire = &Wire);
 };
 
 

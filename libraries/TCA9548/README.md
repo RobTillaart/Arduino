@@ -32,6 +32,15 @@ The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Compatible devices
 
 This library is expected to work for the PCA9548(a) too as the TCA is pin compatible newer version.
@@ -43,10 +52,20 @@ This library is expected to work for the PCA9548(a) too as the TCA is pin compat
 |  PCA9548a  |    n     |
 
 
+
 There are however small differences, check the data sheets to see the details.
 - [difference TCA PCA](https://e2e.ti.com/support/interface-group/interface/f/interface-forum/815758/faq-what-is-the-difference-between-an-i2c-device-with-the-family-name-pca-and-tca)
 - https://electronics.stackexchange.com/questions/209616/is-nxps-pca9548a-compatible-with-tis-tca9548a
 - https://www.nxp.com/docs/en/application-note/AN262.pdf
+
+
+
+#### Related
+
+- https://github.com/RobTillaart/HC4051  (1x8 mux)
+- https://github.com/RobTillaart/HC4052  (2x4 mux)
+- https://github.com/RobTillaart/HC4053  (3x2 mux)
+- https://github.com/RobTillaart/HC4067  (1x16 mux)
 
 
 ## Interface
@@ -63,6 +82,12 @@ deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 Set mask of channels to be enabled, default all disabled.
 - **bool begin(uint8_t mask = 0x00)**  set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
+
+
+The derived class PCA9548 has same interface, except constructor.
+
+- **PCA9548(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
+deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 
 
 #### Find device
@@ -120,6 +145,27 @@ Not implemented yet, preparation for 0.2.0.
 
 ## Future
 
+#### PCA954X family
+
+To investigate if these can be made in one derived class tree.
+
+|  chip     |  address  |  channel  |  interrupt  |  reset  |  notes  |
+|:---------:|:---------:|:---------:|:-----------:|:-------:|:-------:|
+|  PCA9540  |     -     |     2     |             |         |  address programmable
+|  PCA9641  |  4 pins   |     2     |             |         |  master selector
+|  PCA9542  |  3 pins   |     2     |   Y         |         |
+|  PCA9543  |  2 pins   |     2     |   Y         |    Y    |
+|  PCA9544  |  3 pins   |     4     |   Y         |         |
+|  PCA9545  |  2 pins   |     4     |   Y         |    Y    |
+|  PCA9546  |  3 pins   |     4     |             |    Y    |
+|  PCA9548  |  3 pins   |     8     |             |    Y    |  equals TCA9648 
+
+- Most could work if a "channels" was defined and if internals are enough similar.
+- RESET pin is supported in TCA9548
+- INT is more a user code issue.
+- might need a **type()**?
+
+
 #### Must
 
 - improve documentation.
@@ -132,6 +178,7 @@ Not implemented yet, preparation for 0.2.0.
 - write unit test.
 - create derived classes for compatible devices (0.2.0).
   - see above PCA9548 and PCA9548a.
+- investigate support derived classes
 
 
 #### Could

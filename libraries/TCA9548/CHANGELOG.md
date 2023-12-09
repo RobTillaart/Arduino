@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-12-09
+- refactor API, begin()
+- update readme.md
+- add derived class PCA9548
+
+----
+
 ## [0.1.6] - 2023-11-22
 - update readme.md
 - update keywords.txt
-
 
 ## [0.1.5] - 2023-02-12
 - fix #8 ambiguity

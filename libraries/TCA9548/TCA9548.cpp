@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2021-03-16
 // PURPOSE: Library for TCA9548 I2C multiplexer
 
@@ -9,7 +9,7 @@
 #include "TCA9548.h"
 
 
-TCA9548::TCA9548(const uint8_t deviceAddress, TwoWire *wire)
+TCA9548::TCA9548(uint8_t deviceAddress, TwoWire *wire)
 {
   _address  = deviceAddress;
   _wire     = wire;
@@ -17,23 +17,8 @@ TCA9548::TCA9548(const uint8_t deviceAddress, TwoWire *wire)
   _resetPin = -1;
   _forced   = false;
   _error    = TCA9548_OK;
+  // _channels = 8;
 }
-
-
-#if defined (ESP8266) || defined(ESP32)
-bool TCA9548::begin(uint8_t dataPin, uint8_t clockPin, uint8_t mask)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  setChannelMask(mask);
-  return true;
-}
-#endif
 
 
 bool TCA9548::begin(uint8_t mask)
@@ -158,6 +143,15 @@ int TCA9548::getError()
   int error = _error;
   _error = TCA9548_OK;
   return error;
+}
+
+
+/////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
+PCA9548::PCA9548(uint8_t deviceAddress, TwoWire *wire) : TCA9548(deviceAddress, wire)
+{
 }
 
 

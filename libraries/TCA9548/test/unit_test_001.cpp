@@ -69,20 +69,26 @@ unittest(test_constants)
 }
 
 
-unittest(test_begin)
+unittest(test_constructor)
 {
   TCA9548 tca(0x70);
 
-  bool b = tca.begin();
-  assertEqual(b, true);
+  Wire.begin();
 
+  assertTrue(tca.begin());
   assertTrue(tca.isConnected());
+  
+  PCA9548 pca(0x71);
+  assertTrue(pca.begin());
+  assertTrue(pca.isConnected());
 }
 
 
 unittest(test_enable)
 {
   TCA9548 tca(0x70);
+
+  Wire.begin();
 
   bool b = tca.begin();
   assertEqual(b, true);
@@ -102,6 +108,8 @@ unittest(test_enable)
 unittest(test_select)
 {
   TCA9548 tca(0x70);
+
+  Wire.begin();
 
   bool b = tca.begin();
   assertEqual(b, true);

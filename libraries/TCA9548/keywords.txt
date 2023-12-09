@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 TCA9548	KEYWORD1
+PCA9548	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

@@ -16,7 +16,7 @@ SoftWire sw(6, 7);
 uint32_t start;
 uint32_t stop;
 
-SHT31_SW sht;
+SHT31_SW sht(SHT31_ADDRESS, &sw);
 
 
 void setup()
@@ -28,7 +28,7 @@ void setup()
 
   sw.begin();
   sw.setClock(100000);
-  sht.begin(SHT31_ADDRESS, &sw);
+  sht.begin();
 
   Serial.print("CON:\t");
   Serial.println(sht.isConnected());

@@ -16,7 +16,7 @@ SoftWire sw(6, 7);
 uint32_t start;
 uint32_t stop;
 
-SHT31_SW sht;
+SHT31_SW sht(SHT31_ADDRESS, &sw);
 
 
 void setup()
@@ -27,8 +27,8 @@ void setup()
   Serial.println(SHT31_SW_LIB_VERSION);
 
   sw.begin();
-  sht.begin(SHT31_ADDRESS, &sw);
   sw.setClock(100000);
+  sht.begin();
 
 
   uint16_t stat = sht.readStatus();
@@ -39,7 +39,7 @@ void setup()
 
 void loop()
 {
-  sht.read();         // default = true/fast       slow = false
+  sht.read();         //  default = true/fast       slow = false
   Serial.print("\t");
   Serial.print(sht.lastRead());
   Serial.print("\t");
@@ -50,5 +50,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

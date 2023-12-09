@@ -36,7 +36,7 @@
 #include "SHT31_SW.h"
 
 
-int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
+int expect;  //  TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 

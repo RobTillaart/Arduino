@@ -16,7 +16,7 @@ SoftWire sw(6, 7);
 uint32_t start;
 uint32_t stop;
 
-SHT31_SW sht;
+SHT31_SW sht(SHT31_ADDRESS, &sw);
 uint16_t status;
 
 
@@ -28,10 +28,10 @@ void setup()
   Serial.println(SHT31_SW_LIB_VERSION);
 
   sw.begin();
-  sht.begin(SHT31_ADDRESS, &sw);
   sw.setClock(100000);
+  sht.begin();
 
-  sht.setHeatTimeout(30);  // heater timeout 30 seconds, just for demo.
+  sht.setHeatTimeout(30);  //  heater timeout 30 seconds, just for demo.
 
   status = sht.readStatus();
   printHeaterStatus(status);
@@ -71,4 +71,4 @@ void printHeaterStatus(uint16_t status)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -2,7 +2,7 @@
 //    FILE: MCP23008_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-06-20
-// PUPROSE: test MCP23008 library
+// PURPOSE: test MCP23008 library
 
 
 #include "MCP23008.h"
@@ -10,11 +10,15 @@
 
 MCP23008 MCP(0x22);
 
+
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("MCP23008_test version: ");
+  Serial.println(__FILE__);
+  Serial.print("MCP23008_LIB_VERSION: ");
   Serial.println(MCP23008_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   Wire.begin();
   MCP.begin();
@@ -26,7 +30,7 @@ void setup()
 
 void test_pin_mode()
 {
-  MCP.pinMode8(0x00);    // 0 = output , 1 = input
+  MCP.pinMode8(0x00);    //  bit = 0 => output   1 => input
   uint8_t value = MCP.getPinMode8();
   Serial.println(value, HEX);
 
@@ -72,7 +76,7 @@ void test_pin_mode()
 
 void test_digital_read()
 {
-  // set all lines to input
+  //  set all lines to input
   MCP.pinMode8(0xFF);
   uint8_t value = MCP.getPinMode8();
   Serial.println(value, HEX);
@@ -96,4 +100,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

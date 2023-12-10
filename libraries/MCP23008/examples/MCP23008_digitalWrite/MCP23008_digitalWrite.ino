@@ -14,9 +14,12 @@ MCP23008 MCP(0x27);
 
 void setup()
 {
-  Serial.begin(230400);
-  Serial.print("MCP23008_test version: ");
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("MCP23008_LIB_VERSION: ");
   Serial.println(MCP23008_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   Wire.begin();
 

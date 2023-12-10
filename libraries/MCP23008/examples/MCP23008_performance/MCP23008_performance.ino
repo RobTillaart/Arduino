@@ -2,7 +2,7 @@
 //    FILE: MCP23008_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-09
-// PUPROSE: test MCP23008 library
+// PURPOSE: test MCP23008 library
 
 
 #include "MCP23008.h"
@@ -16,7 +16,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("MCP23008_LIB_VERSION: ");
   Serial.println(MCP23008_LIB_VERSION);
   Serial.println();

@@ -25,6 +25,15 @@ Since 0.1.1 the **digitalWrite(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 16 bit port expanders
@@ -32,6 +41,7 @@ If a pin is not changed it will not be written again to save time.
 - https://github.com/RobTillaart/MCP23017_RT
 - https://github.com/RobTillaart/MCP23S17
 - https://github.com/RobTillaart/PCF8575
+- https://github.com/RobTillaart/TCA9555
 
 
 8 bit port expanders
@@ -51,9 +61,9 @@ If a pin is not changed it will not be written again to save time.
 
 - **MCP23008(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface.  
 Can be overruled with Wire0..WireN.
-- **bool begin()** for UNO, returns true if successful.
-- **bool begin(uint8_t sda, uint8_t scl)** for ESP32, returns true if successful.
+- **bool begin()** initializes library. Returns true upon success.
 - **bool isConnected()** returns true if connected, false otherwise.
+- **uint8_t getAddress()** returns address set in the constructor.
 
 
 ### Single pin interface
@@ -110,7 +120,6 @@ See examples.
 #### Should
 
 - keep in sync with MCP23017
-
 
 #### Could
 

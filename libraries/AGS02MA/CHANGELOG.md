@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2023-12-10
+- fix #26, error in readme.
+
+
 ## [0.4.0] - 2023-12-06
 - refactor API, begin()
 - update readme.md

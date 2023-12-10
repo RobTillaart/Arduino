@@ -171,7 +171,7 @@ The default mode at startup of the sensor is PPB = parts per billion.
 
 #### Air quality classification
 
-| ppm     | Class               |
+| ppb     | Class               |
 |---------|---------------------|
 | <= 220  | Good                |
 | <= 660  | Moderate            |

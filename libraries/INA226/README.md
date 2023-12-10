@@ -215,8 +215,7 @@ Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 
 - **int setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
 set the calibration register based upon the shunt and the max Ampere. 
-From this the LSB is derived.
-The function may force normalization if underflow is detected.
+From these two values the current_LSB is derived, the steps of the ADC when measuring current.
 Returns Error code, see below.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**.
 Value should not be zero.
@@ -231,11 +230,16 @@ To print these values in scientific notation use https://github.com/RobTillaart/
 
 #### About normalization
 
-**setMaxCurrentShunt()** will round the LSB to nearest round value (typical 0.001) by default (normalize == true). 
+**setMaxCurrentShunt()** will round the current_LSB to nearest round value (typical 0.001) by default (normalize == true). 
 - The user **must** check the return value == 0x000, otherwise the calibration register is **not** set.
 - Normalization typically gives smaller steps => improve precision
 - Normalization can cause that the maxCurrent passed cannot be reached any more.
 Solution is not to normalize if this max range is needed. 
+
+
+Note: in 0.5.1 the **setMaxCurrentShunt()** function is rewritten after it showed a bug when 
+normalize flag was set to true. 
+See https://github.com/RobTillaart/INA226/pull/29 for details of the discussion.
 
 
 #### Error codes setMaxCurrentShunt
@@ -246,6 +250,7 @@ Solution is not to normalize if this max range is needed.
 | INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  | maxCurrent \* shunt > 80 mV 
 | INA226_ERR_MAXCURRENT_LOW     |  0x8001  | maxCurrent < 0.001
 | INA226_ERR_SHUNT_LOW          |  0x8002  | shunt      < 0.001
+| INA226_ERR_NORMALIZE_FAILED   |  0x8003  | not possible to normalize.
 
 
 #### Operating mode
@@ -309,7 +314,7 @@ The alert line falls when alert is reached.
 - **uint16_t getDieID()** should return 0x2260
 
 
-#### debugging
+#### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 

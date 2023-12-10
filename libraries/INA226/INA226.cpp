@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -178,11 +178,13 @@ uint8_t INA226::getShuntVoltageConversionTime()
 //
 int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 {
+  //  https://github.com/RobTillaart/INA226/pull/29
+
   //  #define printdebug true
 
   //  fix #16 - datasheet 6.5 Electrical Characteristics
   //            rounded value to 80 mV
-  float shuntVoltage = abs(maxCurrent * shunt);
+  float shuntVoltage = maxCurrent * shunt;
   if (shuntVoltage > 0.080)         return INA226_ERR_SHUNTVOLTAGE_HIGH;
   if (maxCurrent < 0.001)           return INA226_ERR_MAXCURRENT_LOW;
   if (shunt < INA226_MINIMAL_SHUNT) return INA226_ERR_SHUNT_LOW;
@@ -194,42 +196,82 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     Serial.print("normalize:\t");
     Serial.println(normalize ? " true":" false");
     Serial.print("initial current_LSB:\t");
-    Serial.print(_current_LSB, 8);
+    Serial.print(_current_LSB * 1e+6, 1);
     Serial.println(" uA / bit");
   #endif
-
-  uint32_t calib  = 0;
-  uint32_t factor = 1;
 
   //  normalize the LSB to a round number
   //  LSB will increase
   if (normalize)
   {
-    calib = round(0.00512 / (_current_LSB * shunt));
-    _current_LSB = 0.00512 / (calib * shunt);
+    /*
+       check if maxCurrent (normal) or shunt resistor 
+       (due to unusual low resistor values in relation to maxCurrent) determines currentLSB
+       we have to take the upper value for currentLSB
+    
+       calculation of currentLSB based on shunt resistor and calibration register limits (2 bytes)
+       cal = 0.00512 / ( shunt * currentLSB )
+       cal(max) = 2^16-1 
+       currentLSB(min) = 0.00512 / ( shunt * cal(max) )
+       currentLSB(min) ~= 0.00512 / ( shunt * 2^16 )
+       currentLSB(min) ~= 2^9 * 1e-5 / ( shunt * 2^16 )  
+       currentLSB(min) ~= 1e-5 / 2^7 / shunt
+       currentLSB(min) ~= 7.8125e-8 / shunt 
+    */
+    if ( 7.8125e-8 / shunt > _current_LSB ) {
+      // shunt resistor determines currentLSB -> take this a starting point for currentLSB
+      _current_LSB = 7.8125e-8 / shunt;
+    }
 
     #ifdef printdebug
       Serial.print("Prescale current_LSB:\t");
-      Serial.print(_current_LSB, 8);
+      Serial.print(_current_LSB * 1e+6, 1);
       Serial.println(" uA / bit");
     #endif
 
-    //  auto scale current_LSB
-    factor = 1;
-    while (_current_LSB < 1)
-    {
-      _current_LSB *= 10;
-      factor *= 10;
+    //  normalize _current_LSB to a value of 1, 2 or 5 * 1e-6 to 1e-3
+    //  convert float to int
+    uint16_t currentLSB_uA = float(_current_LSB * 1e+6);
+    currentLSB_uA++;  //  ceil() would be more precise, but uses 176 bytes of flash.
+
+    uint16_t factor = 1;  //  1uA to 1000uA
+    uint8_t i = 0;        //  1 byte loop reduces footprint
+    bool result = false;
+    do {
+      if ( 1 * factor >= currentLSB_uA) {
+        _current_LSB = 1 * factor * 1e-6;
+        result = true;
+      } else if ( 2 * factor >= currentLSB_uA) {
+        _current_LSB = 2 * factor * 1e-6;
+        result = true;
+      } else if ( 5 * factor >= currentLSB_uA) {
+        _current_LSB = 5 * factor * 1e-6;
+        result = true;
+      } else {
+        factor *= 10;
+        i++;
+      }
+    } while( (i < 4) && (!result) );  //  factor < 10000 
+
+    if (result == false) {  //  not succeeded to normalize.
+      _current_LSB = 0;
+      return INA226_ERR_NORMALIZE_FAILED;
     }
-    _current_LSB = 1.0 / factor;
+  
+    #ifdef printdebug
+      Serial.print("After scale current_LSB:\t");
+      Serial.print(_current_LSB * 1e+6, 1);
+      Serial.println(" uA / bit");
+    #endif
+    // done
   }
 
-  //  auto scale calibration
-  calib = round(0.00512 / (_current_LSB * shunt));
+  //  auto scale calibration if needed.
+  uint32_t calib = round(0.00512 / (_current_LSB * shunt));
   while (calib > 65535)
   {
-    _current_LSB *= 10;
-    calib /= 10;
+    _current_LSB *= 2;
+    calib >>= 1;
   }
   _writeRegister(INA226_CALIBRATION, calib);
 
@@ -237,19 +279,17 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   _shunt = shunt;
 
   #ifdef printdebug
-    Serial.print("factor:\t");
-    Serial.println(factor);
     Serial.print("Final current_LSB:\t");
-    Serial.print(_current_LSB, 8);
+    Serial.print(_current_LSB * 1e+6, 1);
     Serial.println(" uA / bit");
     Serial.print("Calibration:\t");
     Serial.println(calib);
     Serial.print("Max current:\t");
-    Serial.print(_maxCurrent);
+    Serial.print(_maxCurrent, 3);
     Serial.println(" A");
     Serial.print("Shunt:\t");
-    Serial.print(_shunt, 8);
-    Serial.println(" ohm");
+    Serial.print(_shunt, 4);
+    Serial.println(" Ohm");
     Serial.print("ShuntV:\t");
     Serial.print(shuntVoltage, 4);
     Serial.println(" Volt");

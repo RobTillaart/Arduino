@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2023-12-10
+- reimplementation of **setMaxCurrentShunt()**, 
+  - thanks to tileiar
+- update readme.md
+- minor edits
+
+
 ## [0.5.0] - 2023-12-04
 - Fix #31, refactor API - support ESP32-S3
 - update readme.md

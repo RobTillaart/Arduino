@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] 2023-12-10
+- refactor API, begin()
+- add **uimt8_t getADdress()**
+- update readme.md
+  - note more about REV-D "feature"
+- update examples
+
+----
+
 ## [0.4.2] 2023-11-13
 - fix readme.md badge platformIO
-
 
 ## [0.4.1] 2023-09-23
 - add Wire1 support for ESP32

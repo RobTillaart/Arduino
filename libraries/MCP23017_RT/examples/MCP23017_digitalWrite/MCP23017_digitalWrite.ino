@@ -15,6 +15,7 @@ MCP23017 MCP(0x27);
 void setup()
 {
   Serial.begin(230400);
+  Serial.println(__FILE__);
   Serial.print("MCP23017_test version: ");
   Serial.println(MCP23017_LIB_VERSION);
 
@@ -22,14 +23,14 @@ void setup()
 
   MCP.begin();
 
-  MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
   Wire.setClock(50);
 
   Serial.println("TEST digitalWrite(0)");
   for (int i = 0; i < 16; i++)
   {
-    MCP.digitalWrite(0, i % 2);  // alternating HIGH/LOW
+    MCP.digitalWrite(0, i % 2);  //  alternating HIGH/LOW
     Serial.print(i % 2);
     Serial.print('\t');
     delay(250);
@@ -40,7 +41,7 @@ void setup()
   Serial.println("TEST digitalWrite(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
     Serial.print(1 - pin % 2);
     Serial.print('\t');
   }
@@ -65,5 +66,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

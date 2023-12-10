@@ -7,6 +7,7 @@ MCP23017	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 pinMode	KEYWORD2
 digitalWrite	KEYWORD2

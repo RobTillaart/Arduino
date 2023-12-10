@@ -66,8 +66,9 @@ unittest(test_constructor)
   MCP23017 MCP(0x27);
 
   assertFalse(Wire.didBegin());
+  
+  Wire.begin();
   MCP.begin();
-  // in fact invalid ...
   assertTrue(Wire.didBegin());
   assertTrue(MCP.isConnected());
 }
@@ -78,6 +79,8 @@ unittest(test_lastError)
   Wire.resetMocks();
 
   MCP23017 MCP(0x27);
+
+  Wire.begin();
   MCP.begin();
   assertEqual(MCP23017_OK, MCP.lastError());
 
@@ -118,4 +121,6 @@ unittest(test_lastError)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

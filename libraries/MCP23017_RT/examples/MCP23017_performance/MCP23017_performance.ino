@@ -8,15 +8,15 @@
 #include "MCP23017.h"
 #include "Wire.h"
 
-// MCP23017 MCP(10, 12, 11, 13);  //  SW SPI address
-MCP23017 MCP(10);           //  HW SPI address
+
+MCP23017 MCP(0x27);
 
 uint32_t start, stop;
 
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(230400);
   Serial.println();
   Serial.print("MCP23017_LIB_VERSION: ");
   Serial.println(MCP23017_LIB_VERSION);
@@ -28,7 +28,7 @@ void setup()
   Serial.print("BEGIN: ");
   Serial.println(b);
 
-  MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
 
   Serial.println("\ntime in microseconds\n");
@@ -40,7 +40,7 @@ void setup()
   start = micros();
   for (int i = 0; i < 16; i++)
   {
-    MCP.digitalWrite(0, i & 0x01);  // alternating HIGH/LOW
+    MCP.digitalWrite(0, i & 0x01);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
@@ -51,7 +51,7 @@ void setup()
   start = micros();
   for (int pin = 0; pin < 16; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
@@ -78,8 +78,8 @@ void setup()
   Serial.print("TEST write8(port, mask):\t");
   delay(100);
   start = micros();
-  MCP.write8(0, 0xAA); // alternating HIGH/LOW
-  MCP.write8(1, 0xAA); // alternating HIGH/LOW
+  MCP.write8(0, 0xAA);  //  alternating HIGH/LOW
+  MCP.write8(1, 0xAA);  //  alternating HIGH/LOW
   stop = micros();
   Serial.println((stop - start) / 2.0);
 
@@ -102,7 +102,7 @@ void setup()
   Serial.print("TEST write16(mask):\t");
   delay(100);
   start = micros();
-  MCP.write16(0xAAAA); // alternating HIGH/LOW
+  MCP.write16(0xAAAA);  //  alternating HIGH/LOW
   stop = micros();
   Serial.println((stop - start) / 2.0);
 
@@ -125,4 +125,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

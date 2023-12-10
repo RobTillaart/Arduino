@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.4.2"))
+#define MCP23017_LIB_VERSION              (F("0.5.0"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -31,11 +31,9 @@ class MCP23017
 public:
   MCP23017(uint8_t address, TwoWire *wire = &Wire);
 
-#if defined(ESP8266) || defined(ESP32)
-  bool     begin(const uint8_t dataPin, const uint8_t clockPin);
-#endif
   bool     begin();
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   //       single pin interface
@@ -76,7 +74,7 @@ public:
 
   int      lastError();
 
-private:
+protected:
   bool     writeReg(uint8_t reg, uint8_t value);
   uint8_t  readReg(uint8_t reg);
 
@@ -84,6 +82,25 @@ private:
   TwoWire*  _wire;
   uint8_t   _error;
 };
+
+
+/*  
+TODO
+- can it protect the user
+- can we detect REV D chips (over I2C)
+
+class MCP23017_REVD : public MCP23017
+{
+public:
+  MCP23017_REVD(uint8_t address, TwoWire *wire = &Wire);
+  
+- GPA7 and GPB7 should be set to output in constructor
+- GPA7 and GPB7 output mode may not change in any call
+- GPA7 and GPB7 should return last written value for read.
+- which functions are affected?  setMode  pullups etc.
+
+};
+*/
 
 
 //  -- END OF FILE --

@@ -61,6 +61,9 @@ unittest(test_constants)
 unittest(test_constructor)
 {
   PCF8591 dev(0x48);
+
+  Wire.begin();
+
   assertTrue(dev.begin());
 
   assertTrue(dev.isConnected());
@@ -72,8 +75,10 @@ unittest(test_constructor)
 unittest(test_ADC_INCR)
 {
   PCF8591 dev(0x48);
+
+  Wire.begin();
   assertTrue(dev.begin());
-  
+
   assertFalse(dev.isINCREnabled());
   dev.enableINCR();
   assertTrue(dev.isINCREnabled());
@@ -85,6 +90,8 @@ unittest(test_ADC_INCR)
 unittest(test_DAC)
 {
   PCF8591 dev(0x48);
+
+  Wire.begin();
   assertTrue(dev.begin());
 
   assertFalse(dev.isDACEnabled());

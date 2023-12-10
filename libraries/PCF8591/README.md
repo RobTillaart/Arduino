@@ -19,7 +19,7 @@ Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 **warning** during tests I could overclock the PCF8591 chip up to 650 KHz.
 However it is only specified to run at 100 kHz. 
 After some time it was getting pretty hot and it broke down. 
-So overclocking is fun but not recommended.
+So overclocking is fun but **not recommended**.
 
 PCF8591 has one 8 bit ADC on board for 4 channels. The ADC is 8 bit and quite fast.
 At 100 KHz one gets \> 2000 reads per second for **analogRead()** and 
@@ -32,23 +32,37 @@ The **lastRead()** function is needed to get access to the values.
 First tests shows it is 2.6 x faster than 4 individual reads.
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/MCP_ADC
+
+
+
 ## Interface
 
 ```cpp
 #include "PCF8591.h"
 ```
 
-
 #### Constructor
 
-- **PCF8591(const uint8_t address = 0x48, TwoWire \*wire = &Wire)** constructor with I2C address.
+- **PCF8591(uint8_t address = 0x48, TwoWire \*wire = &Wire)** constructor with I2C address.
 Default is 0x48, optional set the WireN I2C bus.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t value = 0)** set wire pins for ESP series.
-Also set initial value for the DAC. 
+- **bool begin(uint8_t value = 0)** Set initial value for the DAC.
+Returns false if address out of range, or if it cannot be seen on the I2C bus.
 Returns **true** if successful.
-- **bool begin(uint8_t value = 0)** Set initial value for the DAC. 
-Returns **true** if successful.
-- **bool isConnected()** test to see if chip can be reached.
+- **bool isConnected()** test to see if address can be reached on the I2C bus.
+- **uint8_t getAddress()** returns address set in constructor.
 
 
 #### ADC channels
@@ -143,9 +157,11 @@ See examples.
 
 #### Should
 
-- add examples for comparator calls.
+- add examples 
+  - for comparator calls.
   - schema?
-
+- add examples boards
+  - ESP32, RP2040 (pins)
 
 #### Could
 

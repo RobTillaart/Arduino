@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-12-10
+- update API, begin
+- add **uint8_t getADdress()**
+- update readme.md
+- update examples
+- minor edits
+
+----
+
 ## [0.2.1] - 2023-09-23
 - add Wire1 support for ESP32
 - update readme.md

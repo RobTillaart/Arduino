@@ -15,13 +15,12 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PCF8591_LIB_VERSION: ");
+  Serial.println(PCF8591_LIB_VERSION);
 
   Wire.begin();
   Wire.setClock(100000UL);
 
-#if defined (ESP8266) || defined(ESP32)
-  dev.begin(21, 22);
-#endif
   dev.begin();
 }
 
@@ -33,7 +32,7 @@ void loop()
   test_ADC_mode(0);
   delay(1000);
 
-  // differential modes, check datasheet
+  //  differential modes, check datasheet
   test_ADC_mode(1);
   delay(1000);
   test_ADC_mode(2);
@@ -62,7 +61,7 @@ void test_DAC()
 
 void test_ADC_mode(uint8_t mode)
 {
-  uint8_t channels[] = {4, 3, 3, 2 }; // channels per mode
+  uint8_t channels[] = {4, 3, 3, 2 };  // channels per mode
   Serial.println(__FUNCTION__);
   Serial.println("--------------");
   Serial.println("CH0\tCH1\tCH2\tCH3");
@@ -79,5 +78,5 @@ void test_ADC_mode(uint8_t mode)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

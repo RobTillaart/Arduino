@@ -3,8 +3,8 @@
 //    FILE: PCF8591.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.2.1
-// PURPOSE: I2C PCF8591 library for Arduino
+// VERSION: 0.3.0
+// PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8591_LIB_VERSION                 (F("0.2.1"))
+#define PCF8591_LIB_VERSION                 (F("0.3.0"))
 
 #define PCF8591_OK                          0x00
 #define PCF8591_PIN_ERROR                   0x81
@@ -31,15 +31,12 @@
 class PCF8591
 {
 public:
-  explicit PCF8591(const uint8_t address = 0x48, TwoWire *wire = &Wire);
+  explicit PCF8591(uint8_t address = 0x48, TwoWire *wire = &Wire);
 
   //       set initial value for DAC, default 0
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl, uint8_t value = 0);
-#endif
   bool     begin(uint8_t value = 0);
-
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   //       ADC PART

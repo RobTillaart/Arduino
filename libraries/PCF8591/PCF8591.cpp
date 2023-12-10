@@ -2,8 +2,8 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.2.1
-// PURPOSE: I2C PCF8591 library for Arduino
+// VERSION: 0.3.0
+// PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
 
@@ -15,13 +15,8 @@
 #define PCF8591_INCR_FLAG               0x04
 
 
-PCF8591::PCF8591(const uint8_t address, TwoWire *wire)
+PCF8591::PCF8591(uint8_t address, TwoWire *wire)
 {
-  if ((address < 0x48) || (address > 0x4F))
-  {
-    _error = PCF8591_ADDRESS_ERROR;
-    return;
-  }
   _address = address;
   _wire    = wire;
   _control = 0;
@@ -34,25 +29,13 @@ PCF8591::PCF8591(const uint8_t address, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool PCF8591::begin(uint8_t sda, uint8_t scl, uint8_t val)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  } else {
-    _wire->begin();
-  }
-  if (!isConnected()) return false;
-  analogWrite(val);
-  return true;
-}
-#endif
-
-
 bool PCF8591::begin(uint8_t val)
 {
-  _wire->begin();
+  if ((_address < 0x48) || (_address > 0x4F))
+  {
+    _error = PCF8591_ADDRESS_ERROR;
+    return false;
+  }
   if (!isConnected()) return false;
   analogWrite(val);
   return true;
@@ -64,6 +47,12 @@ bool PCF8591::isConnected()
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();  //  default == 0 == PCF8591_OK
   return (_error == PCF8591_OK);
+}
+
+
+uint8_t PCF8591::getAddress()
+{
+  return _address;
 }
 
 

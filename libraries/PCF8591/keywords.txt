@@ -6,6 +6,7 @@ PCF8591	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 enableINCR	KEYWORD2
 disableINCR	KEYWORD2

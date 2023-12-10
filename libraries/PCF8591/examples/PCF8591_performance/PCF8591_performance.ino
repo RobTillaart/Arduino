@@ -21,14 +21,12 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PCF8591_LIB_VERSION: ");
+  Serial.println(PCF8591_LIB_VERSION);
 
   Wire.begin();
 
-#if defined (ESP8266) || defined(ESP32)
-  dev.begin(21, 22);  // adjust pins if needed.
-#else
   dev.begin();
-#endif
 
   if (! dev.isConnected())
   {
@@ -77,7 +75,7 @@ void test2()
   {
     uint32_t clk = 50000UL * i;
     Serial.print("| ");
-    Serial.print(clk/1000);
+    Serial.print(clk / 1000);
     Wire.setClock(clk);
     test_DAC_error();
     delay(10);
@@ -151,4 +149,4 @@ void test_ADC_error()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

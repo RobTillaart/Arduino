@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2023-12-09
+- refactor API, move parameters from begin() to constructor
+- update readme.md
+- update examples
+- minor edits
+
+----
+
 ## [0.5.1] - 2023-09-21
 - fix #21, again ...
 

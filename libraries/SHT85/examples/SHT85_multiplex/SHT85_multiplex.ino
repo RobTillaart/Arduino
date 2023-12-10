@@ -18,9 +18,10 @@
 #include "TCA9548.h"
 
 TCA9548 MP(0x70);
+
 #define SHT85_ADDRESS   0x44
 
-SHT85 sht;  //  the object is reused in the multiplexing.
+SHT85 sht(SHT85_ADDRESS);  //  the object is reused in the multiplexing.
 
 void setup()
 {
@@ -45,7 +46,7 @@ void setup()
   {
     Serial.print(channel);
     MP.selectChannel(channel);  //  rotate over all SHT85's
-    if (sht.begin(0x44) == false)
+    if (sht.begin() == false)
     {
       Serial.println("\tconnect error.");;
     }
@@ -66,7 +67,7 @@ void loop()
   Serial.print("\t");
   for (int channel = 0; channel < 4; channel++)
   {
-    sht.read();         // default = true/fast       slow = false
+    sht.read();         //  default = true/fast       slow = false
     Serial.print(sht.getTemperature(), 1);
     Serial.print("\t");
     Serial.print(sht.getHumidity(), 1);

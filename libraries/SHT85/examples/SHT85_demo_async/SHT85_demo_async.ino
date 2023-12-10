@@ -20,7 +20,7 @@
 
 #define SHT85_ADDRESS         0x44
 
-SHT85 sht;
+SHT85 sht(SHT85_ADDRESS);
 
 
 void setup()
@@ -31,8 +31,8 @@ void setup()
   Serial.println(SHT_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(SHT85_ADDRESS);
   Wire.setClock(100000);
+  sht.begin();
 
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
@@ -57,7 +57,7 @@ void loop()
     Serial.println(sht.getHumidity(), 1);
     sht.requestData();
   }
-  delay(1000);  //  do not call sensor too often (see datasheet)
+  delay(10000);  //  do not call sensor too often (see datasheet)
 }
 
 

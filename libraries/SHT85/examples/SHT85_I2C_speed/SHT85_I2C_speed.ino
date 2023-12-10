@@ -20,7 +20,7 @@
 uint32_t start;
 uint32_t stop;
 
-SHT85 sht;
+SHT85 sht(SHT85_ADDRESS);
 
 
 void setup()
@@ -31,12 +31,13 @@ void setup()
   Serial.println(SHT_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(SHT85_ADDRESS);
+  Wire.setClock(100000);
+  sht.begin();
   for (uint32_t clk = 50000; clk < 550000; clk += 50000)
   {
     Wire.setClock(clk);
     start = micros();
-    sht.read();         // default = true/fast       slow = false
+    sht.read();         //  default = true/fast       slow = false
     stop = micros();
     Serial.print(clk);
     Serial.print("\t");

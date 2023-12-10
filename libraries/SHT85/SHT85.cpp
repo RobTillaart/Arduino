@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -29,9 +29,9 @@
 #define SHT_GET_SERIAL        0x3682
 
 
-SHT::SHT(TwoWire *wire)
+SHT::SHT(uint8_t address, TwoWire *wire)
 {
-  _address           = 0;
+  _address           = address;
   _wire              = wire;
   _lastRead          = 0;
   _rawTemperature    = 0;
@@ -47,42 +47,20 @@ SHT::SHT(TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool SHT::begin(const uint8_t address, const uint8_t dataPin, const uint8_t clockPin)
+bool SHT::begin()
 {
-  if ((address != 0x44) && (address != 0x45))
+  if ((_address != 0x44) && (_address != 0x45))
   {
     return false;
-  }
-  _address = address;
-
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
   }
   return reset();
 }
 
 
-bool SHT::begin(const uint8_t dataPin, const uint8_t clockPin)
+uint8_t SHT::getAddress()
 {
-  return begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
-}
-#endif
-
-
-bool SHT::begin(const uint8_t address)
-{
-  if ((address != 0x44) && (address != 0x45))
-  {
-    return false;
-  }
-  _address = address;
-  _wire->begin();
-  return reset();
-}
+  return _address;
+};
 
 
 uint8_t SHT::getType()
@@ -453,42 +431,34 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 //
 //  DERIVED CLASSES
 //
-SHT30::SHT30(TwoWire *wire) : SHT(wire)
+SHT30::SHT30(uint8_t address, TwoWire *wire) : SHT(address, wire)
 {
   _type = 30;
 }
 
 
-SHT31::SHT31(TwoWire *wire) : SHT(wire)
+SHT31::SHT31(uint8_t address, TwoWire *wire) : SHT(address, wire)
 {
   _type = 31;
 }
 
 
-SHT35::SHT35(TwoWire *wire) : SHT(wire)
+SHT35::SHT35(uint8_t address, TwoWire *wire) : SHT(address, wire)
 {
   _type = 35;
 }
 
 
-SHT85::SHT85(TwoWire *wire) : SHT(wire)
+SHT85::SHT85(uint8_t address, TwoWire *wire) : SHT(address, wire)
 {
   _type = 85;
 }
 
-#if defined(ESP8266) || defined(ESP32)
-bool SHT85::begin(const uint8_t address, uint8_t dataPin, uint8_t clockPin)
-{
-  if (address != 0x44) return false;
-  return SHT::begin(SHT_DEFAULT_ADDRESS, dataPin, clockPin);
-}
-#endif
 
-
-bool SHT85::begin(const uint8_t address)
+bool SHT85::begin()
 {
-  if (address != 0x44) return false;
-  return SHT::begin(address);
+  if (_address != 0x44) return false;
+  return SHT::begin();
 }
 
 

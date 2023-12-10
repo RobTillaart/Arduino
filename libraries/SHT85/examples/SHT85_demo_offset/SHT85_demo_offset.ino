@@ -23,7 +23,7 @@ uint32_t stop;
 uint16_t count = 0;
 uint32_t last = 0;
 
-SHT85 sht;
+SHT85 sht(SHT85_ADDRESS);
 
 
 void setup()
@@ -34,8 +34,8 @@ void setup()
   Serial.println(SHT_LIB_VERSION);
 
   Wire.begin();
-  sht.begin(SHT85_ADDRESS);
   Wire.setClock(100000);
+  sht.begin();
 
   //  uint16_t stat = sht.readStatus();
   //  Serial.print(stat, HEX);

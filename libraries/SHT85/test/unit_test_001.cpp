@@ -85,8 +85,10 @@ unittest(test_constants_2)
 
 unittest(test_begin)
 {
-  SHT85 sht;
-  bool b = sht.begin(0x44);
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.reset());
@@ -109,8 +111,10 @@ unittest(test_begin)
 
 unittest(test_read)
 {
-  SHT85 sht;
-  bool b = sht.begin(0x44);
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.isConnected());
@@ -121,8 +125,10 @@ unittest(test_read)
 
 unittest(test_readStatus)
 {
-  SHT85 sht;
-  bool b = sht.begin(0x44);
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertEqual(0xFFFF, sht.readStatus());
@@ -133,8 +139,10 @@ unittest(test_readStatus)
 
 unittest(test_heater)
 {
-  SHT85 sht;
-  bool b = sht.begin(0x44);
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.heatOn());
@@ -153,8 +161,10 @@ unittest(test_heater)
 
 unittest(test_async)
 {
-  SHT85 sht;
-  bool b = sht.begin(0x44);
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   assertEqual(b, true);
 
   assertTrue(sht.requestData());
@@ -182,7 +192,10 @@ unittest(test_async)
 
 unittest(test_offset)
 {
-  SHT85 sht;
+  SHT85 sht(0x44);
+
+  Wire.begin();
+  bool b = sht.begin();
   fprintf(stderr, "temperature\n");
   for (int i = -5; i < 6; i++)
   {
@@ -204,11 +217,11 @@ unittest(test_offset)
 //
 unittest(test_getType)
 {
-  SHT   sht;
-  SHT30 sht0;
-  SHT31 sht1;
-  SHT35 sht2;
-  SHT85 sht3;
+  SHT   sht(0x44);
+  SHT30 sht0(0x44);
+  SHT31 sht1(0x44);
+  SHT35 sht2(0x44);
+  SHT85 sht3(0x44);
 
   assertEqual(00, sht.getType());
   assertEqual(30, sht0.getType());

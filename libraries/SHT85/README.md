@@ -93,8 +93,17 @@ This means you need to use multiple I2C buses (if your board support this),
 a software I2C (below) or an I2C multiplexer e.g. https://github.com/RobTillaart/TCA9548
 
 
+#### 0.6.0 Breaking change
 
-#### Related libraries
+Version 0.6.0 introduced a breaking change.
+The parameters from begin() moved to the constructor.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
 
 - https://github.com/RobTillaart/SHT2x
 - https://github.com/RobTillaart/SHT31
@@ -118,22 +127,22 @@ I2C multiplexer
 ```
 
 
-#### Base interface
+#### Constructor
 
-- **SHT(TwoWire \*wire = &Wire)** constructor of the base class. **getType()** will return 0.
-- **SHT30(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
-- **SHT31(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
-- **SHT35(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
-- **SHT85(TwoWire \*wire = &Wire)** constructor. Optional select the I2C bus (Wire, Wire1 etc).
+- **SHT(uint8_t address, TwoWire \*wire = &Wire)** constructor of the base class. 
+Note that **getType()** will return 0.
+- **SHT30(uint8_t address, TwoWire \*wire = &Wire)** constructor.
+Optional select the address and the I2C bus (Wire, Wire1 etc).
+- **SHT31(uint8_t address, TwoWire \*wire = &Wire)** constructor. 
+Optional select the address and the I2C bus (Wire, Wire1 etc).
+- **SHT35(uint8_t address, TwoWire \*wire = &Wire)** constructor. 
+Optional select the address and the I2C bus (Wire, Wire1 etc).
+- **SHT85(uint8_t address, TwoWire \*wire = &Wire)** constructor. 
+Optional select the address and the I2C bus (Wire, Wire1 etc).
 - **uint8_t getType()** returns numeric part of sensor type.
 Returns 0 for the base class.
-- **bool begin(uint8_t address, uint8_t dataPin, uint8_t clockPin)** begin function for ESP8266, ESP32 and similar. 
-**WARNING: not verified yet**.
-Returns false if device address is incorrect or device cannot be reset.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** same as above. 
-Uses SHT_DEFAULT_ADDRESS (0x44) as address.
-- **bool begin(uint8_t address = SHT_DEFAULT_ADDRESS)**
-Returns false if device address is incorrect or device cannot be reset.
+- **bool begin()** Returns false if device address is incorrect or device cannot be reset.
+- **uint8_t getAddress()** returns address set in constructor.
 
 
 #### Status
@@ -295,6 +304,7 @@ Will switch the heater off if maximum heating time has passed.
 #### Must
 
 - improve documentation.
+  - reorder interface
 
 
 #### Should
@@ -302,7 +312,7 @@ Will switch the heater off if maximum heating time has passed.
 - more testing (including heater)
 - verify working with ESP32
 - support for medium level read.
-  - 3 levels iso 2.
+  - 3 levels instead of 2.
 
 
 #### Could

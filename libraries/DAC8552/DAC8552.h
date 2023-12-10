@@ -3,7 +3,7 @@
 //    FILE: DAC8552.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor  
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2017-12-14
 //     URL: https://github.com/RobTillaart/DAC8552
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define DAC8552_LIB_VERSION           (F("0.3.0"))
+#define DAC8552_LIB_VERSION           (F("0.4.0"))
 
 
 #define DAC8552_POWERDOWN_NORMAL      0

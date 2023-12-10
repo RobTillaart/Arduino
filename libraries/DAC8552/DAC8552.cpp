@@ -2,7 +2,7 @@
 //    FILE: DAC8552.cpp 
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2017-12-14
 //     URL: https://github.com/RobTillaart/DAC8552
 
@@ -56,7 +56,7 @@ void DAC8552::begin()
   _value[0] = 0;
   _value[1] = 0;
   _register[0] = 0x00;
-  _register[1] = 0x40;
+  _register[1] = 0x04;  //  set BUFFER SELECT to 1
 }
 
 

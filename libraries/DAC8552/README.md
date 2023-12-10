@@ -21,6 +21,11 @@ The DAC8552 is a SPI based 16 bit DAC with two channels.
 **Warning** This library is not tested extensively.
 
 
+#### 0.4.0 Breaking change
+
+Bugfix channel select bit, invalidates all pre 0.4.0 versions
+
+
 #### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 

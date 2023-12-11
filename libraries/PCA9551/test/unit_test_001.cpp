@@ -77,6 +77,8 @@ unittest(test_constructor)
 {
   PCA9551 pca(0x62);
 
+  Wire.begin();
+
   assertEqual(8, pca.outputCount());
   assertEqual(0x62, pca.getAddress());
 }

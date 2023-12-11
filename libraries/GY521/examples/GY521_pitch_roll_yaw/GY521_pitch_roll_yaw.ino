@@ -2,6 +2,7 @@
 //    FILE: GY521_pitch_roll_yaw.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo pitch roll yaw
+//     URL: https://github.com/RobTillaart/GY521
 
 
 #include "GY521.h"

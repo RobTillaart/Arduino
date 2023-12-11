@@ -2,6 +2,7 @@
 //    FILE: GY521_readCalibration_1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read the calibration values / errors for a flat sensor.
+//     URL: https://github.com/RobTillaart/GY521
 
 
 #include "GY521.h"
@@ -29,7 +30,7 @@ void setup()
   {
     Serial.println("Could not connect to GY521");
   }
-  // adjust when needed.
+  //  adjust when needed.
   sensor.setAccelSensitivity(0);  //  2g
   sensor.setGyroSensitivity(0);   //  250 degrees/s
   sensor.setThrottle(false);

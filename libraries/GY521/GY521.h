@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.5.0"))
+#define GY521_LIB_VERSION           (F("0.5.1"))
 
 
 //  THROTTLE TIMING
@@ -39,10 +39,6 @@ class GY521
 public:
   GY521(uint8_t address = 0x69, TwoWire *wire = &Wire); //  0x68 or 0x69
 
-
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(uint8_t sda, uint8_t scl);
-#endif
   bool     begin();
   bool     isConnected();
   void     reset();
@@ -74,12 +70,12 @@ public:
   int16_t  read();
   //  optimized partial reading
   //  read accelerometer only
-  int16_t readAccel();
+  int16_t  readAccel();
   //  read gyroscope only can be done too
   //  however for pitch roll yaw you need all.
-  int16_t readGyro();
+  int16_t  readGyro();
   //  read temperature only, does not affect throttle.
-  int16_t readTemperature();
+  int16_t  readTemperature();
 
 
   //  CALL AFTER READ

@@ -2,7 +2,7 @@
 //    FILE: GY521_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo
-
+//     URL: https://github.com/RobTillaart/GY521
 
 #include "GY521.h"
 

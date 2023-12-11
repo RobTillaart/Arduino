@@ -2,6 +2,7 @@
 //    FILE: GY521_angle.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read angleX, angleY, angleZ
+//     URL: https://github.com/RobTillaart/GY521
 
 
 #include "GY521.h"
@@ -56,8 +57,8 @@ void loop()
     //  Serial.println("\nCNT\tX\tY\tZ");
   }
 
-  // Serial.print(counter);
-  // Serial.print('\t');
+  //  Serial.print(counter);
+  //  Serial.print('\t');
   Serial.print(x, 1);
   Serial.print('\t');
   Serial.print(y, 1);

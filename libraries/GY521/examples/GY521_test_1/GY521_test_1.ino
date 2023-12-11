@@ -2,7 +2,7 @@
 //    FILE: GY521_test_1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo to test working of the sensor.
-
+//     URL: https://github.com/RobTillaart/GY521
 
 #include "GY521.h"
 

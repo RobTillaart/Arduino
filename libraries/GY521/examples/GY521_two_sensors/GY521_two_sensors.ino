@@ -2,6 +2,7 @@
 //    FILE: GY521_two_sensors.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: read angleX, angleY, angleZ from two sensors
+//     URL: https://github.com/RobTillaart/GY521
 
 
 #include "GY521.h"

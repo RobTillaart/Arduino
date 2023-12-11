@@ -6,10 +6,10 @@
 //     URL: https://github.com/RobTillaart/DS28CM00
 
 
-#include <Wire.h>
-#include <DS28CM00.h>
+#include "Wire.h"
+#include "DS28CM00.h"
 
-#include <rom/crc.h>	// ESP32 specific
+#include <rom/crc.h>  //  ESP32 specific
 
 
 uint8_t uid[8];
@@ -25,7 +25,8 @@ void setup()
   Serial.print(F("DS28CM00 library: "));
   Serial.println(DS28CM00_LIB_VERSION);
 
-  DS28.begin(10, 12);
+  Wire.begin(10, 12);
+  DS28.begin();
 
   Serial.println();
 }
@@ -48,7 +49,7 @@ void test()
   }
   else
   {
-    // PRINT UID
+    //  PRINT UID
     Serial.print(F("UID:\t"));
     for (uint8_t i = 0; i < 8; i++)
     {
@@ -58,13 +59,13 @@ void test()
     }
     Serial.println();
 
-    // GET MODE
+    //  GET MODE
     uint8_t mode = 0;
     DS28.getMode(mode);
     Serial.print(F("MODE:\t"));
     Serial.println(mode);
 
-	// TOGGLE MODE
+    //  TOGGLE MODE
     if (mode == DS28CM00_I2C_MODE)
     {
       DS28.setSMBusMode();

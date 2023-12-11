@@ -30,6 +30,15 @@ as bonus.
 The DS28CM00 can work in 2 modes, I2C and SMBus mode. Check datasheet for details.
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 - https://github.com/RobTillaart/UUID
@@ -41,17 +50,11 @@ The DS28CM00 can work in 2 modes, I2C and SMBus mode. Check datasheet for detail
 #include "DS28CM00.h"
 ```
 
-### Constructor
-
 - **DS28CM00(TwoWire \*wire = &Wire)** Constructor, with default Wire as I2C bus.
-
-
-### Public
-
-- **bool begin()** initializes I2C bus, sets default DS28CM00_I2C_MODE.
-Returns false if mode cannot be set.
-- **bool begin(uint8_t dataPin, uint8_t clockPin)** Constructor for ESP32, ESP8266 et al.
-Returns false if mode cannot be set.
+The device has a fixed address of 0x50.
+- **bool begin()** initializes library, sets default DS28CM00_I2C_MODE.
+Returns false if mode cannot be set or if device cannot be found.
+- **bool isConnected()** returns true if device can be found on I2C bus.
 - **bool getUID(uint8_t \* buffer, uint8_t size = 8)** copy unique serial number into buffer.
 Size is default 8, maximum size, size = 0 returns false. 
 Less unique bytes can be enough sometimes.

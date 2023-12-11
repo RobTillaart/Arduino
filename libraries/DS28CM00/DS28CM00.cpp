@@ -2,7 +2,7 @@
 //    FILE: DS28CM00.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS28CM00 unique identification chip.
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //     URL: https://github.com/RobTillaart/DS28CM00
 
 
@@ -20,23 +20,9 @@ DS28CM00::DS28CM00(TwoWire *wire)
 }
 
 
-#if defined(ESP8266) || defined(ESP32)
-bool DS28CM00::begin(const uint8_t dataPin, const uint8_t clockPin)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  return setI2CMode();
-}
-#endif
-
-
 bool DS28CM00::begin()
 {
-  _wire->begin();
+  if (!isConnected()) return false;
   return setI2CMode();
 }
 

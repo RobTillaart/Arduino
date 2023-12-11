@@ -51,13 +51,14 @@ unittest(test_constructor_I)
   uint8_t   uid[8];
   DS28CM00  DS28(&Wire);
 
+  Wire.begin();
   DS28.begin();
   uint8_t mode;
 
-  assertFalse(DS28.getMode(mode));           // not connected...
+  assertFalse(DS28.getMode(mode));           //  not connected...
   assertEqual(DS28CM00_MODE_UNKNOWN, mode);
 
-  assertTrue(DS28.setSMBusMode());           // apparently 
+  assertTrue(DS28.setSMBusMode());           //  apparently 
   assertFalse(DS28.getMode(mode));
   assertEqual(DS28CM00_MODE_UNKNOWN, mode);
 
@@ -72,14 +73,17 @@ unittest(test_constructor_II)
   uint8_t   uid[8];
   DS28CM00  DS28;     // use default Wire
 
+  Wire.begin();
   DS28.begin();
   uint8_t mode;
 
-  assertFalse(DS28.getMode(mode));           // not connected...
+  assertFalse(DS28.getMode(mode));           //  not connected...
   assertEqual(DS28CM00_MODE_UNKNOWN, mode);
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

@@ -2,8 +2,7 @@
 //    FILE: PCF8574_select.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-06-18
-// PUPROSE: demo PCF8574 library select functions
-
+// PURPOSE: demo PCF8574 library select functions
 
 
 #include "PCF8574.h"
@@ -20,6 +19,8 @@ void setup()
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
 
+  Wire.begin();
+
   PCF.begin();
   Serial.println(PCF.isConnected());
   Serial.println();
@@ -29,14 +30,14 @@ void setup()
   PCF.selectNone();
   delay(1000);
   
-  // VU meter up
+  //  VU meter up
   for (int i = 0; i < 7; i++)
   {
     PCF.selectN(i);
     delay(100);
   }
 
-  // VU meter down
+  //  VU meter down
   for (int i = 7; i >= 0; i--)
   {
     PCF.selectN(i);
@@ -47,7 +48,7 @@ void setup()
 
 void loop()
 {
-  // night rider
+  //  night rider
   for (int i = 0; i < 7; i++)
   {
     PCF.select(i);
@@ -61,4 +62,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

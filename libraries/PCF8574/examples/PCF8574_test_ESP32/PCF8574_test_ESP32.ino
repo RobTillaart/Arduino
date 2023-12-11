@@ -1,14 +1,13 @@
 //
-//    FILE: PCF8574_Wire2.ino
+//    FILE: PCF8574_test_ESP32.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2016-04-30
-// PURPOSE: demo
+//    DATE: 7-febr-2013
+// PURPOSE: test PCF8574 library
 
 
 #include "PCF8574.h"
 
-//  adjust addresses if needed
-PCF8574 PCF(0x39, &Wire2);
+PCF8574 PCF_01(0x38);
 
 
 void setup()
@@ -18,19 +17,12 @@ void setup()
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
 
-  Wire2.begin();
+  //  adjust pins if needed
+  Wire.begin(20, 21);
 
-  if (!PCF.begin())
-  {
-    Serial.println("could not initialize...");
-  }
-  if (!PCF.isConnected())
-  {
-    Serial.println("=> not connected");
-    while(1);
-  }
+  PCF_01.begin();
 
-  int x = PCF.read8();
+  int x = PCF_01.read8();
   Serial.print("Read ");
   Serial.println(x, HEX);
   delay(1000);
@@ -52,8 +44,8 @@ void loop()
 
 void doHigh()
 {
-  PCF.write(4, HIGH);
-  int x = PCF.read8();
+  PCF_01.write(4, HIGH);
+  int x = PCF_01.read8();
   Serial.print("Read ");
   Serial.println(x, HEX);
 }
@@ -61,8 +53,8 @@ void doHigh()
 
 void doLow()
 {
-  PCF.write(4, LOW);
-  int x = PCF.read8();
+  PCF_01.write(4, LOW);
+  int x = PCF_01.read8();
   Serial.print("Read ");
   Serial.println(x, HEX);
 }
@@ -70,8 +62,8 @@ void doLow()
 
 void doToggle()
 {
-  PCF.toggle(4);
-  int x = PCF.read8();
+  PCF_01.toggle(4);
+  int x = PCF_01.read8();
   Serial.print("Read ");
   Serial.println(x, HEX);
 }

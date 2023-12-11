@@ -2,12 +2,12 @@
 //    FILE: PCF8574_isConnected.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-// PUPROSE: demo isConnected function
+// PURPOSE: demo isConnected function
 
 
 #include "PCF8574.h"
 
-// adjust addresses if needed
+//  adjust addresses if needed
 PCF8574 PCF_39(0x39);
 
 
@@ -17,6 +17,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
+
+  Wire.begin();
 
   if (!PCF_39.begin())
   {
@@ -38,5 +40,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

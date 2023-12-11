@@ -2,7 +2,7 @@
 //    FILE: PCF8574_rotaryEncoder.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
-// PUPROSE: demo PCF8574 as rotary encoder reader.
+// PURPOSE: demo PCF8574 as rotary encoder reader.
 //
 //
 //  RotaryEncoder    PCF8574      UNO
@@ -49,6 +49,7 @@ void setup()
   flag = false;
 
   Wire.begin();
+
   if (decoder.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to PCF8574.");
@@ -101,7 +102,7 @@ void updateRotaryDecoder()
 {
   uint8_t val = decoder.read8();
 
-  // check which of 4 has changed
+  //  check which of 4 has changed
   for (uint8_t i = 0; i < 4; i++)
   {
     uint8_t currentpos = (val & 0x03);
@@ -130,5 +131,5 @@ void updateRotaryDecoder()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

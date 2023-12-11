@@ -38,8 +38,14 @@ unsigned int blinkMillis;
 unsigned int buttonMillis;
 
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("PCF8574_LIB_VERSION: ");
+  Serial.println(PCF8574_LIB_VERSION);
+  
+  Wire.begin();
   pcf20.begin();
   
   pinMode(onboardLed, OUTPUT);
@@ -50,25 +56,25 @@ void loop() {
   static bool state;
   unsigned int currentMillis = millis();
   
-  //Limit button read to 20 times a second
-  //Fast enough for most buttons 
-  //but this way you don't have a dimmer output because it's blanked during button read
-  //a read takes 460us t 16Mhz Arduino and normal I2C speed.
-  if(currentMillis - buttonMillis >= 50){
+  //  Limit button read to 20 times a second
+  //  Fast enough for most buttons 
+  //  but this way you don't have a dimmer output because it's blanked during button read
+  //  a read takes 460us t 16Mhz Arduino and normal I2C speed.
+  if ((currentMillis - buttonMillis) >= 50) {
     buttonMillis = currentMillis;
     
-    if(state != pcf20.readButton(PcfButtonLedPin)){
-      if(state){
-        //toggle the LED
+    if (state != pcf20.readButton(PcfButtonLedPin)) {
+      if( state) {
+        //  toggle the LED
         digitalWrite(onboardLed, !digitalRead(onboardLed));
       }
       state = !state;
     }
   }
   
-  //Lets blink the same output
-  if(currentMillis - blinkMillis >= 500){
-    //Update time
+  //  Lets blink the same output
+  if ((currentMillis - blinkMillis) >= 500) {
+    //  Update time
     blinkMillis = currentMillis;
     
     pcf20.toggle(PcfButtonLedPin);
@@ -77,5 +83,5 @@ void loop() {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

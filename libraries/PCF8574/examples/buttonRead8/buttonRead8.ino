@@ -39,8 +39,14 @@ unsigned int blinkMillis;
 unsigned int buttonMillis;
 
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("PCF8574_LIB_VERSION: ");
+  Serial.println(PCF8574_LIB_VERSION);
+  
+  Wire.begin();
   pcf20.begin();
   
   pinMode(onboardLed, OUTPUT);
@@ -61,7 +67,7 @@ void loop() {
   //  Fast enough for most buttons 
   //  but this way you don't have a dimmer output because it's blanked during button read
   //  a read takes 460us t 16Mhz Arduino and normal I2C speed.
-  if(currentMillis - buttonMillis >= 50){
+  if ((currentMillis - buttonMillis) >= 50) {
     buttonMillis = currentMillis;
     
     //  read all states but only force PcfButtonLedPin HIGH during the 
@@ -69,11 +75,11 @@ void loop() {
     //  Alternatively the mask could have been set with setButtonMask().
     //  Then the mask can be omitted here. See setup()
     //  byte inputStates = pcf20.readButton8(_BV(PcfButtonLedPin));
-    byte inputStates = pcf20.readButton8(1 << PcfButtonLedPin);      // Keep Arduino-CI happy
+    byte inputStates = pcf20.readButton8(1 << PcfButtonLedPin);      //  Keep Arduino-CI happy
     
     //  check the bit of PcfButtonLedPin
-    if(state != bitRead(inputStates, PcfButtonLedPin)){
-      if(state){
+    if (state != bitRead(inputStates, PcfButtonLedPin)) {
+      if (state) {
         //  toggle the LED
         digitalWrite(onboardLed, !digitalRead(onboardLed));
       }
@@ -82,7 +88,7 @@ void loop() {
   }
   
   //  Lets blink the same output
-  if(currentMillis - blinkMillis >= 500){
+  if ((currentMillis - blinkMillis) >= 500) {
     //  Update time
     blinkMillis = currentMillis;
     
@@ -93,5 +99,5 @@ void loop() {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -49,6 +49,15 @@ There are two examples to show how interrupts can be used:
 - PCF8574_rotaryEncoder.ino
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Related
 
 16 bit port expanders
@@ -87,24 +96,23 @@ However when performance is needed you can try to overclock the chip.
 #include "PCF8574.h"
 ```
 
-**PCF8574_INITIAL_VALUE** is a define that can be set compile time or before
+**PCF8574_INITIAL_VALUE** is a define 0xFF that can be set compile time or before
 the include of "pcf8574.h" to overrule the default value used with the **begin()** call.
 
 
-### Constructor
+#### Constructor
 
-- **PCF8574(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with optional device address, default 0x20, 
+- **PCF8574(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with optional address, default 0x20, 
 and the optional Wire interface as parameter.
-- **bool begin(uint8_t value = PCF8574_INITIAL_VALUE)** set the initial value for the pins and masks.
-- **bool begin(int sda, int scl, uint8_t value = PCF8574_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins.
+- **bool begin(uint8_t value = PCF8574_INITIAL_VALUE)** set the initial value (default 0xFF) for the pins and masks.
 - **bool isConnected()** checks if the address set in the constructor or by **setAddress()** is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8574 modules runtime. Note this corrupts internal buffered values, 
 so one might need to call **read8()** and/or **write8()**. Returns true if address can be found on I2C bus.
-- **uint8_t getAddress()** returns the device address.
+- **uint8_t getAddress()** Returns the device address.
 
 
-### Read and Write
+#### Read and Write
 
 - **uint8_t read8()** reads all 8 pins at once. This one does the actual reading.
 - **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..7
@@ -116,7 +124,7 @@ value is HIGH(1) or LOW (0)
 - **uint8_t valueOut()** returns the last written data.
 
 
-### Button
+#### Button
 
 The **"button"** functions are to be used when you mix input and output on one IC.
 It does not change / affect the pins used for output by masking these.
@@ -133,7 +141,7 @@ Note this can be a subset of the pins set with **setButtonMask()** if one wants 
 Background - https://github.com/RobTillaart/Arduino/issues/38
 
 
-### Special
+#### Special
 
 - **void toggle(const uint8_t pin)** toggles a single pin
 - **void toggleMask(const uint8_t mask = 0xFF)** toggles a selection of pins, 
@@ -147,7 +155,7 @@ Fills the lower lines with zero's.
 - **void reverse()** reverse the "bit pattern" of the lines, swapping pin 7 with 0, 6 with 1, 5 with 2 etc.
 
 
-### Select
+#### Select
 
 Some convenience wrappers.
 
@@ -161,7 +169,7 @@ This can typical be used to implement a VU meter.
 - **void selectAll()** sets all pins to HIGH.
 
 
-### Miscellaneous
+#### Miscellaneous
 
 - **int lastError()** returns the last error from the lib. (see .h file).
 

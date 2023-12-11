@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-09-23
+- refactor API, begin()
+- update readme.md
+- update examples
+- add examples ESP32 RP2040
+- minor edits
+
+----
+
 ## [0.3.9] - 2023-09-23
 - Add Wire1 support for ESP32
 - update readme.md
 - minor edits
-
 
 ## [0.3.8] - 2023-02-04
 - update readme.md

@@ -2,7 +2,7 @@
 //    FILE: PCF8574_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-24
-// PUPROSE: test PCF8574 library at different I2C speeds.
+// PURPOSE: test PCF8574 library at different I2C speeds.
 
 
 #include "PCF8574.h"
@@ -18,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
+
+  Wire.begin();
 
   PCF.begin();
   Serial.println(PCF.isConnected());
@@ -50,4 +52,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

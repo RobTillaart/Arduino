@@ -2,7 +2,7 @@
 //    FILE: PCF8574_interrupt.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-07
-// PUPROSE: test PCF8574 library
+// PURPOSE: test PCF8574 library
 //
 // TEST SETUP
 //   Connect INT pin of the PCF8574 to UNO pin 2
@@ -19,7 +19,7 @@ PCF8574 PCF(0x38);
 
 ////////////////////////////////////
 //
-// INTERRUPT ROUTINE + FLAG
+//  INTERRUPT ROUTINE + FLAG
 //
 const int IRQPIN = 2;
 
@@ -33,7 +33,7 @@ void pcf_irq()
 
 ////////////////////////////////////
 //
-// MAIN CODE
+//  MAIN CODE
 //
 void setup()
 {
@@ -41,7 +41,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
-
+  
+  Wire.begin();
   PCF.begin();
 
   pinMode(IRQPIN, INPUT_PULLUP);
@@ -67,5 +68,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

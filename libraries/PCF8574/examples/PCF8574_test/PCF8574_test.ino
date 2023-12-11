@@ -2,7 +2,7 @@
 //    FILE: PCF8574_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 7-febr-2013
-// PUPROSE: test PCF8574 library
+// PURPOSE: test PCF8574 library
 
 
 #include "PCF8574.h"
@@ -16,6 +16,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
+
+  Wire.begin();
 
   PCF_01.begin();
 
@@ -66,5 +68,5 @@ void doToggle()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

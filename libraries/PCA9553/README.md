@@ -40,6 +40,15 @@ Power-On Reset (POR) initializes the registers to their default state,
 all zeroes, causing the bits to be set HIGH (LED off).
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### I2C adresses
 
 |  type        |  Address  |
@@ -75,8 +84,6 @@ Address = 0x62 or 0x63.
 Optional the Wire interface as parameter.
 - **bool begin()** initializes the library after startup.
 Returns true if device address is available on I2C bus.
-- **bool begin(int sda, int scl)**
-idem, ESP32 ESP8266 only.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t getAddress()** returns I2C address.
 - **uint8_t outputCount()** returns the number of channels = 4.

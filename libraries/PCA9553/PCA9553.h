@@ -3,7 +3,7 @@
 //    FILE: PCA9553.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PUPROSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9553_LIB_VERSION         (F("0.2.1"))
+#define PCA9553_LIB_VERSION         (F("0.3.0"))
 
 
 //  REGISTERS
@@ -50,9 +50,6 @@ class PCA9553
 public:
   explicit PCA9553(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  reset();

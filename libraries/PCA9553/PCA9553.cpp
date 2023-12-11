@@ -2,7 +2,7 @@
 //    FILE: PCA9553.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -23,24 +23,8 @@ PCA9553::PCA9553(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool PCA9553::begin(int sda, int scl)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  return true;
-}
-#endif
-
-
 bool PCA9553::begin()
 {
-  _wire->begin();
   if (! isConnected()) return false;
   return true;
 }

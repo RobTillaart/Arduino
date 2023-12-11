@@ -2,7 +2,7 @@
 //
 //    FILE: AD568X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD568X_LIB_VERSION        (F("0.2.0"))
+#define AD568X_LIB_VERSION        (F("0.2.1"))
 
 
 #if defined(ARDUINO_ARCH_RP2040)
@@ -101,10 +101,6 @@ protected:
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;
-
-  #if defined(ESP32)
-  bool        _useHSPI = true;
-  #endif
 };
 
 

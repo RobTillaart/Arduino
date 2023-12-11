@@ -30,6 +30,22 @@ however in practice not all frequencies are set accurate.
 Lower frequencies do better than higher frequencies.
 
 
+#### 0.6.0 Breaking change
+
+Version 0.6.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/PCA9634 (8 channel)
+- https://github.com/RobTillaart/PCA9635 (16 channel)
+- https://github.com/RobTillaart/PCA9685_RT (16 channel)
+
+
 ## Interface
 
 ```cpp
@@ -43,8 +59,6 @@ and optional the Wire interface as parameter.
 - **bool begin(uint8_t mode1_mask = PCA9685_MODE1_AUTOINCR | PCA9685_MODE1_ALLCALL, uint8_t mode2_mask = PCA9685_MODE2_TOTEMPOLE)** 
 initializes the library after startup. Optionally setting the MODE1 and MODE2 configuration registers. 
 See PCA9685.h and datasheet for settings possible.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask = PCA9685_MODE1_AUTOINCR | PCA9685_MODE1_ALLCALL, uint8_t mode2_mask = PCA9685_MODE2_TOTEMPOLE)** 
-idem, ESP32 ESP8266 only. 
 - **void configure(uint8_t mode1_mask, uint8_t mode2_mask)** 
 To configure the library after startup one can set the MODE1 and MODE2 configuration registers. 
 See PCA9685.h and datasheet for settings possible.

@@ -1,12 +1,12 @@
 //
 //    FILE: PCA9685_setFrequency_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-11-22
 // PUPROSE: test PCA9685 library
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 //
-// sets one channel to max PWM 0..4095
-// and connect the output to an interrupt pin 2
-// to see the frequency of the PWM
+//  sets one channel to max PWM 0..4095
+//  and connect the output to an interrupt pin 2
+//  to see the frequency of the PWM
 
 
 #include "Arduino.h"
@@ -26,25 +26,26 @@ uint8_t lines = 0;
 
 void setup()
 {
-  Wire.begin();
-  PCA.begin();
-
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9685 LIB version: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 
-  pinMode(IRQ_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(IRQ_PIN), irq, RISING);  // CHANGE
+  Wire.begin();
+  PCA.begin();
 
-  PCA.setFrequency(PCA9685_MIN_FREQ);   // == 24
-  PCA.setPWM(15, 0, 4095);              // gives 2 changes per interval
+  pinMode(IRQ_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(IRQ_PIN), irq, RISING);  //  CHANGE
+
+  PCA.setFrequency(PCA9685_MIN_FREQ);   //  == 24
+  PCA.setPWM(15, 0, 4095);              //  gives 2 changes per interval
 
   Serial.println("\nSET\tGET\tGET%\tIRQ\tIRQ%");
 }
 
 
-// INTERRUPT ROUTINE TO COUNT THE PULSES
+//  INTERRUPT ROUTINE TO COUNT THE PULSES
 void irq()
 {
   count++;
@@ -57,7 +58,7 @@ void loop()
   if (now - lastTime >= 1000)
   {
     lastTime += 1000;
-    // make a working copy of count
+    //  make a working copy of count
     noInterrupts();
     uint16_t t = count;
     count = 0;
@@ -75,7 +76,8 @@ void loop()
     Serial.print("\n");
 
     freq += 4;
-    if (freq >= 1526) freq = 24;  //  page 25 datasheet; PCA9685_MAX_FREQ, PCA9685_MIN_FREQ
+    //  page 25 datasheet; PCA9685_MAX_FREQ, PCA9685_MIN_FREQ
+    if (freq >= 1526) freq = 24;
     PCA.setFrequency(freq);
     PCA.setPWM(15, 0, 4095);
 
@@ -89,5 +91,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,8 +1,8 @@
 //
 //    FILE: PCA9685_test02.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 24-APR-2016
 // PUPROSE: test PCA9685 library
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 
 
 #include "Arduino.h"
@@ -15,14 +15,14 @@ PCA9685 ledArray(0x40);
 
 void setup()
 {
-  Wire.begin();
-  ledArray.begin();
-
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9685 LIB version: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  ledArray.begin();
 
   testDigitalWrite(HIGH);
   testPWM(0);
@@ -78,7 +78,7 @@ void testPWMMode()
   Serial.println(__FUNCTION__);
   for (uint16_t channel = 1; channel < ledArray.channelCount(); channel++)
   {
-    // every next line ~twice as much time
+    //  every next line ~twice as much time
     ledArray.setPWM(channel, channel * 127, channel * 255);
     uint16_t a = 0, b = 0;
     ledArray.getPWM(channel, &a, &b);
@@ -102,7 +102,7 @@ void testFrequency()
   {
     Serial.print(freq);
     ledArray.setFrequency(freq);
-    // if freq is out of range => report
+    //  if freq is out of range => report
     if (ledArray.getFrequency() != freq)
     {
       Serial.print("\tconstrained to : ");
@@ -121,9 +121,9 @@ void testFrequency()
 
 void loop()
 {
-  //testPWM(0);
+  //  testPWM(0);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

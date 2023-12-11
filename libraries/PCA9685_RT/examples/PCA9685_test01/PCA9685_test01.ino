@@ -1,9 +1,8 @@
 //
 //    FILE: PCA9685_test01.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 24-APR-2016
 // PUPROSE: test PCA9685 library
-
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -12,15 +11,17 @@
 
 PCA9685 ledArray(0x20);
 
+
 void setup()
 {
-  Wire.begin();
-  ledArray.begin();
-
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9685 LIB version: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
+  ledArray.begin();
 
   testSetON();
   testPWMMode();
@@ -64,7 +65,7 @@ void testPWMMode()
   Serial.println("Test - setPwm getPWM");
   for (uint16_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    // every next line ~twice as much time
+    //  every next line ~twice as much time
     ledArray.setPWM(channel, channel * 127, channel * 255);
     uint16_t a, b;
     ledArray.getPWM(channel, &a, &b);
@@ -81,5 +82,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

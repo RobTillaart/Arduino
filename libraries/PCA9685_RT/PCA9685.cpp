@@ -2,7 +2,7 @@
 //    FILE: PCA9685.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -24,25 +24,8 @@ PCA9685::PCA9685(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool PCA9685::begin(uint8_t sda, uint8_t scl, uint8_t mode1_mask, uint8_t mode2_mask)
-{
-  if ((sda < 255) && (scl < 255))
-  {
-    _wire->begin(sda, scl);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  configure(mode1_mask, mode2_mask);
-  return true;
-}
-#endif
-
-
 bool PCA9685::begin(uint8_t mode1_mask, uint8_t mode2_mask)
 {
-  _wire->begin();
   if (! isConnected()) return false;
   configure(mode1_mask, mode2_mask);
   return true;
@@ -69,6 +52,12 @@ bool PCA9685::isConnected()
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();
   return (_error == 0);
+}
+
+
+uint8_t PCA9685::getAddress()
+{
+  return _address;
 }
 
 

@@ -2,6 +2,7 @@
 //    FILE: PCA9685_OE_control.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test PCA9635 library
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 
 
 #include "Arduino.h"
@@ -19,6 +20,7 @@ void setup()
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
   ledArray.begin();
 
   //  start just one channel

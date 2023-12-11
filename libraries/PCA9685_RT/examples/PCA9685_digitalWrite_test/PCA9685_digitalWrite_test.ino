@@ -1,12 +1,12 @@
 //
 //    FILE: PCA9685_digitalWrite_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-11-21
 // PUPROSE: test PCA9685 library
+//     URL: https://github.com/RobTillaart/PCA9685_RT
 //
-// sets one channel to max PWM 0..4095
-// and connect the output to an interrupt pin 2
-// to see the frequency of the PWM
+//  sets one channel to max PWM 0..4095
+//  and connect the output to an interrupt pin 2
+//  to see the frequency of the PWM
 
 
 #include "Arduino.h"
@@ -23,24 +23,25 @@ uint32_t lastTime = 0;
 
 void setup()
 {
-  Wire.begin();
-  PCA.begin();
-
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9685 LIB version: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 
+  Wire.begin();
+  PCA.begin();
+
   pinMode(IRQ_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(IRQ_PIN), irq, CHANGE);
 
-  // PCA.setPWM(15, 0, 1000);    // works OK - reference to test irq()
-  // PCA.digitalWrite(15, LOW);  // works OK
-  PCA.digitalWrite(15, HIGH);    // works OK
+  //  PCA.setPWM(15, 0, 1000);    //  works OK - reference to test irq()
+  //  PCA.digitalWrite(15, LOW);  //  works OK
+  PCA.digitalWrite(15, HIGH);     //  works OK
 }
 
 
-// INTERRUPT ROUTINE TO COUNT THE PULSES
+//  INTERRUPT ROUTINE TO COUNT THE PULSES
 void irq()
 {
   count++;
@@ -66,5 +67,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

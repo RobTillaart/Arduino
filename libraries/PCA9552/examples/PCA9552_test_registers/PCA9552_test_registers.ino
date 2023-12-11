@@ -88,9 +88,12 @@ void test_source()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9552_LIB_VERSION: ");
   Serial.println(PCA9552_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   if (leds.begin() == false)
   {

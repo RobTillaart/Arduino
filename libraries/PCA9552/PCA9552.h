@@ -3,7 +3,7 @@
 //    FILE: PCA9552.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-17
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PUPROSE: Arduino library for for I2C PCA9552 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9552
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9552_LIB_VERSION         (F("0.1.1"))
+#define PCA9552_LIB_VERSION         (F("0.2.0"))
 
 
 //  REGISTERS
@@ -54,9 +54,6 @@ class PCA9552
 public:
   explicit PCA9552(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl);
-#endif
   bool     begin();
   bool     isConnected();
   uint8_t  reset();

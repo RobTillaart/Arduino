@@ -63,6 +63,7 @@ unittest(test_begin)
 {
   PCF8575 PCF(0x38);
 
+  Wire.begin();
   PCF.begin();
 
   int readValue = PCF.read16();
@@ -77,6 +78,8 @@ unittest(test_read)
 {
   PCF8575 PCF(0x38);
   int readValue;
+
+  Wire.begin();
 
   PCF.begin();
   for (int i = 0; i < 8; i++)

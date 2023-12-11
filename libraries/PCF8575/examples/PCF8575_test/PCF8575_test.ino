@@ -2,7 +2,7 @@
 //    FILE: PCF8575_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// PUPROSE: test PCF8575 library
+// PURPOSE: test PCF8575 library
 //     URL: https://github.com/RobTillaart/PCF8575
 
 
@@ -15,8 +15,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCF8575_test version: ");
+  Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
 
   PCF.begin();
 
@@ -76,5 +78,5 @@ void printHex(uint16_t x)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

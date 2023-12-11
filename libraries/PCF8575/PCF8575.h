@@ -3,7 +3,7 @@
 //    FILE: PCF8575.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.10
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8575_LIB_VERSION      (F("0.1.10"))
+#define PCF8575_LIB_VERSION      (F("0.2.0"))
 
 
 #ifndef PCF8575_INITIAL_VALUE
@@ -30,9 +30,6 @@ public:
   //  deviceAddress base = 0x20 + depends on address bits
   explicit PCF8575(const uint8_t deviceAddress = 0x20, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl, uint16_t value = PCF8575_INITIAL_VALUE);
-#endif
   bool     begin(uint16_t value = PCF8575_INITIAL_VALUE);
   bool     isConnected();
 

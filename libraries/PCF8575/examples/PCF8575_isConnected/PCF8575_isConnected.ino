@@ -2,12 +2,12 @@
 //    FILE: PCF8575_isConnected.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-// PUPROSE: demo device detection
+// PURPOSE: demo device detection
 
 
 #include "PCF8575.h"
 
-// adjust addresses if needed
+//  adjust addresses if needed
 PCF8575 PCF(0x39);
 
 
@@ -17,6 +17,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
 
   if (!PCF.begin())
   {
@@ -38,5 +40,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

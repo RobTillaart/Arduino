@@ -2,9 +2,9 @@
 //    FILE: PCF8575_interrupt.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
-// PUPROSE: test PCF8575 library
+// PURPOSE: test PCF8575 library
 //
-// TEST SETUP
+//  TEST SETUP
 //  Connect INT pin of the PCF8575 to UNO pin 2
 //
 //  (from figure 4 datasheet
@@ -19,7 +19,7 @@ PCF8575 PCF(0x38);
 
 ////////////////////////////////////
 //
-// INTERRUPT ROUTINE + FLAG
+//  INTERRUPT ROUTINE + FLAG
 //
 const int IRQPIN = 2;
 
@@ -33,14 +33,16 @@ void pcf_irq()
 
 ////////////////////////////////////
 //
-// MAIN CODE
+//  MAIN CODE
 //
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCF8575_LIB_VERSION: ");
+  Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
 
   PCF.begin();
 
@@ -62,10 +64,10 @@ void loop()
     Serial.print('\t');
     Serial.println(x, HEX);
   }
-  // do other things here
+  //  do other things here
   delay(10);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

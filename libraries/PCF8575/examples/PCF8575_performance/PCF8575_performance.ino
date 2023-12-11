@@ -2,7 +2,7 @@
 //    FILE: PCF8575_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-24
-// PUPROSE: test PCF8575 library
+// PURPOSE: test PCF8575 library
 
 
 #include "PCF8575.h"
@@ -20,6 +20,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
 
   PCF.begin();
   Serial.println(PCF.isConnected());
@@ -50,5 +52,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

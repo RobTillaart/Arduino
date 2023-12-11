@@ -2,7 +2,7 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.1.10
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -21,25 +21,8 @@ PCF8575::PCF8575(const uint8_t deviceAddress, TwoWire *wire)
 }
 
 
-#if defined (ESP8266) || defined(ESP32)
-bool PCF8575::begin(int dataPin, int clockPin, uint16_t value)
-{
-  if ((dataPin < 255) && (clockPin < 255))
-  {
-    _wire->begin(dataPin, clockPin);
-  } else {
-    _wire->begin();
-  }
-  if (! isConnected()) return false;
-  PCF8575::write16(value);
-  return true;
-}
-#endif
-
-
 bool PCF8575::begin(uint16_t value)
 {
-  _wire->begin();
   if (! isConnected()) return false;
   PCF8575::write16(value);
   return true;

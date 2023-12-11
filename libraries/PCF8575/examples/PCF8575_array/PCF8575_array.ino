@@ -2,12 +2,12 @@
 //    FILE: PCF8575_array.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-12-13
-// PUPROSE: demo array of PCF - not tested
+// PURPOSE: demo array of PCF - not tested
 
 
 #include "PCF8575.h"
 
-// adjust addresses if needed
+//  adjust addresses if needed
 PCF8575 A(0x38);
 PCF8575 B(0x39);
 PCF8575 C(0x3A);
@@ -21,6 +21,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
 
   for (int i = 0; i < 3; i++)
   {
@@ -52,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

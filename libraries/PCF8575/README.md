@@ -37,6 +37,15 @@ The library allows to read and write both single pins or 16 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
+
+
 #### Interrupts
 
 The PCF8575 has an interrupt output line (INT) to notify an MCU that one of the input lines has changed.

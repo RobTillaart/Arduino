@@ -1,7 +1,6 @@
 //
 //    FILE: PCA9635_test01.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 23-APR-2016
 // PURPOSE: test PCA9635 library
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -17,9 +16,12 @@ PCA9635 ledArray(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9635 LIB version: ");
   Serial.println(PCA9635_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   ledArray.begin();
 

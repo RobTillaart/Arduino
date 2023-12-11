@@ -20,9 +20,12 @@ uint8_t channels = 16;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9635 LIB version: ");
   Serial.println(PCA9635_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   ledArray.begin();
 

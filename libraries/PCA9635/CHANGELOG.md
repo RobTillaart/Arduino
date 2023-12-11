@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2023-12-11
+= refactor API, begin()
+- add **uint8_t getAddress()**
+- update readme.md
+- update examples
+
+----
+
 ## [0.4.7] - 2023-09-24
 - add Wire1 support for ESP32
 - update readme.md
 - minor edits
-
 
 ## [0.4.6] - 2023-05-24
 - renaming #defines PCA963X... to prepare merge with PCA9634.

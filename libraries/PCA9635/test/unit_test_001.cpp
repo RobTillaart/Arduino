@@ -77,6 +77,9 @@ unittest(test_constants)
 unittest(test_constructor)
 {
   PCA9635 ledArray(0x20);
+
+  Wire.begin();
+
   assertTrue(ledArray.begin());
   assertTrue(ledArray.isConnected());
   assertEqual(16, ledArray.channelCount());
@@ -86,9 +89,12 @@ unittest(test_constructor)
 unittest(test_LedDriverMode)
 {
   PCA9635 ledArray(0x20);
+
+  Wire.begin();
+
   assertTrue(ledArray.begin());
 
-  // TODO
+  //  TODO
 }
 
 
@@ -96,12 +102,14 @@ unittest(test_OutputEnable)
 {
   PCA9635 ledArray(0x20);
 
+  Wire.begin();
+
   assertTrue(ledArray.begin());
 
   assertEqual(HIGH, ledArray.getOutputEnable());
 
   assertTrue(ledArray.setOutputEnablePin(12));
-  //  assertEqual(HIGH, ledArray.getOutputEnable()); // need mock
+  //  assertEqual(HIGH, ledArray.getOutputEnable());  //  need mock
 
   assertTrue(ledArray.setOutputEnable(true));
   //  assertEqual(LOW, ledArray.getOutputEnable());

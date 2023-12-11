@@ -1,7 +1,8 @@
 //
 //    FILE: PCA9634_OE_control.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test PCA9635 library
+// PURPOSE: test PCA9634 library
+//     URL: https://github.com/RobTillaart/PCA9634
 
 
 #include "Arduino.h"
@@ -15,9 +16,12 @@ PCA9634 ledArray(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9634 LIB version: ");
   Serial.println(PCA9634_LIB_VERSION);
   Serial.println();
+
+  Wire.begin();
 
   ledArray.begin();
 

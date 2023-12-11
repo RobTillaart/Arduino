@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.2.9
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.2.9"))
+#define PCA9634_LIB_VERSION         (F("0.3.0"))
 
 
 //  mode codes
@@ -143,14 +143,10 @@ class PCA9634
 public:
   explicit PCA9634(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
-#if defined (ESP8266) || defined(ESP32)
-  bool     begin(int sda, int scl,
-                     uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
-                     uint8_t mode2_mask = PCA963X_MODE2_NONE);
-#endif
   bool     begin(uint8_t mode1_mask = PCA963X_MODE1_ALLCALL,
                  uint8_t mode2_mask = PCA963X_MODE2_NONE);
   bool     isConnected();
+  uint8_t  getAddress();
 
 
   /////////////////////////////////////////////////////

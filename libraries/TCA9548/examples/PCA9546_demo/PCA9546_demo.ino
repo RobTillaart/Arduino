@@ -1,13 +1,13 @@
 //
-//    FILE: tca9548_demo.ino
+//    FILE: PCA9546_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo TCA9548 I2C multiplexer
+// PURPOSE: demo PCA9546 I2C multiplexer
 //     URL: https://github.com/RobTillaart/TCA9548
 
 
 #include "TCA9548.h"
 
-TCA9548 MP(0x70);
+PCA9546 MP(0x70);
 
 uint8_t channels = 0;
 

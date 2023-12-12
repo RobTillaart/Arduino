@@ -3,6 +3,9 @@
 # Data types (KEYWORD1)
 TCA9548	KEYWORD1
 PCA9548	KEYWORD1
+PCA9546	KEYWORD1
+PCA9545	KEYWORD1
+PCA9543	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -25,6 +28,8 @@ setForced	KEYWORD2
 getForced	KEYWORD2
 
 getError	KEYWORD2
+
+getInterruptMask	KEYWORD2
 
 
 # Constants (LITERAL1)

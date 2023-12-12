@@ -77,10 +77,27 @@ unittest(test_constructor)
 
   assertTrue(tca.begin());
   assertTrue(tca.isConnected());
+  assertEqual(8, tca.channelCount());
   
-  PCA9548 pca(0x71);
-  assertTrue(pca.begin());
-  assertTrue(pca.isConnected());
+  PCA9548 pca8(0x71);
+  assertTrue(pca8.begin());
+  assertTrue(pca8.isConnected());
+  assertEqual(8, pca8.channelCount());
+  
+  PCA9546 pca6(0x71);
+  assertTrue(pca6.begin());
+  assertTrue(pca6.isConnected());
+  assertEqual(4, pca6.channelCount());
+  
+  PCA9545 pca5(0x71);
+  assertTrue(pca5.begin());
+  assertTrue(pca5.isConnected());
+  assertEqual(4, pca5.channelCount());
+  
+  PCA9543 pca3(0x71);
+  assertTrue(pca3.begin());
+  assertTrue(pca3.isConnected());
+  assertEqual(2, pca3.channelCount());
 }
 
 

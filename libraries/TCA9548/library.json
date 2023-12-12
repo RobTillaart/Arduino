@@ -1,7 +1,7 @@
 {
   "name": "TCA9548",
   "keywords": "TCA9548,TCA9548a,PCA9548,PCA9548a,I2C,multiplexer",
-  "description": "Arduino Library for TCA9548 I2C multiplexer.",
+  "description": "Arduino Library for TCA9548 I2C multiplexer.\nTCA9548a, PCA9548, PCA9548a, PCA9546, PCA9545, PCA9543",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/TCA9548"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

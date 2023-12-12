@@ -6,6 +6,7 @@ MINMAX	KEYWORD1
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2
 reset	KEYWORD2
+setResetDefaults	KEYWORD2
 
 addCallBack	KEYWORD2
 

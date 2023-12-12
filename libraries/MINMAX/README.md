@@ -44,6 +44,7 @@ Finally the library keeps track when the last peaks occurred.
 - **MINMAX()** Constructor,
 - **uint8_t add(float value)** add next value. Returns status (bit flags), see table below.
 - **void reset()** resets the minimum and maximum to 0.
+- **void setResetDefaults(float minimum, float maximum)** sets the default values for minimum and maximum defining an initial range / window.
 - **float minimum()** returns last minimum. Can be higher than previous call due to **reset()** or **autoReset()**.
 If no call to **add()** is made yet it will return 0.
 - **float maximum()** returns last maximum. Can be lower than previous call due to **reset()** or **autoReset()**.
@@ -88,6 +89,30 @@ when the minimum or the maximum has changed.
 See examples.
 
 
+#### setResetDefaults()
+
+- **void setResetDefaults(minimum, maximum)** sets the default values for minimum and maximum defining an initial range / window when **reset()** is called.
+This will reduce an abundance of new min/max values in the first part of a stream, possibly causing unneeded call back calls.
+
+The constructor sets both to zero (0) by default. The user can now override these values.
+There are no default values for the parameters in the function.
+The user is responsible and even allowed to set minimum to be larger than maximum.
+The new values become active after the call to **reset()**.
+
+The function does not change or reset the **lastMin()** and **lastMax()** timestamps. 
+Only after **reset()** these are set to 0 again.
+
+Note that with an initial range set, the **lastMin()** and **lastMax()** timestamps 
+may be zero for quite a while.
+
+Typical code snippet
+
+```cpp
+mm.setResetDefaults(-10, 20);  //  arbitrary values
+mm.reset();                    //  activate them
+```
+
+
 ## Obsolete
 
 - **void autoReset(uint32_t count)** obsolete since 0.2.0
@@ -107,8 +132,9 @@ The examples show the basic working of the functions.
 
 #### Should
 
-- separate call back for MINMAX_MIN_CHANGED and MINMAX_MAX_CHANGED
-- add getLastEvent()?
+- consider an (featured) extended class and a (simple) base class.
+- separate call back for **MINMAX_MIN_CHANGED** and **MINMAX_MAX_CHANGED**
+- add **getLastEvent()**
 - add AVG **average()** **sum()**
   - like a digital multimeter (DMM)
   - **sum()** would be sufficient as average can be derived.
@@ -117,11 +143,16 @@ The examples show the basic working of the functions.
 
 - Template class to allow other types
   - int32_t uint64_t double etc.
-  - now you loose precision
+  - now you loose precision.
+- a related class might be **WINDOW(min, max)** that counts and call backs if
+a value is out of a predefined range.
+- **void setResetDefaults(minimum, maximum, bool adjust = true)** add an adjust flag 
+that allows / reject adaption of min / max. (extended class).
+  - define MINMAX_MIN_CHANGED => MINMAX_MIN_EXCEEDED (new or reuse?)
 
 #### Wont (unless)
 
-- thresholds, windowing + triggers  (separate class?)
+- thresholds, windowing + triggers  (separate class!)
 - auto-reset after time? (would affect all functions  ?)
   - need a uint32_t start;
   - need a uint32_t threshold;

@@ -1,7 +1,7 @@
 //
 //    FILE: MINMAX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
 //     URL: https://github.com/RobTillaart/MINMAX
@@ -12,9 +12,11 @@
 
 MINMAX::MINMAX()
 {
+  _resetCount     = 0;
+  _minimumDefault = 0;
+  _maximumDefault = 0;
+  _callback       = NULL;
   reset();
-  _resetCount = 0;
-  _callback = NULL;
 }
 
 
@@ -27,20 +29,30 @@ uint8_t MINMAX::add(const float value)
     reset();
     rv |= MINMAX_RESET_DONE;
   }
-  if ((value < _minimum) || (_count == 0))
+  //  new run and range not adjusted by setResetDefaults()
+  if ((_count == 0) && (_minimum == 0) && (_maximum == 0))
+  {
+    _minimum = _maximum = value;
+    _lastMin = _lastMax = millis();
+    rv |= MINMAX_MIN_CHANGED | MINMAX_MAX_CHANGED;
+  }
+  if (value < _minimum)
   {
     _minimum = value;
     _lastMin = millis();
     rv |= MINMAX_MIN_CHANGED;
   }
-  if ((value > _maximum) || (_count == 0))
+  if (value > _maximum)
   {
     _maximum = value;
     _lastMax = millis();
     rv |= MINMAX_MAX_CHANGED;
   }
   _count++;
-  if ((rv != MINMAX_NO_CHANGE) && (_callback != NULL)) _callback();
+  if ((rv != MINMAX_NO_CHANGE) && (_callback != NULL))
+  {
+    _callback();
+  }
   return rv;
 }
 
@@ -48,12 +60,20 @@ uint8_t MINMAX::add(const float value)
 void MINMAX::reset()
 {
   _lastValue = 0;
-  _minimum   = 0;
-  _maximum   = 0;
+  _minimum   = _minimumDefault;
+  _maximum   = _maximumDefault;
   _count     = 0;
   _lastMin   = 0;
   _lastMax   = 0;
 }
+
+
+void MINMAX::setResetDefaults(float minimum, float maximum)
+{
+  _minimumDefault = minimum;
+  _maximumDefault = maximum;
+}
+
 
 
 void MINMAX::addCallBack( void (* func)(void) )

@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2023-12-12
+- add **void setResetDefaults(float minimum, float maximum)**
+- update readme
+
+
 ## [0.2.1] - 2023-11-14
 - update readme.md
 - update examples
-
 
 ## [0.2.0] - 2022-12-07
 - fix #6 split in .cpp and .h

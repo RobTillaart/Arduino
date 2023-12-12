@@ -1,0 +1,23 @@
+{
+  "name": "PCA9549",
+  "keywords": "",
+  "description": "Arduino Library for PCA9549 I2C octal bus switch.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9549"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCA9549.h"
+}

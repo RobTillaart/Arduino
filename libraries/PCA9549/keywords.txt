@@ -1,0 +1,32 @@
+# Syntax Colouring Map For PCA9549
+
+# Data types (KEYWORD1)
+PCA9549	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+enableChannel	KEYWORD2
+disableChannel	KEYWORD2
+selectChannel	KEYWORD2
+isEnabled	KEYWORD2
+disableAllChannels	KEYWORD2
+
+setChannelMask	KEYWORD2
+getChannelMask	KEYWORD2
+
+setResetPin	KEYWORD2
+reset	KEYWORD2
+
+setForced	KEYWORD2
+getForced	KEYWORD2
+
+getError	KEYWORD2
+
+# Constants (LITERAL1)
+PCA9549_LIB_VERSION	LITERAL1
+
+PCA9549_OK	LITERAL1
+

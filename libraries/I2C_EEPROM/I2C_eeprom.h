@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.0
+// VERSION: 1.8.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -104,6 +104,7 @@ public:
 
   //  Meta data functions
   uint32_t determineSize(const bool debug = false);
+  uint32_t determineSizeNoWrite();
   uint32_t getDeviceSize();
   uint8_t  getPageSize();
   uint8_t  getPageSize(uint32_t deviceSize);

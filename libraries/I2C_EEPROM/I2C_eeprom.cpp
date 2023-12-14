@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.0
+// VERSION: 1.8.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -302,6 +302,35 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
     if (folded) return size;
   }
   return 0;
+}
+
+
+//  new 1.8.1 #61
+uint32_t I2C_eeprom::determineSizeNoWrite()
+{
+  //  try to read a byte to see if connected
+  if (!isConnected()) return 0;
+
+  bool addressSize = _isAddressSizeTwoWords;
+  byte dummyVal = 0;
+  uint32_t lastOkSize = 0;
+
+  for (uint32_t size = 128; size <= 65536; size *= 2)
+  {
+    _isAddressSizeTwoWords = (size > I2C_DEVICESIZE_24LC16);  //  == 2048
+
+    //  Try to read last byte of the block, should return length of 0 when fails
+    if (readBlock(size - 1, &dummyVal, 1) == 0)
+    {
+      _isAddressSizeTwoWords = addressSize;
+      break;
+    }
+    else
+    {
+      lastOkSize = size;
+    }
+  }
+  return lastOkSize;
 }
 
 

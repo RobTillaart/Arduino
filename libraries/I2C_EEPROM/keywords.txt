@@ -30,6 +30,7 @@ updateByteVerify	KEYWORD2
 updateBlockVerify	KEYWORD2
 
 determineSize	KEYWORD2
+determineSizeNoWrite	KEYWORD2
 getDeviceSize	KEYWORD2
 getPageSize	KEYWORD2
 getLastWrite	KEYWORD2

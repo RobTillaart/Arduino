@@ -6,12 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.8.1] - 2023-12-14
+- add **uint32_t determineSizeNoWrite()**, kudos to roelandkluit
+- add example
+- minor edits
+
+
 ## [1.8.0] - 2023-11-24  (breaking change)
 - simplify **begin()**, remove setting Wire pins from library.
 - add **getAddress()**
 - update readme.md
 - update examples
 
+----
 
 ## [1.7.4] - 2023-09-06
 - solve #57 add support for WriteProtectPin

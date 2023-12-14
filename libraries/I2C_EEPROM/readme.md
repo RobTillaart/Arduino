@@ -139,6 +139,8 @@ Same as write and update functions above. Returns true if successful, false indi
 - **uint8_t  getPageSize()** idem
 - **uint8_t  getPageSize(uint32_t deviceSize)** idem
 - **uint32_t getLastWrite()** idem
+- **uint32_t determineSizeNoWrite()** function that determines the size of the EEPROM 
+by detecting when a selected memory address is not readable. (new in 1.8.1).
 - **uint32_t determineSize(bool debug = false)**
 function that determines the size of the EEPROM by detecting when a memory address 
 is folded upon memory address 0.
@@ -147,7 +149,7 @@ The debug flag prints some output to Serial.
 
 **Warning**: this function has changed (again) in 1.4.0
 
-Test results
+Test results **determineSize()**
 
 | Type    | returns |  Memory  | Page Size | Notes |
 |:--------|:--------|:---------|:---------:|:------|

@@ -1,0 +1,23 @@
+{
+  "name": "I2C_LCD",
+  "keywords": "HD44780, 20x4",
+  "description": "Arduino library for I2C_LCD.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_LCD.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_LCD.h"
+}

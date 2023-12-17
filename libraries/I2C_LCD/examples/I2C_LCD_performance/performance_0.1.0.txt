@@ -1,0 +1,42 @@
+
+IDE:     1.8.19
+Board:   UNO
+
+
+I2C_LCD\examples\I2C_LCD_performance\I2C_LCD_performance.ino
+I2C_LCD_LIB_VERSION: 0.1.0
+
+performance
+speed:	100000
+time (us): 4316
+
+performance
+speed:	200000
+time (us): 2440
+
+performance
+speed:	300000
+time (us): 1780
+
+performance
+speed:	400000
+time (us): 1496
+
+performance
+speed:	500000
+time (us): 1308
+
+performance
+speed:	600000
+time (us): 1176
+
+performance
+speed:	700000
+time (us): 1076
+
+performance
+speed:	800000
+time (us): 1024
+
+
+

@@ -40,7 +40,7 @@ void loop()
   Serial.print("mcp1:\t");
   for (int channel = 0 ; channel < mcp1.channels(); channel++)
   {
-    uint16_t val = mcp1.analogRead(channel);
+    uint16_t val = mcp1.read(channel);
     Serial.print(val);
     Serial.print("\t");
   }
@@ -48,7 +48,7 @@ void loop()
   Serial.print("mcp2:\t");
   for (int channel = 0 ; channel < mcp2.channels(); channel++)
   {
-    uint16_t val = mcp2.analogRead(channel);
+    uint16_t val = mcp2.read(channel);
     Serial.print(val);
     Serial.print("\t");
   }

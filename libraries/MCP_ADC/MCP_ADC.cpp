@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -80,14 +80,14 @@ uint32_t MCP_ADC::count()
 }
 
 
-int16_t MCP_ADC::analogRead(uint8_t channel)
+int16_t MCP_ADC::read(uint8_t channel)
 {
   if (channel >= _channels) return 0;
   return readADC(channel, true);
 }
 
 
-void MCP_ADC::analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])
+void MCP_ADC::readMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])
 {
   readADCMultiple(channels, numChannels, readings);
 }

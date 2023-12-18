@@ -64,12 +64,12 @@ void test()
   start = micros();
   for (int channel = 0; channel < mcp28.channels(); channel++)
   {
-    val += mcp28.analogRead(channel);
+    val += mcp28.read(channel);
   }
   stop = micros();
   analog_read_time = stop - start;
   
-  Serial.print("mcp28.analogRead()\t8x: \t");
+  Serial.print("mcp28.read()\t8x: \t");
   Serial.println(analog_read_time);
   delay(10);
 
@@ -77,14 +77,14 @@ void test()
   start = micros();
   int16_t readings[num_channels];
   
-  mcp28.analogReadMultiple(channels_list, num_channels, readings);
+  mcp28.readMultiple(channels_list, num_channels, readings);
   stop = micros();
   analog_read_multiple_time = stop - start;
 
-  Serial.print("mcp28.analogReadMultiple()\t8x: \t");
+  Serial.print("mcp28.readMultiple()\t8x: \t");
   Serial.println(stop - start);
 
-  Serial.print("analogRead() time / analogReadMultiple() time \t");
+  Serial.print("read() time / readMultiple() time \t");
   Serial.println((1.0 * analog_read_time) / analog_read_multiple_time);
   delay(10);
 
@@ -124,21 +124,21 @@ void testChannelsRead() {
 
     delay(10);
 
-    //  analogRead()
+    //  read()
     start = micros();
     for (uint8_t i = 0; i < numChannelsToRead; i++) {
-      mcp28.analogRead(i);
+      mcp28.read(i);
     }
     stop = micros();
     analog_read_time = stop - start;
 
-    Serial.print("mcp28.analogRead()\t");
+    Serial.print("mcp28.read()\t");
     Serial.print(numChannelsToRead);
     Serial.print(": \t");
     Serial.print(analog_read_time);
     Serial.println("");
 
-    //  analogReadMultiple()
+    //  readMultiple()
     uint8_t channels_list[numChannelsToRead];
     for (uint8_t i = 0; i < numChannelsToRead; i++) {
       channels_list[i] = i;
@@ -148,16 +148,16 @@ void testChannelsRead() {
 
     int16_t readings[numChannelsToRead];
     start = micros();
-    mcp28.analogReadMultiple(channels_list, numChannelsToRead, readings);
+    mcp28.readMultiple(channels_list, numChannelsToRead, readings);
     stop = micros();
     analog_read_multiple_time = stop - start;
 
-    Serial.print("mcp28.analogReadMultiple()\t");
+    Serial.print("mcp28.readMultiple()\t");
     Serial.print(numChannelsToRead);
     Serial.print(": \t");
     Serial.println(analog_read_multiple_time);
 
-    Serial.print("analogRead() time / analogReadMultiple() time \t");
+    Serial.print("read() time / readMultiple() time \t");
     Serial.println((1.0 * analog_read_time) / analog_read_multiple_time, 2);  //  print as float
     
     Serial.println("\n");

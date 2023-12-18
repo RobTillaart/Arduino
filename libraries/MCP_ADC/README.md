@@ -17,30 +17,51 @@ Arduino library for MCP3001 MCP3002 MCP3004 MCP3008 MCP3201 MCP3202 MCP3204 MCP3
 ## Description
 
 This library reads the ADC ports of the MCP ADC convertors. 
-The chips are communicates with SPI and support both hardware SPI or optional software SPI.
+The chips are 1 to 8 channels, 10 or 12 bit and communicates with SPI.
+The library supports both hardware SPI and software SPI.
 
 
-|  type     |  bits  |  chan  |  notes  |
-|:----------|:------:|:------:|:--------|
-|  MCP3001  |   10   |    1   |  not tested yet.
-|  MCP3002  |   10   |    2   |
-|  MCP3004  |   10   |    4   |
-|  MCP3008  |   10   |    8   |
-|  MCP3201  |   12   |    1   |  test, see #13
-|  MCP3202  |   12   |    2   |
-|  MCP3204  |   12   |    4   |
-|  MCP3208  |   12   |    8   |
+|  type     |  bits  |  channels  |  notes  |
+|:----------|:------:|:----------:|:--------|
+|  MCP3001  |   10   |      1     |  not tested yet.
+|  MCP3002  |   10   |      2     |
+|  MCP3004  |   10   |      4     |
+|  MCP3008  |   10   |      8     |
+|  MCP3201  |   12   |      1     |  test, see #13
+|  MCP3202  |   12   |      2     |
+|  MCP3204  |   12   |      4     |
+|  MCP3208  |   12   |      8     |
 
 
 Current version allows manual override of the hardware SPI clock as the speed is not
 optimized per ADC type. 
 
-The MCP ADC allow single mode which compares voltage of a single channel against GND.
+The MCP ADC's allow a single mode read which compares voltage of a single channel against GND.
 Furthermore they allow a differential mode which compares two channels **IN+** and **IN-** 
-to each other. if the **IN+** is equal or below **IN-** the ADC will return 0. 
+to each other. 
+If the **IN+** is equal or below **IN-** the ADC will return 0.
 
 Build into the library is a delta mode which is a software enhanced differential mode.
 This delta mode can return negative values too. 
+
+
+#### 0.4.0 Breaking change
+
+The version 0.4.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name             |  new name        |  notes  |
+|:----------------------|:-----------------|:--------|
+|  analogRead()         |  read()          |  bugfix.
+|  analogReadMultiple() |  readMultiple()  |  for consistency.
 
 
 #### 0.3.0 Breaking change
@@ -88,8 +109,8 @@ This makes it easy to calculate relative measurements.
 
 #### Base
 
-- **int16_t analogRead(uint8_t channel)** reads the value of a single channel.
-- **void analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])**
+- **int16_t read(uint8_t channel)** reads the value of a single channel.
+- **void readMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])**
 reads multiple channels in one call. See section below.
 - **int16_t differentialRead(uint8_t channel)** reads differential between two channels.  
 Check datasheet for details.  
@@ -103,55 +124,25 @@ of the ADC first to get optimal speed.
 
 ### Differential channel table:
 
-| Channel | diff IN+ | diff IN- | MCP            |
-|:-------:|:--------:|:--------:|---------------:|
-|   0     |    0     |    1     | 3x02/3x04/3x08 |
-|   1     |    1     |    0     | 3x02/3x04/3x08 |
-|   2     |    2     |    3     |      3x04/3x08 |
-|   3     |    3     |    2     |      3x04/3x08 |
-|   4     |    4     |    5     |           3x08 |
-|   5     |    5     |    4     |           3x08 |
-|   6     |    6     |    7     |           3x08 |
-|   7     |    7     |    6     |           3x08 |
+| Channel | diff IN+ | diff IN- | 3x02 | 3x04 | 3x08 |
+|:-------:|:--------:|:--------:|:----:|:----:|:----:|
+|   0     |    0     |    1     |  V   |  V   |  V   |
+|   1     |    1     |    0     |  V   |  V   |  V   |
+|   2     |    2     |    3     |      |  V   |  V   |
+|   3     |    3     |    2     |      |  V   |  V   |
+|   4     |    4     |    5     |      |      |  V   |
+|   5     |    5     |    4     |      |      |  V   |
+|   6     |    6     |    7     |      |      |  V   |
+|   7     |    7     |    6     |      |      |  V   |
 
-Note: the MCP3x01 are not included in this table, not investigated yet.
+
+Note: the MCP3x01 ADC's are not included in this table, not investigated yet.
 
 
 ### Debug
 
-- **bool usesHWSPI()** returns true if HW SPI is used.
-- **uint32_t count()** returns number of channels read since start.
-
-
-### ESP32 specific
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called 
-BEFORE the **begin()** function.
-
-
-#### setGPIOpins() experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. 
-This function needs to be called AFTER the **begin()** function.
-
-in code:
-```cpp
-void setup()
-{
-  MCP.selectVSPI();
-  MCP.begin(15);
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the parameter of begin()
-}
-```
-
-This implementation might change in the future, e.g. leave out the select pin as it is
-already known in the code.
+- **bool usesHWSPI()** returns true if hardware SPI is used.
+- **uint32_t count()** returns number of channels reads since start.
 
 
 ## About SPI Speed
@@ -159,12 +150,12 @@ already known in the code.
 See https://github.com/RobTillaart/MCP_ADC/issues/3
 
 The default SPI speed is reduced to 1 MHz. 
-This is the value recommended in the datasheet for 2.7V.
+This is the value recommended in the datasheet for 2.7 Volt.
 
 In a test with an ESP32 (3.3V) the library showed stable results 
 at 4 MHz and at 6 MHz it was almost good.
 
-The maximum value read at 6 MHz was 1020 instead of 1023  (MCP3008) 
+The maximum value read at 6 MHz was 1020 instead of 1023 (MCP3008) 
 which indicates that the last 2 bits got lost probably due to signal 
 deformation.
 
@@ -177,9 +168,9 @@ deformation.
 For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
 
 
-## analogReadMultiple() 
+## ReadMultiple()
 
-Since version 0.2.0 the **analogReadMultiple(channels[], numChannels, readings[])** 
+Since version 0.2.0 the **readMultiple(channels[], numChannels, readings[])** 
 is added to the interface.
 (See https://github.com/RobTillaart/MCP_ADC/pull/11 - Thanks to Alex Uta).
 
@@ -192,7 +183,7 @@ the data from a specific channel multiple times, e.g. to be averaged.
 Other patterns are possible. 
 These scenarios need still to be tested in practice.
 
-Finally **analogReadMultiple()** can be used to read only one channel too
+Finally **readMultiple()** can be used to read only one channel too
 by using numChannels = 1.
 
 
@@ -204,7 +195,7 @@ was not correct.
 This has been fixed in the 0.2.1 version.
 
 Note that not all function calls make sense for the MCP3201 and MCP3001 as these 
-devices only have one channel. So use the library carefully.
+devices only have one channel. So use the library carefully with these ADC's.
 
 Feedback is as always welcome. 
 
@@ -214,7 +205,7 @@ Feedback is as always welcome.
 #### Must
 
 - improve documentation
-- test analogReadMultiple() scenario's
+- test readMultiple() scenario's
 - MCP3201 buy hardware and test
 
 #### Should

@@ -2,18 +2,24 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
 //
 
 
+// #if defined(BOARD_HAS_PIN_REMAP) && !defined(BOARD_USES_HW_GPIO_NUMBERS)
+// #error please read readme.md for Arduino NANO ESP32 bug
+// #endif
+
+
 #include "Arduino.h"
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.3.0"))
+#define MCP_ADC_LIB_VERSION       (F("0.4.0"))
+
 
 #ifndef __SPI_CLASS__
   #if defined(ARDUINO_ARCH_RP2040)
@@ -37,8 +43,8 @@ public:
   uint8_t  channels();
   int16_t  maxValue();
 
-  int16_t  analogRead(uint8_t channel);
-  void     analogReadMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
+  int16_t  read(uint8_t channel);
+  void     readMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
   int16_t  differentialRead(uint8_t channel);
   int16_t  deltaRead(uint8_t channel);
 
@@ -94,7 +100,7 @@ class MCP3002 : public MCP_ADC
 {
 public:
   MCP3002(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3002(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -103,7 +109,7 @@ class MCP3004 : public MCP_ADC
 {
 public:
   MCP3004(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3004(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -112,7 +118,7 @@ class MCP3008 : public MCP_ADC
 {
 public:
   MCP3008(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3008(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -121,7 +127,7 @@ class MCP3201 : public MCP_ADC
 {
 public:
   MCP3201(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3201(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3201(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -130,7 +136,7 @@ class MCP3202 : public MCP_ADC
 {
 public:
   MCP3202(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3202(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -139,7 +145,7 @@ class MCP3204 : public MCP_ADC
 {
 public:
   MCP3204(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3204(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 
@@ -148,7 +154,7 @@ class MCP3208 : public MCP_ADC
 {
 public:
   MCP3208(__SPI_CLASS__ * mySPI = &SPI);
-  MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock);  
+  MCP3208(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
   uint8_t  buildRequest(uint8_t channel, bool single, uint8_t * data);
 };
 

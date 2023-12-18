@@ -52,7 +52,7 @@ void loop()
   Serial.print("\tmcp1:\t");
   for (int channel = 0 ; channel < mcp1.channels(); channel++)
   {
-    uint16_t val = mcp1.analogRead(channel);
+    uint16_t val = mcp1.read(channel);
     Serial.print(val);
     Serial.print("\t");
     delay(1);       //  added so single reads are better visible on a scope

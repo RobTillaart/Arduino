@@ -30,7 +30,7 @@ void setup()
   Serial.println(mcp1.maxValue());
   delay(10);
   start = micros();
-  uint16_t val = mcp1.analogRead(0);
+  uint16_t val = mcp1.read(0);
   stop = micros();
   Serial.print("hwspi:\t");
   Serial.print(stop - start);
@@ -43,7 +43,7 @@ void setup()
   Serial.println(mcp2.maxValue());
   delay(10);
   start = micros();
-  val = mcp2.analogRead(0);
+  val = mcp2.read(0);
   stop = micros();
   Serial.print("swspi:\t");
   Serial.print(stop - start);
@@ -59,7 +59,7 @@ void loop()
   Serial.print("mcp1:\t");
   for (int channel = 0 ; channel < mcp1.channels(); channel++)
   {
-    uint16_t val = mcp1.analogRead(channel);
+    uint16_t val = mcp1.read(channel);
     Serial.print(val);
     Serial.print("\t");
   }
@@ -67,7 +67,7 @@ void loop()
   Serial.print("mcp2:\t");
   for (int channel = 0 ; channel < mcp2.channels(); channel++)
   {
-    uint16_t val = mcp2.analogRead(channel);
+    uint16_t val = mcp2.read(channel);
     Serial.print(val);
     Serial.print("\t");
   }

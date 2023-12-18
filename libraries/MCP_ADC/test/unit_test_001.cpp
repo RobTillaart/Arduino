@@ -87,7 +87,7 @@ unittest(test_MCP3002)
 
   for (int ch = 0; ch < mcp_adc.channels(); ch++)
   {
-    assertEqual(0, mcp_adc.analogRead(ch));
+    assertEqual(0, mcp_adc.read(ch));
   }
 
   for (int ch = 0; ch < mcp_adc.channels(); ch++)

@@ -126,10 +126,10 @@ void test_1()
   start = micros();
   for (int channel = 0 ; channel < mcp2.channels(); channel++)
   {
-    val += mcp2.analogRead(channel);
+    val += mcp2.read(channel);
   }
   stop = micros();
-  Serial.print("mcp2.analogRead()\t2x: \t");
+  Serial.print("mcp2.read()\t2x: \t");
   Serial.println(stop - start);
   delay(10);
 
@@ -163,10 +163,10 @@ void test_2()
   start = micros();
   for (int channel = 0 ; channel < mcp4.channels(); channel++)
   {
-    val += mcp4.analogRead(channel);
+    val += mcp4.read(channel);
   }
   stop = micros();
-  Serial.print("mcp4.analogRead()\t4x: \t");
+  Serial.print("mcp4.read()\t4x: \t");
   Serial.println(stop - start);
   delay(10);
 
@@ -200,10 +200,10 @@ void test_3()
   start = micros();
   for (int channel = 0; channel < mcp8.channels(); channel++)
   {
-    val += mcp8.analogRead(channel);
+    val += mcp8.read(channel);
   }
   stop = micros();
-  Serial.print("mcp8.analogRead()\t8x: \t");
+  Serial.print("mcp8.read()\t8x: \t");
   Serial.println(stop - start);
   delay(10);
 
@@ -237,10 +237,10 @@ void test_4()
   start = micros();
   for (int channel = 0; channel < mcp22.channels(); channel++)
   {
-    val += mcp22.analogRead(channel);
+    val += mcp22.read(channel);
   }
   stop = micros();
-  Serial.print("mcp22.analogRead()\t2x: \t");
+  Serial.print("mcp22.read()\t2x: \t");
   Serial.println(stop - start);
   delay(10);
 
@@ -274,10 +274,10 @@ void test_5()
   start = micros();
   for (int channel = 0; channel < mcp24.channels(); channel++)
   {
-    val += mcp24.analogRead(channel);
+    val += mcp24.read(channel);
   }
   stop = micros();
-  Serial.print("mcp24.analogRead()\t4x: \t");
+  Serial.print("mcp24.read()\t4x: \t");
   Serial.println(stop - start);
   delay(10);
 
@@ -311,10 +311,10 @@ void test_6()
   start = micros();
   for (int channel = 0; channel < mcp28.channels(); channel++)
   {
-    val += mcp28.analogRead(channel);
+    val += mcp28.read(channel);
   }
   stop = micros();
-  Serial.print("mcp28.analogRead()\t8x: \t");
+  Serial.print("mcp28.read()\t8x: \t");
   Serial.println(stop - start);
   delay(10);
 

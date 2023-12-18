@@ -1,0 +1,22 @@
+
+Board:  UNO (16 Mhz)
+IDE:    1.8.19
+
+AD9833_performance.ino
+AD9833_LIB_VERSION: 0.3.0
+
+hardware:	1            (hardware SPI)
+setFrequency:	44       (increased due to fix #10)
+setPhase:	24
+setWave:	24
+writeFrequencyRegisterLSB:	40
+writeFrequencyRegisterMSB:	40
+
+
+hardware:	0            (software SPI)
+setFrequency:	628      (increased due to fix #10)
+setPhase:	220
+setWave:	220
+writeFrequencyRegisterLSB:	428
+writeFrequencyRegisterMSB:	432
+

@@ -3,7 +3,7 @@
 //    FILE: AD9833.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -11,13 +11,15 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.2.0"))
+#define AD9833_LIB_VERSION     (F("0.3.0"))
 
 
-#if defined(ARDUINO_ARCH_RP2040)
-#define __SPI_CLASS__   SPIClassRP2040
-#else
-#define __SPI_CLASS__   SPIClass
+#if !defined(__SPI_CLASS__)
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
 #endif
 
 
@@ -77,12 +79,18 @@ public:
 
   //  LOW LEVEL API - Expert users only
   void     writeControlRegister(uint16_t value);
-  void     writeFreqRegister(uint8_t reg, uint32_t freq);
-  void     writePhaseRegister(uint8_t reg, uint16_t value);
+  void     writeFrequencyRegister(uint8_t channel, uint32_t freq);
+  void     writePhaseRegister(uint8_t channel, uint16_t value);
+
+
+  //  EXPERIMENTAL HLB MODE (14 bit)
+  void     writeFrequencyRegisterLSB(uint8_t channel, uint16_t LSB);
+  void     writeFrequencyRegisterMSB(uint8_t channel, uint16_t MSB);
 
 
 private:
   void     writeData(uint16_t data);
+  void     writeData28(uint16_t LSB, uint16_t MSB);
 
   bool     _hwSPI    = true;
   uint32_t _SPIspeed = 8000000;

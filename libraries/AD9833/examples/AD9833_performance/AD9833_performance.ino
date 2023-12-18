@@ -7,7 +7,12 @@
 
 #include "AD9833.h"
 
+//  ESP32
+//  SPIClass * myspi = new SPIClass(VSPI);
+//  AD9833 AD(5, myspi);
+//  AD9833 AD(15, 13, 14);  //  SW SPI
 
+//  UNO
 //  AD9833 AD(10, 11, 13);  //  software SPI
 AD9833 AD(10);       //  hardware SPI
 
@@ -46,6 +51,20 @@ void setup()
   AD.setWave(AD9833_SQUARE1);
   stop = micros();
   Serial.print("setWave:\t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  AD.writeFrequencyRegisterLSB(0, 10000);
+  stop = micros();
+  Serial.print("writeFrequencyRegisterLSB:\t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  AD.writeFrequencyRegisterMSB(0, 10000);
+  stop = micros();
+  Serial.print("writeFrequencyRegisterMSB:\t");
   Serial.println(stop - start);
   delay(10);
 }

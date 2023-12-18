@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2023-11-26
+- fix #10, explicit write control register fixes glitch.
+- rename **writeFreqRegister()** to **writeFrequencyRegister()**
+- refactor **writeFrequencyRegister()**
+- rename  parameters reg => channel
+- catch define conflict __SPI_CLASS__
+- update readme.md
+- add experimental support for HLB write mode
+  - **void writeFrequencyRegisterLSB(uint8_t reg, uint16_t LSB)**
+  - **void writeFrequencyRegisterMSB(uint8_t reg, uint16_t MSB)**
+- update keywords.txt
+
+----
+
 ## [0.2.0] - 2023-11-26
 - refactor constructor/begin interface - breaking changes.
   - minimize conditional code. -- create SPI_CLASS macro to solve it.

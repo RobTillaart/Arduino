@@ -203,13 +203,32 @@ Use at your own risk, please read the datasheet carefully.
 Since version 0.1.1 writing to the registers is made public.
 By using the low level API to access the registers directly, one has maximum
 control over the AD9833 device.
-Especially frequency setting is improved as the float **setFrequency()** does 
+Especially frequency setting is improved as the float parameter of **setFrequency()** does 
 not have the 28 bits precision of the register.
 
 - **void writeControlRegister(uint16_t value)** see datasheet
-- **void writeFreqRegister(uint8_t reg, uint32_t freq)** reg = 0 or 1, freq = 0 .. 134217728
-- **void writePhaseRegister(uint8_t reg, uint16_t value)** reg = 0 or 1, freq = 0 .. 4095
-  
+- **void writeFrequencyRegister(uint8_t channel, uint32_t freq)** channel = 0 or 1, freq = 0 .. 134217728
+- **void writePhaseRegister(uint8_t channel, uint16_t value)** channel = 0 or 1, value = 0 .. 4095
+
+
+#### HLB mode
+
+To support the HLB mode the library supports (experimental 0.3.0) two new calls.
+These functions allow one to set the frequency in coarse steps (MSB)
+of around 3050 Hz and fine steps (LSB) of around 0.093 Hz.
+
+- **void writeFrequencyRegisterLSB(uint8_t channel, uint16_t LSB)** channel = 0 or 1, LSB = 0 .. 32767
+- **void writeFrequencyRegisterMSB(uint8_t channel, uint16_t MSB)** channel = 0 or 1, MSB = 0 .. 32767 (in theory)
+
+Note the HLB calls take only 2 SPI calls to adjust the frequency.
+Therefore they are slightly faster than the **setFrequency()** (uses 3 SPI calls)
+if you only need to modify one of the two frequency registers.
+
+Only using the LSB register allows one to go from 0 .. 3050 Hz.
+In piano scales this covers C0 (16.35 Hz) to F#7 (2959.96 Hz).
+
+https://pages.mtu.edu/~suits/notefreqs.html
+
 
 ## External FSYNC
 
@@ -243,11 +262,9 @@ As this implementation is experimental, the interface might change in the future
 #### Must
 
 - update documentation
-- get hardware to test
 
 #### Should
 
-- investigate HLB mode versus B28 mode
 - investigate external clock
 - investigate timing (response time)
   - change freq
@@ -260,8 +277,6 @@ As this implementation is experimental, the interface might change in the future
 - add examples
   - for ESP32 HWSPI interface
 - solve MAGIC numbers (defaults)
-- setting half freq register for performance mode.
-  - HLB mode
 - extend performance measurements
 - investigate compatibility AD9834 a.o.
 - add **setPhaseRadians(float radians, uint8_t channel)** wrapper.

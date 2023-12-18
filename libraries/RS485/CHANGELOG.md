@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-12-18
+- fix **write(array, length)**
+- add two examples (ack_nack + controller)
+- updated experimental protocol, still experimental
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.0] - 2023-12-05
 - Fix #15 - use flush() instead of calculation.
 - remove **setMicrosPerByte()** and **getMicrosPerByte()**

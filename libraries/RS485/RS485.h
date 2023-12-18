@@ -3,7 +3,7 @@
 //    FILE: RS485.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for RS485 modules
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "ASCII_CONTROL.h"
 
-#define RS485_LIB_VERSION        (F("0.3.0"))
+#define RS485_LIB_VERSION        (F("0.4.0"))
 
 
 class RS485 : public Stream
@@ -41,13 +41,18 @@ public:
   uint8_t     getMode()   { return digitalRead(_sendPin) == HIGH; };
 
 
-  //  EXPERIMENTAL 
-  //  - use at own risk.- (for 0.3.0)
+  //  EXPERIMENTAL
+  //  - in a derived class?
+  //  - use at own risk
   //  send ASCII encoded messages from one master to multiple clients.
   //       msg[] = 32..127
-  //       len   = 1..48 ?
-  void    send(uint8_t receiverID, uint8_t msg[], uint8_t len);
+  //       len   =  1.. 48 (internal receive buffer is 50)
+  size_t  send(uint8_t receiverID, uint8_t msg[], uint8_t len);
   bool    receive(uint8_t &senderID, uint8_t msg[], uint8_t &len);
+
+  //  EXPERIMENTAL
+  size_t  send(uint8_t receiverID, char msg[], uint8_t len);
+  bool    receive(uint8_t &senderID, char msg[], uint8_t &len);
 
 
 private:
@@ -56,7 +61,7 @@ private:
   uint8_t  _deviceID      = 0;
   uint16_t _microsPerByte = 1000;
 
-  //       EXPERIMENTAL (for 0.3.x)
+  //       EXPERIMENTAL
   uint8_t _bidx = 0;
   uint8_t _buffer[50];  //  internal receive buffer
 };

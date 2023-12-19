@@ -33,7 +33,7 @@ void setup()
   delay(100);
 
   Serial.print("POR 1st read:\t");
-  Serial.println(dev.analogRead(3));
+  Serial.println(dev.read(3));
   Serial.println();
 
   //////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ void setup()
   Serial.println("Read 4 one by one");
   for (uint8_t i = 0; i < 4; i++)
   {
-    Serial.print(dev.analogRead(i));
+    Serial.print(dev.read(i));
     Serial.print('\t');
   }
   delay(10);
@@ -49,7 +49,7 @@ void setup()
   start = micros();
   for (uint8_t i = 0; i < 4; i++)
   {
-    dev.analogRead(i);
+    dev.read(i);
   }
   stop = micros();
   dura2 = stop - start;
@@ -59,7 +59,7 @@ void setup()
 
   Serial.println("Read 4 with auto increment");
   start = micros();
-  dev.analogRead4();
+  dev.read4();
   stop = micros();
   for (uint8_t i = 0; i < 4; i++)
   {

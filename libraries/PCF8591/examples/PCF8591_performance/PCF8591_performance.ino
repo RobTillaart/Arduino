@@ -49,7 +49,7 @@ void loop()
 
 void test1()
 {
-  Serial.println(F("| - Wire clock KHz - | - analogWrite() us - | - analogRead() us - |"));
+  Serial.println(F("| - Wire clock KHz - | - write() us - | - read() us - |"));
   Serial.println(F("|:----:|:----:|:----:|"));
   for (uint8_t i = 1; i < 14; i++)
   {
@@ -69,7 +69,7 @@ void test1()
 
 void test2()
 {
-  Serial.println(F("| - Wire clock KHz - | - analogWrite() OK% - | - analogRead() OK% - |"));
+  Serial.println(F("| - Wire clock KHz - | - write() OK% - | - read() OK% - |"));
   Serial.println(F("|:----:|:----:|:----:|"));
   for (uint8_t i = 1; i < 14; i++)
   {
@@ -94,7 +94,7 @@ void test_DAC()
   for (int i = 0; i < 1000; i++)
   {
     uint8_t val = i % 127;
-    dev.analogWrite(val);
+    dev.write(val);
   }
   stop = micros();
   dev.disableDAC();
@@ -109,7 +109,7 @@ void test_ADC()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = dev.analogRead(2);
+    x = dev.read(2);
   }
   stop = micros();
   Serial.print(" | ");
@@ -125,7 +125,7 @@ void test_DAC_error()
   for (int i = 0; i < 1000; i++)
   {
     uint8_t val = i % 127;
-    dev.analogWrite(val);
+    dev.write(val);
     if (dev.lastError() == PCF8591_OK) perc += 0.1;
   }
   dev.disableDAC();
@@ -140,7 +140,7 @@ void test_ADC_error()
   volatile uint8_t x = 0;
   for (int i = 0; i < 1000; i++)
   {
-    x = dev.analogRead(2);
+    x = dev.read(2);
     if (dev.lastError() == PCF8591_OK) perc += 0.1;
   }
   Serial.print(" | ");

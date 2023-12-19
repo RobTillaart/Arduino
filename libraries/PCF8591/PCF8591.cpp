@@ -2,7 +2,7 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -37,7 +37,7 @@ bool PCF8591::begin(uint8_t val)
     return false;
   }
   if (!isConnected()) return false;
-  analogWrite(val);
+  write(val);
   return true;
 }
 
@@ -78,7 +78,7 @@ bool PCF8591::isINCREnabled()
 }
 
 
-uint8_t PCF8591::analogRead(uint8_t channel, uint8_t mode)
+uint8_t PCF8591::read(uint8_t channel, uint8_t mode)
 {
   if (mode > 3)
   {
@@ -127,7 +127,7 @@ uint8_t PCF8591::analogRead(uint8_t channel, uint8_t mode)
 }
 
 
-uint8_t PCF8591::analogRead4()
+uint8_t PCF8591::read4()
 {
   //  clear all except flags
   //  MODE == PCF8591_FOUR_SINGLE_CHANNEL.
@@ -172,28 +172,28 @@ uint8_t PCF8591::lastRead(uint8_t channel)
 //  comparator calls need testing.
 int PCF8591::readComparator_01()
 {
-  int8_t v = analogRead(0, 3);
+  int8_t v = read(0, 3);
   return v;
 }
 
 
 int PCF8591::readComparator_23()
 {
-  int8_t v = analogRead(1, 3);
+  int8_t v = read(1, 3);
   return v;
 }
 
 
 int PCF8591::readComparator_03()
 {
-  int8_t v = analogRead(0, 1);
+  int8_t v = read(0, 1);
   return v;
 }
 
 
 int PCF8591::readComparator_13()
 {
-  int8_t v = analogRead(1, 1);
+  int8_t v = read(1, 1);
   return v;
 }
 
@@ -221,7 +221,7 @@ bool PCF8591::isDACEnabled()
 };
 
 
-bool PCF8591::analogWrite(uint8_t value)
+bool PCF8591::write(uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(_control);

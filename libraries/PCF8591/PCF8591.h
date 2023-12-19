@@ -3,7 +3,7 @@
 //    FILE: PCF8591.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8591_LIB_VERSION                 (F("0.3.0"))
+#define PCF8591_LIB_VERSION                 (F("0.4.0"))
 
 #define PCF8591_OK                          0x00
 #define PCF8591_PIN_ERROR                   0x81
@@ -45,12 +45,12 @@ public:
   void     disableINCR();
   bool     isINCREnabled();
 
-  //       analogRead() returns the value.
+  //       read() returns the value.
   //       mode 0 = PCF8591_FOUR_SINGLE_CHANNEL
-  uint8_t  analogRead(uint8_t channel, uint8_t mode = 0);
-  //       analogRead4() returns PCF8591_OK or an error code.
-  uint8_t  analogRead4();
-  //       access the 4 channels read with analogRead4()
+  uint8_t  read(uint8_t channel, uint8_t mode = 0);
+  //       read4() returns PCF8591_OK or an error code.
+  uint8_t  read4();
+  //       access the 4 channels read with read4()
   uint8_t  lastRead(uint8_t channel);
 
   //       datasheet par 8.2 figure 4
@@ -66,8 +66,8 @@ public:
   void     enableDAC();
   void     disableDAC();
   bool     isDACEnabled();
-  bool     analogWrite(uint8_t value = 0);  //  returns true on success.
-  uint8_t  lastWrite();                     //  returns last successful write
+  bool     write(uint8_t value = 0);   //  returns true on success.
+  uint8_t  lastWrite();                //  returns last successful write
 
   //       ERROR HANDLING
   int      lastError();
@@ -81,6 +81,7 @@ private:
   int      _error;
 
   TwoWire* _wire;
+
 };
 
 

@@ -51,7 +51,7 @@ void test_DAC()
   {
     uint8_t val = 127 + 127 * sin(i * 0.01);
     Serial.println(val);
-    dev.analogWrite(val);
+    dev.write(val);
     delay(1);              //  just to slow the effect
   }
   dev.disableDAC();
@@ -61,7 +61,7 @@ void test_DAC()
 
 void test_ADC_mode(uint8_t mode)
 {
-  uint8_t channels[] = {4, 3, 3, 2 };  // channels per mode
+  uint8_t channels[] = {4, 3, 3, 2 };  //  channels per mode
   Serial.println(__FUNCTION__);
   Serial.println("--------------");
   Serial.println("CH0\tCH1\tCH2\tCH3");
@@ -69,7 +69,7 @@ void test_ADC_mode(uint8_t mode)
   {
     for (uint8_t i = 0; i < channels[mode]; i++)
     {
-      Serial.print(dev.analogRead(i, mode));
+      Serial.print(dev.read(i, mode));
       Serial.print('\t');
     }
     Serial.println();
@@ -79,4 +79,3 @@ void test_ADC_mode(uint8_t mode)
 
 
 //  -- END OF FILE --
-

@@ -55,11 +55,11 @@ void performance_test()
   start = micros();
   for (uint16_t value = 0; value < MCP.maxValue(); value++)
   {
-    x = MCP.analogWrite(value, 0);
+    x = MCP.write(value, 0);
   }
   stop = micros();
   Serial.print(MCP.maxValue());
-  Serial.print(" x MCP.analogWrite():\t");
+  Serial.print(" x MCP.write():\t");
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println((stop - start) / (MCP.maxValue() + 1.0) );

@@ -42,6 +42,29 @@ The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
+#### 0.4.0 Breaking change
+
+The version 0.4.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
+
+
+
 #### 0.3.0 breaking change
 
 The version 0.3.0 has breaking changes in the interface. The essence is that the
@@ -86,14 +109,14 @@ So if Vref is connected to 5V, gain = 2 will not output 10 Volts.
 
 #### Write
 
-- **bool analogWrite(uint16_t value, uint8_t channel = 0)** writes value to channel.
+- **bool write(uint16_t value, uint8_t channel = 0)** writes value to channel.
 Default for channel 0 as that works for the single DAC devices.
 The value is limited to maxValue.
 Returns false in case of an invalid channel.
 - **uint16_t lastValue(uint8_t channel = 0)** returns last written value. 
 Default for channel 0 as that works for the single DAC devices.
 - **void setPercentage(float percentage, uint8_t channel = 0)** percentage = 0..100.0%.  
-Wrapper around **analogWrite()**.
+Wrapper around **write()**.
 - **float getPercentage(uint8_t channel = 0)** returns percentage. 
 Reads from cache.
 - **void fastWriteA(uint16_t value)** faster version to write to channel 0. 
@@ -230,8 +253,6 @@ See examples
 
 #### Should
 
-- **analogWrite()** is defined as a macro in io_pin_remap.h for the Arduino NANO ESP32.
-  - This gives a compile error. No solution yet (See #24)
 
 #### Could
 

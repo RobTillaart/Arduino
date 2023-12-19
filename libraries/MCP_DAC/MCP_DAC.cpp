@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -97,7 +97,7 @@ uint8_t MCP_DAC::getGain()
 }
 
 
-bool MCP_DAC::analogWrite(uint16_t value, uint8_t channel)
+bool MCP_DAC::write(uint16_t value, uint8_t channel)
 {
   if (channel >= _channels) return false;
 
@@ -142,7 +142,7 @@ bool MCP_DAC::increment(uint8_t channel)
 {
   if (channel >= _channels) return false;
   if (_value[channel] == _maxValue) return false;
-  return analogWrite(_value[channel] + 1,  channel);
+  return write(_value[channel] + 1,  channel);
 }
 
 
@@ -150,7 +150,7 @@ bool MCP_DAC::decrement(uint8_t channel)
 {
   if (channel >= _channels) return false;
   if (_value[channel] == 0) return false;
-  return analogWrite(_value[channel] - 1,  channel);
+  return write(_value[channel] - 1,  channel);
 }
 
 
@@ -158,7 +158,7 @@ void MCP_DAC::setPercentage(float perc, uint8_t channel)
 {
   if (perc < 0) perc = 0;
   if (perc > 100) perc = 100;
-  analogWrite((0.01 * perc * _maxValue), channel);
+  write((0.01 * perc * _maxValue), channel);
 }
 
 

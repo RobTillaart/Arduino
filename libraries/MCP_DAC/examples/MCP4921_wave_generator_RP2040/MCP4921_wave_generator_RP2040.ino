@@ -11,7 +11,7 @@
 //  PLATFORM     SINUS    SQUARE  SAWTOOTH  TRIANGLE
 //  UNO          -100 Hz
 //  ESP32        -200 Hz  -1000   -250      -100
-//
+
 
 /*
 
@@ -44,11 +44,11 @@ uint32_t   period = 0;
 uint32_t   halvePeriod = 0;
 
 
-// q = square
-// s = sinus
-// w = sawtooth
-// t = triangle
-// r = random
+//  q = square
+//  s = sinus
+//  w = sawtooth
+//  t = triangle
+//  r = random
 char mode = 'q';
 
 
@@ -57,7 +57,7 @@ uint16_t count;
 uint32_t lastTime = 0;
 
 
-// LOOKUP TABLE SINE
+//  LOOKUP TABLE SINE
 uint16_t sine[361];
 
 
@@ -65,14 +65,14 @@ void setup()
 {
   Serial.begin(115200);
 
-  // fill table with sinus values for fast lookup
+  //  fill table with sinus values for fast lookup
   for (int i = 0; i < 361; i++)
   {
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  //MCP.begin(17);    // select pin = 17, SPI
-  MCP.begin(13);    // select pin = 13, SPI1
+  //  MCP.begin(17);    //  select pin = 17, SPI
+  MCP.begin(13);    //  select pin = 13, SPI1
 
 
   MCP.fastWriteA(0);
@@ -82,7 +82,7 @@ void setup()
 
   while (1)
   {
-    // Serial.println(analogRead(A0));   // read output back via A0.
+    //  Serial.println(analogRead(A0));   //  read output back via A0.
     yield();
     uint32_t now = micros();
 
@@ -91,7 +91,7 @@ void setup()
     if (now - lastTime > 100000)
     {
       lastTime = now;
-      // Serial.println(count); // show # updates per 0.1 second
+      //  Serial.println(count); //  show # updates per 0.1 second
       count = 0;
       if (Serial.available())
       {
@@ -174,12 +174,12 @@ void setup()
         break;
       default:
       case 's':
-        // reference
-        // float f = ((PI * 2) * t)/period;
-        // MCP.setValue(2047 + 2047 * sin(f));
+        //  reference
+        //  float f = ((PI * 2) * t)/period;
+        //  MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
-        MCP.fastWriteA(sine[idx]);  // lookuptable
+        MCP.fastWriteA(sine[idx]);  //  lookup table
         break;
     }
   }
@@ -191,4 +191,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

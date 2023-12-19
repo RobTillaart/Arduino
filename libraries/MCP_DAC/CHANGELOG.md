@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-12-19
+- fix #27, support for Arduino ESP32 S3 - breaking change
+- update examples
+- fix SPIClass define
+
+----
+
 ## [0.3.0] - 2023-11-21
 - refactor constructor interface - breaking changes.
   - minimize conditional code.

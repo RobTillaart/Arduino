@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,12 +12,14 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.3.0"))
+#define MCP_DAC_LIB_VERSION       (F("0.4.0"))
 
-#if defined(ARDUINO_ARCH_RP2040)
-#define __SPI_CLASS__   SPIClassRP2040
-#else
-#define __SPI_CLASS__   SPIClass
+#ifndef __SPI_CLASS__
+  #if defined(ARDUINO_ARCH_RP2040)
+  #define __SPI_CLASS__   SPIClassRP2040
+  #else
+  #define __SPI_CLASS__   SPIClass
+  #endif
 #endif
 
 
@@ -28,7 +30,6 @@
 class MCP_DAC
 {
 public:
-
   //       HARDWARE SPI
   MCP_DAC(__SPI_CLASS__ *mySPI = &SPI);
   //       SOFTWARE SPI
@@ -46,8 +47,8 @@ public:
   bool     setGain(uint8_t gain = 1);
   uint8_t  getGain();
 
-  //       analogWrite has a known conflict with the Arduino NANO ESP32.
-  bool     analogWrite(uint16_t value, uint8_t channel = 0);
+  //       analogWrite became write: see readme.md
+  bool     write(uint16_t value, uint8_t channel = 0);
   uint16_t lastValue(uint8_t channel = 0);
   void     fastWriteA(uint16_t value);
   void     fastWriteB(uint16_t value);
@@ -82,7 +83,7 @@ public:
   //       debugging
   void     reset();
   bool     usesHWSPI();
-
+  //  uint32_t count();  //  number of writes.
 
 protected:
   uint8_t  _dataOut;              //  Data out Pin (MOSI)

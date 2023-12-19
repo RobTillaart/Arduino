@@ -11,8 +11,6 @@
 //  PLATFORM     SINUS    SQUARE  SAWTOOTH  TRIANGLE
 //  UNO          -100 Hz
 //  ESP32        -200 Hz  -1000   -250      -100
-//
-
 
 
 #include "MCP_DAC.h"
@@ -23,11 +21,11 @@ uint32_t   period = 0;
 uint32_t   halvePeriod = 0;
 
 
-// q = square
-// s = sinus
-// w = sawtooth
-// t = triangle
-// r = random
+//  q = square
+//  s = sinus
+//  w = sawtooth
+//  t = triangle
+//  r = random
 char mode = 'q';
 
 
@@ -44,7 +42,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  // fill table with sinus values for fast lookup
+  //  fill table with sinus values for fast lookup
   for (int i = 0; i < 361; i++)
   {
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
@@ -58,7 +56,7 @@ void setup()
 
   while (1)
   {
-    // Serial.println(analogRead(A0));   // read output back via A0.
+    //  Serial.println(analogRead(A0));   //  read output back via A0.
     yield();
     uint32_t now = micros();
 
@@ -67,7 +65,7 @@ void setup()
     if (now - lastTime > 100000)
     {
       lastTime = now;
-      // Serial.println(count); // show # updates per 0.1 second
+      //  Serial.println(count);  //  show # updates per 0.1 second
       count = 0;
       if (Serial.available())
       {
@@ -139,23 +137,23 @@ void setup()
       case 'r':
         MCP.fastWriteA(random(4096));
         break;
-      case 'z':  // zero
+      case 'z':  //  zero
         MCP.fastWriteA(0);
         break;
-      case 'h':  // high
+      case 'h':  //  high
         MCP.fastWriteA(4095);
         break;
-      case 'm':  // mid
+      case 'm':  //  mid
         MCP.fastWriteA(2047);
         break;
       default:
       case 's':
-        // reference
-        // float f = ((PI * 2) * t)/period;
-        // MCP.setValue(2047 + 2047 * sin(f));
+        //  reference
+        //  float f = ((PI * 2) * t)/period;
+        //  MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
-        MCP.fastWriteA(sine[idx]);  // lookuptable
+        MCP.fastWriteA(sine[idx]);  //  lookup table
         break;
     }
   }

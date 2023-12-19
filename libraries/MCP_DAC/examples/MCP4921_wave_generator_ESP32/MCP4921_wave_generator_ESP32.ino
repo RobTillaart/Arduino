@@ -11,7 +11,6 @@
 //  PLATFORM     SINUS    SQUARE  SAWTOOTH  TRIANGLE
 //  UNO          -100 Hz
 //  ESP32        -200 Hz  -1000   -250      -100
-//
 
 
 #include "MCP_DAC.h"
@@ -22,11 +21,11 @@ uint32_t   period = 0;
 uint32_t   halvePeriod = 0;
 
 
-// q = square
-// s = sinus
-// w = sawtooth
-// t = triangle
-// r = random
+//  q = square
+//  s = sinus
+//  w = sawtooth
+//  t = triangle
+//  r = random
 char mode = 'q';
 
 
@@ -49,16 +48,16 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  MCP.begin(15);        // 5 for VSPI and 15 for HSPI
+  MCP.begin(15);        //  5 for VSPI and 15 for HSPI
 
   MCP.fastWriteA(0);
 
   period = 1e6 / freq;
   halvePeriod = period / 2;
 
-  while (1)   // endless loop - could have been done in loop()
+  while (1)   //  endless loop - could have been done in loop()
   {
-    // Serial.println(analogRead(A0));   // read output back via A0.
+    //  Serial.println(analogRead(A0));   //  read output back via A0.
     yield();
     uint32_t now = micros();
 
@@ -67,7 +66,7 @@ void setup()
     if (now - lastTime > 100000)
     {
       lastTime = now;
-      // Serial.println(count); // show # updates per 0.1 second
+      //  Serial.println(count);  //  show # updates per 0.1 second
       count = 0;
       if (Serial.available())
       {
@@ -150,12 +149,12 @@ void setup()
         break;
       default:
       case 's':
-        // reference
-        // float f = ((PI * 2) * t)/period;
-        // MCP.setValue(2047 + 2047 * sin(f));
+        //  reference
+        //  float f = ((PI * 2) * t)/period;
+        //  MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
-        MCP.fastWriteA(sine[idx]);  // lookuptable
+        MCP.fastWriteA(sine[idx]);  //  lookup table
         break;
     }
   }
@@ -167,5 +166,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

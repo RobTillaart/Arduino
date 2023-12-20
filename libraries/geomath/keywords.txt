@@ -1,0 +1,14 @@
+# Syntax Colouring Map For geomath
+
+# Data types (KEYWORD1)
+
+
+# Methods and Functions (KEYWORD2)
+haverSine	KEYWORD2
+fastHaverSine	KEYWORD2
+
+
+
+# Constants (LITERAL1)
+GEOMATH_LIB_VERSION	LITERAL1
+

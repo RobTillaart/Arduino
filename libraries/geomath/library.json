@@ -1,0 +1,23 @@
+{
+  "name": "geomath",
+  "keywords": "haverSine",
+  "description": "Arduino library with geographic math functions.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/geomath.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "geomath.h"
+}

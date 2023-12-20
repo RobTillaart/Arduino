@@ -1,6 +1,6 @@
-//    FILE: I2C_LCD_performance.ino
+//    FILE: I2C_LCD_test_tab.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: per I2C_LCD library
+// PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 //  WARNING: do not overfeed your display with too much data
@@ -13,7 +13,7 @@
 
 #include "I2C_LCD.h"
 
-
+//  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3
 #define En_pin          2
 #define Rw_pin          1
@@ -26,26 +26,6 @@
 
 I2C_LCD lcd(39);
 
-void performance(uint32_t speed)
-{
-  Serial.println(__FUNCTION__);
-  Serial.print("speed:\t");
-  Serial.println(speed);
-  delay(100);
-
-  Wire.setClock(speed);
-  lcd.setCursor(3, 3);
-
-  uint32_t start = micros();
-  lcd.print(__TIME__);
-  uint32_t stop = micros();
-
-  Serial.print("time (us): ");
-  Serial.println(stop - start);
-  Serial.println();
-  delay(100);
-}
-
 
 void setup()
 {
@@ -54,31 +34,35 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("I2C_LCD_LIB_VERSION: ");
   Serial.println(I2C_LCD_LIB_VERSION);
-  Serial.println();
+  Serial.println((int)'\t');
 
-  lcd.config(39, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin, BACKLIGHT_PIN, POSITIVE);
+  // lcd.config(39, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin, BACKLIGHT_PIN, POSITIVE);
 
   Wire.begin();
-  Wire.setClock(400000);
+  Wire.setClock(100000);
   lcd.begin(20, 4);
 
   lcd.display();
   lcd.clear();
+  lcd.print("TAB demo:\t");
+  lcd.print(I2C_LCD_LIB_VERSION);
 
-  for (uint32_t speed = 100000; speed <= 800000; speed += 100000)
+  for (int r = 1; r < 4; r++)
   {
-    performance(speed);
-    delay(1000);
+    lcd.setCursor(0, r);
+    for (int i = 0; i < 5; i++)
+    {
+      // lcd.print(lcd.getColumn());
+      lcd.print(random(100));
+      lcd.print('\t');
+    }
   }
-  Wire.setClock(100000);
+
 }
 
 
 void loop()
 {
-  lcd.home();
-  lcd.print(millis());
-  delay(1000);
 }
 
 

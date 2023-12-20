@@ -1,4 +1,4 @@
-//    FILE: I2C_LCD_demo.ino
+//    FILE: I2C_LCD_demo_spectrum_1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
@@ -7,10 +7,12 @@
 //           too fast as it may not be able to handle 
 //           (mine got corrupted)
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
 #include "I2C_LCD.h"
+//  #include "I2C_LCD_spectrum.h"
 
 //  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3
@@ -24,6 +26,18 @@
 
 
 I2C_LCD lcd(39);
+
+uint8_t block[8][8] =
+{
+  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F },
+  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x1F },
+  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x1F, 0x1F },
+  { 0x00, 0x00, 0x00, 0x00, 0x1F, 0x1F, 0x1F, 0x1F },
+  { 0x00, 0x00, 0x00, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F },
+  { 0x00, 0x00, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F },
+  { 0x00, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F },
+  { 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F },
+};
 
 
 void setup()
@@ -40,40 +54,37 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   lcd.begin(20, 4);
-
+  
+  for (int i = 0; i < 8; i++)
+  {
+    lcd.createChar(i, block[i]);
+  }
   lcd.display();
-  delay(1000);
-  lcd.noDisplay();
-  delay(1000);
-  lcd.display();
-
   lcd.clear();
-
-  lcd.home();
-  lcd.setCursor(3, 1);
-
-  uint32_t start = micros();
-  lcd.print(__TIME__);
-  uint32_t stop = micros();
-
-  lcd.setCursor(10, 0);
-  lcd.print(stop - start);
-  delay(1000);
+  lcd.setCursor(0, 0);
 
   lcd.setCursor(0, 0);
-  for (char c = 'A'; c <= 'Z'; c++)
-  {
-    lcd.print(c);
-  }
-  delay(2000);
+  lcd.print(" SPECTRUM  ANALYZER ");
+  lcd.setCursor(0, 1);
+  lcd.print(" LEFT         RIGHT ");
 }
 
 
 void loop()
 {
-  lcd.home();
-  lcd.print(millis());
-  delay(1000);
+  lcd.setCursor(1, 2);
+  for (int i = 1; i < 9; i++)
+  {
+    int a = random(8);
+    lcd.special(a);
+  }
+  lcd.setCursor(11, 2);
+  for (int i = 1; i < 9; i++)
+  {
+    int a = random(8);
+    lcd.special(a);
+  }
+  delay(200);
 }
 
 

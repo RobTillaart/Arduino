@@ -1,11 +1,8 @@
-//    FILE: I2C_LCD_demo.ino
+//    FILE: I2C_LCD_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
-//  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle 
-//           (mine got corrupted)
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -39,19 +36,12 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
+
   lcd.begin(20, 4);
+  Serial.print("Connected: ");
+  Serial.println(lcd.isConnected());
 
-  lcd.display();
-  delay(1000);
-  lcd.noDisplay();
-  delay(1000);
-  lcd.display();
-
-  lcd.clear();
-
-  lcd.home();
   lcd.setCursor(3, 1);
-
   uint32_t start = micros();
   lcd.print(__TIME__);
   uint32_t stop = micros();
@@ -71,9 +61,13 @@ void setup()
 
 void loop()
 {
-  lcd.home();
-  lcd.print(millis());
-  delay(1000);
+
+//  lcd.clear();
+//  lcd.setCursor(0, 0);
+//  lcd.print(millis());
+//  lcd.print(" ");
+//  lcd.print(lcd.getColumn());
+//  delay(1000);
 }
 
 

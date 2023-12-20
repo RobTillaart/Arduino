@@ -2,66 +2,125 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-12-16
 // PUPROSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.1.0"))
+#define I2C_LCD_LIB_VERSION     (F("0.1.1"))
 
 #include "Arduino.h"
 #include "Wire.h"
+
+#ifndef POSITIVE
+#define POSITIVE 1
+#endif
+
+#ifndef NEGATIVE
+#define NEGATIVE 0
+#endif
 
 
 class I2C_LCD : public Print
 {
 public:
+  //  only one constructor
   explicit  I2C_LCD(uint8_t address, TwoWire * wire = &Wire);
 
-  void      config(uint8_t address, uint8_t enable, uint8_t readwrite, uint8_t registerselect, 
-                   uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7, uint8_t backlight);
+  //  adjust pins
+  void      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect, 
+                   uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7,
+                   uint8_t backLight, uint8_t policy);
 
+  //  only supports 5x8 char set for now.
+  //  blocks 100+ millisec to give device chance to reset
   void      begin(uint8_t cols = 20, uint8_t rows = 4);
+  bool      isConnected();
 
-  void      setBacklight(bool on);   //  backlight() / noBacklight()
 
+  //  BACKLIGHT
+  void      setBacklightPin(uint8_t pin, uint8_t policy);
+  void      setBacklight(bool on);
+  void      backlight()   { setBacklight(true);  };
+  void      noBacklight() { setBacklight(false); };
+
+
+  //  DISPLAY ON OFF
   void      display();
   void      noDisplay();
+  void      on()  { display(); };
+  void      off() { noDisplay(); };
+  
 
-  void      clear();
+  //  POSITIONING & CURSOR
+  void      clear();      //  clears whole screen
+  void      clearEOL();   //  clears line from current pos.
   void      home();
-  void      setCursor(uint8_t col, uint8_t row);
+  bool      setCursor(uint8_t col, uint8_t row);
+
+  void      noBlink();
+  void      blink();
+  void      noCursor();
+  void      cursor();
+
+  void      scrollDisplayLeft();
+  void      scrollDisplayRight();
+  void      moveCursorRight();
+  void      moveCursorLeft();
+
+  //  next 4 limited support
+  void      autoscroll();
+  void      noAutoscroll();
+  void      leftToRight();
+  void      rightToLeft();
 
 
-//  TODO private..
+  //  8 definable characters
+  void      createChar(uint8_t index, uint8_t * charmap);
+  //  clean way to print them
+  inline size_t special(uint8_t index) { return write((uint8_t)index); };
+
 
   //  PRINT INTERFACE
   size_t    write(uint8_t c);
 
-  void      sendData(uint8_t value);
-  void      sendCommand(uint8_t value);
-  void      write4bits(uint8_t value);
+  //  DEBUG  development
+  uint8_t   getColumn() { return _pos; };  //  works.
+  uint32_t  getWriteCount()  { return _count; };  // works
 
 
 private:
+
+  void      sendData(uint8_t value);
+  void      sendCommand(uint8_t value);
+  void      send(uint8_t value, bool flag);
+  void      write4bits(uint8_t value);
+
   uint8_t   _address = 0;
   TwoWire * _wire = NULL;
 
-  //  defaults
-  uint8_t   _enable;
-  uint8_t   _readWrite;
-  uint8_t   _registerSelect;
-  uint8_t   _backLight;
-  uint8_t   _dataPin[4];
+  uint8_t   _enable         = 4;
+  uint8_t   _readWrite      = 2;
+  uint8_t   _registerSelect = 1;
+  uint8_t   _dataPin[4]     = { 16, 32, 64, 128 };
 
-  //  TODO backlight status
+  uint8_t   _backLightPin   = 8;
+  uint8_t   _backLightPol   = 1;
+  uint8_t   _backLight      = 1;
 
   uint8_t   _cols = 20;
   uint8_t   _rows = 4;
 
-  bool      _pinsInOrder;
-  
+  //  DISPLAYCONTROL bit always on, set in constructor.
+  uint8_t   _displayControl = 0;
+  //  optimization
+  bool      _pinsInOrder = true;
+
+  //  overflow protection
+  uint8_t   _pos = 0;
+
+  uint32_t  _count = 0;
 };
 
 

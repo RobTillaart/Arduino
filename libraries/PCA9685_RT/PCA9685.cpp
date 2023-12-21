@@ -201,7 +201,7 @@ int PCA9685::getFrequency(bool cache)
 //  datasheet P.18 - fig. 9:
 //  Note: bit[11-0] ON should NOT equal timer OFF in ON mode
 //  in OFF mode it doesn't matter.
-void PCA9685::digitalWrite(uint8_t channel, uint8_t mode)
+void PCA9685::write1(uint8_t channel, uint8_t mode)
 {
   _error = PCA9685_OK;
   if (channel >= _channelCount)
@@ -341,7 +341,7 @@ bool PCA9685::setOutputEnablePin(uint8_t pin)
   if (_OutputEnablePin != 255)
   {
     pinMode(_OutputEnablePin, OUTPUT);
-    digitalWrite(_OutputEnablePin, HIGH);
+    write1(_OutputEnablePin, HIGH);
     return true;
   }
   //  must it be set to HIGH now?
@@ -353,7 +353,7 @@ bool PCA9685::setOutputEnable(bool on)
 {
   if (_OutputEnablePin != 255)
   {
-    digitalWrite(_OutputEnablePin, on ? LOW : HIGH);
+    write1(_OutputEnablePin, on ? LOW : HIGH);
     return true;
   }
   return false;

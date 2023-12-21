@@ -21,7 +21,7 @@ getPWM	KEYWORD2
 
 setFrequency	KEYWORD2
 getFrequency	KEYWORD2
-digitalWrite	KEYWORD2
+write1	KEYWORD2
 
 setON	KEYWORD2
 setOFF	KEYWORD2

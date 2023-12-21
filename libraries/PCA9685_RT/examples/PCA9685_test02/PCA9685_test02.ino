@@ -24,12 +24,12 @@ void setup()
   Wire.begin();
   ledArray.begin();
 
-  testDigitalWrite(HIGH);
+  testWrite1(HIGH);
   testPWM(0);
   testPWMMode();
   testFrequency();
   delay(2000);
-  testDigitalWrite(LOW);
+  testWrite1(LOW);
 
   Serial.print(millis());
   Serial.print("\t");
@@ -37,14 +37,14 @@ void setup()
 }
 
 
-void testDigitalWrite(uint8_t mode)
+void testWrite1(uint8_t mode)
 {
   Serial.print(millis());
   Serial.print("\t");
   Serial.println(__FUNCTION__);
   for (int channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.digitalWrite(channel, mode);
+    ledArray.write1(channel, mode);
     delay(100);
   }
 }

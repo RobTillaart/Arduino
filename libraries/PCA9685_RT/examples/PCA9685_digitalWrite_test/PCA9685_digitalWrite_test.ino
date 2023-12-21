@@ -36,8 +36,8 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(IRQ_PIN), irq, CHANGE);
 
   //  PCA.setPWM(15, 0, 1000);    //  works OK - reference to test irq()
-  //  PCA.digitalWrite(15, LOW);  //  works OK
-  PCA.digitalWrite(15, HIGH);     //  works OK
+  //  PCA.write1(15, LOW);  //  works OK
+  PCA.write1(15, HIGH);     //  works OK
 }
 
 
@@ -68,4 +68,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

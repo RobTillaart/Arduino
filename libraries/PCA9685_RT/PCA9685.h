@@ -3,7 +3,7 @@
 //    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.6.0
+// VERSION: 0.7.0
 // PURPOSE: Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION         (F("0.6.0"))
+#define PCA9685_LIB_VERSION         (F("0.7.0"))
 
 // ERROR CODES
 #define PCA9685_OK                  0x00
@@ -124,11 +124,11 @@ public:
   int      getFrequency(bool cache = true);
 
   //  set channel  HIGH or LOW (effectively no PWM)
-  void     digitalWrite(uint8_t channel, uint8_t mode);
+  void     write1(uint8_t channel, uint8_t mode);
 
   //  for backwards compatibility; will be removed in future
-  void     setON(uint8_t channel)   { digitalWrite(channel, HIGH); };
-  void     setOFF(uint8_t channel)  { digitalWrite(channel, LOW); };
+  void     setON(uint8_t channel)   { write1(channel, HIGH); };
+  void     setOFF(uint8_t channel)  { write1(channel, LOW); };
 
   //  experimental for 0.3.0
   void     allOFF();

@@ -39,7 +39,7 @@ void setup()
   //  PCA.reset();  //  needed to reset the allOFF()
   //  for (int channel = 0; channel < 16; channel++)
   //  {
-  //    PCA.digitalWrite(channel, HIGH);
+  //    PCA.write1(channel, HIGH);
   //  }
 }
 

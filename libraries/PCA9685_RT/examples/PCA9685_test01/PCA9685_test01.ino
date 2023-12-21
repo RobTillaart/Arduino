@@ -41,7 +41,7 @@ void testSetON()
   Serial.println("Test - setHIGH");
   for (uint8_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.digitalWrite(channel, HIGH);
+    ledArray.write1(channel, HIGH);
   }
 }
 
@@ -53,7 +53,7 @@ void testSetOFF()
   Serial.println("Test - setLOW");
   for (uint8_t channel = 0; channel < ledArray.channelCount(); channel++)
   {
-    ledArray.digitalWrite(channel, LOW);
+    ledArray.write1(channel, LOW);
   }
 }
 

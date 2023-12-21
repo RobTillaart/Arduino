@@ -30,6 +30,29 @@ however in practice not all frequencies are set accurate.
 Lower frequencies do better than higher frequencies.
 
 
+
+#### 0.7.0 Breaking change
+
+The version 0.7.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
+
+
 #### 0.6.0 Breaking change
 
 Version 0.6.0 introduced a breaking change.
@@ -132,8 +155,8 @@ read back the configuration of the channel.
 - **void allOFF()** switches all PWM channels OFF. **Experimental** in 0.3.0.
 To "undo" the allOFF one can call the **reset()** function and set all 
 PWM channels again.
-- **void digitalWrite(channel, mode)** mode = HIGH or LOW, just use the PCA9685 as 
-a digital pin. 
+- **void write1(channel, mode)** mode = HIGH or LOW, just use the PCA9685 as 
+a digital pin, write 1 bit.
 This single function replaces the setON() and setOFF() that will become
 obsolete in the future.
 

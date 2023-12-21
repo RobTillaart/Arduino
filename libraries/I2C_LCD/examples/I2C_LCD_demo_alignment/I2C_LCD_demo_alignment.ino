@@ -1,10 +1,10 @@
-//    FILE: I2C_LCD_demo.ino
+//    FILE: I2C_LCD_demo_alignment.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 //  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle 
+//           too fast as it may not be able to handle
 //           (mine got corrupted)
 
 #include "Arduino.h"
@@ -41,39 +41,35 @@ void setup()
   Wire.setClock(100000);
   lcd.begin(20, 4);
 
-  lcd.display();
-  delay(1000);
-  lcd.noDisplay();
-  delay(1000);
-  lcd.display();
-
+  //  show centering
   lcd.clear();
+  lcd.center(0, "1234567890");
+  lcd.center(1, "123456789");
+  lcd.center(2, "23456789");
+  lcd.center(3, "2345678");
+  delay(5000);
 
-  lcd.home();
-  lcd.setCursor(3, 1);
-
-  uint32_t start = micros();
-  lcd.print(__TIME__);
-  uint32_t stop = micros();
-
-  lcd.setCursor(14, 1);
-  lcd.print(stop - start);
-  delay(1000);
-
-  lcd.setCursor(0, 0);
-  for (char c = 'A'; c <= 'Z'; c++)
-  {
-    lcd.print(c);
-  }
-  delay(2000);
 }
 
 
 void loop()
 {
-  lcd.home();
-  lcd.print(millis());
-  delay(1000);
+  lcd.clear();
+  for (int r = 0; r < 4; r++)
+  {
+    int x = random(20000);
+    char buffer[8];
+    itoa(x, buffer, 10);
+    lcd.right(8, r, buffer);
+  }
+  for (int r = 0; r < 4; r++)
+  {
+    int x = random(20000);
+    char buffer[8];
+    itoa(x, buffer, 10);
+    lcd.right(18, r, buffer);
+  }
+  delay(2000);
 }
 
 

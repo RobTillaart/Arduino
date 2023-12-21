@@ -1,11 +1,16 @@
-//    FILE: I2C_LCD_demo.ino
+//    FILE: I2C_LCD_demo_Wire1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
+//  this example only works on boards that support Wire1
+//  ESP32, RP2040, teensy
+
 //  WARNING: do not overfeed your display with too much data
 //           too fast as it may not be able to handle 
 //           (mine got corrupted)
+
+
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -23,7 +28,7 @@
 #define D7_pin          7
 
 
-I2C_LCD lcd(39);
+I2C_LCD lcd(39, &Wire1);
 
 
 void setup()

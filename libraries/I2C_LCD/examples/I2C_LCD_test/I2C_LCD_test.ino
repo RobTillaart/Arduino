@@ -32,7 +32,7 @@ void setup()
   Serial.println(I2C_LCD_LIB_VERSION);
   Serial.println();
 
-  lcd.config(39, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin, BACKLIGHT_PIN, POSITIVE);
+  // lcd.config(39, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin, BACKLIGHT_PIN, POSITIVE);
 
   Wire.begin();
   Wire.setClock(100000);
@@ -41,12 +41,41 @@ void setup()
   Serial.print("Connected: ");
   Serial.println(lcd.isConnected());
 
+  lcd.clear();
+  
+  lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
+  lcd.setBacklight(1);
+  delay(1000);
+  lcd.setBacklight(0);
+  delay(1000);
+  lcd.setBacklight(1);
+
+  char buf[24] = "1234567890";
+  lcd.center(0, buf);
+  lcd.center(1, "123456789");
+  lcd.center(2, "23456789");
+  lcd.center(3, "2345678");
+  delay(4000);
+
+
+  lcd.clear();
+  for (int r = 0; r < 4; r++)
+  {
+    int x = random(20000);
+    char buffer[8];
+    itoa(x, buffer, 10);
+    lcd.right(10, r, buffer);
+  }
+  delay(4000);
+
+
+  lcd.clear();
   lcd.setCursor(3, 1);
   uint32_t start = micros();
   lcd.print(__TIME__);
   uint32_t stop = micros();
 
-  lcd.setCursor(10, 0);
+  lcd.setCursor(14, 1);
   lcd.print(stop - start);
   delay(1000);
 
@@ -61,13 +90,12 @@ void setup()
 
 void loop()
 {
-
-//  lcd.clear();
-//  lcd.setCursor(0, 0);
-//  lcd.print(millis());
-//  lcd.print(" ");
-//  lcd.print(lcd.getColumn());
-//  delay(1000);
+  //  lcd.clear();
+  //  lcd.setCursor(0, 0);
+  //  lcd.print(millis());
+  //  lcd.print(" ");
+  //  lcd.print(lcd.getColumn());
+  //  delay(1000);
 }
 
 

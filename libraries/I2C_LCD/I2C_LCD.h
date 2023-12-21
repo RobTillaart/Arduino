@@ -2,13 +2,13 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-12-16
 // PUPROSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.1.1"))
+#define I2C_LCD_LIB_VERSION     (F("0.1.2"))
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -31,7 +31,7 @@ public:
   //  adjust pins
   void      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect, 
                    uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7,
-                   uint8_t backLight, uint8_t policy);
+                   uint8_t backLight, uint8_t polarity);
 
   //  only supports 5x8 char set for now.
   //  blocks 100+ millisec to give device chance to reset
@@ -40,7 +40,7 @@ public:
 
 
   //  BACKLIGHT
-  void      setBacklightPin(uint8_t pin, uint8_t policy);
+  void      setBacklightPin(uint8_t pin, uint8_t polarity);
   void      setBacklight(bool on);
   void      backlight()   { setBacklight(true);  };
   void      noBacklight() { setBacklight(false); };
@@ -82,8 +82,10 @@ public:
   inline size_t special(uint8_t index) { return write((uint8_t)index); };
 
 
-  //  PRINT INTERFACE
+  //  PRINT INTERFACE ++
   size_t    write(uint8_t c);
+  size_t    center(uint8_t row, const char * message);
+  size_t    right(uint8_t col, uint8_t row, const char * message);
 
   //  DEBUG  development
   uint8_t   getColumn() { return _pos; };  //  works.
@@ -94,7 +96,7 @@ private:
 
   void      sendData(uint8_t value);
   void      sendCommand(uint8_t value);
-  void      send(uint8_t value, bool flag);
+  void      send(uint8_t value, bool dataFlag);
   void      write4bits(uint8_t value);
 
   uint8_t   _address = 0;
@@ -111,7 +113,7 @@ private:
 
   uint8_t   _cols = 20;
   uint8_t   _rows = 4;
-
+  
   //  DISPLAYCONTROL bit always on, set in constructor.
   uint8_t   _displayControl = 0;
   //  optimization

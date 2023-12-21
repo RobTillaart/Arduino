@@ -9,7 +9,7 @@ config	KEYWORD2
 begin	KEYWORD2
 isConnected	KEYWORD2
 
-setBacklightPin
+setBacklightPin	KEYWORD2
 setBacklight	KEYWORD2
 backlight	KEYWORD2
 noBacklight	KEYWORD2
@@ -39,11 +39,14 @@ noAutoscroll	KEYWORD2
 leftToRight	KEYWORD2
 rightToLeft	KEYWORD2
 
-createChar
+createChar	KEYWORD2
 special	KEYWORD2
+
 
 # PRINT API
 write	KEYWORD2
+center	KEYWORD2
+right	KEYWORD2
 
 
 # DEBUG

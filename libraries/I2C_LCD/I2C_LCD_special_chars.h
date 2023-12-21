@@ -8,7 +8,7 @@
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-//  SPECIAL CHARS
+//  SPECIAL CHARS,  might not work on all displays.
 
 const char LCD_ALPHA    = 0xE0;
 const char LCD_BETA     = 0xE2;

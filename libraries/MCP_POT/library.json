@@ -1,0 +1,23 @@
+{
+  "name": "MCP_POT",
+  "keywords": "MCP41010, MCP41050, MCP41100, MCP42010, MCP42050, MCP42100",
+  "description": "Arduino library for MCP41xxx and MCP42xxx SPI based digital potentiometers.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP_POT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MCP_POT.h"
+}

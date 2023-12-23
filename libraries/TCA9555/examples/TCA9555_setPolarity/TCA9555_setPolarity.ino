@@ -17,14 +17,15 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("TCA9555_LIB_VERSION: ");
   Serial.println(TCA9555_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   TCA.begin();
 
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = TCA.digitalRead(pin);
+    int val = TCA.read1(pin);
     Serial.print(val);
     Serial.print(' ');
   }
@@ -41,7 +42,7 @@ void setup()
   Serial.println("\nafter setPolarity");
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = TCA.digitalRead(pin);
+    int val = TCA.read1(pin);
     Serial.print(val);
     Serial.print(' ');
   }

@@ -38,6 +38,29 @@ There is a TCA9535 class which is a (convenience) wrapper around the TCA9555 cla
 This allows one to create TCA9535 objects. 
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
+
+
+
 #### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
@@ -93,9 +116,9 @@ Returns true if device can be seen on I2C bus, false otherwise.
 
 #### 1 pin interface
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** idem.
-- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
-- **uint8_t digitalRead(uint8_t pin)** pin = 0..15, returns the value of the pin HIGH or LOW.
+- **bool pinMode1(uint8_t pin, uint8_t mode)** idem.
+- **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
+- **uint8_t read1(uint8_t pin)** pin = 0..15, returns the value of the pin HIGH or LOW.
 - **bool setPolarity(uint8_t pin, uint8_t value)** inverts polarity of an INPUT pin.
 - **uint8_t getPolarity(uint8_t pin)** returns 1 if a pin is inverted.
 

@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("TCA9555_LIB_VERSION: ");
   Serial.println(TCA9555_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

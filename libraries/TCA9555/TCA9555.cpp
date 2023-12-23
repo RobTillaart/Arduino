@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9555.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -55,7 +55,7 @@ uint8_t TCA9555::getAddress()
 //
 //  1 PIN INTERFACE
 //
-bool TCA9555::pinMode(uint8_t pin, uint8_t mode)   //  pin = 0..15
+bool TCA9555::pinMode1(uint8_t pin, uint8_t mode)   //  pin = 0..15
 {
   if (pin > 15)
   {
@@ -83,7 +83,7 @@ bool TCA9555::pinMode(uint8_t pin, uint8_t mode)   //  pin = 0..15
 }
 
 
-bool TCA9555::digitalWrite(uint8_t pin, uint8_t value)   //  pin = 0..15
+bool TCA9555::write1(uint8_t pin, uint8_t value)   //  pin = 0..15
 {
   if (pin > 15)
   {
@@ -106,7 +106,7 @@ bool TCA9555::digitalWrite(uint8_t pin, uint8_t value)   //  pin = 0..15
 }
 
 
-uint8_t TCA9555::digitalRead(uint8_t pin)   //  pin = 0..15
+uint8_t TCA9555::read1(uint8_t pin)   //  pin = 0..15
 {
   if (pin > 15)
   {

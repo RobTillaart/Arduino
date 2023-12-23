@@ -29,8 +29,9 @@ data in a way not possible in the standard print library of the Arduino.
 - **toRoman()** generates a ROMAN representation of a (positive) number.
 - **printInch(float inch, uint16_t step)** experimental.
 - **printFeet(float feet)** experimental.
+- **csi()** generates a comma separated integer for readability.
 
-Details, see below.
+For the details, see sections below.
 
 If a (generic) print format is missing, please open an issue.
 
@@ -220,6 +221,35 @@ The parameter step must be a power of 2 == 2, 4, 8, 16, 32, 64, 128.
 ``` a'b"``` e.g. 4.5 feet prints as ```4'6"```
 
 
+#### Comma Separated Integer
+
+Experimental 0.4.3
+
+When you are working with large numbers, more than lets say 6 digits.
+With these numbers it is often difficult to see if it is 2 million something or 20 million something. 
+A proven way to solve this is to print those large numbers in groups of 3 digits separated by comma's.
+This improves the readability a lot and yes the price is more room needed on a display.
+The comma is chosen as it is default thousands separator in Excel.
+
+In the first version the separator is hardcoded a ",", in future it might be configurable.
+This new printHelper function can work with both signed and unsigned up to 64 bit numbers.
+Like all printHelper functions it uses a shared print buffer to keep memory usage low.
+
+Example 192837465 becomes 192,837,465.
+
+signed
+- **char \* csi(int64_t n)** 
+- **char \* csi(int32_t n)** 
+- **char \* csi(int16_t n)** 
+- **char \* csi(int8_t n)**
+
+unsigned
+- **char \* csi(uint64_t n)** 
+- **char \* csi(uint32_t n)** 
+- **char \* csi(uint16_t n)** 
+- **char \* csi(uint8_t n)**
+
+
 ## Shared print buffer
 
 The implementation of the function all use a shared buffer to hold the 
@@ -271,6 +301,10 @@ When functions are added, the recommended minimum size might increase.
 - optimize **char \* hex(uint8_t / uint16_t ...)**
 - make this library a .h file only?
 - PRINTHELPERS_LIB_VERSION
+- is there need for Scientific or Engineering integers
+  - 23.457e3 only positive powers
+  - could be without float math
+  - 4 versions (un)signed 32/64 ?
 
 #### Wont
 

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,7 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.4.2"))
+#define PRINTHELPERS_VERSION      (F("0.4.3"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -115,6 +115,22 @@ char * toRoman(uint32_t value);
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 char * printInch(float inch, uint16_t step = 16);
 char * printFeet(float feet);
+
+
+////////////////////////////////////////////////////////////
+//
+//  Comma Separated Integers
+//  Experimental
+//
+char * csi(int64_t n);
+char * csi(int32_t n);
+char * csi(int16_t n);
+char * csi(int8_t n);
+char * csi(uint64_t n);
+char * csi(uint32_t n);
+char * csi(uint16_t n);
+char * csi(uint8_t n);
+
 
 
 //  -- END OF FILE --

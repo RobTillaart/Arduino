@@ -18,6 +18,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PRINTHELPERS_VERSION: ");
+  Serial.println(PRINTHELPERS_VERSION);
+  Serial.println();
+
   delay(100);
 
   Serial.println("BASE\tTIME  base < 10 support depends on internal buffer size");

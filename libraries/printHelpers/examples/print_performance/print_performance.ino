@@ -15,6 +15,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_VERSION: ");
   Serial.println(PRINTHELPERS_VERSION);
+  Serial.println();
 
   Serial.println(sizeof(float));
   Serial.println(sizeof(double));
@@ -191,6 +192,24 @@ void setup()
   Serial.println(stop - start);
   Serial.println(b);
   delay(100);
+
+
+  Serial.println();
+  Serial.println("CSI");
+  volatile uint64_t big = 1234567890987654321;
+  delay(100);
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    b = csi(big);
+  }
+  stop = micros();
+  Serial.print("TIME: ");
+  Serial.println(stop - start);
+  Serial.println(csi(big));
+  Serial.println(print64(big));
+  delay(100);
+
 
   Serial.println();
   Serial.println("done...");

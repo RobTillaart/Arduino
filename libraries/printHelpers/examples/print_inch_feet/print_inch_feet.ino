@@ -12,6 +12,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PRINTHELPERS_VERSION: ");
   Serial.println(PRINTHELPERS_VERSION);
+  Serial.println();
 
   //  test some random values
   for (float inch = 0; inch < 100; inch += 5.43)

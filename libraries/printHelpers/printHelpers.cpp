@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PUPROSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -524,11 +524,165 @@ char * printFeet(float feet)
   //  ESP32 does not support %ld  or ltoa()
   sprintf(buffer, "%d\"%d\'", ft, inch);
 #else
-  sprintf(buffer, "%d\"%d\'", ft, inch);
+  sprintf(buffer, "%ld\"%d\'", ft, inch);
 #endif
-  sprintf(buffer, "%d\"%d\'", ft, inch);
   return buffer;
 }
+
+
+////////////////////////////////////////////////////////////
+//
+//  Comma Separated Integers
+//  Experimental
+//
+//  TODO 
+//  - merge if possible 64-32  signed-unsigned
+//  - performance (use divmod10?)
+//
+char * csi(int64_t value)
+{
+  char * buffer = __printbuffer;
+  int index = 0;
+  bool neg = (value < 0);
+  if (neg)
+  {
+    value = -value;
+  }
+  int threeCount = 0;
+  while (value > 0)
+  {
+    buffer[index++] = '0' +  value % 10;
+    value /= 10;
+    threeCount++;
+    if ((threeCount == 3) && (value > 0))
+    {
+      threeCount = 0;
+      buffer[index++] = ',';
+    }
+  }
+  if (neg)
+  {
+    buffer[index++] = '-';
+  }
+  buffer[index--] = 0;
+  for (int i = 0, j = index; i < j; i++, j--)
+  {
+    char t = buffer[j];
+    buffer[j] = buffer[i];
+    buffer[i] = t;
+  }
+  return buffer;
+}
+
+char * csi(int32_t value)
+{
+  char * buffer = __printbuffer;
+  int index = 0;
+  bool neg = (value < 0);
+  if (neg)
+  {
+    value = -value;
+  }
+  int threeCount = 0;
+  while (value > 0)
+  {
+    buffer[index++] = '0' +  value % 10;
+    value /= 10;
+    threeCount++;
+    if ((threeCount == 3) && (value > 0))
+    {
+      threeCount = 0;
+      buffer[index++] = ',';
+    }
+  }
+  if (neg)
+  {
+    buffer[index++] = '-';
+  }
+  buffer[index--] = 0;
+  for (int i = 0, j = index; i < j; i++, j--)
+  {
+    char t = buffer[j];
+    buffer[j] = buffer[i];
+    buffer[i] = t;
+  }
+  return buffer;
+}
+
+char * csi(int16_t value)
+{
+  return csi((int32_t)value);
+}
+
+char * csi(int8_t value)
+{
+  return csi((int32_t)value);
+}
+
+
+char * csi(uint64_t value)
+{
+  char * buffer = __printbuffer;
+  int index = 0;
+  int threeCount = 0;
+  while (value > 0)
+  {
+    buffer[index++] = '0' +  value % 10;
+    value /= 10;
+    threeCount++;
+    if ((threeCount == 3) && (value > 0))
+    {
+      threeCount = 0;
+      buffer[index++] = ',';
+    }
+  }
+  buffer[index--] = 0;
+  for (int i = 0, j = index; i < j; i++, j--)
+  {
+    char t = buffer[j];
+    buffer[j] = buffer[i];
+    buffer[i] = t;
+  }
+  return buffer;
+}
+
+char * csi(uint32_t value)
+{
+  char * buffer = __printbuffer;
+  int index = 0;
+  int threeCount = 0;
+  while (value > 0)
+  {
+    buffer[index++] = '0' +  value % 10;
+    value /= 10;
+    threeCount++;
+    if ((threeCount == 3) && (value > 0))
+    {
+      threeCount = 0;
+      buffer[index++] = ',';
+    }
+  }
+  buffer[index--] = 0;
+  for (int i = 0, j = index; i < j; i++, j--)
+  {
+    char t = buffer[j];
+    buffer[j] = buffer[i];
+    buffer[i] = t;
+  }
+  return buffer;
+}
+
+char * csi(uint16_t value)
+{
+  return csi((uint32_t)value);
+}
+
+
+char * csi(uint8_t value)
+{
+  return csi((uint32_t)value);
+}
+
 
 
 //  -- END OF FILE --

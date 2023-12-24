@@ -17,7 +17,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print("MCP23S17_test version: ");
+  Serial.print("MCP23S17_LIB_VERSION: ");
   Serial.println(MCP23S17_LIB_VERSION);
   delay(100);
 
@@ -34,10 +34,10 @@ void setup()
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
 
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);
@@ -49,10 +49,10 @@ void setup()
 void loop()
 {
   delay(1000);
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);

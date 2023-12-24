@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23S17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.3.0"))
+#define MCP23S17_LIB_VERSION              (F("0.4.0"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -53,9 +53,9 @@ public:
 
   //  single pin interface
   //  mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
-  bool     pinMode(uint8_t pin, uint8_t mode);
-  bool     digitalWrite(uint8_t pin, uint8_t value);
-  uint8_t  digitalRead(uint8_t pin);
+  bool     pinMode1(uint8_t pin, uint8_t mode);
+  bool     write1(uint8_t pin, uint8_t value);
+  uint8_t  read1(uint8_t pin);
 
   bool     setPolarity(uint8_t pin, bool reversed);
   bool     getPolarity(uint8_t pin, bool &reversed);

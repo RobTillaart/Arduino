@@ -52,16 +52,16 @@ void loop()
   int x = random(32);
   if (x < 16)
   {
-    MCP_A.digitalWrite(x, HIGH);
+    MCP_A.write1(x, HIGH);
     delay(100);
-    MCP_A.digitalWrite(x, LOW);
+    MCP_A.write1(x, LOW);
   }
   else
   {
     x -= 16;
-    MCP_B.digitalWrite(x, HIGH);
+    MCP_B.write1(x, HIGH);
     delay(100);
-    MCP_B.digitalWrite(x, LOW);
+    MCP_B.write1(x, LOW);
   }
 }
 

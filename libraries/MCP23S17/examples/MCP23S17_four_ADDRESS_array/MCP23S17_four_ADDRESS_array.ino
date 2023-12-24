@@ -61,9 +61,9 @@ void loop()
 {
   int pin  = random(64);
   int addr = random(4);
-  MCP[addr].digitalWrite(pin, HIGH);
+  MCP[addr].write1(pin, HIGH);
   delay(100);
-  MCP[addr].digitalWrite(pin, LOW);
+  MCP[addr].write1(pin, LOW);
   delay(100);
 }
 

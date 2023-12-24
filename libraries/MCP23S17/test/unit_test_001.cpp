@@ -113,9 +113,9 @@ unittest(test_pinMode)
   MCP23S17 mcp_hw(10);
   assertEqual(MCP23S17_OK, mcp_hw.lastError());
 
-  assertFalse(mcp_hw.pinMode(16, INPUT));
+  assertFalse(mcp_hw.pinMode1(16, INPUT));
   assertEqual(MCP23S17_PIN_ERROR, mcp_hw.lastError());
-  assertFalse(mcp_hw.pinMode(0, 4));
+  assertFalse(mcp_hw.pinMode1(0, 4));
   assertEqual(MCP23S17_VALUE_ERROR, mcp_hw.lastError());
 }
 
@@ -125,7 +125,7 @@ unittest(test_digitalWrite)
   MCP23S17 mcp_hw(10);
   assertEqual(MCP23S17_OK, mcp_hw.lastError());
 
-  assertFalse(mcp_hw.digitalWrite(16, 0));
+  assertFalse(mcp_hw.write1(16, 0));
   assertEqual(MCP23S17_PIN_ERROR, mcp_hw.lastError());
 }
 
@@ -135,7 +135,7 @@ unittest(test_digitalRead)
   MCP23S17 mcp_hw(10);
   assertEqual(MCP23S17_OK, mcp_hw.lastError());
 
-  assertEqual(MCP23S17_INVALID_READ, mcp_hw.digitalRead(16));
+  assertEqual(MCP23S17_INVALID_READ, mcp_hw.read1(16));
   assertEqual(MCP23S17_PIN_ERROR, mcp_hw.lastError());
 }
 

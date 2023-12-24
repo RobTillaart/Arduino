@@ -16,10 +16,32 @@ Arduino library for MCP23S17 16 channel SPI port expander.
 
 ## Description
 
-This experimental library gives easy control over the 16 pins of a (SPI) MCP23S17 chip.
+This library gives easy control over the 16 pins of a (SPI) MCP23S17 chip.
 
 This IC is strongly related to the MCP23017 I2C port expander - https://github.com/RobTillaart/MCP23017_RT
 Programming Interface is kept the same as much as possible.
+
+
+#### 0.4.0 Breaking change
+
+The version 0.4.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
 
 
 #### 0.3.0 Breaking change
@@ -100,9 +122,9 @@ See also **IO Control Register** section below.
 
 ### Single pin interface
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
-- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
-- **uint8_t digitalRead(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
+- **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
+- **uint8_t read1(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag. Returns true if successful.
 - **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag. Returns true if successful.
 - **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag. Returns true if successful.
@@ -219,7 +241,7 @@ See examples.
 - investigate and reimplement the INPUT_PULLUP for pinMode() ?
 - RP2040 support for SPI, setGPIOpins() etc
   - See MCP_DAC
-- AVR software SPI optimize 0.3.0
+- AVR software SPI optimize
   - dao and clock - see fastShiftOut.
 
 #### Wont

@@ -15,7 +15,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print("MCP23S17_test version: ");
+  Serial.print("MCP23S17_LIB_VERSION: ");
   Serial.println(MCP23S17_LIB_VERSION);
   delay(100);
 
@@ -27,11 +27,11 @@ void setup()
   MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
 
-  Serial.println("TEST digitalWrite(0)");
+  Serial.println("TEST write1(0)");
   delay(100);
   for (int i = 0; i < 16; i++)
   {
-    MCP.digitalWrite(0, i % 2);  //  alternating HIGH/LOW
+    MCP.write1(0, i % 2);  //  alternating HIGH/LOW
     Serial.print(i % 2);
     Serial.print(' ');
     delay(100);
@@ -39,11 +39,11 @@ void setup()
   Serial.println();
   Serial.println();
 
-  Serial.println("TEST digitalWrite(pin)");
+  Serial.println("TEST write1(pin)");
   delay(100);
   for (int pin = 0; pin < 16; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
+    MCP.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
     Serial.print(1 - pin % 2);
     Serial.print(' ');
     delay(100);
@@ -55,7 +55,7 @@ void setup()
 
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);

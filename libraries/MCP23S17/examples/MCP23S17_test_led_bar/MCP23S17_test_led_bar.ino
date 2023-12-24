@@ -65,15 +65,15 @@ void ledbar_1(int x)
   int i = 0;
   while (i++ < x)
   {
-    MCP.digitalWrite(i, HIGH);
+    MCP.write1(i, HIGH);
   }
-  while (i++ < 10) MCP.digitalWrite(i, LOW);
+  while (i++ < 10) MCP.write1(i, LOW);
 }
 
 
 void ledbar_2(int x)
 {
-  //  use 16 bit bitmask.
+  //  use 16 bit bit mask.
   uint16_t n = (1 << x) - 1;
   MCP.write16(n);
 }

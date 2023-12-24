@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -98,7 +98,7 @@ uint8_t MCP23S17::getAddress()
 //
 //  pin  = 0..15
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
-bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
+bool MCP23S17::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
   {
@@ -144,7 +144,7 @@ bool MCP23S17::pinMode(uint8_t pin, uint8_t mode)
 
 //  pin   = 0..15
 //  value = LOW, HIGH
-bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
+bool MCP23S17::write1(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
   {
@@ -187,7 +187,7 @@ bool MCP23S17::digitalWrite(uint8_t pin, uint8_t value)
 }
 
 
-uint8_t MCP23S17::digitalRead(uint8_t pin)
+uint8_t MCP23S17::read1(uint8_t pin)
 {
   if (pin > 15)
   {

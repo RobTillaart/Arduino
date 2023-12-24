@@ -22,7 +22,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print("MCP23S17_test version: ");
+  Serial.print("MCP23S17_LIB_VERSION: ");
   Serial.println(MCP23S17_LIB_VERSION);
   Serial.println();
   delay(100);
@@ -59,34 +59,34 @@ void test()
   delay(100);
 
 
-  Serial.print("TEST digitalWrite(0, value):\t");
+  Serial.print("TEST write1(0, value):\t");
   delay(100);
   start = micros();
   for (int i = 0; i < 16; i++)
   {
-    MCP.digitalWrite(0, i & 0x01);  //  alternating HIGH/LOW
+    MCP.write1(0, i & 0x01);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
 
 
-  Serial.print("TEST digitalWrite(pin, value):\t");
+  Serial.print("TEST write1(pin, value):\t");
   delay(100);
   start = micros();
   for (int pin = 0; pin < 16; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2);  //  alternating HIGH/LOW
+    MCP.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);
 
 
-  Serial.print("TEST digitalRead(pin):\t");
+  Serial.print("TEST read1(pin):\t");
   delay(100);
   start = micros();
   for (int pin = 0; pin < 16; pin++)
   {
-    val1 = MCP.digitalRead(pin);
+    val1 = MCP.read1(pin);
   }
   stop = micros();
   Serial.println((stop - start) / 16.0);

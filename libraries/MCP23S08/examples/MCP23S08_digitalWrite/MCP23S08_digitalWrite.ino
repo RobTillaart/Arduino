@@ -26,13 +26,13 @@ void setup()
   Serial.println(b ? "true" : "false");
   delay(100);
 
-  MCP.pinMode8(0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0x00);  //  0 = output , 1 = input
 
-  Serial.println("TEST digitalWrite(0)");
+  Serial.println("TEST write1(0)");
   delay(100);
   for (int i = 0; i < 8; i++)
   {
-    MCP.digitalWrite(0, i % 2);  // alternating HIGH/LOW
+    MCP.write1(0, i % 2);  //  alternating HIGH/LOW
     Serial.print(i % 2);
     Serial.print(' ');
     delay(100);
@@ -40,11 +40,11 @@ void setup()
   Serial.println();
   Serial.println();
 
-  Serial.println("TEST digitalWrite(pin)");
+  Serial.println("TEST write1(pin)");
   delay(100);
   for (int pin = 0; pin < 8; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
     Serial.print(1 - pin % 2);
     Serial.print(' ');
     delay(100);
@@ -56,7 +56,7 @@ void setup()
 
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);
@@ -71,4 +71,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

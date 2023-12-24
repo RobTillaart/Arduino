@@ -97,7 +97,7 @@ uint8_t MCP23S08::getAddress()
 //
 //  pin  = 0..7
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
-bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
+bool MCP23S08::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 7)
   {
@@ -138,7 +138,7 @@ bool MCP23S08::pinMode(uint8_t pin, uint8_t mode)
 
 //  pin   = 0..7
 //  value = LOW, HIGH
-bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
+bool MCP23S08::write1(uint8_t pin, uint8_t value)
 {
   if (pin > 7)
   {
@@ -175,7 +175,7 @@ bool MCP23S08::digitalWrite(uint8_t pin, uint8_t value)
 }
 
 
-uint8_t MCP23S08::digitalRead(uint8_t pin)
+uint8_t MCP23S08::read1(uint8_t pin)
 {
   if (pin > 7)
   {

@@ -31,41 +31,41 @@ void setup()
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
 
-  MCP.pinMode8(0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0x00);  //  0 = output , 1 = input
 
   Serial.println("\ntime in microseconds\n");
   delay(100);
 
 
-  Serial.print("TEST digitalWrite(0, value):\t");
+  Serial.print("TEST write1(0, value):\t");
   delay(100);
   start = micros();
   for (int i = 0; i < 8; i++)
   {
-    MCP.digitalWrite(0, i & 0x01);  // alternating HIGH/LOW
+    MCP.write1(0, i & 0x01);  // alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
 
 
-  Serial.print("TEST digitalWrite(pin, value):\t");
+  Serial.print("TEST write1(pin, value):\t");
   delay(100);
   start = micros();
   for (int pin = 0; pin < 8; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); //  alternating HIGH/LOW
+    MCP.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
 
 
-  Serial.print("TEST digitalRead(pin):\t");
+  Serial.print("TEST read1(pin):\t");
   delay(100);
   volatile int val = 0;
   start = micros();
   for (int pin = 0; pin < 8; pin++)
   {
-    val = MCP.digitalRead(pin);
+    val = MCP.read1(pin);
   }
   stop = micros();
   Serial.println((stop - start) / 8.0);
@@ -80,7 +80,7 @@ void setup()
   Serial.print("TEST write8(mask):\t");
   delay(100);
   start = micros();
-  MCP.write8(0xAA); // alternating HIGH/LOW
+  MCP.write8(0xAA);  //  alternating HIGH/LOW
   stop = micros();
   Serial.println(stop - start);
 

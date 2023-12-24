@@ -33,10 +33,10 @@ void setup()
   Serial.print("HWSPI: ");
   Serial.println(MCP.usesHWSPI());
 
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);
@@ -48,10 +48,10 @@ void setup()
 void loop()
 {
   delay(1000);
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
     delay(100);
@@ -61,4 +61,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

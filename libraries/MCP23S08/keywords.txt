@@ -9,9 +9,9 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 getAddress	KEYWORD2
 
-pinMode	KEYWORD2
-digitalWrite	KEYWORD2
-digitalRead	KEYWORD2
+pinMode1	KEYWORD2
+write1	KEYWORD2
+read1	KEYWORD2
 
 setPolarity	KEYWORD2
 getPolarity	KEYWORD2

@@ -49,7 +49,7 @@ void loop()
   for (int pin = 0; pin < 4; pin++)
   {
 
-    val = MCP.digitalRead(pin);
+    val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
   }
@@ -59,7 +59,7 @@ void loop()
   for (int pin = 4; pin < 8; pin++)
   {
 
-    val = MCP.digitalRead(pin);
+    val = MCP.read1(pin);
     Serial.print(val);
     Serial.print(' ');
   }
@@ -69,14 +69,14 @@ void loop()
   for (int r = 0; r < ROWS_OF_KEYPAD; r++)
   {
 
-    if( MCP.digitalRead(r) == false ) // false = pressed
+    if( MCP.read1(r) == false )  //  false = pressed
     {
 
       MCP.pinMode8(0xf0);
       for (int c = ROWS_OF_KEYPAD; c < ROWS_OF_KEYPAD+COLS_OF_KEYPAD; c++)
       {
 
-        if( MCP.digitalRead(c) == false ) // false = pressed
+        if( MCP.read1(c) == false )  //  false = pressed
         {
 
           Serial.print(keys_of_keypad[r][c-4]);

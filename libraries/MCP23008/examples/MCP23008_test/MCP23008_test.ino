@@ -41,7 +41,7 @@ void test_pin_mode()
   Serial.println();
   for (int i = 0; i < 8; i++)
   {
-    MCP.pinMode(i, OUTPUT);
+    MCP.pinMode1(i, OUTPUT);
     value = MCP.getPinMode8();
     Serial.println(value, HEX);
   }
@@ -49,7 +49,7 @@ void test_pin_mode()
   Serial.println();
   for (int i = 0; i < 8; i++)
   {
-    MCP.pinMode(i, INPUT);
+    MCP.pinMode1(i, INPUT);
     value = MCP.getPinMode8();
     Serial.println(value, HEX);
   }
@@ -57,7 +57,7 @@ void test_pin_mode()
   Serial.println();
   for (int i = 0; i < 8; i++)
   {
-    MCP.pinMode(i, OUTPUT);
+    MCP.pinMode1(i, OUTPUT);
     value = MCP.getPinMode8();
     Serial.println(value, HEX);
   }
@@ -65,7 +65,7 @@ void test_pin_mode()
   Serial.println();
   for (int i = 0; i < 8; i++)
   {
-    MCP.pinMode(i, INPUT_PULLUP);
+    MCP.pinMode1(i, INPUT_PULLUP);
     value = MCP.getPinMode8();
     Serial.println(value, HEX);
   }
@@ -86,7 +86,7 @@ void test_digital_read()
   {
     for (int i = 0; i < 8; i++)
     {
-      value = MCP.digitalRead(i);
+      value = MCP.read1(i);
       Serial.print(value, HEX);
     }
     Serial.println();

@@ -25,22 +25,22 @@ void setup()
 
   MCP.begin();
 
-  pinMode(8, INPUT);  //  use pin8 to read back MCP.pin0
+  pinMode(8, INPUT);     //  use pin8 to read back MCP.pin0
 
-  MCP.pinMode8(0x00);      // 0 = output, 1 = input
+  MCP.pinMode8(0x00);    //  0 = output,  1 = input
   MCP.write8(0xFF);
   Wire.setClock(100000);
 
-  Serial.println("TEST digitalWrite(0) - note bitorder");
+  Serial.println("TEST write1(0) - note bitorder");
   for (int i = 0; i < 8; i++)
   {
-    MCP.digitalWrite(0, i % 2);     //  alternating HIGH/LOW
+    MCP.write1(0, i % 2);          //  alternating HIGH/LOW
     Serial.print(i % 2);
-    Serial.print(digitalRead(8));   //  read back status.
+    Serial.print(digitalRead(8));  //  read back status.
     Serial.print('\t');
     delay(250);
   }
-  MCP.digitalWrite(0, LOW);
+  MCP.write1(0, LOW);
   Serial.println();
   Serial.println();
 
@@ -48,7 +48,7 @@ void setup()
   Serial.println("TEST read back");
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print('\t');
   }
@@ -57,10 +57,10 @@ void setup()
   Serial.println();
 
 
-  Serial.println("TEST digitalWrite(pin) - note bitorder");
+  Serial.println("TEST write1(pin) - note bitorder");
   for (int pin = 0; pin < 8; pin++)
   {
-    MCP.digitalWrite(pin, 1 - pin % 2); // alternating HIGH/LOW
+    MCP.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
     Serial.print(1 - pin % 2);
     Serial.print('\t');
   }
@@ -72,7 +72,7 @@ void setup()
   Serial.println(digitalRead(8));
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print('\t');
   }
@@ -87,5 +87,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -32,16 +32,16 @@ void setup()
   //  set individual pins
   for (int pin = 0; pin < 8; pin++)
   {
-    MCP.pinMode(pin, INPUT);
+    MCP.pinMode1(pin, INPUT);
   }
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
 }
 
 void loop()
 {
   for (int pin = 0; pin < 8; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print('\t');
   }

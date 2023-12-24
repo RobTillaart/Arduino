@@ -2,13 +2,13 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2023-12-16
 // PUPROSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.1.2"))
+#define I2C_LCD_LIB_VERSION     (F("0.1.3"))
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -29,7 +29,7 @@ public:
   explicit  I2C_LCD(uint8_t address, TwoWire * wire = &Wire);
 
   //  adjust pins
-  void      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect, 
+  void      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect,
                    uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7,
                    uint8_t backLight, uint8_t polarity);
 
@@ -51,7 +51,7 @@ public:
   void      noDisplay();
   void      on()  { display(); };
   void      off() { noDisplay(); };
-  
+
 
   //  POSITIONING & CURSOR
   void      clear();      //  clears whole screen
@@ -66,8 +66,8 @@ public:
 
   void      scrollDisplayLeft();
   void      scrollDisplayRight();
-  void      moveCursorRight();
-  void      moveCursorLeft();
+  void      moveCursorRight(uint8_t n = 1);
+  void      moveCursorLeft(uint8_t n = 1);
 
   //  next 4 limited support
   void      autoscroll();
@@ -113,7 +113,7 @@ private:
 
   uint8_t   _cols = 20;
   uint8_t   _rows = 4;
-  
+
   //  DISPLAYCONTROL bit always on, set in constructor.
   uint8_t   _displayControl = 0;
   //  optimization

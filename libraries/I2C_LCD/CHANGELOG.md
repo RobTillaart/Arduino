@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2023-12-22
+- add support for **16x4** + **10x4** display
+- minimized footprint **setCursor()**
+- add parameter to **moveCursorLeft(uint8_t n = 1)**
+- add parameter to **moveCursorRight(uint8_t n = 1)**
+- improve timing
+- update examples
+- minor edits
+
+
 ## [0.1.2] - 2023-12-21
 - implement polarity backlight (and removed policy)
 - add **size_t center(uint8_t row, const char \* message)**
@@ -15,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add examples
 - fix keywords.txt
 - update readme.md
-
 
 ## [0.1.1] - 2023-12-18
 - add blink() and noBlink()
@@ -32,7 +41,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add examples
 - add **I2C_LIB_special_chars.h**
 - and more
-
 
 ## [0.1.0] - 2023-12-16
 - initial version 

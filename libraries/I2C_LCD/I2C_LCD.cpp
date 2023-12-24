@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_LCD.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2023-12-16
 // PUPROSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
@@ -9,8 +9,9 @@
 
 #include "I2C_LCD.h"
 
-//  40 us is a save value
-const uint8_t I2C_LCD_CHAR_DELAY = 40;
+//  40 us is a save value at any speed.
+//  20 us is a save value for I2C at 400K.
+const uint8_t I2C_LCD_CHAR_DELAY = 0;
 
 
 ///////////////////////////////////////////////////////
@@ -43,9 +44,6 @@ const uint8_t I2C_LCD_CHAR_DELAY = 40;
 #define I2C_LCD_5x10DOTS            0x04
 
 
-
-
-
 I2C_LCD::I2C_LCD(uint8_t address, TwoWire * wire)
 {
   _address = address;
@@ -56,7 +54,7 @@ I2C_LCD::I2C_LCD(uint8_t address, TwoWire * wire)
 
 void I2C_LCD::config (uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect,
                       uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7,
-                      uint8_t backLight, uint8_t polarity)  
+                      uint8_t backLight, uint8_t polarity)
 {
   if (_address != address) return;  //  compatible?
   _enable         = ( 1 << enable);
@@ -99,7 +97,7 @@ void I2C_LCD::begin(uint8_t cols, uint8_t rows)
   write4bits(0x02);
   delayMicroseconds(200);
 
-  //  set "two" lines LCD - always a 20 x 4 for now.
+  //  set "two" lines LCD - fixed for now.
   sendCommand(I2C_LCD_FUNCTIONSET | I2C_LCD_2LINE);
   //  default enable display
   display();
@@ -182,11 +180,42 @@ void I2C_LCD::home()
 
 bool I2C_LCD::setCursor(uint8_t col, uint8_t row)
 {
-  static uint8_t startpos[4] = { 0x00, 0x40, 0x14, 0x54 };
   if ((col >= _cols) || (row >= _rows)) return false;
-  sendCommand(I2C_LCD_SETDDRAMADDR | (startpos[row] + col) );
+
+  uint8_t offset = 0x00;
+  if (row & 0x01) offset += 0x40;
+  if (row & 0x02) offset += _cols;
+  offset += col;
   _pos = col;
+
+  sendCommand(I2C_LCD_SETDDRAMADDR | offset );
   return true;
+
+  //  ORIGINAL SETCURSOR CODE 
+  //  all start position arrays start with 0x00 0x40
+  //  they have an offset of 0x14, 0x10 or 0x0A
+  //  so only 3 bytes are needed?
+  //  note that e.g. 16x2 only uses the first 2 offsets.
+  // uint8_t startPos[4]  = { 0x00, 0x40, 0x14, 0x54 };  //  most displays
+  // uint8_t start16x4[4] = { 0x00, 0x40, 0x10, 0x50 };  //  16x4 display
+  // uint8_t start10x4[4] = { 0x00, 0x40, 0x0A, 0x4A };  //  10x4 LOGO display
+
+  // //  if out of range exit!
+  // if ((col >= _cols) || (row >= _rows)) return false;
+
+  // _pos = col;
+  // if ((_rows == 4) && (_cols == 16))
+  // {
+    // sendCommand(I2C_LCD_SETDDRAMADDR | (start16x4[row] + col) );
+    // return true;
+  // }
+  // if ((_rows == 4) && (_cols == 10))
+  // {
+    // sendCommand(I2C_LCD_SETDDRAMADDR | (start10x4[row] + col) );
+    // return true;
+  // }
+  // sendCommand(I2C_LCD_SETDDRAMADDR | (startPos[row] + col) );
+  // return true;
 }
 
 
@@ -209,7 +238,7 @@ void I2C_LCD::cursor()
   _displayControl |= I2C_LCD_CURSORON;
   sendCommand(_displayControl);
 }
-  
+
 
 void I2C_LCD::noCursor()
 {
@@ -218,51 +247,57 @@ void I2C_LCD::noCursor()
 }
 
 
-void I2C_LCD::scrollDisplayLeft(void) 
+void I2C_LCD::scrollDisplayLeft(void)
 {
-   sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_DISPLAYMOVE);
+  sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_DISPLAYMOVE);
 }
 
 
-void I2C_LCD::scrollDisplayRight(void) 
+void I2C_LCD::scrollDisplayRight(void)
 {
-   sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_DISPLAYMOVE | I2C_LCD_MOVERIGHT);
+  sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_DISPLAYMOVE | I2C_LCD_MOVERIGHT);
 }
 
 
-void I2C_LCD::moveCursorLeft(void)
+void I2C_LCD::moveCursorLeft(uint8_t n)
 {
-   sendCommand(I2C_LCD_CURSORSHIFT);
-   _pos--;
+  while ((_pos > 0) && (n--))
+  {
+    sendCommand(I2C_LCD_CURSORSHIFT);
+    _pos--;
+  }
 }
 
 
-void I2C_LCD::moveCursorRight(void)
+void I2C_LCD::moveCursorRight(uint8_t n)
 {
-  sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_MOVERIGHT);
-  _pos++;
+  while ((_pos < _cols) && (n--))
+  {
+    sendCommand(I2C_LCD_CURSORSHIFT | I2C_LCD_MOVERIGHT);
+    _pos++;
+  }
 }
 
 
-void I2C_LCD::autoscroll(void) 
+void I2C_LCD::autoscroll(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET | I2C_LCD_ENTRYSHIFTINCREMENT);
 }
 
 
-void I2C_LCD::noAutoscroll(void) 
+void I2C_LCD::noAutoscroll(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET);
 }
 
 
-void I2C_LCD::leftToRight(void) 
+void I2C_LCD::leftToRight(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET | I2C_LCD_ENTRYLEFT);
 }
 
 
-void I2C_LCD::rightToLeft(void) 
+void I2C_LCD::rightToLeft(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET);
 }
@@ -279,11 +314,10 @@ void I2C_LCD::createChar(uint8_t index, uint8_t * charmap)
   for (uint8_t i = 0; i < 8; i++)
   {
     _pos = 0;
-    write(charmap[i]);
+    sendData(charmap[i]);
   }
   _pos = tmp;
 }
-
 
 
 size_t I2C_LCD::write(uint8_t c)
@@ -291,9 +325,9 @@ size_t I2C_LCD::write(uint8_t c)
   size_t n = 0;
   if (c == (uint8_t)'\t')  //  TAB char
   {
-    while (_pos % 4 != 0)
+    while (((_pos % 4) != 0) && (_pos < _cols))
     {
-      moveCursorRight();  //  increases _pos.
+      moveCursorRight();   //  increases _pos.
       n++;
     }
     return n;
@@ -302,11 +336,10 @@ size_t I2C_LCD::write(uint8_t c)
   {
     sendData(c);
     _pos++;
-    n++;
-    return n;
+    return 1;
   }
-  //  else blink backlight to indicate error?
-  return n;
+  //  not allowed to print.
+  return 0;
 };
 
 
@@ -375,12 +408,12 @@ void I2C_LCD::send(uint8_t value, bool dataFlag)
   _wire->write(LSN | _enable);
   _wire->write(LSN);
   _wire->endTransmission();
-  delayMicroseconds(I2C_LCD_CHAR_DELAY);
+  if (I2C_LCD_CHAR_DELAY) delayMicroseconds(I2C_LCD_CHAR_DELAY);
 }
 
 
 //  needed for setup
-void I2C_LCD::write4bits(uint8_t value) 
+void I2C_LCD::write4bits(uint8_t value)
 {
   uint8_t cmd = 0;
 
@@ -389,7 +422,7 @@ void I2C_LCD::write4bits(uint8_t value)
     if ( value & 0x01 ) cmd |= _dataPin[i];
     value >>= 1;
   }
-  
+
   _wire->beginTransmission(_address);
   _wire->write(cmd | _enable);
   _wire->endTransmission();

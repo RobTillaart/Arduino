@@ -27,6 +27,8 @@
 
 I2C_LCD lcd(39);
 
+//  note the full filled block => lcd.special(255);
+//  but code wise adding it gives simple logic.
 uint8_t block[8][8] =
 {
   { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F },

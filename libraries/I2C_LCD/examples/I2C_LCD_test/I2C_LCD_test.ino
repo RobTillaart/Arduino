@@ -42,7 +42,8 @@ void setup()
   Serial.println(lcd.isConnected());
 
   lcd.clear();
-  
+
+
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
   lcd.setBacklight(1);
   delay(1000);
@@ -65,6 +66,10 @@ void setup()
     char buffer[8];
     itoa(x, buffer, 10);
     lcd.right(10, r, buffer);
+    lcd.moveCursorRight(2);
+    lcd.print("$");
+    lcd.moveCursorLeft(10);
+    lcd.print("$");
   }
   delay(4000);
 

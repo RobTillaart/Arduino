@@ -1,0 +1,29 @@
+# Syntax Colouring Map For MS5837
+
+# Data types (KEYWORD1)
+MS5837	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+reset	KEYWORD2
+getType	KEYWORD2
+getAddress	KEYWORD2
+
+read	KEYWORD2
+getPressure	KEYWORD2
+getTemperature	KEYWORD2
+getAltitude	KEYWORD2
+
+setDensity	KEYWORD2
+getDensity	KEYWORD2
+getDepth	KEYWORD2
+
+
+# Constants (LITERAL1)
+MS5837_LIB_VERSION	LITERAL1
+
+MS5837_TYPE_UNKNOWN	LITERAL1
+MS5837_TYPE_02	LITERAL1
+MS5837_TYPE_30	LITERAL1
+

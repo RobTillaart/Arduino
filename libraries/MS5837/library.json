@@ -1,0 +1,23 @@
+{
+  "name": "MS5837",
+  "keywords": "MS5837, temperature, pressure",
+  "description": "Arduino library for MS5837 temperature and pressure sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MS5837.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MS5837.h"
+}

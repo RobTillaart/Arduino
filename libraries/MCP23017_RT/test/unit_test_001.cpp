@@ -85,21 +85,21 @@ unittest(test_lastError)
   assertEqual(MCP23017_OK, MCP.lastError());
 
   // MCP23017_PIN_ERROR
-  MCP.pinMode(16, INPUT);
+  MCP.pinMode1(16, INPUT);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
 
-  MCP.digitalWrite(16, 1);
+  MCP.write1(16, 1);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
 
-  uint8_t y = MCP.digitalRead(16);
+  uint8_t y = MCP.read1(16);
   assertEqual(MCP23017_PIN_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
 
 
   // MCP23017_VALUE_ERROR  - 3 is not INPUT, INPUT_PULLUP, OUTPUT)
-  MCP.pinMode(0, 3);
+  MCP.pinMode1(0, 3);
   assertEqual(MCP23017_VALUE_ERROR, MCP.lastError());
   assertEqual(MCP23017_OK, MCP.lastError());
 

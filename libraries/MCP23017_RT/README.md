@@ -21,7 +21,7 @@ This library gives easy control over the 16 pins of a (I2C) MCP23017 chip.
 This IC is strongly related tot the MCP23S17 SPI port expander - https://github.com/RobTillaart/MCP23S17
 Programming Interface is kept the same as much as possible.
 
-Since 0.3.1 the **digitalWrite(pin, value)** is optimized. 
+The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
 
@@ -47,6 +47,28 @@ There is an idea to implement a derived class MCP23017_REVD that provides automa
 However low prio. 
 
 Note that the MCP23S017 (SPI version) does not have this "feature" for GPA7 and GPB7.
+
+
+#### 0.6.0 Breaking change
+
+The version 0.6.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
 
 
 #### 0.5.0 Breaking change
@@ -102,9 +124,9 @@ Can be overruled with Wire0..WireN.
 
 Please note REVD remarks at top.
 
-- **bool pinMode(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
-- **bool digitalWrite(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
-- **uint8_t digitalRead(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
+- **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
+- **uint8_t read1(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag. Returns true if successful.
 - **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag. Returns true if successful.
 - **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag. Returns true if successful.

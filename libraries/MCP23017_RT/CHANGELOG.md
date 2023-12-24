@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] 2023-12-24
+- Fix #26, support for Arduino ESP32 S3 - breaking change
+- update readme.md
+- update examples.
+
+----
+
 ## [0.5.0] 2023-12-10
 - refactor API, begin()
 - add **uimt8_t getADdress()**

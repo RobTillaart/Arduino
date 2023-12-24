@@ -33,7 +33,7 @@ void setup()
   //
   //  test 8 bit interface
   //
-  Serial.println("TEST digitalWrite8(port, value)");
+  Serial.println("TEST write8(port, value) + read8(port)");
   for (uint16_t i = 0; i < 256; i++)
   {
     MCP.write8(0, i);

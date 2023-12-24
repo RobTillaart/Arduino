@@ -15,7 +15,7 @@ void setup()
 {
   Serial.begin(230400);
   Serial.println(__FILE__);
-  Serial.print("MCP23017_test version: ");
+  Serial.print("MCP23017_LIB_VERSION: ");
   Serial.println(MCP23017_LIB_VERSION);
 
   Wire.begin();
@@ -24,10 +24,10 @@ void setup()
   MCP.pinMode8(0, 0x00);   //  CHECK
   MCP.pinMode8(1, 0x00);
 
-  Serial.println("TEST digitalRead(pin)");
+  Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    int val = MCP.digitalRead(pin);
+    int val = MCP.read1(pin);
     Serial.print(val);
     Serial.print('\t');
   }

@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -80,7 +80,7 @@ uint8_t MCP23017::getAddress()
 //  single pin interface
 //  pin  = 0..15
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
-bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
+bool MCP23017::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
   {
@@ -126,7 +126,7 @@ bool MCP23017::pinMode(uint8_t pin, uint8_t mode)
 
 //  pin   = 0..15
 //  value = LOW, HIGH
-bool MCP23017::digitalWrite(uint8_t pin, uint8_t value)
+bool MCP23017::write1(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
   {
@@ -168,7 +168,7 @@ bool MCP23017::digitalWrite(uint8_t pin, uint8_t value)
 }
 
 
-uint8_t MCP23017::digitalRead(uint8_t pin)
+uint8_t MCP23017::read1(uint8_t pin)
 {
   if (pin > 15)
   {

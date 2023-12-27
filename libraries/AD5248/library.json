@@ -1,0 +1,23 @@
+{
+  "name": "AD5248",
+  "keywords": "I2C,digital,potentiometer, rheostat, AD5243, AD5248",
+  "description": "Library for I2C digital potentiometer AD5243 + rheostat AD5248.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5248"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5248.h"
+}

@@ -3,7 +3,7 @@
 //    FILE: PCA9553.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PUPROSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9553_LIB_VERSION         (F("0.3.0"))
+#define PCA9553_LIB_VERSION         (F("0.4.0"))
 
 
 //  REGISTERS
@@ -59,9 +59,9 @@ public:
 
   //  GPIO
   uint8_t  getInput();
-  void     pinMode(uint8_t pin, uint8_t mode);
-  void     digitalWrite(uint8_t pin, uint8_t value);
-  uint8_t  digitalRead(uint8_t pin);
+  void     pinMode1(uint8_t pin, uint8_t mode);
+  void     write1(uint8_t pin, uint8_t value);
+  uint8_t  read1(uint8_t pin);
 
   //  PRESCALERS
   void     setPrescaler(uint8_t generator, uint8_t prescaler = 0);

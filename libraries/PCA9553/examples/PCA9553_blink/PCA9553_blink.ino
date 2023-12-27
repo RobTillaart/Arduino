@@ -35,20 +35,20 @@ void setup()
 
   //  GPIO
   //  not mandatory, just to make it explicit
-  leds.pinMode(0, OUTPUT);
-  leds.pinMode(1, OUTPUT);
+  leds.pinMode1(0, OUTPUT);
+  leds.pinMode1(1, OUTPUT);
 }
 
 
 void loop()
 {
-  leds.digitalWrite(0, LOW);
+  leds.write1(0, LOW);
   delay(500);
-  leds.digitalWrite(1, LOW);
+  leds.write1(1, LOW);
   delay(500);
-  leds.digitalWrite(0,HIGH);
+  leds.write1(0,HIGH);
   delay(500);
-  leds.digitalWrite(1,HIGH);
+  leds.write1(1,HIGH);
   delay(500);
 }
 

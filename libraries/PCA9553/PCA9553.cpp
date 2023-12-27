@@ -2,7 +2,7 @@
 //    FILE: PCA9553.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -75,20 +75,20 @@ uint8_t PCA9553::getInput()
 }
 
 
-void PCA9553::pinMode(uint8_t pin, uint8_t mode)
+void PCA9553::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (mode != OUTPUT) setOutputMode(pin, PCA9553_MODE_HIGH);
 }
 
 
-void PCA9553::digitalWrite(uint8_t pin, uint8_t val)
+void PCA9553::write1(uint8_t pin, uint8_t val)
 {
   if (val == LOW) setOutputMode(pin, PCA9553_MODE_LOW);
   else            setOutputMode(pin, PCA9553_MODE_HIGH);
 }
 
 
-uint8_t PCA9553::digitalRead(uint8_t pin)
+uint8_t PCA9553::read1(uint8_t pin)
 {
   uint8_t value = readReg(PCA9553_INPUT);
   if ((value >> pin) & 0x01) return HIGH;

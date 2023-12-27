@@ -2,7 +2,7 @@
 //    FILE: PCA9551.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-17
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for for I2C PCA9551 8 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9551
 
@@ -75,20 +75,20 @@ uint8_t PCA9551::getInput()
 }
 
 
-void PCA9551::pinMode(uint8_t pin, uint8_t mode)
+void PCA9551::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (mode != OUTPUT) setOutputMode(pin, PCA9551_MODE_HIGH);
 }
 
 
-void PCA9551::digitalWrite(uint8_t pin, uint8_t val)
+void PCA9551::write1(uint8_t pin, uint8_t val)
 {
   if (val == LOW) setOutputMode(pin, PCA9551_MODE_LOW);
   else            setOutputMode(pin, PCA9551_MODE_HIGH);
 }
 
 
-uint8_t PCA9551::digitalRead(uint8_t pin)
+uint8_t PCA9551::read1(uint8_t pin)
 {
   uint8_t value = readReg(PCA9551_INPUT);
   if ((value >> pin) & 0x01) return HIGH;

@@ -18,13 +18,13 @@ void test_GPIO()
   Serial.println(__FUNCTION__);
   for (int i = 0; i < leds.outputCount(); i++)
   {
-    leds.digitalWrite(i, LOW);
+    leds.write1(i, LOW);
     Serial.print(i);
     Serial.print("\t");
-    Serial.print(leds.digitalRead(i));
+    Serial.print(leds.read1(i));
     Serial.print("\t");
-    leds.digitalWrite(i, HIGH);
-    Serial.print(leds.digitalRead(i));
+    leds.write1(i, HIGH);
+    Serial.print(leds.read1(i));
     Serial.print("\n");
   }
   Serial.println();

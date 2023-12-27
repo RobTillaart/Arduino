@@ -36,14 +36,14 @@ void setup()
 void loop()
 {
   //  random blink
-  leds.digitalWrite(0, random(2));
+  leds.write1(0, random(2));
 
   //  steady blink
-  leds.digitalWrite(1, !leds.digitalRead(1));
+  leds.write1(1, !leds.read1(1));
 
   //  output 2 follows 3
-  leds.digitalWrite(2, leds.digitalRead(3));
-  leds.digitalWrite(3, random(2));
+  leds.write1(2, leds.read1(3));
+  leds.write1(3, random(2));
   delay(1000);
 }
 

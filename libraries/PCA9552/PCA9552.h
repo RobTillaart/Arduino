@@ -3,7 +3,7 @@
 //    FILE: PCA9552.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-17
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PUPROSE: Arduino library for for I2C PCA9552 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9552
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9552_LIB_VERSION         (F("0.2.0"))
+#define PCA9552_LIB_VERSION         (F("0.3.0"))
 
 
 //  REGISTERS
@@ -63,9 +63,9 @@ public:
 
   //  GPIO
   uint16_t getInput();
-  void     pinMode(uint8_t pin, uint8_t mode);
-  void     digitalWrite(uint8_t pin, uint8_t value);
-  uint8_t  digitalRead(uint8_t pin);
+  void     pinMode1(uint8_t pin, uint8_t mode);
+  void     write1(uint8_t pin, uint8_t value);
+  uint8_t  read1(uint8_t pin);
 
   //  PRESCALERS
   void     setPrescaler(uint8_t generator, uint8_t prescaler = 0);

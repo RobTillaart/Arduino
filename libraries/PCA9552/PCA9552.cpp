@@ -2,7 +2,7 @@
 //    FILE: PCA9552.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-17
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for for I2C PCA9552 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9552
 
@@ -78,20 +78,20 @@ uint16_t PCA9552::getInput()
 }
 
 
-void PCA9552::pinMode(uint8_t pin, uint8_t mode)
+void PCA9552::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (mode != OUTPUT) setOutputMode(pin, PCA9552_MODE_HIGH);
 }
 
 
-void PCA9552::digitalWrite(uint8_t pin, uint8_t val)
+void PCA9552::write1(uint8_t pin, uint8_t val)
 {
   if (val == LOW) setOutputMode(pin, PCA9552_MODE_LOW);
   else            setOutputMode(pin, PCA9552_MODE_HIGH);
 }
 
 
-uint8_t PCA9552::digitalRead(uint8_t pin)
+uint8_t PCA9552::read1(uint8_t pin)
 {
   uint8_t reg = PCA9552_INPUT0;
   if (pin > 7)

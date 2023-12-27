@@ -43,6 +43,28 @@ Power-On Reset (POR) initializes the registers to their default state,
 all zeroes, causing the bits to be set HIGH (LED off).
 
 
+#### 0.3.0 Breaking change
+
+The version 0.3.0 has breaking changes in the interface. 
+The rationale is that the programming environment of the **Arduino ESP32 S3** 
+board uses a remapping by means of the include file **io_pin_remap.h**.
+This file remaps the pins of several core Arduino functions. 
+The remapping is implemented by #define macros and these implement "hard" text 
+replacements without considering context. 
+The effect is that methods from this class (and several others) which have the same 
+name as those Arduino core functions will be remapped into something not working.
+
+The following library functions have been renamed:
+
+|  old name        |  new name    |  notes  |
+|:-----------------|:-------------|:--------|
+|  analogRead()    |  read()      |
+|  analogWrite()   |  write()     |
+|  pinMode()       |  pinMode1()  |
+|  digitalRead()   |  read1()     |
+|  digitalWrite()  |  write1()    |
+
+
 #### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
@@ -86,9 +108,9 @@ Returns true if device address is available on I2C bus.
 #### GPIO
 
 - **uint16_t getInput()** read all current output levels.
-- **void pinMode(uint8_t pin, uint8_t mode)** set output pin to INPUT or OUTPUT.
-- **void digitalWrite(uint8_t pin, uint8_t value)** set output pin HIGH or LOW.
-- **uint8_t digitalRead(uint8_t pin)** read current state of output pin.
+- **void pinMode1(uint8_t pin, uint8_t mode)** set output pin to INPUT or OUTPUT.
+- **void write1(uint8_t pin, uint8_t value)** set output pin HIGH or LOW.
+- **uint8_t read1(uint8_t pin)** read current state of output pin.
 
 
 #### Prescaler Frequency

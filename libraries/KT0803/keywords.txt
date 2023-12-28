@@ -1,0 +1,41 @@
+# Syntax Colouring Map For KT0803
+
+
+# Data types (KEYWORD1)
+KT0803	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+# Common
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+setFrequency	KEYWORD2
+getFrequency	KEYWORD2
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+
+setPGA	KEYWORD2
+getPGA	KEYWORD2
+
+setRFGain	KEYWORD2
+getRFgain	KEYWORD2
+
+setEurope	KEYWORD2
+setAustralia	KEYWORD2
+setUSA	KEYWORD2
+setJapan	KEYWORD2
+setPHTCNST	KEYWORD2
+getPHTCNST	KEYWORD2
+
+setPilotToneAdjust	KEYWORD2
+getPilotToneAdjust	KEYWORD2
+
+setMute	KEYWORD2
+getMute	KEYWORD2
+
+
+# Constants (LITERAL1)
+KT0803_LIB_VERSION	LITERAL1
+
+

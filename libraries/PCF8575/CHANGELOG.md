@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.10] - 2023-09-24
+## [0.2.1] - 2023-12-29
+- Fix #34 change addresses in examples.
+- add range check to **setAddress()**.
+- update readme.md.
+- correct minor error in changelog.md.
+
+## [0.2.0] - 2023-12-11
 - refactor API, begin()
 - update examples
 - update readme.md

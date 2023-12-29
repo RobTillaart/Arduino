@@ -2,7 +2,7 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -38,6 +38,7 @@ bool PCF8575::isConnected()
 
 bool PCF8575::setAddress(const uint8_t deviceAddress)
 {
+  if ((deviceAddress < 0x20) || (deviceAddress > 0x27)) return false;
   _address = deviceAddress;
   return isConnected();
 }
@@ -105,7 +106,7 @@ void PCF8575::write(const uint8_t pin, const uint8_t value)
   {
     _dataOut |= (1 << pin);
   }
-  write16(_dataOut);
+  PCF8575::write16(_dataOut);
 }
 
 
@@ -232,7 +233,7 @@ void PCF8575::select(const uint8_t pin)
 {
   uint16_t n = 0x0000;
   if (pin < 16) n = 1L << pin;
-  write16(n);
+  PCF8575::write16(n);
 };
 
 
@@ -240,19 +241,19 @@ void PCF8575::selectN(const uint8_t pin)
 {
   uint16_t n = 0xFFFF;
   if (pin < 16) n = (2L << pin) - 1;
-  write16(n);
+  PCF8575::write16(n);
 };
 
 
 void PCF8575::selectNone()
 {
-  write16(0x0000);
+  PCF8575::write16(0x0000);
 };
 
 
 void PCF8575::selectAll()
 {
-  write16(0xFFFF);
+  PCF8575::write16(0xFFFF);
 };
 
 

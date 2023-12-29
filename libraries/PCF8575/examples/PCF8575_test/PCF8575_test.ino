@@ -8,38 +8,7 @@
 
 #include "PCF8575.h"
 
-PCF8575 PCF(0x38);
-
-
-void setup()
-{
-  Serial.begin(115200);
-  Serial.println(__FILE__);
-  Serial.print("PCF8575_LIB_VERSION:\t");
-  Serial.println(PCF8575_LIB_VERSION);
-
-  Wire.begin();
-
-  PCF.begin();
-
-  uint16_t x = PCF.read16();
-  Serial.print("Read ");
-  printHex(x);
-  delay(1000);
-}
-
-
-void loop()
-{
-  Serial.println("HLT");
-  while (Serial.available() == 0);
-  switch(Serial.read())
-  {
-    case 'H': doHigh(); break;
-    case 'L': doLow(); break;
-    case 'T': doToggle(); break;
-  }
-}
+PCF8575 PCF(0x20);
 
 
 void doHigh()
@@ -75,6 +44,38 @@ void printHex(uint16_t x)
   if (x < 0x100)  Serial.print('0');
   if (x < 0x10)   Serial.print('0');
   Serial.println(x, HEX);
+}
+
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("PCF8575_LIB_VERSION:\t");
+  Serial.println(PCF8575_LIB_VERSION);
+
+  Wire.begin();
+
+  PCF.begin();
+
+  uint16_t x = PCF.read16();
+  Serial.print("Read ");
+  printHex(x);
+  delay(1000);
+}
+
+
+void loop()
+{
+  Serial.println("HLT");
+  while (Serial.available() == 0);
+  switch(Serial.read())
+  {
+    case 'H': doHigh(); break;
+    case 'L': doLow(); break;
+    case 'T': doToggle(); break;
+  }
 }
 
 

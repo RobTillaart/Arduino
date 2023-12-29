@@ -8,9 +8,9 @@
 #include "PCF8575.h"
 
 //  adjust addresses if needed
-PCF8575 A(0x38);
-PCF8575 B(0x39);
-PCF8575 C(0x3A);
+PCF8575 A(0x20);
+PCF8575 B(0x21);
+PCF8575 C(0x22);
 
 PCF8575 PCF[3] = { A, B, C };
 

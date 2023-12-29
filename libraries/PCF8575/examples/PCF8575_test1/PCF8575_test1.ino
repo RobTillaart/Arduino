@@ -8,8 +8,8 @@
 #include "PCF8575.h"
 
 //  adjust addresses if needed
-PCF8575 PCF_38(0x38);  //  add switches to lines  (used as input)
-PCF8575 PCF_39(0x39);  //  add leds to lines      (used as output)
+PCF8575 PCF_20(0x20);  //  add switches to lines  (used as input)
+PCF8575 PCF_21(0x21);  //  add leds to lines      (used as output)
 
 
 void setup()
@@ -21,45 +21,45 @@ void setup()
 
   Wire.begin();
 
-  PCF_38.begin();
-  PCF_39.begin();
+  PCF_20.begin();
+  PCF_21.begin();
 
-  uint16_t value = PCF_38.read16();
+  uint16_t value = PCF_20.read16();
   Serial.print("#38:\t");
   Serial.println(value);
 
   for (int i = 0; i < 255; i++)
   {
-    PCF_39.write16(i);
+    PCF_21.write16(i);
     delay(100);
   }
 
-  PCF_39.write(0, 1);
+  PCF_21.write(0, 1);
   for (int i = 0; i < 15; i++)
   {
-    PCF_39.shiftLeft();
+    PCF_21.shiftLeft();
     delay(100);
   }
 
   for (int i = 0; i < 15; i++)
   {
-    PCF_39.shiftRight();
+    PCF_21.shiftRight();
     delay(100);
   }
 
   for (int i = 0; i < 16; i++)
   {
-    PCF_39.write(i, 1);
+    PCF_21.write(i, 1);
     delay(100);
-    PCF_39.write(i, 0);
+    PCF_21.write(i, 0);
     delay(100);
   }
 
   for (int i = 0; i < 16; i++)
   {
-    PCF_39.toggle(i);
+    PCF_21.toggle(i);
     delay(100);
-    PCF_39.toggle(i);
+    PCF_21.toggle(i);
     delay(100);
   }
 }
@@ -68,8 +68,8 @@ void setup()
 void loop()
 {
   //  echos the lines
-  uint16_t value = PCF_38.read16();
-  PCF_39.write16(value);
+  uint16_t value = PCF_20.read16();
+  PCF_21.write16(value);
   delay(100);
 }
 

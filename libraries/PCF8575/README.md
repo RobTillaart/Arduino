@@ -115,7 +115,9 @@ for the ESP32 where one can choose the I2C pins.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8575 modules runtime. Note this corrupts internal buffered values, 
-so one might need to call **read16()** and/or **write16()**. Returns true if address can be found on I2C bus.
+so one might need to call **read16()** and/or **write16()**. 
+Returns false if address is out of range 0x20..0x27 or if the address could not be found on I2C bus.
+Returns true if address can be found on I2C bus.
 - **uint8_t getAddress()** returns the device address.
 
 

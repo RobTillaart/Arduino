@@ -6,12 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-12-29
+- Fix #9 bug in **setPPM()**
+- fix race condition in **receive()**
+- update readme.md
+- minor edits
+
+----
+
 ## [0.1.4] - 2023-11-14
 - update readme.md
 - add plotter example (MEGA)
 - update keywords.
 - minor edits
-
 
 ## [0.1.3] - 2023-07-27
 - remove MTP40F as it is not compatible

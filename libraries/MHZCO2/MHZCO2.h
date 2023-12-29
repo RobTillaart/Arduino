@@ -2,7 +2,7 @@
 //
 //    FILE: MHZCO2.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for MHZ series CO2 sensors
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MHZCO2_LIB_VERSION        (F("0.1.4"))
+#define MHZCO2_LIB_VERSION        (F("0.2.0"))
 
 #define MHZCO2_OK                 0
 #define MHZCO2_TIMEOUT            -10
@@ -25,10 +25,12 @@ public:
   void     begin(Stream * str);
   uint32_t uptime();
 
+
   //  PPM = 2000, 5000, 10000 (other values unknown)
   //  check datasheet
   void     setPPM(uint16_t PPM);
   uint16_t getPPM();
+
 
   //  MEASUREMENT
   int      measure();
@@ -38,11 +40,13 @@ public:
   int      getAccuracy();
   int      getMinCO2();
 
+
   //  CALIBRATION
   //  USE WITH CARE => READ DATASHEET!
   void     calibrateZero();
   void     calibrateSpan(uint16_t span);
   void     calibrateAuto(bool mode = true);
+
 
 protected:
   Stream * _str;
@@ -59,6 +63,7 @@ protected:
   int      receive(uint8_t * answer);
   uint8_t  checksum(uint8_t  * arr);
 };
+
 
 
 /////////////////////////////////////////////////////////

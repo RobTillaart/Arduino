@@ -25,18 +25,33 @@ This might change in the future as compatibles might differ on detail.
 
 Reference: user manual MHZ129B 2019-04-25 version 1.4
 
+#### Version 0.2.0
+
+Version 0.2.0 fixes a bug in **setPPM()** which makes older versions obsolete.
+
+
 #### Compatibles
 
 This list is not verified although these devices should be compatible based upon datasheet.
+
+There exists different models of 400-2000 PPM and 400-5000 PPM and 400-10000 PPM. 
+As far as known these have the same interface as there is very little information to be found.
+
 
 |  type      | precision  |  notes  |
 |:-----------|:----------:|:--------|
 |  MHZ1311A  | 50ppm + 5% | energy saving version
 |  MHZ19     | 50ppm + 5% | 
 |  MHZ19B    | 50ppm + 3% | test device
-|  MHZ19C    | 50ppm + 5% | 
+|  MHZ19C    | 50ppm + 5% | (1)
 |  MHZ19D    | 50ppm + 5% | 
 |  MHZ19E    | 50ppm + 5% |
+
+Note (1):
+There exists different models of the MHZ19C and probably others. 
+The range can go from 400-2000 PPM, 400-5000 PPM and 400-10000 PPM. 
+As far as known these have the same interface as there is very little 
+information to be found. See #9.
 
 Note: The calibration of the MHZ1311A is different than MHZ19x series
 
@@ -85,7 +100,8 @@ or a softwareSerial port.
 
 #### Measure
 
-- **int measure()** workhorse, send command to read the sensor.
+- **int measure()** workhorse, send command to read the sensor and 
+waits until an answer is received. Return values see below.
 - **uint32_t lastMeasurement()** timestamp in milliseconds of last measurement.
 - **int getCO2()** returns CO2 PPM last measurement.
 - **int getTemperature()** returns temperature last measurement.
@@ -93,6 +109,16 @@ or a softwareSerial port.
 - **int getMinCO2()** returns minCO2 last measurement.
 
 The latter two might not be supported by all MH sensors.
+
+
+Return values of **measure()**
+
+|  value  |  Name              |  Description  |
+|:-------:|:------------------:|:--------------|
+|    0    |  MHZCO2_OK         | measurement succeeded.
+|   -10   |  MHZCO2_TIMEOUT    | to too long to receive an answer
+|   -11   |  MHZCO2_ERROR_CRC  | Checksum error, handle answer with care.
+
 
 #### Calibration
 
@@ -118,7 +144,6 @@ See - https://keelingcurve.ucsd.edu/
 - improve documentation
 - buy hardware MHZ19B / MHZ19C
 - test with hardware
-- verify checksum
 - verify timeout
 
 
@@ -130,6 +155,8 @@ See - https://keelingcurve.ucsd.edu/
 
 #### Could
 
+- investigate configurable timeout. now hardcoded 1 second.
+  - 2 bytes + 2 functions.
 - extend unit tests
 - add type info for derived classes?
   - A .. E ?

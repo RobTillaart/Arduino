@@ -1,7 +1,7 @@
 //
 //    FILE: MHZCO2.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino Library for MHZ series CO2 sensors
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -38,7 +38,10 @@ void MHZCO2::setPPM(uint16_t PPM)
 {
   _PPM = PPM;
   uint8_t data[9] = {0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  data[8] = PPM >> 8;
+  //  as max value is lower than 65536 only two bytes need to be set.
+  //  data[4] = 0;
+  //  data[5[ = 0;
+  data[6] = PPM >> 8;
   data[7] = PPM & 0xFF;
   data[8] = checksum(data);
   send(data, 9);
@@ -137,23 +140,32 @@ void MHZCO2::calibrateAuto(bool mode)
 void MHZCO2::send(uint8_t * data, uint8_t len)
 {
   _str->write(data, len);
-  _str->flush();
+  _str->flush();  //  do not return until all data is sent.
 }
 
 
 int MHZCO2::receive(uint8_t * answer)
 {
   uint32_t start = millis();
-  while (_str->available() == 0)
+
+  //  need to read 9 bytes.
+  uint8_t i = 0;
+  while (i < 9)
   {
-    if (millis() - start > 1000) return MHZCO2_TIMEOUT;
-  }
-  for (uint8_t i = 0; i < 9; i++)
-  {
-    answer[i] = _str->read();
+    if (_str->available())
+    {
+      answer[i] = _str->read();
+      i++;
+    }
+    else
+    {
+      //  note: hardcoded timeout
+      if (millis() - start > 1000) return MHZCO2_TIMEOUT;
+    }
   }
   //  verify checksum
   if (answer[8] != checksum(answer)) return MHZCO2_ERROR_CRC;
+
   return MHZCO2_OK;
 }
 
@@ -169,15 +181,6 @@ uint8_t MHZCO2::checksum(uint8_t *arr)
   return sum + 1;
 }
 
-
-/* slightly faster
-uint8_t MHZCO2::checksum(uint8_t *arr)
-{
-  uint8_t sum = 0xFF;
-  for (uint8_t i = 1; i < 8; i++) sum -= arr[i];
-  return sum + 1;
-}
-*/
 
 
 /////////////////////////////////////////////////////////

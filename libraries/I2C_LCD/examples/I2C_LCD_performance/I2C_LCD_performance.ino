@@ -4,7 +4,7 @@
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 //  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle 
+//           too fast as it may not be able to handle
 //           (mine got corrupted)
 
 
@@ -34,12 +34,13 @@ void performance(uint32_t speed)
   delay(100);
 
   Wire.setClock(speed);
-  lcd.setCursor(3, 3);
 
+  //  print 8 chars
+  lcd.setCursor(3, 2);
   uint32_t start = micros();
   lcd.print(__TIME__);
   uint32_t stop = micros();
-
+  lcd.setCursor(0, 3);
   Serial.print("time (us): ");
   Serial.println(stop - start);
   Serial.println();

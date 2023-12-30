@@ -4,7 +4,7 @@
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 //  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle 
+//           too fast as it may not be able to handle
 //           (mine got corrupted)
 
 
@@ -53,10 +53,11 @@ void setup()
 
   lcd.config(39, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin, BACKLIGHT_PIN, POSITIVE);
 
+  delay(80);
   Wire.begin();
   Wire.setClock(100000);
   lcd.begin(20, 4);
-  
+
   for (int i = 0; i < 8; i++)
   {
     lcd.createChar(i, block[i]);
@@ -69,6 +70,9 @@ void setup()
   lcd.print(" SPECTRUM  ANALYZER ");
   lcd.setCursor(0, 1);
   lcd.print(" LEFT         RIGHT ");
+
+  lcd.setCursor(0, 3);
+  lcd.repeat('=', 20);
 }
 
 

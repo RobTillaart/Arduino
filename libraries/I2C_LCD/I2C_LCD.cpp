@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_LCD.cpp
 //  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2023-12-16
 // PUPROSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
@@ -71,10 +71,12 @@ void I2C_LCD::config (uint8_t address, uint8_t enable, uint8_t readWrite, uint8_
 }
 
 
-void I2C_LCD::begin(uint8_t cols, uint8_t rows)
+bool I2C_LCD::begin(uint8_t cols, uint8_t rows)
 {
   _cols = cols;
   _rows = rows;
+
+  if (isConnected() == false) return false;
 
   //  ALL LINES LOW.
   _wire->beginTransmission(_address);
@@ -83,7 +85,8 @@ void I2C_LCD::begin(uint8_t cols, uint8_t rows)
 
   //  Figure 24 for procedure on 4-bit initialization
   //  wait for more than 15 ms
-  delay(100);  //  no need to optimize as this is called only once.
+  //  if other objects initialize earlier there will be less blocking time.
+  while (millis() < 100) delay(1);
 
   //  Force 4 bit mode
   write4bits(0x03);
@@ -102,6 +105,7 @@ void I2C_LCD::begin(uint8_t cols, uint8_t rows)
   //  default enable display
   display();
   clear();
+  return true;
 }
 
 
@@ -118,7 +122,7 @@ bool I2C_LCD::isConnected()
 //
 void I2C_LCD::setBacklightPin(uint8_t pin, uint8_t polarity)
 {
-  _backLightPin = ( 1 << pin);
+  _backLightPin = (1 << pin);
   _backLightPol = polarity;
 }
 
@@ -163,7 +167,7 @@ void I2C_LCD::clear()
 
 void I2C_LCD::clearEOL()
 {
-  for (int i = _pos; i < _cols; i++)
+  while(_pos  < _cols)
   {
     print(' ');
   }
@@ -346,7 +350,7 @@ size_t I2C_LCD::write(uint8_t c)
 size_t I2C_LCD::center(uint8_t row, const char * message)
 {
   uint8_t len = strlen(message) + 1;
-  setCursor(10 - len/2, row);
+  setCursor((_cols - len) / 2, row);
   return print(message);
 }
 
@@ -356,6 +360,17 @@ size_t I2C_LCD::right(uint8_t col, uint8_t row, const char * message)
   uint8_t len = strlen(message);
   setCursor(col - len, row);
   return print(message);
+}
+
+
+size_t I2C_LCD::repeat(uint8_t c, uint8_t times)
+{
+  size_t n = 0;
+  while((times--) && (_pos < _cols)) 
+  {
+    n += write(c);
+  }
+  return n;
 }
 
 

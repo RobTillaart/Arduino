@@ -47,6 +47,7 @@ special	KEYWORD2
 write	KEYWORD2
 center	KEYWORD2
 right	KEYWORD2
+repeat	KEYWORD2
 
 
 # DEBUG

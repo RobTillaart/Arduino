@@ -1,0 +1,15 @@
+# Syntax Colouring Map For DS2401
+
+# Data types (KEYWORD1)
+DS2401	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin KEYWORD2
+getUID	KEYWORD2
+compareUID	KEYWORD2
+
+
+# Constants (LITERAL1)
+DS2401_LIB_VERSION	LITERAL1
+

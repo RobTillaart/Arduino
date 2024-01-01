@@ -23,9 +23,8 @@ void setup()
   Serial.print("DS2401_LIB_VERSION: ");
   Serial.println(DS2401_LIB_VERSION);
 
-  Serial.print("\ngetUID: ");
+  Serial.print("\ngetUID:\t ");
   ds24.getUID(uid);
-  
   for (int i = 0; i < 8; i++)
   {
     if (uid[i] < 0x10) Serial.print(0);
@@ -33,6 +32,18 @@ void setup()
     Serial.print(" ");
   }
   Serial.println();
+
+
+  Serial.print("\ngetUID6:\t ");
+  ds24.getUID6(uid);
+  for (int i = 0; i < 6; i++)
+  {
+    if (uid[i] < 0x10) Serial.print(0);
+    Serial.print(uid[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+
 
   Serial.println("\ndone...");
 }
@@ -43,4 +54,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

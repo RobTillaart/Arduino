@@ -1,7 +1,7 @@
 {
   "name": "DS2401",
-  "keywords": "",
-  "description": "Library for DS2401 UID restricted to a single device per pin.",
+  "keywords": "1-Wire, oneWire",
+  "description": "Library for 1-Wire DS2401 UID restricted to a single device per pin.",
   "authors":
   [
     {
@@ -23,7 +23,7 @@
       "version": "^2.3.5"
     }
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

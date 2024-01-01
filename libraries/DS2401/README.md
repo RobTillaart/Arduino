@@ -29,6 +29,8 @@ As there are at least 8 device types / families known, there are
 thus at least 51 bits of uniqueness.
 This gives in total more than 10^15 bit patterns, which should be 
 sufficient for most applications.
+Leaving out the family byte, still gives more than 10^14 bit patterns.
+This is implemented in **getUID6()** and **compareUID6()**.
 
 The library is meant for DS2401 chips but allows all oneWire devices
 to be used as an unique ID (UID). This implies that functionality
@@ -64,16 +66,29 @@ Known family bytes, there are many other 1-Wire devices with unknown family.
 #include "DS2401.h"
 ```
 
-#### Core
+#### Constructor
 
 This DS2401 library supports only one device per pin, and no parasite mode.
 The class supports getting an UID and compare an UID.
 
 - **DS2401(OneWire \* ow)** constructor needs a reference to OneWire object.
 - **bool begin()** resets oneWire and search fot the address. 
-Returns true if address / UID of the device is found. 
-- **void getUID(uint8_t \* buffer)** copies the found UID in **begin()** to buffer.
-- **bool compareUID(uint8_t \* buffer)** compares the buffer with the internal UID.
+Returns true if address / UID of the device is found.
+
+
+#### 8 bytes UID
+
+- **void getUID(uint8_t \* buffer)** copies the found UID (64 bits) in **begin()** to buffer which should be 8 bytes.
+- **bool compareUID(uint8_t \* buffer)** compares the buffer (8 bytes) with the internal UID.
+Returns true if they are identical.
+
+
+#### 6 bytes UID
+
+The 6 bytes interface does not use the family byte and the CRC byte in the UID.
+
+- **void getUID6(uint8_t \* buffer)** copies the found UID (48 bits) in **begin()** to buffer which should be 6 bytes.
+- **bool compareUID6(uint8_t \* buffer)** compares the buffer (6 bytes) with 6 bytes of the internal UID.
 Returns true if they are identical.
 
 
@@ -111,8 +126,6 @@ When the wires are longer this resistor needs to be smaller.
 #### Could
 
 - performance test. (mainly fetching)
-- use only 48 unique bits instead of all 64? 
-  - add **getUID48()** and **compareUID48()**
 
 #### Wont
 

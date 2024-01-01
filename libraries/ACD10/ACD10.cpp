@@ -2,8 +2,8 @@
 //    FILE: ACD10.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.2
-// PUPROSE: Arduino library for for I2C ACD10 CO2 sensor
+// VERSION: 0.1.3
+// PURPOSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
 
@@ -19,6 +19,8 @@ ACD10::ACD10(TwoWire *wire)
   _concentration = 0;
   _temperature = 0;
   _preHeatStart = millis();
+  _requestTime = 80;
+  _requestStart = 0;
 }
 
 
@@ -29,6 +31,9 @@ bool ACD10::begin()
   _lastRead = 0;
   _concentration = 0;
   _temperature = 0;
+  _requestTime = 80;
+  _requestStart = 0;
+
   if (! isConnected())
   {
     return false;
@@ -292,7 +297,7 @@ int ACD10::getLastError()
 int ACD10::_command(uint8_t * arr, uint8_t size)
 {
   _wire->beginTransmission(_address);
-  for (int i = 0; i < size; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
     _wire->write(arr[i]);
   }
@@ -303,7 +308,7 @@ int ACD10::_command(uint8_t * arr, uint8_t size)
 
 int ACD10::_request(uint8_t * arr, uint8_t size)
 {
-  int bytes = _wire->requestFrom(_address, size);
+  uint8_t bytes = _wire->requestFrom(_address, size);
   if (bytes == 0)
   {
     _error = -1;
@@ -315,7 +320,7 @@ int ACD10::_request(uint8_t * arr, uint8_t size)
     return _error;
   }
 
-  for (int i = 0; i < size; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
     arr[i] = _wire->read();
   }
@@ -327,10 +332,10 @@ int ACD10::_request(uint8_t * arr, uint8_t size)
 uint8_t ACD10::_crc8(uint8_t * arr, uint8_t size)
 {
   uint8_t crc = 0xFF;
-  for (int b = 0; b < size; b++)
+  for (uint8_t b = 0; b < size; b++)
   {
     crc ^= arr[b];
-    for (int bit = 0x80; bit; bit >>= 1)
+    for (uint8_t bit = 0x80; bit; bit >>= 1)
     {
       if (crc & 0x80)
       {

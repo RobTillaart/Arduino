@@ -3,8 +3,8 @@
 //    FILE: ACD10.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.2
-// PUPROSE: Arduino library for for I2C ACD10 CO2 sensor
+// VERSION: 0.1.3
+// PURPOSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
 
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ACD10_LIB_VERSION         (F("0.1.2"))
+#define ACD10_LIB_VERSION         (F("0.1.3"))
 #define ACD10_DEFAULT_ADDRESS     0x2A
 
 //  ERROR CODES
@@ -76,12 +76,12 @@ private:
   int      _request(uint8_t * arr, uint8_t size);
   uint8_t  _crc8(uint8_t * arr, uint8_t size);
 
-  uint32_t _preHeatStart  = 0;
-  uint32_t _lastRead      = 0;
-  uint32_t _concentration = 0;    //  why datasheet states 32 bit as 400-5000 fit in 16 bit??
-  uint16_t _temperature   = 0;
-  uint8_t  _requestTime   = 80;
-  uint32_t _requestStart  = 0;
+  uint32_t _preHeatStart;
+  uint32_t _lastRead;
+  uint32_t _concentration;  //  why datasheet states 32 bit as 400-5000 fit in 16 bit??
+  uint16_t _temperature;
+  uint8_t  _requestTime;
+  uint32_t _requestStart;
   uint8_t  _error;
 };
 

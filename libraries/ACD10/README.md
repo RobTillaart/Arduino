@@ -27,7 +27,7 @@ a normal building setting.
 The sensor is not suitable for CO2 heavy "industrial" environments. 
 
 **Warning** The temperature range the sensor can measure is **UNKNOWN**
-as there is no documentation how to convert the raw data to meaningfull one.
+as there is no documentation how to convert the raw data to meaningful one.
 
 
 #### Pre-heat period
@@ -59,6 +59,11 @@ This library only support the I2C interface (see hardware notes below).
 The device has a fixed I2C address of 0x2A (42). 
 The I2C communication supports 3-5V so any 3.3V MCU should be able to connect.
 Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
+
+If you need to control more ACD10 sensors you can use a multiplexer e.g. TCA9548
+- https://github.com/RobTillaart/TCA9548
+
+See example **TCA9548_demo_ACD10.ino**
 
 
 #### Datasheet warning
@@ -216,7 +221,7 @@ Read the datasheet about calibration process (twice).
 Incorrect calibration leads to incorrect output.
 
 - **bool setCalibrationMode(uint8_t mode)** 0 = manual mode, 1 = automatic mode.
-returns false if mode out of range ( > 1).
+Returns false if mode out of range ( > 1).
 - **uint8_t readCallibrationMode()** return set mode. 
 - **void setManualCalibration(uint16_t value)** as the range of the device is 
 from 400 to 5000, the parameter value should be in this range.
@@ -247,19 +252,16 @@ Minimum length is 11.
 - improve documentation
 - get hardware to test
 
-
 #### Should
 
 - investigate the acquisition time of 80 milliseconds
   - can it be made shorter by default?
 - improve error handling
 
-
 #### Could
 
 - rethink function names?
 - create unit tests if possible
-
 
 #### Wont
 

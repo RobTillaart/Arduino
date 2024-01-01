@@ -1,7 +1,8 @@
 //
 //    FILE: ACD10_readSensor_performance.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test basic behaviour and performance
+// PURPOSE: test basic behaviour and performance
+//     URL: https://github.com/RobTillaart/ACD10
 
 
 #include "Wire.h"
@@ -9,6 +10,34 @@
 
 
 ACD10 mySensor;
+
+
+void test(uint32_t speed)
+{
+  Wire.setClock(speed);
+  delay(100);
+
+  uint32_t start = micros();
+  mySensor.requestSensor();
+  uint32_t duration1 = micros() - start;
+
+  while(mySensor.requestReady() == false) delay(10);
+  
+  start = micros();
+  mySensor.readSensor();
+  uint32_t duration2 = micros() - start;
+
+  Serial.print("|  ");
+  Serial.print(speed);
+  Serial.print("  |  ");
+  Serial.print(duration1);
+  Serial.print("  |  ");
+  Serial.print(duration2);
+  Serial.print("  |");
+  Serial.println();
+  //  reset I2C bus
+  Wire.setClock(100000);
+}
 
 
 void setup()
@@ -37,34 +66,6 @@ void setup()
 
 void loop()
 {
-}
-
-
-void test(uint32_t speed)
-{
-  Wire.setClock(speed);
-  delay(100);
-
-  uint32_t start = micros();
-  mySensor.requestSensor();
-  uint32_t duration1 = micros() - start;
-
-  while(mySensor.requestReady() == false) delay(10);
-  
-  start = micros();
-  mySensor.readSensor();
-  uint32_t duration2 = micros() - start;
-
-  Serial.print("|  ");
-  Serial.print(speed);
-  Serial.print("  |  ");
-  Serial.print(duration1);
-  Serial.print("  |  ");
-  Serial.print(duration2);
-  Serial.print("  |");
-  Serial.println();
-  //  reset I2C bus
-  Wire.setClock(100000);
 }
 
 

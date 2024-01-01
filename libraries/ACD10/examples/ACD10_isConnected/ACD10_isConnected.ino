@@ -1,7 +1,8 @@
 //
 //    FILE: ACD10_isConnected.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test basic behaviour and performance
+// PURPOSE: test basic behaviour and performance
+//     URL: https://github.com/RobTillaart/ACD10
 
 
 #include "Wire.h"

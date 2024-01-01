@@ -1,7 +1,7 @@
 //
 //    FILE: SGP30.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-06-24
 // PURPOSE: Arduino library for SGP30 environment sensor.
 //     URL: https://github.com/RobTillaart/SGP30
@@ -17,8 +17,8 @@
 //
 SGP30::SGP30(TwoWire *wire)
 {
-  _address  = 0x58;
   _wire     = wire;
+  _address  = 0x58;  //  Fixed!
 
   _tvoc     = 0;
   _co2      = 0;
@@ -26,6 +26,7 @@ SGP30::SGP30(TwoWire *wire)
   _ethanol  = 0;
 
   _lastTime = 0;
+  _lastRequest = 0;
   _error    = SGP30_OK;
 }
 

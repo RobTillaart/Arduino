@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2024-01-01
+- add LORA example
+- add Multiplexer example
+- update readme.md
+- minor edits.
+
 ## [0.3.0] - 2023-12-08
 - refactor API, begin()
 - update readme.md

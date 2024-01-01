@@ -78,6 +78,8 @@ or switch the VCC as a sort of ChipSelect signal.
 
 - https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
 
+See **TCA9548_demo_SGP30.ino** example.
+
 
 #### Related
 
@@ -127,10 +129,10 @@ Note the measurement is slow as there is an active blocking until the sensor is 
 If the last measurement is less than a second ago, no measurement is made and the function returns false.
 
 
-#### A-synchronous measurements
+#### Asynchronous measurements
 
 With the async interface, the user should control that reads are at least one second apart. 
-The user should also take care not to mix up different requests. See examples. 
+The user should also take care not to mix up different requests. See examples.
 
 - **void request()** sends a request to the sensor to read CO2 and TVOC. 
 - **bool read()** returns true if the last request is more than 12 milliseconds ago the 
@@ -208,9 +210,9 @@ The used references are based upon
 (2) the assumption that this is 0.4 resp 0.5 ppm. 
 (Note only 1 significant digit) as mentioned in datasheet P2.
 
-- **void  setSrefH2(uint16_t s = 13119)** // 13119 is my measurement.
+- **void  setSrefH2(uint16_t s = 13119)**  13119 is my measurement.
 - **uint16_t getSrefH2()** returns value set.
-- **void setSrefEthanol(uint16_t s = 18472)** // 18472 is my measurement.
+- **void setSrefEthanol(uint16_t s = 18472)** 18472 is my measurement.
 - **uint16_t getSrefEthanol()** returns value set.
 
 
@@ -229,7 +231,6 @@ The used references are based upon
 #### Could
 
 - move code from .h to .cpp
-- improve/merge the private **command()** function
 - add/extend error handling
 - better name for **measureTest()**
 
@@ -241,6 +242,7 @@ for the smallest platforms e.g. tiny.
 
 - make defines for the magic numbers (commands)
   - only used once.
+- improve/merge the private **command()** function (made no difference)
 
 
 ## Support

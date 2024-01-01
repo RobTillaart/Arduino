@@ -2,7 +2,7 @@
 //
 //    FILE: SGP30.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-06-24
 // PURPOSE: Arduino library for SGP30 environment sensor.
 //     URL: https://github.com/RobTillaart/SGP30
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define SGP30_LIB_VERSION               (F("0.3.0"))
+#define SGP30_LIB_VERSION               (F("0.3.1"))
 
 #define SGP30_OK                        0x00
 #define SGP30_ERROR_CRC                 0xFF
@@ -95,13 +95,14 @@ public:
 private:
   uint8_t  _address;
   int      _error;
-  uint32_t _lastTime    = 0;
-  uint32_t _lastRequest = 0;
+  uint32_t _lastTime;
+  uint32_t _lastRequest;
 
   //  TODO improve?
   int      _command(uint16_t cmd);
   int      _command(uint16_t cmd, uint16_t v1);
   int      _command(uint16_t cmd, uint16_t v1, uint16_t v2);
+
   uint8_t  _CRC8(uint16_t val);
   void     _init();
 

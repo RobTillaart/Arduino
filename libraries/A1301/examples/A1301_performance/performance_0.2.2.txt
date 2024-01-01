@@ -1,0 +1,9 @@
+
+Arduino UNO 
+IDE: 1.8.19
+
+Arduino\libraries\A1301\examples\A1301_performance\A1301_performance.ino
+A1301_LIB_VERSION: 0.2.2
+read():	144.50 us.
+
+

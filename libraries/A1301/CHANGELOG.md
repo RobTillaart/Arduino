@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-01-01
+- add **float autoMidPoint(times)**
+- add examples 
+- update readme.md
+
+
 ## [0.2.1] - 2023-09-19
 - add **bool isRising()** and **bool isFalling()**
 - add **float deltaGauss()**
@@ -14,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add / update examples.
 - replaced internal mVGauss by GaussmV to improve math performance.
 - update readme.md
-
 
 ## [0.2.0] - 2023-04-24
 - add **isNull()** is no magnetic field is detected.

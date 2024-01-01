@@ -13,6 +13,7 @@ A1326	KEYWORD1
 begin	KEYWORD2
 
 setMidPoint	KEYWORD2
+autoMidPoint	KEYWORD2
 getMidPoint	KEYWORD2
 
 setSensitivity	KEYWORD2

@@ -2,7 +2,7 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -18,7 +18,7 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.2.1"))
+#define A1301_LIB_VERSION        (F("0.2.2"))
 
 
 class HALL
@@ -32,6 +32,7 @@ public:
 
   //  midpoint depends on ADC.
   void      setMidPoint(float midPoint);
+  float     autoMidPoint(uint8_t times = 100);
   float     getMidPoint();
   //  to override default sensitivity
   void      setSensitivity(float sensitivity);

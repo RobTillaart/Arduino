@@ -1,7 +1,7 @@
 //
 //    FILE: A1301.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -42,6 +42,13 @@ void HALL::begin(float voltage, uint16_t steps)
 void HALL::setMidPoint(float midPoint)
 {
   _midPoint = midPoint;
+}
+
+
+float HALL::autoMidPoint(uint8_t times)
+{
+  _midPoint = raw(times);
+  return _midPoint;
 }
 
 

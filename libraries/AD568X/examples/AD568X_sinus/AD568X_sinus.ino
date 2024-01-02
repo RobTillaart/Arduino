@@ -1,7 +1,8 @@
 //
 //    FILE: AD568X_demo.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test basic behaviour and performance
+// PURPOSE: test basic behaviour and performance
+//     URL: https://github.com/RobTillaart/AD568X
 
 
 #include "AD568X.h"

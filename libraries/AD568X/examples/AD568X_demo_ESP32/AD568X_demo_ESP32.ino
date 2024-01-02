@@ -1,7 +1,8 @@
 //
 //    FILE: AD568X_demo_ESP32.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test basic behaviour and performance
+// PURPOSE: test basic behaviour and performance
+//     URL: https://github.com/RobTillaart/AD568X
 
 
 #include "AD568X.h"
@@ -42,7 +43,7 @@ void loop()
   uint32_t start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    // AD16_HW.setValue(i);
+    //  AD16_HW.setValue(i);
      AD16_SW.setValue(i);
   }
   uint32_t duration = micros() - start;

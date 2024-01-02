@@ -1,9 +1,10 @@
 //
 //    FILE: AD568X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
+//     URL: https://github.com/RobTillaart/AD568X
 
 
 #include "AD568X.h"

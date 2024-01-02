@@ -112,8 +112,11 @@ effectively a prepare + update in one call.
 Returns false if value out of range.
 - **uint16_t getValue()** returns set OR prepared value.
 At power up the DAC's will be reset to 0 Volt.
-- **bool setPercentage(float percentage)** idem.
-- **float getPercentage()** idem.
+- **bool setPercentage(float percentage)** sets the output as a percentage 0..100.
+If percentage is out of range, it is not set and the function returns false.
+- **float getPercentage()** returns percentage, wrapper around **getValue()**.
+Might return a slightly different value than **setPercentage()** due to 
+rounding errors.
 - **bool prepareValue(uint16_t value)** prepares the value.
 Returns false if value out of range.
 - **bool updateValue()** writes the prepared value to ADC.

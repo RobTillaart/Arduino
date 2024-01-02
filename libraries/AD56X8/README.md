@@ -13,7 +13,7 @@
 
 Experimental Library for the AD56X8 series digital analog convertor.
 
-Note: not yet tested, TODO buy hardware.
+Note: not yet tested with hardware, TODO buy hardware.
 
 Feedback, issues, improvements are welcome. 
 Please file an issue on GitHub.
@@ -113,8 +113,11 @@ effectively a prepare + update in one call.
 Returns false if channel out of range.
 - **uint16_t getValue(uint8_t channel)** returns set OR prepared value.
 At power up the DAC's will be reset to 0 V except the AD5668-3 (2.5V).
-- **bool setPercentage(uint8_t channel, float percentage)** idem.
-- **float getPercentage(uint8_t channel)** idem.
+- **bool setPercentage(uint8_t channel, float percentage)** sets the output as a percentage 0..100.
+If percentage is out of range, it is not set and the function returns false.
+- **float getPercentage(uint8_t channel)** returns percentage, wrapper around **getValue()**.
+Might return a slightly different value than **setPercentage()** due to 
+rounding errors.
 - **bool prepareChannel(uint8_t channel, uint16_t value)** prepares the value for a channel.
 Returns false if channel out of range.
 - **bool updateChannel(uint8_t channel)** writes the prepared value to ADC.

@@ -1,7 +1,8 @@
 //
 //    FILE: AD56X8_performance.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: performance test
+// PURPOSE: performance test
+//     URL: https://github.com/RobTillaart/AD56X8
 
 
 #include "AD56X8.h"

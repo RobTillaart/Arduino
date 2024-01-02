@@ -1,7 +1,9 @@
 //
 //    FILE: AD56X8_test_ESP32.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test
+// PURPOSE: test
+//     URL: https://github.com/RobTillaart/AD56X8
+
 
 #include "AD56X8.h"
 

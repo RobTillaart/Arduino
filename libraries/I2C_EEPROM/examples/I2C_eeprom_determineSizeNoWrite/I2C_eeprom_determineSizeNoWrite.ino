@@ -43,6 +43,14 @@ void setup()
   {
     Serial.println("SIZE: could not determine size");
   }
+  else if (size == 1)
+  {
+      Serial.println("SIZE: device has default data in first bytes, write some data and retry or use the determineSize method");
+  }
+  else if (size == 2)
+  {
+      Serial.println("SIZE: device has all the same data in first bytes, write some data and retry");
+  }
   else if (size > 1024)
   {
     Serial.print("SIZE: ");

@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.2] - 2023-01-02
+- updated **uint32_t determineSizeNoWrite()**, kudos to roelandkluit
+- minor edits
 
 ## [1.8.1] - 2023-12-14
 - add **uint32_t determineSizeNoWrite()**, kudos to roelandkluit

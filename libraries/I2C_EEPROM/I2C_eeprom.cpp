@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.1
+// VERSION: 1.8.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -55,7 +55,7 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, T
 
 bool I2C_eeprom::begin(int8_t writeProtectPin)
 {
-  //  if (_wire == 0) Serial.println("zero");  //  test #48
+  //  if (_wire == 0) SPRNL("zero");  //  test #48
   _lastWrite = 0;
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
@@ -290,9 +290,9 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
     folded = (cnt == 2);
     if (debug)
     {
-      Serial.print(size, HEX);
-      Serial.print('\t');
-      Serial.println(readByte(size), HEX);
+      SPRNH(size, HEX);
+      SPRN('\t');
+      SPRNLH(readByte(size), HEX);
     }
 
     //  restore old values
@@ -304,33 +304,86 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
   return 0;
 }
 
-
 //  new 1.8.1 #61
+//  updated 1.8.2 #63
+//
+// Returns:
+//  0 if device size cannot be determined or device is not online
+//  1 if device has default bytes in first dataFirstBytes bytes [0-BUFSIZE]
+//      Write some dataFirstBytes to the first bytes and retry or use the determineSize method
+//  2 if device has all the same bytes in first dataFirstBytes bytes [0-BUFSIZE]
+//      Write some random dataFirstBytes to the first bytes and retry or use the determineSize method
+//  >= 128 Device size in bytes
 uint32_t I2C_eeprom::determineSizeNoWrite()
 {
+  #define BUFSIZE (32)
   //  try to read a byte to see if connected
   if (!isConnected()) return 0;
 
   bool addressSize = _isAddressSizeTwoWords;
-  byte dummyVal = 0;
-  uint32_t lastOkSize = 0;
+  _isAddressSizeTwoWords = true; //Otherwise reading large EEPROMS fails
+  bool isModifiedFirstSector = false;
+  bool dataIsDifferent = false;
 
-  for (uint32_t size = 128; size <= 65536; size *= 2)
+  byte dataFirstBytes[BUFSIZE];
+  byte dataMatch[BUFSIZE];
+  readBlock(0, dataFirstBytes, BUFSIZE);
+
+  for (uint8_t pos = 0; pos < BUFSIZE; pos++)
   {
-    _isAddressSizeTwoWords = (size > I2C_DEVICESIZE_24LC16);  //  == 2048
+      if (dataIsDifferent || pos == 0)
+      {
+          //ignore futher comparison if dataFirstBytes is not the same in buffer
+          //Ignore first byte
+      }
+      else if (dataFirstBytes[pos - 1] != dataFirstBytes[pos])
+      {
+          dataIsDifferent = true;
+      }
 
-    //  Try to read last byte of the block, should return length of 0 when fails
-    if (readBlock(size - 1, &dummyVal, 1) == 0)
-    {
-      _isAddressSizeTwoWords = addressSize;
-      break;
-    }
-    else
-    {
-      lastOkSize = size;
-    }
+      if (dataFirstBytes[pos] != 0xFF && dataFirstBytes[pos] != 0x00)
+      {
+          //Default dataFirstBytes value is 0xFF or 0x00
+          isModifiedFirstSector = true;
+      }
+
+      if (dataIsDifferent && isModifiedFirstSector)
+          break;
   }
-  return lastOkSize;
+
+  if (!isModifiedFirstSector)
+  {
+      //Cannot determine diff, at least one of the first bytes within 0 - len [BUFSIZE] needs to be changed.
+      //to something other than 0x00 and 0xFF
+      _isAddressSizeTwoWords = addressSize;
+      return 1;
+  }
+  if (!dataIsDifferent)
+  {
+      //Data in first bytes within 0 - len [BUFSIZE] are all the same.
+      _isAddressSizeTwoWords = addressSize;
+      return 2;
+  }
+
+  //Read from larges to smallest size
+  for (uint32_t size = 32768; size >= 64; size /= 2)
+  {
+    _isAddressSizeTwoWords = (size >= I2C_DEVICESIZE_24LC16);  //  == 2048
+
+    // Try to read last byte of the block, should return length of 0 when fails for single byte devices
+    // Will return the same dataFirstBytes as initialy read on other devices as the datapointer could not be moved to the requested position
+    delay(2);
+    uint16_t bSize = readBlock(size, dataMatch, BUFSIZE);
+
+    if (bSize == BUFSIZE && memcmp(dataFirstBytes, dataMatch, BUFSIZE) != 0)
+    {
+        //Read is perfomed just over size (size + BUFSIZE), this will only work for devices with mem > size; therefore return size * 2
+        _isAddressSizeTwoWords = addressSize;
+        return size * 2;
+    }    
+  }
+  _isAddressSizeTwoWords = addressSize;
+  return 0;
 }
 
 
@@ -535,10 +588,10 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer
 //  {
 //    if (_debug)
 //    {
-//      Serial.print("mem addr w: ");
-//      Serial.print(memoryAddress, HEX);
-//      Serial.print("\t");
-//      Serial.println(rv);
+//      SPRN("mem addr w: ");
+//      SPRNH(memoryAddress, HEX);
+//      SPRN("\t");
+//      SPRNL(rv);
 //    }
 //    return -(abs(rv));  // error
 //  }
@@ -558,10 +611,10 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
   {
 //    if (_debug)
 //    {
-//      Serial.print("mem addr r: ");
-//      Serial.print(memoryAddress, HEX);
-//      Serial.print("\t");
-//      Serial.println(rv);
+//      SPRN("mem addr r: ");
+//      SPRNH(memoryAddress, HEX);
+//      SPRN("\t");
+//      SPRNL(rv);
 //    }
     return 0;  //  error
   }

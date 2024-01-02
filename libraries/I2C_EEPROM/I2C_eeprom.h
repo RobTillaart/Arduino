@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.1
+// VERSION: 1.8.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -11,8 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.8.0"))
-
+#define I2C_EEPROM_VERSION          (F("1.8.2"))
 
 #define I2C_DEVICESIZE_24LC512      65536
 #define I2C_DEVICESIZE_24LC256      32768
@@ -34,11 +33,23 @@
 #define I2C_WRITEDELAY              5000
 #endif
 
-
 #ifndef UNIT_TEST_FRIEND
 #define UNIT_TEST_FRIEND
 #endif
 
+//#define ENABLE_DEBUG
+
+#ifdef ENABLE_DEBUG
+#define SPRN Serial.print
+#define SPRNL Serial.println
+#define SPRNH Serial.print
+#define SPRNLH Serial.println
+#else
+#define SPRN(MSG)
+#define SPRNH(MSG,MSG2)
+#define SPRNL(MSG)
+#define SPRNLH(MSG,MSG2)
+#endif
 
 class I2C_eeprom
 {

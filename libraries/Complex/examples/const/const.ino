@@ -2,9 +2,8 @@
 //    FILE: const.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-11-15
-//
-// PUPROSE: test complex math - https://github.com/RobTillaart/Complex/issues/7
-//
+// PURPOSE: test complex math - https://github.com/RobTillaart/Complex/issues/7
+//     URL: https://github.com/RobTillaart/Complex
 
 
 #include "Complex.h"
@@ -41,5 +40,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,7 +1,7 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex
 //          http://arduino.cc/playground/Main/ComplexMath
@@ -393,5 +393,5 @@ Complex Complex::c_acoth() const
 }
 
 
-// --- END OF FILE ---
+//  --- END OF FILE ---
 

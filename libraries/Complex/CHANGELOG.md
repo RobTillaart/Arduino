@@ -6,9 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2024-01-02
+- fix examples
+- update readme.md
+- minor edits
+
+
 ## [0.3.3] - 2023-10-18
 - update readme.md
-
 
 ## [0.3.2] - 2022-10-29
 - add changelog.md
@@ -63,6 +68,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.07] - 2015-06-03 
 - refactor interfaces
 
-## [0.1.0] - 2013
+some missing history
+
+## [0.1.0] - 2013-09-23
 - initial version.
 

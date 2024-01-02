@@ -24,7 +24,6 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "Complex.h"
 
 
@@ -45,7 +44,7 @@ unittest(test_constructor)
   Complex c2(3, 0);
   Complex c3(-10, 4);
   Complex c4(-5,-5);
-  Complex c5;  // (0, 0)
+  Complex c5;        //  (0, 0)
 
   assertEqual(10.0, c1.real());
   assertEqual(-2.0, c1.imag());
@@ -58,11 +57,11 @@ unittest(test_constructor)
   assertEqual(0.0, c5.real());
   assertEqual(0.0, c5.imag());
 
-  // one is a default available var.
+  //  one is a default available var.
   assertEqual(1.0, one.real());
   assertEqual(0.0, one.imag());
 
-  // polar notation setter.
+  //  polar notation setter.
   c1.polar(5, PI/4);
   assertEqualFloat(5, c1.modulus(), 0.0001);
   assertEqualFloat(PI/4, c1.phase(), 0.0001);
@@ -216,7 +215,8 @@ unittest(test_gonio_functions_I)
 }
 
 
-
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

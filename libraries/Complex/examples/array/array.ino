@@ -1,11 +1,8 @@
 //
 //    FILE: array.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-//    DATE: 2015-10-18
-//
-// PUPROSE: example complex array
-//
+// PURPOSE: example complex array
+//     URL: https://github.com/RobTillaart/Complex
 
 
 #include "Complex.h"
@@ -55,5 +52,5 @@ void loop()
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,7 +2,7 @@
 //    FILE: correlation_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// PUPROSE: demo of the Correlation Library
+// PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 
 //  performance test: only ADD and CALCULATE as these are the most used
@@ -141,5 +141,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

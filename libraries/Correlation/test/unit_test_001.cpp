@@ -184,5 +184,6 @@ unittest(test_calculate_flags)
 
 unittest_main()
 
-//  --END OF FILE --
+
+//  -- END OF FILE --
 

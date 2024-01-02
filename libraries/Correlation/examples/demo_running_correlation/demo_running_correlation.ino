@@ -2,7 +2,7 @@
 //    FILE: demo_running_correlation.ino.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// PUPROSE: demo of the Correlation Library
+// PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 
 
@@ -16,8 +16,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // when internal table is full, no new values are added
-  // resulting in stabilization of the regression params A and B
+  //  when internal table is full, no new values are added
+  //  resulting in stabilization of the regression params A and B
   C.clear();
   C.setRunningCorrelation(false);
   for (int i = 0; i <= 1000; i++)
@@ -28,8 +28,8 @@ void setup()
   Serial.println();
   Serial.println();
 
-  // when internal table is full, values are overwritten and 
-  // there is no stabilization of the regression params A and B
+  //  when internal table is full, values are overwritten and 
+  //  there is no stabilization of the regression params A and B
   C.clear();
   C.setRunningCorrelation(true);
   for (int i = 0; i <= 1000; i++)
@@ -64,5 +64,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

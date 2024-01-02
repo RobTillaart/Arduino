@@ -76,6 +76,7 @@ Returns false if nothing to calculate **count == 0**
 - **void setE2Calculation(bool)** enables / disables the calculation of Esquared.
 - **bool getE2Calculation()** returns the flag set.
 
+
 After the calculation the following functions can be called to return the core values.
 - **float getA()** returns the A parameter of formula **Y = A + B \* X**
 - **float getB()** returns the B parameter of formula **Y = A + B \* X**

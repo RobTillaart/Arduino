@@ -2,7 +2,7 @@
 //    FILE: correlation_debugging.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-17
-// PUPROSE: demo of the Correlation Library
+// PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 
 
@@ -59,7 +59,7 @@ void setup()
 
   for (int i = 0; i < SIZE; i++)
   {
-    C.setXY(i, 0, 0);  // create flatliner;
+    C.setXY(i, 0, 0);       //  create flatliner;
   }
   Serial.println("cnt\tX\tY");
   for (int i = 0; i < SIZE; i++)

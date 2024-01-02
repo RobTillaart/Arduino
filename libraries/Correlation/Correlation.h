@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Calculate Correlation from a small dataset.
 //     URL: https://github.com/RobTillaart/Correlation
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.3.1"))
+#define CORRELATION_LIB_VERSION          (F("0.3.2"))
 
 
 class Correlation
@@ -55,7 +55,7 @@ public:
 
   //  Y = A + B * X
   //  note if no elements are added or calculate is not called
-  //      the values for A and B are 0
+  //       the values for A and B are 0
   float   getA()       { return _a; };
   float   getB()       { return _b; };
 
@@ -102,9 +102,6 @@ public:
   float   getSumXY();  //  replaces getSumXiYi()
   float   getSumX2();  //  replaces getSumXi2()
   float   getSumY2();  //  replaces getSumYi2()
-  // float   getSumXiYi() { return _sumXiYi; };  //  obsolete in version 0.3.0
-  // float   getSumXi2()  { return _sumXi2;  };  //  obsolete in version 0.3.0
-  // float   getSumYi2()  { return _sumYi2;  };  //  obsolete in version 0.3.0
 
 
 private:

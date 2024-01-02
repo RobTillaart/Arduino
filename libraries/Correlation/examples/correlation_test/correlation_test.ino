@@ -2,7 +2,7 @@
 //    FILE: correlation_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-05-18
-// PUPROSE: demo of the Correlation Library
+// PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 
 //  performance test: 
@@ -73,7 +73,7 @@ void setup()
   Serial.print("R: ");
   Serial.println(R, 6);
 
-  // test();
+  //  test();
   Serial.println("\nDone...");
 }
 

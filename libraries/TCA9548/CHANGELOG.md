@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-01-01
+- add **bool isConnected(uint8_t address, uint8_t channel)**
+- minor edits
+
+
 ## [0.2.1] - 2023-12-09
 - add derived classes
   - PCA9543 (2 channel), PCA9545 (4 channel), PCA9546 (4 channel)
 - add **uint8_t getInterruptMask()**
 - fix begin() : remove wire-> begin() as dependency should be outside lib
 - fix readme.md
-
 
 ## [0.2.0] - 2023-12-09
 - refactor API, begin()

@@ -99,7 +99,9 @@ There are however small differences, check the data sheets to see the details.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 - **bool begin(uint8_t mask = 0x00)**  set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
-
+- **bool isConnected(uint8_t address, uint8_t channel)** find address on selected channel.
+Note that this changes the selected and or enabled channels.
+Returns true if found.
 
 The derived classes PCA9548/PCA9546 have the same interface, except constructor.
 (see #15)

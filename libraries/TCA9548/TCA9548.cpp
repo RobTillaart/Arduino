@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2021-03-16
 // PURPOSE: Arduino Library for TCA9548 I2C multiplexer and compatibles.
 
@@ -39,6 +39,13 @@ bool TCA9548::isConnected(uint8_t address)
 {
   _wire->beginTransmission(address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+bool TCA9548::isConnected(uint8_t address, uint8_t channel)
+{
+  if (!selectChannel(channel)) return false;
+  return isConnected(_address);
 }
 
 

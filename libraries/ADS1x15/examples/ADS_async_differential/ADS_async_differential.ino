@@ -4,26 +4,25 @@
 // PURPOSE: read multiple differential continuously
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect 4 potmeters
+//  test
+//  connect 4 potmeters
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x  - connect to AIN0..4.
-//
+//  measure at x  - connect to AIN0..4.
 //
 
 
 #include "ADS1X15.h"
 
 
-// choose your sensor
-// ADS1013 ADS(0x48);
-// ADS1014 ADS(0x48);
-// ADS1015 ADS(0x48);
-// ADS1113 ADS(0x48);
-// ADS1114 ADS(0x48);
+//  choose your sensor
+//  ADS1013 ADS(0x48);
+//  ADS1014 ADS(0x48);
+//  ADS1015 ADS(0x48);
+//  ADS1113 ADS(0x48);
+//  ADS1114 ADS(0x48);
 ADS1115 ADS(0x48);
 
 
@@ -45,7 +44,7 @@ void setup()
   ADS.setGain(0);        //  6.144 volt
   ADS.setDataRate(4);    //  0 = slow   4 = medium   7 = fast
 
-  // single shot mode
+  //  single shot mode
   ADS.setMode(1);
   //  start with first pair
   pair = 01;
@@ -65,7 +64,7 @@ void loop()
     Serial.println();
   }
 
-  // do other stuff here
+  //  do other stuff here
   delay(10);
 }
 
@@ -80,7 +79,7 @@ bool handleConversion()
       val_01 = ADS.getValue();
       pair = 23;
       ADS.requestADC_Differential_2_3();
-      return false;  // only one done
+      return false;  //  only one done
     }
 
     //  last of series to check

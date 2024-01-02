@@ -4,15 +4,15 @@
 // PURPOSE: read analog input
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect 1 potmeter 
+//  test
+//  connect 1 potmeter 
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x (connect to AIN0).
-
-// view with Serial Plotter
+//  measure at x (connect to AIN0).
+//
+//  view with Serial Plotter
 
 
 #include "ADS1X15.h"
@@ -38,7 +38,7 @@ void setup()
   Wire.begin();
 
   ADS.begin();
-  ADS.setGain(0);  // 6.144 volt
+  ADS.setGain(0);  //  6.144 volt
   Serial.println("Voltage");
 }
 

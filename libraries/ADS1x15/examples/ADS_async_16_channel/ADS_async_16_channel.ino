@@ -5,10 +5,10 @@
 //     URL: https://github.com/RobTillaart/ADS1X15
 
 
-// Note all IO with the sensors are guarded by an isConnected()
-// this is max robust, in non critical application one may either
-// cache the value or only verify it in setup (least robust).
-// Less robust may cause the application to hang - watchdog reset ?
+//  Note all IO with the sensors are guarded by an isConnected()
+//  this is max robust, in non critical application one may either
+//  cache the value or only verify it in setup (least robust).
+//  Less robust may cause the application to hang - watchdog reset ?
 
 
 #include "ADS1X15.h"
@@ -55,7 +55,8 @@ void loop()
   //  we have all values
   ADS_print_all();
 
-  delay(1000);      //  wait a second.
+  //  wait a second.
+  delay(1000);
   ADS_request_all();
 }
 

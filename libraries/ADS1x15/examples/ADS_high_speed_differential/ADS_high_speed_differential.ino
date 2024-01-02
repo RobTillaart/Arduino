@@ -5,13 +5,13 @@
 //          interrupt driven to catch all conversions.
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test setup (not tested yet)
-// - connect 2 ADS1x15 to I2C bus
-// - connect potmeters to all channels
-// - code reads both at the same frequency
-//   and calculates differential per pair.
-//   as 2 ADC's go in parallel, two ADS1015 should get
-//   3000+ differential samples / second.
+//  test setup (not tested yet)
+//  - connect 2 ADS1x15 to I2C bus
+//  - connect potmeters to all channels
+//  - code reads both at the same frequency
+//    and calculates differential per pair.
+//    as 2 ADC's go in parallel, two ADS1015 should get
+//    3000+ differential samples / second.
 //
 
 
@@ -21,9 +21,9 @@
 ADS1115 ADS_1(0x49);
 ADS1115 ADS_2(0x48);
 
-volatile bool RDY_1    = false;
-volatile bool RDY_2    = false;
-uint8_t channel        = 0;
+volatile bool RDY_1     = false;
+volatile bool RDY_2     = false;
+uint8_t channel         = 0;
 int32_t differential[4] = { 0, 0, 0, 0 };
 
 
@@ -44,7 +44,7 @@ void setup()
   //  SET ALERT RDY PIN (QueConvert mode)
   //  set the MSB of the Hi_thresh register to 1
   ADS_1.setComparatorThresholdHigh(0x8000);
-  // set the MSB of the Lo_thresh register to 0
+  //  set the MSB of the Lo_thresh register to 0
   ADS_1.setComparatorThresholdLow(0x0000);
   ADS_1.setComparatorQueConvert(0);
 
@@ -73,7 +73,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(3), adsReady_2, RISING);
 
   ADS_2.setMode(0);          //  continuous mode
-  ADS_2.readADC(channel);    // trigger first read
+  ADS_2.readADC(channel);    //  trigger first read
 }
 
 
@@ -109,11 +109,11 @@ bool handleConversion()
   if (RDY_1 == false) return false;
   if (RDY_2 == false) return false;
 
-  // read the value of both
+  //  read the value of both
   int16_t a = ADS_1.getValue();
   int16_t b = ADS_2.getValue();
   differential[channel] = a - b;
-  // request next channel
+  //  request next channel
   channel++;
   if (channel >= 4) channel = 0;
   ADS_1.readADC(channel);

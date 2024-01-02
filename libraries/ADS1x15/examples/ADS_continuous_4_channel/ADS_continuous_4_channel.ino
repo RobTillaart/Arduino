@@ -5,28 +5,28 @@
 //          interrupt driven to catch all conversions.
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect multiple potmeters
+//  test
+//  connect multiple potmeters
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x  - connect to AIN0..4.
+//  measure at x  - connect to AIN0..4.
 //
-// for the test it is good to have AIN3 connected to 5V and AIN4 to GND
-// so one can see these as references in the output.
+//  for the test it is good to have AIN3 connected to 5V and AIN4 to GND
+//  so one can see these as references in the output.
 //
 
 
 #include "ADS1X15.h"
 
 
-// choose your sensor
-// ADS1013 ADS(0x48);
-// ADS1014 ADS(0x48);
-// ADS1015 ADS(0x48);
-// ADS1113 ADS(0x48);
-// ADS1114 ADS(0x48);
+//  choose your sensor
+//  ADS1013 ADS(0x48);
+//  ADS1014 ADS(0x48);
+//  ADS1015 ADS(0x48);
+//  ADS1113 ADS(0x48);
+//  ADS1114 ADS(0x48);
 ADS1115 ADS(0x48);
 
 volatile bool RDY = false;

@@ -4,13 +4,13 @@
 // PURPOSE: read analog inputs - asynchronous
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect 1 potmeter per port.
+//  test
+//  connect 1 potmeter per port.
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x (connect to AIN0).
+//  measure at x (connect to AIN0).
 //
 
 

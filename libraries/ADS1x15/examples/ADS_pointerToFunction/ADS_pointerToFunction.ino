@@ -2,8 +2,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: replace internal ADC with external ADC by using pointer to function
 //     URL: https://github.com/RobTillaart/ADS1X15
-
-
+//
 //  WARNING ONLY TESTED ON AVR
 
 

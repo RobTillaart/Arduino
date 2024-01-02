@@ -13,7 +13,6 @@
 //  measure at x (connect to AIN0).
 
 
-
 #include "ADS1X15.h"
 
 ADS1115 ADS(0x48);
@@ -40,7 +39,7 @@ void loop()
   int16_t val_2 = ADS.readADC(2);  
   int16_t val_3 = ADS.readADC(3);  
 
-  float f = ADS.toVoltage(1);  // voltage factor
+  float f = ADS.toVoltage(1);  //  voltage factor
 
   Serial.print("\tAnalog0: "); Serial.print(val_0); Serial.print('\t'); Serial.println(val_0 * f, 3);
   Serial.print("\tAnalog1: "); Serial.print(val_1); Serial.print('\t'); Serial.println(val_1 * f, 3);

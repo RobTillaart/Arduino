@@ -16,12 +16,12 @@
 #include "ADS1X15.h"
 
 
-// choose your sensor
-// ADS1013 ADS(0x48);
-// ADS1014 ADS(0x48);
-// ADS1015 ADS(0x48);
-// ADS1113 ADS(0x48);
-// ADS1114 ADS(0x48);
+//  choose your sensor
+//  ADS1013 ADS(0x48);
+//  ADS1014 ADS(0x48);
+//  ADS1015 ADS(0x48);
+//  ADS1113 ADS(0x48);
+//  ADS1114 ADS(0x48);
 ADS1115 ADS(0x48, &Wire1);
 
 

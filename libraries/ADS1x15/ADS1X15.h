@@ -2,9 +2,9 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2013-03-24
-// PUPROSE: Arduino library for ADS1015 and ADS1115
+// PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
 //
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.4.0"))
+#define ADS1X15_LIB_VERSION               (F("0.4.1"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -64,8 +64,8 @@ public:
   //  0  =  slowest
   //  7  =  fastest
   //  4  =  default
-  void     setDataRate(uint8_t dataRate = 4); // invalid values are mapped on 4 (default)
-  uint8_t  getDataRate();                     // actual speed depends on device
+  void     setDataRate(uint8_t dataRate = 4);  //  invalid values are mapped on 4 (default)
+  uint8_t  getDataRate();                      //  actual speed depends on device
 
 
   int16_t  readADC(uint8_t pin = 0);
@@ -73,7 +73,7 @@ public:
 
   //  used by continuous mode and async mode.
   [[deprecated("Use getValue() instead")]]
-  int16_t  getLastValue() { return getValue(); };  // will be obsolete in the future 0.4.0
+  int16_t  getLastValue() { return getValue(); };  //  will be obsolete in the future 0.4.0
   int16_t  getValue();
 
 
@@ -126,8 +126,9 @@ public:
   //  EXPERIMENTAL
   //  see https://github.com/RobTillaart/ADS1X15/issues/22
   void     setWireClock(uint32_t clockSpeed = 100000);
-  //  proto - getWireClock returns the value set by setWireClock
-  //  not necessary the actual value
+  //  prototype
+  //  - getWireClock returns the value set by setWireClock
+  //    not necessary the actual value
   uint32_t getWireClock();
 
 

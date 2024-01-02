@@ -54,7 +54,8 @@ void loop()
   //  we have all values, so process (print) them
   ADS_print_all();
 
-  delay(1000);      //  wait a second, comment this line for more samples.
+  //  wait a second, comment this line for more samples.
+  delay(1000);
   ADS_request_all();
 }
 
@@ -65,7 +66,8 @@ void ADS_request_all()
   for (int i = 0; i < 4; i++)
   {
     if (ADS[i].isConnected()) ADS[i].requestADC(0);
-    delayMicroseconds(200);  // get them evenly spaced in time ...
+    //  get them evenly spaced in time ...
+    delayMicroseconds(200);
   }
 }
 

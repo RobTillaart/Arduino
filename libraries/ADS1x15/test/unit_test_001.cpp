@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2020-12-03
 // PURPOSE: unit tests for the SHT31 temperature and humidity sensor
 //          https://github.com/RobTillaart/ADS1X15
@@ -88,7 +87,7 @@ unittest(test_Voltage)
 
   assertTrue(ADS.begin());
 
-  // should test all values?
+  //  should test all values?
   ADS.setGain(0);
   float volts = ADS.getMaxVoltage();
   float delta = abs(6.144 - volts);

@@ -5,10 +5,10 @@
 //     URL: https://github.com/RobTillaart/ADS1X15
 
 
-// Note all IO with the sensors are guarded by an isConnected()
-// this is max robust, in non critical application one may either
-// cache the value or only verify it in setup (least robust).
-// Less robust may cause the application to hang - watchdog reset ?
+//  Note all IO with the sensors are guarded by an isConnected()
+//  this is max robust, in non critical application one may either
+//  cache the value or only verify it in setup (least robust).
+//  Less robust may cause the application to hang - watchdog reset ?
 
 
 #include "ADS1X15.h"
@@ -16,13 +16,13 @@
 
 ADS1115 ADS0(0x48);
 ADS1115 ADS1(0x49);
-//ADS1115 ADS2(0x4A);
-//ADS1115 ADS3(0x4B);
+// ADS1115 ADS2(0x4A);
+// ADS1115 ADS3(0x4B);
 
 int16_t val0[4] = { 0, 0, 0, 0 };
 int16_t val1[4] = { 0, 0, 0, 0 };
-//int16_t val2[4] = { 0, 0, 0, 0 };
-//int16_t val3[4] = { 0, 0, 0, 0 };
+// int16_t val2[4] = { 0, 0, 0, 0 };
+// int16_t val3[4] = { 0, 0, 0, 0 };
 int     idx = 0;
 
 uint32_t lastTime = 0;

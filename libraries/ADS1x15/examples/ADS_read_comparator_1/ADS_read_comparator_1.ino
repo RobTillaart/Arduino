@@ -4,19 +4,19 @@
 // PURPOSE: read analog inputs - straightforward.
 //     URL: https://github.com/RobTillaart/ADS1X15
 
-// test
-// connect 1 potmeter per port.
+//  test
+//  connect 1 potmeter per port.
 //
-// GND ---[   x   ]------ 5V
-//            |
+//  GND ---[   x   ]------ 5V
+//             |
 //
-// measure at x (connect to AIN0).
+//  measure at x (connect to AIN0).
 //
 // 
-// GND ---[LED]---[ALERT_PIN]---[ R ]--- 5V
+//  GND ---[LED]---[ALERT_PIN]---[ R ]--- 5V
 //
-// Connect a LED (+ resistor) to ALERT PIN
-// and see it trigger at configured way by the comparator.
+//  Connect a LED (+ resistor) to ALERT PIN
+//  and see it trigger at configured way by the comparator.
 //
 
 

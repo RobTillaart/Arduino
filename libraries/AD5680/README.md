@@ -53,11 +53,12 @@ Note the order of the parameters of the software SPI constructor has changed in 
 
 ### Base class
 
-- **AD5680(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor HW SPI (RP2040 specific). Sets internal value to zero.
-- **AD5680(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor HW SPI. 
+- **AD5680(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific). 
 Sets internal value to zero.
-- **AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)** constructor SW SPI.
-sets SW SPI.
+- **AD5680(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI. 
+Sets internal value to zero.
+- **AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)** constructor software SPI.
+Sets the software SPI pins.
 Sets internal value to zero.
 - **void begin()** initializes the SPI and sets internal state.
 - **uint8_t getType()** returns 18 (for now).
@@ -68,10 +69,13 @@ Sets internal value to zero.
 - **bool setValue(uint32_t value)** set value to the output immediately, 
 effectively a prepare + update in one call.
 Returns false if value out of range.
-- **uint32_t getValue()** returns set value.
+- **uint32_t getValue()** returns set value 0..262143 (from cache).
 At power up the AD5680 will be reset to 0 (== 0 volt).
-- **bool setPercentage(float percentage)** idem.
-- **float getPercentage()** idem.
+- **bool setPercentage(float percentage)** sets the output as a percentage 0..100.
+If percentage is out of range, it is not set and the function returns false.
+- **float getPercentage()** returns percentage, wrapper around **getValue()**.
+Might return a slightly different value than **setPercentage()** due to 
+rounding errors.
 
 
 #### SPI 

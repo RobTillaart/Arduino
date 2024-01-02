@@ -1,7 +1,8 @@
 //
 //    FILE: AD5680_triangle.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test basic behaviour and performance
+// PURPOSE: test basic behaviour and performance
+//     URL: https://github.com/RobTillaart/AD5680
 
 
 #include "AD5680.h"

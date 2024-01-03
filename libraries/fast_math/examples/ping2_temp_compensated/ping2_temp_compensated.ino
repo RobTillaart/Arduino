@@ -2,7 +2,7 @@
 //    FILE: ping2_temp_compensated.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-12-25
-// PUPROSE: test fast routines for PING))) sensor
+// PURPOSE: test fast routines for PING))) sensor
 //     URL: https://github.com/RobTillaart/fast_math
 
 

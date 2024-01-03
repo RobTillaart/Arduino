@@ -12,6 +12,7 @@
 uint32_t start, stop;
 volatile uint8_t z;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -66,7 +67,7 @@ void setup()
   Serial.print("\n");
   delay(100);
 
-  // not 100% correct but it measures performance
+  //  not 100% correct but it measures performance
   Serial.print("bcd2decRef:\t");
   delay(10);
   start = micros();
@@ -81,7 +82,7 @@ void setup()
   Serial.print("\n");
   delay(100);
 
-  // not 100% correct but it measures performance
+  //  not 100% correct but it measures performance
   Serial.print("bcd2dec:\t");
   delay(10);
   start = micros();
@@ -145,4 +146,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

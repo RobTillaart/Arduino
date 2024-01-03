@@ -1,7 +1,7 @@
 //
 //    FILE: fast_math.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -175,6 +175,7 @@ uint16_t ping2cm(uint16_t in)
   return q;
 }
 
+
 uint16_t ping2mm(uint16_t in)
 {
   //  divide by 2.941176 == * 0.34;
@@ -194,6 +195,7 @@ uint16_t ping2mm(uint16_t in)
   return q;
 }
 
+
 uint16_t ping2inch(uint16_t in)
 {
   //  divide by 74.70588235 == * 0.0133858
@@ -212,6 +214,7 @@ uint16_t ping2inch(uint16_t in)
   q += d + 2;  //  correction.
   return q;
 }
+
 
 uint16_t ping2quarter(uint16_t in)
 {
@@ -233,6 +236,7 @@ uint16_t ping2quarter(uint16_t in)
   q += d + 3;  //  correction.
   return q;
 }
+
 
 uint16_t ping2sixteenths(uint16_t in)
 {

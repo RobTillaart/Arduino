@@ -2,7 +2,7 @@
 //    FILE: ping2inch.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-12-09
-// PUPROSE: test fast routines for PING))) sensor
+// PURPOSE: test fast routines for PING))) sensor
 //     URL: https://github.com/RobTillaart/fast_math
 
 

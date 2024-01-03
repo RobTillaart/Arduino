@@ -14,6 +14,7 @@ float x, y, z, sum, error;
 float YY1, YY2, YY3;
 float ar[3];
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -108,7 +109,7 @@ void search_heat()
   float error;
   float minimum = 1E9;
   float a, b, c;
-  a = b = c = 0;  // arbitrary start
+  a = b = c = 0;  //  arbitrary start
   uint32_t start = millis();
   while (millis() - start < 60000)  //  search for 1 minute
   {
@@ -158,4 +159,4 @@ void search_heat()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

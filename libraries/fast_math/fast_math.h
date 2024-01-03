@@ -2,7 +2,7 @@
 //
 //    FILE: fast_math.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -16,7 +16,7 @@
 #include "Arduino.h"
 #endif
 
-#define FASTMATH_LIB_VERSION          (F("0.2.2"))
+#define FASTMATH_LIB_VERSION          (F("0.2.3"))
 
 
 #ifdef __cplusplus
@@ -36,6 +36,7 @@ extern "C"
 void divmod10(uint32_t in, uint32_t *div, uint8_t *mod);
 void divmod3(uint32_t in, uint32_t *div, uint8_t *mod);
 void divmod5(uint32_t in, uint32_t *div, uint8_t *mod);
+
 //  for clocks
 void divmod12(uint32_t in, uint32_t *div, uint8_t *mod);
 void divmod24(uint32_t in, uint32_t *div, uint8_t *mod);
@@ -63,6 +64,8 @@ uint8_t bcd2dec(uint8_t value);
 //  assumes degree >= 1, and ar[0] exists, and could be 0.
 //
 //  e.g y = 3x^2 + 5x + 7 ==> ar[] = { 7, 5, 3 };  degree = 2;
+//                            index is exponent of x
+//                            7x^0 + 5x^1 + 3x^2
 //
 float polynome(float x, float ar[], uint8_t degree);
 

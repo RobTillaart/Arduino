@@ -40,11 +40,21 @@ void performance(uint32_t speed)
   uint32_t start = micros();
   lcd.print(__TIME__);
   uint32_t stop = micros();
-  lcd.setCursor(0, 3);
-  Serial.print("time (us): ");
+  lcd.setCursor(0, 1);
+  Serial.print("print time (us): ");
+  Serial.println(stop - start);
+  delay(1000);
+
+  //  clear
+  start = micros();
+  lcd.clear();
+  stop = micros();
+  lcd.setCursor(0, 2);
+  Serial.print("clear time (us): ");
   Serial.println(stop - start);
   Serial.println();
-  delay(100);
+  delay(1000);
+
 }
 
 

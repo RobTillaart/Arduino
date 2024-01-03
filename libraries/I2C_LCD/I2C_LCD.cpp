@@ -1,9 +1,9 @@
 //
 //    FILE: I2C_LCD.cpp
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.4
+//  AUTHOR: Rob.Tillaart
+// VERSION: 0.2.0
 //    DATE: 2023-12-16
-// PUPROSE: Arduino library for I2C_LCD
+// PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
@@ -67,12 +67,16 @@ void I2C_LCD::config (uint8_t address, uint8_t enable, uint8_t readWrite, uint8_
   _backLightPin   = ( 1 << backLight);
   _backLightPol   = polarity;
 
-  _pinsInOrder = ((data4 < data5) && (data5 < data6) && (data6 < data7));
+  _pinsInOrder = ((data4 == 4) && (data5 == 5) && (data6 == 6) && (data7 == 7));
+  //  if pins are 0,1,2,3 they are also in order 
+  //  but the shift/mask in send() should be different
+  //  needs investigation if this optimization is worth it.
 }
 
 
 bool I2C_LCD::begin(uint8_t cols, uint8_t rows)
 {
+  //  no check for range, user responsibility, defaults are 20x4
   _cols = cols;
   _rows = rows;
 
@@ -86,15 +90,18 @@ bool I2C_LCD::begin(uint8_t cols, uint8_t rows)
   //  Figure 24 for procedure on 4-bit initialization
   //  wait for more than 15 ms
   //  if other objects initialize earlier there will be less blocking time.
+  //  => assumes display is started at same time as MCU
   while (millis() < 100) delay(1);
 
-  //  Force 4 bit mode
+  //  Force 4 bit mode, see datasheet.
+  //  times are taken longer for robustness.
+  //  note this is typically only called once.
   write4bits(0x03);
-  delayMicroseconds(5000);  //  > 4.1 millis
+  delayMicroseconds(5000);  //  datasheet > 4.1 millis
   write4bits(0x03);
-  delayMicroseconds(200);   //  > 100 usec
+  delayMicroseconds(200);   //  datasheet > 100 usec
   write4bits(0x03);
-  delayMicroseconds(200);   //  > 100 usec
+  delayMicroseconds(200);   //  datasheet > 100 usec
 
   //  command to set 4 bit interface
   write4bits(0x02);
@@ -178,7 +185,7 @@ void I2C_LCD::home()
 {
   sendCommand(I2C_LCD_RETURNHOME);
   _pos = 0;
-  delay(2);
+  delayMicroseconds(1600);  //  datasheet states 1520.
 }
 
 
@@ -186,6 +193,7 @@ bool I2C_LCD::setCursor(uint8_t col, uint8_t row)
 {
   if ((col >= _cols) || (row >= _rows)) return false;
 
+  //  more efficient address / offset calculation (no lookup so far).
   uint8_t offset = 0x00;
   if (row & 0x01) offset += 0x40;
   if (row & 0x02) offset += _cols;
@@ -327,7 +335,7 @@ void I2C_LCD::createChar(uint8_t index, uint8_t * charmap)
 size_t I2C_LCD::write(uint8_t c)
 {
   size_t n = 0;
-  if (c == (uint8_t)'\t')  //  TAB char
+  if (c == (uint8_t)'\t')  //  handle TAB char
   {
     while (((_pos % 4) != 0) && (_pos < _cols))
     {
@@ -336,13 +344,13 @@ size_t I2C_LCD::write(uint8_t c)
     }
     return n;
   }
-  if (_pos < _cols)   //  overflow protect
+  if (_pos < _cols)   //  overflow protect.
   {
     sendData(c);
     _pos++;
     return 1;
   }
-  //  not allowed to print.
+  //  not allowed to print beyond display, so return 0.
   return 0;
 };
 
@@ -392,27 +400,25 @@ void I2C_LCD::sendData(uint8_t value)
 
 void I2C_LCD::send(uint8_t value, bool dataFlag)
 {
-  //  calculate both most and least significant nibble
+  //  calculate both 
+  //  MSN == most significant nibble and 
+  //  LSN == least significant nibble
   uint8_t MSN = 0;
   if (dataFlag)   MSN = _registerSelect;
   if (_backLight) MSN |= _backLightPin;
   uint8_t LSN = MSN;
 
-  if (_pinsInOrder)
+  if (_pinsInOrder)  //  4,5,6,7 only == most used.
   {
     MSN |= value & 0xF0;
     LSN |= value << 4;
   }
-  else
+  else  //  ~ 1.7% slower UNO.
   {
     for ( uint8_t i = 0; i < 4; i++ )
     {
       if ( value & 0x01 ) LSN |= _dataPin[i];
-      value >>= 1;
-    }
-    for ( uint8_t i = 0; i < 4; i++ )
-    {
-      if ( value & 0x01 ) MSN |= _dataPin[i];
+      if ( value & 0x10 ) MSN |= _dataPin[i];
       value >>= 1;
     }
   }

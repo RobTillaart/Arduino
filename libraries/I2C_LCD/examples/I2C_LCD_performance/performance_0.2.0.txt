@@ -1,0 +1,53 @@
+
+IDE:     1.8.19
+Board:   UNO
+
+
+I2C_LCD\examples\I2C_LCD_performance\I2C_LCD_performance.ino
+I2C_LCD_LIB_VERSION: 0.2.0
+
+performance
+speed:	100000
+print time (us): 4316
+clear time (us): 2544
+
+performance
+speed:	200000
+print time (us): 2448
+clear time (us): 2312
+
+performance
+speed:	300000
+print time (us): 1792
+clear time (us): 2232
+
+performance
+speed:	400000
+print time (us): 1508
+clear time (us): 2192
+
+performance
+speed:	500000
+print time (us): 1332
+clear time (us): 2172
+
+performance
+speed:	600000
+print time (us): 1188
+clear time (us): 2152
+
+performance
+speed:	700000
+print time (us): 1084
+clear time (us): 2140
+
+performance
+speed:	800000
+print time (us): 1044
+clear time (us): 2140
+
+
+
+
+
+

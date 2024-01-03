@@ -1,9 +1,9 @@
 #pragma once
 //
 //    FILE: I2C_LCD_custom_chars.h
-//  AUTHOR: Rob.Tillaart@gmail.com
+//  AUTHOR: Rob.Tillaart
 // VERSION: see library.properties
-// PUPROSE: Arduino library for I2C_LCD
+// PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 //          https://maxpromer.github.io/LCD-Character-Creator/
 //

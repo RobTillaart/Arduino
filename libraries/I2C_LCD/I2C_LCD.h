@@ -1,14 +1,14 @@
 #pragma once
 //
 //    FILE: I2C_LCD.h
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.1.4
+//  AUTHOR: Rob.Tillaart
+// VERSION: 0.2.0
 //    DATE: 2023-12-16
-// PUPROSE: Arduino library for I2C_LCD
+// PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.1.4"))
+#define I2C_LCD_LIB_VERSION     (F("0.2.0"))
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -102,8 +102,12 @@ private:
   uint8_t   _enable         = 4;
   uint8_t   _readWrite      = 2;
   uint8_t   _registerSelect = 1;
-  uint8_t   _dataPin[4]     = { 16, 32, 64, 128 };
 
+  uint8_t   _dataPin[4]     = { 16, 32, 64, 128 };  //  == pin 4, 5, 6, 7
+  //  minor optimization only for pins = 4,5,6,7
+  bool      _pinsInOrder    = true;
+  
+  
   uint8_t   _backLightPin   = 8;
   uint8_t   _backLightPol   = 1;
   uint8_t   _backLight      = 1;
@@ -113,8 +117,6 @@ private:
 
   //  DISPLAYCONTROL bit always on, set in constructor.
   uint8_t   _displayControl = 0;
-  //  optimization
-  bool      _pinsInOrder = true;
 
   //  overflow protection
   uint8_t   _pos = 0;

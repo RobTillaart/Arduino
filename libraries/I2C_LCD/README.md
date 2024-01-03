@@ -75,18 +75,20 @@ it is far easier to get the nibble (half bytes) to send.
 
 First performance tests are good. See example **I2C_LCD_performance.ino**.
 
+#### dataPins in ascending order
+
 The performance measurement is done on an UNO, data pins are in ascending order.
 
-|  I2C clock  |    0.1.0    |    0.1.1    |    0.1.4    |  notes  |
-|:-----------:|:-----------:|:-----------:|:-----------:|:-------:|
-|  100000     |     4316    |     4640    |     4312    |
-|  200000     |     2440    |     2760    |     2456    |
-|  300000     |     1780    |     2108    |     1792    |
-|  400000     |     1496    |     1820    |     1512    |  (1)
-|  500000     |     1308    |     1632    |     1324    |
-|  600000     |     1176    |     1500    |     1188    |
-|  700000     |     1076    |     1400    |     1084    |
-|  800000     |     1024    |     1348    |     1040    |
+|  I2C clock  |  0.1.0  |  0.1.1  |  0.1.4  |  0.2.0  |  notes  |
+|:-----------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|  100000     |   4316  |   4640  |   4312  |   4316  |
+|  200000     |   2440  |   2760  |   2456  |   2448  |
+|  300000     |   1780  |   2108  |   1792  |   1792  |
+|  400000     |   1496  |   1820  |   1512  |   1508  |  (1)
+|  500000     |   1308  |   1632  |   1324  |   1332  |
+|  600000     |   1176  |   1500  |   1188  |   1188  |
+|  700000     |   1076  |   1400  |   1084  |   1084  |
+|  800000     |   1024  |   1348  |   1040  |   1044  |
 
 Note 1: 0.1.0 problems with spectrum examples - too much data too fast killed my display.
 
@@ -109,6 +111,25 @@ The math above does not include other overhead like preparing the bits etc.
 At 100K the I2C for 2 bytes takes 160 us, so it can safely set to 0.
 
 Setting the delay to zero (0.1.4), gives roughly the 0.1.0 timing again.
+
+
+#### DataPins not in ascending order
+
+The performance measurement is done on an UNO. (order is simulated)
+
+|  I2C clock  |  0.2.0  |  notes  |
+|:-----------:|:-------:|:-------:|
+|  100000     |   4352  |
+|  200000     |   2480  |
+|  300000     |   1824  |
+|  400000     |   1544  |
+|  500000     |   1352  |
+|  600000     |   1216  |
+|  700000     |   1128  |
+|  800000     |   1072  |
+
+On average ~1.7% slower, as that code is pretty optimized too.
+
 
 Note: Performance is also a matter of developing an optimal algorithm.
 This is often a trade between code size, memory used and speed.
@@ -139,7 +160,7 @@ mandatory address and optional alternative I2C bus.
 - **void config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect, 
                    uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7, 
                    uint8_t backlight, uint8_t polarity)** pin configuration.
-Will change in the future.
+Will probably change in the future, less compatible.
 - **bool begin(uint8_t cols = 20, uint8_t rows = 4)** initializes library size.
 User must call the appropriate **Wire.begin()** before calling **lcd.begin(()**
 It is advised to initialize the LCD as last device as it blocks until 100 milliseconds
@@ -149,7 +170,8 @@ since startup have passed to give the LCD time to boot.
 
 #### Backlight
 
-- **void setBacklightPin(uint8_t pin, uint8_t polarity)** idem.
+- **void setBacklightPin(uint8_t pin, uint8_t polarity)** pin should be 0..7, polarity 0..1.
+There are no checks, user is responsible.
 - **void setBacklight(bool on)** if backlight is off, the display is also set off.
 - **void backlight()** wrapper for setBacklight(true).
 - **void noBacklight()** wrapper for setBacklight(false).
@@ -203,12 +225,12 @@ There are 8 slots to place a special character, index 0..7.
 The custom characters can be printed with **special(index)** which is 
 a wrapper around **write((uint8_t)index)**
 
-- **void createChar(uint8_t index, uint8_t \* charmap)**
+- **void createChar(uint8_t index, uint8_t \* charmap)** index = 0..7.
 - **size_t special(uint8_t index)** to print the special char.
 
 See examples e.g. spectrum, for how to use custom characters.
 
-See also I2C_LCD_custom_chars.h
+See also **I2C_LCD_custom_chars.h**
 
 Finally, there is a very handy online tool to create characters.
 - https://maxpromer.github.io/LCD-Character-Creator/
@@ -284,6 +306,11 @@ Not reset-able.
 #### Must
 
 - update documentation
+- analyse the bitsInOrder optimization in more depth
+  - is the ~1.7% speed gain worth 24 bytes. 
+  - at 100 KHz => 544 -> 539 = 5 us / character
+  - code would be simpler / smaller.
+  - current implementation only works for 4,5,6,7
 
 #### Should
 
@@ -295,10 +322,10 @@ Not reset-able.
 
 - function to define the tab-stops, instead of hard coded ones.
 - make a separate include file for charmaps by name.
+  - I2C_LCD_spectrum.h ?
 - investigate reading busy flag over I2C.
 
-
-#### Wont for now.
+#### Wont (for now).
 
 - **size_t write(array, length)** is not implemented as there was no gain.
 - implement unit tests (possible?)

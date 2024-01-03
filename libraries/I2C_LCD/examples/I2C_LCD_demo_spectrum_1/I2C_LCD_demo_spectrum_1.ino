@@ -3,16 +3,12 @@
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
-//  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle
-//           (mine got corrupted)
-
 
 #include "Arduino.h"
 #include "Wire.h"
 
 #include "I2C_LCD.h"
-//  #include "I2C_LCD_spectrum.h"
+
 
 //  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3

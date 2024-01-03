@@ -1,16 +1,15 @@
 #pragma once
 //
 //    FILE: I2C_LCD_special_chars.h
-//  AUTHOR: Rob.Tillaart@gmail.com
+//  AUTHOR: Rob.Tillaart
 // VERSION: see library.properties
-//    DATE: 2023-12-16
-// PUPROSE: Arduino library for I2C_LCD
+// PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
 //  SPECIAL CHARS,
 //  will only work on displays with ROM CODE A00
-//
+
 
 const char LCD_ALPHA    = 0xE0;
 const char LCD_BETA     = 0xE2;

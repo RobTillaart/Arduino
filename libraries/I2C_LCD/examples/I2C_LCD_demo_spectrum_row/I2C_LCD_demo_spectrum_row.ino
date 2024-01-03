@@ -3,10 +3,6 @@
 // PURPOSE: demo I2C_LCD library a.k.a skyline demo
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
-//  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle
-//           (mine got corrupted)
-
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -102,7 +98,7 @@ void setup()
   for (int i = 0; i < 80; i += 1)
   {
     spectrumRow(1, 80 - i);
-    // delay(100);
+    //  delay(100);
   }
   uint32_t stop = millis();
   Serial.println(stop - start);
@@ -114,12 +110,12 @@ void setup()
   for (int i = 0; i < 80; i += 1)
   {
     spectrumRow2(2, i);
-    // delay(100);
+    //  delay(100);
   }
   for (int i = 0; i < 80; i += 1)
   {
     spectrumRow2(2, 80 - i);
-    // delay(100);
+    //  delay(100);
   }
   stop = millis();
   Serial.println(stop - start);
@@ -145,7 +141,7 @@ void spectrumRow(uint8_t row, int value)
   lcd.setCursor(4, row);
   for (uint8_t col = 4; col < 20; col++)
   {
-    if (value <= 0)      lcd.print(' ');   // replace with _
+    if (value <= 0)      lcd.print(' ');   //  replace with _
     else if (value >= 5) lcd.special(255);
     else                 lcd.special(value - 1);
     value -= 5;
@@ -184,7 +180,7 @@ void spectrumRow2(uint8_t row, int value)
 
     for (uint8_t col = start + 4; col < end + 4; col++)
     {
-      if (value <= 0)      lcd.print(' ');     // replace with _
+      if (value <= 0)      lcd.print(' ');     //  replace with _
       else if (value >= 5) lcd.special(255);
       else                 lcd.special(value - 1);
       value -= 5;

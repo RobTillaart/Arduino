@@ -3,9 +3,6 @@
 // PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
-//  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle
-//           (mine got corrupted)
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -41,7 +38,7 @@ void setup()
   Wire.setClock(100000);
   lcd.begin(20, 4);
 
-  //  show centering
+  //  show centring
   lcd.clear();
   lcd.center(0, "1234567890");
   lcd.center(1, "123456789");

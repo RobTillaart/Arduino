@@ -6,11 +6,6 @@
 //  this example only works on boards that support Wire1
 //  ESP32, RP2040, teensy
 
-//  WARNING: do not overfeed your display with too much data
-//           too fast as it may not be able to handle 
-//           (mine got corrupted)
-
-
 
 #include "Arduino.h"
 #include "Wire.h"

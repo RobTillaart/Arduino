@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-01-02
+- Fix #6, clean up code
+- rewrote the bitsInOrder optimization
+- optimized send() a bit.
+- add clear() measurement to performance sketch.
+- update readme.md
+- minor edits 
+
+----
+
 ## [0.1.4] - 2023-12-28
 - changed return type of **begin()**. Returns false if LCD not found on I2C bus.
 - made initialization delay(100) in **begin()** a bit smarter.
@@ -13,7 +23,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix **center()** for non 20x4 LCD.
 - add **I2C_LCD_custom_chars.h** with examples.
 - add examples
-
 
 ## [0.1.3] - 2023-12-22
 - add support for **16x4** and **10x4** display.

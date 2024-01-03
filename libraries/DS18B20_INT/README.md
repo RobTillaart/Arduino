@@ -65,7 +65,7 @@ or  -127 = DEVICE_DISCONNECTED
 #### CentiC part
 
 The following functions are experimental since 0.2.0 and not tested a lot by me.
-They allow to use a higher resolution while not using floats. 
+They allow to use a higher resolution while **not using floats**. 
 Goal is to keep the footprint of the library small.
 
 - **bool setResolution(uint8_t resolution = 9)** sets the internal resolution to 9, 10, 11 or 12 bits. 
@@ -148,7 +148,7 @@ Measured with DS18B20_performance.ino
 ## Credits
 
 Miles Burton who originally developed the Arduino Temperature Control Library.
-and all people who contributed to that lib.
+and all people who contributed to that library.
 
 
 ## Future

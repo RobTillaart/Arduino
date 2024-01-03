@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2024-01-03
+- fix examples
+- minor edits
+
+
 ## [0.3.1] - 2023-10-19
 - update readme.md
-
 
 ## [0.3.0] - 2023-03-05
 - fix #15 infinite loop

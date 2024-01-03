@@ -5,8 +5,7 @@
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 
 
-#include <OneWire.h>
-#include <DS18B20_INT.h>
+#include "DS18B20_INT.h"
 
 
 #define ONE_WIRE_BUS          2
@@ -15,6 +14,7 @@ OneWire     oneWire(ONE_WIRE_BUS);
 DS18B20_INT sensor(&oneWire);
 
 DeviceAddress da;
+
 
 uint32_t start, stop;
 
@@ -105,4 +105,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

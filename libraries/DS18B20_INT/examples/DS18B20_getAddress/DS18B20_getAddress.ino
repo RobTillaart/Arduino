@@ -4,8 +4,8 @@
 // PURPOSE: DS18B20 lib getAddress demo
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 
-#include <OneWire.h>
-#include <DS18B20_INT.h>
+
+#include "DS18B20_INT.h"
 
 
 #define ONE_WIRE_BUS          2
@@ -52,5 +52,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

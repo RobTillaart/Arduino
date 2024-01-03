@@ -27,25 +27,7 @@ const int startPin = 2;
 const int endPin = 20;
 
 
-#include <OneWire.h>
-
-
-void setup()
-{
-  Serial.begin(115200);
-  Serial.println("//\n// Start oneWireSearch.ino \n//");
-
-  for (uint8_t pin = startPin; pin < endPin; pin++)
-  {
-    findDevices(pin);
-  }
-  Serial.println("\n//\n// End oneWireSearch.ino \n//");
-}
-
-
-void loop()
-{
-}
+#include "OneWire.h"
 
 
 uint8_t findDevices(int pin)
@@ -92,5 +74,25 @@ uint8_t findDevices(int pin)
 }
 
 
-// -- END OF FILE --
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println("//\n// Start oneWireSearch.ino \n//");
+
+  for (uint8_t pin = startPin; pin < endPin; pin++)
+  {
+    findDevices(pin);
+  }
+  Serial.println("\n//\n// End oneWireSearch.ino \n//");
+}
+
+
+void loop()
+{
+}
+
+
+
+//  -- END OF FILE --
 

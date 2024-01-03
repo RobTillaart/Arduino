@@ -1,10 +1,10 @@
 #pragma once
 //
 //    FILE: DS18B20.h
-//  AUTHOR: Rob.Tillaart@gmail.com
-// VERSION: 0.2.1
+//  AUTHOR: Rob.Tillaart
+// VERSION: 0.2.2
 //    DATE: 2017-07-25
-// PUPROSE: library for DS18B20 temperature sensor with minimal footprint
+// PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 //
@@ -19,9 +19,10 @@
 //
 
 
-#define DS18B20_LIB_VERSION     (F("0.2.1"))
+#include "OneWire.h"
 
-#include <OneWire.h>
+
+#define DS18B20_LIB_VERSION     (F("0.2.2"))
 
 //  Error Code
 #define DEVICE_DISCONNECTED     -127

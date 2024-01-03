@@ -5,8 +5,8 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
+
 
 #define ONE_WIRE_BUS            2
 

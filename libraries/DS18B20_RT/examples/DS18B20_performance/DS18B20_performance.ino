@@ -6,8 +6,7 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
 
 #define ONE_WIRE_BUS 2
 
@@ -15,6 +14,21 @@ OneWire oneWire(ONE_WIRE_BUS);
 DS18B20 sensor(&oneWire);
 
 uint32_t start, stop;
+
+
+uint32_t run(int runs)
+{
+  float t;
+  start = millis();
+  for (int i = 0; i < runs; i++)
+  {
+    sensor.requestTemperatures();
+    while (!sensor.isConversionComplete());
+    t = sensor.getTempC();
+  }
+  stop = millis();
+  return stop - start;
+}
 
 
 void setup()
@@ -55,20 +69,5 @@ void loop()
 }
 
 
-uint32_t run(int runs)
-{
-  float t;
-  start = millis();
-  for (int i = 0; i < runs; i++)
-  {
-    sensor.requestTemperatures();
-    while (!sensor.isConversionComplete());
-    t = sensor.getTempC();
-  }
-  stop = millis();
-  return stop - start;
-}
-
-
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -5,8 +5,8 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
+
 
 #define ONE_WIRE_BUS            2
 
@@ -58,12 +58,14 @@ void loop()
     Serial.print("\t");
     Serial.print(stop - start);
     Serial.print("\t");
-    Serial.println(temperature, 1); // 1 decimal makes perfect sense
+    //  1 decimal makes perfect sense
+    Serial.println(temperature, 1); 
   }
   Serial.println();
+
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -5,8 +5,7 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
 
 #define ONE_WIRE_BUS            2
 
@@ -40,8 +39,8 @@ void setup()
   Serial.print("Address: ");
   for (uint8_t i = 0; i < 8; i++)
   {
-	  if (da[i] < 0x10) Serial.print('0');
-	  Serial.print(da[i], HEX);
+    if (da[i] < 0x10) Serial.print('0');
+    Serial.print(da[i], HEX);
   }
   Serial.println();
 }
@@ -51,5 +50,6 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

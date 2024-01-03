@@ -5,8 +5,8 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
+
 
 #define ONE_WIRE_BUS              2
 
@@ -29,13 +29,17 @@ void loop(void)
 {
   sensor.requestTemperatures();
 
-  while (!sensor.isConversionComplete());  // wait until sensor is ready
+  //  wait until sensor is ready
+  while (!sensor.isConversionComplete())
+  {
+    delay(1);
+  }
 
   Serial.print("Temp: ");
   Serial.println(sensor.getTempC());
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 
 

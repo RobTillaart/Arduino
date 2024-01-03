@@ -10,8 +10,8 @@
 //          but it is fast and maybe accurate enough...
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
+
 
 #define ONE_WIRE_BUS 2
 
@@ -35,4 +35,4 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

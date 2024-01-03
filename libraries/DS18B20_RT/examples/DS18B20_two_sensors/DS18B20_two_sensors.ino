@@ -5,10 +5,10 @@
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
-#include <OneWire.h>
-#include <DS18B20.h>
+#include "DS18B20.h"
 
-// numbers chosen to match pin numbers..
+
+//  numbers chosen to match pin numbers.
 #define ONE_WIRE_BUS2               2
 #define ONE_WIRE_BUS3               3
 
@@ -29,7 +29,7 @@ void setup(void)
   inside.begin();
   outside.begin();
 
-  // different resolution shows nicely the async behavior
+  //  different resolution shows nicely the async behavior
   inside.setResolution(12);
   outside.setResolution(10);
 
@@ -40,7 +40,7 @@ void setup(void)
 
 void loop(void)
 {
-  // print the temperature when available and request a new reading
+  //  print the temperature when available and request a new reading
   if (inside.isConversionComplete())
   {
     Serial.print("inside:\t");
@@ -56,5 +56,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

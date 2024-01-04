@@ -1,0 +1,23 @@
+{
+  "name": "Logistic",
+  "keywords": "chaos, bifurcation",
+  "description": "Arduino library to explore the logistic formula. (chaos, bifurcation).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Logistic.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "Logistic.h"
+}

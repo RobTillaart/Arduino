@@ -1,12 +1,13 @@
 //
 //    FILE: hist_test_pmf.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 //    DATE: 2012-11-10
-// PUPROSE: test histogram library
+// PURPOSE: test histogram library
+//     URL: https://github.com/RobTillaart/Histogram
 
 
 #include "histogram.h"
+
 
 float b[] = { 
   0, 50, 100, 150, 200, 250, 
@@ -19,9 +20,10 @@ Histogram hist(16, b);
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("\ntest PMF");
-  Serial.print("Histogram version: ");
+  Serial.println(__FILE__);
+  Serial.print("HISTOGRAM_LIB_VERSION: ");
   Serial.println(HISTOGRAM_LIB_VERSION);
+  Serial.println();
 }
 
 
@@ -39,11 +41,14 @@ void loop()
   }
   Serial.println();
 
-  if (hist.count() > 1000) hist.clear();
+  if (hist.count() > 1000)
+  {
+    hist.clear();
+  }
 
   delay(10);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2024-01-03
+- add **float saturation()**
+- fix examples
+- minor edits
+
+
 ## [0.3.5] - 2023-11-04
 - update readme.md
 - minor fix in changelog.md
 - update keywords.txt
-
 
 ## [0.3.4] - 2023-06-30
 - change return type **uint8_t clear()**, return status bucket

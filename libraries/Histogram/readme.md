@@ -102,7 +102,7 @@ Length should be less than 65534.
 - **~Histogram16()** destructor.
 
 
-#### maxBucket
+#### MaxBucket
 
 Default the maxBucket size is defined as 255 (8 bit), 65535 (16 bit) or
 2147483647 (32 bit) depending on class used.
@@ -188,6 +188,18 @@ Note **PDF()** is a continuous function and therefore not applicable in a discre
 - https://en.wikipedia.org/wiki/Probability_mass_function  PMF()
 - https://en.wikipedia.org/wiki/Cumulative_distribution_function CDF() + VAL()
 - https://en.wikipedia.org/wiki/Probability_density_function  PDF()
+
+
+#### Experimental
+
+An additional helper function.
+
+- **float saturation()** returns the **count()** / nr of bins.
+Is an indicator of how "filled" the histogram is.
+
+Might need to calculate the average level.
+
+Note: **findMax()** gives an indication for the topmost individual bucket.
 
 
 ## Future

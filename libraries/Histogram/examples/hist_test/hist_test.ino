@@ -2,29 +2,32 @@
 //    FILE: hist_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-23
-// PUPROSE: test histogram frequency
+// PURPOSE: test histogram frequency
+//     URL: https://github.com/RobTillaart/Histogram
 
 
 #include "histogram.h"
 
-// float b[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
 
-// boundaries does not need to be equally distributed.
+//  float b[] = { 0, 100, 200, 300, 325, 350, 375, 400, 500, 600, 700, 800, 900, 1000 };
+
+//  boundaries does not need to be equally distributed.
 float b[] = {
   0, 100, 200, 300, 325, 350, 375 };
 
 Histogram hist(7, b);
 
 uint32_t lastTime = 0;
-const uint32_t threshold = 25;  // milliseconds, for updating display
+const uint32_t threshold = 25;  //  in milliseconds, for updating display
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("\nHistogram version: ");
+  Serial.print("HISTOGRAM_LIB_VERSION: ");
   Serial.println(HISTOGRAM_LIB_VERSION);
+  Serial.println();
 
   Serial.print("# buckets: ");
   Serial.println(hist.size());
@@ -47,8 +50,8 @@ void setup()
 
 void loop()
 {
-  // choose a "generator" for histogram data
-  // int x = analogRead(A0);
+  //  choose a "generator" for histogram data
+  //  int x = analogRead(A0);
 
   int x = random(600) - 50;  // below lower limit
 
@@ -76,15 +79,15 @@ void loop()
     for (uint16_t i = 0; i < hist.size(); i++)
     {
       Serial.print("\t");
-      // gives percentage per bucket
-      // Serial.print(hist.bucket(i));
+      //  gives percentage per bucket
+      //  Serial.print(hist.bucket(i));
       Serial.print(hist.frequency(i), 2);
     }
-    // quartiles
-    // to get at least 25% of the values you must count all values < hist.VAL(0.25);
+    //  quartiles
+    //  to get at least 25% of the values you must count all values < hist.VAL(0.25);
     Serial.print("\t");
     Serial.print(hist.VAL(0.25), 2);
-    // to get at least 50% of the values you must count all values < hist.VAL(0.50);
+    //  to get at least 50% of the values you must count all values < hist.VAL(0.50);
     Serial.print("\t");
     Serial.print(hist.VAL(0.50), 2);
     Serial.print("\t");
@@ -98,4 +101,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

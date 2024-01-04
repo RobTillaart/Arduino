@@ -1,9 +1,10 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
-// PURPOSE: Histogram library for Arduino
 //    DATE: 2012-11-10
+// VERSION: 0.3.6
+// PURPOSE: Histogram library for Arduino
+//     URL: https://github.com/RobTillaart/Histogram
 
 
 #include "histogram.h"
@@ -208,8 +209,8 @@ int32_t Histogram::sum()
 }
 
 
-// returns the bucket number for value
-// - binary search, more memory ;  faster for #buckets > 20 ?
+//  returns the bucket number for value
+//  - binary search, more memory ;  faster for #buckets > 20 ?
 // uint16_t Histogram::find(const float value)
 // {
   // if (_length <= 0) return -1;
@@ -325,6 +326,18 @@ uint16_t Histogram::countBelow(const int32_t level)
     if (_data[n] < level) buckets++;
   }
   return buckets;
+}
+
+
+
+///////////////////////////////////////////////////
+//
+//  experimental
+//
+//  use with care
+float Histogram::saturation()
+{
+  return (1.0 * _count) / _length;
 }
 
 

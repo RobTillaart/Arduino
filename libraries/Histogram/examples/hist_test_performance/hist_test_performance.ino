@@ -2,18 +2,21 @@
 //    FILE: hist_test_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-02-21
-// PUPROSE: test histogram
+// PURPOSE: test histogram library
+//     URL: https://github.com/RobTillaart/Histogram
 
 
 #include "histogram.h"
 
-// boundaries does not need to be equally distributed.
+
+//  boundaries does not need to be equally distributed.
 float b[100];
 
 Histogram hist(100, b);
 
+
 uint32_t lastTime = 0;
-const uint32_t threshold = 25;  // milliseconds, for updating display
+const uint32_t threshold = 25;  //  in milliseconds, for updating display
 
 uint32_t start, stop;
 volatile int x;
@@ -23,9 +26,8 @@ float y;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("\nHistogram version: ");
+  Serial.print("HISTOGRAM_LIB_VERSION: ");
   Serial.println(HISTOGRAM_LIB_VERSION);
   Serial.println();
 

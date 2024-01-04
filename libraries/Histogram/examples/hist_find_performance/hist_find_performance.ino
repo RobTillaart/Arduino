@@ -2,7 +2,8 @@
 //    FILE: hist_find_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-11-03
-// PUPROSE: indication histogram find performance 
+// PURPOSE: indication histogram find performance
+//     URL: https://github.com/RobTillaart/Histogram
 
 
 #include "histogram.h"
@@ -19,10 +20,11 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("\nHistogram version: ");
+  Serial.print("HISTOGRAM_LIB_VERSION: ");
   Serial.println(HISTOGRAM_LIB_VERSION);
+  Serial.println();
 
-  // fill boundary array
+  //  fill boundary array
   for (int i = 0; i < 100; i++) b[i] = i * 10.0;
 
   Serial.print("# buckets: ");
@@ -77,5 +79,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

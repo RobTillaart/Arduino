@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2024-01-03
+- fix examples
+- minor edits
+
+
 ## [0.2.0] - 2023-12-04
 - refactor API, remove ESP32 specific code
 - update readme.md

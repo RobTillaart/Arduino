@@ -1,7 +1,8 @@
 //
 //    FILE: LTC2991_internal_temp_volt.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: demo monitoring Tinternal and VCC
+// PURPOSE: demo monitoring Tinternal and VCC
+//     URL: https://github.com/RobTillaart/LTC2991
 
 
 #include "Wire.h"
@@ -14,8 +15,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("LTC2991_LIB_VERSION:\t");
+  Serial.print("LTC2991_LIB_VERSION: ");
   Serial.println(LTC2991_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -29,7 +31,7 @@ void setup()
   LTC.enable_Tintern_Vcc(true);
   LTC.set_Kelvin_Tintern();
 
-  // to get multiple readings in loop()
+  //  to get multiple readings in loop()
   LTC.set_acquisition_repeat();
 }
 

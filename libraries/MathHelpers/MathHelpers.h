@@ -1,16 +1,17 @@
+#pragma once
 //
 //    FILE: MathHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.1.1
+// VERSION: 0.1.2
+// PURPOSE: misc functions for math and time
 //
+//  replaced by printHelpers and datetimeHelpers.h
 //
-// PUPROSE: misc functions for math and time
-//
-#ifndef MATHHELPERS
-#define MATHHELPERS
+//  0.1.2 - 2024-01-04 minor refactor
 
-#define MATHHELPERS_VERSION (F("0.1.1"))
+
+#define MATHHELPERS_VERSION (F("0.1.2"))
 
 // global buffer used by all functions
 // so we do not need a static buffer in every function
@@ -129,7 +130,6 @@ void sci(Stream &str, float f, uint8_t digits)
 }
 
 
-
 //////////////////////////////////////////////////
 //
 // TIME HELPERS
@@ -163,6 +163,7 @@ char * seconds2clock(uint32_t seconds, bool displaySeconds=false)
   
   return __mathHelperBuffer;
 }
+
 
 char * millis2clock(uint32_t millis)
 {
@@ -204,6 +205,7 @@ float minutes(uint32_t seconds)
   return seconds * 1.666666666667e-2;  //  /60
 }
 
+
 //////////////////////////////////////////////////
 //
 // HEX BIN HELPERS
@@ -239,9 +241,6 @@ char * bin(uint32_t value, uint8_t d = 8)
 	return __mathHelperBuffer;
 }
 
-  
 
+// -- END OF FILE -- 
 
-#endif  // MATHHELPERS
-
-// END OF FILE

@@ -3,7 +3,7 @@
 //    FILE: PCA9553.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PUPROSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9553_LIB_VERSION         (F("0.4.0"))
+#define PCA9553_LIB_VERSION         (F("0.4.1"))
 
 
 //  REGISTERS

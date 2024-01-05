@@ -5,8 +5,6 @@
 //     URL: https://github.com/RobTillaart/PCA9553
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9553.h"
 
 

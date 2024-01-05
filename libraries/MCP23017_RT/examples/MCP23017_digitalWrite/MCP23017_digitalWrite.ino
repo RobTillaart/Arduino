@@ -2,11 +2,11 @@
 //    FILE: MCP23017_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-14
-// PUPROSE: test MCP23017 library
+// PURPOSE: test MCP23017 library
+//     URL: https://github.com/RobTillaart/MCP23017_RT
 
 
 #include "MCP23017.h"
-#include "Wire.h"
 
 
 MCP23017 MCP(0x27);

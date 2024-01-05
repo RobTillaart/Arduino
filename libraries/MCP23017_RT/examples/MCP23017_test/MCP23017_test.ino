@@ -2,11 +2,11 @@
 //    FILE: MCP23017_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-06-28
-// PUPROSE: test MCP23017 library
+// PURPOSE: test MCP23017 library
+//     URL: https://github.com/RobTillaart/MCP23017_RT
 
 
 #include "MCP23017.h"
-#include "Wire.h"
 
 
 MCP23017 MCP(0x27);
@@ -25,7 +25,7 @@ void setup()
   bool b = MCP.begin();
   Serial.println(b ? "true" : "false");
 
-  MCP.pinMode8(0, 0x00);  // 0 = output , 1 = input
+  MCP.pinMode8(0, 0x00);  //  0 = output , 1 = input
   MCP.pinMode8(1, 0x00);
 
 

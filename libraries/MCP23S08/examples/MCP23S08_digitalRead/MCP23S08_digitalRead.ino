@@ -2,11 +2,11 @@
 //    FILE: MCP23S08_digitalRead.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-12-30
-// PUPROSE: test MCP23017 library
+// PURPOSE: test MCP23S08 library
+//     URL: https://github.com/RobTillaart/MCP23S08
 
 
 #include "MCP23S08.h"
-#include "SPI.h"
 
 
 MCP23S08 MCP(10);
@@ -26,7 +26,7 @@ void setup()
   rv = MCP.begin();
   Serial.println(rv);
 
-  rv = MCP.pinMode8(0xFF);   // CHECK
+  rv = MCP.pinMode8(0xFF);   //  CHECK
   Serial.println(rv);
 
 

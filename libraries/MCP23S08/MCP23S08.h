@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S08.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -13,7 +13,7 @@
 #include "MCP23S08_registers.h"
 
 
-#define MCP23S08_LIB_VERSION              (F("0.4.0"))
+#define MCP23S08_LIB_VERSION              (F("0.4.1"))
 
 //  ERROR CODES
 #define MCP23S08_OK                       0x00

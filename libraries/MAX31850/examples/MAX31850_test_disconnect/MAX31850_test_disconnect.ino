@@ -2,6 +2,7 @@
 //    FILE: MAX31850_test_disconnect.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Minimal MAX31850 lib with async support.
+//     URL: https://github.com/RobTillaart/MAX31850
 
 
 #include "OneWire.h"

@@ -2,13 +2,14 @@
 //    FILE: MAX31850_two_sensors.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo with two sensors (on two pins)
+//     URL: https://github.com/RobTillaart/MAX31850
 
 
 #include "OneWire.h"
 #include "MAX31850.h"
 
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS    2
 
 
 OneWire oneWire(ONE_WIRE_BUS);

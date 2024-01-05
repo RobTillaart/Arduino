@@ -2,13 +2,14 @@
 //    FILE: MAX31850_getAddress.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: MAX31850 lib getAddress demo
+//     URL: https://github.com/RobTillaart/MAX31850
 
 
 #include "OneWire.h"
 #include "MAX31850.h"
 
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS    2
 
 
 OneWire oneWire(ONE_WIRE_BUS);

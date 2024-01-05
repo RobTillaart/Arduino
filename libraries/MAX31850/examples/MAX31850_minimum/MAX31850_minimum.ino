@@ -2,13 +2,14 @@
 //    FILE: MAX31850_minimum.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal sketch
+//     URL: https://github.com/RobTillaart/MAX31850
 
 
 #include "OneWire.h"
 #include "MAX31850.h"
 
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS    2
 
 
 OneWire oneWire(ONE_WIRE_BUS);
@@ -43,5 +44,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

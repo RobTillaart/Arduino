@@ -1,9 +1,10 @@
 //
 //    FILE: MAX31850.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-06-03
-// PUPROSE: Arduino library for the MAX31850 thermocouple temperature sensor.
+// PURPOSE: Arduino library for the MAX31850 thermocouple temperature sensor.
+//     URL: https://github.com/RobTillaart/MAX31850
 
 
 #include "MAX31850.h"

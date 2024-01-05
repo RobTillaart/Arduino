@@ -161,7 +161,7 @@ The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of TC t
 
 - investigate different thermocouples
 - test with different platforms
-- has the 31851 special features to implement?
+- has the MAX31851 special features to implement?
 
 
 #### could

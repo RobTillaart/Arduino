@@ -69,6 +69,7 @@ More functionality will be added on a need to basis.
 #### Could
 
 - Create examples.
+- investigate SoftWare Serial support
 
 #### Wont
 

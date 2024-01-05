@@ -1,16 +1,16 @@
 //
 //    FILE: optoma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2017-11-27
-// PUPROSE: Arduino library to control Optoma W305ST beamer over RS232.
+// PURPOSE: Arduino library to control Optoma W305ST beamer over RS232.
 //     URL: https://github.com/RobTillaart/optoma
 
 
 #include "optoma.h"
 
 
-Optoma::Optoma(HardwareSerial* stream)
+Optoma::Optoma(HardwareSerial * stream)
 {
   _stream   = stream;
   _ID       = 0;

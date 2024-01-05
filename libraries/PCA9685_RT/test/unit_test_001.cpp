@@ -49,7 +49,7 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  fprintf(stderr, "\nregisterss");
+  fprintf(stderr, "\n registers");
   assertEqual(PCA9685_MODE1         , 0x00);
   assertEqual(PCA9685_MODE2         , 0x01);
   assertEqual(PCA9685_ALLCALLADR    , 0x05);
@@ -64,7 +64,7 @@ unittest(test_constants)
   assertEqual(PCA9685_TESTMODE      , 0xFF);
 
 
-  fprintf(stderr, "\nerrorcodes");
+  fprintf(stderr, "\n error codes");
   assertEqual(PCA9685_OK         , 0x00);
   assertEqual(PCA9685_ERROR      , 0xFF);
   assertEqual(PCA9685_ERR_CHANNEL, 0xFE);

@@ -5,8 +5,6 @@
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9685.h"
 
 
@@ -16,6 +14,7 @@ PCA9685 ledArray(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println(__FILE__);
   Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();

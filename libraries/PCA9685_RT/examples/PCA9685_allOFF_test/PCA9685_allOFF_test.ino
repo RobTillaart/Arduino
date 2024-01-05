@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9685_allOFF_test.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test PCA9685 library
+// PURPOSE: test PCA9685 library
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 //
 //  sets all channels to a PWM
@@ -20,7 +20,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCA9685 LIB version: ");
+  Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 

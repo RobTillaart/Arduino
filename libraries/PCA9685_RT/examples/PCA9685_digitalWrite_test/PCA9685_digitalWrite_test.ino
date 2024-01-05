@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9685_digitalWrite_test.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test PCA9685 library
+// PURPOSE: test PCA9685 library
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 //
 //  sets one channel to max PWM 0..4095
@@ -9,8 +9,6 @@
 //  to see the frequency of the PWM
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9685.h"
 
 
@@ -25,7 +23,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCA9685 LIB version: ");
+  Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 
@@ -54,7 +52,7 @@ void loop()
   if (now - lastTime >= 1000)
   {
     lastTime = now;
-    // make a copy
+    //  make a copy
     noInterrupts();
     uint16_t t = count;
     count = 0;

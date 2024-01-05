@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9685_setFrequency_offset.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test PCA9685 library
+// PURPOSE: test PCA9685 library
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 //
 //  This sketch is to determine the offset needed to get te best matching
@@ -14,8 +14,6 @@
 //  Note: the higher the frequency, the more inaccurate the real frequency,
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9685.h"
 
 
@@ -35,7 +33,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCA9685 LIB version: ");
+  Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);
   Serial.println();
 

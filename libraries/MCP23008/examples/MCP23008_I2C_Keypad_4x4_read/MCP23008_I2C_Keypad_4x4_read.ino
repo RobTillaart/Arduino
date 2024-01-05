@@ -3,20 +3,20 @@
 //  AUTHOR: François Longchamp
 //    DATE: 2022-09-27
 // PURPOSE: Keypad MCP23008 library
+//     URL: https://github.com/RobTillaart/MCP23008
 //
 // Tested with Seeed Studio XIAO RP2040
 // Keypad used https://fr.aliexpress.com/item/1005003176287473.html
 
 
 #include "MCP23008.h"
-#include "Wire.h"
 
 
 MCP23008 MCP(0x20);
 
 
-const byte ROWS_OF_KEYPAD = 4; //four rows
-const byte COLS_OF_KEYPAD = 4; //four columns
+const byte ROWS_OF_KEYPAD = 4;  //  four rows
+const byte COLS_OF_KEYPAD = 4;  //  four columns
 
 byte keys_of_keypad[ROWS_OF_KEYPAD][COLS_OF_KEYPAD] = {
   {1, 2, 3, 4},
@@ -90,3 +90,7 @@ void loop()
   Serial.println("");
   delay(500);
 }
+
+
+//  -- END OF FILE -- 
+

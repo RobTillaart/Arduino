@@ -2,11 +2,11 @@
 //    FILE: MCP23008_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-14
-// PUPROSE: test MCP23008 library
+// PURPOSE: test MCP23008 library
+//     URL: https://github.com/RobTillaart/MCP23008
 
 
 #include "MCP23008.h"
-#include "Wire.h"
 
 
 MCP23008 MCP(0x27);

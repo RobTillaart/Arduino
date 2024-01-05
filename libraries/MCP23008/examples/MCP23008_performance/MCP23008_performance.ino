@@ -3,10 +3,11 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-09
 // PURPOSE: test MCP23008 library
+//     URL: https://github.com/RobTillaart/MCP23008
 
 
 #include "MCP23008.h"
-#include "Wire.h"
+
 
 MCP23008 MCP(0x27);
 

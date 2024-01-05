@@ -1,10 +1,12 @@
 //
 //    FILE: ra_two_step.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: demo two stage statistics.
+// PURPOSE: demo two stage statistics.
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage raHours(24);   //  holds hourly measurements
 RunningAverage raDays(14);    //  holds min and max of the last seven days.

@@ -2,10 +2,12 @@
 //    FILE: ra_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-04-16
-// PUPROSE: timing of runningAverage
+// PURPOSE: timing of runningAverage
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(50);
 int samples = 0;

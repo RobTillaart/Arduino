@@ -2,10 +2,12 @@
 //    FILE: ra_300.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-26
-// PUPROSE: demonstrate large (16 bit) buffer
+// PURPOSE: demonstrate large (16 bit) buffer
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(300);
 int samples = 0;

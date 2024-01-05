@@ -2,10 +2,12 @@
 //    FILE: ra_test.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
-// PUPROSE: show working of runningAverage
+// PURPOSE: show working of runningAverage
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(10);
 int samples = 0;

@@ -2,10 +2,12 @@
 //    FILE: ra_MinMaxBufferTest.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2015-09-04
-// PUPROSE: demo
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(10);
 int samples = 0;

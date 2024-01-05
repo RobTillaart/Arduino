@@ -2,10 +2,12 @@
 //    FILE: fillValue.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-12-30
-// PUPROSE: demo + timing of fillValue
+// PURPOSE: demo + timing of fillValue
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(10);
 int samples = 0;

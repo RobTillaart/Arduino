@@ -2,16 +2,19 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
+//
+//  The library stores N individual values in a circular buffer,
+//  to calculate the running average.
 
 
 #include "Arduino.h"
 
 
-#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.4"))
+#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.5"))
 
 
 class RunningAverage

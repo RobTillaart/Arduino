@@ -2,10 +2,12 @@
 //    FILE: ra_partial.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-26
-// PUPROSE: demonstrate partial use of internal buffer
+// PURPOSE: demonstrate partial use of internal buffer
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(25);
 int samples = 0;

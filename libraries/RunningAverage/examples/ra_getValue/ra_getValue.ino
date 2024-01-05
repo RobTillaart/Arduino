@@ -2,10 +2,12 @@
 //    FILE: ra_getValue.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-01-15
-// PUPROSE: demonstrate access in order of the values added
+// PURPOSE: demonstrate access in order of the values added
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(10);
 int samples = 0;

@@ -2,10 +2,12 @@
 //    FILE: ra_two_sensors.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-06
-// PUPROSE: show working of runningAverage for two sensors
+// PURPOSE: show working of runningAverage for two sensors
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage RAT(10);
 RunningAverage RAH(10);

@@ -2,10 +2,12 @@
 //    FILE: runningAverageMinMaxTest.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2015-apr-10
-// PUPROSE: demo
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/RunningAverage
 
 
 #include "RunningAverage.h"
+
 
 RunningAverage myRA(10);
 int samples = 0;

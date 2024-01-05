@@ -222,11 +222,6 @@ interface as parameter.
 If the pin is set to AS5600_SW_DIRECTION_PIN, the default value, 
 there will be software direction control instead of hardware control.
 See below.
-- **bool begin(int dataPin, int clockPin, uint8_t directionPin = AS5600_SW_DIRECTION_PIN)** idem, 
-for the ESP32 where one can choose the I2C pins.
-If the pin is set to AS5600_SW_DIRECTION_PIN, the default value, there will be software 
-direction control instead of hardware control.
-See below.
 - **bool isConnected()** checks if the address 0x36 (AS5600) is on the I2C bus.
 - **uint8_t getAddress()** returns the fixed device address 0x36 (AS5600).
 
@@ -281,6 +276,7 @@ Returns false if parameter is out of range.
 
 
 The library has functions to address these fields directly.
+
 The setters() returns false if parameter is out of range.
 
 - **bool setPowerMode(uint8_t powerMode)** 
@@ -311,19 +307,42 @@ Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625
 or use AS5600_RAW_TO_RADIANS if needed.
 The value of this register can be affected by the configuration bits above.
 This is the one most used. 
-- **void setOffset(float degrees)** sets an offset in degrees,
-e.g. to calibrate the sensor after mounting.
+- **bool setOffset(float degrees)** overwrites the **existing** offset.
+It sets an offset in degrees, e.g. to calibrate the sensor after mounting.
 Typical values are -359.99 - 359.99 probably smaller. 
 Larger values will be mapped back to this interval.
 Be aware that larger values will affect / decrease the precision of the 
 measurements as floats have only 7 significant digits.
 Verify this for your application.
+Returns false if **degrees** > 360000.
 - **float getOffset()** returns offset in degrees.
+- **bool increaseOffset(float degrees)** adds degrees to the **existing** offset. 
+If **setOffset(20)** is called first and **increaseOffset(-30)** thereafter the
+new offset is -10 degrees.
+Returns false if **degrees** > 360000.
 
 In issue #14 there is a discussion about **setOffset()**.
 A possible implementation is to ignore all values outside the
 -359.99 - 359.99 range.
 This would help to keep the precision high. User responsibility.
+
+In #51 increaseOffset is discussed.
+
+```cpp
+//  offset == 0;
+as.setOffset(20);
+//  offset == 20;
+as.setOffset(-30);
+//  offset = -30;
+
+//  versus
+
+//  offset == 0;
+as.setOffset(20);
+//  offset == 20;
+as.increaseOffset(-30);
+//  offset = -10;
+```
 
 
 #### Angular Speed

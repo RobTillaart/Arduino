@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.5.0"))
+#define AS5600_LIB_VERSION              (F("0.5.1"))
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
@@ -180,8 +180,9 @@ public:
   //  degrees = -359.99 .. 359.99 (preferred)
   //  returns false if abs(parameter) > 36000
   //          => expect loss of precision
-  bool     setOffset(float degrees);
+  bool     setOffset(float degrees);       //  sets an absolute offset
   float    getOffset();
+  bool     increaseOffset(float degrees);  //  adds to existing offset.
 
 
   //  READ STATUS REGISTERS

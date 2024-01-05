@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -347,6 +347,13 @@ bool AS5600::setOffset(float degrees)
 float AS5600::getOffset()
 {
   return _offset * AS5600_RAW_TO_DEGREES;
+}
+
+
+bool AS5600::increaseOffset(float degrees)
+{
+  //  add offset to existing offset in degrees.
+  return setOffset((_offset * AS5600_RAW_TO_DEGREES) + degrees);
 }
 
 

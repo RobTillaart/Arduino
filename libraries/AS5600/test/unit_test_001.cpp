@@ -182,7 +182,7 @@ unittest(test_software_direction)
 }
 
 
-unittest(test_offset)
+unittest(test_offset_I)
 {
   AS5600 as5600;
 
@@ -207,6 +207,48 @@ unittest(test_offset)
 
   assertFalse(as5600.setOffset(36000.1));
   assertFalse(as5600.setOffset(-36000.1));
+}
+
+
+unittest(test_offset_II)
+{
+  AS5600 as5600;
+
+  Wire.begin();
+
+  as5600.begin();
+
+  as5600.setOffset(200);
+  assertEqualFloat(200, as5600.getOffset(), 0.05);
+
+  as5600.setOffset(30);
+  assertEqualFloat(30, as5600.getOffset(), 0.05);
+
+  as5600.setOffset(200);
+  assertEqualFloat(200, as5600.getOffset(), 0.05);
+
+  as5600.setOffset(-30);
+  assertEqualFloat(330, as5600.getOffset(), 0.05);
+
+
+  //  as cummulative error can be larger ==> 0.1 
+  as5600.setOffset(200);
+  assertEqualFloat(200, as5600.getOffset(), 0.1);
+
+  as5600.increaseOffset(30);
+  assertEqualFloat(230, as5600.getOffset(), 0.1);
+
+  as5600.setOffset(200);
+  assertEqualFloat(200, as5600.getOffset(), 0.1);
+
+  as5600.increaseOffset(-30);
+  assertEqualFloat(170, as5600.getOffset(), 0.1);
+
+  as5600.setOffset(200);
+  assertEqualFloat(200, as5600.getOffset(), 0.1);
+
+  as5600.increaseOffset(-300);
+  assertEqualFloat(260, as5600.getOffset(), 0.1);
 }
 
 

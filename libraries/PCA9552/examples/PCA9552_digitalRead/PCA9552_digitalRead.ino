@@ -9,8 +9,6 @@
 //  to read LOW/HIGH values
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9552.h"
 
 

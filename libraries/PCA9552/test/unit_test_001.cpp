@@ -48,7 +48,7 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  fprintf(stderr, "\nregisters");
+  fprintf(stderr, "\n registers");
   assertEqual(PCA9552_INPUT0     , 0x00);
   assertEqual(PCA9552_INPUT1     , 0x01);
   assertEqual(PCA9552_PSC0       , 0x02);
@@ -60,13 +60,13 @@ unittest(test_constants)
   assertEqual(PCA9552_LS2        , 0x08);
   assertEqual(PCA9552_LS3        , 0x09);
 
-  fprintf(stderr, "\noutput modi");
+  fprintf(stderr, "\n output modi");
   assertEqual(PCA9552_MODE_LOW   , 0x00);
   assertEqual(PCA9552_MODE_HIGH  , 0x01);
   assertEqual(PCA9552_MODE_PWM0  , 0x02);
   assertEqual(PCA9552_MODE_PWM1  , 0x03);
 
-  fprintf(stderr, "\nerrorcodes");
+  fprintf(stderr, "\n error codes");
   assertEqual(PCA9552_OK         , 0x00);
   assertEqual(PCA9552_ERROR      , 0xFF);
   assertEqual(PCA9552_ERR_WRITE  , 0xFE);

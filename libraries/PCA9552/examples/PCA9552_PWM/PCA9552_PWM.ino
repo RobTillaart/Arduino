@@ -9,8 +9,6 @@
 //  See datasheet
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9552.h"
 
 

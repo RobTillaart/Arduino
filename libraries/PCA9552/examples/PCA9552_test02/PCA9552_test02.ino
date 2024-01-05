@@ -6,8 +6,6 @@
 //     URL: https://github.com/RobTillaart/PCA9552
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9552.h"
 
 

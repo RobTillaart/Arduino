@@ -2,7 +2,7 @@
 //    FILE: PCA9552.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-17
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for for I2C PCA9552 16 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9552
 

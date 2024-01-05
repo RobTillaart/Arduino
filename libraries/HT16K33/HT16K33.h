@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,10 +13,10 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.4.0"))
+#define HT16K33_LIB_VERSION         (F("0.4.1"))
 
 
-//  Characters
+//  Supported characters
 #define HT16K33_0                0
 #define HT16K33_1                1
 #define HT16K33_2                2
@@ -38,6 +38,27 @@
 #define HT16K33_TOP_C            18     //  c
 #define HT16K33_DEGREE           19     //  °
 #define HT16K33_NONE             99
+
+
+//  Raw segments, See #28
+//
+//  HEX codes 7 segment
+//
+//     A               0x01
+//  F     B        0x20    0x02
+//     G               0x40
+//  E     C        0x10    0x04
+//     D    dp         0x08      0x80
+//
+const uint8_t SEG_NONE = 0x00;
+const uint8_t SEG_A    = 0x01;
+const uint8_t SEG_B    = 0x02;
+const uint8_t SEG_C    = 0x04;
+const uint8_t SEG_D    = 0x08;
+const uint8_t SEG_E    = 0x10;
+const uint8_t SEG_F    = 0x20;
+const uint8_t SEG_G    = 0x40;
+const uint8_t SEG_DP   = 0x80;
 
 
 class HT16K33

@@ -34,7 +34,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-## Perfomance 
+## Performance 
 
 Version 0.3.0 allows one to switch the caching on/off to enforce
 writing all positions e.g. in case of noisy I2C bus. 
@@ -71,7 +71,6 @@ get leading/trailing zero's correctly.
 #include "HT16K33.h"
 ```
 
-
 #### Setup behaviour
 
 - **HT16K33(const uint8_t address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
@@ -79,7 +78,6 @@ get leading/trailing zero's correctly.
 Returns false if address not seen on I2C bus.
 - **bool isConnected()** Returns false if address not seen on I2C bus.
 - **void reset()** resets display.
-
 
 #### Cache
 
@@ -96,8 +94,6 @@ Returns false if address not seen on I2C bus.
 - **void setBlink(uint8_t value)** values 0..3   0 = off.
 - **void getBlink(uint8_t value)** values 0..3   0 = off.
 - **void setDigits(uint8_t value)** values 0..4, minimal number of digits shown, mandatory for large numbers on dual display.
-
-
 
 #### Data types
 
@@ -124,7 +120,6 @@ The unitChar is a postFix character like C or F for temperature H for humidity.
 The unitChar must be one of the chars supported like HT16K33_C, HT16K33_TOP_C or HT16K33_DEGREE (see below).
 So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 
-
 #### Fixed point
 
 - **bool displayFixedPoint0(float f)** displays values -999  .. 9999 without decimals.
@@ -132,12 +127,10 @@ So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 - **bool displayFixedPoint2(float f)** displays values -9.99 .. 99.99 with 2 decimals.
 - **bool displayFixedPoint3(float f)** displays values 0.000 .. 9.999 with 3 decimals.
 
-
 #### Special VU meters
 
 - **bool displayVULeft(uint8_t value)** display used as sort VU meter, values 0..8  Vales > 8 are treated as 8 (but return false).
 - **bool displayVURight(uint8_t value)** display used as sort VU meter, values 0..8 Vales > 8 are treated as 8 (but return false).
-
 
 #### Lower level workers
 
@@ -147,6 +140,13 @@ So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 - **void displayRaw(uint8_t \* array, bool colon)** array of 4 bytes to control one 7seg display + colon flag.
 - **void displayExtraLeds(uint8_t value)** switch on extra LEDs.
 value is in fact a bit mask see table below. 0 = all off.
+
+When using the consts SEG_A etc from .h file, for the **displayRaw()**
+one can use the individual segments SEG_A..SEG_G and SEG_DP.
+
+![layout](https://upload.wikimedia.org/wikipedia/commons/0/02/7_segment_display_labeled.svg "").
+
+_Image courtesey wikimedia_
 
 
 #### Extra LEDs table
@@ -224,7 +224,6 @@ Mainly for a 0.4.x
   - configuration byte: 4 bits brightness, 1 bit on off flag, 1 bit cache flag, 2 blink rate
 
 #### Should 
-
 
 
 #### Could

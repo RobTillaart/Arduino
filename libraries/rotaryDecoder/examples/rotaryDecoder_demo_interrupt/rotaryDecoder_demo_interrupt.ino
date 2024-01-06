@@ -2,7 +2,8 @@
 //    FILE: rotaryDecoder_demo_interrupt.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
-// PUPROSE: demo interrupt controlled rotary decoder
+// PURPOSE: demo interrupt controlled rotary decoder
+//     URL: https://github.com/RobTillaart/rotaryDecoder
 //
 // connect up to 4 rotary encoders to 1 PCF8574.
 //
@@ -19,8 +20,8 @@
 //
 
 
-#include "Wire.h"
 #include "rotaryDecoder.h"
+
 
 rotaryDecoder decoder(0x20);
 
@@ -29,7 +30,7 @@ volatile bool flag = false;
 
 void moved()
 {
-  // one should not read the PPCF8574 in the interrupt routine.
+  //  one should not read the PPCF8574 in the interrupt routine.
   flag = true;
 }
 
@@ -66,9 +67,9 @@ void loop()
     Serial.println();
   }
 
-  // other tasks...
+  //  other tasks...
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

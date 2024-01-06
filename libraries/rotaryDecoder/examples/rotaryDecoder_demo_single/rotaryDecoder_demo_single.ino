@@ -2,7 +2,8 @@
 //    FILE: rotaryDecoder_demo_single.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
-// PUPROSE: demo single direction rotary decoder.
+// PURPOSE: demo single direction rotary decoder.
+//     URL: https://github.com/RobTillaart/rotaryDecoder
 //
 // note this is used for e.g. RPM counters that are unidirectional.
 //      all moves are interpreted as same direction.
@@ -20,7 +21,6 @@
 //
 
 
-#include "Wire.h"
 #include "rotaryDecoder.h"
 
 rotaryDecoder decoder(0x20);
@@ -42,8 +42,8 @@ void setup()
 
 void loop()
 {
-  // if one of the counters is updated, print them.
-  if (decoder.updateSingle())   // note values will only go up!
+  //  if one of the counters is updated, print them.
+  if (decoder.updateSingle())   //  note values will only go up!
   {
     for (uint8_t i = 0; i < 4; i++)
     {
@@ -53,9 +53,9 @@ void loop()
     Serial.println();
   }
 
-  // other tasks...
+  //  other tasks...
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

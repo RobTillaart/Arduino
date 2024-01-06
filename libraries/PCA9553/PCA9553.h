@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
 // VERSION: 0.4.1
-// PUPROSE: Arduino library for for I2C PCA9553 4 channel PWM
+// PURPOSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
 

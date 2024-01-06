@@ -25,6 +25,7 @@ Base address = 0x20 + 0..7 depending on address pins A0..A2.
 |  type      | address-range  |  notes                    |
 |:-----------|:--------------:|:-------------------------:|
 |  PCF8575   |  0x20 to 0x27  |  same range as PCF8574 !  |
+|  PCF8575C  |  0x20 to 0x27  |  need pull up in input mode. See #36, to be verified.
 
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 

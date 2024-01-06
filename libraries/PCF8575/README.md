@@ -215,7 +215,7 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 #### Should
 
 - keep in sync with pcf8574 (as far as meaningful)
-
+- verify difference between PCF8575 and PCF8575C version- see #39
 
 #### Could
 

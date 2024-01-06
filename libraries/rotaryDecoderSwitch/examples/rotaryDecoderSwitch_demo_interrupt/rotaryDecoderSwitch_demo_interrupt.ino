@@ -2,7 +2,8 @@
 //    FILE: rotaryDecoderSwitch_demo_interrupt.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-17
-// PUPROSE: demo
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
 //
 // connect up to 2 rotary encoders with a switch to 1 PCF8574.
 //
@@ -22,7 +23,6 @@
 //
 
 
-#include "Wire.h"
 #include "rotaryDecoderSwitch.h"
 
 rotaryDecoderSwitch decoder(0x20);
@@ -70,9 +70,9 @@ void loop()
     Serial.println();
   }
 
-  // other tasks...
+  //  other tasks...
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

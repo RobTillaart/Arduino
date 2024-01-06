@@ -2,7 +2,8 @@
 //    FILE: rotaryDecoderSwitch_demo_simple.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-17
-// PUPROSE: demo
+// PURPOSE: demo
+//     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
 //
 // connect up to 2 rotary encoders with a switch to 1 PCF8574.
 //
@@ -22,7 +23,6 @@
 //
 
 
-#include "Wire.h"
 #include "rotaryDecoderSwitch.h"
 
 rotaryDecoderSwitch decoder(0x20);
@@ -44,8 +44,8 @@ void setup()
 
 void loop()
 {
-  // if one of the counters is updated, print them.
-  // update() will not check if a key is pressed.
+  //  if one of the counters is updated, print them.
+  //  update() will not check if a key is pressed.
   if (decoder.update())
   {
     for (uint8_t i = 0; i < 2; i++)
@@ -58,9 +58,9 @@ void loop()
     Serial.println();
   }
 
-  // other tasks...
+  //  other tasks...
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

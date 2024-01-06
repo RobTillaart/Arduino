@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoderSwitch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.2.0"))
+#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.2.1"))
 
 
 class rotaryDecoderSwitch

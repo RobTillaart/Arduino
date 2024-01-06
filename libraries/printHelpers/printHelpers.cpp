@@ -2,8 +2,8 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.3
-// PUPROSE: Arduino library to help formatting for printing.
+// VERSION: 0.4.4
+// PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
 

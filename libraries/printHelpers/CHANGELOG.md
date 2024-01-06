@@ -6,11 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.4] - 2024-01-05
+- FIx URL in examples
+- minor edits
+
+
 ## [0.4.3] - 2023-11-15
 - added **csi()** comma separated integers for readability e.g. 123,458,654
 - update readme.md.
 - update examples
-
 
 ## [0.4.2] - 2023-11-15
 - update readme.md

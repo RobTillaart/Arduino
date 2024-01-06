@@ -1,12 +1,12 @@
+//
 //    FILE: print_comma_separated_integers.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-//    DATE: 2023-12-20
 // PURPOSE: demo readability
 //     URL: https://github.com/RobTillaart/printHelpers
 
-#include "Arduino.h"
+
 #include "printHelpers.h"
+
 
 void setup()
 {

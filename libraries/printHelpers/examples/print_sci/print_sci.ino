@@ -1,6 +1,8 @@
+//
 //    FILE: print_sci.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo program SCI
+//     URL: https://github.com/RobTillaart/printHelpers
 
 
 #include "printHelpers.h"

@@ -2,11 +2,14 @@
 //    FILE: print_hex_bin.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo hex(value, sep);
+//     URL: https://github.com/RobTillaart/printHelpers
 
 
 #include "printHelpers.h"
 
+
 volatile uint32_t n = 0;
+
 
 void setup()
 {
@@ -65,10 +68,6 @@ void setup()
   }
   Serial.println();
 
-
-
-
-
   Serial.println("10 random() BIN values");
   for (uint8_t i = 0; i < 10; i++)
   {
@@ -90,4 +89,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -22,7 +22,7 @@ data in a way not possible in the standard print library of the Arduino.
 - **print64()** print **uint64_t** and **int64_t** 
 - **sci()** generates in scientific format - exponent has step 1.
 - **eng()** generates in engineering format - exponent has step 3.
-- **scieng()** generated exponential format - exponent has step 1 to 9.
+- **scieng()** generates in exponential format - exponent has step 1 to 9.
 - **toBytes()** generates KB MB GB etc.
 - **hex()** generates hexadecimal output with leading zeros up to **uint64_t**.
 - **bin()** generates binary output with leading zeros up to **uint64_t**.

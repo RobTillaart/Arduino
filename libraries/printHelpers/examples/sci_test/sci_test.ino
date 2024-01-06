@@ -2,6 +2,7 @@
 //    FILE: sci_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test different values with sci function
+//     URL: https://github.com/RobTillaart/printHelpers
 
 
 #include "printHelpers.h"
@@ -197,5 +198,5 @@ void test6()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

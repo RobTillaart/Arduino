@@ -1,6 +1,8 @@
+//
 //    FILE: print_inch_feet.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo program distance functions
+//     URL: https://github.com/RobTillaart/printHelpers
 
 
 #include "printHelpers.h"

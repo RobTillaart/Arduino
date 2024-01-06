@@ -1,11 +1,10 @@
 //
 //    FILE: TCA9555_getType.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test TCA9555 library - TCA9535 derived class
+// PURPOSE: test TCA9555 library - TCA9535 derived class
 //     URL: https://github.com/RobTillaart/TCA9555
 
 
-#include "Wire.h"
 #include "TCA9555.h"
 
 

@@ -1,11 +1,10 @@
 //
 //    FILE: TCA9555_setPolarity.ino
 //  AUTHOR: Rob Tillaart
-// PUPROSE: test TCA9555 library
+// PURPOSE: test TCA9555 library
 //     URL: https://github.com/RobTillaart/TCA9555
 
 
-#include "Wire.h"
 #include "TCA9555.h"
 
 

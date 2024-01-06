@@ -1,7 +1,7 @@
 //
 //    FILE: PinInGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
 //          goal is to easily read a group of pins that logically

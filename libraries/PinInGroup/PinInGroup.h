@@ -1,9 +1,10 @@
 #pragma once
 //    FILE: PinInGroup.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2017-04-26
 // PURPOSE: PinInGroup library for Arduino
+//     URL: https://github.com/RobTillaart/PinInGroup
 //
 // Note: ESP32 has some dedicated IO pins that cannot be used in a group.
 //       FLASH: pin 6 - 11  (maybe more)
@@ -12,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define PININGROUP_LIB_VERSION        (F("0.1.9"))
+#define PININGROUP_LIB_VERSION        (F("0.1.10"))
 
 
 //  smaller MAXSIZE will reduce memory footprint with ditto bytes.

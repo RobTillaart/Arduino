@@ -1,42 +1,17 @@
 //    FILE: testPinInGroup.ino
-//  AUTHOR: Rob dot Tillaart at gmail dot com
+//  AUTHOR: Rob Tillaart
 // PURPOSE: demo PinInGroup library for Arduino
-//    DATE: 20-08-2017
+//     URL: https://github.com/RobTillaart/PinInGroup
 
 
 #include "PinInGroup.h"
+
 
 uint8_t ar[4] = {2, 3, 4, 23};
 uint8_t alt[] = {23, 22, 1, 3, 21, 19, 18, 5, 23, 22, 1, 3, 21, 19, 18, 5};
 
 
-void setup()
-{
-  Serial.begin(115200);
-  Serial.println(__FILE__);
-
-  Serial.print(F("\nPININGROUP_LIB_VERSION: "));
-  Serial.println(PININGROUP_LIB_VERSION);
-  Serial.println();
-
-  test0();
-  test1();
-  test2();
-  test3();
-  test4();
-  test5();
-  test6();
-
-  Serial.println(F("done..."));
-}
-
-
-void loop()
-{
-}
-
-
-// TEST0 verifies and times basic working
+//  TEST0 verifies and times basic working
 void test0()
 {
   Serial.println();
@@ -109,10 +84,10 @@ void test2()
   PinInGroup PIG;
 
 #if defined(ESP32) || defined(ESP8266)
-  // be careful which pins you use for ESP32  (and probably 8266 too, not tested)
-  // note: GPIO06 through GPIO11 are reserved for the FLASH.
-  //       You cannot use them.  ==> pinMode() fails.
-  // https://github.com/espressif/arduino-esp32/issues/1411
+  //  be careful which pins you use for ESP32  (and probably 8266 too, not tested)
+  //  note: GPIO06 through GPIO11 are reserved for the FLASH.
+  //        You cannot use them.  ==> pinMode() fails.
+  //  https://github.com/espressif/arduino-esp32/issues/1411
   //
   for (uint8_t p = 20; p < 36; p++) PIG.add(p);
 #else
@@ -158,7 +133,7 @@ void test3()
   Serial.print(F("available: "));
   Serial.println(PIG.available());
 
-  PIG.add(4, ar, INPUT_PULLUP);  // should not be added
+  PIG.add(4, ar, INPUT_PULLUP);  //  should not be added
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
@@ -210,7 +185,7 @@ void test4()
   Serial.println(PIG.available());
 
   PIG.clear();
-  PIG.add(4, ar, INPUT_PULLUP);  // should not be added
+  PIG.add(4, ar, INPUT_PULLUP);  //  should not be added
 
   Serial.print(F("size: "));
   Serial.println(PIG.size());
@@ -293,9 +268,9 @@ void test6()
 
   PinInGroup PIG;
 
-  // verify pin stays same place in output.
-  // connect selected pin to GND and it should stay on same spot.
-  // even when pins are added.
+  //  verify pin stays same place in output.
+  //  connect selected pin to GND and it should stay on same spot.
+  //  even when pins are added.
   for (int i = 1; i <= 10; i++)
   {
     PIG.add(i, INPUT_PULLUP);
@@ -312,5 +287,33 @@ void test6()
 }
 
 
-// -- END OF FILE --
+///////////////////////////////////////////////////////////////////////////////////
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+
+  Serial.print(F("\nPININGROUP_LIB_VERSION: "));
+  Serial.println(PININGROUP_LIB_VERSION);
+  Serial.println();
+
+  test0();
+  test1();
+  test2();
+  test3();
+  test4();
+  test5();
+  test6();
+
+  Serial.println(F("done..."));
+}
+
+
+void loop()
+{
+}
+
+
+//  -- END OF FILE --
 

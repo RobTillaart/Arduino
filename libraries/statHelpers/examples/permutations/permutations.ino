@@ -18,6 +18,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("STATHELPERS_LIB_VERSION: ");
+  Serial.println(STATHELPERS_LIB_VERSION);
+  Serial.println();
+
 
   Serial.println("permutations(n, k)");
   delay(10);
@@ -40,6 +44,7 @@ void setup()
   Serial.println(duration1);
   Serial.println();
 
+
   ///////////////////////////////////////////
 
   Serial.println("permutations64(n, k)");
@@ -61,6 +66,7 @@ void setup()
   duration1 = micros() - start;
   Serial.println(duration1);
   Serial.println();
+
 
   ///////////////////////////////////////////
 
@@ -95,5 +101,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

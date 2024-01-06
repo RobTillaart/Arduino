@@ -81,18 +81,52 @@ but accuracy is less than the **dfactorial()**, see example.
 ### SemiFactorial
 
 SemiFactorials are like factorials but skipping every other.
+SemiFactorials are written as a number with two exclamation marks.
+ 
+SemiFactorial are defined for
+- **odd** values:  n!! == n x (n-2) x (n-4) ... x 1
+- **even** values: n!! == n x (n-2) x (n-4) ... x 2
+
+Example 12!! = 12 x 10 x 8 x 6 x 4 x 2 = 46080
 
 - **uint32_t semiFactorial(n)** exact up to 20!!
-- **uint64_t semiFactorial64(n)** exact up to 33!!  (Print 64 bit integers with my printHelpers)
+- **uint64_t semiFactorial64(n)** exact up to 33!!  (Print 64 bit integers with printHelpers library)
 - **double dSemiFactorial(n)** not exact up to 56!! (4 byte) or 300!! (8 byte)
-
-SemiFactorial are defined for
-- **odd** values:  n x (n-2) x (n-4) ... x 1
-- **even** values: n x (n-2) x (n-4) ... x 2
 
 
 Notes:  
-```n! = n!! x (n-1)!!``` this formula allows to calculate the value of n! indirectly
+```
+n! = n!! x (n-1)!!
+``` 
+This formula allows to calculate the value of n! indirectly.
+
+
+### SkipFactorial (experimental)
+
+- **uint32_t skipFactorial(uint32_t n, uint32_t skip)** 
+- **uint64_t skipFactorial64(uint32_t n, uint32_t skip)** 
+- **double dSkipFactorial(uint32_t n, uint32_t skip)** 
+
+SkipFactorials are like factorials and semiFactorials but they skip **skip** numbers.
+- **skipFactorial(12, 4)** = 12 x 8 x 4 = 384
+- **skipFactorial(17, 5)** = 17 x 12 x 7 x 2 = 2856
+- **skipFactorial(n, 1)** == **factorial(n)**
+- **skipFactorial(n, 2)** == **semiFactorial(n)**
+
+As the maximum depends on both n and step sizze there is no single maximum for n.
+This is similar to combinations and permutations.
+
+An indicative table of maxima per function call, the larger the skip, the larger the maximum n.
+Note that for skip <= 10 n still is an 8 bit number.
+
+|   function        |  n, 2   |  n, 3   |  n, 4   |  n, 5   |  n, 10  |  notes  |
+|:------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:--------|
+|  skipFactorial    |   20    |   27    |   32    |    40   |    69   |  max expected smaller than 7 x skip when skip > 10.
+|  skipFactorial64  |   33    |   45    |   55    |    66   |   115   |  max expected smaller than 12 x skip when skip > 10.
+|  dSkipFactorial   |   56    |   77    |   95    |   115   |   200   |  float  (4 bytes)  max expected smaller than 20 x skip when skip > 10.
+|  dSkipFactorial   |  300    |         |         |         |         |  double (8 bytes) 
+
+Note that for the function the **max / skip** is decreasing when **skip grows**.
 
 
 ### Combinations
@@ -184,9 +218,8 @@ See examples
 
 - investigate a bigFloat class to do math for permutations and combinations to substantially larger values.
 - Look for ways to extend the scope
-- **skipFactorial(uint32_t n, uint32_t skip)** == n x (n-skip) x (n -skip -skip) ... x S (depends on size of skip)
-  - e.g. skipFactorial(12, 4) = 12 x 8 x 4.
-  - skipFactorial(n, 2) == semiFactorial(n);
+- fill table for skipFactorial for **double**
+
 
 #### Wont
 

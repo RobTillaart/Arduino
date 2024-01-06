@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-01-06
+- add **skipFactorial(n, skip);** experimental
+- Fix URL in examples
+- minor edits
+
+----
+
 ## [0.1.8] - 2023-11-22
 - update readme.md
-
 
 ## [0.1.7] - 2023-03-15
 - update readme.md

@@ -18,6 +18,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("STATHELPERS_LIB_VERSION: ");
+  Serial.println(STATHELPERS_LIB_VERSION);
+  Serial.println();
+
 
   Serial.println("combinations(n, k)");
   delay(10);
@@ -35,7 +39,7 @@ void setup()
       //      Serial.print(combinations(n, k));
       //      Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -57,7 +61,7 @@ void setup()
       //      Serial.print(combinations(n, k));
       //      Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -80,7 +84,7 @@ void setup()
       //      Serial.print(print64(combinations64(n, k)));
       //      Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -101,7 +105,7 @@ void setup()
       //      Serial.print(print64(combinations64(n, k)));
       //      Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -126,7 +130,7 @@ void setup()
       //      Serial.print(comb(n, k));
       //      Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -141,5 +145,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,7 +1,7 @@
 //
 //    FILE: statHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.0
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -190,7 +190,7 @@ double stirling(uint8_t n)
 
 ///////////////////////////////////////////////////////////////////////////
 //
-//  SEMIFACTORIAL
+//  SEMI_FACTORIAL
 //
 
 //  exact ==> 20!!
@@ -234,6 +234,53 @@ double dSemiFactorial(uint16_t n)
   {
     f *= n;
     n -= 2;
+  }
+  return f;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+//  SKIP_FACTORIAL
+//
+
+uint32_t skipFactorial(uint32_t n, uint32_t skip)
+{
+  if (skip == 0) return 0;
+  uint32_t f = 1;
+  while(n > skip)
+  {
+    f *= n;
+    n -= skip;
+  }
+  return f;
+}
+
+
+uint64_t skipFactorial64(uint32_t n, uint32_t skip)
+{
+  if (skip == 0) return 0;
+  uint64_t f = 1;
+  while(n > skip)
+  {
+    f *= n;
+    n -= skip;
+  }
+  return f;
+}
+
+
+//  float  (4 byte)
+//  double (8 byte)
+double dSkipFactorial(uint32_t n, uint32_t skip)
+{
+  if (skip == 0) return 0;
+  double f = 1;
+  while(n > skip)   //  optimize like sSemiFactorial?
+  {
+    f *= n;
+    n -= skip;
   }
   return f;
 }

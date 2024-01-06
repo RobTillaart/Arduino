@@ -18,6 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("STATHELPERS_LIB_VERSION: ");
+  Serial.println(STATHELPERS_LIB_VERSION);
+  Serial.println();
 
   Serial.println("dcombinations(n, k); ");
   delay(10);
@@ -63,7 +66,7 @@ void setup()
       Serial.print(expo);
       Serial.println();
     }
-    //Serial.println();
+    // Serial.println();
   }
   duration1 = micros() - start;
   Serial.println(duration1);
@@ -78,5 +81,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

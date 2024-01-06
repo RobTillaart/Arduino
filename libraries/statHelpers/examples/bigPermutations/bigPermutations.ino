@@ -18,6 +18,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("STATHELPERS_LIB_VERSION: ");
+  Serial.println(STATHELPERS_LIB_VERSION);
+  Serial.println();
+
 
   ///////////////////////////////////////////
 
@@ -123,7 +127,8 @@ void setup()
   Serial.println();
   */
 
-  // pick 1000 persons from 4294967295  (maxLong)
+
+  //  pick 1000 persons from 4294967295  (maxLong)
   double   mant = 0;
   uint32_t expo = 0;
   bigPermutations(4294967295, 1000, mant, expo);
@@ -141,5 +146,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

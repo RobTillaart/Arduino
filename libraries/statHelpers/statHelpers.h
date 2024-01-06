@@ -2,7 +2,7 @@
 //
 //    FILE: statHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.2.0
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define STATHELPERS_LIB_VERSION               (F("0.1.8"))
+#define STATHELPERS_LIB_VERSION               (F("0.2.0"))
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ double dfactorial(uint8_t n);
 double stirling(uint8_t n);
 
 
-//  SEMIFACTORIAL
+//  SEMI_FACTORIAL
 
 //  exact ==> 20!!
 uint32_t semiFactorial(uint8_t n);
@@ -139,6 +139,15 @@ uint64_t semiFactorial64(uint8_t n);
 //  double (8 byte) => 300!!
 double dSemiFactorial(uint16_t n);
 
+
+//  SKIP_FACTORIAL  (experimental)
+
+//  note step must be larger than 0
+//  note when step == 1  ==> factorial
+//  note when step == 2  ==> semiFactorial
+uint32_t skipFactorial(uint32_t n, uint32_t skip);
+uint64_t skipFactorial64(uint32_t n, uint32_t skip);
+double dSkipFactorial(uint32_t n, uint32_t skip);
 
 
 ///////////////////////////////////////////////////////////////////////////

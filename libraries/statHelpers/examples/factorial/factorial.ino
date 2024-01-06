@@ -7,7 +7,7 @@
 
 
 #include "statHelpers.h"
-#include "printHelpers.h"  // to print large numbers....
+#include "printHelpers.h"  //  to print large numbers....
 
 
 uint32_t start, duration1, duration2;
@@ -17,6 +17,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("STATHELPERS_LIB_VERSION: ");
+  Serial.println(STATHELPERS_LIB_VERSION);
+  Serial.println();
+
 
   int m = 35;
   if (sizeof(double) == 8) m = 175;
@@ -94,5 +98,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

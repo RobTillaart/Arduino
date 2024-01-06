@@ -1,17 +1,19 @@
 //
 //    FILE: TM1637_custom.ino
 //  AUTHOR: Richard Jones
-// VERSION: 0.1.0
 // PURPOSE: demo TM1637 library
 //    DATE: 3 October 2022
 //     URL: https://github.com/radionerd
+//     URL: https://github.com/RobTillaart/TM1637_RT
 
-// Demonstration of how to display char *buff and override the TM1637 library asciiTo7Segment virtual function
-// to create a custom 7 segment character set.
-// The letter 'A' becomes swapped with @ in this trivial example
-// Status: Experimental. Tested on STM32F103C8T6 Blue Pill and Arduino Nano only
+//  Demonstration of how to display char *buff and override the TM1637 library asciiTo7Segment virtual function
+//  to create a custom 7 segment character set.
+//  The letter 'A' becomes swapped with @ in this trivial example
+//  Status: Experimental. Tested on STM32F103C8T6 Blue Pill and Arduino Nano only
+
 
 #include "TM1637.h"
+
 
 const int DISPLAY_DIGITS_6 = 6;
 
@@ -61,7 +63,9 @@ class myTM1637 : TM1637 {
   }
 };
 
+
 myTM1637 myTM;
+
 
 void setup()
 {
@@ -69,9 +73,9 @@ void setup()
   delay(1000);
   Serial.println(__FILE__);
 
-  //  set clockpin, datapin to your own board pin names
+  //  set clock pin, data pin to your own board pin names
   //  e.g.  myTM.begin(PB8, PB9 , DISPLAY_DIGITS_6 );
-  myTM.begin( 14, 15 , DISPLAY_DIGITS_6 );  //  clockpin, datapin, and digits
+  myTM.begin( 14, 15 , DISPLAY_DIGITS_6 );  //  clock pin, data pin, and digits
 
   myTM.setBrightness(2);
 

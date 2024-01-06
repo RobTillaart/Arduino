@@ -19,7 +19,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(2, 3);       //  clockpin, datapin
+  TM.begin(2, 3);       //  clock pin, data pin
 
   TM.displayClear();
   delay(1000);
@@ -45,7 +45,7 @@ void test()
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
-    TM.displayInt(val);  // there is loop overhead etc
+    TM.displayInt(val);  // there is loop overhead etc.
     val++;
   }
   stop = millis();

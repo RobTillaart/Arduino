@@ -16,7 +16,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(7, 6, 4);       //  clockpin, datapin, #digits
+  TM.begin(7, 6, 4);       //  clock pin, data pin, #digits
 
   delay(10);
   start = micros();

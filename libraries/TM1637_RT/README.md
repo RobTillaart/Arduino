@@ -356,24 +356,22 @@ See examples
 
 #### Must
 
-- (0.4.0)
-  - remove obsolete **init()** from code
-  - remove keyscan() => keyScan()
-  - **setLeadingZeros(bool on = false)** leading zeros flag, set data array to 0.
-  - **getLeadingZeros()**
+- refactor readme.md
+- **setLeadingZeros(bool on = false)** leading zeros flag, set data array to 0.
+- **getLeadingZeros()**
 
 #### Should
 
 - testing other platforms.
-- refactor readme.md
 - remove degree sign from **displayCelsius()**
   - would allow one extra digit.
   - **displayFahrenheit()** idem.
   - could be optional when needed e.g. below -9 or above 99
+  - code complexity?
 
 #### Could
 
-- add parameter for **hideSegement(idx, character == SPACE)** to overrule hide char.
+- add parameter for **hideSegment(idx, character == SPACE)** to overrule hide char.
   - space underscore or - are possible.
 - add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```
 - add **TM1637_UPPERSCORE** to char set. ```seg[20] == 0x01```

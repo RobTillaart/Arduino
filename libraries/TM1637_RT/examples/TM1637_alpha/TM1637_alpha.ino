@@ -1,7 +1,6 @@
 //
 //    FILE: TM1637_alpha.ino
 //  AUTHOR: William F. Dudley Jr.
-// VERSION: 0.1.0
 // PURPOSE: demo TM1637 library
 //    DATE: 2021-10-12
 //     URL: https://github.com/RobTillaart/TM1637
@@ -17,7 +16,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(2, 3);       //  clockpin, datapin
+  TM.begin(2, 3);       //  clockPin, dataPin
 
   TM.setBrightness(2);
 }

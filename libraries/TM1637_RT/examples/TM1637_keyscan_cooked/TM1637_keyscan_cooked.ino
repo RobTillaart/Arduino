@@ -1,7 +1,6 @@
 //
 //    FILE: TM1637_keypress_cooked.ino
 //  AUTHOR: William F. Dudley Jr.
-// VERSION: 0.1.0
 // PURPOSE: demo TM1637 library - keyScan() cooked output
 //    DATE: 2021-10-26
 //     URL: https://github.com/RobTillaart/TM1637

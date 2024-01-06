@@ -16,10 +16,10 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(7, 6, 4);       //  clockpin, datapin, #digits
+  TM.begin(7, 6, 4);       //  clock pin, data pin, #digits
 
-  //              AVR UNO
-  //  BITDELAY    displayTime()
+  //               AVR UNO
+  //  BITDELAY     displayTime()
   //  0               1352
   //  2               1364
   //  4               1384

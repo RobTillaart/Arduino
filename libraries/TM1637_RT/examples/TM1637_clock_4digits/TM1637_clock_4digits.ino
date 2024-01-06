@@ -23,7 +23,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(7, 6, 4);       //  clockpin, datapin, #digits
+  TM.begin(7, 6, 4);       //  clockPin, dataPin, #digits
 
   TM.displayClear();
   delay(2000);
@@ -45,7 +45,7 @@ void setup()
   delay(2000);
 }
 
-//  mimick clock, not ok under 10 seconds
+//  mimic clock, not OK under 10 seconds
 //  left as exercise for the programmer ;)
 void loop()
 {

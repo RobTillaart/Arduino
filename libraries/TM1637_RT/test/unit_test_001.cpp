@@ -51,7 +51,7 @@ unittest_teardown()
 unittest(test_begin)
 {
   TM1637 TM;
-  TM.init(2, 3, 6);
+  TM.begin(2, 3, 6);
 
   TM.displayClear();
   // TODO real tests....
@@ -62,7 +62,7 @@ unittest(test_begin)
 unittest(test_brightness)
 {
   TM1637 TM;
-  TM.init(2, 3, 6);
+  TM.begin(2, 3, 6);
   
   for (uint8_t b = 0; b < 8; b++)
   {
@@ -82,7 +82,7 @@ unittest(test_brightness)
 unittest(test_set_bit_delay)
 {
   TM1637 TM;
-  TM.init(2, 3, 6);
+  TM.begin(2, 3, 6);
   
   for (uint8_t b = 0; b < 100; b += 10)
   {

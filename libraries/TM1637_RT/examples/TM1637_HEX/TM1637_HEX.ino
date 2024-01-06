@@ -3,8 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo TM1637 library
 //     URL: https://github.com/RobTillaart/TM1637
-
+//
 //  test with 6 digits (decimal) display
+
 
 #include "TM1637.h"
 
@@ -20,7 +21,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  TM.begin(2, 3, 6);       //  clockpin, datapin, #digits
+  TM.begin(2, 3, 6);       //  clock pin, data pin, #digits
 
   TM.displayClear();
   delay(2000);
@@ -43,7 +44,7 @@ void test()
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
-    TM.displayHex(val);  //  there is loop overhead etc
+    TM.displayHex(val);  //  there is loop overhead etc.
     val++;
   }
   stop = millis();

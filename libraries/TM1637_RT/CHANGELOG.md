@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2023-11-22
+- remove init() and keyscan()
+- minor edits
+
+----
+
 ## [0.3.9] - 2023-11-22
 - update readme.md
   - section about hardware performance (Kudos to SteveMicroCode #29)
@@ -15,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - **keyScan()** replaces keyscan() => prefer camelCase (prep 0.4.0)
   - patched examples.
 - minor edits
-
 
 ## [0.3.8] - 2023-07-15
 - fix #27

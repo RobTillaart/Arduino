@@ -3,8 +3,8 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.9
-// PUPROSE: TM1637 library for Arduino
+// VERSION: 0.4.0
+// PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
@@ -20,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.3.9"))
+#define TM1637_LIB_VERSION      (F("0.4.0"))
 
 
 class TM1637
@@ -28,7 +28,7 @@ class TM1637
 public:
   TM1637();
 
-  //  replaces init()
+  //  begin replaces init()
   void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
 
 
@@ -87,16 +87,7 @@ public:
   void dumpCache();
 
 
-  //  OBSOLETE
-  //  init() => begin() in 0.4.0
-  [[deprecated("Use begin() instead")]]
-  void    init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6);
-  //  keyscan() => keyScan() in 0.4.0
-  [[deprecated("Use keyScan() instead => camelCase!")]]
-  uint8_t keyscan(void) { return keyScan(); };
-
-
-private:
+protected:
   uint8_t _clockPin   = -1;
   uint8_t _dataPin    = -1;
   uint8_t _digits     = 6;

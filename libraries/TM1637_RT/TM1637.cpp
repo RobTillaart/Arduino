@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -73,13 +73,6 @@ TM1637::TM1637()
   _digits     = 6;
   _brightness = 3;
   _bitDelay   = 10;
-}
-
-
-//  wrapper, init() will become obsolete 0.4.0.
-void TM1637::init(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
-{
-  begin(clockPin, dataPin, digits);
 }
 
 

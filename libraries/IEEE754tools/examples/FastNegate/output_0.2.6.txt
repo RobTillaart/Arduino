@@ -1,0 +1,45 @@
+
+IDE:    1.8.19
+Board:  UNO
+
+IEEE754tools\examples\FastNegate\FastNegate.ino
+IEEE754_LIB_VERSION: 0.2.6
+
+test_negfabs
+TEST : zz = -fabs(zz)
+TIME : 0.3144
+VALUE: -100.00
+TIME : 1.3835
+VALUE: -100.00
+GAIN : 4.40
+
+test_fabs
+TEST : zz = fabs(zz)
+TIME : 0.3144
+VALUE: 100.00
+TIME : 1.3205
+VALUE: 100.00
+GAIN : 4.20
+
+test_negate
+TEST : zz = -zz
+TIME : 0.3144
+VALUE: 100.00
+TIME : 1.3205
+VALUE: 100.00
+GAIN : 4.20
+
+test_less_zero
+TEST : if (zz < 0) 
+TIME : 0.4403
+VALUE: 100.00
+TIME : 4.0868
+VALUE: 100.00
+GAIN : 9.28
+TIME : 0.5087
+
+test5
+N
+P
+N
+P

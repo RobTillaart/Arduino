@@ -71,7 +71,7 @@ unittest(test_all)
   fprintf(stderr, "IEEE_NegINF\n");
   assertTrue(IEEE_NegINF(-exp(800)));
 
-  // crash - AVR specific
+  //  crash - AVR specific
   // fprintf(stderr, "IEEE_Sign\n");
   // assertTrue(IEEE_Sign(PI));
   // assertTrue(IEEE_Sign(-PI));

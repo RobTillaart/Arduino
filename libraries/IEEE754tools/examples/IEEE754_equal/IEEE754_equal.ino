@@ -2,39 +2,18 @@
 //    FILE: IEEE754_equal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: experimental
+//     URL: https://github.com/RobTillaart/IEEE754tools
 //
-// NOTE
-// - WORKS ON AVR
-// - FAILS FOR ESP32
+//  Notes
+//  - Works on AVR
+//  - Fails on ESP32
 
 
-#include <IEEE754tools.h>
+#include "IEEE754tools.h"
+
 
 uint32_t start, duration;
 volatile bool b;
-
-
-void setup()
-{
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println(__FILE__);
-  Serial.print("IEEE754_LIB_VERSION: ");
-  Serial.println(IEEE754_LIB_VERSION);
-  Serial.println();
-
-  test_FLOAT_EQ_1();
-  test_FLOAT_EQ_2();
-  test_DIV2();
-  test_POW2();
-
-  Serial.println("done");
-}
-
-
-void loop()
-{
-}
 
 
 void test_FLOAT_EQ_1()
@@ -187,6 +166,29 @@ void test_POW2()
   delay(10);
 
   Serial.println();
+}
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("IEEE754_LIB_VERSION: ");
+  Serial.println(IEEE754_LIB_VERSION);
+  Serial.println();
+
+  test_FLOAT_EQ_1();
+  test_FLOAT_EQ_2();
+  test_DIV2();
+  test_POW2();
+
+  Serial.println("done");
+}
+
+
+void loop()
+{
 }
 
 

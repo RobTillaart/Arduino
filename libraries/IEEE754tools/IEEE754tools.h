@@ -2,9 +2,9 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: manipulate IEEE754 float numbers fast
-//     URL: https://github.com/RobTillaart/IEEE754tools.git
+//     URL: https://github.com/RobTillaart/IEEE754tools
 //
 //  EXPERIMENTAL ==> USE WITH CARE
 //  not tested extensively,
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define IEEE754_LIB_VERSION                 (F("0.2.5"))
+#define IEEE754_LIB_VERSION                 (F("0.2.6"))
 
 
 //  (un)comment lines to configure functionality / size
@@ -305,7 +305,6 @@ bool IEEE_FLOAT_NEQ(float &f, float &g)
 
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  NOT TESTED FUNCTIONS
@@ -388,7 +387,7 @@ float IEEE_FLIP(float number)
 
 
 // s = *(((uint8_t*) &number)+3) & 0x80;        // s = sign(number);
-// if ( *(((byte*) &number)+3) & 0x80) x=2;     // if (number < 0) x=2;
+// if ( *(((byte*) &number)+3) & 0x80) x = 2;   // if (number < 0) x = 2;
 // GAIN = factor 5
 
 

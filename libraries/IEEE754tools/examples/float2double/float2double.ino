@@ -2,32 +2,28 @@
 //    FILE: float2double.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: experimental expands a float in a IEEE 754 double to be printed to PC.
+//     URL: https://github.com/RobTillaart/IEEE754tools
 //
-// NOTE
-// - WORKS ON AVR
-// - FAILS ON ESP32
+//  Notes
+//  - Works on AVR
+//  - Fails on ESP32
 
 
-#include <IEEE754tools.h>
+#include "IEEE754tools.h"
+
 
 byte x[8];
 
 
-void setup()
+void dumpByteArray(byte *ar)
 {
-  Serial.begin(115200);
+  for (int i = 0; i < 8; i++)
+  {
+    if (ar[i] < 0x10) Serial.print('0');
+    Serial.print(ar[i], HEX);
+    Serial.print(' ');
+  }
   Serial.println();
-  Serial.println(__FILE__);
-  Serial.print("IEEE754_LIB_VERSION: ");
-  Serial.println(IEEE754_LIB_VERSION);
-  Serial.println();
-
-  test1();
-  test2();
-  test3();
-  test4();
-
-  Serial.println("done");
 }
 
 
@@ -90,20 +86,26 @@ void test4()
 }
 
 
-void loop()
+void setup()
 {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("IEEE754_LIB_VERSION: ");
+  Serial.println(IEEE754_LIB_VERSION);
+  Serial.println();
+
+  test1();
+  test2();
+  test3();
+  test4();
+
+  Serial.println("done");
 }
 
 
-void dumpByteArray(byte *ar)
+void loop()
 {
-  for (int i = 0; i < 8; i++)
-  {
-    if (ar[i] < 0x10) Serial.print('0');
-    Serial.print(ar[i], HEX);
-    Serial.print(' ');
-  }
-  Serial.println();
 }
 
 

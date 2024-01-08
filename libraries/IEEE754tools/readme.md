@@ -26,6 +26,7 @@ These bit-hacks started in 2010 (oldest code found), maybe even earlier.
 - http://en.wikipedia.org/wiki/Double_precision
 - http://en.wikipedia.org/wiki/Single-precision_floating-point_format
 - https://github.com/RobTillaart/float16
+- https://github.com/RobTillaart/printHelpers (to print scientific format float).
 
 
 ## WARNING
@@ -56,6 +57,8 @@ ESP32 - needs investigation as UNO verified code fails.
 ```cpp
 #include "IEEE754tools.h"
 ```
+
+See .h file for details.
 
 
 ## Operations

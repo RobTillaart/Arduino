@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
 // PURPOSE: demo isConnected function
+//     URL: https://github.com/RobTillaart/PCF8574
 
 
 #include "PCF8574.h"

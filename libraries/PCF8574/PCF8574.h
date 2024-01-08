@@ -3,7 +3,7 @@
 //    FILE: PCF8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define PCF8574_LIB_VERSION         (F("0.4.0"))
+#define PCF8574_LIB_VERSION         (F("0.4.1"))
 
 #ifndef PCF8574_INITIAL_VALUE
 #define PCF8574_INITIAL_VALUE       0xFF
@@ -50,7 +50,7 @@ public:
 
 
   //  added 0.1.07/08 Septillion
-  uint8_t readButton8()  { return PCF8574::readButton8(_buttonMask); }
+  uint8_t readButton8() { return PCF8574::readButton8(_buttonMask); }
   uint8_t readButton8(const uint8_t mask);
   uint8_t readButton(const uint8_t pin);
   void    setButtonMask(const uint8_t mask) { _buttonMask = mask; };

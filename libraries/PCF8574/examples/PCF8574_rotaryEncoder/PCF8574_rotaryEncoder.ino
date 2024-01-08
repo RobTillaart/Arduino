@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-08
 // PURPOSE: demo PCF8574 as rotary encoder reader.
+//     URL: https://github.com/RobTillaart/PCF8574
 //
 //
 //  RotaryEncoder    PCF8574      UNO
@@ -30,13 +31,69 @@ int32_t encoder[4] = {0, 0, 0, 0};
 volatile bool flag = false;
 
 
+////////////////////////////////////////////////
+//
 //  IRQ routine
+//
 void moved()
 {
   flag = true;
 }
 
 
+////////////////////////////////////////////////
+//
+//  rotary routines
+//
+void initRotaryDecoder()
+{
+  uint8_t val = decoder.read8();
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    lastpos[i] = val & 0x03;
+    val >>= 2;
+  }
+}
+
+
+//  assumes 4 rotary encoders connected to one PCF8574
+void updateRotaryDecoder()
+{
+  uint8_t val = decoder.read8();
+
+  //  check which of 4 has changed
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    uint8_t currentpos = (val & 0x03);
+    if (lastpos[i] != currentpos)     //  moved!
+    {
+      uint8_t change = (lastpos[i] << 2) | currentpos;
+      switch (change)
+      {
+        case 0b0001:  //  fall through..
+        case 0b0111:
+        case 0b1110:
+        case 0b1000:
+          encoder[i]++;
+          break;
+        case 0b0010:
+        case 0b0100:
+        case 0b1101:
+        case 0b1011:
+          encoder[i]--;
+          break;
+      }
+      lastpos[i] = currentpos;
+    }
+    val >>= 2;
+  }
+}
+
+
+////////////////////////////////////////////////
+//
+//  main code
+//
 void setup()
 {
   Serial.begin(115200);
@@ -82,51 +139,6 @@ void loop()
       Serial.print(encoder[i]);
     }
     Serial.println();
-  }
-}
-
-
-void initRotaryDecoder()
-{
-  uint8_t val = decoder.read8();
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    lastpos[i] = val & 0x03;
-    val >>= 2;
-  }
-}
-
-
-//  assumes 4 rotary encoders connected to one PCF8574
-void updateRotaryDecoder()
-{
-  uint8_t val = decoder.read8();
-
-  //  check which of 4 has changed
-  for (uint8_t i = 0; i < 4; i++)
-  {
-    uint8_t currentpos = (val & 0x03);
-    if (lastpos[i] != currentpos)     //  moved!
-    {
-      uint8_t change = (lastpos[i] << 2) | currentpos;
-      switch (change)
-      {
-        case 0b0001:  //  fall through..
-        case 0b0111:
-        case 0b1110:
-        case 0b1000:
-          encoder[i]++;
-          break;
-        case 0b0010:
-        case 0b0100:
-        case 0b1101:
-        case 0b1011:
-          encoder[i]--;
-          break;
-      }
-      lastpos[i] = currentpos;
-    }
-    val >>= 2;
   }
 }
 

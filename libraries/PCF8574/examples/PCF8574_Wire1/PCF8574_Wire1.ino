@@ -1,5 +1,5 @@
- //
-//    FILE: PCF8574_Wire2.ino
+//
+//    FILE: PCF8574_Wire1.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2016-04-30
 // PURPOSE: demo
@@ -9,7 +9,7 @@
 #include "PCF8574.h"
 
 //  adjust addresses if needed
-PCF8574 PCF(0x39, &Wire2);  //  Wire2 ==> Teensy 
+PCF8574 PCF(0x39, &Wire1);
 
 
 void doHigh()
@@ -46,7 +46,7 @@ void setup()
   Serial.print("PCF8574_LIB_VERSION:\t");
   Serial.println(PCF8574_LIB_VERSION);
 
-  Wire2.begin();
+  Wire1.begin();
 
   if (!PCF.begin())
   {

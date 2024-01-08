@@ -3,11 +3,39 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 7-febr-2013
 // PURPOSE: test PCF8574 library
+//     URL: https://github.com/RobTillaart/PCF8574
 
 
 #include "PCF8574.h"
 
 PCF8574 PCF_01(0x38);
+
+
+void doHigh()
+{
+  PCF_01.write(4, HIGH);
+  int x = PCF_01.read8();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
+
+
+void doLow()
+{
+  PCF_01.write(4, LOW);
+  int x = PCF_01.read8();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
+
+
+void doToggle()
+{
+  PCF_01.toggle(4);
+  int x = PCF_01.read8();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
 
 
 void setup()
@@ -39,33 +67,6 @@ void loop()
     case 'L': doLow(); break;
     case 'T': doToggle(); break;
   }
-}
-
-
-void doHigh()
-{
-  PCF_01.write(4, HIGH);
-  int x = PCF_01.read8();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
-}
-
-
-void doLow()
-{
-  PCF_01.write(4, LOW);
-  int x = PCF_01.read8();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
-}
-
-
-void doToggle()
-{
-  PCF_01.toggle(4);
-  int x = PCF_01.read8();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
 }
 
 

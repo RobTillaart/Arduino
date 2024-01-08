@@ -83,7 +83,8 @@ float simPlant(float Q){ // heat input in W (or J/s)
 
    if(millis() - last >= interval){
      last += interval;
-     T = T + Q * interval / 1000 / mass / Cps - (T - Tamb) * area * h;
+     float Qconv =  (T - Tamb) * area * h;
+     T = T + (Q - Qconv) * interval / 1000 / mass / Cps ;
    }
    return T;
 }

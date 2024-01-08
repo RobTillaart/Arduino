@@ -34,6 +34,9 @@ This library allows one to
 E-book
 - https://www.elektor.nl/pid-based-practical-digital-control-with-raspberry-pi-and-arduino-uno-e-book
 
+WOKWI
+- https://forum.arduino.cc/t/pid-with-simulated-heater-or-motor/1093539
+
 
 ## Interface
 

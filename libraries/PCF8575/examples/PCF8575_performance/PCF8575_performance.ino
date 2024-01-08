@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-24
 // PURPOSE: test PCF8575 library
+//     URL: https://github.com/RobTillaart/PCF8575
 
 
 #include "PCF8575.h"
@@ -25,21 +26,31 @@ void setup()
 
   PCF.begin();
   Serial.println(PCF.isConnected());
+  delay(100);  //  time to flush Serial 
 
-  for (long clk = 100000; clk < 500000; clk += 50000)
+
+  for (long clk = 100000; clk < 600000; clk += 50000)
   {
-    Serial.println(clk);
+    //  setup and measure
     Wire.setClock(clk);
     start = micros();
     x = PCF.read16();
     stop = micros();
+
+    //  output results
+    Serial.println(clk);
     Serial.print("Read:\t");
-    Serial.println(stop - start);
+    Serial.print(stop - start);
+    Serial.print("\t");
+    Serial.println(x);             //  keep build CI compiler happy
     delay(1000);
 
+    //  measure
     start = micros();
     PCF.write16(0xFFFF);
     stop = micros();
+
+    //  output results
     Serial.print("Write:\t ");
     Serial.println(stop - start);
     delay(1000);

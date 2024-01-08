@@ -1,16 +1,16 @@
 //
-//    FILE: PCF8575_interrupt.ino
+//    FILE: PCF8575_interrupt_advanced.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-03
+//    DATE: 2024-01-08
 // PURPOSE: test PCF8575 library
 //     URL: https://github.com/RobTillaart/PCF8575
 //
 //  TEST SETUP
-//  Connect INT pin of the PCF8575 to UNO pin 2
+//   Connect INT pin of the PCF8575 to UNO pin 2
 //
-//  (from figure 4 datasheet
-//  Place a pull up resistor 4K7 between pin and 5V
-//  Place a capacitor 10-400 pF between pin and GND
+//   (from figure 4 datasheet
+//   Place a pull up resistor 4K7 between pin and 5V
+//   Place a capacitor 10-400 pF between pin and GND
 
 
 #include "PCF8575.h"
@@ -24,11 +24,11 @@ PCF8575 PCF(0x20);
 //
 const int IRQPIN = 2;
 
-volatile bool flag = false;
+volatile uint8_t interruptCount = 0;
 
 void pcf_irq()
 {
-  flag = true;
+  interruptCount++;
 }
 
 
@@ -40,11 +40,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCF8575_LIB_VERSION:\t");
+  Serial.print("PCF8575_LIB_VERSION: ");
   Serial.println(PCF8575_LIB_VERSION);
 
   Wire.begin();
-
   PCF.begin();
 
   pinMode(IRQPIN, INPUT_PULLUP);
@@ -55,9 +54,20 @@ void setup()
 void loop()
 {
   uint32_t now = millis();
-  if (flag)
+
+  //  make a local copy of the counter.
+  noInterrupts();
+  uint8_t irq_count = interruptCount;
+  interruptCount = 0;
+  interrupts();
+
+  if (irq_count > 0)
   {
-    flag = false;
+    if (irq_count > 1)
+    {
+      Serial.print("IRQ missed: ");
+      Serial.println(irq_count - 1);  //  as last will be handled
+    }
     uint16_t x = PCF.read16();
     Serial.print("READ:\t");
     Serial.print('\t');
@@ -65,8 +75,10 @@ void loop()
     Serial.print('\t');
     Serial.println(x, HEX);
   }
-  //  do other things here
-  delay(10);
+
+  //  simulate doing other things here.
+  //  uses to a large delay to miss IRQ's on purpose.
+  delay(1000);
 }
 
 

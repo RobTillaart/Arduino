@@ -1,15 +1,43 @@
 //
-//    FILE: PCF8575_Wire2.ino
+//    FILE: PCF8575_Wire1.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-03
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/PCF8575
 
 
 #include "PCF8575.h"
 
 //  adjust addresses if needed
 PCF8575 PCF(0x21, &Wire1);  //  or Wire2 if supported
- 
+
+
+void doHigh()
+{
+  PCF.write(4, HIGH);
+  int x = PCF.read16();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
+
+
+void doLow()
+{
+  PCF.write(4, LOW);
+  int x = PCF.read16();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
+
+
+void doToggle()
+{
+  PCF.toggle(4);
+  int x = PCF.read16();
+  Serial.print("Read ");
+  Serial.println(x, HEX);
+}
+
 
 void setup()
 {
@@ -47,33 +75,6 @@ void loop()
     case 'L': doLow(); break;
     case 'T': doToggle(); break;
   }
-}
-
-
-void doHigh()
-{
-  PCF.write(4, HIGH);
-  int x = PCF.read16();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
-}
-
-
-void doLow()
-{
-  PCF.write(4, LOW);
-  int x = PCF.read16();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
-}
-
-
-void doToggle()
-{
-  PCF.toggle(4);
-  int x = PCF.read16();
-  Serial.print("Read ");
-  Serial.println(x, HEX);
 }
 
 

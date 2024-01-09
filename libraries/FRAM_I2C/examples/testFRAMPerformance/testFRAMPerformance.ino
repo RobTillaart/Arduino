@@ -14,7 +14,7 @@ FRAM fram;
 uint32_t start;
 uint32_t stop;
 
-int ar[600];  //  1200 bytes
+int ar[600];  //  == 1200 bytes
 
 
 void setup()
@@ -35,7 +35,7 @@ void setup()
   }
   else
   {
-    for (int s = 1; s < 9; s++)  // test up to 800 KB
+    for (int s = 1; s < 9; s++)  //  test up to 800 KB
     {
       uint32_t speed = s * 100000UL;
       Serial.print("CLOCK: ");
@@ -94,5 +94,5 @@ void testReadWriteLarge()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

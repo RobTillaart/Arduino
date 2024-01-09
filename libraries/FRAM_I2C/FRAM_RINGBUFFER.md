@@ -16,7 +16,7 @@ Library for FRAM_RINGBUFFER to be used with the FRAM_I2C library.
 
 ## Description
 
-FRAM_RINGBUFFER is a class that uses an FRAM object to implement 
+**FRAM_RINGBUFFER** is a class that uses an FRAM object to implement 
 a ring buffer that can be made persistent over reboots. 
 The ring buffer can hold any size objects, but the user is responsible
 to manage the contents. 
@@ -53,7 +53,7 @@ it has no separate version number.
 #include "FRAM_RINGBUFFER.h"
 ```
 
-### Admin
+### Administration
 
 - **FRAM_RINGBUFFER()** Constructor.
 - **uint32_t begin(FRAM \*fram, uint32_t size, uint32_t memAddr)** initializes 
@@ -71,7 +71,7 @@ the ring buffer.
 - **bool empty()** returns true if the ring buffer has no data in it.
 
 
-### read / write (bytes)
+### Read / write (bytes)
 
 - **int write(uint8_t value)** writes a byte to the ring buffer.
   - returns the number of bytes written (1) or **FRAM_RB_ERR_BUF_FULL**
@@ -81,7 +81,7 @@ the ring buffer.
   - returns **FRAM_RB_ERR_BUF_EMPTY** in case of an empty buffer.
 
 
-### read / write (objects)
+### Read / write (objects)
 
 - **template <class T> int write(T &obj)** writes an object to the ring buffer.
   - returns the number of bytes written or **FRAM_RB_ERR_BUF_NO_ROOM**
@@ -94,7 +94,7 @@ the ring buffer.
     bytes than the object requested.
 
 
-### persistency
+### Persistency
 
 - **bool isSaved()** returns true if the administration of the ring buffer
 is written to FRAM.
@@ -123,26 +123,24 @@ See examples.
 
 ## Future
 
+#### Must
 
-### high
+#### Should
 
 - elaborate FRAM_RINGBUFFER documentation
 - add bool flag to **load(bool overrule = false)** to overrule the checksum verification.
   - default false.
 - add bool flag to **wipe(bool all = true)** to overwrite all or the
   administration part only.
-  
 
-### medium
+
+### Could
 
 - example for a ring-buffer with different size objects
   - struct with size and type info.
   - preceding every object with type + size - 1..4 bytes 
 - add debugging tooling
 - add object count?
-
-### low
-
 - create a RING_BUFFER class that can work with any type of storage.
   - SD card, EEPROM etc.
 

@@ -4,8 +4,6 @@
 // PURPOSE: demo FRAM_RINGBUFFER class.
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 
-// experimental code
-
 
 #include "FRAM.h"
 #include "FRAM_RINGBUFFER.h"
@@ -124,5 +122,6 @@ void dump()
   Serial.print("percent:\t");
   Serial.println(fb.freePercent(), 1);
 }
+
 
 //  -- END OF FILE --

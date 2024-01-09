@@ -6,8 +6,6 @@
 
 
 #include "FRAM.h"
-#include <Wire.h>
-
 
 FRAM32 fram;
 
@@ -71,3 +69,7 @@ void setup()
 void loop() 
 {
 }
+
+
+//  -- END OF FILE --
+

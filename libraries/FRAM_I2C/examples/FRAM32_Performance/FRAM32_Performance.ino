@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test for FRAM library for Arduino
 //     URL: https://github.com/RobTillaart/FRAM_I2C
-//
 
 
 #include "FRAM.h"
@@ -14,7 +13,7 @@ FRAM32 fram;
 uint32_t start;
 uint32_t stop;
 
-int ar[600];  //  1200 bytes
+int ar[600];  //  == 1200 bytes
 
 
 void setup()

@@ -10,7 +10,7 @@
 
 char elements_name[74][14] =
 {
-  "neutronium",
+  "neutronium",  //  zero protons, one neutron.
   "Hydrogen",
   "Helium",
   "Lithium",

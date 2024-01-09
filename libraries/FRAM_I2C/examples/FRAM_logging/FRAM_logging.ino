@@ -3,15 +3,17 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo persistant logging in FRAM.
 //     URL: https://github.com/RobTillaart/FRAM_I2C
-
-// experimental code
-// todo - read back sketch.
 //
-// last written position uint32_t at addres 0..3
-// log entry: plain text separated by newlines.
-//            timestamp + \t + random number +\n
+//
+//  experimental code
+//  TODO - read back sketch.
+//
+//  last written position uint32_t at addres 0..3
+//  log entry: plain text separated by newlines.
+//             timestamp + \t + random number +\n
 // wraps around if FRAM full => might give corrupted one corrupted line.
 //
+
 
 #include "FRAM.h"
 
@@ -39,9 +41,9 @@ void setup()
     Serial.println(rv);
   }
 
-  // get size in bytes
+  //  get size in bytes
   sizeInBytes = fram.getSize() * 1024;
-  // clear FRAM
+  //  clear FRAM
   for (uint32_t addr = 0; addr < sizeInBytes; addr++)
   {
     fram.write8(addr, 0x00);
@@ -68,9 +70,11 @@ void loop()
 void log2fram(char * str)
 {
   uint32_t len  = strlen(str);
-  // might skip reading logaddr and make it static.
+  //  might skip reading logaddr and make it static.
   uint32_t logaddr = fram.read32(0);
-  if (logaddr + len > sizeInBytes) logaddr = 0x04;  // start at begin
+
+  //  if beyond size -> start at begin
+  if (logaddr + len > sizeInBytes) logaddr = 0x04;  
 
   fram.write(logaddr, (uint8_t *)str, len);
   logaddr += len;
@@ -78,4 +82,4 @@ void log2fram(char * str)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

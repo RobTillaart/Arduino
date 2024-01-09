@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.0
+// VERSION: 0.7.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -10,7 +10,7 @@
 #include "FRAM.h"
 
 
-// DENSITY CODES
+//  DENSITY CODES
 
 #define FRAM_MB85RC64                 0x03
 #define FRAM_MB85RC256                0x05
@@ -18,7 +18,7 @@
 #define FRAM_MB85RC1M                 0x07
 
 
-// used for metadata and sleep
+//  used for metadata and sleep
 const uint8_t FRAM_SLAVE_ID_ = 0x7C;  //  == 0xF8
 const uint8_t FRAM_SLEEP_CMD = 0x86;  //
 
@@ -180,7 +180,7 @@ void FRAM::read(uint16_t memAddr, uint8_t * obj, uint16_t size)
     p += blocksize;
     size -= blocksize;
   }
-  // remainder
+  //  remainder
   if (size > 0)
   {
     _readBlock(memAddr, p, size);
@@ -199,7 +199,8 @@ int32_t FRAM::readUntil(uint16_t memAddr, char * buffer, uint16_t bufferLength, 
   {
     if (buffer[length] == separator)
     {
-      buffer[length] = 0;    //  replace separator => \0 EndChar
+      //  replace separator => \0 EndChar
+      buffer[length] = 0;
       return length;
     }
   }
@@ -216,7 +217,8 @@ int32_t FRAM::readLine(uint16_t memAddr, char * buffer, uint16_t bufferLength)
   {
     if (buffer[length] == '\n')
     {
-      buffer[length + 1] = 0;    //  add \0 EndChar after '\n'
+      //  add \0 EndChar after '\n'
+      buffer[length + 1] = 0;
       return length + 1;
     }
   }
@@ -243,6 +245,10 @@ bool FRAM::getWriteProtect()
 }
 
 
+////////////////////////////////////////////////////////////////
+//
+//  MANUFACTURER  PRODUCTID  SIZE
+//
 uint16_t FRAM::getManufacturerID()
 {
   uint32_t value = _getMetaData();
@@ -257,20 +263,37 @@ uint16_t FRAM::getProductID()
 }
 
 
-//  DENSITY
-//           Fujitsu data sheet
+#define FRAM_MANU_FUJITSU     0x0A
+#define FRAM_MANU_CYPRESS     0x04
+
+//  DENSITY  Fujitsu data sheet
 //  3 =>     MB85RC64 = 64 Kbit.
 //  5 =>     MB85RC256
 //  6 =>     MB85RC512
 //  7 =>     MB85RC1M
+//
+//  DENSITY  Cypress / Infineon data sheet
+//  3 =>     FM24V05 = 64 KByte.
+//  4 =>     FM24V10 = 128 KByte.
+//
 //  NOTE: returns the size in kiloBYTE (0 is read error)
 uint16_t FRAM::getSize()
 {
   uint32_t value = _getMetaData();
   if (value == 0xFFFFFFFF) return 0;
 
+  uint16_t manufacturer = (value >> 12) & 0x0FFF;
+
+  if (manufacturer == FRAM_MANU_CYPRESS)
+  {
+    uint16_t density = (value >> 8) & 0x0F;
+    uint16_t size = (1UL << density) * 8;  //  KB
+    _sizeBytes = size * 1024UL;
+    return size;
+  }
+  //  default FRAM_MANU_FUJITSU
   uint16_t density = (value >> 8) & 0x0F;
-  uint16_t size = (1UL << density);
+  uint16_t size = (1UL << density) * 1;  //  KB
   _sizeBytes = size * 1024UL;
   return size;
 }
@@ -319,11 +342,13 @@ void FRAM::sleep()
 //  page 12 datasheet   trec <= 400us
 bool FRAM::wakeup(uint32_t timeRecover)
 {
-  bool b = isConnected();  //  wakeup
+  //  wakeup
+  bool b = isConnected();
   if (timeRecover == 0) return b;
   //  wait recovery time
   delayMicroseconds(timeRecover);
-  return isConnected();    //  check recovery OK
+  //  check recovery OK
+  return isConnected();
 }
 
 
@@ -389,7 +414,6 @@ void FRAM::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 //
 //  FRAM32  PUBLIC
 //
-
 FRAM32::FRAM32(TwoWire *wire) : FRAM(wire)
 {
 }
@@ -448,7 +472,7 @@ void FRAM32::write(uint32_t memAddr, uint8_t * obj, uint16_t size)
     p += blocksize;
     size -= blocksize;
   }
-  // remaining
+  //  remaining
   if (size > 0)
   {
     _writeBlock(memAddr, p, size);
@@ -531,7 +555,8 @@ int32_t FRAM32::readUntil(uint32_t memAddr, char * buffer, uint16_t bufferLength
   {
     if (buffer[length] == separator)
     {
-      buffer[length] = 0;    //  replace separator => \0 EndChar
+      //  replace separator => \0 EndChar
+      buffer[length] = 0;
       return length;
     }
   }
@@ -548,7 +573,8 @@ int32_t FRAM32::readLine(uint32_t memAddr, char * buffer, uint16_t bufferLength)
   {
     if (buffer[length] == '\n')
     {
-      buffer[length + 1] = 0;    //  add \0 EndChar after '\n'
+      //  add \0 EndChar after '\n'
+      buffer[length + 1] = 0;
       return length + 1;
     }
   }
@@ -569,8 +595,6 @@ uint32_t FRAM32::clear(uint8_t value)
   }
   return end - start;
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -612,8 +636,6 @@ void FRAM32::_readBlock(uint32_t memAddr, uint8_t * obj, uint8_t size)
 }
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //  FRAM11
@@ -644,7 +666,7 @@ uint16_t FRAM11::getSize()
 //
 void FRAM11::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 {
-  // Device uses Address Pages
+  //  Device uses Address Pages
   uint8_t  DeviceAddrWithPageBits = _address | ((memAddr & 0x0700) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));
@@ -660,7 +682,7 @@ void FRAM11::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 
 void FRAM11::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 {
-  // Device uses Address Pages
+  //  Device uses Address Pages
   uint8_t DeviceAddrWithPageBits = _address | ((memAddr & 0x0700) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));
@@ -673,8 +695,6 @@ void FRAM11::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
     *p++ = _wire->read();
   }
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -701,14 +721,13 @@ uint16_t FRAM9::getSize()
 }
 
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //  FRAM9  PROTECTED
 //
 void FRAM9::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 {
-  // Device uses Address Pages
+  //  Device uses Address Pages
   uint8_t DeviceAddrWithPageBits = _address | ((memAddr & 0x0100) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));
@@ -724,7 +743,7 @@ void FRAM9::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 
 void FRAM9::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
 {
-  // Device uses Address Pages
+  //  Device uses Address Pages
   uint8_t DeviceAddrWithPageBits = _address | ((memAddr & 0x0100) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));

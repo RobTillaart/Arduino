@@ -3,9 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: multilanguage in FRAM.
 //     URL: https://github.com/RobTillaart/FRAM_I2C
+//
+//
+//  experimental code - NO OPERATIONAL CODE.
 
-
-// experimental code - NO OPERATIONAL CODE.
 
 #include "FRAM.h"
 #include "FRAM_MULTILANGUAGE.h"
@@ -39,7 +40,7 @@ void setup()
   Serial.println();
 
   //  configuration.
-  // uint32_t next = FML.begin(&fram, 0x1000, 4, 12, 20);
+  //  uint32_t next = FML.begin(&fram, 0x1000, 4, 12, 20);
   uint32_t next = FML.begin(&fram, 0x1000);
   Serial.print("START:\t1000\n");
   Serial.print("NEXT:\t");
@@ -55,10 +56,10 @@ void setup()
 
   //  user must fill all of them!
   /*
-  FML.setLanguageName(0, "EN");
-  FML.setLanguageName(1, "FR");
-  FML.setLanguageName(2, "IRL");
-  FML.setLanguageName(3, "P");
+  FML.setLanguageName(0, "EN");   //  English
+  FML.setLanguageName(1, "FR");   //  French
+  FML.setLanguageName(2, "IRL");  //  Irish
+  FML.setLanguageName(3, "P");    //  Portuguese
   */
   
   Serial.println("Languages:");

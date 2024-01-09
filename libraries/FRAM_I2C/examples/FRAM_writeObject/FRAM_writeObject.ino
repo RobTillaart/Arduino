@@ -3,11 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo writing reading objects
 //     URL: https://github.com/RobTillaart/FRAM_I2C
-//
-// experimental
 
 
 #include "FRAM.h"
+
 
 FRAM fram;
 
@@ -43,7 +42,6 @@ void setup()
 
   test_float();
   test_struct();
-
 }
 
 
@@ -65,12 +63,14 @@ void test_float()
   Serial.println(x, 6);
 }
 
+
 struct point
 {
   float x;
   float y;
   float z;
 } P = {3.91, 5.24, 7.58};
+
 
 void test_struct()
 {
@@ -87,4 +87,4 @@ void test_struct()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

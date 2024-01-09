@@ -8,6 +8,7 @@
 #include "FRAM.h"
 #include "FRAM_MULTILANGUAGE.h"
 
+
 FRAM fram;
 FRAM_ML FML;
 

@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.0
+// VERSION: 0.7.1
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define FRAM_LIB_VERSION              (F("0.7.0"))
+#define FRAM_LIB_VERSION              (F("0.7.1"))
 
 
 #define FRAM_OK                         0
@@ -100,7 +100,7 @@ public:
 
   //  MEAT INFO
   //  may not work for devices with no deviceID register.
-  //  Fujitsu = 0x000A, Ramtron = 0x004
+  //  Fujitsu = 0x000A, Ramtron et al = 0x004
   uint16_t getManufacturerID();
   //  Proprietary product ID
   uint16_t getProductID();

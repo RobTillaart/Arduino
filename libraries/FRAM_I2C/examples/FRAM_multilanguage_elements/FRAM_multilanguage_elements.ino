@@ -3,13 +3,15 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: multilanguage in FRAM.
 //     URL: https://github.com/RobTillaart/FRAM_I2C
+//
+//
+//  experimental code - NO OPERATIONAL CODE.
 
-
-// experimental code - NO OPERATIONAL CODE.
 
 #include "FRAM.h"
 #include "FRAM_MULTILANGUAGE.h"
 #include "elements_name.h"
+
 
 FRAM fram;
 FRAM_ML FML;
@@ -63,8 +65,7 @@ void setup()
     FML.setText(3, elements_name[e]);
   }
 
-
-
+  //  print the table.
   Serial.println();
   for (int e = 0;  e < 73; e++)
   {
@@ -83,7 +84,7 @@ void setup()
 
 void loop()
 {
-
 }
+
 
 //  -- END OF FILE --

@@ -3,11 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo writing reading objects
 //     URL: https://github.com/RobTillaart/FRAM_I2C
-//
-// experimental
 
 
 #include "FRAM.h"
+
 
 FRAM fram;
 
@@ -17,6 +16,7 @@ uint32_t stop;
 uint32_t sizeInBytes = 0;
 
 float x[10];
+
 
 void setup()
 {
@@ -68,4 +68,5 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

@@ -5,7 +5,8 @@
 //          returned value will include the newline '\n'
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 //   ISSUE: See issue #30 for some backgrounder.
-
+//
+//
 //  - fill the FRAM with some text lines 
 //  - this sketch assumes e.g. produced by FRAM_logging.ino
 //  - last written position uint32_t at addres 0..3
@@ -13,6 +14,7 @@
 
 
 #include "FRAM.h"
+
 
 FRAM fram;
 
@@ -79,5 +81,6 @@ void setup()
 void loop()
 {
 }
+
 
 //  -- END OF FILE --

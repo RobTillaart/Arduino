@@ -16,16 +16,18 @@ Library for FRAM_MULTILANGUAGE (FRAM_ML) to be used with the FRAM_I2C library.
 
 ## Description
 
-The FRAM_MULTILANGUAGE (FRAM_ML) is an experimental library that uses an FRAM object to 
-persistent store text tables. Typical use is to implement multi languages translations.
-The storage of text in FRAM reduces RAM usage of an Arduino quit a lot.
+The **FRAM_MULTILANGUAGE (FRAM_ML)** is an experimental library that uses an FRAM object to 
+persistently store text tables. Typical use is to implement multiple translations.
+However it can be used to store strings in only a single language too.
+The storage of text in FRAM reduces the RAM usage of an Arduino quite a lot.
 
-The FRAM_ML supports up to 5 languages, this is hard coded in the first version (0.5.1).
-An FRAM of 32KB can easily store many hundreds or even thousands (shorter) strings.
-This allows to store e.g. 600 strings in one language or 300 in two languages
+The FRAM_ML library supports up to 5 languages. This is hard coded in the first version (0.5.1).
+An FRAM module of 32KB can easily store many hundreds or even thousands (shorter) strings.
+This allows to store e.g. 600 long strings in one language or 300 in two languages
 or 120 in five languages. 
 
-The FRAM_ML can use only part of an FRAM and multiple FRAM_ML objects can use the same FRAM.
+The FRAM_ML library can be configured to use only part of an FRAM and multiple FRAM_ML 
+objects can use the same FRAM.
 
 The current implementation is very straightforward, which is not memory efficient.
 The advantage is it performs pretty well as every string can be found with little math.
@@ -130,6 +132,7 @@ Address is relative to base address.
 
 - add **setName(const char \* str)** + **getName(char \* str)**
   - length 8, position 2..9
+  - to label the text tables.
 
 
 ### Could

@@ -17,11 +17,11 @@ Arduino library for I2C FRAM.
 ## Description
 
 FRAM is a library to read from and write to (over I2C) an FRAM module.
-The library has (since 0.5.0) four classes 
-- **FRAM** 16 bit address.
-- **FRAM32** 32 (17) bit address.
-- **FRAM11** 11 bit address.
-- **FRAM9** 9 bit address.
+Since 0.5.0 the library provides four classes:
+- **FRAM** for 16 bit address devices.
+- **FRAM32** for 32 (17) bit address devices.
+- **FRAM11** for 11 bit address devices.
+- **FRAM9** for 9 bit address devices.
 
 Currently only the **MB85RC1MT** is known to use 32 bit.
 **FRAM32** can also address 16 bit devices although there is some overhead in footprint.
@@ -30,12 +30,13 @@ FRAM stands for Ferroelectric RAM - https://en.wikipedia.org/wiki/Ferroelectric_
 
 FRAM memory is much faster than EEPROM and almost as fast as (Arduino UNO) RAM.
 Another important feature FRAM has in common with EEPROM is that FRAM keeps
-its content after a reboot as it is non-volatile, even for years.
+its content after a reboot as it is **non-volatile**, even for years.
 That makes it ideal to store configuration or logging data in a project.
 
 Last but not least FRAM allows much more write cycles than any EEPROM.
 Typical FRAM allows 10^12 write cycles (see datasheet) where an ATMEGA328 (UNO)
-supports 10^5 write cycles (https://docs.arduino.cc/learn/built-in-libraries/eeprom). That is a factor of 10 million more write cycles.
+supports 10^5 write cycles (https://docs.arduino.cc/learn/built-in-libraries/eeprom). 
+That is a factor of 10 million more write cycles.
 
 
 #### Fujitsu
@@ -59,20 +60,22 @@ one calls **setSizeBytes(16 \* 1024)** or **setSizeBytes(8 \* 1024)** to set the
 For the FRAM9 and FRAM11 the size problem is solved (hard coded) in their class.
 
 
-#### Ramtron
+#### Ramtron / Cypress / Infineon
 
 Types of FRAM tested with this library:
 
 |  TYPE        |  SIZE    |  TESTED  |  NOTES                 |  uses    |  ref  |  Notes  |
 |:------------:|---------:|:--------:|:-----------------------|:---------|:-----:|:--------|
+|  24CL16B     |    2 KB  |    N     |  no deviceID register  |  FRAM11  |  #28  |
 |  FM24C256-G  |   32 KB  |    Y     |  no deviceID register  |  FRAM    |  #45  |  test with ESP32
+|  FM24V10     |  128 KB  |    Y     |                        |  FRAM32  |  #49  |  
 
 
 #### Notes
 
 - Not all types of FRAM are tested. Please let me know if you have verified one that is not in the list.
 - If there is no deviceID **getSize()** will not work correctly.
-  - ==> fixed for FRAM9 and FRAM11
+  - ==> fixed for FRAM9 and FRAM11 by hardcoding the size.
 - Address = 0x50 (default) .. 0x57, depends on the lines A0..A2.
 - **MB85RC1MT** uses even addresses only as it uses the next odd one internally.
 So 0x50 uses 0x51 internally for the upper 64 KB block.
@@ -109,7 +112,8 @@ specific for devices with 9 bit address e.g. **MB85RC04**.
 
 The user has to call **Wire.begin()** before **FRAM.begin()**!
 
-- **int begin(uint8_t address = 0x50, int8_t writeProtectPin = -1)** address and writeProtectPin is optional.
+- **int begin(uint8_t address = 0x50, int8_t writeProtectPin = -1)** 
+address and writeProtectPin is optional.
 Note the **MB85RC1MT** only uses even addresses.
 
 
@@ -142,14 +146,19 @@ In the **FRAM32** class these functions have an **uin32_t memAddr**.
   - **clear()** does not work for **MB85RC128A** unless **setSizeBytes()** is used.
 
 
-(Template functions, see issue #13, #42)
+### Template functions
+
+See issue #13, #42
+
 - **uint16_t writeObject(uint16_t memAddr, T &obj)** writes an object to memAddr (and following bytes).
   - Returns memAddr + sizeof(obj) to get the next address to write to.
 - **uint16_t readObject(uint16_t memAddr, T &obj)** reads an object from memAddr and next bytes.
   - Returns memAddr + sizeof(obj) to get the next address to read from.
 
+### ReadUntil, readLine
 
-(Experimental 0.5.1, see issue #30)
+Experimental 0.5.1, see issue #30
+
 - **int32_t readUntil(uint16_t memAddr, char \* buffer, uint16_t bufferLength, char separator)**
 Reads FRAM from an address into **buffer** until separator is encountered.
 The separator is replaced by an '\0' - end of char array.
@@ -160,7 +169,7 @@ However the buffer does contain the data read, which might be useful.
 Handle with care as buffer has probably no '\0' end char.
 - **int32_t readLine(uint16_t memAddr, char \* buffer, uint16_t bufferLength)**
 Similar to **readUntil()**, reads a line from FRAM including the '\n'.
-This '\n' is mandatory as end separator!.  
+This '\n' is mandatory as end separator!.
 Note: The buffer needs one extra char for the delimiting '\0' end char.
 To get the address of the next "field" one must add ```memAddr += length```.
 This is an minor but important difference with **readUntil()**.
@@ -172,7 +181,7 @@ printing the buffer.
 
 **readUntil()** can be used to read lines and/or fields from an FRAM filled with text.
 For example logging written with the FRAM_logging.ino example.
-Note: if memAddr + bufferLength >= size of FRAM, memory wrapping may occur.
+Note: if memAddr + bufferLength >= size of FRAM, memory address wrapping may occur.
 The library does not check, so the user should.
 
 Note: internally **readUntil()** reads bufferLength bytes to fill the buffer.
@@ -190,7 +199,8 @@ that uses a per byte fetching.
 
 Will work only if a writeProtectPin was defined in **begin()** 
 
-- **bool setWriteProtect(bool b)** make the FRAM write-protected by pulling the WP line HIGH or LOW.
+- **bool setWriteProtect(bool b)** make the FRAM write-protected by pulling 
+the WP line HIGH or LOW.
   - Returns true if a writeProtectPin was defined in **begin()**.
     Otherwise the FRAM cannot be write protected.
 - **bool getWriteProtect()** get current write protect status.
@@ -226,7 +236,9 @@ if the FRAM is used only partial.
 |  Name                    |  ID     |  Notes  |
 |:-------------------------|:-------:|:--------|
 |  Fujitsu                 |  0x00A  |
-|  Ramtron                 |  0x004  |
+|  Ramtron                 |  0x004  |  shared 
+|  Cypress                 |  0x004  |  shared
+|  Infineon                |  0x004  |  shared
 |  getMetaData read error  |  0xFFF  |  See #38  
 
 Additions for manufacturers ID's are welcome.
@@ -311,9 +323,9 @@ Use **getSizeBytes()** to get 512.
 #### Must
 
 - improve documentation
-- test more types of FRAM 
+- test more types of FRAM (continuous action)
   - FRAM11 / FRAM9
-  - other people might help.
+  - other people might provide input.
 
 
 #### Should
@@ -343,7 +355,7 @@ Use **getSizeBytes()** to get 512.
 - fill power usage table (documentation)
   - is in data sheet.
 - improve comments where needed.
-- move the device address parameter to the constructor so it becomes "unmutable"?
+- move the device address parameter to the constructor so it becomes "  "?
   would break the interface (even more).
 
 

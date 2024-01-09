@@ -4,7 +4,7 @@
 // PURPOSE: demo clear FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 //
-// experimental performance test "clear" function.
+//  performance test "clear" function.
 
 
 #include "FRAM.h"
@@ -160,4 +160,4 @@ void test()
   delay(100);
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

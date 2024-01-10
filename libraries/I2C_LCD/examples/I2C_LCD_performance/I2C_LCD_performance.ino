@@ -8,9 +8,6 @@
 //           (mine got corrupted)
 
 
-#include "Arduino.h"
-#include "Wire.h"
-
 #include "I2C_LCD.h"
 
 

@@ -4,9 +4,8 @@
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "I2C_LCD.h"
+
 
 I2C_LCD lcd(39);
 

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2024-01-08
+- add ESP8266 performance figures.
+- update readme.md
+- clean up examples
+
+
 ## [0.2.0] - 2024-01-02
 - Fix #6, clean up code
 - rewrote the bitsInOrder optimization

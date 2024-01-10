@@ -6,10 +6,8 @@
 //  TODO: add your favo weather prediction code
 
 
-#include "Arduino.h"
-#include "Wire.h"
-
 #include "I2C_LCD.h"
+
 
 //  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3
@@ -82,9 +80,6 @@ void setup()
     lcd.print(windDirection[random(8)]);
     lcd.print(" ");
   }
-
-  //  optional wind-direction
-
 }
 
 

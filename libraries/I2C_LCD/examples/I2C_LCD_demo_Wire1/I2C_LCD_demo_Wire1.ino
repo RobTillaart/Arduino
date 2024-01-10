@@ -7,10 +7,8 @@
 //  ESP32, RP2040, teensy
 
 
-#include "Arduino.h"
-#include "Wire.h"
-
 #include "I2C_LCD.h"
+
 
 //  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3

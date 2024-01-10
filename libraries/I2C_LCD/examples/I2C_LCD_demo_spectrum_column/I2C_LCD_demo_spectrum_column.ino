@@ -4,10 +4,8 @@
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#include "Arduino.h"
-#include "Wire.h"
-
 #include "I2C_LCD.h"
+
 
 //  test 20x4 + 16x2
 #define BACKLIGHT_PIN   3

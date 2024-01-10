@@ -2,13 +2,14 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.2.0"))
+#define I2C_LCD_LIB_VERSION     (F("0.2.1"))
+
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -105,9 +106,9 @@ private:
 
   uint8_t   _dataPin[4]     = { 16, 32, 64, 128 };  //  == pin 4, 5, 6, 7
   //  minor optimization only for pins = 4,5,6,7
-  bool      _pinsInOrder    = true;
-  
-  
+  bool      _pin4567 = true;
+
+
   uint8_t   _backLightPin   = 8;
   uint8_t   _backLightPol   = 1;
   uint8_t   _backLight      = 1;

@@ -75,25 +75,49 @@ it is far easier to get the nibble (half bytes) to send.
 
 First performance tests are good. See example **I2C_LCD_performance.ino**.
 
-#### dataPins in ascending order
 
-The performance measurement is done on an UNO, data pins are in ascending order.
+#### dataPins in ascending order UNO
 
-|  I2C clock  |  0.1.0  |  0.1.1  |  0.1.4  |  0.2.0  |  notes  |
-|:-----------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-|  100000     |   4316  |   4640  |   4312  |   4316  |
-|  200000     |   2440  |   2760  |   2456  |   2448  |
-|  300000     |   1780  |   2108  |   1792  |   1792  |
-|  400000     |   1496  |   1820  |   1512  |   1508  |  (1)
-|  500000     |   1308  |   1632  |   1324  |   1332  |
-|  600000     |   1176  |   1500  |   1188  |   1188  |
-|  700000     |   1076  |   1400  |   1084  |   1084  |
-|  800000     |   1024  |   1348  |   1040  |   1044  |
+Measurement is the time in microseconds to write 8 characters.
+Use the sketch I2C_LCD_performance.ino to make measurements.
 
-Note 1: 0.1.0 problems with spectrum examples - too much data too fast killed my display.
+Measurements done with **UNO** (5V, 16 MHz), data pins are in ascending order.
 
-Timing in the 0.1.1 version is roughly 400 us slower than 0.1.0 for 8 characters.
-However the 0.1.1 is more robust as far as tested.
+|  I2C clock  |  0.1.0  |  0.1.1  |  0.1.4  |  0.2.0  |  0.2.1  |  notes  |
+|:-----------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
+|  100000     |   4316  |   4640  |   4312  |   4316  |   4316  |
+|  200000     |   2440  |   2760  |   2456  |   2448  |   2448  |
+|  300000     |   1780  |   2108  |   1792  |   1792  |   1792  |
+|  400000     |   1496  |   1820  |   1512  |   1508  |   1508  |  (1)
+|  500000     |   1308  |   1632  |   1324  |   1332  |   1332  |
+|  600000     |   1176  |   1500  |   1188  |   1188  |   1188  |
+|  700000     |   1076  |   1400  |   1084  |   1084  |   1084  |
+|  800000     |   1024  |   1348  |   1040  |   1044  |   1044  |
+
+
+_Note 1: 0.1.0 had problems with spectrum examples - too much data too fast, corrupted my display.
+Timing in the 0.1.1 version is roughly 400 us slower than 0.1.0 for 8 characters. However the 0.1.1 is more robust as far as tested.
+Advice is to use version 0.2.0 or higher._
+
+
+Measurements with **ESP8266** (3V3, single core 80 MHz), data pins are in ascending order.
+
+|  I2C clock  |  0.2.0  |  notes  |
+|:-----------:|:-------:|:-------:|
+|  100000     |   5355  |
+|  200000     |   2637  |
+|  300000     |   1730  |
+|  400000     |   1294  | 
+|  500000     |   1025  |
+|  600000     |   823   |
+|  700000     |   688   |  clear() blocked
+|  800000     |   570   |
+
+
+Given the above measurements, the I2C speed should be 400 KHz or max 600 KHz.
+Of course also depending on wire length etc.
+
+#### Tuning
 
 In the file **I2C_LCD.cpp** there is this line you can tune the hard delay
 in microseconds after every character.
@@ -105,10 +129,11 @@ const uint8_t I2C_LCD_CHAR_DELAY = 20;
 ```
 
 The datasheet states one need the 37 us so 40 us is a very safe value.
-However the I2C at 400K takes at least 40 us to send an address and the first 4 bits.
+However the I2C at 400 KHz takes at least 40 us to send an address and 
+the first 4 bits.
 So 20 us is a safe value, and 10 us or even 0 us should work well.
 The math above does not include other overhead like preparing the bits etc.
-At 100K the I2C for 2 bytes takes 160 us, so it can safely set to 0.
+At 100 KHz the I2C for 2 bytes takes 160 us, so it can safely set to 0.
 
 Setting the delay to zero (0.1.4), gives roughly the 0.1.0 timing again.
 
@@ -117,19 +142,18 @@ Setting the delay to zero (0.1.4), gives roughly the 0.1.0 timing again.
 
 The performance measurement is done on an UNO. (order is simulated)
 
-|  I2C clock  |  0.2.0  |  notes  |
-|:-----------:|:-------:|:-------:|
-|  100000     |   4352  |
-|  200000     |   2480  |
-|  300000     |   1824  |
-|  400000     |   1544  |
-|  500000     |   1352  |
-|  600000     |   1216  |
-|  700000     |   1128  |
-|  800000     |   1072  |
+|  I2C clock  |  0.2.0  |  0.2.1  |  notes  |
+|:-----------:|:-------:|:-------:|:-------:|
+|  100000     |   4352  |   4352  |
+|  200000     |   2480  |   2480  |
+|  300000     |   1824  |   1824  |
+|  400000     |   1544  |   1544  |
+|  500000     |   1352  |   1360  |
+|  600000     |   1216  |   1224  |
+|  700000     |   1128  |   1124  |
+|  800000     |   1072  |   1072  |
 
-On average ~1.7% slower, as that code is pretty optimized too.
-
+Per character 4 micros slower, on average +1.7%, than when data pins are {4,5,6,7}, as the alternative code is optimized too.
 
 Note: Performance is also a matter of developing an optimal algorithm.
 This is often a trade between code size, memory used and speed.
@@ -306,11 +330,6 @@ Not reset-able.
 #### Must
 
 - update documentation
-- analyse the bitsInOrder optimization in more depth
-  - is the ~1.7% speed gain worth 24 bytes. 
-  - at 100 KHz => 544 -> 539 = 5 us / character
-  - code would be simpler / smaller.
-  - current implementation only works for 4,5,6,7
 
 #### Should
 
@@ -323,10 +342,12 @@ Not reset-able.
 - function to define the tab-stops, instead of hard coded ones.
 - make a separate include file for charmaps by name.
   - I2C_LCD_spectrum.h ?
-- investigate reading busy flag over I2C.
+- derived class for I2C_LCD4567 (optimized pins)
 
 #### Wont (for now).
 
+- investigate reading busy flag over I2C.
+  - not successful so far.
 - **size_t write(array, length)** is not implemented as there was no gain.
 - implement unit tests (possible?)
 - add timestamp last print

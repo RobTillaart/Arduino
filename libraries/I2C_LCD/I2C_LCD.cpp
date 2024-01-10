@@ -67,10 +67,10 @@ void I2C_LCD::config (uint8_t address, uint8_t enable, uint8_t readWrite, uint8_
   _backLightPin   = ( 1 << backLight);
   _backLightPol   = polarity;
 
-  _pinsInOrder = ((data4 == 4) && (data5 == 5) && (data6 == 6) && (data7 == 7));
+  _pin4567 = ((data4 == 4) && (data5 == 5) && (data6 == 6) && (data7 == 7));
   //  if pins are 0,1,2,3 they are also in order 
   //  but the shift/mask in send() should be different
-  //  needs investigation if this optimization is worth it.
+  //  4,5,6,7 is most used afaik.
 }
 
 
@@ -408,12 +408,12 @@ void I2C_LCD::send(uint8_t value, bool dataFlag)
   if (_backLight) MSN |= _backLightPin;
   uint8_t LSN = MSN;
 
-  if (_pinsInOrder)  //  4,5,6,7 only == most used.
+  if (_pin4567)  //  4,5,6,7 only == most used.
   {
     MSN |= value & 0xF0;
     LSN |= value << 4;
   }
-  else  //  ~ 1.7% slower UNO.
+  else  //  ~ 1.7% slower UNO.  (adds 4 us / char)
   {
     for ( uint8_t i = 0; i < 4; i++ )
     {

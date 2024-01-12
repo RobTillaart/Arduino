@@ -16,9 +16,36 @@ Arduino library for ADC081S 8 bit ADC (SPI).
 
 ## Description
 
-This library reads the ADC ports of the ADC081S ADC convertor.
+Experimental.
 
-Feedback is as always welcome. 
+This library reads the ADC port of the ADC081S 8 bit ADC convertor.
+The library supports both hardware and software SPI.
+The interface is straightforward as one only need a **read()** call.
+
+The library can put the device in **lowPower()** and needs a call to
+**wakeUp()** to wake up. Alternative way to wake up the device is to
+do a dummy **read()**.
+
+The library is not tested with hardware yet.
+
+Feedback is as always welcome.
+
+
+#### Compatibles
+
+Texas instruments has 9 devices in this series including the ADC081S021.
+
+|  device name  |  bits  |  KSPS  |  compatibility  |
+|:--------------|:------:|:------:|:---------------:|
+|  ADC081S021   |   8    |   200  |
+|  ADC081S051   |   8    |   500  |
+|  ADC081S101   |   8    |  1000  |
+|  ADC101S021   |   10   |   200  |  not supported yet  |
+|  ADC101S051   |   10   |   500  |  not supported yet  |
+|  ADC101S101   |   10   |  1000  |  not supported yet  |
+|  ADC121S021   |   12   |   200  |  not supported yet  |
+|  ADC121S051   |   12   |   500  |  not supported yet  |
+|  ADC121S101   |   12   |  1000  |  not supported yet  |
 
 
 #### Related
@@ -44,16 +71,20 @@ Feedback is as always welcome.
 - **void begin(uint8_t select)** set select pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 256
 
-
 #### Base
 
-- **uint16_t read()** reads the value of a single channel.
+- **uint16_t read()** reads the value of the device.
 - **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, please read datasheet
 of the ADC first to get optimal speed.
-- **uint32_t getSPIspeed()** gets current speed in **Hz**.
+- **uint32_t getSPIspeed()** returns current speed in **Hz**.
 
+#### Low power
 
-### Debug
+- **void lowPower()** put device in low power mode.
+- **void wakeUp()** put device in normal power mode.
+- **isLowPower()** returns true if in low power mode, so wakeUp needed().
+
+#### Debug
 
 - **bool usesHWSPI()** returns true if hardware SPI is used.
 - **uint32_t count()** returns number of reads since start.
@@ -69,10 +100,13 @@ of the ADC first to get optimal speed.
 
 #### Should
 
-- add shutDown() + wakeUp()  // select between normal and shutdown mode.
--
+- investigate 10 and 12 bit versions of the device.
+  - how to support
+
 
 #### Could
+
+
 
 
 #### Wont

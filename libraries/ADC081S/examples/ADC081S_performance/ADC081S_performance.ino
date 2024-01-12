@@ -9,7 +9,7 @@
 #include "ADC081S.h"
 
 ADC081S adc;  //  HW SPI
-// ADC081S adc(6, 7);    //  SW SPI UNO  - adjust pins if needed
+// ADC081S adc(6, 7);    //  SW SPI UNO   - adjust pins if needed
 // ADC081S adc(20, 21);  //  SW SPI ESP32 - adjust pins if needed
 const uint8_t SELECT_PIN = 10;
 

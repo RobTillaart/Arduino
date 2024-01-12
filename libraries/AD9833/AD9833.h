@@ -3,7 +3,7 @@
 //    FILE: AD9833.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.3.0"))
+#define AD9833_LIB_VERSION     (F("0.3.1"))
 
 
 #if !defined(__SPI_CLASS__)
@@ -58,7 +58,7 @@ public:
 
   //       returns frequency set
   //       0 .. 12.5 MHz == AD9833_MAX_FREQ
-  float    setFrequency(float freq, uint8_t channel = 0);
+  float    setFrequency(float frequency, uint8_t channel = 0);
   float    getFrequency(uint8_t channel = 0);
   float    getMaxFrequency();
   void     setFrequencyChannel(uint8_t channel);
@@ -81,6 +81,11 @@ public:
   void     writeControlRegister(uint16_t value);
   void     writeFrequencyRegister(uint8_t channel, uint32_t freq);
   void     writePhaseRegister(uint8_t channel, uint16_t value);
+
+
+  //  EXPERIMENTAL adjust changed crystal
+  void     setCrystalFrequency(float crystalFrequency = 25000000);
+  float    getCrystalFrequency();
 
 
   //  EXPERIMENTAL HLB MODE (14 bit)
@@ -110,6 +115,8 @@ private:
 
   float    _freq[2]   = { 0, 0 };  //  Hz
   float    _phase[2]  = { 0, 0 };  //  angle 0..360
+
+  float    _crystalFreqFactor = 268435456.0 / 25000000.0;
 };
 
 

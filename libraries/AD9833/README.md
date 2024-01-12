@@ -207,7 +207,7 @@ Especially frequency setting is improved as the float parameter of **setFrequenc
 not have the 28 bits precision of the register.
 
 - **void writeControlRegister(uint16_t value)** see datasheet
-- **void writeFrequencyRegister(uint8_t channel, uint32_t freq)** channel = 0 or 1, freq = 0 .. 134217728
+- **void writeFrequencyRegister(uint8_t channel, uint32_t freq)** channel = 0 or 1, freq = 0 .. 268435455 (2^28 - 1 )
 - **void writePhaseRegister(uint8_t channel, uint16_t value)** channel = 0 or 1, value = 0 .. 4095
 
 
@@ -228,6 +228,27 @@ Only using the LSB register allows one to go from 0 .. 3050 Hz.
 In piano scales this covers C0 (16.35 Hz) to F#7 (2959.96 Hz).
 
 https://pages.mtu.edu/~suits/notefreqs.html
+
+
+#### SetCrystalFrequency()
+
+(experimental, might change in the future)
+
+Since version 0.3.1 the user can adjust the frequency of the crystal oscillator used.
+This can be done when the default crystal of 25 MHz is replaced e.g. by one of 10 MHz.
+It also allows adjustments of the clock e.g. for temperature drift or otherwise.
+This drift is not investigated further. (Feedback welcome).
+
+Two functions are defined for this:
+
+- **void setCrystalFrequency(float crystalFrequency = 25000000)** set the frequency
+of the new crystal. There is no range check.
+- **float getCrystalFrequency()** returns the current (set) crystal frequency.
+
+An effect of using a variable for crystal frequency instead of a const float is that
+the function **setFrequency()** has become slower from 44 us to 76 us on UNO.
+So instead of these functions the **crystalFreqFactor** might become a const float in
+the library.
 
 
 ## External FSYNC
@@ -265,6 +286,8 @@ As this implementation is experimental, the interface might change in the future
 
 #### Should
 
+- evaluate the **setCrytalFrequency()** implementation / performance.
+  - runtime adjust-ability is preferred however...
 - investigate external clock
 - investigate timing (response time)
   - change freq

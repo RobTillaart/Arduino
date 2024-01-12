@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //     URL: https://github.com/RobTillaart/AD9833
 //
 
@@ -140,19 +140,20 @@ uint8_t AD9833::getWave()
 }
 
 
-float AD9833::setFrequency(float freq, uint8_t channel)
+float AD9833::setFrequency(float frequency, uint8_t channel)
 {
   if (channel > 1) return -1;
-  _freq[channel] = freq;
+  _freq[channel] = frequency;
   if (_freq[channel] > AD9833_MAX_FREQ) _freq[channel] = AD9833_MAX_FREQ;
   if (_freq[channel] < 0) _freq[channel] = 0;
 
   //  convert to bit pattern
-  //  fr = round(freq * pow(2, 28) / 25 MHz));
+  //  fr = round(frequency * pow(2, 28) / 25 MHz));  //  25 MHz == crystal frequency.
+  //  _crystalFreqFactor == (pow(2, 28) / crystal frequency);
   //  rounding
-  uint32_t fr = round(_freq[channel] * (268435456.0 / 25000000.0));
+  uint32_t freq = round(_freq[channel] * _crystalFreqFactor);
 
-  writeFrequencyRegister(channel, fr);
+  writeFrequencyRegister(channel, freq);
 
   return _freq[channel];
 }
@@ -285,6 +286,19 @@ void AD9833::writePhaseRegister(uint8_t channel, uint16_t value)
 }
 
 
+void AD9833::setCrystalFrequency(float crystalFrequency)
+{
+  //  calculate the often used factor
+  _crystalFreqFactor = 268435456.0 / crystalFrequency;
+}
+
+
+float AD9833::getCrystalFrequency()
+{
+  return 268435456.0 / _crystalFreqFactor;
+}
+
+
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -380,14 +394,14 @@ void AD9833::writeData28(uint16_t LSB, uint16_t MSB)
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
-    
+
     for (uint16_t mask = 0x8000; mask; mask >>= 1)
     {
       digitalWrite(dao, (MSB & mask) !=0 ? HIGH : LOW);
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
-    
+
     digitalWrite(dao, LOW);
   }
   if (_useSelect) digitalWrite(_selectPin, HIGH);

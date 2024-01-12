@@ -84,11 +84,11 @@ unittest(test_frequency)
   AD9833 funcgen(4, 5, 6);
   funcgen.begin();
 
-  for (long freq = 0; freq < 10000000; freq += 1000000)
+  for (float freq = 10; freq <= 10000000; freq *= 10)
   {
     funcgen.setFrequency(freq);
-    long fr = funcgen.getFrequency();
-    assertEqual(fr, freq);
+    float fr = funcgen.getFrequency();
+    assertEqualFloat(fr, freq, 1);
   }
 }
 
@@ -103,6 +103,20 @@ unittest(test_phase)
     funcgen.setPhase(ph);
     int phase = funcgen.getPhase();
     assertEqual(ph, phase);
+  }
+}
+
+
+unittest(test_crystal)
+{
+  AD9833 funcgen(4, 5, 6);
+  funcgen.begin();
+
+  for (float freq = 1000000; freq <= 25000000; freq += 3000000)
+  {
+    funcgen.setCrystalFrequency(freq);
+    float fr = funcgen.getCrystalFrequency();
+    assertEqualFloat(fr, freq, 1);
   }
 }
 

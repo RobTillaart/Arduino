@@ -1,0 +1,23 @@
+{
+  "name": "ADC081S",
+  "keywords": "",
+  "description": "Arduino library for ADC081S 8 bit ADC (SPI)",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADC081S.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADC081S.h"
+}

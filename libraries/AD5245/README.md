@@ -107,9 +107,19 @@ The examples show the basic working of the functions.
 
 ## Future
 
+#### Must
+
+#### Should
+
 - sync with AD520X library
 - sync with AD524X library
-  - reset ==> midScaleReset() ?  AD524X alike
+
+#### Could
+
+#### Wont
+
+- midScaleReset() ?  AD524X alike
+  ==> user can do **write(AD5245_MIDPOINT)**.
 
 
 ## Support

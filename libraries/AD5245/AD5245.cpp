@@ -1,13 +1,14 @@
 //
 //    FILE: AD5245.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for I2C digital potentiometer AD5245.
 //    DATE: 2022-07-31
 //     URL: https://github.com/RobTillaart/AD5245
 
 
 #include "AD5245.h"
+
 
 #define AD5245_WRITE            0x00
 #define AD5245_RESET            0x40
@@ -26,7 +27,7 @@ AD5245::AD5245(const uint8_t address, TwoWire *wire)
 
 bool AD5245::begin()
 {
-  if ((_address != 0x2C) || (_address != 0x2D)) return false;
+  if ((_address != 0x2C) && (_address != 0x2D)) return false;
   if (! isConnected()) return false;
   reset();
   return true;

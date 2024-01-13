@@ -1,7 +1,7 @@
 {
   "name": "ADC081S",
-  "keywords": "",
-  "description": "Arduino library for ADC081S 8 bit ADC (SPI)",
+  "keywords": "ADC101S, ADC121S",
+  "description": "Arduino library for ADC081S 8 bit ADC (SPI).\nADC081S021,ADC081S051,ADC081S101,ADC101S021,ADC101S051,ADC101S101,ADC121S021,ADC121S051,ADC121S101\n",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/ADC081S.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

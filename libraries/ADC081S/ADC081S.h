@@ -2,7 +2,7 @@
 //
 //    FILE: ADC081S.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define ADC081S_LIB_VERSION       (F("0.1.1"))
+#define ADC081S_LIB_VERSION       (F("0.1.2"))
 
 
 #ifndef __SPI_CLASS__
@@ -76,8 +76,23 @@ protected:
 //
 //  DERIVED CLASSES
 //
+class ADC101S : public ADC081S
+{
+public:
+  ADC101S(__SPI_CLASS__ * mySPI = &SPI);
+  ADC101S(uint8_t dataIn, uint8_t clock);
+  uint16_t read();
+};
 
-//  TODO
+
+class ADC121S : public ADC081S
+{
+public:
+  ADC121S(__SPI_CLASS__ * mySPI = &SPI);
+  ADC121S(uint8_t dataIn, uint8_t clock);
+  uint16_t read();
+};
 
 
 //  -- END OF FILE --
+

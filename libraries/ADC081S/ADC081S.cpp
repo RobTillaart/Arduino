@@ -1,7 +1,7 @@
 //
 //    FILE: ADC081S.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -74,7 +74,7 @@ uint32_t ADC081S::count()
 
 uint16_t ADC081S::read()
 {
-  return readADC();
+  return readADC() >> 4;  //  remove 4 trailing zero's
 }
 
 
@@ -140,7 +140,7 @@ uint16_t ADC081S::readADC()
   }
   digitalWrite(_select, HIGH);
 
-  return data >> 4;  //  remove 4 trailing zero's
+  return data;
 }
 
 
@@ -180,10 +180,42 @@ uint16_t  ADC081S::swSPI_transfer16(uint16_t m)
 
 //////////////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES
+//  DERIVED CLASS ADC101S
 //
+ADC101S::ADC101S(__SPI_CLASS__ * mySPI) : ADC081S(mySPI)
+{
+  _maxValue = 1023;
+}
 
-//  TODO
+ADC101S::ADC101S(uint8_t dataIn, uint8_t clock) : ADC081S(dataIn, clock)
+{
+  _maxValue = 1023;
+}
+
+uint16_t ADC101S::read()
+{
+  return readADC() >> 2;  //  remove 2 trailing zero's
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS ADC121S
+//
+ADC121S::ADC121S(__SPI_CLASS__ * mySPI) : ADC081S(mySPI)
+{
+  _maxValue = 4095;
+}
+
+ADC121S::ADC121S(uint8_t dataIn, uint8_t clock) : ADC081S(dataIn, clock)
+{
+  _maxValue = 4095;
+}
+
+uint16_t ADC121S::read()
+{
+  return readADC();
+}
 
 
 //  -- END OF FILE --

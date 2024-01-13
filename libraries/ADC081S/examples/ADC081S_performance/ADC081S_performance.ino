@@ -31,7 +31,7 @@ void setup()
   delay(100);
 
   Serial.println("***************************************\n");
-  for (int s = 1; s <= 16; s++)
+  for (int s = 1; s <= 64; s++)
   {
     uint32_t val = 0;
     uint32_t speed = s * 1000000UL;

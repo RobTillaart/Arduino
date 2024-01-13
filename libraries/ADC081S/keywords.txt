@@ -2,6 +2,8 @@
 
 # Data types (KEYWORD1)
 ADC081S	KEYWORD1
+ADC101S	KEYWORD1
+ADC121S	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

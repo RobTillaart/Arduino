@@ -9,7 +9,7 @@
 
 
 #include "INA226.h"
-#include "Wire.h"
+
 
 INA226 INA(0x40);
 
@@ -29,7 +29,7 @@ void setup()
 
   //  to be tested....
   //  measure POWER LIMIT ?
-  //  assume milisamperes.
+  //  assume milliamperes.
   uint16_t limit = 1000;
   INA.setAlertLimit(limit);
 

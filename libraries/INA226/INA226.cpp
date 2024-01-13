@@ -1,32 +1,34 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
+//
+//  Read the datasheet for the details
 
 
 #include "INA226.h"
 
 //  REGISTERS
-#define INA226_CONFIGURATION        0x00
-#define INA226_SHUNT_VOLTAGE        0x01
-#define INA226_BUS_VOLTAGE          0x02
-#define INA226_POWER                0x03
-#define INA226_CURRENT              0x04
-#define INA226_CALIBRATION          0x05
-#define INA226_MASK_ENABLE          0x06
-#define INA226_ALERT_LIMIT          0x07
-#define INA226_MANUFACTURER         0xFE
-#define INA226_DIE_ID               0xFF
+#define INA226_CONFIGURATION              0x00
+#define INA226_SHUNT_VOLTAGE              0x01
+#define INA226_BUS_VOLTAGE                0x02
+#define INA226_POWER                      0x03
+#define INA226_CURRENT                    0x04
+#define INA226_CALIBRATION                0x05
+#define INA226_MASK_ENABLE                0x06
+#define INA226_ALERT_LIMIT                0x07
+#define INA226_MANUFACTURER               0xFE
+#define INA226_DIE_ID                     0xFF
 
 
 //  CONFIGURATION MASKS
-#define INA226_CONF_RESET_MASK      0x8000
-#define INA226_CONF_AVERAGE_MASK    0x0E00
-#define INA226_CONF_BUSVC_MASK      0x01C0
-#define INA226_CONF_SHUNTVC_MASK    0x0038
-#define INA226_CONF_MODE_MASK       0x0007
+#define INA226_CONF_RESET_MASK            0x8000
+#define INA226_CONF_AVERAGE_MASK          0x0E00
+#define INA226_CONF_BUSVC_MASK            0x01C0
+#define INA226_CONF_SHUNTVC_MASK          0x0038
+#define INA226_CONF_MODE_MASK             0x0007
 
 
 ////////////////////////////////////////////////////////
@@ -68,13 +70,6 @@ uint8_t INA226::getAddress()
 //
 //  Core functions
 //
-float INA226::getShuntVoltage()
-{
-  int16_t val = _readRegister(INA226_SHUNT_VOLTAGE);
-  return val * 2.5e-6;   //  fixed 2.50 uV
-}
-
-
 float INA226::getBusVoltage()
 {
   uint16_t val = _readRegister(INA226_BUS_VOLTAGE);
@@ -82,10 +77,10 @@ float INA226::getBusVoltage()
 }
 
 
-float INA226::getPower()
+float INA226::getShuntVoltage()
 {
-  uint16_t val = _readRegister(INA226_POWER);
-  return val * 25 * _current_LSB;  //  fixed 25 Watt
+  int16_t val = _readRegister(INA226_SHUNT_VOLTAGE);
+  return val * 2.5e-6;   //  fixed 2.50 uV
 }
 
 
@@ -96,19 +91,47 @@ float INA226::getCurrent()
 }
 
 
+float INA226::getPower()
+{
+  uint16_t val = _readRegister(INA226_POWER);
+  return val * 25 * _current_LSB;  //  fixed 25 Watt
+}
+
+
+bool INA226::isConversionReady()
+{
+  uint16_t mask = _readRegister(INA226_MASK_ENABLE);
+  return (mask & INA226_CONVERSION_READY_FLAG) == INA226_CONVERSION_READY_FLAG;
+}
+
+
+bool INA226::waitConversionReady(uint32_t timeout)
+{
+  uint32_t start = millis();
+  while ( (millis() - start) <= timeout) 
+  {
+    if (isConversionReady()) return true;
+   delay(1);  //  implicit yield();
+  }
+  return false;
+}
+
 ////////////////////////////////////////////////////////
 //
 //  Configuration
 //
-void INA226::reset()
+bool INA226::reset()
 {
   uint16_t mask = _readRegister(INA226_CONFIGURATION);
   mask |= INA226_CONF_RESET_MASK;
-  _writeRegister(INA226_CONFIGURATION, mask);
+  uint16_t result = _writeRegister(INA226_CONFIGURATION, mask);
+  //  Serial.println(result);
+  if (result != 0) return false;
   //  reset calibration
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
+  return true;
 }
 
 
@@ -326,9 +349,12 @@ uint8_t INA226::getMode()
 //
 //  alert
 //
-void INA226::setAlertRegister(uint16_t mask)
+bool INA226::setAlertRegister(uint16_t mask)
 {
-  _writeRegister(INA226_MASK_ENABLE, (mask & 0xFC00));
+  uint16_t result = _writeRegister(INA226_MASK_ENABLE, (mask & 0xFC00));
+  //  Serial.println(result);
+  if (result != 0) return false;
+  return true;
 }
 
 
@@ -338,9 +364,12 @@ uint16_t INA226::getAlertFlag()
 }
 
 
-void INA226::setAlertLimit(uint16_t limit)
+bool INA226::setAlertLimit(uint16_t limit)
 {
-  _writeRegister(INA226_ALERT_LIMIT, limit);
+  uint16_t result = _writeRegister(INA226_ALERT_LIMIT, limit);
+  //  Serial.println(result);
+  if (result != 0) return false;
+  return true;
 }
 
 

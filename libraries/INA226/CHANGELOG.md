@@ -6,12 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2024-01-06
+- Thanks to Henk Holdijk for his improvements.
+- fix #35, add **bool isConversionReady()**
+- add **bool waitConversionReady(uint32_t timeout = INA226_MAX_WAIT_MS)**
+- add constant **INA226_MAX_WAIT_MS**
+- changed return type **bool setAlertRegister(uint16_t mask)**
+- changed return type **bool setAlertLimit(uint16_t limit)**
+- reorder functions in .cpp file to match .h
+- remove not needed include from examples.
+- update readme.md
+
+
 ## [0.5.1] - 2023-12-10
 - reimplementation of **setMaxCurrentShunt()**, 
   - thanks to tileiar
 - update readme.md
 - minor edits
-
 
 ## [0.5.0] - 2023-12-04
 - Fix #31, refactor API - support ESP32-S3

@@ -8,7 +8,7 @@
 
 
 #include "INA226.h"
-#include "Wire.h"
+
 
 INA226 INA(0x40);
 
@@ -26,7 +26,7 @@ void setup()
     Serial.println("could not connect. Fix and Reboot");
   }
 
-  //  1 ampere - 0.002 shunt.
+  //  1 ampere - 0.002 ohm shunt.
   INA.setMaxCurrentShunt(1, 0.002);
 
   Serial.println("POWER2 = busVoltage x current\n");

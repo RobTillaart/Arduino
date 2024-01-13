@@ -137,6 +137,10 @@ Also the value is not meaningful if there is no shunt connected.
 - **float getBusVoltage()** idem. in volts. Max 36 Volt.
 - **float getCurrent()** is the current through the shunt in Ampere.
 - **float getPower()** is the current x BusVoltage in Watt.
+- **bool isConversionReady()** returns true if conversion ready flag is set.
+- **bool waitConversionReady(uint32_t timeout = INA226_MAX_WAIT_MS)** 
+active waiting for ready flag.
+Polling for max timeout time, default 600 milliseconds, for wake up time.
 
 The library has helper functions to convert above output to a more appropriate scale of units.
 
@@ -161,8 +165,9 @@ Note: the conversion time runs in the background and if done value is stored in 
 The core functions read from the registers, so they are not blocked.
 They return the same value if no new data is available / ready.
 
-- **void reset()** software power on reset. 
+- **bool reset()** software power on reset. 
 This implies calibration with **setMaxCurrentShunt()** needs to be redone.
+Returns true upon success.
 - **bool setAverage(uint8_t avg = 0)** see table below.
 (0 = default ==> 1 read), returns false if parameter > 7.
 - **uint8_t getAverage()** returns the value set. See table below.
@@ -278,11 +283,13 @@ Descriptive mode functions (convenience wrappers).
 
 See datasheet, not tested yet.
 
-- **void setAlertRegister(uint16_t mask)** by setting the mask 
+- **bool setAlertRegister(uint16_t mask)** by setting the mask 
 one of five types of over- or underflow can be detected. 
 Another feature that can be set is the conversion ready flag.
+Returns true if write to register successful.
 - **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**.
-- **void setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag
+- **bool setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag.
+Returns true if write to register successful.
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
 
 
@@ -361,6 +368,8 @@ See examples..
   - can it be recognized? => current drop?
 
 #### Could
+
+- clean up magic numbers in the code
 
 
 #### Won't

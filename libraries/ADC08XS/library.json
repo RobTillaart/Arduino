@@ -1,0 +1,23 @@
+{
+  "name": "ADC08XS",
+  "keywords": "ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S",
+  "description": "Arduino library for ADC08XS 8, 10, 12 bit ADC (SPI), 2 or 4 channel.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADC08XS.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADC08XS.h"
+}

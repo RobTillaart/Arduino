@@ -18,6 +18,11 @@ Arduino library for converting angles (degrees/radians) to less known formats.
 
 AngleConvertor is an Arduino class to convert an angle from and to less known formats.
 
+Since 0.2.0 the class uses degrees as internal format as that improved precision a bit
+compared to the pre-0.2.0 version that used radians.
+Furthermore to improve precision the class uses doubles, so platforms that support these
+can gain extra precision.
+
 
 #### Formats
 
@@ -68,53 +73,53 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 
 #### Setters
 
-- **void setDegrees(float value = 0)**
-- **void setRadians(float value = 0)**
-- **void setGradians(float value = 0)**
-- **void setAngularMil(float value = 0)**
-- **void setBinaryRadians(float value = 0)**
-- **void setCentiTurn(float value = 0)**
-- **void setDiameterPart(float value = 0)**
-- **void setHexacontade(float value = 0)**
-- **void setHourAngle(float value = 0)**
-- **void setMilliTurn(float value = 0)**
-- **void setMinuteTime(float value = 0)**
-- **void setOctant(float value = 0)**
-- **void setPechus(float value = 0)**
-- **void setPoints(float value = 0)**
-- **void setQuadrant(float value = 0)**
-- **void setQuarterPoint(float value = 0)**
-- **void setSecondsTime(float value = 0)**
-- **void setSextant(float value = 0)**
-- **void setSign(float value = 0)**
-- **void setTurn(float value = 0)**
+- **void setDegrees(double value = 0)**
+- **void setRadians(double value = 0)**
+- **void setGradians(double value = 0)**
+- **void setAngularMil(double value = 0)**
+- **void setBinaryRadians(double value = 0)**
+- **void setCentiTurn(double value = 0)**
+- **void setDiameterPart(double value = 0)**
+- **void setHexacontade(double value = 0)**
+- **void setHourAngle(double value = 0)**
+- **void setMilliTurn(double value = 0)**
+- **void setMinuteTime(double value = 0)**
+- **void setOctant(double value = 0)**
+- **void setPechus(double value = 0)**
+- **void setPoints(double value = 0)**
+- **void setQuadrant(double value = 0)**
+- **void setQuarterPoint(double value = 0)**
+- **void setSecondsTime(double value = 0)**
+- **void setSextant(double value = 0)**
+- **void setSign(double value = 0)**
+- **void setTurn(double value = 0)**
 
 
 #### Getters
 
-- **float getDegrees()**
-- **float getRadians()**
-- **float getGradians()**
-- **float getAngularMil()**
-- **float getBinaryRadians()**
-- **float getCentiTurn()**
-- **float getDiameterPart()**
-- **float getHexacontade()**
-- **float getHourAngle()**
-- **float getMilliTurn()**
-- **float getMinuteTime()**
-- **float getOctant()**
-- **float getPechus()**
-- **float getPoints()**
-- **float getQuadrant()**
-- **float getQuarterPoint()**
-- **float getSecondsTime()**
-- **float getSextant()**
-- **float getSign()**
-- **float getTurn()**
+- **double getDegrees()**
+- **double getRadians()**
+- **double getGradians()**
+- **double getAngularMil()**
+- **double getBinaryRadians()**
+- **double getCentiTurn()**
+- **double getDiameterPart()**
+- **double getHexacontade()**
+- **double getHourAngle()**
+- **double getMilliTurn()**
+- **double getMinuteTime()**
+- **double getOctant()**
+- **double getPechus()**
+- **double getPoints()**
+- **double getQuadrant()**
+- **double getQuarterPoint()**
+- **double getSecondsTime()**
+- **double getSextant()**
+- **double getSign()**
+- **double getTurn()**
+
 
 #### WindRose
-
 
 From: https://forum.arduino.cc/t/function-optimization-wind-direction-open-for-ideas/92493/10
 
@@ -122,7 +127,7 @@ Converts an angle in degrees to a char array like "WSW".
 0 and 360 degrees is considered North. 
 
 - **char \* windrose()** converter version.
-- **char \* windrose(float degrees)** stand alone version.
+- **char \* windrose(double degrees)** stand alone version.
 degrees should be between 0 and 360, as function does no normalization.
 
 

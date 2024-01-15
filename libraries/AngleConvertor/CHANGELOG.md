@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [0.2.0] - 2024-01-15
+- Fix #4, use **degrees** as internal format to improve precision (a bit)
+- set internal size to **double** for those board that support 8 bytes double.
+- improved **AngleConverter_demo.ino**
+
+----
+
 ## [0.1.2] - 2023-10-17
 - update readme.md
-
 
 ## [0.1.1] - 2023-01-23
 - update GitHub actions

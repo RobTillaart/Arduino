@@ -305,6 +305,14 @@ Its interface is described in **FRAM_MULTILANGUAGE.md**.
 See examples.
 
 
+## FRAM32
+
+Since version 0.8.0 the FRAM32 internal **readBlock()** and **writeBlock()**
+guard for memory addresses that are out of range. 
+This prevents interference with valid address ranges.
+These will just be ignored for now and no error flag whatever is set.
+
+
 ## FRAM11 + FRAM9
 
 - 0.5.0 added, see issue #28
@@ -330,6 +338,10 @@ Use **getSizeBytes()** to get 512.
 
 #### Should
 
+- **FRAM32** invalid memory address handling.
+  - user should be notified of success / failure? how?
+  - **bool validAddress(uint32_t memAddress)** as preventive strategy.
+  - or setting an error flag? return value? (impact in class hierarchy).
 - Improve **getSize()** to have **clear()** working properly. 
   - **MB85RC128A** only (hard code fall back?).
   - **getSize()** scanning FRAM like EEPROM library?

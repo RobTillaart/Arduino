@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.0] - 2024-01-15
+- Fix #51 - bug in FRAM32::_readBlock()
+- improve fram32 example to test both low and high addresses
+- add memory address guarding for the FRAM32 _readBlock() and _writeBlock()
+- update readme.md.
+
+----
+
 ## [0.7.1] - 2024-01-09
 - improve getSize() to support Infineon FM24V10 and FM24V05 (#49)
 - update readme.md

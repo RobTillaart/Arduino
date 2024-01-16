@@ -125,8 +125,13 @@ depending on number of bits / class.
 - **uint16_t read(uint8_t channel)** reads the value of the device.
 The parameter channel must be 0,1,2,3, depending on device.
 Invalid channels will always return zero 0.
-- **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, please read datasheet
-of the ADC first to get optimal speed.
+- **int deltaRead(chanA, chanB)** read channel A and B and return the difference.
+Note that the value can be negative if read(B) > read(A) or zero.
+if chanA == chanB there will be two reads of the same channel just
+a few microseconds apart, most often returning 0. 
+The function does not check if both channels are the same.
+- **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, 
+please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** returns current speed in **Hz**.
 
 

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2024-01-16
+- add **int deltaRead(chanA, chanB)**
+- add example **ADC08XS_deltaRead.ino**
+- fix select pin in **ADC08XS_read.ino**
+- update readme.md
+
+
 ## [0.1.0] - 2024-01-13
 - initial version.
 

@@ -1,7 +1,7 @@
 //
 //    FILE: ADC08XS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S, 
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
@@ -88,6 +88,12 @@ uint32_t ADC08XS::count()
 uint16_t ADC08XS::read(uint8_t channel)
 {
   return readADC(channel) >> 4;  //  remove 4 trailing zero's
+}
+
+
+int ADC08XS::deltaRead(uint8_t chanA, uint8_t chanB)
+{
+  return int(read(chanA)) - int(read(chanB));
 }
 
 

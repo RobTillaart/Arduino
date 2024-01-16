@@ -17,6 +17,7 @@ maxValue	KEYWORD2
 maxChannel	KEYWORD2
 
 read	KEYWORD2
+deltaRead	KEYWORD2
 
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2

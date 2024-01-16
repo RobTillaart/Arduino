@@ -22,7 +22,7 @@ void setup()
   Serial.println(ADC08XS_LIB_VERSION);
 
   adc01.begin(10);
-  adc02.begin(5);
+  adc02.begin(4);
 
   Serial.println();
   Serial.println("ADC\tMAXVALUE");

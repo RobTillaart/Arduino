@@ -6,9 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2024-01-16
+- fix #48, use float variables in example GY521_test_1.ino
+- add **void calibrate(uint16_t times)** to API
+- add **GY521_performance_calibrate.ino** example
+- add **GY521_raw_cooked.ino** example
+- make explicit that pitch roll yaw is work in progress.
+- update readme.md
+  - calibrate section
+  - add some tables
+- minor edits in examples
+
+
 ## [0.5.1] - 2023-12-11
 - redo initialization order.
-
 
 ## [0.5.0] - 2023-12-05
 - refactor API, begin()

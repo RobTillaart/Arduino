@@ -7,7 +7,7 @@
 
 #include "GY521.h"
 
-GY521 sensor(0x69);
+GY521 sensor(0x68);
 
 uint32_t counter = 0;
 
@@ -28,7 +28,7 @@ void setup()
   delay(100);
   if (sensor.wakeup() == false)
   {
-    Serial.println("Could not connect to GY521");
+    Serial.println("\tCould not connect to GY521: please check the GY521 address (0x68/0x69)");
   }
   //  adjust when needed.
   sensor.setAccelSensitivity(0);  //  2g

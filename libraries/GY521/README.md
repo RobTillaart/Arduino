@@ -16,12 +16,13 @@ Arduino library for I2C GY521 accelerometer-gyroscope sensor a.k.a. MCU-6050.
 
 ## Description
 
-Experimental library for GY521 a.k.a. MCU-6050.
+**Experimental** library for GY521 a.k.a. MCU-6050.
 
 Library is work in progress, in fact it is extracted and extended from an old project.
 It needs to be tested a lot more.
 
 See changelog.md for latest updates.
+
 
 #### 0.5.0 Breaking change
 
@@ -35,12 +36,25 @@ before calling **begin()**.
 #### Examples
 
 - **GY521_angle** read angleX, angleY, angleZ.
+- **GY521_performance_calibrate.ino** determine calibration performance.
 - **GY521_performance** measure performance.
 - **GY521_pitch_roll_yaw** to get pitch roll yaw.
-- **GY521_readCalibration_1** read calibration values / errors for a flat sensor.
+- **GY521_raw_cooked** make a table of raw measurements and derived data 
+for analysis e.g. in a spreadsheet.
+- **GY521_readCalibration_1** read calibration values / errors for a "flat" sensor.
 - **GY521_readCalibration_2** generate calibration code snippet.
 - **GY521_test_1** test working of the sensor.
-- **GY521_test_2** test set/get functions.
+- **GY521_test_2** test set/get functions (sort of unit test).
+- **GY521_two_sensors** demo for two sensors.
+
+
+#### Related
+
+- https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf
+- https://cdn.sparkfun.com/datasheets/Sensors/Accelerometers/RM-MPU-6000A.pdf  register map.
+- https://github.com/RobTillaart/Angle
+- https://github.com/RobTillaart/AngleConverter
+
 
 
 ## Breakout board
@@ -67,6 +81,16 @@ AD0 connected to VCC => 0x69
 
 ## Calibration (short version for now)
 
+Since version 0.5.2 the library has a build in **void calibrate(times)** function which
+can be called instead of manual calibration.
+This function overwrites the values of axe aye aze gxe gye gze.
+**calibrate()** must be called after **setAccelSensitivity(as)** and **setGyroSensitivity(gs)**.
+
+Note the **calibrate()** function takes time, depending on the number of times.
+
+
+#### Manual calibration
+
 1. load and run calibration example  
    it shows a header containing 6 numbers and 10 lines of 8 numbers
 1. wait until the middle 6 of the longer lines stabilize (should all be 0)
@@ -88,6 +112,18 @@ Note call **Wire.begin()** before **begin()**.
 - **bool isConnected()** returns true if device can be found on I2C bus.
 - **void reset()** set all internal values to 0 and throttle time to 10 ms.
 - **bool wakeUp()** idem.
+
+
+### Calibrate
+
+- **void calibrate(uint16_t times)** This function overwrites the values of axe aye aze gxe gye gze.
+To get "quality error" offsets, the GY521 sensor should not move during the calibration.
+The parameter times determines the number of measurements made.
+Typical values are 100 or more.
+Please note this is a time consuming function.
+
+Ideal the function **calibrate()** should continue until it is stable (how to define) for n reads.
+Drawback is that this would make the duration unpredictable. 
 
 
 ### Throttle
@@ -112,7 +148,8 @@ Note call **Wire.begin()** before **begin()**.
 
 #### Actual read
 
-- **int16_t read()** returns status = GY521_OK on success.
+- **int16_t read()** reads all core measurements.
+returns status = GY521_OK on success.
 - **int16_t readAccel()** read accelerometer only to speed up interaction. This call does update the throttle timer.
 returns status = GY521_OK on success.
 - **int16_t readGyro()** read gyroscope only to speed up interaction. This call does update the throttle timer.
@@ -132,7 +169,8 @@ In version 0.4.0 the normalization of pitch, roll and yaw is fixed and made cond
 
 #### Calls after read
 
-Note that multiple calls will return the same value. One must explicitly call **read()** to get new values. 
+Note that multiple calls will return the same value. 
+One must explicitly call **read()** to get new values. 
 
 - **float getAccelX()** idem.
 - **float getAccelY()** idem.
@@ -144,6 +182,12 @@ Note that multiple calls will return the same value. One must explicitly call **
 - **float getGyroX()** idem.
 - **float getGyroY()** idem.
 - **float getGyroZ()** idem.
+
+
+#### Experimental Pitch Roll and Yaw
+
+Pitch Roll and Yaw is work in progress and should not be used for projects yet.
+
 - **float getPitch()** idem. May return any number.
 If **setNormalize(true)** return value will be 0-359.999
 - **float getRoll()** idem. May return any number.
@@ -160,34 +204,76 @@ Read the register PDF for the specific value and meaning of registers.
 - **uint8_t getRegister(uint8_t reg)**
 
 
-## documents
+## Documents
 
-- check details - MPU-6000-Register-Map1.pdf
+- check details registers - MPU-6000-Register-Map1.pdf
+
+
+#### Error codes
+
+|  Error code                 |  value  |  notes  |
+|:----------------------------|:-------:|:-------:|
+|  GY521_OK                   |    0    |  not an error
+|  GY521_THROTTLED            |    1    |  not an error
+|  GY521_ERROR_READ           |   -1    |
+|  GY521_ERROR_WRITE          |   -2    |
+|  GY521_ERROR_NOT_CONNECTED  |   -3    |
+
+
+#### Sensitivity Acceleration
+
+unit g = gravity == 9.81 m/s^2
+
+| Acceleration  |  value  |  notes  |
+|:--------------|:-------:|:-------:|
+|      2 g      |    0    |  default
+|      4 g      |    1    |
+|      8 g      |    2    |
+|     16 g      |    3    |
+
+
+#### Sensitivity Gyroscope
+
+unit dps = degrees per second.
+
+|  Gyroscope    |  value  |  notes  |
+|:--------------|:-------:|:-------:|
+|   250 dps     |    0    |  default
+|   500 dps     |    1    |
+|  1000 dps     |    2    |
+|  2000 dps     |    3    |
 
 
 ## Operation
 
-See examples, use with care 
+See examples, use with care.
 
 
 ## Future
 
 #### Must
 
+- time
 - improve documentation
-  - add tables where appropriate
-  - sensitivity, error codes etc
+- investigate Pitch Roll and Yaw math in detail.
+  - investigate math needed.
+  - implementation.
+  - when?
 - test test and test ...(ESP too)
 
 #### Should
 
-- add performance sketch
+- test **calibrate()** function for different sensitivities.
 
 #### Could
 
-- calibrate sketch could print code snippet to include...
 - add examples
 - improve unit tests?
+- reorder code in read(), would that save some micros.?
+  - first all ax, then ay etc
+  - footprint / performance gain?
+- make enum for sensitivity Accel?
+- make enum for sensitivity Gyro?
 
 #### Wont
 
@@ -196,6 +282,9 @@ See examples, use with care
   - other ideas affect accuracy, so unless new ideas arise.
 - calibrate function in the lib
   - not as lib will grow too large.
+- defaults value for functions?
+  - user must set function parameters explicit
+
 
 ## Support
 

@@ -28,7 +28,7 @@ void setup()
   while (sensor1.wakeup() == false)
   {
     Serial.print(millis());
-    Serial.println("\tCould not connect to sensor1");
+    Serial.println("\tCould not connect to sensor1: please check the GY521 address (0x68/0x69)");
     delay(1000);
   }
   sensor1.setAccelSensitivity(2);  //  8g
@@ -50,7 +50,7 @@ void setup()
   while (sensor2.wakeup() == false)
   {
     Serial.print(millis());
-    Serial.println("\tCould not connect to sensor2");
+    Serial.println("\tCould not connect to sensor2: please check the GY521 address (0x68/0x69)");
     delay(1000);
   }
   sensor2.setAccelSensitivity(2);  //  8g

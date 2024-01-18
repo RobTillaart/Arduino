@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -63,6 +63,41 @@ void GY521::reset()
   _pitch = 0;
   _roll  = 0;
   _yaw   = 0;
+}
+
+
+void GY521::calibrate(uint16_t times)
+{
+  //  disable throttling / caching of read values.
+  bool oldThrottle = _throttle;
+  _throttle = false;
+  
+  //  set errors to zero
+  axe = aye = aze = 0;
+  gxe = gye = gze = 0;
+
+  for (uint16_t i = 0; i < times; i++)
+  {
+    read();
+    axe -= getAccelX();
+    aye -= getAccelY();
+    aze -= getAccelZ();
+    gxe -= getGyroX();
+    gye -= getGyroY();
+    gze -= getGyroZ();
+  }
+
+  //  adjust calibration errors so table should get all zero's.
+  float factor = 1.0 / times;
+  axe *= factor;
+  aye *= factor;
+  aze *= factor;
+  gxe *= factor;
+  gye *= factor;
+  gze *= factor;
+
+  //  restore throttle state
+  _throttle = oldThrottle;
 }
 
 
@@ -138,6 +173,7 @@ int16_t GY521::read()
   float _ay2 = _ay * _ay;
   float _az2 = _az * _az;
 
+  //  calculate angle
   _aax = atan(       _ay / sqrt(_ax2 + _az2)) * GY521_RAD2DEGREES;
   _aay = atan(-1.0 * _ax / sqrt(_ay2 + _az2)) * GY521_RAD2DEGREES;
   _aaz = atan(       _az / sqrt(_ax2 + _ay2)) * GY521_RAD2DEGREES;
@@ -159,10 +195,13 @@ int16_t GY521::read()
   _gy += gye;
   _gz += gze;
 
+  //  integrate gyroscope data
   _gax += _gx * duration;
   _gay += _gy * duration;
   _gaz += _gz * duration;
 
+  //  experimental below this line.
+  //  Pitch Roll Yaw are work in progress
   //  normalize
   //  _gax etc might loose precision after many iterations #36
   if (_normalize)
@@ -250,6 +289,7 @@ int16_t GY521::readAccel()
   float _ay2 = _ay * _ay;
   float _az2 = _az * _az;
 
+  //  calculate angles.
   _aax = atan(       _ay / sqrt(_ax2 + _az2)) * GY521_RAD2DEGREES;
   _aay = atan(-1.0 * _ax / sqrt(_ay2 + _az2)) * GY521_RAD2DEGREES;
   _aaz = atan(       _az / sqrt(_ax2 + _ay2)) * GY521_RAD2DEGREES;
@@ -318,6 +358,7 @@ int16_t GY521::readGyro()
   _gaz += _gz * duration;
 
 
+  //  experimental below this line.
   //  normalize
   //  _gax etc might loose precision after many iterations #36
   if (_normalize)

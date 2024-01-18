@@ -1,7 +1,7 @@
 //
-//    FILE: GY521_test_1.ino
+//    FILE: GY521_raw_cooked.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal demo to test working of the sensor.
+// PURPOSE: output raw and cooked data from sensor for analyzing.
 //     URL: https://github.com/RobTillaart/GY521
 
 
@@ -34,7 +34,7 @@ void setup()
 
   sensor.setThrottle();
   Serial.println("start...");
-  
+
   //  set calibration values from calibration sketch.
   sensor.axe = 0;
   sensor.aye = 0;
@@ -42,25 +42,30 @@ void setup()
   sensor.gxe = 0;
   sensor.gye = 0;
   sensor.gze = 0;
+
+  Serial.println("\n\tACCELEROMETER\t\tGYROSCOPE\t\tTEMP\tANGLES\t\t\tPRY");
+  Serial.println("\tax\tay\taz\tgx\tgy\tgz\tT\tX\tY\tZ\tPITCH\tROLL\tYAW");
 }
 
 
 void loop()
 {
   sensor.read();
-  float ax = sensor.getAccelX();
-  float ay = sensor.getAccelY();
-  float az = sensor.getAccelZ();
-  float gx = sensor.getGyroX();
-  float gy = sensor.getGyroY();
-  float gz = sensor.getGyroZ();
-  float t = sensor.getTemperature();
+  float ax    = sensor.getAccelX();
+  float ay    = sensor.getAccelY();
+  float az    = sensor.getAccelZ();
+  float gx    = sensor.getGyroX();
+  float gy    = sensor.getGyroY();
+  float gz    = sensor.getGyroZ();
+  float t     = sensor.getTemperature();
 
-  if (counter % 10 == 0)
-  {
-    Serial.println("\n\tACCELEROMETER\t\tGYROSCOPE\t\tTEMPERATURE");
-    Serial.println("\tax\tay\taz\tgx\tgy\tgz\tT");
-  }
+  float pitch = sensor.getPitch();
+  float roll  = sensor.getRoll();
+  float yaw   = sensor.getYaw();
+
+  float x     = sensor.getAngleX();
+  float y     = sensor.getAngleY();
+  float z     = sensor.getAngleZ();
 
   Serial.print(counter);
   Serial.print('\t');
@@ -77,6 +82,18 @@ void loop()
   Serial.print(gz, 3);
   Serial.print('\t');
   Serial.print(t, 3);
+  Serial.print('\t');
+  Serial.print(x, 1);
+  Serial.print('\t');
+  Serial.print(y, 1);
+  Serial.print('\t');
+  Serial.print(z, 1);
+  Serial.print('\t');
+  Serial.print(pitch, 3);
+  Serial.print('\t');
+  Serial.print(roll, 3);
+  Serial.print('\t');
+  Serial.print(yaw, 3);
   Serial.println();
 
   counter++;
@@ -85,4 +102,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

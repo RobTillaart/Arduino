@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.3.0"))
+#define PCA9634_LIB_VERSION         (F("0.4.0"))
 
 
 //  mode codes

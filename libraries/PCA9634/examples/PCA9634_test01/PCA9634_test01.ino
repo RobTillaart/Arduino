@@ -5,8 +5,6 @@
 //     URL: https://github.com/RobTillaart/PCA9634
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9634.h"
 
 
@@ -17,7 +15,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCA9634 LIB version: ");
+  Serial.print("PCA9634_LIB_VERSION: ");
   Serial.println(PCA9634_LIB_VERSION);
   Serial.println();
 

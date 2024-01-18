@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for PCA9634 I2C LED driver
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -497,7 +497,7 @@ uint8_t PCA9634::readLedOut(uint8_t reg)
 }
 
 
-//  todo move to right section after testing.
+//  TODO move to right section after testing.
 uint8_t PCA9634::setLedDriverMode(uint8_t mode)
 {
   if (mode > 3) return PCA963X_ERR_MODE;
@@ -517,7 +517,7 @@ uint8_t PCA9634::setLedDriverMode(uint8_t mode)
       mask = 0b00000000;
       break;
   }
-  for (int reg = 0; reg < 1; reg++)
+  for (int reg = 0; reg < 2; reg++)
   {
     writeLedOut(reg, mask);
   }

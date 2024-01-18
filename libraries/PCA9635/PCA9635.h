@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.5.0"))
+#define PCA9635_LIB_VERSION         (F("0.6.0"))
 
 
 //  mode codes
@@ -107,8 +107,6 @@
 #define PCA9635_MODE2_NONE          0x00
 
 
-//  NOT IMPLEMENTED YET (TODO check)
-//
 //  Registers in which the ALLCALL and sub-addresses are stored
 //  NEW
 #define PCA963X_SUBADR(x)           (0x17 +(x))  //  x = 1..3

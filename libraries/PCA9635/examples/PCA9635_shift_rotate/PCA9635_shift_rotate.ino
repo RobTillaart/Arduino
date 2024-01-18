@@ -5,8 +5,6 @@
 //     URL: https://github.com/RobTillaart/PCA9635
 
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9635.h"
 
 
@@ -21,7 +19,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCA9635 LIB version: ");
+  Serial.print("PCA9635_LIB_VERSION: ");
   Serial.println(PCA9635_LIB_VERSION);
   Serial.println();
 

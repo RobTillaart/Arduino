@@ -6,8 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2024-01-18
+- fix #32, setLedDriverMode(uint8_t mode)
+- minor edits (examples)
+
+----
+
 ## [0.5.0] - 2023-12-11
-= refactor API, begin()
+- refactor API, begin()
 - add **uint8_t getAddress()**
 - update readme.md
 - update examples

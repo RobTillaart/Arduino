@@ -316,7 +316,8 @@ PCA.writeLedOut(1, mask);
   - return values etc.
   - documentation.
 - keep in sync with PCA9634/5 developments
-
+- remove OLD #defines PCA9635_... => PCA963X
+  - const int?
 
 #### Could
 

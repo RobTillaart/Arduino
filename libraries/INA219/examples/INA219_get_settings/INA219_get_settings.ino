@@ -6,7 +6,6 @@
 
 
 #include "INA219.h"
-#include "Wire.h"
 
 INA219 INA(0x40);
 
@@ -87,7 +86,7 @@ void setup()
   ///////////////////////////////////////////////
 
   Serial.print("BADC:\t");
-  for (uint8_t b = 0; b < 8; b++)
+  for (uint8_t b = 0; b < 16; b++)
   {
     INA.setBusADC(b);
     Serial.print(INA.getBusADC());
@@ -99,7 +98,7 @@ void setup()
   ///////////////////////////////////////////////
 
   Serial.print("SADC:\t");
-  for (uint8_t s = 0; s < 8; s++)
+  for (uint8_t s = 0; s < 16; s++)
   {
     INA.setShuntADC(s);
     Serial.print(INA.getShuntADC());

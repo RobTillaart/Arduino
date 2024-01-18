@@ -32,6 +32,15 @@ Maxima, see datasheet, chapter 7, esp 7.5
 |  shunt voltage  |  320  |  mVolt  |  depends on PGA setting
 
 
+#### Related
+
+- https://www.ti.com/product/INA219#tech-docs
+- https://www.ti.com/product/INA219#params
+- https://www.ti.com/document-viewer/INA219/datasheet
+- https://github.com/RobTillaart/INA219
+- https://github.com/RobTillaart/INA226
+
+
 #### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
@@ -67,12 +76,12 @@ The address depends on how the A0 and A1 address lines are connected to the SCL,
 #### Performance
 
 Datasheet states it supports 1 KHz .. 2.56 MHz.
-Note: higher speeds need smaller pull up resistors.
+Note: higher speeds and longer wires need smaller pull up resistors.
 
 Some timings in micros for **INA.getMode()** on an Arduino UNO.
 This is just one readRegister call, similar to most functions.
 
-Above 600 KHz there is little performance gain. 
+Above 600 KHz there is little performance gain.
 
 |  speed  |  time  |  speed  |  time  |  speed  |  time  |  speed  |  time  |
 |:-------:|:------:|:-------:|:------:|:-------:|:------:|:-------:|:------:|
@@ -97,6 +106,7 @@ use **INA219_test_I2C.ino**
 - **bool begin()** UNO ea. initializes the class. 
 Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **bool isConnected()** Returns true if the INA219 address (set in the constructor) is on the I2C bus.
+- **uint8_t getAddress()** Returns the INA219 address set in the constructor.
 
 
 #### Core Functions
@@ -111,7 +121,7 @@ Also the value is not meaningful if there is no shunt connected.
 
 The library has helper functions to convert above output to a more appropriate scale of units.
 
-Helper functions for the milli scale.
+Helper functions for the milli-scale.
 
 - **float getBusVoltage_mV()** idem, returns millivolts.
 Note: returns -100 if the math overflow bit is set.
@@ -119,7 +129,7 @@ Note: returns -100 if the math overflow bit is set.
 - **float getCurrent_mA()** idem in milliAmpere.
 - **float getPower_mW()** idem in milliWatt.
 
-Helper functions for the micro scale.
+Helper functions for the micro-scale.
 
 - **float getBusVoltage_uV()** idem microVolt.
 - **float getShuntVoltage_uV()** idem microVolt.
@@ -136,48 +146,99 @@ Especially useful in non-continuous modi.
 
 #### Configuration
 
-Note: the conversion runs in the background and if done the value is stored in a register. 
-The core functions can always be read from the registers, so they will not block.
-Result can be that you get the very same value if no new value is ready.
-
-- **void reset()** software power on reset. 
+- **bool reset()** software power on reset. 
 This implies that calibration with **setMaxCurrentShunt()** needs to be redone.
 See section below.
+Returns false if it could not write settings to device.
 - **bool setBusVoltageRange(uint8_t voltage = 16)** set to 16 or 32.
-Values < 16 map to 16 and values between 16 and 32 map to 32.
-Values above 32 return false.
+Values <= 16 map to 16 and values between 16 and 32 map to 32.
+Returns false if voltage is above 32..
+Returns false if it could not write settings to device.
 - **uint8_t getBusVoltageRange()** returns 16 or 32. (Volts)
 - **bool setGain(uint8_t factor = 1)** factor = 1, 2, 4, 8.
 Determines the shunt voltage range. 40, 80, 160 or 320 mV. 
 Returns false if factor is not a valid value.
+Returns false if it could not write settings to device.
 - **uint8_t getGain()** returns set factor.
-- **bool setBusADC(uint8_t mask = 0x03)** check datasheet for meaning of mask.
-Returns false if mask > 0x0F.
-- **uint8_t getBusADC()** returns mask.
-- **bool setShuntADC(uint8_t mask = 0x03)** check datasheet for meaning of mask.
-Returns false if mask > 0x0F.
-- **uint8_t getShuntADC()** returns mask.
+
+
+#### Configuration BUS and SHUNT
+
+**Note:**
+The internal conversions runs in the background in the INA219.
+If a conversion is finished the measured value is stored in the appropriate register. 
+The last obtained values can always be read from the registers, so they will not block.
+Result can be that you get the very same value if no new data is available yet.
+This is especially true if you increase the number of samples.
+(See also discussion in #11).
+
+Using more samples reduces the noise level, but one will miss the faster 
+changes in voltage or current.
+Depending on your project needs you can choose one over the other.
+
+As a rule of thumb one could take the time between two I2C reads of 
+a register as an upper limit.
+This would result in a fresh measurement every time one reads the register. 
+NB it is always possible to average readings fetched from the device
+in your own code.
+
+Use one of these three so set **bus** resolution and sampling.
+
+- **bool setBusResolution(uint8_t bits)** bits = 9..12, always 1 sample.
+Returns false if parameter out of range.
+Returns false if it could not write settings to device.
+- **bool setBusSamples(uint8_t value)** value = 0..7 => maps to 2^value samples.
+Always 12 bits.
+Returns false if parameter out of range.
+Returns false if it could not write settings to device.
+- **bool setBusADC(uint8_t mask = 0x03)** see table below. 
+Check datasheet for all details.
+Returns false if parameter out of range (mask > 0x0F).
+Returns false if it could not write settings to device.
+- **uint8_t getBusADC()** returns mask, see table below.
+
+
+Use one of these three so set **shunt** resolution and sampling.
+
+- **bool setShuntResolution(uint8_t bits)** bits = 9..12, always 1 sample.
+Returns false if parameter out of range.
+Returns false if it could not write settings to device.
+- **bool setShuntSamples(uint8_t value)** value = 0..7 => maps to 2^value samples.
+Always 12 bits.
+Returns false if parameter out of range.
+Returns false if it could not write settings to device.
+- **bool setShuntADC(uint8_t mask = 0x03)** see table below. 
+Check datasheet for all details.
+Returns false if parameter out of range (mask > 0x0F).
+Returns false if it could not write settings to device.
+- **uint8_t getShuntADC()** returns mask, see table below.
+
+
+#### Resolution samples table
 
 mask = both resolution + averaging multiple samples.
 minus - == don't care
 
-|  bit mask  |  value  |  description      | conversion time |
-|:----------:|:-------:|:------------------|:---------------:|
-|    0-00    |  0 / 4  |  9 bit resolution |      84 μs      |
-|    0-01    |  1 / 5  | 10 bit resolution |     148 μs      |
-|    0-10    |  2 / 6  | 11 bit resolution |     276 μs      |
-|    0-11    |  3 / 7  | 12 bit resolution |     532 μs      |
-|    1000    |    8    | 12 bit 1 sample   |     532 μs      |
-|    1001    |    9    |        2 samples  |    1.06 ms      |
-|    1010    |   10    |        4 samples  |    2.13 ms      |
-|    1011    |   11    |        8 samples  |    4.26 ms      |
-|    1100    |   12    |       16 samples  |    8.51 ms      |
-|    1101    |   13    |       32 samples  |   17.02 ms      |
-|    1110    |   14    |       64 samples  |   34.05 ms      |
-|    1111    |   15    |      128 samples  |   68.10 ms      |
 
-- note that a new value can take a while depending on value set.
+|  bit mask  |  value  |  resolution  |  samples      | conversion time |
+|:----------:|:-------:|:-------------|:--------------|:---------------:|
+|    0-00    |  0 / 4  |     9 bit    |    1 sample   |      84 μs      |
+|    0-01    |  1 / 5  |    10 bit    |    1 sample   |     148 μs      |
+|    0-10    |  2 / 6  |    11 bit    |    1 sample   |     276 μs      |
+|    0-11    |  3 / 7  |    12 bit    |    1 sample   |     532 μs      |
+|            |         |              |               |                 |
+|    1000    |    8    |    12 bit    |    1 sample   |     532 μs      |
+|    1001    |    9    |    12 bit    |    2 samples  |    1.06 ms      |
+|    1010    |   10    |    12 bit    |    4 samples  |    2.13 ms      |
+|    1011    |   11    |    12 bit    |    8 samples  |    4.26 ms      |
+|    1100    |   12    |    12 bit    |   16 samples  |    8.51 ms      |
+|    1101    |   13    |    12 bit    |   32 samples  |   17.02 ms      |
+|    1110    |   14    |    12 bit    |   64 samples  |   34.05 ms      |
+|    1111    |   15    |    12 bit    |  128 samples  |   68.10 ms      |
+
+- note that a new value set can substantially increase the conversion time.
 - note that you cannot set e.g. 9 bits and 16 samples.
+- note that there are 3 ways to set 12 bits 1 sample.
 
 
 #### Operating mode
@@ -185,10 +246,12 @@ minus - == don't care
 See details datasheet,
 
 - **bool setMode(uint8_t mode = 7)** mode = 0..7.
-The value 7 == ShuntBusContinuous mode.
+The default value 7 == ShuntBusContinuous mode.
+Returns false if parameter out of range (mode > 7).
+Returns false if it could not write settings to device.
 - **uint8_t getMode()** returns the mode (0..7) set.
 
-Descriptive mode functions (convenience wrappers).
+Descriptive mode functions (convenience wrappers around **setMode()**).
 
 - **bool shutDown()** mode 0
 - **bool setModeShuntTrigger()** mode 1 - how to trigger to be investigated.
@@ -212,6 +275,8 @@ From this the LSB is derived.
 Note the function will round up the LSB to nearest round value by default. 
 This may cause loss of precision. The function may force normalization if underflow detected.
 The user **must** check the return value == true, otherwise the calibration register is **not** set.
+Returns false if parameter out of range.
+Returns false if it could not write settings to device.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**. 
 - **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
 - **float getCurrentLSB_mA()** returns the LSB in milliampere.
@@ -223,9 +288,19 @@ To print these values one might use https://github.com/RobTillaart/printHelpers
 to get the values in scientific notation like "3.5e-6"
 
 
-#### debugging
+#### Debugging
 
-- **uint16_t getRegister(uint8_t reg)** fetch registers directly, meant for debugging only. Check datasheet.
+- **uint16_t getRegister(uint8_t reg)** fetch values from registers directly.
+Meant for debugging only, reg = 0..5. Check datasheet for the details.
+
+|  reg  |  description    |  RW  |
+|:-----:|:----------------|:----:|
+|   0   |  configuration  |  RW  |
+|   1   |  shunt voltage  |  R   |
+|   2   |  bus voltage    |  R   |
+|   3   |  power          |  R   |
+|   4   |  current        |  R   |
+|   5   |  calibration    |  RW  |
 
 
 ## Future
@@ -240,6 +315,10 @@ to get the values in scientific notation like "3.5e-6"
 
 #### Should 
 
+- sync INA226 where meaningful
+- improve error handling
+  - low level I2C, readRegister() +  writeRegister()
+  - other? parameters
 - create unit tests
 - test performance
   - verify conversion time

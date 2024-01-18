@@ -8,6 +8,7 @@ INA219	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 getShuntVoltage	KEYWORD2
 getBusVoltage	KEYWORD2
@@ -17,9 +18,11 @@ getMathOverflowFlag	KEYWORD2
 getConversionFlag	KEYWORD2
 
 getBusVoltage_mV	KEYWORD2
-getShuntVoltage_uV	KEYWORD2
+getShuntVoltage_mV	KEYWORD2
 getCurrent_mA	KEYWORD2
 getPower_mW	KEYWORD2
+
+getBusVoltage_uV	KEYWORD2
 getShuntVoltage_uV	KEYWORD2
 getCurrent_uA	KEYWORD2
 getPower_uW	KEYWORD2
@@ -29,8 +32,14 @@ setBusVoltageRange	KEYWORD2
 getBusVoltageRange	KEYWORD2
 setGain	KEYWORD2
 getGain	KEYWORD2
+
+setBusResolution	KEYWORD2
+setBusSamples	KEYWORD2
 setBusADC	KEYWORD2
 getBusADC	KEYWORD2
+
+setShuntResolution	KEYWORD2
+setShuntSamples	KEYWORD2
 setShuntADC	KEYWORD2
 getShuntADC	KEYWORD2
 
@@ -46,6 +55,16 @@ setModeShuntContinuous	KEYWORD2
 setModeBusContinuous	KEYWORD2
 setModeShuntBusContinuous	KEYWORD2
 
+setMaxCurrentShunt	KEYWORD2
+isCalibrated	KEYWORD2
+
+getCurrentLSB	KEYWORD2
+getCurrentLSB_mA	KEYWORD2
+getCurrentLSB_uA	KEYWORD2
+getShunt	KEYWORD2
+getMaxCurrent	KEYWORD2
+
+getRegister	KEYWORD2
 
 # Constants (LITERAL1)
 INA219_LIB_VERSION	LITERAL1

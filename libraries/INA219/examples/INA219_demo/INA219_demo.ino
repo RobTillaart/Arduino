@@ -6,7 +6,6 @@
 
 
 #include "INA219.h"
-#include "Wire.h"
 
 INA219 INA(0x40);
 

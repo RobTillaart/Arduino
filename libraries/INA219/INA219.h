@@ -1,20 +1,19 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
 //
 //  Read the datasheet for the details how to connect!
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.2.0"))
+#define INA219_LIB_VERSION              (F("0.2.1"))
 
 
 class INA219
@@ -52,17 +51,26 @@ public:
 
   //  CONFIGURATION
   //  need improvement API wise.
-  void     reset();
+  bool     reset();
   //  voltage = 16, 32  (values below 32 are rounded to 16 or 32)
   bool     setBusVoltageRange(uint8_t voltage = 16);
   uint8_t  getBusVoltageRange();  //  returns 16 or 32.
   //  factor = 1, 2, 4, 8
   bool     setGain(uint8_t factor = 1);
   uint8_t  getGain();
-  //  mask
-  bool     setBusADC(uint8_t mask = 0x03);
+
+  //  configuration BUS
+  //  use one of the next three
+  bool     setBusResolution(uint8_t bits);  //  9..12, always 1 sample
+  bool     setBusSamples(uint8_t value);    //  0..7, always 12 bits.
+  bool     setBusADC(uint8_t mask = 0x03);  //  uses a mask, check datasheet
   uint8_t  getBusADC();
-  bool     setShuntADC(uint8_t mask = 0x03);
+
+  //  configuration SHUNT
+  //  use one of the next three
+  bool     setShuntResolution(uint8_t bits);  //  9..12, always 1 sample
+  bool     setShuntSamples(uint8_t value);    //  0..7, always 12 bits.
+  bool     setShuntADC(uint8_t mask = 0x03);  //  uses a mask, check datasheet
   uint8_t  getShuntADC();
 
   // Operating mode = 0..7
@@ -103,6 +111,7 @@ private:
 
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
+
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;

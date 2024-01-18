@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2024-01-17
+- add **bool setBusResolution(bits)**
+- add **bool setBusSamples(value)**
+- add **bool setShuntResolution(bits)**
+- add **bool setShuntSamples(value)**
+- improve error checking several functions
+  - calls to **writeRegister()** should return 0.
+  - error handling needs improvement, this is a first step.
+- improve **INA219_get_settings.ino**
+- update keywords.txt
+- update readme.md
+
+
 ## [0.2.0] - 2023-12-04
 - Fix #8, refactor API - support ESP32-S3
 - update readme.md

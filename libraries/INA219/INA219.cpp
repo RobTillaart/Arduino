@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -124,15 +124,16 @@ bool INA219::getConversionFlag()
 //
 //  CONFIGURATION
 //
-void INA219::reset()
+bool INA219::reset()
 {
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config |= 0x8000;
-  _writeRegister(INA219_CONFIGURATION, config);
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
   // reset calibration
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
+  return (wrrv == 0);
 }
 
 
@@ -144,8 +145,9 @@ bool INA219::setBusVoltageRange(uint8_t voltage)
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config &= ~INA219_CONF_BUS_RANGE_VOLTAGE;
   if (voltage == 32) config |= INA219_CONF_BUS_RANGE_VOLTAGE;
-  _writeRegister(INA219_CONFIGURATION, config);
-  return true;
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
 }
 
 
@@ -168,8 +170,9 @@ bool INA219::setGain(uint8_t factor)
   if      (factor == 2) config |= (1 << 11);
   else if (factor == 4) config |= (2 << 11);
   else if (factor == 8) config |= (3 << 11);
-  _writeRegister(INA219_CONFIGURATION, config);
-  return true;
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
 }
 
 
@@ -184,21 +187,49 @@ uint8_t INA219::getGain()
 }
 
 
+////////////////////////////////////////////////////////
+//
+//  BUS
+//
+bool INA219::setBusResolution(uint8_t bits)
+{
+  if ((bits < 9) || (bits > 12)) return false;
+  bits -= 9;
+
+  uint16_t config = _readRegister(INA219_CONFIGURATION);
+  config &= ~INA219_CONF_BUS_ADC;
+  config |= (bits << 7);
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
+}
+
+
+//  value = 0..7, always 12 bit resolution, 
+bool INA219::setBusSamples(uint8_t value)
+{
+  if (value > 7) return false;
+  value |= 8;
+
+  uint16_t config = _readRegister(INA219_CONFIGURATION);
+  config &= ~INA219_CONF_BUS_ADC;
+  config |= (value << 7);
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
+}
+
+
 bool INA219::setBusADC(uint8_t mask)
 {
   if (mask > 0x0F) return false;
 
-  //  TODO improve this one. datasheet.
-  //       two functions
-  //       setBusResolution + setBusSamples()
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config &= ~INA219_CONF_BUS_ADC;
   config |= (mask << 7);
-  // if      (bits == 10) config |= (1 << 7);
-  // else if (bits == 11) config |= (2 << 7);
-  // else if (bits == 12) config |= (3 << 7);
-  _writeRegister(INA219_CONFIGURATION, config);
-  return true;
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
 }
 
 
@@ -210,18 +241,49 @@ uint8_t INA219::getBusADC()
 }
 
 
+////////////////////////////////////////////////////////
+//
+//  SHUNT
+//
+bool INA219::setShuntResolution(uint8_t bits)
+{
+  if ((bits < 9) || (bits > 12)) return false;
+  bits -= 9;
+
+  uint16_t config = _readRegister(INA219_CONFIGURATION);
+  config &= ~INA219_CONF_SHUNT_ADC;
+  config |= (bits << 3);
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
+}
+
+
+//  value = 0..7, always 12 bit resolution, 
+bool INA219::setShuntSamples(uint8_t value)
+{
+  if (value > 7) return false;
+  value |= 8;
+
+  uint16_t config = _readRegister(INA219_CONFIGURATION);
+  config &= ~INA219_CONF_SHUNT_ADC;
+  config |= (value << 3);
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
+}
+
+
 bool INA219::setShuntADC(uint8_t mask)
 {
   if (mask > 0x0F) return false;
 
-  //  TODO improve this one. datasheet.
-  //       two functions
-  //       setShuntResolution + setShuntSamples()
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config &= ~INA219_CONF_SHUNT_ADC;
   config |= (mask << 3);
-  _writeRegister(INA219_CONFIGURATION, config);
-  return true;
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
 }
 
 
@@ -233,14 +295,19 @@ uint8_t INA219::getShuntADC()
 }
 
 
+////////////////////////////////////////////////////////
+//
+//  MODE
+//
 bool INA219::setMode(uint8_t mode)
 {
   if (mode > 7) return false;
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config &= ~INA219_CONF_MODE;
   config |= mode;
-  _writeRegister(INA219_CONFIGURATION, config);
-  return true;
+
+  uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
+  return (wrrv == 0);
 }
 
 
@@ -258,7 +325,7 @@ uint8_t INA219::getMode()
 //
 bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
-  // #define printdebug
+  // #define PRINTDEBUG
   uint16_t calib = 0;
 
   if (maxCurrent < 0.001) return false;
@@ -269,10 +336,9 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
   _maxCurrent = maxCurrent;
   _shunt = shunt;
   calib = round(0.04096 / (_current_LSB * shunt));
-  _writeRegister(INA219_CALIBRATION, calib);
+  uint16_t wrrv = _writeRegister(INA219_CALIBRATION, calib);
 
-
-  #ifdef printdebug
+  #ifdef PRINTDEBUG
     Serial.println();
     Serial.print("current_LSB:\t");
     Serial.print(_current_LSB, 8);
@@ -288,7 +354,7 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
     Serial.println(" ohm Ω");
   #endif
 
-  return true;
+  return (wrrv == 0);
 }
 
 

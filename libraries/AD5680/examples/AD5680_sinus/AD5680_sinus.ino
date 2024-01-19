@@ -7,6 +7,7 @@
 
 #include "AD5680.h"
 
+
 AD5680 AD16_HW(8, &SPI);
 AD5680 AD16_SW(5, 6, 7);
 
@@ -21,6 +22,7 @@ void setup()
   Serial.print("AD5680_LIB_VERSION: ");
   Serial.println(AD5680_LIB_VERSION);
 
+  SPI.begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

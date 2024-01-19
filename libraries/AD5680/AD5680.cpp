@@ -1,7 +1,7 @@
 //
 //    FILE: AD5680.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -41,9 +41,9 @@ void AD5680::begin()
 
   if(_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
-    delay(1);
+    //  _mySPI->end();
+    //  _mySPI->begin();
+    //  delay(1);
   }
   else  //  SOFTWARE SPI
   {

@@ -5,7 +5,6 @@
 //     URL: https://github.com/RobTillaart/AD5680
 
 
-#include "SPI.h"
 #include "AD5680.h"
 
 
@@ -29,6 +28,7 @@ void setup()
   Serial.print("AD5680_LIB_VERSION: ");
   Serial.println(AD5680_LIB_VERSION);
 
+  myspi->begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

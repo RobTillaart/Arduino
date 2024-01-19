@@ -21,6 +21,7 @@ AD56X8 AD16_SW(15, 13, 14);
 
 int value = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -29,6 +30,7 @@ void setup()
   Serial.print("AD56X8_LIB_VERSION: ");
   Serial.println(AD56X8_LIB_VERSION);
 
+  myspi->begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

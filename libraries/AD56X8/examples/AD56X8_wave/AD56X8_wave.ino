@@ -7,7 +7,8 @@
 
 #include "AD56X8.h"
 
-AD56X8 AD16_SW(9, 10, 11);
+
+AD56X8 AD16_SW(9, 10, 11);  //  SW SPI
 
 uint32_t start, stop;
 

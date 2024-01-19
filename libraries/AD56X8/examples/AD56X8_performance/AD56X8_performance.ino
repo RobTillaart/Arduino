@@ -7,10 +7,12 @@
 
 #include "AD56X8.h"
 
+
 AD56X8 AD16_HW(8);
 AD56X8 AD16_SW(9, 10, 11);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -20,6 +22,7 @@ void setup()
   Serial.print("AD56X8_LIB_VERSION: ");
   Serial.println(AD56X8_LIB_VERSION);
 
+  SPI.begin();
   AD16_HW.begin();
   AD16_SW.begin();
 
@@ -65,7 +68,6 @@ void setup()
     Serial.println((stop - start) * 0.001);
     delay(10);
   }
-
 
   Serial.println("\nDone...");
 }

@@ -4,7 +4,9 @@
 // PURPOSE: test
 //     URL: https://github.com/RobTillaart/AD56X8
 
+
 #include "AD56X8.h"
+
 
 AD56X8 AD16_HW(8);
 AD56X8 AD16_SW(9, 10, 11);
@@ -18,6 +20,7 @@ void setup()
   Serial.print("AD56X8_LIB_VERSION: ");
   Serial.println(AD56X8_LIB_VERSION);
 
+  SPI.begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

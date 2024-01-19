@@ -44,6 +44,13 @@ At least it lacks support for:
 - other points mentioned in future section below.
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.2.0 breaking change
 
 The version 0.2.0 has breaking changes in the interface. 

@@ -21,6 +21,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
+  SPI.begin();
   pot.begin(4);
 
   for (int p = 0; p <= 100; p++)

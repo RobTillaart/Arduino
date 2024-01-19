@@ -25,6 +25,7 @@ void setup()
   Serial.print("AD520X_LIB_VERSION:\t");
   Serial.println(AD520X_LIB_VERSION);
 
+  SPI.begin();
   pot.begin(4);
 
   Serial.print("\tusesHWSPI:\t");

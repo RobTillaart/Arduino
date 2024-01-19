@@ -23,6 +23,7 @@ void setup()
   Serial.println(AD520X_LIB_VERSION);
   Serial.println();
 
+  SPI.begin();
   pot.begin(4);
 
   //  test_sinus();

@@ -20,6 +20,7 @@ void setup()
   Serial.print("ADC08XS_LIB_VERSION: ");
   Serial.println(ADC08XS_LIB_VERSION);
 
+  SPI.begin();
   adc01.begin(4);
 }
 

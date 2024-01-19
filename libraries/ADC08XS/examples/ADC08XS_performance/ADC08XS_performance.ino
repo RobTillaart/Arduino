@@ -24,6 +24,8 @@ void setup()
   Serial.println(ADC08XS_LIB_VERSION);
   Serial.println();
 
+  SPI.begin();
+
   Serial.println("ADC\tMAXVALUE");
   Serial.print("adc\t");
   Serial.println(adc.maxValue());

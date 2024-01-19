@@ -42,6 +42,13 @@ The library is not tested with hardware yet.
 Feedback is as always welcome.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **ADC.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### Performance
 
 Although the ADC08XS is rated at 200 KSPS and higher, an Arduino UNO will not

@@ -4,7 +4,6 @@
 // PURPOSE: thermocouple lib demo application
 //    DATE: 2020-08-24
 //     URL: https://github.com/RobTillaart/MAX31855_RT
-//
 
 
 #include "MAX31855.h"
@@ -25,6 +24,8 @@ void setup ()
   Serial.println(MAX31855_VERSION);
   Serial.println();
   delay(250);
+
+  SPI.begin();
 
   thermoCouple.begin();
 }

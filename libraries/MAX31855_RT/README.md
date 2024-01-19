@@ -42,6 +42,13 @@ Library tested with breakout board.
 ```
 
 
+#### 0.6.0 Breaking change
+
+Version 0.6.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **MX.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.5.0 Breaking change
 
 The version 0.5.0 has breaking changes in the interface. 

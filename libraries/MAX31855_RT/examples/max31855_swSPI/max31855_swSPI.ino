@@ -49,6 +49,8 @@ void setup()
   Serial.println();
   delay(250);
 
+  SPI.begin();
+
   thermoCouple.begin();
   thermoCouple.setSWSPIdelay(4);  //  add 4 us per bit to improve signal.
 }

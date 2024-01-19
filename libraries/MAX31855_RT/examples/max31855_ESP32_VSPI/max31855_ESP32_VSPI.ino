@@ -49,6 +49,8 @@ void setup()
   Serial.println();
   delay(250);
 
+  myspi->begin();
+
   thermoCouple.begin();
   thermoCouple.setSPIspeed(16000000);
 }

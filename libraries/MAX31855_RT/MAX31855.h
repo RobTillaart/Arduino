@@ -2,7 +2,7 @@
 //
 //    FILE: MAX31855.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for MAX31855 chip for K type thermocouple
 //    DATE: 2014-01-01
 //     URL: https://github.com/RobTillaart/MAX31855_RT
@@ -25,7 +25,7 @@
 #include "SPI.h"
 
 
-#define MAX31855_VERSION              (F("0.5.0"))
+#define MAX31855_VERSION              (F("0.6.0"))
 
 #ifndef __SPI_CLASS__
   #if defined(ARDUINO_ARCH_RP2040)

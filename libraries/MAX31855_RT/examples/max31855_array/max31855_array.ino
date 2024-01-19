@@ -6,7 +6,6 @@
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 // kudos to FabioBrondo for the idea.
-//
 
 
 #include "MAX31855.h"
@@ -34,6 +33,8 @@ void setup()
   Serial.println(MAX31855_VERSION);
   Serial.println();
   delay(250);
+
+  SPI.begin();
 
   Serial.println(sensorCount);
 

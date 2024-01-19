@@ -26,6 +26,8 @@ void setup()
   Serial.println();
   delay(250);
 
+  SPI.begin();
+
   thermoCouple.begin();
 }
 
@@ -35,7 +37,7 @@ void loop()
   int status = thermoCouple.read();
   Serial.print("stat:\t\t");
   Serial.println(status);
-  
+
   if (thermoCouple.getStatus())
   {
     Serial.print("error:\t\t");

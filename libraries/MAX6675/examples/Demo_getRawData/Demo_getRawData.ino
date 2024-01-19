@@ -25,6 +25,7 @@ void setup ()
   Serial.println();
   delay(250);
 
+  SPI.begin();
   thermoCouple.begin();
 }
 

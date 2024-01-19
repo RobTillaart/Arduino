@@ -34,6 +34,13 @@ Different TC's have a different Seebeck Coefficient (SC) expressed in µV/°C.
 See http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
 
 
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### Breakout
 
 The library is tested with a breakout board with following pins:

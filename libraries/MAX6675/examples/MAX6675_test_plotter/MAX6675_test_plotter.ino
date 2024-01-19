@@ -8,6 +8,7 @@
 
 #include "MAX6675.h"
 
+
 const int dataPin   = 7;
 const int clockPin  = 6;
 const int selectPin = 5;
@@ -27,6 +28,8 @@ void setup()
   //  Serial.println(MAX6675_LIB_VERSION);
   //  Serial.println();
   delay(250);
+
+  SPI.begin();
 
   thermoCouple.begin();
 

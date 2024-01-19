@@ -1,7 +1,7 @@
 //
 //    FILE: MAX6675.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-11
 //     URL: https://github.com/RobTillaart/MAX6675
@@ -47,9 +47,9 @@ void MAX6675::begin()
 
   if (_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
-    delay(1);
+    //  _mySPI->end();
+    //  _mySPI->begin();
+    //  delay(1);
   }
   else
   {

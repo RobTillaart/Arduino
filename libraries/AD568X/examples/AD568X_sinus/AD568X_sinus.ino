@@ -7,11 +7,13 @@
 
 #include "AD568X.h"
 
+
 AD5683 AD16_HW(8);
 AD5683 AD16_SW(9, 10, 11);
 
 float frequency = 100.0;
 float amplitude = 32768;  //  50% of 16 bits
+
 
 void setup()
 {
@@ -21,6 +23,7 @@ void setup()
   Serial.print("AD568X_LIB_VERSION: ");
   Serial.println(AD568X_LIB_VERSION);
 
+  SPI.begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

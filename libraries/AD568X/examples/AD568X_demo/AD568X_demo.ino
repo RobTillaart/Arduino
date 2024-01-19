@@ -7,6 +7,7 @@
 
 #include "AD568X.h"
 
+
 AD568X AD16_HW(8);
 AD568X AD16_SW(9, 10, 11);
 
@@ -19,6 +20,7 @@ void setup()
   Serial.print("AD568X_LIB_VERSION: ");
   Serial.println(AD568X_LIB_VERSION);
 
+  SPI.begin();
   AD16_HW.begin();
   AD16_SW.begin();
 

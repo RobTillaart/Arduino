@@ -2,7 +2,7 @@
 //
 //    FILE: AD568X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
 //     URL: https://github.com/RobTillaart/AD568X
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD568X_LIB_VERSION        (F("0.2.2"))
+#define AD568X_LIB_VERSION        (F("0.3.0"))
 
 
 #ifndef __SPI_CLASS__

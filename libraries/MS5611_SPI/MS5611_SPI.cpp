@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: MS5611 (SPI) Temperature & Pressure library for Arduino
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 //
@@ -81,10 +81,10 @@ bool MS5611_SPI::begin()
 
   if(_hwSPI)
   {
-    _mySPI->begin();  //  FIX #6  
-    _mySPI->end();
-    _mySPI->begin();
-    delay(1);
+    //  _mySPI->begin();  //  FIX #6  
+    //  _mySPI->end();
+    //  _mySPI->begin();
+    //  delay(1);
   }
   else
   {

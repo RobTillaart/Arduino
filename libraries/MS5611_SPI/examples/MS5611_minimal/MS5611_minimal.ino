@@ -7,6 +7,7 @@
 
 #include "MS5611_SPI.h"
 
+
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -56,6 +57,8 @@ void setup()
   Serial.print("MS5611_SPI_LIB_VERSION: ");
   Serial.println(MS5611_SPI_LIB_VERSION);
 
+  SPI.begin();
+
   if (MS5611.begin() == true)
   {
     Serial.print("MS5611 found: ");
@@ -72,9 +75,9 @@ void setup()
 
 void loop()
 {
-  // MS5611.reset();
+  //  MS5611.reset();
   uint32_t start = micros();
-  MS5611.read();           // note no error checking => "optimistic".
+  MS5611.read();           //  note no error checking => "optimistic".
   uint32_t stop = micros();
   Serial.print("T:\t");
   Serial.print(MS5611.getTemperature(), 2);

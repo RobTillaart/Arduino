@@ -7,6 +7,7 @@
 
 #include "MS5611_SPI.h"
 
+
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -60,6 +61,8 @@ void setup()
   Serial.print("MS5611_SPI_LIB_VERSION: ");
   Serial.println(MS5611_SPI_LIB_VERSION);
 
+  SPI.begin();
+
   if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");
@@ -80,7 +83,7 @@ void loop()
   delay(1000);
 
   start = micros();
-  int result = MS5611.read();   // uses default OSR_ULTRA_LOW  (fastest)
+  int result = MS5611.read();   //  uses default OSR_ULTRA_LOW  (fastest)
   stop = micros();
 
   if (count % 20 == 0)
@@ -103,5 +106,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

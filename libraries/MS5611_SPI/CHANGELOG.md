@@ -1,9 +1,15 @@
-# Change Log MS5611
+# Change Log MS5611_SPI
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+## [0.3.0] - 2024-01-19
+- fix #11, improve SPI dependency
+  - solves #6 in a better way.
+
 
 
 ## [0.2.0] - 2023-11-30

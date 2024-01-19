@@ -7,6 +7,7 @@
 
 #include "MS5611_SPI.h"
 
+
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -60,6 +61,8 @@ void setup()
   Serial.print("MS5611_SPI_LIB_VERSION: ");
   Serial.println(MS5611_SPI_LIB_VERSION);
 
+  SPI.begin();
+
   if (MS5611.begin() == true)
   {
     Serial.println("MS5611 found.");
@@ -75,12 +78,12 @@ void setup()
 
 
   start = micros();
-  MS5611.read();   // uses default OSR_ULTRA_LOW  (fastest)
+  MS5611.read();      //  uses default OSR_ULTRA_LOW  (fastest)
   stop = micros();
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);          //  to flush serial.
 
 
   MS5611.setOversampling(OSR_LOW);
@@ -90,7 +93,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);          //  to flush serial.
 
 
   MS5611.setOversampling(OSR_STANDARD);
@@ -100,7 +103,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);          //  to flush serial.
 
 
   MS5611.setOversampling(OSR_HIGH);
@@ -110,7 +113,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);          //  to flush serial.
 
 
   MS5611.setOversampling(OSR_ULTRA_HIGH);
@@ -120,7 +123,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);          //  to flush serial.
 
 
   Serial.println("\ndone...");

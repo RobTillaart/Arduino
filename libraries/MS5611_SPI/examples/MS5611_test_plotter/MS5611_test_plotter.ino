@@ -7,6 +7,7 @@
 
 #include "MS5611_SPI.h"
 
+
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -58,6 +59,7 @@ void setup()
   Serial.println(MS5611_SPI_LIB_VERSION);
 
   pinMode(LED_BUILTIN, OUTPUT);
+  SPI.begin();
 
   Serial.println();
   if (MS5611.begin() == true)
@@ -76,7 +78,7 @@ void setup()
     }
   }
   Serial.println("TEMP\tPRESSURE");
-  // scale T & P to same range :)
+  //  scale T & P to same range :)
   MS5611.setPressureOffset(-1000);
 }
 

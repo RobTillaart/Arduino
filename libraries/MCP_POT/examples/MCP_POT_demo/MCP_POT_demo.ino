@@ -7,6 +7,7 @@
 
 #include "MCP_POT.h"
 
+
 uint32_t start, stop;
 
 
@@ -21,6 +22,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+
+  SPI.begin();
 
   pot.begin();
 

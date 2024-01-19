@@ -1,7 +1,7 @@
 //
 //    FILE: ADC081S.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -13,7 +13,7 @@
 //       HARDWARE SPI
 ADC081S::ADC081S(__SPI_CLASS__ * mySPI)
 {
-  _dataIn     = 255;
+  _data       = 255;
   _clock      = 255;
   _select     = 255;
   _hwSPI      = true;
@@ -26,7 +26,7 @@ ADC081S::ADC081S(__SPI_CLASS__ * mySPI)
 //       SOFTWARE SPI
 ADC081S::ADC081S(uint8_t dataIn, uint8_t clock)
 {
-  _dataIn     = dataIn;
+  _data       = dataIn;
   _clock      = clock;
   _select     = 255;
   _hwSPI      = false;
@@ -48,12 +48,12 @@ void ADC081S::begin(uint8_t select)
 
   if (_hwSPI)          //  hardware SPI
   {
-    _mySPI->end();
-    _mySPI->begin();
+    //  _mySPI->end();
+    //  _mySPI->begin();
   }
   else                 //  software SPI
   {
-    pinMode(_dataIn, INPUT);
+    pinMode(_data, INPUT);
     pinMode(_clock,  OUTPUT);
     digitalWrite(_clock, HIGH);
   }
@@ -165,7 +165,7 @@ void ADC081S::shutDown()
 uint16_t  ADC081S::swSPI_transfer16(uint16_t m)
 {
   uint8_t clk = _clock;
-  uint8_t dai = _dataIn;
+  uint8_t dai = _data;
 
   uint16_t rv = 0;
   for (uint16_t mask = m; mask; mask >>= 1)
@@ -187,7 +187,7 @@ ADC101S::ADC101S(__SPI_CLASS__ * mySPI) : ADC081S(mySPI)
   _maxValue = 1023;
 }
 
-ADC101S::ADC101S(uint8_t dataIn, uint8_t clock) : ADC081S(dataIn, clock)
+ADC101S::ADC101S(uint8_t data, uint8_t clock) : ADC081S(data, clock)
 {
   _maxValue = 1023;
 }
@@ -207,7 +207,7 @@ ADC121S::ADC121S(__SPI_CLASS__ * mySPI) : ADC081S(mySPI)
   _maxValue = 4095;
 }
 
-ADC121S::ADC121S(uint8_t dataIn, uint8_t clock) : ADC081S(dataIn, clock)
+ADC121S::ADC121S(uint8_t data, uint8_t clock) : ADC081S(data, clock)
 {
   _maxValue = 4095;
 }

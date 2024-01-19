@@ -35,6 +35,13 @@ The library is not tested with hardware yet.
 Feedback is as always welcome.
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **ADC.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### Performance
 
 Although the ADC081S021 is rated at 200 KSPS, an Arduino UNO will not
@@ -71,6 +78,7 @@ Type = ADC(bits)(channel)S(speed)1 e.g ADC081S021 = 8 bits 1 channel 200000
 
 #### Related
 
+- https://github.com/RobTillaart/ADC08XS  2 + 4 channel library
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/MCP_ADC
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
@@ -90,7 +98,7 @@ The ADC101S and ADC121S have an identical interface as the ADC081S.
 
 - **ADC081S(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
 - **ADC081S(SPIClass \* mySPI = &SPI)** hardware constructor other
-- **ADC081S(uint8_t dataOut, uint8_t clock)**
+- **ADC081S(uint8_t data, uint8_t clock)**
 - **void begin(uint8_t select)** set select pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 255, 1023, 4095
 depending on number of bits / class.
@@ -119,20 +127,20 @@ of the ADC first to get optimal speed.
 #### Must
 
 - improve documentation
-- get hardware to test
+- get hardware to test / verify working
 
 #### Should
+
+- investigate continuous read 
+  - set CS once (or hardwired)
+  - use a prepared address
+  - just transfer.
+  - how much faster?
 
 
 #### Could
 
 - unit tests possible?
-- investigate multichannel series
-  - ADC122S101  2 channel series
-  - ADC124S101  4 channel series
-  - need own (6) classes 
-  - needs channel selection => so need dataout
-  - need a control byte with channel select (bit 3,4,5)
 
 
 #### Wont

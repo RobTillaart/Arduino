@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-01-19
+- Fix #5, improve handling SPI dependency.
+- align pin names in constructor with datasheet
+
+----
+
 ## [0.1.2] - 2024-01-12
 - add support for **ADC101S** 10 bit series
 - add support for **ADC121S** 12 bit series

@@ -7,10 +7,12 @@
 
 #include "ADC081S.h"
 
+
 ADC081S adc01;        //  use HWSPI
 ADC081S adc02(6, 7);  //  use SWSPI
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -19,6 +21,7 @@ void setup()
   Serial.print("ADC081S_LIB_VERSION: ");
   Serial.println(ADC081S_LIB_VERSION);
 
+  SPI.begin();
   adc01.begin(10);
   adc02.begin(5);
 

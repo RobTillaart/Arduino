@@ -21,6 +21,14 @@ The DAC8552 is a SPI based 16 bit DAC with two channels.
 **Warning** This library is not tested extensively.
 
 
+
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **DAC.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.4.0 Breaking change
 
 Bugfix channel select bit, invalidates all pre 0.4.0 versions

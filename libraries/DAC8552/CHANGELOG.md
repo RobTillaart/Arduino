@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-01-20
+- Fix #16, improve handling SPI dependency.
+- update examples
+
+----
+
 ## [0.4.0] - 2023-12-09
 - Fix #14 bug, buffer select for B channel. Kudos to sjthomsen.
   - invalidates all previous versions.

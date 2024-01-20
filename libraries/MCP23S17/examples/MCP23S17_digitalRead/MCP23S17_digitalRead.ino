@@ -6,7 +6,6 @@
 
 
 #include "MCP23S17.h"
-#include "SPI.h"
 
 
 MCP23S17 MCP(10);
@@ -22,6 +21,7 @@ void setup()
   delay(100);
 
   SPI.begin();
+
   rv = MCP.begin();
   Serial.println(rv ? "true" : "false");
 

@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -50,8 +50,8 @@ bool MCP23S17::begin()
 
   if (_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
+    //  _mySPI->end();
+    //  _mySPI->begin();
   }
   else
   {

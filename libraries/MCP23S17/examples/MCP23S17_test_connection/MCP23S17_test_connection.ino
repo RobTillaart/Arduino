@@ -8,7 +8,6 @@
 
 
 #include "MCP23S17.h"
-#include "SPI.h"
 
 
 // MCP23S17 MCP(10, 12, 11, 13);  //  SW SPI address 0x00
@@ -25,6 +24,7 @@ void setup()
   delay(100);
 
   SPI.begin();
+
   MCP.begin();
 
   int c = testConnection(MCP);

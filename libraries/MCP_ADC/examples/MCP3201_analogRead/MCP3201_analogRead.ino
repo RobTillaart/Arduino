@@ -2,7 +2,7 @@
 //    FILE: MCP3201_analogRead.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2023-08-15
+//     URL: https://github.com/RobTillaart/MCP_ADC
 
 
 #include "MCP_ADC.h"
@@ -18,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   mcp1.begin(10);
   mcp2.begin(5);

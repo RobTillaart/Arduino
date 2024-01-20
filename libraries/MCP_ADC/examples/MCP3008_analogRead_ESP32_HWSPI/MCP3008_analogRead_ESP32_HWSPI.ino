@@ -2,7 +2,7 @@
 //    FILE: MCP3008_analogRead_ESP32_HWSPI.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-03-12
+//     URL: https://github.com/RobTillaart/MCP_ADC
 
 
 #include "MCP_ADC.h"
@@ -32,6 +32,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   mcp1.begin(5);                //  chip select pin.
 

@@ -2,10 +2,11 @@
 //    FILE: MCP3002_analogRead.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-08-13
+//     URL: https://github.com/RobTillaart/MCP_ADC
 
 
 #include "MCP_ADC.h"
+
 
 MCP3002 mcp1;           //  use HWSPI
 MCP3002 mcp2(6, 7, 8);  //  use SWSPI
@@ -17,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   mcp1.begin(10);
   mcp2.begin(5);

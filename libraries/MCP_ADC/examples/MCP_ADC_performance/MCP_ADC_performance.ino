@@ -2,7 +2,7 @@
 //    FILE: MCP_ADC_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: simple performance measurement.
-//    DATE: 2020-08-14
+//     URL: https://github.com/RobTillaart/MCP_ADC
 //
 //  Note the deltaRead() does 1 or 2 differential reads depending
 //  on positive of negative delta between 2 pins.
@@ -28,6 +28,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   mcp2.begin(8);
   mcp4.begin(9);

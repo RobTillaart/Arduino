@@ -2,11 +2,11 @@
 //    FILE: MCP3208_performance.ino
 //  AUTHOR: Rob Tillaart, Alex Uta
 // PURPOSE: simple performance measurement for MCP3208
-//    DATE: 2023-08-13
-//
+//     URL: https://github.com/RobTillaart/MCP_ADC
 
 
 #include "MCP_ADC.h"
+
 
 MCP3208 mcp28;
 #define MCP3208_CS_PIN 25
@@ -27,6 +27,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   Serial.println();
   Serial.println("ADC\tCHAN\tMAXVALUE");

@@ -2,7 +2,7 @@
 //    FILE: MCP3008_differentialRead.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-08-13
+//     URL: https://github.com/RobTillaart/MCP_ADC
 
 
 #include "MCP_ADC.h"
@@ -17,6 +17,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+
+  SPI.begin();
 
   mcp1.begin(10);
   mcp2.begin(5);

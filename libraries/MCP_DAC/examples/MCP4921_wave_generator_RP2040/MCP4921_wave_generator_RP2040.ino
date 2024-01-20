@@ -2,7 +2,7 @@
 //    FILE: MCP4921_wave_generator_RP2040.ino
 //  AUTHOR: Rob Tillaart / Intubun
 // PURPOSE: demo function generators on the RP2040
-//    DATE: 2021-02-03
+//     URL: https://github.com/RobTillaart/MCP_DAC
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 //  depending on the platform, the range of "smooth" sinus is limited.
@@ -71,9 +71,10 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
+  SPI.begin();
+
   //  MCP.begin(17);    //  select pin = 17, SPI
   MCP.begin(13);    //  select pin = 13, SPI1
-
 
   MCP.fastWriteA(0);
 

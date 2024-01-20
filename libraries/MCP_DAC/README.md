@@ -42,6 +42,13 @@ The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
+#### 0.5.0 Breaking change
+
+Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **MCP.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 

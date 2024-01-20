@@ -2,7 +2,6 @@
 //    FILE: MCP4921_standalone.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: faster no checking MCP4921 specific code
-//    DATE: 2021-02-04
 //     URL: https://github.com/RobTillaart/MCP_DAC
 
 

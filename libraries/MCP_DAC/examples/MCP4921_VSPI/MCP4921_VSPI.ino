@@ -2,8 +2,7 @@
 //    FILE: MCP4921_VSPI.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test MCP_DAC lib
-//    DATE: 2021-07-31
-//     URL: https://github.com/RobTillaart/MCP4921
+//     URL: https://github.com/RobTillaart/MCP_DAC
 
 
 #ifndef ESP32
@@ -28,6 +27,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+
+  myspi->begin();
 
   MCP.begin(5);         //  5 for VSPI and 15 for HSPI
 

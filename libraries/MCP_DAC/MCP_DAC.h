@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.4.0"))
+#define MCP_DAC_LIB_VERSION       (F("0.5.0"))
 
 #ifndef __SPI_CLASS__
   #if defined(ARDUINO_ARCH_RP2040)

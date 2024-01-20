@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -58,8 +58,8 @@ void MCP_DAC::begin(uint8_t select)
 
   if (_hwSPI)
   {
-    mySPI->end();
-    mySPI->begin();
+    //  mySPI->end();
+    //  mySPI->begin();
   }
   else  //  software SPI
   {

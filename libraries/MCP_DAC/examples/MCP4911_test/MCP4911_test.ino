@@ -2,11 +2,11 @@
 //    FILE: MCP4911_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test MCP_DAC lib
-//    DATE: 2021-05-26
-//     URL: https://github.com/RobTillaart/MCP4921
+//     URL: https://github.com/RobTillaart/MCP_DAC
 
 
 #include "MCP_DAC.h"
+
 
 // MCP4911 MCP(11, 13);  //  SW SPI
 MCP4911 MCP;  //  HW SPI
@@ -22,6 +22,8 @@ void setup()
 
   Serial.print("SPI:\t");
   Serial.println(MCP.usesHWSPI());
+
+  SPI.begin();
 
   MCP.begin(10);
 

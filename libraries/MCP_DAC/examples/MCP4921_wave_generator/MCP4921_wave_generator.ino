@@ -2,7 +2,7 @@
 //    FILE: MCP4921_wave_generator.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo function generators
-//    DATE: 2021-02-03
+//     URL: https://github.com/RobTillaart/MCP_DAC
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 //
 //  depending on the platform, the range of "smooth" sinus is limited.
@@ -47,6 +47,8 @@ void setup()
   {
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
+
+  SPI.begin();
 
   MCP.begin(10);  // select pin = 10
   MCP.fastWriteA(0);

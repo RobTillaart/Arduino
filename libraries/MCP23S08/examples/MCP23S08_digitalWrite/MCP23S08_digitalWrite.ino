@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23S08_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-12-30
 // PURPOSE: test MCP23S08 library
 //     URL: https://github.com/RobTillaart/MCP23S08
 
@@ -22,6 +21,7 @@ void setup()
   delay(100);
 
   SPI.begin();
+
   bool b = MCP.begin();
   Serial.print("BEGIN: ");
   Serial.println(b ? "true" : "false");

@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23S08_digitalRead.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-12-30
 // PURPOSE: test MCP23S08 library
 //     URL: https://github.com/RobTillaart/MCP23S08
 
@@ -23,6 +22,7 @@ void setup()
   delay(100);
 
   SPI.begin();
+
   rv = MCP.begin();
   Serial.println(rv);
 

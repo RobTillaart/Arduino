@@ -7,7 +7,8 @@
 
 #include "DAC8554.h"
 
-//  note address as param
+
+//  note address as parameter
 DAC8554 DAC_A(10, &SPI, 0);
 DAC8554 DAC_B(11, &SPI, 1);
 
@@ -17,6 +18,9 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.println(DAC8554_LIB_VERSION);
+
+  SPI.begin();
+
   DAC_A.begin();
   DAC_B.begin();
 

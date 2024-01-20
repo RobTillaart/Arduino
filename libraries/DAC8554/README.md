@@ -21,6 +21,13 @@ The DAC8554 is a SPI based 16 bit DAC with four channels.
 **Warning** This library is not tested extensively
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **DAC.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 

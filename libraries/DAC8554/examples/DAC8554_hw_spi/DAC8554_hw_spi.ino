@@ -7,6 +7,7 @@
 
 #include "DAC8554.h"
 
+
 DAC8554 mydac(10);
 
 
@@ -16,6 +17,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
+
+  SPI.begin();
 
   mydac.begin();
 }

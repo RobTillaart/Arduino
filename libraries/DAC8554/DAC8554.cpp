@@ -2,7 +2,7 @@
 //    FILE: DAC8554.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2017-12-19
 //     URL: https://github.com/RobTillaart/DAC8554
 
@@ -49,9 +49,9 @@ void DAC8554::begin()
 
   if(_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
-    delay(1);
+    //  _mySPI->end();
+    //  _mySPI->begin();
+    //  delay(1);
   }
   else  //  SOFTWARE SPI
   {

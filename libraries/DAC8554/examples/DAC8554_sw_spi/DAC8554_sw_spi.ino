@@ -18,6 +18,8 @@ void setup()
   Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
 
+  SPI.begin();
+
   mydac.begin();
 }
 

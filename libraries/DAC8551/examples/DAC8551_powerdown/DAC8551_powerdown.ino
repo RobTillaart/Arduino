@@ -2,9 +2,7 @@
 //    FILE: DAC8551_powerdown.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8551 library Arduino
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8551
-//
 
 
 #include "DAC8551.h"
@@ -20,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
+  SPI.begin();
 
   mydac.begin();
 }

@@ -9,6 +9,7 @@
 
 #include "DAC8551.h"
 
+
 //  select, address HW SPI
 DAC8551 mydac(10, &SPI);  //  explicit SPI
 
@@ -19,6 +20,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
+  SPI.begin();
 
   mydac.begin();
 }
@@ -55,5 +58,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

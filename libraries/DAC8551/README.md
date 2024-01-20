@@ -24,6 +24,14 @@ They all have classes derived 1 to 1 from DAC8551.
 **Warning** this library is not tested extensively.
 
 
+
+## [0.4.0] - 2024-01-20
+- Fix #19, improve handling SPI dependency.
+- update examples
+
+----
+
+
 #### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 

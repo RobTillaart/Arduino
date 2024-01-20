@@ -7,6 +7,7 @@
 
 #include "DAC8551.h"
 
+
 //  select, data, clock
 DAC8531 mydac(8, 11, 13);
 
@@ -17,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+
+  SPI.begin();
 
   mydac.begin();
 }

@@ -22,7 +22,7 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  help();
+  SPI.begin();
 
   freqGen.begin();
 
@@ -32,6 +32,8 @@ void setup()
   Serial.println(maxFreq);
   Serial.print("REF_CLOCK: ");
   Serial.println(freqGen.getRefClock());
+
+  help();
 }
 
 
@@ -97,7 +99,7 @@ void loop()
     if (freq > maxFreq) freq = maxFreq;
   }
 
-  // UPDATE AD985X IF NEW VALUE
+  //  update device if frequency has changed
   if (prev != freq)
   {
     prev = freq;
@@ -105,7 +107,7 @@ void loop()
     freqGen.setFrequency(freq);
     freq = freqGen.getFrequency();
     Serial.println(freq);
-    // printFreq(freq);
+    //  printFreq(freq);
   }
 }
 
@@ -150,4 +152,4 @@ void printFreq(float freq)
   Serial.println(" Hz");
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

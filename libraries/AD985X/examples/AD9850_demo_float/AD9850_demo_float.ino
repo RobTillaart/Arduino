@@ -23,12 +23,14 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  help();
+  SPI.begin();
 
   freqGen.begin();
   freqGen.powerUp();
   maxFreq = freqGen.getMaxFrequency();
   Serial.println(maxFreq);
+
+  help();
 }
 
 

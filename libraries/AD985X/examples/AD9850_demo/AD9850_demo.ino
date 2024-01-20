@@ -23,6 +23,8 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
+  SPI.begin();
+
   help();
 
   freqGen.begin();

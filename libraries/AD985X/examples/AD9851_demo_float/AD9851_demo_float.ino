@@ -4,6 +4,7 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AD985X
 
+
 #include "AD985X.h"
 
 
@@ -21,12 +22,14 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  help();
+  SPI.begin();
 
   freqGen.begin();
   freqGen.powerUp();
   maxFreq = freqGen.getMaxFrequency();
   Serial.println(maxFreq);
+
+  help();
 }
 
 
@@ -63,7 +66,7 @@ void loop()
     if (freq > maxFreq) freq = maxFreq;
   }
 
-  // UPDATE AD985X IF NEW VALUE
+  //  update the device if there is a new value
   if (prev != freq)
   {
     prev = freq;
@@ -86,4 +89,6 @@ void help()
   Serial.println();
 }
 
-// END OF FILE
+
+//  -- END OF FILE --
+

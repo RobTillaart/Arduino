@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -69,8 +69,8 @@ void AD9850::begin()
 
   if (_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
+    //  _mySPI->end();
+    //  _mySPI->begin();
   }
   else  //  SOFTWARE SPI
   {

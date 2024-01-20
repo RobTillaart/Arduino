@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo AD9833 wave form generator on 4 devices
 //
-// todo: test with hardware
+//    TODO: test with hardware
 
 #include "AD9833.h"
 
@@ -22,6 +22,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+
+  SPI.begin();
 
   for (int i = 0; i < 3; i++)
   {

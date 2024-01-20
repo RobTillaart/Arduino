@@ -15,6 +15,8 @@ void setup()
   while(!Serial);
   Serial.println(__FILE__);
 
+  SPI.begin();
+
   AD.begin();
   AD.setFrequency(1000, 0);
   AD.setFrequency(1000, 0);

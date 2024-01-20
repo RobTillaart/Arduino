@@ -59,6 +59,13 @@ please let me know by opening an issue.
 Probably they need a dedicated library based on this one.
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 introduced a breaking change to improve handling the SPI dependency.
+The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
+Optionally the user can provide parameters to the **SPI.begin(...)**
+
+
 #### 0.2.0 breaking change
 
 The version 0.2.0 has breaking changes in the interface. 

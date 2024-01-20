@@ -7,6 +7,7 @@
 
 #include "AD9833.h"
 
+
 //  ESP32
 //  SPIClass * myspi = new SPIClass(VSPI);
 //  AD9833 AD(5, myspi);
@@ -26,6 +27,8 @@ void setup()
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);
   delay(10);
+
+  SPI.begin();
 
   AD.begin();
 

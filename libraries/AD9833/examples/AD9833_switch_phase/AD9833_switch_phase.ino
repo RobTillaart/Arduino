@@ -18,6 +18,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
+  SPI.begin();
+
   AD.begin();
 
   AD.setWave(AD9833_SINE);

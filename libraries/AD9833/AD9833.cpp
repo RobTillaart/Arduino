@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //     URL: https://github.com/RobTillaart/AD9833
 //
 
@@ -58,8 +58,8 @@ void AD9833::begin()
 
   if (_hwSPI)
   {
-    _mySPI->end();
-    _mySPI->begin();
+    //  _mySPI->end();
+    //  _mySPI->begin();
   }
   else  //  SOFTWARE SPI
   {

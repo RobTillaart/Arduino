@@ -16,6 +16,8 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
+  SPI.begin();
+
   AD.begin();
   AD.setFrequency(1000, 0);   //  1000 Hz.
 

@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-01-20
+- Fix #14, improve handling SPI dependency.
+- update examples
+
+----
+
 ## [0.3.1] - 2024-01-12
 - Fix #12, make crystal adjustable (experimental implementation).
 - add **bool setCrystalFrequency(uint32_t crystal = 25000000)**
 - add **uint32_t getCrystalFrequency()**
 - update readme.md
-
 
 ## [0.3.0] - 2023-11-26
 - fix #10, explicit write control register fixes glitch.

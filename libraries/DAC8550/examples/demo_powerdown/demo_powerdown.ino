@@ -18,6 +18,8 @@ void setup()
   Serial.print("DAC8550_LIB_VERSION: ");
   Serial.println(DAC8550_LIB_VERSION);
 
+  SPI.begin();
+
   myDAC.begin();
   
   myDAC.setValue(0);

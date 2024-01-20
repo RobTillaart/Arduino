@@ -2,7 +2,6 @@
 //    FILE: demo_sw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC855X library Arduino with software SPI
-// VERSION: 0.1.1
 //     URL: https://github.com/RobTillaart/DAC8550
 
 
@@ -19,6 +18,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("DAC8550_LIB_VERSION: ");
   Serial.println(DAC8550_LIB_VERSION);
+
+  SPI.begin();
 
   myDAC.begin();
 }

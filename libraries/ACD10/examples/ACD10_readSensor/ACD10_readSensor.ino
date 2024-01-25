@@ -4,7 +4,7 @@
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/ACD10
 
-#include "Wire.h"
+
 #include "ACD10.h"
 
 

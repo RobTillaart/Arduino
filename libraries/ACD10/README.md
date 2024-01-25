@@ -29,6 +29,9 @@ The sensor is not suitable for CO2 heavy "industrial" environments.
 **Warning** The temperature range the sensor can measure is **UNKNOWN**
 as there is no documentation how to convert the raw data to meaningful one.
 
+The sensor can be read over I2C and over Serial.
+This library only support the I2C interface (see hardware notes below).
+
 
 #### Pre-heat period
 
@@ -50,20 +53,6 @@ a CO2 sensor needs regular calibration. See datasheet for details.
 The sensor must be powered with 5V and uses about 225 mW.
 This implies the sensor uses 50 mA (@5V) and needs a separate power supply. 
 One must connect GND from the power supply to the GND of the MCU.
-
-
-#### I2C
-
-The sensor can be read over I2C and over Serial.
-This library only support the I2C interface (see hardware notes below).
-The device has a fixed I2C address of 0x2A (42). 
-The I2C communication supports 3-5V so any 3.3V MCU should be able to connect.
-Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
-
-If you need to control more ACD10 sensors you can use a multiplexer e.g. TCA9548
-- https://github.com/RobTillaart/TCA9548
-
-See example **TCA9548_demo_ACD10.ino**
 
 
 #### Datasheet warning
@@ -126,19 +115,15 @@ TODO: Test on Arduino UNO and ESP32
 
 ## I2C
 
-The device has a fixed I2C address of 0x2A (42). 
-The I2C communication supports 3-5V so any 3.3V - 5.0V MCU should be able to connect.
+The device has a fixed I2C address of 0x2A (42) so only one sensor per I2C bus can be used.
+The I2C communication supports 3-5V so any 3.3V MCU should be able to connect.
 Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
 
-
-#### Multiple sensors.
-
-The ACD10 sensor has a fixed I2C address 0x2A (42) so only one sensor per I2C bus can be used.
-
 If one needs more sensors there are some options.
-- One could use an I2C multiplexer - https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
+- One could use an I2C multiplexer (see below)
 - One could use an MCU with multiple I2C buses.
 - One could use a (Two-Wire compatible) SW I2C (outside scope of this library).
+
 
 Using the VCC as a Chip Select is not advised as the ACD10
 has a preheat time of 2 minutes. 
@@ -146,7 +131,27 @@ Every time the power is shut off the pre-heat would run again internally.
 It is unclear what effect this has on the lifetime and quality of the sensor.
 
 
-#### Performance I2C
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+See example **TCA9548_demo_ACD10.ino**
+
+
+#### I2C Performance
 
 Only test **readSensor()** as that is the main function.
 

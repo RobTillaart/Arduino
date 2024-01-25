@@ -17,10 +17,12 @@ setCentiTurn	KEYWORD2
 setDiameterPart	KEYWORD2
 setHexacontade	KEYWORD2
 setHourAngle	KEYWORD2
+setMilliRadians	KEYWORD2
 setMilliTurn	KEYWORD2
 setMinuteTime	KEYWORD2
 setOctant	KEYWORD2
 setPechus	KEYWORD2
+setPercent	KEYWORD2
 setPoints	KEYWORD2
 setQuadrant	KEYWORD2
 setQuarterPoint	KEYWORD2
@@ -41,10 +43,12 @@ getCentiTurn	KEYWORD2
 getDiameterPart	KEYWORD2
 getHexacontade	KEYWORD2
 getHourAngle	KEYWORD2
+getMilliRadians	KEYWORD2
 getMilliTurn	KEYWORD2
 getMinuteTime	KEYWORD2
 getOctant	KEYWORD2
 getPechus	KEYWORD2
+getPercent	KEYWORD2
 getPoints	KEYWORD2
 getQuadrant	KEYWORD2
 getQuarterPoint	KEYWORD2

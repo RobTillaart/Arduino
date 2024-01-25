@@ -27,10 +27,10 @@ can gain extra precision.
 #### Formats
 
 
-|  name           |  full circle  |
-|:----------------|--------------:|
+|  name           |  full circle  |  notes  |
+|:----------------|--------------:|:--------|
 |  Degrees        |          360  |
-|  Radians        |         2 PI  |
+|  Radians        |         2 PI  |  2PI is aka MU
 |  Gradians       |          400  |
 |  AngularMil     |         6400  |
 |  BinaryRadians  |          256  |
@@ -38,10 +38,12 @@ can gain extra precision.
 |  DiameterPart   |          120  |
 |  Hexacontade    |           60  |
 |  HourAngle      |           24  |
+|  MilliRadians   |      2000 PI  |
 |  MilliTurn      |         1000  |
 |  MinuteTime     |         1440  |
 |  Octant         |            8  |
 |  Pechus         |          180  |
+|  Percent        |          100  |  equals CentiTurn.
 |  Points         |           32  |
 |  Quadrant       |            4  |
 |  QuarterPoint   |          128  |
@@ -82,10 +84,12 @@ can gain extra precision.
 - **void setDiameterPart(double value = 0)**
 - **void setHexacontade(double value = 0)**
 - **void setHourAngle(double value = 0)**
+- **void setMilliRadians(double value = 0)**
 - **void setMilliTurn(double value = 0)**
 - **void setMinuteTime(double value = 0)**
 - **void setOctant(double value = 0)**
 - **void setPechus(double value = 0)**
+- **void setPercent(double value = 0)**
 - **void setPoints(double value = 0)**
 - **void setQuadrant(double value = 0)**
 - **void setQuarterPoint(double value = 0)**
@@ -106,10 +110,12 @@ can gain extra precision.
 - **double getDiameterPart()**
 - **double getHexacontade()**
 - **double getHourAngle()**
+- **double getMilliRadians()**
 - **double getMilliTurn()**
 - **double getMinuteTime()**
 - **double getOctant()**
 - **double getPechus()**
+- **double getPercent()**
 - **double getPoints()**
 - **double getQuadrant()**
 - **double getQuarterPoint()**

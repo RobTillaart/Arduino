@@ -2,7 +2,7 @@
 //
 //    FILE: AngleConvertor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-12-01
 // PURPOSE: Angle conversion class
 //     URL: https://github.com/RobTillaart/AngleConvertor
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define ANGLECONVERTOR_LIB_VERSION        (F("0.2.0"))
+#define ANGLECONVERTOR_LIB_VERSION        (F("0.2.1"))
 
 
 /////////////////////////////////////////////////////////////
@@ -33,11 +33,13 @@ public:
   void setDiameterPart(double value = 0)  { _v = value * (180.0 / 60.0); };
   void setHexacontade(double value = 0)   { _v = value * (180.0 / 30.0); };
   void setHourAngle(double value = 0)     { _v = value * (180.0 / 12.0); };
+  void setMilliRadians(double value = 0)  { _v = value * (180.0 / (M_PI * 1000.0)); };
   void setMilliTurn(double value = 0)     { _v = value * (180.0 / 500.0); };
 
   void setMinuteTime(double value = 0)    { _v = value * (180.0 / 720.0); };
   void setOctant(double value = 0)        { _v = value * (180.0 / 4.0); };
   void setPechus(double value = 0)        { _v = value * (180.0 / 90.0); };    //  assumes 2°
+  void setPercent(double value = 0)       { _v = value * (180.0 / 50.0); };    //  equals centiTurn..
   void setPoints(double value = 0)        { _v = value * (180.0 / 16.0); };
   void setQuadrant(double value = 0)      { _v = value * (180.0 / 2.0); };
   void setQuarterPoint(double value = 0)  { _v = value * (180.0 / 64.0); };
@@ -57,11 +59,13 @@ public:
   double getDiameterPart()   { return _v * (60.0   / 180.0); };
   double getHexacontade()    { return _v * (30.0   / 180.0); };
   double getHourAngle()      { return _v * (12.0   / 180.0); };
+  double getMilliRadians()   { return _v * (M_PI * 1000.0  / 180.0); };
   double getMilliTurn()      { return _v * (500.0  / 180.0); };
 
   double getMinuteTime()     { return _v * (720.0  / 180.0); };
   double getOctant()         { return _v * (4.0    / 180.0); };
   double getPechus()         { return _v * (90.0   / 180.0); };     //  assumes 2°
+  double getPercent()        { return _v * (50.0   / 180.0); }
   double getPoints()         { return _v * (16.0   / 180.0); };
   double getQuadrant()       { return _v * (2.0    / 180.0); };
   double getQuarterPoint()   { return _v * (64.0   / 180.0); };

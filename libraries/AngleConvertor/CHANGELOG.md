@@ -1,10 +1,15 @@
-# Change Log Angle
+# Change Log AngleConvertor
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.2.1] - 2024-01-24
+- add percent as unit
+- add milliRadians as unit
+- add unit tests for windrose()
 
 
 ## [0.2.0] - 2024-01-15

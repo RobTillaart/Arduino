@@ -38,16 +38,16 @@ void setup()
   Serial.print("Amp/Step: ");
   Serial.println(ACS.getAmperePerStep(), 4);
 
-  value = ACS.mA_AC();  // get good initial value
+  value = ACS.mA_AC();             //  get good initial value
 }
 
 
 void loop()
 {
-  //  select sppropriate function
+  //  select appropriate function
   float mA = ACS.mA_AC_sampling();
-  // float mA = ACS.mA_AC();
-  value += weight * (mA - value);  // low pass filtering
+  //  float mA = ACS.mA_AC();
+  value += weight * (mA - value);  //  low pass filtering
 
   Serial.print("weight: ");
   Serial.print(weight);
@@ -61,4 +61,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

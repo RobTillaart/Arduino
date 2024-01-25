@@ -54,15 +54,15 @@ void setup()
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
 
+  Wire.begin();
+
   lcd.begin(16, 2);
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
   lcd.setBacklight(BL_ON);
 
   lcd.clear();
 
-
   ACS.autoMidPoint();
-
 }
 
 
@@ -87,4 +87,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -71,6 +71,16 @@ could be obtained with such an ADC. It triggered the experimental supporting
 of external ADC's with this library.
 
 
+#### Calibration and accuracy
+
+The library has no means to calibrate the output or use an offset.
+However sort of calibrating can relatively easy be done by using 
+the MultiMap library.
+MultiMap approaches a non-linear mapping by multiple linear mappings.
+
+See https://github.com/RobTillaart/MultiMap.
+
+
 #### Tests
 
 The library is at least confirmed to work with the following boards:
@@ -91,11 +101,24 @@ Please let me know of other working platforms / processors (and failing ones!).
 Robodyn has a breakout for the ACS758 - 50 A. - See resolution below.
 This sensor has versions up to 200 Amps, so use with care!
 
-Allegromicro offers a lot of different current sensors that might be compatible.
+AllegroMicro offers a lot of different current sensors that might be compatible.
 These include bidirectional and unidirectional ones.
 The unidirectional seem to be for DC only.
 
 https://www.allegromicro.com/en/products/sense/current-sensor-ics/current-sensors-innovations
+
+
+Devices that could be compatible:
+
+|        | ACS720 | ACS724 | ACS725 | ACS732 | ACS733|  ACS758 | ACS772 | ACS773 | ACS780 | ACS781 |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| tested |        |        |   #44  |        |        |        |        |        |        |        |
+
+
+|        | ACS37002 | ACS37003 | ACS71240 | ACS3761X | ACS37800 | ACS72981 |
+|:------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| tested |          |          |          |          |          |          |
+
 
 If you have tested a compatible sensor, please share your experiences.
 (can be done by opening an issue to update documentation)
@@ -151,6 +174,7 @@ This function is intended for signals with unknown Form Factor.
 - **float mA_DC(uint16_t samples = 1)** blocks < 1 ms (Arduino UNO) as it calls **analogRead()** twice.
 A negative value indicates the current flows in the opposite direction.
   - 0.2.8 the parameter samples allow to average over a number of samples.
+  - 0.3.9 calls yield() every 2nd iteration to improve behaviour under RTOS.
 
 
 #### mA_AC_sampling performance trick.
@@ -342,15 +366,24 @@ ACS.setADC(NULL, 5.0, 1023);
 - example ACS712_20_DC_external_ADC.ino
 - https://github.com/RobTillaart/ACS712/issues/31
 
+- example ACS712_ESP32_external_ADC.ino
+- https://github.com/RobTillaart/ACS712/issues/46
+
 
 Note that the use of an external ADC should meet certain performance requirements,
 especially for measuring **ma-AC()**.
-To 'catch' the peaks well enough one needs at least 2 samples per millisecond
-for a 60 Hz signal.
+
+To 'catch' the peaks well enough one needs at least 2 samples per millisecond (2000 sps)
+for a 60 Hz signal. That gives 34 samples for 360 degrees => 10.6 degrees, which 
+results in a max deviation of 5.3 degrees from peak => max 0.5% off.
+
+As a 50 Hz signal is a bit slower, 2000 sps would give 40 samples for => 9 degrees,
+which results in a max deviation of 4.5 degrees from peak => max 0.4% off.
+
 
 The 16 bit I2C **ADS1115** in continuous mode gives max 0.8 samples per millisecond.
 This will work perfect for high resolution **mA-DC()** but is not fast enough for
-doing **mA-AC()**.
+doing **mA-AC()**. It will get an accuracy around ~2%.
 
 The SPI based **MCP3202** ao can do up to 100 samples per millisecond at 12 bit.
 These ADC's are perfect both **mA-DC()** and **mA-AC()**.
@@ -417,6 +450,22 @@ Schema with PULL-UP.
 ```
 
 The library does not support this "extreme values" detection.
+
+
+## RTOS
+
+The library can be used in an RTOS environment, however a few functions of this
+library are blocking for relative long times.
+
+In version 0.3.9 the **mA_DC()** calls **yield()** between every three calls of analogRead.
+This is done both for the external and intern ADC to prevent blocking of other threads.
+
+For the **mA_AC()** and **mA_peak2peak()** a call to yield() is not desirable 
+as the samples are all needed to make a decent measurement.
+For the applications that need proper scheduling one should put the sampling of the 
+INA226 at least for **AC** in a separate thread.  
+
+There is no RTOS example. If you have and willing to share you are welcome.
 
 
 ## ESPhome

@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.8
+// VERSION: 0.3.9
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -81,8 +81,8 @@ float ACS712::mA_AC(float frequency, uint16_t cycles)
     uint16_t samples = 0;
     uint16_t zeros   = 0;
 
-    int _min, _max;
-    _min = _max = _analogRead(_pin);
+    int minimum, maximum;
+    minimum = maximum = _analogRead(_pin);
 
     //  find minimum and maximum and count the zero-level "percentage"
     uint32_t start = micros();
@@ -95,12 +95,12 @@ float ACS712::mA_AC(float frequency, uint16_t cycles)
         value = (value + _analogRead(_pin))/2;
       }
       //  determine extremes
-      if (value < _min) _min = value;
-      else if (value > _max) _max = value;
+      if (value < minimum) minimum = value;
+      else if (value > maximum) maximum = value;
       //  count zeros
       if (abs(value - _midPoint) <= zeroLevel ) zeros++;
     }
-    int peak2peak = _max - _min;
+    int peak2peak = maximum - minimum;
 
     //  automatic determine _formFactor / crest factor
     float D = 0;
@@ -178,6 +178,11 @@ float ACS712::mA_DC(uint16_t cycles)
     if (_suppresNoise)  //  average 2 samples.
     {
       value = (value + _analogRead(_pin))/2;
+    }
+    //  for RTOS
+    if ((i & 0x0001) == 0x0001)  //  every 2nd iteration
+    {
+      yield();
     }
     sum += (value - _midPoint);
   }

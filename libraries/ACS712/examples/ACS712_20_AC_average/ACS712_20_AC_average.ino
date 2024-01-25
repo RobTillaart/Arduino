@@ -41,7 +41,7 @@ void loop()
   uint32_t start = millis();
   for (int i = 0; i < 100; i++)
   {
-    //  select sppropriate function
+    //  select appropriate function
     //  average += ACS.mA_AC_sampling();
     average += ACS.mA_AC();
   }
@@ -56,4 +56,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

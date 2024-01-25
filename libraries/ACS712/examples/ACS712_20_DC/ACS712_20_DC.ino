@@ -3,8 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo to measure mA DC
 //     URL: https://github.com/RobTillaart/ACS712
-
+//
 //  use with Arduino Serial Plotter
+
 
 #include "ACS712.h"
 
@@ -41,4 +42,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo to measure mA DC with external ADC
 //     URL: https://github.com/RobTillaart/ACS712
-
+//
+//  see also ACS712_ESP32_external_ADC.ino
 //  use with Arduino Serial Plotter
 
 #include "ACS712.h"
@@ -43,7 +44,7 @@ void loop()
 }
 
 //  wrapper needed for external analogRead()
-//  as casting behavior is undefined between different function signatures.
+//  as casting behaviour is undefined between different function signatures.
 uint16_t testADC(uint8_t p)
 {
   //  simulation
@@ -54,4 +55,4 @@ uint16_t testADC(uint8_t p)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

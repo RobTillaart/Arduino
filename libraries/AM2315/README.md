@@ -26,6 +26,16 @@ See multiplexing below.
 The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. 
 The AM232X library allows to read some internal registers.
 
+
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins
+before calling **begin()**.
+
+
 #### AM2315C
 
 The AM2315C ( note the C ) is a different sensor with a different protocol.
@@ -57,6 +67,38 @@ The C-version has a fixed address of **0x38** so easy to detect.
 //
 // do not forget pull up resistors between SDA, SCL and VDD.
 ```
+
+## I2C
+
+The AM2315 has a fixed address **0x5C** (92).
+
+
+#### Multiplexing 
+
+Multiplexing the **AM2315** can be done in several ways.
+This is not a complete list or tutorial but should get you started.
+
+1. Control the power line by means of an extra pin (+ transistor). 
+Only switch on the sensor you want to use. Drawback might be time 
+the sensor takes to boot and to be ready for the first measurement.
+2. Use an AND gate between the I2C SCL (clock) line and the I2C SCL 
+pin of the sensors. This way one can enable / disable communication 
+per sensor. This will still need an IO pin per sensor but does not 
+have the "boot time" constraint mentioned above.
+You may use a **PCF8574** to control the AND gates.
+https://github.com/RobTillaart/PCF8574
+3. Use a **TCA9548A** I2C Multiplexer, or similar.
+
+- https://github.com/RobTillaart/TCA9548
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+Which method fit your application depends on your requirements and constraints.
 
 
 #### I2C clock speed
@@ -97,6 +139,7 @@ If performance is mandatory do not go beyond 170 KHz.
 - **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
 - **bool begin()** initializer.
 Returns true if device address 0x5C is connected.
+Note the user has to call Wire.begin() before **AM.begin()**.
 - **bool isConnected(uint16_t timeout = 3000)** returns true if the device address 0x5C is found on I2C bus.
 As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
 minimum = 800 us and maximum = 3000 us according to datasheet.
@@ -168,25 +211,6 @@ Multiple calls will give the same values until **read()** is called again.
 
 Note that the AM2315 can go into sleep mode after 3 seconds after last read, 
 so one might need to call **wakeUp()** before the **read()**.
-
-
-## Multiplexing 
-
-Multiplexing the **AM2315** can be done in several ways.
-This is not a complete list or tutorial but should get you started.
-
-1. Control the power line by means of an extra pin (+ transistor). 
-Only switch on the sensor you want to use. Drawback might be time 
-the sensor takes to boot and to be ready for the first measurement.
-2. Use an AND gate between the I2C SCL (clock) line and the I2C SCL 
-pin of the sensors. This way one can enable / disable communication 
-per sensor. This will still need an IO pin per sensor but does not 
-have the "boot time" constraint mentioned above.
-You may use a **PCF8574** to control the AND gates.
-https://github.com/RobTillaart/PCF8574
-3. Use a **TCA9548A** I2C Multiplexer, or similar. https://github.com/RobTillaart/TCA9548
-
-Which method fit your application depends on your requirements and constraints.
 
 
 ## Future

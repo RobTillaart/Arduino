@@ -3,10 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for AM2315 I2C humidity & temperature sensor
 //          Wire1 on ESP32 (et al)
+//     URL: https://github.com/RobTillaart/AM2315
 
 
 #include "AM2315.h"
-#include "Wire.h"
 
 AM2315 sensor(&Wire1);
 

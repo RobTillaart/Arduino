@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2024-01-26
+- update readme.md
+- update examples
+
+
 ## [0.2.0] - 2023-10-13
 - simplified **begin()** no more Wire pin setting.
 - update examples.

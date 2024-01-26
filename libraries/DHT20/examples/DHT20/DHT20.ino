@@ -2,6 +2,7 @@
 //    FILE: DHT20.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/DHT20
 //
 //  Always check datasheet - front view
 //
@@ -18,6 +19,7 @@
 DHT20 DHT;
 
 uint8_t count = 0;
+
 
 void setup()
 {

@@ -21,8 +21,7 @@ The DHT20 is a humidity and temperature sensor.
 The sensor has a fixed address of **0x38**.
 It is not known if the address can be changed.
 
-The library must be initiated by calling the **begin()** function, 
-or **begin(dataPin, clockPin)** for **ESP32** and similar platforms.
+The library must be initiated by calling the **begin()** function.
 
 Thereafter one has to call the **read()** function to do the actual reading,
 and call **getTemperature()** and **getHumidity()** to get the measured values.
@@ -55,10 +54,14 @@ reset the sensor if needed in both synchronous and asynchronous calls.
 This keeps the API simple. The reads are 1-2 ms slower than 0.1.4. (< 50 ms).
 Still far below the 80 ms mentioned in the datasheet. 
 
-### 0.3.0
 
-User should call Wire.begin(), and setting I2C pins himself.
-It is removed from the specific ESP32 begin() call to be more generic.
+#### 0.3.0 Breaking change
+
+Version 0.3.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins
+before calling **begin()**.
 
 
 #### Tested
@@ -73,6 +76,24 @@ Please let me know if other platforms work (or not).
 
 The sensor has a fixed address of **0x38**.
 It is not known if the address can be changed.
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 #### Connection
@@ -148,7 +169,8 @@ and should only be used if you are in a need for speed.
 #### Constructor
 
 - **DHT20(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
-- **bool begin()** initializer for non ESP32. Returns true if connected.
+- **bool begin()** initializer. Returns true if connected.
+The user must call **Wire.begin()** before calling this function.
 - **bool isConnected()** returns true if the address of the DHT20 can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 
@@ -251,6 +273,8 @@ the read calls. (0.2.0)
 #### Must
 
 - improve documentation.
+- sync AM2315C developments
+  - see https://github.com/RobTillaart/AM2315C
 - investigate the bug from #8 further
   (is done in 0.2.1 see issue #8)
 
@@ -283,5 +307,4 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-
 

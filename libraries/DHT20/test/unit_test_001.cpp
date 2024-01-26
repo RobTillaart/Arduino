@@ -25,7 +25,6 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Wire.h"
 #include "DHT20.h"
 
 

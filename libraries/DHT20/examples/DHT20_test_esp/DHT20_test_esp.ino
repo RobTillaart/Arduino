@@ -2,8 +2,8 @@
 //    FILE: DHT20_test_esp.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/DHT20
 //
-
 //  Always check datasheet - front view
 //
 //          +--------------+

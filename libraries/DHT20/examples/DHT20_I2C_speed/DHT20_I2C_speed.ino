@@ -2,6 +2,7 @@
 //    FILE: DHT20_I2C_speed.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT20 I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/DHT20
 //
 //  Always check datasheet - front view
 //
@@ -14,11 +15,13 @@
 
 //  NOTE datasheet states 400 KHz as maximum
 
+
 #include "DHT20.h"
 
 DHT20 DHT;
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -58,7 +61,7 @@ void setup()
 
     Serial.print(speed);
     Serial.print("\t");
-    Serial.print(stop - start);  // time
+    Serial.print(stop - start);  //  time
     Serial.print("\t");
     Serial.print(DHT.getHumidity(), 1);
     Serial.print("\t");

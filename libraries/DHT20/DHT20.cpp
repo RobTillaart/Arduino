@@ -1,7 +1,7 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 
 

@@ -1,0 +1,59 @@
+//
+//    FILE: unit_test_001.cpp
+//  AUTHOR: Rob Tillaart
+//    DATE: 2024-01-26
+// PURPOSE: unit tests for the DS2438 library
+//          https://github.com/RobTillaart/DS2438
+//          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
+//
+
+// supported assertions
+// https://github.com/Arduino-CI/arduino_ci/blob/master/cpp/unittest/Assertion.h#L33-L42
+// ----------------------------
+// assertEqual(expected, actual)
+// assertNotEqual(expected, actual)
+// assertLess(expected, actual)
+// assertMore(expected, actual)
+// assertLessOrEqual(expected, actual)
+// assertMoreOrEqual(expected, actual)
+// assertTrue(actual)
+// assertFalse(actual)
+// assertNull(actual)
+// assertNotNull(actual)
+
+#include <ArduinoUnitTests.h>
+
+
+#include "Arduino.h"
+#include "DS2438.h"
+
+
+
+unittest_setup()
+{
+  fprintf(stderr, "DS2438_LIB_VERSION: %s\n", (char *) DS2438_LIB_VERSION);
+}
+
+
+unittest_teardown()
+{
+}
+
+
+//  need mockup
+unittest(test_constructor)
+{
+  OneWire oneWire(4);
+  uint8_t buffer[8];
+
+  DS2438 ds(&oneWire);
+
+  assertFalse(ds.begin());
+}
+
+
+unittest_main()
+
+
+//  -- END OF FILE --
+

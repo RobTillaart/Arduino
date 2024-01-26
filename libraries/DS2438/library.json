@@ -1,0 +1,31 @@
+{
+  "name": "DS2438",
+  "keywords": "",
+  "description": "Library for DS2438 1-Wire battery monitor. One device per pin.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS2438.git"
+  },
+  "dependencies":
+  [
+    {
+      "owner": "paulstoffregen",
+      "name": "OneWire",
+      "version": "^2.3.5"
+    }
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DS2438.h"
+}

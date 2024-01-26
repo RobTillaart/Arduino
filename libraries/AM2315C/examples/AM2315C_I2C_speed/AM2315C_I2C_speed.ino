@@ -2,8 +2,8 @@
 //    FILE: AM2315C_I2C_speed.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for AM2315C I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/AM2315C
 //
-
 //  Always check datasheet
 //
 //                    +-----------------+
@@ -12,8 +12,9 @@
 //    BLACK  -------- | GND             |
 //    WHITE  -------- | SCL             |
 //                    +-----------------+
-
+//
 //  NOTE datasheet states 400 KHz as maximum
+
 
 #include "AM2315C.h"
 

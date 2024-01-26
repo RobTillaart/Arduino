@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AM2315C.git"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

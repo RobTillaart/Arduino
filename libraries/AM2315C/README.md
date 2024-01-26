@@ -21,9 +21,9 @@ The AM2315C is a humidity and temperature sensor.
 Warning: this sensor is not compatible with the AM2315.
 
 The sensor has a fixed address of **0x38**.
+It is not known if the address can be changed.
 
-The library must be initiated by calling the **begin()** function, 
-or **begin(dataPin, clockPin)** for **ESP32** and similar platforms.
+The library must be initiated by calling the **begin()** function.
 
 Thereafter one has to call the **read()** function to do the actual reading,
 and call **getTemperature()** and **getHumidity()** to get the measured values.
@@ -37,13 +37,36 @@ The DHT20 also provides a bit more documentation and issues from the past.
 - https://github.com/RobTillaart/DHT20
 
 
+#### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins
+before calling **begin()**.
+
+
 ## I2C
 
-#### Address
-
 The sensor has a fixed address of **0x38**.
+It is not known if the address can be changed.
 
-To use multiple AM2315C sensors one might use a multiplexer like the
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
 - https://github.com/RobTillaart/TCA9548
 
 
@@ -72,6 +95,7 @@ Front view
 
 - **AM2315C(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
 - **bool begin()** initializer. Returns true if connected.
+The user must call **Wire.begin()** before calling this function.
 - **bool isConnected()** returns true if the address of the AM2315C can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 

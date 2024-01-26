@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for AM2315C I2C humidity & temperature sensor
 //          ESP32 / ESP8266
-
+//     URL: https://github.com/RobTillaart/AM2315C
+//
 //  Always check datasheet
 //
 //                    +-----------------+
@@ -12,6 +13,7 @@
 //    BLACK  -------- | GND             |
 //    WHITE  -------- | SCL             |
 //                    +-----------------+
+
 
 #include "AM2315C.h"
 
@@ -29,7 +31,7 @@ void setup()
 
   Wire.begin(12, 13);    //  ESP32 default pins 21 22
   Wire.setClock(400000);
-  
+
   DHT.begin();
 
   delay(2000);

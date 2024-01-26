@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315C.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for AM2315C I2C temperature and humidity sensor.
 
 

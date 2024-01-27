@@ -2,16 +2,38 @@
 //
 //    FILE: DS2438.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
+//
+//                    DS2438
+//               +------------------+
+//               | 1  GND           |
+//               | 2  Vsense+       |
+//               | 3  Vsense-       |
+//               | 4  VAD           |
+//               | 5  VDD           |
+//               | 6  NC            |
+//               | 7  NC            |
+//               | 8  DQ            |
+//               +------------------+
+//
+//  |  Pin     |  Description                        |  Connect to  |
+//  |:--------:|:------------------------------------|:-------------|
+//  |  DQ      |  Data In/Out                        |  processor   |
+//  |  VAD     |  General A/D input                  |              |
+//  |  VSENS+  |  Battery current monitor input (+)  |  Battery     |
+//  |  VSENS-  |  Battery current monitor input (-)  |  Battery     |
+//  |  VDD     |  Power Supply (2.4V to 10.0V)       |  +5V         |
+//  |  GND     |  Ground                             |  processor   |
+//  |  NC      |  No connect                         |  -           |
 
 
 #include "Arduino.h"
 #include "OneWire.h"
 
-#define DS2438_LIB_VERSION        (F("0.1.0"))
+#define DS2438_LIB_VERSION        (F("0.1.1"))
 
 #define DS2438_INVALID             -999
 
@@ -29,29 +51,33 @@ public:
 
 
   //  TEMPERATURE
-  float    readTemperature();  //  scratchPad 1 = LSB, 2 = MSB
+  //  unit is degrees Celsius
+  float    readTemperature();
   float    getTemperature();
 
 
   //  VOLTAGE
-  float    readVoltage();  //  scratchPad 3 = LSB, 4 = MSB
-  float    getVoltage();
+  //  unit is Volts
+  float    readVDD();
+  float    getVDD();
+  float    readVAD();
+  float    getVAD();
 
 
   //  CURRENT
   void     setResistor(float resistor = 0.01);  // in OHM
   void     enableCurrentMeasurement();
   void     disableCurrentMeasurement();
-  float    readCurrent();  //  scratchPad 5 = LSB, 6 = MSB
+  //  unit is Ampere
+  float    readCurrent();
   float    getCurrent();
-
-
-  //  CURRENT OFFSET
   void     writeCurrentOffset(int value);
   int      readCurrentOffset();
 
 
-  //  THRESHOLD
+  //  ICA + THRESHOLD
+  //  Integrated Current Accumulator.
+  float    readRemaining();
   void     writeThreshold(uint8_t value);
   uint8_t  readThreshold();
 
@@ -67,6 +93,8 @@ public:
   //  TIME
   void     writeElapsedTimeMeter(uint32_t seconds);
   uint32_t readElapsedTimeMeter();
+  uint32_t readDisconnectTime();
+  uint32_t readEndOfChargeTime();
 
 
   //  EEPROM
@@ -74,10 +102,19 @@ public:
   uint8_t  readEEPROM(uint8_t address);
 
 
+  //  CCA / DCA
+  //  Charging + Discharge Current Accumulator
+  //  unit = mVHr
+  void     enableCCA();
+  void     disableCCA();
+  float    readCCA();
+  float    readDCA();
+
+
   //  CONFIG REGISTER
   void     setConfigBit(uint8_t bit);
   void     clearConfigBit(uint8_t bit);
-  uint8_t  getConfigByte();
+  uint8_t  getConfigRegister();
 
 
 private:
@@ -87,7 +124,8 @@ private:
   bool     _addressFound;
 
   float    _temperature;
-  float    _voltage;
+  float    _vad;
+  float    _vdd;
   float    _current;
   float    _inverseR;   //  1/(4096*resistor) optimized.
 

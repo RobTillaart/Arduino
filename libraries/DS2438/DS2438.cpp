@@ -1,7 +1,7 @@
 //
 //    FILE: DS2438.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
@@ -11,14 +11,22 @@
 
 
 //      OneWire commands
-#define READ_TEMPERATURE        0x44
-#define READ_VOLTAGE            0xB4
+#define DS2438_READ_TEMPERATURE     0x44
+#define DS2438_READ_VOLTAGE         0xB4
 
-#define RECALL_SCRATCH          0xB8
-#define READ_SCRATCH            0xBE
+#define DS2438_RECALL_SCRATCH       0xB8
+#define DS2438_READ_SCRATCH         0xBE
+#define DS2438_WRITE_SCRATCH        0x4E
+#define DS2438_COPY_SCRATCH         0x48
 
-#define WRITE_SCRATCH           0x4E
-#define COPY_SCRATCH            0x48
+
+#define DS2438_CONVERSION_DELAY     10
+
+//  bits configuration register 
+#define DS2438_CFG_IAD              0
+#define DS2438_CFG_CA               1
+#define DS2438_CFG_EE               2
+#define DS2438_CFG_AD               3
 
 
 DS2438::DS2438(OneWire * ow)
@@ -29,7 +37,8 @@ DS2438::DS2438(OneWire * ow)
 
   //  no data read yet
   _temperature = DS2438_INVALID;
-  _voltage     = DS2438_INVALID;
+  _vad         = DS2438_INVALID;
+  _vdd         = DS2438_INVALID;
   _current     = DS2438_INVALID;
   _inverseR    = DS2438_INVALID;
 }
@@ -66,10 +75,10 @@ float DS2438::readTemperature()
   //  requestTemperature()
   _oneWire->reset();
   _oneWire->select(_address);
-  _oneWire->write(READ_TEMPERATURE, 0);
+  _oneWire->write(DS2438_READ_TEMPERATURE, 0);
 
   //  async version should return here
-  delay(10);
+  delay(DS2438_CONVERSION_DELAY);
   readScratchPad(0);
 
   //             sign    MSB               LSB         step      >> 3
@@ -89,28 +98,53 @@ float DS2438::getTemperature()
 //
 //  VOLTAGE
 //
-float DS2438::readVoltage()
+float DS2438::readVDD()
 {
+  setConfigBit(3);
+
   //  requestVoltage
   _oneWire->reset();
   _oneWire->select(_address);
-  _oneWire->write(READ_VOLTAGE, 0);
-
-  //  async should return here
-  delay(10);
+  _oneWire->write(DS2438_READ_VOLTAGE, 0);
+  delay(DS2438_CONVERSION_DELAY);
   readScratchPad(0);
 
   //  10 mV resolution
-  _voltage = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01;
+  _vdd = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01;
 
-  return _voltage;
+  return _vdd;
 }
 
 
-float DS2438::getVoltage()
+float DS2438::getVDD()
 {
-  return _voltage;
+  return _vdd;
 }
+
+
+float DS2438::readVAD()
+{
+  clearConfigBit(3);
+
+  //  requestVoltage
+  _oneWire->reset();
+  _oneWire->select(_address);
+  _oneWire->write(DS2438_READ_VOLTAGE, 0);
+  delay(DS2438_CONVERSION_DELAY);
+  readScratchPad(0);
+
+  //  10 mV resolution
+  _vad = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01;
+
+  return _vad;
+}
+
+
+float DS2438::getVAD()
+{
+  return _vad;
+}
+
 
 
 ///////////////////////////////////////////////////////////
@@ -119,7 +153,7 @@ float DS2438::getVoltage()
 //
 void DS2438::setResistor(float resistor)
 {
-  _inverseR = 0.000244140625 / resistor;
+  _inverseR = 1.0 / (4096.0 * resistor);
 }
 
 
@@ -129,7 +163,7 @@ void DS2438::enableCurrentMeasurement()
   //  if the IAD bit is set to “1” in the status/Configuration Register.
   //  The current A/D measures at a rate of 36.41 times per second, or once every 27.46 ms.
   readScratchPad(0);
-  //  clear bit
+  if ((_scratchPad[0] & 0x01) == 0x01) return;  //  already 1
   _scratchPad[0] |= 0x01;
   writeScratchPad(0);
 }
@@ -138,7 +172,7 @@ void DS2438::enableCurrentMeasurement()
 void DS2438::disableCurrentMeasurement()
 {
   readScratchPad(0);
-  //  clear bit
+  if ((_scratchPad[0] & 0x01) == 0x00) return;  //  already 0
   _scratchPad[0] &= ~0x01;
   writeScratchPad(0);
 }
@@ -159,11 +193,6 @@ float DS2438::getCurrent()
 }
 
 
-
-///////////////////////////////////////////////////////////
-//
-//  OFFSET
-//
 void DS2438::writeCurrentOffset(int value)
 {
   value *= 8;
@@ -184,13 +213,24 @@ int DS2438::readCurrentOffset()
 
 ///////////////////////////////////////////////////////////
 //
-//  THRESHOLD
+//  ICA + THRESHOLD
 //
+float DS2438::readRemaining()
+{
+  readScratchPad(1);
+  //  factor 2 from optimization
+  float remaining = _scratchPad[4] * _inverseR * (2 * 0.4882);  //   mVhr
+  return remaining;
+}
+
+
 void DS2438::writeThreshold(uint8_t value)
 {
+  clearConfigBit(0);
   readScratchPad(0);
   _scratchPad[7] = value & 0xC0;  //  zero lower 6 bits.
   writeScratchPad(0);
+  setConfigBit(0);
 }
 
 
@@ -232,6 +272,33 @@ uint32_t DS2438::readElapsedTimeMeter()
   return seconds;
 }
 
+uint32_t DS2438::readDisconnectTime()
+{
+  readScratchPad(2);
+  uint32_t seconds = _scratchPad[3];
+  seconds <<= 8;
+  seconds += _scratchPad[2];
+  seconds <<= 8;
+  seconds += _scratchPad[1];
+  seconds <<= 8;
+  seconds += _scratchPad[0];
+  return seconds;
+}
+
+
+uint32_t DS2438::readEndOfChargeTime()
+{
+  readScratchPad(2);
+  uint32_t seconds = _scratchPad[7];
+  seconds <<= 8;
+  seconds += _scratchPad[6];
+  seconds <<= 8;
+  seconds += _scratchPad[5];
+  seconds <<= 8;
+  seconds += _scratchPad[4];
+  return seconds;
+}
+
 
 ///////////////////////////////////////////////////////////
 //
@@ -263,27 +330,67 @@ uint8_t DS2438::readEEPROM(uint8_t address)
 
 ///////////////////////////////////////////////////////////
 //
+//  Charging + Discharging Current Accumulator
+//
+void DS2438::enableCCA()
+{
+  readScratchPad(0);
+  if ((_scratchPad[0] & 0x02) == 0x02) return;  //  already 1
+  _scratchPad[0] |= 0x02;
+  writeScratchPad(0);
+}
+
+
+void DS2438::disableCCA()
+{
+  readScratchPad(0);
+  if ((_scratchPad[0] & 0x02) != 0x02) return;  //  already 0
+  _scratchPad[0] &= ~0x02;
+  writeScratchPad(0);
+}
+
+
+float DS2438::readCCA()
+{
+  readScratchPad(7);
+  uint16_t raw = (_scratchPad[5] * 256 + _scratchPad[4]);
+  return raw * 15.625;
+}
+
+
+float DS2438::readDCA()
+{
+  readScratchPad(7);
+  uint16_t raw = (_scratchPad[7] * 256 + _scratchPad[6]);
+  return raw * 15.625;
+}
+
+
+///////////////////////////////////////////////////////////
+//
 //  CONFIG REGISTER
 //
 void DS2438::setConfigBit(uint8_t bit)
 {
+  uint8_t mask = (0x01 << bit);
   readScratchPad(0);
-  //  set bit
-  _scratchPad[0] |= (0x01 << bit);
+  if ((_scratchPad[0] & mask) == mask) return;  //  already 1
+  _scratchPad[0] |= mask;
   writeScratchPad(0);
 }
 
 
 void DS2438::clearConfigBit(uint8_t bit)
 {
+  uint8_t mask = (0x01 << bit);
   readScratchPad(0);
-  //  clear bit
-  _scratchPad[0] &= ~(0x01 << bit);
+  if ((_scratchPad[0] & mask) == 0x00) return;  //  already 0
+  _scratchPad[0] &= ~mask;
   writeScratchPad(0);
 }
 
 
-uint8_t DS2438::getConfigByte()
+uint8_t DS2438::getConfigRegister()
 {
   readScratchPad(0);
   return _scratchPad[0];
@@ -299,11 +406,11 @@ void DS2438::readScratchPad(uint8_t page)
   if (page > 7) return;
   _oneWire->reset();
   _oneWire->select(_address);  
-  _oneWire->write(RECALL_SCRATCH, 0);
+  _oneWire->write(DS2438_RECALL_SCRATCH, 0);
   _oneWire->write(page, 0);
   _oneWire->reset();
   _oneWire->select(_address);
-  _oneWire->write(READ_SCRATCH, 0);
+  _oneWire->write(DS2438_READ_SCRATCH, 0);
   _oneWire->write(page, 0);
   for (uint8_t i = 0; i < 8; i++) _scratchPad[i] = _oneWire->read();
   //  skip crc for now.
@@ -315,12 +422,12 @@ void DS2438::writeScratchPad(uint8_t page)
   if (page > 7) return;
   _oneWire->reset();
   _oneWire->select(_address);
-  _oneWire->write(WRITE_SCRATCH, 0);
+  _oneWire->write(DS2438_WRITE_SCRATCH, 0);
   _oneWire->write(page, 0);
   for (uint8_t i = 0; i < 8; i++) _oneWire->write(_scratchPad[i], 0);
   _oneWire->reset();
   _oneWire->select(_address);
-  _oneWire->write(COPY_SCRATCH, 0);
+  _oneWire->write(DS2438_COPY_SCRATCH, 0);
   _oneWire->write(page, 0);
 }
 

@@ -33,8 +33,10 @@ void setup()
 
 
   Serial.println("\nVoltage");
-  bm.readVoltage();
-  Serial.println(bm.getVoltage());
+  bm.readVDD();
+  Serial.println(bm.getVDD());
+  bm.readVAD();
+  Serial.println(bm.getVAD());
 
 
   Serial.println("\nCurrent");
@@ -43,6 +45,21 @@ void setup()
   delay(30);
   bm.readCurrent();
   Serial.println(bm.getCurrent());
+
+
+  Serial.println("\nTime");
+  Serial.println(bm.readElapsedTimeMeter());
+  Serial.println(bm.readDisconnectTime());
+  Serial.println(bm.readEndOfChargeTime());
+
+
+  Serial.println("\nThresshold");
+  Serial.println(bm.readThreshold());
+
+
+  Serial.println("\nCCA/DCA");
+  Serial.println(bm.readCCA());
+  Serial.println(bm.readDCA());
 
 
   Serial.println("\nEEPROM");
@@ -56,6 +73,7 @@ void setup()
     Serial.print(bm.readEEPROM(addr));
   }
   Serial.println();
+
 
   Serial.println("\ndone...");
 }

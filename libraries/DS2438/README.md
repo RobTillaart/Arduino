@@ -14,19 +14,12 @@
 Arduino Library for the DS2438 1-wire battery monitor.
 
 
-#### Note
-
-Started with this library, however I could not find these sensors for sale.
-It is shared for future reference.
-
-
 ## Description
 
 The DS2438 is a **very experimental** library for the DS2438 battery management sensor.
 
-The library is not tested yet as I have no hardware (hard to get).
-So for the moment the library is written based upon the datasheet 
-and provided as is.
+The library is not tested yet as I have no hardware (breakout board).
+So for the moment the library is written based upon the datasheet and provided as is.
 
 The device supports the following functionality.
 - voltage measurement
@@ -52,7 +45,7 @@ See datasheet for details
               | 1  GND           |
               | 2  Vsense+       |
               | 3  Vsense-       |
-              | 4  Vad           |
+              | 4  VAD           |
               | 5  VDD           |
               | 6  NC            |
               | 7  NC            |
@@ -95,13 +88,18 @@ There will be a number of retries to connect, default 3.
 
 #### Temperature and voltage
 
-- **float readTemperature()** read temperature from device. Degrees Celsius.
+- **float readTemperature()** read temperature from device. Units = Celsius.
 - **float getTemperature()** get the last read temperature.
-- **bool readVoltage(uint8_t channel)** read voltage from device. Volts.
-- **float getVoltage(uint8_t channel)** get the last read voltage.
+- **float readVDD()** read voltage VDD from device. Units = Volts.
+- **float getVDD()** get the last read voltage VDD.
+- **float readVAD()** read voltage VAD.  Units = Volts.
+- **float getVAD()** get the last read voltage VAD.
 
 
 #### Current
+
+See datasheet for details. 
+Choice of the resistor determines the working range / accuracy.
 
 - **void setResistor(float resistor = 0.01)** set the shunt resistor in OHM.
 This allows a sort of tuning/calibration.
@@ -113,26 +111,23 @@ Must be called before readCurrent will work.
 Stops the background measurement of the current.
 - **float readCurrent()** read current from device.
 - **float getCurrent()** get last read current.
-
-
-#### Current Offset
-
-See datasheet for details.
-units not clear yet.
-
 - **void writeCurrentOffset(int value)** 
 - **int readCurrentOffset()**
 
-#### Threshold
+
+#### ICA 
 
 See datasheet for details.
 
+- ICA = Integrated Current Accumulator.
+
+- **float readRemaining()**
 - **void writeThreshold(uint8_t value)**
 - **uint8_t readThreshold()**
 
-only 4 values possible.
+Only 4 values possible.
 
-|  value  |  THRESHOLD       |
+|  value  |  Threshold       |
 |:-------:|:----------------:|
 |  0x00   |  None (default)  |
 |  0x40   |  ±2 LSB          |
@@ -151,23 +146,50 @@ For example, 12:00 A.M., January 1, 1970 could be used as a reference point.
 
 - **void writeElapsedTimeMeter(uint32_t value)** value in seconds.
 - **uint32_t readElapsedTimeMeter()** returns current time in seconds.
+- **uint32_t readDisconnectTime()** returns last disconnect timestamp.
+- **uint32_t readEndOfChargeTime()** returns last end of charging timestamp.
 
 
 #### EEPROM
 
-Valid addresses are 0..39.
+Valid addresses are 0..35 if CCA/DCA is enabled, 0..39 otherwise.
 
 - **bool writeEEPROM(uint8_t address, uint8_t value)** write a byte to EEPROM address.
 - **uint8_t readEEPROM(uint8_t address)** read the byte from EEPROM address.
+
+
+#### CCA DCA
+
+See datasheet for details.
+
+- CCA = Charging Current Accumulator
+- DCA = Discharge Current Accumulator
+
+
+- **void enableCCA()** also enables DCA.
+- **void disableCCA()**
+- **float readCCA()** Does not check if enabled.
+- **float readDCA()** Does not check if enabled.
 
 
 #### Configuration register
 
 See datasheet for details.
 
-- **void setConfigBit(uint8_t bit)**
-- **void clearConfigBit(uint8_t bit)**
-- **uint8_t getConfigByte()**
+- **void setConfigBit(uint8_t bit)**  bit = 0..3
+- **void clearConfigBit(uint8_t bit)** bit = 0..3
+- **uint8_t getConfigRegister()** returns configuration and status bits.
+
+|  bit  |  name  |  def   |  description  |
+|:-----:|:------:|:------:|:--------------|
+|   0   |  IAD   |   1    |  Current A/D Control bit.
+|   1   |   CA   |   1    |  Current Accumulator Configuration bit.
+|   2   |   EE   |   1    |  Current Accumulator Shadow Selector bit.
+|   3   |   AD   |   1    |  Voltage A/D Input Select bit. 1 = VDD,  0 = VAD.
+|   4   |   TB   |   0    |  Temperature Busy Flag.
+|   5   |  NVB   |   0    |  Non Volatile Memory Busy Flag.
+|   6   |  ADB   |   0    |  A/D Converter Busy Flag.
+|   7   |   x    |   x    |  don't care.
 
 
 ## Operation
@@ -186,19 +208,16 @@ This library supports only one DS2438 per Arduino / MCU pin.
 
 #### Should
 
-only after testing and 0.1.0 code works.
-
-- implement Disconnect timestamp
-- implement End of charge timestamp
-- implement Integrated Current Accumulator (ICA).
-- implement Charging Current Accumulator (CCA).
-- implement Discharging Current Accumulator (DCA).
+- implement CRC
 
 
 #### Could
 
-only after testing and 0.1.0 code works.
+only after testing and code works.
 
+- getters,
+  - remove? == user responibility?
+  - renaming: getVDD() vs getLastVDD? et al.
 - unit tests?
   - possible?
 - async interface for both T and V.
@@ -207,7 +226,8 @@ only after testing and 0.1.0 code works.
 - improve magic masks and numbers
 - performance test.
 - getAddress() ?
-- debug and error handling.
+- debugging
+- error handling.
 - copy snapshot to EEPROM(page)
   - copies page 0 to EEPROM page 0..4
 

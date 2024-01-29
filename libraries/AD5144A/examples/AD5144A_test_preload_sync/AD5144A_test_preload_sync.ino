@@ -2,7 +2,6 @@
 //    FILE: AD5144A_test_preload_sync.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/AD5144A
 
 
@@ -76,4 +75,4 @@ void test_preloadAll()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

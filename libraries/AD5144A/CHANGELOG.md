@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2024-01-25
+- update readme.md (multiplexer)
+
+
 ## [0.3.0] - 2023-11-24.
 - simplify **begin()**, remove setting Wire pins from library.
 - add **getAddress()**

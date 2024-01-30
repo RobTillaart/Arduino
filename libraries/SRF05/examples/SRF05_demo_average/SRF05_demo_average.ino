@@ -2,7 +2,6 @@
 //    FILE: SRF05_demo_average.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo distance sensor
-//    DATE: 2021-05-17
 //     URL: https://github.com/RobTillaart/SRF05
 
 
@@ -17,7 +16,11 @@ SRF05 SRF(trigger, echo);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("SRF05_LIB_VERSION: ");
+  Serial.println(SRF05_LIB_VERSION);
+  Serial.println();
 
   SRF.setCorrectionFactor(1.035);
   SRF.setModeAverage(10);
@@ -31,5 +34,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -16,15 +16,34 @@ Arduino library for the SRF05 distance sensor and compatibles.
 
 ## Description
 
-The library allows to adjust to the speed of sound (sos).
-Reasons to use a different value are temperature, humidity, type of gas, composition etc.
+This library implements a API for a PING type of sensor. 
+It is expected to work for quite a range of them. 
+THe current version of the library only uses the SRF04 compatibility mode which uses a 
+separate TRIGGER and ECHO pin. 
+It does not (yet) implement the SRF05 mode in which TRIGGER and ECHO are the same.
 
-Default value for the speed of sound is set to 340 m/s. (~15°C)
+An important feature of this library is that it allows to adjust to the speed of sound (SOS).
+Reasons to use a different value for the speed of sound is that it varies depending on
+temperature, humidity, composition of the air, air pressure, other type of gas, etc.
+
+Default value for the speed of sound is set to 340 m/s. (air, ~15°C, sea level pressure)
+
+Since the version 0.2.0 the library has an interpolation formula to calculate the speed of sound
+given a temperature and humidity.
+
+The library has several ways to adjust / improve the quality of the measurements.
+E.g. by taking the average or the median of multiple readings, there will be less noise.
+This can be set with the different mode commands.
+
+The library allows to set a correction factor to compensate for the timing of 
+the **pulseIn()** function. This has in the end the same effect as changing the 
+speed of sound however it is technically more correct to keep the two separated.
 
 
 #### Effect temperature and humidity
 
-Several correction formulas for the speed of sound are available on the internet.
+Several correction formulas for the speed of sound are available on the internet
+to adjust the speed for temperature (°C) and humidity (%RH).
 
 ```
 // temperature in °C
@@ -34,41 +53,58 @@ v = 20.05 * sqrt(273.16 + temperature) (m/s)
 ```
 
 In fact humidity has an effect which increases with temperature so the formula is more complex.
-See - https://forum.arduino.cc/t/ultrasonic-sensor-to-determine-water-level/64890/12
+See discussion - https://forum.arduino.cc/t/ultrasonic-sensor-to-determine-water-level/64890/12
+
+Note that the speed of sound is also altered by air pressure (sea level .. high in sky)
+and wind speed. The latter is a bit compensated for, as the acoustic pulse will go one time 
+"against" the wind and one time "with" the wind.
 
 
-| temp |   10%  |   20%  |   30%  |   40%  |   50%  |   60%  |   70%  |   80%  |   90%  | notes |
-|:----:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------|
-| -30  | 313.5  | 329.5  | 312.9  | 329.6  | 313.0  | 329.6  | 313.1  | 329.7  | 329.7  | extrapolated indication 
-| -25  | 316.5  | 332.6  | 316.0  | 332.7  | 316.1  | 332.7  | 316.2  | 332.8  | 332.9  | extrapolated indication 
-| -20  | 319.5  | 335.6  | 319.1  | 335.7  | 319.2  | 335.9  | 319.3  | 336.0  | 336.0  | extrapolated indication 
-| -15  | 322.5  | 330.5  | 322.2  | 330.6  | 322.3  | 330.6  | 322.4  | 330.7  | 330.7  | extrapolated indication 
-| -10  | 325.5  | 333.6  | 325.3  | 333.7  | 325.4  | 333.7  | 325.5  | 333.8  | 333.9  | extrapolated indication 
-| -5   | 328.5  | 336.6  | 328.4  | 336.7  | 328.5  | 336.9  | 328.6  | 337.0  | 337.0  | extrapolated indication 
-|  0   | 331.5  | 331.5  | 331.5  | 331.6  | 331.6  | 331.6  | 331.7  | 331.7  | 331.7  |
-|  5   | 334.5  | 334.6  | 334.6  | 334.7  | 334.7  | 334.7  | 334.8  | 334.8  | 334.9  |
-|  10  | 337.5  | 337.6  | 337.7  | 337.7  | 337.8  | 337.9  | 337.9  | 338.0  | 338.0  |
-|  15  | 340.5  | 340.6  | 340.7  | 340.8  | 340.9  | 341.0  | 341.1  | 341.2  | 341.2  |
-|  20  | 343.5  | 343.6  | 343.7  | 343.9  | 344.0  | 344.1  | 344.2  | 344.4  | 344.5  |
-|  25  | 346.4  | 346.6  | 346.8  | 347.0  | 347.1  | 347.3  | 347.5  | 347.6  | 347.8  |
-|  30  | 349.4  | 349.6  | 349.9  | 350.1  | 350.3  | 350.5  | 350.8  | 351.0  | 351.2  |
-|  35  | 352.4  | 352.6  | 353.0  | 353.2  | 353.5  | 353.7  | 354.1  | 354.4  | 354.6  | extrapolated indication 
-|  40  | 355.4  | 355.6  | 356.1  | 356.3  | 356.7  | 356.9  | 357.4  | 357.8  | 358.0  | extrapolated indication 
-|  45  | 358.4  | 358.6  | 359.2  | 359.4  | 359.9  | 360.1  | 360.7  | 361.2  | 361.4  | extrapolated indication 
-|  50  | 361.4  | 361.6  | 362.3  | 362.5  | 363.1  | 363.3  | 364.0  | 364.6  | 364.8  | extrapolated indication 
-|  55  | 364.4  | 364.6  | 365.4  | 365.6  | 366.3  | 366.5  | 367.3  | 368.0  | 368.2  | extrapolated indication 
-|  60  | 367.4  | 367.6  | 368.5  | 368.7  | 369.5  | 369.7  | 370.6  | 371.4  | 371.6  | extrapolated indication 
+#### Table speed of sound for temperature and humidity in air at sea level.
 
-(table based upon https://www.engineeringtoolbox.com/air-speed-sound-d_603.html)
+(table redone completely in 0.2.0)
+
+Temperature in Celsius, Humidity in %, constant pressure == 1013 mBar.
+
+| temp |    0%  |   10%  |   20%  |   30%  |   40%  |   50%  |   60%  |   70%  |   80%  |   90%  |  100%  |
+|:----:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| -40  | 306.22 | 306.23 | 306.24 | 306.25 | 306.26 | 306.26 | 306.27 | 306.28 | 306.29 | 306.30 | 306.31 | 
+| -35  | 309.49 | 309.50 | 309.50 | 309.51 | 309.52 | 309.52 | 309.53 | 309.54 | 309.54 | 309.55 | 309.56 | 
+| -30  | 312.72 | 312.73 | 312.73 | 312.74 | 312.74 | 312.75 | 312.75 | 312.76 | 312.76 | 312.77 | 312.78 | 
+| -25  | 315.92 | 315.93 | 315.93 | 315.94 | 315.94 | 315.95 | 315.95 | 315.96 | 315.96 | 315.97 | 315.98 | 
+| -20  | 319.09 | 319.10 | 319.10 | 319.11 | 319.12 | 319.12 | 319.13 | 319.14 | 319.14 | 319.15 | 319.16 | 
+| -15  | 322.22 | 322.23 | 322.24 | 322.25 | 322.26 | 322.27 | 322.28 | 322.29 | 322.30 | 322.31 | 322.32 | 
+| -10  | 325.33 | 325.34 | 325.36 | 325.37 | 325.39 | 325.40 | 325.42 | 325.43 | 325.45 | 325.46 | 325.47 | 
+|  -5  | 328.40 | 328.42 | 328.44 | 328.47 | 328.49 | 328.51 | 328.53 | 328.56 | 328.58 | 328.60 | 328.62 | 
+|   0  | 331.45 | 331.48 | 331.51 | 331.54 | 331.57 | 331.61 | 331.64 | 331.67 | 331.70 | 331.73 | 331.76 | 
+|   5  | 334.47 | 334.52 | 334.56 | 334.61 | 334.65 | 334.70 | 334.74 | 334.79 | 334.83 | 334.88 | 334.93 | 
+|  10  | 337.46 | 337.52 | 337.58 | 337.64 | 337.70 | 337.76 | 337.82 | 337.88 | 337.94 | 338.00 | 338.06 | 
+|  15  | 340.43 | 340.52 | 340.61 | 340.70 | 340.79 | 340.88 | 340.97 | 341.06 | 341.15 | 341.24 | 341.33 | 
+|  20  | 343.37 | 343.49 | 343.62 | 343.74 | 343.87 | 343.99 | 344.12 | 344.24 | 344.37 | 344.49 | 344.61 | 
+|  25  | 346.29 | 346.46 | 346.63 | 346.80 | 346.97 | 347.14 | 347.31 | 347.48 | 347.65 | 347.82 | 347.99 | 
+|  30  | 349.18 | 349.41 | 349.64 | 349.87 | 350.10 | 350.32 | 350.55 | 350.78 | 351.01 | 351.24 | 351.47 | 
+|  35  | 352.04 | 352.35 | 352.65 | 352.96 | 353.27 | 353.57 | 353.88 | 354.19 | 354.49 | 354.80 | 355.11 | 
+|  40  | 354.89 | 355.29 | 355.70 | 356.10 | 356.50 | 356.91 | 357.31 | 357.71 | 358.12 | 358.52 | 358.92 | 
+|  45  | 357.71 | 358.24 | 358.76 | 359.29 | 359.82 | 360.34 | 360.87 | 361.40 | 361.92 | 362.45 | 362.98 | 
+|  50  | 360.51 | 361.19 | 361.87 | 362.55 | 363.23 | 363.92 | 364.60 | 365.28 | 365.96 | 366.64 | 367.32 | 
+|  55  | 363.29 | 364.16 | 365.04 | 365.91 | 366.78 | 367.66 | 368.53 | 369.40 | 370.28 | 371.15 | 372.02 | 
+|  60  | 366.05 | 367.16 | 368.27 | 369.38 | 370.49 | 371.59 | 372.70 | 373.81 | 374.92 | 376.03 | 377.14 | 
 
 
-The library has several ways to improve the quality of the measurements.
-E.g. by taking the average or the median of multiple readings.
-This can be set with the mode commands.
+**Notes on table**
+- values for 0% are calculated with ```sos = 331.45 * sqrt(1 + T/273.16);  //  T in Celsius```
+- values for 90% are calculated with - https://sengpielaudio.com/calculator-airpressure.htm
+  - these match - https://www.engineeringtoolbox.com/air-speed-sound-d_603.html
+- the other values are linear interpolated between the 0 and 90 column (100% is extrapolated)
+- the table range is from -40 to +60 as that covers 99% of the "normal" temperatures occuring.
 
-The library allows to set a correction factor to compensate for the timing of 
-the **pulseIn()** function. This has in the end the same effect as changing the 
-speed of sound however it is technically more correct to keep the two separated.
+For temperatures under 0°C the effect of humidity goes to zero as we look how the difference
+between 90% and 0% decreases when temperature drops.
+
+The function **float calculateSpeedOfSound()** uses two interpolations derived from the table above.
+The function has no look-up table and uses no lookup table / RAM.
+This function returns a speed of sound with an overall error margin less than 1%, and mostly even 
+lower than 0.5% compared to the numbers above.
 
 
 ## Interface
@@ -85,9 +121,12 @@ It is not clear what the purpose of the OUT pin is, effectively it is not used y
 
 #### Configuration
 
-- **void setSpeedOfSound(float sos)** adjust the speed of sound.
+- **void setSpeedOfSound(float sos)** adjust the speed of sound in meters per second (m/s).
 See table above.
-- **float getSpeedOfSound()** return set value.
+The function has **no range check** and accepts even negative values.
+This will cause a negative sign in the distances which can be handy sometimes when you have 
+two sensors in opposite directions.
+- **float getSpeedOfSound()** return set value (m/s)
 - **bool setCorrectionFactor(float factor = 1)** adjust the timing by a few percentage e.g. to adjust clocks.
 Typical values are between 0.95 and 1.05 to correct up to 5%.
 Should not be used to correct the speed of sound :)
@@ -108,11 +147,14 @@ count must between 3 and 15 otherwise it is clipped.
 Note: between the reads there is a delay of 1 millisecond.
 - **void setModeRunningAverage(float alpha)** use a running average algorithm 
 with a weight alpha. Value for alpha depends on your application.
+Alpha must be larger than zero and smaller or equal to one. Alpha == <0..1]
+Lower alpha averages great for static distances, a higher alpha is better
+suited for changing distances.
 - **uint8_t getOperationalMode()** returns the operational mode 0..3.
 See table below.
 
 
-|  operational mode        |  value  |  Notes  |
+|  Operational mode        |  Value  |  Notes  |
 |:-------------------------|:-------:|:-------:|
 |  SRF05_MODE_SINGLE       |    0    |         |
 |  SRF05_MODE_AVERAGE      |    1    |         |
@@ -120,10 +162,16 @@ See table below.
 |  SRF05_MODE_RUN_AVERAGE  |    3    |         |
 |                          |  other  |  error  |
 
+If other modi are needed, please open an issue and I see if it fits. 
+Of course one can create more elaborated processing of measurements 
+outside the library.
+
 
 #### Get distance
 
 - **uint32_t getTime()** returns distance in microseconds.
+This is the core measurement function, the next five are wrappers 
+around this one.
 - **uint32_t getMillimeter()** returns distance in millimetre.
 - **float getCentimeter()** returns distance in centimetre.
 - **float getMeter()** returns distance in meter.
@@ -136,7 +184,7 @@ See table below.
 Since 0.1.4 two experimental functions are added to tune the length
 of the trigger signal. 
 The idea is that shorter triggers can be used with harder surfaces
-or short distances. Longer trigger for longer distances.
+or short distances. Longer trigger thus for longer distances.
 
 The effects and value of adjusting trigger length needs investigation.
 Experiences are welcome.
@@ -151,16 +199,34 @@ Put the sensor at exactly 1.00 meter from a wall, and based
 upon the timing it will give an estimate for the speed of sound. 
 0.1.2 version seems to be accurate within 5 %.
 
-- **float determineSpeedOfSound(uint16_t distance)** distance is between 
-sensor and the wall - not forth and back.
-The distance is averaged over 16 measurements.
+- **float determineSpeedOfSound(float distance, uint8_t count = 64)** distance is between 
+sensor and the wall, single trip, not forth and back.
+The distance is in meters, returns meters/second.
+The distance is averaged over count measurements.
 
-Function can be used to compensate for temperature and humidity.
+This function can be used to compensate for temperature, humidity
+or even other types of gas (e.g. N2 only)
+
+
+#### Experimental - calculateSpeedOfSound
+
+- **float calculateSpeedOfSound(float temperature, float humidity)**
+Calculates the speed of sound given a temperature in Celsius (-40..60) 
+and relative humidity (0..100).
+
+The function uses an interpolation formula derived from the table above.
+This returns a speed with an error margin less than 1%, and for the most
+part it is even better than 0.5%.
+
+Be aware that especially humidity sensors have an accuracy, often in the 
+range from two to five percent. So it won't get much better.
 
 
 #### Performance
 
 Assumes default speed of sound of 340 m/sec.
+
+Expected pulse timing.
 
 | distance (cm) | time (us) |
 |:-------------:|----------:|
@@ -174,8 +240,9 @@ Assumes default speed of sound of 340 m/sec.
 |      200      |   5882.4  |
 |      300      |   8823.5  |
 |      400      |  11764.7  |
+|      500      |  14705.9  |
 
-to be elaborated.
+To be elaborated.
 
 
 ## Operational
@@ -193,14 +260,19 @@ See examples.
 
 - add examples
   - DHT22 and the formula for SOS
-- add **float calcSOS(float temp, float humidity = 0)**
+- investigate effect of wind (speed of air) on the speed of sound.
 - investigate 
   - should **setSpeedOfSound(float sos)** return bool if sos <=0 ?
   - value of **setTriggerLength()**
+- investigate switching between single pin (SRF05) mode and dual pin (SRF04) mode.
+  - need a separate constructor.
+- investigate "guard time" between reads of 50 ms (20x /sec max).
+
 
 #### Could
 
 - set default SOS to an SOS from the table instead of 340.
+  - function **begin(T, H)** ?
 - add example to determine the correction factor?
 - delay(1) in average configurable?
 

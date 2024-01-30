@@ -30,6 +30,8 @@ getTriggerLength	KEYWORD2
 
 lastTime	KEYWORD2
 
+calculateSpeedOfSound	KEYWORD2
+
 
 # Constants (LITERAL1)
 SRF05_LIB_VERSION	LITERAL1

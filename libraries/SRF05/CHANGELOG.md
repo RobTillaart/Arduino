@@ -6,9 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-01-28
+- add **float calculateSpeedOfSound(float temperature, float humidity)**
+- redo lookup table SOS temperature humidity
+- redo **float determineSpeedOfSound(float distance, uint8_t count = 64)**
+- removed the **Out** pin as it is non functional yet.
+- update readme.md
+- update examples
+
+----
+
 ## [0.1.5] - 2023-11-22
 - update readme.md
-
 
 ## [0.1.4] - 2023-03-15
 - add **uint32_t lastTime()**

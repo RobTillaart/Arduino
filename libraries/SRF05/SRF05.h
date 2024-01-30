@@ -2,7 +2,7 @@
 //
 //    FILE: SRF05.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for SRF05 distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SRF05_LIB_VERSION                 (F("0.1.5"))
+#define SRF05_LIB_VERSION                 (F("0.2.0"))
 
 
 const uint8_t SRF05_MODE_SINGLE      = 0;
@@ -22,11 +22,11 @@ const uint8_t SRF05_MODE_RUN_AVERAGE = 3;
 class SRF05
 {
 public:
-  explicit SRF05(const uint8_t trigger, const uint8_t echo, const uint8_t out = 0);
+  explicit SRF05(const uint8_t trigger, const uint8_t echo);
 
 
   //  configuration
-  void     setSpeedOfSound(float sos = 340);
+  void     setSpeedOfSound(float speedOfSound = 340);  //  meter/sec
   float    getSpeedOfSound();
 
   //  adjust timing
@@ -52,7 +52,11 @@ public:
 
 
   //  Experimental - calibration
-  float    determineSpeedOfSound(uint16_t count);
+  //  The distance is averaged over 64 measurements.
+  //  blocks for 70-80 ms.
+  //  distance in meters (1 meter = 3.333 feet)
+  //  returns speed in m/s.
+  float    determineSpeedOfSound(float distance, uint8_t count = 64);
 
 
   //  Experimental - adjust trigger length 
@@ -65,18 +69,22 @@ public:
   //  TIMING
   uint32_t lastTime();
 
+  //  helper function.
+  //  temperature and humidity to be determined by a sensor e.g. DHT22 or SHT85
+  //  returned value must be set explicitly by setSpeedOfSound().
+  float calculateSpeedOfSound(float temperature, float humidity);
+
 
 private:
   uint8_t  _trigger;
   uint8_t  _echo;
-  uint8_t  _out;
   uint8_t  _mode  = SRF05_MODE_SINGLE;
   uint8_t  _count = 1;
   float    _alpha = 1.0;
   float    _value = 0;
   float    _correctionFactor = 1;
   uint8_t  _triggerLength    = 10;
-  float    _speedOfSound     = 340;      //  20°C
+  float    _speedOfSound     = 340;      //  15°C  0%RH  Sea level
   uint32_t _lastTime = 0;
  
   uint32_t _read();

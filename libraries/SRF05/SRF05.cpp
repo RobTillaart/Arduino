@@ -1,7 +1,7 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05
@@ -14,21 +14,21 @@
 //
 //  CONSTRUCTORS
 //
-SRF05::SRF05(const uint8_t trigger, const uint8_t echo, const uint8_t out)
+SRF05::SRF05(const uint8_t trigger, const uint8_t echo)
 {
   _trigger = trigger;
   _echo    = echo;
-  _out     = out;
-  _mode    = 0;
+  _mode    = SRF05_MODE_SINGLE;
+
   pinMode(_trigger, OUTPUT);
   digitalWrite(_trigger, LOW);
   pinMode(_echo, INPUT);
 }
 
 
-void SRF05::setSpeedOfSound(float sos)
+void SRF05::setSpeedOfSound(float speedOfSound)
 {
-  _speedOfSound = sos;
+  _speedOfSound = speedOfSound;
 }
 
 float SRF05::getSpeedOfSound()
@@ -64,7 +64,7 @@ void SRF05::setModeSingle()
 
 void SRF05::setModeAverage(uint8_t count)
 {
-  _mode  = SRF05_MODE_AVERAGE;
+  _mode = SRF05_MODE_AVERAGE;
   if (_count == 0)  _count = 1;
   _count = count;
 }
@@ -81,6 +81,7 @@ void SRF05::setModeMedian(uint8_t count)
 
 void SRF05::setModeRunningAverage(float alpha)
 {
+  
   _mode  = SRF05_MODE_RUN_AVERAGE;
   _count = 1;
   _alpha = alpha;
@@ -135,6 +136,7 @@ uint32_t SRF05::getTime()
       _value = (1 - _alpha) * _value + _alpha * _read();
       return _value;
   }
+  return 0;  //  should not happen
 }
 
 
@@ -169,15 +171,19 @@ float SRF05::getFeet()
 
 
 //  EXPERIMENTAL
-float SRF05::determineSpeedOfSound(uint16_t distance)
+//  distance in meters (single trip)
+float SRF05::determineSpeedOfSound(float distance, uint8_t count)
 {
   float sum = 0;
-  for (uint16_t i = 0; i < 16; i++)
+  if (count == 0) count = 1;
+  while (count--)
   {
     sum += _read();
     delay(1);
   }
-  float sos = (16 * 2e6) * distance / sum;
+  //  sos = distance travelled forth and back in micrometer 
+  //        divided by time in microseconds.
+  float sos = (count * distance * 2e6) / sum;
   return sos;
 }
 
@@ -197,6 +203,23 @@ uint8_t SRF05::getTriggerLength()
 uint32_t SRF05::lastTime()
 {
   return _lastTime;
+}
+
+
+float SRF05::calculateSpeedOfSound(float temperature, float humidity)
+{
+  //  interpolate 
+  //  column RNH = 0%, from formula.
+  float sos     = 331.45 * sqrt(1 + temperature/273.15);
+  //  column RH = 100%, interpolation from spreadsheet
+  float sos_100 = 332.392083694084 + 0.683791630591631 * temperature;
+
+  //  interpolate the humidity between these 2
+  if (humidity > 0)
+  {
+    sos += (sos_100 - sos) * humidity * 0.01;
+  }
+  return sos;
 }
 
 

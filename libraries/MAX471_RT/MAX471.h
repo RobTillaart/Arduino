@@ -2,7 +2,7 @@
 //
 //    FILE: MAX471.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-01-30
 // PURPOSE: Arduino library for MAX471 current sensor.
 //     URL: https://github.com/RobTillaart/MAX471_RT
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define MAX471_LIB_VERSION        (F("0.1.0"))
+#define MAX471_LIB_VERSION        (F("0.1.1"))
 
 
 class MAX471

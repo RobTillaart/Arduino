@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MAX471_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MAX471_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MAX471_RT/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MAX471_RT.svg)](https://registry.platformio.org/libraries/robtillaart/MAX471_RT)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MAX471.svg)](https://registry.platformio.org/libraries/robtillaart/MAX471)
 
 
 # MAX471

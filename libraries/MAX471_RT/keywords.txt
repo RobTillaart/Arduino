@@ -1,0 +1,21 @@
+# Syntax Colouring Map For MAX471
+
+# Data types (KEYWORD1)
+MAX471	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+readCurrent	KEYWORD2
+readCurrentMilliAmpere	KEYWORD2
+readVoltage	KEYWORD2
+readVoltageMilliVolts	KEYWORD2
+calcPower	KEYWORD2
+calcPowerMilliWatt	KEYWORD2
+
+
+# Constants (LITERAL1)
+MAX471_LIB_VERSION	LITERAL1
+
+

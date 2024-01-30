@@ -1,0 +1,23 @@
+{
+  "name": "MAX471",
+  "keywords": "MAX471",
+  "description": "Arduino library for MAX471 current sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX471_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MAX471.h"
+}

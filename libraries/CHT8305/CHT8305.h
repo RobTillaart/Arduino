@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.2.0"))
+#define CHT8305_LIB_VERSION              (F("0.2.1"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
@@ -85,7 +85,7 @@ public:
   float    getTemperatureOffset();
 
 
-  //  CONFIG REGISTER
+  //  CONFIGURATION REGISTER
   void     setConfigRegister(uint16_t bitmask);
   uint16_t getConfigRegister();
   //
@@ -95,7 +95,7 @@ public:
   //  |  14   | 0x4000 |  clock stretch  |  1 = ON, 0 = OFF (default)
   //  |  13   | 0x2000 |  heater         |  1 = ON, 0 = OFF (default)  ==> user is responsible for timing!
   //  |  12   | 0x1000 |  mode           |  1 = read both (default), 0 = read T or RH
-  //  |  11   | 0x0800 |  vccs           |  1 = >2.8V,  0 = <2.8V
+  //  |  11   | 0x0800 |  vccs           |  1 = above 2.8V,  0 = below 2.8V
   //  |  10   | 0x0400 |  T-RES          |  1 = 11 bit, 0 = 14 bit (default)
   //  |  9-8  | 0x0300 |  H-RES          |  10 = 8 bit, 01 = 11 bit, 00 = 14 bit (default)
   //  |  7-6  | 0x00C0 |  ALTM           |  Alert Mode (datasheet)
@@ -132,6 +132,7 @@ public:
   void     setVCCenable(bool enable = true);
   bool     getVCCenable();
 
+
   //  ALERT FUNCTIONS
   //  mode   trigger
   //    0      T or H     (default)
@@ -150,8 +151,10 @@ public:
   float    getAlertLevelTemperature();
   float    getAlertLevelHumidity();
 
+
   //  VOLTAGE
   float    getVoltage();
+
 
   //  META DATA
   uint16_t getManufacturer();     //  expect 0x5959

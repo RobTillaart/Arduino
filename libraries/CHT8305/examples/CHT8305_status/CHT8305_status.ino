@@ -2,7 +2,7 @@
 //    FILE: CHT8305_status.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8305 I2C humidity & temperature sensor
-//
+//     URL: https://github.com/RobTillaart/CHT8305
 
 //  Always check datasheet - front view
 //

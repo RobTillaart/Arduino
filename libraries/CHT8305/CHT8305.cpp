@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 
@@ -182,7 +182,7 @@ float CHT8305::getTemperatureOffset()
 
 ////////////////////////////////////////////////
 //
-//  CONFIG REGISTER
+//  CONFIGURATION REGISTER
 //
 void CHT8305::setConfigRegister(uint16_t bitmask)
 {
@@ -297,7 +297,7 @@ bool CHT8305::getVCCenable()
 
 ////////////////////////////////////////////////
 //
-//  ALERT (config register)
+//  ALERT (configuration register)
 //
 bool CHT8305::setAlertTriggerMode(uint8_t mode)
 {

@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8305 I2C humidity & temperature sensor
 //          monitor voltage.
+//     URL: https://github.com/RobTillaart/CHT8305
 
 //  for use with plotter
 

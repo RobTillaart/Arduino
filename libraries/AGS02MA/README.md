@@ -17,8 +17,15 @@ Arduino library for AGS02MA TVOC sensor.
 #### Description
 
 This library is still experimental, so please use with care.
+
+The AGS02MA is a sensor that measures the TVOC = Total Volatile Organic Compounds
+in the air. It does not measure a specific gas, but several.
+
+
 Note the warning about the I2C low speed, the device works at max 30 KHz.
 Since 0.3.1 this library uses 25 KHz.
+
+Note this library is not meant to replace professional monitoring systems.
 
 
 #### 0.4.0 Breaking change
@@ -28,6 +35,11 @@ You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
 The user has to call **Wire.begin()** and can optionally set the Wire pins 
 before calling **begin()**.
+
+
+#### Related
+
+- https://www.renesas.com/us/en/document/whp/overview-tvoc-and-indoor-air-quality
 
 
 ## I2C
@@ -64,6 +76,24 @@ speed possible is reduced to about 8 KHz.
 A test run 4 hours with 6000++ reads on an UNO at 25 KHz gave 0 errors.
 So the communication speed will be set to 25 KHz, also for other boards, for stability.
 After communication the clock (+ prescaler) is reset again as before.
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Version 118 problems
@@ -171,17 +201,23 @@ The default mode at startup of the sensor is PPB = parts per billion.
 
 #### Air quality classification
 
-| ppb     | Class               |
-|---------|---------------------|
-| <= 220  | Good                |
-| <= 660  | Moderate            |
-| <= 1430 | Bad                 |
-| <= 2200 | Unhealthy           |
-| <= 3300 | Very unhealthy      |
-| <= 5500 | Extremely unhealthy |
-| > 5500  | Hazardous           |
+Indicative
+
+| TVOC(ppb) |  Scale  |  Description          |  Colour      |
+|:---------:|:-------:|:---------------------:|:-------------|
+|  <= 220   |    1    |  Good                 |  Green       |
+|  <= 660   |    3    |  Moderate             |  Yellow      |
+|  <= 1430  |    7    |  Bad                  |  Orange      |
+|  <= 2200  |   10    |  Unhealthy            |  Red         |
+|  <= 3300  |   15    |  Very unhealthy       |  Purple      |
+|  <= 5500  |   25    |  Hazardous            |  Deep Purple |
+|  > 5500   |   50    |  Extremely Hazardous  |  Deep Purple |
 
 [Source](https://learn.kaiterra.com/en/resources/understanding-tvoc-volatile-organic-compounds)
+
+- Scale is a relative scale where 220 ~~ 1
+- Colour is an indicative colour mapping.
+  - https://github.com/RobTillaart/map2colour for continuous scale.
 
 
 #### PPB versus UGM3
@@ -199,7 +235,7 @@ M = molecular weight of the gas.
 
 Simplified formula for 1 atm @ 25°C:
 
-**μg/m3 = ppb \* M \* 0.04087539829 μg/m3**
+**μg/m3 = ppb \* M \* 0.04087539829**
 
 Some known gasses
 
@@ -211,6 +247,9 @@ Some known gasses
 |  O3    |  Ozone              |  1 ppb = 2.00 μg/m3   |    48 gr/mol         |
 |  CO    |  Carbon Monoxide    |  1 ppb = 1.145 μg/m3  |    28 gr/mol         |
 |  C6H6  |  Benzene            |  1 ppb = 3.19 μg/m3   |    78 gr/mol         |
+
+
+- https://github.com/RobTillaart/AtomicWeight  (determine M from chemical formula)
 
 
 #### Read the sensor
@@ -260,7 +299,8 @@ See example sketch.
 To be called after at least 5 minutes in fresh air.
   - For v117: 0-65535 = automatic calibration.
   - For v118: 0 = automatic calibration, 1-65535 manual calibration.
-- **bool getZeroCalibrationData(ZeroCalibrationData &data)** fills a data struct with the current zero calibration status and value.
+- **bool getZeroCalibrationData(ZeroCalibrationData &data)** fills a data struct with the 
+current zero calibration status and value. 
 Returns true on success.
 
 
@@ -268,8 +308,9 @@ Returns true on success.
 
 - **bool readRegister(uint8_t address, RegisterData &reg)** fills a data struct with the chip's register data at that address.
 Primarily intended for troubleshooting and analysis of the sensor. Not recommended to build applications on top of this method's raw data.
-Returns true when the struct is filled, false when the data could not be read.
-Note: unlike other public methods, CRC errors don't return false or show up in `lastError()`, instead the CRC result is stored in `RegisterData.crcValid`.
+Returns true when the **RegisterData** is filled, false when the data could not be read.
+Note: unlike other public methods, CRC errors don't return false or show up in `lastError()`, 
+instead the CRC result is stored in `RegisterData.crcValid`.
 - **int lastError()** returns last error.
 - **uint8_t lastStatus()** returns status byte from last read.
 Read datasheet or table below for details. A new read is needed to update this.
@@ -290,25 +331,24 @@ Read datasheet or table below for details. A new read is needed to update this.
 #### Must
 
 - improve documentation
-  - add indicative table for PPB health zone (source)
+  - references?
 
 #### Should
 
-- put the I2C speed code in 2 inline functions
-  - less repeating conditional code places
-  - setLowSpeed() + setNormalSpeed()
 - check the mode bits of the status byte with internal \_mode.
   - maximize robustness of state
 - test with hardware
-  - different gasses ?
+  - different gasses ? indoor / outdoor?
+- test with different processors
 
 #### Could
 
 - elaborate error handling.
 - create an async interface for **readPPB()** if possible
   - delay(30) blocks performance ==> async version of **readRegister()**
+  - could introduce complex I2C speed handling...
+  - separate state - request pending or so?
 - move code to .cpp?
-
 
 #### Wont
 

@@ -2,13 +2,11 @@
 //    FILE: AGS02MA_minimal_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test application not using the library
-//    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
-
-// default register is 0x00 at start of the sensor
-// datasheet states one can get the value with minimal interaction.
-// note this sketch does not use the library!
+//  default register is 0x00 at start of the sensor
+//  datasheet states one can get the value with minimal interaction.
+//  note this sketch does not use the library!
 
 
 #include "Wire.h"

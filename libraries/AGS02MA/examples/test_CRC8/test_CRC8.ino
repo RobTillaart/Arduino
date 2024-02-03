@@ -1,12 +1,9 @@
 //
 //    FILE: test_CRC8.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test application
-//    DATE: 2021-08-12
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
-
 //  just for develop scratch pad
 //  need to make the CRC function public in the library
 

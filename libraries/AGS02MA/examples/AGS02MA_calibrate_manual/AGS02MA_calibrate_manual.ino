@@ -2,7 +2,6 @@
 //    FILE: AGS02MA_calibrate_manual.ino
 //  AUTHOR: Rob Tillaart, Beanow
 // PURPOSE: test application
-//    DATE: 2022-04-22
 //     URL: https://github.com/RobTillaart/AGS02MA
 
 

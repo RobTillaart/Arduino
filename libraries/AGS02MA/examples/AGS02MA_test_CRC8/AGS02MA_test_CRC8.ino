@@ -1,12 +1,9 @@
 //
 //    FILE: AGS02MA_test_CRC8.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test application
-//    DATE: 2021-08-14
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
-
 //  NOTE: this is a low level test for the communication / CRC
 //  to have this example to work, 
 //  one need to make the _CRC8() and _buffer[]

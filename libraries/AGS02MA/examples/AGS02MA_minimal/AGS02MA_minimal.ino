@@ -4,7 +4,6 @@
 // PURPOSE: test application
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
-
 //  default register is 0x00 at start of the sensor
 //  datasheet states one can get the value with minimal interaction.
 //  note this sketch does not use the library!

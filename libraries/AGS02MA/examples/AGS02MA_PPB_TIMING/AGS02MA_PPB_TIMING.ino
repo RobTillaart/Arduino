@@ -1,9 +1,7 @@
 //
 //    FILE: AGS02MA_PPB_TIMING.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: test application
-//    DATE: 2021-09-23
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 

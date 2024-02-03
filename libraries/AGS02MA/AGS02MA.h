@@ -3,7 +3,7 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
@@ -13,13 +13,14 @@
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.4.1"))
+#define AGS02MA_LIB_VERSION         (F("0.4.2"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10
 #define AGS02MA_ERROR_CRC           -11
 #define AGS02MA_ERROR_READ          -12
 #define AGS02MA_ERROR_NOT_READY     -13
+#define AGS02MA_ERROR_REQUEST       -14
 
 
 #define AGS02MA_I2C_CLOCK           25000    //  max 30000
@@ -128,6 +129,8 @@ private:
   uint8_t  _status        = 0;
   uint8_t  _buffer[5];
 
+  void     _setI2CLowSpeed();
+  void     _setI2CHighSpeed();
   uint16_t _getDataMSB();
   uint16_t _getDataLSB();
   uint8_t  _CRC8(uint8_t * buf, uint8_t size);

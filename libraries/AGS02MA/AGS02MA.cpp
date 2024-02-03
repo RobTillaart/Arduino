@@ -2,7 +2,7 @@
 //    FILE: AGS02MA.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
 
@@ -35,21 +35,10 @@ bool AGS02MA::begin()
 
 bool AGS02MA::isConnected()
 {
-#if defined (__AVR__)
-  //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ
-  TWSR = 0x01;       //  pre-scaler = 4
-#else
-  _wire->setClock(AGS02MA_I2C_CLOCK);
-#endif
-
+  _setI2CLowSpeed();
   _wire->beginTransmission(_address);
   bool rv = ( _wire->endTransmission(true) == 0);
-
-#if defined (__AVR__)
-  TWSR = 0x00;
-#endif
-  _wire->setClock(_I2CResetSpeed);
+  _setI2CHighSpeed();
   return rv;
 }
 
@@ -165,33 +154,33 @@ bool AGS02MA::setUGM3Mode()
 
 uint32_t AGS02MA::readPPB()
 {
-  uint32_t val = _readSensor();
+  uint32_t value = _readSensor();
   if (_error == AGS02MA_OK)
   {
     _lastRead = millis();
-    _lastPPB = val;
+    _lastPPB = value;
   }
   else
   {
-    val = _lastPPB;
+    value = _lastPPB;
   }
-  return val;
+  return value;
 }
 
 
 uint32_t AGS02MA::readUGM3()
 {
-  uint32_t val = _readSensor();
+  uint32_t value = _readSensor();
   if (_error == AGS02MA_OK)
   {
     _lastRead = millis();
-    _lastUGM3 = val;
+    _lastUGM3 = value;
   }
   else
   {
-    val = _lastUGM3;
+    value = _lastUGM3;
   }
-  return val;
+  return value;
 }
 
 
@@ -240,6 +229,12 @@ bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
     return false;
   }
 
+  if (_CRC8(_buffer, 5) != 0)
+  {
+    _error = AGS02MA_ERROR_CRC;
+    return false;
+  }
+
   _error = AGS02MA_OK;
   //  Don't pollute the struct given to us, until we've handled all error cases.
   reg.data[0] = _buffer[0];
@@ -247,7 +242,7 @@ bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
   reg.data[2] = _buffer[2];
   reg.data[3] = _buffer[3];
   reg.crc = _buffer[4];
-  reg.crcValid = _CRC8(_buffer, 5) == 0;
+  reg.crcValid = true;  //  checked above.
   return true;
 }
 
@@ -258,7 +253,6 @@ bool AGS02MA::readRegister(uint8_t address, AGS02MA::RegisterData &reg) {
 //
 uint32_t AGS02MA::_readSensor()
 {
-  _error = AGS02MA_ERROR_READ;
   uint32_t value = 0;
   if (_readRegister(AGS02MA_DATA))
   {
@@ -284,38 +278,32 @@ bool AGS02MA::_readRegister(uint8_t reg)
 {
   while (millis() - _lastRegTime < 30) yield();
 
-#if defined (__AVR__)
-  //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ
-  TWSR = 0x01;       //  pre-scaler = 4
-#else
-  _wire->setClock(AGS02MA_I2C_CLOCK);
-#endif
+  _setI2CLowSpeed();
 
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _error = _wire->endTransmission(true);
-
+  if (_error != 0)
+  {
+    //  _error will be I2C error code
+    _setI2CHighSpeed();
+    return false;
+  }
   //  TODO investigate async interface
   delay(30);
 
   if (_wire->requestFrom(_address, (uint8_t)5) != 5)
   {
     _error = AGS02MA_ERROR_READ;
-#if defined (__AVR__)
-    TWSR = 0x00;   //  reset pre-scaler = 1
-#endif
-    _wire->setClock(_I2CResetSpeed);
+    _setI2CHighSpeed();
     return false;
   }
   for (uint8_t i = 0; i < 5; i++)
   {
     _buffer[i] = _wire->read();
   }
-#if defined (__AVR__)
-  TWSR = 0x00;   //  reset pre-scaler = 1
-#endif
-  _wire->setClock(_I2CResetSpeed);
+  _error = AGS02MA_OK;
+  _setI2CHighSpeed();
   return true;
 }
 
@@ -325,13 +313,8 @@ bool AGS02MA::_writeRegister(uint8_t reg)
   while (millis() - _lastRegTime < 30) yield();
   _lastRegTime = millis();
 
-#if defined (__AVR__)
-  //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
-  TWBR = 78;         //  == 25.0 KHZ
-  TWSR = 0x01;       //  pre-scaler = 4
-#else
-  _wire->setClock(AGS02MA_I2C_CLOCK);
-#endif
+  _setI2CLowSpeed();
+
   _wire->beginTransmission(_address);
   _wire->write(reg);
   for (uint8_t i = 0; i < 5; i++)
@@ -339,11 +322,29 @@ bool AGS02MA::_writeRegister(uint8_t reg)
     _wire->write(_buffer[i]);
   }
   _error = _wire->endTransmission(true);
+  _setI2CHighSpeed();
+  return (_error == 0);
+}
+
+
+void AGS02MA::_setI2CLowSpeed()
+{
+#if defined (__AVR__)
+  //  TWBR = 255;    //  == 30.4 KHz with TWSR = 0x00
+  TWBR = 78;         //  == 25.0 KHZ
+  TWSR = 0x01;       //  pre-scaler = 4
+#else
+  _wire->setClock(AGS02MA_I2C_CLOCK);
+#endif
+}
+
+
+void AGS02MA::_setI2CHighSpeed()
+{
 #if defined (__AVR__)
   TWSR = 0x00;
 #endif
   _wire->setClock(_I2CResetSpeed);
-  return (_error == 0);
 }
 
 

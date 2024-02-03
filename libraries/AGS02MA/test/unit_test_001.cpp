@@ -48,6 +48,7 @@ unittest(test_constants)
   assertEqual(-11, AGS02MA_ERROR_CRC);
   assertEqual(-12, AGS02MA_ERROR_READ);
   assertEqual(-13, AGS02MA_ERROR_NOT_READY);
+  assertEqual(-14, AGS02MA_ERROR_REQUEST);
 
   assertEqual(25000, AGS02MA_I2C_CLOCK);
 }

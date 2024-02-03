@@ -2,9 +2,8 @@
 //    FILE: fastMapDouble.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of FastMapDouble class
-//    DATE: 2020-07-04
 //     URL: https://github.com/RobTillaart/FastMap
-
+//
 //    Note: the mapping used in the example cannot be done
 //          with the normal map function.
 
@@ -23,7 +22,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("lib version: ");
+  Serial.print("FASTMAP_LIB_VERSION: ");
   Serial.println(FASTMAP_LIB_VERSION);
   Serial.println();
 
@@ -48,7 +47,7 @@ void setup()
   Serial.println();
 
   Serial.println("PERC\tSpeed in Km/h");
-  for (float p = 80; p < 100; p += 0.25)
+  for (float p = 80; p <= 100; p += 0.25)
   {
     x = mapper.map(p);
     Serial.print(p, 2);
@@ -66,4 +65,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

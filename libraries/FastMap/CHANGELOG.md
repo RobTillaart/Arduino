@@ -6,12 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2024-02-02
+- update readme.md
+  - a.o. rewrite description, future section.
+- minor refactor examples
+- minor edits
+
+
 ## [0.4.1] - 2023-10-30
 - update readme.md (badges).
 - add performance test example (another).
   - add UNO + ESP32 test results.
 - minor edits.
-
 
 ## [0.4.0] - 2022-11-02
 - add changelog.md

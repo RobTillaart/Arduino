@@ -16,37 +16,67 @@ Fast mapping and constraining.
 
 ## Description
 
-FastMap is an object that pre-calculates (internal) floats to make a mapping function especially for floats.
-The FastMap also provides a **back()** function to reverse the mapping. 
-This only works well with floats, and less with integers, so use with care.
+FastMap replaces the Arduino **map()** function which does integer mapping.
+The result of integer mapping is that the (internal) division truncates and looses precision.
 
-An important difference with the traditional **map()** function is that both **init()** and **map()** 
-accepts floats as parameters.
-This allows mapping that would be hard to achieve with the normal **map()** function.
+Another problem possible problem of the **map()** function is that it can extrapolate
+outside the output range specified if the input is outside the input range.
+This behaviour is not always wanted, and can cause unexpected side effects.
 
-Since 0.4.0 the **init()** function will not accept zero range defining input or output parameters. 
+**FastMap** is an object that pre-calculates (internal) floats to make a mapping function 
+especially for floats (and doubles).
+The usage of floats reduces the truncating problem of **map()** and keeps precision.
+As it pre-calculates the mapping partially the performance is good.
+See **FastMap_performance_test.ino**.
+
+To prevent extrapolating **FastMap** provides so called **constrainedMap()** which takes
+care that the returned value is within the specified output range.
+The library provides three variations, see API below.
+
+Finally the **FastMap** provides a **back()** function to reverse the mapping. 
+This only works well with floats, and less with integers, so use with care and
+verify if it meet your requirements. 
+
+An important difference with the traditional **map()** function is that both 
+**init()** and **map()** accepts floats as parameters.
+See the precision notes below
+
+Since 0.4.0 the **init()** function will not accept a zero range defining input or output parameters.
+This is to prevent NaN errors and **init()** will return false if such range is detected.
+
+If the **init()** function is not called a 1 to 1 mapping is used.
+
+#### Related
+
+Other mapping libraries
+
+- https://github.com/RobTillaart/FastMap
+- https://github.com/RobTillaart/Gamma
+- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/moduloMap
+- https://github.com/RobTillaart/MultiMap
 
 
 ## Performance notes
 
 (based upon tests https://github.com/RobTillaart/FastMap/issues/4 )
-- On AVR (UNO and MEGA) no gain is made mapping integers with fastMap, 130% slower = substantial.
+- On AVR (UNO and MEGA) no gain is made mapping integers with FastMap, 130% slower = substantial.
 - On AVR the gain for float is limited, 10% faster.
 - On ESP32 the gain for integers and float is both in the order of 25%.
 
 To see the actual gain in your project on your hardware you should test and compare.
 
-FastMap is faster when mapping floats as it uses less float operations than the standard map formula does.
-The performance results from pre-calculating values in the  **init()** function.
-An actual mapping therefore needs only one multiply and one add operation where the standard **map()** function 
-uses four adds, a multiplication and a division.
-The pre-calculation in **init()** should be taken in account and if every **map()** call needs an **init()**
-there will be no gain, on contrary.
+**FastMap** is faster when mapping floats as it uses less float operations than the standard map formula does.
+The performance results from pre-calculating values in the **init()** function.
+An actual mapping therefore needs only one multiply and one add operation where the 
+standard **map()** function uses four adds, a multiplication and a division.
+The pre-calculation in **init()** should be taken in account and if every **map()** 
+call needs an **init()** there will be no gain, on contrary.
 
 
 ## Precision notes
 
-The implementation of **fastMap()** uses floats (typical 32 bits) which might result in more memory usage 
+The implementation of **FastMap()** uses floats (typical 32 bits) which might result in more memory usage 
 and loss of precision for mapping of larger values, especially 32 and 64 bit integers.
 
 This is caused by the limits of the mantissa (~23 bits) of the standard 4 byte float.
@@ -62,19 +92,21 @@ Furthermore using double might imply a performance penalty on some platforms.
 #include "FastMap.h"
 ```
 
-### Base
+#### Base
 
 - **FastMap()** Constructor
-- **bool init(float in_min, float in_max, float out_min, float out_max)** defines the linear mapping parameters.  
+- **bool init(float in_min, float in_max, float out_min, float out_max)** defines the linear mapping parameters. 
+Be sure that in_min must be smaller than in_max. 
 The **init()** function calculates all needed values for the **map()**, the **back()** call and the **constrainXX()** functions.
 The **init()** function can be called again with new values when needed to do other mapping,
-although it will give less overhead if you create an fastMap object per conversion needed.  
+although it will give less overhead if you create an FastMap object per conversion needed.  
 Returns false if (out_max == out_min) or (in_max == in_min). (breaking change in 0.4.0).
+If **init()** is not called the default is 1 to 1 mapping.
 - **float map(float value)** maps the parameter.
 - **float back(float value)** does the inverse mapping.
 
 
-### Constrains
+#### Constrains
 
 FastMap supports three versions of constraining the map function, based upon the parameters of **init()**.
 
@@ -89,7 +121,7 @@ Note there are **NO** constrain-versions for **back(value)** function.
 
 ## FastMapDouble
 
-Version 3.0 adds **fastMapDouble** which has the same interface as **fastMap()**.
+Version 3.0 adds **FastMapDouble** which has the same interface as **FastMap()**.
 This class is meant to support 8 bytes doubles in their native accuracy and precision. 
 To display doubles one might need the **sci()** function of my **printHelpers** class.
 https://github.com/RobTillaart/printHelpers
@@ -110,7 +142,8 @@ See below.
 |  ESP32         |  yes    |  yes     |
 |  RP2040        |  yes    |  ?       |
 
-to elaborate table.  (if someone has a good link, please let me know).
+To elaborate table.  (if someone has a good link, please let me know).
+
 
 test code.
 ```cpp
@@ -127,9 +160,9 @@ void loop() {}
 
 ## Performance 
 
-Tested version 0.4.1 with **fastMap_performance_test.ino**
+Tested version 0.4.1 with **FastMap_performance_test.ino**
 
-|         |  MAP     |  FASTMAP  |  FASTMAP dbl  |  Notes  |
+|         |  MAP     |  FastMap  |  FastMap dbl  |  Notes  |
 |:--------|:--------:|:---------:|:-------------:|:-------:|
 |  UNO    |  496072  |  211888   |  211888       |  float == double
 |  ESP32  |  1814    |  627      |  6924         |  
@@ -149,6 +182,14 @@ If you have additional performance figures for other boards,
 please let me know (report via an issue).
 
 
+## Percentage
+
+An often useful mapping is an input range upon percentage.
+```
+FM.init(in_min, in_max, 0.0, 100.0);
+```
+
+
 ## Future
 
 #### Must
@@ -157,17 +198,19 @@ please let me know (report via an issue).
 
 #### Should
 
-- test performance fastMapDouble on ESP32.
-  - need good test example
 
 #### Could
 
+- investigate map function for 64 bit integers.
 - investigate map function for complex numbers? / coordinates?
+  - what does linear interpolation mean, map an input area upon an output area?
 - Template class?
+- investigate exponential mapping: ```x -> alpha * beta^x```??
+- do we need **constrainedBack()**? in three versions?
 
 #### Wont
 
-- can fastMap and fastMapDouble be in a class hierarchy? limited gain?
+- can FastMap and FastMapDouble be in a class hierarchy? limited gain?
 
 
 ## Support

@@ -2,7 +2,6 @@
 //    FILE: fastMapDemo2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of FastMap class ==> a faster map function
-//    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
 
 
@@ -15,7 +14,8 @@ FastMap FtoC;  //  Fahrenheit to Celsius
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start fastMapDemo2\nlib version: ");
+  Serial.println(__FILE__);
+  Serial.print("FASTMAP_LIB_VERSION: ");
   Serial.println(FASTMAP_LIB_VERSION);
   Serial.println();
 

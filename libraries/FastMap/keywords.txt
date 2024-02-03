@@ -10,6 +10,7 @@ FastMapDouble	KEYWORD1
 init	KEYWORD2
 map	KEYWORD2
 back	KEYWORD2
+
 constrainedMap	KEYWORD2
 lowerConstrainedMap	KEYWORD2
 upperConstrainedMap	KEYWORD2

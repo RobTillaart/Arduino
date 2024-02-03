@@ -2,7 +2,6 @@
 //    FILE: fastMap_performance_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of FastMap class ==> a faster map function
-//    DATE: 2014-11-02
 //     URL: https://github.com/RobTillaart/FastMap
 
 
@@ -66,7 +65,7 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
   Serial.print("Performance factor: ");
-  Serial.println(1.0 * reference / (stop - start));
+  Serial.println((float)reference / (stop - start));
   Serial.println();
   delay(100);
 
@@ -86,7 +85,7 @@ void setup()
   Serial.print(" -> ");
   Serial.println(x);
   Serial.print("Performance factor: ");
-  Serial.println(1.0 * reference / (stop - start));
+  Serial.println((float)reference / (stop - start));
   Serial.println();
 
 }

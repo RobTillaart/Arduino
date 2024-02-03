@@ -1,0 +1,23 @@
+{
+  "name": "map2bits",
+  "keywords": "",
+  "description": "Arduino library for mapping a float to a number of bits.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/map2bits.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "map2bits.h"
+}

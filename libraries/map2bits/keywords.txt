@@ -1,0 +1,13 @@
+# Syntax Colouring Map For map2bits
+
+# Data types (KEYWORD1)
+map2bits	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+init	KEYWORD2
+map	KEYWORD2
+
+# Constants (LITERAL1)
+MAP2BITS_LIB_VERSION	LITERAL1
+

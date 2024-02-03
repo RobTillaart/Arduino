@@ -1,0 +1,17 @@
+
+Arduino UNO 16 MHz
+IDE 1.8.19
+
+libraries\map2bits\examples\map2bits_performance\map2bits_performance.ino
+MAP2BITS_LIB_VERSION: 0.1.0
+
+1000 x map (full)
+US: 45348	45.35
+X:  1023
+
+3 x 100 x map (constrained)
+US: 6660	22.20
+X:  1023
+
+
+Done...

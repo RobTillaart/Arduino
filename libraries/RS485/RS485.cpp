@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -124,29 +124,29 @@ size_t RS485::write(uint8_t * array, uint8_t length)
 //
 //  commando   value  meaning
 //
-//    SOH      0x01   start of header
-//    STX      0x02   start of text
-//    ETX      0x03   end of text
-//    EOT      0x04   end of transmission
+//    ASCII_SOH      0x01   start of header
+//    ASCII_STX      0x02   start of text
+//    ASCII_ETX      0x03   end of text
+//    ASCII_EOT      0x04   end of transmission
 //
 //  optional
-//    ACK      0x06   ACKnowledge
-//    NAK      0x15   Not Acknowledge
-//    CAN      0x18   CANcel
+//    ASCII_ACK      0x06   ACKnowledge
+//    ASCII_NAK      0x15   Not Acknowledge
+//    ASCII_CAN      0x18   CANcel
 //
 ///////////////////////////////////////////////////////
 //
 //  A message has the following layout
 //
-//     SOH          start of header
-//     deviceID     to
-//     deviceID     sender
-//     length       length of message
-//        STX          start of text
-//        message      idem
-//        CHECKSUM     idem, message only!
-//        ETX          end of text
-//     EOT          end of transmission
+//     ASCII_SOH          start of header
+//     deviceID           to
+//     deviceID           sender
+//     length             length of message
+//        ASCII_STX          start of text
+//        message            idem
+//        CHECKSUM           idem, message only!
+//        ASCII_ETX          end of text
+//     ASCII_EOT          end of transmission
 //
 
 size_t RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
@@ -155,19 +155,19 @@ size_t RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
   uint8_t CHKSUM = 0;
 
   setTXmode();                 //  transmit mode
-  _stream->write(SOH);
+  _stream->write(ASCII_SOH);
   n += _stream->write(receiverID);  //  TO
   n += _stream->write(_deviceID);   //  FROM
   n += _stream->write(len);         //  LENGTH BODY
-  n += _stream->write(STX);
+  n += _stream->write(ASCII_STX);
   for (int i = 0; i < len; i++)
   {
     n += _stream->write(msg[i]);
     CHKSUM ^= msg[i];          //  Simple XOR checksum.
   }
   n += _stream->write(CHKSUM);
-  n += _stream->write(ETX);
-  n += _stream->write(EOT);
+  n += _stream->write(ASCII_ETX);
+  n += _stream->write(ASCII_EOT);
   _stream->flush();
   setRXmode();                 //  receive mode
 
@@ -196,7 +196,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
   {
     //  waiting for new packet
     case 0:
-      if (v == SOH)
+      if (v == ASCII_SOH)
       {
         _bidx = 0;        //  start new packet
         CHKSUM = 0;
@@ -224,9 +224,9 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       state = 4;
       break;
 
-    //  expect STX
+    //  expect ASCII_STX
     case 4:
-      if (v == STX) state = 5;
+      if (v == ASCII_STX) state = 5;
       else state = 99;
       break;
 
@@ -252,15 +252,15 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       length--;
       break;
 
-    //  expect ETX
+    //  expect ASCII_ETX
     case 6:
-      if (v == ETX) state = 7;
+      if (v == ASCII_ETX) state = 7;
       else state = 99;
       break;
 
-    //  expect EOT
+    //  expect ASCII_EOT
     case 7:
-      if (v == EOT)
+      if (v == ASCII_EOT)
       {
         msglen = _bidx;
         for (int i = 0; i < msglen; i++)
@@ -274,8 +274,8 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       break;
 
     //  SKIP until next packet
-    case 99:  //  wait for EOT in case of error
-      if (v == EOT) state = 0;
+    case 99:  //  wait for ASCII_EOT in case of error
+      if (v == ASCII_EOT) state = 0;
       break;
   }
 

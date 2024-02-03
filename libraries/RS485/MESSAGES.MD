@@ -31,15 +31,15 @@ than one iteration.
 
 Possible useful char codes.
 
-|  commando  |  value  |  meaning  |
-|:----------:|:-------:|:----------|
-|    SOH     |  0x01   |  start of header
-|    STX     |  0x02   |  start of text
-|    ETX     |  0x03   |  end of text
-|    EOT     |  0x04   |  end of transmission
-|    ACK     |  0x06   |  ACKnowledge
-|    NAK     |  0x15   |  Not Acknowledge
-|    CAN     |  0x18   |  CANcel
+|  commando   |  value  |  meaning  |
+|:-----------:|:-------:|:----------|
+|  ASCII_SOH  |  0x01   |  start of header
+|  ASCII_STX  |  0x02   |  start of text
+|  ASCII_ETX  |  0x03   |  end of text
+|  ASCII_EOT  |  0x04   |  end of transmission
+|  ASCII_ACK  |  0x06   |  ACKnowledge
+|  ASCII_NAK  |  0x15   |  Not Acknowledge
+|  ASCII_CAN  |  0x18   |  CANcel
 
 See also **ASCII_CONTROL.h**
 
@@ -69,7 +69,7 @@ Using a device id to send the command to.
 
 command :=
 {
-   SOH          start of header,    (attention new command)
+   ASCII_SOH    start of header,    (attention new command)
    deviceID     to                  (is it for me?)   should not equal SOH
    command                          (if so, exec command)
    bytes expected                   (to generate the bytes)
@@ -88,7 +88,7 @@ Command and answer have same layout.
 Uses device ID's to address specific device.
 
 {
-   SOH          start of header        0x01
+   ASCII_SOH    start of header        0x01
    deviceID     to
    deviceID     sender
    length       length of message
@@ -96,7 +96,7 @@ Uses device ID's to address specific device.
 
 optional extend with:
    checksum     optional
-   EOT          optional (end of transmission)
+   ASCII_EOT    optional (end of transmission)
 }
 
 ----
@@ -107,24 +107,24 @@ More complex package with multiple fields and Checksum / CRC per message.
 In fact this is an elaborated variation on previous example.
 
 
-   SOH          start of header
+   ASCII_SOH    start of header
    deviceID     to
    deviceID     sender
    fields       0 or more
 
       length       length of field 1
-      STX          start of text
+      ASCII_STX    start of text
       message      idem
       CHECKSUM     idem, message only!
-      ETX          end of text
+      ASCII_ETX    end of text
 
       length       length of field 2
-      STX          start of text
+      ASCII_STX    start of text
       message      idem
       CHECKSUM     idem, message only!
-      ETX          end of text
+      ASCII_ETX    end of text
       ...
-   EOT          end of transmission
+   ASCII_EOT    end of transmission
 
 ----
 
@@ -159,7 +159,7 @@ An example is remote reading a sensor or an analog port.
 To improve the reliability the answer can be a "packet".
 
 command = ID
-answer  = { SOH, IDmaster, IDslave, length, value } 
+answer  = { ASCII_SOH, IDmaster, IDslave, length, value } 
 
 
 

@@ -43,11 +43,11 @@ void loop()
 
     if (isPrintable(c))
     {
-      rs485.write(ACK);
+      rs485.write(ASCII_ACK);
     }
     else
     {
-      rs485.write(NAK);
+      rs485.write(ASCII_NAK);
     }
 
   }

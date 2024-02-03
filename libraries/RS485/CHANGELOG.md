@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-02-01
+- merge PR #28, Fix for FS conflict on ESP32 (kudos to DoomHammer)
+  - all ASCII control characters get a **ASCII_** prefix.
+- update MESSAGES.MD with new control characters.
+- add unit test for the new ASCII control characters.
+- update readme.md.
+- add new control characters to keywords.txt
+
+----
+
 ## [0.4.0] - 2023-12-18
 - fix **write(array, length)**
 - add two examples (ack_nack + controller)

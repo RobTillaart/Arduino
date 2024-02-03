@@ -28,6 +28,10 @@ needs to be tested.
 The 0.2.0 version of the library has no (tested) protocol for multi-byte 
 messages so the user must implement such on top of this class.
 
+The 0.5.0 version uses new defines for the **ASCII_CONTROL.h** to fix a
+name conflict on the ESP32 platform. 
+The new defines all have got an **ASCII_** prefix, e.g. **ASCII_FS**
+
 
 #### Connection schema
 

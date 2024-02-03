@@ -49,10 +49,10 @@ void loop()
     uint8_t answer = rs485.read();
     switch (answer)
     {
-      case ACK:
+      case ASCII_ACK:
         Serial.println(" ACK");
         break;
-      case NAK:
+      case ASCII_NAK:
         Serial.println(" NAK");
         break;
       default:

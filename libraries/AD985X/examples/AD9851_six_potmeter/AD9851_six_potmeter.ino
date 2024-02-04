@@ -8,7 +8,8 @@
 #include "AD985X.h"
 
 
-AD9851 freqGen(10, 9, 8, 7, 6); 
+AD9851 freqGen(10, 9, 8, 7, 6);  //  SW SPI
+//  AD9851 freqGen(10, 9, 8, &SPI, 6);  //  HW SPI
 
 
 void setup()
@@ -18,7 +19,7 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  SPI.begin();
+  // SPI.begin();  //  HW SPI
 
   freqGen.begin();
 }

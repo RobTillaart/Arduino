@@ -57,7 +57,7 @@ void setup()
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
 
-  SPI.begin();
+  // SPI.begin();  //  HW SPI
 
   //  initialize three devices
   for (int i = 0; i < 3; i++)

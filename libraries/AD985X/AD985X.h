@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION        (F("0.5.0"))
+#define AD985X_LIB_VERSION        (F("0.6.0"))
 
 
 #ifndef __SPI_CLASS__

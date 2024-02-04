@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -45,7 +45,7 @@ AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t s
   _fqud    = FQUDPin;
   _hwSPI   = false;
   _mySPI   = NULL;
-  _dataOut = 0;
+  _dataOut = spiData;
   _clock   = spiClock;
 }
 

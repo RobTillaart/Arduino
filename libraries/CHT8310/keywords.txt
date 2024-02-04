@@ -1,0 +1,28 @@
+# Syntax Colouring Map For CHT8310
+
+# Data types (KEYWORD1)
+CHT8310	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+read	KEYWORD2
+lastRead	KEYWORD2
+getTemperature	KEYWORD2
+getHumidity	KEYWORD2
+
+setConversionDelay	KEYWORD2
+getConversionDelay	KEYWORD2
+
+setHumidityOffset	KEYWORD2
+setTemperatureOffset	KEYWORD2
+getHumidityOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
+
+
+# Constants (LITERAL1)
+CHT8310_LIB_VERSION	LITERAL1
+CHT8310_DEFAULT_ADDRESS	LITERAL1
+

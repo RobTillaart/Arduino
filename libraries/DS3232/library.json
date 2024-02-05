@@ -1,0 +1,23 @@
+{
+  "name": "DS3232",
+  "keywords": "DS3232, DS3231",
+  "description": "Arduino library for I2C DS3232 RTC (minimalistic).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS3232.git"
+  },
+  "version": "0.3.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DS3232.h"
+}

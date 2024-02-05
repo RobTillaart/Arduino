@@ -1,0 +1,108 @@
+#pragma once
+//
+//    FILE: DS3232.h
+//  AUTHOR: Rob Tillaart
+// PURPOSE: Arduino library for DS3232 RTC (minimalistic)
+// VERSION: 0.3.0
+//    DATE: 2011-01-21
+//     URL: https://github.com/RobTillaart/DS3232
+
+
+#include "Arduino.h"
+#include "Wire.h"
+
+
+#define DS3232_LIB_VERSION         "0.3.0"
+
+
+//  ERROR CODES
+#define DS3232_OK                  0
+#define DS3232_ERROR_ADDR          -10
+#define DS3232_ERROR_I2C           -11
+#define DS3232_ERROR_CONNECT       -12
+
+
+//  REGISTERS DS3232 (maybe also for DS3231)
+//  not all used yet
+#define DS3232_SECONDS              0x00
+#define DS3232_ALARM1               0x07
+#define DS3232_ALARM2               0x0B
+#define DS3232_CONTROL              0x0E
+#define DS3232_AGING_OFFSET         0x10
+#define DS3232_TEMPERATURE          0x11
+#define DS3232_SRAM_BASE            0x14
+
+
+class DS3232
+{
+public:
+  //  CONSTRUCTOR
+  DS3232(TwoWire *wire = &Wire);
+  int      begin();
+  bool     isConnected();
+  uint8_t  getAddress();
+  uint16_t getType();
+
+  //  BASE RTC
+  int      read();
+  int      write();
+  uint32_t lastRead();
+
+  //  GETTERS
+  uint8_t  seconds();
+  uint8_t  minutes();
+  uint8_t  hours();
+  uint8_t  weekDay();
+  uint8_t  day();
+  uint8_t  month();
+  uint8_t  year();
+
+  //  SETTERS
+  void     setSeconds(uint8_t value);
+  void     setMinutes(uint8_t value);
+  void     setHours(uint8_t value);
+  //       weekDay cannot be set.
+  void     setDay(uint8_t value);
+  void     setMonth(uint8_t value);
+  void     setYear(uint8_t value);
+
+
+  //  LOW LEVEL access to all registers
+  //  check datasheet for details of registers.
+  //  return < 0 is error
+  int      readRegister(uint8_t reg);
+  int      writeRegister(uint8_t reg, uint8_t value);
+
+  //  DEBUG
+  int      lastRv() { return _rv; };
+
+
+protected:
+  uint8_t   _address;
+  TwoWire * _wire;
+
+  //  array holding the values
+  uint8_t   _reg[7];
+  uint32_t  _lastRead = 0;
+
+  int       _rv;
+  uint16_t  _type = 3232;
+
+  uint8_t   dec2bcd(uint8_t value);
+  uint8_t   bcd2dec(uint8_t value);
+};
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+class DS3231 : public DS3232
+{
+public:
+  DS3231(TwoWire *wire = &Wire);
+};
+
+
+//  -- END OF FILE --
+

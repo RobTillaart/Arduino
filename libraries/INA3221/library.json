@@ -1,0 +1,23 @@
+{
+  "name": "INA3221",
+  "keywords": "power,ampere,voltage,volts,current",
+  "description": "Arduino library for the I2C INA3221 3 channel voltage and current sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA3221_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA3221.h"
+}

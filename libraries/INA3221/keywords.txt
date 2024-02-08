@@ -1,0 +1,86 @@
+# Syntax Colouring Map For INA3221
+
+
+# Data types (KEYWORD1)
+INA3221	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+getBusVoltage	KEYWORD2
+getShuntVoltage	KEYWORD2
+getCurrent	KEYWORD2
+getPower	KEYWORD2
+
+getBusVoltage_mV	KEYWORD2
+getShuntVoltage_mV	KEYWORD2
+getCurrent_mA	KEYWORD2
+getPower_mW	KEYWORD2
+
+getBusVoltage_uV	KEYWORD2
+getShuntVoltage_uV	KEYWORD2
+getCurrent_uA	KEYWORD2
+getPower_uW	KEYWORD2
+
+setShuntR	KEYWORD2
+getShuntR	KEYWORD2
+
+setCriticalAlert	KEYWORD2
+getCriticalAlert	KEYWORD2
+setWarningAlert	KEYWORD2
+getWarningAlert	KEYWORD2
+
+setCriticalCurrect	KEYWORD2
+getCriticalCurrent	KEYWORD2
+setWarningCurrent	KEYWORD2
+getWarningCurrent	KEYWORD2
+
+getShuntVoltageSum	KEYWORD2
+setShuntVoltageSumLimit	KEYWORD2
+getShuntVoltageSumLimit	KEYWORD2
+
+setConfiguration	KEYWORD2
+getConfiguration	KEYWORD2
+
+reset	KEYWORD2
+enableChannel	KEYWORD2
+disableChannel	KEYWORD2
+getEnableChannel	KEYWORD2
+setAverage	KEYWORD2
+getAverage	KEYWORD2
+
+setBusVoltageConversionTime	KEYWORD2
+getBusVoltageConversionTime	KEYWORD2
+setShuntVoltageConversionTime	KEYWORD2
+getShuntVoltageConversionTime	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+shutDown	KEYWORD2
+
+setModeShuntTrigger	KEYWORD2
+setModeBusTrigger	KEYWORD2
+setModeShuntBusTrigger	KEYWORD2
+setModeShuntContinuous	KEYWORD2
+setModeBusContinuous	KEYWORD2
+setModeShuntBusContinuous	KEYWORD2
+
+setMaskEnable	KEYWORD2
+getMaskEnable	KEYWORD2
+
+setPowerUpperLimit	KEYWORD2
+getPowerUpperLimit	KEYWORD2
+setPowerLowerLimit	KEYWORD2
+getPowerLowerLimit	KEYWORD2
+
+getManufacturerID	KEYWORD2
+getDieID	KEYWORD2
+
+
+# Constants (LITERAL1)
+INA3221_LIB_VERSION	LITERAL1
+
+

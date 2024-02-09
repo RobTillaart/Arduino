@@ -6,11 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2023-11-22
+- fix #2 bug in **write()**, now sending 12 bits instead of 13 per channel.
+- add **setRGB(led, R, G, B)**
+- add **getRGB(led, R, G, B)**
+- improved error handling (return values)
+- add **bool isEnabled()** get status blank line.
+- update unit test
+- added performance sketch output
+- update readme.md
+- minor edits
+
+----
+
 ## [0.1.2] - 2023-11-22
 - update readme.md
 - add **TLC5947_CHANNEL_ERROR**
 - catch negative percentages.
-
 
 ## [0.1.1] - 2023-06-21
 - improve performance AVR

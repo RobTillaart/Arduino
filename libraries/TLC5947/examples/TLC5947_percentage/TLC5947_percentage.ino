@@ -1,14 +1,18 @@
 //
 //    FILE: TLC5947_percentage.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo percentage interface
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
 #include "TLC5947.h"
 
+const int CLOCK = 13;
+const int DATA  = 12;
+const int LATCH = 11;
+const int BLANK = 10;
 
-TLC5947 tlc(13, 12, 11, 10);
+TLC5947 tlc(CLOCK, DATA, LATCH, BLANK);
 
 
 void setup()
@@ -24,28 +28,28 @@ void setup()
     while (1);
   }
 
-  for (int ch = 0; ch < 24; ch++)
+  for (int channel = 0; channel < 24; channel++)
   {
-    int p = random(4096);
-    tlc.setPWM(ch, p);
-    Serial.print(ch);
+    int pwm = random(4096);
+    tlc.setPWM(channel, pwm);
+    Serial.print(channel);
     Serial.print('\t');
-    Serial.print(p);
+    Serial.print(pwm);
     Serial.print('\t');
-    Serial.print(tlc.getPWM(ch));
+    Serial.print(tlc.getPWM(channel));
     Serial.println();
   }
   Serial.println();
 
-  for (int ch = 0; ch < 24; ch++)
+  for (int channel = 0; channel < 24; channel++)
   {
-    float p = random(10000) * 0.01;
-    tlc.setPercentage(ch, p);
-    Serial.print(ch);
+    float percentage = random(10000) * 0.01;
+    tlc.setPercentage(channel, percentage);
+    Serial.print(channel);
     Serial.print('\t');
-    Serial.print(p);
+    Serial.print(percentage);
     Serial.print('\t');
-    Serial.print(tlc.getPercentage(ch));
+    Serial.print(tlc.getPercentage(channel));
     Serial.println();
   }
   tlc.write();

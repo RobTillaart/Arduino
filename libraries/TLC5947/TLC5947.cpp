@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5947.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
@@ -40,11 +40,16 @@ bool TLC5947::begin()
 }
 
 
-bool TLC5947::setPWM(uint8_t channel, uint16_t PWM)
+
+//////////////////////////////////////////////////
+//
+//  PWM
+//
+int TLC5947::setPWM(uint8_t channel, uint16_t PWM)
 {
-  if (channel >= 24) return false;
+  if (channel >= 24) return TLC5947_CHANNEL_ERROR;
   _buffer[channel] = PWM > 4095 ? 4095 : PWM;
-  return true;
+  return TLC5947_OK;
 }
 
 
@@ -58,25 +63,27 @@ uint16_t TLC5947::getPWM(uint8_t channel)
 void TLC5947::setAll(uint16_t PWM)
 {
   uint16_t pwm = PWM > 4095 ? 4095 : PWM;
-  for (int chan = 0; chan < 24; chan++)
+  for (int channel = 0; channel < 24; channel++)
   {
-    _buffer[chan] = pwm;
+    _buffer[channel] = pwm;
   }
   write();
 }
 
 
-bool TLC5947::setPercentage(uint8_t channel, float perc)
+int TLC5947::setPercentage(uint8_t channel, float percentage)
 {
-  if (perc < 0) perc = 0;
-  return setPWM(channel, round(perc * 40.95));
+  if (percentage < 0) percentage = 0;
+  if (percentage > 100) percentage = 100;
+  return setPWM(channel, round(percentage * 40.95));
 }
 
 
-void TLC5947::setPercentageAll(float perc)
+void TLC5947::setPercentageAll(float percentage)
 {
-  if (perc < 0) perc = 0;
-  setAll(round(perc * 40.95));
+  if (percentage < 0) percentage = 0;
+  if (percentage > 100) percentage = 100;
+  setAll(round(percentage * 40.95));
 }
 
 
@@ -86,6 +93,10 @@ float TLC5947::getPercentage(uint8_t channel)
 }
 
 
+//////////////////////////////////////////////////
+//
+//  WRITE
+//
 void TLC5947::write()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -101,13 +112,19 @@ void TLC5947::write()
   uint8_t cbmask1  = digitalPinToBitMask(_clock);
   uint8_t cbmask2  = ~cbmask1;
 
-  for (int chan = 23; chan >= 0; chan--)
+  for (int channel = 23; channel >= 0; channel--)
   {
-    for (int mask = 0x1000;  mask; mask >>= 1)
+    for (int mask = 0x0800;  mask; mask >>= 1)
     {
       *_clockRegister &= cbmask2;
-      if (_buffer[chan] & mask) *_dataOutRegister |= outmask1;
-      else                      *_dataOutRegister &= outmask2;
+      if (_buffer[channel] & mask)
+      {
+        *_dataOutRegister |= outmask1;
+      }
+      else
+      {
+        *_dataOutRegister &= outmask2;
+      }
       *_clockRegister |= cbmask1;
     }
   }
@@ -117,16 +134,16 @@ void TLC5947::write()
 
   //  also write when blank == LOW
   //       to "preload the registers"
-  //  local vars to maximize speed.
+  //  local variables to maximize speed.
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
-  for (int chan = 23; chan >= 0; chan--)
+  for (int channel = 23; channel >= 0; channel--)
   {
-    for (int mask = 0x1000;  mask; mask >>= 1)
+    for (int mask = 0x0800;  mask; mask >>= 1)
     {
       digitalWrite(_clk, LOW);
-      digitalWrite(_dat, _buffer[chan] & mask ? HIGH : LOW);
+      digitalWrite(_dat, _buffer[channel] & mask ? HIGH : LOW);
       digitalWrite(_clk, HIGH);
     }
   }
@@ -149,6 +166,38 @@ void TLC5947::enable()
 void TLC5947::disable()
 {
   digitalWrite(_blank, LOW);
+}
+
+
+bool TLC5947::isEnabled()
+{
+  return digitalRead(_blank) == HIGH;
+}
+
+
+//////////////////////////////////////////////////
+//
+//  RGB
+//
+int TLC5947::setRGB(uint8_t led, uint16_t R,  uint16_t G,  uint16_t B)
+{
+  if (led > 7) return TLC5947_CHANNEL_ERROR;
+  uint8_t channel = 3 * led;
+  _buffer[channel++] = R > 4095 ? 4095 : R;
+  _buffer[channel++] = G > 4095 ? 4095 : G;
+  _buffer[channel]   = B > 4095 ? 4095 : B;
+  return TLC5947_OK;
+}
+
+
+int TLC5947::getRGB(uint8_t led, uint16_t &R,  uint16_t &G,  uint16_t &B)
+{
+  if (led > 7) return TLC5947_CHANNEL_ERROR;
+  uint8_t channel = 3 * led;
+  R = _buffer[channel++];
+  G = _buffer[channel++];
+  B = _buffer[channel];
+  return TLC5947_OK;
 }
 
 

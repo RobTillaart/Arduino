@@ -1,0 +1,7 @@
+Arduino UNO
+IDE: 1.8.19
+
+Arduino\libraries\TLC5947\examples\TLC5947_performance\TLC5947_performance.ino
+TLC5947_LIB_VERSION: 	0.1.2
+SETPWM	16
+WRITE	804

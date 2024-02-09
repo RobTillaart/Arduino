@@ -1,16 +1,21 @@
 //
 //    FILE: TLC5947_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: test performance main functions.
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
 #include "TLC5947.h"
 
+const int CLOCK = 13;
+const int DATA  = 12;
+const int LATCH = 11;
+const int BLANK = 10;
 
-TLC5947 tlc(13, 12, 11, 10);
+TLC5947 tlc(CLOCK, DATA, LATCH, BLANK);
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -26,6 +31,7 @@ void setup()
   }
 
   testSetPWM();
+  testSetRGB();
   testWrite();
 
   Serial.println("\nDone...");
@@ -41,12 +47,26 @@ void testSetPWM()
 {
   delay(100);
   start = micros();
-  for (int ch = 0; ch < 24; ch++)
+  for (int channel = 0; channel < 24; channel++)
   {
-    tlc.setPWM(ch, 42);
+    tlc.setPWM(channel, 42);
   }
   stop = micros();
   Serial.print("SETPWM\t");
+  Serial.println(stop - start);
+}
+
+
+void testSetRGB()
+{
+  delay(100);
+  start = micros();
+  for (int led = 0; led < 8; led++)
+  {
+    tlc.setRGB(led, 42, 185, 17);
+  }
+  stop = micros();
+  Serial.print("SETRGB\t");
   Serial.println(stop - start);
 }
 

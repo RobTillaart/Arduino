@@ -17,14 +17,19 @@ setModeMedian	KEYWORD2
 setModeRunningAverage	KEYWORD2
 getOperationalMode	KEYWORD2
 
+setSampleInterval	KEYWORD2
+getSampleInterval	KEYWORD2
+
 getTime	KEYWORD2
 getMillimeter	KEYWORD2
 getCentimeter	KEYWORD2
 getMeter	KEYWORD2
 getInch	KEYWORD2
 getFeet	KEYWORD2
+getYards	KEYWORD2
 
 determineSpeedOfSound	KEYWORD2
+
 setTriggerLength	KEYWORD2
 getTriggerLength	KEYWORD2
 

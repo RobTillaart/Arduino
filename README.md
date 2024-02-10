@@ -2,6 +2,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/Arduino/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/Arduino.svg?maxAge=3600)](https://github.com/RobTillaart/Arduino/releases)
 ![code size:](https://img.shields.io/github/languages/code-size/RobTillaart/Arduino)
+[![Commits since latest](https://img.shields.io/github/commits-since/RobTillaart/Arduino/latest)](https://github.com/RobTillaart/Arduino/commits/master)
+
 
 # Arduino libraries
 

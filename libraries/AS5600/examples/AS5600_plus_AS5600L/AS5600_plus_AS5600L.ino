@@ -6,10 +6,11 @@
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600 as5600_R;    //  uses default Wire
 AS5600L as5600_L;   //  uses default Wire
+
 
 int Raw_R;
 int Raw_Prev;
@@ -29,7 +30,7 @@ void setup()
   
   Wire.begin();
   
-  // as5600_L.setAddress(0x40);  // AS5600L only
+  // as5600_L.setAddress(0x40);  //  AS5600L only
   as5600_L.begin(15);  //  set direction pin.
   as5600_L.setDirection(AS5600_CLOCK_WISE);  //
   delay(1000);
@@ -87,10 +88,10 @@ void loop()
 
 float convertRawAngleToDegrees(uint32_t newAngle)
 {
-  /* Raw data reports 0 - 4095 segments, which is 0.087890625 of a degree */
+  //  Raw data reports 0 - 4095 segments, which is 0.087890625 of a degree
   float retVal = newAngle * 0.087890625;
   retVal = round(retVal);
-  // retVal=retVal/10;
+  //  retVal=retVal/10;
   return retVal;
 }
 

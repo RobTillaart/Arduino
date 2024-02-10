@@ -69,6 +69,8 @@ getRevolutions	KEYWORD2
 resetPosition	KEYWORD2
 resetCumulativePosition	KEYWORD2
 
+lastError	KEYWORD2
+
 
 #  CONFIGURATION FIELDS
 setPowerMode	KEYWORD2

@@ -2,8 +2,8 @@
 //    FILE: AS5600_burn_conf_mang.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (not tested yet - see issue #38)
-
-
+//     URL: https://github.com/RobTillaart/AS5600
+//
 //  WARNING
 //  As burning the settings can only be done once this sketch has to be used with care.
 //
@@ -17,7 +17,6 @@
 
 #include "AS5600.h"
 
-#include "Wire.h"
 
 AS5600 as5600;   //  use default Wire
 //  AS5600L as5600;

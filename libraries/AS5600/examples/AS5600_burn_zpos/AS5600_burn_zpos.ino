@@ -2,8 +2,8 @@
 //    FILE: AS5600_burn_zpos.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (not tested yet - see issue #38)
-
-
+//     URL: https://github.com/RobTillaart/AS5600
+//
 //  WARNING
 //  As burning the angle can only be done three times this sketch has to be used with care.
 //
@@ -17,7 +17,6 @@
 
 #include "AS5600.h"
 
-#include "Wire.h"
 
 AS5600 as5600;   //  use default Wire
 //  AS5600L as5600;

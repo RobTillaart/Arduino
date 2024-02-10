@@ -2,13 +2,13 @@
 //    FILE: AS5600_demo_software_direction.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo software direction control
-
-
+//     URL: https://github.com/RobTillaart/AS5600
+//
 //  connect the DIR pin of the AS5600 to GND
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600 as5600;   //  use default Wire
 

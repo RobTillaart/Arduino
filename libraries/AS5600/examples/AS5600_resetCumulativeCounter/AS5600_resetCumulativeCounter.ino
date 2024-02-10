@@ -2,10 +2,11 @@
 //    FILE: AS5600_resetCumulativeCounter.ino
 //  AUTHOR: Daniel-Frenkel, (slightly by Rob Tillaart)
 // PURPOSE: demo - see issue #30
+//     URL: https://github.com/RobTillaart/AS5600
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600L as5600;   //  use default Wire
 
@@ -17,7 +18,7 @@ void setup()
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
   
-  Wire.begin(14, 15);      //  ESP32
+  Wire.begin(14, 15);        //  ESP32
 
   as5600.begin();
   as5600.setAddress(0x40);   //  AS5600L has address

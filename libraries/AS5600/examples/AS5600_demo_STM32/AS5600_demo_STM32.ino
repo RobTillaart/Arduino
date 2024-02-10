@@ -2,11 +2,13 @@
 //    FILE: AS5600_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/AS5600
 //
 //  tested compilation with Nucleo-64
 
+
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600L as5600;   //  use default Wire
 

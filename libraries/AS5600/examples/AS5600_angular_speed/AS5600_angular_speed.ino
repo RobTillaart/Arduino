@@ -2,10 +2,11 @@
 //    FILE: AS5600_angular_speed.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/AS5600
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600L as5600;   //  use default Wire
 
@@ -24,7 +25,7 @@ void setup()
 
   Serial.println(as5600.getAddress());
 
-  // as5600.setAddress(0x40);  // AS5600L only
+  // as5600.setAddress(0x40);  //  AS5600L only
 
   int b = as5600.isConnected();
   Serial.print("Connect: ");

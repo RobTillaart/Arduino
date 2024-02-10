@@ -2,10 +2,11 @@
 //    FILE: AS5600_I2C_frequency.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/AS5600
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600L as5600;   //  use default Wire
 

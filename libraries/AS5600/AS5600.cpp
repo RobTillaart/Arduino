@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -509,17 +509,34 @@ int32_t AS5600::resetCumulativePosition(int32_t position)
 }
 
 
+int AS5600::lastError()
+{
+  int value = _error;
+  _error = AS5600_OK;
+  return value;
+}
+
+
 /////////////////////////////////////////////////////////
 //
 //  PROTECTED AS5600
 //
 uint8_t AS5600::readReg(uint8_t reg)
 {
+  _error = AS5600_OK;
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _error = _wire->endTransmission();
-
-  _wire->requestFrom(_address, (uint8_t)1);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = AS5600_ERROR_I2C_READ_0;
+    return 0;
+  }
+  uint8_t n = _wire->requestFrom(_address, (uint8_t)1);
+  if (n != 1)
+  {
+    _error = AS5600_ERROR_I2C_READ_1;
+    return 0;
+  }
   uint8_t _data = _wire->read();
   return _data;
 }
@@ -527,11 +544,20 @@ uint8_t AS5600::readReg(uint8_t reg)
 
 uint16_t AS5600::readReg2(uint8_t reg)
 {
+  _error = AS5600_OK;
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _error = _wire->endTransmission();
-
-  _wire->requestFrom(_address, (uint8_t)2);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = AS5600_ERROR_I2C_READ_2;
+    return 0;
+  }
+  uint8_t n = _wire->requestFrom(_address, (uint8_t)2);
+  if (n != 2)
+  {
+    _error = AS5600_ERROR_I2C_READ_3;
+    return 0;
+  }
   uint16_t _data = _wire->read();
   _data <<= 8;
   _data += _wire->read();
@@ -541,21 +567,29 @@ uint16_t AS5600::readReg2(uint8_t reg)
 
 uint8_t AS5600::writeReg(uint8_t reg, uint8_t value)
 {
+  _error = AS5600_OK;
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
-  _error = _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = AS5600_ERROR_I2C_WRITE_0;
+  }
   return _error;
 }
 
 
 uint8_t AS5600::writeReg2(uint8_t reg, uint16_t value)
 {
+  _error = AS5600_OK;
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  _error = _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = AS5600_ERROR_I2C_WRITE_0;
+  }
   return _error;
 }
 

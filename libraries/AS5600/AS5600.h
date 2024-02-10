@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,8 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.5.1"))
+#define AS5600_LIB_VERSION              (F("0.6.0"))
+
 
 //  default addresses
 const uint8_t AS5600_DEFAULT_ADDRESS    = 0x36;
@@ -35,6 +36,17 @@ const float   AS5600_RAW_TO_RPM         = 60.0 / 4096;
 const uint8_t AS5600_MODE_DEGREES       = 0;
 const uint8_t AS5600_MODE_RADIANS       = 1;
 const uint8_t AS5600_MODE_RPM           = 2;
+
+
+//  ERROR CODES
+const int     AS5600_OK                 = 0;
+const int     AS5600_ERROR_I2C_READ_0   = -100;
+const int     AS5600_ERROR_I2C_READ_1   = -101;
+const int     AS5600_ERROR_I2C_READ_2   = -102;
+const int     AS5600_ERROR_I2C_READ_3   = -103;
+const int     AS5600_ERROR_I2C_WRITE_0  = -200;
+const int     AS5600_ERROR_I2C_WRITE_1  = -201;
+
 
 //  CONFIGURE CONSTANTS
 //  check datasheet for details
@@ -202,7 +214,7 @@ public:
   //  void burnSetting();
 
 
-  //  Experimental 0.1.2 - to be tested.
+  //  EXPERIMENTAL 0.1.2 - to be tested.
   //  approximation of the angular speed in rotations per second.
   //  mode == 1: radians /second
   //  mode == 0: degrees /second  (default)
@@ -220,6 +232,9 @@ public:
   //  returns last position.
   int32_t  resetCumulativePosition(int32_t position = 0);
 
+  //  EXPERIMENTAL 0.5.2
+  int      lastError();
+
 
 protected:
   uint8_t  readReg(uint8_t reg);
@@ -230,7 +245,7 @@ protected:
   uint8_t  _address         = AS5600_DEFAULT_ADDRESS;
   uint8_t  _directionPin    = 255;
   uint8_t  _direction       = AS5600_CLOCK_WISE;
-  uint8_t  _error           = 0;
+  int      _error           = AS5600_OK;
 
   TwoWire*  _wire;
 

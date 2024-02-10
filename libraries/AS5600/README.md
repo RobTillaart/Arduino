@@ -118,6 +118,7 @@ See more in the sections Analog OUT and PWM OUT below.
 
 
 ##### Note: (From Zipdox2 - See issue #36)
+
 Some AS5600 modules seem to have a resistor between **PGO** and **GND**.
 This causes the AS5600 to disable the output (to use it for programming, see datasheet). 
 This resistor needs to be removed to use the **OUT** pin.
@@ -137,6 +138,8 @@ See **Make configuration persistent** below.
 
 ## I2C 
 
+The I2C address of the **AS5600** is always 0x36.
+
 #### Address
 
 |  sensor  |  address  |  changeable  |
@@ -148,6 +151,32 @@ To use more than one **AS5600** on one I2C bus, see Multiplexing below.
 
 The **AS5600L** supports the change of I2C address, optionally permanent.
 Check the **setAddress()** function for non-permanent change. 
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+Alternative could be the use of a AND port for the I2C clock line to prevent 
+the sensor from listening to signals on the I2C bus. 
+
+Finally the sensor has an analogue output **OUT**.
+This output could be used to connect multiple sensors to different analogue ports of the processor.
+
+**Warning**: If and how well this analog option works is not verified or tested.
 
 
 #### Performance
@@ -439,6 +468,40 @@ Please read datasheet for details.
 |  6-7  |       | not used      |                       |
 
 
+#### Error handling
+
+Since 0.5.2 the library has added **experimental** error handling.
+For now only lowest level I2C errors are checked for transmission errors.
+Error handling might be improved upon in the future.
+
+Note: The public functions do not act on error conditions.
+This might change in the future.
+So the user should check for error conditions.
+
+```cpp
+int e = lastError();
+if (e != AS5600_OK)
+{
+  //  handle error
+}
+```
+
+
+- **int lastError()** returns the last error code.
+After reading the error status is cleared to **AS5600_OK**.
+
+
+|  Error codes              |  value  |  notes    |
+|:--------------------------|:-------:|:----------|
+|  AS5600_OK                |     0   |  default  |
+|  AS5600_ERROR_I2C_READ_0  |  -100   |
+|  AS5600_ERROR_I2C_READ_1  |  -101   |
+|  AS5600_ERROR_I2C_READ_2  |  -102   |
+|  AS5600_ERROR_I2C_READ_3  |  -103   |
+|  AS5600_ERROR_I2C_WRITE_0 |  -200   |
+|  AS5600_ERROR_I2C_WRITE_1 |  -201   |
+
+
 ## Make configuration persistent. BURN
 
 #### Read burn count
@@ -599,20 +662,6 @@ with enough precision to get the max resolution.
 When PWM OUT is selected **readAngle()** will still return valid values.
 
 
-## Multiplexing
-
-The I2C address of the **AS5600** is always 0x36.
-
-To use more than one **AS5600** on one I2C bus, one needs an I2C multiplexer, 
-e.g. https://github.com/RobTillaart/TCA9548.
-Alternative could be the use of a AND port for the I2C clock line to prevent 
-the sensor from listening to signals on the I2C bus. 
-
-Finally the sensor has an analogue output **OUT**.
-This output could be used to connect multiple sensors to different analogue ports of the processor.
-
-**Warning**: If and how well this analog option works is not verified or tested.
-
 ----
 
 ## AS5600L class
@@ -697,9 +746,9 @@ priority is relative.
   - is there improvement possible.
 
 
+
 #### Could
 
-- add error handling
 - investigate PGO programming pin.
 - check for compatible devices
   - AS5200 ?
@@ -707,7 +756,13 @@ priority is relative.
   - basic performance per function
   - I2C improvements
   - software direction
-
+- implement extended error handling in public functions.
+  - will increase footprint !! how much?
+  - writeReg() only if readReg() is OK ==> prevent incorrect writes
+    - ```if (_error != 0) return false;```
+  - set AS5600_ERROR_PARAMETER  e.g. setZPosition()
+  - a derived class with extended error handling?
+  
 
 #### Wont (unless)
 

@@ -2,8 +2,8 @@
 //    FILE: AS5600_outmode_analog_pwm.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: experimental
-
-
+//     URL: https://github.com/RobTillaart/AS5600
+//
 //  connect the OUT pin to the analog port of the processor
 //  use a resistor and a capacitor to create a low pass filter
 //  so the PWM behave a bit like a analog signal
@@ -13,7 +13,7 @@
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600 as5600;   //  use default Wire
 

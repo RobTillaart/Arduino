@@ -2,6 +2,7 @@
 //    FILE: AS5600_demo_two_I2C.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo two I2C busses
+//     URL: https://github.com/RobTillaart/AS5600
 //
 //  Works only if Wire1 bus is present e.g.
 //  - nano33 ble
@@ -10,7 +11,7 @@
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600 as5600_0(&Wire);
 AS5600 as5600_1(&Wire1);

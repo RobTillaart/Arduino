@@ -5,11 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2024-01-25
+- add experimental error handling
+- add **int lastError()** so user can check the status of last I2C actions.
+- update readme.md
+- update examples
+- minor edits
+
+----
+
 ## [0.5.1] - 2023-12-31
 - fix #51, add **increaseOffset(float degrees)**
 - update keywords.txt
 - update readme.md (several cleanups)
-
 
 ## [0.5.0] - 2023-12-07
 - refactor API, begin()

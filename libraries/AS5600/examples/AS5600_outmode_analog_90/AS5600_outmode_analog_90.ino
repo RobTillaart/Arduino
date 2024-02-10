@@ -2,12 +2,12 @@
 //    FILE: AS5600_outmode_analog_90.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: experimental demo
-
+//     URL: https://github.com/RobTillaart/AS5600
 //  connect the OUT pin to the analog port of the processor
 
 
 #include "AS5600.h"
-#include "Wire.h"
+
 
 AS5600 as5600;   //  use default Wire
 

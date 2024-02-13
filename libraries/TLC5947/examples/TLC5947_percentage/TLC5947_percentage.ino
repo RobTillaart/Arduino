@@ -7,12 +7,13 @@
 
 #include "TLC5947.h"
 
+const int DEVICES = 2;
 const int CLOCK = 13;
 const int DATA  = 12;
 const int LATCH = 11;
 const int BLANK = 10;
 
-TLC5947 tlc(CLOCK, DATA, LATCH, BLANK);
+TLC5947 tlc(DEVICES, CLOCK, DATA, LATCH, BLANK);
 
 
 void setup()
@@ -28,7 +29,12 @@ void setup()
     while (1);
   }
 
-  for (int channel = 0; channel < 24; channel++)
+  Serial.print("Channels: ");
+  Serial.println(tlc.getChannels());
+
+  tlc.enable();
+
+  for (int channel = 0; channel < tlc.getChannels(); channel++)
   {
     int pwm = random(4096);
     tlc.setPWM(channel, pwm);
@@ -41,7 +47,7 @@ void setup()
   }
   Serial.println();
 
-  for (int channel = 0; channel < 24; channel++)
+  for (int channel = 0; channel < tlc.getChannels(); channel++)
   {
     float percentage = random(10000) * 0.01;
     tlc.setPercentage(channel, percentage);

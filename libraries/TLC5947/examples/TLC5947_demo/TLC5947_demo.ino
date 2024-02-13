@@ -7,12 +7,13 @@
 
 #include "TLC5947.h"
 
+const int DEVICES = 2;
 const int CLOCK = 13;
 const int DATA  = 12;
 const int LATCH = 11;
 const int BLANK = 10;
 
-TLC5947 tlc(CLOCK, DATA, LATCH, BLANK);
+TLC5947 tlc(DEVICES, CLOCK, DATA, LATCH, BLANK);
 
 
 void setup()
@@ -27,12 +28,17 @@ void setup()
     Serial.println("error");
     while(1);
   }
+
+  Serial.print("Channels: ");
+  Serial.println(tlc.getChannels());
+
+  tlc.enable();
 }
 
 
 void loop()
 {
-  for (int channel = 0; channel < 24; channel++)
+  for (int channel = 0; channel < tlc.getChannels(); channel++)
   {
     tlc.setPWM(channel, random(4096));
   }

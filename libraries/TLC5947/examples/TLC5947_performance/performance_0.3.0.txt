@@ -1,0 +1,13 @@
+Arduino UNO
+IDE: 1.8.19
+
+Arduino\libraries\TLC5947\examples\TLC5947_performance\TLC5947_performance.ino
+TTLC5947_LIB_VERSION: 	0.3.0
+Channels: 24
+SETPWM	56
+SETRGB	44
+WRITE	728
+
+Done...
+
+

@@ -51,16 +51,23 @@ unittest_teardown()
 
 unittest(test_begin)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc1(1, 13, 12, 11, 10);
+
+  assertTrue(tlc1.begin());
+  assertEqual(24, tlc1.getChannels());
+
+  TLC5947 tlc(21, 13, 12, 11, 10);
 
   assertTrue(tlc.begin());
+  assertEqual(504, tlc.getChannels());
 }
 
 
 unittest(test_setPWM_I)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc(1, 13, 12, 11, 10);
   tlc.begin();
+  assertEqual(24, tlc.getChannels());
 
   for (uint8_t channel = 0; channel < 24; channel++)
   {
@@ -72,8 +79,9 @@ unittest(test_setPWM_I)
 
 unittest(test_setPWM_II)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc(1, 13, 12, 11, 10);
   tlc.begin();
+  assertEqual(24, tlc.getChannels());
 
   tlc.setAll(421);
   for (uint8_t channel = 0; channel < 24; channel++)
@@ -85,7 +93,7 @@ unittest(test_setPWM_II)
 
 unittest(test_setPercentage_I)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc(1, 13, 12, 11, 10);
   tlc.begin();
 
   for (uint8_t channel = 0; channel < 24; channel++)
@@ -102,11 +110,12 @@ unittest(test_setPercentage_I)
 
 unittest(test_setPercentage_II)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc(2, 13, 12, 11, 10);
   tlc.begin();
+  assertEqual(48, tlc.getChannels());
 
   tlc.setPercentageAll(12.34);
-  for (uint8_t channel = 0; channel < 24; channel++)
+  for (uint8_t channel = 0; channel < tlc.getChannels(); channel += 2)
   {
     assertEqualFloat(tlc.getPercentage(channel), 12.34, 0.02);
   }
@@ -115,7 +124,7 @@ unittest(test_setPercentage_II)
 
 unittest(test_setRGB)
 {
-  TLC5947 tlc(13, 12, 11, 10);
+  TLC5947 tlc(1, 13, 12, 11, 10);
   tlc.begin();
 
   for (uint8_t led = 0; led < 8; led++)

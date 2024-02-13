@@ -6,7 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.0] - 2023-11-22
+## [0.3.0] - 2024-02-09
+- add daisy chaining support
+- add deviceCount parameter in constructor
+- add **int getChannels()**
+- add examples (thanks to DevilsCave)
+- fix polarity BLANK line
+  - **enable()** and **disable()** (P7 datasheet)
+  - also initial value constructor + examples
+- add **write(uint16_t channels)** interface.
+- add const int MAXPWM to replace "magic" number.
+- fix changelog.md
+- update readme.md (breaking change)
+- update unit tests
+- adjust examples
+- minor edits
+
+----
+
+## [0.2.0] - 2024-02-09
 - fix #2 bug in **write()**, now sending 12 bits instead of 13 per channel.
 - add **setRGB(led, R, G, B)**
 - add **getRGB(led, R, G, B)**

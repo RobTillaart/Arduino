@@ -7,6 +7,7 @@ TLC5947	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+getChannels	KEYWORD2
 
 setPWM	KEYWORD2
 getPWM	KEYWORD2

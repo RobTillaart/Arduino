@@ -66,7 +66,7 @@ unittest(test_constants)
   assertEqual(DLS_xenonLight     ,  6200);
   assertEqual(DLS_dayLightBright ,  6500);
   assertEqual(DLS_normal         ,  6500);
-  assertEqual(DLS_screenlow      ,  6500);
+  assertEqual(DLS_screenLow      ,  6500);
   assertEqual(DLS_screenMed      ,  8000);
   assertEqual(DLS_screenHigh     ,  9500);
   assertEqual(DLS_polewardSky0   , 15000);

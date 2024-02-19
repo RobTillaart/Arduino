@@ -1,7 +1,7 @@
 //
 //    FILE: Kelvin2RGB.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.2.0
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
@@ -10,7 +10,7 @@
 #include "Kelvin2RGB.h"
 
 
-#define DIVIDE_255      (0.0039215686274509803921568627451)
+const float DIVIDE_255 = 0.0039215686274509803921568627451;
 
 
 Kelvin2RGB::Kelvin2RGB()
@@ -37,7 +37,7 @@ void Kelvin2RGB::begin()
 void Kelvin2RGB::convert_TH(float temperature, float brightness)
 {
   _temperature = constrain(temperature, 0, 65500);
-  _brightness = constrain(brightness, 0, 100);
+  _brightness = constrain(brightness, 0, 100);  //  used by normalize()
 
   _red = _green = _blue = 0;
   float t = _temperature * 0.01;
@@ -54,7 +54,7 @@ void Kelvin2RGB::convert_TH(float temperature, float brightness)
   }
   else
   {
-    _red   = 329.698727466  * pow(t - 60, -0.1332047592);
+    _red   = 329.698727446  * pow(t - 60, -0.1332047592);
     _green = 288.1221695283 * pow(t - 60, -0.0755148492);
     _blue  = 255;
   }
@@ -70,7 +70,7 @@ void Kelvin2RGB::convert_TH(float temperature, float brightness)
 void Kelvin2RGB::convert_NB(float temperature, float brightness)
 {
   _temperature = constrain(temperature, 0, 65500);
-  _brightness = constrain(brightness, 0, 100);
+  _brightness = constrain(brightness, 0, 100);  //  used by normalize()
 
   _red = _green = _blue = 0;
   float t = _temperature * 0.01;

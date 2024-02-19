@@ -6,12 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.7] - 2023-05
+## [0.2.0] - 2023-02-19
+- fix in Tanner Helland (very minor).
+- remove dead link from readme.md.
+- removed experimental from code.
+- change temperature #defines to **const uint16_t**. (compiler can check).
+- fix typo in **DLS_screenLow**
+- update unit tests
+- minor edits
+
+----
+
+## [0.1.7] - 2023-11-06
 - update readme.md
 - removed **reset()** ==> use **begin()**
 - edit examples.
 - minor edits
-
 
 ## [0.1.6] - 2023-01-30
 - major improvement **BGR()**

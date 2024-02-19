@@ -16,10 +16,10 @@ Arduino library for converting temperature and brightness to RGB values.
 
 ## Credentials
 
-This library is based upon an article of Tanner Helland and a related story by Neil Bartlett
+This library is based upon an article of Tanner Helland and a related story by Neil Bartlett.
 
 - http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
-- http://www.zombieprototypes.com/?p=210
+- http://www.zombieprototypes.com/?p=210 (dead link)
 - https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
 
 There are more approximation formulas, some claim to be better,
@@ -90,9 +90,15 @@ Kelvin = (Fahrenheit - 523.67) * 0.5555555555;
 
 The interface is straightforward:
 
+#### Constructor
+
 - **Kelvin2RGB()** constructor.
 - **void begin()** resets all internal values to 0. 
     All colours, brightness and temperature.
+
+
+#### Convertors
+
 - **void convert_TH(float temperature, float brightness = 100)**
     temperature = 0..65500   temperature below 1000 is not well defined.
     brightness = 0..100%,
@@ -106,6 +112,10 @@ The interface is straightforward:
     note this is different from Helland / Bartlett who both use an integer value 0 .. 255
 - **float green()** returns green channel weight 0.0 .. 1.0
 - **float blue()** returns blue channel weight 0.0 .. 1.0
+
+
+#### Color types
+
 - **uint32_t setRGB(float red, float green, float blue, float brightness = 100)** sets RGB values
     red, green, blue should be in 0 .. 1.0 range. brightness should be in 0..100%, Default = 100%.
     returns a 24 bit RGB value,
@@ -121,9 +131,8 @@ The interface is straightforward:
 - **void reset()** => replaced by **begin()**
 
 
-## Operations
+## Predefined colors
 
-See examples
 
 
 ## Future
@@ -134,14 +143,13 @@ See examples
 
 #### Should
 
-- define constants like candleLight as parameter.
-- investigate other formulas.
-- investigate usability for RGB led strip.
 
 #### Could
 
-- separate brightness per colour channel to mimic "artificial illumination"  (0.2.0 ?)
-- remove begin() or reset() ?
+- investigate other formulas.
+- investigate usability for RGB led strip.
+- separate brightness per colour channel to mimic "artificial illumination"
+- remove begin() or reset()?
 - add examples
   - ledstrip
 - use a "dirty flag" to minimize math operations.

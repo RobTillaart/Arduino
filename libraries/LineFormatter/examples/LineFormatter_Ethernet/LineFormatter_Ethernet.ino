@@ -2,21 +2,20 @@
 //    FILE: LineFormatter_Ethernet.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo LineFormatter for EthernetClient
-//    DATE: 2020-05-23
 //     URL: https://github.com/RobTillaart/LineFormatter
 
 
-#include <LineFormatter.h>
+#include "LineFormatter.h"
 
-#include <SPI.h>
-#include <Ethernet.h>
+#include "SPI.h"
+#include "Ethernet.h"
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 IPAddress ip( 192, 168, 1, 177);
 
 const int EthernetPIN = 10;
 
-EthernetServer server(80);    // change to your config
+EthernetServer server(80);    //  change to your configuration
 
 char httpRequest[40];
 uint8_t reqCnt;
@@ -24,7 +23,7 @@ uint8_t reqCnt;
 
 ////////////////////////////////////////////////////////////////////
 //
-// HTTP HELPER CODE
+//  HTTP HELPER CODE
 //
 void HTTP_header(EthernetClient* cl, const char *contentType, bool keepAlive = false, int refresh = 5)
 {
@@ -42,15 +41,18 @@ void HTTP_header(EthernetClient* cl, const char *contentType, bool keepAlive = f
 
 ////////////////////////////////////////////////////////////////////
 //
-// Based upon webServer example demo
+//  Based upon webServer example demo
 //
 void setup()
 {
-
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("LINEFORMATTER_LIB_VERSION: ");
+  Serial.println(LINEFORMATTER_LIB_VERSION);
+  Serial.println();
 
-  // Ethernet.init(pin) to configure the CS pin
+  //  Ethernet.init(pin) to configure the CS pin
   Ethernet.init(EthernetPIN);
   Ethernet.begin(mac, ip);
 
@@ -78,16 +80,16 @@ void setup()
 
 void loop()
 {
-  // listen for incoming clients
+  //  listen for incoming clients
   EthernetClient client = server.available();
 
   if (client)
   {
     Serial.print("\n<CONNECTION>\n  ");
-    // Serial.println(client.remoteIP());
-    // Serial.println(client.remotePort());
+    //  Serial.println(client.remoteIP());
+    //  Serial.println(client.remotePort());
 
-    // an http request ends with a blank line
+    //  an http request ends with a blank line
     boolean currentLineIsBlank = true;
     reqCnt = 0;
     while (client.connected())
@@ -95,22 +97,22 @@ void loop()
       if (client.available())
       {
         char c = client.read();
-        Serial.write(c);  // collect HHTP request here..
+        Serial.write(c);        //  collect HHTP request here..
         if (reqCnt < 39)
         {
           httpRequest[reqCnt++] = c;
           httpRequest[reqCnt] = 0;
         }
 
-        // if you've gotten to the end of the line (received a newline
-        // character) and the line is blank, the http request has ended,
-        // so you can send a reply
+        //  if you've gotten to the end of the line (received a newline
+        //  character) and the line is blank, the http request has ended,
+        //  so you can send a reply
         if (c == '\n' && currentLineIsBlank)
         {
           if (strstr(httpRequest, "table1.txt"))
           {
             uint32_t start = micros();
-            // send a standard http response header
+            //  send a standard http response header
             HTTP_header(&client, "text/txt", true, 5);
             LineFormatter LF(&client);
 
@@ -125,7 +127,7 @@ void loop()
           if (strstr(httpRequest, "table2.txt"))
           {
             uint32_t start = micros();
-            // send a standard http response header
+            //  send a standard http response header
             HTTP_header(&client, "text/txt", true, 5);
             LineFormatter LF(&client);
 
@@ -138,8 +140,8 @@ void loop()
             break;
           }
 
-          // default page is simple HTML
-          // send a standard http response header
+          //  default page is simple HTML
+          //  send a standard http response header
           HTTP_header(&client, "text/html", true, 5);
 
           client.println("<!DOCTYPE HTML>");
@@ -157,15 +159,15 @@ void loop()
         }
         if (c == '\n') {
           Serial.print("  ");
-          // you're starting a new line
+          //  you're starting a new line
           currentLineIsBlank = true;
         } else if (c != '\r') {
-          // you've gotten a character on the current line
+          //  you've gotten a character on the current line
           currentLineIsBlank = false;
         }
       }
     }
-    // give the web browser time to receive the data
+    //  give the web browser time to receive the data
     delay(1);
     client.stop();
     Serial.println("</CONNECTION>");
@@ -202,7 +204,7 @@ void test_table_1(LineFormatter L)
     {
       L.println("switch to normal tab behaviour");
       L.repeat(8, "----+----|", 1);
-      L.clearTabs();   // just to show diff
+      L.clearTabs();   //  just to show diff
     }
 
     L.tab();
@@ -224,7 +226,7 @@ void test_table_1(LineFormatter L)
     L.tab();
     L.print(analogRead(A5));
     L.println();
-    // delay(random(100));
+    //  delay(random(100));
   }
   L.repeat(8, "----+----|", 1);
   L.setAutoNewLine(0);
@@ -249,7 +251,7 @@ void test_table_2(LineFormatter L)
   L.addRelTab(10);
   L.addRelTab(6);
   L.addRelTab(6);
-  // L.println(L.getTabCount());
+  //  L.println(L.getTabCount());
 
   int measurement = 1;
 
@@ -285,7 +287,7 @@ void test_table_2(LineFormatter L)
     L.tab();
     L.print(analogRead(A5));
     L.println();
-    // delay(random(100));
+    //  delay(random(100));
   }
   L.repeat(7, "----+----|", 1);
   L.setAutoNewLine(0);
@@ -294,5 +296,4 @@ void test_table_2(LineFormatter L)
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

@@ -1,5 +1,5 @@
 //
-//    FILE: LineFormatter_test_table.ino
+//    FILE: LineFormatter_test_setTabs.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo LineFormatter class
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -20,7 +20,6 @@ void setup()
   L.repeat(3, '\n');
 
   test_table_1();
-  test_table_2();
   test_ruler();
 
   L.clearTabs();
@@ -46,16 +45,8 @@ void test_ruler()
   L.println(__FUNCTION__);
   L.repeat(strlen(__FUNCTION__), "=", 2);
 
-  L.clearTabs();
-  L.addTab(3);
-  L.addTab(10);
-  L.addTab(12);
-  L.addTab(30);
-  L.addRelTab(6);
-  L.addRelTab(6);
-  L.addRelTab(10);
-  L.addRelTab(6);
-  L.addRelTab(6);
+  uint8_t myTabs[9] = {3, 10, 12, 30, 36, 42, 52, 58, 64};
+  L.setTabs(myTabs, 9);
 
   L.printRuler(100);
   L.clearTabs();
@@ -71,29 +62,25 @@ void test_table_1()
   L.println(__FUNCTION__);
   L.repeat(strlen(__FUNCTION__), "=", 2);
 
-  L.clearTabs();
-  L.addTab(3);
-  L.addTab(10);
-  L.addTab(20);
-  L.addTab(30);
-  L.addRelTab(6);
-  L.addRelTab(6);
-  L.addRelTab(10);
-  L.addRelTab(6);
-  L.addRelTab(6);
-
-  int measurement = 1;
-
+  //  SET TABS ALL AT ONCE
+  uint8_t myTabs[9] = {3, 10, 20, 30, 36, 42, 52, 58, 64};
+  L.setTabs(myTabs, 9);
+  
+  //  HEADER
   L.println("\tIdx\tTime\tValue\tA0\tA1\tA2\tA3\tA4\tA5");
   L.repeat(8, "----+----|", 1);
-
+  
+  //  add empty line every 5 lines
   L.setAutoNewLine(5);
+
+  //  DUMP THE DATA
+  int measurement = 1;
   for (int i = 0; i < 20; i++)
   {
     if (i == 10)
     {
       L.println("switch to normal tab behaviour");
-      L.clearTabs();   //  just to show diff
+      L.clearTabs();   // just to show diff
     }
 
     L.tab();
@@ -121,67 +108,5 @@ void test_table_1()
 
   L.repeat(3, '\n');
 }
-
-
-void test_table_2()
-{
-  L.println();
-  L.println(__FUNCTION__);
-  L.repeat(strlen(__FUNCTION__), "=", 2);
-
-  L.clearTabs();
-  L.addTab(3);
-  L.addTab(10);
-  L.addTab(20);
-  L.addTab(30);
-  L.addRelTab(6);
-  L.addRelTab(6);
-  L.addRelTab(10);
-  L.addRelTab(6);
-  L.addRelTab(6);
-  //  L.println(L.getTabCount());
-
-  int measurement = 1;
-
-  L.println("\tIdx\tTime\tValue\tA0\tA1\tA2\tA3\tA4\tA5");
-  L.repeat(8, "----+----|", 1);
-  //   L.printRuler(80);
-
-  L.setAutoNewLine(5);
-  for (int i = 0; i < 20; i++)
-  {
-    L.tab();
-    L.print(measurement++);
-    if (i % 5 == 0)
-    {
-      L.tab();
-      L.print(millis());
-      L.tab();
-      L.print(random(12345));
-    }
-    else
-    {
-      L.tab(2);
-    }
-    L.tab();
-    L.print(analogRead(A0));
-    L.tab();
-    L.print(analogRead(A1));
-    L.tab();
-    L.print(analogRead(A2));
-    L.tab();
-    L.print(analogRead(A3));
-    L.tab();
-    L.print(analogRead(A4));
-    L.tab();
-    L.print(analogRead(A5));
-    L.println();
-    delay(random(100));
-  }
-  L.setAutoNewLine(0);
-
-  L.repeat(3, '\n');
-}
-
 
 //  -- END OF FILE --

@@ -14,7 +14,11 @@ int x;
 void setup()
 {
   Serial.begin(115200);
+  L.println();
   L.println(__FILE__);
+  L.print("LINEFORMATTER_LIB_VERSION: ");
+  L.println(LINEFORMATTER_LIB_VERSION);
+  L.repeat(3, '\n');
 
   L.addTab(10);
   L.addTab(35);

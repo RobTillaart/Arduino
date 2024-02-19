@@ -16,6 +16,9 @@ repeat	KEYWORD2
 setAutoNewLine	KEYWORD2
 getAutoNewLine	KEYWORD2
 
+setTabs	KEYWORD2
+getTabs	KEYWORD2
+
 addTab	KEYWORD2
 addRelTab	KEYWORD2
 clearTabs	KEYWORD2

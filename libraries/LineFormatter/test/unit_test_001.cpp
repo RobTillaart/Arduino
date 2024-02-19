@@ -33,7 +33,6 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "LineFormatter.h"
 
 
@@ -168,6 +167,31 @@ unittest(test_addTab)
     assertFalse(Line.addTab(i));
   }
   assertEqual(10, Line.getTabCount());
+}
+
+
+unittest(test_setTabs_getTabs)
+{
+  LineFormatter Line;
+
+  uint8_t tabs[5] = { 10, 20, 30, 40, 50};
+  assertTrue(Line.setTabs(tabs, 4));
+  assertEqual(4, Line.getTabCount());
+
+  assertTrue(Line.setTabs(tabs, 3));
+  assertEqual(3, Line.getTabCount());
+
+  assertTrue(Line.setTabs(tabs, 5));
+  assertEqual(5, Line.getTabCount());
+
+  uint8_t tt[5];
+  uint8_t size = Line.getTabs(tt);
+  assertEqual(5, size);
+  
+  for (int i = 0 ; i < size; i++)
+  {
+    assertEqual(tt[i], tabs[i]);
+  }
 }
 
 

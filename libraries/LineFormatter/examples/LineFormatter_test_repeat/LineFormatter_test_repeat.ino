@@ -13,11 +13,14 @@ LineFormatter L;
 void setup()
 {
   Serial.begin(115200);
-  L.println(__FILE__);
-
   L.println();
+  L.println(__FILE__);
+  L.print("LINEFORMATTER_LIB_VERSION: ");
+  L.println(LINEFORMATTER_LIB_VERSION);
+  L.repeat(2, '\n');
+
   L.println("Make a simple tabular output");
-  L.repeat(3, "\n");  // 3 newlines
+  L.repeat(2, "\n");  //  3 newlines
 
   test_repeat();
   test_graph();

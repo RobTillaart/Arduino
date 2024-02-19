@@ -13,10 +13,12 @@ LineFormatter L;
 void setup()
 {
   Serial.begin(115200);
+  L.println();
   L.println(__FILE__);
   L.print("LINEFORMATTER_LIB_VERSION: ");
   L.println(LINEFORMATTER_LIB_VERSION);
-  L.repeat(2, '\n');
+  L.repeat(3, '\n');
+
   L.printRuler(80);
 
   for (int i = 0; i < 5; i++)

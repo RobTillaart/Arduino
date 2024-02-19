@@ -2,7 +2,7 @@
 //
 //    FILE: LineFormatter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Simple positioning wrapper class for Serial / Stream
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -15,7 +15,7 @@
 #define MAX_TAB_STOPS                       12
 #endif
 
-#define LINEFORMATTER_LIB_VERSION           (F("0.2.1"))
+#define LINEFORMATTER_LIB_VERSION           (F("0.3.0"))
 
 
 class LineFormatter: public Print
@@ -25,7 +25,7 @@ public:
 
   void      reset();
 
-  size_t    write(uint8_t c);
+  size_t    write(uint8_t ch);
 
 
   //  set the maximum line length - bold cut off
@@ -34,12 +34,12 @@ public:
 
 
   //  if position is smaller than n, move to the right
-  uint8_t   gotoPos(uint8_t pos);
+  uint8_t   gotoPos(uint8_t position);
 
 
   //  repeat a char or a "string" n times
   //  followed by 0 or more newlines.
-  void      repeat(uint8_t n, char c, uint8_t newLine = 0);
+  void      repeat(uint8_t n, char ch, uint8_t newLine = 0);
   void      repeat(uint8_t n, const char* str, uint8_t newLine = 0);
 
 
@@ -48,16 +48,22 @@ public:
   uint8_t   getAutoNewLine();
 
 
-  //  Add a tab at (absolute/relative) position
+  //  Set the internal array of tabs at once, easy bulk config, 
+  //  positions is an increasing array.
+  bool      setTabs(uint8_t * positions, uint8_t size);
+  //  get array with positions.
+  uint8_t   getTabs(uint8_t * positions);
+
+  //  Add one tab at (absolute or relative) position
   //  returns true on success
-  bool      addTab(uint8_t pos);
+  bool      addTab(uint8_t position);
   bool      addRelTab(uint8_t n);
   //  remove all the tabs,
   void      clearTabs();
-  //  remove tab at position pos
+  //  remove tab at position position
   //  returns false if it does not exist.
-  bool      removeTab(uint8_t pos);
-  bool      existTab(uint8_t pos);
+  bool      removeTab(uint8_t position);
+  bool      existTab(uint8_t position);
 
   //  print zero or more tabs, similar as e.g. "\t\t\t"
   //  optimized repeat

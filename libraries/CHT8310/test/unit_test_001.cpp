@@ -48,18 +48,6 @@ unittest(test_constants_I)
 }
 
 
-unittest(test_constants_II)
-{
-  assertEqual(0x00, CHT8310_REG_TEMPERATURE);
-  assertEqual(0x01, CHT8310_REG_HUMIDITY);
-
-
-
-  assertEqual(0xFF, CHT8310_REG_MANUFACTURER);
-}
-
-
-
 unittest(test_offset)
 {
   CHT8310 cht(0x40);

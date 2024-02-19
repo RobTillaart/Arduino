@@ -1,5 +1,5 @@
 //
-//    FILE: CHT8310_minimal.ino
+//    FILE: CHT8310_read_separate.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8310 I2C humidity & temperature sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -46,10 +46,11 @@ void setup()
 
 void loop()
 {
-  if (millis() - CHT.lastRead() >= 1000)
+  if (millis() - CHT.lastRead() >= 2000)
   {
-    //  READ DATA
-    CHT.read();
+    //  READ DATA in separate calls
+    CHT.readTemperature();
+    CHT.readHumidity();
 
     Serial.print(millis());
     Serial.print('\t');

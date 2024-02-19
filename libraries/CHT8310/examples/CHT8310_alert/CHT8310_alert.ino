@@ -40,6 +40,14 @@ void setup()
   Wire.setClock(100000);
   CHT.begin();
 
+  //  set temperature limits
+  CHT.setTemperatureHighLimit(30);
+  CHT.setTemperatureLowLimit(15);
+
+  //  set humidity limits
+  CHT.setHumidityHighLimit(70);
+  CHT.setHumidityLowLimit(40);
+
   delay(1000);
 }
 
@@ -52,6 +60,8 @@ void loop()
     CHT.read();
 
     Serial.print(millis());
+    Serial.print('\t');
+    Serial.print(CHT.getStatusRegister(), HEX);
     Serial.print('\t');
     Serial.print(CHT.getHumidity());
     Serial.print('\t');

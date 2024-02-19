@@ -1,5 +1,5 @@
 //
-//    FILE: CHT8310_minimal.ino
+//    FILE: CHT8310_test_offset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8310 I2C humidity & temperature sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -40,6 +40,13 @@ void setup()
   Wire.setClock(100000);
   CHT.begin();
 
+  //  should print 0.00 twice
+  Serial.println(CHT.getTemperatureOffset());
+  Serial.println(CHT.getHumidityOffset());
+  Serial.println();
+
+  CHT.setTemperatureOffset(+273.15);  //  adjusts temperature to Kelvin 
+  CHT.setHumidityOffset(-50);         //  extreme just for demo
   delay(1000);
 }
 

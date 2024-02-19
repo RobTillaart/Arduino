@@ -39,12 +39,13 @@ If you are able to test this library, please share your experiences.
 
 #### Tests
 
-- not done yet.
+Many initial tests performed by YouCanNotBeSerious. Thanks.
 
 
 #### Related
 
--  https://github.com/RobTillaart/CHT8305
+- https://github.com/RobTillaart/Temperature (e.g. heatIndex)
+- https://github.com/RobTillaart/CHT8305
 
 
 ## Hardware
@@ -77,12 +78,36 @@ Pull ups are needed on SDA, SCL.
 
 #### performance
 
-I2C bus speeds is supported up to 400 KHz.
+I2C bus speeds is supported up to 1000 KHz (datasheet P4).
+
+An indicative table of times in micros on an ESP32-C3 for various I2C clock speeds.
+Note that the performance gain of higher clock speeds become less and less.
+At the same time the robustness of the signal decreases (not visible in the table).
+
+Times in micros on an ESP32-C3 (See #3 for more)
+
+|  Version  |  Speed   |   READ   |  READ T  |  READ H  | getManufacturer  |
+|:---------:|:--------:|:--------:|:--------:|:--------:|:----------------:|
+|   0.2.0   |   50000  |   2165   |   1060   |   1058   |   1051           |
+|   0.2.0   |  100000  |   1164   |    582   |    582   |    578           |
+|   0.2.0   |  150000  |    855   |    427   |    427   |    424           |
+|   0.2.0   |  200000  |    654   |    327   |    327   |    323           |
+|   0.2.0   |  250000  |    561   |    281   |    281   |    277           |
+|   0.2.0   |  300000  |    491   |    245   |    245   |    241           |
+|   0.2.0   |  400000  |    417   |    209   |    209   |    204           |
+|   0.2.0   |  500000  |    371   |    186   |    186   |    181           |
+|   0.2.0   |  600000  |    344   |    172   |    172   |    169           |
+
+The **read()** call uses two I2C calls so it makes sense that it takes twice
+as long as **readTemperature()**, **readHumidity()** and **getManufacturer()** 
+which only use one I2C call to the device.
+**getManufacturer()** is a bit faster as **readTemperature()** as the latter 
+needs to do conversion math.
 
 
 #### Addresses
 
-Check datasheet
+The CHT8310 supports up to 4 devices on the I2C bus.
 
 |  AD0  |   Address  |  Notes  |
 |:-----:|:----------:|:--------|
@@ -130,22 +155,28 @@ Returns error status.
 
 #### Core
 
-- **int read()** reads both the temperature and humidity.
-Can be called once per second.
-- **int readTemperature()** read only temperature (slightly faster than read)
-- **int readHumidity()** read only humidity (slightly faster than read)
+- **int read()** reads both the temperature and humidity from the sensor.
+Can be called at most once per second, otherwise it will return **CHT8310_ERROR_LASTREAD**
+Return should be tested and be **CHT8310_OK**.
+- **int readTemperature()** read only temperature from the sensor, therefore faster than read().
+This function does not check the lastRead flag, but does set it.
+- **int readHumidity()** read only humidity from the sensor, therefore faster than read().
+This function does not check the lastRead flag, but does set it.
 - **uint32_t lastRead()** returns lastRead in MilliSeconds since start sketch.
 Useful to check when it is time to call **read()** again, or for logging.
-- **float getHumidity()** returns last humidity read.
-Will return the same value until **read()** or **readTemperature()** is called again.
 - **float getTemperature()** returns last temperature read.
+Will return the same value until **read()** or **readTemperature()** is called again.
+- **float getHumidity()** returns last humidity read.
 Will return the same value until **read()** or **readHumidity()** is called again.
 
 Note: read(), readTemperature() and readHumidity() blocks each other,
-so you can call only one of them every second.
+so you can call only one of them every second (see Convert Rate below).
 
 
 #### Conversion delay
+
+Not functional for now, need investigation.
+Check datasheet for details.
 
 - **void setConversionDelay(uint8_t cd = 11)** default is 11 milliseconds (datasheet P8).
 Not tested what is the optimum.
@@ -156,10 +187,11 @@ Not tested what is the optimum.
 
 Adding offsets works well in the "normal range" but might introduce 
 under- or overflow at the ends of the sensor range.
-These are not handled for temperature by the library (humidity since 0.1.7).
+These are not handled for temperature by the library, humidity is constrained.
   
 - **void setHumidityOffset(float offset)** idem.
 - **void setTemperatureOffset(float offset)** idem.
+This function can be used to set return temperature in Kelvin!
 - **float getHumidityOffset()** idem.
 - **float getTemperatureOffset()** idem.
 
@@ -168,18 +200,108 @@ consider a mapping function for temperature and humidity.
 e.g. https://github.com/RobTillaart/MultiMap
 
 
+#### Configuration
+
+To be elaborated (table / functions)
+
+Check datasheet for details about the bit fields.
+
+- **void setConfiguration(uint16_t mask)** set a bit mask
+- **uint16_t getConfiguration()** returns current mask
+
+
+#### Convert Rate
+
+Check datasheet for details.
+
+The idea is that longer conversion times stabilize the measurement.
+
+- **void setConvertRate(uint8_t rate = 4)** set convert rate, see table below.
+Default value = 4 meaning 
+- **uint8_t getConvertRate()** returns the set rate.
+
+
+|  value |  measurement  |  frequency  |  notes  |
+|:------:|:-------------:|:-----------:|:-------:|
+|   0    |     120 s     |  1/120 Hz   |
+|   1    |      60 s     |   1/60 Hz   |
+|   2    |      10 s     |    0.1 Hz   |
+|   3    |       5 s     |    0.2 Hz   |
+|   4    |       1 s     |      1 Hz   |  default
+|   5    |     500 ms    |      2 Hz   |
+|   6    |     250 ms    |      4 Hz   |
+|   7    |     125 ms    |      8 Hz   |
+
+
+#### ALERT
+
+Check datasheet for details.
+
+Minimal API to set thresholds to trigger the ALERT pin.
+No range check (e.g. low < high) is made.
+
+ALERT pin triggers default on both temperature and humidity.
+
+- **void setTemperatureHighLimit(float temperature)**
+- **void setTemperatureLowLimit(float temperature)**
+- **void setHumidityHighLimit(float humidity)**
+- **void setHumidityLowLimit(float humidity)**
+
+See also **getStatusRegister()**
+
+
+#### Status register
+
+Check datasheet for details.
+
+- ** uint16_t getStatusRegister()**
+
+|  bit  |  name   | description  |
+|:-----:|:-------:|:-------------|
+|   15  |  Busy   |  idem
+|   14  |  Thigh  |  temperature exceeded
+|   13  |  Tlow   |  temperature exceeded
+|   12  |  Hhigh  |  humidity exceeded
+|   11  |  Hlow   |  humidity exceeded
+
+
+#### OneShot conversion
+
+Check datasheet for details.
+
+- **void oneShotConversion()** idem.
+
+
+#### SoftwareReset
+
+- **void softwareReset()** idem.
+
+
 #### Meta data
 
-- **uint16_t getManufacturer()** returns 0x5959.
+- **uint16_t getManufacturer()** Returns 0x5959 according to the datasheet,
+However in #3 a value of 8215 is seen. Seems to be an other manufacturer.
 
 
 #### Register Access
 
 Temporary wrappers to access the registers.
-Read the datasheet for the details.
+Check datasheet for details.
 
 - **uint16_t readRegister(uint8_t reg)**
 - **int writeRegister(uint8_t reg, uint16_t value)**
+
+
+## Error codes
+
+|  value  |  define                  |  notes  |
+|:-------:|:-------------------------|:--------|
+|     0   |  CHT8310_OK              |
+|   -10   |  CHT8310_ERROR_ADDR      |
+|   -11   |  CHT8310_ERROR_I2C       |
+|   -12   |  CHT8310_ERROR_CONNECT   |
+|   -20   |  CHT8310_ERROR_LASTREAD  |
+|   -30   |  CHT8310_ERROR_HUMIDITY  |
 
 
 ## Future
@@ -187,23 +309,29 @@ Read the datasheet for the details.
 #### Must
 
 - elaborate documentation.
-- test with hardware 
+- test with hardware
+- implement configuration functions.
 
 #### Should
 
 
 #### Could
 
-- implement more functionality
-  - keep in sync with CHT8305 where possible
-  - (unit) test where possible
-  - refactor.
 - test different platforms
   - AVR, ESP32, ESP8266, STM32, RP2040, ...
-- add examples
-  - performance.
+- improve error handling
+  - **int lastError()**
+  - forward return values
+
+#### Could missing functionality
+
+- Configuration register => 10 fields, see datasheet
+  - EM flag for resolution
+- OneShot
 
 #### Wont
+
+- getters for ALERT limits? (user can track these).
 
 
 ## Support

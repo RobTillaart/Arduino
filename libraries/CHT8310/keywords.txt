@@ -7,8 +7,12 @@ CHT8310	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 read	KEYWORD2
+readTemperature	KEYWORD2
+readHumidity	KEYWORD2
+
 lastRead	KEYWORD2
 getTemperature	KEYWORD2
 getHumidity	KEYWORD2
@@ -21,8 +25,34 @@ setTemperatureOffset	KEYWORD2
 getHumidityOffset	KEYWORD2
 getTemperatureOffset	KEYWORD2
 
+setConfiguration	KEYWORD2
+getConfiguration	KEYWORD2
+
+setConvertRate	KEYWORD2
+getConvertRate	KEYWORD2
+
+setTemperatureHighLimit	KEYWORD2
+setTemperatureLowLimit	KEYWORD2
+setHumidityHighLimit	KEYWORD2
+setHumidityLowLimit	KEYWORD2
+
+getStatusRegister	KEYWORD2
+oneShotConversion	KEYWORD2
+softwareReset	KEYWORD2
+
+getManufacturer	KEYWORD2
+
 
 # Constants (LITERAL1)
 CHT8310_LIB_VERSION	LITERAL1
+
 CHT8310_DEFAULT_ADDRESS	LITERAL1
+
+CHT8310_OK	LITERAL1
+CHT8310_ERROR_ADDR	LITERAL1
+CHT8310_ERROR_I2C	LITERAL1
+CHT8310_ERROR_CONNECT	LITERAL1
+CHT8310_ERROR_LASTREAD	LITERAL1
+CHT8310_ERROR_HUMIDITY	LITERAL1
+
 

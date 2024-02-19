@@ -1,5 +1,5 @@
 //
-//    FILE: CHT8310_minimal.ino
+//    FILE: CHT8310_setConvertRate.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8310 I2C humidity & temperature sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -39,6 +39,7 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   CHT.begin();
+  CHT.setConvertRate(7);  // fastest, expect more noisy readings
 
   delay(1000);
 }
@@ -46,17 +47,14 @@ void setup()
 
 void loop()
 {
-  if (millis() - CHT.lastRead() >= 1000)
-  {
-    //  READ DATA
-    CHT.read();
+  //  READ DATA at full speed to show "noisyness"
+  CHT.read();
 
-    Serial.print(millis());
-    Serial.print('\t');
-    Serial.print(CHT.getHumidity());
-    Serial.print('\t');
-    Serial.println(CHT.getTemperature());
-  }
+  Serial.print(millis());
+  Serial.print('\t');
+  Serial.print(CHT.getHumidity());
+  Serial.print('\t');
+  Serial.println(CHT.getTemperature());
 }
 
 

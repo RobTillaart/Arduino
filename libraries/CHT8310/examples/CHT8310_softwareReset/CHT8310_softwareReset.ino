@@ -1,5 +1,5 @@
 //
-//    FILE: CHT8310_minimal.ino
+//    FILE: CHT8310_softwareReset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT8310 I2C humidity & temperature sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -40,23 +40,31 @@ void setup()
   Wire.setClock(100000);
   CHT.begin();
 
+  // set register to non default
+  CHT.setConvertRate(7);
+  Serial.println(CHT.getConvertRate());  // should print 7
+  
+  CHT.softwareReset();
   delay(1000);
+
+  //  read back register
+  int cr = CHT.getConvertRate();
+  if (cr == 4)
+  {
+    Serial.print("Device reset success: \t");
+    Serial.println(cr);  //  should print 4
+  }
+  else
+  {
+    Serial.print("Device reset failed: \t");
+    Serial.println(cr);
+  }
 }
 
 
 void loop()
 {
-  if (millis() - CHT.lastRead() >= 1000)
-  {
-    //  READ DATA
-    CHT.read();
 
-    Serial.print(millis());
-    Serial.print('\t');
-    Serial.print(CHT.getHumidity());
-    Serial.print('\t');
-    Serial.println(CHT.getTemperature());
-  }
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.7.0
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -35,6 +35,7 @@ AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLA
   _mySPI   = mySPI;
   _dataOut = 0;
   _clock   = spiClock;
+  _factoryMask = 0xFC;
 }
 
 //  SOFTWARE SPI
@@ -47,6 +48,7 @@ AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t s
   _mySPI   = NULL;
   _dataOut = spiData;
   _clock   = spiClock;
+  _factoryMask = 0xFC;
 }
 
 
@@ -161,7 +163,7 @@ void AD9850::writeData()
     data >>= 8;
     _mySPI->transfer(data & 0xFF);
     _mySPI->transfer(data >> 8);
-    _mySPI->transfer(_config & 0xFC);  //  mask factory test bit
+    _mySPI->transfer(_config & _factoryMask);  //  mask factory test bits
     _mySPI->endTransaction();
   }
   else
@@ -172,7 +174,7 @@ void AD9850::writeData()
     data >>= 8;
     swSPI_transfer(data & 0xFF);
     swSPI_transfer(data >> 8);
-    swSPI_transfer(_config & 0xFC);  //  mask factory test bit
+    swSPI_transfer(_config & _factoryMask);  //  mask factory test bits
   }
   digitalWrite(_select, LOW);
 
@@ -265,11 +267,13 @@ void AD9850::update()
 
 AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, mySPI, spiClock)
 {
+  _factoryMask = 0xFD;
 }
 
 
 AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, spiData, spiClock)
 {
+  _factoryMask = 0xFD;
 }
 
 

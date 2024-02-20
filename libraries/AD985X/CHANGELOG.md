@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.6.0] - 2024-002-04
+## [0.7.0] - 2024-02-20
+- Fix #33 AD9851::setRefClockHigh(), thanks to wh201906
+- extended PR #32 to be more robust.
+
+----
+
+## [0.6.0] - 2024-02-04
 - Fixed SW SPI interface, thanks to wh201906
 
 ----

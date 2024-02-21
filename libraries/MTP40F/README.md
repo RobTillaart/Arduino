@@ -45,7 +45,15 @@ to make your project more robust.
 During tests it became clear that the sensor needs time to process 
 commands e.g. **setSelfCalibration()**.
 
-The CRC of the sensor responses are not verified by the library (yet).
+
+#### CRC errors
+
+Since 0.2.0 the CRC of the sensor responses are verified by the library.
+This will make the communication more robust by identifying the CRC errors.
+
+The low level **request()** checks the CRC of the communication with the device.
+A new error-code **MTP40F_INVALID_CRC** is defined, however this error code need to be 
+integrated better in the library.
 
 
 #### Hardware interface MTP40-F  
@@ -85,6 +93,21 @@ Has TTL level RS232, I2C and PWM IO.
 - https://github.com/RobTillaart/MTP40C
 - https://github.com/RobTillaart/MHZCO2
 - https://github.com/RobTillaart/Cozir
+- https://github.com/RobTillaart/Pressure - converters
+
+
+## Multi device
+
+Sometimes you need to control more devices than possible.
+This is possible with a multiplexer e.g. HC4052 which can select 
+between four devices.
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+Furthermore using a multiplexer will slow down the access.
+
+- https://github.com/RobTillaart/HC4052  (4 x 2)
+- https://github.com/RobTillaart/ADG725  (16 x 2)
 
 
 ## Interface
@@ -131,6 +154,7 @@ Normally this is not needed to set as the default of 100 milliseconds is
 long enough for even the longest command. 
 This timeout is needed if the sensor did not process the command correctly, 
 preventing the host to wait indefinitely.
+
 - **void setTimeout(uint32_t timeOut = 100)** sets the timeout. 
 If no parameter is given a default timeout of 100 milliseconds is set.
 - **uint32_t getTimeout()** get the value set above or the default. 
@@ -198,6 +222,18 @@ Default value = 168 hours = 1 week.
 Note: read datasheet!
 
 
+## Error codes
+
+|  Value   |  Definition                   |
+|:--------:|:------------------------------|
+|  0x00    |  MTP40F_OK                    |
+|  0x01    |  MTP40F_INVALID_AIR_PRESSURE  |
+|  0x02    |  MTP40F_INVALID_GAS_LEVEL     |
+|  0x10    |  MTP40F_INVALID_CRC           |
+|  0xFF    |  MTP40F_INVALID_ADDRESS       |
+|  0xFFFF  |  MTP40F_REQUEST_FAILED        |
+
+
 ## Future
 
 #### Must
@@ -210,21 +246,21 @@ Note: read datasheet!
 - **setSinglePointCorrection(spc)** investigate parameter.
   datasheet states 0x2000 but that is 8192 which is rather strange.
   Assumption 2000 decimal is meant.
+- improve CRC error code 
+- **ERROR** handling.
+  - some functions returning bool should return int
+    to handle errors better **MTP40F_OK** or ERROR flag.
+  - would break the interface
 
 #### Could 
 
-- serial bus with multiple devices? => diodes
-  - separate document
-- move all code from .h to .cpp file
-- reuse command buffer as return buffer?
-  - saves a bit.
 - **getAirPressureReference()** could be smarter 
-  - always same value
+  - always same value?
   - from cache
   - dirty flag (-1);
-- ERROR handling.
-  - some functions returning bool should return int
-    to handle errors better MTP40F_OK or ERROR flag.
+- reuse command buffer as return buffer?
+  - saves a bit.
+- move all code from .h to .cpp file
 
 #### Wont
 

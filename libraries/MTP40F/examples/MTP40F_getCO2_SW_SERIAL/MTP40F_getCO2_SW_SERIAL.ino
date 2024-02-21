@@ -7,7 +7,7 @@
 //  any board that support two or more hardware serial ports
 //  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32, ESP8266
 //  Uno, Nano or Mini will fail to compile.
-
+//
 //  SCHEMA example SoftwareSerial sws(7, 6);
 //              UNO                     MTP40F
 //        +---------------+        +---------------+
@@ -18,13 +18,14 @@
 //        |               |        | 4             |
 //        |               |        |               |
 //        |               |        | 5             |
-//        |         RX 6  |--------| 6 TX          |
-//        |         TX 7  |--------| 7 RX          |
+//        |         RX 6  |<-------| 6 TX          |
+//        |         TX 7  |------->| 7 RX          |
 //        |               |        | 8             |
 //        |               |        | 9             |
 //        |               |        |               |
 //        +---------------+        +---------------+
 //
+
 
 #include "MTP40F.h"
 #include "SoftwareSerial.h"

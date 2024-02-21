@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-02-20
+- add CRC check in **request()**, thanks to DaveDavenport
+  - failing CRC indicates communication error.
+- added **MTP40F_INVALID_CRC** 
+- update unit test
+- add section about multi device / multiplexer to readme.md
+- minor edits examples
+
+-----
+
 ## [0.1.2] - 2023-11-14
 - update readme.md
 

@@ -18,8 +18,8 @@
 //        |               |        | 4             |
 //        |               |        |               |
 //        |               |        | 5             |
-//        |         RX 6  |--------| 6 TX          |
-//        |         TX 7  |--------| 7 RX          |
+//        |         RX 6  |<-------| 6 TX          |
+//        |         TX 7  |------->| 7 RX          |
 //        |               |        | 8             |
 //        |               |        | 9             |
 //        |               |        |               |
@@ -32,7 +32,7 @@
 
 SoftwareSerial sws(7, 6);
 
-MTP40F mtp(&sws);       // use hardware Serial1 for MTP40C sensor
+MTP40F mtp(&sws);       // use hardware Serial1 for MTP40F sensor
 
 
 void setup()

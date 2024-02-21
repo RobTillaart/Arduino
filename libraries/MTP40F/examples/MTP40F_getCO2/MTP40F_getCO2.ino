@@ -1,13 +1,13 @@
 //
 //    FILE: MTP40F_getCO2.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo of MTP40C library
+// PURPOSE: demo of MTP40F library
 //     URL: https://github.com/RobTillaart/MTP40F
 //
 //  any board that support two or more hardware serial ports
 //  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32, ESP8266
 //  Uno, Nano or Mini will fail to compile.
-
+//
 //  SCHEMA example SoftwareSerial sws(7, 6);
 //              UNO                     MTP40F
 //        +---------------+        +---------------+
@@ -18,8 +18,8 @@
 //        |               |        | 4             |
 //        |               |        |               |
 //        |               |        | 5             |
-//        |         RX 6  |--------| 6 TX          |
-//        |         TX 7  |--------| 7 RX          |
+//        |         RX 6  |<-------| 6 TX          |
+//        |         TX 7  |------->| 7 RX          |
 //        |               |        | 8             |
 //        |               |        | 9             |
 //        |               |        |               |
@@ -41,9 +41,9 @@ int lines = 10;
 void setup()
 {
   Serial.begin(115200);
-  // Serial.println(__FILE__);
-  // Serial.print("MTP40_LIB_VERSION:\t");
-  // Serial.println(MTP40_LIB_VERSION);
+  Serial.println(__FILE__);
+  Serial.print("MTP40F_LIB_VERSION:\t");
+  Serial.println(MTP40F_LIB_VERSION);
 
   //  sws.begin(9600);
   Serial1.begin(9600);

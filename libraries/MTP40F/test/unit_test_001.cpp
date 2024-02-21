@@ -43,7 +43,6 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
 #include "MTP40F.h"
 #include "SoftwareSerial.h"
 
@@ -64,7 +63,9 @@ unittest(test_constants)
   assertEqual(MTP40F_OK                  , 0x00);
   assertEqual(MTP40F_INVALID_AIR_PRESSURE, 0x01);
   assertEqual(MTP40F_INVALID_GAS_LEVEL   , 0x02);
+  assertEqual(MTP40F_INVALID_CRC         , 0x10);
   assertEqual(MTP40F_INVALID_ADDRESS     , 0xFF);
+  assertEqual(MTP40F_REQUEST_FAILED      , 0xFFFF);
 }
 
 
@@ -78,8 +79,6 @@ unittest(test_constructor)
   assertEqual(0, sensor.lastRead());
   assertEqual(MTP40F_OK, sensor.lastError());
 }
-
-
 
 
 unittest(test_suppress_error)

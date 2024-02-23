@@ -1,0 +1,23 @@
+{
+  "name": "74HC154",
+  "keywords": "3 to 8",
+  "description": "Arduino library for the 74HC154 4-to-16 line decoder/demultiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/74HC154.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "74HC154.h"
+}

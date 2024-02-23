@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoderSwitch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -40,7 +40,7 @@ bool rotaryDecoderSwitch::isConnected()
 
 void rotaryDecoderSwitch::readInitialState()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   _lastValue = value;
   //  pin 0,1 and 4,5
   for (uint8_t i = 0; i < _count; i++)
@@ -53,18 +53,19 @@ void rotaryDecoderSwitch::readInitialState()
 
 bool rotaryDecoderSwitch::checkChange()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   return (_lastValue != value);
 }
 
 
 bool rotaryDecoderSwitch::update()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   if (_lastValue == value)
   {
     return false;
   }
+
  _lastValue = value;
   for (uint8_t i = 0; i < _count; i++, value >>= 4)
   {
@@ -93,13 +94,13 @@ bool rotaryDecoderSwitch::update()
 
 bool rotaryDecoderSwitch::updateSingle()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   if (_lastValue == value)
   {
     return false;
   }
- _lastValue = value;
 
+ _lastValue = value;
   for (uint8_t i = 0; i < _count; i++, value >>= 4)
   {
     uint8_t currentpos = (value & 0x03);
@@ -151,28 +152,61 @@ bool rotaryDecoderSwitch::isKeyPressed(uint8_t re)
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  READ - WRITE interface
+//
+uint8_t rotaryDecoderSwitch::read1(uint8_t pin)
+{
+  uint8_t mask = 1 << pin;
+  uint8_t tmp = read8();
+  return (tmp & mask) > 0 ? HIGH : LOW;
+}
+
+
+bool rotaryDecoderSwitch::write1(uint8_t pin, uint8_t value)
+{
+  uint8_t mask = 1 << pin;
+  uint8_t tmp = read8();
+  if (value == LOW) tmp &= ~mask;
+  else tmp |= mask;
+  return write8(tmp);
+}
+
+
+uint8_t rotaryDecoderSwitch::read8()
+{
+  _wire->requestFrom(_address, (uint8_t)1);
+  uint8_t x = _wire->read();
+  // Serial.println(x, HEX);
+  return x;
+}
+
+
+bool rotaryDecoderSwitch::write8(uint8_t value)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(value);
+  return (_wire->endTransmission() == 0);
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  DEBUG
+//
 uint8_t rotaryDecoderSwitch::getLastPosition(uint8_t re)
 {
   return _lastPos[re];
 }
 
 
-uint8_t rotaryDecoderSwitch::getRaw()
-{
-  return _read8();
-}
-
-
 /////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
-uint8_t rotaryDecoderSwitch::_read8()
-{
-  _wire->requestFrom(_address, (uint8_t)1);
-  return _wire->read();
-}
 
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

@@ -14,12 +14,16 @@ checkChange	KEYWORD2
 update	KEYWORD2
 updateSingle	KEYWORD2
 
-setValue	KEYWORD2
 getValue	KEYWORD2
+setValue	KEYWORD2
 getKeyPressed	KEYWORD2
 
+read1	KEYWORD2
+write1	KEYWORD2
+read8	KEYWORD2
+write8	KEYWORD2
+
 getLastPosition	KEYWORD2
-getRaw	KEYWORD2
 
 
 # Constants (LITERAL1)

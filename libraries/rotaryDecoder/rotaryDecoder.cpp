@@ -1,9 +1,9 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-05-08
-// PURPOSE: rotary decoder library for Arduino
+// PURPOSE: Arduino library for rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder
 
 
@@ -40,7 +40,7 @@ bool rotaryDecoder::isConnected()
 
 void rotaryDecoder::readInitialState()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   _lastValue = value;
   for (uint8_t i = 0; i < _count; i++)
   {
@@ -52,14 +52,14 @@ void rotaryDecoder::readInitialState()
 
 bool rotaryDecoder::checkChange()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   return (_lastValue != value);
 }
 
 
 bool rotaryDecoder::update()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   if (_lastValue == value)
   {
     return false;
@@ -93,7 +93,7 @@ bool rotaryDecoder::update()
 
 bool rotaryDecoder::updateSingle()
 {
-  uint8_t value = _read8();
+  uint8_t value = read8();
   if (_lastValue == value)
   {
     return false;
@@ -143,20 +143,60 @@ void rotaryDecoder::setValue(uint8_t re, int32_t value)
 }
 
 
-uint8_t rotaryDecoder::getLastPosition(uint8_t re)
+/////////////////////////////////////////////////////
+//
+//  READ - WRITE interface
+//
+uint8_t rotaryDecoder::read1(uint8_t pin)
 {
-  return _lastPos[re];
-};
+  uint8_t mask = 1 << pin;
+  uint8_t tmp = read8();
+  return (tmp & mask) > 0 ? HIGH : LOW;
+}
+
+
+bool rotaryDecoder::write1(uint8_t pin, uint8_t value)
+{
+  uint8_t mask = 1 << pin;
+  uint8_t tmp = read8();
+  if (value == LOW) tmp &= ~mask;
+  else tmp |= mask;
+  return write8(tmp);
+}
+
+
+uint8_t rotaryDecoder::read8()
+{
+  _wire->requestFrom(_address, (uint8_t)1);
+  uint8_t x = _wire->read();
+  // Serial.println(x, HEX);
+  return x;
+}
+
+
+bool rotaryDecoder::write8(uint8_t value)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(value);
+  return (_wire->endTransmission() == 0);
+}
+
 
 /////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  DEBUG
 //
-uint8_t rotaryDecoder::_read8()
+uint8_t rotaryDecoder::getLastPosition(uint8_t re)
 {
-  _wire->requestFrom(_address, (uint8_t)1);
-  return _wire->read();
+  return _lastPos[re];
 }
+
+
+/////////////////////////////////////////////////////
+//
+//  PROTECTED
+//
+
 
 
 //  -- END OF FILE --

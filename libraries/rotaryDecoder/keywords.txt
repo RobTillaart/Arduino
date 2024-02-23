@@ -15,6 +15,11 @@ updateSingle	KEYWORD2
 getValue	KEYWORD2
 setValue	KEYWORD2
 
+read1	KEYWORD2
+write1	KEYWORD2
+read8	KEYWORD2
+write8	KEYWORD2
+
 getLastPosition	KEYWORD2
 
 

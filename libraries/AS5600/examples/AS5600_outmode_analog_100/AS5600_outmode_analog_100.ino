@@ -5,6 +5,8 @@
 //     URL: https://github.com/RobTillaart/AS5600
 //
 //  connect the OUT pin to the analog port of the processor
+//
+//  The AS5600L does not support analog OUT.
 
 
 #include "AS5600.h"

@@ -5,6 +5,10 @@
 //     URL: https://github.com/RobTillaart/AS5600
 //
 //  connect the DIR pin of the AS5600 to GND
+//
+//  Examples may use AS5600 or AS5600L devices.
+//  Check if your sensor matches the one used in the example.
+//  Optionally adjust the code.
 
 
 #include "AS5600.h"

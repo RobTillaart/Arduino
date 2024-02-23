@@ -13,6 +13,10 @@
 //  - uncomment burnSettings() in AS5600.h and AS5600.cpp.
 //  - adjust settings and MaxAngle in burn_mang() function below ==> line 77++
 //  - uncomment line 167 of this sketch
+//
+//  Examples may use AS5600 or AS5600L devices.
+//  Check if your sensor matches the one used in the example.
+//  Optionally adjust the code.
 
 
 #include "AS5600.h"

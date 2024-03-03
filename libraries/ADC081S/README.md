@@ -73,7 +73,9 @@ three classes of this library.
 |  ADC121S051   |   12   |   500  |  ADC121S  |
 |  ADC121S101   |   12   |  1000  |  ADC121S  |
 
-Type = ADC(bits)(channel)S(speed)1 e.g ADC081S021 = 8 bits 1 channel 200000
+Type = ADC(bits)(channel)(protocol)(speed)1 
+e.g ADC081S021 = 8 bits 1 channel SPI 200000
+S == SPI.C == I2C.
 
 
 #### Related
@@ -101,20 +103,26 @@ The ADC101S and ADC121S have an identical interface as the ADC081S.
 - **ADC081S(uint8_t data, uint8_t clock)**
 - **void begin(uint8_t select)** set select pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 255, 1023, 4095
-depending on number of bits / class.
+depending on number of bits of the actual ADC.
+
 
 #### Base
 
 - **uint16_t read()** reads the value of the device.
-- **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, please read datasheet
-of the ADC first to get optimal speed.
+- **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, 
+please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** returns current speed in **Hz**.
+
 
 #### Low power
 
 - **void lowPower()** put device in low power mode.
 - **void wakeUp()** put device in normal power mode.
-- **isLowPower()** returns true if in low power mode, so wakeUp needed().
+- **bool isLowPower()** returns true if in low power mode, so wakeUp needed().
+
+Alternative way to wake up the device is to
+do a dummy **read()**.
+
 
 #### Debug
 
@@ -136,7 +144,6 @@ of the ADC first to get optimal speed.
   - use a prepared address
   - just transfer.
   - how much faster?
-
 
 #### Could
 

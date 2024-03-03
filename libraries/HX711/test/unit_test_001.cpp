@@ -188,4 +188,6 @@ unittest(test_operational_mode)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

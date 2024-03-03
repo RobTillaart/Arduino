@@ -19,15 +19,15 @@ read_median	KEYWORD2
 read_medavg	KEYWORD2
 read_runavg	KEYWORD2
 
+get_value	KEYWORD2
+get_units	KEYWORD2
+
 set_raw_mode	KEYWORD2
 set_average_mode	KEYWORD2
 set_median_mode	KEYWORD2
 set_medavg_mode	KEYWORD2
 set_runavg_mode	KEYWORD2
 get_mode	KEYWORD2
-
-get_value	KEYWORD2
-get_units	KEYWORD2
 
 tare	KEYWORD2
 get_tare	KEYWORD2

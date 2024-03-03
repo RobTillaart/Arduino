@@ -5,10 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-03-02
+- add fastProcessor option in **begin()** (Thanks to palmerr23)
+- updated license
+- updated GitHub/actions to v4
+
+----
+
 ## [0.3.9] - 2023-11-04
 - update readme.md
 - minor edits
-
 
 ## [0.3.8] - 2023-08-26
 - fix #41 #40 add example **HX_loadcell_array.ino**

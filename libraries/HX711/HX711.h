@@ -2,8 +2,9 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Library for load cells for Arduino
+//     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 //
 //  NOTES
@@ -13,7 +14,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.9"))
+#define HX711_LIB_VERSION               (F("0.4.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -41,7 +42,7 @@ public:
   ~HX711();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin);
+  void     begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false);
 
   void     reset();
 
@@ -56,6 +57,11 @@ public:
   //  max timeout
   bool     wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0);
 
+
+  ///////////////////////////////////////////////////////////////
+  //
+  //  READ
+  //
   //  raw read
   float    read();
 
@@ -77,6 +83,10 @@ public:
   float    read_runavg(uint8_t times = 7, float alpha = 0.5);
 
 
+  ///////////////////////////////////////////////////////////////
+  //
+  //  MODE
+  //
   //  get set mode for get_value() and indirect get_units().
   //  in median and medavg mode only 3..15 samples are allowed.
   void     set_raw_mode();
@@ -102,6 +112,10 @@ public:
   bool     tare_set();
 
 
+  ///////////////////////////////////////////////////////////////
+  //
+  //  GAIN
+  //
   //  CORE "CONSTANTS" -> read datasheet
   //  CHANNEL      GAIN   notes
   //  -------------------------------------
@@ -118,7 +132,10 @@ public:
   uint8_t  get_gain();
 
 
-  //  CALIBRATION & SETUP
+  ///////////////////////////////////////////////////////////////
+  //
+  //  CALIBRATION
+  //
   //  SCALE > 0
   //  returns false if scale == 0;
   bool     set_scale(float scale = 1.0);
@@ -136,7 +153,10 @@ public:
   void     calibrate_scale(uint16_t weight, uint8_t times = 10);
 
 
+  ///////////////////////////////////////////////////////////////
+  //
   //  POWER MANAGEMENT
+  //
   void     power_down();
   void     power_up();
 
@@ -160,10 +180,11 @@ private:
   float    _scale    = 1;
   uint32_t _lastRead = 0;
   float    _price    = 0;
-  uint8_t  _mode     = 0;
+  uint8_t  _mode     = HX711_AVERAGE_MODE;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
+  bool     _fastProcessor = false;
 };
 
 

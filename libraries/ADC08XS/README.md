@@ -123,7 +123,7 @@ All six classes have identical interfaces as the ADC082S.
 - **ADC082S_MC(uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
 - **void begin(uint8_t select)** set SELECT or CS pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 255, 1023, 4095
-depending on number of bits / class.
+depending on number of bits of the actual ADC.
 - **uint8_t maxChannel()** returns 2 or 4 depending on the class.
 
 
@@ -132,7 +132,8 @@ depending on number of bits / class.
 - **uint16_t read(uint8_t channel)** reads the value of the device.
 The parameter channel must be 0,1,2,3, depending on device.
 Invalid channels will always return zero 0.
-- **int deltaRead(chanA, chanB)** read channel A and B and return the difference.
+- **int deltaRead(uint8_t chanA, uint8_t chanB)** read channel A and B 
+and return the difference.
 Note that the value can be negative if read(B) > read(A) or zero.
 if chanA == chanB there will be two reads of the same channel just
 a few microseconds apart, most often returning 0. 
@@ -146,7 +147,7 @@ please read datasheet of the ADC first to get optimal speed.
 
 - **void lowPower()** put device in low power mode.
 - **void wakeUp()** put device in normal power mode.
-- **isLowPower()** returns true if in low power mode, so wakeUp needed().
+- **bool isLowPower()** returns true if in low power mode, so wakeUp needed().
 
 Alternative way to wake up the device is to
 do a dummy **read()**.

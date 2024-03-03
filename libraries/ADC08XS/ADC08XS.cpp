@@ -1,7 +1,7 @@
 //
 //    FILE: ADC08XS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S, 
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
@@ -45,6 +45,7 @@ void ADC08XS::begin(uint8_t select)
 {
   _select = select;
   pinMode(_select, OUTPUT);
+  //  pulse
   digitalWrite(_select, HIGH);
   digitalWrite(_select, LOW);
   digitalWrite(_select, HIGH);

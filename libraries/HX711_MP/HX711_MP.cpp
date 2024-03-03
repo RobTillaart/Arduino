@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -25,13 +25,16 @@ HX711_MP::HX711_MP(uint8_t size)
 }
 
 
-HX711_MP::~HX711_MP() {}
+HX711_MP::~HX711_MP()
+{
+}
 
 
-void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin)
+void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
+  _fastProcessor = fastProcessor;
 
   pinMode(_dataPin, INPUT);
   pinMode(_clockPin, OUTPUT);
@@ -140,7 +143,11 @@ float HX711_MP::read()
   {
     //  delayMicroSeconds(1) needed for fast processors?
     digitalWrite(_clockPin, HIGH);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     m--;
   }
 
@@ -196,7 +203,7 @@ float HX711_MP::read_medavg(uint8_t times)
   }
   _insertSort(samples, times);
   float sum = 0;
-  // iterate over 1/4 to 3/4 of the array
+  //  iterate over 1/4 to 3/4 of the array
   uint8_t count = 0;
   uint8_t first = (times + 2) / 4;
   uint8_t last  = times - first - 1;
@@ -372,7 +379,7 @@ void HX711_MP::_insertSort(float * array, uint8_t size)
 //  see datasheet page 5 for timing
 uint8_t HX711_MP::_shiftIn()
 {
-  // local variables are faster.
+  //  local variables are faster.
   uint8_t clk   = _clockPin;
   uint8_t data  = _dataPin;
   uint8_t value = 0;
@@ -380,13 +387,15 @@ uint8_t HX711_MP::_shiftIn()
   while (mask > 0)
   {
     digitalWrite(clk, HIGH);
-    delayMicroseconds(1);   //  T2  >= 0.2 us
+    if(_fastProcessor)       //  T2  >= 0.2 us
+      delayMicroseconds(1);
     if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
     digitalWrite(clk, LOW);
-    delayMicroseconds(1);   //  keep duty cycle ~50%
+    if(_fastProcessor)
+      delayMicroseconds(1);   //  keep duty cycle ~50%
     mask >>= 1;
   }
   return value;

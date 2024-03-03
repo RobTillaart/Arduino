@@ -90,7 +90,8 @@ is more math involved for converting raw data to weights.
 Parameter sets the size of for the calibration arrays. 
 Allowed range for size is 2..10.
 - **~HX711_MP()**
-- **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor)** sets a fixed gain 128 for now.
+The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
 - **void reset()** set internal state to start condition.
 Reset also does a power down / up cycle.
 It does not reset the calibration data.
@@ -244,8 +245,8 @@ Colour scheme wires of two devices.
 #### Temperature
 
 Load cells do have a temperature related error. (see datasheet load cell)
-This can be reduced by doing the calibration at the operational temperature 
-one uses for the measurements.
+This can be reduced by doing the calibration and take the tare
+at the operational temperature one uses for the measurements.
 
 Another way to handle this is to add a good temperature sensor
 (e.g. DS18B20, SHT85) and compensate for the temperature

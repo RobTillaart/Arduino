@@ -2,7 +2,7 @@
 //
 //    FILE: HX711_MP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -14,7 +14,7 @@
 
 #include "Arduino.h"
 
-#define HX711_MP_LIB_VERSION               (F("0.1.1"))
+#define HX711_MP_LIB_VERSION               (F("0.2.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -30,7 +30,7 @@ const uint8_t HX711_RAW_MODE     = 0x04;
 
 
 //  supported values for set_gain()
-const uint8_t HX711_CHANNEL_A_GAIN_128 = 128;  // default
+const uint8_t HX711_CHANNEL_A_GAIN_128 = 128;  //  default
 const uint8_t HX711_CHANNEL_A_GAIN_64 = 64;
 const uint8_t HX711_CHANNEL_B_GAIN_32 = 32;
 
@@ -45,7 +45,7 @@ public:
   ~HX711_MP();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin);
+  void     begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false);
 
   void     reset();
 
@@ -176,12 +176,12 @@ public:
 
 
 private:
-  uint8_t  _dataPin   = -1;
-  uint8_t  _clockPin  = -1;
+  uint8_t  _dataPin  = -1;
+  uint8_t  _clockPin = -1;
 
-  uint8_t  _gain      = 128;     //  default channel A
-  uint32_t _lastRead  = 0;
-  uint8_t  _mode      = HX711_AVERAGE_MODE;
+  uint8_t  _gain     = 128;     //  default channel A
+  uint32_t _lastRead = 0;
+  uint8_t  _mode     = HX711_AVERAGE_MODE;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
@@ -191,6 +191,7 @@ private:
   float    _out[HX711_MP_MAX_SIZE];
   uint8_t  _size = HX711_MP_MAX_SIZE;
   float    _multiMap(float val);
+  bool     _fastProcessor = false;
 };
 
 

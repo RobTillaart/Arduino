@@ -5,10 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-03-02
+- add fastProcessor option in **begin()** (Thanks to palmerr23)
+- updated license
+- updated GitHub/actions to v4
+
+----
+
 ## [0.1.1] - 2023-11-04
 - update readme.md
 - minor edits
-
 
 ## [0.1.0] - 2023-03-10
 - initial release

@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -193,7 +193,7 @@ float ADS1X15::toVoltage(int16_t value)
   if (value == 0) return 0;
 
   float volts = getMaxVoltage();
-  if (volts < 0) return volts;
+  if (volts < 0) return volts;    //  propagate error
 
   volts *= value;
   if (_config & ADS_CONF_RES_16)
@@ -530,6 +530,22 @@ ADS1013::ADS1013(uint8_t address, TwoWire *wire)
   _conversionDelay = ADS1015_CONVERSION_DELAY;
   _bitShift = 4;
   _maxPorts = 1;
+  _gain     = ADS1X15_PGA_2_048V;  //  fixed value
+}
+
+
+//  ADS1x13 has no gain so set default.
+//  Table 8. Config Register Field Descriptions
+void ADS1013::setGain(uint8_t gain)
+{
+  _gain = gain;  //  keep compiler happy.
+  _gain = ADS1X15_PGA_2_048V;  //  fixed value
+}
+
+
+uint8_t ADS1013::getGain()
+{
+  return 2;  //  fixed value
 }
 
 
@@ -623,6 +639,22 @@ ADS1113::ADS1113(uint8_t address, TwoWire *wire)
   _conversionDelay = ADS1115_CONVERSION_DELAY;
   _bitShift = 0;
   _maxPorts = 1;
+  _gain     = ADS1X15_PGA_2_048V;  //  fixed value
+}
+
+
+//  ADS1x13 has no gain so set default.
+//  Table 8. Config Register Field Descriptions
+void ADS1113::setGain(uint8_t gain)
+{
+  _gain = gain;  //  keep compiler happy.
+  _gain = ADS1X15_PGA_2_048V;  //  fixed value
+}
+
+
+uint8_t ADS1113::getGain()
+{
+  return 2;  //  fixed value
 }
 
 

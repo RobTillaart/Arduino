@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.4.1"))
+#define ADS1X15_LIB_VERSION               (F("0.4.2"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -72,8 +72,8 @@ public:
   int16_t  readADC_Differential_0_1();
 
   //  used by continuous mode and async mode.
-  [[deprecated("Use getValue() instead")]]
-  int16_t  getLastValue() { return getValue(); };  //  will be obsolete in the future 0.4.0
+  //  [[deprecated("Use getValue() instead")]]
+  //  int16_t  getLastValue() { return getValue(); };  //  will be obsolete in the future 0.4.0
   int16_t  getValue();
 
 
@@ -86,7 +86,7 @@ public:
   bool     isReady();
 
 
-  //  returns a pin 0x0[0..3] or 
+  //  returns a pin 0x0[0..3] or
   //          a differential "mode" 0x[pin second][pin first] or
   //          0xFF (no request / invalid request)
   uint8_t   lastRequest();
@@ -164,7 +164,7 @@ protected:
   uint8_t  _compLatch;
   uint8_t  _compQueConvert;
 
-  //  variable to track the last pin requested, 
+  //  variable to track the last pin requested,
   //  to allow for round robin query of
   //  pins based on this state == if no last request then == 0xFFFF.
   uint16_t  _lastRequest;
@@ -188,6 +188,8 @@ class ADS1013 : public ADS1X15
 {
 public:
   ADS1013(uint8_t Address = ADS1015_ADDRESS, TwoWire *wire = &Wire);
+  void setGain(uint8_t gain);
+  uint8_t getGain();
 };
 
 
@@ -217,6 +219,8 @@ class ADS1113 : public ADS1X15
 {
 public:
   ADS1113(uint8_t address = ADS1115_ADDRESS, TwoWire *wire = &Wire);
+  void setGain(uint8_t gain);
+  uint8_t getGain();
 };
 
 

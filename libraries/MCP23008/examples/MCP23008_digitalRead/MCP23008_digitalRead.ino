@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23008_digitalRead.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2019-10-14
 // PURPOSE: test MCP23008 library
 //     URL: https://github.com/RobTillaart/MCP23008
 

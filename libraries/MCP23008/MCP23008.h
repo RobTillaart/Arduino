@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23008.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MCP23008_LIB_VERSION              (F("0.3.1"))
+#define MCP23008_LIB_VERSION              (F("0.3.2"))
 
 #define MCP23008_OK                       0x00
 #define MCP23008_PIN_ERROR                0x81
@@ -29,7 +29,7 @@ class MCP23008
 public:
   MCP23008(uint8_t address, TwoWire *wire = &Wire);
 
-  bool    begin();
+  bool    begin(bool pullup = true);
   bool    isConnected();
   uint8_t getAddress();
 

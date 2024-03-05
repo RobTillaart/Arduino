@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -32,14 +32,17 @@ MCP23008::MCP23008(uint8_t address, TwoWire *wire)
 }
 
 
-bool MCP23008::begin()
+bool MCP23008::begin(bool pullup)
 {
   //  check connected
   if (! isConnected()) return false;
   //  disable address increment (datasheet)
   if (! writeReg(MCP23008_IOCR, 0b00100000)) return false;
-  //  Force INPUT_PULLUP
-  if (! writeReg(MCP23008_PUR_A, 0xFF)) return false;
+  if (pullup)
+  {
+    //  Force INPUT_PULLUP
+    if (! writeReg(MCP23008_PUR_A, 0xFF)) return false;
+  }
   return true;
 }
 

@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23008_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-01-09
 // PURPOSE: test MCP23008 library
 //     URL: https://github.com/RobTillaart/MCP23008
 

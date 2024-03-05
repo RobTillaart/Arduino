@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23017_digitalWrite.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2019-10-14
 // PURPOSE: test MCP23017 library
 //     URL: https://github.com/RobTillaart/MCP23017_RT
 

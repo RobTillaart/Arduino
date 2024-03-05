@@ -1,7 +1,6 @@
 //
 //    FILE: MCP23017_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-06-28
 // PURPOSE: test MCP23017 library
 //     URL: https://github.com/RobTillaart/MCP23017_RT
 

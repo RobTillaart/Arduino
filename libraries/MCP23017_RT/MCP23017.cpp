@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -45,15 +45,18 @@ MCP23017::MCP23017(uint8_t address, TwoWire *wire)
 }
 
 
-bool MCP23017::begin()
+bool MCP23017::begin(bool pullup)
 {
   //  check connected
   if (! isConnected()) return false;
   //  disable address increment (datasheet)
   if (! writeReg(MCP23017_IOCR, 0b00100000)) return false;
-  //  Force INPUT_PULLUP
-  if (! writeReg(MCP23017_PUR_A, 0xFF)) return false;
-  if (! writeReg(MCP23017_PUR_B, 0xFF)) return false;
+  if (pullup)
+  {
+    //  Force INPUT_PULLUP
+    if (! writeReg(MCP23017_PUR_A, 0xFF)) return false;
+    if (! writeReg(MCP23017_PUR_B, 0xFF)) return false;
+  }
   return true;
 }
 

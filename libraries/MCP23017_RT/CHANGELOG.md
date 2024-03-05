@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] 2024-03-02
+- Fix #29, add parameter to **begin(bool pullup)**
+- remove DATE field from examples as it adds no value.
+- update GitHub/actions to version v4 in workflows.
+
+
 ## [0.6.1] 2024-01-05
 - Fix URL in examples
 - minor edits
-
 
 ## [0.6.0] 2023-12-24
 - Fix #26, support for Arduino ESP32 S3 - breaking change

@@ -115,7 +115,9 @@ TODO - add performance data
 
 - **MCP23017(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface.  
 Can be overruled with Wire0..WireN.
-- **bool begin()** initializes library, returns true if successful.
+- **bool begin(bool pullup = true)** initializes library, returns true if successful. 
+Default sets the pins to INPUT PULLUP.
+Returns false if not connected or a register could not be set.
 - **bool isConnected()** returns true if connected, false otherwise.
 - **uint8_t getADdress()** returns address set in the constructor.
 

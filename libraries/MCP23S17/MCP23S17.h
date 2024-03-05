@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23S17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.5.0"))
+#define MCP23S17_LIB_VERSION              (F("0.5.1"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -43,10 +43,10 @@ public:
   //  SOFTWARE SPI
   MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00);
   //  HARDWARE SPI
-  MCP23S17(uint8_t select, __SPI_CLASS__ * spi);
-  MCP23S17(uint8_t select, uint8_t address = 0x00, __SPI_CLASS__ * spi = &SPI);
+  MCP23S17(int select, __SPI_CLASS__ * spi);
+  MCP23S17(int select, int address = 0x00, __SPI_CLASS__ * spi = &SPI);
 
-  bool     begin();
+  bool     begin(bool pullup = true);
   bool     isConnected();
   uint8_t  getAddress();   //  default returns 0x00
 

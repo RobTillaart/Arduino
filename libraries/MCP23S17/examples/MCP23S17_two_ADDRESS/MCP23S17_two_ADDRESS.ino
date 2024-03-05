@@ -10,11 +10,11 @@
 #include "MCP23S17.h"
 
 
-MCP23S17 MCP_A(10, 12, 11, 13, 0);   //  SW SPI, address 0
-MCP23S17 MCP_B(10 , 12, 11, 13, 1);  //  SW SPI, address 1
+//MCP23S17 MCP_A(10, 12, 11, 13, 0);   //  SW SPI, address 0
+//MCP23S17 MCP_B(10, 12, 11, 13, 1);   //  SW SPI, address 1
 
-//  MCP23S17 MCP_A(10, 0);   //  HW SPI, address 0
-//  MCP23S17 MCP_B(10, 1);   //  HW SPI, address 1
+MCP23S17 MCP_A(10, &SPI);   //  HW SPI, address 0 (default)
+MCP23S17 MCP_B(10, 1);      //  HW SPI, address 1
 
 
 void setup()
@@ -52,6 +52,7 @@ void setup()
 void loop()
 {
   int x = random(32);
+  Serial.println(x);
   if (x < 16)
   {
     MCP_A.write1(x, HIGH);

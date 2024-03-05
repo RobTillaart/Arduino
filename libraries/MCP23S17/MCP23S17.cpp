@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -24,13 +24,13 @@ MCP23S17::MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t cloc
 
 
 //  HARDWARE SPI
-MCP23S17::MCP23S17(uint8_t select, __SPI_CLASS__ * spi)
+MCP23S17::MCP23S17(int select, __SPI_CLASS__ * spi)
 {
   MCP23S17(select, 0x00, spi);
 }
 
 
-MCP23S17::MCP23S17(uint8_t select, uint8_t address, __SPI_CLASS__ * spi)
+MCP23S17::MCP23S17(int select, int address, __SPI_CLASS__ * spi)
 {
   _address = (address << 1);
   _select  = select;
@@ -40,7 +40,7 @@ MCP23S17::MCP23S17(uint8_t select, uint8_t address, __SPI_CLASS__ * spi)
 }
 
 
-bool MCP23S17::begin()
+bool MCP23S17::begin(bool pullup)
 {
   ::pinMode(_select, OUTPUT);
   ::digitalWrite(_select, HIGH);
@@ -71,9 +71,12 @@ bool MCP23S17::begin()
   //    0 = Sequential operation enabled, address pointer increments.
   if (! writeReg(MCP23S17_IOCR, MCP23S17_IOCR_SEQOP)) return false;
 
-  //  Force INPUT_PULLUP
-  if (! writeReg(MCP23S17_PUR_A, 0xFF)) return false;   //  0xFF == all UP
-  if (! writeReg(MCP23S17_PUR_B, 0xFF)) return false;   //  0xFF == all UP
+  if (pullup)
+  {
+    //  Force INPUT_PULLUP
+    if (! writeReg(MCP23S17_PUR_A, 0xFF)) return false;   //  0xFF == all UP
+    if (! writeReg(MCP23S17_PUR_B, 0xFF)) return false;   //  0xFF == all UP
+  }
   return true;
 }
 

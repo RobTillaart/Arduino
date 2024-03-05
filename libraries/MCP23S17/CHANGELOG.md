@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-03-02
+- Fix #38, add parameter to **begin(bool pullup)**
+- update GitHub/actions to version v4 in workflows.
+- Fix #37, using ints as parameter in constructor.
+
+
 ## [0.5.0] - 2024-01-20
 - Fix #32, improve handling SPI dependency.
 - update examples

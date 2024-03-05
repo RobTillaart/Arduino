@@ -17,6 +17,7 @@ MCP23S17 MCP(10);           //  HW SPI address 0x00
 
 uint32_t start, stop;
 
+
 void setup()
 {
   Serial.begin(115200);

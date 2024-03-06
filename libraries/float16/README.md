@@ -26,6 +26,21 @@ a floating point number. As it uses only 2 bytes where float and double have typ
 4 and 8 bytes, gains can be made at the price of range and precision.
 
 
+#### Breaking change 0.2.0
+
+Version 0.2.0 has a breaking change as a conversion bug has been found.
+See for details in issue #10.
+For some specific values the mantissa overflowed when the float 16 was 
+assigned a value to. This overflow was not detected / corrected.
+
+During the analysis of this bug it became clear that the sub-normal numbers 
+were also implemented correctly. This is fixed too in 0.2.0.
+
+There is still an issue 0 versus -0
+
+**This makes all pre-0.2.0 version obsolete.** 
+
+
 ## Specifications
 
 
@@ -34,14 +49,16 @@ a floating point number. As it uses only 2 bytes where float and double have typ
 | size      | 2 bytes      | layout s  eeeee  mmmmmmmmmm  (1,5,10)
 | sign      | 1 bit        |
 | exponent  | 5 bit        |
-| mantissa  | 11 bit       | ~ 3 digits
+| mantissa  | 10 bit       | ~ 3 digits
 | minimum   | 5.96046 E−8  |  smallest positive number.
-|           | 1.0009765625 |  1 + 2^−10 = smallest nr larger than 1.
+|           | 1.0009765625 |  1 + 2^−10 = smallest number larger than 1.
 | maximum   | 65504        |
 |           |              |
 
 
-#### example values
+#### Example values
+
+Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
 ```cpp
 /*
@@ -151,9 +168,18 @@ negation operator.
 #### Should
 
 - unit tests of the above.
+- how to handle 0 == -0  (0x0000 == 0x8000)
+- investigate ARM alternative half-precision
+_ARM processors support (via a floating point control register bit) 
+an "alternative half-precision" format, which does away with the 
+special case for an exponent value of 31 (111112).[10] It is almost 
+identical to the IEEE format, but there is no encoding for infinity or NaNs; 
+instead, an exponent of 31 encodes normalized numbers in the range 65536 to 131008._
+
 
 #### Could
 
+- copy constructor?
 - update documentation.
 - error handling.
   - divide by zero errors.

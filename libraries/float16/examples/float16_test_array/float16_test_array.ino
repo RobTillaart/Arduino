@@ -2,16 +2,15 @@
 //    FILE: float16_test_array.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test float16
-//    DATE: 2015-03-11
 //     URL: https://github.com/RobTillaart/float16
-//
 
-// show different storage needs 
+
+//  show different storage needs 
 
 #include "float16.h"
 
-float16 temperature[10];   // pointers + object are stored.
-uint16_t temp2[10];        // only raw data is stored.
+float16 temperature[10];   //  pointers + object are stored.
+uint16_t temp2[10];        //  only raw data is stored.
 
 
 void setup()
@@ -24,7 +23,7 @@ void setup()
   Serial.println();
 
 
-  // simulate temperature sensor with random numbers
+  //  simulate temperature sensor with random numbers
   for (uint32_t n = 0; n < 10; n++)
   {
     temperature[n] = (random(1000) - 300) * 0.01;
@@ -77,4 +76,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

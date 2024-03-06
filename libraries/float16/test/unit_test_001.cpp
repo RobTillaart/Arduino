@@ -32,7 +32,6 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
 #include "float16.h"
 
 
@@ -106,7 +105,7 @@ unittest(test_compare_equal)
 }
 
 
-unittest(test_compare_1nequal)
+unittest(test_compare_inequal)
 {
   float16 a(1);
   float16 b(1);
@@ -170,7 +169,37 @@ unittest(test_printable)
 }
 
 
+unittest(test_all_values)
+{
+  float16 a;
+  float16 b;
+
+  //  test both the conversion to and from float.
+  //  internal format should be equal. Except for -0 and 0.
+
+  fprintf(stderr, "test all positive patterns\n");
+  for (uint32_t x = 0x0000; x < 0x7C01; x++)
+  {
+    a.setBinary(x);
+    b = a.toDouble();
+    if (x != b.getBinary())  //  assert would give 65K lines output!
+    {
+      fprintf(stderr, "fail at %d\n", x);
+    }
+  }
+  fprintf(stderr, "test all negative patterns\n");
+  for (uint32_t x = 0x8000; x < 0xFC01; x++)
+  {
+    a.setBinary(x);
+    b = a.toDouble();
+    if (x != b.getBinary())
+    {
+      fprintf(stderr, "fail at %d\n", x);
+    }
+  }
+}
+
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

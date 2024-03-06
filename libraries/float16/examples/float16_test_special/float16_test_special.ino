@@ -2,11 +2,10 @@
 //    FILE: float16_test_special.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test float16
-//    DATE: 2021-11-26
 //     URL: https://github.com/RobTillaart/float16
 
-// test special values ...
-// https://github.com/RobTillaart/float16/issues/2
+//  test special values ...
+//  https://github.com/RobTillaart/float16/issues/2
 
 
 #include "float16.h"
@@ -19,6 +18,7 @@ uint16_t value[32] =
   0x0400, 0x0C00, 0x1400, 0x1C00, 0x2400, 0x2C00, 0x3400, 0x3C00,
   0x4400, 0x4C00, 0x5400, 0x5C00, 0x6400, 0x6C00, 0x7400, 0x7C00
 };
+
 
 float16 f16;
 
@@ -68,4 +68,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

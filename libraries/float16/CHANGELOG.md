@@ -6,11 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-03-05
+- **warning: breaking changes!**
+- Fix #10, mantissa overflow
+- Fix convert to subnormal numbers ( < 0.000061035...)
+- Fix printing subnormal numbers
+- update unit tests with **test_all**
+- update GitHub/actions to version 4
+- remove DATE from examples as it has no added value.
+- minor edits
+
+----
+
 ## [0.1.8] - 2023-11-02
 - update readme.md
 - add **isNan()** (experimental).
 - minor edits.
-
 
 ## [0.1.7] - 2022-11-07
 - add changelog.md

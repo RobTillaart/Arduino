@@ -2,9 +2,8 @@
 //    FILE: float16_test0.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test float16
-//    DATE: 2015-03-11
 //     URL: https://github.com/RobTillaart/float16
-//
+
 
 /*
    SIGN  EXP     MANTISSA
@@ -152,4 +151,4 @@ void test_numbers()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

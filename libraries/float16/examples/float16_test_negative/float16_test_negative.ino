@@ -2,9 +2,8 @@
 //    FILE: float16_test_negative.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test float16
-//    DATE: 2021-11-26
 //     URL: https://github.com/RobTillaart/float16
-//
+
 
 #include "float16.h"
 
@@ -36,4 +35,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

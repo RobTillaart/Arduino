@@ -1,0 +1,22 @@
+# Syntax Colouring Map For float16
+
+
+# Data types (KEYWORD1)
+float16ext	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+toDouble	KEYWORD2
+getBinary	KEYWORD2
+setBinary	KEYWORD2
+
+setDecimals	KEYWORD2
+getDecimals	KEYWORD2
+
+sign	KEYWORD2
+isZero	KEYWORD2
+
+
+# Constants (LITERAL1)
+FLOAT16EXT_LIB_VERSION	LITERAL1
+

@@ -2,8 +2,8 @@
 //    FILE: MAX520.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-03-06
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for MAX520/521 4/8 channel 8 bit DAC.
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for MAX520 and MAX521 4/8 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/MAX520
 
 
@@ -30,10 +30,7 @@ MAX520::MAX520(const uint8_t deviceAddress, TwoWire *wire)
 bool MAX520::begin()
 {
   if (! isConnected()) return false;
-  for (int i = 0; i < _channels; i++)
-  {
-    _values[i] = 0;
-  }
+  reset();
   return true;
 }
 
@@ -82,7 +79,8 @@ int MAX520::write(uint8_t channel, uint8_t value)
 }
 
 
-//  TODO optimize. page 11 figure 7
+//  Can be optimized with one I2C transaction.
+//  page 11 figure 7
 int MAX520::write(uint8_t * values)
 {
   for (int i = 0; i < _channels; i++)
@@ -113,10 +111,15 @@ int MAX520::read(uint8_t channel)
 //
 //  RESET (page 11) and POWER DOWN (page12)
 //
-int MAX520::reset()  
+int MAX520::reset()
 {
+  for (int i = 0; i < _channels; i++)
+  {
+    _values[i] = 0;
+  }
   _wire->beginTransmission(_address);
   _wire->write(MAX520_RESET);
+  _wire->write(0x00);  //  needs a value to ignore
   return _wire->endTransmission();
 }
 

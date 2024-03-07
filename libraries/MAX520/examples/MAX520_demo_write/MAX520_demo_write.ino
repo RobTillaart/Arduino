@@ -1,7 +1,7 @@
 //
-//    FILE: MAX520_demo.ino
+//    FILE: MAX520_demo_write.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo MAX520
+// PURPOSE: demo MAX520 write(array)
 //     URL: https://github.com/RobTillaart/MAX520
 
 
@@ -11,6 +11,8 @@
 //  MAX520 0x20..0x27
 //  MAX521 0x20..0x23
 MAX520 mx(0x20);
+
+uint8_t values[4] = { 0, 85, 170, 255 };
 
 
 void setup()
@@ -25,20 +27,18 @@ void setup()
 
   mx.begin();
 
+  mx.write(values);
+  for (int ch = 0; ch < mx.getChannels(); ch++)
+  {
+    Serial.print(mx.read(ch));
+    Serial.print("\t");
+  }
+  Serial.println();
 }
 
 
 void loop()
 {
-  for (int ch = 0; ch < mx.getChannels(); ch++)
-  {
-    for (int value = 0; value < 256; value++)
-    {
-      mx.write(ch, value);
-      delay(100);
-      Serial.println(mx.read(ch));
-    }
-  }
 }
 
 

@@ -7,7 +7,10 @@
 
 #include "MAX520.h"
 
-MAX521 mx(0x38);
+//  adjust address if needed
+//  MAX520 0x20..0x27
+//  MAX521 0x20..0x23
+MAX521 mx;  //  uses default address
 
 
 void setup()
@@ -16,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX520_LIB_VERSION:\t");
   Serial.println(MAX520_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

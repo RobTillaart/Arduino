@@ -1,7 +1,7 @@
 {
   "name": "MAX520",
   "keywords": "I2C, MAX520, MAX521, DAC",
-  "description": "Arduino library for MAX520/521 4/8 channel 8 bit DAC.",
+  "description": "Arduino library for MAX520 and MAX521 4/8 channel 8 bit DAC.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MAX520.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

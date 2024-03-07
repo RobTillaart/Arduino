@@ -16,6 +16,12 @@ getChannels	KEYWORD2
 write	KEYWORD2
 read	KEYWORD2
 
+reset	KEYWORD2
+powerDown	KEYWORD2
+wakeUp	KEYWORD2
+
+lastError	KEYWORD2
+
 
 # Constants (	LITERAL1)
 MAX520_LIB_VERSION	LITERAL1

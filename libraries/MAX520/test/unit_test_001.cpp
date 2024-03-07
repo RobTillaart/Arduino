@@ -51,18 +51,54 @@ unittest_teardown()
 }
 
 
+unittest(test_constructor)
+{
+  MAX520 mx;  //  default address
+  MAX520 mx0(0X20);
+  MAX520 mx1(0X21);
+  MAX520 mx2(0X22);
+  MAX520 mx3(0X23);
+
+  Wire.begin();
+  mx.begin();
+  mx0.begin();
+  mx1.begin();
+  mx2.begin();
+  mx3.begin();
+
+  assertEqual(0x20, mx.getAddress());
+  assertEqual(0x20, mx0.getAddress());
+  assertEqual(0x21, mx1.getAddress());
+  assertEqual(0x22, mx2.getAddress());
+  assertEqual(0x23, mx3.getAddress());
+
+
+  MAX521 mx5;
+  mx5.begin();
+  assertEqual(0x20, mx5.getAddress());
+}
+
+
 unittest(test_begin)
 {
-  MAX520 mx0(0x38);
+  MAX520 mx0;
   Wire.begin();
   mx0.begin();
   assertEqual(4, mx0.getChannels());
+  for (int ch = 0; ch < mx0.getChannels(); ch++)
+  {
+    assertEqual(0, mx0.read(ch));
+  }
 
 
-  MAX521 mx1(0x38);
+  MAX521 mx1;
   Wire.begin();
   mx1.begin();
   assertEqual(8, mx1.getChannels());
+  for (int ch = 0; ch < mx1.getChannels(); ch++)
+  {
+    assertEqual(0, mx1.read(ch));
+  }
 }
 
 

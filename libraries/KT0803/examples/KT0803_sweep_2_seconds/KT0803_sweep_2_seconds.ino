@@ -1,5 +1,5 @@
 //
-//    FILE: KT0803_minimal.ino
+//    FILE: KT0803_sweep_2_seconds.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo
 //     URL: https://github.com/RobTillaart/KT0803
@@ -19,14 +19,18 @@ void setup()
   while(!Serial);
 
   Wire.begin();
-  
   FM_SEND.begin();
-  FM_SEND.setChannel(2000);  // * 0.05 = 100.00 MHz
   FM_SEND.setMute(false);
 }
 
 void loop()
 {
+  //  adjust to your local allowed frequencies
+  for (float freq = 88.0; freq <= 108.0; freq += 0.1)
+  {
+    FM_SEND.setFrequency(freq);
+    delay(2000);
+  }
 }
 
 

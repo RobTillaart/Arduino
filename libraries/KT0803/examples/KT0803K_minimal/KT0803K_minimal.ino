@@ -1,5 +1,5 @@
 //
-//    FILE: KT0803_minimal.ino
+//    FILE: KT0803K_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo
 //     URL: https://github.com/RobTillaart/KT0803
@@ -10,7 +10,7 @@
 #include "KT0803.h"
 
 
-KT0803 FM_SEND;
+KT0803K FM_SEND;
 
 
 void setup()
@@ -19,9 +19,9 @@ void setup()
   while(!Serial);
 
   Wire.begin();
-  
+
   FM_SEND.begin();
-  FM_SEND.setChannel(2000);  // * 0.05 = 100.00 MHz
+  FM_SEND.setChannel(2000);  //  * 0.05 100.00 MHz
   FM_SEND.setMute(false);
 }
 

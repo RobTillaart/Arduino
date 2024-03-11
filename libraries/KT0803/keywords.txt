@@ -3,10 +3,10 @@
 
 # Data types (KEYWORD1)
 KT0803	KEYWORD1
+KT0803K	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-# Common
 begin	KEYWORD2
 isConnected	KEYWORD2
 

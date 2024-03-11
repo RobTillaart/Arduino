@@ -1,8 +1,8 @@
 //
 //    FILE: KT0803.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: Arduino Library for KT0803 FM transmitter
+// VERSION: 0.2.0
+// PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter.
 //     URL: https://github.com/RobTillaart/KT0803
 
 
@@ -19,9 +19,11 @@ KT0803::KT0803(TwoWire * wire)
 }
 
 
-bool KT0803::begin()
+bool KT0803::begin(float freq, bool mute)
 {
-  return isConnected();
+  if (! isConnected()) return false;
+  if (! setMute(mute)) return false;
+  return setFrequency(freq);
 }
 
 
@@ -33,31 +35,37 @@ bool KT0803::isConnected()
 
 
 ///////////////////////////////////////////////////////////
-
-
-bool KT0803::setFrequency(float frequency)
+//
+//  FREQUENCY
+//
+bool KT0803::setFrequency(float MHz)
 {
-  return setChannel(round(frequency * 20));
+  if ((MHz < 70) || (MHz > 108)) return false;
+  //  steps 50 KHz
+  return setChannel(round(MHz * 20));  
 }
 
 
+//  MHz
 float KT0803::getFrequency()
 {
   return getChannel() * 0.05;
 }
 
 
+//  steps of 50 KHz.
 bool KT0803::setChannel(uint16_t channel)
 {
-  if (writeData(0x00, channel & 0xFF) == false) return false;
-
-  uint8_t data = readData(0x01);
-  data &= 0xF8;   //  keep other bits
-  data |= (channel >> 8) & 0x07;
+  if ((channel < 1400) || (channel > 2160)) return false;
+  //  need to split over 3 registers
+  //  register 2 part skipped (always 0) for KT0803
+  uint16_t ch = channel >> 1;
+  //  register 0
+  if (writeData(0x00, ch & 0xFF) == false) return false;
+  //  register 1
+  uint8_t data = readData(0x01) & 0xF8;  //  keep other bits
+  data |= ((ch >> 8) & 0x07);
   return writeData(0x01, data);
-
-  //  Reg02  CHSEL[0] = 0 ==> 100 KHz accuracy.
-  //  Reg02  CHSEL[0] = 1 ==> 50 KHz accuracy.   //   TODO KT0803K derived class
 }
 
 
@@ -70,8 +78,13 @@ uint16_t KT0803::getChannel()
 }
 
 
+///////////////////////////////////////////////////////////
+//
+//  GAIN
+//
 bool KT0803::setPGA(uint8_t pga)
 {
+  if (pga > 7) return false;
   uint8_t data = readData(0x01);
   data &= 0xC7;   //  keep other bits
   data |= (pga << 3);
@@ -87,6 +100,7 @@ uint8_t KT0803::getPGA()
 
 bool KT0803::setRFGain(uint8_t rfgain)
 {
+  if (rfgain > 15) return false;
   //  bits 0 and 1
   uint8_t data = readData(0x01) & 0x3F;
   data |= (rfgain & 0x03) << 6;
@@ -99,13 +113,13 @@ bool KT0803::setRFGain(uint8_t rfgain)
   data = readData(0x02) & 0xBF; 
   data |= (rfgain & 0x08) << 3;
   writeData(0x02, data);
-  return true;  //  TODO add error handling.
+  return true;
 }
 
 
 uint8_t KT0803::getRFgain()
 {
-  uint8_t data = readData(0x01) >> 6;     //  bit 0, 1
+  uint8_t data = readData(0x01) >> 6;      //  bit 0, 1
   data |= ((readData(0x13) & 0x80) >> 5);  //  bit 2
   data |= ((readData(0x02) & 0x40) >> 3);  //  bit 3
   return data;
@@ -123,6 +137,11 @@ bool KT0803::setPHTCNST(bool on)
   return writeData(0x02, data);
 }
 
+
+///////////////////////////////////////////////////////////
+//
+//  MISC
+//
 bool KT0803::getPHTCNST()
 {
   return (readData(0x02) & 0x01) > 0;
@@ -131,6 +150,7 @@ bool KT0803::getPHTCNST()
 
 bool KT0803::setPilotToneAdjust(uint8_t mode)
 {
+  if (mode > 1) return false;
   uint8_t data = readData(0x02);
   //  is the bit already OK
   if ((mode == 1) && (data & 0x04) == 0x04) return true;
@@ -147,6 +167,10 @@ uint8_t KT0803::getPilotToneAdjust()
 }
 
 
+///////////////////////////////////////////////////////////
+//
+//  MUTE
+//
 bool KT0803::setMute(bool mute)
 {
   uint8_t data = readData(0x02);
@@ -163,8 +187,6 @@ bool KT0803::getMute()
 {
   return (readData(0x02) & 0x08) > 0;
 }
-
-
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -193,6 +215,52 @@ int KT0803::readData(uint8_t reg)
   }
   return -1;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+KT0803K::KT0803K(TwoWire * wire) : KT0803(wire)
+{
+}
+
+
+bool KT0803K::setChannel(uint16_t channel)
+{
+  if ((channel < 1400) || (channel > 2160)) return false;
+  //  need to split over 3 registers
+  uint16_t ch = channel;
+  //  register 2
+  uint8_t data = readData(0x02) & 0x7F;
+  data |= (channel & 0x01) << 8;
+  if (writeData(0x02, data) == false) return false;
+  ch >>= 1;
+  //  register 0
+  if (writeData(0x00, ch & 0xFF) == false) return false;
+  //  register 1
+  ch >>= 8;
+  data = readData(0x01);
+  data &= 0xF8;   //  keep other bits
+  data |= ch & 0x07;
+  return writeData(0x01, data);
+}
+
+uint16_t KT0803K::getChannel()
+{
+  uint16_t channel = readData(0x01) & 0x07;
+  channel <<= 8;
+  channel |= readData(0x00);
+  channel <<= 1;
+  channel |= (readData(0x02) >> 0x07);
+  return channel;
+}
+
+
+///////////////////////////////////////////////////////////
+//
+//  OTHER
+//
 
 
 //  -- END OF FILE --

@@ -21,6 +21,11 @@ void setup()
   Wire.begin();
   TCA.begin();
 
+
+  Serial.println("Set pinMode16 INPUT");
+  TCA.pinMode16(0xFFFF);
+
+
   Serial.println("TEST read1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
@@ -30,13 +35,15 @@ void setup()
   }
   Serial.println();
 
+
   Serial.println("\nchange polarity");
   Serial.println(TCA.getPolarity8(0));
-  Serial.println(TCA.getPolarity8(1));  
+  Serial.println(TCA.getPolarity8(1));
   TCA.setPolarity8(0, 0xFF); // all inverted
   TCA.setPolarity8(1, 0xFF); // all inverted
   Serial.println(TCA.getPolarity8(0));
-  Serial.println(TCA.getPolarity8(1));  
+  Serial.println(TCA.getPolarity8(1));
+
 
   Serial.println("\nafter setPolarity");
   for (int pin = 0; pin < 16; pin++)
@@ -46,6 +53,7 @@ void setup()
     Serial.print(' ');
   }
   Serial.println();
+  Serial.println("\ndone...");
 }
 
 

@@ -21,9 +21,13 @@ void setup()
   Serial.println();
 
   Wire.begin();
+  TCA0.begin();
+  TCA1.begin();
 
   Serial.println(TCA0.getType());
   Serial.println(TCA1.getType());
+
+  Serial.println("\ndone...");
 }
 
 

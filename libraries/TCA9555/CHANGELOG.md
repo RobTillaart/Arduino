@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.1] - 2024-01-06
+## [0.3.2] - 2024-03-11
+- Fix #18, pinMode in examples (kudos to nerdyscout)
+- update GitHub actions to v4
+- update readme.md
+- add **TCA9555_interrupt.ino** to be verified
+- add datasheet to repo
 - minor edits
 
+
+## [0.3.1] - 2024-01-06
+- minor edits
 
 ## [0.3.0] - 2023-12-23
 - Fix #14, support for Arduino ESP32 S3 - breaking change

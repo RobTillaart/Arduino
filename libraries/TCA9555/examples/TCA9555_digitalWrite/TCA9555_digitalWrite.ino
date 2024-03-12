@@ -22,7 +22,16 @@ void setup()
   Wire.begin();
   TCA.begin();
 
-  Wire.setClock(50);
+  Wire.setClock(50000);
+
+
+  Serial.println("Set pinMode1 OUTPUT");
+  for (int i = 0; i < 16; i++)
+  {
+    TCA.pinMode1(i, OUTPUT);
+    TCA.write1(i, LOW);
+  }
+
 
   Serial.println("TEST write1(0)");
   for (int i = 0; i < 16; i++)
@@ -35,6 +44,7 @@ void setup()
   Serial.println();
   Serial.println();
 
+
   Serial.println("TEST write1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
@@ -45,8 +55,8 @@ void setup()
   Serial.println();
   Serial.println();
 
-  Serial.println("TEST read back");
 
+  Serial.println("TEST read back");
   for (int pin = 0; pin < 16; pin++)
   {
     int val = TCA.read1(pin);
@@ -54,7 +64,7 @@ void setup()
     Serial.print('\t');
   }
   Serial.println();
-  Serial.println();
+  Serial.println("\ndone...");
 }
 
 

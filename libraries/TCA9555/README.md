@@ -18,17 +18,17 @@ Arduino library for TCA9555 16 channel I2C port expander.
 
 This library gives easy control over the 16 pins of a TCA9555 chip.
 
-The pins can be used for input and output, and allow to set polarity.
+The pins can be used for INPUT (default) and OUTPUT, and allow to set polarity.
 
-The pins can be set per pin, or with a mask to set either 8 or 16 pins
-in one call. 
-Note that for the 16 bit interface settings are not simultaneous as the
-16 bit interface does 2 calls to the 8 bit interface.
+The pins can be set per single pin, or with a mask to set either 8 or 16 pins
+in one call.
+Note that for the 16 bit interface settings are not perfectly simultaneous 
+as the 16 bit interface does in fact 2 calls to the 8 bit interface.  
 
 
 #### TCA9535
 
-from datasheet:
+From datasheet:
 
 _The TCA9535 is identical to the TCA9555, except that the TCA9535 does not include the internal I/O
 pull-up resistor, which requires pull-ups and pull-downs on unused I/O pins when configured as an
@@ -87,11 +87,36 @@ before calling **begin()**.
 
 ## Hardware
 
-#### I2C
+#### I2C addresses
 
-Allowed addresses are 0x20..0x27. to be set with pin A0, A1, A2.
+The addresses for the TCA9555 and TCA9535 are 0x20..0x27.
+These are to be set with pin A0, A1, A2.
 
-The TCA9555 supports up to 400 kHz I2C.
+Both the TCA9555 and TCA9535 support up to 400 kHz I2C.
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+#### INT
+
+The interrupt pin is not supported by the library.
+Needs investigation (+ examples).
 
 
 ## Interface
@@ -176,19 +201,27 @@ Reading it will reset the flag to **TCA9555_OK**.
 - test all functionality
   - library is written without hardware
 
+
 #### Should
 
+- investigate INT = interrupt pin
 - investigate map INPUT_PULLUP on INPUT (pinMode ?)
 - investigate internal pull up etc.
 - investigate TCA9535 differences
   - pull up resistors
   - elaborate derived class
+- **setPolarity()** ==> **setPolarity1()** ? get idem.
+  - uniformity
+
 
 #### Could
 
 - rethink class hierarchy
   - TCA9535 has less functions so should be base class
-- valid address range?
+- add performance example for I2C.
+- investigate optimizing the "16 pins" interface.
+  - read /write multiple bytes in one call, is it supported?
+
 
 #### Wont (unless)
 

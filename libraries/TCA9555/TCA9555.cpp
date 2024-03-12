@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9555.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -15,9 +15,9 @@
 #define TCA9555_INPUT_PORT_REGISTER_1     0x01
 #define TCA9555_OUTPUT_PORT_REGISTER_0    0x02    //  write()
 #define TCA9555_OUTPUT_PORT_REGISTER_1    0x03
-#define TCA9555_POLARITY_REGISTER_0       0x04    //  get/setPolarity
+#define TCA9555_POLARITY_REGISTER_0       0x04    //  get/setPolarity()
 #define TCA9555_POLARITY_REGISTER_1       0x05
-#define TCA9555_CONFIGURATION_PORT_0      0x06    //  pinMode
+#define TCA9555_CONFIGURATION_PORT_0      0x06    //  pinMode()
 #define TCA9555_CONFIGURATION_PORT_1      0x07
 
 
@@ -305,7 +305,7 @@ uint8_t TCA9555::getType()
 
 ////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 bool TCA9555::writeRegister(uint8_t reg, uint8_t value)
 {

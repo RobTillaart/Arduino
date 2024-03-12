@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD5246 demo program
 //     URL: https://github.com/RobTillaart/AD5246
-//
 
 
 #include "AD5246.h"

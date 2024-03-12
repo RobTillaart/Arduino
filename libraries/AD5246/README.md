@@ -59,13 +59,29 @@ This library is based upon the AD5245 library.
 - https://github.com/RobTillaart/AD5246/  rheostat
 
 
-## I2C address
+## I2C
 
 The AD5246 has one fixed address 0x2E.
-If one needs more AD5426 on one I2C bus one need a I2C multiplexer 
-- https://github.com/RobTillaart/TCA9548
 
 The maximum I2C speed is 400 KHz.
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -104,7 +120,15 @@ The examples show the basic working of the functions.
 
 ## Future
 
+#### Must
+
+#### Should
+
 - keep in sync with AD5245 library
+
+#### Could
+
+#### Wont
 
 
 ## Support

@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD5246 demo program
 //     URL: https://github.com/RobTillaart/AD5246
-//
 
 
 #include "AD5246.h"
@@ -22,7 +21,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(400000);
-  
+
   bool b = AD.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD.isConnected());

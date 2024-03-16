@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-03-16
+- add **getAddress()** (e.g. debugging)
+- improved **AD5241::write(rdac, ...)**
+- improved **AD5280::write(rdac, ...)**
+- update GitHub actions
+- update keywords.txt
+- minor edits examples
+
+
 ## [0.5.0] - 2023-11-29
 - remove ESP32 specific **begin()**
 - add (experimental) support or AD5280 / AD5282.

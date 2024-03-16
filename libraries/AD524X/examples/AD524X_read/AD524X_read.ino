@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD524X demo program
 //     URL: https://github.com/RobTillaart/AD524X
-//
 
 
 #include "AD524X.h"

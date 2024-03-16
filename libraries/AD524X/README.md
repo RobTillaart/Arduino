@@ -20,17 +20,20 @@ The AD5241, AD5242, AD5280 and AD5282 are digital potentiometers.
 The AD5241/80 has one, the AD5242/82 has two potentiometers.
 Both types have two output lines O1 and O2.
 
+The main difference in the AD524x and AD528x series is the resistance.
+See the table below.
+
 The AD5280/82 is compatible with AD5241/42 (based upon datasheet compare).
 The library provides separate classes for the AD5280/82 however these are 
 not tested with actual hardware yet.
 Please let me know if you get the AD5280/82 classes working.
 
-|  device  |  channels  |  steps |  ranges KΩ      | 
-|:--------:|:----------:|:------:|:---------------:|
-|  AD5241  |     1      |  256   |  10, 100, 1000  |
-|  AD5242  |     2      |  256   |  10, 100, 1000  |
-|  AD5280  |     1      |  256   |  20,  50,  200  |
-|  AD5282  |     2      |  256   |  20,  50,  200  |
+|  device  |  channels  |  steps  |  ranges KΩ      | 
+|:--------:|:----------:|:-------:|:---------------:|
+|  AD5241  |     1      |   256   |  10, 100, 1000  |
+|  AD5242  |     2      |   256   |  10, 100, 1000  |
+|  AD5280  |     1      |   256   |  20,  50,  200  |
+|  AD5282  |     2      |   256   |  20,  50,  200  |
 
 
 An important property of the devices is that they defaults
@@ -51,15 +54,13 @@ The user has to call **Wire.begin()** or equivalent himself before calling **beg
 - https://github.com/RobTillaart/AD520x
 - https://github.com/RobTillaart/AD524X
 - https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5248 (also AD5243)
 - https://github.com/RobTillaart/AD5144A
 - https://github.com/RobTillaart/AD5263
 - https://github.com/RobTillaart/X9C10X
 
 
 #### Compatibles ?
-
-The AD5243 (fixed address) and AD5248 (2 address pins) are very close but 
-not compatible with this library. See future.
 
 If you find compatible devices please let me know.
 
@@ -103,6 +104,7 @@ The developer is responsible for handling this correctly.
 - **bool begin()** initialization of the object. 
 Note the user must call **wire.begin()** or equivalent before calling **begin()**.
 - **bool isConnected()** See if the address set in constructor is on the I2C bus.
+- **uint8_t getAddress()** returns address set in constructor, convenience.
 
 
 #### Basic IO
@@ -129,7 +131,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
 
 
-## Interface AD5421 specific
+## Interface AD5421 + AD5280 specific
 
 Since 0.4.1 the library supports writing explicit to port 0
 as that is the only port.
@@ -138,13 +140,8 @@ as that is the only port.
 - **uint8_t write(const uint8_t value, const uint8_t O1, const uint8_t O2)**
 idem + set output lines O1 and O2 too.
 
-Note that the **write(rdac, value)** can be called but behaviour is not defined.
-(need to test behaviour or "block" this call).
-
-
-## Operation
-
-The examples show the basic working of the functions.
+Note that **uint8_t write(rdac, value)** and **uint8_t write(rdac, value, O1, O2)**
+can be called and return **AD524X_ERROR** if **rdac > 0**. 
 
 
 ## Error codes
@@ -164,7 +161,6 @@ The examples show the basic working of the functions.
 #### Should
 
 - verify the working of AD5280 and AD5282.
-- improve AD5241 handling of **write(rdac, value)** calls (block?)
 - improve error handling.
 - sync with AD520X library.
 
@@ -174,8 +170,7 @@ The examples show the basic working of the functions.
 #### Wont
 
 - make midpoint 128
-- investigate AD5243 ==> separate library!)
-  - has no O1 and O2 lines.
+
 
 ## Support
 

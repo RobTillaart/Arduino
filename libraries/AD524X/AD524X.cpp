@@ -1,7 +1,7 @@
 //
 //    FILE: AD524X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: I2C digital potentiometer AD5241 AD5242
 //    DATE: 2013-10-12
 //     URL: https://github.com/RobTillaart/AD524X
@@ -43,6 +43,12 @@ bool AD524X::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t AD524X::getAddress()
+{
+  return _address;
 }
 
 
@@ -202,13 +208,15 @@ uint8_t AD5241::write(const uint8_t value, const uint8_t O1, const uint8_t O2)
 
 uint8_t AD5241::write(const uint8_t rdac, const uint8_t value)
 {
-  return AD524X::write(rdac, value);
+  if (rdac >= _pmCount) return AD524X_ERROR;
+  return AD5241::write(value);
 }
 
 
 uint8_t AD5241::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
 {
-  return AD524X::write(rdac, value, O1, O2);
+  if (rdac >= _pmCount) return AD524X_ERROR;
+  return AD5241::write(value, O1, O2);
 }
 
 
@@ -251,13 +259,15 @@ uint8_t AD5280::write(const uint8_t value, const uint8_t O1, const uint8_t O2)
 
 uint8_t AD5280::write(const uint8_t rdac, const uint8_t value)
 {
-  return AD524X::write(rdac, value);
+  if (rdac >= _pmCount) return AD524X_ERROR;
+  return AD5280::write(value);
 }
 
 
 uint8_t AD5280::write(const uint8_t rdac, const uint8_t value, const uint8_t O1, const uint8_t O2)
 {
-  return AD524X::write(rdac, value, O1, O2);
+  if (rdac >= _pmCount) return AD524X_ERROR;
+  return AD5280::write(value, O1, O2);
 }
 
 

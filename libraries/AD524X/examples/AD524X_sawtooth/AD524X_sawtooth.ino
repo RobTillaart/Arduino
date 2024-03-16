@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AD524X demo program
 //     URL: https://github.com/RobTillaart/AD524X
-//
 
 
 #include "AD524X.h"
@@ -21,7 +20,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(400000);
-  
+
   bool b = AD01.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD01.isConnected());

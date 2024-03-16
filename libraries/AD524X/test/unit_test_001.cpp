@@ -68,7 +68,7 @@ unittest(test_pmCount)
 
   AD524X ADx(0x2C);  //  AD0 & AD1 == GND
   assertEqual(2, ADx.pmCount());
-  
+
   AD5241 AD1(0x2C);
   assertEqual(2, ADx.pmCount());
 
@@ -135,7 +135,7 @@ unittest(test_O1_O2)
 
   assertEqual(0, AD.getO1());
   assertEqual(0, AD.getO2());
-  
+
   AD.setO1();
   assertEqual(1, AD.getO1());
   assertEqual(0, AD.getO2());
@@ -143,7 +143,7 @@ unittest(test_O1_O2)
   AD.setO2();
   assertEqual(1, AD.getO1());
   assertEqual(1, AD.getO2());
-  
+
   AD.setO1(0);
   assertEqual(0, AD.getO1());
   assertEqual(1, AD.getO2());
@@ -151,7 +151,7 @@ unittest(test_O1_O2)
   AD.setO2(0);
   assertEqual(0, AD.getO1());
   assertEqual(0, AD.getO2());
-  
+
   AD.write(0, 0, 1, 1);
   assertEqual(1, AD.getO1());
   assertEqual(1, AD.getO2());

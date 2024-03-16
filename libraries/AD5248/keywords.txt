@@ -7,6 +7,9 @@ AD5248	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
 reset	KEYWORD2
 zeroAll	KEYWORD2
 
@@ -15,6 +18,8 @@ write	KEYWORD2
 
 midScaleReset	KEYWORD2
 pmCount	KEYWORD2
+
+readBackRegister	KEYWORD2
 shutDown	KEYWORD2
 
 

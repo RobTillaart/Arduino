@@ -2,7 +2,7 @@
 //
 //    FILE: AD5248.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Library for I2C digital potentiometer AD5243 + rheostat AD5248
 //    DATE: 2023-12-12
 //     URL: https://github.com/RobTillaart/AD5248
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AD5248_LIB_VERSION    (F("0.1.0"))
+#define AD5248_LIB_VERSION    (F("0.1.1"))
 
 
 #define AD5248_OK             0
@@ -20,7 +20,7 @@
 
 
 #define AD5248_MIDPOINT       127
- 
+
 
 class AD5248
 {
@@ -29,6 +29,7 @@ public:
 
   bool    begin();
   bool    isConnected();
+  uint8_t getAddress();
 
   //  RESET
   uint8_t reset();    //  reset both channels to AD524X_MIDPOINT
@@ -62,7 +63,7 @@ protected:
 
 //////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES  AD5248 rheostat
+//  DERIVED CLASS  AD5243 potentiometer
 //
 class AD5243 : public AD5248
 {

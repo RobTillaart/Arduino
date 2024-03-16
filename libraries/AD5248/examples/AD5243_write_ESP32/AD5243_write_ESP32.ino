@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AD5248
-//
 
 
 #include "AD5248.h"
@@ -21,7 +20,7 @@ void setup()
 
   Wire1.begin(21, 22);  //  adjust if needed
   Wire1.setClock(400000);
-  
+
   bool b = AD01.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD01.isConnected());

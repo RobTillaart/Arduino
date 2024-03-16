@@ -11,7 +11,7 @@
 
 # AD5248
 
-Arduino library for I2C digital potentioMeter AD5243 + rheostat AD5248
+Arduino library for I2C digital potentioMeter AD5243 and rheostat AD5248
 
 
 ## Description
@@ -28,22 +28,22 @@ The AD5243 is a digital potentiometer, the AD5248 is a digital rheostat.
 Both IC's have two "channels" and they do not have the output lines
 some other IC's in these series have e.g. like the AD5242.
 
-The AD5243 has a fixed address (0x2F = 47) while the AD5248 has 2 address pins 
-giving 4 possible addresses. See table.
+The AD5243 has a fixed address (0x2F = 47 decimal) while the AD5248 has 
+two address pins giving 4 possible addresses. See table below.
 
 
-| Addr(dec)| Addr(Hex) |  AD1  |  AD0  |
-|:--------:|:---------:|:-----:|:-----:|
+| Addr(dec)| Addr(Hex) |  AD1  |  AD0  |  Notes  |
+|:--------:|:---------:|:-----:|:-----:|:-------:|
 |    44    |   0x2C    |  GND  |  GND  |
 |    45    |   0x2D    |  GND  |  +5V  |
 |    46    |   0x2E    |  +5V  |  GND  |
-|    47    |   0x2F    |  +5V  |  +5V  |
+|    47    |   0x2F    |  +5V  |  +5V  |  fixed address of AD5243  |
 
 
 An important property of the devices is that they defaults
 to their mid position at startup.
 
-The library defines AD5243_MIDPOINT == 127.
+The library defines **AD5248_MIDPOINT == 127**.
 To be used to set to defined mid-point.
 
 
@@ -52,13 +52,13 @@ To be used to set to defined mid-point.
 - https://github.com/RobTillaart/AD520x
 - https://github.com/RobTillaart/AD524X
 - https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5248
 - https://github.com/RobTillaart/AD5144A
 - https://github.com/RobTillaart/AD5263
 - https://github.com/RobTillaart/X9C10X
 
 
 #### Compatibles
-
 
 If you know compatible devices please let me know.
 
@@ -81,9 +81,9 @@ creates an instance with 2 potentiometers.
 - **bool begin()** initialization of the object. 
 Note the user must call **wire.begin()** or equivalent before calling **begin()**.
 - **bool isConnected()** See if the address set in constructor is on the I2C bus.
+- **uint8_t getAddress()**  Returns address set in the constructor, or fixed 0x2F for the AD5243.
 
-
-#### REad write
+#### Read write
 
 - **uint8_t read(uint8_t channel)** read back the set value.
 - **uint8_t write(uint8_t channel, uint8_t value)** set channel 0/1 to value 0..255.
@@ -96,11 +96,6 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 #### Experimental
 
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
-
-
-## Operation
-
-The examples show the basic working of the functions.
 
 
 ## Error codes

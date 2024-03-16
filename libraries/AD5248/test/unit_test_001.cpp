@@ -41,10 +41,12 @@ unittest(test_constructors)
   Wire.begin();
 
   AD5243 ADx;
+  assertEqual(0x2F, ADx.getAddress());
   assertEqual(127, ADx.read(0));
   assertEqual(127, ADx.read(1));
 
   AD5248 AD1(0x2C);
+  assertEqual(0x2C, AD1.getAddress());
   assertEqual(127, AD1.read(0));
   assertEqual(127, AD1.read(1));
 }
@@ -56,7 +58,7 @@ unittest(test_pmCount)
 
   AD5243 ADx;
   assertEqual(2, ADx.pmCount());
-  
+
   AD5248 AD1(0x2C);
   assertEqual(2, ADx.pmCount());
 }

@@ -39,7 +39,7 @@ void setup()
   INA.setMaxCurrentShunt(5, 0.002);    //  adjust if needed.
 
   Serial.println();
-  
+
   Serial.print("CALI:\t");
   Serial.println(INA.isCalibrated());
   Serial.print("CLSB:\t");

@@ -24,21 +24,13 @@ Read datasheet for details.
 **USE WITH CARE**
 
 The INA219 is a voltage, current and power measurement device. 
-Maxima, see datasheet, chapter 7, esp 7.5
+A few important maxima, see datasheet, chapter 7, esp 7.5
 
 |   description   |  max  |   unit  |  notes  |
 |:----------------|------:|--------:|:--------|
 |  bus voltage    |  32   |  Volt   |  depends on BRNG setting
 |  shunt voltage  |  320  |  mVolt  |  depends on PGA setting
 
-
-#### Related
-
-- https://www.ti.com/product/INA219#tech-docs
-- https://www.ti.com/product/INA219#params
-- https://www.ti.com/document-viewer/INA219/datasheet
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
 
 
 #### 0.2.0 Breaking change
@@ -59,6 +51,7 @@ before calling **begin()**.
 #### Related
 
 - https://www.ti.com/product/INA219#tech-docs
+- https://www.ti.com/product/INA219#params
 - https://www.ti.com/document-viewer/INA219/datasheet
 - https://github.com/RobTillaart/INA219
 - https://github.com/RobTillaart/INA226
@@ -102,8 +95,9 @@ use **INA219_test_I2C.ino**
 
 #### Constructor
 
-- **INA219(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set address and optional Wire interface.
-- **bool begin()** UNO ea. initializes the class. 
+- **INA219(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
+the address and optional Wire interface.
+- **bool begin()** initializes the class.
 Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **bool isConnected()** Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **uint8_t getAddress()** Returns the INA219 address set in the constructor.
@@ -114,26 +108,26 @@ Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 Note the power and the current are not meaningful without calibrating the sensor. 
 Also the value is not meaningful if there is no shunt connected.
 
-- **float getShuntVoltage()** idem.
-- **float getBusVoltage()** idem. Max 32 Volt.
-- **float getPower()** returns the current times BusVoltage in Watt.
+- **float getShuntVoltage()** idem, in volts.
+- **float getBusVoltage()** idem. in volts. Max 32 Volt.
 - **float getCurrent()** returns the current through the shunt in Ampere.
+- **float getPower()** returns the current x BusVoltage in Watt.
 
 The library has helper functions to convert above output to a more appropriate scale of units.
 
-Helper functions for the milli-scale.
+Helper functions for the milli scale.
 
-- **float getBusVoltage_mV()** idem, returns millivolts.
+- **float getBusVoltage_mV()** idem, in milliVolts.
 Note: returns -100 if the math overflow bit is set.
-- **float getShuntVoltage_mV()** idem, returns millivolts.
-- **float getCurrent_mA()** idem in milliAmpere.
-- **float getPower_mW()** idem in milliWatt.
+- **float getShuntVoltage_mV()** idem, in milliVolts.
+- **float getCurrent_mA()** idem, in milliAmpere.
+- **float getPower_mW()** idem, in milliWatt.
 
-Helper functions for the micro-scale.
+Helper functions for the micro scale.
 
-- **float getBusVoltage_uV()** idem microVolt.
-- **float getShuntVoltage_uV()** idem microVolt.
-- **float getCurrent_uA()** idem in microAmpere.
+- **float getBusVoltage_uV()** idem, in microVolts.
+- **float getShuntVoltage_uV()** idem, in microVolts.
+- **float getCurrent_uA()** idem, in microAmpere.
 - **float getPower_uW()** idem, in microWatt.
 
 
@@ -165,12 +159,12 @@ Returns false if it could not write settings to device.
 #### Configuration BUS and SHUNT
 
 **Note:**
-The internal conversions runs in the background in the INA219.
+The internal conversions runs in the background in the device.
 If a conversion is finished the measured value is stored in the appropriate register. 
 The last obtained values can always be read from the registers, so they will not block.
 Result can be that you get the very same value if no new data is available yet.
 This is especially true if you increase the number of samples.
-(See also discussion in #11).
+(See also discussion in INA219 issue 11).
 
 Using more samples reduces the noise level, but one will miss the faster 
 changes in voltage or current.
@@ -265,9 +259,9 @@ Descriptive mode functions (convenience wrappers around **setMode()**).
 
 #### Calibration
 
-See details datasheet.
+See datasheet.
 
-Calibration is mandatory for **getCurrent()** and **getPower()** to work.
+Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 
 - **bool setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002)** 
 set the calibration register based upon the shunt and the max ampere. 
@@ -279,9 +273,9 @@ Returns false if parameter out of range.
 Returns false if it could not write settings to device.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**. 
 - **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
-- **float getCurrentLSB_mA()** returns the LSB in milliampere.
-- **float getCurrentLSB_uA()** returns the LSB in microampere.
-- **float getShunt()** returns the value set for the shunt.
+- **float getCurrentLSB_mA()** returns the LSB in milliAmpere.
+- **float getCurrentLSB_uA()** returns the LSB in microAmpere.
+- **float getShunt()** returns the value set for the shunt in Ohm.
 - **float getMaxCurrent()** returns the value for the maxCurrent which can be corrected.
 
 To print these values one might use https://github.com/RobTillaart/printHelpers 
@@ -313,7 +307,7 @@ Meant for debugging only, reg = 0..5. Check datasheet for the details.
 - update documentation
 
 
-#### Should 
+#### Should
 
 - sync INA226 where meaningful
 - improve error handling
@@ -325,10 +319,12 @@ Meant for debugging only, reg = 0..5. Check datasheet for the details.
 - write and verify examples
 - add a **setCurrentLSB(uint16_t mA)** function ?
   - maxAmpere as derived value
-
+- disconnected load.
+  - can it be recognized? => current drop?
 
 #### Could
 
+- clean up magic numbers in the code
 - calibration
   - autocorrect \_current_LSB  round number
   - maxCurrent? how much?
@@ -337,8 +333,7 @@ Meant for debugging only, reg = 0..5. Check datasheet for the details.
     - less iterations?
     - local var for current_lsb?
     - does this matter as it is often a one time action?
-- disconnected load, 
-  - can it be recognized? => current drop?
+
 - cache configuration ? ==> 2 bytes
   - what is gained? both getting and setting is faster.
     a few milliseconds per call?
@@ -360,5 +355,4 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-
 

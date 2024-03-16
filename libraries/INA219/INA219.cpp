@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -205,7 +205,7 @@ bool INA219::setBusResolution(uint8_t bits)
 }
 
 
-//  value = 0..7, always 12 bit resolution, 
+//  value = 0..7, always 12 bit resolution
 bool INA219::setBusSamples(uint8_t value)
 {
   if (value > 7) return false;
@@ -259,7 +259,7 @@ bool INA219::setShuntResolution(uint8_t bits)
 }
 
 
-//  value = 0..7, always 12 bit resolution, 
+//  value = 0..7, always 12 bit resolution
 bool INA219::setShuntSamples(uint8_t value)
 {
   if (value > 7) return false;
@@ -326,8 +326,6 @@ uint8_t INA219::getMode()
 bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
   // #define PRINTDEBUG
-  uint16_t calib = 0;
-
   if (maxCurrent < 0.001) return false;
   if (shunt < 0.001) return false;
 
@@ -335,7 +333,8 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
   _current_LSB = maxCurrent * 3.0517578125e-5;
   _maxCurrent = maxCurrent;
   _shunt = shunt;
-  calib = round(0.04096 / (_current_LSB * shunt));
+
+  uint16_t calib = uint16_t(0.04096 / (_current_LSB * shunt));
   uint16_t wrrv = _writeRegister(INA219_CALIBRATION, calib);
 
   #ifdef PRINTDEBUG

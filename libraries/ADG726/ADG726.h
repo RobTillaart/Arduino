@@ -3,14 +3,14 @@
 //    FILE: ADG726.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-24
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for ADG726 - 16 to 1 channel (2x) multiplexer
 //     URL: https://github.com/RobTillaart/ADG726
 
 
 #include "Arduino.h"
 
-#define ADG726_LIB_VERSION         (F("0.1.1"))
+#define ADG726_LIB_VERSION         (F("0.1.2"))
 
 #define ADG726_ALLOFF              0x80
 

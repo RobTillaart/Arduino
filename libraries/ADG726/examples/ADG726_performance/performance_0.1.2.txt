@@ -1,0 +1,8 @@
+Arduino UNO
+IDE: 1.8.19
+
+ADG726_LIB_VERSION: 0.1.2
+setChannel:	48.50
+setChannelA:	48.50
+setChannelB:	48.50
+

@@ -77,7 +77,6 @@ Valid values for channel are 0..15.
 #### Should
 
 - add examples
-- check performance
 
 #### Could
 

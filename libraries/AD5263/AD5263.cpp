@@ -1,7 +1,7 @@
 //
 //    FILE: AD5263.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for I2C digital potentiometer AD5263 and compatibles.
 //    DATE: 2023-10-09
 //     URL: https://github.com/RobTillaart/AD5263
@@ -50,6 +50,12 @@ bool AD5263::isConnected()
 }
 
 
+uint8_t AD5263::getAddress()
+{
+  return _address;
+}
+
+
 uint8_t AD5263::reset()
 {
   return setAll(AD5263_MIDPOINT);
@@ -76,6 +82,7 @@ uint8_t AD5263::write(const uint8_t rdac, const uint8_t value)
 {
   if (rdac >= _pmCount) return AD5263_ERROR;
 
+  //  uint8_t cmd = rdac << 5;  //  saves 12 bytes UNO
   uint8_t cmd = AD5263_RDAC0;
   if (rdac == 1) cmd = AD5263_RDAC1;
   if (rdac == 2) cmd = AD5263_RDAC2;
@@ -95,6 +102,7 @@ uint8_t AD5263::write(const uint8_t rdac, const uint8_t value, const uint8_t O1,
   _O1 = (O1 == LOW) ? 0 : AD5263_O1_HIGH;
   _O2 = (O2 == LOW) ? 0 : AD5263_O2_HIGH;
 
+  //  uint8_t cmd = rdac << 5;  //  saves 12 bytes UNO
   uint8_t cmd = AD5263_RDAC0;
   if (rdac == 1) cmd = AD5263_RDAC1;
   if (rdac == 2) cmd = AD5263_RDAC2;

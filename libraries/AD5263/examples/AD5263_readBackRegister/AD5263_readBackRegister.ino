@@ -21,7 +21,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(400000);
-  
+
   bool b = AD01.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD01.isConnected());
@@ -45,7 +45,7 @@ void test(uint8_t rdac, uint8_t val)
   Serial.print(val);
   AD01.write(rdac, val);
   delay(100);
-  
+
   int x = AD01.read(rdac);
   int y = AD01.readBackRegister();
   Serial.print('\t');

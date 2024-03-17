@@ -6,6 +6,7 @@ AD5263	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 reset	KEYWORD2
 zeroAll	KEYWORD2

@@ -71,7 +71,7 @@ unittest(test_reset)
   assertEqual(0, ADx.read(1));
   assertEqual(0, ADx.read(2));
   assertEqual(0, ADx.read(3));
-  
+
   ADx.reset();
   assertEqual(128, ADx.read(0));
   assertEqual(128, ADx.read(1));
@@ -126,7 +126,7 @@ unittest(test_O1_O2)
 
   assertEqual(0, ADx.getO1());
   assertEqual(0, ADx.getO2());
-  
+
   ADx.setO1();
   assertEqual(1, ADx.getO1());
   assertEqual(0, ADx.getO2());
@@ -134,7 +134,7 @@ unittest(test_O1_O2)
   ADx.setO2();
   assertEqual(1, ADx.getO1());
   assertEqual(1, ADx.getO2());
-  
+
   ADx.setO1(0);
   assertEqual(0, ADx.getO1());
   assertEqual(1, ADx.getO2());
@@ -142,7 +142,7 @@ unittest(test_O1_O2)
   ADx.setO2(0);
   assertEqual(0, ADx.getO1());
   assertEqual(0, ADx.getO2());
-  
+
   ADx.write(0, 0, 1, 1);
   assertEqual(1, ADx.getO1());
   assertEqual(1, ADx.getO2());

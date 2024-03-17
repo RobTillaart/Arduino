@@ -21,7 +21,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(400000);
-  
+
   bool b = AD01.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD01.isConnected());

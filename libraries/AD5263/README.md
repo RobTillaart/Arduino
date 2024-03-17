@@ -16,9 +16,9 @@ Arduino library for I2C digital potentiometer AD5263 and compatibles.
 
 ## Description
 
-The AD5263 is a digital potentiometer with 4 channels.
-This digital potentiometers come in 20, 50 and 200 kΩ
-and can be set in 256 steps.
+The AD5263 is a digital potentiometer with 4 channels and very much alike the 
+AD524X (single / dual channels).
+This digital potentiometers come in 20, 50 and 200 kΩ and can be set in 256 steps.
 This library only implements the I2C interface (See future for SPI).
 
 An important property of the AD5263 device is that it defaults
@@ -33,9 +33,13 @@ To be used to set to defined mid-point.
 
 This library is related to
 
-- https://github.com/RobTillaart/AD524X single/dual port digital potentiometer.
-- https://github.com/RobTillaart/AD5245 single port digital potentiometer.
-- https://github.com/RobTillaart/AD520X multi port digital potentiometer.
+- https://github.com/RobTillaart/AD520x  multi port digital potentiometer.
+- https://github.com/RobTillaart/AD524X  single/dual port digital potentiometer.
+- https://github.com/RobTillaart/AD5245  single port digital potentiometer.
+- https://github.com/RobTillaart/AD5248  (also AD5243) dual port potentiometer / rheostat.
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
 - https://www.analog.com/media/en/technical-documentation/data-sheets/ad5263.pdf
 
 
@@ -48,7 +52,7 @@ None known so far.
 
 Please read datasheet for all details!
 
-|  Pin  |   Name    |  Description (short)                   |  notes  |
+|  Pin  |   Name    |  Description (short)                   |  Notes  |
 |:-----:|:----------|:---------------------------------------|:--------|
 |   1   |       B1  |  Resistor Terminal B1.                 |
 |   2   |       A1  |  Resistor Terminal A1    (ADDR = 00)   |
@@ -88,8 +92,8 @@ In addition, logic levels must be limited to the logic supply voltage regardless
 
 The AD5263 has two address lines to configure the I2C address. 0x2C - 0x2F
 
-|  Addr(dec) |  Addr(Hex)  |  AD0  |  AD1  |
-|:----------:|:-----------:|:-----:|:-----:|
+|  Addr(dec) |  Addr(Hex)  |  AD0  |  AD1  |  Notes  |
+|:----------:|:-----------:|:-----:|:-----:|:-------:|
 |    44      |    0x2C     |  GND  |  GND  |
 |    45      |    0x2D     |  GND  |  +5V  |
 |    46      |    0x2E     |  +5V  |  GND  |
@@ -115,10 +119,10 @@ Timing in microseconds, writing a new value to device.
 |  500000  |  124  |         |          |  max working speed  |
 
 
-The Arduino UNO failed to communicate above 500K, therefor
-the max speed advised is 400K
+The Arduino UNO failed to communicate above 500K, therefore
+the maximum speed advised is 400000 bits/sec.
 
-**TODO** Test with ESP32 / RP2040 / ... to fill
+**TODO** Test with ESP32 / RP2040 / ... to fill the table
 
 
 ## Interface
@@ -138,6 +142,7 @@ creates an instance with 4 potentiometer.
 - **bool begin()** if connected **begin()** resets the device,
 otherwise returns false.
 - **bool isConnected()** See if address set in constructor is on the bus.
+- **uint8_t getAddress()** Returns address set in the constructor.
 
 
 #### Basic IO
@@ -192,9 +197,7 @@ rdac should be 0..3.
   - is this the same?
 - investigate SPI interface (performance better)
 
-
 #### Wont
-
 
 
 ## Support

@@ -1,0 +1,7 @@
+Arduino UNO
+IDE:1.8.19
+
+ADG725_LIB_VERSION: 0.1.1
+setChannel:	125.25
+setChannelA:	125.00
+setChannelB:	125.25

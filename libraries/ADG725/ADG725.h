@@ -3,14 +3,14 @@
 //    FILE: ADG725.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-24
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for ADG725 - 16 to 1 channel (2x) multiplexer
 //     URL: https://github.com/RobTillaart/ADG725
 
 
 #include "Arduino.h"
 
-#define ADG725_LIB_VERSION         (F("0.1.1"))
+#define ADG725_LIB_VERSION         (F("0.1.2"))
 
 #define ADG725_ALLOFF              0x80    //  ENable bit (false)
 #define ADG725_A_ONLY              0x20    //  retain B
@@ -68,8 +68,8 @@ public:
   {
     return _channelA;
   }
-  
-  
+
+
   uint8_t getChannelB()
   {
     return _channelB;
@@ -93,14 +93,17 @@ public:
 private:
   void write(uint8_t data)
   {
+    uint8_t cl = _clockPin;
+    uint8_t da = _dataPin;
     digitalWrite(_syncPin, LOW);
     for (int i = 0; i < 8; i++)
     {
       //  CLOCK max 30 MHz.
-      digitalWrite(_clockPin, HIGH);
-      digitalWrite(_dataPin, (data & 0x80) > 0);
+      digitalWrite(cl, HIGH);
+      //  MSB first
+      digitalWrite(da, (data & 0x80) > 0);
       data <<= 1;
-      digitalWrite(_clockPin, LOW);
+      digitalWrite(cl, LOW);
     }
     digitalWrite(_syncPin, HIGH);
   }

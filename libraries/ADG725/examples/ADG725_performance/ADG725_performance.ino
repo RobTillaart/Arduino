@@ -1,7 +1,7 @@
 //
-//    FILE: ADG725_demo.ino
+//    FILE: ADG725_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal sketch
+// PURPOSE: measure performance
 //     URL: https://github.com/RobTillaart/ADG725
 
 
@@ -26,30 +26,34 @@ void setup()
     ADG.setChannel(ch);
   }
   stop = micros();
-  Serial.print("Time:\t");
+  Serial.print("setChannel:\t");
   Serial.println((stop - start) / 16.0);
   delay(100);
 
   start = micros();
-  ADG.setChannel(1);
+  for (int ch = 0; ch < 16; ch++)
+  {
+    ADG.setChannelA(ch);
+  }
   stop = micros();
-  Serial.print("Time:\t");
-  Serial.println(stop - start);
+  Serial.print("setChannelA:\t");
+  Serial.println((stop - start) / 16.0);
+  delay(100);
+
+  start = micros();
+  for (int ch = 0; ch < 16; ch++)
+  {
+    ADG.setChannelB(ch);
+  }
+  stop = micros();
+  Serial.print("setChannelB:\t");
+  Serial.println((stop - start) / 16.0);
   delay(100);
 }
 
 
 void loop()
 {
-  for (int ch = 0; ch < 16; ch++)
-  {
-    ADG.setChannel(ch);
-
-    Serial.print(ch);
-    Serial.print("\t");
-    Serial.println(ADG.getChannelA());
-    delay(1000);
-  }
 }
 
 

@@ -35,6 +35,18 @@ No tests with hardware have been done yet, so use with care.
 Feedback welcome!
 
 
+#### Multiple ADG725 in parallel
+
+**To be tested**
+
+It seems possible to connect multiple ADG725 devices side by side and control 
+them as one. This would allow to create e.g a fast 8x16 multiplexer.
+
+If you want to control them separately, every device need its own **syncPin**
+a.k.a. Chip Select Pin. The data- and clockPin can be shared.
+If you want to control them as one, all three lines should be shared.
+
+
 #### Related
 
 - https://github.com/RobTillaart/HC4051 (1x8 mux)
@@ -76,7 +88,7 @@ Valid values for channel are 0..15.
 #### Should
 
 - add examples
-- check performance
+- test multiple ADG725 in parallel
 
 #### Could
 

@@ -21,7 +21,7 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
+
 #include "ADG732.h"
 
 

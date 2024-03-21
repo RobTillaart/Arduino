@@ -18,12 +18,12 @@ Arduino library for ADG732 - 32 to 1 channel multiplexer.
 
 **Experimental**
 
-ADG732 is an Arduino class that controls a 32 to 1 multiplexers
-over a **parallel** interface.
+ADG732 is an Arduino class that controls a 1 x 32 multiplexer over a 
+**parallel** interface.
 Only one of the 32 channels can be connected at the same time.
-The library also support to set them all off (17th state).
+The library also support to select none (== 33th state).
 
-On power-up, all switches are in the OFF state.
+On power-up, all switches are in the OFF state == none connected.
 
 This library can be used e.g. to connect 32 analog devices to
 one analog port, or to select between 32 DHT22 sensors.
@@ -39,7 +39,7 @@ Feedback welcome!
 - https://github.com/RobTillaart/HC4053 (3x2 mux)
 - https://github.com/RobTillaart/HC4067 (1x16 mux)
 - https://github.com/RobTillaart/ADG725 (2x16 mux)
-- https://github.com/RobTillaart/ADG732 (2x16 mux)
+- https://github.com/RobTillaart/ADG726 (2x16 mux)
 - https://github.com/RobTillaart/ADG731 (1x32 mux)
 - https://github.com/RobTillaart/ADG732 (1x32 mux)
 
@@ -54,6 +54,7 @@ Feedback welcome!
 - **ADG732(uint8_t address[5], uint8_t CS, uint8_t EN, uint8_t WR)** constructor.
 - **void setChannel(uint8_t channel)** set the current channel for both A and B.
 Valid values for channel are 0..31.
+Numbers larger than 31 will be "wrapped" modulo 32.
 - **uint8_t getChannel()** get last set channel A == 0..31 or ADG732_ALLOFF.
 - **uint8_t channelCount()** returns 32 for ADG732.
 - **void allOff()** sets all channels to OFF, none selected.
@@ -70,10 +71,10 @@ Valid values for channel are 0..31.
 #### Should
 
 - add examples
-- check performance
 
 #### Could
 
+- **bool setChannel(uint8_t channel)** return false if out of range?
 
 #### Wont
 

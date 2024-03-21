@@ -1,7 +1,7 @@
 //
-//    FILE: ADG731_demo.ino
+//    FILE: ADG731_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal sketch
+// PURPOSE: measure performance
 //     URL: https://github.com/RobTillaart/ADG731
 
 
@@ -19,37 +19,22 @@ void setup()
   Serial.print("ADG731_LIB_VERSION: ");
   Serial.println(ADG731_LIB_VERSION);
   delay(100);
-  
+
   start = micros();
   for (int ch = 0; ch < 32; ch++)
   {
     ADG.setChannel(ch);
   }
   stop = micros();
-  Serial.print("Time:\t");
+  Serial.print("setChannel:\t");
   Serial.println((stop - start) / 32.0);
   delay(100);
 
-  start = micros();
-  ADG.setChannel(1);
-  stop = micros();
-  Serial.print("Time:\t");
-  Serial.println(stop - start);
-  delay(100);
 }
 
 
 void loop()
 {
-  for (int ch = 0; ch < 32; ch++)
-  {
-    ADG.setChannel(ch);
-
-    Serial.print(ch);
-    Serial.print("\t");
-    Serial.println(ADG.getChannel());
-    delay(1000);
-  }
 }
 
 

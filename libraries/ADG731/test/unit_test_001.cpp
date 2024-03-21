@@ -21,7 +21,7 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
+
 #include "ADG731.h"
 
 
@@ -47,13 +47,15 @@ unittest(test_constructor)
 
 unittest(test_constants)
 {
-  assertEqual(0x80, ADG731_ALLOFF );
+  assertEqual(0x80, ADG731_ALLOFF);
 }
 
 
 unittest(test_allOff)
 {
   ADG731 ADG(10, 11, 12);
+  //  test default
+  assertEqual(ADG731_ALLOFF, ADG.getChannel());
 
   ADG.setChannel(13);
   ADG.allOff();
@@ -65,7 +67,8 @@ unittest(test_channel)
 {
   ADG731 ADG(10, 11, 12);
 
-  for (int ch = 0; ch < 16; ch++)
+  //  0..31
+  for (int ch = 0; ch < 32; ch ++)
   {
     ADG.setChannel(ch);
     assertEqual(ch, ADG.getChannel());

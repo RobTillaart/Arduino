@@ -3,14 +3,14 @@
 //    FILE: ADG731.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-24
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for ADG731 - 32 to 1 channel multiplexer
 //     URL: https://github.com/RobTillaart/ADG731
 
 
 #include "Arduino.h"
 
-#define ADG731_LIB_VERSION         (F("0.1.1"))
+#define ADG731_LIB_VERSION         (F("0.1.2"))
 
 #define ADG731_ALLOFF              0x80
 

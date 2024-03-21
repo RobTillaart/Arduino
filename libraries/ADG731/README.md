@@ -18,19 +18,17 @@ Arduino library for ADG731 - 32 to 1 channel multiplexer.
 
 **Experimental**
 
-ADG731 is an Arduino class that controls a 1 x 32 multiplexer over a SPI
-like interface.
+ADG731 is an Arduino class that controls a 1 x 32 multiplexer over a 
+SPI like interface.
 Only one of the 32 channels can be connected at the same time.
-The library also support to set them all off (17th state).
+The library also support to select none (== 33th state).
 
-This library can be used to connect 32 analog devices to one analog port.
-
-On power-up, all switches are in the OFF state.
+On power-up, all switches are in the OFF state == none connected.
 
 This library can be used e.g. to connect 32 analog devices to 
 one analog port, or to select between 32 DHT22 sensors.
 
-Not tests with hardware have been done yet, so use with care.
+No tests with hardware have been done yet, so use with care.
 Feedback welcome!
 
 
@@ -55,6 +53,7 @@ Feedback welcome!
 - **ADG731(uint8_t clockPin, uint8_t dataPin, uint8_t syncPin)** constructor.
 - **void setChannel(uint8_t channel)** set the current channel.
 Valid values for channel are 0..31.
+Numbers larger than 31 will be "wrapped" modulo 32.
 - **uint8_t getChannel()** get last set channel == 0..31 or ADG731_ALLOFF.
 - **uint8_t channelCount()** returns 32 for ADG731.
 - **void allOff()** sets all channels to OFF, none selected.
@@ -65,14 +64,15 @@ Valid values for channel are 0..31.
 
 - improve documentation
 - test with hardware
+- keep in sync with ADG732 (interface)                                    
 
 #### Should
 
 - add examples
-- check performance
 
 #### Could
 
+- **bool setChannel(uint8_t channel)** return false if out of range?
 
 #### Wont
 

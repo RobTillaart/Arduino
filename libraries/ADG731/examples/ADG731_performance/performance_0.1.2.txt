@@ -1,0 +1,7 @@
+Arduino UNO
+IDE:1.8.19
+
+ADG731_LIB_VERSION: 0.1.2
+setChannel:	124.00
+
+

@@ -18,7 +18,7 @@ Arduino library for I2C_LCD LCD displays.
 
 **Experimental** Arduino library for the I2C LCD display, typical **20x4** characters.
 
-The library is inspired by the excellent LiquidCrystel_I2C library of F. Malpartida. 
+The library is inspired by the excellent [New-LiquidCrystal](https://github.com/fmalpartida/New-LiquidCrystal) library by F. Malpartida. 
 Therefore the interface is kept quite identical, extended with some additional functions.
 The goal of the library is to minimize footprint and improve performance.
 This is partly done by dedicate the library to I2C only.
@@ -26,12 +26,7 @@ This is partly done by dedicate the library to I2C only.
 The library implements the print interface, so all data types are printable
 assuming they fit on the display.
 
-The reference:
-
-- https://github.com/fmalpartida/New-LiquidCrystal
-
-
-Additional functions not in the reference
+Additional functions not in the reference:
 
 | name                  | description  |
 |:----------------------|:-------------|

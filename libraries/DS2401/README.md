@@ -41,12 +41,14 @@ Known family bytes, there are many other 1-Wire devices with unknown family.
 |  byte  |  device    |  description  |
 |:------:|:----------:|:--------------|
 |  0x01  |  DS2401    |  UID device
-|  0x26  |  DS2438    |  Battery monitor
-|  0x2D  |  DS2807    |  EEPROM
-|  0x22  |  DS1822    |  thermometer
-|  0x3B  |  DS1825    |  thermometer
-|  0x28  |  DS18B20   |  thermometer
+|  0x05  |  DS2405    |  Switch
 |  0x10  |  DS18S20   |  thermometer
+|  0x22  |  DS1822    |  thermometer
+|  0x26  |  DS2438    |  Battery monitor
+|  0x28  |  DS18B20   |  thermometer
+|  0x2D  |  DS2807    |  EEPROM
+|  0x38  |  DS1825    |  thermometer
+|  0x3B  |  MAX31850  |  thermometer
 |  0x42  |  DS28EA00  |  thermometer
 
 
@@ -72,23 +74,42 @@ This DS2401 library supports only one device per pin, and no parasite mode.
 The class supports getting an UID and compare an UID.
 
 - **DS2401(OneWire \* ow)** constructor needs a reference to OneWire object.
-- **bool begin()** resets oneWire and search fot the address. 
+- **bool begin()** resets oneWire and search for the device address. 
 Returns true if address / UID of the device is found.
+Must be called to read the UID.
 
 
 #### 8 bytes UID
 
-- **void getUID(uint8_t \* buffer)** copies the found UID (64 bits) in **begin()** to buffer which should be 8 bytes.
-- **bool compareUID(uint8_t \* buffer)** compares the buffer (8 bytes) with the internal UID.
-Returns true if they are identical.
+- **void getUID(uint8_t \* buffer)** copies the found UID (64 bits) in 
+**begin()** to a buffer which should be at least 8 bytes.
+- **bool compareUID(uint8_t \* buffer)** compares the buffer (8 bytes) 
+with the internal UID. Returns true if they are identical.
 
 
 #### 6 bytes UID
 
 The 6 bytes interface does not use the family byte and the CRC byte in the UID.
+The reason is that these are either constant or can be calculated from the other
+bytes, so not unique.
 
-- **void getUID6(uint8_t \* buffer)** copies the found UID (48 bits) in **begin()** to buffer which should be 6 bytes.
-- **bool compareUID6(uint8_t \* buffer)** compares the buffer (6 bytes) with 6 bytes of the internal UID.
+- **void getUID6(uint8_t \* buffer)** copies the found UID (48 bits) in 
+**begin()** to a buffer which should be at least 6 bytes.
+- **bool compareUID6(uint8_t \* buffer)** compares the buffer (6 bytes) 
+with 6 bytes of the internal UID.
+Returns true if they are identical.
+
+
+#### 4 bytes UID
+
+The 4 bytes interface only uses 4 bytes of the unique part of the address.
+These functions are added as it allows to copy the number directly into a
+uint32_t variable.
+
+- **void getUID4(uint32_t \* buffer)** copies 4 unique bytes of the found UID 
+to a uint32_t variable.
+- **bool compareUID4(uint32_t \* buffer)** compares the uint32_t variable
+with 4 unique bytes of the internal UID.
 Returns true if they are identical.
 
 
@@ -117,11 +138,12 @@ When the wires are longer this resistor needs to be smaller.
 #### Must
 
 - Improve documentation.
+- test with different hardware.
+- verify UID4 interface with hardware
+
 
 #### Should
 
-- example of compare function.
-- test with different hardware.
 
 #### Could
 

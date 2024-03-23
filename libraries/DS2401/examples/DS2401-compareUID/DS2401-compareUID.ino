@@ -1,8 +1,9 @@
 //
-//    FILE: DS2401_getUID.ino
+//    FILE: DS2401_compareUID.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DS2401 lib getUID
+// PURPOSE: DS2401 lib demo
 //     URL: https://github.com/RobTillaart/DS2401
+
 
 #include <OneWire.h>
 #include "DS2401.h"
@@ -23,7 +24,9 @@ void setup()
   Serial.print("DS2401_LIB_VERSION: ");
   Serial.println(DS2401_LIB_VERSION);
 
+
   ds24.begin();  //  read UID
+
   Serial.print("\ngetUID:\t ");
   ds24.getUID(uid);
   for (int i = 0; i < 8; i++)
@@ -32,6 +35,9 @@ void setup()
     Serial.print(uid[i]);
     Serial.print(" ");
   }
+  Serial.println();
+  Serial.print("compareUID:\t");
+  Serial.println(ds24.compareUID(uid));
   Serial.println();
 
 
@@ -44,7 +50,9 @@ void setup()
     Serial.print(" ");
   }
   Serial.println();
-
+  Serial.print("compareUID6:\t");
+  Serial.println(ds24.compareUID6(uid));
+  Serial.println();
 
   Serial.println("\ndone...");
 }

@@ -1,5 +1,5 @@
 //
-//    FILE: DS2401_getUID.ino
+//    FILE: DS2401_getUID4.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DS2401 lib getUID
 //     URL: https://github.com/RobTillaart/DS2401
@@ -13,7 +13,7 @@
 OneWire   oneWire(ONE_WIRE_BUS);
 DS2401    ds24(&oneWire);
 
-uint8_t   uid[8];
+uint32_t  uid;  //  4 bytes
 
 
 void setup()
@@ -24,27 +24,11 @@ void setup()
   Serial.println(DS2401_LIB_VERSION);
 
   ds24.begin();  //  read UID
-  Serial.print("\ngetUID:\t ");
-  ds24.getUID(uid);
-  for (int i = 0; i < 8; i++)
-  {
-    if (uid[i] < 0x10) Serial.print(0);
-    Serial.print(uid[i]);
-    Serial.print(" ");
-  }
-  Serial.println();
-
-
-  Serial.print("\ngetUID6:\t ");
-  ds24.getUID6(uid);
-  for (int i = 0; i < 6; i++)
-  {
-    if (uid[i] < 0x10) Serial.print(0);
-    Serial.print(uid[i]);
-    Serial.print(" ");
-  }
-  Serial.println();
-
+  Serial.print("\ngetUID4:\t ");
+  ds24.getUID4(&uid);
+  Serial.println(uid, HEX);
+  Serial.print("compareUID4:\t ");
+  Serial.println(ds24.compareUID4(&uid));
 
   Serial.println("\ndone...");
 }

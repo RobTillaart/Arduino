@@ -3,7 +3,7 @@
 //    FILE: DS2401.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS2401 1-wire unique identification chip.
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //     URL: https://github.com/RobTillaart/DS2401
 
 
@@ -11,7 +11,7 @@
 #include "OneWire.h"
 
 
-#define DS2401_LIB_VERSION            (F("0.1.1"))
+#define DS2401_LIB_VERSION            (F("0.1.2"))
 
 
 class DS2401
@@ -47,7 +47,7 @@ public:
 
   bool compareUID(uint8_t * buffer)
   {
-    return memcmp(buffer, _address, 8);
+    return !memcmp(buffer, _address, 8);
   }
 
 
@@ -59,7 +59,19 @@ public:
 
   bool compareUID6(uint8_t * buffer)
   {
-    return memcmp(buffer, &_address[1], 6);
+    return !memcmp(buffer, &_address[1], 6);
+  }
+
+
+  void getUID4(uint32_t * buffer)
+  {
+    memcpy(buffer, &_address[1], 4);
+  }
+
+
+  bool compareUID4(uint32_t * buffer)
+  {
+    return !memcmp(buffer, &_address[1], 4);
   }
 
 

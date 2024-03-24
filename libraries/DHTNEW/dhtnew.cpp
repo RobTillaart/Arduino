@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.19
+// VERSION: 0.4.20
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -47,10 +47,10 @@ void DHTNEW::reset()
 
   _wakeupDelay   = 0;
   _type          = 0;
-  _humOffset     = (float)0.0;
-  _tempOffset    = (float)0.0;
-  _humidity      = (float)0.0;
-  _temperature   = (float)0.0;
+  _humOffset     = 0.0;
+  _tempOffset    = 0.0;
+  _humidity      = 0.0;
+  _temperature   = 0.0;
   _lastRead      = 0;
   _disableIRQ    = true;
   _waitForRead   = false;
@@ -74,18 +74,22 @@ uint8_t DHTNEW::getType()
 
 void DHTNEW::setType(uint8_t type)
 {
-  if ((type == 0) || (type == 11))
-  {
-    _type = type;
-    _wakeupDelay = DHTLIB_DHT11_WAKEUP;
-  }
+  //  default type == 0  or  unsupported
+  _type = 0;
+  _wakeupDelay = DHTLIB_DHT11_WAKEUP;
+
   if ((type == 22) || (type == 23))
   {
     _type = type;
     _wakeupDelay = DHTLIB_DHT_WAKEUP;
   }
+  else if (type == 11)
+  {
+    _type = type;
+    _wakeupDelay = DHTLIB_DHT11_WAKEUP;
+  }
   //  experimental 0.4.14
-  if (type == 70)
+  else if (type == 70)
   {
     _type = type;
     _wakeupDelay = DHTLIB_SI7021_WAKEUP;
@@ -192,7 +196,7 @@ int DHTNEW::_read()
     int16_t t = ((_bits[2] & 0x7F) * 256 + _bits[3]);
     if (t == 0)
     {
-      _temperature = (float)0.0;     // prevent -0.0;
+      _temperature = 0.0;     //  prevent -0.0;
     }
     else
     {
@@ -205,14 +209,14 @@ int DHTNEW::_read()
   }
 
 
-  // HEXDUMP DEBUG
+  //  HEXDUMP DEBUG
   /*
   Serial.println();
-  // CHECKSUM
+  //  CHECKSUM
   if (_bits[4] < 0x10) Serial.print(0);
   Serial.print(_bits[4], HEX);
   Serial.print("    ");
-  // TEMPERATURE
+  //  TEMPERATURE
   if (_bits[2] < 0x10) Serial.print(0);
   Serial.print(_bits[2], HEX);
   if (_bits[3] < 0x10) Serial.print(0);
@@ -220,7 +224,7 @@ int DHTNEW::_read()
   Serial.print("    ");
   Serial.print(_temperature, 1);
   Serial.print("    ");
-  // HUMIDITY
+  //  HUMIDITY
   if (_bits[0] < 0x10) Serial.print(0);
   Serial.print(_bits[0], HEX);
   if (_bits[1] < 0x10) Serial.print(0);
@@ -241,13 +245,13 @@ int DHTNEW::_read()
   }
 #endif
 
-  if (_humOffset != (float)0.0)
+  if (_humOffset != 0.0)
   {
     _humidity += _humOffset;
-    if (_humidity < 0) _humidity = 0;
-    if (_humidity > 100) _humidity = 100;
+    if (_humidity > 100)    _humidity = 100;
+    else if (_humidity < 0) _humidity = 0;
   }
-  if (_tempOffset != (float)0.0)
+  if (_tempOffset != 0.0)
   {
     _temperature += _tempOffset;
   }
@@ -266,7 +270,7 @@ int DHTNEW::_read()
 void DHTNEW::powerUp()
 {
   digitalWrite(_dataPin, HIGH);
-  //  do a dummy read to sync the sensor
+  //  do a dummy read to synchronise the sensor
   read();
 };
 
@@ -298,7 +302,10 @@ int DHTNEW::_readSensor()
   uint8_t idx = 0;
 
   //  EMPTY BUFFER
-  for (uint8_t i = 0; i < 5; i++) _bits[i] = 0;
+  for (uint8_t i = 0; i < 5; i++)
+  {
+    _bits[i] = 0;
+  }
 
   //  REQUEST SAMPLE - SEND WAKEUP TO SENSOR
   pinMode(_dataPin, OUTPUT);
@@ -412,7 +419,7 @@ bool DHTNEW::_waitFor(uint8_t state, uint32_t timeout)
   uint8_t  count = 2;
   while ((micros() - start) < timeout)
   {
-    // d elayMicroseconds(1);         //  less # reads ==> minimizes # glitch reads
+    //  delayMicroseconds(1);         //  less # reads ==> minimizes # glitch reads
     if (digitalRead(_dataPin) == state)
     {
       count--;

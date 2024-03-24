@@ -4,16 +4,16 @@
 // PURPOSE: DHTNEW library test sketch
 //     URL: https://github.com/RobTillaart/DHTNew
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-// run sketch without connected sensor to see effect
+//  run sketch without connected sensor to see effect
 
 
 #include <dhtnew.h>

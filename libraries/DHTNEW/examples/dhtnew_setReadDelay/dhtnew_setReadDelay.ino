@@ -4,23 +4,23 @@
 // PURPOSE: DHTNEW library waitForRead example sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
 #include <dhtnew.h>
 
-DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTNEW mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
+  while(!Serial);     //  MKR1010 needs this
 
   Serial.begin(115200);
   Serial.println(__FILE__);
@@ -28,10 +28,10 @@ void setup()
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
-  delay(2000);  // boot time
+  delay(2000);  //  boot time
 
   mySensor.setWaitForReading(true);
 
@@ -60,7 +60,7 @@ void setup()
     }
   }
 
-  // safety margin of 100 uSec
+  //  safety margin of 100 uSec
   rd += 100;
   mySensor.setReadDelay(rd);
   Serial.print("\nreadDelay set to (ms) : ");
@@ -71,8 +71,8 @@ void setup()
 
 void loop()
 {
-  // Note: the library prevents reads faster than readDelay...
-  //       it will return previous values for T & H
+  //  Note: the library prevents reads faster than readDelay...
+  //        it will return previous values for T & H
   int chk = mySensor.read();
   Serial.print(millis());
   Serial.print("\t");
@@ -127,5 +127,5 @@ void printStatus(int chk)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

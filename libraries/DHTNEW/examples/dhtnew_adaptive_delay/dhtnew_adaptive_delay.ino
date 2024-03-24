@@ -6,30 +6,30 @@
 //
 
 //
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION  
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION  
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
-// Note:
-// Adaptive delay makes no sense anymore as the DHTNEW lib catches reads that
-// are done faster than READ_DELAY apart (see dhtnew.cpp file).
-// that said it is the goal to get this adaptability into the library one day.
-// A way to do this is to add a function auto_calibrate() that finds the timing
-// where reading fails and use that value + safety margin (20%?)
+//  Note:
+//  Adaptive delay makes no sense anymore as the DHTNEW lib catches reads that
+//  are done faster than READ_DELAY apart (see dhtnew.cpp file).
+//  that said it is the goal to get this adaptability into the library one day.
+//  A way to do this is to add a function auto_calibrate() that finds the timing
+//  where reading fails and use that value + safety margin (20%?)
 
 
 #include <dhtnew.h>
 
-DHTNEW mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTNEW mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
+  while(!Serial);     //  MKR1010 needs this
 
   Serial.begin(115200);
   Serial.println("dhtnew_adaptive_delay.ino");
@@ -37,8 +37,8 @@ void setup()
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
   Serial.println("\n1. Type detection test, first run might take longer to determine type");
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
@@ -97,7 +97,7 @@ void loop()
 void test()
 {
   static uint16_t dht_delay = 600;
-  // READ DATA
+  //  READ DATA
   uint32_t start = micros();
   int chk = mySensor.read();
   uint32_t stop = micros();
@@ -144,7 +144,7 @@ void test()
   }
   
   dht_delay = constrain(dht_delay, 100, 5000);
-  // DISPLAY DATA
+  //  DISPLAY DATA
   Serial.print(mySensor.getHumidity(), 1);
   Serial.print(",\t");
   Serial.print(mySensor.getTemperature(), 1);
@@ -159,5 +159,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -22,6 +22,9 @@ This is the main development library of all my DHT libraries.
 Supports DHT11, DHT22, DHT33, DHT44, AM2301, AM2302, AM2303 as these all have the same protocol.
 Note there are differences e.g. DHT11 has no negative temperature, no decimals, and a longer wakeup time.
 
+The DHTNew library returns Temperature in degrees Celsius and Humidity in 0.0 - 100.0 %RH.
+For converting temperature to Fahrenheit or Kelvin, see https://github.com/RobTillaart/Temperature.
+
 
 #### Sonoff Si7021
 
@@ -43,7 +46,7 @@ Not tested myself, but AM2320 is confirmed to work, see https://github.com/RobTi
 As the AM2321 and AM2322 are quite identical according to the datasheet, those are expected to work too.
 
 To use the library one should call **setType(22)** as the protocol is identical to the DHT22.
-If there are differences in operation type (23) will be implemented.
+If there are differences in operation type (23) will be elaborated.
 The value 23 is now mapped upon 22 code.
 
 Feedback (both positive and negative) about the AM232X sensors is welcome.
@@ -56,36 +59,38 @@ Feedback (both positive and negative) about the AM232X sensors is welcome.
 - https://github.com/RobTillaart/DHTNew
 - https://github.com/RobTillaart/DHTStable
 - https://github.com/RobTillaart/DHT_Simulator
+- https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heatindex etc)
 
 
 ## DHT PIN layout from left to right
 
-| Front |      | Description   |
-|:------|:----:|:--------------|
-| pin 1 |      | VCC           |
-| pin 2 |      | DATA          |
-| pin 3 |      | Not Connected |
-| pin 4 |      | GND           |
+|  Front  |      |  Description    |
+|:--------|:----:|:----------------|
+|  pin 1  |      |  VCC            |
+|  pin 2  |      |  DATA           |
+|  pin 3  |      |  Not Connected  |
+|  pin 4  |      |  GND            |
 
 **Note: check the datasheet how to connect!**
 
 
 ## Specification DHT22
 
-| Model                     | DHT22                  | Notes |
-|:--------------------------|:-----------------------|:------|
-| Power supply              | 3.3 - 6 V DC           |
-| Output signal             | digital signal via single-bus  |
-| Sensing element           | Polymer capacitor      |
-| Operating range           | humidity 0-100% RH     | temperature -40° - 80° Celsius
-| Accuracy humidity         | ±2% RH(Max ±5% RH)     | temperature < ±0.5° Celsius
-| Resolution or sensitivity | humidity 0.1% RH       | temperature 0.1° Celsius
-| Repeatability humidity    | ±1% RH                 | temperature ±0.2° Celsius
-| Humidity hysteresis       | ±0.3% RH               |
-| Long-term Stability       | ±0.5% RH/year          |
-| Sensing period            | Average: 2s            |
-| Interchangeability        | fully interchangeable  |
-| Dimensions                | small 14 x 18 x 5.5 mm | big 22 x 28 x 5 mm |
+|  Model                      |  DHT22                   |  Notes  |
+|:----------------------------|:-------------------------|:--------|
+|  Power supply               |  3.3 - 6.0 V DC          |
+|  Output signal              |  digital signal via single-bus  |
+|  Sensing element            |  polymer capacitor       |
+|  Operating range            |  humidity 0.0-100.0% RH  |  temperature -40° - 80° Celsius
+|  Accuracy humidity          |  ±2% RH(Max ±5% RH)      |  temperature < ±0.5° Celsius
+|  Resolution or sensitivity  |  humidity 0.1% RH        |  temperature 0.1° Celsius
+|  Repeatability humidity     |  ±1.0% RH                |  temperature ±0.2° Celsius
+|  Humidity hysteresis        |  ±0.3% RH                |
+|  Long-term Stability        |  ±0.5% RH/year           |
+|  Sensing period             |  average: 2 s            |
+|  Interchangeability         |  fully interchangeable   |
+|  Dimensions                 |  small 14 x 18 x 5.5 mm  |  big 22 x 28 x 5 mm  |
 
 
 ## Interface
@@ -104,28 +109,37 @@ In case of 0, **getType()** will try to determine type.
 Since 0.4.14 type 70 is added for **experimental** Sonoff Si7021 support.
 - **void setType(uint8_t type = 0)** allows to force the type of the sensor. 
 
-|  type  |  sensors        |  notes         |
-|:------:|:---------------:|:---------------|
-|   0    |  not defined    |                |
-|   11   |  DHT11          |                |
-|   22   |  DHT22 a.o      |  most others   |
-|   70   |  Sonoff Si7021  |  experimental  |
+|  Type   |  Sensors        |  Notes  |
+|:-------:|:---------------:|:--------|
+|   0     |  not defined    |
+|   11    |  DHT11          |
+|   22    |  DHT22 a.o      |  most others
+|   23    |  DHT22 a.o      |  mapped to 22 for now
+|   70    |  Sonoff Si7021  |  experimental
+|  other  |  sets to 0      |  0.4.20
 
 
 ### Base interface
 
-- **int read()** reads a new temperature and humidity from the sensor
+- **int read()** reads a new temperature (Celsius) and humidity (%RH) from the sensor.
 - **uint32_t lastRead()** returns milliseconds since last **read()**
-- **float getHumidity()** returns last read value (float) or -999 in case of error. 
+- **float getHumidity()** returns last read humidity = 0.0 - 100.0 %RH.
+In case of an error it returns **DHTLIB_INVALID_VALUE** == -999. 
 Note this error value can be suppressed by **setSuppressError(bool)**.
-- **float getTemperature()** returns last read value (float) or -999 in case of error. 
+- **float getTemperature()** returns last read temperature in Celsius.
+Range depends on the sensor.
+In case of an error it returns **DHTLIB_INVALID_VALUE** == -999. 
 Note this error value can be suppressed by **setSuppressError(bool)**.
 
 
 ### Offset 
 
-Adding offsets works well in normal range however they might introduce under- or overflow at the ends of the sensor range.
-humidity is constrained to 0..100% in the code. For temperature such constrain would be type dependant, so not done.
+Adding offsets works well in normal range however they might introduce 
+under- or overflow at the ends of the sensor range.
+Humidity is in % RH.
+Humidity is constrained to 0.0 - 100.0 % in the code.
+Temperature is in degrees Celsius.
+For temperature such constrain would be type dependant, so it is not done.
 
 - **void setHumOffset(float offset)** typical < ±5% RH.
 - **void setTempOffset(float offset)** typical < ±2°C.
@@ -137,18 +151,21 @@ humidity is constrained to 0..100% in the code. For temperature such constrain w
 
 Functions to adjust the communication with the sensor.
 
-- **void setDisableIRQ(bool b )** allows or suppresses interrupts during core read function to keep timing as correct as possible. **Note AVR + MKR1010**
+- **void setDisableIRQ(bool b )** allows or suppresses interrupts during core 
+read function to keep timing as correct as possible. **Note AVR + MKR1010**
 - **bool getDisableIRQ()** returns the above setting. Default **true**.
 - **void setWaitForReading(bool b )** flag to enforce a blocking wait. 
 - **bool getWaitForReading()** returns the above setting.
-- **void setReadDelay(uint16_t rd = 0)** To tune the time it waits before actual read. This reduces the blocking time. 
+- **void setReadDelay(uint16_t rd = 0)** To tune the time it waits before actual read. 
+This reduces the blocking time. 
 Default depends on type. 1000 ms (dht11) or 2000 ms (dht22). 
 set readDelay to 0 will reset to datasheet values AFTER a call to **read()**.
 - **uint16_t getReadDelay()** returns the above setting.
 - **void powerDown()** pulls dataPin down to reduce power consumption
 - **void powerUp()** restarts the sensor, note one must wait up to two seconds.
-- **void setSuppressError(bool b)** suppress error values of -999 => you need to check the return value of read() instead.  
-This is used to keep spikes out of your graphs / logs. 
+- **void setSuppressError(bool b)** suppress error values of -999 => 
+You need to check the return value of read() instead.  
+This is used to keep spikes out of your plotter / graphs / logs. 
 - **bool getSuppressError()**  returns the above setting.
 
 
@@ -298,6 +315,8 @@ fix #86, define constants explicit as float.
 Update readme.md and library.\* about support for AM2320/21/22.
 35. (0.4.19) 
 Update readme.md
+36. (0.4.20) 
+Update GitHub actions and readme.md
 
 
 ## Future
@@ -318,12 +337,19 @@ Update readme.md
 
 #### Could
 
-- improve unit test
+- test compatibility => table.
 - investigate temperature constraining (type dependant)
-- fix  DHTLIB_VALUE_OUT_OF_RANGE  code
-- move all code from .h to .cpp
+
+```cpp
+if (type == 11) temp = constrain(temp,   0, 100);
+if (type == 22) temp = constrain(temp, -40,  80);
+etc.
+```
+
 
 #### Wont
+
+- move all code from .h to .cpp
 
 
 ## Support

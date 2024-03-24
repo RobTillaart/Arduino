@@ -5,13 +5,13 @@
 //    DATE: 2021-02-19
 //    (c) : MIT
 
-// DHT PINs' layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PINs' layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
 #include <dhtnew.h>
@@ -25,7 +25,7 @@ uint32_t errors[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
+  while(!Serial);     //  MKR1010 needs this
 
   Serial.begin(115200);
   Serial.println("DHT_endless.ino");
@@ -33,8 +33,8 @@ void setup()
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
 }
 
@@ -47,7 +47,7 @@ void DHTt(const uint8_t pin)
     DHTNEW mySensor(pin);
 
     count++;
-    // show counters for OK and errors.
+    //  show counters for OK and errors.
     if (count % 50 == 0)
     {
       Serial.println();
@@ -120,7 +120,7 @@ void DHTt(const uint8_t pin)
         errors[9]++;
         break;
     }
-    // DISPLAY DATA
+    //  DISPLAY DATA
     Serial.print(mySensor.getHumidity(), 1);
     Serial.print(",\t");
     Serial.print(mySensor.getTemperature(), 1);
@@ -138,6 +138,6 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 
 

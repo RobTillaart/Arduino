@@ -21,7 +21,6 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
 #include "dhtnew.h"
 
 
@@ -46,10 +45,12 @@ unittest(test_constants)
   assertEqual(-6, DHTLIB_ERROR_TIMEOUT_D       );
   assertEqual(-7, DHTLIB_ERROR_TIMEOUT_B       );
   assertEqual(-8, DHTLIB_WAITING_FOR_READ      );
-  
+
   assertEqual(-100, DHTLIB_HUMIDITY_OUT_OF_RANGE   );
   assertEqual(-101, DHTLIB_TEMPERATURE_OUT_OF_RANGE);
-  
+
+  assertEqual(50, DHTLIB_BIT_THRESHOLD);
+
   assertEqual(-999, DHTLIB_INVALID_VALUE);
 }
 
@@ -58,17 +59,24 @@ unittest(test_constructor)
 {
   DHTNEW dht(4);
 
-  // verify default flags
-  // assertEqual(0, dht.getType());     // calls read which blocks.
+  //  verify default flags
+  //  assertEqual(0, dht.getType());     //  calls read which blocks.
+  assertEqual(0.0, dht.getHumidity());
+  assertEqual(0.0, dht.getTemperature());
+
   assertEqual(0, dht.getHumOffset());
   assertEqual(0, dht.getTempOffset());
-  #if defined(__AVR__)
+
+  assertEqual(0, dht.lastRead());
+
+#if defined(__AVR__)
   fprintf(stderr, "__AVR__ defined.");
   assertFalse(dht.getDisableIRQ());
-  #else
+#else
   fprintf(stderr, "__AVR__ not defined.");
   assertTrue(dht.getDisableIRQ());
-  #endif
+#endif
+
   assertFalse(dht.getWaitForReading());
   assertEqual(0, dht.getReadDelay());
   assertFalse(dht.getSuppressError());
@@ -83,7 +91,7 @@ unittest(test_hum_temp)
   assertEqual(0, dht.getHumOffset());
   dht.setHumOffset(1.5);
   assertEqual(1.5, dht.getHumOffset());
-  
+
   assertEqual(0, dht.getTemperature());
   assertEqual(0, dht.getTempOffset());
   dht.setTempOffset(-1.5);
@@ -91,7 +99,7 @@ unittest(test_hum_temp)
 }
 
 
-unittest(test_process_flags)
+unittest(test_setType)
 {
   DHTNEW dht(4);
 
@@ -99,17 +107,27 @@ unittest(test_process_flags)
   assertEqual(11, dht.getType());
   dht.setType(22);
   assertEqual(22, dht.getType());
-  
+  dht.setType(23);
+  assertEqual(23, dht.getType());
+  dht.setType(70);
+  assertEqual(70, dht.getType());
+}
+
+
+unittest(test_process_flags)
+{
+  DHTNEW dht(4);
+
   dht.setDisableIRQ(true);
   assertTrue(dht.getDisableIRQ());
   dht.setDisableIRQ(false);
   assertFalse(dht.getDisableIRQ());
-  
+
   dht.setWaitForReading(true);
   assertTrue(dht.getWaitForReading());
   dht.setWaitForReading(false);
   assertFalse(dht.getWaitForReading());
-  
+
   dht.setReadDelay(1500);
   assertEqual(1500, dht.getReadDelay());
   dht.setType(11);
@@ -118,7 +136,7 @@ unittest(test_process_flags)
   dht.setType(22);
   dht.setReadDelay();
   assertEqual(0, dht.getReadDelay());
-  
+
   dht.setSuppressError(true);
   assertTrue(dht.getSuppressError());
   dht.setSuppressError(false);
@@ -131,13 +149,15 @@ unittest(test_read)
   DHTNEW dht(4);
 
   fprintf(stderr, "\tread() cannot be tested  GODMODE?\n");
-  // int rc = dht.read();
-  // fprintf(stderr, "%d\n", rc);
-  
+  //  int rc = dht.read();
+  //  fprintf(stderr, "%d\n", rc);
+
   long lr = dht.lastRead();
   fprintf(stderr, "\ttime since lastRead %ld\n", lr);
 }
 
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

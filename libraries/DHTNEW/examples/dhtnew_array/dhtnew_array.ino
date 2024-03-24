@@ -55,7 +55,7 @@ void loop()
 
 void test(int idx)
 {
-  // READ DATA
+  //  READ DATA
   uint32_t start = micros();
   int chk = ar[idx].read();
   uint32_t stop = micros();
@@ -99,7 +99,7 @@ void test(int idx)
       break;
   }
 
-  // DISPLAY DATA
+  //  DISPLAY DATA
   Serial.print(ar[idx].getHumidity(), 1);
   Serial.print(",\t");
   Serial.print(ar[idx].getTemperature(), 1);
@@ -112,5 +112,5 @@ void test(int idx)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

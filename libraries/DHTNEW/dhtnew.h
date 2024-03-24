@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.19
+// VERSION: 0.4.20
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -18,7 +18,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.4.19"))
+#define DHTNEW_LIB_VERSION                (F("0.4.20"))
 
 
 #define DHTLIB_OK                         0
@@ -59,12 +59,13 @@ public:
   DHTNEW(uint8_t pin);
 
   //  resets all internals to construction time
-  //  might help to reset a sensor behaving badly..
+  //  might help to reset a sensor behaving badly
   void     reset();
 
   //  0  = unknown
   //  11 = DHT11 and compatibles
   //  22 = DHT22 and compatibles
+  //  23 = mapped to 22 for now (AM23xx)
   //  70 = Sonoff Si7021
   uint8_t  getType();
   void     setType(uint8_t type = 0);
@@ -108,10 +109,10 @@ private:
   uint8_t  _dataPin       = 0;
   uint32_t _wakeupDelay   = 0;
   uint8_t  _type          = 0;
-  float    _humOffset     = (float)0.0;
-  float    _tempOffset    = (float)0.0;
-  float    _humidity      = (float)0.0;
-  float    _temperature   = (float)0.0;
+  float    _humOffset     = 0.0;
+  float    _tempOffset    = 0.0;
+  float    _humidity      = 0.0;
+  float    _temperature   = 0.0;
   uint32_t _lastRead      = 0;
   bool     _disableIRQ    = true;
   bool     _waitForRead   = false;

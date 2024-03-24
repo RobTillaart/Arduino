@@ -1,0 +1,36 @@
+# Syntax Colouring Map For TLC5917
+
+
+# Data types (KEYWORD1)
+TLC5916	KEYWORD1
+TLC5917	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+getChannels	KEYWORD2
+
+setChannel	KEYWORD2
+setAll	KEYWORD2
+getChannel	KEYWORD2
+
+write	KEYWORD2
+
+enable	KEYWORD2
+disable	KEYWORD2
+isEnabled	KEYWORD2
+
+setCurrentAdjustMode	KEYWORD2
+setNormalMode	KEYWORD2
+writeConfiguration	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+TLC5917_LIB_VERSION	LITERAL1
+
+TLC5917_OK	LITERAL1
+TLC5917_CHANNEL_ERROR	LITERAL1
+

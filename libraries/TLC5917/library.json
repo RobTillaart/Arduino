@@ -1,0 +1,23 @@
+{
+  "name": "TLC5917",
+  "keywords": "TLC5916, TLC5917",
+  "description": "Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TLC5917.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TLC5917.h"
+}

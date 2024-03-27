@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/INA226
 
 
-// EXPERIMENTAL CODE - NOT TESTED.
+//  EXPERIMENTAL CODE - NOT TESTED.
 
 
 #include "INA226.h"

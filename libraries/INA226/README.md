@@ -161,50 +161,66 @@ Helper functions for the micro scale.
 
 #### Configuration
 
-Note: the conversion time runs in the background and if done value is stored in a register. 
-The core functions read from the registers, so they are not blocked.
-They return the same value if no new data is available / ready.
+**Note:**
+The internal conversions runs in the background in the device.
+If a conversion is finished the measured value is stored in the appropriate register. 
+The last obtained values can always be read from the registers, so they will not block.
+Result can be that you get the very same value if no new data is available yet.
+This is especially true if you increase the number of samples.
+(See also discussion in INA219 issue 11).
+
+Using more samples reduces the noise level, but one will miss the faster 
+changes in voltage or current.
+Depending on your project needs you can choose one over the other.
+
+As a rule of thumb one could take the time between two I2C reads of 
+a register as an upper limit.
+This would result in a fresh measurement every time one reads the register. 
+NB it is always possible to average readings fetched from the device
+in your own code.
+
 
 - **bool reset()** software power on reset. 
 This implies calibration with **setMaxCurrentShunt()** needs to be redone.
 Returns true upon success.
-- **bool setAverage(uint8_t avg = 0)** see table below.
+- **bool setAverage(uint8_t avg = INA226_1_SAMPLE)** see table below.
 (0 = default ==> 1 read), returns false if parameter > 7.
 - **uint8_t getAverage()** returns the value set. See table below.
 Note this is not the count of samples.
-- **bool setBusVoltageConversionTime(uint8_t bvct = 4)** see table below.
+- **bool setBusVoltageConversionTime(uint8_t bvct = INA226_1100_us)** see table below.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
 - **uint8_t getBusVoltageConversionTime()** return the value set. 
 Note the value returned is not a unit of time.
-- **bool setShuntVoltageConversionTime(uint8_t svct = 4)** see table below.
+- **bool setShuntVoltageConversionTime(uint8_t svct = INA226_1100_us)** see table below.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
 - **uint8_t getShuntVoltageConversionTime()** return the value set. 
 Note the value returned is not a unit of time.
 
 
-| Average | # samples |  notes  |
-|:-------:|----------:|--------:|
-|  0      |      1    | default |
-|  1      |      4    |         |
-|  2      |     16    |         |
-|  3      |     64    |         |
-|  4      |    128    |         |
-|  5      |    256    |         |
-|  6      |    512    |         |
-|  7      |   1024    |         |
+|  enum description    | value | # samples |  notes  |
+|:--------------------:|:-----:|----------:|--------:|
+|  INA226_1_SAMPLE     |   0   |      1    |  default
+|  INA226_4_SAMPLES    |   1   |      4    |
+|  INA226_16_SAMPLES   |   2   |     16    |
+|  INA226_64_SAMPLES   |   3   |     64    |
+|  INA226_128_SAMPLES  |   4   |    128    |
+|  INA226_256_SAMPLES  |   5   |    256    |
+|  INA226_512_SAMPLES  |   6   |    512    |
+|  INA226_1024_SAMPLES |   7   |   1024    |
 
 
 
-| BVCT SVCT |   time    |  notes  |
-|:---------:|----------:|--------:|
-|    0      |  140 us   |
-|    1      |  204 us   |
-|    2      |  332 us   |
-|    3      |  588 us   |
-|    4      |  1.1 ms   | default |
-|    5      |  2.1 ms   |
-|    6      |  4.2 ms   |
-|    7      |  8.3 ms   |
+|  enum description  | BVCT SVCT |   time    |  notes  |
+|:------------------:|:---------:|----------:|--------:|
+|  INA226_140_us     |     0     |  140 us   |
+|  INA226_204_us     |     1     |  204 us   |
+|  INA226_332_us     |     2     |  332 us   |
+|  INA226_588_us     |     3     |  588 us   |
+|  INA226_1100_us    |     4     |  1.1 ms   |  default
+|  INA226_2100_us    |     5     |  2.1 ms   |
+|  INA226_4200_us    |     6     |  4.2 ms   |
+|  INA226_8300_us    |     7     |  8.3 ms   |
+
 
 Note: times are typical, check datasheet for operational range.
 (max is ~10% higher)
@@ -249,13 +265,13 @@ See https://github.com/RobTillaart/INA226/pull/29 for details of the discussion.
 
 #### Error codes setMaxCurrentShunt
 
-| descriptive name error        |  value   |  meaning  |
-|:------------------------------|---------:|:----------|
-| INA226_ERR_NONE               |  0x0000  | OK
-| INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  | maxCurrent \* shunt > 80 mV 
-| INA226_ERR_MAXCURRENT_LOW     |  0x8001  | maxCurrent < 0.001
-| INA226_ERR_SHUNT_LOW          |  0x8002  | shunt      < 0.001
-| INA226_ERR_NORMALIZE_FAILED   |  0x8003  | not possible to normalize.
+|  descriptive name error        |  value   |  meaning  |
+|:-------------------------------|---------:|:----------|
+|  INA226_ERR_NONE               |  0x0000  |  OK
+|  INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  |  maxCurrent \* shunt > 80 mV 
+|  INA226_ERR_MAXCURRENT_LOW     |  0x8001  |  maxCurrent < 0.001
+|  INA226_ERR_SHUNT_LOW          |  0x8002  |  shunt      < 0.001
+|  INA226_ERR_NORMALIZE_FAILED   |  0x8003  |  not possible to normalize.
 
 
 #### Operating mode
@@ -293,23 +309,23 @@ Returns true if write to register successful.
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
 
 
-| description alert register | value  | a.k.a.  |
-|:---------------------------|-------:| -------:|
-| INA226_SHUNT_OVER_VOLTAGE  | 0x8000 |  SOL    |
-| INA226_SHUNT_UNDER_VOLTAGE | 0x4000 |  SUL    |
-| INA226_BUS_OVER_VOLTAGE    | 0x2000 |  BOL    |
-| INA226_BUS_UNDER_VOLTAGE   | 0x1000 |  BUL    |
-| INA226_POWER_OVER_LIMIT    | 0x0800 |  POL    |
-| INA226_CONVERSION_READY    | 0x0400 |         |
+|  description alert register  |  value   | a.k.a.  |
+|:-----------------------------|---------:| -------:|
+|  INA226_SHUNT_OVER_VOLTAGE   |  0x8000  |  SOL    |
+|  INA226_SHUNT_UNDER_VOLTAGE  |  0x4000  |  SUL    |
+|  INA226_BUS_OVER_VOLTAGE     |  0x2000  |  BOL    |
+|  INA226_BUS_UNDER_VOLTAGE    |  0x1000  |  BUL    |
+|  INA226_POWER_OVER_LIMIT     |  0x0800  |  POL    |
+|  INA226_CONVERSION_READY     |  0x0400  |         |
 
 
-| description alert flags        | value  |
-|:-------------------------------|-------:|
-| INA226_ALERT_FUNCTION_FLAG     | 0x0010 |
-| INA226_CONVERSION_READY_FLAG   | 0x0008 |
-| INA226_MATH_OVERFLOW_FLAG      | 0x0004 |
-| INA226_ALERT_POLARITY_FLAG     | 0x0002 |
-| INA226_ALERT_LATCH_ENABLE_FLAG | 0x0001 |
+|  description alert flags         |  value   |
+|:---------------------------------|---------:|
+|  INA226_ALERT_FUNCTION_FLAG      |  0x0010  |
+|  INA226_CONVERSION_READY_FLAG    |  0x0008  |
+|  INA226_MATH_OVERFLOW_FLAG       |  0x0004  |
+|  INA226_ALERT_POLARITY_FLAG      |  0x0002  |
+|  INA226_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |
 
 
 The alert line falls when alert is reached.

@@ -84,6 +84,32 @@ unittest(test_constants)
 }
 
 
+unittest(test_enum_setAverage)
+{
+  assertEqual(0, INA226_1_SAMPLE);
+  assertEqual(1, INA226_4_SAMPLES);
+  assertEqual(2, INA226_16_SAMPLES);
+  assertEqual(3, INA226_64_SAMPLES);
+  assertEqual(4, INA226_128_SAMPLES);
+  assertEqual(5, INA226_256_SAMPLES);
+  assertEqual(6, INA226_512_SAMPLES);
+  assertEqual(7, INA226_1024_SAMPLES);
+}
+
+
+unittest(test_enum_BVCT_SVCT)
+{
+  assertEqual(0, INA226_140_us );
+  assertEqual(1, INA226_204_us );
+  assertEqual(2, INA226_332_us );
+  assertEqual(3, INA226_588_us );
+  assertEqual(4, INA226_1100_us);
+  assertEqual(5, INA226_2100_us);
+  assertEqual(6, INA226_4200_us);
+  assertEqual(7, INA226_8300_us);
+}
+
+
 unittest(test_core_functions)
 {
   INA226 INA(0x40);

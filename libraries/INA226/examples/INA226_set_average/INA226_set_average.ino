@@ -29,7 +29,7 @@ void setup()
     Serial.println("could not connect. Fix and Reboot");
   }
   INA.setMaxCurrentShunt(1, 0.002);
-  INA.setAverage(7);   //  <<<<<<<<<<<<<<<
+  INA.setAverage(INA226_1024_SAMPLES);   //  <<<<<<<<<<<<<<<
 }
 
 

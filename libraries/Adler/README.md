@@ -229,7 +229,7 @@ Adler16 does more often the modulo math as it reaches halfway uint16_t
 faster than Adler32 reaches halfway uint32_t.
 
 As the Adler16 is less performant as the Adler32 (on all tested platforms),
-it is often the best choice to use the 32 bit version.
+Adler32 is often the best choice to use the 32 bit version.
 
 
 ## Operation

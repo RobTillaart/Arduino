@@ -2,7 +2,7 @@
 //
 //    FILE: Adler.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2022-01-27
 // PURPOSE: Arduino Library for calculating Adler checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define ADLER_LIB_VERSION        (F("0.2.4"))
+#define ADLER_LIB_VERSION        (F("0.2.5"))
 
 
 const uint32_t ADLER32_MOD_PRIME = 65521;

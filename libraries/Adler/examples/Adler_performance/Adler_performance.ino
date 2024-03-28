@@ -4,8 +4,10 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/Adler
 
+
 #include "Arduino.h"
 #include "Adler.h"
+
 
 char str[] = "Lorem ipsum dolor sit amet, \
 consectetuer adipiscing elit. Aenean commodo ligula eget dolor. \
@@ -24,6 +26,7 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 
 uint32_t start, stop;
+
 
 void setup()
 {
@@ -77,4 +80,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

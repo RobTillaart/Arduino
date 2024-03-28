@@ -10,6 +10,7 @@
 
 
 Adler32 ad;
+
 volatile uint8_t z;
 uint32_t start, stop, randomtime;
 
@@ -30,7 +31,6 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 
 char hello[] = "hello world";
-
 
 
 void setup()
@@ -169,7 +169,6 @@ void setup()
   Serial.print("\tchecksum: ");
   Serial.println(ad.getAdler());
   Serial.println();
-
 
 }
 

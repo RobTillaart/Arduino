@@ -4,16 +4,17 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/Adler
 
+
 #include "Arduino.h"
 #include "Adler32.h"
 
+
 //  expected output
 //  Adler32_test
-//  ADLER32_LIB_VERSION: 0.2.0
+//  ADLER32_LIB_VERSION: 0.2.5
 //  116982386
 //  117310067
 //  117047923
-
 
 
 Adler32 ad;
@@ -21,6 +22,7 @@ Adler32 ad;
 uint8_t arr1[5]  = { 100, 120, 130, 135, 140 };
 uint8_t arr2[5]  = { 101, 120, 130, 135, 140 };  //  minimal diff.
 uint8_t arr3[5]  = { 100, 120, 130, 135, 141 };  //  minimal diff.
+
 
 void setup()
 {

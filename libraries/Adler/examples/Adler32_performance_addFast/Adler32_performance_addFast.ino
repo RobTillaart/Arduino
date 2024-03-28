@@ -42,7 +42,7 @@ void setup()
   Serial.print("ADLER32_LIB_VERSION: ");
   Serial.println(ADLER32_LIB_VERSION);
 
-  //  to compare footprint 
+  //  to compare footprint
   //  ad.add(lorem, strlen(lorem));
   ad.addFast(lorem, strlen(lorem));
 }

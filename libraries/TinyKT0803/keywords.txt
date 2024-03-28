@@ -1,0 +1,53 @@
+# Syntax Colouring Map For tinyKT0803
+
+
+# Data types (KEYWORD1)
+tinyKT0803	KEYWORD1
+tinyKT0803K	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+setFrequency	KEYWORD2
+getFrequency	KEYWORD2
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+
+setPGA	KEYWORD2
+getPGA	KEYWORD2
+
+setRFGain	KEYWORD2
+getRFgain	KEYWORD2
+
+setEurope	KEYWORD2
+setAustralia	KEYWORD2
+setUSA	KEYWORD2
+setJapan	KEYWORD2
+setPHTCNST	KEYWORD2
+getPHTCNST	KEYWORD2
+
+setPilotToneAdjust	KEYWORD2
+getPilotToneAdjust	KEYWORD2
+
+setMute	KEYWORD2
+getMute	KEYWORD2
+
+
+# KT0803K specific
+setMono	KEYWORD2
+setStereo	KEYWORD2
+isStereo	KEYWORD2
+
+setBass	KEYWORD2
+getBass	KEYWORD2
+
+powerOK	KEYWORD2
+silenceDetected	KEYWORD2
+
+
+# Constants (LITERAL1)
+TINY_KT0803_LIB_VERSION	LITERAL1
+
+

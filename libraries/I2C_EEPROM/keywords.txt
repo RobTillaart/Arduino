@@ -19,6 +19,7 @@ setBlock	KEYWORD2
 
 readByte	KEYWORD2
 readBlock	KEYWORD2
+verifyBlock	KEYWORD2
 
 updateByte	KEYWORD2
 updateBlock	KEYWORD2
@@ -34,6 +35,8 @@ determineSizeNoWrite	KEYWORD2
 getDeviceSize	KEYWORD2
 getPageSize	KEYWORD2
 getLastWrite	KEYWORD2
+
+setDeviceSize	KEYWORD2
 
 setExtraWriteCycleTime	KEYWORD2
 getExtraWriteCycleTime	KEYWORD2

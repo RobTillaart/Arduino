@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.2
+// VERSION: 1.8.3
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.8.2"))
+#define I2C_EEPROM_VERSION          (F("1.8.3"))
 
 #define I2C_DEVICESIZE_24LC512      65536
 #define I2C_DEVICESIZE_24LC256      32768
@@ -92,7 +92,7 @@ public:
   //  reads length bytes into buffer
   //  returns bytes read.
   uint16_t readBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length);
-
+  bool     verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
 
   //  updates a byte at memoryAddress, writes only if there is a new value.
   //  return 0 if data is same or written OK, error code otherwise.
@@ -159,11 +159,14 @@ private:
   void     _beginTransmission(const uint16_t memoryAddress);
 
   //  returns I2C status, 0 = OK
+  //  TODO incrBuffer is an implementation name, not a functional name.
   int      _pageBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
   //  returns I2C status, 0 = OK
   int      _WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length);
   //  returns bytes read.
   uint8_t  _ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint8_t length);
+  //  compare bytes in EEPROM.
+  bool     _verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length);
 
   //  to optimize the write latency of the EEPROM
   void     _waitEEReady();

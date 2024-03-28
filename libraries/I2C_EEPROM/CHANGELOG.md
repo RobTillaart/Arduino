@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.8.2] - 2023-01-02
+
+## [1.8.3] - 2024-03-28
+- Fix #64, compiler warning.
+- add **verifyBlock(memoryAddress, buffer, length)**
+- add example **I2C_eeprom_verifyBlock.ino**
+- update GitHub actions
+- update keywords.txt
+- update examples
+- update readme.md
+
+
+## [1.8.2] - 2024-01-02
 - updated **uint32_t determineSizeNoWrite()**, kudos to roelandkluit
 - minor edits
 
@@ -13,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add **uint32_t determineSizeNoWrite()**, kudos to roelandkluit
 - add example
 - minor edits
-
 
 ## [1.8.0] - 2023-11-24  (breaking change)
 - simplify **begin()**, remove setting Wire pins from library.

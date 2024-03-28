@@ -1,0 +1,44 @@
+I2C_EEPROM_VERSION: 1.8.2
+
+Testruns NN: 100
+
+
+TEST: NN x writeByte()
+DUR1: 466516
+
+TEST: NN x writeByteVerify()
+DUR1: 542336
+
+TEST: NN x updateByte() same data
+DUR2: 58616
+
+TEST: NN x updateByteVerify() same data
+DUR2: 116896
+
+TEST: NN x updateByteVerify() not same data
+DUR2: 596672
+
+TEST: NN x writeBlock()
+DUR1: 1414432
+
+TEST: NN x writeBlockVerify()
+DUR1: 2010844
+
+TEST: NN x updateBlock() same data
+DUR2: 594796
+
+TEST: NN x updateBlockVerify() same data
+DUR2: 1186644
+
+TEST: NN x updateBlockVerify() not same data
+DUR2: 1204960
+
+TEST: NN x setBlock() same data
+DUR2: 1415932
+
+TEST: NN x setBlockVerify() same data
+DUR2: 2014048
+
+TEST: NN x setBlockVerify() not same data
+DUR2: 2009780
+done...

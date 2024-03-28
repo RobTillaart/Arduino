@@ -39,11 +39,6 @@ void setup()
     SERIAL_OUT.println("ERROR: Can't find eeprom\nstopped...");
     while (1);
   }
-
-  SERIAL_OUT.print("I2C eeprom library: ");
-  SERIAL_OUT.print(I2C_EEPROM_VERSION);
-  SERIAL_OUT.println("\n");
-
   SERIAL_OUT.print("isConnected:\t");
   SERIAL_OUT.println(ee.isConnected());
 

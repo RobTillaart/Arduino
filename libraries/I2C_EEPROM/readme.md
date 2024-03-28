@@ -52,13 +52,13 @@ before calling **I2C_eeprom.begin()**.
 
 ```cpp
         +---U---+
-    A0  | 1   8 |  VCC = +5V
+    A0  | 1   8 |  VCC = 1.7V to 5.5V
     A1  | 2   7 |   WP = write protect pin
     A2  | 3   6 |  SCL = I2C clock
    GND  | 4   5 |  SDA = I2C data
         +-------+
 
-default address = 0x50 .. 0x57 depending on three address lines
+Default address = 0x50 .. 0x57 depending on three address lines (A0, A1, A2).
 ```
 
 
@@ -131,6 +131,9 @@ Same as write and update functions above. Returns true if successful, false indi
 - **bool setBlockVerify(uint16_t memoryAddress, uint8_t value, uint16_t length)**
 - **bool updateByteVerify(uint16_t memoryAddress, uint8_t value)**
 - **bool updateBlockVerify(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)**
+- **bool verifyBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)**
+Returns true is buffer equals memoryAddres for length bytes.
+
 
 
 ### Other
@@ -263,12 +266,15 @@ See examples
 - investigate smarter strategy for **updateBlock()** 
   => find first and last changed position could possibly result in less writes.
 - can **setBlock()** use strategies from **updateBlock()**
+- **pageBlock()**: incrBuffer is an implementation name, not a functional name.
+
 
 #### Wont
 
 - investigate the print interface?
   - circular buffer? (see FRAM library)
   - dump function?
+
 
 ## Support
 

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.2
+// VERSION: 1.8.3
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM.git
 
@@ -147,6 +147,27 @@ uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t * buffer, c
 }
 
 
+//  returns true or false.
+bool I2C_eeprom::verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
+{
+  uint16_t addr = memoryAddress;
+  uint16_t len = length;
+  while (len > 0)
+  {
+    uint8_t cnt = I2C_BUFFERSIZE;
+    if (cnt > len) cnt = len;
+    if (_verifyBlock(addr, buffer, cnt) == false)
+    {
+      return false;
+    }
+    addr   += cnt;
+    buffer += cnt;
+    len    -= cnt;
+  }
+  return true;
+}
+
+
 /////////////////////////////////////////////////////////////
 //
 //  UPDATE SECTION
@@ -203,9 +224,7 @@ bool I2C_eeprom::writeByteVerify(const uint16_t memoryAddress, const uint8_t val
 bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   if (writeBlock(memoryAddress, buffer, length) != 0) return false;
-  uint8_t data[length];
-  if (readBlock(memoryAddress, data, length) != length) return false;
-  return memcmp(data, buffer, length) == 0;
+  return verifyBlock(memoryAddress, buffer, length);
 }
 
 
@@ -213,12 +232,18 @@ bool I2C_eeprom::writeBlockVerify(const uint16_t memoryAddress, const uint8_t * 
 bool I2C_eeprom::setBlockVerify(const uint16_t memoryAddress, const uint8_t value, const uint16_t length)
 {
   if (setBlock(memoryAddress, value, length) != 0) return false;
-  uint8_t data[length];
+  uint8_t * data = (uint8_t *) malloc(length);
+  if (data == NULL) return false;
   if (readBlock(memoryAddress, data, length) != length) return false;
   for (uint16_t i = 0; i < length; i++)
   {
-    if (data[i] != value) return false;
+    if (data[i] != value)
+    {
+      free(data);
+      return false;
+    }
   }
+  free(data);
   return true;
 }
 
@@ -236,9 +261,7 @@ bool I2C_eeprom::updateByteVerify(const uint16_t memoryAddress, const uint8_t va
 bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   if (updateBlock(memoryAddress, buffer, length) != length) return false;
-  uint8_t data[length];
-  if (readBlock(memoryAddress, data, length) != length) return false;
-  return memcmp(data, buffer, length) == 0;
+  return verifyBlock(memoryAddress, buffer, length);
 }
 
 
@@ -380,7 +403,7 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
         //Read is perfomed just over size (size + BUFSIZE), this will only work for devices with mem > size; therefore return size * 2
         _isAddressSizeTwoWords = addressSize;
         return size * 2;
-    }    
+    }
   }
   _isAddressSizeTwoWords = addressSize;
   return 0;
@@ -637,6 +660,50 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
     buffer[cnt++] = _wire->read();
   }
   return readBytes;
+}
+
+
+//  compares content of EEPROM with buffer.
+//  returns true if equal.
+bool I2C_eeprom::_verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length)
+{
+  _waitEEReady();
+
+  this->_beginTransmission(memoryAddress);
+  int rv = _wire->endTransmission();
+  if (rv != 0)
+  {
+//    if (_debug)
+//    {
+//      SPRN("mem addr r: ");
+//      SPRNH(memoryAddress, HEX);
+//      SPRN("\t");
+//      SPRNL(rv);
+//    }
+    return false;  //  error
+  }
+
+  //  readBytes will always be equal or smaller to length
+  uint8_t readBytes = 0;
+  if (this->_isAddressSizeTwoWords)
+  {
+    readBytes = _wire->requestFrom(_deviceAddress, length);
+  }
+  else
+  {
+    uint8_t addr = _deviceAddress | ((memoryAddress >> 8) & 0x07);
+    readBytes = _wire->requestFrom(addr, length);
+  }
+  yield();     //  For OS scheduling
+  uint8_t cnt = 0;
+  while (cnt < readBytes)
+  {
+    if (buffer[cnt++] != _wire->read())
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 

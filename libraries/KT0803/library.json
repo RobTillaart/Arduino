@@ -1,6 +1,6 @@
 {
   "name": "KT0803",
-  "keywords": "Broadcast, KT0803K, KT0803L, KT0803M, FM",
+  "keywords": "FM,Broadcast,KT0803K,KT0803L,KT0803M",
   "description": "Arduino library for the KT0803 and KT0803K FM transmitter.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/KT0803.git"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

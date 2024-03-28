@@ -31,13 +31,20 @@ It is primary written to understand the possibilities and the interface of the d
 
 The library is not tested by me with hardware yet. See future below.
 
-There are some newer, more capable, follow up devices like model K, L and M.
-From these only the KT0803K is supported since 0.2.0. 
-The others are not supported (yet) although they might work as they seem backwards compatible.
+There are newer, more capable, follow up devices like model K, L and M.
+From these only the KT0803K is supported as a derived class.
+The L and the M versions of the device will work with the KT0803K class too
+as their functionality is equal or exceeds the K version. 
+As far as investigated the L and M versions are backwards compatible.
+
+Version 0.3.0 implements a few KT0803K specific functions, see section below.
+These will work for L and M devices too.
+
+For ATTinyX5 series there exists the TinyKT0803 class which is derived from this one.
+It uses a different I2C implementation. See - https://github.com/RobTillaart/TinyKT0803
 
 
 #### Hardware
-
 
 Read datasheet for details.
 
@@ -66,17 +73,19 @@ The KT0803 is an 3.3 Volt device and cannot be connected directly to 5V MCU's.
 The frequency range stated on the front page of the datasheet ==> 70 MHz - 108 MHz.
 The frequency range stated in table 2 ==> 76 MHz - 108 MHz.
 So the datasheet is at least ambiguous on this point.
-Also keep in mind that the 
+
+Keep in mind that the frequency range allowed differs per country.
+The library does not provide this filtering, explicit responsibility of the user.
 
 
 #### Differences
 
-The KT0803K device has far more options, which are not implemented yet except one.
-The resolution or step-size of the frequency.
+The KT0803K device has far more options, which are not all implemented.
+There is one important, the resolution or step-size of the frequency.
 
 |  device   |  step-size  |  Notes  |
 |:---------:|:-----------:|:--------|
-|  KT0803   |  100 KHz    |  in code the math is done with 50 KHz
+|  KT0803   |  100 KHz    |  in code all math is done with 50 KHz
 |  KT0803K  |   50 KHz    |
 
 Backwards compatible.
@@ -111,13 +120,14 @@ Some examples:
 #### Related
 
 - https://github.com/RobTillaart/KT0803
+- https://github.com/RobTillaart/TinyKT0803
 - https://www.hackster.io/hesam-moshiri/stereo-digital-fm-transmitter-circuit-arduino-code-2dbd8d
 - https://www.hackster.io/hesam-moshiri/full-digital-fm-receiver-with-arduino-and-tea5767-52be37
 - https://www.hackerstore.nl/Artikel/388
 - https://en.wikipedia.org/wiki/FM_broadcasting
 
 
-## Interface
+## Interface KT0803
 
 ```cpp
 #include "KT0803.h"
@@ -261,14 +271,35 @@ A minimal hardcoded preset sketch is in the examples.
 
 ## Derived classes
 
-Since 0.2.0 the KT0803K class is created, although minimally implemented.
+A derived class KT0803K class is created, with some extended
+functions.
 
-The KT0803L might work as it seems backwards compatible. It has far more
-registers in use than the KT0803/K.
-At the moment there is no intention to implement this KT0803L version.
+The KT0803L will work as it is backwards compatible with KT0803K. 
+It has far more registers in use than the KT0803/K.
 
-The KT0803M looks almost identical to the KT0803K (no new registers), so
+The KT0803M is identical to the KT0803K (no new registers), so
 a derived class is straightforward.
+
+
+## Interface KT0803K
+
+Added functions in 0.3.0 (not tested), check datasheet.
+
+#### Mono Stereo
+
+- **bool setMono()** idem
+- **bool setStereo()** idem
+- **bool isStereo()** idem
+
+#### Bass
+
+- **bool setBass(uint8_t bass);  //  0..3 = 0, 5, 11, 17 dB
+- **uint8_t getBass()** idem
+
+#### Misc
+
+- **bool powerOK()** idem
+- **bool silenceDetected()** idem
 
 
 ## Future
@@ -282,6 +313,10 @@ a derived class is straightforward.
 
 #### Should
 
+- update readme.md 
+  - KT0803K specific functions.
+- add examples for KT0803K specific functions.
+
 
 #### Could
 
@@ -291,7 +326,8 @@ a derived class is straightforward.
   - what is impact on settings? 
   - call begin () again? => default
   - explain well doc.
-- derived class KT0803M (== K check)
+- derived class KT0803M  == KT0803K
+- derived class KT0803L  >= KT0803K (compatible)
 - improve error handling
 - unit tests possible?
 - extend settings upon request **bold** are interesting, see table
@@ -300,14 +336,10 @@ a derived class is straightforward.
 |:---------:|:-------------:|:---------------:|:--------|
 |  KT0803   |  PA_CTRL      |  13, bit 2      |  **WARNING in datasheet**
 |           |               |                 |  Should it be added in API?
-|  KT0803K  |  MONO/STEREO  |  04, bit 6      |  **idem**
 |  KT0803K  |  PGA_LSB      |  04, bit 4+5    |  gain fine tuning -> see PGA_MOD
 |  KT0803K  |  FDEV         |  04, bit 2+3    |  Frequency deviation adjustment
-|  KT0803K  |  BASS         |  04, bit 0+1    |  **Bass boost control**
 |  KT0803K  |  PDPA         |  0B, bit 5      |  Power Amplifier Power Down ?
 |  KT0803K  |  PA_BIAS      |  0E, bit 1      |  PA bias current enhancement.
-|  KT0803K  |  PW_OK  (RO)  |  0F, bit 4      |  **Power OK indicator**
-|  KT0803K  |  SLNCID (RO)  |  0F, bit 2      |  1 when Silence is detected
 |  KT0803K  |  LMTLVL       |  10, bit 3+4    |  **Internal audio limiter level control**
 |  KT0803K  |  PGAMOD       |  10, bit 0      |  PGA mode selection  (use PGA_LSB/ not)
 |  KT0803K  |  SLNCDIS      |  12, bit 7      |  Silence detection disable
@@ -322,7 +354,6 @@ a derived class is straightforward.
 #### Wont (for now)
 
 - investigate tea5767 FM receiver (Out of scope for this lib).
-- implement KT0803L
 - investigate efficiency of register access.
   - caching all (allowed) registers in **begin()**
     -  3 bytes for KT0803

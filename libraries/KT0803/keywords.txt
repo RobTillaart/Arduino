@@ -35,6 +35,18 @@ setMute	KEYWORD2
 getMute	KEYWORD2
 
 
+# KT0803K specific
+setMono	KEYWORD2
+setStereo	KEYWORD2
+isStereo	KEYWORD2
+
+setBass	KEYWORD2
+getBass	KEYWORD2
+
+powerOK	KEYWORD2
+silenceDetected	KEYWORD2
+
+
 # Constants (LITERAL1)
 KT0803_LIB_VERSION	LITERAL1
 

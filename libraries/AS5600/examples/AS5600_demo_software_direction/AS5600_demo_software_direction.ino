@@ -27,7 +27,7 @@ void setup()
 
   Wire.begin();
 
-  as5600.begin();      //  set software direction control. default param = 255
+  as5600.begin();      //  set software direction control. default parameter == 255
   as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
 }
 
@@ -39,7 +39,7 @@ void loop()
   if (counter < 10) as5600.setDirection(AS5600_CLOCK_WISE);
   else              as5600.setDirection(AS5600_COUNTERCLOCK_WISE);
   if (counter >= 20) counter = 0;
-  
+
   Serial.print(millis());
   Serial.print("\t");
   Serial.print(as5600.getDirection());

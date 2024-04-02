@@ -23,7 +23,7 @@ void setup()
   Serial.println(AS5600_LIB_VERSION);
 
   Wire.begin(14, 15);
-  
+
   as5600.begin(4);  //  set direction pin.
   as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
   int b = as5600.isConnected();

@@ -21,7 +21,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
-  
+
   Wire.begin();
 
   as5600.begin(4);  //  set direction pin.

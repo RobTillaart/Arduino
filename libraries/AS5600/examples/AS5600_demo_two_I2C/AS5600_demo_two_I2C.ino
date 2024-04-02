@@ -36,7 +36,7 @@ void setup()
   Serial.print("Connect device 0: ");
   Serial.println(as5600_0.isConnected() ? "true" : "false");
   delay(1000);
-  
+
   as5600_1.begin(5);  //  set direction pin.
   as5600_1.setDirection(AS5600_COUNTERCLOCK_WISE);
   Serial.print("Connect device 1: ");

@@ -20,9 +20,9 @@ Arduino library for AS5600 and AS5600L magnetic rotation meter.
 
 **AS5600** is a library for an AS5600 / AS5600L based magnetic **rotation** meter.
 More exact, it measures the angle (rotation w.r.t. reference) and not RPM.
-Multiple angle measurements allows one to calculate / estimate the RPM.
+Multiple angle measurements allows one to calculate or estimate the RPM.
 
-The AS5600 and AS5600L sensors are pin compatible (always check datasheet).
+The AS5600 and AS5600L sensors are pin compatible (always check your model's datasheet).
 
 **Warning: experimental**
 
@@ -39,10 +39,10 @@ Please share your experiences.
 #### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.
-You cannot set the pins in **begin()** any more.
+You cannot set the SDA and SCL pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
-before calling **begin()**.
+The user has to call **Wire.begin()** and can optionally set the I2C pins 
+before calling **AS5600.begin()**.
 
 
 #### Related libraries
@@ -63,6 +63,7 @@ Do not forget to add the pull up resistors to improve the I2C signals.
 
 The AS5600 datasheet states it supports Fast-Mode == 400 KHz
 and Fast-Mode-Plus == 1000 KHz.
+
 
 #### Pull ups
 
@@ -128,7 +129,7 @@ This resistor needs to be removed to use the **OUT** pin.
 
 Not tested. ==> Read the datasheet!
 
-PGO stands for Programming Option, it is used to calibrate / program the sensor.
+PGO stands for ProGramming Option, it is used to calibrate and program the sensor.
 As the sensor can be programmed only a few times one should
 use this functionality with extreme care.
 See datasheet for a detailed list of steps to be done.
@@ -731,38 +732,37 @@ priority is relative.
 
 #### Should
 
+- implement extended error handling in public functions.
+  - will increase footprint !! how much?
+  - **call writeReg() only if readReg() is OK** ==> prevent incorrect writes
+    - ```if (_error != 0) return false;```
+    - idem readReg2()
+  - set AS5600_ERROR_PARAMETER  e.g. setZPosition()
+  - a derived class with extended error handling?
 - investigate **readMagnitude()**
   - combination of AGC and MD, ML and MH flags?
-- investigate OUT behaviour in practice
+- investigate **OUT** behaviour in practice
   - analogue
   - PWM
   - need AS5600 on breakout with support
-- write examples:
-  - as5600_calibration.ino (needs HW and lots of time)
-  - different configuration options
 - check / verify Power-up time
   - 1 minute (need HW)
 - check Timing Characteristics (datasheet)
   - is there improvement possible.
 
 
-
 #### Could
 
-- investigate PGO programming pin.
+- investigate **PGO** programming pin.
 - check for compatible devices
   - AS5200 ?
 - investigate performance
   - basic performance per function
   - I2C improvements
   - software direction
-- implement extended error handling in public functions.
-  - will increase footprint !! how much?
-  - writeReg() only if readReg() is OK ==> prevent incorrect writes
-    - ```if (_error != 0) return false;```
-  - set AS5600_ERROR_PARAMETER  e.g. setZPosition()
-  - a derived class with extended error handling?
-  
+- write examples:
+  - as5600_calibration.ino (needs HW and lots of time)
+  - different configuration options
 
 #### Wont (unless)
 

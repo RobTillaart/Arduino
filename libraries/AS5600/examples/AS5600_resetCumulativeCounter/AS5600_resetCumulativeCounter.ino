@@ -1,6 +1,6 @@
 //
 //    FILE: AS5600_resetCumulativeCounter.ino
-//  AUTHOR: Daniel-Frenkel, (slightly by Rob Tillaart)
+//  AUTHOR: Daniel-Frenkel, (slightly modified by Rob Tillaart)
 // PURPOSE: demo - see issue #30
 //     URL: https://github.com/RobTillaart/AS5600
 //
@@ -21,7 +21,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
-  
+
   Wire.begin(14, 15);        //  ESP32
 
   as5600.begin();

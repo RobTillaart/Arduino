@@ -88,7 +88,7 @@ void burn_mang()
   const uint16_t FASTFILTER = 0;
   const uint16_t WATCHDOG = 0;
   const uint16_t MAXANGLE = 0;
-  
+
   bool OK = true;
   OK = OK && as5600.setPowerMode(POWERMODE);
   OK = OK && (POWERMODE == as5600.getPowerMode());

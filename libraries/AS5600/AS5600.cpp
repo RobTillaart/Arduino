@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -463,6 +463,7 @@ float AS5600::getAngularSpeed(uint8_t mode)
 int32_t AS5600::getCumulativePosition()
 {
   int16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
+  if (_error != AS5600_OK) return _position;
 
   //  whole rotation CW?
   //  less than half a circle

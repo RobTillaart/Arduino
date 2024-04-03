@@ -1,0 +1,8 @@
+HC4052_performance.ino
+HC4052_LIB_VERSION: 0.2.0
+
+400x different channel
+TIME diff: 7500	18.75
+400x same channel
+TIME same: 628	1.57
+

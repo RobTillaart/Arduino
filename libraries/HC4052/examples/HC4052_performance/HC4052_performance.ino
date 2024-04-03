@@ -1,7 +1,7 @@
 //
 //    FILE: HC4052_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Demo for HC4052 2x4 channel (simple) multiplexer
+// PURPOSE: Demo for HC4052 2 x 4 channel (simple) multiplexer
 
 
 #include "HC4052.h"
@@ -9,6 +9,7 @@
 HC4052 mp(4, 5, 6);
 
 uint32_t start, stop;
+
 
 void setup()
 {

@@ -3,14 +3,14 @@
 //    FILE: HC4052.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.3
-// PURPOSE: Arduino library for HC4052 2x4 channel multiplexer and compatibles.
+// VERSION: 0.2.0
+// PURPOSE: Arduino library for HC4052 2 x 4 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4052
 
 
 #include "Arduino.h"
 
-#define HC4052_LIB_VERSION         (F("0.1.3"))
+#define HC4052_LIB_VERSION         (F("0.2.0"))
 
 
 class HC4052
@@ -42,9 +42,11 @@ public:
     if (channel > 0x03) return false;
     if (channel != _channel)
     {
+      disable();  //  prevent ghost channels.
+      digitalWrite(_pins[0], channel & 0x01);
+      digitalWrite(_pins[1], channel & 0x02);
+      enable();
       _channel = channel;
-      digitalWrite(_pins[0], _channel & 0x01);
-      digitalWrite(_pins[1], _channel & 0x02);
     }
     return true;
   }

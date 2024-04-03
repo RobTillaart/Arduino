@@ -11,21 +11,26 @@
 
 # HC4052
 
-HC4052 is an Arduino library for a HC4052 4 x 2 channel multiplexer.
+HC4052 is an Arduino library for a HC4052 2 x 4 channel multiplexer.
 
 
 ## Description
 
-HC4052 is a library to control the CD74HC4052 4 x 2 channels
+HC4052 is a library to control the CD74HC4052 2 x 4 channels
 multiplexer / demultiplexer and compatible devices.
 
-The HC4052 allows e.g to multiplex an I2C bus (SDA+SCL) simultaneous to read multiple
+The HC4052 allows e.g to multiplex an I2C bus (SDA + SCL) simultaneous to read multiple
 sensors that have a fixed address. 
 Another application is to switch Serial (UNO has only one HW Serial) between different
 devices.
 Or to switch audio channels (not tested) etc.
 
-The channel selection is done with two select lines **A, B** or **s0, s1**.
+It is also possible to use the HC4067 to select an OUTPUT channel.
+The signal pin can be connected to VCC (5V) or an IO pin set to OUTPUT.
+Only the selected channel can show the HIGH level of the IO pin if set to HIGH.
+Not selected pins will all be set to LOW.
+
+The channel selection is done with two select lines **A, B** or **S0, S1**.
 
 The device can be enabled/disabled by the enable line **INH** or **E**.
 
@@ -36,23 +41,23 @@ The device can be enabled/disabled by the enable line **INH** or **E**.
   - 74HC4052 (CMOS level)
   - 74HCT4052 (TTL level)
 
-To elaborate.
 
-
-#### Related to 
+#### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
 - https://github.com/RobTillaart/HC4053  (3x2 mux)
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
+- https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
+- https://tronixstuff.com/2013/08/05/part-review-74hc4067-16-channel-analog-multiplexerdemultiplexer/
 
 
 ## Hardware connection
 
-Typical connection is to connect the two **select pins** to two IO Pins of your board.
+Typical connection is to connect the two **select pins** to two IO pins of your board.
 
 The optional **enablePin(INH)** must be connected to GND if not used.
-This way the device is continuous enabled.
+This way the device will be continuous enabled.
 
 Example multiplexing analog in.
 
@@ -88,18 +93,20 @@ Set the two select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
 - **bool setChannel(uint8_t channel)** set the current channel.
 Valid values 0..3, returns false if channel out of range.
-If the right channel is already set it does not change it
-- **uint8_t getChannel()** get current channel 0..3.
+If the channel is already selected it does not change it.
+Calling setChannel will enable it.
+- **uint8_t getChannel()** returns the current channel 0..3.
+The selected channel is also returned when the multiplexer is disabled.
 
 
 #### Enable
 
 These functions work only if enablePin is set in the constructor.
 
-- **void enable()** idem.
-- **void disable()** idem.
-- **bool isEnabled()** idem.
-Also returns true if enablePin is not set.
+- **void enable()** enables the device to multiplex.
+- **void disable()** disables the device, no channel is selected.
+- **bool isEnabled()** returns the current status of the device.
+Also returns true if the enablePin is not set in the constructor.
 
 
 ## Future
@@ -113,8 +120,7 @@ Also returns true if enablePin is not set.
 #### Could
 
 - add examples
-  - i2c scan ?
-  - performance
+  - i2c scan
 
 #### Wont
 

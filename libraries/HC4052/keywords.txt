@@ -6,7 +6,6 @@ HC4052	KEYWORD1
 # Methods and Functions (KEYWORD2)
 setChannel	KEYWORD2
 getChannel	KEYWORD2
-
 enable	KEYWORD2
 disable	KEYWORD2
 isEnabled	KEYWORD2

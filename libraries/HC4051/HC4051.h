@@ -3,15 +3,15 @@
 //    FILE: HC4051.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.1
-// PURPOSE: Arduino library for CD74HC4051 1x8 channel multiplexer and compatibles.
+// VERSION: 0.2.0
+// PURPOSE: Arduino library for CD74HC4051 1 x 8 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4051
 
 
 
 #include "Arduino.h"
 
-#define HC4051_LIB_VERSION         (F("0.1.1"))
+#define HC4051_LIB_VERSION         (F("0.2.0"))
 
 
 class HC4051
@@ -41,12 +41,24 @@ public:
 
   void setChannel(uint8_t channel)
   {
-    if ((channel & 0x07) != _channel)
+    uint8_t _new = channel & 0x0F;                          
+    if (_new != _channel)
     {
-      _channel = channel & 0x07;
-      digitalWrite(_pins[0], _channel & 0x01);
-      digitalWrite(_pins[1], _channel & 0x02);
-      digitalWrite(_pins[2], _channel & 0x04);
+      uint8_t _changed = _new ^ _channel;
+      uint8_t mask = 0x04;
+      uint8_t i = 2;
+      disable();  //  prevent ghost channels.
+      while (mask)
+      {
+        //  only write changed pins. //  AVR only?
+        if (mask & _changed)
+        {
+          digitalWrite(_pins[i--], (mask & _new));
+        }
+        mask >>= 1;
+      }
+      enable();
+      _channel = _new;
     }
   }
 

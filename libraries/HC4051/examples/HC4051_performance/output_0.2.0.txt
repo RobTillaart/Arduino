@@ -1,0 +1,15 @@
+
+HC4051_performance.ino
+HC4051 LIBRARY VERSION: 0.2.0
+
+Channel 0: 	20
+Channel 1: 	20
+Channel 2: 	24
+Channel 3: 	24
+Channel 4: 	28
+Channel 5: 	24
+Channel 6: 	24
+Channel 7: 	20
+
+SetChannel: 	4
+

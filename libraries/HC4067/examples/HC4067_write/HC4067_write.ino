@@ -1,12 +1,12 @@
 //
-//    FILE: HC4067_test.ino
+//    FILE: HC4067_write.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
 
 
 #include "HC4067.h"
 
-HC4067 mp(4, 5, 6, 7, 8);  //  explicitly set enable pin (8)
+HC4067 mp(4, 5, 6, 7, 3);  //  explicitly set enable pin (3)
 
 
 void setup()
@@ -19,26 +19,31 @@ void setup()
 
   delay(1000);
 
+  pinMode(8, OUTPUT);
+  digitalWrite(8, HIGH);
+
   Serial.println(mp.isEnabled());
   mp.enable();
   Serial.println(mp.isEnabled());
   mp.disable();
   Serial.println(mp.isEnabled());
-
+  mp.enable();
   delay(1000);
 }
 
 
 void loop()
 {
+  // rotate over the channels
   for (uint8_t channel = 0; channel < 16; channel++)
   {
-    mp.enable();
     mp.setChannel(channel);
-    Serial.println(analogRead(A0));
-    mp.disable();
-    delay(100);
+    Serial.println(channel);
+    delay(250);
   }
+
+  //  Toggle the OUTPUT
+  digitalWrite(8, digitalRead(8));
 }
 
 

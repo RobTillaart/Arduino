@@ -22,10 +22,14 @@ multiplexer / demultiplexer and compatible devices.
 The HC4067 allows e.g one analog port read up to 16 different analog channels,
 or one digital port to read the state of 16 buttons.
 
+It is also possible to use the HC4067 to select an OUTPUT channel.
+The signal pin can be connected to VCC (5V) or an IO pin set to OUTPUT.
+Only the selected channel can show the HIGH level of the IO pin if set to HIGH.
+Not selected pins will all be set to LOW.
 
-The channel selection is done with four select lines **S0..S3**
+The channel selection is done with four select lines **S0..S3**.
 
-The device can be enabled/disabled by the enable line **E**
+The device can be enabled/disabled by the enable line **E**.
 
 
 #### Compatibles
@@ -40,14 +44,16 @@ Not tested, considered compatible.
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
 - https://github.com/RobTillaart/HC4053  (3x2 mux)
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
+- https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
+- https://tronixstuff.com/2013/08/05/part-review-74hc4067-16-channel-analog-multiplexerdemultiplexer/
 
 
 ## Hardware connection
 
-Typical connection is to connect the four **select pins** to four IO Pins of your board.
+Typical connection is to connect the four **select pins** to four IO pins of your board.
 
-The optional **enablePin E** must be connected to GND if not used.
-This way the device is continuous enabled.
+The optional **enablePin E** must be connected to **GND** if not used.
+This way the device will be continuous enabled.
 
 Example multiplexing analog in.
 
@@ -76,6 +82,25 @@ Example multiplexing analog in.
 ```
 
 
+#### Less Select lines
+
+Note: the library does not meant for this mode, although it should work.
+The GND-ed pins should be set to 255 (not tested).
+
+It is possible to use less IO pins to connect to the S0..S3.
+The ones not connected to an IO pin must be connected to GND (preferred).
+
+|  S0   |  S1   |  S2   |  S3   |  pins  |  notes  |
+|:-----:|:-----:|:-----:|:-----:|:------:|:-------:|
+|  IO   |  IO   |  IO   |  IO   |  0-15  |  default usage
+|  IO   |  IO   |  IO   |  GND  |   0-7  |
+|  IO   |  IO   |  GND  |  GND  |   0-3  |
+|  IO   |  GND  |  GND  |  GND  |   0-1  |
+
+Of course it is possible to set a Select pin to VCC instead of GND.
+This will result in another subset of the Y pins to select from.
+
+
 ## Interface
 
 ```cpp
@@ -89,50 +114,41 @@ Set the 4 select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
 - **void setChannel(uint8_t channel)** set the current channel.
 Valid values 0..15, this value is not checked, only the lower 4 bits will be used.
-- **uint8_t getChannel()** get current channel 0..15.
+- **uint8_t getChannel()** returns the current channel 0..15.
+The selected channel is also returned when the multiplexer is disabled.
 
 
 #### Enable
 
 These functions work only if enablePin is set in the constructor.
 
-- **void enable()** idem.
-- **void disable()** idem.
-- **bool isEnabled()** idem.
-Also returns true if enablePin is not set.
+- **void enable()** enables the HC4067 to multiplex.
+- **void disable()** disables the HC4067, no channel is selected.
+- **bool isEnabled()** returns the current status of the HC4067.
+Also returns true if the enablePin is not set in the constructor.
 
 
 ## Future
 
 #### Must
 
-- elaborate documentation
-  - links etc.
-
+- documentation
 
 #### Should
 
-- optimizations
-  - performance setChannel
-- investigate how to use with only 3 lines or 2 lines.
-  - set s3 / s2 to LOW always or so
-
+- test performance **setChannel()** on ESP32 / fast board.
+  - should optimized version be AVR only?
 
 #### Could
 
 - next() and prev() as channel selector.
-  - internal channel variable needed.
-- move code to .cpp file
-- investigate
-  - can it be used as 16 channel OUTPUT (yes but)
-  - is it buffered?
-
+  - what to do with range borders? ==> stop?
 
 #### Won't (unless requested)
 
-- optimizations
-  - only do digitalWrite when changed? gain is minimal.
-  - now takes 24 micros on UNO if set.
+- check channel in setChannel() ?
+  - return true if in range, false otherwise.
+- move code to .cpp file
 
 
 ## Support

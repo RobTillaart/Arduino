@@ -7,10 +7,11 @@
 
 #include "HC4067.h"
 
-HC4067 mp(4, 5, 6, 7);
+HC4067 mp(4, 5, 6, 7);  //  no enable pin defined connect to GND.
 
 const int inputPin = 10;
 uint16_t values;
+
 
 void setup()
 {

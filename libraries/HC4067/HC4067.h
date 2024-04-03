@@ -3,7 +3,7 @@
 //    FILE: HC4067.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for CD74HC4067 1 x 16 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4067
 
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define HC4067_LIB_VERSION         (F("0.1.2"))
+#define HC4067_LIB_VERSION         (F("0.2.0"))
 
 
 class HC4067
@@ -42,16 +42,24 @@ public:
 
   void setChannel(uint8_t channel)
   {
-    if ((channel & 0x0F) != _channel)
+    uint8_t _new = channel & 0x0F;
+    if (_new != _channel)
     {
-      _channel = channel & 0x0F;
+      uint8_t _changed = _new ^ _channel;
       uint8_t mask = 0x08;
       uint8_t i = 3;
+      disable();  //  prevent ghost channels.
       while (mask)
       {
-        digitalWrite(_pins[i--], (mask & _channel));
+        //  only write changed pins. //  AVR only?
+        if (mask & _changed)
+        {
+          digitalWrite(_pins[i--], (mask & _new));
+        }
         mask >>= 1;
       }
+      enable();
+      _channel = _new;
     }
   }
 

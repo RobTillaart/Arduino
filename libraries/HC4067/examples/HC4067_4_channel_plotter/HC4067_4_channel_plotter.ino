@@ -14,10 +14,11 @@
 
 //  4..7 channel select pins
 //  8 = enable pin
-HC4067 mp(4, 5, 6, 7, 8);  
+HC4067 mp(4, 5, 6, 7, 8);
 
 
 uint32_t lastTime = 0;
+
 
 void setup()
 {

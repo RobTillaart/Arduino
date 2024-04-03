@@ -6,7 +6,7 @@
 
 #include "HC4067.h"
 
-HC4067 mp(4, 5, 6, 7);
+HC4067 mp(4, 5, 6, 7);  //  no enable pin defined connect to GND.
 
 
 void setup()
@@ -26,9 +26,11 @@ void loop()
   for (uint8_t channel = 0; channel < 16; channel++)
   {
     mp.setChannel(channel);
-    Serial.println(analogRead(A0));
+    Serial.print(analogRead(A0));
+    Serial.print("\t");
     delay(100);
   }
+  Serial.println();
 }
 
 

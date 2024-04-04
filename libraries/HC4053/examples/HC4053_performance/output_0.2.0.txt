@@ -1,0 +1,10 @@
+
+HC4053_performance.ino
+HC4053 LIBRARY VERSION: 0.2.0
+
+Channel 0: 	24
+Channel 1: 	24
+
+SetChannel: 	12
+
+

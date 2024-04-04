@@ -11,45 +11,52 @@
 
 # HC4053
 
-HC4053 is an Arduino library for a HC4053 3x2 channel multiplexer.
+HC4053 is an Arduino library for a HC4053 3 x 2 channel multiplexer.
 
 
 ## Description
 
-HC4053 is a library to control the CD74HC4053 3x2 channel
+HC4053 is a library to control the CD74HC4053 3 x 2 channel
 multiplexer / demultiplexer and compatible devices.
 
 The HC4053 is in fact three separate controllable switches in one,
-and every switch can be set indepently in one of two positions.
-This is functionaly different from both the 4051, 4052 and 4067
+and every switch can be set independently in one of two positions.
+This is functionally different from both the 4051, 4052 and 4067
 in which there is only one channel selection
+
+It is also possible to use the HC4053 to select an OUTPUT channel.
+The signal pin can be connected to VCC (5V) or an IO pin set to OUTPUT.
+Only the selected channel can show the HIGH level of the IO pin if set to HIGH.
+Not selected pins will all be set to LOW.
 
 The independent channel selection is done with three select lines **A, B, C**.
 
-The device can be enabled/disabled by the enable line **INH**
+The device can be enabled/disabled by the enable line **INH**.
 
 
 #### Compatibles
 
-to elaborate.
+To elaborate.
 
 
-#### Related to 
+#### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
 - https://github.com/RobTillaart/HC4053  (3x2 mux)
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
+- https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
+- https://tronixstuff.com/2013/08/05/part-review-74hc4067-16-channel-analog-multiplexerdemultiplexer/
 
 
 ## Hardware connection
 
-Typical connection is to connect the three **select pins** to three IO Pins of your board.
+Typical connection is to connect the three **select pins** to three IO pins of your board.
 
 The optional **enablePin (INH)** must be connected to GND if not used.
-This way the device is continuous enabled.
+This way the device will be continuous enabled.
 
-Example multiplexing 3x analog in.
+Example multiplexing three times analog in.
 
 ```
         processor                      HC4053
@@ -89,7 +96,7 @@ If the enablePin == 255 it is considered not used.
 - **void setChannel(uint8_t channel)** sets A, B and C to channel in one call.
 Think of it as a master switch.
 Valid values 0, 1, this value is not checked, only last bit is used.
-Note the channels will not change at the very same moment.
+Note the three channels will not change at the very same moment.
 - **void setChannelA(uint8_t channel)** sets A to channel.
 Valid values 0, 1, this value is not checked, only last bit is used.
 - **void setChannelB(uint8_t channel)** sets B to channel.
@@ -105,10 +112,10 @@ Valid values 0, 1, this value is not checked, only last bit is used.
 
 These functions work only if enablePin is set in the constructor.
 
-- **void enable()** idem.
-- **void disable()** idem.
-- **bool isEnabled()** idem.
-Also returns true if enablePin is not set.
+- **void enable()** enables the device to multiplex.
+- **void disable()** disables the device, no channel is selected.
+- **bool isEnabled()** returns the current status of the device.
+Also returns true if the enablePin is not set in the constructor.
 
 
 ## Future

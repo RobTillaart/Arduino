@@ -65,7 +65,26 @@ The sensor can have 16 different I2C addresses,
 which depends on how the A0 and A1 address lines 
 are connected to the SCL, SDA, GND and VCC pins.
 
-See datasheet - table 2 - datasheet.
+See table - from datasheet table 2, page18.
+
+|  A1   |  A0   |  ADDRESS   |
+|:-----:|:-----:|:----------:|
+|  GND  |  GND  |  1000000   |
+|  GND  |  VS   |  1000001   |
+|  GND  |  SDA  |  1000010   |
+|  GND  |  SCL  |  1000011   |
+|  VS   |  GND  |  1000100   |
+|  VS   |  VS   |  1000101   |
+|  VS   |  SDA  |  1000110   |
+|  VS   |  SCL  |  1000111   |
+|  SDA  |  GND  |  1001000   |
+|  SDA  |  VS   |  1001001   |
+|  SDA  |  SDA  |  1001010   |
+|  SDA  |  SCL  |  1001011   |
+|  SCL  |  GND  |  1001100   |
+|  SCL  |  VS   |  1001101   |
+|  SCL  |  SDA  |  1001110   |
+|  SCL  |  SCL  |  1001111   |
 
 
 #### Performance

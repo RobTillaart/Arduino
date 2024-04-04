@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.5.4
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -108,7 +108,7 @@ bool INA226::isConversionReady()
 bool INA226::waitConversionReady(uint32_t timeout)
 {
   uint32_t start = millis();
-  while ( (millis() - start) <= timeout) 
+  while ( (millis() - start) <= timeout)
   {
     if (isConversionReady()) return true;
    delay(1);  //  implicit yield();
@@ -228,18 +228,18 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   if (normalize)
   {
     /*
-       check if maxCurrent (normal) or shunt resistor 
+       check if maxCurrent (normal) or shunt resistor
        (due to unusual low resistor values in relation to maxCurrent) determines currentLSB
        we have to take the upper value for currentLSB
-    
+
        calculation of currentLSB based on shunt resistor and calibration register limits (2 bytes)
        cal = 0.00512 / ( shunt * currentLSB )
-       cal(max) = 2^16-1 
+       cal(max) = 2^16-1
        currentLSB(min) = 0.00512 / ( shunt * cal(max) )
        currentLSB(min) ~= 0.00512 / ( shunt * 2^16 )
-       currentLSB(min) ~= 2^9 * 1e-5 / ( shunt * 2^16 )  
+       currentLSB(min) ~= 2^9 * 1e-5 / ( shunt * 2^16 )
        currentLSB(min) ~= 1e-5 / 2^7 / shunt
-       currentLSB(min) ~= 7.8125e-8 / shunt 
+       currentLSB(min) ~= 7.8125e-8 / shunt
     */
     if ( 7.8125e-8 / shunt > _current_LSB ) {
       // shunt resistor determines currentLSB -> take this a starting point for currentLSB
@@ -274,13 +274,13 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
         factor *= 10;
         i++;
       }
-    } while( (i < 4) && (!result) );  //  factor < 10000 
+    } while( (i < 4) && (!result) );  //  factor < 10000
 
     if (result == false) {  //  not succeeded to normalize.
       _current_LSB = 0;
       return INA226_ERR_NORMALIZE_FAILED;
     }
-  
+
     #ifdef printdebug
       Serial.print("After scale current_LSB:\t");
       Serial.print(_current_LSB * 1e+6, 1);

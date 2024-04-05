@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -16,14 +16,14 @@
 //       |o  |       SCL          GREY
 //       +---+
 //
-// do not forget pull up resistors between SDA, SCL and VDD.
+//  do not forget pull up resistors between SDA, SCL and VDD.
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.5.0"))
+#define AM232X_LIB_VERSION              (F("0.5.1"))
 
 
 #define AM232X_OK                        0
@@ -100,8 +100,8 @@ public:
   // might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset = 0)  { _humOffset = offset; };
   void     setTempOffset(float offset = 0) { _tempOffset = offset; };
-  float    getHumOffset()             { return _humOffset; };
-  float    getTempOffset()            { return _tempOffset; };
+  float    getHumOffset()           { return _humOffset; };
+  float    getTempOffset()          { return _tempOffset; };
 
   // suppress error values of -999 => check return value of read() instead
   bool     getSuppressError()         { return _suppressError; };
@@ -109,8 +109,9 @@ public:
 
   bool     wakeUp() { return isConnected(); };
 
+
 protected:
-  uint8_t  _bits[8];    // buffer to hold raw data
+  uint8_t  _bits[8];    //  buffer to hold raw data
   float    _humidity      = 0.0;
   float    _temperature   = 0.0;
   float    _humOffset     = 0.0;
@@ -120,11 +121,11 @@ protected:
 
   bool     _suppressError = false;
 
-  int      _readRegister(uint8_t reg, uint8_t cnt);
-  int      _writeRegister(uint8_t reg, uint8_t cnt, int16_t value);
+  int      _readRegister(uint8_t reg, uint8_t count);
+  int      _writeRegister(uint8_t reg, uint8_t count, int16_t value);
   int      _getData(uint8_t length);
 
-  uint16_t _crc16(uint8_t *ptr, uint8_t len);
+  uint16_t _crc16(uint8_t *ptr, uint8_t length);
 
   TwoWire* _wire;
 };
@@ -132,7 +133,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// AM232X derived classes
+//  AM232X derived classes
 //
 class AM2320 : public AM232X
 {
@@ -153,9 +154,6 @@ class AM2322 : public AM232X
 public:
   AM2322(TwoWire *wire = &Wire);
 };
-
-
-
 
 
 // -- END OF FILE --

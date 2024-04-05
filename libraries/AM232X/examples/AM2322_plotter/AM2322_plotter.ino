@@ -28,7 +28,7 @@ void setup()
   // Serial.print("LIBRARY VERSION: ");
   // Serial.println(AM232X_LIB_VERSION);
   // Serial.println();
-  
+
   Wire.begin();
   if (! AM2322.begin() )
   {

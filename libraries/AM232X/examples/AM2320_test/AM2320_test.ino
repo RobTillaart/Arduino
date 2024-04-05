@@ -13,7 +13,7 @@
 //       |o  |       SCL          GREY
 //       +---+
 //
-// do not forget pull up resistors between SDA, SCL and VDD.
+//  do not forget pull up resistors between SDA, SCL and VDD.
 
 
 #include "AM232X.h"
@@ -38,7 +38,7 @@ void setup()
   AM2320.wakeUp();
   delay(2000);
 
-  // sensor only returns one decimal.
+  //  sensor only returns one decimal.
   Serial.println();
   Serial.println("Read:\t");
 
@@ -112,4 +112,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

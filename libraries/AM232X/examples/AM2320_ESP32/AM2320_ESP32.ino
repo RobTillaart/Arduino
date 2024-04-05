@@ -39,7 +39,7 @@ void setup()
 
   I2C_IMU.begin();
   I2C_DHT.begin(pd_sda_dht, pd_scl_dht, 100000ul);
-  
+
   if (! AM2320.begin() )
   {
     Serial.println("Sensor not found");

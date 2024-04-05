@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //     URL: https://github.com/RobTillaart/AM232X
 
@@ -60,7 +60,7 @@ int AM232X::read()
   }
   _lastRead = millis();
 
-  // READ HUMIDITY AND TEMPERATURE REGISTERS
+  //  READ HUMIDITY AND TEMPERATURE REGISTERS
   int rv = _readRegister(0x00, 4);
   if (rv < 0) return rv;
 
@@ -71,7 +71,7 @@ int AM232X::read()
       _humidity    = AM232X_INVALID_VALUE;
       _temperature = AM232X_INVALID_VALUE;
     }
-    return rv;  // propagate error value
+    return rv;  //  propagate error value
   }
 
   //  EXTRACT HUMIDITY AND TEMPERATURE
@@ -79,7 +79,7 @@ int AM232X::read()
   int16_t t = ((_bits[4] & 0x7F) * 256 + _bits[5]);
   if (t == 0)
   {
-    _temperature = 0.0;     // prevent -0.0;
+    _temperature = 0.0;     //  prevent -0.0;
   }
   else
   {
@@ -91,7 +91,7 @@ int AM232X::read()
   }
 
 #ifdef AM232X_VALUE_OUT_OF_RANGE
-  // TEST OUT OF RANGE
+  //  TEST OUT OF RANGE
   if (_humidity > 100)
   {
     return AM232X_HUMIDITY_OUT_OF_RANGE;
@@ -127,7 +127,7 @@ void AM232X::setReadDelay(uint16_t readDelay)
   _readDelay = readDelay;
   if (_readDelay == 0)
   {
-    _readDelay = 2000;  // reset
+    _readDelay = 2000;  //  reset
   }
 };
 
@@ -218,17 +218,17 @@ int AM232X::setUserRegisterB(int value)
 
 ////////////////////////////////////////////////////////////////////
 //
-// PROTECTED
+//  PROTECTED
 //
 int AM232X::_readRegister(uint8_t reg, uint8_t count)
 {
-  // HANDLE PENDING IRQ
+  //  HANDLE PENDING IRQ
   yield();
 
-  // WAKE UP the sensor
+  //  WAKE UP the sensor
   if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
-  // request the data
+  //  request the data
   _wire->beginTransmission(AM232X_ADDRESS);
   _wire->write(0x03);
   _wire->write(reg);
@@ -236,22 +236,22 @@ int AM232X::_readRegister(uint8_t reg, uint8_t count)
   int rv = _wire->endTransmission();
   if (rv < 0) return rv;
 
-  // request 4 extra, 2 for cmd + 2 for CRC
+  //  request 4 extra, 2 for command + 2 for CRC
   rv = _getData(count + 4);
   return rv;
 }
 
 
-int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
+int AM232X::_writeRegister(uint8_t reg, uint8_t count, int16_t value)
 {
   if (! wakeUp() ) return AM232X_ERROR_CONNECT;
 
-  // prepare data to send
+  //  prepare data to send
   _bits[0] = 0x10;
   _bits[1] = reg;
-  _bits[2] = cnt;
+  _bits[2] = count;
 
-  if (cnt == 2)
+  if (count == 2)
   {
     _bits[4] = value & 0xFF;
     _bits[3] = (value >> 8) & 0xFF;
@@ -261,8 +261,8 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t cnt, int16_t value)
     _bits[3] = value & 0xFF;
   }
 
-  // send data
-  uint8_t length = cnt + 3;  // 3 = cmd, startReg, #bytes
+  //  send data
+  uint8_t length = count + 3;  // 3 = command, startReg, #bytes
   _wire->beginTransmission(AM232X_ADDRESS);
   for (int i = 0; i < length; i++)
   {
@@ -320,10 +320,10 @@ int AM232X::_getData(uint8_t length)
 }
 
 
-uint16_t AM232X::_crc16(uint8_t *ptr, uint8_t len)
+uint16_t AM232X::_crc16(uint8_t *ptr, uint8_t length)
 {
   uint16_t crc = 0xFFFF;
-  while(len--)
+  while(length--)
   {
     crc ^= *ptr++;
     for (uint8_t i = 0; i < 8; i++)

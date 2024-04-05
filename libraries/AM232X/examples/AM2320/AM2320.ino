@@ -13,7 +13,7 @@
 //       |o  |       SCL          GREY
 //       +---+
 //
-// do not forget pull up resistors between SDA, SCL and VDD..
+//  do not forget pull up resistors between SDA, SCL and VDD..
 
 
 #include "AM232X.h"
@@ -44,7 +44,7 @@ void setup()
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   Serial.print("AM2320, \t");
   int status = AM2320.read();
   switch (status)
@@ -57,7 +57,7 @@ void loop()
       Serial.print("\t");
       break;
   }
-  // DISPLAY DATA, sensor only returns one decimal.
+  //  DISPLAY DATA, sensor only returns one decimal.
   Serial.print(AM2320.getHumidity(), 1);
   Serial.print(",\t");
   Serial.println(AM2320.getTemperature(), 1);
@@ -66,4 +66,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

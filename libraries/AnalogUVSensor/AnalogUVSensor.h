@@ -2,7 +2,7 @@
 //
 //    FILE: AnalogUVSensor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2021-09-25
 // PURPOSE: Arduino library for an analogue UV sensor.
 //     URL: https://github.com/RobTillaart/AnalogUVSensor
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANALOG_UVSENSOR_LIB_VERSION        (F("0.1.5"))
+#define ANALOG_UVSENSOR_LIB_VERSION        (F("0.1.6"))
 
 
 class AnalogUVSensor
@@ -25,7 +25,6 @@ public:
   float read(uint8_t times = 1);
   float mV2index(uint16_t milliVolt);  //  for external ADC
   char  index2color(float index);
-
 
   //  POWER
   void setPowerPin(uint8_t powerPin, bool invert = false);

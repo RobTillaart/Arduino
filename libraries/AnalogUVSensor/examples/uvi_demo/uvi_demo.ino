@@ -2,7 +2,6 @@
 //    FILE: uvi_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
-//    DATE: 2021-09-25
 //     URL: https://github.com/RobTillaart/AnalogUVSensor
 
 

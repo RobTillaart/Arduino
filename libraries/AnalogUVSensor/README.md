@@ -128,7 +128,8 @@ e.g. when the analogue sensor is switched through a MOSFET.
 
 #### Should
 
-- investigate with different light sources (UVled, TL, sunlight).
+- documentation
+  - investigate with different light sources (UVled, TL, sunlight).
 - move powerPin setting to constructor (breaking 0.2.0 ?)
 
 #### Could
@@ -137,7 +138,7 @@ e.g. when the analogue sensor is switched through a MOSFET.
   - see https://github.com/RobTillaart/BH1750FVI library
 - investigate response time to stabilize e.g. does it react fast on clouds.
 - investigate time needed to first (stable) measurement.
-- add code for external ADC (see ACS712)
+
 
 #### Wont
 
@@ -146,6 +147,9 @@ e.g. when the analogue sensor is switched through a MOSFET.
 - **uint32_t index2RGB(float index)** full (smooth) colour RGB mapping.
   - created a https://github.com/RobTillaart/map2colour lib for this feature
     to keep footprint in this library small.
+- add code for external ADC (see ACS712)
+  - users can call **mV2index()**
+
 
 ## Sponsor
 

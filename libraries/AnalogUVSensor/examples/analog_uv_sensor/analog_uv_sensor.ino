@@ -2,11 +2,10 @@
 //    FILE: UV_sensor.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-09-21
 //     URL: https://github.com/RobTillaart/AnalogUVSensor
 //
 //  this example is not using the library,
-//  sort of minimal version
+//  sort of reference / minimal version
 
 
 void setup()

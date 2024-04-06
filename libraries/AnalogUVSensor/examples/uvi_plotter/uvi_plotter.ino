@@ -2,7 +2,6 @@
 //    FILE: uvi_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
-//    DATE: 2021-10-17
 //     URL: https://github.com/RobTillaart/AnalogUVSensor
 
 //  Use the Arduino IDE -> Tools -> Serial plotter 
@@ -23,7 +22,7 @@ void setup()
   //  Serial.println(ANALOG_UVSENSOR_LIB_VERSION);
 
   AUV.begin(A0, 5.0, 1023);
-  lastRead = AUV.read(5);      // average 5 readings
+  lastRead = AUV.read(5);      //  average 5 readings
 
   //  print the header for the plotter.
   Serial.println("UVI \tLAST \tDELTA");

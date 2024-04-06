@@ -4,7 +4,6 @@
 // PURPOSE: demo ADT7470 library
 
 
-#include <Wire.h>
 #include "ADT7470.h"
 
 ADT7470 ADT(ADT7470_ADDR_FLOAT);  //  default Wire
@@ -18,8 +17,8 @@ void setup()
   Serial.println("ADT7470_LIB_VERSION: ");
   Serial.println(ADT7470_LIB_VERSION);
   Serial.println();
-  
-  
+
+
   Wire.begin();
 
   Serial.begin(115200);
@@ -40,7 +39,6 @@ void setup()
     testPWM();
     testTach();
     testFanSpeed();
-
 
     testStop();
   }
@@ -141,7 +139,7 @@ void testTach()
     ADT.setPulsesPerRevolution(i, ppr[i]);
     bool b = (ppr[i] == ADT.getPulsesPerRevolution(i));
     Serial.print("\t");
-    Serial.print(b ? "T" : "F");          // expect TTTT
+    Serial.print(b ? "T" : "F");          //  expect TTTT
   }
   Serial.println();
 

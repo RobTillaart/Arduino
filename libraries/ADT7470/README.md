@@ -41,11 +41,11 @@ inductive pulse when switched off. (see also datasheet).
 
 (from datasheet)
 
-| Pin 11                | (ADDR) State | Address                                       |
-|:----------------------|:------------:|:---------------------------------------------:|
-| High (10 kΩ to VCC)   | 010 1111     | (0x5E left-justified or 0x2F right-justified) | 
-| Low (10 kΩ to GND)    | 010 1100     | (0x58 left-justified or 0x2C right-justified) |
-| Floating (no pull-up) | 010 1110     | (0x5C left-justified or 0x2E right-justified) |
+|  Pin 11                 | (ADDR) State |  Address                                      |
+|:------------------------|:------------:|:---------------------------------------------:|
+|  HIGH (10 kΩ to VCC)    |  010 1111    |  0x5E left-justified or 0x2F right-justified  | 
+|  LOW  (10 kΩ to GND)    |  010 1100    |  0x58 left-justified or 0x2C right-justified  |
+|  Floating (no pull-up)  |  010 1110    |  0x5C left-justified or 0x2E right-justified  |
 
 
 ## Interface
@@ -54,10 +54,10 @@ inductive pulse when switched off. (see also datasheet).
 #include "ADT7470.h"
 ```
 
-The interface consists of:
+Check datasheet for the details as this section needs to be elaborated.
 
-- **ADT7470()** constructor
-- **void begin()** initialize the I2C bus
+- **ADT7470(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default I2C bus.
+- **void begin()** initialize the library
 - **bool isConnected()** check if the module is connected to the I2C bus
 - **void startMonitoring()** 
 - **void stopMonitoring()**
@@ -78,15 +78,15 @@ The interface consists of:
 of sensor index. Temperature sensors are daisy changed.
 - **int8_t getMaxTemperature()** get max temperature of connected temperature sensors.
 - **bool setTemperatureLimit(uint8_t index, int8_t low, int8_t high)** for ALARM function
-- **int8_t getTemperatureLowLimit(uint8_t index)**
-- **int8_t getTemperatureHighLimit(uint8_t index)**
+- **int8_t getTemperatureLowLimit(uint8_t index)** return the set value. Default ?
+- **int8_t getTemperatureHighLimit(uint8_t index)** return the set value. Default ?
 
 
 #### PWM
 
 - **bool setPWM(uint8_t index, uint8_t value)** set the speed of the fan at index
 - **uint8_t getPWM(uint8_t index)** read back the speed set. 
-- **bool setFanLowFreq(value = 0)** 
+- **bool setFanLowFreq(value = 0)** set PWM frequency.
 - **bool setFanHighFreq(value = 0)** 
 - **void setInvertPWM(uint8_t index)**
 - **uint8_t getInvertPWM(uint8_t index)**

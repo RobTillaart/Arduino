@@ -1,7 +1,7 @@
 //
 //    FILE: ADT7470.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for I2C ADT7470 Fan Monitoring
 //     URL: https://github.com/RobTillaart/ADT7470
 //          http://forum.arduino.cc/index.php?topic=363218.0

@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angle class
 //     URL: https://github.com/RobTillaart/Angle.git
-//
 
 
 #include "Angle.h"

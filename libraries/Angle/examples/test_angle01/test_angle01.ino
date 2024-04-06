@@ -2,9 +2,7 @@
 //    FILE: test_angle01.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angle class
-//    DATE: 2015-07-30
 //     URL: https://github.com/RobTillaart/Angle.git
-//
 
 
 #include "Angle.h"
@@ -438,10 +436,10 @@ void testRatio()
   Serial.println(b);
   Serial.println(b / a, 7);
   a = 180;
-  b = 57.295779513082320876798154814105; // one radian
+  b = 57.295779513082320876798154814105;  //  one radian
   Serial.println(a);
   Serial.println(b);
-  Serial.println(a / b, 7);  // should be PI
+  Serial.println(a / b, 7);  //  should be PI
 }
 
 
@@ -472,5 +470,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

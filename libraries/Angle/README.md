@@ -107,7 +107,6 @@ Especially the constructor does not check input so use it carefully.
 - test more 
   - TOCHECK in code
 - improve code quality
-  - use better variable names in code
 
 
 #### Could

@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-04-06
+- update GitHub actions
+- give internal variables descriptive names
+- minor edits
+
+----
+
 ## [0.1.15] - 2023-10-17
 - update readme (badges)
-
 
 ## [0.1.14] - 2023-01-31
 - update GitHub actions

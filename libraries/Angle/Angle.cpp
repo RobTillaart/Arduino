@@ -1,7 +1,7 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.15
+// VERSION: 0.2.0
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -11,7 +11,7 @@
 
 
 AngleFormat::AngleFormat( const Angle &ref, AngleFormatMode format )
-: angle(ref), mode(format) 
+: angle(ref), mode(format)
 {
 }
 
@@ -24,104 +24,113 @@ size_t AngleFormat::printTo(Print& p) const
 
 Angle::Angle(int dd, int mm, int ss, int tt)
 {
-    neg = false;
-    d = dd;
-    m = mm;
-    s = ss;
-    t = tt;
+    _negative = false;
+    _degrees = dd;
+    _minutes = mm;
+    _seconds = ss;
+    _tenths  = tt;
     //  normalize();
     //  assume only one (largest) parameter is negative at most...
-    if (d < 0) { d = -d; neg = true; }
-    if (m < 0) { m = -m; neg = true; }
-    if (s < 0) { s = -s; neg = true; }
-    if (t < 0) { t = -t; neg = true; }
+    if (_degrees < 0) { _degrees = -_degrees; _negative = true; }
+    if (_minutes < 0) { _minutes = -_minutes; _negative = true; }
+    if (_seconds < 0) { _seconds = -_seconds; _negative = true; }
+    if (_tenths  < 0) { _tenths  = -_tenths ; _negative = true; }
     //  modulo might be faster
-    while (t >= 10000) { s++; t -= 10000; }
-    while (s >= 60)    { m++; s -= 60; }
-    while (m >= 60)    { d++; m -= 60; }
+    while (_tenths >= 10000) { _seconds++; _tenths -= 10000; }
+    while (_seconds >= 60)   { _minutes++; _seconds -= 60; }
+    while (_minutes >= 60)   { _degrees++; _minutes -= 60; }
     //  check special case 0
-    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
+    if (_degrees == 0 && _minutes == 0 && _seconds == 0 && _tenths == 0)
+    {
+      _negative = false;
+    }
 }
 
 
 Angle::Angle(const double alpha)
 {
-    double a = alpha;
-    neg = (alpha < 0);
-    if (neg) a = -a;
+    double angle = alpha;
+    _negative = (alpha < 0);
+    if (_negative) angle = -angle;
 
-    d = int(a);
-    a = a - d;
-    //  unsigned long p = a * 3600000L;
+    _degrees = int(angle);
+    angle = angle - _degrees;
+    //  unsigned long p = angle * 3600000L;
     //  3600 000 = 2^7 • 3^2 • 5^5 = 128 * 28125
     //  2^7 = 128 will only affect exponent - no loss precision
     //  28125 is less digits so less loss of significant digits.
     //  upgraded to 4 decimal seconds
     //  36 000 000L = 256 * 140625
-    a = a * 256;
-    unsigned long p = round(a * 140625.0);
-    t = p % 10000UL;
+    angle = angle * 256;
+    unsigned long p = round(angle * 140625.0);
+    _tenths = p % 10000UL;
     p = p / 10000UL;
-    s = p % 60UL;
-    m = p / 60UL;
+    _seconds = p % 60UL;
+    _minutes = p / 60UL;
     //  check special case 0
-    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
+    if (_degrees == 0 && _minutes == 0 && _seconds == 0 && _tenths == 0)
+    {
+      _negative = false;
+    }
 }
 
 
 Angle::Angle(const char * str)
 {
     uint32_t yy = 0;
-    uint8_t d_cnt = 0;
-    neg = false;
+    uint8_t decimals = 0;
+    _negative = false;
     //  parse whole degrees
     char *p = (char *) str;
-    d = 0;
+    _degrees = 0;
     //  skip crap
     while (!isdigit(*p) && (*p != '-')) p++;
     //  process sign
     if (*p == '-')
     {
-        neg = true;
+        _negative = true;
         p++;
     }
     if (*p == '+') p++;
-    //  parse whole part into degrees;
+    //  parse whole part into degrees
     while (isdigit(*p))
     {
-        d *= 10;
-        d += (*p - '0');
+        _degrees *= 10;
+        _degrees += (*p - '0');
         p++;
     }
     //  parse decimal part into an uint32_t
     if (*p != '\0')
     {
-        p++;  // skip .
-        while (isdigit(*p) && d_cnt < 9)
+        p++;  // skip decimal point .
+        while (isdigit(*p) && decimals < 9)
         {
-            d_cnt++;
+            decimals++;
             yy *= 10;
             yy += (*p - '0');
             p++;
         }
     }
     //  make sure we have 9 decimal places.
-    while (d_cnt < 9)
+    while (decimals < 9)
     {
-        d_cnt++;
+        decimals++;
         yy *= 10;
     }
     //  convert float to degrees. 1000000000 ~> 36000000  -> /250 * 9
     //  yy = yy * 4 / 125 + yy / 250;  //  just keeps the maths within 32 bits
     yy = yy * 4 / 125;
     yy = yy + (yy + 4)/ 8;  //  just keeps the maths within 32 bits
-    //  split yy in m, s, tt
-    t = yy % 10000UL;
+    //  split yy in minutes, seconds, tenThousands
+    _tenths = yy % 10000UL;
     yy = yy / 10000UL;
-    s = yy % 60;
-    m = yy / 60;
+    _seconds = yy % 60;
+    _minutes = yy / 60;
     //  check special case 0
-    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
+    if (_degrees == 0 && _minutes == 0 && _seconds == 0 && _tenths == 0)
+    {
+      _negative = false;
+    }
 }
 
 
@@ -132,25 +141,25 @@ size_t Angle::printTo(Print& p, AngleFormatMode mode) const
     char separator[4] = ".\'\"";   //  "...";  //  ALT-0176 = °  179.59.59.9999
 
     size_t n = 0;
-    if (neg) n += p.print('-');
-    n += p.print(d);
+    if (_negative) n += p.print('-');
+    n += p.print(_degrees);
     n += p.print(separator[0]);
     if( --c )
     {
-        if (m < 10) n += p.print('0');
-        n += p.print(m);
+        if (_minutes < 10) n += p.print('0');
+        n += p.print(_minutes);
         n += p.print(separator[1]);
         if( --c )
         {
-            if (s < 10) n += p.print('0');
-            n += p.print(s);
+            if (_seconds < 10) n += p.print('0');
+            n += p.print(_seconds);
             n += p.print(separator[2]);
             if( --c )
             {
-                if (t < 1000) n += p.print('0');
-                if (t < 100) n += p.print('0');
-                if (t < 10) n += p.print('0');
-                n += p.print(t);
+                if (_tenths < 1000) n += p.print('0');
+                if (_tenths < 100) n += p.print('0');
+                if (_tenths < 10) n += p.print('0');
+                n += p.print(_tenths);
             }
         }
     }
@@ -160,10 +169,10 @@ size_t Angle::printTo(Print& p, AngleFormatMode mode) const
 
 double Angle::toDouble(void)
 {
-    long v = t + s * 10000UL + m * 600000UL;
-    double val = ((1.0 / 140625.0) / 256) * v + d;
-    if (neg) val = -val;
-    return val;
+    long v = _tenths + _seconds * 10000UL + _minutes * 600000UL;
+    double value = ((1.0 / 140625.0) / 256) * v + _degrees;
+    if (_negative) value = -value;
+    return value;
 }
 
 
@@ -171,48 +180,48 @@ double Angle::toDouble(void)
 Angle Angle::operator - ()
 {
     Angle temp = *this;
-    if (temp.d == 0 && temp.m == 0 && temp.s == 0 && temp.t == 0)
+    if (temp._degrees == 0 && temp._minutes == 0 && temp._seconds == 0 && temp._tenths == 0)
     {
-        temp.neg = false;
+        temp._negative = false;
     }
     else
     {
-        temp.neg = !neg;
+        temp._negative = !_negative;
     }
     return temp;
 };
 
 
 //  BASIC MATH
-Angle Angle::operator + (const Angle &a) // TOCHECK
+Angle Angle::operator + (const Angle &a)    //  TOCHECK
 {
     return addHelper(a);
 }
 
 
-Angle& Angle::operator += (const Angle &a) // TOCHECK
+Angle& Angle::operator += (const Angle &a)  //  TOCHECK
 {
     *this = addHelper(a);
     return *this;
 }
 
 
-Angle Angle::addHelper(const Angle &a) // TOCHECK
+Angle Angle::addHelper(const Angle &a)      //  TOCHECK
 {
     Angle temp = *this;
-    if (temp.neg == a.neg)
+    if (temp._negative == a._negative)
     {
-        temp.d += a.d;
-        temp.m += a.m;
-        temp.s += a.s;
-        temp.t += a.t;
+        temp._degrees += a._degrees;
+        temp._minutes += a._minutes;
+        temp._seconds += a._seconds;
+        temp._tenths  += a._tenths ;
     }
     else
     {
-        temp.d -= a.d;
-        temp.m -= a.m;
-        temp.s -= a.s;
-        temp.t -= a.t;
+        temp._degrees -= a._degrees;
+        temp._minutes -= a._minutes;
+        temp._seconds -= a._seconds;
+        temp._tenths  -= a._tenths ;
     }
     temp.normalize();
 
@@ -220,35 +229,35 @@ Angle Angle::addHelper(const Angle &a) // TOCHECK
 }
 
 
-Angle Angle::operator - (const Angle &a) //  TOCHECK
+Angle Angle::operator - (const Angle &a)    //  TOCHECK
 {
     return subHelper(a);
 }
 
 
-Angle& Angle::operator -= (const Angle &a) //  TOCHECK
+Angle& Angle::operator -= (const Angle &a)  //  TOCHECK
 {
     *this = subHelper(a);
     return *this;
 }
 
 
-Angle Angle::subHelper(const Angle &a) //  TOCHECK
+Angle Angle::subHelper(const Angle &a)      //  TOCHECK
 {
     Angle temp = *this;
-    if (temp.neg == a.neg)
+    if (temp._negative == a._negative)
     {
-        temp.d -= a.d;
-        temp.m -= a.m;
-        temp.s -= a.s;
-        temp.t -= a.t;
+        temp._degrees -= a._degrees;
+        temp._minutes -= a._minutes;
+        temp._seconds -= a._seconds;
+        temp._tenths  -= a._tenths ;
     }
     else
     {
-        temp.d += a.d;
-        temp.m += a.m;
-        temp.s += a.s;
-        temp.t += a.t;
+        temp._degrees += a._degrees;
+        temp._minutes += a._minutes;
+        temp._seconds += a._seconds;
+        temp._tenths  += a._tenths ;
     }
     temp.normalize();
     return temp;
@@ -286,7 +295,7 @@ double Angle::operator / (Angle& a)
 {
     double f = this->toDouble();
     double g = a.toDouble();
-    return f/g;
+    return f / g;
 }
 
 
@@ -297,55 +306,58 @@ double Angle::operator / (Angle& a)
 int Angle::compare(const Angle &a, const Angle &b)
 {
     //  check sign first
-    if (!a.neg && b.neg) return 1;
-    if (a.neg && !b.neg) return -1;
+    if (!a._negative && b._negative) return 1;
+    if (a._negative && !b._negative) return -1;
     //  check abs value
     int rv = 0;
-    if (a.d > b.d) rv = 1;
-    else if (a.d < b.d) rv = -1;
-    else if (a.m > b.m) rv = 1;
-    else if (a.m < b.m) rv = -1;
-    else if (a.s > b.s) rv = 1;
-    else if (a.s < b.s) rv = -1;
-    else if (a.t > b.t) rv = 1;
-    else if (a.t < b.t) rv = -1;
+    if (a._degrees > b._degrees) rv = 1;
+    else if (a._degrees < b._degrees) rv = -1;
+    else if (a._minutes > b._minutes) rv = 1;
+    else if (a._minutes < b._minutes) rv = -1;
+    else if (a._minutes > b._minutes) rv = 1;
+    else if (a._minutes < b._minutes) rv = -1;
+    else if (a._tenths > b._tenths) rv = 1;
+    else if (a._tenths < b._tenths) rv = -1;
 
-    if (rv != 0 && a.neg) rv = -rv;
+    if (rv != 0 && a._negative) rv = -rv;
     return rv;
 }
 
 
 void Angle::normalize()
 {
-    while (t < 0)      { s--; t += 10000; }
-    while (t >= 10000) { s++; t -= 10000; }
-    while (s < 0)      { m--; s += 60; }
-    while (s >= 60)    { m++; s -= 60; }
-    while (m < 0)      { d--; m += 60; }
-    while (m >= 60)    { d++; m -= 60; }
+    while (_tenths < 0)      { _seconds--; _tenths += 10000; }
+    while (_tenths >= 10000) { _seconds++; _tenths -= 10000; }
+    while (_seconds < 0)     { _minutes--; _seconds += 60; }
+    while (_seconds >= 60)   { _minutes++; _seconds -= 60; }
+    while (_minutes < 0)     { _degrees--; _minutes += 60; }
+    while (_minutes >= 60)   { _degrees++; _minutes -= 60; }
 
-    if (d < 0)
+    if (_degrees < 0)
     {
-        if (t != 0)
+        if (_tenths != 0)
         {
-            t = 10000 - t;
-            s++;
+            _tenths = 10000 - _tenths;
+            _seconds++;
         }
-        if (s != 0)
+        if (_seconds != 0)
         {
-            s = (60 - s) % 60;
-            m++;
+            _seconds = (60 - _seconds) % 60;
+            _minutes++;
         }
-        if (m != 0)
+        if (_minutes != 0)
         {
-            m = (60 - m) % 60;
-            d++;
+            _minutes = (60 - _minutes) % 60;
+            _degrees++;
         }
-        d = -d;
-        neg = !neg;
+        _degrees = -_degrees;
+        _negative = !_negative;
     }
 
-    if (d == 0 && m == 0 && s == 0 && t == 0) neg = false;
+    if (_degrees == 0 && _minutes == 0 && _seconds == 0 && _tenths == 0)
+    {
+      _negative = false;
+    }
 }
 
 

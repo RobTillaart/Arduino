@@ -4,7 +4,7 @@
 //     URL: https://github.com/RobTillaart/ANSI/issues/9
 
 //  NOT TESTED
-//  - WITH REAL TERMINAL
+//  - with real terminal
 //  - with dummies
 
 #include "ansi.h"

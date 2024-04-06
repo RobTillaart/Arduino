@@ -4,14 +4,14 @@
 // PURPOSE: demo of screen size detection
 //     URL: https://github.com/RobTillaart/ANSI
 //
-// These terminal emulators can report screen size:
-// * Linux, minicom
-// * Windows, PuTTY
-// * Windows, TeraTerm
-// * Windows, MobaXterm
+//  These terminal emulators can report screen size:
+//  * Linux, minicom
+//  * Windows, PuTTY
+//  * Windows, TeraTerm
+//  * Windows, MobaXterm
 //
-// UTF-8: To draw boxes with other than ASCII characters
-// an extra font has to be added.
+//  UTF-8: To draw boxes with other than ASCII characters
+//  an extra font has to be added.
 
 #include "ansi.h"
 
@@ -29,7 +29,7 @@ uint16_t w, h;
 void setup() {
   Serial.begin(115200);
 
-  ansi.print(" ");  // some bug, first character written is missing
+  ansi.print(" ");  //  some bug, first character written is missing
 
   if (!ansi.getScreenSize(w, h, 100)) {
     ansi.println(F("\n\n### ANSI escape codes not detected ###\n"
@@ -53,7 +53,7 @@ void setup() {
   ansi.print("\nUTF-8 test. Your should see at least one emoji here?: 🐛 🖥 ☎ ❤ ❣ ✂ ✈");
   delay(1000);
 
-  // Draw border
+  //  Draw border
   ansi.color(ansi.yellow, ansi.blue);
   for (uint16_t y = 1; y <= ansi.screenHeight(); y++) {
     ansi.gotoXY(1, y);

@@ -48,7 +48,7 @@ void setup()
   delay(1000);
 
   ansi.clearScreen();
-  // 4 bit color test
+  //  4 bit color test
   for (int color = 0; color < 16; ++color) {
     ansi.foreground(color);
     ansi.print("foreground");
@@ -70,7 +70,7 @@ void setup()
   delay(1000);
 
   ansi.clearScreen();
-  // 8 bit color test
+  //  8 bit color test
   ansi.foreground(ansi.rgb2color(180, 0, 158));
   ansi.print("foreground");
   ansi.normal();
@@ -100,8 +100,8 @@ void setup()
   ansi.strikeThrough();
   ansi.println("strikethrough");
   ansi.normal();
-    
-  // RGB color test
+
+  //  RGB color test
   ansi.println("Experimental");
   ansi.setRGBforeground(180, 0, 158);
   ansi.print("foreground");

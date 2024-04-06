@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.3.1"))
+#define ANSI_LIB_VERSION        (F("0.3.2"))
 
 
 class ANSI : public Stream
@@ -115,7 +115,7 @@ public:
   int deviceType(uint32_t timeout = 100);
 
 
-  //  SCREENSIZE 
+  //  SCREENSIZE
   //  - https://github.com/RobTillaart/ANSI/pull/16
   bool readCursorPosition(uint16_t &w, uint16_t &h, uint32_t timeout = 100);
   bool getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout = 100);

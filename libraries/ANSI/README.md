@@ -24,6 +24,7 @@ The set of codes is large, however not all terminal types do support all codes.
 Sending these ANSI codes to a simple ASCII only terminal like the one in the Arduino
 IDE might result in garbage. So use with care.
 
+
 #### Breaking change 0.2.0
 
 The **gotoXY(x, y)** has changed as the X and Y coordinates were swapped.
@@ -34,7 +35,8 @@ The code has been updated to explicitly mention which is row and which is column
 
 #### Related
 
-https://en.wikipedia.org/wiki/ANSI_escape_code
+- https://en.wikipedia.org/wiki/ANSI_escape_code
+- https://github.com/RobTillaart/LineFormatter
 
 
 ## Terminals tested
@@ -229,10 +231,11 @@ Although it are small improvements these add up.
 - move code from .h to .cpp
 - more derived classes
 
+
 #### Wont
 
 - move static strings to PROGMEM? as defines?
-  roughly ~20 bytes progmem for 4 bytes RAM...
+  roughly ~20 bytes PROGMEM for 4 bytes RAM...
 
 
 ## Support

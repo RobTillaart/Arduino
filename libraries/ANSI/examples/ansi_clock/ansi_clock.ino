@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo clock
 //     URL: https://github.com/RobTillaart/ANSI
-//    (c) : MIT
 //
 //  use Tera Term to view 'different' clocks.
 
@@ -19,7 +18,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  // SPLASH SCREEN
+  //  SPLASH SCREEN
   ansi.clearScreen();
   ansi.gotoXY(8, 10);
   ansi.bold();

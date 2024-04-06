@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2024-04-06
+- update GitHub actions
+- minor edits
+
+
 ## [0.3.1] - 2023-11-13
 - added experimental functions (to get feedback)
   - if these work depends on terminal (app) used.
@@ -13,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - updated readme.md with above functions
 - add initial version of **supportMatrix.md**
 - updated keywords.txt
-
 
 ## [0.3.0] - 2023-11-09
 - fix missing 0 in normal (#19, Kudos to d0m1n1qu3)

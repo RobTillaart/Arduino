@@ -1,7 +1,7 @@
 //
 //    FILE: AsyncAnalog.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2018-09-05
 // PURPOSE: Async version of analogRead, prevent blocking wait
 //     URL: https://github.com/RobTillaart/AsyncAnalog
@@ -26,15 +26,15 @@ AsyncAnalog::AsyncAnalog(const uint8_t pin)
 void AsyncAnalog::start()
 {
 #if defined(ADCSRB) && defined(MUX5)
-  // the MUX5 bit of ADCSRB selects whether we're reading from channels
-  // 0 to 7 (MUX5 low) or 8 to 15 (MUX5 high).
+  //  the MUX5 bit of ADCSRB selects whether we're reading from channels
+  //  0 to 7 (MUX5 low) or 8 to 15 (MUX5 high).
   ADCSRB = (ADCSRB & ~(1 << MUX5)) | (((_pin >> 3) & 0x01) << MUX5);
 #endif
 
 #if defined(ADMUX)
-  // set the analogue reference (high two bits of ADMUX) and select the
-  // channel (low 4 bits).  this also sets ADLAR (left-adjust result)
-  // to 0 (the default).
+  //  set the analogue reference (high two bits of ADMUX) and select the
+  //  channel (low 4 bits).  this also sets ADLAR (left-adjust result)
+  //  to 0 (the default).
   ADMUX = (DEFAULT << 6) | (_pin & 0x07);
 #endif
 
@@ -45,22 +45,30 @@ void AsyncAnalog::start()
 bool AsyncAnalog::ready()
 {
   // ADSC is cleared when the conversion finishes
-  return bit_is_set(ADCSRA, ADSC) == 0;
+  bool _ready = bit_is_set(ADCSRA, ADSC) == 0;
+
+  if (_ready)  //  calculate the measurement
+  {
+    //  ADCL has to be read first.
+    //  Doing so locks both ADCL and ADCH until ADCH is read.
+    //  Reading ADCL second would cause the results of each conversion to
+    //  be discarded as ADCL and ADCH would be locked when it completed.
+    uint16_t lo = ADCL;
+    uint16_t hi = ADCH;
+    //  Combine two parts.
+    _lastValue = (hi * 256) + lo;
+  }
+  return _ready;
 }
 
 
-int AsyncAnalog::value()
+uint16_t AsyncAnalog::value()
 {
-  //  ADCL has to be read first.
-  //  Doing so locks both ADCL and ADCH until ADCH is read.
-  //  Reading ADCL second would cause the results of each conversion to
-  //  be discarded as ADCL and ADCH would be locked when it completed.
-  uint16_t lo = ADCL;
-  uint16_t hi = ADCH;
-  //  Combine two parts.
-  //  _lastValue = (hi * 256) + lo;
-  return (hi * 256) + lo;
+  return _lastValue;
 }
+
+#else
+
 
 #endif        //  ARDUINO_ARCH_AVR
 

@@ -1,8 +1,7 @@
 //
 //    FILE: asyncAnalogTest.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-//    DATE: 2018-09-05
+// PURPOSE: demo
 
 
 #include "AsyncAnalog.h"
@@ -18,9 +17,14 @@ uint16_t count = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("start: ");
+  Serial.println(__FILE__);
+  Serial.print("ASYNCANALOG_LIB_VERSION: ");
+  Serial.println(ASYNCANALOG_LIB_VERSION);
+
+  Serial.print("\nstart: ");
   Serial.println(analogRead(0));
 
+  //  request initial measurement
   AA.start();
   start = micros();
 }
@@ -29,29 +33,31 @@ void setup()
 void loop()
 {
 
-  // if sample ready 
+  //  if measurement ready
   if (AA.ready())
   {
-    // process sample
+    // get data
     duration = micros() - start;
+    uint16_t val = AA.value();
 
+    //  process measurement
     Serial.print(duration);
-    Serial.print("\t");
-    Serial.print(AA.value());
-    Serial.print("\t");
-    Serial.print(count);
-    Serial.println();
+    Serial.print('\t');
+    Serial.print(val);
+    Serial.print('\t');
+    Serial.println(count);
 
-    // request a new sample
+    //  request a new measurement
     AA.start();
     start = micros();
+
+
     count = 0;
   }
 
-  // do other stuff here
+  //  do other stuff here
   count++;
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

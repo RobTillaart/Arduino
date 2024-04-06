@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-04-06
+- change behaviour
+  - cache lastValue as calculated by **ready()**
+- change **uint16_t value()** signature
+- update examples
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.1.6] - 2023-10-17
 - update readme.md
 - add changelog.md
 - minor edits
-
 
 ## [0.1.5] - 2021-12-13
 - update library.json

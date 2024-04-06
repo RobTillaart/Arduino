@@ -36,9 +36,9 @@ the **MAGIC NUMBERS** in the function **rawRead()**.
 
 #### Constructor
 
-- **AnalogKeypad(const uint8_t pin, const uint8_t bits = 10)** constructor, pin is typical A0 etc.
-Bits has a default of 10, but need to be set to match the platform.
-If bits < 8 then the internal shift would be large causing all reads to return 0 or so.
+- **AnalogKeypad(const uint8_t analogPin, const uint8_t bitsADC = 10)** constructor, 
+analogPin is typical A0 etc. BitsADC has a default of 10, but need to be set to match the platform.
+If bits < 8 then the internal shift would be too large causing all reads to return 0 or so.
 
 
 #### polling interface

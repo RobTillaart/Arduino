@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 
@@ -19,10 +19,10 @@
 //  Other may have 12 or even 16 bits.
 
 
-AnalogKeypad::AnalogKeypad(const uint8_t pin, const uint8_t bits)
+AnalogKeypad::AnalogKeypad(const uint8_t analogPin, const uint8_t bitsADC)
 {
-  _analogPin   = pin;
-  _analogShift = bits - 8;
+  _analogPin   = analogPin;
+  _analogShift = bitsADC - 8;
   _lastKey     = NOKEY;
 }
 

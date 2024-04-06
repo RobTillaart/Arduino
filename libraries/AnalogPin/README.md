@@ -28,9 +28,10 @@ This latter is AVR only.
 ```
 
 - **AnalogPin(uint8_t pin)** constructor with analogue pin as parameter.
-- **void setPrescaler(uint8_t prescale = 7)** AVR only pre-scaler.
+- **void setPrescaler(uint8_t prescaler = 7)** AVR only pre-scaler.
 - **uint8_t getPrescaler()** return pre-scaler set.
-- **void  setNoiseThreshold(uint8_t noise = 0)** set noise level that should be ignored. Typical 0..2.
+- **void  setNoiseThreshold(uint8_t noise = 0)** set noise level that should be ignored. 
+Typical 0..2.
 - **uint8_t getNoiseThreshold()** return set value.
 - **void setSmoothWeight(uint8_t alpha = 0)** alpha = 0..31, parameter for low pass filter.
 - **uint8_t getSmoothWeight(void)** returns set alpha.
@@ -42,7 +43,7 @@ This latter is AVR only.
 
 ## Operation
 
-**get/setPrescaler(uint8_t prescale)** can be used to speed up analogRead().  
+**get/setPrescaler(uint8_t prescaler)** can be used to speed up analogRead().  
 The effect is that both the accuracy and precision are affected.
 You should verify if this is acceptable for your project.
 ***Works only for AVR based boards***

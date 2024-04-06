@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogPin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
 
@@ -11,20 +11,20 @@
 
 AnalogPin::AnalogPin(const uint8_t pin)
 {
-  _pin      = pin;
-  _prescale = 7;
-  _alpha    = 0;
-  _noise    = 0;
+  _pin       = pin;
+  _prescaler = 7;
+  _alpha     = 0;
+  _noise     = 0;
   _rawRead();
   _prevValue = _value;
 }
 
 
-void AnalogPin::setPrescaler(const uint8_t prescale)
+void AnalogPin::setPrescaler(const uint8_t prescaler)
 {
-  _prescale = prescale;
-  if (_prescale < 2)      _prescale = 2;
-  else if (_prescale > 7) _prescale = 7;
+  _prescaler = prescaler;
+  if (_prescaler < 2)      _prescaler = 2;
+  else if (_prescaler > 7) _prescaler = 7;
 };
 
 
@@ -64,7 +64,7 @@ void AnalogPin::_rawRead()
 #if defined(ARDUINO_ARCH_AVR)
   //  remember old register value
   uint8_t ADCSRA_TMP = ADCSRA;
-  ADCSRA = (ADCSRA | 0x07) & (0xF8 | _prescale);
+  ADCSRA = (ADCSRA | 0x07) & (0xF8 | _prescaler);
 #elif defined(ARDUINO_ARCH_SAM)
 
 #else

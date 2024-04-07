@@ -14,9 +14,9 @@ char formula0[24] = "C6H6O6";
 char formula1[24] = "((COH)3)2";
 char formula2[24] = "H2SO4";
 char formula3[24] = "CuO2";
-// char formula4[24] = "(COH)3(COH)2COH";
-// char formula4[24] = "(CH)6O6";
-char formula4[24] = "xH2";  // fails => 0;
+char formula4[24] = "(COH)3(COH)2COH";
+char formula5[24] = "(CH)6O6";
+char formula6[24] = "xH2";         //  fails => 0;
 
 
 
@@ -68,6 +68,14 @@ void setup()
   Serial.print(formula4);
   Serial.print(" \t H \t");
   Serial.println(ptoe.massPercentage(formula4, "H"));
+
+  Serial.print(formula5);
+  Serial.print(" \t H \t");
+  Serial.println(ptoe.massPercentage(formula5, "H"));
+
+  Serial.print(formula6);
+  Serial.print(" \t H \t");
+  Serial.println(ptoe.massPercentage(formula6, "H"));
 
 }
 

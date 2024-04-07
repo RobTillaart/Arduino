@@ -14,9 +14,9 @@ packages:
     url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
 
 compile:
-  # Choosing to run compilation tests on 2 different Arduino platforms
+  #  Choosing to run compilation tests on 2 different Arduino platforms
   platforms:
-    # - uno
+    # - uno    #  memory usage is HIGH for this lib
     # - due
     # - zero
     # - leonardo

@@ -1,0 +1,16 @@
+ATOMIC_WEIGHT_LIB_VERSION: 0.2.2
+
+form.	elem.	perc.
+
+C 	 C 	100.00
+C6 	 C 	100.00
+He6 	 C 	0.00
+NaCl 	 Na 	39.34
+NaCl 	 Cl 	60.66
+C6H6O6 	 H 	3.47
+((COH)3)2 	 H 	3.47
+H2SO4 	 H 	2.06
+CuO2 	 H 	0.00
+(COH)3(COH)2COH 	 H 	3.47
+(CH)6O6 	 H 	3.47
+xH2 	 H 	0.00

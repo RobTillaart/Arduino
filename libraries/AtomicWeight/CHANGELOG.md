@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-04-07
+- update GitHub actions
+- refactor internal names for readability
+- minor edits
+
 ## [0.2.1] - 2023-10-17
 - update readme.md
-
 
 ## [0.2.0] - 2023-04-15
 - use new weight factor 201.3868 to reduce maximum relative error

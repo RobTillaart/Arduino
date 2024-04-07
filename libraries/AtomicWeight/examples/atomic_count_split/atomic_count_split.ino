@@ -14,7 +14,7 @@ PTOE ptoe;
 
 char formula0[24] = "C6H6O6";               //  Benzenehexol
 char formula1[24] = "Al2Si2O5(OH)4";        //  kaolin
-char formula2[24] = "H2SO4";                //  sulpheric acid
+char formula2[24] = "H2SO4";                //  sulphuric acid
 char formula3[24] = "CuO2";                 //  CopperOxide
 char formula4[24] = "(COH)3(COH)2COH";      //  fake
 // char formula4[24] = "(CH)6O6";           //  fake

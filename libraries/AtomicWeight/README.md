@@ -262,6 +262,8 @@ minimize the memory used for the elements mass lookup table.
 
 - improve documentation
   - reorganize.
+- float => double 
+- EV is at the end of range float...
 
 
 #### Should
@@ -271,7 +273,7 @@ minimize the memory used for the elements mass lookup table.
   - **uint32_t neutrons(formula)** uses protons()
   - **uint32_t electrons(formula)** uses protons()
 - add weight of electron as constant. for completeness.
-- functions around **AVOGADRO**, **DALTON** etc
+- functions around **AVOGADRO**, **DALTON** etc.
   - **float weightEV(formula)**
   - **float dalton2EV(float Dalton)** to express mass in eV.
   - **float dalton2Joule(float Dalton)**
@@ -285,16 +287,18 @@ minimize the memory used for the elements mass lookup table.
 - look for optimizations
   - 3x almost same parser
   - PROGMEM ?
-- state table
-  - liquid, gas, solid, unknown  (2 bits per element) = ~30 bytes
-  - room temperature + sea level pressure
-  - separate file like elements_name.h
 - performance **find()**
   - alphabetical array? tree? 
   - ==> more memory...
 - support \[] square brackets too.
   - (NH4)2\[Pt(SCN)6]
+
+
 - add a derived class PERIODIC_TABLE?
+- state table
+  - liquid, gas, solid, unknown  (2 bits per element) = ~30 bytes
+  - room temperature + sea level pressure
+  - separate file like elements_name.h
 
 
 #### Wont (unless)

@@ -14,9 +14,9 @@ char formula0[24] = "C6H6O6";
 char formula1[24] = "((COH)3)2";
 char formula2[24] = "H2SO4";
 char formula3[24] = "CuO2";
-// char formula4[24] = "(COH)3(COH)2COH";
-// char formula4[24] = "(CH)6O6";
-char formula4[24] = "xH2";  // fails => 0;
+char formula4[24] = "(COH)3(COH)2COH";
+char formula5[24] = "(CH)6O6";
+char formula6[24] = "xH2";        //  fails => 0;
 
 
 void setup()
@@ -62,15 +62,23 @@ void setup()
   Serial.print(formula4);
   Serial.print(" \t");
   Serial.println(ptoe.weight(formula4));
-  
+
+  Serial.print(formula5);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula5));
+
+  Serial.print(formula6);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula6));
+
   Serial.print("()");
   Serial.print(" \t");
   Serial.println(ptoe.weight("()"));
-  
+
   Serial.print("(H2O)");
   Serial.print(" \t");
   Serial.println(ptoe.weight("(H2O)"));
- 
+
   Serial.print("(H2O)255");
   Serial.print(" \t");
   Serial.println(ptoe.weight("(H2O)255"));

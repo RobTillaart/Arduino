@@ -26,6 +26,7 @@ year	KEYWORD2
 setSeconds	KEYWORD2
 setMinutes	KEYWORD2
 setHours	KEYWORD2
+setWeekDay	KEYWORD2
 setDay	KEYWORD2
 setMonth	KEYWORD2
 setYear	KEYWORD2

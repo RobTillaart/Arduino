@@ -48,6 +48,8 @@ void loop()
   Serial.print(':');
   Serial.print(rtc.seconds());
   Serial.print('\n');
+  Serial.print(rtc.weekDay());
+  Serial.print('\n');
 
   delay(2000);
 }

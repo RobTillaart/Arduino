@@ -32,6 +32,7 @@ void setup()
   rtc.setSeconds(00);
   rtc.setMinutes(59);
   rtc.setHours(12);
+  rtc.setWeekDay(4);   //  4 = Thursday
   rtc.setDay(5);
   rtc.setMonth(12);
   rtc.setYear(24);
@@ -57,7 +58,7 @@ void loop()
 void printDate(Stream &str)
 {
   char buffer[16];
-  sprintf(buffer, "%04d-%02d-%02d", 
+  sprintf(buffer, "%04d-%02d-%02d",
         2000 + rtc.year(), rtc.month(), rtc.day());
   str.print(buffer);
 }
@@ -65,7 +66,7 @@ void printDate(Stream &str)
 void printTime(Stream &str)
 {
   char buffer[16];
-  sprintf(buffer, "%02d:%02d:%02d", 
+  sprintf(buffer, "%02d:%02d:%02d",
         rtc.hours(), rtc.minutes(), rtc.seconds());
   str.print(buffer);
 }

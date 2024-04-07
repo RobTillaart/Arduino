@@ -2,7 +2,7 @@
 //    FILE: DS3232.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -129,6 +129,7 @@ uint8_t DS3232::year()    { return _reg[6]; }
 void DS3232::setSeconds(uint8_t value) { _reg[0] = value; }
 void DS3232::setMinutes(uint8_t value) { _reg[1] = value; }
 void DS3232::setHours(uint8_t value)   { _reg[2] = value; }
+void DS3232::setWeekDay(uint8_t value) { _reg[3] = value; }
 void DS3232::setDay(uint8_t value)     { _reg[4] = value; }
 void DS3232::setMonth(uint8_t value)   { _reg[5] = value; }
 void DS3232::setYear(uint8_t value)    { _reg[6] = value; }

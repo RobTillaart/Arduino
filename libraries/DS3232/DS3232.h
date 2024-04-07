@@ -3,7 +3,7 @@
 //    FILE: DS3232.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define DS3232_LIB_VERSION         "0.3.0"
+#define DS3232_LIB_VERSION         "0.4.0"
 
 
 //  ERROR CODES
@@ -61,7 +61,7 @@ public:
   void     setSeconds(uint8_t value);
   void     setMinutes(uint8_t value);
   void     setHours(uint8_t value);
-  //       weekDay cannot be set.
+  void     setWeekDay(uint8_t value);
   void     setDay(uint8_t value);
   void     setMonth(uint8_t value);
   void     setYear(uint8_t value);

@@ -1,9 +1,9 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: library for BH1750FVI lux sensor Arduino
-//     URL: https://github.com/RobTillaart/BH1750FVI
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
 
 #include "BH1750FVI.h"
@@ -65,7 +65,7 @@ bool BH1750FVI::isReady()
 
 float BH1750FVI::getRaw(void)
 {
-  return readData() * 0.833333333333f;    // == 1 / 1.2;
+  return readData() * 0.833333333333f;    //  == 1 / 1.2;
 }
 
 
@@ -96,7 +96,7 @@ float BH1750FVI::getLux(void)
   }
   if (_mode == BH1750FVI_MODE_HIGH2)
   {
-    lux *= 0.5f;  // P11
+    lux *= 0.5f;  //  P11
   }
   return lux;
 }
@@ -225,13 +225,13 @@ float BH1750FVI::setTemperature(int temp)
 float BH1750FVI::setAngle(int degrees)
 {
   _angle = constrain(degrees, -89, 89);
-  //  Lamberts Law.
+  //  Lambert's Law.
   _angleFactor = 1.0f / cos(_angle * (PI / 180.0f));
   return _angleFactor;
 }
 
 
-//  interpolation tables uses more RAM (versus progmem)
+//  interpolation tables uses more RAM (versus PROGMEM)
 float BH1750FVI::setWaveLength(int waveLength)
 {
   _waveLength = constrain(waveLength, 400, 715);
@@ -258,7 +258,7 @@ uint16_t BH1750FVI::readData()
   if (_wire->requestFrom(_address, (uint8_t) 2) != 2)
   {
     _error = BH1750FVI_ERROR_WIRE_REQUEST;
-    return _data; // last value
+    return _data;  //  last value
   }
   _data = _wire->read();
   _data <<= 8;
@@ -275,5 +275,5 @@ void BH1750FVI::command(uint8_t value)
 }
 
 
-// --- END OF FILE ---
+//  --- END OF FILE ---
 

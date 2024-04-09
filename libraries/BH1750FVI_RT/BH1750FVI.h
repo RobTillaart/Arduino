@@ -2,10 +2,9 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
-// HISTORY: see changelog.md
-//
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
 
 //  breakout BH1750FVI / GY-30
@@ -28,7 +27,7 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION                 (F("0.3.0"))
+#define BH1750FVI_LIB_VERSION                 (F("0.3.1"))
 
 
 #define BH1750FVI_DEFAULT_ADDRESS             0x23
@@ -52,11 +51,11 @@ public:
 
   BH1750FVI(const uint8_t address, TwoWire *wire = &Wire);
   //  returns true if isConnected()
-  bool    begin();       //  resets to constructor defaults. (use with care)
-  bool    isConnected(); //  returns true if address is on I2C bus
+  bool    begin();        //  resets to constructor defaults. (use with care)
+  bool    isConnected();  //  returns true if address is on I2C bus
 
 
-  float   getRaw();      //  no HIGH2 mode + no sensitivity factor.
+  float   getRaw();       //  no HIGH2 mode + no sensitivity factor.
   float   getLux();
   int     getError();
 
@@ -87,11 +86,11 @@ public:
   //  read datasheet P11 about details of the correction or sensitivity factor
   //  to be used for very high and very low brightness
   //  or to correct for e.g. transparency
-  void    changeTiming(uint8_t time = BH1750FVI_REFERENCE_TIME);   // 69 is default
+  void    changeTiming(uint8_t time = BH1750FVI_REFERENCE_TIME);   //  69 is default
 
 
   //  returns changeTiming() parameter
-  uint8_t setCorrectionFactor(float factor = 1);  // 0.45 .. 3.68
+  uint8_t setCorrectionFactor(float factor = 1);  //  0.45 .. 3.68
   //  returns percentage set.
   float   getCorrectionFactor();
 
@@ -130,13 +129,13 @@ private:
   uint8_t   _sensitivityFactor;
   uint8_t   _mode;
 
-  uint32_t  _requestTime        = 0;
-  float     _angleFactor        = 1;
-  int       _angle              = 0;
-  float     _tempFactor         = 1;
-  int       _temp               = 20;
-  float     _waveLengthFactor   = 1;
-  int       _waveLength         = 580;
+  uint32_t  _requestTime      = 0;
+  float     _angleFactor      = 1;
+  int       _angle            = 0;
+  float     _tempFactor       = 1;
+  int       _temp             = 20;
+  float     _waveLengthFactor = 1;
+  int       _waveLength       = 580;
 
   TwoWire*  _wire;
 };

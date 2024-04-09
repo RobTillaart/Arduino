@@ -1,9 +1,17 @@
-# Change Log AD520X
+# Change Log BH1750FVI
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+##[0.3.1] - 2024-04-09
+- update GitHub actions
+- update URL in examples
+- update keywords.txt
+- fix CHANGELOG.md
+- minor edits
 
 
 ##[0.3.0] - 2023-10-18

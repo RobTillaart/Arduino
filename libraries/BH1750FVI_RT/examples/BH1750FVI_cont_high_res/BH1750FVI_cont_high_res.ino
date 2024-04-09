@@ -2,7 +2,7 @@
 //    FILE: BH1750FVI_cont_high_res.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of BH1750FVI lux scanner library
-//    DATE: 2020-02-02
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 //
 //  This is a minimal version, which can be optimized by
 //  using mylux.getRaw() instead of myLux.getLux();  line 38

@@ -2,7 +2,7 @@
 //    FILE: BH1750FVI_cont_high_res_Wire1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of BH1750FVI lux scanner library
-//    DATE: 2023-10-18
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 //
 //  This sketch only works on platforms with a Wire1
 //  e.g. ESP32 and RPIpico

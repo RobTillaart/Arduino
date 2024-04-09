@@ -2,7 +2,7 @@
 //    FILE: BH1750FVI_cont_low_res.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of BH1750FVI lux scanner library
-//    DATE: 2020-02-02
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
 
 #include "BH1750FVI.h"

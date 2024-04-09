@@ -37,6 +37,22 @@ Note that the typical integration time will differ if the correction factor is c
 The **isReady()** an **getLux()** functions keep track of the adjustment needed.
 
 
+#### Related
+
+- https://github.com/RobTillaart/BH1750FVI_RT
+- https://github.com/RobTillaart/Max44007
+- https://github.com/RobTillaart/Max44009
+- https://github.com/RobTillaart/TSL235R  pulse based irradiance variant.
+
+UV sensors
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511
+
+IR sensor
+- https://github.com/RobTillaart/TSL260R  analog IR irradiance variant.
+
+
+
 ## Interface hardware
 
 Library was tested with a breakout board.
@@ -67,7 +83,7 @@ Note: the breakout board was 5 volt tolerant.
 #include "BH1750FVI.h"
 ```
 
-### Constructor
+#### Constructor
 
 - **BH1750FVI(uint8_t address, uint8_t dataPin, uint8_t clockPin)**  ESP constructor with I2C parameters.
 - **BH1750FVI(uint8_t address, TwoWire \*wire = &Wire)** constructor for other platforms.
@@ -75,13 +91,13 @@ Note: the breakout board was 5 volt tolerant.
 - **bool isConnected()** returns true if address is on I2C bus.
 
 
-### Base
+#### Base
 
 - **float getRaw()** reads the lux sensor.
 - **float getLux()** reads the lux sensor and corrects for correctionFactor, mode, temperature and angle.
 
 
-### Management
+#### Management
 
 - **int getError()** get the latest error code, mainly for debugging.
 - **void powerOn()** wakes up the sensor.
@@ -89,7 +105,7 @@ Note: the breakout board was 5 volt tolerant.
 - **void reset()** resets the data register to 0, effectively removing last measurement.
 
 
-### Mode operators
+#### Mode operators
 
 - **uint8_t getMode()** gets the mode set by one of the set functions. 
 See table above.
@@ -101,7 +117,7 @@ See table above.
 - **void setOnceLowRes()** single shot mode in LOW resolution.
 
 
-### CorrectionFactor
+#### CorrectionFactor
 
 Please read datasheet P11 about details of the correction factor.
 
@@ -116,7 +132,7 @@ Returns changeTiming() parameter.
 Note this can differ as it is stores as an integer internally.
 
 
-### Angle sensitivity
+#### Angle sensitivity
 
 Note: experimental - use carefully
 
@@ -138,7 +154,7 @@ Returns the angle correction factor.
 - **int getAngle()** returns set angle in degrees, 0 by default is perpendicular.
 
 
-### Temperature Compensation
+#### Temperature Compensation
 
 The reference temperature of the sensor = 20°C.
 The effect of temperature is small, about 3% per 60°C ==> 1% per 20°C
@@ -149,7 +165,7 @@ Returns the temperature correction factor.
 - **int getTemperature()** returns temperature set, default = 20°C.
 
 
-### Spectral Compensation ! EXPERIMENTAL !
+#### Spectral Compensation ! EXPERIMENTAL !
 
 Spectral compensation is experimental and not tested. It is a compensation based upon the 
 graph figure 1, page 3 of the datasheet. If one has light of a known wavelength one can 
@@ -164,37 +180,36 @@ Returns the wavelength correction factor.
 As the graph (figure 1) is not linear it is approximated by linear interpolation with the 
 following six points.
 
-| WaveLength | Perc % |
-|:-----------|:------:|
-|     400    |    1   |
-|     440    |   10   |
-|     510    |   90   |
-|     545    |   80   |
-|     580    |  100   |
-|     700    |   07   |
-|     715    |    1   |
+| WaveLength |  Colour  |  Perc %  |
+|:-----------|:--------:|:--------:|
+|     400    |  violet  |      1   |
+|     440    |  blue    |     10   |
+|     510    |  green   |     90   |
+|     545    |  green   |     80   |
+|     580    |  yellow  |    100   |
+|     700    |  red     |     07   |
+|     715    |  red     |      1   |
+
+Colour is indicative.
 
 Values outside the range will be mapped upon 400 or 715. 
 Default wavelength will be 580 as that gives 100%.
-
-
-## Operation
-
-See samples...
 
 
 ## Future
 
 #### Must
 
+
 #### Should
+
 
 #### Could
 
 - **Intelligent isReady()**
 After a **getLux()** call one can clean the data register explicitly with
 **reset()**. Then a call to **isReady()** fetches data and as long as
-data equals zero the sensor is not ready.
+data equals zero the sensor is not ready (or in pitch dark?)
 - **DVI interface**
 To investigate, sort of external reset?
 - move code to .cpp

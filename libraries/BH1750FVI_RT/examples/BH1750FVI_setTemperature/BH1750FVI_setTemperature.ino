@@ -2,7 +2,7 @@
 //    FILE: BH1750FVI_setTemperature.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of BH1750FVI lux scanner library
-//    DATE: 2020-09-04
+//     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
 
 #include "BH1750FVI.h"

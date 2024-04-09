@@ -6,19 +6,23 @@ BH1750FVI	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 
+begin	KEYWORD2
+isConnected	KEYWORD2
+
 getRaw	KEYWORD2
 getLux	KEYWORD2
 getError	KEYWORD2
-reset	KEYWORD2
-isConnected	KEYWORD2
 
 powerOn	KEYWORD2
 powerOff	KEYWORD2
 reset	KEYWORD2
 
+getMode	KEYWORD2
+
 setContHighRes	KEYWORD2
 setContHigh2Res	KEYWORD2
 setContLowRes	KEYWORD2
+
 setOnceHighRes	KEYWORD2
 setOnceHigh2Res	KEYWORD2
 setOnceLowRes	KEYWORD2
@@ -30,6 +34,7 @@ getCorrectionFactor	KEYWORD2
 
 setAngle	KEYWORD2
 getAngle	KEYWORD2
+
 setTemperature	KEYWORD2
 getTemperature	KEYWORD2
 setWaveLength	KEYWORD2

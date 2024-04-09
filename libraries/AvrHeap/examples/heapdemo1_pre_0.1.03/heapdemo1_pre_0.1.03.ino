@@ -1,11 +1,9 @@
 //
 //    FILE: heapdemo1_pre_0.1.03.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-// PURPOSE: heapdemo
-//    DATE: 2015-10-25
+// PURPOSE: heap demo
 //     URL: https://github.com/RobTillaart/avrheap
-//
+
 
 /* works only with old version
 
@@ -91,4 +89,4 @@ void loop()
 }
 */
 
-// -- END OF FILE --
+//  -- END OF FILE --

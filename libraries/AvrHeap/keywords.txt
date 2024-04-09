@@ -18,6 +18,16 @@ heapWalk	KEYWORD2
 heapWalk	KEYWORD2
 printTo	KEYWORD2
 
+
+#  Standalone Functions
+hNibble	KEYWORD2
+hByte	KEYWORD2
+hWord	KEYWORD2
+dumpR	KEYWORD2
+dumpAlloced	KEYWORD2
+dumpAlloced	KEYWORD2
+
+
 # Constants (LITERAL1)
 AVRHEAP_LIB_VERSION	LITERAL1
 

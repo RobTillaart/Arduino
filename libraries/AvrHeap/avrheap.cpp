@@ -1,14 +1,14 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
-//    DATE: 2015-10-??
-// PURPOSE: experimental library for heap Arduino UNO
+// VERSION: 0.2.7
+//    DATE: 2015-10-25
+// PURPOSE: Experimental Arduino library to investigate the AVR heap Arduino UNO
 //     URL: https://github.com/RobTillaart/avrheap
 //
-// REFERENCES
-// http://forum.arduino.cc/index.php?topic=27536.15
-// http://forum.arduino.cc/index.php?topic=355660
+//  REFERENCES
+//  http://forum.arduino.cc/index.php?topic=27536.15
+//  http://forum.arduino.cc/index.php?topic=355660
 
 
 #include "avrheap.h"
@@ -19,6 +19,7 @@ struct __freelist
   size_t size;
   struct __freelist *next;
 };
+
 
 extern struct   __freelist *__flp;
 extern uint16_t __heap_start;
@@ -34,7 +35,7 @@ extern uint16_t __bss_end;
 
 size_t hNibble(Print& p, byte val)
 {
-  return p.write(val + (val<10 ? '0' : 'A'-10));
+  return p.write(val + (val < 10 ? '0' : 'A' - 10));
 }
 
 
@@ -99,7 +100,7 @@ size_t dumpAlloced(Print& p, byte *ptr, bool withDump)
   {
     len += p.println(F(": NULL"));
   } else {
-    size_t size = *(size_t*)(ptr-sizeof(size_t));
+    size_t size = *(size_t*)(ptr - sizeof(size_t));
     if (size < __malloc_margin)
     {
       len += p.print(F(": size "));
@@ -178,7 +179,7 @@ void Avrheap::freeListWalk(bool withDump)
       Serial.println();
       if (withDump)
       {
-        dumpR(Serial, ((byte*)p)+2, p->size);
+        dumpR(Serial, ((byte*)p) + 2, p->size);
         Serial.println();
       }
     }
@@ -228,7 +229,7 @@ size_t Avrheap::heapWalk(bool withDump) {
 }
 
 
-// EXPERIMENTAL
+//  EXPERIMENTAL
 size_t Avrheap::heapWalk(Print& pr, bool withDump) const
 {
   byte* p = (byte*) &__heap_start;
@@ -247,10 +248,10 @@ size_t Avrheap::heapWalk(Print& pr, bool withDump) const
     }
     len += pr.println();
     if (withDump) {
-      len += dumpR(pr, p, *p+2);
+      len += dumpR(pr, p, *p + 2);
       len += pr.println();
     }
-    p += (byte) *p + 2;
+    p += (byte) * p + 2;
   }
   return len;
 }

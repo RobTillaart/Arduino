@@ -1,11 +1,8 @@
 //
 //    FILE: heapdemo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.00
 // PURPOSE: heapdemo
-//    DATE: 2015-10-25
 //     URL: https://github.com/RobTillaart/avrheap
-//
 
 
 #include "avrheap.h"
@@ -21,7 +18,7 @@ void setup()
   Serial.print("Start ");
   Serial.println(__FILE__);
   Serial.println(AVRHEAP_LIB_VERSION);
-  
+
   /* works only with old version KEEP CI happy
 
   Serial.println();
@@ -96,4 +93,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

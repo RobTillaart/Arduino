@@ -119,10 +119,29 @@ unittest(test_gradians)
   fprintf(stderr, "%f\n", aa.getTotalLength());
   fprintf(stderr, "%f\n", aa.getAverageLength());
 
-  assertEqual(10,  aa.count());
+  assertEqual(10, aa.count());
   assertEqualFloat(4.5, aa.getAverage(), 0.001);
   assertEqualFloat(9.98982, aa.getTotalLength(), 0.001);
   assertEqualFloat(0.998982, aa.getAverageLength(), 0.001);
+}
+
+
+unittest(test_sumx_sumy)
+{
+  AverageAngle aa(AverageAngle::DEGREES);
+
+  for (int i = 0; i < 10; i++)
+  {
+    int n = aa.add(i);
+    assertEqual(i + 1, n);
+  }
+  fprintf(stderr, "%f\n", aa.getAverage());
+  fprintf(stderr, "%f\n", aa.getSumX());
+  fprintf(stderr, "%f\n", aa.getSumY());
+
+  assertEqual(10,  aa.count());
+  assertEqualFloat(9.95665, aa.getSumX(), 0.001);
+  assertEqualFloat(0.783605, aa.getSumY(), 0.001);
 }
 
 

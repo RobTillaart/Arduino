@@ -13,6 +13,8 @@ count	KEYWORD2
 getAverage	KEYWORD2
 getTotalLength	KEYWORD2
 getAverageLength	KEYWORD2
+getSumX	KEYWORD2
+getSumY	KEYWORD2
 
 setType	KEYWORD2
 

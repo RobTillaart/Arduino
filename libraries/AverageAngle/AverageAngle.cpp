@@ -1,7 +1,7 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2017-11-21
 // PURPOSE: Arduino library to calculate correctly the average of multiple angles.
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -67,7 +67,17 @@ uint32_t AverageAngle::count()
 float AverageAngle::getAverage()
 {
   float angle = atan2(_sumy, _sumx);
-  if (angle < 0) angle += TWO_PI;      //  (PI * 2);
+  if (isnan(angle))
+  {
+    _error = AVERAGE_ANGLE_SINGULARITY;
+    return angle;
+  }
+
+  _error = AVERAGE_ANGLE_OK;
+  if (angle < 0)
+  {
+    angle += TWO_PI;                   //  (PI * 2);
+  }
   if (_type == AverageAngle::DEGREES )
   {
     angle *= RAD_TO_DEG;               //  (180.0 / PI);
@@ -75,16 +85,6 @@ float AverageAngle::getAverage()
   else if (_type == AverageAngle::GRADIANS )
   {
     angle *= RAD_TO_GRAD;              //  (200.0 / PI);
-  }
-
-  //  error reporting
-  if (isnan(angle))
-  {
-    _error = AVERAGE_ANGLE_SINGULARITY;
-  }
-  else
-  {
-    _error = AVERAGE_ANGLE_OK;
   }
   return angle;
 }
@@ -101,6 +101,18 @@ float AverageAngle::getAverageLength()
 {
   if (_count == 0) return 0;
   return hypot(_sumy, _sumx) / _count;
+}
+
+
+float AverageAngle::getSumX()
+{
+  return _sumx;
+}
+
+
+float AverageAngle::getSumY()
+{
+  return _sumy;
 }
 
 

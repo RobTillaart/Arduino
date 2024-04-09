@@ -43,11 +43,11 @@ These (x,y) are added to a (sumX, sumY) and divided by the number of angles adde
 
 - **enum AngleType { DEGREES, RADIANS, GRADIANS }** idem. 
 
-|  value  |  name      |  range     |
-|:-------:|:-----------|:-----------|
-|   0     |  DEGREES   |  0 .. 360  |
-|   1     |  RADIANS   |  0 .. 2PI  |
-|   2     |  GRADIANS  |  0 .. 400  |  100 GRADIANS == 90 DEGREES.
+|  value  |  name      |  range     |  notes  |
+|:-------:|:-----------|:----------:|:--------|
+|    0    |  DEGREES   |  0 .. 360  |
+|    1    |  RADIANS   |  0 .. 2PI  |
+|    2    |  GRADIANS  |  0 .. 400  |  100 GRADIANS == 90 DEGREES.
 
 
 ## Interface
@@ -69,7 +69,7 @@ Type can be changed run time and still continue to add.
 
 - **uint32_t add(float alpha, float length = 1.0)** add a new angle, 
 optional with length other than 1. 
-Returns the number of elements (count).
+Returns the number of elements added so far (count).
 If the internal sumx or sumy is >= 10000, the error **AVERAGE_ANGLE_OVERFLOW** is set. 
 This indicates that the internal math is near or over its accuracy limits.
 - **uint32_t count()** the number of angles added.
@@ -81,6 +81,8 @@ If NAN the error **AVERAGE_ANGLE_SINGULARITY** is set.
 If count == 0 ==> total length = 0.
 - **float getAverageLength()** returns the average length of the angles added.
 If count == 0 ==> average length = 0.
+- **float getSumX()** get internal sumx counter. Rectangular coordinates.
+- **float getSumY()** get internal sumy counter. Rectangular coordinates.
 
 
 #### Error handling
@@ -92,7 +94,6 @@ If count == 0 ==> average length = 0.
 |  AVERAGE_ANGLE_OK           |   0     |
 |  AVERAGE_ANGLE_OVERFLOW     |  -10    |
 |  AVERAGE_ANGLE_SINGULARITY  |  -20    |
-
 
 
 #### Experimental Overflow
@@ -109,7 +110,7 @@ Note this condition is independent of the **AngleType** as the internal math
 uses radians. The condition will be triggered faster when the length parameter 
 is used. 
 
-The overflow threshold of 10000 can be patched in the .cpp file if needed.
+The overflow threshold of 10000 can be adjusted in the AverageAngle.cpp file if needed.
 
 As this feature is **experimental**, the trigger condition for overflow will 
 probably be redesigned in the future. See future section below.
@@ -122,7 +123,8 @@ There are 100 gradians in a right angle. A full circle = 400 gradians.
 
 https://en.wikipedia.org/wiki/Gradian
 
-See also AngleConvertor library.
+Other less used units for measuring angles:
+- https://github.com/RobTillaart/AngleConvertor
 
 
 ## Operation
@@ -144,8 +146,8 @@ If you want to average a track, e.g. 5 steps North, 3 steps west etc,
 you need to include the length of each step.
 ```cpp
   AA.reset();
-  AA.add(90, 5);     // 5 steps north
-  AA.add(180, 3);    // 3 steps west
+  AA.add(90, 5);     //  5 steps north  assuming east = 0
+  AA.add(180, 3);    //  3 steps west
   Serial.println(AA.getAverage());
   Serial.println(AA.getTotalLength());
 ```
@@ -170,7 +172,7 @@ just change the type runtime.
 - investigate if and how the internal math can be made more robust against overflow.
   - use double instead of float (will work on certain platforms) (must) => 0.3.0
   - uint32_t?
-  - accuracy threshold depends on float/double usage.  (sizeof(double)==8)
+  - accuracy threshold depends on float / double usage.  (sizeof(double) == 8)
   - threshold depends on the units of length. 
     if all add's are using 10000 as length they have equal weight.
     normalizing the weight? how? user responsibility?
@@ -188,13 +190,18 @@ just change the type runtime.
 
 #### Could
 
+- **uint32_t addDegrees(float angle)** more explicit.
+- **uint32_t addRadians(float angle)** idem.
+- **uint32_t addGradians(float angle)** idem.
+
+
+#### Wont
+
 - add a USER AngleType, in which the user can map 0..360 degrees to any range.
   - float userFactor = 1.0;  (default)
   - can even be negative?
   - use cases? e.g 0..4 quadrant?
   - maybe better for the AngleConvertor class.
-
-#### Wont
 
 
 ## Support

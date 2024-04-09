@@ -2,15 +2,16 @@
 //
 //    FILE: AverageAngle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2017-11-21
 // PURPOSE: Arduino library to calculate correctly the average of multiple angles.
+//     URL: https://github.com/RobTillaart/AverageAngle
 
 
 #include "math.h"
 #include "Arduino.h"
 
-#define AVERAGE_ANGLE_LIB_VERSION             (F("0.2.0"))
+#define AVERAGE_ANGLE_LIB_VERSION             (F("0.2.2"))
 
 #define GRAD_TO_RAD                           (PI / 200.0)
 #define RAD_TO_GRAD                           (200.0 / PI)
@@ -40,6 +41,8 @@ public:
   float    getTotalLength();
   //  if count == 0  average length == 0.
   float    getAverageLength();
+  float    getSumX();
+  float    getSumY();
 
   AngleType type();
   bool      setType(AngleType type);

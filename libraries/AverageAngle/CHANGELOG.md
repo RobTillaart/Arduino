@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-04-08
+- update GitHub actions
+- fix version number
+- refactored **getAverage()** early singularity detection.
+- add **float getSumX()** and **float getSumY()**
+- add example
+- update keywords.txt
+- add unit test
+- minor edits
+
+
 ## [0.2.1] - 2023-10-17
 - update readme.md
 - update keywords.txt

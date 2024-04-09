@@ -5,6 +5,10 @@
 
 # Methods and Functions (KEYWORD2)
 bitCountReference	KEYWORD2
+bitCountKR	KEYWORD2
+bitCountArray	KEYWORD2
+bitCountF1	KEYWORD2
+bitCountF2	KEYWORD2
 bitCount	KEYWORD2
 
 bitReverse	KEYWORD2
@@ -17,6 +21,7 @@ bitRotateLeft	KEYWORD2
 bitRotateRight	KEYWORD2
 
 bitFlip	KEYWORD2
+bitRotRef	KEYWORD2
 bitRot	KEYWORD2
 
 bitSet64	KEYWORD2

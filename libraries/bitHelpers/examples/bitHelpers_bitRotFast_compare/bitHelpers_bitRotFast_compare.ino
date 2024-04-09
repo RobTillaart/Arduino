@@ -3,6 +3,7 @@
 // PURPOSE: performance comparison  (~30% faster)
 //     URL: https://github.com/RobTillaart/bitHelpers
 
+
 #include "bitHelpers.h"
 
 uint32_t start, stop;
@@ -19,6 +20,7 @@ void setup()
   test32();
   test64();
 }
+
 
 void test8()
 {
@@ -47,6 +49,7 @@ void test8()
   delay(10);
 }
 
+
 void test16()
 {
   Serial.println();
@@ -74,6 +77,7 @@ void test16()
   delay(10);
 }
 
+
 void test32()
 {
   Serial.println();
@@ -100,6 +104,7 @@ void test32()
   Serial.println(x32, HEX);
   delay(10);
 }
+
 
 void test64()
 {
@@ -134,4 +139,4 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

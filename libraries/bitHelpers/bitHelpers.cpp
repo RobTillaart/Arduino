@@ -1,7 +1,7 @@
 //
 //    FILE: bitHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
@@ -309,35 +309,35 @@ uint64_t swap(uint64_t value)
 //
 //  BIT ROTATE LEFT
 //
-uint8_t bitRotateLeft(uint8_t value, uint8_t pos)
+uint8_t bitRotateLeft(uint8_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 7) return value;
-  return (value << pos) | (value >> (8 - pos));
+  if (position == 0) return value;
+  if (position > 7) return value;
+  return (value << position) | (value >> (8 - position));
 }
 
 
-uint16_t bitRotateLeft(uint16_t value, uint8_t pos)
+uint16_t bitRotateLeft(uint16_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 15) return value;
-  return (value << pos) | (value >> (16 - pos));
+  if (position == 0) return value;
+  if (position > 15) return value;
+  return (value << position) | (value >> (16 - position));
 }
 
 
-uint32_t bitRotateLeft(uint32_t value, uint8_t pos)
+uint32_t bitRotateLeft(uint32_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 31) return value;
-  return (value << pos) | (value >> (32 - pos));
+  if (position == 0) return value;
+  if (position > 31) return value;
+  return (value << position) | (value >> (32 - position));
 }
 
 
-uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
+uint64_t bitRotateLeft(uint64_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 63) return value;
-  return (value << pos) | (value >> (64 - pos));
+  if (position == 0) return value;
+  if (position > 63) return value;
+  return (value << position) | (value >> (64 - position));
 }
 
 
@@ -345,35 +345,35 @@ uint64_t bitRotateLeft(uint64_t value, uint8_t pos)
 //
 //  BIT ROTATE RIGHT
 //
-uint8_t  bitRotateRight(uint8_t value, uint8_t pos)
+uint8_t  bitRotateRight(uint8_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 7) return value;
-  return (value << (8 - pos)) | (value >> pos);
+  if (position == 0) return value;
+  if (position > 7) return value;
+  return (value << (8 - position)) | (value >> position);
 }
 
 
-uint16_t bitRotateRight(uint16_t value, uint8_t pos)
+uint16_t bitRotateRight(uint16_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 15) return value;
-  return (value << (16 - pos)) | (value >> pos);
+  if (position == 0) return value;
+  if (position > 15) return value;
+  return (value << (16 - position)) | (value >> position);
 }
 
 
-uint32_t bitRotateRight(uint32_t value, uint8_t pos)
+uint32_t bitRotateRight(uint32_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 31) return value;
-  return (value << (32 - pos)) | (value >> pos);
+  if (position == 0) return value;
+  if (position > 31) return value;
+  return (value << (32 - position)) | (value >> position);
 }
 
 
-uint64_t bitRotateRight(uint64_t value, uint8_t pos)
+uint64_t bitRotateRight(uint64_t value, uint8_t position)
 {
-  if (pos == 0) return value;
-  if (pos > 63) return value;
-  return (value << (64 - pos)) | (value >> pos);
+  if (position == 0) return value;
+  if (position > 63) return value;
+  return (value << (64 - position)) | (value >> position);
 }
 
 
@@ -381,31 +381,31 @@ uint64_t bitRotateRight(uint64_t value, uint8_t pos)
 //
 //  BIT FLIP
 //
-uint8_t bitFlip(uint8_t value, uint8_t pos)
+uint8_t bitFlip(uint8_t value, uint8_t position)
 {
-  if (pos > 7) return value;
-  return value ^ (1 << pos);
+  if (position > 7) return value;
+  return value ^ (1 << position);
 }
 
 
-uint16_t bitFlip(uint16_t value, uint8_t pos)
+uint16_t bitFlip(uint16_t value, uint8_t position)
 {
-  if (pos > 15) return value;
-  return value ^ (1 << pos);
+  if (position > 15) return value;
+  return value ^ (1 << position);
 }
 
 
-uint32_t bitFlip(uint32_t value, uint8_t pos)
+uint32_t bitFlip(uint32_t value, uint8_t position)
 {
-  if (pos > 31) return value;
-  return value ^ (1UL << pos);
+  if (position > 31) return value;
+  return value ^ (1UL << position);
 }
 
 
-uint64_t bitFlip(uint64_t value, uint8_t pos)
+uint64_t bitFlip(uint64_t value, uint8_t position)
 {
-  if (pos > 63) return value;
-  return value ^ (1ULL << pos);
+  if (position > 63) return value;
+  return value ^ (1ULL << position);
 }
 
 

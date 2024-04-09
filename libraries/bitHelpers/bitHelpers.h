@@ -2,7 +2,7 @@
 //
 //    FILE: bitHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.11
+// VERSION: 0.1.12
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define BITHELPER_LIB_VERSION         (F("0.1.11"))
+#define BITHELPER_LIB_VERSION         (F("0.1.12"))
 
 
 //  used by bitRot()
@@ -110,39 +110,39 @@ uint64_t swap(uint64_t value);
 //
 //  BIT ROTATE LEFT
 //
-uint8_t bitRotateLeft(uint8_t value, uint8_t pos);
+uint8_t bitRotateLeft(uint8_t value, uint8_t position);
 
-uint16_t bitRotateLeft(uint16_t value, uint8_t pos);
+uint16_t bitRotateLeft(uint16_t value, uint8_t position);
 
-uint32_t bitRotateLeft(uint32_t value, uint8_t pos);
+uint32_t bitRotateLeft(uint32_t value, uint8_t position);
 
-uint64_t bitRotateLeft(uint64_t value, uint8_t pos);
+uint64_t bitRotateLeft(uint64_t value, uint8_t position);
 
 
 ////////////////////////////////////////////////
 //
 //  BIT ROTATE RIGHT
 //
-uint8_t  bitRotateRight(uint8_t value, uint8_t pos);
+uint8_t  bitRotateRight(uint8_t value, uint8_t position);
 
-uint16_t bitRotateRight(uint16_t value, uint8_t pos);
+uint16_t bitRotateRight(uint16_t value, uint8_t position);
 
-uint32_t bitRotateRight(uint32_t value, uint8_t pos);
+uint32_t bitRotateRight(uint32_t value, uint8_t position);
 
-uint64_t bitRotateRight(uint64_t value, uint8_t pos);
+uint64_t bitRotateRight(uint64_t value, uint8_t position);
 
 
 ////////////////////////////////////////////////////
 //
 //  BIT FLIP
 //
-uint8_t bitFlip(uint8_t value, uint8_t pos);
+uint8_t bitFlip(uint8_t value, uint8_t position);
 
-uint16_t bitFlip(uint16_t value, uint8_t pos);
+uint16_t bitFlip(uint16_t value, uint8_t position);
 
-uint32_t bitFlip(uint32_t value, uint8_t pos);
+uint32_t bitFlip(uint32_t value, uint8_t position);
 
-uint64_t bitFlip(uint64_t value, uint8_t pos);
+uint64_t bitFlip(uint64_t value, uint8_t position);
 
 
 ////////////////////////////////////////////////////

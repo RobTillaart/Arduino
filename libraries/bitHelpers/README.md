@@ -27,6 +27,11 @@ If they don't please file an issue on GitHub.
 New bit functions can be added or investigated, please file an issue on GitHub.
 
 
+#### Related
+
+- https://github.com/RobTillaart/BitArray
+
+
 ## Interface
 
 ```cpp
@@ -70,18 +75,18 @@ swap upper and lower half: uint8_t .. uint64_t. Is like rotate 50%
 #### BitRotate
 
 Rotate Left / Right: uint8_t .. uint64_t
-if pos larger than # bits original value is returned.
+if position larger than # bits original value is returned.
 
-- **T bitRotateLeft(T value, uint8_t pos)**
-- **T bitRotateRight(T value, uint8_t pos)** 
+- **T bitRotateLeft(T value, uint8_t position)**
+- **T bitRotateRight(T value, uint8_t position)** 
 
 
 #### BitFlip
 
 BitFlip: uint8_t .. uint64_t  a.k.a toggle
-if pos larger than # bits original value is returned.
+if position larger than # bits original value is returned.
 
-- **T bitFlip(T value, uint8_t pos)** flips a single bit at pos
+- **T bitFlip(T value, uint8_t position)** flips a single bit at position
 
 
 #### BitRot
@@ -134,7 +139,7 @@ Also added are macro versions of these five functions.
 #### Should
 
 - add performance tests
-- **bitRotateLeftRight()** should it do modulo pos?
+- **bitRotateLeftRight()** should it do modulo position?
 - **bitsNeededRef()** correct for value 0?
 - **nybbleReverse()** => **nibbleReverse()**
 
@@ -151,7 +156,8 @@ specific position. e.g.
 - **bitSort(value)** 00101001 ==> 00000111
 or with minimal # toggles?
 - **bitReverse(uint32_t x, uint8_t n)** see below.
-- **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
+- **byteReverse24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB ==> BGR
+- **byteRotate24(uint32_t x)** dedicated 24 bit = 3 bytes e.g RGB
 - **byteInverse(uint32_t x)** (a,b,c,d) => (255-a, 255-b, 255-c, 255-d) = rather simple ~?
 - **isBitPalindrome()** byte, word ...
 - **bitSwap(value, p, q)** 
@@ -159,7 +165,6 @@ or with minimal # toggles?
 
 
 #### Wont
-
 
 
 ## ideas

@@ -2,7 +2,6 @@
 //    FILE: bitArrayDemo2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance bit array
-//    DATE: 2015-12-06
 //     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
 

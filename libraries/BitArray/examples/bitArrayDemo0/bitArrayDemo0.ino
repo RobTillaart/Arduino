@@ -2,7 +2,6 @@
 //    FILE: bitArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo - store 2000 dice rolls
-//    DATE: 2015-11-14
 //     URL: https://github.com/RobTillaart/BitArray
 
 

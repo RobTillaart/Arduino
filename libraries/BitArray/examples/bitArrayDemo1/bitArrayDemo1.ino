@@ -2,7 +2,6 @@
 //    FILE: bitArrayDemo1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 14-11-2015
 //     URL: https://github.com/RobTillaart/BitArray
 
 

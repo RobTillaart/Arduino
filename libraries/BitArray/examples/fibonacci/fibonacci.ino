@@ -1,6 +1,5 @@
 //    FILE: Fibonacci.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2018-03-05
 // PURPOSE: Generate Fibonacci numbers with bit array
 //     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=532760.0

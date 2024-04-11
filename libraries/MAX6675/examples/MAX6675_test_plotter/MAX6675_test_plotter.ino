@@ -2,7 +2,6 @@
 //    FILE: MAX6675_test_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-04-20
 //     URL: https://github.com/RobTillaart/MAX6675
 
 
@@ -19,6 +18,7 @@ MAX6675 thermoCouple(selectPin, dataPin, clockPin);
 uint32_t start, stop;
 
 float temp = 0;
+
 
 void setup()
 {

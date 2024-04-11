@@ -2,7 +2,6 @@
 //    FILE: MAX6675_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-01-12
 //     URL: https://github.com/RobTillaart/MAX6675
 
 

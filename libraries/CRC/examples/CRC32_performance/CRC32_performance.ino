@@ -2,11 +2,11 @@
 //    FILE: CRC32_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-01-28
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC32.h"
+#include "FastCRC32.h"
 
 char str[] = "Lorem ipsum dolor sit amet, \
 consectetuer adipiscing elit. Aenean commodo ligula eget dolor. \
@@ -66,6 +66,20 @@ void test()
   Serial.println(nonReversedCrc.calc(), HEX);
   Serial.print("TIME: \t");
   Serial.println(stop - start);
+  Serial.println();
+  delay(100);
+
+  FastCRC32 FCRC32;
+  start = micros();
+  FCRC32.add((uint8_t*)str, length);
+  stop = micros();
+  Serial.print("DATA: \t");
+  Serial.println(length);
+  Serial.print("FCRC:\t");
+  Serial.println(FCRC32.calc(), HEX);
+  Serial.print("TIME: \t");
+  Serial.println(stop - start);
+  Serial.println();
   delay(100);
 }
 

@@ -8,6 +8,7 @@
 #include "CRC8.h"
 #include "CrcFastReverse.h"
 
+
 CRC8::CRC8(uint8_t polynome,
            uint8_t initial,
            uint8_t xorOut,
@@ -109,5 +110,5 @@ uint8_t CRC8::getCRC() const
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

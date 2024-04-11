@@ -3,6 +3,7 @@
 // PURPOSE: test namespaces
 //     URL: https://github.com/RobTillaart/CRC
 
+
 #include "Arduino.h"
 #include "foo.h"
 #include "CrcFastReverse.h"
@@ -26,4 +27,5 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

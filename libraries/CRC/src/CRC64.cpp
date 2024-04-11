@@ -8,6 +8,7 @@
 #include "CRC64.h"
 #include "CrcFastReverse.h"
 
+
 CRC64::CRC64(uint64_t polynome,
              uint64_t initial,
              uint64_t xorOut,
@@ -109,5 +110,5 @@ uint64_t CRC64::getCRC() const
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,9 +2,7 @@
 //    FILE: CRC_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020
-//    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC.h"
@@ -114,5 +112,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

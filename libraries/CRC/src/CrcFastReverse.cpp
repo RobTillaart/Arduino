@@ -7,6 +7,7 @@
 
 #include "CrcFastReverse.h"
 
+
 uint8_t reverse8bits(uint8_t in)
 {
   uint8_t x = in;
@@ -79,3 +80,4 @@ uint64_t reverse64(uint64_t in)
 {
   return reverse64bits(in);
 }
+

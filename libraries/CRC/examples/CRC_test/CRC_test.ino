@@ -2,13 +2,11 @@
 //    FILE: CRC_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020
-//    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC.h"
-#include "printHelpers.h"  // for the 64 bit...
+#include "printHelpers.h"  //  for the 64 bit...
 
 char str[24] =  "123456789";
 
@@ -44,4 +42,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

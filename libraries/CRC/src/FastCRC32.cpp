@@ -7,6 +7,7 @@
 
 #include "FastCRC32.h"
 
+
 namespace
 {
 // Conditionally use pgm memory if it is available.
@@ -79,7 +80,7 @@ void FastCRC32::add(const uint8_t *array, crc_size_t length, crc_size_t yieldPer
 
 void FastCRC32::_add(uint8_t value)
 {
-  // via http://forum.arduino.cc/index.php?topic=91179.0
+  //  via http://forum.arduino.cc/index.php?topic=91179.0
   uint8_t index = 0u;
 
   index = _crc ^ (value >> (0 * 4));

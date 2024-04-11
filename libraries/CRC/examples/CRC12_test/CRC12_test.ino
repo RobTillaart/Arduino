@@ -2,12 +2,12 @@
 //    FILE: CRC16_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-01-24
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC12.h"
 #include "CRC.h"
+
 
 char str1[24] =  "123456789";
 char str2[24] =  "123456789123456789";
@@ -20,7 +20,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
+  //  Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
 
   test();
 }
@@ -55,10 +55,10 @@ void test()
   Serial.println(crc.count());
 }
 
-////
-// reference function
 
-uint16_t crc_check(uint8_t * ptr, uint8_t length)   // crc12
+//  reference function
+
+uint16_t crc_check(uint8_t * ptr, uint8_t length)   //  crc12
 {
   uint16_t crc12out = 0;
   uint8_t i, j;
@@ -81,4 +81,4 @@ uint16_t crc_check(uint8_t * ptr, uint8_t length)   // crc12
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

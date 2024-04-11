@@ -8,6 +8,7 @@
 #include "CRC16.h"
 #include "CrcFastReverse.h"
 
+
 CRC16::CRC16(uint16_t polynome,
              uint16_t initial,
              uint16_t xorOut,
@@ -109,5 +110,5 @@ uint16_t CRC16::getCRC() const
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

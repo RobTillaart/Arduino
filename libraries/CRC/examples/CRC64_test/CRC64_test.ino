@@ -2,12 +2,11 @@
 //    FILE: CRC64_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-20
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC64.h"
-#include "printHelpers.h"     // https://github.com/RobTillaart/printHelpers
+#include "printHelpers.h"     //  https://github.com/RobTillaart/printHelpers
 
 char str[24] =  "123456789";
 
@@ -17,7 +16,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
+  //  Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
 
   test();
 }
@@ -55,5 +54,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

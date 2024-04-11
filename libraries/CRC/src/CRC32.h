@@ -9,6 +9,7 @@
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
+
 class CRC32
 {
 public:
@@ -71,5 +72,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

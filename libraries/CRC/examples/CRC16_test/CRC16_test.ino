@@ -2,8 +2,7 @@
 //    FILE: CRC16_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-20
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/CRC
 
 
 #include "CRC16.h"
@@ -19,7 +18,7 @@ void setup()
   Serial.begin(115200);
   Serial.println(__FILE__);
 
-  // Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
+  //  Serial.println("Verified with - http://zorc.breitbandkatze.de/crc.html \n");
 
   test();
 }
@@ -47,5 +46,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

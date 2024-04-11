@@ -8,6 +8,7 @@
 
 #include <Arduino.h>
 
+
 #if defined(CRC_CUSTOM_SIZE)
 using crc_size_t = CRC_CUSTOM_SIZE;
 #elif defined(__AVR__)

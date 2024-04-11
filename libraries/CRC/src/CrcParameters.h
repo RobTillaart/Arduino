@@ -6,18 +6,18 @@
 //     URL: https://github.com/RobTillaart/CRC
 
 
-// Polynomes from
-// https://en.wikipedia.org/wiki/Cyclic_redundancy_check#Polynomial_representations_of_cyclic_redundancy_checks
+//  Polynomes from
+//  https://en.wikipedia.org/wiki/Cyclic_redundancy_check#Polynomial_representations_of_cyclic_redundancy_checks
 
 #define CRC_YIELD_DISABLED         0
 
 
-// CRC 4
+//  CRC 4
 #define CRC4_POLYNOME               0x03
 #define CRC4_ITU_POLYNOME           0x03
 
 
-// CRC 8
+//  CRC 8
 #define CRC8_POLYNOME               0x07
 #define CRC8_INITIAL                0x00
 #define CRC8_XOR_OUT                0x00
@@ -96,7 +96,7 @@
 #define CRC8_GSM_B_POLYNOME         0x49
 
 
-// CRC 12
+//  CRC 12
 #define CRC12_POLYNOME              0x080D // x12 + x3 + x2 + 1 =  0000 1000 0000 1101 = 0x80D
 #define CRC12_INITIAL               0x0000
 #define CRC12_XOR_OUT               0x0000
@@ -108,7 +108,7 @@
 #define CRC12_GSM_POLYNOME          0x0D31
 
 
-// CRC 16
+//  CRC 16
 #define CRC16_POLYNOME              0x8001 // x15 + 1 =  1000 0000 0000 0001 = 0x8001
 #define CRC16_INITIAL               0x0000
 #define CRC16_XOR_OUT               0x0000
@@ -261,8 +261,8 @@
 #define CRC16_PROFIBUS_POLYNOME     0x1DCF
 
 
-// CRC 32
-#define CRC32_POLYNOME              0x04C11DB7 // x32 + ..... + 1
+//  CRC 32
+#define CRC32_POLYNOME              0x04C11DB7  //  x32 + ..... + 1
 #define CRC32_INITIAL               0xFFFFFFFF
 #define CRC32_XOR_OUT               0xFFFFFFFF
 #define CRC32_REV_IN                true
@@ -296,8 +296,8 @@
 #define CRC32_KOOPMAN_2_POLYNOME    0x32583499
 
 
-// CRC 64
-#define CRC64_ECMA64_POLYNOME       0x42F0E1EBA9EA3693 // x64 + ..... + 1
+//  CRC 64
+#define CRC64_ECMA64_POLYNOME       0x42F0E1EBA9EA3693  //  x64 + ..... + 1
 #define CRC64_ECMA64_INITIAL        0x0000000000000000
 #define CRC64_ECMA64_XOR_OUT        0x0000000000000000
 #define CRC64_ECMA64_REV_IN         false

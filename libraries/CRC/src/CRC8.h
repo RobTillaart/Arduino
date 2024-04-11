@@ -5,8 +5,10 @@
 // PURPOSE: Arduino class for CRC8
 //     URL: https://github.com/RobTillaart/CRC
 
+
 #include "CrcParameters.h"
 #include "CrcDefines.h"
+
 
 class CRC8
 {
@@ -70,5 +72,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

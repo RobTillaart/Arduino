@@ -9,6 +9,7 @@
 #include "CrcParameters.h"
 #include "CrcDefines.h"
 
+
 class FastCRC32
 {
 public:

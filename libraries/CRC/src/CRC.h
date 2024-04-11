@@ -5,7 +5,7 @@
 // VERSION: 1.0.2
 // PURPOSE: Arduino library for CRC8, CRC12, CRC16, CRC32, CRC64
 //     URL: https://github.com/RobTillaart/CRC
-//
+
 
 #include "CrcParameters.h"
 #include "CRC8.h"

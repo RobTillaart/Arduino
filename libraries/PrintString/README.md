@@ -28,9 +28,9 @@ This String can be requested to process later.
 
 #### Related
 
-- https://github.com/RobTillaart/PrintCharArray (captures data in a char buffer)
-- https://github.com/RobTillaart/PrintSize (counts length of a number of print commands)
-- https://github.com/RobTillaart/PrintString (captures data in a String)
+- https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
+- https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
+- https://github.com/RobTillaart/PrintString captures data in a String.
 
 
 ## Interface
@@ -60,6 +60,7 @@ See examples.
 
 #### Should
 
+- keep in sync with PrintCharArray class
 - testing
 - examples
   - add new ones

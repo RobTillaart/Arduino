@@ -2,7 +2,7 @@
 //
 //    FILE: PrintString.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Class that captures prints into a String
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintString
@@ -12,7 +12,7 @@
 #include "Print.h"
 
 
-#define PRINTSTRING_VERSION       (F("0.2.4"))
+#define PRINTSTRING_VERSION       (F("0.2.5"))
 
 
 class PrintString: public Print

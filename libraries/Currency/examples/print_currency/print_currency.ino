@@ -2,7 +2,6 @@
 //    FILE: print_currency.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: display an int as currency test
-//    DATE: 2021-02-28
 //     URL: https://github.com/RobTillaart/currency
 
 
@@ -80,5 +79,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

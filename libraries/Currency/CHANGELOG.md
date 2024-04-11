@@ -1,4 +1,4 @@
-# Change Log Currency
+# Changelog Currency
 
 All notable changes to this project will be documented in this file.
 
@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.9] - 2024-04-11
+- update GitHub actions
+- minor edits
+
 ## [0.1.8] - 2023-10-19
 - update readme.md
-
 
 ## [0.1.7] - 2022-10-30
 - add changelog.md

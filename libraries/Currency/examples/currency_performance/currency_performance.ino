@@ -1,9 +1,7 @@
 //
 //    FILE: currency_performance.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: performance test
-//    DATE: 2021-12-14
 //     URL: https://github.com/RobTillaart/currency
 
 
@@ -51,4 +49,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

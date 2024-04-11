@@ -2,7 +2,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.8"))
+#define CURRENCY_VERSION                        (F("0.1.9"))
 
 
 //  TODO 

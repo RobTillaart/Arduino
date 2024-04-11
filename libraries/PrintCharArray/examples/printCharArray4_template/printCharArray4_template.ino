@@ -1,5 +1,5 @@
 //
-//    FILE: printCharArray4.ino
+//    FILE: printCharArray4_template.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo it takes less time to send data out.
 //     URL: https://github.com/RobTillaart/PrintCharArray
@@ -7,7 +7,7 @@
 
 #include "PrintCharArray.h"
 
-PrintCharArray ps(200);
+PrintCharArrayT<200> ps;
 
 uint32_t start, stop;
 

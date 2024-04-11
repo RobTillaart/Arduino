@@ -14,6 +14,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PRINTCHARARRAY_VERSION: ");
+  Serial.println(PRINTCHARARRAY_VERSION);
+  Serial.println();
 
   Serial.println(ps.available());
   ps.println("Hello World");
@@ -34,5 +37,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

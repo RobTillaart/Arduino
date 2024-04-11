@@ -3,11 +3,12 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo with XML writer
 //     URL: https://github.com/RobTillaart/PrintCharArray
+//          https://github.com/RobTillaart/XMLWriter
 
 
 #include "PrintCharArray.h"
 
-#include "XMLWriter.h"          //   https://github.com/RobTillaart/XMLWriter
+#include "XMLWriter.h"          //  https://github.com/RobTillaart/XMLWriter
 
 PrintCharArray ps(250);
 XMLWriter XML(&ps);
@@ -17,6 +18,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PRINTCHARARRAY_VERSION: ");
+  Serial.println(PRINTCHARARRAY_VERSION);
+  Serial.println();
 
   ps.clear();
 
@@ -32,7 +36,7 @@ void setup()
   XML.tagClose();
   XML.flush();
 
-  // write the XML generated in one call
+  //  write the XML generated in one call
   Serial.println(ps.getBuffer());
   Serial.println(ps.available());
 }
@@ -43,5 +47,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

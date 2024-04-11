@@ -1,5 +1,5 @@
 //
-//    FILE: printCharArray2.ino
+//    FILE: printCharArray2_template.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo right alignment
 //     URL: https://github.com/RobTillaart/PrintCharArray
@@ -7,7 +7,7 @@
 
 #include "PrintCharArray.h"
 
-PrintCharArray ps;
+PrintCharArrayT<40> ps;
 
 
 void setup()

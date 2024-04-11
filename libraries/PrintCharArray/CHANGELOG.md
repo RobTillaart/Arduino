@@ -6,10 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-04-11
+- add template class version - thanks to me21
+- update readme.md
+- update GitHub actions
+- update examples
+- minor edits
+
+----
+
 ## [0.3.4] - 2023-11-15
 - update readme.md
 - update changelog.md
-
 
 ## [0.3.3] - 2022-11-22
 - add changelog.md

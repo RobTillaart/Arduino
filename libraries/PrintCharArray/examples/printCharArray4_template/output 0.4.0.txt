@@ -1,0 +1,46 @@
+printCharArray4.ino
+PRINTCHARARRAY_VERSION: 0.4.0
+
+Using direct print
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+
+2312
+
+Using printCharArray
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+
+2384
+
+print PrintCharArray buffer again
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+
+488
+
+FREE: 140

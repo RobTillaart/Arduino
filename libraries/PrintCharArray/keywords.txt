@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 PrintCharArray	KEYWORD1
+PrintCharArrayT	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

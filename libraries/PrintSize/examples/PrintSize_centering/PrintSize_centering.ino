@@ -16,9 +16,10 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
-  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PRINTSIZE_VERSION: ");
+  Serial.println(PRINTSIZE_VERSION);
+  Serial.println();
 
   Serial.println("Determine length of 10 random numbers and right ");
   Serial.println("align the numbers in a table with their sum.");

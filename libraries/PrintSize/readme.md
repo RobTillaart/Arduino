@@ -21,15 +21,15 @@ This includes printing of floats, integers in decimal or hex notation.
 
 Works for **print()**, **println()** and if supported **printf()** e.g. ESP32.
 
-Finally since **0.2.0** it has a total counter to add up the characters "printed" since
-the last **reset()** call. (see example)
+Since **0.2.0** it has a total counter to add up the characters "printed" since
+the last **reset()** call. See examples.
 
 
 #### Related
 
-- https://github.com/RobTillaart/PrintCharArray (captures data in a char buffer)
-- https://github.com/RobTillaart/PrintSize (counts length of a number of print commands)
-- https://github.com/RobTillaart/PrintString (captures data in a String)
+- https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
+- https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
+- https://github.com/RobTillaart/PrintString captures data in a String.
 
 
 ## Interface
@@ -49,9 +49,9 @@ Note: gives a warning unused parameter.
 
 ## Operational
 
-Example shows the right alignment of 10 random numbers.
+Example PrintSize1.ino shows the right alignment of 10 random numbers.
 
-Example shows (elementary) line fitting.
+Example PrintSize_total.ino shows (elementary) line fitting.
 
 
 ## Applications

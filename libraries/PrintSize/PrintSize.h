@@ -2,7 +2,7 @@
 //
 //    FILE: PrintSize.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Library to determine size of a printed variable.
 //    DATE: 2017-12-09
 //     URL: https://github.com/RobTillaart/PrintSize
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Print.h"
 
-#define PRINTSIZE_VERSION     (F("0.3.4"))
+#define PRINTSIZE_VERSION     (F("0.3.5"))
 
 
 class PrintSize: public Print
@@ -26,7 +26,7 @@ public:
   size_t write(uint8_t c)                     //  note: warning unused parameter
   {
     _total++;
-    return 1;
+    return sizeof(c);
   }
 
 
@@ -37,10 +37,16 @@ public:
   }
 
 
-  void     reset() { _total = 0; }
+  void reset()
+  {
+    _total = 0;
+  }
 
 
-  uint32_t total() { return _total; };
+  uint32_t total()
+  {
+    return _total;
+  }
 
 
 private:

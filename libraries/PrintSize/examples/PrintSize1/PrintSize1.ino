@@ -14,6 +14,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
+  Serial.print("PRINTSIZE_VERSION: ");
+  Serial.println(PRINTSIZE_VERSION);
+  Serial.println();
 
   Serial.println("Determine length of 10 random numbers and right ");
   Serial.println("align the numbers in a table with their sum.");
@@ -39,6 +42,8 @@ void loop()
   printSpaces(15 - length);
   Serial.println(sum);
   Serial.println();
+
+  delay(1000);
 }
 
 
@@ -48,5 +53,4 @@ void printSpaces(uint8_t n)
 }
 
 
-// -- END OF FILE -- 
-
+//  -- END OF FILE --

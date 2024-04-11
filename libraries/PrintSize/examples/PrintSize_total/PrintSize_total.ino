@@ -30,9 +30,10 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
-  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PRINTSIZE_VERSION: ");
+  Serial.println(PRINTSIZE_VERSION);
+  Serial.println();
 
   Serial.println("\nType words < 20 chars in the Serial monitor\n");
   ps.reset();
@@ -64,7 +65,7 @@ void process(char * w, uint8_t maxLength)
 {
   // skip empty words.
   if (strlen(w) == 0) return;
-  
+
   // remember position
   uint8_t prev = ps.total();
 
@@ -87,5 +88,5 @@ void process(char * w, uint8_t maxLength)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

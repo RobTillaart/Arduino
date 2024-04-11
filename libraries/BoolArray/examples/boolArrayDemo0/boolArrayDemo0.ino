@@ -2,7 +2,6 @@
 //    FILE: boolArrayDemo0.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance reading boolean array
-//    DATE: 2015-12-06
 //     URL: https://github.com/RobTillaart/BoolArray
 
 
@@ -21,14 +20,17 @@ uint32_t duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
   Serial.println(__FILE__);
-  Serial.print("LIB VERSION:\t");
+  Serial.print("BOOLARRAY_LIB_VERSION:\t");
   Serial.println(BOOLARRAY_LIB_VERSION);
 
-  int rv = b.begin(BOOLARRAY_MAXSIZE);
-  Serial.print("SIZE:\t");
+  int rv = b.begin(2000);
+  Serial.print("SIZE bits:\t");
   Serial.println(b.size());
+  Serial.print("MEM bytes:\t");
+  Serial.println(b.memory());
+  Serial.print("freeMemory:\t");
+  Serial.println(freeMemory());
 
   if (rv != BOOLARRAY_OK)
   {
@@ -191,5 +193,33 @@ void test3()
 }
 
 
-//  -- END OF FILE --
+#ifdef AVR
 
+extern unsigned int __bss_end;
+extern unsigned int __heap_start;
+extern void *__brkval;
+
+int freeMemory()
+{
+  int free_memory;
+
+  if ((int)__brkval == 0)
+    free_memory = ((int)&free_memory) - ((int)&__bss_end);
+  else
+    free_memory = ((int)&free_memory) - ((int)__brkval);
+
+  return free_memory;
+};
+
+#else
+
+int freeMemory()
+{
+  return 0;
+};
+
+#endif
+
+
+
+//  -- END OF FILE --

@@ -26,10 +26,28 @@ You need to check if your application needs more performance than this library c
 #### Notes
 
 The BoolArray class allocates dynamic memory.
-The **BOOLARRAY_MAXSIZE** is set to 2000, this was chosen as **malloc()** can only allocate 255 bytes 
-in one call on an UNO. This is not checked with the recent versions of the IDE any more.
+The **BOOLARRAY_MAXSIZE** is set to 10000 (booleans). 
+This number is chosen as it is about the maximum one can allocate in one call on an UNO. 
+
+If one want to allocate more booleans, adjust the **BOOLARRAY_MAXSIZE**. 
+This can be done as a command line option.
 
 The library is tested on AVR architecture only.
+
+
+#### BoolArray32
+
+Since 0.3.0 a **BoolArray32** class is added - **experimental** for now.
+
+Where the **BoolArray** class can have max 65535 booleans, the **BoolArray32** class
+has a 32 bit interface allowing up to 4 billion++ booleans in theory. 
+Although most IOT devices would not have enough memory, it allows one to have more than
+65535 booleans. 
+
+Also it might be that the **BoolArray32** class is faster on some platforms
+that are native 32 bit (not verified yet). 
+On an Arduino UNO the **BoolArray32** class is slower.(verified).
+
 
 #### Related
 
@@ -44,6 +62,30 @@ BoolArray is faster than BitArray as it only supports single bits and does not n
 of different bytes to read/write a value. However BoolArray currently only supports 2000 bits while
 BitArray can support more.
 
+## Performance
+
+See **boolArrayDemo0.ino**
+
+Indicative performance figures.
+
+|  class        |  function   |  UNO    |  ESP32   |  Notes   |
+|:--------------|:-----------:|:-------:|:--------:|:--------:|
+|  BoolArray    |  set(0)     |  10.37  |          |  
+|  BoolArray    |  set(1)     |  10.25  |          |
+|  BoolArray    |  get(i)     |  16.03  |          |
+|  BoolArray    |  setAll(0)  |    96   |          |  per 2000
+|  BoolArray    |  setAll(1)  |   100   |          |  per 2000
+|               |             |         |          |
+|  BoolArray32  |  set(0)     |  15.97  |          |
+|  BoolArray32  |  set(1)     |  15.84  |          |
+|  BoolArray32  |  get(i)     |  24.20  |          |
+|  BoolArray32  |  setAll(0)  |   148   |          |  per 2000
+|  BoolArray32  |  setAll(1)  |   144   |          |  per 2000
+
+- UNO 16 MHz, ESP32 240 MHz.
+- toggle() is expected to be similar to set()
+- clear() is a wrapper around setAll(0) so similar.
+
 
 ## Interface
 
@@ -55,22 +97,24 @@ BitArray can support more.
 
 - **BoolArray()** Constructor
 - **~BoolArray()** Destructor
-- **uint8_t begin(uint16_t size)** dynamically allocates size elements (8 bools in one byte). 
+- **uint8_t begin(uint32_t size)** dynamically allocates size elements (8 booleans in one byte). 
 Returns **BOOLARRAY_OK** on success.
 
 #### Meta
 
-- **uint16_t size()** returns number of bool elements.
+- **uint16_t size()** returns number of boolean elements.
 - **uint16_t memory()** returns number of bytes used.
 
 #### Base
+
+The following functions return **BOOLARRAY_OK** on success.
 
 - **uint8_t setAll(uint8_t value)** Sets all elements to false (0) or true (all other values).
 - **uint8_t clear()** Sets all elements to false.
 - **uint8_t get(uint16_t index)** Return 0 or 1 OR an error value which can be interpreted as true. 
 So one need to check these carefully.
 - **uint8_t set(uint16_t index, uint8_t value)** Set the element to false (0) or true (all other values).
-- **uint8_t toggle(uint16_t index)** Toggles element at index. Returns **BOOLARRAY_OK** on success.
+- **uint8_t toggle(uint16_t index)** Toggles element at index. 
 
 
 ## Future
@@ -84,17 +128,18 @@ So one need to check these carefully.
 
 - performance test on ESP32
 - performance for **clear()** dedicated loop vs **setAll(0)** call
-- performance intern 16 bit iso 8 bit. (0.3.0)
-  - faster on UNO
-  - does allocation work as it should?
+- investigate template class 
+  - improve allocation (see PrintCharArray)
 
 #### Could
 
 - update examples.
-- boolArray32() class
-  - begin(uint32_t size);
+- investigate **uint32_t array[N]** for BoolArray32 (ESP32?)
+  - adjust math 
 
 #### Wont
+
+- performance intern 16 bit instead of 8 bit is NOT faster on UNO
 
 
 ## Support

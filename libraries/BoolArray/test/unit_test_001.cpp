@@ -39,11 +39,11 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(2000, BOOLARRAY_MAXSIZE   );
-  assertEqual(0x00, BOOLARRAY_OK        );
-  assertEqual(0xFF, BOOLARRAY_ERROR     );
-  assertEqual(0xFE, BOOLARRAY_SIZE_ERROR);
-  assertEqual(0xFD, BOOLARRAY_INIT_ERROR);
+  assertEqual(10000, BOOLARRAY_MAXSIZE   );
+  assertEqual(0x00,  BOOLARRAY_OK        );
+  assertEqual(0xFF,  BOOLARRAY_ERROR     );
+  assertEqual(0xFE,  BOOLARRAY_SIZE_ERROR);
+  assertEqual(0xFD,  BOOLARRAY_INIT_ERROR);
 }
 
 

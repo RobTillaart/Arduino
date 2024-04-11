@@ -1,0 +1,59 @@
+
+///////////////////////////////////////////////
+//
+//  BOOLARRAY
+//
+BOOLARRAY_LIB_VERSION:	0.2.7
+Bool array size:	1000
+
+get
+DURATION:	5160
+DURATION:	9876
+       X:	0
+
+set
+DURATION:	3968
+DURATION:	7488
+
+clear
+DURATION:	48164
+DURATION:	96076
+
+setAll
+DURATION:	48164
+DURATION:	96076
+
+toggle
+DURATION:	3840
+DURATION:	7232
+Done...
+
+
+///////////////////////////////////////////////
+//
+//  BOOLARRAY32
+//
+BOOLARRAY_LIB_VERSION:	0.3.0
+Bool array size:	1000
+
+get
+DURATION:	7420
+DURATION:	14028
+       X:	0
+
+set
+DURATION:	5728
+DURATION:	10624
+
+clear
+DURATION:	65204
+DURATION:	130148
+
+setAll
+DURATION:	73124
+DURATION:	145996
+
+toggle
+DURATION:	5600
+DURATION:	10376
+Done...

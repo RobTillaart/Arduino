@@ -6,10 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-04-10
+- made BOOLARRAY_MAXSIZE a -D command line define option
+- increased default BOOLARRAY_MAXSIZE to 1250 x 8 = 10000 booleans
+  - about Arduino UNO max size
+- add BoolArray32 class for larger arrays.
+- update GitHub actions
+
+----
+
 ## [0.2.8] - 2023-02-08
 - update readme.md
 - optimize begin - test for need to reallocate.
-
 
 ## [0.2.7] - 2023-02-08
 - update readme.md

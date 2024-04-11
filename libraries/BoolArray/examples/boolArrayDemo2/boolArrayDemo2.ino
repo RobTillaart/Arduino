@@ -2,7 +2,6 @@
 //    FILE: boolArrayDemo2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance boolean array
-//    DATE: 2015-12-12
 //     URL: https://github.com/RobTillaart/BoolArray
 
 
@@ -19,7 +18,6 @@ volatile long x = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
   Serial.println(__FILE__);
   Serial.print("BOOLARRAY_LIB_VERSION:\t");
   Serial.println(BOOLARRAY_LIB_VERSION);

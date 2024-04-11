@@ -4,7 +4,7 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: software serial is less reliable than hardware serial
+//    NOTE: software serial is less reliable than hardware serial
 
 
 #include "Arduino.h"
@@ -12,7 +12,7 @@
 #include "SoftwareSerial.h"
 
 
-SoftwareSerial sws(3, 2);  // RX, TX, optional inverse logic
+SoftwareSerial sws(3, 2);  //  RX, TX, optional inverse logic
 
 COZIR czr(&sws);
 
@@ -27,7 +27,7 @@ void setup()
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
 
-  // set to polling.
+  //  set to polling.
   czr.setOperatingMode(CZR_POLLING);
   delay(1000);
 
@@ -87,15 +87,15 @@ void loop()
       case 'G':
         if (czr.getOperatingMode() != 0)
         {
-          // use with care
-          // Serial.println(czr.calibrateFreshAir());
+          //  use with care
+          //  Serial.println(czr.calibrateFreshAir());
         }
         break;
       case 'N':
         if (czr.getOperatingMode() != 0)
         {
-          // use with care
-          // Serial.println(czr.calibrateNitrogen());
+          //  use with care
+          //  Serial.println(czr.calibrateNitrogen());
         }
         break;
       case 'V':
@@ -110,7 +110,7 @@ void loop()
     }
   }
 
-  // for echo in continuous mode.
+  //  for echo in continuous mode.
   if (sws.available())
   {
     Serial.write(sws.read());
@@ -144,4 +144,4 @@ void menu()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

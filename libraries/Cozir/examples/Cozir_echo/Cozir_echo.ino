@@ -4,15 +4,15 @@
 // PURPOSE: demo of Cozir sensor
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
-// The purpose of this sketch is to talk lowest level to the COZIR sensor.
-// one can send the low level commands (datasheet) directly to the device.
-// NOTE: this can cause (unwanted) side effects, so use with care.
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
+//  The purpose of this sketch is to talk lowest level to the COZIR sensor.
+//  one can send the low level commands (datasheet) directly to the device.
+//  NOTE: this can cause (unwanted) side effects, so use with care.
 
 
 #include "Arduino.h"
-#include "cozir.h"    // not perse needed
+#include "cozir.h"    // not mandatory
 
 COZIR czr(&Serial1);
 
@@ -41,4 +41,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

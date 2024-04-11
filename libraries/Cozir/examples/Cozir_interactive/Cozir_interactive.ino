@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
-//
 
 
 #include "Arduino.h"
@@ -23,7 +22,7 @@ void setup()
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
 
-  // set to polling.
+  //  set to polling.
   czr.setOperatingMode(CZR_POLLING);
   delay(1000);
 
@@ -86,15 +85,15 @@ void loop()
       case 'G':
         if (czr.getOperatingMode() != 0)
         {
-          // use with care
-          // Serial.println(czr.calibrateFreshAir());
+          //  use with care
+          //  Serial.println(czr.calibrateFreshAir());
         }
         break;
       case 'N':
         if (czr.getOperatingMode() != 0)
         {
-          // use with care
-          // Serial.println(czr.calibrateNitrogen());
+          //  use with care
+          //  Serial.println(czr.calibrateNitrogen());
         }
         break;
       case 'V':
@@ -109,7 +108,7 @@ void loop()
     }
   }
 
-  // for echo in continuous mode.
+  //  for echo in continuous mode.
   if (Serial1.available())
   {
     Serial.write(Serial1.read());
@@ -144,4 +143,4 @@ void menu()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

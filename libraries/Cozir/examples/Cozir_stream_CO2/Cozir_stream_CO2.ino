@@ -4,10 +4,10 @@
 // PURPOSE: demo of Cozir lib - stand alone stream parsing.
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
 //
-//       to be used with the Serial Plotter.
+//          to be used with the Serial Plotter.
 
 
 #include "Arduino.h"
@@ -34,19 +34,19 @@ void setup()
   czr.init();
 
   Serial.begin(115200);
-  // Serial.print("COZIR_LIB_VERSION: ");
-  // Serial.println(COZIR_LIB_VERSION);
-  // Serial.println();
+  //  Serial.print("COZIR_LIB_VERSION: ");
+  //  Serial.println(COZIR_LIB_VERSION);
+  //  Serial.println();
 
   Serial.print("FILTERED\t");
   Serial.println("RAW");
   Serial.println();
 
-  // set to streaming explicitly.
+  //  set to streaming explicitly.
   czr.setOperatingMode(CZR_STREAMING);
-  // set digifilter on an average value
+  //  set digi-filter on an average value
   czr.setDigiFilter(16);
-  // select RAW and FILTERED CO2
+  //  select RAW and FILTERED CO2
   czr.setOutputFields(CZR_DEFAULT);
   delay(1000);
 }
@@ -59,10 +59,10 @@ void loop()
     char c = Serial1.read();
     switch (c)
     {
-      case 'Z':   // FILTERED CO2
+      case 'Z':   //  FILTERED CO2
         field = 'Z';
         break;
-      case 'z':   // RAW CO2
+      case 'z':   //  RAW CO2
         field = 'z';
         break;
       case '0' ... '9':
@@ -92,4 +92,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

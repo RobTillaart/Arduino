@@ -4,8 +4,8 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// Note: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
 
 
 #include "Arduino.h"
@@ -25,7 +25,7 @@ void setup()
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
 
-  // set to polling explicitly.
+  //  set to polling explicitly.
   czr.setOperatingMode(CZR_POLLING);
   delay(1000);
 }
@@ -34,11 +34,11 @@ void setup()
 void loop()
 {
   uint32_t c = czr.CO2();
-  c *= czr.getPPMFactor();  // most of time PPM = one.
+  c *= czr.getPPMFactor();  //  most of time PPM = one.
   Serial.print("CO2 =\t");
   Serial.println(c);
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

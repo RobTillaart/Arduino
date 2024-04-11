@@ -1,27 +1,27 @@
 #pragma once
 //
 //    FILE: Cozir.h
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
 //          http://forum.arduino.cc/index.php?topic=91467.0
 //
-//  READ DATASHEET BEFORE USE OF THIS LIB !
+//     READ DATASHEET BEFORE USE OF THIS LIB !
 //
 
 
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.7"))
+#define COZIR_LIB_VERSION           (F("0.3.8"))
 
 
 //  OUTPUT FIELDS
 //  See datasheet for details.
 //  These defines can be OR-ed for the SetOutputFields command
 //
-#define CZR_UNKNOWN_2               0x8000     // returns  P 00128  ? 
+#define CZR_UNKNOWN_2               0x8000     // returns  P 00128  ?
 #define CZR_UNKNOWN_1               0x4000     // returns  E 00016  ?
 #define CZR_LIGHT                   0x2000
 #define CZR_HUMIDITY                0x1000
@@ -40,15 +40,15 @@
 #define CZR_NONE                    0x0001
 
 
-// factory default 
+//  factory default
 #define CZR_DEFAULT                 (CZR_FILTCO2 | CZR_RAWCO2)
-// easy default setting for streaming
+//  easy default setting for streaming
 #define CZR_HTC                     (CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2)
-// not in datasheet for debug only
+//  not in datasheet for debug only
 #define CZR_ALL                     0x3FFE
 
 
-// OPERATING MODES
+//  OPERATING MODES
 #define CZR_COMMAND                 0x00
 #define CZR_STREAMING               0x01
 #define CZR_POLLING                 0x02
@@ -58,10 +58,10 @@ class COZIR
 {
 public:
   COZIR(Stream * str);
-  void     init();      // sets operatingMode to CZR_POLLING
+  void     init();      //  sets operatingMode to CZR_POLLING
   bool     isInitialized();
 
-  // warning: CZR_STREAMING is experimental, minimal tested.
+  //  warning: CZR_STREAMING is experimental, minimal tested.
   bool     setOperatingMode(uint8_t mode);
   uint8_t  getOperatingMode() { return _operatingMode; };
 
@@ -73,7 +73,7 @@ public:
   float    humidity();
   float    light();
   uint32_t CO2();
-  uint16_t getPPMFactor();   // P14 . command  return 1, 10 or 100
+  uint16_t getPPMFactor();   //  P14 . command  return 1, 10 or 100
 
 
   //  CALIBRATION
@@ -236,7 +236,7 @@ private:
 
 
   //  parsing helpers
-  uint32_t _value;    //  to build up the numeric value 
+  uint32_t _value;    //  to build up the numeric value
   uint8_t  _field;    //  last read FIELD
 
   //  returns FIELD char if a FIELD is completed, 0 otherwise.
@@ -244,5 +244,5 @@ private:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

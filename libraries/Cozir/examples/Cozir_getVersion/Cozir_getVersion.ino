@@ -4,8 +4,8 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// Note: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
 
 
 #include "Arduino.h"
@@ -42,7 +42,7 @@ void setup()
   }
   delay(1000);
 
-  // set to polling explicitly.
+  //  set to polling explicitly.
   czr.setOperatingMode(CZR_POLLING);
   delay(1000);
 }
@@ -65,5 +65,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

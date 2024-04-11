@@ -4,14 +4,14 @@
 // PURPOSE: demo of Cozir lib (>= 0.1.06)
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: software serial is less reliable than hardware serial
+//    NOTE: software serial is less reliable than hardware serial
 
 
 #include "Arduino.h"
 #include "cozir.h"
 #include "SoftwareSerial.h"
 
-SoftwareSerial sws(3, 2);  // RX, TX, optional inverse logic
+SoftwareSerial sws(3, 2);  //  RX, TX, optional inverse logic
 
 COZIR czr(&sws);
 
@@ -41,4 +41,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

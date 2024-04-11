@@ -4,9 +4,9 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
-// NOTE: not all fields are supported by all COZIR sensors.
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
+//    NOTE: not all fields are supported by all COZIR sensors.
 
 
 #include "Arduino.h"
@@ -44,7 +44,7 @@ void loop()
       count++;
       Serial.print(count);
       Serial.print('\t');
-      Serial.print(fields);   // or print czr.getDigiFilter()
+      Serial.print(fields);   //  or print czr.getDigiFilter()
       Serial.print('\t');
       if (count >= 10)
       {
@@ -58,4 +58,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

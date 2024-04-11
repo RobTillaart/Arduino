@@ -4,8 +4,8 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// NOTE: this sketch needs a MEGA or another board that supports three 
-//       hardware serial ports named Serial1, Serial2, Serial3.
+//    NOTE: this sketch needs a MEGA or another board that supports three 
+//          hardware serial ports named Serial1, Serial2, Serial3.
 
 
 #include "Arduino.h"
@@ -37,7 +37,7 @@ void setup()
   }
   Serial.println();
   
-  // set to polling explicitly.
+  //  set to polling explicitly.
   Serial.print("...set POLLING mode...");
   for (int i = 0; i < 3; i++)
   {
@@ -55,15 +55,15 @@ void loop()
   {
     for (int i = 0; i < 3; i++)
     {
-      lastCO2[i] = czr[i].CO2();  // add  * czr.getPPMFactor();  most of time PPM = one.
+      lastCO2[i] = czr[i].CO2();  //  add  * czr.getPPMFactor();  most of time PPM = one.
       Serial.print(lastCO2[i]);
       Serial.print("\t");
     }
     Serial.println();
   }
 
-  // insert other code here
+  //  insert other code here
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

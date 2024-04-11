@@ -4,10 +4,10 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-// Note: this sketch needs a MEGA or a Teensy that supports a second
-//       Serial port named Serial1
+//    NOTE: this sketch needs a MEGA or a Teensy that supports a second
+//          Serial port named Serial1
 //
-//       to be used with the Serial Plotter.
+//          to be used with the Serial Plotter.
 
 
 #include "Arduino.h"
@@ -43,7 +43,7 @@ void setup()
   czr.init();
   czrp.init();
 
-  // initialize the LEDS
+  //  initialize the LEDS
   pinMode(REDPIN,    OUTPUT);
   pinMode(YELLOWPIN, OUTPUT);
   pinMode(GREENPIN,  OUTPUT);
@@ -53,28 +53,28 @@ void setup()
 
 
   Serial.begin(115200);
-  // Serial.print("COZIR_LIB_VERSION: ");
-  // Serial.println(COZIR_LIB_VERSION);
-  // Serial.println();
+  //  Serial.print("COZIR_LIB_VERSION: ");
+  //  Serial.println(COZIR_LIB_VERSION);
+  //  Serial.println();
 
   Serial.print("FILTERED\t");
   Serial.println("RAW");
   Serial.println();
 
-  // set to streaming explicitly.
+  //  set to streaming explicitly.
   czr.setOperatingMode(CZR_STREAMING);
-  // set digifilter on an average value
+  //  set digi-filter on an average value
   czr.setDigiFilter(16);
-  // select RAW and FILTERED CO2
+  //  select RAW and FILTERED CO2
   czr.setOutputFields(CZR_DEFAULT);
-  // czr.setOutputFields(CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2);
+  //  czr.setOutputFields(CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2);
   delay(1000);
 }
 
 
 void loop()
 {
-  // inject commands to check robustness
+  //  inject commands to check robustness
   if (Serial.available())
   {
     Serial1.write(Serial.read());
@@ -85,11 +85,11 @@ void loop()
     field = czrp.nextChar(c);
     if (field != 0)
     {
-      // shows all values
-      // Serial.print(czrp.celsius());
-      // Serial.print("\t");
-      // Serial.print(czrp.humidity());
-      // Serial.print("\t");
+      //  shows all values
+      //  Serial.print(czrp.celsius());
+      //  Serial.print("\t");
+      //  Serial.print(czrp.humidity());
+      //  Serial.print("\t");
       Serial.print(czrp.CO2());
       Serial.print("\t");
       Serial.print(czrp.CO2Raw());
@@ -136,4 +136,4 @@ void updateLEDS(uint16_t value)
 
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

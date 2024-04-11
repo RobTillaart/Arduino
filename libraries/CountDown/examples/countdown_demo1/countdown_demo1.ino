@@ -1,9 +1,7 @@
 //
 //    FILE: countdown_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo
-//    DATE: 2015-10-28
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
 //
@@ -35,7 +33,7 @@ void setup()
     // Serial.println(CD.remaining() );
     // delay(100);
   }
-  Serial.println(millis() - start);  // SHOULD PRINT 180000
+  Serial.println(millis() - start);  //  SHOULD PRINT 180000
 
   Serial.println(CD.remaining());
   Serial.println("done...");
@@ -47,5 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

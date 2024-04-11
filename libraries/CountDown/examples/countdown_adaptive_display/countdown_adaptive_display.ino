@@ -4,7 +4,6 @@
 // PURPOSE: demo
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
-//
 
 
 #include "CountDown.h"
@@ -45,4 +44,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

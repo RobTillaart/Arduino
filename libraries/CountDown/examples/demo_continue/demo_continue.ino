@@ -1,12 +1,9 @@
 //
 //    FILE: demo_continue.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2017-07-16
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
-//
 
 
 #include "CountDown.h"
@@ -51,5 +48,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,9 +1,7 @@
 //
 //    FILE: countdown_setResolution.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2021-05-26
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
 //
@@ -22,7 +20,7 @@ void setup()
     Serial.println(COUNTDOWN_LIB_VERSION);
 
     CD.setResolution(CountDown::MINUTES);
-    // countdown 1 minutes
+    //  countdown 1 minutes
     CD.start(1);
 }
 
@@ -37,9 +35,9 @@ void loop()
   }
   Serial.print(' ');
   Serial.print(CD.remaining());
-  delay(5000);   // every 5 seconds
+  delay(5000);   //  every 5 seconds
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

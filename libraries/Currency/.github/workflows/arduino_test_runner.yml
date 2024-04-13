@@ -13,6 +13,5 @@ jobs:
         with:
           ruby-version: 2.6
       - run: |
-          sudo sysctl vm.mmap_rnd_bits=28
           gem install arduino_ci
           arduino_ci.rb

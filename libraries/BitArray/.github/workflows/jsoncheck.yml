@@ -16,4 +16,3 @@ jobs:
         uses: limitusus/json-syntax-check@v2
         with:
           pattern: "\\.json$"
-

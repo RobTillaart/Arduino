@@ -107,6 +107,20 @@ An important command from the stream interface is the **setTimeOut()** as
 this allows reads on the RS485 bus that are limited.
 
 
+#### setMicrosPerByte
+
+**Experimental**
+
+To add a small delay after **flush()** to be sure that the last byte in the 
+TX register has time to be sent.
+It prevents a premature switching from transmit to receive mode.
+The default value is 1100 (9600 baud time) and can be tuned, e.g. when high 
+baud rates are used it can be smaller.
+
+- **void setMicrosPerByte(uint16_t mpb)**
+- **uint16_t getMicrosPerByte()** returns set value, default 1100 (9600 baud time).
+
+
 #### Experimental
 
 Work in progress. The library has an **experimental** protocol implemented to
@@ -223,6 +237,7 @@ Would allow 127 different 1 byte commands.
   - dynamic receive buffer size?
 - investigate error handling?
 - test other platforms
+  - STM32 (see issue 30)
   - ESP32.
 
 #### Could
@@ -232,6 +247,7 @@ Would allow 127 different 1 byte commands.
   - multi-master?
 - add unit tests
 - investigate yield() on ESP32/RTOS behaviour
+- investigate non-blocking version.
 
 #### Wont
 

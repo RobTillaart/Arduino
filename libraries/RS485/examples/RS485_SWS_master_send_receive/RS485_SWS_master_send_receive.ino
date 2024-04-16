@@ -23,7 +23,7 @@
 const uint8_t sendPin  = 4;
 const uint8_t deviceID = 0;
 
-SoftwareSerial SWS(6,7);  //  RX, TX
+SoftwareSerial SWS(6, 7);  //  RX, TX
 
 
 //  use Software Serial

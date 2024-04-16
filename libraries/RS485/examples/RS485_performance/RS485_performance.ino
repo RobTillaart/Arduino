@@ -6,6 +6,7 @@
 //  minimal test to see how fast data can be send over the
 //  RS485 bus at a given baud rate of 4800. (adjust if needed).
 
+
 #include "Arduino.h"
 #include "RS485.h"
 

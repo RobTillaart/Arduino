@@ -73,7 +73,7 @@ void loop()
 
     int x = rs485.read();
 
-    // HEX DUMP PART
+    //  HEX DUMP PART
     if (x < 0x10) Serial.print('0');
     Serial.print(x, HEX);
     Serial.print(" ");

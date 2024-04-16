@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-04-04
+- improve **flush()** to work for STM32
+- add **void setMicrosPerByte(mpb)** to set delay after flush() for last byte.
+- add **uint16_t getMicrosPerByte()**
+- update GitHub actions
+- minor edits
+
+
 ## [0.5.0] - 2024-02-01
 - merge PR #28, Fix for FS conflict on ESP32 (kudos to DoomHammer)
   - all ASCII control characters get a **ASCII_** prefix.

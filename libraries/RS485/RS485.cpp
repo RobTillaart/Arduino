@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -55,7 +55,12 @@ int RS485::peek()
 
 void RS485::flush()
 {
+#ifdef ARDUINO_ARCH_STM32
+  while (Serial.availableForWrite() < ( SERIAL_TX_BUFFER_SIZE - 1));
+#else
   _stream->flush();
+#endif
+  delayMicroseconds(_microsPerByte);  //  for the last byte.
 }
 
 

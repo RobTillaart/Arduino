@@ -1,7 +1,6 @@
 //
 //    FILE: PCF8575_array.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-12-13
 // PURPOSE: demo array of PCF - not tested
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -36,7 +35,7 @@ void loop()
 {
   for (int i = 0; i < 3; i++)
   {
-    for (uint8_t port = 0; port < 15; port++)
+    for (uint8_t port = 0; port < 16; port++)
     {
       PCF[i].write(port, 1);
       delay(200);
@@ -45,7 +44,7 @@ void loop()
 
   for (int i = 0; i < 3; i++)
   {
-    for (uint8_t port = 0; port < 15; port++)
+    for (uint8_t port = 0; port < 16; port++)
     {
       PCF[i].write(port, 0);
       delay(400);

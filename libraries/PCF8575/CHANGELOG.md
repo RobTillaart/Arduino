@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2024-04-16
+- Fix #41, update examples
+- update keywords.txt
+
 ## [0.2.2] - 2024-01-08
 - Update readme with advanced interrupts insights
   - add example
 - Fix URL in examples
 - minor edits
-
 
 ## [0.2.1] - 2023-12-29
 - Fix #34 change addresses in examples.

@@ -1,7 +1,6 @@
 //
 //    FILE: pcf8575_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-03
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PCF8575
 
@@ -10,7 +9,7 @@
 
 //  adjust addresses if needed
 PCF8575 PCF_20(0x20);  //  add switches to lines  (used as input)
-PCF8575 PCF_21(0x21);  //  add leds to lines      (used as output)
+PCF8575 PCF_21(0x21);  //  add LEDs to lines      (used as output)
 
 
 void setup()
@@ -68,7 +67,7 @@ void setup()
 
 void loop()
 {
-  //  echos the lines
+  //  echoes the lines
   uint16_t value = PCF_20.read16();
   PCF_21.write16(value);
   delay(100);

@@ -1,7 +1,6 @@
 //
 //    FILE: PCF8575_interrupt.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-03
 // PURPOSE: test PCF8575 library
 //     URL: https://github.com/RobTillaart/PCF8575
 //

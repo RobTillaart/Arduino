@@ -1,7 +1,6 @@
 //
 //    FILE: PCF8575_isConnected.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-01-03
 // PURPOSE: demo device detection
 //     URL: https://github.com/RobTillaart/PCF8575
 

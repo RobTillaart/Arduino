@@ -1,7 +1,6 @@
 //
 //    FILE: PCF8575_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-07-20
 // PURPOSE: test PCF8575 library
 //     URL: https://github.com/RobTillaart/PCF8575
 

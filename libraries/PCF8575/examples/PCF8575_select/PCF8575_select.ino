@@ -1,7 +1,6 @@
 //
 //    FILE: PCF8575_select.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-06-18
 // PURPOSE: demo PCF8575 library select functions
 //     URL: https://github.com/RobTillaart/PCF8575
 

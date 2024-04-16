@@ -22,6 +22,7 @@ valueOut	KEYWORD2
 readButton16	KEYWORD2
 readButton	KEYWORD2
 setButtonMask	KEYWORD2
+getButtonMask	KEYWORD2
 
 toggle	KEYWORD2
 toggleMask	KEYWORD2
@@ -36,6 +37,8 @@ select	KEYWORD2
 selectN	KEYWORD2
 selectNone	KEYWORD2
 selectAll	KEYWORD2
+
+lastError	KEYWORD2
 
 
 # Constants (LITERAL1)

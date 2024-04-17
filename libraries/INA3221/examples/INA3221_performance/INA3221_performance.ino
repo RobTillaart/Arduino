@@ -53,8 +53,9 @@ void setup()
 void performance(uint32_t speed)
 {
   Wire.setClock(speed);
+  Serial.print("\nSpeed:\t");
   Serial.println(speed);
-    
+
   delay(100);  // fllussssh IO
 
   start = micros();
@@ -64,7 +65,7 @@ void performance(uint32_t speed)
   Serial.print(busVoltage, 3);
   Serial.print("\t");
   Serial.println(stop - start);
-  
+
   delay(100);
 
   start = micros();
@@ -74,7 +75,7 @@ void performance(uint32_t speed)
   Serial.print(shuntVoltage, 3);
   Serial.print("\t");
   Serial.println(stop - start);
-  
+
   delay(100);
 
   start = micros();
@@ -84,9 +85,9 @@ void performance(uint32_t speed)
   Serial.print(mA, 3);
   Serial.print("\t");
   Serial.println(stop - start);
-  
+
   delay(100);
-  
+
   start = micros();
   float mW = INA.getPower_mW(1);
   stop = micros();

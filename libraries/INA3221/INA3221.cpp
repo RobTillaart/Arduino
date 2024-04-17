@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -128,56 +128,58 @@ float INA3221::getShuntR(uint8_t channel)
 //
 //  SHUNT ALERT WARNINGS & CRITICAL
 //
-int INA3221::setCriticalAlert(uint8_t channel, uint16_t microVolt)
+int INA3221::setCriticalAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
-  if (microVolt > 16383) return -2;
+  // Check for the full scale voltage = 163.8 mV == 163800 uV
+  if (microVolt > 163800) return -2;
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_CRITICAL_ALERT(channel), value);
 }
 
-uint16_t INA3221::getCriticalAlert(uint8_t channel)
+uint32_t INA3221::getCriticalAlert(uint8_t channel)
 {
   if (channel > 2) return -1;
-  uint16_t value = _readRegister(INA3221_CRITICAL_ALERT(channel));
-  return (value >> 3) * 40;
+  uint32_t value = _readRegister(INA3221_CRITICAL_ALERT(channel));
+  return (value >> 3) * 40;  //  LSB 40uV
 }
 
-int INA3221::setWarningAlert(uint8_t channel, uint16_t microVolt)
+int INA3221::setWarningAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
-  if (microVolt > 16383) return -2;
+  // Check for the full scale voltage = 163.8 mV == 163800 uV
+  if (microVolt > 163800) return -2;
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_WARNING_ALERT(channel), value);
 }
 
-uint16_t INA3221::getWarningAlert(uint8_t channel)
+uint32_t INA3221::getWarningAlert(uint8_t channel)
 {
   if (channel > 2) return -1;
-  uint16_t value = _readRegister(INA3221_WARNING_ALERT(channel));
-  return (value >> 3) * 40;
+  uint32_t value = _readRegister(INA3221_WARNING_ALERT(channel));
+  return (value >> 3) * 40;  //  LSB 40uV
 }
 
 //  mA wrappers
 
-int INA3221::setCriticalCurrect(uint8_t channel, uint16_t milliAmpere)
+int INA3221::setCriticalCurrect(uint8_t channel, float milliAmpere)
 {
-  return setCriticalAlert(channel, milliAmpere * _shunt[channel]);
+  return setCriticalAlert(channel, 1000.0 * milliAmpere * _shunt[channel]);
 }
 
-uint16_t INA3221::getCriticalCurrent(uint8_t channel)
+float INA3221::getCriticalCurrent(uint8_t channel)
 {
-  return getCriticalAlert(channel) / _shunt[channel];
+  return getCriticalAlert(channel) * 0.001 / _shunt[channel];
 }
 
-int INA3221::setWarningCurrent(uint8_t channel, uint16_t milliAmpere)
+int INA3221::setWarningCurrent(uint8_t channel, float milliAmpere)
 {
-  return setWarningAlert(channel, milliAmpere * _shunt[channel]);
+  return setWarningAlert(channel, 1000.0 * milliAmpere * _shunt[channel]);
 }
 
-uint16_t INA3221::getWarningCurrent(uint8_t channel)
+float INA3221::getWarningCurrent(uint8_t channel)
 {
-  return getWarningAlert(channel) / _shunt[channel];
+  return getWarningAlert(channel) * 0.001 / _shunt[channel];
 }
 
 
@@ -185,22 +187,26 @@ uint16_t INA3221::getWarningCurrent(uint8_t channel)
 //
 //  SHUNT VOLTAGE SUM
 //
-int16_t INA3221::getShuntVoltageSum()
+//  LSB 40 uV;
+//
+int32_t INA3221::getShuntVoltageSum()
 {
   int16_t value = _readRegister(INA3221_SHUNT_VOLTAGE_SUM);
-  return (value >> 1) * 40;
+  return (value >> 1) * 40L;
 }
 
-int INA3221::setShuntVoltageSumLimit(int16_t microVolt)
+int INA3221::setShuntVoltageSumLimit(int32_t microVolt)
 {
-  uint16_t value = (microVolt / 40) << 1;  //  LSB 40 uV;
+  //  15 bit signed.
+  if (abs(microVolt) > (16383L * 40L)) return -2;
+  int16_t value = (microVolt / 40) << 1;
   return _writeRegister(INA3221_SHUNT_VOLTAGE_LIMIT, value);
 }
 
-int16_t INA3221::getShuntVoltageSumLimit()
+int32_t INA3221::getShuntVoltageSumLimit()
 {
-  int16_t value = _readRegister(INA3221_SHUNT_VOLTAGE_LIMIT);
-  return (value >> 1) * 40;
+  int32_t value = _readRegister(INA3221_SHUNT_VOLTAGE_LIMIT);
+  return (value >> 1) * 40L;
 }
 
 
@@ -329,9 +335,12 @@ uint16_t INA3221::getMaskEnable()
 //
 //  POWER LIMIT
 //
+//  LSB 8mV  shift 3
+//
 int INA3221::setPowerUpperLimit(int16_t milliVolt)
 {
-  if (milliVolt > 16376) return -10;
+  //  int16_t is always within the range (after masking) 32760
+  //  if (milliVolt > 4095 * 8) return -10;    //  LSB 8mV  shift 3
   int16_t value = milliVolt & 0xFFF8;  //  mask reserved bits
   return _writeRegister(INA3221_POWER_VALID_UPPER, value);
 }
@@ -339,20 +348,23 @@ int INA3221::setPowerUpperLimit(int16_t milliVolt)
 int16_t INA3221::getPowerUpperLimit()
 {
   int16_t value = _readRegister(INA3221_POWER_VALID_UPPER);
+  //  (value >> 3) * 8mV;  shift 3 compensates 8 mV
   return value;
 }
 
 int INA3221::setPowerLowerLimit(int16_t milliVolt)
 {
-  if (milliVolt > 16376) return -10;
-  int16_t value = (milliVolt << 1) & 0xFFF8;
+  //  int16_t is always within the range (after masking) 32760
+  //  if (milliVolt > 4095 * 8) return -10;    //  LSB 8mV  shift 3
+  int16_t value = milliVolt & 0xFFF8;
   return _writeRegister(INA3221_POWER_VALID_LOWER, value);
 }
 
 int16_t INA3221::getPowerLowerLimit()
 {
   int16_t value = _readRegister(INA3221_POWER_VALID_LOWER);
-  return value >> 1;
+  //  (value >> 3) * 8mV;  shift 3 compensates 8 mV
+  return value;
 }
 
 

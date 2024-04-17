@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA3221.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA3221_LIB_VERSION                "0.1.0"
+#define INA3221_LIB_VERSION                "0.2.0"
 
 
 class INA3221
@@ -49,21 +49,26 @@ public:
   float    getShuntR(uint8_t channel);
 
   //  SHUNT ALERT WARNINGS & CRITICAL
-  int      setCriticalAlert(uint8_t channel, uint16_t microVolt);
-  uint16_t getCriticalAlert(uint8_t channel);  //  returns microVolt
-  int      setWarningAlert(uint8_t channel, uint16_t microVolt);
-  uint16_t getWarningAlert(uint8_t channel);   //  returns microVolt
+  //  NOTE: full scale voltage == 163.8 mV == 163800 uV
+  //  NOTE: LSB == 40 uV so microVolt should be >= 40uV
+  int      setCriticalAlert(uint8_t channel, uint32_t microVolt);
+  uint32_t getCriticalAlert(uint8_t channel);  //  returns microVolt
+  int      setWarningAlert(uint8_t channel, uint32_t microVolt);
+  uint32_t getWarningAlert(uint8_t channel);   //  returns microVolt
 
   //  Wrappers using milliAmpere (Shunt must be set correctly!).
-  int      setCriticalCurrect(uint8_t channel, uint16_t milliAmpere);
-  uint16_t getCriticalCurrent(uint8_t channel);
-  int      setWarningCurrent(uint8_t channel, uint16_t milliAmpere);
-  uint16_t getWarningCurrent(uint8_t channel);
+  //  NOTE: LSB = 40 uV so milliAmpere should be >= 0.4 mA (assume R = 0.1)
+  int      setCriticalCurrect(uint8_t channel, float milliAmpere);
+  float    getCriticalCurrent(uint8_t channel);
+  int      setWarningCurrent(uint8_t channel, float milliAmpere);
+  float    getWarningCurrent(uint8_t channel);
 
   //  SHUNT VOLTAGE SUM
-  int16_t  getShuntVoltageSum();       //  returns microVolt
-  int      setShuntVoltageSumLimit(int16_t microVolt);
-  int16_t  getShuntVoltageSumLimit();  //  returns microVolt
+  //  NOTE: LSB = 40 uV (15 bits)
+  int32_t  getShuntVoltageSum();       //  returns microVolt
+  //  microVolt = max 655.320 == 16383L * 40L
+  int      setShuntVoltageSumLimit(int32_t microVolt);
+  int32_t  getShuntVoltageSumLimit();  //  returns microVolt
 
   //  CONFIGURATION
   //  all fields at once. (short/fast/atomic code)
@@ -95,9 +100,10 @@ public:
   //  all fields at once. (short/fast/atomic code)
   int      setMaskEnable(uint16_t mask);
   uint16_t getMaskEnable();
-  //  TODO  convenience wrappers  9 x getters  9 x setters
+  //  convenience wrappers for MASK/ENABLE?
 
   //  POWER LIMIT (guards BUS voltage)
+  //  max = 4095 * 8 mV = 32760 mV
   int     setPowerUpperLimit(int16_t milliVolt);
   int16_t getPowerUpperLimit();
   int     setPowerLowerLimit(int16_t milliVolt);

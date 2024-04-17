@@ -90,7 +90,7 @@ void loop()
     Serial.print("\t");
     Serial.print(INA.getPower_mW(ch), 3);
     Serial.println();
-    delay(10000);
+    delay(1000);
   }
 }
 

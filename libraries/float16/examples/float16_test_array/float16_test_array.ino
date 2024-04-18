@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/float16
 
 
-//  show different storage needs 
+//  show storage needs (fixed in 0.3.0)
 
 #include "float16.h"
 

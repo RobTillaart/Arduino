@@ -7,16 +7,19 @@ float16	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 toDouble	KEYWORD2
+toFloat	KEYWORD2
+toString	KEYWORD2
 getBinary	KEYWORD2
 setBinary	KEYWORD2
 
-setDecimals	KEYWORD2
-getDecimals	KEYWORD2
 
 sign	KEYWORD2
 isZero	KEYWORD2
 isNan	KEYWORD2
 isInf	KEYWORD2
+isPosInf	KEYWORD2
+isNegInf	KEYWORD2
+
 
 # Constants (LITERAL1)
 FLOAT16_LIB_VERSION	LITERAL1

@@ -16,14 +16,67 @@ Arduino library to implement float16 data type.
 ## Description
 
 This **experimental** library defines the float16 (2 byte) data type, including conversion
-function to and from float32 type. It is definitely **work in progress**.
-
-The library implements the **Printable** interface so one can directly print the
-float16 values in any stream e.g. Serial.
+function to and from float32 type.
 
 The primary usage of the float16 data type is to efficiently store and transport
 a floating point number. As it uses only 2 bytes where float and double have typical
 4 and 8 bytes, gains can be made at the price of range and precision.
+
+Note that float16 only has ~3 significant digits.
+
+To print a float16, one need to convert it with toFloat(), toDouble() or toString(decimals). 
+The latter allows concatenation and further conversion to an char array.
+
+In pre 0.3.0 version the Printable interface was implemented, but it has been removed
+as it caused excessive memory usage when declaring arrays of float16.
+
+
+#### ARM alternative half-precision
+
+-https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
+
+_ARM processors support (via a floating point control register bit) 
+an "alternative half-precision" format, which does away with the 
+special case for an exponent value of 31 (111112).[10] It is almost 
+identical to the IEEE format, but there is no encoding for infinity or NaNs; 
+instead, an exponent of 31 encodes normalized numbers in the range 65536 to 131008._
+
+Implemented in https://github.com/RobTillaart/float16ext class.
+
+
+#### Difference with float16 and float16ext
+
+The float16ext library has an extended range as it supports values from +- 65504 
+to +- 131008.
+
+The float16ext does not support INF, -INF and NAN. These values are mapped upon
+the largest positive, the largest negative and the largest positive number.
+
+The -0 and 0 values will both exist.
+
+
+Although they share a lot of code float16 and float16ext should not be mixed.
+In the future these libraries might merge / derive one from the other.
+
+
+#### Breaking change 0.3.0
+
+Version 0.3.0 has a breaking change. The **Printable** interface is removed as 
+it causes larger than expected arrays of float 16 (See #16). On ESP8266 every
+float16 object was 8 bytes and on AVR it was 5 bytes instead of the expected 2 bytes.
+
+To support printing the class added two new conversion functions:
+```cpp
+f16.toFloat();
+f16.toString(decimals);
+
+Serial.println(f16.toFloat(), 4);
+Serial.println(f16.toString(4));
+```
+This keeps printing relative easy.
+
+The footprint of the library is now smaller and one can now create compact array's
+of float16 elements using only 2 bytes per element.
 
 
 #### Breaking change 0.2.0
@@ -34,9 +87,9 @@ For some specific values the mantissa overflowed when the float 16 was
 assigned a value to. This overflow was not detected / corrected.
 
 During the analysis of this bug it became clear that the sub-normal numbers 
-were also implemented correctly. This is fixed too in 0.2.0.
+were also not implemented correctly. This is fixed too in 0.2.0.
 
-There is still an issue 0 versus -0
+There is still an issue with 0 versus -0 (sign gets lost in conversion).
 
 **This makes all pre-0.2.0 version obsolete.** 
 
@@ -44,16 +97,18 @@ There is still an issue 0 versus -0
 ## Specifications
 
 
-| attribute | value        |  notes  |
-|:----------|:-------------|:--------|
-| size      | 2 bytes      | layout s  eeeee  mmmmmmmmmm  (1,5,10)
-| sign      | 1 bit        |
-| exponent  | 5 bit        |
-| mantissa  | 10 bit       | ~ 3 digits
-| minimum   | 5.96046 E−8  |  smallest positive number.
-|           | 1.0009765625 |  1 + 2^−10 = smallest number larger than 1.
-| maximum   | 65504        |
-|           |              |
+|  Attribute  |  Value          |  Notes  |
+|:------------|:----------------|:--------|
+|  size       |  2 bytes        |  layout s  eeeee  mmmmmmmmmm  (1, 5, 10)
+|  sign       |  1 bit          |
+|  exponent   |  5 bit          |
+|  mantissa   |  10 bit         |  3 - 4 digits
+|  minimum    |  ±5.96046 E−8   |  smallest number.
+|             |  ±1.0009765625  |  1 + 2^−10 = smallest number larger than 1.
+|  maximum    |  ±65504         |
+|             |                 |
+
+± = ALT 0177
 
 
 #### Example values
@@ -87,6 +142,10 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 #### Related
 
 - https://wokwi.com/projects/376313228108456961  (demo of its usage)
+- https://github.com/RobTillaart/float16
+- https://github.com/RobTillaart/float16ext
+- https://github.com/RobTillaart/fraction
+- https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
 
 ## Interface
@@ -97,28 +156,35 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
 #### Constructors
 
-- **float16(void)** defaults to zero.
+- **float16(void)** defaults value to zero.
 - **float16(double f)** constructor.
 - **float16(const float16 &f)** copy constructor.
 
 
 #### Conversion
 
-- **double toDouble(void)** convert to double (or float).
+- **double toDouble(void)** convert value to double or float (if the same e.g. UNO).
+- **float toFloat(void)** convert value to float.
+- **String toString(unsigned int decimals = 2)** convert value to a String with decimals.
+Please note that the accuracy is only 3-4 digits for the whole number so use decimals
+with care.
+
+
+#### Export and store
+
+To serialize the internal format e.g. to disk, two helper functions are available.
+
 - **uint16_t getBinary()** get the 2 byte binary representation.
 - **void setBinary(uint16_t u)** set the 2 bytes binary representation.
-- **size_t printTo(Print& p) const** Printable interface.
-- **void setDecimals(uint8_t d)** idem, used for printTo.
-- **uint8_t getDecimals()** idem.
-
-Note the setDecimals takes one byte per object which is not efficient for arrays of float16.
-See array example for efficient storage using set/getBinary() functions.
 
 
 #### Compare
 
-Standard compare functions. Since 0.1.5 these are quite optimized,
-so it is fast to compare e.g. 2 measurements.
+The library implement the standard compare functions. 
+These are optimized, so it is fast to compare 2 float16 values.
+
+Note: comparison with a float or double always include a conversion.
+You can improve performance by converting e.g. a threshold only once before comparison.
 
 - **bool operator == (const float16& f)**
 - **bool operator != (const float16& f)**
@@ -143,20 +209,16 @@ Not planned to optimize these.
 - **float16& operator \*= (const float16& f)**
 - **float16& operator /= (const float16& f)**
 
-negation operator.
+Negation operator.
 - **float16 operator - ()** fast negation.
 
+Math helpers.
 - **int sign()** returns 1 == positive, 0 == zero,  -1 == negative.
 - **bool isZero()** returns true if zero. slightly faster than **sign()**.
-- **bool isInf()** returns true if value is (-)infinite.
-
-
-#### Experimental 0.1.8
-
-- **bool isNaN()** returns true if value is not a number.
-
-
-## Notes
+- **bool isNaN()** returns true if value is not a number. 
+- **bool isInf()** returns true if value is ± infinite.
+- **bool isPosInf()** returns true if value is + infinite.
+- **bool isNegInf()** returns true if value is - infinite.
 
 
 ## Future
@@ -167,26 +229,19 @@ negation operator.
 
 #### Should
 
-- unit tests of the above.
 - how to handle 0 == -0  (0x0000 == 0x8000)
-- investigate ARM alternative half-precision
-_ARM processors support (via a floating point control register bit) 
-an "alternative half-precision" format, which does away with the 
-special case for an exponent value of 31 (111112).[10] It is almost 
-identical to the IEEE format, but there is no encoding for infinity or NaNs; 
-instead, an exponent of 31 encodes normalized numbers in the range 65536 to 131008._
-
 
 #### Could
 
-- copy constructor?
-- update documentation.
+- unit tests.
 - error handling.
   - divide by zero errors.
 - look for optimizations.
 - rewrite **f16tof32()** with bit magic.
-- add storage example - with SD card, FRAM or EEPROM
-- add communication example - serial or Ethernet?
+- add examples
+  - persistent storage e.g. SD card, FRAM or EEPROM.
+  - communication e.g. Serial or Ethernet (XML, JSON)?
+  - sorting an array of float16?
 
 #### Wont
 

@@ -29,8 +29,6 @@ void setup()
   Serial.println(FLOAT16_LIB_VERSION);
   Serial.println("\nStart ");
 
-  f16.setDecimals(6);
-
   test_1();
   test_2();
   test_3();

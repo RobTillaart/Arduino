@@ -21,7 +21,7 @@ void setup()
     float16 f16(n);
     Serial.print(n);
     Serial.print('\t');
-    Serial.print(f16);
+    Serial.print(f16.toString());
     Serial.print('\t');
     Serial.print(abs(f16.toDouble() / n), 8);
     Serial.println();

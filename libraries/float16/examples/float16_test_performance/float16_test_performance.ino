@@ -1,7 +1,7 @@
 //
 //    FILE: float16_test_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test float16
+// PURPOSE: test float16 performance
 //     URL: https://github.com/RobTillaart/float16
 
 
@@ -162,7 +162,7 @@ void setup()
   delay(10);
   Serial.println();
 
-  Serial.println(f16);
+  Serial.println(f16.toString(4));
 
   Serial.println("MATH III - negation");
   start = micros();
@@ -173,7 +173,7 @@ void setup()
   delay(10);
   Serial.println();
 
-  Serial.println(f18);
+  Serial.println(f18.toString(4));
 
   Serial.println("\ndone");
 }

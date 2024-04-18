@@ -24,8 +24,6 @@ void setup()
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
 
-  f16.setDecimals(6);
-
   test_all();
 
   Serial.println("\ndone");
@@ -96,7 +94,7 @@ void test_0()
     f16 = x;
     Serial.print(x);
     Serial.print("\t");
-    Serial.print(f16);
+    Serial.print(f16.toString(2));
     Serial.print("\t");
     Serial.print(f16.toDouble(), 2);
     Serial.print("\t");

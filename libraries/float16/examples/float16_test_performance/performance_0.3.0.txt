@@ -1,0 +1,53 @@
+
+//
+// test: UNO 
+//  IDE: 1.8.19
+//
+
+FLOAT16_LIB_VERSION: 0.3.0
+
+CONSTRUCTORS
+Constructor: 	28
+a = b: 	4
+
+CONVERSION
+toDouble(): 	360
+
+COMPARE
+compare == : 	12
+compare != : 	8
+compare <  : 	4
+compare <= : 	4
+compare >= : 	8
+compare >  : 	4
+
+MATH I
+math +  : 	756
+math -  : 	692
+math *  : 	692
+math /  : 	688
+
+MATH II
+math += : 	756
+math -= : 	692
+math *= : 	692
+math /= : 	704
+
+17.8125
+MATH III - negation
+negation : 	4
+
+-17.8125
+
+done
+
+
+------------------------------------------
+
+//
+// test: RP2040 
+//  IDE: 1.8.13
+//
+
+
+-------------------------------------------

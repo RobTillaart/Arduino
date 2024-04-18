@@ -1,7 +1,7 @@
 //
 //    FILE: float16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
@@ -15,16 +15,24 @@ float16::float16(double f)
   _value = f32tof16(f);
 }
 
-//  PRINTING
-size_t float16::printTo(Print& p) const
-{
-  double d = this->f16tof32(_value);
-  return p.print(d, _decimals);
-}
 
+//////////////////////////////////////////////////////////
+//
+//  CONVERTING & PRINTING
+//
 double float16::toDouble() const
 {
   return f16tof32(_value);
+}
+
+float float16::toFloat() const
+{
+  return f16tof32(_value);
+}
+
+String float16::toString(unsigned int decimals) const
+{
+  return String((double)f16tof32(_value), decimals);
 }
 
 
@@ -162,6 +170,16 @@ bool float16::isNaN()
 bool float16::isInf()
 {
   return ((_value == 0x7C00) || (_value == 0xFC00));
+}
+
+bool float16::isPosInf()
+{
+  return (_value == 0x7C00);
+}
+
+bool float16::isNegInf()
+{
+  return (_value == 0xFC00);
 }
 
 

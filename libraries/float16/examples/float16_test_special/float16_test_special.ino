@@ -31,14 +31,12 @@ void setup()
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
 
-  f16.setDecimals(6);
-
   for (int i = 0; i < 32; i++)
   {
     f16.setBinary(value[i]);
     Serial.print(value[i], HEX);
     Serial.print("\t");
-    Serial.print(f16);
+    Serial.print(f16.toString());
     Serial.print("\t");
     Serial.print(f16.toDouble(), 6);
     Serial.print("\t");
@@ -52,7 +50,7 @@ void setup()
     f16 = x;
     Serial.print(f16.getBinary(), HEX);
     Serial.print("\t");
-    Serial.print(f16);
+    Serial.print(f16.toString());
     Serial.print("\t");
     Serial.print(f16.toDouble(), 6);
     Serial.print("\t");

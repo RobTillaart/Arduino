@@ -99,9 +99,6 @@ There are however small differences, check the data sheets to see the details.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 - **bool begin(uint8_t mask = 0x00)**  set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
-- **bool isConnected(uint8_t address, uint8_t channel)** find address on selected channel.
-Note that this changes the selected and or enabled channels.
-Returns true if found.
 
 The derived classes PCA9548/PCA9546 have the same interface, except constructor.
 (see #15)
@@ -114,9 +111,17 @@ The derived classes PCA9548/PCA9546 have the same interface, except constructor.
 
 #### Find device
 
-- **bool isConnected(uint8_t address)** returns true if arbitrary address is found on I2C bus.
-This can be used to verify if a certain device is available (or not) on an **enabled** channel.
-So it does not scan all 8 channels to see if any of them has a device with the address given.
+- **bool isConnected(uint8_t address)** returns true if arbitrary address is found on the 
+current I2C bus + selected channels.
+This can be used to verify if a certain device is available (or not) on any **enabled** channel.
+So it does not scan all (8) channels to see if any of them has a device with the address given.
+- **bool isConnected(uint8_t address, uint8_t channel)** find address on selected channel.
+Note that this function changes the selected and or enabled channels.
+Returns true if found.
+- **uint8_t find(uint8_t address)** returns a mask with bits set for channels 
+where the address is found. It scans all channels available.
+Note that this function changes the selected and or enabled channels.
+Returns 0 when the address is not found on any channel, or one bit set per channel found.
 
 
 #### Channel functions
@@ -145,9 +150,10 @@ Optional the library can reset the device.
 - **void setResetPin(uint8_t resetPin)** sets the pin to reset the chip.
 - **void reset()** trigger the reset pin.
 
+
 #### Debug
 
-- **int getError()** returns the last I2C error.
+- **int getError()** returns the last (I2C) status / error.
 
 
 #### Forced IO
@@ -155,7 +161,8 @@ Optional the library can reset the device.
 When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**, will go to the device.
 If the **forced-IO** flag is set to false, it will cache the value of the channels enabled.
 This will result in far more responsive and faster calls.
-Note that writes are only optimized if the channels are already set.
+Note that writes are only optimized if the channels are already set.  
+Forced IO is also used to speed up **getChannelMask()**.
 
 - **void setForced(bool forced = false)** set forced write, slower but more robust.
   - forced == false == fast mode (default).
@@ -164,6 +171,8 @@ Note that writes are only optimized if the channels are already set.
 
 
 #### Interrupts
+
+(not tested)
 
 The PCA9545 and PCA9543 support interrupts. 
 These two derived classes have implemented the
@@ -200,6 +209,10 @@ Not implemented yet, preparation for future.
 - set an "always enabled" mask.
   - investigate the consequences!
 - extend the unit tests.
+- **uint8_t find(address)** returns a mask of channel where address is found
+- restore channel in **isConnected(address, channel);
+- add guard in **reset()**, is the pin set?
+
 
 #### Wont
 

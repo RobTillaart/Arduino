@@ -1,8 +1,10 @@
 //
-//    FILE: tca9548_search_device.ino
+//    FILE: TCA9548_search_device.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo TCA9548 I2C multiplexer
 //     URL: https://github.com/RobTillaart/TCA9548
+//
+//    NOTE: since 0.3.0 a find function is added.
 
 
 #include "TCA9548.h"
@@ -28,7 +30,7 @@ void setup()
   }
 
   Serial.println("\nScan the channels of the multiplexer for searchAddress.\n");
-  for (int chan = 0; chan < 8; chan++)
+  for (int chan = 0; chan < MP.channelCount(); chan++)
   {
     MP.selectChannel(chan);
     bool b = MP.isConnected(searchAddress);

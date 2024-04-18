@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2021-03-16
 // PURPOSE: Arduino Library for TCA9548 I2C multiplexer and compatibles.
 
@@ -45,7 +45,20 @@ bool TCA9548::isConnected(uint8_t address)
 bool TCA9548::isConnected(uint8_t address, uint8_t channel)
 {
   if (!selectChannel(channel)) return false;
-  return isConnected(_address);
+  return isConnected(address);
+}
+
+
+uint8_t TCA9548::find(uint8_t address)
+{
+  uint8_t mask = 0x00;
+  for (uint8_t ch = 0; ch < _channels; ch++)
+  {
+    //  will work partially if MP is off line (by choice).
+    selectChannel(ch);
+    if (isConnected(address)) mask |= (1 << ch);
+  }
+  return mask;
 }
 
 
@@ -58,30 +71,21 @@ uint8_t TCA9548::channelCount()
 bool TCA9548::enableChannel(uint8_t channel)
 {
   if (channel >= _channels) return false;
-  if (!isEnabled(channel))
-  {
-    setChannelMask(_mask | (0x01 << channel));
-  }
-  return true;
+  return setChannelMask(_mask | (0x01 << channel));
 }
 
 
 bool TCA9548::disableChannel(uint8_t channel)
 {
   if (channel >= _channels) return false;
-  if (!isEnabled(channel))
-  {
-    setChannelMask(_mask & ~(0x01 << channel));
-  }
-  return true;
+  return setChannelMask(_mask & ~(0x01 << channel));
 }
 
 
 bool TCA9548::selectChannel(uint8_t channel)
 {
   if (channel >= _channels) return false;
-  setChannelMask(0x01 << channel);
-  return true;
+  return setChannelMask(0x01 << channel);
 }
 
 

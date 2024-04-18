@@ -11,7 +11,9 @@ PCA9543	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+find	KEYWORD2
 
+channelCount	KEYWORD2
 enableChannel	KEYWORD2
 disableChannel	KEYWORD2
 selectChannel	KEYWORD2
@@ -29,6 +31,8 @@ getForced	KEYWORD2
 
 getError	KEYWORD2
 
+
+# Devices with interrupt
 getInterruptMask	KEYWORD2
 
 

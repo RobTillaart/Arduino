@@ -2,7 +2,7 @@
 //
 //    FILE: float16ext.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library to implement float16ext data type.
 //          half-precision floating point format,
 //          used for efficient storage and transport.
@@ -11,10 +11,10 @@
 
 #include "Arduino.h"
 
-#define FLOAT16EXT_LIB_VERSION                 (F("0.1.0"))
+#define FLOAT16EXT_LIB_VERSION                 (F("0.2.0"))
 
 
-class float16ext: public Printable
+class float16ext
 {
 public:
   //  Constructors
@@ -22,16 +22,14 @@ public:
   float16ext(double f);
   float16ext(const float16ext &f) { _value = f._value; };
 
-  //  Conversion
+  //  Conversion and printing
   double   toDouble(void) const;
-  //  access the 2 byte representation.
-  uint16_t getBinary()            { return _value; };
-  void     setBinary(uint16_t u)  { _value = u; };
+  float    toFloat() const;
+  String   toString(unsigned int decimals = 2) const;  //  keep esp32 happy.
 
-  //  Printable
-  size_t   printTo(Print& p) const;
-  void     setDecimals(uint8_t d) { _decimals = d; };
-  uint8_t  getDecimals()          { return _decimals; };
+  //  access the 2 byte representation.
+  uint16_t getBinary()           { return _value; };
+  void     setBinary(uint16_t u) { _value = u; };
 
   //  equalities
   bool     operator == (const float16ext& f);
@@ -62,13 +60,12 @@ public:
 
 
   //  CORE CONVERSION
-  //  should be private but for testing...
+  //  should be private, needed for testing.
   float    f16tof32(uint16_t) const;
   uint16_t f32tof16(float) const;
 
 
 private:
-  uint8_t  _decimals = 4;
   uint16_t _value;
 
 };

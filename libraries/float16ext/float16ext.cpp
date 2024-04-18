@@ -1,7 +1,7 @@
 //
 //    FILE: float16ext.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
@@ -15,16 +15,24 @@ float16ext::float16ext(double f)
   _value = f32tof16(f);
 }
 
-//  PRINTING
-size_t float16ext::printTo(Print& p) const
-{
-  double d = this->f16tof32(_value);
-  return p.print(d, _decimals);
-}
 
+//////////////////////////////////////////////////////////
+//
+//  CONVERTING & PRINTING
+//
 double float16ext::toDouble() const
 {
   return f16tof32(_value);
+}
+
+float float16ext::toFloat() const
+{
+  return f16tof32(_value);
+}
+
+String float16ext::toString(unsigned int decimals) const
+{
+  return String((double)f16tof32(_value), decimals);
 }
 
 
@@ -172,12 +180,7 @@ float float16ext::f16tof32(uint16_t _value) const
   {
     return sgn ? -0 : 0;
   }
-  //  NAN & INF
-  // if (exp == 0x001F)
-  // {
-    // if (man == 0) return sgn ? -INFINITY : INFINITY;
-    // else return NAN;
-  // }
+  //  NAN & INF not supported
 
   //  NORMAL
   if (exp > 0)

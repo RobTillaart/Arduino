@@ -21,8 +21,6 @@ void setup()
   Serial.print("FLOAT16EXT_LIB_VERSION: ");
   Serial.println(FLOAT16EXT_LIB_VERSION);
 
-  f16.setDecimals(6);
-
   test_all();
 
   Serial.println("\ndone");

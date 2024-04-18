@@ -85,6 +85,16 @@ unittest(test_constructor)
 }
 
 
+unittest(test_sizeof)
+{
+  float16ext value(1);
+  float16ext arr[10];
+
+  assertEqual(2, sizeof(value));
+  assertEqual(20, sizeof(arr));
+}
+
+
 unittest(test_compare_equal)
 {
   float16ext a(1);
@@ -153,19 +163,12 @@ unittest(test_conversion)
 }
 
 
-unittest(test_printable)
+unittest(test_toString)
 {
-  float16ext f16(123.456);
-  // test default value.
-  assertEqual(4, f16.getDecimals());
-  for (int i = 0; i < 6; i++)
-  {
-    f16.setDecimals(i);
-    assertEqual(i, f16.getDecimals());
-  }
-
-  //  TODO
-  // printable? how to test?
+  float16ext f16(-123.456);
+  fprintf(stderr, "note the limited accuracy (~4 digits).\n");
+  assertNotEqual("-123.456", f16.toString(3));
+  assertEqual("-123.4", f16.toString(1));
 }
 
 
@@ -184,17 +187,19 @@ unittest(test_all_values)
     b = a.toDouble();
     if (x != b.getBinary())  //  assert would give 65K lines output!
     {
-      fprintf(stderr, "fail at %d\n", x);
+      fprintf(stderr, "fail at %d != %d\n", x, b.getBinary());
     }
   }
+
   fprintf(stderr, "test all negative patterns\n");
+  fprintf(stderr, "only fails -0\n");
   for (uint32_t x = 0x8000; x < 0xFFFF; x++)
   {
     a.setBinary(x);
     b = a.toDouble();
     if (x != b.getBinary())
     {
-      fprintf(stderr, "fail at %d\n", x);
+      fprintf(stderr, "fail at %d != %d\n", x, b.getBinary());
     }
   }
 }

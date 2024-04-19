@@ -2,7 +2,7 @@
 //    FILE: DAC8571.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-16
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DAC8571 I2C.
 //     URL: https://github.com/RobTillaart/DAC8571
 
@@ -41,7 +41,7 @@ bool DAC8571::begin(uint16_t val)
 bool DAC8571::isConnected()
 {
   _wire->beginTransmission(_address);
-  _error = _wire->endTransmission();  //  default == 0 == DAC8571_OK
+  _error = _wire->endTransmission();  //  default == 0 ==> DAC8571_OK
   return (_error == DAC8571_OK);
 }
 
@@ -88,14 +88,14 @@ uint16_t DAC8571::read()
 {
   uint8_t highByte = 0;
   uint8_t lowByte  = 0;
-  uint8_t control  = 0;
+  //  uint8_t control  = 0;  //  not used.
 
   uint8_t n = _wire->requestFrom(_address, uint8_t(3));
   if (n == 3)
   {
     highByte = _wire->read();
     lowByte  = _wire->read();
-    control  = _wire->read();  //  not used.
+    _wire->read();    //  control  = _wire->read();  //  not used.
     _error = DAC8571_OK;
   }
   else
@@ -103,8 +103,6 @@ uint16_t DAC8571::read()
     _error = DAC8571_I2C_ERROR;
     return 0;
   }
-  //  keep compiler happy.
-  if (control == 0) _error = DAC8571_OK;
   _error = DAC8571_OK;
   uint16_t value = highByte * 256 + lowByte;
   return value;
@@ -142,11 +140,29 @@ bool DAC8571::write(uint16_t * arr, uint8_t length)
 
 //////////////////////////////////////////////////////////
 //
-//  MODE PART
+//  PERCENTAGE WRAPPER
+//
+void DAC8571::setPercentage(float percentage)
+{
+  if (percentage < 0) percentage = 0;
+  else if (percentage > 100) percentage = 100;
+  write(percentage * 655.35);
+}
+
+
+float DAC8571::getPercentage()
+{
+  return read() * 0.0015259022;  //  === / 655.35;
+}
+
+
+//////////////////////////////////////////////////////////
+//
+//  WRITE MODE PART
 //
 void DAC8571::setWriteMode(uint8_t mode)
 {
-  //  3 and 4 not supported.
+  //  broadcast modi (3,4,5) not supported.
   if (mode > DAC8571_MODE_WRITE_CACHE)
   {
     mode = DAC8571_MODE_NORMAL;
@@ -166,19 +182,38 @@ uint8_t DAC8571::getWriteMode()
 //
 //  POWER DOWN PART
 //
-void DAC8571::powerDown(uint8_t pMode)
+void DAC8571::powerDown(uint8_t pdMode)
 {
-  //  overwrite parameter for now.
+  uint16_t pdMask = 0x0000;
   //  table 6, page 22.
-  pMode = 0;
+  switch(pdMode)
+  {
+    default:
+    case DAC8571_PD_LOW_POWER:
+      pdMask  = 0x0000;
+      break;
+    case DAC8571_PD_FAST:
+      pdMask  = 0x2000;
+      break;
+    case DAC8571_PD_1_KOHM:
+      pdMask  = 0x4000;
+      break;
+    case DAC8571_PD_100_KOHM:
+      pdMask  = 0x8000;
+      break;
+    case DAC8571_PD_HI_Z:
+      pdMask  = 0xC000;
+      break;
+  }
+  //  specific power down code.
   _control = 0x11;
-  write(0);
+  write(pdMask);
 }
 
 
 void DAC8571::wakeUp(uint16_t value)
 {
-  _control = 0x10;
+  setWriteMode(DAC8571_MODE_NORMAL);
   write(value);
 }
 

@@ -13,7 +13,6 @@
 
 Arduino library for DAC8571 I2C 16 bit DAC.
 
-
 ## Description
 
 **Experimental**
@@ -81,6 +80,24 @@ Tested on Arduino UNO.
 |  400000  |  read()    |        |
 
 
+Test ESP32 (Kudos to Paul)
+
+|  Speed   |  write()  |  read()  |  write(array)  |  Notes  |
+|:--------:|:---------:|:--------:|:--------------:|:--------|
+|  50000   |  800.01   |  800.04  |                |
+|  100000  |  439.02   |  441.18  |  2100.01       |  array == 10 elements!
+|  200000  |  239.12   |  242.41  |  1090.82       |
+|  300000  |  178.05   |  181.81  |   757.57       |
+|  400000  |  148.94   |  156.83  |   595.24       |
+|  500000  |  131.57   |  142.93  |   497.99       |
+|  600000  |  120.68   |  136.35  |   428.59       |
+|  700000  |  113.19   |  130.40  |   384.64       |
+|  800000  |  108.12   |  128.18  |   351.85       |
+|  900000  |   98.21   |  106.67  |   317.45       |
+|  1000000 |   94.11   |   94.58  |   296.88       |
+
+
+
 #### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
@@ -132,9 +149,14 @@ Returns **true** if successful.
 
 The DAC8571 has one 16 bit DAC. The output value can be set from 0..65535.
 
-- **bool write(uint16_t value = 0)** writes a value 0..65535 to the DAC.
+- **bool write(uint16_t value)** writes a value 0..65535 to the DAC.
+NO default, user must explicit set value.
 - **uint16_t lastWrite()** get last value written from cache (fast).
 - **uint16_t read()** get last written value from device.
+
+Percentage wrappers
+- **void setPercentage(float perc)** set 0.00 .. 100.00
+- **float getPercentage()** returns 0.0 .. 100.0
 
 
 #### Write modi
@@ -159,9 +181,37 @@ Setting the mode will be applied for all writes until mode is changed.
 | other                    |  maps onto default **DAC8571_MODE_NORMAL**.
 
 
+#### Write multiple values - High speed mode.
+
+The maximum length depends on the internal I2C BUFFER of the board.
+For Arduino this is typical 32 bytes so it allows 14 values.
+
+- **void write(uint16_t arr[n], uint8_t length)** Writes a buffer with 
+max 14 values in one I2C call. 
+The last value written will be remembered in **lastWrite()**.
+
+
+#### Power Down mode
+
+To investigate: Mixes also with broadcast ==> complex API.
+
+- **void powerDown(uint8_t pdMode = 0)** default low power.
+- **void wakeUp(uint16_t value = 0)** wake up, DAC value set to zero by default.
+
+See table 6, page 22 datasheet for details.
+
+|  Power Down Mode       |  Meaning  |
+|:-----------------------|:----------|
+|  DAC8571_PD_LOW_POWER  |  170 uA
+|  DAC8571_PD_FAST       |  250 uA
+|  DAC8571_PD_1_KOHM     |  200 nA, GND 1 KOhm
+|  DAC8571_PD_100_KOHM   |  200 nA, GND 100 KOhm
+|  DAC8571_PD_HI_Z       |  200 nA, open circuit, high impedance
+
+
 #### Broadcast mode
 
-**Not supported yet**
+**Not supported**
 
 Different ways possible, need to investigate API. (page 19)
 
@@ -174,30 +224,10 @@ Three broadcast commands exists:
 |  DAC8571_MODE_BRCAST_2  | Power down all devices
 
 
-#### Power Down mode
-
-Different ways possible, need to investigate API. (table 6, page 22)  
-Mixes also with broadcast ==> complex API.
-
-Minimal interface is implemented to support default mode.
-
-- **void powerDown(uint8_t pMode = 0)** default power down only for now.
-- **void wakeUp(uint16_t value = 0)** wake up, value set to zero by default.
-
-
-#### Write multiple values - High speed mode.
-
-The maximum length depends on the internal I2C BUFFER of the board.
-For Arduino this is typical 32 bytes so it allows 14 values.
-
-- **void write(uint16_t arr[n], uint8_t length)** Writes a buffer with 
-max 14 values in one I2C call. 
-The last value written will be remembered in **lastWrite()**.
-
 
 #### Error codes
 
-- **int lastError()** always check this value after a read / write 
+- **int lastError()** always check this value after a read() / write() 
 to see if it was DAC8571_OK.
 After the call to **lastError()** the error value is reset to DAC8571_OK.
 
@@ -219,7 +249,6 @@ After the call to **lastError()** the error value is reset to DAC8571_OK.
 
 #### Should
 
-- implement more power down modes. (table 6, page 22)
 - extend performance table
 - replace magic numbers
 

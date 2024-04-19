@@ -11,7 +11,7 @@
 
 #include "DAC8571.h"
 
-DAC8571 dev(0x48);
+DAC8571 dev(0x4E);
 
 uint32_t start, stop;
 
@@ -21,6 +21,9 @@ volatile uint16_t x;
 void setup()
 {
   Serial.begin(115200);
+  while(!Serial);
+  delay(2000);
+
   Serial.println(__FILE__);
   Serial.print("DAC8571_LIB_VERSION: ");
   Serial.println(DAC8571_LIB_VERSION);
@@ -35,6 +38,10 @@ void setup()
     // while(1);
   }
   delay(100);
+
+  Serial.print("Address: ");
+  Serial.println(dev.getAddress(), HEX);
+  Serial.println();
 
   test1();
 

@@ -13,6 +13,9 @@ DAC8571 dev(0x4C);
 void setup()
 {
   Serial.begin(115200);
+  while(!Serial);
+  delay(2000);
+
   Serial.println(__FILE__);
   Serial.print("DAC8571_LIB_VERSION: ");
   Serial.println(DAC8571_LIB_VERSION);
@@ -24,7 +27,7 @@ void setup()
   dev.begin();  //  implicit 0
 
   Serial.print("Address: ");
-  Serial.println(dev.getAddress());
+  Serial.println(dev.getAddress(), HEX);
   Serial.println();
 }
 

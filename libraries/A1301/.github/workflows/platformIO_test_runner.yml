@@ -1,0 +1,63 @@
+#
+#  experimental
+#
+#  https://docs.github.com/en/actions/
+#  https://docs.github.com/en/actions/examples/using-concurrency-expressions-and-a-test-matrix
+#  https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+#
+
+name: PlatformIO CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        #  add examples manually.
+        #  ls -R examples/*/*.ino
+        #  test sketch can be commented with a #
+        example: [
+                   examples/A1301_autoMidPoint/A1301_autoMidPoint.ino,
+                   examples/A1301_demo/A1301_demo.ino,
+                   examples/A1301_determineNoise/A1301_determineNoise.ino,
+                   examples/A1301_performance/A1301_performance.ino,
+                   examples/A1301_plotter/A1301_plotter.ino,
+                   examples/A1301_test/A1301_test.ino,
+                   examples/A1301_test_saturation/A1301_test_saturation.ino
+                  ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{ runner.os }}-pio
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO Core
+        run: pip install --upgrade platformio
+
+      - name: Download library
+        run: |
+          wget https://github.com/${{github.repository}}/archive/${{github.ref_name}}.zip -O /tmp/${{github.ref_name}}.zip
+          unzip /tmp/${{github.ref_name}}.zip -d /tmp/${{github.actor}}
+
+      - name: Build PlatformIO examples
+        run: pio ci --lib "." --lib="/tmp/${{github.repository}}-${{github.ref_name}}" --board=esp32dev
+        env:
+          PLATFORMIO_CI_SRC: ${{ matrix.example }}
+          #  PLATFORMIO_BUILD_FLAGS: -D -Wall  # too much
+
+      - name: additional tests (experimental)
+        #  /home/runner/work/A1301/A1301 => all examples are there...
+        run: |
+          pwd
+

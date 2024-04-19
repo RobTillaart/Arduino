@@ -7,7 +7,6 @@
 //  to be used with Arduino Serial plotter
 
 
-#include "Arduino.h"
 #include "A1301.h"
 
 

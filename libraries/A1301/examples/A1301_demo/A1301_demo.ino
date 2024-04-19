@@ -5,7 +5,6 @@
 //     URL: https://github.com/RobTillaart/A1301
 
 
-#include "Arduino.h"
 #include "A1301.h"
 
 A1301 mm(A0);

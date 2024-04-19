@@ -1,4 +1,5 @@
 
+[![PlatformIO CI](https://github.com/RobTillaart/A1301/workflows/PlatformIO%20CI/badge.svg)](https://docs.platformio.org/en/latest/integration/ci/github-actions.html)
 [![Arduino CI](https://github.com/RobTillaart/A1301/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/A1301/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/A1301/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/A1301/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/A1301/actions/workflows/jsoncheck.yml)
@@ -7,6 +8,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/A1301/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/A1301.svg?maxAge=3600)](https://github.com/RobTillaart/A1301/releases)
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/A1301.svg)](https://registry.platformio.org/libraries/robtillaart/A1301)
+
+[![Commits since latest](https://img.shields.io/github/commits-since/RobTillaart/A1301/latest)](https://github.com/RobTillaart/A1301/commits/master)
 
 
 # A1301

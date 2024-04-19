@@ -1,7 +1,7 @@
 platforms:
   rpipico:
     board: rp2040:rp2040:rpipico
-    package: rp2040:rp2040
+    package: rp2040:rp2040               #  name:architecture:board
     gcc:
       features:
       defines:
@@ -9,9 +9,22 @@ platforms:
       warnings:
       flags:
 
+  teensy41:
+    board: teensy:Teensy:teensy41
+    package: teensy:Teensy
+    gcc:
+      features:
+      defines:
+        - ARDUINO_TEENSY41
+      warnings:
+      flags:
+
 packages:
   rp2040:rp2040:
     url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+  teensy:Teensy:
+    url: https://www.pjrc.com/teensy/package_teensy_index.json
+
 
 compile:
   # Choosing to run compilation tests on 2 different Arduino platforms
@@ -20,9 +33,10 @@ compile:
     # - due
     # - zero
     # - leonardo
-    - m4
+    #- m4
     - esp32
-    - esp8266
+    #- esp8266
     # - mega2560
     - rpipico
+    # - teensy41
 

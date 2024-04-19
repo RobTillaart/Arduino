@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2024-04-19
+- update GitHub actions
+- experimental PlatformIO build-CI
+- add PlatformIO build badge in readme.md
+- add Commits since last release badge in readme.md
+- experimental Teensy build (no success yet)
+- minor edits in examples.
+
+
 ## [0.2.2] - 2024-01-01
 - add **float autoMidPoint(times)**
 - add examples 
 - update readme.md
-
 
 ## [0.2.1] - 2023-09-19
 - add **bool isRising()** and **bool isFalling()**

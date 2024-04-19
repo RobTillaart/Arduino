@@ -2,9 +2,9 @@
 //    FILE: A1301_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo A1301 A1302 magnetometer.
+//     URL: https://github.com/RobTillaart/A1301
 
 
-#include "Arduino.h"
 #include "A1301.h"
 
 A1301 mm(A0);

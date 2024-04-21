@@ -20,6 +20,8 @@ Arduino Library for external I2C EEPROM - 24LC512, 24LC256, 24LC64/32/16/08/04/0
 This library is to access external I2C EEPROM up to 64KB (= 512 Kbit) in size.
 MicroChip 24LC512, 24LC256, 24LC64, 24LC32, 24LC16, 24LC08, 24LC04, 24LC02, 24LC01 and equivalents.
 
+Also confirmed working M24512-W, M24512-R, M24512-DF (See #68). 
+Not supported is the identification page functions.
 
 The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_store.md)
 

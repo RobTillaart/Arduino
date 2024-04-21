@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_verify.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library - updateByte
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
 // uses a 24LC256 (32KB) EEPROM
 
@@ -38,7 +39,7 @@ void setup()
   Serial.println("\n");
   Serial.println("\nTEST: NN x writeByte()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -51,7 +52,7 @@ void setup()
 
   Serial.println("\nTEST: NN x writeByteVerify()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -96,7 +97,7 @@ void setup()
 
   Serial.println("\nTEST: NN x updateByteVerify() not same data");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -129,7 +130,7 @@ void setup()
 
   Serial.println("\nTEST: NN x writeBlockVerify()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -176,7 +177,7 @@ void setup()
   strcpy(buffer, "98765432109876543210987654321098765432109876543210");  //  50 bytes
   Serial.println("\nTEST: NN x updateBlockVerify() not same data");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -194,7 +195,7 @@ void setup()
 
   Serial.println("\nTEST: NN x setBlock() same data");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -207,7 +208,7 @@ void setup()
 
   Serial.println("\nTEST: NN x setBlockVerify() same data");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < NN; i++)
   {
@@ -245,4 +246,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

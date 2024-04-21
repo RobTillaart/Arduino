@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_determineSizeNoWrite.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test determineSizeNoWrite() function
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "Wire.h"

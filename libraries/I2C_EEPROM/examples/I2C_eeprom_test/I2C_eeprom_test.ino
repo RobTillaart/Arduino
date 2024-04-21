@@ -2,18 +2,19 @@
 //    FILE: I2C_eeprom_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: show/test I2C_EEPROM library
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
-// uses a 24LC256 (32KB) EEPROM
-// might need adaptions for other EEPROMS (page size etc)
+//  uses a 24LC256 (32KB) EEPROM
+//  might need adaptions for other EEPROMS (page size etc)
 
 
 #include "Wire.h"
 #include "I2C_eeprom.h"
 
 
-// UNO
+//  UNO
 #define SERIAL_OUT Serial
-// Due
+//  Due
 // #define SERIAL_OUT SerialUSB
 
 
@@ -247,5 +248,5 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

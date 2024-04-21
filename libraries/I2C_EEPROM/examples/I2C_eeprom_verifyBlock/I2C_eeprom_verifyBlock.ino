@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_verifyBlock.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
 // uses a 24LC256 (32KB) EEPROM
 

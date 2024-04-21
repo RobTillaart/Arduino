@@ -2,16 +2,16 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.3
+// VERSION: 1.8.4
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
-//     URL: https://github.com/RobTillaart/I2C_EEPROM.git
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.8.3"))
+#define I2C_EEPROM_VERSION          (F("1.8.4"))
 
 #define I2C_DEVICESIZE_24LC512      65536
 #define I2C_DEVICESIZE_24LC256      32768
@@ -32,6 +32,15 @@
 #ifndef I2C_WRITEDELAY
 #define I2C_WRITEDELAY              5000
 #endif
+
+
+//  set the flag EN_AUTO_WRITE_PROTECT to 1 to enable the Write Control at compile time 
+//  used if the write_protect pin is explicitly set in the begin() function.
+//  the flag can be set as command line option.
+#ifndef EN_AUTO_WRITE_PROTECT
+#define EN_AUTO_WRITE_PROTECT       0
+#endif
+
 
 #ifndef UNIT_TEST_FRIEND
 #define UNIT_TEST_FRIEND
@@ -162,11 +171,11 @@ private:
   //  TODO incrBuffer is an implementation name, not a functional name.
   int      _pageBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer);
   //  returns I2C status, 0 = OK
-  int      _WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length);
+  int      _WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
   //  returns bytes read.
-  uint8_t  _ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint8_t length);
+  uint8_t  _ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length);
   //  compare bytes in EEPROM.
-  bool     _verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length);
+  bool     _verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
 
   //  to optimize the write latency of the EEPROM
   void     _waitEEReady();
@@ -176,7 +185,7 @@ private:
   bool     _debug = false;
 
   int8_t   _writeProtectPin = -1;
-  bool     _autoWriteProtect = false;
+  bool     _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
 
   UNIT_TEST_FRIEND;
 };

@@ -3,20 +3,20 @@
 //  AUTHOR: Tomas Hübner
 // VERSION: 1.0.0
 // PURPOSE: Simple example of how to use cyclic storage.
-//
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include <I2C_eeprom.h>
 #include <I2C_eeprom_cyclic_store.h>
 
-#define MEMORY_SIZE 0x2000 // Total capacity of the EEPROM
-#define PAGE_SIZE 64 // Size of write page of device, use datasheet to find!
+#define MEMORY_SIZE 8192      //  Total capacity of the EEPROM (8K == 8192 == 0x2000)
+#define PAGE_SIZE 64          //  Size of write page of device, use datasheet to find!
 
 
 struct SampleData {
 public:
   uint32_t counter;
-  // Must use fixed length string, avoid using the String class.
+  //  Must use fixed length string, avoid using the String class.
   char message[32];
 };
 

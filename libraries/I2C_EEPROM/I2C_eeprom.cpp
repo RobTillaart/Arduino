@@ -1,9 +1,9 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.3
+// VERSION: 1.8.4
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
-//     URL: https://github.com/RobTillaart/I2C_EEPROM.git
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "I2C_eeprom.h"
@@ -60,6 +60,7 @@ bool I2C_eeprom::begin(int8_t writeProtectPin)
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
   {
+    _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
     pinMode(_writeProtectPin, OUTPUT);
     preventWrite();
   }
@@ -131,38 +132,38 @@ uint8_t I2C_eeprom::readByte(const uint16_t memoryAddress)
 //  returns bytes read.
 uint16_t I2C_eeprom::readBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length)
 {
-  uint16_t addr = memoryAddress;
+  uint16_t address = memoryAddress;
   uint16_t len = length;
-  uint16_t rv = 0;
+  uint16_t bytes = 0;
   while (len > 0)
   {
-    uint8_t cnt = I2C_BUFFERSIZE;
-    if (cnt > len) cnt = len;
-    rv     += _ReadBlock(addr, buffer, cnt);
-    addr   += cnt;
-    buffer += cnt;
-    len    -= cnt;
+    uint8_t count = I2C_BUFFERSIZE;
+    if (count > len) count = len;
+    bytes   += _ReadBlock(address, buffer, count);
+    address += count;
+    buffer  += count;
+    len     -= count;
   }
-  return rv;
+  return bytes;
 }
 
 
 //  returns true or false.
 bool I2C_eeprom::verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
-  uint16_t addr = memoryAddress;
+  uint16_t address = memoryAddress;
   uint16_t len = length;
   while (len > 0)
   {
-    uint8_t cnt = I2C_BUFFERSIZE;
-    if (cnt > len) cnt = len;
-    if (_verifyBlock(addr, buffer, cnt) == false)
+    uint8_t count = I2C_BUFFERSIZE;
+    if (count > len) count = len;
+    if (_verifyBlock(address, buffer, count) == false)
     {
       return false;
     }
-    addr   += cnt;
-    buffer += cnt;
-    len    -= cnt;
+    address += count;
+    buffer  += count;
+    len     -= count;
   }
   return true;
 }
@@ -184,25 +185,25 @@ int I2C_eeprom::updateByte(const uint16_t memoryAddress, const uint8_t data)
 //  returns bytes written.
 uint16_t I2C_eeprom::updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
-  uint16_t addr = memoryAddress;
+  uint16_t address = memoryAddress;
   uint16_t len = length;
-  uint16_t rv = 0;
+  uint16_t bytes = 0;
   while (len > 0)
   {
     uint8_t buf[I2C_BUFFERSIZE];
-    uint8_t cnt = I2C_BUFFERSIZE;
+    uint8_t count = I2C_BUFFERSIZE;
 
-    if (cnt > len) cnt = len;
-    rv     += _ReadBlock(addr, buf, cnt);
-    if (memcmp(buffer, buf, cnt) != 0)
+    if (count > len) count = len;
+    bytes += _ReadBlock(address, buf, count);
+    if (memcmp(buffer, buf, count) != 0)
     {
-      _pageBlock(addr, buffer, cnt, true);
+      _pageBlock(address, buffer, count, true);
     }
-    addr   += cnt;
-    buffer += cnt;
-    len    -= cnt;
+    address += count;
+    buffer  += count;
+    len     -= count;
   }
-  return rv;
+  return bytes;
 }
 
 
@@ -305,12 +306,12 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
     uint8_t buf = readByte(size);
 
     //  test folding
-    uint8_t cnt = 0;
+    uint8_t count = 0;
     writeByte(size, pat55);
-    if (readByte(0) == pat55) cnt++;
+    if (readByte(0) == pat55) count++;
     writeByte(size, patAA);
-    if (readByte(0) == patAA) cnt++;
-    folded = (cnt == 2);
+    if (readByte(0) == patAA) count++;
+    folded = (count == 2);
     if (debug)
     {
       SPRNH(size, HEX);
@@ -326,6 +327,7 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
   }
   return 0;
 }
+
 
 //  new 1.8.1 #61
 //  updated 1.8.2 #63
@@ -344,7 +346,7 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
   if (!isConnected()) return 0;
 
   bool addressSize = _isAddressSizeTwoWords;
-  _isAddressSizeTwoWords = true; //Otherwise reading large EEPROMS fails
+  _isAddressSizeTwoWords = true;  //  Otherwise reading large EEPROMS fails
   bool isModifiedFirstSector = false;
   bool dataIsDifferent = false;
 
@@ -356,8 +358,8 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
   {
       if (dataIsDifferent || pos == 0)
       {
-          //ignore futher comparison if dataFirstBytes is not the same in buffer
-          //Ignore first byte
+          //  ignore further comparison if dataFirstBytes is not the same in buffer
+          //  Ignore first byte
       }
       else if (dataFirstBytes[pos - 1] != dataFirstBytes[pos])
       {
@@ -366,7 +368,7 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
 
       if (dataFirstBytes[pos] != 0xFF && dataFirstBytes[pos] != 0x00)
       {
-          //Default dataFirstBytes value is 0xFF or 0x00
+          //  Default dataFirstBytes value is 0xFF or 0x00
           isModifiedFirstSector = true;
       }
 
@@ -376,31 +378,34 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
 
   if (!isModifiedFirstSector)
   {
-      //Cannot determine diff, at least one of the first bytes within 0 - len [BUFSIZE] needs to be changed.
-      //to something other than 0x00 and 0xFF
+      //  Cannot determine diff, at least one of the first bytes within 0 - len [BUFSIZE] needs to be changed
+      //  to something other than 0x00 and 0xFF
       _isAddressSizeTwoWords = addressSize;
       return 1;
   }
   if (!dataIsDifferent)
   {
-      //Data in first bytes within 0 - len [BUFSIZE] are all the same.
+      //  Data in first bytes within 0 - len [BUFSIZE] are all the same.
       _isAddressSizeTwoWords = addressSize;
       return 2;
   }
 
-  //Read from larges to smallest size
+  //  Read from largest to smallest size
   for (uint32_t size = 32768; size >= 64; size /= 2)
   {
     _isAddressSizeTwoWords = (size >= I2C_DEVICESIZE_24LC16);  //  == 2048
 
-    // Try to read last byte of the block, should return length of 0 when fails for single byte devices
-    // Will return the same dataFirstBytes as initialy read on other devices as the datapointer could not be moved to the requested position
+    //  Try to read last byte of the block, should return length of 0 when fails for single byte devices
+    //  Will return the same dataFirstBytes as initially read on other devices 
+    //  as the data pointer could not be moved to the requested position
     delay(2);
     uint16_t bSize = readBlock(size, dataMatch, BUFSIZE);
 
     if (bSize == BUFSIZE && memcmp(dataFirstBytes, dataMatch, BUFSIZE) != 0)
     {
-        //Read is perfomed just over size (size + BUFSIZE), this will only work for devices with mem > size; therefore return size * 2
+        //  Read is performed just over size (size + BUFSIZE), 
+        //  this will only work for devices with mem > size;
+        //  therefore return size * 2
         _isAddressSizeTwoWords = addressSize;
         return size * 2;
     }
@@ -542,22 +547,22 @@ bool I2C_eeprom::getAutoWriteProtect()
 //  returns 0 = OK otherwise error
 int I2C_eeprom::_pageBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length, const bool incrBuffer)
 {
-  uint16_t addr = memoryAddress;
+  uint16_t address = memoryAddress;
   uint16_t len = length;
   while (len > 0)
   {
-    uint8_t bytesUntilPageBoundary = this->_pageSize - addr % this->_pageSize;
+    uint8_t bytesUntilPageBoundary = this->_pageSize - address % this->_pageSize;
 
-    uint8_t cnt = I2C_BUFFERSIZE;
-    if (cnt > len) cnt = len;
-    if (cnt > bytesUntilPageBoundary) cnt = bytesUntilPageBoundary;
+    uint8_t count = I2C_BUFFERSIZE;
+    if (count > len) count = len;
+    if (count > bytesUntilPageBoundary) count = bytesUntilPageBoundary;
 
-    int rv = _WriteBlock(addr, buffer, cnt);
+    int rv = _WriteBlock(address, buffer, count);
     if (rv != 0) return rv;
 
-    addr += cnt;
-    if (incrBuffer) buffer += cnt;
-    len -= cnt;
+    address += count;
+    if (incrBuffer) buffer += count;
+    len -= count;
   }
   return 0;
 }
@@ -574,8 +579,8 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
   }
   else
   {
-    uint8_t addr = _deviceAddress | ((memoryAddress >> 8) & 0x07);
-    _wire->beginTransmission(addr);
+    uint8_t address = _deviceAddress | ((memoryAddress >> 8) & 0x07);
+    _wire->beginTransmission(address);
   }
 
   //  Address Low Byte
@@ -586,7 +591,7 @@ void I2C_eeprom::_beginTransmission(const uint16_t memoryAddress)
 
 //  pre: length <= this->_pageSize  && length <= I2C_BUFFERSIZE;
 //  returns 0 = OK otherwise error
-int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length)
+int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   _waitEEReady();
   if (_autoWriteProtect)
@@ -624,7 +629,7 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer
 
 //  pre: buffer is large enough to hold length bytes
 //  returns bytes read
-uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint8_t length)
+uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, const uint16_t length)
 {
   _waitEEReady();
 
@@ -650,14 +655,14 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
   }
   else
   {
-    uint8_t addr = _deviceAddress | ((memoryAddress >> 8) & 0x07);
-    readBytes = _wire->requestFrom(addr, length);
+    uint8_t address = _deviceAddress | ((memoryAddress >> 8) & 0x07);
+    readBytes = _wire->requestFrom(address, length);
   }
   yield();     //  For OS scheduling
-  uint8_t cnt = 0;
-  while (cnt < readBytes)
+  uint8_t count = 0;
+  while (count < readBytes)
   {
-    buffer[cnt++] = _wire->read();
+    buffer[count++] = _wire->read();
   }
   return readBytes;
 }
@@ -665,7 +670,7 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
 
 //  compares content of EEPROM with buffer.
 //  returns true if equal.
-bool I2C_eeprom::_verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint8_t length)
+bool I2C_eeprom::_verifyBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length)
 {
   _waitEEReady();
 
@@ -691,14 +696,14 @@ bool I2C_eeprom::_verifyBlock(const uint16_t memoryAddress, const uint8_t * buff
   }
   else
   {
-    uint8_t addr = _deviceAddress | ((memoryAddress >> 8) & 0x07);
-    readBytes = _wire->requestFrom(addr, length);
+    uint8_t address = _deviceAddress | ((memoryAddress >> 8) & 0x07);
+    readBytes = _wire->requestFrom(address, length);
   }
   yield();     //  For OS scheduling
-  uint8_t cnt = 0;
-  while (cnt < readBytes)
+  uint8_t count = 0;
+  while (count < readBytes)
   {
-    if (buffer[cnt++] != _wire->read())
+    if (buffer[count++] != _wire->read())
     {
       return false;
     }

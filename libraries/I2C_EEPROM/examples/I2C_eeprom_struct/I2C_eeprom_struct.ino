@@ -2,9 +2,10 @@
 //    FILE: I2C_eeprom_struct.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library store /retrieve struct
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
-// uses a 24LC256 (32KB) EEPROM
-// as this test writes a lot it might wear out EEPROMs eventually.
+//  uses a 24LC256 (32KB) EEPROM
+//  as this test writes a lot it might wear out EEPROMs eventually.
 //
 
 
@@ -44,15 +45,15 @@ void setup()
   Serial.print("size: \t");
   Serial.println(sizeof(measurement));
 
-  // clear EEPROM part
+  //  clear EEPROM part
   ee.setBlock(0, 0, sizeof(measurement));
 
-  // make measurement here
+  //  make measurement here
   measurement.temperature = 22.5;
   measurement.humidity    = 53.1;
   measurement.pressure    = 1000.9;
 
-  // store it in EEPROM
+  //  store it in EEPROM
   start = micros();
   ee.writeBlock(0, (uint8_t *) &measurement, sizeof(measurement));
   duration = micros() - start;
@@ -60,12 +61,12 @@ void setup()
   Serial.println(duration);
   delay(10);
 
-  // clear measurement struct
+  //  clear measurement struct
   measurement.temperature = 0;
   measurement.humidity    = 0;
   measurement.pressure    = 0;
 
-  // retrieve old measurement
+  //  retrieve old measurement
   start = micros();
   ee.readBlock(0, (uint8_t *) &measurement, sizeof(measurement));
   duration = micros() - start;
@@ -89,5 +90,5 @@ void loop()
 }
 
 
-// -- END OF FILE
+//  -- END OF FILE
 

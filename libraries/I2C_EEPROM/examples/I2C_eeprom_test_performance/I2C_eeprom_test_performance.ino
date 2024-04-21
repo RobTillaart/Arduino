@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_test_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test I2C_EEPROM library
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "Wire.h"
@@ -94,7 +95,7 @@ void test()
   Serial.println(totals);
   totals = 0;
 
-  // same tests but now with a 5 millisec delay in between.
+  //  same tests but now with a 5 milliseconds delay in between.
   delay(5);
 
   Serial.print("\nTEST: timing writeByte()\t");
@@ -180,5 +181,5 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

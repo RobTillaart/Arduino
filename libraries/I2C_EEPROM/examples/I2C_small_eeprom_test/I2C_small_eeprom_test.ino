@@ -3,6 +3,7 @@
 //  AUTHOR: Tyler Freeman
 // VERSION: 0.1.1
 // PURPOSE: show/test I2C_EEPROM library with small EEPROMS
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 // HISTORY
 // 0.1.0    2014-05-xx initial version
 // 0.1.1    2020-07-14 fix #1 compile for ESP; fix author

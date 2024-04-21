@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_determineSize.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test determinSize() function
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "Wire.h"
@@ -34,7 +35,7 @@ void setup()
   delay(10);
 
   start = micros();
-  uint32_t size = ee.determineSize(false);  // debug param
+  uint32_t size = ee.determineSize(false);  //  debug parameter
   diff = micros() - start;
   Serial.print("TIME: ");
   Serial.print(diff);
@@ -70,5 +71,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

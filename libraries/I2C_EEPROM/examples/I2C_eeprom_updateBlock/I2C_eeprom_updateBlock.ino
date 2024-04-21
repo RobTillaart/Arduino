@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_updateBlock.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library - performance gain updateBlock
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
 // uses a 24LC256 (32KB) EEPROM
 // as this test writes a lot it might wear out EEPROMs eventually.
@@ -58,7 +59,7 @@ void test_1(int n)
   Serial.println(n);
   Serial.print("TEST:\twriteBlock()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < n; i++) ee.writeBlock(0, ar, 100);
   dur1 = micros() - start;
@@ -77,7 +78,7 @@ void test_1(int n)
 
   Serial.print("TEST:\tupdateBlock()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < n; i++) ee.updateBlock(0, ar, 100);
   dur1 = micros() - start;
@@ -92,7 +93,7 @@ void test_2()
 {
   Serial.println("\nTEST: 100x writeBlock()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < 100; i++)
   {
@@ -106,7 +107,7 @@ void test_2()
 
 
   Serial.println("\nTEST: 100x updateBlock()");
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < 100; i++)
   {
@@ -122,7 +123,7 @@ void test_2()
 
 void dump(uint32_t from, uint32_t to)
 {
-  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_24LC512
+  for (uint32_t i = from; i < to; i++)  //  I2C_DEVICESIZE_24LC512
   {
     char buffer[24];
     if (i % 16 == 0)
@@ -143,5 +144,5 @@ void dump(uint32_t from, uint32_t to)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

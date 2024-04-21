@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.8.4] - 2024-04-20
+- Fix #70, increase length internal buffer.
+- add compile time flag **EN_AUTO_WRITE_PROTECT** (thanks to microfoundry)
+- improve readability: cnt => count  addr => address
+- add URL to examples
+- minor edits.
+
+
 ## [1.8.3] - 2024-03-28
 - Fix #64, compiler warning.
 - add **verifyBlock(memoryAddress, buffer, length)**
@@ -14,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords.txt
 - update examples
 - update readme.md
-
 
 ## [1.8.2] - 2024-01-02
 - updated **uint32_t determineSizeNoWrite()**, kudos to roelandkluit

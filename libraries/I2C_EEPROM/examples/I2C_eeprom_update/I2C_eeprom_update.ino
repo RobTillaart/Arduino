@@ -2,8 +2,9 @@
 //    FILE: I2C_eeprom_update.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo I2C_EEPROM library - updateByte
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 //
-// uses a 24LC256 (32KB) EEPROM
+//  uses a 24LC256 (32KB) EEPROM
 
 
 #include "Wire.h"
@@ -52,7 +53,7 @@ void setup()
 
   Serial.println("\nTEST: 100x writebyte()");
   delay(10);
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < 100; i++)
   {
@@ -64,7 +65,7 @@ void setup()
   delay(10);
 
   Serial.println("\nTEST: 100x updateByte()");
-  ee.setBlock(0, 0, 100);  // clear first 100 bytes
+  ee.setBlock(0, 0, 100);  //  clear first 100 bytes
   start = micros();
   for (int i = 0; i < 100; i++)
   {
@@ -84,5 +85,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

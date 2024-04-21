@@ -2,6 +2,7 @@
 //    FILE: I2C_eeprom_format.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo format EEPROM
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "Wire.h"
@@ -32,7 +33,7 @@ void setup()
 
 
   Serial.println();
-  uint32_t size = ee.determineSize(false);  // debug param
+  uint32_t size = ee.determineSize(false);  //  debug parameter
   if (size == 0)
   {
     Serial.println("SIZE: could not determine size");
@@ -85,4 +86,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

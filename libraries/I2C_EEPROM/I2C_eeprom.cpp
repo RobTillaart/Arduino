@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.4
+// VERSION: 1.8.5
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM
 
@@ -651,12 +651,12 @@ uint8_t I2C_eeprom::_ReadBlock(const uint16_t memoryAddress, uint8_t * buffer, c
   uint8_t readBytes = 0;
   if (this->_isAddressSizeTwoWords)
   {
-    readBytes = _wire->requestFrom(_deviceAddress, length);
+    readBytes = _wire->requestFrom((int)_deviceAddress, (int)length);
   }
   else
   {
     uint8_t address = _deviceAddress | ((memoryAddress >> 8) & 0x07);
-    readBytes = _wire->requestFrom(address, length);
+    readBytes = _wire->requestFrom((int)address, (int)length);
   }
   yield();     //  For OS scheduling
   uint8_t count = 0;
@@ -692,12 +692,12 @@ bool I2C_eeprom::_verifyBlock(const uint16_t memoryAddress, const uint8_t * buff
   uint8_t readBytes = 0;
   if (this->_isAddressSizeTwoWords)
   {
-    readBytes = _wire->requestFrom(_deviceAddress, length);
+    readBytes = _wire->requestFrom((int)_deviceAddress, (int)length);
   }
   else
   {
     uint8_t address = _deviceAddress | ((memoryAddress >> 8) & 0x07);
-    readBytes = _wire->requestFrom(address, length);
+    readBytes = _wire->requestFrom((int)address, (int)length);
   }
   yield();     //  For OS scheduling
   uint8_t count = 0;

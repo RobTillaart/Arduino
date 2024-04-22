@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.5.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -33,13 +33,13 @@
 
 ////////////////////////////////////////////////////////
 //
-//  Constructor
+//  CONSTRUCTOR
 //
 INA226::INA226(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
-  //  not calibrated values by default.
+  //  no calibrated values by default.
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
@@ -68,7 +68,7 @@ uint8_t INA226::getAddress()
 
 ////////////////////////////////////////////////////////
 //
-//  Core functions
+//  CORE FUNCTIONS
 //
 float INA226::getBusVoltage()
 {
@@ -94,7 +94,7 @@ float INA226::getCurrent()
 float INA226::getPower()
 {
   uint16_t val = _readRegister(INA226_POWER);
-  return val * 25 * _current_LSB;  //  fixed 25 Watt
+  return val * (_current_LSB * 25);  //  fixed 25 Watt
 }
 
 
@@ -118,7 +118,7 @@ bool INA226::waitConversionReady(uint32_t timeout)
 
 ////////////////////////////////////////////////////////
 //
-//  Configuration
+//  CONFIGURATION
 //
 bool INA226::reset()
 {
@@ -197,7 +197,7 @@ uint8_t INA226::getShuntVoltageConversionTime()
 
 ////////////////////////////////////////////////////////
 //
-//  Calibration
+//  CALIBRATION
 //
 int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 {
@@ -242,12 +242,12 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
        currentLSB(min) ~= 7.8125e-8 / shunt
     */
     if ( 7.8125e-8 / shunt > _current_LSB ) {
-      // shunt resistor determines currentLSB -> take this a starting point for currentLSB
+      //  shunt resistor determines currentLSB -> take this a starting point for currentLSB
       _current_LSB = 7.8125e-8 / shunt;
     }
 
     #ifdef printdebug
-      Serial.print("Prescale current_LSB:\t");
+      Serial.print("Pre-scale current_LSB:\t");
       Serial.print(_current_LSB * 1e+6, 1);
       Serial.println(" uA / bit");
     #endif
@@ -324,7 +324,7 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 
 ////////////////////////////////////////////////////////
 //
-//  operating mode
+//  OPERATING MODE
 //
 bool INA226::setMode(uint8_t mode)
 {
@@ -347,7 +347,7 @@ uint8_t INA226::getMode()
 
 ////////////////////////////////////////////////////////
 //
-//  alert
+//  ALERT
 //
 bool INA226::setAlertRegister(uint16_t mask)
 {
@@ -381,7 +381,7 @@ uint16_t INA226::getAlertLimit()
 
 ////////////////////////////////////////////////////////
 //
-//  meta information
+//  META INFORMATION
 //
 uint16_t INA226::getManufacturerID()
 {

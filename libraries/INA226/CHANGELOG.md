@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.5] - 2024-04-22
+- Fix possible overflow in **getPower()**
+
+
 ## [0.5.4] - 2024-04-04
 - add multi device and array example
 - add address table to readme.md

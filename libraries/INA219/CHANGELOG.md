@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2024-04-22
+- Bump version after Fix #17, Kudos to ChrisRed255
+
+
 ## [0.3.0] - 2024-03-15
 - Fix #14, change round to truncate.
 - update GitHub actions to v4

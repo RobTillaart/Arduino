@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -40,7 +40,7 @@ INA219::INA219(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
-  //  not calibrated values by default.
+  //  no calibrated values by default.
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
@@ -75,7 +75,7 @@ uint8_t INA219::getAddress()
 float INA219::getShuntVoltage()
 {
   uint16_t value = _readRegister(INA219_SHUNT_VOLTAGE);
-  return value * 1e-5;    //  fixed 10 uV
+  return value * 1e-5;  //  fixed 10 uV
 }
 
 
@@ -85,8 +85,8 @@ float INA219::getBusVoltage()
   uint8_t flags = value & 0x03;
   //  math overflow handling
   if (flags & 0x01) return -100;
-  //  if flags && 0x02 ==> convert flag; not handled
-  float voltage = (value >> 3)  * 4e-3;   //  fixed 4 mV
+  //  if flags && 0x02 ==> convert flag;  not handled
+  float voltage = (value >> 3) * 4e-3;  //  fixed 4 mV
   return voltage;
 }
 
@@ -94,7 +94,7 @@ float INA219::getBusVoltage()
 float INA219::getPower()
 {
   uint16_t value = _readRegister(INA219_POWER);
-  return value * 20 * _current_LSB;
+  return value * (_current_LSB * 20);  //  fixed 20 Watt
 }
 
 //  TODO CHECK
@@ -129,7 +129,7 @@ bool INA219::reset()
   uint16_t config = _readRegister(INA219_CONFIGURATION);
   config |= 0x8000;
   uint16_t wrrv = _writeRegister(INA219_CONFIGURATION, config);
-  // reset calibration
+  //  reset calibration
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;

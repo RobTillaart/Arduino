@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.3.0"))
+#define INA219_LIB_VERSION              (F("0.3.1"))
 
 
 class INA219

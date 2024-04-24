@@ -2,9 +2,7 @@
 //    FILE: fractionExerciser.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch for fraction math
-//    DATE: 2015-03-29
 //     URL: https://github.com/RobTillaart/Fraction
-//
 
 
 #include "fraction.h"
@@ -88,14 +86,14 @@ int add(int n)
   {
     Fraction a(1 + random(9), 1 + random(9));
     Fraction b(1 + random(9), 1 + random(9));
-    Serial.print(a);
+    Serial.print(a.toString());
     Serial.print(" + ");
-    Serial.print(b);
+    Serial.print(b.toString());
     Serial.print(" = ");
     Fraction c = readFraction();
-    Serial.print(c);
+    Serial.print(c.toString());
     Serial.print("\t\t");
-    Serial.println(a + b);
+    Serial.println((a + b).toString());
 
     if (c == a + b ) count++;
   }
@@ -111,14 +109,14 @@ int sub(int n)
   {
     Fraction a(1 + random(9), 1 + random(9));
     Fraction b(1 + random(9), 1 + random(9));
-    Serial.print(a);
+    Serial.print(a.toString());
     Serial.print(" - ");
-    Serial.print(b);
+    Serial.print(b.toString());
     Serial.print(" = ");
     Fraction c = readFraction();
-    Serial.print(c);
+    Serial.print(c.toString());
     Serial.print("\t\t");
-    Serial.println(a - b);
+    Serial.println((a - b).toString());
 
     if (c == a - b ) count++;
   }
@@ -134,14 +132,14 @@ int mul(int n)
   {
     Fraction a(1 + random(9), 1 + random(9));
     Fraction b(1 + random(9), 1 + random(9));
-    Serial.print(a);
+    Serial.print(a.toString());
     Serial.print(" * ");
-    Serial.print(b);
+    Serial.print(b.toString());
     Serial.print(" = ");
     Fraction c = readFraction();
-    Serial.print(c);
+    Serial.print(c.toString());
     Serial.print("\t\t");
-    Serial.println(a * b);
+    Serial.println((a * b).toString());
 
     if (c == a * b ) count++;
   }
@@ -157,14 +155,14 @@ int div(int n)
   {
     Fraction a(1 + random(9), 1 + random(9));
     Fraction b(1 + random(9), 1 + random(9));
-    Serial.print(a);
+    Serial.print(a.toString());
     Serial.print(" / ");
-    Serial.print(b);
+    Serial.print(b.toString());
     Serial.print(" = ");
     Fraction c = readFraction();
-    Serial.print(c);
+    Serial.print(c.toString());
     Serial.print("\t\t");
-    Serial.println(a / b);
+    Serial.println((a / b).toString());
 
     if (c == a / b ) count++;
   }
@@ -180,9 +178,9 @@ int equ(int n)
   {
     Fraction a(1 + random(9), 1 + random(9));
     Fraction b(1 + random(9), 1 + random(9));
-    Serial.print(a);
+    Serial.print(a.toString());
     Serial.print("\t?\t");
-    Serial.print(b);
+    Serial.print(b.toString());
 
     char c = choice();
     Serial.print("\t");
@@ -196,4 +194,4 @@ int equ(int n)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

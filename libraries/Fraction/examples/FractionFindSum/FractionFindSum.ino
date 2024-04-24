@@ -1,11 +1,12 @@
 //
 //    FILE: FractionFindSum.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 13-feb-2015
+// PURPOSE: demo fraction math.
 //     URL: https://github.com/RobTillaart/Fraction
 //
-
+//  Find a sum of fractions that (within accuracy) 
+//       adds up to a given fraction.
+//
 
 #include "fraction.h"
 
@@ -39,7 +40,7 @@ void findSum(Fraction f)
 {
   Fraction z(0, 1);
 
-  Serial.print(f);
+  Serial.print(f.toString());
   Serial.print(" =\t ");
   for (long i = 1; i < 10000; i++)
   {
@@ -48,7 +49,7 @@ void findSum(Fraction f)
     {
       f -= g;
       z += g;
-      Serial.print(g);
+      Serial.print(g.toString());
       Serial.print(" + ");
     }
     if (f == Fraction(0, 1))
@@ -57,7 +58,7 @@ void findSum(Fraction f)
     }
   }
   Serial.print("\t => ");
-  Serial.println(z);
+  Serial.println(z.toString());
   Serial.println();
 }
 
@@ -67,5 +68,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

@@ -1,11 +1,13 @@
 //
-//    FILE: FractionMediant.ino
+//    FILE: FractionPower2.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Find fraction by binary search with mediant.
+// PURPOSE: Find fraction with powers of 2.
 //     URL: https://github.com/RobTillaart/Fraction
 //
-//  This method is not fast but it shows an application for the mediant().
-//  Works for positive values only (for now).
+//  this method is very fast as it calculates a fraction in one step with an accuracy
+//  of 1/8192. Quality is limited due the limited range of denominators.
+//
+//  a slow variant that adds powers of two is added to show some math.
 
 
 #include "fraction.h"
@@ -82,23 +84,24 @@ void loop()
 
 Fraction fractionize(float f)
 {
-  float accuracy = 1e-6;
-  int i;
-  Fraction a(0, 1);
-  Fraction b(uint16_t(f) + 1, 1);
-  Fraction c;
+  Fraction sum(round(f*8192), 8192);
+  return sum;
+}
 
-  for (i = 0; i < 500; i++)
+
+//  Slow_fractionize works only for range 0..1
+Fraction slow_fractionize(float f)
+{
+  Fraction sum(0, 1);
+  Fraction b(1, 2);
+
+  for (int i = 0; i < 25; i++)  //  might need less 
   {
-    c = Fraction::mediant(a, b);   //  NOTE middle(a, b) is slower and worse!
-    float t = c.toDouble();
-    if ( t < f) a = c;
-    else b = c;
-    //  check the last found value.
-    if (abs(f - t) < accuracy) break;
+    Fraction tmp = sum + b;
+    if (tmp.toFloat() < f) sum = tmp;
+    b /= 2;
   }
-  Serial.println(i);
-  return c;
+  return sum;
 }
 
 

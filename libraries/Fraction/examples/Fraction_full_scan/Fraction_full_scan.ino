@@ -1,12 +1,15 @@
 //
-//    FILE: FractionMediant.ino
+//    FILE: Fraction_full_scan.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Find fraction by binary search with mediant.
+// PURPOSE: Find fraction by full scan possible values.
 //     URL: https://github.com/RobTillaart/Fraction
 //
-//  This method is not fast but it shows an application for the mediant().
+//  This method is very slow but it scans the whole range (in fact only half)
+//  for all possible fractions, resulting in very good approximations.
 //  Works for positive values only (for now).
-
+//
+//  Takes up to 3 seconds per search on a 16 MHz UNO.
+//  Takes up to 12 milliseconds per search on a 240 MHz ESP32.
 
 #include "fraction.h"
 
@@ -79,26 +82,24 @@ void loop()
   Serial.println(f - y.toDouble(), 10);
 }
 
-
+// very very slow but very good.
 Fraction fractionize(float f)
 {
-  float accuracy = 1e-6;
-  int i;
-  Fraction a(0, 1);
-  Fraction b(uint16_t(f) + 1, 1);
-  Fraction c;
-
-  for (i = 0; i < 500; i++)
+  int best = 1;
+  float smallest = 1.0;
+  //  smaller denominators will all be detected as 5000..10000 are multiples.
+  for (int d = 5000; d < 10000; d++)
   {
-    c = Fraction::mediant(a, b);   //  NOTE middle(a, b) is slower and worse!
-    float t = c.toDouble();
-    if ( t < f) a = c;
-    else b = c;
-    //  check the last found value.
-    if (abs(f - t) < accuracy) break;
+    Fraction frac(f * d + 0.5, d);
+    float tmp = abs(f - frac.toFloat());
+    if ( tmp < smallest)
+    {
+      smallest = tmp;
+      best = d;
+    }
   }
-  Serial.println(i);
-  return c;
+  Fraction frac(round(f * best), best);
+  return frac;
 }
 
 

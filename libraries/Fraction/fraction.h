@@ -2,22 +2,22 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.16
+// VERSION: 0.2.0
 // PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 
 
 #include "Arduino.h"
 
-#define FRACTION_LIB_VERSION            (F("0.1.16"))
+#define FRACTION_LIB_VERSION            (F("0.2.0"))
 
 
-class Fraction: public Printable
+class Fraction
 {
 public:
     explicit Fraction(double);
     explicit Fraction(float);
-    Fraction(int32_t, int32_t);
+    Fraction(int32_t = 0, int32_t = 1);  //  default zero constructor
 
     //  CONSTRUCTORS
     explicit Fraction(int32_t p)   : n(p), d(1) {}
@@ -27,8 +27,6 @@ public:
     explicit Fraction(uint16_t p)  : n(p), d(1) {}
     explicit Fraction(uint8_t p)   : n(p), d(1) {}
     Fraction(const Fraction &f) : n(f.n), d(f.d) {}
-
-    size_t printTo(Print& p) const;
 
     //  EQUALITIES
     bool operator == (const Fraction&);
@@ -53,10 +51,13 @@ public:
     Fraction& operator *= (const Fraction&);
     Fraction& operator /= (const Fraction&);
 
-    //  CONVERSION
+    //  CONVERSION and PRINTING
     double  toDouble();
     float   toFloat();
+    String  toString();
+
     bool    isProper();     //  abs(f) < 1
+    bool    isInteger();    //  d == 1
     float   toAngle();
 
     int32_t  nominator();

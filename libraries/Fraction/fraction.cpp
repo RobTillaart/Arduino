@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.16
+// VERSION: 0.2.0
 // PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 
@@ -35,7 +35,8 @@ void Fraction::split(float f)
   //  EULER = 1264/465;  // 2.2e-6
 
   //  get robust for small values. (effectively zero)
-  if (abs(f) < 0.00001)
+  //  as 1/10000 is smallest
+  if (abs(f) < 0.0001)
   {
     n = 0;
     d = 1;
@@ -47,29 +48,20 @@ void Fraction::split(float f)
     d = 1;
     return;
   }
-  // Normalize to 0.0 ... 1.0
+
+  //  handle sign
   bool negative = f < 0;
   if (negative) f = -f;
 
-//  TODO investigate different strategy:
-//  intpart = int32_t(f);   //  strip of the integer part.
-//  f = f - intpart;        //  determine remainder
-//  determine n, d
-//  n += intpart * d;       //  add integer part * denominator to fraction.
-
-  bool reciproke = f > 1;
-  if (reciproke) f = 1/f;
+  //  strip of the integer part and process only remainder (0.0..1.0)
+  int32_t integerPart = int32_t(f);  
+  f = f - integerPart;
 
   fractionize(f);
   simplify();
 
-  //  denormalize
-  if (reciproke)
-  {
-    int32_t t = n;
-    n = d;
-    d = t;
-  }
+  //  add integerPart again, but in units of denominator.
+  n += (integerPart * d);
   if (negative)
   {
       n = -n;
@@ -82,28 +74,6 @@ Fraction::Fraction(int32_t p, int32_t q) : n(p), d(q)
   simplify();
 }
 
-
-//////////////////////////////////////
-//
-//  PRINTING
-//
-size_t Fraction::printTo(Print& p) const
-{
-  size_t s = 0;
-  //  TODO split of sign first
-  //
-  //  vs 22/7 => 3_1/7
-  // if (n >= d)
-  // {
-  // s += p.print(n/d, DEC);
-  // s += p.print("_");
-  // }
-  // s += p.print(n%d, DEC);
-  s += p.print(n, DEC);
-  s += p.print('/');
-  s += p.print(d, DEC);
-  return s;
-};
 
 
 //////////////////////////////////////
@@ -250,6 +220,11 @@ Fraction& Fraction::operator /= (const Fraction &c)
 }
 
 
+
+//////////////////////////////////////
+//
+//  CONVERSION and PRINTING
+//
 double Fraction::toDouble()
 {
   return double(n) / d;
@@ -262,10 +237,29 @@ float Fraction::toFloat()
 }
 
 
+String Fraction::toString()
+{
+  String s = "(";
+  // if (n < 0) s += "-";
+  s += n;
+  s += "/";
+  s += d;
+  s += ")";
+  return s;
+}
+
+
 //  fraction is proper if abs(fraction) < 1
 bool Fraction::isProper()
 {
   return abs(n) < abs(d);
+}
+
+
+//  fraction is proper if abs(fraction) < 1
+bool Fraction::isInteger()
+{
+  return (d == 1);
 }
 
 
@@ -363,7 +357,7 @@ void Fraction::simplify()
   //  in preventing overflow
   while (q > 10000)
   {
-    //  rounding might need improvement
+    //  rounding need improvement
     p = (p + 5)/10;
     q = (q + 5)/10;
     x = gcd(p, q);
@@ -380,9 +374,16 @@ void Fraction::simplify()
 //  fractionize() - finds the fraction representation of a float
 //  PRE: 0 <= f < 1.0
 //
-//  minimalistic is fast and small
+//  minimalistic, fast and small accuracy ~1e-4
+// void Fraction::fractionize(float val)
+// {
+  // n = round(val * 9900);
+  // d = 9900;
+// }
+
+
 //
-//  check for a discussion found later
+//  check for a discussion found later (link is dead)
 //  - http://mathforum.org/library/drmath/view/51886.html
 //  - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
 //
@@ -392,18 +393,24 @@ void Fraction::simplify()
 //  - http://mathforum.org/library/drmath/view/51886.html
 //  (100x) micros()=96048
 //  showed errors for very small values around 0
+
+
 void Fraction::fractionize(float val)
 {
   //  find nearest fraction
   float Precision = 0.0000001;
+  //  Fraction low(int(val * 9900), 9900);             // "A" = 0/1
+  //  Fraction high(int(val * 9240) + 1, 9240);            // "B" = 1/1
   Fraction low(0, 1);             // "A" = 0/1
   Fraction high(1, 1);            // "B" = 1/1
+
+  //  max 100 iterations
   for (int i = 0; i < 100; ++i)
   {
     float testLow = low.d * val - low.n;
     float testHigh = high.n - high.d * val;
     if (testHigh < Precision * high.d)
-    break; //  high is answer
+    break;  //  high is answer
 
     if (testLow < Precision * low.d)
     {  //  low is answer
@@ -416,7 +423,7 @@ void Fraction::fractionize(float val)
       int32_t count = (int32_t)test;    //  "N"
       int32_t n = (count + 1) * low.n + high.n;
       int32_t d = (count + 1) * low.d + high.d;
-      if ((n > 0x8000) || (d > 0x10000))
+      if ((n > 0x8000) || (d > 0x10000))   //   0x8000 0x10000
       break;
       high.n = n - low.n;  //  new "A"
       high.d = d - low.d;
@@ -429,7 +436,7 @@ void Fraction::fractionize(float val)
       int32_t count = (int32_t)test;     //  "N"
       int32_t n = low.n + (count + 1) * high.n;
       int32_t d = low.d + (count + 1) * high.d;
-      if ((n > 0x10000) || (d > 0x10000))
+      if ((n > 0x10000) || (d > 0x10000))   //   0x10000 0x10000
       break;
       low.n = n - high.n;  //  new "A"
       low.d = d - high.d;

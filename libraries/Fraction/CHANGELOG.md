@@ -6,10 +6,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-04-22
+- removed **Printable** interface, braking change
+- improve quality of **fractionize()** search
+  - split of integer part before search improves precision.
+- add support for arrays
+  - default value for constructor (0, 1)
+  - add **fraction_array.ino** + **fraction_sizeof.ino**
+- add **toString()**
+- add **isInteger()**
+- update examples
+  - add **fraction_extensive.ino** test range and accuracy sketch
+  - add **fraction_sqrts.ino** test sketch
+  - add **fraction_fast.ino**, fast determination of fraction with 9900 as denominator.
+    - this is very fast, with an accuracy ~1e-4
+  - add **fraction_full_scan.ino** for a full scan search.
+  - optimized **FractionMediant.ino** determine fraction with mediant.
+  - add **fraction_setDenominator.ino** demo
+  - add **FactionPowers2.ino**, fast determination of fraction with powers of 2.- add examples including tests.
+- update readme.md
+
+----
+
 ## [0.1.16] - 2023-11-02
 - update readme.md
 - minor edits
-
 
 ## [0.1.15] - 2023-02-02
 - update GitHub actions

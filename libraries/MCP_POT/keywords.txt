@@ -17,9 +17,21 @@ reset	KEYWORD2
 setValue	KEYWORD2
 getValue	KEYWORD2
 
+setMaxOhm	KEYWORD2
+getMaxOhm	KEYWORD2
+setOhm	KEYWORD2
+getOhm	KEYWORD2
+
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
+setSWSPIdelay	KEYWORD2
+getSWSPIdelay	KEYWORD2
+
 pmCount	KEYWORD2
+powerOn	KEYWORD2
+powerOff	KEYWORD2
+isPowerOn	KEYWORD2
+
 usesHWSPI	KEYWORD2
 
 

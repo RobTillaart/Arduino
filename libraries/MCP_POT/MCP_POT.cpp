@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_POT.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2023-12-21
 // PURPOSE: Arduino library for MCP41xxx and MCP42xxx SPI based digital potentiometers.
 //     URL: https://github.com/RobTillaart/MCP_POT
@@ -53,7 +53,7 @@ void MCP_POT::begin(uint8_t value)
   pinMode(_shutdown, OUTPUT);
   digitalWrite(_shutdown, HIGH);
 
-  setSPIspeed(8000000);
+  setSPIspeed(1000000);
 
   if(_hwSPI)
   {
@@ -111,6 +111,30 @@ uint8_t MCP_POT::getValue(uint8_t pm)
 }
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OHM - wrappers
+//
+void MCP_POT::setMaxOhm(uint32_t maxOhm)
+{
+  _maxOhm = maxOhm;
+}
+
+uint32_t MCP_POT::getMaxOhm()
+{
+  return _maxOhm;
+}
+
+void MCP_POT::setOhm(uint8_t pm, uint32_t ohm)
+{
+  setValue(pm, round(ohm * 255.0 / _maxOhm));
+}
+
+uint32_t MCP_POT::getOhm(uint8_t pm)
+{
+  return round(getValue(pm) * (_maxOhm / 255.0));
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -157,6 +181,18 @@ uint32_t MCP_POT::getSPIspeed()
 }
 
 
+void MCP_POT::setSWSPIdelay(uint16_t del)
+{
+  _swSPIdelay = del;
+}
+
+
+uint16_t MCP_POT::getSWSPIdelay()
+{
+  return _swSPIdelay;
+}
+
+
 bool MCP_POT::usesHWSPI()
 {
   return _hwSPI;
@@ -194,6 +230,11 @@ void MCP_POT::updateDevice(uint8_t pm, uint8_t value, uint8_t cmd)
 //  MSBFIRST
 void  MCP_POT::swSPI_transfer(uint8_t val)
 {
+  //  split _swSPIdelay in equal dLow and dHigh
+  //  dLow should be longer one when _swSPIdelay = odd.
+  uint16_t dHigh = _swSPIdelay / 2;
+  uint16_t dLow  = _swSPIdelay - dHigh;
+
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
   //  MSBFIRST
@@ -201,7 +242,9 @@ void  MCP_POT::swSPI_transfer(uint8_t val)
   {
     digitalWrite(dao,(val & mask));
     digitalWrite(clk, HIGH);
+    if (dHigh > 0) delayMicroseconds(dHigh);
     digitalWrite(clk, LOW);
+    if (dLow > 0) delayMicroseconds(dLow);
   }
 }
 
@@ -214,36 +257,42 @@ MCP41010::MCP41010(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS_
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 1;
+  _maxOhm  = 10000;
 }
 
 MCP41010::MCP41010(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 1;
+  _maxOhm  = 10000;
 }
 
 MCP41050::MCP41050(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 1;
+  _maxOhm  = 50000;
 }
 
 MCP41050::MCP41050(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 1;
+  _maxOhm  = 10000;
 }
 
 MCP41100::MCP41100(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 1;
+  _maxOhm  = 100000;
 }
 
 MCP41100::MCP41100(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 1;
+  _maxOhm  = 100000;
 }
 
 
@@ -255,36 +304,42 @@ MCP42010::MCP42010(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS_
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 2;
+  _maxOhm  = 10000;
 }
 
 MCP42010::MCP42010(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 2;
+  _maxOhm  = 10000;
 }
 
 MCP42050::MCP42050(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 2;
+  _maxOhm  = 50000;
 }
 
 MCP42050::MCP42050(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 2;
+  _maxOhm  = 50000;
 }
 
 MCP42100::MCP42100(uint8_t select, uint8_t reset, uint8_t shutdown, __SPI_CLASS__ * mySPI)
         :MCP_POT(select, reset, shutdown, mySPI)
 {
   _pmCount = 2;
+  _maxOhm  = 100000;
 }
 
 MCP42100::MCP42100(uint8_t select, uint8_t reset, uint8_t shutdown, uint8_t dataOut, uint8_t clock)
         :MCP_POT(select, reset, shutdown, dataOut, clock)
 {
   _pmCount = 2;
+  _maxOhm  = 100000;
 }
 
 

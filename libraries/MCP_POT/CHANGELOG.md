@@ -6,7 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.0] - 2023-01-19
+## [0.2.1] - 2024-04-25
+- add examples
+  - **MCP_POT_performance.ino** measure setValue() at various SPI speeds
+  - **MCP_POT_serial.ino** control device ove Serial
+  - **MCP_POT_triangle.ino** test sketch
+- add **setSWSPIdelay()** to reduce SW SPI maximum speed.
+- reduced default HW SPI speed to 1 MHz.
+- add experimental Ohm wrappers (need testing)
+- update readme.md
+- update keywords.txt
+
+
+## [0.2.0] - 2024-01-19
 - Fix #2, improve SPI dependency.
 
 ----

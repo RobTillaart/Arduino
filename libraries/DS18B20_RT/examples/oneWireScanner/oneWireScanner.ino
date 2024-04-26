@@ -25,6 +25,7 @@ struct DSdevice
   { 0x28, "DS1822" },    //  Temperature sensor
   { 0x2D, "DS2807" },    //  EEPROM
   { 0x38, "DS1825" },    //  Temperature sensor
+  { 0x3B, "MAX31850" },  //  Temperature sensor
   { 0x42, "DS28EA00" },  //  Temperature sensor
 };
 

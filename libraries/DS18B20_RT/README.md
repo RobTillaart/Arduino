@@ -27,6 +27,18 @@ to save a few dozen bytes. I reworked that minimalistic version into a library a
 added a number of Arduino examples to help you get started.
 
 
+#### Footprint OneWire
+
+This library depends (is build) upon the **OneWire** library of Paul Stoffregen.
+- https://github.com/PaulStoffregen/OneWire - the reference imho.
+
+In issue [#31](https://github.com/RobTillaart/DS18B20_RT/issues/31) the footprint of 
+the OneWireNG seems to be smaller when build on platformIO.
+
+So if you are in need to save some more bytes, you might try [OneWireNG]
+(https://github.com/pstolarz/OneWireNg).
+
+
 #### Related
 
 This library is related to 

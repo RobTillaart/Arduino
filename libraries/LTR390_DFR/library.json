@@ -1,0 +1,23 @@
+{
+  "name": "LTR390_DFR",
+  "keywords": "UV, LUX",
+  "description": "Arduino library for the I2C LTR390 UV sensor. (DF Robotics edition)",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/LTR390_DFR.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "LTR390_DFR.h"
+}

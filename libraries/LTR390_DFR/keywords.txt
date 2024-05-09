@@ -1,0 +1,34 @@
+# Syntax Colouring Map For LTR390_DFR
+
+# Data types (KEYWORD1)
+LTR390_DFR	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setALSMode	KEYWORD2
+setUVSMode	KEYWORD2
+reset	KEYWORD2
+
+getPartID	KEYWORD2
+getRevisionID	KEYWORD2
+
+getALSData	KEYWORD2
+getLUX	KEYWORD2
+getUVSData	KEYWORD2
+getUVI	KEYWORD2
+
+setGain	KEYWORD2
+getGain	KEYWORD2
+
+setMeasurement	KEYWORD2
+getResolution	KEYWORD2
+getTime	KEYWORD2
+
+
+# Constants (LITERAL1)
+LTR390_DFR_LIB_VERSION	LITERAL1
+

@@ -1,0 +1,47 @@
+# Syntax Colouring Map For LTR390
+
+# Data types (KEYWORD1)
+LTR390	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setALSMode	KEYWORD2
+setUVSMode	KEYWORD2
+reset	KEYWORD2
+enable	KEYWORD2
+disable	KEYWORD2
+isEnabled	KEYWORD2
+
+setResolution	KEYWORD2
+getResolution	KEYWORD2
+setRate	KEYWORD2
+getRate	KEYWORD2
+setGain	KEYWORD2
+getGain	KEYWORD2
+
+getPartID	KEYWORD2
+getRevisionID	KEYWORD2
+
+getStatus	KEYWORD2
+
+getALSData	KEYWORD2
+getUVSData	KEYWORD2
+
+setInterruptConfig	KEYWORD2
+getInterruptConfig	KEYWORD2
+setInterruptPersist	KEYWORD2
+getInterruptPersist	KEYWORD2
+
+setHighThreshold	KEYWORD2
+getHighThreshold	KEYWORD2
+setLowThreshold	KEYWORD2
+getLowThreshold	KEYWORD2
+
+
+# Constants (LITERAL1)
+LTR390_LIB_VERSION	LITERAL1
+

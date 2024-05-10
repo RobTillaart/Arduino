@@ -1,0 +1,45 @@
+
+Arduino UNO
+IDE 1.18.19
+
+ellipse_performance.ino
+
+Ellipse A=10, B=10
+test_circumference
+	TIME: 104	CIRCUMFERENCE: 62.8319
+test_perimeter_ref
+	TIME: 120	CIRCUMFERENCE: 62.8319
+test_perimeter_keppler
+	TIME: 36	CIRCUMFERENCE: 62.8319
+test_perimeter_parker
+	TIME: 160	CIRCUMFERENCE: 62.8296
+test_eccentricity
+	TIME: 8	 ECCENTRICITY: 0.00
+
+Ellipse A=10, B=5
+test_circumference
+	TIME: 104	CIRCUMFERENCE: 48.4421
+test_perimeter_ref
+	TIME: 188	CIRCUMFERENCE: 48.4422
+test_perimeter_keppler
+	TIME: 32	CIRCUMFERENCE: 47.1239
+test_perimeter_parker
+	TIME: 160	CIRCUMFERENCE: 48.4411
+test_eccentricity
+	TIME: 104	 ECCENTRICITY: 0.87
+
+Ellipse A=10, B=1
+test_circumference
+	TIME: 108	CIRCUMFERENCE: 40.6055
+test_perimeter_ref
+	TIME: 188	CIRCUMFERENCE: 40.6393
+test_perimeter_keppler
+	TIME: 36	CIRCUMFERENCE: 34.5575
+test_perimeter_parker
+	TIME: 164	CIRCUMFERENCE: 40.5942
+test_eccentricity
+	TIME: 108	 ECCENTRICITY: 0.99
+
+Done...
+
+Done...

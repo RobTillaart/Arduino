@@ -1,7 +1,7 @@
 //
 //    FILE: ellipse_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: performance and accuracy test
 //    DATE: 2021-10-31
 //     URL: https://github.com/RobTillaart/ellipse
 
@@ -26,6 +26,7 @@ void setup()
   test_circumference();
   test_perimeter_ref();
   test_perimeter_keppler();
+  test_perimeter_parker();
   test_eccentricity();
 
   Serial.println("\nEllipse A=10, B=5");
@@ -34,6 +35,7 @@ void setup()
   test_circumference();
   test_perimeter_ref();
   test_perimeter_keppler();
+  test_perimeter_parker();
   test_eccentricity();
 
   Serial.println("\nEllipse A=10, B=1");
@@ -42,9 +44,8 @@ void setup()
   test_circumference();
   test_perimeter_ref();
   test_perimeter_keppler();
+  test_perimeter_parker();
   test_eccentricity();
-
-
 
 
   Serial.println("\nDone...");
@@ -65,7 +66,7 @@ void test_circumference()
   Serial.print("\tTIME: ");
   Serial.print(stop - start);
   Serial.print("\tCIRCUMFERENCE: ");
-  Serial.println(f);
+  Serial.println(f, 4);
   delay(100);
 }
 
@@ -79,7 +80,7 @@ void test_perimeter_ref()
   Serial.print("\tTIME: ");
   Serial.print(stop - start);
   Serial.print("\tCIRCUMFERENCE: ");
-  Serial.println(f);
+  Serial.println(f, 4);
   delay(100);
 }
 
@@ -93,7 +94,21 @@ void test_perimeter_keppler()
   Serial.print("\tTIME: ");
   Serial.print(stop - start);
   Serial.print("\tCIRCUMFERENCE: ");
-  Serial.println(f);
+  Serial.println(f, 4);
+  delay(100);
+}
+
+
+void test_perimeter_parker()
+{
+  Serial.println(__FUNCTION__);
+  start = micros();
+  f = E.perimeter_Parker();
+  stop = micros();
+  Serial.print("\tTIME: ");
+  Serial.print(stop - start);
+  Serial.print("\tCIRCUMFERENCE: ");
+  Serial.println(f, 4);
   delay(100);
 }
 

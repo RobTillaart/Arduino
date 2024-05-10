@@ -11,7 +11,7 @@
 
 # ellipse
 
-Arduino library with ellipse math
+Arduino library with ellipse math.
 
 
 ## Description
@@ -19,7 +19,8 @@ Arduino library with ellipse math
 This experimental library provides basic ellipse math. 
 It was written to test different perimeter algorithms.
 
-Trigger was a video of Dr. Matt Parker.
+Trigger was a video of Dr. Matt Parker, with the title:
+"Why is there no equation for the perimeter of an ellipse?"
  https://www.youtube.com/watch?v=5nW3nJhBHL0
 
 
@@ -48,9 +49,10 @@ Perimeter == circumference
 - **float perimeter_ref()** slower but best known algorithm (Ramanujan 2)
 - **float perimeter_Keppler()** good and fast algorithm for eccentricity between 1 and 2.
 - **float perimeter_Ramanujan1()** good algorithm.
+- **float perimeter_Parker()** Matt Parker's algorithm, better than Ramanujan, but not symmetric.
 - **float perimeter_Ramanujan2()** slow but best known algorithm.
 
-See performance example for differences in timing.
+See performance example for differences in timing and accuracy.
 
 
 #### Convenience functions

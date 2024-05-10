@@ -10,6 +10,7 @@ circumference	KEYWORD2
 
 perimeter_ref	KEYWORD2
 perimeter_Keppler	KEYWORD2
+perimeter_Parker	KEYWORD2
 perimeter_Ramanujan1	KEYWORD2
 perimeter_Ramanujan2	KEYWORD2
 

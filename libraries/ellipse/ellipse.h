@@ -3,14 +3,14 @@
 //    FILE: ellipse.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-10-31
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 
 
 #include "Arduino.h"
 
-#define ELLIPSE_LIB_VERSION           (F("0.1.3"))
+#define ELLIPSE_LIB_VERSION           (F("0.1.4"))
 
 
 class ellipse
@@ -23,6 +23,7 @@ public:
   float perimeter_ref();    //  pretty slow but very good over long range
   float perimeter_Keppler();
   float perimeter_Ramanujan1();
+  float perimeter_Parker();
   float perimeter_Ramanujan2();
 
   float eccentricity();

@@ -2,7 +2,7 @@
 //    FILE: ellipse.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-10-31
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 // TRIGGER: https://www.youtube.com/watch?v=5nW3nJhBHL0
@@ -38,7 +38,7 @@ float ellipse::perimeter_ref()
 float ellipse::perimeter_Keppler()
 {
   //  Keppler
-  float p = 2 * PI * (_a + _b) / 2;   // very fast for a ~ b
+  float p = 2 * PI * (_a + _b) / 2;   //  very fast for a ~ b
   return p;
 }
 
@@ -50,7 +50,19 @@ float ellipse::perimeter_Ramanujan1()
   float a3 = 3 * _a;
   float b3 = 3 * _b;
   float p = PI * (a3 + b3 - sqrt( (a3 + _b)*(_a + b3)));
-  // one float operation less (~7% faster)
+  //  one float operation less (~7% faster)
+  return p;
+}
+
+
+float ellipse::perimeter_Parker()
+{
+  //  Matthew Parker, better than Ramanujan 1 for e > ~2.4
+  //  not symmetric. _a should be longest.
+  float a = (_a > _b) ? _a : _b;
+  float b = (_a > _b) ? _b : _a;
+  float t = sqrt(269 * a * a + 667 * a * b + 371 * b * b);  //  269=prime 667=23*29  371=7*53
+  float p = PI * ((53.0/3.0) * a + (717.0/35.0) * b - t); 
   return p;
 }
 

@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.2] - 2023-10-25
+## [0.1.4] - 2024-05-06
+- add **float perimeter_Parker()**
+- update **ellipse_performance.ino**
+- add **ellipse_performance2.ino** (table form)
+- update keywords.txt
+- minor edits
+
+
+## [0.1.3] - 2023-10-25
 - update readme.md
 - update keywords.txt
-
 
 ## [0.1.2] - 2022-11-02
 - add changelog.md

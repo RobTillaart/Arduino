@@ -8,6 +8,7 @@ GY521	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 reset	KEYWORD2
 wakeup	KEYWORD2
 
@@ -43,8 +44,13 @@ getRoll	KEYWORD2
 getYaw	KEYWORD2
 
 lastTime	KEYWORD2
+
+setDLPFMode	KEYWORD2
+getDLPFMode	KEYWORD2
+
 setRegister	KEYWORD2
 getRegister	KEYWORD2
+
 getError	KEYWORD2
 
 

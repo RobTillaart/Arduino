@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -53,6 +53,12 @@ bool GY521::isConnected()
 }
 
 
+uint8_t GY521::getAddress()
+{
+  return _address;
+}
+
+
 void GY521::reset()
 {
   setThrottleTime(GY521_THROTTLE_TIME);
@@ -71,7 +77,7 @@ void GY521::calibrate(uint16_t times)
   //  disable throttling / caching of read values.
   bool oldThrottle = _throttle;
   _throttle = false;
-  
+
   //  set errors to zero
   axe = aye = aze = 0;
   gxe = gye = gze = 0;
@@ -476,6 +482,30 @@ uint8_t GY521::getGyroSensitivity()
 }
 
 
+//  CONFIGURATION
+//  Digital Low Pass Filter  datasheet P13-reg26
+bool GY521::setDLPFMode(uint8_t mode)
+{
+  if (mode > 6)
+  {
+    _error = GY521_ERROR_PARAMETER;
+    return false;
+  }
+  uint8_t value = getRegister(GY521_CONFIG);
+  value &= 0xF8;
+  value |= mode;
+  return (setRegister(GY521_CONFIG, value) == GY521_OK);
+}
+
+
+uint8_t GY521::getDLPFMode()
+{
+  uint8_t val = getRegister(GY521_CONFIG);
+  return val & 0x07;
+}
+
+
+//  GENERIC
 uint8_t GY521::setRegister(uint8_t reg, uint8_t value)
 {
   _wire->beginTransmission(_address);

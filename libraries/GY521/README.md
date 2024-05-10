@@ -56,7 +56,6 @@ for analysis e.g. in a spreadsheet.
 - https://github.com/RobTillaart/AngleConverter
 
 
-
 ## Breakout board
 
 From left to right
@@ -142,8 +141,8 @@ Drawback is that this would make the duration unpredictable.
 - **uint8_t getAccelSensitivity()** returns 0, 1, 2, 3
 - **bool setGyroSensitivity(uint8_t gs)** gs = 0,1,2,3  ==>  250, 500, 1000, 2000 degrees/second
 - **uint8_t getGyroSensitivity()** returns 0, 1, 2, 3  
-= **void setNormalize(bool normalize = true)** normalizes pitch roll yaw or not. Default true.
-= **bool getNormalize()** returns flag.
+- **void setNormalize(bool normalize = true)** normalizes pitch roll yaw or not. Default true.
+- **bool getNormalize()** returns flag.
 
 
 #### Actual read
@@ -196,7 +195,25 @@ If **setNormalize(true)** return value will be 0-359.999
 If **setNormalize(true)** return value will be 0-359.999
 
 
-### Register access
+#### Digital Low Pass Filter
+
+See datasheet P13-reg26
+
+- **bool setDLPFMode(uint8_t mode)** mode = 0..6, returns false if mode > 6.
+- **uint8_t getDLPFMode()** returns the current (set) mode.
+
+| Mode | Acc bandwidth | delay  | Gyro bandwidth | delay  |   Fs  |
+|:----:|:-------------:|:------:|:--------------:|:------:|:-----:|
+|   0  |     260 Hz    |   0.0  |      256 Hz    |   1.0  | 8 kHz |
+|   1  |     184 Hz    |   2.0  |      188 Hz    |   1.9  | 1 kHz |
+|   2  |      94 Hz    |   3.0  |       98 Hz    |   2.8  | 1 kHz |
+|   3  |      44 Hz    |   4.9  |       42 Hz    |   4.8  | 1 kHz |
+|   4  |      21 Hz    |   8.5  |       20 Hz    |   8.3  | 1 kHz |
+|   5  |      10 Hz    |  13.8  |       10 Hz    |  13.4  | 1 kHz |
+|   6  |       5 Hz    |  19.0  |        5 Hz    |  18.6  | 1 kHz |
+
+
+#### Generic Register Access
 
 Read the register PDF for the specific value and meaning of registers.
 
@@ -222,26 +239,31 @@ Read the register PDF for the specific value and meaning of registers.
 
 #### Sensitivity Acceleration
 
-unit g = gravity == 9.81 m/s^2
+The strength of Earth's gravity varies with latitude (equator = 0°, poles = 90°).
+The standard value for gravity (gn) is 9.80665 m/s^2 (often 9.81 m/s^2)
+At the equator the gravity (ge) is 9.78033 m/s^2.
 
-| Acceleration  |  value  |  notes  |
-|:--------------|:-------:|:-------:|
-|      2 g      |    0    |  default
-|      4 g      |    1    |
-|      8 g      |    2    |
-|     16 g      |    3    |
+The library provides the constant GRAVITY = 9.80655
+
+
+|  value  | Acceleration  |    m/s2    |  notes  |
+|:-------:|:--------------|:----------:|:-------:|
+|    0    |      2 g      |   19.6131  |  default
+|    1    |      4 g      |   39.2262  |
+|    2    |      8 g      |   78.4524  |
+|    3    |     16 g      |  156.9048  |
 
 
 #### Sensitivity Gyroscope
 
 unit dps = degrees per second.
 
-|  Gyroscope    |  value  |  notes  |
-|:--------------|:-------:|:-------:|
-|   250 dps     |    0    |  default
-|   500 dps     |    1    |
-|  1000 dps     |    2    |
-|  2000 dps     |    3    |
+|  value  |  Gyroscope  |  radians/sec  |  notes  |
+|:-------:|:------------|:-------------:|:-------:|
+|    0    |   250 dps   |   4.36332313  |  default
+|    1    |   500 dps   |   8.72664626  |
+|    2    |  1000 dps   |  17.45329252  |
+|    3    |  2000 dps   |  34.90658504  |
 
 
 ## Operation
@@ -250,6 +272,9 @@ See examples, use with care.
 
 
 ## Future
+
+There is no intention to implement getters and setters for all registers.
+However if one specific is needed, please open an issue.
 
 #### Must
 

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2024-05-08
+- fix #52, add **uint8_t getAddrress()**
+- fix #51, add **bool setDLPFMode(uint8_t mode)** and **uint8_t getDLPFMode()**
+- add const float GRAVITY=9.80655;
+- minor edits
+
+
 ## [0.5.2] - 2024-01-16
 - fix #48, use float variables in example GY521_test_1.ino
 - add **void calibrate(uint16_t times)** to API
@@ -16,7 +23,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - calibrate section
   - add some tables
 - minor edits in examples
-
 
 ## [0.5.1] - 2023-12-11
 - redo initialization order.

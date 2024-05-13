@@ -1,9 +1,10 @@
 //
-//    FILE: MSP300_demo.ino
+//    FILE: MSP300_fast_pressure.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal demo pressure transducer
+// PURPOSE: fast pressure reading
 //     URL: https://github.com/RobTillaart/MSP300
-
+//
+//  datasheet states 1 ms refresh time so lets try.
 
 #include "MSP300.h"
 
@@ -34,21 +35,13 @@ void setup()
 
 void loop()
 {
-  if (millis() - lastTime > 1000)
+  //  try a sample every millisecond
+  if (micros() - lastTime >= 1000)
   {
-    lastTime = millis();
-    uint32_t x = MSP.readPT();
-    Serial.print(x, HEX);
-    Serial.print('\t');
-    Serial.print(MSP.getStatus());
-    Serial.print('\t');
-    Serial.print(MSP.getPressure(), 3);
-    Serial.print('\t');
-    Serial.print(MSP.getTemperature(), 3);
-    Serial.print('\n');
+    lastTime = micros();
+    MSP.readP();
+    Serial.println(MSP.getPressure(), 1);
   }
-
-  delay(100);
 }
 
 

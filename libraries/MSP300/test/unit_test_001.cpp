@@ -38,18 +38,42 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(000, MSP300_OK);
-  assertEqual(100, MSP300_ERROR);
+  assertEqual(001, MSP300_RESERVED);
+  assertEqual(002, MSP300_STALE_DATA);
+  assertEqual(003, MSP300_READ_ERROR);
+  assertEqual(100, MSP300_REQUEST_ERROR);
 }
 
 
-unittest(test_constructors)
+unittest(test_constructor)
 {
   Wire.begin();
 
-  MSP300 MSP(0x2C);
+  MSP300 MSP(0x28);
   MSP.begin(100);
   //  assertEqual(0, MSP.read());
-  assertEqual(1, 1);
+  assertEqual(MSP300_OK, MSP.lastError());
+
+  assertEqual(0, MSP.getStatus());
+  assertEqual(0, MSP.getPressure());
+  assertEqual(0, MSP.getTemperature());
+}
+
+
+unittest(test_PressureCount)
+{
+  Wire.begin();
+
+  MSP300 MSP(0x28);
+
+  //  default values
+  assertEqual(1000, MSP.getPmin());
+  assertEqual(15000, MSP.getPmax());
+
+  //  changed values
+  MSP.setPressureCounts(1012, 14980);
+  assertEqual(1012, MSP.getPmin());
+  assertEqual(14980, MSP.getPmax());
 }
 
 

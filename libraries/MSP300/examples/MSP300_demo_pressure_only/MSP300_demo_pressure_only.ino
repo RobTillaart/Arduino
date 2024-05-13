@@ -1,7 +1,7 @@
 //
-//    FILE: MSP300_demo.ino
+//    FILE: MSP300_demo_pressure_only.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal demo pressure transducer
+// PURPOSE: minimal demo pressure only
 //     URL: https://github.com/RobTillaart/MSP300
 
 
@@ -37,14 +37,12 @@ void loop()
   if (millis() - lastTime > 1000)
   {
     lastTime = millis();
-    uint32_t x = MSP.readPT();
+    uint32_t x = MSP.readP();
     Serial.print(x, HEX);
     Serial.print('\t');
     Serial.print(MSP.getStatus());
     Serial.print('\t');
     Serial.print(MSP.getPressure(), 3);
-    Serial.print('\t');
-    Serial.print(MSP.getTemperature(), 3);
     Serial.print('\n');
   }
 

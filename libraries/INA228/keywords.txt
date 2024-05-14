@@ -1,0 +1,74 @@
+# Syntax Colouring Map For INA228
+
+
+# Data types (KEYWORD1)
+INA228	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+
+getBusVoltage	KEYWORD2
+getShuntVoltage	KEYWORD2
+getCurrent	KEYWORD2
+getPower	KEYWORD2
+getTemperature	KEYWORD2
+getEnergy	KEYWORD2
+getCharge	KEYWORD2
+
+getBusVoltage_mV	KEYWORD2
+getShuntVoltage_mV	KEYWORD2
+getCurrent_mA	KEYWORD2
+getPower_mW	KEYWORD2
+getEnergy_mJ	KEYWORD2
+getCharge_mC	KEYWORD2
+
+getBusVoltage_uV	KEYWORD2
+getShuntVoltage_uV	KEYWORD2
+getCurrent_uA	KEYWORD2
+getPower_uW	KEYWORD2
+getEnergy_uJ	KEYWORD2
+getCharge_uC	KEYWORD2
+
+reset	KEYWORD2
+setAccumulation	KEYWORD2
+getAccumulation	KEYWORD2
+setConversionDelay	KEYWORD2
+getConversionDelay	KEYWORD2
+setTemperatureCompensation	KEYWORD2
+getTemperatureCompensation	KEYWORD2
+setADCRange	KEYWORD2
+getADCRange	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+setBusVoltageConversionTime	KEYWORD2
+getBusVoltageConversionTime	KEYWORD2
+setShuntVoltageConversionTime	KEYWORD2
+getShuntVoltageConversionTime	KEYWORD2
+setTemperatureConversionTime	KEYWORD2
+getTemperatureConversionTime	KEYWORD2
+setAverage	KEYWORD2
+getAverage	KEYWORD2
+
+setMaxCurrentShunt	KEYWORD2
+isCalibrated	KEYWORD2
+getMaxCurrent	KEYWORD2
+getShunt	KEYWORD2
+
+setShuntTemperatureCoefficent	KEYWORD2
+getShuntTemperatureCoefficent	KEYWORD2
+
+
+
+getManufacturer	KEYWORD2
+getDieID	KEYWORD2
+getRevision	KEYWORD2
+
+
+# Constants (LITERAL1)
+INA228_LIB_VERSION	LITERAL1
+

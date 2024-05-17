@@ -1,9 +1,9 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-05-09
-// PURPOSE: Arduino library for INA228 power sensor
+// PURPOSE: Arduino library for INA228 voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
 //
 //  Read the datasheet for the details
@@ -13,32 +13,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          "0.1.0"
-
-
-//  TODO MOVE TO CPP  CHECK DATASHEET.
-
-//      REGISTERS                   ADDRESS    BITS  RW
-#define INA228_CONFIG               0x00    //  16   RW
-#define INA228_ADC_CONFIG           0x01    //  16   RW
-#define INA228_SHUNT_CAL            0x02    //  16   RW
-#define INA228_SHUNT_TEMP_CO        0x03    //  16   RW
-#define INA228_SHUNT_VOLTAGE        0x04    //  24   R-
-#define INA228_BUS_VOLTAGE          0x05    //  24   R-
-#define INA228_TEMPERATURE          0x06    //  16   R-
-#define INA228_CURRENT              0x07    //  24   R-
-#define INA228_POWER                0x08    //  24   R-
-#define INA228_ENERGY               0x09    //  40   R-
-#define INA228_CHARGE               0x0A    //  40   R-
-#define INA228_DIAG_ALERT           0x0B    //  16   RW
-#define INA228_SOVL                 0x0C    //  16   RW
-#define INA228_SUVL                 0x0D    //  16   RW
-#define INA228_BOVL                 0x0E    //  16   RW
-#define INA228_BUVL                 0x0F    //  16   RW
-#define INA228_TEMP_LIMIT           0x10    //  16   RW
-#define INA228_POWER_LIMIT          0x11    //  16   RW
-#define INA228_MANUFACTURER         0x3E    //  16   R-
-#define INA228_DEVICE_ID            0x3F    //  16   R-
+#define INA228_LIB_VERSION          "0.1.1"
 
 
 //  for setMode() and getMode()
@@ -89,6 +64,26 @@ enum ina228_timing_enum {
 };
 
 
+//  for diagnose/alert() bit fields.
+enum ina228_diag_enum {
+  INA228_DIAG_MEMORY_STATUS      = 0,
+  INA228_DIAG_CONVERT_COMPLETE   = 1,
+  INA228_DIAG_POWER_OVER_LIMIT   = 2,
+  INA228_DIAG_BUS_UNDER_LIMIT    = 3,
+  INA228_DIAG_BUS_OVER_LIMIT     = 4,
+  INA228_DIAG_SHUNT_UNDER_LIMIT  = 5,
+  INA228_DIAG_SHUNT_OVER_LIMIT   = 6,
+  INA228_DIAG_TEMP_OVER_LIMIT    = 7,
+  INA228_DIAG_RESERVED           = 8,
+  INA228_DIAG_MATH_OVERFLOW      = 9,
+  INA228_DIAG_CHARGE_OVERFLOW    = 10,
+  INA228_DIAG_ENERGY_OVERFLOW    = 11,
+  INA228_DIAG_ALERT_POLARITY     = 12,
+  INA228_DIAG_SLOW_ALERT         = 13,
+  INA228_DIAG_CONVERT_READY      = 14,
+  INA228_DIAG_ALERT_LATCH        = 15
+};
+
 
 class INA228
 {
@@ -129,10 +124,11 @@ public:
 
   //
   //  CONFIG REGISTER 0
-  //  read datasheet for details.
+  //  read datasheet for details, section 7.6.1.1, page 22
+  //
   void     reset();
-  //  val: 0 == normal operation,  1 = clear registers
-  bool     setAccumulation(uint8_t val);
+  //  value: 0 == normal operation,  1 = clear registers
+  bool     setAccumulation(uint8_t value);
   bool     getAccumulation();
   //  Conversion delay in 0..255 steps of 2 ms
   void     setConversionDelay(uint8_t steps);
@@ -145,9 +141,11 @@ public:
 
   //
   //  CONFIG ADC REGISTER 1
-  //  read datasheet for details.
+  //  read datasheet for details, section 7.6.1.2, page 22++
+  //
   bool     setMode(uint8_t mode = INA228_MODE_CONT_TEMP_BUS_SHUNT);
   uint8_t  getMode();
+  //  default value = ~1 milliseconds for all.
   bool     setBusVoltageConversionTime(uint8_t bvct = INA228_1052_us);
   uint8_t  getBusVoltageConversionTime();
   bool     setShuntVoltageConversionTime(uint8_t svct = INA228_1052_us);
@@ -168,7 +166,7 @@ public:
 
   //
   //  SHUNT TEMPERATURE COEFFICIENT REGISTER 3
-  //  read datasheet for details. use with care.
+  //  read datasheet for details, page 16.
   //  ppm = 0..16383.
   bool     setShuntTemperatureCoefficent(uint16_t ppm = 0);
   uint16_t getShuntTemperatureCoefficent();
@@ -176,15 +174,32 @@ public:
 
   //
   //  DIAGNOSE ALERT REGISTER 11  (0x0B)
-  //  read datasheet for details. use with care.
-  //  TODO
+  //  read datasheet for details, section 7.6.1.12, page 26++.
+  //
+  void     setDiagnoseAlert(uint16_t flags);
+  uint16_t getDiagnoseAlert();
+  //  INA228.h has an enum for the bit fields.
+  void     setDiagnoseAlertBit(uint8_t bit);
+  void     clrDiagnoseAlertBit(uint8_t bit);
+  uint16_t getDiagnoseAlertBit(uint8_t bit);
 
 
   //
   //  THRESHOLD AND LIMIT REGISTERS 12-17
-  //  read datasheet for details. use with care.
-  //  TODO
-
+  //  read datasheet for details, section 7.3.7, page 16++
+  //
+  void     setShuntOvervoltageTH(uint16_t threshold);
+  uint16_t getShuntOvervoltageTH();
+  void     setShuntUndervoltageTH(uint16_t threshold);
+  uint16_t getShuntUndervoltageTH();
+  void     setBusOvervoltageTH(uint16_t threshold);
+  uint16_t getBusOvervoltageTH();
+  void     setBusUndervoltageTH(uint16_t threshold);
+  uint16_t getBusUndervoltageTH();
+  void     setTemperatureOverLimitTH(uint16_t threshold);
+  uint16_t getTemperatureOverLimitTH();
+  void     setPowerOverLimitTH(uint16_t threshold);
+  uint16_t getPowerOverLimitTH();
 
 
   //
@@ -195,17 +210,10 @@ public:
   uint16_t getRevision();
 
 
-  ///////////////////
-  //
-  //  SHOULD BE PRIVATE
-  //
+private:
   uint32_t _readRegister(uint8_t reg, uint8_t bytes);  //  max 4.
   float    _readRegisterF(uint8_t reg, uint8_t bytes);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
-
-
-private:
-
 
   float    _current_LSB;
   float    _shunt;

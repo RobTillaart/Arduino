@@ -1,7 +1,7 @@
 {
   "name": "INA228",
   "keywords": "power,ampere,voltage,volts,current",
-  "description": "Arduino library for INA228 power sensor",
+  "description": "Arduino library for INA228 voltage, current and power sensor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/INA228.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

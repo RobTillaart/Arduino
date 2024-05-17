@@ -16,39 +16,53 @@ Arduino library for the INA228 power sensor.
 
 ## Description
 
-**Experimental** 
+**Experimental**
 
-The library for the INA228 power sensor differs from the better 
-known INA226 in that it has a 20 bit ADC.
-This should result in higher precision however this is expected to only 
-be visible with stable loads and low noise. 
+This library controls the INA228, a device that measures voltage,
+current, power, temperature and more.
+
+The INA228 sensor differs from the better known INA226.
+Most important difference is that the INA228 has a 20 bit ADC.
+This should result in higher precision however this is expected to only
+be visible with stable loads and low noise.
 Another important difference is that the INA228 works up to 85 Volts,
 which is more than twice the 36 volt of the INA226.
+The INA228 has a build in temperature sensor (±1°C) to be used for
+monitoring and temperature compensation.
+Finally the INA228 has an **energy** and **charge** register.
+These are values accumulated over time, and only work in continuous mode.
+(to be investigated what those mean ).
 
-The initial release 0.1.0 is **not** tested verified with hardware yet.
-Furthermore not all functionality is implemented, especially the diagnose
-alert, threshold and limits.
+The INA provides also provides an alert line, to generate an interrupt
+in case a predefined threshold has been met.
+This can be an under- or over-voltage, temperature or power limit.
 
-Feedback as always is welcome.
-
-Read datasheet for details.
+The library is **not** tested and verified with hardware yet.
 
 ==> **USE WITH CARE**
 
-The INA228 is a voltage, current and power measurement device. 
-A few important maxima, see datasheet.
+Feedback as always is welcome.
 
-|  description  |  max  |  unit  | notes |
-|:--------------|------:|-------:|:------|
-| bus voltage   |  85   | Volt   |  unclear for how long.
-| shunt voltage |  ??   | mVolt  |
-| current       |  10   | Ampere |  DC only
+The INA228 is a voltage, current and power measurement device.
+A few important data, see datasheet.
+
+|  description   |  value      |  notes  |
+|:---------------|:-----------:|:--------|
+|  bus voltage   |  85 Volt    |  unclear for how long.
+|  shunt voltage |  ?? mVolt   |
+|  current       |  10 Ampere  |  DC only
+|  ADC           |  20 bit     |
+|  alert timing  |  75 µs.     |
+
+Read the datasheet for the details, Section 7, Page 12++.
 
 
 #### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
+- ° == degree = ALT-0176 (Windows)
+- ± == plus minus = ALT-177 (Windows)
 
 
 #### Related
@@ -66,35 +80,35 @@ A few important maxima, see datasheet.
 
 #### Address
 
-The sensor can have 16 different I2C addresses, 
-which depends on how the A0 and A1 address lines 
+The sensor can have 16 different I2C addresses,
+which depends on how the A0 and A1 address lines
 are connected to the SCL, SDA, GND and VCC pins.
 
-See table - from datasheet table 2, page18.
+See table - from datasheet table 7-2, page 19.
 
-|  A1   |  A0   |  ADDRESS   |
-|:-----:|:-----:|:----------:|
-|  GND  |  GND  |  1000000   |
-|  GND  |  VS   |  1000001   |
-|  GND  |  SDA  |  1000010   |
-|  GND  |  SCL  |  1000011   |
-|  VS   |  GND  |  1000100   |
-|  VS   |  VS   |  1000101   |
-|  VS   |  SDA  |  1000110   |
-|  VS   |  SCL  |  1000111   |
-|  SDA  |  GND  |  1001000   |
-|  SDA  |  VS   |  1001001   |
-|  SDA  |  SDA  |  1001010   |
-|  SDA  |  SCL  |  1001011   |
-|  SCL  |  GND  |  1001100   |
-|  SCL  |  VS   |  1001101   |
-|  SCL  |  SDA  |  1001110   |
-|  SCL  |  SCL  |  1001111   |
+|  A1   |  A0   |  Addr  |  HEX   |
+|:-----:|:-----:|:------:|:------:|
+|  GND  |  GND  |   64   |  0x40  |
+|  GND  |  VS   |   65   |  0x41  |
+|  GND  |  SDA  |   66   |  0x42  |
+|  GND  |  SCL  |   67   |  0x43  |
+|  VS   |  GND  |   68   |  0x44  |
+|  VS   |  VS   |   69   |  0x45  |
+|  VS   |  SDA  |   70   |  0x46  |
+|  VS   |  SCL  |   71   |  0x47  |
+|  SDA  |  GND  |   72   |  0x48  |
+|  SDA  |  VS   |   73   |  0x49  |
+|  SDA  |  SDA  |   74   |  0x4A  |
+|  SDA  |  SCL  |   75   |  0x4B  |
+|  SCL  |  GND  |   76   |  0x4C  |
+|  SCL  |  VS   |   77   |  0x4D  |
+|  SCL  |  SDA  |   78   |  0x4E  |
+|  SCL  |  SCL  |   79   |  0x4F  |
 
 
 #### Performance
 
-To be elaborated, 
+To be elaborated,
 
 
 ## Interface
@@ -106,7 +120,7 @@ To be elaborated,
 
 #### Constructor
 
-- **INA228(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
+- **INA228(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
 the address and optional Wire interface.
 - **bool begin()** initializes the class.
 returns true if the INA228 address is on the I2C bus.
@@ -127,7 +141,11 @@ Also the value is not meaningful if there is no shunt connected.
 - **float getEnergy()** return Joule (elaborate).
 - **float getCharge()** return Coulomb (elaborate).
 
-The library has helper functions to convert above output to a more appropriate scale of units.
+The **getEnergy()** and **getCharge()** only have meaning in continuous
+mode. See page 13++.
+
+The library has helper functions to convert above output to a more
+appropriate scale of units.
 
 Helper functions for the milli scale.
 
@@ -150,10 +168,10 @@ Helper functions for the micro scale.
 
 #### Configuration
 
-to elaborate
+Read datasheet for details, section 7.6.1.1, page 22
 
 - **void reset()**
-- **bool setAccumulation(uint8_t val)** val: 0 == normal operation,  1 = clear registers
+- **bool setAccumulation(uint8_t value)** value: 0 == normal operation,  1 = clear registers
 - **bool getAccumulation()** return set value.
 - **void setConversionDelay(uint8_t steps)**  Conversion delay in 0..255 steps of 2 ms
 - **uint8_t getConversionDelay()** return set value.
@@ -164,7 +182,7 @@ to elaborate
 
 #### Configuration ADC
 
-to elaborate
+Read datasheet for details, section 7.6.1.2, page 22++
 
 - **bool setMode(uint8_t mode = INA228_MODE_CONT_TEMP_BUS_SHUNT)**
 - **uint8_t getMode()** return set value.
@@ -224,30 +242,63 @@ to elaborate
 
 #### Shunt Calibration
 
-To elaborate
+To elaborate, read datasheet for details.
 
 - **int setMaxCurrentShunt(float maxCurrent, float shunt)**
 - **bool isCalibrated()** is valid calibration value.
-- **float getMaxCurrent()** return set value
-- **float getShunt()** return set value
+- **float getMaxCurrent()** return set value.
+- **float getShunt()** return set value.
 
 
 #### Shunt temperature coefficient
 
-To elaborate
+Read datasheet for details, page 16.
 
-- **bool setShuntTemperatureCoefficent(uint16_t ppm = 0)** ppm = 0..16383.
+The INA228 can compensate for shunt temperature variance to increase accuracy.
+The reference temperature is 25°C.
+- Enter the coefficient with **setShuntTemperatureCoefficent(uint16_t ppm)**.
+- Enable the function with **setTemperatureCompensation(true)**.
+
+In formula:
+```
+Radjusted = Rnominal + (Rnominal x (temperature - 25) x PPM) * 10e-6;
+```
+
+- **bool setShuntTemperatureCoefficent(uint16_t ppm = 0)** ppm = 0..16383 ppm/°C.
+Default 0 for easy reset.
 - **uint16_t getShuntTemperatureCoefficent()** return set value.
 
 
 #### Diagnose alert
 
-TODO
+Read datasheet for details, section 7.6.1.12, page 26++.
+
+- **void setDiagnoseAlert(uint16_t flags)** set all flags as bit mask.
+- **uint16_t getDiagnoseAlert()** return all flags as bit mask.
+
+INA228.h has an enum for the bit fields.
+
+- **void setDiagnoseAlertBit(uint8_t bit)** set individual bit.
+- **void clrDiagnoseAlertBit(uint8_t bit)** clear individual bit.
+- **uint16_t getDiagnoseAlertBit(uint8_t bit)** return individual bit.
 
 
 #### Threshold and Limits
 
-TODO
+Read datasheet for details, section 7.3.7, page 16++
+
+- **void setShuntOvervoltageTH(uint16_t threshold)**
+- **uint16_t getShuntOvervoltageTH()**
+- **void setShuntUndervoltageTH(uint16_t threshold)**
+- **uint16_t getShuntUndervoltageTH()**
+- **void setBusOvervoltageTH(uint16_t threshold)**
+- **uint16_t getBusOvervoltageTH()**
+- **void setBusUndervoltageTH(uint16_t threshold)**
+- **uint16_t getBusUndervoltageTH()**
+- **void setTemperatureOverLimitTH(uint16_t threshold)**
+- **uint16_t getTemperatureOverLimitTH()**
+- **void setPowerOverLimitTH(uint16_t threshold)**
+- **uint16_t getPowerOverLimitTH()**
 
 
 #### Manufacturer and ID
@@ -262,15 +313,14 @@ TODO
 
 #### Must
 
-- get hardware, test and verify.
-- update documentation.
-- update functionality.
-  - diagnose, thresholds limits
+- get hardware.
+- test and verify.
 
 
 #### Should
 
-- write examples.
+- update documentation.
+- write examples, (please share yours).
 - keep in sync with INA226 where possible.
 
 
@@ -281,7 +331,7 @@ TODO
 
 #### Won't
 
-- cache registers for performance 
+- cache registers for performance
   - first get library working / tested.
   - reset should reread all cached values...
 

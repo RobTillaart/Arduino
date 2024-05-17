@@ -33,6 +33,7 @@ getPower_uW	KEYWORD2
 getEnergy_uJ	KEYWORD2
 getCharge_uC	KEYWORD2
 
+
 reset	KEYWORD2
 setAccumulation	KEYWORD2
 getAccumulation	KEYWORD2
@@ -42,6 +43,7 @@ setTemperatureCompensation	KEYWORD2
 getTemperatureCompensation	KEYWORD2
 setADCRange	KEYWORD2
 getADCRange	KEYWORD2
+
 
 setMode	KEYWORD2
 getMode	KEYWORD2
@@ -54,6 +56,7 @@ getTemperatureConversionTime	KEYWORD2
 setAverage	KEYWORD2
 getAverage	KEYWORD2
 
+
 setMaxCurrentShunt	KEYWORD2
 isCalibrated	KEYWORD2
 getMaxCurrent	KEYWORD2
@@ -62,6 +65,26 @@ getShunt	KEYWORD2
 setShuntTemperatureCoefficent	KEYWORD2
 getShuntTemperatureCoefficent	KEYWORD2
 
+
+setDiagnoseAlert	KEYWORD2
+getDiagnoseAlert	KEYWORD2
+setDiagnoseAlertBit	KEYWORD2
+clrDiagnoseAlertBit	KEYWORD2
+getDiagnoseAlertBit	KEYWORD2
+
+
+setShuntOvervoltageTH	KEYWORD2
+getShuntOvervoltageTH	KEYWORD2
+setShuntUndervoltageTH	KEYWORD2
+getShuntUndervoltageTH	KEYWORD2
+setBusOvervoltageTH	KEYWORD2
+getBusOvervoltageTH	KEYWORD2
+setBusUndervoltageTH	KEYWORD2
+getBusUndervoltageTH	KEYWORD2
+setTemperatureOverLimitTH	KEYWORD2
+getTemperatureOverLimitTH	KEYWORD2
+setPowerOverLimitTH	KEYWORD2
+getPowerOverLimitTH	KEYWORD2
 
 
 getManufacturer	KEYWORD2

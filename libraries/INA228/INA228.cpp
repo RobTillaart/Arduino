@@ -1,8 +1,8 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-05-09
-// PURPOSE: Arduino library for INA228 power sensor
+// PURPOSE: Arduino library for INA228 voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
 //
 //  Read the datasheet for the details
@@ -10,6 +10,27 @@
 
 #include "INA228.h"
 
+//      REGISTERS                   ADDRESS    BITS  RW
+#define INA228_CONFIG               0x00    //  16   RW
+#define INA228_ADC_CONFIG           0x01    //  16   RW
+#define INA228_SHUNT_CAL            0x02    //  16   RW
+#define INA228_SHUNT_TEMP_CO        0x03    //  16   RW
+#define INA228_SHUNT_VOLTAGE        0x04    //  24   R-
+#define INA228_BUS_VOLTAGE          0x05    //  24   R-
+#define INA228_TEMPERATURE          0x06    //  16   R-
+#define INA228_CURRENT              0x07    //  24   R-
+#define INA228_POWER                0x08    //  24   R-
+#define INA228_ENERGY               0x09    //  40   R-
+#define INA228_CHARGE               0x0A    //  40   R-
+#define INA228_DIAG_ALERT           0x0B    //  16   RW
+#define INA228_SOVL                 0x0C    //  16   RW
+#define INA228_SUVL                 0x0D    //  16   RW
+#define INA228_BOVL                 0x0E    //  16   RW
+#define INA228_BUVL                 0x0F    //  16   RW
+#define INA228_TEMP_LIMIT           0x10    //  16   RW
+#define INA228_POWER_LIMIT          0x11    //  16   RW
+#define INA228_MANUFACTURER         0x3E    //  16   R-
+#define INA228_DEVICE_ID            0x3F    //  16   R-
 
 
 ////////////////////////////////////////////////////////
@@ -125,13 +146,13 @@ void INA228::reset()
   _writeRegister(INA228_CONFIG, value);
 }
 
-bool INA228::setAccumulation(uint8_t val)
+bool INA228::setAccumulation(uint8_t value)
 {
-  if (val > 1) return false;
-  uint16_t value = _readRegister(INA228_CONFIG, 2);
-  value &= ~0x4000;
-  if (val == 1) value |= 0x4000;
-  _writeRegister(INA228_CONFIG, value);
+  if (value > 1) return false;
+  uint16_t reg = _readRegister(INA228_CONFIG, 2);
+  reg &= ~0x4000;
+  if (value == 1) reg |= 0x4000;
+  _writeRegister(INA228_CONFIG, reg);
   return true;
 }
 
@@ -317,7 +338,36 @@ uint16_t INA228::getShuntTemperatureCoefficent()
 //
 //  DIAGNOSE ALERT REGISTER 11
 //
+void INA228::setDiagnoseAlert(uint16_t flags)
+{
+  _writeRegister(INA228_DIAG_ALERT, flags);
+}
 
+uint16_t INA228::getDiagnoseAlert()
+{
+  return _readRegister(INA228_DIAG_ALERT, 2);
+}
+
+//  INA228.h has an enum for the bit fields.
+void INA228::setDiagnoseAlertBit(uint8_t bit)
+{
+  uint16_t value = _readRegister(INA228_DIAG_ALERT, 2);
+  value |= (1 << bit);
+  _writeRegister(INA228_DIAG_ALERT, value);
+}
+
+void INA228::clrDiagnoseAlertBit(uint8_t bit)
+{
+  uint16_t value = _readRegister(INA228_DIAG_ALERT, 2);
+  value &= ~(1 << bit);
+  _writeRegister(INA228_DIAG_ALERT, value);
+}
+
+uint16_t INA228::getDiagnoseAlertBit(uint8_t bit)
+{
+  uint16_t value = _readRegister(INA228_DIAG_ALERT, 2);
+  return (value >> bit) & 0x01;
+}
 
 
 ////////////////////////////////////////////////////////
@@ -325,8 +375,67 @@ uint16_t INA228::getShuntTemperatureCoefficent()
 //  THRESHOLD AND LIMIT REGISTERS 12-17
 //
 
+void INA228::setShuntOvervoltageTH(uint16_t threshold)
+{
+  _writeRegister(INA228_SOVL, threshold);
+}
 
+uint16_t INA228::getShuntOvervoltageTH()
+{
+  return _readRegister(INA228_SOVL, 2);
+}
 
+void INA228::setShuntUndervoltageTH(uint16_t threshold)
+{
+  _writeRegister(INA228_SUVL, threshold);
+}
+
+uint16_t INA228::getShuntUndervoltageTH()
+{
+  return _readRegister(INA228_SUVL, 2);
+}
+
+void INA228::setBusOvervoltageTH(uint16_t threshold)
+{
+  if (threshold > 0x7FFF) return;
+  _writeRegister(INA228_BOVL, threshold);
+}
+
+uint16_t INA228::getBusOvervoltageTH()
+{
+  return _readRegister(INA228_BOVL, 2);
+}
+
+void INA228::setBusUndervoltageTH(uint16_t threshold)
+{
+  if (threshold > 0x7FFF) return;
+  _writeRegister(INA228_BUVL, threshold);
+}
+
+uint16_t INA228::getBusUndervoltageTH()
+{
+  return _readRegister(INA228_BUVL, 2);
+}
+
+void INA228::setTemperatureOverLimitTH(uint16_t threshold)
+{
+  _writeRegister(INA228_TEMP_LIMIT, threshold);
+}
+
+uint16_t INA228::getTemperatureOverLimitTH()
+{
+  return _readRegister(INA228_TEMP_LIMIT, 2);
+}
+
+void INA228::setPowerOverLimitTH(uint16_t threshold)
+{
+  _writeRegister(INA228_POWER_LIMIT, threshold);
+}
+
+uint16_t INA228::getPowerOverLimitTH()
+{
+  return _readRegister(INA228_POWER_LIMIT, 2);
+}
 
 
 ////////////////////////////////////////////////////////

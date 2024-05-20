@@ -63,6 +63,7 @@ void printDate(Stream &str)
   str.print(buffer);
 }
 
+
 void printTime(Stream &str)
 {
   char buffer[16];
@@ -70,5 +71,6 @@ void printTime(Stream &str)
         rtc.hours(), rtc.minutes(), rtc.seconds());
   str.print(buffer);
 }
+
 
 //  --  END OF FILE  --

@@ -31,10 +31,21 @@ setDay	KEYWORD2
 setMonth	KEYWORD2
 setYear	KEYWORD2
 
+getTemperature	KEYWORD2
+
 readRegister	KEYWORD2
 writeRegister	KEYWORD2
 
 lastRv	KEYWORD2
+
+
+# DS3232 specific
+SRAMwrite8	KEYWORD2
+SRAMwrite16	KEYWORD2
+SRAMwrite32	KEYWORD2
+SRAMread8	KEYWORD2
+SRAMread16	KEYWORD2
+SRAMread32	KEYWORD2
 
 
 # Constants (LITERAL1)

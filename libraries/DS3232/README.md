@@ -41,14 +41,14 @@ from 2011 which was never published.
 
 #### Tests
 
-All examples are tested with Arduino UNO with 100KHz I2C.
+All 0.4.0 examples are tested with Arduino UNO with 100KHz I2C.
 
 
 #### Compatibles
 
 The DS3231 RTC is compatible for the date and time keeping part.
 The only difference found is that the DS3231 does not have the 
-236 bytes of **battery backupped** SRAM the DS3232 has.
+236 bytes of **battery back-upped** SRAM the DS3232 has.
 
 
 #### Related
@@ -166,6 +166,15 @@ Setters set a value, to update the RTC call **write()** after.
 Note: you can also adjust just one field and keep the others.
 
 
+#### Temperature
+
+Note that the temperature measurement is only refreshed every 64 (default),
+128, 256 or 512 seconds.
+The interval can be set with bits 5 and 4 of the CONTROL/STATUS register (0x0F).
+
+- **float getTemperature()** return temperature in 0.25°C steps.
+
+
 #### Low level: Read/WriteRegister
 
 Allows to access all functionality the library did not implement (yet).
@@ -182,6 +191,25 @@ In case of an I2C error one can get the last return value
 of ```wire.EndTransmission()``` to get an indication of the problem.
 
 - **int lastRv()** values depend on platform used.
+
+
+## DS3232 SRAM 
+
+Experimental SRAM support, needs to be tested / verified.  
+Feedback welcome.
+
+SRAM is DS3232 specific, and it has 236 bytes.
+The following functions use index 0..235. The user should guard 
+the index esp. for the 16 and 32 bit versions as it is not checked.
+
+236 bytes can be used e.g. to hold 78 hms timestamps
+
+- **int SRAMwrite8(uint8_t index, uint8_t value)**
+- **int SRAMwrite16(uint8_t index, uint16_t value)**
+- **int SRAMwrite32(uint8_t index, uint32_t value)**
+- **uint8_t SRAMread8(uint8_t index)**
+- **uint16_t SRAMread16(uint8_t index)**
+- **uint32_t SRAMread32(uint8_t index)**
 
 
 ## Notes
@@ -202,6 +230,9 @@ why 0 == Thursday. Epoch (1-1-1970) is a Thursday.
 
 ## Future
 
+Idea: use the DS3231 as the small footprint version
+and allow the DS3232 to support all functionality.
+
 #### Must
 
 - improve documentation.
@@ -212,31 +243,35 @@ why 0 == Thursday. Epoch (1-1-1970) is a Thursday.
 - test performance / footprint
 - can the trick from the example be included in the library?
   - extra footprint?
+- test SRAM with a DS3232 (need hardware)
 
 #### Could
 
-DS3232_EXT class
 - add readDate() + readTime()
   - less IO
-  - as date is not read so often?
-- int getTemperature();
-- AM/PM support could be done in software.
-  - simpler than decoding RTC?
+  - as date is not read so often.
 
-
-DS3232EE class for SRAM 236 bytes 
-- int SRAMwrite8(uint8_t index, uint8_t value);
-- int SRAMwrite16(uint8_t index, uint16_t value);
-- int SRAMwrite32(uint8_t index, uint32_t value);
-- int SRAMread8(uint8_t index, uint8_t value);
-- int SRAMread16(uint8_t index, uint16_t value);
-- int SRAMread32(uint8_t index, uint32_t value);
-- float and char array support?
+DS3232 derived class SRAM - test
+- int SRAMwriteFloat(uint8_t index, uint8_t value);
+- float SRAMreadFloat(uint8_t index);
+- float and char array support?  Template T;
+- optimize SRAM read and write functions (performance)
+  - writeRegister(idx, buf, size)
 
 
 #### Wont
 
 Other extended functionality (or in derived class)
+- void startRTC();
+- void stopRTC();
+- bool isRunningRTC();
+- void setSQWMode(uint8_t);  //  0..3 ??
+- alarm 1 & 2, same reg array?
+- RESET pin input and output
+- AM/PM mode not supported, user can handle this easily
+  - bool is24Mode();
+  - void set24Mode();
+  - void set12Mode();
 
 
 ## Support

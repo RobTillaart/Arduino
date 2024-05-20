@@ -2,7 +2,7 @@
 //    FILE: DS3232.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -14,11 +14,11 @@
 //
 //  CONSTRUCTOR
 //
-DS3232::DS3232(TwoWire *wire)
+DS3231::DS3231(TwoWire *wire)
 {
   _wire     = wire;
   _address  = 0x68;  //  fixed.
-  _type     = 3232;
+  _type     = 3231;
   _lastRead = 0;
   for (int i = 0; i < 7; i++)
   {
@@ -27,14 +27,14 @@ DS3232::DS3232(TwoWire *wire)
 }
 
 
-int DS3232::begin()
+int DS3231::begin()
 {
   if (! isConnected() ) return DS3232_ERROR_CONNECT;
   return DS3232_OK;
 }
 
 
-bool DS3232::isConnected()
+bool DS3231::isConnected()
 {
   _wire->beginTransmission(_address);
   _rv = _wire->endTransmission();
@@ -42,13 +42,13 @@ bool DS3232::isConnected()
 }
 
 
-uint8_t DS3232::getAddress()
+uint8_t DS3231::getAddress()
 {
   return _address;
 }
 
 
-uint16_t DS3232::getType()
+uint16_t DS3231::getType()
 {
   return _type;
 }
@@ -58,7 +58,7 @@ uint16_t DS3232::getType()
 //
 //  CORE
 //
-int DS3232::read()
+int DS3231::read()
 {
   _wire->beginTransmission(_address);
   _wire->write(DS3232_SECONDS);
@@ -81,7 +81,7 @@ int DS3232::read()
 }
 
 
-int DS3232::write()
+int DS3231::write()
 {
   _wire->beginTransmission(_address);
   _wire->write(DS3232_SECONDS);
@@ -103,7 +103,7 @@ int DS3232::write()
 }
 
 
-uint32_t DS3232::lastRead()
+uint32_t DS3231::lastRead()
 {
   return _lastRead;
 }
@@ -113,33 +113,46 @@ uint32_t DS3232::lastRead()
 //
 //  GETTERS
 //
-uint8_t DS3232::seconds() { return _reg[0]; }
-uint8_t DS3232::minutes() { return _reg[1]; }
-uint8_t DS3232::hours()   { return _reg[2]; }
-uint8_t DS3232::weekDay() { return _reg[3]; }
-uint8_t DS3232::day()     { return _reg[4]; }
-uint8_t DS3232::month()   { return _reg[5]; }
-uint8_t DS3232::year()    { return _reg[6]; }
+uint8_t DS3231::seconds() { return _reg[0]; }
+uint8_t DS3231::minutes() { return _reg[1]; }
+uint8_t DS3231::hours()   { return _reg[2]; }
+uint8_t DS3231::weekDay() { return _reg[3]; }
+uint8_t DS3231::day()     { return _reg[4]; }
+uint8_t DS3231::month()   { return _reg[5]; }
+uint8_t DS3231::year()    { return _reg[6]; }
 
 
 /////////////////////////////////////////////////////////
 //
 //  SETTERS
 //
-void DS3232::setSeconds(uint8_t value) { _reg[0] = value; }
-void DS3232::setMinutes(uint8_t value) { _reg[1] = value; }
-void DS3232::setHours(uint8_t value)   { _reg[2] = value; }
-void DS3232::setWeekDay(uint8_t value) { _reg[3] = value; }
-void DS3232::setDay(uint8_t value)     { _reg[4] = value; }
-void DS3232::setMonth(uint8_t value)   { _reg[5] = value; }
-void DS3232::setYear(uint8_t value)    { _reg[6] = value; }
+void DS3231::setSeconds(uint8_t value) { _reg[0] = value; }
+void DS3231::setMinutes(uint8_t value) { _reg[1] = value; }
+void DS3231::setHours(uint8_t value)   { _reg[2] = value; }
+void DS3231::setWeekDay(uint8_t value) { _reg[3] = value; }
+void DS3231::setDay(uint8_t value)     { _reg[4] = value; }
+void DS3231::setMonth(uint8_t value)   { _reg[5] = value; }
+void DS3231::setYear(uint8_t value)    { _reg[6] = value; }
+
+
+/////////////////////////////////////////////////////////
+//
+//  TEMPERATURE
+//
+float DS3231::getTemperature()
+{
+  float temperature = (int8_t)readRegister(DS3232_TEMPERATURE);
+  int   fraction = readRegister(DS3232_TEMPERATURE + 1);
+  if (fraction != 0) temperature += (fraction >> 6) * 0.25;
+  return temperature;
+}
 
 
 /////////////////////////////////////////////////////////
 //
 //  LOW LEVEL
 //
-int DS3232::readRegister(uint8_t reg)
+int DS3231::readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
@@ -154,7 +167,7 @@ int DS3232::readRegister(uint8_t reg)
 }
 
 
-int DS3232::writeRegister(uint8_t reg, uint8_t value)
+int DS3231::writeRegister(uint8_t reg, uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
@@ -170,13 +183,13 @@ int DS3232::writeRegister(uint8_t reg, uint8_t value)
 //  PRIVATE
 //
 
-uint8_t DS3232::dec2bcd(uint8_t value)
+uint8_t DS3231::dec2bcd(uint8_t value)
 {
   return value + 6 * (value / 10);
 }
 
 
-uint8_t DS3232::bcd2dec(uint8_t value)
+uint8_t DS3231::bcd2dec(uint8_t value)
 {
   return value - 6 * (value >> 4);
 }
@@ -190,11 +203,68 @@ uint8_t DS3232::bcd2dec(uint8_t value)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  DS3231
+//  DS3232
 //
-DS3231::DS3231(TwoWire *wire) : DS3232(wire)
+DS3232::DS3232(TwoWire *wire) : DS3231(wire)
 {
-  _type = 3231;
+  _type = 3232;
+}
+
+
+//
+//  SRAM 236 bytes, register 0x14-0xFF
+//  index = 0x00..0xEB == 0..235
+//  note: no boundary check
+int DS3232::SRAMwrite8(uint8_t index, uint8_t value)
+{
+  uint8_t position = DS3232_SRAM_BASE + index;
+  return writeRegister(position, value);
+}
+
+int DS3232::SRAMwrite16(uint8_t index, uint16_t value)
+{
+  uint8_t position = DS3232_SRAM_BASE + index;
+  writeRegister(position, value >> 8);
+  return writeRegister(position + 1, value & 0xFF);
+}
+
+int DS3232::SRAMwrite32(uint8_t index, uint32_t value)
+{
+  uint32_t val = value;
+  uint8_t position = DS3232_SRAM_BASE + index;
+  for (int i = 0; i < 4; i++)
+  {
+    writeRegister(position + i, val & 0xFF);
+    val >>= 8;
+  }
+  return DS3232_OK;
+}
+
+uint8_t DS3232::SRAMread8(uint8_t index)
+{
+  uint8_t position = DS3232_SRAM_BASE + index;
+  return readRegister(position);
+}
+
+uint16_t DS3232::SRAMread16(uint8_t index)
+{
+  uint8_t position = DS3232_SRAM_BASE + index;
+  uint16_t val = readRegister(position);
+  val <<= 8;
+  val += readRegister(position + 1);
+  return val;
+}
+
+uint32_t DS3232::SRAMread32(uint8_t index)
+{
+  uint32_t val = 0;
+  uint8_t position = DS3232_SRAM_BASE + index;
+  for (int i = 3; i >= 0; i--)
+  {
+    val <<= 8;
+    val += readRegister(position + i);
+  }
+  return val;
 }
 
 

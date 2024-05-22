@@ -1,0 +1,21 @@
+# Syntax Colouring Map For Kurtosis
+
+# Data types (KEYWORD1)
+Kurtosis	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+reset	KEYWORD2
+
+add	KEYWORD2
+count	KEYWORD2
+mean	KEYWORD2
+variance	KEYWORD2
+stddev	KEYWORD2
+skewness	KEYWORD2
+kurtosis	KEYWORD2
+
+
+# Constants (LITERAL1)
+KURTOSIS_LIB_VERSION	LITERAL1
+

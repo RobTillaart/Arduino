@@ -2,10 +2,10 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2010-??-??
 // PURPOSE: library for MAX44009 lux sensor Arduino
-
+//     URL: https://github.com/RobTillaart/MAX44009
 
 
 //      breakout MAX44009 / GY-49
@@ -33,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION                  (F("0.6.0"))
+#define MAX44009_LIB_VERSION                  (F("0.6.1"))
 
 #define MAX44009_DEFAULT_ADDRESS              0x4A
 #define MAX44009_ALT_ADDRESS                  0x4B
@@ -71,8 +71,12 @@ public:
   Max44009(const uint8_t address = MAX44009_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
   bool    isConnected();
+  uint8_t getAddress();
+
+
   float   getLux();
   int     getError();
+
 
   //      threshold must be between 0 and 188006
   bool    setHighThreshold(const float value);       //  returns false if value out of range
@@ -82,10 +86,12 @@ public:
   void    setThresholdTimer(const uint8_t value);    //  2 seems practical minimum
   uint8_t getThresholdTimer();
 
+
   void    enableInterrupt()    { write(MAX44009_INTERRUPT_ENABLE, 1); };
   void    disableInterrupt()   { write(MAX44009_INTERRUPT_ENABLE, 0); };
   bool    interruptEnabled()   { return read(MAX44009_INTERRUPT_ENABLE) & 0x01; };
   uint8_t getInterruptStatus() { return read(MAX44009_INTERRUPT_STATUS) & 0x01; };
+
 
   //  check datasheet for detailed behaviour
   void    setConfiguration(uint8_t);
@@ -105,7 +111,9 @@ public:
   //      110    12.5ms     manual only
   //      111     6.25ms    manual only
   void    setManualMode(uint8_t CDR, uint8_t TIM);
-  int     getIntegrationTime() { return 800 >> (getConfiguration() & 0x07); };  //  ms
+  int     getCurrentDivisorRatio();  //  CDR 0/1
+  int     getIntegrationTime();      //  TIM in ms (rounded)
+
 
   //  TEST the math
   float   convertToLux(uint8_t datahigh, uint8_t datalow);

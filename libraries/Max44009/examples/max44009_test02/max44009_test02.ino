@@ -3,6 +3,7 @@
 //  AUTHOR: Moritz Ulmer
 // PURPOSE: demo of max44009 library
 //    DATE: 2020-01-19
+//     URL: https://github.com/RobTillaart/MAX44009
 //
 //    NOTE: To select the alternative I2C address on the GY-49 breakout board,
 //          the A0 pin has to be set to 3V3. It is soldered to GND by default.
@@ -10,12 +11,11 @@
 //          Made for ESP specific; does not work on UNO; 
 
 
-
-
 #include "Wire.h"
 #include "Max44009.h"
 
-// Don't begin I2C interface (Wire). Will be called in setup()
+
+//  Don't begin I2C interface (Wire). Will be called in setup()
 Max44009 myLuxA(MAX44009_DEFAULT_ADDRESS, &Wire);
 Max44009 myLuxB(MAX44009_ALT_ADDRESS, &Wire);
 Max44009 myLuxC(MAX44009_DEFAULT_ADDRESS, &Wire1);
@@ -30,6 +30,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44009_LIB_VERSION: ");
   Serial.println(MAX44009_LIB_VERSION);
+  Serial.println();
 
   Wire.begin(19, 18);
   Wire1.begin(22, 23);
@@ -49,5 +50,5 @@ void loop() {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

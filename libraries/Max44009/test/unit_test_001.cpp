@@ -32,7 +32,6 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "Max44009.h"
 
 
@@ -80,9 +79,9 @@ unittest(test_constructor)
   Wire.begin();
 
   assertEqual(MAX44009_OK, LuxA.getError());
-  assertTrue(LuxA.isConnected());   // TODO should be false...
+  assertTrue(LuxA.isConnected());   //  TODO should be false...
 
-  // TODO more tests if WIRE works...
+  //  TODO more tests if WIRE works...
 }
 
 

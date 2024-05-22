@@ -6,6 +6,8 @@ Max44009	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 isConnected	KEYWORD2
+getAddress()	KEYWORD2
+
 getLux	KEYWORD2
 getError	KEYWORD2
 
@@ -25,10 +27,11 @@ setConfiguration	KEYWORD2
 getConfiguration	KEYWORD2
 setAutomaticMode	KEYWORD2
 setContinuousMode	KEYWORD2
-setManualMode	KEYWORD2
 clrContinuousMode	KEYWORD2
-getIntegrationTime	KEYWORD2
 
+setManualMode	KEYWORD2
+getIntegrationTime	KEYWORD2
+getCurrentDivisorRatio	KEYWORD2
 
 # Instances (KEYWORD2)
 

@@ -9,7 +9,8 @@
 
 #include "Max44009.h"
 
-// MAX44007 KEY VALUES
+
+//  MAX44009 KEY VALUES
 #define MAX44009_MIN_LUX                       (0.045)
 #define MAX44009_MAX_LUX                       (188006.0)
 
@@ -28,6 +29,12 @@ bool Max44009::isConnected()
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();
   return (_error == 0);
+}
+
+
+uint8_t Max44009::getAddress()
+{
+  return _address;
 }
 
 
@@ -115,7 +122,7 @@ uint8_t Max44009::getConfiguration()
 
 void Max44009::setAutomaticMode()
 {
-  // CDR & TIM cannot be written in automatic mode
+  //  CDR and TIM cannot be written in automatic mode
   uint8_t config = read(MAX44009_CONFIGURATION);
   config &= ~MAX44009_CFG_MANUAL;
   write(MAX44009_CONFIGURATION, config);
@@ -140,7 +147,7 @@ void Max44009::clrContinuousMode()
 
 void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 {
-  if (CDR !=0) CDR = 1;    //  only 0 or 1 
+  if (CDR !=0) CDR = 1;    //  only 0 or 1
   if (TIM > 7) TIM = 7;
   uint8_t config = read(MAX44009_CONFIGURATION);
   config |= MAX44009_CFG_MANUAL;
@@ -150,6 +157,22 @@ void Max44009::setManualMode(uint8_t CDR, uint8_t TIM)
 }
 
 
+int Max44009::getCurrentDivisorRatio()
+{
+  uint8_t CDR = read(MAX44009_CONFIGURATION) & 0x08;
+  return CDR >> 3;
+}
+
+
+int Max44009::getIntegrationTime()
+{
+  uint8_t TIM = read(MAX44009_CONFIGURATION) & 0x07;
+  return 800 >> TIM;
+}
+
+
+//  datahigh = [eeee mmmm]
+//  datalow  = [     mmmm]
 float Max44009::convertToLux(uint8_t datahigh, uint8_t datalow)
 {
   uint8_t  exponent = datahigh >> 4;
@@ -168,7 +191,8 @@ bool Max44009::setThreshold(const uint8_t reg, const float value)
   //  CHECK RANGE OF VALUE
   if ((value < 0.0) || (value > MAX44009_MAX_LUX)) return false;
 
-  uint32_t mantissa = round(value * (1.0 / MAX44009_MIN_LUX));     //  compile time optimized.
+  //  compile time optimized.
+  uint32_t mantissa = round(value * (1.0 / MAX44009_MIN_LUX));
   uint8_t exponent = 0;
   while (mantissa > 255)
   {
@@ -185,7 +209,8 @@ bool Max44009::setThreshold(const uint8_t reg, const float value)
 float Max44009::getThreshold(uint8_t reg)
 {
   uint8_t datahigh = read(reg);
-  float lux = convertToLux(datahigh, 0x08);  //  0x08 = correction for lost bits 
+  //  0x08 = correction for lost bits
+  float lux = convertToLux(datahigh, 0x08);
   return lux;
 }
 

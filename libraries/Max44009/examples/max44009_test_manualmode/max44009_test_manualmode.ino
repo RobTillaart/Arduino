@@ -1,5 +1,5 @@
 //
-//    FILE: max44009_setManualMode.ino
+//    FILE: max44009_test_manualmode.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of max44009 library
 //     URL: https://github.com/RobTillaart/MAX44009
@@ -8,7 +8,8 @@
 #include "Max44009.h"
 
 
-Max44009 myLux(0x4A);
+Max44009 myLux(MAX44009_DEFAULT_ADDRESS, &Wire);
+
 
 uint32_t lastDisplay = 0;
 uint32_t lastChangeCDRTIM = 0;
@@ -66,11 +67,15 @@ void loop()
     myLux.setManualMode(CDR, TIM);
     Serial.print("CDR:\t");
     Serial.print((int)CDR);
+    Serial.print("\t");
+    Serial.print(myLux.getCurrentDivisorRatio());  //  read from config
     Serial.print("\tTIM:\t");
-    Serial.println((int)TIM);
+    Serial.print((int)TIM);
+    Serial.print("\t");
+    Serial.print(myLux.getIntegrationTime());  //  read from config
+    Serial.print(" ms\n");
   }
 }
 
 
 //  -- END OF FILE --
-

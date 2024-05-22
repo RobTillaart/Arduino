@@ -25,7 +25,7 @@ dynamic range from 0.045 lux to 188,000 lux.
 #### MAX44007
 
 The MAX44007 is an almost identical sensor that uses a step size of 0.025.
-This implies that this library is not useable 1 to 1 for the MAX44007, however some parts will work/
+This implies that this library is not useable 1 to 1 for the MAX44007, however some parts will work.
 
 
 #### Related
@@ -59,6 +59,51 @@ This implies that this library is not useable 1 to 1 for the MAX44007, however s
 //
 ```
 
+## I2C
+
+#### Address
+
+The MAX44009 can have 2 addresses:
+
+- 0x4A = **MAX44009_DEFAULT_ADDRESS**
+- 0x4B = **MAX44009_ALT_ADDRESS**
+
+See schema above.
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+#### I2C Performance
+
+Performance of the getLux function in microseconds.
+
+|  Clock   |   UNO   |  ESP32  |  Notes  |
+|:--------:|:-------:|:-------:|:-------:|
+|  100000  |         |         |
+|  200000  |         |         |
+|  300000  |         |         |
+|  400000  |         |         |
+|  500000  |         |         |
+|  600000  |         |         |
+
+TODO fill table.
+
 
 ## Interface
 
@@ -71,6 +116,7 @@ This implies that this library is not useable 1 to 1 for the MAX44007, however s
 - **Max44009(const uint8_t address = MAX44009_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor.
 Optional address and optional I2C interface.\
 - **bool isConnected()** returns true if the device address configured is available on I2C bus.
+- **uint8_t getAddress()** returns device address. Convenience function.
 
 NOTE: The user must call **Wire.begin()** or **Wire.begin(SDA, SCL)** in **setup()**.
 
@@ -130,7 +176,7 @@ check datasheet for details
 
 Check datasheet for details.
 
-CCR = Current Divisor Ratio.
+CDR = Current Divisor Ratio.
 
 TIM = Integration time.
 
@@ -141,7 +187,10 @@ Advantage is that the latest data is always available fast.
 - **void clrContinuousMode()** uses less power so better for LOW power configurations.
 - **void setManualMode(uint8_t CDR, uint8_t TIM)** Set the Current Divisor Ratio and the
 integration time manually. Effectively disable automatic mode.
-- **int getIntegrationTime()** returns the set integration time in milliseconds
+- **int getIntegrationTime()** returns the set integration time in milliseconds.
+Note these are rounded down (12 == 12.5 and 6 == 6.25) to minimize math.
+- **int getCurrentDivisorRatio()** returns the set Current Divisor Ratio.
+This is either 0 (full intensity) or 1 (1/8th intensity).
 
 ```
     CDR = Current Divisor Ratio
@@ -162,7 +211,7 @@ integration time manually. Effectively disable automatic mode.
 ### Test functions
 
 Function for the conversion math, not meant to be used directly,
-but by making them public they become testable.
+but by making it public the math becomes testable.
 
 - **float convertToLux(uint8_t dataHigh, uint8_t dataLow)** convert intern register
 format to a LUX value.
@@ -196,12 +245,17 @@ Pull ups on I2C bus are recommended.
 #### Must
 
 - improve documentation
+- buy hardware
 
 #### Should
+
+- run performance test on UNO and ESP32.
 
 #### Could
 
 - merge MAX44007 / MAX44009 library in the future. (shared base class?)
+- read data high and low in one call?
+- convertToLux() overflow test, when exponent == 15.
 
 #### Wont
 

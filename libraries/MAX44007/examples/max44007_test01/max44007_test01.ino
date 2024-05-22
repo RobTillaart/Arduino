@@ -2,11 +2,11 @@
 //    FILE: Max44007_test01.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Max44007 library
-//    DATE: 2022-01-04
+//     URL: https://github.com/RobTillaart/MAX44007
 
 
-#include "Wire.h"
 #include "Max44007.h"
+
 
 Max44007 myLux(0x5B);
 
@@ -19,8 +19,10 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
+
   Wire.setClock(100000);
 }
 
@@ -33,19 +35,19 @@ void loop()
   {
     lastDisplay += interval;
     float lux = myLux.getLux();
-    int err = myLux.getError();
-    if (err != 0)
+    int error = myLux.getError();
+    if (error != 0)
     {
       Serial.print("Error:\t");
-      Serial.println(err);
+      Serial.println(error);
     }
     else
     {
       Serial.print("lux:\t");
-      Serial.println(lux);
+      Serial.println(lux, 3);
     }
   }
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

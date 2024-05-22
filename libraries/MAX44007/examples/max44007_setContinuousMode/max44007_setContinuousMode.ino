@@ -2,7 +2,7 @@
 //    FILE: Max44007_setContinuousMode.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Max44007 library
-//    DATE: 2022-01-04
+//     URL: https://github.com/RobTillaart/MAX44007
 //
 //  note that lux values are repeated a number of times
 //  if read faster than the integration time.
@@ -11,8 +11,8 @@
 //  NB the getLux() call takes a bit more than 1 millisecond
 
 
-#include "Wire.h"
 #include "Max44007.h"
+
 
 Max44007 myLux(0x5A);
 
@@ -28,6 +28,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -42,14 +43,16 @@ void loop()
   {
     lastDisplay += interval;
     count++;
+    //  time the measurement
     start = micros();
     float lux = myLux.getLux();
     stop = micros();
-    int err = myLux.getError();
-    if (err != 0)
+
+    int error = myLux.getError();
+    if (error != 0)
     {
       Serial.print("Error:\t");
-      Serial.println(err);
+      Serial.println(error);
     }
     else
     {
@@ -60,7 +63,10 @@ void loop()
       Serial.println();
     }
   }
-  if (count == 5) myLux.clrContinuousMode();
+  if (count == 5) 
+  {
+    myLux.clrContinuousMode();
+  }
   if (count == 10)
   {
     count = 0;
@@ -69,4 +75,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

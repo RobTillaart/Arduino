@@ -2,11 +2,11 @@
 //    FILE: Max44007_two_sensors.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Max44007 library
-//    DATE: 2022-01-04
+//     URL: https://github.com/RobTillaart/MAX44007
 
 
-#include "Wire.h"
 #include "Max44007.h"
+
 
 Max44007 LuxA(0x5A);
 Max44007 LuxB(0x5B);
@@ -21,8 +21,10 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
+
   Wire.setClock(100000);
 
   Serial.print("\n\tCOUNT\tLUXA\tLUXB\n");
@@ -46,18 +48,19 @@ void loop()
     Serial.print('\t');
 
     float lux = LuxA.getLux();
-    int err = LuxA.getError();
-    if (err != 0) Serial.print(err);
-    else          Serial.print(lux);
+    int error = LuxA.getError();
+    if (error != 0) Serial.print(error);
+    else            Serial.print(lux);
     Serial.print('\t');
 
     lux = LuxB.getLux();
-    err = LuxB.getError();
-    if (err != 0) Serial.print(err);
-    else          Serial.print(lux);
+    error = LuxB.getError();
+    if (error != 0) Serial.print(error);
+    else            Serial.print(lux);
     Serial.println();
   }
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

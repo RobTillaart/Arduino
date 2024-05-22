@@ -1,7 +1,7 @@
 //
 //    FILE: Max44007.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44007
@@ -29,6 +29,12 @@ bool Max44007::isConnected()
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();
   return (_error == 0);
+}
+
+
+uint8_t Max44007::getAddress()
+{
+  return _address;
 }
 
 
@@ -141,7 +147,7 @@ void Max44007::clrContinuousMode()
 
 void Max44007::setManualMode(uint8_t CDR, uint8_t TIM)
 {
-  if (CDR !=0) CDR = 1;    //  only 0 or 1 
+  if (CDR !=0) CDR = 1;    //  only 0 or 1
   if (TIM > 7) TIM = 7;
   uint8_t config = read(MAX44007_CONFIGURATION);
   config |= MAX44007_CFG_MANUAL;
@@ -151,6 +157,22 @@ void Max44007::setManualMode(uint8_t CDR, uint8_t TIM)
 }
 
 
+int Max44007::getCurrentDivisorRatio()
+{
+  uint8_t CDR = read(MAX44007_CONFIGURATION) & 0x08;
+  return CDR >> 3;
+}
+
+
+int Max44007::getIntegrationTime()
+{
+  uint8_t TIM = read(MAX44007_CONFIGURATION) & 0x07;
+  return 800 >> TIM;
+}
+
+
+//  datahigh = [eeee mmmm]
+//  datalow  = [     mmmm]
 float Max44007::convertToLux(uint8_t datahigh, uint8_t datalow)
 {
   uint8_t  exponent = datahigh >> 4;
@@ -169,7 +191,8 @@ bool Max44007::setThreshold(const uint8_t reg, const float value)
   //  CHECK RANGE OF VALUE
   if ((value < 0.0) || (value > MAX44007_MAX_LUX)) return false;
 
-  uint32_t mantissa = round(value * (1.0 / MAX44007_MIN_LUX));     //  compile time optimized.
+  //  compile time optimized.
+  uint32_t mantissa = round(value * (1.0 / MAX44007_MIN_LUX));
   uint8_t exponent = 0;
   while (mantissa > 255)
   {
@@ -186,7 +209,8 @@ bool Max44007::setThreshold(const uint8_t reg, const float value)
 float Max44007::getThreshold(uint8_t reg)
 {
   uint8_t datahigh = read(reg);
-  float lux = convertToLux(datahigh, 0x08);  //  0x08 = correction for lost bits 
+  //  0x08 = correction for lost bits
+  float lux = convertToLux(datahigh, 0x08);
   return lux;
 }
 
@@ -198,12 +222,12 @@ uint8_t Max44007::read(uint8_t reg)
   _error = _wire->endTransmission();
   if (_error != MAX44007_OK)
   {
-    return _data;       //  last value
+    return _data;           //  last value
   }
   if (_wire->requestFrom(_address, (uint8_t) 1) != 1)
   {
     _error = MAX44007_ERROR_WIRE_REQUEST;
-    return _data;       //  last value
+    return _data;           //  last value
   }
   _data = _wire->read();
   return _data;

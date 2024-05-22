@@ -32,7 +32,6 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "Arduino.h"
 #include "Max44007.h"
 
 
@@ -103,5 +102,6 @@ unittest(test_convertToLux)
 
 
 unittest_main()
+
 
 //  -- END OF FILE --

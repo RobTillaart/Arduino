@@ -2,11 +2,11 @@
 //    FILE: Max44007_interrupt.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of Max44007 library
-//    DATE: 2022-01-04
+//     URL: https://github.com/RobTillaart/MAX44007
 
 
-#include "Wire.h"
 #include "Max44007.h"
+
 
 Max44007 myLux(0x5A);
 
@@ -19,8 +19,10 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
+
   myLux.setContinuousMode();
 
   myLux.setHighThreshold(30);
@@ -44,22 +46,29 @@ void loop()
   {
     lastDisplay += interval;
     float lux = myLux.getLux();
-    int err = myLux.getError();
-    int st = myLux.getInterruptStatus();
-    if (err != 0)
+    int error = myLux.getError();
+    int status = myLux.getInterruptStatus();
+    if (error != 0)
     {
       Serial.print("Error:\t");
-      Serial.println(err);
+      Serial.println(error);
     }
     else
     {
       Serial.print("lux:\t");
       Serial.print(lux);
-      if (st == 1) Serial.println("\tIRQ occurred");
-      else Serial.println();
+      if (status == 1) 
+      {
+        Serial.println("\tIRQ occurred");
+      }
+      else 
+      {
+        Serial.println();
+      }
     }
   }
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

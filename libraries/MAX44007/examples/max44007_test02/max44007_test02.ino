@@ -3,6 +3,7 @@
 //  AUTHOR: Moritz Ulmer
 // PURPOSE: demo of Max44007 library
 //    DATE: 2022-01-04
+//     URL: https://github.com/RobTillaart/MAX44007
 //
 //    NOTE: To select the alternative I2C address on the GY-49 breakout board,
 //          the A0 pin has to be set to 3V3. It is soldered to GND by default.
@@ -14,7 +15,7 @@
 #include "Max44007.h"
 
 
-// Don't begin I2C interface (Wire). Will be called in setup()
+//  Don't begin I2C interface (Wire). Will be called in setup()
 Max44007 myLuxA(MAX44007_DEFAULT_ADDRESS, &Wire);
 Max44007 myLuxB(MAX44007_ALT_ADDRESS, &Wire);
 Max44007 myLuxC(MAX44007_DEFAULT_ADDRESS, &Wire1);
@@ -29,6 +30,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
+  Serial.println();
 
   Wire.begin(19, 18);
   Wire1.begin(22, 23);
@@ -48,4 +50,5 @@ void loop() {
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

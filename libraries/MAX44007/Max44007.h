@@ -2,13 +2,13 @@
 
 //    FILE: Max44007.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44007
 
 
-//       breakout MAX44007
+//      breakout MAX44007
 //
 //          +--------+
 //      VCC |o       |
@@ -18,8 +18,8 @@
 //          +--------+
 //
 //  ADDRESS:
-//  0 = 0x4A
-//  1 = 0x4B
+//  0 = 0x5A
+//  1 = 0x5B
 //
 //  INT:
 //  Connect the INT pin to an pull up resistor
@@ -33,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44007_LIB_VERSION                  (F("0.2.0"))
+#define MAX44007_LIB_VERSION                  (F("0.2.1"))
 
 #define MAX44007_DEFAULT_ADDRESS              0x5A
 #define MAX44007_ALT_ADDRESS                  0x5B
@@ -72,10 +72,14 @@ public:
   Max44007(const uint8_t address = MAX44007_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
   bool    isConnected();
+  uint8_t getAddress();
+
+
   float   getLux();
   int     getError();
 
-  //  threshold must be between 0 and 188006
+
+  //      threshold must be between 0 and 188006
   bool    setHighThreshold(const float value);       //  returns false if value out of range
   float   getHighThreshold(void);
   bool    setLowThreshold(const float value);        //  returns false if value out of range
@@ -83,10 +87,12 @@ public:
   void    setThresholdTimer(const uint8_t value);    //  2 seems practical minimum
   uint8_t getThresholdTimer();
 
+
   void    enableInterrupt()    { write(MAX44007_INTERRUPT_ENABLE, 1); };
   void    disableInterrupt()   { write(MAX44007_INTERRUPT_ENABLE, 0); };
   bool    interruptEnabled()   { return read(MAX44007_INTERRUPT_ENABLE) & 0x01; };
   uint8_t getInterruptStatus() { return read(MAX44007_INTERRUPT_STATUS) & 0x01; };
+
 
   //  check datasheet for detailed behaviour
   void    setConfiguration(uint8_t);
@@ -94,19 +100,21 @@ public:
   void    setAutomaticMode();
   void    setContinuousMode();    //  uses more power
   void    clrContinuousMode();    //  uses less power
-  //  CDR = Current Divisor Ratio
-  //  CDR = 1 ==> only 1/8th is measured
-  //  TIM = Time Integration Measurement (table)
-  //  000   800ms
-  //  001   400ms
-  //  010   200ms
-  //  011   100ms
-  //  100    50ms       manual only
-  //  101    25ms       manual only
-  //  110    12.5ms     manual only
-  //  111     6.25ms    manual only
+  //      CDR = Current Divisor Ratio
+  //      CDR = 1 ==> only 1/8th is measured
+  //      TIM = Time Integration Measurement (table)
+  //      000   800ms
+  //      001   400ms
+  //      010   200ms
+  //      011   100ms
+  //      100    50ms       manual only
+  //      101    25ms       manual only
+  //      110    12.5ms     manual only
+  //      111     6.25ms    manual only
   void    setManualMode(uint8_t CDR, uint8_t TIM);
-  int     getIntegrationTime() { return 800 >> (getConfiguration() & 0x07); };  //  ms
+  int     getCurrentDivisorRatio();  //  CDR 0/1
+  int     getIntegrationTime();      //  TIM in ms (rounded)
+
 
   //  TEST the math
   float   convertToLux(uint8_t datahigh, uint8_t datalow);
@@ -127,5 +135,5 @@ protected:
 };
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

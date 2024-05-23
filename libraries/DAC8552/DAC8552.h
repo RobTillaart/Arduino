@@ -3,7 +3,7 @@
 //    FILE: DAC8552.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor  
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2017-12-14
 //     URL: https://github.com/RobTillaart/DAC8552
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define DAC8552_LIB_VERSION           (F("0.5.0"))
+#define DAC8552_LIB_VERSION           (F("0.5.1"))
 
 
 #define DAC8552_POWERDOWN_NORMAL      0
@@ -22,7 +22,10 @@
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

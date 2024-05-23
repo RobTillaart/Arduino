@@ -3,7 +3,7 @@
 //    FILE: AD520X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
@@ -13,19 +13,24 @@
 #include "SPI.h"
 
 
-#define AD520X_LIB_VERSION              (F("0.5.0"))
+#define AD520X_LIB_VERSION              (F("0.5.1"))
 
 #ifndef AD520X_MIDDLE_VALUE
 #define AD520X_MIDDLE_VALUE             128
 #endif
 
+
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass
   #endif
 #endif
+
 
 class AD520X
 {

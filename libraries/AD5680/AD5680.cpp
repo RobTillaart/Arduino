@@ -1,7 +1,7 @@
 //
 //    FILE: AD5680.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 

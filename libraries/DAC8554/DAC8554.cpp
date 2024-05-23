@@ -2,7 +2,7 @@
 //    FILE: DAC8554.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2017-12-19
 //     URL: https://github.com/RobTillaart/DAC8554
 
@@ -126,7 +126,7 @@ void DAC8554::setSingleValue(uint8_t channel, uint16_t value)
 void DAC8554::bufferPowerDown(uint8_t channel, uint8_t powerDownMode)
 {
   _register[channel] = powerDownMode;
-  
+
   uint8_t configRegister = _address;
   configRegister |= DAC8554_BUFFER_WRITE;
   configRegister |= (channel << 1);
@@ -150,7 +150,7 @@ void DAC8554::setPowerDown(uint8_t channel, uint8_t powerDownMode)
 void DAC8554::setSinglePowerDown(uint8_t channel, uint8_t powerDownMode)
 {
   _register[channel] = powerDownMode;
-  
+
   uint8_t configRegister = _address;
   configRegister |= DAC8554_SINGLE_WRITE;
   configRegister |= (channel << 1);

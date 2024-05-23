@@ -18,7 +18,7 @@ Arduino library for DAC8554 SPI Digital Analog Convertor.
 
 The DAC8554 is a SPI based 16 bit DAC with four channels.
 
-**Warning** This library is not tested extensively
+**Warning** This library is not tested extensively.
 
 
 #### 0.4.0 Breaking change
@@ -128,7 +128,6 @@ See examples
 
 - improve documentation
 - testing with hardware
-
 
 #### Should
 

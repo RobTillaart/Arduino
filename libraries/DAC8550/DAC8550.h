@@ -2,8 +2,8 @@
 //
 //    FILE: DAC8550.h
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor  
-// VERSION: 0.3.0
+// PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor
+// VERSION: 0.3.1
 //    DATE: 2021-02-04
 //     URL: https://github.com/RobTillaart/DAC8550
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define DAC8550_LIB_VERSION            (F("0.3.0"))
+#define DAC8550_LIB_VERSION            (F("0.3.1"))
 
 
 #define DAC8550_POWERDOWN_NORMAL        0
@@ -22,7 +22,10 @@
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

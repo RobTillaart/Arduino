@@ -8,6 +8,7 @@ DAC8550	KEYWORD1
 begin	KEYWORD2
 setValue	KEYWORD2
 getValue	KEYWORD2
+
 setPowerDown	KEYWORD2
 getPowerDownMode	KEYWORD2
 

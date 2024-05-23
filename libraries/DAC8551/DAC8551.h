@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor
 //          could work with DAC8550, not tested
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // HISTORY: See DAC8551.cpp
 //     URL: https://github.com/RobTillaart/DAC8551
 //
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define DAC8551_LIB_VERSION            (F("0.4.0"))
+#define DAC8551_LIB_VERSION            (F("0.4.1"))
 
 
 #define DAC8551_POWERDOWN_NORMAL       0
@@ -24,7 +24,10 @@
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

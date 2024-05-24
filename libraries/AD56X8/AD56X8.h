@@ -2,7 +2,7 @@
 //
 //    FILE: AD56X8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -10,11 +10,14 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD56X8_LIB_VERSION        (F("0.3.0"))
+#define AD56X8_LIB_VERSION        (F("0.3.1"))
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.0
+// VERSION: 0.7.1
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -11,9 +11,9 @@
 
 
 //  UNO HARDWARE SPI         PINS
-#define SPI_CLOCK             13          //  not portable.
-#define SPI_MISO              12
-#define SPI_MOSI              11
+//  #define SPI_CLOCK             13          //  not portable.
+//  #define SPI_MISO              12
+//  #define SPI_MOSI              11
 
 
 #define AD985X_POWERDOWN      0x04

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.1] - 2024-05-24
+- add support for ARDUINO_ARCH_MBED
+
 ## [0.7.0] - 2024-02-20
 - Fix #33 AD9851::setRefClockHigh(), thanks to wh201906
 - extended PR #32 to be more robust.

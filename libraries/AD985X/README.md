@@ -41,7 +41,6 @@ way more functionality.
 Note: mainly tested on Arduino UNO.
 
 
-
 #### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
@@ -151,7 +150,6 @@ communication when the **SELECT** is HIGH.
                 +--------+
 
 ```
-
 
 
 The **DATA** line of the device is connected to the output of an **AND** port.  

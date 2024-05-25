@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.0
+// VERSION: 0.7.1
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -12,11 +12,14 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION        (F("0.7.0"))
+#define AD985X_LIB_VERSION        (F("0.7.1"))
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass
@@ -107,7 +110,7 @@ protected:
   uint8_t  _config  = 0;
   int32_t  _offset  = 0;
   bool     _autoUpdate  = true;
-  //  _factoryMask see PR #32, 
+  //  _factoryMask see PR #32,
   //  0xFD is safe value for both AD9850/51
   uint8_t _factoryMask = 0xFD;
 };

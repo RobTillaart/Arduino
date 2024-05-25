@@ -1,8 +1,8 @@
 //
 //    FILE: AD9833_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-08-25
 // PURPOSE: demo AD9833 wave form generator
+//     URL: https://github.com/RobTillaart/AD9833
 
 
 #include "AD9833.h"
@@ -23,9 +23,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  while(!Serial);
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);
+  Serial.println();
   delay(10);
 
   SPI.begin();

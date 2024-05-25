@@ -1,6 +1,6 @@
 //    FILE: AD9833_test_10.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test
+// PURPOSE: test for issue 10
 //     URL: https://github.com/RobTillaart/AD9833/issues/10
 
 
@@ -14,6 +14,9 @@ void setup()
   Serial.begin(115200);
   while(!Serial);
   Serial.println(__FILE__);
+  Serial.print("AD9833_LIB_VERSION: ");
+  Serial.println(AD9833_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

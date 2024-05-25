@@ -2,6 +2,7 @@
 //    FILE: AD9833_multi_device.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo AD9833 wave form generator on 4 devices
+//     URL: https://github.com/RobTillaart/AD9833
 //
 //    TODO: test with hardware
 
@@ -21,7 +22,11 @@ AD9833 AD[4] =
 void setup()
 {
   Serial.begin(115200);
+  while(!Serial);
   Serial.println(__FILE__);
+  Serial.print("AD9833_LIB_VERSION: ");
+  Serial.println(AD9833_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

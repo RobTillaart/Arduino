@@ -2,7 +2,7 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //     URL: https://github.com/RobTillaart/AD9833
 //
 

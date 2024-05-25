@@ -77,7 +77,6 @@ Note: the parameters for pins have moved to the constructor.
 Note: the order of the parameters of the software SPI constructor has changed in 0.2.0.
 
 
-
 #### Related
 
 - https://github.com/RobTillaart/AD985X

@@ -2,7 +2,7 @@
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2012-11-10
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Histogram library for Arduino
 //     URL: https://github.com/RobTillaart/Histogram
 

@@ -31,6 +31,7 @@ If you need more quantitative analysis, you might need the statistics library,
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/Kurtosis
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian

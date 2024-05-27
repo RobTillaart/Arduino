@@ -16,7 +16,7 @@ Arduino library for MCP23S08 8 channel SPI port expander.
 
 ## Description
 
-This experimental library gives easy control over the 8 pins of a (SPI) MCP23S08 chip.
+This library gives easy control over the 8 pins of a (SPI) MCP23S08 chip.
 
 This IC is strongly related to the MCP23017 I2C port expander - https://github.com/RobTillaart/MCP23017_RT
 Programming Interface is kept the same as much as possible.
@@ -69,6 +69,7 @@ Also it makes the library a bit simpler to maintain.
 - https://github.com/RobTillaart/MCP23017_RT
 - https://github.com/RobTillaart/MCP23S17
 - https://github.com/RobTillaart/PCF8575
+- https://github.com/RobTillaart/TCA9555
 
 
 8 bit port expanders
@@ -84,6 +85,7 @@ Also it makes the library a bit simpler to maintain.
 #include "MCP23S08.h"
 ```
 
+
 ### Constructor
 
 - **MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
@@ -97,6 +99,7 @@ Returns false if not connected or a register could not be set.
 - **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
 - **uint8_t getAddress()** returns the address set in the constructor. 
 Default = 0, range = 0..3.
+
 
 The two hardware constructors allow to call 4 different constructors.
 
@@ -136,19 +139,13 @@ See also **IO Control Register** section below.
 
 mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
 
-- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7. 
-Returns true if successful.
-- **bool write1(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). 
-Returns true if successful.
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7. Returns true if successful.
+- **bool write1(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..7, returns LOW or HIGH, might set the lastError();
-- **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..7, set reversed flag. 
-Returns true if successful.
-- **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..7, reads reversed flag. 
-Returns true if successful.
-- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..7, set pull-up flag. 
-Returns true if successful.
-- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..7, reads pull-up flag.
-Returns true if successful.
+- **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..7, set reversed flag. Returns true if successful.
+- **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..7, reads reversed flag. Returns true if successful.
+- **bool setPullup(uint8_t pin, bool pullup)** pin = 0..7, set pull-up flag. Returns true if successful.
+- **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..7, reads pull-up flag.Returns true if successful.
 
 
 ### 8 pins interface
@@ -166,7 +163,32 @@ Returns true if successful.
 Returns true if successful.
 
 
-### Other
+### Interrupts (experimental 0.5.2)
+
+Read the datasheet for the details. Page 21.  
+Note: Error handling is limited.
+
+pin = 0..7  
+mode = { RISING, FALLING, CHANGE }  
+- **bool enableInterrupt(uint8_t pin, uint8_t mode)** 
+Returns true if successful.
+Returns MCP23S17_PIN_ERROR if pin > 7.
+- **bool disableInterrupt(uint8_t pin)**
+Returns true if successful.
+Returns MCP23S17_PIN_ERROR if pin > 7.
+
+
+Determine which pins caused the Interrupt. (datasheet).
+- **uint8_t getInterruptFlagRegister()** Reads all 8 pins.
+- **uint8_t getInterruptCaptureRegister()** Reads all 8 pins.
+Is used to detect if multiple pins triggered an interrupt.
+
+
+- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **uint8_t getInterruptPolarity()** return set value.
+
+
+### SPI
 
 - **void setSPIspeed(uint32_t speed)** set hardware speed (8Mb default).
 - **uint32_t getSPIspeed()** returns set speed.
@@ -178,14 +200,31 @@ Returns true if successful.
 - **int lastError()** idem.
 
 
-### ControlRegister
+### IO Control Register
 
-Since 0.2.0
+The library supports setting bit fields in the IO control register.
+Read the datasheet carefully!
 
-- **void enableControlRegister(uint8_t mask)** set IOCR bit fields
-- **void disableControlRegister(uint8_t mask)** clear IOCR bit fields
-- **void enableHardwareAddress()** specific for HAEN field.
-- **void disableHardwareAddress()** specific for HAEN field.
+- **bool enableControlRegister(uint8_t mask)** set IOCR bit fields
+- **bool disableControlRegister(uint8_t mask)** clear IOCR bit fields
+
+
+|  constant              |  mask  |  description  |
+|:-----------------------|:------:|:--------------|
+|  MCP23S08_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
+|  MCP23S08_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
+|  MCP23S08_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23S08_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23S08_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
+|  MCP23S08_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23S08_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23S08_IOCR_NI      |  0x01  |  Not implemented. 
+
+
+Two dedicated functions are added: (MCP23S08 only)
+
+- **bool enableHardwareAddress()** set IOCR_HAEN  bit.
+- **bool disableHardwareAddress()** clear IOCR_HAEN bit.
 
 
 ### Error codes
@@ -195,19 +234,15 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23S08_OK**.
 
-|  Name                     |  Value  |  description  |
+|  name                     |  value  |  description  |
 |:--------------------------|:-------:|:--------------|
-|  MCP23S08_OK              |   0x00  |  No error     |
-|  MCP23S08_PIN_ERROR       |   0x81  |
-|  MCP23S08_SPI_ERROR       |   0x82  |
-|  MCP23S08_VALUE_ERROR     |   0x83  |
-|  MCP23S08_PORT_ERROR      |   0x84  |
-|  MCP23S08_REGISTER_ERROR  |   0xFF  |  low level.
-
-
-## Operation
-
-See examples.
+|  MCP23S08_OK              |  0x00   |  No error     |
+|  MCP23S08_PIN_ERROR       |  0x81   |
+|  MCP23S08_SPI_ERROR       |  0x82   |
+|  MCP23S08_VALUE_ERROR     |  0x83   |
+|  MCP23S08_PORT_ERROR      |  0x84   |
+|  MCP23S08_REGISTER_ERROR  |  0xFF   |  low level.
+|  MCP23S08_INVALID_READ    |  0xFF   |  low level.
 
 
 ## Future

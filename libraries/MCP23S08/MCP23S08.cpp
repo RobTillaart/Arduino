@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -70,12 +70,12 @@ bool MCP23S08::begin(bool pullup)
   //    SEQOP: Sequential Operation mode bit
   //    1 = Sequential operation disabled, address pointer does not increment.
   //    0 = Sequential operation enabled, address pointer increments.
-  if (! writeReg(MCP23S08_IOCR, MCP23S08_IOCR_SEQOP)) return false;
+  //  if (! writeReg(MCP23x08_IOCR, MCP23S08_IOCR_SEQOP)) return false;
 
   if (pullup)
   {
     //  Force INPUT_PULLUP
-    if (! writeReg(MCP23S08_PUR_A, 0xFF)) return false;   //  0xFF == all UP
+    if (! writeReg(MCP23x08_PUR_A, 0xFF)) return false;   //  0xFF == all UP
   }
   return true;
 }
@@ -113,7 +113,7 @@ bool MCP23S08::pinMode1(uint8_t pin, uint8_t mode)
     return false;
   }
 
-  uint8_t dataDirectionRegister = MCP23S08_DDR_A;
+  uint8_t dataDirectionRegister = MCP23x08_DDR_A;
   uint8_t val = readReg(dataDirectionRegister);
   if (_error != MCP23S08_OK)
   {
@@ -148,7 +148,7 @@ bool MCP23S08::write1(uint8_t pin, uint8_t value)
     _error = MCP23S08_PIN_ERROR;
     return false;
   }
-  uint8_t IOR = MCP23S08_GPIO_A;
+  uint8_t IOR = MCP23x08_GPIO_A;
   uint8_t val = readReg(IOR);
   uint8_t pre = val;
   if (_error != MCP23S08_OK)
@@ -185,7 +185,7 @@ uint8_t MCP23S08::read1(uint8_t pin)
     _error = MCP23S08_PIN_ERROR;
     return MCP23S08_INVALID_READ;
   }
-  uint8_t IOR = MCP23S08_GPIO_A;
+  uint8_t IOR = MCP23x08_GPIO_A;
   uint8_t val = readReg(IOR);
   if (_error != MCP23S08_OK)
   {
@@ -197,7 +197,7 @@ uint8_t MCP23S08::read1(uint8_t pin)
 }
 
 
-//  pin  = 0..7
+//  pin      = 0..7
 //  reversed = true or false
 bool MCP23S08::setPolarity(uint8_t pin,  bool reversed)
 {
@@ -206,7 +206,7 @@ bool MCP23S08::setPolarity(uint8_t pin,  bool reversed)
     _error = MCP23S08_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23S08_POL_A;
+  uint8_t inputPolarityRegister = MCP23x08_POL_A;
   uint8_t val = readReg(inputPolarityRegister);
   if (_error != MCP23S08_OK)
   {
@@ -237,7 +237,7 @@ bool MCP23S08::getPolarity(uint8_t pin, bool &reversed)
     _error = MCP23S08_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23S08_POL_A;
+  uint8_t inputPolarityRegister = MCP23x08_POL_A;
   uint8_t val = readReg(inputPolarityRegister);
   if (_error != MCP23S08_OK)
   {
@@ -249,7 +249,7 @@ bool MCP23S08::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-//  pin  = 0..7
+//  pin    = 0..7
 //  pullup = true or false
 bool MCP23S08::setPullup(uint8_t pin,  bool pullup)
 {
@@ -258,7 +258,7 @@ bool MCP23S08::setPullup(uint8_t pin,  bool pullup)
     _error = MCP23S08_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23S08_PUR_A;
+  uint8_t inputPullupRegister = MCP23x08_PUR_A;
   uint8_t val = readReg(inputPullupRegister);
   if (_error != MCP23S08_OK)
   {
@@ -289,7 +289,7 @@ bool MCP23S08::getPullup(uint8_t pin, bool &pullup)
     _error = MCP23S08_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23S08_PUR_A;
+  uint8_t inputPullupRegister = MCP23x08_PUR_A;
   uint8_t val = readReg(inputPullupRegister);
   if (_error != MCP23S08_OK)
   {
@@ -316,7 +316,7 @@ void MCP23S08::setSPIspeed(uint32_t speed)
 //  value = 0..0xFF  bit pattern
 bool MCP23S08::pinMode8(uint8_t value)
 {
-  writeReg(MCP23S08_DDR_A, value);
+  writeReg(MCP23x08_DDR_A, value);
   _error = MCP23S08_OK;
   return true;
 }
@@ -324,7 +324,7 @@ bool MCP23S08::pinMode8(uint8_t value)
 
 bool MCP23S08::write8(uint8_t value)
 {
-  writeReg(MCP23S08_GPIO_A, value);
+  writeReg(MCP23x08_GPIO_A, value);
   _error = MCP23S08_OK;
   return true;
 }
@@ -333,14 +333,14 @@ bool MCP23S08::write8(uint8_t value)
 int MCP23S08::read8()
 {
   _error = MCP23S08_OK;
-  return readReg(MCP23S08_GPIO_A);
+  return readReg(MCP23x08_GPIO_A);
 }
 
 
 //  mask  = 0..0xFF  bit pattern
 bool MCP23S08::setPolarity8(uint8_t mask)
 {
-  writeReg(MCP23S08_POL_A, mask);
+  writeReg(MCP23x08_POL_A, mask);
   if (_error != MCP23S08_OK)
   {
     return false;
@@ -351,7 +351,7 @@ bool MCP23S08::setPolarity8(uint8_t mask)
 
 bool MCP23S08::getPolarity8(uint8_t &mask)
 {
-  mask = readReg(MCP23S08_POL_A);
+  mask = readReg(MCP23x08_POL_A);
   if (_error != MCP23S08_OK)
   {
     return false;
@@ -363,7 +363,7 @@ bool MCP23S08::getPolarity8(uint8_t &mask)
 //  mask  = 0..0xFF  bit pattern
 bool MCP23S08::setPullup8(uint8_t mask)
 {
-  writeReg(MCP23S08_PUR_A, mask);
+  writeReg(MCP23x08_PUR_A, mask);
   if (_error != MCP23S08_OK)
   {
     return false;
@@ -374,7 +374,7 @@ bool MCP23S08::setPullup8(uint8_t mask)
 
 bool MCP23S08::getPullup8(uint8_t &mask)
 {
-  mask = readReg(MCP23S08_PUR_A);
+  mask = readReg(MCP23x08_PUR_A);
   if (_error != MCP23S08_OK)
   {
     return false;
@@ -383,6 +383,108 @@ bool MCP23S08::getPullup8(uint8_t &mask)
 }
 
 
+///////////////////////////////////////////////////
+//
+//  INTERRUPTS (experimental, see MCP23S17 - #40)
+//
+//  TODO, catch writeReg errors
+//  TODO, MCP23x08_INT_MODE_ERROR?
+//  TODO, if register not changed no need to update?
+//  TODO, 8 bits optimize? more code vs speed?
+//
+//  pin = 0..7, mode = { RISING, FALLING, CHANGE }
+bool MCP23S08::enableInterrupt(uint8_t pin, uint8_t mode)
+{
+  if (pin > 7)
+  {
+    _error = MCP23S08_PIN_ERROR;
+    return false;
+  }
+
+  //  right mode
+  uint8_t intcon = readReg(MCP23x08_INTCON_A);
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon &= ~(1 << pin);
+  }
+  else
+  {
+    uint8_t defval = readReg(MCP23x08_DEFVAL_A);
+    if (mode == RISING)
+    {
+      intcon |= (1 << pin);
+      defval &= ~(1 << pin);  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon |= (1 << pin);
+      defval |= ~(1 << pin);  //  FALLING == compare to 1
+    }
+    writeReg(MCP23x08_DEFVAL_A, defval);
+  }
+  writeReg(MCP23x08_INTCON_A, intcon);
+
+  //  enable interrupt
+  uint16_t value = readReg(MCP23x08_GPINTEN_A);
+  value |= (1 << pin);
+  return writeReg(MCP23x08_GPINTEN_A, value);
+}
+
+
+bool MCP23S08::disableInterrupt(uint8_t pin)
+{
+  if (pin > 7)
+  {
+    _error = MCP23S08_PIN_ERROR;
+    return false;
+  }
+  //  disable interrupt
+  uint16_t value = readReg(MCP23x08_GPINTEN_A);
+  value &= ~(1 << pin);
+  return writeReg(MCP23x08_GPINTEN_A, value);
+}
+
+
+//  which pins caused the INT?
+uint8_t MCP23S08::getInterruptFlagRegister()
+{
+  return readReg(MCP23x08_INTF_A);
+}
+
+
+uint8_t MCP23S08::getInterruptCaptureRegister()
+{
+  return readReg(MCP23x08_INTCAP_A);
+}
+
+
+//       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+bool MCP23S08::setInterruptPolarity(uint8_t polarity)
+{
+  if (polarity > 2) return false;
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  reg &= ~(MCP23x08_IOCR_ODR | MCP23x08_IOCR_INTPOL);
+  //  LOW is default set.
+  if (polarity == 2) reg |= MCP23x08_IOCR_ODR;
+  if (polarity == 1) reg |= MCP23x08_IOCR_INTPOL;
+  return writeReg(MCP23x08_IOCR, reg);
+}
+
+
+uint8_t MCP23S08::getInterruptPolarity()
+{
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  if (reg & MCP23x08_IOCR_ODR) return 2;
+  if (reg & MCP23x08_IOCR_INTPOL) return 1;
+  return 0;
+}
+
+
+/////////////////////////////////////////////
+//
+//  MISC
+//
 int MCP23S08::lastError()
 {
   int e = _error;
@@ -391,37 +493,37 @@ int MCP23S08::lastError()
 }
 
 
-void MCP23S08::enableControlRegister(uint8_t mask)
+bool MCP23S08::enableControlRegister(uint8_t mask)
 {
-  uint8_t reg = readReg(MCP23S08_IOCR);
+  uint8_t reg = readReg(MCP23x08_IOCR);
   reg |= mask;
-  writeReg(MCP23S08_IOCR, reg);
+  return writeReg(MCP23x08_IOCR, reg);
 }
 
 
-void MCP23S08::disableControlRegister(uint8_t mask)
+bool MCP23S08::disableControlRegister(uint8_t mask)
 {
-  uint8_t reg = readReg(MCP23S08_IOCR);
+  uint8_t reg = readReg(MCP23x08_IOCR);
   reg &= ~mask;
-  writeReg(MCP23S08_IOCR, reg);
+  return writeReg(MCP23x08_IOCR, reg);
 }
 
 
-void MCP23S08::enableHardwareAddress()
+bool MCP23S08::enableHardwareAddress()
 {
-  enableControlRegister(MCP23S08_IOCR_HAEN);
+  return enableControlRegister(MCP23x08_IOCR_HAEN);
 }
 
 
-void MCP23S08::disableHardwareAddress()
+bool MCP23S08::disableHardwareAddress()
 {
-  disableControlRegister(MCP23S08_IOCR_HAEN);
+  return disableControlRegister(MCP23x08_IOCR_HAEN);
 }
 
 
 ////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 
 
@@ -434,11 +536,13 @@ bool MCP23S08::writeReg(uint8_t reg, uint8_t value)
 {
   _error = MCP23S08_OK;
 
-  if (reg > MCP23S08_OLAT_A)
+  if (reg > MCP23x08_OLAT_A)
   {
     _error = MCP23S08_REGISTER_ERROR;
     return false;
   }
+
+//  start write
   ::digitalWrite(_select, LOW);
   if (_hwSPI)
   {
@@ -467,12 +571,13 @@ uint8_t MCP23S08::readReg(uint8_t reg)
 
   _error = MCP23S08_OK;
 
-  if (reg > MCP23S08_OLAT_A)
+  if (reg > MCP23x08_OLAT_A)
   {
     _error = MCP23S08_REGISTER_ERROR;
-    return false;
+    return 0;
   }
 
+//  start read
   ::digitalWrite(_select, LOW);
   if (_hwSPI)
   {

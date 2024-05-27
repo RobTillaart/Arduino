@@ -27,15 +27,24 @@ getPolarity8	KEYWORD2
 setPullup8	KEYWORD2
 getPullup8	KEYWORD2
 
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+
+getInterruptFlagRegister	KEYWORD2
+getInterruptCaptureRegister	KEYWORD2
+setInterruptPolarity	KEYWORD2
+getInterruptPolarity	KEYWORD2
+
+mirrorInterrupts	KEYWORD2
+isMirroredInterrupts	KEYWORD2
+
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
-
 usesHWSPI	KEYWORD2
 lastError	KEYWORD2
 
 enableControlRegister	KEYWORD2
 disableControlRegister	KEYWORD2
-
 enableHardwareAddress	KEYWORD2
 disableHardwareAddress	KEYWORD2
 

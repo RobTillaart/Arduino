@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2024-05-25
+- add several interrupt functions (sync MCP23S17)
+- update **MCP23x08_registers.h** (reuse with MCP23008)
+- change return type of several functions
+  - e.g **bool enable/disableControlRegister()**
+- fix support for ARDUINO_ARCH_MBED
+- update readme.md
+- update keywords.txt
+
 ## [0.5.1] 2024-03-02
 - Fix #17, add parameter to **begin(bool pullup)**
 - update GitHub/actions to version v4 in workflows.
 - using ints as parameter in constructor.
-
 
 ## [0.5.0] - 2024-01-20
 - Fix #14, improve handling SPI dependency.

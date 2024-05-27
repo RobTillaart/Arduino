@@ -18,7 +18,7 @@ Arduino library for MCP23017 16 channel I2C port expander.
 
 This library gives easy control over the 16 pins of a (I2C) MCP23017 chip.
 
-This IC is strongly related tot the MCP23S17 SPI port expander - https://github.com/RobTillaart/MCP23S17
+This IC is strongly related to the MCP23S17 SPI port expander - https://github.com/RobTillaart/MCP23S17
 Programming Interface is kept the same as much as possible.
 
 The **write1(pin, value)** is optimized. 
@@ -44,7 +44,7 @@ Some details see:
 
 Note: the library has no provisions (yet) for detecting DEV D chips or handle them in a special way.
 There is an idea to implement a derived class MCP23017_REVD that provides automatic support.
-However low prio. 
+However low priority. 
 
 Note that the MCP23S017 (SPI version) does not have this "feature" for GPA7 and GPB7.
 
@@ -87,6 +87,24 @@ Supports 100kHz, 400kHz and 1.7MHz
 TODO - add performance data
 
 
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 #### Related
 
 16 bit port expanders
@@ -119,7 +137,7 @@ Can be overruled with Wire0..WireN.
 Default sets the pins to INPUT PULLUP.
 Returns false if not connected or a register could not be set.
 - **bool isConnected()** returns true if connected, false otherwise.
-- **uint8_t getADdress()** returns address set in the constructor.
+- **uint8_t getAddress()** returns the address set in the constructor.
 
 
 ### Single pin interface
@@ -142,8 +160,7 @@ Please note REVD remarks at top.
 - **bool pinMode8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
 - **bool write8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
 - **uint8_t read8(uint8_t port)** port = 0..1, reads 8 pins into one byte.
-- **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity 
-for 8 channels at once.
+- **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
 Returns true if successful.
 - **bool getPolarity8(uint8_t port, uint8_t &mask)** port = 0..1, reads polarity of 8 channels at once.
 Returns true if successful.
@@ -157,8 +174,8 @@ Returns true if successful.
 
 Please note REVD remarks at top.
 
-- **bool pinMode16(uint16_t value)** value = 0..0xFFFF. Returns true if successful.
-- **bool write16(uint16_t value)** value = 0..0xFFFF. Returns true if successful.
+- **bool pinMode16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
+- **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
 - **uint16_t read16()** reads 16 pins into an uint16_t.
 - **bool setPolarity16(uint16_t mask)** sets polarity for 16 channels.
 Returns true if successful.
@@ -169,6 +186,69 @@ Returns true if successful.
 - **bool getPullup16(uint16_t &mask)** reads pull-up for 16 channels.
 Returns true if successful.
 
+The reading and writing to registers have been performance optimized for the 16 bit interface.
+If there are problems please open an issue.
+
+
+### Interrupts (experimental 0.6.3)
+
+Read the datasheet for the details, page 24,25.  
+Note: Error handling is limited.
+
+pin = 0..15  
+mode = { RISING, FALLING, CHANGE }  
+- **bool enableInterrupt(uint8_t pin, uint8_t mode)** 
+Returns true if successful.
+Returns MCP23017_PIN_ERROR if pin > 15.
+- **bool disableInterrupt(uint8_t pin)**
+Returns true if successful.
+Returns MCP23017_PIN_ERROR if pin > 15.
+
+
+16 pin interface, overrides all earlier settings. 
+Sets all pins to the same interrupt mode { RISING, FALLING, CHANGE }.
+- **bool enableInterrupt16(uint16_t mask, uint8_t mode)** mask = 0x0000..0xFFFF.
+- **bool disableInterrupt16(uint16_t mask)**
+
+
+Determine which pins caused the Interrupt. (datasheet).
+- **uint16_t getInterruptFlagRegister()** Reads all 16 pins.
+- **uint16_t getInterruptCaptureRegister()** Reads all 16 pins.
+Is used to detect if multiple pins triggered an interrupt.
+
+
+- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **uint8_t getInterruptPolarity()** return set value.
+
+
+Merge INTA and INTB into one signal so only one line handles all interrupts.
+This reduces the number of interrupt lines to handle, however one has 
+to read more registers to find the changed ones.
+
+- **bool mirrorInterrupts(bool on)** enables / disables mirror mode.
+- **bool isMirroredInterrupts()** returns set option (0,1 or 2).
+
+
+### IO Control Register
+
+The library supports setting bit fields in the IO control register.
+Read the datasheet carefully!
+
+- **bool enableControlRegister(uint8_t mask)** set IOCR bit fields
+- **bool disableControlRegister(uint8_t mask)** clear IOCR bit fields
+
+
+|  constant              |  mask  |  description  |
+|:-----------------------|:------:|:--------------|
+|  MCP23x17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
+|  MCP23x17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
+|  MCP23x17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23x17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23x17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
+|  MCP23x17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23x17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23x17_IOCR_NI      |  0x01  |  Not implemented. 
+
 
 ### Error codes
 
@@ -177,17 +257,18 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23017_OK**.
 
-|  Description           |  Value  |
-|:-----------------------|:-------:|
-|  MCP23017_OK           |  0x00   |
-|  MCP23017_PIN_ERROR    |  0x81   |
-|  MCP23017_I2C_ERROR    |  0x82   |
-|  MCP23017_VALUE_ERROR  |  0x83   |
-|  MCP23017_PORT_ERROR   |  0x84   |
+|  name                     |  value  |  description  |
+|:--------------------------|:-------:|:--------------|
+|  MCP23017_OK              |  0x00   |  No error     |
+|  MCP23017_PIN_ERROR       |  0x81   |
+|  MCP23017_I2C_ERROR       |  0x82   |  (compatibility)
+|  MCP23017_VALUE_ERROR     |  0x83   |
+|  MCP23017_PORT_ERROR      |  0x84   |
+|  MCP23017_REGISTER_ERROR  |  0xFF   |  low level.
+|  MCP23017_INVALID_READ    |  0xFF   |  low level.
 
 
 ## Future
-
 
 #### Must
 
@@ -196,15 +277,26 @@ Reading it will reset the flag to **MCP23017_OK**.
 
 #### Should
 
-- extend error codes
+- keep functional in sync
+  - sync error codes to MCP23x17
+- buy additional hardware
+- test with multiple devices.
+  - multi SELECT lines
+- add example with interrupts
+  - test
+  - extend error codes
 - optimize code - squeeze footprint
+- fix TODO's in code
 - investigate if REV D chips can be detected.
 
 #### Could
 
+- check need for writing in all functions (Polarity / Pull-up)
+  - check if bit mask changes.
+  - what is performance gain vs footprint?
+- investigate and reimplement the INPUT_PULLUP for pinMode() ?
 - initial value (16 bit?) as begin parameter (breaking change)
-  - depends on input output pull-up etc
-- investigate auto address increment
+  - depends on input output pull-up etc.
 - create a derived class **MCP23017_REVD**
 
 #### Wont
@@ -217,4 +309,5 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
+
 

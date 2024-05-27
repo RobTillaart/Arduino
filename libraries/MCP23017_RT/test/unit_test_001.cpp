@@ -49,12 +49,13 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(MCP23017_OK          , 0x00);
-  assertEqual(MCP23017_PIN_ERROR   , 0x81);
-  assertEqual(MCP23017_I2C_ERROR   , 0x82);
-  assertEqual(MCP23017_VALUE_ERROR , 0x83);
-  assertEqual(MCP23017_PORT_ERROR  , 0x84);
-  assertEqual(MCP23017_INVALID_READ, -100);
+  assertEqual(MCP23017_OK            , 0x00);
+  assertEqual(MCP23017_PIN_ERROR     , 0x81);
+  assertEqual(MCP23017_I2C_ERROR     , 0x82);
+  assertEqual(MCP23017_VALUE_ERROR   , 0x83);
+  assertEqual(MCP23017_PORT_ERROR    , 0x84);
+  assertEqual(MCP23017_REGISTER_ERROR, 0xFF);
+  assertEqual(MCP23017_INVALID_READ  , 0xFF);
 }
 
 

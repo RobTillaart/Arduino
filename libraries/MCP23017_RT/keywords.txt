@@ -36,8 +36,23 @@ getPolarity16	KEYWORD2
 setPullup16	KEYWORD2
 getPullup16	KEYWORD2
 
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+enableInterrupt16	KEYWORD2
+disableInterrupt16	KEYWORD2
+
+getInterruptFlagRegister	KEYWORD2
+getInterruptCaptureRegister	KEYWORD2
+setInterruptPolarity	KEYWORD2
+getInterruptPolarity	KEYWORD2
+
+mirrorInterrupts	KEYWORD2
+isMirroredInterrupts	KEYWORD2
+
 lastError	KEYWORD2
 
+enableControlRegister	KEYWORD2
+disableControlRegister	KEYWORD2
 
 # Instances (KEYWORD2)
 
@@ -50,4 +65,6 @@ MCP23017_PIN_ERROR	LITERAL1
 MCP23017_I2C_ERROR	LITERAL1
 MCP23017_VALUE_ERROR	LITERAL1
 MCP23017_PORT_ERROR	LITERAL1
+MCP23017_REGISTER_ERROR	LITERAL1
+MCP23017_INVALID_READ	LITERAL1
 

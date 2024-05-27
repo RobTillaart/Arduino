@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.2
+// VERSION: 0.6.3
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -12,18 +12,18 @@
 
 #include "Arduino.h"
 #include "Wire.h"
+#include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.6.2"))
+#define MCP23017_LIB_VERSION              (F("0.6.3"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
 #define MCP23017_I2C_ERROR                0x82
 #define MCP23017_VALUE_ERROR              0x83
 #define MCP23017_PORT_ERROR               0x84
-
-
-#define MCP23017_INVALID_READ             -100
+#define MCP23017_REGISTER_ERROR           0xFF
+#define MCP23017_INVALID_READ             0xFF
 
 
 class MCP23017
@@ -37,7 +37,7 @@ public:
 
 
   //       single pin interface
-  //       mode = INPUT, OUTPUT or INPUT_PULLUP (==INPUT)
+  //       mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
   bool     pinMode1(uint8_t pin, uint8_t mode);
   bool     write1(uint8_t pin, uint8_t value);
   uint8_t  read1(uint8_t pin);
@@ -72,11 +72,43 @@ public:
   bool     setPullup16(uint16_t mask);
   bool     getPullup16(uint16_t &mask);
 
+
+  //       INTERRUPTS (experimental)
+  //       pin = 0..15, mode = { RISING, FALLING, CHANGE }
+  bool     enableInterrupt(uint8_t pin, uint8_t mode);
+  bool     disableInterrupt(uint8_t pin);
+  
+  //       mask = 0x0000..0xFFFF  (overrides all earlier settings.
+  bool     enableInterrupt16(uint16_t mask, uint8_t mode);
+  bool     disableInterrupt16(uint16_t mask);
+
+  //       which pins caused the INT?
+  uint16_t getInterruptFlagRegister();
+  uint16_t getInterruptCaptureRegister();
+
+  //       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+  bool     setInterruptPolarity(uint8_t polarity);
+  uint8_t  getInterruptPolarity();
+
+  //       merge INTA and INTB
+  bool     mirrorInterrupts(bool on);
+  bool     isMirroredInterrupts();
+
+  //       debugging
   int      lastError();
 
+  //       set/clear IOCR bit fields
+  bool     enableControlRegister(uint8_t mask);
+  bool     disableControlRegister(uint8_t mask);
+
+
 protected:
+  //       access to low level registers (just make these functions public).
+  //       USE WITH CARE !!!
   bool     writeReg(uint8_t reg, uint8_t value);
   uint8_t  readReg(uint8_t reg);
+  bool     writeReg16(uint8_t reg, uint16_t value);
+  uint16_t readReg16(uint8_t reg);
 
   uint8_t   _address;
   TwoWire*  _wire;

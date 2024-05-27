@@ -10,6 +10,7 @@
 
 MCP23017 MCP(0x38);
 
+
 void setup()
 {
   Serial.begin(230400);
@@ -32,6 +33,7 @@ void setup()
   }
   Serial.println();
 }
+
 
 void loop()
 {

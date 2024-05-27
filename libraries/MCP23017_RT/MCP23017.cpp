@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.2
+// VERSION: 0.6.3
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -10,31 +10,6 @@
 
 
 #include "MCP23017.h"
-
-
-//  Registers                         //  DESCRIPTION                  DATASHEET
-#define MCP23017_DDR_A        0x00    //  Data Direction Register A       P18
-#define MCP23017_DDR_B        0x01    //  Data Direction Register B       P18
-#define MCP23017_POL_A        0x02    //  Input Polarity A                P18
-#define MCP23017_POL_B        0x03    //  Input Polarity B                P18
-#define MCP23017_GPINTEN_A    0x04    //  NOT USED interrupt enable       P19
-#define MCP23017_GPINTEN_B    0x05    //  NOT USED
-#define MCP23017_DEFVAL_A     0x06    //  NOT USED interrupt def          P19
-#define MCP23017_DEFVAL_B     0x07    //  NOT USED
-#define MCP23017_INTCON_A     0x08    //  NOT USED interrupt control      P20
-#define MCP23017_INTCON_B     0x09    //  NOT USED
-#define MCP23017_IOCR         0x0A    //  IO control register             P20
-#define MCP23017_IOCR2        0x0B    //  NOT USED
-#define MCP23017_PUR_A        0x0C    //  Pull Up Resistors A             P22
-#define MCP23017_PUR_B        0x0D    //  Pull Up Resistors A             P22
-#define MCP23017_INTF_A       0x0E    //  NOT USED interrupt flag         P22
-#define MCP23017_INTF_B       0x0F    //  NOT USED
-#define MCP23017_INTCAP_A     0x10    //  NOT USED interrupt capture      P23
-#define MCP23017_INTCAP_B     0x11    //  NOT USED
-#define MCP23017_GPIO_A       0x12    //  General Purpose IO A            P23
-#define MCP23017_GPIO_B       0x13    //  General Purpose IO B            P23
-#define MCP23017_OLAT_A       0x14    //  NOT USED output latch           P24
-#define MCP23017_OLAT_B       0x15    //  NOT USED
 
 
 MCP23017::MCP23017(uint8_t address, TwoWire *wire)
@@ -49,13 +24,18 @@ bool MCP23017::begin(bool pullup)
 {
   //  check connected
   if (! isConnected()) return false;
-  //  disable address increment (datasheet)
-  if (! writeReg(MCP23017_IOCR, 0b00100000)) return false;
+
+  //  disable address increment - datasheet P20
+  //    SEQOP: Sequential Operation mode bit
+  //    1 = Sequential operation disabled, address pointer does not increment.
+  //    0 = Sequential operation enabled, address pointer increments.
+  //  if (! writeReg(MCP23017_IOCR, MCP23017_IOCR_SEQOP)) return false;
+
   if (pullup)
   {
     //  Force INPUT_PULLUP
-    if (! writeReg(MCP23017_PUR_A, 0xFF)) return false;
-    if (! writeReg(MCP23017_PUR_B, 0xFF)) return false;
+    if (! writeReg(MCP23x17_PUR_A, 0xFF)) return false;   //  0xFF == all UP
+    if (! writeReg(MCP23x17_PUR_B, 0xFF)) return false;   //  0xFF == all UP
   }
   return true;
 }
@@ -80,7 +60,10 @@ uint8_t MCP23017::getAddress()
 }
 
 
+///////////////////////////////////////////////////////////////////
+//
 //  single pin interface
+//
 //  pin  = 0..15
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23017::pinMode1(uint8_t pin, uint8_t mode)
@@ -96,10 +79,10 @@ bool MCP23017::pinMode1(uint8_t pin, uint8_t mode)
     return false;
   }
 
-  uint8_t dataDirectionRegister = MCP23017_DDR_A;
+  uint8_t dataDirectionRegister = MCP23x17_DDR_A;
   if (pin > 7)
   {
-    dataDirectionRegister = MCP23017_DDR_B;
+    dataDirectionRegister = MCP23x17_DDR_B;
     pin -= 8;
   }
   uint8_t val = readReg(dataDirectionRegister);
@@ -136,10 +119,10 @@ bool MCP23017::write1(uint8_t pin, uint8_t value)
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  uint8_t IOR = MCP23017_GPIO_A;
+  uint8_t IOR = MCP23x17_GPIO_A;
   if (pin > 7)
   {
-    IOR = MCP23017_GPIO_B;
+    IOR = MCP23x17_GPIO_B;
     pin -= 8;
   }
 
@@ -159,6 +142,7 @@ bool MCP23017::write1(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
+  //  only write when changed.
   if (pre != val)
   {
     writeReg(IOR, val);
@@ -178,10 +162,10 @@ uint8_t MCP23017::read1(uint8_t pin)
     _error = MCP23017_PIN_ERROR;
     return MCP23017_INVALID_READ;
   }
-  uint8_t IOR = MCP23017_GPIO_A;
+  uint8_t IOR = MCP23x17_GPIO_A;
   if (pin > 7)
   {
-    IOR = MCP23017_GPIO_B;
+    IOR = MCP23x17_GPIO_B;
     pin -= 8;
   }
 
@@ -196,8 +180,8 @@ uint8_t MCP23017::read1(uint8_t pin)
 }
 
 
-//  pin  = 0..15
-//  reverse = true or false
+//  pin      = 0..15
+//  reversed = true or false
 bool MCP23017::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 15)
@@ -205,10 +189,10 @@ bool MCP23017::setPolarity(uint8_t pin,  bool reversed)
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23017_POL_A;
+  uint8_t inputPolarityRegister = MCP23x17_POL_A;
   if (pin > 7)
   {
-    inputPolarityRegister = MCP23017_POL_B;
+    inputPolarityRegister = MCP23x17_POL_B;
     pin -= 8;
   }
   uint8_t val = readReg(inputPolarityRegister);
@@ -241,10 +225,10 @@ bool MCP23017::getPolarity(uint8_t pin, bool &reversed)
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23017_POL_A;
+  uint8_t inputPolarityRegister = MCP23x17_POL_A;
   if (pin > 7)
   {
-    inputPolarityRegister = MCP23017_POL_B;
+    inputPolarityRegister = MCP23x17_POL_B;
     pin -= 8;
   }
   uint8_t val = readReg(inputPolarityRegister);
@@ -258,8 +242,8 @@ bool MCP23017::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-//  pin  = 0..15
-//  reverse = true or false
+//  pin    = 0..15
+//  pullup = true or false
 bool MCP23017::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 15)
@@ -267,10 +251,10 @@ bool MCP23017::setPullup(uint8_t pin,  bool pullup)
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23017_PUR_A;
+  uint8_t inputPullupRegister = MCP23x17_PUR_A;
   if (pin > 7)
   {
-    inputPullupRegister = MCP23017_PUR_B;
+    inputPullupRegister = MCP23x17_PUR_B;
     pin -= 8;
   }
   uint8_t val = readReg(inputPullupRegister);
@@ -303,10 +287,10 @@ bool MCP23017::getPullup(uint8_t pin, bool &pullup)
     _error = MCP23017_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23017_PUR_A;
+  uint8_t inputPullupRegister = MCP23x17_PUR_A;
   if (pin > 7)
   {
-    inputPullupRegister = MCP23017_PUR_B;
+    inputPullupRegister = MCP23x17_PUR_B;
     pin -= 8;
   }
   uint8_t val = readReg(inputPullupRegister);
@@ -320,9 +304,10 @@ bool MCP23017::getPullup(uint8_t pin, bool &pullup)
 }
 
 
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  8 pins interface
+//
 //  whole register at once
 //  port  = 0..1
 //  value = 0..0xFF  bit pattern
@@ -333,22 +318,23 @@ bool MCP23017::pinMode8(uint8_t port, uint8_t value)
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) writeReg(MCP23017_DDR_A, value);
-  if (port == 1) writeReg(MCP23017_DDR_B, value);
+  if (port == 0) writeReg(MCP23x17_DDR_A, value);
+  if (port == 1) writeReg(MCP23x17_DDR_B, value);
   _error = MCP23017_OK;
   return true;
 }
 
 
-bool MCP23017::write8(uint8_t port, uint8_t value)   // port = 0..1
+//  port = 0..1
+bool MCP23017::write8(uint8_t port, uint8_t value)
 {
   if (port > 1)
   {
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) writeReg(MCP23017_GPIO_A, value);
-  if (port == 1) writeReg(MCP23017_GPIO_B, value);
+  if (port == 0) writeReg(MCP23x17_GPIO_A, value);
+  if (port == 1) writeReg(MCP23x17_GPIO_B, value);
   _error = MCP23017_OK;
   return true;
 }
@@ -362,8 +348,8 @@ int MCP23017::read8(uint8_t port)
     return MCP23017_INVALID_READ;
   }
   _error = MCP23017_OK;
-  if (port == 0) return readReg(MCP23017_GPIO_A);
-  return readReg(MCP23017_GPIO_B);  // port == 1
+  if (port == 0) return readReg(MCP23x17_GPIO_A);
+  return readReg(MCP23x17_GPIO_B);  //  port == 1
 }
 
 
@@ -376,8 +362,8 @@ bool MCP23017::setPolarity8(uint8_t port,  uint8_t mask)
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) writeReg(MCP23017_POL_A, mask);
-  if (port == 1) writeReg(MCP23017_POL_B, mask);
+  if (port == 0) writeReg(MCP23x17_POL_A, mask);
+  if (port == 1) writeReg(MCP23x17_POL_B, mask);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -393,8 +379,8 @@ bool MCP23017::getPolarity8(uint8_t port, uint8_t &mask)
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) mask = readReg(MCP23017_POL_A);
-  if (port == 1) mask = readReg(MCP23017_POL_B);
+  if (port == 0) mask = readReg(MCP23x17_POL_A);
+  if (port == 1) mask = readReg(MCP23x17_POL_B);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -412,8 +398,8 @@ bool MCP23017::setPullup8(uint8_t port, uint8_t mask)
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) writeReg(MCP23017_PUR_A, mask);
-  if (port == 1) writeReg(MCP23017_PUR_B, mask);
+  if (port == 0) writeReg(MCP23x17_PUR_A, mask);
+  if (port == 1) writeReg(MCP23x17_PUR_B, mask);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -429,8 +415,8 @@ bool MCP23017::getPullup8(uint8_t port, uint8_t &mask)
     _error = MCP23017_PORT_ERROR;
     return false;
   }
-  if (port == 0) mask = readReg(MCP23017_PUR_A);
-  if (port == 1) mask = readReg(MCP23017_PUR_B);
+  if (port == 0) mask = readReg(MCP23x17_PUR_A);
+  if (port == 1) mask = readReg(MCP23x17_PUR_B);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -439,15 +425,15 @@ bool MCP23017::getPullup8(uint8_t port, uint8_t &mask)
 }
 
 
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  16 pins interface
+//
 //  two register at once
 //  value = 0x0000..0xFFFF bit pattern
 bool MCP23017::pinMode16(uint16_t value)
 {
-  writeReg(MCP23017_DDR_A, value >> 8);
-  writeReg(MCP23017_DDR_B, value & 0xFF);
+  writeReg16(MCP23x17_DDR_A, value);
   _error = MCP23017_OK;
   return true;
 }
@@ -456,8 +442,7 @@ bool MCP23017::pinMode16(uint16_t value)
 //  value = 0x0000..0xFFFF   bit pattern
 bool MCP23017::write16(uint16_t value)
 {
-  writeReg(MCP23017_GPIO_A, value >> 8);
-  writeReg(MCP23017_GPIO_B, value & 0xFF);
+  writeReg16(MCP23x17_GPIO_A, value);
   _error = MCP23017_OK;
   return true;
 }
@@ -467,9 +452,7 @@ bool MCP23017::write16(uint16_t value)
 uint16_t MCP23017::read16()
 {
   _error = MCP23017_OK;
-  uint16_t value = readReg(MCP23017_GPIO_A);
-  value <<= 8;
-  value += readReg(MCP23017_GPIO_B);
+  uint16_t value = readReg16(MCP23x17_GPIO_A);
   return value;
 }
 
@@ -477,8 +460,7 @@ uint16_t MCP23017::read16()
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::setPolarity16(uint16_t mask)
 {
-  writeReg(MCP23017_POL_A, mask >> 8);
-  writeReg(MCP23017_POL_B, mask & 0xFF);
+  writeReg16(MCP23x17_POL_A, mask);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -490,9 +472,7 @@ bool MCP23017::setPolarity16(uint16_t mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::getPolarity16(uint16_t &mask)
 {
-  mask = readReg(MCP23017_POL_A);
-  mask <<= 8;
-  mask += readReg(MCP23017_POL_B);
+  mask = readReg16(MCP23x17_POL_A);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -504,8 +484,7 @@ bool MCP23017::getPolarity16(uint16_t &mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::setPullup16(uint16_t mask)
 {
-  writeReg(MCP23017_PUR_A, mask >> 8);
-  writeReg(MCP23017_PUR_B, mask & 0xFF);
+  writeReg16(MCP23x17_PUR_A, mask);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -517,9 +496,7 @@ bool MCP23017::setPullup16(uint16_t mask)
 //  mask = 0x0000..0xFFFF  bit pattern
 bool MCP23017::getPullup16(uint16_t &mask)
 {
-  mask = readReg(MCP23017_PUR_A);
-  mask <<= 8;
-  mask += readReg(MCP23017_PUR_B);
+  mask = readReg16(MCP23x17_PUR_A);
   if (_error != MCP23017_OK)
   {
     return false;
@@ -528,21 +505,198 @@ bool MCP23017::getPullup16(uint16_t &mask)
 }
 
 
+///////////////////////////////////////////////////
+//
+//  INTERRUPTS (experimental, see MCP23S17 - #40)
+//
+//  TODO, catch writeReg errors
+//  TODO, MCP23x17_INT_MODE_ERROR?
+//  TODO, if register not changed no need to update?
+//  TODO, 8 bits optimize? more code vs speed?
+//
+//  pin = 0..15, mode = { RISING, FALLING, CHANGE }
+bool MCP23017::enableInterrupt(uint8_t pin, uint8_t mode)
+{
+  if (pin > 15)
+  {
+    _error = MCP23017_PIN_ERROR;
+    return false;
+  }
+
+  //  right mode
+  uint16_t intcon = readReg16(MCP23x17_INTCON_A);
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon &= ~(1 << pin);
+  }
+  else
+  {
+    uint16_t defval = readReg16(MCP23x17_DEFVAL_A);
+    if (mode == RISING)
+    {
+      intcon |= (1 << pin);
+      defval &= ~(1 << pin);  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon |= (1 << pin);
+      defval |= ~(1 << pin);  //  FALLING == compare to 1
+    }
+    writeReg16(MCP23x17_DEFVAL_A, defval);
+  }
+  writeReg16(MCP23x17_INTCON_A, intcon);
+
+  //  enable interrupt
+  uint16_t value = readReg16(MCP23x17_GPINTEN_A);
+  value |= (1 << pin);
+  return writeReg16(MCP23x17_GPINTEN_A, value);
+}
+
+
+bool MCP23017::disableInterrupt(uint8_t pin)
+{
+  if (pin > 15)
+  {
+    _error = MCP23017_PIN_ERROR;
+    return false;
+  }
+  //  disable interrupt
+  uint16_t value = readReg16(MCP23x17_GPINTEN_A);
+  value &= ~(1 << pin);
+  return writeReg16(MCP23x17_GPINTEN_A, value);
+}
+
+
+bool MCP23017::enableInterrupt16(uint16_t mask, uint8_t mode)
+{
+  uint16_t intcon = 0, defval = 0;
+  //  right mode
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon = ~mask;
+  }
+  else
+  {
+    if (mode == RISING)
+    {
+      intcon = mask;
+      defval = ~mask;  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon = mask;
+      defval = mask;  //  FALLING == compare to 1
+    }
+    writeReg16(MCP23x17_DEFVAL_A, defval);
+  }
+  writeReg16(MCP23x17_INTCON_A, intcon);
+
+  //  enable the mask
+  writeReg16(MCP23x17_GPINTEN_A, mask);
+  return true;
+}
+
+
+bool MCP23017::disableInterrupt16(uint16_t mask)
+{
+  return writeReg16(MCP23x17_GPINTEN_A, ~mask);
+}
+
+
+//  which pins caused the INT?
+uint16_t MCP23017::getInterruptFlagRegister()
+{
+  return readReg16(MCP23x17_INTF_A);
+}
+
+
+uint16_t MCP23017::getInterruptCaptureRegister()
+{
+  return readReg16(MCP23x17_INTCAP_A);
+}
+
+
+//       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+bool MCP23017::setInterruptPolarity(uint8_t polarity)
+{
+  if (polarity > 2) return false;
+  uint8_t reg = readReg(MCP23x17_IOCR);
+  reg &= ~(MCP23x17_IOCR_ODR | MCP23x17_IOCR_INTPOL);
+  //  LOW is default set.
+  if (polarity == 2) reg |= MCP23x17_IOCR_ODR;
+  if (polarity == 1) reg |= MCP23x17_IOCR_INTPOL;
+  return writeReg(MCP23x17_IOCR, reg);
+}
+
+
+uint8_t MCP23017::getInterruptPolarity()
+{
+  uint8_t reg = readReg(MCP23x17_IOCR);
+  if (reg & MCP23x17_IOCR_ODR) return 2;
+  if (reg & MCP23x17_IOCR_INTPOL) return 1;
+  return 0;
+}
+
+
+bool MCP23017::mirrorInterrupts(bool on)
+{
+  if (on) return enableControlRegister(MCP23x17_IOCR_MIRROR);
+  return disableControlRegister(MCP23x17_IOCR_MIRROR);
+}
+
+
+bool MCP23017::isMirroredInterrupts()
+{
+  return (readReg(MCP23x17_IOCR) & MCP23x17_IOCR_MIRROR) > 0;
+}
+
+
+/////////////////////////////////////////////
+//
+//  MISC
+//
 int MCP23017::lastError()
 {
   int e = _error;
-  _error = MCP23017_OK;     //  reset error after read.
+  _error = MCP23017_OK;  //  reset error after read.
   return e;
+}
+
+
+bool MCP23017::enableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23x17_IOCR);
+  reg |= mask;
+  return writeReg(MCP23x17_IOCR, reg);
+}
+
+
+bool MCP23017::disableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23x17_IOCR);
+  reg &= ~mask;
+  return writeReg(MCP23x17_IOCR, reg);
 }
 
 
 ////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 
 bool MCP23017::writeReg(uint8_t reg, uint8_t value)
 {
+  _error = MCP23017_OK;
+
+  if (reg > MCP23x17_OLAT_B)
+  {
+    _error = MCP23017_REGISTER_ERROR;
+    return false;
+  }
+
+//  start write
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
@@ -551,13 +705,23 @@ bool MCP23017::writeReg(uint8_t reg, uint8_t value)
     _error = MCP23017_I2C_ERROR;
     return false;
   }
-  _error = MCP23017_OK;
   return true;
 }
 
 
 uint8_t MCP23017::readReg(uint8_t reg)
 {
+  uint8_t rv = 0;
+
+  _error = MCP23017_OK;
+
+  if (reg > MCP23x17_OLAT_B)
+  {
+    _error = MCP23017_REGISTER_ERROR;
+    return 0;
+  }
+
+//  start read
   _wire->beginTransmission(_address);
   _wire->write(reg);
   if (_wire->endTransmission() != 0)
@@ -565,17 +729,73 @@ uint8_t MCP23017::readReg(uint8_t reg)
     _error = MCP23017_I2C_ERROR;
     return 0;
   }
-  else
-  {
-    _error = MCP23017_OK;
-  }
+
   uint8_t n = _wire->requestFrom(_address, (uint8_t)1);
   if (n != 1)
   {
     _error = MCP23017_I2C_ERROR;
     return 0;
   }
-  return _wire->read();
+  rv = _wire->read();
+  return rv;
+}
+
+
+//  writes HIGH byte first, LOW byte last
+bool MCP23017::writeReg16(uint8_t reg, uint16_t value)
+{
+  _error = MCP23017_OK;
+
+  if (reg > MCP23x17_OLAT_B)
+  {
+    _error = MCP23017_REGISTER_ERROR;
+    return false;
+  }
+
+//  start write
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _wire->write(value >> 8);
+  _wire->write(value && 0xFF);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = MCP23017_I2C_ERROR;
+    return false;
+  }
+  return true;
+}
+
+
+uint16_t MCP23017::readReg16(uint8_t reg)
+{
+  uint16_t rv = 0;
+
+  _error = MCP23017_OK;
+
+  if (reg > MCP23x17_OLAT_B)
+  {
+    _error = MCP23017_REGISTER_ERROR;
+    return 0;
+  }
+
+//  start read
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = MCP23017_I2C_ERROR;
+    return 0;
+  }
+
+  uint8_t n = _wire->requestFrom(_address, (uint8_t)2);
+  if (n != 2)
+  {
+    _error = MCP23017_I2C_ERROR;
+    return 0;
+  }
+  rv = _wire->read() << 8;
+  rv += _wire->read();
+  return rv;
 }
 
 

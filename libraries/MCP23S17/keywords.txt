@@ -36,6 +36,19 @@ getPolarity16	KEYWORD2
 setPullup16	KEYWORD2
 getPullup16	KEYWORD2
 
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+enableInterrupt16	KEYWORD2
+disableInterrupt16	KEYWORD2
+
+getInterruptFlagRegister	KEYWORD2
+getInterruptCaptureRegister	KEYWORD2
+setInterruptPolarity	KEYWORD2
+getInterruptPolarity	KEYWORD2
+
+mirrorInterrupts	KEYWORD2
+isMirroredInterrupts	KEYWORD2
+
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
 usesHWSPI	KEYWORD2

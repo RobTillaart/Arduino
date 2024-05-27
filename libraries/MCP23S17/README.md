@@ -21,6 +21,9 @@ This library gives easy control over the 16 pins of a (SPI) MCP23S17 chip.
 This IC is strongly related to the MCP23017 I2C port expander - https://github.com/RobTillaart/MCP23017_RT
 Programming Interface is kept the same as much as possible.
 
+The **write1(pin, value)** is optimized. 
+If a pin is not changed it will not be written again to save time.
+
 
 #### 0.5.0 Breaking change
 
@@ -66,6 +69,7 @@ Also it makes the library a bit simpler to maintain.
 - https://github.com/RobTillaart/MCP23017_RT
 - https://github.com/RobTillaart/MCP23S17
 - https://github.com/RobTillaart/PCF8575
+- https://github.com/RobTillaart/TCA9555
 
 
 8 bit port expanders
@@ -81,6 +85,7 @@ Also it makes the library a bit simpler to maintain.
 #include "MCP23S17.h"
 ```
 
+
 ### Constructor
 
 - **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
@@ -94,6 +99,7 @@ Returns false if not connected or a register could not be set.
 - **bool isConnected()** returns true if connected, false otherwise. (dummy for compatibility reasons)
 - **uint8_t getAddress()** returns the address set in the constructor. 
 Default = 0, range = 0..7.
+
 
 The two hardware constructors allow to call 4 different constructors.
 
@@ -158,9 +164,7 @@ Returns true if successful.
 ### 16 pins interface
 
 - **bool pinMode16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
-Returns true if successful.
 - **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
-Returns true if successful.
 - **uint16_t read16()** reads 16 pins into an uint16_t.
 - **bool setPolarity16(uint16_t mask)** sets polarity for 16 channels.
 Returns true if successful.
@@ -171,35 +175,86 @@ Returns true if successful.
 - **bool getPullup16(uint16_t &mask)** reads pull-up for 16 channels.
 Returns true if successful.
 
-Since 0.2.6 the reading and writing to registers have been performance optimized for the 16 bit interface.
+The reading and writing to registers have been performance optimized for the 16 bit interface.
 If there are problems please open an issue.
+
+
+### Interrupts (experimental 0.5.2)
+
+Read the datasheet for the details, page 24,25.  
+Note: Error handling is limited.
+
+pin = 0..15  
+mode = { RISING, FALLING, CHANGE }  
+- **bool enableInterrupt(uint8_t pin, uint8_t mode)** 
+Returns true if successful.
+Returns MCP23S17_PIN_ERROR if pin > 15.
+- **bool disableInterrupt(uint8_t pin)**
+Returns true if successful.
+Returns MCP23S17_PIN_ERROR if pin > 15.
+
+
+16 pin interface, overrides all earlier settings. 
+Sets all pins to the same interrupt mode { RISING, FALLING, CHANGE }.
+- **bool enableInterrupt16(uint16_t mask, uint8_t mode)** mask = 0x0000..0xFFFF.
+- **bool disableInterrupt16(uint16_t mask)**
+
+
+Determine which pins caused the Interrupt. (datasheet).
+- **uint16_t getInterruptFlagRegister()** Reads all 16 pins.
+- **uint16_t getInterruptCaptureRegister()** Reads all 16 pins.
+Is used to detect if multiple pins triggered an interrupt.
+
+
+- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **uint8_t getInterruptPolarity()** return set value.
+
+
+Merge INTA and INTB into one signal so only one line handles all interrupts.
+This reduces the number of interrupt lines to handle, however one has 
+to read more registers to find the changed ones.
+
+- **bool mirrorInterrupts(bool on)** enables / disables mirror mode.
+- **bool isMirroredInterrupts()** returns set option (0,1 or 2).
+
+
+### SPI
+
+- **void setSPIspeed(uint32_t speed)** set hardware speed (8Mb default).
+- **uint32_t getSPIspeed()** returns set speed.
+
+
+### Debugging
+
+- **bool usesHWSPI()** returns true = hardware SPI, false = software SPI.
+- **int lastError()** idem.
 
 
 ### IO Control Register
 
-Since 0.2.3 the library supports setting bit fields in the IO control register.
+The library supports setting bit fields in the IO control register.
 Read the datasheet carefully!
 
-- **void enableControlRegister(uint8_t mask)**
-- **void disableControlRegister(uint8_t mask)**
+- **bool enableControlRegister(uint8_t mask)** set IOCR bit fields
+- **bool disableControlRegister(uint8_t mask)** clear IOCR bit fields
 
 
 |  constant              |  mask  |  description  |
 |:-----------------------|:------:|:--------------|
-|  MCP23S17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
-|  MCP23S17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
-|  MCP23S17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
-|  MCP23S17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
-|  MCP23S17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
-|  MCP23S17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
-|  MCP23S17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
-|  MCP23S17_IOCR_NI      |  0x01  |  Not implemented. 
+|  MCP23x17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
+|  MCP23x17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
+|  MCP23x17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23x17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23x17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
+|  MCP23x17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23x17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23x17_IOCR_NI      |  0x01  |  Not implemented. 
 
 
-Two dedicated functions are added since 0.2.5.
+Two dedicated functions are added: (MCP23S17 only)
 
-- **void enableHardwareAddress()** set IOCR_HAEN  bit.
-- **void disableHardwareAddress()** clear IOCR_HAEN bit.
+- **bool enableHardwareAddress()** set IOCR_HAEN  bit.
+- **bool disableHardwareAddress()** clear IOCR_HAEN bit.
 
 
 ### Error codes
@@ -217,39 +272,40 @@ Reading it will reset the flag to **MCP23S17_OK**.
 |  MCP23S17_VALUE_ERROR     |  0x83   |
 |  MCP23S17_PORT_ERROR      |  0x84   |
 |  MCP23S17_REGISTER_ERROR  |  0xFF   |  low level.
-
-
-## Operation
-
-See examples.
+|  MCP23S17_INVALID_READ    |  0xFF   |  low level.
 
 
 ## Future
 
 #### Must
 
-- improve documentation
+- Improve and extend documentation
+- add examples
 
 #### Should
 
+- keep functional in sync
+  - sync error codes to MCP23x17
 - buy additional hardware
-- keep functional in sync with MCP23017_RT
 - test with multiple devices.
   - multi SELECT lines
 - add example with interrupts
-  - test 
+  - test
+  - extend error codes
+- optimize code - squeeze footprint
+- fix TODO's in code
 - IOCON.HAEN, Hardware Address ENable.
   - should this be enabled in **begin()** by default?  0.3.0
   - check address range in constructor.
 
-#### Could 
+#### Could
 
 - check need for writing in all functions (Polarity / Pull-up)
   - check if bit mask changes.
   - what is performance gain vs footprint?
 - investigate and reimplement the INPUT_PULLUP for pinMode() ?
-- RP2040 support for SPI, setGPIOpins() etc
-  - See MCP_DAC
+- initial value (16 bit?) as begin parameter (breaking change)
+  - depends on input output pull-up etc
 - AVR software SPI optimize
   - dao and clock - see fastShiftOut.
 

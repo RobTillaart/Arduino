@@ -27,9 +27,23 @@ getPolarity8	KEYWORD2
 setPullup8	KEYWORD2
 getPullup8	KEYWORD2
 
-lastError	KEYWORD2
+enableInterrupt	KEYWORD2
+disableInterrupt	KEYWORD2
+
+getInterruptFlagRegister	KEYWORD2
+getInterruptCaptureRegister	KEYWORD2
+setInterruptPolarity	KEYWORD2
+getInterruptPolarity	KEYWORD2
+
+mirrorInterrupts	KEYWORD2
+isMirroredInterrupts	KEYWORD2
 
 getPinMode8	KEYWORD2
+
+enableControlRegister	KEYWORD2
+disableControlRegister	KEYWORD2
+enableHardwareAddress	KEYWORD2
+disableHardwareAddress	KEYWORD2
 
 
 # Instances (KEYWORD2)
@@ -43,5 +57,6 @@ MCP23008_PIN_ERROR	LITERAL1
 MCP23008_I2C_ERROR	LITERAL1
 MCP23008_VALUE_ERROR	LITERAL1
 MCP23008_PORT_ERROR	LITERAL1
+MCP23008_REGISTER_ERROR	LITERAL1
 MCP23008_INVALID_READ	LITERAL1
 

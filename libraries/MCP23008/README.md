@@ -73,6 +73,31 @@ before calling **begin()**.
 - https://github.com/RobTillaart/PCF8574
 
 
+## I2C
+
+Supports 100kHz, 400kHz and 1.7MHz 
+
+TODO - add performance data
+
+
+#### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
@@ -114,6 +139,58 @@ Returns true if successful.
 - **bool getPullup8(uint8_t &mask)** reads pull-up for 8 channels at once. Returns true if successful.
 
 
+### Interrupts (experimental 0.3.3)
+
+Read the datasheet for the details. Page 21.  
+Note: Error handling is limited.
+
+pin = 0..7  
+mode = { RISING, FALLING, CHANGE }  
+- **bool enableInterrupt(uint8_t pin, uint8_t mode)** 
+Returns true if successful.
+Returns MCP23017_PIN_ERROR if pin > 7.
+- **bool disableInterrupt(uint8_t pin)**
+Returns true if successful.
+Returns MCP23017_PIN_ERROR if pin > 7.
+
+
+Determine which pins caused the Interrupt. (datasheet).
+- **uint8_t getInterruptFlagRegister()** Reads all 8 pins.
+- **uint8_t getInterruptCaptureRegister()** Reads all 8 pins.
+Is used to detect if multiple pins triggered an interrupt.
+
+
+- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **uint8_t getInterruptPolarity()** return set value.
+
+
+### IO Control Register
+
+The library supports setting bit fields in the IO control register.
+Read the datasheet carefully!
+
+- **bool enableControlRegister(uint8_t mask)** set IOCR bit fields
+- **bool disableControlRegister(uint8_t mask)** clear IOCR bit fields
+
+
+|  constant              |  mask  |  description  |
+|:-----------------------|:------:|:--------------|
+|  MCP23x17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
+|  MCP23x17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
+|  MCP23x17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23x17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23x17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
+|  MCP23x17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23x17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23x17_IOCR_NI      |  0x01  |  Not implemented. 
+
+
+Two dedicated functions are added: (MCP23S17 only)
+
+- **bool enableHardwareAddress()** set IOCR_HAEN  bit.
+- **bool disableHardwareAddress()** clear IOCR_HAEN bit.
+
+
 ### Error codes
 
 If one of the above functions return false, there might be an error.
@@ -121,18 +198,15 @@ If one of the above functions return false, there might be an error.
 - **int lastError()** Above functions set an error flag that can be read with this function.  
 Reading it will reset the flag to **MCP23008_OK**.
 
-|  DESCRIPTION           |  VALUE  |
-|:-----------------------|:-------:|
-|  MCP23008_OK           |  0x00   |
-|  MCP23008_PIN_ERROR    |  0x81   |
-|  MCP23008_I2C_ERROR    |  0x82   |
-|  MCP23008_VALUE_ERROR  |  0x83   |
-|  MCP23008_PORT_ERROR   |  0x84   |
-
-
-## Operation
-
-See examples.
+|  name                     |  value  |  description  |
+|:--------------------------|:-------:|:--------------|
+|  MCP23008_OK              |  0x00   |  No error     |
+|  MCP23008_PIN_ERROR       |  0x81   |
+|  MCP23008_I2C_ERROR       |  0x82   |  (compatibility)
+|  MCP23008_VALUE_ERROR     |  0x83   |
+|  MCP23008_PORT_ERROR      |  0x84   |
+|  MCP23008_REGISTER_ERROR  |  0xFF   |  low level.
+|  MCP23008_INVALID_READ    |  0xFF   |  low level.
 
 
 ## Future

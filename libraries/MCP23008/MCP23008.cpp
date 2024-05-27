@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23008.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for I2C MCP23008 8 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23008
@@ -10,25 +10,11 @@
 #include "MCP23008.h"
 
 
-//  Registers                         //   DESCRIPTION                  DATASHEET
-#define MCP23008_DDR_A        0x00    //   Data Direction Register A      P 10
-#define MCP23008_POL_A        0x01    //   Input Polarity A               P 11
-#define MCP23008_GPINTEN_A    0x02    //   NOT USED interrupt enable      P 12
-#define MCP23008_DEFVAL_A     0x03    //   NOT USED interrupt def         P 13
-#define MCP23008_INTCON_A     0x04    //   NOT USED interrupt control     P 14
-#define MCP23008_IOCR         0x05    //   IO control register            P 15
-#define MCP23008_PUR_A        0x06    //   Pull Up Resistors A            P 16
-#define MCP23008_INTF_A       0x07    //   NOT USED interrupt flag        P 17
-#define MCP23008_INTCAP_A     0x08    //   NOT USED interrupt capture     P 18
-#define MCP23008_GPIO_A       0x09    //   General Purpose IO A           P 19
-#define MCP23008_OLAT_A       0x0A    //   NOT USED output latch          P 20
-
-
 MCP23008::MCP23008(uint8_t address, TwoWire *wire)
 {
-  _address  = address;
-  _wire     = wire;
-  _error    = MCP23008_OK;
+  _address = address;
+  _wire    = wire;
+  _error   = MCP23008_OK;
 }
 
 
@@ -36,12 +22,17 @@ bool MCP23008::begin(bool pullup)
 {
   //  check connected
   if (! isConnected()) return false;
-  //  disable address increment (datasheet)
-  if (! writeReg(MCP23008_IOCR, 0b00100000)) return false;
+
+  //  disable address increment (datasheet P20
+  //    SEQOP: Sequential Operation mode bit
+  //    1 = Sequential operation disabled, address pointer does not increment.
+  //    0 = Sequential operation enabled, address pointer increments.
+  //  if (! writeReg(MCP23x08_IOCR, MCP23008_IOCR_SEQOP)) return false;
+
   if (pullup)
   {
     //  Force INPUT_PULLUP
-    if (! writeReg(MCP23008_PUR_A, 0xFF)) return false;
+    if (! writeReg(MCP23x08_PUR_A, 0xFF)) return false;   //  0xFF == all UP
   }
   return true;
 }
@@ -66,7 +57,10 @@ uint8_t MCP23008::getAddress()
 }
 
 
+///////////////////////////////////////////////////////////////////
+//
 //  single pin interface
+//
 //  pin  = 0..7
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
 bool MCP23008::pinMode1(uint8_t pin, uint8_t mode)
@@ -82,7 +76,7 @@ bool MCP23008::pinMode1(uint8_t pin, uint8_t mode)
     return false;
   }
 
-  uint8_t dataDirectionRegister = MCP23008_DDR_A;
+  uint8_t dataDirectionRegister = MCP23x08_DDR_A;
   uint8_t val = readReg(dataDirectionRegister);
   if (_error != MCP23008_OK)
   {
@@ -117,7 +111,7 @@ bool MCP23008::write1(uint8_t pin, uint8_t value)
     _error = MCP23008_PIN_ERROR;
     return false;
   }
-  uint8_t IOR = MCP23008_GPIO_A;
+  uint8_t IOR = MCP23x08_GPIO_A;
   uint8_t val = readReg(IOR);
   uint8_t pre = val;
   if (_error != MCP23008_OK)
@@ -134,8 +128,8 @@ bool MCP23008::write1(uint8_t pin, uint8_t value)
   {
     val &= ~mask;
   }
-  //  only write if there is a change
-  if (val != pre)
+  //  only write when changed.
+  if (pre != val)
   {
     writeReg(IOR, val);
     if (_error != MCP23008_OK)
@@ -154,7 +148,7 @@ uint8_t MCP23008::read1(uint8_t pin)
     _error = MCP23008_PIN_ERROR;
     return MCP23008_INVALID_READ;
   }
-  uint8_t IOR = MCP23008_GPIO_A;
+  uint8_t IOR = MCP23x08_GPIO_A;
   uint8_t val = readReg(IOR);
   if (_error != MCP23008_OK)
   {
@@ -166,8 +160,8 @@ uint8_t MCP23008::read1(uint8_t pin)
 }
 
 
-//  pin     = 0..7
-//  reverse = true or false
+//  pin      = 0..7
+//  reversed = true or false
 bool MCP23008::setPolarity(uint8_t pin,  bool reversed)
 {
   if (pin > 7)
@@ -175,7 +169,7 @@ bool MCP23008::setPolarity(uint8_t pin,  bool reversed)
     _error = MCP23008_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23008_POL_A;
+  uint8_t inputPolarityRegister = MCP23x08_POL_A;
   uint8_t val = readReg(inputPolarityRegister);
   if (_error != MCP23008_OK)
   {
@@ -206,7 +200,7 @@ bool MCP23008::getPolarity(uint8_t pin, bool &reversed)
     _error = MCP23008_PIN_ERROR;
     return false;
   }
-  uint8_t inputPolarityRegister = MCP23008_POL_A;
+  uint8_t inputPolarityRegister = MCP23x08_POL_A;
   uint8_t val = readReg(inputPolarityRegister);
   if (_error != MCP23008_OK)
   {
@@ -218,8 +212,8 @@ bool MCP23008::getPolarity(uint8_t pin, bool &reversed)
 }
 
 
-//  pin  = 0..7
-//  reverse = true or false
+//  pin    = 0..7
+//  pullup = true or false
 bool MCP23008::setPullup(uint8_t pin,  bool pullup)
 {
   if (pin > 7)
@@ -227,7 +221,7 @@ bool MCP23008::setPullup(uint8_t pin,  bool pullup)
     _error = MCP23008_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23008_PUR_A;
+  uint8_t inputPullupRegister = MCP23x08_PUR_A;
   uint8_t val = readReg(inputPullupRegister);
   if (_error != MCP23008_OK)
   {
@@ -258,7 +252,7 @@ bool MCP23008::getPullup(uint8_t pin, bool &pullup)
     _error = MCP23008_PIN_ERROR;
     return false;
   }
-  uint8_t inputPullupRegister = MCP23008_PUR_A;
+  uint8_t inputPullupRegister = MCP23x08_PUR_A;
   uint8_t val = readReg(inputPullupRegister);
   if (_error != MCP23008_OK)
   {
@@ -270,14 +264,15 @@ bool MCP23008::getPullup(uint8_t pin, bool &pullup)
 }
 
 
-///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  8 pins interface
+//
 //  whole register at once
 //  value = 0..0xFF  bit pattern
 bool MCP23008::pinMode8(uint8_t value)
 {
-  writeReg(MCP23008_DDR_A, value);
+  writeReg(MCP23x08_DDR_A, value);
   _error = MCP23008_OK;
   return true;
 }
@@ -285,7 +280,7 @@ bool MCP23008::pinMode8(uint8_t value)
 
 bool MCP23008::write8(uint8_t value)
 {
-  writeReg(MCP23008_GPIO_A, value);
+  writeReg(MCP23x08_GPIO_A, value);
   _error = MCP23008_OK;
   return true;
 }
@@ -294,14 +289,14 @@ bool MCP23008::write8(uint8_t value)
 int MCP23008::read8()
 {
   _error = MCP23008_OK;
-  return readReg(MCP23008_GPIO_A);
+  return readReg(MCP23x08_GPIO_A);
 }
 
 
 //  mask  = 0..0xFF  bit pattern
 bool MCP23008::setPolarity8(uint8_t mask)
 {
-  writeReg(MCP23008_POL_A, mask);
+  writeReg(MCP23x08_POL_A, mask);
   if (_error != MCP23008_OK)
   {
     return false;
@@ -312,7 +307,7 @@ bool MCP23008::setPolarity8(uint8_t mask)
 
 bool MCP23008::getPolarity8(uint8_t &mask)
 {
-  mask = readReg(MCP23008_POL_A);
+  mask = readReg(MCP23x08_POL_A);
   if (_error != MCP23008_OK)
   {
     return false;
@@ -324,7 +319,7 @@ bool MCP23008::getPolarity8(uint8_t &mask)
 //  mask  = 0..0xFF  bit pattern
 bool MCP23008::setPullup8(uint8_t mask)
 {
-  writeReg(MCP23008_PUR_A, mask);
+  writeReg(MCP23x08_PUR_A, mask);
   if (_error != MCP23008_OK)
   {
     return false;
@@ -335,7 +330,7 @@ bool MCP23008::setPullup8(uint8_t mask)
 
 bool MCP23008::getPullup8(uint8_t &mask)
 {
-  mask = readReg(MCP23008_PUR_A);
+  mask = readReg(MCP23x08_PUR_A);
   if (_error != MCP23008_OK)
   {
     return false;
@@ -344,11 +339,129 @@ bool MCP23008::getPullup8(uint8_t &mask)
 }
 
 
+///////////////////////////////////////////////////
+//
+//  INTERRUPTS (experimental, see MCP23S17 - #40)
+//
+//  TODO, catch writeReg errors
+//  TODO, MCP23x08_INT_MODE_ERROR?
+//  TODO, if register not changed no need to update?
+//  TODO, 8 bits optimize? more code vs speed?
+//
+//  pin = 0..7, mode = { RISING, FALLING, CHANGE }
+bool MCP23008::enableInterrupt(uint8_t pin, uint8_t mode)
+{
+  if (pin > 7)
+  {
+    _error = MCP23008_PIN_ERROR;
+    return false;
+  }
+
+  //  right mode
+  uint8_t intcon = readReg(MCP23x08_INTCON_A);
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon &= ~(1 << pin);
+  }
+  else
+  {
+    uint8_t defval = readReg(MCP23x08_DEFVAL_A);
+    if (mode == RISING)
+    {
+      intcon |= (1 << pin);
+      defval &= ~(1 << pin);  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon |= (1 << pin);
+      defval |= ~(1 << pin);  //  FALLING == compare to 1
+    }
+    writeReg(MCP23x08_DEFVAL_A, defval);
+  }
+  writeReg(MCP23x08_INTCON_A, intcon);
+
+  //  enable interrupt
+  uint16_t value = readReg(MCP23x08_GPINTEN_A);
+  value |= (1 << pin);
+  return writeReg(MCP23x08_GPINTEN_A, value);
+}
+
+
+bool MCP23008::disableInterrupt(uint8_t pin)
+{
+  if (pin > 7)
+  {
+    _error = MCP23008_PIN_ERROR;
+    return false;
+  }
+  //  disable interrupt
+  uint16_t value = readReg(MCP23x08_GPINTEN_A);
+  value &= ~(1 << pin);
+  return writeReg(MCP23x08_GPINTEN_A, value);
+}
+
+
+//  which pins caused the INT?
+uint8_t MCP23008::getInterruptFlagRegister()
+{
+  return readReg(MCP23x08_INTF_A);
+}
+
+
+uint8_t MCP23008::getInterruptCaptureRegister()
+{
+  return readReg(MCP23x08_INTCAP_A);
+}
+
+
+//       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+bool MCP23008::setInterruptPolarity(uint8_t polarity)
+{
+  if (polarity > 2) return false;
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  reg &= ~(MCP23x08_IOCR_ODR | MCP23x08_IOCR_INTPOL);
+  //  LOW is default set.
+  if (polarity == 2) reg |= MCP23x08_IOCR_ODR;
+  if (polarity == 1) reg |= MCP23x08_IOCR_INTPOL;
+  return writeReg(MCP23x08_IOCR, reg);
+}
+
+
+uint8_t MCP23008::getInterruptPolarity()
+{
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  if (reg & MCP23x08_IOCR_ODR) return 2;
+  if (reg & MCP23x08_IOCR_INTPOL) return 1;
+  return 0;
+}
+
+
+/////////////////////////////////////////////
+//
+//  MISC
+//
 int MCP23008::lastError()
 {
   int e = _error;
   _error = MCP23008_OK;  //  reset error after read.
   return e;
+}
+
+
+bool MCP23008::enableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  reg |= mask;
+  return writeReg(MCP23x08_IOCR, reg);
+}
+
+
+bool MCP23008::disableControlRegister(uint8_t mask)
+{
+  uint8_t reg = readReg(MCP23x08_IOCR);
+  reg &= ~mask;
+  return writeReg(MCP23x08_IOCR, reg);
 }
 
 
@@ -364,7 +477,7 @@ uint8_t MCP23008::getPinMode8()
 
 ////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 bool MCP23008::writeReg(uint8_t reg, uint8_t value)
 {
@@ -390,16 +503,13 @@ uint8_t MCP23008::readReg(uint8_t reg)
     _error = MCP23008_I2C_ERROR;
     return 0;
   }
-  else
-  {
-    _error = MCP23008_OK;
-  }
   uint8_t n = _wire->requestFrom(_address, (uint8_t)1);
   if (n != 1)
   {
     _error = MCP23008_I2C_ERROR;
     return 0;
   }
+  _error = MCP23008_OK;
   return _wire->read();
 }
 

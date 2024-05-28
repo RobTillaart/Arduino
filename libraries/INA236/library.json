@@ -1,0 +1,26 @@
+{
+  "name": "INA236",
+  "keywords": "power,ampere,voltage,volts,current",
+  "description": "Arduino library for INA236 current and power sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    },
+    {
+      "name": "Josef Tremmel"
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA236.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA236.h"
+}

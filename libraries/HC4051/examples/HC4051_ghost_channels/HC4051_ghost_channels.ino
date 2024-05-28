@@ -1,7 +1,9 @@
 //
-//    FILE: HC4051_demo.ino
+//    FILE: HC4051_ghost_channels.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4051 8 channel (simple) multiplexer
+//          showing (very short) ghost channels.
+//          you might need a scope to see this.
 //     URL: https://github.com/RobTillaart/HC4051
 
 
@@ -26,7 +28,8 @@ void loop()
 {
   for (uint8_t channel = 0; channel < 8; channel++)
   {
-    mp.setChannel(channel);
+    //  do not disable the device during setChannel.
+    mp.setChannel(channel, false);  
     Serial.println(analogRead(A0));
     delay(100);
   }

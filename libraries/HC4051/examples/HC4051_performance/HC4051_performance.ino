@@ -2,6 +2,7 @@
 //    FILE: HC4051_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4051 8 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4051
 
 
 #include "HC4051.h"

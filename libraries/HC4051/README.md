@@ -22,7 +22,7 @@ multiplexer / demultiplexer and compatible devices.
 The HC4051 allows e.g one analog port read up to 8 different analog channels,
 or one digital port to read the state of 8 buttons.
 
-It is also possible to use the HC4067 to select an OUTPUT channel.
+It is also possible to use the HC4051 to select an OUTPUT channel.
 The signal pin can be connected to VCC (5V) or an IO pin set to OUTPUT.
 Only the selected channel can show the HIGH level of the IO pin if set to HIGH.
 Not selected pins will all be set to LOW.
@@ -51,7 +51,7 @@ To elaborate.
 
 Typical connection is to connect the three **select pins** to four IO pins of your board.
 
-The optional **enablePin (INH)** must be connected to GND if not used.
+The optional **enablePin(INH)** must be connected to GND if not used.
 This way the device will be continuous enabled.
 
 Example multiplexing analog in.
@@ -104,19 +104,27 @@ This will result in another subset of the Y pins to select from.
 - **HC4051(uint8_t A, uint8_t B, uint8_t C, uint8_t enablePin = 255)** constructor.
 Set the three select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
-- **void setChannel(uint8_t channel)** set the current channel.
-Valid values 0..7, this value is not checked, only the lower 3 bits will be used.
+- **bool setChannel(uint8_t channel, bool disable = true)** set the current channel.
+Valid values 0..7, this value is checked (since 0.2.1).
+Returns false if channel out of range.  
+If the channel is already selected it does not change it.
+Note the three channels will not change at the very same moment, 
+possibly resulting in an invalid selection for a (very short) time.  
+The disable flag can be set to false so the device is not disabled during channel switching.
+Default the device is disabled during channel switching to prevent (very short) ghost channels.
+Note that a call to **setChannel()** will always enable the device again.
+Note the device cannot be disabled if there is no enable pin configured.
 - **uint8_t getChannel()** returns the current channel 0..7.
 The selected channel is also returned when the multiplexer is disabled.
 
 
 #### Enable
 
-These functions work only if enablePin is set in the constructor.
+These functions work only if a valid **enablePin** is set in the constructor.
 
-- **void enable()** enables the HC4051 to multiplex.
-- **void disable()** disables the HC4051, no channel is selected.
-- **bool isEnabled()** returns the current status of the HC4067.
+- **void enable()** enables the device to multiplex.
+- **void disable()** disables the device, no channel is selected.
+- **bool isEnabled()** returns the current status of the device.
 Also returns true if the enablePin is not set in the constructor.
 
 

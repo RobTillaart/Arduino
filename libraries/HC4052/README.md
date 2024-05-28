@@ -92,9 +92,15 @@ Example multiplexing analog in.
 Set the two select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
 - **bool setChannel(uint8_t channel)** set the current channel.
-Valid values 0..3, returns false if channel out of range.
+Valid values 0..3, this value is checked (since 0.2.1).
+Returns false if channel out of range.
 If the channel is already selected it does not change it.
-Calling setChannel will enable it.
+Note the three channels will not change at the very same moment, 
+possibly resulting in an invalid selection for a (very short) time.  
+The disable flag can be set to false so the device is not disabled during channel switching.
+Default the device is disabled during channel switching to prevent (very short) ghost channels.
+Note that a call to **setChannel()** will always enable the device again.
+Note the device cannot be disabled if there is no enable pin configured.
 - **uint8_t getChannel()** returns the current channel 0..3.
 The selected channel is also returned when the multiplexer is disabled.
 

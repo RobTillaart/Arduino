@@ -2,6 +2,7 @@
 //    FILE: HC4052_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4052 2 x 4 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4052
 
 
 #include "HC4052.h"

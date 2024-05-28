@@ -3,15 +3,14 @@
 //    FILE: HC4053.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for CD74HC4053 8 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4053
 
 
-
 #include "Arduino.h"
 
-#define HC4053_LIB_VERSION         (F("0.2.0"))
+#define HC4053_LIB_VERSION         (F("0.2.1"))
 
 
 class HC4053
@@ -42,13 +41,18 @@ public:
   }
 
 
-  void setChannel(uint8_t channel)
+  bool setChannel(uint8_t channel, bool disable = true)
   {
-    disable();
+    if (channel > 1) return false;
+    if (disable)
+    {
+      this->disable();
+    }
     setChannelA(channel);
     setChannelB(channel);
     setChannelC(channel);
     enable();
+    return true;
   }
 
 

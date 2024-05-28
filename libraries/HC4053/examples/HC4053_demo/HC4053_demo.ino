@@ -2,6 +2,7 @@
 //    FILE: HC4053_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4051 8 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4053
 
 
 #include "HC4053.h"

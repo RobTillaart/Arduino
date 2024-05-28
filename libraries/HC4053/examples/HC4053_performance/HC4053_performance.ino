@@ -2,6 +2,7 @@
 //    FILE: HC4053_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4053 3 x 2 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4053
 
 
 #include "HC4053.h"

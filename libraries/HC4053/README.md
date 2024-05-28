@@ -93,10 +93,16 @@ Example multiplexing three times analog in.
 - **HC4053(uint8_t A, uint8_t B, uint8_t C, uint8_t enablePin = 255)** constructor.
 Set the three select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
-- **void setChannel(uint8_t channel)** sets A, B and C to channel in one call.
+- **bool setChannel(uint8_t channel, bool disable = true)** sets A, B and C to channel in one call.
 Think of it as a master switch.
-Valid values 0, 1, this value is not checked, only last bit is used.
-Note the three channels will not change at the very same moment.
+Valid values 0, 1, this value is checked (since 0.2.1).
+Returns false if channel out of range.  
+Note the three channels will not change at the very same moment, 
+possibly resulting in an invalid selection for a (very short) time.  
+The disable flag can be set to false so the device is not disabled during channel switching.
+Default the device is disabled during channel switching to prevent (very short) ghost channels.
+Note that a call to **setChannel()** will always enable the device again.
+Note the device cannot be disabled if there is no enable pin configured.
 - **void setChannelA(uint8_t channel)** sets A to channel.
 Valid values 0, 1, this value is not checked, only last bit is used.
 - **void setChannelB(uint8_t channel)** sets B to channel.

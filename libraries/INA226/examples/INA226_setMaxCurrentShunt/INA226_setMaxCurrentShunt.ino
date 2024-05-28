@@ -33,12 +33,14 @@ void setup()
   delay(100);
 
 
-  INA.setMaxCurrentShunt(1, 0.002);
+  int x = INA.setMaxCurrentShunt(1, 0.002);
   Serial.println("normalized = true (default)");
+  Serial.println(x);
   printConfig();
 
-  INA.setMaxCurrentShunt(1, 0.002, false);
+  x = INA.setMaxCurrentShunt(1, 0.002, false);
   Serial.println("normalized = false");
+  Serial.println(x);
   printConfig();
 
 
@@ -54,10 +56,10 @@ void setup()
 
 void loop()
 {
-  INA.setMaxCurrentShunt(1, 0.002);
+  INA.setMaxCurrentShunt(1, 0.100);
   measure(20);
 
-  INA.setMaxCurrentShunt(1, 0.002, false);
+  INA.setMaxCurrentShunt(1, 0.100, false);
   measure(20);
 }
 

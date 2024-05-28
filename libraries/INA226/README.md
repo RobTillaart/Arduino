@@ -55,6 +55,7 @@ before calling **begin()**.
 - https://www.ti.com/document-viewer/INA226/datasheet
 - https://github.com/RobTillaart/INA219
 - https://github.com/RobTillaart/INA226
+- https://github.com/RobTillaart/INA236
 
 
 ## I2C
@@ -65,26 +66,26 @@ The sensor can have 16 different I2C addresses,
 which depends on how the A0 and A1 address lines 
 are connected to the SCL, SDA, GND and VCC pins.
 
-See table - from datasheet table 2, page18.
+See table - from datasheet table 2, page 18.
 
-|  A1   |  A0   |  ADDRESS   |
-|:-----:|:-----:|:----------:|
-|  GND  |  GND  |  1000000   |
-|  GND  |  VS   |  1000001   |
-|  GND  |  SDA  |  1000010   |
-|  GND  |  SCL  |  1000011   |
-|  VS   |  GND  |  1000100   |
-|  VS   |  VS   |  1000101   |
-|  VS   |  SDA  |  1000110   |
-|  VS   |  SCL  |  1000111   |
-|  SDA  |  GND  |  1001000   |
-|  SDA  |  VS   |  1001001   |
-|  SDA  |  SDA  |  1001010   |
-|  SDA  |  SCL  |  1001011   |
-|  SCL  |  GND  |  1001100   |
-|  SCL  |  VS   |  1001101   |
-|  SCL  |  SDA  |  1001110   |
-|  SCL  |  SCL  |  1001111   |
+|  A1   |  A0   |  Addr  |  HEX   |
+|:-----:|:-----:|:------:|:------:|
+|  GND  |  GND  |   64   |  0x40  |
+|  GND  |  VS   |   65   |  0x41  |
+|  GND  |  SDA  |   66   |  0x42  |
+|  GND  |  SCL  |   67   |  0x43  |
+|  VS   |  GND  |   68   |  0x44  |
+|  VS   |  VS   |   69   |  0x45  |
+|  VS   |  SDA  |   70   |  0x46  |
+|  VS   |  SCL  |   71   |  0x47  |
+|  SDA  |  GND  |   72   |  0x48  |
+|  SDA  |  VS   |   73   |  0x49  |
+|  SDA  |  SDA  |   74   |  0x4A  |
+|  SDA  |  SCL  |   75   |  0x4B  |
+|  SCL  |  GND  |   76   |  0x4C  |
+|  SCL  |  VS   |   77   |  0x4D  |
+|  SCL  |  SDA  |   78   |  0x4E  |
+|  SCL  |  SCL  |   79   |  0x4F  |
 
 
 #### Performance
@@ -230,7 +231,7 @@ Note the value returned is not a unit of time.
 
 
 |  enum description  | BVCT SVCT |   time    |  notes  |
-|:------------------:|:---------:|----------:|--------:|
+|:------------------:|:---------:|:---------:|--------:|
 |  INA226_140_us     |     0     |  140 us   |
 |  INA226_204_us     |     1     |  204 us   |
 |  INA226_332_us     |     2     |  332 us   |
@@ -285,7 +286,7 @@ See https://github.com/RobTillaart/INA226/pull/29 for details of the discussion.
 #### Error codes setMaxCurrentShunt
 
 |  descriptive name error        |  value   |  meaning  |
-|:-------------------------------|---------:|:----------|
+|:-------------------------------|:--------:|:----------|
 |  INA226_ERR_NONE               |  0x0000  |  OK
 |  INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  |  maxCurrent \* shunt > 80 mV 
 |  INA226_ERR_MAXCURRENT_LOW     |  0x8001  |  maxCurrent < 0.001
@@ -329,7 +330,7 @@ Returns true if write to register successful.
 
 
 |  description alert register  |  value   | a.k.a.  |
-|:-----------------------------|---------:| -------:|
+|:-----------------------------|:--------:| -------:|
 |  INA226_SHUNT_OVER_VOLTAGE   |  0x8000  |  SOL    |
 |  INA226_SHUNT_UNDER_VOLTAGE  |  0x4000  |  SUL    |
 |  INA226_BUS_OVER_VOLTAGE     |  0x2000  |  BOL    |
@@ -339,7 +340,7 @@ Returns true if write to register successful.
 
 
 |  description alert flags         |  value   |
-|:---------------------------------|---------:|
+|:---------------------------------|:--------:|
 |  INA226_ALERT_FUNCTION_FLAG      |  0x0010  |
 |  INA226_CONVERSION_READY_FLAG    |  0x0008  |
 |  INA226_MATH_OVERFLOW_FLAG       |  0x0004  |
@@ -379,11 +380,6 @@ Be aware that
 - the resistance of wires used affect measurements with very small shunts.
 - solder might change the resistance too.
 - you do this at your own risk.
-
-
-## Operational
-
-See examples.. 
 
 
 ## Future

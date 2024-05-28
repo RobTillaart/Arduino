@@ -2,7 +2,7 @@
 //    FILE: HC4067_4_channel_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
-//
+//     URL: https://github.com/RobTillaart/HC4067
 
 //  connect analog channel A0 to the multiplexer
 //  connect 4 analog signals to input 0..3 of the multiplexer

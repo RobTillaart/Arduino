@@ -112,8 +112,16 @@ This will result in another subset of the Y pins to select from.
 - **HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enablePin = 255)** constructor.
 Set the 4 select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
-- **void setChannel(uint8_t channel)** set the current channel.
-Valid values 0..15, this value is not checked, only the lower 4 bits will be used.
+- **bool setChannel(uint8_t channel, bool disable = true)** set the current channel.
+Valid values 0..15, this value is checked (since 0.2.1).
+Returns false if channel out of range.  
+If the channel is already selected it does not change it.
+Note the four channels will not change at the very same moment, 
+possibly resulting in an invalid selection for a (very short) time.  
+The disable flag can be set to false so the device is not disabled during channel switching.
+Default the device is disabled during channel switching to prevent (very short) ghost channels.
+Note that a call to **setChannel()** will always enable the device again.
+Note the device cannot be disabled if there is no enable pin configured.
 - **uint8_t getChannel()** returns the current channel 0..15.
 The selected channel is also returned when the multiplexer is disabled.
 
@@ -122,9 +130,9 @@ The selected channel is also returned when the multiplexer is disabled.
 
 These functions work only if enablePin is set in the constructor.
 
-- **void enable()** enables the HC4067 to multiplex.
-- **void disable()** disables the HC4067, no channel is selected.
-- **bool isEnabled()** returns the current status of the HC4067.
+- **void enable()** enables the device to multiplex.
+- **void disable()** disables the device, no channel is selected.
+- **bool isEnabled()** returns the current status of the device.
 Also returns true if the enablePin is not set in the constructor.
 
 
@@ -146,10 +154,10 @@ Also returns true if the enablePin is not set in the constructor.
 
 #### Won't (unless requested)
 
-- check channel in setChannel() ?
-  - return true if in range, false otherwise.
 - move code to .cpp file
-
+- uint8_t channelCount() { return 16; };
+- cache enable status
+- inline the enable/disable
 
 ## Support
 

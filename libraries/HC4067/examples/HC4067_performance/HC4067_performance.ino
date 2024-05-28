@@ -2,11 +2,12 @@
 //    FILE: HC4067_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4067
 
 
 #include "HC4067.h"
 
-HC4067 mp(4, 5, 6, 7, 8);
+HC4067 mp(4, 5, 6, 7, 8);  //  enable pin(8)
 
 uint32_t start, stop;
 

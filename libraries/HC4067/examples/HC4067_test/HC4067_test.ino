@@ -2,6 +2,7 @@
 //    FILE: HC4067_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for HC4067 16 channel (simple) multiplexer
+//     URL: https://github.com/RobTillaart/HC4067
 
 
 #include "HC4067.h"

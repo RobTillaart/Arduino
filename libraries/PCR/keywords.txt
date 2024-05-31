@@ -1,0 +1,52 @@
+# Syntax Colouring Map For PCR
+
+# Data types (KEYWORD1)
+PCR	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+setInitial	KEYWORD2
+getInitialTemp	KEYWORD2
+getInitialTime	KEYWORD2
+
+setDenature	KEYWORD2
+getDenatureTemp	KEYWORD2
+getDenatureTime	KEYWORD2
+
+setAnnealing	KEYWORD2
+getAnnealingTemp	KEYWORD2
+getAnnealingTime	KEYWORD2
+
+setExtension	KEYWORD2
+getExtensionTemp	KEYWORD2
+getExtensionTime	KEYWORD2
+
+setElongation	KEYWORD2
+getElongationTemp	KEYWORD2
+getElongationTime	KEYWORD2
+
+setHold	KEYWORD2
+getHoldTemp	KEYWORD2
+
+reset	KEYWORD2
+iterationsLeft	KEYWORD2
+process	KEYWORD2
+
+heat	KEYWORD2
+cool	KEYWORD2
+off	KEYWORD2
+
+timeLeft	KEYWORD2
+
+
+# Constants (LITERAL1)
+PCR_LIB_VERSION	LITERAL1
+
+PCR_STATE_IDLE	LITERAL1
+PCR_STATE_INITIAL	LITERAL1
+PCR_STATE_DENATURE	LITERAL1
+PCR_STATE_ANNEALING	LITERAL1
+PCR_STATE_EXTENSION	LITERAL1
+PCR_STATE_ELONGATION	LITERAL1
+PCR_STATE_HOLD	LITERAL1

@@ -1,0 +1,23 @@
+{
+  "name": "PCR",
+  "keywords": "polymerase, chain, reaction, denature, annealing, extension",
+  "description": "Arduino library for PCR process control.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCR.git"
+  },
+  "version": "0.2.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCR.h"
+}

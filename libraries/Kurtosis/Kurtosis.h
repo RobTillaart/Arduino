@@ -3,7 +3,7 @@
 //    FILE: Kurtosis.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-05-21
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for calculating skewness and kurtosis of a dataset.
 //     URL: https://github.com/RobTillaart/Kurtosis
 //
@@ -13,7 +13,7 @@
 //  Experimental
 
 
-#define KURTOSIS_LIB_VERSION        "0.1.1"
+#define KURTOSIS_LIB_VERSION        "0.1.2"
 
 
 class Kurtosis

@@ -32,7 +32,6 @@ The code of this library is based upon the code of **John D. Cook** in the blog 
 "Computing skewness and kurtosis in one pass". Thanks for his kind permission!
 See - https://www.johndcook.com/blog/skewness_kurtosis/
 
-
 I adapted the code on a few places to improve performance a bit.
 Furthermore I named the library Kurtosis as calculating that metric is the 
 prime purpose of this library.
@@ -42,6 +41,32 @@ For a deep technical reader about kurtosis and skewness I refer to the Wikipedia
 Links to other information are welcome.
 
 The code is not well tested or verified so use with care.
+
+
+#### Interpretation of Kurtosis metric.
+
+- https://en.wiktionary.org/wiki/mesokurtosis et al.
+
+First order interpretation.
+
+Define: Excess Kurtosis is calculated as kurtosis - 3.
+
+There are three levels of kurtosis.
+
+- Mesokurtosis: An excess kurtosis of approx 0. The normal (Gaussian) distribution is mesokurtic
+- Platykurtosis: A negative excess kurtosis. Platykurtic distributions have a "thin tail", they have relative few outliers.
+- Leptokurtosis: A positive excess kurtosis. Leptokurtic distributions have a "thick tail", they have many outliers.
+
+
+#### Interpretation of Skewness metric.
+
+First order interpretation.
+
+- Skewness between -0.5 and 0.5 => normal distribution
+- Skewness between -1.0 and 1.0 => reasonable normal distribution
+- Skewness smaller than -1.0 => left skewed distribution
+- Skewness larger than 1.0 => right skewed distribution
+
 
 #### Related
 
@@ -118,7 +143,7 @@ For adding distributions.
 - add examples to explain the purpose.
 - extend unit tests.
 - ask the experts
-- investigate the order of adding on the metrics.
+- investigate the order of adding values on the metrics.
 
 #### Could
 

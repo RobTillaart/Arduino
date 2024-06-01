@@ -36,6 +36,8 @@ process	KEYWORD2
 heat	KEYWORD2
 cool	KEYWORD2
 off	KEYWORD2
+setHeatPulseLength	KEYWORD2
+getHeatPulseLength	KEYWORD2
 
 timeLeft	KEYWORD2
 

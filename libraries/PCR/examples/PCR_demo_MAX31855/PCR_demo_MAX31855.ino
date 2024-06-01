@@ -1,21 +1,30 @@
 //
-//    FILE: PCR_demo_runtime_change.ino
+//    FILE: PCR_demo_MAX31855.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: PCR demo, changing parameters run time.
+// PURPOSE: PCR demo, using a thermocouple MAX31855 as temperature sensor.
 //     URL: https://github.com/RobTillaart/PCR
 //
-//  adjust timing and temperature.
+//  adjust pins to your hardware setup.
+
 
 #include "PCR.h"
-
-
 PCR pcr(8, 9);  //  heatPin, coolPin
+
+
+//    https://github.com/RobTillaart/MAX31855_RT
+#include "MAX31855.h"
+uint8_t selectPin = 7;
+MAX31855 thermoCouple(selectPin, &SPI);  //  HW SPI
 
 
 float getTemperature()
 {
-  return 65;
+  //  no status or error handling yet
+  thermoCouple.read();;
+  float temp = thermoCouple.getTemperature();
+  return temp;
 }
+
 
 void setup()
 {
@@ -24,9 +33,19 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("PCR_LIB_VERSION: ");
   Serial.println(PCR_LIB_VERSION);
+  Serial.print("MAX31855_VERSION: ");
+  Serial.println(MAX31855_VERSION);
   Serial.println();
 
-  //  configure all phases
+
+  //  initialize the temperature sensor
+  SPI.begin();
+  thermoCouple.begin();
+  delay(1000);  // wait a second to get a first reading.
+
+
+  //  configure PCR process
+  //  adjust timing and temperature to your needs.
   pcr.setInitial(98, 10000);      //  temp, ms
   pcr.setDenature(94.5, 5000);    //  temp, ms
   pcr.setAnnealing(54.2, 2000);   //  temp, ms
@@ -34,26 +53,15 @@ void setup()
   pcr.setElongation(75.0, 3000);  //  temp, ms
   pcr.setHold(8.0);               //  temp only
 
-  pcr.reset(10);  //  iterations.
+  pcr.reset(15);  //  iterations.
   Serial.print("Estimated time (ms): ");
   Serial.println(pcr.timeLeft());
 
-  bool flagFive = false;
+  //  run the PCR process.
   while (pcr.iterationsLeft() > 0)
   {
     float temp = getTemperature();
     pcr.process(temp);
-
-    //  increase time for last 5 iterations.
-    if ((pcr.iterationsLeft() == 5) && (flagFive == false))
-    {
-      flagFive = true;
-      pcr.setDenature(94.5, 7500);    //  temp, ms
-      pcr.setAnnealing(54.2, 4000);   //  temp, ms
-      pcr.setExtension(75.0, 5000);   //  temp, ms
-      Serial.print("Estimated time (ms): ");
-      Serial.println(pcr.timeLeft());
-    }
   }
 
   Serial.println("done");
@@ -63,7 +71,6 @@ void setup()
 void loop()
 {
 }
-
 
 
 //  -- END OF FILE --

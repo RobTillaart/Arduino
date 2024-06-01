@@ -3,7 +3,7 @@
 //    FILE: PCR.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2015-06-10
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for PCR process control.
 //     URL: https://github.com/RobTillaart/PCR
 //          https://forum.arduino.cc/t/problem-with-arduino-pcr-amplifies-of-dna/314808
@@ -12,13 +12,13 @@
 
 #include "Arduino.h"
 
-#define PCR_LIB_VERSION         (F("0.2.0"))
+#define PCR_LIB_VERSION         (F("0.2.1"))
 
-enum PCRSTATE { 
-  PCR_STATE_IDLE = 0, 
-  PCR_STATE_INITIAL, 
-  PCR_STATE_DENATURE, 
-  PCR_STATE_ANNEALING, 
+enum PCRSTATE {
+  PCR_STATE_IDLE = 0,
+  PCR_STATE_INITIAL,
+  PCR_STATE_DENATURE,
+  PCR_STATE_ANNEALING,
   PCR_STATE_EXTENSION,
   PCR_STATE_ELONGATION,
   PCR_STATE_HOLD
@@ -40,47 +40,47 @@ public:
 
 
   //  PARAMETERS
-  void     setInitial(float temp, uint32_t ms)
+  void     setInitial(float Celsius, uint32_t ms)
   {
-    _initialTemp = temp;
+    _initialTemp = Celsius;
     _initialTime = ms;
   }
   float    getInitialTemp() { return _initialTemp; }
   uint32_t getInitialTime() { return _initialTime; }
 
-  void     setDenature(float temp, uint32_t ms)
+  void     setDenature(float Celsius, uint32_t ms)
   {
-    _denatureTemp = temp;
+    _denatureTemp = Celsius;
     _denatureTime = ms;
   }
   float    getDenatureTemp() { return _denatureTemp; }
   uint32_t getDenatureTime() { return _denatureTime; }
 
-  void     setAnnealing(float temp, uint32_t ms)
+  void     setAnnealing(float Celsius, uint32_t ms)
   {
-    _annealingTemp = temp;
+    _annealingTemp = Celsius;
     _annealingTime = ms;
   }
   float    getAnnealingTemp() { return _annealingTemp; }
   uint32_t getAnnealingTime() { return _annealingTime; }
 
-  void     setExtension(float temp, uint32_t ms)
+  void     setExtension(float Celsius, uint32_t ms)
   {
-    _extensionTemp = temp;
+    _extensionTemp = Celsius;
     _extensionTime = ms;
   }
   float    getExtensionTemp() { return _extensionTemp; }
   float    getExtensionTime() { return _extensionTime; }
 
-  void     setElongation(float temp, uint32_t ms)
+  void     setElongation(float Celsius, uint32_t ms)
   {
-    _elongationTemp = temp;
+    _elongationTemp = Celsius;
     _elongationTime = ms;
   }
   float    getElongationTemp() { return _elongationTemp; }
   float    getElongationTime() { return _elongationTime; }
 
-  void     setHold(float temp) { _holdTemp = temp; }
+  void     setHold(float Celsius) { _holdTemp = Celsius; }
   float    getHoldTemp() { return _extensionTemp; }
 
 
@@ -94,12 +94,21 @@ public:
     debug();
   }
 
-  int iterationsLeft() { return _cycles; };
+  int iterationsLeft()
+  {
+    return _cycles;
+  }
 
-  //  returns PCR_STATE_HOLD when ready;
+
+  //  returns state ==> PCR_STATE_HOLD when ready;
   uint8_t process(float temperature)
   {
     _temperature = temperature;
+    /*  0.3.0
+    if (_temperature < temp[_state]) heat();
+    else if (_temperature > temp[_state]) cool();
+    else off();
+    */
     switch(_state)
     {
       case PCR_STATE_IDLE:
@@ -119,7 +128,7 @@ public:
           debug();
         }
       break;
-      
+
       case PCR_STATE_DENATURE:
         if (_temperature < _denatureTemp) heat();
         else if (_temperature > _denatureTemp) cool();
@@ -143,7 +152,7 @@ public:
           debug();
         }
       break;
-      
+
       case PCR_STATE_EXTENSION:
         if (_temperature < _extensionTemp) heat();
         else if (_temperature > _extensionTemp) cool();
@@ -157,7 +166,7 @@ public:
           debug();
         }
       break;
-      
+
       case PCR_STATE_ELONGATION:
         if (_temperature < _elongationTemp) heat();
         else if (_temperature > _elongationTemp) cool();
@@ -181,17 +190,29 @@ public:
 
 
   //  HEATER / COOLER CONTROL
+  void setHeatPulseLength(uint16_t ms = 10)
+  {
+    if (ms > 1000) ms = 1000;
+    _heatPulseLength = ms;
+  }
+
+  uint16_t getHeatPulseLength()
+  {
+    return _heatPulseLength;
+  }
+
+
   void heat()
   {
     digitalWrite(_heatPin, HIGH);
-    delay(10);
+    delay(_heatPulseLength);
     digitalWrite(_coolPin, LOW);
   }
 
   void cool()
   {
     digitalWrite(_coolPin, HIGH);
-    delay(10);
+    delay(_heatPulseLength);
     digitalWrite(_coolPin, LOW);
   }
 
@@ -204,7 +225,7 @@ public:
 
   //  blocking version of single step.
   //  to be tested what to do with it
-  //  could be a separate class.
+  //  could be a separate class / stand alone version.
   /*
   void keepTempTime(float temperature, uint32_t ms,  float (*getTemp)())
   {
@@ -231,7 +252,8 @@ public:
     return sum;
   }
 
-private:
+
+protected:
   // development.
   void debug()
   {
@@ -245,15 +267,24 @@ private:
     Serial.print(_startTime);
     Serial.print("\t");
     Serial.print(_cycles);
-    if (_state == PCR_STATE_IDLE) Serial.println("\tIdle");
-    if (_state == PCR_STATE_INITIAL) Serial.println("\tInitialization");
-    if (_state == PCR_STATE_DENATURE) Serial.println("\tDenature");
-    if (_state == PCR_STATE_ANNEALING) Serial.println("\tAnnealing");
-    if (_state == PCR_STATE_EXTENSION) Serial.println("\tExtension");
-    if (_state == PCR_STATE_ELONGATION) Serial.println("\tElongation");
-    if (_state == PCR_STATE_HOLD) Serial.println("\tHOLD");
+    //  use an array?
+    if (_state == PCR_STATE_DENATURE)        Serial.println("\tDenature");
+    else if (_state == PCR_STATE_ANNEALING)  Serial.println("\tAnnealing");
+    else if (_state == PCR_STATE_EXTENSION)  Serial.println("\tExtension");
+    //  less used
+    else if (_state == PCR_STATE_ELONGATION) Serial.println("\tElongation");
+    else if (_state == PCR_STATE_IDLE)       Serial.println("\tIdle");
+    else if (_state == PCR_STATE_INITIAL)    Serial.println("\tInitialize");
+    else if (_state == PCR_STATE_HOLD)       Serial.println("\tHold");
   }
 
+
+/*
+  //  simplify the code. 0.3.0
+  //  maybe temperature only?
+  float  _temp[6] = { 94, 94, 54, 76, 76, 14 };
+  float  _time[6] = { 0, 1, 1, 1, 1, -1 };
+*/
 
   float    _initialTemp = 94;
   uint32_t _initialTime = 0;
@@ -274,12 +305,10 @@ private:
   PCRSTATE _state = PCR_STATE_IDLE;
   int      _cycles = 0;
   uint32_t _startTime = 0;
+  uint16_t _heatPulseLength = 10;  //  milliseconds.
 };
 
 
 //  -- END OF FILE --
-
-
-
 
 

@@ -2,7 +2,7 @@
 //    FILE: PCR_demo_basic.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: basic PCR demo
-//     URL: https://github.com/RobTillaart/ACD10
+//     URL: https://github.com/RobTillaart/PCR
 
 
 #include "PCR.h"

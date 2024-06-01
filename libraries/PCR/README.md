@@ -32,16 +32,16 @@ main PCR cycles.
 In short a PCR cycle is a process of controlled heating and cooling to let DNA "reproduce"
 to get large quantities. Roughly the amount doubles in every cycle (of step 2,3,4).
 
-This process exists of repeated cycles of the three main steps. (times and temp from wikipedia)
+This process exists of repeated cycles of the three main steps. (times and temp from Wikipedia)
 
-| step |  name           |  temperature range    |  time range  |
-|:----:|:----------------|:----------------------|:------------:|
-|  1   | Initialization  |  94–98°C = 201–208°F  |  00–10 min.  |
-|  2   | Denaturation    |  94–98°C = 201–208°F  |  20–30 sec.  |
-|  3   | Annealing       |  50–65°C = 122–149°F  |  20–40 sec.  |
-|  4   | Extension       |  70–80°C = 158–176°F  |  ?           |
-|  5   | Elongation      |  70–80°C = 158–176°F  |  05–15 min.  |
-|  6   | Final Hold      |   4–15°C =  39–59°F   | indefinitely |
+| step | cycle |  name           |  temperature range    |  time range  |  notes  |
+|:----:|:-----:|:----------------|:----------------------|:------------:|:--------|
+|  1   |   N   | Initialization  |  94–98°C = 201–208°F  |  00–10 min.  |  to heat up system => hot-start PCR.
+|  2   |  Yes  | Denaturation    |  94–98°C = 201–208°F  |  20–30 sec.  |
+|  3   |  Yes  | Annealing       |  50–65°C = 122–149°F  |  20–40 sec.  |
+|  4   |  Yes  | Extension       |  75–80°C = 167–176°F  |  ? minutes   |
+|  5   |   N   | Elongation      |  70–74°C = 158–165°F  |  05–15 min.  |
+|  6   |   N   | Final Hold      |   4–15°C =  39–59°F   | indefinitely |  final storage
 
 The PCR function **process()** takes care of the repeating of step 2,3 and 4.
 
@@ -67,7 +67,8 @@ Typical core code looks like:
 ```
 
 
-**Note:** this library is meant for educational purposes and is not meant to replace professional equipment.
+**Note:** this library is meant for educational purposes and is not meant 
+to replace professional equipment.
 
 
 #### Hardware notes
@@ -118,7 +119,7 @@ Some examples:
 
 #### Constructor
 
-- **PCR(uint8_t heatPin, uint8_t coolPin)** constructor defines the haredware pins to which 
+- **PCR(uint8_t heatPin, uint8_t coolPin)** constructor defines the hardware pins to which 
 the heater and cooler are connected.
 - **void reset(int iterations)** full stop of the process, also stops heating and cooling,
 resets the state to IDLE and defines the number of iterations for the next run.
@@ -126,8 +127,7 @@ resets the state to IDLE and defines the number of iterations for the next run.
 and iterates over the DENATURE, ANNEALING and EXTENSION phase. Returns the current state.  
 The user **MUST** provide the actual temperature of the sample so process can heat and cool
 the sample on a need to basis.  
-The user **MUST** call this function as often as possible in a tight loop.
-Returns the current state.  
+The user **MUST** call this function as often as possible in a tight loop. 
 - **int iterationsLeft()** returns the number of iterations left.
 - **uint32_t timeLeft()** estimator of the time left to reach the HOLD state.
 This function assumes that the duration per phase does not change runtime,
@@ -135,42 +135,63 @@ however it will adapt its estimate.
 Returns the value in milliseconds. 
 
 
-#### Initial phase
+#### About phases
 
-Temperatures are in °Celsius, timing is in milliseconds.  
-Note that these parameters can change while the process is running. 
+Temperatures are in °Celsius, timing is in milliseconds (for 0.2.x version).  
+The timing is the time that the process will be in this state, so it includes
+the time to heat / cool to reach the temperature defined.
+Note that the parameters of the phases can change while the process is running,
+e.g. one can increase the duration of the extension phase per cycle to give 
+that part of the PCR process more time.
+
+
+#### 1 Initial phase
+
+This step used in **hot-start PCR** (Wikipedia) to bring the system to starting temperature.
 
 - **void setInitial(float Celsius, uint32_t ms)** Sets temperature and duration.
 - **float getInitialTemp()** returns set value.
 - **uint32_t getInitialTime()** returns set value.
 
-#### Denature phase
+#### 2 Denature phase
+
+This step breaks the double DNA helix into two single strands.
 
 - **void setDenature(float Celsius, uint32_t ms)** Sets temperature and duration.
 - **float getDenatureTemp()** returns set value.
 - **uint32_t getDenatureTime()** returns set value.
 
-#### Annealing phase
+#### 3 Annealing phase
+
+This step let **primers** (Wikipedia) connect to the single strands.
+The primers create a starting point for the replication.
+The temperature and duration depends on many factors, so very specific for the reaction.
 
 - **void setAnnealing(float Celsius, uint32_t ms)** Sets temperature and duration.
 - **float getAnnealingTemp()** returns set value.
 - **uint32_t getAnnealingTime()** returns set value.
 
-#### Extension phase
+#### 4 Extension phase
+
+This step extends the primers with **dNTP's** nucleotides (Wikipedia) to complete
+the duplication process.
 
 - **void setExtension(float Celsius, uint32_t ms)** Sets temperature and duration.
 - **float getExtensionTemp()** returns set value.
 - **float getExtensionTime()** returns set value.
 
-#### Elongation phase
+#### 5 Elongation phase
+
+This step is used to finalize the remaining DNA strands that are not fully extended
+in step 4 Extension phase.
 
 - **void setElongation(float Celsius, uint32_t ms)** Sets temperature and duration.
 - **float getElongationTemp()** returns set value.
 - **float getElongationTime()** returns set value.
 
-#### Hold phase
+#### 6 Hold phase
 
-The Hold phase goes on forever ans is meant to store the result on a cool temperature
+The Hold phase goes on forever and is meant to store the result on a cool temperature
 for final storage.
 
 - **void setHold(float Celsius)** Sets temperature for final phase.
@@ -178,11 +199,25 @@ for final storage.
 
 #### Heater, cooler control
 
-These are public functions so the user can control these also from their own code.
+The temperature control functions are made public so the user can use these directly 
+from their own code.
 
-- **void heat()** switch on the heater for 10 milliseconds.
-- **void cool()** switch on the cooler for 10 milliseconds.
-- **void off()** switch off all.
+In 0.2.x version the heater / cooler are switched on/off for a short period.
+This prevent excessive heating or cooling due to not switching of the heater / cooler in time.
+This pulsed heating cooling makes the process safer and a bit slower to heat up / cool down.
+The length of the period can be adjusted between 0 and 1000 milliseconds to increase
+the efficiency of the process. Be aware that the heat() and cool() will block longer.
+
+- **void heat()** Switches off cooler first, and then switches the heater for (default) 
+10 milliseconds. Before return the heater is switched off again.
+- **void cool()** switch on the cooler for (default) 10 milliseconds. Switches off heater first.
+- **void off()** switch off both heater and cooler.
+- **void setHeatPulseLength(uint16_t ms = 10)** adjust the timing for heat() and cool().
+  - The maximum value is 1000 milliseconds == 1 second. 
+  - The minimum value is 0 milliseconds but it would slow down the heating / cooling.
+  - warning the heat() and cool() will block for the set period.
+- **uint16_t getHeatPulseLength()** returns set value.
+
 
 #### Debug
 
@@ -196,27 +231,28 @@ Users can patch this function when needed, or make it empty.
 
 - improve documentation
   - description of the phases.
-- build setup to test
-
+- build hardware setup to test
 
 #### Should
 
+- time of phases should be in seconds ==> breaking change
+  - **void setAnnealing(float Celsius, float seconds)** Sets temperature and duration.
 - investigate the blocking version
   - void keepTempTime(temp, time, getTemperature());
-- make the 10 milliseconds control pulses configurable (e.g. 10..100 ms)
-- investigate continuous heating (unsafe mode)versus the current pulsed heating(safe mode).
 
 #### Could
 
-- PCR scripting language?
+- PCR scripting language, simple example?
 - add examples
 - optimize code
   - have an array of times and temperatures to go through.
-- stir pin, to control the stirring of the PCR device.
+- add continuous heating (unsafe mode) versus the current pulsed heating(safe mode).
+- add stir pin, to control the stirring of the PCR device.
+- add signalling pin to indicate ready by a buzzer.
 - add unit tests
 
-
 #### Wont
+
 - add callback function when ready (user can check state)
 
 

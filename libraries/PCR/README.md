@@ -19,7 +19,7 @@ Arduino library for PCR process control.
 
 **Experimental**
 
-From wikipedia:
+From Wikipedia:
 
 _The polymerase chain reaction (PCR) is a method widely used to make millions to 
 billions of copies of a specific DNA sample rapidly, allowing scientists to amplify 
@@ -103,10 +103,21 @@ Some examples:
 - control an ice making machine.
 
 
+#### Breaking change 0.3.0
+
+Since 0.3.0 the timing of the 6 steps is done in seconds instead of milliseconds.
+As the steps take up to 15 minutes of more, defining the time in seconds is a more
+natural order of magnitude than milliseconds.
+Note however that the internal math still is done in milliseconds so one can define
+a step as taking 15.75 seconds = 15750 milliseconds.
+
+Pre 0.3.0 versions are now obsolete.
+
 #### Related
 
 - https://en.wikipedia.org/wiki/Polymerase_chain_reaction
 - https://github.com/RobTillaart/PCR
+- https://github.com/RobTillaart/Temperature  scale conversions.
 - https://forum.arduino.cc/t/problem-with-arduino-pcr-amplifies-of-dna/314808 
 - https://www.scientificamerican.com/article/the-unusual-origin-of-the-polymeras/ (paid site)
 
@@ -121,15 +132,17 @@ Some examples:
 
 - **PCR(uint8_t heatPin, uint8_t coolPin)** constructor defines the hardware pins to which 
 the heater and cooler are connected.
-- **void reset(int iterations)** full stop of the process, also stops heating and cooling,
+- **void reset(uint16_t iterations)** full stop of the process, also stops heating and cooling,
 resets the state to IDLE and defines the number of iterations for the next run.
+The parameter iterations must be >= 0 so it changed to unsigned int in 0.3.0.
 - **uint8_t process(float temperature)** The worker core. This function runs the main process 
 and iterates over the DENATURE, ANNEALING and EXTENSION phase. Returns the current state.  
 The user **MUST** provide the actual temperature of the sample so process can heat and cool
 the sample on a need to basis.  
 The user **MUST** call this function as often as possible in a tight loop. 
 - **int iterationsLeft()** returns the number of iterations left.
-- **uint32_t timeLeft()** estimator of the time left to reach the HOLD state.
+- **float timeLeft()** estimator of the time left to reach the HOLD state.
+Since 0.3.0 returns its value in seconds.
 This function assumes that the duration per phase does not change runtime,
 however it will adapt its estimate.
 Returns the value in milliseconds. 
@@ -137,29 +150,36 @@ Returns the value in milliseconds.
 
 #### About phases
 
-Temperatures are in °Celsius, timing is in milliseconds (for 0.2.x version).  
+Temperatures are in **°Celsius**, timing is in **seconds** (since 0.3.0 version).  
+
 The timing is the time that the process will be in this state, so it includes
 the time to heat / cool to reach the temperature defined.
+The timing parameter is a float so you can use e.g. 10.5 seconds, or even use
+scientific notation like 1.2e2.
+In theory the maximum time is 4294967 seconds which is 49.7 days,
+In practice the phases are much shorter.
+- 1 hour = 3600 seconds, 1 day = 86400 seconds
+
 Note that the parameters of the phases can change while the process is running,
 e.g. one can increase the duration of the extension phase per cycle to give 
-that part of the PCR process more time.
+that part of the PCR process more time (adjust to concentration?).
 
 
 #### 1 Initial phase
 
 This step used in **hot-start PCR** (Wikipedia) to bring the system to starting temperature.
 
-- **void setInitial(float Celsius, uint32_t ms)** Sets temperature and duration.
+- **void setInitial(float Celsius, float seconds)** Sets temperature and duration.
 - **float getInitialTemp()** returns set value.
-- **uint32_t getInitialTime()** returns set value.
+- **float getInitialTime()** returns set value.
 
 #### 2 Denature phase
 
 This step breaks the double DNA helix into two single strands.
 
-- **void setDenature(float Celsius, uint32_t ms)** Sets temperature and duration.
+- **void setDenature(float Celsius, float seconds)** Sets temperature and duration.
 - **float getDenatureTemp()** returns set value.
-- **uint32_t getDenatureTime()** returns set value.
+- **float getDenatureTime()** returns set value.
 
 #### 3 Annealing phase
 
@@ -167,16 +187,16 @@ This step let **primers** (Wikipedia) connect to the single strands.
 The primers create a starting point for the replication.
 The temperature and duration depends on many factors, so very specific for the reaction.
 
-- **void setAnnealing(float Celsius, uint32_t ms)** Sets temperature and duration.
+- **void setAnnealing(float Celsius, float seconds)** Sets temperature and duration.
 - **float getAnnealingTemp()** returns set value.
-- **uint32_t getAnnealingTime()** returns set value.
+- **float getAnnealingTime()** returns set value.
 
 #### 4 Extension phase
 
 This step extends the primers with **dNTP's** nucleotides (Wikipedia) to complete
 the duplication process.
 
-- **void setExtension(float Celsius, uint32_t ms)** Sets temperature and duration.
+- **void setExtension(float Celsius, float seconds)** Sets temperature and duration.
 - **float getExtensionTemp()** returns set value.
 - **float getExtensionTime()** returns set value.
 
@@ -185,7 +205,7 @@ the duplication process.
 This step is used to finalize the remaining DNA strands that are not fully extended
 in step 4 Extension phase.
 
-- **void setElongation(float Celsius, uint32_t ms)** Sets temperature and duration.
+- **void setElongation(float Celsius, float seconds)** Sets temperature and duration.
 - **float getElongationTemp()** returns set value.
 - **float getElongationTime()** returns set value.
 
@@ -204,8 +224,9 @@ from their own code.
 
 In 0.2.x version the heater / cooler are switched on/off for a short period.
 This prevent excessive heating or cooling due to not switching of the heater / cooler in time.
-This pulsed heating cooling makes the process safer and a bit slower to heat up / cool down.
-The length of the period can be adjusted between 0 and 1000 milliseconds to increase
+This pulsed heating / cooling makes the process safer as after the call it is switched off.
+Drawback is that the pulsed behaviour makes the process a bit slower to heat up / cool down.
+Therefore the length of the period can be adjusted between 0 and 1000 milliseconds to increase
 the efficiency of the process. Be aware that the heat() and cool() will block longer.
 
 - **void heat()** Switches off cooler first, and then switches the heater for (default) 
@@ -213,9 +234,10 @@ the efficiency of the process. Be aware that the heat() and cool() will block lo
 - **void cool()** switch on the cooler for (default) 10 milliseconds. Switches off heater first.
 - **void off()** switch off both heater and cooler.
 - **void setHeatPulseLength(uint16_t ms = 10)** adjust the timing for heat() and cool().
-  - The maximum value is 1000 milliseconds == 1 second. 
+  - The maximum value is 1000 milliseconds == 1 second (this limit is to prevent overheating).
   - The minimum value is 0 milliseconds but it would slow down the heating / cooling.
-  - warning the heat() and cool() will block for the set period.
+  - Assumption: optimal time == time to increase 0.1°C. This depends on the specific heat.
+  - Warning: the heat() and cool() will block for the set period.
 - **uint16_t getHeatPulseLength()** returns set value.
 
 
@@ -235,8 +257,6 @@ Users can patch this function when needed, or make it empty.
 
 #### Should
 
-- time of phases should be in seconds ==> breaking change
-  - **void setAnnealing(float Celsius, float seconds)** Sets temperature and duration.
 - investigate the blocking version
   - void keepTempTime(temp, time, getTemperature());
 
@@ -244,17 +264,17 @@ Users can patch this function when needed, or make it empty.
 
 - PCR scripting language, simple example?
 - add examples
-- optimize code
-  - have an array of times and temperatures to go through.
-- add continuous heating (unsafe mode) versus the current pulsed heating(safe mode).
 - add stir pin, to control the stirring of the PCR device.
 - add signalling pin to indicate ready by a buzzer.
-- add unit tests
 
 #### Wont
 
 - add callback function when ready (user can check state)
-
+- Fahrenheit interface  (C = (F-32) x 5/9.0;  F = C x 9/5.0 + 32;
+- Kelvin or other temperature scale.
+- optimize code
+  - have an array of times and temperatures to go through.
+- add continuous heating (unsafe mode) versus the current pulsed heating(safe mode).
 
 ## Support
 

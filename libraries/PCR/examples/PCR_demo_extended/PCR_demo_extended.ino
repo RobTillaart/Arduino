@@ -27,12 +27,12 @@ void setup()
   Serial.println();
 
   //  configure all phases
-  pcr.setInitial(98, 10000);      //  temp, ms
-  pcr.setDenature(94.5, 5000);    //  temp, ms
-  pcr.setAnnealing(54.2, 2000);   //  temp, ms
-  pcr.setExtension(75.0, 3000);   //  temp, ms
-  pcr.setElongation(75.0, 3000);  //  temp, ms
-  pcr.setHold(8.0);               //  temp only
+  pcr.setInitial(98, 10);      //  temp, seconds
+  pcr.setDenature(94.5, 5);    //  temp, seconds
+  pcr.setAnnealing(54.2, 2);   //  temp, seconds
+  pcr.setExtension(75.0, 3);   //  temp, seconds
+  pcr.setElongation(75.0, 5);  //  temp, seconds
+  pcr.setHold(8.0);            //  temp only
 
   pcr.reset(15);  //  iterations.
   Serial.print("Estimated time (ms): ");

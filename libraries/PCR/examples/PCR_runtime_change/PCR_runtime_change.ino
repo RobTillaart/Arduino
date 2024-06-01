@@ -27,15 +27,15 @@ void setup()
   Serial.println();
 
   //  configure all phases
-  pcr.setInitial(98, 10000);      //  temp, ms
-  pcr.setDenature(94.5, 5000);    //  temp, ms
-  pcr.setAnnealing(54.2, 2000);   //  temp, ms
-  pcr.setExtension(75.0, 3000);   //  temp, ms
-  pcr.setElongation(75.0, 3000);  //  temp, ms
-  pcr.setHold(8.0);               //  temp only
+  pcr.setInitial(98, 10);      //  temp, seconds
+  pcr.setDenature(94.5, 5);    //  temp, seconds
+  pcr.setAnnealing(54.2, 2);   //  temp, seconds
+  pcr.setExtension(75.0, 3);   //  temp, seconds
+  pcr.setElongation(75.0, 3);  //  temp, seconds
+  pcr.setHold(8.0);            //  temp only
 
   pcr.reset(10);  //  iterations.
-  Serial.print("Estimated time (ms): ");
+  Serial.print("Estimated time (seconds): ");
   Serial.println(pcr.timeLeft());
 
   bool flagFive = false;
@@ -48,10 +48,10 @@ void setup()
     if ((pcr.iterationsLeft() == 5) && (flagFive == false))
     {
       flagFive = true;
-      pcr.setDenature(94.5, 7500);    //  temp, ms
-      pcr.setAnnealing(54.2, 4000);   //  temp, ms
-      pcr.setExtension(75.0, 5000);   //  temp, ms
-      Serial.print("Estimated time (ms): ");
+      pcr.setDenature(94.5, 7.5);     //  temp, seconds
+      pcr.setAnnealing(54.2, 4.25);   //  temp, seconds
+      pcr.setExtension(75.0, 5.75);   //  temp, seconds
+      Serial.print("Estimated time (seconds): ");
       Serial.println(pcr.timeLeft());
     }
   }

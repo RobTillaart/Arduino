@@ -28,25 +28,25 @@ void setup()
   Serial.println();
 
   //  configure all phases
-  pcr[0].setInitial(98, 10000);      //  temp, ms
-  pcr[0].setDenature(94.5, 5000);    //  temp, ms
-  pcr[0].setAnnealing(54.2, 2000);   //  temp, ms
-  pcr[0].setExtension(75.0, 3000);   //  temp, ms
-  pcr[0].setElongation(75.0, 3000);  //  temp, ms
+  pcr[0].setInitial(98, 10);      //  temp, seconds
+  pcr[0].setDenature(94.5, 5);    //  temp, seconds
+  pcr[0].setAnnealing(54.2, 2);   //  temp, seconds
+  pcr[0].setExtension(75.0, 3);   //  temp, seconds
+  pcr[0].setElongation(75.0, 3);  //  temp, seconds
   pcr[0].setHold(8.0);               //  temp only
 
-  pcr[1].setInitial(97, 8000);
-  pcr[1].setDenature(94, 4000);
-  pcr[1].setAnnealing(54, 2000);
-  pcr[1].setExtension(70.0, 2000);
-  pcr[1].setElongation(70.0, 2000);
+  pcr[1].setInitial(97, 8);
+  pcr[1].setDenature(94, 4);
+  pcr[1].setAnnealing(54, 2);
+  pcr[1].setExtension(70.0, 2);
+  pcr[1].setElongation(70.0, 2);
   pcr[1].setHold(8.0);
 
-  pcr[2].setInitial(96, 15000);
-  pcr[2].setDenature(93, 8000);
-  pcr[2].setAnnealing(53, 4000);
-  pcr[2].setExtension(75.0, 4000);
-  pcr[2].setElongation(75.0, 4000);
+  pcr[2].setInitial(96, 15);
+  pcr[2].setDenature(93, 8);
+  pcr[2].setAnnealing(53, 4);
+  pcr[2].setExtension(75.0, 4);
+  pcr[2].setElongation(75.0, 4);
   pcr[2].setHold(8.0);
 
   pcr[0].reset(15);  //  iterations.

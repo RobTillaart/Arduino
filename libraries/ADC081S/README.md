@@ -16,7 +16,7 @@ Arduino library for ADC081S 8 bit, ADC101S 10 bit and ADC121S 12 bit ADC (SPI) s
 
 ## Description
 
-Experimental.
+**Experimental**
 
 This library provides three classes, ADC081S, ADC101S and ADC121S.
 These are respectively an 8 bit, a 10 bit and a 12 bit ADC convertor.

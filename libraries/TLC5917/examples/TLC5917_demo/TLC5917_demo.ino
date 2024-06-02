@@ -7,6 +7,7 @@
 
 #include "TLC5917.h"
 
+
 const int DEVICES = 2;
 const int CLOCK = 13;
 const int DATA  = 12;
@@ -22,19 +23,22 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("TLC5917_LIB_VERSION: \t");
   Serial.println(TLC5917_LIB_VERSION);
+  Serial.println();
+
+  Serial.println(sizeof(tlc));
 
   if (tlc.begin() == false)
   {
     Serial.println("error");
-    while(1);
+    while (1);
   }
 
   Serial.print("Channels: ");
-  Serial.println(tlc.getChannels());
+  Serial.println(tlc.channelCount());
 
   tlc.enable();
 
-  for (int ch = 0; ch < tlc.getChannels(); ch++)
+  for (int ch = 0; ch < tlc.channelCount(); ch++)
   {
     tlc.setChannel(ch, true);
     tlc.write();

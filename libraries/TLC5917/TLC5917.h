@@ -2,17 +2,31 @@
 //
 //    FILE: TLC5917.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
 
 
-#define TLC5917_LIB_VERSION             (F("0.1.0"))
+#define TLC5917_LIB_VERSION             (F("0.1.1"))
 
 
 #include "Arduino.h"
 
+
+//  non Arduino environment need to fix these.
+/*
+#include <stdint.h>
+#include <cstdlib>
+
+#define pinMode(X, Y)        {}
+#define digitalWrite(X, Y)   {}
+#define digitalRead(X)       (1)
+
+#define HIGH    1
+#define LOW     0
+#define OUTPUT  0
+*/
 
 #define  TLC5917_OK                     0x0000
 #define  TLC5917_CHANNEL_ERROR          0xFFFF
@@ -28,7 +42,8 @@ public:
   virtual ~TLC5917();
 
   bool     begin();
-  int      getChannels();
+  int      channelCount();  //  replaces getChannels which looks too much like getChannel.
+  int      getChannels();  //  will be obsolete in 0.2.0
 
   bool     setChannel(uint8_t channel, bool on);
   bool     setChannel(uint8_t * array);  //  size must be deviceCount.
@@ -53,7 +68,7 @@ public:
 
 
 protected:
-  int       _channels;
+  int       _channelCount;
   uint8_t * _buffer;
   uint8_t   _clock;
   uint8_t   _data;

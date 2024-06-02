@@ -32,7 +32,7 @@ void setup()
   }
 
   Serial.print("Channels:\t\t");
-  Serial.println(tlc.getChannels());
+  Serial.println(tlc.channelCount());
 
   tlc.enable();
 
@@ -51,7 +51,7 @@ void loop()
 void testSetChannel()
 {
   delay(100);
-  int channels = tlc.getChannels();
+  int channels = tlc.channelCount();
   start = micros();
   for (int channel = 0; channel < channels; channel++)
   {

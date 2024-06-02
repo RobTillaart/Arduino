@@ -20,15 +20,13 @@ TLC5917 is an Arduino library for TLC5917 8-Channel Constant-Current LED Sink Dr
 
 This library allows control over the 8 channels of a TLC5917 device.
 
-
-TODO: Elaborate.
+The library allows to set outputs individually or a group in one call.
 
 The TLC5916 is a derived class that is functional identical to the TLC5917 (for now).
 When implementation proceeds this might change.
 
-The library is **experimental** and needs testing with Hardware.  
+The library is **experimental** and needs more testing with hardware.  
 Please share your experiences.
-
 
 (Changes of the interface are definitely possible).
 
@@ -74,9 +72,16 @@ The blank pin is explained in more detail below.
 - **bool begin()** set the pinModes of the pins and their initial values.
 The TLC is disabled by default, as the device has random values in its grey-scale register. 
 One must call **enable()** explicitly.
+- **int channelCount()** return the amount of channels == 8 x number of devices.
 - **int getChannels()** return the amount of channels == 8 x number of devices.
-- **bool setChannel(uint8_t channel, bool on)** set a channel on or off in the buffer.
+Will be obsolete in 0.2.0.
+
+#### Set/Get channels
+
+- **bool setChannel(uint8_t channel, bool on)** set a channel on or off in the 
+internal buffer. The value is not written yet to the device(s).
 - **bool setChannel(uint8_t \* array)** copy a preset of channel settings in one call.
+The user has to take care the the size of array holds the right amount of bytes.
 - **bool setAll(bool on)** set all channels on or off.
 - **bool getChannel(uint8_t channel)** get current state of a channel in the cached buffer.
 - **void write()** writes the whole buffer (deviceCount x 8 values) to the device(s).
@@ -167,6 +172,9 @@ See **TLC5917_performance.ino** for an indicative test.
 #### Could
 
 - add examples
+- **void getChannel(uint8_t array)** fill array with current data
+- **index operator []** to set channels?
+
 
 #### Wont
 

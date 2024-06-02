@@ -8,7 +8,7 @@ TLC5917	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-getChannels	KEYWORD2
+channelCount	KEYWORD2
 
 setChannel	KEYWORD2
 setAll	KEYWORD2

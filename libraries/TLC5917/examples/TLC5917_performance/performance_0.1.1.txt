@@ -1,0 +1,45 @@
+Arduino UNO
+IDE: 1.8.19
+
+(AVR optimized write() on UNO)
+TLC5917_performance\TLC5917_performance.ino
+TLC5917_LIB_VERSION: 	0.1.1
+Channels:		800
+SETCHANNEL TRUE:	2572
+SETCHANNEL FALSE:	2848
+SETALL TRUE:		232
+WRITE:			14304
+
+Done...
+
+
+(default write() on UNO for reference)
+TLC5917_LIB_VERSION: 	0.1.1
+Channels:		800
+SETCHANNEL TRUE:	2572
+SETCHANNEL FALSE:	2848
+SETALL TRUE:		232
+WRITE:			75368
+
+Done...
+
+
+-------------
+
+From https://github.com/RobTillaart/TLC5917/issues/4#issuecomment-2143814271
+
+Arduino NANO V3 (old Bootloader)
+TLC5917_LIB_VERSION: 0.1.0
+Channels: 800
+SETCHANNEL TRUE: 2572
+SETCHANNEL FALSE: 2848
+SETALL TRUE: 232
+WRITE: 14300
+
+LGT8F328P MiniEVB
+TLC5917_LIB_VERSION: 0.1.0
+Channels: 800
+SETCHANNEL TRUE: 1156
+SETCHANNEL FALSE: 1294
+reset at this point
+

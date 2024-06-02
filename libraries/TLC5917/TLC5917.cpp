@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5917.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
@@ -19,12 +19,12 @@ TLC5917::TLC5917(uint8_t clock, uint8_t data, uint8_t LE, uint8_t OE)
 TLC5917::TLC5917(int deviceCount, uint8_t clock, uint8_t data, uint8_t LE, uint8_t OE)
 {
   if (deviceCount <= 0) deviceCount = 1;
-  _channels = deviceCount * 8;
-  _clock    = clock;
-  _data     = data;
-  _le       = LE;
-  _oe       = OE;
-  _buffer   = (uint8_t *) calloc(_channels, sizeof(uint8_t));
+  _channelCount = deviceCount * 8;
+  _clock  = clock;
+  _data   = data;
+  _le     = LE;
+  _oe     = OE;
+  _buffer = (uint8_t *) calloc(_channelCount, sizeof(uint8_t));
 }
 
 
@@ -49,24 +49,29 @@ bool TLC5917::begin()
 }
 
 
-int TLC5917::getChannels()
+int TLC5917::channelCount()
 {
-  return _channels;
+  return _channelCount;
+}
+
+int TLC5917::getChannels()  //  OBSOLETE
+{
+  return _channelCount;
 }
 
 
 bool TLC5917::setChannel(uint8_t channel, bool on)
 {
-  if (channel >= _channels) return false;
-  if (on) _buffer[channel / 8] |=  (1 << channel & 0x07);
-  else    _buffer[channel / 8] &= ~(1 << channel & 0x07);
+  if (channel >= _channelCount) return false;
+  if (on) _buffer[channel / 8] |=  (1 << (channel & 0x07));
+  else    _buffer[channel / 8] &= ~(1 << (channel & 0x07));
   return true;
 }
 
 
 bool TLC5917::setChannel(uint8_t * array)
 {
-  for (int i = 0; i < _channels / 8; i++)
+  for (int i = 0; i < _channelCount / 8; i++)
   {
     _buffer[i] = array[i];
   }
@@ -77,7 +82,7 @@ bool TLC5917::setChannel(uint8_t * array)
 bool TLC5917::setAll(bool on)
 {
   uint8_t mask = on ? 0xFF : 0x00;
-  for (int i = 0; i < _channels / 8; i++)
+  for (int i = 0; i < _channelCount / 8; i++)
   {
     _buffer[i] = mask;
   }
@@ -87,7 +92,7 @@ bool TLC5917::setAll(bool on)
 
 bool TLC5917::getChannel(uint8_t channel)
 {
-  if (channel >= _channels) return false;
+  if (channel >= _channelCount) return false;
   return (_buffer[channel / 8] & (1 << (channel & 0x07))) > 0;
 }
 
@@ -100,13 +105,13 @@ bool TLC5917::getChannel(uint8_t channel)
 //             multi device 15 MHz   CHECK TODO
 void TLC5917::write()
 {
-  write(_channels);
+  write(_channelCount);
 }
 
 
 void TLC5917::write(int chan)
 {
-  if (chan > _channels) chan = _channels;
+  if (chan > _channelCount) chan = _channelCount;
   if (chan < 0) return;
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -250,9 +255,9 @@ void TLC5917::writeConfiguration(uint8_t config)
 {
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
-  uint8_t _devices = _channels/8;
+  uint8_t _devices = _channelCount/8;
 
-  //  write same config to all devices
+  //  write same configuration to all devices
   for (int i = 0; i < _devices; i++)
   {
     for (uint8_t mask = 0x80;  mask; mask >>= 1)

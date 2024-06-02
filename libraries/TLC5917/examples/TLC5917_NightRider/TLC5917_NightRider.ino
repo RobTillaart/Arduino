@@ -7,6 +7,7 @@
 
 #include "TLC5917.h"
 
+
 int DEVICES = 1;
 const int CLOCK = 13;
 const int DATA  = 12;
@@ -34,7 +35,7 @@ void loop()
   static int delta = 1;
 
   //  clear;
-  for (int i = 0; i < tlc.getChannels(); i++)
+  for (int i = 0; i < tlc.channelCount(); i++)
   {
     tlc.setChannel(i, false);
   }
@@ -48,7 +49,7 @@ void loop()
   tlc.write();
 
   pos += delta;
-  if ((pos == 0) || (pos == tlc.getChannels())) 
+  if ((pos == 0) || (pos == (tlc.channelCount() - 1))) 
   {
     delta = -delta;
   }

@@ -2,9 +2,9 @@
 //
 //    FILE: ADC08XS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-01-13
-// PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S, 
+// PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
 //     URL: https://github.com/RobTillaart/ADC08XS
 //
@@ -14,11 +14,14 @@
 #include "SPI.h"
 
 
-#define ADC08XS_LIB_VERSION       (F("0.2.1"))
+#define ADC08XS_LIB_VERSION       (F("0.2.2"))
 
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

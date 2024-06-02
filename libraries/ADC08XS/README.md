@@ -16,7 +16,7 @@ Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S, 8, 10,
 
 ## Description
 
-Experimental.
+**Experimental**
 
 This library provides six classes,
 - dual channel: ADC082S, ADC102S and ADC122S.

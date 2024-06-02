@@ -1,9 +1,9 @@
 //
 //    FILE: ADC08XS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-01-13
-// PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S, 
+// PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
 //     URL: https://github.com/RobTillaart/ADC08XS
 
@@ -173,7 +173,7 @@ void ADC08XS::shutDown()
   if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
-    _mySPI->transfer(0);        //  8 pulses 
+    _mySPI->transfer(0);        //  8 pulses
     _mySPI->endTransaction();
   }
   else  //  Software SPI

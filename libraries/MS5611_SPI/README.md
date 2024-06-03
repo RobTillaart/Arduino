@@ -25,6 +25,9 @@ This library only implements the SPI interface.
 It is based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
 
+If you know a cause or better a solution to the self heating effect, 
+please let me know (open an issue).
+
 
 #### 0.3.0 Breaking change
 
@@ -247,7 +250,7 @@ The meaning of the manufacturer and serialCode value is unclear.
 
 #### 2nd order pressure compensation
 
-- **setCompensation(bool flag = true)** to enable/desiable the 2nd order compensation. 
+- **setCompensation(bool flag = true)** to enable/disable the 2nd order compensation. 
 The default = true. 
 Disabling the compensation will be slightly faster but you loose precision.
 - **getCompensation()** returns flag set above.

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,10 +12,14 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.5.0"))
+#define MCP_DAC_LIB_VERSION       (F("0.5.1"))
+
 
 #ifndef __SPI_CLASS__
-  #if defined(ARDUINO_ARCH_RP2040)
+  //  MBED must be tested before RP2040
+  #if defined(ARDUINO_ARCH_MBED)
+  #define __SPI_CLASS__   SPIClass
+  #elif defined(ARDUINO_ARCH_RP2040)
   #define __SPI_CLASS__   SPIClassRP2040
   #else
   #define __SPI_CLASS__   SPIClass

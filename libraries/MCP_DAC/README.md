@@ -83,6 +83,13 @@ Also it makes the library a bit simpler to maintain.
 #### Related
 
 - https://github.com/RobTillaart/MCP_ADC
+- https://github.com/RobTillaart/MAX520
+- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/MCP4725
+- https://github.com/RobTillaart/DAC8550
+- https://github.com/RobTillaart/DAC8551
+- https://github.com/RobTillaart/DAC8552
+- https://github.com/RobTillaart/DAC8554
 
 
 ## Interface

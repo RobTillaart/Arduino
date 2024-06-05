@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-06-05
+- add support for ARDUINO_ARCH_MBED
+
 ## [0.5.0] - 2024-01-20
 - Fix #22, improve handling SPI dependency.
 - update examples

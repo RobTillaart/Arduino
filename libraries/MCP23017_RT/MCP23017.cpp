@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.3
+// VERSION: 0.7.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -756,7 +756,7 @@ bool MCP23017::writeReg16(uint8_t reg, uint16_t value)
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value >> 8);
-  _wire->write(value && 0xFF);
+  _wire->write(value & 0xFF);
   if (_wire->endTransmission() != 0)
   {
     _error = MCP23017_I2C_ERROR;

@@ -2,7 +2,7 @@
 //    FILE: ACD10.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -211,7 +211,7 @@ bool ACD10::setManualCalibration(uint16_t value)
 {
   if ((value < 400) || (value > 5000)) return false;
   uint8_t buf[5] = { 0x52, 0x04, 0x00, 0x00, 0x00 };
-  buf[3] = value && 0xFF;
+  buf[3] = value & 0xFF;
   buf[2] = value >> 8;
   buf[4] = _crc8(&buf[2], 2);
   _command(buf, 5);

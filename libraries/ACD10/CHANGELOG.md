@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-06-06
+- fix #9 bitwise and bug
+
+----
+
 ## [0.1.4] - 2024-01-25
 - update readme.md
-
 
 ## [0.1.3] - 2024-01-01
 - fix examples

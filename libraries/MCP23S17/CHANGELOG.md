@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2024-06-12
+- #43 optimize read/write16, kudos to Olkal
+- add performance test output 0.5.2, 0.5.3
+- add datasheet REV C and REV D to repo
+
 ## [0.5.2] - 2024-05-19
 - Fix #40, add several interrupt functions (experimental)
 - update **MCP23S17_registers.h** (reuse with MCP23017)

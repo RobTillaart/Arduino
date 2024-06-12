@@ -20,7 +20,11 @@ void setup()
 
   Wire.begin();
   scanner.begin();
+}
 
+
+void loop()
+{
   for (int addr = 0; addr < 128; addr++)
   {
     if (addr % 8 == 0) Serial.println();
@@ -36,11 +40,7 @@ void setup()
   }
   Serial.println();
   Serial.println();
-}
-
-
-void loop()
-{
+  delay(1000);
 }
 
 

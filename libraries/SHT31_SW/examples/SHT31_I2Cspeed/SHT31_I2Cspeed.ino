@@ -38,9 +38,9 @@ void setup()
 
 void loop()
 {
-  for (uint32_t I2Cfreq = 50000; I2Cfreq < 500000; I2Cfreq += 50000)
+  for (uint32_t I2Cfreq = 50000; I2Cfreq <= 400000; I2Cfreq += 50000)
   {
-    Serial.print(I2Cfreq/1000);
+    Serial.print(I2Cfreq / 1000);
     sw.setClock(I2Cfreq);
     test();
   }

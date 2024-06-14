@@ -11,7 +11,9 @@
 #define SHT31_ADDRESS   0x44
 
 
-SoftWire sw(6, 7);
+// SoftWire sw(32, 33);
+// SoftWire sw(34, 35);
+SoftWire sw(6, 7);  //  sda, scl
 
 uint32_t start;
 uint32_t stop;
@@ -52,7 +54,9 @@ void loop()
   Serial.print("\t");
   Serial.print(sht.getTemperature(), 1);
   Serial.print("\t");
-  Serial.println(sht.getHumidity(), 1);
+  Serial.print(sht.getHumidity(), 1);
+  Serial.print("\t");
+  Serial.println(sht.getError(), HEX);
   delay(3000);
 }
 

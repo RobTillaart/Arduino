@@ -3,6 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT31_SW
+//
+//  fails only when SCL line is disconnected.
 
 
 #include "SoftWire.h"
@@ -76,4 +78,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

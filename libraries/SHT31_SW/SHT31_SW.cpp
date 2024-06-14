@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31_SW.cpp
 //  AUTHOR: Rob Tillaart, Gunter Haug
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2019-02-08 (base SHT31 lib)
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          to be used with the SoftWire library instead of (hardware) Wire.
@@ -36,6 +36,9 @@ bool SHT31_SW::begin()
     return false;
   }
   _softWire->begin();
+  //  See #12
+  _softWire->setTxBuffer(swTxBuffer, sizeof(swTxBuffer));
+  _softWire->setRxBuffer(swRxBuffer, sizeof(swRxBuffer));
   return reset();
 }
 
@@ -63,6 +66,7 @@ bool SHT31_SW::writeCmd(uint16_t cmd)
     _error = SHT31_ERR_WRITECMD;
     return false;
   }
+  //  delay(1);
   return true;
 }
 

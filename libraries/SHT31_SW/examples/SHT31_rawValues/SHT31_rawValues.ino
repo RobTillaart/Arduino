@@ -1,5 +1,5 @@
 //
-//    FILE: SHT31_async.ino
+//    FILE: SHT31_rawValues.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo async interface
 //     URL: https://github.com/RobTillaart/SHT31_SW
@@ -85,4 +85,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-05-31
+- add buffers to SW I2C, see issue #12, should fix the SW I2C on AVR.
+  - verified with SHT31 on AVR UNO
+- minor edits
+
+----
+
 ## [0.2.0] - 2023-12-09
 - refactor API, follow SHT31
 

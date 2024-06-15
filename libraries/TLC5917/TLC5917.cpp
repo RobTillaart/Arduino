@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5917.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
@@ -24,7 +24,9 @@ TLC5917::TLC5917(int deviceCount, uint8_t clock, uint8_t data, uint8_t LE, uint8
   _data   = data;
   _le     = LE;
   _oe     = OE;
+  _mode   = TLC5917_NORMAL_MODE;
   _buffer = (uint8_t *) calloc(_channelCount, sizeof(uint8_t));
+  _configuration = 0xFF;  //  page 23  datasheet
 }
 
 
@@ -54,17 +56,13 @@ int TLC5917::channelCount()
   return _channelCount;
 }
 
-int TLC5917::getChannels()  //  OBSOLETE
-{
-  return _channelCount;
-}
-
 
 bool TLC5917::setChannel(uint8_t channel, bool on)
 {
   if (channel >= _channelCount) return false;
-  if (on) _buffer[channel / 8] |=  (1 << (channel & 0x07));
-  else    _buffer[channel / 8] &= ~(1 << (channel & 0x07));
+  uint8_t mask = 1 << (channel & 0x07);
+  if (on) _buffer[channel / 8] |=  mask;
+  else    _buffer[channel / 8] &= ~mask;
   return true;
 }
 
@@ -93,7 +91,8 @@ bool TLC5917::setAll(bool on)
 bool TLC5917::getChannel(uint8_t channel)
 {
   if (channel >= _channelCount) return false;
-  return (_buffer[channel / 8] & (1 << (channel & 0x07))) > 0;
+  uint8_t mask = 1 << (channel & 0x07);
+  return (_buffer[channel / 8] & mask) > 0;
 }
 
 
@@ -114,6 +113,7 @@ void TLC5917::write(int chan)
   if (chan > _channelCount) chan = _channelCount;
   if (chan < 0) return;
 
+
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   //  register level optimized AVR
@@ -131,19 +131,18 @@ void TLC5917::write(int chan)
   {
     for (uint8_t mask = 0x80;  mask; mask >>= 1)
     {
-      *_clockRegister &= cbmask2;
       if (_buffer[channel] & mask)
       {
-        *_dataOutRegister |= outmask1;
+        *_dataOutRegister |= outmask1;  //  digitalWrite(_dat, HIGH);
       }
       else
       {
-        *_dataOutRegister &= outmask2;
+        *_dataOutRegister &= outmask2;  //  digitalWrite(_dat, LOW);
       }
-      *_clockRegister |= cbmask1;
+      *_clockRegister |= cbmask1;  //  digitalWrite(_clk, HIGH);
+      *_clockRegister &= cbmask2;  //  digitalWrite(_clk, LOW);
     }
   }
-  *_clockRegister &= cbmask2;
 
 #else
 
@@ -157,12 +156,11 @@ void TLC5917::write(int chan)
   {
     for (uint8_t mask = 0x80;  mask; mask >>= 1)
     {
-      digitalWrite(_clk, LOW);
       digitalWrite(_dat, _buffer[channel] & mask ? HIGH : LOW);
       digitalWrite(_clk, HIGH);
+      digitalWrite(_clk, LOW);
     }
   }
-  digitalWrite(_clk, LOW);
 
 #endif
 
@@ -201,7 +199,7 @@ bool TLC5917::isEnabled()
 //  NOT OPTIMIZED
 //
 //  Page 19
-void TLC5917::setCurrentAdjustMode()
+void TLC5917::setSpecialMode()
 {
   digitalWrite(_le, LOW);
   digitalWrite(_oe, HIGH);
@@ -224,6 +222,8 @@ void TLC5917::setCurrentAdjustMode()
   digitalWrite(_le, LOW);
   digitalWrite(_clock, HIGH);
   digitalWrite(_clock, LOW);
+
+  _mode = TLC5917_SPECIAL_MODE;
 }
 
 
@@ -248,33 +248,116 @@ void TLC5917::setNormalMode()
 
   digitalWrite(_clock, HIGH);
   digitalWrite(_clock, LOW);
+
+  _mode = TLC5917_NORMAL_MODE;
 }
 
 
-void TLC5917::writeConfiguration(uint8_t config)
+uint8_t TLC5917::getMode()
+{
+  return _mode;
+}
+
+
+//  9.4.3 Writing Configuration Code in Special Mode
+void TLC5917::writeConfiguration(uint8_t configuration)
 {
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
-  uint8_t _devices = _channelCount/8;
+  uint8_t _devices = _channelCount / 8;
 
   //  write same configuration to all devices
   for (int i = 0; i < _devices; i++)
   {
-    for (uint8_t mask = 0x80;  mask; mask >>= 1)
+    //  handle bit 7- 1
+    for (uint8_t mask = 0x80;  mask > 1; mask >>= 1)
     {
-      digitalWrite(_clk, LOW);
-      digitalWrite(_dat, config & mask ? HIGH : LOW);
+      digitalWrite(_dat, configuration & mask ? HIGH : LOW);
       digitalWrite(_clk, HIGH);
+      digitalWrite(_clk, LOW);
     }
+    //  bit 0 should have an LE pulse
+    digitalWrite(_le, HIGH);
+    digitalWrite(_dat, configuration & 0x01 ? HIGH : LOW);
+    digitalWrite(_clk, HIGH);
     digitalWrite(_clk, LOW);
+    digitalWrite(_le, LOW);
   }
-
-  //  pulse latch to hold the signals in configuration register.
-  //  not exactly like Page 18 figure 13.
-  digitalWrite(_le, HIGH);
-  digitalWrite(_le, LOW);
+  _configuration = configuration;
 }
 
+
+uint8_t TLC5917::getConfiguration()
+{
+  return _configuration;
+}
+
+
+//  Page 23
+bool TLC5917::setGain(bool CM, bool HC, uint8_t CC)
+{
+  if (CC > 63) return false;
+  _configuration = CC;
+  if (CM) _configuration |= 0x80;
+  if (HC) _configuration |= 0x40;
+  writeConfiguration(_configuration);
+  return true;
+}
+
+
+float TLC5917::getVoltageGain()
+{
+  uint8_t CC = _configuration & 0x3F;  //  0..63
+  uint8_t HC = (_configuration & 0x40) ? 1 : 0;
+  float VG = (1.0 + HC) * (1.0 + CC * 0.015625) / 4;  //  0.015625 = 1/64
+  return VG;
+}
+
+
+float TLC5917::getCurrentGain()
+{
+  float CG = getVoltageGain();
+  // uint8_t CM = _configuration & 0x80;
+  if (_configuration & 0x80) CG *= 3;
+  return CG;
+}
+
+
+bool TLC5917::setCurrentGain(float n)
+{
+  if (n < 0.250) return false;
+  if (n > 3.000) return false;
+
+  uint8_t CM = 0;
+  uint8_t HC = 0;
+  uint8_t CC = 0;
+
+  //  n == (1 + HC) × (1 + D/64) / 4 * pow(3, CM - 1);
+  //  handle CM=1: values 1.0 - 2.977 == 150 - 255
+  //  note values 128 - 149 not used (twice in table)
+  if (n >= 1.0)
+  {
+    CM = 1;
+    n /= 3;
+  }
+  //  n == (1 + HC) × (1 + D/64) / 4
+  //  handle HC=1: values 0.5 - 1.0 == 64 - 127
+  if (n >= 0.5)
+  {
+    HC = 1;
+    n /= 2;
+  }
+
+  //  n == (1 + CC/64)/4;
+  //  values 0.25 - 0.5
+  n *= 4;
+  n -= 1;
+  if (n < 0) n = 0;
+  CC = round(n * 64);
+  if (CC >= 64) CC = 63;  //  truncate at top.
+  setGain(CM, HC, CC);
+  return true;
+}
 
 
 /////////////////////////////////////////////////////////////

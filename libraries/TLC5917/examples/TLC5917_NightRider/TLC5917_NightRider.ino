@@ -1,7 +1,7 @@
 //
 //      FILE: TLC5917_NightRider.ino
 //    AUTHOR: Rob Tillaart
-//   PURPOSE: demo
+//   PURPOSE: demo running leds.
 //       URL: https://github.com/RobTillaart/TLC5917
 
 
@@ -24,7 +24,11 @@ void setup()
   Serial.print("TLC5917_LIB_VERSION: \t");
   Serial.println(TLC5917_LIB_VERSION);
 
-  tlc.begin();
+  if (tlc.begin() == false)
+  {
+    Serial.println("error");
+    while (1);
+  }
   tlc.enable();
 }
 

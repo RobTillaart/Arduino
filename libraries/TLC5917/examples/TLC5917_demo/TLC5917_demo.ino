@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5917_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo basic usage
 //     URL: https://github.com/RobTillaart/TLC5917
 
 

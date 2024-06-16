@@ -26,6 +26,13 @@ setAll	KEYWORD2
 allOff	KEYWORD2
 
 
+# FIRMWARE V2
+setButtonToggleCount	KEYWORD2
+getButtonToggleCount	KEYWORD2
+getButtonChangeMask	KEYWORD2
+getEncoderChangeMask	KEYWORD2
+
+
 # Constants (LITERAL1)
 M5ROTATE8_LIB_VERSION	LITERAL1
 

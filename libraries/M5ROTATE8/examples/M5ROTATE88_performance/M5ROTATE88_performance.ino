@@ -1,7 +1,7 @@
 //
 //    FILE: M5ROTATE8_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: meansurement performance
+// PURPOSE: measurement performance
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
 
@@ -13,26 +13,6 @@ M5ROTATE8 MM;
 uint32_t start, stop;
 uint16_t x;
 
-void setup()
-{
-  Serial.begin(115200);
-  Serial.println(__FILE__);
-  Serial.print("M5ROTATE8_LIB_VERSION: ");
-  Serial.println(M5ROTATE8_LIB_VERSION);
-  delay(100);
-
-  Wire.begin();
-  MM.begin();
-
-  for (uint32_t speed = 100000; speed <= 400000; speed += 100000)
-  {
-    Wire.setClock(speed);
-    Serial.println();
-    Serial.print("I2C:\t");
-    Serial.println(speed);
-    performance();
-  }
-}
 
 void performance()
 {
@@ -121,6 +101,28 @@ void performance()
   delay(100);
 
   Serial.println("\ndone...");
+}
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("M5ROTATE8_LIB_VERSION: ");
+  Serial.println(M5ROTATE8_LIB_VERSION);
+  delay(100);
+
+  Wire.begin();
+  MM.begin();
+
+  for (uint32_t speed = 100000; speed <= 400000; speed += 100000)
+  {
+    Wire.setClock(speed);
+    Serial.println();
+    Serial.print("I2C:\t");
+    Serial.println(speed);
+    performance();
+  }
 }
 
 

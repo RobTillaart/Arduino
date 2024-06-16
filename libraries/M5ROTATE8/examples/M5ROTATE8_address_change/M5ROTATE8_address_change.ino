@@ -1,5 +1,5 @@
 //
-//    FILE: M5ROTATE8_demo_abs_counter.ino
+//    FILE: M5ROTATE8_address_change.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/M5ROTATE8
@@ -22,22 +22,27 @@ void setup()
   Wire.begin();
   MM.begin();
   MM.resetAll();
+
+  Serial.print("Before: \t");
+  Serial.println(MM.getAddress());
+  Serial.print("Connect: \t");
+  Serial.println(MM.isConnected());
+
+  //  assumes not out of range.
+  MM.setAddress(MM.getAddress() + 2);
+
+  Serial.print("After: \t");
+  Serial.println(MM.getAddress());
+  Serial.print("Connect: \t");
+  Serial.println(MM.isConnected());
+
+  
 }
 
 
 void loop()
 { 
-  for (int ch = 0; ch < 8; ch++)
-  {
-    Serial.print(MM.getAbsCounter(ch));
-    Serial.print("\t");
-    Serial.print(MM.getKeyPressed(ch));
-    Serial.print("\t");
-    delay(125);
-  }
-  Serial.print(MM.inputSwitch());
-  Serial.print("\n");
-  delay(1000);
+
 }
 
 

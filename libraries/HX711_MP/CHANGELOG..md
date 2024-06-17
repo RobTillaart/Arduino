@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-06-17
+- fix #5, reset bug
+- refactor constructor
+- move code to .cpp file (to match HX711)
+
+----
+
 ## [0.2.0] - 2024-03-02
 - add fastProcessor option in **begin()** (Thanks to palmerr23)
 - updated license

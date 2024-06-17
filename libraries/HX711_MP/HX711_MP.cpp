@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -21,7 +21,9 @@ HX711_MP::HX711_MP(uint8_t size)
   {
     _size = 2;   //  hard coded minimum!!
   }
-  reset();
+  _gain     = HX711_CHANNEL_A_GAIN_128;
+  _lastRead = 0;
+  _mode     = HX711_AVERAGE_MODE;
 }
 
 
@@ -265,6 +267,46 @@ float HX711_MP::get_units(uint8_t times)
 
 ///////////////////////////////////////////////////////////////
 //
+//  MODE
+//
+void HX711_MP::set_raw_mode()
+{
+  _mode = HX711_RAW_MODE;
+}
+
+
+void HX711_MP::set_average_mode()
+{
+  _mode = HX711_AVERAGE_MODE;
+}
+
+
+void HX711_MP::set_median_mode()
+{
+  _mode = HX711_MEDIAN_MODE;
+}
+
+
+void HX711_MP::set_medavg_mode()
+{
+  _mode = HX711_MEDAVG_MODE;
+}
+
+
+void HX711_MP::set_runavg_mode()
+{
+  _mode = HX711_RUNAVG_MODE;
+}
+
+
+uint8_t HX711_MP::get_mode()
+{
+  return _mode;
+}
+
+
+///////////////////////////////////////////////////////////////
+//
 //  GAIN
 //
 //  note: if parameter gain == 0xFF40 some compilers
@@ -349,6 +391,12 @@ void HX711_MP::power_down()
 void HX711_MP::power_up()
 {
   digitalWrite(_clockPin, LOW);
+}
+
+
+uint32_t HX711_MP::last_read()
+{
+  return _lastRead;
 }
 
 

@@ -2,19 +2,20 @@
 //
 //    FILE: HX711_MP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 //
 //  NOTES
 //  Superset of interface of HX711 class of Bogde
-//  float instead of long as float has 23 bits mantissa.
+//  uses float instead of long as float has 23 bits mantissa
+//  which almost perfectly matches the 24 bit ADC.
 
 
 #include "Arduino.h"
 
-#define HX711_MP_LIB_VERSION               (F("0.2.0"))
+#define HX711_MP_LIB_VERSION               (F("0.3.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -100,13 +101,13 @@ public:
   //
   //  get set mode for get_value() and indirect get_units().
   //  in median and medavg mode only 3..15 samples are allowed.
-  void     set_raw_mode()     { _mode = HX711_RAW_MODE; };
-  void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
-  void     set_median_mode()  { _mode = HX711_MEDIAN_MODE; };
-  void     set_medavg_mode()  { _mode = HX711_MEDAVG_MODE; };
+  void     set_raw_mode();
+  void     set_average_mode();
+  void     set_median_mode();
+  void     set_medavg_mode();
   //  set_run_avg will use a default alpha of 0.5.
-  void     set_runavg_mode()  { _mode = HX711_RUNAVG_MODE; };
-  uint8_t  get_mode()         { return _mode; };
+  void     set_runavg_mode();
+  uint8_t  get_mode();
 
 
   ///////////////////////////////////////////////////////////////
@@ -159,10 +160,7 @@ public:
 
 
   //  TIME OF LAST READ
-  uint32_t last_read()
-  {
-    return _lastRead;
-  }
+  uint32_t last_read();
 
 
   ///////////////////////////////////////////////////////////////
@@ -176,12 +174,12 @@ public:
 
 
 private:
-  uint8_t  _dataPin  = -1;
-  uint8_t  _clockPin = -1;
+  uint8_t  _dataPin;
+  uint8_t  _clockPin;
 
-  uint8_t  _gain     = 128;     //  default channel A
-  uint32_t _lastRead = 0;
-  uint8_t  _mode     = HX711_AVERAGE_MODE;
+  uint8_t  _gain;
+  uint32_t _lastRead;
+  uint8_t  _mode;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();

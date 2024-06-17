@@ -386,7 +386,7 @@ See https://github.com/RobTillaart/HX711/issues/40
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
 - decide pricing keep/not => move to .cpp
-- add **setRate()** and **getRate()**
+- add **setRate()** and **getRate()** - sample rate 10/80 SPS
   - optional?
 
 

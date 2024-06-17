@@ -2,19 +2,20 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 //
 //  NOTES
 //  Superset of interface of HX711 class of Bogde
-//  float instead of long as float has 23 bits mantissa.
+//  uses float instead of long as float has 23 bits mantissa
+//  which almost perfectly matches the 24 bit ADC.
 
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.4.0"))
+#define HX711_LIB_VERSION               (F("0.5.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -175,16 +176,16 @@ private:
   uint8_t  _dataPin;
   uint8_t  _clockPin;
 
-  uint8_t  _gain     = 128;     //  default channel A
-  long     _offset   = 0;
-  float    _scale    = 1;
-  uint32_t _lastRead = 0;
-  float    _price    = 0;
-  uint8_t  _mode     = HX711_AVERAGE_MODE;
+  uint8_t  _gain;
+  long     _offset;
+  float    _scale;
+  uint32_t _lastRead;
+  float    _price;
+  uint8_t  _mode;
+  bool     _fastProcessor;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
-  bool     _fastProcessor = false;
 };
 
 

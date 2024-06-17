@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -12,7 +12,13 @@
 
 HX711::HX711()
 {
-  reset();
+  _gain     = HX711_CHANNEL_A_GAIN_128;
+  _offset   = 0;
+  _scale    = 1;
+  _lastRead = 0;
+  _price    = 0;
+  _mode     = HX711_AVERAGE_MODE;
+  _fastProcessor = false;
 }
 
 
@@ -39,10 +45,11 @@ void HX711::reset()
 {
   power_down();
   power_up();
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
-  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastRead = 0;
+  _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
 

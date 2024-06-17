@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-06-17
+- fix #50, bug in constructor (thanks Mathieu!)
+  - refactor constructor
+
+----
+
 ## [0.4.0] - 2024-03-02
 - add fastProcessor option in **begin()** (Thanks to palmerr23)
 - updated license

@@ -6,8 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2024-06-20
+- changed **uint8_t readInitialState()** to return the read state.
+- changed **bool setValue(uint8_t re, int32_t value = 0)** to return false 
+if parameter re is out of range, prevent possible bug.
+- changed **int32_t getValue(uint8_t re)** to return 0 
+if parameter re is out of range, prevent possible bug.
+- add example **rotaryDecoder_demo_RE_IO.ino**
+- update readme.md, interface section.
+- minor edits
+
 ## [0.3.0] - 2024-02-14
-- Fix #10
+- Fix #10, add read and write for free IO pins.
 - add **read1(pin)**
 - add **write1(pin, value)** experimental see #10
 - made **read8()** and **write8()** public for faster multi pin access

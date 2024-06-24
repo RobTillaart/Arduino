@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-08
 // PURPOSE: Arduino library for rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -38,7 +38,7 @@ bool rotaryDecoder::isConnected()
 }
 
 
-void rotaryDecoder::readInitialState()
+uint8_t rotaryDecoder::readInitialState()
 {
   uint8_t value = read8();
   _lastValue = value;
@@ -47,6 +47,7 @@ void rotaryDecoder::readInitialState()
     _lastPos[i] = value & 0x03;
     value >>= 2;
   }
+  return _lastValue;
 }
 
 
@@ -133,13 +134,16 @@ bool rotaryDecoder::updateSingle()
 
 int32_t rotaryDecoder::getValue(uint8_t re)
 {
+  if (re > 3) return 0;
   return _encoder[re];
 }
 
 
-void rotaryDecoder::setValue(uint8_t re, int32_t value)
+bool rotaryDecoder::setValue(uint8_t re, int32_t value)
 {
+  if (re > 3) return false;
   _encoder[re] = value;
+  return true;
 }
 
 

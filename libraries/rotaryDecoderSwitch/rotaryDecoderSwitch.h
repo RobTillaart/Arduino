@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoderSwitch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.3.0"))
+#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.3.1"))
 
 
 class rotaryDecoderSwitch
@@ -22,7 +22,7 @@ public:
   bool    begin(uint8_t count = 2);
   bool    isConnected();
 
-  void    readInitialState();
+  uint8_t readInitialState();
 
   //  for polling version,
   //  checkChange is bit faster than a call to update
@@ -35,7 +35,7 @@ public:
 
   //  re = rotary encoder
   int32_t getValue(uint8_t re);
-  void    setValue(uint8_t re, int32_t value = 0);
+  bool    setValue(uint8_t re, int32_t value = 0);
   bool    isKeyPressed(uint8_t re);
 
 

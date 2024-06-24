@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2024-06-22
+- fix #54, calibrate() function, Kudos to jens-kuerten and MArimont3
+- minor edits
+
+----
+
 ## [0.5.3] - 2024-05-08
 - fix #52, add **uint8_t getAddrress()**
 - fix #51, add **bool setDLPFMode(uint8_t mode)** and **uint8_t getDLPFMode()**
 - add const float GRAVITY=9.80655;
 - minor edits
-
 
 ## [0.5.2] - 2024-01-16
 - fix #48, use float variables in example GY521_test_1.ino
@@ -72,7 +77,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update library.json, license, minor edits
 
 ## [0.3.5] - 2021-10-20
-- update build-CI, badges 
+- update build-CI, badges
 - fix #28 add wakeup to begin().
 
 ## [0.3.4] - 2021-07-12
@@ -85,7 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix #20 support multiWire
 
 ## [0.3.1] - 2021-06-13
-- added more unit test 
+- added more unit test
 - some initialization
 
 ## [0.3.0] - 2021-04-07

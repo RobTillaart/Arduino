@@ -24,6 +24,11 @@ It needs to be tested a lot more.
 See changelog.md for latest updates.
 
 
+#### 0.6.0
+
+Fixed a bug in calibration function, making previous versions obsolete.
+
+
 #### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.

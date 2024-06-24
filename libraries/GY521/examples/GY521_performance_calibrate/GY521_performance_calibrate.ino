@@ -51,7 +51,7 @@ void test(uint16_t times)
   //  flush all output
   delay(100);
   uint32_t start = micros();
-  sensor.calibrate(100);
+  sensor.calibrate(times);
   uint32_t duration = micros() - start;
 
   //  print results

@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.4.2"))
+#define ADS1X15_LIB_VERSION               (F("0.4.3"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -122,6 +122,7 @@ public:
 
 
   int8_t   getError();
+
 
   //  EXPERIMENTAL
   //  see https://github.com/RobTillaart/ADS1X15/issues/22

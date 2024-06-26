@@ -1,5 +1,5 @@
 //
-//    FILE: ADS_high_speed_differential.ino.ino
+//    FILE: ADS_high_speed_differential.ino
 //  AUTHOR: Rob.Tillaart
 // PURPOSE: read from 2 IC's for high speed differential
 //          interrupt driven to catch all conversions.

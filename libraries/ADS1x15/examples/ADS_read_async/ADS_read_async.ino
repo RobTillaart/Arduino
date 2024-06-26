@@ -18,6 +18,9 @@
 
 ADS1115 ADS(0x48);
 float f = 0;
+int16_t val_0;
+
+uint32_t start, stop;
 
 
 void setup()
@@ -26,12 +29,27 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
+  delay(100);
 
   Wire.begin();
+  Wire.setClock(100000);
 
   ADS.begin();
   ADS.setGain(0);
   f = ADS.toVoltage();      //  voltage factor
+
+  start = micros();
+  ADS.requestADC(0);
+  stop = micros();
+  Serial.println(stop - start);
+  delay(100);
+  while (ADS.isBusy());
+  start = micros();
+  val_0 = ADS.getValue();
+  stop = micros();
+  Serial.println(stop - start);
+  delay(100);
+
   ADS.requestADC(0);
 }
 
@@ -40,7 +58,7 @@ void loop()
 {
   if (ADS.isBusy() == false)
   {
-    int16_t val_0 = ADS.getValue();
+    val_0 = ADS.getValue();
     //  request a new one
     ADS.requestADC(0);
     Serial.print("\tAnalog0: ");

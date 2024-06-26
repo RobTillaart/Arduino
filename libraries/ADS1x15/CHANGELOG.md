@@ -1,9 +1,14 @@
-# Change Log
+# Change Log ADS1x15
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.4.3] - 2024-06-25
+- Fix #74, ALERT/RDY pin documentation
+- update readme.md
+- minor edits examples
 
 ## [0.4.2] - 2024-03-04
 - fix #68, gain bugs ADS1x13
@@ -11,7 +16,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub/actions to v4
 - removed depreciated **getLastValue()**
 - add multiplexer section to readme.md
-
 
 ## [0.4.1] - 2024-01-02
 - fix some typos

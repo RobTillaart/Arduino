@@ -15,7 +15,7 @@
 
 //  EXPERIMENTAL
 //
-//  The RDY pin (or ALERT Pin) is triggered when conversion is ready
+//  The ALERT/RDY pin is triggered when threshold is exceeded.
 //
 
 
@@ -24,7 +24,7 @@
 ADS1115 ADS(0x48);
 
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
@@ -38,7 +38,7 @@ void setup()
   ADS.setDataRate(7);  //  0 = slow   4 = medium   7 = fast
   ADS.setMode(1);      //  continuous mode
   ADS.readADC(0);      //  first read to trigger
-  
+
   //  set the thresholds to Trigger RDY pin
   ADS.setComparatorThresholdLow(0x0000);
   ADS.setComparatorThresholdHigh(0x0200);
@@ -47,7 +47,7 @@ void setup()
 }
 
 
-void loop() 
+void loop()
 {
   ADS.setGain(0);
 
@@ -59,7 +59,7 @@ void loop()
   Serial.print(val_0);
   Serial.print('\t');
   Serial.println(val_0 * f, 3);
-  
+
   delay(1000);
 }
 

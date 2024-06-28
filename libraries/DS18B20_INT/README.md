@@ -57,8 +57,9 @@ There will be a number of retries to connect, default 3.
 There will be a number of retries to connect, default 3.
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
-- **int16_t getTempC()** returns temperature in whole degrees only. -55..125  
-or  -127 = DEVICE_DISCONNECTED
+- **int16_t getTempC(bool connectCheck = true)** returns temperature in whole degrees only. 
+-55..125  or  -127 = DEVICE_DISCONNECTED
+Is faster when connectCheck is set to false. Default true = backwards compatible.
 - **bool getAddress()** returns true if the sensor is configured (available).
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -72,11 +72,14 @@ bool DS18B20_INT::isConversionComplete(void)
 }
 
 
-int16_t DS18B20_INT::getTempC(void)
+int16_t DS18B20_INT::getTempC(bool connectCheck)
 {
-  if (isConnected(3) == false)
+  if (connectCheck)
   {
-    return DEVICE_DISCONNECTED;
+    if (isConnected(3) == false)
+    {
+      return DEVICE_DISCONNECTED;
+    }
   }
   int16_t rawTemperature = _readRaw();
   rawTemperature >>= 4;

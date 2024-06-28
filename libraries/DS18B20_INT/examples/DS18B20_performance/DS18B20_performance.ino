@@ -97,6 +97,16 @@ void setup()
   Serial.println(stop - start);
   delay(10);
 
+
+  start = micros();
+  temp = sensor.getTempC(false);
+  stop = micros();
+  Serial.print("\ngetTempC(false): \t");
+  Serial.println(temp);
+  Serial.print("Time: \t");
+  Serial.println(stop - start);
+  delay(10);
+
 }
 
 

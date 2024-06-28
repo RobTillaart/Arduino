@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2024-06-27
+- Fix #32, add connectCheck parameter to getTempC()
+- update examples
+- update readme.md
+- minor edits
+
 ## [0.2.2] - 2024-01-03
 - fix examples
 - extend **OneWireScanner.ino**
 - minor edits
-
 
 ## [0.2.1] - 2023-10-19
 - update readme.md

@@ -20,14 +20,15 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("DS18B20 Library version: ");
+  Serial.print("DS18B20_LIB_VERSION: ");
   Serial.println(DS18B20_LIB_VERSION);
+  Serial.println();
 
-  // wait until address found
+  //  wait until address found
   if (sensor.begin() == false)
   {
     Serial.println("ERROR: No device found");
-    while (!sensor.begin()); // wait until device comes available.
+    while (!sensor.begin());  //  wait until device comes available.
   }
 
   Serial.println(sensor.getResolution());
@@ -43,11 +44,11 @@ void loop()
   start = millis();
   sensor.requestTemperatures();
 
-  // wait for data AND detect disconnect
+  //  wait for data AND detect disconnect
   uint32_t timeout = millis();
   while (!sensor.isConversionComplete())
   {
-    if (millis() - timeout >= 800) // check for timeout
+    if (millis() - timeout >= 800)  //  check for timeout
     {
       Serial.println("ERROR: timeout or disconnect");
       break;

@@ -86,12 +86,15 @@ bool DS18B20::isConversionComplete(void)
 }
 
 
-float DS18B20::getTempC(void)
+float DS18B20::getTempC(bool checkConnect)
 {
   ScratchPad scratchPad;
-  if (isConnected(3) == false)
+  if (checkConnect)
   {
-    return DEVICE_DISCONNECTED;
+    if (isConnected(3) == false)
+    {
+      return DEVICE_DISCONNECTED;
+    }
   }
 
   if (_config & DS18B20_CRC)

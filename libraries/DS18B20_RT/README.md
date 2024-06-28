@@ -70,9 +70,10 @@ Returns true if a device is found.
 There will be a number of retries to connect, default 3.
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
-- **float getTempC()** returns temperature in Celsius.
-  - -127 = DEVICE_DISCONNECTED
+- **float getTempC(bool checkConnect = true)** returns temperature in Celsius.
+  - -127 = DEVICE_DISCONNECTED (only when checkConnect == true)
   - -128 = DEVICE_CRC_ERROR
+  - can be faster by setting checkConnect to false. (experimental)
 - **bool setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default).
 Returns false if no device is found.
 - **uint8_t getResolution()** return resolution set.
@@ -200,8 +201,9 @@ and all people who contributed to that lib.
 
 - add examples
 - investigate performance gain of no CRC.
-- Extend oneWireSearch with devicetypes
+- Extend oneWireSearch with device types
   - see oneWireScanner.ino (2016 version)
+- should checkConnect be a **config** flag like CRC?
 
 #### Could
 

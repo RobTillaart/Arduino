@@ -58,12 +58,19 @@ No default size (yet).
 
 ### Basic
 
-- **void clear()** empties the internal buffer.
-- **void add(float value)** wrapper for **addValue()**
-- **void addValue(float value)** adds a new value to the object, if the internal buffer is full, 
+The following functions return **false** if the internal buffer is not allocated.
+
+- **bool clear()** empties the internal buffer.
+- **bool add(float value)** wrapper for **addValue()**.
+- **bool addValue(float value)** adds a new value to the object, if the internal buffer is full, 
 the oldest element is removed.
-- **void fillValue(float value, uint16_t number)**  adds number elements of value. 
+- **bool fillValue(float value, uint16_t number)**  adds number elements of value. 
 Good for initializing the system to a certain starting average.
+
+
+The following functions returns NAN if there are no values present (count == 0) or 
+of internal array is not allocated.
+
 - **float getValue(uint16_t position)** returns the value at **position** from the additions. 
 Position 0 is the first one to disappear.
 - **float getAverage()** iterates over all elements to get the average, slower but accurate. 
@@ -80,6 +87,7 @@ Needs more than one element to be calculable.
 - **float getMax()** returns maximum since last clear, does not need to be in the buffer any more.
 - **float getMinInBuffer()** returns minimum in the internal buffer.
 - **float getMaxInBuffer()** returns maximum in the internal buffer.
+- **float getSum()** returns sum of values in the internal buffer.
 
 
 ### Admin functions
@@ -92,9 +100,10 @@ Needs more than one element to be calculable.
 
 ## Partial functions
 
-- **void setPartial(uint16_t partial = 0)** use only a part of the internal array. 
+- **bool setPartial(uint16_t partial = 0)** use only a part of the internal array. 
 Allows to change the weight and history factor. 
 0 ==> use all == default.
+Returns false if internal buffer is not allocated.
 - **uint16_t getPartial()** returns the set value for partial.
 
 
@@ -122,6 +131,33 @@ parameter, the functions will return the statistics of the whole buffer.
 
 - **float getAverageSubset(uint16_t start, uint16_t count)** 
 Get the average of subset - count elements from start.
+Returns NAN if no elements or internal array not allocated.
+
+
+## Performance
+
+Indicative performance on an UNO, see examples.
+
+|  Function              |  0.4.5 us  |  0.4.6 us  |  Notes  |
+|:----------------------:|:----------:|:----------:|:-------:|
+|  clear                 |      60    |      60    |
+|  addValue              |      24    |      24    |
+|  fillValue             |    1512    |    1520    |
+|  getValue              |       4    |       8    |
+|  getAverage            |     520    |     552    |
+|  getFastAverage        |      36    |      40    |
+|  getStandardDeviation  |    1856    |    1856    |
+|  getStandardError      |    1920    |    1920    |
+|  getMin                |       8    |       4    |
+|  getMax                |       4    |       4    |
+|  getMinInBuffer        |     216    |     212    |
+|  getMaxInBuffer        |     208    |     208    |
+|  getSum                |       -    |       8    |
+|  bufferIsFull          |       8    |       8    |
+|  getElement            |       4    |       4    |
+|  getSize               |       8    |       8    |
+|  getCount              |       8    |       8    |
+|  last functions        |       -    |       -    |  not tested
 
 
 ## Operation
@@ -129,8 +165,7 @@ Get the average of subset - count elements from start.
 See examples
 
 
-## Future 
-
+## Future
 
 #### Must
 
@@ -139,16 +174,22 @@ See examples
 #### Should
 
 - check for optimizations.
-  - divide by count happens often ...
-- clear(bool zero = true) to suppress setting all to 0. ?
-
+  - divide by count happens often
+  - fillValue can be optimized (See #13)
+- ```temp = sqrt(temp/(_count - 1));```  is this correct STDDEV?
+  - divide by count or count - 1?  
+  - https://www.zaner.com/3.0/education/technicalstudies/MSD.asp
+  
 #### Could
 
-- create a double based derived class? Template class?
+- create a double based derived class? 
+  - Template class?
 - add error handling (important?).
 - investigate **modus()** most frequently occurring value.
   - difficult with floats ?
-  - what to do when on two or more values are on par?
+  - what to do when on two or more values are on par? (no modus?)
+- **int getUniqueValuesInBuffer()** O(n^2)
+
 
 #### Wont
 

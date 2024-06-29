@@ -1,0 +1,26 @@
+
+UNO    IDE 1.8.19
+
+ra_performance.ino
+
+RUNNINGAVERAGE_LIB_VERSION: 0.4.6
+
+	clear 		: 60
+	addValue 	: 24
+	fillValue 	: 1520
+	getValue 	: 8
+	getAverage 	: 552
+	getFastAverage 	: 40
+	getStandardDeviation 	: 1856
+	getStandardError 	: 1920
+	getMin 		: 4
+	getMax 		: 4
+	getMinInBuffer 	: 216
+	getMaxInBuffer 	: 212
+	getSum 		: 4
+	bufferIsFull 	: 12
+	getElement 	: 4
+	getSize 	: 8
+	getCount 	: 8
+
+done...

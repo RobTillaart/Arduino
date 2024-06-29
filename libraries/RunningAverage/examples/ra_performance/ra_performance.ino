@@ -48,6 +48,7 @@ void setup(void)
   test_getMax();
   test_getMinInBuffer();
   test_getMaxInBuffer();
+  test_getSum();
 
   test_bufferIsFull();
   test_getElement();
@@ -191,6 +192,17 @@ void test_getMaxInBuffer()
 }
 
 
+void test_getSum()
+{
+  start = micros();
+  x = myRA.getSum();
+  stop = micros();
+  Serial.print("\tgetSum \t\t: ");
+  Serial.println(stop - start);
+  delay(10);
+}
+
+
 void test_bufferIsFull()
 {
   start = micros();
@@ -241,4 +253,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

@@ -2,7 +2,7 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.5
+// VERSION: 0.4.6
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.5"))
+#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.6"))
 
 
 class RunningAverage
@@ -23,10 +23,11 @@ public:
   explicit RunningAverage(const uint16_t size);
   ~RunningAverage();
 
-  void     clear();
-  void     add(const float value)    { addValue(value); };
-  void     addValue(const float value);
-  void     fillValue(const float value, const uint16_t number);
+  //  return false if internal buffer not allocated.
+  bool     clear();
+  bool     add(const float value)    { return addValue(value); };
+  bool     addValue(const float value);
+  bool     fillValue(const float value, const uint16_t number);
   float    getValue(const uint16_t position);
 
   float    getAverage();            //  iterates over all elements.
@@ -40,9 +41,10 @@ public:
   float    getMin() const { return _min; };
   float    getMax() const { return _max; };
 
-  //  returns min/max from the values in the internal buffer
+  //  returns min/max/sum from the values in the internal buffer
   float    getMinInBuffer() const;
   float    getMaxInBuffer() const;
+  float    getSum() const { return _sum; };
 
   //  return true if buffer is full
   bool     bufferIsFull() const { return _count == _size; };
@@ -54,12 +56,13 @@ public:
 
   //  use not all elements just a part from 0..partial-1
   //  (re)setting partial will clear the internal buffer.
-  void     setPartial(const uint16_t partial = 0);  // 0 ==> use all
+  bool     setPartial(const uint16_t partial = 0);  //  0 ==> use all
   uint16_t getPartial()   { return _partial; };
 
 
   //  get some stats from the last count additions.
   float    getAverageLast(uint16_t count);
+  float    getStandardDeviationLast(uint16_t count);
   float    getMinInBufferLast(uint16_t count);
   float    getMaxInBufferLast(uint16_t count);
 

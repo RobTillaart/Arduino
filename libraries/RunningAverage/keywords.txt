@@ -21,6 +21,7 @@ getMin	KEYWORD2
 getMax	KEYWORD2
 getMinInBuffer	KEYWORD2
 getMaxInBuffer	KEYWORD2
+getSum	KEYWORD2
 
 bufferIsFull()	KEYWORD2
 getElement	KEYWORD2
@@ -31,6 +32,7 @@ setPartial	KEYWORD2
 getPartial	KEYWORD2
 
 getAverageLast	KEYWORD2
+getStandardDeviationLast	KEYWORD2
 getMinInBufferLast	KEYWORD2
 getMaxInBufferLast	KEYWORD2
 

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.4] - 2024-06-28
+- Fix #76, update readme.md Comparator Polarity
+- added defines to replace magic numbers (not used in code yet)
+- minor edits
+
 ## [0.4.3] - 2024-06-25
 - Fix #74, ALERT/RDY pin documentation
 - update readme.md

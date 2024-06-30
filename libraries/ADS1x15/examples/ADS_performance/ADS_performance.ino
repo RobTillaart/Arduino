@@ -4,6 +4,8 @@
 // PURPOSE: read analog input
 //     URL: https://github.com/RobTillaart/ADS1X15
 
+//  TODO verify output
+
 //  test
 //  connect 1 potmeter
 //
@@ -39,7 +41,7 @@ void setup()
   Serial.println(ADS1X15_LIB_VERSION);
 
   Wire.begin();
-  Wire.setClock(100000);
+  Wire.setClock(600000);
 
   ADS.begin();
   ADS.setGain(0);  //  6.144 volt
@@ -108,4 +110,3 @@ void test_continuous()
 
 
 //  -- END OF FILE --
-

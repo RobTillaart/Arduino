@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.4.3"))
+#define ADS1X15_LIB_VERSION               (F("0.4.4"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -29,6 +29,26 @@
 #define ADS1X15_INVALID_VOLTAGE           -100
 #define ADS1X15_INVALID_GAIN              0xFF
 #define ADS1X15_INVALID_MODE              0xFE
+
+
+//  PARAMETER CONSTANTS NOT USED IN CODE YET
+//  enum ?
+#define ADS1X15_GAIN_6144MV               0x00
+#define ADS1X15_GAIN_4096MV               0x01
+#define ADS1X15_GAIN_2048MV               0x02
+#define ADS1X15_GAIN_1024MV               0x04
+#define ADS1X15_GAIN_0512MV               0x08
+#define ADS1X15_GAIN_0256MV               0x10
+
+#define ADS1x15_COMP_MODE_TRADITIONAL     0x00
+#define ADS1x15_COMP_MODE_WINDOW          0x01
+
+#define ADS1x15_COMP_POL_FALLING_EDGE     0x00
+#define ADS1x15_COMP_POL_RISING_EDGE      0x01
+
+#define ADS1x15_COMP_POL_LATCH            0x00
+#define ADS1x15_COMP_POL_NOLATCH          0x01
+
 
 
 class ADS1X15
@@ -56,7 +76,7 @@ public:
 
 
   //  0  =  CONTINUOUS
-  //  1  =  SINGLE      default
+  //  1  =  SINGLE       default
   void     setMode(uint8_t mode = 1);    //  invalid values are mapped to 1 (default)
   uint8_t  getMode();                    //  0xFE == invalid mode error.
 

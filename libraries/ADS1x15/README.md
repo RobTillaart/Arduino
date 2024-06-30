@@ -37,7 +37,7 @@ interesting from functionality point of view as these can do
 differential measurements.
 
 
-#### Interrupts
+### Interrupts
 
 Besides polling the ADS1x14 and ADS1x15 support interrupts to maximize throughput 
 with minimal latency. For this these device has an ALERT/RDY pin. 
@@ -55,7 +55,7 @@ This pin can be used both for interrupts or polling, see table of examples below
 |  ADS_read_RDY.ino                 |   polling    |
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -64,7 +64,7 @@ The user has to call **Wire.begin()** and can optionally set the I2C pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/ADC081S 10-12 bit, single channel ADC
 - https://github.com/RobTillaart/ADC08XS 10-12 bit, 2 + 4 channel ADC
@@ -87,7 +87,7 @@ the **ADDR** is connected to:
 |        SCL              |   0x4B    |           |
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -111,7 +111,7 @@ too if they are behind the multiplexer.
 #include "ADS1X15.h"
 ```
 
-#### Initializing
+### Initializing
 
 To initialize the library you must call a constructor as described below.
 
@@ -159,7 +159,7 @@ For example.
 ```
 
 
-#### I2C clock speed
+### I2C clock speed
 
 The function **void setWireClock(uint32_t speed = 100000)** is used to set the clock speed
 in Hz of the used I2C interface. Typical value is 100 KHz.
@@ -176,7 +176,7 @@ See - https://github.com/arduino/Arduino/issues/11457
 Question: Should this functionality be in this library?
 
 
-#### Programmable Gain
+### Programmable Gain
 
 - **void setGain(uint8_t gain)** set the gain value, indicating the maxVoltage that can be measured
 Adjusting the gain allowing to make more precise measurements.
@@ -210,7 +210,7 @@ Check the [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples
 ```
 
 
-#### Operational mode
+### Operational mode
 
 The ADS sensor can operate in single shot or continuous mode.
 Depending on how often conversions needed you can tune the mode.
@@ -220,7 +220,7 @@ Note: the mode is not set in the device until an explicit read/request of the AD
 - **uint8_t getMode()** returns current mode 0 or 1, or ADS1X15_INVALID_MODE = 0xFE.
 
 
-#### Data rate
+### Data rate
 
 - **void setDataRate(uint8_t dataRate)** Data rate depends on type of device.
 For all devices the index 0..7 can be used, see table below.
@@ -245,7 +245,7 @@ Data rate in samples per second, based on datasheet is described on table below.
 |     7       |   3300    |    860    |  fastest  |
 
 
-#### ReadADC Single mode
+### ReadADC Single mode
 
 Reading the ADC is very straightforward, the **readADC()** function handles all in one call.
 Under the hood it uses the asynchronous calls.
@@ -297,7 +297,7 @@ in terms of code:
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_read_async/ADS_read_async.ino).
 
 
-#### ReadADC Differential
+### ReadADC Differential
 
 For reading the ADC in a differential way there are 4 calls possible.
 
@@ -326,7 +326,7 @@ After one of these calls you need to call
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_differential/ADS_differential.ino).
 
 
-#### lastRequestMode
+### lastRequestMode
 
 Since 0.3.12 the library tracks the last request mode, single pin or differential.
 This variable is set at the moment of request, and keeps its value until a new 
@@ -358,7 +358,7 @@ As these are emulated in software by two single pin calls, the state would be
 one of the two single pin values.
 
 
-#### ReadADC continuous mode
+### ReadADC continuous mode
 
 To use the continuous mode you need call three functions:
 
@@ -394,7 +394,7 @@ Instead you can configure the threshold registers to allow the **ALERT/RDY**
 pin to trigger an interrupt signal when conversion data ready.
 
 
-#### Switching mode or channel during continuous mode
+### Switching mode or channel during continuous mode
 
 When switching the operating mode or the ADC channel in continuous mode, be aware that 
 the device will always finish the running conversion.
@@ -415,7 +415,7 @@ This explicit stop takes extra time, however it should prevent "incorrect" readi
 (need to be verified with different models)
 
 
-#### Threshold registers
+### Threshold registers
 
 (datasheet 9.3.8)  
 _Conversion Ready Pin (ADS1114 and ADS1115 Only)
@@ -435,7 +435,7 @@ the **ALERT/RDY** pin is triggered when a conversion is ready.
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_read_RDY/ADS_read_RDY.ino).
 
 
-#### Comparator
+### Comparator
 
 Please read Page 15 of the datasheet as the behaviour of the
 comparator is not trivial.
@@ -444,7 +444,7 @@ NOTE: all comparator settings are copied to the device only after calling
 **readADC()** or **requestADC()** functions.
 
 
-#### Comparator Mode
+### Comparator Mode
 
 When configured as a **TRADITIONAL** comparator, the **ALERT/RDY** pin asserts
 (active low by default) when conversion data exceed the limit set in the
@@ -465,16 +465,61 @@ the high threshold register or falls below the low threshold register.
 In this mode the alert is held if the **LATCH** is set. This is similar as above.
 
 
-#### Polarity
+### Polarity
 
-Default state of the **ALERT/RDY** pin is **LOW**, can be to set **HIGH**.
+Default state of the **ALERT/RDY** pin is **LOW**, which can be to set **HIGH**.
 
 - **void setComparatorPolarity(uint8_t pol)**
 Flag is only explicitly set after a **readADC()** or a **requestADC()**
 - **uint8_t getComparatorPolarity()** returns value set.
 
 
-#### Latch
+From tests (#76) it became clear that the behaviour of the **ALERT/RDY** pin is a bit ambiguous.
+The meaning of HIGH LOW is different for **continuous** and **single** mode, see
+the table below. Also different is the timing of the pulse at the **ALERT/RDY** pin.
+See **ADS_COMP_POL.ino**.
+
+Timing of pulse from a synchronous ```ADS.readADC(0)``` call.
+
+| TEST |  MODE            |  COMP_POL  |  ALERT/RDY PIN                |  Notes  |
+|:----:|:-----------------|:-----------|:------------------------------|:--------|
+|   1  |  0 = continuous  |  0 = LOW   |  LOW with 8 us HIGH pulse     |  as specified in datasheet
+|   2  |  0 = continuous  |  1 = HIGH  |  HIGH with 8 us LOW pulse     |  as specified in datasheet
+|   3  |  1 = single      |  0 = LOW   |  HIGH with an 8 ms LOW pulse  |  depends on data rate
+|   4  |  1 = single      |  1 = HIGH  |  LOW with an 8 ms HIGH pulse  |  depends on data rate
+
+See issue #76 for some screenshots.
+
+
+#### Effect Data Rate
+
+|  data rate  |  pulse length  |  Notes  |
+|:-----------:|:--------------:|:-------:|
+|      0      |     125 ms     |
+|      1      |      62 ms     |
+|      2      |      32 ms     |
+|      3      |      16 ms     |
+|      4      |       8 ms     |  default, see in table above.
+|      5      |     4.4 ms     |
+|      6      |     2.4 ms     |
+|      7      |     1.2 ms     |
+
+Times are estimates from scope.
+
+
+#### Conclusions
+
+- Conversion always generates a pulse.
+- The length of the pulse in continuous mode and in single mode differs.
+  - In single shot mode the length of the pulse indicates the conversion time.
+  - In continuous mode the pulse indicates the end of conversion.
+- The polarity in single mode seems to have an inverted pulse, however it is
+  not about the pulse, it is about the edge.
+- If COMP_POL = 0, a FALLING edge indicates conversion ready.
+- If COMP_POL = 1, a RISING edge indicates conversion ready. 
+
+
+### Latch
 
 Holds the **ALERT/RDY** to **HIGH** (or **LOW** depending on polarity) after triggered
 even if actual value has been 'restored to normal' value.
@@ -482,8 +527,10 @@ even if actual value has been 'restored to normal' value.
 - **void setComparatorLatch(uint8_t latch)** 0 = NO LATCH, not 0 = LATCH
 - **uint8_t getComparatorLatch()** returns value set.
 
+The (no-)latch is not verified in detail yet.
 
-#### QueConvert
+
+### QueConvert
 
 Set the number of conversions before trigger activates.
 
@@ -510,7 +557,7 @@ and the MSB of the Lo_threshold register to 0.
 See section **Threshold registers** above.
 
 
-#### Threshold registers comparator mode
+### Threshold registers comparator mode
 
 Depending on the comparator mode **TRADITIONAL** or **WINDOW** the thresholds registers
 mean something different see - Comparator Mode above or datasheet.
@@ -530,21 +577,20 @@ mean something different see - Comparator Mode above or datasheet.
 
 #### Should
 
-- remove the experimental **getWireClock()** as this is not really a library function
+- Remove the experimental **getWireClock()** as this is not really a library function
   but a responsibility of the I2C library.
-- investigate ADS1118 library which should be a similar SPI based ADC.
+- Investigate ADS1118 library which should be a similar SPI based ADC.
 
 #### Could
 
-- some **void** functions could return **bool** to be more informative?
 - More examples
 - SMB alert command (00011001) on I2C bus?
-- sync order .h / .cpp
+- Sync code order .h / .cpp
 
 #### Wont (unless requested)
 
-- type flag?
-- constructor for ADS1X15? No as all types are supported.
+- Type flag?
+- Constructor for ADS1X15? No as all types are supported.
 
 ## Support
 

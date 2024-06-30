@@ -1,0 +1,39 @@
+# Syntax Colouring Map For RunningAverage
+
+
+# Data types (KEYWORD1)
+RunAvgWeight	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+clear	KEYWORD2
+addValue	KEYWORD2
+getValue	KEYWORD2
+getWeight	KEYWORD2
+
+getAverage	KEYWORD2
+getFastAverage	KEYWORD2
+getStandardDeviation	KEYWORD2
+getStandardError	KEYWORD2
+
+getMin	KEYWORD2
+getMax	KEYWORD2
+getMinInBuffer	KEYWORD2
+getMaxInBuffer	KEYWORD2
+
+bufferIsFull	KEYWORD2
+
+getElementValue	KEYWORD2
+getElementWeight	KEYWORD2
+getSumValues	KEYWORD2
+getSumWeights	KEYWORD2
+
+getSize	KEYWORD2
+getCount	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+RUNAVGWEIGHT_LIB_VERSION	LITERAL1

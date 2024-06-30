@@ -1,0 +1,23 @@
+{
+  "name": "RunAvgWeight",
+  "keywords": "running average, moving average, average",
+  "description": "Running Average with weight of N elements. Supports min max average.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/RunAvgWeight.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "RunAvgWeight.h"
+}

@@ -2,7 +2,7 @@
 //
 //    FILE: RunAvgWeight.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define RUNAVGWEIGHT_LIB_VERSION    (F("0.1.0"))
+#define RUNAVGWEIGHT_LIB_VERSION          (F("0.1.1"))
 
 
 class RunAvgWeight
@@ -51,15 +51,15 @@ public:
 
   //  return true if buffer is full
   bool     bufferIsFull() { return _count == _size; };
-
-  //  helper functions.
-  float    getElementValue(uint16_t index);
-  float    getElementWeight(uint16_t index);
-  float    getSumValues()  { return _sumValues; };
-  float    getSumWeights() { return _sumWeights; };
-
   uint16_t getSize() { return _size; }
   uint16_t getCount() { return _count; }
+
+
+  //  helper functions.
+  float    getElementValue(const uint16_t index);
+  float    getElementWeight(const uint16_t index);
+  float    getSumValues()  { return _sumValues; };
+  float    getSumWeights() { return _sumWeights; };
 
 
 protected:

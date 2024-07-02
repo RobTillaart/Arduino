@@ -18,22 +18,23 @@ Arduino library to calculate the running average with weights by means of a circ
 
 **Experimental**
 
-The RunAvgWeight (RAW) object gives a running average of the last N floating point numbers, 
+The RunAvgWeight object gives a running average of the last N floating point numbers, 
 while giving them a different weight.
 
-This is done by adding new data to internal circular buffers, removing the oldest and 
-replace it by the newest. 
-The size of the internal buffer can be set in the constructor.
+This is done by adding the new data to the internal circular buffers, removing the oldest 
+and replace them by the newest. 
+The size of the internal buffers must be set in the constructor.
 
 The interface of the RunAvgWeight object is strongly based upon **RunningAverage**.
 However not all functions are implemented.
+Note the **RunningAverage** library uses no weights.
 
 **Warning**
 
 However the constant adding and subtracting when adding new elements to the RAW object 
 possibly introduces an ever increasing error. 
-In tests with **RunningAverage** class with equal weights, adding up to 1500000 numbers 
-this error was always small. Be aware of this.
+In tests with **RunningAverage** library (with equal weights), adding up to 1500000 numbers 
+this error was always small. Still you need to be aware of this limit.
 
 
 #### Related
@@ -58,41 +59,56 @@ this error was always small. Be aware of this.
 
 ### Constructor
 
-- **RunAvgWeight(uint16_t size)** allocates dynamic memory, one float (4 bytes) per element. 
-No default size (yet).
+- **RunAvgWeight(uint16_t size)** allocates dynamic memory, two floats (8 bytes) per element. 
+The object has no default size.
 - **~RunAvgWeight()** destructor to free the memory allocated.
 
 
 ### Basic
 
 - **void clear()** empties the internal buffers.
-- **void addValue(float value, float weight)** adds a new value to the object, 
+- **void addValue(float value, float weight = 1.0)** adds a new value to the object, 
 if the internal buffer is full, the oldest element is removed.
+The default weight is 1.0 so one can use this class as a "unweighted" running average too,
+albeit with the extra overhead.  
+**addValue()** updates the sum of values and weights for the **getFastAverage()** function.
 - **float getValue(uint16_t position)** returns the value at **position** from the additions. 
 Position 0 is the first one to disappear.
-- **float getAverage()** iterates over all elements to get the average, slower but accurate. 
-Updates the variables used by **getFastAverage()** to improve its accuracy again.
+- **float getWeight(uint16_t position)** returns the weight at **position** from the additions. 
+Position 0 is the first one to disappear.
+- **float getAverage()** iterates over all elements, values and weights, to get the average.
+This is the slower and the more accurate method. 
+A call to **getAverage()** updates the internal variables used by **getFastAverage()** to 
+improve its accuracy again.
 - **float getFastAverage()** reuses previous calculated values, therefore faster. Accuracy can drift.
 
 
 ### Extended functions
 
 - **float getStandardDeviation()** returns the standard deviation of the current content. 
-Needs more than one element to be calculable.
+More than one element needs to be added to be calculable.
 - **float getStandardError()** returns the standard error of the current content.
-- **float getMin()** returns minimum since last clear, does not need to be in the buffer any more.
-- **float getMax()** returns maximum since last clear, does not need to be in the buffer any more.
-- **float getMinInBuffer()** returns minimum in the internal buffer.
-- **float getMaxInBuffer()** returns maximum in the internal buffer.
+- **float getMin()** returns minimum value since last **clear()**. This value does not need 
+to be in the internal buffer any more. Useful for graphing long term minima.
+- **float getMax()** returns maximum value since last **clear()**. This value does not need 
+to be in the internal buffer any more. Useful for graphing long term maxima.
+- **float getMinInBuffer()** returns minimum value in the internal buffer.
+- **float getMaxInBuffer()** returns maximum value in the internal buffer.
 
 
 ### Admin functions
 
 - **bool bufferIsFull()** returns true if buffer is full.
-- **float getElement(uint16_t index)** get element directly from internal buffer at index. (debug)
 - **uint16_t getSize()** returns the size of the internal array.
 - **uint16_t getCount()** returns the number of slots used of the internal array.
 
+
+### Helper functions
+
+- **float getElementValue(uint16_t index)** get element directly from internal buffer at index.
+- **float getElementValue(uint16_t index)** get element directly from internal buffer at index.
+- **float getSumValues()** returns the sum of the values \* weights in the internal buffer.
+- **float getSumWeights()** returns the sum of the values in the internal buffer.
 
 
 ## Future
@@ -107,6 +123,8 @@ Needs more than one element to be calculable.
 - elaborate unit test
 
 #### Could
+
+- implement missing RunningAverage functions?
 
 #### Wont
 

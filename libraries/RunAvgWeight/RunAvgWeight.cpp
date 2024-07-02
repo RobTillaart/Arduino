@@ -1,7 +1,7 @@
 //
 //    FILE: RunAvgWeight.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -41,8 +41,9 @@ void RunAvgWeight::clear()
   _max = NAN;
   for (uint16_t i = _size; i > 0; )
   {
-    _values[--i] = 0.0;  //  keeps addValue simpler
-    _weights[--i] = 0.0;  //  keeps addValue simpler
+    // setting values and weight to zero keeps addValue simpler
+    _values[--i] = 0.0;
+    _weights[--i] = 0.0;
   }
 }
 
@@ -142,63 +143,6 @@ float RunAvgWeight::getFastAverage()
 }
 
 
-//  returns the minimum value in the buffer
-float RunAvgWeight::getMinInBuffer()
-{
-  if (_count == 0)
-  {
-    return NAN;
-  }
-
-  float _min = _values[0];
-  for (uint16_t i = 1; i < _count; i++)
-  {
-    if (_values[i] < _min) _min = _values[i];
-  }
-  return _min;
-}
-
-
-//  returns the maximum value in the buffer
-float RunAvgWeight::getMaxInBuffer()
-{
-  if (_count == 0)
-  {
-    return NAN;
-  }
-
-  float _max = _values[0];
-  for (uint16_t i = 1; i < _count; i++)
-  {
-    if (_values[i] > _max) _max = _values[i];
-  }
-  return _max;
-}
-
-
-//  returns the value of an element if exist, NAN otherwise
-float RunAvgWeight::getElementValue(uint16_t index)
-{
-  if (_count == 0)
-  {
-    return NAN;
-  }
-  return _values[index];
-}
-
-
-//  returns the value of an element if exist, NAN otherwise
-float RunAvgWeight::getElementWeight(uint16_t index)
-{
-  if (_count == 0)
-  {
-    return NAN;
-  }
-  return _weights[index];
-}
-
-
-
 //  What is standard deviation in weighted average context?
 //  https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
 //
@@ -246,6 +190,69 @@ float RunAvgWeight::getStandardError()
   temp = temp/sqrt(n);
 
   return temp;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+//  returns the minimum value in the buffer
+float RunAvgWeight::getMinInBuffer()
+{
+  if (_count == 0)
+  {
+    return NAN;
+  }
+
+  float _min = _values[0];
+  for (uint16_t i = 1; i < _count; i++)
+  {
+    if (_values[i] < _min) _min = _values[i];
+  }
+  return _min;
+}
+
+
+//  returns the maximum value in the buffer
+float RunAvgWeight::getMaxInBuffer()
+{
+  if (_count == 0)
+  {
+    return NAN;
+  }
+
+  float _max = _values[0];
+  for (uint16_t i = 1; i < _count; i++)
+  {
+    if (_values[i] > _max) _max = _values[i];
+  }
+  return _max;
+}
+
+
+//
+//  HELPER FUNCTIONS
+//
+
+//  returns the value of an element if exist, NAN otherwise
+float RunAvgWeight::getElementValue(const uint16_t index)
+{
+  if (_count == 0)
+  {
+    return NAN;
+  }
+  return _values[index];
+}
+
+
+//  returns the value of an element if exist, NAN otherwise
+float RunAvgWeight::getElementWeight(const uint16_t index)
+{
+  if (_count == 0)
+  {
+    return NAN;
+  }
+  return _weights[index];
 }
 
 

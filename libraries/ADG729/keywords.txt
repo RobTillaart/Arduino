@@ -1,0 +1,44 @@
+# Syntax Colouring Map For ADG729
+
+# Data types (KEYWORD1)
+ADG729	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+find	KEYWORD2
+
+channelCount	KEYWORD2
+enableChannel	KEYWORD2
+disableChannel	KEYWORD2
+selectChannel	KEYWORD2
+isEnabled	KEYWORD2
+disableAllChannels	KEYWORD2
+
+enableAB	KEYWORD2
+disableAB	KEYWORD2
+selectAB	KEYWORD2
+isEnabledAB	KEYWORD2
+select	KEYWORD2
+
+setChannelMask	KEYWORD2
+getChannelMask	KEYWORD2
+
+setForced	KEYWORD2
+getForced	KEYWORD2
+
+getError	KEYWORD2
+
+
+# Devices with interrupt
+getInterruptMask	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADG729_LIB_VERSION	LITERAL1
+
+ADG729_OK	LITERAL1
+ADG729_ERROR_I2C	LITERAL1
+ADG729_ERROR_CHANNEL	LITERAL1
+

@@ -1,0 +1,23 @@
+{
+  "name": "ADG729",
+  "keywords": "I2C,multiplexer",
+  "description": "Arduino Library for I2C ADG729 matrix switch. 2x4 Multiplexer.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADG729"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADG729.h"
+}

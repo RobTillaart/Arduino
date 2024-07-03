@@ -1,0 +1,41 @@
+# Syntax Colouring Map For ADG728
+
+# Data types (KEYWORD1)
+ADG728	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+find	KEYWORD2
+
+channelCount	KEYWORD2
+enableChannel	KEYWORD2
+disableChannel	KEYWORD2
+selectChannel	KEYWORD2
+isEnabled	KEYWORD2
+disableAllChannels	KEYWORD2
+
+setChannelMask	KEYWORD2
+getChannelMask	KEYWORD2
+
+setResetPin	KEYWORD2
+reset	KEYWORD2
+
+setForced	KEYWORD2
+getForced	KEYWORD2
+
+getError	KEYWORD2
+
+
+# Devices with interrupt
+getInterruptMask	KEYWORD2
+
+
+# Constants (LITERAL1)
+ADG728_LIB_VERSION	LITERAL1
+
+ADG728_OK	LITERAL1
+ADG728_ERROR_I2C	LITERAL1
+ADG728_ERROR_CHANNEL	LITERAL1
+

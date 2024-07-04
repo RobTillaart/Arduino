@@ -2,11 +2,13 @@
 //    FILE: AD9833.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
-// VERSION: 0.4.1
+//    DATE: 2023-08-25
+// VERSION: 0.4.2
 //     URL: https://github.com/RobTillaart/AD9833
-//
+
 
 #include "AD9833.h"
+
 
 //  FREQUENCY REGISTER BITS
 #define AD9833_FREG1        0x8000
@@ -25,7 +27,6 @@
 #define AD9833_MODE         (1 << 1)
 
 
-
 //  HARDWARE SPI
 AD9833::AD9833(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
@@ -33,6 +34,7 @@ AD9833::AD9833(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
   _hwSPI     = true;
   _mySPI     = mySPI;
 }
+
 
 //  SOFTWARE SPI
 AD9833::AD9833(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
@@ -67,6 +69,15 @@ void AD9833::begin()
     pinMode(_clockPin, OUTPUT);
     digitalWrite(_dataPin,  LOW);
     digitalWrite(_clockPin, HIGH);
+
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+    uint8_t _port    = digitalPinToPort(_dataPin);
+    _dataOutRegister = portOutputRegister(_port);
+    _dataOutBit      = digitalPinToBitMask(_dataPin);
+    _port            = digitalPinToPort(_clockPin);
+    _clockRegister   = portOutputRegister(_port);
+    _clockBit        = digitalPinToBitMask(_clockPin);
+#endif
   }
   reset();
 }
@@ -94,16 +105,23 @@ void AD9833::hardwareReset()
 bool AD9833::setPowerMode(uint8_t mode)
 {
   if (mode > 3) return false;
-  _control &= 0xFF3F;       //  clear previous power flags
-  _control |= (mode << 6);  //  set the new power flags
+  //  clear previous power bits
+  _control &= ~(AD9833_SLEEP1 | AD9833_SLEEP12);
+  _control |= (mode << 6);  //  set the new power bits
   writeControlRegister(_control);
   return true;
 }
 
 
+uint8_t AD9833::getPowerMode()
+{
+  return (_control & (AD9833_SLEEP1 | AD9833_SLEEP12)) >> 6;
+}
+
+
 void AD9833::setWave(uint8_t waveform)
 {
-  if (waveform > 4) return;
+  if (waveform > AD9833_TRIANGLE) return;
 
   //  store waveform
   _waveform = waveform;
@@ -143,24 +161,29 @@ uint8_t AD9833::getWave()
 float AD9833::setFrequency(float frequency, uint8_t channel)
 {
   if (channel > 1) return -1;
-  _freq[channel] = frequency;
-  if (_freq[channel] > AD9833_MAX_FREQ) _freq[channel] = AD9833_MAX_FREQ;
-  if (_freq[channel] < 0) _freq[channel] = 0;
+  //  if (_freq[channel] == frequency) return frequency;
+  //  local variable is faster.
+  float newFrequency = frequency;
+  if (newFrequency < 0) newFrequency = 0;
+  else if (newFrequency > AD9833_MAX_FREQ) newFrequency = AD9833_MAX_FREQ;
 
   //  convert to bit pattern
   //  fr = round(frequency * pow(2, 28) / 25 MHz));  //  25 MHz == crystal frequency.
   //  _crystalFreqFactor == (pow(2, 28) / crystal frequency);
-  //  rounding
-  uint32_t freq = round(_freq[channel] * _crystalFreqFactor);
+  //  round() to minimize error / use the whole range
+  uint32_t freq = round(newFrequency * _crystalFreqFactor);
 
   writeFrequencyRegister(channel, freq);
 
-  return _freq[channel];
+  //  cache the newFrequency;
+  _freq[channel] = newFrequency;
+  return newFrequency;
 }
 
 
 float AD9833::getFrequency(uint8_t channel)
 {
+  //  return round(_freq[channel] * _crystalFreqFactor) / _crystalFreqFactor;
   return _freq[channel];
 }
 
@@ -184,20 +207,40 @@ void  AD9833::setFrequencyChannel(uint8_t channel)
 float AD9833::setPhase(float phase, uint8_t channel)
 {
   if (channel > 1) return -1;
-  _phase[channel] = phase;
-  while (_phase[channel] >= AD9833_MAX_PHASE) _phase[channel] -= AD9833_MAX_PHASE;
-  while (_phase[channel] <  0) _phase[channel] += AD9833_MAX_PHASE;
+  //  local variable is faster.
+  float newPhase = phase;
+  while (newPhase >= AD9833_MAX_PHASE) newPhase -= AD9833_MAX_PHASE;
+  while (newPhase <  0) newPhase += AD9833_MAX_PHASE;
 
-  uint16_t ph = _phase[channel] * (4095.0 / 360.0);
+  //  round() to minimize error / use the whole range 0..4095
+  uint16_t ph = round(newPhase * (4095.0 / 360.0));
   writePhaseRegister(channel, ph);
 
-  return _phase[channel];
+  //  cache the newPhase
+  _phase[channel] = newPhase;
+  return newPhase;
 }
 
 
 float AD9833::getPhase(uint8_t channel)
 {
+  //  more precise => more math;
+  //  return round(_phase[channel] * (4095.0 / 360.0)) / (4095.0 / 360.0);
   return _phase[channel];
+}
+
+
+//  returns phase set (radians) - not optimized.
+//  [0 .. 2 PI>
+float AD9833::setPhaseRadians(float phase, uint8_t channel)
+{
+  return setPhase(phase * RAD_TO_DEG, channel) * DEG_TO_RAD;
+}
+
+
+float AD9833::getPhaseRadians(uint8_t channel)
+{
+  return getPhase(channel) * DEG_TO_RAD;
 }
 
 
@@ -289,12 +332,14 @@ void AD9833::writePhaseRegister(uint8_t channel, uint16_t value)
 void AD9833::setCrystalFrequency(float crystalFrequency)
 {
   //  calculate the often used factor
+  //  268435456.0 == POW2TO28
   _crystalFreqFactor = 268435456.0 / crystalFrequency;
 }
 
 
 float AD9833::getCrystalFrequency()
 {
+  //  268435456.0 == POW2TO28
   return 268435456.0 / _crystalFreqFactor;
 }
 
@@ -335,7 +380,7 @@ void AD9833::writeFrequencyRegisterMSB(uint8_t channel, uint16_t MSB)
   _control |= AD9833_HLB;
   writeControlRegister(_control);
 
-  //  send the least significant 14 bits
+  //  send the most significant 14 bits
   writeData(MSB);
 }
 
@@ -356,17 +401,40 @@ void AD9833::writeData(uint16_t data)
   }
   else
   {
+    //  SPI MODE2
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+
+    uint8_t cbmask1  = _clockBit;
+    uint8_t cbmask2  = ~_clockBit;
+    uint8_t outmask1 = _dataOutBit;
+    uint8_t outmask2 = ~_dataOutBit;
+
+    //  MSBFIRST
+    for (uint16_t mask = 0x8000; mask; mask >>= 1)
+    {
+      uint8_t oldSREG = SREG;
+      noInterrupts();
+      if (data & mask) *_dataOutRegister |= outmask1;
+      else             *_dataOutRegister &= outmask2;
+      *_clockRegister &= cbmask2;
+      *_clockRegister |= cbmask1;
+      SREG = oldSREG;
+    }
+
+#else  //  REFERENCE IMPLEMENTATION
+
     //  local variables is fast.
     uint8_t clk = _clockPin;
     uint8_t dao = _dataPin;
     //  MSBFIRST
     for (uint16_t mask = 0x8000; mask; mask >>= 1)
     {
-      digitalWrite(dao, (data & mask) !=0 ? HIGH : LOW);
+      digitalWrite(dao, (data & mask) != 0 ? HIGH : LOW);
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
-    digitalWrite(dao, LOW);
+
+#endif
   }
   if (_useSelect) digitalWrite(_selectPin, HIGH);
 }
@@ -384,25 +452,57 @@ void AD9833::writeData28(uint16_t LSB, uint16_t MSB)
   }
   else
   {
+    //  SPI MODE2
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+
+    uint8_t cbmask1  = _clockBit;
+    uint8_t cbmask2  = ~_clockBit;
+    uint8_t outmask1 = _dataOutBit;
+    uint8_t outmask2 = ~_dataOutBit;
+
+    for (uint16_t mask = 0x8000; mask; mask >>= 1)
+    {
+      uint8_t oldSREG = SREG;
+      noInterrupts();
+      if (LSB & mask) *_dataOutRegister |= outmask1;
+      else            *_dataOutRegister &= outmask2;
+      *_clockRegister &= cbmask2;
+      *_clockRegister |= cbmask1;
+      SREG = oldSREG;
+    }
+
+    for (uint16_t mask = 0x8000; mask; mask >>= 1)
+    {
+      uint8_t oldSREG = SREG;
+      noInterrupts();
+      if (MSB & mask) *_dataOutRegister |= outmask1;
+      else            *_dataOutRegister &= outmask2;
+      *_clockRegister &= cbmask2;
+      *_clockRegister |= cbmask1;
+      SREG = oldSREG;
+    }
+
+#else  //  REFERENCE IMPLEMENTATION
+
     //  local variables is fast.
     uint8_t clk = _clockPin;
     uint8_t dao = _dataPin;
-    //  MSBFIRST
+
     for (uint16_t mask = 0x8000; mask; mask >>= 1)
     {
-      digitalWrite(dao, (LSB & mask) !=0 ? HIGH : LOW);
+      digitalWrite(dao, (LSB & mask) != 0 ? HIGH : LOW);
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
 
     for (uint16_t mask = 0x8000; mask; mask >>= 1)
     {
-      digitalWrite(dao, (MSB & mask) !=0 ? HIGH : LOW);
+      digitalWrite(dao, (MSB & mask) != 0 ? HIGH : LOW);
       digitalWrite(clk, LOW);
       digitalWrite(clk, HIGH);
     }
 
-    digitalWrite(dao, LOW);
+#endif
   }
   if (_useSelect) digitalWrite(_selectPin, HIGH);
 }

@@ -1,0 +1,27 @@
+
+Board:  UNO (16 Mhz)
+IDE:    1.8.19
+
+AD9833_performance.ino
+AD9833_LIB_VERSION: 0.4.2
+hardware:	1            (hardware SPI)
+setFrequency:	72       (increased after 0.3.1 setCrystalFrequency() )
+setPhase:	20
+setWave:	20
+writeFrequencyRegisterLSB:	40
+writeFrequencyRegisterMSB:	40
+setFrequencyChannel(0):	20
+setPhaseChannel(0):	20
+
+
+AD9833_LIB_VERSION: 0.4.2 - AVR SWSPI REGISTER OPTIMIZED
+hardware:	0            (software SPI)
+setFrequency:	192
+setPhase:	60
+setWave:	60
+writeFrequencyRegisterLSB:	116
+writeFrequencyRegisterMSB:	116
+setFrequencyChannel(0):	60
+setPhaseChannel(0):	56
+
+

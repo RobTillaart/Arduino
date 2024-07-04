@@ -7,7 +7,10 @@
 #include "AD9833.h"
 
 
-AD9833 AD(10);  //  HW SPI, select pin 10
+//  AD9833 AD(10);  //  HW SPI, select pin 10
+//  comment  SPI.begin if HW SPI pins are used for SW SPI
+//  AD9833 AD(10, 11, 13);  //  SW SPI, select, data , clock
+AD9833 AD(5,6,7);  //  SW SPI, select, data , clock
 
 int freq = 100;
 bool up = true;
@@ -22,6 +25,7 @@ void setup()
   Serial.println(AD9833_LIB_VERSION);
   Serial.println();
 
+  //  comment next line if HWSPI pins are used for SW SPI
   SPI.begin();
   AD.begin();
   AD.setWave(AD9833_SINE);
@@ -37,7 +41,7 @@ void loop()
   if (freq <= 100) up = true;
   AD.setFrequency(freq);
 
-  delay(100);  //  to simulate other tasks
+  delay(10);  //  to simulate other tasks
 }
 
 

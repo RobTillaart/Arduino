@@ -3,7 +3,8 @@
 //    FILE: AD9833.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
-// VERSION: 0.4.1
+//    DATE: 2023-08-25
+// VERSION: 0.4.2
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -11,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.4.1"))
+#define AD9833_LIB_VERSION     (F("0.4.2"))
 
 
 #ifndef __SPI_CLASS__
@@ -53,7 +54,7 @@ public:
   void     hardwareReset();
   //       mode = 0..3 (datasheet)
   bool     setPowerMode(uint8_t mode = 0);
-
+  uint8_t  getPowerMode();
 
   void     setWave(uint8_t waveform = AD9833_OFF);
   uint8_t  getWave();
@@ -72,6 +73,10 @@ public:
   float    getPhase(uint8_t channel = 0);
   float    getMaxPhase();
   void     setPhaseChannel(uint8_t channel);
+  //       returns phase set (radians)
+  //       [0 .. 2 PI>
+  float    setPhaseRadians(float phase, uint8_t channel = 0);
+  float    getPhaseRadians(uint8_t channel = 0);
 
 
   //       Hardware SPI settings
@@ -107,8 +112,14 @@ private:
   SPISettings     _spi_settings;
 
   //  PINS
-  uint8_t  _dataPin   = 0;
-  uint8_t  _clockPin  = 0;
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+  volatile uint8_t *_dataOutRegister;
+  uint8_t  _dataOutBit;
+  volatile uint8_t *_clockRegister;
+  uint8_t  _clockBit;
+#endif
+  uint8_t  _dataPin;
+  uint8_t  _clockPin;
   uint8_t  _selectPin = 0;
   bool     _useSelect = false;
 
@@ -119,6 +130,7 @@ private:
   float    _freq[2]   = { 0, 0 };  //  Hz
   float    _phase[2]  = { 0, 0 };  //  angle 0..360
 
+  //  POW2TO28 / 25 MHz
   float    _crystalFreqFactor = 268435456.0 / 25000000.0;
 };
 

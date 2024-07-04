@@ -23,14 +23,14 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
-  while(!Serial);
+  while (!Serial);
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);
   Serial.println();
   delay(10);
 
-  SPI.begin();
+  // SPI.begin();
 
   AD.begin();
 
@@ -70,6 +70,20 @@ void setup()
   AD.writeFrequencyRegisterMSB(0, 10000);
   stop = micros();
   Serial.print("writeFrequencyRegisterMSB:\t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  AD.setFrequencyChannel(0);
+  stop = micros();
+  Serial.print("setFrequencyChannel(0):\t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  AD.setPhaseChannel(0);
+  stop = micros();
+  Serial.print("setPhaseChannel(0):\t");
   Serial.println(stop - start);
   delay(10);
 }

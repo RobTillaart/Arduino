@@ -139,6 +139,7 @@ and sets the control register to B28 for the **setFrequency()**
 Default is 0, wake up. So use ```setPowerMode(0)``` to wake up the device.
 Returns false if mode is out of range.
 Details see datasheet.
+- **uint8_t getPowerMode()** returns current powerMode bits.
 
 |  powerMode  |  meaning                      |
 |:-----------:|:------------------------------|
@@ -190,12 +191,18 @@ Returns the phase set in degrees.
 - **float getMaxPhase()** returns the maximum phase to set (convenience).
 - **void setPhaseChannel(uint8_t channel)** select the active phase channel (0 or 1).
 
-The library does not support get and set the phase in radians (yet).
+Since 0.4.2 the library supports get and set the phase in radians.
+
+- **float setPhaseRadians(float phase, uint8_t channel = 0)**
+setPhase sets the phase and is limited to 0 - 2PI.
+Returns the phase set in radians.
+- **float getPhaseRadians(uint8_t channel = 0)** returns the phase set in radians.
 
 
 #### Hardware SPI
 
 To be used only if one needs a specific speed.
+Has no effect when using SW SPI.
 
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
@@ -292,24 +299,31 @@ As this implementation is experimental, the interface might change in the future
 
 #### Should
 
-- evaluate the **setCrytalFrequency()** implementation / performance.
-  - runtime adjust-ability is preferred however...
 - investigate external clock
-- investigate timing (response time)
-  - change freq
-  - change channels etc.
 - test on ESP32 (3V3)
 
 #### Could
 
+- **setFrequency()** if cache value equals new frequency?
+  - ```if (_freq[channel] == frequency) return frequency;```
+- **setPhase()** if cache value equals new phase?
+  - ```if (_phase[channel] == phase) return phase;```
+  - make phase array 16 bit "register value"?
+- **getFrequency()** calculate freq back from set register value?
+  - slower
+  - more accurate.
+  - separate function **getFrequencyFromRegister()** !
+- **getPhase()** calculate phase back from set register value?
+  - idem.
 - extend unit tests
 - add examples
   - for ESP32 HWSPI interface
 - solve MAGIC numbers (defaults)
 - extend performance measurements
+- add defines AD9833_POWERMODE_xxxx ?
 - investigate compatibility AD9834 a.o.
-- add **setPhaseRadians(float radians, uint8_t channel)** wrapper.
-- add **getPhaseRadians(uint8_t channel)** wrapper.
+  - need time / HW for this.
+
 
 #### Wont
 

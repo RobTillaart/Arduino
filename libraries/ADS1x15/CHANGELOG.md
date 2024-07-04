@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.5] - 2024-07-03
+- Fix #78, prevent infinite loop. (Thanks to devmirek).
+- Fix #76 (again), update readme.md Comparator Polarity.
+- add ADS1X15_ERROR_I2C, communication error.
+- add minimal section in readme.md about error codes.
+- minor edits.
+
 ## [0.4.4] - 2024-06-28
 - Fix #76, update readme.md Comparator Polarity
 - added defines to replace magic numbers (not used in code yet)

@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -183,8 +183,8 @@ uint8_t ADS1X15::getGain()
     case ADS1X15_PGA_0_512V: return 8;
     case ADS1X15_PGA_0_256V: return 16;
   }
-  _err = ADS1X15_INVALID_GAIN;
-  return _err;
+  _error = ADS1X15_INVALID_GAIN;
+  return _error;
 }
 
 
@@ -219,8 +219,8 @@ float ADS1X15::getMaxVoltage()
     case ADS1X15_PGA_0_512V: return 0.512;
     case ADS1X15_PGA_0_256V: return 0.256;
   }
-  _err = ADS1X15_INVALID_VOLTAGE;
-  return _err;
+  _error = ADS1X15_INVALID_VOLTAGE;
+  return _error;
 }
 
 
@@ -242,8 +242,8 @@ uint8_t ADS1X15::getMode(void)
     case ADS1X15_MODE_CONTINUE: return 0;
     case ADS1X15_MODE_SINGLE:   return 1;
   }
-  _err = ADS1X15_INVALID_MODE;
-  return _err;
+  _error = ADS1X15_INVALID_MODE;
+  return _error;
 }
 
 
@@ -402,8 +402,8 @@ int16_t ADS1X15::getComparatorThresholdHigh()
 
 int8_t ADS1X15::getError()
 {
-  int8_t rv = _err;
-  _err = ADS1X15_OK;
+  int8_t rv = _error;
+  _error = ADS1X15_OK;
   return rv;
 }
 
@@ -451,7 +451,18 @@ int16_t ADS1X15::_readADC(uint16_t readmode)
   _requestADC(readmode);
   if (_mode == ADS1X15_MODE_SINGLE)
   {
-    while ( isBusy() ) yield();   //  wait for conversion; yield for ESP.
+    uint32_t start = millis();
+    //  timeout == { 129, 65, 33, 17, 9, 5, 3, 2 }
+    //  a few ms more than max conversion time.
+    uint8_t timeOut = (128 >> (_datarate >> 5)) + 1;
+    while (isBusy())
+    {
+      yield();   //  wait for conversion; yield for ESP.
+      if ( (millis() - start) > timeOut)
+      {
+        return ADS1X15_ERROR_TIMEOUT;
+      }
+    }
   }
   else
   {
@@ -480,7 +491,7 @@ void ADS1X15::_requestADC(uint16_t readmode)
   _writeRegister(_address, ADS1X15_REG_CONFIG, config);
 
   //  remember last request type.
-    _lastRequest = readmode;
+  _lastRequest = readmode;
 }
 
 
@@ -490,7 +501,13 @@ bool ADS1X15::_writeRegister(uint8_t address, uint8_t reg, uint16_t value)
   _wire->write((uint8_t)reg);
   _wire->write((uint8_t)(value >> 8));
   _wire->write((uint8_t)(value & 0xFF));
-  return (_wire->endTransmission() == 0);
+  int rv = _wire->endTransmission();
+  if (rv != 0) 
+  {
+    _error =  ADS1X15_ERROR_I2C;
+    return false;
+  }
+  return true;
 }
 
 
@@ -498,15 +515,18 @@ uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
 {
   _wire->beginTransmission(address);
   _wire->write(reg);
-  _wire->endTransmission();
-
-  int rv = _wire->requestFrom((int) address, (int) 2);
-  if (rv == 2)
+  int rv = _wire->endTransmission();
+  if (rv == 0) 
   {
-    uint16_t value = _wire->read() << 8;
-    value += _wire->read();
-    return value;
+    rv = _wire->requestFrom((int) address, (int) 2);
+    if (rv == 2)
+    {
+      uint16_t value = _wire->read() << 8;
+      value += _wire->read();
+      return value;
+    }
   }
+  _error =  ADS1X15_ERROR_I2C;
   return 0x0000;
 }
 

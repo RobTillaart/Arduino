@@ -474,26 +474,33 @@ Flag is only explicitly set after a **readADC()** or a **requestADC()**
 - **uint8_t getComparatorPolarity()** returns value set.
 
 
-From tests (#76) it became clear that the behaviour of the **ALERT/RDY** pin is a bit ambiguous.
-The meaning of HIGH LOW is different for **continuous** and **single** mode, see
-the table below. Also different is the timing of the pulse at the **ALERT/RDY** pin.
-See **ADS_COMP_POL.ino**.
+From tests (see #76) it became clear that the behaviour of the **ALERT/RDY** pin 
+looks ambiguous. Further investigation eventually showed that the behaviour is 
+logical but one should not think in "pulses", more in levels and edges.
 
-Timing of pulse from a synchronous ```ADS.readADC(0)``` call.
+In the continuous mode it looks like an 8us pulse, however this "pulse" is
+actual a short time (8 us) of IDLE followed by a long time pulse of converting.
 
-| TEST |  MODE            |  COMP_POL  |  ALERT/RDY PIN                |  Notes  |
-|:----:|:-----------------|:-----------|:------------------------------|:--------|
-|   1  |  0 = continuous  |  0 = LOW   |  LOW with 8 us HIGH pulse     |  as specified in datasheet
-|   2  |  0 = continuous  |  1 = HIGH  |  HIGH with 8 us LOW pulse     |  as specified in datasheet
-|   3  |  1 = single      |  0 = LOW   |  HIGH with an 8 ms LOW pulse  |  depends on data rate
-|   4  |  1 = single      |  1 = HIGH  |  LOW with an 8 ms HIGH pulse  |  depends on data rate
+In the single shot mode it looks like the converting time is the pulse
+as that is the only single change visible. This is IMHO the correct view.
+
+
+#### ALERT RDY table
+
+|  MODE          |  COMP_POL  |  IDLE  |  START    |  CONVERT  |   READY   |
+|:---------------|:-----------|:-------|:----------|:----------|:----------|
+| 0 = continuous |  0 = LOW   |  HIGH  |  FALLING  |  LOW      |  RISING   |
+| 0 = continuous |  1 = HIGH  |  LOW   |  RISING   |  HIGH     |  FALLING  |
+| 1 = single     |  0 = LOW   |  HIGH  |  FALLING  |  LOW      |  RISING   |
+| 1 = single     |  1 = HIGH  |  LOW   |  RISING   |  HIGH     |  FALLING  |
+
 
 See issue #76 for some screenshots.
 
 
-#### Effect Data Rate
+#### Converting time by Data Rate
 
-|  data rate  |  pulse length  |  Notes  |
+|  data rate  |  convert time  |  Notes  |
 |:-----------:|:--------------:|:-------:|
 |      0      |     125 ms     |
 |      1      |      62 ms     |
@@ -509,14 +516,25 @@ Times are estimates from scope.
 
 #### Conclusions
 
-- Conversion always generates a pulse.
-- The length of the pulse in continuous mode and in single mode differs.
-  - In single shot mode the length of the pulse indicates the conversion time.
-  - In continuous mode the pulse indicates the end of conversion.
-- The polarity in single mode seems to have an inverted pulse, however it is
-  not about the pulse, it is about the edge.
-- If COMP_POL = 0, a FALLING edge indicates conversion ready.
-- If COMP_POL = 1, a RISING edge indicates conversion ready. 
+- Conversion generates a conversion pulse with length depending on the data rate.
+- In continuous mode it looks like there is a short pulse, but actual the long
+  period is the conversion pulse. 
+
+In short:
+
+- if COMP_POL = 0, 
+  - a FALLING edge indicates conversion start.
+  - a LOW level indicates converting.
+  - a RISING edge indicates conversion ready.
+  - a HIGH level indicates idle.
+ 
+- if COMP_POL = 1, 
+  - a RISING edge indicates conversion start.
+  - a HIGH level indicates converting.
+  - a FALLING edge indicates conversion ready.
+  - a LOW level indicates idle.
+
+This interpretation is in line with all tests done in #76.
 
 
 ### Latch
@@ -568,6 +586,23 @@ mean something different see - Comparator Mode above or datasheet.
 - **int16_t getComparatorThresholdHigh()** reads value from device.
 
 
+## Error codes
+
+This section has to be elaborated.
+
+Some functions return or set an error value.
+This is read and reset by **getError()** 
+
+|  Value  |  Define                   |  Description  |
+|:-------:|:-------------------------:|:-------------:|
+|      0  |  ADS1X15_OK               | idem.
+|   -100  |  ADS1X15_INVALID_VOLTAGE  | getMaxVoltage()
+|   -101  |  ADS1X15_ERROR_TIMEOUT    | readADC() device did not respond in time.
+|   -102  |  ADS1X15_ERROR_I2C        | I2C communication failure.
+|   0xFF  |  ADS1X15_INVALID_GAIN     | getGain() 
+|   0xFE  |  ADS1X15_INVALID_MODE     | getMode()
+
+
 ## Future ideas & improvements
 
 #### Must
@@ -580,10 +615,11 @@ mean something different see - Comparator Mode above or datasheet.
 - Remove the experimental **getWireClock()** as this is not really a library function
   but a responsibility of the I2C library.
 - Investigate ADS1118 library which should be a similar SPI based ADC.
+- improve error handling
+  - refactor values to be more logic.
 
 #### Could
 
-- More examples
 - SMB alert command (00011001) on I2C bus?
 - Sync code order .h / .cpp
 

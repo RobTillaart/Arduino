@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.5.4
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.5.3"))
+#define MCP23S17_LIB_VERSION              (F("0.5.4"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -56,7 +56,8 @@ public:
 
 
   //       single pin interface
-  //       mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
+  //       mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+  //             do not use 0, 1 for mode.
   bool     pinMode1(uint8_t pin, uint8_t mode);
   bool     write1(uint8_t pin, uint8_t value);
   uint8_t  read1(uint8_t pin);
@@ -69,8 +70,10 @@ public:
 
   //       8 pins interface
   //       port  = 0..1
-  //       value = bit pattern
-  bool     pinMode8(uint8_t port, uint8_t value);
+  //       mask  = 0x00..0xFF  bit pattern, 
+  //               bit 0 = output mode, bit 1 = input mode
+  //       value = bit pattern.
+  bool     pinMode8(uint8_t port, uint8_t mask);
   bool     write8(uint8_t port, uint8_t value);
   int      read8(uint8_t port);
 
@@ -81,8 +84,10 @@ public:
 
 
   //       16 pins interface
-  //       value = bit pattern
-  bool     pinMode16(uint16_t value);
+  //       mask = 0x0000..0xFFFF bit pattern
+  //              bit 0 = output mode, bit 1 = input mode
+  //       value = bit pattern.
+  bool     pinMode16(uint16_t mask);
   bool     write16(uint16_t value);
   uint16_t read16();
 

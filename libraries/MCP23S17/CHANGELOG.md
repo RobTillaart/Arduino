@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.4] - 2024-07-04
+- fix #45, documentation bug
+
 ## [0.5.3] - 2024-06-12
 - #43 optimize read/write16, kudos to Olkal
 - add performance test output 0.5.2, 0.5.3

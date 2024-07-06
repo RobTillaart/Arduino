@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.5.4
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -107,6 +107,7 @@ uint8_t MCP23S17::getAddress()
 //
 //  pin  = 0..15
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//         do NOT use 0 or 1 for mode.
 bool MCP23S17::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
@@ -357,17 +358,18 @@ void MCP23S17::setSPIspeed(uint32_t speed)
 //  8 pins interface
 //
 //  whole register at once
-//  port  = 0..1
-//  value = 0..0xFF  bit pattern
-bool MCP23S17::pinMode8(uint8_t port, uint8_t value)
+//  port = 0..1
+//  mask = 0x00..0xFF  bit pattern
+//         bit 0 = output mode, bit 1 = input mode
+bool MCP23S17::pinMode8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
   {
     _error = MCP23S17_PORT_ERROR;
     return false;
   }
-  if (port == 0) writeReg(MCP23x17_DDR_A, value);
-  if (port == 1) writeReg(MCP23x17_DDR_B, value);
+  if (port == 0) writeReg(MCP23x17_DDR_A, mask);
+  if (port == 1) writeReg(MCP23x17_DDR_B, mask);
   _error = MCP23S17_OK;
   return true;
 }
@@ -477,11 +479,12 @@ bool MCP23S17::getPullup8(uint8_t port, uint8_t &mask)
 //
 //  16 pins interface
 //
-//  two register at once
-//  value = 0x0000..0xFFFF bit pattern
-bool MCP23S17::pinMode16(uint16_t value)
+//  two registers at once
+//  mask = 0x0000..0xFFFF bit pattern
+//         bit 0 = output mode, bit 1 = input mode
+bool MCP23S17::pinMode16(uint16_t mask)
 {
-  writeReg16(MCP23x17_DDR_A, value);
+  writeReg16(MCP23x17_DDR_A, mask);
   _error = MCP23S17_OK;
   return true;
 }

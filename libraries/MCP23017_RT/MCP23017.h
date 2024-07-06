@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.0
+// VERSION: 0.7.1
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -15,7 +15,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.7.0"))
+#define MCP23017_LIB_VERSION              (F("0.7.1"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -37,7 +37,8 @@ public:
 
 
   //       single pin interface
-  //       mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
+  //       mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+  //             do not use 0, 1 for mode.
   bool     pinMode1(uint8_t pin, uint8_t mode);
   bool     write1(uint8_t pin, uint8_t value);
   uint8_t  read1(uint8_t pin);
@@ -50,8 +51,10 @@ public:
 
   //       8 pins interface
   //       port  = 0..1
-  //       value = bit pattern
-  bool     pinMode8(uint8_t port, uint8_t value);
+  //       mask  = 0x00..0xFF  bit pattern, 
+  //               bit 0 = output mode, bit 1 = input mode
+  //       value = bit pattern.
+  bool     pinMode8(uint8_t port, uint8_t mask);
   bool     write8(uint8_t port, uint8_t value);
   int      read8(uint8_t port);
 
@@ -62,8 +65,10 @@ public:
 
 
   //       16 pins interface
-  //       value = bit pattern
-  bool     pinMode16(uint16_t value);
+  //       mask = 0x0000..0xFFFF bit pattern
+  //              bit 0 = output mode, bit 1 = input mode
+  //       value = bit pattern.
+  bool     pinMode16(uint16_t mask);
   bool     write16(uint16_t value);
   uint16_t read16();
 

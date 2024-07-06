@@ -144,7 +144,9 @@ Returns false if not connected or a register could not be set.
 
 Please note REVD remarks at top.
 
-- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT. Returns true if successful.
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT or INPUT_PULLUP. 
+Do NOT use 0, 1 for mode as the 3 constants are (possibly) defined differently.
+Returns true if successful.
 - **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..15, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..15, set reversed flag. Returns true if successful.

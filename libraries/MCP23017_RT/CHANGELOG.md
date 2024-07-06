@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.1] 2024-06-06
+- Fix #36, documentation bug.
+
 ## [0.7.0] 2024-06-06
 - fix #33 bug, kudos to JelleWilbrink
 

@@ -117,8 +117,8 @@ Returns false if not connected or a register could not be set.
 
 ### Single pin interface
 
-- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7, mode = INPUT, OUTPUT.
-0xFF is all pins are input, 0x1F are 5 inputs and 3 outputs.
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7, mode = INPUT, OUTPUT or INPUT_PULLUP.
+Do NOT use 0, 1 for mode as the 3 constants are (possibly) defined differently.
 Returns true if successful.
 - **bool write1(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..7, returns LOW or HIGH, might set the lastError();
@@ -130,7 +130,7 @@ Returns true if successful.
 
 ### 8 pins interface
 
-- **bool pinMode8(uint8_t value)** value = 0..255. Returns true if successful.
+- **bool pinMode8(uint8_t mask)** mask = 0..255. Returns true if successful.
 - **bool write8(uint8_t value)** value = 0..255. Returns true if successful.
 - **uint8_t read8()** reads 8 pins into one byte.
 - **bool setPolarity8(uint8_t mask)** sets polarity for 8 channels at once. Returns true if successful.

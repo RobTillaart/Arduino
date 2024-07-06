@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] 2024-07-04
+- Fix #21, documentation bug
+
 ## [0.3.3] 2024-05-25
 - add several interrupt functions (sync MCP23S17)
 - update **MCP23x08_registers.h** (reuse with MCP23008)

@@ -137,9 +137,10 @@ See also **IO Control Register** section below.
 
 ### Single pin interface
 
-mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
-
-- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7. Returns true if successful.
+- **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..7. 
+mode = INPUT, OUTPUT or INPUT_PULLUP. 
+Do NOT use 0, 1 for mode as the 3 constants are (possibly) defined differently.
+Returns true if successful.
 - **bool write1(uint8_t pin, uint8_t value)** pin = 0..7, value = LOW(0) HIGH (!0). Returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..7, returns LOW or HIGH, might set the lastError();
 - **bool setPolarity(uint8_t pin, bool reversed)** pin = 0..7, set reversed flag. Returns true if successful.
@@ -150,8 +151,10 @@ mode: 0 = OUTPUT, 1 = INPUT, 1 = INPUT_PULLUP (==INPUT)
 
 ### 8 pins interface
 
-- **bool pinMode8(uint8_t value)** value = 0..255. Returns true if successful.
+- **bool pinMode8(uint8_t mask)** mask = 0..255. Returns true if successful.
+Returns true if successful.
 - **bool write8(uint8_t value)** value = 0..255. Returns true if successful.
+Returns true if successful.
 - **uint8_t read8()** reads 8 pins into one byte.
 - **bool setPolarity8(uint8_t mask)** sets polarity for 8 channels at once.
 Returns true if successful.

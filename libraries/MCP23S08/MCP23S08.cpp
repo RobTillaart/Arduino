@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -100,6 +100,7 @@ uint8_t MCP23S08::getAddress()
 //
 //  pin  = 0..7
 //  mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
+//         do NOT use 0 or 1 for mode.
 bool MCP23S08::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 7)
@@ -313,10 +314,11 @@ void MCP23S08::setSPIspeed(uint32_t speed)
 //  8 pins interface
 //
 //  whole register at once
-//  value = 0..0xFF  bit pattern
-bool MCP23S08::pinMode8(uint8_t value)
+//  mask = 0x00..0xFF  bit pattern
+//         bit 0 = output mode, bit 1 = input mode
+bool MCP23S08::pinMode8(uint8_t mask)
 {
-  writeReg(MCP23x08_DDR_A, value);
+  writeReg(MCP23x08_DDR_A, mask);
   _error = MCP23S08_OK;
   return true;
 }

@@ -1,7 +1,7 @@
 //
 //    FILE: functionGenerator.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.3.0
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 
@@ -240,7 +240,199 @@ float funcgen::random_DC()
 }
 
 
+/////////////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL 0.2.7
+//
+float funcgen::sinusDiode(float t)
+{
+  float rv = sinus(t);
+  if (rv < _yShift) return _yShift;
+  return rv;
 
+  // float rv;
+  // t += _phase;
+  // rv = sin(t * _freq0);
+  // if (rv < 0) return _yShift;
+  // rv *= amplitude;
+  // rv += _yShift;
+  // return rv;
+}
+
+
+float funcgen::sinusRectified(float t)
+{
+  // float rv = sinus(t);
+  // if (rv < _yShift) return _yShift - rv;
+  // return rv;
+
+  float rv;
+  t += _phase;
+  rv = _amplitude * sin(t * _freq0);
+  if (rv < 0) rv = -rv;
+  rv += _yShift;
+  return rv;
+}
+
+
+float funcgen::trapezium1(float t)
+{
+  t += _phase + _period * _dutyCycle / 4;  //  zero point for t = 0
+  if (t < 0)
+  {
+    t = -t;
+  }
+  t = fmod(t, _period);
+
+  if (t < _period * 0.5 * _dutyCycle)  //  rising part
+  {
+    return _yShift + -_amplitude + 2 * _amplitude * (t * 2  / (_period * _dutyCycle));
+  }
+  else if (t < _period * 0.5)  //  high part
+  {
+    return _yShift + _amplitude;
+  }
+  else if (t < _period * (0.5 + 0.5 * _dutyCycle))  //  falling part
+  {
+    return _yShift + _amplitude - 2 * _amplitude * ( (t * 2 - _period) / (_period * _dutyCycle));
+  }
+  else   //  low part
+  {
+    return _yShift + -_amplitude;
+  }
+}
+
+
+float funcgen::trapezium2(float t)
+{
+  t += _phase + _period * _dutyCycle / 4;  //  zero point for t = 0
+  if (t < 0)
+  {
+    t = -t;
+  }
+  t = fmod(t, _period);
+
+  if (t < _period * 0.25)  //  rising part
+  {
+    return _yShift + -_amplitude + 2 * _amplitude * (t * 4 / _period);
+  }
+  else if (t < _period * (0.25 + 0.5 * _dutyCycle))  //  high part
+  {
+    return _yShift + _amplitude;
+  }
+  else if (t < _period * (0.5 + 0.5 * _dutyCycle))  //  falling part
+  {
+    return _yShift + _amplitude - 2 * _amplitude * ((t - _period * (0.25 + 0.5 * _dutyCycle)) * 4 / _period);
+  }
+  else   //  low part
+  {
+    return _yShift + -_amplitude;
+  }
+}
+
+
+/*
+// no DC version (50%
+float funcgen::trapezium(float t)
+{
+  t += _phase;
+  if (t < 0)
+  {
+    t = -t;
+  }
+  t = fmod(t, _period);
+
+  if (t < _period * 0.25)  //  rising part
+  {
+    return -_amplitude + 2 * _amplitude * (t * 4 / _period);
+  }
+  else if (t < _period * 0.5)  //  high part
+  {
+    return _amplitude;
+  }
+  else if (t < _period * 0.75)  //  high part
+  {
+    return _amplitude - 2 * _amplitude * ((t - _period/2) * 4 / _period);
+  }
+  else   //  low part
+  {
+    return -_amplitude;
+  }
+}
+*/
+
+
+//
+//  EXPERIMENTAL HEARTBEAT  
+//  => setFrequency(72.0 / 60.0);  //  BPM/60 = BPS.
+float funcgen::heartBeat(float t)
+{
+  int16_t out[32] = {
+       0,    0, 1000, 2500,
+    1000, 1000,  -50, 10000,
+    -2500, 2000, 2500, 3000,
+    3000, 2000,    0,    0,
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0,
+  };
+  //  use duty cycle to determine zero level duration.
+  int pts = map(_dutyCycle * 100, 0, 100, 31, 15);
+  
+  return freeWave(t, out, pts);
+}
+
+
+/*
+//  points need to  be optimized, 
+//  0.2.7 uses 160 bytes for the two arrays.
+//  wrapper around freeWave?
+float funcgen::heartBeat(float t)
+{
+  //  based upon MultiMap in[] array is normalized to 0.0 - 1.0
+  //  Heart beat phase                 P                 Q     R     S                     T         U          
+  float in[21]  = { 0.0, 0.07, 0.13, 0.20, 0.27, 0.33,  0.40, 0.46,  0.53, 0.60, 0.66, 0.73, 0.80, 0.86, 0.93, 1.00 };
+  float out[21] = { 0.0, 0.00, 0.10, 0.25, 0.10, 0.10, -0.05, 1.00, -0.25, 0.20, 0.25, 0.30, 0.30, 0.20, 0.00, 0.00 };
+
+  t += _phase;
+  t = fmod(t, _period);
+
+  //  normalize t to 0.0 - 1.0
+  t *= _freq1;
+  //  search interval
+  int idx = 0; 
+  while (t > in[idx]) idx++;
+  if (t == in[idx]) return _yShift + _amplitude * out[idx];
+  idx--;
+  //  interpolate.
+  float factor = (t - in[idx]) / (in[idx+1] - in[idx]);
+  return _yShift + _amplitude * (out[idx] + factor * (out[idx+1] - out[idx]));
+}
+*/
+
+
+float funcgen::freeWave(float t, int16_t * arr, int16_t size)
+{
+  t += _phase;
+  //  normalize t to 0.0 - 1.0
+  t = fmod(t, _period);
+  t *= _freq1;
+
+  //  search interval, as arr is based upon N equidistant points,
+  //  we can easily calculate the points for direct access
+  float factor = t * size;
+  int idx = factor;        //  truncate to get index of output array.
+  factor = factor - idx;   //  remainder is interpolate factor.
+  //  interpolate.
+  return _yShift + _amplitude * 1e-4 * (arr[idx] + factor * (arr[idx+1] - arr[idx]));
+}
+
+
+/////////////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 //  An example of a simple pseudo-random number generator is the
 //  Multiply-with-carry method invented by George Marsaglia.
 //  two initializers (not null)
@@ -250,6 +442,7 @@ uint32_t funcgen::_random()
   _m_w = 18000L * (_m_w & 65535L) + (_m_w >> 16);
   return (_m_z << 16) + _m_w;  /* 32-bit result */
 }
+
 
 
 /////////////////////////////////////////////////////////////
@@ -356,6 +549,7 @@ float fgstr(float t, float period = 1.0, uint16_t steps = 8)
 //
 //  FULL floatS ONES
 //
+//  SAWTOOTH
 float fgsaw(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.0, float yShift = 0.0)
 {
   t += phase;
@@ -370,6 +564,7 @@ float fgsaw(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.
 }
 
 
+//  TRIANGLE
 float fgtri(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.0, float yShift = 0.0, float dutyCycle = 0.50)
 {
   t += phase;
@@ -384,6 +579,7 @@ float fgtri(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.
 }
 
 
+//  SQUARE
 float fgsqr(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.0, float yShift = 0.0, float dutyCycle = 0.50)
 {
   t += phase;
@@ -400,6 +596,7 @@ float fgsqr(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.
 }
 
 
+//  SINUS
 float fgsin(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.0, float yShift = 0.0)
 {
   t += phase;
@@ -408,6 +605,7 @@ float fgsin(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.
 }
 
 
+//  STAIR
 float fgstr(float t, float period = 1.0, float amplitude = 1.0, float phase = 0.0, float yShift = 0.0, uint16_t steps = 8)
 {
   t += phase;

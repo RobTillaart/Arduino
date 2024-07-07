@@ -27,8 +27,17 @@ zero	KEYWORD2
 sawtooth	KEYWORD2
 triangle	KEYWORD2
 square	KEYWORD2
+
 sinus	KEYWORD2
+sinusDiode	KEYWORD2
+sinusRectified	KEYWORD2
+
 stair	KEYWORD2
+trapezium1	KEYWORD2
+trapezium2	KEYWORD2
+
+heartBeat	KEYWORD2
+freeWave	KEYWORD2
 
 random	KEYWORD2
 random_DC	KEYWORD2

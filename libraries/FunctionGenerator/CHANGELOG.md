@@ -6,10 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.5] - 2023-11-02
+## [0.3.0] - 2024-07-05
+- add **float sinusDiode(float t)**
+- add **float sinusRectified(float t)**
+- add **float trapezium1(float t)** with duty cycle.
+- add **float trapezium2(float t)** with duty cycle.
+- add **float heartBeat(float t)**
+- add **float freeWave(float t, int16_t arr, int size)** arbitrary wave generator.
+- update **functionGeneratorPerformance.ino**
+- add examples for **freeWave()**
+- fix Arduino-lint.yml (long library name error)
+- update readme.md
+- minor edits
+
+----
+
+## [0.2.6] - 2023-11-02
 - update readme.md
 - update keywords.txt (align)
-
 
 ## [0.2.5] - 2023-03-25
 - add **setDutyCycle()**, **getDutyCycle()**

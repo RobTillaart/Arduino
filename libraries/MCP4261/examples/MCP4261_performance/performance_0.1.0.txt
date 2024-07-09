@@ -1,0 +1,48 @@
+
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+MCP4261_performance.ino
+MCP4261_LIB_VERSION: 0.1.0
+
+HW SPI
+
+
+test_timing
+SPI:	1000000
+500 x setValue():	15404	30.81
+500 x getValue():	380	0.76
+500 x incrValue():	10776	21.55
+500 x decrValue():	10660	21.32
+
+test_timing
+SPI:	2000000
+500 x setValue():	11380	22.76
+500 x getValue():	384	0.77
+500 x incrValue():	8768	17.54
+500 x decrValue():	8640	17.28
+
+test_timing
+SPI:	4000000
+500 x setValue():	9400	18.80
+500 x getValue():	380	0.76
+500 x incrValue():	7768	15.54
+500 x decrValue():	7644	15.29
+
+test_timing
+SPI:	8000000
+500 x setValue():	8400	16.80
+500 x getValue():	376	0.75
+500 x incrValue():	7268	14.54
+500 x decrValue():	7140	14.28
+
+
+SW SPI
+
+500 x setValue():	107264	214.53
+500 x getValue():	380	0.76
+500 x incrValue():	56556	113.11
+500 x decrValue():	56432	112.86
+
+
+Done...

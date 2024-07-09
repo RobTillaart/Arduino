@@ -1,0 +1,23 @@
+{
+  "name": "MCP4261",
+  "keywords": "MCP4141,MCP4142,MCP4161,MCP4162,MCP4241,MCP4242,MCP4261,MCP4262",
+  "description": "Arduino library for MCP4261 SPI based digital potentiometers.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP4261.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MCP4261.h"
+}

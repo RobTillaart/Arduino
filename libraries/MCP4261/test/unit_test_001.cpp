@@ -40,9 +40,9 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(64,  MCP41XX_MIDDLE_VALUE);
-  assertEqual(129, MCP41XX_MAX_VALUE);
-  assertEqual(129, MCP42XX_MIDDLE_VALUE);
-  assertEqual(257, MCP42XX_MAX_VALUE);
+  assertEqual(128, MCP41XX_MAX_VALUE);
+  assertEqual(128, MCP42XX_MIDDLE_VALUE);
+  assertEqual(256, MCP42XX_MAX_VALUE);
 }
 
 

@@ -25,13 +25,12 @@ void setup()
 
   SPI.begin();
 
-  pot.begin(0);  //  initial value
+  pot.begin();
 
-  //  test_extremes();
-  //test_sinus();
+  test_extremes();
+  test_sinus();
   test_sawtooth();
   test_incr_decr();
-  //test_timing();
 
   Serial.println("\nDone...");
 }
@@ -112,35 +111,6 @@ void test_incr_decr()
     pot.decrValue(1);
     delay(100);
   }
-}
-
-
-void test_timing()
-{
-  Serial.println(__FUNCTION__);
-  delay(10);
-
-  start = micros();
-  for (int i = 0; i < 1000; i++)
-  {
-    pot.setValue(0, i++);  //  auto wrap is fast...
-  }
-  stop = micros();
-  Serial.print("1000 x setValue():\t");
-  Serial.println(stop - start);
-  delay(10);
-
-  volatile int x = 0;
-  start = micros();
-  for (int i = 0; i < 500; i++)
-  {
-    x += pot.getValue(0);
-    x += pot.getValue(1);
-  }
-  stop = micros();
-  Serial.print("1000 x getValue():\t");
-  Serial.println(stop - start);
-  delay(10);
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP4261.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-02-21
 // PURPOSE: Arduino library for MCP4261 SPI based digital potentiometers.
 //     URL: https://github.com/RobTillaart/MCP4261
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP4261_LIB_VERSION           (F("0.1.0"))
+#define MCP4261_LIB_VERSION           (F("0.2.0"))
 
 
 #ifndef MCP41XX_MIDDLE_VALUE
@@ -20,16 +20,16 @@
 #endif
 
 #ifndef MCP41XX_MAX_VALUE
-#define MCP41XX_MAX_VALUE             129
+#define MCP41XX_MAX_VALUE             128
 #endif
 
 
 #ifndef MCP42XX_MIDDLE_VALUE
-#define MCP42XX_MIDDLE_VALUE          129
+#define MCP42XX_MIDDLE_VALUE          128
 #endif
 
 #ifndef MCP42XX_MAX_VALUE
-#define MCP42XX_MAX_VALUE             257
+#define MCP42XX_MAX_VALUE             256
 #endif
 
 
@@ -53,34 +53,69 @@ public:
   //       SOFTWARE SPI
   MCP4261(uint8_t select, uint8_t shutdown, uint8_t dataIn, uint8_t dataOut, uint8_t clock);
 
-  void     begin(uint16_t value);
+  void     begin();
   void     reset(uint16_t value);
   uint8_t  pmCount();
 
-
+  //
+  //  SET VOLATILE VALUE
+  //
   //       set both potmeters (just a wrapper)
   bool     setValue(uint16_t value);
   //       set single potmeter (0 or 1)
   bool     setValue(uint8_t pm, uint16_t value);
+  //       from cache or device
   uint16_t getValue(uint8_t pm = 0);
+  uint16_t getValueDevice(uint8_t pm = 0);
 
-  bool     incrValue(uint8_t pm);
-  bool     decrValue(uint8_t pm);
+  bool     incrValue(uint8_t pm = 0);
+  bool     decrValue(uint8_t pm = 0);
 
-  //       Set non volatile potmeter
-  //       not tested
+  //
+  //  SET NON-VOLATILE VALUE
+  //
   bool     setValueNV(uint8_t pm, uint16_t value);
+  uint16_t getValueNV(uint8_t pm);  //  always from device
 
+  //
+  //  TERMINAL CONTROL    (bit masks to elaborate)
+  //
+  void     setTCONMask(uint16_t mask);  //  only lower 9 bits used.
+  uint16_t getTCONMask();
+
+  //
+  //  STATUS  read only (not implemented High Voltage commands).
+  //
+  //  BIT    Description
+  //  --------------------------
+  //   0     Write Protect
+  //   1     Shut Down
+  //   2     Wiper Lock 0
+  //   3     Wiper Lock 1
+  //   4     EEPROM Write Active
+  uint16_t getStatusMask();
+
+  //
+  //  EEPROM
+  //
+  //  index = 0..9  value = 0..511
+  bool     setEEPROM(uint8_t index, uint16_t value);
+  uint16_t getEEPROM(uint8_t index);
+
+  //
+  //  POWER
+  //
+  void     powerOn();
+  void     powerOff();
+  bool     isPowerOn();
+
+  //
+  //  SPI
+  //
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed();
   bool     usesHWSPI();  //  debugging
-
-
-  //       MISC
-  void     powerOn();
-  void     powerOff();
-  bool     isPowerOn();
 
 
 protected:
@@ -96,8 +131,11 @@ protected:
   uint8_t  _pmCount;
   uint16_t _maxValue;
 
-  void     writeDevice(uint8_t count, uint8_t value1, uint8_t value2);
-  void     swSPI_write(uint8_t value);
+
+  void     writeRegister1(uint8_t value1);
+  void     writeRegister2(uint8_t value1, uint8_t value2);
+  uint16_t readRegister(uint8_t reg);
+  uint8_t  swSPI_write(uint8_t value);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;

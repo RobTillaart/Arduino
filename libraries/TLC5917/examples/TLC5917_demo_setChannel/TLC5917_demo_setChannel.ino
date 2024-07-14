@@ -1,7 +1,7 @@
 //
-//    FILE: TLC5917_NightRider.ino
+//    FILE: TLC5917_demo_setChannel.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo running leds.
+// PURPOSE: demo basic usage
 //     URL: https://github.com/RobTillaart/TLC5917
 
 
@@ -23,40 +23,33 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("TLC5917_LIB_VERSION: \t");
   Serial.println(TLC5917_LIB_VERSION);
+  Serial.println();
+
+  Serial.println(sizeof(tlc));
 
   if (tlc.begin() == false)
   {
     Serial.println("error");
     while (1);
   }
+
+  Serial.print("Channels: ");
+  Serial.println(tlc.channelCount());
+
   tlc.enable();
 }
 
 
 void loop()
 {
-  static int pos = 0;
-  static int delta = 1;
-
-  //  clear;
-  for (int i = 0; i < tlc.channelCount(); i++)
+  uint8_t arr[DEVICES];
+  for (int idx = 0; idx < DEVICES; idx++)
   {
-    tlc.setChannel(i, false);
+    arr[idx] = random(256);
   }
-  tlc.write();
-
-  Serial.println(pos);
-  tlc.setChannel(pos, true);
+  tlc.setChannel(arr);
   tlc.write();
   delay(100);
-  tlc.setChannel(pos, false);
-  tlc.write();
-
-  pos += delta;
-  if ((pos == 0) || (pos == (tlc.channelCount() - 1)))
-  {
-    delta = -delta;
-  }
 }
 
 

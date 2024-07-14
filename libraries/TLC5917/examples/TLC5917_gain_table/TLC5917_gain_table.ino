@@ -10,12 +10,12 @@
 
 
 const int DEVICES = 1;
-const int CLOCK = 13;
-const int DATA  = 12;
-const int LE    = 11;
-const int OE    = 10;
+const int CLOCK   = 13;
+const int DATA    = 12;
+const int LATCH   = 11;
+const int ENABLE  = 10;
 
-TLC5917 tlc(DEVICES, CLOCK, DATA, LE, OE);
+TLC5917 tlc(DEVICES, CLOCK, DATA, LATCH, ENABLE);
 
 
 void setup()

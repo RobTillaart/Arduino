@@ -2,13 +2,13 @@
 //
 //    FILE: TLC5917.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
 
 
-#define TLC5917_LIB_VERSION             (F("0.1.2"))
+#define TLC5917_LIB_VERSION             (F("0.2.0"))
 
 
 #include "Arduino.h"
@@ -39,8 +39,11 @@ class TLC5917
 {
 public:
   //  single device constructor
+  //  LE = Latch Enable
+  //  OE = Output Enable
   TLC5917(uint8_t clock, uint8_t data, uint8_t LE, uint8_t OE);
-  //  multi device constructor - for daisy chaining)
+  //  multi device constructor 
+  //  - for daisy chaining
   TLC5917(int deviceCount, uint8_t clock, uint8_t data, uint8_t LE, uint8_t OE);
   virtual ~TLC5917();
 
@@ -49,15 +52,16 @@ public:
 
   bool     setChannel(uint8_t channel, bool on);
   //       size array must be equal or larger than deviceCount.
+  //       one bit per channel.
   bool     setChannel(uint8_t * array);
   bool     setAll(bool on);
   bool     getChannel(uint8_t channel);
 
-  //       write the buffer to the TLC5917 device(s).
-  void     write(int n);
+  //       write the internal buffer to the TLC5917 device(s).
+  void     write(int channels);
   void     write();
 
-  //       control the blank (OE) line.
+  //       control the outputEnable (OE) line.
   void     enable();
   void     disable();
   bool     isEnabled();  //  returns status

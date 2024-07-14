@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5917.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
@@ -25,7 +25,7 @@ TLC5917::TLC5917(int deviceCount, uint8_t clock, uint8_t data, uint8_t LE, uint8
   _le     = LE;
   _oe     = OE;
   _mode   = TLC5917_NORMAL_MODE;
-  _buffer = (uint8_t *) calloc(_channelCount, sizeof(uint8_t));
+  _buffer = (uint8_t *) calloc(deviceCount, sizeof(uint8_t));
   _configuration = 0xFF;  //  page 23  datasheet
 }
 
@@ -108,10 +108,10 @@ void TLC5917::write()
 }
 
 
-void TLC5917::write(int chan)
+void TLC5917::write(int channels)
 {
-  if (chan > _channelCount) chan = _channelCount;
-  if (chan < 0) return;
+  if (channels < 0) return;
+  int devices = (channels > _channelCount) ? _channelCount / 8 : channels / 8;
 
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
@@ -127,11 +127,11 @@ void TLC5917::write(int chan)
   uint8_t cbmask1  = digitalPinToBitMask(_clock);
   uint8_t cbmask2  = ~cbmask1;
 
-  for (int channel = chan - 1; channel >= 0; channel--)
+  for (int dev = devices - 1; dev >= 0; dev--)
   {
     for (uint8_t mask = 0x80;  mask; mask >>= 1)
     {
-      if (_buffer[channel] & mask)
+      if (_buffer[dev] & mask)
       {
         *_dataOutRegister |= outmask1;  //  digitalWrite(_dat, HIGH);
       }
@@ -146,17 +146,17 @@ void TLC5917::write(int chan)
 
 #else
 
-  //  also write when blank == LOW
+  //  also write when outputEnable == LOW
   //       to "preload the registers"
   //  local variables to maximize speed.
   uint8_t _clk = _clock;
   uint8_t _dat = _data;
 
-  for (int channel = chan - 1; channel >= 0; channel--)
+  for (int dev = devices - 1; dev >= 0; dev--)
   {
     for (uint8_t mask = 0x80;  mask; mask >>= 1)
     {
-      digitalWrite(_dat, _buffer[channel] & mask ? HIGH : LOW);
+      digitalWrite(_dat, _buffer[dev] & mask ? HIGH : LOW);
       digitalWrite(_clk, HIGH);
       digitalWrite(_clk, LOW);
     }

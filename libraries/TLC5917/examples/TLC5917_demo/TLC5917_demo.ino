@@ -8,13 +8,13 @@
 #include "TLC5917.h"
 
 
-const int DEVICES = 2;
-const int CLOCK = 13;
-const int DATA  = 12;
-const int LE    = 11;
-const int OE    = 10;
+const int DEVICES = 1;
+const int CLOCK   = 13;
+const int DATA    = 12;
+const int LATCH   = 11;
+const int ENABLE  = 10;
 
-TLC5917 tlc(DEVICES, CLOCK, DATA, LE, OE);
+TLC5917 tlc(DEVICES, CLOCK, DATA, LATCH, ENABLE);
 
 
 void setup()
@@ -37,20 +37,29 @@ void setup()
   Serial.println(tlc.channelCount());
 
   tlc.enable();
-
-  for (int ch = 0; ch < tlc.channelCount(); ch++)
-  {
-    tlc.setChannel(ch, true);
-    tlc.write();
-    delay(100);
-    tlc.setChannel(ch, false);
-  }
-  tlc.write();
 }
 
 
 void loop()
 {
+  Serial.println("ON");
+  for (int ch = 0; ch < tlc.channelCount(); ch++)
+  {
+    Serial.println(ch);
+    tlc.setChannel(ch, true);
+    tlc.write();
+    delay(100);
+  }
+
+  Serial.println("OFF");
+
+  for (int ch = 0; ch < tlc.channelCount(); ch++)
+  {
+    Serial.println(ch);
+    tlc.setChannel(ch, false);
+    tlc.write();
+    delay(100);
+  }
 }
 
 

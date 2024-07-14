@@ -1,0 +1,29 @@
+Arduino UNO
+IDE: 1.8.19
+
+(AVR optimized write() on UNO)
+TLC5917_performance\TLC5917_performance.ino
+TLC5917_LIB_VERSION: 	0.2.0
+
+Channels:		800
+SETCHANNEL TRUE:	2572
+SETCHANNEL FALSE:	2840
+SETALL TRUE:		236
+SETALL FALSE:		232
+WRITE:			1772
+
+Done...
+
+
+(default write() on UNO for reference)
+TLC5917_LIB_VERSION: 	0.1.3
+
+Channels:		800
+SETCHANNEL TRUE:	2572
+SETCHANNEL FALSE:	2848
+SETALL TRUE:		236
+SETALL FALSE:		232
+WRITE:			9420
+
+Done...
+

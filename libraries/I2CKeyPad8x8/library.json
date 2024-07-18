@@ -1,7 +1,7 @@
 {
   "name": "I2CKeyPad8x8",
   "keywords": "I2C,KeyPad, 8x8, PCF8574",
-  "description": "Arduino library for a KeyPad connected to a PCF8575. 8x8 or smaller.",
+  "description": "Arduino library for a 8x8 (or smaller) keypad connected to an I2C PCF8575.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2CKeyPad8x8.git"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

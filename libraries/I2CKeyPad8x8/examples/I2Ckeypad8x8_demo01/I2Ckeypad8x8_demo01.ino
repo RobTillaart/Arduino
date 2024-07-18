@@ -13,7 +13,7 @@
 #include "Wire.h"
 #include "I2CKeyPad8x8.h"
 
-const uint8_t KEYPAD_ADDRESS = 0x38;
+const uint8_t KEYPAD_ADDRESS = 0x20;
 
 I2CKeyPad8x8 keyPad(KEYPAD_ADDRESS);
 

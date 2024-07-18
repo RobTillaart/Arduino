@@ -43,6 +43,7 @@ unittest(test_constants)
 {
   assertEqual(64, I2C_KEYPAD8x8_NOKEY);
   assertEqual(65, I2C_KEYPAD8x8_FAIL);
+  assertEqual(255, I2C_KEYPAD8x8_THRESHOLD);
 }
 
 
@@ -58,6 +59,21 @@ unittest(test_constructor)
   // assertTrue(keyPad.isConnected());
 }
 
+
+unittest(test_debounce_threshold)
+{
+  const uint8_t KEYPAD_ADDRESS = 0x38;
+  I2CKeyPad8x8 keyPad(KEYPAD_ADDRESS);
+
+  //  default 0
+  assertEqual(0, keyPad.getDebounceThreshold());
+
+  for (uint16_t th = 5000; th < 60000; th += 5000)
+  {
+    keyPad.setDebounceThreshold(th);
+    assertEqual(th, keyPad.getDebounceThreshold());
+  }
+}
 
 
 // unittest(test_KeyMap)

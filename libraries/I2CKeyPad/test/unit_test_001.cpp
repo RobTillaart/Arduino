@@ -43,6 +43,7 @@ unittest(test_constants)
 {
   assertEqual(16, I2C_KEYPAD_NOKEY);
   assertEqual(17, I2C_KEYPAD_FAIL);
+  assertEqual(255, I2C_KEYPAD_THRESHOLD);
 
   assertEqual(44, I2C_KEYPAD_4x4);
   assertEqual(53, I2C_KEYPAD_5x3);
@@ -97,6 +98,22 @@ unittest(test_KeyMap)
   char keymap[19] = "123A456B789C*0#DNF";
   keyPad.loadKeyMap(keymap);
   assertEqual('N', keyPad.getLastChar());
+}
+
+
+unittest(test_debounce_threshold)
+{
+  const uint8_t KEYPAD_ADDRESS = 0x38;
+  I2CKeyPad keyPad(KEYPAD_ADDRESS);
+
+  //  default 0
+  assertEqual(0, keyPad.getDebounceThreshold());
+
+  for (uint16_t th = 5000; th < 60000; th += 5000)
+  {
+    keyPad.setDebounceThreshold(th);
+    assertEqual(th, keyPad.getDebounceThreshold());
+  }
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: I2CKeyPad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for 4x4 KeyPad connected to an I2C PCF8574
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 
@@ -15,6 +15,8 @@ I2CKeyPad::I2CKeyPad(const uint8_t deviceAddress, TwoWire *wire)
   _address = deviceAddress;
   _wire    = wire;
   _mode    = I2C_KEYPAD_4x4;
+  _debounceThreshold = 0;
+  _lastTimeRead      = 0;
 }
 
 
@@ -26,20 +28,42 @@ bool I2CKeyPad::begin()
 }
 
 
-uint8_t I2CKeyPad::getKey()
+bool I2CKeyPad::isConnected()
 {
-  if (_mode == I2C_KEYPAD_5x3) return _getKey5x3();
-  if (_mode == I2C_KEYPAD_6x2) return _getKey6x2();
-  if (_mode == I2C_KEYPAD_8x1) return _getKey8x1();
-  //  default.
-  return _getKey4x4();
+  _wire->beginTransmission(_address);
+  return (_wire->endTransmission() == 0);
 }
 
 
-uint8_t I2CKeyPad::getLastKey()   
-{ 
+uint8_t I2CKeyPad::getKey()
+{
+  uint32_t now = millis();
+  if (_debounceThreshold > 0)
+  {
+    if (now - _debounceThreshold < _lastTimeRead)
+    {
+      return I2C_KEYPAD_THRESHOLD;
+    }
+  }
+
+  uint8_t key = 0;
+  if      (_mode == I2C_KEYPAD_5x3) key = _getKey5x3();
+  else if (_mode == I2C_KEYPAD_6x2) key = _getKey6x2();
+  else if (_mode == I2C_KEYPAD_8x1) key = _getKey8x1();
+  else                              key = _getKey4x4();  //  default.
+
+  if (key == I2C_KEYPAD_FAIL) return key;  //  propagate error.
+  //  valid keys + NOKEY
+  _lastKey = key;
+  _lastTimeRead = now;
+  return key;
+}
+
+
+uint8_t I2CKeyPad::getLastKey()
+{
   return _lastKey;
-};
+}
 
 
 //  to check "press any key"
@@ -51,23 +75,21 @@ bool I2CKeyPad::isPressed()
 }
 
 
-bool I2CKeyPad::isConnected()
+uint8_t I2CKeyPad::getChar()
 {
-  _wire->beginTransmission(_address);
-  return (_wire->endTransmission() == 0);
+  uint8_t key = getKey();
+  if (key != I2C_KEYPAD_THRESHOLD)
+  {
+    return _keyMap[key];
+  }
+  return I2C_KEYPAD_THRESHOLD;
 }
 
 
-uint8_t I2CKeyPad::getChar()
-{ 
-  return _keyMap[getKey()]; 
-};
-
-
 uint8_t I2CKeyPad::getLastChar()
-{ 
-  return _keyMap[_lastKey]; 
-};
+{
+  return _keyMap[_lastKey];
+}
 
 
 void I2CKeyPad::loadKeyMap(char * keyMap)
@@ -78,7 +100,7 @@ void I2CKeyPad::loadKeyMap(char * keyMap)
 
 void I2CKeyPad::setKeyPadMode(uint8_t mode)
 {
-  if ((mode == I2C_KEYPAD_5x3) || 
+  if ((mode == I2C_KEYPAD_5x3) ||
       (mode == I2C_KEYPAD_6x2) ||
       (mode == I2C_KEYPAD_8x1))
   {
@@ -92,6 +114,24 @@ void I2CKeyPad::setKeyPadMode(uint8_t mode)
 uint8_t I2CKeyPad::getKeyPadMode()
 {
   return _mode;
+}
+
+
+void I2CKeyPad::setDebounceThreshold(uint16_t value)
+{
+  _debounceThreshold = value;
+}
+
+
+uint16_t I2CKeyPad::getDebounceThreshold()
+{
+  return _debounceThreshold;
+}
+
+
+uint32_t I2CKeyPad::getLastTimeRead()
+{
+  return _lastTimeRead;
 }
 
 
@@ -118,7 +158,7 @@ uint8_t I2CKeyPad::_read(uint8_t mask)
 
 uint8_t I2CKeyPad::_getKey4x4()
 {
-  //  key = row + 4 x col
+  //  key = row + 4 x column
   uint8_t key = 0;
 
   //  mask = 4 rows as input pull up, 4 columns as output
@@ -141,8 +181,6 @@ uint8_t I2CKeyPad::_getKey4x4()
   else if (cols == 0x07) key += 12;
   else return I2C_KEYPAD_FAIL;
 
-  _lastKey = key;
-
   return key;   //  0..15
 }
 
@@ -150,7 +188,7 @@ uint8_t I2CKeyPad::_getKey4x4()
 //  not tested
 uint8_t I2CKeyPad::_getKey5x3()
 {
-  //  key = row + 5 x col
+  //  key = row + 5 x column
   uint8_t key = 0;
 
   //  mask = 5 rows as input pull up, 3 columns as output
@@ -173,8 +211,6 @@ uint8_t I2CKeyPad::_getKey5x3()
   else if (cols == 0x03) key += 10;
   else return I2C_KEYPAD_FAIL;
 
-  _lastKey = key;
-
   return key;   //  0..14
 }
 
@@ -182,7 +218,7 @@ uint8_t I2CKeyPad::_getKey5x3()
 //  not tested
 uint8_t I2CKeyPad::_getKey6x2()
 {
-  //  key = row + 6 x col
+  //  key = row + 6 x column
   uint8_t key = 0;
 
   //  mask = 6 rows as input pull up, 2 columns as output
@@ -204,8 +240,6 @@ uint8_t I2CKeyPad::_getKey6x2()
   else if (cols == 0x02) key += 0;
   else if (cols == 0x01) key += 6;
   else return I2C_KEYPAD_FAIL;
-
-  _lastKey = key;
 
   return key;   //  0..11
 }
@@ -230,8 +264,6 @@ uint8_t I2CKeyPad::_getKey8x1()
   else if (rows == 0xBF) key = 6;
   else if (rows == 0x7F) key = 7;
   else return I2C_KEYPAD_FAIL;
-
-  _lastKey = key;
 
   return key;   //  0..7
 }

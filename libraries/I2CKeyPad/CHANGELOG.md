@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-07-14
+- Fix #21, add section to readme.md
+- Fix #22, implement **debounceThreshold**
+- add constant **I2C_KEYPAD_THRESHOLD**
+- add **uint32_t getLastTimeRead()**
+- update **getChar()** to support **I2C_KEYPAD_THRESHOLD**
+- update readme.md
+- update unit test
+- update keywords.txt
+- minor edits
+
+----
+
 ## [0.4.0] - 2023-11-09
 - simplify begin()
 - added I2Ckeypad_Wire1_ESP32.ino

@@ -39,7 +39,7 @@ supports 10^5 write cycles (https://docs.arduino.cc/learn/built-in-libraries/eep
 That is a factor of 10 million more write cycles.
 
 
-#### Fujitsu
+### Fujitsu
 
 Types of FRAM tested with this library:
 
@@ -60,7 +60,7 @@ one calls **setSizeBytes(16 \* 1024)** or **setSizeBytes(8 \* 1024)** to set the
 For the FRAM9 and FRAM11 the size problem is solved (hard coded) in their class.
 
 
-#### Ramtron / Cypress / Infineon
+### Ramtron / Cypress / Infineon
 
 Types of FRAM tested with this library:
 
@@ -71,7 +71,20 @@ Types of FRAM tested with this library:
 |  FM24V10     |  128 KB  |    Y     |                        |  FRAM32  |  #49  |  
 
 
-#### Notes
+### Codes on the chip - Fujitsu
+
+The datasheet - MB85RC04_DS501_00057_1v0_E-2329111.pdf - page 20 - provides meaning 
+to the markings on the FRAM devices. 
+The meaning of Environment code is unclear.
+
+```
+RC04:   Product name
+E11900: E1 (Environment code) + 1900 (Year and Week code)
+300:    3 (Factory code) + 00(Trace code)
+```
+
+
+### Notes
 
 - Not all types of FRAM are tested. Please let me know if you have verified one that is not in the list.
 - If there is no deviceID **getSize()** will not work correctly.
@@ -84,7 +97,7 @@ Not tested: expect the **MB85RC1MT** can be addressed with 2 instances of **FRAM
 too with adjacent addresses.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/I2C_EEPROM  (eeprom)
 - https://github.com/RobTillaart/I2C_24LC1025  (eeprom)
@@ -286,9 +299,6 @@ Indicative power usage in uA in three modi (if supported).
 | FM24C256-G |  32 KB |  100 uA   |           |           | See #45
 
 
-_TODO: fill the table_
-
-
 ## FRAM_RINGBUFFER
 
 Since version 0.4.2 a separate class **FRAM_RINGBUFFER** is added to this repo.
@@ -346,9 +356,8 @@ Use **getSizeBytes()** to get 512.
   - **MB85RC128A** only (hard code fall back?).
   - **getSize()** scanning FRAM like EEPROM library?
 - investigate a faster strategy for **readUntil()**
-  - search for separator per block (e.g. 16 bytes) read.
-- Investigate **getManufacturerID()** and **getProductID()** for FRAM9/11.
-  - need hardware + data sheets.
+  - readUntil() calls read() which reads per 24 bytes.
+  - search for separator per block (e.g. 24 bytes) in read (copy code).
 
 
 #### Could

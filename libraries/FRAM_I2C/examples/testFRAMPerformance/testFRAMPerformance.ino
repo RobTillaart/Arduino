@@ -56,27 +56,28 @@ void loop()
 
 void testReadWriteLarge()
 {
+  int size = 600 * sizeof(int);
   for (int i = 0; i < 600; i++) ar[i] = i;
 
   start = micros();
-  fram.write(1000, (uint8_t*)ar, 1200);
+  fram.write(1000, (uint8_t*)ar, size);
   stop = micros();
   Serial.print("WRITE 1200 bytes TIME: \t");
   Serial.print(stop - start);
   Serial.print(" us ==> \t");
-  Serial.print((stop - start) / 1200.0, 2);
+  Serial.print((stop - start) / (1.0 * size), 2);
   Serial.println(" us/byte.");
   delay(100);
 
   for (int i = 0; i < 600; i++) ar[i] = 0;
 
   start = micros();
-  fram.read(1000, (uint8_t*)ar, 1200);
+  fram.read(1000, (uint8_t*)ar, size);
   stop = micros();
   Serial.print("READ 1200 bytes TIME: \t");
   Serial.print(stop - start);
   Serial.print(" us ==> \t");
-  Serial.print((stop - start) / 1200.0, 2);
+  Serial.print((stop - start) / (1.0 * size), 2);
   Serial.println(" us/byte.");
   delay(100);
 

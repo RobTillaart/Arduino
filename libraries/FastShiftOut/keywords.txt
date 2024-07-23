@@ -6,6 +6,9 @@ FastShiftOut	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 write	KEYWORD2
+write16	KEYWORD2
+write24	KEYWORD2
+write32	KEYWORD2
 
 lastWritten	KEYWORD2
 

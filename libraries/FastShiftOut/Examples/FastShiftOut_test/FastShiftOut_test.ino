@@ -39,6 +39,7 @@ void test1()
   duration1 = micros() - start;
   Serial.print("        write: ");
   Serial.println(duration1 * 0.001);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -66,6 +67,7 @@ void test2()
   duration1 = micros() - start;
   Serial.print("writeLSBFIRST: ");
   Serial.println(duration1 * 0.001);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -93,6 +95,7 @@ void test3()
   duration1 = micros() - start;
   Serial.print("writeMSBFIRST: ");
   Serial.println(duration1 * 0.001);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -120,6 +123,7 @@ void test4()
   duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
   Serial.println(duration1 * 0.001);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -148,6 +152,7 @@ void test5()
   duration1 = micros() - start;
   Serial.print("println(\"Hello world\"): \t");
   Serial.println(duration1 * 0.01);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 100; i++)
@@ -157,7 +162,7 @@ void test5()
   duration1 = micros() - start;
   Serial.print("println(1357): \t\t\t");
   Serial.println(duration1 * 0.01);
-
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 100; i++)

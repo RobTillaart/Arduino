@@ -47,8 +47,70 @@ size_t FastShiftOut::write(uint8_t data)
 }
 
 
-/* experimental
-size_t write(const uint8_t \*buffer, size_t size)
+//  EXPERIMENTAL 0.3.3
+size_t FastShiftOut::write16(uint16_t data)
+{
+  if (_bitOrder == LSBFIRST)
+  {
+    writeLSBFIRST(data & 0xFF);
+    writeLSBFIRST(data >> 8);
+  }
+  else
+  {
+    writeMSBFIRST(data >> 8);
+    writeMSBFIRST(data & 0xFF);
+  }
+  return 2;
+}
+
+
+//  EXPERIMENTAL 0.3.3
+size_t FastShiftOut::write24(uint32_t data)
+{
+  if (_bitOrder == LSBFIRST)
+  {
+    writeLSBFIRST(data & 0xFF);
+    data >>= 8;
+    writeLSBFIRST(data & 0xFF);
+    data >>= 8;
+    writeLSBFIRST(data & 0xFF);
+  }
+  else
+  {
+    writeMSBFIRST((data >> 16) & 0xFF);
+    writeMSBFIRST((data >> 8)  & 0xFF);
+    writeMSBFIRST(data & 0xFF);
+  }
+  return 3;
+}
+
+
+//  EXPERIMENTAL 0.3.3
+size_t FastShiftOut::write32(uint32_t data)
+{
+  if (_bitOrder == LSBFIRST)
+  {
+    writeLSBFIRST(data & 0xFF);
+    data >>= 8;
+    writeLSBFIRST(data & 0xFF);
+    data >>= 8;
+    writeLSBFIRST(data & 0xFF);
+    data >>= 8;
+    writeLSBFIRST(data & 0xFF);
+  }
+  else
+  {
+    writeMSBFIRST((data >> 24) & 0xFF);
+    writeMSBFIRST((data >> 16) & 0xFF);
+    writeMSBFIRST((data >> 8)  & 0xFF);
+    writeMSBFIRST(data & 0xFF);
+  }
+  return 4;
+}
+
+
+//  EXPERIMENTAL 0.3.3
+size_t FastShiftOut::write(uint8_t * array, size_t size)
 {
   size_t n = 0;
   if (_bitOrder == LSBFIRST)
@@ -56,19 +118,42 @@ size_t write(const uint8_t \*buffer, size_t size)
     for (size_t i = size; i > 0; )      //  from end to begin ????
     {
       i--;
-      n += writeLSBFIRST(buffer[i]);
+      writeLSBFIRST(array[i]);
     }
   }
   else
   {
     for (size_t i = 0; i < size; i++)   //  from begin to end..
     {
-      n += writeMSBFIRST(buffer[i]);
+      writeMSBFIRST(array[i]);
     }
   }
-  return n;
+  return size;
 }
-*/
+
+
+uint8_t FastShiftOut::lastWritten(void)
+{
+  return _lastValue;
+}
+
+
+bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
+{
+  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
+  {
+    _bitOrder = bitOrder;
+    return true;
+  };
+  return false;
+}
+
+
+uint8_t FastShiftOut::getBitOrder(void)
+{
+  return _bitOrder;
+}
+
 
 
 size_t FastShiftOut::writeLSBFIRST(uint8_t data)
@@ -134,29 +219,6 @@ size_t FastShiftOut::writeMSBFIRST(uint8_t data)
 #endif
 
   return 1;
-}
-
-
-uint8_t FastShiftOut::lastWritten(void)
-{
-  return _lastValue;
-}
-
-
-bool FastShiftOut::setBitOrder(const uint8_t bitOrder)
-{
-  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
-  {
-    _bitOrder = bitOrder;
-    return true;
-  };
-  return false;
-}
-
-
-uint8_t FastShiftOut::getBitOrder(void)
-{
-  return _bitOrder;
 }
 
 

@@ -1,0 +1,26 @@
+# Syntax Colouring Map For Student
+
+# Data types (KEYWORD1)
+Student	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+
+getSize	KEYWORD2
+getCount	KEYWORD2
+reset	KEYWORD2
+add	KEYWORD2
+
+mean	KEYWORD2
+variance	KEYWORD2
+deviation	KEYWORD2
+estimatedDeviation	KEYWORD2
+
+intervalDelta	KEYWORD2
+meanLower	KEYWORD2
+meanUpper	KEYWORD2
+
+
+# Constants (LITERAL1)
+STUDENT_LIB_VERSION	LITERAL1
+
+

@@ -1,12 +1,10 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
-//
-// HISTORY: see changelog.md
 
 
 #include "FastShiftIn.h"
@@ -19,7 +17,7 @@ FastShiftIn::FastShiftIn(uint8_t dataIn, uint8_t clockPin, uint8_t bitOrder)
   pinMode(dataIn, INPUT);
   pinMode(clockPin, OUTPUT);
   //  https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/
-  digitalWrite(clockPin, LOW);  // assume rising pulses from clock
+  digitalWrite(clockPin, LOW);  //  assume rising pulses from clock
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
@@ -53,14 +51,13 @@ uint16_t FastShiftIn::read()
 
 uint16_t FastShiftIn::read16()
 {
-  uint16_t rv;
   if (_bitOrder == LSBFIRST)
   {
-    rv = readLSBFIRST();
+    uint16_t rv = readLSBFIRST();
     rv += uint16_t(readLSBFIRST()) << 8;
     return rv;
   }
-  rv = readMSBFIRST();
+  uint16_t rv = readMSBFIRST();
   rv <<= 8;
   rv += readMSBFIRST();
   return rv;
@@ -69,15 +66,14 @@ uint16_t FastShiftIn::read16()
 
 uint32_t FastShiftIn::read24()
 {
-  uint32_t rv;
   if (_bitOrder == LSBFIRST)
   {
-    rv = readLSBFIRST();
+    uint32_t rv = readLSBFIRST();
     rv += uint32_t(readLSBFIRST()) << 8;
     rv += uint32_t(readLSBFIRST()) << 16;
     return rv;
   }
-  rv = readMSBFIRST();
+  uint32_t rv = readMSBFIRST();
   rv <<= 8;
   rv += readMSBFIRST();
   rv <<= 8;
@@ -88,16 +84,15 @@ uint32_t FastShiftIn::read24()
 
 uint32_t FastShiftIn::read32()
 {
-  uint32_t rv;
   if (_bitOrder == LSBFIRST)
   {
-    rv = readLSBFIRST();
+    uint32_t rv = readLSBFIRST();
     rv += uint32_t(readLSBFIRST()) << 8;
     rv += uint32_t(readLSBFIRST()) << 16;
     rv += uint32_t(readLSBFIRST()) << 24;
     return rv;
   }
-  rv = readMSBFIRST();
+  uint32_t rv = readMSBFIRST();
   rv <<= 8;
   rv += readMSBFIRST();
   rv <<= 8;
@@ -107,6 +102,46 @@ uint32_t FastShiftIn::read32()
   return rv;
 }
 
+
+uint32_t FastShiftIn::lastRead(void)
+{
+  return _lastValue;
+}
+
+
+void FastShiftIn::read(uint8_t * array, uint8_t size)
+{
+  if (_bitOrder == LSBFIRST)
+  {
+    for (uint8_t i = 0; i < size; i++)
+    {
+      array[size - i - 1] = readLSBFIRST();
+    }
+    return;
+  }
+  for (uint8_t i = 0; i < size; i++)
+  {
+    array[i] = readMSBFIRST();
+  }
+  return;
+}
+
+
+bool FastShiftIn::setBitOrder(const uint8_t bitOrder)
+{
+  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
+  {
+    _bitOrder = bitOrder;
+    return true;
+  };
+  return false;
+}
+
+
+uint8_t FastShiftIn::getBitOrder(void)
+{
+  return _bitOrder;
+}
 
 
 uint8_t FastShiftIn::readLSBFIRST()
@@ -118,9 +153,11 @@ uint8_t FastShiftIn::readLSBFIRST()
   uint8_t cbmask2  = ~_clockBit;
   uint8_t inmask1  = _dataInBit;
 
-  for (uint8_t m = 1; m > 0; m <<= 1)
+  for (uint8_t m = 0x01; m > 0; m <<= 1)
   {
+    //  remember state register
     uint8_t oldSREG = SREG;
+    //  disable interrupts
     noInterrupts();
     //  clock pulse HIGH
     *_clockRegister |= cbmask1;
@@ -128,6 +165,7 @@ uint8_t FastShiftIn::readLSBFIRST()
     if ((*_dataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
     *_clockRegister &= cbmask2;
+    //  reset interrupts flag to previous state
     SREG = oldSREG;
   }
   _lastValue = rv;
@@ -154,7 +192,9 @@ uint8_t FastShiftIn::readMSBFIRST()
 
   for (uint8_t m = 0x80; m > 0; m >>= 1)
   {
+    //  remember state register
     uint8_t oldSREG = SREG;
+    //  disable interrupts
     noInterrupts();
     //  clock pulse HIGH
     *_clockRegister |= cbmask1;
@@ -162,6 +202,7 @@ uint8_t FastShiftIn::readMSBFIRST()
     if ((*_dataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
     *_clockRegister &= cbmask2;
+    //  reset interrupts flag to previous state
     SREG = oldSREG;
   }
   _lastValue = rv;
@@ -176,29 +217,6 @@ uint8_t FastShiftIn::readMSBFIRST()
 #endif
 
 }
-
-
-uint32_t FastShiftIn::lastRead(void)
-{
-  return _lastValue;
-};
-
-
-bool FastShiftIn::setBitOrder(const uint8_t bitOrder)
-{
-  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
-  {
-    _bitOrder = bitOrder;
-    return true;
-  };
-  return false;
-}
-
-
-uint8_t FastShiftIn::getBitOrder(void)
-{
-  return _bitOrder;
-};
 
 
 //  -- END OF FILE --

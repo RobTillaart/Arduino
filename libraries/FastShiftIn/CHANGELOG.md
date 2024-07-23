@@ -6,9 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2024-07-22
+- add **void read(uint8_t \*array, uint8_t size)** (experimental)
+- update readme.md
+- reorder functions in .cpp
+- minor edits
+
 ## [0.3.3] - 2023-10-31
 - update readme.md
-
 
 ## [0.3.2] - 2023-02-20
 - add (experimental) read16(), read24(), read32() functions.

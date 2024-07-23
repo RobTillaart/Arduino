@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftIn.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define FASTSHIFTIN_LIB_VERSION         (F("0.3.3"))
+#define FASTSHIFTIN_LIB_VERSION         (F("0.3.4"))
 
 
 class FastShiftIn
@@ -26,6 +26,9 @@ public:
   uint32_t read32(void);
   uint32_t lastRead(void);
 
+  //  Experimental 0.3.4
+  void     read(uint8_t * array, uint8_t size);
+
   //  returns false if bitOrder out of range.
   bool     setBitOrder(uint8_t bitOrder);
   uint8_t  getBitOrder(void);
@@ -37,7 +40,7 @@ public:
 private:
   uint8_t  _bitOrder;
   uint32_t _lastValue;
-  
+
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   volatile uint8_t *_dataInRegister;

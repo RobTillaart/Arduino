@@ -2,7 +2,7 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
 //     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
@@ -27,7 +27,7 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION                 (F("0.3.1"))
+#define BH1750FVI_LIB_VERSION                 (F("0.3.2"))
 
 
 #define BH1750FVI_DEFAULT_ADDRESS             0x23
@@ -56,7 +56,7 @@ public:
 
 
   float   getRaw();       //  no HIGH2 mode + no sensitivity factor.
-  float   getLux();
+  float   getLux();       //  corrected for mode, temp, angle and correctionFactor.
   int     getError();
 
 
@@ -98,8 +98,8 @@ public:
   //  read datasheet P3 and check figure 4 and 5.
   //  setAngle is constrained to -89..+89
   //  returns the angle correction factor
-  float   setAngle(int degrees = 0);
-  int     getAngle() { return _angle; };
+  float   setAngle(float degrees = 0);
+  float   getAngle() { return _angle; };
 
 
   //  datasheet P3 figure 7
@@ -107,7 +107,7 @@ public:
   //  to be used if temp is really hot or cold.
   //  returns the temperature correction factor
   float   setTemperature(int temp = 20);
-  int     getTemperature() { return _temp; };
+  int     getTemperature() { return _temperature; };
 
 
   //  datasheet Page 3 figure 1  (experimental correction)
@@ -131,9 +131,9 @@ private:
 
   uint32_t  _requestTime      = 0;
   float     _angleFactor      = 1;
-  int       _angle            = 0;
+  float     _angle            = 0;
   float     _tempFactor       = 1;
-  int       _temp             = 20;
+  int       _temperature      = 20;
   float     _waveLengthFactor = 1;
   int       _waveLength       = 580;
 

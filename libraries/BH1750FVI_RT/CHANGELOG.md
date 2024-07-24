@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+##[0.3.2] - 2024-07-23
+- Fix #24, update readme.md
+- setAngle() change parameter to float
+- minor edits.
+
 ##[0.3.1] - 2024-04-09
 - update GitHub actions
 - update URL in examples
 - update keywords.txt
 - fix CHANGELOG.md
 - minor edits
-
 
 ##[0.3.0] - 2023-10-18
 - simplify constructor / begin()

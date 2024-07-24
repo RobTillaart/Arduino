@@ -37,6 +37,7 @@ getAngle	KEYWORD2
 
 setTemperature	KEYWORD2
 getTemperature	KEYWORD2
+
 setWaveLength	KEYWORD2
 getWaveLength	KEYWORD2
 

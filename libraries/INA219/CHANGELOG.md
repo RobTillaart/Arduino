@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-08-14
+- fix **float getShuntVoltage()** for negative values, kudos to aguilerabr
+- add **int getMaxShuntVoltage()**, depends on GAIN (Table 7).
+- removed default for **setGain()** as it was not sensors default.
+- update readme.md
+
+----
+
 ## [0.3.1] - 2024-04-22
 - Bump version after Fix #17, Kudos to ChrisRed255
 

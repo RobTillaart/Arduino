@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.3.1"))
+#define INA219_LIB_VERSION              (F("0.4.0"))
 
 
 class INA219
@@ -54,9 +54,14 @@ public:
   //  voltage = 16, 32  (values below 32 are rounded to 16 or 32)
   bool     setBusVoltageRange(uint8_t voltage = 16);
   uint8_t  getBusVoltageRange();  //  returns 16 or 32.
-  //  factor = 1, 2, 4, 8
-  bool     setGain(uint8_t factor = 1);
+  //  factor = 1, 2, 4, 8 (8 = sensor default)
+  bool     setGain(uint8_t factor);  //  removed default parameter.
   uint8_t  getGain();
+  //  MaxShuntVoltagedepends on GAIN, 
+  //  See Table 7. Shunt Voltage Register Format
+  //  default = 320.
+  int      getMaxShuntVoltage();
+  
 
   //  configuration BUS
   //  use one of the next three

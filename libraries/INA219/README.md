@@ -33,6 +33,12 @@ A few important maxima, see datasheet, chapter 7, esp 7.5
 
 
 
+#### 0.4.0 Breaking change
+
+Version 0.4.0 fixed negative values for **getShuntVoltage()**.
+Older versions are obsolete now.
+
+
 #### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
@@ -146,14 +152,16 @@ See section below.
 Returns false if it could not write settings to device.
 - **bool setBusVoltageRange(uint8_t voltage = 16)** set to 16 or 32.
 Values <= 16 map to 16 and values between 16 and 32 map to 32.
-Returns false if voltage is above 32..
+Returns false if voltage is above 32.
 Returns false if it could not write settings to device.
 - **uint8_t getBusVoltageRange()** returns 16 or 32. (Volts)
-- **bool setGain(uint8_t factor = 1)** factor = 1, 2, 4, 8.
+- **bool setGain(uint8_t factor)** factor = 1, 2, 4, 8 (default).
 Determines the shunt voltage range. 40, 80, 160 or 320 mV. 
 Returns false if factor is not a valid value.
 Returns false if it could not write settings to device.
 - **uint8_t getGain()** returns set factor.
+- **int getMaxShuntVoltage()** returns 40, 80, 160 or 320 (mV).
+320 is the sensors default.
 
 
 #### Configuration BUS and SHUNT

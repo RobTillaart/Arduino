@@ -32,6 +32,7 @@ setBusVoltageRange	KEYWORD2
 getBusVoltageRange	KEYWORD2
 setGain	KEYWORD2
 getGain	KEYWORD2
+getMaxShuntVoltage	KEYWORD2
 
 setBusResolution	KEYWORD2
 setBusSamples	KEYWORD2

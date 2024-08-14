@@ -32,6 +32,11 @@ The channel selection is done with four select lines **S0..S3**.
 The device can be enabled/disabled by the enable line **E**.
 
 
+### 0.3.0 breaking change
+
+Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous versions.
+
+
 #### Compatibles
 
 Not tested, considered compatible.

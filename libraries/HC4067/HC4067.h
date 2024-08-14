@@ -3,7 +3,7 @@
 //    FILE: HC4067.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-01-25
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for CD74HC4067 1 x 16 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4067
 
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define HC4067_LIB_VERSION         (F("0.2.1"))
+#define HC4067_LIB_VERSION         (F("0.3.0"))
 
 
 class HC4067
@@ -58,8 +58,9 @@ public:
         //  only write changed pins. //  AVR only?
         if (mask & _changed)
         {
-          digitalWrite(_pins[i--], (mask & _new));
+          digitalWrite(_pins[i], (mask & _new));
         }
+        i--;
         mask >>= 1;
       }
       enable();

@@ -31,6 +31,10 @@ The channel selection is done with four select lines **A, B, C**
 
 The device can be enabled/disabled by the enable line **INH**
 
+### 0.3.0 breaking change
+
+Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous versions.
+
 
 #### Compatibles
 
@@ -99,7 +103,7 @@ This will result in another subset of the Y pins to select from.
 #include "HC4051.h"
 ```
 
-#### Core
+### Core
 
 - **HC4051(uint8_t A, uint8_t B, uint8_t C, uint8_t enablePin = 255)** constructor.
 Set the three select pins and optional the enable pin.
@@ -118,7 +122,7 @@ Note the device cannot be disabled if there is no enable pin configured.
 The selected channel is also returned when the multiplexer is disabled.
 
 
-#### Enable
+### Enable
 
 These functions work only if a valid **enablePin** is set in the constructor.
 

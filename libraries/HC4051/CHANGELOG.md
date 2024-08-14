@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-08-14
+- Fix for setChannel(), Thanks to C. Fraser!
+- update readme.md
+
+----
+
 ## [0.2.1] - 2024-05-28
 - change return type of **bool setChannel()**
 - verify the channel parameter of **bool setChannel()**

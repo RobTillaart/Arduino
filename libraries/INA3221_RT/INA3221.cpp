@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -162,7 +162,7 @@ uint32_t INA3221::getWarningAlert(uint8_t channel)
 
 //  mA wrappers
 
-int INA3221::setCriticalCurrect(uint8_t channel, float milliAmpere)
+int INA3221::setCriticalCurrent(uint8_t channel, float milliAmpere)
 {
   return setCriticalAlert(channel, 1000.0 * milliAmpere * _shunt[channel]);
 }

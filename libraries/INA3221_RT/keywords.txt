@@ -33,7 +33,7 @@ getCriticalAlert	KEYWORD2
 setWarningAlert	KEYWORD2
 getWarningAlert	KEYWORD2
 
-setCriticalCurrect	KEYWORD2
+setCriticalCurrent	KEYWORD2
 getCriticalCurrent	KEYWORD2
 setWarningCurrent	KEYWORD2
 getWarningCurrent	KEYWORD2

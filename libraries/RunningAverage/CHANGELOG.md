@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.7] - 2024-08-12
+- Fix #33, add **float getCoefficientOfVariation()**
+- update readme.md
+- update keywords.txt
+
 ## [0.4.6] - 2024-06-15
 - Fix #30, add **float getSum()** (thanks to heidnerd)
 - Fix #31, add **float getStandardDeviationLast(uint16_t count)** (thanks to alvaro-oliver)

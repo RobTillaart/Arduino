@@ -41,6 +41,7 @@ update the internal **\_sum**.
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/Student
 
 
 ## Interface
@@ -83,8 +84,14 @@ Updates the variables used by **getFastAverage()** to improve its accuracy again
 - **float getStandardDeviation()** returns the standard deviation of the current content. 
 Needs more than one element to be calculable.
 - **float getStandardError()** returns the standard error of the current content.
-- **float getMin()** returns minimum since last clear, does not need to be in the buffer any more.
-- **float getMax()** returns maximum since last clear, does not need to be in the buffer any more.
+- **float getCoefficientOfVariation()** returns coefficient of variation.
+This is defined as standardDeviation / Average. 
+It indicates if the distribution is relative small ( < 1) or relative wide ( > 1).
+Note it has no meaning when the average is zero (or close to zero).
+- **float getMin()** returns minimum since last call to clear(). 
+The returned value does not need to be in the buffer any more.
+- **float getMax()** returns maximum since last call to clear(). 
+The returned value does not need to be in the buffer any more.
 - **float getMinInBuffer()** returns minimum in the internal buffer.
 - **float getMaxInBuffer()** returns maximum in the internal buffer.
 - **float getSum()** returns sum of values in the internal buffer.
@@ -94,7 +101,7 @@ Needs more than one element to be calculable.
 
 - **bool bufferIsFull()** returns true if buffer is full.
 - **float getElement(uint16_t index)** get element directly from internal buffer at index. (debug)
-- **uint16_t getSize()** returns the size of the internal array.
+- **uint16_t getSize()** returns the size of the internal array as set in constructor.
 - **uint16_t getCount()** returns the number of slots used of the internal array.
 
 
@@ -114,6 +121,7 @@ Returns NAN if there are no elements and it will reduce count if there are less 
 count elements in the buffer.
 
 - **float getAverageLast(uint16_t count)** get the average of the last count elements.
+- **float getStandardDeviationLast(uint16_t count)** get the stddev of the last count elements.
 - **float getMinInBufferLast(uint16_t count)** get the minimum of the last count elements.
 - **float getMaxInBufferLast(uint16_t count)** get the maximum of the last count elements.
 
@@ -174,22 +182,14 @@ See examples
 #### Should
 
 - check for optimizations.
-  - divide by count happens often
-  - fillValue can be optimized (See #13)
-- ```temp = sqrt(temp/(_count - 1));```  is this correct STDDEV?
-  - divide by count or count - 1?  
-  - https://www.zaner.com/3.0/education/technicalstudies/MSD.asp
-  
+  - divide by count (-1) happens often.
+  - fillValue can be optimized (See #13).
+
 #### Could
 
 - create a double based derived class? 
   - Template class?
 - add error handling (important?).
-- investigate **modus()** most frequently occurring value.
-  - difficult with floats ?
-  - what to do when on two or more values are on par? (no modus?)
-- **int getUniqueValuesInBuffer()** O(n^2)
-
 
 #### Wont
 
@@ -198,6 +198,10 @@ See examples
 - clear(bool zero = true) to suppress setting all to 0. ?
   - makes **addValue()** slightly more complex
   - could introduce conflicts due to randomness data?
+- investigate **modus()** most frequently occurring value.
+  - difficult with floats ?
+  - what to do when on two or more values are on par? (no modus?)
+- **int getUniqueValuesInBuffer()** O(n^2).
 
 
 ## Support

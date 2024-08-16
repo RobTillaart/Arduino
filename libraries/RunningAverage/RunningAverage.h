@@ -2,7 +2,7 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.6
+// VERSION: 0.4.7
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.6"))
+#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.7"))
 
 
 class RunningAverage
@@ -36,6 +36,7 @@ public:
   //  return statistical characteristics of the running average
   float    getStandardDeviation() const;
   float    getStandardError() const;
+  float    getCoefficientOfVariation() const;
 
   //  returns min/max added to the data-set since last clear
   float    getMin() const { return _min; };
@@ -49,7 +50,7 @@ public:
   //  return true if buffer is full
   bool     bufferIsFull() const { return _count == _size; };
 
-  float    getElement(uint16_t index) const;
+  float    getElement(const uint16_t index) const;
 
   uint16_t getSize() const { return _size; }
   uint16_t getCount() const { return _count; }
@@ -61,13 +62,13 @@ public:
 
 
   //  get some stats from the last count additions.
-  float    getAverageLast(uint16_t count);
-  float    getStandardDeviationLast(uint16_t count);
-  float    getMinInBufferLast(uint16_t count);
-  float    getMaxInBufferLast(uint16_t count);
+  float    getAverageLast(const uint16_t count);
+  float    getStandardDeviationLast(const uint16_t count);
+  float    getMinInBufferLast(const uint16_t count);
+  float    getMaxInBufferLast(const uint16_t count);
 
   //       Experimental 0.4.3
-  float    getAverageSubset(uint16_t start, uint16_t count);
+  float    getAverageSubset(const uint16_t start, const uint16_t count);
 
 
 protected:

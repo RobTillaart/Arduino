@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.6
+// VERSION: 0.4.7
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
@@ -140,7 +140,7 @@ float RunningAverage::getMaxInBuffer() const
 
 
 //  returns the value of an element if exist, NAN otherwise
-float RunningAverage::getElement(uint16_t index) const
+float RunningAverage::getElement(const uint16_t index) const
 {
   if ((_count == 0) || (_array == NULL))
   {
@@ -166,7 +166,9 @@ float RunningAverage::getStandardDeviation() const
   {
     temp += pow((_array[i] - average), 2);
   }
-  //  TODO: when to divide by count || count-1?
+  //  when to divide by count || count-1?
+  //  - divide by count: whole set
+  //  - divide by count - 1: sample of larger set (which run avg is)
   temp = sqrt(temp/(_count - 1));
   return temp;
   //  see issue #13
@@ -188,6 +190,19 @@ float RunningAverage::getStandardError() const
   temp = temp/sqrt(n);
 
   return temp;
+}
+
+
+//  Return coefficient of variation.
+//  If buffer is empty or has only one element or zero average, return NAN.
+float RunningAverage::getCoefficientOfVariation() const
+{
+  float temp = getStandardDeviation();
+  if (temp == NAN) return NAN;
+  if (_sum == 0) return NAN;
+
+  float cv = temp * _count / _sum;
+  return cv;
 }
 
 
@@ -256,7 +271,7 @@ bool RunningAverage::setPartial(const uint16_t partial)
 }
 
 
-float RunningAverage::getAverageLast(uint16_t count)
+float RunningAverage::getAverageLast(const uint16_t count)
 {
   uint16_t cnt = count;
   if (cnt > _count) cnt = _count;
@@ -274,7 +289,7 @@ float RunningAverage::getAverageLast(uint16_t count)
 }
 
 
-float RunningAverage::getStandardDeviationLast(uint16_t count)
+float RunningAverage::getStandardDeviationLast(const uint16_t count)
 {
   uint16_t cnt = count;
   if (cnt > _count) cnt = _count;
@@ -296,7 +311,7 @@ float RunningAverage::getStandardDeviationLast(uint16_t count)
 }
 
 
-float RunningAverage::getMinInBufferLast(uint16_t count)
+float RunningAverage::getMinInBufferLast(const uint16_t count)
 {
   uint16_t cnt = count;
   if (cnt > _count) cnt = _count;
@@ -316,7 +331,7 @@ float RunningAverage::getMinInBufferLast(uint16_t count)
 }
 
 
-float RunningAverage::getMaxInBufferLast(uint16_t count)
+float RunningAverage::getMaxInBufferLast(const uint16_t count)
 {
   uint16_t cnt = count;
   if (cnt > _count) cnt = _count;
@@ -336,7 +351,7 @@ float RunningAverage::getMaxInBufferLast(uint16_t count)
 }
 
 
-float RunningAverage::getAverageSubset(uint16_t start, uint16_t count)
+float RunningAverage::getAverageSubset(const uint16_t start, const uint16_t count)
 {
   if ((_count == 0) || (_array == NULL))
   {

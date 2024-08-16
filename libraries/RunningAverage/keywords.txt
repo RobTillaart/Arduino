@@ -16,6 +16,7 @@ getAverage	KEYWORD2
 getFastAverage	KEYWORD2
 getStandardDeviation	KEYWORD2
 getStandardError	KEYWORD2
+getCoefficientOfVariation	KEYWORD2
 
 getMin	KEYWORD2
 getMax	KEYWORD2
@@ -23,7 +24,7 @@ getMinInBuffer	KEYWORD2
 getMaxInBuffer	KEYWORD2
 getSum	KEYWORD2
 
-bufferIsFull()	KEYWORD2
+bufferIsFull	KEYWORD2
 getElement	KEYWORD2
 getSize	KEYWORD2
 getCount	KEYWORD2

@@ -8,6 +8,9 @@
       "name": "Rob Tillaart",
       "email": "Rob.Tillaart@gmail.com",
       "maintainer": true
+    },
+    {
+      "name": "Maik Menz"
     }
   ],
   "repository":
@@ -15,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/GY521.git"
   },
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

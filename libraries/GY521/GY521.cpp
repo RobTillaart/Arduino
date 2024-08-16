@@ -1,7 +1,7 @@
 //
 //    FILE: GY521.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -26,12 +26,11 @@ GY521::GY521(uint8_t address, TwoWire *wire)
   _address = address;
   _wire    = wire;
 
-  _ax  = _ay  = _az  = 0;
-  _aax = _aay = _aaz = 0;
-  _gx  = _gy  = _gz  = 0;
-  _pitch = 0;
-  _roll  = 0;
-  _yaw   = 0;
+  //  initialize errors
+  //  don't do it in reset, as users might want to keep them
+  axe = aye = aze = 0;
+
+  reset();
 }
 
 
@@ -66,13 +65,14 @@ void GY521::reset()
   _ax  = _ay  = _az  = 0;
   _aax = _aay = _aaz = 0;
   _gx  = _gy  = _gz  = 0;
+  _gax = _gay = _gaz = 0;
   _pitch = 0;
   _roll  = 0;
   _yaw   = 0;
 }
 
 
-void GY521::calibrate(uint16_t times)
+bool GY521::calibrate(uint16_t times, float angleX, float angleY, bool inverted)
 {
   //  disable throttling / caching of read values.
   bool oldThrottle = _throttle;
@@ -89,29 +89,50 @@ void GY521::calibrate(uint16_t times)
   //  adjust times if zero.
   if (times == 0) times = 1;
 
-  //  summarize (6x) the measurements.
+  //  sum (6x) the measurements.
+  uint16_t samples = 0;
   for (uint16_t i = 0; i < times; i++)
   {
-    read();
-    _axe -= getAccelX();
-    _aye -= getAccelY();
-    _aze -= getAccelZ();
-    _gxe -= getGyroX();
-    _gye -= getGyroY();
-    _gze -= getGyroZ();
+    if (_readRaw() == GY521_OK)
+    {
+      _axe -= getAccelX();
+      _aye -= getAccelY();
+      _aze -= getAccelZ();
+      _gxe -= getGyroX();
+      _gye -= getGyroY();
+      _gze -= getGyroZ();
+      samples++;
+    }
   }
 
-  //  adjust calibration errors so read() should get all zero's on average.
-  float factor = 1.0 / times;
-  axe = _axe * factor;
-  aye = _aye * factor;
-  aze = _aze * factor;
+  if (samples == 0) return false;
+
+  //  scale gyro calibration errors so read() should get all zero's on average.
+  float factor = _raw2dps / samples;
   gxe = _gxe * factor;
   gye = _gye * factor;
   gze = _gze * factor;
 
+  //  scale accelerometer calibration errors so read() should get all zero's on average.
+  factor = _raw2g / samples;
+  axe = _axe * factor;
+  aye = _aye * factor;
+  aze = _aze * factor;
+
+  //  remove expected gravity from error
+  angleX *= GY521_DEGREES2RAD;
+  angleY *= GY521_DEGREES2RAD;
+  float _gravx = -sin(angleY) * cos(angleX);
+  float _gravy = sin(angleX);
+  float _gravz = cos(angleY) * cos(angleX);
+  axe -= _gravx;
+  aye -= _gravy;
+  aze += inverted ? -_gravz : _gravz;
+
   //  restore throttle state.
   _throttle = oldThrottle;
+
+  return true;
 }
 
 
@@ -137,32 +158,11 @@ int16_t GY521::read()
   }
   _lastTime = now;
 
-  //  Connected ?
-  _wire->beginTransmission(_address);
-  _wire->write(GY521_ACCEL_XOUT_H);
-  if (_wire->endTransmission() != 0)
+  int16_t rv = _readRaw();
+  if (rv  != GY521_OK)
   {
-    _error = GY521_ERROR_WRITE;
-    return _error;
+    return rv;
   }
-
-  //  Get the data
-  int8_t n = _wire->requestFrom(_address, (uint8_t)14);
-  if (n != 14)
-  {
-    _error = GY521_ERROR_READ;
-    return _error;
-  }
-  //  ACCELEROMETER
-  _ax = _WireRead2();           //  ACCEL_XOUT_H  ACCEL_XOUT_L
-  _ay = _WireRead2();           //  ACCEL_YOUT_H  ACCEL_YOUT_L
-  _az = _WireRead2();           //  ACCEL_ZOUT_H  ACCEL_ZOUT_L
-  //  TEMPERATURE
-  _temperature = _WireRead2();  //  TEMP_OUT_H    TEMP_OUT_L
-  //  GYROSCOPE
-  _gx = _WireRead2();           //  GYRO_XOUT_H   GYRO_XOUT_L
-  _gy = _WireRead2();           //  GYRO_YOUT_H   GYRO_YOUT_L
-  _gz = _WireRead2();           //  GYRO_ZOUT_H   GYRO_ZOUT_L
 
   //  duration interval
   now = micros();
@@ -546,6 +546,43 @@ uint8_t GY521::getRegister(uint8_t reg)
   }
   uint8_t val = _wire->read();
   return val;
+}
+
+
+///////////////////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+int16_t GY521::_readRaw()
+{
+  //  Connected ?
+  _wire->beginTransmission(_address);
+  _wire->write(GY521_ACCEL_XOUT_H);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = GY521_ERROR_WRITE;
+    return _error;
+  }
+
+  //  Get the data
+  int8_t n = _wire->requestFrom(_address, (uint8_t)14);
+  if (n != 14)
+  {
+    _error = GY521_ERROR_READ;
+    return _error;
+  }
+  //  ACCELEROMETER
+  _ax = _WireRead2();           //  ACCEL_XOUT_H  ACCEL_XOUT_L
+  _ay = _WireRead2();           //  ACCEL_YOUT_H  ACCEL_YOUT_L
+  _az = _WireRead2();           //  ACCEL_ZOUT_H  ACCEL_ZOUT_L
+  //  TEMPERATURE
+  _temperature = _WireRead2();  //  TEMP_OUT_H    TEMP_OUT_L
+  //  GYROSCOPE
+  _gx = _WireRead2();           //  GYRO_XOUT_H   GYRO_XOUT_L
+  _gy = _WireRead2();           //  GYRO_YOUT_H   GYRO_YOUT_L
+  _gz = _WireRead2();           //  GYRO_ZOUT_H   GYRO_ZOUT_L
+
+  return GY521_OK;
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.6.0"))
+#define GY521_LIB_VERSION           (F("0.6.1"))
 
 const float GRAVITY = 9.80655;
 
@@ -33,6 +33,7 @@ const float GRAVITY = 9.80655;
 
 //  CONVERSION CONSTANTS
 #define GY521_RAD2DEGREES          (180.0 / PI)
+#define GY521_DEGREES2RAD          (PI / 180.0)
 #define GY521_RAW2DPS              (1.0 / 131.0)
 #define GY521_RAW2G                (1.0 / 16384.0)
 
@@ -51,7 +52,7 @@ public:
   //  EXPERIMENTAL
   //  calibrate needs to be called to compensate for errors.
   //  must be called after setAccelSensitivity(as); and setGyroSensitivity(gs);
-  void     calibrate(uint16_t times);
+  bool     calibrate(uint16_t times, float angleX = 0, float angleY = 0, bool inverted = false);
 
   bool     wakeup();
   //  throttle to force delay between reads.
@@ -151,6 +152,7 @@ private:
 
   bool     _normalize = true;       //  default true.
 
+  int16_t  _readRaw();
   //  to read register of 2 bytes.
   int16_t  _WireRead2();
 

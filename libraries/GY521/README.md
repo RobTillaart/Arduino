@@ -24,6 +24,11 @@ It needs to be tested a lot more.
 See changelog.md for latest updates.
 
 
+#### 0.6.1
+
+Improved **calibrate()** to support any angle.
+
+
 #### 0.6.0
 
 Fixed a bug in calibration function, making previous versions obsolete.
@@ -92,6 +97,10 @@ This function overwrites the values of axe aye aze gxe gye gze.
 
 Note the **calibrate()** function takes time, depending on the number of times.
 
+Since version 0.6.1 the calibrate function is extended with optional parameters so the
+sensor can be calibrated in any angle. 
+**bool calibrate(times, angleX = 0, angleY = 0, inverted = false)**
+
 
 #### Manual calibration
 
@@ -120,14 +129,24 @@ Note call **Wire.begin()** before **begin()**.
 
 ### Calibrate
 
-- **void calibrate(uint16_t times)** This function overwrites the values of axe aye aze gxe gye gze.
-To get "quality error" offsets, the GY521 sensor should not move during the calibration.
-The parameter times determines the number of measurements made.
-Typical values are 100 or more.
-Please note this is a time consuming function.
+- **bool calibrate(uint16_t times, float angleX = 0, float angleY = 0, bool inverted = false)** 
+This function overwrites the values of axe aye aze and gxe gye gze.
+To improve the quality of the error offsets, the GY521 sensor should not move during the calibration.
+The parameter times determines the number of measurements the calibration function should make.
+Note that the actual number of samples can be less if a read of the sensor fails.
+If there is no good read at all the function returns **false**.
+Typical values for times are 100 or more. 
+If times is set to 0, it will be forced to 1.
+Please note this call will be very time consuming.
 
 Ideal the function **calibrate()** should continue until it is stable (how to define) for n reads.
-Drawback is that this would make the duration unpredictable. 
+Drawback is that this would make the duration unpredictable.
+
+New since 0.6.1 (experimental)  
+The optional parameters **float angleX = 0, float angleY = 0** should be between -90 .. +90.
+These can be used if the sensor is not lying flat during calibration. 
+The optional parameter **bool inverted = false** should be set to true if the sensor is 
+upside down. 
 
 
 ### Throttle
@@ -293,7 +312,9 @@ However if one specific is needed, please open an issue.
 
 #### Should
 
-- test **calibrate()** function for different sensitivities.
+- test **calibrate()** function 
+  - for different sensitivities.
+  - for different angles.
 
 #### Could
 

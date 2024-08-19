@@ -2,7 +2,7 @@
 //
 //    FILE: RunAvgWeight.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define RUNAVGWEIGHT_LIB_VERSION          (F("0.1.1"))
+#define RUNAVGWEIGHT_LIB_VERSION          (F("0.2.0"))
 
 
 class RunAvgWeight
@@ -22,8 +22,8 @@ public:
   explicit RunAvgWeight(const uint16_t size);
   ~RunAvgWeight();
 
-  void     clear();
-  void     addValue(const float value, const float weight = 1.0);
+  bool     clear();
+  bool     addValue(const float value, const float weight = 1.0);
   float    getValue(const uint16_t position);
   float    getWeight(const uint16_t position);
 
@@ -38,6 +38,7 @@ public:
   //        weight <> 1
   float    getStandardDeviation();
   float    getStandardError();
+  float    getCoefficientOfVariation();
 
   //  returns min/max added to the data-set since last clear.
   //  values without weight!

@@ -29,7 +29,21 @@ void setup(void)
     float value = i * 0.01 + 1;
     float weight = sqrt(i);
     myRA.addValue(value, weight);
-    Serial.print(myRA.bufferIsFull());
+
+    Serial.print(value);
+    Serial.print("\t");
+    Serial.print(weight);
+    Serial.print("\t");
+    Serial.print(myRA.getCount());
+    Serial.print("\t");
+    Serial.print(myRA.getSumValues(), 3);
+    Serial.print("\t");
+    Serial.print(myRA.getSumWeights(), 3);
+    Serial.print("\t\t");
+    Serial.print(myRA.getFastAverage(), 3);
+    Serial.print("\t");
+    Serial.print(myRA.getAverage(), 3);
+    Serial.println();
   }
   Serial.println();
   Serial.println();
@@ -51,10 +65,12 @@ void setup(void)
   Serial.println(myRA.getCount());
   Serial.println();
 
-  Serial.print("AVG:\t");
-  Serial.println(myRA.getAverage(), 5);
+  //  first do fast to see if it is right
+  //  if done after getAverage() it is same by definition.
   Serial.print("AVG(f):\t");
   Serial.println(myRA.getFastAverage(), 5);
+  Serial.print("AVG:\t");
+  Serial.println(myRA.getAverage(), 5);
   Serial.println();
 
   Serial.print("STDDEV:\t");

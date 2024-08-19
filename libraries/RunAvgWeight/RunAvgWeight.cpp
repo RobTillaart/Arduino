@@ -1,7 +1,7 @@
 //
 //    FILE: RunAvgWeight.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -31,7 +31,7 @@ RunAvgWeight::~RunAvgWeight()
 
 
 //  resets all counters
-void RunAvgWeight::clear()
+bool RunAvgWeight::clear()
 {
   _count = 0;
   _index = 0;
@@ -39,41 +39,49 @@ void RunAvgWeight::clear()
   _sumWeights = 0.0;
   _min = NAN;
   _max = NAN;
-  for (uint16_t i = _size; i > 0; )
+  if (_size == 0)
   {
-    // setting values and weight to zero keeps addValue simpler
-    _values[--i] = 0.0;
-    _weights[--i] = 0.0;
+    return false;
   }
+  for (uint16_t i = 0; i < _size; i++)
+  {
+    //  setting values and weights to zero keeps addValue simpler
+    _values[i] = 0.0;
+    _weights[i] = 0.0;
+  }
+  return true;
 }
 
 
 //  adds a new value to the data-set
-void RunAvgWeight::addValue(const float value, const float weight)
+bool RunAvgWeight::addValue(const float value, const float weight)
 {
-    if ((_values == NULL) || (_weights == NULL))
-    {
-      return;
-    }
+  if (_size == 0)
+  {
+    return false;
+  }
+  //  TODO weight should be > 0 or at least != 0?
 
-  _sumValues -= _values[_index];
+  _sumValues -= _values[_index] * _weights[_index];
   _values[_index] = value;
-  _sumValues += _values[_index];
+  _sumValues += _values[_index] * weight;
 
   _sumWeights -= _weights[_index];
   _weights[_index] = weight;
   _sumWeights += _weights[_index];
+
+  //  update index (next spot to add value).
   _index++;
-
-  if (_index == _size) _index = 0;  //  faster than %
-
+  if (_index >= _size) _index = 0;  //  faster than %
+  //  update count
+  if (_count < _size) _count++;
+  
   //  handle min max
-  if (_count == 0) _min = _max = value;
+  if (_count == 1) _min = _max = value;
   else if (value < _min) _min = value;
   else if (value > _max) _max = value;
 
-  //  update count as last otherwise if ( _count == 0) above will fail
-  if (_count < _size) _count++;
+  return true;
 }
 
 
@@ -190,6 +198,20 @@ float RunAvgWeight::getStandardError()
   temp = temp/sqrt(n);
 
   return temp;
+}
+
+
+//  Return coefficient of variation.
+//  If buffer is empty or has only one element or zero average, return NAN.
+float RunAvgWeight::getCoefficientOfVariation()
+{
+  float temp = getStandardDeviation();
+  if (temp == NAN) return NAN;
+  if (_sumValues == 0) return NAN;
+
+  //  float cv = temp * getFastAverage();
+  float cv = temp * _sumWeights / _sumValues;
+  return cv;
 }
 
 

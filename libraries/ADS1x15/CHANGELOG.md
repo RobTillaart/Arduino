@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-08-20
+- Fix #80, setComparatorPolarity() and setComparatorLatch() inverting.
+- add test example to test parameters.
+- add unit tests to test parameters.
+
+----
+
 ## [0.4.5] - 2024-07-03
 - Fix #78, prevent infinite loop. (Thanks to devmirek).
 - Fix #76 (again), update readme.md Comparator Polarity.

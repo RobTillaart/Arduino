@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.5
+// VERSION: 0.5.0
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -342,7 +342,7 @@ uint8_t ADS1X15::getComparatorMode()
 
 void ADS1X15::setComparatorPolarity(uint8_t pol)
 {
-  _compPol = pol ? 0 : 1;
+  _compPol = pol == 0 ? 0 : 1;
 }
 
 
@@ -354,7 +354,7 @@ uint8_t ADS1X15::getComparatorPolarity()
 
 void ADS1X15::setComparatorLatch(uint8_t latch)
 {
-  _compLatch = latch ? 0 : 1;
+  _compLatch = latch == 0 ? 0 : 1;
 }
 
 
@@ -502,7 +502,7 @@ bool ADS1X15::_writeRegister(uint8_t address, uint8_t reg, uint16_t value)
   _wire->write((uint8_t)(value >> 8));
   _wire->write((uint8_t)(value & 0xFF));
   int rv = _wire->endTransmission();
-  if (rv != 0) 
+  if (rv != 0)
   {
     _error =  ADS1X15_ERROR_I2C;
     return false;
@@ -516,7 +516,7 @@ uint16_t ADS1X15::_readRegister(uint8_t address, uint8_t reg)
   _wire->beginTransmission(address);
   _wire->write(reg);
   int rv = _wire->endTransmission();
-  if (rv == 0) 
+  if (rv == 0)
   {
     rv = _wire->requestFrom((int) address, (int) 2);
     if (rv == 2)

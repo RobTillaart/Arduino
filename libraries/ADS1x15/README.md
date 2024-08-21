@@ -55,6 +55,12 @@ This pin can be used both for interrupts or polling, see table of examples below
 |  ADS_read_RDY.ino                 |   polling    |
 
 
+### 0.5.0 Breaking change
+
+Fixed #80, setComparatorPolarity() and setComparatorLatch() as these inverted
+the setting.
+
+
 ### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change.

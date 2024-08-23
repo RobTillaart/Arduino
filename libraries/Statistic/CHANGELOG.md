@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.7] - 2024-08-20
+- Fix #21, add **getCoefficientOfVariation()**
+- update readme.md
+- update keywords.txt
+
 ## [1.0.6] - 2023-11-22
 - update readme.md
-
 
 ## [1.0.5] - 2023-06-29
 - fix #18 add **range()** and **middle()**

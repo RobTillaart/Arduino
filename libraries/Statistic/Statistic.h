@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //          modified at 0.3 by Gil Ross at physics dot org
 //          template version 1.0.0 by Glen Cornell
-// VERSION: 1.0.6
+// VERSION: 1.0.7
 // PURPOSE: Recursive Statistical library for Arduino
 // HISTORY: See CHANGELOG.md
 //
@@ -37,7 +37,7 @@
 // and HAVE_STDCXX_CSTDINT feature macros in your build environment.
 
 
-#define STATISTIC_LIB_VERSION                     (F("1.0.6"))
+#define STATISTIC_LIB_VERSION                     (F("1.0.7"))
 
 
 #if defined(__AVR__)
@@ -230,6 +230,14 @@ public:
     return std::sqrt( _extra.ssqdif() / (_cnt - 1));
   }
 
+  value_type getCoefficientOfVariation() const {
+    if (_sum == 0) return NaN;
+    value_type temp = pop_stdev();  //  as all samples are available
+    if (temp == NaN) return NaN;
+    //  return standard deviation / average
+    value_type cv = temp * _cnt / _sum;
+    return cv;
+  }
 
   //  deprecated methods:
   Statistic(bool) {

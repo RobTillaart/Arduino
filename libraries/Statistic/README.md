@@ -52,6 +52,7 @@ The template version (1.0.0) is created by Glen Cornell  (Thanks!).
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/Student
 
 
 ## Interface
@@ -90,6 +91,10 @@ These three functions only work if **useStdDev == true** (in the template).
 - **typename T pop_stdev()**     returns NAN if count == zero.
 pop_stdev = population standard deviation, 
 - **typename T unbiased_stdev()** returns NAN if count == zero.
+- **typename T getCoefficientOfVariation()** returns coefficient of variation.
+This is defined as standardDeviation / Average. 
+It indicates if the distribution is relative small ( < 1) or relative wide ( > 1).
+Note it has no meaning when the average is zero (or close to zero).
 
 
 #### Deprecated methods

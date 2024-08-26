@@ -6,11 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-08-26
+- fix #11, add dice example
+- add single pixel example
+- update spectrum_column example
+- fix special chars, LCD_SQROOT + LCD_SIGMA + LCD_SUM
+- add custom chars +- and euro
+- fix version in .cpp
+
 ## [0.2.1] - 2024-01-08
 - add ESP8266 performance figures.
 - update readme.md
 - clean up examples
-
 
 ## [0.2.0] - 2024-01-02
 - Fix #6, clean up code

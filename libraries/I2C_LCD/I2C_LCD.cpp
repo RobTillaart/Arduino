@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_LCD.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.2
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD

@@ -37,15 +37,19 @@ void setup()
   lcd.print(LCD_BETA);
   lcd.print(LCD_EPSILON);
   lcd.print(LCD_MU);
+  lcd.print(LCD_SIGMA);
   lcd.print(LCD_RHO);
+  lcd.print(LCD_SQROOT);
+
   lcd.print(LCD_THETA);
   lcd.print(LCD_INFINITY);
   lcd.print(LCD_OHM);
-  lcd.print(LCD_SIGMA);
+  lcd.print(LCD_SUM);
   lcd.print(LCD_PI);
   lcd.print(LCD_XAVG);
   lcd.print(LCD_DEGREE);
   lcd.print(LCD_DIVIDE);
+
 
   lcd.setCursor(0, 3);
   lcd.print("done...");

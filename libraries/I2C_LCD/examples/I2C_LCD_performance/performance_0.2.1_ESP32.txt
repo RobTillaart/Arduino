@@ -1,0 +1,49 @@
+
+IDE:     1.8.19
+Board:   ESP32 240 MHz
+
+
+I2C_LCD\examples\I2C_LCD_performance\I2C_LCD_performance.ino
+I2C_LCD_LIB_VERSION: 0.2.1
+
+performance
+speed:	100000
+print time (us): 4265
+clear time (us): 2000
+
+performance
+speed:	200000
+print time (us): 2420
+clear time (us): 2000
+
+performance
+speed:	300000
+print time (us): 1807
+clear time (us): 2000
+
+performance
+speed:	400000
+print time (us): 1497
+clear time (us): 2000
+
+performance
+speed:	500000
+print time (us): 1322
+clear time (us): 2000
+
+performance
+speed:	600000
+print time (us): 1184
+clear time (us): 2000
+
+performance
+speed:	700000
+print time (us): 1108
+clear time (us): 2000
+
+performance
+speed:	800000
+print time (us): 1037
+clear time (us): 2000
+
+

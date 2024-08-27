@@ -11,10 +11,12 @@
 
 # AtomicWeight
 
-Arduino library for atomic weights, and related functions.
+Arduino library for atomic weights from the periodic table of elements, and related functions.
 
 
 ## Description
+
+**Experimental**
 
 This library is mainly written to be used for educational purposes.
 Of course are other applications possible.
@@ -45,7 +47,7 @@ Another application for the conversion functions is create lookup-tables, see ex
 Note: the library is experimental. More testing is needed. Feedback welcome.
 
 
-#### Internal
+### Internal
 
 The PTOE class uses a table with "scaled" weights to save RAM.
 - it stores weights as **uint16_t**, instead of floats (saves 236 bytes).
@@ -57,13 +59,12 @@ The PTOE class uses a table with "scaled" weights to save RAM.
 - relative error per element is less than 0.09%  (~40% better than previous 0.15%).
 - **Breaking:** numbers are **not** compatible with 0.1.x version
 
-
 **Version 0.1.x (for reference)**
 - ATOMIC_WEIGHT_FACTOR = 1.0 / 222.909 == weight heaviest element(118) / 65535.
 - relative error per element is less than 0.15%.
 
 
-#### Related
+### Related
 
 List of formulae to play with.
 - https://en.wikipedia.org/wiki/Glossary_of_chemical_formulae
@@ -105,7 +106,7 @@ Note: the find function is case sensitive.
 If the element is out of range **NULL** will be returned.
 
 
-#### SplitElements 
+### SplitElements 
 
 - **uint8_t splitElements(const char \* formula)** split a formula in an internal list of elements.
 Returns the number of different elements found.
@@ -126,7 +127,7 @@ for (int i = 0; i < nr; i++)
 }
 ```
 
-#### AtomPercentage
+### AtomPercentage
 
 - **uint32_t count(const char \* formula, const char \* abbreviation = NULL)**
   - If (abbreviation != NULL) returns the total atoms of one element in a formula.
@@ -141,7 +142,7 @@ ap = PTOE.atomPercentage("H2SO4", "O");
 ```
 
 
-#### Conversion grams moles
+### Conversion grams moles
 
 - **float moles2grams(const char \* formula, float moles = 1.0)**
 Returns the amount of grams needed for a given amount of moles.
@@ -158,7 +159,7 @@ grams = PTOE.moles2grams("KOH", 2.3);
 ```
 
 
-#### Weight
+### Weight
 
 The unit of weight is **Daltons** (Da) or the atomic mass unit (amu), think of it as the number of nucleons.
 A **Dalton** is defined as 1/12th of the weight of an Carbon atom.
@@ -179,13 +180,19 @@ E.g one can weigh the H atoms in H2O (2 of 18).
 aw = PTOE.weight("H2O", "H");
 ```
 
+0.3.0 added conversion of weights to electronVolts.
 
-#### Formulas
+- **float weightEV(uint8_t element)**
+- **float weightEV(char \* formula, char \* abbrev = NULL)**
+
+
+### Formulas
 
 All element abbreviations are one or two characters long.
 The first char must be upper case, the (optional) second must be lower case.
 (except for element 0, n == neutronium, which is added as placeholder).
 Elements can be followed by a number indicating an amount, no number implies 1.
+Since 0.3.0 these numbers may be floats (as such formulae can be found in minerals).
 
 Formulas do not care about the order of the atoms. 
 So "C6H6" is equal to "H6C6" or even "CCCCCCHHHHHH" or "C3H3C3H3" etc.
@@ -193,52 +200,54 @@ So "C6H6" is equal to "H6C6" or even "CCCCCCHHHHHH" or "C3H3C3H3" etc.
 The formula parsing supports round brackets () to indicate groups in the formula.
 The library does **not** support square brackets to indicate a group.
 
-The library does **not** support \*6H20 to indicate hydration.
+The library does **not** support e.g. \*6H20 to indicate hydration.
 
 Valid formula's might look like:
 - "B" = single element, Hydrogen, 1 atom.
-- "Na" = single element, Sodium, 1 atom..
+- "Na" = single element, Sodium, 1 atom.
 - "C6" = single element, multiple times, Benzene.
 - "H2SO4" = compound molecule, no groups (sulphuric acid).
 - "C6(COOH)2" = repeating group, (artificial example).
 - "(H2O)987" = 987 water molecules.
 - "YBa2Cu3O7" = compound molecule, == some superconductor-ish material.
 - "Ba((OH)4(COOH)2)3" - recursive repeating groups (artificial example).
+- "(Mg0.4Fe1.6)2.0SiO4" == Olivine, float indices
 
-Numbers of an element or a group should be between 1 and 2^32-1 (uint32_t).
-However in practice values are relative small (< 20).
+In theory the numbers of an element or a group should be between 1 and 2^20 (float).
+In practice however, the values used are relative small (< 100 or 1000).
 - zero (0) is mapped upon 1.
 - very large numbers cause overflow when printing the output of some functions.
 Use - https://github.com/RobTillaart/printHelpers if needed.
 
 
-#### MassPercentage
+### MassPercentage
 
 The **massPercentage(formula, abbreviation)** function can determine the percentage of the weight 
 a selected element has in a formula, e.g. the weight of the Oxygen in **H2SO4**.
 This is calculated by dividing the weight of the element by the total weight.
 
 ```cpp
-mp = PTOE.massPercentage("H2SO4", "O");
+float mp = PTOE.massPercentage("H2SO4", "O");
 ```
 
 If you want to do that for all elements it might be more efficient to calculate the weight 
 of the whole formula once.
 
 
-#### Avogadro, Dalton, electronVolt.
+### Avogadro, Dalton, electronVolt.
+
 
 The library provides the following (SI) constants:
 - **const float AVOGADRO = 6.02214076e+23** number of particles in one mole.
-- **const float DALTON = 1.66053907e-24** weight of one nucleon in grams.
+- **const float DALTON = 1.66053907e-24** weight of one nucleon in grams (average).
   - relation: DALTON \* AVOGADRO == 1.0
-- **const float ELEKTRON_VOLT_JOULE = 1.602176565e-19** eV in Joule
-- **const float ELEKTRON_VOLT_GRAM = 1.7826619e-39** eV in grams  (E=Mc2)
-- **const float DALTON_JOULE = 1.036427015e5** == DALTON / ELEKTRON_VOLT_JOULE.
-- **const float DALTON_EV = 931.4940954e12** == DALTON / ELEKTRON_VOLT_GRAM.
+- **const float PROTON_WEIGHT = 1.6726231e-24** weight in grams of an proton.
+- **const float NEUTRON_WEIGHT = 1.6749286e-24** weight in grams of an neutron.
+- **const float ELECTRON_WEIGHT = 9.10938356e-28** weight in grams of one electron.
+- **const float DALTON2EV = 931494697.25613** e.g. 1 proton = 931 MeV.
 Can be used to convert the atomic mass to electron volt.
 
-These constants are not directly used in the library however they fit the scope of the library.
+These constants are not all used in the library however they fit the scope of the library.
 There will be functions based upon these constants in the future.
 
 The **AVOGADRO** constant is the proportionality factor that relates the number of constituent particles 
@@ -250,7 +259,7 @@ Use https://github.com/RobTillaart/printHelpers to print numbers in the scientif
 This will prevent printing **OVF** overflow or **0.000**.
 
 
-#### Debug
+### Debug
 
 - **float weightFactor()** returns the weightFactor, that was used to
 minimize the memory used for the elements mass lookup table.
@@ -260,11 +269,8 @@ minimize the memory used for the elements mass lookup table.
 
 #### Must
 
-- improve documentation
-  - reorganize.
-- float => double 
-- EV is at the end of range float...
-
+- improve and reorganize documentation
+- float => double for precision.
 
 #### Should
 
@@ -272,15 +278,12 @@ minimize the memory used for the elements mass lookup table.
   - **uint32_t protons(formula)** worker, formula can be single element.
   - **uint32_t neutrons(formula)** uses protons()
   - **uint32_t electrons(formula)** uses protons()
-- add weight of electron as constant. for completeness.
-- functions around **AVOGADRO**, **DALTON** etc.
-  - **float weightEV(formula)**
-  - **float dalton2EV(float Dalton)** to express mass in eV.
-  - **float dalton2Joule(float Dalton)**
-
+- handle Fe2+ Fe3+ (ignore number when encountering +)
 
 #### Could
 
+- support progmem formulas **weight(F("CaO2"))**?
+  - user could use a char buffer to copy.
 - extend unit tests
 - extend formula parser with error codes.
   - which ones?
@@ -292,6 +295,9 @@ minimize the memory used for the elements mass lookup table.
   - ==> more memory...
 - support \[] square brackets too.
   - (NH4)2\[Pt(SCN)6]
+- support spaces for readability?
+  - "Ba (OH)4 (COOH)11 SiO4" ==> after last digit
+  - special print function for formulae
 
 
 - add a derived class PERIODIC_TABLE?
@@ -326,6 +332,7 @@ minimize the memory used for the elements mass lookup table.
   - evaporate point
   - 2 bytes per temp 4 x 118 = 476 bytes
   - compression 3 bytes for 2 temps 2x 12 bits = 0..4095 K = 354 bytes
+- exponential notation floats? (H2O)1e30
 
 
 ## Support

@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-08-27
+- support float indices e.g. "(Mg0.4Fe1.6)2.0SiO4" == Olivine
+- update **atomic_weight_formula.ino**
+- add **minerals.h** (short list)
+- add **atomic_weight_minerals.ino** 
+- update / clean up constants
+- add **weightEV()**
+- add **weightEV()**
+- add **dalton2EV()**
+- update readme.md
+
+----
+
 ## [0.2.2] - 2024-04-07
 - update GitHub actions
 - refactor internal names for readability

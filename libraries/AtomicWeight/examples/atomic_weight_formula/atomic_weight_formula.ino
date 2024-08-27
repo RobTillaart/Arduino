@@ -17,6 +17,8 @@ char formula3[24] = "CuO2";
 char formula4[24] = "(COH)3(COH)2COH";
 char formula5[24] = "(CH)6O6";
 char formula6[24] = "xH2";        //  fails => 0;
+char formula7[24] = "(CuO2)0.25";
+char formula8[24] = "(Mg0.4Fe1.6)2.0SiO4";   //  Olivine mineral
 
 
 void setup()
@@ -71,6 +73,14 @@ void setup()
   Serial.print(" \t");
   Serial.println(ptoe.weight(formula6));
 
+  Serial.print(formula7);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula7));
+
+  Serial.print(formula8);
+  Serial.print(" \t");
+  Serial.println(ptoe.weight(formula8));
+
   Serial.print("()");
   Serial.print(" \t");
   Serial.println(ptoe.weight("()"));
@@ -82,6 +92,10 @@ void setup()
   Serial.print("(H2O)255");
   Serial.print(" \t");
   Serial.println(ptoe.weight("(H2O)255"));
+
+  Serial.print("(H2O)255.0");
+  Serial.print(" \t");
+  Serial.println(ptoe.weight("(H2O)255.0"));
 }
 
 

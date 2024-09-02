@@ -2,7 +2,7 @@
 //
 //    FILE: MHZCO2.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino Library for MHZ series CO2 sensors
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MHZCO2_LIB_VERSION        (F("0.2.0"))
+#define MHZCO2_LIB_VERSION        (F("0.2.1"))
 
 #define MHZCO2_OK                 0
 #define MHZCO2_TIMEOUT            -10
@@ -47,11 +47,18 @@ public:
   void     calibrateSpan(uint16_t span);
   void     calibrateAuto(bool mode = true);
 
+  //  default = 1000 millisecond
+  //  depending on baud rate (9600) low values may fail
+  //  0 means no time ut check.
+  void     setTimeOut(uint16_t timeout = 1000);
+  uint16_t getTimeOut();
+
 
 protected:
-  Stream * _str;
-  uint32_t _startTime;
-  uint32_t _lastMeasurement;
+  Stream * _str         = NULL;
+  uint32_t _startTime   = 0;
+  uint32_t _lastMeasurement = 0;
+  uint16_t _timeout     = 1000;
 
   uint16_t _PPM         = 0;
   int      _CO2         = 0;

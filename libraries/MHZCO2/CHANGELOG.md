@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2024-09-02
+- merge #11, update lastMeasurement only if read is successful (kudos JonNelson)
+- add **void setTimeOut(uint16_t timeout = 1000)** to configure timeout
+- add **uint16_t getTimeOut()**
+- add example **MHZCO2_sw_serial_timeout.ino**.
+- update unit tests
+- update readme.md
+- minor edits
+
 ## [0.2.0] - 2023-12-29
 - Fix #9 bug in **setPPM()**
 - fix race condition in **receive()**

@@ -28,6 +28,9 @@ calibrateZero	KEYWORD2
 calibrateSpan	KEYWORD2
 calibrateAuto	KEYWORD2
 
+setTimeout	KEYWORD2
+getTimeout	KEYWORD2
+
 
 # Constants (LITERAL1)
 MHZCO2_LIB_VERSION	LITERAL1

@@ -54,6 +54,41 @@ unittest(test_constructor)
 }
 
 
+unittest(test_functions_no_measurement)
+{
+  MHZCO2 A;
+
+  A.begin(&Serial);
+
+  //  verify default
+  assertEqual(0, A.getPPM());
+  assertEqual(0, A.getCO2());
+  assertEqual(0, A.getTemperature());
+  assertEqual(0, A.getAccuracy());
+  assertEqual(0, A.getMinCO2());
+}
+
+
+unittest(test_timeout)
+{
+  MHZCO2 A;
+
+  A.begin(&Serial);
+
+  //  verify default
+  assertEqual(1000, A.getTimeOut());
+  //  just a value
+  A.setTimeOut(2000);
+  assertEqual(2000, A.getTimeOut());
+  //  zero should work.
+  A.setTimeOut(0);
+  assertEqual(0, A.getTimeOut());
+  //  default parameter
+  A.setTimeOut();
+  assertEqual(1000, A.getTimeOut());
+}
+
+
 unittest_main()
 
 

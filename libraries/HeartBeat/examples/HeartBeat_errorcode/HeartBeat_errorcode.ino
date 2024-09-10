@@ -39,6 +39,8 @@ void loop()
   if (millis() > 3000) HB.code(1369631);
   if (millis() > 20000) HB.codeOff();
   if (millis() > 30000) HB.enable();
+  Serial.println(HB.codeCompleted());
+  delay(200);
 }
 
 

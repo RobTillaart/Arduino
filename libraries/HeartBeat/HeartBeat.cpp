@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -184,6 +184,13 @@ void HeartBeatDiag::codeOff()
 }
 
 
+bool HeartBeatDiag::codeCompleted()
+{
+  if (_codeMask > 0) return false;
+  return true;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 //  HEARTBEATSL
@@ -268,6 +275,13 @@ bool HeartBeatSL::code(const char * str)
 void HeartBeatSL::codeOff()
 {
   _codeMask = 0;
+}
+
+
+bool HeartBeatSL::codeCompleted()
+{
+  if (_codeMask > 0) return false;
+  return true;
 }
 
 

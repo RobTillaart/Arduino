@@ -6,11 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2024-09-09
+- Fix #12, add **bool codeCompleted()** to HeartBeatDiag and HeartBeatSL
+- update readme.md
+- update keywords.txt
+
 ## [0.3.3] - 2022-11-09
 - update readme.md
 - fix version in .cpp
 - update keywords.txt
-
 
 ## [0.3.2] - 2022-11-09
 - add changelog.md

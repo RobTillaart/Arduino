@@ -39,7 +39,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "VERSION: %s\n", (char *) HEARTBEAT_LIB_VERSION );
+  fprintf(stderr, "HEARTBEAT_LIB_VERSION: %s\n", (char *) HEARTBEAT_LIB_VERSION );
 }
 
 
@@ -105,6 +105,28 @@ unittest(test_dutycycle)
 }
 
 
+unittest(test_HBDIAG)
+{
+  HeartBeatDiag HBD;
+  HBD.begin(13, 1);
+
+  //  verify default value
+  assertTrue(HBD.codeCompleted());
+}
+
+
+unittest(test_HBSL)
+{
+  HeartBeatSL HBD;
+  HBD.begin(13, 1);
+
+  //  verify default value
+  assertTrue(HBD.codeCompleted());
+}
+
+
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

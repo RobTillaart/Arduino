@@ -78,6 +78,11 @@ HeartBeatDiag uses more RAM and PROGMEM than HeartBeatSL.
 For more complex patterns, please check my pulsePattern library.
 
 
+### Related
+
+- https://github.com/RobTillaart/pulsePattern
+
+
 ## Interface
 
 ```cpp
@@ -123,8 +128,9 @@ The interface of **HeartBeatSL** adds of the following functions to **HeartBeat*
 - **HeartBeatSL()** constructor.
 - **bool code(const char \* str)** executes the pattern ONE time. 
 Repeating the pattern means repeating the call. 
-The max supported string length is **7**.
+The max supported string length is **7** as pattern is stored in a byte.
 - **void codeOff()** explicitly stops the pattern. Forced stop.
+- **bool codeCompleted()** returns true if pattern is executed completely.
 
 
 Minimal example
@@ -171,6 +177,7 @@ The interface of **HeartBeatDiag** adds of the following functions:
 Repeating the pattern means repeating the call. 
 The max supported pattern length is **9**.
 - **void codeOff()** explicitly stops the pattern. Forced stop.
+- **bool codeCompleted()** returns true if pattern is executed completely.
 
 
 Minimal example
@@ -242,6 +249,8 @@ See examples
 
 - investigate a pattern recognizer (fun)
   - e.g. with an LDR or lux sensor.
+- HeartBeatSL
+  - extend code length to 16 (bit)?
 
 #### Wont
 

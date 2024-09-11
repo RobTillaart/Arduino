@@ -108,6 +108,18 @@ unittest(test_lastValue)
 }
 
 
+unittest(test_dampening)
+{
+  MINMAX mm;
+
+  for (int i = 0; i < 10; i++)
+  {
+    mm.setDampening(i);
+    assertEqualFloat(i, mm.getDampening(), 0.01);
+  }
+}
+
+
 unittest_main()
 
 

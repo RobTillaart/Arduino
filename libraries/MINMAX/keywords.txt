@@ -12,13 +12,18 @@ addCallBack	KEYWORD2
 
 setAutoResetCount	KEYWORD2
 getAutoResetCount	KEYWORD2
-minimum	KEYWORD2
-maximum	KEYWORD2
-count	KEYWORD2
 
 lastValue	KEYWORD2
+count	KEYWORD2
+
+minimum	KEYWORD2
+maximum	KEYWORD2
+
 lastMin	KEYWORD2
 lastMax	KEYWORD2
+
+setDampening	KEYWORD2
+getDampening	KEYWORD2
 
 
 # Constants (LITERAL1)

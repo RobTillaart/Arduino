@@ -38,8 +38,7 @@ Finally the library keeps track when the last peaks occurred.
 ```cpp
 #include "MINMAX.h"
 ```
-
-#### Core
+### Core
 
 - **MINMAX()** Constructor,
 - **uint8_t add(float value)** add next value. Returns status (bit flags), see table below.
@@ -52,7 +51,7 @@ If no call to **add()** is made yet it will return 0.
 - **lastValue()** returns last value added.
 
 
-#### AutoReset
+### AutoReset
 
 - **uint32_t count()** returns number of **add()** calls since last (auto)reset.
 - **void setAutoResetCount(uint32_t count)** sets an auto-reset moment after count calls to **add()**.
@@ -61,13 +60,13 @@ When count is set to 0, there will be no autoReset.
 - **uint32_t getAutoResetCount()** returns set value.
 
 
-#### Timestamps
+### Timestamps
 
 - **lastMin()** timestamp in millis() when minimum was last updated.
 - **lastMax()** timestamp in millis() when maximum was last updated.
 
 
-#### Return flags add()
+### Return flags add()
 
 Return flags of **add()** - is a bit mask.
 
@@ -82,14 +81,14 @@ NOTE: After a reset() the next add() will return both MINMAX_MIN_CHANGED and MIN
 
 NOTE: After an autoReset in add() it will return 0x83.
 
-#### CallBack
+### CallBack
 
 - **void addCallBack( void (\* func)(void) )** add a function to be called
 when the minimum or the maximum has changed.
 See examples.
 
 
-#### setResetDefaults()
+### setResetDefaults()
 
 - **void setResetDefaults(minimum, maximum)** sets the default values for minimum and maximum defining an initial range / window when **reset()** is called.
 This will reduce an abundance of new min/max values in the first part of a stream, possibly causing unneeded call back calls.
@@ -113,15 +112,34 @@ mm.reset();                    //  activate them
 ```
 
 
+### Dampening
+
+Since 0.3.0 the MINMAX library has experimental support for a linear dampening 
+of the minimum and maximum.
+
+In every call to **add()** the values of MIN and MAX are brought closer together.
+Therefore one does not need to reset them as these two are constantly adjusted
+towards each other. 
+The amount of dampening is a positive float and its value depends on the typical
+values one adds with **mm.add(value)**. 
+If the dampening value is too large, the min and max will follow the "signal"
+quite fast.
+
+Note: MIN is dampened first, and MAX is later. This might cause that MAX cannot
+be dampened anymore for the full amount. This is an arbitrary choice.
+
+- **void setDampening(const float value)** set dampening value. Default 0.
+- **float getDampening()** get the current dampening value.
+
+Note: The behavior might change a bit in the future e.g. both dampen for 50% of
+the dampening value seems to be a valid behavior. Also make the dampening for MAX and MIN different could be an option.
+
+
 ## Obsolete
 
 - **void autoReset(uint32_t count)** obsolete since 0.2.0
 Replaced by **void setAutoResetCount(uint32_t count)**
 
-
-## Operation
-
-The examples show the basic working of the functions.
 
 
 ## Future
@@ -149,6 +167,7 @@ a value is out of a predefined range.
 - **void setResetDefaults(minimum, maximum, bool adjust = true)** add an adjust flag 
 that allows / reject adaption of min / max. (extended class).
   - define MINMAX_MIN_CHANGED => MINMAX_MIN_EXCEEDED (new or reuse?)
+- improve dampening strategy(?)
 
 #### Wont (unless)
 

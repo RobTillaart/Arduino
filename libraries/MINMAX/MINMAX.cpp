@@ -1,7 +1,7 @@
 //
 //    FILE: MINMAX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
 //     URL: https://github.com/RobTillaart/MINMAX
@@ -16,6 +16,7 @@ MINMAX::MINMAX()
   _minimumDefault = 0;
   _maximumDefault = 0;
   _callback       = NULL;
+  _dampening      = 0;
   reset();
 }
 
@@ -29,6 +30,19 @@ uint8_t MINMAX::add(const float value)
     reset();
     rv |= MINMAX_RESET_DONE;
   }
+
+  //  dampening - experimental
+  if (_dampening > 0)
+  {
+    if (_minimum + _dampening < _maximum)
+    {
+      _minimum += _dampening;
+    }
+    if (_maximum - _dampening > _minimum)
+    {
+      _maximum -= _dampening;
+    }
+  }
   //  new run and range not adjusted by setResetDefaults()
   if ((_count == 0) && (_minimum == 0) && (_maximum == 0))
   {
@@ -36,12 +50,14 @@ uint8_t MINMAX::add(const float value)
     _lastMin = _lastMax = millis();
     rv |= MINMAX_MIN_CHANGED | MINMAX_MAX_CHANGED;
   }
+  //  adjust minimum
   if (value < _minimum)
   {
     _minimum = value;
     _lastMin = millis();
     rv |= MINMAX_MIN_CHANGED;
   }
+  //  adjust maximum
   if (value > _maximum)
   {
     _maximum = value;
@@ -129,6 +145,17 @@ uint32_t MINMAX::lastMax()
   return _lastMax;
 }
 
+void MINMAX::setDampening(const float value)
+{
+  _dampening = value;
+}
 
-// -- END OF FILE --
+
+float MINMAX::getDampening()
+{
+  return _dampening;
+}
+
+
+//  -- END OF FILE --
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MINMAX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
 //     URL: https://github.com/RobTillaart/MINMAX
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MINMAX_LIB_VERSION                  (F("0.2.2"))
+#define MINMAX_LIB_VERSION                  (F("0.3.0"))
 
 #define MINMAX_NO_CHANGE                    0X00
 #define MINMAX_MIN_CHANGED                  0X01
@@ -51,6 +51,10 @@ public:
   uint32_t lastMin();
   uint32_t lastMax();
 
+  //  in/decrease MIN and MAX - linear - with this value if possible.
+  void     setDampening(const float value);
+  float    getDampening();
+
 
 private:
   float    _lastValue;
@@ -59,6 +63,7 @@ private:
   float    _maximum;
   float    _minimumDefault;
   float    _maximumDefault;
+  float    _dampening;
 
   uint32_t _count;
   uint32_t _resetCount;

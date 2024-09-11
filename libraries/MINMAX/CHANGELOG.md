@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-09-11
+- fix #11, Add linear dampening option.
+- add example - minmax_dampening.ino
+- update readme.md
+
+----
+
 ## [0.2.2] - 2023-12-12
 - add **void setResetDefaults(float minimum, float maximum)**
-- update readme
-
+- update readme.md
 
 ## [0.2.1] - 2023-11-14
 - update readme.md

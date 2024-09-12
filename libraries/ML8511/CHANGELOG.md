@@ -6,9 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-09-12
+- add parameter check in **estimateDUVindex()**
+- improve behaviour enable functions
+- change return type **setVoltsPerStep()**
+- change return type **enable()**
+- change return type **disable()**
+- reorder code in .cpp file to match .h file.
+- add experimental example - ML8511_cumulative_joule.ino
+- update readme.md
+- minor edits
+
+----
+
 ## [0.1.11] - 2023-11-13
 - update readme.md
-
 
 ## [0.1.10] - 2023-02-18
 - update readme.md

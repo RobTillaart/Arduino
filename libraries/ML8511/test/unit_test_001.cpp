@@ -49,7 +49,7 @@ unittest_teardown()
 
 
 #define ANALOGPIN         0
-
+#define ENABLEPIN         10
 
 unittest(test_constructor)
 {
@@ -64,10 +64,23 @@ unittest(test_constructor)
 
   assertTrue(light.isEnabled());
   light.disable();
+  assertTrue(light.isEnabled());  //  always true without ENABLEPIN set
+  light.enable();
+  assertTrue(light.isEnabled());
+}
+
+
+unittest(test_constructor_2)
+{
+  ML8511 light(ANALOGPIN, ENABLEPIN);  //  explicit ENABLEPIN
+
+  assertTrue(light.isEnabled());
+  light.disable();
   assertFalse(light.isEnabled());
   light.enable();
   assertTrue(light.isEnabled());
 }
+
 
 /*
 unittest(test_getUV)
@@ -171,8 +184,8 @@ unittest(test_estimateDUVindex)
   light.enable();
 
   // output a table
-  fprintf(stderr, "mW\tDUV\n");
-  for (float mW = 0; mW < 10; mW += 0.5)
+  fprintf(stderr, "mW/cm2\tDUV\n");
+  for (float mW = 0; mW < 10.5 ; mW += 0.5)
   {
     fprintf(stderr, "%f\t", mW);
     fprintf(stderr, "%f\n", light.estimateDUVindex(mW));

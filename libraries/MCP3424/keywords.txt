@@ -1,0 +1,39 @@
+# Syntax Colouring Map For MCP3424
+
+# Data types (KEYWORD1)
+MCP3421	KEYWORD1
+MCP3422	KEYWORD1
+MCP3423	KEYWORD1
+MCP3424	KEYWORD1
+MCP3426	KEYWORD1
+MCP3427	KEYWORD1
+MCP3428	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+getMaxChannels	KEYWORD2
+
+read	KEYWORD2
+readVolts	KEYWORD2
+readMilliVolts	KEYWORD2
+readMicroVolts	KEYWORD2
+
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+setGain	KEYWORD2
+getGain	KEYWORD2
+setResolution	KEYWORD2
+getResolution	KEYWORD2
+
+setContinuousMode	KEYWORD2
+setSingleShotMode	KEYWORD2
+getMode	KEYWORD2
+
+
+# Constants (LITERAL1)
+MCP3424_LIB_VERSION	LITERAL1
+
+

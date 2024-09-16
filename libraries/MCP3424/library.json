@@ -1,0 +1,23 @@
+{
+  "name": "MCP3424",
+  "keywords": "",
+  "description": "Arduino library for 18 bit ADC I2C MCP3424 et al.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MCP3424.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MCP3424.h"
+}

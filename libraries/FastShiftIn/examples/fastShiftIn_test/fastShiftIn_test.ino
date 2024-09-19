@@ -19,7 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.println(FASTSHIFTIN_LIB_VERSION);
 
-  FSI.setBitOrder(LSBFIRST);
+  FSI.setBitOrder(MSBFIRST);
 
   digitalWrite(12, HIGH);
   Serial.println("\n 8 bits HIGH\n");
@@ -59,6 +59,7 @@ void test_read()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
+  delay(100);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -86,7 +87,8 @@ void test_read16()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -113,7 +115,8 @@ void test_read24()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -140,7 +143,8 @@ void test_read32()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -167,7 +171,8 @@ void test_readLSBFIRST()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -194,7 +199,8 @@ void test_readMSBFIRST()
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -221,7 +227,8 @@ void test_reference()
   duration1 = micros() - start;
   Serial.print("Standard shiftIn1: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -243,4 +250,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

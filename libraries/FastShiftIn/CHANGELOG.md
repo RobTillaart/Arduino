@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-09-10
+- fix #17, loop unroll option, improving performance, kudos to nt314p
+- added flag to select LOOP UNROLL (is optional as it gives larger code size)
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.4] - 2024-07-22
 - add **void read(uint8_t \*array, uint8_t size)** (experimental)
 - update readme.md

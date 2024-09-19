@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftIn.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.4.0
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
@@ -148,36 +148,98 @@ uint8_t FastShiftIn::readLSBFIRST()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
+#if defined(FASTSHIFTIN_AVR_LOOP_UNROLLED)  //  AVR SPEED OPTIMIZED  #17
+
+  uint8_t rv      = 0;
+  uint8_t cbmask1 = _clockBit;
+  uint8_t inmask1 = _dataInBit;
+
+  volatile uint8_t* localDataInRegister = _dataInRegister;
+  volatile uint8_t* localClockRegister  = _clockRegister;
+
+  //  disable interrupts (for all bits)
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+
+  uint8_t r = *localClockRegister;
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x01;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x02;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x04;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x08;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x10;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x20;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x40;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x80;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  //  restore interrupt state
+  SREG = oldSREG;
+
+  _lastValue = rv;
+
+#else  //  AVR SIZE OPTIMIZED
+
   uint8_t rv       = 0;
   uint8_t cbmask1  = _clockBit;
-  uint8_t cbmask2  = ~_clockBit;
   uint8_t inmask1  = _dataInBit;
+
+  volatile uint8_t* localDataInRegister = _dataInRegister;
+  volatile uint8_t* localClockRegister = _clockRegister;
+
+  //  disable interrupts (for all bits)
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+
+  uint8_t r = *localClockRegister;
 
   for (uint8_t m = 0x01; m > 0; m <<= 1)
   {
-    //  remember state register
-    uint8_t oldSREG = SREG;
-    //  disable interrupts
-    noInterrupts();
     //  clock pulse HIGH
-    *_clockRegister |= cbmask1;
+    *localClockRegister |= cbmask1;
     //  read one bit
-    if ((*_dataInRegister & inmask1) > 0) rv |= m;
+    if ((*localDataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
-    *_clockRegister &= cbmask2;
-    //  reset interrupts flag to previous state
-    SREG = oldSREG;
+    *localClockRegister = r;
   }
-  _lastValue = rv;
-  return rv;
 
-#else
+  //  reset interrupts flag to previous state
+  SREG = oldSREG;
+
+  _lastValue = rv;
+
+#endif  //  if (AVR)
+
+#else   //  other platforms reference shiftOut()
 
   //  reference implementation
   _lastValue = shiftIn(_dataPinIn, _clockPin, LSBFIRST);
-  return _lastValue;
 
 #endif
+
+  //  all paths will return _lastValue.
+  return _lastValue;
 }
 
 
@@ -185,37 +247,97 @@ uint8_t FastShiftIn::readMSBFIRST()
 {
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
-  uint8_t rv       = 0;
-  uint8_t cbmask1  = _clockBit;
-  uint8_t cbmask2  = ~_clockBit;
-  uint8_t inmask1  = _dataInBit;
+#if defined(FASTSHIFTIN_AVR_LOOP_UNROLLED)  //  AVR SPEED OPTIMIZED
 
+  uint8_t rv      = 0;
+  uint8_t cbmask1 = _clockBit;
+  uint8_t inmask1 = _dataInBit;
+
+  volatile uint8_t* localDataInRegister = _dataInRegister;
+  volatile uint8_t* localClockRegister  = _clockRegister;
+
+  //  disable interrupts (for all bits)
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+
+  uint8_t r = *localClockRegister;
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x80;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x40;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x20;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x10;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x08;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x04;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x02;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  *localClockRegister |= cbmask1;  //  clock pulse HIGH
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x01;  //  read one bit
+  *localClockRegister = r;         //  clock pulse LOW
+
+  //  restore interrupt state
+  SREG = oldSREG;
+
+  _lastValue = rv;
+
+#else  //  AVR SIZE OPTIMIZED
+
+  uint8_t rv      = 0;
+  uint8_t cbmask1 = _clockBit;
+  uint8_t inmask1 = _dataInBit;
+
+  volatile uint8_t* localDataInRegister = _dataInRegister;
+  volatile uint8_t* localClockRegister  = _clockRegister;
+
+  //  disable interrupts (for all bits)
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+
+  uint8_t r = *localClockRegister;
   for (uint8_t m = 0x80; m > 0; m >>= 1)
   {
-    //  remember state register
-    uint8_t oldSREG = SREG;
-    //  disable interrupts
-    noInterrupts();
     //  clock pulse HIGH
-    *_clockRegister |= cbmask1;
+    *localClockRegister |= cbmask1;
     //  read one bit
-    if ((*_dataInRegister & inmask1) > 0) rv |= m;
+    if ((*localDataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
-    *_clockRegister &= cbmask2;
-    //  reset interrupts flag to previous state
-    SREG = oldSREG;
+    *localClockRegister = r;
   }
-  _lastValue = rv;
-  return rv;
 
-#else
+  //  reset interrupts flag to previous state
+  SREG = oldSREG;
+
+  _lastValue = rv;
+
+#endif  //  if (AVR)
+
+#else   //  other platforms reference shiftOut()
 
   //  reference implementation
   _lastValue = shiftIn(_dataPinIn, _clockPin, MSBFIRST);
-  return _lastValue;
 
 #endif
 
+  //  all paths will return _lastValue.
+  return _lastValue;
 }
 
 

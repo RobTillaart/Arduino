@@ -1,7 +1,7 @@
 //
-//    FILE: MCP3424_test.ino
+//    FILE: MCP3424_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: basic test API calls.
+// PURPOSE: basic performance test API calls.
 //     URL: https://github.com/RobTillaart/MCP3424
 //
 //  needs a device connected to be able to test.
@@ -38,6 +38,8 @@ void setup()
   Serial.println(mcp.getGain());
   Serial.print("Bits:\t");
   Serial.println(mcp.getResolution());
+  Serial.print("Mode:\t");
+  Serial.println(mcp.getMode());
   Serial.println();
   delay(100);
 

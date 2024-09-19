@@ -1,7 +1,7 @@
 //
 //    FILE: MCP3424.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -23,8 +23,7 @@ MCP3424::MCP3424(uint8_t address, TwoWire *wire)
 
   _gain = 1;
   _bits = 12;
-  _mode = 0;  //  CONTINUOUS
-  _config = 0x10;
+  _config = 0x10;  //  default
 }
 
 
@@ -60,47 +59,52 @@ int32_t MCP3424::read()
 }
 
 
+//  shift is to calculate the LSB factor.
+//  18 bits => 1,  LSB == 15.625 uV
+//  16 bits => 4,  LSB == 62.5 uV
+//  14 bits => 16, LSB == 250 uV
+//  12 bits => 64  LSB == 1000 uV = 1 mV
+//  must be multiplied to float first to prevent
+//       losing bits due to integer division
 float MCP3424::readVolts()
 {
-  //  TODO
-  //  pre calculate float _factor = 15.625e-6 * pow(2, (_bits - 12))/ _gain;
-  return read() * 15.625e-6 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e-6 * (1L << (18 - _bits))) / _gain;
 }
 
 
 float MCP3424::readMilliVolts()
 {
-  return read() * 15.625e-3 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e-3 * (1L << (18 - _bits))) / _gain;
 }
 
 
 float MCP3424::readMicroVolts()
 {
-  return read() * 15.625e0 * pow(2, (_bits - 12))/ _gain;
+  return read() * (15.625e0 * (1L << (18 - _bits))) / _gain;
 }
 
 
-//  TODO move to derived class with more than one channel?
 bool MCP3424::setChannel(uint8_t channel)
 {
   if (channel >= _maxChannels)
   {
     return false;
   }
+  //  only update if changed
   if (_channel != channel)
   {
     _channel = channel;
     _config &= 0x1F;  //  channel = 0
-    if (channel == 1) _config |= 0x20;
-    if (channel == 2) _config |= 0x40;
-    if (channel == 3) _config |= 0x60;
+    //  if (channel > 0) =>  _config |= (channel << 4)
+    if (channel == 1)      _config |= 0x20;
+    else if (channel == 2) _config |= 0x40;
+    else if (channel == 3) _config |= 0x60;
   }
   writeConfig();
   return true;
 }
 
 
-//  TODO move to derived class with more than one channel?
 uint8_t MCP3424::getChannel()
 {
   return _channel;
@@ -113,13 +117,14 @@ bool MCP3424::setGain(uint8_t gain)
   {
     return false;
   }
+  //  only update if changed.
   if (_gain != gain)
   {
     _gain = gain;
     _config &= 0xFC;  //  gain == 1
-    if (_gain == 2) _config |= 0x01;
-    if (_gain == 4) _config |= 0x02;
-    if (_gain == 8) _config |= 0x03;
+    if (_gain == 2)      _config |= 0x01;
+    else if (_gain == 4) _config |= 0x02;
+    else if (_gain == 8) _config |= 0x03;
     writeConfig();
   }
   return true;
@@ -138,13 +143,14 @@ bool MCP3424::setResolution(uint8_t bits)
   {
     return false;
   }
+  //  only update if changed.
   if (_bits != bits)
   {
     _bits = bits;
     _config &= 0xF3;  //  bits == 12
-    if (_bits == 14) _config |= 0x04;
-    if (_bits == 16) _config |= 0x08;
-    if (_bits == 18) _config |= 0x0C;
+    if (_bits == 14)      _config |= 0x04;
+    else if (_bits == 16) _config |= 0x08;
+    else if (_bits == 18) _config |= 0x0C;
     writeConfig();
   }
   return true;
@@ -153,27 +159,34 @@ bool MCP3424::setResolution(uint8_t bits)
 
 uint8_t MCP3424::getResolution()
 {
+  //  return 12 + 2 * ((_config >> 2) & 0x03);
   return _bits;
 }
 
 
 void MCP3424::setContinuousMode()
 {
-  _config &= ~0x10;
-  writeConfig();
+  if (getMode() != 1)
+  {
+    _config |= 0x10;
+    writeConfig();
+  }
 }
 
 
 void MCP3424::setSingleShotMode()
 {
-  _config |= 0x10;
-  writeConfig();
+  if (getMode() != 0)
+  {
+    _config &= ~0x10;
+    writeConfig();
+  }
 }
 
 
 uint8_t MCP3424::getMode()
 {
-  return (_config & 0x10);
+  return (_config & 0x10) ? 1 : 0;
 }
 
 
@@ -224,6 +237,43 @@ int32_t MCP3424::readRaw()
   //  handle sign bit not needed.
   return rv;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+
+MCP3421::MCP3421(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 1;
+}
+
+MCP3422::MCP3422(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3423::MCP3423(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3426::MCP3426(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3427::MCP3427(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 2;
+}
+
+MCP3428::MCP3428(uint8_t address, TwoWire *wire) : MCP3424(address, wire)
+{
+  _maxChannels = 4;
+}
+
 
 
 //  -- END OF FILE --

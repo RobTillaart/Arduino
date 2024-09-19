@@ -1,6 +1,6 @@
 {
   "name": "MCP3424",
-  "keywords": "",
+  "keywords": "MCP3421,MCP3422,MCP3423,MCP3426,MCP3427,MCP3428",
   "description": "Arduino library for 18 bit ADC I2C MCP3424 et al.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MCP3424.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

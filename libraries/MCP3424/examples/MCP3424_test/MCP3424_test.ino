@@ -7,9 +7,7 @@
 
 #include "MCP3424.h"
 
-
 MCP3424 mcp;
-
 
 
 void setup()
@@ -36,6 +34,8 @@ void setup()
   Serial.println(mcp.getGain());
   Serial.print("Bits:\t");
   Serial.println(mcp.getResolution());
+  Serial.print("Mode:\t");
+  Serial.println(mcp.getMode());
   Serial.println();
 
   Serial.println("GAIN 1");

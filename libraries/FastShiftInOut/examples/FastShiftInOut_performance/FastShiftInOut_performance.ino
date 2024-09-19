@@ -37,7 +37,8 @@ void test1()
   duration1 = micros() - start;
   Serial.print("        write: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -64,7 +65,8 @@ void test2()
   duration1 = micros() - start;
   Serial.print("writeLSBFIRST: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -91,7 +93,8 @@ void test3()
   duration1 = micros() - start;
   Serial.print("writeMSBFIRST: ");
   Serial.println(duration1 * 0.001);
-
+  delay(100);
+  
   start = micros();
   for (int i = 0; i < 1000; i++)
   {

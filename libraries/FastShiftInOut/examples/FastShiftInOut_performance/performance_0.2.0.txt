@@ -1,0 +1,41 @@
+IDE:      1.8.19
+Board:    UNO
+FASTSHIFTINOUT_LIB_VERSION: 0.2.0
+
+Performance - time in us
+        write: 18.74
+        write: 36.35
+        Delta: 17.61
+
+writeLSBFIRST: 17.86
+writeLSBFIRST: 35.46
+        Delta: 17.61
+
+writeMSBFIRST: 17.86
+writeMSBFIRST: 35.46
+        Delta: 17.60
+
+
+done ...
+
+
+# loop unrolled.
+
+FASTSHIFTINOUT_LIB_VERSION: 0.2.0
+
+Performance - time in us
+        write: 13.40
+        write: 25.65
+        Delta: 12.26
+
+writeLSBFIRST: 12.52
+writeLSBFIRST: 24.77
+        Delta: 12.26
+
+writeMSBFIRST: 12.45
+writeMSBFIRST: 24.65
+        Delta: 12.20
+
+
+done ...
+

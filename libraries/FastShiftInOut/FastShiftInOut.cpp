@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
@@ -40,6 +40,7 @@ FastShiftInOut::FastShiftInOut(uint8_t dataIn, uint8_t dataOut, uint8_t clockPin
   _clockPin   = clockPin;
 
 #endif
+
   _lastValue = 0;
   _lastRead  = 0;
 }
@@ -55,6 +56,36 @@ uint8_t FastShiftInOut::write(uint8_t data)
 }
 
 
+
+uint8_t FastShiftInOut::lastWritten(void)
+{
+  return _lastValue;
+};
+
+
+uint8_t FastShiftInOut::lastRead(void)
+{
+  return _lastRead;
+};
+
+
+bool FastShiftInOut::setBitOrder(uint8_t bitOrder)
+{
+  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
+  {
+    _bitOrder = bitOrder;
+    return true;
+  };
+  return false;
+}
+
+
+uint8_t FastShiftInOut::getBitOrder(void)
+{
+  return _bitOrder;
+};
+
+
 uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
 {
   uint8_t rv    = 0;
@@ -63,29 +94,117 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
+#if defined(FASTSHIFTINOUT_AVR_LOOP_UNROLLED)  //  AVR SPEED OPTIMIZED
+
   uint8_t cbmask1  = _clockBit;
-  uint8_t cbmask2  = ~_clockBit;
   uint8_t inmask1  = _dataInBit;
   uint8_t outmask1 = _dataOutBit;
   uint8_t outmask2 = ~_dataOutBit;
 
+  volatile uint8_t* localDataInRegister  = _dataInRegister;
+  volatile uint8_t* localDataOutRegister = _dataOutRegister;
+  volatile uint8_t* localClockRegister   = _clockRegister;
+
+  //  disable interrupts (for all bits)
   uint8_t oldSREG = SREG;
   noInterrupts();
+
+  if ((value & 0x01) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  // *localClockRegister |= cbmask1;
+  //  if ((*localDataInRegister & inmask1) > 0) rv |= 0x01;
+  // *localClockRegister &= cbmask2;  // ~_clockBit;
+  //  following code is allowed as interrupts are disabled.
+  //  so register can not change
+  uint8_t r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x01;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x02) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x02;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x04) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x04;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x08) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x08;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x10) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x10;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x20) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x20;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x40) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x40;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x80) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x80;
+  *localClockRegister = r;            //  reset it
+
+  SREG = oldSREG;
+
+#else  //  AVR SIZE OPTIMIZED
+
+  uint8_t cbmask1  = _clockBit;
+  uint8_t inmask1  = _dataInBit;
+  uint8_t outmask1 = _dataOutBit;
+  uint8_t outmask2 = ~_dataOutBit;
+
+  volatile uint8_t* localDataInRegister  = _dataInRegister;
+  volatile uint8_t* localDataOutRegister = _dataOutRegister;
+  volatile uint8_t* localClockRegister   = _clockRegister;
+ 
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+  
+  uint8_t r = *localClockRegister;
+  
   for (uint8_t m = 1; m > 0; m <<= 1)
   {
     //  write one bit
-    if ((value & m) == 0) *_dataOutRegister &= outmask2;
-    else                  *_dataOutRegister |= outmask1;
+    if ((value & m) == 0) *localDataOutRegister &= outmask2;
+    else                  *localDataOutRegister |= outmask1;
     //  clock pulse HIGH
-    *_clockRegister |= cbmask1;
+    *localClockRegister |= cbmask1;
     //  read one bit
-    if ((*_dataInRegister & inmask1) > 0) rv |= m;
+    if ((*localDataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
-    *_clockRegister &= cbmask2;
+    *localClockRegister = r;
   }
   SREG = oldSREG;
 
-#else
+#endif  //  if (AVR)
+
+#else   //  other platforms reference implementation
 
   for (uint8_t i = 0; i < 8; i++)
   {
@@ -116,29 +235,117 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
+#if defined(FASTSHIFTINOUT_AVR_LOOP_UNROLLED)  //  AVR SPEED OPTIMIZED
+
   uint8_t cbmask1  = _clockBit;
-  uint8_t cbmask2  = ~_clockBit;
   uint8_t inmask1  = _dataInBit;
   uint8_t outmask1 = _dataOutBit;
   uint8_t outmask2 = ~_dataOutBit;
 
+  volatile uint8_t* localDataInRegister  = _dataInRegister;
+  volatile uint8_t* localDataOutRegister = _dataOutRegister;
+  volatile uint8_t* localClockRegister   = _clockRegister;
+ 
   uint8_t oldSREG = SREG;
   noInterrupts();
+
+  if ((value & 0x80) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  // *localClockRegister |= cbmask1;
+  //  if ((*localDataInRegister & inmask1) > 0) rv |= 0x80;
+  // *localClockRegister &= cbmask2;  // ~_clockBit;
+  //  following code is allowed as interrupts are disabled.
+  //  so register can not change
+  uint8_t r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x80;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x40) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x40;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x20) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x20;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x10) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x10;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x08) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x08;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x04) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x04;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x02) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x02;
+  *localClockRegister = r;            //  reset it
+
+  if ((value & 0x01) == 0) *localDataOutRegister &= outmask2;
+  else                     *localDataOutRegister |= outmask1;
+  r = *localClockRegister;
+  *localClockRegister = r | cbmask1;  //  set one bit
+  if ((*localDataInRegister & inmask1) > 0) rv |= 0x01;
+  *localClockRegister = r;            //  reset it
+
+  SREG = oldSREG;
+
+#else  //  AVR SIZE OPTIMIZED
+
+  uint8_t cbmask1  = _clockBit;
+  uint8_t inmask1  = _dataInBit;
+  uint8_t outmask1 = _dataOutBit;
+  uint8_t outmask2 = ~_dataOutBit;
+
+  volatile uint8_t* localDataInRegister  = _dataInRegister;
+  volatile uint8_t* localDataOutRegister = _dataOutRegister;
+  volatile uint8_t* localClockRegister   = _clockRegister;
+
+  uint8_t oldSREG = SREG;
+  noInterrupts();
+
+  uint8_t r = *localClockRegister;
   for (uint8_t m = 0x80; m > 0; m >>= 1)
   {
     //  write one bit
-    if ((value & m) == 0) *_dataOutRegister &= outmask2;
-    else                  *_dataOutRegister |= outmask1;
+    if ((value & m) == 0) *localDataOutRegister &= outmask2;
+    else                  *localDataOutRegister |= outmask1;
     //  clock pulse HIGH
-    *_clockRegister |= cbmask1;
+    *localClockRegister |= cbmask1;
     //  read one bit
-    if ((*_dataInRegister & inmask1) > 0) rv |= m;
+    if ((*localDataInRegister & inmask1) > 0) rv |= m;
     //  clock pulse LOW
-    *_clockRegister &= cbmask2;
+    *localClockRegister = r;
   }
+  
+  //  reset interrupts flag to previous state
   SREG = oldSREG;
 
-#else
+#endif  //  if (AVR)
+
+#else   //  other platforms reference implementation
 
   for (uint8_t i = 0; i < 8; i++)
   {
@@ -159,35 +366,6 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
   _lastRead = rv;
   return rv;
 }
-
-
-uint8_t FastShiftInOut::lastWritten(void)
-{
-  return _lastValue;
-};
-
-
-uint8_t FastShiftInOut::lastRead(void)
-{
-  return _lastRead;
-};
-
-
-bool FastShiftInOut::setBitOrder(uint8_t bitOrder)
-{
-  if ((bitOrder == LSBFIRST) || (bitOrder == MSBFIRST))
-  {
-    _bitOrder = bitOrder;
-    return true;
-  };
-  return false;
-}
-
-
-uint8_t FastShiftInOut::getBitOrder(void)
-{
-  return _bitOrder;
-};
 
 
 //  -- END OF FILE --

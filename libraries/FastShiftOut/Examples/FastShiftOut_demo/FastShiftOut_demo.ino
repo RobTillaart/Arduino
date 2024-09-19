@@ -13,7 +13,9 @@ FastShiftOut FSO(12, 13, LSBFIRST);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftOut: ");
+  Serial.print(__FILE__);
+
+  Serial.print("FASTSHIFTOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);
 
   Serial.println("\nPerformance - time in us");
@@ -63,7 +65,7 @@ void setup()
 
   Serial.println("\nTest print interface");
   start = micros();
-  for (int i=0; i<100; i++)
+  for (int i = 0; i < 100; i++)
   {
     FSO.println("Hello world");
   }

@@ -1,9 +1,8 @@
 //
 //    FILE: FastShiftOut_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test sketch
+// PURPOSE: performance test sketch
 //     URL: https://github.com/RobTillaart/FastShiftOut
-
 
 #include "FastShiftOut.h"
 
@@ -15,7 +14,9 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("example fastShiftOut: ");
+  Serial.println(__FILE__);
+
+  Serial.print("FASTSHIFTOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);
 
   Serial.println("\nPerformance - time in us");
@@ -24,6 +25,9 @@ void setup()
   test3();
   test4();
   test5();
+  test6();
+  test7();
+  test8();
 
   Serial.println("\ndone ...\n");
 }
@@ -72,8 +76,8 @@ void test2()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    FSO.write(0x55);
-    FSO.write(0x55);
+    FSO.writeLSBFIRST(0x55);
+    FSO.writeLSBFIRST(0x55);
   }
   duration2 = micros() - start;
   Serial.print("writeLSBFIRST: ");
@@ -90,7 +94,7 @@ void test3()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    FSO.write(0x55);
+    FSO.writeMSBFIRST(0x55);
   }
   duration1 = micros() - start;
   Serial.print("writeMSBFIRST: ");
@@ -143,6 +147,90 @@ void test4()
 
 void test5()
 {
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write16(0x5555);
+  }
+  duration1 = micros() - start;
+  Serial.print("      write16: ");
+  Serial.println(duration1 * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write16(0x5555);
+    FSO.write16(0x5555);
+  }
+  duration2 = micros() - start;
+  Serial.print("      write16: ");
+  Serial.println(duration2 * 0.001);
+  Serial.print("        Delta: ");
+  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println();
+  delay(100);
+}
+
+
+void test6()
+{
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write24(0x555555);
+  }
+  duration1 = micros() - start;
+  Serial.print("      write24: ");
+  Serial.println(duration1 * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write24(0x555555);
+    FSO.write24(0x555555);
+  }
+  duration2 = micros() - start;
+  Serial.print("      write24: ");
+  Serial.println(duration2 * 0.001);
+  Serial.print("        Delta: ");
+  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println();
+  delay(100);
+}
+
+
+void test7()
+{
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write32(0x55555555);
+  }
+  duration1 = micros() - start;
+  Serial.print("      write32: ");
+  Serial.println(duration1 * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    FSO.write32(0x55555555);
+    FSO.write32(0x55555555);
+  }
+  duration2 = micros() - start;
+  Serial.print("      write32: ");
+  Serial.println(duration2 * 0.001);
+  Serial.print("        Delta: ");
+  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println();
+  delay(100);
+}
+
+
+void test8()
+{
   Serial.println("\nTest print interface");
   start = micros();
   for (int i = 0; i < 100; i++)
@@ -172,6 +260,7 @@ void test5()
   duration1 = micros() - start;
   Serial.print("println(3.14159265, 4): \t");
   Serial.println(duration1 * 0.01);
+  Serial.println();
   delay(100);
 }
 

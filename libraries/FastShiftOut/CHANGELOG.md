@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-09-03
+- fix #15, loop unroll option, improving performance, kudos to nt314p
+- fixed bug in test program (see #15)
+- added flag to select LOOP UNROLL (is optional as it gives larger code size)
+- optimized the not unrolled loop with ideas of the unrolling version.
+- corrected type lastValue to uint8_t
+- add FastShiftOut_scope_test.ino
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.3] - 2024-07-23
 - Fix #13, add wrapper functions
   - write16/24/32, write(array, size)

@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -12,30 +12,34 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.2.1"))
+#define CHT8305_LIB_VERSION              (F("0.2.2"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
 #define CHT8305_DEFAULT_ADDRESS          0x40
 #endif
 
+
 //  ERRORS
 #define CHT8305_OK                       0
 #define CHT8305_ERROR_ADDR               -10
 #define CHT8305_ERROR_I2C                -11
 #define CHT8305_ERROR_CONNECT            -12
+#define CHT8305_ERROR_BUFSIZE            -13
 #define CHT8305_ERROR_LASTREAD           -20
+#define CHT8305_ERROR_GENERIC            -999
 
-//  REGISTERS
-#define CHT8305_REG_TEMPERATURE          0x00
-#define CHT8305_REG_HUMIDITY             0x01
-#define CHT8305_REG_CONFIG               0x02
-#define CHT8305_REG_ALERT                0x03
-#define CHT8305_REG_VOLTAGE              0x04
-#define CHT8305_REG_MANUFACTURER         0xFE
-#define CHT8305_REG_VERSION              0xFF
 
-//  REGISTER MASKS
+//  REGISTERS (in .h for build-CI test)
+#define CHT8305_REG_TEMPERATURE         0x00
+#define CHT8305_REG_HUMIDITY            0x01
+#define CHT8305_REG_CONFIG              0x02
+#define CHT8305_REG_ALERT               0x03
+#define CHT8305_REG_VOLTAGE             0x04
+#define CHT8305_REG_MANUFACTURER        0xFE
+#define CHT8305_REG_VERSION             0xFF
+
+//  REGISTER MASKS (in .h for build-CI test)
 #define CHT8305_CFG_SOFT_RESET          0x8000
 #define CHT8305_CFG_CLOCK_STRETCH       0x4000
 #define CHT8305_CFG_HEATER              0x2000
@@ -78,15 +82,16 @@ public:
 
 
   //  adding offsets works well in normal range
-  void     setHumidityOffset(float offset);
+  void     setHumidityOffset(float offset = 0.0);
   //  might introduce under- or overflow at the ends of the sensor range
-  void     setTemperatureOffset(float offset);
+  void     setTemperatureOffset(float offset = 0.0);
   float    getHumidityOffset();
   float    getTemperatureOffset();
 
 
   //  CONFIGURATION REGISTER
-  void     setConfigRegister(uint16_t bitmask);
+  //  default configRegister = 0x1004 (explicit no default parameter)
+  bool     setConfigRegister(uint16_t bitmask);
   uint16_t getConfigRegister();
   //
   //  |  bit  |  mask  |  name           |  description  |
@@ -132,13 +137,12 @@ public:
   void     setVCCenable(bool enable = true);
   bool     getVCCenable();
 
-
-  //  ALERT FUNCTIONS
-  //  mode   trigger
-  //    0      T or H     (default)
-  //    1      T
-  //    2      H
-  //    3      T and H
+  //       ALERT  FUNCTIONS
+  //       mode    trigger
+  //         0       T or H     (default)
+  //         1       T
+  //         2       H
+  //         3       T and H
   bool     setAlertTriggerMode(uint8_t mode = 0);
   uint8_t  getAlertTriggerMode();
   bool     getAlertPendingStatus();
@@ -153,6 +157,8 @@ public:
 
 
   //  VOLTAGE
+  //       one need to call setVCCenable(true) first.
+  //       meaning of this function is unclear.
   float    getVoltage();
 
 
@@ -160,6 +166,9 @@ public:
   uint16_t getManufacturer();     //  expect 0x5959
   uint16_t getVersionID();        //  may vary
 
+
+  //  ERROR HANDLING
+  int      getLastError();
 
 private:
   float    _humOffset       = 0.0;
@@ -177,6 +186,8 @@ private:
 
   void     _setConfigMask(uint16_t mask);
   void     _clrConfigMask(uint16_t mask);
+
+  int      _error = CHT8305_OK;
 };
 
 

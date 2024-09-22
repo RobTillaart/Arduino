@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2024-09-16
+- Fix #15, improve error handling.
+- add return value **CHT8305_ERROR_BUFSIZE**
+- add return value **CHT8305_ERROR_GENERIC**
+- add return value **0xFFFF** for 2 functions.
+- set default values 0.0 for **offset** parameters.
+- fix missing names in keywords.txt
+- add plotter and performance example
+- update readme.md.
+
+
 ## [0.2.1] - 2024-01-30
 - add multiplexing section to readme.md
 - update examples (URL)
 - minor edits
-
 
 ## [0.2.0] - 2023-12-05
 - refactor API, constructor, begin()

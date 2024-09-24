@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5917.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
@@ -102,21 +102,22 @@ bool TLC5917::getChannel(uint8_t channel)
 //
 //  MAX speed single device 30 MHz
 //             multi device 15 MHz   CHECK TODO
-void TLC5917::write()
+int TLC5917::write()
 {
-  write(_channelCount);
+  return write(_channelCount);
 }
 
 
-void TLC5917::write(int channels)
+int TLC5917::write(int channels)
 {
-  if (channels < 0) return;
+  if (channels <= 0) return 0;
   int devices = (channels > _channelCount) ? _channelCount / 8 : channels / 8;
 
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 
   //  register level optimized AVR
+  //  check FastShiftOut for more optimizations if needed.
   uint8_t port     = digitalPinToPort(_data);
   volatile uint8_t *_dataOutRegister = portOutputRegister(port);
   uint8_t outmask1 = digitalPinToBitMask(_data);
@@ -167,6 +168,7 @@ void TLC5917::write(int channels)
   //  pulse latch to hold the signals
   digitalWrite(_le, HIGH);
   digitalWrite(_le, LOW);
+  return channels;
 }
 
 
@@ -260,6 +262,7 @@ uint8_t TLC5917::getMode()
 
 
 //  9.4.3 Writing Configuration Code in Special Mode
+//  no AVR optimized version as fucntion is not often used (assumption).
 void TLC5917::writeConfiguration(uint8_t configuration)
 {
   uint8_t _clk = _clock;

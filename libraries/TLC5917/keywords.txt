@@ -22,8 +22,11 @@ isEnabled	KEYWORD2
 
 setSpecialMode	KEYWORD2
 setNormalMode	KEYWORD2
+getMode	KEYWORD2
+
 writeConfiguration	KEYWORD2
 getConfiguration	KEYWORD2
+
 setGain	KEYWORD2
 setCurrentGain	KEYWORD2
 getVoltageGain	KEYWORD2

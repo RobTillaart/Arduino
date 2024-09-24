@@ -5,6 +5,19 @@
 //     URL: https://github.com/RobTillaart/TLC5917
 
 
+//            TLC5917
+//          +----u----+
+//    GND   | 1    16 |  VDD
+//    SDI   | 2    15 |  R-EXT
+//    CLK   | 3    14 |  SDO
+//    LE    | 4    13 |  OE
+//    OUT0  | 5    12 |  OUT7
+//    OUT1  | 6    11 |  OUT6
+//    OUT2  | 7    10 |  OUT5
+//    OUT3  | 8    09 |  OUT4
+//          +---------+
+
+
 #include "TLC5917.h"
 
 

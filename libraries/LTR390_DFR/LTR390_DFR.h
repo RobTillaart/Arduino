@@ -3,7 +3,7 @@
 //    FILE: LTR390_DFR.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-29
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor (DF Robotics edition).
 //     URL: https://github.com/RobTillaart/LTR390_DFR
 
@@ -12,10 +12,10 @@
 #include "Wire.h"
 
 
-#define LTR390_DFR_LIB_VERSION         (F("0.1.0"))
+#define LTR390_DFR_LIB_VERSION         (F("0.1.1"))
 
 //  LTR390 ERROR CODES
-//  TODO
+#define LTR390_OK                       0x00
 
 
 //  DF_ROBOTICS LTR390 REGISTERS (16 bits)
@@ -77,12 +77,16 @@ public:
   //
   void setALSMode()
   {
-    writeRegister(LTR390_MAIN_CTRL, 0x02);
+    uint8_t raw = readRegister(LTR390_MAIN_CTRL);
+    raw &= ~0x08;
+    writeRegister(LTR390_MAIN_CTRL, raw);
   }
 
   void setUVSMode()
   {
-    writeRegister(LTR390_MAIN_CTRL, 0x0A);
+    uint8_t raw = readRegister(LTR390_MAIN_CTRL);
+    raw |= 0x08;
+    writeRegister(LTR390_MAIN_CTRL, raw);
   }
 
   uint8_t reset()
@@ -116,7 +120,9 @@ public:
   //
   uint32_t getALSData()
   {
-    return readRegister(8) * 65536UL + readRegister(7);
+    uint32_t raw = readRegister(LTR390_ALS_DATA_1) * 65536UL;
+    raw += readRegister(LTR390_ALS_DATA_0);
+    return raw;
   }
 
   //  page 22 datasheet
@@ -129,7 +135,9 @@ public:
 
   uint32_t getUVSData()
   {
-    return readRegister(10) * 65536UL + readRegister(9);
+    uint32_t raw = readRegister(LTR390_UVS_DATA_1) * 65536UL;
+    raw += readRegister(LTR390_UVS_DATA_0);
+    return raw;
   }
 
   //  page 22 datasheet
@@ -145,20 +153,17 @@ public:
   //
   //  MEASUREMENT CONFIGURATION
   //
-  //  experimental...
-  //
-  //  TODO does not work as expected yet
-  //
-  void setGain(uint8_t gain)  //  0..4
+  uint8_t setGain(uint8_t gain = 1)  //  0..4
   {
     uint16_t value = gain;
     if (value > 4) value = 4;
     writeRegister(LTR390_GAIN, value);
     _gain = 1;
-    if (value == 1) _gain = 3;
-    if (value == 2) _gain = 6;
-    if (value == 3) _gain = 9;
-    if (value == 4) _gain = 18;
+    if      (value == 1) _gain = 3;
+    else if (value == 2) _gain = 6;
+    else if (value == 3) _gain = 9;
+    else if (value == 4) _gain = 18;
+    return value;
   }
 
   uint8_t getGain()
@@ -169,17 +174,22 @@ public:
 
   //  resolution = 0..5  See datasheet P14.
   //        time = 0..7  See datasheet P14.
-  void setMeasurement(uint8_t resolution, uint8_t time)
+  bool setMeasurement(uint8_t resolution, uint8_t time)
   {
+    if (resolution > 5) return false;
+    if (time > 7 ) return false;
+
     uint16_t value = (resolution << 4) | time;
     writeRegister(LTR390_ALS_UVS_MEAS_RATE, value);
-    _time = 2.000;
+
+    _time = 2.000;  // time = 6 0r 7
     if (time == 0) _time = 0.025;
     if (time == 1) _time = 0.050;
     if (time == 2) _time = 0.100;
     if (time == 3) _time = 0.200;
     if (time == 4) _time = 0.500;
     if (time == 5) _time = 1.000;
+    return true;
   }
 
   uint8_t getResolution()
@@ -194,28 +204,59 @@ public:
     return reg & 0x07;
   }
 
+  bool setUVsensitivity(float s)
+  {
+    if ((s <= 0.0) || (s > 1.0))return false;
+    _UVsensitivity = s;
+    return true;
+  }
+
+  float getUVsensitivity()
+  {
+    return _UVsensitivity;
+  }
+
+
+//
+//  Code below this line is not tested yet.
+//  Use carefully, feel free to experiment.
+//  Please let me know if it works or not.
+//
+
+/*
+  void enable()
+  {
+    uint8_t raw = readRegister(LTR390_MAIN_CTRL);
+    raw != 0x02;
+    writeRegister(LTR390_MAIN_CTRL, raw);
+  }
+
+  void disable()
+  {
+    uint8_t raw = readRegister(LTR390_MAIN_CTRL);
+    raw &= ~0x02;
+    writeRegister(LTR390_MAIN_CTRL, raw);
+  }
+*/
+
 
 /*
   //////////////////////////////////////////////
   //
   //  MAIN STATUS
-  //  TODO elaborate - need split? or masks?
   //
   uint8_t getStatus()
   {
-    uint8_t reg = readRegister(LTR390_MAIN_STATUS);
+    uint8_t reg = readRegister(LTR390_MAIN_STATUS);  ? no such register.
     return reg & 0x38;
   }
-*/
 
 
-
-/*
   //////////////////////////////////////////////
   //
   //  INTERRUPT
   //
-  int setInterruptConfig(uint8_t value)
+  int setInterruptConfig(uint8_t value = 0x10)
   {
     return writeRegister(LTR390_INT_CFG, value);
   }
@@ -225,7 +266,7 @@ public:
     return readRegister(LTR390_INT_CFG);
   }
 
-  int setInterruptPersist(uint8_t value)
+  int setInterruptPersist(uint8_t value = 0x00)
   {
     return writeRegister(LTR390_INT_PST, value);
   }
@@ -234,57 +275,47 @@ public:
   {
     return readRegister(LTR390_INT_PST);
   }
-*/
 
 
-/*
   //////////////////////////////////////////////
   //
   //  THRESHOLD
   //
-  void setHighThreshold(uint32_t value)
+  //  note registers are 16 bit.
+  //
+  void setHighThreshold(uint32_t value = 0x000FFFFF)
   {
-    writeRegister(LTR390_ALS_UVS_THRES_UP_0, value & 0xFF);
-    value >>= 8;
-    writeRegister(LTR390_ALS_UVS_THRES_UP_1, value & 0xFF);
-    value >>= 8;
-    writeRegister(LTR390_ALS_UVS_THRES_UP_2, value & 0x0F);
+    writeRegister(LTR390_ALS_UVS_THRES_UP_0, value & 0xFFFF);
+    writeRegister(LTR390_ALS_UVS_THRES_UP_1, value >> 16);
   }
 
   uint32_t getHighThreshold()
   {
-    uint32_t value = readRegister(LTR390_ALS_UVS_THRES_UP_2) & 0x0F;
-    value <<= 8;
-    value += readRegister(LTR390_ALS_UVS_THRES_UP_1);
-    value <<= 8;
+    uint32_t value = readRegister(LTR390_ALS_UVS_THRES_UP_1) << 16;
     value += readRegister(LTR390_ALS_UVS_THRES_UP_0);
     return value;
   }
 
-  void setLowThreshold(uint32_t value)
+  void setLowThreshold(uint32_t value = 0)
   {
-    writeRegister(LTR390_ALS_UVS_THRES_LOW_0, value & 0xFF);
-    value >>= 8;
-    writeRegister(LTR390_ALS_UVS_THRES_LOW_1, value & 0xFF);
-    value >>= 8;
-    writeRegister(LTR390_ALS_UVS_THRES_LOW_2, value & 0x0F);
+    writeRegister(LTR390_ALS_UVS_THRES_LOW_0, value & 0xFFFF);
+    writeRegister(LTR390_ALS_UVS_THRES_LOW_1, value >> 16);
   }
 
   uint32_t getLowThreshold()
   {
-    uint32_t value = readRegister(LTR390_ALS_UVS_THRES_LOW_2) & 0x0F;
-    value <<= 8;
-    value += readRegister(LTR390_ALS_UVS_THRES_LOW_1);
-    value <<= 8;
+    uint32_t value = readRegister(LTR390_ALS_UVS_THRES_LOW_1) << 16;
     value += readRegister(LTR390_ALS_UVS_THRES_LOW_0);
     return value;
   }
 */
 
+//  END OF PUBLIC PART
+
 
   //////////////////////////////////////////////
   //
-  //  PRIVATE  TODO move.
+  //  PRIVATE
   //
   int writeRegister(uint8_t reg, uint16_t value)
   {
@@ -295,6 +326,7 @@ public:
     int n = _wire->endTransmission();
     if (n != 0)
     {
+      //  _error = LTR390_I2C_ERROR;
       //  Serial.print("write:\t");
       //  Serial.println(n);
     }
@@ -309,6 +341,7 @@ public:
     int n = _wire->endTransmission();
     if (n != 0)
     {
+      //  _error = LTR390_I2C_ERROR;
       //  Serial.print("read:\t");
       //  Serial.println(n);
       return n;
@@ -335,8 +368,6 @@ private:
   float   _time;
   float   _UVsensitivity;
 };
-
-
 
 
 //  -- END OF FILE --

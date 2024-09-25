@@ -11,14 +11,14 @@
 
 # LTR390_DFR
 
-Arduino library for the I2C LTR390 UV sensor (DF Robotics edition).
+Arduino library for the I2C LTR390 LUX / UV sensor (DF Robotics edition).
 
 
 ## Description
 
 **Experimental**
 
-This library is to read the LTR390 UV sensor on the DF Robotics
+This library is to read the LTR390 LUX / UV sensor on the DF Robotics
 break-out board.
 
 Operating voltage range: **3.0V .. 5.0V** (tolerant).
@@ -26,16 +26,16 @@ Operating voltage range: **3.0V .. 5.0V** (tolerant).
 
 ## I2C
 
-The break-out has an address of 0x1C == 28 decimal.
+The break-out has a fixed address of 0x1C == 28 decimal.
 
-#### I2C Speed
+### I2C Speed
 
 The device should work on 100 kHz and 400 kHz I2C bus.
 
 To be tested.
 
 
-#### Multiplexing
+### Multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -54,7 +54,7 @@ too if they are behind the multiplexer.
 
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/LTR390_RT   (native LTR390)
 - https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
@@ -66,43 +66,84 @@ too if they are behind the multiplexer.
 #include "LTR390_DFR.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **LTR390_DFR(TwoWire \* wire = &Wire)** Constructor 
 with optional Wire interface.
-- **bool begin()** returns true if device 0x1C can be seen on the I2C bus.
-- **bool isConnected()** returns true if device 0x1C can be seen on I2C bus.
+As the device has a fixed I2C address it cannot be set.
+- **bool begin()** returns true if device address 0x1C can be seen on the I2C bus.
+- **bool isConnected()** returns true if device address 0x1C can be seen on I2C bus.
 - **uint8_t getAddress()** returns 0x1C, fixed address, for convenience.
 
 
-#### Main control
+### Main control
 
-- **void setALSMode()**
-- **void setUVSMode()**
-- **void reset()** blocks for 100 ms.
-
-
-#### Measurement configuration
-
-- **void setGain(uint8_t gain)** gain = 0..4,
-- **uint8_t getGain()** returns set value.
-- **void setMeasurement(uint8_t resolution, uint8_t time)**
-- **uint8_t getResolution()**
-- **uint8_t getTime()**
+- **void setALSMode()** set the Ambient Light Sensor mode.
+- **void setUVSMode()** set the Ultra Violet Sensor mode.
+- **void reset()** resets the sensor. This call blocks for 100 ms.
 
 
-#### Part and revision ID
+### Gain configuration
+
+- **uint8_t setGain(uint8_t gain = 1)** gain = 0..4, values larger than 4 are
+clipped to 4. Default value = 1.
+Returns 0..4.
+- **uint8_t getGain()** returns set value, 0..4.
+
+
+|  Gain  |  factor  |  Notes  |
+|:------:|:--------:|:-------:|
+|   0    |     1    |
+|   1    |     3    |  default
+|   2    |     6    |
+|   3    |     9    |
+|   4    |    18    |
+
+
+### Resolution and time
+
+- **bool setMeasurement(uint8_t resolution, uint8_t time)**
+Resolution = 0..5, Time = 0..7. See table below.
+Returns false if one of the parameters is out of range.
+- **uint8_t getResolution()** returns 0..5, default 2.
+- **uint8_t getTime()** returns 0..7, default 2.
+
+
+|  Reso  |  bits  |   |  Time  |  millis  |  Notes  |
+|:------:|:------:|:-:|:------:|:--------:|:-------:|
+|   0    |   20   |   |   0    |     25   |
+|   1    |   19   |   |   1    |     50   |
+|   2    |   18   |   |   2    |    100   |  default both.
+|   3    |   17   |   |   3    |    200   |
+|   4    |   16   |   |   4    |    500   |
+|   5    |   13   |   |   5    |   1000   |
+|   6    |   na   |   |   6    |   2000   |
+|   7    |   na   |   |   7    |   2000   |
+
+14, 15 bits is not supported.
+
+
+### UV sensitvity
+
+- **bool setUVsensitivity(float s)** Sets the UV sesitivity 
+between 0..1. Returns false if the parameter s is out of range.
+- **float getUVsensitivity()** returns set value. default 1.0.
+
+
+### Part and revision ID
 
 - **uint8_t getPartID()** returns 11.
 - **uint8_t getRevisionID()** returns 2.
 
 
-#### Get data
+### Get data
 
-- **uint32_t getALSData()**
-- **float getLUX(float wfac = 1)** wfac = window factor,
-- **uint32_t getUVSData()**
-- **float getUVI(float wfac = 1)** wfac = window factor,
+- **uint32_t getALSData()** returns 18 bit data
+- **float getLUX(float wfac = 1.0)** wfac = window factor, typical 0..1.0.
+Returns the ambient light in LUX.
+- **uint32_t getUVSData()** returns 18 bit data
+- **float getUVI(float wfac = 1.0)** wfac = window factor, typical 0..1.0.
+Returns the UV index in ??? (TODO units).
 
 
 ## Future
@@ -117,10 +158,12 @@ with optional Wire interface.
 #### Should
 
 - add examples
-- fix / elaborate TODO's in code.
-  - status and error codes
-  - interrupts and thresholds
-- add setUVsensitivity()
+- add error codes
+- split **getStatus()** or ??
+- add **uint16_t getTimeMillis()** return time in millseconds.
+- add **uint8_t getResolutionBits()** idem.
+- add **uint8_t getGainFactor()** idem.
+
 
 #### Could
 

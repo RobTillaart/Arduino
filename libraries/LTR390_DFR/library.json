@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/LTR390_DFR.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -13,6 +13,9 @@ setALSMode	KEYWORD2
 setUVSMode	KEYWORD2
 reset	KEYWORD2
 
+enable	KEYWORD2
+disable	KEYWORD2
+
 getPartID	KEYWORD2
 getRevisionID	KEYWORD2
 
@@ -27,6 +30,21 @@ getGain	KEYWORD2
 setMeasurement	KEYWORD2
 getResolution	KEYWORD2
 getTime	KEYWORD2
+
+setUVsensitivity	KEYWORD2
+getUVsensitivity	KEYWORD2
+
+getStatus	KEYWORD2
+
+setInterruptConfig	KEYWORD2
+getInterruptConfig	KEYWORD2
+setInterruptPersist	KEYWORD2
+getInterruptPersist	KEYWORD2
+
+setHighThreshold	KEYWORD2
+getHighThreshold	KEYWORD2
+setLowThreshold	KEYWORD2
+getLowThreshold	KEYWORD2
 
 
 # Constants (LITERAL1)

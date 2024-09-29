@@ -2,7 +2,7 @@
 //
 //    FILE: I2CKeyPad8x8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for 8x8 or smaller KeyPad connected to an I2C PCF8575.
 //     URL: https://github.com/RobTillaart/I2CKeyPad
 
@@ -11,11 +11,12 @@
 #include "Wire.h"
 
 
-#define I2C_KEYPAD8x8_LIB_VERSION         (F("0.3.0"))
+#define I2C_KEYPAD8x8_LIB_VERSION         (F("0.3.1"))
 
 #define I2C_KEYPAD8x8_NOKEY               64
 #define I2C_KEYPAD8x8_FAIL                65
 #define I2C_KEYPAD8x8_THRESHOLD           255
+
 
 class I2CKeyPad8x8
 {
@@ -26,7 +27,7 @@ public:
   bool     begin();
   bool     isConnected();
 
-  //  get raw key's 0..65
+  //  get raw key's 0..63, 64, 65
   uint8_t  getKey();
   uint8_t  getLastKey();
   bool     isPressed();

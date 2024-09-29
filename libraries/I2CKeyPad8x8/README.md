@@ -16,10 +16,11 @@ Arduino library for 8x8 or smaller KeyPad connected to an I2C PCF8575.
 
 ## Description
 
-EXPERIMENTAL (first tests ==> OK)
+**Experimental** (first tests ==> OK)
 
-The I2CKeyPad8x8 library implements the reading of a 8x8 keypad by means of a PCF8575.
-Smaller keypads, meaning less columns or rows (e.g. 5x4) can be read with it too.
+The I2CKeyPad8x8 library implements the reading of a 8x8 keypad by means 
+of a PCF8575. Smaller keypads, meaning less columns or rows (e.g. 5x4) 
+can be read with it too.
 
 ### Breaking change
 
@@ -30,11 +31,12 @@ can return **I2C_KEYPAD_THRESHOLD** (255).
 
 ### Related
 
-Relates strongly to https://github.com/RobTillaart/I2CKeyPad. which is an 4x4 version using **PCF8574**.
+Relates strongly to https://github.com/RobTillaart/I2CKeyPad. which is 
+an 4x4 version using **PCF8574**.
 
 - https://github.com/RobTillaart/PCF8575
 - https://github.com/RobTillaart/AnalogKeypad
-- https://github.com/RobTillaart/I2CKeyPad4x4
+- https://github.com/RobTillaart/I2CKeyPad
 - https://github.com/RobTillaart/I2CKeyPad8x8
 
 
@@ -102,29 +104,55 @@ too if they are behind the multiplexer.
 - **I2CKeyPad8x8(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
 The constructor sets the device address and optionally 
 allows to selects the I2C bus to use.
-- **bool begin()** The return value shows if the PCF8575 with the given address is connected properly.
+- **bool begin()** The return value shows if the PCF8575 with the given 
+address is connected properly. 
 Call wire.begin() first!
 - **bool isConnected()** returns false if the PCF8575 cannot be connected to.
+
+
+### getKey
+
 - **uint8_t getKey()** Returns default 0..63 for regular keys, 
 Returns **I2C_KEYPAD8X8_NOKEY** (64) if no key is pressed and and **I2C_KEYPAD8X8_FAIL**
-(17) in case of an error, e.g. multiple keys pressed.
-If a debounce delay is set, it might return **I2C_KEYPAD8X8_THRESHOLD** if called too fast.
-- **uint8_t getLastKey()** Returns the last **valid** key pressed 0..63, or **I2C_KEYPAD8X8_NOKEY** (64) which is also the initial value.
-- **bool isPressed()** Returns true if one or more keys of the keyPad are pressed, 
-however there is no check if multiple keys are pressed.
+(65) in case of an error, e.g. multiple keys pressed.
+If a debounce delay is set (see below), it will return **I2C_KEYPAD8X8_THRESHOLD** (255) 
+if the function is called too fast.
+- **uint8_t getLastKey()** Returns the last **valid** key pressed 0..63, or **I2C_KEYPAD8X8_NOKEY** 
+(64) which is also the initial value.
+This function does not "cache" failed keys.
+- **bool isPressed()** Returns true if one or more keys of the keyPad are pressed.
+Note there is no check if multiple keys are pressed or just one.
+Returns false if no key is pressed or when there is a communication error.
+So checking **getKey()** yourself will give more information, but is slightly slower.
+
+
+|  getKey()  |  HEX code    |  Meaning                  |  Notes  |
+|:----------:|:------------:|:--------------------------|:--------|
+|  0..63     |  0x00..0x3F  |  valid key pressed        |
+|  64        |  0x40        |  I2C_KEYPAD8X8_NOKEY      |
+|  65        |  0x41        |  I2C_KEYPAD8X8_FAIL       |  multi key or I2C communication error.
+|  255       |  0xFF        |  I2C_KEYPAD8X8_THRESHOLD  |
 
 
 ### KeyMap functions
 
-Note: **loadKeyMap()** must be called before **getChar()** and **getLastChar()**!
+Note: **loadKeyMap()** must be called before **getChar()** and **getLastChar()**
+can be used!
 
 - **char getChar()** returns the char corresponding to mapped key pressed.
-It returns **I2C_KEYPAD_THRESHOLD** if called too fast.
+The function returns **I2C_KEYPAD_THRESHOLD** (255) if called too fast and a debounce threshold is set.
 - **char getLastChar()** returns the last char pressed.
 This function is not affected by the debounce threshold.
-- **bool loadKeyMap(char \* keyMap)** keyMap should point to a (global) char array of length 66.
-This array maps index 0..63 on a char and index \[64\] maps to **I2CKeyPad8x8_NOKEY** (typical 'N') 
-and index \[65\] maps **I2CKeyPad8x8_FAIL** (typical 'F'). index 66 is the null char.
+- **bool loadKeyMap(char \* keyMap)** keyMap should point to a (global) char array of length 67.
+This array maps index 0..63 on a character and index \[64\] maps to **I2CKeyPad8x8_NOKEY** (typical 'N') 
+and index \[65\] maps **I2CKeyPad8x8_FAIL** (typical 'F'). Index 66 is the null char.
+This allows to define a keymap as a null terminated char array, e.g. 
+
+```cpp
+char keymap = "1234567890...NF";  //  ... stands for 50+ more chars.
+
+kp8.loadKeyMap(keymap);
+```
 
 **WARNING**
 
@@ -134,6 +162,8 @@ If there is no key map loaded the user should **NOT** call **getChar()** or
 
 Note: a keyMap char array may be longer than 66 characters, but only the first 66 are used.
 The length is **NOT** checked upon loading (as it may contain a NULL char).
+
+See also future section below.
 
 
 ### Debouncing threshold
@@ -172,14 +202,15 @@ Feedback welcome!
 ### Basic working
 
 After the **keypad.begin()** the sketch calls the **keyPad.getKey()** to read values from the keypad. 
-- If no key is pressed **I2C_KEYPAD8x8_NOKEY** code (16) is returned.
-- If the read value is not valid, e.g. two keys pressed, **I2C_KEYPAD8x8_FAIL** code (17) is returned.
-- If a debounce threshold is set, **I2C_KEYPAD8x8_THRESHOLD** might be returned.
+- If no key is pressed **I2C_KEYPAD8x8_NOKEY** code (64) is returned.
+- If the read value is not valid, e.g. two keys pressed, **I2C_KEYPAD8x8_FAIL** code (65) is returned.
+- If a debounce threshold is set, **I2C_KEYPAD8x8_THRESHOLD** (255) might be returned.
 See section above.
 - Otherwise a number 0..63 is returned.
 
-Note NOKEY and FAIL both have bit 8 set, all valid keys don't.
-This allows fast checking for valid keys.
+Note **I2C_KEYPAD8x8_NOKEY**, **I2C_KEYPAD8x8_FAIL** and **I2C_KEYPAD8x8_THRESHOLD**, all are 64 or
+beyond, all valid keys are below 64.
+This allows easy and fast checking for validity of keys.
 
 Only if a key map is loaded, the user can call **getChar()** and **getLastChar()** to get mapped keys.
 
@@ -188,7 +219,20 @@ Only if a key map is loaded, the user can call **getChar()** and **getLastChar()
 
 The library enables the PCF8575 to generate interrupts on the PCF8575 when a key is pressed. 
 This makes checking the keypad far more efficient as one does not need to poll the device over I2C.
-See examples.
+See examples (TODO).
+
+
+## Smaller keypads
+
+If one wants to connect a smaller keyPad e.g. a 4x4 to the PCF8575, one need to be
+sure to have the rows on P00..P07 and the columns on P10..P17 (or P08..P15).
+
+This library does not support the usage of the "not used" pins, when connecting a
+smaller keypad than 8x8. 
+
+In issue #7 an idea is proposed to use the https://github.com/RobTillaart/I2CKeyPad
+with a PCF8575. It proposes to connect a 4x4 keypad to the P00..P07 pins.
+Warning: this idea is not confirmed to work yet, feedback is welcome.
 
 
 ## Future
@@ -201,14 +245,23 @@ See examples.
 #### Should
 
 - test extensively
-  - basic working (OK)
   - interrupts
   - keymapping
   - performance
-- improve error handling?
+- improve error handling
   - **I2C_KEYPAD_ERR_MODE**
+  - **I2C_KEYPAD_ERR_COMM** (66?) or map to **I2C_KEYPAD_FAIL**?
 
 #### Could
+
+- add examples
+  - from https://github.com/RobTillaart/I2CKeyPad?
+- KeyMap
+  - checking if NULL?  ==>  FAIL, how?
+  - checking length of keymap during load.
+  - default ASCII map (32..96?)
+  - in PROGMEM?
+- add **uint8_t getAddress()**
 
 #### Wont
 

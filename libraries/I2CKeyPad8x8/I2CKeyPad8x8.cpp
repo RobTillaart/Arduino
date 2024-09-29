@@ -1,7 +1,7 @@
 //
 //    FILE: I2CKeyPad8x8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for 8x8 or smaller KeyPad connected to an I2C PCF8575.
 //     URL: https://github.com/RobTillaart/I2CKeyPad8x8
 
@@ -64,8 +64,9 @@ uint8_t I2CKeyPad8x8::getLastKey()
 bool I2CKeyPad8x8::isPressed()
 {
   uint16_t a = _read(0xFF00);
-  if (a == 0xFF00) return false;
-  return (a != 0xFF00);
+  if (a == 0xFF00) return false;  //  NO KEY
+  if (a == 0xFFFF) return false;  //  I2C ERROR
+  return true;  //  1 or more keys pressed.
 }
 
 
@@ -124,7 +125,7 @@ uint16_t I2CKeyPad8x8::_read(uint16_t mask)
   _wire->write(mask & 0xFF);
   if (_wire->endTransmission() != 0)
   {
-    //  set communication error
+    //  set I2C communication error
     return 0xFFFF;
   }
   _wire->requestFrom(_address, (uint8_t)2);
@@ -141,7 +142,6 @@ uint8_t I2CKeyPad8x8::_getKey8x8()
 
   //  mask = 8 rows as input pull up, 8 columns as output
   uint16_t rows = _read(0xFF00);
-
   //  check if single line has gone low.
   if (rows == 0xFF00)      return I2C_KEYPAD8x8_NOKEY;
   else if (rows == 0xFE00) key = 0;
@@ -168,7 +168,8 @@ uint8_t I2CKeyPad8x8::_getKey8x8()
   else if (cols == 0x007F) key += 56;
   else return I2C_KEYPAD8x8_FAIL;
 
-  return key;   // 0..65
+  //  return single key pressed 0..63
+  return key;
 }
 
 

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2024-09-26
+- update documentation, errors and more
+- fix **isPressed()** to handle I2C communication error as no key pressed.
+- update comments.
+
 ## [0.3.0] - 2024-07-15
 - sync with I2CKeyPad 0.5.0
 - implement **debounceThreshold**

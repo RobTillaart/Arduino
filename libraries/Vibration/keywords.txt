@@ -1,0 +1,17 @@
+# Syntax Colouring Map For Vibration
+
+# Data types (KEYWORD1)
+VibrationSensor	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+zeroCount	KEYWORD2
+average	KEYWORD2
+poll	KEYWORD2
+
+
+# Constants (LITERAL1)
+VIBRATION_LIB_VERSION	LITERAL1
+

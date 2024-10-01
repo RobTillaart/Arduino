@@ -1,0 +1,23 @@
+{
+  "name": "Vibration",
+  "keywords": "Vibration, SW-420, SW-18010P, tilt",
+  "description": "Arduino library for a vibration / tilt sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Vibration.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "Vibration.h"
+}

@@ -2,7 +2,7 @@
 //    FILE: DS3232.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.4.1
+// VERSION: 0.5.0
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -65,7 +65,7 @@ int DS3231::read()
   _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
 
-  if (Wire.requestFrom(_address, (uint8_t)7) != 7)
+  if (_wire->requestFrom(_address, (uint8_t)7) != 7)
   {
     return DS3232_ERROR_I2C;
   }
@@ -90,13 +90,13 @@ int DS3231::write()
   {
     _wire->write(dec2bcd(_reg[i]));
   }
-  _rv = Wire.endTransmission();
+  _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
 
   _wire->beginTransmission(_address);
   _wire->write(DS3232_SECONDS);
   _wire->write(_reg[0] & 0x7f);  //  start clock
-  _rv = Wire.endTransmission();
+  _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
 
   return DS3232_OK;
@@ -159,7 +159,7 @@ int DS3231::readRegister(uint8_t reg)
   _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
 
-  if (Wire.requestFrom(_address, (uint8_t)1) != 1)
+  if (_wire->requestFrom(_address, (uint8_t)1) != 1)
   {
     return DS3232_ERROR_I2C;
   }
@@ -172,7 +172,7 @@ int DS3231::writeRegister(uint8_t reg, uint8_t value)
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
-  _rv = Wire.endTransmission();
+  _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
   return DS3232_OK;
 }

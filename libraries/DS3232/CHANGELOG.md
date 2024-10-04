@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-10-04
+- Fix #5, low level Wire
+- minor edits
+
+----
+
 ## [0.4.1] - 2024-05-17
 - add **float getTemperature()**
 - make DS3231 the base class as the DS3232 has EEPROM (logical)

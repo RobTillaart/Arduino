@@ -39,19 +39,20 @@ Note: This DS3232 library is a refactored version of an old experimental DS3232 
 from 2011 which was never published.
 
 
-#### Tests
+### Tests
 
 All 0.4.0 examples are tested with Arduino UNO with 100KHz I2C.
+Other platforms should be tested too.
 
 
-#### Compatibles
+### Compatibles
 
 The DS3231 RTC is compatible for the date and time keeping part.
 The only difference found is that the DS3231 does not have the 
 236 bytes of **battery back-upped** SRAM the DS3232 has.
 
 
-#### Related
+### Related
 
 - https://github.com/JChristensen/DS3232RTC  (full featured DS3232 lib)
 - https://github.com/RobTillaart/dateTimeHelpers
@@ -67,7 +68,7 @@ Pull ups are needed on SDA, SCL and other pins (datasheet).
 
 ## I2C 
 
-#### Performance
+### Performance
 
 I2C bus speeds officially supports up to 400 KHz.
 
@@ -90,11 +91,11 @@ of the lastRead(). See example **DS3232_demo_read_minute.ino**
 An indication averaged around 44us per update on UNO.
 
 
-#### Address
+### Address
 
 Fixed address 0x68, both for DS3232 and DS3231, see datasheet
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Imagine you want multiple clocks e.g. for different time zones.
 Or just to average them to be more precise, or as backup of each other
@@ -122,7 +123,7 @@ too if they are behind the multiplexer.
 #include "DS3232.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **DS3231(TwoWire \*wire = &Wire)** Constructor and I2C bus.
 - **DS3232(TwoWire \*wire = &Wire)** Constructor and I2C bus.
@@ -132,14 +133,14 @@ Returns error status.
 - **uint8_t getAddress()** returns address (0x68) set in constructor.
 - **uint16_t getType()** returns 3232 or 3231, depending on constructor.
 
-#### Base RTC
+### Base RTC
 
 - **int read()** read the current time from the RTC.
 - **int write()** set the current time in the RTC.
 Writes all fields, be aware that weekDay need to be set too.
 - **uint32_t lastRead()** lastTime in milliseconds when RTC is read.
 
-#### Getters
+### Getters
 
 Getters return the last read value, to update call **read()** first.
 
@@ -151,7 +152,7 @@ Getters return the last read value, to update call **read()** first.
 - **uint8_t month()**
 - **uint8_t year()**
 
-#### Setters
+### Setters
 
 Setters set a value, to update the RTC call **write()** after.
 
@@ -166,7 +167,7 @@ Setters set a value, to update the RTC call **write()** after.
 Note: you can also adjust just one field and keep the others.
 
 
-#### Temperature
+### Temperature
 
 Note that the temperature measurement is only refreshed every 64 (default),
 128, 256 or 512 seconds.
@@ -175,7 +176,7 @@ The interval can be set with bits 5 and 4 of the CONTROL/STATUS register (0x0F).
 - **float getTemperature()** return temperature in 0.25°C steps.
 
 
-#### Low level: Read/WriteRegister
+### Low level: Read/WriteRegister
 
 Allows to access all functionality the library did not implement (yet).
 Check datasheet for details per register.
@@ -185,7 +186,7 @@ Use with care.
 - **int writeRegister(uint8_t reg, uint8_t value)**
 
 
-#### Debug
+### Debug
 
 In case of an I2C error one can get the last return value 
 of ```wire.EndTransmission()``` to get an indication of the problem.
@@ -195,14 +196,15 @@ of ```wire.EndTransmission()``` to get an indication of the problem.
 
 ## DS3232 SRAM 
 
-Experimental SRAM support, needs to be tested / verified.  
+**Experimental** SRAM support, needs to be tested / verified.  
 Feedback welcome.
 
 SRAM is DS3232 specific, and it has 236 bytes.
-The following functions use index 0..235. The user should guard 
-the index esp. for the 16 and 32 bit versions as it is not checked.
+The following functions use index 0..235. 
+The user should guard the index especially for the 16 and 32 bit versions as 
+the boundaries are not checked.
 
-236 bytes can be used e.g. to hold 78 hms timestamps
+236 bytes can be used e.g. to hold 78 hms timestamps.
 
 - **int SRAMwrite8(uint8_t index, uint8_t value)**
 - **int SRAMwrite16(uint8_t index, uint16_t value)**
@@ -214,7 +216,7 @@ the index esp. for the 16 and 32 bit versions as it is not checked.
 
 ## Notes
 
-#### Day of week
+### Day of week
 
 DS3232 datasheet states:
 _The day-of-week register increments at midnight.

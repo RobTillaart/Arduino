@@ -5,12 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2024-10-04
+- fix #65, make **getCumulativePosition()** direction aware.
+- optimize **readAngle()** and **rawAngle()**.
+- fix negative values in **getRevolutions()**.
+- fix #66, make I2C functions virtual to improve derived class.
+- fix **setOffset()** to not set offset to 360.
+- add unit test for offset -0.01 and 360.0 (both should become 0.0).
+- add **AS5600_output_speedtest.ino**, thanks to Pollyscracker.
+- update readme.md.
+
+
 ## [0.6.1] - 2024-03-31
 - improve **getCumulativePosition()**, catch I2C error, see #62
 - update readme.md (incl reorder future work).
 - update GitHub actions
 - minor edits
-
 
 ## [0.6.0] - 2024-01-25
 - add experimental error handling

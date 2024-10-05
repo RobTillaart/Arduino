@@ -12,7 +12,9 @@
 #include "AS5600.h"
 
 
-AS5600 as5600;   //  use default Wire
+//  select right class.
+//  AS5600 as5600;   //  use default Wire
+AS5600L as5600;   //  use default Wire
 
 
 void setup()
@@ -26,6 +28,13 @@ void setup()
 
   as5600.begin(4);  //  set direction pin.
   as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit.
+
+  //  test border cases first
+  as5600.setOffset(-0.0000001);
+  Serial.println(as5600.getOffset(), 2);
+  as5600.setOffset(360.0);
+  Serial.println(as5600.getOffset(), 2);
+  Serial.println();
 }
 
 

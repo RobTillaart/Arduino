@@ -16,8 +16,6 @@ Arduino library for AS5600 and AS5600L magnetic rotation meter.
 
 ## Description
 
-#### AS5600
-
 **AS5600** is a library for an AS5600 / AS5600L based magnetic **rotation** meter.
 More exact, it measures the angle (rotation w.r.t. reference) and not RPM.
 Multiple angle measurements allows one to calculate or estimate the RPM.
@@ -36,7 +34,17 @@ or fluctuating power supply.
 Please share your experiences.
 
 
-#### 0.5.0 Breaking change
+### 0.6.2 bug fixes.
+
+Version 0.6.2 fixes bugs that might affect your code.
+
+- fix **getCumulativePosition()** to make it direction aware.
+- fix negative values in **getRevolutions()**.
+- fix **setOffset()** to not set offset to 360 degrees.
+- fix #66, make I2C functions virtual.
+
+
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.
 You cannot set the SDA and SCL pins in **begin()** any more.
@@ -45,7 +53,7 @@ The user has to call **Wire.begin()** and can optionally set the I2C pins
 before calling **AS5600.begin()**.
 
 
-#### Related libraries
+### Related libraries
 
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
@@ -65,7 +73,7 @@ The AS5600 datasheet states it supports Fast-Mode == 400 KHz
 and Fast-Mode-Plus == 1000 KHz.
 
 
-#### Pull ups
+### Pull ups
 
 I2C performance tests with an AS5600L with an UNO failed at 400 KHz. 
 After investigation it became clear that pull ups are mandatory.
@@ -75,7 +83,7 @@ So the signal was not stable fast enough (not "square enough").
 After applying pull ups the AS5600L worked up to 1000 KHz.
 
 
-#### DIR pin
+### DIR pin
 
 From datasheet, page 30 - Direction (clockwise vs. counter-clockwise)
 
@@ -105,7 +113,7 @@ parameter set to **255**, Software Direction Control is enabled.
 See Software Direction Control below for more information.
 
 
-#### OUT pin
+### OUT pin
 
 The sensor has an output pin named **OUT**.
 This pin can be used for an analogue or PWM output signal (AS5600),
@@ -118,14 +126,14 @@ Examples are added to show how to use this pin with **setOutputMode()**.
 See more in the sections Analog OUT and PWM OUT below.
 
 
-##### Note: (From Zipdox2 - See issue #36)
+#### Note: (From Zipdox2 - See issue #36)
 
 Some AS5600 modules seem to have a resistor between **PGO** and **GND**.
 This causes the AS5600 to disable the output (to use it for programming, see datasheet). 
 This resistor needs to be removed to use the **OUT** pin.
 
 
-#### PGO pin
+### PGO pin
 
 Not tested. ==> Read the datasheet!
 
@@ -141,7 +149,7 @@ See **Make configuration persistent** below.
 
 The I2C address of the **AS5600** is always 0x36.
 
-#### Address
+### Address
 
 |  sensor  |  address  |  changeable  |
 |:--------:|:---------:|:-------------|
@@ -154,7 +162,7 @@ The **AS5600L** supports the change of I2C address, optionally permanent.
 Check the **setAddress()** function for non-permanent change. 
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -180,7 +188,7 @@ This output could be used to connect multiple sensors to different analogue port
 **Warning**: If and how well this analog option works is not verified or tested.
 
 
-#### Performance
+### Performance
 
 |     board     |  sensor   |  results         |  notes  |
 |:-------------:|:---------:|:-----------------|:--------|
@@ -192,7 +200,7 @@ This output could be used to connect multiple sensors to different analogue port
 No other boards tested yet.
 
 
-#### ESP32 and I2C
+### ESP32 and I2C
 
 When polling the AS5600 with an ESP32 to measure RPM an issue has been reported.
 See https://github.com/RobTillaart/AS5600/issues/28
@@ -217,7 +225,7 @@ Not for speed, but also not for total number of rotations.
 #include "AS5600.h"
 ```
 
-#### Constants
+### Constants
 
 Most important are:
 
@@ -243,7 +251,7 @@ See AS5600.h file (and datasheet) for all constants.
 Also Configuration bits below for configuration related ones.
 
 
-#### Constructor + I2C
+### Constructor + I2C
 
 - **AS5600(TwoWire \*wire = &Wire)** Constructor with optional Wire 
 interface as parameter.
@@ -256,7 +264,7 @@ See below.
 - **uint8_t getAddress()** returns the fixed device address 0x36 (AS5600).
 
 
-#### Direction
+### Direction
 
 To define in which way the sensor counts up.
 
@@ -267,7 +275,7 @@ AS5600_COUNTERCLOCK_WISE (1).
 See Software Direction Control below for more information.
 
 
-#### Configuration registers
+### Configuration registers
 
 Please read the datasheet for details.
 
@@ -283,7 +291,7 @@ See datasheet **Angle Programming**
 - **uint16_t getMaxAngle()** get limited range.
 
 
-#### Configuration bits
+### Configuration bits
 
 Please read datasheet for details.
 
@@ -327,7 +335,7 @@ In a way one is trading precision for stability.
 - **uint8_t getWatchDog()**
 
 
-#### Read Angle
+### Read Angle
 
 - **uint16_t rawAngle()** returns 0 .. 4095. (12 bits) 
 Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625 
@@ -375,7 +383,7 @@ as.increaseOffset(-30);
 ```
 
 
-#### Angular Speed
+### Angular Speed
 
 - **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES)** is an experimental function that returns 
 an approximation of the angular speed in rotations per second.
@@ -405,7 +413,7 @@ with a short interval. The only limitation then is that both measurements
 should be within 180° = half a rotation. 
 
 
-#### Cumulative position (experimental)
+### Cumulative position (experimental)
 
 Since 0.3.3 an experimental cumulative position can be requested from the library.
 The sensor does not provide interrupts to indicate a movement or revolution
@@ -423,9 +431,13 @@ The cumulative position (32 bits) consists of 3 parts
 
 Functions are:
 
-- **int32_t getCumulativePosition()** reads sensor and updates cumulative position.
+- **int32_t getCumulativePosition()** reads sensor and updates cumulative position.  
+Updated in 0.6.2 to follow the setting of the **directionPin**.
 - **int32_t getRevolutions()** converts last position to whole revolutions.
 Convenience function.
+Updated in 0.6.2 to return **zero** for the first negative revolution as this
+is more correct as there is not yet a negative turn made.
+This might be breaking behavior.
 - **int32_t resetPosition(int32_t position = 0)** resets the "revolutions" to position (default 0).
 It does not reset the delta (rotation) since last call to **getCumulativePosition()**.
 Returns last position (before reset).
@@ -437,13 +449,13 @@ As this code is experimental, names might change in the future (0.4.0)?
 As the function are mostly about counting revolutions the current thoughts for new names are:
 
 ```cpp
-int32_t updateRevolutions()  replaces getCumulativePosition()
-int32_t getRevolutions()
-int32_t resetRevolutions()   replaces resetPosition()
+int32_t updateRevolutions();  //  replaces getCumulativePosition();
+int32_t getRevolutions();
+int32_t resetRevolutions();   //  replaces resetPosition();
 ```
 
 
-#### Status registers
+### Status registers
 
 - **uint8_t readStatus()** see Status bits below.
 - **uint8_t readAGC()** returns the Automatic Gain Control.
@@ -456,7 +468,7 @@ Scale is unclear, can be used as relative scale.
 - **bool magnetTooWeak()** idem.
 
 
-#### Status bits
+### Status bits
 
 Please read datasheet for details.
 
@@ -469,7 +481,7 @@ Please read datasheet for details.
 |  6-7  |       | not used      |                       |
 
 
-#### Error handling
+### Error handling
 
 Since 0.5.2 the library has added **experimental** error handling.
 For now only lowest level I2C errors are checked for transmission errors.
@@ -505,14 +517,15 @@ After reading the error status is cleared to **AS5600_OK**.
 
 ## Make configuration persistent. BURN
 
-#### Read burn count
+### Read burn count
 
 - **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS 
 registers are written to permanent memory. 
-You can only burn a new Angle 3 times to the AS5600, and only 2 times for the AS5600L. This function is safe as it is readonly.
+You can only burn a new Angle 3 times to the AS5600, and only 2 times for the AS5600L. 
+This function is safe as it is readonly.
 
 
-#### BURN function
+### BURN function
 
 The burn functions are used to make settings persistent. 
 These burn functions are permanent, therefore they are commented in the library.
@@ -574,7 +587,7 @@ The OUT pin can be configured with the function:
 - **bool setOutputMode(uint8_t outputMode)**
 
 
-#### AS5600
+### AS5600
 
 When the analog OUT mode is set the OUT pin provides a voltage
 which is linear with the angle. 
@@ -591,7 +604,7 @@ To measure these angles a 10 bit ADC or higher is needed.
 When analog OUT is selected **readAngle()** will still return valid values.
 
 
-#### AS5600L
+### AS5600L
 
 The AS5600L does **NOT** support analog OUT.
 Both mode 0 and 1 will set the OUT pin to VDD (+5V0 or 3V3).
@@ -625,15 +638,15 @@ The pulse width is 4351 units, 128 high, 4095 angle, 128 low.
 |   360   |   4223  |   128  |  97,06%  |   2,94%  | in fact 359.9 something as 360 == 0
 
 
-#### Formula:
+### Formula
 
-based upon the table above ```angle = map(dutyCycle, 2.94, 97.06, 0.0, 359.9);```
+Based upon the table above ```angle = map(dutyCycle, 2.94, 97.06, 0.0, 359.9);```
 
 or in code ..
 ```cpp
-t0 = micros();  // rising;
-t1 = micros();  // falling;
-t2 = micros();  // rising;  new t0
+t0 = micros();  //  rising;
+t1 = micros();  //  falling;
+t2 = micros();  //  rising;  new t0
 
 //  note that t2 - t0 should be a constant depending on frequency set.
 //  however as there might be up to 5% variation it cannot be hard coded.
@@ -643,7 +656,7 @@ float angle     = (dutyCycle - 0.0294) * (359.9 / (0.9706 - 0.0294));
 ```
 
 
-#### PWM frequency
+### PWM frequency
 
 The AS5600 allows one to set the PWM base frequency (~5%)
 - **bool setPWMFrequency(uint8_t pwmFreq)**
@@ -672,19 +685,20 @@ As the I2C address can be changed in the AS5600L, the address is a parameter of 
 This is a difference with the AS5600 constructor.
 
 
-#### Setting I2C address
+### Setting I2C address
 
 - **bool setAddress(uint8_t address)** Returns false if the I2C address is not in valid range (8-119).
 
 
-#### Setting I2C UPDT
+### Setting I2C UPDT
 
 UPDT = update  page 30 - AS5600L 
 
 - **bool setI2CUPDT(uint8_t value)**
 - **uint8_t getI2CUPDT()**
 
-These functions seems to have only a function in relation to **setAddress()** so possibly obsolete in the future. 
+These functions seems to have only a function in relation to **setAddress()**
+so possibly obsolete in the future. 
 If you got other insights on these functions please let me know.
 
 ----
@@ -725,14 +739,14 @@ priority is relative.
 
 #### Must
 
-- re-organize readme
+- re-organize readme.md
 - rename revolution functions
   - to what?
 
 
 #### Should
 
-- implement extended error handling in public functions.
+- Implement extended error handling in public functions.
   - will increase footprint !! how much?
   - **call writeReg() only if readReg() is OK** ==> prevent incorrect writes
     - ```if (_error != 0) return false;```

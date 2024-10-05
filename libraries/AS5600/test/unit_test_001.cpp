@@ -182,13 +182,19 @@ unittest(test_software_direction)
 }
 
 
-unittest(test_offset_I)
+unittest(test_offset_1)
 {
   AS5600 as5600;
 
   Wire.begin();
 
   as5600.begin();
+
+  as5600.setOffset(-0.0001);
+  assertEqualFloat(0, as5600.getOffset(), 0.05);
+  as5600.setOffset(360.00);
+  assertEqualFloat(0, as5600.getOffset(), 0.05);
+
 
   for (int of = 0; of < 360; of += 40)
   {
@@ -210,7 +216,7 @@ unittest(test_offset_I)
 }
 
 
-unittest(test_offset_II)
+unittest(test_offset_2)
 {
   AS5600 as5600;
 

@@ -11,8 +11,9 @@
 
 #include "AS5600.h"
 
-
-AS5600 as5600;   //  use default Wire
+//  select right class.
+//  AS5600 as5600;   //  use default Wire
+AS5600L as5600;   //  use default Wire
 
 
 void setup()

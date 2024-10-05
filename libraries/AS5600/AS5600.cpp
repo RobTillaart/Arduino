@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -303,8 +303,9 @@ uint8_t AS5600::getWatchDog()
 //
 uint16_t AS5600::rawAngle()
 {
-  int16_t value = readReg2(AS5600_RAW_ANGLE) & 0x0FFF;
-  if (_offset > 0) value = (value + _offset) & 0x0FFF;
+  int16_t value = readReg2(AS5600_RAW_ANGLE);
+  if (_offset > 0) value += _offset;
+  value &= 0x0FFF;
 
   if ((_directionPin == AS5600_SW_DIRECTION_PIN) &&
       (_direction == AS5600_COUNTERCLOCK_WISE))
@@ -317,8 +318,9 @@ uint16_t AS5600::rawAngle()
 
 uint16_t AS5600::readAngle()
 {
-  uint16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
-  if (_offset > 0) value = (value + _offset) & 0x0FFF;
+  uint16_t value = readReg2(AS5600_ANGLE);
+  if (_offset > 0) value += _offset;
+  value &= 0x0FFF;
 
   if ((_directionPin == AS5600_SW_DIRECTION_PIN) &&
       (_direction == AS5600_COUNTERCLOCK_WISE))
@@ -337,8 +339,8 @@ bool AS5600::setOffset(float degrees)
   if (neg) degrees = -degrees;
 
   uint16_t offset = round(degrees * AS5600_DEGREES_TO_RAW);
-  offset &= 4095;
-  if (neg) offset = 4096 - offset;
+  offset &= 0x0FFF;
+  if (neg) offset = (4096 - offset) & 0x0FFF;
   _offset = offset;
   return true;
 }
@@ -462,7 +464,7 @@ float AS5600::getAngularSpeed(uint8_t mode)
 //
 int32_t AS5600::getCumulativePosition()
 {
-  int16_t value = readReg2(AS5600_ANGLE) & 0x0FFF;
+  int16_t value = readAngle();
   if (_error != AS5600_OK) return _position;
 
   //  whole rotation CW?
@@ -487,9 +489,8 @@ int32_t AS5600::getCumulativePosition()
 int32_t AS5600::getRevolutions()
 {
   int32_t p = _position >> 12;  //  divide by 4096
+  if (p < 0) p++;  //  correct negative values, See #65
   return p;
-  // if (p < 0) p++;
-  // return p;
 }
 
 

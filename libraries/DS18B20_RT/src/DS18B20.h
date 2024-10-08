@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -22,7 +22,7 @@
 #include "OneWire.h"
 
 
-#define DS18B20_LIB_VERSION     (F("0.2.3"))
+#define DS18B20_LIB_VERSION     (F("0.2.4"))
 
 //  Error Code
 #define DEVICE_DISCONNECTED     -127
@@ -48,6 +48,12 @@ public:
   bool      isConversionComplete(void);
   //        backwards compatible
   float     getTempC(bool checkConnect = true);
+  //        conversion wrapper Fahrenheit
+  //        (keep in .h for footprint)
+  float     getTempF() { return 32.0 + getTempC() * 1.8; };
+
+  void      setOffset(float offset = 0);
+  float     getOffset();
 
   bool      getAddress(uint8_t * buf);
 
@@ -68,6 +74,7 @@ private:
 
   uint8_t       _resolution;
   uint8_t       _config;
+  float         _offset;
 };
 
 

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2024-10-08
+- Fix #34, add setOffset() and getOffset()
+- add conversion simple wrapper for **getTempF()** for Fahrenheit.
+- update readme.md
+
 ## [0.2.3] - 2024-06-27
 - Fix #32, add connectCheck parameter to getTempC()
 - update examples
@@ -87,7 +92,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix library.json
 
 ## [0.1.5] - 2020-04-29
-- #4 added set/getConfig 
+- #4 added set/getConfig
 - add DEVICE_CRC_ERROR
 - add example
 

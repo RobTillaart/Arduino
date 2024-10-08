@@ -26,8 +26,15 @@ I'm a great fan of the above library however some time ago I needed to strip it 
 to save a few dozen bytes. I reworked that minimalistic version into a library and I 
 added a number of Arduino examples to help you get started.
 
+Effort has been taken to keep the code, variables and function names compatible with 
+ATCL library mentioned above. This way you can step over to that one with relatively
+few problems when you need more functionality like multiple sensors on one pin.
 
-#### Footprint OneWire
+Finally this library will probably make it easier to use a DS18B20 with processing 
+boards or IC's with small memory footprint.
+
+
+### Footprint OneWire
 
 This library depends (is build) upon the **OneWire** library of Paul Stoffregen.
 - https://github.com/PaulStoffregen/OneWire - the reference imho.
@@ -39,13 +46,17 @@ So if you are in need to save some more bytes, you might try [OneWireNG]
 (https://github.com/pstolarz/OneWireNg).
 
 
-#### Related
+### Related
 
-This library is related to 
+This library is related to
 - https://github.com/RobTillaart/DS18B20_INT
 - https://github.com/RobTillaart/DS18B20_RT
 - https://github.com/milesburton/Arduino-Temperature-Control-Library
 - https://github.com/milesburton/Arduino-Temperature-Control-Library/issues/244#event-9253126638
+
+Dependency
+- https://github.com/PaulStoffregen/OneWire
+- https://github.com/pstolarz/OneWireNg (alternative)
 
 
 ## Interface
@@ -54,7 +65,7 @@ This library is related to
 #include "DS18B20.h"
 ```
 
-#### Core
+### Constructor
 
 The DS18B20 library supports only the DS18B20, only one sensor per pin, no parasite 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
@@ -68,31 +79,43 @@ There will be a number of retries to connect, default 3.
 - **bool isConnected(uint8_t retries = 3)** resets oneWire checks if a device can be found.  
 Returns true if a device is found.
 There will be a number of retries to connect, default 3.
+- **bool getAddress(uint8_t \* buf)** returns true if the sensor is configured (available).
+Buf must be a byte array of at least 8 bytes.
+
+
+### Request Temperature
+
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
 - **float getTempC(bool checkConnect = true)** returns temperature in Celsius.
   - -127 = DEVICE_DISCONNECTED (only when checkConnect == true)
   - -128 = DEVICE_CRC_ERROR
   - can be faster by setting checkConnect to false. (experimental)
-- **bool setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default).
-Returns false if no device is found.
-- **uint8_t getResolution()** return resolution set.
-- **bool getAddress(uint8_t \* buf)** returns true if the sensor is configured (available).
-Buf must be a byte array of at least 8 bytes.
+- **float getTempF()** simple wrapper, returns temperature in Fahrenheit.
+
 
 This "async only" allows the class to be both minimal in size and non-blocking. 
 In fact the class has no support for a synchronous read in one call. 
 This choice will teach people how to work in a non-blocking way from the start.
 
-Effort has been taken to keep the code, variables and function names compatible with 
-ATCL library mentioned above. This way you can step over to that one with relatively
-few problems when you need more functionality like multiple sensors on one pin.
 
-Finally this library will probably make it easier to use a DS18B20 with processing 
-boards or IC's with small memory footprint.
+### Offset
+
+- **void setOffset(float offset = 0)** set a (small) offset to calibrate the sensor.
+- **float getOffset()** return the current offset, default 0.
+
+One additional application of the offset is to **setOffset(273.15)** which 
+converts the default Celsius temperature into **Kelvin**.
 
 
-#### Config
+### Resolution
+
+- **bool setResolution(uint8_t resolution = 9)** resolution = 9..12 (9 is default).
+Returns false if no device is found.
+- **uint8_t getResolution()** return resolution set.
+
+
+### Configuration
 
 - **void setConfig(uint8_t config)** set DS18B20_CLEAR or DS18B20_CRC. 
 If DS18B20_CRC flag is set the library will check the CRC, otherwise it won't.
@@ -122,7 +145,7 @@ Connect a pull-up resistor 4.7 KOhm between pin3 and pin2.
 When the wires are longer this resistor needs to be smaller.
 
 
-#### -127 and 85
+### -127 and 85
 
 Two specific return values from reading the sensor:
 
@@ -131,7 +154,7 @@ Two specific return values from reading the sensor:
 If you get this unexpected it may indicate a power problem
 
 
-#### Disconnect
+### Disconnect
 
 During tests with **DS18B20_test_disconnect.ino** I noticed:
 - set resolution to 9 bits + disconnected data line ==> sensor blocks and keeps 9 bits resolution.
@@ -139,7 +162,7 @@ During tests with **DS18B20_test_disconnect.ino** I noticed:
 - set resolution to 9 bits + disconnected GND line ==> sensor keeps running at 9 bits resolution.
 
 
-#### Pull up resistor
+### Pull up resistor
 
 An **indicative** table for pull up resistors, (E12 series), to get started.
 
@@ -159,7 +182,7 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 \* = no info, smaller?
 
 
-#### Diagnosis notes
+### Diagnosis notes
 
 It was noted that the library sometimes give unexpected values, and keep 
 sending these values.
@@ -188,7 +211,7 @@ sensor is read.
 ## Credits
 
 Miles Burton who originally developed the Arduino Temperature Control Library.
-and all people who contributed to that lib.
+and all people who contributed to that library.
 
 
 ## Future
@@ -199,13 +222,14 @@ and all people who contributed to that lib.
 
 #### Should
 
-- add examples
 - investigate performance gain of no CRC.
+  - add performance table in readme.md
 - Extend oneWireSearch with device types
   - see oneWireScanner.ino (2016 version)
 - should checkConnect be a **config** flag like CRC?
 
 #### Could
+
 
 #### Wont
 

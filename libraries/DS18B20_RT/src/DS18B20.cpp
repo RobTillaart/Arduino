@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.4
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -42,6 +42,7 @@ DS18B20::DS18B20(OneWire* ow, uint8_t resolution)
   _addressFound = false;
   _resolution   = resolution;
   _config       = DS18B20_CLEAR;
+  _offset       = 0;
 }
 
 
@@ -65,8 +66,8 @@ bool DS18B20::isConnected(uint8_t retries)
     _oneWire->reset_search();
     _deviceAddress[0] = 0x00;
     _oneWire->search(_deviceAddress);
-    _addressFound = _deviceAddress[0] != 0x00 &&
-                _oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7];
+    _addressFound = (_deviceAddress[0] != 0x00) &&
+                (_oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7]);
   }
   return _addressFound;
 }
@@ -109,13 +110,30 @@ float DS18B20::getTempC(bool checkConnect)
   {
     readScratchPad(scratchPad, 2);
   }
+
   int16_t rawTemperature = (((int16_t)scratchPad[TEMP_MSB]) << 8) | scratchPad[TEMP_LSB];
   float temp = 0.0625 * rawTemperature;
   if (temp < -55)
   {
     return DEVICE_DISCONNECTED;
   }
+  if (_offset != 0)
+  {
+    temp += _offset;
+  }
   return temp;
+}
+
+
+void DS18B20::setOffset(float offset)
+{
+  _offset = offset;
+}
+
+
+float DS18B20::getOffset()
+{
+  return _offset;
 }
 
 

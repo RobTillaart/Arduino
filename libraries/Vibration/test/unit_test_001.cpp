@@ -47,6 +47,42 @@ unittest(test_constructor)
 }
 
 
+unittest(test_noiseLevel)
+{
+  VibrationSensor vib(A2);
+
+  //  default value
+  assertEqual(10, vib.getNoiseLevel());
+
+  //  setting different values
+  for (int i = 0; i < 20; i+=2)
+  {
+    vib.setNoiseLevel(i);
+    assertEqual(i, vib.getNoiseLevel());
+  }
+
+  // default parameter
+  vib.setNoiseLevel();
+  assertEqual(10, vib.getNoiseLevel());
+}
+
+
+unittest(test_defaults)
+{
+  VibrationSensor vib(A2);
+
+  //  raw data.
+  assertEqual(10, vib.getNoiseLevel());
+  assertEqual(0, vib.sampleCount());
+  assertEqual(0, vib.maxValue());
+  assertEqual(0, vib.sum());
+
+  //  divide by zero.
+  assertNAN(vib.zeroCount());
+  assertNAN(vib.average());
+}
+
+
 unittest_main()
 
 

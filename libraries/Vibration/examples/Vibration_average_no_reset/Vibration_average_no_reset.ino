@@ -1,9 +1,11 @@
 //
-//    FILE: Vibration_zeroCount.ino
+//    FILE: Vibration_average_no_reset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/Vibration
-
+//
+//  value of sampleCount will grow till 2^32
+//  before it wraps to zero.
 
 #include "Vibration.h"
 
@@ -22,14 +24,13 @@ void setup()
 
 void loop()
 {
-  //  measure for one second
-  VBS.measure(1000000);
-  //  percentage with one decimal
+  //  measure
+  VBS.measure(100000, false);
+  //  average with one decimal
   Serial.print("Samples: \t");
-  Serial.print(VBS.sampleCount());
-  Serial.print("\t zero: \t");
-  Serial.print(VBS.zeroCount(), 1);
-  Serial.print(" %");
+  Serial.print(VBS.sampleCount());  //   will grow up to 2^32
+  Serial.print("\t avg: \t");
+  Serial.print(VBS.average());
   Serial.println();
 }
 

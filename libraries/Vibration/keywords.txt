@@ -7,9 +7,15 @@ VibrationSensor	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 
+setNoiseLevel	KEYWORD2
+getNoiseLevel	KEYWORD2
+
+measure	KEYWORD2
 zeroCount	KEYWORD2
+sampleCount	KEYWORD2
 average	KEYWORD2
-poll	KEYWORD2
+maxValue	KEYWORD2
+sum	KEYWORD2
 
 
 # Constants (LITERAL1)

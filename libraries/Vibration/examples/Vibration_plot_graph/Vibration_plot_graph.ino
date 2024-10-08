@@ -1,9 +1,10 @@
 //
-//    FILE: Vibration_zeroCount.ino
+//    FILE: Vibration_plot_graph.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/Vibration
-
+//
+//  used for plotter
 
 #include "Vibration.h"
 
@@ -17,19 +18,24 @@ void setup()
   Serial.print("VIBRATION_LIB_VERSION: ");
   Serial.println(VIBRATION_LIB_VERSION);
   Serial.println();
+
+  Serial.println("samples\t zero\t max\t avg\t sum");
 }
 
 
 void loop()
 {
-  //  measure for one second
-  VBS.measure(1000000);
-  //  percentage with one decimal
-  Serial.print("Samples: \t");
+  //  measure 10 milliseconds.
+  VBS.measure(10000);
   Serial.print(VBS.sampleCount());
-  Serial.print("\t zero: \t");
+  Serial.print('\t');
   Serial.print(VBS.zeroCount(), 1);
-  Serial.print(" %");
+  Serial.print('\t');
+  Serial.print(VBS.maxValue());
+  Serial.print('\t');
+  Serial.print(VBS.average(), 1);
+  Serial.print('\t');
+  Serial.print(VBS.sum());
   Serial.println();
 }
 

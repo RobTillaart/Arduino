@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2024-10-07
+- redo API 0.2.0
+- update readme.md
+- add unit test (minimal)
+
+----
+
 ## [0.1.1] - 2024-09-30
 - initial release
 - rename + add functions

@@ -12,17 +12,24 @@ VibrationSensor VBS(A0);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print(__FILE__);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("VIBRATION_LIB_VERSION: ");
   Serial.println(VIBRATION_LIB_VERSION);
-
-  Serial.println("done...\n");
+  Serial.println();
 }
 
 
 void loop()
 {
-  Serial.println(VBS.average(1000));
+  //  measure for one second
+  VBS.measure(1000000);
+  //  average with one decimal
+  Serial.print("Samples: \t");
+  Serial.print(VBS.sampleCount());
+  Serial.print("\t avg: \t");
+  Serial.print(VBS.average());
+  Serial.println();
 }
 
 

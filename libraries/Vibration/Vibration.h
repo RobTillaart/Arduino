@@ -2,7 +2,7 @@
 //
 //    FILE: Vibration.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2024-04-24
 // PURPOSE: Arduino library for a vibration / tilt sensor e.g. SW-420, SW-18010P.
 //     URL: https://github.com/RobTillaart/Vibration
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define VIBRATION_LIB_VERSION                 (F("0.1.1"))
+#define VIBRATION_LIB_VERSION                 (F("0.2.0"))
 
 
 class VibrationSensor
@@ -19,6 +19,11 @@ public:
   explicit VibrationSensor(uint8_t analogPin)
   {
     _analogPin = analogPin;
+    _samples = 0;
+    _maxValue = 0;
+    _zeroCount = 0;
+    _sum = 0;
+    _noiseLevel = 10;
   }
 
 
@@ -29,54 +34,80 @@ public:
   }
 
 
-  float zeroCount(uint32_t duration, uint16_t noise = 10)
+  void setNoiseLevel(uint16_t noise = 10)
   {
-    uint16_t count = 0;
-    uint16_t total = 0;
-    uint32_t start = millis();
-    do
-    {
-      if (analogRead(_analogPin) <= noise) count++;
-      total++;
-    }
-    while ((millis() - start) < duration);
-    return 100.0 * count / total;
+    _noiseLevel = noise;
   }
 
 
-  float average(uint32_t duration)
+  uint16_t getNoiseLevel()
   {
-    float sum = 0;
-    uint32_t samples = 0;
-    uint32_t start = millis();
-    do
-    {
-      sum += analogRead(_analogPin);
-      samples++;
-    }
-    while ((millis() - start) < duration);
-    if (samples > 1) sum /= samples;
-    return sum;
+    return _noiseLevel;
   }
 
 
-  uint16_t poll(uint32_t duration)
+  uint32_t measure(uint32_t duration, bool reset = true)
   {
-    uint16_t maxValue = 0;
-    uint32_t start = millis();
+    if (reset)
+    {
+      _samples = 0;
+      _maxValue = 0;
+      _zeroCount = 0;
+      _sum = 0;
+    }
+    uint32_t start = micros();
     do
     {
-      uint16_t val = analogRead(_analogPin);
-      if (val > maxValue) maxValue = val;
+      uint16_t value = analogRead(_analogPin);
+      _sum += value;
+      if (value <= _noiseLevel) _zeroCount++;
+      if (value > _maxValue) _maxValue = value;
+      _samples++;
     }
-    while ((millis() - start) < duration);
-    return maxValue;
+    while ((micros() - start) < duration);
+    return _samples;
+  }
+
+
+  float zeroCount()
+  {
+    return (100.0 * _zeroCount) / _samples;
+  }
+
+
+  uint32_t sampleCount()
+  {
+    return _samples;
+  }
+
+
+  float average()
+  {
+    if (_samples == 1) return _sum;
+    return (1.0 * _sum) / _samples;
+  }
+
+
+  uint16_t maxValue()
+  {
+    return _maxValue;
+  }
+
+
+  uint32_t sum()
+  {
+    return _sum;
   }
 
 
 protected:
-  uint8_t _analogPin;
-  uint16_t _noiseLevel = 0;  //  to be detected automatically.
+  uint8_t  _analogPin;
+  uint16_t _noiseLevel;
+
+  uint32_t _samples;
+  uint16_t _maxValue;
+  uint16_t _zeroCount;
+  uint32_t _sum;
 };
 
 

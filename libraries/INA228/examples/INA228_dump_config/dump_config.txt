@@ -1,0 +1,18 @@
+
+Example output.
+
+...\libraries\INA228\examples\INA228_dump_config\INA228_dump_config.ino
+
+INA228_LIB_VERSION: 0.1.2
+
+Accumulation: 0
+ConversionDelay: 0
+TemperatureCompensation: 0
+ADCRange: 0
+
+Mode: 15
+BusVoltageConversionTime: 5
+ShuntVoltageConversionTime: 5
+TemperatureConversionTime: 5
+getAverage: 0
+

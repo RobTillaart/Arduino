@@ -1,10 +1,11 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for INA228 voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
+//
 //
 //  Read the datasheet for the details
 
@@ -13,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          "0.1.1"
+#define INA228_LIB_VERSION          "0.1.2"
 
 
 //  for setMode() and getMode()
@@ -65,6 +66,7 @@ enum ina228_timing_enum {
 
 
 //  for diagnose/alert() bit fields.
+//  TODO bit masks?
 enum ina228_diag_enum {
   INA228_DIAG_MEMORY_STATUS      = 0,
   INA228_DIAG_CONVERT_COMPLETE   = 1,
@@ -103,24 +105,25 @@ public:
   float    getCurrent();          //  Ampere
   float    getPower();            //  Watt
   float    getTemperature();      //  Celsius
-  float    getEnergy();           //  Joule
-  float    getCharge();           //  Coulombs
+  //  the next two functions are returning double as they have higher accuracy.
+  double   getEnergy();           //  Joule
+  double   getCharge();           //  Coulombs
 
   //  Scale helpers milli range
   float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
   float    getCurrent_mA()      { return getCurrent()      * 1e3; };
   float    getPower_mW()        { return getPower()        * 1e3; };
-  float    getEnergy_mJ()       { return getEnergy()       * 1e3; };
-  float    getCharge_mC()       { return getCharge()       * 1e3; };
+  double   getEnergy_mJ()       { return getEnergy()       * 1e3; };
+  double   getCharge_mC()       { return getCharge()       * 1e3; };
 
   //  Scale helpers micro range
   float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
   float    getCurrent_uA()      { return getCurrent()      * 1e6; };
   float    getPower_uW()        { return getPower()        * 1e6; };
-  float    getEnergy_uJ()       { return getEnergy()       * 1e6; };
-  float    getCharge_uC()       { return getCharge()       * 1e6; };
+  double   getEnergy_uJ()       { return getEnergy()       * 1e6; };
+  double   getCharge_uC()       { return getCharge()       * 1e6; };
 
   //
   //  CONFIG REGISTER 0
@@ -159,10 +162,12 @@ public:
   //  SHUNT CALIBRATION REGISTER 2
   //  read datasheet for details. use with care.
   //  maxCurrent <= 10, shunt > 0.005.
+  //  returns _current_LSB;
   int      setMaxCurrentShunt(float maxCurrent, float shunt);
   bool     isCalibrated()    { return _current_LSB != 0.0; };
   float    getMaxCurrent();
   float    getShunt();
+  float    getCurrentLSB();
 
   //
   //  SHUNT TEMPERATURE COEFFICIENT REGISTER 3
@@ -179,14 +184,17 @@ public:
   void     setDiagnoseAlert(uint16_t flags);
   uint16_t getDiagnoseAlert();
   //  INA228.h has an enum for the bit fields.
+  //  See ina228_diag_enum above
   void     setDiagnoseAlertBit(uint8_t bit);
-  void     clrDiagnoseAlertBit(uint8_t bit);
+  void     clearDiagnoseAlertBit(uint8_t bit);
   uint16_t getDiagnoseAlertBit(uint8_t bit);
 
 
   //
   //  THRESHOLD AND LIMIT REGISTERS 12-17
   //  read datasheet for details, section 7.3.7, page 16++
+  //
+  //  TODO - design and implement better API?
   //
   void     setShuntOvervoltageTH(uint16_t threshold);
   uint16_t getShuntOvervoltageTH();
@@ -203,16 +211,19 @@ public:
 
 
   //
-  //  MANUFACTURER and ID REGISTER 3E/3F
+  //  MANUFACTURER and ID REGISTER 3E and 3F
   //
-  bool     getManufacturer();
-  uint16_t getDieID();
-  uint16_t getRevision();
+  //                               typical value
+  uint16_t getManufacturer();  //  0x5449
+  uint16_t getDieID();         //  0x0228
+  uint16_t getRevision();      //  0x0001
 
 
 private:
-  uint32_t _readRegister(uint8_t reg, uint8_t bytes);  //  max 4.
-  float    _readRegisterF(uint8_t reg, uint8_t bytes);
+  //  max 4 bytes
+  uint32_t _readRegister(uint8_t reg, uint8_t bytes);
+  //  5 bytes or more
+  double   _readRegisterF(uint8_t reg, uint8_t bytes);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
 
   float    _current_LSB;

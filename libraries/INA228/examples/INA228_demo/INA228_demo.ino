@@ -26,6 +26,9 @@ void setup()
     Serial.println("Could not connect. Fix and Reboot");
     while(1);
   }
+
+  INA.setMaxCurrentShunt(10, 0.015);
+
 }
 
 

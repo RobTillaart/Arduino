@@ -27,21 +27,18 @@ void setup()
     while(1);
   }
 
+  INA.setMaxCurrentShunt(10, 0.015);
+
   //  REGISTER 0
   Serial.print("Manufacturer: ");
-  Serial.println(INA.getManufacturer());
+  Serial.println(INA.getManufacturer(), HEX);
   Serial.print("DIE_ID: ");
-  Serial.println(INA.getDieID());
+  Serial.println(INA.getDieID(), HEX);
   Serial.print("Revision: ");
-  Serial.println(INA.getRevision());
+  Serial.println(INA.getRevision(), HEX);
   Serial.println();
 
-  bool     getManufacturer();
-  uint16_t getDieID();
-  uint16_t getRevision();
-
-
-  Serial.print("\n done");
+  Serial.print("\nDone");
 }
 
 

@@ -1,0 +1,93 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+
+INA228_performance\INA228_performance.ino
+
+INA228_LIB_VERSION: 0.1.2
+
+========================================================
+Speed: 100000
+
+test_core
+getBusVoltage:	684
+getShuntVoltage:	1248
+getCurrent:	684
+getPower:	684
+getTemperature:	580
+getEnergy:	940
+getCharge:	960
+
+========================================================
+Speed: 200000
+
+test_core
+getBusVoltage:	404
+getShuntVoltage:	720
+getCurrent:	400
+getPower:	396
+getTemperature:	344
+getEnergy:	568
+getCharge:	588
+
+========================================================
+Speed: 400000
+
+test_core
+getBusVoltage:	252
+getShuntVoltage:	460
+getCurrent:	252
+getPower:	252
+getTemperature:	220
+getEnergy:	372
+getCharge:	404
+
+========================================================
+Speed: 800000
+
+test_core
+getBusVoltage:	184
+getShuntVoltage:	328
+getCurrent:	184
+getPower:	176
+getTemperature:	160
+getEnergy:	288
+getCharge:	304
+
+Done
+
+
+100 kHz most other functions are all about 572.
+Like getTemperature.
+------------------------------------------
+
+INA228_performance.ino
+
+INA228_LIB_VERSION: 0.1.2
+
+test_config
+getAccumulation:	572
+getConversionDelay:	576
+getTemperatureCompensation:	568
+getADCRange:	572
+
+test_adc_config
+getMode:	568
+getBusVoltageConversionTime:	568
+getShuntVoltageConversionTime:	572
+getTemperatureConversionTime:	568
+getAverage:	564
+
+test_others
+getShuntTemperatureCoefficent:	572
+getDiagnoseAlert:	568
+
+test_thresholds
+getShuntOvervoltageTH:	568
+getShuntUndervoltageTH:	568
+getBusOvervoltageTH:	568
+getBusUndervoltageTH:	568
+getTemperatureOverLimitTH:	568
+getPowerOverLimitTH:	576
+
+Done

@@ -26,7 +26,7 @@ Not supported is the identification page functions.
 The **I2C_eeprom_cyclic_store** interface is documented [here](README_cyclic_store.md)
 
 
-#### RP2040
+### RP2040
 
 There are at least two boards modules for the RP2040 that use a different Wire libraries. 
 One from "Earle F. Philhower" and an "MBED" one. See issues #53 and #55 for details.
@@ -36,7 +36,9 @@ to solve the issue #53 while being backwards compatible.
 If a better solution is found, it will be implemented.
 
 
-#### Breaking change
+### Breaking change
+
+Version 1.9.0 fixed a memory leak in **verifyBlock()**.
 
 Version 1.8.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -45,7 +47,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **I2C_eeprom.begin()**.
 
 
-#### Links
+### Related
 
 - https://github.com/RobTillaart/I2C_24LC1025
 
@@ -135,7 +137,6 @@ Same as write and update functions above. Returns true if successful, false indi
 - **bool updateBlockVerify(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)**
 - **bool verifyBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)**
 Returns true is buffer equals memoryAddres for length bytes.
-
 
 
 ### Other

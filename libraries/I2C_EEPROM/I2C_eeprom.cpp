@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.8.5
+// VERSION: 1.9.0
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM
 
@@ -235,7 +235,11 @@ bool I2C_eeprom::setBlockVerify(const uint16_t memoryAddress, const uint8_t valu
   if (setBlock(memoryAddress, value, length) != 0) return false;
   uint8_t * data = (uint8_t *) malloc(length);
   if (data == NULL) return false;
-  if (readBlock(memoryAddress, data, length) != length) return false;
+  if (readBlock(memoryAddress, data, length) != length)
+  {
+    free(data);
+    return false;
+  }
   for (uint16_t i = 0; i < length; i++)
   {
     if (data[i] != value)

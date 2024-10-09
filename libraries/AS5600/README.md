@@ -385,8 +385,10 @@ as.increaseOffset(-30);
 
 ### Angular Speed
 
-- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES)** is an experimental function that returns 
+- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES)** 
+is an experimental function that returns 
 an approximation of the angular speed in rotations per second.
+
 The function needs to be called at least **four** times per rotation
 or once per second to get a reasonably precision. 
 
@@ -445,7 +447,7 @@ Returns last position (before reset).
 This includes the delta (rotation) since last call to **getCumulativePosition()**.
 Returns last position (before reset).
 
-As this code is experimental, names might change in the future (0.4.0)?
+As this code is experimental, names might change in the future.
 As the function are mostly about counting revolutions the current thoughts for new names are:
 
 ```cpp

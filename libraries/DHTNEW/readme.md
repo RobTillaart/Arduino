@@ -25,8 +25,11 @@ Note there are differences e.g. DHT11 has no negative temperature, no decimals, 
 The DHTNew library returns Temperature in degrees Celsius and Humidity in 0.0 - 100.0 %RH.
 For converting temperature to Fahrenheit or Kelvin, see https://github.com/RobTillaart/Temperature.
 
+For diagnosis if a DHT sensor gives strange readings one can use **dhtnew_pulse_diag_ext.ino**
+to compare timing with the datasheet.
 
-#### Sonoff Si7021
+
+### Sonoff Si7021
 
 Since 0.4.14 there is **experimental** support for the Sonoff Si7021. 
 No hardware yet to test this myself, but it is confirmed to work.
@@ -39,7 +42,7 @@ To use the library one should call **setType(70)**.
 Feedback (both positive and negative) about the Sonoff Si7021 sensors is welcome.
 
 
-#### AM2320, AM2321 and AM2322
+### AM2320, AM2321 and AM2322
 
 Since 0.4.18 there is **experimental** support for the AM2320, AM2321 and AM2322.
 Not tested myself, but AM2320 is confirmed to work, see https://github.com/RobTillaart/AM232X/issues/26
@@ -54,7 +57,7 @@ Feedback (both positive and negative) about the AM232X sensors is welcome.
 **Note: check the datasheet how to connect!**
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DHTNew
 - https://github.com/RobTillaart/DHTStable
@@ -174,7 +177,7 @@ This is used to keep spikes out of your plotter / graphs / logs.
 See examples
 
 
-#### TIME_OUT
+### TIME_OUT
 
 If consistent TIMOUT_C or TIMEOUT_D occur during reading a sensor, 
 one could try if allowing interrupts solves the issue **DHT.setDisableIRQ(false)**.
@@ -188,7 +191,7 @@ In version 0.4.10 the TIMEOUT_C is extended from 70-90 us to even suppress the T
 even more. See discussion and tests in https://github.com/RobTillaart/DHTNew/issues/67.
 
 
-#### Serial
+### Serial
 
 The MKR1010Wifi board need to wait for Serial at startup if you want to monitor it 
 from the IDE. Adding the line ```while(!Serial):``` fixes this. (added to the examples).
@@ -196,14 +199,14 @@ from the IDE. Adding the line ```while(!Serial):``` fixes this. (added to the ex
 There might be more boards that need this line to work properly.
 
 
-#### DHT22 and ESP8266
+### DHT22 and ESP8266
 
 - The DHT22 sensor has some problems in combination with specific pins of the ESP8266. See more details
   - https://github.com/RobTillaart/DHTNew/issues/31  (message Jan 3, 2021)
   - https://github.com/arendst/Tasmota/issues/3522
 
 
-#### Voltage AM2301 and ESP8266
+### Voltage AM2301 and ESP8266
 
 In a test an AM2301 had problems giving no humidity (99.9% overflow) when the
 DHTStable library was used with an ESP8266. (Reported by mail, no GH issue).
@@ -313,10 +316,12 @@ Fix #84 correct the reading of type 70 for Sonoff Si7021.
 fix #86, define constants explicit as float.
 34. (0.4.18)
 Update readme.md and library.\* about support for AM2320/21/22.
-35. (0.4.19) 
+35. (0.4.19)
 Update readme.md
-36. (0.4.20) 
+36. (0.4.20)
 Update GitHub actions and readme.md
+36. (0.4.21)
+Add dhtnew_pulse_diag_ext.ino
 
 
 ## Future

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.21] - 2024-10-09
+- add dhtnew_pulse_diag_ext.ino for extended diagnosis.
+
 ## [0.4.20] - 2024-03-24
 - fix #95, units of T & H
 - update GitHub actions
@@ -13,7 +16,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - update unit test (minor)
 - minor edits
-
 
 ## [0.4.19] - 2023-10-25
 - update readme.md

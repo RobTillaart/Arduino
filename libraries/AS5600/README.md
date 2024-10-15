@@ -385,9 +385,16 @@ as.increaseOffset(-30);
 
 ### Angular Speed
 
-- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES)** 
+- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES, bool update = true)** 
 is an experimental function that returns 
 an approximation of the angular speed in rotations per second.
+
+If update is false, the function will use the last read value of **readAngle()**.
+This is also used by **getCumulativePosition()** and when used both these
+functions a substantial performance gain is made.
+See example **AS5600_position_speed.ino**.
+
+In case of a reading failure (when update == true), the function can return NAN.
 
 The function needs to be called at least **four** times per rotation
 or once per second to get a reasonably precision. 
@@ -433,8 +440,12 @@ The cumulative position (32 bits) consists of 3 parts
 
 Functions are:
 
-- **int32_t getCumulativePosition()** reads sensor and updates cumulative position.  
+- **int32_t getCumulativePosition(bool update = true)** reads sensor and updates cumulative position.  
 Updated in 0.6.2 to follow the setting of the **directionPin**.
+If update is false, the function will use the last read value of **readAngle()**.
+This is also used by **getCumulativePosition()** and when used both these
+functions a substantial performance gain is made.
+See example **AS5600_position_speed.ino**.
 - **int32_t getRevolutions()** converts last position to whole revolutions.
 Convenience function.
 Updated in 0.6.2 to return **zero** for the first negative revolution as this
@@ -455,6 +466,35 @@ int32_t updateRevolutions();  //  replaces getCumulativePosition();
 int32_t getRevolutions();
 int32_t resetRevolutions();   //  replaces resetPosition();
 ```
+
+### Angular Speed + Cumulative position optimization.
+
+Since 0.6.4 it is possible to optimize the performance of getting both.
+- **getCumulativePosition()**
+- **getAngularSpeed()** 
+
+As both use to read the Angle, one can reuse this by setting the update flag to false.
+One must call **readAngle()** right before both of them
+In code:
+
+```cpp
+    ...
+    alpha = as5600.readAngle();
+    pos   = as5600.getCumulativePosition(false);
+    speed = as5600.getAngularSpeed(AS5600_MODE_DEGREES, false);
+
+    //  process the values...
+```
+
+Please note that the **mode** parameter for getAngularSpeed() becomes mandatory.
+
+The call to **readAngle()** caches the angle read and uses it in both functions.
+The savings are substantial, see **AS5600_position_speed.ino**
+
+The advantage is that both speed and pos are based upon the same reading.
+A disadvantage is that the latter of the two calls is not max up to date.
+
+Use with care.
 
 
 ### Status registers

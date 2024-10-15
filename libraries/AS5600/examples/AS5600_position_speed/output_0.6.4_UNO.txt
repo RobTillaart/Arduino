@@ -1,0 +1,42 @@
+
+BOARD:  UNO
+IDE:    1.8.19
+SKETCH: AS5600_position_speed.ino
+
+
+AS5600_LIB_VERSION: 0.6.4
+64
+Connect: 1
+100000
+update true: 	1208
+update false: 	640
+
+200000
+update true: 	724
+update false: 	368
+
+300000
+update true: 	552
+update false: 	316
+
+400000
+update true: 	440
+update false: 	276
+
+500000
+update true: 	432
+update false: 	224
+
+600000
+update true: 	356
+update false: 	236
+
+700000
+update true: 	372
+update false: 	192
+
+800000
+update true: 	356
+update false: 	220
+
+followed by lots of data

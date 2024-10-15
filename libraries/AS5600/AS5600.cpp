@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.3
+// VERSION: 0.6.4
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -319,14 +319,20 @@ uint16_t AS5600::rawAngle()
 uint16_t AS5600::readAngle()
 {
   uint16_t value = readReg2(AS5600_ANGLE);
+  if (_error != AS5600_OK)
+  {
+    return _lastReadAngle;
+  }
   if (_offset > 0) value += _offset;
   value &= 0x0FFF;
 
   if ((_directionPin == AS5600_SW_DIRECTION_PIN) &&
       (_direction == AS5600_COUNTERCLOCK_WISE))
   {
+    //  mask needed for value == 0.
     value = (4096 - value) & 0x0FFF;
   }
+  _lastReadAngle = value;
   return value;
 }
 
@@ -426,11 +432,19 @@ bool AS5600::magnetTooWeak()
 //  }
 
 
-float AS5600::getAngularSpeed(uint8_t mode)
+float AS5600::getAngularSpeed(uint8_t mode, bool update)
 {
+  if (update)
+  {
+    _lastReadAngle = readAngle();
+    if (_error != AS5600_OK)
+    {
+      return NAN;
+    }
+  }
   //  default behaviour
   uint32_t now     = micros();
-  int      angle   = readAngle();
+  int      angle   = _lastReadAngle;
   uint32_t deltaT  = now - _lastMeasurement;
   int      deltaA  = angle - _lastAngle;
 
@@ -463,13 +477,17 @@ float AS5600::getAngularSpeed(uint8_t mode)
 //
 //  POSITION cumulative
 //
-int32_t AS5600::getCumulativePosition()
+int32_t AS5600::getCumulativePosition(bool update)
 {
-  int16_t value = readAngle();
-  if (_error != AS5600_OK)
+  if (update)
   {
-    return _position;
+    _lastReadAngle = readAngle();
+    if (_error != AS5600_OK)
+    {
+      return _position;  //  last known position.
+    }
   }
+  int16_t value = _lastReadAngle;
 
   //  whole rotation CW?
   //  less than half a circle

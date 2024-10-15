@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.4] - 2024-10-09
+- fix #67, improve performance **getCumulativePosition()** and **getAngularSpeed()**
+  - kudos to Chris-42
+- add **AS5600_position_speed.ino**
+- update readme.md
+
 ## [0.6.3] - 2024-10-04
 - fix #69, **resetCumulativePosition()**
 - minor edits

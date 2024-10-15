@@ -38,7 +38,7 @@ Note: With an external 1 MHz clock smaller frequency steps 0.004 Hz. can be made
 This is not tested yet.
 
 
-#### Compatibles ?
+### Compatibles ?
 
 List of (partially) compatibles in the series, that might work (partially) with this library.
 
@@ -59,14 +59,14 @@ please let me know by opening an issue.
 Probably they need a dedicated library based on this one.
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.2.0 breaking change
+### 0.2.0 breaking change
 
 The version 0.2.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -77,7 +77,7 @@ Note: the parameters for pins have moved to the constructor.
 Note: the order of the parameters of the software SPI constructor has changed in 0.2.0.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AD985X
 - https://github.com/RobTillaart/functionGenerator  software waveform generator
@@ -122,7 +122,7 @@ Read datasheet for detailed description of the pins.
 #include "AD9833.h"
 ```
 
-#### Constructor
+### Constructor
 
 If the selectPin is set to 255, external FSYNC is used. 
 See section below.
@@ -149,7 +149,7 @@ Details see datasheet.
 |     3       |  combination of mode 1 & 2    |
 
 
-#### Waveform
+### Waveform
 
 - **void setWave(uint8_t waveform)**
 - **uint8_t getWave()**
@@ -163,7 +163,26 @@ Details see datasheet.
 |  Triangle   |  AD9833_TRIANGLE  |    4    |
 
 
-#### Frequency
+### UseRounding
+
+Experimental => use with care!
+
+The **setFrequency()** and **setPhase()** use rounding to maximize the accuracy
+of these functions. This is however not always what one needs e.g. if one wants 
+to create harmonics without drift (see #19).
+
+Therefor since 0.4.3 one can replace the rounding of the internal math with 
+truncating which may do a better job. This is not tested thoroughly so
+use it with care.
+
+- **void setUseRounding(bool flag = true)** Set the internal flag to use rounding
+The default value is true to be backwards compatible.
+- **bool getUseRounding()** get the current status of the flag. 
+
+Note: **reset()** does not affect this flag.
+
+
+### Frequency
 
 Default channel is 0, which makes the function calls simpler 
 when only using one channel.
@@ -179,13 +198,14 @@ Note: the frequency depends on the internal reference clock which is default 25 
 The library does not support other reference clocks yet.
 
 
-#### Phase
+### Phase
 
 Default channel is 0, which makes the function calls simpler 
 when only using one channel.
 
 - **float setPhase(float phase, uint8_t channel = 0)**
-setPhase sets the phase and is limited to 0° - 360°.
+setPhase sets the phase and **normalizes** the phase to 0° - 360°.
+So for example 405° becomes 45° and -23° becomes 337°.
 Returns the phase set in degrees.
 - **float getPhase(uint8_t channel = 0)** returns the phase set in degrees.
 - **float getMaxPhase()** returns the maximum phase to set (convenience).
@@ -199,7 +219,7 @@ Returns the phase set in radians.
 - **float getPhaseRadians(uint8_t channel = 0)** returns the phase set in radians.
 
 
-#### Hardware SPI
+### Hardware SPI
 
 To be used only if one needs a specific speed.
 Has no effect when using SW SPI.
@@ -209,7 +229,7 @@ Has no effect when using SW SPI.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
-#### Low level API
+### Low level API
 
 Use at your own risk, please read the datasheet carefully.
 
@@ -224,7 +244,7 @@ not have the 28 bits precision of the register.
 - **void writePhaseRegister(uint8_t channel, uint16_t value)** channel = 0 or 1, value = 0 .. 4095
 
 
-#### HLB mode
+### HLB mode
 
 To support the HLB mode the library supports (experimental 0.3.0) two new calls.
 These functions allow one to set the frequency in coarse steps (MSB)
@@ -243,7 +263,7 @@ In piano scales this covers C0 (16.35 Hz) to F#7 (2959.96 Hz).
 https://pages.mtu.edu/~suits/notefreqs.html
 
 
-#### SetCrystalFrequency()
+### SetCrystalFrequency()
 
 (experimental, might change in the future)
 

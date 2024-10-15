@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2024-10-14
+- Fix #19, rounding versus trunc of frequency formula
+- add **setUseRounding()** and **getUseRounding()**
+- update readme.md with section
+- minor edits.
+
 ## [0.4.2] - 2024-07-03
 - optimize AVR SW SPI (about factor 3.4 faster)
 - add rounding in **setPhase()** to minimize error.

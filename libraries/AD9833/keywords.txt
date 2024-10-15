@@ -13,6 +13,9 @@ setPowerMode	KEYWORD2
 setWave	KEYWORD2
 getWave	KEYWORD2
 
+setUseRounding	KEYWORD2
+getUseRounding	KEYWORD2
+
 setFrequency	KEYWORD2
 getFrequency	KEYWORD2
 getMaxFrequency	KEYWORD2

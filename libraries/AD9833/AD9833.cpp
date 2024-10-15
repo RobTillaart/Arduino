@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
 //    DATE: 2023-08-25
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -157,6 +157,17 @@ uint8_t AD9833::getWave()
   return _waveform;
 }
 
+void AD9833::setUseRounding(bool flag)
+{
+  _useRounding = flag;
+}
+
+
+bool AD9833::getUseRounding()
+{
+  return _useRounding;
+}
+
 
 float AD9833::setFrequency(float frequency, uint8_t channel)
 {
@@ -168,10 +179,13 @@ float AD9833::setFrequency(float frequency, uint8_t channel)
   else if (newFrequency > AD9833_MAX_FREQ) newFrequency = AD9833_MAX_FREQ;
 
   //  convert to bit pattern
-  //  fr = round(frequency * pow(2, 28) / 25 MHz));  //  25 MHz == crystal frequency.
+  //  freq = round(frequency * pow(2, 28) / 25 MHz));  //  25 MHz == crystal frequency.
   //  _crystalFreqFactor == (pow(2, 28) / crystal frequency);
   //  round() to minimize error / use the whole range
-  uint32_t freq = round(newFrequency * _crystalFreqFactor);
+  //  however round() may cause drift with harmonics => see #19
+  uint32_t freq = 0;
+  if (_useRounding) freq = round(newFrequency * _crystalFreqFactor);
+  else              freq = uint32_t(newFrequency * _crystalFreqFactor);
 
   writeFrequencyRegister(channel, freq);
 
@@ -209,12 +223,16 @@ float AD9833::setPhase(float phase, uint8_t channel)
   if (channel > 1) return -1;
   //  local variable is faster.
   float newPhase = phase;
+  //  get phase within normalized range.
   while (newPhase >= AD9833_MAX_PHASE) newPhase -= AD9833_MAX_PHASE;
   while (newPhase <  0) newPhase += AD9833_MAX_PHASE;
 
   //  round() to minimize error / use the whole range 0..4095
-  uint16_t ph = round(newPhase * (4095.0 / 360.0));
-  writePhaseRegister(channel, ph);
+  //  however round() may cause drift with harmonics => see #19
+  uint16_t phs = 0;
+  if (_useRounding) phs = round(newPhase * (4095.0 / 360.0));
+  else              phs = uint32_t(newPhase * (4095.0 / 360.0));
+  writePhaseRegister(channel, phs);
 
   //  cache the newPhase
   _phase[channel] = newPhase;

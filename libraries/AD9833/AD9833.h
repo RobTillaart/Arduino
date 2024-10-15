@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
 //    DATE: 2023-08-25
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.4.2"))
+#define AD9833_LIB_VERSION     (F("0.4.3"))
 
 
 #ifndef __SPI_CLASS__
@@ -59,6 +59,9 @@ public:
   void     setWave(uint8_t waveform = AD9833_OFF);
   uint8_t  getWave();
 
+  //       set/get the useRounding flag for setFrequency and setPhase.
+  void     setUseRounding(bool flag = true);
+  bool     getUseRounding();
 
   //       returns frequency set
   //       0 .. 12.5 MHz == AD9833_MAX_FREQ
@@ -122,6 +125,7 @@ private:
   uint8_t  _clockPin;
   uint8_t  _selectPin = 0;
   bool     _useSelect = false;
+  bool     _useRounding = true;
 
   //  SIGNAL
   uint16_t _control   = 0;

@@ -1,13 +1,14 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
 
 
 #include "ADS1X15.h"
+
 
 #define ADS1015_CONVERSION_DELAY    1
 #define ADS1115_CONVERSION_DELAY    8
@@ -229,7 +230,7 @@ void ADS1X15::setMode(uint8_t mode)
   switch (mode)
   {
     case 0: _mode = ADS1X15_MODE_CONTINUE; break;
-    default:
+    default:  //  catch invalid modi
     case 1: _mode = ADS1X15_MODE_SINGLE;   break;
   }
 }
@@ -448,25 +449,30 @@ uint32_t ADS1X15::getWireClock()
 //
 int16_t ADS1X15::_readADC(uint16_t readmode)
 {
+  //  note readmode includes the channel
   _requestADC(readmode);
+
   if (_mode == ADS1X15_MODE_SINGLE)
   {
     uint32_t start = millis();
-    //  timeout == { 129, 65, 33, 17, 9, 5, 3, 2 }
-    //  a few ms more than max conversion time.
-    uint8_t timeOut = (128 >> (_datarate >> 5)) + 1;
+    //  timeout == { 138, 74, 42, 26, 18, 14, 12, 11 }
+    //  added 10 ms more than maximum conversion time from datasheet.
+    //  to prevent premature timeout in RTOS context.
+    //  See #82
+    uint8_t timeOut = (128 >> (_datarate >> 5)) + 10;
     while (isBusy())
     {
-      yield();   //  wait for conversion; yield for ESP.
       if ( (millis() - start) > timeOut)
       {
+        _error = ADS1X15_ERROR_TIMEOUT;
         return ADS1X15_ERROR_TIMEOUT;
       }
+      yield();   //  wait for conversion; yield for ESP.
     }
   }
   else
   {
-    //  needed in continuous mode too, otherwise one get old value.
+    //  needed in continuous mode too, otherwise one get an old value.
     delay(_conversionDelay);
   }
   return getValue();

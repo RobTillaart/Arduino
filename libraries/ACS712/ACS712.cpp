@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.9
+// VERSION: 0.3.10
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -18,10 +18,10 @@ ACS712::ACS712(uint8_t analogPin, float volts, uint16_t maxADC, float mVperAmper
   _formFactor  = ACS712_FF_SINUS;
   _noisemV     = ACS712_DEFAULT_NOISE;    //  21mV according to datasheet
 
-  //  set in setADC() 
+  //  set in setADC()
   //  keep it here until after experimental.
   _maxADC      = maxADC;
-  _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000 for V -> mV
+  _mVperStep   = 1000.0 * volts / maxADC;  //  1x 1000.0 for V -> mV
   _mAPerStep   = 1000.0 * _mVperStep / _mVperAmpere;
   _midPoint    = maxADC / 2;
 

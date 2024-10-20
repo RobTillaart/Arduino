@@ -52,7 +52,7 @@ the processor should be as stable as possible.
 That improves the stability of the midpoint and minimizes the noise.
 
 
-#### Resolution
+### Resolution
 
 |  Sensor  |  mVperA  |  LSB 10bit  |  LSB 12bit  |  LSB 16bit  |
 |:---------|:--------:|:-----------:|:-----------:|:-----------:|
@@ -71,7 +71,7 @@ could be obtained with such an ADC. It triggered the experimental supporting
 of external ADC's with this library.
 
 
-#### Calibration and accuracy
+### Calibration and accuracy
 
 The library has no means to calibrate the output or use an offset.
 However sort of calibrating can relatively easy be done by using 
@@ -81,7 +81,7 @@ MultiMap approaches a non-linear mapping by multiple linear mappings.
 See https://github.com/RobTillaart/MultiMap.
 
 
-#### Tests
+### Tests
 
 The library is at least confirmed to work with the following boards:
 
@@ -124,7 +124,7 @@ If you have tested a compatible sensor, please share your experiences.
 (can be done by opening an issue to update documentation)
 
 
-#### Resolution ACS758
+### Resolution ACS758
 
 Not tested, but looks compatible - same formula as above
 
@@ -147,7 +147,7 @@ Not tested, but looks compatible - same formula as above
 ```
 
 
-#### Base
+### Base
 
 - **ACS712(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023, float mVperAmpere = 100)** constructor.
 It defaults a 20 A type sensor, which is defined by the default value of mVperAmpere. See table below.
@@ -177,7 +177,7 @@ A negative value indicates the current flows in the opposite direction.
   - 0.3.9 calls yield() every 2nd iteration to improve behaviour under RTOS.
 
 
-#### mA_AC_sampling performance trick.
+### mA_AC_sampling performance trick.
 
 A trick to sample faster is to set the frequency to 2 times the actual frequency so to 100 or 120 Hz.
 This results in sampling only half a period and the same current will be measured.
@@ -194,7 +194,7 @@ Use with care!
 See - https://github.com/RobTillaart/ACS712/issues/38
 
 
-#### Midpoint
+### Midpoint
 
 The midpoint is the (raw) zero-reference for all current measurements.
 It is defined in steps of the ADC and is typical around half the **maxADC** value defined
@@ -244,7 +244,7 @@ So **autoMidPoint()** can help to detect voltage deviations for the ACS712.
 The library does not support this yet.
 
 
-#### Form factor
+### Form factor
 
 The form factor is also known as the **crest factor**.
 It is only used for signals measured with **mA_AC()**.
@@ -277,7 +277,7 @@ float formFactor = 2.0 * mA_AC_sampling() / ACS.mA_peak2peak();
 See - ACS712_20_determine_form_factor.ino
 
 
-#### Noise
+### Noise
 
 Default = 21 mV (datasheet)
 
@@ -299,7 +299,7 @@ software noise detection and suppression is needed.
 - **void suppressNoise(bool flag)** experimental noise suppression.
 
 
-#### mV per Ampere
+### mV per Ampere
 
 Used for both for AC and DC measurements.
 Its value is defined in the constructor and depends on type sensor used.
@@ -311,7 +311,7 @@ These functions allow to adjust this setting run-time.
 Typical values see "Resolution" section above, and the "voltage divider" section below.
 
 
-#### Frequency detection
+### Frequency detection
 
 Experimental functionality for AC signal only!
 
@@ -332,7 +332,7 @@ Testing with my UNO I got a factor 0.9986.
 Current version is experimental and not performance optimized.
 
 
-#### setADC (experimental 0.3.4)
+### setADC (experimental 0.3.4)
 
 - **void setADC(uint16_t (\*)(uint8_t), float volts, uint16_t maxADC)** sets the ADC function and the parameters of the used ADC.
 The library uses the internal **analogRead()** as default.
@@ -395,6 +395,7 @@ These ADC's are perfect both **mA-DC()** and **mA-AC()**.
 ## Voltage divider
 
 As per issue #15 in which an ACS712 was connected via a voltage divider to the ADC of an ESP32.
+Idem issue #43 with an ACS712 (5A) to a bare ESP8266 (1V ADC!).
 
 Schema
 ```
@@ -411,17 +412,43 @@ By adjusting the mV per Ampere with **setmVperAmp(float mva)** the readings can 
 for this "voltage divider effect".
 
 
-#### Examples:
+### Examples:
+
+
+For a 5 A type sensor, 185 mV/A would be the normal value.
+After using a voltage divider one need to adjust the mVperAmp.
+
+| R1 (ACS) | R2 (GND)  | voltage factor                  |  mVperAmp corrected     |  notes  |
+|---------:|----------:|--------------------------------:|:-----------------------:|:--------|
+|  10200   |  4745     |  4745 / (10200 + 4745) = 0.3175 | 185 \* 0.3175 =  31.75  |
+|  4745    |  10200    | 10200 / (10200 + 4745) = 0.6825 | 185 \* 0.6825 =  68.25  |
+|  10200   |  9800     |  9800 / (10200 + 9800) = 0.4900 | 185 \* 0.4900 =  49.00  |
+|  1000    |  2200     |  2200 / (1000 + 2200)  = 0.6875 | 185 \* 0.6875 = 127.19  | 5V -> 3V3 ADC
+|  300     |  75       |  75   / (300 + 75)     = 0.2000 | 185 \* 0.2000 =  37.00  |  5V -> 1V ADC
+
 
 For a 20 A type sensor, 100 mV/A would be the normal value.
 After using a voltage divider one need to adjust the mVperAmp.
 
-| R1 (ACS) | R2 (GND)  | voltage factor                  |  mVperAmp corrected     |
-|:--------:|:---------:|:-------------------------------:|:-----------------------:|
-|  10200   |  4745     |  4745 / (10200 + 4745) = 0.3175 |  100 \* 0.3175 = 31.75  |
-|  4745    |  10200    | 10200 / (10200 + 4745) = 0.6825 |  100 \* 0.6825 = 68.25  |
-|  10200   |  9800     |  9800 / (10200 + 9800) = 0.4900 |  100 \* 0.4900 = 49.00  |
+| R1 (ACS) | R2 (GND)  | voltage factor                  |  mVperAmp corrected     |  notes  |
+|---------:|----------:|--------------------------------:|:-----------------------:|:--------|
+|  10200   |  4745     |  4745 / (10200 + 4745) = 0.3175 | 100 \* 0.3175 =  31.75  |
+|  4745    |  10200    | 10200 / (10200 + 4745) = 0.6825 | 100 \* 0.6825 =  68.25  |
+|  10200   |  9800     |  9800 / (10200 + 9800) = 0.4900 | 100 \* 0.4900 =  49.00  |
+|  1000    |  2200     |  2200 / (1000 + 2200)  = 0.6875 | 100 \* 0.6875 =  68.75  |  5V -> 3V3 ADC
+|  300     |  75       |  75   / (300 + 75)     = 0.2000 | 100 \* 0.2000 =  20.00  |  5V -> 1V ADC
 
+
+For a 30 A type sensor, 66 mV/A would be the normal value.
+After using a voltage divider one need to adjust the mVperAmp.
+
+| R1 (ACS) | R2 (GND)  | voltage factor                  |  mVperAmp corrected     |  notes  |
+|---------:|----------:|--------------------------------:|:-----------------------:|:--------|
+|  10200   |  4745     |  4745 / (10200 + 4745) = 0.3175 |  66 \* 0.3175 =  31.75  |
+|  4745    |  10200    | 10200 / (10200 + 4745) = 0.6825 |  66 \* 0.6825 =  68.25  |
+|  10200   |  9800     |  9800 / (10200 + 9800) = 0.4900 |  66 \* 0.4900 =  49.00  |
+|  1000    |  2200     |  2200 / (1000 + 2200)  = 0.6875 |  66 \* 0.6875 =  45.38  |  5V -> 3V3 ADC
+|  300     |  75       |  75   / (300 + 75)     = 0.2000 |  66 \* 0.2000 =  13.20  |  5V -> 1V ADC
 
 **Note:** setting the midPoint correctly is also needed when using a voltage divider.
 
@@ -472,10 +499,13 @@ There is no RTOS example. If you have and willing to share you are welcome.
 
 For people who want to use this library for ESPhome, there exists a wrapper 
 class for this ACS712 library.
+
 - https://github.com/marianomd/acs712-esphome
 
 As I do not have ESPhome know how, please share your experiences.
 This can be done by an issue.
+
+- https://github.com/RobTillaart/ACS712/issues/51
 
 
 ## Operation

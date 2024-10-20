@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.10] - 2024-10-20
+- update readme.md, ESPHome #51, kudos to uTZFu
+- add debug example.
+
 ## [0.3.9] - 2024-01-11
 - add yield() to improve the behaviour under RTOS
 - update readme.md (add compatibility table).
 - minor edits
-
 
 ## [0.3.8] - 2023-09-19
 - add badges to readme.md

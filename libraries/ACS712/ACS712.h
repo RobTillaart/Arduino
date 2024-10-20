@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.9
+// VERSION: 0.3.10
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -14,18 +14,18 @@
 #include "Arduino.h"
 
 
-#define ACS712_LIB_VERSION        (F("0.3.9"))
+#define ACS712_LIB_VERSION              (F("0.3.10"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
 //  should be smaller in practice 0.5 ?
-#define ACS712_FF_SINUS           (1.0/sqrt(2))
-#define ACS712_FF_SQUARE          (1.0)
-#define ACS712_FF_TRIANGLE        (1.0/sqrt(3))
-#define ACS712_FF_SAWTOOTH        (1.0/sqrt(3))
+#define ACS712_FF_SINUS                 (1.0/sqrt(2))
+#define ACS712_FF_SQUARE                (1.0)
+#define ACS712_FF_TRIANGLE              (1.0/sqrt(3))
+#define ACS712_FF_SAWTOOTH              (1.0/sqrt(3))
 
-#define ACS712_DEFAULT_FREQ       50
-#define ACS712_DEFAULT_NOISE      21
+#define ACS712_DEFAULT_FREQ             50
+#define ACS712_DEFAULT_NOISE            21
 
 
 class ACS712
@@ -138,7 +138,7 @@ class ACS712
     //  supports up to 16 bits ADC.
     uint16_t (* _readADC)(uint8_t);
     uint16_t _analogRead(uint8_t pin);
-    
+
 };
 
 

@@ -1,10 +1,12 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for INA228 voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
+//          https://www.adafruit.com/product/5832           ( 10 A version)
+//          https://www.mateksys.com/?portfolio=i2c-ina-bm  (200 A version))
 //
 //
 //  Read the datasheet for the details
@@ -14,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          "0.1.2"
+#define INA228_LIB_VERSION          (F("0.1.3"))
 
 
 //  for setMode() and getMode()
@@ -161,7 +163,8 @@ public:
   //
   //  SHUNT CALIBRATION REGISTER 2
   //  read datasheet for details. use with care.
-  //  maxCurrent <= 10, shunt > 0.005.
+  //  maxCurrent <= 204, (in fact no limit)
+  //  shunt >= 0.0001.
   //  returns _current_LSB;
   int      setMaxCurrentShunt(float maxCurrent, float shunt);
   bool     isCalibrated()    { return _current_LSB != 0.0; };

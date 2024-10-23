@@ -25,38 +25,101 @@ The INA228 sensor differs from the better known INA226.
 Most important difference is that the INA228 has a 20 bit ADC.
 This should result in higher precision however this is expected to only
 be visible with stable loads and low noise.
+
 Another important difference is that the INA228 works up to 85 Volts,
 which is more than twice the 36 volt of the INA226.
 The INA228 has a build in temperature sensor (±1°C) to be used for
 monitoring and temperature compensation.
+
 Finally the INA228 has an **energy** and **charge** register.
 These are values accumulated over time, and only work in continuous mode.
 (to be investigated what those mean ).
 
-The INA provides also provides an alert line, to generate an interrupt
+The INA228 also provides an alert line, to generate an interrupt
 in case a predefined threshold has been met.
 This can be an under- or over-voltage, temperature or power limit.
 
-The library is **not** tested and verified with hardware yet.
+The library is limited tested and verified with hardware.
 
 ==> **USE WITH CARE**
 
 Feedback as always is welcome.
 
+
 ### Details
 
 The INA228 is a voltage, current and power measurement device.
-A few important data, see datasheet.
+A few important data, Read the datasheet for the details, 
+Section 7, Page 12++.
+
 
 |  description   |  value      |  notes  |
 |:---------------|:-----------:|:--------|
 |  bus voltage   |  85 Volt    |  unclear for how long.
-|  shunt voltage |  ?? mVolt   |
-|  current       |  10 Ampere  |  DC only
 |  ADC           |  20 bit     |
 |  alert timing  |  75 µs.     |
 
-Read the datasheet for the details, Section 7, Page 12++.
+
+Two breakout boards are known, with completely different maximum current.
+This max current depends on the width of the traces on the PCB and the 
+shunt used. See the links below for more details.
+
+
+|  supplier  |  Shunt Ω |  Current  |  Shunt V  |  URL  |
+|:----------:|:--------:|:---------:|:---------:|:------|
+|  Adafruit  |  0.015   |   10 Amp  |   150 mV  |  https://www.adafruit.com/product/5832
+|  Mateksys  |  0.0002  |  204 Amp  |    41 mV  |  https://www.mateksys.com/?portfolio=i2c-ina-bm
+
+
+Both are verified to work but not the full range. (See #10)
+
+
+### Schema LOW SIDE
+
+
+```
+         GND                           VCC
+          |                             |
+          |                             |
+          |            +----[ LOAD ]----+
+          |            |                |
+          |            |                |
+      /-------------------------------------\
+      |  VIN-         VIN+             VBUS |
+      |                                     |
+      |                                     |
+      |         INA 228 BREAKOUT            |
+      |                                     |
+      |                                     |
+      \-------------------------------------/
+
+```
+
+_Tested_
+
+
+### Schema HIGH SIDE
+
+
+```
+         GND                          VCC
+          |                            |
+          |                            |
+          +---[ LOAD ]---+        +----+
+                         |        |    |
+                         |        |    |
+      /-------------------------------------\
+      |                 VIN-     VIN+  VBUS |
+      |                                     |
+      |                                     |
+      |         INA 228 BREAKOUT            |
+      |                                     |
+      |                                     |
+      \-------------------------------------/
+
+```
+
+_Tested_
 
 
 ### Special characters
@@ -76,6 +139,9 @@ Read the datasheet for the details, Section 7, Page 12++.
 - https://github.com/RobTillaart/INA226
 - https://github.com/RobTillaart/INA228
 - https://github.com/RobTillaart/INA3221_RT
+- https://www.adafruit.com/product/5832
+- https://www.mateksys.com/?portfolio=i2c-ina-bm
+- https://github.com/RobTillaart/printHelpers  (for scientific notation)
 
 
 ## I2C
@@ -100,9 +166,13 @@ See table - from datasheet table 7-2, page 19.
 |  VCC  |  SCL  |   71   |  0x47  |   |  SCL  |  SCL  |   79   |  0x4F  |
 
 
+Note this might differ per breakout board.
+
+
 ### Performance
 
 Run **INA228_performance.ino** sketch to get a first indication.
+Numbers below are based upon tests with the Adafruit board.
 
 Time in micros, I2C speed in kHz.
 
@@ -165,10 +235,13 @@ Returns true if the INA228 address is on the I2C bus.
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the values are not meaningful if there is no shunt connected.
 
-- **float getShuntVoltage()** idem, in volts.
-- **float getBusVoltage()** idem. in volts. Max 85 Volt.
-- **float getCurrent()** is the current through the shunt in Ampere.
-- **float getPower()** is the current x BusVoltage in Watt.
+- **float getBusVoltage()** idem. Returns value in volts. Max 85 Volt.
+This value is always positive.
+- **float getShuntVoltage()** idem, Returns value in volts.
+Note the value can be positive or negative as the INA228 is bidirectional.
+- **float getCurrent()** returns the current through the shunt in Ampere.
+Note this value can be positive or negative as the INA228 is bidirectional.
+- **float getPower()** returns the current x BusVoltage in Watt.
 
 The library has helper/scaling functions to convert above output values to a 
 more appropriate scale of units. (to be verified if meaningful)
@@ -297,15 +370,15 @@ To elaborate, read datasheet for details.
 Note: **setMaxCurrentShunt()** must be called to calibrate your sensor.
 Otherwise several functions will return zero or incorrect data.
 
-- **int setMaxCurrentShunt(float maxCurrent, float shunt)** 
-maxCurrent = 0..10A, shunt = 0.0001 .. ?? 
+- **int setMaxCurrentShunt(float maxCurrent, float shunt)** The maxCurrent 
+depends on breakout used, See section above. 
+The shunt should be 0.0001 Ω and up.
   - returns 0 if OK.
-  - returns -1 if maxCurrent > 10 Ampere
-  - returns -2 if shunt < 0.0001 Ohm.
-- **bool isCalibrated()** is valid calibration value.
+  - returns -2 if shunt < 0.0001 Ohm. ( Mateksys == 0.0002 Ω )
+- **bool isCalibrated()** is valid calibration value. The currentLSB > 0.
 - **float getMaxCurrent()** return set value.
 - **float getShunt()** return set value.
-- **float getCurrentLSB()** return currenLSB.
+- **float getCurrentLSB()** return actual currenLSB. 0.0 means not calibrated.
 
 
 ### Shunt temperature coefficient
@@ -386,17 +459,19 @@ might be changed / extended in the future.
 
 #### Must
 
-- get hardware.
+- update documentation.
 - test and verify.
 - DiagnoseAlertBit functions
   - redo API (0.2.0)
 
 #### Should
 
-- update documentation.
 - TODO's in code and docs.
 - add error handling.
 - keep in sync with INA226 where possible.
+- how to detect nothing connected?
+  - vshunt >  maxVShunt (new variable)
+  - current > maxCurrent
 
 #### Could
 

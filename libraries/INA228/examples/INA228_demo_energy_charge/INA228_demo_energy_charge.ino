@@ -1,9 +1,10 @@
 //
-//    FILE: INA228_demo.ino
+//    FILE: INA228_demo_energy_charge.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo core functions
 //     URL: https://github.com/RobTillaart/INA228
-
+//
+//  need more tests.
 
 #include "INA228.h"
 
@@ -28,13 +29,13 @@ void setup()
   }
 
   INA.setMaxCurrentShunt(10, 0.015);
-
+  INA.setAccumulation(1);  //  clear registers?
 }
 
 
 void loop()
 {
-  Serial.println("\nVBUS\tVSHUNT\tCURRENT\tPOWER\tTEMP");
+  Serial.println("\nVBUS\tVSHUNT\tCURRENT\tPOWER\tTEMP\tJOULE\tCOULOMB");
   for (int i = 0; i < 20; i++)
   {
     Serial.print(INA.getBusVoltage(), 3);
@@ -44,6 +45,10 @@ void loop()
     Serial.print(INA.getCurrent_mA(), 3);
     Serial.print("\t");
     Serial.print(INA.getPower_mW(), 3);
+    Serial.print("\t");
+    Serial.print(INA.getEnergy(), 8);  //  how many decimals valid
+    Serial.print("\t");
+    Serial.print(INA.getCharge(), 8);
     Serial.print("\t");
     Serial.print(INA.getTemperature(), 3);
     Serial.println();

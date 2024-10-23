@@ -126,14 +126,6 @@ unittest(test_diag_enum)
 
 
 
-
-
-
-
-
-
-
-
 unittest_main()
 
 

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2024-10-22
+- fix #10, remove limit for the Amperes, kudos to geoFrancis
+- fix handling negative values for **getShuntVoltage()**
+- fix handling negative values for **getCurrent()**
+- update readme.md
+- add **INA228_demo_two_devices.ino**
+- minor edits.
+
 ## [0.1.2] - 2024-09-29
 - merge fix for temperature - kudos to xkachya!
 - fix for getShuntVoltage() - kudos to markliquid1 (PR #8)
@@ -29,7 +37,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - make readRegister() and writeRegister() private
 - update readme.md, keywords.txt
 - minor edits
-
 
 ## [0.1.0] - 2024-05-10
 - initial version

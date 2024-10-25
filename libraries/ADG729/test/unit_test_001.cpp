@@ -71,19 +71,20 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  ADG729 adg(0x4C);
+  ADG729 adg(0x44);
 
   Wire.begin();
 
   assertTrue(adg.begin());
   assertTrue(adg.isConnected());
   assertEqual(8, adg.channelCount());
+  assertEqual(0x44, adg.getAddress());
 }
 
 
 unittest(test_enable)
 {
-  ADG729 adg(0x4C);
+  ADG729 adg(0x44);
 
   Wire.begin();
 
@@ -104,7 +105,7 @@ unittest(test_enable)
 
 unittest(test_select)
 {
-  ADG729 adg(0x4C);
+  ADG729 adg(0x44);
 
   Wire.begin();
 

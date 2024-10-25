@@ -1,7 +1,7 @@
 //
 //    FILE: ADG729.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG729 matrix switch. 2x4 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG729
@@ -36,11 +36,16 @@ bool ADG729::isConnected()
 }
 
 
+uint8_t ADG729::getAddress()
+{
+  return _address;
+}
+
+
 uint8_t ADG729::channelCount()
 {
   return _channels;
 }
-
 
 
 ///////////////////////////////////////////////////////

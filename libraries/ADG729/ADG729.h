@@ -2,7 +2,7 @@
 //
 //    FILE: ADG729.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG729 matrix switch. 2x4 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG729
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ADG729_LIB_VERSION             (F("0.1.0"))
+#define ADG729_LIB_VERSION             (F("0.1.1"))
 
 
 //  ERROR CODES (to be elaborated)
@@ -26,11 +26,12 @@
 class ADG729
 {
 public:
-  //  deviceAddress = 0x4C .. 0x4F
+  //  deviceAddress = 0x44 .. 0x47
   ADG729(uint8_t deviceAddress, TwoWire *wire = &Wire);
 
   bool    begin(uint8_t mask = 0x00);         //  default no channels enabled
   bool    isConnected();                      //  find address on I2C bus
+  uint8_t getAddress();                       //  convenience function
 
   //  channel = 0..7
   uint8_t channelCount();

@@ -8,7 +8,8 @@
 #include "ADG729.h"
 
 
-ADG729 MP(0x4C);  //  0x4C..0x4F
+ADG729 MP(0x44);  //  0x44..0x47
+
 uint8_t channels = 0;
 uint8_t selected = 0;
 

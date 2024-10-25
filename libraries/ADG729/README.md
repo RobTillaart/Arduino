@@ -11,7 +11,7 @@
 
 # ADG729
 
-Arduino Library for I2C ADG729 matrix switch. 2x4 Multiplexer.
+Arduino library for I2C ADG729 matrix switch. 2x4 Multiplexer.
 
 
 ## Description
@@ -26,28 +26,50 @@ Both the A and B switches can be in 16 states, from 0000 - 1111.
 
 The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
-This can however be overruled.
+This can however be overruled by **setForced(true)**.
 
 The device works with 2.3 V to 5.5 V so it should work with most MCU's.
 
-Note: By connecting line A and B the ADG729 can act like an ADG728.
+Note: By connecting line A and B the ADG729 can act like an ADG728,
+except for the address range.
 
 **Warning**
 
-The library is not tested with hardware yet.
+The library is tested with hardware, see #2.
+
+As always feedback is welcome.
 
 
-#### I2C 
+### I2C
 
-I2C address of the device itself is 0x4C .. 0x4F.
+I2C address of the ADG729 is 0x44 .. 0x47.
+(ADG728 0x4C..0x4F)
 
 
-#### I2C performance
+### I2C performance
 
 The ADG729 can work up to 400 KHz according to the datasheet.
 
 
-#### Related
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+### Related
 
 Other multiplexers
 
@@ -57,7 +79,7 @@ Other multiplexers
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
 - https://github.com/RobTillaart/ADG725  (2x16 mux)
 - https://github.com/RobTillaart/ADG726  (2x16 mux)
-- https://github.com/RobTillaart/ADG729  (1x8 mux)
+- https://github.com/RobTillaart/ADG728  (1x8 mux)
 - https://github.com/RobTillaart/ADG729  (2x4 mux)
 - https://github.com/RobTillaart/ADG731  (1x32 mux)
 - https://github.com/RobTillaart/ADG732  (1x32 mux)
@@ -70,7 +92,7 @@ Other multiplexers
 #include "ADG729.h"
 ```
 
-#### Interaction models
+### Interaction models
 
 **Warning**
 
@@ -80,15 +102,16 @@ Note that mixing these two interaction models might complicate the logic of your
 However it is allowed.
 
 
-#### Constructor
+### Constructor
 
 - **ADG729(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
-deviceAddress = 0x4C .. 0x4F, wire = Wire or WireN.
+deviceAddress = 0x44 .. 0x47, wire = Wire or WireN.
 - **bool begin(uint8_t mask = 0x00)**  set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
+- **uint8_t getAddress()** returns address, convenience function.
 
 
-#### Single channel functions
+### Single channel functions
 
 All channel functions return true on success.
 
@@ -102,7 +125,7 @@ All other channels will be disabled in the same call, so not before or after.
 - **bool disableAllChannels()** fast way to disable all channels.
 
 
-#### Dual Channel functions
+### Dual Channel functions
 
 All channel functions return true on success.
 
@@ -125,7 +148,7 @@ Now one can select which A connects to which B, in total 4 x 4 possibilities.
 - **bool select(uint8_t A, uint8_t B)** A, B = 0..3
 
 
-#### Mask functions
+### Mask functions
 
 Multiple channels can also be enabled in one call with a mask.
 These functions do the hard work for the single and dual channel functions.
@@ -134,12 +157,12 @@ These functions do the hard work for the single and dual channel functions.
 - **uint8_t getChannelMask()** reads back the bit mask of the channels enabled.
 
 
-#### Debug
+### Debug
 
 - **int getError()** returns the last (I2C) status / error.
 
 
-#### Forced IO
+### Forced IO
 
 When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**, 
 will go to the device.
@@ -171,7 +194,7 @@ Not implemented yet, preparation for future.
 #### Must
 
 - improve documentation.
-- test with hardware.
+- test with hardware (see #2).
 
 #### Should
 

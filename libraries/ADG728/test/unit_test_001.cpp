@@ -73,6 +73,7 @@ unittest(test_constructor)
   assertTrue(adg.begin());
   assertTrue(adg.isConnected());
   assertEqual(8, adg.channelCount());
+  assertEqual(0x4C, adg.getAddress());
 }
 
 

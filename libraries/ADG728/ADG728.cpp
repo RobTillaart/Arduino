@@ -1,7 +1,7 @@
 //
 //    FILE: ADG728.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG728 matrix switch. 1x8 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG728
@@ -35,6 +35,12 @@ bool ADG728::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t ADG728::getAddress()
+{
+  return _address;
 }
 
 

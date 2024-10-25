@@ -2,7 +2,7 @@
 //
 //    FILE: ADG728.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG728 matrix switch. 1x8 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG728
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ADG728_LIB_VERSION             (F("0.1.0"))
+#define ADG728_LIB_VERSION             (F("0.1.1"))
 
 
 //  ERROR CODES (to be elaborated)
@@ -31,6 +31,7 @@ public:
 
   bool    begin(uint8_t mask = 0x00);         //  default no channels enabled
   bool    isConnected();                      //  find address on I2C bus
+  uint8_t getAddress();                       //  convenience function
 
   //  channel = 0..channelCount()-1
   uint8_t channelCount();

@@ -1,8 +1,7 @@
 //
-//    FILE: MS5611_test_plotter.ino
+//    FILE: MS5611_PROM_dump.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo application
-//    DATE: 2022-01-15
+// PURPOSE: developer tool
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -35,15 +34,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-  Serial.begin(115200);
-  while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_LIB_VERSION: ");
   Serial.println(MS5611_LIB_VERSION);
   Serial.println();
-
-  pinMode(LED_BUILTIN, OUTPUT);
 
   Wire.begin();
   if (MS5611.begin() == true)
@@ -54,30 +49,29 @@ void setup()
   else
   {
     Serial.println("MS5611 not found. halt.");
-    while (1)
-    {
-      digitalWrite(LED_BUILTIN, HIGH);
-      delay(1000);
-      digitalWrite(LED_BUILTIN, LOW);
-      delay(1000);
-    }
+    while (1);
   }
-  Serial.println("TEMP\tPRESSURE");
+  Serial.println();
 
-  //  scale T & P to same range :)
-  MS5611.setPressureOffset(-1000);
+  Serial.println("REG\tHEX\tDEC");
+
+  for (int reg = 0; reg < 8; reg++)
+  {
+    uint16_t value = MS5611.getProm(reg);
+    Serial.print(reg);
+    Serial.print('\t');
+    Serial.print(value, HEX);
+    Serial.print('\t');
+    Serial.println(value);
+  }
+
+  Serial.println("\ndone...");
 }
+
 
 void loop()
 {
-  digitalWrite(LED_BUILTIN, HIGH);
-  MS5611.read();
-  Serial.print(MS5611.getTemperature(), 2);
-  Serial.print("\t");
-  Serial.print(MS5611.getPressure(), 2);
-  Serial.println();
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1000);
+
 }
 
 

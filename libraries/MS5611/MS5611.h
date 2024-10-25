@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -30,7 +30,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.4.0"))
+#define MS5611_LIB_VERSION                    (F("0.4.1"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77
@@ -58,6 +58,7 @@ public:
 
   bool     begin();
   bool     isConnected();
+  uint8_t  getAddress() { return _address; };
 
   //       reset command + get constants
   //       mathMode = 0 (default), 1 = factor 2 fix.
@@ -81,10 +82,14 @@ public:
 
   //  pressure is in mBar
   float    getPressure() const;
+  //  pressure is in Pascal (SI-unit) - 0.4.1
+  float    getPressurePascal() const;
 
   //  OFFSET - 0.3.6
+  //  pressure offset is in mBar.
   void     setPressureOffset(float offset = 0)    { _pressureOffset = offset; };
   float    getPressureOffset()    { return _pressureOffset; };
+  //  temperature offset in degrees C.
   void     setTemperatureOffset(float offset = 0) { _temperatureOffset = offset; };
   float    getTemperatureOffset() { return _temperatureOffset; };
 
@@ -100,16 +105,18 @@ public:
   void     setCompensation(bool flag = true) { _compensation = flag; };
   bool     getCompensation() { return _compensation; };
 
-  //  develop functions.
-  /*
-  void     setAddress(uint8_t address) { _address = address; };  // RANGE CHECK + isConnected() !
-  uint8_t  getAddress() const          { return _address; };
-  uint8_t  detectAddress() { todo };  // works with only one on the bus?
-  */
 
   //       EXPERIMENTAL
   uint16_t getManufacturer();
   uint16_t getSerialCode();
+
+  //       DEVELOP
+  uint16_t getProm(uint8_t index);
+  uint16_t getCRC();
+  /*
+  void     setAddress(uint8_t address) { _address = address; };  // RANGE CHECK + isConnected() !
+  uint8_t  detectAddress() { todo };  // works with only one on the bus?
+  */
 
 
 protected:

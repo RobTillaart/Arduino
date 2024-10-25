@@ -2,7 +2,7 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 //
@@ -172,11 +172,21 @@ float MS5611::getTemperature() const
 };
 
 
+//  milliBar
 float MS5611::getPressure() const
 {
   if (_pressureOffset == 0) return _pressure * 0.01;
   return _pressure * 0.01 + _pressureOffset;
 };
+
+
+//  Pascal SI-unit.
+float MS5611::getPressurePascal() const
+{
+  if (_pressureOffset == 0) return _pressure;
+  return _pressure + _pressureOffset * 100.0;
+};
+
 
 //       EXPERIMENTAL
 uint16_t MS5611::getManufacturer()
@@ -188,6 +198,17 @@ uint16_t MS5611::getManufacturer()
 uint16_t MS5611::getSerialCode()
 {
   return readProm(7) >> 4;
+}
+
+//       DEVELOP
+uint16_t MS5611::getProm(uint8_t index)
+{
+  return readProm(index);
+}
+
+uint16_t MS5611::getCRC()
+{
+  return readProm(7) & 0x0F;
 }
 
 
@@ -296,5 +317,6 @@ void MS5611::initConstants(uint8_t mathMode)
   }
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
 

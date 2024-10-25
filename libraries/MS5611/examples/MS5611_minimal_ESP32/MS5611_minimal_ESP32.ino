@@ -44,7 +44,8 @@ void setup()
   Wire.begin(22, 23);  //  adjust ESP32 pins if needed
   if (MS5611.begin() == true)
   {
-    Serial.println("MS5611 found.");
+    Serial.print("MS5611 found: ");
+    Serial.println(MS5611.getAddress());
   }
   else
   {

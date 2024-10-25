@@ -46,7 +46,8 @@ void setup()
   Wire.setSCL(15);  //  adjust RP2040 pins if needed
   if (MS5611.begin() == true)
   {
-    Serial.println("MS5611 found.");
+    Serial.print("MS5611 found: ");
+    Serial.println(MS5611.getAddress());
   }
   else
   {

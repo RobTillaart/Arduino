@@ -27,14 +27,14 @@ An experimental SPI version of the library can be found here
 - https://github.com/RobTillaart/MS5611_SPI
 
 
-#### Compatibility
+### Compatibility
 
 The library should be compatible with MS56XX, MS57xx and MS58xx devices (to be tested). 
 Some device types will returns only 50% of the pressure value. 
 This is solved in 0.3.9 by calling **reset(1)** to select the math used.
 
 
-#### Self heating
+### Self heating
 
 In some configurations especially when using SPI the sensor showed a self heating. 
 First this was approached as a problem, so investigations were done to understand the 
@@ -59,7 +59,7 @@ temperature sensor the offset might work only in a smaller range.
 To have a reliable ambient temperature it is advised to use an dedicated temperature sensor for this (e.g. DS18B20).
 
 
-#### Breakout GY-63
+### Breakout GY-63
 
 ```cpp
 //
@@ -83,23 +83,46 @@ To have a reliable ambient temperature it is advised to use an dedicated tempera
 //
 ```
 
-#### Related libraries
+## I2C
 
-For pressure conversions see - https://github.com/RobTillaart/pressure
 
-For temperature conversions see - https://github.com/RobTillaart/Temperature
+The device address is 0x76 or 0x77 depending on the CSB/CSO pin.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+### Related libraries
+
+- https://github.com/RobTillaart/pressure pressure conversions
+- https://github.com/RobTillaart/Temperature temperature conversions 
 
 
 ## Release Notes (major)
 
-#### 0.3.0 breaking change
+### 0.3.0 breaking change
 
 - fixed math error so previous versions are **obsolete**.
 - temperature is a float expressed in degrees Celsius.
 - pressure is a float expressed in mBar.
 
 
-#### 0.3.5 NANO 33 BLE
+### 0.3.5 NANO 33 BLE
 
 The I2C/Wire library of the NANO 33 BLE does not see the device on the I2C bus. 
 After hours of testing it looks like that the I2C/Wire library of the NANO 33 BLE 
@@ -108,7 +131,7 @@ Adding a **wire->write(0x00)** in **isConnected()** fixes the problem,
 however more investigation is needed to understand the root cause.
 
 
-#### 0.3.9 pressure math 
+### 0.3.9 pressure math 
 
 There are MS5611 compatibles for which the math for the pressure is different.
 See **AN520__004: C-code example for MS56xx, MS57xx (except analog sensor), and MS58xx series pressure sensors**
@@ -121,7 +144,7 @@ The library implements **reset(uint8_t mathMode = 0)** to select the mathMode.
 
 See issue #33.
 
-#### 0.4.0 breaking change
+### 0.4.0 breaking change
 
 refactored the Wire dependency. Affected are:
 - constructor
@@ -136,7 +159,7 @@ User has to call **Wire.begin()** (or equivalent) before calling **ms5611.begin(
 #include "MS5611.h"
 ```
 
-#### Base
+### Base
 
 - **MS5611(uint8_t deviceAddress = MS5611_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Since 0.3.7 a default address 0x77 is added. Optionally set Wire interface.
@@ -150,17 +173,25 @@ One must call **Wire.begin()** (or equivalent) before calling **begin()**.
 Returns false if ROM could not be read.
   - mathMode = 0 follows the datasheet math (default).
   - mathMode = 1 will adjust for a factor 2 in the pressure math.
+
+### Read
+
 - **int read(uint8_t bits)** the actual reading of the sensor. 
 Number of bits determines the oversampling factor. Returns MS5611_READ_OK upon success.
 - **int read()** wraps the **read()** above, uses the preset oversampling (see below). 
 Returns MS5611_READ_OK upon success.
 - **float getTemperature()** returns temperature in °C. 
 Subsequent calls will return the same value until a new **read()** is called.
-- **float getPressure()** pressure is in mBar. 
+- **float getPressure()** returns pressure in mBar. 
+Subsequent calls will return the same value until a new **read()** is called.
+- **float getPressurePascal()** returns pressure in Pascal (SI-unit).
+(1 pascal = 1 newton per square metre, 1 N/m2)
 Subsequent calls will return the same value until a new **read()** is called.
 
+Return values of -9.99 or -999 indicate read error.
 
-#### Oversampling
+
+### Oversampling
 
 - **void setOversampling(osr_t samplingRate)** sets the amount of oversampling. 
 See table below and test example how to use.
@@ -179,30 +210,29 @@ Some numbers from datasheet, page 3 MAX column rounded up. (see #23)
 | OSR_ULTRA_LOW  |  8    |        256         |      0.065        |    600    | Default = backwards compatible
 
 
-
-#### Offset 
+### Offset 
 
 The offset functions are added (0.3.6) to calibrate the sensor against e.g. a local weather station. 
 This calibration can only be done runtime.
 
-- **void setPressureOffset(float offset = 0)** Set an offset to calibrate the pressure. 
+- **void setPressureOffset(float offset = 0)** Set an offset in mBar to calibrate the pressure. 
 Can be used to get the pressure relative to e.g. 1 Atm. 
 Set the offset to -1013 HPa/mBar and you get a sort of relative pressure.
 Default the offset is set to 0.
-- **float getPressureOffset()** returns the current pressure offset.
-- **void setTemperatureOffset(float offset = 0)** Set an offset to calibrate the temperature. 
+- **float getPressureOffset()** returns the current pressure offset in mBar.
+- **void setTemperatureOffset(float offset = 0)** Set an offset in degrees C to calibrate the temperature. 
 Can be used to get the temperature in degrees Kelvin, just set the offset to +273.15.
 Default the offset is set to 0.
-- **float getTemperatureOffset()** returns the current temperature offset.
+- **float getTemperatureOffset()** returns the current temperature offset in degrees C..
 
 
-#### Misc
+### Misc
 
 - **int getLastResult()** checks last I2C communication. Replace with more informative error handling?
 - **uint32_t lastRead()** last time when **read()** was called in milliseconds since startup.
 
 
-#### DeviceID
+### DeviceID
 
 - **uint32_t getDeviceID()** returns the hashed values of the calibration PROM. 
 As these calibration are set in the factory and differ (enough) per sensor these can serve as an unique deviceID.
@@ -214,16 +244,25 @@ Having a device-ID can be used in many ways:
 - etc.
 
 Note: this is not an official ID from the device / datasheet, it is made up from calibration data.
+Expected to be random enough if you have to "track" multiple devices.
 
 
-#### getManufacturer
+### getManufacturer
 
-The meaning of the manufacturer and serialCode value is unclear.
+The meaning of the manufacturer and serialCode value is unclear. 
+No reference found to these PROM fields. 
+
 - **uint16_t getManufacturer()** returns manufacturer private info.
-- **uint16_t getSerialCode()** returns serialCode from the PROM\[6].
+- **uint16_t getSerialCode()** returns serialCode from the PROM\[7] minus the CRC.
 
 
-#### 2nd order pressure compensation
+### Develop functions
+
+- **uint16_t getProm(uint8_t index)** returns PROM\[index].
+- **uint16_t getCRC()** returns CRC code from the PROM\[7].
+
+
+### 2nd order pressure compensation
 
 - **setCompensation(bool flag = true)** to enable/desirable the 2nd order compensation. 
 The default = true. 
@@ -239,13 +278,15 @@ Disabling the compensation will be slightly faster but you loose precision.
 
 #### Should
 
-- proper error handling.
+- add / improve error handling.
 - move all code to .cpp
+- add function to verify the CRC of the PROM
 
 #### Could
 
 - redo lower level functions?
 - handle the read + math of temperature first?
+- find meaning PROM values, esp. 0 and 7
 
 #### Wont
 

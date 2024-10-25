@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2024-10-23
+- add **float getPressurePascal()** Pascal == SI-unit
+- add **uint8_t getAddress()** convenience function.
+- add **uint16_t getCRC()** experimental
+- update examples
+- update readme.md
+- minor edits
+
 ## [0.4.0] - 2023-11-14
 - simplify begin()
 - refactor constructor
@@ -28,17 +36,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - reset() returns bool indicating successful ROM read
 - get/setCompensation() to enable/disable compensation.
 
-## [0.3.7] - 2022-01-22  
+## [0.3.7] - 2022-01-22
 - fix #26 added getPromHash() == **getDeviceID()**
-  - add getDeviceID(), to provide a sort of unique device ID (experimental) based 
+  - add getDeviceID(), to provide a sort of unique device ID (experimental) based
 upon uniqueness of the factory calibration values.
 - fix #24 default all examples address 0x77
 - default address for constructor, can be set as define on the command line.
 MS5611_DEFAULT_ADDRESS.
 
-## [0.3.6] - 2022-01-15 
+## [0.3.6] - 2022-01-15
 - add setOffset functions; minor refactor;
-- The timing for convert is adjusted from TYPICAL to MAX 
+- The timing for convert is adjusted from TYPICAL to MAX
   - datasheet page 3. - see issue #23
 - The **write(0)** in **isConnected()** is made conditional explicit for the NANO 33 BLE.
 

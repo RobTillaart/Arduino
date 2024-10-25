@@ -14,8 +14,11 @@ read	KEYWORD2
 
 setOversampling	KEYWORD2
 getOversampling	KEYWORD2
+
 getTemperature	KEYWORD2
 getPressure	KEYWORD2
+getPressurePascal	KEYWORD2
+
 getLastResult	KEYWORD2
 lastRead	KEYWORD2
 
@@ -34,6 +37,9 @@ getCompensation	KEYWORD2
 
 getManufacturer	KEYWORD2
 getSerialCode	KEYWORD2
+
+getProm	KEYWORD2
+getCRC	KEYWORD2
 
 
 # Instances (KEYWORD2)

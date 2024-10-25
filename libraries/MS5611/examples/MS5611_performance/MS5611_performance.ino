@@ -48,7 +48,8 @@ void setup()
   //  Wire.setClock(100000);
   if (MS5611.begin() == true)
   {
-    Serial.println("MS5611 found.");
+    Serial.print("MS5611 found: ");
+    Serial.println(MS5611.getAddress());
   }
   else
   {

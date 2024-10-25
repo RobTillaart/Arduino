@@ -1,6 +1,6 @@
 {
   "name": "MS5611",
-  "keywords": "MS5611,GY-63,GY63,temperature,pressure",
+  "keywords": "MS5611,MS5607,GY-63,GY63,temperature,pressure",
   "description": "Arduino library for MS5611 temperature and pressure sensor",
   "authors":
   [
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MS5611.git"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

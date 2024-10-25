@@ -1,0 +1,23 @@
+{
+  "name": "AD5620",
+  "keywords": "DAC, SPI",
+  "description": "Arduino library for AD5620 Digital Analog Convertor (12 bit).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5620.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5620.h"
+}

@@ -113,7 +113,7 @@ but only if changed.
 Returns 0 if value was same or write succeeded.
 - **uint16_t updateBlock(uint16_t memoryAddress, uint8_t \* buffer, uint16_t length)** 
 write a buffer starting at the specified memory address, but only if changed.
-Returns bytes written.
+Returns bytes actually written <= length.
 
 
 ### Read functions

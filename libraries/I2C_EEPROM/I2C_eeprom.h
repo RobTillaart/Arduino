@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_eeprom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.9.0
+// VERSION: 1.9.1
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_EEPROM_VERSION          (F("1.9.0"))
+#define I2C_EEPROM_VERSION          (F("1.9.1"))
 
 #define I2C_DEVICESIZE_24LC512      65536
 #define I2C_DEVICESIZE_24LC256      32768
@@ -109,7 +109,7 @@ public:
   //  updates a block in memory, writes only if there is a new value.
   //  only to be used when you expect to write same buffer multiple times.
   //  test your performance gains!
-  //  returns bytes written.
+  //  returns bytes actually written <= length
   uint16_t updateBlock(const uint16_t memoryAddress, const uint8_t * buffer, const uint16_t length);
 
 

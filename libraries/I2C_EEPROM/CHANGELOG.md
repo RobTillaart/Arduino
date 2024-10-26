@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.9.1] - 2024-10-26
+- fix #77, updateBlock() returns bytes actually written.
+- minor edits
+
 ## [1.9.0] - 2024-10-09
 - Fix #74, memory leak in setBlockVerify() - kudos to cmichailidis
 

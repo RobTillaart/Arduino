@@ -2,7 +2,7 @@
 //
 //    FILE: AD5620.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 Digital Analog Convertor (12 bit).
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5620_LIB_VERSION        (F("0.1.0"))
+#define AD5620_LIB_VERSION        (F("0.1.1"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -35,7 +35,6 @@ public:
   void     begin();
   uint8_t  getType();
 
-
   //  SET DAC
   //  sets output immediately = prepare + update.
   bool     setValue(uint16_t value = 0);
@@ -43,6 +42,10 @@ public:
   uint16_t getMaxValue();
   bool     setPercentage(float percentage);
   float    getPercentage();
+
+  //  POWER DOWN
+  bool     setPowerDownMode(uint8_t mode);
+  uint8_t  getPowerDownMode();
 
   //  SPI
   //       speed in Hz
@@ -59,16 +62,39 @@ protected:
   uint8_t  _select      = 255;
 
   uint16_t _value       = 0;
+  //  power down mode P19.
+  uint8_t  _powerMode   = 0;
 
   bool     _hwSPI       = false;
   uint32_t _SPIspeed    = 16000000;
 
-  void     updateDevice(uint32_t value);
+  void     updateDevice(uint16_t value);
   void     swSPI_transfer(uint16_t value);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;
 };
+
+
+
+//////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
+class AD5640 : public AD5620
+{
+public:
+  //  HARDWARE SPI
+  AD5640(uint8_t slaveSelect, __SPI_CLASS__ * mySPI = &SPI);
+  //  SOFTWARE SPI
+  AD5640(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock);
+
+  bool     setValue(uint16_t value = 0);
+};
+
+
+//  TODO AD5660 ? (need 3 bytes transfer).
+
 
 
 //  -- END OF FILE --

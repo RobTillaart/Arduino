@@ -1,7 +1,7 @@
 //
 //    FILE: AD5620.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 Digital Analog Convertor (12 bit).
 
@@ -12,25 +12,27 @@
 //  HARDWARE SPI
 AD5620::AD5620(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
 {
-  _select   = slaveSelect;
-  _hwSPI    = true;
-  _mySPI    = mySPI;
-  _value    = 0;
-  _type     = 12;
-  _maxValue = 4095;
+  _select    = slaveSelect;
+  _hwSPI     = true;
+  _mySPI     = mySPI;
+  _value     = 0;
+  _type      = 12;
+  _maxValue  = 4095;
+  _powerMode = 0;
 }
 
 //  SOFTWARE SPI
 AD5620::AD5620(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
 {
-  _select   = slaveSelect;
-  _hwSPI    = false;
-  _mySPI    = NULL;
-  _dataOut  = spiData;
-  _clock    = spiClock;
-  _value    = 0;
-  _type     = 12;
-  _maxValue = 4095;
+  _select    = slaveSelect;
+  _hwSPI     = false;
+  _mySPI     = NULL;
+  _dataOut   = spiData;
+  _clock     = spiClock;
+  _value     = 0;
+  _type      = 12;
+  _maxValue  = 4095;
+  _powerMode = 0;
 }
 
 
@@ -65,11 +67,18 @@ uint8_t AD5620::getType()
 }
 
 
+//
+//  SET VALUE
+//
 bool AD5620::setValue(uint16_t value)
 {
   if (value > _maxValue) return false;
   _value = value;
-  updateDevice(_value);
+  //  prepare 12 bit transfer.
+  uint16_t data = value << 2;
+  //  set powerMode bits if not 0.
+  if (_powerMode) data |= (_powerMode << 14);
+  updateDevice(data);
   return true;
 }
 
@@ -107,6 +116,23 @@ float AD5620::getPercentage()
 
 
 //
+//  POWER DOWN
+//
+bool AD5620::setPowerDownMode(uint8_t mode)
+{
+  if (mode > 3) return false;
+  _powerMode = mode;
+  return true;
+}
+
+
+uint8_t AD5620::getPowerDownMode()
+{
+  return _powerMode;
+}
+
+
+//
 //  SPI
 //
 void AD5620::setSPIspeed(uint32_t speed)
@@ -130,23 +156,21 @@ bool AD5620::usesHWSPI()
 
 //////////////////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 
-void AD5620::updateDevice(uint32_t value)
+void AD5620::updateDevice(uint16_t data)
 {
-  uint16_t val = value << 2;
-
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    _mySPI->transfer16(val);
+    _mySPI->transfer16(data);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-    swSPI_transfer(val);
+    swSPI_transfer(data);
   }
   digitalWrite(_select, HIGH);
 }
@@ -163,6 +187,40 @@ void AD5620::swSPI_transfer(uint16_t value)
     digitalWrite(clk, HIGH);
     digitalWrite(clk, LOW);
   }
+}
+
+
+//////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
+AD5640::AD5640(uint8_t slaveSelect, __SPI_CLASS__ * mySPI)
+       :AD5620(slaveSelect, mySPI)
+{
+  _type      = 14;
+  _maxValue  = 16383;
+}
+
+
+//  SOFTWARE SPI
+AD5640::AD5640(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
+       :AD5620(slaveSelect, spiData, spiClock)
+{
+  _type      = 14;
+  _maxValue  = 16383;
+}
+
+
+bool AD5640::setValue(uint16_t value)
+{
+  if (value > _maxValue) return false;
+  _value = value;
+  //  prepare 14 bit transfer.
+  uint16_t data = value;
+  //  set powerMode bits if not 0.
+  if (_powerMode) data |= (_powerMode << 14);
+  updateDevice(data);
+  return true;
 }
 
 

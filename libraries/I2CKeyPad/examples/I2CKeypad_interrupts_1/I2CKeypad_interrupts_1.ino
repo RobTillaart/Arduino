@@ -80,6 +80,8 @@ void setup()
     while (1);
   }
 
+  keyPad.setDebounceThreshold(50);
+
   measurePolling();
 }
 
@@ -89,6 +91,9 @@ void loop()
   if (keyChange)
   {
     uint8_t index = keyPad.getKey();
+    //  ignore key bounces
+    if (index == I2C_KEYPAD_THRESHOLD)
+        return;
     //  only after keyChange is handled it is time reset the flag
     keyChange = false;
     if (index != 16)

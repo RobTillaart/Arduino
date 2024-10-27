@@ -36,9 +36,18 @@ getMSW	KEYWORD2
 
 # experimental
 change	KEYWORD2
-changeT	KEYWORD2
-changeV	KEYWORD2
-changeN	KEYWORD2
+changeTemperatureKelvin	KEYWORD2
+changeTemperatureCelsius	KEYWORD2
+changeTemperatureFahrenheit	KEYWORD2
+changeVolume	KEYWORD2
+changeMole	KEYWORD2
+
+# experimental
+factorTemperatureKelvin	KEYWORD2
+factorTemperatureCelsius	KEYWORD2
+factorTemperatureFahrenheit	KEYWORD2
+factorVolume	KEYWORD2
+factorMole	KEYWORD2
 
 
 # Constants (LITERAL1)

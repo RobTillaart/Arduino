@@ -6,9 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.1] - 2023-11-15
+## [0.3.2] - 2024-10-27
+- fix #7, improve gas law functions
+- add conversion factor functions
+- add example
 - update readme.md
 
+## [0.3.1] - 2023-11-15
+- update readme.md
 
 ## [0.3.0] - 2023-02-23
 - refactor getter constants

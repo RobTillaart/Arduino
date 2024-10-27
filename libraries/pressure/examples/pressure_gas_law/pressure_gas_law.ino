@@ -20,9 +20,9 @@ void setup()
   Serial.println();
 
   P.setMilliBar(1019.1);
-  P.changeTemperature(273.15 + 25, 273.15 + 50);
+  P.changeTemperatureKelvin(273.15 + 25, 273.15 + 50);
   Serial.print(1019.1);
-  Serial.print(" heated from 25 to 50C gives ");
+  Serial.print(" heated from 25C to 50C gives ");
   Serial.println(P.getMilliBar());
 
   P.setMilliBar(1019.1);
@@ -44,12 +44,18 @@ void setup()
   Serial.print(" with all above gives ");
   Serial.println(P.getMilliBar());
 
+  Serial.println();
   P.setMilliBar(1019.1);
-  P.changeTemperature(273.15 + 25, 273.15 + 50);
-  P.changeVolume(2, 1);
-  P.changeMole(2, 4);
+  P.changeTemperatureCelsius(25, 50);
   Serial.print(1019.1);
-  Serial.print(" check the last one: ");
+  Serial.print(" heated from 25C to 50C gives ");
+  Serial.println(P.getMilliBar());
+
+  Serial.println();
+  P.setMilliBar(1019.1);
+  P.changeTemperatureFahrenheit(32, 85);
+  Serial.print(1019.1);
+  Serial.print(" heated from 32F to 85F gives ");
   Serial.println(P.getMilliBar());
 }
 

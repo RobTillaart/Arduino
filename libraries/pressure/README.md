@@ -17,10 +17,12 @@ Arduino library for pressure conversion.
 ## Description
 
 Arduino library to convert between several pressure units (formats).
-The class consists of a number of setters and getters and internally it uses millibar. 
-In fact the class just hides all conversion constants to and frm millibar.
+The class consists of a number of setters and getters. 
+Internally the class uses millibar, although Pascal is the **SI** unit. 
+In fact the class just hides all conversion constants to and from millibar.
 
-Pressure is implemented as a float so this limits the precision of the value.
+Pressure is implemented as a float so this limits in theory the precision of the value.
+However there are few sensors that can provide more than 7 digits of accuracy.
 
 If other constants / conversions are needed please open an issue on GitHub.
 
@@ -30,7 +32,7 @@ than in a single conversion step as there are two multiplications involved.
 Note: constants need to be verified.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/temperature (a bit)
 
@@ -41,12 +43,12 @@ Note: constants need to be verified.
 #include "pressure.h"
 ```
 
-#### Constructor
+### Constructor
 
-- **pressure(float value = 0.0)** Constructor, with optional initial value.
+- **pressure(float value = 0.0)** Constructor, with optional initial value in mBar.
 
 
-#### Setters
+### Setters
 
 - **void setMilliBar(float value)** sets pressure in milliBar.
 - **void setBar(float value)** sets pressure in bar.
@@ -62,7 +64,7 @@ Note: constants need to be verified.
 - **void setMSW(float value)** sets pressure in Meters of Sea Water. (under water pressure unit).
 
 
-#### Getters
+### Getters
 
 - **float getMilliBar()** returns pressure in milliBar.
 - **float getBar()** returns pressure in bar.
@@ -78,21 +80,62 @@ Note: constants need to be verified.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
 
 
-#### Gas law (experimental see below)
+### Gas law, applied
+
+**Experimental**
+
+Apply the ideal gas law : **(P x V) / (n x T) = Constant**
 
 The **change()** function is applied to the current internal pressure.
 All these functions return pressure in milliBar.
 
 - **float change(float T1, float T2, float V1, float V2, float N1, float N2)**
   - apply changing temperature (**Kelvin**), 
-  - volume (m3) and moles.
-  - If an parameter does not change fill in 1 for both before (T1,V1, N1) and after (T2,V2,n2).
-- **float changeTemperature(float T1, float T2)** only change temperature. T in **Kelvin**.
-- **float changeVolume(float V1, float V2)** only change volume.
-- **float changeMole(float N1, float N2)** only change moles.
+  - volume and moles are the actual (or relative) change. Units must be the same.
+  - If an parameter does not change fill in 1.0 for both before (T1, V1, N1) and after (T2, V2, N2).
+- **float changeTemperatureKelvin(float T1, float T2)** only change temperature. T in **Kelvin**.
+- **float changeTemperatureCelsius(float T1, float T2)** idem.
+- **float changeTemperatureFahrenheit(float T1, float T2)** idem.
+- **float changeVolume(float V1, float V2)** only change volume. Units must be the same.
+- **float changeMole(float N1, float N2)** only change moles. Units must be the same.
+
+E.g. if the pressure is 1025 mBar and one changes the molarity from 4 to 8,
+one can call **P.changeMole(4, 8)** as absolute change or **P.changeMole(1, 2)**
+as relative change.
+
+In code:
+
+```cpp
+pressure P;
+P.setPressure(...);
+P.change(T1, T2, V1, V2, N1, N2);  // apply all changes.
+x = P.getPressure()
+```
+
+Some temperature converters
+
+```cpp
+Kelvin = Celsius + 273.15;
+Kelvin = (Fahrenheit - 32) * 5.0 / 9.0 + 273.15;
+Kelvin = Fahrenheit * 5.0 / 9.0 + 290.93;  // one operator less.
+```
+
+### Gas law, factors
+
+If you need a conversion factor for temperature, volume or moles, 
+e.g. to make a table fast, you can use the following functions. 
+These functions do not affect the internal pressure state.
+
+- **float factor(float T1, float T2, float V1, float V2, float N1, float N2)**
+Temperature in Kelvin, other see below.
+- **float factorTemperatureKelvin(float T1, float T2)** 
+- **float factorTemperatureCelsius(float T1, float T2)**
+- **float factorTemperatureFahrenheit(float T1, float T2)**
+- **float factorVolume(float V1, float V2)** volume must be in same units
+- **float factorMole(float N1, float N2)** moles must be in same units.
 
 
-#### Constants
+### Constants
 
 The library has a number of constants to convert units. See the pressure.h file.
 These constants can be used to write specific convertors or define specific constants.
@@ -130,39 +173,6 @@ Serial.print("TORR: ");
 Serial.println(P.getTORR());     // 1000 Dynes in Torr
 ```
 
-#### Experimental
-
-Note: names changed in 0.3.0
-
-
-Apply the ideal gas law : **(P x V) / (n x T) = Constant**
-
-- **float change(float T1, float T2, float V1, float V2, float N1, float N2)**
-  - T (temperature) in Kelvin,
-  - V (volume) in identical units, 
-  - N (# atoms) in mole
-  - wrapper around next three.
-- **float changeTemperature(float T1, float T2)** only change temperature. T in Kelvin.
-- **float changeVolume(float V1, float V2)** only change volume.
-- **float changeMole(float N1, float N2)** only change moles.
-
-in code
-```cpp
-pressure P;
-P.setPressure(...);
-P.change(T1, T2, V1, V2, N1, N2);  // apply all changes.
-x = P.getPressure()
-```
-
-
-Some temperature converters
-
-```cpp
-Kelvin = Celsius + 273.15;
-Kelvin = (Fahrenheit - 32) \* 5 / 9 + 273.15;
-Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
-```
-
 
 ## Future
 
@@ -175,6 +185,7 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
 #### Should
 
 - test with gas law.
+- optimize code if possible.
 
 #### Could
 
@@ -184,10 +195,12 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
 - **float setMillibar(float value)** return pressure in millibar all setters
   - ```return _pressure = value * factor;```
 
+Possible additional interface
+- **changeTemperatureKelvin(float factor)**  Heat it with 10% => factor = 1.1
+
+
 #### Wont (unless requested)
 
-- **float changeTC(float T1, float T2)** only change temperature, T in Celsius.
-- **float changeTF(float T1, float T2)** only change temperature, T in Fahrenheit.
 - move code to .cpp file
 - rename parameters so they make more sense?  (simple enough)
 ```
@@ -198,7 +211,7 @@ Kelvin = Fahrenheit \* 5 / 9 + 290.93;  // one operator less.
 - defaults for functions?
   - none  <<<<<<<<<<<<<<<<<<<<<<<<<<<
   - 0 like constructor?
-  - 1 to get conversion constant?
+  - 1 to get conversion constant?  user can do this easily.
 
 
 ## Support

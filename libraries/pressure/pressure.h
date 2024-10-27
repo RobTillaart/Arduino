@@ -2,13 +2,13 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 
 
 
-#define PRESSURE_LIB_VERSION        (F("0.3.1"))
+#define PRESSURE_LIB_VERSION        (F("0.3.2"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
@@ -91,20 +91,43 @@ public:
   float getCmH2O()     { return _pressure * MILLIBAR2CMH2O; }
   float getMSW()       { return _pressure * MILLIBAR2MSW; }
 
-
+  ////////////////////////////////////////////////////////////
+  //
   //  EXPERIMENTAL
   //  temperature in KELVIN !
   float change(float T1, float T2, float V1, float V2, float N1, float N2)
   {
-    changeTemperature(T1, T2);
+    changeTemperatureKelvin(T1, T2);
     changeVolume(V1, V2);
     changeMole(N1, N2);
     return _pressure;
   }
 
   //  temperature must be in KELVIN!
-  float changeTemperature(float T1, float T2)
+  float changeTemperatureKelvin(float T1, float T2)
   {
+    if ((T1 != T2) && (T1 > 0) && (T2 > 0))
+    {
+      _pressure *= (T2 / T1);
+    }
+    return _pressure;
+  }
+
+  float changeTemperatureCelsius(float T1, float T2)
+  {
+    T1 += 273.15;
+    T2 += 273.15;
+    if ((T1 != T2) && (T1 > 0) && (T2 > 0))
+    {
+      _pressure *= (T2 / T1);
+    }
+    return _pressure;
+  }
+
+  float changeTemperatureFahrenheit(float T1, float T2)
+  {
+    T1 = T1 * (5.0 / 9.0) + 290.93;
+    T2 = T2 * (5.0 / 9.0) + 290.93;
     if ((T1 != T2) && (T1 > 0) && (T2 > 0))
     {
       _pressure *= (T2 / T1);
@@ -131,6 +154,64 @@ public:
     }
     return _pressure;
   }
+
+
+  ////////////////////////////////////////////////////////////
+  //
+  //  EXPERIMENTAL
+  //
+  float factor(float T1, float T2, float V1, float V2, float N1, float N2)
+  {
+    float f = factorTemperatureKelvin(T1, T2);
+    f *= factorVolume(V1, V2);
+    f *= factorMole(N1, N2);
+    return f;
+  }
+
+  float factorTemperatureKelvin(float T1, float T2)
+  {
+    if ((T1 != T2) && (T1 > 0) && (T2 > 0))
+    {
+      return (T2 / T1);
+    }
+    return 1.0;
+  }
+
+  float factorTemperatureCelsius(float T1, float T2)
+  {
+    T1 += 273.15;
+    T2 += 273.15;
+    return factorTemperatureKelvin(T1, T2);
+  }
+
+  float factorTemperatureFahrenheit(float T1, float T2)
+  {
+    T1 = T1 * (5.0 / 9.0) + 290.93;
+    T2 = T2 * (5.0 / 9.0) + 290.93;
+    return factorTemperatureKelvin(T1, T2);
+  }
+
+  //  volume must be in same units
+  float factorVolume(float V1, float V2)
+  {
+    if ((V1 != V2) && (V1 > 0) && (V2 > 0))
+    {
+      return (V1 / V2);
+    }
+    return 1.0;
+  }
+
+  //  moles must be in same units.
+  float factorMole(float N1, float N2)
+  {
+    if ((N1 != N2) && (N1 > 0) && (N2 > 0))
+    {
+      return (N2 / N1);
+    }
+    return 1.0;
+  }
+
+
 
 private:
   float    _pressure;    //  millibar.

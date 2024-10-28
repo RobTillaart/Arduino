@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for INA228 voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          (F("0.1.3"))
+#define INA228_LIB_VERSION          (F("0.1.4"))
 
 
 //  for setMode() and getMode()
@@ -100,32 +100,53 @@ public:
   uint8_t  getAddress();
 
   //
-  //  CORE FUNCTIONS
+  //  CORE FUNCTIONS + scale wrappers.
   //
-  float    getBusVoltage();       //  Volt
-  float    getShuntVoltage();     //  Volt
-  float    getCurrent();          //  Ampere
-  float    getPower();            //  Watt
-  float    getTemperature();      //  Celsius
-  //  the next two functions are returning double as they have higher accuracy.
-  double   getEnergy();           //  Joule
-  double   getCharge();           //  Coulombs
+  //       BUS VOLTAGE
+  float    getBusVoltage();     //  Volt
+  float    getBusVolt()         { return getBusVoltage(); };
+  float    getBusMilliVolt()    { return getBusVoltage()   * 1e3; };
+  float    getBusMicroVolt()    { return getBusVoltage()   * 1e6; };
 
-  //  Scale helpers milli range
-  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
-  float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
-  float    getCurrent_mA()      { return getCurrent()      * 1e3; };
-  float    getPower_mW()        { return getPower()        * 1e3; };
-  double   getEnergy_mJ()       { return getEnergy()       * 1e3; };
-  double   getCharge_mC()       { return getCharge()       * 1e3; };
+  //       SHUNT VOLTAGE
+  float    getShuntVoltage();   //  Volt
+  float    getShuntVolt()       { return getShuntVoltage(); };
+  float    getShuntMilliVolt()  { return getShuntVoltage() * 1e3; };
+  float    getShuntMicroVolt()  { return getShuntVoltage() * 1e6; };
 
-  //  Scale helpers micro range
-  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
-  float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
-  float    getCurrent_uA()      { return getCurrent()      * 1e6; };
-  float    getPower_uW()        { return getPower()        * 1e6; };
-  double   getEnergy_uJ()       { return getEnergy()       * 1e6; };
-  double   getCharge_uC()       { return getCharge()       * 1e6; };
+  //       SHUNT CURRENT
+  float    getCurrent();        //  Ampere
+  float    getAmpere()          { return getCurrent(); };
+  float    getMilliAmpere()     { return getCurrent()      * 1e3; };
+  float    getMicroAmpere()     { return getCurrent()      * 1e6; };
+
+  //       POWER
+  float    getPower();          //  Watt
+  float    getWatt()            { return getPower(); };
+  float    getMilliWatt()       { return getPower()        * 1e3; };
+  float    getMicroWatt()       { return getPower()        * 1e6; };
+  float    getKiloWatt()        { return getPower()        * 1e-3; };
+
+  //       TEMPERATURE
+  float    getTemperature();    //  Celsius
+
+  //  the Energy and Charge functions are returning double as they have higher accuracy.
+  //       ENERGY
+  double   getEnergy();         //  Joule or watt second
+  double   getJoule()           { return getEnergy(); };
+  double   getMegaJoule()       { return getEnergy()       * 1e-6; };
+  double   getKiloJoule()       { return getEnergy()       * 1e-3; };
+  double   getMilliJoule()      { return getEnergy()       * 1e3; };
+  double   getMicroJoule()      { return getEnergy()       * 1e6; };
+  double   getWattHour()        { return getEnergy()       * (1.0 / 3600.0); };
+  double   getKiloWattHour()    { return getEnergy()       * (1.0 / 3.6); };
+
+  //  CHARGE
+  double   getCharge();         //  Coulombs
+  double   getCoulomb()         { return getCharge(); };
+  double   getMilliCoulomb()    { return getCharge()       * 1e3; };
+  double   getMicroCoulomb()    { return getCharge()       * 1e6; };
+
 
   //
   //  CONFIG REGISTER 0

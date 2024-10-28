@@ -74,6 +74,12 @@ shunt used. See the links below for more details.
 Both are verified to work but not the full range. (See #10)
 
 
+### Calibrating
+
+Note the power and the current are not meaningful without calibrating the sensor.
+Also the values are not meaningful if there is no shunt connected.
+
+
 ### Schema LOW SIDE
 
 
@@ -229,54 +235,73 @@ Returns true if the INA228 address is on the I2C bus.
 - **bool isConnected()** returns true if the INA228 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
+### BUS VOLTAGE
 
-### Core Functions
-
-Note the power and the current are not meaningful without calibrating the sensor.
-Also the values are not meaningful if there is no shunt connected.
+Main function + wrappers.
 
 - **float getBusVoltage()** idem. Returns value in volts. Max 85 Volt.
 This value is always positive.
+- **float getBusVolt()**
+- **float getBusMilliVolt()**
+- **float getBusMicroVolt()**
+
+### SHUNT VOLTAGE
+
 - **float getShuntVoltage()** idem, Returns value in volts.
 Note the value can be positive or negative as the INA228 is bidirectional.
+- **float getShuntVolt()**
+- **float getShuntMilliVolt()**
+- **float getShuntMicroVolt()**
+
+### SHUNT CURRENT
+
 - **float getCurrent()** returns the current through the shunt in Ampere.
 Note this value can be positive or negative as the INA228 is bidirectional.
+- **float getAmpere()**
+- **float getMilliAmpere()**
+- **float getMicroAmpere()**
+
+### TEMPERATURE
+
+- **float getTemperature()** returns the temperature in Celsius.
+
+### POWER
+
 - **float getPower()** returns the current x BusVoltage in Watt.
+- **float getWatt()**
+- **float getMilliWatt()**
+- **float getMicroWatt()**
+- **float getKiloWatt()**
 
-The library has helper/scaling functions to convert above output values to a 
-more appropriate scale of units. (to be verified if meaningful)
-
-Helper functions for the milli scale and micro scale. 
-
-- **float getBusVoltage_mV()** idem, in milliVolts.
-- **float getShuntVoltage_mV()** idem, in milliVolts.
-- **float getCurrent_mA()** idem, in milliAmpere.
-- **float getPower_mW()** idem, in milliWatt.
-- **float getBusVoltage_uV()** idem, in microVolts.
-- **float getShuntVoltage_uV()** idem, in microVolts.
-- **float getCurrent_uA()** idem, in microAmpere.
-- **float getPower_uW()** idem, in microWatt.
-
-
-### Cumulative functions
+### ENERGY
 
 See page 13++, page 32, 8.1.2
 
+The **getEnergy()** only has meaning in continuous mode.
+This is an accumulation register and can be reset to zero by **setAccumulation(1)**.
+
+The accuracy of **getEnergy()** is 1.0% full scale (maximum).
+
 - **double getEnergy()** return Joule (elaborate).
+- **double getJoule()**
+- **double getMegaJoule()**
+- **double getKiloJoule()**
+- **double getMilliJoule()**
+- **double getMicroJoule()**
+- **double getWattHour()**
+- **double getKiloWattHour()**
+
+### CHARGE
+
+The **getCharge()** only has meaning in continuous mode.
+This is an accumulation register and can be reset to zero by **setAccumulation(1)**.
+
+The accuracy of **getCharge()** is 1.0% full scale (maximum).
+
 - **double getCharge()** return Coulomb (elaborate).
-
-Helper functions for the milli and micro scale. 
-(TODO: are these useful?)
-
-- **double getEnergy_mJ()** idem, milliJoule.
-- **double getCharge_mC()** idem, milliCoulomb.
-- **double getEnergy_uJ()** idem, microJoule.
-- **double getCharge_uC()** idem, microCoulomb.
-
-The **getEnergy()** and **getCharge()** only have meaning in continuous mode.
-These are accumulation registers and can be reset to zero by **setAccumulation(1)**.
-
-The accuracy of **getEnergy()** and **getCharge()** is 1.0% full scale (maximum).
+- **double getCoulomb()**
+- **double getMilliCoulomb()**
+- **double getMicroCoulomb()**
 
 
 ### Configuration
@@ -297,7 +322,7 @@ Read datasheet for details, section 7.6.1.1, page 22
 
 TODO: wrapper + better name for setAccumulation().
 
-TODO: examples to show the effect of the ADC config.
+TODO: examples to show the effect of the ADC configuration.
 
 
 ### ADC mode

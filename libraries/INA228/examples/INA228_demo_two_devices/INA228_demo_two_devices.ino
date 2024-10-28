@@ -43,11 +43,11 @@ void loop() {
 
   Serial.print(INA1.getBusVoltage());
   Serial.print("\t");
-  Serial.print(INA1.getShuntVoltage_mV());
+  Serial.print(INA1.getShuntMilliVolt());
   Serial.print("\t");
-  Serial.print(INA1.getCurrent_mA());
+  Serial.print(INA1.getMilliAmpere());
   Serial.print("\t");
-  Serial.print(INA1.getPower_mW());
+  Serial.print(INA1.getMilliWatt());
   Serial.print("\t");
   Serial.print(INA1.getTemperature());
   Serial.println();
@@ -55,11 +55,11 @@ void loop() {
   Serial.println("\nBUS\tSHUNT\tCURRENT\tPOWER\tTEMP");
   Serial.print(INA2.getBusVoltage());
   Serial.print("\t");
-  Serial.print(INA2.getShuntVoltage_mV());
+  Serial.print(INA2.getShuntMilliVolt());
   Serial.print("\t");
-  Serial.print(INA2.getCurrent_mA());
+  Serial.print(INA2.getMilliAmpere());
   Serial.print("\t");
-  Serial.print(INA2.getPower_mW());
+  Serial.print(INA2.getMilliWatt());
   Serial.print("\t");
   Serial.print(INA2.getTemperature());
   Serial.println();

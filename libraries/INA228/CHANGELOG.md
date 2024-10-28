@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2024-10-28
+- add and rename wrappers for core functions
+- update all examples
+- update readme.md
+
 ## [0.1.3] - 2024-10-22
 - fix #10, remove limit for the Amperes, kudos to geoFrancis
 - fix handling negative values for **getShuntVoltage()**

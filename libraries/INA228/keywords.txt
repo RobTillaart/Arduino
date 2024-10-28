@@ -10,28 +10,45 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 getAddress	KEYWORD2
 
-
 getBusVoltage	KEYWORD2
+getBusVolt	KEYWORD2
+getBusMilliVolt	KEYWORD2
+getBusMicroVolt	KEYWORD2
+
 getShuntVoltage	KEYWORD2
+getShuntVolt	KEYWORD2
+getShuntMilliVolt	KEYWORD2
+getShuntMicroVolt	KEYWORD2
+
 getCurrent	KEYWORD2
+getAmpere	KEYWORD2
+getMilliAmpere	KEYWORD2
+getMicroAmpere	KEYWORD2
+
 getPower	KEYWORD2
+getWatt	KEYWORD2
+getMilliWatt	KEYWORD2
+getMicroWatt	KEYWORD2
+getKiloWatt	KEYWORD2
+
 getTemperature	KEYWORD2
+
 getEnergy	KEYWORD2
+getJoule	KEYWORD2
+getMegaJoule	KEYWORD2
+getKiloJoule	KEYWORD2
+getMilliJoule	KEYWORD2
+getMicroJoule	KEYWORD2
+getWattHour	KEYWORD2
+getKiloWattHour	KEYWORD2
+
 getCharge	KEYWORD2
+getCoulomb	KEYWORD2
+getMilliCoulomb	KEYWORD2
+getMicroCoulomb	KEYWORD2
 
-getBusVoltage_mV	KEYWORD2
-getShuntVoltage_mV	KEYWORD2
-getCurrent_mA	KEYWORD2
-getPower_mW	KEYWORD2
-getEnergy_mJ	KEYWORD2
-getCharge_mC	KEYWORD2
 
-getBusVoltage_uV	KEYWORD2
-getShuntVoltage_uV	KEYWORD2
-getCurrent_uA	KEYWORD2
-getPower_uW	KEYWORD2
-getEnergy_uJ	KEYWORD2
-getCharge_uC	KEYWORD2
+#########################
 
 
 reset	KEYWORD2

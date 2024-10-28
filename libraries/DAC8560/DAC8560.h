@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8560 SPI Digital Analog Convertor
 //          could work with DAC8550, not tested
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // HISTORY: See DAC8560.cpp
 //     URL: https://github.com/RobTillaart/DAC8560
 //
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define DAC8560_LIB_VERSION            (F("0.1.0"))
+#define DAC8560_LIB_VERSION            (F("0.1.1"))
 
 
 #define DAC8560_POWERDOWN_NORMAL       0
@@ -49,6 +49,11 @@ public:
   void     setPowerDownMode(uint8_t powerDownMode);
   uint8_t  getPowerDownMode();
 
+  //       to be verified.
+  //       datasheet 7.3.5 Enable/Disable Internal Reference, P21
+  void     enableInternalReference();
+  void     disableInternalReference();
+
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed() { return _SPIspeed; };
@@ -57,17 +62,17 @@ public:
 
 
 protected:
-  uint8_t  _dataOut     = 255;
-  uint8_t  _clock       = 255;
-  uint8_t  _select = 255;
+  uint8_t  _dataOut  = 255;
+  uint8_t  _clock    = 255;
+  uint8_t  _select   = 255;
 
-  bool     _hwSPI       = false;
-  uint16_t _value       = 0;
-  uint8_t  _register    = 0;
+  bool     _hwSPI    = false;
+  uint16_t _value    = 0;
+  uint8_t  _register = 0;
 
-  uint32_t _SPIspeed    = 16000000;
+  uint32_t _SPIspeed = 16000000;
 
-  void     updateDevice();
+  void     updateDevice(uint32_t data, bool vref = false);
   void     swSPI_transfer(uint8_t value);
 
   __SPI_CLASS__ * _mySPI;

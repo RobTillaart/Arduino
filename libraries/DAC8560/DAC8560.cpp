@@ -2,7 +2,7 @@
 //    FILE: DAC8560.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8560 SPI Digital Analog Convertor
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //     URL: https://github.com/RobTillaart/DAC8560
 
 
@@ -61,7 +61,10 @@ void DAC8560::begin()
 void DAC8560::setValue(uint16_t value)
 {
   _value = value;
-  updateDevice();
+  uint32_t data = _register;
+  data <<= 16;
+  data += _value;
+  updateDevice(data);
 }
 
 
@@ -75,13 +78,34 @@ uint16_t DAC8560::getValue()
 void DAC8560::setPowerDownMode(uint8_t powerDownMode)
 {
   _register = (powerDownMode & 0x03);
-  updateDevice();
+  uint32_t data = _register;
+  data <<= 16;
+  data += _value;
+  updateDevice(data);
 }
 
 
 uint8_t DAC8560::getPowerDownMode()
 {
   return _register & 0x03;
+}
+
+//  datasheet 7.3.5 Enable/Disable Internal Reference, P21
+void DAC8560::enableInternalReference()
+{
+  //  send MAGIC numbers
+  uint32_t data = 0x004C0400;
+  updateDevice(data, true);
+  data = 0x00490401;
+  updateDevice(data, true);
+}
+
+
+void DAC8560::disableInternalReference()
+{
+  //  send MAGIC numbers.
+  uint32_t data = 0x00480401;
+  updateDevice(data, true);
 }
 
 
@@ -96,24 +120,26 @@ void DAC8560::setSPIspeed(uint32_t speed)
 //
 //  PROTECTED
 //
-void DAC8560::updateDevice()
+void DAC8560::updateDevice(uint32_t data, bool vref)
 {
-  uint8_t configRegister = _register;
-
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    _mySPI->transfer(configRegister);
-    _mySPI->transfer(_value >> 8);
-    _mySPI->transfer(_value & 0xFF);
+    _mySPI->transfer((data >> 16) & 0xFF);
+    _mySPI->transfer((data >> 8) & 0xFF);
+    _mySPI->transfer(data & 0xFF);
+    //  datasheet 7.3.5 Enable/Disable Internal Reference, P21
+    if (vref) _mySPI->transfer(0x00);  // force extra clock pulses
     _mySPI->endTransaction();
   }
   else //  Software SPI
   {
-    swSPI_transfer(configRegister);
-    swSPI_transfer(_value >> 8);
-    swSPI_transfer(_value & 0xFF);
+    swSPI_transfer((data >> 16) & 0xFF);
+    swSPI_transfer((data >> 8) & 0xFF);
+    swSPI_transfer(data & 0xFF);
+    //  datasheet 7.3.5 Enable/Disable Internal Reference, P21
+    if (vref) swSPI_transfer(0x00);  // force extra clock pulses
   }
   digitalWrite(_select, HIGH);
 }

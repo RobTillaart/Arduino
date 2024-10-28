@@ -20,7 +20,7 @@ Arduino library for DAC8560 SPI Digital Analog Convertor (16 bit).
 
 The DAC8560 is a SPI based 16 bit DAC with one channel.
 
-This library is not tested yet.
+This library is not tested yet, so use with care.
 
 
 #### Related
@@ -62,7 +62,7 @@ To be used only if one needs a specific speed.
 
 ### Power down
 
-check datasheet for details.
+See datasheet for details.
 
 - **void setPowerDownMode(uint8_t powerDownMode)** sets power down mode. 0 - 3.
 - **uint8_t getPowerDownMode()** returns last written mode.
@@ -75,15 +75,33 @@ check datasheet for details.
 | DAC8560_POWERDOWN_HIGH_IMP |   3   |
 
 
+### Internal Reference
+
+See datasheet 7.3.5 Enable/Disable Internal Reference, P21.
+
+The DAC8560 has an internal reference voltage of 2.5 volt.
+The internal reference is default enabled.
+One can use this or use an external reference via **Vref** pin.
+
+Unknown if the voltage of the internal Vref can be measured
+on the **Vref** pin.
+
+- **void enableInternalReference()** idem.
+- **void disableInternalReference()** idem.
+
+
 ## Future
 
 #### Must
 
 - improve documentation
-- keep in sync with DAC8551
+- keep in sync with DAC8551 if possible.
 - test with hardware
+  - test basic DAC usage.
+  - test internal reference
+  - test powerDown
 
-#### Should 
+#### Should
 
 
 #### Could

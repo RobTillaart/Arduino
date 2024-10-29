@@ -39,23 +39,31 @@ The user has to configure the ADC device (bits, gain) and can call
 Current implementation will probably change slightly in the future
 when related devices will be supported. (See future section).
 
+As always feedback is welcome.
+
+### Special chars
 
 Alt-230 = µ
 
 
 ### Resolution
 
-|  Bits  |  LSB (gain=1)  |  SPS   |     Raw range       |  Notes  |
-|:------:|---------------:|:------:|:-------------------:|:-------:|
-|   12   |          1 mV  |  240   |    -2048 .. 2047    |
-|   14   |        250 µV  |   60   |    -8192 .. 8191    |
-|   16   |       62.5 µV  |   15   |   -32768 .. 32767   |
-|   18   |     15.625 µV  |  3.75  |  -131072 .. 131071  |  not for 3426/27/28.
+SPS = Samples per second
+
+Interval is the time between consecutive reads in milliseconds. 
+This is also the time to wait after the switching of a channel.
+
+|  Bits  |  LSB (gain=1)  |  SPS   |  Interval  |     Raw range       |  Notes  |
+|:------:|---------------:|:------:|:----------:|:-------------------:|:-------:|
+|   12   |          1 mV  |  240   |    4.2 ms  |    -2048 .. 2047    |
+|   14   |        250 µV  |   60   |   16.7 ms  |    -8192 .. 8191    |
+|   16   |       62.5 µV  |   15   |   66.7 ms  |   -32768 .. 32767   |
+|   18   |     15.625 µV  |  3.75  |  266.7 ms  |  -131072 .. 131071  |  not for 3426/27/28.
 
 The effective resolution also depends on the gain set.
 In theory with a gain of 8 the LSB of the 18 bit resolution represents
 1/8 of 15.625 µV == 1.95 µV.
-If this is feasible in practice is to be seen.
+If this is feasible in practice is to be verified.
 
 
 ### I2C Address
@@ -140,16 +148,32 @@ The user has to configure the ADC device (bits, gain) and can call
 Correct settings will be written to the device immediately, but be aware of the fact
 that it will take some time before the conversion with new settings is done.
 
+#### Channels
+
 - **bool setChannel(uint8_t channel = 0)** not to be used for the MCP3421 as
 it has only one channel. Default is channel 0, parameter should be less than the
 value of **getMaxChannels()**.
+After changing a channel one has to wait an interval depending on the resolution used.
+See table above.
 - **uint8_t getChannel()** returns chosen channel (default 0).
+
+#### Gain
+
 - **bool setGain(uint8_t gain = 1)** set gain to 1,2,4, or 8.
 Other values will return false and not change the setting.
 - **uint8_t getGain()** returns the set gain (default 1).
+
+#### Resolution
+
 - **bool setResolution(uint8_t bits = 12)** set the bit resolution 12,14,16 or 18.
 Other values will return false and not change the setting.
 - **uint8_t getResolution()** returns the set resolution (default 12).
+- **uint16_t getConversionDelay()** returns the delay in ms one has to wait at the
+current resolution between calls to **setChannel()** and /or **read()**.
+See Resolution setcion above.
+
+#### Mode
+
 - **void setContinuousMode()** idem.
 - **void setSingleShotMode()** idem.
 - **uint8_t getMode()** returns 0 for singleShot and 1 for continuous.
@@ -176,7 +200,8 @@ This might be added in the future.
 
 - test on different boards.
 - optimize performance if possible
-- check performance I2C with HW
+  - dividing by ```_gain``` ==> multiplication (faster?).
+- check performance I2C with HW.
 - optimize setting all configuration in one function call.
   - **setConfig(channel, resolution, gain, mode)** ?
   - getter needed?

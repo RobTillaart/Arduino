@@ -2,7 +2,7 @@
 //
 //    FILE: MCP3424.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define MCP3424_LIB_VERSION               (F("0.1.1"))
+#define MCP3424_LIB_VERSION               (F("0.1.2"))
 
 
 class MCP3424
@@ -32,12 +32,17 @@ public:
   float    readMicroVolts();
 
   //  CONFIG
+  //  note that after changing a channel one has to wait before 
+  //       a valid measurement is available, see readme.md.
   bool     setChannel(uint8_t channel = 0);
   uint8_t  getChannel();
   bool     setGain(uint8_t gain = 1);
   uint8_t  getGain();
+
   bool     setResolution(uint8_t bits = 12);
   uint8_t  getResolution();
+  uint16_t getConversionDelay();
+
   //  MODE
   void     setContinuousMode();  //  default
   void     setSingleShotMode();

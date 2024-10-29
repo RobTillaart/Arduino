@@ -1,0 +1,46 @@
+# Syntax Colouring Map For ACD3100
+
+# Data types (KEYWORD1)
+ACD3100	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+preHeatDone	KEYWORD2
+preHeatMillisLeft	KEYWORD2
+
+requestSensor	KEYWORD2
+requestReady	KEYWORD2
+readSensor	KEYWORD2
+getCO2Concentration	KEYWORD2
+getTemperature	KEYWORD2
+lastRead	KEYWORD2
+
+setRequestTime	KEYWORD2
+getRequestTime	KEYWORD2
+
+setCalibrationMode	KEYWORD2
+readCallibrationMode	KEYWORD2
+setManualCalibration	KEYWORD2
+readManualCalibration	KEYWORD2
+
+factoryReset	KEYWORD2
+readFactorySet	KEYWORD2
+readFirmwareVersion	KEYWORD2
+readSensorCode	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+ACD3100_LIB_VERSION	LITERAL1
+
+ACD3100_DEFAULT_ADDRESS	LITERAL1
+
+ACD3100_OK	LITERAL1
+ACD3100_CRC_ERROR	LITERAL1
+ACD3100_NOT_READY	LITERAL1
+ACD3100_REQUEST_ERROR	LITERAL1

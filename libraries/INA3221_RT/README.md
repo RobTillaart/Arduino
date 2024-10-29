@@ -16,7 +16,9 @@ Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 
 ## Description
 
-**Experimental** library for the I2C INA3221. ==> **USE WITH CARE**
+**Experimental** **USE WITH CARE**
+
+The INA3221 is a 3 channel voltage and current sensor, which work with I2C.
 
 The INA3221 is a 3 channel measuring device to measure voltage.
 Derived from that voltage and a given shunt, the library calculates current (amperes)
@@ -27,53 +29,56 @@ The measurements runs in the background processing the two voltages per channel.
 in the appropriate (channel) register. Then the next channel / voltage is measured.
 As channels can be disabled, the timing of processing / updates per channels might differ.
 
-The core functions read from the (channel) registers, so they are never blocked.
-They can however return the same value if no new data is available yet.
+The core functions read directly the last measurement from the (channel) registers, 
+so they are never blocked.
+They can however return the same value if no new measurement is available yet.
 
 Some important maxima, see datasheet for all details.
 
 |  description  |  max   |  unit  |  notes  |
 |:--------------|-------:|-------:|:--------|
-| channels      |  3     |        |
-| bus voltage   |  26    | Volt   |  unclear for how long.
-| shunt voltage |  163   | mVolt  |  at 0.1 Ohm
-| shunt R       |  100   | mOhm   |  typical
+| channels      |     3  |        |
+| bus voltage   |    26  |   Volt |  unclear for how long.
+| shunt voltage |   163  |  mVolt |  at 0.1 Ohm
+| shunt R       |   100  |   mOhm |  typical
 | current       |  1.63  | Ampere |  I = U/R
 
 
-#### 0.3.0 breaking changes.
+### 0.4.0 breaking changes.
+
+Fix #8, configuration functions were not working.
+
+### 0.3.0 breaking changes.
 
 Renamed setCriticalCurrect() ==> setCriticalCurrent() to fix typo.
 
-
-#### 0.2.0 breaking changes.
+### 0.2.0 breaking changes.
 
 Several functions have been reimplemented after issue #2.
 This makes pre 0.2.0 versions obsolete.
 
 
-#### Test
+### Tests
 
-==> **USE WITH CARE**
+Still experimental so use with care.
 
-Only tested partially with an Arduino UNO.
+The library is only tested partially with an Arduino UNO.
+So not all functionality is tested and verified with hardware yet. 
+This is an ongoing process.
 
-Not all functionality is tested and investigated with hardware.
-
-Another point to be tested and verified is negative values in registers.
-
-Read datasheet for details.
+One point of attention to be tested and verified is the behaviour 
+around negative values in registers.
 
 As always feedback is welcome, please open an issue on GitHub.
 
 
-#### Special characters
+### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/INA219
 - https://github.com/RobTillaart/INA226
@@ -81,25 +86,42 @@ As always feedback is welcome, please open an issue on GitHub.
 - https://github.com/RobTillaart/INA3221_RT
 
 
-
 ## I2C
 
-#### Address
+### Address
 
-The sensor can have 4 different I2C addresses, which depends on how
-the A0 address line is connected to the SCL, SDA, GND and VCC pins.
+The INA3221 sensor can have 4 different I2C addresses, depending on how
+the A0 address line is connected, to the SCL, SDA, GND or VCC pin.
 
 |  A0   |  DEC  |  HEX   |  Notes  |
-|:-----:|:-----:|:------:|:------:|
-|  GND  |   64  |  0x40  |  not connected seems to choose this one too.
+|:-----:|:-----:|:------:|:-------:|
+|  GND  |   64  |  0x40  |  A0 not connected seems to choose this one too.
 |  VS   |   65  |  0x41  |
 |  SDA  |   66  |  0x42  |
 |  SCL  |   67  |  0x43  |
 
-See datasheet - table 1, page 20 - datasheet.
+See datasheet - table 1 + page 20
 
 
-#### Performance
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+### Performance
 
 (From Datasheet)
 _The INA3221 supports the transmission protocol for fast mode (1 kHz to 400 kHz)
@@ -107,16 +129,17 @@ and high-speed mode (1 kHz to 2.94 MHz).
 All data bytes are transmitted most significant byte first._
 
 
-(timing in us, Arduino UNO),  
-indicative by example INA3221_performance.ino  
+(timing in us, Arduino UNO, lib version 0.2.0),  
+indicative timing by example INA3221_performance.ino  
+
 Four most important calls.
 
-|  Clock   |  bus V  |  shunt V  |   mA  |   mW   |
-|:--------:|:-------:|:---------:|:-----:|:------:|
-|  100000  |   568   |    568    |  584  |  1152  |
-|  100000  |   324   |    328    |  340  |   672  |
-|  100000  |   236   |    236    |  260  |   504  |
-|  100000  |   200   |    200    |  220  |   428  |
+|  version  |  clock   |  bus V  |  shunt V  |   mA  |   mW   |
+|:---------:|:--------:|:-------:|:---------:|:-----:|:------:|
+|   0.2.0   |  100000  |   564   |    564    |  612  |  1196  |
+|   0.2.0   |  200000  |   320   |    328    |  372  |   720  |
+|   0.2.0   |  300000  |   240   |    236    |  288  |   552  |
+|   0.2.0   |  400000  |   204   |    204    |  252  |   472  |
 
 
 ## Interface
@@ -130,13 +153,13 @@ Using channels > 2 are not handled (correctly).
 
 ### Constructor
 
-- **INA3221(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
+- **INA3221(uint8_t address, TwoWire \*wire = Wire)** Constructor to set
 the address and optional Wire interface.
 - **bool begin()** initializes the class.
-returns true if the INA3221 address is valid and on the I2C bus.
+Returns true if the INA3221 address is valid and on the I2C bus.
 Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **bool isConnected()** returns true if the INA3221 address is valid and on the I2C bus.
-- **uint8_t getAddress()** returns the address set in the constructor.
+- **uint8_t getAddress()** returns the I2C address set in the constructor.
 
 
 ### Core Functions
@@ -144,7 +167,8 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
 
-The parameter **channel** should always be 0..2
+The parameter **channel** should always be 0..2. 
+The functions return -1 if channel is out of range.
 
 - **float getBusVoltage(uint8_t channel)** idem. in volts. Max 26 Volt.
 - **float getShuntVoltage(uint8_t channel)** idem, in volts.
@@ -235,31 +259,64 @@ The library also provides getters and setters per field.
 - **int enableChannel(uint8_t channel)** add a channel to the background measurements loop.
 - **int disableChannel(uint8_t channel)** remove a channel to the background measurements loop.
 - **int getEnableChannel(uint8_t channel)** check if a channel is enabled.
-- **int setAverage(uint8_t avg = 0)** see table below.
-(0 = default ==> 1 read), returns false if parameter > 7.
-- **int getAverage()** returns the value set. See table below.
+
+
+### Average
+
+Datasheet, section 8.4.1
+
+The average does not make multiple measurements and then return the average, 
+one should think of it as a low pass filter that reduces noise.
+
+in code:
+```cpp
+value = value + (measurement - value) * (1/samples);
+
+e.g. (1/samples) == (1/128) 
+```
+
+The higher the average number of samples the less noise you have. 
+Higher values for average cause the measurements take more time to stabilize.
+Therefor it reacts slower on changes in voltage and current. 
+So choose the level of averaging with care.
+
+
+- **int setAverage(uint16_t avg = 0)** see table below.
+(avg 0 = default ==> 1 read)
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getAverage()** returns the value set. See table below.
 Note this is not the count of samples.
 
 
 | Average | # samples |  notes  |
 |:-------:|----------:|--------:|
-|    0    |      1    | default |
-|    1    |      4    |         |
-|    2    |     16    |         |
-|    3    |     64    |         |
-|    4    |    128    |         |
-|    5    |    256    |         |
-|    6    |    512    |         |
-|    7    |   1024    |         |
+|    0    |       1   | default |
+|    1    |       4   |         |
+|    2    |      16   |         |
+|    3    |      64   |         |
+|    4    |     128   |         |
+|    5    |     256   |         |
+|    6    |     512   |         |
+|    7    |    1024   |         |
 
 
-- **int setBusVoltageConversionTime(uint8_t bvct = 4)** see table below.
-(4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getBusVoltageConversionTime()** return the value set.
-Note the value returned is not a unit of time.
-- **int setShuntVoltageConversionTime(uint8_t svct = 4)** see table below.
-(4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getShuntVoltageConversionTime()** return the value set.
+### Conversion time
+
+- **int setBusVoltageConversionTime(uint16_t bvct = 4)** see table below.
+(4 = default ==> 1.1 ms), 
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getBusVoltageConversionTime()** return the value set 0..7.
+See table below. Note the value returned is not a unit of time.
+- **int setShuntVoltageConversionTime(uint16_t svct = 4)** see table below.
+(4 = default ==> 1.1 ms), 
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getShuntVoltageConversionTime()** return the value set 0..7.
 Note the value returned is not a unit of time.
 
 
@@ -275,10 +332,7 @@ Note the value returned is not a unit of time.
 |    7      |  8.3 ms   |
 
 Note: times are typical, check datasheet for operational range.
-(max can be ~10% higher)
-
-Note: In combination with average the total conversion time can take up to
-1024 x 8.3 ms almost 9 seconds (+ 10% deviation ==> 10 seconds)
+The maximum time can be up to ~10% higher than typical!
 
 
 ### Operating mode
@@ -295,10 +349,14 @@ The underlying bit pattern (not used).
 |   1   |   0x02  |  bus bit on (0x02) / off (0x00)
 |   2   |   0x04  |  continuous (0x04) / one shot (0x00) bit.
 
-- **int setMode(uint8_t mode = 7)** mode = 0..7. Default = 7 ==> ShuntBusContinuous mode.
-- **int getMode()** returns the mode (0..7).
+- **int setMode(uint16_t mode = 7)** mode = 0..7. Default = 7 ==> ShuntBusContinuous mode.
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getMode()** returns the mode (0..7).
 
 Descriptive mode functions (convenience wrappers).
+These have the same return value as **setMode()**.
 
 - **int shutDown()** mode 0
 - **int setModeShuntTrigger()** mode 1
@@ -317,11 +375,9 @@ See datasheet!
 Setting all bits at once with a mask is faster, atomic and uses less code.
 
 - **int setMaskEnable(uint16_t mask)**
+  - return 0 is OK.
+  - other is I2C error.
 - **uint16_t getMaskEnable()**
-
-TODO: convenience wrappers
-- 9 x setters
-- 9 x getters
 
 
 ### Power Limit
@@ -332,9 +388,13 @@ See datasheet!
 To guard the BUS voltage, max value 32760
 
 - **int setPowerUpperLimit(int16_t milliVolt)**
-- **int16_t getPowerUpperLimit()**
+  - return 0 is OK.
+  - other is I2C error.
+- **int16_t getPowerUpperLimit()** returns limit in mV.
 - **int setPowerLowerLimit(int16_t milliVolt)**
-- **int16_t getPowerLowerLimit()**
+  - return 0 is OK.
+  - other is I2C error.
+- **int16_t getPowerLowerLimit()** returns limit in mV.
 
 
 ### Meta information
@@ -343,6 +403,8 @@ To guard the BUS voltage, max value 32760
 
 - **uint16_t getManufacturerID()** should return 0x5449, mine returns 0x5449.
 - **uint16_t getDieID()** should return 0x2260, mine returns 0x3220.
+
+If your device returns other ManufacturerID or DieID, please let me know.
 
 
 ### Debugging
@@ -365,13 +427,20 @@ To guard the BUS voltage, max value 32760
 #### Should
 
 - keep in sync with INA219/226 where possible.
-
+- run performance test with 0.4.x
+- do error codes conflict with results (negative nrs. 
+  - getBusVoltage() returns -1 to indicate channel error.
+    would be a problem if VBus can be < 0. Others idem.
+- error handling
+  - parameter error
+  - I2C error
+  - documentation
+- add table of bitfields for **setMaskEnable()** register
 
 #### Could
 
 - convenience wrappers MASK/ENABLE register.
   - 9 x getters  9 x setters (quite a lot)
-- error handling / documentation
 - clean up magic numbers in the code (e.g. 40 uV and 8 mV)
   - comments?
 

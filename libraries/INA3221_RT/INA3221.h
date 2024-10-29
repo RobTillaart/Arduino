@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA3221.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA3221_LIB_VERSION                "0.3.0"
+#define INA3221_LIB_VERSION                (F("0.4.0"))
 
 
 class INA3221
@@ -78,20 +78,22 @@ public:
   int      reset();
   int      enableChannel(uint8_t channel);
   int      disableChannel(uint8_t channel);
-  int      getEnableChannel(uint8_t channel);
-  int      setAverage(uint8_t avg = 0);  //  0..7
-  int      getAverage();
-  int      setBusVoltageConversionTime(uint8_t bvct = 4);  //  0..7
-  int      getBusVoltageConversionTime();
-  int      setShuntVoltageConversionTime(uint8_t svct = 4);
-  int      getShuntVoltageConversionTime();
+  bool     getEnableChannel(uint8_t channel);
+
+  int      setAverage(uint16_t avg = 0);  //  0..7
+  uint16_t getAverage();
+  int      setBusVoltageConversionTime(uint16_t bvct = 4);  //  0..7
+  uint16_t getBusVoltageConversionTime();
+  int      setShuntVoltageConversionTime(uint16_t svct = 4);
+  uint16_t getShuntVoltageConversionTime();
   //  operating mode
-  int      setMode(uint8_t mode = 7);  //  default 7 == ModeShuntBusContinuous
-  int      getMode();
+  int      setMode(uint16_t mode = 7);  //  default 7 == ModeShuntBusContinuous
+  uint16_t getMode();
   int      shutDown()                  { return setMode(0); };
   int      setModeShuntTrigger()       { return setMode(1); };
   int      setModeBusTrigger()         { return setMode(2); };
   int      setModeShuntBusTrigger()    { return setMode(3); };
+  //  setMode(4) equals setMode(0)...
   int      setModeShuntContinuous()    { return setMode(5); };
   int      setModeBusContinuous()      { return setMode(6); };
   int      setModeShuntBusContinuous() { return setMode(7); };  //  default.

@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -198,7 +198,7 @@ int32_t INA3221::getShuntVoltageSum()
 int INA3221::setShuntVoltageSumLimit(int32_t microVolt)
 {
   //  15 bit signed.
-  if (abs(microVolt) > (16383L * 40L)) return -2;
+  if (abs(microVolt) > (16383L * 40L)) return -10;
   int16_t value = (microVolt / 40) << 1;
   return _writeRegister(INA3221_SHUNT_VOLTAGE_LIMIT, value);
 }
@@ -245,14 +245,14 @@ int INA3221::disableChannel(uint8_t channel)
   return _writeRegister(INA3221_CONFIGURATION, mask);
 }
 
-int INA3221::getEnableChannel(uint8_t channel)
+bool INA3221::getEnableChannel(uint8_t channel)
 {
   if (channel > 2) return -1;
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
   return (mask & (1 << (14 - channel))) > 0;
 }
 
-int INA3221::setAverage(uint8_t avg)
+int INA3221::setAverage(uint16_t avg)
 {
   if (avg > 7) return -10;
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
@@ -262,13 +262,13 @@ int INA3221::setAverage(uint8_t avg)
   return _writeRegister(INA3221_CONFIGURATION, mask);
 }
 
-int INA3221::getAverage()
+uint16_t INA3221::getAverage()
 {
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
   return (mask >> 9) & 7;
 }
 
-int INA3221::setBusVoltageConversionTime(uint8_t bvct)
+int INA3221::setBusVoltageConversionTime(uint16_t bvct)
 {
   if (bvct > 7) return -10;
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
@@ -277,13 +277,13 @@ int INA3221::setBusVoltageConversionTime(uint8_t bvct)
   return _writeRegister(INA3221_CONFIGURATION, mask);
 }
 
-int INA3221::getBusVoltageConversionTime()
+uint16_t INA3221::getBusVoltageConversionTime()
 {
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
   return (mask >> 6) & 7;
 }
 
-int INA3221::setShuntVoltageConversionTime(uint8_t svct)
+int INA3221::setShuntVoltageConversionTime(uint16_t svct)
 {
   if (svct > 7) return -10;
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
@@ -292,7 +292,7 @@ int INA3221::setShuntVoltageConversionTime(uint8_t svct)
   return _writeRegister(INA3221_CONFIGURATION, mask);
 }
 
-int INA3221::getShuntVoltageConversionTime()
+uint16_t INA3221::getShuntVoltageConversionTime()
 {
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
   return (mask >> 3) & 7;
@@ -300,7 +300,7 @@ int INA3221::getShuntVoltageConversionTime()
 
 
 //  operating mode
-int INA3221::setMode(uint8_t mode)
+int INA3221::setMode(uint16_t mode)
 {
   if (mode > 7) return -10;
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
@@ -309,7 +309,7 @@ int INA3221::setMode(uint8_t mode)
   return _writeRegister(INA3221_CONFIGURATION, mask);
 }
 
-int INA3221::getMode()
+uint16_t INA3221::getMode()
 {
   uint16_t mask = _readRegister(INA3221_CONFIGURATION);
   return mask & 7;

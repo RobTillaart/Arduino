@@ -1,0 +1,33 @@
+# Syntax Colouring Map For AD5660
+
+# Data types (KEYWORD1)
+AD5660	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+getType	KEYWORD2
+
+setValue	KEYWORD2
+getValue	KEYWORD2
+getMaxValue	KEYWORD2
+
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
+setPowerMode	KEYWORD2
+getPowerMode	KEYWORD2
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+
+usesHWSPI	KEYWORD2
+
+
+# Constants (LITERAL1)
+
+AD5660_LIB_VERSION	LITERAL1
+
+
+
+

@@ -81,11 +81,11 @@ and any other applications that may cause personal injury due to the product's f
 ```
              TOPVIEW ACD3100
          +--------------------+
-   pin 6 | o                  |
-   pin 5 | o                o |  pin 1
-         |                  o |  pin 2
-         |                  o |  pin 3
-         |                  o |  pin 4
+   pin 5 | o                  |
+         | o                o |  pin 1
+         | o                o |  pin 2
+         | o                o |  pin 3
+         | o                o |  pin 4
          |                    |
          +--------------------+
 ```
@@ -235,9 +235,6 @@ Use 5~10 milliseconds above the minimal value the sensor still works.
 Read the datasheet about calibration process (twice).
 Incorrect calibration leads to incorrect output.
 
-- **bool setCalibrationMode(uint8_t mode)** 0 = manual mode, 1 = automatic mode.
-Returns false if mode out of range ( > 1).
-- **uint8_t readCallibrationMode()** return set mode. 
 - **void setManualCalibration(uint16_t value)** as the range of the device is 
 from 400 to 5000, the parameter value should be in this range.
 - **uint16_t readManualCalibration()** read back the set manual calibration value.
@@ -250,9 +247,9 @@ Note: One should wait 5 milliseconds between the calibration calls (see datashee
 - **void factoryReset()** idem.
 - **bool readFactorySet()** Read back if factory reset was successful.
 - **uint32_t readFirmwareVersion(char \* arr)** copies firmware version in array.
-Minimum length is 11.
+Minimum length off arr is 11.
 - **uint32_t readSensorCode(char \* arr)** copies sensor code in array.
-Minimum length is 11.
+Minimum length of arr is 11.
 
 
 #### Debug
@@ -265,18 +262,13 @@ Minimum length is 11.
 #### Must
 
 - improve documentation
-- get hardware to test
+- get hardware to test (See ACD10 #11)
 
 #### Should
 
-- investigate the acquisition time of 80 milliseconds
-  - can it be made shorter by default?
-- improve error handling
+- keep in sync with ACD10 where possible.
 
 #### Could
-
-- rethink function names?
-- create unit tests if possible
 
 #### Wont
 

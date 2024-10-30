@@ -2,8 +2,8 @@
 //    FILE: ACD3100.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-10-29
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for for I2C ACD3100 CO2 sensor
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for I2C ACD3100 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD3100
 //          http://www.aosong.com/products-220.html
 
@@ -181,32 +181,6 @@ uint8_t ACD3100::getRequestTime()
 //
 //  CALIBRATION
 //
-bool ACD3100::setCalibrationMode(uint8_t mode)
-{
-  if (mode > 1) return false;
-  uint8_t buf[5] = { 0x53, 0x06, 0x00, 0x00, 0x00 };
-  buf[3] = mode;
-  buf[4] = _crc8(&buf[2], 2);
-  //  Serial.println(buf[4], HEX);
-  _command(buf, 5);
-  return true;
-}
-
-
-uint8_t ACD3100::readCallibrationMode()
-{
-  uint8_t buf[3] = { 0x53, 0x06, 0x00 };
-  _command(buf, 2);
-  _request(buf, 3);
-  // if (buf[2] != _crc8(&buf[0], 2))
-  // {
-    // Serial.print(__FUNCTION__);
-    // Serial.println(": CRC error");
-  // }
-  return buf[1];
-}
-
-
 bool ACD3100::setManualCalibration(uint16_t value)
 {
   if ((value < 400) || (value > 5000)) return false;
@@ -255,7 +229,7 @@ bool ACD3100::readFactorySet()
     // Serial.print(__FUNCTION__);
     // Serial.println(": CRC error");
   // }
-  return (buf[1] == 0x01);
+  return ((buf[0] == 0) && (buf[1] == 0x01));
 }
 
 

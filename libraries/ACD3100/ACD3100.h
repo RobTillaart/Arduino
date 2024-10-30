@@ -3,8 +3,8 @@
 //    FILE: ACD3100.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-10-29
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for for I2C ACD3100 CO2 sensor
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for I2C ACD3100 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD3100
 //          http://www.aosong.com/products-220.html
 
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ACD3100_LIB_VERSION         (F("0.1.0"))
+#define ACD3100_LIB_VERSION         (F("0.1.1"))
 #define ACD3100_DEFAULT_ADDRESS     0x2A          //  0x54 ?
 
 //  ERROR CODES
@@ -50,9 +50,6 @@ public:
 
 
   //       CALIBRATION  (! read datasheet)
-  //       0 = manual  1 = auto
-  bool     setCalibrationMode(uint8_t mode);
-  uint8_t  readCallibrationMode();
   bool     setManualCalibration(uint16_t value);
   uint16_t readManualCalibration();
 

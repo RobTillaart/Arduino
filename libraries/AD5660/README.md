@@ -32,16 +32,26 @@ Feedback, issues, improvements are welcome.
 Please file an issue on GitHub.
 
 
+### Differences
+
+The parts incorporate a power-on reset circuit to ensure that the DAC output 
+powers up to 0 V (AD5620/AD5640/AD5660-1-2) or midscale (AD5620-3 and AD5660-3) 
+and remains there until a valid write takes place.
+
+
 ### Compatibles 
 
-Overview devices, nr of bits, setValue range and indicative LSB
+Overview of related devices, nr of bits, setValue range and indicative LSB
 
-|  device  |  bits  |  range      |   LSB @ 5V  |  notes  |
-|:--------:|:------:|:-----------:|:-----------:|:-------:|
-|  AD5620  |   12   |  0..4095    |  1.221 mV   |  see AD5620 library
-|  AD5640  |   14   |  0..16383   |  0.3053 mV  |  see AD5620 library
-|  AD5660  |   16   |  0..65535   |  0.0763 mV  |
-|  AD5680  |   18   |  0..262143  |  19.07 uV   |  see AD5680 library
+|  device  |  bits  |  range      |  % stepsize  |   LSB @ 5V  |  notes  |
+|:--------:|:------:|:-----------:|:------------:|:-----------:|:-------:|
+|  AD5620  |   12   |  0..4095    |    0.025     |  1.221 mV   |  see AD5620 library
+|  AD5640  |   14   |  0..16383   |    0.0065    |  0.3053 mV  |  see AD5620 library
+|  AD5660  |   16   |  0..65535   |    0.0017    |  0.0763 mV  |
+|  AD5680  |   18   |  0..262143  |    0.0005    |  19.07 uV   |  see AD5680 library
+
+
+The AD5662 is compatible, however it does not support the Vref functions.
 
 
 ### Related
@@ -62,8 +72,6 @@ Overview devices, nr of bits, setValue range and indicative LSB
 
 ### Base class
 
-The AD5640 has identical constructors.
-
 - **AD5660(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific). 
 Sets internal value to zero.
 - **AD5660(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI. 
@@ -72,7 +80,7 @@ Sets internal value to zero.
 Sets the software SPI pins.
 Sets internal value to zero.
 - **void begin()** initializes the SPI and sets internal state.
-- **uint8_t getType()** returns nr of bits, 12 for AD5660, 14 for AD5640.
+- **uint8_t getType()** returns nr of bits, 16 for AD5660.
 
 
 ### Set DAC
@@ -81,10 +89,11 @@ Sets internal value to zero.
 effectively a prepare + update in one call.
 Returns false if value out of range.
 - **uint16_t getValue()** returns the set value from cache.
-At power up the device will be reset to 0 (== 0 volt).
+At power up the device will be reset to 0 (== 0 volt). (not always).
 - **uint16_t getMaxValue()** returns 65535 for AD5660.
 - **bool setPercentage(float percentage)** sets the output as a percentage 0..100%.
 If percentage is out of range, it is **not** set and the function returns false.
+The stepsize is about 0.002% for the AD5660.
 - **float getPercentage()** returns percentage, wrapper around **getValue()**.
 Might return a slightly different value than **setPercentage()** due to 
 rounding math.
@@ -104,7 +113,7 @@ See datasheet P19 for details.
 |   0    |  normal mode (default)  |
 |   1    |  1 KOhm to GND          |
 |   2    |  100 KOhm to GND        |
-|   3    |  Threestate             |
+|   3    |  ThreeState             |
 
 
 ### SPI
@@ -116,7 +125,7 @@ please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** gets current speed in **Hz**.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
-Datasheet maximum frequency. Overclocking is not tested.
+Datasheet P7 maximum frequency. Overclocking is not tested.
 
 |  Voltage  |  Max Speed  |
 |:---------:|:-----------:|
@@ -135,8 +144,8 @@ produce different numbers.
 
 |  version  |  board  |  clock    |  SPI  |  calls / sec  |  Notes  |
 |:---------:|:-------:|:---------:|:-----:|:-------------:|:--------|
-|   0.1.0   |  UNO    |   16 MHz  |  HW   |               |  max SPI speed
-|   0.1.0   |  UNO    |   16 MHz  |  SW   |               |
+|   0.1.0   |  UNO    |   16 MHz  |  HW   |   58800       |  max SPI speed
+|   0.1.0   |  UNO    |   16 MHz  |  SW   |    3300       |
 |   0.1.0   |  ESP32  |  240 MHz  |  HW   |               |  1
 |   0.1.0   |  ESP32  |  240 MHz  |  SW   |               |
 
@@ -144,8 +153,8 @@ produce different numbers.
 1. ESP32 HW is equal performant for HSPI and VSPI. 
    Unknown why HW SPI is 20% slower than SW SPI (transaction overhead?)
 
-xxxxxx calls per second means that a 1 KHz wave can be 
-constructed with xxxx values per period (max).
+58800 calls per second means that a 1 KHz wave can be 
+constructed with 58 values per period (max).
 
 Please share your performance data, open an issue to report.
 
@@ -159,8 +168,8 @@ Please share your performance data, open an issue to report.
 
 #### Should
 
-- add examples
-- create a similar library for AD5660
+- sync with AD5620.
+- power on reset level 0 or midscale.
 
 #### Could
 

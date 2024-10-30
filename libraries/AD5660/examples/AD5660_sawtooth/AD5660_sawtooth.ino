@@ -12,7 +12,7 @@ AD5660 AD16_HW(8, &SPI);
 AD5660 AD16_SW(5, 6, 7);
 
 float frequency = 50;
-float amplitude = 4095;  //  12 bits
+float amplitude = 65535;  //  16 bits
 
 
 void setup()

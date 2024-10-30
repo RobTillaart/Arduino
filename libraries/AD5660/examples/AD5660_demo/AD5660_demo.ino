@@ -26,12 +26,12 @@ void setup()
 
   Serial.print("HWSPI: ");
   Serial.println(AD16_HW.usesHWSPI());
-  Serial.print("HWSPI: ");
+  Serial.print("SWSPI: ");
   Serial.println(AD16_SW.usesHWSPI());
   delay(100);
 
   AD16_HW.setSPIspeed(16000000);
-  
+
   Serial.println();
   Serial.println("usec\tcalls/sec");
 }
@@ -42,8 +42,8 @@ void loop()
   uint32_t start = micros();
   for (uint16_t i = 0; i < 1000; i++)
   {
-    AD16_HW.setValue(i);
-    // AD16_SW.setValue(i);
+    // AD16_HW.setValue(i);
+    AD16_SW.setValue(i);
   }
   uint32_t duration = micros() - start;
   Serial.print(duration * 0.001);

@@ -756,7 +756,7 @@ void setup()
 {
   Serial.begin(115200);
   ...
-  as5900.begin(4);     //  set the direction pin
+  as5600.begin(4);     //  set the direction pin
   as5600.setDirection(AS5600_CLOCK_WISE);
   ...
 }

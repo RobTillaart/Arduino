@@ -1,0 +1,24 @@
+# Syntax Colouring Map For SWSPI
+
+# Data types (KEYWORD1)
+SWSPI	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+end	KEYWORD2
+
+setBitOrder	KEYWORD2
+setDataMode	KEYWORD2
+
+beginTransaction	KEYWORD2
+endTransaction	KEYWORD2
+
+transfer	KEYWORD2
+transfer16	KEYWORD2
+transfer32	KEYWORD2
+
+
+# Constants (LITERAL1)
+SWSPI_LIB_VERSION	LITERAL1
+
+

@@ -58,23 +58,25 @@ Numbers may vary depending on bit-order flag.
 Indicative time in microseconds, Arduino UNO, IDE 1.8.19, measured over 1000 calls.  
 (delta between 2 calls and 1 call to eliminate overhead)
 
-|  function                |  0.2.4  |   0.3.1  |   0.3.3  |   0.4.0  |  0.4.0L  |
-|:-------------------------|--------:|---------:|---------:|---------:|---------:|
-|  write()                 |  21.66  |   22.48  |   22.27  |   14.10  |   11.51  |
-|  writeLSBFIRST()         |  22.94  |   23.37  |   22.25  |   14.09  |   11.50  |
-|  writeMSBFIRST()         |  20.30  |   21.86  |   22.26  |   14.08  |   11.50  |
-|  reference shiftOut()    |  89.74  |   89.74  |   89.59  |   89.60  |   89.60  |
-|  write16()               |   na    |    na    |   45.39  |   29.06  |   23.89  |
-|  write24()               |   na    |    na    |   67.66  |   43.12  |   35.40  |
-|  write32()               |   na    |    na    |   89.91  |   57.22  |   46.90  |
-|  println("Hello world")  |   na    |  328.92  |  328.92  |  222.68  |  189.20  |
-|  println(1357)           |   na    |  313.56  |  311.60  |  262.60  |  247.12  |
-|  println(3.14159265, 4)  |   na    |  717.36  |  716.04  |  650.68  |  629.96  |
+|  function                |  0.2.4  |   0.3.1  |   0.3.3  |   0.4.0  |  0.4.0L  |   0.4.1  |  0.4.1L  |
+|:-------------------------|--------:|---------:|---------:|---------:|---------:|---------:|---------:|
+|  write()                 |  21.66  |   22.48  |   22.27  |   14.10  |   11.51  |   12.83  |    9.12  |
+|  writeLSBFIRST()         |  22.94  |   23.37  |   22.25  |   14.09  |   11.50  |   12.82  |    9.12  |
+|  writeMSBFIRST()         |  20.30  |   21.86  |   22.26  |   14.08  |   11.50  |   12.82  |    9.12  |
+|  reference shiftOut()    |  89.74  |   89.74  |   89.59  |   89.60  |   89.60  |   89.59  |   89.60  |
+|  write16()               |   na    |    na    |   45.39  |   29.06  |   23.89  |   26.34  |   19.11  |
+|  write24()               |   na    |    na    |   67.66  |   43.12  |   35.40  |   39.36  |   28.23  |
+|  write32()               |   na    |    na    |   89.91  |   57.22  |   46.90  |   52.18  |   37.34  |
+|  println("Hello world")  |   na    |  328.92  |  328.92  |  222.68  |  189.20  |  206.32  |  158.12  |
+|  println(1357)           |   na    |  313.56  |  311.60  |  262.60  |  247.12  |  255.04  |  232.80  |
+|  println(3.14159265, 4)  |   na    |  717.36  |  716.04  |  650.68  |  629.96  |  640.52  |  610.92  |
 
 - Note: 0.3.3 has improved the measurement, not the code sec.
 - Note: 0.3.3 numbers fixed when implementing 0.4.0. (error in test sketch).
 - Note: 0.4.0 measured with loop unroll flag disabled.
 - Note: 0.4.0L measured with loop unrolled flag enabled.
+- Note: 0.4.1 / 0.4.1L idem.
+- Note: Loop unrolled is (8046 - 7818 = 128) bytes larger in size.
 
 
 ### Related
@@ -84,6 +86,7 @@ Indicative time in microseconds, Arduino UNO, IDE 1.8.19, measured over 1000 cal
 - https://github.com/RobTillaart/FastShiftOut
 - https://github.com/RobTillaart/ShiftInSlow
 - https://github.com/RobTillaart/ShiftOutSlow
+- https://github.com/RobTillaart/SWSPI (experimental)
 
 
 ## Interface

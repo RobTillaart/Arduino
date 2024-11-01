@@ -62,8 +62,8 @@ void loop()
   //  shiftOut(12, 13, MSBFIRST, 0x55);
 
   FSO.write(0x55);
-  delayMicroseconds(100);
+  delayMicroseconds(50);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

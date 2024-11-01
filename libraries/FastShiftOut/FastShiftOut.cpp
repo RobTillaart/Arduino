@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: ShiftOut that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
@@ -170,8 +170,12 @@ size_t FastShiftOut::writeLSBFIRST(uint8_t data)
   uint8_t oldSREG = SREG;
   noInterrupts();
 
-  if ((value & 0x01) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  //  See discussion #17
+  uint8_t d0 = *localDataOutRegister & outmask2;  //  cache 0
+  uint8_t d1 = d0 | outmask1;                     //  cache 1
+
+  if ((value & 0x01) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   // *_clockRegister |= cbmask1;
   // *_clockRegister &= cbmask2;
   //  following code is allowed as interrupts are disabled.
@@ -180,44 +184,44 @@ size_t FastShiftOut::writeLSBFIRST(uint8_t data)
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset bit
 
-  if ((value & 0x02) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x02) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x04) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x04) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x08) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x08) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x10) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x10) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x20) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x20) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x40) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x40) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x80) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x80) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
@@ -238,11 +242,14 @@ size_t FastShiftOut::writeLSBFIRST(uint8_t data)
   uint8_t oldSREG = SREG;
   noInterrupts();
 
+  //  See discussion #17
+  uint8_t d0 = *localDataOutRegister & outmask2;  //  cache 0
+  uint8_t d1 = d0 | outmask1;                     //  cache 1
   for (uint8_t m = 1; m > 0; m <<= 1)
   {
     //  process one bit
-    if ((value & m) == 0) *localDataOutRegister &= outmask2;
-    else                  *localDataOutRegister |= outmask1;
+    if ((value & m) == 0) *localDataOutRegister = d0;
+    else *localDataOutRegister = d1;
     uint8_t r = *localClockRegister;
     *localClockRegister = r | cbmask1;  //  set one bit
     *localClockRegister = r;            //  reset it
@@ -284,8 +291,12 @@ size_t FastShiftOut::writeMSBFIRST(uint8_t data)
   uint8_t oldSREG = SREG;
   noInterrupts();
 
-  if ((value & 0x80) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  //  See discussion #17
+  uint8_t d0 = *localDataOutRegister & outmask2;  //  cache 0
+  uint8_t d1 = d0 | outmask1;                     //  cache 1
+
+  if ((value & 0x80) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   // *localClockRegister |= cbmask1;
   // *localClockRegister &= cbmask2;
   //  following code is allowed as interrupts are disabled.
@@ -294,44 +305,44 @@ size_t FastShiftOut::writeMSBFIRST(uint8_t data)
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x40) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x40) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x20) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x20) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x10) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x10) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x08) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x08) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x04) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x04) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x02) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x02) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
 
-  if ((value & 0x01) == 0) *localDataOutRegister &= outmask2;
-  else                     *localDataOutRegister |= outmask1;
+  if ((value & 0x01) == 0) *localDataOutRegister = d0;
+  else                     *localDataOutRegister = d1;
   r = *localClockRegister;
   *localClockRegister = r | cbmask1;  //  set one bit
   *localClockRegister = r;            //  reset it
@@ -352,15 +363,19 @@ size_t FastShiftOut::writeMSBFIRST(uint8_t data)
   uint8_t oldSREG = SREG;
   noInterrupts();
 
+  //  See discussion #17
+  uint8_t d0 = *localDataOutRegister & outmask2;  //  cache 0
+  uint8_t d1 = d0 | outmask1;                     //  cache 1
   for (uint8_t m = 0x80; m > 0; m >>= 1)
   {
     //  process one bit
-    if ((value & m) == 0) *localDataOutRegister &= outmask2;
-    else                  *localDataOutRegister |= outmask1;
+    if ((value & m) == 0) *localDataOutRegister = d0;
+    else *localDataOutRegister = d1;
     uint8_t r = *localClockRegister;
     *localClockRegister = r | cbmask1;  //  set one bit
     *localClockRegister = r;            //  reset it
   }
+
 
   //  restore interrupt state
   SREG = oldSREG;

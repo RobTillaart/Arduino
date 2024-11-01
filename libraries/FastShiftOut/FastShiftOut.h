@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: shiftOut class that implements the Print interface
 //    DATE: 2013-08-22
 //     URL: https://github.com/RobTillaart/FastShiftOut
@@ -11,10 +11,10 @@
 #include "Arduino.h"
 #include "Print.h"
 
-#define FASTSHIFTOUT_LIB_VERSION        (F("0.4.0"))
+#define FASTSHIFTOUT_LIB_VERSION        (F("0.4.1"))
 
 //  uncomment next line to get SPEED OPTIMIZED CODE
-#define FASTSHIFTOUT_AVR_LOOP_UNROLLED    1
+//  #define FASTSHIFTOUT_AVR_LOOP_UNROLLED    1
 
 
 class FastShiftOut : public Print

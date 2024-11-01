@@ -43,3 +43,41 @@ println(3.14159265, 4): 	629.96
 
 done ...
 
+
+no loop unroll version
+
+Performance - time in us
+        write: 15.34
+        write: 29.43
+        Delta: 14.10
+
+writeLSBFIRST: 14.34
+writeLSBFIRST: 28.42
+        Delta: 14.09
+
+writeMSBFIRST: 14.34
+writeMSBFIRST: 28.42
+        Delta: 14.08
+
+Standard shiftOut1: 89.85
+Standard shiftOut2: 179.44
+             Delta: 89.60
+
+      write16: 29.31
+      write16: 58.35
+        Delta: 29.04
+
+      write24: 43.38
+      write24: 86.51
+        Delta: 43.13
+
+      write32: 57.47
+      write32: 114.68
+        Delta: 57.22
+
+
+Test print interface
+println("Hello world"): 	222.68
+println(1357): 			262.60
+println(3.14159265, 4): 	650.68
+

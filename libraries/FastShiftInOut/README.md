@@ -58,22 +58,23 @@ Performance of **write()**
 
 #### Measurements
 
-(0.2.0)  
+(0.2.1)  
 Indicative time in microseconds, Arduino UNO, IDE 1.8.19, measured over 1000 calls.  
 (delta between 2 calls and 1 call to eliminate overhead)
 
-|  function                |   0.1.3  |   0.2.0  |   0.2.0L  |
-|:-------------------------|---------:|---------:|----------:|
-|  write() (reference)     | no data  |  158.24  |  no data  |
-|  write()                 |   25.52  |   17.61  |    12.26  |
-|  writeLSBFIRST()         |   25.52  |   17.61  |    12.26  |
-|  writeMSBFIRST()         |   25.52  |   17.60  |    12.20  |
+|  function                |   0.1.3  |   0.2.0  |   0.2.0L  |   0.2.1  |   0.2.1L  |
+|:-------------------------|---------:|---------:|----------:|---------:|----------:|
+|  write() (reference)     | no data  |  158.24  |  no data  |  158.24  |  no data  |
+|  write()                 |   25.52  |   17.61  |    12.26  |   16.72  |    11.00  |
+|  writeLSBFIRST()         |   25.52  |   17.61  |    12.26  |   16.72  |    11.00  |
+|  writeMSBFIRST()         |   25.52  |   17.60  |    12.20  |   16.72  |    10.94  |
 
 
 - Note: 0.1.3 added from old table.
 - Note: reference run on AVR by commenting all optimizations.
 - Note: 0.2.0 measured with loop unroll flag disabled.
 - Note: 0.2.0L measured with loop unrolled flag enabled.
+- Note: 0.2.1 / 0.2.1L idem.
 
 
 ### Related
@@ -83,6 +84,7 @@ Indicative time in microseconds, Arduino UNO, IDE 1.8.19, measured over 1000 cal
 - https://github.com/RobTillaart/FastShiftOut
 - https://github.com/RobTillaart/ShiftInSlow
 - https://github.com/RobTillaart/ShiftOutSlow
+- https://github.com/RobTillaart/SWSPI (experimental)
 
 
 ## Interface

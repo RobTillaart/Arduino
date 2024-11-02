@@ -2,7 +2,7 @@
 //
 //    FILE: SWSPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for SoftWare SPI.
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define SWSPI_LIB_VERSION     (F("0.1.0"))
+#define SWSPI_LIB_VERSION     (F("0.1.1"))
 
 
 class SWSPI
@@ -100,7 +100,7 @@ public:
     {
       _data = _bitReverse(data);
     }
-    //  noInterrupts
+
     if (_dataMode == 0)
     {
       //  SPI_MODE0
@@ -109,11 +109,11 @@ public:
       for (uint8_t mask = 0x01; mask; mask <<= 1)
       {
         digitalWrite(_dataOut, (_data & mask) > 0);
-        Serial.print((_data & mask) > 0);
+        //  Serial.print((_data & mask) > 0);
         digitalWrite(_clock, HIGH);
         digitalWrite(_clock, LOW);
         rv <<= 1;
-        rv = digitalRead(_dataIn);
+        rv += digitalRead(_dataIn);
       }
     }
     else if (_dataMode == 1)
@@ -125,9 +125,9 @@ public:
       {
         digitalWrite(_clock, HIGH);
         rv <<= 1;
-        rv = digitalRead(_dataIn);
+        rv += digitalRead(_dataIn);
         digitalWrite(_dataOut, (_data & mask) > 0);
-        Serial.print((_data & mask) > 0);
+        //  Serial.print((_data & mask) > 0);
         digitalWrite(_clock, LOW);
       }
     }
@@ -139,11 +139,11 @@ public:
       for (uint8_t mask = 0x01; mask; mask <<= 1)
       {
         digitalWrite(_dataOut, (_data & mask) > 0);
-        Serial.print((_data & mask) > 0);
+        //  Serial.print((_data & mask) > 0);
         digitalWrite(_clock, LOW);
         digitalWrite(_clock, HIGH);
         rv <<= 1;
-        rv = digitalRead(_dataIn);
+        rv += digitalRead(_dataIn);
       }
     }
     else if (_dataMode == 3)
@@ -155,22 +155,53 @@ public:
       {
         digitalWrite(_clock, LOW);
         rv <<= 1;
-        rv = digitalRead(_dataIn);
+        rv += digitalRead(_dataIn);
         digitalWrite(_dataOut, (_data & mask) > 0);
-        Serial.print((_data & mask) > 0);
+        //  Serial.print((_data & mask) > 0);
         digitalWrite(_clock, HIGH);
       }
     }
-    //  interrupts();
-    Serial.print("  ");
+    //  Serial.print("  ");
     return rv;
   };
 
   uint16_t transfer16(uint16_t data)
   {
     uint16_t value = 0;
-    value = transfer(data >> 8);
+    value += transfer(data & 0xFF);
     value <<= 8;
+    data >>= 8;
+    value += transfer(data & 0xFF);
+    return value;
+  };
+
+
+  uint32_t transfer24(uint32_t data)
+  {
+    uint16_t value = 0;
+    value += transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += transfer(data & 0xFF);
+    return value;
+  };
+
+
+  uint32_t transfer32(uint32_t data)
+  {
+    uint16_t value = 0;
+    value += transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
     value += transfer(data & 0xFF);
     return value;
   };

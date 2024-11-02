@@ -24,7 +24,6 @@ void setup()
   pinMode(selectPin,  OUTPUT);
 
   Serial.println("\nMODE 0");
-  digitalWrite(selectPin, LOW);
   {
     myspi.beginTransaction(LSBFIRST, 0);
     digitalWrite(selectPin, LOW);
@@ -34,7 +33,6 @@ void setup()
   }
 
   Serial.println("\nMODE 1");
-  digitalWrite(selectPin, LOW);
   {
     myspi.beginTransaction(LSBFIRST, 1);
     digitalWrite(selectPin, LOW);
@@ -51,10 +49,8 @@ void setup()
     digitalWrite(selectPin, HIGH);
     myspi.endTransaction();
   }
-  digitalWrite(selectPin, HIGH);
 
   Serial.println("\nMODE 3");
-  digitalWrite(selectPin, LOW);
   {
     myspi.beginTransaction(LSBFIRST, 3);
     digitalWrite(selectPin, LOW);

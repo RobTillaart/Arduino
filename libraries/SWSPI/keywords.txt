@@ -15,6 +15,7 @@ endTransaction	KEYWORD2
 
 transfer	KEYWORD2
 transfer16	KEYWORD2
+transfer24	KEYWORD2
 transfer32	KEYWORD2
 
 

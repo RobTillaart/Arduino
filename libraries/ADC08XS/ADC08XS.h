@@ -2,7 +2,7 @@
 //
 //    FILE: ADC08XS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define ADC08XS_LIB_VERSION       (F("0.2.2"))
+#define ADC08XS_LIB_VERSION       (F("0.3.0"))
 
 
 #ifndef __SPI_CLASS__
@@ -35,12 +35,15 @@ public:
   //       HARDWARE SPI
   ADC08XS(__SPI_CLASS__ * mySPI = &SPI);
   //       SOFTWARE SPI
+  //       datain = MISO, dataout is MOSI
   ADC08XS(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
 
   void     begin(uint8_t select);
 
   uint16_t maxValue();
   uint8_t  maxChannel();
+  uint8_t  lastChannel();
+
   uint16_t read(uint8_t channel);
   int      deltaRead(uint8_t chanA, uint8_t chanB);
 
@@ -65,6 +68,7 @@ protected:
 
   uint16_t _maxValue;
   uint8_t  _maxChannel;
+  uint8_t  _lastChannel;
   uint16_t readADC(uint8_t channel);
   void     shutDown();
 

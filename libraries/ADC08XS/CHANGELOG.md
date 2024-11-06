@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2024-10-06
+- fix #9, set SPI_MODE3, tests see #9
+- redo software SPI too.
+- add **uint8_t lastChannel()**
+- if channel changes do an extra read.
+- add examples.
+
+----
+
 ## [0.2.2] - 2024-06-02
 - add support for ARDUINO_ARCH_MBED
 

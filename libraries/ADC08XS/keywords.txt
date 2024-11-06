@@ -15,6 +15,7 @@ ADC124S	KEYWORD1
 begin	KEYWORD2
 maxValue	KEYWORD2
 maxChannel	KEYWORD2
+lastChannel	KEYWORD2
 
 read	KEYWORD2
 deltaRead	KEYWORD2

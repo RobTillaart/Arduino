@@ -1,7 +1,7 @@
 //
 //    FILE: ADC08XS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
@@ -23,6 +23,7 @@ ADC08XS::ADC08XS(__SPI_CLASS__ * mySPI)
   _maxValue   = 255;
   _isLowPower = false;
   _maxChannel = 2;
+  _lastChannel = 255;
 }
 
 
@@ -38,6 +39,7 @@ ADC08XS::ADC08XS(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
   _maxValue   = 255;
   _isLowPower = false;
   _maxChannel = 2;
+  _lastChannel = 255;
 }
 
 
@@ -50,7 +52,7 @@ void ADC08XS::begin(uint8_t select)
   digitalWrite(_select, LOW);
   digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE3);
 
   if (_hwSPI)          //  hardware SPI
   {
@@ -59,7 +61,7 @@ void ADC08XS::begin(uint8_t select)
   }
   else                 //  software SPI
   {
-    pinMode(_dataIn, INPUT);
+    pinMode(_dataIn, INPUT_PULLUP);
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock,  OUTPUT);
     digitalWrite(_dataOut, LOW);
@@ -77,6 +79,12 @@ uint16_t ADC08XS::maxValue()
 uint8_t ADC08XS::maxChannel()
 {
   return _maxChannel;
+}
+
+
+uint8_t ADC08XS::lastChannel()
+{
+  return _lastChannel;
 }
 
 
@@ -101,7 +109,7 @@ int ADC08XS::deltaRead(uint8_t chanA, uint8_t chanB)
 void ADC08XS::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE3);
 }
 
 
@@ -147,44 +155,77 @@ uint16_t ADC08XS::readADC(uint8_t channel)
 
   _count++;
 
-  uint16_t address = channel << 11;
+  uint16_t address = 0x0000;
+  if (channel == 1) address = 0x0800;
+  if (channel == 2) address = 0x1000;
+  if (channel == 3) address = 0x1800;
+
   uint16_t data = 0;
 
-  digitalWrite(_select, LOW);
+  //  handle channel swap.
+  //  by doing an extra call
+  if (channel != _lastChannel)
+  {
+    _lastChannel = channel;
+
+    if (_hwSPI)  //  hardware SPI
+    {
+      _mySPI->beginTransaction(_spi_settings);
+      //  after beginTransaction to prevent false clock edges.
+      digitalWrite(_select, LOW);
+      data = _mySPI->transfer16(address);
+      digitalWrite(_select, HIGH);
+      _mySPI->endTransaction();
+    }
+    else  //  Software SPI
+    {
+      digitalWrite(_select, LOW);
+      data = swSPI_transfer16(address);
+      digitalWrite(_select, HIGH);
+    }
+  }
+
+  //  call to retrieve actual data
   if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
-     data = _mySPI->transfer16(address);
+    digitalWrite(_select, LOW);
+    data = _mySPI->transfer16(address);
+    digitalWrite(_select, HIGH);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-     data = swSPI_transfer16(address);
+    digitalWrite(_select, LOW);
+    data = swSPI_transfer16(address);
+    digitalWrite(_select, HIGH);
   }
-  digitalWrite(_select, HIGH);
-
   return data;
 }
 
 
 void ADC08XS::shutDown()
 {
-  digitalWrite(_select, LOW);
+
   if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
+    digitalWrite(_select, LOW);
     _mySPI->transfer(0);        //  8 pulses
+    digitalWrite(_select, HIGH);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-     swSPI_transfer16(0, 0x0010);  //  4 pulses is enough
+    digitalWrite(_select, LOW);
+    swSPI_transfer16(0, 0x0010);  //  4 pulses is enough
+    digitalWrite(_select, HIGH);
   }
-  digitalWrite(_select, HIGH);
+
 }
 
 
-//  MSBFIRST
+//  MSBFIRST, SPI MODE 3
 uint16_t  ADC08XS::swSPI_transfer16(uint16_t address, uint16_t m)
 {
   uint8_t clk = _clock;
@@ -193,15 +234,37 @@ uint16_t  ADC08XS::swSPI_transfer16(uint16_t address, uint16_t m)
   uint16_t addr = address;
 
   uint16_t rv = 0;
+  //  Page 2 datasheet ADC122s101
   for (uint16_t mask = m; mask; mask >>= 1)
   {
-    digitalWrite(dao, (addr & mask));
     digitalWrite(clk, LOW);
+    digitalWrite(dao, ((addr >> 8) & mask) > 0);
     digitalWrite(clk, HIGH);
     if (digitalRead(dai) == HIGH) rv |= mask;
   }
   return rv;
 }
+
+
+//  MSBFIRST
+// uint16_t  ADC08XS::swSPI_transfer16(uint16_t address, uint16_t m)
+// {
+  // uint8_t clk = _clock;
+  // uint8_t dai = _dataIn;
+  // uint8_t dao = _dataOut;
+  // uint16_t addr = address;
+
+  // uint16_t rv = 0;
+  // //  Page 2 datasheet ADC122s101
+  // for (uint16_t mask = m; mask; mask >>= 1)
+  // {
+    // digitalWrite(clk, LOW);
+    // digitalWrite(clk, HIGH);
+    // digitalWrite(dao, (addr & mask) > 0);
+    // if (digitalRead(dai) == HIGH) rv |= mask;
+  // }
+  // return rv;
+// }
 
 
 //////////////////////////////////////////////////////////////////////

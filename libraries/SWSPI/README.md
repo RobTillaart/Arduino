@@ -129,7 +129,7 @@ The mode used is set in the **setTransaction()** call.
 
 #### Could
 
-- add **void suppressInteruupts(bool flag = false)**
+- add **void suppressInterrupts(bool flag = false)**
 - code to .cpp file?
 - add transfer24()
 - unit test?

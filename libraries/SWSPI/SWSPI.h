@@ -2,7 +2,7 @@
 //
 //    FILE: SWSPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for SoftWare SPI.
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define SWSPI_LIB_VERSION     (F("0.1.1"))
+#define SWSPI_LIB_VERSION     (F("0.1.2"))
 
 
 class SWSPI
@@ -94,12 +94,83 @@ public:
 
   uint8_t transfer(uint8_t data)
   {
-    uint8_t rv = 0;
-    uint8_t _data = data;
     if (_bitOrder == MSBFIRST)
     {
-      _data = _bitReverse(data);
+      data = _bitReverse(data);
     }
+    uint8_t value = _transfer(data);
+    return value;
+  };
+
+  uint16_t transfer16(uint16_t data)
+  {
+    if (_bitOrder == MSBFIRST)
+    {
+      data = _bitReverse(data);
+    }
+    uint16_t value = 0;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    return value;
+  };
+
+
+  uint32_t transfer24(uint32_t data)
+  {
+    if (_bitOrder == MSBFIRST)
+    {
+      data = _bitReverse(data) >> 8;
+    }
+    uint32_t value = 0;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    return value;
+  };
+
+
+  uint32_t transfer32(uint32_t data)
+  {
+    if (_bitOrder == MSBFIRST)
+    {
+      data = _bitReverse(data);
+    }
+    uint32_t value = 0;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    value <<= 8;
+    data >>= 8;
+    value += _transfer(data & 0xFF);
+    return value;
+  };
+
+  void transfer(const void *buf, size_t count)
+  {
+    for (size_t i = 0; i < count; i++)
+    {
+      transfer(((uint8_t*)buf)[i]);
+    }
+  };
+
+
+protected:
+
+
+  uint8_t _transfer(uint8_t data)
+  {
+    uint8_t rv = 0;
+    uint8_t _data = data;
 
     if (_dataMode == 0)
     {
@@ -165,57 +236,6 @@ public:
     return rv;
   };
 
-  uint16_t transfer16(uint16_t data)
-  {
-    uint16_t value = 0;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    return value;
-  };
-
-
-  uint32_t transfer24(uint32_t data)
-  {
-    uint16_t value = 0;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    return value;
-  };
-
-
-  uint32_t transfer32(uint32_t data)
-  {
-    uint16_t value = 0;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    value <<= 8;
-    data >>= 8;
-    value += transfer(data & 0xFF);
-    return value;
-  };
-
-  void transfer(const void *buf, size_t count)
-  {
-    for (size_t i = 0; i < count; i++)
-    {
-      transfer(((uint8_t*)buf)[i]);
-    }
-  };
-
-
-protected:
 
   // from https://github.com/RobTillaart/bitHelpers
   inline uint8_t _bitReverse(uint8_t value)
@@ -226,6 +246,30 @@ protected:
     x = (x >> 4) | (x << 4);
     return x;
   }
+
+
+  uint16_t _bitReverse(uint16_t value)
+  {
+    uint16_t x = value;
+    x = (((x & 0xAAAA) >> 1) | ((x & 0x5555) << 1));
+    x = (((x & 0xCCCC) >> 2) | ((x & 0x3333) << 2));
+    x = (((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4));
+    x = (x >> 8) | (x << 8);
+    return x;
+  }
+
+
+  uint32_t _bitReverse(uint32_t value)
+  {
+    uint32_t x = value;
+    x = (((x & 0xAAAAAAAA) >> 1)  | ((x & 0x55555555) << 1));
+    x = (((x & 0xCCCCCCCC) >> 2)  | ((x & 0x33333333) << 2));
+    x = (((x & 0xF0F0F0F0) >> 4)  | ((x & 0x0F0F0F0F) << 4));
+    x = (((x & 0xFF00FF00) >> 8)  | ((x & 0x00FF00FF) << 8));
+    x = (x >> 16) | (x << 16);
+    return x;
+  }
+
 
   //  SPI pins
   uint8_t _dataIn;

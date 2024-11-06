@@ -1,0 +1,29 @@
+
+
+SWSPI_test_input\SWSPI_test_input.ino
+SWSPI_LIB_VERSION: 0.1.1
+
+
+MODE 0
+AA
+
+MODE 1
+55
+
+MODE 2
+AA
+
+MODE 3
+55
+
+MODE 0
+F399
+
+MODE 1
+F9CC
+
+MODE 2
+F399
+
+MODE 3
+F9CC

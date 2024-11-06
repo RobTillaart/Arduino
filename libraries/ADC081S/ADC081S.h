@@ -2,7 +2,7 @@
 //
 //    FILE: ADC081S.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define ADC081S_LIB_VERSION       (F("0.2.2"))
+#define ADC081S_LIB_VERSION       (F("0.3.0"))
 
 
 #ifndef __SPI_CLASS__
@@ -34,6 +34,7 @@ public:
   //       HARDWARE SPI
   ADC081S(__SPI_CLASS__ * mySPI = &SPI);
   //       SOFTWARE SPI
+  //       datain = MISO
   ADC081S(uint8_t dataIn, uint8_t clock);
 
   void     begin(uint8_t select);
@@ -54,7 +55,7 @@ public:
   bool     isLowPower();
 
 protected:
-  uint8_t  _data;
+  uint8_t  _dataIn;
   uint8_t  _clock;
   uint8_t  _select;
   bool     _hwSPI;

@@ -25,6 +25,9 @@ The interface is straightforward as one only need a **read()** call
 to get the data.
 
 This library only supports the single channel versions.
+- See https://github.com/RobTillaart/ADC08XS
+The library does not support the I2C versions of these devices.
+These can be recognized from the C as ADCxxxC
 
 The library can put the device in **lowPower()** and needs a call to
 **wakeUp()** to wake up. Alternative way to wake up the device is to
@@ -100,8 +103,8 @@ The ADC101S and ADC121S have an identical interface as the ADC081S.
 
 - **ADC081S(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
 - **ADC081S(SPIClass \* mySPI = &SPI)** hardware constructor other
-- **ADC081S(uint8_t data, uint8_t clock)**
-- **void begin(uint8_t select)** set select pin.
+- **ADC081S(uint8_t dataIn, uint8_t clock)**
+- **void begin(uint8_t select)** set SELECT or CS pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 255, 1023, 4095
 depending on number of bits of the actual ADC.
 
@@ -136,6 +139,7 @@ do a dummy **read()**.
 
 - improve documentation
 - get hardware to test / verify working
+- align with ADC08XS where possible
 
 #### Should
 

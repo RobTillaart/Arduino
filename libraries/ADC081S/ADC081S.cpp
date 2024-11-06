@@ -1,7 +1,7 @@
 //
 //    FILE: ADC081S.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -13,7 +13,7 @@
 //       HARDWARE SPI
 ADC081S::ADC081S(__SPI_CLASS__ * mySPI)
 {
-  _data       = 255;
+  _dataIn     = 255;
   _clock      = 255;
   _select     = 255;
   _hwSPI      = true;
@@ -26,7 +26,7 @@ ADC081S::ADC081S(__SPI_CLASS__ * mySPI)
 //       SOFTWARE SPI
 ADC081S::ADC081S(uint8_t dataIn, uint8_t clock)
 {
-  _data       = dataIn;
+  _dataIn     = dataIn;
   _clock      = clock;
   _select     = 255;
   _hwSPI      = false;
@@ -53,7 +53,7 @@ void ADC081S::begin(uint8_t select)
   }
   else                 //  software SPI
   {
-    pinMode(_data, INPUT);
+    pinMode(_dataIn, INPUT);
     pinMode(_clock,  OUTPUT);
     digitalWrite(_clock, HIGH);
   }
@@ -127,45 +127,48 @@ uint16_t ADC081S::readADC()
 
   uint16_t data = 0;
 
-  digitalWrite(_select, LOW);
   if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
-     data = _mySPI->transfer16(0);
+    digitalWrite(_select, LOW);
+    data = _mySPI->transfer16(0);
+    digitalWrite(_select, HIGH);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-     data = swSPI_transfer16();
+    digitalWrite(_select, LOW);
+    data = swSPI_transfer16();
+    digitalWrite(_select, HIGH);
   }
-  digitalWrite(_select, HIGH);
-
   return data;
 }
 
 
 void ADC081S::shutDown()
 {
-  digitalWrite(_select, LOW);
   if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
+    digitalWrite(_select, LOW);
     _mySPI->transfer(0);        //  8 pulses
+    digitalWrite(_select, HIGH);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-     swSPI_transfer16(0x0010);  //  4 pulses is enough
+    digitalWrite(_select, LOW);
+    swSPI_transfer16(0x0010);  //  4 pulses is enough
+    digitalWrite(_select, HIGH);
   }
-  digitalWrite(_select, HIGH);
 }
 
 
 //  MSBFIRST
-uint16_t  ADC081S::swSPI_transfer16(uint16_t m)
+uint16_t ADC081S::swSPI_transfer16(uint16_t m)
 {
   uint8_t clk = _clock;
-  uint8_t dai = _data;
+  uint8_t dai = _dataIn;
 
   uint16_t rv = 0;
   for (uint16_t mask = m; mask; mask >>= 1)

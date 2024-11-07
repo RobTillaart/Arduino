@@ -1,0 +1,23 @@
+{
+  "name": "AD8495",
+  "keywords": "K, J",
+  "description": "Arduino library for the AD8494, AD8495, AD9496 and AD8497 thermocouple.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD8495.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD8495.h"
+}

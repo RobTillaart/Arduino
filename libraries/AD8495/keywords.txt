@@ -1,0 +1,20 @@
+# Syntax Colouring Map For AD8495
+
+# Data types (KEYWORD1)
+AD8495	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+getPrecision	KEYWORD2
+
+getVoltage	KEYWORD2
+voltageToTemperatureC	KEYWORD2
+getTemperatureC	KEYWORD2
+
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+
+# Constants (LITERAL1)
+AD8495_LIB_VERSION	LITERAL1
+

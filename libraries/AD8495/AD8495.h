@@ -2,7 +2,7 @@
 //
 //    FILE: AD8495.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-11-07
 // PURPOSE: Arduino library for AD8495 Thermocouple
 //     URL: https://github.com/RobTillaart/AD8495
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define AD8495_LIB_VERSION       (F("0.1.0"))
+#define AD8495_LIB_VERSION       (F("0.1.1"))
 
 
 ////////////////////////////////////////////////
@@ -25,14 +25,14 @@ public:
   AD849x(int analogPin, int steps, float maxVoltage)
   {
     _apin = analogPin;
-    _steps = steps;
     _maxVoltage = maxVoltage;
+    _LSB = _maxVoltage / steps;
   };
 
 
   float getPrecision()
   {
-    return _maxVoltage * (1.0 / _steps);
+    return _LSB;
   };
 
 
@@ -42,28 +42,36 @@ public:
     if (times < 1) times = 1;
     for (int i = 0; i < times; i++)
     {
-      sum += analogRead(_apin) * (1.0 / _steps) * _maxVoltage;
+      sum += analogRead(_apin) * _LSB;
+      //  yield();
     }
-    return sum / times;
+    if (times > 1) sum /= times;
+    return sum;
   };
 
 
   //  for external ADC
   inline float voltageToTemperatureC(float voltage)
   {
-    return voltage * _DmV;
+    return voltage * _DegreePerMilliVolt;
   };
 
 
   float getTemperatureC(int times = 1)
   {
-    float temp = getVoltage(times) * _DmV;
+    float temp = getVoltage(times) * _DegreePerMilliVolt;
     if (_offset != 0) temp += _offset;
     return temp;
   };
 
 
-  void setOffset(float offset)
+  float getTemperatureF(int times = 1)
+  {
+    return getTemperatureC(times) * 1.8 + 32.0;
+  }
+
+
+  void setOffset(float offset = 0)
   {
     _offset = offset;
   };
@@ -75,13 +83,19 @@ public:
   };
 
 
+  float getSetPointVoltage(float temperature)
+  {
+    return temperature / _DegreePerMilliVolt;
+  };
+
+
 protected:
-  int _apin;
-  int _steps;
+  int   _apin;
   float _maxVoltage;
+  float _LSB;
 
   //  degree per millivolt - investigate AN1087 if this is needed
-  float _DmV = (1.0 / 5.00e-3);
+  float _DegreePerMilliVolt = (1.0 / 5.00e-3);
   float _offset = 0;
 
   //  TODO?

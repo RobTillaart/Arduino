@@ -38,13 +38,15 @@ If problems occur or there are questions, please open an issue at GitHub.
 #### 10 or 80 SPS
 
 The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
-To select this mode connect the **RATE** pin(15) of the chip to Vcc (HIGH).
-Connecting **RATE** to GND gives 10 SPS.
+To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
+Connecting **RATE** to GND (LOW) gives 10 SPS.
 
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
 
-This library does not provide means to control the **RATE**.
+This library does not provide means to control the **RATE** yet.
+If there is a need (issue) I will implement this in the library.
+For now one can add an IOpin for this and use **digitalWrite()**.
 
 
 #### Related

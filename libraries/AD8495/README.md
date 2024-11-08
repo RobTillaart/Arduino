@@ -11,12 +11,14 @@
 
 # AD8495
 
-Arduino library for the AD8494, AD8495, AD9496 and AD8497 thermocouple.
+Arduino library for the AD8494, AD8495, AD8496 and AD8497 thermocouple.
 
 
 ## Description
 
 **Experimental**
+
+The library is NOT tested with hardware yet.
 
 The AD8494/AD8495/AD8496/AD8497 are precision instrumentation amplifiers 
 for J and K thermocouples. The devices output 5 mV/°C output.
@@ -31,8 +33,6 @@ They work up to 36 V, think of industrial or automotive systems.
 
 The library supports positive temperatures only.
 
-The library is NOT tested with hardware yet.
-
 
 ### Performance
 
@@ -45,6 +45,9 @@ performance depends mostly on the duration of the **analogRead()**.
 The AD849x can be configured in 2 different operational modi:
 - In measurement mode, connect sense pin to output, this is "normal" mode.
 - in setpoint mode, connect sense pin to setpoint voltage.
+
+In the setPoint mode the OUT voltage will drop to -Vcc if the temperature
+drops below the setpoint voltage.
 
 See datasheet for details.
 
@@ -130,20 +133,38 @@ Sense Pin:
 - **float getPrecision()** returns voltage LSB. Debugging.
 - **float getVoltage(int times = 1)** returns voltage as average 
 of times readings.
-- **float voltageToTemperature(float voltage)** conversion function,
-for use with external ADC.
-- **float getTemperatureC(int times = 1)** returns temperature as average 
-of times readings.
+- **float voltageToTemperatureC(float voltage)** conversion function,
+Can be used when using an external ADC to read the AD849x device.
+- **float getTemperatureC(int times = 1)** returns temperature Celsius 
+as average of times readings. 
+Larger values of times take more time and give a better precision.
+- **float getTemperatureF(int times = 1)** returns temperature Fahrenheit 
+as average of times readings. Wrapper around getTemperatureC().
 
 
 ### Offset
 
-Used to minimaly calibrate with an offset. 
+Used to calibrate a measurement with an offset **in °Celsius**.
+The effect is that the offset will be 1.8 x larger for **getTemperatureF()**.
 Can be used to make the temperature scale Kelvin by adding an offset of 273.15.
 Note that the library will still not measure below zero °C.
 
-- **void setOffset(float offset)** idem.
-- **float getOffset()** idem.
+- **void setOffset(float offset = 0)** idem, typical between -2.0 and 2.0.
+- **float getOffset()** returns set offset.
+
+
+### SetPoint mode
+
+Read datasheet for details.
+
+In the setPoint mode the **OUT** voltage will drop to -Vcc if the temperature
+drops below the setpoint voltage which is connected to the **SENSE** pin
+
+This setPoint mode allows the AD849x to guard a defined temperature level. 
+Be aware that the accuracy is still about +-2 degrees Celsius.
+
+- **float getSetPointVoltage(float Temperature)** helper function to 
+calculate the needed setPoint voltage in milliVolts.
 
 
 ## Future
@@ -160,14 +181,12 @@ Note that the library will still not measure below zero °C.
 
 #### Could
 
-- add getType() ?
-- example offset
 - example external ADC e.g. ADS1115
-
 
 #### Wont
 
-- add getTemperatureF(), Fahrenheit + Kelvin?
+- add getType()
+- add getTemperatureK(), Kelvin
 
 ## Support
 

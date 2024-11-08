@@ -10,9 +10,12 @@ getPrecision	KEYWORD2
 getVoltage	KEYWORD2
 voltageToTemperatureC	KEYWORD2
 getTemperatureC	KEYWORD2
+getTemperatureF	KEYWORD2
 
 setOffset	KEYWORD2
 getOffset	KEYWORD2
+
+getSetPointVoltage	KEYWORD2
 
 
 # Constants (LITERAL1)

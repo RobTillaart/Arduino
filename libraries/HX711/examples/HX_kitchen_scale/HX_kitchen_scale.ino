@@ -9,16 +9,17 @@
 
 HX711 scale;
 
-//uint8_t dataPin = 6;
-//uint8_t clockPin = 7;
-uint8_t dataPin  = 19;//for esp32
-uint8_t clockPin = 18;//for esp32
+//  adjust pins if needed
+//  uint8_t dataPin = 6;
+//  uint8_t clockPin = 7;
+uint8_t dataPin  = 19;  //  for ESP32
+uint8_t clockPin = 18;  //  for ESP32
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
@@ -45,8 +46,8 @@ void setup()
   Serial.println(scale.get_units(10));
 
   Serial.println("\nScale is calibrated, press a key to continue");
-  // Serial.println(scale.get_scale());
-  // Serial.println(scale.get_offset());
+  //  Serial.println(scale.get_scale());
+  //  Serial.println(scale.get_offset());
   while(!Serial.available());
   while(Serial.available()) Serial.read();
 }
@@ -60,5 +61,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

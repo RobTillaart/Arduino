@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -108,7 +108,7 @@ float HX711::read()
 
   union
   {
-    long value = 0;
+    int32_t value = 0;
     uint8_t data[4];
   } v;
 
@@ -375,13 +375,13 @@ float HX711::get_scale()
 }
 
 
-void HX711::set_offset(long offset)
+void HX711::set_offset(int32_t offset)
 {
   _offset = offset;
 }
 
 
-long HX711::get_offset()
+int32_t HX711::get_offset()
 {
   return _offset;
 }

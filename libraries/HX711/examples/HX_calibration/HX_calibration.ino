@@ -1,7 +1,7 @@
 //
 //    FILE: HX_calibration.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 demo
+// PURPOSE: HX711 calibration finder for offset and scale
 //     URL: https://github.com/RobTillaart/HX711
 
 
@@ -9,18 +9,16 @@
 
 HX711 myScale;
 
+//  adjust pins if needed.
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
-
-uint32_t start, stop;
-volatile float f;
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
@@ -45,8 +43,9 @@ void calibrate()
   while (Serial.available() == 0);
 
   Serial.println("Determine zero weight offset");
-  myScale.tare(20);  // average 20 measurements.
-  uint32_t offset = myScale.get_offset();
+  //  average 20 measurements.
+  myScale.tare(20);
+  int32_t offset = myScale.get_offset();
 
   Serial.print("OFFSET: ");
   Serial.println(offset);

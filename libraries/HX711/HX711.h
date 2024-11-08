@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.5.0"))
+#define HX711_LIB_VERSION               (F("0.5.1"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -143,8 +143,8 @@ public:
   float    get_scale();
 
   //  OFFSET > 0
-  void     set_offset(long offset = 0);
-  long     get_offset();
+  void     set_offset(int32_t offset = 0);
+  int32_t  get_offset();
 
   //  clear the scale
   //  call tare() to set the zero offset
@@ -177,7 +177,7 @@ private:
   uint8_t  _clockPin;
 
   uint8_t  _gain;
-  long     _offset;
+  int32_t  _offset;
   float    _scale;
   uint32_t _lastRead;
   float    _price;

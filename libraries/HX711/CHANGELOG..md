@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-11-08
+- fix #54, calibration sketch should output int32_t for offset.
+- update examples
+- update readme.md
+- minor edits
+
 ## [0.5.0] - 2024-06-17
 - fix #50, bug in constructor (thanks Mathieu!)
   - refactor constructor

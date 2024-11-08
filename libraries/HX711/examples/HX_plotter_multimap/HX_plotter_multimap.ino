@@ -8,10 +8,10 @@
 
 #include "MultiMap.h"
 
-// inkg[] holds the weights from the linear calibrated HX711 sensor
+//  inkg[] holds the weights from the linear calibrated HX711 sensor
 float inkg[]  = { 0, 6.25, 11.50, 14.50, 30.00, 34.10, 38.20, 44.50, 50.00};
 
-// outkg[] holds the corrected weight
+//  outkg[] holds the corrected weight
 float outkg[] = { 0, 5, 10, 15, 30, 35, 40, 45, 50};
 
 
@@ -19,6 +19,7 @@ float outkg[] = { 0, 5, 10, 15, 30, 35, 40, 45, 50};
 
 HX711 scale;
 
+//  adjust pins if needed
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
@@ -30,19 +31,19 @@ float raw, corrected;
 void setup()
 {
   Serial.begin(115200);
-  // Serial.println(__FILE__);
-  // Serial.print("LIBRARY VERSION: ");
-  // Serial.println(HX711_LIB_VERSION);
+  //  Serial.println(__FILE__);
+  //  Serial.print("HX711_LIB_VERSION: ");
+  //  Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
   scale.begin(dataPin, clockPin);
 
-  // TODO find a nice solution for this calibration..
-  // load cell factor 20 KG
-  // scale.set_scale(127.15);
-  // load cell factor 5 KG
-  scale.set_scale(420.0983);       // TODO you need to calibrate this yourself.
-  // reset the scale to zero = 0
+  //  TODO find a nice solution for this calibration..
+  //  load cell factor 20 KG
+  //  scale.set_scale(127.15);
+  //  load cell factor 5 KG
+  scale.set_scale(420.0983);       //  TODO you need to calibrate this yourself.
+  //  reset the scale to zero = 0
   scale.tare();
 
   //  dump whole range 0..50 kg
@@ -71,4 +72,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

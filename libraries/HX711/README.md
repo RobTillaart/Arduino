@@ -29,7 +29,7 @@ This translates roughly to 4 or max 5 significant digits in a single measurement
 That's why multiple measurements are advised to average and reduce the noise.
 
 
-#### Breaking change 0.3.0
+### Breaking change 0.3.0
 
 In issue #11 it became clear that the timing of the default **shiftIn()** function to 
 read the value of the internal ADC was too fast on some processor boards for the HX711.
@@ -44,7 +44,7 @@ Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
 
 
-#### HX711_MP
+### HX711_MP
 
 - https://github.com/RobTillaart/HX711_MP
 
@@ -61,7 +61,7 @@ This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
-#### 10 or 80 SPS
+### 10 or 80 SPS
 
 The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
@@ -75,12 +75,17 @@ If there is a need (issue) I will implement this in the library.
 For now one can add an IOpin for this and use **digitalWrite()**.
 
 
-#### Related
+### Related
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX711
-- https://github.com/RobTillaart/HX711_MP
+- https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+
+
+### Faulty boards
+
+- https://forum.arduino.cc/t/load-cell-amplifier-hx711-wrong-ground/1046075
 
 
 ## Main flow
@@ -107,7 +112,7 @@ Steps to take for calibration
 #include "HX711.h"
 ```
 
-#### Base
+### Constructor
 
 - **HX711()** constructor.
 - **~HX711()**
@@ -115,6 +120,10 @@ Steps to take for calibration
 The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
 - **void reset()** set internal state to start condition.
 Since 0.3.4 reset also does a power down / up cycle.
+
+
+### Read
+
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
@@ -130,7 +139,7 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds of last read.
 
 
-#### Gain + channel
+### Gain + channel
 
 Use with care as it is not 100% reliable - see issue #27. (solutions welcome).
 
@@ -169,13 +178,13 @@ as the datasheet states it should be. So use with care. (feedback welcome)
 See discussion #27. 
 
 
-#### Mode 
+### Read mode
 
 Get and set the operational mode for **get_value()** and indirect **get_units()**.
 
 Constants (see .h file)
 
-- **HX711_RAW_MODE** new in 0.3.3 
+- **HX711_RAW_MODE**
 - **HX711_AVERAGE_MODE**
 - **HX711_MEDIAN_MODE**
 - **HX711_MEDAVG_MODE**
@@ -193,7 +202,7 @@ to keep memory footprint relative low.
 - **uint8_t get_mode()** returns current set mode. Default is **HX711_AVERAGE_MODE**.
 
 
-#### Get values
+### Get values
 
 Get values from the HX711 corrected for offset and scale.
 Note that in **HX711_RAW_MODE** the times parameter will be ignored => just call **read()** once.
@@ -203,11 +212,11 @@ Note that in **HX711_RAW_MODE** the times parameter will be ignored => just call
 - **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive number larger than 50. Depends on load-cell used.
 Returns false if scale == 0.
 - **float get_scale()** returns set scale factor.
-- **void set_offset(long offset = 0)** idem.
-- **long get_offset()** idem.
+- **void set_offset(int32_t offset = 0)** idem.
+- **int32_t get_offset()** idem.
 
 
-#### Tare & calibration I
+### Tare & calibration I
 
 Steps to take for calibration
 1. clear the scale.
@@ -227,7 +236,7 @@ Assumes offset is not zero, which is true for all load cells tested.
 - **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
 
 
-#### Tare & calibration II
+### Tare & calibration II
 
 A load cell + HX711 module without weight gives a raw value, mostly not equal to zero.
 The function **get_tare()** is used to measure this raw value and allows the user
@@ -248,7 +257,7 @@ Furthermore it is also important to do the calibration at the temperature you
 expect to do the weight measurements. See temperature section below.
 
 
-#### Inner formula
+### Inner formula
 
 Weight = **get_scale()** x raw + **get_tare()**.
 
@@ -258,7 +267,7 @@ This can be compared with actual values to get an indication
 of the accuracy of the load cell.
 
 
-#### Power management
+### Power management
 
 - **void power_down()** idem. Explicitly blocks for 64 microseconds. 
 (See Page 5 datasheet). 
@@ -267,7 +276,7 @@ It should reset the HX711 to defaults but this is not always seen.
 See discussion issue #27 GitHub. Needs more testing.
 
 
-#### Pricing
+### Pricing
 
 Some price functions were added to make it easy to use this library
 for pricing goods or for educational purposes. 
@@ -279,10 +288,31 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 - **float get_unit_price()** idem.
 
 
+### Millivolts
+
+**Experimental**
+
+To be verified in a test setup.
+
+In issue #53, a question was asked to convert the input of the HX711 to milivolts.
+Thinking about this question resulted in a simple and imho an elegant idea:
+
+- Apply 0.000 mV to the system.
+- Call **tare(times)** to calibrate the zero point. 
+- Then apply 20.000 mV to the system.
+- Call **calibrate_scale(20000)** to map the raw reading to 20000 µV = 20 mV.
+
+Assuming the scale is linear, the HX711 now works like a millivolt meter.
+And the **float get_units(uint8_t times = 1)** will return microvolts.
+
+In fact, one could map any linear unit this way, e.g. if the voltage applied 
+is linear with temperature, humidity or windspeed one can map this directly.
+
+
 ## Notes
 
 
-#### Scale values for load cells
+### Scale values for load cells
 
 These scale values worked pretty well with a set of load cells I have, 
 Use calibrate to find your favourite values.
@@ -291,7 +321,7 @@ Use calibrate to find your favourite values.
 - 20 KG load cell  scale.set_scale(127.15);
 
 
-#### Connections HX711
+### Connections HX711
 
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
@@ -308,7 +338,7 @@ Colour scheme wires of two devices.
 |      B+     |  not connected  |  not connected  |
 
 
-#### Temperature
+### Temperature
 
 Load cells do have a temperature related error. (see datasheet load cell)
 This can be reduced by doing the calibration and take the tare
@@ -322,20 +352,20 @@ differences in your code.
 ## Multiple HX711
 
 
-#### Separate lines
+### Separate lines
 
 Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
 line for every HX711 connected.
 
 
-#### Multiplexer
+### Multiplexer
 
 Alternative one could use a multiplexer like the https://github.com/RobTillaart/HC4052
 or possibly an https://github.com/RobTillaart/TCA9548.
 Although to control the multiplexer one need some extra lines and code.
 
 
-#### Share CLOCK line
+### Share CLOCK line
 
 See **HX_loadcell_array.ino**
 
@@ -368,7 +398,6 @@ See https://github.com/RobTillaart/HX711/issues/40
 - update documentation HX711
 - keep in sync with HX711_MP
 
-
 #### Should
 
 - test B channel explicitly.
@@ -376,7 +405,6 @@ See https://github.com/RobTillaart/HX711/issues/40
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
-
 
 #### Could
 
@@ -388,7 +416,6 @@ See https://github.com/RobTillaart/HX711/issues/40
 - decide pricing keep/not => move to .cpp
 - add **setRate()** and **getRate()** - sample rate 10/80 SPS
   - optional?
-
 
 #### Wont
 

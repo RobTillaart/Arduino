@@ -32,6 +32,8 @@
 
 #include "HX711.h"
 HX711 scale;
+
+//  adjust pins if needed
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 

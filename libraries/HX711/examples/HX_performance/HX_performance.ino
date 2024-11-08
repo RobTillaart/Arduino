@@ -1,7 +1,7 @@
 //
 //    FILE: HX_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 demo
+// PURPOSE: HX711 performance measurements
 //     URL: https://github.com/RobTillaart/HX711
 
 
@@ -9,6 +9,7 @@
 
 HX711 scale;
 
+//  adjust pins if needed
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
@@ -19,8 +20,7 @@ volatile float f;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
@@ -30,13 +30,13 @@ void setup()
   delay(1000);
   measure(10);
 
-  // TODO find a nice solution for this calibration..
-  // load cell factor 20 KG
-  // scale.set_scale(127.15);
+  //  TODO find a nice solution for this calibration..
+  //  load cell factor 20 KG
+  //  scale.set_scale(127.15);
 
-  // load cell factor 5 KG
-  scale.set_scale(420.0983);       // TODO you need to calibrate this yourself.
-  // reset the scale to zero = 0
+  //  load cell factor 5 KG
+  scale.set_scale(420.0983);       //  TODO you need to calibrate this yourself.
+  //  reset the scale to zero = 0
   scale.tare();
 
   Serial.println("\nCONFIGURED");
@@ -52,9 +52,9 @@ void setup()
   measure(10);
 
 /*
- * PERFORMANCE
- * 100x get_units(1) = 9404352  (UNO)
- * VAL: 0.05
+ *  PERFORMANCE
+ *  100x get_units(1) = 9404352  (UNO)
+ *  VAL: 0.05
  */
   Serial.println("\nPERFORMANCE");
   delay(10);
@@ -83,10 +83,10 @@ void setup()
 
 void loop()
 {
-  // continuous scale 4x per second
-  // f = scale.get_units(5);
-  // Serial.println(f);
-  // delay(250);
+  //  continuous scale 4x per second
+  //  f = scale.get_units(5);
+  //  Serial.println(f);
+  //  delay(250);
 }
 
 

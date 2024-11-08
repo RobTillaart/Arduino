@@ -21,13 +21,14 @@ bool forced = false; // indicates that we want to enter calibration mode
 HX711 scale;
 byte buttonTare= 2;
 
+//  adjust pins if needed
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
-//uint8_t dataPin  = 19;    // for esp32
-//uint8_t clockPin = 18;    // for esp32
+//  uint8_t dataPin  = 19;    //  for ESP32
+//  uint8_t clockPin = 18;    //  for ESP32
 
-//scale.set_offset(-181815);
-//scale.set_scale(13.79);
+//  scale.set_offset(-181815);
+//  scale.set_scale(13.79);
 struct Bascula {
   float scala;
   long offSet;

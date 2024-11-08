@@ -5,14 +5,14 @@
 //     URL: https://github.com/RobTillaart/HX711
 
 
-// to be tested
-
 #include "HX711.h"
 
 HX711 scale;
 
+//  adjust pins if needed
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
+
 float w1, w2, previous = 0;
 
 
@@ -20,7 +20,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
@@ -29,10 +29,10 @@ void setup()
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(10));
 
-  // load cell factor 20 KG
-  // scale.set_scale(127.15);
-  // load cell factor 5 KG
-  scale.set_scale(420.0983);       // TODO you need to calibrate this yourself.
+  //  load cell factor 20 KG
+  //  scale.set_scale(127.15);
+  //  load cell factor 5 KG
+  scale.set_scale(420.0983);       //  TODO you need to calibrate this yourself.
   scale.tare();
 
   Serial.print("UNITS: ");
@@ -42,7 +42,7 @@ void setup()
 
 void loop()
 {
-  // read until stable
+  //  read until stable
   w1 = scale.get_units(10);
   delay(100);
   w2 = scale.get_units();
@@ -69,5 +69,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

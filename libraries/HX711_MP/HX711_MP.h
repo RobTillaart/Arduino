@@ -2,7 +2,7 @@
 //
 //    FILE: HX711_MP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_MP_LIB_VERSION               (F("0.3.0"))
+#define HX711_MP_LIB_VERSION               (F("0.3.1"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -87,14 +87,6 @@ public:
   float    read_runavg(uint8_t times = 7, float alpha = 0.5);
 
 
-  //  primary user functions
-  //  in HX711_RAW_MODE the parameter times will be ignored.
-  float    get_value(uint8_t times = 1);
-  //  converted to proper units.
-  //  in HX711_RAW_MODE the parameter times will be ignored.
-  float    get_units(uint8_t times = 1);
-
-
   ///////////////////////////////////////////////////////////////
   //
   //  MODE
@@ -108,6 +100,14 @@ public:
   //  set_run_avg will use a default alpha of 0.5.
   void     set_runavg_mode();
   uint8_t  get_mode();
+
+
+  //  primary user functions
+  //  in HX711_RAW_MODE the parameter times will be ignored.
+  float    get_value(uint8_t times = 1);
+  //  converted to proper units.
+  //  in HX711_RAW_MODE the parameter times will be ignored.
+  float    get_units(uint8_t times = 1);
 
 
   ///////////////////////////////////////////////////////////////
@@ -180,6 +180,7 @@ private:
   uint8_t  _gain;
   uint32_t _lastRead;
   uint8_t  _mode;
+  bool     _fastProcessor;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
@@ -189,7 +190,6 @@ private:
   float    _out[HX711_MP_MAX_SIZE];
   uint8_t  _size = HX711_MP_MAX_SIZE;
   float    _multiMap(float val);
-  bool     _fastProcessor = false;
 };
 
 

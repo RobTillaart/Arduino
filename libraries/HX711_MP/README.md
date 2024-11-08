@@ -35,7 +35,7 @@ If problems occur or there are questions, please open an issue at GitHub.
 
 
 
-#### 10 or 80 SPS
+### 10 or 80 SPS
 
 The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
@@ -49,12 +49,17 @@ If there is a need (issue) I will implement this in the library.
 For now one can add an IOpin for this and use **digitalWrite()**.
 
 
-#### Related
+### Related
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX711
-- https://github.com/RobTillaart/HX711_MP
+- https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+
+
+### Faulty boards
+
+- https://forum.arduino.cc/t/load-cell-amplifier-hx711-wrong-ground/1046075
 
 
 #### Differences HX711
@@ -86,9 +91,9 @@ is more math involved for converting raw data to weights.
 #include "HX711_MP.h"
 ```
 
-#### Base
+### Constructor
 
-- **HX711_MP(uint8_t size)** constructor. 
+- **HX711_MP(uint8_t size)** constructor.
 Parameter sets the size of for the calibration arrays. 
 Allowed range for size is 2..10.
 - **~HX711_MP()**
@@ -97,6 +102,10 @@ The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the
 - **void reset()** set internal state to start condition.
 Reset also does a power down / up cycle.
 It does not reset the calibration data.
+
+
+### Read
+
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
@@ -112,7 +121,7 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds of last read.
 
 
-#### Gain + channel
+### Gain + channel
 
 Use with care as it is not 100% reliable - see issue #27 (HX711 lib). (solutions welcome).
 
@@ -151,7 +160,7 @@ as the datasheet states it should be. So use with care. (feedback welcome)
 See discussion #27 HX711. 
 
 
-#### Mode 
+### Read mode
 
 Get and set the operational mode for **get_value()** and indirect **get_units()**.
 
@@ -175,7 +184,7 @@ to keep memory footprint relative low.
 - **uint8_t get_mode()** returns current set mode. Default is **HX711_AVERAGE_MODE**.
 
 
-#### Get values
+### Get values
 
 Get values from the HX711.
 
@@ -185,7 +194,7 @@ Note that in **HX711_RAW_MODE** the times parameter will be ignored => just call
 - **float get_units(uint8_t times = 1)** return units, typical grams.
 
 
-#### Calibration
+### Tare & calibration I
 
 The multipoint calibration array is based upon https://github.com/RobTillaart/multiMap.
 One can compensate for a non linear sensor by interpolating linear over multiple points.
@@ -215,19 +224,19 @@ This way of calibration allows:
 - to use of negative weights (forces) as the
 
 
-#### Power management
+### Power management
 
 - **void power_down()** idem. Explicitly blocks for 64 microseconds. 
 (See Page 5 datasheet). 
-- **void power_up()** wakes up the HX711_MP. 
-It should reset the HX711_MP to defaults but this is not always seen. 
+- **void power_up()** wakes up the HX711. 
+It should reset the HX711 to defaults but this is not always seen. 
 See discussion issue #27 GitHub. Needs more testing.
 
 
 ## Notes
 
 
-#### Connections HX711_MP
+### Connections HX711
 
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
@@ -244,7 +253,7 @@ Colour scheme wires of two devices.
 |      B+     |  not connected  |  not connected  |
 
 
-#### Temperature
+### Temperature
 
 Load cells do have a temperature related error. (see datasheet load cell)
 This can be reduced by doing the calibration and take the tare
@@ -294,5 +303,4 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-
 

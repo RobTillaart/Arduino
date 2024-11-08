@@ -1,7 +1,7 @@
 //
 //    FILE: HX_MP_calibrate.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 demo
+// PURPOSE: HX711_MP sketch to help calibration.
 //     URL: https://github.com/RobTillaart/HX711_MP
 
 
@@ -18,8 +18,7 @@ uint8_t dataPin = 16;
 uint8_t clockPin = 17;
 
 
-uint32_t start, stop;
-volatile float f;
+float f;
 
 
 void setup()

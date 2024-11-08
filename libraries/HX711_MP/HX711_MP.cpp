@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -110,7 +110,7 @@ float HX711_MP::read()
 
   union
   {
-    long value = 0;
+    int32_t value = 0;
     uint8_t data[4];
   } v;
 
@@ -233,6 +233,47 @@ float HX711_MP::read_runavg(uint8_t times, float alpha)
 }
 
 
+///////////////////////////////////////////////////////
+//
+//  MODE
+//
+void HX711_MP::set_raw_mode()
+{
+  _mode = HX711_RAW_MODE;
+}
+
+
+void HX711_MP::set_average_mode()
+{
+  _mode = HX711_AVERAGE_MODE;
+}
+
+
+void HX711_MP::set_median_mode()
+{
+  _mode = HX711_MEDIAN_MODE;
+}
+
+
+void HX711_MP::set_medavg_mode()
+{
+  _mode = HX711_MEDAVG_MODE;
+}
+
+
+//  set_run_avg will use a default alpha of 0.5.
+void HX711_MP::set_runavg_mode()
+{
+  _mode = HX711_RUNAVG_MODE;
+}
+
+
+uint8_t HX711_MP::get_mode()
+{
+  return _mode;
+}
+
+
 float HX711_MP::get_value(uint8_t times)
 {
   float raw;
@@ -262,46 +303,6 @@ float HX711_MP::get_value(uint8_t times)
 float HX711_MP::get_units(uint8_t times)
 {
   return _multiMap(get_value(times));
-}
-
-
-///////////////////////////////////////////////////////////////
-//
-//  MODE
-//
-void HX711_MP::set_raw_mode()
-{
-  _mode = HX711_RAW_MODE;
-}
-
-
-void HX711_MP::set_average_mode()
-{
-  _mode = HX711_AVERAGE_MODE;
-}
-
-
-void HX711_MP::set_median_mode()
-{
-  _mode = HX711_MEDIAN_MODE;
-}
-
-
-void HX711_MP::set_medavg_mode()
-{
-  _mode = HX711_MEDAVG_MODE;
-}
-
-
-void HX711_MP::set_runavg_mode()
-{
-  _mode = HX711_RUNAVG_MODE;
-}
-
-
-uint8_t HX711_MP::get_mode()
-{
-  return _mode;
 }
 
 
@@ -394,6 +395,10 @@ void HX711_MP::power_up()
 }
 
 
+///////////////////////////////////////////////////////////////
+//
+//  MISC
+//
 uint32_t HX711_MP::last_read()
 {
   return _lastRead;

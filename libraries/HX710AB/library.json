@@ -1,0 +1,23 @@
+{
+  "name": "HX710AB",
+  "keywords": "scale, load, cell, bridge",
+  "description": "Arduino library for the HX710A and HX710B 24-Bit ADC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/HX710AB.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "HX710AB.h"
+}

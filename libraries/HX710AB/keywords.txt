@@ -1,0 +1,20 @@
+# Syntax Colouring Map For HX710AB
+
+# Data types (KEYWORD1)
+HX710A	KEYWORD1
+HX710B	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+read	KEYWORD2
+lastRead	KEYWORD2
+
+powerDown	KEYWORD2
+powerUp	KEYWORD2
+
+
+# Constants (LITERAL1)
+AHX710_LIB_VERSION	LITERAL1
+

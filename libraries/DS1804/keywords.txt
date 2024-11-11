@@ -1,0 +1,21 @@
+# Syntax Colouring Map For DS1804
+
+
+# Data types (KEYWORD1)
+DS1804	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+select	KEYWORD2
+moveUp	KEYWORD2
+moveDown	KEYWORD2
+saveEEPROM	KEYWORD2
+
+
+# Instances (KEYWORD2)
+
+
+# Constants (LITERAL1)
+DS1804_LIB_VERSION	LITERAL1
+

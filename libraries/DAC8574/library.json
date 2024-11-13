@@ -1,0 +1,23 @@
+{
+  "name": "DAC8574",
+  "keywords": "I2C, DAC8574, DAC, 16 bit",
+  "description": "Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DAC8574.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DAC8574.h"
+}

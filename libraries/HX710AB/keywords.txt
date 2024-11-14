@@ -9,7 +9,8 @@ HX710B	KEYWORD1
 begin	KEYWORD2
 
 read	KEYWORD2
-lastRead	KEYWORD2
+lastTimeRead	KEYWORD2
+lastValueRead	KEYWORD2
 
 powerDown	KEYWORD2
 powerUp	KEYWORD2

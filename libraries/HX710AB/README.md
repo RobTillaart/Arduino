@@ -34,6 +34,9 @@ THe HX710B can read the DVDD and AVDD supply voltage difference.
 The HX710 has no means to detect errors, however several readings without noise
 especially zero's might be an indication that something is wrong.
 
+THe HX710 is closely related to the HX711 which has more features.
+These are not 1-to-1 replaceble devices.
+
 
 ### Performance
 
@@ -67,8 +70,9 @@ TODO: Test with hardware.
 
 - **HX710A(uint8_t dataPin, uint8_t clockPin)** constructor.
 - **HX710B(uint8_t dataPin, uint8_t clockPin)** constructor.
-- **void begin()** initialises pins.
-
+- **void begin(bool fastProcessor = false)** initialises pins.
+The fastProcessor option adds a 1 uS delay for each clock half-cycle 
+to keep the time greater than 200 nS.
 
 ### Read
 
@@ -76,14 +80,16 @@ TODO: Test with hardware.
 reads from the device, sets the mode for the **next** read.
 The default parameter is true as differential readings are most used.
 See table below. 
-- **int32_t lastRead()** returns last read value, note this can be
-differential or other. The user should track this.
-
 
 |  differential  |  HX710A         |  HX710B         |  notes    |
 |:--------------:|:---------------:|:---------------:|:---------:|
 |   true         |  differential   |  differential   |  default  |
 |   false        |  temperature    |  DVDD and AVDD  |
+
+
+- **uint32_t lastTimeRead()** returns last time a value was read in milliseconds.
+- **int32_t lastValueRead()** returns last read value, note this can be
+differential or other. The user should keep track of this.
 
 
 ### Power
@@ -99,14 +105,12 @@ Note the **read()** function automatically wakes up the device.
 #### Must
 
 - get hardware to test  (at least HX710B pressure)
-- investigate blocking time read()
 - improve documentation
 
 #### Should
 
-- refactor class hierarchy
-- converting to units / temperature  (See HX711)
-- async interface to circumvent the blocking wait.
+- investigate blocking time read()
+  - async interface to circumvent the blocking wait.
   - bool request();    //  wakes up device
   - bool dataReady();  //  dataline check
   - int32_t fetch(differential = true);  //  actual fetch
@@ -114,7 +118,10 @@ Note the **read()** function automatically wakes up the device.
 #### Could
 
 - calibration somehow.
-  - zero reading?  tare()? 
+  - converting to units / temperature  (See HX711)
+  - tare() + scale() ?
+  - zero reading ?
+- refactor class hierarchy
 - extend unit tests(?)
 - more examples.
 - extend performance test sketch

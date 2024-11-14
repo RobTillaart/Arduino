@@ -7,10 +7,11 @@
 
 #include "HX710AB.h"
 
+//  adjust pins to your setup
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
-HX710A HX(dataPin, clockPin);
+HX710B HX(dataPin, clockPin);
 
 uint32_t start, stop;
 volatile int32_t value;
@@ -24,7 +25,7 @@ void setup()
   Serial.println(HX710AB_LIB_VERSION);
   Serial.println();
 
-  HX.begin();
+  HX.begin(false);  //  fastprocessor flag
   delay(100);
 
   start = micros();
@@ -33,6 +34,21 @@ void setup()
     value = HX.read();
   }
   stop = micros();
+  Serial.println("FPROC: \tfalse");
+  Serial.print("READ: \t");
+  Serial.println((stop - start) * 0.001);
+
+
+  HX.begin(true);  //  fastprocessor flag
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    value = HX.read();
+  }
+  stop = micros();
+  Serial.println("FPROC: \ttrue");
   Serial.print("READ: \t");
   Serial.println((stop - start) * 0.001);
 

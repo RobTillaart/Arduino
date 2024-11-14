@@ -7,6 +7,7 @@
 
 #include "HX710AB.h"
 
+//  adjust pins to your setup
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 

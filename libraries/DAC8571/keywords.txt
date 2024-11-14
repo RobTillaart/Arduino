@@ -12,8 +12,14 @@ write	KEYWORD2
 lastWrite	KEYWORD2
 read	KEYWORD2
 
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
 setWriteMode	KEYWORD2
 getWriteMode	KEYWORD2
+
+powerDown	KEYWORD2
+wakeUp	KEYWORD2
 
 lastError	KEYWORD2
 

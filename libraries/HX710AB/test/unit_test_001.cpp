@@ -41,10 +41,47 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
+  HX710AB hx(4, 5);
   HX710A hxa(6, 7);
   HX710B hxb(8, 9);
 
   assertEqual(1,1);
+}
+
+
+unittest(test_calibrate)
+{
+  HX710B hx(8, 9);
+
+  hx.calibrate(50, 50, 80, 100);
+  fprintf(stderr, "offset %f\n", hx.get_offset());
+  fprintf(stderr, "scale %f\n", hx.get_scale());
+  assertEqualFloat(20.000, hx.get_offset(), 0.01);
+  assertEqualFloat(0.6, hx.get_scale(), 0.01);
+}
+
+
+unittest(test_offset)
+{
+  HX710B hx(8, 9);
+
+  for (int i = -1000; i < 1000; i += 173)
+  {
+    hx.set_offset(i);
+    assertEqualFloat(float(i), hx.get_offset(), 0.01);
+  }
+}
+
+
+unittest(test_scale)
+{
+  HX710B hx(8, 9);
+
+  for (int i = -1000; i < 1000; i += 173)
+  {
+    hx.set_scale(i);
+    assertEqualFloat(float(i), hx.get_scale(), 0.01);
+  }
 }
 
 

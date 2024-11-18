@@ -1,5 +1,5 @@
 //
-//    FILE: HX710B_demo.ino
+//    FILE: HX710B_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour
 //     URL: https://github.com/RobTillaart/HX710AB
@@ -11,7 +11,7 @@
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
-HX710A HX(dataPin, clockPin);
+HX710B HX(dataPin, clockPin);
 
 
 void setup()
@@ -24,23 +24,15 @@ void setup()
   Serial.println();
 
   HX.begin();
+
+  //  adjust to your raw measurements.
+  HX.calibrate(50, 0, 100, 80);
 }
 
 
 void loop()
 {
-  int32_t value = HX.read(false);
-  Serial.println();
-  Serial.print("VALUE: \t");
-  Serial.print(value);
-  Serial.println();
-  delay(1000);
-
-  value = HX.read(true);
-  Serial.print("DVDD: \t");
-  Serial.print(value);
-  Serial.println();
-  delay(1000);
+  Serial.println(HX.read(1), 1);
 }
 
 

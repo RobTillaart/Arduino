@@ -1,0 +1,17 @@
+
+Arduino UNO
+1.8.19
+
+Note this is a test without HW, just the clocking of 26 bits.
+-----
+
+HX710AB\examples\HX710B_performance\HX710B_performance.ino
+HX710AB_LIB_VERSION: 0.1.1
+
+FPROC: 	false
+READ: 	22395.24
+FPROC: 	true
+READ: 	22304.56
+
+done...
+

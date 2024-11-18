@@ -1,0 +1,32 @@
+
+Arduino UNO
+1.8.19
+
+Test with hardware.
+-----
+
+HX710AB\examples\HX710B_performance\HX710B_performance.ino
+HX710AB_LIB_VERSION: 0.2.0
+
+test takes about 6 seconds.
+times in micros, average 100x read
+
+SYNCHRONOUS API
+FPROC: 	false
+READ: 	22380.40
+FPROC: 	true
+READ: 	22302.60
+
+A_SYNCHRONOUS API
+REQUEST: 	4.84
+ISREADY: 	5.48
+FETCH: 		461.48
+TOTAL ASYNC: 	471.80
+
+CALIBRATE
+CALIBRATE: 	0.04
+-33.33
+1.67
+
+done...
+

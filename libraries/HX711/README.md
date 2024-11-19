@@ -29,6 +29,15 @@ This translates roughly to 4 or max 5 significant digits in a single measurement
 That's why multiple measurements are advised to average and reduce the noise.
 
 
+### Breaking change 0.4.0
+
+The **begin()** function has a new parameter **bool fastProcessor** which is default false.
+It is used to slow down the internal **shiftIn()** to keep clock pulses within the 
+specification. For most processors the internal code is "slow enough".
+If the processor can set an IO pin faster than 0.4 us (spec datasheet == 0.2 us), 
+the parameter **fastProcessor** must be set to true.
+
+
 ### Breaking change 0.3.0
 
 In issue #11 it became clear that the timing of the default **shiftIn()** function to 
@@ -79,8 +88,12 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/HX710
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+
+Discussion about resolution of the ADC
+- https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
 
 
 ### Faulty boards
@@ -116,7 +129,7 @@ Steps to take for calibration
 
 - **HX711()** constructor.
 - **~HX711()**
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor)** sets a fixed gain 128 for now.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false)** sets a fixed gain 128 for now.
 The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
 - **void reset()** set internal state to start condition.
 Since 0.3.4 reset also does a power down / up cycle.
@@ -294,8 +307,8 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 
 To be verified in a test setup.
 
-In issue #53, a question was asked to convert the input of the HX711 to milivolts.
-Thinking about this question resulted in a simple and imho an elegant idea:
+In issue #53, a question was asked to convert the input of the HX711 to millivolts.
+Thinking about this question resulted in a simple and elegant idea:
 
 - Apply 0.000 mV to the system.
 - Call **tare(times)** to calibrate the zero point. 
@@ -306,7 +319,7 @@ Assuming the scale is linear, the HX711 now works like a millivolt meter.
 And the **float get_units(uint8_t times = 1)** will return microvolts.
 
 In fact, one could map any linear unit this way, e.g. if the voltage applied 
-is linear with temperature, humidity or windspeed one can map this directly.
+is linear with temperature, humidity or wind speed one can map this directly.
 
 
 ## Notes
@@ -400,6 +413,7 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Should
 
+- replace last_read() with last_time_read()
 - test B channel explicitly.
 - test reset and reboot behaviours.
 - investigate read()
@@ -408,6 +422,9 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Could
 
+- optimize fastProcessor code (possible better performance)
+  - injecting 2 microdelays is not always needed.
+  - int flag instead of bool.
 - test different load cells
 - make enum of the MODE's
 - add examples

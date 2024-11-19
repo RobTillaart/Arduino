@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@ HX711::HX711()
   _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
-  _lastRead = 0;
+  _lastTimeRead = 0;
   _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
   _fastProcessor = false;
@@ -48,7 +48,7 @@ void HX711::reset()
   _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
-  _lastRead = 0;
+  _lastTimeRead = 0;
   _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
@@ -141,13 +141,13 @@ float HX711::read()
 
   while (m > 0)
   {
-    //  delayMicroSeconds(1) needed for fast processors?
+    //  delayMicroSeconds(1) is needed for fast processors
+    //  T2  >= 0.2 us
     digitalWrite(_clockPin, HIGH);
-    if (_fastProcessor)
-        delayMicroseconds(1);
+    if (_fastProcessor) delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
-    if (_fastProcessor)
-        delayMicroseconds(1);
+    //  keep duty cycle ~50%
+    if (_fastProcessor) delayMicroseconds(1);
     m--;
   }
 
@@ -157,7 +157,7 @@ float HX711::read()
   //  SIGN extend
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
-  _lastRead = millis();
+  _lastTimeRead = millis();
   return 1.0 * v.value;
 }
 
@@ -416,9 +416,15 @@ void HX711::power_up()
 //
 //  MISC
 //
+uint32_t HX711::last_time_read()
+{
+  return _lastTimeRead;
+}
+
+//  obsolete future
 uint32_t HX711::last_read()
 {
-  return _lastRead;
+  return _lastTimeRead;
 }
 
 
@@ -458,15 +464,15 @@ uint8_t HX711::_shiftIn()
   while (mask > 0)
   {
     digitalWrite(clk, HIGH);
-    if(_fastProcessor)       //  T2  >= 0.2 us
-      delayMicroseconds(1);
+    //  T2  >= 0.2 us
+    if(_fastProcessor) delayMicroseconds(1);
     if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
     digitalWrite(clk, LOW);
-    if(_fastProcessor)
-      delayMicroseconds(1);   //  keep duty cycle ~50%
+    //  keep duty cycle ~50%
+    if(_fastProcessor) delayMicroseconds(1);
     mask >>= 1;
   }
   return value;

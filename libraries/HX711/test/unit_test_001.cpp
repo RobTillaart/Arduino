@@ -64,7 +64,7 @@ unittest(test_constructor)
   //  pins are default LOW apparently.
   assertTrue(scale.is_ready()); 
   //  default not read
-  assertEqual(0, scale.last_read());
+  assertEqual(0, scale.last_time_read());
 }
 
 

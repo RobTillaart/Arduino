@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.5.1"))
+#define HX711_LIB_VERSION               (F("0.5.2"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -163,7 +163,8 @@ public:
 
 
   //  TIME OF LAST READ
-  uint32_t last_read();
+  uint32_t last_time_read();
+  uint32_t last_read();  //  obsolete in the future
 
 
   //  PRICING
@@ -179,7 +180,7 @@ private:
   uint8_t  _gain;
   int32_t  _offset;
   float    _scale;
-  uint32_t _lastRead;
+  uint32_t _lastTimeRead;
   float    _price;
   uint8_t  _mode;
   bool     _fastProcessor;

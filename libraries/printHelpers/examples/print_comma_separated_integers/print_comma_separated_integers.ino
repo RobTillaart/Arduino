@@ -13,8 +13,8 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
   Serial.println(__FILE__);
-  Serial.print("PRINTHELPERS_VERSION: ");
-  Serial.println(PRINTHELPERS_VERSION);
+  Serial.print("PRINTHELPERS_LIB_VERSION: ");
+  Serial.println(PRINTHELPERS_LIB_VERSION);
 
   Serial.println((int32_t)123456789);
   Serial.println(csi((int32_t)123456789));

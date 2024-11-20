@@ -14,22 +14,32 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PRINTHELPERS_VERSION: ");
-  Serial.println(PRINTHELPERS_VERSION);
+  Serial.print("PRINTHELPERS_LIB_VERSION: ");
+  Serial.println(PRINTHELPERS_LIB_VERSION);
   Serial.println();
 
+  Serial.print("FLOAT: \t");
   Serial.println(sizeof(float));
+  Serial.print("DOUBLE: \t");
   Serial.println(sizeof(double));
   Serial.println();
 
   double n = 6.072832E+37;
 
+  //  reference
+  Serial.println("TEXT: \t6.072832E+37");
+  Serial.print("PRINT: \t");
+  Serial.println(n);
+  Serial.println();
+
+
   delay(100);
   start = micros();
   char * b = sci(n, 6);
   stop = micros();
-  Serial.print("TIME: ");
+  Serial.print("TIME: \t");
   Serial.println(stop - start);
+  Serial.print("SCI: \t");
   Serial.println(b);
   delay(100);
   //  duration = stop - start;
@@ -37,9 +47,10 @@ void setup()
   start = micros();
   b = newsci(n, 6);
   stop = micros();
-  Serial.print("TIME: ");
+  Serial.print("TIME: \t");
   Serial.println(stop - start);
   //   Serial.println((stop - start) *1.0 / duration);
+  Serial.print("NEWSCI: \t");
   Serial.println(b);
   delay(100);
 

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -12,7 +12,9 @@
 #include "stdlib.h"
 
 
-#define PRINTHELPERS_VERSION      (F("0.4.4"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.4.5"))
+//  PRINTHELPERS_VERSION is obsolete in future 
+#define PRINTHELPERS_VERSION      (F("0.4.5"))
 
 
 //  global buffer used by all functions so no static buffer in every function
@@ -131,6 +133,15 @@ char * csi(uint32_t n);
 char * csi(uint16_t n);
 char * csi(uint8_t n);
 
+
+////////////////////////////////////////////////////////////
+//
+//  Fraction
+//  Experimental
+//  Based upon Fraction library -> fractionize()
+//
+char * fraction(double value);
+char * fraction(double value, uint32_t denom);
 
 
 //  -- END OF FILE --

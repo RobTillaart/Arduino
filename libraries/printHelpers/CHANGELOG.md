@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.4.4] - 2024-01-05
-- FIx URL in examples
-- minor edits
+## [0.4.5] - 2024-11-20
+- add experimental **fraction()**
+- add **print_fractions.ino** example
+- add **print_fractions_denum.ino** example
+- update **print_sci_experimental.ino** example
+- added define PRINTHELPERS_LIB_VERSION.
+- update readme.md
 
+## [0.4.4] - 2024-01-05
+- fix URL in examples
+- minor edits
 
 ## [0.4.3] - 2023-11-15
 - added **csi()** comma separated integers for readability e.g. 123,458,654
@@ -41,7 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.3.1] - 2023-01-27 
+## [0.3.1] - 2023-01-27
 - fix **scieng()** itoa() => sprintf()  + conditional ESP32
 - add leading 0 for exponents smaller than 10, to better align columns.
 - update GitHub actions

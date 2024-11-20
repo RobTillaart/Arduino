@@ -39,7 +39,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "PRINTHELPERS_VERSION: %s\n", (char *) PRINTHELPERS_VERSION);
+  fprintf(stderr, "PRINTHELPERS_LIB_VERSION: %s\n", (char *) PRINTHELPERS_LIB_VERSION);
 }
 
 

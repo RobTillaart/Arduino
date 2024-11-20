@@ -12,8 +12,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PRINTHELPERS_VERSION: ");
-  Serial.println(PRINTHELPERS_VERSION);
+  Serial.print("PRINTHELPERS_LIB_VERSION: ");
+  Serial.println(PRINTHELPERS_LIB_VERSION);
   Serial.println();
 
   //  test some random values

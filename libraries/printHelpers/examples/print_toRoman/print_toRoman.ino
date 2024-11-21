@@ -49,7 +49,16 @@ void setup()
   stop = micros();
   Serial.println((stop - start) / 5000.0);
   Serial.println(b);
-  delay(1000);
+  delay(100);
+
+  //  unofficial romans
+  start = micros();
+  b = toRoman(12345678);
+  stop = micros();
+  Serial.println();
+  Serial.println(stop - start);
+  Serial.println(b);
+  delay(100);
 
   //  for (int i = 1; i <= 5000; i++)
   //  {

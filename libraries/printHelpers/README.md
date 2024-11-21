@@ -26,7 +26,7 @@ data in a way not supported in the standard print library of the Arduino.
 - **char \* toBytes()** returns a string in KB MB GB etc.
 - **char \* hex()** returns hexadecimal output with **leading zeros** up to **uint64_t**.
 - **char \* bin()** returns binary output with **leading zeros** up to **uint64_t**.
-- **char \* toRoman()** returns a ROMAN representation of a (positive) number.
+- **char \* toRoman()** returns a ROMAN representation of a number.
 - **char \* printInch(float inch, uint16_t step)** returns a string e.g. 5 7/8".
 - **char \* printFeet(float feet)** returns a string e.g. 7"4'
 - **char \* csi()** returns a comma separated integer for readability e.g. 3,254,152.
@@ -137,7 +137,9 @@ These will all be shown in UPPERCASE so KB, MB etc.
 |  exabytes   |    EB     |  1024^6  |  udabytes    |    UB     |  1024^12 |
 
 
-Treda Byte is shortened as "TDB" and uses 2 chars to indicate the magnitude.
+#### Bigger
+
+Treda Byte is officially shortened as "TDB" and uses 2 chars to indicate the magnitude.
 That would take extra memory or slightly more complex code.
 As it is very seldom used, "official" support stops with UDA.
 Should be big enough for some time.
@@ -145,8 +147,22 @@ Should be big enough for some time.
 Note: max uint64_t == 2^64 is in the order of exa or zetta bytes.
 
 To have some support for the really big sizes the code uses lowercase for the next 8 levels:
-treda sorta rinta quexa pepta ocha nena minga luma (1024\^13 ~~ 1024\^21)
 To enable this patch the function in the **printHelpers.cpp** file.
+
+|  Unit       |  abbrev.  |  size     |
+|:-----------:|:---------:|:---------:|
+|  tredabytes |    tB     |  1024^13  |
+|  sortabytes |    sB     |  1024^14  |
+|  rintabytes |    rB     |  1024^15  |
+|  quexabytes |    qB     |  1024^16  |
+|  peptabytes |    pB     |  1024^17  |
+|  ochabytes  |    oB     |  1024^18  |
+|  nenabytes  |    nB     |  1024^19  |
+|  mingabytes |    mB     |  1024^20  |
+|  lumabytes  |    lB     |  1024^21 |
+
+Note that from the ZETTA prefix all higher prefixes are starting with the
+previous letter of the alphabet ZYXWVUtsrqponml
 
 
 ### hex() bin()
@@ -186,7 +202,7 @@ A less used but well known print format are the Roman digits.
 The library function **toRoman()** will convert any number from 0..100 million into a Roman number.
 The numbers 1..5000 ("official" range) are the well known UPPER case characters.
 
-- **char \* toRoman(uint32_t value)** returns Roman string.
+- **char \* toRoman(int32_t value)** returns Roman string.
 
 |  char  |  unit  |  notes      |
 |:------:|:-------|:------------|
@@ -205,7 +221,6 @@ Note: The maximum length returned is 16 characters in the "official" supported r
 
 Notes:
 - value == 0 => N is not part of the "official" numbers but we need it.
-- values < 0 are not supported (note parameter is unsigned)
 - values between 5K-10K are extended with extra M chars.
 - values 10K-100M are represented with lower case characters.
   This is not a standard, but it sort of works well.
@@ -215,6 +230,8 @@ Notes:
 - The number 4 is often written as IIII on clocks with Roman digits,
   although IV would be (more?) correct and therefore IV is used.
   The reason for IIII is that it is opposite of VIII giving a visual balance.
+
+Since 0.4.6 negative numbers will have a - sign in front.
 
 
 ### Distance feet inch
@@ -314,12 +331,13 @@ When functions are added, the recommended minimum size might increase.
 #### Must
 
 - check TODO's in the code
+- documentation
 
 #### Should
 
-- documentation
 - improve readability of the code
   - em ==> exponentFactor?
+- extend unit tests
 
 #### Could
 
@@ -332,8 +350,6 @@ When functions are added, the recommended minimum size might increase.
   - pass char buffer as parameter (breaking)
   - could be the log10 pow version?
 - optimize **char \* hex(uint8_t / uint16_t ...)**
-- negative ROMAN numbers (add a - sign)
-
 
 #### Wont
 

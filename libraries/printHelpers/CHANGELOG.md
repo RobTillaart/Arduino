@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.6] - 2024-11-21
+- fix #22, negative fractions
+- fix unofficial **toRoman()** for > 4888
+- add support for negative sign for **toRoman()**
+- changed parameter to signed **toRoman(int32_t value)**
+- add unit tests
+- update readme.md
+
 ## [0.4.5] - 2024-11-20
 - add experimental **fraction()**
 - add **print_fractions.ino** example

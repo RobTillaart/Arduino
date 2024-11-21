@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.5
+// VERSION: 0.4.6
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -106,7 +106,7 @@ char * bin(uint8_t value, uint8_t digits = 8);
 //
 //  value should be in range 1..9999
 //  values 10K-100M are experimental in lower case (see readme.md)
-char * toRoman(uint32_t value);
+char * toRoman(int32_t value);
 
 
 ////////////////////////////////////////////////////////////

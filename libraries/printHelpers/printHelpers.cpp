@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.5
+// VERSION: 0.4.6
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -421,36 +421,41 @@ char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits
 //  extended with 10K units generated with the same but lower case chars.
 //  would expect a special char for 5000?
 //  need investigation.
-char * toRoman(uint32_t value)
+char * toRoman(int32_t value)
 {
-  char * buffer = __printbuffer;
-  uint32_t      val = value;
+  char * buffer     = __printbuffer;
+  int32_t       val = value;
   uint16_t    n[13] = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
   char roman[13][3] = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
 
   buffer[0] = 0;
   int idx = 0;
-  if (value == 0)
+  if (val == 0)
   {
     strcat(buffer, "N");  //  NULL
     return buffer;
   }
-
-  if (value > 100000000UL)
+  //  handle negative values
+  if (val < 0)
+  {
+    strcat(buffer, "-");
+    val = -val;
+  }
+  if (val > 100000000L)
   {
     strcat(buffer, "OVF");  //  overflow
     return buffer;
   }
 
-  if (val >= 10000UL)
+  if (val >= 10000L)
   {
     //  10K units
-    while(val >= 10000UL)
+    while(val >= 10000L)
     {
-      while (val >= (10000UL * n[idx]))
+      while (val >= (10000L * n[idx]))
       {
         strcat(buffer, roman[idx]);
-        val -= (10000UL * n[idx]);
+        val -= (10000L * n[idx]);
       };
       idx++;
     }
@@ -460,7 +465,8 @@ char * toRoman(uint32_t value)
       buffer[i] = tolower(buffer[i]);
     }
   }
-
+  //  reset index
+  idx = 0;
   //  Official part UPPER case letters
   while(val > 0)
   {
@@ -776,16 +782,16 @@ char * fraction(double value)
     //  ESP32 does not support %ld  or ltoa()
     sprintf(buffer, "-%d/%d", highN, highD);
     #else
-    sprintf(buffer, "%ld/%ld", highN, highD);
+    sprintf(buffer, "-%ld/%ld", highN, highD);
     #endif
   }
   else
   {
     #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d/%d", highN, highD);
+    sprintf(buffer, "%d/%d", highN, highD);
     #else
-    sprintf(buffer, "-%ld/%ld", highN, highD);
+    sprintf(buffer, "%ld/%ld", highN, highD);
     #endif
   }
   return buffer;

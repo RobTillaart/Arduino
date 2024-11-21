@@ -161,8 +161,32 @@ unittest(test_toRoman_standard)
 
 unittest(test_toRoman_extended)
 {
+  //  zero test
   assertEqual(0, strcmp("N", toRoman(0)) );
-  assertEqual(0, strcmp("OVF", toRoman(100000001UL)) );
+  //  overflow
+  assertEqual(0, strcmp("OVF", toRoman(100000001L)) );
+  assertEqual(0, strcmp("-OVF", toRoman(-100000001L)) );
+  //  negative
+  assertEqual(0, strcmp("-MCCXXXIV", toRoman(-1234)));
+  
+  //  large
+  assertEqual(0, strcmp("cxxiiiMMMMDLXVII", toRoman(1234567)));
+}
+
+
+unittest(test_fraction)
+{
+  //  positive
+  assertEqual(0, strcmp("59/469", fraction(0.1258)) );
+
+  //  zero
+  assertEqual(0, strcmp("0/1", fraction(0)) );
+
+  //  negative
+  assertEqual(0, strcmp("-59/469", fraction(-0.1258)) );
+
+  //  fixed denumerator
+  assertEqual(0, strcmp("1/8", fraction(0.1258, 8)) );
 }
 
 

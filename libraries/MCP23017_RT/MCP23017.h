@@ -2,12 +2,13 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.1
+// VERSION: 0.8.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
 //
-// WARNING: please read REV D note in readme.md.
+// WARNING: please read REV D note in readme.md 
+//          about pin 7 and 15 and INPUT mode.
 
 
 #include "Arduino.h"
@@ -15,7 +16,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.7.1"))
+#define MCP23017_LIB_VERSION              (F("0.8.0"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -39,6 +40,7 @@ public:
   //       single pin interface
   //       mode = INPUT, OUTPUT, INPUT_PULLUP (= same as INPUT)
   //             do not use 0, 1 for mode.
+  //       See readme.md section REV D
   bool     pinMode1(uint8_t pin, uint8_t mode);
   bool     write1(uint8_t pin, uint8_t value);
   uint8_t  read1(uint8_t pin);
@@ -51,7 +53,7 @@ public:
 
   //       8 pins interface
   //       port  = 0..1
-  //       mask  = 0x00..0xFF  bit pattern, 
+  //       mask  = 0x00..0xFF  bit pattern,
   //               bit 0 = output mode, bit 1 = input mode
   //       value = bit pattern.
   bool     pinMode8(uint8_t port, uint8_t mask);
@@ -82,7 +84,7 @@ public:
   //       pin = 0..15, mode = { RISING, FALLING, CHANGE }
   bool     enableInterrupt(uint8_t pin, uint8_t mode);
   bool     disableInterrupt(uint8_t pin);
-  
+
   //       mask = 0x0000..0xFFFF  (overrides all earlier settings.
   bool     enableInterrupt16(uint16_t mask, uint8_t mode);
   bool     disableInterrupt16(uint16_t mask);
@@ -121,7 +123,7 @@ protected:
 };
 
 
-/*  
+/*
 TODO
 - can it protect the user
 - can we detect REV D chips (over I2C)
@@ -130,7 +132,7 @@ class MCP23017_REVD : public MCP23017
 {
 public:
   MCP23017_REVD(uint8_t address, TwoWire *wire = &Wire);
-  
+
 - GPA7 and GPB7 should be set to output in constructor
 - GPA7 and GPB7 output mode may not change in any call
 - GPA7 and GPB7 should return last written value for read.

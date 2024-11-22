@@ -25,12 +25,13 @@ The **write1(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
-#### REV D - June 2022
+### REV D - June 2022
 
-The I2C IO expander MCP23017 has changed according to the new data sheet. It is now a 14/16-bit IO expander.
-The pins GPA7 (7) and GPB7 (15) have lost their input mode, output mode still works.
+The I2C IO expander MCP23017 has changed according to the new data sheet. 
+It is now described as a 14/16-bit IO expander.
+The pins **GPA7** (7) and **GPB7** (15) have lost their input mode, output mode still works.
 The chips look the same and did not change names.
-This implies it not possible to read 8 bits in parallel at the exact same moment any more.
+This implies it not possible to read 8 bits in parallel at the exact same moment if you have a REV D die.
 The REV D version now need reading both A and B register to get 8 bits parallel (with a minor delay).
 
 Some details see:
@@ -40,16 +41,21 @@ Some details see:
 - https://microchip.my.site.com/s/article/GPA7---GPB7-Cannot-Be-Used-as-Inputs-In-MCP23017
 - https://www.elektormagazine.com/articles/breakout-board-mcp23017  (comment)
 - https://forums.raspberrypi.com/viewtopic.php?t=91209&sid=f8c6df7c8ede76937a66503edfe25394
-
+- https://github.com/RobTillaart/MCP23017_RT/issues/40  (some notes).
 
 Note: the library has no provisions (yet) for detecting DEV D chips or handle them in a special way.
 There is an idea to implement a derived class MCP23017_REVD that provides automatic support.
-However low priority. 
+However no priority. 
 
-Note that the MCP23S017 (SPI version) does not have this "feature" for GPA7 and GPB7.
+Note that the MCP23S017 (SPI version) does not have this "feature" for **GPA7** and **GPB7**.
 
 
-#### 0.6.0 Breaking change
+### 0.8.0 Breaking change
+
+Fix for #47 MCP23S17, bug in enable interrupt handling.
+Pre 0.8.0 versions are obsolete.
+
+### 0.6.0 Breaking change
 
 The version 0.6.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -71,7 +77,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -80,14 +86,30 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### I2C
+### I2C
 
 Supports 100kHz, 400kHz and 1.7MHz 
 
 TODO - add performance data
 
+###  I2C address
 
-#### I2C multiplexing
+0 = GND
+1 = Vcc
+
+|  address  |  A2  |  A1  |  A0  |  notes  |
+|:----------|:----:|:----:|:----:|:-------:|
+|    0x20   |   0  |   0  |   0  |
+|    0x21   |   0  |   0  |   1  |
+|    0x22   |   0  |   1  |   0  |
+|    0x23   |   0  |   1  |   1  |
+|    0x24   |   1  |   0  |   0  |
+|    0x25   |   1  |   0  |   1  |
+|    0x26   |   1  |   1  |   0  |
+|    0x27   |   1  |   1  |   1  |
+
+
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -105,7 +127,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### Related
+### Related
 
 16 bit port expanders
 
@@ -159,7 +181,7 @@ Returns true if successful.
 
 Please note REVD remarks at top.
 
-- **bool pinMode8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
+- **bool pinMode8(uint8_t port, uint8_t mask)** port = 0..1, mask = 0..255. Returns true if successful.
 - **bool write8(uint8_t port, uint8_t value)** port = 0..1, value = 0..255. Returns true if successful.
 - **uint8_t read8(uint8_t port)** port = 0..1, reads 8 pins into one byte.
 - **bool setPolarity8(uint8_t port, uint8_t mask)** port = 0..1, sets polarity for 8 channels at once.
@@ -176,7 +198,7 @@ Returns true if successful.
 
 Please note REVD remarks at top.
 
-- **bool pinMode16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
+- **bool pinMode16(uint16_t mask)** mask = 0..0xFFFF, returns true if successful.
 - **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.
 - **uint16_t read16()** reads 16 pins into an uint16_t.
 - **bool setPolarity16(uint16_t mask)** sets polarity for 16 channels.
@@ -195,7 +217,6 @@ If there are problems please open an issue.
 ### Interrupts (experimental 0.6.3)
 
 Read the datasheet for the details, page 24,25.  
-Note: Error handling is limited.
 
 pin = 0..15  
 mode = { RISING, FALLING, CHANGE }  
@@ -289,7 +310,6 @@ Reading it will reset the flag to **MCP23017_OK**.
   - extend error codes
 - optimize code - squeeze footprint
 - fix TODO's in code
-- investigate if REV D chips can be detected.
 
 #### Could
 
@@ -299,9 +319,12 @@ Reading it will reset the flag to **MCP23017_OK**.
 - investigate and reimplement the INPUT_PULLUP for pinMode() ?
 - initial value (16 bit?) as begin parameter (breaking change)
   - depends on input output pull-up etc.
-- create a derived class **MCP23017_REVD**
+- **getPinMode(), getPinMode8(), getPinMode16()**
 
 #### Wont
+
+- investigate if REV D chips can be detected.
+- create a derived class **MCP23017_REVD** => see issue #40
 
 
 ## Support

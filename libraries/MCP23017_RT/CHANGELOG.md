@@ -6,8 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.0] - 2024-11-19
+- fix #47 (MCP23S17), interrupt handling. Kudos to GlibSkunk!
+- update readme.md
+- minor edits.
+- add address table to readme.md`
+
+----
+
 ## [0.7.1] 2024-06-06
-- Fix #36, documentation bug.
+- fix #36, documentation bug.
 
 ## [0.7.0] 2024-06-06
 - fix #33 bug, kudos to JelleWilbrink
@@ -22,16 +30,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords.txt
 
 ## [0.6.2] 2024-03-02
-- Fix #29, add parameter to **begin(bool pullup)**
+- fix #29, add parameter to **begin(bool pullup)**
 - remove DATE field from examples as it adds no value.
 - update GitHub/actions to version v4 in workflows.
 
 ## [0.6.1] 2024-01-05
-- Fix URL in examples
+- fix URL in examples
 - minor edits
 
 ## [0.6.0] 2023-12-24
-- Fix #26, support for Arduino ESP32 S3 - breaking change
+- fix #26, support for Arduino ESP32 S3 - breaking change
 - update readme.md
 - update examples.
 

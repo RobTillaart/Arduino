@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.5.4"))
+#define MCP23S17_LIB_VERSION              (F("0.6.0"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -70,7 +70,7 @@ public:
 
   //       8 pins interface
   //       port  = 0..1
-  //       mask  = 0x00..0xFF  bit pattern, 
+  //       mask  = 0x00..0xFF  bit pattern,
   //               bit 0 = output mode, bit 1 = input mode
   //       value = bit pattern.
   bool     pinMode8(uint8_t port, uint8_t mask);
@@ -101,7 +101,7 @@ public:
   //       pin = 0..15, mode = { RISING, FALLING, CHANGE }
   bool     enableInterrupt(uint8_t pin, uint8_t mode);
   bool     disableInterrupt(uint8_t pin);
-  
+
   //       mask = 0x0000..0xFFFF  (overrides all earlier settings.
   bool     enableInterrupt16(uint16_t mask, uint8_t mode);
   bool     disableInterrupt16(uint16_t mask);

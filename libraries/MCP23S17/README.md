@@ -24,15 +24,18 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+### 0.6.0 Breaking change
 
-#### 0.5.0 Breaking change
+Fix for #47, bug in enable interrupt handling.
+Pre 0.6.0 versions are obsolete.
+
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **MCP.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
-
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -54,7 +57,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -62,7 +65,7 @@ This makes it possible to support the ESP32-S3 and other processors in the futur
 Also it makes the library a bit simpler to maintain.
 
 
-#### Related
+### Related
 
 16 bit port expanders
 
@@ -111,7 +114,7 @@ The two hardware constructors allow to call 4 different constructors.
 ```
 
 
-#### Sharing SELECT lines
+### Sharing SELECT lines
 
 (verified in #19)  
 Technically two chips could use the same SELECT pin and a different address. 
@@ -184,7 +187,6 @@ If there are problems please open an issue.
 ### Interrupts (experimental 0.5.2)
 
 Read the datasheet for the details, page 24,25.  
-Note: Error handling is limited.
 
 pin = 0..15  
 mode = { RISING, FALLING, CHANGE }  

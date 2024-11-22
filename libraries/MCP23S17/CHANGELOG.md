@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2024-11-19
+- fix #47, interrupt handling. Kudos to GlibSkunk!
+- update readme.md
+- minor edits.
+
+----
+
 ## [0.5.4] - 2024-07-04
 - fix #45, documentation bug
 

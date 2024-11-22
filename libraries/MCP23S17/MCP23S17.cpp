@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -560,10 +560,7 @@ bool MCP23S17::getPullup16(uint16_t &mask)
 //
 //  INTERRUPTS (experimental, see MCP23S17 - #40)
 //
-//  TODO, catch writeReg errors
 //  TODO, MCP23x17_INT_MODE_ERROR?
-//  TODO, if register not changed no need to update?
-//  TODO, 8 bits optimize? more code vs speed?
 //
 //  pin = 0..15, mode = { RISING, FALLING, CHANGE }
 bool MCP23S17::enableInterrupt(uint8_t pin, uint8_t mode)
@@ -574,34 +571,75 @@ bool MCP23S17::enableInterrupt(uint8_t pin, uint8_t mode)
     return false;
   }
 
-  //  right mode
-  uint16_t intcon = readReg16(MCP23x17_INTCON_A);
+  uint8_t INTCONREG = MCP23x17_INTCON_A;
+  uint8_t DEFVALREG = MCP23x17_DEFVAL_A;
+  uint8_t GPINTENREG = MCP23x17_GPINTEN_A;
+  if (pin > 7)
+  {
+    INTCONREG = MCP23x17_INTCON_B;
+    DEFVALREG = MCP23x17_DEFVAL_B;
+    GPINTENREG = MCP23x17_GPINTEN_B;
+    pin -= 8;
+  }
+  uint8_t mask = 1 << pin;
+
+  uint8_t intcon = readReg(INTCONREG);
+  uint8_t pre_intcon = intcon;
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+
   if (mode == CHANGE)
   {
-    //  compare to previous value.
-    intcon &= ~(1 << pin);
+    //  Compare to previous value
+    intcon &= ~mask;
   }
   else
   {
-    uint16_t defval = readReg16(MCP23x17_DEFVAL_A);
+    //  Compare to DEFVALREG
+    intcon |= mask;
+
+    //  Get and Modify Pin's Value in DEFVALREG
+    uint8_t defval = readReg(DEFVALREG);
+    uint8_t pre_defval = defval;
     if (mode == RISING)
     {
-      intcon |= (1 << pin);
-      defval &= ~(1 << pin);  //  RISING == compare to 0
+      defval &= ~mask;   //  RISING == compare to 0
     }
     else if (mode == FALLING)
     {
-      intcon |= (1 << pin);
-      defval |= ~(1 << pin);  //  FALLING == compare to 1
+      defval |= mask;    //  FALLING == compare to 1
     }
-    writeReg16(MCP23x17_DEFVAL_A, defval);
+    //  only write when changed.
+    if (pre_defval != defval)
+    {
+      writeReg(DEFVALREG, defval);
+      if (_error != MCP23S17_OK)
+      {
+        return false;
+      }
+    }
   }
-  writeReg16(MCP23x17_INTCON_A, intcon);
+  //  only write when changed.
+  if (pre_intcon != intcon)
+  {
+    writeReg(INTCONREG, intcon);
+    if (_error != MCP23S17_OK)
+    {
+      return false;
+    }
+  }
 
   //  enable interrupt
-  uint16_t value = readReg16(MCP23x17_GPINTEN_A);
-  value |= (1 << pin);
-  return writeReg16(MCP23x17_GPINTEN_A, value);
+  uint8_t gpinten = readReg(GPINTENREG);
+  uint8_t pre_gpinten = gpinten;
+  gpinten |= mask;
+  if (pre_gpinten != gpinten)
+  {
+    return writeReg(GPINTENREG, gpinten);
+  }
+  return true;  //  Already enabled for pin
 }
 
 
@@ -612,10 +650,28 @@ bool MCP23S17::disableInterrupt(uint8_t pin)
     _error = MCP23S17_PIN_ERROR;
     return false;
   }
+
+  uint8_t GPINTENREG = MCP23x17_GPINTEN_A;
+  if (pin > 7)
+  {
+    GPINTENREG = MCP23x17_GPINTEN_B;
+    pin -= 8;
+  }
+  uint8_t mask = 1 << pin;
+
   //  disable interrupt
-  uint16_t value = readReg16(MCP23x17_GPINTEN_A);
-  value &= ~(1 << pin);
-  return writeReg16(MCP23x17_GPINTEN_A, value);
+  uint8_t gpinten = readReg(GPINTENREG);
+  uint8_t pre_gpinten = gpinten;
+  if (_error != MCP23S17_OK)
+  {
+    return false;
+  }
+  gpinten &= ~mask;
+  if (pre_gpinten != gpinten)
+  {
+    return writeReg(GPINTENREG, gpinten);
+  }
+  return true;  //  Already disabled for pin
 }
 
 
@@ -630,15 +686,14 @@ bool MCP23S17::enableInterrupt16(uint16_t mask, uint8_t mode)
   }
   else
   {
+    intcon = mask;
     if (mode == RISING)
     {
-      intcon = mask;
       defval = ~mask;  //  RISING == compare to 0
     }
     else if (mode == FALLING)
     {
-      intcon = mask;
-      defval = mask;  //  FALLING == compare to 1
+      defval = mask;   //  FALLING == compare to 1
     }
     writeReg16(MCP23x17_DEFVAL_A, defval);
   }

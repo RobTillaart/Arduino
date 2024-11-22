@@ -24,6 +24,7 @@ void setup()
   Serial.println(AD5620_LIB_VERSION);
 
   SPI.begin();
+  AD16_HW.setSPIspeed(50000);
   AD16_HW.begin();
   AD16_SW.begin();
 
@@ -41,8 +42,10 @@ void loop()
   //  value = period - value;  //  reverse
   
   value = amplitude * value / period;
+  AD16_SW.setValue(value);
   AD16_HW.setValue(value);
   Serial.println(value);
+  delay(1);
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: AD5620.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
@@ -76,7 +76,7 @@ bool AD5620::setValue(uint16_t value)
   if (value > _maxValue) return false;
   _value = value;
   //  prepare 12 bit transfer.
-  uint16_t data = value << 2;
+  uint32_t data = value << 2;
   //  set powerMode bits if not 0.
   if (_powerMode) data |= (_powerMode << 14);
   updateDevice(data);
@@ -162,13 +162,15 @@ bool AD5620::usesHWSPI()
 //  PROTECTED
 //
 
-void AD5620::updateDevice(uint16_t data)
+void AD5620::updateDevice(uint32_t data)
 {
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    _mySPI->transfer16(data);
+    _mySPI->transfer((data >> 16) & 0xFF);
+    _mySPI->transfer((data >> 8) & 0xFF);
+    _mySPI->transfer(data & 0xFF);
     _mySPI->endTransaction();
   }
   else  //  Software SPI
@@ -180,11 +182,12 @@ void AD5620::updateDevice(uint16_t data)
 
 
 //  simple one mode version
-void AD5620::swSPI_transfer(uint16_t value)
+void AD5620::swSPI_transfer(uint32_t value)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
-  for (uint16_t mask = 0x8000; mask; mask >>= 1)
+  //  24 bit
+  for (uint32_t mask = 0x800000; mask; mask >>= 1)
   {
     digitalWrite(dao,(value & mask));
     digitalWrite(clk, HIGH);
@@ -220,12 +223,34 @@ bool AD5640::setValue(uint16_t value)
   if (value > _maxValue) return false;
   _value = value;
   //  prepare 14 bit transfer.
-  uint16_t data = value;
+  uint32_t data = value;
   //  set powerMode bits if not 0.
   if (_powerMode) data |= (_powerMode << 14);
   updateDevice(data);
   return true;
 }
+
+
+bool AD5640::setPercentage(float percentage)
+{
+  //  range check
+  if ((percentage < 0) || (percentage > 100)) return false;
+
+  uint32_t value = round(163.83 * percentage);
+  return setValue(value);
+}
+
+
+float AD5640::getPercentage()
+{
+  float value = getValue();
+  if (value > 0)
+  {
+    return value * ( 1.0 / 163.83);
+  }
+  return 0;
+}
+
 
 
 //  -- END OF FILE --

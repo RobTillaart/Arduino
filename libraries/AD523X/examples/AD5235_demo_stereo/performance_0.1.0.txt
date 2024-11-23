@@ -1,0 +1,18 @@
+
+IDE:    1.8.19
+Board:  UNO
+Mode:   HWSPI
+
+D:\Rob\WORK\Arduino\libraries\AD523X\examples\AD5235_demo_stereo\AD5235_demo_stereo.ino
+AD523X_LIB_VERSION:	0.1.0
+
+test_timing
+1000 x setAll(value):	43380
+2000 x setValue(0, value):	40304
+1000 x setPercentage(0, value):	20248
+1000 x setPercentageAll(50):	43256
+1000 x 2x setPercentage(0, value):	40240
+1000 x 2x getValue():	1516
+
+Done...
+

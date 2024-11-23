@@ -1,0 +1,23 @@
+{
+  "name": "AD523X",
+  "keywords": "AD523X, SPI, potentiometers",
+  "description": "Arduino library for SPI AD5231 and AD5235 10 bit digital potentiometers.\n 1024 steps.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD523X.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD523X.h"
+}

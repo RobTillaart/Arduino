@@ -1,0 +1,32 @@
+
+IDE:    1.8.19
+Board:  UNO
+Mode:   HWSPI
+
+..Arduino\libraries\AD523X\examples\AD5231_demo\AD5231_demo.ino
+AD523X_LIB_VERSION:	0.1.0
+
+test_timing
+1000 x setValue(value):	20120
+1000 x setAll():	10688
+1000 x getValue():	224
+
+Done...
+
+
+
+
+IDE:    1.8.19
+Board:  UNO
+Mode:   software SPI (bit bang)
+
+..Arduino\libraries\AD523X\examples\AD5231_demo\AD5231_demo.ino
+AD523X_LIB_VERSION:	0.1.0
+
+test_timing
+1000 x setValue():	465440
+1000 x setAll():	233188
+1000 x getValue():	224
+
+Done...
+

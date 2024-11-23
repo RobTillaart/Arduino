@@ -57,13 +57,23 @@ Feedback (both positive and negative) about the AM232X sensors is welcome.
 **Note: check the datasheet how to connect!**
 
 
+### 0.5.0 Negative temperature
+
+Apparently there are DHT22's which use another representation for negative temperatures.
+Since 0.5.0 the library automatically detects which representation is used by the sensor
+and chooses the correct algorithm to decode the negative temperature.
+
+See issue #100 (solution) and #57 and #52 before.  
+See also https://arduino.stackexchange.com/questions/86448/dht22-sensor-reading-code-interprets-negative-values-weirdly
+
+
 ### Related
 
 - https://github.com/RobTillaart/DHTNew
 - https://github.com/RobTillaart/DHTStable
 - https://github.com/RobTillaart/DHT_Simulator
 - https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
-- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heatindex etc)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
 
 
 ## DHT PIN layout from left to right

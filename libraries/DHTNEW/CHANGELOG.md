@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2024-11-22
+- fix #100, different negative algorithm support
+- time to bump version
+
+----
+
 ## [0.4.21] - 2024-10-09
 - add dhtnew_pulse_diag_ext.ino for extended diagnosis.
 

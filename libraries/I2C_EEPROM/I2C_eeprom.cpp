@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_eeprom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.9.1
+// VERSION: 1.9.2
 // PURPOSE: Arduino Library for external I2C EEPROM 24LC256 et al.
 //     URL: https://github.com/RobTillaart/I2C_EEPROM
 
@@ -36,7 +36,7 @@
 //  PUBLIC FUNCTIONS
 //
 I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, TwoWire * wire) :
-            I2C_eeprom(deviceAddress, I2C_PAGESIZE_24LC256, wire)
+            I2C_eeprom(deviceAddress, I2C_DEVICESIZE_24LC256, wire)
 {
 }
 

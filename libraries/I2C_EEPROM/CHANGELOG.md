@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.9.2] - 2024-11-25
+- fix #79, wrong default in constructor - kudos to ekinohito
+
 ## [1.9.1] - 2024-10-26
 - fix #77, updateBlock() returns bytes actually written.
 - minor edits

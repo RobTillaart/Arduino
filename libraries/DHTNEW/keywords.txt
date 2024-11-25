@@ -20,6 +20,11 @@ setTempOffset	KEYWORD2
 getHumOffset	KEYWORD2
 getTempOffset	KEYWORD2
 
+setHumidityOffset	KEYWORD2
+setTemperatureOffset	KEYWORD2
+getHumidityOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
+
 getDisableIRQ	KEYWORD2
 setDisableIRQ	KEYWORD2
 

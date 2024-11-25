@@ -36,8 +36,8 @@ void setup()
   Serial.print("\t");
   Serial.println(mySensor.getTemperature(), 1);
 
-  mySensor.setHumOffset(10);
-  mySensor.setTempOffset(-3.5);
+  mySensor.setHumidityOffset(10);
+  mySensor.setTemperatureOffset(-3.5);
 
   Serial.println("AFTER OFFSET");
 }

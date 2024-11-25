@@ -49,24 +49,24 @@ void setup()
 
   Serial.println("\n2. Humidity offset test");
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
-  mySensor.setHumOffset(2.5);
+  mySensor.setHumidityOffset(2.5);
   test();
-  mySensor.setHumOffset(5.5);
+  mySensor.setHumidityOffset(5.5);
   test();
-  mySensor.setHumOffset(-5.5);
+  mySensor.setHumidityOffset(-5.5);
   test();
-  mySensor.setHumOffset(0);
+  mySensor.setHumidityOffset(0);
   test();
 
   Serial.println("\n3. Temperature offset test");
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
-  mySensor.setTempOffset(2.5);
+  mySensor.setTemperatureOffset(2.5);
   test();
-  mySensor.setTempOffset(5.5);
+  mySensor.setTemperatureOffset(5.5);
   test();
-  mySensor.setTempOffset(-5.5);
+  mySensor.setTemperatureOffset(-5.5);
   test();
-  mySensor.setTempOffset(0);
+  mySensor.setTemperatureOffset(0);
   test();
 
   Serial.println("\n4. LastRead test");

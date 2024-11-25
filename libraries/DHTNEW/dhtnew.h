@@ -2,7 +2,7 @@
 //
 //    FILE: dhtnew.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -18,7 +18,7 @@
 #include "Arduino.h"
 
 
-#define DHTNEW_LIB_VERSION                (F("0.5.0"))
+#define DHTNEW_LIB_VERSION                (F("0.5.1"))
 
 
 #define DHTLIB_OK                         0
@@ -62,29 +62,42 @@ public:
   //  might help to reset a sensor behaving badly
   void     reset();
 
-  //  0  = unknown
-  //  11 = DHT11 and compatibles
-  //  22 = DHT22 and compatibles
-  //  23 = mapped to 22 for now (AM23xx)
-  //  70 = Sonoff Si7021
+  //  TYPE    MEANING
+  //  ----------------
+  //  0       unknown, not set.
+  //  11      DHT11 and compatibles
+  //  22      DHT22 and compatibles
+  //  23      mapped to 22 for now (AM23xx)
+  //  70      Sonoff Si7021
   uint8_t  getType();
   void     setType(uint8_t type = 0);
-  int      read();
 
+
+  //  CORE FUNCTIONS
+  int      read();
   //  lastRead is in MilliSeconds since start sketch
   uint32_t lastRead()                    { return _lastRead; };
-
   //  preferred interface
   float    getHumidity()                 { return _humidity; };
   float    getTemperature()              { return _temperature; };
 
+
+  //  OFFSET
   //  adding offsets works well in normal range
   //  might introduce under- or overflow at the ends of the sensor range
-  void     setHumOffset(float offset)    { _humOffset = offset; };
-  void     setTempOffset(float offset)   { _tempOffset = offset; };
-  float    getHumOffset()                { return _humOffset; };
-  float    getTempOffset()               { return _tempOffset; };
+  //  adding -273.15 offset to temperature gives Kelvin scale.
+  void     setHumidityOffset(float offset) { _humidityOffset = offset; };
+  void     setTemperatureOffset(float offset) { _temperatureOffset = offset; };
+  float    getHumidityOffset()           { return _humidityOffset; };
+  float    getTemperatureOffset()        { return _temperatureOffset; };
+  //  future obsolete versions
+  void     setHumOffset(float offset)      { _humidityOffset = offset; };
+  void     setTempOffset(float offset)     { _temperatureOffset = offset; };
+  float    getHumOffset()                { return _humidityOffset; };
+  float    getTempOffset()               { return _temperatureOffset; };
 
+
+  //  INTERRUPT DISABLE
   bool     getDisableIRQ()               { return _disableIRQ; };
   void     setDisableIRQ(bool b )        { _disableIRQ = b; };
 
@@ -106,18 +119,18 @@ public:
 
 
 private:
-  uint8_t  _dataPin       = 0;
-  uint32_t _wakeupDelay   = 0;
-  uint8_t  _type          = 0;
-  float    _humOffset     = 0.0;
-  float    _tempOffset    = 0.0;
-  float    _humidity      = 0.0;
-  float    _temperature   = 0.0;
-  uint32_t _lastRead      = 0;
-  bool     _disableIRQ    = true;
-  bool     _waitForRead   = false;
-  bool     _suppressError = false;
-  uint16_t _readDelay     = 0;
+  uint8_t  _dataPin           = 0;
+  uint32_t _wakeupDelay       = 0;
+  uint8_t  _type              = 0;
+  float    _humidityOffset    = 0.0;
+  float    _temperatureOffset = 0.0;
+  float    _humidity          = 0.0;
+  float    _temperature       = 0.0;
+  uint32_t _lastRead          = 0;
+  bool     _disableIRQ        = true;
+  bool     _waitForRead       = false;
+  bool     _suppressError     = false;
+  uint16_t _readDelay         = 0;
 
   uint8_t  _bits[5];  //  buffer to receive data
   int      _read();

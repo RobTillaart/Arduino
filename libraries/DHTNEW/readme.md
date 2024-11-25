@@ -50,9 +50,23 @@ As the AM2321 and AM2322 are quite identical according to the datasheet, those a
 
 To use the library one should call **setType(22)** as the protocol is identical to the DHT22.
 If there are differences in operation type (23) will be elaborated.
-The value 23 is now mapped upon 22 code.
+The type 23 is now mapped upon type 22.
 
 Feedback (both positive and negative) about the AM232X sensors is welcome.
+
+**Note: check the datasheet how to connect!**
+
+
+### KY-015 (dht11)
+
+Since 0.5.1 there is support for the KY-015. Although it is a DHT11, the KY-015 behaves slightly 
+different (faster wakeup) and was recognized as a DHT22 resulting in faulty conversions.
+The library sensor recognition code has been adapted so it should be recognized now.
+In the case the recognition fails, one can use **setType(11)** to force the type.
+
+The KY-015 is confirmed to work, see https://github.com/RobTillaart/DHTNew/issues/102
+
+Feedback about the KY-015 sensors is welcome.
 
 **Note: check the datasheet how to connect!**
 
@@ -69,9 +83,13 @@ See also https://arduino.stackexchange.com/questions/86448/dht22-sensor-reading-
 
 ### Related
 
-- https://github.com/RobTillaart/DHTNew
-- https://github.com/RobTillaart/DHTStable
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc
 - https://github.com/RobTillaart/DHT_Simulator
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
+- https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
 - https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
 - https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
 
@@ -85,10 +103,12 @@ See also https://arduino.stackexchange.com/questions/86448/dht22-sensor-reading-
 |  pin 3  |      |  Not Connected  |
 |  pin 4  |      |  GND            |
 
-**Note: check the datasheet how to connect!**
+**Note: check the datasheet of the sensor how to connect!** as some have only 3 pins.
 
 
 ## Specification DHT22
+
+As most used model, for other sensors I refer to datasheet.
 
 |  Model                      |  DHT22                   |  Notes  |
 |:----------------------------|:-------------------------|:--------|
@@ -115,21 +135,22 @@ See also https://arduino.stackexchange.com/questions/86448/dht22-sensor-reading-
 ### Constructor
 
 - **DHTNEW(uint8_t pin)** defines the dataPin of the sensor.
-- **void reset()** might help to reset a sensor behaving badly. It does reset the library settings to default, 
+- **void reset()** might help to reset a sensor behaving badly. 
+It resets the library internal settings to default, 
 however it does not reset the sensor in a hardware way. 
 - **uint8_t getType()**  0 = unknown, 11 or 22. 
 In case of 0, **getType()** will try to determine type.
 Since 0.4.14 type 70 is added for **experimental** Sonoff Si7021 support.
 - **void setType(uint8_t type = 0)** allows to force the type of the sensor. 
 
-|  Type   |  Sensors        |  Notes  |
-|:-------:|:---------------:|:--------|
-|   0     |  not defined    |
-|   11    |  DHT11          |
-|   22    |  DHT22 a.o      |  most others
-|   23    |  DHT22 a.o      |  mapped to 22 for now
-|   70    |  Sonoff Si7021  |  experimental
-|  other  |  sets to 0      |  0.4.20
+|  Type   |  Sensors                  |  Notes  |
+|:-------:|:-------------------------:|:--------|
+|   0     |  not defined              |
+|   11    |  DHT11 DHT12, KY015       |  KY015 needs setType(11)
+|   22    |  DHT22, DHT33, DHT44 a.o  |  most others
+|   23    |  DHT23                    |  mapped to 22 for now
+|   70    |  Sonoff Si7021            |  experimental
+|  other  |  sets to 0                |  0.4.20
 
 
 ### Base interface
@@ -149,10 +170,19 @@ Note this error value can be suppressed by **setSuppressError(bool)**.
 
 Adding offsets works well in normal range however they might introduce 
 under- or overflow at the ends of the sensor range.
-Humidity is in % RH.
-Humidity is constrained to 0.0 - 100.0 % in the code.
-Temperature is in degrees Celsius.
-For temperature such constrain would be type dependant, so it is not done.
+
+Humidity offset is in % RH and is constrained to 0.0 - 100.0 % in the code.
+
+Temperature offset is in degrees Celsius.
+For temperature a constrain would be type dependant, so it is not done.
+Furthermore by setting the offset to -273.15 one get the **Kelvin** scale.
+
+- **void setHumidityOffset(float offset)** typical < ±5% RH.
+- **void setTemperatureOffset(float offset)** typical < ±2°C.
+- **float getHumidityOffset()** idem.
+- **float getTemperatureOffset()** idem.
+
+The "short-named" offset functions will become obsolete in the future (0.6.0).
 
 - **void setHumOffset(float offset)** typical < ±5% RH.
 - **void setTempOffset(float offset)** typical < ±2°C.
@@ -311,7 +341,7 @@ updated readme.md - added badges and remarks after testing with MKR1010 Wifi.
 updated TIMEOUT_C from 70 -> 90 us to minimize its occurrence - See https://github.com/RobTillaart/DHTNew/issues/67.
 added ```while(!Serial);``` in examples to they work for MKR1010 Wifi.
 27. (0.4.11)
-update library.json, license, minor edits (cleanup), unit tests
+update library.json, license, minor edits (clean up), unit tests
 28. (0.4.12)
 Fix #72, delayMicroseconds() for wakeUp
 29. (0.4.13)
@@ -332,6 +362,10 @@ Update readme.md
 Update GitHub actions and readme.md
 36. (0.4.21)
 Add dhtnew_pulse_diag_ext.ino
+37. (0.5.0)
+Fix negative values
+38. (0.5.1)
+Support KY015 and more.
 
 
 ## Future
@@ -360,11 +394,17 @@ if (type == 11) temp = constrain(temp,   0, 100);
 if (type == 22) temp = constrain(temp, -40,  80);
 etc.
 ```
-
+- type parameter in constructor, default 0
+- reimplement the recognition algorithm (separate class?)
+  - read as 22 => check the hum / temp data range to determine type
+  - read as 11 => check idem
+  - read as 70 => check idem
+  - split wakeup time from bit interpretation used.
 
 #### Wont
 
 - move all code from .h to .cpp
+- derived classes for fixed type?
 
 
 ## Support

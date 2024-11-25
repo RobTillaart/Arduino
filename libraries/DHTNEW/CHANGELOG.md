@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2024-11-24
+- fix #102, add support for KY015
+- add three examples, dhtnew_dht11.ino, dhtnew_dht22.ino, dhtnew_simple.ino
+- optimize decimal part DHT11 (type == 11)
+- minor fix setType(23), could be bug.
+- minor fix temperature conversion (-0.0)
+- add offset functions with full name version (readability),
+  - short ones will become obsolete in the future
+- update readme.md
+
 ## [0.5.0] - 2024-11-22
 - fix #100, different negative algorithm support
 - time to bump version

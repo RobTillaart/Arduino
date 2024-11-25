@@ -1,5 +1,5 @@
 //
-//    FILE: dhtnew_test.ino
+//    FILE: dhtnew_simple.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: DHTNEW library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTNew
@@ -20,7 +20,7 @@ DHTNEW mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 void setup()
 {
-  while(!Serial);     //  MKR1010 needs this
+  while (!Serial);    //  MKR1010 needs this
 
   Serial.begin(115200);
   Serial.println("dhtnew_test.ino");
@@ -32,65 +32,13 @@ void setup()
   //  mySensor.setDisableIRQ(false);
 
   Serial.println("\n1. Type detection test, first run might take longer to determine type");
-  Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
-  test();
-  test();
-  test();
-  test();
-
-  Serial.println("\n2. Humidity offset test");
-  Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
-  mySensor.setHumidityOffset(2.5);
-  test();
-  mySensor.setHumidityOffset(5.5);
-  test();
-  mySensor.setHumidityOffset(-5.5);
-  test();
-  mySensor.setHumidityOffset(0);
-  test();
-
-  Serial.println("\n3. Temperature offset test");
-  Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
-  mySensor.setTemperatureOffset(2.5);
-  test();
-  mySensor.setTemperatureOffset(5.5);
-  test();
-  mySensor.setTemperatureOffset(-5.5);
-  test();
-  mySensor.setTemperatureOffset(0);
-  test();
-
-  Serial.println("\n4. LastRead test");
-  mySensor.read();
-  for (int i = 0; i < 20; i++)
-  {
-    if (millis() - mySensor.lastRead() > 1000)
-    {
-      mySensor.read();
-      Serial.println("actual read");
-    }
-    Serial.print(mySensor.getHumidity(), 1);
-    Serial.print(",\t");
-    Serial.println(mySensor.getTemperature(), 1);
-    delay(250);
-  }
-
-  Serial.println("\nDone...");
+  Serial.println("STAT\tHUMI\tTEMP\tTYPE");
 }
 
 
 void loop()
 {
-}
-
-
-void test()
-{
-  //  READ DATA
-  uint32_t start = micros();
   int chk = mySensor.read();
-  uint32_t stop = micros();
-
   switch (chk)
   {
     case DHTLIB_OK:
@@ -132,13 +80,9 @@ void test()
   Serial.print(",\t");
   Serial.print(mySensor.getTemperature(), 1);
   Serial.print(",\t");
-  uint32_t duration = stop - start;
-  Serial.print(duration);
-  Serial.print(",\t");
   Serial.println(mySensor.getType());
-  delay(500);
+  delay(2000);
 }
 
 
 //  -- END OF FILE --
-

@@ -108,7 +108,8 @@ unittest(test_setType)
   dht.setType(22);
   assertEqual(22, dht.getType());
   dht.setType(23);
-  assertEqual(23, dht.getType());
+  //  type 23 is mapped upon 22
+  assertEqual(22, dht.getType());
   dht.setType(70);
   assertEqual(70, dht.getType());
 }

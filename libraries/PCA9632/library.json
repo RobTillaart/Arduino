@@ -1,0 +1,23 @@
+{
+  "name": "PCA9632",
+  "keywords": "PWM, RGB, RGBW",
+  "description": "Arduino library for PCA9632 and PCA9633 4 channel, I2C LED driver.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9632.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCA9632.h"
+}

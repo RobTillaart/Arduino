@@ -1,0 +1,18 @@
+# Syntax Colouring Map For TEMT6000
+
+# Data types (KEYWORD1)
+TEMT6000	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setResistor	KEYWORD2
+getResistor	KEYWORD2
+
+readRaw	KEYWORD2
+readLUX	KEYWORD2
+
+
+# Constants (LITERAL1)
+TEMT6000_LIB_VERSION	LITERAL1
+
+

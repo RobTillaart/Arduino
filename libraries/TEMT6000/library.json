@@ -1,6 +1,6 @@
 {
   "name": "TEMT6000",
-  "keywords": "",
+  "keywords": "angle correction",
   "description": "Arduino library for analog TEMT6000 light / LUX sensor.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/TEMT6000.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

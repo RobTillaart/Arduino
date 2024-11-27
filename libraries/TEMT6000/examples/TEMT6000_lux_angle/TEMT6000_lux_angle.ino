@@ -8,6 +8,8 @@
 
 #include "TEMT6000.h"
 
+//  assumes AVR UNO
+//  adjust to your boards ADC
 TEMT6000 lux(A0, 5, 1023);
 
 
@@ -19,15 +21,21 @@ void setup()
   Serial.print("TEMT6000_LIB_VERSION: ");
   Serial.println(TEMT6000_LIB_VERSION);
   Serial.println();
+
+  for (float angle = 0; angle <= 90; angle += 0.2)
+  {
+    Serial.print(angle);
+    Serial.print("\t");
+    Serial.print(lux.readRaw());
+    Serial.print("\t");
+    Serial.println(lux.readLUX(1, angle));
+    delay(20);
+  }
 }
 
 
 void loop()
 {
-  Serial.print(lux.readRaw());
-  Serial.print("\t");
-  Serial.println(lux.readLUX());
-  delay(1000);
 }
 
 

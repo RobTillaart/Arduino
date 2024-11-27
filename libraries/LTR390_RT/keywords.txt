@@ -18,10 +18,15 @@ isEnabled	KEYWORD2
 
 setResolution	KEYWORD2
 getResolution	KEYWORD2
+getIntegrationTime	KEYWORD2
+
 setRate	KEYWORD2
 getRate	KEYWORD2
+getMeasurementTime	KEYWORD2
+
 setGain	KEYWORD2
 getGain	KEYWORD2
+getGainFactor	KEYWORD2
 
 getPartID	KEYWORD2
 getRevisionID	KEYWORD2
@@ -30,6 +35,8 @@ getStatus	KEYWORD2
 
 getALSData	KEYWORD2
 getUVSData	KEYWORD2
+getLUX	KEYWORD2
+getUVIndex	KEYWORD2
 
 setInterruptConfig	KEYWORD2
 getInterruptConfig	KEYWORD2

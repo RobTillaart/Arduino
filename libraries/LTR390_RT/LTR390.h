@@ -3,7 +3,7 @@
 //    FILE: LTR390.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-29
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor.
 //     URL: https://github.com/RobTillaart/LTR390_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTR390_LIB_VERSION         (F("0.1.1"))
+#define LTR390_LIB_VERSION         (F("0.1.2"))
 
 //  LTR390 ERROR CODES
 //  TODO
@@ -51,6 +51,9 @@ public:
   {
     _address = 0x53;  //  LTR390 device itself
     _wire = wire;
+    _gain = 1;
+    _resolution = 2;
+    _rate = 2;
   }
 
   bool begin()
@@ -116,9 +119,10 @@ public:
   //
   //  MEASUREMENT CONFIGURATION
   //
-  void setResolution(uint8_t resolution)  //  res = 0..5
+  void setResolution(uint8_t resolution)  //  res = 0..5 (2 default)
   {
     if (resolution > 5) resolution = 5;
+    _resolution = resolution;
     uint8_t reg = readRegister(LTR390_ALS_UVS_MEAS_RATE);
     reg &= 0x07;
     reg |= (resolution << 4);
@@ -131,9 +135,18 @@ public:
     return (reg >> 4) & 0x07;
   }
 
-
-  void setRate(uint8_t rate)  //  rate = 0..7
+  float getIntegrationTime()
   {
+    const uint16_t intTime[6] = { 800, 400, 200, 100, 50, 25 };
+    return intTime[_resolution] * 0.5;
+  }
+
+  //////////////////////////////////////////////
+
+  void setRate(uint8_t rate)  //  rate = 0..7 (2 default)
+  {
+    if (rate > 7) rate = 7;
+    _rate = rate;
     uint8_t reg = readRegister(LTR390_ALS_UVS_MEAS_RATE);
     reg &= 0xF8;
     reg |= rate;
@@ -146,10 +159,18 @@ public:
     return reg & 0x07;
   }
 
+  float getMeasurementTime()
+  {
+    const uint16_t measTime[8] = { 25, 50, 100, 200, 500, 1000, 2000, 2000};
+    return measTime[_rate];
+  }
+
+  //////////////////////////////////////////////
 
   void setGain(uint8_t gain)  //  gain = 0..4
   {
     if (gain > 4) gain = 4;
+    _gain = gain;
     uint8_t reg = readRegister(LTR390_ALS_UVS_GAIN);
     reg &= 0xF8;
     reg |= gain;
@@ -158,8 +179,15 @@ public:
 
   uint8_t getGain()
   {
+    //  return _gain; // from cache
     uint8_t reg = readRegister(LTR390_ALS_UVS_GAIN);
     return reg & 0x07;
+  }
+
+  uint8_t getGainFactor()
+  {
+    const uint8_t gainFactor[5] = { 1, 3, 6, 9, 18 };
+    return gainFactor[_gain];
   }
 
 
@@ -216,6 +244,22 @@ public:
     return value;
   }
 
+  float getLUX(float windowsFactor = 1.0)
+  {
+    float lux = (100 * 0.6) * getALSData();
+    lux /= (getGainFactor() * getIntegrationTime());
+    if (windowsFactor > 1.0) lux *= windowsFactor;
+    return lux;
+  }
+
+  float getUVIndex(float windowsFactor = 1.0)
+  {
+    float reciprokeSensitivity = (18 * 400) / 2300.0;
+    reciprokeSensitivity /= (getGainFactor() * getIntegrationTime());
+    uint32_t uvi = getUVSData() * reciprokeSensitivity;
+    if (windowsFactor > 1.0) uvi *= windowsFactor;
+    return uvi;
+  }
 
   //////////////////////////////////////////////
   //
@@ -334,7 +378,11 @@ public:
 
 private:
   TwoWire * _wire;
-  uint8_t _address;
+  uint8_t  _address;
+
+  uint8_t  _resolution;
+  uint8_t  _rate;
+  uint8_t  _gain;
 
 };
 

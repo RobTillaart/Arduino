@@ -1,5 +1,5 @@
 //
-//    FILE: LTR390_ALS_demo.ino
+//    FILE: LTR390_getLUX.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/LTR390
@@ -7,8 +7,7 @@
 
 #include "LTR390.h"
 
-
-LTR390 uv;
+LTR390 ltr;
 
 void setup()
 {
@@ -20,9 +19,10 @@ void setup()
   Serial.println();
 
   Wire.begin();
+
   delay(1000);
 
-  if (uv.begin() == false)
+  if (ltr.begin() == false)
   {
     Serial.println("Could not connect, fix and reboot");
   }
@@ -31,30 +31,17 @@ void setup()
     Serial.println("Device found.");
   }
 
-  Serial.print("RESET:\t");
-  Serial.println(uv.reset());
-  Serial.print("PARTID:\t");
-  Serial.println(uv.getPartID());
-  Serial.print("REVID:\t");
-  Serial.println(uv.getRevisionID());
-
-  //  while (uv.isEnabled() == false)
-  //  {
-  //    Serial.println("enable()");
-  //    uv.setALSMode(); //uv.enable();
-  //    delay(1000);
-  //  }
-  uv.setALSMode();
-  uv.enable();
-  
-  Serial.println("\ndone...");
+  ltr.setALSMode();
+  ltr.enable();
 }
 
 
 void loop()
 {
   delay(1000);
-  Serial.println(uv.getALSData());
+  Serial.print(ltr.getALSData());
+  Serial.print("\t");
+  Serial.println(ltr.getLUX());
 }
 
 

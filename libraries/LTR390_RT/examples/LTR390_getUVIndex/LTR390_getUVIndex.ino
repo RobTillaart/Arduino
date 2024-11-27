@@ -1,5 +1,5 @@
 //
-//    FILE: LTR390_ALS_demo.ino
+//    FILE: LTR390_getUVIndex.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/LTR390
@@ -20,7 +20,6 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  delay(1000);
 
   if (uv.begin() == false)
   {
@@ -31,30 +30,17 @@ void setup()
     Serial.println("Device found.");
   }
 
-  Serial.print("RESET:\t");
-  Serial.println(uv.reset());
-  Serial.print("PARTID:\t");
-  Serial.println(uv.getPartID());
-  Serial.print("REVID:\t");
-  Serial.println(uv.getRevisionID());
-
-  //  while (uv.isEnabled() == false)
-  //  {
-  //    Serial.println("enable()");
-  //    uv.setALSMode(); //uv.enable();
-  //    delay(1000);
-  //  }
-  uv.setALSMode();
+  uv.setUVSMode();
   uv.enable();
-  
-  Serial.println("\ndone...");
 }
 
 
 void loop()
 {
   delay(1000);
-  Serial.println(uv.getALSData());
+  Serial.print(uv.getUVSData());
+  Serial.print("\t");
+  Serial.println(uv.getUVIndex());
 }
 
 

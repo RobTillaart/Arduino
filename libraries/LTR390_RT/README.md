@@ -20,17 +20,17 @@ Arduino library for the I2C LTR390 UV sensor.
 
 This library is to read the LTR390 UV sensor directly.
 
-It was written after I ordered a LTR390 sensor (breakout) from DFRobotics.
+The library was written after ordering a LTR390 sensor (breakout) from DFRobotics.
 However that one had its own processor and its own interface. 
-So the result was two libraries for the same product.
+So the result was two libraries for the "same" product.
 
 **Warning:** Operating voltage range: **1.7V .. 3.6V**  
-So it will not work on 5V devices
+So the LTR390 will not work on directly 5V boards.
 
 
 ## I2C
 
-The device has a fixed address of 0x53 == 83 decimal according to datasheet.
+The LTR390 has a fixed address of 0x53 == 83 decimal according to datasheet.
 
 #### I2C Speed
 
@@ -57,7 +57,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/LTR390_RT   (native LTR390)
 - https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
@@ -69,7 +69,7 @@ too if they are behind the multiplexer.
 #include "LTR390.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **LTR390(TwoWire \* wire = &Wire)** Constructor 
 with optional Wire interface.
@@ -78,44 +78,91 @@ with optional Wire interface.
 - **uint8_t getAddress()** returns 0x53, fixed address, for convenience.
 
 
-#### Main control
+### Main control
 
-- **void setALSMode()**
-- **void setUVSMode()**
-- **void reset()** blocks for 100 ms.
-- **void enable()** idem.
-- **void disable()** idem.
-- **bool isEnabled()** returns current status.
+- **void setALSMode()** ALS is visible light mode.
+- **void setUVSMode()** UVS is UV mode.
+- **void reset()** resets the device, will block for 100 ms.
+- **void enable()** enable device, active.
+- **void disable()** disable device, standby.
+- **bool isEnabled()** returns current device status.
 
 
-#### Measurement configuration
+### Resolution
 
-- **void setResolution(uint8_t resolution)** resolution = 0..5
+- **void setResolution(uint8_t resolution)** resolution = 0..5 (default 2)
 - **uint8_t getResolution()**
-- **void setRate(uint8_t rate)** rate = 0..7
+- **float getIntegrationTime()**
+
+|  resolution  |  value   |  integration  |  notes  |
+|:------------:|:--------:|:-------------:|:-------:|
+|       0      |  20 bit  |   400.0 ms    |
+|       1      |  19 bit  |   200.0 ms    |
+|       2      |  18 bit  |   100.0 ms    |  default
+|       3      |  17 bit  |    50.0 ms    |
+|       4      |  16 bit  |    25.0 ms    |
+|       5      |  13 bit  |    12.5 ms    |
+
+
+### Rate
+
+- **void setRate(uint8_t rate)** rate = 0..7 (default 2)
 - **uint8_t getRate()**
-- **void setGain(uint8_t gain)** gain = 0..4
+- **float getMeasurementTime()**
+
+|  rate  |  measurement  |  notes  |
+|:------:|:-------------:|:-------:|
+|   0    |     25.0 ms   |
+|   1    |     50.0 ms   |
+|   2    |    100.0 ms   |  default
+|   3    |    200.0 ms   |
+|   4    |    500.0 ms   |
+|   5    |   1000.0 ms   |
+|   6    |   2000.0 ms   |
+|   7    |   2000.0 ms   |
+
+
+### Gain
+
+- **void setGain(uint8_t gain)** gain = 0..4 (default 1)
 - **uint8_t getGain()**
+- **uint8_t getGainFactor()**
+
+|  gain  |  value   |  notes  |
+|:------:|:--------:|:-------:|
+|   0    |    1x    |
+|   1    |    3x    |  default
+|   2    |    6x    |
+|   3    |    9x    |
+|   4    |   18x    |
 
 
-#### Part and revision ID
+### Part and revision ID
+
+Returned values might differ.
 
 - **uint8_t getPartID()** returns 11.
 - **uint8_t getRevisionID()** returns 2.
 
 
-#### Main status
+### Main status
 
-- **uint8_t getStatus()** need split? or masks?
-
-
-#### Get data
-
-- **uint32_t getALSData()**
-- **uint32_t getUVSData()**
+- **uint8_t getStatus()** need split? or masks? table?
 
 
-#### Interrupt
+### Get data
+
+- **uint32_t getALSData()** returns raw ALS data.
+- **uint32_t getUVSData()** returns raw UV data.
+
+Conversions, see https://esphome.io/components/sensor/ltr390.html  
+These functions are not verified (yet).
+
+- **float getLUX(float windowsFactor)** convert raw ALS data to LUX.
+- **float getUVIndex(float windowsFactor)** convert raw UVS data to UV index.
+
+
+### Interrupt
 
 - **int setInterruptConfig(uint8_t value)**
 - **uint8_t getInterruptConfig()**
@@ -123,7 +170,7 @@ with optional Wire interface.
 - **uint8_t getInterruptPersist()**
 
 
-#### Threshold
+### Threshold
 
 - **void setHighThreshold(uint32_t value)**
 - **uint32_t getHighThreshold()**
@@ -135,20 +182,19 @@ with optional Wire interface.
 
 #### Must
 
-- Elaborate and improve documentation a lot.
-  - add tables, ranges etc.
+- improve documentation
+  - add tables, ranges, descriptions etc.
 - test with right hardware.
 
 #### Should
 
+- keep in sync with DFRobotics where possible.
 - add examples.
   - test example
   - performance example
 - fix / elaborate TODO's in code.
   - status and error codes
   - interrupts and thresholds
-- add **float getLUX(float wfac = 1)**
-- add **float getUVI(float wfac = 1)**
 
 #### Could
 

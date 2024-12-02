@@ -1,0 +1,23 @@
+{
+  "name": "SD2405",
+  "keywords": "",
+  "description": "Arduino library for I2C SD2405 RTC and compatibles.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/SD2405.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "SD2405.h"
+}

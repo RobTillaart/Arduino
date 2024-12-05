@@ -47,12 +47,14 @@ unittest(test_constants)
 
 unittest(test_registers)
 {
-  assertEqual(0x00, SD2405_SECONDS);
-  assertEqual(0x07, SD2405_ALARM1);
-  assertEqual(0x0B, SD2405_ALARM2);
-  assertEqual(0x0E, SD2405_CONTROL);
-  assertEqual(0x10, SD2405_AGING_OFFSET);
-  assertEqual(0x11, SD2405_TEMPERATURE);
+  assertEqual(0x00, SD2405_TIME_BASE);
+  assertEqual(0x07, SD2405_ALARM_BASE);
+  assertEqual(0x0E, SD2405_ALARM_ENABLE);
+  assertEqual(0x0F, SD2405_CONTROL_1);
+  assertEqual(0x10, SD2405_CONTROL_2);
+  assertEqual(0x11, SD2405_CONTROL_3);
+  assertEqual(0x12, SD2405_TIME_TRIMMING);
+  assertEqual(0x13, SD2405_COUNTDOWN);
   assertEqual(0x14, SD2405_SRAM_BASE);
 }
 

@@ -1,0 +1,46 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+
+
+========================================================
+Speed: 1000000
+
+test_core
+getBusVoltage:	56
+getShuntVoltage:	100
+getCurrent:	52
+getPower:	68
+getTemperature:	52
+
+========================================================
+Speed: 2000000
+
+test_core
+getBusVoltage:	44
+getShuntVoltage:	72
+getCurrent:	44
+getPower:	52
+getTemperature:	44
+
+========================================================
+Speed: 4000000
+
+test_core
+getBusVoltage:	40
+getShuntVoltage:	68
+getCurrent:	36
+getPower:	44
+getTemperature:	32
+
+========================================================
+Speed: 8000000
+
+test_core
+getBusVoltage:	32
+getShuntVoltage:	56
+getCurrent:	32
+getPower:	40
+getTemperature:	32
+
+Done

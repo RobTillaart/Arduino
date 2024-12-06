@@ -1,0 +1,18 @@
+
+Example output (no hardware connected)
+
+...\libraries\INA228\examples\INA228_dump_config\INA228_dump_config.ino
+
+INA239_LIB_VERSION: 0.1.0
+
+ConversionDelay: 255
+ADCRange: 1
+
+Mode: 15
+BusVoltageConversionTime: 7
+ShuntVoltageConversionTime: 7
+TemperatureConversionTime: 7
+getAverage: 7
+
+
+Done

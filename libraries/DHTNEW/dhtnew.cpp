@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -141,7 +141,7 @@ int DHTNEW::read()
   int rv = _read();
   if (rv == DHTLIB_OK)
   {
-    //  see issue #102
+    //  see issue #102, #104
     //  test high humidity bits to check for KY015/ DHT11 encoding
     //  in DHT22 encoding humidity cannot be over 100.0 % == 0x03E8
     //  so the high bits cannot be over 0x03
@@ -151,9 +151,12 @@ int DHTNEW::read()
     {
       return rv;
     }
-    //  fall through to test KY015 as DHT11
+    //  KY015 as DHT11
+    _type = 11;
+    _wakeupDelay = DHTLIB_DHT11_WAKEUP;
+    rv = _read();  //  read again with correct conversion.
+    return rv;
   }
-
   _type = 11;
   _wakeupDelay = DHTLIB_DHT11_WAKEUP;
   rv = _read();

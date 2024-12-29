@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2024-11-26
+- fix #104, add support for KY015 (again)
+- minor edits examples
+- add **DHT_endless_debug.ino** develop example
+
+
 ## [0.5.1] - 2024-11-24
 - fix #102, add support for KY015
 - add three examples, dhtnew_dht11.ino, dhtnew_dht22.ino, dhtnew_simple.ino

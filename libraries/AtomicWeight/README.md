@@ -43,15 +43,24 @@ to get a needed amount of moles.
 With these functions, in combination with a load cell, one could create a "molar-scale".
 Another application for the conversion functions is create lookup-tables, see example.
 
-
 Note: the library is experimental. More testing is needed. Feedback welcome.
+
+
+### Isotopes
+
+The library does **not** support isotopes of the elements.
+The elements have up to 40 isotopes with 1 to 5 stable ones. 
+This would cost quite some extra RAM 
+
+Large read about isotopes.
+- https://www.degruyter.com/document/doi/10.1515/pac-2015-0703/html
 
 
 ### Internal
 
 The PTOE class uses a table with "scaled" weights to save RAM.
 - it stores weights as **uint16_t**, instead of floats (saves 236 bytes).
-- the table (and thus the class) does not handle isotopes of elements.
+- the table (and thus the class) does not handle isotopes of the elements.
 - the scaling factor is named **ATOMIC_WEIGHT_FACTOR**
 
 **Version 0.2.x**
@@ -236,7 +245,6 @@ of the whole formula once.
 
 ### Avogadro, Dalton, electronVolt.
 
-
 The library provides the following (SI) constants:
 - **const float AVOGADRO = 6.02214076e+23** number of particles in one mole.
 - **const float DALTON = 1.66053907e-24** weight of one nucleon in grams (average).
@@ -270,19 +278,22 @@ minimize the memory used for the elements mass lookup table.
 #### Must
 
 - improve and reorganize documentation
-- float => double for precision.
 
 #### Should
+
+- support PROGMEM formulas to save RAM **weight(F("CaO2"))**
+  - user could use a char buffer to copy (but could be efficient)
+- float => double for precision.
+  - all(?) functions?
+- reorder future section.
+
+#### Could
 
 - overload functions
   - **uint32_t protons(formula)** worker, formula can be single element.
   - **uint32_t neutrons(formula)** uses protons()
   - **uint32_t electrons(formula)** uses protons()
 - handle Fe2+ Fe3+ (ignore number when encountering +)
-
-#### Could
-
-- support progmem formulas **weight(F("CaO2"))**?
   - user could use a char buffer to copy.
 - extend unit tests
 - extend formula parser with error codes.

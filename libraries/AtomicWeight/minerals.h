@@ -91,5 +91,35 @@
 #define HYDROXYAPATITE      "Ca5(PO4)3(OH)"
 
 
+//  P237
+#define JADEITE             "NaAlSi2O6"
+//  11.3
+#define GOETHITE            "FeO(OH)"
+//  11.4
+#define KAOLINITE           "Al2Si2O5(OH)4"
+//  11.5
+#define CALCITE             "CaCO3"
+//  11.6
+#define ARAGONITE           "CaCO3"  //  same as calcite
+//  11.7
+#define DOLOMITE            "CaMg(CO3)2"
+//  11.8
+#define MAGNESITE           "MgCO3"
+//  11.9
+#define SIDERITE            "FeCO3"
+//  11.10
+#define RHODOCHROSITE       "MnCO3"
+//  11.11
+#define HALITE              "NaCl"
+//  11.12
+#define SYLVITE             "KCl"
+//  11.13
+#define GYPSUM              "CaSO4"   //  CaSO4*4H20
+//  11.14
+#define ANHYDRITE           "CaSO4"
+//  11.16
+#define FLUORAPATITE        "Ca5(PO4)3(F)"
+
+
 //  -- END OF FILE --
 

@@ -2,7 +2,7 @@
 //    FILE: AtomicWeight.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -164,7 +164,7 @@ uint8_t PTOE::splitElements(const char * formula)
     //  GET ELEMENT := [ Upper | Upper,lower ]
     elem[0] = 0;
     elem[1] = 0;
-    if (! isupper(*p)) 
+    if (! isupper(*p))
     {
       return 0;  //  fail
     }

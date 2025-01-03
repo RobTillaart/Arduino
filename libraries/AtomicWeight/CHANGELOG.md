@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-01-02
+- fix #4, update minerals.h
+- update example
+- update keywords.txt
+
 ## [0.3.0] - 2024-08-27
 - support float indices e.g. "(Mg0.4Fe1.6)2.0SiO4" == Olivine
 - update **atomic_weight_formula.ino**

@@ -1,0 +1,26 @@
+{
+  "name": "AGS3871",
+  "keywords": "I2C, AGS3871, CO",
+  "description": "Arduino library for AGS3871 - CarbonMonoxide CO sensor",
+  "authors":
+  [
+    {
+      "name": "Lorna1"
+    },
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AGS3871.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AGS3871.h"
+}

@@ -2,7 +2,7 @@
 //    FILE: SD2405.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for I2C SD2405 RTC and compatibles.
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2022-03-17
 //     URL: https://github.com/RobTillaart/SD2405
 
@@ -55,12 +55,15 @@ int SD2405::read()
   {
     return SD2405_ERROR_I2C;
   }
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 2; i++)
   {
     _reg[i] = bcd2dec(_wire->read());
   }
-  _reg[0] &= 0x7F;
-  _reg[2] &= 0x3F;
+  _reg[2] = bcd2dec(_wire->read() & 0x3F);  //  use 24 hour format
+  for (int i = 3; i < 7; i++)
+  {
+    _reg[i] = bcd2dec(_wire->read());
+  }
   _lastRead = millis();
 
   return SD2405_OK;
@@ -71,20 +74,17 @@ int SD2405::write()
 {
   _wire->beginTransmission(_address);
   _wire->write(SD2405_TIME_BASE);
-  _wire->write(_reg[0] | 0x80);  //  stop clock
-  for (int i = 1; i < 7; i++)
+  for (int i = 0; i < 2; i++)
+  {
+    _wire->write(dec2bcd(_reg[i]));
+  }
+  _wire->write(dec2bcd(_reg[2]) | 0x80);  //  use 24 hour format
+  for (int i = 3; i < 7; i++)
   {
     _wire->write(dec2bcd(_reg[i]));
   }
   _rv = _wire->endTransmission();
   if (_rv != 0) return SD2405_ERROR_I2C;
-
-  _wire->beginTransmission(_address);
-  _wire->write(SD2405_TIME_BASE);
-  _wire->write(_reg[0] & 0x7f);  //  start clock
-  _rv = _wire->endTransmission();
-  if (_rv != 0) return SD2405_ERROR_I2C;
-
   return SD2405_OK;
 }
 
@@ -127,9 +127,14 @@ void SD2405::setYear(uint8_t value)    { _reg[6] = value; }
 //
 
 //  par 5.3, register 0x10, INTS0, INTS1, INTDE, INTAE, INTFE, IM
-//  source: disable = 0, 1 = alarm, 2 = frequency, 3 = timer
-//  repeat: single = false, repeat = true until INTAF is reset
-//  autoReset: 0 = false, 1 = true.
+//  source: 0 = disable,
+//          1 = alarm,
+//          2 = frequency,
+//          3 = timer
+//  repeat: single = false,
+//          repeat = true until INTAF is reset
+//  autoReset: ARST = 0 = false,
+//             ARST = 1 = true.
 int SD2405::configureInterrupt(uint8_t source, bool repeat, bool autoReset)
 {
   const uint8_t IM    = 0x40;
@@ -140,7 +145,7 @@ int SD2405::configureInterrupt(uint8_t source, bool repeat, bool autoReset)
   const uint8_t INTFE = 0x01;
   const uint8_t ALL   = IM | INTS0 | INTS1 | INTDE | INTAE | INTFE;  //  0x77
 
-  uint8_t mask = readRegister(0x10);
+  uint8_t mask = readRegister(SD2405_CONTROL_2);
   uint8_t premask = mask;
   mask &= ~ALL;  //  clear IM, INTS0, INTS1, INTDE, INTAE, INTFE.
   switch (source)
@@ -163,12 +168,12 @@ int SD2405::configureInterrupt(uint8_t source, bool repeat, bool autoReset)
   }
   if (mask != premask)
   {
-    writeRegister(0x10, mask);
+    writeRegister(SD2405_CONTROL_2, mask);
   }
 
   //  AUTORESET
   const uint8_t ARST = 0x80;
-  mask = readRegister(0x11);
+  mask = readRegister(SD2405_CONTROL_3);
   premask = mask;
   mask &= ~ARST;
   if (autoReset)
@@ -177,7 +182,7 @@ int SD2405::configureInterrupt(uint8_t source, bool repeat, bool autoReset)
   }
   if (mask != premask)
   {
-    return writeRegister(0x11, mask);
+    return writeRegister(SD2405_CONTROL_3, mask);
   }
   return SD2405_OK;
 }
@@ -192,13 +197,13 @@ int SD2405::configureInterrupt(uint8_t source, bool repeat, bool autoReset)
 int SD2405::setFrequencyMask(uint8_t bit_mask)
 {
   const uint8_t FSBITS = 0x0F;
-  uint8_t mask = readRegister(0x11);
+  uint8_t mask = readRegister(SD2405_CONTROL_3);
   uint8_t premask = mask;
   mask &= ~FSBITS;   //  clear FS0..FS3 bits
   mask |= bit_mask;
   if (mask != premask)
   {
-    return writeRegister(0x11, mask);
+    return writeRegister(SD2405_CONTROL_3, mask);
   }
   return SD2405_OK;
 }
@@ -217,13 +222,13 @@ int SD2405::setFrequencyMask(uint8_t bit_mask)
 int SD2405::setCountDownMask(uint8_t bit_mask)
 {
   const uint8_t TDSBITS = 0x30;
-  uint8_t mask = readRegister(0x11);
+  uint8_t mask = readRegister(SD2405_CONTROL_3);
   uint8_t premask = mask;
-  mask &= ~TDSBITS;   //  clear TDS), TDS1 bits
-  mask |= bit_mask;
+  mask &= ~TDSBITS;   //  clear TDS0, TDS1 bits
+  mask |= (bit_mask << 4);
   if (mask != premask)
   {
-    return writeRegister(0x11, mask);
+    return writeRegister(SD2405_CONTROL_3, mask);
   }
   return SD2405_OK;
 }
@@ -235,6 +240,8 @@ int SD2405::setCountDownMask(uint8_t bit_mask)
 //
 //  par 5.4. register 0x12, 0..127
 //  read the data sheet (twice)
+//  oscillator = actual frequency (ist)
+//  target     = target frequency (soll)
 int SD2405::adjustClockFrequency(int32_t oscillator, int32_t target)
 {
   int amount = 0;
@@ -246,7 +253,7 @@ int SD2405::adjustClockFrequency(int32_t oscillator, int32_t target)
   {
     amount = 0x80 - (target - oscillator) * 10;
   }
-  return writeRegister(0x12, amount);
+  return writeRegister(SD2405_TIME_TRIMMING, amount);
 }
 
 
@@ -259,39 +266,38 @@ int SD2405::adjustClockFrequency(int32_t oscillator, int32_t target)
 int SD2405::enableWriteRTC()
 {
   const uint8_t WRTC1 = 0x80;
-  const uint8_t WRTC2 = 0x08;
+  const uint8_t WRTC2 = 0x04;
   const uint8_t WRTC3 = 0x80;
 
-  uint8_t mask = readRegister(0x10);
+  uint8_t mask = readRegister(SD2405_CONTROL_2);
   mask |= WRTC1;
-  writeRegister(0x10, mask);
+  writeRegister(SD2405_CONTROL_2, mask);
 
-  mask = readRegister(0x11);
-  mask |= (WRTC3 | WRTC2);
-  return writeRegister(0x11, mask);
+  mask = readRegister(SD2405_CONTROL_1);
+  mask |= (WRTC2 | WRTC3);
+  return writeRegister(SD2405_CONTROL_1, mask);
 }
 
 
 int SD2405::disableWriteRTC()
 {
   const uint8_t WRTC1 = 0x80;
-  const uint8_t WRTC2 = 0x08;
+  const uint8_t WRTC2 = 0x04;
   const uint8_t WRTC3 = 0x80;
 
-  uint8_t mask = readRegister(0x11);
+  uint8_t mask = readRegister(SD2405_CONTROL_1);
   mask &= ~(WRTC3 | WRTC2);
-  writeRegister(0x11, mask);
-
-  mask = readRegister(0x10);
+  writeRegister(SD2405_CONTROL_1, mask);
+  mask = readRegister(SD2405_CONTROL_2);
   mask &= ~WRTC1;
-  return writeRegister(0x10, mask);
+  return writeRegister(SD2405_CONTROL_2, mask);
 }
 
 
 int SD2405::setFOBAT(bool flag)
 {
-  const uint8_t FOBAT = 0x80;
-  uint8_t mask = readRegister(0x10);
+  const uint8_t FOBAT = 0x08;
+  uint8_t mask = readRegister(SD2405_CONTROL_2);
   uint8_t premask = mask;
   mask &= ~FOBAT;
   if (flag)
@@ -300,7 +306,7 @@ int SD2405::setFOBAT(bool flag)
   }
   if (mask != premask)
   {
-    return writeRegister(0x10, mask);
+    return writeRegister(SD2405_CONTROL_2, mask);
   }
   return SD2405_OK;
 }
@@ -309,8 +315,8 @@ int SD2405::setFOBAT(bool flag)
 bool SD2405::getRCTF()
 {
   const uint8_t RCTF = 0x01;
-  uint8_t mask = readRegister(0x10);
-  return (mask & RCTF) >0 ;
+  uint8_t mask = readRegister(SD2405_CONTROL_1);
+  return (mask & RCTF) > 0 ;
 }
 
 
@@ -384,7 +390,7 @@ int SD2405::readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _rv = _wire->endTransmission();
+  _rv = _wire->endTransmission(false);
   if (_rv != 0) return SD2405_ERROR_I2C;
 
   if (_wire->requestFrom(_address, (uint8_t)1) != 1)

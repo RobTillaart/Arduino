@@ -1,7 +1,7 @@
 //
 //    FILE: SD2405_demo_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic read function
+// PURPOSE: measure read performance for different I2C speeds
 //     URL: https://github.com/RobTillaart/SD2405
 
 
@@ -29,8 +29,10 @@ void setup()
     while (1);
   }
 
+  rtc.enableWriteRTC();
+
   //  up to 400K is official supported.
-  for (uint32_t sp = 50000; sp <= 400000; sp += 50000)
+  for (uint32_t sp = 50000; sp <= 800000; sp += 50000)
   {
     performance(sp);
   }
@@ -54,7 +56,7 @@ void loop()
   Serial.print('-');
   if (rtc.day() < 10) Serial.print(0);
   Serial.print(rtc.day());
-  
+
   Serial.print(' ');
   //  TIME
   if (rtc.hours() < 10) Serial.print(0);

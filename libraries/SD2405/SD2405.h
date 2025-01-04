@@ -3,7 +3,7 @@
 //    FILE: SD2405.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for I2C SD2405 RTC and compatibles.
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2022-03-17
 //     URL: https://github.com/RobTillaart/SD2405
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define SD2405_LIB_VERSION           (F("0.1.2"))
+#define SD2405_LIB_VERSION           (F("0.2.0"))
 
 
 //  ERROR CODES
@@ -79,10 +79,16 @@ public:
   //
   //  CONFIGURE INTERRUPT FUNCTIONS
   //
+
   //  par 5.3, register 0x10, INTS0, INTS1, INTDE, INTAE, INTFE, IM
-  //  source: disable = 0, 1 = alarm, 2 = frequency, 3 = timer
-  //  repeat: single = false, repeat = true until INTAF is reset
-  //  autoReset: ARST = 0 = false, ARST = 1 = true.
+  //  source: 0 = disable,
+  //          1 = alarm,
+  //          2 = frequency,
+  //          3 = timer
+  //  repeat: single = false,
+  //          repeat = true until INTAF is reset
+  //  autoReset: ARST = 0 = false,
+  //             ARST = 1 = true.
   int configureInterrupt(uint8_t source, bool repeat, bool autoReset);
 
   //  par 5.3, register 0x0F, INTAF, INTDF reset both manually.
@@ -95,6 +101,7 @@ public:
   //
   //  par 5.3, register 0x07 - 0x0D
   //  not all in BCD format.
+  //  HOUR: AM/PM flag ?
   int setAlarmSecond(uint8_t value) { return writeRegister(0x07, dec2bcd(value)); };
   int setAlarmMinute(uint8_t value) { return writeRegister(0x08, dec2bcd(value)); };
   int setAlarmHour(uint8_t value)   { return writeRegister(0x09, dec2bcd(value)); };
@@ -102,6 +109,7 @@ public:
   int setAlarmDay(uint8_t value)    { return writeRegister(0x0B, dec2bcd(value)); };
   int setAlarmMonth(uint8_t value)  { return writeRegister(0x0C, dec2bcd(value)); };
   int setAlarmYear(uint8_t value)   { return writeRegister(0x0D,         value); };
+
   int getAlarmSecond()              { return bcd2dec(readRegister(0x07)); };
   int getAlarmMinute()              { return bcd2dec(readRegister(0x08)); };
   int getAlarmHour()                { return bcd2dec(readRegister(0x09)); };
@@ -112,7 +120,7 @@ public:
 
   //  par 5.3, register 0x0E
   //  bit_mask = { 0 Y M W D H Min S }
-  int setAlarmInterrupt(uint8_t bit_mask) { return writeRegister(0x0E, bit_mask); };
+  int setAlarmInterrupt(uint8_t bit_mask) { return writeRegister(SD2405_ALARM_ENABLE, bit_mask); };
 
 
   ////////////////////////////////////////////////////////////////////
@@ -136,7 +144,7 @@ public:
   //      3        1 - 255 minutes
   int setCountDownMask(uint8_t bit_mask);
   //  par 5.3. register 0x13
-  int setCountDown(uint8_t value) { return writeRegister(0x13, value); };
+  int setCountDown(uint8_t value) { return writeRegister(SD2405_COUNTDOWN, value); };
 
 
   ////////////////////////////////////////////////////////////////////
@@ -146,7 +154,7 @@ public:
   //  par 5.4. register 0x12, 0..127
   //  read the data sheet (twice)
   //  oscillator = actual frequency (ist)
-  //  target = target frequency (soll)
+  //  target     = target frequency (soll)
   int adjustClockFrequency(int32_t oscillator, int32_t target);
 
 
@@ -188,7 +196,7 @@ public:
 
 protected:
   TwoWire * _wire;
-  uint8_t   _address { 0x32 };
+  uint8_t   _address { 0x32 };  //  50 decimal
 
   //  array holding the values to get / set
   uint8_t   _reg[7] = {0, 0, 0, 0, 0, 0, 0};
@@ -199,6 +207,9 @@ protected:
   uint8_t   bcd2dec(uint8_t value);
 };
 
+
+//  DERIVED CLASSES ?
+//  should we have a minimal base class? SD2405_minimal
 
 
 //  -- END OF FILE --

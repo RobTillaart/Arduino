@@ -30,12 +30,14 @@ void setup()
 
   //  adjust to your needs.
   rtc.setSeconds(00);
-  rtc.setMinutes(59);
-  rtc.setHours(12);
-  rtc.setWeekDay(4);   //  4 = Thursday
-  rtc.setDay(5);
-  rtc.setMonth(12);
-  rtc.setYear(24);
+  rtc.setMinutes(25);
+  rtc.setHours(20);
+  rtc.setWeekDay(5);   //  4 = Thursday
+  rtc.setDay(3);
+  rtc.setMonth(01);
+  rtc.setYear(25);
+
+  rtc.enableWriteRTC();
   rtc.write();
 }
 
@@ -51,7 +53,7 @@ void loop()
   printTime(Serial);
   Serial.println();
 
-  delay(random(20000));
+  delay(2000);
 }
 
 
@@ -59,7 +61,7 @@ void printDate(Stream &str)
 {
   char buffer[16];
   sprintf(buffer, "%04d-%02d-%02d",
-        2000 + rtc.year(), rtc.month(), rtc.day());
+          2000 + rtc.year(), rtc.month(), rtc.day());
   str.print(buffer);
 }
 
@@ -68,7 +70,7 @@ void printTime(Stream &str)
 {
   char buffer[16];
   sprintf(buffer, "%02d:%02d:%02d",
-        rtc.hours(), rtc.minutes(), rtc.seconds());
+          rtc.hours(), rtc.minutes(), rtc.seconds());
   str.print(buffer);
 }
 

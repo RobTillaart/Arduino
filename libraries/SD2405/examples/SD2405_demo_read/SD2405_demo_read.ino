@@ -27,13 +27,27 @@ void setup()
     while (1);
   }
 
+  //  comment
+  //  rtc.setSeconds(00);
+  //  rtc.setMinutes(07);
+  //  rtc.setHours(21);
+  //  rtc.setWeekDay(5);   //  4 = Thursday
+  //  rtc.setDay(3);
+  //  rtc.setMonth(1);
+  //  rtc.setYear(25);
+  //
+  //  rtc.enableWriteRTC();
+  //  int rv = rtc.write();
+  //  Serial.println(rv);
 }
 
 
 void loop()
 {
-  rtc.read();
+  int rv = rtc.read();
 
+  Serial.print(rv);
+  Serial.print("\t");
   Serial.print(rtc.lastRead());
   Serial.print("\t\t");
   Serial.print(rtc.year());
@@ -47,11 +61,11 @@ void loop()
   Serial.print(rtc.minutes());
   Serial.print(':');
   Serial.print(rtc.seconds());
-  Serial.print('\n');
+  Serial.print(' ');
   Serial.print(rtc.weekDay());
   Serial.print('\n');
 
-  delay(2000);
+  delay(1000);
 }
 
 

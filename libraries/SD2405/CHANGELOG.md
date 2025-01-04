@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2025-01-03
+- fix disableWriteRTC() + enableWriteRTC()
+- fix read() + write()
+- tested with hardware, not all but most.
+- update examples
+- update readme.md
+
+----
+
 ## [0.1.2] - 2024-12-03
 - add missing functions (most of them)
 - update readme.md

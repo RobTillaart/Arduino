@@ -1,0 +1,47 @@
+# Syntax Colouring Map For CHT832X
+
+# Data types (KEYWORD1)
+CHT832X	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+read	KEYWORD2
+lastRead	KEYWORD2
+getTemperature	KEYWORD2
+getHumidity	KEYWORD2
+
+setHumidityOffset	KEYWORD2
+setTemperatureOffset	KEYWORD2
+getHumidityOffset	KEYWORD2
+getTemperatureOffset	KEYWORD2
+
+enableHeater	KEYWORD2
+enableHeaterFull	KEYWORD2
+enableHeaterHalf	KEYWORD2
+enableHeaterQuarter	KEYWORD2
+disableHeater	KEYWORD2
+
+getStatusRegister	KEYWORD2
+clearStatusRegister	KEYWORD2
+
+softwareReset	KEYWORD2
+
+getNIST	KEYWORD2
+getManufacturer	KEYWORD2
+
+
+# Constants (LITERAL1)
+CHT832X_LIB_VERSION	LITERAL1
+
+CHT832X_DEFAULT_ADDRESS	LITERAL1
+
+CHT832X_OK	LITERAL1
+CHT832X_ERROR_ADDR	LITERAL1
+CHT832X_ERROR_I2C	LITERAL1
+CHT832X_ERROR_CONNECT	LITERAL1
+CHT832X_ERROR_LASTREAD	LITERAL1
+

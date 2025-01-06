@@ -64,7 +64,7 @@ unittest(test_base)
 
   assertEqual(26, AGS.getAddress());
   assertEqual(0, AGS.lastError());
-  assertEqual(0, AGS.dataReady());
+  assertTrue(AGS.dataReady());
 }
 
 

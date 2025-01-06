@@ -2,7 +2,7 @@
 //    FILE: AGS3871.cpp
 //  AUTHOR: Rob Tillaart, Lorna1
 //    DATE: 2025-01-01
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AGS3871 - CarbonMonoxide CO sensor.
 //     URL: https://github.com/RobTillaart/AGS3871
 
@@ -15,7 +15,7 @@
 #define AGS3871_CALIBRATION           0x01
 #define AGS3871_VERSION               0x11
 #define AGS3871_RESISTANCE            0x20
-
+//  other registers just dump 0x00. See issue #2
 
 
 AGS3871::AGS3871(TwoWire *wire)
@@ -86,22 +86,23 @@ uint32_t AGS3871::readResistance()
   uint32_t value = 0;
   if (_readRegister(AGS3871_RESISTANCE))
   {
-    value =  _buffer[1] * 65536UL;
-    value += _buffer[2] * 256;
-    value += _buffer[3];
+    value =  _buffer[0] * 65536UL;
+    value += _buffer[1] * 256;
+    value += _buffer[2];
+    //  _buffer[3] == unknown ?
     if (_CRC8(_buffer, 5) != 0)
     {
       _error = AGS3871_ERROR_CRC;
     }
   }
-  return value;
+  return value * 10;
 }
 
 
 bool AGS3871::manualZeroCalibration(uint16_t value)
 {
   _buffer[0] = 0x00;
-  _buffer[1] = 0x0C;
+  _buffer[1] = 0x00;
   _buffer[2] = (uint8_t) (value >> 8);
   _buffer[3] = (uint8_t) (value & 0x00FF);
   _buffer[4] = _CRC8(_buffer, 4);
@@ -251,12 +252,6 @@ uint8_t AGS3871::_CRC8(uint8_t * buf, uint8_t size)
     }
   }
   return crc;
-}
-
-
-uint8_t AGS3871::_bin2bcd(uint8_t value)
-{
-  return value + 6 * (value / 10);
 }
 
 

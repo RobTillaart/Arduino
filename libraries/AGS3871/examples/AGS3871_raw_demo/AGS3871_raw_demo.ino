@@ -44,7 +44,7 @@ void loop()
   //  CONVERT RAW DATA
   Serial.print("STAT:\t");
   Serial.println(buffer[0]);
-  Serial.print("PPB:\t");
+  Serial.print("PPM:\t");
   Serial.println(buffer[1] * 65536UL + buffer[2] * 256 + buffer[3]);
   Serial.print("CRC:\t");
   Serial.println(buffer[4]);

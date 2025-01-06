@@ -3,7 +3,7 @@
 //    FILE: AGS3871.h
 //  AUTHOR: Rob Tillaart, Lorna1
 //    DATE: 2025-01-01
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AGS3871 - CarbonMonoxide CO sensor.
 //     URL: https://github.com/RobTillaart/AGS3871
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AGS3871_LIB_VERSION         (F("0.1.0"))
+#define AGS3871_LIB_VERSION         (F("0.1.1"))
 
 #define AGS3871_OK                  0
 #define AGS3871_ERROR               -10
@@ -52,22 +52,28 @@ public:
   uint8_t  getAddress() { return _address; };
   uint8_t  getVersion();
 
+  //  READ function, be sure to check lastError().
+  uint32_t readPPM();   //  parts per million 10^6
+  uint32_t lastPPM()    { return _lastPPM; };
+
+
+  //  CALIBRATION
   //  to be called after at least 5 minutes in fresh air.
   //  use with care
   //  NOT TESTED
   bool     zeroCalibration() { return manualZeroCalibration(0); };
   bool     manualZeroCalibration(uint16_t value = 0);
   bool     getZeroCalibrationData(ZeroCalibrationData &data);
-
-  //  READ function, be sure to check lastError().
-  uint32_t readPPM();   //  parts per million 10^6
-  uint32_t lastPPM()    { return _lastPPM; };
+  //  READ RESISTANCE - datasheet 4.4
+  //  Ω = ALT-234
   uint32_t readResistance();  //  Meaning unknown.
 
+
   //  STATUS
-  uint32_t lastRead()   { return _lastRead; };    //  timestamp last measurement
+  uint32_t lastRead()   { return _lastRead; };  //  timestamp last measurement
   int      lastError();
-  uint8_t  dataReady()  { return _status & 0x01; };
+  uint8_t  lastStatus() { return _status; };
+  bool     dataReady()  { return (_status & 0x01) == 0; };
 
   //  Reading registers
   bool     readRegister(uint8_t address, RegisterData &reg);
@@ -87,7 +93,6 @@ private:
   uint16_t _getDataMSB();
   uint16_t _getDataLSB();
   uint8_t  _CRC8(uint8_t * buf, uint8_t size);
-  uint8_t  _bin2bcd(uint8_t val);
 
   int      _error = AGS3871_OK;
 

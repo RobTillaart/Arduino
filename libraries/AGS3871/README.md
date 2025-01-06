@@ -14,7 +14,7 @@
 Arduino library for the AGS3871 - CarbonMonoxide CO sensor.
 
 
-#### Description
+### Description
 
 **Experimental**
 
@@ -23,9 +23,24 @@ This library is experimental, so please use with care.
 The library is based upon the limited datasheet and the code of the AGS02MA sensor,
 which uses a very similar protocol.
 
-**Warning:** This library is very limited tested with hardware.
+The AGS3871 is a CarbonMonoxide or CO sensor which has a working range of 50-1000 PPM.
+The sensor needs a warm up time of 2 minutes before readings are stabilized.
+Readings during warm up must be considered with care.
+The time between reads should be at least 2 seconds.
 
-Note this library is not meant to replace professional monitoring systems.
+|  function   |  value           |  notes  |
+|:------------|:----------------:|:--------|
+|  CO range   |  50 - 1000 PPM   |
+|  read freq  |  once per 2 sec  |
+|  warm up    |  120 sec         |
+|  current    |  20-30 mA        |  prefers own power supply.
+
+
+**Warning:** This library is very limited tested with hardware. So use with care.
+
+Feedback as always, is welcome. Please open an issue.
+
+**Warning:** This library is **not** meant to replace professional monitoring systems.
 
 
 ### Related
@@ -37,11 +52,6 @@ Note this library is not meant to replace professional monitoring systems.
 
 ## I2C
 
-The device has a fixed address of 26 or 0x1A.
-
-The device works at 100 kHz I2C bus speed (datasheet).
-
-
 ### PIN layout from left to right
 
 |  Front L->R  |  Description  |
@@ -52,19 +62,26 @@ The device works at 100 kHz I2C bus speed (datasheet).
 |   pin 4      |   SCL clock   |
 
 
+### Address
+
+The device has a fixed address of 26 or 0x1A.
+
+The device works at 100 kHz I2C bus speed (datasheet).
+
+
 ### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
@@ -92,12 +109,11 @@ with the sensor and this (or other) library.
 
 ### Heating
 
-- **bool isHeated()** returns true if 2 minutes have passed after startup (call of **begin()** ).
+- **bool isHeated()** returns true if 120 seconds have passed after startup (call of **begin()** ).
 Otherwise the device is not optimal ready.
-According to the datasheet the preheating will improve the quality of the measurements.
-- **uint32_t lastRead()** last time the device is read, timestamp is in milliseconds since start.
-Returns 0 if **readPPM()** is not called yet.
 
+According to the datasheet the preheating will improve the quality of the measurements.
+If heating is ongoing the **dataReady()** returns 1
 
 ### Administration
 
@@ -113,8 +129,16 @@ Typical value should be between 1 .. 1000.
 Returns **lastPPM()** value if failed so one does not get sudden jumps in graphs.
 Check **lastStatus()** and **lastError()** to get more info about success.
 - **uint32_t lastPPM()** returns last readPPM (parts per million) value (cached).
-- **uint32_t readResistance()** returns internal R of sensor. Meaning unknown.
-- **uint8_t dataReady()** returns RDY bit from last read.
+
+
+### Status
+
+- **uint32_t lastRead()** timestamp of last time the device is read,
+timestamp is in milliseconds since start.
+Returns 0 if **readPPM()** is not called yet.
+- **uint8_t lastStatus()** returns status byte.
+- **bool dataReady()** returns true if data has been updated.
+Returns false if not updated or heating in progress.
 - **int lastError()** returns last error.
 
 
@@ -122,31 +146,42 @@ Check **lastStatus()** and **lastError()** to get more info about success.
 
 **NOT TESTED YET, use with care, feedback welcome**
 
-- **bool zeroCalibration()** to be called after at least 5 minutes in fresh air.
+Calibration functions should be called after at least 5 minutes in fresh air.
 See example sketch.
-- **bool manualZeroCalibration(uint16_t value = 0)** Set the zero calibration value manually.
-To be called after at least 5 minutes in fresh air.
-- **bool getZeroCalibrationData(ZeroCalibrationData &data)** fills a data struct with the 
-current zero calibration status and value. 
+
+- **bool zeroCalibration()** wrapper, for fast zero calibration.
+- **bool manualZeroCalibration(uint16_t value = 0)** Set the zero calibration
+value manually. See table below.
+- **bool getZeroCalibrationData(ZeroCalibrationData &data)** fills a data
+struct with the current zero calibration status and value.
 Returns true on success.
+- **uint32_t readResistance()** returns internal R of sensor. To be used for
+calibration. (Alt-234 = Ω)
+
+
+|  value   |  meaning  |
+|:--------:|:----------|
+|  0xFFFF  |  Factory reset
+|  0x0000  |  set current resistance as zero
+|  other   |  set value as zero
 
 
 ### Other
 
-- **bool readRegister(uint8_t address, RegisterData &reg)** fills a data struct with the chip's 
-register data at that address.
+- **bool readRegister(uint8_t address, RegisterData &reg)** fills a data struct
+with the sensors register data at that address.
 Primarily intended for troubleshooting and analysis of the sensor.
 Not recommended to build applications on top of this method's raw data.
-Returns true when the **RegisterData** is filled, false when the data could not be read.
-Note: unlike other public methods, CRC errors don't return false or show up in `lastError()`, 
-instead the CRC result is stored in `RegisterData.crcValid`.
+Returns true if the **RegisterData** is filled, false if data could not be read.
+Note: unlike other public methods, CRC errors don't return false or show up in
+`lastError()`, instead the CRC result is stored in `RegisterData.crcValid`.
 
 
 ### Status bits.
 
 |  bit  |  description                        |  notes  |
 |:-----:|:------------------------------------|:--------|
-|  7-1  |  internal use                       |
+|  7-1  |  reserved                           |
 |   0   |  RDY bit  0 = ready  1 = not ready  |  1 == busy
 
 
@@ -161,7 +196,6 @@ instead the CRC result is stored in `RegisterData.crcValid`.
 |  AGS3871_ERROR_NOT_READY    |   -13   |
 
 
-
 ## Future
 
 #### Must
@@ -172,13 +206,18 @@ instead the CRC result is stored in `RegisterData.crcValid`.
 
 #### Should
 
-- test with hardware
-- test with different processors
+- investigate and test calibration
 
 #### Could
 
+- test with different processors
 - elaborate error handling.
 - move code to .cpp?
+- investigate other registers
+- check MAGIC numbers.
+- examples
+  - use dataReady() to optimize number of reads.
+
 
 #### Wont
 

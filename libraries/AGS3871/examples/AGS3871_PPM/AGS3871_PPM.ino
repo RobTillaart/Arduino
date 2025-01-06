@@ -47,9 +47,11 @@ void setup()
 
 void loop()
 {
+  //  time between measurements at least 2 seconds.
   delay(3000);
   Serial.print("PPM:\t");
-  Serial.print(AGS.readPPM(), 3);
+  Serial.print(AGS.readPPM());
+  Serial.print("\t");
   Serial.print("\t");
   Serial.print(AGS.dataReady(), HEX);
   Serial.print("\t");

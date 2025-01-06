@@ -14,16 +14,17 @@ isHeated	KEYWORD2
 getAddress	KEYWORD2
 getVersion	KEYWORD2
 
+readPPM	KEYWORD2
+lastPPM	KEYWORD2
+
 zeroCalibration	KEYWORD2
 manualZeroCalibration	KEYWORD2
 getZeroCalibrationData	KEYWORD2
-
-readPPM	KEYWORD2
-lastPPM	KEYWORD2
 readResistance	KEYWORD2
 
 lastRead	KEYWORD2
 lastError	KEYWORD2
+lastStatus	KEYWORD2
 dataReady	KEYWORD2
 
 readRegister	KEYWORD2

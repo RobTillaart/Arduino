@@ -1,0 +1,24 @@
+{
+  "name": "rotaryDecoder8",
+  "keywords": "rotary,encoder,decoder,PCF8575",
+  "description": "Arduino library for a PCF8575 based rotary decoder.\nSupports up to 8 rotary encoders.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/rotaryDecoder8.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "rotaryDecoder8.h"
+}
+

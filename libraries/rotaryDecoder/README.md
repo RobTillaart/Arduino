@@ -16,7 +16,7 @@ Arduino library for a PCF8574 based rotary decoder - supports 4 rotary encoders.
 
 ## Description
 
-This experimental library uses a PCF8574 to read the pulses of a rotary encoder.
+This library uses a PCF8574 to read the pulses of a rotary encoder.
 As a PCF8574 has 8 lines up to 4 decoders can be read over I2C.
 The PCF interrupt line can be used to detect changes in the position of the encoders.
 
@@ -24,20 +24,28 @@ If less than 4 rotary encoders are connected one should use the lower bit lines 
 library assumes these are used. Furthermore it is advised to connect the free PCF8574
 pins to GND so you will not get unintended interrupts.
 
+Note: This library works (limited) with the PCF8575.
 
-#### Related
+As always, feedback is welcome.
 
+
+### Related
+
+- https://github.com/RobTillaart/rotaryDecoder
 - https://github.com/RobTillaart/rotaryDecoderSwitch
+- https://github.com/RobTillaart/rotaryDecoder8
+- https://github.com/RobTillaart/rotaryDecoderSwitch5
 - https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/PCF8575
 
 
 ## Interface
 
 ```cpp
-#include "rotaryEncoder.h"
+#include "rotaryDecoder.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **rotaryDecoder(const int8_t address, TwoWire \*wire = Wire)**
 constructor to set the address and optional the Wire bus.
@@ -45,63 +53,74 @@ constructor to set the address and optional the Wire bus.
 count is the number of rotary encoders connected. (Max 4 per PCF8574)
 Returns true if the PCF8574 is on the I2C bus.
 - **bool isConnected()** returns true if the PCF8574 is on the I2C bus.
+- **uint8_t getRECount()** returns number of RE's from begin(), 
+convenience e.g. for for loops.
+- **void reset()** reset all internal counters to 0.
 
-
-#### Core functions
+### Core functions
 
 - **uint8_t readInitialState()** read the initial state of the 4 rotary encoders. 
 Typically called in setup only, or after a sleep e.g. in combination with **setValue()**.
-Since 0.3.1 this function returns the read state, saves an additional read8() call.
+This function returns the read state, saves an additional read8() call.
 - **bool checkChange()** used for polling to see if one or more RE have changed.
 This function does NOT update the internal counters.
 - **bool update()** returns true if there is a change detected.
 It updates the internal counters of the RE. 
 The counters will add +1 or -1 depending on rotation direction. 
-Need to be called before **getValue()** or before **getKeyPressed()**. 
+Need to be called before **getValue()**. 
 Note that **update()** must be called as soon as possible after the interrupt occurs 
 or as often as possible when polling.  
 Returns false if there is no change since last read.
 - **bool updateSingle()** returns true if there is a change detected.
 It updates the internal counters of the RE. 
 This will add +1, +2 or +3 as it assumes that the rotary encoder 
-only goes into a single direction.  
+only goes into a single direction.
+Typical use is for a RPM measurement.
+Note that the **getValue()** can go 3x as fast if you turn in the other direction.
 Returns false if there is no change since last read.
 
 
-#### Counters
+### Counters
 
 - **int32_t getValue(uint8_r re)** returns the RE counter.
 If the parameter re > 3 then 0 is returned.
+The max value is ± 2147483647.
 - **bool setValue(uint8_r re, int32_t value = 0)** (re)set the internal counter to value, default 0.
 If the parameter re > 3 then false is returned, true otherwise.
 
 
-#### Read1 - Write1 - experimental
+### Read1 - Write1
 
-Warning the **write1(pin, value)** might alter the state of the rotary encoder pins.
+**Warning**
+
+The **write1(pin, value)** might alter the state of the rotary encoder pins.
 So this functionality should be tested thoroughly for your application.
-Especially the **write()** is **experimental**, see issue #10, feedback welcome.
+Especially the **write1()** is **experimental**, feedback welcome.
 
-See example **rotaryDecoder_demo_RE_IO.ino** (since 0.3.1).
+See example **rotaryDecoder_demo_RE_IO.ino**.
 
 **Read1()** and **write1()** are functions to access the pins of the PCF8574 that 
 are not used for rotary encoders.
-The user must guard that especially writing the pins do not interfere with the rotary encoder pins.
+The user must guard that especially writing the pins do not interfere with the 
+rotary encoder pins.
 
 - **uint8_t read1(uint8_t pin)** reads a single pin (0..7).
 Returns HIGH or LOW.
 - **bool write1(uint8_t pin, uint8_t value)** writes a single pin (0..7).
 Value should be LOW (0) or HIGH (other values).
+As said before the user must guard not to interfere with the
+rotary encoder pins.
 - **uint8_t read8()** read all pins in one I2C IO action. When one need to access multiple 
 input pins this is faster but need some bit masking.
-- **bool write8(uint8_t value)** writes to multiple pins at once, e.g. to control multiple
+- **bool write8(uint8_t bitmask)** writes to multiple pins at once, e.g. to control multiple
 LEDs in one IO action. As said before the user must guard not to interfere with the
 rotary encoder pins.
 
 
-#### Debugging
+### Debugging
 
-- **int8_t getLastPosition(uint8_r re)** Returns last position.
+- **int8_t getLastPosition(uint8_r re)** Returns last position. 
+Returns 0 if re > 3.
 
 
 ## Performance
@@ -143,6 +162,7 @@ assuming 4 pulses == 360°. (not tested)
 
 - update documentation
 - picture how to connect e.g two rotary encoders which pins to used
+- keep in sync with rotaryEncoder8 (PCF8575) class.
 
 #### Should
 
@@ -153,6 +173,7 @@ assuming 4 pulses == 360°. (not tested)
 - invert flag to adjust to RE that give their pulse just the other way around?
   - setInvert(bool);  getInvert();
   - per channel / all?
+- split **reset()** per var?
 
 #### Wont
 

@@ -7,7 +7,10 @@ rotaryDecoder	KEYWORD1
 begin	KEYWORD2
 isConnected	KEYWORD2
 
+getRECount	KEYWORD2
+reset	KEYWORD2
 readInitialState	KEYWORD2
+
 checkChange	KEYWORD2
 update	KEYWORD2
 updateSingle	KEYWORD2
@@ -25,3 +28,4 @@ getLastPosition	KEYWORD2
 
 # Constants (LITERAL1)
 ROTARY_DECODER_LIB_VERSION	LITERAL1
+

@@ -48,9 +48,48 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  rotaryDecoder(0x20);
+  rotaryDecoder RE(0x20);
 
-  fprintf(stderr, "no tests yet");
+  Wire.begin();
+
+  RE.begin(4);
+  assertEqual(4, RE.getRECount());
+
+  RE.begin(10);
+  assertEqual(4, RE.getRECount());
+}
+
+
+unittest(test_getValue)
+{
+  rotaryDecoder RE(0x20);
+
+  Wire.begin();
+
+  RE.begin(4);
+  for (int i = 0; i < 4; i++)
+  {
+    assertEqual(0, RE.getValue(i));
+  }
+  for (int i = 0; i < 4; i++)
+  {
+    RE.setValue(i, i * 100);
+    assertEqual(i * 100, RE.getValue(i));
+  }
+}
+
+
+unittest(test_getLastPosition)
+{
+  rotaryDecoder RE(0x20);
+
+  Wire.begin();
+
+  RE.begin(4);
+  for (int i = 0; i < 4; i++)
+  {
+    assertEqual(0, RE.getLastPosition(i));
+  }
 }
 
 

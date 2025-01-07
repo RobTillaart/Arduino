@@ -32,6 +32,7 @@ volatile bool flag = false;
 
 void moved()
 {
+  //  one should not read the PPCF8574 in the interrupt routine.
   flag = true;
 }
 

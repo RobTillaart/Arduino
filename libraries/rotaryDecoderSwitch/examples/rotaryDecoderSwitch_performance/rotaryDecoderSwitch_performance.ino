@@ -53,6 +53,7 @@ void setup()
     Serial.print("\t");
     Serial.print((stop - start) * 0.1);
     Serial.print("\n");
+    delay(100);
   }
 }
 

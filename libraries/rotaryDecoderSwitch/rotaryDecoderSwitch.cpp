@@ -1,9 +1,9 @@
 //
 //    FILE: rotaryDecoderSwitch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2021-05-17
-// PURPOSE: Arduino library for rotary decoder (with switch)
+// PURPOSE: Arduino library for a PCF8574 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
 
 
@@ -24,7 +24,7 @@ rotaryDecoderSwitch::rotaryDecoderSwitch(const int8_t address, TwoWire *wire)
 bool rotaryDecoderSwitch::begin(uint8_t count)
 {
   _count = count;
-  if (_count > 2) _count = 2;
+  if (_count > ROTDEC_MAX_COUNT) _count = ROTDEC_MAX_COUNT;
 
   if (! isConnected()) return false;
   return true;
@@ -35,6 +35,23 @@ bool rotaryDecoderSwitch::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t rotaryDecoderSwitch::getRECount()
+{
+  return _count;
+}
+
+
+void rotaryDecoderSwitch::reset()
+{
+  for (int i = 0 ; i < ROTDEC_MAX_COUNT; i++)
+  {
+    _lastPos[i] = 0;
+    _encoder[i] = 0;
+  }
+  _lastValue = 0;
 }
 
 
@@ -70,8 +87,8 @@ bool rotaryDecoderSwitch::update()
  _lastValue = value;
   for (uint8_t i = 0; i < _count; i++, value >>= 4)
   {
-    uint8_t currentpos = (value & 0x03);
-    uint8_t change = (_lastPos[i] << 2) | currentpos;
+    uint8_t currentPos = (value & 0x03);
+    uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
       case 0b0001:  //  fall through..
@@ -87,7 +104,7 @@ bool rotaryDecoderSwitch::update()
         _encoder[i]--;
         break;
     }
-    _lastPos[i] = currentpos;
+    _lastPos[i] = currentPos;
   }
   return true;
 }
@@ -104,8 +121,8 @@ bool rotaryDecoderSwitch::updateSingle()
  _lastValue = value;
   for (uint8_t i = 0; i < _count; i++, value >>= 4)
   {
-    uint8_t currentpos = (value & 0x03);
-    uint8_t change = (_lastPos[i] << 2) | currentpos;
+    uint8_t currentPos = (value & 0x03);
+    uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
       case 0b0001:  //  fall through..
@@ -127,7 +144,7 @@ bool rotaryDecoderSwitch::updateSingle()
         _encoder[i] += 3;
         break;
     }
-    _lastPos[i] = currentpos;
+    _lastPos[i] = currentPos;
   }
   return true;
 }
@@ -135,14 +152,14 @@ bool rotaryDecoderSwitch::updateSingle()
 
 int32_t rotaryDecoderSwitch::getValue(uint8_t re)
 {
-  if (re > 1) return 0;
+  if (re >= ROTDEC_MAX_COUNT) return 0;
   return _encoder[re];
 }
 
 
 bool rotaryDecoderSwitch::setValue(uint8_t re, int32_t value)
 {
-  if (re > 1) return false;
+  if (re >= ROTDEC_MAX_COUNT) return false;
   _encoder[re] = value;
   return true;
 }
@@ -181,16 +198,15 @@ bool rotaryDecoderSwitch::write1(uint8_t pin, uint8_t value)
 uint8_t rotaryDecoderSwitch::read8()
 {
   _wire->requestFrom(_address, (uint8_t)1);
-  uint8_t x = _wire->read();
-  // Serial.println(x, HEX);
-  return x;
+  uint8_t a = _wire->read();
+  return a;
 }
 
 
-bool rotaryDecoderSwitch::write8(uint8_t value)
+bool rotaryDecoderSwitch::write8(uint8_t bitmask)
 {
   _wire->beginTransmission(_address);
-  _wire->write(value);
+  _wire->write(bitmask);
   return (_wire->endTransmission() == 0);
 }
 
@@ -201,6 +217,7 @@ bool rotaryDecoderSwitch::write8(uint8_t value)
 //
 uint8_t rotaryDecoderSwitch::getLastPosition(uint8_t re)
 {
+  if (re >= ROTDEC_MAX_COUNT) return 0;
   return _lastPos[re];
 }
 

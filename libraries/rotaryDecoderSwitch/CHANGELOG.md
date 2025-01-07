@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-01-06
+- refactor to sync with rotaryDecoder8 (PCF8575)
+- add **reset()**
+- add **getRECount()**
+- update readme.md
+- update unit test
+
+----
+
 ## [0.3.1] - 2024-06-20
 - changed **uint8_t readInitialState()** to return the read state.
 - changed **bool setValue(uint8_t re, int32_t value = 0)** to return false 

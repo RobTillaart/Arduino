@@ -1,0 +1,56 @@
+# Syntax Colouring Map For APDS9900
+
+# Data types (KEYWORD1)
+APDS9900	KEYWORD1
+APDS9901	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+wakeUp	KEYWORD2
+sleep	KEYWORD2
+
+setIntegrationTime	KEYWORD2
+getIntegrationTime	KEYWORD2
+
+setProximityTime	KEYWORD2
+getProximityTime	KEYWORD2
+
+setWaitTime	KEYWORD2
+getWaitTime	KEYWORD2
+
+setALSThresholds	KEYWORD2
+setPROXThresholds	KEYWORD2
+setALSInterruptPersistence	KEYWORD2
+setPROXInterruptPersistence	KEYWORD2
+
+setProximityPulseCount	KEYWORD2
+getProximityPulseCount	KEYWORD2
+
+setLedDriveStrength	KEYWORD2
+getLedDriveStrength	KEYWORD2
+
+setProximityDiodeSelect	KEYWORD2
+getProximityDiodeSelect	KEYWORD2
+
+setALSGain	KEYWORD2
+getALSGain	KEYWORD2
+
+getRevision	KEYWORD2
+getDeviceID	KEYWORD2
+
+getStatus	KEYWORD2
+
+getLux	KEYWORD2
+getALS_CDATA	KEYWORD2
+getALS_IRDATA	KEYWORD2
+getPROX_DATA	KEYWORD2
+
+getLastError	KEYWORD2
+
+# Constants (LITERAL1)
+ADPS9900_LIB_VERSION	LITERAL1
+

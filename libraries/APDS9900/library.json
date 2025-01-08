@@ -1,0 +1,23 @@
+{
+  "name": "APDS9900",
+  "keywords": "environment",
+  "description": "Arduino library for the APDS9900 sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/APDS9900.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "APDS9900.h"
+}

@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoder.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-06
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder8
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER8_LIB_VERSION         (F("0.1.0"))
+#define ROTARY_DECODER8_LIB_VERSION         (F("0.1.1"))
 
 const uint8_t ROTDEC_MAX_COUNT = 8;
 

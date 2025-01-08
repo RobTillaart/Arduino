@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoder8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-06
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder8

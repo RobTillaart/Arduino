@@ -2,7 +2,7 @@
 //    FILE: DAC8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC8574
 
@@ -20,6 +20,7 @@ DAC8574::DAC8574(uint8_t address, TwoWire *wire)
   _address    = address;
   _wire       = wire;
   _error      = DAC8574_OK;
+  _control    = 0x00;
   _maxChannel = 4;
   for (int channel = 0; channel < _maxChannel; channel++)
   {
@@ -78,6 +79,7 @@ bool DAC8574::write(uint8_t channel, uint16_t value)
   }
   uint8_t lowByte = value & 0xFF;
   uint8_t highByte = value >> 8;
+  _control &= 0xF0;  //  keep A2A3 + mode bits
   uint8_t control = _control | (channel << 1);
 
   _wire->beginTransmission(_address);
@@ -99,7 +101,7 @@ bool DAC8574::write(uint8_t channel, uint16_t value)
 
 uint16_t DAC8574::lastWrite(uint8_t channel)
 {
-  if (channel >= _maxChannel) 
+  if (channel >= _maxChannel)
   {
     _error = DAC8574_CHANNEL_ERROR;
     return 0xFFFF;
@@ -110,12 +112,13 @@ uint16_t DAC8574::lastWrite(uint8_t channel)
 
 uint16_t DAC8574::read(uint8_t channel)
 {
-  if (channel >= _maxChannel) 
+  if (channel >= _maxChannel)
   {
     _error = DAC8574_CHANNEL_ERROR;
     return 0;
   }
 
+  _control &= 0xF0;  //  keep A2A3 + mode bits
   uint8_t control = _control | (channel << 1);
   _wire->beginTransmission(_address);
   _wire->write(control);
@@ -154,6 +157,7 @@ bool DAC8574::write(uint8_t channel, uint16_t * arr, uint8_t length)
 
   _wire->beginTransmission(_address);
 
+  _control &= 0xF0;  //  keep A2A3 + mode bits
   uint8_t control = _control | (channel << 1);
   _wire->write(control);
   for (int i = 0; i < length; i++)
@@ -207,7 +211,8 @@ void DAC8574::setWriteMode(uint8_t mode)
   {
     mode = DAC8574_MODE_NORMAL;
   }
-  _control = (mode << 4);
+  _control &= 0xC0;  //  keep A2A3 bits
+  _control |= (mode << 4);
 }
 
 
@@ -215,6 +220,27 @@ uint8_t DAC8574::getWriteMode()
 {
   uint8_t mode = (_control >> 4) & 0x03;
   return mode;
+}
+
+
+//////////////////////////////////////////////////////////
+//
+//  EXTENDED ADDRESS (A2 A3 pin) PART
+//
+
+bool DAC8574::setExtendedAddress(uint8_t A2A3)
+{
+  if (A2A3 > 3) return false;
+  _control &= 0x30;  //  keep mode bits
+  _control |= (A2A3 << 6);
+  return true;
+}
+
+
+uint8_t DAC8574::getExtendedAddress()
+{
+  uint8_t A2A3 = (_control >> 6) & 0x03;
+  return A2A3;
 }
 
 
@@ -243,7 +269,8 @@ bool DAC8574::powerDown(uint8_t pdMode)
       break;
   }
   //  DAC8574_MODE_NORMAL + power down bit 7
-  _control = (DAC8574_MODE_NORMAL << 4) + 0x01;
+  _control &= 0xC0;  //  keep A2A3 bits
+  _control |= (DAC8574_MODE_NORMAL << 4) + 0x01;
   return write(0, pdMask);
 }
 

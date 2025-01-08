@@ -18,6 +18,9 @@ getPercentage	KEYWORD2
 setWriteMode	KEYWORD2
 getWriteMode	KEYWORD2
 
+setExtendedAddress	KEYWORD2
+getExtendedAddress	KEYWORD2
+
 powerDown	KEYWORD2
 wakeUp	KEYWORD2
 

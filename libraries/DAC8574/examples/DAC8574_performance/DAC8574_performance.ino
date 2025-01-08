@@ -13,6 +13,9 @@
 
 DAC8574 dev(0x4E);
 
+// uncomment this and change number to reflect the A2A3 setting (see Extended Address in datasheet)
+//#define EXTENDED_ADDRESS 1
+
 uint32_t start, stop;
 
 volatile uint16_t x;
@@ -29,7 +32,9 @@ void setup()
   Serial.println(DAC8574_LIB_VERSION);
 
   Wire.begin();
-
+  #ifdef EXTENDED_ADDRESS
+    dev.setExtendedAddress(EXTENDED_ADDRESS);
+  #endif
   dev.begin();
 
   if (! dev.isConnected())
@@ -41,6 +46,10 @@ void setup()
 
   Serial.print("Address: ");
   Serial.println(dev.getAddress(), HEX);
+  Serial.println();
+
+  Serial.print("Extended address: ");
+  Serial.println(dev.getExtendedAddress(), HEX);
   Serial.println();
 
   test1();
@@ -92,7 +101,7 @@ void test_write()
   start = micros();
   for (uint16_t i = 0; i < 1000; i++)
   {
-    uint16_t val = i;
+    uint16_t val = i * 65;
     dev.write(0, val);
   }
   stop = micros();

@@ -53,7 +53,7 @@ unittest(test_constants)
   assertEqual(DAC8574_ADDRESS_ERROR, 0x82);
   assertEqual(DAC8574_BUFFER_ERROR,  0x83);
   assertEqual(DAC8574_CHANNEL_ERROR, 0x84);
-  
+
   assertEqual(DAC8574_MODE_STORE_CACHE, 0x00);
   assertEqual(DAC8574_MODE_NORMAL     , 0x01);
   assertEqual(DAC8574_MODE_WRITE_CACHE, 0x02);
@@ -70,10 +70,58 @@ unittest(test_constructor)
   Wire.begin();
 
   assertTrue(dev.begin());
-
   assertTrue(dev.isConnected());
+
+  assertEqual(0x4C, dev.getAddress());
+
+  //  defaults
   assertEqual(0, dev.lastWrite(0));
   assertEqual(DAC8574_OK, dev.lastError());
+  assertEqual(DAC8574_MODE_NORMAL, dev.getWriteMode());
+  assertEqual(0x00, dev.getExtendedAddress());
+}
+
+
+unittest(test_setWriteMode)
+{
+  DAC8574 dev(0x4C);
+
+  Wire.begin();
+  assertTrue(dev.begin());
+
+  assertTrue(dev.isConnected());
+  //  default
+  assertEqual(DAC8574_MODE_NORMAL, dev.getWriteMode());
+
+  dev.setWriteMode(DAC8574_MODE_STORE_CACHE);
+  assertEqual(DAC8574_MODE_STORE_CACHE, dev.getWriteMode());
+
+  dev.setWriteMode(DAC8574_MODE_NORMAL);
+  assertEqual(DAC8574_MODE_NORMAL, dev.getWriteMode());
+
+  dev.setWriteMode(DAC8574_MODE_WRITE_CACHE);
+  assertEqual(DAC8574_MODE_WRITE_CACHE, dev.getWriteMode());
+}
+
+
+unittest(test_setExtendedAddress)
+{
+  DAC8574 dev(0x4C);
+
+  Wire.begin();
+  assertTrue(dev.begin());
+
+  assertTrue(dev.isConnected());
+  //  default
+  assertEqual(0x00, dev.getExtendedAddress());
+  //  valid
+  for (int a2a3 = 0; a2a3 < 4; a2a3++)
+  {
+    assertTrue(dev.setExtendedAddress(a2a3));
+    assertEqual(a2a3, dev.getExtendedAddress());
+  }
+  //  invalid
+  assertFalse(dev.setExtendedAddress(0x04));
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: DAC8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC8574
 
@@ -73,6 +73,10 @@ public:
   //       WRITE MODE (see defines above)
   void     setWriteMode(uint8_t mode = DAC8574_MODE_NORMAL);
   uint8_t  getWriteMode();  // 0..4  from last write (cached)
+
+  //       EXTENDED ADDRESS (A2 A3 pin)
+  bool     setExtendedAddress(uint8_t A2A3);  //  0,1,2,3 else false
+  uint8_t  getExtendedAddress();  //  returns set value, default 00
 
   //       POWER DOWN (see defines above)
   bool     powerDown(uint8_t pdMode = DAC8574_PD_LOW_POWER);

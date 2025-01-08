@@ -13,6 +13,7 @@
 
 Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.
 
+
 ## Description
 
 **Experimental**
@@ -33,7 +34,7 @@ This can be used to change the DAC at a later moment.
 As said the library is experimental need to be tested with hardware.
 Feedback is always welcome, please open an issue.
 
-Kudos to Doctea for first tests.
+Kudos to doctea for first tests of the library.
 
 
 ### Settling time
@@ -50,64 +51,91 @@ therefore, the update rate is limited by the I2C interface.
 
 ### Address
 
-The DAC8574 support 2 addresses by means of an A0 address pin.
+The DAC8574 supports 4 addresses by means of an A0 and A1 address pin.
 
-
-|  Address  |   A0   |   A1   |
+|  Address  |   A1   |   A0   |
 |:---------:|:------:|:------:|
 |   0x4C    |   LOW  |   LOW  |
 |   0x4D    |   LOW  |  HIGH  |
 |   0x4E    |  HIGH  |   LOW  |
 |   0x4F    |  HIGH  |  HIGH  |
 
-It might be possible to connect one address pin to an IO pin and 
-keep only of multi DAC's HIGH and the remaining LOW to support multiple devices.
-This is not tested, feedback welcome.
+The datasheet states that the address is configured at power-on, 
+so it is probably not possible to 'multiplex' these chips by adjusting the 
+address pins during operation, but feedback welcome if you try this.
+
+Furthermore the device has two extended address (so called in the datasheet) pins A2 
+and A3 which should by default be connected to GND. 
+Since 0.1.1 the library supports these two extra address bits, which enables more 
+DAC8574 devices on one I2C bus. See section below.
+
+
+### Extended address
+
+By using the A2 and A3 pins one can "extend" the address of the device, 
+effectively use up to 16 devices on the same I2C bus. 
+Please note the A2 and A3 pins are not part of the I2C address but are part (2 bits)
+of the internal control byte.
+
+The extended address pins (bits) are not seen by any I2C scanner as these (almost)
+always use an 8 bits address. The A2 A3 extended address lines are not used
+so this might result in anomalies during an I2C scan as multiple devices might
+answer. Feedback about this is welcome.
+
+The A2 and A3 pins can be set with **setExtendedAddress()**, see section below.
 
 
 ### I2C pull ups
 
 To be able to reach 1 MHz (ESP32) the pull ups need to be fairly strong.
-Preliminary tests (DAC8571) indicate that 2K work.
+Preliminary tests (DAC8571 from same family) indicate that 2K works.
 
 
 ### I2C performance
 
-Extend table, use output of **DAC8574_performance.ino**
+Output of **DAC8574_performance.ino**
 
 Time in microseconds.  
 array == write(array, length)
 Assumption all write modi have similar performance.
 
-Test Arduino UNO  - version 0.1.0
+#### Test Teensy 4.1
+ 
+| Wire clock | write() | read() |
+|:----------:|:-------:|:------:|
+| 50000 | 387.25 | 497.75 | 
+| 100000 | 387.25 | 497.75 | 
+| 150000 | 387.25 | 497.75 | 
+| 200000 | 387.25 | 497.75 | 
+| 250000 | 387.25 | 497.75 | 
+| 300000 | 387.25 | 497.75 | 
+| 350000 | 387.25 | 497.75 | 
+| 400000 | 107.13 | 137.83 | 
+| 450000 | 107.13 | 137.83 | 
+| 500000 | 107.13 | 137.83 | 
+| 550000 | 107.13 | 137.83 | 
+| 600000 | 107.13 | 137.83 | 
+| 650000 | 107.13 | 137.83 | 
+| 700000 | 107.13 | 137.83 | 
 
-|  Speed   |  function  |  time  |  notes  |
-|:--------:|:----------:|:------:|:-------:|
-|  100000  |  write()   |        |
-|  100000  |  read()    |        |
-|  200000  |  write()   |        |
-|  200000  |  read()    |        |
-|  400000  |  write()   |        |
-|  400000  |  read()    |        |
+#### Test RP2040 (Seeed Xiao 2040)
 
-
-Test ESP32 - version 0.1.0
-
-|  Speed   |  write()  |  read()  |  write(array)  |  Notes  |
-|:--------:|:---------:|:--------:|:--------------:|:--------|
-|  50000   |           |          |                |
-|  100000  |           |          |                |
-|  200000  |           |          |                |
-|  300000  |           |          |                |
-|  400000  |           |          |                |
-|  500000  |           |          |                |
-|  600000  |           |          |                |
-|  700000  |           |          |                |
-|  800000  |           |          |                |
-|  900000  |           |          |                |
-|  1000000 |           |          |                |
-
-
+| Wire clock | write() | read() |
+|:----------:|:-------:|:------:|
+| 50000 | 800.72 | 1028.23 | 
+| 100000 | 405.48 | 518.30 | 
+| 150000 | 274.26 | 348.84 | 
+| 200000 | 208.11 | 263.41 | 
+| 250000 | 168.40 | 212.35 | 
+| 300000 | 142.50 | 181.35 | 
+| 350000 | 123.73 | 157.87 | 
+| 400000 | 109.71 | 140.55 | 
+| 450000 | 98.54 | 126.35 | 
+| 500000 | 89.44 | 115.50 | 
+| 550000 | 82.84 | 106.05 | 
+| 600000 | 76.68 | 99.12 | 
+| 650000 | 71.63 | 92.22 | 
+| 700000 | 67.14 | 87.07 | 
 
 ### I2C multiplexing
 
@@ -127,7 +155,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-### Related
+## Related
 
 - https://github.com/RobTillaart/AD5680 (18 bit DAC)
 - https://github.com/RobTillaart/DAC8550
@@ -167,7 +195,7 @@ No default, user must explicit set value.
 - **uint16_t lastWrite(uint8_t channel)** get last value written from cache (fast).
 - **uint16_t read(uint8_t channel)** get last written value from device.
 
-Percentage wrappers
+Percentage wrappers. Note these might give small rounding errors.
 
 - **void setPercentage(uint8_t channel, float perc)** set 0.00 .. 100.00.
 Value is constrained to 0..100
@@ -177,7 +205,7 @@ Value is constrained to 0..100
 ### Write modi
 
 The DAC8574 can be written in different modi (datasheet page 19).
-Not all modi are supported yet, these need testing.
+Not all modi are supported yet, these need investigation and testing.
 
 - **void setWriteMode(uint8_t mode = DAC8574_MODE_NORMAL)**
 - **uint8_t getWriteMode()**
@@ -196,14 +224,35 @@ Setting the mode will be applied for all writes until mode is changed.
 | other                    |  maps onto default **DAC8574_MODE_NORMAL**.
 
 
+
 ### Write multiple values - High speed mode.
 
 The maximum length depends on the internal I2C BUFFER of the board.
-For Arduino this is typical 32 bytes so it allows 14 values.
+For Arduino UNO this is typical 32 bytes so it allows 14 values.
 
-- **void write(uint16_t arr[n], uint8_t length)** Writes a buffer with 
+- **void write(uint8_t channel, uint16_t \* array, uint8_t length)** Writes a buffer with 
 max 14 values in one I2C call. 
-The last value written will be remembered in **lastWrite()**.
+The last value written will be cached in **lastWrite()**.
+
+Other boards may have larger I2C buffers so the hard coded limit of 14 should 
+be changed / removed in the future.
+
+
+### Extended Address
+
+Please note the A2 and A3 pins are not part of the I2C address but are part (2 bits)
+of the internal control byte. See datasheet page 18.
+
+- **bool setExtendedAddress(uint8_t A2A3)** returns true if A2A3 = 0, 1, 2, 3
+if A2A3 > 3 the function returns false.
+- **uint8_t getExtendedAddress()** returns set value, default 0.
+
+|  A2A3  |   A3  |   A2  |
+|:------:|:-----:|:-----:|
+|   0    |  LOW  |  LOW  |
+|   1    |  LOW  | HIGH  |
+|   2    | HIGH  |  LOW  |
+|   3    | HIGH  | HIGH  |
 
 
 ### Power Down mode
@@ -215,7 +264,7 @@ returns false on failure.
 - **bool wakeUp(uint16_t value = 0)** wake up, DAC value set to zero by default.
 returns false on failure.
 
-See table 8, page 27 datasheet for details.
+See datasheet table 8, page 27, for details.
 
 |  Power Down Mode       |  value  |  Meaning  |
 |:-----------------------|:-------:|:----------|
@@ -271,6 +320,8 @@ After the call to **lastError()** the error value is reset to DAC8574_OK.
 
 #### Could
 
+- adjust limit 14 of write(array) to something more dynamic
+  - make user responsible
 - add examples
 
 #### Wont

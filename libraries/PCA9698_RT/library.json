@@ -1,0 +1,23 @@
+{
+  "name": "PCA9698",
+  "keywords": "I2C, PCA9698, IO, toggle",
+  "description": "Arduino library for the PCA9698 - I2C, 40 channel IO expander.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCA9698_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCA9698.h"
+}

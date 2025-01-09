@@ -1,0 +1,56 @@
+# Syntax Colouring Map for PCA9698
+
+
+# Data types (KEYWORD1)
+PCA9698	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+read8	KEYWORD2
+write8	KEYWORD2
+toggle8	KEYWORD2
+
+read1	KEYWORD2
+write1	KEYWORD2
+toggle1	KEYWORD2
+
+read40	KEYWORD2
+write40	KEYWORD2
+
+select	KEYWORD2
+selectN	KEYWORD2
+
+setPolarity40	KEYWORD2
+getPolarity40	KEYWORD2
+
+setPinMode40	KEYWORD2
+getPinMode40	KEYWORD2
+
+setInterrupt40	KEYWORD2
+getInterrupt40	KEYWORD2
+
+setOutputConfig	KEYWORD2
+getOutputConfig	KEYWORD2
+
+setAllBank	KEYWORD2
+getAllBank	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+
+getDeviceID	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (	LITERAL1)
+PCA9698_LIB_VERSION	LITERAL1
+
+PCA9698_OK	LITERAL1
+PCA9698_PIN_ERROR	LITERAL1
+PCA9698_I2C_ERROR	LITERAL1
+

@@ -48,6 +48,7 @@ void loop()
 {
   if (flag)
   {
+    flag = false;
     for (int pin = 0; pin < 16; pin++)
     {
       int val = TCA.read1(pin);

@@ -26,7 +26,7 @@ Note that for the 16 bit interface settings are not perfectly simultaneous
 as the 16 bit interface does in fact 2 calls to the 8 bit interface.  
 
 
-#### TCA9535
+### TCA9535
 
 From datasheet:
 
@@ -38,7 +38,29 @@ There is a TCA9535 class which is a (convenience) wrapper around the TCA9555 cla
 This allows one to create TCA9535 objects. 
 
 
-#### 0.3.0 Breaking change
+### Compatibles
+
+The library is expected to work for the PCA9554 / PCA9534 too. To be verified (feedback welcome).
+
+
+### Related
+
+16 bit port expanders
+
+- https://github.com/RobTillaart/MCP23017_RT
+- https://github.com/RobTillaart/MCP23S17  (SPI)
+- https://github.com/RobTillaart/PCF8575
+- https://github.com/RobTillaart/PCA9555
+
+8 bit port expanders
+
+- https://github.com/RobTillaart/MCP23008
+- https://github.com/RobTillaart/MCP23S08  (SPI)
+- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/PCA9554
+
+
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -60,8 +82,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -70,24 +91,9 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
-
-16 bit port expanders
-
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
-
-8 bit port expanders
-
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
-
-
 ## Hardware
 
-#### I2C addresses
+### I2C addresses
 
 The addresses for the TCA9555 and TCA9535 are 0x20..0x27.
 These are to be set with pin A0, A1, A2.
@@ -95,7 +101,7 @@ These are to be set with pin A0, A1, A2.
 Both the TCA9555 and TCA9535 support up to 400 kHz I2C.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -113,7 +119,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### INT
+### INT pin interrupts
 
 The interrupt pin is not supported by the library.
 Needs investigation (+ examples).
@@ -145,13 +151,13 @@ Returns true if device can be seen on I2C bus, false otherwise.
 - **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..15, returns the value of the pin HIGH or LOW.
 - **bool setPolarity(uint8_t pin, uint8_t value)** inverts polarity of an INPUT pin.
-- **uint8_t getPolarity(uint8_t pin)** returns 1 if a pin is inverted.
+- **uint8_t getPolarity(uint8_t pin)** returns 1 if a pin is inverted, zero otherwise.
 
 
-#### 8 pin interface
+### 8 pin interface
 
 port = 0..1  
-mask = 0..255
+mask = 0..255 (0xFF)
 
 - **bool pinMode8(uint8_t port, uint8_t mask)** set the mode of eight pins in one call.
 - **bool write8(uint8_t port, uint8_t mask)** returns true if successful. 
@@ -161,7 +167,7 @@ Especially useful if one needs to trigger multiple pins at the exact same time.
 - **uint8_t getPolarity(uint8_t port)** returns a mask with a 1 for every INPUT pin that is inverted.
 
 
-#### 16 pin interface
+### 16 pin interface
 
 Be aware that the 16 pins interface does two calls to the 8 pins interface. 
 So it is impossible to switch pins from the 2 groups of 8 at exactly the same time 
@@ -175,7 +181,7 @@ Returns true upon success.
 - **uint16_t getPolarity()** returns a mask of 16 bits with a 1 for every INPUT pin that is inverted.
 
 
-#### Error codes
+### Error codes
 
 - **int lastError()** Above functions set an error flag that can be read with this function. 
 Reading it will reset the flag to **TCA9555_OK**.
@@ -193,14 +199,13 @@ Reading it will reset the flag to **TCA9555_OK**.
 
 ## Future
 
-
 #### Must
 
 - update documentation
-- buy TCA9555 / TCA9535
+- buy TCA9555 / TCA9535 / PCA9555 / PCA9535
 - test all functionality
   - library is written without hardware
-
+- keep TCA9554/TCA9555 in sync
 
 #### Should
 
@@ -216,6 +221,7 @@ Reading it will reset the flag to **TCA9555_OK**.
 
 #### Could
 
+- add PCA9555/35 as derived class.
 - rethink class hierarchy
   - TCA9535 has less functions so should be base class
 - add performance example for I2C.

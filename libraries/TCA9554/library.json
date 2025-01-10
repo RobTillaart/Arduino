@@ -1,0 +1,23 @@
+{
+  "name": "TCA9554",
+  "keywords": "TCA9554,I2C,8 IO, TCA9534, PCA9554, PCA9534",
+  "description": "Arduino library for I2C TCA9554 8 channel port expander\n Should work for TCA9534 / PCA9554 / PCA9534 (not tested).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA9554.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCA9554.h"
+}

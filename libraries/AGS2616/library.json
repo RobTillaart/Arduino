@@ -1,0 +1,23 @@
+{
+  "name": "AGS2616",
+  "keywords": "I2C, AGS2616, H2",
+  "description": "Arduino library for AGS2616 - Hydrogen H2 sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AGS2616.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AGS2616.h"
+}

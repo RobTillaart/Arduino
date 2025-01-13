@@ -1,0 +1,36 @@
+# Syntax Colouring Map for TCS3210
+
+
+# Data types (KEYWORD1)
+TCS3200	KEYWORD1
+TCS3210	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+getType	KEYWORD2
+
+enable	KEYWORD2
+disable	KEYWORD2
+
+selectRed	KEYWORD2
+selectGreen	KEYWORD2
+selectBlue	KEYWORD2
+selectNone	KEYWORD2
+
+powerDown	KEYWORD2
+set2Percent	KEYWORD2
+set20Percent	KEYWORD2
+set100Percent	KEYWORD2
+
+getDuration	KEYWORD2
+getFrequency	KEYWORD2
+
+
+lastError	KEYWORD2
+getType	KEYWORD2
+
+# Constants (LITERAL1)
+TCS3210_LIB_VERSION	LITERAL1
+
+

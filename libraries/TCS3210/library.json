@@ -1,0 +1,23 @@
+{
+  "name": "TCS3210",
+  "keywords": "TCS3200",
+  "description": "Arduino library for TCS3210 colour light to frequency convertor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCS3210.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCS3210.h"
+}

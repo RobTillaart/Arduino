@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-01-12
+- fix **begin()** mode parameter (thanks to CrispyPyro)
+- update readme.md.
+- add derived classes PCA9555 and PCA9535
+
+
 ## [0.4.0] - 2025-01-09
 - sync with TCA9554
 - add begin(mode, mask)

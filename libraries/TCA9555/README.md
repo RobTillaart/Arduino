@@ -40,7 +40,9 @@ This allows one to create TCA9535 objects.
 
 ### Compatibles
 
-The library is expected to work for the PCA9554 / PCA9534 too. To be verified (feedback welcome).
+The library is expected to work for the PCA9555 / PCA9535 too for which derived classes are made. 
+
+To be verified (feedback welcome).
 
 
 ### Related
@@ -133,22 +135,31 @@ Check the datasheet for details
 #include "TCA9555.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **TCA9555(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface. 
 Can be overruled with Wire0..WireN.
 - **TCA9535(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **PCA9555(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **PCA9535(uint8_t address, TwoWire \*wire = &Wire)** idem.
 - **uint8_t getType()** returns 35 or 55 depending on type.
-- **bool begin()** initializes library.
+- **bool begin(uint8_t mode = INPUT, uint16_t mask = 0x0000)** initializes library.
+Sets all the pins to INPUT (default) or to OUTPUT. 
+If mode == OUTPUT the mask sets the initial value. 
+If mode != OUTPUT the mode is considered INPUT.
 Returns true if device can be seen on I2C bus, false otherwise.
-- **bool isConnected()** returns true if device can be seen on I2C bus, false otherwise.
+- **bool isConnected()** returns true if device address given in the constructor can be seen 
+on I2C bus, returns false otherwise.
 - **uint8_t getAddress()** returns set address, (debugging).
 
 
-#### 1 pin interface
+### 1 pin interface
 
 - **bool pinMode1(uint8_t pin, uint8_t mode)** idem.
-- **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), returns true if successful.
+If pin > 15 the function will return false.
+The parameter mode must be INPUT or OUTPUT, other values will return false.
+- **bool write1(uint8_t pin, uint8_t value)** pin = 0..15, value = LOW(0) HIGH (!0), 
+returns true if successful.
 - **uint8_t read1(uint8_t pin)** pin = 0..15, returns the value of the pin HIGH or LOW.
 - **bool setPolarity(uint8_t pin, uint8_t value)** inverts polarity of an INPUT pin.
 - **uint8_t getPolarity(uint8_t pin)** returns 1 if a pin is inverted, zero otherwise.
@@ -160,10 +171,12 @@ port = 0..1
 mask = 0..255 (0xFF)
 
 - **bool pinMode8(uint8_t port, uint8_t mask)** set the mode of eight pins in one call.
+If port > 1 the function will return false.
+1 bit = INPUT, 0 bit = OUTPUT.
 - **bool write8(uint8_t port, uint8_t mask)** returns true if successful. 
 Especially useful if one needs to trigger multiple pins at the exact same time.
 - **uint8_t read8(uint8_t port)** returns a bit pattern for pins 0..7 or pins 8..15.
-- **bool setPolarity8(uint8_t port, uint8_t mask)** inverts polarity of the 8 INPUT pins in one action.
+- **bool setPolarity8(uint8_t port, uint8_t mask)** inverts polarity of the INPUT pins in one action.
 - **uint8_t getPolarity(uint8_t port)** returns a mask with a 1 for every INPUT pin that is inverted.
 
 
@@ -174,11 +187,15 @@ So it is impossible to switch pins from the 2 groups of 8 at exactly the same ti
 without additional hardware.
 
 - **bool pinMode16(uint16_t mask)** set the mode of sixteen pins in one call. 
+1 bit = INPUT, 0 bit = OUTPUT.
 - **bool write16(uint16_t mask)**  mask = 0x0000 .. 0xFFFF, returns true if successful.
+As **write16()** uses two calls to **write8()** only the pins on the same port are
+set simultaneously.
 - **uint16_t read16()** Returns a bit pattern for pins 0..15.
-- **bool setPolarity16(uint16_t mask)** inverts polarity of the 8 INPUT pins in one action. 
+- **bool setPolarity16(uint16_t mask)** inverts polarity of the INPUT pins in one action. 
 Returns true upon success.
-- **uint16_t getPolarity()** returns a mask of 16 bits with a 1 for every INPUT pin that is inverted.
+- **uint16_t getPolarity()** returns a mask of 16 bits with a 1 for every INPUT pin that 
+has inverted polarity.
 
 
 ### Error codes
@@ -204,7 +221,6 @@ Reading it will reset the flag to **TCA9555_OK**.
 - update documentation
 - buy TCA9555 / TCA9535 / PCA9555 / PCA9535
 - test all functionality
-  - library is written without hardware
 - keep TCA9554/TCA9555 in sync
 
 #### Should
@@ -218,16 +234,13 @@ Reading it will reset the flag to **TCA9555_OK**.
 - **setPolarity()** ==> **setPolarity1()** ? get idem.
   - uniformity
 
-
 #### Could
 
-- add PCA9555/35 as derived class.
 - rethink class hierarchy
   - TCA9535 has less functions so should be base class
 - add performance example for I2C.
 - investigate optimizing the "16 pins" interface.
   - read /write multiple bytes in one call, is it supported?
-
 
 #### Wont (unless)
 

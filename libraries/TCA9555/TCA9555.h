@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9555.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define TCA9555_LIB_VERSION               (F("0.4.0"))
+#define TCA9555_LIB_VERSION               (F("0.4.1"))
 
 #define TCA9555_OK                        0x00
 #define TCA9555_PIN_ERROR                 0x81
@@ -51,7 +51,8 @@ class TCA9555
 public:
   TCA9555(uint8_t address, TwoWire *wire = &Wire);
 
-  bool     begin(bool mode = INPUT, uint16_t mask = 0x0000);
+  //  mask has only meaning when mode == OUTPUT
+  bool     begin(uint8_t = INPUT, uint16_t mask = 0x0000);
   bool     isConnected();
   uint8_t  getAddress();
 
@@ -107,12 +108,24 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  TCA9535 class which is just a wrapper (for now)
+//  DERIVED CLASSES TCA9535 PCA9555 PCA95535
 //
 class TCA9535 : public TCA9555
 {
 public:
   TCA9535(uint8_t address, TwoWire *wire = &Wire);
+};
+
+class PCA9555 : public TCA9555
+{
+public:
+  PCA9555(uint8_t address, TwoWire *wire = &Wire);
+};
+
+class PCA9535 : public TCA9555
+{
+public:
+  PCA9535(uint8_t address, TwoWire *wire = &Wire);
 };
 
 

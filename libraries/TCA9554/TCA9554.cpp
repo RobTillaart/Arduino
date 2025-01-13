@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9554.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C TCA9554 8 channel port expander.
 //    DATE: 2025-01-09
 //     URL: https://github.com/RobTillaart/TCA9554
@@ -26,7 +26,7 @@ TCA9554::TCA9554(uint8_t address, TwoWire *wire)
 }
 
 
-bool TCA9554::begin(bool mode, uint8_t mask)
+bool TCA9554::begin(uint8_t mode, uint8_t mask)
 {
   if ((_address < 0x20) || (_address > 0x27)) return false;
   if (! isConnected()) return false;
@@ -78,7 +78,7 @@ bool TCA9554::pinMode1(uint8_t pin, uint8_t mode)
   else                val &= ~mask;
   if (val != prevVal)
   {
-    writeRegister(TCA9554_CONFIGURATION_PORT, val);
+    return writeRegister(TCA9554_CONFIGURATION_PORT, val);
   }
   _error = TCA9554_OK;
   return true;
@@ -99,7 +99,7 @@ bool TCA9554::write1(uint8_t pin, uint8_t value)
   else       val &= ~mask;
   if (val != prevVal)
   {
-    writeRegister(TCA9554_OUTPUT_PORT_REGISTER, val);
+    return writeRegister(TCA9554_OUTPUT_PORT_REGISTER, val);
   }
   _error = TCA9554_OK;
   return true;
@@ -133,7 +133,6 @@ bool TCA9554::setPolarity(uint8_t pin, uint8_t value)
     _error = TCA9554_VALUE_ERROR;
     return false;
   }
-  //  cache prevVal
   uint8_t val = readRegister(TCA9554_POLARITY_REGISTER);
   uint8_t prevVal = val;
   uint8_t mask = 1 << pin;
@@ -141,7 +140,7 @@ bool TCA9554::setPolarity(uint8_t pin, uint8_t value)
   else               val &= ~mask;
   if (val != prevVal)
   {
-    writeRegister(TCA9554_POLARITY_REGISTER, val);
+    return writeRegister(TCA9554_POLARITY_REGISTER, val);
   }
   _error = TCA9554_OK;
   return true;
@@ -258,9 +257,21 @@ uint8_t TCA9554::readRegister(uint8_t reg)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  TCA9534
+//  DERIVED CLASSES TCA9534 PCA9554 PCA9534
 //
 TCA9534::TCA9534(uint8_t address, TwoWire *wire)
+        :TCA9554(address, wire)
+{
+  _type = 34;
+}
+
+PCA9554::PCA9554(uint8_t address, TwoWire *wire)
+        :TCA9554(address, wire)
+{
+  _type = 54;
+}
+
+PCA9534::PCA9534(uint8_t address, TwoWire *wire)
         :TCA9554(address, wire)
 {
   _type = 34;

@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9554.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C TCA9554 8 channel port expander.
 //    DATE: 2025-01-09
 //     URL: https://github.com/RobTillaart/TCA9554
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define TCA9554_LIB_VERSION               (F("0.1.0"))
+#define TCA9554_LIB_VERSION               (F("0.1.1"))
 
 #define TCA9554_OK                        0x00
 #define TCA9554_PIN_ERROR                 0x81
@@ -43,7 +43,8 @@ class TCA9554
 public:
   TCA9554(uint8_t address, TwoWire *wire = &Wire);
 
-  bool     begin(bool mode = INPUT, uint8_t mask = 0x00);
+  //  mask has only meaning when mode == OUTPUT
+  bool     begin(uint8_t = INPUT, uint8_t mask = 0x00);
   bool     isConnected();
   uint8_t  getAddress();
 
@@ -87,12 +88,24 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  TCA9534 class which is just a wrapper (for now)
+//  DERIVED CLASSES TCA9534 PCA9554 PCA95534
 //
 class TCA9534 : public TCA9554
 {
 public:
   TCA9534(uint8_t address, TwoWire *wire = &Wire);
+};
+
+class PCA9554 : public TCA9554
+{
+public:
+  PCA9554(uint8_t address, TwoWire *wire = &Wire);
+};
+
+class PCA9534 : public TCA9554
+{
+public:
+  PCA9534(uint8_t address, TwoWire *wire = &Wire);
 };
 
 

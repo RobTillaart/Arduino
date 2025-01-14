@@ -1,0 +1,23 @@
+{
+  "name": "AGS3870",
+  "keywords": "I2C, AGS3870, CH4",
+  "description": "Arduino library for AGS3870 - Methane CH4 sensor",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AGS3870.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AGS3870.h"
+}

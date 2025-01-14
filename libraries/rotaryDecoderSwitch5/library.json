@@ -1,0 +1,24 @@
+{
+  "name": "rotaryDecoderSwitch5",
+  "keywords": "rotary,encoder,decoder,PCF8575",
+  "description": "Arduino library for a PCF8575 based rotary decoder + switch.\n Supports up to 5 rotary encoders with a switch.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/rotaryDecoderSwitch5.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "rotaryDecoderSwitch5.h"
+}
+

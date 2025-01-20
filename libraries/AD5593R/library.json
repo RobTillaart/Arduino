@@ -1,0 +1,23 @@
+{
+  "name": "AD5593R",
+  "keywords": "",
+  "description": "Arduino library for AD5593R, I2C, 8 channel ADC / DAC / GPIO device.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5593R.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5593R.h"
+}

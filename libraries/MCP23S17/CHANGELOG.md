@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2025-01-20
+- Sync MCP23017 PR #41 interrupt functions.
+- add link to keypad library
+- update readme.md
+- update keywords.txt
+
+
 ## [0.6.0] - 2024-11-19
 - fix #47, interrupt handling. Kudos to GlibSkunk!
 - update readme.md

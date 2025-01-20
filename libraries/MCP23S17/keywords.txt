@@ -38,11 +38,15 @@ getPullup16	KEYWORD2
 
 enableInterrupt	KEYWORD2
 disableInterrupt	KEYWORD2
+enableInterrupt8	KEYWORD2
+disableInterrupt8	KEYWORD2
 enableInterrupt16	KEYWORD2
 disableInterrupt16	KEYWORD2
 
 getInterruptFlagRegister	KEYWORD2
 getInterruptCaptureRegister	KEYWORD2
+getInterruptCaptureRegister8	KEYWORD2
+
 setInterruptPolarity	KEYWORD2
 getInterruptPolarity	KEYWORD2
 

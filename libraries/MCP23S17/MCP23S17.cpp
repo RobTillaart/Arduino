@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -210,7 +210,6 @@ uint8_t MCP23S17::read1(uint8_t pin)
     IOR = MCP23x17_GPIO_B;
     pin -= 8;
   }
-
   uint8_t val = readReg(IOR);
   if (_error != MCP23S17_OK)
   {
@@ -675,6 +674,43 @@ bool MCP23S17::disableInterrupt(uint8_t pin)
 }
 
 
+bool MCP23S17::enableInterrupt8(uint8_t port, uint8_t mask, uint8_t mode)
+{
+  if (port > 1)
+  {
+    _error = MCP23S17_PORT_ERROR;
+    return false;
+  }
+
+  uint16_t intcon = 0, defval = 0;
+  //  right mode
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon = ~mask;
+  }
+  else
+  {
+    if (mode == RISING)
+    {
+      intcon = mask;
+      defval = ~mask;  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon = mask;
+      defval = mask;  //  FALLING == compare to 1
+    }
+    writeReg(port == 0 ? MCP23x17_DEFVAL_A: MCP23x17_DEFVAL_B, defval);
+  }
+  writeReg(port == 0 ? MCP23x17_INTCON_A : MCP23x17_INTCON_B, intcon);
+
+  //  enable the mask
+  writeReg(port == 0 ? MCP23x17_GPINTEN_A : MCP23x17_GPINTEN_B, mask);
+  return true;
+}
+
+
 bool MCP23S17::enableInterrupt16(uint16_t mask, uint8_t mode)
 {
   uint16_t intcon = 0, defval = 0;
@@ -686,7 +722,6 @@ bool MCP23S17::enableInterrupt16(uint16_t mask, uint8_t mode)
   }
   else
   {
-    intcon = mask;
     if (mode == RISING)
     {
       defval = ~mask;  //  RISING == compare to 0
@@ -702,6 +737,17 @@ bool MCP23S17::enableInterrupt16(uint16_t mask, uint8_t mode)
   //  enable the mask
   writeReg16(MCP23x17_GPINTEN_A, mask);
   return true;
+}
+
+
+bool MCP23S17::disableInterrupt8(uint8_t port, uint8_t mask)
+{
+  if (port > 1)
+  {
+    _error = MCP23S17_PORT_ERROR;
+    return false;
+  }
+  return writeReg(port == 0 ? MCP23x17_GPINTEN_A : MCP23x17_GPINTEN_B, ~mask);
 }
 
 
@@ -723,7 +769,19 @@ uint16_t MCP23S17::getInterruptCaptureRegister()
   return readReg16(MCP23x17_INTCAP_A);
 }
 
-  //       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+
+uint8_t MCP23S17::getInterruptCaptureRegister8(uint8_t port)
+{
+  if (port > 1)
+  {
+    _error = MCP23S17_PORT_ERROR;
+    return false;
+  }
+  return readReg(port == 0 ? MCP23x17_INTCAP_A : MCP23x17_INTCAP_B);
+}
+
+
+//       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
 bool MCP23S17::setInterruptPolarity(uint8_t polarity)
 {
   if (polarity > 2) return false;

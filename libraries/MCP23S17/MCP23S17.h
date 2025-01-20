@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.6.0"))
+#define MCP23S17_LIB_VERSION              (F("0.6.1"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -102,6 +102,10 @@ public:
   bool     enableInterrupt(uint8_t pin, uint8_t mode);
   bool     disableInterrupt(uint8_t pin);
 
+  //       mask = 0x00..0xFF  (overrides all earlier settings.
+  bool     enableInterrupt8(uint8_t port, uint8_t mask, uint8_t mode);
+  bool     disableInterrupt8(uint8_t port, uint8_t mask);
+
   //       mask = 0x0000..0xFFFF  (overrides all earlier settings.
   bool     enableInterrupt16(uint16_t mask, uint8_t mode);
   bool     disableInterrupt16(uint16_t mask);
@@ -109,6 +113,7 @@ public:
   //       which pins caused the INT?
   uint16_t getInterruptFlagRegister();
   uint16_t getInterruptCaptureRegister();
+  uint8_t  getInterruptCaptureRegister8(uint8_t port);
 
   //       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
   bool     setInterruptPolarity(uint8_t polarity);

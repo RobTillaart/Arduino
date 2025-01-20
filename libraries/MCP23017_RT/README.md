@@ -143,6 +143,10 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/MCP23S08
 - https://github.com/RobTillaart/PCF8574
 
+Keypad
+
+- https://github.com/AndreKlang/mcp23017-4x4-keypad
+
 
 ## Interface
 
@@ -228,9 +232,18 @@ Returns true if successful.
 Returns MCP23017_PIN_ERROR if pin > 15.
 
 
+8 pin interface, overrides all earlier settings. 
+Sets all pins to the same interrupt mode { RISING, FALLING, CHANGE }.  
+port = 0, 1  
+mask = 0x00..0xFF.
+- **bool enableInterrupt8(uint8_t port, uint8_t mask, uint8_t mode)**
+- **bool disableInterrupt8(uint8_t port, uint8_t mask)** 
+
+
 16 pin interface, overrides all earlier settings. 
 Sets all pins to the same interrupt mode { RISING, FALLING, CHANGE }.
-- **bool enableInterrupt16(uint16_t mask, uint8_t mode)** mask = 0x0000..0xFFFF.
+mask = 0x0000..0xFFFF.
+- **bool enableInterrupt16(uint16_t mask, uint8_t mode)**
 - **bool disableInterrupt16(uint16_t mask)**
 
 
@@ -238,9 +251,10 @@ Determine which pins caused the Interrupt. (datasheet).
 - **uint16_t getInterruptFlagRegister()** Reads all 16 pins.
 - **uint16_t getInterruptCaptureRegister()** Reads all 16 pins.
 Is used to detect if multiple pins triggered an interrupt.
+- **uint8_t getInterruptCaptureRegister8(uint8_t port)** reads 8 pins of port.
+Port == 0, 1
 
-
-- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **bool setInterruptPolarity(uint8_t polarity)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
 - **uint8_t getInterruptPolarity()** return set value.
 
 

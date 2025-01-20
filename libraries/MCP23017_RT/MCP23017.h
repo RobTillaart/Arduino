@@ -2,12 +2,12 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.0
+// VERSION: 0.8.1
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
 //
-// WARNING: please read REV D note in readme.md 
+// WARNING: please read REV D note in readme.md
 //          about pin 7 and 15 and INPUT mode.
 
 
@@ -16,7 +16,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.8.0"))
+#define MCP23017_LIB_VERSION              (F("0.8.1"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -85,6 +85,10 @@ public:
   bool     enableInterrupt(uint8_t pin, uint8_t mode);
   bool     disableInterrupt(uint8_t pin);
 
+  //       mask = 0x00..0xFF  (overrides all earlier settings.
+  bool     enableInterrupt8(uint8_t port, uint8_t mask, uint8_t mode);
+  bool     disableInterrupt8(uint8_t port, uint8_t mask);
+
   //       mask = 0x0000..0xFFFF  (overrides all earlier settings.
   bool     enableInterrupt16(uint16_t mask, uint8_t mode);
   bool     disableInterrupt16(uint16_t mask);
@@ -92,6 +96,7 @@ public:
   //       which pins caused the INT?
   uint16_t getInterruptFlagRegister();
   uint16_t getInterruptCaptureRegister();
+  uint8_t  getInterruptCaptureRegister8(uint8_t port);
 
   //       polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
   bool     setInterruptPolarity(uint8_t polarity);

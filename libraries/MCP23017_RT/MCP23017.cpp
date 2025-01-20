@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.0
+// VERSION: 0.8.1
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -628,6 +628,43 @@ bool MCP23017::disableInterrupt(uint8_t pin)
 }
 
 
+bool MCP23017::enableInterrupt8(uint8_t port, uint8_t mask, uint8_t mode)
+{
+  if (port > 1)
+  {
+    _error = MCP23017_PORT_ERROR;
+    return false;
+  }
+
+  uint16_t intcon = 0, defval = 0;
+  //  right mode
+  if (mode == CHANGE)
+  {
+    //  compare to previous value.
+    intcon = ~mask;
+  }
+  else
+  {
+    if (mode == RISING)
+    {
+      intcon = mask;
+      defval = ~mask;  //  RISING == compare to 0
+    }
+    else if (mode == FALLING)
+    {
+      intcon = mask;
+      defval = mask;  //  FALLING == compare to 1
+    }
+    writeReg(port == 0 ? MCP23x17_DEFVAL_A: MCP23x17_DEFVAL_B, defval);
+  }
+  writeReg(port == 0 ? MCP23x17_INTCON_A : MCP23x17_INTCON_B, intcon);
+
+  //  enable the mask
+  writeReg(port == 0 ? MCP23x17_GPINTEN_A : MCP23x17_GPINTEN_B, mask);
+  return true;
+}
+
+
 bool MCP23017::enableInterrupt16(uint16_t mask, uint8_t mode)
 {
   uint16_t intcon = 0, defval = 0;
@@ -659,6 +696,17 @@ bool MCP23017::enableInterrupt16(uint16_t mask, uint8_t mode)
 }
 
 
+bool MCP23017::disableInterrupt8(uint8_t port, uint8_t mask)
+{
+  if (port > 1)
+  {
+    _error = MCP23017_PORT_ERROR;
+    return false;
+  }
+  return writeReg(port == 0 ? MCP23x17_GPINTEN_A : MCP23x17_GPINTEN_B, ~mask);
+}
+
+
 bool MCP23017::disableInterrupt16(uint16_t mask)
 {
   return writeReg16(MCP23x17_GPINTEN_A, ~mask);
@@ -675,6 +723,17 @@ uint16_t MCP23017::getInterruptFlagRegister()
 uint16_t MCP23017::getInterruptCaptureRegister()
 {
   return readReg16(MCP23x17_INTCAP_A);
+}
+
+
+uint8_t MCP23017::getInterruptCaptureRegister8(uint8_t port)
+{
+  if (port > 1)
+  {
+    _error = MCP23017_PORT_ERROR;
+    return false;
+  }
+  return readReg(port == 0 ? MCP23x17_INTCAP_A : MCP23x17_INTCAP_B);
 }
 
 

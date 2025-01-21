@@ -26,7 +26,7 @@ If the values are out of range these function will return false.
 The value set is kept by the library and can be fetched by **getValue()** 
 and **getPercentage()**.
 
-**Warning** The library is not tested with hardware so use with care.
+**Warning** The library is limited tested with hardware so use with care.
 
 Feedback, issues, improvements are welcome. 
 Please file an issue on GitHub.

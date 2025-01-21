@@ -1,7 +1,7 @@
 //
 //    FILE: AD5660.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
@@ -186,10 +186,10 @@ void AD5660::swSPI_transfer(uint32_t value)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
-  //  24 bit
-  for (uint32_t mask = 0x800000; mask; mask >>= 1)
+  //  Shifting 24 bits starting from MSB to LSB
+  for (uint8_t bit = 24; bit; bit--)
   {
-    digitalWrite(dao,(value & mask));
+    digitalWrite(dao, (value >> (bit - 1)) & 0x01);
     digitalWrite(clk, HIGH);
     digitalWrite(clk, LOW);
   }

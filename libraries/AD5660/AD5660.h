@@ -2,7 +2,7 @@
 //
 //    FILE: AD5660.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD5660_LIB_VERSION        (F("0.1.1"))
+#define AD5660_LIB_VERSION        (F("0.1.2"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040

@@ -1,0 +1,15 @@
+# Syntax Colouring Map For millis64
+
+# Data types (KEYWORD1)
+
+
+# Methods and Functions (KEYWORD2)
+millis64	KEYWORD2
+micros64	KEYWORD2
+millis32	KEYWORD2
+micros32	KEYWORD2
+
+
+# Constants (LITERAL1)
+MILLIS64_LIB_VERSION	LITERAL1
+

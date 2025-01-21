@@ -47,6 +47,9 @@ Note the order of the parameters of the software SPI constructor has changed in 
 
 #### Related
 
+- https://github.com/RobTillaart/AD5620 (single channel, 12 + 14 bit)
+- https://github.com/RobTillaart/AD5660 (single channel, 16 bit)
+- https://github.com/RobTillaart/AD5680 (single channel, 18 bit)
 - https://github.com/RobTillaart/AD56x8 (multi channel)
 - https://github.com/RobTillaart/AD568X (single channel lower resolution)
 - https://github.com/RobTillaart/MCP_DAC (SPI interface)

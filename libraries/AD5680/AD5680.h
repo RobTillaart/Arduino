@@ -2,7 +2,7 @@
 //
 //    FILE: AD5680.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5680_LIB_VERSION        (F("0.3.1"))
+#define AD5680_LIB_VERSION        (F("0.3.2"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040

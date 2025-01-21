@@ -1,7 +1,7 @@
 //
 //    FILE: AD5680.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -157,7 +157,7 @@ void AD5680::swSPI_transfer(uint8_t value)
   uint8_t dao = _dataOut;
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
-    digitalWrite(dao,(value & mask));
+    digitalWrite(dao,(value & mask)? HIGH : LOW);
     digitalWrite(clk, HIGH);
     digitalWrite(clk, LOW);
   }

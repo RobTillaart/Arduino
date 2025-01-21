@@ -2,7 +2,7 @@
 //
 //    FILE: millis64.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-17
 // PURPOSE: Arduino library for millis64 micros64 millis32 micros32, time counters with optional offset.
 //     URL: https://github.com/RobTillaart/millis64
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MILLIS64_LIB_VERSION        (F("0.1.0"))
+#define MILLIS64_LIB_VERSION        (F("0.1.1"))
 
 
 /////////////////////////////////////////////////////

@@ -28,7 +28,7 @@ void setup()
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
-  //  MKR1010
+  //  MKR1010 + Arduino R4
   //  mySensor.setDisableIRQ(false);
 
   Serial.println("\n1. Type detection test, first run might take longer to determine type");

@@ -195,7 +195,7 @@ The "short-named" offset functions will become obsolete in the future (0.6.0).
 Functions to adjust the communication with the sensor.
 
 - **void setDisableIRQ(bool b )** allows or suppresses interrupts during core 
-read function to keep timing as correct as possible. **Note AVR + MKR1010**
+read function to keep timing as correct as possible. **Note AVR + MKR1010 + Arduino R4**
 - **bool getDisableIRQ()** returns the above setting. Default **true**.
 - **void setWaitForReading(bool b )** flag to enforce a blocking wait. 
 - **bool getWaitForReading()** returns the above setting.
@@ -226,6 +226,8 @@ This solved this problem at least on
 - AVR boards   - is build into the constructor
 - MKR1010 Wifi - see https://github.com/RobTillaart/DHTNew/issues/67
                  (added as comment in the examples)
+- Arduino R4   - see https://github.com/arduino/uno-r4-library-compatibility/issues/38
+
 
 In version 0.4.10 the TIMEOUT_C is extended from 70-90 us to even suppress the TIMEOUT_C
 even more. See discussion and tests in https://github.com/RobTillaart/DHTNew/issues/67.
@@ -365,7 +367,12 @@ Add dhtnew_pulse_diag_ext.ino
 37. (0.5.0)
 Fix negative values
 38. (0.5.1)
-Support KY015 and more.
+Support KY015 and more
+38. (0.5.2)
+Support KY015 (again)
+Add **DHT_endless_debug.ino** develop example
+38. (0.5.3)
+Update readme.md for Arduino R4
 
 
 ## Future

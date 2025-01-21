@@ -26,7 +26,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.println();
 
-  //  MKR1010 needs this
+  //  MKR1010 needs this + Arduino R4
   //  mySensor.setDisableIRQ(false);
 
   Serial.println("BEFORE OFFSET");

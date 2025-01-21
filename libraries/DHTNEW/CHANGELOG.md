@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2025-01-21
+- update readme.md - fix for R4
+  - https://github.com/arduino/uno-r4-library-compatibility/issues/38
+
 ## [0.5.2] - 2024-11-26
 - fix #104, add support for KY015 (again)
 - minor edits examples
 - add **DHT_endless_debug.ino** develop example
-
 
 ## [0.5.1] - 2024-11-24
 - fix #102, add support for KY015

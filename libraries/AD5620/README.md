@@ -28,7 +28,7 @@ and **getPercentage()**.
 
 The library also implements support for the AD5640, a 14 bit DAC.
 
-**Warning** The library is not tested (under test) with hardware.
+**Warning** The library is not tested extensively with hardware.
 So it should be used with care.
 
 Feedback, issues, improvements are welcome. 

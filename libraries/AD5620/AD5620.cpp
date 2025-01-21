@@ -1,7 +1,7 @@
 //
 //    FILE: AD5620.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
@@ -186,10 +186,10 @@ void AD5620::swSPI_transfer(uint32_t value)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
-  //  24 bit
+  //  Shifting 24 bits starting from MSB to LSB
   for (uint32_t mask = 0x800000; mask; mask >>= 1)
   {
-    digitalWrite(dao,(value & mask));
+    digitalWrite(dao,(value & mask)? HIGH : LOW);
     digitalWrite(clk, HIGH);
     digitalWrite(clk, LOW);
   }

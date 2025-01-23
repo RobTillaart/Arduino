@@ -1,0 +1,23 @@
+{
+  "name": "INA229",
+  "keywords": "power,ampere,voltage,volts,current",
+  "description": "Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA229.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA229.h"
+}

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2025-01-25
+- update readme.md after first hardware test MCP3421.
+- add examples for MCP3421
+- minor edits.
+
 ## [0.1.2] - 2024-10-25
 - fix #4, update readme.md conversion delay
 - fix **setChannel()** optimization

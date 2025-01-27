@@ -1,7 +1,7 @@
 //
 //    FILE: MCP3424.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -54,7 +54,6 @@ uint8_t MCP3424::getMaxChannels()
 
 int32_t MCP3424::read()
 {
-  //  return 12345;  //  TEST CODE
   return readRaw();
 }
 
@@ -167,7 +166,7 @@ uint8_t MCP3424::getResolution()
 uint16_t MCP3424::getConversionDelay()
 {
   uint16_t  _interval[4] = { 5, 17, 67, 267 };
-  int idx = (_bits - 12) / 2;  //  map 12-> 0 ... 18-> 3
+  int idx = (_bits - 12) / 2;  //  map 12 -> 0 ... 18 -> 3
   return _interval[idx];
 }
 
@@ -229,7 +228,7 @@ int32_t MCP3424::readRaw()
     rv <<= 8;
     rv += _wire->read();
     //  handle sign bit.
-    if (rv & 0x00020000) rv |= 0xFF000000;
+    if (rv & 0x00020000) rv |= 0xFFFC0000;
     return rv;
   }
 

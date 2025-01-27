@@ -18,14 +18,14 @@ Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 
 **Experimental**
 
-Library not tested with hardware yet.
-
 This library is to be used to configure and read the 18 bit MCP4324 4 channel ADC et al.
 
-The MCP3424 is not a fast ADC, however with 18 bit it has at least a very high
-resolution. What the effects of the long sampling time means is to be investigated.
+The MCP3424 is not a fast ADC, however with 18 bit it has a very high resolution.
+What the effects of the long sampling time means is to be investigated.
 The high resolution combined with an optional gain of 8x means one could
-measure voltage in steps of about 2 µV.
+measure voltage in steps of about 2 µV. The range is -2.048 ... +2.048 volt.
+
+Library is limited tested with MCP3421 hardware (0.1.3).
 
 The library cannot check yet if a conversion is ready.
 Need hardware to check how this works in detail.
@@ -69,7 +69,7 @@ If this is feasible in practice is to be verified.
 ### I2C Address
 
 The MCP3421 and MCP3426 have a fixed address 0x68, one can order different
-addresses at the factory (how?).
+addresses at the factory (see datasheet).
 
 The other devices have two address pins to set 8 addresses. The trick is
 to leave address pins floating. See datasheet table 5.3 for details.
@@ -82,7 +82,22 @@ The latter is not (yet) supported by the library.
 The sketch **MCP3424_performance.ino** can be used to get some insight
 in the performance. It will check up to 800 kHz.
 
-TODO verify with hardware.
+Test with Arduino UNO MCP3421, times in microseconds.
+
+|  Clock   |  read (18)  |  read (16)  |  read (14)  |  read (12)  |  setRes  |
+|:--------:|:-----------:|:-----------:|:-----------:|:-----------:|:--------:|
+|  100000  |     432     |     340     |     340     |     336     |    244   |
+|  200000  |     248     |     192     |     188     |     196     |    144   |
+|  400000  |     148     |     120     |     120     |     124     |    100   |
+|  600000  |     120     |     100     |      96     |      96     |     80   |
+|  800000  |     112     |      88     |      88     |      88     |     72   |
+
+Note 0: figures are without conversion interval.
+Note 1: 12-16 bits use same time for all clock speeds.
+Note 2: above 600 K there is little gain.
+Note 3: the chip can do 3.4 MHz, but this is not possible with UNO.
+
+If you have figures for 3.4 MHz, please let me know.
 
 
 ### I2C multiplexing
@@ -170,7 +185,7 @@ Other values will return false and not change the setting.
 - **uint8_t getResolution()** returns the set resolution (default 12).
 - **uint16_t getConversionDelay()** returns the delay in ms one has to wait at the
 current resolution between calls to **setChannel()** and /or **read()**.
-See Resolution setcion above.
+See Resolution section above.
 
 #### Mode
 
@@ -212,11 +227,11 @@ This might be added in the future.
 
 - implement maxResolution (combine with maxChannels? in one "maxValue" byte)
   - check range in **setResolution()**.
-- extract gain and resolution from the config byte to reduce storage.
+- extract gain and resolution from the configuration byte to reduce storage.
   - like **getMode()**.
+  - need to read 5 bytes... see par 5.3.3
 - extend examples
   - array of ADC's
-  - mcp3424_plotter
 - add error handling
   - add error variable
   - check return value **writeConfig()**.

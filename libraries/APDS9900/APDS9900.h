@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: APDS9900.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-12-09
 // PURPOSE: Arduino library for the APDS9900 environment sensor.
 //     URL: https://github.com/RobTillaart/APDS9900
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define APDS9900_LIB_VERSION          (F("0.1.0"))
+#define APDS9900_LIB_VERSION          (F("0.2.0"))
 
 
 class APDS9900
@@ -28,7 +28,7 @@ public:
   //
   //  SLEEP
   //
-  void     wakeUp();  //  set PON bit P8
+  void     wakeUp();  //  full awake Enable WEN = Wait, PEN = Prox, AEN = ALS, PON = Power On
   void     sleep();
 
   //
@@ -55,7 +55,7 @@ public:
   //  lowTH must be smaller than highTH
   bool     setALSThresholds(uint16_t lowTH, uint16_t highTH);
   bool     setPROXThresholds(uint16_t lowTH, uint16_t highTH);
-  bool     setALSInterruptPersistence(uint8_t value);  //  0..15
+  bool     setALSInterruptPersistence(uint8_t value);   //  0..15
   bool     setPROXInterruptPersistence(uint8_t value);  //  0..15 see datasheet for meaning.
 
   //
@@ -69,7 +69,7 @@ public:
   //
   //  0 = 100 mA, 1 = 50 mA, 2 = 25 mA, 3 = 12.5 mA
   bool     setLedDriveStrength(uint8_t strength);
-  uint8_t  getLedDriveStrength();  //  returns 0,1,2,3
+  uint8_t  getLedDriveStrength();  //  returns 0, 1, 2, 3
 
   //  channel must be 2 - datasheet P22
   //  read datasheet
@@ -83,9 +83,8 @@ public:
 
   //  0 = 1x,  1 = 8x,  2 = 16x,  3 = 120x
   bool     setALSGain(uint8_t gain);
-  //  returns 1, 8, 16 or 120 actual gain.
+  //  returns 1, 8, 16 or 120 actual gain, so not actual value.
   uint8_t  getALSGain();
-
 
   //
   //  MISC

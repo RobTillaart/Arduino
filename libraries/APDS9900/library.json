@@ -1,7 +1,7 @@
 {
   "name": "APDS9900",
-  "keywords": "environment",
-  "description": "Arduino library for the APDS9900 sensor.",
+  "keywords": "environment, ADPS9901",
+  "description": "Arduino library for the I2C APDS9900 light sensor and proximity detector.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/APDS9900.git"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

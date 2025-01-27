@@ -2,7 +2,7 @@
 //    FILE: APDS9900.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-12-09
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for the APDS9900 environment sensor.
 //     URL: https://github.com/RobTillaart/APDS9900
 
@@ -56,12 +56,10 @@ bool APDS9900::begin()
   {
     return false;
   }
-  //  COMMAND P18
-  //  could be made more generic?
-  uint8_t cmd = 0x80;  //  address the COMMAND register P18
-  cmd |= 0x20;         //  auto increment protocol (for 16 bit values)
-                       //  no interrupt clear flags
-  writeRegister(cmd);
+  //  ENABLE page 18
+  //  Enable WEN = Wait, PEN = Prox, AEN = ALS, PON = Power On
+  uint8_t enable = 0x0F;
+  writeRegister(APDS9900_ENABLE, enable);
   return true;
 }
 
@@ -79,7 +77,7 @@ uint8_t APDS9900::getAddress()
 }
 
 
-//  ENABLE REGISTER P18
+//  ENABLE REGISTER page 18
 void APDS9900::wakeUp()
 {
   //  read back to keep all bits set
@@ -87,7 +85,7 @@ void APDS9900::wakeUp()
   //  only write when needed.
   if ((value & 0x01) == 0x00)
   {
-    value |= 0x01;  //  set PON bit  PON = POWER ON
+    value |= 0x0F;  //  set PON bit  PON = POWER ON, enable all
     writeRegister(APDS9900_ENABLE, value);
   }
 }
@@ -97,12 +95,12 @@ void APDS9900::sleep()
 {
   //  read back to keep all bits set
   uint8_t value = readRegister(APDS9900_ENABLE);
-  value &= ~0x01;  //  clear PON bit  PON = POWER ON
+  value &= ~0x0F;  //  clear PON bit  PON = POWER ON, disable all
   writeRegister(APDS9900_ENABLE, value);
 }
 
 
-//  ATIME P19
+//  ATIME page 19
 void APDS9900::setIntegrationTime(uint16_t milliseconds)
 {
   if (milliseconds < 3) milliseconds = 3;
@@ -121,7 +119,7 @@ uint16_t APDS9900::getIntegrationTime()
 }
 
 
-//  PTIME P19
+//  PTIME page 19
 void APDS9900::setProximityTime(uint16_t milliseconds)
 {
   if (milliseconds < 3) milliseconds = 3;
@@ -140,7 +138,7 @@ uint16_t APDS9900::getProximityTime()
 }
 
 
-//  WTIME P19, WLONG P21
+//  WTIME page 19, WLONG page 21
 void APDS9900::setWaitTime(uint16_t milliseconds)
 {
   bool WLONG = (milliseconds > 696);
@@ -194,7 +192,7 @@ bool APDS9900::setPROXThresholds(uint16_t lowTH, uint16_t highTH)
 }
 
 
-//  PPERS P20
+//  PPERS page 20
 bool APDS9900::setALSInterruptPersistence(uint8_t value)
 {
   if (value > 0x0F) return false;
@@ -239,9 +237,9 @@ uint8_t APDS9900::getProximityPulseCount()
 
 
 //
-//  CONFIGURATION datasheet P22
+//  CONFIGURATION datasheet page 22
 //
-//  PDRIVE - datasheet P22
+//  PDRIVE - datasheet page 22
 bool APDS9900::setLedDriveStrength(uint8_t strength)
 {
   if (strength > 3) return false;
@@ -259,7 +257,7 @@ uint8_t APDS9900::getLedDriveStrength()
   return value;
 }
 
-//  PDIODE - datasheet P22
+//  PDIODE - datasheet page 22
 //  must be 2.
 bool APDS9900::setProximityDiodeSelect(uint8_t channel)
 {
@@ -279,7 +277,7 @@ uint8_t APDS9900::getProximityDiodeSelect()
   return value;
 }
 
-//  PGAIN - datasheet P22
+//  PGAIN - datasheet page 22
 bool APDS9900::setProximityGain(uint8_t gain)
 {
   if (gain > 3) return false;
@@ -298,7 +296,7 @@ uint8_t APDS9900::getProximityGain()
   return value;
 }
 
-//  AGAIN - datasheet P22
+//  AGAIN - datasheet page 22
 //  0 = 1x,  1 = 8x,  2 = 16x,  3 = 120x
 bool APDS9900::setALSGain(uint8_t gain)
 {
@@ -324,14 +322,14 @@ uint8_t APDS9900::getALSGain()
 //
 //  MISC
 //
-//  REV  P22
+//  REV  page 22
 uint8_t APDS9900::getRevision()
 {
   return readRegister(APDS9900_REV);
 }
 
 
-//  ID  P23
+//  ID  page 23
 uint8_t APDS9900::getDeviceID()
 {
   return readRegister(APDS9900_ID);
@@ -346,7 +344,7 @@ uint8_t APDS9900::getStatus()
 //  LUX datasheet page 9
 float APDS9900::getLux(float GA)
 {
-  //  calibration constants from datasheet Page 9
+  //  calibration constants from datasheet page 9
   //  coefficients open air
   float B = 2.23;   //  ??
   float C = 0.7;    //  ??
@@ -401,10 +399,12 @@ int APDS9900::getLastError()
 //  PROTECTED
 //
 
+//  All reg are or-ed with 0xA0 to access register and to auto increment register counter.
+
 int APDS9900::writeRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
-  _wire->write(reg);
+  _wire->write(0xA0 | reg);
   _error = _wire->endTransmission();
   return _error;
 }
@@ -413,7 +413,7 @@ int APDS9900::writeRegister(uint8_t reg)
 int APDS9900::writeRegister(uint8_t reg, uint8_t value)
 {
   _wire->beginTransmission(_address);
-  _wire->write(reg);
+  _wire->write(0xA0 | reg);
   _wire->write(value);
   _error = _wire->endTransmission();
   return _error;
@@ -423,7 +423,7 @@ int APDS9900::writeRegister(uint8_t reg, uint8_t value)
 int APDS9900::writeRegister16(uint8_t reg, uint16_t value)
 {
   _wire->beginTransmission(_address);
-  _wire->write(reg);
+  _wire->write(0xA0 | reg);
   _wire->write(value & 0xFF);
   _wire->write(value >> 8);
   _error = _wire->endTransmission();
@@ -434,7 +434,7 @@ int APDS9900::writeRegister16(uint8_t reg, uint16_t value)
 uint8_t APDS9900::readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
-  _wire->write(reg);
+  _wire->write(0xA0 | reg);
   _error = _wire->endTransmission();
   uint8_t bytes = _wire->requestFrom(_address, (uint8_t)1);
   if (bytes == 1)
@@ -449,7 +449,7 @@ uint8_t APDS9900::readRegister(uint8_t reg)
 uint16_t APDS9900::readRegister16(uint8_t reg)
 {
   _wire->beginTransmission(_address);
-  _wire->write(reg);
+  _wire->write(0xA0 | reg);
   _error = _wire->endTransmission();
   uint8_t bytes = _wire->requestFrom(_address, (uint8_t)2);
   if (bytes == 2)

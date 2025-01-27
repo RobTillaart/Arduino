@@ -20,23 +20,33 @@ Arduino library for the I2C APDS9900 light sensor and proximity detector.
 
 This library is to read the APDS9900 or APDS9901 sensor.
 
-The code is not tested with hardware yet.
-
 The APDS9900/ADPS9901 has two main functions:
 - measure ambient light (ALS), up to 16 bit.
-- proximity detection.
+- proximity detection, (no conversion to distance yet).
 
 The device supports a sleep mode for power efficiency.
 
 The device can generate an interrupt (INT pin) based upon thresholds set.
 The library does not support the interrupt handling, which should be done by user code.
 
+The APDS9900 and APDS9901 are functionally equivalent, however there
+is an electrical difference. See datasheet page 3 and 4 Vbus + getDeviceID().
+
+The code is limited tested with APDS9900 only.
+
 Please read the datasheet carefully.
 
-_The documentation has to be elaborated after testing with hardware._
+_The documentation must be elaborated._
 
 
 As always feedback is welcome.
+
+
+### 0.2.0 breaking change
+
+All pre 0.2.0 code versions are obsolete.
+A low level bug prevented correct reading and writing of registers.
+Found and fixed during first hardware test.
 
 
 ### Related
@@ -83,18 +93,20 @@ See example **TCA9548_demo_APDS9900.ino**
 
 ### I2C Performance
 
+Times in microseconds for ARV Arduino UNO.
 
-|  Clock     |  time (us)  |  Notes  |
-|:----------:|:-----------:|:--------|
-|   100 KHz  |             |  default 
-|   200 KHz  |             |
-|   300 KHz  |             |
-|   400 KHz  |             |  maximum datasheet
-|   500 KHz  |             |
-|   600 KHz  |             |
+To get your boards performance run the **APDS9900_performance.ino** sketch.
 
+|  Clock     |  ALS_CDATA  |   get_lux   |  Notes  |
+|:----------:|:-----------:|:-----------:|:--------|
+|   100 KHz  |     564     |     2204    |  default 
+|   200 KHz  |     328     |     1332    |
+|   300 KHz  |     240     |     1020    |
+|   400 KHz  |     204     |      892    |  maximum datasheet
+|   600 KHz  |     168     |      752    |
+|   800 KHz  |     152     |      704    |
 
-TODO: run performance sketch.
+Note: ALS_CDATA is equal fast as ALS_IRDATA and PROX_DATA
 
 
 ## Interface
@@ -108,34 +120,36 @@ TODO: run performance sketch.
 - **APDS9900(uint8_t address, TwoWire \*wire = &Wire)** set address and optional select I2C bus.
 - **ADPS9901(uint8_t address, TwoWire \*wire = &Wire)** set address and optional select I2C bus.
 - **bool begin()** checks if the device address is visible on the I2C bus.
+Also enables all subsystems and switches power on.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
-- **uint8_t getAddress()** Returns the address 
+- **uint8_t getAddress()** Returns the fixed address 0x39.
 
 
 ### Sleep
 
-- **void wakeUp()** switches the power on of the device.
-- **void sleep()** switches the power off of the device.
+- **void wakeUp()** switches the power on of the device + enables all subsystems.
+- **void sleep()** switches the power off of the device + disables all subsystems.
 
 
 ### Integration time
 
 - **void setIntegrationTime(uint16_t milliseconds)** milliseconds in steps of 2.72 ms, range 3..696
-- **uint16_t getIntegrationTime()** returns set value, might differ slightly due to rounding.
+- **uint16_t getIntegrationTime()** returns the set value, might differ slightly due to rounding.
 
 
 ### Proximity time
 
 WARNING: USE WITH CARE - read datasheet
 
-- **void setProximityTime(uint8_t value = 0xFF)** this register should be set to 0xFF.
-Read datasheet P19.
-- **uint8_t getProximityTime()** return current setting.
+- **void setProximityTime(uint16_t milliseconds = 1)** this register should be set to 0xFF.
+This equals value 1.
+See datasheet page 19.
+- **uint8_t getProximityTime()** returns the current setting.
 
 
 ### Wait time
 
-The WTIME can be set in two ranges, depending on a WLONG bit (See P19, P21)
+The WTIME can be set in two ranges, depending on a WLONG bit (See page 19, page 21)
 
 - WLONG == false: milliseconds in steps of 2.72 ms, range 3..696
 - WLONG == true:  milliseconds in steps of 32 ms, range 32..8192
@@ -172,7 +186,7 @@ Persistency table:
 Defines the amount of pulses that will be transmitted if proximity is enabled.
 See datasheet.
 
-- **void setProximityPulseCount(uint8_t value)** see datasheet
+- **void setProximityPulseCount(uint8_t value)** see datasheet.
 - **uint8_t getProximityPulseCount()** returns current setting.
 
 
@@ -180,7 +194,7 @@ See datasheet.
 
 - **bool setLedDriveStrength(uint8_t value)** 0 = 100 mA, 1 = 50 mA, 2 = 25 mA, 3 = 12.5 mA.
 Returns false if out of range.
-- **uint8_t getLedDriveStrength()** returns 0,1,2,3
+- **uint8_t getLedDriveStrength()** returns set value: 0, 1, 2, 3
 
 TODO Make ENUM for constants?
 
@@ -194,7 +208,7 @@ TODO Make ENUM for constants?
 
 ### ProximityDiodeSelect
 
-READ datasheet P22, must be 2.
+READ datasheet page 22, must be 2.
 
 - **bool setProximityDiodeSelect(uint8_t channel)** channel = 0 or 1.
 Returns false if out of range.
@@ -212,7 +226,7 @@ Returns false if out of range.
 
 ### ALSGain
 
-- **bool setPGain(uint8_t gain)** 0 = 1x, 1 = 8x, 2 = 16x, 3 = 120x
+- **bool setALSGain(uint8_t gain)** 0 = 1x, 1 = 8x, 2 = 16x, 3 = 120x
 Returns false if out of range.
 - **uint8_t getALSGain()** returns 1, 8, 16 or 120, the actual gain.
 
@@ -254,6 +268,8 @@ The raw data
 - **uint16_t getALS_IRDATA()** Channel 1 diode (IR = infra red)
 - **uint16_t getPROX_DATA()** 
 
+There is no conversion from raw proximity data to distance as this depends
+on several parameters and is rather complex. See page 10 + 11 datasheet.
 
 ### Error
 
@@ -265,7 +281,7 @@ The error handling itself needs to be elaborated.
 
 ### Angle correction
 
-Based upon figure 5.
+Based upon figure 5 datasheet.
 
 If the light is perpendicular (0 degrees) one gets 100% of the light.
 If there is an angle the loss is roughly 2% per degree.
@@ -284,23 +300,26 @@ lux = lux * factor * 0.01;
 #### Must
 
 - improve documentation.
-- get hardware to test library.
+- test library.
 
 #### Should
 
 - difference 9900/9901
   - break-out?
 - **getter()** functions where needed.
-  - e.g. interrupt thresholds.
-- optimization
-  - cache certain registers?
-  - make write() conditionally where possible.  (analyze footprint impact)
-- add examples
-- add **clearInterrrupt()**
-- add **bool isAwake()**
+  - e.g. interrupt thresholds. (readRegister for now)
+- investigate interrupts
+  - add **clearInterrrupt()**
 
 #### Could
 
+- add **bool enable(bool ALS, bool IR, bool PROX)** does disabling too.
+- convert proxy register value to distance?
+  - page 10 11 datasheet (depends on many parameters).
+- add examples
+- optimization
+  - cache certain registers?
+  - make write() conditionally where possible.  (analyze footprint impact)
 - improve error handling
 - enums / defines for constants.
 - names of functions may change.
@@ -308,6 +327,7 @@ lux = lux * factor * 0.01;
 
 #### Wont
 
+- add **bool isAwake()** too simple.
 
 ## Support
 

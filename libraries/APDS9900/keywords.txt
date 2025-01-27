@@ -36,6 +36,9 @@ getLedDriveStrength	KEYWORD2
 setProximityDiodeSelect	KEYWORD2
 getProximityDiodeSelect	KEYWORD2
 
+setProximityGain	KEYWORD2
+getProximityGain	KEYWORD2
+
 setALSGain	KEYWORD2
 getALSGain	KEYWORD2
 

@@ -1,0 +1,25 @@
+# Syntax Colouring Map For AD7367
+
+# Data types (KEYWORD1)
+AD7367	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+getType	KEYWORD2
+getBits	KEYWORD2
+
+read	KEYWORD2
+triggerConversion	KEYWORD2
+conversionBusy	KEYWORD2
+conversionReady	KEYWORD2
+readAsync	KEYWORD2
+getValue	KEYWORD2
+
+
+# Constants (LITERAL1)
+
+AD7367_LIB_VERSION	LITERAL1
+
+

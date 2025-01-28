@@ -103,8 +103,10 @@ Manufacturer
 Libraries
 - https://github.com/RobTillaart/M5ANGLE8
 - https://github.com/RobTillaart/M5ROTATE8
-- https://github.com/RobTillaart/rotaryDecoder
-- https://github.com/RobTillaart/rotaryDecoderSwitch
+- https://github.com/RobTillaart/rotaryDecoder  PCF8574 based
+- https://github.com/RobTillaart/rotaryDecoderSwitch  PCF8574 based
+- https://github.com/RobTillaart/rotaryDecoder8  PCF8575 based
+- https://github.com/RobTillaart/rotaryDecoderSwitch5  PCF8575 based
 
 
 ## Interface

@@ -2,7 +2,7 @@
 //
 //    FILE: m5rotate8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ROTATE8_LIB_VERSION          (F("0.4.0"))
+#define M5ROTATE8_LIB_VERSION          (F("0.4.1"))
 
 #define M5ROTATE8_DEFAULT_ADDRESS      0x41
 

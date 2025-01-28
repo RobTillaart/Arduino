@@ -16,10 +16,13 @@ uint16_t D = 0;               //  delay
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("M5ROTATE8_LIB_VERSION: ");
   Serial.println(M5ROTATE8_LIB_VERSION);
+  Serial.println();
+
   delay(100);
 
   Wire.begin();

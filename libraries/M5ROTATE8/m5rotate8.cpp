@@ -1,7 +1,7 @@
 //
 //    FILE: m5rotate8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -277,13 +277,14 @@ bool M5ROTATE8::write32(uint8_t reg, uint32_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->write(value & 0xFF);
+  //  explicit casting to solve ambiguity #8
+  _wire->write((uint8_t)(value & 0xFF));
   value >>= 8;
-  _wire->write(value & 0xFF);
+  _wire->write((uint8_t)(value & 0xFF));
   value >>= 8;
-  _wire->write(value & 0xFF);
+  _wire->write((uint8_t)(value & 0xFF));
   value >>= 8;
-  _wire->write(value);
+  _wire->write((uint8_t)(value & 0xFF));
   _error = _wire->endTransmission();
   return (_error == 0);
 }

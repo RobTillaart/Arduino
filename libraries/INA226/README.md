@@ -26,14 +26,14 @@ Read datasheet for details.
 The INA226 is a voltage, current and power measurement device. 
 A few important maxima, see datasheet, chapter 6.
 
-|  description  |  max  |  unit  | notes |
-|:--------------|------:|-------:|:------|
-| bus voltage   |  36   | Volt   | unclear for how long.
-| shunt voltage |  80   | mVolt  |
-| current       |  20   | Ampere | 
+|  description    |   max  |   unit   |  notes  |
+|:----------------|-------:|---------:|:--------|
+|  bus voltage    |  36    |    Volt  |  unclear for how long.
+|  shunt voltage  |  81.9  |   mVolt  |  datasheet 81.92 mV
+|  current        |  20    |  Ampere  |
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -42,25 +42,32 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Special characters
+### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Related
+### Related
 
 - https://www.ti.com/product/INA226#tech-docs
 - https://www.ti.com/product/INA226#params
 - https://www.ti.com/document-viewer/INA226/datasheet
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
-- https://github.com/RobTillaart/INA236
+- https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
+- https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+- https://www.adafruit.com/product/5832
+- https://www.mateksys.com/?portfolio=i2c-ina-bm
+- https://github.com/RobTillaart/printHelpers  (for scientific notation)
 
 
 ## I2C
 
-#### Address
+### Address
 
 The sensor can have 16 different I2C addresses, 
 which depends on how the A0 and A1 address lines 
@@ -88,7 +95,7 @@ See table - from datasheet table 2, page 18.
 |  SCL  |  SCL  |   79   |  0x4F  |
 
 
-#### Performance
+### Performance
 
 To be elaborated, example sketch available.
 
@@ -137,7 +144,7 @@ Also see #30 for another typical deviation problem.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **INA226(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
 the address and optional Wire interface.
@@ -148,7 +155,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
 
-#### Core Functions
+### Core Functions
 
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
@@ -179,7 +186,7 @@ Helper functions for the micro scale.
 - **float getPower_uW()** idem, in microWatt.
 
 
-#### Configuration
+### Configuration
 
 **Note:**
 The internal conversions runs in the background in the device.
@@ -248,7 +255,7 @@ Note: times are typical, check datasheet for operational range.
 Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 
-#### Calibration
+### Calibration
 
 See datasheet.
 
@@ -257,7 +264,7 @@ Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 - **int setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
 set the calibration register based upon the shunt and the max Ampere. 
 From these two values the current_LSB is derived, the steps of the ADC when measuring current.
-Returns Error code, see below.
+Returns Error code, see below. See #49 about math rounding errors.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**.
 Value should not be zero.
 - **float getCurrentLSB()** returns the LSB in Ampere == precision of the calibration.
@@ -269,7 +276,7 @@ Value should not be zero.
 To print these values in scientific notation use https://github.com/RobTillaart/printHelpers 
 
 
-#### About normalization
+### About normalization
 
 **setMaxCurrentShunt()** will round the current_LSB to nearest round value (typical 0.001) by default (normalize == true). 
 - The user **must** check the return value == 0x000, otherwise the calibration register is **not** set.
@@ -283,18 +290,18 @@ normalize flag was set to true.
 See https://github.com/RobTillaart/INA226/pull/29 for details of the discussion.
 
 
-#### Error codes setMaxCurrentShunt
+### Error codes setMaxCurrentShunt
 
 |  descriptive name error        |  value   |  meaning  |
 |:-------------------------------|:--------:|:----------|
 |  INA226_ERR_NONE               |  0x0000  |  OK
-|  INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  |  maxCurrent \* shunt > 80 mV 
+|  INA226_ERR_SHUNTVOLTAGE_HIGH  |  0x8000  |  maxCurrent \* shunt > 81.9 mV
 |  INA226_ERR_MAXCURRENT_LOW     |  0x8001  |  maxCurrent < 0.001
 |  INA226_ERR_SHUNT_LOW          |  0x8002  |  shunt      < 0.001
 |  INA226_ERR_NORMALIZE_FAILED   |  0x8003  |  not possible to normalize.
 
 
-#### Operating mode
+### Operating mode
 
 See datasheet, partially tested.
 
@@ -315,7 +322,7 @@ Descriptive mode functions (convenience wrappers).
 - **bool setModeShuntBusContinuous()** mode 7 - default.
 
 
-#### Alert functions
+### Alert functions
 
 See datasheet, not tested yet.
 
@@ -351,13 +358,13 @@ Returns true if write to register successful.
 The alert line falls when alert is reached.
 
 
-#### Meta information
+### Meta information
 
 - **uint16_t getManufacturerID()** should return 0x5449
 - **uint16_t getDieID()** should return 0x2260
 
 
-#### Debugging
+### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 

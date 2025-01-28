@@ -80,7 +80,7 @@ unittest(test_constants)
   assertEqual(0x8001, INA226_ERR_MAXCURRENT_LOW);
   assertEqual(0x8002, INA226_ERR_SHUNT_LOW);
 
-  assertEqualFloat(0.001, INA226_MINIMAL_SHUNT, 0.0001);
+  assertEqualFloat(0.001, INA226_MINIMAL_SHUNT_OHM, 0.0001);
 }
 
 
@@ -157,9 +157,9 @@ unittest(test_calibration)
   assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(1,  0.05));
   assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(1,  0.080));
 
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(80.1, 0.001));
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(40.1, 0.002));
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(20.1, 0.004));
+  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(82.0, 0.001));
+  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(41.0, 0.002));
+  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(20.5, 0.004));
   assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(1.1, 0.080));
 
   assertEqual(INA226_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(0.0009));

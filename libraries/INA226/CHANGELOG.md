@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2025-01-27
+- fix #49, precision math setMaxCurrentShunt() in INA226.cpp
+- changed max shunt voltage to 81.9 mV (0.02 under datasheet limit)
+- changed INA226_MINIMAL_SHUNT_OHM
+- update comments in INA226.h
+- add INA_comparison_table.md
+- updated readme.md
+
 ## [0.6.0] - 2024-05-27
 - Fix #47, calibration register is 15 bit, not 16 bit.
 - minor edits
@@ -42,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 
 ## [0.5.1] - 2023-12-10
-- reimplementation of **setMaxCurrentShunt()**, 
+- reimplementation of **setMaxCurrentShunt()**,
   - thanks to tileiar
 - update readme.md
 - minor edits
@@ -95,7 +103,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix #11 normalize
 - fix #13 simplify sign handling shunt and current
 - add releaseNotes.md
-- **reset()** also resets the calibration (current_lsb, maxCurrent and shunt), 
+- **reset()** also resets the calibration (current_lsb, maxCurrent and shunt),
 thereby forcing the user to redo the calibration call with **setMaxCurrentShunt()**.
 - fixes issue #11 => a factor 10 bug in current_lsb.
 - some edits in readme.md.
@@ -104,19 +112,19 @@ thereby forcing the user to redo the calibration call with **setMaxCurrentShunt(
 ----
 
 ## [0.1.6] - 2021-12-20
-- update library.json, 
-- license, 
+- update library.json,
+- license,
 - minor edits
 
 ## [0.1.5] - 2021-11-05
-- update build-CI, 
+- update build-CI,
 - add badges in readme.md
 - fix address in constructor
 
-## [0.1.4] - 2021-08-07  
+## [0.1.4] - 2021-08-07
 - fix getCurrent()
 
-## [0.1.3] - 2021-06-22  
+## [0.1.3] - 2021-06-22
 - add getCurrentLSB_uA()
 - improve examples
 - fix for calibration
@@ -127,11 +135,11 @@ thereby forcing the user to redo the calibration call with **setMaxCurrentShunt(
 - add getShunt()
 - add getMaxCurrent()
 
-## [0.1.1] - 2021-06-21  
+## [0.1.1] - 2021-06-21
 - improved calibration
 - added functions
 
-## [0.1.0] - 2021-05-18  
+## [0.1.0] - 2021-05-18
 - initial version
 
 

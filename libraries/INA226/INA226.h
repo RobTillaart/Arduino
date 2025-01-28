@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              "0.6.0"
+#define INA226_LIB_VERSION              "0.6.1"
 
 
 //  set by setAlertRegister
@@ -41,7 +41,7 @@
 #define INA226_ERR_NORMALIZE_FAILED       0x8003
 
 //  See issue #26
-#define INA226_MINIMAL_SHUNT              0.001
+#define INA226_MINIMAL_SHUNT_OHM          0.001
 
 #define INA226_MAX_WAIT_MS                600   //  millis
 
@@ -116,10 +116,12 @@ public:
 
 
   //  Calibration
-  //  mandatory to set these!
-  //  shunt * maxCurrent < 81 mV
-  //  maxCurrent >= 0.001
-  //  shunt      >= 0.001
+  //  mandatory to set these values!
+  //  datasheet limit == 81.92 mV;
+  //    to prevent math overflow 0.02 mV is subtracted.
+  //  shunt * maxCurrent <= 81.9 mV otherwise returns INA226_ERR_SHUNTVOLTAGE_HIGH
+  //  maxCurrent >= 0.001           otherwise returns INA226_ERR_MAXCURRENT_LOW
+  //  shunt      >= 0.001           otherwise returns INA226_ERR_SHUNT_LOW
   int      setMaxCurrentShunt(float maxCurrent = 20.0, float shunt = 0.002, bool normalize = true);
   bool     isCalibrated()     { return _current_LSB != 0.0; };
 

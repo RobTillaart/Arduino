@@ -1,0 +1,23 @@
+{
+  "name": "PIR8575",
+  "keywords": "I2C, PCF8575, PCF8574, multi",
+  "description": "Arduino library for 16 channel PIR detection system based upon PCF8575.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PIR8575.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PIR8575.h"
+}

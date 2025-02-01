@@ -22,34 +22,34 @@ The library is not tested with all different devices however stable.
 Please post an issue if there are problems with a specific device.
 
 
-|  Type   | Channels | Bits | MaxValue | Voltage reference |
-|:--------|:--------:|:----:|:--------:|:-----------------:|
-| MCP4801 |  1       |  8   |   255    | internal 2.048 V  |
-| MCP4802 |  2       |  8   |   255    | internal 2.048 V  |
-| MCP4811 |  1       |  10  |   1023   | internal 2.048 V  |
-| MCP4812 |  2       |  10  |   1023   | internal 2.048 V  |
-| MCP4821 |  1       |  12  |   4095   | internal 2.048 V  |
-| MCP4822 |  2       |  12  |   4095   | internal 2.048 V  |
-| MCP4901 |  1       |  8   |   255    | external          |
-| MCP4902 |  2       |  8   |   255    | external          |
-| MCP4911 |  1       |  10  |   1023   | external          |
-| MCP4912 |  2       |  10  |   1023   | external          |
-| MCP4921 |  1       |  12  |   4095   | external          |
-| MCP4922 |  2       |  12  |   4095   | external          |
+|  Type   |  Channels  |  Bits  |  MaxValue  |  Voltage reference  |
+|:--------|:----------:|:------:|:----------:|:-------------------:|
+| MCP4801 |     1      |   8    |    255     |   internal 2.048 V  |
+| MCP4802 |     2      |   8    |    255     |   internal 2.048 V  |
+| MCP4811 |     1      |   10   |    1023    |   internal 2.048 V  |
+| MCP4812 |     2      |   10   |    1023    |   internal 2.048 V  |
+| MCP4821 |     1      |   12   |    4095    |   internal 2.048 V  |
+| MCP4822 |     2      |   12   |    4095    |   internal 2.048 V  |
+| MCP4901 |     1      |   8    |    255     |   external          |
+| MCP4902 |     2      |   8    |    255     |   external          |
+| MCP4911 |     1      |   10   |    1023    |   external          |
+| MCP4912 |     2      |   10   |    1023    |   external          |
+| MCP4921 |     1      |   12   |    4095    |   external          |
+| MCP4922 |     2      |   12   |    4095    |   external          |
 
 
 The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **MCP.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -72,7 +72,7 @@ The following library functions have been renamed:
 
 
 
-#### 0.3.0 breaking change
+### 0.3.0 breaking change
 
 The version 0.3.0 has breaking changes in the interface. The essence is that the
 dependency of Wire (ESP32 / RP2040) is removed from the library.
@@ -80,16 +80,17 @@ This makes it possible to support the **ESP32-S3** and other processors in the f
 Also it makes the library a bit simpler to maintain.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/MCP_ADC
-- https://github.com/RobTillaart/MAX520
-- https://github.com/RobTillaart/MCP_DAC
-- https://github.com/RobTillaart/MCP4725
-- https://github.com/RobTillaart/DAC8550
-- https://github.com/RobTillaart/DAC8551
-- https://github.com/RobTillaart/DAC8552
-- https://github.com/RobTillaart/DAC8554
+- https://github.com/RobTillaart/DAC8550 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8551 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8552 2 channel, 16 bit
+- https://github.com/RobTillaart/DAC8554 4 channel, 16 bit
+- https://github.com/RobTillaart/MCP_DAC 1, 2 channel, 8,10,12 bit
+- https://github.com/RobTillaart/AD5680  (18 bit DAC)
+- https://github.com/RobTillaart/MAX520 I2C, 4, 8 channel, 8 bit
+- https://github.com/RobTillaart/MCP4725 I2C, 1 channel, 12 bit
 
 
 ## Interface
@@ -98,7 +99,7 @@ Also it makes the library a bit simpler to maintain.
 #include "MCP_DAC.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **MCP_DAC(SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040, hardware SPI.
 - **MCP_DAC(SPIClass \*mySPI = &SPI)** Constructor base class other platforms, hardware SPI.
@@ -112,16 +113,20 @@ The select pin is used for device selection in case of multiple SPI devices.
 This relates to the number of bits, see table above.
 
 
-#### Gain
+### Gain
 
-- **bool setGain(uint8_t gain = 1)** gain is 1 (default) or 2.
+In **reset()** the gain is default set to 1x as that gives the lowest output voltages.
+This is the safest option, although datasheet 4.1.1.1 states default = 2x.
+
+- **bool setGain(uint8_t gain = 1)** gain is 1 (default) or 2. 
+Values of 0 or larger than 2 return false and won't change the current setting.
 - **uint8_t getGain()** returns gain set, default 1.
 
-The analog output cannot go beyond the supply voltage.  
+Note: The analog output cannot go beyond the supply voltage.  
 So if Vref is connected to 5V, gain = 2 will not output 10 Volts.
 
 
-#### Write
+### Write
 
 - **bool write(uint16_t value, uint8_t channel = 0)** writes value to channel.
 Default for channel 0 as that works for the single DAC devices.
@@ -145,14 +150,14 @@ That squeezes the most performance out of it for now.
 Code for the other MCP4xxx can be written in same way.
 
 
-#### Shutdown
+### Shutdown
 
 - **void shutDown()** shuts down the device, optional one might need to **triggerLatch()**.
 - **bool isActive()** returns false if device is in shutdown mode.
 Note: any **write()** operation will set active to true again.
 
 
-#### Hardware SPI
+### Hardware SPI
 
 To be used only if one needs a specific speed.
 Check datasheet for details.
@@ -161,7 +166,7 @@ Check datasheet for details.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 
 
-#### LDAC
+### LDAC
 
 - **void setLatchPin(uint8_t latchPin)** defines the latchPin, this is optional. 
 The latchPin is used for simultaneous setting a value in both DAC registers.
@@ -172,7 +177,7 @@ Note the latchPin must be the same for all instances that need to be triggered t
 Note: pre 0.2.0 versions have the LDAC signal incorrectly inverted.
 
 
-#### Buffered
+### Buffered
 
 **MCP49xxx series only**, see page 20 ==> not functional for MCP48xx series.
 
@@ -181,7 +186,7 @@ The default mode == false == unbuffered.
 - **bool getBufferedMode()** returns set value.
 
 
-#### Debug
+### Debug
 
 - **void reset()** resets internal variables to initial value. (use with care!).
 - **bool usesHWSPI()** returns true if HW SPI is used.
@@ -193,7 +198,7 @@ Several functions removed in 0.3.0 as they were too processor specific,
 and prevented support for the ESP32-S3.
 
 
-#### ESP32 connections to MCP4922 (example)
+### ESP32 connections to MCP4922 (example)
 
 ESP32 (first series) has **four** SPI peripherals from which two can be used.
 
@@ -229,14 +234,14 @@ Depending on ESP32 series e.g. HSPI is different, see code snippet below.
 
 ## RP2040 specific
 
-#### SPI port selection
+### SPI port selection
 
 The SPI Port selections happens in the hardware constructor with e.g. &SPI, &SPI1 etc.
 In pre-0.3.0 an experimental feature **void setGPIOpins** was supported to adjust the
 hardware pins however this should now be handled by the user outside the library.
 
 
-#### Pico connections to MCP4922 (example)
+### Pico connections to MCP4922 (example)
 
 The RP2040 has **two** SPI peripherals from which two can be used.
 

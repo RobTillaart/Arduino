@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -40,6 +40,8 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
 
 void MCP_DAC::reset()
 {
+  //  _gain is default set to 1x as that gives the lowest output voltages
+  //  this is the safest option, although datasheet 4.1.1.1 states default = 2x
   _gain     = 1;
   _value[0] = 0;
   _value[1] = 0;

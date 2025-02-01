@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.5.1"))
+#define MCP_DAC_LIB_VERSION       (F("0.5.2"))
 
 
 #ifndef __SPI_CLASS__
@@ -48,6 +48,8 @@ public:
   uint16_t maxValue();
 
   //       gain = 1 or 2
+  //       gain is default set to 1x as that gives the lowest output voltages
+  //       this is the safest option, datasheet 4.1.1.1 states default = 2x
   bool     setGain(uint8_t gain = 1);
   uint8_t  getGain();
 

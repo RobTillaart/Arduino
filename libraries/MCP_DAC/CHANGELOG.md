@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2025-01-31
+- fix #33, update readme.md about **gain**
+- added comments about gain in code.
+
 ## [0.5.1] - 2024-06-05
 - add support for ARDUINO_ARCH_MBED
 

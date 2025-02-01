@@ -2,7 +2,7 @@
 //
 //    FILE: HeartBeat.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define HEARTBEAT_LIB_VERSION       (F("0.3.4"))
+#define HEARTBEAT_LIB_VERSION       (F("0.3.5"))
 
 
 class HeartBeat
@@ -104,8 +104,8 @@ public:
   bool   codeCompleted();         //  pattern has been executed.
 
 protected:
-  uint8_t _code        = 0;  //  up to 7 bits
-  uint8_t _codeMask    = 0;  //  to extract the bit value from code
+  uint16_t _code       = 0;  //  up to 15 bits
+  uint16_t _codeMask   = 0;  //  to extract the bit value from code
   uint8_t _codeStart   = 0;  //  force starting with LOW
   uint8_t _pulseLength = 0;  //  to track length of current pulse
 };

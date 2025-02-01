@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -103,7 +103,7 @@ uint8_t HeartBeat::getState()
 //
 void HeartBeat::_setFreqDuty()
 {
-  float time = 10000.0/_frequency;
+  float time = 10000.0 / _frequency;
   _dutyCycleHigh = round(_dutyCycle * time);
   _dutyCycleLow  = round((100 - _dutyCycle) * time);
 }
@@ -216,7 +216,7 @@ void HeartBeatSL::beat()
     HeartBeat::beat();
     return;
   }
-  // _code mode
+  //  _code mode
   if (_codeStart == 0)
   {
     //  force a LOW first.
@@ -259,7 +259,7 @@ bool HeartBeatSL::code(const char * str)
   if (_codeMask > 0) return false;
   //  pattern too long
   uint8_t len = strlen(str);
-  if (len > 7) return false;
+  if (len > 15) return false;
 
   _code      = 0;
   _codeMask  = 1 << len;

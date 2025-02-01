@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2025-01-31
+- extended HeartBeatSL code length to 15.
+- add example **HeartBeat_ACS712_demo.ino**
+- minor edits readme.md
+
 ## [0.3.4] - 2024-09-09
 - Fix #12, add **bool codeCompleted()** to HeartBeatDiag and HeartBeatSL
 - update readme.md

@@ -27,3 +27,4 @@ compile:
     - rpipico
   libraries:
     - "SRF05"
+    - "ACS712"

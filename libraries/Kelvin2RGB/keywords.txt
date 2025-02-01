@@ -4,6 +4,8 @@
 Kelvin2RGB	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
 convert_TH	KEYWORD2
 convert_NB	KEYWORD2
 temperature	KEYWORD2

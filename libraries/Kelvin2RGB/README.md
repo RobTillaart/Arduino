@@ -11,7 +11,7 @@
 
 # Kelvin2RGB
 
-Arduino library for converting temperature and brightness to RGB values.
+Arduino library for converting Kelvin temperature and brightness to RGB values.
 
 
 ## Credentials
@@ -62,20 +62,20 @@ Especially with images with more than 8 bits per channel this is preferred.
 That said it is also possible to use this on a 565 image or to adjust colour lookup tables.
 
 
-#### Celsius and Fahrenheit
+### Celsius and Fahrenheit
 
 To use Celsius or Fahrenheit with the **Kelvin2RGB** library, 
 one need to convert that temperature to Kelvin.
 
 ```cpp
 Kelvin = Celsius + 273.15;
-Kelvin = (Fahrenheit - 32) * 5 / 9 - 273.15;
+Kelvin = (Fahrenheit - 32) * 5.0 / 9.0 - 273.15;
 // or shorter
 Kelvin = (Fahrenheit - 523.67) * 0.5555555555;
 ```
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Kelvin2RGB
 - https://github.com/RobTillaart/map2colour   map float onto a colour(gradient).
@@ -90,14 +90,14 @@ Kelvin = (Fahrenheit - 523.67) * 0.5555555555;
 
 The interface is straightforward:
 
-#### Constructor
+### Constructor
 
 - **Kelvin2RGB()** constructor.
 - **void begin()** resets all internal values to 0. 
     All colours, brightness and temperature.
 
 
-#### Convertors
+### Convertors
 
 - **void convert_TH(float temperature, float brightness = 100)**
     temperature = 0..65500   temperature below 1000 is not well defined.
@@ -114,7 +114,7 @@ The interface is straightforward:
 - **float blue()** returns blue channel weight 0.0 .. 1.0
 
 
-#### Color types
+### Color types
 
 - **uint32_t setRGB(float red, float green, float blue, float brightness = 100)** sets RGB values
     red, green, blue should be in 0 .. 1.0 range. brightness should be in 0..100%, Default = 100%.
@@ -126,13 +126,40 @@ The interface is straightforward:
 - **uint32_t CMYK()** returns a 32 bit = 4 byte CMYK value,
 
 
-#### Obsolete
+### Obsolete
 
 - **void reset()** => replaced by **begin()**
 
 
 ## Predefined colors
 
+
+```cpp
+const uint16_t DLS_dark            =     0;
+const uint16_t DLS_match           =  1700;
+const uint16_t DLS_sodiumLamp      =  1700;
+const uint16_t DLS_candleFlame     =  1850;
+const uint16_t DLS_sunrise         =  1850;
+const uint16_t DLS_sunset          =  1850;
+const uint16_t DLS_bulb            =  2400;
+const uint16_t DLS_bulbSoftWhite   =  2550;
+const uint16_t DLS_LEDlamp         =  2700;
+const uint16_t DLS_warmWhite       =  3000;
+const uint16_t DLS_studioLight     =  3200;
+const uint16_t DLS_studioCPlight   =  3350;
+const uint16_t DLS_daylightHorizon =  5000;
+const uint16_t DLS_flashLight      =  5700;
+const uint16_t DLS_xenonLight      =  6200;
+const uint16_t DLS_dayLightBright  =  6500;
+const uint16_t DLS_normal          =  6500;
+const uint16_t DLS_screenLow       =  6500;
+const uint16_t DLS_screenMed       =  8000;
+const uint16_t DLS_screenHigh      =  9500;
+const uint16_t DLS_polewardSky0    = 15000;
+const uint16_t DLS_polewardSky1    = 19000;
+const uint16_t DLS_polewardSky2    = 23000;
+const uint16_t DLS_polewardSky3    = 27000;
+```
 
 
 ## Future
@@ -149,7 +176,6 @@ The interface is straightforward:
 - investigate other formulas.
 - investigate usability for RGB led strip.
 - separate brightness per colour channel to mimic "artificial illumination"
-- remove begin() or reset()?
 - add examples
   - ledstrip
 - use a "dirty flag" to minimize math operations.

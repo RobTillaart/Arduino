@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.0] - 2023-02-19
+## [0.3.0] - 2025-02-01
+- remove **reset()**
+- update readme.md + comments
+- minor edits
+
+----
+
+## [0.2.0] - 2024-02-19
 - fix in Tanner Helland (very minor).
 - remove dead link from readme.md.
 - removed experimental from code.

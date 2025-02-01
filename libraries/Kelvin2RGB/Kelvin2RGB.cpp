@@ -1,7 +1,7 @@
 //
 //    FILE: Kelvin2RGB.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
@@ -22,7 +22,7 @@ Kelvin2RGB::Kelvin2RGB()
 void Kelvin2RGB::begin()
 {
   _temperature = 0;
-  _brightness  = 0;          //  default = darkness
+  _brightness  = 0;          //  default == darkness
   _red   = 0;
   _green = 0;
   _blue  = 0;

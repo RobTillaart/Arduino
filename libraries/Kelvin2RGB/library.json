@@ -1,7 +1,7 @@
 {
   "name": "Kelvin2RGB",
   "keywords": "RGB,BGR,RGB565,CMYK,temperature",
-  "description": "Arduino library for converting temperature to RGB values",
+  "description": "Arduino library for converting Kelvin temperature to RGB values. Tanner Helland Bartlett",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/Kelvin2RGB.git"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -2,13 +2,13 @@
 //
 //    FILE: Kelvin2RGB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2018-01-31
 // PURPOSE: Arduino library for converting temperature to RGB values
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 
 
-#define KELVIN2RGB_LIB_VERSION            (F("0.2.0"))
+#define KELVIN2RGB_LIB_VERSION            (F("0.3.0"))
 
 #include "Arduino.h"
 
@@ -19,7 +19,7 @@
 
 
 
-//  Values in table below based on 
+//  Values in table below based on
 //  https://en.wikipedia.org/wiki/Color_temperature#Categorizing_different_lighting
 //
 //             DAY LIGHT SETTING   = TEMPERATURE
@@ -57,12 +57,11 @@ public:
 
   //  resets all variables to zero.
   void begin();
-  [[deprecated("Use begin() instead")]]
-  void reset() { begin(); };  //  obsolete 0.3.0
+
 
   //  temperature = 0..65500   brightness = 0.0 .. 100.0%
-  void convert_TH(float temperature, float brightness = 100.0);
-  void convert_NB(float temperature, float brightness = 100.0);
+  void convert_TH(float temperature, float brightness = 100.0);  //  Tanner-Helland algorithm
+  void convert_NB(float temperature, float brightness = 100.0);  //  Neil Bartlett algorithm
 
   float    temperature();
   float    brightness();
@@ -77,10 +76,11 @@ public:
   //  returns RGB.
   uint32_t setRGB(float red, float green, float blue, float brightness = 100.0);
 
-  uint32_t RGB();       //  32 bit colour  (only 3 bytes used)
-  uint16_t RGB565();    //  16 bit colour  (2 bytes)
-  uint32_t BGR();
-  uint32_t CMYK();
+  //  other color schemes, more space efficient as 3 floats.
+  uint32_t RGB();       //  32 bit colour  (3 bytes used)
+  uint16_t RGB565();    //  16 bit colour  (2 bytes, compact)
+  uint32_t BGR();       //  32 bit colour  (3 bytes used)
+  uint32_t CMYK();      //  32 bit colour  (4 bytes used)
 
 
 private:

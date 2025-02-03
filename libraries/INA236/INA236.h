@@ -2,9 +2,9 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-05-27
-// PURPOSE: Arduino library for INA236 current and power sensor.
+// PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
 //
 //  Read the datasheet for the details
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION              "0.1.0"
+#define INA236_LIB_VERSION              "0.1.1"
 
 
 //  set by setAlertRegister
@@ -114,7 +114,8 @@ public:
   uint8_t  getBusVoltageConversionTime();
   bool     setShuntVoltageConversionTime(uint8_t svct = INA236_1100_us);
   uint8_t  getShuntVoltageConversionTime();
-  bool     setADCRange(uint8_t adcRange);
+  //  flag = false => 80 mV, true => 20 mV
+  bool     setADCRange(bool flag);
   uint8_t  getADCRange();
 
 
@@ -175,7 +176,7 @@ private:
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
-  float    _voltage_LSB;
+  bool     _ADCRange;
 
   uint8_t   _address;
   TwoWire * _wire;

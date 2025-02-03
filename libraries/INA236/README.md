@@ -11,7 +11,7 @@
 
 # INA236
 
-Arduino library for INA236 current and power sensor
+Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 
 
 ## Description
@@ -48,9 +48,15 @@ A few important maxima, see datasheet, chapter 6.
 - https://www.ti.com/product/INA236#tech-docs
 - https://www.ti.com/product/INA236#params
 - https://www.ti.com/document-viewer/INA236/datasheet
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
-- https://github.com/RobTillaart/INA236
+- https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
+- https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+- https://www.adafruit.com/product/5832
+- https://www.mateksys.com/?portfolio=i2c-ina-bm
+- https://github.com/RobTillaart/printHelpers  (for scientific notation)
 
 
 ## I2C
@@ -233,10 +239,10 @@ Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 #### ADCRange
 
-The INA236 can set the ADC range to 20 mV (adcRange == 1) 
-or to 80 mV (adcRange == 0) to optimize the accuracy.
+The INA236 can set the ADC range to 20 mV (adcRange == true) 
+or to 80 mV (adcRange == false) to optimize the accuracy.
 
-- **bool setADCRange(uint8_t adcRange)** adcRange = {0, 1}.
+- **bool setADCRange(bool flag)** adcRange = {true, false}.
 The function sets the voltage/LSB and returns false adcRange is out of range.
 - **uint8_t getADCRange()** returns set value.
 

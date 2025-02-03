@@ -1,9 +1,9 @@
 //    FILE: INA236.cpp
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-05-27
-// PURPOSE: Arduino library for INA236 power sensor
+// PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
 //
 //  Read the datasheet for the details
@@ -46,13 +46,14 @@ INA236::INA236(const uint8_t address, TwoWire *wire)
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
-  _voltage_LSB = 2.5e-6; // default value of ADC range (80 mV)
 }
 
 
 bool INA236::begin()
 {
   if (! isConnected()) return false;
+
+  getADCRange();
   return true;
 }
 
@@ -76,15 +77,24 @@ uint8_t INA236::getAddress()
 //
 float INA236::getBusVoltage()
 {
-  uint16_t val = _readRegister(INA236_BUS_VOLTAGE);
-  return val * 1.6e-3;  //  1.6 mV/LSB fixed
+  uint16_t value = _readRegister(INA236_BUS_VOLTAGE);
+  float bus_LSB = 1.6e-3;  //  1.6 mV/LSB fixed
+  float voltage = value * bus_LSB;
+  return voltage;
 }
 
 
 float INA236::getShuntVoltage()
 {
-  int16_t val = _readRegister(INA236_SHUNT_VOLTAGE);
-  return val * _voltage_LSB;  //  voltage LSB depends on range
+  //  shunt_LSB depends on ADCRANGE in INA236_CONFIG register.
+  float shunt_LSB = 2.5e-6;  //  2.5 mV
+  if (_ADCRange == true)
+  {
+    shunt_LSB = 0.625e-6;    //  625 nV
+  }
+  int16_t value = _readRegister(INA236_SHUNT_VOLTAGE);
+  float voltage = value * shunt_LSB;
+  return voltage;
 }
 
 
@@ -135,27 +145,18 @@ bool INA236::reset()
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
-  _voltage_LSB = 2.5e-6;
   return true;
 }
 
 
-bool INA236::setADCRange(uint8_t adcRange)
+bool INA236::setADCRange(bool flag)
 {
-  if (adcRange > 1) return false;
+  _ADCRange = flag;
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
-  mask &= ~INA236_CONF_ADCRANGE_MASK;
-  mask |= (adcRange << 12);
+  if (flag) mask |= INA236_CONF_ADCRANGE_MASK;
+  else      mask &= ~INA236_CONF_ADCRANGE_MASK;
+  //  if mask has not changed we do not need to write it back.
   _writeRegister(INA236_CONFIGURATION, mask);
-  //  adjust voltage / LSB 
-  if (adcRange == 1)  //  20 mV
-  {
-    _voltage_LSB = 0.625e-6;  //  factor 4 smaller
-  }
-  else  //  80 mV
-  {
-    _voltage_LSB = 2.5e-6 ;
-  }
   return true;
 }
 
@@ -163,9 +164,8 @@ bool INA236::setADCRange(uint8_t adcRange)
 uint8_t INA236::getADCRange()
 {
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
-  mask &= INA236_CONF_ADCRANGE_MASK;
-  mask >>= 12;
-  return mask;
+  _ADCRange = (mask & INA236_CONF_ADCRANGE_MASK) > 0;
+  return _ADCRange;
 }
 
 
@@ -269,16 +269,16 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     return INA236_ERR_SHUNT_LOW;
   }
 
-  int adcRange;
+  bool adcRange = false;
   int adcRangeFactor;
   if (shuntVoltage <= 0.020)  //  20 mV
   {
-    adcRange = 1;
+    adcRange = true;
     adcRangeFactor = 4;
   }
   else if (shuntVoltage <= 0.080)  //  80 mV
   {
-    adcRange = 0;
+    adcRange = false;
     adcRangeFactor = 1;
   }
   setADCRange(adcRange);

@@ -64,7 +64,8 @@ void test_core()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
+
 
   start = micros();
   f = INA.getBusVoltage();
@@ -72,7 +73,7 @@ void test_core()
   Serial.print("getBusVoltage:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getShuntVoltage();
@@ -80,7 +81,7 @@ void test_core()
   Serial.print("getShuntVoltage:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getCurrent();
@@ -88,7 +89,7 @@ void test_core()
   Serial.print("getCurrent:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getPower();
@@ -96,7 +97,7 @@ void test_core()
   Serial.print("getPower:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getTemperature();
@@ -104,7 +105,7 @@ void test_core()
   Serial.print("getTemperature:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getEnergy();
@@ -112,7 +113,7 @@ void test_core()
   Serial.print("getEnergy:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   f = INA.getCharge();
@@ -120,7 +121,7 @@ void test_core()
   Serial.print("getCharge:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -129,7 +130,7 @@ void test_config()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getAccumulation();
@@ -137,7 +138,7 @@ void test_config()
   Serial.print("getAccumulation:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getConversionDelay();
@@ -145,7 +146,7 @@ void test_config()
   Serial.print("getConversionDelay:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getTemperatureCompensation();
@@ -153,7 +154,7 @@ void test_config()
   Serial.print("getTemperatureCompensation:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getADCRange();
@@ -161,7 +162,7 @@ void test_config()
   Serial.print("getADCRange:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -170,7 +171,7 @@ void test_adc_config()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getMode();
@@ -178,7 +179,7 @@ void test_adc_config()
   Serial.print("getMode:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getBusVoltageConversionTime();
@@ -186,7 +187,7 @@ void test_adc_config()
   Serial.print("getBusVoltageConversionTime:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getShuntVoltageConversionTime();
@@ -194,7 +195,7 @@ void test_adc_config()
   Serial.print("getShuntVoltageConversionTime:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getTemperatureConversionTime();
@@ -202,7 +203,7 @@ void test_adc_config()
   Serial.print("getTemperatureConversionTime:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getAverage();
@@ -210,7 +211,7 @@ void test_adc_config()
   Serial.print("getAverage:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -219,7 +220,7 @@ void test_others()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getShuntTemperatureCoefficent();
@@ -227,7 +228,7 @@ void test_others()
   Serial.print("getShuntTemperatureCoefficent:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getDiagnoseAlert();
@@ -235,7 +236,7 @@ void test_others()
   Serial.print("getDiagnoseAlert:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -244,7 +245,7 @@ void test_thresholds()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getShuntOvervoltageTH();
@@ -252,7 +253,7 @@ void test_thresholds()
   Serial.print("getShuntOvervoltageTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getShuntUndervoltageTH();
@@ -260,7 +261,7 @@ void test_thresholds()
   Serial.print("getShuntUndervoltageTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getBusOvervoltageTH();
@@ -268,7 +269,7 @@ void test_thresholds()
   Serial.print("getBusOvervoltageTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getBusUndervoltageTH();
@@ -276,7 +277,7 @@ void test_thresholds()
   Serial.print("getBusUndervoltageTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getTemperatureOverLimitTH();
@@ -284,7 +285,7 @@ void test_thresholds()
   Serial.print("getTemperatureOverLimitTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getPowerOverLimitTH();
@@ -292,7 +293,7 @@ void test_thresholds()
   Serial.print("getPowerOverLimitTH:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -301,7 +302,7 @@ void test_manufactur_die()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getManufacturer();
@@ -309,7 +310,7 @@ void test_manufactur_die()
   Serial.print("getManufacturer:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getDieID();
@@ -317,7 +318,7 @@ void test_manufactur_die()
   Serial.print("getDieID:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 
   start = micros();
   value = INA.getRevision();
@@ -325,7 +326,7 @@ void test_manufactur_die()
   Serial.print("getRevision:\t");
   Serial.print(stop - start);
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 

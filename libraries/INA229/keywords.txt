@@ -17,6 +17,7 @@ getShuntVoltage	KEYWORD2
 getShuntVolt	KEYWORD2
 getShuntMilliVolt	KEYWORD2
 getShuntMicroVolt	KEYWORD2
+getShuntVoltageRAW	KEYWORD2
 
 getCurrent	KEYWORD2
 getAmpere	KEYWORD2

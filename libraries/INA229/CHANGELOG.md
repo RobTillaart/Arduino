@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2025-01-30
+- fix #3, support for **int32 getShuntVoltageRAW()**
+- cache ADCrange to improve **getShuntVoltage()**
+- minor edits
+
 ## [0.1.0] - 2025-01-22
 - initial version, 
   - based upon INA228 (API) + INA239 (SPI)

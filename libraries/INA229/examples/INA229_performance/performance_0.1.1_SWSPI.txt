@@ -1,0 +1,44 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+(SoftWare SPI, SPI settings have no effect).
+
+INA229_LIB_VERSION: 0.1.1
+
+
+========================================================
+Speed: 1000000
+
+test_core
+getBusVoltage:	592
+getShuntVoltage:	600
+getCurrent:	596
+getPower:	604
+getTemperature:	452
+getEnergy:	948
+getCharge:	944
+
+test_config
+getAccumulation:	444
+getConversionDelay:	452
+getTemperatureCompensation:	444
+getADCRange:	4
+
+test_adc_config
+getMode:	444
+getBusVoltageConversionTime:	448
+getShuntVoltageConversionTime:	448
+getTemperatureConversionTime:	452
+getAverage:	444
+
+test_others
+getShuntTemperatureCoefficent:	444
+getDiagnoseAlert:	452
+
+test_thresholds
+getShuntOvervoltageTH:	452
+getShuntUndervoltageTH:	444
+getBusOvervoltageTH:	448
+getBusUndervoltageTH:	444
+getTemperatureOverLimitTH:	452
+getPowerOverLimitTH:	444

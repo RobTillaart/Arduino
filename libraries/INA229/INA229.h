@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.1.0"))
+#define INA229_LIB_VERSION          (F("0.1.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -123,6 +123,10 @@ public:
   float    getShuntMilliVolt()  { return getShuntVoltage() * 1e3; };
   float    getShuntMicroVolt()  { return getShuntVoltage() * 1e6; };
 
+  //  raw integer interface.
+  int32_t  getShuntVoltageRAW();
+
+
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
   float    getAmpere()          { return getCurrent(); };
@@ -155,6 +159,7 @@ public:
   double   getCoulomb()         { return getCharge(); };
   double   getMilliCoulomb()    { return getCharge()       * 1e3; };
   double   getMicroCoulomb()    { return getCharge()       * 1e6; };
+
   //
   //  CONFIG REGISTER 0
   //  read datasheet for details, section 7.6.1.1, page 21
@@ -267,6 +272,7 @@ private:
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
+  bool     _ADCRange;
 
   uint8_t  _dataIn = 255;
   uint8_t  _dataOut= 255;

@@ -1,0 +1,58 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+
+INA228_performance\INA228_performance.ino
+
+INA228_LIB_VERSION: 0.1.5
+
+========================================================
+Speed: 100000
+
+test_core
+getBusVoltage:	680
+getShuntVoltage:	684
+getCurrent:	688
+getPower:	680
+getTemperature:	580
+getEnergy:	932
+getCharge:	956
+
+========================================================
+Speed: 200000
+
+test_core
+getBusVoltage:	396
+getShuntVoltage:	396
+getCurrent:	396
+getPower:	396
+getTemperature:	348
+getEnergy:	556
+getCharge:	592
+
+========================================================
+Speed: 400000
+
+test_core
+getBusVoltage:	248
+getShuntVoltage:	256
+getCurrent:	256
+getPower:	256
+getTemperature:	220
+getEnergy:	364
+getCharge:	400
+
+========================================================
+Speed: 800000
+
+test_core
+getBusVoltage:	180
+getShuntVoltage:	188
+getCurrent:	188
+getPower:	184
+getTemperature:	160
+getEnergy:	276
+getCharge:	308
+
+Done
+

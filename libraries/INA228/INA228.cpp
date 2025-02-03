@@ -1,8 +1,8 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2024-05-09
-// PURPOSE: Arduino library for INA228 voltage, current and power sensor.
+// PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
 //          https://www.adafruit.com/product/5832           ( 10 A version)
 //          https://www.mateksys.com/?portfolio=i2c-ina-bm  (200 A version))
@@ -42,7 +42,7 @@
 #define INA228_CFG_CONVDLY          0x3FC0
 #define INA228_CFG_TEMPCOMP         0x0020
 #define INA228_CFG_ADCRANGE         0x0010
-#define INA228_CFG_RESERVED         0x000F
+#define INA228_CFG_RESERVED         0x000F  //  all unused bits
 
 
 //  ADC MASKS (register 1)
@@ -71,6 +71,8 @@ INA228::INA228(const uint8_t address, TwoWire *wire)
 bool INA228::begin()
 {
   if (! isConnected()) return false;
+
+  getADCRange();
   return true;
 }
 
@@ -107,7 +109,7 @@ float INA228::getShuntVoltage()
 {
   //  shunt_LSB depends on ADCRANGE in INA228_CONFIG register.
   float shunt_LSB = 312.5e-9;  //  312.5 nV
-  if (getADCRange() == 1)
+  if (_ADCRange == true)
   {
     shunt_LSB = 78.125e-9;     //  78.125 nV
   }
@@ -140,7 +142,7 @@ float INA228::getCurrent()
 //  PAGE 26 + 8.1.2
 float INA228::getPower()
 {
-  uint32_t value = _readRegister(INA228_POWER, 3) ;
+  uint32_t value = _readRegister(INA228_POWER, 3);
   //  PAGE 31 (8.1.2)
   return value * 3.2 * _current_LSB;
 }
@@ -192,8 +194,8 @@ bool INA228::setAccumulation(uint8_t value)
 {
   if (value > 1) return false;
   uint16_t reg = _readRegister(INA228_CONFIG, 2);
-  reg &= ~INA228_CFG_RSTACC;
   if (value == 1) reg |= INA228_CFG_RSTACC;
+  else            reg &= ~INA228_CFG_RSTACC;
   _writeRegister(INA228_CONFIG, reg);
   return true;
 }
@@ -221,8 +223,8 @@ uint8_t INA228::getConversionDelay()
 void INA228::setTemperatureCompensation(bool on)
 {
   uint16_t value = _readRegister(INA228_CONFIG, 2);
-  value &= ~INA228_CFG_TEMPCOMP;
   if (on) value |= INA228_CFG_TEMPCOMP;
+  else    value &= ~INA228_CFG_TEMPCOMP;
   _writeRegister(INA228_CONFIG, value);
 }
 
@@ -234,16 +236,20 @@ bool INA228::getTemperatureCompensation()
 
 void INA228::setADCRange(bool flag)
 {
+  //  if (flag == _ADCRange) return;
+  _ADCRange = flag;
   uint16_t value = _readRegister(INA228_CONFIG, 2);
-  value &= ~INA228_CFG_ADCRANGE;
   if (flag) value |= INA228_CFG_ADCRANGE;
+  else      value &= ~INA228_CFG_ADCRANGE;
+  //  if value has not changed we do not need to write it back.
   _writeRegister(INA228_CONFIG, value);
 }
 
 bool INA228::getADCRange()
 {
   uint16_t value = _readRegister(INA228_CONFIG, 2);
-  return (value & INA228_CFG_ADCRANGE) > 0;
+  _ADCRange = (value & INA228_CFG_ADCRANGE) > 0;
+  return _ADCRange;
 }
 
 
@@ -347,7 +353,7 @@ int INA228::setMaxCurrentShunt(float maxCurrent, float shunt)
   //  PAGE 31 (8.1.2)
   float shunt_cal = 13107.2e6 * _current_LSB * _shunt;
   //  depends on ADCRANGE in INA228_CONFIG register.
-  if (getADCRange() == 1)
+  if (_ADCRange == true)
   {
     shunt_cal *= 4;
   }
@@ -373,6 +379,7 @@ float INA228::getCurrentLSB()
   return _current_LSB;
 }
 
+
 ////////////////////////////////////////////////////////
 //
 //  SHUNT TEMPERATURE COEFFICIENT REGISTER 3
@@ -389,7 +396,6 @@ uint16_t INA228::getShuntTemperatureCoefficent()
   uint16_t value = _readRegister(INA228_SHUNT_TEMP_CO, 2);
   return value;
 }
-
 
 
 ////////////////////////////////////////////////////////
@@ -411,7 +417,7 @@ void INA228::setDiagnoseAlertBit(uint8_t bit)
 {
   uint16_t value = _readRegister(INA228_DIAG_ALERT, 2);
   uint16_t mask = (1 << bit);
-  //  only write new value if needed.
+  //  only write new value if bit not set
   if ((value & mask) == 0)
   {
     value |= mask;
@@ -423,7 +429,7 @@ void INA228::clearDiagnoseAlertBit(uint8_t bit)
 {
   uint16_t value = _readRegister(INA228_DIAG_ALERT, 2);
   uint16_t mask = (1 << bit);
-  //  only write new value if needed.
+  //  only write new value if bit not set.
   if ((value & mask ) != 0)
   {
     value &= ~mask;
@@ -471,26 +477,26 @@ uint16_t INA228::getShuntUndervoltageTH()
 void INA228::setBusOvervoltageTH(uint16_t threshold)
 {
   if (threshold > 0x7FFF) return;
-  //float LSB = 3.125e-3;
+  //float LSB = 3.125e-3;  //  3.125 mV/LSB.
   _writeRegister(INA228_BOVL, threshold);
 }
 
 uint16_t INA228::getBusOvervoltageTH()
 {
-  //float LSB = 3.125e-3;
+  //float LSB = 3.125e-3;  //  3.125 mV/LSB.
   return _readRegister(INA228_BOVL, 2);
 }
 
 void INA228::setBusUndervoltageTH(uint16_t threshold)
 {
   if (threshold > 0x7FFF) return;
-  //float LSB = 3.125e-3;
+  //float LSB = 3.125e-3;  //  3.125 mV/LSB.
   _writeRegister(INA228_BUVL, threshold);
 }
 
 uint16_t INA228::getBusUndervoltageTH()
 {
-  //float LSB = 3.125e-3;
+  //float LSB = 3.125e-3;  //  3.125 mV/LSB.
   return _readRegister(INA228_BUVL, 2);
 }
 

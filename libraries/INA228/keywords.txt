@@ -78,6 +78,7 @@ setMaxCurrentShunt	KEYWORD2
 isCalibrated	KEYWORD2
 getMaxCurrent	KEYWORD2
 getShunt	KEYWORD2
+getCurrentLSB	KEYWORD2
 
 setShuntTemperatureCoefficent	KEYWORD2
 getShuntTemperatureCoefficent	KEYWORD2

@@ -26,7 +26,7 @@ Most important difference is that the INA228 has a 20 bit ADC.
 This should result in higher precision however this is expected to only
 be visible with stable loads and low noise.
 
-Another important difference is that the INA228 works up to 85 Volts,
+An important difference is that the INA228 works up to 85 Volts,
 which is more than twice the 36 volt of the INA226.
 The INA228 has a build in temperature sensor (±1°C) to be used for
 monitoring and temperature compensation.
@@ -35,9 +35,10 @@ Finally the INA228 has an **energy** and **charge** register.
 These are values accumulated over time, and only work in continuous mode.
 (to be investigated what those mean ).
 
-The INA228 also provides an alert line, to generate an interrupt
+The INA228 also provides an ALERT line, to generate an interrupt
 in case a predefined threshold has been met.
 This can be an under- or over-voltage, temperature or power limit.
+The library does not handle these interrupts.
 
 The library is limited tested and verified with hardware.
 
@@ -141,10 +142,13 @@ _Tested_
 - https://www.ti.com/product/INA228#tech-docs
 - https://www.ti.com/product/INA228#params
 - https://www.ti.com/document-viewer/INA228/datasheet
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
-- https://github.com/RobTillaart/INA228
-- https://github.com/RobTillaart/INA3221_RT
+- https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
+- https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
+- https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
 - https://github.com/RobTillaart/printHelpers  (for scientific notation)

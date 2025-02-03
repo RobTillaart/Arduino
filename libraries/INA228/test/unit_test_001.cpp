@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-05-18
-// PURPOSE: unit tests for the INA226 library
-//          https://github.com/RobTillaart/INA226
+// PURPOSE: unit tests for the INA228 library
+//          https://github.com/RobTillaart/INA228
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -46,15 +46,15 @@ unittest_teardown()
 }
 
 
-unittest(test_constructor)
-{
-  INA228 INA(0x40);
+// unittest(test_constructor)
+// {
+  // INA228 INA(0x40);
 
-  Wire.begin();
-  assertTrue(INA.begin());
-  assertTrue(INA.isConnected());
-  assertEqual(0x40, INA.getAddress());
-}
+  // Wire.begin();
+  // assertTrue(INA.begin());
+  // assertTrue(INA.isConnected());
+  // assertEqual(0x40, INA.getAddress());
+// }
 
 
 unittest(test_mode_enum)

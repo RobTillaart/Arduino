@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA239.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA239_LIB_VERSION          (F("0.1.0"))
+#define INA239_LIB_VERSION          (F("0.1.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -231,7 +231,7 @@ public:
   bool     usesHWSPI();
 
 
-protected:
+private:
   //  max 4 bytes
   uint32_t _readRegister(uint8_t reg, uint8_t bytes);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
@@ -239,6 +239,7 @@ protected:
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
+  bool     _ADCRange;
 
   uint8_t  _dataIn = 255;
   uint8_t  _dataOut= 255;

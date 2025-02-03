@@ -33,7 +33,7 @@ works up to 85 Volts, which is more than twice the 36 volt of the INA226.
 The INA239 has a build in temperature sensor (±1°C) to be used for
 monitoring and temperature compensation.
 
-The INA239 also provides an alert line, to generate an interrupt
+The INA239 also provides an ALERT line, to generate an interrupt
 in case a predefined threshold has been met.
 This can be an under- or over-voltage, temperature or power limit.
 The library does not handle these interrupts.

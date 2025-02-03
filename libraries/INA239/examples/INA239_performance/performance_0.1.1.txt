@@ -2,47 +2,47 @@ BOARD:  Arduino UNO
 IDE:    1.8.19
 
 
-INA239_LIB_VERSION: 0.1.0
+INA239_LIB_VERSION: 0.1.1
 
 
 ========================================================
 Speed: 1000000
 
 test_core
-getBusVoltage:	56
-getShuntVoltage:	100
-getCurrent:	52
-getPower:	68
-getTemperature:	52
+getBusVoltage:	60
+getShuntVoltage:	60
+getCurrent:	56
+getPower:	80
+getTemperature:	56
 
 ========================================================
 Speed: 2000000
 
 test_core
-getBusVoltage:	44
-getShuntVoltage:	72
-getCurrent:	44
-getPower:	52
-getTemperature:	44
+getBusVoltage:	48
+getShuntVoltage:	48
+getCurrent:	40
+getPower:	64
+getTemperature:	48
 
 ========================================================
 Speed: 4000000
 
 test_core
-getBusVoltage:	40
-getShuntVoltage:	68
-getCurrent:	36
-getPower:	44
-getTemperature:	32
+getBusVoltage:	44
+getShuntVoltage:	44
+getCurrent:	40
+getPower:	64
+getTemperature:	44
 
 ========================================================
 Speed: 8000000
 
 test_core
-getBusVoltage:	32
-getShuntVoltage:	56
+getBusVoltage:	44
+getShuntVoltage:	40
 getCurrent:	32
-getPower:	40
-getTemperature:	32
+getPower:	52
+getTemperature:	40
 
 Done

@@ -8,7 +8,7 @@
 #include "INA239.h"
 
 //  select, dataIn, dataOut, clock == SOFTWARE SPI
-//  INA239 INA(5, 6, 7, &SPI);
+//  INA239 INA(5, 6, 7, 8);
 
 //  select, &SPI === HW SPI
 INA239 INA(5, &SPI);

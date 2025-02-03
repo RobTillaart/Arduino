@@ -1,6 +1,6 @@
 //    FILE: INA239.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -99,6 +99,8 @@ bool INA239::begin()
     digitalWrite(_dataOut, LOW);
     digitalWrite(_clock,   LOW);
   }
+
+  getADCRange();
   return true;
 }
 
@@ -107,7 +109,7 @@ bool INA239::begin()
 //
 //  CORE FUNCTIONS
 //
-//  PAGE 22 DONE
+//  PAGE 22
 float INA239::getBusVoltage()
 {
   //  always positive, remove reserved bits.
@@ -117,12 +119,12 @@ float INA239::getBusVoltage()
   return voltage;
 }
 
-//  PAGE 22 DONE
+//  PAGE 22
 float INA239::getShuntVoltage()
 {
   //  shunt_LSB depends on ADCRANGE in INA239_CONFIG register.
   float shunt_LSB = 5e-6;  //  5.0 uV/LSB
-  if (getADCRange() == 1)
+  if (_ADCRange == true)
   {
     shunt_LSB = 1.25e-6;   //  1.25 uV/LSB
   }
@@ -138,7 +140,7 @@ float INA239::getShuntVoltage()
   return voltage;
 }
 
-//  PAGE 23 + 8.1.2 DONE
+//  PAGE 23 + 8.1.2
 float INA239::getCurrent()
 {
   int16_t value = _readRegister(INA239_CURRENT, 2);
@@ -146,7 +148,7 @@ float INA239::getCurrent()
   return current;
 }
 
-//  PAGE 23 + 8.1.2 DONE
+//  PAGE 23 + 8.1.2
 float INA239::getPower()
 {
   uint32_t value = _readRegister(INA239_POWER, 3);
@@ -167,7 +169,7 @@ float INA239::getTemperature()
 //
 //  CONFIG REGISTER 0
 //
-//  PAGE 20 DONE
+//  PAGE 20
 void INA239::reset()
 {
   uint16_t value = _readRegister(INA239_CONFIG, 2);
@@ -175,7 +177,7 @@ void INA239::reset()
   _writeRegister(INA239_CONFIG, value);
 }
 
-//  PAGE 20 DONE
+//  PAGE 20
 void INA239::setConversionDelay(uint8_t steps)
 {
   uint16_t value = _readRegister(INA239_CONFIG, 2);
@@ -190,19 +192,23 @@ uint8_t INA239::getConversionDelay()
   return (value >> 6) & 0xFF;
 }
 
-//  PAGE 20 DONE
+//  PAGE 20
 void INA239::setADCRange(bool flag)
 {
+  //  if (flag == _ADCRange) return;
+  _ADCRange = flag;
   uint16_t value = _readRegister(INA239_CONFIG, 2);
-  value &= ~INA239_CFG_ADCRANGE;
   if (flag) value |= INA239_CFG_ADCRANGE;
+  else      value &= ~INA239_CFG_ADCRANGE;
+  //  if value has not changed we do not need to write it back.
   _writeRegister(INA239_CONFIG, value);
 }
 
 bool INA239::getADCRange()
 {
   uint16_t value = _readRegister(INA239_CONFIG, 2);
-  return (value & INA239_CFG_ADCRANGE) > 0;
+  _ADCRange = (value & INA239_CFG_ADCRANGE) > 0;
+  return _ADCRange;
 }
 
 
@@ -210,7 +216,7 @@ bool INA239::getADCRange()
 //
 //  CONFIG ADC REGISTER 1
 //
-//  PAGE 21 + 22 DONE
+//  PAGE 21 + 22
 bool INA239::setMode(uint8_t mode)
 {
   if (mode > 0x0F) return false;
@@ -296,11 +302,11 @@ uint8_t INA239::getAverage()
 //
 //  SHUNT CALIBRATION REGISTER 2
 //
-//  PAGE 28 8.1.2
+//  PAGE 28 + 8.1.2
 int INA239::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
   //  Shunt can be really small
-  if (shunt < 0.0001) return -2;   //  error code
+  if (shunt < 0.0001) return -2;   //  TODO error code
   _maxCurrent = maxCurrent;
   _shunt = shunt;
   _current_LSB = _maxCurrent * 3.0517578125e-5;  //  pow(2, -15);
@@ -308,7 +314,7 @@ int INA239::setMaxCurrentShunt(float maxCurrent, float shunt)
   //  PAGE 31 (8.1.2)
   float shunt_cal = 819.2e6 * _current_LSB * _shunt;
   //  depends on ADCRANGE in INA239_CONFIG register.
-  if (getADCRange() == 1)
+  if (_ADCRange == true)
   {
     shunt_cal *= 4;
   }
@@ -339,7 +345,7 @@ float INA239::getCurrentLSB()
 //
 //  DIAGNOSE ALERT REGISTER 11
 //
-//  PAGE 23 DONE
+//  PAGE 23
 void INA239::setDiagnoseAlert(uint16_t flags)
 {
   _writeRegister(INA239_DIAG_ALERT, flags);
@@ -452,14 +458,14 @@ uint16_t INA239::getTemperatureOverLimitTH()
 
 void INA239::setPowerOverLimitTH(uint16_t threshold)
 {
-  //  P 26
+  //  PAGE 26
   //  Conversion factor: 256 × Power LSB.
   _writeRegister(INA239_POWER_LIMIT, threshold);
 }
 
 uint16_t INA239::getPowerOverLimitTH()
 {
-  //  P 26
+  //  PAGE 26
   //  Conversion factor: 256 × Power LSB.
   return _readRegister(INA239_POWER_LIMIT, 2);
 }
@@ -469,6 +475,7 @@ uint16_t INA239::getPowerOverLimitTH()
 //
 //  MANUFACTURER and ID REGISTER 3E/3F
 //
+//  PAGE 26
 uint16_t INA239::getManufacturer()
 {
   uint16_t value = _readRegister(INA239_MANUFACTURER, 2);
@@ -514,7 +521,7 @@ bool INA239::usesHWSPI()
 
 ////////////////////////////////////////////////////////
 //
-//  SHOULD BE PROTECTED
+//  PRIVATE
 //
 uint32_t INA239::_readRegister(uint8_t reg, uint8_t bytes)  //  bytes = 2 or 3.
 {
@@ -575,11 +582,6 @@ uint16_t INA239::_writeRegister(uint8_t reg, uint16_t value)
   return 0;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-//  PROTECTED
-//
 
 uint8_t INA239::swSPI_transfer(uint8_t value)
 {

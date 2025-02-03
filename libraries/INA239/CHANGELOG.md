@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2025-01-30
+- fix #4, cache ADCrange to improve **getShuntVoltage()**
+- add INA_comparison_table.md
+- minor edits
+
+
 ## [0.1.0] - 2024-12-05
 - initial version, based upon INA228 stripped
 

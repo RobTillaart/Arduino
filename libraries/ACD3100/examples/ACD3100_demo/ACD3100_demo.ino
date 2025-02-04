@@ -21,6 +21,13 @@ void setup()
 
   Wire.begin();
   mySensor.begin();
+  while (!mySensor.preHeatDone())
+  {
+    delay(10000);
+    Serial.print("..");
+    Serial.println(mySensor.preHeatMillisLeft() / 1000);
+  }
+  Serial.println();
 }
 
 

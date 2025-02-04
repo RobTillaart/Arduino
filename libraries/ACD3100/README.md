@@ -13,17 +13,15 @@
 
 Arduino library for the ACD3100 CO2 sensor (I2C).
 
-**The documentation needs to be updated**
-**This is a copy of the ADC10 readme.md**
-
-The ACD3100 is very similar to the ACD10 but details differ.
-
-**Work in progress Work in progress Work in progress Work in progress**
-
 
 ## Description
 
 **Experimental**
+
+The documentation is an adjusted copy of the ACD10 readme.md, as the
+ACD3100 is very similar to the ACD10 but some details differ.
+
+**Work in progress Work in progress Work in progress Work in progress**
 
 This library is to use the Aosong ACD3100 CO2 sensor.
 Besides CO2 concentration this sensor also provides a temperature reading.
@@ -32,15 +30,26 @@ The CO2 concentration supported by the sensor has a range from 400 ~ 5000 ppm ±
 This makes the sensor applicable for outdoor and indoor measurements in
 a normal building setting. 
 The sensor is not suitable for CO2 heavy "industrial" environments. 
+See also datasheet warning below.
 
 **Warning** The temperature range the sensor can measure is **UNKNOWN**
 as there is no documentation how to convert the raw data to meaningful one.
+As far as information could tell this temperature is for Aosong internal use.
+If you can decode the temperature bits please let me know.
 
 The sensor can be read over I2C and over Serial.
 This library only support the I2C interface (see hardware notes below).
+The Serial mode is **NOT** supported by this library.
+
+Feedback as always is welcome.
+
+### Datasheet warning
+
+_Do not apply this product to safety protection devices or emergency stop equipment, 
+and any other applications that may cause personal injury due to the product's failure._
 
 
-#### Pre-heat period
+### Pre-heat period
 
 When the sensor starts up it has a pre-heat period of 120 seconds.
 The library provides functions to check the time since the constructor is called.
@@ -49,62 +58,66 @@ During the preheat period one can make measurements but one should use those
 carefully as these are less accurate than after the preheat period.
 
 
-#### Calibration
+### Calibration
 
 Also important is the calibration of the sensor, although done in the factory,
 a CO2 sensor needs regular calibration. See datasheet for details.
 
 
-#### Power
+### Power
 
 The sensor must be powered with 5V and uses about 225 mW.
 This implies the sensor uses 50 mA (@5V) and needs a separate power supply. 
 One must connect GND from the power supply to the GND of the MCU.
 
 
-#### Datasheet warning
+### Operating conditions
 
-Do not apply this product to safety protection devices or emergency stop equipment, 
-and any other applications that may cause personal injury due to the product's failure.
-
-
-#### Operating conditions
-
-- temperature: 0°C~ +50°C ==> keep away from freezing cold or direct sunlight.
-- humidity: 0% ~ 95% RH ==> non-condensing conditions.
-- Data refresh frequency: 2 seconds
+|  parameter          |  value        |  notes  |
+|:--------------------|:-------------:|:--------|
+|  temperature        |  0°C~ +50°C   |  keep away from freezing cold or direct sunlight.
+|  humidity           |  0% ~ 95% RH  |  keep in non-condensing conditions.
+|  Refresh frequency  |  2 seconds    |
 
 
-#### Hardware
+### Hardware
 
 
 ```
              TOPVIEW ACD3100
          +--------------------+
-   pin 5 | o                  |
-         | o                o |  pin 1
-         | o                o |  pin 2
-         | o                o |  pin 3
-         | o                o |  pin 4
+   pin 5 | o S                |
+   pin 6 | o C            R o |  pin 1
+   pin 7 | o D            T o |  pin 2
+   pin 8 | o V            G o |  pin 3
+   pin 9 | o G            5 o |  pin 4
          |                    |
          +--------------------+
 ```
 
-|  pin  |   name   |  description      |  Notes  |
-|:-----:|:--------:|:------------------|:-------:|
-|   1   |  SDA/RX  |  I2C data         |  3-5V
-|   2   |  SCL/TX  |  I2C clock        |  3-5V
-|   3   |  GND     |  Ground           |
-|   4   |  VCC     |  Power +5V        |  separate power supply needed.
-|   5   |  SET     |  select com mode  |  HIGH (or n.c.) => I2C, LOW => Serial
-|   6   |   -      |  not connected    |
+**Note the code chars are on the bottom side of the sensor!**
+
+
+|  pin  |  code  |   name   |  description      |  Notes  |
+|:-----:|:------:|:--------:|:------------------|:-------:|
+|   1   |   R    |  SDA/RX  |  I2C data         |  3-5V
+|   2   |   T    |  SCL/TX  |  I2C clock        |  3-5V
+|   3   |   G    |  GND     |  Ground           |
+|   4   |   5    |  VCC     |  Power +5V        |  separate power supply needed.
+|   5   |   S    |  SET     |  select com mode  |  HIGH (or n.c.) => I2C, LOW => Serial
+|       |        |          |                   |
+|   6   |   C    |          |                   |  unknown (clock?)
+|   7   |   D    |          |                   |  unknown (data?)
+|   8   |   V    |          |                   |  unknown (ground?)
+|   9   |   G    |          |                   |  unknown (voltage?)
+
 
 If pin 5 is not connected or connected to HIGH, **I2C** is selected (default).
 If pin 5 is connected to GND (LOW), Serial / UART mode is selected.
 This latter serial mode is **NOT** supported by this library.
 
 
-#### Related
+### Related
 
 - https://emariete.com/en/sensor-co2-mh-z19b/
 - https://emariete.com/en/sensor-co2-low-consumption-mh-z1311a-winsen/
@@ -118,7 +131,7 @@ This latter serial mode is **NOT** supported by this library.
 - https://github.com/RobTillaart/Cozir
 
 
-#### Tested
+### Tested
 
 TODO: Test on Arduino UNO and ESP32
 
@@ -141,7 +154,7 @@ Every time the power is shut off the pre-heat would run again internally.
 It is unclear what effect this has on the lifetime and quality of the sensor.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -161,7 +174,7 @@ too if they are behind the multiplexer.
 See example **TCA9548_demo_ACD3100.ino**
 
 
-#### I2C Performance
+### I2C Performance
 
 Only test **readSensor()** as that is the main function.
 
@@ -176,7 +189,7 @@ Only test **readSensor()** as that is the main function.
 |   600 KHz  |             |
 
 
-TODO: run performance sketch.
+TODO: run performance sketch on hardware.
 
 
 ## Interface
@@ -185,7 +198,7 @@ TODO: run performance sketch.
 #include "ACD3100.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **ACD3100(TwoWire \*wire = &Wire)** optional select I2C bus.
 - **bool begin()** checks if device is visible on the I2C bus.
@@ -193,7 +206,7 @@ TODO: run performance sketch.
 - **uint8_t getAddress()** Returns the fixed address 0x2A (42).
 
 
-#### PreHeat
+### PreHeat
 
 PreHeat functions assume the sensor is (and stays) connected to power.
 
@@ -202,7 +215,7 @@ PreHeat functions assume the sensor is (and stays) connected to power.
 left before preHeat is complete.
 
 
-#### Request and Read
+### Request and Read
 
 The interface of the sensor is made asynchronous as there is a delay needed
 of around 80 milliseconds between a request for new data and the availability
@@ -230,7 +243,7 @@ Use 5~10 milliseconds above the minimal value the sensor still works.
 - **uint8_t getRequestTime()** returns the current request time in milliseconds.
 
 
-#### Calibration
+### Calibration
 
 Read the datasheet about calibration process (twice).
 Incorrect calibration leads to incorrect output.
@@ -242,7 +255,7 @@ from 400 to 5000, the parameter value should be in this range.
 Note: One should wait 5 milliseconds between the calibration calls (see datasheet).
 
 
-#### Miscellaneous
+### Miscellaneous
 
 - **void factoryReset()** idem.
 - **bool readFactorySet()** Read back if factory reset was successful.
@@ -252,7 +265,7 @@ Minimum length off arr is 11.
 Minimum length of arr is 11.
 
 
-#### Debug
+### Debug
 
 - **uint8_t getLastError()** returns last error of low level communication.
 

@@ -2,7 +2,7 @@
 //    FILE: ACD10.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-09-25
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -255,7 +255,7 @@ bool ACD10::readFactorySet()
     // Serial.print(__FUNCTION__);
     // Serial.println(": CRC error");
   // }
-  return (buf[1] == 0x01);
+  return ((buf[0] == 0x00) && (buf[1] == 0x01));
 }
 
 

@@ -2,17 +2,25 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.1
+// VERSION: 0.8.2
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
 
 
 #include "Arduino.h"
-#include "Wire.h"
+#if (defined(ARDUINO_attiny) || defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__)) && !defined(TwoWire_h)
+  #include "TinyWireM.h"
+  #define Wire TinyWireM
+  #define TwoWire USI_TWI
+  #pragma message(" [WARNING] Defaulting to 'TinyWireM.h'. 'Wire' is defined as 'TinyWireM', and 'TwoWire' as 'USI_TWI'.")
+  #pragma message(" [WARNING] To override or fall back, include 'Wire.h' above the library.")
+#else
+  #include "Wire.h"
+#endif
 
 
-#define FRAM_LIB_VERSION              (F("0.8.1"))
+#define FRAM_LIB_VERSION              (F("0.8.2"))
 
 
 #define FRAM_OK                         0

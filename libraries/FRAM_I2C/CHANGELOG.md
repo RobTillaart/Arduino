@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.2] - 2025-02-03
+- support AVR_ATtiny85 / 84, kudos to GiorgosXou
+- add **FRAM_ATTINY85_COMPILE_TEST.ino** for testing
+- update readme.md with ATTINY section
+- improve FRAM32_Performance.ino RAM usage with F()
+
 ## [0.8.1] - 2024-07-19
 - Fix #56, performance sketch
 - minor edits

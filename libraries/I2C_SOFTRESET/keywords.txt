@@ -1,0 +1,18 @@
+# Syntax Colouring Map For I2C_SOFTRESET
+
+# Data types (KEYWORD1)
+I2C_SOFTRESET	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+reset	KEYWORD2
+lastReset	KEYWORD2
+
+I2CSoftReset	KEYWORD2
+
+
+# Constants (LITERAL1)
+
+I2C_SOFTRESET_LIB_VERSION	LITERAL1
+
+

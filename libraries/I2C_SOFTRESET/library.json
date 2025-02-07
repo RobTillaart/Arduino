@@ -1,0 +1,23 @@
+{
+  "name": "I2C_SOFTRESET",
+  "keywords": "reset",
+  "description": "Arduino library for the I2C_SOFTRESET, to reset stuck devices.\n Sends a soft reset over the I2C bus.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_SOFTRESET.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_SoftReset.h"
+}

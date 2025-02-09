@@ -1,0 +1,22 @@
+# Syntax Colouring Map For OUTPIN
+
+# Data types (KEYWORD1)
+OUTPIN	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+set	KEYWORD2
+
+high	KEYWORD2
+low	KEYWORD2
+
+toggle	KEYWORD2
+pulseHigh	KEYWORD2
+pulseLow	KEYWORD2
+pulseOut	KEYWORD2
+
+
+# Constants (LITERAL1)
+OUTPIN_LIB_VERSION	LITERAL1
+
+

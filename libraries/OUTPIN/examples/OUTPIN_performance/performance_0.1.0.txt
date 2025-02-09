@@ -1,0 +1,56 @@
+
+IDE: 1.8.19
+BOARD: Arduino UNO R3 AVR
+
+
+OUTPIN_performance.ino
+OUTPIN_LIB_VERSION: 0.1.0
+
+
+test_set_high_low
+DW:	3592
+set:	2016
+high:	1136
+low:	1132
+toggle:	1136
+
+test_pulseHigh
+DW:	6788
+pulseHigh():	1832
+pulseHigh(0):	2584
+pulseHigh(20):	8864
+step size:	0.3140
+pulseHigh(13):	6664
+
+
+test_pulseOut
+pulseOut:	10	8
+pulseOut:	20	16
+pulseOut:	30	24
+pulseOut:	40	36
+pulseOut:	50	48
+pulseOut:	60	56
+pulseOut:	70	68
+pulseOut:	80	76
+pulseOut:	90	88
+pulseOut:	100	100
+pulseOut:	100	100
+pulseOut:	200	200
+pulseOut:	300	300
+pulseOut:	400	404
+pulseOut:	500	496
+pulseOut:	600	600
+pulseOut:	700	704
+pulseOut:	800	804
+pulseOut:	900	900
+pulseOut:	1000	1004
+pulseOut:	1000	1004
+pulseOut:	2000	2008
+pulseOut:	3000	3016
+pulseOut:	4000	4020
+pulseOut:	5000	5028
+pulseOut:	6000	6032
+pulseOut:	7000	7032
+pulseOut:	8000	8040
+pulseOut:	9000	9044
+pulseOut:	10000	10052

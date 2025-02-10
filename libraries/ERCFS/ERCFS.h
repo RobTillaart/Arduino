@@ -2,7 +2,7 @@
 //
 //    FILE: ERCFS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI based ERCFS rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/ERCFS
@@ -11,11 +11,13 @@
 //          16384 steps rotary encoder  14 bit 360²
 //
 // https://forum.arduino.cc/t/will-this-rotary-encoder-work-with-arduino/1351596
+//
+
 
 #include "Arduino.h"
 #include "SPI.h"
 
-#define ERCFS_LIB_VERSION         (F("0.1.0"))
+#define ERCFS_LIB_VERSION         (F("0.1.1"))
 
 
 

@@ -1,6 +1,6 @@
 {
   "name": "ERCFS",
-  "keywords": "",
+  "keywords": "ERCF 1 05SPI 360 Z",
   "description": "Arduino library for SPI based ERCFS rotary encoder.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/ERCFS.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

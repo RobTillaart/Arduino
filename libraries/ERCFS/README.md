@@ -45,6 +45,12 @@ Feedback as always, is welcome. Please open an issue.
 - https://p3america.com/ercf-1-05spi-360-z/ home of datasheet.
 
 
+### Compatibles
+
+The **ERC 1 05SPI 360** could be compatible, also 14 bit SPI device.
+To be investigated.
+
+
 ### Please report your experiences.
 
 If you have a ERCFS device, please let me know your experiences
@@ -90,10 +96,9 @@ need to read the device far more often.
 
 #### Should
 
-- add examples
-
 #### Could
 
+- add examples
 
 #### Wont
 

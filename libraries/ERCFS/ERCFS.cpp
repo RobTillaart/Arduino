@@ -1,7 +1,7 @@
 //
 //    FILE: ERCFS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI based ERCFS rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/ERCFS
@@ -38,7 +38,8 @@ bool ERCFS::begin()
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  //  SPI_MODE1 => see email Benito
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 
   if(_hwSPI)
   {
@@ -68,7 +69,7 @@ uint16_t ERCFS::getRawValue()
 float ERCFS::getAngle()
 {
   float angle = (360.0 / 16384) * getRawValue();
-  if (_offset != 0) 
+  if (_offset != 0)
   {
     angle = fmod(angle + _offset, 360.0);
   }
@@ -116,13 +117,13 @@ uint16_t ERCFS::readDevice()
     uint8_t clk = _clock;
     uint8_t dai = _dataIn;
     uint8_t dao = _dataOut;
+    digitalWrite(dao, HIGH);  //  send 0xFFFF, no need to set DAO in loop.
     for (int i = 0; i < 16; i++)
     {
-      digitalWrite(dao, HIGH);  //  send 0xFFFF
       digitalWrite(clk, HIGH);
-      digitalWrite(clk, LOW);
       raw <<= 1;
       raw += digitalRead(dai);
+      digitalWrite(clk, LOW);
     }
   }
   digitalWrite(_select, HIGH);

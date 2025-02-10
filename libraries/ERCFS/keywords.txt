@@ -1,0 +1,22 @@
+# Syntax Colouring Map for ERCFS
+
+
+# Data types (KEYWORD1)
+ERCFS	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+getRawValue	KEYWORD2
+getAngle	KEYWORD2
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+lastRead	KEYWORD2
+usesHWSPI	KEYWORD2
+
+
+# Constants (	LITERAL1)
+ERCFS_LIB_VERSION	LITERAL1
+

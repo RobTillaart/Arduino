@@ -1,0 +1,12 @@
+
+IDE:    1.8.19
+BOARD:  Arduino UNO R3
+
+ERCFS_SW_SPI_performance.ino
+ERCFS_LIB_VERSION: 0.1.0
+
+BEGIN:	1
+
+TIME:	315880
+
+Done...

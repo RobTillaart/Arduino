@@ -1,0 +1,23 @@
+{
+  "name": "ERCFS",
+  "keywords": "",
+  "description": "Arduino library for SPI based ERCFS rotary encoder.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ERCFS.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ERCFS.h"
+}

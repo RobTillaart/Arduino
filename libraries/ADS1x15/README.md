@@ -39,7 +39,7 @@ differential measurements.
 
 ### Interrupts
 
-Besides polling the ADS1x14 and ADS1x15 support interrupts to maximize throughput 
+Besides polling the **ADS1x14** and **ADS1x15** support interrupts to maximize throughput 
 with minimal latency. For this these device has an ALERT/RDY pin. 
 This pin can be used both for interrupts or polling, see table of examples below.
 
@@ -53,6 +53,19 @@ This pin can be used both for interrupts or polling, see table of examples below
 |  ADS_high_speed_differential.ino  |      Y       |
 |  ADS_read_async_rdy.ino           |   polling    |
 |  ADS_read_RDY.ino                 |   polling    |
+
+
+The examples of this library all use the **RISING** edge for the interrupt detection
+of the ALERT / RDY pin. 
+In https://github.com/RobTillaart/ADS1X15/issues/87 it is observed that the **FALLING** 
+edge gave far more stable results for the application used (determine True RMS). 
+This effect can not be explained as the edges are only 8 us apart.
+Thus changing the edge to **FALLING** might improve your measurements too.
+
+Datasheet section 7.3.8 Conversion ready pin, figure 7-8 indicates using 
+the **FALLING** edge as the moment the conversion is ready.
+
+If anybody can explain the observed effect, please let me know.
 
 
 ### 0.5.0 Breaking change
@@ -72,12 +85,14 @@ before calling **begin()**.
 
 ### Related
 
+- https://github.com/RobTillaart/AD7367 2 channel simultaneous 14 bit ADC.
 - https://github.com/RobTillaart/ADC081S 10-12 bit, single channel ADC
 - https://github.com/RobTillaart/ADC08XS 10-12 bit, 2 + 4 channel ADC
 - https://gammon.com.au/adc tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/MCP_ADC 10-12 bit, 1,2,4,8 channel ADC
 - https://github.com/RobTillaart/ADS1x15
 - https://github.com/RobTillaart/PCF8591 8 bit single ADC (+ 1 bit DAC)
+- https://github.com/RobTillaart/AD5593R 8 channel ADC / DAC / GPIO device.
 
 
 ## I2C Address
@@ -284,7 +299,7 @@ Therefore the user should check with **getError()** if an error has occurred aft
       //  handle error
 ```
 
-The errorhandling within the library need to be improved, see also issue #84.
+The error handling within the library need to be improved, see also issue #84.
 
 
 ### Read the ADC in asynchronous way
@@ -511,15 +526,17 @@ as that is the only single change visible. This is IMHO the correct view.
 
 #### ALERT RDY table
 
-|  MODE          |  COMP_POL  |  IDLE  |  START    |  CONVERT  |   READY   |
-|:---------------|:-----------|:-------|:----------|:----------|:----------|
-| 0 = continuous |  0 = LOW   |  HIGH  |  FALLING  |  LOW      |  RISING   |
-| 0 = continuous |  1 = HIGH  |  LOW   |  RISING   |  HIGH     |  FALLING  |
-| 1 = single     |  0 = LOW   |  HIGH  |  FALLING  |  LOW      |  RISING   |
-| 1 = single     |  1 = HIGH  |  LOW   |  RISING   |  HIGH     |  FALLING  |
+|  MODE          |  COMP_POL  |  CONVERT  |  COMPLETING  |   READY   |
+|:---------------|:-----------|:----------|:-------------|:----------|
+| 0 = continuous |  0 = LOW   |  LOW      |   RISING     |  FALLING  |
+| 0 = continuous |  1 = HIGH  |  HIGH     |   FALLING    |  RISING   |
+| 1 = single     |  0 = LOW   |  LOW      |   RISING     |  FALLING  |
+| 1 = single     |  1 = HIGH  |  HIGH     |   FALLING    |  RISING   |
 
 
-See issue #76 for some screenshots.
+See issue #76 and #87 for some screenshots.
+
+See also [Rev. D data sheet, Page 17 Figure 7-8 Conversion Ready Pulse in Continuous-Conversion Mode](https://www.ti.com/lit/ds/symlink/ads1115.pdf)
 
 
 #### Converting time by Data Rate
@@ -547,18 +564,18 @@ Times are estimates from scope.
 In short:
 
 - if COMP_POL = 0, 
-  - a FALLING edge indicates conversion start.
   - a LOW level indicates converting.
-  - a RISING edge indicates conversion ready.
-  - a HIGH level indicates idle.
- 
-- if COMP_POL = 1, 
-  - a RISING edge indicates conversion start.
-  - a HIGH level indicates converting.
+  - a RISING edge indicates conversion completing.
   - a FALLING edge indicates conversion ready.
-  - a LOW level indicates idle.
 
-This interpretation is in line with all tests done in #76.
+- if COMP_POL = 1, 
+  - a HIGH level indicates converting.
+  - a FALLING edge indicates conversion completing.
+  - a RISING edge indicates conversion ready.
+
+This interpretation is in line with all tests done in #76 and #87.
+
+See also [Rev. D data sheet, Page 17 Figure 7-8 Conversion Ready Pulse in Continuous-Conversion Mode](https://www.ti.com/lit/ds/symlink/ads1115.pdf)
 
 
 ### Latch

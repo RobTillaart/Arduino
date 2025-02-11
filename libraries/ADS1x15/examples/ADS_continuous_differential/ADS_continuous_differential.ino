@@ -7,11 +7,14 @@
 //  test
 //  connect 4 potmeters
 //
+//  RDY ----------------- pin 2 (for IRQ, adjust if needed)
+//
 //  GND ---[   x   ]------ 5V
 //             |
 //
-//  measure at x  - connect to AIN0..4.
+//  measure at x  - connect to AIN0..3.
 //
+//  adjust IRQ pin if needed
 
 
 #include "ADS1X15.h"

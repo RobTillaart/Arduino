@@ -2,7 +2,26 @@
 //    FILE: ADS_1114_two_continuous.ino
 //  AUTHOR: Rob.Tillaart
 // PURPOSE: demo reading four ADS1114 modules in parallel
+//          interrupt driven to catch all conversions.
 //     URL: https://github.com/RobTillaart/ADS1X15
+
+//  test
+//  connect multiple potmeters to 2 ADS1114
+//
+//
+//  RDY1 ----------------- pin 2 (for IRQ, adjust if needed)
+//
+//  RDY2 ----------------- pin 3 (for IRQ, adjust if needed)
+//
+//
+//  GND ---[   x   ]------ 5V
+//             |
+//
+//  measure at x  - connect to AIN0..1.
+//
+//  for the test it is good to have AIN2 connected to 5V and AIN3 to GND
+//  so one can see these as references in the output.
+//
 
 
 #include "ADS1X15.h"
@@ -61,8 +80,8 @@ void setup()
   pinMode(3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(3), adsReady_2, RISING);
 
-  ADS_2.setMode(0);         //  0 == continuous mode
-  ADS_2.readADC();          //  0 == default channel,  trigger first read
+  ADS_2.setMode(0);          //  0 == continuous mode
+  ADS_2.readADC();           //  0 == default channel,  trigger first read
 }
 
 

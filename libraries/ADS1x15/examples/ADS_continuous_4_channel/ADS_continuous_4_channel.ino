@@ -8,12 +8,14 @@
 //  test
 //  connect multiple potmeters
 //
+//  RDY ----------------- pin 2 (for IRQ, adjust if needed)
+//
 //  GND ---[   x   ]------ 5V
 //             |
 //
-//  measure at x  - connect to AIN0..4.
+//  measure at x  - connect to AIN0..1.
 //
-//  for the test it is good to have AIN3 connected to 5V and AIN4 to GND
+//  for the test it is good to have AIN2 connected to 5V and AIN3 to GND
 //  so one can see these as references in the output.
 //
 

@@ -1,0 +1,16 @@
+
+change the API
+
+- ADDRselect() instead of write()?
+
+optional
+
+  inline uint8_t ADDRread() { return digitalRead(_addr); };
+  inline uint8_t REFSELread() { return digitalRead(_refsel); };
+  
+  - **uint8_t ADDRread()** read back pin.
+  - **uint8_t REFSELread()** read back pin.
+  
+  
+  
+  

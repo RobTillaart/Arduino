@@ -1,0 +1,24 @@
+IDE: 1.8.19
+BOARD: Arduino UNO
+NOTE: no hardware dummy run
+
+
+AD7367_LIB_VERSION: 0.1.0
+
+TYPE:	67
+BITS:	14
+512828	1949.97
+0
+0
+
+512836	1949.94
+0
+0
+
+512848	1949.90
+0
+0
+
+512840	1949.93
+0
+0

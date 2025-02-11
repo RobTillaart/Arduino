@@ -1,0 +1,23 @@
+{
+  "name": "AD7367_SPI",
+  "keywords": "AD7366",
+  "description": "Arduino library for the AD7367, 2 channel consecutive sampling 14 bit ADC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD7367_SPI.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD7367_SPI.h"
+}

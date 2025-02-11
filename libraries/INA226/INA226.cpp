@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -73,7 +73,13 @@ uint8_t INA226::getAddress()
 float INA226::getBusVoltage()
 {
   uint16_t val = _readRegister(INA226_BUS_VOLTAGE);
-  return val * 1.25e-3;  //  fixed 1.25 mV
+  //    return val * 1.25e-3 * _bus_V_scaling_e4 / 10000;  //  fixed 1.25 mV
+  val *= 1.25e-3;
+  if (_bus_V_scaling_e4 != 10000)
+  {
+    val *= _bus_V_scaling_e4 * 1.0e-4;
+  }
+  return val;
 }
 
 
@@ -87,7 +93,7 @@ float INA226::getShuntVoltage()
 float INA226::getCurrent()
 {
   int16_t val = _readRegister(INA226_CURRENT);
-  return val * _current_LSB;
+  return val * _current_LSB - _current_zero_offset;
 }
 
 
@@ -115,6 +121,7 @@ bool INA226::waitConversionReady(uint32_t timeout)
   }
   return false;
 }
+
 
 ////////////////////////////////////////////////////////
 //
@@ -307,19 +314,59 @@ int INA226::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   _shunt = shunt;
 
 #ifdef printdebug
-  Serial.print("Final current_LSB:\t");
+  Serial.println("\n***** INA 226 SET VALUES *****");
+  Serial.print("Shunt:\t");
+  Serial.print(_shunt, 4);
+  Serial.println(" Ohm");
+  Serial.print("Current_LSB:\t");
   Serial.print(_current_LSB * 1e+6, 1);
   Serial.println(" uA / bit");
   Serial.print("Calibration:\t");
   Serial.println(calib);
-  Serial.print("Max current:\t");
+  Serial.print("Max Measurable Current:\t");
   Serial.print(_maxCurrent, 3);
   Serial.println(" A");
+  Serial.print("maxShuntVoltage:\t");
+  Serial.print(shuntVoltage, 4);
+  Serial.println(" Volt");
+#endif
+
+  return INA226_ERR_NONE;
+}
+
+
+int INA226::configure(float shunt, float current_LSB_mA, float current_zero_offset_mA, uint16_t bus_V_scaling_e4)
+{
+  if (shunt < INA226_MINIMAL_SHUNT_OHM) return INA226_ERR_SHUNT_LOW;
+  float maxCurrent = min((INA226_MAX_SHUNT_VOLTAGE / shunt), 32768 * current_LSB_mA * 1e-3);
+  if (maxCurrent < 0.001)               return INA226_ERR_MAXCURRENT_LOW;
+
+  _shunt               = shunt;
+  _current_LSB         = current_LSB_mA * 1e-3;
+  _current_zero_offset = current_zero_offset_mA * 1e-3;
+  _bus_V_scaling_e4    = bus_V_scaling_e4;
+  _maxCurrent          = maxCurrent;
+
+  uint32_t calib = round(0.00512 / (_current_LSB * _shunt));
+  _writeRegister(INA226_CALIBRATION, calib);
+
+// #define printdebug
+
+#ifdef printdebug
+  Serial.println("\n***** INA 226 USER SET VALUES *****");
   Serial.print("Shunt:\t");
   Serial.print(_shunt, 4);
   Serial.println(" Ohm");
-  Serial.print("ShuntV:\t");
-  Serial.print(shuntVoltage, 4);
+  Serial.print("current_LSB:\t");
+  Serial.print(_current_LSB * 1e+6, 1);
+  Serial.println(" uA / bit");
+  Serial.print("Calibration:\t");
+  Serial.println(calib);
+  Serial.print("Max Measurable Current:\t");
+  Serial.print(_maxCurrent, 3);
+  Serial.println(" A");
+  Serial.print("maxShuntVoltage:\t");
+  Serial.print(_maxCurrent * _shunt, 4);
   Serial.println(" Volt");
 #endif
 

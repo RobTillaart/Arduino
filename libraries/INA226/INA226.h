@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              "0.6.1"
+#define INA226_LIB_VERSION              "0.6.2"
 
 
 //  set by setAlertRegister
@@ -44,6 +44,8 @@
 #define INA226_MINIMAL_SHUNT_OHM          0.001
 
 #define INA226_MAX_WAIT_MS                600   //  millis
+
+#define INA226_MAX_SHUNT_VOLTAGE          (81.92 / 1000)
 
 
 //  for setAverage() and getAverage()
@@ -123,6 +125,8 @@ public:
   //  maxCurrent >= 0.001           otherwise returns INA226_ERR_MAXCURRENT_LOW
   //  shunt      >= 0.001           otherwise returns INA226_ERR_SHUNT_LOW
   int      setMaxCurrentShunt(float maxCurrent = 20.0, float shunt = 0.002, bool normalize = true);
+  //  configure provides full user control, not requiring call to setMaxCurrentShunt(args) function
+  int      configure(float shunt = 0.1, float current_LSB_mA = 0.1, float current_zero_offset_mA = 0, uint16_t bus_V_scaling_e4 = 10000);
   bool     isCalibrated()     { return _current_LSB != 0.0; };
 
   //  These functions return zero if not calibrated!
@@ -173,6 +177,8 @@ private:
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
+  float    _current_zero_offset = 0;
+  uint16_t _bus_V_scaling_e4 = 10000;
 
   uint8_t   _address;
   TwoWire * _wire;

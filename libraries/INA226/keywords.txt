@@ -36,6 +36,8 @@ getBusVoltageConversionTime	KEYWORD2
 setShuntVoltageConversionTime	KEYWORD2
 getShuntVoltageConversionTime	KEYWORD2
 
+configure	KEYWORD2
+
 setMaxCurrentShunt	KEYWORD2
 isCalibrated	KEYWORD2
 getCurrentLSB	KEYWORD2

@@ -6,13 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2025-02-11
+- Add **configure()**, thanks to pk17r
+- Add **INA226_calibrate.ino** example
+- update readme.md
+- align debug prints of configure() and setMaxCurrentShunt()
+- minor optimization in getBusVoltage()
+
+
 ## [0.6.1] - 2025-01-27
 - fix #49, precision math setMaxCurrentShunt() in INA226.cpp
-- changed max shunt voltage to 81.9 mV (0.02 under datasheet limit)
-- changed INA226_MINIMAL_SHUNT_OHM
+- change max shunt voltage to 81.9 mV (0.02 under datasheet limit)
+- change INA226_MINIMAL_SHUNT_OHM
 - update comments in INA226.h
 - add INA_comparison_table.md
-- updated readme.md
+- update readme.md
 
 ## [0.6.0] - 2024-05-27
 - Fix #47, calibration register is 15 bit, not 16 bit.

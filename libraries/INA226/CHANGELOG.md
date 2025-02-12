@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.3] - 2025-02-12
+- fix #53, BUG in 0.6.2 **getBusVoltage()** looses decimals.
+
 ## [0.6.2] - 2025-02-11
 - Add **configure()**, thanks to pk17r
 - Add **INA226_calibrate.ino** example

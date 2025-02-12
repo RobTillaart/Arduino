@@ -74,12 +74,12 @@ float INA226::getBusVoltage()
 {
   uint16_t val = _readRegister(INA226_BUS_VOLTAGE);
   //    return val * 1.25e-3 * _bus_V_scaling_e4 / 10000;  //  fixed 1.25 mV
-  val *= 1.25e-3;
+  float voltage = val * 1.25e-3;
   if (_bus_V_scaling_e4 != 10000)
   {
-    val *= _bus_V_scaling_e4 * 1.0e-4;
+    voltage *= _bus_V_scaling_e4 * 1.0e-4;
   }
-  return val;
+  return voltage;
 }
 
 

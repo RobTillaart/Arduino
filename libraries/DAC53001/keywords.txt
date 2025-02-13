@@ -1,0 +1,36 @@
+# Syntax Colouring Map for DAC53001
+
+
+# Data types (KEYWORD1)
+DAC53001	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+getMaxValue	KEYWORD2
+getChannels	KEYWORD2
+
+setReference	KEYWORD2
+getReference	KEYWORD2
+
+setCurrentRange	KEYWORD2
+getCurrentRange	KEYWORD2
+
+setOutputMode	KEYWORD2
+getOutputMode	KEYWORD2
+
+getStatus	KEYWORD2
+getDeviceID	KEYWORD2
+getVersionID	KEYWORD2
+
+setDAC	KEYWORD2
+getDAC	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (	LITERAL1)
+DAC53001_LIB_VERSION	LITERAL1
+

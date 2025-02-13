@@ -1,0 +1,23 @@
+{
+  "name": "DAC53001",
+  "keywords": "",
+  "description": "Arduino library for I2C DAC53001 10 bit DAC. Also for DAC53002, DAC63001, DAC63002.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DAC53001.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DAC53001.h"
+}

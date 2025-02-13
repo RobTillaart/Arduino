@@ -1,0 +1,42 @@
+# Syntax Colouring Map for PCT2075
+
+
+# Data types (KEYWORD1)
+PCT2075	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+
+setConfiguration	KEYWORD2
+getConfiguration	KEYWORD2
+
+setOSFQUE	KEYWORD2
+setOSPolarityLOW	KEYWORD2
+setOSPolarityHIGH	KEYWORD2
+setOSComparatorMode	KEYWORD2
+setOSInterruptMode	KEYWORD2
+
+wakeUp	KEYWORD2
+shutDown	KEYWORD2
+
+getTemperature	KEYWORD2
+
+setHysteresis	KEYWORD2
+getHysteresis	KEYWORD2
+
+setOverTemperature	KEYWORD2
+getOverTemperature	KEYWORD2
+
+setSampleDelay	KEYWORD2
+getSampleDelay	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (	LITERAL1)
+PCT2075_LIB_VERSION	LITERAL1
+
+PCT2075_OK	LITERAL1
+PCT2075_I2C_ERROR	LITERAL1

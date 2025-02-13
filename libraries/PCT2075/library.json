@@ -1,0 +1,23 @@
+{
+  "name": "PCT2075",
+  "keywords": "",
+  "description": "Arduino library for I2C PCT2075 temperature sensor / thermal watchdog.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCT2075.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCT2075.h"
+}

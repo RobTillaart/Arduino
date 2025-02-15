@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_LCD.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
@@ -68,7 +68,7 @@ void I2C_LCD::config (uint8_t address, uint8_t enable, uint8_t readWrite, uint8_
   _backLightPol   = polarity;
 
   _pin4567 = ((data4 == 4) && (data5 == 5) && (data6 == 6) && (data7 == 7));
-  //  if pins are 0,1,2,3 they are also in order 
+  //  if pins are 0,1,2,3 they are also in order
   //  but the shift/mask in send() should be different
   //  4,5,6,7 is most used afaik.
 }
@@ -168,6 +168,7 @@ void I2C_LCD::clear()
 {
   sendCommand(I2C_LCD_CLEARDISPLAY);
   _pos = 0;
+  _row = 0;
   delay(2);
 }
 
@@ -185,6 +186,7 @@ void I2C_LCD::home()
 {
   sendCommand(I2C_LCD_RETURNHOME);
   _pos = 0;
+  _row = 0;
   delayMicroseconds(1600);  //  datasheet states 1520.
 }
 
@@ -199,11 +201,12 @@ bool I2C_LCD::setCursor(uint8_t col, uint8_t row)
   if (row & 0x02) offset += _cols;
   offset += col;
   _pos = col;
+  _row = row;
 
   sendCommand(I2C_LCD_SETDDRAMADDR | offset );
   return true;
 
-  //  ORIGINAL SETCURSOR CODE 
+  //  ORIGINAL SETCURSOR CODE
   //  all start position arrays start with 0x00 0x40
   //  they have an offset of 0x14, 0x10 or 0x0A
   //  so only 3 bytes are needed?
@@ -291,13 +294,31 @@ void I2C_LCD::moveCursorRight(uint8_t n)
 }
 
 
-void I2C_LCD::autoscroll(void)
+void I2C_LCD::moveCursorUp()
+{
+  if (_row > 0)
+  {
+    setCursor(_pos, _row - 1);
+  }
+}
+
+
+void I2C_LCD::moveCursorDown()
+{
+  if (_row < _rows -1)
+  {
+    setCursor(_pos, _row + 1);
+  }
+}
+
+
+void I2C_LCD::autoScroll(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET | I2C_LCD_ENTRYSHIFTINCREMENT);
 }
 
 
-void I2C_LCD::noAutoscroll(void)
+void I2C_LCD::noAutoScroll(void)
 {
   sendCommand(I2C_LCD_ENTRYMODESET);
 }
@@ -335,7 +356,8 @@ void I2C_LCD::createChar(uint8_t index, uint8_t * charmap)
 size_t I2C_LCD::write(uint8_t c)
 {
   size_t n = 0;
-  if (c == (uint8_t)'\t')  //  handle TAB char
+  //  handle TAB char(9) - next multiple of 4 (or EndOfLine)
+  if (c == (uint8_t)'\t')
   {
     while (((_pos % 4) != 0) && (_pos < _cols))
     {
@@ -344,13 +366,71 @@ size_t I2C_LCD::write(uint8_t c)
     }
     return n;
   }
+
+  //  experimental
+  //  SPECIAL ASCII CHAR SUPPORT
+  //  char(7) == BELL not possible (special chars)
+  //  char(11) == VERTICAL TAB => next line same pos  (NEED COL)
+
+  //  handle BACKSPACE char(8) - one pos left.
+  if (c == (uint8_t)'\b')
+  {
+    if (_pos > 0)
+    {
+      moveCursorLeft();  //  decreases _pos.
+      n++;
+    }
+    return n;
+  }
+
+  //  handle NEWLINE char(10) - start of next line.
+  if (c == (uint8_t)'\n')
+  {
+    if (_row < (_rows - 1))
+    {
+      setCursor(0, _row + 1);
+      n++;
+    }
+    return n;
+  }
+
+  //  handle VERTICAL TAB char(11)
+  if (c == (uint8_t)'\v')
+  {
+    if (_row < (_rows - 1))
+    {
+      setCursor(_pos, _row + 1);
+      n++;
+    }
+    return n;
+  }
+
+  //  handle FORMFEED char(12) - clear screen.
+  if (c == (uint8_t)'\f')
+  {
+    clear();
+    return n;
+  }
+  //  handle RETURN char(13) - start of current line.
+  if (c == (uint8_t)'\r')
+  {
+    while (_pos > 0)
+    {
+      moveCursorLeft();    //  decreases _pos.
+      n++;
+    }
+    return n;
+  }
+
+  //  handle normal characters.
   if (_pos < _cols)   //  overflow protect.
   {
     sendData(c);
     _pos++;
     return 1;
   }
-  //  not allowed to print beyond display, so return 0.
+  //  not allowed to print beyond display,
+  //  prevents garbage, so return 0.
   return 0;
 };
 
@@ -374,7 +454,7 @@ size_t I2C_LCD::right(uint8_t col, uint8_t row, const char * message)
 size_t I2C_LCD::repeat(uint8_t c, uint8_t times)
 {
   size_t n = 0;
-  while((times--) && (_pos < _cols)) 
+  while((times--) && (_pos < _cols))
   {
     n += write(c);
   }
@@ -400,8 +480,8 @@ void I2C_LCD::sendData(uint8_t value)
 
 void I2C_LCD::send(uint8_t value, bool dataFlag)
 {
-  //  calculate both 
-  //  MSN == most significant nibble and 
+  //  calculate both
+  //  MSN == most significant nibble and
   //  LSN == least significant nibble
   uint8_t MSN = 0;
   if (dataFlag)   MSN = _registerSelect;

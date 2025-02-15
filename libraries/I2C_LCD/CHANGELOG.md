@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2025-02-11
+- rename autoscroll() => autoScroll()  camel case.
+- add support for special ASCII chars
+  - BACKSPACE \b
+  - FORMFEED \f
+  - LINEFEED \n
+  - VERTICAL TAB \v
+  - CARRIAGE RETURN \r
+- update readme.md
+- add example for full screen (80 chars) printing
+- add example for PROGMEM printing
+- add example for BACKSPACE printing
+- add example for FORMFEED printing
+- add example for LINEFEED printing
+- add void moveCursorUp()
+- add void moveCursorDown()
+- add uint8_t getRow()
+
 ## [0.2.2] - 2024-08-26
 - fix #11, add dice example
 - add single pixel example
@@ -25,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - optimized send() a bit.
 - add clear() measurement to performance sketch.
 - update readme.md
-- minor edits 
+- minor edits
 
 ----
 
@@ -73,6 +91,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - and more
 
 ## [0.1.0] - 2023-12-16
-- initial version 
+- initial version
 - goal is to optimize footprint & performance
 

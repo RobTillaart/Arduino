@@ -2,13 +2,13 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.2.2"))
+#define I2C_LCD_LIB_VERSION     (F("0.2.3"))
 
 
 #include "Arduino.h"
@@ -64,10 +64,12 @@ public:
   void      scrollDisplayRight();
   void      moveCursorRight(uint8_t n = 1);
   void      moveCursorLeft(uint8_t n = 1);
+  void      moveCursorUp();
+  void      moveCursorDown();
 
   //  next 4 limited support
-  void      autoscroll();
-  void      noAutoscroll();
+  void      autoScroll();
+  void      noAutoScroll();
   void      leftToRight();
   void      rightToLeft();
 
@@ -87,7 +89,15 @@ public:
 
   //  DEBUG  development
   uint8_t   getColumn() { return _pos; };  //  works.
+  uint8_t   getRow()    { return _row; };  //  works.
   uint32_t  getWriteCount()  { return _count; };  // works
+
+
+  //  OBSOLETE 3.0
+  [[deprecated("Use autoScroll() instead.")]]
+  void      autoscroll()   { autoScroll(); };
+  [[deprecated("Use noAutoScroll() instead.")]]
+  void      noAutoscroll() { noAutoScroll(); };
 
 
 private:
@@ -121,6 +131,7 @@ private:
 
   //  overflow protection
   uint8_t   _pos = 0;
+  uint8_t   _row = 0;
 
   uint32_t  _count = 0;
 };

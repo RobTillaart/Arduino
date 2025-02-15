@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -685,7 +685,7 @@ double INA229::_readRegisterF(uint8_t reg, uint8_t bytes)
 uint16_t INA229::_writeRegister(uint8_t reg, uint16_t value)
 {
   uint32_t rv = 0;
-  uint8_t addr = (reg << 2);  //  0 = Write flag.  P18 datasheet
+  uint8_t addr = (reg << 2);  //  0 = Write flag.  page 18 datasheet
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
@@ -699,7 +699,7 @@ uint16_t INA229::_writeRegister(uint8_t reg, uint16_t value)
   }
   else      //  Software SPI
   {
-    rv += swSPI_transfer(reg);
+    rv += swSPI_transfer(addr);
     rv <<= 8;
     rv += swSPI_transfer(value >> 8);
     rv <<= 8;

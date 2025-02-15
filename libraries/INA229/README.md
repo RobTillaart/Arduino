@@ -48,6 +48,12 @@ ends in the code, please report them.
 Feedback as always is welcome.
 
 
+### Update 0.2.0
+
+In 0.2.0 a bug was fixed in software SPI, so all 0.1.x versions
+are now obsolete (although HW SPI did work).
+
+
 ### Details
 
 The INA229 is a voltage, current and power measurement device.

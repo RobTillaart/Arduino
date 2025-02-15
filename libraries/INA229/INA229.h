@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.1.1"))
+#define INA229_LIB_VERSION          (F("0.2.0"))
 
 
 #ifndef __SPI_CLASS__

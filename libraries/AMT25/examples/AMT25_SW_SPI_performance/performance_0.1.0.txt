@@ -1,0 +1,12 @@
+
+IDE:    1.8.19
+BOARD:  Arduino UNO R3
+
+AMT25_SW_SPI_performance.ino
+AMT25_LIB_VERSION: 0.1.0
+
+BEGIN:	1
+
+TIME:	339272
+
+Done...

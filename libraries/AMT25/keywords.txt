@@ -1,0 +1,25 @@
+# Syntax Colouring Map for AMT25
+
+
+# Data types (KEYWORD1)
+AMT25	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+getRawValue	KEYWORD2
+getAngle	KEYWORD2
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+setZero	KEYWORD2
+getTurns	KEYWORD2
+
+lastRead	KEYWORD2
+usesHWSPI	KEYWORD2
+
+
+# Constants (	LITERAL1)
+AMT25_LIB_VERSION	LITERAL1
+

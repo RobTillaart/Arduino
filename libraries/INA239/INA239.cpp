@@ -1,6 +1,6 @@
 //    FILE: INA239.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -572,7 +572,7 @@ uint16_t INA239::_writeRegister(uint8_t reg, uint16_t value)
   }
   else      //  Software SPI
   {
-    rv += swSPI_transfer(reg);
+    rv += swSPI_transfer(addr);
     rv <<= 8;
     rv += swSPI_transfer(value >> 8);
     rv <<= 8;

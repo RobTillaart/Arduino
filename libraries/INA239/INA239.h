@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA239.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA239_LIB_VERSION          (F("0.1.1"))
+#define INA239_LIB_VERSION          (F("0.2.0"))
 
 
 #ifndef __SPI_CLASS__

@@ -2,7 +2,7 @@
 //
 //    FILE: AMT25.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI based AMT25 series rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/AMT25
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AMT25_LIB_VERSION         (F("0.1.0"))
+#define AMT25_LIB_VERSION         (F("0.1.1"))
 
 
 
@@ -75,6 +75,7 @@ protected:
   uint32_t _SPIspeed = 2000000;  //  max 2MHz
 
   uint16_t readDevice(uint16_t command);
+  bool     checkParity(uint16_t raw);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;

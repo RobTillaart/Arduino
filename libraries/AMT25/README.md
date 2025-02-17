@@ -72,15 +72,19 @@ Hardware SPI connections UNO
 
 ### Related
 
-- https://www.sameskydevices.com/product/resource/amt25.pdf - datasheet
+Angle math
+
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/runningAngle
-- https://github.com/RobTillaart/AS5600 magnetic rotation meter.
+
+Decoders
+
+- https://www.sameskydevices.com/product/resource/amt25.pdf - datasheet
 - https://github.com/RobTillaart/AMT25 this library
-- https://github.com/RobTillaart/ERCFS
-- https://p3america.com/ercf-1-05spi-360-z/ home of datasheet.
+- https://github.com/RobTillaart/AS5600 magnetic rotation meter.
+- https://github.com/RobTillaart/ERCFS SPI based rotary encoder.
 
 
 ### Please report your experiences.

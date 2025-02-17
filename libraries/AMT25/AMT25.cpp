@@ -1,7 +1,7 @@
 //
 //    FILE: AMT25.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI based AMT25 series rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/AMT25
@@ -122,6 +122,7 @@ void AMT25::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   if (_SPIspeed > 2000000) _SPIspeed = 2000000;
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 }
 
 uint32_t AMT25::getSPIspeed()
@@ -187,7 +188,7 @@ uint16_t AMT25::readDevice(uint16_t command)
   return raw;
 }
 
-bool checkParity(uint16_t raw)
+bool AMT25::checkParity(uint16_t raw)
 {
   uint16_t data = raw;  //  local variable is fast.
   uint16_t sum = 0x3;

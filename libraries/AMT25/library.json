@@ -1,7 +1,7 @@
 {
   "name": "AMT25",
   "keywords": "",
-  "description": "Arduino library for SPI based AMT25 rotary encoder.",
+  "description": "Arduino library for SPI based AMT25 rotary encoder.\n AMT22, AMT23.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AMT25.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

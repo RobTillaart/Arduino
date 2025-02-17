@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.3.2"))
+#define ANSI_LIB_VERSION        (F("0.3.3"))
 
 
 class ANSI : public Stream
@@ -45,9 +45,9 @@ public:
   void clearScreen();
   void clearLine(uint8_t clear = toEnd);
   void home();
-
   //   gotoXY() changed in 0.2.0 See #13
   void gotoXY(uint8_t column, uint8_t row);
+
   void cursorUp(uint8_t x);
   void cursorDown(uint8_t x);
   void cursorForward(uint8_t x);
@@ -160,27 +160,8 @@ public:
 
 
   //  RGB_COLOR
-  void setRGBforeground(uint8_t r, uint8_t g, uint8_t b)  //  -
-  {
-    print("\033[38;2;");
-    write(r);
-    write(';');
-    write(g);
-    write(';');
-    write(b);
-    print("m");
-  };
-
-  void setRGBbackground(uint8_t r, uint8_t g, uint8_t b)  //  -
-  {
-    print("\033[48;2;");
-    write(r);
-    write(';');
-    write(g);
-    write(';');
-    write(b);
-    print("m");
-  };
+  void setRGBforeground(uint8_t r, uint8_t g, uint8_t b);  //  -
+  void setRGBbackground(uint8_t r, uint8_t g, uint8_t b);  //  -
 
 
 protected:

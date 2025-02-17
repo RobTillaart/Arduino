@@ -25,7 +25,7 @@ Sending these ANSI codes to a simple ASCII only terminal like the one in the Ard
 IDE might result in garbage. So use with care.
 
 
-#### Breaking change 0.2.0
+### Breaking change 0.2.0
 
 The **gotoXY(x, y)** has changed as the X and Y coordinates were swapped.
 
@@ -33,7 +33,7 @@ The code has been updated to explicitly mention which is row and which is column
 - **gotoXY(uint8_t column, uint8_t row)** 
 
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/ANSI_escape_code
 - https://github.com/RobTillaart/LineFormatter
@@ -57,14 +57,14 @@ If not, please open an issue.
 #include "ansi.h"
 ```
 
-#### Constructors
+### Constructors
 
 - **ANSI(Stream \* stream = &Serial)** wrapper around Serial.
 Can be a software serial too.
 - **VT100(Stream \* stream = &Serial)** derived class (wrapper)
 
 
-#### Stream interface
+### Stream interface
 
 - **int available()** to check if chars are available on the stream.
 - **int read()** read a byte from the stream.
@@ -74,7 +74,7 @@ Can be a software serial too.
 Stream interface also includes print(), println(), write().
 
 
-#### Character modi
+### Character modi
 
 Most of these are supported (more or less) in terminal apps.
 
@@ -87,7 +87,7 @@ Most of these are supported (more or less) in terminal apps.
 - **void reverse()** idem.
 
 
-#### Colour
+### Colour
 
 - **void foreground(uint8_t fgcolor)**
 - **void background(uint8_t bgcolor)**
@@ -101,7 +101,7 @@ Three helpers to map to the nearest colour.
 - https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
 
 
-#### Positioning
+### Positioning
 
 - **void clearScreen()** clears screen and sets cursor to 0,0.
 - **void clearLine(uint8_t clear = toEnd)** toEnd = 0,
@@ -115,7 +115,7 @@ Note X == row and Y == column. See #13.
 - **void cursorBack(uint8_t x)** idem.
 
 
-#### Experimental
+## Experimental
 
 Look into **ansi.h** for experimental functions and notes.
 
@@ -124,7 +124,7 @@ Some are working with TeraTerm, others are unclear of fail.
 The user can uncomment these and verify if these work with their terminal.
 
 
-##### Experimental getScreenSize()
+### Experimental getScreenSize()
 
 Added in 0.2.2 (From PR #16 refactored)  use with care.
 
@@ -140,7 +140,7 @@ call of getScreenSize();
 call of getScreenSize();
 
 
-##### Experimental deviceType()
+### Experimental deviceType()
 
 The **int deviceType()** function needs more testing.
 
@@ -157,7 +157,7 @@ See - https://github.com/RobTillaart/ANSI/issues/9
 As always, constructive feedback is welcome.
 
 
-##### Experimental (working TeraTerm)
+### Experimental (working on sTeraTerm)
 
 These functions need more testing and might work on
 your favourite terminal.
@@ -179,7 +179,7 @@ RESET
 - **void reset()** terminal to initial state
 
 
-##### Experimental (NOT working TeraTerm)
+### Experimental (NOT working on TeraTerm)
 
 - **void setSmoothScroll()**
 - **void setJumpScroll()**
@@ -200,7 +200,6 @@ Since 0.2.0 the (internal) print() statements are replaced by write().
 Although it are small improvements these add up.
 
 
-
 ## Future
 
 #### Must
@@ -209,7 +208,6 @@ Although it are small improvements these add up.
   - elaborate interface
   - colour info
 
-
 #### Should
 
 - test experimental functions
@@ -217,7 +215,6 @@ Although it are small improvements these add up.
 - add examples
   - DOS emulator?
   - experimental section
-
 
 #### Could
 
@@ -230,7 +227,6 @@ Although it are small improvements these add up.
   - need for flush() with line buffer?
 - move code from .h to .cpp
 - more derived classes
-
 
 #### Wont
 

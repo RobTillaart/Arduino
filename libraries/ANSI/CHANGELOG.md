@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2025-xxxx
+- move RGB functions to .cpp
+- update readme.md
+- minor edit in build-CI
+- add DHT22 example
+- update keywords.txt
+- extend support matrix
+
 ## [0.3.2] - 2024-04-06
 - update GitHub actions
 - minor edits
-
 
 ## [0.3.1] - 2023-11-13
 - added experimental functions (to get feedback)

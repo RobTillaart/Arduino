@@ -1,7 +1,7 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -285,6 +285,31 @@ bool ANSI::getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout)
   _height = h;
   return rv;
 }
+
+
+//  RGB_COLOR
+void ANSI::setRGBforeground(uint8_t r, uint8_t g, uint8_t b)  //  -
+{
+  print("\033[38;2;");
+  write(r);
+  write(';');
+  write(g);
+  write(';');
+  write(b);
+  print("m");
+};
+
+
+void ANSI::setRGBbackground(uint8_t r, uint8_t g, uint8_t b)  //  -
+{
+  print("\033[48;2;");
+  write(r);
+  write(';');
+  write(g);
+  write(';');
+  write(b);
+  print("m");
+};
 
 
 //////////////////////////////////////////////////

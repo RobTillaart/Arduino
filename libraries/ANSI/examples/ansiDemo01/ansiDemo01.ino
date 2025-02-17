@@ -104,10 +104,10 @@ void setup()
   //  RGB color test
   ansi.println("Experimental");
   ansi.setRGBforeground(180, 0, 158);
-  ansi.print("foreground");
+  ansi.print("RGBforeground");
   ansi.normal();
   ansi.setRGBbackground(180, 0, 158);
-  ansi.println("background");
+  ansi.println("RGBbackground");
   ansi.normal();
 
 

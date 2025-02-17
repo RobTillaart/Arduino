@@ -16,6 +16,7 @@ blinkFast	KEYWORD2
 reverse	KEYWORD2
 
 clearScreen	KEYWORD2
+clearLine	KEYWORD2
 home	KEYWORD2
 gotoXY	KEYWORD2
 
@@ -23,7 +24,6 @@ cursorUp	KEYWORD2
 cursorDown	KEYWORD2
 cursorForward	KEYWORD2
 cursorBack 	KEYWORD2
-clearLine	KEYWORD2
 
 foreground	KEYWORD2
 background	KEYWORD2
@@ -32,6 +32,7 @@ color	KEYWORD2
 gray2color	KEYWORD2
 grey2color	KEYWORD2
 rgb2color	KEYWORD2
+
 
 #################################
 # EXPERIMENTAL
@@ -66,6 +67,10 @@ setRGBbackground	KEYWORD2
 
 # Constants (LITERAL1)
 ANSI_LIB_VERSION	LITERAL1
+
+VT100	LITERAL1
+VT52	LITERAL1
+VT220	LITERAL1
 
 toEnd	LITERAL1
 toStart	LITERAL1

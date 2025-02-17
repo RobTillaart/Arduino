@@ -33,16 +33,35 @@ To have a fair indication of rpm and direction one has to sample
 
 Feedback as always, is welcome. Please open an issue.
 
+### Hardware connection
+
+See - https://forum.arduino.cc/t/will-this-rotary-encoder-work-with-arduino/1351596
+
+|  Name pin   | Colour | 3 wire SPI | 4 wire SPI |
+|:------------|:-------|:----------:|:----------:|
+|  Supply +V  |   Red  |     1      |     1      |
+|  Ground     |  Grey  |     2      |     2      |
+|  MOSI       |  Grey  |     NC     |     3      |
+|  MISO       |  Grey  |     3      |     4      |
+|  CLOCK      |  Grey  |     4      |     5      |
+|  SELECT CS  |  Grey  |     5      |     6      |
+
 
 ### Related
+
+Angle math
 
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/runningAngle
+
+Decoders
+
+- https://github.com/RobTillaart/AMT25
 - https://github.com/RobTillaart/AS5600 magnetic rotation meter.
 - https://github.com/RobTillaart/ERCFS this library
-- https://p3america.com/ercf-1-05spi-360-z/ home of datasheet.
+- https://p3america.com/ercf-1-05spi-360-z/ home of ERCFS datasheet.
 
 
 ### Compatibles
@@ -82,9 +101,11 @@ Note this wraps every ~70 minutes however for RPM measurements one
 need to read the device far more often.
 
 
-### Debugging
+### SPI
 
-- **bool usesHWSPI()**
+- **void setSPIspeed(uint32_t speed)** idem, clipped to max 2 MHz.
+- **uint32_t getSPIspeed()** idem.
+- **bool usesHWSPI()** idem.
 
 
 ## Future

@@ -2,7 +2,7 @@
 //
 //    FILE: ERCFS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for SPI based ERCFS rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/ERCFS
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define ERCFS_LIB_VERSION         (F("0.1.1"))
+#define ERCFS_LIB_VERSION         (F("0.1.2"))
 
 
 
@@ -50,7 +50,9 @@ public:
 
   uint32_t lastRead();
 
-  //       Debugging
+  //  SPI
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed();
   bool     usesHWSPI();
 
 
@@ -65,7 +67,7 @@ private:
 
   //  SPI
   bool     _hwSPI;
-  uint32_t _SPIspeed = 16000000;
+  uint32_t _SPIspeed = 1000000;
 
   uint16_t readDevice();
 

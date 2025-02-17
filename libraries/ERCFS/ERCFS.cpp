@@ -1,7 +1,7 @@
 //
 //    FILE: ERCFS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for SPI based ERCFS rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/ERCFS
@@ -91,7 +91,20 @@ uint32_t ERCFS::lastRead()  //  time in micros
   return _lastRead;
 }
 
-//       Debugging
+//  SPI
+void ERCFS::setSPIspeed(uint32_t speed)
+{
+  _SPIspeed = speed;
+  //  don't know if there is a MAX speed?
+  //  if (_SPIspeed > 2000000) _SPIspeed = 2000000;
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
+}
+
+uint32_t ERCFS::getSPIspeed()
+{
+  return _SPIspeed;
+}
+
 bool ERCFS::usesHWSPI()
 {
   return _hwSPI;

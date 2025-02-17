@@ -1,0 +1,23 @@
+{
+  "name": "PCF85263",
+  "keywords": "Real Time Clock",
+  "description": "Arduino library for the PCF85263 RTC (I2C).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PCF85263.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PCF85263.h"
+}

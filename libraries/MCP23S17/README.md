@@ -24,9 +24,14 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+### 0.7.0 Breaking change
+
+Fix #50, **reverse16ByteOrder(bool)** is added to reverse the byte order of the 16 bit API.
+Not using or setting the parameter to false keeps the library backwards compatible.
+
 ### 0.6.0 Breaking change
 
-Fix for #47, bug in enable interrupt handling.
+Fix #47, bug in enable interrupt handling.
 Pre 0.6.0 versions are obsolete.
 
 ### 0.5.0 Breaking change
@@ -171,6 +176,12 @@ Returns true if successful.
 
 
 ### 16 pins interface
+
+Note: since version 0.7.0 a function is added to reverse the byte order of the 16 bit API.
+
+- **void reverse16ByteOrder(bool reverse = false)** reverse the byte order of the 16 bit API.
+Not using this function or setting the parameter to false keeps the library backwards compatible.
+
 
 - **bool pinMode16(uint16_t mask)** mask = 0..0xFFFF, returns true if successful.
 - **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.

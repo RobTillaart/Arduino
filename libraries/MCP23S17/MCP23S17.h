@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.7.0
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.6.1"))
+#define MCP23S17_LIB_VERSION              (F("0.7.0"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -53,6 +53,11 @@ public:
   bool     begin(bool pullup = true);
   bool     isConnected();
   uint8_t  getAddress();   //  default returns 0x00
+
+  //       Fix #50, reverse the byte order of the 16 bit API.
+  //       reverse == false ==> backwards compatible (default)
+  //       reverse == true ==> swaps the A and B byte to be more intuitive.
+  void     reverse16ByteOrder(bool reverse = false); 
 
 
   //       single pin interface
@@ -157,6 +162,7 @@ protected:
   uint8_t  _error   = MCP23S17_OK;
 
   bool     _hwSPI = true;
+  bool     _reverse16ByteOrder = false;
 
   //       10 MHz is maximum, 8 is a better clock divider on AVR.
   uint32_t    _SPIspeed = MCP23S17_TYP_SPI_SPEED;

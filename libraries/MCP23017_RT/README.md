@@ -50,6 +50,11 @@ However no priority.
 Note that the MCP23S017 (SPI version) does not have this "feature" for **GPA7** and **GPB7**.
 
 
+## 0.9.0  Breaking change
+
+Fix #44, **reverse16ByteOrder(bool)** is added to reverse the byte order of the 16 bit API.
+Not using or setting the parameter to false keeps the library backwards compatible.
+
 ### 0.8.0 Breaking change
 
 Fix for #47 MCP23S17, bug in enable interrupt handling.
@@ -201,6 +206,12 @@ Returns true if successful.
 ### 16 pins interface
 
 Please note REVD remarks at top.
+
+Note: since version 0.9.0 a function is added to reverse the byte order of the 16 bit API.
+
+- **void reverse16ByteOrder(bool reverse = false)** reverse the byte order of the 16 bit API.
+Not using this function or setting the parameter to false keeps the library backwards compatible.
+
 
 - **bool pinMode16(uint16_t mask)** mask = 0..0xFFFF, returns true if successful.
 - **bool write16(uint16_t value)** value = 0..0xFFFF, returns true if successful.

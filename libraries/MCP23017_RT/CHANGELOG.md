@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.9.0] - 2025-02-18
+- fix #44, add function to reverse the byte order of the 16 bit API.
+- update readme.md
+
+----
+
 ## [0.8.1] - 2025-01-20
 - Add PR #41 interrupt functions. Thanks to Klang
 - add link to keypad library

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.1
+// VERSION: 0.9.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -16,7 +16,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.8.1"))
+#define MCP23017_LIB_VERSION              (F("0.9.0"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -35,6 +35,11 @@ public:
   bool     begin(bool pullup = true);
   bool     isConnected();
   uint8_t  getAddress();
+
+  //       Fix #44, reverse the byte order of the 16 bit API.
+  //       reverse == false ==> backwards compatible (default)
+  //       reverse == true ==> swaps the A and B byte to be more intuitive.
+  void     reverse16ByteOrder(bool reverse = false); 
 
 
   //       single pin interface
@@ -121,6 +126,8 @@ protected:
   uint8_t  readReg(uint8_t reg);
   bool     writeReg16(uint8_t reg, uint16_t value);
   uint16_t readReg16(uint8_t reg);
+
+  bool     _reverse16ByteOrder = false;
 
   uint8_t   _address;
   TwoWire*  _wire;

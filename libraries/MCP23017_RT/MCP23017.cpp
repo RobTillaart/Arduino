@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.1
+// VERSION: 0.9.0
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -57,6 +57,12 @@ bool MCP23017::isConnected()
 uint8_t MCP23017::getAddress()
 {
   return _address;
+}
+
+
+void MCP23017::reverse16ByteOrder(bool reverse)
+{
+  _reverse16ByteOrder = reverse;
 }
 
 
@@ -871,6 +877,11 @@ bool MCP23017::writeReg16(uint8_t reg, uint16_t value)
     return false;
   }
 
+  if (_reverse16ByteOrder)  //  swap regA and regB
+  {
+    value = (value >> 8) | (value << 8);
+  }
+
 //  start write
   _wire->beginTransmission(_address);
   _wire->write(reg);
@@ -887,8 +898,6 @@ bool MCP23017::writeReg16(uint8_t reg, uint16_t value)
 
 uint16_t MCP23017::readReg16(uint8_t reg)
 {
-  uint16_t rv = 0;
-
   _error = MCP23017_OK;
 
   if (reg > MCP23x17_OLAT_B)
@@ -912,9 +921,14 @@ uint16_t MCP23017::readReg16(uint8_t reg)
     _error = MCP23017_I2C_ERROR;
     return 0;
   }
-  rv = _wire->read() << 8;
-  rv += _wire->read();
-  return rv;
+  uint16_t regA = _wire->read();
+  uint16_t regB = _wire->read();
+
+  if (_reverse16ByteOrder)
+  {
+    return (regB << 8) | regA;
+  }
+  return (regA << 8) | regB;
 }
 
 

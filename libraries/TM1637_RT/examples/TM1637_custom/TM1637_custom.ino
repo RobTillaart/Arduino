@@ -69,9 +69,13 @@ myTM1637 myTM;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   delay(1000);
   Serial.println(__FILE__);
+  Serial.print("TM1637_LIB_VERSION: ");
+  Serial.println(TM1637_LIB_VERSION);
+  Serial.println();
 
   //  set clock pin, data pin to your own board pin names
   //  e.g.  myTM.begin(PB8, PB9 , DISPLAY_DIGITS_6 );

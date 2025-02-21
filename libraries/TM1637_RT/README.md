@@ -34,6 +34,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - https://github.com/RobTillaart/AnalogKeypad
 - https://github.com/RobTillaart/I2CKeyPad
 - https://github.com/RobTillaart/I2CKeyPad8x8
+- https://github.com/RobTillaart/I2C_LCD
 
 
 #### Hardware connection and performance
@@ -91,7 +92,9 @@ To be used e.g. after a **hideSegment()** call.
 Experimental - Tested on STM32 and Arduino Nano.
 - **void displayRaw(uint8_t \* data, uint8_t pointPos)** low level write function.
 Display a point at pointPos (see below).
-- **void displayInt(long value)** displays an integer value.
+- **void displayInt(long value, bool hideLeadingZeros = false)** displays an integer value.
+Parameter hideLZ == true hides the leading zeros in the display. 
+Default hideLZ == false shows the leading zeros' (= backwards compatible).
 - **void displayFloat(float value)** displays a float value.
 Position of point may vary!
 - **void displayFloat(float value, uint8_t fixedPoint)** displays a float value with a fixed point position.

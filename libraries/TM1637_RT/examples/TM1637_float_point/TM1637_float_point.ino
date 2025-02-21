@@ -2,7 +2,7 @@
 //    FILE: TM1637_float_point.ino
 //  AUTHOR: marshalab, Rob Tillaart
 // PURPOSE: demo TM1637 library
-//     URL: https://github.com/RobTillaart/TM1637
+//     URL: https://github.com/RobTillaart/TM1637_RT
 
 
 #include "TM1637.h"
@@ -16,8 +16,13 @@ volatile float f = 3.14159265;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("TM1637_LIB_VERSION: ");
+  Serial.println(TM1637_LIB_VERSION);
+  Serial.println();
 
   TM.begin(2, 3);       //  clock pin, data pin
 

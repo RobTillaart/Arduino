@@ -3,7 +3,7 @@
 //  AUTHOR: William F. Dudley Jr.
 // PURPOSE: demo TM1637 library - keyScan() cooked output
 //    DATE: 2021-10-26
-//     URL: https://github.com/RobTillaart/TM1637
+//     URL: https://github.com/RobTillaart/TM1637_RT
 
 
 #include "TM1637.h"
@@ -27,6 +27,7 @@ uint8_t last_keypress, bptr;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   delay(200);
   Serial.print("\n");
@@ -34,6 +35,9 @@ void setup()
   Serial.print(" ");
   Serial.println(__TIME__);
   Serial.println(__FILE__);
+  Serial.print("TM1637_LIB_VERSION: ");
+  Serial.println(TM1637_LIB_VERSION);
+  Serial.println();
 
   TM.begin(dispCLOCK, dispDATA);
 

@@ -2,13 +2,13 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
 //  on the inexpensive TM1637 boards @wfdudley has used, keyScan
-//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
+//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3 Volts.
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller,
 //  the rise time is too long for the data to be read reliably.
@@ -99,7 +99,7 @@ void TM1637::begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits)
 }
 
 
-void TM1637::displayInt(long value)
+void TM1637::displayInt(long value, bool hideLeadingZeros)
 {
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
@@ -110,7 +110,6 @@ void TM1637::displayInt(long value)
   {
     v = -v;
     last--;
-    _data[last] = TM1637_MINUS;
   }
 
   for (int i = 0; i < last; i++)
@@ -118,8 +117,10 @@ void TM1637::displayInt(long value)
     long t = v / 10;
     _data[i] = v - 10 * t;   //  faster than %
     v = t;
+    //  keep minus sign if needed
+    if (neg) _data[i+1] = TM1637_MINUS;
+    if ((v == 0) && hideLeadingZeros) break;
   }
-
   displayRaw(_data, -1);
 }
 
@@ -219,7 +220,7 @@ void TM1637::displayTime(uint8_t hour, uint8_t minute, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
-  //  optional
+  //  optional clipping
   //  if (hour > 99) hour = 99;
   //  if (minute > 99) minute = 99;
   _data[3] = hour / 10;
@@ -235,7 +236,7 @@ void TM1637::displayTwoInt(int left, int right, bool colon)
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
 
-  //  optional
+  //  optional clipping
   //  if (left < -9)  left = -9;
   //  if (left > 99)  left = 99;
   //  if (right < -9) right = -9;

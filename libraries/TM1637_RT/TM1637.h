@@ -3,13 +3,13 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
 //  NOTE:
 //  on the inexpensive TM1637 boards @wfdudley has used, keyScan
-//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3v
+//  works if you add a 1000 ohm pull-up resistor from DIO to 3.3 Volts.
 //  This reduces the rise time of the DIO signal when reading the key info.
 //  If one only uses the pull-up inside the microcontroller,
 //  the rise time is too long for the data to be read reliably.
@@ -20,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.4.0"))
+#define TM1637_LIB_VERSION      (F("0.4.1"))
 
 
 class TM1637
@@ -35,7 +35,7 @@ public:
   //  DISPLAY FUNCTIONS
   void displayPChar( char * buff );
   void displayRaw(uint8_t * data, uint8_t pointPos);
-  void displayInt(long value);
+  void displayInt(long value, bool hideLeadingZeros = false);
   void displayFloat(float value);
   void displayFloat(float value, uint8_t fixedPoint);
   void displayHex(uint32_t value);

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-02-20
+- fix #33, update URL's in examples
+- add print library version in examples
+- add bool flag to hide leading zero for displayInt(value, hideLZ)
+- update readme.md
+
 ## [0.4.0] - 2023-11-22
 - remove init() and keyscan()
 - minor edits

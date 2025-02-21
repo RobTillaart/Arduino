@@ -3,7 +3,7 @@
 //  AUTHOR: William F. Dudley Jr.
 // PURPOSE: demo TM1637 library
 //    DATE: 2021-10-12
-//     URL: https://github.com/RobTillaart/TM1637
+//     URL: https://github.com/RobTillaart/TM1637_RT
 
 
 #include "TM1637.h"
@@ -13,8 +13,13 @@ TM1637 TM;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("TM1637_LIB_VERSION: ");
+  Serial.println(TM1637_LIB_VERSION);
+  Serial.println();
 
   TM.begin(2, 3);       //  clockPin, dataPin
 

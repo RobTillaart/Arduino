@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2025-02-20
+- add print library version to examples
+- allows to add "negative" volumes to subtract an amount
+  as long as the result >= 0. Constrains the volume to 0.
+- minor edits
+
+
 ## [0.1.3] - 2023-11-23
 - update readme.md
-
 
 ## [0.1.2] - 2023-09-08
 - add base class **LiquidMix** (moved functions up)

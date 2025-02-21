@@ -18,29 +18,29 @@ Arduino library for mixing water with different temperatures.
 
 **Warning: Experimental**
 
-Experimental library for elementary math of mixing certain amounts of water or other 
+Experimental library for elementary math of mixing certain amounts of water or other
 (same) liquids with different temperatures.
 
-The library provides math **add()** for mixing a volume of a liquid with temperature T1 
+The library provides math **add()** for mixing a volume of a liquid with temperature T1
 with another volume of the same liquid with temperature T2.
 The **WaterMix** class of the library has **water specific** functions.
-The library does not support mixing different liquids as that would need the density 
+The library does not support mixing different liquids as that would need the density
 function for every liquid involved. Furthermore not all liquids mix well with each other.
 
 
 The **add()** function can be called multiple times, e.g. to mix more than two amounts
 of liquids. One can also mix an other LiquidMix object (same liquids).
 
-Besides the **add()** the library supports: 
-- **div()** to "split the liquid in equal amounts" and a 
-- **mul()** to multiply it (magically) and 
+Besides the **add()** the library supports:
+- **div()** to "split the liquid in equal amounts" and a
+- **mul()** to multiply it (magically) and
 - **sub()** to remove part of the liquid.
 
 This library is meant to be useful e.g. by doing "water math" for aquaria or cooking.
 Also the library is well suited for basic educational purposes.
 
 Since version 0.1.2, the library has a base class, named **LiquidMix** which can do
-the basic math. The extended math like in **WaterMix** needs a **density()** function 
+the basic math. The extended math like in **WaterMix** needs a **density()** function
 and cannot be done as the liquid is unknown.
 
 For now the library is experimental and refactoring is expected.
@@ -49,16 +49,21 @@ If you have requests, questions or ideas, let me know by opening an issue.
 By adding the LiquidMix base class the library allows easy derived classes
 like the WaterMix.
 
-#### Limitations
+### Limitations
 
 The **LiquidMix** uses a generic volume parameter instead of gallons or liters as
 this way any user selected unit can be used.
 However you must use the chosen units consistently as the library cannot handle
-different units simultaneously. 
+different units simultaneously.
 To use different units for volume you can convert them with the library named
-**VolumeConverter**.
+**VolumeConverter**. See related below.
 
-For the **LiquidMix** the temperature unit can also be chosen by the user and 
+The same is true for the temperature parameter. One should use the same scale,
+Kelvin, Fahrenheit or Celsius consistently.
+To use different units for temperature you can convert them with the library named
+**Temperature**. See related below.
+
+For the **LiquidMix** the temperature unit can also be chosen by the user and
 can be Kelvin, Celsius, Fahrenheit or other.
 However you must use the chosen units consistently as the library cannot handle
 different units simultaneously. Check **Temperature** library below for conversion.
@@ -67,26 +72,26 @@ The **WaterMix** class must use the **Celsius** scale as the **density()** funct
 used is defined in degrees Celsius.
 
 
-#### Accuracy
+### Accuracy
 
 The working range for temperature is not tested e.g. with real water.
 It is expected to work quite well for water with a range from 5°C to 80°C.
 In the basic math the **add()** function assumes there is no expansion so
 the density is identical for both volumes of waters.
 
-Of course this assumption is incorrect, therefore there will be a difference 
+Of course this assumption is incorrect, therefore there will be a difference
 between the theoretical values and doing the mixing in practice.
 However these delta's are expected to be small, less than 1% in many cases.
-Given the accuracy of volume measurement and temperature measurement, this 
+Given the accuracy of volume measurement and temperature measurement, this
 delta of 1% will often be acceptable.
 
 If one wants a more exact answer, one could use **WaterMix** class.
-This class supports the **addExact()** function which compensates for 
+This class supports the **addExact()** function which compensates for
 the density of the water at a given temperature.
 This function is much slower but will provide a more exact answer.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Temperature
 - https://github.com/RobTillaart/VolumeConverter
@@ -99,7 +104,7 @@ This function is much slower but will provide a more exact answer.
 #include "WaterMix.h"
 ```
 
-#### LiquidMix (base class)
+### LiquidMix (base class)
 
 To be used with any liquid.
 
@@ -110,13 +115,13 @@ sets initial values, default no liquid of 0°.
 with temperature to the "LiquidMix".
 - **void sub(float volume)** subtract a volume from the "LiquidMix".
 Temperature won't change.
-- **void div(float nr)** divide the amount of liquid, same temperature.
-- **void mul(float nr)** multiply the amount of liquid, same temperature.
+- **void div(float number)** divide the amount of liquid, same temperature.
+- **void mul(float number)** multiply the amount of liquid, same temperature.
 - **float volume()** get the current volume.
 - **float temperature()** get the current temperature.
 
 
-#### WaterMix
+### WaterMix
 
 WaterMix is specific for water and has the following additional functions:
 
@@ -135,9 +140,9 @@ Assumption is no pressure.
 
 ## Performance
 
-Most functions are minimal and fast, the ones that do the core math 
-are **add()** and **addExact()**. 
-The WaterMix_exact.ino sketch provides performance figures shown here. 
+Most functions are minimal and fast, the ones that do the core math
+are **add()** and **addExact()**.
+The WaterMix_exact.ino sketch provides performance figures shown here.
 Note that the **addExact()** differs in runtime as it uses a linear lookup
 for the density so the numbers below are indicative.
 
@@ -149,7 +154,7 @@ Tested on UNO, 16 MHz.
 |    0.1.1    |  addExact()  |   576       |  most accurate  |
 
 
-Note it is possible to improve the performance of the lookup of the density 
+Note it is possible to improve the performance of the lookup of the density
 by reducing the amount of interpolation points in the tables (at your own risk).
 This will reduce the accuracy however still be better than the faster **add()**.
 
@@ -164,16 +169,16 @@ indicate that this only improves above a certain number of elements (~20).
 
 ## Volumetric Coefficient of Expansion
 
-The VCE is related to density and not supported in the library. 
+The VCE is related to density and not supported in the library.
 Math needs to be understood / investigated.
 (0.1.1 supports an **addExact()** for water only, temperature in °C)
 
-The VCE is useful as background information as the theoretical volumes 
+The VCE is useful as background information as the theoretical volumes
 calculated in this library will differ from reality due to the VCE effect.
 This difference depends on the liquid used and the delta temperature.
 
 
-#### Water
+### Water
 
 The VCE of water depends on the temperature.
 
@@ -205,7 +210,7 @@ Source: - https://www.engineeringtoolbox.com/water-density-specific-weight-d_595
 |    100    |  0,9583500  |  4,3434    |  7.03   |
 
 
-#### Other liquids
+### Other liquids
 
 Unknown if these liquids are expanding linear or not.
 
@@ -240,7 +245,7 @@ Source: - https://www.engineeringtoolbox.com/cubical-expansion-coefficients-d_12
 
 #### Should
 
-- investigate linear expansion 
+- investigate linear expansion
   - VCE as parameter.
 - do not make the library too complex (see could below).
 - extend unit tests
@@ -264,7 +269,7 @@ Source: - https://www.engineeringtoolbox.com/cubical-expansion-coefficients-d_12
   should be to reach a certain temperature.
   - Think Aquaria or cooking.
 - investigate how to mix different liquids?
-  - gives too much params
+  - gives too much parameters
 - use double instead of float?
   - weight and temperature are not that accurate (assumption)
 - investigate the caching of the mass of the water.

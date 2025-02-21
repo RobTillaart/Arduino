@@ -12,10 +12,12 @@ WaterMix WM;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("WATERMIX_LIB_VERSION: ");
   Serial.println(WATERMIX_LIB_VERSION);
+  Serial.println();
 
   WM.begin();
   WM.add(100, 50);

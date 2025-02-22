@@ -1,0 +1,23 @@
+{
+  "name": "LTC2485",
+  "keywords": "",
+  "description": "Arduino library for LTC2485 I2C 24 bit ADC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/LTC2485.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "LTC2485.h"
+}

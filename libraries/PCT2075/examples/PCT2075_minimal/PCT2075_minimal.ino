@@ -7,11 +7,11 @@
 
 #include "PCT2075.h"
 
-PCT2075 pct(0x30);
+PCT2075 pct(0x37);
 
 void setup()
 {
-  while(!Serial);
+  while (!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCT2075_LIB_VERSION: ");
@@ -29,7 +29,7 @@ void setup()
 void loop()
 {
   float temperature = pct.getTemperature();
-  Serial.println(temperature);
+  Serial.println(temperature, 3);
   delay(1000);
 }
 

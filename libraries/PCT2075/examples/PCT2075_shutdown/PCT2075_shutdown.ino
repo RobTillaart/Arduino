@@ -9,7 +9,7 @@
 
 #include "PCT2075.h"
 
-PCT2075 pct(0x30);
+PCT2075 pct(0x37);
 
 uint32_t lastTime = 0;
 float temperature = 0;

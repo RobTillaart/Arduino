@@ -7,7 +7,7 @@
 
 #include "PCT2075.h"
 
-PCT2075 pct(0x30);
+PCT2075 pct(0x37);
 
 void setup()
 {

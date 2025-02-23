@@ -18,12 +18,9 @@ Arduino library for I2C PCT2075 temperature sensor / thermal watchdog.
 
 **Experimental**
 
-**Warning:** This library is not tested with hardware yet. 
-So use with care, feedback welcome.
-
-The PCT2075 is a temperature sensor with a range of -55°C - 125°C,
-an accuracy of ±2°C and 11 bit precision, steps = 0.125°C.
-In the range -25°C - 100°C, the accuracy is ±1°C.
+The PCT2075 is a temperature sensor with a range of -55Â°C - 125Â°C,
+an accuracy of Â±2Â°C and 11 bit precision, steps = 0.125Â°C.
+In the range -25Â°C - 100Â°C, the accuracy is Â±1Â°C.
 The sensor is a drop in replacement for the LM75.
 
 The special feature of this sensor is an output pin OS = Overflow Shutdown,
@@ -38,12 +35,13 @@ The second mode is an interrupt mode which can be used to trigger
 a microprocessor with a short pulse.
 Check the datasheet for the details.
 
+Library is limited tested with an Arduino UNO.
+
 
 ### Please report your experiences.
 
 If you have a PCT2075 device, please let me know your experiences
 with the sensor and this (or other) library.
-
 
 ### I2C bus reset
 
@@ -120,8 +118,8 @@ Note it takes ~28 milliseconds to get a first new temperature reading.
 
 ### Temperature
 
-- **float getTemperature()** Returns -25°C to +100°C.
-Accuracy = ±1°C, precision = 0.125°C.
+- **float getTemperature()** Returns -25Â°C to +100Â°C.
+Accuracy = Â±1Â°C, precision = 0.125Â°C.
 
 New measurements are made continuously, and the frequency of that process
 can be set with **setSampleDelay()**, see below.
@@ -159,10 +157,10 @@ can take an action, e.g. send a message to people or write it to a log file.
 Read datasheet section 7.1 for details
 
 - **void setHysteresis(float temp)** set lower temperature trigger level.
-- **float getHysteresis()** get current set level. Default = 75°C.
+- **float getHysteresis()** get current set level. Default = 75Â°C.
 
 - **void setOverTemperature(float temp)** set upper temperature trigger level.
-- **float getOverTemperature()** get current set level. Default = 80°C.
+- **float getOverTemperature()** get current set level. Default = 80Â°C.
 
 It is not known how the sensor behaves when the lower temperature is set
 above the upper temperature. The library does not prevent this.

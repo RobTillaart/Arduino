@@ -3,7 +3,7 @@
 //    FILE: PCT2075.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C PCT2075 temperature sensor / thermal watchdog.
 //     URL: https://github.com/RobTillaart/PCT2075
 //
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define PCT2075_LIB_VERSION         (F("0.1.0"))
+#define PCT2075_LIB_VERSION         (F("0.1.1"))
 
 #define PCT2075_OK                  0x00
 #define PCT2075_PARAM_ERROR         0x81

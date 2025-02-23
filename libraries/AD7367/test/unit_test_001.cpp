@@ -1,7 +1,7 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-09-19
+//    DATE: 2025-01-25
 // PURPOSE: unit tests for the Arduino library for the AD7367, 2 channel simultaneous sampling 14 bit ADC.
 //          https://github.com/RobTillaart/AD7367
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md

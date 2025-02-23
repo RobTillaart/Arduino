@@ -37,9 +37,9 @@ void loop()
     AD.readAsync();
     Serial.print(millis());
     Serial.print("\t");
-    Serial.print(AD.getValue(0));
+    Serial.print(AD.getLastADCA());
     Serial.print("\t");
-    Serial.print(AD.getValue(1));
+    Serial.print(AD.getLastADCB());
     Serial.print("\t");
     Serial.println(count);
     count = 0;

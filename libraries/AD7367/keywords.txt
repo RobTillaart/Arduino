@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 AD7367	KEYWORD1
+AD7366	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -15,7 +16,21 @@ triggerConversion	KEYWORD2
 conversionBusy	KEYWORD2
 conversionReady	KEYWORD2
 readAsync	KEYWORD2
-getValue	KEYWORD2
+
+getLastADCA	KEYWORD2
+getLastADCB	KEYWORD2
+
+fastRead	KEYWORD2
+
+setADDRpin	KEYWORD2
+ADDRwrite	KEYWORD2
+
+setREFSELpin	KEYWORD2
+REFSELwrite	KEYWORD2
+
+setRangePin	KEYWORD2
+setRange	KEYWORD2
+getRange	KEYWORD2
 
 
 # Constants (LITERAL1)

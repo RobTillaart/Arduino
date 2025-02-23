@@ -1,5 +1,5 @@
 //
-//    FILE: AD7367_minimal.ino
+//    FILE: AD7367_addr_select.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour
 //     URL: https://github.com/RobTillaart/AD7367
@@ -22,13 +22,23 @@ void setup()
   Serial.println();
 
   AD.begin();
-
+  AD.setADDRpin(11);  //  use pin 11 to control ADDR pin.
+  
   delay(100);
 }
 
 
 void loop()
 {
+  //  select (Va1, Vb1)
+  AD.ADDRwrite(LOW);
+  AD.read();
+  Serial.print(AD.getLastADCA());
+  Serial.print("\t");
+  Serial.println(AD.getLastADCB());
+
+  //  select (Va2, Vb2)
+  AD.ADDRwrite(HIGH);
   AD.read();
   Serial.print(AD.getLastADCA());
   Serial.print("\t");

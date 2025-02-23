@@ -39,8 +39,8 @@ void loop()
   Serial.print(duration);
   Serial.print("\t");
   Serial.println(1e9 / duration);
-  Serial.println(AD.getValue(0));
-  Serial.println(AD.getValue(1));
+  Serial.println(AD.getLastADCA());
+  Serial.println(AD.getLastADCB());
   Serial.println();
 
   delay(1000);

@@ -1,7 +1,7 @@
 //
 //    FILE: MCP3424.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 

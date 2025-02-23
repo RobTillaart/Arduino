@@ -16,6 +16,7 @@ uint32_t start, stop;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);

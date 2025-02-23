@@ -13,8 +13,9 @@ MCP3424 mcp;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
-  Serial.println();
+  //  Serial.println();
   //  Serial.println(__FILE__);
   //  Serial.print("MCP3424_LIB_VERSION: ");
   //  Serial.println(MCP3424_LIB_VERSION);

@@ -11,6 +11,7 @@ MCP3428 mcp;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
@@ -38,7 +39,6 @@ void setup()
   Serial.print("Mode:\t");
   Serial.println(mcp.getMode());
   Serial.println();
-
 }
 
 

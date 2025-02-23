@@ -66,13 +66,33 @@ In theory with a gain of 8 the LSB of the 18 bit resolution represents
 If this is feasible in practice is to be verified.
 
 
+### Hardware
+
+More configurations see datasheet.
+
+```
+         +-------------+
+         | O  MCP3428  |
+   CH1+  | 1        14 |  CH4-
+   CH1-  | 2        13 |  CH4+
+   CH2+  | 3        12 |  CH3-
+   CH2-  | 4        11 |  CH3+
+   VSS   | 5        10 |  adr1
+   VDD   | 6         9 |  adr0
+   SDA   | 7         8 |  SCL
+         |             |
+         +-------------+
+```
+
+
 ### I2C Address
 
 The MCP3421 and MCP3426 have a fixed address 0x68, one can order different
 addresses at the factory (see datasheet).
 
-The other devices have two address pins to set 8 addresses. The trick is
-to leave address pins floating. See datasheet table 5.3 for details.
+The other devices have two address pins to set 8 addresses. 
+The trick used is to leave address pins floating. 
+See datasheet table 5.3 for details.
 
 
 ### I2C Speed

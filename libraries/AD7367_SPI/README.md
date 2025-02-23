@@ -154,6 +154,12 @@ Datasheet page 19
 Instead of setting the REFSEL pin, one can hardwire this pin.
 
 
+### SPI
+
+- **void setSPIspeed(uint32_t speed)** adjust SPI speed.
+- **uint32_t getSPIspeed()** returns current SPI speed.
+
+
 ### Obsolete
 
 - int getValue(channel) replaced by **int getLastADCA()** and **int getLastADCB()**.

@@ -2,7 +2,7 @@
 //
 //    FILE: AD7367_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-02-10
 // PURPOSE: Arduino library for the AD7367, 2 channel consecutive sampling 14 bit ADC.
 //          Also AD7366 == 12 bits.
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD7367_SPI_LIB_VERSION        (F("0.1.0"))
+#define AD7367_SPI_LIB_VERSION        (F("0.1.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -86,6 +86,12 @@ public:
   //  returns 0 on success, -1 or -2 on failure.
   int      setRange(uint8_t range);
   uint8_t  getRange();  //  returns 0, 1, 2  (255 if pins are not set)
+
+
+  //  SPI
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed();
+
 
   //  OBSOLETE
   int      getValue(uint8_t channel); // 0 = ADC-A,  1 = ADC-B

@@ -32,6 +32,8 @@ setRangePin	KEYWORD2
 setRange	KEYWORD2
 getRange	KEYWORD2
 
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
 
 # Constants (LITERAL1)
 

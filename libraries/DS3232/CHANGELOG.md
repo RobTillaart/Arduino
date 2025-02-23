@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-02-22
+- update examples
+- minor edits
+
 ## [0.5.0] - 2024-10-04
 - Fix #5, low level Wire
 - minor edits

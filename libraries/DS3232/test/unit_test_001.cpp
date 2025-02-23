@@ -2,8 +2,8 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-02-04
-// PURPOSE: unit tests for the CHT8310 temperature and humidity sensor
-//          https://github.com/RobTillaart/CHT8310
+// PURPOSE: unit tests for the DS3232 RTC
+//          https://github.com/RobTillaart/DS3232
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 

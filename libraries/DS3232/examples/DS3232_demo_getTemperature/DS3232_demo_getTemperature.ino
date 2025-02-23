@@ -13,6 +13,7 @@ DS3232 rtc;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);

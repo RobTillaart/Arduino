@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2485.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -88,6 +88,12 @@ float LTC2485::getTemperature()
 }
 
 
+uint32_t LTC2485::lastRead()
+{
+  return _lastRead;
+}
+
+
 //////////////////////////////////////////////////////////////////
 //
 //  PRIVATE functions
@@ -105,6 +111,7 @@ uint32_t LTC2485::_read()
   uint32_t rv = 0;
   if ( 4 == _wire->requestFrom(_address, (uint8_t)4))
   {
+    _lastRead = millis();
     rv |= _wire->read();
     rv <<= 8;
     rv |= _wire->read();

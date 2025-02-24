@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2025-02-22
+- add example LTC2485_plot_microVolts.ino
+- add example LTC2485_performance.ino
+- add **uint32_t lastRead()**
+- minor edits.
+
 ## [0.1.0] - 2025-02-21
 - initial version
 

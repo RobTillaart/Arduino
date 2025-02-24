@@ -9,6 +9,8 @@
 #include "LTC2485.h"
 
 
+//  adjust address if needed
+//  0x14  CA1 = LOW  CA0 = HIGH
 LTC2485 LTC(0x14);
 
 

@@ -8,7 +8,10 @@
 #include "Wire.h"
 #include "LTC2485.h"
 
-LTC2485 LTC(0x14);  //  all address lines GND
+
+//  adjust address if needed
+//  0x14  CA1 = LOW  CA0 = HIGH
+LTC2485 LTC(0x14);
 
 
 void setup()

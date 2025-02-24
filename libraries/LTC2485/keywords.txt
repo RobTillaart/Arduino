@@ -16,6 +16,8 @@ getMilliVolts	KEYWORD2
 getMicroVolts	KEYWORD2
 getTemperature	KEYWORD2
 
+lastRead	KEYWORD2
+
 
 # Constants (LITERAL1)
 LTC2485_LIB_VERSION	LITERAL1

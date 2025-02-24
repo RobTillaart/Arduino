@@ -21,11 +21,11 @@ Arduino library for LTC2485 I2C 24 bit ADC.
 Not tested with hardware yet
 
 LTC2485 is an library for the LTC2485 24 bit ADC which is typically used
-to monitor a voltage. 
+to monitor a voltage.
 
-With a reference voltage of 5.0 Volt, a 24 bit ADC can in theory measure 
+With a reference voltage of 5.0 Volt, a 24 bit ADC can in theory measure
 voltages in the sub-microvolt range (LSB  = ~0.3 µV).
-In practice there will be noise and one need a very stable VREF and test 
+In practice there will be noise and one need a very stable VREF and test
 setup to get accurate readings on that level.
 
 The LTC2485 has an internal voltage that is proportional to temperature.
@@ -38,7 +38,7 @@ Read the datasheet for the details.
 As always, feedback is welcome.
 
 
-### Keycode 
+### Keycode
 
 ALT230 = µ  (windows).
 
@@ -59,11 +59,11 @@ From datasheet - table 4
 
 ### Performance
 
-TODO
-
 No data available yet.
-To be measured when hardware is available...
-if you happen to have performance figures, please share them in an issue.
+To be measured when hardware is available.
+
+If you have hardware and performance figures, please share them in an issue.
+Please use the output of example **LTC2485_performance.ino** and the board used.
 
 
 ### Compatibles
@@ -90,7 +90,7 @@ The address is 0x48..0x4F depending on the address pins.
 The library does not check the range.
 - **bool begin(float VREF = 5.0)** UNO ea. initializes the class.
 Allows to set the reference voltage to calibrate the measurement.
-Returns true if the LTC2485 address is on the I2C bus.  
+Returns true if the LTC2485 address is on the I2C bus.
 Note: do call **Wire.begin()** before **begin()**
 - **bool isConnected()** Returns true if the LTC2485 address is on the I2C bus.
 - **uint8_t getAddress()** Returns the address set in the constructor.
@@ -100,18 +100,21 @@ Note: do call **Wire.begin()** before **begin()**
 
 - **uint8_t configure(uint8_t value)** set flags for next conversion.
 
-Configuration bits, should be OR-ed.
+Configuration bit masks, should be OR-ed.
 
-|  name                     |  value  |
-|:--------------------------|:-------:|
-|  LTC2485_REJECT_50_60_HZ  |  0x00   |
-|  LTC2485_SPEED_1X         |  0x00   |
+|  name                     |  value  |  notes  |
+|:--------------------------|:-------:|:--------|
+|  LTC2485_REJECT_50_60_HZ  |  0x00   |  default
+|  LTC2485_SPEED_1X         |  0x00   |  default
 |  LTC2485_SPEED_2X         |  0x01   |
 |  LTC2485_REJECT_50HZ      |  0x02   |
 |  LTC2485_REJECT_60HZ      |  0x04   |
 |  LTC2485_INTERNAL_TEMP    |  0x08   |
 
+LTC2485_REJECT_50HZ and LTC2485_REJECT_50HZ may **NOT** be set simultaneously.
+
 example
+
 ```cpp
 LTC.configure(LTC2485_SPEED_2X | LTC2485_REJECT_60HZ);
 ```
@@ -129,8 +132,7 @@ So it might be needed to discard a first read.
 - **float getTemperature()** returns internal temperature.
 Will configure temperature mode automatically.
 
-
-
+- **uint32_t lastRead()** track time in milliseconds of last read.
 
 
 ## Future
@@ -138,6 +140,8 @@ Will configure temperature mode automatically.
 #### Must
 
 - improve documentation
+  - performance section
+  - compatibles section
 - get hardware to test library
 
 #### Should
@@ -146,7 +150,7 @@ Will configure temperature mode automatically.
   - LTC2481 (16 bits) and LTC2483 (16 bits)
 - improve error handling.
   - overflow / underflow
-  - time out handling? 
+  - time out handling?
   - block premature conversion in code.
 - performance measurements
   - I2C bus speed?

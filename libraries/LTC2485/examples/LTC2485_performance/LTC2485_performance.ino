@@ -1,5 +1,5 @@
 //
-//    FILE: LTC2485_internal_temp_volt.ino
+//    FILE: LTC2485_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo monitoring internal temperature and VCC
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -13,6 +13,9 @@
 //  0x14  CA1 = LOW  CA0 = HIGH
 LTC2485 LTC(0x14);
 
+uint32_t start, stop;
+
+volatile float volts;
 
 void setup()
 {
@@ -31,22 +34,26 @@ void setup()
     Serial.println("Could not connect to device");
     delay(2000);
   }
+
+  Serial.println();
+  Serial.println("speed\tmicros");
+  for (uint32_t speed = 50000; speed <= 600000; speed += 50000)
+  {
+    Wire.setClock(speed);
+    delay(1000);  //  flush serial and wait for next conversion.
+    start = micros();
+    volts = LTC.getVolts();
+    stop = micros();
+    Serial.print(speed);
+    Serial.print("\t");
+    Serial.println(stop - start);
+  }
+  Serial.println("\ndone...");
 }
 
 
 void loop()
 {
-  static uint32_t lastTime = 0;
-
-  if ((millis() - lastTime) >= 2000)
-  {
-    lastTime = millis();
-    Serial.print("TEMP: ");
-    Serial.println(LTC.getTemperature());
-    Serial.print("VOLT: ");
-    Serial.println(LTC.getVolts());
-  }
-
 }
 
 

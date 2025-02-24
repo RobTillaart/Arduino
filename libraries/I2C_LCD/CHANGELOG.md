@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2025-02-23
+- add custom chars for mirror and upside down digits
+- add example I2C_LCD_mirror_digits.ino      (numbers are not automatic mirrored)
+- add example I2C_LCD_upsideDown_digits.ino  (works well)
+- update readme.md
+
 ## [0.2.3] - 2025-02-11
 - rename autoscroll() => autoScroll()  camel case.
 - add support for special ASCII chars

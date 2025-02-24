@@ -168,6 +168,7 @@ See **I2C_LCD_demo_spectrum_row.ino** for an example.
 - https://github.com/fmalpartida/New-LiquidCrystal The reference.
 - https://github.com/duinoWitchery/hd44780 excellent LCD library from Bill Perry
 - https://github.com/RobTillaart/ANSI for VT100 alike terminals.
+- https://github.com/RobTillaart/LineFormatter formatting Serial output.
 - https://maxpromer.github.io/LCD-Character-Creator/
 
 
@@ -260,15 +261,20 @@ a wrapper around **write((uint8_t)index)**
 
 See examples e.g. spectrum, for how to use custom characters.
 
-See also **I2C_LCD_custom_chars.h**
+See examples
+- **I2C_LCD_custom_chars.h**
+- **I2C_LCD_custom_chars_dice.ino** 
+- **I2C_LCD_custom_chars_pixel.ino**
+- **I2C_LCD_mirror_digits.ino**  warning: multi-digit numbers are not mirrored automatically.
+- **I2C_LCD_upsideDown_digits.ino**  works well, e.g. for an Heads Up Display!
 
-Finally, there is a very handy online tool to create characters.
+Finally, there is a very handy online tool to create custom characters.
 - https://maxpromer.github.io/LCD-Character-Creator/
 
 
 ### Print interface
 
-- **size_t write(uint8_t c)**
+- **size_t write(uint8_t c)** allows to use print() for all types.
 
 Two helper functions, please note these work only with a char array, not with numbers.
 To right align numbers, see examples.
@@ -294,7 +300,7 @@ Experimental functionality is not tested intensively so feedback welcome!
 
 ### PROGMEM printing
 
-The library supports printing of PROGMEM strings (F-macro).
+The library supports printing of PROGMEM strings (F-macro) for AVR.
 Printing of variables in PROGMEM still need to be done by the user.
 See **I2C_LCD_test_F_macro.ino**.
 
@@ -309,7 +315,7 @@ With the numbers 8-13 it is possible to print special ASCII characters.
 |  nr  |  ASCII  |  CHAR  |  name             |  implementation  |
 |:----:|:--------|:-------|:------------------|:-----------------|
 |   7  |  BELL   |  '\a'  |  BELL (alert)     |  no, conflicts with special(7)
-|   8  |  BS     |  '\b'  |  BACK SPACE       |  cursor one left
+|   8  |  BS     |  '\b'  |  BACK SPACE       |  cursor one position to left
 |   9  |  TAB    |  '\t'  |  HORIZONTAL TAB   |  cursor to next multiple of 4
 |  10  |  LF     |  '\n'  |  LINE FEED        |  cursor to start next line
 |  11  |  VT     |  '\v'  |  VERTICAL TAB     |  cursor goes one row down
@@ -359,7 +365,7 @@ See the example **I2C_LCD_test_backspace.ino**.
 The library tries to keep track of the current position on the line it is.
 When going beyond the number of columns, it will not print any more.
 This protects against printing beyond screen position (and writing
-one some other line).
+on some other line).
 Additional it saves some time.
 
 This position tracking only works for "standard" use, no display
@@ -387,21 +393,23 @@ Not reset-able.
 #### Must
 
 - update documentation
-  - section about progmem AVR
 
 #### Should
 
-- test, test, test.
 - test other platforms.
 - test other display sizes.
 
 #### Could
 
-- add macros like **lcd.rcp(row, column, char arr);** ?
 - function to define the tab-stops, instead of hard coded ones.
+  - see lineFormatter.
+- investigate special ASCII characters e.g.
+  - macros.
+- example a la matrix screen saver.
+- add combined functions like **lcd.rcp(row, column, char arr);** ?
 - make a separate include file for charmaps by name.
+  - load 8 chars in one call.
   - I2C_LCD_spectrum.h ?
-- investigate special ASCII characters.
 
 #### Wont (for now).
 

@@ -16,10 +16,12 @@ uint32_t start, stop;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

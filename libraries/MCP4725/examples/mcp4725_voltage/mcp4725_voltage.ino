@@ -16,16 +16,18 @@ uint32_t start, stop;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   Wire.begin();
 
   MCP.begin();
   //  calibrate max voltage
-  MCP.setMaxVoltage(5.1);  
+  MCP.setMaxVoltage(5.1);
 
   Serial.print("\nVoltage:\t");
   Serial.println(MCP.getVoltage());
@@ -37,7 +39,7 @@ void setup()
     Serial.print(v);
     Serial.print(")\n");
     MCP.setVoltage(v);
-    
+
     Serial.print("getVoltage:\t");
     Serial.println(MCP.getVoltage());
   }

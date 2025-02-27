@@ -40,10 +40,12 @@ uint16_t sine[361];
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   //  Wire.setSDA(16);  //  adjust if needed
   //  Wire.setSCL(17);

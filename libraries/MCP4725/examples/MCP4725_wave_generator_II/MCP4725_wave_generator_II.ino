@@ -1,5 +1,5 @@
 //
-//    FILE: MCP4725_wave_generator.ino
+//    FILE: MCP4725_wave_generator_II.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo function generators
 //     URL: https://github.com/RobTillaart/MCP4725
@@ -17,19 +17,26 @@
 #include "MCP4725.h"
 #include "Wire.h"
 
+//  amplitude
+//  between 0 and 100 percent, use v and V to control it
+uint16_t amplitude = 100;
+
 //  frequency
 //  use + - * /  to control it
-uint16_t   freq = 100;
+uint16_t freq = 100;
+
+// helpers
 uint32_t period = 0;
 uint32_t halvePeriod = 0;
 
 
+//  wave form
 //  q = square       z = zero
 //  s = sinus        m = mid
 //  w = sawtooth     h = high
 //  t = stair
 //  r = random
-char waveFrom = 'q';
+char waveForm = 'q';
 
 
 MCP4725 MCP(0x63);
@@ -89,6 +96,12 @@ void setup()
         int c = Serial.read();
         switch (c)
         {
+          case 'V':
+            if (amplitude < 100) amplitude++;
+            break;
+          case 'v':
+            if (amplitude > 0) amplitude--;
+            break;
           case '+':
             freq++;
             break;
@@ -120,7 +133,7 @@ void setup()
           case 'z':
           case 'm':
           case 'h':
-            waveFrom = c;
+            waveForm = c;
             break;
           default:
             break;
@@ -138,21 +151,24 @@ void setup()
 
     uint32_t t = now % period;
 
-    switch (waveFrom)
+    //  a = amplitude as float.
+    float a = amplitude * 0.01;
+
+    switch (waveForm)
     {
       case 'q':
-        if (t < halvePeriod ) MCP.setValue(4095);
+        if (t < halvePeriod ) MCP.setValue(a * 4095);
         else MCP.setValue(0);
         break;
       case 'w':
-        MCP.setValue(t * 4095 / period );
+        MCP.setValue(a * t * 4095 / period );
         break;
       case 't':
-        if (t < halvePeriod) MCP.setValue(t * 4095 / halvePeriod);
-        else MCP.setValue( (period - t) * 4095 / halvePeriod );
+        if (t < halvePeriod) MCP.setValue(a * t * 4095 / halvePeriod);
+        else MCP.setValue( a * (period - t) * 4095 / halvePeriod );
         break;
       case 'r':
-        MCP.setValue(random(4096));
+        MCP.setValue(random(a * 4096));
         break;
       case 'z':  //  zero
         MCP.setValue(0);
@@ -170,7 +186,7 @@ void setup()
         //  MCP.setValue(2047 + 2047 * sin(f));
         //
         int idx = (360 * t) / period;
-        MCP.setValue(sine[idx]);   //  fetch from lookup table
+        MCP.setValue(a * sine[idx]);   //  fetch from lookup table
         break;
     }
   }

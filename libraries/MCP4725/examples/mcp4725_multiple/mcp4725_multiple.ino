@@ -8,7 +8,7 @@
 //  a single I2C bus without multiplexer.
 //  The A0 address pin is used as a SELECT pin.
 //
-//  Every MCP device has its own object and can be 
+//  Every MCP device has its own object and can be
 //  accessed accordingly.
 //
 //  To be tested / confirmed working with hardware.
@@ -32,10 +32,12 @@ uint8_t selectPin[4] = { 4, 5, 6, 7 };
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -85,7 +87,7 @@ void loop()
 
   select(3);
   MCP3.setValue(x * 4);
-  delay(250);  
+  delay(250);
 }
 
 

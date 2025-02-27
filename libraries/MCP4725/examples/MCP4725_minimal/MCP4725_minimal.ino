@@ -13,16 +13,18 @@ MCP4725 MCP(0x62);
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   Wire.begin();
 
   MCP.begin();
   MCP.setValue(1000);
-  
+
   //  define button
   pinMode(7, INPUT_PULLUP);  //  connect button to GND
 }

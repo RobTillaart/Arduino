@@ -30,10 +30,12 @@ uint8_t selectPin[4] = { 4, 5, 6, 7 };
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MCP4725_VERSION: ");
   Serial.println(MCP4725_VERSION);
+  Serial.println();
 
   Wire.begin();
 

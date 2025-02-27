@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2025-02-24
+- add delay() in examples for first conversion (speed dependent)
+- refactor code - several fixes
+- rename lastRead() => lastAccessed()
+- update readme.md
+- add example LTC2485_nolib.ino for testing
+- update examples
+
+
 ## [0.1.1] - 2025-02-22
 - add example LTC2485_plot_microVolts.ino
 - add example LTC2485_performance.ino

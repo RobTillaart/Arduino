@@ -1,7 +1,7 @@
 //
-//    FILE: LTC2485_connect.ino
+//    FILE: LTC2485_getADC.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: detect device on I2C bus
+// PURPOSE: minimal test 
 //     URL: https://github.com/RobTillaart/LTC2485
 
 
@@ -11,7 +11,7 @@
 
 //  adjust address if needed
 //  0x14  CA1 = LOW  CA0 = HIGH
-LTC2485 LTC(0x14);
+LTC2485 LTC(0x16);
 
 float VREF = 5.0;
 
@@ -26,7 +26,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
-
+  
   LTC.begin(VREF);
   delay(200);
 }
@@ -36,13 +36,14 @@ void loop()
 {
   while (!LTC.isConnected())
   {
-    Serial.println("Could not connect to device");
+    Serial.print("Could not connect to device ");
+    Serial.println(LTC.getAddress());
     delay(2000);
   }
-
   Serial.print(millis());
-  Serial.print("\taddress: ");
-  Serial.println(LTC.getAddress());
+  Serial.print("\tADC: ");
+  Serial.println(LTC.getADC());
+  Serial.println();
 
   delay(2000);
 }

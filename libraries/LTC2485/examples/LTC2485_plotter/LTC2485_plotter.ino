@@ -13,6 +13,7 @@
 //  0x14  CA1 = LOW  CA0 = HIGH
 LTC2485 LTC(0x14);
 
+float VREF = 5.0;
 
 void setup()
 {
@@ -25,13 +26,16 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
-  LTC.begin();
+
+  LTC.begin(VREF);
+  delay(200);
+
   while (!LTC.isConnected())
   {
     Serial.println("Could not connect to device");
     delay(2000);
   }
-  Serial.println("TEMP \t milliVolts");
+  Serial.println("TEMP \t mV");
 }
 
 

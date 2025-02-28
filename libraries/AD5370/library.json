@@ -1,0 +1,23 @@
+{
+  "name": "AD5370",
+  "keywords": "",
+  "description": "Arduino library for the AD5370 40 channel 16 bit DAC over SPI.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5370.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5370.h"
+}

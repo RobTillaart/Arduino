@@ -1,0 +1,39 @@
+# Syntax Colouring Map For AD5370
+
+# Data types (KEYWORD1)
+AD5370	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+setDAC	KEYWORD2
+setGain	KEYWORD2
+setOffset	KEYWORD2
+
+setAllAllDAC	KEYWORD2
+setGroupAllChannelDAC	KEYWORD2
+setAllGroupChannelDAC	KEYWORD2
+set1234GroupChannelDAC	KEYWORD2
+
+writeNOP	KEYWORD2
+writeControlRegister	KEYWORD2
+writeOffset0Register	KEYWORD2
+writeOffset1Register	KEYWORD2
+selectReadBackRegister	KEYWORD2
+writeABSelectRegister	KEYWORD2
+blockABSelectRegister	KEYWORD2
+
+setSPIspeed	KEYWORD2
+setSPIspeed	KEYWORD2
+
+isBusy	KEYWORD2
+pulseLDAC	KEYWORD2
+reset	KEYWORD2
+clear	KEYWORD2
+
+
+# Constants (LITERAL1)
+AD5370_LIB_VERSION	LITERAL1
+
+

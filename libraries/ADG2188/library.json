@@ -1,0 +1,23 @@
+{
+  "name": "ADG2188",
+  "keywords": "",
+  "description": "Arduino library for ADG2188 8x8 (cross-point) matrix switch with I2C.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADG2188.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADG2188.h"
+}

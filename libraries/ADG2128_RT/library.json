@@ -1,0 +1,23 @@
+{
+  "name": "ADG2128",
+  "keywords": "",
+  "description": "Arduino library for ADG2128 8x12 (cross-point) matrix switch with I2C.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/ADG2128.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "ADG2128.h"
+}

@@ -21,7 +21,7 @@ Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 This library controls the INA229, a device that measures voltage,
 current, power, temperature and more.
 
-The library is not tested with hardware yet, feedback is welcome.
+The library is confirmed to work, still feedback is welcome.
 
 The library is written to be able to use the faster SPI interface which
 might be needed (faster than I2C which is used by many other INA devices.).
@@ -46,6 +46,13 @@ ends in the code, please report them.
 ==> **USE WITH CARE**
 
 Feedback as always is welcome.
+
+
+### Breaking change 0.3.0
+
+The function **getCharge()** is updated as the value can be negative too.
+The previous versions assumed it could only be positive. See #22.
+These are obsolete now.
 
 
 ### Update 0.2.0

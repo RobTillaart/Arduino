@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -193,7 +193,7 @@ double INA229::getEnergy()
   //  read 40 bit unsigned as a double to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA229_ENERGY, 5);
+  double value = _readRegisterF(INA229_ENERGY);
   //  PAGE 31 (8.1.2)
   return value * (16 * 3.2) * _current_LSB;
 }
@@ -205,7 +205,7 @@ double INA229::getCharge()
   //  read 40 bit unsigned as a float to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA229_CHARGE, 5);
+  double value = _readRegisterF(INA229_CHARGE);
   //  PAGE 32 (8.1.2)
   return value * _current_LSB;
 }
@@ -650,32 +650,45 @@ uint32_t INA229::_readRegister(uint8_t reg, uint8_t bytes)  //  bytes = 2 or 3.
 }
 
 
-double INA229::_readRegisterF(uint8_t reg, uint8_t bytes)
+double INA229::_readRegisterF(uint8_t reg)
 {
   //  Dedicated SPI code
   double value = 0;
+  int32_t ival = 0;
   uint8_t addr = (reg << 2) + 1;  //  1 = Read flag.  P18 datasheet
-  uint8_t count = bytes;
+
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    value += _mySPI->transfer(addr);
-    while (count--)
+    ival = _mySPI->transfer(addr);
+    //  fetch 4 MSB bytes
+    for (int i = 0; i < 4; i++)
     {
-      value *= 256;
-      value += _mySPI->transfer(0x00);
+      ival <<= 8;
+      ival |= _mySPI->transfer(0x00);
     }
+    value = ival;
+    value *= 256;
+    //  fetch last LSB byte
+    uint8_t n = _mySPI->transfer(0x00);
+    value += n;
     _mySPI->endTransaction();
   }
   else      //  Software SPI
   {
-    value += swSPI_transfer(addr);
-    while (count--)
+    ival = swSPI_transfer(addr);
+    //  fetch 4 MSB bytes
+    for (int i = 0; i < 4; i++)
     {
-      value *= 256;
-      value += swSPI_transfer(0x00);
+      ival <<= 8;
+      ival |= swSPI_transfer(0x00);
     }
+    value = ival;
+    value *= 256;
+    //  fetch last LSB byte
+    uint8_t n = swSPI_transfer(0x00);
+    value += n;
   }
   digitalWrite(_select, HIGH);
   return value;

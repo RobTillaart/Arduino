@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.2.0"))
+#define INA229_LIB_VERSION          (F("0.3.0"))
 
 
 #ifndef __SPI_CLASS__
@@ -266,7 +266,7 @@ private:
   //  max 4 bytes
   uint32_t _readRegister(uint8_t reg, uint8_t bytes);
   //  5 bytes or more
-  double   _readRegisterF(uint8_t reg, uint8_t bytes);
+  double   _readRegisterF(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
 
   float    _current_LSB;

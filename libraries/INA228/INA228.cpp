@@ -1,6 +1,6 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -65,6 +65,7 @@ INA228::INA228(const uint8_t address, TwoWire *wire)
   _shunt       = 0.015;
   _maxCurrent  = 10.0;
   _current_LSB = _maxCurrent * pow(2, -19);
+  _error       = 0;
 }
 
 
@@ -151,17 +152,17 @@ float INA228::getPower()
 float INA228::getTemperature()
 {
   uint32_t value = _readRegister(INA228_TEMPERATURE, 2);
-  float LSB = 7.8125e-3;  //   milli degree Celsius
+  float LSB = 7.8125e-3;  //  milli degree Celsius
   return value * LSB;
 }
 
 //  PAGE 26 + 8.1.2
 double INA228::getEnergy()
 {
-  //  read 40 bit unsigned as a double to prevent 64 bit ints
+  //  read 40 bit UNSIGNED as a double to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA228_ENERGY, 5);
+  double value = _readRegisterF(INA228_ENERGY);
   //  PAGE 31 (8.1.2)
   return value * (16 * 3.2) * _current_LSB;
 }
@@ -170,10 +171,10 @@ double INA228::getEnergy()
 //  PAGE 26 + 8.1.2
 double INA228::getCharge()
 {
-  //  read 40 bit unsigned as a float to prevent 64 bit ints
+  //  read 40 bit SIGNED as a float to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA228_CHARGE, 5);
+  double value = _readRegisterF(INA228_CHARGE);
   //  PAGE 32 (8.1.2)
   return value * _current_LSB;
 }
@@ -552,37 +553,91 @@ uint16_t INA228::getRevision()
 
 ////////////////////////////////////////////////////////
 //
-//  SHOULD BE PRIVATE
+//  ERROR HANDLING
+//
+int INA228::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
+}
+
+
+////////////////////////////////////////////////////////
+//
+//  PRIVATE
 //
 uint32_t INA228::_readRegister(uint8_t reg, uint8_t bytes)
 {
+  _error = 0;
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
-
-  _wire->requestFrom(_address, (uint8_t)bytes);
-  uint32_t value = 0;
-  for (int i = 0; i < bytes; i++)
+  int n = _wire->endTransmission();
+  if (n != 0)
   {
-    value <<= 8;
-    value |= _wire->read();
+    _error = -1;
+    return 0;
+  }
+
+  uint32_t value = 0;
+  if (bytes == _wire->requestFrom(_address, (uint8_t)bytes))
+  {
+    for (int i = 0; i < bytes; i++)
+    {
+      value <<= 8;
+      value |= _wire->read();
+    }
+  }
+  else
+  {
+    _error = -2;
+    return 0;
   }
   return value;
 }
 
 
-double INA228::_readRegisterF(uint8_t reg, uint8_t bytes)
+//  always 5 bytes
+double INA228::_readRegisterF(uint8_t reg)
 {
+  _error = 0;
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
-
-  _wire->requestFrom(_address, (uint8_t)bytes);
-  double value = 0;
-  for (int i = 0; i < bytes; i++)
+  int n = _wire->endTransmission();
+  if (n != 0)
   {
-    value *= 256.0;
-    value += _wire->read();
+    _error = -1;
+    return 0;
+  }
+
+  double value = 0;
+
+  int32_t ival = 0;
+  if (5 == _wire->requestFrom(_address, (uint8_t)5))
+  {
+    //  fetch 4 MSB bytes first.
+    for (int i = 0; i < 4; i++)
+    {
+      ival <<= 8;
+      ival |= _wire->read();
+    }
+    value = ival;
+    value *= 256;
+    //  note: mar05c
+    uint8_t n = _wire->read();
+    value += n;
+
+    //  ORG
+    // for (int i = 0; i < bytes; i++)
+    // {
+      // value *= 256.0;
+      // value += _wire->read();
+    // }
+  }
+  else
+  {
+    _error = -2;
+    return 0;
   }
   return value;
 }
@@ -594,7 +649,12 @@ uint16_t INA228::_writeRegister(uint8_t reg, uint16_t value)
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+  }
+  return n;
 }
 
 

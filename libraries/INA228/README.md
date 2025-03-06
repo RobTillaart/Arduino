@@ -46,6 +46,12 @@ The library is limited tested and verified with hardware.
 
 Feedback as always is welcome.
 
+### Breaking change 0.2.0
+
+The function **getCharge()** is updated as the value can be negative too.
+The previous versions assumed it could only be positive. See #22.
+These are obsolete now.
+
 
 ### Details
 

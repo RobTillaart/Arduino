@@ -1,6 +1,6 @@
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -44,6 +44,7 @@ INA219::INA219(const uint8_t address, TwoWire *wire)
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
+  _error       = 0;
 }
 
 
@@ -367,6 +368,18 @@ bool INA219::setMaxCurrentShunt(float maxCurrent, float shunt)
 
 ////////////////////////////////////////////////////////
 //
+//  ERROR HANDLING
+//
+int INA219::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
+}
+
+
+////////////////////////////////////////////////////////
+//
 //  PRIVATE
 //
 
@@ -374,12 +387,25 @@ uint16_t INA219::_readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+    return 0;
+  }
 
-  _wire->requestFrom(_address, (uint8_t)2);
-  uint16_t value = _wire->read();
-  value <<= 8;
-  value |= _wire->read();
+  uint16_t value = 0;
+  if (2 == _wire->requestFrom(_address, (uint8_t)2))
+  {
+    value = _wire->read();
+    value <<= 8;
+    value |= _wire->read();
+  }
+  else
+  {
+    _error = -2;
+    return 0;
+  }
   return value;
 }
 
@@ -390,7 +416,12 @@ uint16_t INA219::_writeRegister(uint8_t reg, uint16_t value)
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+  }
+  return n;
 }
 
 

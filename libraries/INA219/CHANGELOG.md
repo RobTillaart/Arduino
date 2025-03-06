@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-03-05
+- fix #23, add **getLastError()** low level (I2C) error handling
+- add INA_comparison_table.md
+
+
 ## [0.4.0] - 2024-08-14
 - fix **float getShuntVoltage()** for negative values, kudos to aguilerabr
 - add **int getMaxShuntVoltage()**, depends on GAIN (Table 7).

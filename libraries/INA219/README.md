@@ -59,8 +59,17 @@ before calling **begin()**.
 - https://www.ti.com/product/INA219#tech-docs
 - https://www.ti.com/product/INA219#params
 - https://www.ti.com/document-viewer/INA219/datasheet
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
+- https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
+- https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+- https://www.adafruit.com/product/5832
+- https://www.mateksys.com/?portfolio=i2c-ina-bm
+- https://github.com/RobTillaart/printHelpers  (for scientific notation)
+
 
 
 ## I2C

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.9.1] - 2025-03-06
+- fix #46, add **setAddress()** and **setWire()**
+
 ## [0.9.0] - 2025-02-18
 - fix #44, add function to reverse the byte order of the 16 bit API.
 - update readme.md

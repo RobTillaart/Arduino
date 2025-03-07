@@ -170,6 +170,10 @@ Returns false if not connected or a register could not be set.
 - **bool isConnected()** returns true if connected, false otherwise.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
+Patch for #46
+- **void setAddress(uint8_t address)** overrule the set address runtime.
+- **void setWire(TwoWire \*wire)** overrule the set I2C bus runtime.
+
 
 ### Single pin interface
 

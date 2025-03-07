@@ -8,6 +8,8 @@ MCP23017	KEYWORD1
 begin	KEYWORD2
 isConnected	KEYWORD2
 getAddress	KEYWORD2
+setAddress	KEYWORD2
+setWire	KEYWORD2
 
 reverse16ByteOrder	KEYWORD2
 

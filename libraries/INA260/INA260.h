@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA260.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-02-18
 // PURPOSE: Arduino library for INA260 power sensor
 //     URL: https://github.com/RobTillaart/INA260
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA260_LIB_VERSION              "0.1.0"
+#define INA260_LIB_VERSION                (F("0.1.1"))
 
 
 //  set by setAlertRegister
@@ -155,18 +155,25 @@ public:
   //  DEBUG
   uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
 
+  //
+  //  ERROR HANDLING
+  //
+  int      getLastError();
+
 
 private:
 
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
 
-  const float _current_LSB = 1.25e-3;  // mA
-  const float _shunt = 0.002;
-  const float _maxCurrent = 15.0;
+  const float _current_LSB = 1.25e-3;  //  mA
+  const float _shunt       = 0.002;    //  Ohm
+  const float _maxCurrent  = 15.0;     //  Ampere
 
   uint8_t   _address;
   TwoWire * _wire;
+
+  int       _error;
 };
 
 

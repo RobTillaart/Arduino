@@ -15,10 +15,12 @@ INA260 INA1(0x41);
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("INA260_LIB_VERSION: ");
   Serial.println(INA260_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (!INA0.begin() )

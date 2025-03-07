@@ -1,6 +1,6 @@
 //    FILE: INA260.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-02-18
 // PURPOSE: Arduino library for INA260 power sensor
 //     URL: https://github.com/RobTillaart/INA260
@@ -38,6 +38,7 @@ INA260::INA260(const uint8_t address, TwoWire *wire)
 {
   _address     = address;
   _wire        = wire;
+  _error       = 0;
 }
 
 
@@ -58,48 +59,54 @@ bool INA260::isConnected()
 uint8_t INA260::getAddress()
 {
   return _address;
-};
+}
 
 
 ////////////////////////////////////////////////////////
 //
 //  CORE FUNCTIONS
 //
-float INA260::getBusVoltage()  //  8.6.3
+//  8.6.3
+float INA260::getBusVoltage()
 {
   uint16_t val = _readRegister(INA260_BUS_VOLTAGE);
   return val * 1.25e-3;       //  1.25 mV
 }
 
 
-float INA260::getShuntVoltage()  //  8.6.2
+//  8.6.2
+float INA260::getShuntVoltage()
 {
   return getCurrent() * _shunt;
 }
 
 
-float INA260::getCurrent()  //  8.6.2
+//  8.6.2
+float INA260::getCurrent()
 {
   int16_t val = _readRegister(INA260_CURRENT);
   return val * _current_LSB;     //  1.25 mA
 }
 
 
-float INA260::getPower()  //  8.6.4
+//  8.6.4
+float INA260::getPower()
 {
   uint16_t val = _readRegister(INA260_POWER);
   return val * 10.0e-3;  //  fixed 10 mW
 }
 
 
-bool INA260::isConversionReady()  //  8.6.5
+//  8.6.5
+bool INA260::isConversionReady()
 {
   uint16_t mask = _readRegister(INA260_MASK_ENABLE);
   return (mask & INA260_CONVERSION_READY_FLAG) == INA260_CONVERSION_READY_FLAG;
 }
 
 
-bool INA260::waitConversionReady(uint32_t timeout)  //  8.6.5
+//  8.6.5
+bool INA260::waitConversionReady(uint32_t timeout)
 {
   uint32_t start = millis();
   while ( (millis() - start) <= timeout)
@@ -115,7 +122,8 @@ bool INA260::waitConversionReady(uint32_t timeout)  //  8.6.5
 //
 //  CONFIGURATION
 //
-bool INA260::reset()  //  8.6.1
+//  8.6.1
+bool INA260::reset()
 {
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
   mask |= INA260_CONF_RESET_MASK;
@@ -126,7 +134,8 @@ bool INA260::reset()  //  8.6.1
 }
 
 
-bool INA260::setAverage(uint8_t avg)  //  8.6.1
+//  8.6.1
+bool INA260::setAverage(uint8_t avg)
 {
   if (avg > 7) return false;
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
@@ -137,7 +146,8 @@ bool INA260::setAverage(uint8_t avg)  //  8.6.1
 }
 
 
-uint8_t INA260::getAverage()  //  8.6.1
+//  8.6.1
+uint8_t INA260::getAverage()
 {
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
   mask &= INA260_CONF_AVERAGE_MASK;
@@ -146,7 +156,8 @@ uint8_t INA260::getAverage()  //  8.6.1
 }
 
 
-bool INA260::setBusVoltageConversionTime(uint8_t bvct)  //  8.6.1
+//  8.6.1
+bool INA260::setBusVoltageConversionTime(uint8_t bvct)
 {
   if (bvct > 7) return false;
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
@@ -157,7 +168,8 @@ bool INA260::setBusVoltageConversionTime(uint8_t bvct)  //  8.6.1
 }
 
 
-uint8_t INA260::getBusVoltageConversionTime()  //  8.6.1
+//  8.6.1
+uint8_t INA260::getBusVoltageConversionTime()
 {
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
   mask &= INA260_CONF_BUSVC_MASK;
@@ -166,7 +178,8 @@ uint8_t INA260::getBusVoltageConversionTime()  //  8.6.1
 }
 
 
-bool INA260::setShuntCurrentConversionTime(uint8_t scct)  //  8.6.1
+//  8.6.1
+bool INA260::setShuntCurrentConversionTime(uint8_t scct)
 {
   if (scct > 7) return false;
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
@@ -176,8 +189,8 @@ bool INA260::setShuntCurrentConversionTime(uint8_t scct)  //  8.6.1
   return true;
 }
 
-
-uint8_t INA260::getShuntCurrentConversionTime()  //  8.6.1
+//  8.6.1
+uint8_t INA260::getShuntCurrentConversionTime()
 {
   uint16_t mask = _readRegister(INA260_CONFIGURATION);
   mask &= INA260_CONF_SHUNTCC_MASK;
@@ -190,7 +203,8 @@ uint8_t INA260::getShuntCurrentConversionTime()  //  8.6.1
 //
 //  OPERATING MODE
 //
-bool INA260::setMode(uint8_t mode)  //  8.6.1
+//  8.6.1
+bool INA260::setMode(uint8_t mode)
 {
   if (mode > 7) return false;
   uint16_t config = _readRegister(INA260_CONFIGURATION);
@@ -201,7 +215,8 @@ bool INA260::setMode(uint8_t mode)  //  8.6.1
 }
 
 
-uint8_t INA260::getMode()  //  8.6.1
+//  8.6.1
+uint8_t INA260::getMode()
 {
   uint16_t mode = _readRegister(INA260_CONFIGURATION);
   mode &= INA260_CONF_MODE_MASK;
@@ -213,7 +228,8 @@ uint8_t INA260::getMode()  //  8.6.1
 //
 //  ALERT
 //
-bool INA260::setAlertRegister(uint16_t mask)  //  8.6.5
+//  8.6.5
+bool INA260::setAlertRegister(uint16_t mask)
 {
   uint16_t result = _writeRegister(INA260_MASK_ENABLE, (mask & 0xFC00));
   //  Serial.println(result);
@@ -221,14 +237,15 @@ bool INA260::setAlertRegister(uint16_t mask)  //  8.6.5
   return true;
 }
 
-
-uint16_t INA260::getAlertFlag()  //  8.6.5
+//  8.6.5
+uint16_t INA260::getAlertFlag()
 {
   return _readRegister(INA260_MASK_ENABLE) & 0x001F;
 }
 
 
-bool INA260::setAlertLimit(uint16_t limit)  //  8.6.6
+//  8.6.6
+bool INA260::setAlertLimit(uint16_t limit)
 {
   uint16_t result = _writeRegister(INA260_ALERT_LIMIT, limit);
   //  Serial.println(result);
@@ -237,7 +254,8 @@ bool INA260::setAlertLimit(uint16_t limit)  //  8.6.6
 }
 
 
-uint16_t INA260::getAlertLimit()  //  8.6.6
+//  8.6.6
+uint16_t INA260::getAlertLimit()
 {
   return _readRegister(INA260_ALERT_LIMIT);
 }
@@ -247,15 +265,29 @@ uint16_t INA260::getAlertLimit()  //  8.6.6
 //
 //  META INFORMATION
 //
-uint16_t INA260::getManufacturerID()  //  8.6.7
+//  8.6.7
+uint16_t INA260::getManufacturerID()
 {
   return _readRegister(INA260_MANUFACTURER);
 }
 
 
-uint16_t INA260::getDieID()  //  8.6.7
+//  8.6.7
+uint16_t INA260::getDieID()
 {
   return _readRegister(INA260_DIE_ID);
+}
+
+
+////////////////////////////////////////////////////////
+//
+//  ERROR HANDLING
+//
+int INA260::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
 }
 
 
@@ -267,12 +299,25 @@ uint16_t INA260::_readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+    return 0;
+  }
 
-  _wire->requestFrom(_address, (uint8_t)2);
-  uint16_t value = _wire->read();
-  value <<= 8;
-  value |= _wire->read();
+  uint16_t value = 0;
+  if (2 == _wire->requestFrom(_address, (uint8_t)2))
+  {
+    value = _wire->read();
+    value <<= 8;
+    value |= _wire->read();
+  }
+  else
+  {
+    _error = -2;
+    return 0;
+  }
   return value;
 }
 
@@ -283,7 +328,12 @@ uint16_t INA260::_writeRegister(uint8_t reg, uint16_t value)
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+  }
+  return n;
 }
 
 

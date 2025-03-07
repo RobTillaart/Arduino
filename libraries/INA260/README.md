@@ -331,6 +331,11 @@ The alert line falls when alert is reached.
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 
 
+### Error Handling
+
+- **int getLastError()** returns last (I2C) error.
+
+
 ## Future
 
 

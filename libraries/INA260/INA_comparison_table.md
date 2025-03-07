@@ -20,3 +20,5 @@ Comparison of my INA2xx libraries
 |  getCharge        |   -   |   -   |   Y   |   Y   |   -   |   -   |   -   |   -   |
 
 
+https://www.ti.com/amplifier-circuit/current-sense/digital-power-monitors/products.html
+

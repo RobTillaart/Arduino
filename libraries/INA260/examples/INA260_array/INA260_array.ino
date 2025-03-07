@@ -23,10 +23,12 @@ INA260 INA[INA_COUNT] =
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("INA260_LIB_VERSION: ");
   Serial.println(INA260_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   bool failed = false;

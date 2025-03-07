@@ -2,7 +2,7 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION              "0.1.1"
+#define INA236_LIB_VERSION                (F("0.1.2"))
 
 
 //  set by setAlertRegister
@@ -168,6 +168,10 @@ public:
   //  DEBUG
   uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
 
+  //
+  //  ERROR HANDLING
+  //
+  int      getLastError();
 
 private:
 
@@ -180,6 +184,8 @@ private:
 
   uint8_t   _address;
   TwoWire * _wire;
+
+  int       _error;
 };
 
 

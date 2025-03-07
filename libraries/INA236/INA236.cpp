@@ -1,7 +1,7 @@
 //    FILE: INA236.cpp
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -46,6 +46,7 @@ INA236::INA236(const uint8_t address, TwoWire *wire)
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
+  _error       = 0;
 }
 
 
@@ -488,18 +489,43 @@ uint16_t INA236::getDieID()
 
 ////////////////////////////////////////////////////////
 //
+//  ERROR HANDLING
+//
+int INA236::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
+}
+
+
+////////////////////////////////////////////////////////
+//
 //  PRIVATE
 //
 uint16_t INA236::_readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+    return 0;
+  }
 
-  _wire->requestFrom(_address, (uint8_t)2);
-  uint16_t value = _wire->read();
-  value <<= 8;
-  value |= _wire->read();
+  uint16_t value = 0;
+  if (2 == _wire->requestFrom(_address, (uint8_t)2))
+  {
+    value = _wire->read();
+    value <<= 8;
+    value |= _wire->read();
+  }
+  else
+  {
+    _error = -2;
+    return 0;
+  }
   return value;
 }
 
@@ -510,7 +536,12 @@ uint16_t INA236::_writeRegister(uint8_t reg, uint16_t value)
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+  }
+  return n;
 }
 
 

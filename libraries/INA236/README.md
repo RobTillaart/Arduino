@@ -37,13 +37,13 @@ A few important maxima, see datasheet, chapter 6.
 | current       |  20   | Ampere |  ?? TODO check
 
 
-#### Special characters
+### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Related
+### Related
 
 - https://www.ti.com/product/INA236#tech-docs
 - https://www.ti.com/product/INA236#params
@@ -61,7 +61,7 @@ A few important maxima, see datasheet, chapter 6.
 
 ## I2C
 
-#### Address
+### Address
 
 The INA236 comes in two flavours, the INA236A and INA236B
 with two disjunct address ranges.
@@ -78,7 +78,7 @@ See table - from datasheet table 7.1, page 16.
 |  SCL  |     67    |  0x43  |     75    |  0x4B  |
 
 
-#### Performance
+### Performance
 
 To be elaborated, example sketch available.
 
@@ -126,7 +126,7 @@ Also see INA226 issue 30 for another typical deviation problem.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **INA236(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
 the address and optional Wire interface.
@@ -137,7 +137,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
 
-#### Core Functions
+### Core Functions
 
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
@@ -168,7 +168,7 @@ Helper functions for the micro scale.
 - **float getPower_uW()** idem, in microWatt.
 
 
-#### Configuration
+### Configuration
 
 **Note:**
 The internal conversions runs in the background in the device.
@@ -237,7 +237,7 @@ Note: times are typical, check datasheet for operational range.
 Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 
-#### ADCRange
+### ADCRange
 
 The INA236 can set the ADC range to 20 mV (adcRange == true) 
 or to 80 mV (adcRange == false) to optimize the accuracy.
@@ -249,7 +249,7 @@ The function sets the voltage/LSB and returns false adcRange is out of range.
 Note: this function is not available on INA226.
 
 
-#### Calibration
+### Calibration
 
 See datasheet.
 
@@ -271,7 +271,7 @@ Value should not be zero.
 To print these values in scientific notation use https://github.com/RobTillaart/printHelpers 
 
 
-#### About normalization
+### About normalization
 
 **setMaxCurrentShunt()** will round the current_LSB to nearest round value (typical 0.001) by default (normalize == true). 
 - The user **must** check the return value == 0x000, otherwise the calibration register is **not** set.
@@ -285,7 +285,7 @@ normalize flag was set to true.
 See https://github.com/RobTillaart/INA236/pull/29 for details of the discussion.
 
 
-#### Error codes setMaxCurrentShunt
+### Error codes setMaxCurrentShunt
 
 |  descriptive name error        |  value   |  meaning  |
 |:-------------------------------|:--------:|:----------|
@@ -296,7 +296,7 @@ See https://github.com/RobTillaart/INA236/pull/29 for details of the discussion.
 |  INA236_ERR_NORMALIZE_FAILED   |  0x8003  |  not possible to normalize.
 
 
-#### Operating mode
+### Operating mode
 
 See datasheet, partially tested.
 
@@ -317,7 +317,7 @@ Descriptive mode functions (convenience wrappers).
 - **bool setModeShuntBusContinuous()** mode 7 - default.
 
 
-#### Alert functions
+### Alert functions
 
 See datasheet, not tested yet.
 
@@ -353,15 +353,20 @@ Returns true if write to register successful.
 The alert line falls when alert is reached.
 
 
-#### Meta information
+### Meta information
 
 - **uint16_t getManufacturerID()** should return 0x5449.
 - **uint16_t getDieID()** should return 0xA080.
 
 
-#### Debugging
+### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
+
+
+### Error Handling
+
+- **int getLastError()** returns last (I2C) error.
 
 
 ## Adjusting the range of the INA236

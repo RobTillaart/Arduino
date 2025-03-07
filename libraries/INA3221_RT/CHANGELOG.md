@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-03-06
+- add **getLastError()** low level (I2C) error handling
+- update readme.md
+
 ## [0.4.0] - 2024-10-27
 - fix #8, config functions, kudos to joachymus
 - update readme.md

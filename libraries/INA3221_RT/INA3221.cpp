@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -49,6 +49,7 @@ INA3221::INA3221(const uint8_t address, TwoWire *wire)
   _shunt[0]    = 0.1;  //  Ohm
   _shunt[1]    = 0.1;  //  Ohm
   _shunt[2]    = 0.1;  //  Ohm
+  _error       = 0;
 }
 
 bool INA3221::begin()
@@ -67,7 +68,7 @@ bool INA3221::isConnected()
 uint8_t INA3221::getAddress()
 {
   return _address;
-};
+}
 
 
 ////////////////////////////////////////////////////////
@@ -386,18 +387,43 @@ uint16_t INA3221::getDieID()
 
 ////////////////////////////////////////////////////////
 //
+//  ERROR HANDLING
+//
+int INA3221::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
+}
+
+
+////////////////////////////////////////////////////////
+//
 //  PRIVATE
 //
 uint16_t INA3221::_readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+    return 0;
+  }
 
-  _wire->requestFrom(_address, (uint8_t)2);
-  uint16_t value = _wire->read();
-  value <<= 8;
-  value |= _wire->read();
+  uint16_t value = 0;
+  if (2 == _wire->requestFrom(_address, (uint8_t)2))
+  {
+    value = _wire->read();
+    value <<= 8;
+    value |= _wire->read();
+  }
+  else
+  {
+    _error = -2;
+    return 0;
+  }
   return value;
 }
 
@@ -408,7 +434,12 @@ uint16_t INA3221::_writeRegister(uint8_t reg, uint16_t value)
   _wire->write(reg);
   _wire->write(value >> 8);
   _wire->write(value & 0xFF);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = -1;
+  }
+  return n;
 }
 
 

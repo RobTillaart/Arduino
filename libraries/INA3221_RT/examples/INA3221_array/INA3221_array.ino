@@ -20,6 +20,7 @@ INA3221 INA[INADEVICES]
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("INA3221_LIB_VERSION: ");

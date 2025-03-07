@@ -79,6 +79,7 @@ getPowerLowerLimit	KEYWORD2
 getManufacturerID	KEYWORD2
 getDieID	KEYWORD2
 
+getLastError	KEYWORD2
 
 # Constants (LITERAL1)
 INA3221_LIB_VERSION	LITERAL1

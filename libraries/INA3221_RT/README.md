@@ -80,10 +80,19 @@ As always feedback is welcome, please open an issue on GitHub.
 
 ### Related
 
-- https://github.com/RobTillaart/INA219
-- https://github.com/RobTillaart/INA226
-- https://github.com/RobTillaart/INA228
-- https://github.com/RobTillaart/INA3221_RT
+- https://www.ti.com/product/INA3221#tech-docs
+- https://www.ti.com/product/INA3221#params
+- https://www.ti.com/document-viewer/INA3221/datasheet
+- https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
+- https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+- https://www.adafruit.com/product/5832
+- https://www.mateksys.com/?portfolio=i2c-ina-bm
+- https://github.com/RobTillaart/printHelpers  (for scientific notation)
+
 
 
 ## I2C
@@ -411,6 +420,11 @@ If your device returns other ManufacturerID or DieID, please let me know.
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 - **uint16_t putRegister(uint8_t reg, uint16_t value)** load registers directly, for debugging only.
+
+
+### Error Handling
+
+- **int getLastError()** returns last (I2C) error.
 
 
 ## Future

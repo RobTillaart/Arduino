@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA3221.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA3221_LIB_VERSION                (F("0.4.0"))
+#define INA3221_LIB_VERSION                (F("0.4.1"))
 
 
 class INA3221
@@ -127,6 +127,12 @@ public:
   };
 
 
+  //
+  //  ERROR HANDLING
+  //
+  int      getLastError();
+
+
 private:
 
   uint16_t _readRegister(uint8_t reg);
@@ -135,6 +141,8 @@ private:
 
   uint8_t   _address;
   TwoWire * _wire;
+
+  int       _error;
 };
 
 

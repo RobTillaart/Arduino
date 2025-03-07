@@ -2,7 +2,7 @@
 //    FILE: INA226_test_I2C.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test I2C speed.
-//     URL: https://github.com/RobTillaart/INA219
+//     URL: https://github.com/RobTillaart/INA226
 
 
 #include "INA226.h"

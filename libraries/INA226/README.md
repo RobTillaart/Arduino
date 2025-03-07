@@ -135,7 +135,7 @@ You might prefer to multiply those values yourself to get extra digits.
 Please be aware that more digits is not always more exact (think significant digits).
 
 The example sketch **INA226_setMaxCurrentShunt.ino** switches between two calibration modes.
-It shows the **INA266** sensor needs time to accommodate to this change. 
+It shows the **INA226** sensor needs time to accommodate to this change. 
 In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
 Also see #30 for another typical deviation problem.
@@ -375,6 +375,11 @@ The alert line falls when alert is reached.
 ### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
+
+
+### Error Handling
+
+- **int getLastError()** returns last (I2C) error.
 
 
 ## Adjusting the range of the INA226

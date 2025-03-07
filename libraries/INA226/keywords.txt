@@ -65,6 +65,7 @@ getAlertLimit	KEYWORD2
 getManufacturerID	KEYWORD2
 getDieID	KEYWORD2
 
+getLastError	KEYWORD2
 
 # Constants (LITERAL1)
 INA226_LIB_VERSION	LITERAL1

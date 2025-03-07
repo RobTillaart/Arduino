@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.3
+// VERSION: 0.6.4
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION              "0.6.3"
+#define INA226_LIB_VERSION                (F("0.6.4"))
 
 
 //  set by setAlertRegister
@@ -162,18 +162,25 @@ public:
 
 
   //  Meta information
-  uint16_t getManufacturerID();   //  should return 0x5449
-  uint16_t getDieID();            //  should return 0x2260
+  //
+  //                               typical value
+  uint16_t getManufacturerID();  //  0x5449
+  uint16_t getDieID();           //  0x2260
 
 
   //  DEBUG
   uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
 
+  //
+  //  ERROR HANDLING
+  //
+  int      getLastError();
 
 private:
 
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
+
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
@@ -182,6 +189,8 @@ private:
 
   uint8_t   _address;
   TwoWire * _wire;
+
+  int       _error;
 };
 
 

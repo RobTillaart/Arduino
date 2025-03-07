@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2485.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -9,10 +9,21 @@
 
 #include "LTC2485.h"
 
+
 //  CONVERSION
 //  needed as I2C is blocked during conversion.
 #define LTC2485_DELAY_1X                        200
 #define LTC2485_DELAY_2X                        100  //  not used yet
+
+
+//  CALIBRATION
+//  adjust these numbers to your need
+//  determine them by averaging multiple TC measurements.
+//  Datasheet page 20: 27 C; 420 mV; 1.40 mV/°C
+//
+const float LTC2485_TAVERAGE       = 27.0;    //  °C
+const float LTC2485_MVOLT_TAVERAGE = 420.0;   //  mV
+const float LTC2485_SLOPE          = 1.40;    //  mV/°C
 
 
 /////////////////////////////////////////////////////
@@ -26,7 +37,7 @@ LTC2485::LTC2485(uint8_t address, TwoWire *wire)
   //  defaults
   _lastAccess = 0;
   _timeout    = LTC2485_DELAY_1X;
-  _error      = 0;
+  _error      = LTC2485_OK;
   _vref       = 2.5;
   _config     = LTC2485_SPEED_1X | LTC2485_REJECT_50_60_HZ;
 }
@@ -81,8 +92,7 @@ int32_t LTC2485::getADC()
   {
     if (configure(_config & 0x07) != 0)
     {
-      //  TODO cleaner error handling.
-      Serial.println("FAIL TO CONFIG-A");
+      _error = LTC2485_ERR_CONFIG_ADC;
       return 0;
     }
   }
@@ -113,7 +123,7 @@ float LTC2485::getTemperature()
   {
     if (configure(_config | LTC2485_INTERNAL_TEMP) != 0)
     {
-      Serial.println("FAIL TO CONFIG-T");
+      _error = LTC2485_ERR_CONFIG_TEMP;
       return 0;
     }
   }
@@ -122,20 +132,28 @@ float LTC2485::getTemperature()
   delay(_timeout);
   //  read the ADC
   int32_t value = _read();
+  //  DEBUG
+  //  Serial.print(F("TRAW: \t"));
+  //  Serial.print(value, HEX);
+  //  Serial.print(F("\t"));
+  //  Serial.println(value, DEC);
+
   //  update lastAccess
   _lastAccess = millis();
   //  make two complements.
   value ^= 0x80000000;
   value /= 128;
 
+  //  16777215 == 2^24 - 1
   //  div 16777215 == mul 5.960464832810e-8
   //  float milliVolts = value * _vref * 5.960464832810e-8 * 1000;
   float milliVolts = value * _vref * 5.960464832810e-5;
   _lastAccess = millis();
   //  datasheet page 20
+  //  adjust constants at top of file.
   //  27 C  == 420 mV
   //  SLOPE == 1.40 mV / °C
-  float TC = 27.0 + (milliVolts - 420) / 1.40;
+  float TC = LTC2485_TAVERAGE + (milliVolts - LTC2485_MVOLT_TAVERAGE) / LTC2485_SLOPE;
   return TC;
 }
 
@@ -146,6 +164,19 @@ uint32_t LTC2485::lastAccessed()
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  ERROR HANDLING
+//
+int LTC2485::getLastError()
+{
+  int e = _error;
+  _error = LTC2485_OK;
+  return e;
+}
+
+
+
 //////////////////////////////////////////////////////////////////
 //
 //  PRIVATE functions
@@ -154,49 +185,54 @@ int LTC2485::_write(uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(value);
-  return _wire->endTransmission();
+  int n = _wire->endTransmission();
+  if (n != 0)
+  {
+    _error = LTC2485_ERR_I2C_W;
+  }
+  return n;
 }
 
 
 uint32_t LTC2485::_read()
 {
-  uint32_t rv = 0;
   int n = _wire->requestFrom(_address, (uint8_t)4);
-  if (n == 4)
+  if (n != 4)
   {
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
-    rv <<= 8;
-    rv |= _wire->read();
-    return rv;
-
-    //  DEBUG
-    // uint32_t A = _wire->read();
-    // uint32_t B = _wire->read();
-    // uint32_t C = _wire->read();
-    // uint32_t D = _wire->read();
-    // if (A < 0x10) Serial.print(0);
-    // Serial.print(A, HEX);
-    // Serial.print("\t");
-    // if (B < 0x10) Serial.print(0);
-    // Serial.print(B, HEX);
-    // Serial.print("\t");
-    // if (C < 0x10) Serial.print(0);
-    // Serial.print(C, HEX);
-    // Serial.print("\t");
-    // if (D < 0x10) Serial.print(0);
-    // Serial.print(D, HEX);
-    // Serial.print("\t");
-
-    // rv = (A << 24) + (B << 16) + (C << 8) + D;
-    // return rv;
+    _error = LTC2485_ERR_I2C_R;
+    return n;
   }
-  return n;
-}
+  uint32_t rv = 0;
+  rv |= _wire->read();
+  rv <<= 8;
+  rv |= _wire->read();
+  rv <<= 8;
+  rv |= _wire->read();
+  rv <<= 8;
+  rv |= _wire->read();
+  return rv;
 
+  //  DEBUG
+  //  uint32_t A = _wire->read();
+  //  uint32_t B = _wire->read();
+  //  uint32_t C = _wire->read();
+  //  uint32_t D = _wire->read();
+  //  if (A < 0x10) Serial.print(0);
+  //  Serial.print(A, HEX);
+  //  Serial.print("\t");
+  //  if (B < 0x10) Serial.print(0);
+  //  Serial.print(B, HEX);
+  //  Serial.print("\t");
+  //  if (C < 0x10) Serial.print(0);
+  //  Serial.print(C, HEX);
+  //  Serial.print("\t");
+  //  if (D < 0x10) Serial.print(0);
+  //  Serial.print(D, HEX);
+  //  Serial.print("\t");
+
+  //  rv = (A << 24) + (B << 16) + (C << 8) + D;
+  //  return rv;
+}
 
 
 //  -- END OF FILE --

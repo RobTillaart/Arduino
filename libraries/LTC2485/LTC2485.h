@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2485.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2485_LIB_VERSION               (F("0.1.2"))
+#define LTC2485_LIB_VERSION               (F("0.1.3"))
 
 
 //  CONFIGURATION BITS, TABLE 1
@@ -22,6 +22,14 @@
 #define LTC2485_REJECT_60HZ                     0x04
 #define LTC2485_REJECT_50_60_HZ                 0x00
 #define LTC2485_INTERNAL_TEMP                   0x08
+
+
+//  ERROR
+#define LTC2485_OK                              0
+#define LTC2485_ERR_CONFIG_ADC                  -1
+#define LTC2485_ERR_CONFIG_TEMP                 -2
+#define LTC2485_ERR_I2C_W                       -3
+#define LTC2485_ERR_I2C_R                       -4
 
 
 class LTC2485
@@ -43,6 +51,8 @@ public:
 
   uint32_t lastAccessed();
 
+  //  ERROR HANDLING
+  int      getLastError();
 
 private:
 

@@ -27,12 +27,14 @@ In practice there will be noise and one need a very stable VREF and test
 setup to get accurate readings on that level.
 
 The LTC2485 has an internal voltage that is proportional to temperature.
-The library allows to read that and has a non calibrated conversion.
+The library allows to read that voltage and converts it to temperature Celsius.
+The formula can be calibrated a bit at the top of the .cpp file.
 
 
 Read the datasheet for the details.
 
 As always, feedback is welcome.
+
 
 ### Tested
 
@@ -41,7 +43,11 @@ More tests are needed to see if and how it can be improved.
 
 See - https://forum.arduino.cc/t/ltc2485-arduino-library/1356147
 
-### Keycode
+At the release 0.1.3 there are still unsolved / unexplained fluctuations 
+visible in the measurements during tests, especially in temperature.
+
+
+### Key code
 
 ALT230 = µ  (windows).
 
@@ -71,13 +77,13 @@ Please use the output of example **LTC2485_performance.ino** and the board used.
 
 ### Compatibles
 
-TODO
+Unknown so far, there exists a whole range of LTCxxxx ADC's.
 
 
 ### Related
 
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
-- https://github.com/RobTillaart/LTC2485
+- https://github.com/RobTillaart/LTC2485  this library
 - https://github.com/RobTillaart/MCP_ADC  SPI based ADC
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
@@ -106,7 +112,7 @@ Note: do call **Wire.begin()** before **begin()**
 ### Configure
 
 - **int configure(uint8_t value)** set flags for next conversion.
-Returns status of I2C, 0 == success write.
+Returns status of I2C, 0 == success write, other values == error.
 
 Configuration bit masks, should be OR-ed.
 
@@ -119,7 +125,8 @@ Configuration bit masks, should be OR-ed.
 |  LTC2485_REJECT_60HZ      |  0x04   |
 |  LTC2485_INTERNAL_TEMP    |  0x08   |
 
-LTC2485_REJECT_50HZ and LTC2485_REJECT_50HZ may **NOT** be set simultaneously.
+Flags LTC2485_REJECT_50HZ and LTC2485_REJECT_60HZ may **NOT** be used simultaneously.
+Use LTC2485_REJECT_50_60_HZ instead.
 
 example
 
@@ -133,14 +140,19 @@ LTC.configure(LTC2485_SPEED_2X | LTC2485_REJECT_60HZ);
 Read returns the last conversion and triggers a new conversion at the end.
 So it might be needed to discard a first read.
 
-- **int32_t getADC()** returns ADC value. Will configure ADC mode automatically.
-Returned range == -16777215..+16777215
+- **int32_t getADC()** returns ADC value. Will configure ADC mode automatically
+if needed. 
+Returned range == -16777215..+16777215  
++16777216 == overflow  
+-16777216 == underflow
 - **float getVolts()** converts ADC value to volts.
 - **float getMilliVolts()** converts ADC value to millivolts.
 - **float getMicroVolts()** converts ADC value to microvolts.
 - **float getTemperature()** returns internal temperature.
 Will configure temperature mode automatically.
-
+During first hardware tests it was impossible to get the temperature
+stable. 
+This needs more investigation in the future.
 - **uint32_t lastAccesed()** track time in milliseconds of last access.
 used internally to determine maximum delay needed for conversion.
 
@@ -154,29 +166,26 @@ used internally to determine maximum delay needed for conversion.
   - compatibles section
 - get hardware to test library
 
-
 #### Should
 
-- fix TODO's in code and documentation.
-- check pin compatible devices as derived class?
-  - LTC2481 (16 bits) and LTC2483 (16 bits)
-- improve error handling.
+- improve error handling
   - overflow / underflow
   - time out handling?
-- performance measurements
-  - I2C bus speed?
-  - check math for improvements
-- refactor for performance.
-
+- fix TODO's in code and documentation
 
 #### Could
 
+- check pin compatible devices as derived class?
+  - LTC2481 (16 bits) and LTC2483 (16 bits)
 - calibrate internal temperature, something like
   - **void calibrateTemperature(float A, float B)**  420.0  1.40
   - TC = 27 + (Voltage - A) x B;
 - create a 16 bit API which only gets 2 bytes instead of 4?
   - looses the "noisy" bits.
-
+- performance measurements
+  - I2C bus speed?
+  - check math for improvements
+- refactor for performance
 
 #### Wont
 

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2025-03-04
+- add simple calibration for temperature
+- add **getLastError()** for minimal error handling
+- extended unit test with constants test
+
 ## [0.1.2] - 2025-02-24
 - add delay() in examples for first conversion (speed dependent)
 - refactor code - several fixes

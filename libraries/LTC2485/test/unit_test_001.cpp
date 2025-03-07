@@ -48,6 +48,25 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  //  CONFIG CONSTANTS
+  assertEqual(LTC2485_SPEED_1X       , 0x00);
+  assertEqual(LTC2485_SPEED_2X       , 0x01);
+  assertEqual(LTC2485_REJECT_50HZ    , 0x02);
+  assertEqual(LTC2485_REJECT_60HZ    , 0x04);
+  assertEqual(LTC2485_REJECT_50_60_HZ, 0x00);
+  assertEqual(LTC2485_INTERNAL_TEMP  , 0x08);
+
+  //  ERROR CONSTANTS
+  assertEqual(LTC2485_OK             , 0 );
+  assertEqual(LTC2485_ERR_CONFIG_ADC , -1);
+  assertEqual(LTC2485_ERR_CONFIG_TEMP, -2);
+  assertEqual(LTC2485_ERR_I2C_W      , -3);
+  assertEqual(LTC2485_ERR_I2C_R      , -4);
+}
+
+
 unittest(test_constructor)
 {
   LTC2485 LTC(0x14);  //  all address lines GND

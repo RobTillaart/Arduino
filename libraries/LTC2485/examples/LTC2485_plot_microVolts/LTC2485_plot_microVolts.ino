@@ -10,9 +10,9 @@
 
 //  adjust address if needed
 //  0x14  CA1 = LOW  CA0 = HIGH
-LTC2485 LTC(0x14);
+LTC2485 LTC(0x16);
 
-float VREF = 5.0;
+float VREF = 1.8;
 
 void setup()
 {

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-03-08
+- redo #20, INA.getEnergy => keep it UNsigned. Broken in 0.2.0
+
+----
+
 ## [0.2.0] - 2025-03-05
 - fix #20, INA.getCharge => make it signed.
 - add **getLastError()** low level (I2C) error handling

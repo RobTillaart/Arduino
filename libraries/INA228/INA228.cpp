@@ -1,6 +1,6 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -162,7 +162,7 @@ double INA228::getEnergy()
   //  read 40 bit UNSIGNED as a double to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA228_ENERGY);
+  double value = _readRegisterF(INA228_ENERGY, 'U');
   //  PAGE 31 (8.1.2)
   return value * (16 * 3.2) * _current_LSB;
 }
@@ -174,7 +174,7 @@ double INA228::getCharge()
   //  read 40 bit SIGNED as a float to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA228_CHARGE);
+  double value = _readRegisterF(INA228_CHARGE, 'S');
   //  PAGE 32 (8.1.2)
   return value * _current_LSB;
 }
@@ -598,7 +598,7 @@ uint32_t INA228::_readRegister(uint8_t reg, uint8_t bytes)
 
 
 //  always 5 bytes
-double INA228::_readRegisterF(uint8_t reg)
+double INA228::_readRegisterF(uint8_t reg, char mode)
 {
   _error = 0;
   _wire->beginTransmission(_address);
@@ -611,28 +611,23 @@ double INA228::_readRegisterF(uint8_t reg)
   }
 
   double value = 0;
-
-  int32_t ival = 0;
   if (5 == _wire->requestFrom(_address, (uint8_t)5))
   {
+    uint32_t val = 0;
     //  fetch 4 MSB bytes first.
     for (int i = 0; i < 4; i++)
     {
-      ival <<= 8;
-      ival |= _wire->read();
+      val <<= 8;
+      val |= _wire->read();
     }
-    value = ival;
+    //  handle signed / unsigned by casting.
+    if (mode == 'U') value = val;
+    else             value = (int32_t) val;
+    //  process last byte
     value *= 256;
     //  note: mar05c
     uint8_t n = _wire->read();
     value += n;
-
-    //  ORG
-    // for (int i = 0; i < bytes; i++)
-    // {
-      // value *= 256.0;
-      // value += _wire->read();
-    // }
   }
   else
   {

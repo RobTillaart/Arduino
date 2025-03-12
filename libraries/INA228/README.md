@@ -35,7 +35,7 @@ Finally the INA228 has an **energy** and **charge** register.
 These are values accumulated over time, and only work in continuous mode.
 (to be investigated what those mean ).
 
-The INA228 also provides an ALERT line, to generate an interrupt
+The INA228 also provides an **ALERT** line, to generate an interrupt
 in case a predefined threshold has been met.
 This can be an under- or over-voltage, temperature or power limit.
 The library does not handle these interrupts.
@@ -46,11 +46,13 @@ The library is limited tested and verified with hardware.
 
 Feedback as always is welcome.
 
-### Breaking change 0.2.0
+
+### Breaking change 0.3.0
 
 The function **getCharge()** is updated as the value can be negative too.
 The previous versions assumed it could only be positive. See #22.
-These are obsolete now.
+0.3.0 fixed the **getEnergy()** which only can have positive values
+and was broken in 0.2.0. Versions before 0.3.0 are obsolete now.
 
 
 ### Details

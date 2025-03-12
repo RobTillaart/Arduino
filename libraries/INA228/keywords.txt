@@ -109,6 +109,7 @@ getManufacturer	KEYWORD2
 getDieID	KEYWORD2
 getRevision	KEYWORD2
 
+getLastError	KEYWORD2
 
 # Constants (LITERAL1)
 INA228_LIB_VERSION	LITERAL1

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          (F("0.2.0"))
+#define INA228_LIB_VERSION          (F("0.3.0"))
 
 
 //  for setMode() and getMode()
@@ -250,8 +250,8 @@ public:
 private:
   //  max 4 bytes
   uint32_t _readRegister(uint8_t reg, uint8_t bytes);
-  //  always 5 bytes
-  double   _readRegisterF(uint8_t reg);
+  //  always 5 bytes, mode == U ==> unsigned, otherwise signed
+  double   _readRegisterF(uint8_t reg, char mode);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
 
   float    _current_LSB;

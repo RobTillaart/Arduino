@@ -13,6 +13,7 @@ getBusVolt	KEYWORD2
 getBusMilliVolt	KEYWORD2
 getBusMicroVolt	KEYWORD2
 
+
 getShuntVoltage	KEYWORD2
 getShuntVolt	KEYWORD2
 getShuntMilliVolt	KEYWORD2
@@ -24,21 +25,40 @@ getAmpere	KEYWORD2
 getMilliAmpere	KEYWORD2
 getMicroAmpere	KEYWORD2
 
+
 getPower	KEYWORD2
 getWatt	KEYWORD2
 getMilliWatt	KEYWORD2
 getMicroWatt	KEYWORD2
 getKiloWatt	KEYWORD2
 
+
 getTemperature	KEYWORD2
 
 
-#########################
+getEnergy	KEYWORD2
+getJoule	KEYWORD2
+getMegaJoule	KEYWORD2
+getKiloJoule	KEYWORD2
+getMilliJoule	KEYWORD2
+getMicroJoule	KEYWORD2
+getWattHour	KEYWORD2
+getKiloWattHour	KEYWORD2
+
+
+getCharge	KEYWORD2
+getCoulomb	KEYWORD2
+getMilliCoulomb	KEYWORD2
+getMicroCoulomb	KEYWORD2
 
 
 reset	KEYWORD2
+setAccumulation	KEYWORD2
+getAccumulation	KEYWORD2
 setConversionDelay	KEYWORD2
 getConversionDelay	KEYWORD2
+setTemperatureCompensation	KEYWORD2
+getTemperatureCompensation	KEYWORD2
 setADCRange	KEYWORD2
 getADCRange	KEYWORD2
 
@@ -86,6 +106,11 @@ getPowerOverLimitTH	KEYWORD2
 getManufacturer	KEYWORD2
 getDieID	KEYWORD2
 getRevision	KEYWORD2
+
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
 
 
 # Constants (LITERAL1)

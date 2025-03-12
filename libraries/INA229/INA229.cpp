@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -190,10 +190,10 @@ float INA229::getTemperature()
 //  PAGE 24 + 8.1.2
 double INA229::getEnergy()
 {
-  //  read 40 bit unsigned as a double to prevent 64 bit integers
+  //  read 40 bit UNSIGNED as a double to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA229_ENERGY);
+  double value = _readRegisterF(INA229_ENERGY, 'U');
   //  PAGE 31 (8.1.2)
   return value * (16 * 3.2) * _current_LSB;
 }
@@ -202,10 +202,10 @@ double INA229::getEnergy()
 //  PAGE 24 + 8.1.2
 double INA229::getCharge()
 {
-  //  read 40 bit unsigned as a float to prevent 64 bit integers
+  //  read 40 bit SIGNED as a float to prevent 64 bit integers
   //  double might be 8 or 4 byte, depends on platform
   //  40 bit ==> O(10^12)
-  double value = _readRegisterF(INA229_CHARGE);
+  double value = _readRegisterF(INA229_CHARGE, 'S');
   //  PAGE 32 (8.1.2)
   return value * _current_LSB;
 }
@@ -650,25 +650,27 @@ uint32_t INA229::_readRegister(uint8_t reg, uint8_t bytes)  //  bytes = 2 or 3.
 }
 
 
-double INA229::_readRegisterF(uint8_t reg)
+double INA229::_readRegisterF(uint8_t reg, char mode)
 {
   //  Dedicated SPI code
   double value = 0;
-  int32_t ival = 0;
   uint8_t addr = (reg << 2) + 1;  //  1 = Read flag.  P18 datasheet
 
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    ival = _mySPI->transfer(addr);
+    uint32_t val = _mySPI->transfer(addr);
     //  fetch 4 MSB bytes
     for (int i = 0; i < 4; i++)
     {
-      ival <<= 8;
-      ival |= _mySPI->transfer(0x00);
+      val <<= 8;
+      val |= _mySPI->transfer(0x00);
     }
-    value = ival;
+    //  handle signed / unsigned by casting.
+    if (mode == 'U') value = val;
+    else             value = (int32_t) val;
+    //  process last byte
     value *= 256;
     //  fetch last LSB byte
     uint8_t n = _mySPI->transfer(0x00);
@@ -677,14 +679,17 @@ double INA229::_readRegisterF(uint8_t reg)
   }
   else      //  Software SPI
   {
-    ival = swSPI_transfer(addr);
+    uint32_t val = swSPI_transfer(addr);
     //  fetch 4 MSB bytes
     for (int i = 0; i < 4; i++)
     {
-      ival <<= 8;
-      ival |= swSPI_transfer(0x00);
+      val <<= 8;
+      val |= swSPI_transfer(0x00);
     }
-    value = ival;
+    //  handle signed / unsigned by casting.
+    if (mode == 'U') value = val;
+    else             value = (int32_t) val;
+    //  process last byte
     value *= 256;
     //  fetch last LSB byte
     uint8_t n = swSPI_transfer(0x00);

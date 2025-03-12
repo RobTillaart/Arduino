@@ -48,11 +48,12 @@ ends in the code, please report them.
 Feedback as always is welcome.
 
 
-### Breaking change 0.3.0
+### Breaking change 0.4.0
 
 The function **getCharge()** is updated as the value can be negative too.
-The previous versions assumed it could only be positive. See #22.
-These are obsolete now.
+The previous versions assumed it could only be positive. See #8.
+0.4.0 fixed the **getEnergy()** which only can have positive values
+and was broken in 0.3.0. Versions before 0.4.0 are obsolete now.
 
 
 ### Update 0.2.0

@@ -18,11 +18,14 @@ uint32_t stop;
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
-  Serial.print("DistanceTable: ");
+  Serial.println(__FILE__);
+  Serial.print("DISTANCETABLE_LIB_VERSION: ");
   Serial.println(DISTANCETABLE_LIB_VERSION);
-  Serial.println("DistanceTable test 20x20: ");
+  Serial.println();
 
+  Serial.println("DistanceTable test 20x20: ");
   Serial.println("\n========================================\n");
   Serial.println(dt.elements());
   Serial.println(dt.memoryUsed());

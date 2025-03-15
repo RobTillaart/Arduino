@@ -2,7 +2,7 @@
 //
 //    FILE: DistanceTable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 //
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DISTANCETABLE_LIB_VERSION     (F("0.3.3"))
+#define DISTANCETABLE_LIB_VERSION     (F("0.3.4"))
 
 
 class DistanceTable
@@ -36,6 +36,24 @@ public:
   float    maximum(uint8_t &x, uint8_t &y);
   float    sum();
   float    average();
+
+
+  //  column functions
+  float   sumOfColumn(uint8_t x);
+  float   averageOfColumn(uint8_t x, bool skipSelf = false);
+  float   minimumOfColumn(uint8_t x, bool skipSelf = false);
+  float   maximumOfColumn(uint8_t x, bool skipSelf = false);
+
+
+  //  GeoMetric Median - EXPERIMENTAL
+  //  see Wikipedia.
+  //  this is a sort of GM search, there can be more than one
+  //      returns the first occurrence of the minimum column.
+  //      this is a point "closest" to all other points.
+  //  these three functions sweep over the whole table.
+  float   geometricMedian(uint8_t &x);
+  float   minColumn(uint8_t &x);  //  is same as geometricMedian()
+  float   maxColumn(uint8_t &x);  //  furthest away on average.
 
 
   //  epsilon allows 'almost equal' searches

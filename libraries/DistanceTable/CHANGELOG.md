@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2025-03-06
+- add sumOfColumn(), minimumOfColumn(), maximumOfColumn() and averageOfColumn()
+- add geometricMedian(), minColumn(), maxColumn()
+- update readme.md
+- update unit test
+- minor edits
+
 ## [0.3.3] - 2023-09-25
 - update changelog
 - update readme.md
-
 
 ## [0.3.2] - 2022-11.02
 - add changelog.md

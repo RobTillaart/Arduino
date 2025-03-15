@@ -155,9 +155,35 @@ unittest(test_min_max)
   fprintf(stderr, "%d\n", y);
   fprintf(stderr, "SUM: %f\t", dt.sum());
   fprintf(stderr, "AVG: %f\t", dt.average());
+  fprintf(stderr, "\n");
+}
+
+
+unittest(test_min_max_column)
+{
+  DistanceTable dt(12);
+
+  for (int i = 0; i < 12; i++)
+  {
+    for (int j = i + 1; j < 12; j++)
+    {
+      dt.set(i, j, i * j);
+    }
+  }
+
+  uint8_t x, y;
+
+  fprintf(stderr, "CNT: %d\n", dt.count(30, 0.001));
+  fprintf(stderr, "MIN: %f\t", dt.minColumn(x));
+  fprintf(stderr, "%d\t", x);
+  fprintf(stderr, "MAX: %f\t", dt.maxColumn(x));
+  fprintf(stderr, "%d\t", x);
+  fprintf(stderr, "\n");
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

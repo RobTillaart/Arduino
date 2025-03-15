@@ -18,6 +18,16 @@ minimum	KEYWORD2
 maximum	KEYWORD2
 sum	KEYWORD2
 average	KEYWORD2
+
+sumOfColumn	KEYWORD2
+averageOfColumn	KEYWORD2
+minimumOfColumn	KEYWORD2
+maximumOfColumn	KEYWORD2
+
+geometricMedian	KEYWORD2
+minColumn	KEYWORD2
+maxColumn	KEYWORD2
+
 count	KEYWORD2
 countAbove	KEYWORD2
 countBelow	KEYWORD2

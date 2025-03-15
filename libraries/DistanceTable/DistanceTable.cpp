@@ -1,7 +1,7 @@
 //
 //    FILE: DistanceTable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library to store a symmetrical distance table in less memory
 //     URL: https://github.com/RobTillaart/DistanceTable
 
@@ -68,7 +68,7 @@ bool DistanceTable::set(uint8_t x, uint8_t y, float value )
 };
 
 
-float DistanceTable::get (uint8_t x, uint8_t y)
+float DistanceTable::get(uint8_t x, uint8_t y)
 {
   //  comment next line to skip range check (squeeze performance)
   if ( (x >= _dimension) || (y >= _dimension)) return -1;  // NAN ?
@@ -88,23 +88,11 @@ float DistanceTable::get (uint8_t x, uint8_t y)
 };
 
 
-//  triangular dump
-void DistanceTable::dump(Print * stream)
-{
-  stream->println();
-  for (uint8_t i = 0; i < _dimension; i++)
-  {
-    for (uint8_t j = 0; j <_dimension; j++)
-    {
-      stream->print(get(i, j));
-      stream->print("\t");
-    }
-    stream->println();
-  }
-  stream->println();
-};
 
-
+/////////////////////////////////////////////////////
+//
+//  STATISTICS
+//
 float DistanceTable::minimum(uint8_t &x, uint8_t &y)
 {
   float mi = _distanceTable[0];
@@ -188,7 +176,106 @@ float DistanceTable::average()
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  COLUMN FUNCTIONS
+//
+float DistanceTable::sumOfColumn(uint8_t x)
+{
+  float sum = 0;
+  for (int y = 0; y < _dimension; y++)
+  {
+    sum += get(x, y);
+  }
+  return sum;
+}
 
+float DistanceTable::averageOfColumn(uint8_t x, bool skipSelf)
+{
+  if (skipSelf) return sumOfColumn(x) / (_dimension - 1);
+  return sumOfColumn(x) / _dimension;
+}
+
+float DistanceTable::minimumOfColumn(uint8_t x, bool skipSelf)
+{
+  float minimum = get(x, 0);
+  for (uint8_t y = 1; y < _dimension; y++)
+  {
+    if ((x == y) && skipSelf) continue;
+    float value = get(x,y);
+    if (value < minimum)
+    {
+      minimum = value;
+    }
+  }
+  return minimum;
+}
+
+
+float DistanceTable::maximumOfColumn(uint8_t x, bool skipSelf)
+{
+  float maximum = get(x, 0);
+  for (uint8_t y = 1; y < _dimension; y++)
+  {
+    if ((x == y) && skipSelf) continue;
+    float value = get(x,y);
+    if (value > maximum)
+    {
+      maximum = value;
+    }
+  }
+  return maximum;
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  GEOMETRIC MEDIAN - EXPERIMENTAL
+//
+float DistanceTable::geometricMedian(uint8_t &x)
+{
+  return minColumn(x);
+}
+
+float DistanceTable::minColumn(uint8_t &x)
+{
+  x = 0;
+  float minSum = sumOfColumn(x);
+
+  for (uint8_t _x = 0; _x < _dimension; _x++)
+  {
+    float sum = sumOfColumn(_x);
+    if (sum < minSum)
+    {
+      x = _x;
+      minSum = sum;
+    }
+  }
+  return minSum;
+}
+
+float DistanceTable::maxColumn(uint8_t &x)
+{
+  x = 0;
+  float maxSum = sumOfColumn(x);
+
+  for (uint8_t _x = 0; _x < _dimension; _x++)
+  {
+    float sum = sumOfColumn(_x);
+    if (sum > maxSum)
+    {
+      x = _x;
+      maxSum = sum;
+    }
+  }
+  return maxSum;
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  COUNT
+//
 uint16_t DistanceTable::count(float value, float epsilon)
 {
   uint16_t cnt = 0;
@@ -238,6 +325,28 @@ uint16_t DistanceTable::countBelow(float value)
   if (_invert) return cnt;
   return cnt * 2;  //  count the symmetrical elements too.
 }
+
+
+/////////////////////////////////////////////////////
+//
+//  DEBUG
+//
+
+//  triangular dump
+void DistanceTable::dump(Print * stream)
+{
+  stream->println();
+  for (uint8_t i = 0; i < _dimension; i++)
+  {
+    for (uint8_t j = 0; j <_dimension; j++)
+    {
+      stream->print(get(i, j));
+      stream->print("\t");
+    }
+    stream->println();
+  }
+  stream->println();
+};
 
 
 //  --- END OF FILE ---

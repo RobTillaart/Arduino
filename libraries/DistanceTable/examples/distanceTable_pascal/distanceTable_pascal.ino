@@ -19,9 +19,13 @@ DistanceTable dt(MAXSIZE);
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
-  Serial.print("\nDistanceTable: ");
+  Serial.println(__FILE__);
+  Serial.print("DISTANCETABLE_LIB_VERSION: ");
   Serial.println(DISTANCETABLE_LIB_VERSION);
+  Serial.println();
+
   Serial.println("Pascals triangle");
 
   dt.clear();

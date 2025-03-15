@@ -12,7 +12,9 @@
 #include "AS5600.h"
 
 
-AS5600 as5600;   //  use default Wire
+//  Uncomment the line according to your sensor type
+AS5600L as5600;   //  use default Wire
+// AS5600 as5600;   //  use default Wire
 
 const uint8_t irqPin = 2;
 
@@ -32,10 +34,12 @@ void capturePWM()
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

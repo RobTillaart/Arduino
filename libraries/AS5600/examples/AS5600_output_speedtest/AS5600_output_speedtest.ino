@@ -17,9 +17,10 @@
 #include <AS5600.h>
 #include <Wire.h>
 
-//  select right class.
-//  AS5600 as5600;   //  use default Wire
+
+//  Uncomment the line according to your sensor type
 AS5600L as5600;   //  use default Wire
+// AS5600 as5600;   //  use default Wire
 
 
 int iQueryN = 100;    // amount of times to request the angle per outputmode
@@ -64,11 +65,12 @@ int32_t b = 0;
 
 void setup()
 {
-  Serial.begin(460800);
   while (!Serial);
+  Serial.begin(460800);
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

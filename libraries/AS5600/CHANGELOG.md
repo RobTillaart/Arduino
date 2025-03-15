@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.5] - 2025-03-13
+- update examples - added while(!Serial);
+- minor edits.
+
 ## [0.6.4] - 2024-10-09
 - fix #67, improve performance **getCumulativePosition()** and **getAngularSpeed()**
   - kudos to Chris-42

@@ -23,18 +23,20 @@ static uint32_t lastTime = 0;
 
 void setup()
 {
-  Serial.begin(230400);
+  while(!Serial);
+  Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
-  
+  Serial.println();
+
   Wire.begin();
-  
+
   // as5600_L.setAddress(0x40);  //  AS5600L only
   as5600_L.begin(15);  //  set direction pin.
   as5600_L.setDirection(AS5600_CLOCK_WISE);  //
   delay(1000);
-  
+
   as5600_R.begin(14);  //  set direction pin.
   as5600_R.setDirection(AS5600_CLOCK_WISE);  // default, just be explicit.
 

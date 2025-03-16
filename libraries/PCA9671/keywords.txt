@@ -1,0 +1,50 @@
+# Syntax Colouring Map For PCA9671
+
+# Data types (KEYWORD1)
+PCA9671	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+setAddress	KEYWORD2
+getAddress	KEYWORD2
+
+read16	KEYWORD2
+read	KEYWORD2
+value	KEYWORD2
+
+write16	KEYWORD2
+write	KEYWORD2
+valueOut	KEYWORD2
+
+readButton16	KEYWORD2
+readButton	KEYWORD2
+setButtonMask	KEYWORD2
+getButtonMask	KEYWORD2
+
+toggle	KEYWORD2
+toggleMask	KEYWORD2
+shiftRight	KEYWORD2
+shiftLeft	KEYWORD2
+
+rotateRight	KEYWORD2
+rotateLeft	KEYWORD2
+reverse	KEYWORD2
+
+select	KEYWORD2
+selectN	KEYWORD2
+selectNone	KEYWORD2
+selectAll	KEYWORD2
+
+lastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+PCA9671_LIB_VERSION	LITERAL1
+
+PCA9671_INITIAL_VALUE	LITERAL1
+PCA9671_OK	LITERAL1
+PCA9671_PIN_ERROR	LITERAL1
+PCA9671_I2C_ERROR	LITERAL1
+

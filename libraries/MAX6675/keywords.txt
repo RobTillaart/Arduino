@@ -8,7 +8,10 @@ MAX6675	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 read	KEYWORD2
+
 getTemperature	KEYWORD2
+getCelsius	KEYWORD2
+getFahrenheit	KEYWORD2
 
 getStatus	KEYWORD2
 

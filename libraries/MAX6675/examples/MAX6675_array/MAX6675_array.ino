@@ -22,6 +22,7 @@ uint32_t start, stop;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MAX6675_LIB_VERSION: ");
@@ -48,7 +49,7 @@ void loop()
     start = micros();
     int status = ThermoCouples[THCnumber].read();
     stop = micros();
-    float temp = ThermoCouples[THCnumber].getTemperature();
+    float temp = ThermoCouples[THCnumber].getCelsius();
 
     Serial.print(millis());
     Serial.print("\tID: ");

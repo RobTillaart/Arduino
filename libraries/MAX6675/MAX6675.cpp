@@ -1,7 +1,7 @@
 //
 //    FILE: MAX6675.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-11
 //     URL: https://github.com/RobTillaart/MAX6675

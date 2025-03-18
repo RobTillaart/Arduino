@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2025-03-17
+- add getCelsius() to replace getTemperature() in long term.
+- add getFahrenheit() convenience wrapper.
+- update examples
+- update readme.md
+- update unit test
+- update keywords
+
+
 ## [0.3.2] - 2024-06-03
 - add support for ARDUINO_ARCH_MBED
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MAX6675.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-12
 //     URL: https://github.com/RobTillaart/MAX6675
@@ -23,7 +23,7 @@
 #include "SPI.h"
 
 
-#define MAX6675_LIB_VERSION               (F("0.3.2"))
+#define MAX6675_LIB_VERSION               (F("0.3.3"))
 
 
 #ifndef __SPI_CLASS__
@@ -67,11 +67,13 @@ public:
 
   //       returns state - bit field: 0 = STATUS_OK
   uint8_t  read();
-  float    getTemperature(void)  { return _temperature + _offset; };
+  float    getCelsius(void)      { return _temperature + _offset; };
+  float    getFahrenheit(void)   { return getCelsius() * 1.8 + 32; };
 
   uint8_t  getStatus(void) const { return _status; };
 
   //       use offset to calibrate the TC.
+  //       offset is in degrees Celsius.
   void     setOffset(const float  t)   { _offset = t; };
   float    getOffset() const           { return _offset; };
 
@@ -84,6 +86,8 @@ public:
   void     setSWSPIdelay(uint16_t del = 0)  { _swSPIdelay = del; };
   uint16_t getSWSPIdelay() { return _swSPIdelay; };
 
+  //  obsolete in future.
+  float    getTemperature(void)  { return _temperature + _offset; };
 
 private:
   uint32_t _read();

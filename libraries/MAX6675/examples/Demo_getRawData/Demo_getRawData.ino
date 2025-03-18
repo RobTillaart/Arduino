@@ -18,6 +18,7 @@ MAX6675 thermoCouple(selectPin, dataPin, clockPin);
 
 void setup ()
 {
+  //  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MAX6675_LIB_VERSION: ");
@@ -43,8 +44,8 @@ void loop ()
   Serial.print("RAW:\t");
 
   //  Display the raw data value in BIN format
-  uint32_t mask = 0x80000000; 
-  for (int i = 0; i < 32; i++) 
+  uint32_t mask = 0x80000000;
+  for (int i = 0; i < 32; i++)
   {
     if ((i > 0)  && (i % 4 == 0)) Serial.print("-");
     Serial.print((value & mask) ? 1 : 0);
@@ -53,7 +54,7 @@ void loop ()
   Serial.println();
 
   Serial.print("TMP:\t");
-  Serial.println(thermoCouple.getTemperature(), 3);
+  Serial.println(thermoCouple.getCelsius(), 3);
 
   delay(100);
 }

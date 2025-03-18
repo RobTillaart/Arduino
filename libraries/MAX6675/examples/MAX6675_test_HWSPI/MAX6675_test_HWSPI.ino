@@ -17,6 +17,7 @@ uint32_t start, stop;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("MAX6675_LIB_VERSION: ");
@@ -48,7 +49,7 @@ void testPerformance(uint32_t speed)
   start = micros();
   int status = thermoCouple.read();
   stop = micros();
-  float temp = thermoCouple.getTemperature();
+  float temp = thermoCouple.getCelsius();
 
   Serial.print(millis());
   Serial.print("\tspeed: ");

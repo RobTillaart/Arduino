@@ -84,7 +84,20 @@ unittest(test_temperature)
   tc.begin();
 
   fprintf(stderr, "Temperature...\n");
-  assertEqualFloat(MAX6675_NO_TEMPERATURE, tc.getTemperature(), 0.001);
+  assertEqualFloat(MAX6675_NO_TEMPERATURE, tc.getTemperature(), 0.01);
+  assertEqualFloat(MAX6675_NO_TEMPERATURE, tc.getCelsius(), 0.01);
+  assertEqualFloat(MAX6675_NO_TEMPERATURE * 1.8 + 32, tc.getFahrenheit(), 0.01);
+}
+
+
+unittest(test_offset)
+{
+  const int selectPin = 7;
+  const int dataPin   = 6;
+  const int clockPin  = 5;
+
+  MAX6675 tc(selectPin, dataPin, clockPin);
+  tc.begin();
 
   fprintf(stderr, "\nOffset...\n");
   for (int of = 0; of < 10; of++)

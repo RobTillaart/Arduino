@@ -17,7 +17,7 @@ The library is based upon (stripped and adapted version of) the https://github.c
 
 Currently the library is experimental, so use with care.
 
-Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO @ 16 MHz. 
+Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO at 16 MHz. 
 The library works and it reads temperatures well, both with HW SPI and SW SPI. 
 
 
@@ -34,7 +34,7 @@ Different TC's have a different Seebeck Coefficient (SC) expressed in µV/°C.
 See http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
 
 
-#### Breakout
+### Breakout
 
 The library is tested with a breakout board with following pins:
 
@@ -49,14 +49,14 @@ The library is tested with a breakout board with following pins:
 ```
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 The version 0.2.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -66,17 +66,18 @@ Also it makes the library a bit simpler to maintain.
 Note the order of the parameters of the software SPI constructor has changed in 0.2.0.
 
 
-#### Related
+### Related
 
-- https://github.com/RobTillaart/MAX6675
+- https://github.com/RobTillaart/MAX6675 
 - https://github.com/RobTillaart/MAX31850
 - https://github.com/RobTillaart/MAX31855_RT
+- https://github.com/RobTillaart/Temperature  conversion to (exotic) temperature scales.
 
 
 ## Hardware SPI vs software SPI
 
 
-#### Pins
+### Pins
 
 Default pin connections.
 
@@ -88,7 +89,7 @@ Default pin connections.
  | SELECT   | eg. 4 |    5        |   15        |  *can be others too.*
 
 
-#### Performance 
+### Performance 
 
 Performance read() function, timing in us.  
 - UNO @ 16 MHz
@@ -117,7 +118,7 @@ Tested with **MAX6675_test_HWSPI.ino**
 #include "MAX6675.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **MAX6675(uint8_t select, SPIClassRP2040 \* mySPI)** hardware SPI R2040
 - **MAX6675(uint8_t select, SPIClass \* mySPI)** hardware SPI other
@@ -125,7 +126,7 @@ Tested with **MAX6675_test_HWSPI.ino**
 - **void begin()** initialize internals
 
 
-#### Hardware SPI
+### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -136,63 +137,73 @@ Del is the time in micros added per bit. Even numbers keep the duty cycle of the
 - **uint16_t getSWSPIdelay()** get set value in micros.
 
 
-#### Reading
+### Measurements
 
-To make a temperature reading call **read()**.
-It returns the status of the read which is a value between 0..7
-The function **getStatus()** returns the same status value. 
+- **uint8_t read()** makes a temperature measurement.
+It returns the status of the read (0, 4 or 129)
+- **uint8_t getStatus()** returns the last status value of read().
+Will stay the same until a new **read()** call.
+- **float getTemperature()** returns last temperature in Celsius. (will be obsolete in future).
+- **float getCelsius()** returns last temperature in Celsius. (more explicit scale).
+Will stay the same until a new **read()** call.
+- **float getFahrenheit()** wrapper around getCelsius(). Returns last temperature in Fahrenheit.
+Will stay the same until a new **read()** call.
+
 
 Table: values returned from **uint8_t read()** and **uint8_t getStatus()**
 
 Note: this list is a subset of MAX31855 errors.
 
-| value | Description               | Action       |
-|:-----:|:--------------------------|:-------------|
-|    0  | OK                        |              |
-|    4  | Thermocouple short to VCC | check wiring |
-|  128  | No read done yet          | check wiring |
-|  129  | No communication          | check wiring |
+|  Define                   |  value  |  Description                |  Action        |  Notes  |
+|:--------------------------|:-------:|:----------------------------|:---------------|:--------|
+|  STATUS_OK                |     0   |  OK                         |                |
+|  STATUS_ERROR             |     4   |  Thermocouple short to VCC  |  check wiring  |
+|  STATUS_NOREAD            |   128   |  No read done yet           |  check wiring  |  only before first read()
+|  STATUS_NO_COMMUNICATION  |   129   |  No communication           |  check wiring  |
 
 
-After a **uint8_t read()** you can get the temperature with **float getTemperature()**.
+After **uint8_t read()** returns **STATUS_OK** you can get the temperature with 
+**getCelsius()** or **getFahrenheit()**.
 
-Repeated calls to **getTemperature()** will give the same value until a new **read()**.
-The latter fetches a new value from the sensor. Note that if the **read()** fails
-the value of **getTemperature()** can become incorrect. So it is important to check 
-the return value of **read()**.
+Repeated calls to **getCelsius()** or **getFahrenheit()** will give the same value until a new 
+measurement is made by calling **read()**.
+
+Note: if the **read()** fails the value of **getCelsius()** can become incorrect. 
+So it is important to check the return value of **read()**.
 
 
-#### Offset
+### Offset
 
 The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
-This offset is "added" in the **getTemperature()** function.
+This offset is "added" in the **getCelsius()** function.
 
-Notes
-- the offset can be positive or negative.
+Note:
+- the offset is a constant in degrees Celsius (for Fahrenheit offset multiply by 1.8)
 - the offset used is a float, so decimals can be used.
-A typical usage is to call **setOffset(273.15)** to get ° Kelvin.
-- the offset can cause negative temperatures.
+A typical usage is to call **setOffset(273.15)** to get degrees ° Kelvin.
+- the offset can be positive or negative.
+- the offset can cause negative temperatures to pop up at the lower end.
 
 
-#### Delta analysis
+### Delta analysis
 
 As the **tc** object holds its last known temperature it is easy to determine the delta 
 with the last known temperature, e.g. for trend analysis.
 
 ```cpp
-  float last = tc.getTemperature();
+  float last = tc.getCelsius();
   int state  = tc.read();
   if (state == STATUS_OK)
   {
-    float new  = tc.getTemperature();
+    float new  = tc.getCelsius();
     float delta = new - last;
     // process data
   }
 ```
 
 
-#### Last time read
+### Last time read
 
 The **tc** object keeps track of the last time **read()** is called in the function **uint32_t lastRead()**.
 The time is tracked in **millis()**. This makes it easy to read the sensor at certain intervals.
@@ -203,7 +214,7 @@ if (millis() - tc.lastRead() >= interval)
   int state = tc.read();
   if (state == STATUS_OK)
   {
-    float new = tc.getTemperature();
+    float new = tc.getCelsius();
     // process read value.
   }
   else
@@ -214,7 +225,7 @@ if (millis() - tc.lastRead() >= interval)
 ```
 
 
-#### GetRawData 
+### GetRawData 
 
 The function **uint32_t getRawData()** allows you to get all the 32 bits raw data from the board, 
 after the standard **uint8_t tc.read()** call.

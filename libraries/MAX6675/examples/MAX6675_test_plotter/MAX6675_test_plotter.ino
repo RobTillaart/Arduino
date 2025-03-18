@@ -22,6 +22,7 @@ float temp = 0;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
   //  Serial.println(__FILE__);
   //  Serial.print("MAX6675_LIB_VERSION: ");
@@ -38,7 +39,7 @@ void setup()
 
   int status = thermoCouple.read();
   if (status != 0) Serial.println(status);
-  temp = thermoCouple.getTemperature();
+  temp = thermoCouple.getCelsius();
 }
 
 
@@ -49,7 +50,7 @@ void loop()
   int status = thermoCouple.read();
   stop = micros();
 
-  float newValue = thermoCouple.getTemperature();
+  float newValue = thermoCouple.getCelsius();
   //  0.2 is low pass filter
   temp += 0.2 * (newValue - temp);
   //  temp = newValue;
